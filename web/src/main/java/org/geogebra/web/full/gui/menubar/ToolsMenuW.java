@@ -24,7 +24,6 @@ public class ToolsMenuW extends GMenuBar {
 	 *            The App instance
 	 */
 	public ToolsMenuW(AppW application) {
-
 		super("tools", application);
 		this.app = application;
 		if (app.isUnbundled()) {
@@ -104,13 +103,17 @@ public class ToolsMenuW extends GMenuBar {
 
 							@Override
 							public void doExecute() {
-								ExerciseBuilderDialog exerciseBuilderDialog = new ExerciseBuilderDialog(
-										app);
-								exerciseBuilderDialog.center();
+								openExerciseBuilder();
 							}
 						});
 			}
 		}
+	}
+
+	protected void openExerciseBuilder() {
+		ExerciseBuilderDialog exerciseBuilderDialog = new ExerciseBuilderDialog(
+				app);
+		exerciseBuilderDialog.center();
 	}
 
 }

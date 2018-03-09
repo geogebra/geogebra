@@ -568,7 +568,8 @@ public class MainMenu extends FlowPanel
 				+ app.getLocalization().getMenu(s) + "</span>" + "<img src=\""
 				+ MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString()
-				+ "\" class=\"collapseImg\" draggable=\"false\" aria-label=\"collapse\" role=\"button\">";
+				+ "\" class=\"collapseImg\" draggable=\"false\""
+				+ " aria-label=\"collapse\" role=\"button\">";
 	}
 
 	private String getExpandCollapseHTML(SVGResource img, String s) {

@@ -47,7 +47,7 @@
         <module name="NonEmptyAtclauseDescription"/>
         <module name="ArrayTypeStyle"/>
         <module name="LineLength">
-            <property name="max" value="111"/>
+            <property name="max" value="103"/>
             <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|@|Regex"/>
         </module>
       <module name="EmptyLineSeparator">

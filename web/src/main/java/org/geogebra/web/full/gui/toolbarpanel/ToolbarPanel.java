@@ -421,7 +421,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * @return algebra dock panel
 	 */
 	ToolbarDockPanelW getToolbarDockPanel() {
-		return (ToolbarDockPanelW) app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
+		return (ToolbarDockPanelW) app.getGuiManager().getLayout()
+				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
 
 	/**

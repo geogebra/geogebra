@@ -43,6 +43,7 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.TimerSystemW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -522,10 +523,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 */
 	public void setCurrentFile(HashMap<String, String> file) {
 		// used only when no webGL
-
 	}
 
-	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
+	private AnimationCallback repaintCallback = new AnimationCallback() {
 		@Override
 		public void execute(double ts) {
 			doRepaint2();

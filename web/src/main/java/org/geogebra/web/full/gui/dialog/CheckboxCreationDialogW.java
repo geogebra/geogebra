@@ -143,7 +143,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 				combo.remove(geo);
 			}
 		}
-
 	}
 
 	/**
@@ -222,7 +221,8 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		if (app.has(Feature.DIALOG_DESIGN)) {
 			captionLabel.addStyleName("coloredLabel");
 		}
-		String initString = geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
+		String initString = geoBoolean == null ? ""
+				: geoBoolean.getCaption(StringTemplate.defaultTemplate);
 		InputPanelW ip = new InputPanelW(initString, app, 1, 15, true);
 		tfCaption = ip.getTextComponent();
 		tfCaption.setAutoComplete(false);

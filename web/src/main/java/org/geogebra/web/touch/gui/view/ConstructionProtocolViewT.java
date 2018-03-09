@@ -87,26 +87,29 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 			 * 
 			 * @return String - the style for the {@link ConstructionProtocolViewW#dummyDragElem dummy drag-element}
 			 */
-            private String getStyleString() {
-	            int width = draggedRow.getOffsetWidth();
-	            String color = draggedRow.getAttribute("style");
-	            return color + "; width: " + width + 
-						"px; background-color: #CCCCFF; opacity: 0.5;"
+			private String getStyleString() {
+				int width = draggedRow.getOffsetWidth();
+				String color = draggedRow.getAttribute("style");
+				return color + "; width: " + width
+						+ "px; background-color: #CCCCFF; opacity: 0.5;"
 						+ " z-index: 900; position: absolute; left: "
 						+ table.getElement().getAbsoluteLeft() + "px; top: "
 						+ (yMove - DUMMY_DRAG_ELEM_OFFSET_Y)
 						+ "px; overflow: hidden; display: -webkit-inline-box;font-family: "
 						+ GFontW.GEOGEBRA_FONT_SANSERIF + ";";
-            }
+			}
 
 			/**
 			 * @return true if it is a long tap
 			 */
-            private boolean isLongTap() {
-	            return xMove <= xStart + LONG_PRESS_THRESHOLD && xMove >= xStart - LONG_PRESS_THRESHOLD && 
-	            		yMove <= yStart + LONG_PRESS_THRESHOLD && yMove >= yStart - LONG_PRESS_THRESHOLD &&
-						System.currentTimeMillis() > startOfTap + LONG_PRESS_TIMEOUT;
-            }
+			private boolean isLongTap() {
+				return xMove <= xStart + LONG_PRESS_THRESHOLD
+						&& xMove >= xStart - LONG_PRESS_THRESHOLD
+						&& yMove <= yStart + LONG_PRESS_THRESHOLD
+						&& yMove >= yStart - LONG_PRESS_THRESHOLD
+						&& System.currentTimeMillis() > startOfTap
+								+ LONG_PRESS_TIMEOUT;
+			}
 		}, TouchMoveEvent.getType());
     	
     	table.addDomHandler(new TouchEndHandler() {

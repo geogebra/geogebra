@@ -53,6 +53,7 @@ public class WebMEncoderW implements Encoder {
 	 * @param url
 	 *            adds a new frame
 	 */
+	@Override
 	public void addFrame(String url) {
 		images.add(url);
 	}
@@ -60,6 +61,7 @@ public class WebMEncoderW implements Encoder {
 	/**
 	 * Finishes the internal gif object and starts rendering.
 	 */
+	@Override
 	public void finish(int width, int height) {
 		finished = true;
 		if (!jsLoaded) {

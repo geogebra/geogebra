@@ -637,15 +637,15 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	@Override
-    protected void updateDiscreteTable() {
+	protected void updateDiscreteTable() {
 		if (!probmanagerIsDiscrete()) {
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();
-		((ProbabilityTableW) getTable()).setTable(selectedDist, parameters, firstXLastX[0], firstXLastX[1]);
+		((ProbabilityTableW) getTable()).setTable(selectedDist, parameters,
+				firstXLastX[0], firstXLastX[1]);
 		tabbedPane.onResize();
-		
-    }
+	}
 
 	@Override
 	public PlotPanelEuclidianViewW getPlotPanel() {
@@ -718,22 +718,26 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			if (comboDistribution.getSelectedIndex() > -1 && !comboDistribution
 					.getValue(comboDistribution.getSelectedIndex())
 					.equals(SEPARATOR)) {
-				if (!selectedDist.equals(this.getReverseDistributionMap()
-						.get(comboDistribution.getValue(comboDistribution.getSelectedIndex())))) {
-
-					selectedDist = getReverseDistributionMap().get(comboDistribution.getValue(comboDistribution
-							.getSelectedIndex()));
-					parameters = ProbabilityManager
-							.getDefaultParameters(selectedDist);
-					this.setProbabilityCalculator(selectedDist, parameters,
-							isCumulative);
-					tabbedPane.onResize();
-				}
+				changeDistribution();
 			}
 		} else if (source == comboProbType) {
 			updateProbabilityType();
 		}
     }
+
+	private void changeDistribution() {
+		if (!selectedDist
+				.equals(this.getReverseDistributionMap().get(comboDistribution
+						.getValue(comboDistribution.getSelectedIndex())))) {
+			selectedDist = getReverseDistributionMap().get(comboDistribution
+					.getValue(comboDistribution.getSelectedIndex()));
+			parameters = ProbabilityManager.getDefaultParameters(selectedDist);
+			this.setProbabilityCalculator(selectedDist, parameters,
+					isCumulative);
+			tabbedPane.onResize();
+		}
+
+	}
 
 	@Override
 	protected void setProbabilityComboBoxMenu() {

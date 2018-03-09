@@ -224,8 +224,8 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 			geoResult.setLabel(strLabel);
 			
 			// allow eg a=2 in the Name dialog to set the initial value
-			if (strLabel != null && text.indexOf('=') > -1 && text.indexOf('=') == text.lastIndexOf('=')) {
-				
+			if (strLabel != null && text.indexOf('=') > -1
+					&& text.indexOf('=') == text.lastIndexOf('=')) {
 				try {
 					double val = 0;
 					if (text.indexOf(Unicode.DEGREE_CHAR) > text.indexOf('=')) {

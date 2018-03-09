@@ -16,7 +16,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  *Plot panel for ProbabilityCalculator
  */
-public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanelEuclidianViewInterface {
+public class PlotPanelEuclidianViewW extends EuclidianViewW
+		implements PlotPanelEuclidianViewInterface {
 	
 	/**
 	 * default height ot PlotPanelEuclidianViewW
@@ -37,7 +38,8 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 		
 		// set preferred size so that updateSize will work and this EV can be
 		// properly initialized
-		setPreferredSize(new GDimensionW(ProbabilityCalculatorDockPanelW.DEFAULT_WIDTH, DEFAULT_HEIGHT));
+		setPreferredSize(new GDimensionW(
+				ProbabilityCalculatorDockPanelW.DEFAULT_WIDTH, DEFAULT_HEIGHT));
 		updateSize();
 	}
 	

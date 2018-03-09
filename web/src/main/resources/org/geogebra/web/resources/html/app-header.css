@@ -73,6 +73,13 @@
 	height:calc(100% - 33px);
 }
 
+.startscreen.offline{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
 .startscreen .logo{
 	width: 35%;
 	margin: auto;

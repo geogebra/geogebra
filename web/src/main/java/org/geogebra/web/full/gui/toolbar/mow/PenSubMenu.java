@@ -131,8 +131,8 @@ public class PenSubMenu extends SubMenuPanel {
 		btnCustomColor.addStyleName("mowColorPlusButton");
 		btnCustomColor.addFastClickHandler(this);
 		colorPanel.add(LayoutUtilW.panelRow(btnColor[0], btnColor[1],
-				btnColor[2], btnColor[3], btnColor[4], btnColor[5], btnColor[6], btnColor[7], btnColor[8],
-				btnCustomColor));
+				btnColor[2], btnColor[3], btnColor[4], btnColor[5], btnColor[6],
+				btnColor[7], btnColor[8], btnCustomColor));
 	}
 
 	/**

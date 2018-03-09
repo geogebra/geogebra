@@ -501,8 +501,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		innerText += ".GeoGebraMenuImage{height: " + imagesize + "px; width: "
 		        + imagesize + "px;}";
 
-		innerText += ".GeoGebraMenuBar input[type=\"checkbox\"], .GeogebraMenuBar input[type=\"radio\"], "
-		        + ".GeoGebraPopupMenu input[type=\"checkbox\"], .GeogebraPopupMenu input[type=\"radio\"] ";
+		innerText += ".GeoGebraMenuBar input[type=\"checkbox\"],"
+				+ ".GeogebraMenuBar input[type=\"radio\"], "
+				+ ".GeoGebraPopupMenu input[type=\"checkbox\"],"
+				+ ".GeogebraPopupMenu input[type=\"radio\"] ";
 		innerText += "{height: " + fontsizeString + "; width: "
 		        + fontsizeString + ";}";
 
@@ -728,7 +730,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			}
 
 		});
-
 	}
 
 	protected void resizeKeyboard() {
@@ -736,7 +737,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			onScreenKeyboard.updateSize();
 			onScreenKeyboard.setStyleName();
 		}
-
 	}
 
 	public ToolBarW getGeneralToolbar() {

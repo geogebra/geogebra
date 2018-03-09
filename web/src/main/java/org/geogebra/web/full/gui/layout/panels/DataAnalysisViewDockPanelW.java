@@ -46,15 +46,17 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
-		DataAnalysisViewW da = ((DataAnalysisViewW)((GuiManagerW)app.getGuiManager()).getDataAnalysisView());
+		DataAnalysisViewW da = ((DataAnalysisViewW) ((GuiManagerW) app
+				.getGuiManager()).getDataAnalysisView());
 		return da.getDataAnalysisViewComponent();
 	}
 
 	@Override
 	protected Widget loadStyleBar() {
-		DataAnalysisViewW da = ((DataAnalysisViewW)((GuiManagerW)app.getGuiManager()).getDataAnalysisView());
+		DataAnalysisViewW da = ((DataAnalysisViewW) ((GuiManagerW) app
+				.getGuiManager()).getDataAnalysisView());
 		this.toggleStyleBarButton.addStyleName("dataAnalysisToggleButton");
-		return  da.getStyleBar();
+		return da.getStyleBar();
 	}
 
 	@Override

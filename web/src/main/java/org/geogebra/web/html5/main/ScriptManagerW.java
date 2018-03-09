@@ -966,11 +966,11 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::stepByStep(Ljava/lang/String;)(text + "");
 		};
 		
-		api.exportCollada = function(xmin, xmax, ymin, ymax, zmin, zmax, xyScale, xzScale, xTickDistance,
-		yTickDistance, zTickDistance) {
+		api.exportCollada = function(xmin, xmax, ymin, ymax, zmin, zmax, 
+					xyScale, xzScale, xTickDistance, yTickDistance, zTickDistance) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportCollada(DDDDDDDDDDD)(
-			    xmin | -5, xmax | 5, ymin | -5, ymax | 5, zmin | -5, zmax | 5, xyScale | 1, xzScale | 1,
-			    xTickDistance | -1, yTickDistance | -1, zTickDistance | -1);
+			    xmin | -5, xmax | 5, ymin | -5, ymax | 5, zmin | -5, zmax | 5, xyScale | 1, 
+			    xzScale | 1, xTickDistance | -1, yTickDistance | -1, zTickDistance | -1);
 		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;

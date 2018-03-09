@@ -535,7 +535,8 @@ public class RendererImplShadersW extends RendererImplShaders {
 		}
 		
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
-		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.RGBA, sizeX, sizeY, 0,
+		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0,
+				WebGLRenderingContext.RGBA, sizeX, sizeY, 0,
 				WebGLRenderingContext.RGBA, WebGLRenderingContext.UNSIGNED_BYTE, array);
 		glContext.generateMipmap(WebGLRenderingContext.TEXTURE_2D);
 

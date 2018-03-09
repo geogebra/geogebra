@@ -118,7 +118,8 @@ public class ProbabilityCalculatorStyleBarW extends
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				((ProbabilityCalculatorViewW) getProbCalc()).setCumulative(!getProbCalc().isCumulative());
+				((ProbabilityCalculatorViewW) getProbCalc())
+						.setCumulative(!getProbCalc().isCumulative());
 			}
 		});
 		

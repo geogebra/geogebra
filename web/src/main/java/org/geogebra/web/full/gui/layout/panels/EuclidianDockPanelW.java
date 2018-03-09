@@ -13,7 +13,8 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements EuclidianPanelWAbstract{
+public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
+		implements EuclidianPanelWAbstract {
 
 	EuclidianStyleBar espanel;
 	EuclidianPanel euclidianpanel;
@@ -30,7 +31,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 		super(
 				App.VIEW_EUCLIDIAN,	// view id 
 				"DrawingPad", 				// view title
-				//ToolBar.getAllToolsNoMacros(true),  // toolbar string... TODO: ToolBarW.getAllTools(app);
 				null,
 				stylebar, // style bar?
 				true, // zoom panel?

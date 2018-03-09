@@ -204,7 +204,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 		this.euclidianViewPanel = new EuclidianDockPanelW(this,
 				allowStylebar());
-		// (EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		if (canvas != null) {
 			canvas.setWidth("1px");

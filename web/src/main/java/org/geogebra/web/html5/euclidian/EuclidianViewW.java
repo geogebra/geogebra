@@ -44,6 +44,7 @@ import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
@@ -94,7 +95,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private GColor backgroundColor = GColor.WHITE;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 
-	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
+	private AnimationCallback repaintCallback = new AnimationCallback() {
 		@Override
 		public void execute(double ts) {
 			doRepaint2();
@@ -352,6 +353,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return g4copy.getCanvas();
 	}
 
+	@Override
 	public String getExportImageDataUrl(double scale, boolean transparency) {
 		return getExportImageDataUrl(scale, transparency, ExportType.PNG);
 	}
@@ -626,8 +628,6 @@ public class EuclidianViewW extends EuclidianView implements
 		canv.setHeight((int) thy + "px");
 		Context2d c2 = canv.getContext2d();
 
-		// g2p.getCanvas().getContext2d().drawImage(((GGraphics2DW)bgGraphics).getCanvas().getCanvasElement(),
-		// 0, 0, (int)thx, (int)thy);
 		if (background != null) {
 			c2.drawImage(background.getCanvasElement(), 0, 0, (int) thx,
 			        (int) thy);

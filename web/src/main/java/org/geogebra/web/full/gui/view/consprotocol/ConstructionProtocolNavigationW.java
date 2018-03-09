@@ -23,7 +23,8 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 
-public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigation implements ClickHandler{
+public class ConstructionProtocolNavigationW
+		extends ConstructionProtocolNavigation implements ClickHandler {
 
 	AppW app;
 	private Label lbSteps;

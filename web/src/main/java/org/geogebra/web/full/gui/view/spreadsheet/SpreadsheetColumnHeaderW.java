@@ -201,7 +201,8 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 				updateCellSelection(false, colIndex);
 			} else {
 				if (table.selectedColumnSet.contains(colIndex)
-				        || (colIndex >= table.minSelectionColumn && colIndex <= table.maxSelectionColumn)) {
+						|| (colIndex >= table.minSelectionColumn
+								&& colIndex <= table.maxSelectionColumn)) {
 					//setBgColorIfNeeded(s, selectedBackground);
 					updateCellSelection(true, colIndex);
 				} else {

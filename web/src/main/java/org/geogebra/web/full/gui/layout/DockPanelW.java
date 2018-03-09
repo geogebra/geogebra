@@ -1114,15 +1114,6 @@ public abstract class DockPanelW extends ResizeComposite
 			app.dispatchEvent(new Event(EventType.SHOW_STYLE_BAR, null,
 					"[" + showStyleBar + "," + getViewId() + "]"));
 		}
-		// if (this.toggleStyleBarButton != null) {
-		// this.toggleStyleBarButton.getElement().removeAllChildren();
-		// this.toggleStyleBarButton.getElement().appendChild(getToggleImage(showStyleBar).getElement());
-		// if(!showStyleBar && viewImage != null){
-		// toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");
-		// } else {
-		// toggleStyleBarButton.removeStyleName("toggleStyleBarViewIcon");
-		// }
-		// }
 	}
 
 	/**

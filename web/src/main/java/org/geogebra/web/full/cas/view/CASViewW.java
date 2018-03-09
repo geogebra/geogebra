@@ -193,7 +193,6 @@ public class CASViewW extends CASView implements PrintableW {
 		/*
 		 * getEditor().ensureEditing(); getEditor().setFocus(true);
 		 */
-		
 	}
 
 	/**
@@ -205,15 +204,15 @@ public class CASViewW extends CASView implements PrintableW {
 	public void setPixelRatio(double ratio) {
 		if (this.consoleTable != null) {
 			for (int row = 0; row < this.getRowCount(); row++) {
-				if (consoleTable.getWidget(row, CASTableW.COL_CAS_CELLS_WEB) instanceof CASTableCellW) {
+				if (consoleTable.getWidget(row,
+						CASTableW.COL_CAS_CELLS_WEB) instanceof CASTableCellW) {
 					((CASTableCellW) consoleTable.getWidget(row,
 							CASTableW.COL_CAS_CELLS_WEB)).setPixelRatio(ratio);
 				}
 			}
 		}
-
 	}
-	
+
 	@Override
 	protected void showTooltip(int mode) {
 		if (getApp().showToolBarHelp()) {

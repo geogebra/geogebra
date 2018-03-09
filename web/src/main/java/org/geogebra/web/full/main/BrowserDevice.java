@@ -46,7 +46,8 @@ public class BrowserDevice implements GDevice {
 			input.setAttribute("type", "file");
 			input.setAttribute("style",
 					"width: 500px; height: 60px; font-size: 56px;"
-							+ "opacity: 0; position: absolute; right: 0px; top: 0px; cursor: pointer;");
+							+ "opacity: 0; position: absolute;"
+							+ "right: 0px; top: 0px; cursor: pointer;");
 			form.appendChild(input);
 			span.appendChild(form);
 
@@ -63,7 +64,7 @@ public class BrowserDevice implements GDevice {
 
 		private native void addGgbChangeHandler(Element el, BrowseGUI bg) /*-{
 			var dialog = this;
-			//		el.setAttribute("accept", "application/vnd.geogebra.file, application/vnd.geogebra.tool");
+
 			el.onchange = function(event) {
 				var files = this.files;
 				if (files.length) {

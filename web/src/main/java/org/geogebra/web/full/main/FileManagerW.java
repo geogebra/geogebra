@@ -330,8 +330,8 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void showExportAsPictureDialog(final String url, String filename, String extension, String titleKey,
-			final App app1) {
+	public void showExportAsPictureDialog(final String url, String filename,
+			String extension, String titleKey, final App app1) {
 
 		final String extension2 = extension;
 

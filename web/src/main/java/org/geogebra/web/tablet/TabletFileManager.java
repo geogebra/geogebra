@@ -294,7 +294,8 @@ public class TabletFileManager extends FileManagerT {
 					base64, material.toJson().toString());
 		} else {
 			material.setLocalID(MaterialsManager.getIDFromKey(key));
-			String newKey = MaterialsManager.createKeyString(material.getLocalID(), material.getTitle());
+			String newKey = MaterialsManager.createKeyString(
+					material.getLocalID(), material.getTitle());
 			if (key.equals(newKey)) {
 				// re-save file and meta data
 				String base64 = material.getBase64();
@@ -310,13 +311,15 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
-	private native void createFileFromTubeNative(String title, String base64, String metaDatas) /*-{
+	private native void createFileFromTubeNative(String title, String base64,
+			String metaDatas) /*-{
 		if ($wnd.android) {
 			$wnd.android.createFileFromTube(title, base64, metaDatas);
 		}
 	}-*/;
 
-	private native void updateFileFromTubeNative(String title, String base64, String metaDatas) /*-{
+	private native void updateFileFromTubeNative(String title, String base64,
+			String metaDatas) /*-{
 		if ($wnd.android) {
 			$wnd.android.updateFileFromTube(title, base64, metaDatas);
 		}

@@ -36,7 +36,7 @@ public class FileDropHandlerW {
 									var fileToHandle = dt.files[0];
 
 									//at first this tries to open the fileToHandle as image,
-									//if fileToHandle not an image, this will try to open as ggb or ggt.
+									//if not possible, try to open as ggb or ggt.
 									if (!appl.@org.geogebra.web.html5.main.AppW::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null)) {
 										appl.@org.geogebra.web.html5.main.AppW::openFile(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null);
 									}

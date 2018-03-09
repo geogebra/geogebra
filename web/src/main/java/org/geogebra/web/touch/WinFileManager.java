@@ -356,9 +356,8 @@ public class WinFileManager extends FileManager {
 	}
 
 	@Override
-	public void showExportAsPictureDialog(String url, String filename, String extension, String titleKey,
-			App app1) {
-
+	public void showExportAsPictureDialog(String url, String filename,
+			String extension, String titleKey, App app1) {
 		exportImage(url, filename, extension);
 		// TODO check if it really happened
 		app.dispatchEvent(

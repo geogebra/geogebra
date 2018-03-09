@@ -199,31 +199,28 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.wrapMouseReleased(event);
 	}
 
+	/**
+	 * @param event
+	 *            gesture
+	 */
 	public void onGestureChange(GestureChangeEvent event) {
-		// AbstractEvent e =
-		// geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-		// to not move the canvas (later some sophisticated handling must be
-		// find out)
-		// event.preventDefault();
-		// event.stopPropagation();
+		// not handled
 	}
 
+	/**
+	 * @param event
+	 *            gesture
+	 */
 	public void onGestureEnd(GestureEndEvent event) {
-		// AbstractEvent e =
-		// geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-		// to not move the canvas (later some sophisticated handling must be
-		// find out)
-		// event.preventDefault();
-		// event.stopPropagation();
+		// not handled
 	}
 
+	/**
+	 * @param event
+	 *            gesture
+	 */
 	public void onGestureStart(GestureStartEvent event) {
-		// AbstractEvent e =
-		// geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-		// to not move the canvas (later some sophisticated handling must be
-		// find out)
-		// event.preventDefault();
-		// event.stopPropagation();
+		// not handled
 	}
 
 	public void onTouchCancel(TouchCancelEvent event) {
@@ -239,9 +236,11 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		boolean killEvent = true;
 		JsArray<Touch> targets = event.getTargetTouches();
 		if (targets.length() == 1 && !ignoreEvent) {
-			PointerEvent e0 = PointerEvent.wrapEvent(targets.get(0), this, event.getRelativeElement());
+			PointerEvent e0 = PointerEvent.wrapEvent(targets.get(0), this,
+					event.getRelativeElement());
 			if (isWholePageDrag()) {
-				longTouchManager.rescheduleTimerIfRunning((LongTouchHandler) ec, e0.getX(), e0.getY(), true);
+				longTouchManager.rescheduleTimerIfRunning((LongTouchHandler) ec,
+						e0.getX(), e0.getY(), true);
 				killEvent = false;
 			}
 
@@ -382,11 +381,11 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		if (!inputBoxFocused && !isWholePageDrag()) {
 			preventTouchIfNeeded(event);
 		}
-
 	}
 
 	private boolean isWholePageDrag() {
-		boolean result = app.has(Feature.WHOLE_PAGE_DRAG) && ec.getMode() == EuclidianConstants.MODE_MOVE
+		boolean result = app.has(Feature.WHOLE_PAGE_DRAG)
+				&& ec.getMode() == EuclidianConstants.MODE_MOVE
 				&& !app.isShiftDragZoomEnabled()
 				&& ec.getView().getHits().isEmpty();
 		debug("Whole page drag: " + (result ? "TRUE" : "FALSE"));

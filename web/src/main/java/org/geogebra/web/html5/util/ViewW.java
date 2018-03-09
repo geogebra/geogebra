@@ -260,7 +260,8 @@ public class ViewW {
 		      } else {
 			      c2 = str_data.charCodeAt(i + 1);
 			      c3 = str_data.charCodeAt(i + 2);
-			      tmp_arr[ac++] = String.fromCharCode(((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+			      tmp_arr[ac++] = String.fromCharCode(
+			          ((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
 			      i += 3;
 		      }
 	      }

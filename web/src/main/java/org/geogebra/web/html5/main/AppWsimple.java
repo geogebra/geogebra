@@ -55,7 +55,6 @@ public class AppWsimple extends AppW {
 		// TODO: EuclidianSimplePanelW
 		this.euclidianViewPanel = new EuclidianSimplePanelW(this);
 
-		// (EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
 		canvas.setHeight("1px");

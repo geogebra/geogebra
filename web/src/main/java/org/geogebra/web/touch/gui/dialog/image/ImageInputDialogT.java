@@ -78,8 +78,9 @@ public class ImageInputDialogT extends UploadImageDialog {
 
 	private void initFilePanel() {
 		this.options = new PictureOptions(ImageInputDialogT.PICTURE_QUALITY);
+		// PICTURE_SOURCE_TYPE_PHOTO_LIBRARY
 		this.options.setSourceType(
-				PictureOptions.PICTURE_SOURCE_TYPE_SAVED_PHOTO_ALBUM);// .PICTURE_SOURCE_TYPE_PHOTO_LIBRARY);
+				PictureOptions.PICTURE_SOURCE_TYPE_SAVED_PHOTO_ALBUM);
 
 		filePanel = new FlowPanel();
 		filePanel.add(chooseFromFile = new StandardButton(

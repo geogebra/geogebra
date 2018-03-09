@@ -54,6 +54,7 @@ public class AnimatedGifEncoderW implements Encoder {
 	 * @param url
 	 *            adds a new frame
 	 */
+	@Override
 	public void addFrame(String url) {
 		gifs.add(url);
 	}
@@ -61,6 +62,7 @@ public class AnimatedGifEncoderW implements Encoder {
 	/**
 	 * Finishes the internal gif object and starts rendering.
 	 */
+	@Override
 	public void finish(int width, int height) {
 		finished = true;
 		if (!jsLoaded) {

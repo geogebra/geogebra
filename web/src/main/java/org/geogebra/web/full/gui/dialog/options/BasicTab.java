@@ -16,7 +16,6 @@ import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
-import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -729,7 +728,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	public void updateConsProtocolPanel(boolean isVisible) {
 		// cons protocol panel
 		cbShowNavbar.setValue(isVisible);
-		ConstructionProtocolNavigationW cpn = (ConstructionProtocolNavigationW) this.optionsEuclidianW.app
+		ConstructionProtocolNavigation cpn = this.optionsEuclidianW.app
 				.getGuiManager().getConstructionProtocolNavigationIfExists();
 		cbNavPlay.setValue(cpn == null || cpn.isPlayButtonVisible());
 		cbOpenConsProtocol
@@ -737,7 +736,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		cbNavPlay.setEnabled(isVisible);
 		cbOpenConsProtocol.setEnabled(isVisible);
-
 	}
 
 	public void showMouseCoords(boolean value) {

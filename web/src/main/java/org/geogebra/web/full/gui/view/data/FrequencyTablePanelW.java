@@ -18,12 +18,10 @@ public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfac
 		statTable = new StatTableW();
 		statTable.setStyleName("frequencyTable");
 		add(statTable);
-
 	}
 
 	public void setTableFromGeoFrequencyTable(AlgoFrequencyTable algo,
 			boolean useClasses) {
-
 		String[] strValue = algo.getValueString();
 		String[] strFrequency = algo.getFrequencyString();
 		strHeader = algo.getHeaderString();
@@ -31,7 +29,8 @@ public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfac
 		statTable.setStatTable(strValue.length, null, 2, strHeader);
 		if (useClasses) {
 			for (int row = 0; row < strValue.length - 1; row++) {
-				statTable.getTable().setWidget(row, 0, new Label(strValue[row] + " - " + strValue[row + 1]));
+				statTable.getTable().setWidget(row, 0,
+						new Label(strValue[row] + " - " + strValue[row + 1]));
 				statTable.getTable().setWidget(row, 1, new Label(strFrequency[row]));
 			}
 		} else {
