@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -66,6 +67,7 @@ public final class DrawImage extends Drawable {
 	private GRectangle2D cropBox;
 	private double originalRatio = Double.NaN;
 	private boolean wasCroped = false;
+	private boolean debug1 = false;
 	/**
 	 * the image should have at least 100px width
 	 */
@@ -96,6 +98,33 @@ public final class DrawImage extends Drawable {
 		selStroke = AwtFactory.getPrototype().newMyBasicStroke(1.5f);
 
 		update();
+	}
+
+	private void debug(String d) {
+		if (debug1) {
+			Log.debug(d);
+		}
+	}
+
+	private void debugPoints(GeoPoint A, GeoPoint B, GeoPoint D){
+		if (!debug1) {
+			return;
+		}
+		if (A != null) {
+			debug("A: " + A.getInhomX() + ", " + A.getInhomY());
+		} else {
+			debug("A is null");
+		}
+		if (B != null) {
+			debug("B: " + B.getInhomX() + ", " + B.getInhomY());
+		} else {
+			debug("B is null");
+		}
+		if (D != null) {
+			debug("D: " + D.getInhomX() + ", " + D.getInhomY());
+		} else {
+			debug("D is null");
+		}
 	}
 	
 	@Override
@@ -133,10 +162,33 @@ public final class DrawImage extends Drawable {
 		// RELATIVE SCREEN POSITION
 		else {
 			boolean center = geoImage.isCentered();
-			GeoPoint A = geoImage.getCorner(center ? 3 : 0);
-			GeoPoint B = center ? null : geoImage.getCorner(1);
-			GeoPoint D = center ? null : geoImage.getCorner(2);
+
+			GeoPoint A, B, D;
+			if (wasCroped) {
+				double cropMinX = view.toRealWorldCoordX(getCropBox().getMinX());
+				double cropMaxX = view.toRealWorldCoordX(getCropBox().getMaxX());
+				double cropMinY = view.toRealWorldCoordY(getCropBox().getMaxY());
+				double cropMaxY = view.toRealWorldCoordY(getCropBox().getMinY());
+
+				debug("copMinX: " + cropMinX + ", cropMaxX: " + cropMaxX + ", cropMinY: " + cropMinY
+						+ ", cropMaxY: " + cropMaxY);
+
+				A = new GeoPoint(geo.getConstruction(), cropMinX, cropMinY, 1.0);
+				A.remove();
+				B = new GeoPoint(geo.getConstruction(), cropMaxX, cropMinY, 1.0);
+				B.remove();
+				D = new GeoPoint(geo.getConstruction(), cropMinX, cropMaxY, 1.0);
+				D.remove();
+			} else {
+				A = geoImage.getCorner(center ? 3 : 0);
+				B = center ? null : geoImage.getCorner(1);
+				D = center ? null : geoImage.getCorner(2);
+			}
+
 			
+			debug("points in update: ");
+			debugPoints(A, B, D);    
+
 			double ax = 0;
 			double ay = 0;
 			if (A != null) {
@@ -146,6 +198,8 @@ public final class DrawImage extends Drawable {
 				}
 				ax = A.inhomX;
 				ay = A.inhomY;
+
+				Log.debug("A: " + ax + ", " + ay);
 			}
 
 			// set transform according to corners
@@ -675,6 +729,10 @@ public final class DrawImage extends Drawable {
 			D = new GeoPoint(geoImage.cons);
 			geoImage.calculateCornerPoint(D, 3);
 		}
+
+		debug("points in updateImageResize: ");
+		debugPoints(A, B, D);
+
 		switch (handler) {
 		case TOP_RIGHT:
 			if (eventX - view.toScreenCoordXd(A.getInhomX()) <= Math
