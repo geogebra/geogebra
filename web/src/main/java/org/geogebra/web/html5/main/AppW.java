@@ -742,13 +742,13 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void loadGgbFileAsBase64Again(String dataUrl) {
 		prepareReloadGgbFile();
-		ViewW view = new ViewW(null, this);
+		ViewW view = new ViewW(this);
 		view.processBase64String(dataUrl);
 	}
 
 	public void loadGgbFileAsBinaryAgain(JavaScriptObject binary) {
 		prepareReloadGgbFile();
-		ViewW view = new ViewW(null, this);
+		ViewW view = new ViewW(this);
 		view.processBinaryString(binary);
 	}
 

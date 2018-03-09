@@ -277,7 +277,7 @@ public class GGraphics2DE implements GGraphics2DWI {
 
 	@Override
 	public double getDevicePixelRatio() {
-		return 0;
+		return 1;
 	}
 
 	@Override

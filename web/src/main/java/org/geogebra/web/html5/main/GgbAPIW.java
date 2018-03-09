@@ -48,7 +48,6 @@ import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * HTML5 version of API. The methods are exported in ScriptManagerW
@@ -75,7 +74,7 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public void setBase64(String base64) {
 		resetPerspective();
-		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
+		ViewW view = new ViewW((AppW) app);
 		view.processBase64String(base64);
 	}
 
@@ -138,7 +137,7 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public void openFile(String filename) {
 		resetPerspective();
-		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
+		ViewW view = new ViewW((AppW) app);
 		view.processFileName(filename);
 	}
 
@@ -333,7 +332,7 @@ public class GgbAPIW extends GgbAPI {
 
 	public void setFileJSON(JavaScriptObject obj) {
 		resetPerspective();
-		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
+		ViewW view = new ViewW((AppW) app);
 		view.processJSON(obj);
 	}
 

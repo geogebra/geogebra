@@ -39,7 +39,7 @@ public class MockApp {
 
 			@Override
 			public void doPrintStacktrace(String message) {
-				// TODO Auto-generated method stub
+				new Throwable(message).printStackTrace();
 
 			}
 		});

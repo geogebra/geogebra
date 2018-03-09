@@ -18,13 +18,10 @@ public class ViewW {
 	private GgbFile archiveContent;
 	private int zippedLength = 0;
 
-	private Element container;
 	private AppW app;
 
-
-	public ViewW(Element container, AppW app) {
+	public ViewW(AppW app) {
 		this.app = app;
-		this.container = container;
 	}
 
 	public static String checkLAF() {
@@ -40,10 +37,6 @@ public class ViewW {
 			}
 		}
 		return "standard";
-	}
-
-	public Element getContainer() {
-		return container;
 	}
 
 	private native void log(Object ex)/*-{

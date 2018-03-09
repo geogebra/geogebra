@@ -37,7 +37,7 @@ public class GTextLayoutW implements GTextLayout {
 
 	@Override
 	public double getAdvance() {
-		if (advance < 0) {
+		if (advance < 0 && frc != null) {
 			advance = frc.measureText(str, ((GFontW) font).getFullFontString());
 		}
 		return advance;

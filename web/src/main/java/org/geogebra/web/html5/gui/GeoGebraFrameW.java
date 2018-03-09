@@ -442,7 +442,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public static void handleLoadFile(ArticleElementInterface articleElement,
 			AppW app) {
-		ViewW view = new ViewW(articleElement.getElement(), app);
+		ViewW view = new ViewW(app);
 		new LoadFilePresenter().onPageLoad(articleElement, app, view);
 	}
 
