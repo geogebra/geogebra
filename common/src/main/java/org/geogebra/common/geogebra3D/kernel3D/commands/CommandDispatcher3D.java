@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
