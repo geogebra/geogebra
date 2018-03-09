@@ -601,6 +601,26 @@ public class ExamEnvironment {
 	}
 
 	/**
+	 * @param type
+	 *            calculator type
+	 * @return hint for a calculator type
+	 */
+	public String getCalculatorTypeHint(CalculatorType type) {
+		switch (type) {
+			case GRAPHING:
+				return app.getLocalization().getMenu("exam_calctype_graphing_desc");
+			case SYMBOLIC:
+				return app.getLocalization().getMenu("exam_calctype_sym_graphing_desc");
+			case GRAPHING_3D:
+				return app.getLocalization().getMenu("exam_calctype_3D_graphing_desc");
+			case SYMBOLIC_3D:
+				return app.getLocalization().getMenu("exam_calctype_3D_sym_graphing_desc");
+			default:
+				return "";
+		}
+	}
+
+	/**
 	 * set task is currently locked
 	 */
 	protected void setTaskLocked() {
