@@ -711,9 +711,25 @@ public final class DrawImage extends Drawable {
 			EuclidianBoundingBoxHandler handler) {
 		int eventX = event.getX();
 		int eventY = event.getY();
-		GeoPoint A = geoImage.getCorner(0);
-		GeoPoint B = geoImage.getCorner(1);
-		GeoPoint D = geoImage.getCorner(2);
+		GeoPoint A, B, D;
+		if (this.wasCroped) {
+			double cropMinX = view.toRealWorldCoordX(getCropBox().getMinX());
+			double cropMaxX = view.toRealWorldCoordX(getCropBox().getMaxX());
+			double cropMinY = view.toRealWorldCoordY(getCropBox().getMaxY());
+			double cropMaxY = view.toRealWorldCoordY(getCropBox().getMinY());
+
+			A = new GeoPoint(geo.getConstruction(), cropMinX, cropMinY, 1.0);
+			A.remove();
+			B = new GeoPoint(geo.getConstruction(), cropMaxX, cropMinY, 1.0);
+			B.remove();
+			D = new GeoPoint(geo.getConstruction(), cropMinX, cropMaxY, 1.0);
+			D.remove();
+		} else {
+			A = geoImage.getCorner(0);
+			B = geoImage.getCorner(1);
+			D = geoImage.getCorner(2);
+		}
+
 		double newWidth = 1;
 		double newHeight = 1;
 		double rwEventX = view.toRealWorldCoordX(eventX);
@@ -865,5 +881,16 @@ public final class DrawImage extends Drawable {
 		default:
 			break;
 		}
+
+		if (wasCroped) {
+			double screenAX = view.toScreenCoordXd(A.getInhomX());
+			double screenAY = view.toScreenCoordYd(A.getInhomY());
+			double screenBX = view.toScreenCoordXd(B.getInhomX());
+			double screenDY = view.toScreenCoordYd(D.getInhomY());
+			double screenWidth = screenBX - screenAX;
+			double screenHeight = screenAY - screenDY;
+			cropBox.setRect(screenAX, screenDY, screenWidth, screenHeight);
+		}
+
 	}
 }
