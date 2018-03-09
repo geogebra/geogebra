@@ -1478,6 +1478,19 @@ namespace giac {
     }
     if (mysommet==at_member && myfeuille.type==_VECT && myfeuille._VECTptr->size()==2)
       return gen2mathml(myfeuille._VECTptr->front(),svg,contextptr)+"<mtext>∈</mtext>"+gen2mathml(myfeuille._VECTptr->back(),svg,contextptr);
+    if (mysommet==at_vector){
+      string s="<mover><mi>";
+      if (myfeuille.type!=_VECT)
+	s = s+myfeuille.print(contextptr);
+      else {
+	const_iterateur it=myfeuille._VECTptr->begin(),itend=myfeuille._VECTptr->end();
+	for (;it!=itend;++it){
+	  s = s + it->print(contextptr);
+	}
+      }
+      s = s+"</mi><mo mathsize=\"80%\">&rarr;</mo></mover>";
+      return s;
+    }
     gen tmp,value;
     if (mysommet==at_rootof && (tmp=myfeuille).type==_VECT && tmp._VECTptr->size()==2 && tmp._VECTptr->front().type==_VECT && has_rootof_value(tmp._VECTptr->back(),value,contextptr)){
       value=horner_rootof(*tmp._VECTptr->front()._VECTptr,value,contextptr);
