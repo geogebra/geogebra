@@ -34,10 +34,10 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 	@Override
 	protected Widget loadStyleBar() {
 		if (cpStyleBar == null) {
-			cpStyleBar = ((ConstructionProtocolViewW) app.getGuiManager().getConstructionProtocolView()).getStyleBar();
+			cpStyleBar = ((ConstructionProtocolViewW) app.getGuiManager()
+					.getConstructionProtocolView()).getStyleBar();
 		}
 		return cpStyleBar; 
-		//return ((ConstructionProtocolView)app.getGuiManager().getConstructionProtocolView()).getStyleBar();
 	}
 	
 	@Override

@@ -62,7 +62,6 @@ public class GridModel {
 				return value.toString();
 	 		}
 			return result;
-
 		}
 	}
 
@@ -167,7 +166,7 @@ public class GridModel {
 		}
 		
 		if (rows > rowCount) {
-			for (int row=rowCount;row  < rows; row++ ) {
+			for (int row = rowCount; row < rows; row++) {
 				addRow(newRowCells());
 			}
 		} else {

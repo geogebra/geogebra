@@ -126,7 +126,7 @@ public class MarblePanel extends FlowPanel
 		}
 
 		String img = GuiResources.INSTANCE.icon_help().getSafeUri().asString();
-		if (item.isInputTreeItem() ){
+		if (item.isInputTreeItem()) {
 			initPlus();
 			img = StringUtil.emptyTrim(item.getText())
 					? 

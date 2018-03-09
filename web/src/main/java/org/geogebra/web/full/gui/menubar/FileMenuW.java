@@ -158,8 +158,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					loc.getMenu("exam_menu_exit"), true), true,
 					new MenuCommand(getApp()) { // Close
 
-				@Override
-				public void doExecute() {
+						@Override
+						public void doExecute() {
 							showExamExitDialog();
 						}
 					});
@@ -177,10 +177,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				.menu_icon_file_new().getSafeUri().asString(),
 				loc.getMenu("New"), true), true, new MenuCommand(getApp()) {
 
-			@Override
-			public void doExecute() {
-						((DialogManagerW) getApp().getDialogManager()).getSaveDialog().showIfNeeded(newConstruction);
-			}
+					@Override
+					public void doExecute() {
+						((DialogManagerW) getApp().getDialogManager())
+								.getSaveDialog().showIfNeeded(newConstruction);
+					}
 		});
 		// open menu is always visible in menu
 		addItem(MainMenu.getMenuBarHtml(
@@ -190,11 +191,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						: GuiResources.INSTANCE
 				.menu_icon_file_open().getSafeUri().asString(),
 				loc.getMenu("Open"), true), true, new MenuCommand(getApp()) {
-    		
-				@Override
-				public void doExecute() {
-			        getApp().openSearch(null);
-				}
+
+					@Override
+					public void doExecute() {
+						getApp().openSearch(null);
+					}
 				});
 		if(getApp().getLAF().undoRedoSupported()) {
 			addItem(MainMenu.getMenuBarHtml(
@@ -205,10 +206,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					.menu_icon_file_save().getSafeUri().asString(),
 					loc.getMenu("Save"), true), true, new MenuCommand(getApp()) {
 		
-				@Override
-				public void doExecute() {
-			        getApp().getGuiManager().save();
-				}
+						@Override
+						public void doExecute() {
+							getApp().getGuiManager().save();
+						}
 			});			
 		}
 		addSeparator();
@@ -220,8 +221,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					.menu_icon_file_share().getSafeUri().asString(),
 					loc.getMenu("Share"), true), true, new MenuCommand(getApp()) {
 
-						@Override
-						public void doExecute() {
+					@Override
+					public void doExecute() {
 						share(getApp());
 					}
 			});
@@ -241,17 +242,16 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							: GuiResources.INSTANCE
 							.menu_icons_file_print().getSafeUri().asString(),
 					loc.getMenu("PrintPreview"), true),
-					true, new MenuCommand(
-					getApp()) {
+					true, new MenuCommand(getApp()) {
 
-				@Override
+						@Override
 						public void doExecute() {
 							if (getApp().getGuiManager()
 									.showView(App.VIEW_EUCLIDIAN)
-									|| getApp().getGuiManager().showView(
-											App.VIEW_EUCLIDIAN2)
-									|| getApp().getGuiManager().showView(
-											App.VIEW_ALGEBRA)
+									|| getApp().getGuiManager()
+											.showView(App.VIEW_EUCLIDIAN2)
+									|| getApp().getGuiManager()
+											.showView(App.VIEW_ALGEBRA)
 									|| getApp().getGuiManager().showView(
 											App.VIEW_CONSTRUCTION_PROTOCOL)) {
 								new PrintPreviewW(getApp()).show();

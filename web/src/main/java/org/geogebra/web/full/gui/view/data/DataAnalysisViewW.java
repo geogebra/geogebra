@@ -86,8 +86,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		public void execute() {
 			if (model.isMultiVar() && model.showStatPanel()) {
 				Log.debug("Showing MultiVar stat panel");
-				dataDisplayPanel1.resize(getOffsetWidth(), getOffsetHeight() - statisticsPanel.getOffsetHeight(), true);
-				
+				dataDisplayPanel1.resize(getOffsetWidth(),
+						getOffsetHeight() - statisticsPanel.getOffsetHeight(),
+						true);
 			} else {
 				dataDisplayPanel1.onResize();
 				dataDisplayPanel2.onResize();

@@ -13,6 +13,7 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -134,23 +135,18 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		add(btnSpeedUp);
 		add(btnPlay);
 		showSpeedValue(false);
-		
 	}
 
 	private void buildSpeedPanel() {
 		speedPanel = new FlowPanel();
 		speedPanel.addStyleName("speedPanel-hidden");
-		btnSpeedDown = new MyToggleButtonW( new ImageResourcePrototype(null,
-				MaterialDesignResources.INSTANCE.speed_down_black()
-				.getSafeUri(),
-		0, 0, 24, 24, false, false));
+		btnSpeedDown = new MyToggleButtonW(new NoDragImage(
+				MaterialDesignResources.INSTANCE.speed_down_black(), 24));
 
 		btnSpeedDown.setStyleName("flatButton");
 
-		btnSpeedUp = new MyToggleButtonW( new ImageResourcePrototype(null,
-				MaterialDesignResources.INSTANCE.speed_up_black()
-				.getSafeUri(),
-		0, 0, 24, 24, false, false));
+		btnSpeedUp = new MyToggleButtonW(new NoDragImage(
+				MaterialDesignResources.INSTANCE.speed_up_black(), 24));
 
 		btnSpeedUp.setStyleName("flatButton");
 
@@ -400,7 +396,6 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		if (this.speedIndex > 0) {
 			this.speedIndex--;
 			setSpeed();
-
 		}
 	}
 
@@ -422,7 +417,8 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	 * @return whether geo is animating
 	 */
 	boolean isGeoAnimating() {
-		return this.radioTreeItem.geo.isAnimating() && this.radioTreeItem.kernel.getAnimatonManager().isRunning();
+		return this.radioTreeItem.geo.isAnimating()
+				&& this.radioTreeItem.kernel.getAnimatonManager().isRunning();
 	}
 
 	/**

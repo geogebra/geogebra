@@ -1442,10 +1442,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			top = (int) ((wt.getAbsoluteTop() - offy) / app.getArticleElement()
 		        .getScaleY()) + offy;
 		} else {
-			left = (int) ((wt.getAbsoluteLeft()) / app
-			        .getArticleElement().getScaleX());
-			top = (int) ((wt.getAbsoluteTop() ) / app.getArticleElement()
-			        .getScaleY()) ;	
+			left = (int) (wt.getAbsoluteLeft()
+					/ app.getArticleElement().getScaleX());
+			top = (int) (wt.getAbsoluteTop()
+					/ app.getArticleElement().getScaleY());
 		}
 		// Log.debug("-----------------------" + min);
 

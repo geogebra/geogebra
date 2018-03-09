@@ -68,37 +68,37 @@ public class TabletFileManager extends FileManagerT {
 	protected void getFiles(final MaterialFilter filter) {	
 		final int callbackParent = addNewCallback(new MyCallback() {
 			@Override
-			public void onSuccess(Object result){
+			public void onSuccess(Object result) {
 				int length = (Integer) result;
-				for (int i = 0; i < length; i++){
+				for (int i = 0; i < length; i++) {
 					int callback = addNewCallback(new MyCallback() {
 						@Override
-						public void onSuccess(Object result){
+						public void onSuccess(Object result) {
 							try {
-								String[] resultStrings = (String[]) result;										
+								String[] resultStrings = (String[]) result;
 								String name = resultStrings[0];
 								String data = resultStrings[1];
-								Material mat = JSONParserGGT.prototype.toMaterial(new JSONObject(data));
+								Material mat = JSONParserGGT.prototype
+										.toMaterial(new JSONObject(data));
 
 								if (mat == null) {
-									mat = new Material(
-											0,
-											MaterialType.ggb);
+									mat = new Material(0, MaterialType.ggb);
 									mat.setTitle(getTitleFromKey(name));
 								}
 
-								mat.setLocalID(MaterialsManager.getIDFromKey(name));
+								mat.setLocalID(
+										MaterialsManager.getIDFromKey(name));
 
 								if (filter.check(mat)) {
 									addMaterial(mat);
 								}
 							} catch (JSONException e) {
 								e.printStackTrace();
+								}
 							}
-						}
 
 						@Override
-						public void onFailure(Object result){
+						public void onFailure(Object result) {
 							// not needed
 						}
 					});
@@ -107,9 +107,9 @@ public class TabletFileManager extends FileManagerT {
 			}
 
 			@Override
-			public void onFailure(Object result){
+			public void onFailure(Object result) {
 				// not needed
-			}
+				}
 		});
 		listLocalFilesNative(callbackParent);
 	}
@@ -201,8 +201,10 @@ public class TabletFileManager extends FileManagerT {
 		}else{
 			callback = NO_CALLBACK;
 		}
-		saveFileNative(getApp().getLocalID(), getTitleWithoutReservedCharacters(getApp()
-				.getKernel().getConstruction().getTitle()),base64, saveFileMaterial.toJson().toString(), callback);
+		String cleanTitle = getTitleWithoutReservedCharacters(
+				getApp().getKernel().getConstruction().getTitle());
+		saveFileNative(getApp().getLocalID(), cleanTitle,
+				base64, saveFileMaterial.toJson().toString(), callback);
 	}
 
 	/**
@@ -212,7 +214,8 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(cb, result > 0, result);	
 	}
 
-	private native void saveFileNative(int id, String title, String base64, String metaDatas, int callback) /*-{
+	private native void saveFileNative(int id, String title, String base64,
+			String metaDatas, int callback) /*-{
 		if ($wnd.android) {
 			$wnd.android.saveFile(id, title, base64, metaDatas, callback);
 		}
@@ -222,19 +225,21 @@ public class TabletFileManager extends FileManagerT {
 	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
 		final int callbackParent = addNewCallback(new MyCallback() {
 			@Override
-			public void onSuccess(Object result){
+			public void onSuccess(Object result) {
 				int length = (Integer) result;
 				setNotSyncedFileCount(length, events);
 				for (int i = 0; i < length; i++){
 					int callback = addNewCallback(new MyCallback() {
 						@Override
-						public void onSuccess(Object result){
+						public void onSuccess(Object result) {
 							try {
-								String[] resultStrings = (String[]) result;										
+								String[] resultStrings = (String[]) result;
 								String name = resultStrings[0];
 								String data = resultStrings[1];
-								Material mat = JSONParserGGT.prototype.toMaterial(new JSONObject(data));
-								mat.setLocalID(MaterialsManager.getIDFromKey(name));
+								Material mat = JSONParserGGT.prototype
+										.toMaterial(new JSONObject(data));
+								mat.setLocalID(
+										MaterialsManager.getIDFromKey(name));
 								sync(mat, events);
 							} catch (JSONException e) {
 								ignoreNotSyncedFile(events);
@@ -243,10 +248,10 @@ public class TabletFileManager extends FileManagerT {
 						}
 
 						@Override
-						public void onFailure(Object result){
+						public void onFailure(Object result) {
 							// not needed
-							ignoreNotSyncedFile(events);
-						}
+								ignoreNotSyncedFile(events);
+							}
 					});
 					getMetaDataNative(i, callback, getId());
 				}

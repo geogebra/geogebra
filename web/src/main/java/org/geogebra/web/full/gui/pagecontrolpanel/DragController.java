@@ -115,7 +115,8 @@ class DragController {
 			int scrollPos = cards.getListener().getVerticalScrollPosition();
 			boolean d = diff > 0;
 			if (autoScroll.isRunning()) {
-				if ((d != scrollDown && Math.abs(diff) > CANCEL_THRESHOLD) || (!scrollDown && scrollPos == 0)) {
+				if ((d != scrollDown && Math.abs(diff) > CANCEL_THRESHOLD)
+						|| (!scrollDown && scrollPos == 0)) {
 					onScrollCancel();
 				}
 			} else if (!d && dragged.card.getAbsoluteTop() <= PagePreviewCard.MARGIN

@@ -347,7 +347,6 @@ public class DockGlassPaneW extends AbsolutePanel
 						w *= 0.5f;
 					}
 				}
-
 			}
 
 			// nothing changed
@@ -377,18 +376,14 @@ public class DockGlassPaneW extends AbsolutePanel
 			dndState.setTarget(null);
 			previewPanel.setVisible(false);
 		}
-
 	}
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		if (dragInProgress) {
-			// It is not exactly known what should event.getX() and event.getY() mean
-			// mouseDragged(event.getX(), event.getY());
-
-			// Thus trying to use the following solution instead,
-			// because it fits to the contents of that method (for more info, see #4049)
-			mouseDragged(event.getClientX() + Window.getScrollLeft(), event.getClientY() + Window.getScrollTop());
+			// Use getClientX rather than getX, see #4049
+			mouseDragged(event.getClientX() + Window.getScrollLeft(),
+					event.getClientY() + Window.getScrollTop());
 		}
 	}
 

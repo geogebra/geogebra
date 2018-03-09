@@ -583,7 +583,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		h.updateAfterParsing();
 		afterLoadFileAppOrNot(false);
-
 	}
 
 	@Override
@@ -621,7 +620,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			if (Location.getHost() != null) {
 				return;
 			}
-
 		}
 	}
 
@@ -662,7 +660,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public final native void copyBase64ToClipboardChromeWebAppCase(
 			String str) /*-{
-		// solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
+		// solution copied from CopyPasteCutW.copyToSystemClipboardChromeWebapp
 		// although it's strange that .contentEditable is not set to true
 		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
 		copyFrom.value = str;

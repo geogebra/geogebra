@@ -91,9 +91,11 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 	            int width = draggedRow.getOffsetWidth();
 	            String color = draggedRow.getAttribute("style");
 	            return color + "; width: " + width + 
-	            		"px; background-color: #CCCCFF; opacity: 0.5; z-index: 900; position: absolute; left: " + 
-	            		table.getElement().getAbsoluteLeft() + "px; top: " + (yMove - DUMMY_DRAG_ELEM_OFFSET_Y) + 
-						"px; overflow: hidden; display: -webkit-inline-box;font-family: "
+						"px; background-color: #CCCCFF; opacity: 0.5;"
+						+ " z-index: 900; position: absolute; left: "
+						+ table.getElement().getAbsoluteLeft() + "px; top: "
+						+ (yMove - DUMMY_DRAG_ELEM_OFFSET_Y)
+						+ "px; overflow: hidden; display: -webkit-inline-box;font-family: "
 						+ GFontW.GEOGEBRA_FONT_SANSERIF + ";";
             }
 

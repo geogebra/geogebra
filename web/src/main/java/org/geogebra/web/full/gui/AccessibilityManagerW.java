@@ -100,14 +100,14 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 
 		if (source.getTabIndex() == GUITabs.MENU) {
-				if (!focusInput(false)) {
-					focusZoom(false);
-				}
+			if (!focusInput(false)) {
+				focusZoom(false);
+			}
 		}
 	}
 
 	private void focusZoom(boolean first) {
-		EuclidianDockPanelW dp = (EuclidianDockPanelW) gm.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
+		EuclidianDockPanelW dp = getEuclidianPanel();
 		if (first) {
 			dp.focusNextGUIElement();
 		} else {
@@ -116,10 +116,13 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		setTabOverGeos(false);
 	}
 
+	private EuclidianDockPanelW getEuclidianPanel() {
+		return (EuclidianDockPanelW) gm.getLayout().getDockManager()
+				.getPanel(App.VIEW_EUCLIDIAN);
+	}
+
 	private void focusSettings() {
-		EuclidianDockPanelW dp = (EuclidianDockPanelW) gm.getLayout()
-				.getDockManager().getPanel(App.VIEW_EUCLIDIAN);
-		dp.focusLastGUIElement();
+		getEuclidianPanel().focusLastGUIElement();
 		setTabOverGeos(false);
 	}
 

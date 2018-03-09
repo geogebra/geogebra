@@ -147,7 +147,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 				getTable().editCellAt(sourceColumn1, sourceRow1); // reset focus
 			}
 		});
-		return paste( column1,  row1,  column2,  row2,  contents);
+		return paste(column1, row1, column2, row2, contents);
 	}
 
 	/**

@@ -39,19 +39,22 @@
             <message key="name.invalidPattern"
              value="Method name ''{0}'' must match pattern ''{1}''."/>
         </module>
+        <module name="TypeName"/>
+        <module name="ParenPad"/>
         <module name="OneStatementPerLine"/>
          <module name="MethodParamPad"/>
         <module name="UpperEll"/>
         <module name="NonEmptyAtclauseDescription"/>
         <module name="ArrayTypeStyle"/>
         <module name="LineLength">
-            <property name="max" value="120"/>
+            <property name="max" value="111"/>
             <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|@|Regex"/>
         </module>
       <module name="EmptyLineSeparator">
             <property name="allowNoEmptyLineBetweenFields" value="true"/>
             <property name ="allowMultipleEmptyLines" value="false"/>
         </module>
+        
     </module>
    
 </module>

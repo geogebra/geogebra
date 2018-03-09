@@ -569,7 +569,8 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 				+ ";overflow-" + cssdir + ":hidden !important");
 	}
 
-  void assertIsChild(Widget widget) {
-	    assert (widget == null) || (widget.getParent() == this) : "The specified widget is not a child of this panel";
-	  }
+	void assertIsChild(Widget widget) {
+		assert (widget == null) || (widget
+				.getParent() == this) : "The specified widget is not a child of this panel";
+	}
 }

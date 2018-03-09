@@ -45,7 +45,8 @@ public class ContextMenuAVPlus implements SetLabels {
 		app = item.getApplication();
 		loc = app.getLocalization();
 		this.item = item;
-		kbd = (TabbedKeyboard)((GuiManagerW)app.getGuiManager()).getOnScreenKeyboard(item, null);
+		kbd = (TabbedKeyboard) ((GuiManagerW) app.getGuiManager())
+				.getOnScreenKeyboard(item, null);
 		wrappedPopup = new GPopupMenuW(app);
 		if (app.isUnbundled()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
@@ -111,11 +112,11 @@ public class ContextMenuAVPlus implements SetLabels {
 					
 					@Override
 					public void execute() {
-
 						item.getController().setInputAsText(false);
 						app.getImageManager().setPreventAuxImage(true);
 						
-						((GuiManagerW)app.getGuiManager()).loadImage(null, null, false, app.getActiveEuclidianView());
+						((GuiManagerW) app.getGuiManager()).loadImage(null,
+								null, false, app.getActiveEuclidianView());
 					}
 				});
 		wrappedPopup.addItem(mi);

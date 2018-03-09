@@ -196,7 +196,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 */
 	public ProbabilityCalculatorStyleBarW getStyleBar() {
 		if (styleBar == null) {
-			styleBar = new ProbabilityCalculatorStyleBarW( app, this);
+			styleBar = new ProbabilityCalculatorStyleBarW(app, this);
 		}
 
 		return styleBar;

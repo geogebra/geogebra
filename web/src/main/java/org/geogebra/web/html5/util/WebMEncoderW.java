@@ -100,7 +100,7 @@ public class WebMEncoderW implements Encoder {
 	public void initialize() {
 		Log.debug("whammy.min.js loading");
 		JavaScriptInjector
-				.inject(GuiResourcesSimple.INSTANCE.WhammyJs());
+				.inject(GuiResourcesSimple.INSTANCE.whammyJs());
 		this.jsLoaded = true;
 		images.clear();
 	}

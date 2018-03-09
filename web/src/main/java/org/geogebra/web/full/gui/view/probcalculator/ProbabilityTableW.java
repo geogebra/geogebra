@@ -64,7 +64,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 		while(x<=xMax){
 
 			statTable.setValueAt("" + x, row, 0);
-			if(distType != null ){
+			if (distType != null) {
 				prob = getProbManager().probability(x, parms, distType, isCumulative());
 				statTable.setValueAt("" + getProbCalc().format(prob), row, 1);
 			}
@@ -81,32 +81,30 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 
 	@Override
 	public void setSelectionByRowValue(int lowValue, int highValue) {
-		//if(!probManager.isDiscrete(distType)) 
-				//	return;
+		// TODO reuse desktop?
+		// if(!probManager.isDiscrete(distType))
+		// return;
 
-				//try {
-					//statTable.getTable().getSelectionModel().removeListSelectionListener(this);
+		// try {
+		// statTable.getTable().getSelectionModel().removeListSelectionListener(this);
 
-					int lowIndex = lowValue - getXMin();
-					if(lowIndex < 0) {
-						lowIndex = 0;
-					}
-					int highIndex = highValue - getXMin();
-					
-					if(isCumulative()){
-						statTable.getTable().changeSelection(highIndex,false,false);
-					}
-					else
-					{
-						statTable.getTable().changeSelection(lowIndex,false,false);
-						statTable.getTable().changeSelection(highIndex,false,true);
-					}
-					//wrappedPanel.repaint();
-					//statTable.getTable().getSelectionModel().addListSelectionListener(this);
-				//} catch (Exception e) {
-					// TODO Auto-generated catch block
-				//	e.printStackTrace();
-				//}
+		int lowIndex = lowValue - getXMin();
+		if (lowIndex < 0) {
+			lowIndex = 0;
+		}
+		int highIndex = highValue - getXMin();
+
+		if (isCumulative()) {
+			statTable.getTable().changeSelection(highIndex, false, false);
+		} else {
+			statTable.getTable().changeSelection(lowIndex, false, false);
+			statTable.getTable().changeSelection(highIndex, false, true);
+		}
+		// wrappedPanel.repaint();
+		// statTable.getTable().getSelectionModel().addListSelectionListener(this);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 	}
 	
 	/**

@@ -280,7 +280,8 @@ public class ViewW {
 			      if (entry.filename.match(imageRegex)) {
 				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(filename+" : image");
 				      var filenameParts = filename.split(".");
-				      var dataWriter = new $wnd.zip.Data64URIWriter("image/"+filenameParts[filenameParts.length - 1]);
+				      var filenameSimple = filenameParts[filenameParts.length - 1];
+				      var dataWriter = new $wnd.zip.Data64URIWriter("image/" + filenameSimple);
 				      entry.getData(dataWriter, function (data) {
 				      view.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
 				      });

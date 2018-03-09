@@ -146,7 +146,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		// create the GUI
 		createGUI();
-
 	}
 
 	/**
@@ -340,7 +339,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		fldNumClasses.setColumns(2);
 		fldNumClasses.setVisible(false);
 
-		sliderNumClasses = new Slider( 3, 20);
+		sliderNumClasses = new Slider(3, 20);
 		sliderNumClasses.setValue(numClasses);
 
 		sliderNumClasses.setMajorTickSpacing(1);
@@ -503,7 +502,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 		app.setWaitCursor();
 		app.copyEVtoClipboard(plotPanel);
 		app.setDefaultCursor();
-	
     }
 
 	protected void exportToEV() {

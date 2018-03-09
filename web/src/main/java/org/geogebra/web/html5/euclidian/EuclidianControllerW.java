@@ -169,8 +169,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
-		if ((app.getGuiManager() != null)
-				&& (getEvNo() != EuclidianView.EVNO_GENERAL || (getView() instanceof EuclidianViewForPlaneInterface))) {
+		if ((app.getGuiManager() != null) && shouldSetToolbar()) {
 			// Probability calculator plot panel view should not set active
 			// toolbar ID
 			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW,
@@ -241,8 +240,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		if (temporaryMode) {
 			mtg.setComboboxFocused(false);
 		}
-		if ((app.getGuiManager() != null)
-				&& (getEvNo() != EuclidianView.EVNO_GENERAL || (getView() instanceof EuclidianViewForPlaneInterface))) {
+		if ((app.getGuiManager() != null) && shouldSetToolbar()) {
 			// Probability calculator plot panel view should not set active
 			// toolbar ID
 			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW,
@@ -261,6 +259,11 @@ public class EuclidianControllerW extends EuclidianController implements
 			// app.getGuiManager().updateToolbar();
 		}
 		mtg.onPointerEventStart(event);
+	}
+
+	private boolean shouldSetToolbar() {
+		return (getEvNo() != EuclidianView.EVNO_GENERAL
+				|| (getView() instanceof EuclidianViewForPlaneInterface));
 	}
 
 	@Override

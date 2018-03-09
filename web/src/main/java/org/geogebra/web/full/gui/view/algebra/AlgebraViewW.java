@@ -42,6 +42,7 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
@@ -99,14 +100,14 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/** whether it's attached to kernel */
 	protected boolean attached = false;
 
-	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
+	private AnimationCallback repaintCallback = new AnimationCallback() {
 		@Override
 		public void execute(double ts) {
 			doRepaint();
 		}
 	};
 
-	private AnimationScheduler.AnimationCallback repaintSlidersCallback = new AnimationScheduler.AnimationCallback() {
+	private AnimationCallback repaintSlidersCallback = new AnimationCallback() {
 		@Override
 		public void execute(double ts) {
 			doRepaintSliders();

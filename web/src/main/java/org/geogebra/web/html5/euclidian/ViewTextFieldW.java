@@ -17,7 +17,8 @@ public class ViewTextFieldW extends ViewTextField {
 	}
 
 	@Override
-	public AutoCompleteTextField newAutoCompleteTextField(int length, App application, Drawable drawTextField) {
+	public AutoCompleteTextField newAutoCompleteTextField(int length,
+			App application, Drawable drawTextField) {
 		return new AutoCompleteTextFieldW(length, application, drawTextField);
 	}
 

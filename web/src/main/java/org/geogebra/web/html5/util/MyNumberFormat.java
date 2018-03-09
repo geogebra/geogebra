@@ -332,7 +332,8 @@ public class MyNumberFormat {
 	// produce
 	// the latin mapping for arbitrary locales. Any separator not in either of
 	// these strings will be mapped to non-breaking space (U+00A0).
-	private static final String LOCALIZED_COMMA_EQUIVALENTS = ",\u060C\u066B\u3001\uFE10\uFE11\uFE50\uFE51\uFF0C\uFF64";
+	private static final String LOCALIZED_COMMA_EQUIVALENTS = ",\u060C\u066B"
+			+ "\u3001\uFE10\uFE11\uFE50\uFE51\uFF0C\uFF64";
 
 	private static final String LOCALIZED_DOT_EQUIVALENTS = ".\u2024\u3002\uFE12\uFE52\uFF0E\uFF61";
 	private static final char PATTERN_DECIMAL_SEPARATOR = '.';

@@ -122,13 +122,17 @@ public class ProbabilityCalculatorStyleBarW extends
 			}
 		});
 		
-		btnLineGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.line_graph()), false);
+		btnLineGraph = new GCheckBoxMenuItem(SafeHtmlFactory
+				.getImageHtml(AppResources.INSTANCE.line_graph()), false);
 		btnLineGraphHandler = btnLineGraph.addValueChangeHandler(this);
-		
-		btnStepGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.step_graph()), false);
+
+		btnStepGraph = new GCheckBoxMenuItem(SafeHtmlFactory
+				.getImageHtml(AppResources.INSTANCE.step_graph()), false);
 		btnStepGraphHandler = btnStepGraph.addValueChangeHandler(this);
-		
-		btnBarGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.bar_graph()), false);
+
+		btnBarGraph = new GCheckBoxMenuItem(
+				SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.bar_graph()),
+				false);
 		btnBarGraphHandler = btnBarGraph.addValueChangeHandler(this);
 
 		MyToggleButtonW btnGrid = new MyToggleButtonW(

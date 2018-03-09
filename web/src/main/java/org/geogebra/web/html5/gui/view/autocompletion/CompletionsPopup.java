@@ -56,7 +56,8 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 		}
 
 		// convert candidates to suggestions
-		List<MultiWordSuggestion> suggestions = convertToFormattedSuggestions(query, completions);
+		List<MultiWordSuggestion> suggestions = convertToFormattedSuggestions(
+				query, completions);
 
 		Response response = new Response(suggestions);
 		response.setMoreSuggestionsCount(numberTruncated);
@@ -64,7 +65,8 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 		callback.onSuggestionsReady(request, response);
 	}
 	
-	private static List<MultiWordSuggestion> convertToFormattedSuggestions(String query, List<String> candidates) {
+	private static List<MultiWordSuggestion> convertToFormattedSuggestions(
+			String query, List<String> candidates) {
 		List<MultiWordSuggestion> suggestions = new ArrayList<>();
 		for (int i = 0; i < candidates.size(); i++) {
 			String candidate = candidates.get(i);
