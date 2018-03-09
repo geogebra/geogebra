@@ -5,6 +5,7 @@ import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetViewDirection;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -19,6 +20,9 @@ import org.geogebra.common.util.debug.Log;
  */
 public class CommandDispatcher3D extends CommandDispatcher {
 
+	/** dispatcher for 3D commands */
+	private CommandDispatcherInterface commands3DDispatcher = null;
+
 	/**
 	 * 
 	 * @param kernel
@@ -32,7 +36,8 @@ public class CommandDispatcher3D extends CommandDispatcher {
 	public CommandProcessor commandTableSwitch(Command c) {
 		String cmdName = c.getName();
 		try {
-			switch (Commands.valueOf(cmdName)) {
+			Commands command = Commands.valueOf(cmdName);
+			switch (command) {
 
 			case Segment:
 				return new CmdSegment3D(kernel);
@@ -154,9 +159,6 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Curve:
 			case CurveCartesian:
 				return new CmdCurveCartesian3D(kernel);
-
-			case Plane:
-				return new CmdPlane(kernel);
 
 			// English for scripting
 			case PerpendicularPlane:
@@ -298,6 +300,10 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Union:
 				return new CmdUnion3D(kernel);
 
+			// 3D commands dispatcher
+			case Plane:
+				return getCommands3DDispatcher().dispatch(command, kernel);
+
 			default:
 				return super.commandTableSwitch(c);
 			}
@@ -305,6 +311,14 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			Log.debug("command not found / CAS command called: " + cmdName);
 		}
 		return null;
+	}
+
+	/** @return dispatcher for CAS commands */
+	protected CommandDispatcherInterface getCommands3DDispatcher() {
+		if (commands3DDispatcher == null) {
+			commands3DDispatcher = new CommandDispatcherCommands3D();
+		}
+		return commands3DDispatcher;
 	}
 
 }
