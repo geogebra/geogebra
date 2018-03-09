@@ -13,6 +13,11 @@ import org.geogebra.common.kernel.commands.Commands;
 public class CommandDispatcherCommands3D implements CommandDispatcherInterface {
 	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
+
+		if (!kernel.getApplication().getCommands3DEnabled()) {
+			return null;
+		}
+
 		switch (c) {
 		case Plane:
 			return new CmdPlane(kernel);
