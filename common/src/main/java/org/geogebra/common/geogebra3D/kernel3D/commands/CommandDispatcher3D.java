@@ -160,44 +160,6 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case CurveCartesian:
 				return new CmdCurveCartesian3D(kernel);
 
-			// English for scripting
-			case PerpendicularPlane:
-				// internal name
-			case OrthogonalPlane:
-				return new CmdOrthogonalPlane(kernel);
-
-			case PlaneBisector:
-				return new CmdPlaneBisector(kernel);
-
-			case Prism:
-				return new CmdPrism(kernel);
-			case Pyramid:
-				return new CmdPyramid(kernel);
-
-			case Tetrahedron:
-				return new CmdArchimedeanSolid(kernel, Commands.Tetrahedron);
-			case Cube:
-				return new CmdArchimedeanSolid(kernel, Commands.Cube);
-			case Octahedron:
-				return new CmdArchimedeanSolid(kernel, Commands.Octahedron);
-			case Dodecahedron:
-				return new CmdArchimedeanSolid(kernel, Commands.Dodecahedron);
-			case Icosahedron:
-				return new CmdArchimedeanSolid(kernel, Commands.Icosahedron);
-
-			case Polyhedron:
-				if (kernel.getApplication().has(Feature.CONVEX_HULL_3D)) {
-					return new CmdPolyhedronConvex(kernel);
-				}
-				return super.commandTableSwitch(c);
-
-			case Net:
-				return new CmdPolyhedronNet(kernel);
-
-			/*
-			 * case Polyhedron: return new CmdPolyhedronConvex(kernel);
-			 */
-
 			case PointIn:
 				return new CmdPointIn3D(kernel);
 
@@ -222,39 +184,6 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case IntersectConic:
 				return new CmdIntersectConic(kernel);
 
-			case Sphere:
-				return new CmdSphere3D(kernel);
-
-			case Cone:
-				return new CmdCone(kernel);
-			case InfiniteCone:
-				return new CmdConeInfinite(kernel);
-			case ConeInfinite:
-				return new CmdConeInfinite(kernel); // removed for release
-													// candidate
-
-			case Cylinder:
-				return new CmdCylinder(kernel);
-			case InfiniteCylinder:
-				return new CmdCylinderInfinite(kernel);
-			case CylinderInfinite:
-				return new CmdCylinderInfinite(kernel); // removed for release
-														// candidate
-			case Side:
-			case QuadricSide:
-				return new CmdQuadricSide(kernel);
-			case Bottom:
-				return new CmdBottom(kernel);
-			case Top:
-				return new CmdTop(kernel);
-			case Ends:
-				return new CmdEnds(kernel);
-
-			case Function:
-				return new CmdFunction2Var(kernel);
-
-			case Surface:
-				return new CmdSurfaceCartesian3D(kernel);
 
 			case Angle:
 				return new CmdAngle3D(kernel);
@@ -302,8 +231,33 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 			// 3D commands dispatcher
 			case Plane:
+			case PerpendicularPlane:
+			case OrthogonalPlane:
+			case PlaneBisector:
+			case Prism:
+			case Pyramid:
+			case Tetrahedron:
+			case Cube:
+			case Octahedron:
+			case Dodecahedron:
+			case Icosahedron:
+			case Polyhedron:
+			case Net:
+			case Sphere:
+			case Cone:
+			case InfiniteCone:
+			case ConeInfinite:
+			case Cylinder:
+			case InfiniteCylinder:
+			case CylinderInfinite:
+			case Side:
+			case QuadricSide:
+			case Bottom:
+			case Top:
+			case Ends:
+			case Function:
+			case Surface:
 				return getCommands3DDispatcher().dispatch(command, kernel);
-
 			default:
 				return super.commandTableSwitch(c);
 			}
