@@ -5276,4 +5276,12 @@ public abstract class App implements UpdateSelection {
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 *
+	 * @return available calculator types for exam mode
+	 */
+	public ExamEnvironment.CalculatorType[] getAvailableExamCalculatorTypes() {
+		return new ExamEnvironment.CalculatorType[] {ExamEnvironment.CalculatorType.GRAPHING, ExamEnvironment.CalculatorType.SYMBOLIC};
+	}
+
 }
