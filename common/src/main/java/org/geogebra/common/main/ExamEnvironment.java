@@ -35,7 +35,11 @@ public class ExamEnvironment {
 		/** 2D graphing, no CAS */
 		GRAPHING,
 		/** 2D graphing, CAS */
-		SYMBOLIC
+		SYMBOLIC,
+        /** 2D and 3D graphing, no CAS */
+        GRAPHING_3D,
+		/** 2D and 3D graphing, CAS */
+        SYMBOLIC_3D
 	}
 
 	protected LinkedList<CheatingEvent> cheatingEvents = null;
@@ -508,25 +512,31 @@ public class ExamEnvironment {
 		wasCommands3DEnabled = app.getCommands3DEnabled();
 		if (app.has(Feature.MOB_DISABLE_3D_COMMANDS)) {
 			switch (calculatorType) {
-			case GRAPHING:
-				app.enable(false, false);
-				break;
-			case SYMBOLIC:
-				app.enable(true, false);
-				break;
-			default:
-				break;
+				case GRAPHING:
+					app.enable(false, false);
+					break;
+				case SYMBOLIC:
+					app.enable(true, false);
+					break;
+				case GRAPHING_3D:
+					app.enable(false, true);
+					break;
+				case SYMBOLIC_3D:
+					app.enable(true, true);
+					break;
+				default:
+					break;
 			}
 		} else {
 			switch (calculatorType) {
-			case GRAPHING:
-				app.enableCAS(false);
-				break;
-			case SYMBOLIC:
-				app.enableCAS(true);
-				break;
-			default:
-				break;
+				case GRAPHING:
+					app.enableCAS(false);
+					break;
+				case SYMBOLIC:
+					app.enableCAS(true);
+					break;
+				default:
+					break;
 			}
 		}
 	}
@@ -562,6 +572,10 @@ public class ExamEnvironment {
 				return app.getLocalization().getMenu("exam_calctype_graphing");
 			case SYMBOLIC:
 				return app.getLocalization().getMenu("exam_calctype_sym_graphing");
+			case GRAPHING_3D:
+				return app.getLocalization().getMenu("exam_calctype_3D_graphing");
+			case SYMBOLIC_3D:
+				return app.getLocalization().getMenu("exam_calctype_3D_sym_graphing");
 			default:
 				return "";
 		}
@@ -577,6 +591,10 @@ public class ExamEnvironment {
 				return app.getLocalization().getMenu("exam_calctype_graphing_short");
 			case SYMBOLIC:
 				return app.getLocalization().getMenu("exam_calctype_sym_graphing_short");
+			case GRAPHING_3D:
+				return app.getLocalization().getMenu("exam_calctype_3D_graphing_short");
+			case SYMBOLIC_3D:
+				return app.getLocalization().getMenu("exam_calctype_3D_sym_graphing_short");
 			default:
 				return "";
 		}
