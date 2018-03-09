@@ -5,38 +5,26 @@ using UnityEngine.UI;
 
 public class CloneScreenText : MonoBehaviour {
 
-    [Header("Cloned Display Text")]
-    public Text basicCloneText;
-    public Text footballCloneText;
-    public Text functionCloneText;
-    public Text kleinCloneText;
-    public Text lissajousCloneText;
-    public Text penroseCloneText;
-    public Text ruledSurfaceCloneText;
-    public Text sierpinskiCloneText;
-    public Text tempCloneText;
-    [Space (15)]
-    [Header("Main display")]
-    public Text basicText;
-    public Text footballText;
-    public Text functionText;
-    public Text kleinText;
-    public Text lissajousText;
-    public Text penroseText;
-    public Text ruledSurfaceText;
-    public Text sierpinskiText;
-    public Text tempText;
+    public Text clonedText;
+    public string displayedTextCloned;
+    public GameObject gameManager;
+ 
+    private void Start()
+    {
+        if (gameManager == null)
+        {
+            gameManager = GameObject.Find("GameManager");
+        }
+
+        if (clonedText == null)
+        {
+            clonedText = GameObject.Find(transform.name + "/Cloned_Text").GetComponent<Text>();
+        }        
+    }
 
     public void CheckStatus ()
     {
-        basicCloneText.enabled = basicText.enabled;
-        footballCloneText.enabled = footballText.enabled;
-        functionCloneText.enabled = functionText.enabled;
-        kleinCloneText.enabled = kleinText.enabled;
-        lissajousCloneText.enabled = lissajousText.enabled;
-        penroseCloneText.enabled = penroseText.enabled;
-        ruledSurfaceCloneText.enabled = ruledSurfaceText.enabled;
-        sierpinskiCloneText.enabled = sierpinskiText.enabled;
-        //TempCloneText.enabled = TempText.enabled;
+        displayedTextCloned = gameManager.GetComponent<GameManager>().displayedText.GetComponent<Text>().text;
+        clonedText.text = displayedTextCloned;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
 
@@ -23,8 +24,28 @@ public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
 
     private void Start()
     {
-        // Assign GameManager
-        gameManagerObj = GameObject.Find("GameManager");
+        //Assign missing components
+        if (hihlightedText == null)
+        {
+            hihlightedText = GameObject.Find(transform.parent.name + "/" + "Canvas");
+        }
+
+        if (instructionText == null)
+        {
+            Debug.Log("in instructionText == null");
+            Debug.Log(transform.root.name + " / Room01 / TV / Canvas / Lissajous_Text");
+            string tempName = name + "_Text";
+            instructionText = GameObject.Find(transform.root.name + "/Room01/TV/Canvas/" + tempName);
+        }
+        #if UNITY_EDITOR
+        if (workModel == null)
+        {
+            workModel = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/ShownModels/" + transform.parent.name + ".prefab", typeof(GameObject));
+        }
+        #endif
+
+            // Assign GameManager
+            gameManagerObj = GameObject.Find("GameManager");
 
         _originTransform = this.transform.localScale;
         hihlightedText.SetActive(false);      
