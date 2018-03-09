@@ -411,6 +411,8 @@ public abstract class App implements UpdateSelection {
 	private double buttonRounding = 0.2;
 	private SpecialPointsManager specialPointsManager;
 
+	private boolean areCommands3DEnabled = true;
+
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
 	}
@@ -4026,6 +4028,10 @@ public abstract class App implements UpdateSelection {
 		 case MOB_TABBED_SETTINGS_PANEL:
 			return prerelease;
 
+		// MOB-1463
+		case MOB_DISABLE_3D_COMMANDS:
+			return prerelease;
+
 
 			// **********************************************************************
 		// MOBILE END
@@ -5184,6 +5190,24 @@ public abstract class App implements UpdateSelection {
 	public void enableCAS(boolean enable) {
 		getSettings().getCasSettings().setEnabled(enable);
 		getKernel().getAlgebraProcessor().reinitCommands();
+	}
+
+	/**
+	 * enable/disable CAS and re-init command table
+	 * 
+	 * @param cas
+	 *            if CAS is enabled
+	 * @param commands3d
+	 *            if 3D commands are enabled
+	 */
+	public void enable(boolean cas, boolean commands3d) {
+		getSettings().getCasSettings().setEnabled(cas);
+		areCommands3DEnabled = commands3d;
+		getKernel().getAlgebraProcessor().reinitCommands();
+	}
+
+	public boolean getCommands3DEnabled() {
+		return areCommands3DEnabled;
 	}
 
 	/**

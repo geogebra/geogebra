@@ -46,7 +46,7 @@ public class ExamEnvironment {
 	private boolean hasGraph = false;
 
 	private CalculatorType calculatorType;
-	private boolean wasCasEnabled, wasTaskLocked;
+	private boolean wasCasEnabled, wasCommands3DEnabled, wasTaskLocked;
 	private TimeFormatAdapter timeFormatter;
 
 	/**
@@ -503,17 +503,31 @@ public class ExamEnvironment {
 	 * apply calculator type (CAS on/off, etc.)
 	 */
 	protected void applyCalculatorType() {
-		// setup CAS on/off
+		// setup CAS/3D on/off
 		wasCasEnabled = app.getSettings().getCasSettings().isEnabled();
-		switch (calculatorType) {
-		case GRAPHING:
-			app.enableCAS(false);
-			break;
-		case SYMBOLIC:
-			app.enableCAS(true);
-			break;
-		default:
-			break;
+		wasCommands3DEnabled = app.getCommands3DEnabled();
+		if (app.has(Feature.MOB_DISABLE_3D_COMMANDS)) {
+			switch (calculatorType) {
+			case GRAPHING:
+				app.enable(false, false);
+				break;
+			case SYMBOLIC:
+				app.enable(true, false);
+				break;
+			default:
+				break;
+			}
+		} else {
+			switch (calculatorType) {
+			case GRAPHING:
+				app.enableCAS(false);
+				break;
+			case SYMBOLIC:
+				app.enableCAS(true);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
@@ -522,7 +536,11 @@ public class ExamEnvironment {
 	 *
 	 */
 	public void closeExam() {
-		app.enableCAS(wasCasEnabled);
+		if (app.has(Feature.MOB_DISABLE_3D_COMMANDS)) {
+			app.enable(wasCasEnabled, wasCommands3DEnabled);
+		} else {
+			app.enableCAS(wasCasEnabled);
+		}
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
 	}
 
