@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4871144918682280}
   - component: {fileID: 95185453234104582}
   m_Layer: 0
-  m_Name: ruled-surface
+  m_Name: ruledSurface
   m_TagString: Model
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
