@@ -286,10 +286,10 @@ public class ExamDialog {
 		LayoutW.resetPerspectives(app);
 		guiManager.updateMenubar();
 		guiManager.resetMenu();
-		DockPanelW dp = ((DockManagerW) guiManager.getLayout().getDockManager()).getPanelForKeyboard();
+		DockPanelW dp = ((DockManagerW) guiManager.getLayout().getDockManager())
+				.getPanelForKeyboard();
 		MathKeyboardListener listener = guiManager.getKeyboardListener(dp);
 		if (listener != null && listener.needsAutofocus()) {
-
 			app.showKeyboard(listener, true);
 		}
 		if (box != null) {

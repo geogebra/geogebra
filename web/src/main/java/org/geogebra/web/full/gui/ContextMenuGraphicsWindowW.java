@@ -188,16 +188,15 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	public void addSnapToGridMenuItem() {
 		String img = MaterialDesignResources.INSTANCE.snap_to_grid()
 				.getSafeUri().asString();
+		final boolean isSnapToGrid = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC == app
+				.getSettings().getEuclidian(1).getPointCapturingMode();
 		final GCheckmarkMenuItem snapToGrid = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("SnapToGrid")),
-				MaterialDesignResources.INSTANCE.check_black(),
-				app.getSettings().getEuclidian(1)
-						.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
+				MaterialDesignResources.INSTANCE.check_black(), isSnapToGrid);
 		snapToGrid.setCommand(new Command() {
 			@Override
 			public void execute() {
-				boolean isSnapToGrid = app.getSettings().getEuclidian(1)
-						.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
+
 				app.getEuclidianView1().setPointCapturing(isSnapToGrid
 						? EuclidianStyleConstants.POINT_CAPTURING_OFF
 						: EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);

@@ -239,7 +239,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			private void saveLocalIfNeeded(long modified, SaveState state) {
 				if (isWorksheet()
 						&& (app.getFileManager().shouldKeep(0)
-								|| app.has(Feature.LOCALSTORAGE_FILES) || state == SaveState.ERROR)) {
+								|| app.has(Feature.LOCALSTORAGE_FILES)
+								|| state == SaveState.ERROR)) {
 					app.getKernel().getConstruction().setTitle(title.getText());
 					((FileManager) app.getFileManager()).saveFile(base64,
 							modified, new SaveCallback(app, state));

@@ -552,7 +552,8 @@ public class MainMenu extends FlowPanel
 				+ app.getLocalization().getMenu(s) + "</span>" + "<img src=\""
 				+ MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString()
-				+ "\" class=\"expandImg\" draggable=\"false\" aria-label=\"expand\" role=\"button\">";
+				+ "\" class=\"expandImg\" draggable=\"false\""
+				+ " aria-label=\"expand\" role=\"button\">";
 	}
 
 	/**

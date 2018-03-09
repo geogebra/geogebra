@@ -30,7 +30,8 @@ public final class WindowReference implements EventRenderable {
 	 */
 	AnimationHandle requestAnimationFrame;
 	/**
-	 * The instance of the opened window. We would like to have only one window opened in a given time
+	 * The instance of the opened window. We would like to have only one window
+	 * opened in a given time
 	 */
 	static volatile WindowReference instance = null;
 

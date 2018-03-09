@@ -268,7 +268,8 @@ public class ProbabilityCalculatorStyleBarW extends
 		 				String decStr = cmd.substring(0, 2).trim();
 		 				int decimals = Integer.parseInt(decStr);
 		 				// Application.debug("decimals " + decimals);
-		 				((ProbabilityCalculatorViewW) getProbCalc()).updatePrintFormat(decimals, -1);
+						((ProbabilityCalculatorViewW) getProbCalc())
+								.updatePrintFormat(decimals, -1);
 	
 		 			} catch (Exception ex) {
 		 				getApp().showError(ex.toString());

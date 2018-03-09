@@ -2522,9 +2522,10 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	private static native Element nativeLoseFocus(Element element) /*-{
 		var active = $doc.activeElement;
+		var containsMask = $wnd.Node.DOCUMENT_POSITION_CONTAINS;
 		if (active
 				&& ((active === element) || (active
-						.compareDocumentPosition(element) & $wnd.Node.DOCUMENT_POSITION_CONTAINS))) {
+						.compareDocumentPosition(element) & containsMask))) {
 			active.blur();
 			return active;
 		}

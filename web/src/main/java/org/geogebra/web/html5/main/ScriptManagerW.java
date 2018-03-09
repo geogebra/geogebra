@@ -440,7 +440,7 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAuxiliary(Ljava/lang/String;Z)(objName + "", !!auxiliary);
 		};
 
-		api.hideCursorWhenDragging = function(hideCursorWhenDragging) {//TODO: CSS hacks in GeoGebraWeb
+		api.hideCursorWhenDragging = function(hideCursorWhenDragging) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::hideCursorWhenDragging(Z)(!!hideCursorWhenDragging);
 		};
 

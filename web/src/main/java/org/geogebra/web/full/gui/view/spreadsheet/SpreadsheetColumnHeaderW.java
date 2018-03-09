@@ -496,7 +496,8 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 				if (table.isSelectAll()) {
 					table.setColumnWidth(columnWidth);
 				} else {
-					for (int col = table.minSelectionColumn; col <= table.maxSelectionColumn; col++) {
+					int maxColumn = table.maxSelectionColumn;
+					for (int col = table.minSelectionColumn; col <= maxColumn; col++) {
 						Log.debug("setting column, width: " + col + " , "
 						        + columnWidth);
 						table.setColumnWidth(col, columnWidth);

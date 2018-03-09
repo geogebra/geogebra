@@ -14,9 +14,6 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class ToolsMenuW extends GMenuBar {
 
-	/** Application */
-	AppW app;
-
 	/**
 	 * Constructs the "Tools" menu
 	 * 
@@ -25,8 +22,7 @@ public class ToolsMenuW extends GMenuBar {
 	 */
 	public ToolsMenuW(AppW application) {
 		super("tools", application);
-		this.app = application;
-		if (app.isUnbundled()) {
+		if (application.isUnbundled()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -38,68 +34,69 @@ public class ToolsMenuW extends GMenuBar {
 	 * Initialize the menu items
 	 */
 	protected void initActions() {
-		Localization loc = app.getLocalization();
-		if (!app.isExam()) {
+		Localization loc = getApp().getLocalization();
+		if (!getApp().isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					app.isUnbundled() ? MaterialDesignResources.INSTANCE
+					getApp().isUnbundled() ? MaterialDesignResources.INSTANCE
 							.tools_customize_black().getSafeUri().asString()
 							: GuiResources.INSTANCE.menu_icon_tools_customize()
 									.getSafeUri().asString(),
 					loc.getMenu("Toolbar.Customize"), true), true,
-					new MenuCommand(app) {
+					new MenuCommand(getApp()) {
 
 						@Override
 						public void doExecute() {
-							app.showCustomizeToolbarGUI();
+							getApp().showCustomizeToolbarGUI();
 						}
 					});
 		}
 
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled()
+				getApp().isUnbundled()
 						? MaterialDesignResources.INSTANCE.tools_create_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE.menu_icon_tools_new()
 								.getSafeUri().asString(),
-				loc.getMenu(app.isToolLoadedFromStorage() ? "Tool.SaveAs"
+				loc.getMenu(getApp().isToolLoadedFromStorage() ? "Tool.SaveAs"
 						: "Tool.CreateNew"),
-				true), true, new MenuCommand(app) {
+				true), true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
 						ToolCreationDialogW toolCreationDialog = new ToolCreationDialogW(
-								app);
+								getApp());
 						toolCreationDialog.center();
 					}
 				});
 
 		addItem(MainMenu
 				.getMenuBarHtml(
-						app.isUnbundled()
+						getApp().isUnbundled()
 								? MaterialDesignResources.INSTANCE.tools_black()
 										.getSafeUri().asString()
 								: GuiResources.INSTANCE.menu_icon_tools()
 										.getSafeUri().asString(),
 						loc.getMenu("Tool.Manage"), true),
-				true, new MenuCommand(app) {
+				true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
 						ToolManagerDialogW toolManageDialog = new ToolManagerDialogW(
-								app);
+								getApp());
 						toolManageDialog.center();
 					}
 				});
 
-		if (!app.isExam()) {
-			if (app.has(Feature.EXERCISES)) {
+		if (!getApp().isExam()) {
+			if (getApp().has(Feature.EXERCISES)) {
 				addItem(MainMenu.getMenuBarHtml(
-						app.isUnbundled() ? MaterialDesignResources.INSTANCE
+						getApp().isUnbundled()
+								? MaterialDesignResources.INSTANCE
 								.new_exercise_black().getSafeUri().asString()
 								: GuiResources.INSTANCE.menu_create_exercise()
 										.getSafeUri().asString(),
 						loc.getMenu("Exercise.CreateNew"), true), true,
-						new MenuCommand(app) {
+						new MenuCommand(getApp()) {
 
 							@Override
 							public void doExecute() {
@@ -110,9 +107,12 @@ public class ToolsMenuW extends GMenuBar {
 		}
 	}
 
+	/**
+	 * Open exercise dialog
+	 */
 	protected void openExerciseBuilder() {
 		ExerciseBuilderDialog exerciseBuilderDialog = new ExerciseBuilderDialog(
-				app);
+				getApp());
 		exerciseBuilderDialog.center();
 	}
 

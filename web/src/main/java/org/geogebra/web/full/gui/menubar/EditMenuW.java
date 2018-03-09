@@ -57,7 +57,7 @@ public class EditMenuW extends GMenuBar {
 			// separator
 			addSeparator();
 		}
-		if (app.isCopyImageToClipboardAvailable()) {
+		if (getApp().isCopyImageToClipboardAvailable()) {
 			addCopyToClipboard();
 		}
 		addCopy();

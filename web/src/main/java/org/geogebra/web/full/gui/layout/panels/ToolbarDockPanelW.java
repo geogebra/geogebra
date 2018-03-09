@@ -6,6 +6,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -43,12 +44,13 @@ public class ToolbarDockPanelW extends DockPanelW
 	protected Widget loadComponent() {
 		int activePerspective = this.app.getActivePerspective();
 
+		ToolbarSettings toolbarSettings = app.getSettings().getToolbarSettings();
 		if (activePerspective == Perspective.GRAPHER_3D - 1) {
-			app.getSettings().getToolbarSettings().setType(ToolCategorization.AppType.GRAPHER_3D);
+			toolbarSettings.setType(ToolCategorization.AppType.GRAPHER_3D);
 		}
 		if (activePerspective == Perspective.GEOMETRY - 1) {
-			app.getSettings().getToolbarSettings().setType(ToolCategorization.AppType.GEOMETRY_CALC);
-			app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
+		 	toolbarSettings.setType(ToolCategorization.AppType.GEOMETRY_CALC);
+			toolbarSettings.setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
 			app.getKernel().setAlgebraStyle(Kernel.ALGEBRA_STYLE_DESCRIPTION);
 		}
 		if (activePerspective == Perspective.GRAPHING - 1) {
@@ -60,7 +62,7 @@ public class ToolbarDockPanelW extends DockPanelW
 		setToolMode(toolMode);
 		return toolbar;
 	}
-	
+
 	@Override
 	public void onResize() {
 		super.onResize();

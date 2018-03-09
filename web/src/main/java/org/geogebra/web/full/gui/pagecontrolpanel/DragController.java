@@ -89,7 +89,8 @@ class DragController {
 			if (scroll()) {
 				int pos = cards.getListener().getVerticalScrollPosition();
 				if (scrollDown) {
-					pos += cards.getListener().getScrollParentHeight() - PagePreviewCard.SPACE_HEIGHT
+					pos += cards.getListener().getScrollParentHeight()
+							- PagePreviewCard.SPACE_HEIGHT
 							- PagePreviewCard.MARGIN;
 				}
 

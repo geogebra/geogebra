@@ -24,7 +24,8 @@ public class ColorChooserDialog extends DialogBoxW
 	private ColorChangeHandler handler;
 	private GColor originalColor;
 	
-	public ColorChooserDialog(AppW app, final GColor originalColor, final ColorChangeHandler handler) {
+	public ColorChooserDialog(AppW app, final GColor originalColor,
+			final ColorChangeHandler handler) {
 		super(false, true, null, app.getPanel(), app);
 
 		this.app = app;

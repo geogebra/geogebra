@@ -9,7 +9,7 @@ import com.google.gwt.user.client.Command;
  * Command that also closes the menu
  */
 public class MenuCommand implements Command {
-
+	/** application */
 	protected AppW app;
 	
 	/**

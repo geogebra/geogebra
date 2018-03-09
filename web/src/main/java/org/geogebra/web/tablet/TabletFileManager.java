@@ -365,7 +365,8 @@ public class TabletFileManager extends FileManagerT {
 		renameNative(oldKey, newKey, mat.toJson().toString(), callback1);
 	}
 
-	private native void renameNative(String oldKey, String newKey, String metaData, int callback) /*-{
+	private native void renameNative(String oldKey, String newKey,
+			String metaData, int callback) /*-{
 		if ($wnd.android) {
 			$wnd.android.rename(oldKey, newKey, metaData, callback);
 		}

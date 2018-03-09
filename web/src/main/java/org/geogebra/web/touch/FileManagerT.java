@@ -306,52 +306,14 @@ public class FileManagerT extends FileManager {
 						        for (int i = 0; i < entries.length(); i++) {
 							        final EntryBase entryBase = entries.get(i);
 							        if (entryBase.isFile()) {
-								        final FileEntry fileEntry = entryBase
-								                .getAsFileEntry();
-								        // get key without ending (.ggb)
-								        final String key = fileEntry.getName()
-								                .substring(
-								                        0,
-								                        fileEntry.getName()
-								                                .indexOf("."));
-								        readMetaData(
-								                key,
-								                dontCreateIfNotExist,
-								                new Callback<String, FileError>() {
+												processFile(entryBase, filter);
+											}
+										}
+									}
 
-									                @Override
-									                public void onSuccess(
-									                        String result) {
-																Material mat = JSONParserGGT
-										                        .parseMaterial(result);
-										                if (mat == null) {
-											                mat = new Material(
-											                        0,
-											                        MaterialType.ggb);
-											                mat.setTitle(getTitleFromKey(key));
-										                }
-										                final Material mat1 = mat;
-																mat1.setLocalID(
-																		MaterialsManager
-										                        .getIDFromKey(key));
 
-										                if (filter.check(mat1)) {
-											                addMaterial(mat1);
-										                }
-									                }
 
-									                @Override
-									                public void onFailure(
-									                        FileError reason) {
-																Log.debug(
-																		"Could not read meta data ");
-									                }
-								                });
-							        }
-						        }
-					        }
-
-					        @Override
+									@Override
 					        public void onFailure(final FileError error) {
 										Log.debug(
 												"Could not read the file entries");
@@ -428,6 +390,37 @@ public class FileManagerT extends FileManager {
 
 	}
 
+	protected void processFile(EntryBase entryBase,
+			final MaterialFilter filter) {
+		final FileEntry fileEntry = entryBase.getAsFileEntry();
+		// get key without ending (.ggb)
+		final String key = fileEntry.getName().substring(0,
+				fileEntry.getName().indexOf("."));
+		readMetaData(key, dontCreateIfNotExist,
+				new Callback<String, FileError>() {
+
+					@Override
+					public void onSuccess(String result) {
+						Material mat = JSONParserGGT.parseMaterial(result);
+						if (mat == null) {
+							mat = new Material(0, MaterialType.ggb);
+							mat.setTitle(getTitleFromKey(key));
+						}
+						final Material mat1 = mat;
+						mat1.setLocalID(MaterialsManager.getIDFromKey(key));
+
+						if (filter.check(mat1)) {
+							addMaterial(mat1);
+						}
+						}
+
+					@Override
+					public void onFailure(FileError reason) {
+						Log.debug("Could not read meta data ");
+						}
+				});
+
+	}
 	/**
 	 * Deletes the old metaData and creates a new one
 	 * 
