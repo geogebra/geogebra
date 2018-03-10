@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.Script;
@@ -17,6 +18,7 @@ public class GeoAudio extends GeoButton {
 	/** URL of a test audio file */
 	public static final String TEST_URL = "http://archive.geogebra.org/static/welcome_to_geogebra.mp3";
 	private String dataUrl;
+	private App app;
 
 	/**
 	 * Constructs a new, empty audio element.
@@ -26,6 +28,7 @@ public class GeoAudio extends GeoButton {
 	 */
 	public GeoAudio(Construction c) {
 		super(c);
+		app = getKernel().getApplication();
 	}
 
 	/**
@@ -41,7 +44,7 @@ public class GeoAudio extends GeoButton {
 	 *            left to add audio player associated with the geo.
 	 */
 	public GeoAudio(Construction c, String url, int top, int left) {
-		super(c);
+		this(c);
 		setDataUrl(url);
 		this.labelOffsetX = top;
 		this.labelOffsetY = left;
@@ -95,11 +98,12 @@ public class GeoAudio extends GeoButton {
 	 */
 	public void setDataUrl(String dataUrl) {
 		this.dataUrl = dataUrl;
+		app.getSoundManager().loadGeoAudio(this);
 	}
 
 	private void addScript() {
 		String playText = "PlaySound[\"%0\"]";
-		Script playScript = getKernel().getApplication().createScript(ScriptType.GGBSCRIPT, playText, true);
+		Script playScript = app.createScript(ScriptType.GGBSCRIPT, playText, true);
 		setClickScript(playScript);
 	}
 	@Override
@@ -112,5 +116,9 @@ public class GeoAudio extends GeoButton {
 	 */
 	public void play() {
 		runClickScripts(dataUrl);
+	}
+
+	public int getDuration() {
+		return app.getSoundManager().getDuration(dataUrl);
 	}
 }

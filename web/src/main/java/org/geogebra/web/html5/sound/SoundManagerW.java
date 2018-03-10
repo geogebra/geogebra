@@ -3,6 +3,7 @@ package org.geogebra.web.html5.sound;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.debug.Log;
@@ -19,6 +20,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	private AppW app;
 	private boolean mp3active=true;
 	private Map<String, Element> urlToAudio = new HashMap<>();
+	private Map<String, GeoAudio> urlToGeoAudio = new HashMap<>();
 
 	/**
 	 * @param app
@@ -114,9 +116,21 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		}
 	}
 
+	protected void onGeoAudioReady(Element audio, String url) {
+		urlToAudio.put(url, audio);
+		GeoAudio geo = urlToGeoAudio.get(url);
+		if (geo != null) {
+			geo.updateRepaint();
+		}
+	}
+
 	private native void playAudioElement(Element audio) /*-{
 		audio.play();
 	}-*/;	
+
+	private native int getDuration(Element audio) /*-{
+													return audio.duration;
+													}-*/;
 
 	/**
 	 * @param url
@@ -135,6 +149,19 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 							that.@org.geogebra.web.html5.sound.SoundManagerW::onCanPlay(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement,url);
 						});
 	}-*/;
+
+	native void loadGeoAudio(String url) /*-{
+											var audioElement = $doc.createElement('audio');
+											var that = this;
+											audioElement.setAttribute('src', url);
+											audioElement.load();
+											audioElement
+											.addEventListener(
+											"canplay",
+											function() {
+											that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
+											});
+											}-*/;
 
 	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max,
@@ -155,4 +182,17 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 				app);
 	}
 
+	public void loadGeoAudio(GeoAudio geo) {
+		urlToGeoAudio.put(geo.getDataUrl(), geo);
+		loadGeoAudio(geo.getDataUrl());
+	}
+
+	@Override
+	public int getDuration(String url) {
+		final Element audio = urlToAudio.get(url);
+		if (audio != null) {
+			return getDuration(audio);
+		}
+		return -1;
+	}
 }

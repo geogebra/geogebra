@@ -8,6 +8,7 @@ import java.net.URL;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.jre.util.Base64;
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.StringUtil;
@@ -289,6 +290,18 @@ public class SoundManagerD implements SoundManager {
 		}
 
 		isPaused = !doResume;
+	}
+
+	@Override
+	public void loadGeoAudio(GeoAudio geo) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getDuration(String url) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -1,5 +1,6 @@
 package org.geogebra.common.sound;
 
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
 public interface SoundManager {
@@ -22,4 +23,7 @@ public interface SoundManager {
 	void playFunction(GeoFunction geoFunction, double double1, double double2,
 			int double3, int double4);
 
+	void loadGeoAudio(GeoAudio geo);
+
+	int getDuration(String url);
 }
