@@ -390,11 +390,9 @@ public class DrawLabel3D {
 		v.setMul(view.getToScreenMatrix(), origin);
 
 		origin.get3ForGL(labelOrigin);
-		if (view.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			labelOrigin[0] *= view.getXscale();
-			labelOrigin[1] *= view.getYscale();
-			labelOrigin[2] *= view.getZscale();
-		}
+		labelOrigin[0] *= view.getXscale();
+		labelOrigin[1] *= view.getYscale();
+		labelOrigin[2] *= view.getZscale();
 
 		drawX = (int) (v.getX() + xOffset);
 		if (anchor && xOffset < 0) {

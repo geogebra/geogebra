@@ -10,7 +10,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
-import org.geogebra.common.main.Feature;
 
 /**
  * Class that manage all geometry objects
@@ -376,11 +375,7 @@ abstract public class Manager {
 	 *            vertex
 	 */
 	final protected void vertexToScale(Coords v) {
-		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			vertexToScale(v.getX(), v.getY(), v.getZ());
-		} else {
-			vertex(v);
-		}
+		vertexToScale(v.getX(), v.getY(), v.getZ());
 	}
 
 	/**
@@ -395,11 +390,7 @@ abstract public class Manager {
 	 * 
 	 */
 	final protected void vertexToScale(double x, double y, double z) {
-		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			vertex(x * getXscale(), y * getYscale(), z * getZscale());
-		} else {
-			vertex(x, y, z);
-		}
+		vertex(x * getXscale(), y * getYscale(), z * getZscale());
 	}
 
 	/**
@@ -482,12 +473,8 @@ abstract public class Manager {
 	 *            normal
 	 */
 	final protected void normalToScale(Coords n) {
-		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			if (getScalerXYZ().scaleAndNormalizeNormalXYZ(n, normalToScaleTmp)){
-				normal(normalToScaleTmp);
-			} else {
-				normal(n);
-			}
+		if (getScalerXYZ().scaleAndNormalizeNormalXYZ(n, normalToScaleTmp)) {
+			normal(normalToScaleTmp);
 		} else {
 			normal(n);
 		}
@@ -652,8 +639,7 @@ abstract public class Manager {
 	 */
 	public int drawPoint(int size, Coords center, int index) {
 
-		double radius = getView3D()
-				.unscale(size * DrawPoint3D.DRAW_POINT_FACTOR);
+		double radius = size * DrawPoint3D.DRAW_POINT_FACTOR;
 		scaleXYZ(center);
 		center.setW(1); // changed for shaders (point size)
 
@@ -807,9 +793,7 @@ abstract public class Manager {
 	 *            coords
 	 */
 	public void scaleXYZ(Coords coords) {
-		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			getScalerXYZ().scaleXYZ(coords);
-		}
+		getScalerXYZ().scaleXYZ(coords);
 	}
 
 	/**

@@ -254,8 +254,8 @@ public class DrawAxis3D extends DrawLine3D {
 		v.set(3, 0); // set z-coord to 0
 
 		// calc orthogonal offsets
-		int vx = (int) getView3D().unscale(v.get(1) * 1.5 * axis.getTickSize());
-		int vy = (int) getView3D().unscale(v.get(2) * 1.5 * axis.getTickSize());
+		int vx = (int) (v.get(1) * 1.5 * axis.getTickSize());
+		int vy = (int) (v.get(2) * 1.5 * axis.getTickSize());
 		numbersXOffset = -vy;
 		numbersYOffset = vx;
 

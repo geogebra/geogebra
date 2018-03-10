@@ -199,12 +199,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private void setTolerances() {
 
-		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			maxRWPixelDistance = getView3D().getMaxPixelDistance();
-		} else {
-			maxRWPixelDistance = getView3D().getMaxPixelDistance()
-					/ getView3D().getScale();
-		}
+		maxRWPixelDistance = getView3D().getMaxPixelDistance();
 
 		// set sizes
 		switch (levelOfDetail) {
@@ -644,10 +639,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		Renderer renderer = getView3D().getRenderer();
 
-		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			// point were already scaled
-			renderer.getGeometryManager().setScalerIdentity();
-		}
+		// point were already scaled
+		renderer.getGeometryManager().setScalerIdentity();
 
 		// draw splitted, still to split, and next to split
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
@@ -694,9 +687,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		setSurfaceIndex(surface.end());
 
-		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			renderer.getGeometryManager().setScalerView();
-		}
+		renderer.getGeometryManager().setScalerView();
 
 		drawWireframe(renderer);
 	}
@@ -737,10 +728,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
-		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			// point were already scaled
-			renderer.getGeometryManager().setScalerIdentity();
-		}
+		// point were already scaled
+		renderer.getGeometryManager().setScalerIdentity();
+
 		brush.start(getReusableGeometryIndex());
 		brush.setThickness(thickness, (float) getView3D().getScale());
 		brush.setAffineTexture(0f, 0f);
@@ -797,10 +787,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		setGeometryIndex(brush.end());
-		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			// point were already scaled
-			renderer.getGeometryManager().setScalerView();
-		}
+
+		// point were already scaled
+		renderer.getGeometryManager().setScalerView();
 	}
 
 	@Override
@@ -844,26 +833,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private boolean updateCullingBox() {
 		EuclidianView3D view = getView3D();
-		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			double off = maxRWPixelDistance * 4;
-			double offScaled = off / getView3D().getXscale();
-			cullingBox[0] = view.getXmin() - offScaled;
-			cullingBox[1] = view.getXmax() + offScaled;
-			offScaled = off / getView3D().getYscale();
-			cullingBox[2] = view.getYmin() - offScaled;
-			cullingBox[3] = view.getYmax() + offScaled;
-			offScaled = off / getView3D().getZscale();
-			cullingBox[4] = view.getZmin() - offScaled;
-			cullingBox[5] = view.getZmax() + offScaled;
-		} else {
-			double off = maxRWPixelDistance * 2;
-			cullingBox[0] = view.getXmin() - off;
-			cullingBox[1] = view.getXmax() + off;
-			cullingBox[2] = view.getYmin() - off;
-			cullingBox[3] = view.getYmax() + off;
-			cullingBox[4] = view.getZmin() - off;
-			cullingBox[5] = view.getZmax() + off;
-		}
+		double off = maxRWPixelDistance * 4;
+		double offScaled = off / getView3D().getXscale();
+		cullingBox[0] = view.getXmin() - offScaled;
+		cullingBox[1] = view.getXmax() + offScaled;
+		offScaled = off / getView3D().getYscale();
+		cullingBox[2] = view.getYmin() - offScaled;
+		cullingBox[3] = view.getYmax() + offScaled;
+		offScaled = off / getView3D().getZscale();
+		cullingBox[4] = view.getZmin() - offScaled;
+		cullingBox[5] = view.getZmax() + offScaled;
 		return true;
 	}
 
@@ -1119,15 +1098,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 	final private void scaleXYZ(Coords3 p) {
-		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			getView3D().scaleXYZ(p);
-		}
+		getView3D().scaleXYZ(p);
 	}
 
 	final private void scaleAndNormalizeNormalXYZ(Coords3 n) {
-		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			getView3D().scaleAndNormalizeNormalXYZ(n);
-		}
+		getView3D().scaleAndNormalizeNormalXYZ(n);
 	}
 
 	protected Coords3 evaluatePoint(double u, double v) {

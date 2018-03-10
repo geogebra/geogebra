@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.Feature;
 
 /**
  * implementation for renderer using shaders
@@ -675,12 +674,10 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public void setLightPosition(float[] values) {
 		glUniform3fv(lightPositionLocation, values);
 		view3D.getEyePosition().get4ForGL(eyeOrDirection);
-		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			if (!view3D.hasParallelProjection()) {
-				eyeOrDirection[0] *= view3D.getXscale();
-				eyeOrDirection[1] *= view3D.getYscale();
-				eyeOrDirection[2] *= view3D.getZscale();
-			}
+		if (!view3D.hasParallelProjection()) {
+			eyeOrDirection[0] *= view3D.getXscale();
+			eyeOrDirection[1] *= view3D.getYscale();
+			eyeOrDirection[2] *= view3D.getZscale();
 		}
 		glUniform4fv(eyePositionLocation, eyeOrDirection);
 	}
@@ -864,21 +861,11 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void setClipPlanes(double[][] minMax) {
-
-		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			for (int i = 0; i < 3; i++) {
-				double scale = view3D.getScale(i);
-				clipPlanesMin[i] = (float) (minMax[i][0] * scale);
-				clipPlanesMax[i] = (float) (minMax[i][1] * scale);
-			}
-		} else {
-			for (int i = 0; i < 3; i++) {
-				clipPlanesMin[i] = (float) minMax[i][0];
-				clipPlanesMax[i] = (float) minMax[i][1];
-			}
-
+		for (int i = 0; i < 3; i++) {
+			double scale = view3D.getScale(i);
+			clipPlanesMin[i] = (float) (minMax[i][0] * scale);
+			clipPlanesMax[i] = (float) (minMax[i][1] * scale);
 		}
-
 	}
 
 	final private void setClipPlanesToShader() {
@@ -958,8 +945,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	final public void setCenter(Coords center) {
 		center.get4ForGL(pointCenter);
 		// set radius info
-		pointCenter[3] = view3D
-				.unscale(pointCenter[3] * DrawPoint3D.DRAW_POINT_FACTOR);
+		pointCenter[3] = pointCenter[3] * DrawPoint3D.DRAW_POINT_FACTOR;
 		glUniform4fv(centerLocation, pointCenter);
 	}
 

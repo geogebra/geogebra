@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoAnglePointsND;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -223,18 +222,11 @@ public class DrawAngle3D extends Drawable3DCurves {
 					brush.segment(center, tmpCoords.setAdd(center,
 							tmpCoords.setMul(v2, size)));
 					// dot (use surface plotter)
-					if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-						renderer.getGeometryManager().setScalerIdentity();
-						tmpCoords.set3(labelCenter);
-						getView3D().scaleXYZ(tmpCoords);
-						surface.drawSphere(tmpCoords, 2.5 * brush.getThickness(),
-								16);
-						renderer.getGeometryManager().setScalerView();
-					} else {
-						surface.drawSphere(labelCenter, 2.5 * brush.getThickness(),
-								16);
-					}
-
+					renderer.getGeometryManager().setScalerIdentity();
+					tmpCoords.set3(labelCenter);
+					getView3D().scaleXYZ(tmpCoords);
+					surface.drawSphere(tmpCoords, 2.5 * brush.getThickness(), 16);
+					renderer.getGeometryManager().setScalerView();
 					setGeometryIndex(brush.end());
 					break;
 

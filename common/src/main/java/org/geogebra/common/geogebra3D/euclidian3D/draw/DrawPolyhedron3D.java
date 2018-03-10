@@ -284,20 +284,12 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		}
 
 		if (getView3D().viewChangedByZoom()) {
-
 			Renderer renderer = getView3D().getRenderer();
-
 			// outline
 			updateOutline(renderer);
-
-			if (getView3D().getApplication()
-					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-				// surface
-				updateSurface(renderer);
-			}
-
+			// surface
+			updateSurface(renderer);
 			recordTrace();
-
 		}
 	}
 

@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -467,7 +466,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		sb.append(getXscale());
 		sb.append("\"");
 
-		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D) && !hasSameScales()) {
+		if (!hasSameScales()) {
 			sb.append(" yscale=\"");
 			sb.append(getYscale());
 			sb.append("\"");

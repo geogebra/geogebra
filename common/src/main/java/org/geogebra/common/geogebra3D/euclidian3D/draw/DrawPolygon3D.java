@@ -368,35 +368,29 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				}
 			}
 
-			if (getView3D().getApplication()
-					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			try {
+				// surface
+				PolygonTriangulation pt = polygon.getPolygonTriangulation();
+				if (pt.getMaxPointIndex() > 2) {
+					int index = renderer.getGeometryManager().startPolygons(this);
+					Coords n = polygon.getMainDirection();
 
-				try {
-					// surface
-					PolygonTriangulation pt = polygon.getPolygonTriangulation();
-					if (pt.getMaxPointIndex() > 2) {
-						int index = renderer.getGeometryManager().startPolygons(this);
-						Coords n = polygon.getMainDirection();
-
-						// check if the polygon is convex
-						Convexity convexity = pt.checkIsConvex();
-						if (convexity != Convexity.NOT) {
-							drawConvex(renderer, polygon, n, vertices,
-									verticesLength, convexity);
-						} else {
-							// draw the triangle fans
-							drawFans(renderer, polygon, n, vertices,
-									verticesLength);
-						}
-
-						renderer.getGeometryManager().endPolygons(this);
-
-						setSurfaceIndex(index);
+					// check if the polygon is convex
+					Convexity convexity = pt.checkIsConvex();
+					if (convexity != Convexity.NOT) {
+						drawConvex(renderer, polygon, n, vertices, verticesLength, convexity);
+					} else {
+						// draw the triangle fans
+						drawFans(renderer, polygon, n, vertices, verticesLength);
 					}
-				} catch (Exception e) {
-					Log.debug(e.getMessage());
-					e.printStackTrace();
+
+					renderer.getGeometryManager().endPolygons(this);
+
+					setSurfaceIndex(index);
 				}
+			} catch (Exception e) {
+				Log.debug(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 	}

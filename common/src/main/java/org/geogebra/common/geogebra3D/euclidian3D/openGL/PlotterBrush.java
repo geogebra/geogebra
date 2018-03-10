@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -330,24 +329,10 @@ public class PlotterBrush implements PathPlotter {
 			manager.texture(0);
 			break;
 		case TEXTURE_AFFINE:
-			// float factor = (int) (TEXTURE_AFFINE_FACTOR*length*scale); //TODO
-			// integer for cycles
-			float factor;
-			if (manager.getView3D().getApplication()
-					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-				factor = TEXTURE_AFFINE_FACTOR * length;
-			} else {
-				factor = TEXTURE_AFFINE_FACTOR * length * scale;
-			}
-			manager.texture(factor * (pos - texturePosZero) + textureValZero);
+			manager.texture(TEXTURE_AFFINE_FACTOR * length * (pos - texturePosZero) + textureValZero);
 			break;
 		case TEXTURE_LINEAR:
-			if (manager.getView3D().getApplication()
-					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-				manager.texture(TEXTURE_AFFINE_FACTOR * pos);
-			} else {
-				manager.texture(TEXTURE_AFFINE_FACTOR * scale * pos);
-			}
+			manager.texture(TEXTURE_AFFINE_FACTOR * pos);
 			break;
 
 		}
@@ -380,16 +365,9 @@ public class PlotterBrush implements PathPlotter {
 	 * @param p2
 	 */
 	public void segment(Coords p1, Coords p2) {
-
-		if (manager.getView3D().getApplication()
-				.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			tmpCoords.setSub(p2, p1);
-			length = getNormInScreenCoords(tmpCoords);
-			lengthInScene = (float) p1.distance3(p2);
-		} else {
-			length = (float) p1.distance3(p2);
-			lengthInScene = length;
-		}
+		tmpCoords.setSub(p2, p1);
+		length = getNormInScreenCoords(tmpCoords);
+		lengthInScene = (float) p1.distance3(p2);
 
 		if (DoubleUtil.isEqual(length, 0, Kernel.STANDARD_PRECISION)) {
 			return;
@@ -406,15 +384,8 @@ public class PlotterBrush implements PathPlotter {
 			moveTo(p2);
 			break;
 		case ARROW_TYPE_SIMPLE:
-			if (manager.getView3D().getApplication()
-					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-				factor = (float) (DrawVector.getFactor(lineThickness)
+			factor = (float) (DrawVector.getFactor(lineThickness)
 						* LINE3D_THICKNESS * lengthInScene / length);
-			} else {
-				factor = (float) (DrawVector.getFactor(lineThickness)
-						* LINE3D_THICKNESS / scale);
-			}
-
 			if (ARROW_LENGTH * factor > 0.9f * lengthInScene) {
 				factor = 0.9f * lengthInScene / ARROW_LENGTH;
 			}
@@ -435,11 +406,7 @@ public class PlotterBrush implements PathPlotter {
 					float i = ticksOffset
 							- ((int) (ticksOffset / ticksDistanceNormed))
 									* ticksDistanceNormed;
-					float ticksDelta = thicknessOld;
-					if (manager.getView3D().getApplication()
-							.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-						ticksDelta *= lengthInScene / length;
-					}
+					float ticksDelta = thicknessOld * lengthInScene / length;
 					float ticksThickness = 4 * thicknessOld;
 					if (i * lengthInScene <= ticksDelta) {
 						i += ticksDistanceNormed;
@@ -468,11 +435,7 @@ public class PlotterBrush implements PathPlotter {
 					if (i < 0) {
 						i += ticksDistanceNormed;
 					}
-					ticksDelta = thicknessOld;
-					if (manager.getView3D().getApplication()
-							.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-						ticksDelta *= lengthInScene / length;
-					}
+					ticksDelta = thicknessOld * lengthInScene / length;
 					ticksThickness = 4 * thicknessOld;
 					float ticksMinorThickness = 2.5f * thicknessOld;
 					boolean minor = false;
@@ -508,12 +471,7 @@ public class PlotterBrush implements PathPlotter {
 
 			textureTypeX = TEXTURE_ID;
 			setTextureX(0, 0);
-			if (manager.getView3D().getApplication()
-					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-				setThickness(factor * ARROW_WIDTH * length / lengthInScene);
-			} else {
-				setThickness(factor * ARROW_WIDTH);
-			}
+			setThickness(factor * ARROW_WIDTH * length / lengthInScene);
 			drawArrowBaseOuter(tmpCoords3);
 			setThickness(0);
 			moveTo(p2);
@@ -797,12 +755,7 @@ public class PlotterBrush implements PathPlotter {
 	}
 
 	private void addCurvePos(Coords coords) {
-		if (manager.getView3D().getApplication()
-				.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			addCurvePos(getNormInScreenCoords(coords));
-		} else {
-			addCurvePos((float) coords.norm());
-		}
+		addCurvePos(getNormInScreenCoords(coords));
 	}
 
 	private float getNormInScreenCoords(Coords coords) {
@@ -990,13 +943,7 @@ public class PlotterBrush implements PathPlotter {
 		this.lineThickness = thickness;
 		this.scale = scale;
 
-		float t;
-		if (manager.getView3D().getApplication()
-				.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			t = lineThickness * LINE3D_THICKNESS;
-		} else {
-			t = lineThickness * LINE3D_THICKNESS / scale;
-		}
+		float t = lineThickness * LINE3D_THICKNESS;
 		if (emphasize) {
 			t *= 1.01f;
 		}

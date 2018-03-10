@@ -3938,10 +3938,6 @@ public abstract class App implements UpdateSelection {
 		// *********************************************************
 		// **********************************************************************
 
-		/** MOB-637 */
-		case DIFFERENT_AXIS_RATIO_3D:
-			return true;
-
 		// MOB-270
 		case ACRA:
 			return prerelease;

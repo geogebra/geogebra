@@ -39,9 +39,6 @@ public enum Feature {
 
 	CONVEX_HULL_3D,
 
-	/** MOB-637 */
-	DIFFERENT_AXIS_RATIO_3D,
-
 	/** GGB-334, TRAC-3401 */
 	ADJUST_WIDGETS,
 

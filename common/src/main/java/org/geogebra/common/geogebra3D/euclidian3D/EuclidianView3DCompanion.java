@@ -14,7 +14,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
@@ -256,30 +255,21 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	protected void drawTranslateViewCursor(Renderer renderer1,
 			EuclidianCursor cursor, GeoPoint3D cursorOnXOYPlane,
 			CoordMatrix4x4 cursorMatrix) {
-
-		if (getView().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			switch (cursor) {
-			default:
-			case MOVE:
-				renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
-				getView().drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
-				renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
-				break;
-			case RESIZE_X:
-			case RESIZE_Y:
-			case RESIZE_Z:
-				renderer1.setMatrix(cursorMatrix);
-				getView().getRenderer()
-						.drawCursor(PlotterCursor.TYPE_ALREADY_Z);
-				renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
-				break;
-			}
-		} else {
+		switch (cursor) {
+		default:
+		case MOVE:
 			renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
 			getView().drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
 			renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+			break;
+		case RESIZE_X:
+		case RESIZE_Y:
+		case RESIZE_Z:
+			renderer1.setMatrix(cursorMatrix);
+			getView().getRenderer().drawCursor(PlotterCursor.TYPE_ALREADY_Z);
+			renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+			break;
 		}
-
 	}
 
 	public void updateStylusBeamForMovedGeo() {
