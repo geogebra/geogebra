@@ -31,7 +31,7 @@
 #if !defined(HAVE_NO_SYS_TIMES_H) && !defined(BESTA_OS) && !defined(__MINGW_H) && !defined(NSPIRE)
 #include <sys/times.h>
 #else
-#if defined VISUALC || defined BESTA_OS 
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
 typedef long pid_t;
 #else // VISUALC
 #if !defined(__MINGW_H) && !defined(NSPIRE) && !defined(__ANDROID__) && !defined(NSPIRE_NEWLIB) && !defined(OSX) && !defined(IOS) && !defined(OSXIOS) && !defined(FIR_LINUX)

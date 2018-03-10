@@ -2945,6 +2945,7 @@ namespace giac {
 	if (ckmatrix(q) && ckmatrix(r)){ 
 	  if (!is_zero(r[int(A.size())-1])){
 	    gen qt=_trn(q,contextptr);
+	    qt=vecteur(qt._VECTptr->begin(),qt._VECTptr->begin()+as);
 	    vecteur R(r._VECTptr->begin(),r._VECTptr->begin()+A.size());
 	    for (int i=0;i<bs;++i){
 	      gen Bi=B[i];

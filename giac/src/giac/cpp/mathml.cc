@@ -1479,16 +1479,16 @@ namespace giac {
     if (mysommet==at_member && myfeuille.type==_VECT && myfeuille._VECTptr->size()==2)
       return gen2mathml(myfeuille._VECTptr->front(),svg,contextptr)+"<mtext>∈</mtext>"+gen2mathml(myfeuille._VECTptr->back(),svg,contextptr);
     if (mysommet==at_vector){
-      string s="<mover><mi>";
+      string s="<mover><mrow accent=\"true\">";
       if (myfeuille.type!=_VECT)
-	s = s+myfeuille.print(contextptr);
+	s = s+gen2mathml(myfeuille,contextptr);
       else {
 	const_iterateur it=myfeuille._VECTptr->begin(),itend=myfeuille._VECTptr->end();
 	for (;it!=itend;++it){
-	  s = s + it->print(contextptr);
+	  s = s + gen2mathml(*it,contextptr);
 	}
       }
-      s = s+"</mi><mo mathsize=\"80%\">&rarr;</mo></mover>";
+      s = s+"</mrow><mo mathsize=\"100%\">&rarr;</mo></mover>";
       return s;
     }
     gen tmp,value;
