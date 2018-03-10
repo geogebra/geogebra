@@ -68,10 +68,14 @@ public final class DrawImage extends Drawable {
 	private double originalRatio = Double.NaN;
 	private boolean wasCroped = false;
 	private boolean debug1 = false;
-	/*
+	/**
 	 * ratio of the whole image and the crop box width
 	 */
 	private double imagecropRatioX;
+	/**
+	 * ratio of the whole image and the crop box width
+	 */
+	private double imagecropRatioY;
 	/**
 	 * the image should have at least 100px width
 	 */
@@ -690,6 +694,7 @@ public final class DrawImage extends Drawable {
 		// remember last crop box position
 		cropBox = rect;
 		imagecropRatioX = image.getWidth() / cropBox.getWidth();
+		imagecropRatioY = image.getHeight() / cropBox.getHeight();
 	}
 
 	private void updateImageResize(AbstractEvent event,
@@ -855,7 +860,7 @@ public final class DrawImage extends Drawable {
 			D.setX(A.getInhomX());
 			D.updateCoords();
 			D.updateRepaint();
-			geoImage.setCorner(D, 2);
+			setCorner(D, 2);
 			A.setY(view.toRealWorldCoordY(eventY));
 			A.updateCoords();
 			A.updateRepaint();
@@ -869,7 +874,7 @@ public final class DrawImage extends Drawable {
 		}
 
 		if (wasCroped) {
-			// the new screen positions and new width/height
+			// the new screen positions of crop box and the new width/height
 			double screenAX = view.toScreenCoordXd(A.getInhomX());
 			double screenAY = view.toScreenCoordYd(A.getInhomY());
 			double screenBX = view.toScreenCoordXd(B.getInhomX());
@@ -877,7 +882,7 @@ public final class DrawImage extends Drawable {
 			double screenCropWidth = screenBX - screenAX;
 			double screenCropHeight = screenAY - screenDY;
 
-			// update x coordinates of image corners
+			// change x coordinates of image corners
 			switch (handler) {
 			case TOP_RIGHT:
 			case RIGHT:
@@ -894,20 +899,51 @@ public final class DrawImage extends Drawable {
 				double newLeftSideImg = view.toRealWorldCoordX(newLeftSideImgScr);
 				double newRightSideImg = view.toRealWorldCoordX(newLeftSideImgScr + newImageWidth);
 				geoImage.getCorner(1).setX(newRightSideImg);
-				geoImage.getCorner(1).updateCoords();
-				geoImage.getCorner(1).updateRepaint();
 				geoImage.getCorner(0).setX(newLeftSideImg);
-				geoImage.getCorner(0).updateCoords();
-				geoImage.getCorner(0).updateRepaint();
 				if (geoImage.getCorner(2) != null) {
 					geoImage.getCorner(2).setX(newLeftSideImg);
-					geoImage.getCorner(2).updateCoords();
-					geoImage.getCorner(2).updateRepaint();
 				}
 				break;
 			default:
 				// do nothing
 				break;
+			}
+
+			// change y coordinates of image corners
+			switch (handler) {
+			case TOP_LEFT:
+			case TOP:
+			case TOP_RIGHT:
+			case BOTTOM_LEFT:
+			case BOTTOM:
+			case BOTTOM_RIGHT:
+				double curScaleY = screenCropHeight / cropBox.getHeight();
+				double imageScreenAy = view.toScreenCoordYd(geoImage.getCorner(0).getY());
+				double newImageHeight = screenCropHeight * this.imagecropRatioY;
+				double oldDistBottomSide = imageScreenAy - getCropBox().getMaxY();
+				double newDistBottomSide = oldDistBottomSide * curScaleY;
+				double newBottomSideImgScr = screenAY + newDistBottomSide;
+				double newBottomSideImg = view.toRealWorldCoordY(newBottomSideImgScr);
+				geoImage.getCorner(0).setY(newBottomSideImg);
+				geoImage.getCorner(1).setY(newBottomSideImg);
+				if (geoImage.getCorner(2) != null) {
+					double newTopSideImg = view.toRealWorldCoordY(newBottomSideImgScr - newImageHeight);
+					geoImage.getCorner(2).setY(newTopSideImg);
+				}
+				break;
+			default:
+				// do nothing
+				break;
+			}
+
+			// update geoImage cornerpoints
+			geoImage.getCorner(0).updateCoords();
+			geoImage.getCorner(0).updateRepaint();
+			geoImage.getCorner(1).updateCoords();
+			geoImage.getCorner(1).updateRepaint();
+			if (geoImage.getCorner(2) != null) {
+				geoImage.getCorner(2).updateCoords();
+				geoImage.getCorner(2).updateRepaint();
 			}
 
 			// update crop box
