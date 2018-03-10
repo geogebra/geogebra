@@ -826,10 +826,23 @@ namespace giac {
       vln.push_back(ln(ratnormal(rdiv(cst_i+g,cst_i-g),contextptr),contextptr));
       vatan[i]=-2*ga*cst_i;
     }
+#if 1
+    // extract cst part of exponentials
+    vecteur v1=lop(e,at_exp),v2=v1;
+    for (unsigned i=0;i<v1.size();++i){
+      gen tmp=v1[i]._SYMBptr->feuille;
+      vecteur tmpv=rlvarx(tmp,x);
+      vecteur tmpw(tmpv.size());
+      gen tmpcst=subst(tmp,tmpv,tmpw,false,contextptr);
+      v2[i]=exp(tmpcst,contextptr)*exp(ratnormal(tmp-tmpcst,contextptr),contextptr);
+    }
+    e=subst(e,v1,v2,false,contextptr);
+#else
     // texpand added for integrate(x *(x - (exp(x) - exp(-x)) / 2 / ((exp(1) - exp(-1)) / 2)));
     gen e2=_texpand(e,contextptr);
     if (rlvarx(e2,x).size()<rlvarx(e,x).size())
       e=e2;
+#endif
     if (!risch_tower(x,e,v,contextptr)){
       remains_to_integrate=e_orig;
       return zero;
