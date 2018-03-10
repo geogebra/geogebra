@@ -2,9 +2,10 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.plugin.script.Script;
 
 /**
  * Class for representing playable audio data.
@@ -12,8 +13,9 @@ import org.geogebra.common.plugin.GeoClass;
  * @author laszlo
  *
  */
-public class GeoAudio extends GeoElement {
-
+public class GeoAudio extends GeoButton {
+	/** URL of a test audio file */
+	public static final String TEST_URL = "http://archive.geogebra.org/static/welcome_to_geogebra.mp3";
 	private String dataUrl;
 
 	/**
@@ -33,15 +35,18 @@ public class GeoAudio extends GeoElement {
 	 *            the construction.
 	 * @param url
 	 *            the audio URL.
+	 * @param top
+	 *            top to add audio player associated with the geo.
+	 * @param left
+	 *            left to add audio player associated with the geo.
 	 */
-	public GeoAudio(Construction c, String url) {
+	public GeoAudio(Construction c, String url, int top, int left) {
 		super(c);
 		setDataUrl(url);
-	}
-
-	@Override
-	public ValueType getValueType() {
-		return ValueType.VOID;
+		this.labelOffsetX = top;
+		this.labelOffsetY = left;
+		addScript();
+		setLabel("audio");
 	}
 
 	@Override
@@ -65,16 +70,6 @@ public class GeoAudio extends GeoElement {
 	}
 
 	@Override
-	public boolean isDefined() {
-		return dataUrl != null;
-	}
-
-	@Override
-	public void setUndefined() {
-		dataUrl = null;
-	}
-
-	@Override
 	public String toValueString(StringTemplate tpl) {
 		return null;
 	}
@@ -82,24 +77,6 @@ public class GeoAudio extends GeoElement {
 	@Override
 	public boolean showInAlgebraView() {
 		return false;
-	}
-
-	@Override
-	protected boolean showInEuclidianView() {
-		return true;
-	}
-
-	@Override
-	public boolean isEqual(GeoElementND geo) {
-		if (!geo.isGeoAudio()) {
-			return false;
-		}
-		return dataUrl.equals(((GeoAudio) geo).getDataUrl());
-	}
-
-	@Override
-	public HitType getLastHitType() {
-		return HitType.ON_FILLING;
 	}
 
 	/**
@@ -120,9 +97,20 @@ public class GeoAudio extends GeoElement {
 		this.dataUrl = dataUrl;
 	}
 
+	private void addScript() {
+		String playText = "PlaySound[\"%0\"]";
+		Script playScript = getKernel().getApplication().createScript(ScriptType.GGBSCRIPT, playText, true);
+		setClickScript(playScript);
+	}
 	@Override
 	public boolean isGeoAudio() {
 		return true;
 	}
 
+	/**
+	 * Plays the audio.
+	 */
+	public void play() {
+		runClickScripts(dataUrl);
+	}
 }

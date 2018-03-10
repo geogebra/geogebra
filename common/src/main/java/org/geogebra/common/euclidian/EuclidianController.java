@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
+import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
@@ -81,6 +82,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.Furniture;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -905,12 +907,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					return;
 				}
 			}
+			if (newMode == EuclidianConstants.MODE_AUDIO) {
+				addAudio();
+				return;
+			}
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(Test.GEOIMAGE, tempArrayList),
 						false);
 				// initNewMode(newMode, false);
 				return;
 			}
+
 		}
 
 		endOfMode(mode);
@@ -3695,6 +3702,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	protected final void addAudio() {
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().addAudio();
+		}
+	}
+
 	protected final GeoElement[] mirrorAtPoint(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
@@ -5779,6 +5792,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					selectionPreview);
 			break;
 
+		case EuclidianConstants.MODE_AUDIO:
+			addAudio();
+			break;
 		// new image
 		case EuclidianConstants.MODE_IMAGE:
 			break;
@@ -9563,6 +9579,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
+
+		DrawAudio da = getAudioHit();
+
+		if (!event.isRightClick() && da != null) {
+			clearSelections();
+			app.getSelectionManager().addSelectedGeo(da.geo);
+			if (da.onMouseDown(event.getX(), event.getY())) {
+				return;
+			}
+		}
+
 		lastMousePressedTime = System.currentTimeMillis();
 
 		app.storeUndoInfoIfSetCoordSystemOccured();
@@ -10795,6 +10822,20 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return null;
 	}
 
+	protected DrawAudio getAudioHit() {
+		Hits hits = view.getHits();
+		if (hits != null && hits.size() > 0) {
+			GeoAudio audio;
+			for (GeoElement geo : hits.getTopHits()) {
+				if (geo instanceof GeoAudio) {
+					audio = (GeoAudio) geo;
+					return (DrawAudio) (view.getDrawable(audio));
+				}
+			}
+
+		}
+		return null;
+	}
 	public void endOfWrapMouseReleased(Hits hits, AbstractEvent event) {
 		boolean control = app.isControlDown(event);
 		boolean alt = event.isAltDown();

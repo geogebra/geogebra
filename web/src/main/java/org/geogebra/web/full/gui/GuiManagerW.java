@@ -26,6 +26,7 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -2590,6 +2591,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return getAlgebraInput().getTextField();
 		} 
 		return ml;
+	}
+
+	@Override
+	public void addAudio() {
+		GeoAudio audio = new GeoAudio(kernel.getConstruction(), GeoAudio.TEST_URL, 100, 50);
+		app.getActiveEuclidianView().add(audio);
+		Log.debug("test audio added");
+		app.getActiveEuclidianView().repaint();
 	}
 }
 

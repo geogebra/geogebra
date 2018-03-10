@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawBarGraph;
 import org.geogebra.common.euclidian.draw.DrawBoolean;
 import org.geogebra.common.euclidian.draw.DrawBoxPlot;
@@ -46,6 +47,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -322,6 +324,10 @@ public class EuclidianDraw {
 
 		case TURTLE:
 			d = new DrawTurtle(ev, (GeoTurtle) geo);
+			break;
+
+		case AUDIO:
+			d = new DrawAudio(ev, (GeoAudio) geo);
 			break;
 		}
 

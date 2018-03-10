@@ -357,4 +357,6 @@ public interface GuiManagerInterface {
 	public StepGuiBuilder getStepGuiBuilder();
 
 	public void openMenuInAVFor(GeoElement geo);
+
+	public void addAudio();
 }
