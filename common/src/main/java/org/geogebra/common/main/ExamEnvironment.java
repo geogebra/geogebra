@@ -128,6 +128,7 @@ public class ExamEnvironment {
 	}
 
 	protected void addCheatingWindowsLeft(long time) {
+		initLists();
 		cheatingTimes.add(time);
 		cheatingEvents.add(CheatingEvent.WINDOWS_LEFT);
 	}
@@ -662,6 +663,7 @@ public class ExamEnvironment {
 	 */
 	public void airplaneModeTurnedOff() {
 		if (getStart() > 0) {
+			initLists();
 			cheatingTimes.add(System.currentTimeMillis());
 			cheatingEvents.add(CheatingEvent.AIRPLANE_MODE_OFF);
 		}
@@ -672,6 +674,7 @@ public class ExamEnvironment {
 	 */
 	public void airplaneModeTurnedOn() {
 		if (getStart() > 0) {
+			initLists();
 			cheatingTimes.add(System.currentTimeMillis());
 			cheatingEvents.add(CheatingEvent.AIRPLANE_MODE_ON);
 		}
@@ -682,6 +685,7 @@ public class ExamEnvironment {
 	 */
 	public void wifiEnabled() {
 		if (getStart() > 0) {
+			initLists();
 			cheatingTimes.add(System.currentTimeMillis());
 			cheatingEvents.add(CheatingEvent.WIFI_ENABLED);
 		}
@@ -692,6 +696,7 @@ public class ExamEnvironment {
 	 */
 	public void wifiDisabled() {
 		if (getStart() > 0) {
+			initLists();
 			cheatingTimes.add(System.currentTimeMillis());
 			cheatingEvents.add(CheatingEvent.WIFI_DISABLED);
 		}
@@ -702,6 +707,7 @@ public class ExamEnvironment {
 	 */
 	public void bluetoothEnabled() {
 		if (getStart() > 0) {
+			initLists();
 			cheatingTimes.add(System.currentTimeMillis());
 			cheatingEvents.add(CheatingEvent.BLUETOOTH_ENABLED);
 		}
@@ -712,6 +718,7 @@ public class ExamEnvironment {
 	 */
 	public void bluetoothDisabled() {
 		if (getStart() > 0) {
+			initLists();
 			cheatingTimes.add(System.currentTimeMillis());
 			cheatingEvents.add(CheatingEvent.BLUETOOTH_DISABLED);
 		}
@@ -721,6 +728,7 @@ public class ExamEnvironment {
 	 * add cheating time
 	 */
 	protected void addCheatingTime() {
+		initLists();
 		cheatingTimes.add(System.currentTimeMillis());
 	}
 
