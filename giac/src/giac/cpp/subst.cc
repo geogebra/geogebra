@@ -1228,6 +1228,7 @@ namespace giac {
   }
   // if g is a symbolic depending linearly and rationnaly on a ln, 
   // factors out this term before taking the exp
+  // N.B. this should probably also extract constants otherwise tsimplify(exp(x+1)+exp(x-1)) is left as is
   static gen rewrite_strong_exp(const gen & g_orig,GIAC_CONTEXT){
     if (g_orig.type!=_SYMB)
       return exp(g_orig,contextptr);

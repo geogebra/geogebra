@@ -826,6 +826,10 @@ namespace giac {
       vln.push_back(ln(ratnormal(rdiv(cst_i+g,cst_i-g),contextptr),contextptr));
       vatan[i]=-2*ga*cst_i;
     }
+    // texpand added for integrate(x *(x - (exp(x) - exp(-x)) / 2 / ((exp(1) - exp(-1)) / 2)));
+    gen e2=_texpand(e,contextptr);
+    if (rlvarx(e2,x).size()<rlvarx(e,x).size())
+      e=e2;
     if (!risch_tower(x,e,v,contextptr)){
       remains_to_integrate=e_orig;
       return zero;
