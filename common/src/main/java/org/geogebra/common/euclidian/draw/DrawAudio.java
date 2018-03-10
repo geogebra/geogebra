@@ -5,11 +5,11 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable class for Audio elemens.
@@ -58,13 +58,13 @@ public class DrawAudio extends Drawable {
 		height = DEFAULT_PLAYER_HEIGHT;
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
 		playRect = AwtFactory.getPrototype().newRectangle(left + PLAY_MARGIN, top + PLAY_MARGIN, PLAY_SIZE, PLAY_SIZE);
-		Log.debug("TIME: " + geoAudio.getCurrentTime() + " / " + geoAudio.getDuration());
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
 		drawBox(g2);
 		drawPlay(g2, PLAY_SIZE, GColor.BLACK, false);
+		drawTime(g2);
 	}
 
 	private void drawPlay(GGraphics2D g2, int size, GColor bgColor, boolean pressed) {
@@ -79,6 +79,33 @@ public class DrawAudio extends Drawable {
 	private void drawBox(GGraphics2D g2) {
 		g2.setPaint(GColor.LIGHT_GRAY);
 		g2.fillRect(left - 1, top - 1, width, height);
+	}
+
+	private void drawTime(GGraphics2D g2) {
+		g2.setPaint(GColor.DARK_GRAY);
+		int x = left + PLAY_MARGIN + PLAY_SIZE + 2 * PLAY_MARGIN;
+		int y = top + DEFAULT_PLAYER_HEIGHT - PLAY_MARGIN;
+		int duration = geoAudio.getDuration();
+		int currTime = geoAudio.getCurrentTime();
+		
+		StringBuilder sb = new StringBuilder();
+		if (currTime != -1) {
+			sb.append(currTime);
+		} else {
+			sb.append("-:-");
+		}
+		sb.append(" / ");
+
+		if (duration != -1) {
+			sb.append(duration);
+		} else {
+			sb.append("-:-");
+		}
+		
+		
+		EuclidianStatic.drawIndexedString(view.getApplication(), g2, sb.toString(),
+				x, y, false, null, null);
+
 	}
 
 	@Override
