@@ -162,29 +162,9 @@ public final class DrawImage extends Drawable {
 		// RELATIVE SCREEN POSITION
 		else {
 			boolean center = geoImage.isCentered();
-
-			GeoPoint A, B, D;
-			if (wasCroped) {
-				double cropMinX = view.toRealWorldCoordX(getCropBox().getMinX());
-				double cropMaxX = view.toRealWorldCoordX(getCropBox().getMaxX());
-				double cropMinY = view.toRealWorldCoordY(getCropBox().getMaxY());
-				double cropMaxY = view.toRealWorldCoordY(getCropBox().getMinY());
-
-				debug("copMinX: " + cropMinX + ", cropMaxX: " + cropMaxX + ", cropMinY: " + cropMinY
-						+ ", cropMaxY: " + cropMaxY);
-
-				A = new GeoPoint(geo.getConstruction(), cropMinX, cropMinY, 1.0);
-				A.remove();
-				B = new GeoPoint(geo.getConstruction(), cropMaxX, cropMinY, 1.0);
-				B.remove();
-				D = new GeoPoint(geo.getConstruction(), cropMinX, cropMaxY, 1.0);
-				D.remove();
-			} else {
-				A = geoImage.getCorner(center ? 3 : 0);
-				B = center ? null : geoImage.getCorner(1);
-				D = center ? null : geoImage.getCorner(2);
-			}
-
+			GeoPoint A = geoImage.getCorner(center ? 3 : 0);
+			GeoPoint B = center ? null : geoImage.getCorner(1);
+			GeoPoint D = center ? null : geoImage.getCorner(2);
 			
 			debug("points in update: ");
 			debugPoints(A, B, D);    
@@ -383,14 +363,14 @@ public final class DrawImage extends Drawable {
 					g3.drawImage(image, 0, 0);
 				}
 				if (getBoundingBox().isCropBox() || wasCroped) {
+					GRectangle2D drawRectangle = wasCroped ? cropBox : getBoundingBox().getRectangle();
 					g3.setComposite(
 							AwtFactory.getPrototype().newAlphaComposite(1.0f));
 					GPoint2D ptScr = AwtFactory.getPrototype().newPoint2D(
-							getBoundingBox().getRectangle().getX(),
-							getBoundingBox().getRectangle().getY());
+							drawRectangle.getX(), drawRectangle.getY());
 					GPoint2D ptDst = AwtFactory.getPrototype().newPoint2D();
 					atInverse.transform(ptScr, ptDst);
-					GShape shape = atInverse.createTransformedShape(getBoundingBox().getRectangle());
+					GShape shape = atInverse.createTransformedShape(drawRectangle);
 					g3.drawImage(image,
 							(int) ptDst.getX(), (int) ptDst.getY(),
 							(int) shape.getBounds().getWidth(),
@@ -712,11 +692,12 @@ public final class DrawImage extends Drawable {
 		int eventX = event.getX();
 		int eventY = event.getY();
 		GeoPoint A, B, D;
+		double cropMinX, cropMaxX, cropMinY, cropMaxY;
 		if (this.wasCroped) {
-			double cropMinX = view.toRealWorldCoordX(getCropBox().getMinX());
-			double cropMaxX = view.toRealWorldCoordX(getCropBox().getMaxX());
-			double cropMinY = view.toRealWorldCoordY(getCropBox().getMaxY());
-			double cropMaxY = view.toRealWorldCoordY(getCropBox().getMinY());
+			cropMinX = view.toRealWorldCoordX(getCropBox().getMinX());
+			cropMaxX = view.toRealWorldCoordX(getCropBox().getMaxX());
+			cropMinY = view.toRealWorldCoordY(getCropBox().getMaxY());
+			cropMaxY = view.toRealWorldCoordY(getCropBox().getMinY());
 
 			A = new GeoPoint(geo.getConstruction(), cropMinX, cropMinY, 1.0);
 			A.remove();
@@ -764,7 +745,7 @@ public final class DrawImage extends Drawable {
 			D.setY(A.getInhomY() - newHeight);
 			D.updateCoords();
 			D.updateRepaint();
-			geoImage.setCorner(D, 2);
+			setCorner(D, 2);
 			break;
 		case TOP_LEFT:
 			if (view.toScreenCoordXd(B.getInhomX()) - eventX <= Math
@@ -780,7 +761,7 @@ public final class DrawImage extends Drawable {
 			D.setY(B.getInhomY() - newHeight);
 			D.updateCoords();
 			D.updateRepaint();
-			geoImage.setCorner(D, 2);
+			setCorner(D, 2);
 			break;
 
 		case BOTTOM_RIGHT:
@@ -791,7 +772,7 @@ public final class DrawImage extends Drawable {
 			D.setX(A.getInhomX());
 			D.updateCoords();
 			D.updateRepaint();
-			geoImage.setCorner(D, 2);
+			setCorner(D, 2);
 			B.setX(rwEventX);
 			newWidth = rwEventX - D.getInhomX();
 			newHeight = -originalRatio * newWidth;
@@ -819,7 +800,7 @@ public final class DrawImage extends Drawable {
 			D.setX(A.getInhomX());
 			D.updateCoords();
 			D.updateRepaint();
-			geoImage.setCorner(D, 2);
+			setCorner(D, 2);
 			break;
 		case RIGHT:
 			if (eventX - view.toScreenCoordXd(A.getInhomX()) <= Math
@@ -832,7 +813,7 @@ public final class DrawImage extends Drawable {
 			D.setX(A.getInhomX());
 			D.updateCoords();
 			D.updateRepaint();
-			geoImage.setCorner(D, 2);
+			setCorner(D, 2);
 			originalRatio = Double.NaN;
 			break;
 		case LEFT:
@@ -846,7 +827,7 @@ public final class DrawImage extends Drawable {
 			D.setX(A.getInhomX());
 			D.updateCoords();
 			D.updateRepaint();
-			geoImage.setCorner(D, 2);
+			setCorner(D, 2);
 			originalRatio = Double.NaN;
 			break;
 		case TOP:
@@ -858,7 +839,7 @@ public final class DrawImage extends Drawable {
 			D.setX(A.getInhomX());
 			D.updateCoords();
 			D.updateRepaint();
-			geoImage.setCorner(D, 2);
+			setCorner(D, 2);
 			originalRatio = Double.NaN;
 			break;
 		case BOTTOM:
@@ -889,8 +870,44 @@ public final class DrawImage extends Drawable {
 			double screenDY = view.toScreenCoordYd(D.getInhomY());
 			double screenWidth = screenBX - screenAX;
 			double screenHeight = screenAY - screenDY;
+
+			// update x coordinates of image corners
+			double curScaleX = screenWidth / cropBox.getWidth();
+			double imageScreenAx = view.toScreenCoordXd(geoImage.getCorner(0).getX());
+			double imageScreenBx = view.toScreenCoordXd(geoImage.getCorner(1).getX());
+			double oldImageWidth = imageScreenBx - imageScreenAx;
+			double newImageWidth = oldImageWidth * curScaleX;
+			switch (handler) {
+			case TOP_RIGHT:
+			case RIGHT:
+			case BOTTOM_RIGHT:
+				geoImage.getCorner(1).setX(view.toRealWorldCoordX(imageScreenAx + newImageWidth));
+				geoImage.getCorner(1).updateCoords();
+				geoImage.getCorner(1).updateRepaint();
+				break;
+			case TOP_LEFT:
+			case LEFT:
+			case BOTTOM_LEFT:
+				double newLeftSide = view.toRealWorldCoordX(imageScreenBx - newImageWidth);
+				geoImage.getCorner(0).setX(newLeftSide);
+				geoImage.getCorner(0).updateCoords();
+				geoImage.getCorner(0).updateRepaint();
+				geoImage.getCorner(2).setX(newLeftSide);
+				geoImage.getCorner(2).updateCoords();
+				geoImage.getCorner(2).updateRepaint();
+				break;
+			default:
+				// do nothing
+				break;
+			}
 			cropBox.setRect(screenAX, screenDY, screenWidth, screenHeight);
 		}
 
+	}
+
+	private void setCorner(GeoPoint point, int corner) {
+		if (!wasCroped) {
+			geoImage.setCorner(point, corner);
+		}
 	}
 }
