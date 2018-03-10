@@ -878,9 +878,6 @@ public final class DrawImage extends Drawable {
 			double screenCropHeight = screenAY - screenDY;
 
 			// update x coordinates of image corners
-			double curScaleX = screenCropWidth / cropBox.getWidth();
-			double imageScreenAx = view.toScreenCoordXd(geoImage.getCorner(0).getX());
-			double newImageWidth = screenCropWidth * this.imagecropRatioX;
 			switch (handler) {
 			case TOP_RIGHT:
 			case RIGHT:
@@ -888,6 +885,9 @@ public final class DrawImage extends Drawable {
 			case TOP_LEFT:
 			case LEFT:
 			case BOTTOM_LEFT:
+				double curScaleX = screenCropWidth / cropBox.getWidth();
+				double imageScreenAx = view.toScreenCoordXd(geoImage.getCorner(0).getX());
+				double newImageWidth = screenCropWidth * this.imagecropRatioX;
 				double oldDistLeftSide = getCropBox().getMinX() - imageScreenAx;
 				double newDistLeftSide = oldDistLeftSide * curScaleX;
 				double newLeftSideImgScr = screenAX - newDistLeftSide;
