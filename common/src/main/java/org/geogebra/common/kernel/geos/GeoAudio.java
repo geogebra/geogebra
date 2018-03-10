@@ -121,4 +121,8 @@ public class GeoAudio extends GeoButton {
 	public int getDuration() {
 		return app.getSoundManager().getDuration(dataUrl);
 	}
+
+	public int getCurrentTime() {
+		return app.getSoundManager().getCurrentTime(dataUrl);
+	}
 }

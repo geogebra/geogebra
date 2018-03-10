@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable class for Audio elemens.
@@ -57,6 +58,7 @@ public class DrawAudio extends Drawable {
 		height = DEFAULT_PLAYER_HEIGHT;
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
 		playRect = AwtFactory.getPrototype().newRectangle(left + PLAY_MARGIN, top + PLAY_MARGIN, PLAY_SIZE, PLAY_SIZE);
+		Log.debug("TIME: " + geoAudio.getCurrentTime() + " / " + geoAudio.getDuration());
 	}
 
 	@Override

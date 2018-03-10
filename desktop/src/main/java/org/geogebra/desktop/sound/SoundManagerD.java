@@ -304,4 +304,10 @@ public class SoundManagerD implements SoundManager {
 		return 0;
 	}
 
+	@Override
+	public int getCurrentTime(String url) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

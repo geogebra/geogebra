@@ -26,4 +26,6 @@ public interface SoundManager {
 	void loadGeoAudio(GeoAudio geo);
 
 	int getDuration(String url);
+
+	int getCurrentTime(String url);
 }

@@ -132,6 +132,10 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 													return audio.duration;
 													}-*/;
 
+	private native int getCurrentTime(Element audio) /*-{
+														return audio.currentTime;
+														}-*/;
+
 	/**
 	 * @param url
 	 *            eg
@@ -161,6 +165,14 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 											function() {
 											that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
 											});
+											
+											audioElement
+											.addEventListener(
+											"timeupdate",
+											function() {
+											that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
+											});
+											
 											}-*/;
 
 	@Override
@@ -192,6 +204,15 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		final Element audio = urlToAudio.get(url);
 		if (audio != null) {
 			return getDuration(audio);
+		}
+		return -1;
+	}
+
+	@Override
+	public int getCurrentTime(String url) {
+		final Element audio = urlToAudio.get(url);
+		if (audio != null) {
+			return getCurrentTime(audio);
 		}
 		return -1;
 	}
