@@ -228,13 +228,14 @@ public class ScreenshotManager : MonoBehaviour {
     {
         photoPreviewMain.GetComponent<Renderer>().material.mainTexture = selected.GetComponent<Renderer>().material.mainTexture;
     }
-
+    #if UNITY_EDITOR
     public string GetGalleryFolderPath()
     {
         string picturePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
         Debug.Log(picturePath);
         return picturePath;
     }
+    #endif
 
     IEnumerator MakingPhoto()
     {
