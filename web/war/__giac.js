@@ -2169,9 +2169,13 @@ var __giac = [ {},
 { cat:"Line", cmd:"Line((1,2), Vector(3,4))", result:"y = 4 / 3 x + 2 / 3"},
 { cat:"Line", cmd:"Line((a,b), Vector(c,d))", result:"y = (-a d + b c) / c + d x / c"},
 { cat:"Midpoint", cmd:"Midpoint(Segment((a,b), (c,d)))", result:"?", notes:"not supported in CAS"},
+{ cat:"Line", cmd:"PerpendicularLine((a,b), y=m x + c)", result:"y = (-1) / m x + (a + b m) / m" },
+{ cat:"Line", cmd:"PerpendicularLine((d,e), a x + b y = c)", result:"y = b / a x + (a e - b d) / a" },
+{ cat:"Line", cmd:"PerpendicularLine((2,3), y=5x+7)", result:"y = (-1) / 5 x + 17 / 5"},
+{ cat:"Line", cmd:"PerpendicularLine((1,2), Vector(3,4))", result:"y = (-3) / 4 x + 11 / 4" },
+{ cat:"Line", cmd:"PerpendicularLine((a,b), Vector(c,d))", result:"y = (-c) / d x + (a c + b d) / d"},
+{ cat:"Integral", cmd:"Integral(x (x - (exp(x) - exp(-x)) / 2 / ((exp(1) - exp(-1)) / 2)))", result:"(-3x \u212F - x\u00B3 \u212F^x + 3\u212F (\u212F^x)\u00B2 - 3x \u212F (\u212F^x)\u00B2 + x\u00B3 \u212F\u00B2 \u212F^x - 3\u212F) / (3\u212F\u00B2 \u212F^x - 3\u212F^x) + c_0" }
 //JSONEND
-//{ cat:"Line", cmd:"PerpendicularLine((1,2), Vector(3,4))", result:"" },
-//{ cat:"Line", cmd:"PerpendicularLine((a,b), Vector(c,d))", result:""},
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
 //{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"" },
 //{ cat:"CountIf", cmd:"CountIf(x(A) < 3, A, {(0, 1), (4, 2), (2, 2)})", result:"2" },
