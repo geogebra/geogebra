@@ -68,6 +68,10 @@ public final class DrawImage extends Drawable {
 	private double originalRatio = Double.NaN;
 	private boolean wasCroped = false;
 	private boolean debug1 = false;
+	/*
+	 * ratio of the whole image and the crop box width
+	 */
+	private double imagecropRatioX;
 	/**
 	 * the image should have at least 100px width
 	 */
@@ -685,6 +689,7 @@ public final class DrawImage extends Drawable {
 		boundingBox.setRectangle(rect);
 		// remember last crop box position
 		cropBox = rect;
+		imagecropRatioX = image.getWidth() / cropBox.getWidth();
 	}
 
 	private void updateImageResize(AbstractEvent event,
@@ -868,15 +873,13 @@ public final class DrawImage extends Drawable {
 			double screenAY = view.toScreenCoordYd(A.getInhomY());
 			double screenBX = view.toScreenCoordXd(B.getInhomX());
 			double screenDY = view.toScreenCoordYd(D.getInhomY());
-			double screenWidth = screenBX - screenAX;
-			double screenHeight = screenAY - screenDY;
+			double screenCropWidth = screenBX - screenAX;
+			double screenCropHeight = screenAY - screenDY;
 
 			// update x coordinates of image corners
-			double curScaleX = screenWidth / cropBox.getWidth();
 			double imageScreenAx = view.toScreenCoordXd(geoImage.getCorner(0).getX());
 			double imageScreenBx = view.toScreenCoordXd(geoImage.getCorner(1).getX());
-			double oldImageWidth = imageScreenBx - imageScreenAx;
-			double newImageWidth = oldImageWidth * curScaleX;
+			double newImageWidth = screenCropWidth * this.imagecropRatioX;
 			switch (handler) {
 			case TOP_RIGHT:
 			case RIGHT:
@@ -900,7 +903,7 @@ public final class DrawImage extends Drawable {
 				// do nothing
 				break;
 			}
-			cropBox.setRect(screenAX, screenDY, screenWidth, screenHeight);
+			cropBox.setRect(screenAX, screenDY, screenCropWidth, screenCropHeight);
 		}
 
 	}
