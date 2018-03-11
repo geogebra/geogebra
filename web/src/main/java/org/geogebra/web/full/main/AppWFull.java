@@ -1349,7 +1349,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		frame.setApplication(this);
 		if (!isUsingFullGui()) {
-			Log.printStacktrace("");
 			buildSingleApplicationPanel();
 			Perspective current = getTmpPerspective(null);
 			if (current != null && current.getToolbarDefinition() != null) {
