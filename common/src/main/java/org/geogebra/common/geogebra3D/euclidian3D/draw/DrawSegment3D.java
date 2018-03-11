@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing segments
@@ -206,7 +205,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	@Override
 	public boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) && !createdByDrawList();
+		return !createdByDrawList();
 	}
 
 }

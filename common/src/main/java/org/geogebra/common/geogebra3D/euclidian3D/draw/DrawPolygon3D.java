@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -793,7 +792,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) && !createdByDrawList();
+		return !createdByDrawList();
 	}
 
 }

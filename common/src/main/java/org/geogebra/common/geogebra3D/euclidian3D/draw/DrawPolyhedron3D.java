@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing 3D polygons.
@@ -596,7 +595,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	@Override
 	public boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) && !createdByDrawList();
+		return !createdByDrawList();
 	}
 
 	@Override

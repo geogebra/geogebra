@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
-import org.geogebra.common.main.Feature;
 
 /**
  * Renderer in the background (no visible 3D view)
@@ -30,10 +29,7 @@ public class RendererForExport extends RendererWithImpl {
 
 	@Override
 	public Manager createManager() {
-		if (view3D.getApplication().has(Feature.MOB_PACK_BUFFERS_3D)) {
-			return new ManagerShadersElementsGlobalBufferPacking(this, view3D);
-		}
-		return new ManagerShadersElementsGlobalBuffer(this, view3D);
+		return new ManagerShadersElementsGlobalBufferPacking(this, view3D);
 	}
 
 	@Override

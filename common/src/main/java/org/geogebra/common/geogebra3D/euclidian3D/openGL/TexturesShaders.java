@@ -1,7 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
-import org.geogebra.common.main.Feature;
-
 /**
  * Extends Textures and disable some unused code
  * 
@@ -48,18 +46,15 @@ public class TexturesShaders extends Textures {
 	@Override
 	public void init() {
 		renderer.createDummyTexture();
-
-		if (renderer.getView().getApplication().has(Feature.MOB_PACK_BUFFERS_3D)) {
-			// packed dashing
-			int length = DESCRIPTIONS_LENGTH * DESCRIPTIONS_LENGTH;
-			byte[] bytes = new byte[length];
-			for (int i = 0; i < DASH_DESCRIPTIONS.length; i++) {
-				if (DASH_DESCRIPTIONS[i]) {
-					bytes[i] = (byte) 255;
-				}
+		// packed dashing
+		int length = DESCRIPTIONS_LENGTH * DESCRIPTIONS_LENGTH;
+		byte[] bytes = new byte[length];
+		for (int i = 0; i < DASH_DESCRIPTIONS.length; i++) {
+			if (DASH_DESCRIPTIONS[i]) {
+				bytes[i] = (byte) 255;
 			}
-			packedDashIndex = renderer.createAlphaTexture(DESCRIPTIONS_LENGTH, DESCRIPTIONS_LENGTH, bytes);
 		}
+		packedDashIndex = renderer.createAlphaTexture(DESCRIPTIONS_LENGTH, DESCRIPTIONS_LENGTH, bytes);
 	}
 
 	/**

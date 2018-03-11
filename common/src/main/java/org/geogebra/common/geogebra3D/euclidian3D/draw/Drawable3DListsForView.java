@@ -4,7 +4,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.Feature;
 
 /**
  * list of drawables stored by the view (will also draw the view axes, plane,
@@ -33,14 +32,8 @@ public class Drawable3DListsForView extends Drawable3DLists {
 
 		// TODO fix it
 		if (drawable != null) {
-			if (view3D.getApplication().has(Feature.MOB_PACK_BUFFERS_3D)) {
-				if (drawable.getGeoElement() != null) {
-					if (drawable.shouldBePacked() || drawable.getGeoElement().isPickable()) {
-						drawable.removeFromGL();
-					}
-				}
-			} else {
-				if (drawable.getGeoElement() != null && drawable.getGeoElement().isPickable()) {
+			if (drawable.getGeoElement() != null) {
+				if (drawable.shouldBePacked() || drawable.getGeoElement().isPickable()) {
 					drawable.removeFromGL();
 				}
 			}

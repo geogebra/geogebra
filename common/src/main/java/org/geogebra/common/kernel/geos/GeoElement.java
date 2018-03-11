@@ -6624,13 +6624,9 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	public void setSelected(final boolean flag) {
-		if (kernel.getApplication().has(Feature.MOB_PACK_BUFFERS_3D)) {
-			if (flag != selected) {
-				selected = flag;
-				kernel.notifyUpdateHightlight(this);
-			}
-		} else {
+		if (flag != selected) {
 			selected = flag;
+			kernel.notifyUpdateHightlight(this);
 		}
 	}
 
@@ -6640,13 +6636,9 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	final public void setHighlighted(final boolean flag) {
-		if (kernel.getApplication().has(Feature.MOB_PACK_BUFFERS_3D)) {
-			if (flag != highlighted) {
-				highlighted = flag;
-				kernel.notifyUpdateHightlight(this);
-			}
-		} else {
+		if (flag != highlighted) {
 			highlighted = flag;
+			kernel.notifyUpdateHightlight(this);
 		}
 	}
 
