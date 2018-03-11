@@ -129,12 +129,12 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	}-*/;	
 
 	private native int getDuration(Element audio) /*-{
-													return audio.duration;
-													}-*/;
+		return audio.duration;
+	}-*/;
 
 	private native int getCurrentTime(Element audio) /*-{
-														return audio.currentTime;
-														}-*/;
+		return audio.currentTime;
+	}-*/;
 
 	/**
 	 * @param url
@@ -155,25 +155,25 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	}-*/;
 
 	native void loadGeoAudio(String url) /*-{
-											var audioElement = $doc.createElement('audio');
-											var that = this;
-											audioElement.setAttribute('src', url);
-											audioElement.load();
-											audioElement
-											.addEventListener(
-											"canplay",
-											function() {
-											that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
-											});
-											
-											audioElement
-											.addEventListener(
-											"timeupdate",
-											function() {
-											that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
-											});
-											
-											}-*/;
+		var audioElement = $doc.createElement('audio');
+		var that = this;
+		audioElement.setAttribute('src', url);
+		audioElement.load();
+		audioElement
+				.addEventListener(
+						"canplay",
+						function() {
+							that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
+						});
+
+		audioElement
+				.addEventListener(
+						"timeupdate",
+						function() {
+							that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
+						});
+
+	}-*/;
 
 	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max,
@@ -194,6 +194,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 				app);
 	}
 
+	@Override
 	public void loadGeoAudio(GeoAudio geo) {
 		urlToGeoAudio.put(geo.getDataUrl(), geo);
 		loadGeoAudio(geo.getDataUrl());

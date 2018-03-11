@@ -173,7 +173,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	static boolean checkGeoText(Object[] geos) {
 		boolean geosOK = (geos.length > 0);
 		for (int i = 0; i < geos.length; i++) {
-			if (!(((GeoElement) geos[i]).getGeoElementForPropertiesDialog() instanceof GeoCasCell)) {
+			if (!(((GeoElement) geos[i])
+					.getGeoElementForPropertiesDialog() instanceof GeoCasCell)) {
 				geosOK = false;
 				break;
 			} else if (!((GeoCasCell) geos[i]).isUseAsText()) {

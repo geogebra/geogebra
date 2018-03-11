@@ -83,7 +83,6 @@ public class DrawablesTest {
 		case IMPLICIT_SURFACE_3D:
 		case AXIS:
 		case AXIS3D:
-		case AUDIO:
 			return true;
 		}
 		return false;

@@ -326,5 +326,4 @@ public class LoadFilePresenter {
 		Scheduler.get().scheduleDeferred(deferredOnRes);
 	}
 
-
 }

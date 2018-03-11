@@ -298,27 +298,29 @@ public class FileManagerT extends FileManager {
 			public void onSuccess(final DirectoryEntry ggbDir) {
 				final DirectoryReader directoryReader = ggbDir.createReader();
 				directoryReader
-				        .readEntries(new FileCallback<LightArray<EntryBase>, FileError>() {
+						.readEntries(
+								new FileCallback<LightArray<EntryBase>, FileError>() {
 
-					        @Override
-					        public void onSuccess(
-					                final LightArray<EntryBase> entries) {
-						        for (int i = 0; i < entries.length(); i++) {
-							        final EntryBase entryBase = entries.get(i);
-							        if (entryBase.isFile()) {
+									@Override
+									public void onSuccess(
+											final LightArray<EntryBase> entries) {
+										for (int i = 0; i < entries
+												.length(); i++) {
+											final EntryBase entryBase = entries
+													.get(i);
+											if (entryBase.isFile()) {
 												processFile(entryBase, filter);
 											}
 										}
 									}
 
-
-
 									@Override
-					        public void onFailure(final FileError error) {
+									public void onFailure(
+											final FileError error) {
 										Log.debug(
 												"Could not read the file entries");
-					        }
-				        });
+									}
+								});
 			}
 
 			@Override
@@ -419,8 +421,8 @@ public class FileManagerT extends FileManager {
 						Log.debug("Could not read meta data ");
 						}
 				});
-
 	}
+
 	/**
 	 * Deletes the old metaData and creates a new one
 	 * 
@@ -430,8 +432,8 @@ public class FileManagerT extends FileManager {
 	 *            String
 	 * @param mat
 	 *            {@link Material}
-	 * @param timestamp
-	 *            tube timestamp of the change
+	 * @param callback
+	 *            run after rename
 	 */
 	void renameMetaData(final String oldKey, final String newKey,
 	        final Material mat, final Runnable callback) {
@@ -793,8 +795,8 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-	public void saveLoggedOut(App app) {
-		((DialogManagerW) app.getDialogManager()).showSaveDialog();
+	public void saveLoggedOut(App app1) {
+		((DialogManagerW) app1.getDialogManager()).showSaveDialog();
 	}
 
 	@Override
@@ -1066,13 +1068,12 @@ public class FileManagerT extends FileManager {
 	}
 	
 	@Override
-	public void export(final App app) {
-		((AppW) app).getGgbApi().getBase64(true, new StringHandler() {
+	public void export(final App app1) {
+		((AppW) app1).getGgbApi().getBase64(true, new StringHandler() {
 
 			@Override
 			public void handle(String s) {
-
-				nativeShare(s, app.getExportTitle());
+				nativeShare(s, app1.getExportTitle());
 			}
 		});
 	}
