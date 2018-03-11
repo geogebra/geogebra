@@ -127,8 +127,9 @@ public class AlgoTranslate extends AlgoTransformation
 			return;
 		}
 
-		if (!v.isDefined()) {
-			out.setUndefined();
+		// out might be null if out is not Translateable
+		if (!v.isDefined() || out == null) {
+			outGeo.setUndefined();
 			return;
 		}
 
