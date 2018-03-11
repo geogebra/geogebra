@@ -419,10 +419,10 @@ public class GGWToolBar extends Composite
 				if (targ.nodeType == 3) { // defeat Safari bug
 					targ = targ.parentNode;
 				}
-				console.log("Checking cheating: Type = " + e.type
-						+ ", Target = " + targ + ", " + targ.id
-						+ " CurrentTarget = " + e.currentTarget + ", "
-						+ e.currentTarget.id);
+				//console.log("Checking cheating: Type = " + e.type
+				//		+ ", Target = " + targ + ", " + targ.id
+				//		+ " CurrentTarget = " + e.currentTarget + ", "
+				//		+ e.currentTarget.id);
 				// The focusout event should not be caught:
 				if (e.type == "blur") { //&& fullscreen == true
 					//$wnd.console.log("5");
