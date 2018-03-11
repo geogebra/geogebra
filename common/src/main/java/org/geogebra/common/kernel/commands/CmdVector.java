@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
@@ -88,6 +87,6 @@ public class CmdVector extends CommandProcessor {
 	 * @return vector (p0,p1)
 	 */
 	protected GeoElement vector(String label, GeoPointND p0, GeoPointND p1) {
-		return getAlgoDispatcher().Vector(label, (GeoPoint) p0, (GeoPoint) p1);
+		return getAlgoDispatcher().vectorND(label, p0, p1);
 	}
 }

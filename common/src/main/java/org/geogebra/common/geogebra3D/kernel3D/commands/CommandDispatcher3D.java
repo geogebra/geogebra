@@ -44,8 +44,6 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdLine3D(kernel);
 			case Ray:
 				return new CmdRay3D(kernel);
-			case Vector:
-				return new CmdVector3D(kernel);
 			case Polygon:
 				return new CmdPolygon3D(kernel);
 			case Area:

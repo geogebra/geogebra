@@ -295,7 +295,14 @@ public class AlgoDispatcher {
 	protected GeoVectorND createVector(String label, GeoPointND P) {
 		AlgoVectorPoint algo = new AlgoVectorPoint(cons, label, P);
 		return algo.getVector();
+	}
 
+	public GeoElement vectorND(String label, GeoPointND p0, GeoPointND p1) {
+		if (p0.isGeoElement3D() || p1.isGeoElement3D()) {
+			return cons.getKernel().getManager3D().Vector3D(label, p0, p1);
+		}
+
+		return Vector(label, (GeoPoint) p0, (GeoPoint) p1);
 	}
 
 	/**

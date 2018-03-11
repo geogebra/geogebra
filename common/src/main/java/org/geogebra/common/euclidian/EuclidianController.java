@@ -106,7 +106,6 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -2233,10 +2232,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected GeoElement vector(GeoPointND a, GeoPointND b) {
 		checkZooming();
 
-		if (a.isGeoElement3D() || b.isGeoElement3D()) {
-			return kernel.getManager3D().Vector3D(null, a, b);
-		}
-		return getAlgoDispatcher().Vector(null, (GeoPoint) a, (GeoPoint) b);
+		return getAlgoDispatcher().vectorND(null, a, b);
 	}
 
 	protected final GeoElement[] ray(Hits hits, boolean selPreview) {
@@ -9107,11 +9103,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			movedGeoPoint = new GeoPoint(kernel.getConstruction(), null, 0, 0,
 					0);
-			AlgoTranslate algoTP = new AlgoTranslate(kernel.getConstruction(),
-					null, (GeoElement) movedGeoPoint, (GeoVec3D) topHit);
-			GeoPoint p = (GeoPoint) algoTP.getGeoElements()[0];
 
-			AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(),
+			GeoPointND p = (GeoPointND) getAlgoDispatcher().TranslateND(null,
+					(GeoElement) movedGeoPoint, (GeoVectorND) topHit)[0];
+
+			GeoElement newVecGeo = getAlgoDispatcher().vectorND(null,
 					movedGeoPoint, p);
 
 			// make sure vector looks the same when translated
@@ -9119,9 +9115,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			movedGeoPoint.update();
 			p.setEuclidianVisible(false);
 			p.update();
-			newVecAlgo.getGeoElements()[0]
+			newVecGeo
 					.setVisualStyleForTransformations(topHit);
-			newVecAlgo.getGeoElements()[0].setLabel(null);
+			newVecGeo.setLabel(null);
 			moveMode = MOVE_POINT;
 		}
 

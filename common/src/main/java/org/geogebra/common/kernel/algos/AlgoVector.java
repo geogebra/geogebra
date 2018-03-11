@@ -99,7 +99,6 @@ public class AlgoVector extends AlgoElement
 	 * @return new vector (overriden in 3D)
 	 */
 	protected GeoVectorND createNewVector() {
-
 		return new GeoVector(cons);
 	}
 
@@ -158,7 +157,6 @@ public class AlgoVector extends AlgoElement
 	@Override
 	public final void compute() {
 		if (P.isFinite() && Q.isFinite()) {
-
 			setCoords();
 
 			// update position of unlabeled startpoint

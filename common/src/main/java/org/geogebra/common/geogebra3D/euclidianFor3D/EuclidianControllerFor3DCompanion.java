@@ -221,6 +221,8 @@ public class EuclidianControllerFor3DCompanion
 	 *            first geo
 	 * @param b
 	 *            second geo
+	 * @param coords2D
+	 *            closest coords
 	 * @return single intersection point
 	 */
 	public GeoPointND getSingleIntersectionPointFrom2D(GeoElement a,
