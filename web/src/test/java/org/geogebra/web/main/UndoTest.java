@@ -121,35 +121,102 @@ public class UndoTest {
 		addObject("-2x");
 		app.getPageController().saveSelected();
 		shouldHaveUndoPoints(5);
-		shouldHaveSlides(2);
-		slideShouldHaveObjects(0, 2);
-		slideShouldHaveObjects(1, 2);
+		objectsPerSlideShouldBe(2, 2);
 
 		app.getGgbApi().undo();
-		slideShouldHaveObjects(0, 2);
-		slideShouldHaveObjects(1, 1);
+		objectsPerSlideShouldBe(2, 1);
 
 		app.getGgbApi().undo();
-		slideShouldHaveObjects(0, 1);
-		slideShouldHaveObjects(1, 1);
+		objectsPerSlideShouldBe(1, 1);
 
 		app.getGgbApi().undo();
-		slideShouldHaveObjects(0, 1);
-		slideShouldHaveObjects(1, 0);
+		objectsPerSlideShouldBe(1, 0);
 
 		app.getGgbApi().undo();
-		shouldHaveSlides(1);
-		slideShouldHaveObjects(0, 1);
+		objectsPerSlideShouldBe(1);
 
 		app.getGgbApi().undo();
-		shouldHaveSlides(1);
-		slideShouldHaveObjects(0, 0);
+		objectsPerSlideShouldBe(0);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(1);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(1, 0);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(1, 1);
+	}
+
+	@Test
+	public void switchFourSlides() {
+		app = MockApp
+				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+		addObject("x");
+
+		app.getAppletFrame().initPageControlPanel(app);
+		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		addObject("2x");
+
+		app.getAppletFrame().initPageControlPanel(app);
+		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		addObject("3x");
+
+		app.getAppletFrame().initPageControlPanel(app);
+		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		addObject("4x");
+
+		shouldHaveUndoPoints(7);
+		objectsPerSlideShouldBe(1, 1, 1, 1);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1, 1, 1, 0);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1, 1, 1);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1, 1, 0);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1, 1);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1, 0);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(1, 0);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(1, 1);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(1, 1, 0);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(1, 1, 1);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(1, 1, 1, 0);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(1, 1, 1, 1);
 	}
 
 	private void addObject(String string) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
 				true);
 
+	}
+
+	private void objectsPerSlideShouldBe(int... counts) {
+		shouldHaveSlides(counts.length);
+		for (int i = 0; i < counts.length; i++) {
+			slideShouldHaveObjects(i, counts[i]);
+		}
 	}
 
 	private void slideShouldHaveObjects(int slide, int expectedCount) {

@@ -583,7 +583,6 @@ public class PageListController implements PageListControllerInterface,
 	@Override
 	public void saveSelected() {
 		this.savePreviewCard(selectedCard);
-		System.out.println(selectedCard.getPageIndex());
 	}
 
 	@Override

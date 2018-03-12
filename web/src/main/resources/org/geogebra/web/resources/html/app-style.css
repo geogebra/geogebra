@@ -388,6 +388,24 @@
 	overflow: hidden !important;
 }
 
+.GeoGebraFrame .mowToolbar .middle .indicator {
+    width: 36px;
+    height: 3px;
+    background-color: white;
+    vertical-align: bottom;
+    position: relative;
+    bottom: 10px;
+    display: inline-table !important;
+    top: 40px;
+    transition: all 0.3s ease;
+    left: 50%;
+    opacity: 0.85;
+}
+
+.GeoGebraFrame .mowToolbar .middle.indicatorLeft .indicator {
+    transform: translate(calc(50% - 66px), 0);
+}
+
 .toolPane{
 	right: 0px;
 	bottom: 0px;

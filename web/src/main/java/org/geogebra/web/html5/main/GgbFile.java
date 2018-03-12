@@ -22,7 +22,6 @@ public class GgbFile extends HashMap<String, String> {
 	public GgbFile() {
 		this.id = SLIDE_PREFIX + counter;
 		incCounter();
-		System.err.println(id);
 	}
 
 	public GgbFile(String id) {
