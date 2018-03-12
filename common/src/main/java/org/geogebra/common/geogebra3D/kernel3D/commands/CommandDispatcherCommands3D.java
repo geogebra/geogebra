@@ -15,7 +15,7 @@ public class CommandDispatcherCommands3D implements CommandDispatcherInterface {
 	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 
-		if (!kernel.getApplication().getCommands3DEnabled()) {
+		if (!kernel.getApplication().areCommands3DEnabled()) {
 			return null;
 		}
 

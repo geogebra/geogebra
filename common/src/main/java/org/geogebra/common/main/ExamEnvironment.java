@@ -510,20 +510,20 @@ public class ExamEnvironment {
 	protected void applyCalculatorType() {
 		// setup CAS/3D on/off
 		wasCasEnabled = app.getSettings().getCasSettings().isEnabled();
-		wasCommands3DEnabled = app.getCommands3DEnabled();
+		wasCommands3DEnabled = app.areCommands3DEnabled();
 		if (app.has(Feature.MOB_DISABLE_3D_COMMANDS)) {
 			switch (calculatorType) {
 				case GRAPHING:
-					app.enable(false, false);
+					app.enableCAS3D(false, false);
 					break;
 				case SYMBOLIC:
-					app.enable(true, false);
+					app.enableCAS3D(true, false);
 					break;
 				case GRAPHING_3D:
-					app.enable(false, true);
+					app.enableCAS3D(false, true);
 					break;
 				case SYMBOLIC_3D:
-					app.enable(true, true);
+					app.enableCAS3D(true, true);
 					break;
 				default:
 					break;
@@ -548,7 +548,7 @@ public class ExamEnvironment {
 	 */
 	public void closeExam() {
 		if (app.has(Feature.MOB_DISABLE_3D_COMMANDS)) {
-			app.enable(wasCasEnabled, wasCommands3DEnabled);
+			app.enableCAS3D(wasCasEnabled, wasCommands3DEnabled);
 		} else {
 			app.enableCAS(wasCasEnabled);
 		}
