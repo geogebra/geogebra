@@ -1456,6 +1456,7 @@ public class CommandsTest extends Assert{
 
 	private static void prob(String cmd, String params, String pdf, String cdf,
 			int skip) {
+		app.getKernel().getConstruction().setFileLoading(false);
 		t("cdf1=" + cmd + "(" + params + ",x)", unicode(cdf),
 				StringTemplate.editTemplate);
 		app.getKernel().getConstruction().setFileLoading(true);
@@ -1539,7 +1540,7 @@ public class CommandsTest extends Assert{
 	@Test
 	public void cmdTriangular() {
 		prob("Triangular", "1,3,2",
-				"If(x < 1, 0, If(x < 2, ((x - 1) (2)) / ((2 - 1) (3 - 1)), If(x < 3, ((x - 3) (2)) / ((2 - 3) (3 - 1)), 0)))",
+				"If(x < 1, 0, If(x < 2, (2 (x - 1)) / ((2 - 1) (3 - 1)), If(x < 3, (2 (x - 3)) / ((2 - 3) (3 - 1)), 0)))",
 				"If(x < 1, 0, If(x < 2, (x - 1)^2 / ((2 - 1) (3 - 1)), If(x < 3, (x - 3)^2 / ((2 - 3) (3 - 1)) + 1, 1)))");
 	}
 
