@@ -2195,8 +2195,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void updateMatrixForCursor3D() {
 		double t;
-
-		Coords v;
 		if (getEuclidianController()
 				.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
 
