@@ -3669,7 +3669,7 @@ public class ExpressionNode extends ValidExpression
 
 		case IF_LIST:
 			if (stringType.isGiac()) {
-				sb.append(loc.getCommand("piecewise("));
+				sb.append("piecewise(");
 			} else {
 				appendIfCommand(sb, tpl, loc);
 			}
