@@ -4949,6 +4949,26 @@ public class GeoGebraCasIntegrationTest {
 	}
 
 	@Test
+	public void piecewiseIntegration() {
+		t("f(x):=x^2", "x^(2)");
+		t("g(x):=1/x", "1/x");
+		t("h(x):=If(0<x<=2,x^2, x>2, 1/x)",
+				"Wenn(0 < x " + Unicode.LESS_EQUAL
+						+ " 2, x^(2), x > 2, 1 / x)");
+		t("h2(x):=If(x<=2,x^2, x>2, 1/x)",
+				"Wenn(x " + Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x)");
+		t("h3(x):=If(0<x<=2,f(x), x>2, g(x))", "Wenn(0 < x "
+				+ Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x)");
+		t("h4(x):=If(0<x<=2,f(x), 2<x<4, g(x))", "Wenn(0 < x "
+				+ Unicode.LESS_EQUAL + " 2, x^(2), 2 < x < 4, 1 / x)");
+		t("Integral(h(x),1,3)", "-log(2) + log(3) + 7 / 3");
+		t("Integral(h2(x),1,3)", "-log(2) + log(3) + 7 / 3");
+		t("Integral(h3(x),1,3)", "-log(2) + log(3) + 7 / 3");
+		t("Integral(h4(x),1,3)", "-log(2) + log(3) + 7 / 3");
+
+	}
+
+	@Test
 	public void ExponentialEqs() {
 		t("Solve[7^(2 x - 5) 5^x = 9^(x + 1), x]",
 				"{x = (5 * log(7) + log(9)) / (log(5) + 2 * log(7) - log(9))}");
