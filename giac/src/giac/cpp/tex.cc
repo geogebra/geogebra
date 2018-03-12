@@ -1043,17 +1043,23 @@ namespace giac {
     return false;
   }
 
-  void overwrite_viewbox(const gen & g,double & window_xmin,double & window_xmax,double & window_ymin,double & window_ymax,double &window_zmin,double & window_zmax){
+  // returns true if axes are drawn
+  bool overwrite_viewbox(const gen & g,double & window_xmin,double & window_xmax,double & window_ymin,double & window_ymax,double &window_zmin,double & window_zmax){
+    bool res=true;
     if (g.type==_VECT){
       vecteur v =*g._VECTptr;
       for (int i=0;i<int(v.size());++i){
-	overwrite_viewbox(v[i],window_xmin,window_xmax,window_ymin,window_ymax,window_zmin,window_zmax);
+	if (!overwrite_viewbox(v[i],window_xmin,window_xmax,window_ymin,window_ymax,window_zmin,window_zmax))
+	  res=false;
       }
+      return res;
     }
     if (g.is_symb_of_sommet(at_equal)){
       gen f=g._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==2){
 	gen optname= f._VECTptr->front(),optvalue=f._VECTptr->back();
+	if (optname.type==_INT_ && optname.subtype==_INT_PLOT && optname.val==_AXES && optvalue==0)
+	  res=false;
 	if (optvalue.is_symb_of_sommet(at_interval) && optname.type==_INT_ && optname.subtype==_INT_PLOT && optname.val>=_GL_X && optname.val<=_GL_Z){
 	  gen optvf=evalf_double(optvalue._SYMBptr->feuille,1,context0);
 	  if (optvf.type==_VECT && optvf._VECTptr->size()==2){
@@ -1079,6 +1085,7 @@ namespace giac {
 	}
       }
     }
+    return res;
   }
 
   static void zoom(double &m,double & M,double d){

@@ -12241,14 +12241,14 @@ namespace giac {
       ratio=gratio;
       ortho=false;
     }
-    overwrite_viewbox(g,window_xmin,window_xmax,window_ymin,window_ymax,window_zmin,window_zmax);
+    bool axes=overwrite_viewbox(g,window_xmin,window_xmax,window_ymin,window_ymax,window_zmin,window_zmax);
     xscale=window_xmax-window_xmin;yscale=window_ymax-window_ymin;
     ratio=yscale/xscale;
     //COUT << window_xmin << " " << window_xmax << " " << window_ymin << " " << window_ymax << endl;
     //g=_symetrie(makesequence(_droite(makesequence(0,1),contextptr),g),contextptr);
     //S='"'+svg_preamble(7,7,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,ortho,false)+gen2svg(g,contextptr)+svg_grid(gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax)+"</svg>\"";
     S='"'+svg_preamble_pixel(g,gwidth,gwidth*gratio,window_xmin,window_xmax,window_ymin,window_ymax,ortho,false);
-    S= S+(gen2svg(g,window_xmin,window_xmax,window_ymin,window_ymax,ratio/gratio,contextptr,false)+svg_grid(window_xmin,window_xmax,window_ymin,window_ymax)+"</svg>\"");
+    S= S+(gen2svg(g,window_xmin,window_xmax,window_ymin,window_ymax,ratio/gratio,contextptr,false)+(axes?svg_grid(window_xmin,window_xmax,window_ymin,window_ymax)+"</svg>\"":""));
 #endif
     return S.c_str();
   }
