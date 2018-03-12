@@ -1944,6 +1944,10 @@ public enum Operation {
 				|| this.equals(LESS) || this.equals(LESS_EQUAL);
 	}
 
+	public boolean isInequalityLess() {
+		return this.equals(LESS) || this.equals(LESS_EQUAL);
+	}
+
 	/**
 	 * 
 	 * @param op

@@ -2736,7 +2736,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return sbLaTeX.toString().replace("\\questeq", "=");
 	}
 
-	private boolean collectCases(ExpressionNode condRoot,
+	public static boolean collectCases(ExpressionNode condRoot,
 			ArrayList<ExpressionNode> cases, ArrayList<Bounds> conditions,
 			Bounds parentCond) {
 		if (condRoot.getOperation() == Operation.IF_LIST) {
@@ -2790,7 +2790,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @author Zbynek
 	 * 
 	 */
-	class Bounds {
+	public class Bounds {
 		private boolean lowerSharp, upperSharp;
 		private Double lower, upper;
 		private ExpressionNode condition;
@@ -3075,6 +3075,72 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			}
 
 			return ret.toString();
+		}
+
+		public double getLower() {
+
+			if (lower == null && condition != null) {
+				Operation op = condition.getOperation();
+				if (op == Operation.FUNCTION) {
+					GeoFunction f = (GeoFunction) condition.getLeft();
+					ExpressionNode exp = f.getFunctionExpression();
+					if (exp.getOperation() == Operation.AND_INTERVAL) {
+						ExpressionNode left = (ExpressionNode) exp.getLeft();
+						ExpressionNode right = (ExpressionNode) exp.getRight();
+
+						Operation opLeft = left.getOperation();
+						Operation opRight = right.getOperation();
+
+						if (opLeft.isInequalityLess()
+								&& opRight.isInequalityLess()) {
+
+							if (left.getRight() instanceof FunctionVariable) {
+								return left.getLeft().evaluateDouble();
+							} else if (right
+									.getRight() instanceof FunctionVariable) {
+								return right.getLeft().evaluateDouble();
+							}
+
+						}
+
+					}
+				}
+			}
+
+			return lower == null ? Double.NEGATIVE_INFINITY
+					: lower.doubleValue();
+		}
+
+		public Double getUpper() {
+			if (upper == null && condition != null) {
+				Operation op = condition.getOperation();
+				if (op == Operation.FUNCTION) {
+					GeoFunction f = (GeoFunction) condition.getLeft();
+					ExpressionNode exp = f.getFunctionExpression();
+					if (exp.getOperation() == Operation.AND_INTERVAL) {
+						ExpressionNode left = (ExpressionNode) exp.getLeft();
+						ExpressionNode right = (ExpressionNode) exp.getRight();
+
+						Operation opLeft = left.getOperation();
+						Operation opRight = right.getOperation();
+
+						if (opLeft.isInequalityLess()
+								&& opRight.isInequalityLess()) {
+
+							if (left.getLeft() instanceof FunctionVariable) {
+								return left.getRight().evaluateDouble();
+							} else if (right
+									.getLeft() instanceof FunctionVariable) {
+								return right.getRight().evaluateDouble();
+							}
+
+						}
+
+					}
+				}
+			}
+			return upper == null ? Double.POSITIVE_INFINITY
+					: upper.doubleValue();
 		}
 	}
 

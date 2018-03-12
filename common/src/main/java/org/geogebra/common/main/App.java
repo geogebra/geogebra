@@ -4202,6 +4202,10 @@ public abstract class App implements UpdateSelection {
 		case COMMAND_HOLES:
 			return prerelease;
 
+		// GGB-2318
+		case SPLIT_INTEGRAL_IF:
+			return prerelease;
+
 		case HANDWRITING:
 			return false;
 		case WEB_CLASSIC_FLOATING_MENU:

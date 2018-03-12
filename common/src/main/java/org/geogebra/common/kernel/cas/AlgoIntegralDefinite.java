@@ -12,11 +12,15 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.cas;
 
+import java.util.ArrayList;
+
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.integration.LegendreGaussIntegrator;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -24,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.ListValue;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
@@ -32,10 +37,14 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunction.Bounds;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Integral of a function (GeoFunction)
@@ -346,11 +355,192 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 			} else {
 
+				// Log.debug("numeric " + lowerLimit + " " + upperLimit + " "
+				// + f.getFunctionExpression().getOperation());
+
+				if (kernel.getApplication().has(Feature.SPLIT_INTEGRAL_IF)
+						&& (f.getParentAlgorithm() instanceof AlgoDependentFunction
+								|| f.getFunctionExpression()
+										.getOperation() == Operation.IF_LIST)) {
+
+					AlgoElement algo = f.getParentAlgorithm();
+
+					ExpressionNode exp = algo instanceof AlgoDependentFunction
+							? ((AlgoDependentFunction) algo).getExpression()
+							: f.getFunctionExpression();
+
+					Operation op = exp.getOperation();
+
+					// Log.debug("op = " + op);
+
+					if (op == Operation.IF_LIST) {
+						MyList left = (MyList) exp.getLeft();
+						MyList right = (MyList) exp.getRight();
+						// Log.debug("left = " + left.getClass());
+						// Log.debug("right = " + right.getClass());
+
+						for (int i = 0; i < left.getLength(); i++) {
+							// Log.debug("left " + i + " "
+							// + left.getListElement(i).getClass());
+							// Log.debug("right " + i + " "
+							// + right.getListElement(i).getClass());
+
+							ExpressionNode leftEn = (ExpressionNode) left
+									.getListElement(i);
+							ExpressionNode rightEn = (ExpressionNode) right
+									.getListElement(i);
+
+							// Log.debug(
+							// "left " + i + " " + leftEn.getOperation());
+							// Log.debug("right " + i + " "
+							// + rightEn.getOperation());
+
+						}
+
+						ArrayList<ExpressionNode> nodesAl = new ArrayList<>();
+						ArrayList<GeoFunction.Bounds> boundsAl = new ArrayList<>();
+
+						boolean complete = GeoFunction.collectCases(exp, nodesAl, boundsAl,
+								f.new Bounds());
+
+						int size = complete ? (nodesAl.size() - 1)
+								: nodesAl.size();
+						
+						double sum = 0;
+
+						Function fun = null;
+
+						double coveredMin = Double.NaN;
+						double coveredMax = Double.NaN;
+						ExpressionNode node;
+						
+						for (int i = 0; i < size; i++) {
+							node = nodesAl.get(i);
+							// Log.debug("node op = " + node.getOperation());
+
+							Bounds bound = boundsAl.get(i);
+							if (bound != null) {
+								// Log.debug("bound "
+								// + bound.toLaTeXString(false, "x",
+								// StringTemplate.defaultTemplate)
+								// + " " + bound.getLower() + " "
+								// + bound.getUpper());
+
+								double lower = bound.getLower();
+								double upper = bound.getUpper();
+
+								if (i == 0) {
+									coveredMin = lower;
+									coveredMax = upper;
+								} else if (lower == coveredMax) {
+									coveredMax = upper;
+								} else if (upper == coveredMin) {
+									coveredMin = lower;
+								} else {
+									// regions are defined in a strange order
+									Log.error(
+											"problem with order of regions, can't use fast method");
+									n.setValue(numericIntegration(f, lowerLimit,
+											upperLimit,
+											f.includesFreehandOrData() ? 10
+													: 10));
+									return;
+								}
+
+								if (fun == null) {
+									fun = new Function(node,
+											f.getFunctionVariables()[0]);
+								} else {
+									fun.setExpression(node);
+								}
+								
+								if (Double.isInfinite(lower)) {
+								
+									sum += numericIntegration(fun, lowerLimit, Math.min(upper, upperLimit),
+											1);
+									
+									
+								} else if (Double.isInfinite(lower)) {
+									sum += numericIntegration(fun,
+											Math.max(lower, lowerLimit),
+											upperLimit,
+											1);
+									
+								} else if (upper <= lowerLimit
+										|| lower >= upperLimit) {
+									// nothing to do
+								} else if (lower >= lowerLimit
+										&& upper <= upperLimit) {
+									// include all
+									sum += numericIntegration(fun, lower, upper,
+											1);
+								} else if ((Double.isNaN(lower)
+										|| lower <= lowerLimit)
+										&& upper <= upperLimit) {
+									sum += numericIntegration(fun, lowerLimit,
+											upper, 1);
+								} else if ((Double.isNaN(upper)
+										|| upper >= upperLimit)
+										&& lower >= lowerLimit) {
+									sum += numericIntegration(fun, lower,
+											upperLimit, 1);
+
+								} else {
+									Log.error("lower = " + lower);
+									Log.error("lowerLimit = " + lowerLimit);
+									Log.error("upper = " + upper);
+									Log.error("upperLimit = " + upperLimit);
+								}
+
+							}
+
+						}
+						
+						if (complete) {
+							// Log.error("TODO " + coveredMin + " " +
+							// coveredMax);
+							
+							node = nodesAl.get(size);
+							
+							if (fun == null) {
+								fun = new Function(node,
+										f.getFunctionVariables()[0]);
+							} else {
+								fun.setExpression(node);
+							}
+							
+							if (upperLimit <=coveredMin || lowerLimit >= coveredMax) {
+								// all outside what's been covered already
+								sum += numericIntegration(fun, lowerLimit,upperLimit, 1);
+							} else if (lowerLimit >= coveredMin && upperLimit <= coveredMax) {
+								// nothing to do
+							} else if (lowerLimit <= coveredMin && upperLimit <= coveredMax) {
+								sum += numericIntegration(fun, lowerLimit,coveredMin, 1);		
+							} else if (lowerLimit >= coveredMin && upperLimit >= coveredMax) {
+								sum += numericIntegration(fun, coveredMax,upperLimit, 1);		
+							} else {
+								Log.error("problem");
+							}
+						}
+
+						Log.debug("GGB-2318 using fast/accurate method with "
+								+ nodesAl.size() + " " + boundsAl.size()
+								+ " intervals");
+
+						n.setValue(sum);
+						return;
+
+					}
+
+				}
+
+				// if (f.getParentAlgorithm())
+
 				// freehand functions aren't generally nice and smooth, so more
 				// iterations may be needed
 				// https://www.geogebra.org/help/topic/problem-mit-integral-unter-freihandskizze
 				n.setValue(numericIntegration(f, lowerLimit, upperLimit,
-						f.includesFreehandOrData() ? 10 : 1));
+						f.includesFreehandOrData() ? 10 : 10));
 			}
 		}
 		/*
