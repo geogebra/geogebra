@@ -440,6 +440,9 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	void setVisibleInViewForPlane(GeoElement geo);
 
+	/**
+	 * @return whether this can be drawn in 2D
+	 */
 	boolean isDrawable();
 
 	/**

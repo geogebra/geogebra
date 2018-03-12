@@ -342,6 +342,10 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public boolean hasLocateableList();
 
+	/**
+	 * @param locateableList
+	 *            list of locateables with this corner
+	 */
 	public void setLocateableList(LocateableList locateableList);
 
 	public void setCoordsFromPoint(GeoPointND point);
@@ -364,6 +368,18 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public boolean isEqualPointND(GeoPointND geo);
 
+	/**
+	 * Change coordinates of this point to linear combination of two MyPoints.
+	 * 
+	 * @param param1
+	 *            weight of frst point
+	 * @param param2
+	 *            weight of second point
+	 * @param leftPoint
+	 *            first point
+	 * @param rightPoint
+	 *            second point
+	 */
 	public void set(double param1, double param2, MyPoint leftPoint,
 			MyPoint rightPoint);
 
@@ -381,10 +397,21 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public void setRegion(Region r);
 
+	/**
+	 * @return animation value (0 to 1)
+	 */
 	public double getAnimationValue();
 
+	/**
+	 * @param val
+	 *            animation value (0 to 1)
+	 */
 	public void setAnimationValue(double val);
 
+	/**
+	 * @param start
+	 *            whether this point is animating
+	 */
 	public void setAnimating(boolean start);
 
 	/**
@@ -423,11 +450,10 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public double getZScale();
 
-
 	/**
 	 * @param tpl
 	 *            - string template
 	 * @return description for points ("Point A" instead of "A = (0,0)")
 	 */
-	public String toStringDescription(StringTemplate defaulttemplate);
+	public String toStringDescription(StringTemplate tpl);
 }

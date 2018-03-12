@@ -105,7 +105,6 @@ public abstract class GeoQuadricND extends GeoElement
 	 *            dimension of the space (2D or 3D)
 	 */
 	public GeoQuadricND(Construction c, int dimension) {
-
 		this(c, dimension, false);
 	}
 
@@ -115,6 +114,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public GeoQuadricND(Construction c) {
 		super(c);
+		toStringMode = GeoConicND.EQUATION_IMPLICIT;
 	}
 
 	/**
@@ -129,7 +129,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public GeoQuadricND(Construction c, int dimension, boolean isIntersection) {
 		this(c);
-
+		this.toStringMode = GeoConicND.EQUATION_IMPLICIT;
 		this.isIntersection = isIntersection;
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
