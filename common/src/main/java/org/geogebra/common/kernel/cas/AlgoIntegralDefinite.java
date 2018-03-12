@@ -485,6 +485,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 									sum += numericIntegration(fun, lower,
 											upperLimit, 1);
 
+								} else if (lower <= lowerLimit
+										&& upper >= upperLimit) {
+									sum += numericIntegration(fun, lowerLimit,
+											upperLimit, 1);
+
 								} else {
 									Log.error("lower = " + lower);
 									Log.error("lowerLimit = " + lowerLimit);
