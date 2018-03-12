@@ -376,26 +376,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 					if (op == Operation.IF_LIST) {
 						MyList left = (MyList) exp.getLeft();
 						MyList right = (MyList) exp.getRight();
-						// Log.debug("left = " + left.getClass());
-						// Log.debug("right = " + right.getClass());
-
-						for (int i = 0; i < left.getLength(); i++) {
-							// Log.debug("left " + i + " "
-							// + left.getListElement(i).getClass());
-							// Log.debug("right " + i + " "
-							// + right.getListElement(i).getClass());
-
-							ExpressionNode leftEn = (ExpressionNode) left
-									.getListElement(i);
-							ExpressionNode rightEn = (ExpressionNode) right
-									.getListElement(i);
-
-							// Log.debug(
-							// "left " + i + " " + leftEn.getOperation());
-							// Log.debug("right " + i + " "
-							// + rightEn.getOperation());
-
-						}
 
 						ArrayList<ExpressionNode> nodesAl = new ArrayList<>();
 						ArrayList<GeoFunction.Bounds> boundsAl = new ArrayList<>();
