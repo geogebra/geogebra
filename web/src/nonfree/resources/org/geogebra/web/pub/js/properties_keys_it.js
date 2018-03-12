@@ -1294,6 +1294,7 @@ __GGB__keysVar["it"].menu = {
     "Ath": "%0\xaa",
     "AttachDetachPoint": "Vincola / Svincola punto",
     "AttachDetachPoint.Help": "Seleziona un punto, quindi l'oggetto su cui vincolarlo",
+    "Audio": "Audio",
     "Author": "Autore",
     "AutoDimension": "Dimensioni automatiche",
     "Automatic": "Automatico",

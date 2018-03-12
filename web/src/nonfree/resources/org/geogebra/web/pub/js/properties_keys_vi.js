@@ -1294,6 +1294,7 @@ __GGB__keysVar["vi"].menu = {
     "Ath": "%0th",
     "AttachDetachPoint": "D\xe1n/h\u1ee7y d\xe1n \u0111i\u1ec3m",
     "AttachDetachPoint.Help": "Ch\u1ecdn 1 \u0111i\u1ec3m (v\xe0 1 \u0111\u1ed1i t\u01b0\u1ee3ng \u0111\u1ec3 d\xe1n)",
+    "Audio": "Audio",
     "Author": "T\xe1c gi\u1ea3",
     "AutoDimension": "S\u1ed1 chi\u1ec1u t\u1ef1 \u0111\u1ed9ng",
     "Automatic": "T\u1ef1 \u0111\u1ed9ng",

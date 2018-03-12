@@ -1294,6 +1294,7 @@ __GGB__keysVar["sq"].menu = {
     "Ath": "%0-te",
     "AttachDetachPoint": "Lidh / Pike Lidhese",
     "AttachDetachPoint.Help": "Kliko ne nje Pike (dhe ne nje Objekt per te lidhur)",
+    "Audio": "Audio",
     "Author": "Autor",
     "AutoDimension": "Dimensione Automatike",
     "Automatic": "Automatike",

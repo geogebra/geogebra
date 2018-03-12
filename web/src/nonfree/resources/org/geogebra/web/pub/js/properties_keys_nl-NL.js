@@ -1294,6 +1294,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "Ath": "%0",
     "AttachDetachPoint": "Vasthechten / Losmaken van punt",
     "AttachDetachPoint.Help": "Klik op een punt (... en het meetkundig object)",
+    "Audio": "Audio",
     "Author": "Auteur",
     "AutoDimension": "Automatische dimensies",
     "Automatic": "Automatisch",

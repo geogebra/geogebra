@@ -1294,6 +1294,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "Ath": "%0a",
     "AttachDetachPoint": "Posa punt en un objecte / separa'l",
     "AttachDetachPoint.Help": "Cliqueu en un punt i en un objecte per a adjuntar-lo",
+    "Audio": "Audio",
     "Author": "Autoria",
     "AutoDimension": "Dimensiona autom\xe0ticament",
     "Automatic": "Autom\xe0tic",

@@ -1294,6 +1294,7 @@ __GGB__keysVar["fr"].menu = {
     "Ath": "%0-\xe8me",
     "AttachDetachPoint": "Lier/Lib\xe9rer Point",
     "AttachDetachPoint.Help": "Clic sur un Point puis sur un Objet pour l'y attacher",
+    "Audio": "Audio",
     "Author": "Auteur",
     "AutoDimension": "Dimensions automatiques",
     "Automatic": "Automatique",

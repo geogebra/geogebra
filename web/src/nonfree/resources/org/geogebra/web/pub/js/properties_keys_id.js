@@ -1294,6 +1294,7 @@ __GGB__keysVar["id"].menu = {
     "Ath": "ke-%0",
     "AttachDetachPoint": "Gunakan / Lepaskan Titik",
     "AttachDetachPoint.Help": "Klik suatu Titik (dan sebuah objek untuk digunakan)",
+    "Audio": "Audio",
     "Author": "Penulis",
     "AutoDimension": "Dimensi Otomatis",
     "Automatic": "Otomatis",

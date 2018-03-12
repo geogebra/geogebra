@@ -1294,6 +1294,7 @@ __GGB__keysVar["si"].menu = {
     "Ath": "%0",
     "AttachDetachPoint": "Attach / Detach Point",
     "AttachDetachPoint.Help": "Select point, then object to attach",
+    "Audio": "Audio",
     "Author": "\u0d9a\u0dbb\u0dad\u0dd8",
     "AutoDimension": "Automatic Dimensions",
     "Automatic": "\u0dc3\u0dca\u0dc0\u0dba\u0d82\u0d9a\u0dca\u200d\u0dbb\u0dd2\u0dba",

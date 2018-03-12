@@ -1294,6 +1294,7 @@ __GGB__keysVar["cs"].menu = {
     "Ath": "%0 .",
     "AttachDetachPoint": "P\u0159ipojit / Odd\u011blit bod",
     "AttachDetachPoint.Help": "Kliknout na bod (a p\u0159id\u011blit k objektu)",
+    "Audio": "Audio",
     "Author": "Autor",
     "AutoDimension": "Automatick\xe9 rozm\u011bry",
     "Automatic": "Automatick\xfd",

@@ -1294,6 +1294,7 @@ __GGB__keysVar["lt"].menu = {
     "Ath": "%0",
     "AttachDetachPoint": "Prisegti / Atsegti ta\u0161k\u0105",
     "AttachDetachPoint.Help": "Spauskite ant ta\u0161ko ir ant objekto prie kurio norite prisegti",
+    "Audio": "Audio",
     "Author": "Autorius",
     "AutoDimension": "Automatin\u0117s dimencijos",
     "Automatic": "Automatinis",

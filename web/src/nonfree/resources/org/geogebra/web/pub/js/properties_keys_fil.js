@@ -1294,6 +1294,7 @@ __GGB__keysVar["fil"].menu = {
     "Ath": "%0th",
     "AttachDetachPoint": "Attach / Detach Point",
     "AttachDetachPoint.Help": "Pumili ng Point (at ng Object na ia-attach)",
+    "Audio": "Audio",
     "Author": "Author",
     "AutoDimension": "Automatic Dimensions",
     "Automatic": "Automatic",

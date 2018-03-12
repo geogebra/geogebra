@@ -1294,6 +1294,7 @@ __GGB__keysVar["cy"].menu = {
     "Ath": "%0",
     "AttachDetachPoint": "Cysylltu/Datgysylltu Pwynt",
     "AttachDetachPoint.Help": "Cliciwch ar Bwynt (a Gwrthrych i'w gysylltu)",
+    "Audio": "Audio",
     "Author": "Awdur",
     "AutoDimension": "AwtoDdimensiwn",
     "Automatic": "Awtomatig",

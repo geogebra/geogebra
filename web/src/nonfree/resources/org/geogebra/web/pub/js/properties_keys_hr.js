@@ -1294,6 +1294,7 @@ __GGB__keysVar["hr"].menu = {
     "Ath": "%0.",
     "AttachDetachPoint": "Prive\u017ei / Odvoji to\u010dku",
     "AttachDetachPoint.Help": "Kliknite na to\u010dku i na objekt za koji se ve\u017ee",
+    "Audio": "Audio",
     "Author": "Autor",
     "AutoDimension": "Automatske dimenzije",
     "Automatic": "Automatski",

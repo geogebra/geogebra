@@ -1294,6 +1294,7 @@ __GGB__keysVar["ro"].menu = {
     "Ath": "%0\xaa",
     "AttachDetachPoint": "Ata\u015feaz\u0103 / Deta\u015feaz\u0103 punctul",
     "AttachDetachPoint.Help": "Click pe un punct (\u015fi un obiect pentru ata\u015fare)",
+    "Audio": "Audio",
     "Author": "Autor",
     "AutoDimension": "Dimensiuni automate",
     "Automatic": "Automat",

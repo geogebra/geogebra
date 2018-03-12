@@ -1294,6 +1294,7 @@ __GGB__keysVar["bs"].menu = {
     "Ath": "%0.",
     "AttachDetachPoint": "Spoji/Odvoji ta\u010dku",
     "AttachDetachPoint.Help": "Kliknite na ta\u010dku(i na figuru da ih spojite)",
+    "Audio": "Audio",
     "Author": "Autor",
     "AutoDimension": "Auto-Dimenzije",
     "Automatic": "Automatski",

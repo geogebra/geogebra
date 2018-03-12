@@ -1294,6 +1294,7 @@ __GGB__keysVar["is"].menu = {
     "Ath": "%0-ti",
     "AttachDetachPoint": "Festa / Losa punkt",
     "AttachDetachPoint.Help": "Smelli\xf0 \xe1 punkt (og hlut sem \xe1 a\xf0 festa hann vi\xf0)",
+    "Audio": "Audio",
     "Author": "H\xf6fundur",
     "AutoDimension": "Sj\xe1lfvirkar v\xedddir",
     "Automatic": "Sj\xe1lfvirkt",

@@ -1294,6 +1294,7 @@ __GGB__keysVar["nb"].menu = {
     "Ath": "%0.",
     "AttachDetachPoint": "Fest / frigj\xf8r punkt",
     "AttachDetachPoint.Help": "Velg et punkt og et objekt for \xe5 feste punktet",
+    "Audio": "Audio",
     "Author": "Laget av",
     "AutoDimension": "Automatiske st\xf8rrelser",
     "Automatic": "Automatisk",

@@ -1294,6 +1294,7 @@ __GGB__keysVar["ja"].menu = {
     "Ath": "%0",
     "AttachDetachPoint": "\u70b9\u3092\u4ed8\u3051\u308b\uff0f\u5916\u3059",
     "AttachDetachPoint.Help": "\u70b9\uff08\u3068\u4ed8\u3051\u308b\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\uff09\u3092\u30af\u30ea\u30c3\u30af",
+    "Audio": "Audio",
     "Author": "\u8457\u8005",
     "AutoDimension": "\u81ea\u52d5\u7684\u306a\u7e26\u6a2a\u30b5\u30a4\u30ba",
     "Automatic": "\u81ea\u52d5",

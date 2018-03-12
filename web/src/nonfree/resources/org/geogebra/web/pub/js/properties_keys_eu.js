@@ -1294,6 +1294,7 @@ __GGB__keysVar["eu"].menu = {
     "Ath": "%0.",
     "AttachDetachPoint": "Atxiki / Askatu Puntua",
     "AttachDetachPoint.Help": "Klik puntu batean, ondoren, atxikitu nahi duzun objektua",
+    "Audio": "Audio",
     "Author": "Egilea",
     "AutoDimension": "Dimentsio Automatikoak",
     "Automatic": "Automatikoa",

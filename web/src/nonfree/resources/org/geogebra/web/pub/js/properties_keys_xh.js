@@ -1294,6 +1294,7 @@ __GGB__keysVar["xh"].menu = {
     "Ath": "%0th",
     "AttachDetachPoint": "Ncamathelisa / Susa iChaphaza",
     "AttachDetachPoint.Help": "Klikha phezu kwe Chaphaza (kunye neNto ozakuyincamathelisa)",
+    "Audio": "Audio",
     "Author": "Umbhali",
     "AutoDimension": "Imilinganiselo Ezenzekelayo",
     "Automatic": "Iyazenzekela",

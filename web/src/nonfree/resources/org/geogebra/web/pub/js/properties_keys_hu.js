@@ -1294,6 +1294,7 @@ __GGB__keysVar["hu"].menu = {
     "Ath": "%0.",
     "AttachDetachPoint": "Pont alakzathoz csatol\xe1sa",
     "AttachDetachPoint.Help": "Kattint\xe1s a ponton, majd az alakzaton",
+    "Audio": "Audio",
     "Author": "Szerz\u0151",
     "AutoDimension": "Automatikus m\xe9retez\xe9s",
     "Automatic": "Automatikus",

@@ -1294,6 +1294,7 @@ __GGB__keysVar["sv"].menu = {
     "Ath": "%0:e",
     "AttachDetachPoint": "F\xe4st / Lossa Punkt",
     "AttachDetachPoint.Help": "Klicka p\xe5 en punkt och sedan ett objekt att f\xe4sta i punkten",
+    "Audio": "Audio",
     "Author": "Skapad av",
     "AutoDimension": "Autoskala",
     "Automatic": "Visa automatiskt",

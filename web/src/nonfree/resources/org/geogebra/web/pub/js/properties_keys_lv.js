@@ -1294,6 +1294,7 @@ __GGB__keysVar["lv"].menu = {
     "Ath": "%0th",
     "AttachDetachPoint": "Pievienot / No\u0146emt Punktu",
     "AttachDetachPoint.Help": "Uzspied uz Punkta (un Objekta, lai pievienotu)",
+    "Audio": "Audio",
     "Author": "Autors",
     "AutoDimension": "Autom\u0101tisks dimensju skaits",
     "Automatic": "Autom\u0101tisks",

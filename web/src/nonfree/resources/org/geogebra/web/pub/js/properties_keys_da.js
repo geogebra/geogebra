@@ -1294,6 +1294,7 @@ __GGB__keysVar["da"].menu = {
     "Ath": "%0.",
     "AttachDetachPoint": "Forbind / frig\xf8r punkt",
     "AttachDetachPoint.Help": "Klik p\xe5 et punkt (og et objekt for at forbinde)",
+    "Audio": "Audio",
     "Author": "Forfatter",
     "AutoDimension": "Automatiske m\xe5l",
     "Automatic": "Automatisk",

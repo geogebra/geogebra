@@ -1294,6 +1294,7 @@ __GGB__keysVar["fi"].menu = {
     "Ath": "%0:s",
     "AttachDetachPoint": "Kiinnit\xe4 / vapauta piste",
     "AttachDetachPoint.Help": "Valitse piste ja sitten objekti, johon piste kiinnitet\xe4\xe4n.",
+    "Audio": "Audio",
     "Author": "Tekij\xe4",
     "AutoDimension": "Automaattinen mittasuhde",
     "Automatic": "Automaattinen",

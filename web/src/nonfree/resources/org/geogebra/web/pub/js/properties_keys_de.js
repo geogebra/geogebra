@@ -1294,6 +1294,7 @@ __GGB__keysVar["de"].menu = {
     "Ath": "%0te",
     "AttachDetachPoint": "Punkt anh\xe4ngen / losl\xf6sen",
     "AttachDetachPoint.Help": "W\xe4hle einen Punkt und ein Objekt",
+    "Audio": "Audio",
     "Author": "Autor",
     "AutoDimension": "Automatische Dimensionen",
     "Automatic": "Automatisch",

@@ -1294,6 +1294,7 @@ __GGB__keysVar["es-ES"].menu = {
     "Ath": "%0\xba",
     "AttachDetachPoint": "Limita/Libera Punto",
     "AttachDetachPoint.Help": "Elige un punto y el objeto que lo contendr\xe1",
+    "Audio": "Audio",
     "Author": "Autor\xeda",
     "AutoDimension": "Dimensiones autom\xe1ticas",
     "Automatic": "En autom\xe1tico",

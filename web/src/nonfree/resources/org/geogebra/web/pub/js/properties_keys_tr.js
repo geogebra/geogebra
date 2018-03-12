@@ -1294,6 +1294,7 @@ __GGB__keysVar["tr"].menu = {
     "Ath": "%0.",
     "AttachDetachPoint": "Noktay\u0131 Ba\u011fla / Ay\u0131r",
     "AttachDetachPoint.Help": "Bir nokta, ard\u0131ndan ba\u011flamak i\xe7in bir nesne se\xe7in",
+    "Audio": "Audio",
     "Author": "Yazar",
     "AutoDimension": "Otomatik Boyutlar",
     "Automatic": "Otomatik",

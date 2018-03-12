@@ -1294,6 +1294,7 @@ __GGB__keysVar["sl"].menu = {
     "Ath": "%0-ti",
     "AttachDetachPoint": "Pripni / sprosti to\u010dko",
     "AttachDetachPoint.Help": "Izberi to\u010dko in nat objekt kateremu jo pripne\u0161",
+    "Audio": "Audio",
     "Author": "Avtor",
     "AutoDimension": "Avtomatska velikost",
     "Automatic": "Avtomatsko",

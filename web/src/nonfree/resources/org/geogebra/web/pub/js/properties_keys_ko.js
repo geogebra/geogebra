@@ -1294,6 +1294,7 @@ __GGB__keysVar["ko"].menu = {
     "Ath": "%0 \ubc88",
     "AttachDetachPoint": "\uc810\uc744 \ub300\uc0c1\uc5d0 \ubd99\uc774\uae30 / \ub5bc\uae30",
     "AttachDetachPoint.Help": "\uc810\uc744 \uc120\ud0dd\ud55c \ud6c4 \ubd99\uc77c \ub300\uc0c1\uc744 \uc120\ud0dd\ud558\uc138\uc694.",
+    "Audio": "Audio",
     "Author": "\uc800\uc790",
     "AutoDimension": "\uc790\ub3d9 \ubc94\uc704 \uc870\uc815",
     "Automatic": "\uc790\ub3d9",

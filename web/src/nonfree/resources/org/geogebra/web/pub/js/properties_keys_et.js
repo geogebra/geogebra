@@ -1294,6 +1294,7 @@ __GGB__keysVar["et"].menu = {
     "Ath": "%0.",
     "AttachDetachPoint": "Kinnita / vabasta punkt",
     "AttachDetachPoint.Help": "Kl\xf5psa punktile ja objektile, millele kinnitada",
+    "Audio": "Audio",
     "Author": "Autor",
     "AutoDimension": "Automaatsed m\xf5\xf5tmed",
     "Automatic": "Automaatne",

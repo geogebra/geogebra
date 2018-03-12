@@ -1294,6 +1294,7 @@ __GGB__keysVar["sr"].menu = {
     "Ath": "%0.",
     "AttachDetachPoint": "Zaka\u010di / otka\u010di ta\u010dku",
     "AttachDetachPoint.Help": "Klikni na ta\u010dku (i na objekat da zaka\u010di\u0161)",
+    "Audio": "Audio",
     "Author": "Autor",
     "AutoDimension": "Automatske dimenzije",
     "Automatic": "Automatski",

@@ -1294,6 +1294,7 @@ __GGB__keysVar["gl"].menu = {
     "Ath": "%0\xba",
     "AttachDetachPoint": "Encosta / Libera Punto",
     "AttachDetachPoint.Help": "Clic sobre un punto (e un obxecto a encostar)",
+    "Audio": "Audio",
     "Author": "Autor",
     "AutoDimension": "Dimensi\xf3ns autom\xe1ticas",
     "Automatic": "Autom\xe1tico",

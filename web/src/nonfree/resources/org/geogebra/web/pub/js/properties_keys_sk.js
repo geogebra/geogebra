@@ -1294,6 +1294,7 @@ __GGB__keysVar["sk"].menu = {
     "Ath": "%0.",
     "AttachDetachPoint": "Pripoji\u0165 / Odpoji\u0165 bod",
     "AttachDetachPoint.Help": "Klikn\xfa\u0165 na bod (a potom na objekt, na ktor\xfd prip\xe1ja)",
+    "Audio": "Audio",
     "Author": "Autor",
     "AutoDimension": "Automatick\xe9 dimenzie",
     "Automatic": "Automatick\xe1",
