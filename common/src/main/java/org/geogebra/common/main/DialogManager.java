@@ -381,7 +381,7 @@ public abstract class DialogManager {
 	}
 
 	public void showAudioInputDialog() {
-		return;
+		// TODO
 	}
 
 	public static void makeRegularPolygon(final App app,
