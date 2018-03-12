@@ -906,7 +906,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					return;
 				}
 			}
-			if (newMode == EuclidianConstants.MODE_AUDIO) {
+			if (newMode == EuclidianConstants.MODE_AUDIO
+					&& app.has(Feature.MOW_AUDIO_TOOL)) {
 				if (app.getGuiManager() != null) {
 					getDialogManager().showAudioInputDialog();
 				}

@@ -3,11 +3,12 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -17,8 +18,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 	private AppW appW;
 	private FlowPanel mainPanel;
-	private SimplePanel inputPanel;
+	private FlowPanel inputPanel;
 	private FlowPanel buttonPanel;
+	private FormLabel inputLabel;
+	private AutoCompleteTextFieldW inputField;
 	private StandardButton insertBtn;
 	private StandardButton cancelBtn;
 
@@ -35,8 +38,12 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 
 	private void initGui() {
 		mainPanel = new FlowPanel();
-		inputPanel = new SimplePanel();
+		inputPanel = new FlowPanel();
 		inputPanel.setStyleName("mowAudioSimplePanel");
+		inputLabel = new FormLabel();
+		inputField = new AutoCompleteTextFieldW(8, appW);
+		inputPanel.add(inputLabel);
+		inputPanel.add(inputField);
 		// panel for buttons
 		insertBtn = new StandardButton("", appW);
 		insertBtn.setEnabled(true);
@@ -67,6 +74,7 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 	public void setLabels() {
 		getCaption().setText(appW.getLocalization().getMenu("Audio")); // dialog
 																		// title
+		inputLabel.setText(appW.getLocalization().getMenu("Link"));
 		insertBtn.setText(appW.getLocalization().getMenu("Insert")); // insert
 		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
 	}
