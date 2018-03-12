@@ -505,9 +505,8 @@ public class GeoNumeric extends GeoElement
 		if (isAutoStep()) {
 			if (kernel.getApplication().has(Feature.MOB_DEFAULT_SLIDER_INCREMENT_VALUE)) {
 				return isAnimating() || getAutoStepValue() >= DEFAULT_SLIDER_INCREMENT ? getAutoStepValue() : DEFAULT_SLIDER_INCREMENT;
-			} else {
-				return getAutoStepValue();
 			}
+			return getAutoStepValue();
 		}
 
 		return super.getAnimationStep();
