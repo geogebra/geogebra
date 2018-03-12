@@ -22,6 +22,7 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 	private FlowPanel buttonPanel;
 	private FormLabel inputLabel;
 	private InputPanelW inputField;
+	private FormLabel errorLabel;
 	private StandardButton insertBtn;
 	private StandardButton cancelBtn;
 
@@ -39,14 +40,21 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 	private void initGui() {
 		mainPanel = new FlowPanel();
 		inputPanel = new FlowPanel();
-		inputPanel.setStyleName("mowAudioSimplePanel");
+		inputPanel.setStyleName("mowAudioDialogContent");
+		inputPanel.addStyleName("emptyState");
 		inputLabel = new FormLabel();
-		inputField = new InputPanelW("Paste link", appW, 1, 8, false);
+		inputLabel.addStyleName("inputLabel");
+		inputField = new InputPanelW("Paste link", appW, 1, 25, false);
+		inputField.addStyleName("inputText");
 		inputPanel.add(inputLabel);
 		inputPanel.add(inputField);
+		errorLabel = new FormLabel();
+		errorLabel.addStyleName("errorLabel");
+		inputPanel.add(errorLabel);
 		// panel for buttons
 		insertBtn = new StandardButton("", appW);
-		insertBtn.setEnabled(true);
+		insertBtn.addStyleName("insertBtn");
+		insertBtn.setEnabled(false);
 		cancelBtn = new StandardButton("", app);
 		cancelBtn.addStyleName("cancelBtn");
 		buttonPanel = new FlowPanel();
@@ -59,6 +67,7 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 		mainPanel.add(buttonPanel);
 		// style
 		addStyleName("GeoGebraPopup");
+		addStyleName("audioDialog");
 		setGlassEnabled(true);
 		setLabels();
 	}
@@ -75,6 +84,8 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 		getCaption().setText(appW.getLocalization().getMenu("Audio")); // dialog
 																		// title
 		inputLabel.setText(appW.getLocalization().getMenu("Link"));
+		errorLabel.setText(appW.getLocalization().getMenu("Error")
+				+ ": " + appW.getLocalization().getError("InvalidInput"));
 		insertBtn.setText(appW.getLocalization().getMenu("Insert")); // insert
 		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
 	}

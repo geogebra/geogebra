@@ -432,7 +432,54 @@ $duration: 0.2s;
    		.dialogBtn {
    			@extend .flatDialogBtn;
    			float: right;
-   		}
+   		}   	
 	}
+
+	.MaterialDialogBox.audioDialog {
+   		.mowAudioDialogContent {
+   			.AutoCompleteTextFieldW {
+   				margin: 8px 16px 8px 0px;	
+   			}
+   			
+   			&.emptyState {
+   				.inputLabel {
+   					color: $black-54;
+   					font-size: 75%;
+   				}
+   			
+ 				.AutoCompleteTextFieldW {
+ 					border-bottom: 1px solid $black-42;
+ 					.TextField {
+ 						padding: 0px;
+ 						margin-bottom: 8px;
+ 						margin-top: 0px;
+ 						font-size: 100%;
+ 						color: $black-54;
+ 					}
+ 				}
+   					
+   				.errorLabel {
+   					color: $white;
+   					font-size: 75%;
+   				}
+   			
+   				
+   			}
+   		
+   		}
+   	
+   		.DialogButtonPanel {
+   			padding-top: 10px;
+   			
+   			.insertBtn.button-up-disabled {
+   				opacity: 1;
+   				color: $mebis-teal-dark-26;
+   				
+   				&:hover {
+   					background: none !important;	
+   				}
+   			}
+   		}
+   	}
 }
 	
