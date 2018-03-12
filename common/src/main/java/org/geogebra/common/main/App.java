@@ -3957,10 +3957,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_GGB_KEYBOARD_IN_SETTINGS:
 			return true;
 
-		// IGR-373
-		case MOB_TRANSPARENT_STATUS_BAR_IN_EXAM_MODE:
-			return true;
-
 		// MOB-1319
 		case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
 			return false;
