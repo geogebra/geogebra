@@ -9,6 +9,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.UUIDW;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -17,7 +18,8 @@ import com.google.gwt.storage.client.Storage;
  */
 public class UndoManagerW extends UndoManager {
 
-	private static final String TEMP_STORAGE_PREFIX = "GeoGebraUndoInfo";
+	private static final String TEMP_STORAGE_PREFIX = "GeoGebraUndoInfo"
+			+ UUIDW.randomUUID();
 	/** state counter */
 	static long nextKeyNum = 1;
 
