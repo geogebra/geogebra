@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -392,7 +394,44 @@ public abstract class GlobalKeyDispatcher {
 				consumed = true;
 			}
 			break;
+
+		case CONTEXT_MENU:
+		case F10: // <Shift>F10 -> Right-click
+			if ((isShiftDown || key == KeyCodes.CONTEXT_MENU)
+					&& app.isRightClickEnabled()) {
+				if (app.getGuiManager() != null) {
+
+					EuclidianView view = app.getActiveEuclidianView();
+
+					ArrayList<GeoElement> selectedGeos = app
+							.getSelectionManager().getSelectedGeos();
+					if (selectedGeos != null && selectedGeos.size() > 0) {
+
+						GeoElement geo = selectedGeos.get(0);
+						GRectangle2D bounds = view.getDrawableFor(geo)
+								.getBoundsForStylebarPosition();
+
+						GPoint p = new GPoint((int) bounds.getMinX(),
+								(int) bounds.getMinY());
+
+						app.getGuiManager().showPopupChooseGeo(
+								app.getSelectionManager().getSelectedGeos(),
+								app.getSelectionManager().getSelectedGeoList(),
+								app.getActiveEuclidianView(), p);
+
+					} else {
+						app.getGuiManager().showDrawingPadPopup(
+								app.getActiveEuclidianView(), new GPoint(0, 0));
+
+					}
+
+				}
+				return true;
+			}
+			break;
 		}
+		
+
 
 		/*
 		 * // make sure Ctrl-1/2/3 works on the Numeric Keypad even with Numlock
@@ -629,6 +668,13 @@ public abstract class GlobalKeyDispatcher {
 		case F4: // File -> Exit
 			if (!isShiftDown) {
 				app.exitAll();
+				consumed = true;
+			}
+			break;
+
+		case F10: // <Shift>F10 -> Right-click
+			if (isShiftDown) {
+				Log.error("shift f10");
 				consumed = true;
 			}
 			break;
