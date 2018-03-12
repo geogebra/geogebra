@@ -7,11 +7,13 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -408,9 +410,16 @@ public abstract class GlobalKeyDispatcher {
 					if (selectedGeos != null && selectedGeos.size() > 0) {
 
 						GeoElement geo = selectedGeos.get(0);
-						GRectangle2D bounds = view.getDrawableFor(geo)
-								.getBoundsForStylebarPosition();
+						DrawableND drawable = view.getDrawableFor(geo);
+						GRectangle2D bounds;
+						if (drawable != null) {
 
+							bounds = drawable.getBoundsForStylebarPosition();
+
+						} else {
+							// probably 3D, just open in corner
+							bounds = AwtFactory.getPrototype().newRectangle2D();
+						}
 						GPoint p = new GPoint((int) bounds.getMinX(),
 								(int) bounds.getMinY());
 
@@ -420,6 +429,7 @@ public abstract class GlobalKeyDispatcher {
 								app.getActiveEuclidianView(), p);
 
 					} else {
+						// open in corner
 						app.getGuiManager().showDrawingPadPopup(
 								app.getActiveEuclidianView(), new GPoint(0, 0));
 

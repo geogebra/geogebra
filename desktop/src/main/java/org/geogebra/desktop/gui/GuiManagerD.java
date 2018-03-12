@@ -3168,7 +3168,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 			GPoint mouseLoc) {
-		showDrawingPadPopup(((EuclidianViewD) view).getJPanel(), mouseLoc);
+		if (view instanceof EuclidianViewD) {
+			// 2D
+			showDrawingPadPopup(((EuclidianViewD) view).getJPanel(), mouseLoc);
+		} else {
+			// 3D
+			showDrawingPadPopup3D(view, mouseLoc);
+		}
 	}
 
 	@Override
