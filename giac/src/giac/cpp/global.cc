@@ -5923,7 +5923,7 @@ unsigned int ConvertUTF8toUTF16 (
 	  int posdot=cur.find(':',pos);
 	  if (posdot>pos+7 && posdot<int(cur.size())-1 && cur[posdot+1]!='=' && cur[posdot+1]!=';'){
 	    pythonmode=true;
-	    cur=cur.substr(0,pos)+cur.substr(pos+6,posdot-pos-6)+"->"+cur.substr(posdot+1,cur.size()-posdot-1);
+	    cur=cur.substr(0,pos)+"("+cur.substr(pos+6,posdot-pos-6)+")->"+cur.substr(posdot+1,cur.size()-posdot-1);
 	  }
 	}
       }
