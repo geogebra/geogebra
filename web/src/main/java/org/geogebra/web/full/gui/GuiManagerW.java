@@ -446,6 +446,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				this.device);
 	}
 
+	public void showAudioInputDialog() {
+		((DialogManagerW) getDialogManager()).showAudioInputDialog();
+	}
+
 	@Override
 	public void loadWebcam() {
 		if (getApp().getToolbar() != null) {

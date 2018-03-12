@@ -417,8 +417,11 @@ $duration: 0.2s;
     		padding-bottom: 8px;
     		padding-left: 0px;
     		
-    		.gwt-Button {
+    		.gwt-Button, .button {
     			@extend .flatDialogBtn;
+    			.html-face {
+    				text-align: center;	
+    			}
    			}
    		}
    	

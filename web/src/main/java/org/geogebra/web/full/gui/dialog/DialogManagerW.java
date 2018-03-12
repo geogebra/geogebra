@@ -68,6 +68,7 @@ public class DialogManagerW extends DialogManager
 	protected UploadImageDialog imageDialog;
 	protected WebcamInputDialog webcamInputDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
+	private AudioInputDialog audioInputDialog;
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog dialog = null;
 
@@ -259,6 +260,18 @@ public class DialogManagerW extends DialogManager
 		imageDialog.setLocation(loc);
 		imageDialog.center();
 		imageDialog.show();
+	}
+
+	/**
+	 * show insert audio dialog
+	 */
+	@Override
+	public void showAudioInputDialog() {
+		if (this.audioInputDialog == null) {
+			this.audioInputDialog = new AudioInputDialog((AppW) app);
+		}
+		audioInputDialog.center();
+		audioInputDialog.show();
 	}
 
 	/**

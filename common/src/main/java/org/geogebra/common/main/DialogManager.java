@@ -380,6 +380,10 @@ public abstract class DialogManager {
 
 	}
 
+	public void showAudioInputDialog() {
+		return;
+	}
+
 	public static void makeRegularPolygon(final App app,
 			final EuclidianController ec, String inputString,
 			final GeoPointND geoPoint1, final GeoPointND geoPoint2,

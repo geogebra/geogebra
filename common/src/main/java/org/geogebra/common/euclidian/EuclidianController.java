@@ -907,8 +907,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 			if (newMode == EuclidianConstants.MODE_AUDIO) {
-				addAudio();
-				return;
+				if (app.getGuiManager() != null) {
+					getDialogManager().showAudioInputDialog();
+				}
 			}
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(Test.GEOIMAGE, tempArrayList),
@@ -5789,7 +5790,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_AUDIO:
-			addAudio();
+			// addAudio();
 			break;
 		// new image
 		case EuclidianConstants.MODE_IMAGE:
