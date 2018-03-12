@@ -173,7 +173,7 @@ public enum KeyCodes {
 
 	SPACE(JavaKeyCodes.VK_SPACE, GWTKeycodes.KEY_SPACE),
 
-	CONTEXT_MENU(JavaKeyCodes.VK_CONTEXT_MENU, -1),
+	CONTEXT_MENU(JavaKeyCodes.VK_CONTEXT_MENU, GWTKeycodes.KEY_CONTEXT_MENU),
 
 	WINDOWS(JavaKeyCodes.VK_WINDOWS, GWTKeycodes.KEY_WIN_KEY_LEFT_META),
 
