@@ -658,6 +658,7 @@ public class Manager3D implements Manager3DInterface {
 			GeoNumberValue r) {
 		AlgoSpherePointRadius algo = new AlgoSpherePointRadius(cons, M,
 				r);
+		algo.getSphere().setToSpecific();
 		algo.getSphere().setLabel(label);
 		return algo.getSphere();
 	}
@@ -667,7 +668,9 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	@Override
 	final public GeoQuadric3D Sphere(String label, GeoPointND M, GeoPointND P) {
-		AlgoSphereTwoPoints algo = new AlgoSphereTwoPoints(cons, label, M, P);
+		AlgoSphereTwoPoints algo = new AlgoSphereTwoPoints(cons, M, P);
+		algo.getSphere().setToSpecific();
+		algo.getSphere().setLabel(label);
 		return algo.getSphere();
 	}
 

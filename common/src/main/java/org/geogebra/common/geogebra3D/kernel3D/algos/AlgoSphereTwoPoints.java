@@ -44,21 +44,6 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
 		super(cons, M, P);
 	}
 
-	/**
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label ffor sphere
-	 * @param M
-	 *            center
-	 * @param P
-	 *            point on sphere
-	 */
-	public AlgoSphereTwoPoints(Construction cons, String label, GeoPointND M,
-			GeoPointND P) {
-		super(cons, label, M, P);
-	}
-
 	@Override
 	protected GeoQuadricND createSphereND(Construction cons1) {
 		GeoQuadric3D sphere = new GeoQuadric3D(cons1);
@@ -81,11 +66,8 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		// Michael Borcherds 2008-03-30
-		// simplified to allow better Chinese translation
 		return getLoc().getPlain("SphereThroughAwithCenterB",
 				getP().getLabel(tpl), getM().getLabel(tpl));
-
 	}
 
 }

@@ -36,7 +36,6 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 
 	public AlgoSpherePointRadius(Construction cons, GeoPointND M,
 			GeoNumberValue r) {
-
 		super(cons, M, r);
 	}
 
