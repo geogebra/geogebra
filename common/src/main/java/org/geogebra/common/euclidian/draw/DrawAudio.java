@@ -19,9 +19,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class DrawAudio extends Drawable {
 	private static final int PLAY_MARGIN = 5;
-	private static final int DEFAULT_PLAYER_WIDTH = 300;
-	private static final int DEFAULT_PLAYER_HEIGHT = 25;
-	private static final int PLAY_SIZE = DEFAULT_PLAYER_HEIGHT - 2 * PLAY_MARGIN;
 
 	private final GeoAudio geoAudio;
 	private int top;
@@ -45,6 +42,9 @@ public class DrawAudio extends Drawable {
 		update();
 	}
 
+	private int getPlaySize() {
+		return height - 2 * PLAY_MARGIN;
+	}
 	@Override
 	public void update() {
 		isVisible = geoAudio.isDefined();
@@ -54,16 +54,17 @@ public class DrawAudio extends Drawable {
 		left = geoAudio.labelOffsetX;
 		top = geoAudio.labelOffsetY;
 
-		width = DEFAULT_PLAYER_WIDTH;
-		height = DEFAULT_PLAYER_HEIGHT;
+		width = geoAudio.getWidth();
+		height = geoAudio.getHeight();
+		int size = getPlaySize();
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
-		playRect = AwtFactory.getPrototype().newRectangle(left + PLAY_MARGIN, top + PLAY_MARGIN, PLAY_SIZE, PLAY_SIZE);
+		playRect = AwtFactory.getPrototype().newRectangle(left + PLAY_MARGIN, top + PLAY_MARGIN, size, size);
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
 		drawBox(g2);
-		drawPlay(g2, PLAY_SIZE, GColor.BLACK);
+		drawPlay(g2, getPlaySize(), GColor.BLACK);
 		drawTime(g2);
 	}
 
@@ -83,11 +84,11 @@ public class DrawAudio extends Drawable {
 
 	private void drawTime(GGraphics2D g2) {
 		g2.setPaint(GColor.DARK_GRAY);
-		int x = left + PLAY_MARGIN + PLAY_SIZE + 2 * PLAY_MARGIN;
-		int y = top + DEFAULT_PLAYER_HEIGHT - PLAY_MARGIN;
+		int x = left + PLAY_MARGIN + getPlaySize() + 2 * PLAY_MARGIN;
+		int y = top + geoAudio.getHeight() - PLAY_MARGIN;
 		int duration = geoAudio.getDuration();
 		int currTime = geoAudio.getCurrentTime();
-		
+
 		StringBuilder sb = new StringBuilder();
 		if (currTime != -1) {
 			sb.append(currTime);
@@ -101,8 +102,8 @@ public class DrawAudio extends Drawable {
 		} else {
 			sb.append("-:-");
 		}
-		
-		
+
+
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2, sb.toString(),
 				x, y, false, null, null);
 

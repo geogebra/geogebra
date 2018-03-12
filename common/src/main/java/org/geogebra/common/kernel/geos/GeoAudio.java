@@ -17,9 +17,10 @@ import org.geogebra.common.plugin.script.Script;
 public class GeoAudio extends GeoButton {
 	/** URL of a test audio file */
 	public static final String TEST_URL = "http://archive.geogebra.org/static/welcome_to_geogebra.mp3";
+	private static final int DEFAULT_PLAYER_WIDTH = 300;
+	private static final int DEFAULT_PLAYER_HEIGHT = 25;
 	private String dataUrl;
 	private App app;
-
 	/**
 	 * Constructs a new, empty audio element.
 	 * 
@@ -29,6 +30,9 @@ public class GeoAudio extends GeoButton {
 	public GeoAudio(Construction c) {
 		super(c);
 		app = getKernel().getApplication();
+		setWidth(DEFAULT_PLAYER_WIDTH);
+		setHeight(DEFAULT_PLAYER_HEIGHT);
+
 	}
 
 	/**
@@ -38,16 +42,10 @@ public class GeoAudio extends GeoButton {
 	 *            the construction.
 	 * @param url
 	 *            the audio URL.
-	 * @param top
-	 *            top to add audio player associated with the geo.
-	 * @param left
-	 *            left to add audio player associated with the geo.
 	 */
-	public GeoAudio(Construction c, String url, int top, int left) {
+	public GeoAudio(Construction c, String url) {
 		this(c);
 		setDataUrl(url);
-		this.labelOffsetX = top;
-		this.labelOffsetY = left;
 		addScript();
 		setLabel("audio");
 	}
@@ -118,10 +116,16 @@ public class GeoAudio extends GeoButton {
 		runClickScripts(dataUrl);
 	}
 
+	/**
+	 * @return the duration of the audio in seconds.
+	 */
 	public int getDuration() {
 		return app.getSoundManager().getDuration(dataUrl);
 	}
 
+	/**
+	 * @return the time where audio play is at.
+	 */
 	public int getCurrentTime() {
 		return app.getSoundManager().getCurrentTime(dataUrl);
 	}
