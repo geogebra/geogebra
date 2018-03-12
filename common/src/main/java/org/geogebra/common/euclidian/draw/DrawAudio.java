@@ -63,11 +63,11 @@ public class DrawAudio extends Drawable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		drawBox(g2);
-		drawPlay(g2, PLAY_SIZE, GColor.BLACK, false);
+		drawPlay(g2, PLAY_SIZE, GColor.BLACK);
 		drawTime(g2);
 	}
 
-	private void drawPlay(GGraphics2D g2, int size, GColor bgColor, boolean pressed) {
+	private void drawPlay(GGraphics2D g2, int size, GColor bgColor) {
 		g2.setColor(bgColor);
 		int x = left + PLAY_MARGIN;
 		int y = top + PLAY_MARGIN;
