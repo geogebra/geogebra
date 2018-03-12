@@ -86,4 +86,9 @@ public interface PageListControllerInterface {
 	 * Persist currently selected page
 	 */
 	void saveSelected();
+
+	/**
+	 * Update preview of selected card
+	 */
+	void updatePreviewImage();
 }

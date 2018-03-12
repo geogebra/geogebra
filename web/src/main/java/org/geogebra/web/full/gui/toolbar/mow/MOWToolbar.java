@@ -233,6 +233,7 @@ public class MOWToolbar extends FlowPanel {
 					.getPageControlPanel();
 		}
 		pageControlPanel.open();
+		app.getPageController().updatePreviewImage();
 	}
 
 	/**

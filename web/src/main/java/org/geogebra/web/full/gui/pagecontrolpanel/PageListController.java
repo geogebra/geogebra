@@ -359,6 +359,7 @@ public class PageListController implements PageListControllerInterface,
 	/**
 	 * Updates the preview image of the active preview card
 	 */
+	@Override
 	public void updatePreviewImage() {
 		if (selectedCard != null) {
 			selectedCard.updatePreviewImage();

@@ -151,7 +151,6 @@ public class PageListPanel
 			}
 		}
 		setVisible(true);
-		pageController.updatePreviewImage();
 		setLabels();
 		removeStyleName("animateOut");
 		addStyleName("animateIn");
