@@ -970,8 +970,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		super.setLineOpacity(lineOpacity);
 		if (updateSegments && segments != null) {
 			for (int i = 0; i < segments.length; i++) {
-				segments[i].setLineOpacity(lineOpacity);
-				segments[i].updateVisualStyle(GProperty.LINE_STYLE);
+				if (segments[i] != null) {
+					segments[i].setLineOpacity(lineOpacity);
+					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
+				}
 			}
 		}
 	}
