@@ -2,8 +2,8 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -21,7 +21,7 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 	private FlowPanel inputPanel;
 	private FlowPanel buttonPanel;
 	private FormLabel inputLabel;
-	private AutoCompleteTextFieldW inputField;
+	private InputPanelW inputField;
 	private StandardButton insertBtn;
 	private StandardButton cancelBtn;
 
@@ -41,7 +41,7 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 		inputPanel = new FlowPanel();
 		inputPanel.setStyleName("mowAudioSimplePanel");
 		inputLabel = new FormLabel();
-		inputField = new AutoCompleteTextFieldW(8, appW);
+		inputField = new InputPanelW(appW, 8, false);
 		inputPanel.add(inputLabel);
 		inputPanel.add(inputField);
 		// panel for buttons
