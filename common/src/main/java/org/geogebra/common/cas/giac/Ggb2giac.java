@@ -21,6 +21,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class Ggb2giac {
 	/** Giac syntax for Element(list,index) */
 	public static final String ELEMENT_2 = "when(%1>0&&%1<=size(%0),(%0)[%1-when(type(%0)==DOM_LIST,1,0)],?)";
+	private static final String GGBVECT_TYPE = "27";
 	private static Map<String, String> commandMap = new TreeMap<>();
 
 	/**
@@ -222,7 +223,8 @@ public class Ggb2giac {
 		// regroup(dot(ggbdotarg0,ggbdotarg1))][1]");
 		p("Dot.2",
 				"[[[ggbdotarg0:=%0],[ggbdotarg1:=%1]],"
-						+ "when(type(ggbdotarg0)==DOM_LIST&&subtype(ggbdotarg0)!=27,"
+						+ "when(type(ggbdotarg0)==DOM_LIST&&subtype(ggbdotarg0)!="
+						+ GGBVECT_TYPE + ","
 						+
 						// eg lists length 4 (and not ggbvect)
 						// max -> error for different size lists
@@ -915,9 +917,9 @@ public class Ggb2giac {
 		p("RightSide.2", "[[ggbleftarg0:=%0],"
 				+ "when(ggb_is_equals(ggbleftarg0[%1-1][0]),right(ggbleftarg0[%1-1]),?)][1]");
 
-		// subtype 27 is ggbvect()
 		p("Length.1",
-				"[[ggbv:=%0],regroup(when(ggbv[0]=='pnt'||(type(ggbv)==DOM_LIST&&subtype(ggbv)==27),l2norm(ggbv),size(ggbv)))][1]");
+				"[[ggbv:=%0],regroup(when(ggbv[0]=='pnt'||(type(ggbv)==DOM_LIST&&subtype(ggbv)=="
+						+ GGBVECT_TYPE + "),l2norm(ggbv),size(ggbv)))][1]");
 		p("Length.3", "arcLen(%0,%1,%2)");
 		p("Length.4", "arcLen(%0,%1,%2,%3)");
 
@@ -1274,8 +1276,8 @@ public class Ggb2giac {
 						"when(ggbtype==DOM_INT||ggbtype==DOM_FLOAT,ggbtcans,"
 						+
 						// ToComplex[(3,4)]
-						// 27==ggbvect
-						"when(ggbtcans[0]=='pnt'||(type(ggbtcans)==DOM_LIST&&subtype(ggbtcans)==27),xcoord(%0)+i*ycoord(%0),"
+						"when(ggbtcans[0]=='pnt'||(type(ggbtcans)==DOM_LIST&&subtype(ggbtcans)=="
+						+ GGBVECT_TYPE + "),xcoord(%0)+i*ycoord(%0),"
 						+
 						// ToComplex[ln(i)],ToComplex[a]
 						"real(ggbtcans)+i*im(ggbtcans)" + "))][3]");
@@ -1288,10 +1290,12 @@ public class Ggb2giac {
 		p("Translate.2",
 				"[[[ggbtrsarg0:=%0],[ggbtrsarg1:=%1]],"
 						// invalid case: translate vector by vector
-						+ "when(subtype(ggbtrsarg0)==27&&subtype(ggbtrsarg1)==27,"
+						+ "when(subtype(ggbtrsarg0)==" + GGBVECT_TYPE
+						+ "&&subtype(ggbtrsarg1)==" + GGBVECT_TYPE + ","
 						+ "?,"
 						// translate vector by point -> return vector
-						+ "when(subtype(ggbtrsarg0)==27&&(ggbtrsarg1)[0]=='pnt',"
+						+ "when(subtype(ggbtrsarg0)==" + GGBVECT_TYPE
+						+ "&&(ggbtrsarg1)[0]=='pnt',"
 						+ "ggbtrsarg0,"
 						// translate point about vector
 						+ "when((ggbtrsarg0)[0]=='pnt',"
@@ -1571,7 +1575,8 @@ public class Ggb2giac {
 				+ "xcoord(ggbangarg0) <> string(X)&&(xcoord(ggbangarg0))[0] <> '='&&"
 				+ "(ggbangarg1)[0] <> '='&&(ggbangarg1)[0] <> 'pnt' &&"
 				+ " xcoord(ggbangarg1) <> string(X)&&(xcoord(ggbangarg1))[0] <> '='&&"
-				+ "subtype(ggbangarg0) <> 27&&subtype(ggbangarg1) <> 27,"
+				+ "subtype(ggbangarg0) <> " + GGBVECT_TYPE
+				+ "&&subtype(ggbangarg1) <> " + GGBVECT_TYPE + ","
 				+ "normal(regroup(angle(point(0,0,0),"
 				+ "point(coeff(ggbangarg0,x,1),1," + "coeff(ggbangarg0,z,1)),"
 				+ "point(coeff(ggbangarg1,x,1),1,coeff(ggbangarg1,z,1))))),"
@@ -1588,7 +1593,10 @@ public class Ggb2giac {
 				+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))),"
 				// case line or plane defined by linear equation
 				// or points or vectors (GGB-988)
-				+ "when((type(xcoord(ggbangarg0))==DOM_INT||(ggbangarg0)[0]=='pnt'||subtype(ggbangarg0)==27) &&(type(xcoord(ggbangarg1))==DOM_INT||(ggbangarg1)[0]=='pnt'||subtype(ggbangarg1)==27),"
+				+ "when((type(xcoord(ggbangarg0))==DOM_INT||(ggbangarg0)[0]=='pnt'||subtype(ggbangarg0)=="
+				+ GGBVECT_TYPE
+				+ ") &&(type(xcoord(ggbangarg1))==DOM_INT||(ggbangarg1)[0]=='pnt'||subtype(ggbangarg1)=="
+				+ GGBVECT_TYPE + "),"
 				+ "normal(regroup(angle(point(0,0,0),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))),"
 				// case 3D lines defined in this command
 				+ "when(xcoord(ggbangarg0)==string(X)&&xcoord(ggbangarg1)==string(X),"
@@ -1671,7 +1679,8 @@ public class Ggb2giac {
 		p("Line.2", line2def);
 
 		p("OrthogonalLine.2",
-				"equation(perpendicular(%0,when(subtype(%1)==27,%1,line(%1))))");
+				"equation(perpendicular(%0,when(subtype(%1)==" + GGBVECT_TYPE
+						+ ",%1,line(%1))))");
 
 		
 		// TODO: return Segment() not equation
@@ -1782,7 +1791,8 @@ public class Ggb2giac {
 				"when(type(%0)==DOM_LIST,when(size(%0)!=2,?,normalize(ggbvect[-%0[1],%0[0]])),"
 						+ "when(is_3dpoint(%0),?,"
 						// vector given as point or list
-						+ "when(subtype(%0)==27||(%0)[0]=='pnt',"
+						+ "when(subtype(%0)==" + GGBVECT_TYPE
+						+ "||(%0)[0]=='pnt',"
 						// case UnitOrthogonalVector[Vector]
 						+ "regroup(unitV(ggbvect[-ycoord(%0),xcoord(%0)])),"
 						// case UnitOrthogonalVecto[Line]
