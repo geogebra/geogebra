@@ -1670,6 +1670,10 @@ public class Ggb2giac {
 
 		p("Line.2", line2def);
 
+		p("OrthogonalLine.2",
+				"equation(perpendicular(%0,when(subtype(%1)==27,%1,line(%1))))");
+
+		
 		// TODO: return Segment() not equation
 		p("Segment.2", line2def);
 
@@ -1691,8 +1695,6 @@ public class Ggb2giac {
 		// factor: nice form for Midpoint[(a,b),(c,d)]
 		p("Midpoint.2",
 				"convert(factor((normal(coordinates(midpoint(%0,%1))))),25)");
-
-		p("OrthogonalLine.2", "equation(perpendicular(%0,line(%1)))");
 
 		// TODO: needs to get back from Giac into GeoGebra as a parametric eqn
 		// p("Curve.5","equation(plotparam([%0,%1],%2,%3,%4))");
