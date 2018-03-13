@@ -321,6 +321,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		maxPrecision.localizeCmds = false;
 	}
 
+	/**
+	 * High precision, fixed decimal places (15)
+	 */
 	public static final StringTemplate maxDecimals = new StringTemplate(
 			"maxPrecision");
 	static {
@@ -1221,18 +1224,30 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	}
 
+	/**
+	 * @return ( or \left(
+	 */
 	public String leftBracket() {
 		return left() + "(";
 	}
 
+	/**
+	 * @return ) or \right)
+	 */
 	public String rightBracket() {
 		return right() + ")";
 	}
 
+	/**
+	 * @return [ or \left[
+	 */
 	public String leftSquareBracket() {
 		return left() + "[";
 	}
 
+	/**
+	 * @return ] or \right]
+	 */
 	public String rightSquareBracket() {
 		return right() + "]";
 	}

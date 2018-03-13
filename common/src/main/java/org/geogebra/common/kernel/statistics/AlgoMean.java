@@ -26,17 +26,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoMean extends AlgoStats1D {
 
-	public AlgoMean(Construction cons, String label, GeoList geoList) {
-		super(cons, label, geoList, AlgoStats1D.STATS_MEAN);
-	}
-
 	public AlgoMean(Construction cons, GeoList geoList) {
 		super(cons, geoList, AlgoStats1D.STATS_MEAN);
-	}
-
-	public AlgoMean(Construction cons, String label, GeoList geoList,
-			GeoList geoList2) {
-		super(cons, label, geoList, geoList2, AlgoStats1D.STATS_MEAN);
 	}
 
 	public AlgoMean(Construction cons, GeoList geoList, GeoList geoList2) {

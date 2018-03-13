@@ -26,10 +26,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoSum extends AlgoStats1D {
 
-	public AlgoSum(Construction cons, String label, GeoList geoList) {
-		super(cons, label, geoList, AlgoStats1D.STATS_SIGMAX);
-	}
-
 	public AlgoSum(Construction cons, GeoList geoList) {
 		super(cons, geoList, AlgoStats1D.STATS_SIGMAX);
 	}
@@ -45,7 +41,8 @@ public class AlgoSum extends AlgoStats1D {
 
 	public AlgoSum(Construction cons, String label, GeoList geoList,
 			GeoNumeric n) {
-		super(cons, label, geoList, n, AlgoStats1D.STATS_SIGMAX);
+		super(cons, geoList, null, n, AlgoStats1D.STATS_SIGMAX);
+		getResult().setLabel(label);
 	}
 
 	@Override

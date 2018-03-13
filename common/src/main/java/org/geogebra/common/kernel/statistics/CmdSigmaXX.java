@@ -40,7 +40,8 @@ public class CmdSigmaXX extends CmdOneListFunction {
 	@Override
 	protected GeoElement doCommand(String a, Command c, GeoList list,
 			GeoList freq) {
-		AlgoSigmaXX algo = new AlgoSigmaXX(cons, a, list, freq);
+		AlgoSigmaXX algo = new AlgoSigmaXX(cons, list, freq);
+		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
 

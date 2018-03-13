@@ -250,7 +250,8 @@ public class CmdSum extends CommandProcessor {
 	}
 
 	final private GeoElement Sum(String label, GeoList list) {
-		AlgoSum algo = new AlgoSum(cons, label, list);
+		AlgoSum algo = new AlgoSum(cons, list);
+		algo.getResult().setLabel(label);
 		GeoElement ret = algo.getResult();
 		return ret;
 	}
