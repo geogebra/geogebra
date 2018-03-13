@@ -443,7 +443,7 @@ $duration: 0.2s;
    			
    			&.emptyState {
    				.inputLabel {
-   					color: $black-54;
+   					color: $text-secondary;
    					font-size: 75%;
    				}
    			
@@ -454,7 +454,7 @@ $duration: 0.2s;
  						margin-bottom: 8px;
  						margin-top: 0px;
  						font-size: 100%;
- 						color: $black-54;
+ 						color: $text-secondary;
  					}
  				}
    					
@@ -479,10 +479,25 @@ $duration: 0.2s;
    				}   				
    			}
    		
+   			&.focusState {
+   				@extend .emptyState;
+   				.inputLabel {
+   					color: $mebis-teal-dark-87;
+   				}
+   			
+ 				.AutoCompleteTextFieldW {
+ 					border-bottom: 2px solid $mebis-teal-dark;
+ 				} 				
+   			}
+   		
    		}
    	
    		.DialogButtonPanel {
    			padding-top: 10px;
+   			
+   			.button {
+   				color: $mebis-teal-dark;	
+   			}
    			
    			.insertBtn.button-up-disabled {
    				opacity: 1;
