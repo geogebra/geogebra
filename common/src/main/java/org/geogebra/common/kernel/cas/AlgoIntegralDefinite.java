@@ -162,7 +162,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		this.evaluate = evaluate;
 
 		// always use numerical algorithm in web (CAS much too slow)
-		if (!kernel.getApplication().nativeCAS()) {
+		if (!kernel.getApplication().nativeCAS()
+				&& !Double.isInfinite(a.evaluateDouble())
+				&& !Double.isInfinite(b.evaluateDouble())) {
 			evaluateNumerically = true;
 		}
 
