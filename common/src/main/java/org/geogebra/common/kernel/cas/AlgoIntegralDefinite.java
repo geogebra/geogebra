@@ -33,10 +33,10 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.Bounds;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoFunction.Bounds;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -376,10 +376,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 					if (op == Operation.IF_LIST) {
 						ArrayList<ExpressionNode> nodesAl = new ArrayList<>();
-						ArrayList<GeoFunction.Bounds> boundsAl = new ArrayList<>();
+						ArrayList<Bounds> boundsAl = new ArrayList<>();
 
 						boolean complete = GeoFunction.collectCases(exp, nodesAl, boundsAl,
-								f.new Bounds());
+								new Bounds(kernel,
+										f.getFunctionVariables()[0]));
 
 						int size = complete ? (nodesAl.size() - 1)
 								: nodesAl.size();
