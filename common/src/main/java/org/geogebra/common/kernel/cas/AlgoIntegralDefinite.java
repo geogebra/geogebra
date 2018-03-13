@@ -422,7 +422,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 									n.setValue(numericIntegration(f, lowerLimit,
 											upperLimit,
 											f.includesFreehandOrData() ? 10
-													: 10));
+													: 1));
 									return;
 								}
 
@@ -524,7 +524,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 				// iterations may be needed
 				// https://www.geogebra.org/help/topic/problem-mit-integral-unter-freihandskizze
 				n.setValue(numericIntegration(f, lowerLimit, upperLimit,
-						f.includesFreehandOrData() ? 10 : 10));
+						f.includesFreehandOrData() ? 10 : 1));
 			}
 		}
 		/*
