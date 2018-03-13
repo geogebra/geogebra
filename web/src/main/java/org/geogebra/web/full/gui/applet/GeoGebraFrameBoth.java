@@ -225,12 +225,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 		this.lastBG = bg;
 		// frameLayout.forceLayout();
-
 	}
 
 	@Override
 	public void hideBrowser(MyHeaderPanel bg) {
-		remove(bg);
+		if (!remove(bg)) {
+			return;
+		}
 		lastBG = null;
 		ToolTipManagerW.hideAllToolTips();
 		final int count = getWidgetCount();
@@ -246,7 +247,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		} else {
 			app.updateViewSizes();
 		}
-
 	}
 
 	@Override
@@ -327,7 +327,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			public void run() {
 
 				keyBoard.resetKeyboardState();
-				app.centerAndResizePopups();
+				getApplication().centerAndResizePopups();
 
 			}
 		});
@@ -368,13 +368,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 					remove(keyBoard);
 					return;
 				}
-				final boolean showPerspectivesPopup = app
+				final boolean showPerspectivesPopup = getApplication()
 						.isPerspectivesPopupVisible();
 				onKeyboardAdded(keyBoard);
 				if (showPerspectivesPopup) {
-					app.showPerspectivesPopup();
+					getApplication().showPerspectivesPopup();
 				}
-				if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+				if (getApplication().has(Feature.KEYBOARD_BEHAVIOUR)) {
 					if (textField != null) {
 						textField.setFocus(true, true);
 					}
@@ -588,12 +588,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 						@Override
 						public void run() {
-							if (app.isWhiteboardActive()) {
+							if (getApplication().isWhiteboardActive()) {
 								return;
 							}
-							app.persistWidthAndHeight();
+							getApplication().persistWidthAndHeight();
 							addKeyboard(null, false);
-							app.getGuiManager().focusScheduled(false, false,
+							getApplication().getGuiManager()
+									.focusScheduled(false, false,
 									false);
 							ensureKeyboardDeferred();
 
@@ -636,16 +637,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 			@Override
 			public void run() {
-
-				if (app.getGuiManager().hasAlgebraView()) {
-					AlgebraViewW av = (AlgebraViewW) app.getAlgebraView();
+				if (getApplication().getGuiManager().hasAlgebraView()) {
+					AlgebraViewW av = (AlgebraViewW) getApplication()
+							.getAlgebraView();
 					// av.clearActiveItem();
 					av.setDefaultUserWidth();
-
 				}
 
 				ensureKeyboardEditing();
-
 			}
 
 		}.schedule(500);
@@ -893,7 +892,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					app.toggleMenu();
+					getApplication().toggleMenu();
 				}
 				// if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
 				// GGWToolBar.this.selectMenuButton(0);
@@ -945,6 +944,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		this.keyboardShowing = keyboardShowing;
 	}
 
+	/**
+	 * Create page control panel if needed
+	 * 
+	 * @param app1
+	 *            app
+	 */
 	public void initPageControlPanel(AppW app1) {
 		if (!app1.has(Feature.MOW_MULTI_PAGE)) {
 			return;
