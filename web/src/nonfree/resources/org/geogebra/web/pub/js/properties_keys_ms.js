@@ -3154,6 +3154,7 @@ __GGB__keysVar["ms"].menu = {
     "otherwise": "kalau tidak",
     "page": "Page",
     "parallel": "selari",
+    "pasteLink": "Paste link",
     "pdf": "Format Dokumen Mudah Alih",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

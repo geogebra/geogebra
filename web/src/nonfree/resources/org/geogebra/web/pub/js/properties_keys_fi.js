@@ -3154,6 +3154,7 @@ __GGB__keysVar["fi"].menu = {
     "otherwise": "muutoin",
     "page": "Page",
     "parallel": "yhdensuuntainen",
+    "pasteLink": "Paste link",
     "pdf": "Portable Document Format",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

@@ -3154,6 +3154,7 @@ __GGB__keysVar["es-ES"].menu = {
     "otherwise": "en caso contrario",
     "page": "Page",
     "parallel": "paralela",
+    "pasteLink": "Paste link",
     "pdf": "Documento PDF",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

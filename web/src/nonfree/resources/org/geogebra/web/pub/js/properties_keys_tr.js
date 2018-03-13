@@ -3154,6 +3154,7 @@ __GGB__keysVar["tr"].menu = {
     "otherwise": "aksi halde",
     "page": "Page",
     "parallel": "paralel",
+    "pasteLink": "Paste link",
     "pdf": "Ta\u015f\u0131nabilir Dosya Bi\xe7imi(pdf)",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

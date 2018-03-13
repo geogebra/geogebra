@@ -3154,6 +3154,7 @@ __GGB__keysVar["ml"].menu = {
     "otherwise": "otherwise",
     "page": "Page",
     "parallel": "\u0d24\u0d3f\u0d30\u0d36\u0d4d\u0d1a\u0d40\u0d28\u0d02",
+    "pasteLink": "Paste link",
     "pdf": "Portable Document Format",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

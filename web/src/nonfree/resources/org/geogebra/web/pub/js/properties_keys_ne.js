@@ -3154,6 +3154,7 @@ __GGB__keysVar["ne"].menu = {
     "otherwise": "\u0905\u0928\u094d\u092f\u0925\u093e\u094d",
     "page": "Page",
     "parallel": "\u0938\u092e\u093e\u0928\u094d\u0928\u0924\u0930",
+    "pasteLink": "Paste link",
     "pdf": "\u092a\u094b\u0930\u094d\u0930\u091f\u0947\u092c\u0932 \u0921\u0915\u0941\u092e\u0947\u0928\u094d\u091f \u092b\u0930\u092e\u094d\u092f\u093e\u091f",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

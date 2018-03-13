@@ -3154,6 +3154,7 @@ __GGB__keysVar["pl"].menu = {
     "otherwise": "pozostale",
     "page": "Page",
     "parallel": "r\xf3wnoleg\u0142y",
+    "pasteLink": "Paste link",
     "pdf": "pdf",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

@@ -3154,6 +3154,7 @@ __GGB__keysVar["lv"].menu = {
     "otherwise": "cit\u0101di",
     "page": "Page",
     "parallel": "paral\u0113li",
+    "pasteLink": "Paste link",
     "pdf": "Portable Dokuments Form\u0101ts",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

@@ -3154,6 +3154,7 @@ __GGB__keysVar["de-AT"].menu = {
     "otherwise": "sonst",
     "page": "Seite",
     "parallel": "parallel",
+    "pasteLink": "Paste link",
     "pdf": "PDF-Format",
     "phone_change_visibility": "Sichtbarkeit \xe4ndern",
     "phone_change_visibility_text": "Wenn Sie dieses private Material teilen, wird die Sichtbarkeit auf \"Mit Link teilen\" gesetzt.",

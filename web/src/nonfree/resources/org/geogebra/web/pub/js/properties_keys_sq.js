@@ -3154,6 +3154,7 @@ __GGB__keysVar["sq"].menu = {
     "otherwise": "perndryshe",
     "page": "Page",
     "parallel": "paralele",
+    "pasteLink": "Paste link",
     "pdf": "Format Dokumenti i Mbartshem",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

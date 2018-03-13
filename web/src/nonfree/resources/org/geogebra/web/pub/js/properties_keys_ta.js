@@ -3154,6 +3154,7 @@ __GGB__keysVar["ta"].menu = {
     "otherwise": "otherwise",
     "page": "Page",
     "parallel": "\u0b9a\u0bae\u0bbe\u0ba8\u0bcd\u0ba4\u0bb0\u0bae\u0bcd",
+    "pasteLink": "Paste link",
     "pdf": "PDF \u0b86\u0bb5\u0ba3\u0bae\u0bcd",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

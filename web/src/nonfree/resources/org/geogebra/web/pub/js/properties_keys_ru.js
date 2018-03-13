@@ -3154,6 +3154,7 @@ __GGB__keysVar["ru"].menu = {
     "otherwise": "\u0438\u043d\u0430\u0447\u0435",
     "page": "Page",
     "parallel": "\u043f\u0430\u0440\u0430\u043b\u043b\u0435\u043b\u044c\u043d\u0430\u044f \u043f\u0440\u044f\u043c\u0430\u044f",
+    "pasteLink": "Paste link",
     "pdf": "Portable Document Format",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

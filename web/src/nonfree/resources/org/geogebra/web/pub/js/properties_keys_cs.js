@@ -3154,6 +3154,7 @@ __GGB__keysVar["cs"].menu = {
     "otherwise": "jinak",
     "page": "Page",
     "parallel": "rovnob\u011b\u017en\u011b",
+    "pasteLink": "Paste link",
     "pdf": "PDF",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
