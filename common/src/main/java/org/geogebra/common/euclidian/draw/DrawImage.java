@@ -307,6 +307,14 @@ public final class DrawImage extends Drawable {
 				Feature.MOW_PIN_IMAGE) && getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
 		}
+
+		if (geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+			if (this.wasCroped && getCropBox() != null) {
+				getBoundingBox().setRectangle(getCropBox().getBounds());
+			} else if (getBounds() != null) {
+				getBoundingBox().setRectangle(getBounds());
+			}
+		}
 	}
 
 	private static boolean isTranslation(GAffineTransform at2) {
