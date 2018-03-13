@@ -113,11 +113,9 @@ public class UndoTest {
 		shouldHaveSlides(2);
 		slideShouldHaveObjects(0, 1);
 		slideShouldHaveObjects(1, 1);
-		app.getPageController().saveSelected();
-		app.getPageController().clickPage(0, true);
+		selectPage(0);
 		addObject("2x");
-		app.getPageController().saveSelected();
-		app.getPageController().clickPage(1, true);
+		selectPage(1);
 		addObject("-2x");
 		app.getPageController().saveSelected();
 		shouldHaveUndoPoints(5);
@@ -148,6 +146,11 @@ public class UndoTest {
 		objectsPerSlideShouldBe(1, 1);
 	}
 
+	private static void selectPage(int i) {
+		app.getPageController().saveSelected();
+		app.getPageController().clickPage(i, true);
+	}
+
 	@Test
 	public void switchFourSlides() {
 		app = MockApp
@@ -158,11 +161,9 @@ public class UndoTest {
 		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
 		addObject("2x");
 
-		app.getAppletFrame().initPageControlPanel(app);
 		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
 		addObject("3x");
 
-		app.getAppletFrame().initPageControlPanel(app);
 		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
 		addObject("4x");
 
@@ -206,6 +207,42 @@ public class UndoTest {
 		objectsPerSlideShouldBe(1, 1, 1, 1);
 	}
 
+	@Test
+	public void singleObjectPerSlide() {
+		app = MockApp
+				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+
+
+		app.getAppletFrame().initPageControlPanel(app);
+		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		selectPage(0);
+		addObject("x");
+		selectPage(1);
+		addObject("2x");
+		selectPage(2);
+		addObject("3x");
+
+		shouldHaveUndoPoints(5);
+		objectsPerSlideShouldBe(1, 1, 1);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1, 1, 0);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1, 0, 0);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(0, 0, 0);
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(0, 0);
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(0);
+
+
+
+	}
+
 	private void addObject(String string) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
 				true);
@@ -228,7 +265,7 @@ public class UndoTest {
 			count++;
 			start = xml.indexOf("<element", start) + 1;
 		}
-		Assert.assertEquals(expectedCount, count);
+		Assert.assertEquals(slide + ":" + expectedCount, slide + ":" + count);
 	}
 
 	private static void shouldHaveSlides(int expected) {

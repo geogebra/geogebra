@@ -68,6 +68,32 @@ public abstract class UndoManager {
 	}
 
 	/**
+	 * @param slideID
+	 *            slide ID
+	 * @return command that created this slide (DUPLICATE or ADD)
+	 */
+	public UndoCommand getCreationCommand(String slideID) {
+		UndoCommand state = null;
+		int steps = 0;
+		while (iterator.hasPrevious()) {
+			UndoCommand cmd = iterator.previous();
+			steps++;
+			if ((cmd.getAction() == EventType.ADD_SLIDE
+					|| cmd.getAction() == EventType.DUPLICATE_SLIDE)
+					&& cmd.getArgs().length > 1
+					&& cmd.getArgs()[1].equals(slideID)) {
+
+				state = cmd;
+				break;
+			}
+		}
+		for (int i = 0; i < steps; i++) {
+			iterator.next();
+		}
+		return state;
+	}
+
+	/**
 	 * @param action
 	 *            action type
 	 * @param state

@@ -121,9 +121,11 @@ public class PageListPanel
 	 *            whether to select it
 	 */
 	public void loadNewPage(boolean selected) {
-		pageController.loadNewPage(addNewPreviewCard(selected));
+		int index = addNewPreviewCard(selected);
+		pageController.loadNewPage(index);
 		app.getKernel().getConstruction().getUndoManager()
-				.storeAction(EventType.ADD_SLIDE, new String[0]);
+				.storeAction(EventType.ADD_SLIDE, index + "",
+						pageController.getSlide(index).getID());
 	}
 
 	/**

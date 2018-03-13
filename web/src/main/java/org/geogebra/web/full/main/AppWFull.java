@@ -1134,7 +1134,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		// blocked by initing flag
 		initing = false;
 		GeoGebraFrameW.handleLoadFile(articleElement, this);
-
 	}
 
 	private void buildSingleApplicationPanel() {

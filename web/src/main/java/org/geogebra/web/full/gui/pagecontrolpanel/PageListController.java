@@ -155,7 +155,8 @@ public class PageListController implements PageListControllerInterface,
 	public PagePreviewCard duplicateSlideStoreUndo(PagePreviewCard sourceCard) {
 		PagePreviewCard ret = duplicateSlide(sourceCard);
 		app.getKernel().getConstruction().getUndoManager().storeAction(
-				EventType.DUPLICATE_SLIDE, sourceCard.getPageIndex() + "");
+				EventType.DUPLICATE_SLIDE, sourceCard.getPageIndex() + "",
+				ret.getFile().getID());
 		return ret;
 	}
 
