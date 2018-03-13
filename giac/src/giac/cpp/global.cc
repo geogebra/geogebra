@@ -6244,7 +6244,8 @@ unsigned int ConvertUTF8toUTF16 (
 #ifdef SMARTPTR64
       if (debug_infolevel)
 	CERR << builtin_lexer_functions_begin()[i].first << endl; 
-      delete (ref_unary_function_ptr *) (* ((ulonglong * ) &builtin_lexer_functions_begin()[i].second) >> 16);
+      builtin_lexer_functions_begin()[i].second=0;
+      //delete (ref_unary_function_ptr *) (* ((ulonglong * ) &builtin_lexer_functions_begin()[i].second) >> 16);
 #endif
     }
 #endif
