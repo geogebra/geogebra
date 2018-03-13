@@ -4013,7 +4013,8 @@ public abstract class App implements UpdateSelection {
 		case MOB_DEFAULT_SLIDER_INCREMENT_VALUE:
 			return prerelease;
 
-		 case MOB_TABBED_SETTINGS_PANEL:
+		// IGR-605
+		case MOB_TABBED_SETTINGS_PANEL:
 			return prerelease;
 
 		// MOB-1463
