@@ -267,9 +267,7 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showAudioInputDialog() {
-		if (this.audioInputDialog == null) {
-			this.audioInputDialog = new AudioInputDialog((AppW) app);
-		}
+		this.audioInputDialog = new AudioInputDialog((AppW) app);
 		audioInputDialog.center();
 		audioInputDialog.show();
 	}
