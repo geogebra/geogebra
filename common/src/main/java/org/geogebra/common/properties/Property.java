@@ -6,5 +6,5 @@ public interface Property {
 
     String getType();
 
-    void setValue(Object value);
+    void setValue(String value);
 }

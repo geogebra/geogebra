@@ -18,6 +18,7 @@ public class RoundingProperty extends AbstractEnumerableProperty {
         this.app = app;
 
         setupValues(localization);
+        setupCurrent();
     }
 
     private void setupValues(Localization localization) {
@@ -32,11 +33,20 @@ public class RoundingProperty extends AbstractEnumerableProperty {
             }
         }
 
-        setValues(list.toArray());
+        String[] array = new String[list.size()];
+
+        setValues(list.toArray(array));
+    }
+
+    private void setupCurrent() {
+        current = OptionsMenu.getMenuDecimalPosition(app.getKernel());
+        if (current >= figuresIndex) {
+            current -= 1;
+        }
     }
 
     @Override
-    protected void setValueSafe(Object value, int index) {
+    protected void setValueSafe(String value, int index) {
         boolean figures = index >= figuresIndex;
         OptionsMenu.setRounding(app, figures ? index : index + 1, figures);
     }
