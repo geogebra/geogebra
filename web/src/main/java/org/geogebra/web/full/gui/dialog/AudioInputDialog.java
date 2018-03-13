@@ -8,6 +8,10 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -15,7 +19,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author csilla
  *
  */
-public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
+public class AudioInputDialog extends DialogBoxW
+		implements FastClickHandler {
 	private AppW appW;
 	private FlowPanel mainPanel;
 	private FlowPanel inputPanel;
@@ -76,10 +81,49 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 	}
 
 	private void initActions() {
+		inputField.getTextComponent().getTextBox()
+				.addFocusHandler(new FocusHandler() {
+
+			@Override
+			public void onFocus(FocusEvent event) {
+				getInputPanel().setStyleName("mowAudioDialogContent");
+						getInputPanel().addStyleName("focusState");
+					}
+				});
+		inputField.getTextComponent().getTextBox()
+				.addBlurHandler(new BlurHandler() {
+
+					public void onBlur(BlurEvent event) {
+						getInputPanel().setStyleName("mowAudioDialogContent");
+						getInputPanel().addStyleName("emptyState");
+						getInsertBtn().setEnabled(
+								!"".equals(getInputField().getText()));
+					}
+				});
 		insertBtn.addFastClickHandler(this);
 		cancelBtn.addFastClickHandler(this);
 	}
 
+	/**
+	 * @return panel holding input with label and error label
+	 */
+	public FlowPanel getInputPanel() {
+		return inputPanel;
+	}
+
+	/**
+	 * @return insert button
+	 */
+	public StandardButton getInsertBtn() {
+		return insertBtn;
+	}
+
+	/**
+	 * @return input field
+	 */
+	public InputPanelW getInputField() {
+		return inputField;
+	}
 	/**
 	 * set button labels and dialog title
 	 */

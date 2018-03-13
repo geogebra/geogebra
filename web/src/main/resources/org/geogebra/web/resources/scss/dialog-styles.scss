@@ -454,7 +454,10 @@ $duration: 0.2s;
  						margin-bottom: 8px;
  						margin-top: 0px;
  						font-size: 100%;
- 						color: $text-secondary;
+ 						color: $text-primary;
+ 						&::placeholder {
+ 							color: $text-secondary;	
+ 						}
  					}
  				}
    					

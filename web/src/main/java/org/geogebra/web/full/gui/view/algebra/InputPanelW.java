@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  *         Creates an InputPanel for GeoGebraWeb
  * 
  */
-public class InputPanelW extends FlowPanel{
+public class InputPanelW extends FlowPanel {
 
 	private AutoCompleteTextFieldW textComponent;
 	private boolean showSymbolPopup;
