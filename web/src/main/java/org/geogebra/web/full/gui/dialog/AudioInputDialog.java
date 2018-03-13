@@ -44,7 +44,10 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 		inputPanel.addStyleName("emptyState");
 		inputLabel = new FormLabel();
 		inputLabel.addStyleName("inputLabel");
-		inputField = new InputPanelW("Paste link", appW, 1, 25, false);
+		inputField = new InputPanelW("", appW, 1, 25, false);
+		inputField.getTextComponent().getTextBox().getElement().setAttribute(
+				"placeholder",
+				appW.getLocalization().getMenu("pasteLink"));
 		inputField.addStyleName("inputText");
 		inputPanel.add(inputLabel);
 		inputPanel.add(inputField);
