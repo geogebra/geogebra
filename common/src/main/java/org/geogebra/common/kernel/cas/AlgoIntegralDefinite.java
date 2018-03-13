@@ -73,6 +73,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	private static LegendreGaussIntegrator firstGauss, secondGauss;
 	private static int adaptiveGaussQuadCounter = 0;
 	private static final int MAX_GAUSS_QUAD_CALLS = 500;
+	private static final int STANDARD_MULTIPLIER = 1;
+	// freehand functions tend to be less smooth
+	private static final int FREEHAND_MULTIPLIER = 10;
 
 	/**
 	 * @param cons
@@ -421,8 +424,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 											"problem with order of regions, can't use fast method");
 									n.setValue(numericIntegration(f, lowerLimit,
 											upperLimit,
-											f.includesFreehandOrData() ? 10
-													: 1));
+											f.includesFreehandOrData()
+													? FREEHAND_MULTIPLIER
+													: STANDARD_MULTIPLIER));
 									return;
 								}
 
@@ -436,14 +440,14 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 								if (Double.isInfinite(lower)) {
 								
 									sum += numericIntegration(fun, lowerLimit, Math.min(upper, upperLimit),
-											1);
+											STANDARD_MULTIPLIER);
 									
 									
 								} else if (Double.isInfinite(lower)) {
 									sum += numericIntegration(fun,
 											Math.max(lower, lowerLimit),
 											upperLimit,
-											1);
+											STANDARD_MULTIPLIER);
 									
 								} else if (upper <= lowerLimit
 										|| lower >= upperLimit) {
@@ -452,22 +456,22 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 										&& upper <= upperLimit) {
 									// include all
 									sum += numericIntegration(fun, lower, upper,
-											1);
+											STANDARD_MULTIPLIER);
 								} else if ((Double.isNaN(lower)
 										|| lower <= lowerLimit)
 										&& upper <= upperLimit) {
 									sum += numericIntegration(fun, lowerLimit,
-											upper, 1);
+											upper, STANDARD_MULTIPLIER);
 								} else if ((Double.isNaN(upper)
 										|| upper >= upperLimit)
 										&& lower >= lowerLimit) {
 									sum += numericIntegration(fun, lower,
-											upperLimit, 1);
+											upperLimit, STANDARD_MULTIPLIER);
 
 								} else if (lower <= lowerLimit
 										&& upper >= upperLimit) {
 									sum += numericIntegration(fun, lowerLimit,
-											upperLimit, 1);
+											upperLimit, STANDARD_MULTIPLIER);
 
 								} else {
 									Log.error("lower = " + lower);
@@ -495,13 +499,16 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 							
 							if (upperLimit <=coveredMin || lowerLimit >= coveredMax) {
 								// all outside what's been covered already
-								sum += numericIntegration(fun, lowerLimit,upperLimit, 1);
+								sum += numericIntegration(fun, lowerLimit,
+										upperLimit, STANDARD_MULTIPLIER);
 							} else if (lowerLimit >= coveredMin && upperLimit <= coveredMax) {
 								// nothing to do
 							} else if (lowerLimit <= coveredMin && upperLimit <= coveredMax) {
-								sum += numericIntegration(fun, lowerLimit,coveredMin, 1);		
+								sum += numericIntegration(fun, lowerLimit,
+										coveredMin, STANDARD_MULTIPLIER);
 							} else if (lowerLimit >= coveredMin && upperLimit >= coveredMax) {
-								sum += numericIntegration(fun, coveredMax,upperLimit, 1);		
+								sum += numericIntegration(fun, coveredMax,
+										upperLimit, STANDARD_MULTIPLIER);
 							} else {
 								Log.error("problem");
 							}
@@ -524,7 +531,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 				// iterations may be needed
 				// https://www.geogebra.org/help/topic/problem-mit-integral-unter-freihandskizze
 				n.setValue(numericIntegration(f, lowerLimit, upperLimit,
-						f.includesFreehandOrData() ? 10 : 1));
+						f.includesFreehandOrData() ? FREEHAND_MULTIPLIER
+								: STANDARD_MULTIPLIER));
 			}
 		}
 		/*
@@ -858,7 +866,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	public static double numericIntegration(UnivariateFunction fun, double a,
 			double b) {
 
-		return numericIntegration(fun, a, b, 1);
+		return numericIntegration(fun, a, b, STANDARD_MULTIPLIER);
 
 	}
 
