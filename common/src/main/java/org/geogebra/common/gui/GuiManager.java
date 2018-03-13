@@ -927,4 +927,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return null;
 	}
 
+	@Override
+	public void addAudio(String url) {
+		// TODO in subclasses
+	}
 }

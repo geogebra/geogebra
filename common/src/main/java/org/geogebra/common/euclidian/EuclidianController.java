@@ -3700,12 +3700,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	protected final void addAudio() {
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().addAudio();
-		}
-	}
-
 	protected final GeoElement[] mirrorAtPoint(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;

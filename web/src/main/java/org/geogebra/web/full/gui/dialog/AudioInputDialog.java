@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -19,8 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author csilla
  *
  */
-public class AudioInputDialog extends DialogBoxW
-		implements FastClickHandler {
+public class AudioInputDialog extends DialogBoxW implements FastClickHandler, ErrorHandler {
 	private AppW appW;
 	private FlowPanel mainPanel;
 	private FlowPanel inputPanel;
@@ -62,7 +63,7 @@ public class AudioInputDialog extends DialogBoxW
 		// panel for buttons
 		insertBtn = new StandardButton("", appW);
 		insertBtn.addStyleName("insertBtn");
-		insertBtn.setEnabled(false);
+		insertBtn.setEnabled(true);
 		cancelBtn = new StandardButton("", app);
 		cancelBtn.addStyleName("cancelBtn");
 		buttonPanel = new FlowPanel();
@@ -93,6 +94,7 @@ public class AudioInputDialog extends DialogBoxW
 		inputField.getTextComponent().getTextBox()
 				.addBlurHandler(new BlurHandler() {
 
+					@Override
 					public void onBlur(BlurEvent event) {
 						getInputPanel().setStyleName("mowAudioDialogContent");
 						getInputPanel().addStyleName("emptyState");
@@ -129,7 +131,7 @@ public class AudioInputDialog extends DialogBoxW
 	 */
 	public void setLabels() {
 		getCaption().setText(appW.getLocalization().getMenu("Audio")); // dialog
-																		// title
+		// title
 		inputLabel.setText(appW.getLocalization().getMenu("Link"));
 		errorLabel.setText(appW.getLocalization().getMenu("Error")
 				+ ": " + appW.getLocalization().getError("InvalidInput"));
@@ -142,17 +144,62 @@ public class AudioInputDialog extends DialogBoxW
 		if (source == cancelBtn) {
 			hide();
 		} else if (source == insertBtn) {
-			if (appW.getGuiManager() != null) {
-				appW.getGuiManager().addAudio();
-				hide();
-			}
+			processInput(true);
 		}
 	}
 
+	private void processInput(final boolean add) {
+		if (appW.getGuiManager() != null) {
+			app.getSoundManager().checkURL(inputField.getText(), new AsyncOperation<Boolean>() {
+
+				@Override
+				public void callback(Boolean ok) {
+					if (ok) {
+						resetError();
+						if (add) {
+							app.getGuiManager().addAudio(inputField.getText());
+							hide();
+						}
+					} else {
+						showError("error");
+					}
+				}
+			});
+		}
+	}
 	@Override
 	public void hide() {
 		appW.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
 				ModeSetter.TOOLBAR);
 		super.hide();
+	}
+
+	@Override
+	public void showError(String msg) {
+		inputPanel.setStyleName("mowAudioDialogContent");
+		inputPanel.addStyleName("errorState");
+	}
+
+	@Override
+	public void showCommandError(String command, String message) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getCurrentCommand() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void resetError() {
+		inputPanel.removeStyleName("errorState");
 	}
 }

@@ -2598,9 +2598,9 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void addAudio() {
+	public void addAudio(String url) {
 		EuclidianView ev = app.getActiveEuclidianView();
-		GeoAudio audio = new GeoAudio(kernel.getConstruction(), GeoAudio.TEST_URL);
+		GeoAudio audio = new GeoAudio(kernel.getConstruction(), url);
 		audio.setAbsoluteScreenLoc((ev.getWidth() - audio.getWidth()) / 2,
 				(ev.getHeight() - audio.getHeight()) / 2);
 		ev.add(audio);

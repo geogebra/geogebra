@@ -6,6 +6,7 @@ import java.util.Map;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.sound.SoundManager;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -21,6 +22,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	private boolean mp3active=true;
 	private Map<String, Element> urlToAudio = new HashMap<>();
 	private Map<String, GeoAudio> urlToGeoAudio = new HashMap<>();
+	private AsyncOperation<Boolean> urlCallback = null;
 
 	/**
 	 * @param app
@@ -175,6 +177,26 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	}-*/;
 
+	native void checkAudio(String url) /*-{
+										var audioElement = $doc.createElement('audio');
+										var that = this;
+										audioElement.setAttribute('src', url);
+										audioElement.load();
+										audioElement
+										.addEventListener(
+										"error",
+										function() {
+										that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlError(Ljava/lang/String;)(url);
+										});
+										
+										audioElement
+										.addEventListener(
+										"canplay",
+										function() {
+										that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlOK(Ljava/lang/String;)(audioElement, url);
+										});
+										
+										}-*/;
 	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max,
 			int sampleRate, int bitDepth) {
@@ -187,6 +209,18 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		// ToolTipManagerW.sharedInstance().showBottomMessage(
 		// "No valid MIDI output port was found.", true, (AppW) app);
 		// }
+	}
+
+	private void onUrlError(String url) {
+		if (urlCallback != null) {
+			urlCallback.callback(Boolean.FALSE);
+		}
+	}
+
+	private void onUrlOK(String url) {
+		if (urlCallback != null) {
+			urlCallback.callback(Boolean.TRUE);
+		}
 	}
 
 	public void onInfo(String msg) {
@@ -216,5 +250,11 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 			return getCurrentTime(audio);
 		}
 		return -1;
+	}
+
+	@Override
+	public void checkURL(String url, AsyncOperation<Boolean> callback) {
+		urlCallback = callback;
+		checkAudio(url);
 	}
 }

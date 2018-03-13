@@ -358,5 +358,5 @@ public interface GuiManagerInterface {
 
 	public void openMenuInAVFor(GeoElement geo);
 
-	public void addAudio();
+	public void addAudio(String url);
 }

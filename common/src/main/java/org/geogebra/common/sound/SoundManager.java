@@ -2,6 +2,7 @@ package org.geogebra.common.sound;
 
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.util.AsyncOperation;
 
 public interface SoundManager {
 
@@ -28,4 +29,14 @@ public interface SoundManager {
 	int getDuration(String url);
 
 	int getCurrentTime(String url);
+
+	/**
+	 * 
+	 * @param url
+	 *            to check if it is a valid audio file.
+	 * @param hadler
+	 *            the error handler.
+	 */
+	void checkURL(String url, AsyncOperation<Boolean> callback);
+
 }
