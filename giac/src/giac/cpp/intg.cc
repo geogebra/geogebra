@@ -2286,7 +2286,10 @@ namespace giac {
       gen & g=l2NTHROOT[i];
       if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2){
 	vecteur gv=*g._SYMBptr->feuille._VECTptr;
-	gv=makevecteur(gv[1],inv(gv[0],contextptr));
+	if (calc_mode(contextptr)==1)
+	  gv=makevecteur(subst(gv[1],l1NTHROOT,l2NTHROOT,false,contextptr),inv(gv[0],contextptr));
+	else
+	  gv=makevecteur(gv[1],inv(gv[0],contextptr));
 	g=_pow(gen(gv,_SEQ__VECT),contextptr);//symbolic(at_pow,gen(gv,_SEQ__VECT));
       }
     }

@@ -2615,7 +2615,7 @@ namespace giac {
 	const char * name=tmp._IDNTptr->id_name;
 	int bl=strlen(name);
 	gen a=*it;
-	if (name[bl-2]=='_' && (a.type!=_STRNG || a.subtype!=-1)){
+	if (bl>=2 && name[bl-2]=='_' && (a.type!=_STRNG || a.subtype!=-1)){
 	  switch (name[bl-1]){
 	  case 'd':
 	    if (a.type!=_INT_ && a.type!=_DOUBLE_ && a.type!=_FRAC){
