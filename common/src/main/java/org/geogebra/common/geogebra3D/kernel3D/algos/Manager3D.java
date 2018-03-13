@@ -765,8 +765,9 @@ public class Manager3D implements Manager3DInterface {
 	@Override
 	final public GeoQuadric3DPart QuadricSide(String label,
 			GeoQuadricND quadric) {
-		AlgoQuadric algo = new AlgoQuadricSide(cons, label,
-				(GeoQuadric3DLimited) quadric);
+		AlgoQuadric algo = new AlgoQuadricSide(cons,
+				(GeoQuadric3DLimited) quadric, false, null);
+		algo.getQuadric().setLabel(label);
 		return (GeoQuadric3DPart) algo.getQuadric();
 	}
 

@@ -222,7 +222,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            dimension
 	 */
 	public GeoConicND(Construction c, int dimension) {
-		this(c, dimension, false);
+		this(c, dimension, false, EQUATION_IMPLICIT);
 	}
 
 	/**
@@ -234,11 +234,13 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            dimension
 	 * @param isIntersection
 	 *            if this is an intersection curve
+	 * @param stringMode
+	 *            toStroingMode, one of EQUATION_* constants
 	 */
-	public GeoConicND(Construction c, int dimension, boolean isIntersection) {
+	public GeoConicND(Construction c, int dimension, boolean isIntersection,
+			int stringMode) {
 		super(c, dimension, isIntersection);
-		toStringMode = EQUATION_IMPLICIT;
-
+		setToStringMode(stringMode);
 	}
 
 	/**

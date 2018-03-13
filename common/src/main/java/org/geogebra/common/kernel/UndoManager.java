@@ -281,7 +281,7 @@ public abstract class UndoManager {
 	 */
 	public void storeUndoInfoForProperties(boolean isUndoActive) {
 		if (isUndoActive && storeUndoInfoNeededForProperties) {
-				storeUndoInfo();
+			storeUndoInfo();
 		}
 		storeUndoInfoNeededForProperties = false;
 	}

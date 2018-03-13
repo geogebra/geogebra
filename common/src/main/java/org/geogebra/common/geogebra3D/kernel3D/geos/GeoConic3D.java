@@ -77,7 +77,7 @@ public class GeoConic3D extends GeoConicND
 	 *            if this is an intersection curve
 	 */
 	public GeoConic3D(Construction c, boolean isIntersection) {
-		super(c, 2, isIntersection);
+		super(c, 2, isIntersection, GeoConicND.EQUATION_PARAMETRIC);
 	}
 
 	@Override

@@ -1193,8 +1193,15 @@ public final class DrawDropDownList extends CanvasDrawable
 			String text) {
 		int base = (height + getTextDescent(g2, text)) / 2;
 		return top + base + (height - base) / 2;
-
 	}
+
+	private int getTextDescent(GGraphics2D g2, String text) {
+		// make sure layout won't be null ("" makes it null).
+
+		GTextLayout layout = getLayout(g2, text, getLabelFont());
+		return (int) (layout.getDescent());
+	}
+
 
 	@Override
 	protected void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
@@ -1258,14 +1265,12 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	@Override
 	protected int getTextBottom() {
-
 		return isLatexString(selectedText) ? boxHeight - selectedHeight / 2
 				: (getPreferredSize().getHeight() + getMultipliedFontSize())
 						/ 2;
 	}
 
 	private void updateMetrics(GGraphics2D g2) {
-
 		drawOptions.onResize(view.getWidth(), view.getHeight());
 
 		GeoElement geoItem = geoList.getSelectedElement();
@@ -1281,11 +1286,8 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 
 		selectedDimension = drawSelectedText(g2, 0, 0, false);
-
 		latexLabel = measureLabel(g2, geoList, getLabelText());
-
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth, boxHeight);
-
 	}
 
 	/**

@@ -22,6 +22,11 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	 * @param c
 	 *            construction
 	 * @param inputQuadric
+	 *            limited quadric
+	 * @param isHelperAlgo
+	 *            whether this is helper
+	 * @param bottom
+	 *            quadric bottom
 	 */
 	public AlgoQuadricSide(Construction c, GeoQuadric3DLimited inputQuadric,
 			boolean isHelperAlgo, GeoConicND bottom) {
@@ -38,13 +43,9 @@ public class AlgoQuadricSide extends AlgoQuadric {
 		compute();
 	}
 
-	public AlgoQuadricSide(Construction c, String label,
-			GeoQuadric3DLimited inputQuadric) {
-
-		this(c, inputQuadric, false, null);
-		getQuadric().setLabel(label);
-	}
-
+	/**
+	 * @return input quadric
+	 */
 	public GeoQuadric3DLimited getInputQuadric() {
 		return (GeoQuadric3DLimited) getSecondInput();
 	}
@@ -77,7 +78,6 @@ public class AlgoQuadricSide extends AlgoQuadric {
 				getInputQuadric().getTopParameter());
 
 		((GeoQuadric3DPart) getQuadric()).calcArea();
-
 	}
 
 	@Override

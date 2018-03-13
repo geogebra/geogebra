@@ -647,6 +647,10 @@ public final class DrawPoint extends Drawable {
 		update(coords2, false);
 	}
 
+	/**
+	 * @param isPreview
+	 *            whether this is a preview
+	 */
 	public void setPreview(boolean isPreview) {
 		this.isPreview = isPreview;
 	}

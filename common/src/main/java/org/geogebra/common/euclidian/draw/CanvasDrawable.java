@@ -84,6 +84,12 @@ public abstract class CanvasDrawable extends Drawable {
 		return latex;
 	}
 
+	/**
+	 * Update box bounds.
+	 * 
+	 * @param latex
+	 *            whether the caption is latex
+	 */
 	protected void calculateBoxBounds(boolean latex) {
 		boxLeft = xLabel + labelSize.x + 2;
 		boxTop = latex
@@ -93,6 +99,9 @@ public abstract class CanvasDrawable extends Drawable {
 		boxHeight = getPreferredSize().getHeight();
 	}
 
+	/**
+	 * Update box bounds.
+	 */
 	protected void calculateBoxBounds() {
 		boxLeft = xLabel + 2;
 		boxTop = yLabel;
@@ -116,7 +125,7 @@ public abstract class CanvasDrawable extends Drawable {
 				+ (int) (getLabelFontSize() * 0.4);
 	}
 
-	protected int getH() {
+	private int getH() {
 		return (int) (getLabelFontSize() * 1.2 + HIGHLIGHT_MARGIN);
 	}
 
@@ -129,9 +138,14 @@ public abstract class CanvasDrawable extends Drawable {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					xLabel, yLabel + getTextBottom(), false, null, null);
 		}
-
 	}
 
+	/**
+	 * @param g2
+	 *            graphics
+	 * @param text
+	 *            text
+	 */
 	protected void drawOnCanvas(GGraphics2D g2, String text) {
 		App app = view.getApplication();
 		getPreferredSize();
@@ -150,19 +164,26 @@ public abstract class CanvasDrawable extends Drawable {
 		}
 	}
 
-
-	protected int getTextDescent(GGraphics2D g2, String text) {
-		// make sure layout won't be null ("" makes it null).
-
-		GTextLayout layout = getLayout(g2, text, getLabelFont());
-		return (int) (layout.getDescent());
-	}
-
+	/**
+	 * @param g2
+	 *            graphics
+	 * @param text
+	 *            text
+	 * @param font
+	 *            font
+	 * @return layout of text for given font
+	 */
 	protected GTextLayout getLayout(GGraphics2D g2, String text, GFont font) {
 		// make sure layout won't be null ("" makes it null).
 		return getTextLayout("".equals(text) ? "A" : text, font, g2);
 	}
 
+	/**
+	 * Draw the shape and update the widget.
+	 * 
+	 * @param g2
+	 *            graphics
+	 */
 	protected abstract void drawWidget(GGraphics2D g2);
 
 	/**
@@ -181,6 +202,9 @@ public abstract class CanvasDrawable extends Drawable {
 						&& y < yLabel + labelSize.y);
 	}
 
+	/**
+	 * @return font for label
+	 */
 	public GFont getLabelFont() {
 		// deriveFont() as quick fix for GGB-2094
 		return labelFont.deriveFont(GFont.PLAIN);

@@ -1908,14 +1908,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (typeChanged) {
 			kernel.notifyTypeChanged(this);
 		}
-
 	}
 
 	@Override
 	final public void setToUser() {
 		toStringMode = GeoConicND.EQUATION_USER;
 	}
-
 
 	/**
 	 * Set whether this line should be visible in AV when undefined
