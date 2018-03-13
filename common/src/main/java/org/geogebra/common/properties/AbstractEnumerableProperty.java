@@ -6,8 +6,6 @@ public abstract class AbstractEnumerableProperty extends AbstractProperty implem
 
     private String[] values;
 
-    protected int current = 0;
-
     public AbstractEnumerableProperty(Localization localization, String name, String type) {
         super(localization, name, type);
     }
@@ -33,11 +31,6 @@ public abstract class AbstractEnumerableProperty extends AbstractProperty implem
             }
         }
         throw new RuntimeException("The property value should be one of its own values.");
-    }
-
-    @Override
-    public int getCurrent() {
-        return current;
     }
 
     protected abstract void setValueSafe(String value, int index);
