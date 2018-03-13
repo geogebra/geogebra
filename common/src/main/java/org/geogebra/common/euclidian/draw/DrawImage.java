@@ -701,8 +701,8 @@ public final class DrawImage extends Drawable {
 		boundingBox.setRectangle(rect);
 		// remember last crop box position
 		cropBox = rect;
-		imagecropRatioX = image.getWidth() / cropBox.getWidth();
-		imagecropRatioY = image.getHeight() / cropBox.getHeight();
+		imagecropRatioX = view.getXscale() * geoImage.getImageScreenWidth() / cropBox.getWidth();
+		imagecropRatioY = view.getYscale() * geoImage.getImageScreenHeight() / cropBox.getHeight();
 	}
 
 	private void updateImageResize(AbstractEvent event,
