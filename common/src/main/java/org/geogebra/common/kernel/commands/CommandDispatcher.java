@@ -34,7 +34,7 @@ public abstract class CommandDispatcher {
 	/** kernel **/
 	protected Kernel kernel;
 	private Construction cons;
-	private App app;
+	protected App app;
 
 	/**
 	 * stores public (String name, CommandProcessor cmdProc) pairs
@@ -859,7 +859,7 @@ public abstract class CommandDispatcher {
 		return advancedDispatcher;
 	}
 
-	private CommandDispatcherBasic getBasicDispatcher() {
+	protected CommandDispatcherBasic getBasicDispatcher() {
 		if (basicDispatcher == null) {
 			basicDispatcher = new CommandDispatcherBasic();
 		}
