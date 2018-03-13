@@ -11,6 +11,7 @@ import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.sound.SoundManager;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
@@ -308,6 +309,12 @@ public class SoundManagerD implements SoundManager {
 	public int getCurrentTime(String url) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void checkURL(String url, AsyncOperation<Boolean> callback) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
