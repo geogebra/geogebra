@@ -33,5 +33,5 @@ public abstract class AbstractEnumerableProperty extends AbstractProperty implem
         throw new RuntimeException("The property value should be one of its own values.");
     }
 
-    abstract void setValueSafe(Object value, int index);
+    protected abstract void setValueSafe(Object value, int index);
 }

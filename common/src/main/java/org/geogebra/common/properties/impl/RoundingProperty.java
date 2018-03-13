@@ -1,8 +1,9 @@
-package org.geogebra.common.properties;
+package org.geogebra.common.properties.impl;
 
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.AbstractEnumerableProperty;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class RoundingProperty extends AbstractEnumerableProperty {
         ArrayList<String> list = new ArrayList<>(values.length - 1);
         for (int i = 0; i < values.length; i++) {
             String value = values[i];
-            if (value == Localization.ROUNDING_MENU_SEPARATOR) {
+            if (value.equals(Localization.ROUNDING_MENU_SEPARATOR)) {
                 figuresIndex = i;
             } else {
                 list.add(value);
@@ -35,7 +36,7 @@ public class RoundingProperty extends AbstractEnumerableProperty {
     }
 
     @Override
-    void setValueSafe(Object value, int index) {
+    protected void setValueSafe(Object value, int index) {
         boolean figures = index >= figuresIndex;
         OptionsMenu.setRounding(app, figures ? index : index + 1, figures);
     }
