@@ -95,9 +95,9 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 	public void onKeyUp(KeyUpEvent e) {
 
 		// return unless digit typed (instead of !Character.isDigit)
-		if (e.getNativeKeyCode() < 48 ||
-			(e.getNativeKeyCode() >  57 && e.getNativeKeyCode() < 96) ||
-			e.getNativeKeyCode() > 105) {
+		if (e.getNativeKeyCode() < 48
+				|| (e.getNativeKeyCode() > 57 && e.getNativeKeyCode() < 96)
+				|| e.getNativeKeyCode() > 105) {
 			return;
 		}
 

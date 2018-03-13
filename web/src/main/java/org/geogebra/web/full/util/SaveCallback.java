@@ -113,8 +113,7 @@ public class SaveCallback {
 		if (state == SaveState.OK) {
 			app.getGgbApi().showTooltip(
 					app.getLocalization().getMenu("SavedToAccountSuccessfully")
-							+ "\n" +
-							app.getLocalization()
+							+ "\n" + app.getLocalization()
 									.getMenu("SaveLocalCopyFailed"));
 		} else {
 			app.localizeAndShowError("SaveFileFailed");

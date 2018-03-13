@@ -2601,10 +2601,9 @@ EventRenderable {
 	public void addAudio() {
 		EuclidianView ev = app.getActiveEuclidianView();
 		GeoAudio audio = new GeoAudio(kernel.getConstruction(), GeoAudio.TEST_URL);
-		audio.setAbsoluteScreenLoc((ev.getWidth() - audio.getWidth()) / 2, (ev.getHeight() - audio.getHeight()) / 2);
+		audio.setAbsoluteScreenLoc((ev.getWidth() - audio.getWidth()) / 2,
+				(ev.getHeight() - audio.getHeight()) / 2);
 		ev.add(audio);
 		app.getActiveEuclidianView().repaint();
 	}
 }
-
-

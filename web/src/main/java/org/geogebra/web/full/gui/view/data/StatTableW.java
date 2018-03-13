@@ -153,28 +153,30 @@ public class StatTableW extends FlowPanel {
 		 *            click event
 		 */
 		public void handleSelection(ClickEvent event) {
-	       Cell c = this.getCellForEvent(event);
-	       Element parentRow = c.getElement().getParentElement();
-	       if (c.getElement().hasClassName("headercell")) {
-	    	   parentRow.removeClassName("selected");
-	    	   return;
-	       }
-	       
-	       if (!event.isShiftKeyDown()) {
-	    	   toggleSelection(parentRow);
-		       if (parentRow.hasClassName("selected")) {
-		    	   if (!(parentRow.getPreviousSiblingElement() != null &&
-		    		   		parentRow.getPreviousSiblingElement().hasClassName("selected") ||
-		    		   		parentRow.getNextSiblingElement() != null &&
-		    		   		parentRow.getNextSiblingElement().hasClassName("selected"))) {
-		    			   		clearSelection(c);
-		    	   }
+			Cell c = this.getCellForEvent(event);
+			Element parentRow = c.getElement().getParentElement();
+			if (c.getElement().hasClassName("headercell")) {
+				parentRow.removeClassName("selected");
+				return;
+			}
+
+			if (!event.isShiftKeyDown()) {
+				toggleSelection(parentRow);
+				if (isSelected(parentRow)) {
+					if (!(isSelected(parentRow.getPreviousSiblingElement())
+							|| isSelected(parentRow.getNextSiblingElement()))) {
+						clearSelection(c);
+					}
 				} else {
 					clearSelectionFrom(c);
 				}
-	       } else {
-	    	   selectTableRows(getFirstSelectedRow(-1), c.getRowIndex());
-	       }
+			} else {
+				selectTableRows(getFirstSelectedRow(-1), c.getRowIndex());
+			}
+		}
+
+		private static boolean isSelected(Element row) {
+			return row != null && row.hasClassName("selected");
 		}
 
 		private static void toggleSelection(Element parentRow) {

@@ -254,8 +254,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	private void updateLayout() {
 		clear();
-		int regressiodIdx = model.isRegressionMode() && 
-				regressionPanel != null ? regressionPanel.getRegressionIdx() :- 1;
+		int regressiodIdx = model.isRegressionMode() && regressionPanel != null
+				? regressionPanel.getRegressionIdx() : -1;
 
 		mainSplit.clear();
 		boolean stat = model.showStatPanel();
@@ -270,8 +270,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		
 			if (stat) {
 				// set the size of
-				comboPanelSplit.addSouth(statisticsPanel,
- statisticsPanel
+				comboPanelSplit.addSouth(statisticsPanel, statisticsPanel
 						.estimateHeight(model.getDataTitles().length));
 				comboPanelSplit.add(dataDisplayPanel1);
 			} else {

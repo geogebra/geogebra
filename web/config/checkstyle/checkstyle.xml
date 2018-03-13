@@ -54,7 +54,7 @@
             <property name="allowNoEmptyLineBetweenFields" value="true"/>
             <property name ="allowMultipleEmptyLines" value="false"/>
         </module>
-        
+        <module name="OperatorWrap"/>
     </module>
    
 </module>

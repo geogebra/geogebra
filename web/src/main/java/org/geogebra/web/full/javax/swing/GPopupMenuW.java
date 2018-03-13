@@ -270,10 +270,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	}
 
 	private static SVGResource getSubMenuIcon(boolean isRTL) {
-		return isRTL ?
-				MaterialDesignResources.INSTANCE.arrow_drop_left_black()
-				: MaterialDesignResources.INSTANCE
-						.arrow_drop_right_black();
+		return isRTL ? MaterialDesignResources.INSTANCE.arrow_drop_left_black()
+				: MaterialDesignResources.INSTANCE.arrow_drop_right_black();
 	}
 
 	/**

@@ -141,23 +141,13 @@ public final class WindowReference implements EventRenderable {
 			String redirect, String callback, int width, int height) {
 		int left = (Window.getClientWidth() / 2) - (width / 2);
 		int top = (Window.getClientHeight() / 2) - (height / 2);
-		return WindowW.open(BASEURL.getOpenerUrl() +
-				
-						"?redirect=" + redirect +
-				"&callback=" + callback,
-						
-						name,
-						
-						"resizable," +
-						"toolbar=no," +
-						"location=no," +
-						"scrollbars=no, " + 
-						"statusbar=no, " +
-						"titlebar=no, " + 
-						"width=" + width +"," +
-						"height=" + height + "," +
-						"left=" + left + ", " +
-						"top=" + top);	
+		String settings = "resizable," + "toolbar=no," + "location=no,"
+				+ "scrollbars=no, " + "statusbar=no, " + "titlebar=no, "
+				+ "width=" + width + "," + "height=" + height + "," + "left="
+				+ left + ", " + "top=" + top;
+		String url = BASEURL.getOpenerUrl() + "?redirect=" + redirect
+				+ "&callback=" + callback;
+		return WindowW.open(url, name, settings);
 	}
 
 }

@@ -282,11 +282,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 */
 	protected void handleDrop(int y) {
 		for (int i = 0; i < table.getRowCount(); i++) {
+			// row hit or y is far down and this is last row
 			if ((y > table.getRowElement(i).getAbsoluteTop()
-					&& y < table.getRowElement(i).getAbsoluteBottom()) ||
-			// dragEnd happens below the last row
-					(i == table.getRowCount() - 1 && y > table.getRowElement(i)
-							.getAbsoluteBottom())) {
+					&& y < table.getRowElement(i).getAbsoluteBottom())
+					|| (i == table.getRowCount() - 1 && y > table
+							.getRowElement(i).getAbsoluteBottom())) {
 				int dropIndex = data.getConstructionIndex(i);
 				if (dropIndex == dragIndex) {
 					// no changes necessary
@@ -357,7 +357,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				}
 			}
 		}
-
 	}
 
 	private static void insertPopup(CellTable<RowData> tb, SafeHtmlBuilder sb) {
