@@ -931,22 +931,23 @@ public class PlotterBrush implements PathPlotter {
 	 * 
 	 * @param thickness
 	 *            thickness
-	 * @param emphasize
-	 *            says if we want the thickness to be a little bit emphasized e.g.
-	 *            to avoid z-fighting)
+	 * @param isAxis
+	 *            says if we want the thickness to be a little bit different for
+	 *            axes to avoid z-fighting
 	 * @param scale
 	 *            scale
 	 * @return real world thickness
 	 */
-	public float setThickness(int thickness, boolean emphasize, float scale) {
+	public float setThickness(int thickness, boolean isAxis, float scale) {
 
 		this.lineThickness = thickness;
 		this.scale = scale;
 
-		float t = lineThickness * LINE3D_THICKNESS;
-		if (emphasize) {
-			t *= 1.01f;
+		float t = lineThickness;
+		if (isAxis) {
+			t -= 0.97f;
 		}
+		t *= LINE3D_THICKNESS;
 		setThickness(t);
 		return t;
 
