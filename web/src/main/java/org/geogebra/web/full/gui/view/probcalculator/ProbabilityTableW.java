@@ -155,9 +155,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			if(isCumulative()){
 				// single row selected
 				table.changeSelection(selRow[selRow.length-1], false, false);
-			}
-			else
-			{
+			} else {
 				// select multiple rows: first up to selected
 				table.changeSelection(0, false, false);
 				table.changeSelection(selRow[selRow.length-1], false, true);

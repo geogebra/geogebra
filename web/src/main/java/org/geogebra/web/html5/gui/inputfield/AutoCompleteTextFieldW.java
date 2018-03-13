@@ -1158,8 +1158,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			}
 			break;
 		case GWTKeycodes.KEY_C:
-			if (e.isControlKeyDown()) // workaround for MAC_OS
-			{
+			if (e.isControlKeyDown()) { // workaround for MAC_OS
 				ctrlC = true;
 			}
 			break;

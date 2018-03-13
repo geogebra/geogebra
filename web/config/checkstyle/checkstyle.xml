@@ -58,6 +58,7 @@
             <property name ="allowMultipleEmptyLines" value="false"/>
         </module>
         <module name="OperatorWrap"/>
+        <module name="LeftCurly"/>
     </module>
    
 </module>

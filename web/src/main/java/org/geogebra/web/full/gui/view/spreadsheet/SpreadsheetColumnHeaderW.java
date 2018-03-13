@@ -43,11 +43,10 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SpreadsheetColumnHeaderW implements MouseDownHandler,
-        MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler,
-        KeyDownHandler, LongTouchHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler
-
-{
+public class SpreadsheetColumnHeaderW
+		implements MouseDownHandler, MouseUpHandler, MouseMoveHandler,
+		ClickHandler, DoubleClickHandler, KeyDownHandler, LongTouchHandler,
+		TouchStartHandler, TouchMoveHandler, TouchEndHandler {
 	private AppW app;
 	private MyTableW table;
 	private Grid grid;

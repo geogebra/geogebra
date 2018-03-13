@@ -150,8 +150,8 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
 @SuppressWarnings("javadoc")
-public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
-EventRenderable {
+public class GuiManagerW extends GuiManager
+		implements GuiManagerInterfaceW, EventRenderable {
 
 	/**
 	 * container for the Popup that only one exist for a given type

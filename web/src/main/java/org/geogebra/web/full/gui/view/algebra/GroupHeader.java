@@ -54,8 +54,7 @@ public class GroupHeader extends FlowPanel {
 	 * Toggle button connected to tree item state
 	 *
 	 */
-	public static class OpenButton extends SimplePanel
-	{
+	public static class OpenButton extends SimplePanel {
 		private SafeUri showUrl;
 		private SafeUri hiddenUrl;
 		private Image img;
@@ -72,11 +71,10 @@ public class GroupHeader extends FlowPanel {
 			this.showUrl = showUrl;
 			this.hiddenUrl = hiddenUrl;
 			
-			addDomHandler(new ClickHandler()
-			{
+			addDomHandler(new ClickHandler() {
+
 				@Override
-				public void onClick(ClickEvent event)
-				{
+				public void onClick(ClickEvent event) {
 					boolean open = ti.getState();
 					ti.setState(!open);
 					setChecked(!open);
@@ -91,8 +89,7 @@ public class GroupHeader extends FlowPanel {
 		 * @param url
 		 *            image url
 		 */
-		public void setImage(String url)
-		{
+		public void setImage(String url) {
 			//String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
 			if(img == null){
 				img = new Image(url);
@@ -106,15 +103,12 @@ public class GroupHeader extends FlowPanel {
 		 * @param value
 		 *            whether it's open
 		 */
-		public void setChecked(boolean value)
-		{
-			if (value)
-			{
+		public void setChecked(boolean value) {
+			if (value) {
 				setImage(showUrl.asString());
 				this.setStyleName("arrowBottom");
 			}
-			else
-			{
+			else {
 				setImage(hiddenUrl.asString());
 				this.setStyleName("arrowLeft");
 			}
@@ -128,9 +122,8 @@ public class GroupHeader extends FlowPanel {
 	 *            set group name
 	 */
 	public void setText(String string) {
-	    il.setText(string);
-	    
-    }
+		il.setText(string);
+	}
 
 	/**
 	 * @param value

@@ -532,7 +532,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 	public void showInvalidDataDisplay() {
 		//		imageContainer.setIcon(null);
 		displayDeckPanel.showWidget(IMAGE_IDX);
-
 	}
 
 	// ============================================================
@@ -540,8 +539,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	// ============================================================
 	//
 	public void actionPerformed(Object source) {
-		if (source instanceof AutoCompleteTextFieldW)
-		{
+		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed(source);
 		}
 

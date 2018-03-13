@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -449,7 +448,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * @return the application
 	 */
-	public App getApplication() {
+	public AppW getApplication() {
 		return app;
 	}
 

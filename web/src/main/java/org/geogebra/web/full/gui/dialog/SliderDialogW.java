@@ -49,9 +49,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Web dialog for slider creation
  */
-public class SliderDialogW extends DialogBoxW
-implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboardPopup
-{
+public class SliderDialogW extends DialogBoxW implements ClickHandler,
+		ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboardPopup {
 	private Button btOK;
 	private Button btCancel;
 	private AutoCompleteTextFieldW tfLabel;
