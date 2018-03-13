@@ -554,7 +554,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	public void notifyLocalizationLoaded() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -631,7 +630,6 @@ public abstract class AppW extends App implements SetLabels {
 			};
 			ResourcesInjector.addLoadHandler(script, scriptCallback);
 			Document.get().getBody().appendChild(script);
-
 		}
 	}
 

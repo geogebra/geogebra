@@ -337,10 +337,11 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void notifyLocalizationLoaded() {
+		localizationLoaded = true;
 		if (waitingForLocalization == null) {
 			return;
 		}
-		localizationLoaded = true;
+
 		for (Runnable run : waitingForLocalization) {
 			run.run();
 		}
@@ -836,7 +837,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 				getPerspectivesPopup().showPerspectivesPopup();
 			}
 		});
-
 	}
 
 	/**
@@ -865,13 +865,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 			}
 		}
 		removeSplash();
-
 	}
 
 	@Override
 	public final void closePerspectivesPopup() {
 		if (this.perspectivesPopup != null) {
-			getPerspectivesPopup().closePerspectivesPopup();
+			// getPerspectivesPopup().closePerspectivesPopup();
 		}
 	}
 
@@ -897,7 +896,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final boolean isPerspectivesPopupVisible() {
-		return perspectivesPopup != null && perspectivesPopup.isShowing();
+		return true;// perspectivesPopup != null &&
+					// perspectivesPopup.isShowing();
 	}
 
 	@Override
