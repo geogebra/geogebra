@@ -461,9 +461,22 @@ $duration: 0.2s;
    				.errorLabel {
    					color: $white;
    					font-size: 75%;
+   				}   				
+   			}
+   		
+   			&.errorState {
+   				@extend .emptyState;
+   				.inputLabel {
+   					color: $red-87;
    				}
    			
-   				
+ 				.AutoCompleteTextFieldW {
+ 					border-bottom: 2px solid $red;
+ 				}
+   					
+   				.errorLabel {
+   					color: $red-87;
+   				}   				
    			}
    		
    		}
