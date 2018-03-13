@@ -175,8 +175,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// or if it should not be evaluated (i.e. a shade-only integral)
 		if ((evaluate == null || evaluate.getBoolean())
 				&& !f.isGeoFunctionConditional() && !f.isFreehandFunction()
-				&& !f.includesDivisionByVar()
-				&& !evaluateNumerically) {
+				&& !f.includesDivisionByVar() && !evaluateNumerically) {
 			refreshCASResults();
 		}
 
@@ -381,13 +380,13 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 						ArrayList<ExpressionNode> nodesAl = new ArrayList<>();
 						ArrayList<Bounds> boundsAl = new ArrayList<>();
 
-						boolean complete = GeoFunction.collectCases(exp, nodesAl, boundsAl,
-								new Bounds(kernel,
+						boolean complete = GeoFunction.collectCases(exp,
+								nodesAl, boundsAl, new Bounds(kernel,
 										f.getFunctionVariables()[0]));
 
 						int size = complete ? (nodesAl.size() - 1)
 								: nodesAl.size();
-						
+
 						double sum = 0;
 
 						Function fun = null;
@@ -395,7 +394,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 						double coveredMin = Double.NaN;
 						double coveredMax = Double.NaN;
 						ExpressionNode node;
-						
+
 						for (int i = 0; i < size; i++) {
 							node = nodesAl.get(i);
 							// Log.debug("node op = " + node.getOperation());
@@ -436,19 +435,18 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 								} else {
 									fun.setExpression(node);
 								}
-								
+
 								if (Double.isInfinite(lower)) {
-								
-									sum += numericIntegration(fun, lowerLimit, Math.min(upper, upperLimit),
+
+									sum += numericIntegration(fun, lowerLimit,
+											Math.min(upper, upperLimit),
 											STANDARD_MULTIPLIER);
-									
-									
+
 								} else if (Double.isInfinite(lower)) {
 									sum += numericIntegration(fun,
 											Math.max(lower, lowerLimit),
-											upperLimit,
-											STANDARD_MULTIPLIER);
-									
+											upperLimit, STANDARD_MULTIPLIER);
+
 								} else if (upper <= lowerLimit
 										|| lower >= upperLimit) {
 									// nothing to do
@@ -483,30 +481,34 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 							}
 
 						}
-						
+
 						if (complete) {
 							// Log.error("TODO " + coveredMin + " " +
 							// coveredMax);
-							
+
 							node = nodesAl.get(size);
-							
+
 							if (fun == null) {
 								fun = new Function(node,
 										f.getFunctionVariables()[0]);
 							} else {
 								fun.setExpression(node);
 							}
-							
-							if (upperLimit <=coveredMin || lowerLimit >= coveredMax) {
+
+							if (upperLimit <= coveredMin
+									|| lowerLimit >= coveredMax) {
 								// all outside what's been covered already
 								sum += numericIntegration(fun, lowerLimit,
 										upperLimit, STANDARD_MULTIPLIER);
-							} else if (lowerLimit >= coveredMin && upperLimit <= coveredMax) {
+							} else if (lowerLimit >= coveredMin
+									&& upperLimit <= coveredMax) {
 								// nothing to do
-							} else if (lowerLimit <= coveredMin && upperLimit <= coveredMax) {
+							} else if (lowerLimit <= coveredMin
+									&& upperLimit <= coveredMax) {
 								sum += numericIntegration(fun, lowerLimit,
 										coveredMin, STANDARD_MULTIPLIER);
-							} else if (lowerLimit >= coveredMin && upperLimit >= coveredMax) {
+							} else if (lowerLimit >= coveredMin
+									&& upperLimit >= coveredMax) {
 								sum += numericIntegration(fun, coveredMax,
 										upperLimit, STANDARD_MULTIPLIER);
 							} else {
