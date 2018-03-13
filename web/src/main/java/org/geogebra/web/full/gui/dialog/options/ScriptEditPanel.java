@@ -84,13 +84,12 @@ class ScriptEditPanel extends OptionPanel {
 			return null;
 		}
 
-		// remember selected tab
-		int idx = tabbedPane.getTabBar().getSelectedTab();
-
 		GeoElement geo = (GeoElement) geos[0];
 		clickDialog.setGeo(geo);
 		updateDialog.setGeo(geo);
 		globalDialog.setGlobal();
+		// remember selected tab
+		int idx = tabbedPane.getTabBar().getSelectedTab();
 		tabbedPane.clear();
 		if (geo.canHaveClickScript()) {
 			tabbedPane.add(clickScriptPanel, loc.getMenu("OnClick"));

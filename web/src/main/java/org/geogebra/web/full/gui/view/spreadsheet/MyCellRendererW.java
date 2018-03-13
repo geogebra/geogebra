@@ -45,12 +45,8 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	private SpreadsheetViewW view;
 	private Grid table;
 	
-	// LaTeX
-	// private ImageIcon latexIcon, emptyIcon;
-
 	// Cell formats
 	private CellFormat formatHandler;
-
 
 	// Cell geo
 	private GeoElement geo;
@@ -69,17 +65,22 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	 */
 	public MyCellRendererW(AppW app, SpreadsheetViewW view,
 			MyTableW table, CellFormat formatHandler) {
-
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.formatHandler = formatHandler;
 		this.view = view;
 		this.table = table.getGrid();
-
 	}
 
-	public void updateCellFormat(GeoElement geo, int row, int column) {
-
+	/**
+	 * @param cell
+	 *            spreadsheet cell
+	 * @param row
+	 *            row
+	 * @param column
+	 *            column
+	 */
+	public void updateCellFormat(GeoElement cell, int row, int column) {
 		Style s = table.getCellFormatter().getElement(row, column).getStyle();
 		//cellPoint.setLocation(column, row);
 
@@ -108,9 +109,9 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 
 		// Foreground color
-		if (geo != null) {
-			if (geo.getLabelColor() != null) {
-				s.setColor(geo.getLabelColor().toString());
+		if (cell != null) {
+			if (cell.getLabelColor() != null) {
+				s.setColor(cell.getLabelColor().toString());
 			} else {
 				s.clearColor();
 			}
@@ -124,14 +125,14 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			        alignment == CellFormat.ALIGN_LEFT ? "left"
 			                : (alignment == CellFormat.ALIGN_RIGHT ? "right"
 			                        : "center"));
-		} else if (geo != null && geo.isGeoText()) {
+		} else if (cell != null && cell.isGeoText()) {
 			s.setProperty("textAlign", "left");
 		} else {
 			s.setProperty("textAlign", "right");
 		}
 
 		// Background color
-		updateCellBackground(geo, row, column);
+		updateCellBackground(cell, row, column);
 
 		// Border
 		updateCellBorder(row, column);
@@ -144,6 +145,10 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		s.clearProperty("borderRightColor");
 	}
 
+	/**
+	 * @param column
+	 *            column
+	 */
 	public void updateColumnBorder(int column) {
 		Byte border = (Byte) formatHandler.getCellFormat(column, -1,
 				CellFormat.FORMAT_BORDER);
@@ -168,10 +173,13 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 					s.setProperty("borderRightColor", "#000000");
 				}
 			}
-
 		}
 	}
 
+	/**
+	 * @param row
+	 *            row
+	 */
 	public void updateRowBorder(int row) {
 		Byte border = (Byte) formatHandler.getCellFormat(-1, row,
 				CellFormat.FORMAT_BORDER);
@@ -204,8 +212,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		if (row == -1 || column == -1 || border == null) {
 			return;
 		}
-		Style s = table.getCellFormatter().getElement(row, column).getStyle();
-		
+
 		final int TOP_BIT = 1;
 		final int BOTTOM_BIT = 3;
 		final int LEFT_BIT = 0;
@@ -258,6 +265,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		borderWidth += bottom ? LINE : NONE;
 		borderWidth += left ? LINE : NONE;
 
+		Style s = table.getCellFormatter().getElement(row, column).getStyle();
 		s.setProperty("borderStyle", "solid");
 		// top right bottom left
 		s.setProperty("borderWidth", borderWidth);
@@ -276,7 +284,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		if (left) {
 			s.setProperty("borderLeftColor", "#000000");
 		}
-
 	}
 
 	public void updateCellBackground(GeoElement geo, int row,

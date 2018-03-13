@@ -42,7 +42,6 @@ public class EditMenuW extends GMenuBar {
 	 * initializes the menu
 	 */
 	void initActions() {
-		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
 		/*
 		 * layer values: -1 means nothing selected -2 means different layers
 		 * selected
@@ -66,6 +65,8 @@ public class EditMenuW extends GMenuBar {
 		// object properties menu
 		addPropertiesItem();
 		addSeparator();
+
+		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
 		addSelectAllItem(noIcon);
 		if (!getApp().isUnbundledOrWhiteboard()) {
 			addSelectCurrentLayer(noIcon);

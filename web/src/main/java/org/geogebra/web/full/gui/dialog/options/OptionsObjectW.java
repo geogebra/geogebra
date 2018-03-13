@@ -1362,7 +1362,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		TooltipPanel tooltipPanel = new TooltipPanel();
 		CheckboxPanel selectionAllowedPanel = new CheckboxPanel(
 				"SelectionAllowed", loc, new SelectionAllowedModel(null, app));
-		ViewLocationPanel graphicsViewLocationPanel = new ViewLocationPanel();
 
 		tab.add(showConditionPanel);
 		tab.add(colorFunctionPanel);
@@ -1376,6 +1375,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		misc.add(tooltipPanel);
 		misc.add(selectionAllowedPanel);
 		tab.add(misc);
+		ViewLocationPanel graphicsViewLocationPanel = new ViewLocationPanel();
 		tab.add(graphicsViewLocationPanel);
 		return tab;
 	}

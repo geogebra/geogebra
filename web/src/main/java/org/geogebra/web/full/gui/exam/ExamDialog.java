@@ -258,7 +258,6 @@ public class ExamDialog {
 		ensureExamStyle();
 		blockEscTab();
 
-		Date date = new Date();
 		guiManager.updateToolbarActions();
 		app.getLAF().removeWindowClosingHandler();
 		app.fileNew();
@@ -278,6 +277,7 @@ public class ExamDialog {
 			app.getGgbApi().setPerspective("A");
 		}
 
+		Date date = new Date();
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		app.getExam().setStart(date.getTime());
 		app.fireViewsChangedEvent();

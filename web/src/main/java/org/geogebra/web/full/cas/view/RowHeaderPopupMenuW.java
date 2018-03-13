@@ -42,7 +42,6 @@ public class RowHeaderPopupMenuW extends
 
 	private void initMenu() {
 		// "Insert Above" menuitem
-		boolean canSystemCopy = CopyPasteCutW.checkClipboardSupported();
 		AriaMenuItem miCopyInput = new AriaMenuItem(loc.getMenu("CopyInput"),
 				false,
 				new ScheduledCommand() {
@@ -114,8 +113,7 @@ public class RowHeaderPopupMenuW extends
 		rowHeaderPopupMenu.addItem(miUseAsText);
 		miUseAsText.addStyleName("mi_no_image");
 
-
-		if (canSystemCopy) {
+		if (CopyPasteCutW.checkClipboardSupported()) {
 
 			AriaMenuItem copyItem = new AriaMenuItem(loc.getMenu("Copy"), false,
 					new ScheduledCommand() {
@@ -129,12 +127,12 @@ public class RowHeaderPopupMenuW extends
 
 			AriaMenuItem latexItem = new AriaMenuItem(
 					loc.getMenu("CopyAsLaTeX"), false,
-				new ScheduledCommand() {
-					@Override
-					public void execute() {
+					new ScheduledCommand() {
+						@Override
+						public void execute() {
 							actionPerformed(CellAction.COPY_LATEX);
-					}
-				});
+						}
+					});
 			rowHeaderPopupMenu.addItem(latexItem);
 			latexItem.addStyleName("mi_no_image");
 		}

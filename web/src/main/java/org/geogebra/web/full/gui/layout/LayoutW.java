@@ -83,7 +83,7 @@ public class LayoutW extends Layout implements SettingListener {
 	@Override
 	public boolean applyPerspective(Perspective perspective) {
 		// ignore axes & grid settings for the document perspective
-		boolean changed = setEVsettingsFromPerspective(app, perspective);
+		final boolean changed = setEVsettingsFromPerspective(app, perspective);
 
 		app.getGuiManager().setGeneralToolBarDefinition(
 		        perspective.getToolbarDefinition());

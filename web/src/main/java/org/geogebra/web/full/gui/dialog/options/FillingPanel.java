@@ -161,7 +161,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		model = model0;
 		model.setListener(this);
 		setModel(model);
-		FlowPanel mainWidget = new FlowPanel();
+
 		fillTypePanel = new FlowPanel();
 		fillTypePanel.setStyleName("optionsPanel");
 		fillTypeTitle = new Label();
@@ -271,7 +271,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		// ===========================================================
 		// put all the sub panels together
-
+		FlowPanel mainWidget = new FlowPanel();
 		mainWidget.add(panel);
 		mainWidget.add(opacityPanel);
 		mainWidget.add(hatchFillPanel);

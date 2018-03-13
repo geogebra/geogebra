@@ -451,7 +451,7 @@ public class GgbAPIW extends GgbAPI {
 	public GgbFile createArchiveContent(boolean includeThumbnail,
 			GgbFile archiveContent) {
 		archiveContent.clear();
-		boolean isSaving = getKernel().isSaving();
+		final boolean isSaving = getKernel().isSaving();
 		// return getNativeBase64(includeThumbnail);
 		getKernel().setSaving(true);
 		((ImageManagerW) app.getImageManager())

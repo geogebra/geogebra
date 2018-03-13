@@ -439,13 +439,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	private void createGUI() {
-
-		int leftCornerWidth = SpreadsheetViewW.ROW_HEADER_WIDTH;
-		int rightCornerWidth = AbstractNativeScrollbar
-		        .getNativeScrollbarWidth();
-		int lowerLeftCornerHeight = AbstractNativeScrollbar
-		        .getNativeScrollbarHeight();
-
 		// ------ upper left corner
 		upperLeftCorner = new Grid(1, 1);
 		upperLeftCorner.getElement().addClassName(
@@ -458,7 +451,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		Style s = upperLeftCorner.getElement().getStyle();
 		
 		upperLeftCorner.addStyleName("upperCorner");
-		
+		int leftCornerWidth = SpreadsheetViewW.ROW_HEADER_WIDTH;
 		s.setWidth(leftCornerWidth, Unit.PX);
 		//s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
 		//s.setColor(BACKGROUND_COLOR_HEADER.toString());
@@ -475,6 +468,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		upperRightCorner.getCellFormatter().getElement(0, 0)
 		        .addClassName("SVheader");
 		s = upperRightCorner.getElement().getStyle();
+		int rightCornerWidth = AbstractNativeScrollbar
+				.getNativeScrollbarWidth();
 		s.setWidth(rightCornerWidth, Unit.PX);
 		//s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
 		//s.setColor(BACKGROUND_COLOR_HEADER.toString());
@@ -489,6 +484,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		        "geogebraweb-table-spreadsheet-lowerLeftCorner");
 		s = lowerLeftCorner.getElement().getStyle();
 		s.setWidth(leftCornerWidth - 1, Unit.PX);
+		int lowerLeftCornerHeight = AbstractNativeScrollbar
+				.getNativeScrollbarHeight();
 		s.setHeight(lowerLeftCornerHeight - 2, Unit.PX);
 		//s.setBackgroundColor(BACKGROUND_COLOR_HEADER.toString());
 
