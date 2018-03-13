@@ -461,16 +461,28 @@ $duration: 0.2s;
    				.errorLabel {
    					color: $white;
    					font-size: 75%;
-   				}   				
+   				}  
+   				
+   				&:hover {
+   					.inputLabel {
+   						color: $black-87;
+   					}
+   			
+ 					.AutoCompleteTextFieldW {
+ 						margin: 8px 16px 7px 0px;	
+ 						border-bottom: 2px solid $black-87;
+ 					} 				
+   				}    				
    			}
    		
-   			&.errorState {
+   			&.errorState, &.errorState:hover {
    				@extend .emptyState;
    				.inputLabel {
    					color: $red-87;
    				}
    			
  				.AutoCompleteTextFieldW {
+ 					margin: 8px 16px 7px 0px;	
  					border-bottom: 2px solid $red;
  				}
    					
@@ -479,17 +491,17 @@ $duration: 0.2s;
    				}   				
    			}
    		
-   			&.focusState {
+   			&.focusState, &.focusState:hover {
    				@extend .emptyState;
    				.inputLabel {
    					color: $mebis-teal-dark-87;
    				}
    			
  				.AutoCompleteTextFieldW {
+ 					margin: 8px 16px 7px 0px;	
  					border-bottom: 2px solid $mebis-teal-dark;
  				} 				
-   			}
-   		
+   			}		
    		}
    	
    		.DialogButtonPanel {
