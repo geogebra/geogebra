@@ -147,6 +147,11 @@ public class DrawAudio extends Drawable {
 		return null;
 	}
 
+	@Override
+	public GRectangle getBounds() {
+		return bounds;
+	}
+
 	/**
 	 * Mouse down handler.
 	 * 

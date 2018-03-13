@@ -1139,7 +1139,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
 						if (geo instanceof GeoText
-								|| geo instanceof GeoButton) {
+								|| geo instanceof GeoButton || geo.isGeoAudio()) {
 							geosOK = false;
 							break;
 						}
@@ -1406,12 +1406,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 			@Override
 			public void update(Object[] geos) {
 
-				boolean geosOK = (geos.length > 0);
+				boolean geosOK = (geos.length > 0 && !((GeoElement) geos[0]).isGeoAudio());
 				for (int i = 0; i < geos.length; i++) {
 					GeoElement geo = ((GeoElement) geos[i])
 							.getGeoElementForPropertiesDialog();
 					if (!(geo instanceof GeoText)
-							&& !(geo instanceof GeoButton)) {
+							&& !(geo instanceof GeoButton || geo.isGeoAudio())) {
 						geosOK = false;
 						break;
 					}
@@ -1513,8 +1513,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 				@Override
 				public void update(Object[] geos) {
 
+					GeoElement geo0 = (GeoElement) geos[0];
 					boolean geosOK = checkGeoText(geos)
-							&& !((GeoElement) geos[0]).isGeoInputBox();
+							&& !(geo0.isGeoInputBox() || geo0.isGeoAudio());
 					super.setVisible(geosOK);
 					if (geosOK) {
 						GeoElement geo = ((GeoElement) geos[0])
@@ -1594,9 +1595,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				@Override
 				public void update(Object[] geos) {
-
+					GeoElement geo0 = (GeoElement) geos[0];
 					boolean geosOK = checkGeoText(geos)
-							&& !((GeoElement) geos[0]).isGeoInputBox();
+							&& !(geo0.isGeoInputBox() || geo0.isGeoAudio());
 					super.setVisible(geosOK);
 					if (geosOK) {
 						GeoElement geo = ((GeoElement) geos[0])
@@ -1644,7 +1645,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			@Override
 			public void update(Object[] geos) {
 
-				boolean geosOK = checkGeoText(geos);
+				boolean geosOK = checkGeoText(geos) && !((GeoElement) geos[0]).isGeoAudio();
 				super.setVisible(geosOK);
 
 				if (geosOK) {

@@ -6772,7 +6772,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (!hits.isEmpty()) {
 				GeoElement hit = hits.get(0);
 				if (hit != null) {
-					if (hit.isGeoButton() && !(hit.isGeoInputBox())) {
+					if (hit.isGeoButton() && !(hit.isGeoInputBox() || hit.isGeoAudio())) {
 						checkBoxOrButtonJustHitted = true;
 						if (!app.showView(App.VIEW_PROPERTIES)) {
 							selection.removeSelectedGeo(hit, true, false); // make
@@ -10707,8 +10707,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private boolean shouldClearSelectionForMove() {
 		List<GeoElement> selectedGeos = selection.getSelectedGeos();
-		return !(selectedGeos.size() == 1 && selectedGeos.get(0) instanceof GeoFunction &&
-				mode != EuclidianConstants.MODE_MOVE);
+		return !(selectedGeos.size() == 1
+				&& (selectedGeos.get(0) instanceof GeoFunction || selectedGeos.get(0).isGeoAudio())
+				&& mode != EuclidianConstants.MODE_MOVE);
 	}
 
 	private boolean wasBoundingBoxDrag() {
