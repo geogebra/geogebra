@@ -2076,6 +2076,9 @@ namespace giac {
 
   gen _ClrIO(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+#ifdef EMCC
+    return _print(_char(12,contextptr),contextptr);
+#endif
     return __interactive.op(symbolic(at_ClrIO,0),contextptr);
   }
   static const char _ClrIO_s[]="ClrIO";
