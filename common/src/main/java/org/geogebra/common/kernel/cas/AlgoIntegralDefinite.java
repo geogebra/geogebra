@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.ListValue;
-import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
@@ -376,9 +375,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 					// Log.debug("op = " + op);
 
 					if (op == Operation.IF_LIST) {
-						MyList left = (MyList) exp.getLeft();
-						MyList right = (MyList) exp.getRight();
-
 						ArrayList<ExpressionNode> nodesAl = new ArrayList<>();
 						ArrayList<GeoFunction.Bounds> boundsAl = new ArrayList<>();
 
