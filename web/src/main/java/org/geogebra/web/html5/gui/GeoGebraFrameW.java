@@ -432,6 +432,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// need to call setLabels here
 		// to print DockPanels' titles
 		inst.app.setLabels();
+		app.showPerspectivesPopup();
 	}
 
 	/**

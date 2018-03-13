@@ -570,7 +570,8 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void sendEvent(Event evt) {
-		if (evt.getType() == EventType.UNDO) {
+		if (evt.getType() == EventType.UNDO
+				|| evt.getType() == EventType.REDO) {
 			savePreviewCard(selectedCard);
 		}
 	}

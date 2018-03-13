@@ -90,6 +90,7 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler {
 		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		if (source == cancelBtn) {
 			hide();

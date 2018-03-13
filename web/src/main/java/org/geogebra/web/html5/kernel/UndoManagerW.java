@@ -172,6 +172,9 @@ public class UndoManagerW extends UndoManager {
 			if (app.getKernel().hasExercise()) {
 				app.getKernel().getExercise().notifyUpdate();
 			}
+			if (((AppW) app).getPageController() != null) {
+				((AppW) app).getPageController().updatePreviewImage();
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
