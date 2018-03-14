@@ -319,10 +319,9 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private void updateLanguageList() {
 			languageList.clear();
 			for (Language l : Language.values()) {
-				if (!l.fullyTranslated && app.has(Feature.ALL_LANGUAGES)) {
-					continue;
+				if (l.fullyTranslated || app.has(Feature.ALL_LANGUAGES)) {
+					languageList.addItem(l.name, l.getLocaleGWT());
 				}
-				languageList.addItem(l.name, l.getLocaleGWT());
 			}
 		}
 
