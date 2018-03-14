@@ -28,7 +28,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author csilla
  *
  */
-public class AudioInputDialog extends DialogBoxW implements FastClickHandler, ErrorHandler {
+public class AudioInputDialog extends DialogBoxW
+		implements FastClickHandler, ErrorHandler {
 	private AppW appW;
 	private FlowPanel mainPanel;
 	private FlowPanel inputPanel;
@@ -59,8 +60,7 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 		inputLabel.addStyleName("inputLabel");
 		inputField = new InputPanelW("", appW, 1, 25, false);
 		inputField.getTextComponent().getTextBox().getElement().setAttribute(
-				"placeholder",
-				appW.getLocalization().getMenu("pasteLink"));
+				"placeholder", appW.getLocalization().getMenu("pasteLink"));
 		inputField.addStyleName("inputText");
 		inputPanel.add(inputLabel);
 		inputPanel.add(inputField);
@@ -107,17 +107,19 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 					}
 				});
 
-		inputField.getTextComponent().getTextBox().addKeyDownHandler(new KeyDownHandler() {
+		inputField.getTextComponent().getTextBox()
+				.addKeyDownHandler(new KeyDownHandler() {
 
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-					processInput();
-				} else {
-					resetInputField();
-				}
-			}
-		});
+					@Override
+					public void onKeyDown(KeyDownEvent event) {
+						if (event.getNativeEvent()
+								.getKeyCode() == KeyCodes.KEY_ENTER) {
+							processInput();
+						} else {
+							resetInputField();
+						}
+					}
+				});
 
 		inputField.getTextComponent().getTextBox()
 				.addMouseOverHandler(new MouseOverHandler() {
@@ -145,6 +147,7 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 		getInsertBtn().setEnabled(!"".equals(getInputField().getText()));
 
 	}
+
 	/**
 	 * @return panel holding input with label and error label
 	 */
@@ -165,6 +168,7 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 	public InputPanelW getInputField() {
 		return inputField;
 	}
+
 	/**
 	 * set button labels and dialog title
 	 */
@@ -172,8 +176,8 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 		getCaption().setText(appW.getLocalization().getMenu("Audio")); // dialog
 		// title
 		inputLabel.setText(appW.getLocalization().getMenu("Link"));
-		errorLabel.setText(appW.getLocalization().getMenu("Error")
-				+ ": " + appW.getLocalization().getError("InvalidInput"));
+		errorLabel.setText(appW.getLocalization().getMenu("Error") + ": "
+				+ appW.getLocalization().getError("InvalidInput"));
 		insertBtn.setText(appW.getLocalization().getMenu("Insert")); // insert
 		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
 	}
@@ -189,17 +193,18 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 
 	void processInput() {
 		if (appW.getGuiManager() != null) {
-			app.getSoundManager().checkURL(inputField.getText(), new AsyncOperation<Boolean>() {
+			app.getSoundManager().checkURL(inputField.getText(),
+					new AsyncOperation<Boolean>() {
 
-				@Override
-				public void callback(Boolean ok) {
-					if (ok) {
-						addAudio();
-					} else {
-						showError("error");
-					}
-				}
-			});
+						@Override
+						public void callback(Boolean ok) {
+							if (ok) {
+								addAudio();
+							} else {
+								showError("error");
+							}
+						}
+					});
 		}
 	}
 
@@ -233,7 +238,8 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 	}
 
 	@Override
-	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
+	public boolean onUndefinedVariables(String string,
+			AsyncOperation<String[]> callback) {
 		return false;
 	}
 
