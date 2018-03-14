@@ -22,7 +22,7 @@ public class LabelingProperty extends AbstractEnumerableProperty {
     private App app;
 
     public LabelingProperty(App app, Localization localization) {
-        super(localization, "");
+        super(localization, "Labeling");
         this.app = app;
         localizeValues(localization);
         setValues(labelingValues);
@@ -47,7 +47,7 @@ public class LabelingProperty extends AbstractEnumerableProperty {
                 return i;
             }
         }
-        
+
         return 0;
     }
 }
