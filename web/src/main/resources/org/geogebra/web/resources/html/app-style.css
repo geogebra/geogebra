@@ -441,6 +441,80 @@
 .startscreen .GeoGebraFrame .toolbar .tools{
 	left: 0;
 }
+
+.GeoGebraFrame .TabbedKeyBoard.KeyBoard {
+    padding-top: 0;
+    background-color: #eee;
+}
+.GeoGebraFrame .KeyboardSwitcher {
+    position: relative;
+    background-color: #f8f8f8;
+    border: #dcdcdc solid;
+    border-width: 1px 0;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 5px;
+}
+.GeoGebraFrame .KeyBoard .KeyBoardButton {
+    padding: 10px;
+    height: 20px;
+    text-align: center;
+    line-height: inherit;
+    margin: 2px;
+    margin-top: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    font-size: 120%;
+    cursor: pointer;
+    border-radius: 5px;
+    white-space: nowrap;
+    color: #000;
+}
+.GeoGebraFrame .KeyBoard.TabbedKeyBoard .KeyBoardButton {
+    background-color: white;
+    border-radius: 5px;
+    border-bottom: 1px solid;
+    border-bottom-color: #c7c7c7;
+    padding: 9px 0;
+}
+.GeoGebraFrame .KeyPanel {
+    margin: auto;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+}
+.GeoGebraFrame .TabbedKeyBoard.KeyBoard .KeyBoardButton {
+    height: 40px;
+    box-sizing: border-box;
+}
+.GeoGebraFrame .KeyBoard.TabbedKeyBoard .KeyBoardButton.colored {
+    background-color: #dcdcdc;
+}
+
+.GeoGebraFrame .KeyBoard.TabbedKeyBoard .KeyBoardButton img {
+    width: 24px;
+    height: 24px;
+}
+.GeoGebraFrame td, .GeoGebraFrame th {
+    color: #666;
+    font-size: 16px;
+}
+
+.GeoGebraFrame .KeyBoard .KeyBoardButton div {
+    text-align: center;
+}
+
+.startscreen .KeyBoard{
+    width: 100%;
+    height: 228px;
+    position: absolute;
+    background-color: green;
+    z-index: 100;
+    bottom: 0;
+}
+
 @media (orientation: Portrait) { 
 	.toolPane {
 		top: auto;
@@ -472,7 +546,7 @@
 		top:initial;
 	}
 	
-	.GeoGebraFrame .hide-Dragger .gwt-SplitLayoutPanel-HDragger {
+	.startscreen .GeoGebraFrame .hide-Dragger .gwt-SplitLayoutPanel-HDragger {
 		height: 8px;
     	top: 8px !important;
 		top: initial;
@@ -485,6 +559,7 @@
 	position:absolute;
 	top:50%;
 	transform: translateY(-50%);
+	z-index:1000;
 }
 
 .mk-spinner-ring {
