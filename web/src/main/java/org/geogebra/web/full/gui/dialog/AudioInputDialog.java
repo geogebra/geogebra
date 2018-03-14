@@ -140,7 +140,7 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 		cancelBtn.addFastClickHandler(this);
 	}
 
-	private void resetInputField() {
+	void resetInputField() {
 		resetError();
 		getInsertBtn().setEnabled(!"".equals(getInputField().getText()));
 
@@ -187,16 +187,14 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 		}
 	}
 
-	private void processInput() {
+	void processInput() {
 		if (appW.getGuiManager() != null) {
 			app.getSoundManager().checkURL(inputField.getText(), new AsyncOperation<Boolean>() {
 
 				@Override
 				public void callback(Boolean ok) {
 					if (ok) {
-						resetError();
-						app.getGuiManager().addAudio(inputField.getText());
-						hide();
+						addAudio();
 					} else {
 						showError("error");
 					}
@@ -204,6 +202,13 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 			});
 		}
 	}
+
+	void addAudio() {
+		resetError();
+		app.getGuiManager().addAudio(inputField.getText());
+		hide();
+	}
+
 	@Override
 	public void hide() {
 		appW.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
@@ -219,19 +224,16 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 
 	@Override
 	public void showCommandError(String command, String message) {
-		// TODO Auto-generated method stub
-
+		// not used but must be implemented
 	}
 
 	@Override
 	public String getCurrentCommand() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -241,5 +243,4 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 		getInputPanel().addStyleName("emptyState");
 		inputPanel.removeStyleName("errorState");
 	}
-
 }
