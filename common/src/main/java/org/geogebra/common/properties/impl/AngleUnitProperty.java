@@ -1,7 +1,6 @@
 package org.geogebra.common.properties.impl;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 
@@ -25,6 +24,8 @@ public class AngleUnitProperty extends AbstractEnumerableProperty {
     protected void setValueSafe(String value, int index) {
         int angleUnit = index == 0 ? Kernel.ANGLE_DEGREE : Kernel.ANGLE_RADIANT;
         kernel.setAngleUnit(angleUnit);
+        kernel.updateConstruction();
+        kernel.notifyRepaint();
     }
 
     @Override
