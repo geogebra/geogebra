@@ -56,7 +56,8 @@ public abstract class UndoManager {
 		while (iterator.hasPrevious()) {
 			UndoCommand cmd = iterator.previous();
 			steps++;
-			if (cmd.getAppState() != null && cmd.getSlideID().equals(string)) {
+			if (cmd.getAppState() != null && (cmd.getSlideID() == null
+					|| cmd.getSlideID().equals(string))) {
 				state = cmd.getAppState();
 				break;
 			}
