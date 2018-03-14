@@ -95,7 +95,7 @@ public class GMenuBar extends AriaMenuBar {
 		// not following mouse movement, only following mouse clicks, etc
 		final Object[] ait = new Object[2];
 		final AppW app1 = app;
-		ait[1] = null;// means the popup assigned to this MenuItem
+		ait[1] = null; // means the popup assigned to this MenuItem
 		ait[0] = addItem(itemtext, textishtml, new ScheduledCommand() {
 			@Override
 			public void execute() {

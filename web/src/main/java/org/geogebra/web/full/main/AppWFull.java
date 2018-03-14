@@ -1814,7 +1814,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			return;
 		}
 		
-		EuclidianViewW ev = (EuclidianViewW)getActiveEuclidianView();
+		EuclidianViewW ev = (EuclidianViewW) getActiveEuclidianView();
 		nativeCopyToClipboardExternal(ev.getExportImageDataUrl(3, false));
 	}
 

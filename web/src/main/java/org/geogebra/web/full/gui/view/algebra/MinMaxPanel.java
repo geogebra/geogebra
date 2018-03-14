@@ -307,7 +307,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	// TODO: refactor needed: copied from SliderPanelW;
 	private NumberValue getNumberFromInput(final String inputText) {
 		boolean emptyString = "".equals(inputText);
-		NumberValue value = null;// new MyDouble(kernel, Double.NaN);
+		NumberValue value = null; // new MyDouble(kernel, Double.NaN);
 		if (!emptyString) {
 			value = kernel.getAlgebraProcessor()
 					.evaluateToNumeric(

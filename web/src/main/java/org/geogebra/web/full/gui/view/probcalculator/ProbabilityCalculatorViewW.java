@@ -613,21 +613,17 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnNormalOverlay.setVisible(isOverlayDefined());
 		lblMeanSigma.setText(getMeanSigma());
 		getPlotPanel().repaintView();
-
-		//wrapperPanel.repaint();
-
 	}
 	
 	private void addRemoveTable(boolean showTable) {
 		if (showTable) {
-			plotSplitPane.add(((ProbabilityTableW)getTable()).getWrappedPanel());
-			tabbedPane.onResize();
-			//plotSplitPane.setDividerSize(defaultDividerSize);
+			plotSplitPane
+					.add(((ProbabilityTableW) getTable()).getWrappedPanel());
 		} else {
-			plotSplitPane.remove(((ProbabilityTableW)getTable()).getWrappedPanel());
-			tabbedPane.onResize();
-			//plotSplitPane.setDividerSize(0);
+			plotSplitPane
+					.remove(((ProbabilityTableW) getTable()).getWrappedPanel());
 		}
+		tabbedPane.onResize();
 	}
 
 	@Override

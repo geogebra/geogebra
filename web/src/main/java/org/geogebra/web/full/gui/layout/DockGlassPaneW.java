@@ -40,7 +40,7 @@ public class DockGlassPaneW extends AbsolutePanel
 
 	private String color;
 	private static final String COLOR_DEFAULT = "lightgray";
-	private static final String COLOR_NOT_ENOUGH_SPACE = "lightgray";// Color.red;
+	private static final String COLOR_NOT_ENOUGH_SPACE = "lightgray"; // Color.red;
 	private static final String COLOR_SAME_PLACE = "white";
 
 	private static final int BORDER_WIDTH = 4;

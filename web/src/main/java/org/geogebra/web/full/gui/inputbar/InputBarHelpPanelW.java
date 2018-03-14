@@ -63,14 +63,12 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 *            application
 	 */
 	public InputBarHelpPanelW(AppW app) {
-
 		super();
 		this.app = app;
 		comparator = new LocaleSensitiveComparator();
 
 		createGUI();
 		setLabels();
-
 	}
 	
 	/**
@@ -244,7 +242,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 *            transform scale
 	 */
 	public void updateGUI(int maxOffsetHeight, double scale) {
-
 		showOnlineHelpButton(!app.isExam());
 		int h = (int) (maxOffsetHeight * scale
 				- 60);
@@ -276,7 +273,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 		
 		return (int) Math.min(700, width);
-		
 	}
 
 	// =================================================================
@@ -291,8 +287,9 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		indexTree.clear();
 
 		itmFunction = new MyTreeItem();
-		itmFunction.setWidget(new TreeItemButton(app.getLocalization().getMenu(
-"MathematicalFunctions"), itmFunction, false));
+		itmFunction.setWidget(new TreeItemButton(
+				app.getLocalization().getMenu("MathematicalFunctions"),
+				itmFunction, false));
 		indexTree.addItem(itmFunction);
 
 		MyTreeItem itmAllCommands = new MyTreeItem();
@@ -320,9 +317,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			// add command names to this branch
 			TreeSet<String> cmdNames = entry.getValue();
 			addCmdNames(itmCmdSet, cmdNames);
-
 		}
-
 	}
 
 	private void addCmdNames(TreeItem item, TreeSet<String> names) {
@@ -464,7 +459,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		if (loc.isCASCommand(cmd)) {
 
 			if (!syntaxBasic.equals(cmd + Localization.syntaxStr)) {
-				formattedHTMLString(ret,syntaxBasic, false);
+				formattedHTMLString(ret, syntaxBasic, false);
 			}
 			// don't show cas specific syntax for exam graphing
 			boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();

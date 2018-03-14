@@ -20,7 +20,7 @@ public class WebCamInputPanel extends VerticalPanel {
 	private Element video;
 	private JavaScriptObject stream;
 	private int canvasWidth = 640;
-	private int canvasHeight = 480;// overwritten by real
+	private int canvasHeight = 480; // overwritten by real
 														// dimensions
 	private AppW app;
 	private static final int MAX_CANVAS_WIDTH = 640;

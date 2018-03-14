@@ -172,7 +172,7 @@ public class PropertiesViewW extends PropertiesView
 				euclidianPanel = new OptionsEuclidianW((AppW) app,
 						((AppW) app).getActiveEuclidianView());
 				euclidianPanel.setLabels();
-				euclidianPanel.setView(((AppW)app).getEuclidianView1());
+				euclidianPanel.setView(((AppW) app).getEuclidianView1());
 				euclidianPanel.showCbView(false);
 			}
 			return euclidianPanel;
@@ -180,18 +180,17 @@ public class PropertiesViewW extends PropertiesView
 		case EUCLIDIAN2:
 			if (euclidianPanel2 == null) {
 				euclidianPanel2 = new OptionsEuclidianW((AppW) app,
-						((AppW)app).getEuclidianView2(1));
+						((AppW) app).getEuclidianView2(1));
 				euclidianPanel2.setLabels();
-				euclidianPanel2.setView(((AppW)app).getEuclidianView2(1));
+				euclidianPanel2.setView(((AppW) app).getEuclidianView2(1));
 				euclidianPanel2.showCbView(false);
 			}
 			return euclidianPanel2;
 		case EUCLIDIAN3D:
 			if (euclidianPanel3D == null) {
 				euclidianPanel3D = new OptionsEuclidianW((AppW) app,
-						((AppW)app).getEuclidianView3D());
+						((AppW) app).getEuclidianView3D());
 				euclidianPanel3D.setLabels();
-		//		euclidianPanel3D.setView(((AppW)app).getEuclidianView3D());
 				euclidianPanel3D.showCbView(false);
 			}
 			return euclidianPanel2;
@@ -327,7 +326,7 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 	@Override
-	public void setMode(int mode,ModeSetter m) {
+	public void setMode(int mode, ModeSetter m) {
 		// do nothing
 	}
 

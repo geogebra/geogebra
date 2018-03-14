@@ -141,7 +141,7 @@ public class GridModel {
 	}
 
 	public int getColumnCount() {
-		return headers.size();//columnCount;
+		return headers.size(); // columnCount;
 	}
 
 	public void setColumnCount(int columnCount) {

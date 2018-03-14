@@ -37,13 +37,11 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 				'S'									// menu shortcut
 				);
 
-
-		app = (AppW)appl;
+		app = (AppW) appl;
 	}
 
 	@Override
 	protected Panel getViewPanel() {
-
 		if (wrapview == null) {
 			wrapview = new AbsolutePanel();
 			wrapview.addStyleName("SpreadsheetWrapView");

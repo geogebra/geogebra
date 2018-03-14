@@ -103,8 +103,8 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		// allow outside range 0-360
 		angle.setAngleStyle(AngleStyle.UNBOUNDED);
 		
-		GeoNumeric.setSliderFromDefault(number,false);
-		GeoNumeric.setSliderFromDefault(angle,true);
+		GeoNumeric.setSliderFromDefault(number, false);
+		GeoNumeric.setSliderFromDefault(angle, true);
 		number.setValue(1);
 		angle.setValue(45 * Math.PI/180);
 			
@@ -236,7 +236,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 								.indexOf('=') + 1));
 					}
 
-					GeoNumeric geoNum = ((GeoNumeric)geoResult);
+					GeoNumeric geoNum = (GeoNumeric) geoResult;
 					
 					if (val > geoNum.getIntervalMax()) {
 						geoNum.setIntervalMax(val);

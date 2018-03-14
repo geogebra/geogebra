@@ -146,8 +146,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	protected boolean editing = false;
 
-	boolean repaintAll = false;// sometimes only the repainting of
-	                           // borders/background is needed
+	boolean repaintAll = false; // sometimes only the repainting of
+								// borders/background is needed
 
 	// Cells to be resized on next repaint are put in these HashSets.
 	// A cell is added to a set when editing is done. The cells are removed
@@ -1709,7 +1709,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		if (mce != null) {
 			mce.cancelCellEditing();
 		}
-		return false;// TODO: implementation needed
+		return false;
 	}
 
 	private SpreadsheetController getEditorController() {
@@ -2256,37 +2256,40 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// this is temporary code while cleaning up
 	// ===========================================
 	public String copyString() {
-		return ((CopyPasteCutW)copyPasteCut).copyString(getSelectedColumn(), getSelectedRow(),
-		        getMaxSelectedColumn(), getMaxSelectedRow());
+		return ((CopyPasteCutW) copyPasteCut).copyString(getSelectedColumn(),
+				getSelectedRow(), getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
 	public void copy(boolean altDown) {
 		copyPasteCut.copy(getSelectedColumn(), getSelectedRow(),
-		        getMaxSelectedColumn(), getMaxSelectedRow(), altDown);
+				getMaxSelectedColumn(), getMaxSelectedRow(), altDown);
 	}
 
 	public void copy(boolean altDown, boolean nat) {
-		((CopyPasteCutW)copyPasteCut).copy(getSelectedColumn(), getSelectedRow(),
-		        getMaxSelectedColumn(), getMaxSelectedRow(), altDown, nat);
+		((CopyPasteCutW) copyPasteCut).copy(getSelectedColumn(),
+				getSelectedRow(), getMaxSelectedColumn(), getMaxSelectedRow(),
+				altDown, nat);
 	}
 
 	public boolean paste() {
 		return copyPasteCut.paste(getSelectedColumn(), getSelectedRow(),
-		        getMaxSelectedColumn(), getMaxSelectedRow());
+				getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
 	public boolean paste(String cont) {
-		return ((CopyPasteCutW)copyPasteCut).paste(getSelectedColumn(), getSelectedRow(),
-		        getMaxSelectedColumn(), getMaxSelectedRow(), cont);
+		return ((CopyPasteCutW) copyPasteCut).paste(getSelectedColumn(),
+				getSelectedRow(), getMaxSelectedColumn(), getMaxSelectedRow(),
+				cont);
 	}
 
 	public boolean cut() {
 		return copyPasteCut.cut(getSelectedColumn(), getSelectedRow(),
-		        getMaxSelectedColumn(), getMaxSelectedRow());
+				getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
 	public boolean cut(boolean nat) {
-		return ((CopyPasteCutW)copyPasteCut).cut(getSelectedColumn(), getSelectedRow(),
+		return ((CopyPasteCutW) copyPasteCut).cut(getSelectedColumn(),
+				getSelectedRow(),
 		        getMaxSelectedColumn(), getMaxSelectedRow(), nat);
 	}
 

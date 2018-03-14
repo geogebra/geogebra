@@ -20,8 +20,8 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 	int oldHeight = 0;
 	int oldWidth = 0;
 
-	Canvas eview1 = null;// static foreground
-	
+	Canvas eview1 = null; // static foreground
+
 	/**
 	 * This constructor is used by the applet
 	 * 

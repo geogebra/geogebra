@@ -67,7 +67,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// current toolbar mode
 	private int mode = -1;
 
-	boolean repaintScheduled = false;// to repaint less often, make it
+	boolean repaintScheduled = false; // to repaint less often, make it
 										// quicker
 
 	// panel that contains the spreadsheet table and headers
@@ -506,8 +506,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void getXML(StringBuilder sb, boolean asPreference) {
 		sb.append("<spreadsheetView>\n");
 
-		int width = spreadsheetWrapper.getOffsetWidth();// getPreferredSize().width;
-		int height = spreadsheetWrapper.getOffsetHeight();// getPreferredSize().height;
+		int width = spreadsheetWrapper.getOffsetWidth(); // getPreferredSize().width;
+		int height = spreadsheetWrapper.getOffsetHeight(); // getPreferredSize().height;
 
 		sb.append("\t<size ");
 		sb.append(" width=\"");

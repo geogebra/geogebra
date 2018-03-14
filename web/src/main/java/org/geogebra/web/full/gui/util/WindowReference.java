@@ -117,7 +117,8 @@ public final class WindowReference implements EventRenderable {
 
     @Override
 	public void renderEvent(BaseEvent event) {
-    	if(event instanceof LoginEvent && !((LoginEvent)event).isSuccessful()){
+		if (event instanceof LoginEvent
+				&& !((LoginEvent) event).isSuccessful()) {
     		return;
     	}
     	if(event instanceof LoginAttemptEvent){

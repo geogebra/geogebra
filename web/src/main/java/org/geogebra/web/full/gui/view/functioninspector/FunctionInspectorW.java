@@ -106,7 +106,6 @@ public class FunctionInspectorW extends FunctionInspector {
 				onResize();
 			}
 		});
-
 	}
 
 	@Override
@@ -558,7 +557,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -567,7 +565,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		getModel().updatePoints(btnTangent.isSelected(),
 		        btnOscCircle.isSelected(), btnXYSegments.isSelected(),
 		        btnTable.isSelected());
-
 	}
 
 	@Override
@@ -614,10 +611,9 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void createOptionsButton() {
-
 		ImageOrText[] strOptions = new ImageOrText[] { new ImageOrText(
 				app.getLocalization().getMenu("CopyToSpreadsheet")) };
-		btnOptions = new PopupMenuButtonW((AppW) app, strOptions,
+		btnOptions = new PopupMenuButtonW(app, strOptions,
 		        strOptions.length, 1,
 				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT, false);
 
@@ -636,9 +632,8 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void doCopyToSpreadsheet() {
-
 		if (isIntervalTabSelected()) {
-			getModel().copyIntervalsToSpreadsheet(2, 9);// modelInterval.getColumnCount(),
+			getModel().copyIntervalsToSpreadsheet(2, 9); // modelInterval.getColumnCount(),
 			// modelInterval.getRowCount());
 		} else {
 			getModel().copyPointsToSpreadsheet(modelXY.getColumnCount(),

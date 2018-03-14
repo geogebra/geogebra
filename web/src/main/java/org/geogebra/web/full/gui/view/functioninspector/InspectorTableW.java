@@ -106,7 +106,6 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		if (row == HEADER_ROW) {
 			// Header row cannot be selected.
 			return;
-			
 		}
 		
 		clearSelectedRowStyle();
@@ -140,9 +139,9 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		
 		if (widget != null) {
 			if (widget == cellEditor) {
-				((AutoCompleteTextFieldW)widget).setText(value.toString());
+				cellEditor.setText(value.toString());
 			} else {
-				((Label)widget).setText(value.toString());
+				((Label) widget).setText(value.toString());
 			}
 		} else {
 			setCellWidget(row, col, "inspectorTableData", value);

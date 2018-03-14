@@ -90,7 +90,7 @@
             <property name="tokens" value="ARRAY_DECLARATOR"/>
             <property name="option" value="EOL"/>
         </module>
-        
+        <module name="WhitespaceAfter"/>
     </module>
    
 </module>

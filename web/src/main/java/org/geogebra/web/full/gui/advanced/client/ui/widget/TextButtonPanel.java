@@ -168,7 +168,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	 * @return a maximum length of the text box.
 	 */
 	public int getMaxLength() {
-		return 100;// getSelectedValue().getMaxLength();
+		return 100; // getSelectedValue().getMaxLength();
 	}
 
 	/**

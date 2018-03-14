@@ -137,46 +137,46 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 		if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorView.PROB_INTERVAL) {
 			String lowStr = table.getValueAt(selRow[0], 0);
-			String highStr = table.getValueAt(selRow[selRow.length-1], 0);
+			String highStr = table.getValueAt(selRow[selRow.length - 1], 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
-			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low,high);
-		}
-		else if (getProbCalc()
+			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low, high);
+		} else if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
 			String lowStr = statTable.getTable().getValueAt(1, 0);
-			String highStr = statTable.getTable().getValueAt(selRow[selRow.length-1], 0);
+			String highStr = statTable.getTable()
+					.getValueAt(selRow[selRow.length - 1], 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
-			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low,high);
+			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low, high);
 
 			// adjust the selection
-			//table.getSelectionModel().removeListSelectionListener(this);
-			if(isCumulative()){
+			// table.getSelectionModel().removeListSelectionListener(this);
+			if (isCumulative()) {
 				// single row selected
-				table.changeSelection(selRow[selRow.length-1], false, false);
+				table.changeSelection(selRow[selRow.length - 1], false, false);
 			} else {
 				// select multiple rows: first up to selected
 				table.changeSelection(0, false, false);
-				table.changeSelection(selRow[selRow.length-1], false, true);
-				//table.scrollRectToVisible(table.getCellRect(selRow[selRow.length-1], 0, true));
+				table.changeSelection(selRow[selRow.length - 1], false, true);
+				// table.scrollRectToVisible(table.getCellRect(selRow[selRow.length-1],
+				// 0, true));
 			}
-			//table.getSelectionModel().addListSelectionListener(this);
-		}
-		else if (getProbCalc()
+			// table.getSelectionModel().addListSelectionListener(this);
+		} else if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorView.PROB_RIGHT) {
 			String lowStr = statTable.getTable().getValueAt(selRow[0], 0);
-			int maxRow = statTable.getTable().getRowCount()-1;
+			int maxRow = statTable.getTable().getRowCount() - 1;
 			String highStr = statTable.getTable().getValueAt(maxRow, 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
-			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low,high);
+			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low, high);
 
-			//table.getSelectionModel().removeListSelectionListener(this);
+			// table.getSelectionModel().removeListSelectionListener(this);
 			table.changeSelection(maxRow, false, false);
 			table.changeSelection(selRow[0], false, true);
-			//table.scrollRectToVisible(table.getCellRect(selRow[0], 0, true));
-			//table.getSelectionModel().addListSelectionListener(this);
-		}
+			// table.scrollRectToVisible(table.getCellRect(selRow[0], 0, true));
+			// table.getSelectionModel().addListSelectionListener(this);
+			}
 	}
 }

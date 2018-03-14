@@ -102,7 +102,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		typeList.setSelectedIndex(objectType);
 		objectTypeChanged();
 		
-		centerAndFocus(false);//
+		centerAndFocus(false);
 	
 		updateGUI();
 	}
@@ -116,8 +116,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 	}
 
 	private void createAdditionalGUI() {
-
-	//	model = new DefaultListModel();
 		typeList = new ListBox();
 		typeList.addChangeHandler(new ChangeHandler() {
 			
@@ -140,14 +138,13 @@ public class CreateObjectDialogW extends InputDialogW implements
 				apply(fldName);
 			}
 		});
-		
+
 		cbScanOrder = new ListBox();
 		cbScanOrder.addChangeHandler(new ChangeHandler() {
 			
 			@Override
 			public void onChange(ChangeEvent event) {
 				apply(cbScanOrder);
-				
 			}
 		});
 		
@@ -157,7 +154,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 			@Override
 			public void onChange(ChangeEvent event) {
 				apply(cbLeftRightOrder);
-				
 			}
 		});
 	
@@ -206,9 +202,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 		
 		FlowPanel op = new FlowPanel();
 		op.add(p);
-		
-		
-
 		
 		optionPane.add(op);
 
@@ -260,13 +253,10 @@ public class CreateObjectDialogW extends InputDialogW implements
 		optionsPanel.add(lblOptions);
 		// app.borderWest());
 		optionsPanel.add(cards);
-
-		
 	}
 
 	@Override
 	public void setLabels() {
-
 		if (isIniting){
 			return;
 		}

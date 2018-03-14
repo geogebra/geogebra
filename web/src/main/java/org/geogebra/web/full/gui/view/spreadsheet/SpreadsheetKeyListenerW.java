@@ -37,7 +37,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		this.view = (SpreadsheetViewW) table.getView();
 		this.model = (SpreadsheetTableModelW) table.getModel();
 		this.editor = table.getEditor();
-
 	}
 
 	@Override
@@ -57,13 +56,11 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			return;
 		}
 		table.setAllowAutoEdit();
-		int keyCode = e.getNativeKeyCode();// .getKeyCode();
+		int keyCode = e.getNativeKeyCode(); // .getKeyCode();
 		// Application.debug(keyCode+"");
 		// boolean shiftDown = e.isShiftDown();
 		boolean ctrlDown = e.isControlKeyDown() || e.isMetaKeyDown();
 
-		// AppW.isControlDown(e) // Windows ctrl/Mac Meta
-		// || e.isControlDown(); // Fudge (Mac ctrl key)
 		GPoint pos = new GPoint(table.getSelectedColumn(),
 				table.getSelectedRow());
 
@@ -107,9 +104,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 
 			break;
 
-		case KeyCodes.KEY_SHIFT:// .VK_SHIFT:
-		case KeyCodes.KEY_CTRL:// Event.VK_CONTROL:
-		case KeyCodes.KEY_ALT:// Event.VK_ALT:
+		case KeyCodes.KEY_SHIFT: // .VK_SHIFT:
+		case KeyCodes.KEY_CTRL: // Event.VK_CONTROL:
+		case KeyCodes.KEY_ALT: // Event.VK_ALT:
 			// case KeyEvent.VK_META: //MAC_OS Meta
 			break;
 
@@ -127,7 +124,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			break;
 
 		// needs to be here to stop keypress starting a cell edit after the undo
-		case GWTKeycodes.KEY_Z:// KeyEvent.VK_Z: //undo
+		case GWTKeycodes.KEY_Z: // KeyEvent.VK_Z: //undo
 			if (ctrlDown) {
 				// Application.debug("undo");
 				app.getGuiManager().undo();
@@ -137,7 +134,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			break;
 
 		// needs to be here to stop keypress starting a cell edit after the redo
-		case GWTKeycodes.KEY_Y:// KeyEvent.VK_Y: //redo
+		case GWTKeycodes.KEY_Y: // KeyEvent.VK_Y: //redo
 			if (ctrlDown) {
 				// Application.debug("redo");
 				app.getGuiManager().redo();
@@ -253,7 +250,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			// move to left of current row
 			table.changeSelection(pos.y, 0, shift);
 		}
-
 	}
 
 	private void handleTabKey(boolean shift, GPoint pos) {

@@ -66,7 +66,7 @@ public class GroupNameLabel extends Label
 			//par.getChild(i).setSelected(true);
 			uo = par.getChild(i).getUserObject();
 			if (uo instanceof GeoElement) {
-				groupedGeos.add((GeoElement)uo);
+				groupedGeos.add((GeoElement) uo);
 			}
 		}
 		par.setSelected(false);

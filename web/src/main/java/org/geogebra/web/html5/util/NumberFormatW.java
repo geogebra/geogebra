@@ -54,7 +54,7 @@ public class NumberFormatW implements NumberFormatAdapter {
 		// GWT uses the locale to decide . or , as decimal separator
 		// we must always have .
 		// not needed as Locale removed from MyNumberFormat
-		return ret;// .replace(',', '.');
+		return ret;
 
 	}
 

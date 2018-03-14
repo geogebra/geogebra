@@ -80,7 +80,7 @@ public class InputSuggestions implements HasSuggestions {
 		// sub, or query is the same as the current word,
 		// so moved from method parameter to automatism
 		// updateCurrentWord(true);// although true would be nicer here
-		updateCurrentWord(false);// compatibility should be preserved
+		updateCurrentWord(false); // compatibility should be preserved
 		if (curWord != null && curWord.length() > 0
 				&& !"sqrt".equals(curWord.toString())) {
 			// for length check we also need flattenKorean

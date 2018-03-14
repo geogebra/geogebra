@@ -2184,7 +2184,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	public void runSuggestionCallbacks(GeoElementND nGeo) {
 		if (controls != null) {
-			controls.updateSuggestions(geo);// old geo
+			controls.updateSuggestions(geo); // old geo
 		}
 		if (suggestionCallback != null && nGeo != null) {
 			suggestionCallback.callback(nGeo);

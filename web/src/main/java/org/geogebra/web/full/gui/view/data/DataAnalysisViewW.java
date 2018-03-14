@@ -683,7 +683,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	public void onResize()  {
 		for (Widget w: getChildren()) {
 			if (w instanceof RequiresResize) {
-				((RequiresResize)w).onResize();
+				((RequiresResize) w).onResize();
 			}
 		}
 	}

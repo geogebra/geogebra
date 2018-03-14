@@ -28,7 +28,7 @@ public class SpreadsheetToolbarManagerW {
 
 	public void  handleModeChange(int mode){
 
-		//Application.printStacktrace("");
+		// Application.printStacktrace("");
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 
 		switch (mode) {	
@@ -36,40 +36,35 @@ public class SpreadsheetToolbarManagerW {
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
 			//if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
 			if (!table.getSelectedCellRanges().get(0).isEmpty()) {
-				id = new CreateObjectDialogW(app,view, CreateObjectModel.TYPE_LIST);
-				id.setVisible(true);
+				openDialog(CreateObjectModel.TYPE_LIST);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
 			if (table.getCellRangeProcessor()
 					.isCreatePointListPossible(table.getSelectedCellRanges())) {
-				id = new CreateObjectDialogW(app,view, CreateObjectModel.TYPE_LISTOFPOINTS);
-				id.setVisible(true);}
-
+				openDialog(CreateObjectModel.TYPE_LISTOFPOINTS);
+			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
 			if (table.getCellRangeProcessor()
 					.isCreateMatrixPossible(table.getSelectedCellRanges())) {
-				id = new CreateObjectDialogW(app,view, CreateObjectModel.TYPE_MATRIX);
-				id.setVisible(true);
+				openDialog(CreateObjectModel.TYPE_MATRIX);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
 			if (table.getCellRangeProcessor()
 					.isCreateMatrixPossible(table.getSelectedCellRanges())) {
-				id = new CreateObjectDialogW(app,view, CreateObjectModel.TYPE_TABLETEXT);
-				id.setVisible(true);
+				openDialog(CreateObjectModel.TYPE_TABLETEXT);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
 			if (table.getCellRangeProcessor()
 					.isCreatePointListPossible(table.getSelectedCellRanges())) {
-				id = new CreateObjectDialogW(app,view, CreateObjectModel.TYPE_POLYLINE);
-				id.setVisible(true);
+				openDialog(CreateObjectModel.TYPE_POLYLINE);
 			}
 			break;
 			
@@ -88,6 +83,11 @@ public class SpreadsheetToolbarManagerW {
 		default:
 			// ignore other modes
 		}				
+	}
+
+	private void openDialog(int type) {
+		id = new CreateObjectDialogW(app, view, type);
+		id.setVisible(true);
 	}
 
 }

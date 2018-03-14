@@ -203,7 +203,7 @@ public class GLookAndFeel implements GLookAndFeelI{
 	}
 
 	@Override
-	public void storeLanguage(String lang,AppW app) {
+	public void storeLanguage(String lang, AppW app) {
 		Date exp = new Date(
 				System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
 		if (app.getArticleElement().useCompatibilityCookie()) {

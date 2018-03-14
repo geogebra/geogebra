@@ -58,7 +58,7 @@ public class ShowKeyboardButton extends SimplePanel {
 		//TODO: app paramater used only for feature checking so this can be removed later
 		if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 			if (listener instanceof ComplexPanel){
-				((ComplexPanel)listener).add(this);
+				((ComplexPanel) listener).add(this);
 			}
 		} else {
 			if (parent instanceof DockPanelW) {
@@ -80,8 +80,6 @@ public class ShowKeyboardButton extends SimplePanel {
 							((AlgebraPanelInterface) panel)
 									.updateKeyboardListener(
 											mathKeyboardListener));
-
-
 				} else {
 					listener.doShowKeyBoard(true, mathKeyboardListener);
 				}

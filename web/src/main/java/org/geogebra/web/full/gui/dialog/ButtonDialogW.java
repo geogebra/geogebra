@@ -159,7 +159,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		btOK.getElement().setAttribute("action", "OK");
 		btOK.addClickHandler(this);
 		btCancel = new Button(loc.getMenu("Cancel"));
-		btCancel.getElement().setAttribute("action","Cancel");
+		btCancel.getElement().setAttribute("action", "Cancel");
 		btCancel.addClickHandler(this);
 		btCancel.addStyleName("cancelBtn");
 		btPanel = new FlowPanel();

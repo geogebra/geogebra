@@ -52,9 +52,9 @@ public abstract class ComboBoxPanel extends OptionPanel
 	}
 
 	MultipleOptionsModel getMultipleModel() {
-		return (MultipleOptionsModel)getModel();
+		return (MultipleOptionsModel) getModel();
 	}
-	
+
 	protected abstract void onComboBoxChange();
 
 	@Override
@@ -103,7 +103,6 @@ public abstract class ComboBoxPanel extends OptionPanel
 	@Override
 	public void setSelectedItem(String item) {
 	    // TODO Auto-generated method stub
-	    
     }
 
 	public ComboBoxW getComboBox() {

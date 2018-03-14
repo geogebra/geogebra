@@ -722,7 +722,8 @@ public class EuclidianViewW extends EuclidianView implements
 			        (EuclidianControllerW) euclidiancontroller);
 		}
 
-		registerDragDropHandlers(euclidianViewPanel,(EuclidianControllerW) euclidiancontroller);
+		registerDragDropHandlers(euclidianViewPanel,
+				(EuclidianControllerW) euclidiancontroller);
 
 		updateFirstAndLast(true, true);
 		if (canvas == null) {

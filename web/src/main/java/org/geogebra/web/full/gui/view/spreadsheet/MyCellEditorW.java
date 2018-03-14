@@ -207,8 +207,6 @@ public class MyCellEditorW implements BaseCellEditor {
 	}
 
 	public boolean stopCellEditing() {
-
-
 		if (autoCompleteTextField.hasDummyCursor()) {
 			autoCompleteTextField.removeDummyCursor();
 		}
@@ -220,9 +218,9 @@ public class MyCellEditorW implements BaseCellEditor {
 		}
 
 		editing = false;
-		boolean success = true;// TODO super.stopCellEditing();
+		// TODO return super.stopCellEditing();
 
-		return success;
+		return true;
 	}
 
 	boolean stopCellEditing(int colOff, int rowOff, boolean editNext) {
@@ -259,8 +257,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		try {
 
 			if (allowProcessGeo) {
-				String text = autoCompleteTextField.getText();// ?// (String)
-												  // delegate.getCellEditorValue();
+				String text = autoCompleteTextField.getText();
 				// get GeoElement of current cell
 				value = kernel.lookupLabel(GeoElementSpreadsheet
 				        .getSpreadsheetCellName(column, row));
@@ -387,9 +384,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		}
 
 		public void checkCursorKeys(KeyDownEvent e) {
-
-			String text = autoCompleteTextField.getText();// ?// (String)
-											  // delegate.getCellEditorValue();
+			String text = autoCompleteTextField.getText();
 
 			int keyCode = e.getNativeKeyCode();
 			// Application.debug(e+"");

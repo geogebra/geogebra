@@ -410,7 +410,7 @@ public class MyNumberFormat {
 	 * and related characters rather than the localized ones.
 	 */
 	public static boolean forcedLatinDigits() {
-		return true;// defaultNumberConstants != localizedNumberConstants;
+		return true; // defaultNumberConstants != localizedNumberConstants;
 	}
 
 	/**

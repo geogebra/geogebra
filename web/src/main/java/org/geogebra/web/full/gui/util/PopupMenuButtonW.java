@@ -438,7 +438,6 @@ public class PopupMenuButtonW extends MyCJButton
 		}
 	}
 
-
 	/**
 	 * @param icon
 	 *            {@link ImageOrText}
@@ -536,8 +535,7 @@ public class PopupMenuButtonW extends MyCJButton
 	}
 
 	private void initSlider() {
-		
-		mySlider = new Slider(0,100);
+		mySlider = new Slider(0, 100);
 		mySlider.setMajorTickSpacing(25);
 		mySlider.setMinorTickSpacing(5);
 		mySlider.addChangeHandler(this);
@@ -561,8 +559,6 @@ public class PopupMenuButtonW extends MyCJButton
 			myPopup.getPanel().add(placeholder);
 		}
 	}
-	
-
 
 	/**
 	 * @param value

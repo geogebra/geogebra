@@ -181,7 +181,7 @@ public class MarblePanel extends FlowPanel
 				btn.getDownHoveringFace().setImage(warnIcon);
 					
 			} else {
-				NoDragImage ndi = new NoDragImage(img,24);
+				NoDragImage ndi = new NoDragImage(img, 24);
 				btn.getUpFace().setImage(ndi);
 				btn.getDownFace().setImage(ndi);
 				

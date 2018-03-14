@@ -449,8 +449,8 @@ public class ZoomPanel extends FlowPanel
 	public void setLabels() {
 		setButtonTitleAndAltText(fullscreenBtn, "Fullscreen");
 		setButtonTitleAndAltText(homeBtn, "StandardView");
-		setButtonTitleAndAltText(zoomOutBtn,"ZoomOut.Tool");
-		setButtonTitleAndAltText(zoomInBtn,"ZoomIn.Tool");
+		setButtonTitleAndAltText(zoomOutBtn, "ZoomOut.Tool");
+		setButtonTitleAndAltText(zoomInBtn, "ZoomIn.Tool");
 	}
 
 	private void setButtonTitleAndAltText(StandardButton btn, String string) {

@@ -242,7 +242,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 				runnable.run();
 			}
 		}, getElement(), "animating");
-
 	}
 
 	@Override
@@ -255,8 +254,9 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		boolean show = helpPopup != null && helpPopup.isShowing();
 		if (!show) {
 			createHelpPopup();
-			GuiManagerInterfaceW gm = ((AppW)app).getGuiManager();
-			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW)(gm.getInputHelpPanel());
+			GuiManagerInterfaceW gm = ((AppW) app).getGuiManager();
+			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) gm
+					.getInputHelpPanel();
 			updateHelpPosition(helpPanel, x, y);
 			
 		} else if (helpPopup != null) {
@@ -273,7 +273,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 						offsetHeight);
 			}
 		});
-
 	}
 
 	/**

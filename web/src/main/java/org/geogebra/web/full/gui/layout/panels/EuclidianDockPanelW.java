@@ -19,7 +19,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	EuclidianStyleBar espanel;
 	EuclidianPanel euclidianpanel;
 
-	Canvas eview1 = null;// static foreground
+	Canvas eview1 = null; // static foreground
 
 	/**
 	 * This constructor is used by the Application

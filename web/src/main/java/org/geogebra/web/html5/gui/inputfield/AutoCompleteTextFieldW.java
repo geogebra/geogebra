@@ -636,7 +636,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				break;
 			case 18:
 				columnWidth = 15;
-				break;// 18:15:educated guess
+				break; // 18:15:educated guess
 			case 19:
 				columnWidth = 16;
 				break;
@@ -1303,7 +1303,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				setText(getNextInput());
 			}
 		}
-
 	}
 
 	private void handleF1() {
@@ -1328,7 +1327,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		} else if (app.getGuiManager() != null) {
 			app.getGuiManager().openHelp(App.WIKI_MANUAL);
 		}
-
 	}
 
 	private void handleUpArrow() {
@@ -1368,7 +1366,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *         need to run the enter code again
 	 */
 	public boolean isSuggestionJustHappened() {
-		return suggestionJustHappened;// && !isSuggestionClickJustHappened;
+		return suggestionJustHappened; // && !isSuggestionClickJustHappened;
 	}
 
 	public void setIsSuggestionJustHappened(boolean b) {
@@ -1550,7 +1548,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		// sb.append(command);
 		// sb.append(text.substring(curWordStart + curWord.length()));
 		// setText(sb.toString());
-		int bracketIndex = command.indexOf('[');// + 1;
+		int bracketIndex = command.indexOf('['); // + 1;
 		// Special case if the completion is a built-in function
 		if (bracketIndex == -1) {
 			bracketIndex = command.indexOf('(');
@@ -1649,7 +1647,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void addKeyHandler(KeyHandler handler) {
 		textField.getValueBox().addKeyPressHandler(new KeyListenerW(handler));
-
 	}
 
 	/**
@@ -1710,12 +1707,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	protected void fieldFocus() {
 		FieldHandler.focusGained(this, app);
-
 	}
 
 	protected void fieldBlur() {
 		FieldHandler.focusLost(this, app);
-
 	}
 
 	/**
@@ -1733,7 +1728,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
 		return textField.getValueBox().addKeyPressHandler(handler);
-
 	}
 
 	/**

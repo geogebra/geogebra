@@ -145,6 +145,7 @@ public class CommandDispatcherGiac {
 		/** symbolic sum */
 		sum(Operation.SUM),
 
+		/** inverse for Normal(0,1,x) */
 		normal_icdf(Operation.INVERSE_NORMAL),
 
 		/** If[] */

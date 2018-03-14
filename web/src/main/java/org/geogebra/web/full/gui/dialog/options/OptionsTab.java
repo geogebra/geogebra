@@ -256,7 +256,7 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		if (m instanceof PointSizeModel) {
-			return new PointSizePanel((PointSizeModel)m);
+			return new PointSizePanel((PointSizeModel) m);
 		}
 		if (m instanceof PointStyleModel) {
 			return new PointStylePanel((PointStyleModel) m, app);
@@ -265,10 +265,10 @@ public class OptionsTab extends FlowPanel {
 			return new LineStylePanel((LineStyleModel) m, app);
 		}
 		if (m instanceof AngleArcSizeModel) {
-			return new AngleArcSizePanel((AngleArcSizeModel)m);
+			return new AngleArcSizePanel((AngleArcSizeModel) m);
 		}
 		if (m instanceof SlopeTriangleSizeModel) {
-			return new SlopeTriangleSizePanel((SlopeTriangleSizeModel)m);
+			return new SlopeTriangleSizePanel((SlopeTriangleSizeModel) m);
 		}
 		if(m instanceof IneqStyleModel){
 			return new IneqPanel((IneqStyleModel) m, app);

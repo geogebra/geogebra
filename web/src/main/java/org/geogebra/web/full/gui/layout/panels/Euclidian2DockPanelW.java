@@ -26,7 +26,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 	EuclidianStyleBar espanel;
 	EuclidianPanel euclidianpanel;
 
-	Canvas eview1 = null;// static foreground
+	Canvas eview1 = null; // static foreground
 	private int idx;
 
 	public Euclidian2DockPanelW(boolean stylebar, int idx) {

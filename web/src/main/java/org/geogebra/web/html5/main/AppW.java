@@ -1718,9 +1718,8 @@ public abstract class AppW extends App implements SetLabels {
 		setFontSize(16, true);
 		// setLabelDragsEnabled(false);
 
-		getScriptManager();// .ggbOnInit();//this is not called here because we
-		// have to delay it
-		// until the canvas is first drawn
+		getScriptManager(); // gbOnInit() is only called after file loads
+							// completely
 
 		FileDropHandlerW.registerDropHandler(getFrameElement(), this);
 		setViewsEnabled();
@@ -1751,7 +1750,6 @@ public abstract class AppW extends App implements SetLabels {
 			getSettings().getEuclidian(2).setEnabled(enableGraphing);
 			kernel.getAlgebraProcessor().setCommandsEnabled(enableGraphing);
 		}
-
 	}
 
 	/**
@@ -1821,7 +1819,6 @@ public abstract class AppW extends App implements SetLabels {
 
 		// reset mode and focus
 		set1rstMode();
-
 	}
 
 	/**

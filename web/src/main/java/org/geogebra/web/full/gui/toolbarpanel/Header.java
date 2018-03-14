@@ -293,7 +293,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 */
 	void setLabels() {
 		setTitle(btnMenu, "Menu");
-		setTitle(btnTools,"Tools");
+		setTitle(btnTools, "Tools");
 		setTitle(btnAlgebra, app.getConfig().getAVTitle());
 		setTitle(btnClose, isOpen() ? "Close" : "Open");
 		setTitle(btnUndo, "Undo");

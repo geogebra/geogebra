@@ -113,7 +113,6 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		@Override
 		protected void addAxesOptionsPanel() {
-
 			cbYAxisVertical = new CheckBox();
 
 			cbYAxisVertical.addClickHandler(new ClickHandler() {
@@ -134,7 +133,6 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			axesOptionsPanel.add(LayoutUtilW.panelRow(cbYAxisVertical));
 			axesOptionsPanel.add(LayoutUtilW.panelRow(lblAxisLabelStyle,
 					cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
-
 		}
 
 		private void addClippingOptionsPanel() {
@@ -216,7 +214,6 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					repaintView();
 				}
 			});
-
 		}
 
 		/**
@@ -591,14 +588,14 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		@Override
 		public void setLabels() {
-			setText(orthoTitle,"Orthographic");
-			setText(perspTitle,"Perspective");
+			setText(orthoTitle, "Orthographic");
+			setText(perspTitle, "Perspective");
 			setTextColon(tfPerspLabel, "EyeDistance");
-			setText(glassesTitle,"Glasses");
+			setText(glassesTitle, "Glasses");
 			setTextColon(tfGlassesLabel, "EyesSeparation");
-			setText(cbGlassesGray,"GrayScale");
-			setText(cbGlassesShutDownGreen,"ShutDownGreen");
-			setText(obliqueTitle,"Oblique");
+			setText(cbGlassesGray, "GrayScale");
+			setText(cbGlassesShutDownGreen, "ShutDownGreen");
+			setText(obliqueTitle, "Oblique");
 			setTextColon(tfObliqueAngleLabel, "Angle");
 			setTextColon(tfObliqueFactorLabel, "Dilate.Factor");
 		}

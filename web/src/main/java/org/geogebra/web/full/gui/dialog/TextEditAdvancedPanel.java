@@ -77,7 +77,8 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		previewer.onResize();
 
 		Image geoTabImage = new NoDragImage(AppResources.INSTANCE.geogebra()
-		        .getSafeUri().asString(),AppResources.INSTANCE.geogebra().getWidth());
+				.getSafeUri().asString(),
+				AppResources.INSTANCE.geogebra().getWidth());
 
 		// create the tabs
 		previewLabel = new Label(loc.getMenu("Preview"));
@@ -104,7 +105,6 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 			public void onMouseDown(MouseDownEvent event) {
 				TextEditAdvancedPanel.this.selectTab(child);
 				event.preventDefault();
-				
 			}
 		}, MouseDownEvent.getType());
 	}
@@ -162,8 +162,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		String[] geoLabels = (String[]) datas[0];
 		GColor[] geoColors = (GColor[]) datas[1];
 
-		final SymbolTableW symTable = newSymbolTable(geoLabels, false,
- 2,
+		final SymbolTableW symTable = newSymbolTable(geoLabels, false, 2,
 				new StringHandler() {
 
 					@Override

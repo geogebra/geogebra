@@ -41,7 +41,7 @@ public class AlgebraDockPanelW extends DockPanelW
 	@Override
 	protected Widget loadComponent() {
 		if (algebrap == null) {
-			algebrap = new ScrollPanel();//temporarily
+			algebrap = new ScrollPanel();
 			algebrap.setSize("100%", "100%");
 			algebrap.setAlwaysShowScrollBars(false);
 		}

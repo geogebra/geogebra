@@ -632,8 +632,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			}
 
 			// get GeoElement at mouse location
-			int row = point.getY();// ?//table.rowAtPoint(e.getPoint());
-			int col = point.getX();// ?//table.columnAtPoint(e.getPoint());
+			int row = point.getY();
+			int col = point.getX();
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);
 
 			// set tooltip with geo's description

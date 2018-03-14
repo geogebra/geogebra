@@ -271,7 +271,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 				selectionList[i] = true;
 				Widget w = dataTable.getTable().getWidget(i + 1, 0);
 				if (w instanceof CheckBox) {
-					((CheckBox)w).setValue(true);
+					((CheckBox) w).setValue(true);
 				}
 			}
 		}

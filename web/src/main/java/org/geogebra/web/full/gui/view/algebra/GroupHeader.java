@@ -67,7 +67,8 @@ public class GroupHeader extends FlowPanel {
 		 * @param ti
 		 *            parent item
 		 */
-		public OpenButton(SafeUri showUrl,SafeUri hiddenUrl,final TreeItem ti){
+		public OpenButton(SafeUri showUrl, SafeUri hiddenUrl,
+				final TreeItem ti) {
 			this.showUrl = showUrl;
 			this.hiddenUrl = hiddenUrl;
 			

@@ -283,12 +283,10 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 
 				if (yTop || yBottom || xLeft || xRight) {
 					this.touchMoved = true;
-					onHoldPressOffStyle();// Go back to normal style
+					onHoldPressOffStyle(); // Go back to normal style
 				}
 			}
-
 		}
-
 	}
 
 	private void onTouchEnd(Event event) {
@@ -296,7 +294,7 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 		if (!this.touchMoved) {
 			fireFastClickEvent();
 			event.preventDefault();
-			onHoldPressOffStyle();// Change back the style
+			onHoldPressOffStyle(); // Change back the style
 		}
 	}
 

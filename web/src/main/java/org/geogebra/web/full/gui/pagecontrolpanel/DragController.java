@@ -242,7 +242,7 @@ class DragController {
 		}
 
 		private void moveAnimated() {
-			int h = PagePreviewCard.SPACE_HEIGHT;// - PagePreviewCard.MARGIN;
+			int h = PagePreviewCard.SPACE_HEIGHT; // - PagePreviewCard.MARGIN;
 			diff = down ? computedY(card.getAbsoluteBottom()) - last.top
 					: last.bottom - computedY(card.getAbsoluteTop());
 
