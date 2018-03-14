@@ -372,8 +372,9 @@ public class EuclidianViewW extends EuclidianView implements
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Svg());
-
+		if (!canvas2svgLoaded()) {
+			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Svg());
+		}
 		JavaScriptObject ctx = getCanvas2SVG(width, height);
 
 		if (ctx == null) {
@@ -449,6 +450,10 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		return null;
+	}-*/;
+
+	private native boolean canvas2svgLoaded() /*-{
+		return !!$wnd.C2S;
 	}-*/;
 
 	private native void addPagePDF(JavaScriptObject ctx) /*-{
