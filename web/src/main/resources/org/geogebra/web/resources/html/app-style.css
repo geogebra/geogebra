@@ -54,7 +54,6 @@
     padding-left: 6px;
     width: 24px;
     height: 24px;
-    cursor: pointer;
 }
 .GeoGebraFrame .menu {
     position: absolute;
@@ -69,7 +68,6 @@
     width: 24px;
     height: 24px;
     min-width: 24px;
-    cursor: pointer;
 }
 .GeoGebraFrame .toolbar .main>* {
     position: absolute !important;
@@ -91,7 +89,6 @@
     transition: left 200ms ease;
 }
 .GeoGebraFrame .hide-Dragger .gwt-SplitLayoutPanel-HDragger {
-    cursor: default;
     border-left: 1px solid #ccc;
     z-index: 1;
     box-shadow: 2px 0px 6px rgba(0,0,0,0.4);
@@ -117,14 +114,10 @@
     opacity: 0.54;
 }
 
-.startscreen .GeoGebraFrame .undoRedoPanel .buttonInactive img {
-    opacity: 0.2;
-}
 .GeoGebraFrame .matOpenKeyboardBtn {
     position: absolute;
     bottom: 8px;
     height: 22px;
-    cursor: pointer;
     text-align: center;
     z-index: 99;
 }
@@ -277,7 +270,6 @@
     height: 32px;
     border-radius: 2px;
     margin: 6px !important;
-    cursor: pointer;
 }
 
 .GeoGebraFrame .penSubMenu .penPanel {
@@ -305,9 +297,6 @@
     width: calc(100% /3);
     overflow: hidden;
 }
-.GeoGebraFrame .opacityFixForOldIcons {
-    opacity: 1 !important;
-}
 
 .GeoGebraFrame .penSubMenu .sizePanel {
     position: absolute;
@@ -319,11 +308,9 @@
     height: 5px;
     background-color: #989898;
     box-shadow: none;
-    cursor: pointer;
 }
 
 .GeoGebraFrame .mowSubMenu .mowSubMenuContent .mowOptionsSlider .ui-slider-handle, .GeoGebraFrame .mowSubMenu .mowSubMenuContent .mowOptionsSlider .ui-slider-handle.ui-state-hover, .GeoGebraFrame .mowSubMenu .mowSubMenuContent .mowOptionsSlider .ui-slider-handle.ui-state-active, .GeoGebraFrame .mowSubMenu .mowSubMenuContent .mowOptionsSlider .ui-slider-handle.ui-state-focus {
-    cursor: pointer;
     position: absolute;
     top: -5px !important;
     left: 0%;
@@ -466,7 +453,6 @@
     margin-bottom: 2px;
     margin-left: 2px;
     font-size: 120%;
-    cursor: pointer;
     border-radius: 5px;
     white-space: nowrap;
     color: #000;
@@ -554,9 +540,6 @@
 		box-shadow: 0px -2px 2px rgba(0,0,0,0.4);
 	}
 }
-.startscreen .GeoGebraFrame{
-	filter: blur(1px);
-}
 
 .mk-spinner-wrap {
 	position:absolute;
@@ -568,4 +551,11 @@
 .mk-spinner-ring {
 	border-color: #6557D2;
 	border-left-color: transparent;
+}
+body .startscreen .GeoGebraFrame img.gwt-Image,body .startscreen .GeoGebraFrame .button.flatButton img.gwt-Image {
+    opacity: 0;
+}
+
+.startscreen .GeoGebraFrame .KeyBoard .gwt-Label {
+    color: transparent;
 }

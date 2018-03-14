@@ -105,8 +105,8 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		captionPanel.addStyleName("captionPanel");
 				
 		// combo box to link GeoElement to TextField
-		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction().
-									getGeoSetNameDescriptionOrder();			
+		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
+				.getGeoSetNameDescriptionOrder();
 		
 		final ListBox cbAdd = new ListBox();
 		cbAdd.addItem("");

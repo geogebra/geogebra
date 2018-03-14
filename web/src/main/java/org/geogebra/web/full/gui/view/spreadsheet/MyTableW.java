@@ -2003,15 +2003,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 			int resultWidth = Math.max(tableColumn.getOffsetWidth(),
 			        prefElement.getOffsetWidth());
-			tableColumn.getStyle().setWidth(resultWidth /*
-														 * TODO this.
-														 * getIntercellSpacing
-														 * ().width
-														 */
-			, Style.Unit.PX);
+			// TODO this. getIntercellSpacing ().width
+			tableColumn.getStyle().setWidth(resultWidth, Style.Unit.PX);
 
 			columnHeader.setColumnWidth(col, resultWidth);
-
 		}
 
 		if (adjustHeight) {
@@ -2064,11 +2059,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// note: the table might have its header set to null,
 		// so we get the actual header from view
 		// TODO//view.getTableHeader().setResizingColumn(tableColumn);
-		tableColumn.getStyle().setWidth(prefWidth /*
-												 * TODO getIntercellSpacing()
-												 * .width
-												 */
-		, Style.Unit.PX);
+		// TODO getIntercellSpacing().width
+		tableColumn.getStyle().setWidth(prefWidth, Style.Unit.PX);
 
 		columnHeader.setColumnWidth(column, prefWidth);
 	}

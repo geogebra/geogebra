@@ -183,7 +183,6 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		
 		contentWidget.add(sliderPanel.getWidget());
 
-
 		// buttons
 		btOK = new Button(loc.getMenu("OK"));
 		btOK.addClickHandler(this);
@@ -215,8 +214,8 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 			String strLabel;
 			String text = tfLabel.getText();
 			try {								
-				strLabel = app.getKernel().getAlgebraProcessor().
-								parseLabel(text);
+				strLabel = app.getKernel().getAlgebraProcessor()
+						.parseLabel(text);
 			} catch (Exception e) {
 				strLabel = null;
 			}			
