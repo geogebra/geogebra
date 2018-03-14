@@ -40,7 +40,7 @@ public class RoundingProperty extends AbstractEnumerableProperty {
     @Override
     public int getCurrent() {
         int current = OptionsMenu.getMenuDecimalPosition(app.getKernel());
-        if (current >= figuresIndex) {
+        if (current > figuresIndex) {
             current -= 1;
         }
         return current;
@@ -49,6 +49,6 @@ public class RoundingProperty extends AbstractEnumerableProperty {
     @Override
     protected void setValueSafe(String value, int index) {
         boolean figures = index >= figuresIndex;
-        OptionsMenu.setRounding(app, figures ? index : index + 1, figures);
+        OptionsMenu.setRounding(app, figures ? index + 1: index, figures);
     }
 }
