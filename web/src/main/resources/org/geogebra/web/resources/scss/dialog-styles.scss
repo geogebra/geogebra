@@ -464,9 +464,9 @@ $duration: 0.2s;
    				.errorLabel {
    					color: $white;
    					font-size: 75%;
-   				}  
-   				
-   				&:hover {
+   				}  	
+   			
+   				&.hoverState {	
    					.inputLabel {
    						color: $black-87;
    					}
@@ -474,10 +474,10 @@ $duration: 0.2s;
  					.AutoCompleteTextFieldW {
  						margin: 8px 16px 7px 0px;	
  						border-bottom: 2px solid $black-87;
- 					} 				
-   				}    				
-   			}
-   		
+ 					}
+ 				} 				
+   			}    
+   			
    			&.errorState, &.errorState:hover {
    				@extend .emptyState;
    				.inputLabel {

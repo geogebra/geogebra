@@ -14,6 +14,10 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -63,7 +67,7 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 		// panel for buttons
 		insertBtn = new StandardButton("", appW);
 		insertBtn.addStyleName("insertBtn");
-		insertBtn.setEnabled(true);
+		insertBtn.setEnabled(false);
 		cancelBtn = new StandardButton("", app);
 		cancelBtn.addStyleName("cancelBtn");
 		buttonPanel = new FlowPanel();
@@ -85,9 +89,9 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 		inputField.getTextComponent().getTextBox()
 				.addFocusHandler(new FocusHandler() {
 
-			@Override
-			public void onFocus(FocusEvent event) {
-				getInputPanel().setStyleName("mowAudioDialogContent");
+					@Override
+					public void onFocus(FocusEvent event) {
+						getInputPanel().setStyleName("mowAudioDialogContent");
 						getInputPanel().addStyleName("focusState");
 					}
 				});
@@ -100,6 +104,21 @@ public class AudioInputDialog extends DialogBoxW implements FastClickHandler, Er
 						getInputPanel().addStyleName("emptyState");
 						getInsertBtn().setEnabled(
 								!"".equals(getInputField().getText()));
+					}
+				});
+		inputField.getTextComponent().getTextBox()
+				.addMouseOverHandler(new MouseOverHandler() {
+
+					public void onMouseOver(MouseOverEvent event) {
+						getInputPanel().addStyleName("hoverState");
+					}
+				});
+
+		inputField.getTextComponent().getTextBox()
+				.addMouseOutHandler(new MouseOutHandler() {
+
+					public void onMouseOut(MouseOutEvent event) {
+						getInputPanel().removeStyleName("hoverState");
 					}
 				});
 		insertBtn.addFastClickHandler(this);
