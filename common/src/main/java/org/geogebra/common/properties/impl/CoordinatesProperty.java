@@ -1,7 +1,6 @@
 package org.geogebra.common.properties.impl;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 
@@ -17,7 +16,7 @@ public class CoordinatesProperty extends AbstractEnumerableProperty {
 
     public CoordinatesProperty(Kernel kernel, Localization localization) {
         super(localization, "Coordinates");
-        this.kernel = kernel;;
+        this.kernel = kernel;
         localizeValues(localization);
         setValues(coordinatesValues);
     }
