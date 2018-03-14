@@ -5197,9 +5197,8 @@ public abstract class App implements UpdateSelection {
 	 *            if 3D commands are enabled
 	 */
 	public void enableCAS3D(boolean cas, boolean commands3d) {
-		getSettings().getCasSettings().setEnabled(cas);
 		areCommands3DEnabled = commands3d;
-		getKernel().getAlgebraProcessor().reinitCommands();
+		enableCAS(cas);
 	}
 
 	public boolean areCommands3DEnabled() {
