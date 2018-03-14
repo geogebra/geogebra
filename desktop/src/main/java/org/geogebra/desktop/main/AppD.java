@@ -2202,7 +2202,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void copyGraphicsViewToClipboard() {
 
-		copyGraphicsViewToClipboard(getGuiManager().getActiveEuclidianView());
+		copyGraphicsViewToClipboard(getActiveEuclidianView());
 	}
 
 	@Override
