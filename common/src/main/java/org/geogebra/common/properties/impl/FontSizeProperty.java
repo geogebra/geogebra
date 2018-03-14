@@ -27,7 +27,7 @@ public class FontSizeProperty extends AbstractEnumerableProperty {
 
     @Override
     protected void setValueSafe(String value, int index) {
-        int fontSize = Util.getValidFontSize(index);
+        int fontSize = Util.menuFontSizes(index);
         app.setFontSize(fontSize, true);
     }
 
