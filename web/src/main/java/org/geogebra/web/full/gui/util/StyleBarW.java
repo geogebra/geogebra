@@ -236,8 +236,9 @@ public abstract class StyleBarW extends HorizontalPanel implements
 				}
 
 				app.updateMenubar();
-	            app.fireViewsChangedEvent();
-            }});
+				app.fireViewsChangedEvent();
+			}
+		});
 		add(viewButton);
 	}
 	

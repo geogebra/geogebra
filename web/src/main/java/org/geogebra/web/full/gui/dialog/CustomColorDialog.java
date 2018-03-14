@@ -74,19 +74,18 @@ public class CustomColorDialog extends DialogBoxW {
 
 				@Override
 				public void onChange(ChangeEvent event) {
-	                slider.setValue(Integer.parseInt(spinner.getValue()));
-	                preview.update();
-                }});
-			slider.addChangeHandler(new ChangeHandler(){
+					slider.setValue(Integer.parseInt(spinner.getValue()));
+					preview.update();
+				}
+			});
+			slider.addChangeHandler(new ChangeHandler() {
 
 				@Override
 				public void onChange(ChangeEvent event) {
-	                spinner.setValue(slider.getValue().toString());
-	                preview.update();
-                }});
-			
-			
-	
+					spinner.setValue(slider.getValue().toString());
+					preview.update();
+				}
+			});
 		}
 		
 		public void setValue(Integer value) {
@@ -95,9 +94,8 @@ public class CustomColorDialog extends DialogBoxW {
 		}
 
 		public int getValue() {
-	        // TODO Auto-generated method stub
-	        return slider.getValue();
-        }
+			return slider.getValue();
+		}
 	}
 	
 	private class PreviewPanel extends FlowPanel {
@@ -129,21 +127,16 @@ public class CustomColorDialog extends DialogBoxW {
 		}
 		
 		protected void drawRect(int x, GColor color) {
-			
 			String htmlColor = StringUtil.toHtmlColor(color);
-			
 			ctx.setFillStyle(htmlColor);
-
 			ctx.setGlobalAlpha(1.0);
 			ctx.fillRect(x, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
-			
 		}
-		
+
 		@Override
 		public void setTitle(String text) {
 			title.setText(text);
 		}
-		
 	}
 
 	public CustomColorDialog(App app, ICustomColor listener) {
@@ -199,28 +192,30 @@ public class CustomColorDialog extends DialogBoxW {
 				}
 		            hide();	            
     
-			}});
+			}
+		});
 		btnCancel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				hide();
-            }});
+			}
+		});
 		
 		btnReset.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				reset();
-            }});
+			}
+		});
 		setLabels();
-
 	}
 	
 	protected void reset() {
 		setOriginalValues();
 		preview.update();
-    }
+	}
 
 	public void setLabels() {
 		setTitle(loc.getMenu("ChooseColor"));
@@ -233,7 +228,7 @@ public class CustomColorDialog extends DialogBoxW {
 		btnCancel.setText(loc.getMenu("Cancel"));
 		btnReset.setText(loc.getMenu("Reset"));
 	}
-	
+
 	protected void setOriginalValues() {
 		red.setValue(origColor.getRed());
 		green.setValue(origColor.getGreen());

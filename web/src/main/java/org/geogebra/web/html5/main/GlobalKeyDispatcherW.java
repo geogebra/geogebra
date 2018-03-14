@@ -80,8 +80,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		shiftDown = ev.isShiftKeyDown();
 	}
 
-
-
 	/**
 	 * @param tab
 	 *            whether tab event was registered by preview handler

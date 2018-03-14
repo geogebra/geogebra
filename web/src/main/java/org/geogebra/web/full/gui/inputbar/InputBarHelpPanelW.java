@@ -98,11 +98,10 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 					openOnlineHelp();
 				}
 			});
-			render(app.getNetworkOperation().isOnline());
-			app.getNetworkOperation().getView().add(this);
-			btnOnlineHelp.addStyleName("inputHelp-OnlineHelpBtn");
-			pnlButton.add(btnOnlineHelp);
-
+		render(app.getNetworkOperation().isOnline());
+		app.getNetworkOperation().getView().add(this);
+		btnOnlineHelp.addStyleName("inputHelp-OnlineHelpBtn");
+		pnlButton.add(btnOnlineHelp);
 
 		pnlButton.getElement().getStyle().setFloat(Style.Float.RIGHT);
 
@@ -515,12 +514,12 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		syntax.addMouseDownHandler(new MouseDownHandler(){
 
 			@Override
-            public void onMouseDown(MouseDownEvent event) {
+			public void onMouseDown(MouseDownEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
-                insertText(fLine);
-                
-            }});
+				insertText(fLine);
+			}
+		});
 		return syntax;
     }
 

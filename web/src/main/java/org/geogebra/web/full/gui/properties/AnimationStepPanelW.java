@@ -42,7 +42,6 @@ implements ITextFieldListener {
 			public void onChange(ChangeEvent event) {
 				doActionPerformed();
 			}
-
 		});
 
 		new FocusListenerW(this).init();
@@ -54,8 +53,8 @@ implements ITextFieldListener {
 				if (event.getNativeKeyCode() == '\n') {
 					doActionPerformed();
 				}
-
-			}});
+			}
+		});
 
 		tfAnimStep.addBlurHandler(new BlurHandler() {
 			@Override
@@ -65,7 +64,6 @@ implements ITextFieldListener {
 		});
 
 		tfAnimStep.enableGGBKeyboard();
-
 	}
 
 	private void doActionPerformed() {
@@ -90,6 +88,6 @@ implements ITextFieldListener {
 
 	public void setPartOfSliderPanel() {
 		model.setPartOfSlider(true);
-    }
+	}
 
 }

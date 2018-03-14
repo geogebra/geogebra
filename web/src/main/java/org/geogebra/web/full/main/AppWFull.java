@@ -896,8 +896,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final boolean isPerspectivesPopupVisible() {
-		return true;// perspectivesPopup != null &&
-					// perspectivesPopup.isShowing();
+		return perspectivesPopup != null && perspectivesPopup.isShowing();
 	}
 
 	@Override

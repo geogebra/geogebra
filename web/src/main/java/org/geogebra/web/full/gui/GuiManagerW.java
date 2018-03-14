@@ -1138,8 +1138,7 @@ public class GuiManagerW extends GuiManager
 
 			if (!getApp().isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
-				if (getApp().needsSpreadsheetTableModel())
-				{
+				if (getApp().needsSpreadsheetTableModel()) {
 					(getApp()).getSpreadsheetTableModel(); // ensure create one if
 					// not already done
 				}
@@ -2458,7 +2457,6 @@ public class GuiManagerW extends GuiManager
 				}
 				summary.add(c);
 				addWidget(c);
-
 			}
 
 			private void addWidget(Widget c) {
@@ -2546,7 +2544,8 @@ public class GuiManagerW extends GuiManager
 							.setDisplay(visible ? Display.BLOCK
 									: Display.NONE);
 						}
-					}});
+					}
+				});
 			}
 		};
 

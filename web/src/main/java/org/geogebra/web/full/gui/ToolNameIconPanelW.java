@@ -53,8 +53,16 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	private MacroChangeListener listener;
 	
 	public interface MacroChangeListener {
+		/**
+		 * @param macro
+		 *            changed macro
+		 */
 		void onMacroChange(Macro macro);
 
+		/**
+		 * @param macro
+		 *            macro shown in toolbar
+		 */
 		void onShowToolChange(Macro macro);
 	}
 

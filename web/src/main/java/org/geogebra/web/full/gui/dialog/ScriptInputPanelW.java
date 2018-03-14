@@ -126,12 +126,20 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				model.setScriptType(ScriptType.values()[languageSelector
-				                						.getSelectedIndex()]);
-            }});
+				updateLanguage();
+			}
+		});
 
 		add(inputPanel);
 		add(btPanel);
+	}
+
+	/**
+	 * Update model language from dropdown
+	 */
+	protected void updateLanguage() {
+		model.setScriptType(
+				ScriptType.values()[languageSelector.getSelectedIndex()]);
 	}
 
 	/**

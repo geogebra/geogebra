@@ -72,7 +72,6 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		setStyleName("daTwoVarInference");
 		isIniting = false;
 		this.enablePooled = false;
-
 	}
 
 	// ============================================================
@@ -134,11 +133,12 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-	            if (e.isEnterKey()) {
-	            	doTextFieldActionPerformed(fldNullHyp);
-	            }
-            }});
-		
+				if (e.isEnterKey()) {
+					doTextFieldActionPerformed(fldNullHyp);
+				}
+			}
+		});
+
 		fldNullHyp.addBlurHandler(new BlurHandler() {
 			
 			@Override
@@ -154,10 +154,11 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-	            if (e.isEnterKey()) {
-	            	doTextFieldActionPerformed(fldConfLevel);
-	            }
-            }});
+				if (e.isEnterKey()) {
+					doTextFieldActionPerformed(fldConfLevel);
+				}
+			}
+		});
 		
 		fldConfLevel.addBlurHandler(new BlurHandler() {
 			

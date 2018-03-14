@@ -37,7 +37,7 @@ import com.googlecode.gwtgl.binding.WebGLUniformLocation;
  */
 public class RendererImplShadersW extends RendererImplShaders {
 
-	final static private int GL_TYPE_DRAW_TO_BUFFER = WebGLRenderingContext.STREAM_DRAW;
+	private static final int GL_TYPE_DRAW_TO_BUFFER = WebGLRenderingContext.STREAM_DRAW;
 	private WebGLRenderingContext glContext;
 	private ArrayList<WebGLTexture> texturesArray = new ArrayList<>();
 
@@ -87,7 +87,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	final protected void compileShadersProgram() {
+	protected final void compileShadersProgram() {
 
 		boolean needsSmallFragmentShader = GpuBlacklist
 				.isCurrentGpuBlacklisted(glContext);
@@ -101,24 +101,24 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	final protected Object glCreateProgram() {
+	protected final Object glCreateProgram() {
 		return glContext.createProgram();
 	}
 
 	@Override
-	final protected void glAttachShader(Object shader) {
+	protected final void glAttachShader(Object shader) {
 		glContext.attachShader((WebGLProgram) shaderProgram,
 				(WebGLShader) shader);
 	}
 
 	@Override
-	final protected void glBindAttribLocation(int index, String name) {
+	protected final void glBindAttribLocation(int index, String name) {
 		glContext.bindAttribLocation((WebGLProgram) shaderProgram, index,
 				name);
 	}
 
 	@Override
-	final protected void glLinkProgram() {
+	protected final void glLinkProgram() {
 		glContext.linkProgram((WebGLProgram) shaderProgram);
 
 		if (!glContext.getProgramParameterb((WebGLProgram) shaderProgram,
@@ -131,13 +131,13 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	final protected Object glGetUniformLocation(String name) {
+	protected final Object glGetUniformLocation(String name) {
 		return glContext.getUniformLocation((WebGLProgram) shaderProgram,
 				name);
 	}
 
 	@Override
-	final protected void createVBOs() {
+	protected final void createVBOs() {
 		vboColors = new GPUBufferW();
 		vboVertices = new GPUBufferW();
 		vboNormals = new GPUBufferW();
@@ -151,12 +151,12 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	final protected void createBufferFor(GPUBuffer buffer) {
+	protected final void createBufferFor(GPUBuffer buffer) {
 		buffer.set(glContext.createBuffer());
 	}
 
 	@Override
-	final protected int getStoreBufferNumBytes(int length, int size) {
+	protected final int getStoreBufferNumBytes(int length, int size) {
 		return length * size * 4; // 4 bytes per float
 	}
 
@@ -174,17 +174,17 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	final protected void bindBuffer(int bufferType, GPUBuffer buffer) {
+	protected final void bindBuffer(int bufferType, GPUBuffer buffer) {
 		glContext.bindBuffer(bufferType, ((GPUBufferW) buffer).get());
 	}
 
 	@Override
-	final protected int getGL_ELEMENT_ARRAY_BUFFER() {
+	protected final int getGL_ELEMENT_ARRAY_BUFFER() {
 		return WebGLRenderingContext.ELEMENT_ARRAY_BUFFER;
 	}
 
 	@Override
-	final protected int getGL_ARRAY_BUFFER() {
+	protected final int getGL_ARRAY_BUFFER() {
 		return WebGLRenderingContext.ARRAY_BUFFER;
 	}
 
@@ -262,40 +262,41 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	final protected void glUseProgram(Object program) {
+	protected final void glUseProgram(Object program) {
 		glContext.useProgram((WebGLProgram) program);
 	}
 
 	@Override
-	final protected void glDisableVertexAttribArray(int attrib) {
+	protected final void glDisableVertexAttribArray(int attrib) {
 		glContext.disableVertexAttribArray(attrib);
 	}
 
 	@Override
-	final protected void glDetachAndDeleteShader(Object program, Object shader) {
+	protected final void glDetachAndDeleteShader(Object program,
+			Object shader) {
 		glContext.detachShader((WebGLProgram) program, (WebGLShader) shader);
 		glContext.deleteShader((WebGLShader) shader);
 	}
 
 	@Override
-	final protected void glDeleteProgram(Object program) {
+	protected final void glDeleteProgram(Object program) {
 		glContext.deleteProgram((WebGLProgram) program);
 	}
 
 	@Override
-	final protected void glUniform4f(Object location, float a, float b,
+	protected final void glUniform4f(Object location, float a, float b,
 			float c,
 			float d) {
 		glContext.uniform4f((WebGLUniformLocation) location, a, b, c, d);
 	}
 
 	@Override
-	final protected void glUniform4fv(Object location, float[] values) {
+	protected final void glUniform4fv(Object location, float[] values) {
 		glContext.uniform4fv((WebGLUniformLocation) location, values);
 	}
 
 	@Override
-	final protected void glUniform2fv(Object location, float[] values) {
+	protected final void glUniform2fv(Object location, float[] values) {
 		glContext.uniform2fv((WebGLUniformLocation) location, values);
 	}
 
@@ -330,17 +331,17 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	final protected void glCullFace(int flag) {
+	protected final void glCullFace(int flag) {
 		getGL().cullFace(flag);
 	}
 
 	@Override
-	final protected int getGL_FRONT() {
+	protected final int getGL_FRONT() {
 		return WebGLRenderingContext.FRONT;
 	}
 
 	@Override
-	final protected int getGL_BACK() {
+	protected final int getGL_BACK() {
 		return WebGLRenderingContext.BACK;
 	}
 
@@ -360,7 +361,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	final protected void glDepthMask(boolean flag) {
+	protected final void glDepthMask(boolean flag) {
 		getGL().depthMask(flag);
 	}
 

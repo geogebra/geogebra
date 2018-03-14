@@ -122,7 +122,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			public void onClick(ClickEvent event) {
 				getModel().applyFixed(getCbSliderFixed().getValue());
 
-			}});
+			}
+		});
 		positionPanel.add(cbSliderFixed);
 
 		cbRandom = new CheckBox();
@@ -132,7 +133,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			public void onClick(ClickEvent event) {
 				getModel().applyRandom(getCbRandom().getValue());
 
-			}});
+			}
+		});
 		positionPanel.add(cbRandom);
 
 		lbSliderHorizontal = new ListBox();
@@ -144,7 +146,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 						.applyDirection(
 								getLbSliderHorizontal().getSelectedIndex());
 
-			}});
+			}
+		});
 
 		positionPanel.add(lbSliderHorizontal);
 
@@ -156,8 +159,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				if (event.getNativeEvent().getKeyCode() == 13) {
 					applyMin();
 				}
-
-			}});
+			}
+		});
 		tfMin.enableGGBKeyboard();
 		
 		tfMin.addBlurHandler(new BlurHandler() {
@@ -176,7 +179,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				if (event.getNativeEvent().getKeyCode() == 13) {
 					applyMax();
 				}
-			}});
+			}
+		});
 
 		tfMax.enableGGBKeyboard();
 
@@ -198,7 +202,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				if (e.isEnterKey()) {
 					applyWidth();
 				}
-			}});
+			}
+		});
 		
 		tfWidth.enableGGBKeyboard();
 		

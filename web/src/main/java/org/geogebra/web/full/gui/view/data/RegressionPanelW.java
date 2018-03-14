@@ -277,14 +277,11 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 						+ statDialog.getRegressionModel().getFormulaString(
 								highPrecision, true);
 			}
-
-		}
-
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			eqn = "\\text{" + loc.getMenu("NotAvailable") + "}";
-
 		}
+
 		DrawEquationW.paintOnCanvas(sample, eqn, latexCanvas,
 				app.getFontSizeWeb());
 		

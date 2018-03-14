@@ -358,7 +358,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void fireActionPerformed(PopupMenuButtonW actionButton) {
 					model.appyGridStyle(EuclidianView
 							.getLineType(btnGridStyle.getSelectedIndex()));
-				}});
+				}
+			});
 			btnGridStyle.setKeepVisible(false);
 
 			// color
