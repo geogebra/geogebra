@@ -356,18 +356,21 @@ public abstract class LocalizationJre extends Localization {
 			Language language = languages[i];
 
 			if (language.fullyTranslated || prerelease) {
-				String lang = language.localeISO6391;
-				String country = "";
-				if (language.getLocaleGWT().length() == 5) {
-					country = language.getLocaleGWT().substring(3);
-				}
-
-				supportedLocales.add(new Locale(lang, country));
+				supportedLocales.add(convertToLocale(language));
 			}
 
 		}
 
 		return supportedLocales;
+	}
+
+	public static Locale convertToLocale(Language language) {
+		String lang = language.localeISO6391;
+		String country = "";
+		if (language.getLocaleGWT().length() == 5) {
+			country = language.getLocaleGWT().substring(3);
+		}
+		return new Locale(lang, country);
 	}
 
 	@Override
