@@ -96,9 +96,10 @@ public class CAStestJSON {
 		// Setting the general timeout to 13 seconds. Feel free to change this.
 		kernel.getApplication().getSettings().getCasSettings()
 				.setTimeoutMilliseconds(13000);
+		String json = "";
 		try {
 			Log.debug("CAS: loading testcases");
-			String json = readFileAsString("../web/war/__giac.js");
+			json = readFileAsString("../web/war/__giac.js");
 			Log.debug("CAS: parsing testcases");
 			Log.debug("CAS: testcases parsed");
 			JSONArray testsJSON = new JSONArray(
@@ -134,19 +135,23 @@ public class CAStestJSON {
 			}
 
 		} catch (Throwable e) {
-			Assert.fail(e.getMessage());
+			String msg = e.getMessage();
+			int pos = msg.indexOf("at character");
+			if (pos > 0) {
+				int err = Integer.parseInt(
+						msg.substring(pos + 13, msg.indexOf(" ", pos + 13)));
+				System.err.println(json.substring(err - 20, err + 30));
+			} else {
+				Assert.fail(msg);
+			}
 		}
 		for (String key : Ggb2giac.getMap(app).keySet()) {
 			if (testcases.get(key) == null
 					&& testcases.get(key.substring(0, key.indexOf("."))) == null
+					&& forCAS(key)
 					&& !"ApproximateSolution.3".equals(key)
 					&& !"AssumeInteger.2".equals(key)
-					&& !"Binomial.2".equals(key) && !"CIFactor.1".equals(key)
-					&& !"CIFactor.2".equals(key) && !"Cell.2".equals(key)
-					&& !"CellRange.2".equals(key) && !"Center.1".equals(key)
-					&& !"Circumference.1".equals(key)
-					&& !"Column.1".equals(key)
-					&& !"CopyFreeObject.1".equals(key)
+					&& !"Binomial.2".equals(key)
 					&& !"CorrectSolution.3".equals(key)
 					&& !"CountIf.2".equals(key) && !"CountIf.3".equals(key)
 					&& !"Eliminate.2".equals(key)
@@ -157,14 +162,10 @@ public class CAStestJSON {
 					&& !"GroebnerLex.2".equals(key)
 					&& !"GroebnerLexDeg.1".equals(key)
 					&& !"GroebnerLexDeg.2".equals(key)
-					&& !"IFactor.1".equals(key) && !"IFactor.2".equals(key)
-					&& !"If.2".equals(key) && !"If.3".equals(key)
 					&& !"InverseBinomial.3".equals(key)
-					&& !"Object.1".equals(key)
-					&& !"OrthogonalLine.2".equals(key) && !"Plane.1".equals(key)
+					&& !"Plane.1".equals(key)
 					&& !"Radius.1".equals(key) && !"Random.2".equals(key)
-					&& !"Regroup.1".equals(key) && !"Row.1".equals(key)
-					&& !"Segment.2".equals(key)
+					&& !"Regroup.1".equals(key)
 					&& !"SolveODEPoint.2".equals(key)
 					&& !"SolveQuartic.1".equals(key)
 					&& !"TurningPoint.1".equals(key)
@@ -173,6 +174,13 @@ public class CAStestJSON {
 				Assert.fail("Missing:" + key);
 			}
 		}
+	}
+
+	private static boolean forCAS(String key) {
+		return !"Cell.2".equals(key) && !"CellRange.2".equals(key)
+				&& !"Column.1".equals(key) && !"CopyFreeObject.1".equals(key)
+				&& !"Object.1".equals(key)
+				&& !"Row.1".equals(key) && !"Segment.2".equals(key);
 	}
 
 	private static void ta(boolean tkiontki, StringBuilder[] failures,
@@ -193,7 +201,7 @@ public class CAStestJSON {
 			f.computeOutput();
 
 			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<Command>();
+			HashSet<Command> commands = new HashSet<>();
 			if (f.getInputVE() == null) {
 				Assert.assertEquals("Input should be parsed", "GEOGEBRAERROR",
 						expectedResult[0]);
@@ -279,7 +287,6 @@ public class CAStestJSON {
 							.apply(Operation.FUNCTION, ev);
 
 				}
-
 				return ev;
 			}
 		};
@@ -295,7 +302,7 @@ public class CAStestJSON {
 	private static void testCat(String name) {
 		kernel.clearConstruction(true);
 		if (testcases.get(name) == null) {
-			return;
+			Assert.fail("No testcase for " + name);
 		}
 		ArrayList<CasTest> cases = testcases.get(name);
 		Assert.assertNotEquals(0, cases.size());
@@ -329,12 +336,7 @@ public class CAStestJSON {
 		LoggingCASFactoryD.printResponses(report);
 		report.callback(";");
 		report.close();
-		Assert.assertEquals("SLOW,", sb.toString());
-	}
-
-	@Test
-	public void testgeneral() {
-		testCat("general");
+		Assert.assertEquals("", sb.toString());
 	}
 
 	@Test
@@ -555,7 +557,8 @@ public class CAStestJSON {
 
 	@Test
 	public void testIf() {
-		testCat("If");
+		testCat("If.2");
+		testCat("If.3");
 	}
 
 	@Test
@@ -891,11 +894,6 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testSpare() {
-		testCat("spare");
-	}
-
-	@Test
 	public void testExtremum() {
 		testCat("Extremum");
 	}
@@ -927,7 +925,8 @@ public class CAStestJSON {
 
 	@Test
 	public void testTrigCombine() {
-		testCat("TrigCombine");
+		testCat("TrigCombine.1");
+		testCat("TrigCombine.2");
 	}
 
 	@Test
@@ -1008,12 +1007,15 @@ public class CAStestJSON {
 
 	@Test
 	public void testTrigExpand() {
-		testCat("TrigExpand");
+		testCat("TrigExpand.1");
+		testCat("TrigExpand.2");
+		testCat("TrigExpand.3");
+		testCat("TrigExpand.4");
 	}
 
 	@Test
 	public void testTrigSimplify() {
-		testCat("TrigSimplify");
+		testCat("TrigSimplify.1");
 	}
 
 	@Test
@@ -1079,11 +1081,6 @@ public class CAStestJSON {
 	@Test
 	public void testChiSquared() {
 		testCat("ChiSquared");
-	}
-
-	@Test
-	public void testxx() {
-		testCat("xx");
 	}
 
 	@Test
@@ -1157,17 +1154,6 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testtrig() {
-		testCat("TrigCombine.1");
-		testCat("TrigCombine.2");
-		testCat("TrigSimplify.1");
-		testCat("TrigExpand.1");
-		testCat("TrigExpand.2");
-		testCat("TrigExpand.3");
-		testCat("TrigExpand.4");
-	}
-
-	@Test
 	public void testarg() {
 		testCat("arg");
 	}
@@ -1175,16 +1161,6 @@ public class CAStestJSON {
 	@Test
 	public void testln() {
 		testCat("ln");
-	}
-
-	@Test
-	public void testXXSolve() {
-		testCat("XXSolve");
-	}
-
-	@Test
-	public void testXXCFactor() {
-		testCat("XXCFactor");
 	}
 
 	@Test
@@ -1209,7 +1185,7 @@ public class CAStestJSON {
 
 	@Test
 	public void testCenter() {
-		testCat("Center");
+		testCat("Center.1");
 	}
 
 	@Test
@@ -1273,11 +1249,6 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testsqrt() {
-		testCat("sqrt");
-	}
-
-	@Test
 	public void testexp() {
 		testCat("exp");
 	}
@@ -1285,11 +1256,6 @@ public class CAStestJSON {
 	@Test
 	public void testPolynomial() {
 		testCat("Polynomial");
-	}
-
-	@Test
-	public void testXXXXNSolve() {
-		testCat("XXXXNSolve");
 	}
 
 	@Test
@@ -1303,18 +1269,8 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testXXEvaluate() {
-		testCat("XXEvaluate");
-	}
-
-	@Test
 	public void testSolveAssume() {
 		testCat("SolveAssume");
-	}
-
-	@Test
-	public void testNSolve2() {
-		testCat("NSolve2");
 	}
 
 	@Test
@@ -1370,5 +1326,4 @@ public class CAStestJSON {
 		testCat("InverseLaplace.2");
 		testCat("InverseLaplace.3");
 	}
-
 }

@@ -249,6 +249,9 @@ public class CommandDispatcherGiac {
 	public static ExpressionNode processCommand(String cmdName, GetItem args,
 			Kernel kernel) {
 		GiacCommands cmd = null;
+		if (cmdName.startsWith(Kernel.TMP_VARIABLE_PREFIX)) {
+			return null;
+		}
 		try {
 			cmd = GiacCommands.valueOf(cmdName);
 		} catch (Exception Ex) {
