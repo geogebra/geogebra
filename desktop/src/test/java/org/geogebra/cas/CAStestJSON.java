@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Locale;
 
 import org.geogebra.cas.logging.CASTestLogger;
+import org.geogebra.common.cas.giac.Ggb2giac;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -131,12 +132,47 @@ public class CAStestJSON {
 									test.optString("rounding")));
 				}
 			}
+
 		} catch (Throwable e) {
 			Assert.fail(e.getMessage());
 		}
-
-
-
+		for (String key : Ggb2giac.getMap(app).keySet()) {
+			if (testcases.get(key) == null
+					&& testcases.get(key.substring(0, key.indexOf("."))) == null
+					&& !"ApproximateSolution.3".equals(key)
+					&& !"AssumeInteger.2".equals(key)
+					&& !"Binomial.2".equals(key) && !"CIFactor.1".equals(key)
+					&& !"CIFactor.2".equals(key) && !"Cell.2".equals(key)
+					&& !"CellRange.2".equals(key) && !"Center.1".equals(key)
+					&& !"Circumference.1".equals(key)
+					&& !"Column.1".equals(key)
+					&& !"CopyFreeObject.1".equals(key)
+					&& !"CorrectSolution.3".equals(key)
+					&& !"CountIf.2".equals(key) && !"CountIf.3".equals(key)
+					&& !"Eliminate.2".equals(key)
+					&& !"ExpandOnly.1".equals(key)
+					&& !"GroebnerDegRevLex.1".equals(key)
+					&& !"GroebnerDegRevLex.2".equals(key)
+					&& !"GroebnerLex.1".equals(key)
+					&& !"GroebnerLex.2".equals(key)
+					&& !"GroebnerLexDeg.1".equals(key)
+					&& !"GroebnerLexDeg.2".equals(key)
+					&& !"IFactor.1".equals(key) && !"IFactor.2".equals(key)
+					&& !"If.2".equals(key) && !"If.3".equals(key)
+					&& !"InverseBinomial.3".equals(key)
+					&& !"Object.1".equals(key)
+					&& !"OrthogonalLine.2".equals(key) && !"Plane.1".equals(key)
+					&& !"Radius.1".equals(key) && !"Random.2".equals(key)
+					&& !"Regroup.1".equals(key) && !"Row.1".equals(key)
+					&& !"Segment.2".equals(key)
+					&& !"SolveODEPoint.2".equals(key)
+					&& !"SolveQuartic.1".equals(key)
+					&& !"TurningPoint.1".equals(key)
+					&& !"UnitOrthogonalVector.1".equals(key)) {
+				System.out.println("&& !\"" + key + "\".equals(key)");
+				Assert.fail("Missing:" + key);
+			}
+		}
 	}
 
 	private static void ta(boolean tkiontki, StringBuilder[] failures,
@@ -294,7 +330,6 @@ public class CAStestJSON {
 		report.callback(";");
 		report.close();
 		Assert.assertEquals("SLOW,", sb.toString());
-
 	}
 
 	@Test
@@ -305,6 +340,12 @@ public class CAStestJSON {
 	@Test
 	public void testIntegral() {
 		testCat("Integral");
+	}
+
+	@Test
+	public void testScientificText() {
+		testCat("ScientificText.1");
+		testCat("ScientificText.2");
 	}
 
 	@Test
@@ -575,6 +616,7 @@ public class CAStestJSON {
 	@Test
 	public void testLine() {
 		testCat("Line");
+		testCat("OrthogonalLine.2");
 	}
 
 	@Test
@@ -660,6 +702,7 @@ public class CAStestJSON {
 	@Test
 	public void testNormal() {
 		testCat("Normal");
+		testCat("InverseNormal.3");
 	}
 
 	@Test
@@ -929,7 +972,8 @@ public class CAStestJSON {
 
 	@Test
 	public void testTaylorPolynomial() {
-		testCat("TaylorPolynomial");
+		testCat("TaylorSeries.3");
+		testCat("TaylorSeries.4");
 	}
 
 	@Test
@@ -1114,7 +1158,13 @@ public class CAStestJSON {
 
 	@Test
 	public void testtrig() {
-		testCat("Trig");
+		testCat("TrigCombine.1");
+		testCat("TrigCombine.2");
+		testCat("TrigSimplify.1");
+		testCat("TrigExpand.1");
+		testCat("TrigExpand.2");
+		testCat("TrigExpand.3");
+		testCat("TrigExpand.4");
 	}
 
 	@Test
@@ -1305,6 +1355,20 @@ public class CAStestJSON {
 	@Test
 	public void testIndexOf() {
 		testCat("IndexOf");
+	}
+
+	@Test
+	public void testLaplace() {
+		testCat("Laplace.1");
+		testCat("Laplace.2");
+		testCat("Laplace.3");
+	}
+
+	@Test
+	public void testInverseLaplace() {
+		testCat("InverseLaplace.1");
+		testCat("InverseLaplace.2");
+		testCat("InverseLaplace.3");
 	}
 
 }
