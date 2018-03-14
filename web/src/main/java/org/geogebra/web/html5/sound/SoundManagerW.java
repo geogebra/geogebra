@@ -69,7 +69,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		if (fmtMp3 || fmtMidi) {
 			String id = url.substring(1);
 			url = app.getURLforID(id);
-		} 
+		}
 
 		if (fmtMidi || url.endsWith(".mid") || url.endsWith(".midi")) {
 			Log.debug("MIDI not supported");
@@ -85,7 +85,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 				public void run() {
 					playAudioElement(audio);
 				}});
-			
+
 		} else {
 			playMP3(url);
 		}
@@ -102,11 +102,18 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	// MidiSoundW getMidiSound() {
 	// return MidiSoundW.INSTANCE;
 	// }
-	
+
+	/**
+	 *
+	 * @return the FuctionSound instance
+	 */
 	FunctionSoundW getFunctionSound() {
 		return FunctionSoundW.INSTANCE;
 	}
 
+	/**
+	 * Stops the sound
+	 */
 	public void stopCurrentSound() {
 		// getMidiSound().stop();
 	}
@@ -126,9 +133,9 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		}
 	}
 
-	private native void playAudioElement(Element audio) /*-{
-		audio.play();
-	}-*/;	
+	native void playAudioElement(Element audio) /*-{
+												audio.play();
+												}-*/;
 
 	private native int getDuration(Element audio) /*-{
 		return audio.duration;
@@ -186,17 +193,18 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 										.addEventListener(
 										"error",
 										function() {
-										that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlError(Ljava/lang/String;)(url);
+										that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlError()();
 										});
-										
+
 										audioElement
 										.addEventListener(
 										"canplay",
 										function() {
-										that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlOK(Ljava/lang/String;)(audioElement, url);
+										that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlOK()(url);
 										});
-										
+
 										}-*/;
+
 	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max,
 			int sampleRate, int bitDepth) {
@@ -204,25 +212,34 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 				bitDepth);
 	}
 
-	public void onError(int errorCode) {
+	/**
+	 * Error handler
+	 */
+	public void onError(/* int errorCode */) {
 		// if (errorCode == MidiSoundW.MIDI_ERROR_PORT) {
 		// ToolTipManagerW.sharedInstance().showBottomMessage(
 		// "No valid MIDI output port was found.", true, (AppW) app);
 		// }
 	}
 
-	private void onUrlError(String url) {
+	private void onUrlError() {
 		if (urlCallback != null) {
 			urlCallback.callback(Boolean.FALSE);
 		}
 	}
 
-	private void onUrlOK(String url) {
+	private void onUrlOK() {
 		if (urlCallback != null) {
 			urlCallback.callback(Boolean.TRUE);
 		}
 	}
 
+	/**
+	 * Info handler
+	 *
+	 * @param msg
+	 *            to show
+	 */
 	public void onInfo(String msg) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(msg, true,
 				app);
