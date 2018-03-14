@@ -4021,7 +4021,7 @@ public abstract class App implements UpdateSelection {
 		case MOB_DISABLE_3D_COMMANDS:
 			return prerelease;
 
-        // AND-722
+		// AND-722
 		case MOB_MATERIAL_INPUT:
 			return prerelease;
 

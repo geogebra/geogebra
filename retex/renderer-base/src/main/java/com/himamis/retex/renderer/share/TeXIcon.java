@@ -68,9 +68,7 @@ import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
  */
 public class TeXIcon implements Icon {
 
-    private static final boolean HAS_MATERIAL_INPUT_FEATURE = true;
     private static final Color defaultColor = ColorUtil.BLACK;
-    private static final float INSET_SCALE = 0.25f;
 
     public static double defaultSize = -1;
     public static double magFactor = 0;
@@ -109,22 +107,11 @@ public class TeXIcon implements Icon {
            the height and the depth of certains characters.
         */
         if (!trueValues) {
-            if (HAS_MATERIAL_INPUT_FEATURE) {
-                addInsets(size1);
-            } else {
-                insets.top += (int) (0.18f * size1);
-                insets.bottom += (int) (0.18f * size1);
-                insets.left += (int) (0.18f * size1);
-                insets.right += (int) (0.18f * size1);
-            }
+            insets.top += (int) (0.18f * size1);
+            insets.bottom += (int) (0.18f * size1);
+            insets.left += (int) (0.18f * size1);
+            insets.right += (int) (0.18f * size1);
         }
-    }
-
-    private void addInsets(double size) {
-        insets.top += (int) (INSET_SCALE * size);
-        insets.bottom += (int) (INSET_SCALE * size);
-        insets.left += (int) (INSET_SCALE * size);
-        insets.right += (int) (INSET_SCALE * size);
     }
 
     public void setForeground(Color fg) {
@@ -149,15 +136,10 @@ public class TeXIcon implements Icon {
     public void setInsets(Insets insets, boolean trueValues) {
         this.insets = insets;
         if (!trueValues) {
-            if (HAS_MATERIAL_INPUT_FEATURE) {
-                addInsets(size);
-            } else {
-                this.insets.top += (int)(0.18f * size);
-                this.insets.bottom += (int)(0.18f * size);
-                this.insets.left += (int)(0.18f * size);
-                this.insets.right += (int)(0.18f * size);
-            }
-
+            this.insets.top += (int) (0.18f * size);
+            this.insets.bottom += (int) (0.18f * size);
+            this.insets.left += (int) (0.18f * size);
+            this.insets.right += (int) (0.18f * size);
         }
     }
 
