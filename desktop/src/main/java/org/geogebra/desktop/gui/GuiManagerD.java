@@ -2842,31 +2842,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return virtualKeyboard != null;
 	}
 
-	/*
-	 * HandwritingRecognitionTool handwritingRecognition = null;
-	 * 
-	 * public Component getHandwriting() {
-	 * 
-	 * if (handwritingRecognition == null) { handwritingRecognition = new
-	 * HandwritingRecognitionTool(app); } return handwritingRecognition;
-	 * 
-	 * }
-	 * 
-	 * public void toggleHandwriting(boolean show) {
-	 * 
-	 * if (handwritingRecognition == null) { handwritingRecognition = new
-	 * HandwritingRecognitionTool(app); }
-	 * handwritingRecognition.setVisible(show);
-	 * handwritingRecognition.repaint();
-	 * 
-	 * }
-	 * 
-	 * public boolean showHandwritingRecognition() { if (handwritingRecognition
-	 * == null) return false;
-	 * 
-	 * return handwritingRecognition.isVisible(); }
-	 */
-
 	public boolean showVirtualKeyboard() {
 		if (virtualKeyboard == null) {
 			return false;
@@ -2951,7 +2926,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public void reInitHelpPanel(boolean forCAS) {
-
 		if (inputHelpPanel != null) {
 			if (forCAS) {
 				getApp().getCommandDictionaryCAS();
@@ -2980,7 +2954,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						event.getComponent());
 
 		setFocusedPanel(panel, updatePropertiesView);
-
 	}
 
 	@Override
@@ -3001,9 +2974,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			if (updatePropertiesView) {
 				updatePropertiesView();
 			}
-
 		}
-
 	}
 
 	@Override
@@ -3059,7 +3030,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			GPoint p) {
 
 		showPopupChooseGeo(selectedGeos, geos, (EuclidianView) view, p);
-
 	}
 
 	@Override
@@ -3196,7 +3166,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		JDialog d = new GraphicExportDialog(getApp());
 
 		d.setVisible(true);
-
 	}
 
 	@Override
@@ -3275,7 +3244,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					returnVal == 0 ? AlgebraProcessor.CREATE_SLIDER : "0" });
 		}
 		return false;
-
 	}
 
 	@Override
@@ -3304,7 +3272,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		getApp().getDialogManager().showLogOutDialog();
 	}
 
-
 	@Override
 	public int getEuclidianViewCount() {
 		return euclidianView2.size();
@@ -3316,8 +3283,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			casView.resetCursor();
 		}
 	}
-
-
 
 	@Override
 	public boolean hasDataCollectionView() {
@@ -3351,7 +3316,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				.getTextField();
 		textComponent.replaceSelection(string);
 		textComponent.requestFocusInWindow();
-
 	}
 
 	@Override
@@ -3361,7 +3325,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		textComponent.setText(string);
 		((AlgebraInputD) getAlgebraInput()).setAutoInput(string);
 		textComponent.requestFocusInWindow();
-
 	}
 
 	@Override
@@ -3375,9 +3338,4 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void addAudio() {
-		// TODO Auto-generated method stub
-
-	}
 }
