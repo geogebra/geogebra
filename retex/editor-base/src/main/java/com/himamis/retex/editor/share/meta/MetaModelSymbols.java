@@ -95,6 +95,10 @@ class MetaModelSymbols {
 		collection.addComponent(createOperator("implication", "->", "\\implies",
 				Unicode.IMPLIES));
 
+		// operator not symbol
+		collection.addComponent(
+				createOperator("otimes", "\\otimes", Unicode.VECTOR_PRODUCT));
+
         collection.addComponent(createOperator("<"));
         collection.addComponent(createOperator(">"));
 		collection.addComponent(createOperator("leq", "<=", "\\leq", Unicode.LESS_EQUAL));
@@ -172,7 +176,6 @@ class MetaModelSymbols {
         collection.addComponent(createSymbol("ddagger", "\\ddagger", '\u2021'));
         collection.addComponent(createSymbol("paragraph", "paragraph", "\\paragraph"));
 
-        collection.addComponent(createSymbol("otimes", "\\otimes", '\u2297'));
 		collection.addComponent(createSymbol("degree", "\\degree", Unicode.DEGREE_CHAR));
         collection.addComponent(createSymbol("quotes", "\"", '"'));
 
