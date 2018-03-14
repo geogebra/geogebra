@@ -9,7 +9,7 @@ public class AngleUnitProperty extends AbstractEnumerableProperty {
     private Kernel kernel;
 
     public AngleUnitProperty(Kernel kernel, Localization localization) {
-        super(localization, "AngleUnit", "");
+        super(localization, "AngleUnit");
         this.kernel = kernel;
         setupValues(localization);
     }

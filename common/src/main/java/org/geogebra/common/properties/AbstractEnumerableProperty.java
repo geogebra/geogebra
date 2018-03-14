@@ -6,8 +6,8 @@ public abstract class AbstractEnumerableProperty extends AbstractProperty implem
 
     private String[] values;
 
-    public AbstractEnumerableProperty(Localization localization, String name, String type) {
-        super(localization, name, type);
+    public AbstractEnumerableProperty(Localization localization, String name) {
+        super(localization, name);
     }
 
     protected void setValues(String[] values) {

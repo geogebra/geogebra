@@ -13,7 +13,7 @@ public class RoundingProperty extends AbstractEnumerableProperty {
     private int figuresIndex;
 
     public RoundingProperty(App app, Localization localization) {
-        super(localization, "Rounding", "OneOfMultiple");
+        super(localization, "Rounding");
 
         this.app = app;
 
