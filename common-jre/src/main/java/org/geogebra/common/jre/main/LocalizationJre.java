@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.lang.Language;
@@ -338,7 +339,7 @@ public abstract class LocalizationJre extends Localization {
 
 	@Override
 	protected ArrayList<Locale> getSupportedLocales() {
-		return getSupportedLocales(false);
+		return getSupportedLocales(app.has(Feature.ALL_LANGUAGES));
 	}
 
 	protected ArrayList<Locale> getSupportedLocales(boolean prerelease) {
