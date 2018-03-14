@@ -16,4 +16,8 @@ public abstract class AbstractProperty implements Property {
     public String getName() {
         return localization.getMenu(name);
     }
+
+    protected Localization getLocalization() {
+        return localization;
+    }
 }
