@@ -25,7 +25,6 @@ public class AngleUnitProperty extends AbstractEnumerableProperty {
         int angleUnit = index == 0 ? Kernel.ANGLE_DEGREE : Kernel.ANGLE_RADIANT;
         kernel.setAngleUnit(angleUnit);
         kernel.updateConstruction();
-        kernel.notifyRepaint();
     }
 
     @Override
