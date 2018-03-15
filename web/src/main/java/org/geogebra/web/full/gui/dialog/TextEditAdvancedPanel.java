@@ -99,7 +99,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	@Override
 	public void insert(final Widget child, Widget tab, int beforeIndex) {
 		super.insert(child, tab, beforeIndex);
-		tab.addDomHandler(new MouseDownHandler(){
+		tab.addDomHandler(new MouseDownHandler() {
 
 			@Override
 			public void onMouseDown(MouseDownEvent event) {

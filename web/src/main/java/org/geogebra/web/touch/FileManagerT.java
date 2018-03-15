@@ -980,12 +980,11 @@ public class FileManagerT extends FileManager {
 		if (key.equals(newKey)) {
 			createMetaData(key, material, null);
 		} else {
-
 			String newTitle = material.getTitle();
 			Log.debug("incoming rename " + newTitle);
 			material.setTitle(MaterialsManager.getTitleFromKey(key));
 			material.setSyncStamp(material.getModified());
-			FileManagerT.this.rename(newTitle, material);
+			rename(newTitle, material);
 		}
 	}
 

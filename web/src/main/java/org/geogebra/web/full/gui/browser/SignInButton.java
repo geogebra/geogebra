@@ -13,7 +13,7 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 
-public class SignInButton extends Button implements EventRenderable{
+public class SignInButton extends Button implements EventRenderable {
 	protected final App app;
 	protected Timer loginChecker;
 
@@ -27,12 +27,12 @@ public class SignInButton extends Button implements EventRenderable{
 		this.addStyleName("signInButton");
 		app.getLoginOperation().getView().add(this);
 		
-		this.addClickHandler(new ClickHandler(){
+		this.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				SignInButton.this.login();
 				if(delay > 0){
-				loginChecker = new Timer(){
+					loginChecker = new Timer() {
 					private String oldCookie = null;
 					@Override
 						public void run() {

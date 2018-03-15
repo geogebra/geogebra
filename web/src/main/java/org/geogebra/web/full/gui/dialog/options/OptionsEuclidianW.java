@@ -119,7 +119,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public GridTab() {
 			super(app);
 			cbShowGrid = new CheckBox();
-			cbShowGrid.addClickHandler(new ClickHandler(){
+			cbShowGrid.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
@@ -244,7 +244,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			mainPanel.add(lblGridType);
 			lblGridType.setStyleName("panelTitle");
 			
-			lbGridType.addChangeHandler(new ChangeHandler(){
+			lbGridType.addChangeHandler(new ChangeHandler() {
 
 				@Override
 				public void onChange(ChangeEvent event) {
@@ -256,7 +256,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// tick intervals
 
 			cbGridManualTick = new CheckBox();
-			cbGridManualTick.addClickHandler(new ClickHandler(){
+			cbGridManualTick.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
@@ -265,7 +265,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				}
 			});
 			cbGridManualTick.setStyleName("checkBoxPanel");
-			ncbGridTickX = new NumberListBox(app){
+			ncbGridTickX = new NumberListBox(app) {
 
 				@Override
 				protected void onValueChange(String value) {
@@ -329,7 +329,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					ncbGridTickXPanel, ncbGridTickYPanel, ncbGridTickAnglePanel));
 
 			
-			lbGridType.addChangeHandler(new ChangeHandler(){
+			lbGridType.addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
 					model.appyGridType(lbGridType.getSelectedIndex());
@@ -340,7 +340,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			mainPanel.add(typePanel);
 		}
 		
-		protected void addGridType(FlowPanel gridTickAnglePanel){
+		protected void addGridType(FlowPanel gridTickAnglePanel) {
 			gridTickAnglePanel.add(lbGridType);
 		}
 
@@ -435,8 +435,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			addOnlyFor2D(stylePanel);
 		}
-		
-		protected void addOnlyFor2D(Widget w){
+
+		protected void addOnlyFor2D(Widget w) {
 			mainPanel.add(w);
 		}
 
@@ -461,7 +461,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbBoldGrid.setText(loc.getMenu("Bold"));
 		}
 		
-		protected void setGridTypeLabel(){
+		protected void setGridTypeLabel() {
 			lblGridType.setText(loc.getMenu("GridType"));
 		}
 

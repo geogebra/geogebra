@@ -139,7 +139,7 @@ public class GeoGebraIconW {
 	 */
 	public static ImageOrText createDecorAngleIcon(int id) {
 		ImageResource url = null;
-		switch(id){
+		switch (id) {
 			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
 				url =  GuiResources.INSTANCE.deco_angle_2lines();
 			break;

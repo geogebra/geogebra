@@ -150,7 +150,7 @@ public class RowHeaderPopupMenuW extends
 
 		boolean undoNeeded = true;
 
-		switch(ac){
+		switch (ac) {
 		case INSERT_ABOVE:
 			GeoCasCell casCell = new GeoCasCell(app.getKernel()
 			        .getConstruction());

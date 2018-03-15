@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.RequiresResize;
  * Wraps the input bar
  *
  */
-public class GGWCommandLine extends Composite implements RequiresResize{
+public class GGWCommandLine extends Composite implements RequiresResize {
 	
 	private AlgebraInputW algebraInput;
 

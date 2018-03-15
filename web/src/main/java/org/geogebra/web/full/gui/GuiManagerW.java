@@ -2531,7 +2531,7 @@ public class GuiManagerW extends GuiManager
 				detailed = false;
 				final ArrayList<Widget> swap = new ArrayList<>(summary);
 				summary = new ArrayList<>();
-				showDetails.addClickHandler(new ClickHandler(){
+				showDetails.addClickHandler(new ClickHandler() {
 
 					@Override
 					public void onClick(ClickEvent event) {

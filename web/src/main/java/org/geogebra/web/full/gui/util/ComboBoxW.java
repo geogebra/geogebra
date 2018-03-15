@@ -52,7 +52,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 			}
 		});
 
-		addKeyDownHandler(new KeyDownHandler(){
+		addKeyDownHandler(new KeyDownHandler() {
 
 			@Override
 			public void onKeyDown(KeyDownEvent event) {

@@ -25,6 +25,10 @@ public class TabletFileManager extends FileManagerT {
 	private int callbacksCount = NO_CALLBACK;
 
 	private abstract class MyCallback implements Callback<Object, Object> {
+		protected MyCallback() {
+			// protected
+		}
+
 		private int id;
 
 		public void setId(int id){
@@ -46,7 +50,7 @@ public class TabletFileManager extends FileManagerT {
 		exportJavascriptMethods();
 	}
 
-	private int addNewCallback(MyCallback callback){
+	protected int addNewCallback(MyCallback callback) {
 		callbacksCount++;
 		callbacks.put(callbacksCount, callback);
 		callback.setId(callbacksCount);
@@ -98,7 +102,7 @@ public class TabletFileManager extends FileManagerT {
 							}
 
 						@Override
-						public void onFailure(Object result) {
+						public void onFailure(Object err) {
 							// not needed
 						}
 					});
@@ -374,6 +378,9 @@ public class TabletFileManager extends FileManagerT {
 
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
+	 * 
+	 * @param callback
+	 *            rename callback
 	 */
 	public void catchRename(int callback) {
 		runCallback(callback, true, null);

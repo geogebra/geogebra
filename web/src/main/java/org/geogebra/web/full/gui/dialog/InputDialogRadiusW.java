@@ -15,7 +15,7 @@ import com.google.gwt.event.dom.client.DomEvent;
  * Circle or sphere dialog
  *
  */
-public abstract class InputDialogRadiusW extends InputDialogW{
+public abstract class InputDialogRadiusW extends InputDialogW {
 
 	/** current kernel */
 	protected Kernel kernel;

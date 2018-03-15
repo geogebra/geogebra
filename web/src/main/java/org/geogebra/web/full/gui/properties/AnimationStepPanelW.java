@@ -46,7 +46,7 @@ implements ITextFieldListener {
 
 		new FocusListenerW(this).init();
 
-		tfAnimStep.addKeyDownHandler(new KeyDownHandler(){
+		tfAnimStep.addKeyDownHandler(new KeyDownHandler() {
 
 			@Override
 			public void onKeyDown(KeyDownEvent event) {

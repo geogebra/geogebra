@@ -51,35 +51,33 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 		mainPanel.add(LayoutUtilW.panelRowVertical(modeLabel, getListBox()));
         setWidget(mainPanel);
 
-        tfAnimSpeed.addKeyHandler(new KeyHandler(){
+		tfAnimSpeed.addKeyHandler(new KeyHandler() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
-					doActionPerformed();	    
+					doActionPerformed();
 				}
 			}
 
 		});
 
 		tfAnimSpeed.enableGGBKeyboard();
-
-        tfAnimSpeed.addFocusListener(new FocusListenerW(this){
+		tfAnimSpeed.addFocusListener(new FocusListenerW(this) {
 
 			@Override
-			protected void wrapFocusGained(){
+			protected void wrapFocusGained() {
 				// only handle blur
 			}
-			
+
 			@Override
-			protected void wrapFocusLost(){
-					doActionPerformed();
+			protected void wrapFocusLost() {
+				doActionPerformed();
 			}
 		});
-        tfAnimSpeed.requestToShowSymbolButton();
-
+		tfAnimSpeed.requestToShowSymbolButton();
 	}
-	
+
 	private void doActionPerformed() {
 		GeoNumberValue animSpeed = 
 			app.getKernel().getAlgebraProcessor().evaluateToNumeric(tfAnimSpeed.getText(), false);

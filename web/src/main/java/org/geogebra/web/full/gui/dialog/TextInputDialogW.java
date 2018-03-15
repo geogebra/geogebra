@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.TextBox;
 /**
  * Web implementation of Text Dialog
  */
-public class TextInputDialogW extends InputDialogW implements TextInputDialog{
+public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 	/** edited text */
 	GeoText editGeo;
 	/** start point */

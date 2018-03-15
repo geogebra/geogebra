@@ -114,9 +114,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		avPanel = new CheckboxPanel("ShowSliderInAlgebraView",
 				app.getLocalization(), new ExtendedAVModel(null, app));
 
-
 		cbSliderFixed = new CheckBox();
-		cbSliderFixed.addClickHandler(new ClickHandler(){
+		cbSliderFixed.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -127,7 +126,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		positionPanel.add(cbSliderFixed);
 
 		cbRandom = new CheckBox();
-		cbRandom.addClickHandler(new ClickHandler(){
+		cbRandom.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -138,7 +137,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		positionPanel.add(cbRandom);
 
 		lbSliderHorizontal = new ListBox();
-		lbSliderHorizontal.addChangeHandler(new ChangeHandler(){
+		lbSliderHorizontal.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
@@ -152,7 +151,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		positionPanel.add(lbSliderHorizontal);
 
 		tfMin = new AngleTextFieldW(6, app);
-		tfMin.addKeyDownHandler(new KeyDownHandler(){
+		tfMin.addKeyDownHandler(new KeyDownHandler() {
 
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
@@ -172,7 +171,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		});
 
 		tfMax = new AngleTextFieldW(6, app);
-		tfMax.addKeyDownHandler(new KeyDownHandler(){
+		tfMax.addKeyDownHandler(new KeyDownHandler() {
 
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
@@ -195,7 +194,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 		tfWidth = new AutoCompleteTextFieldW(8, app);
 		tfWidth.removeSymbolTable();
-		tfWidth.addKeyHandler(new KeyHandler(){
+		tfWidth.addKeyHandler(new KeyHandler() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {

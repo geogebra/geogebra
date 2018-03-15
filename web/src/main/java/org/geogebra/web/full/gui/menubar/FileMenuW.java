@@ -365,7 +365,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * @return handler for native sharing
 	 */
 	public static StringHandler getShareStringHandler(final AppW app) {
-		return new StringHandler(){
+		return new StringHandler() {
 			@Override
 			public void handle(String s) {
 				String title = app.getKernel().getConstruction().getTitle();

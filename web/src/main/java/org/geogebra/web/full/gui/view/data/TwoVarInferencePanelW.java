@@ -129,7 +129,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 		fldNullHyp = new AutoCompleteTextFieldW(4, app);
 		fldNullHyp.setText("" + 0);
-		fldNullHyp.addKeyHandler(new KeyHandler(){
+		fldNullHyp.addKeyHandler(new KeyHandler() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -150,7 +150,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		lblConfLevel = new Label();
 		fldConfLevel = new AutoCompleteTextFieldW(4, app);
 		fldConfLevel.setColumns(4);
-		fldConfLevel.addKeyHandler(new KeyHandler(){
+		fldConfLevel.addKeyHandler(new KeyHandler() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {

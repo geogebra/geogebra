@@ -9,7 +9,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
 
-public class InputDialogRegularPolygonW extends InputDialogW{
+public class InputDialogRegularPolygonW extends InputDialogW {
 	private GeoPointND geoPoint1;
 	private GeoPointND geoPoint2;
 	private EuclidianController ec;

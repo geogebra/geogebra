@@ -5,7 +5,7 @@ import org.geogebra.common.main.App;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window.Location;
 
-public class SmartSignInButton extends SignInButton{
+public class SmartSignInButton extends SignInButton {
 	
 	public SmartSignInButton(App app) {
 		super(app, 0, null);

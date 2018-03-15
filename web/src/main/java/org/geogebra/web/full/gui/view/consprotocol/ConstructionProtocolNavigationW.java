@@ -108,7 +108,7 @@ public class ConstructionProtocolNavigationW
 		btPlay = new PushButton(); // will be initialized in setLabels()
 		btPlay.addClickHandler(this);
 	
-		spDelay.addChangeHandler(new ChangeHandler(){
+		spDelay.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
@@ -211,11 +211,11 @@ public class ConstructionProtocolNavigationW
 			btOpenWindow.setVisible(isConsProtButtonVisible());
 			addPaddingPlayPanel(isConsProtButtonVisible());
 		}
-    }
+	}
 
 	@Override
     public void setLabels() {
-		if (btPlay != null){
+		if (btPlay != null) {
 			// String btPlayText =
 			// "<div class=\"gwt-Label\">"+app.getPlain((isPlaying)?"Pause":"Play")+"</div>";
 			// Image playImage = getImageForIcon(
@@ -232,7 +232,7 @@ public class ConstructionProtocolNavigationW
 				btPlay.getUpHoveringFace().setImage(pauseIconHover);
 			}
 		}
-		if (btOpenWindow != null){
+		if (btOpenWindow != null) {
 			btOpenWindow.setTitle(app.getLocalization().getPlainTooltip("ConstructionProtocol"));
 		}
 	}
@@ -312,7 +312,7 @@ public class ConstructionProtocolNavigationW
 		btPlay.getUpHoveringFace().setImage(pauseIconHover);
 	}
 
-	private class AutomaticPlayer{
+	private class AutomaticPlayer {
 		Timer timer;
 		
 	      /**
@@ -320,7 +320,7 @@ public class ConstructionProtocolNavigationW
          * automatically.
          */
 		public AutomaticPlayer() {
-			timer = new Timer(){
+			timer = new Timer() {
 				
 				@Override
                 public void run() {

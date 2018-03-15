@@ -122,7 +122,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 		// applyScript();
 		// }});
 		//
-		languageSelector.addChangeHandler(new ChangeHandler(){
+		languageSelector.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {

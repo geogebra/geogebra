@@ -70,7 +70,7 @@ public class CustomColorDialog extends DialogBoxW {
 			add(sp);			
 			add(spinner);
 					
-			spinner.addChangeHandler(new ChangeHandler(){
+			spinner.addChangeHandler(new ChangeHandler() {
 
 				@Override
 				public void onChange(ChangeEvent event) {
