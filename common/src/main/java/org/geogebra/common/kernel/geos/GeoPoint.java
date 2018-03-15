@@ -1703,11 +1703,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			sbBuildValueString.append(kernel.format(x, tpl));
 			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_AUSTRIAN:
-				String separator = " | ";
-				if (tpl == StringTemplate.editorTemplate) {
-					separator = separator.trim();
-				}
-				sbBuildValueString.append(separator);
+				// spaces -> multiply in editor
+				sbBuildValueString.append(
+						tpl == StringTemplate.editorTemplate ? "|" : " | ");
 				break;
 
 			default:
