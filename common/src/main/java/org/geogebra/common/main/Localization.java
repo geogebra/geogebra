@@ -1,7 +1,9 @@
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import org.geogebra.common.kernel.StringTemplate;
@@ -1259,6 +1261,48 @@ public abstract class Localization {
 		// we didn't find a matching country or language,
 		// so we take English
 		return Locale.ENGLISH;
+	}
+
+	public Language[] getSupportedLanguages(boolean prerelease) {
+		Language[] languages = Language.values();
+		List<Language> supported = new ArrayList<>(languages.length);
+		for (int i = 0; i < languages.length; i++) {
+
+			Language language = languages[i];
+
+			if (language.fullyTranslated || prerelease) {
+				supported.add(language);
+			}
+		}
+
+		Language[] supportedLanguages = new Language[supported.size()];
+		return supported.toArray(supportedLanguages);
+	}
+
+	public Locale convertToLocale(Language language) {
+		String lang = language.localeISO6391;
+		String country = "";
+		if (language.getLocaleGWT().length() == 5) {
+			country = language.getLocaleGWT().substring(3);
+		}
+		return new Locale(lang, country);
+	}
+
+	public Locale[] getLocales(Language[] languages) {
+		Locale[] locales = new Locale[languages.length];
+		for (int i = 0; i < languages.length; i++) {
+			Language language = languages[i];
+			locales[i] = convertToLocale(language);
+		}
+		return locales;
+	}
+
+	public ArrayList<Locale> getSupportedLocales(boolean prerelease) {
+		Language[] languages = getSupportedLanguages(prerelease);
+		Locale[] locales = getLocales(languages);
+		List<Locale> localeList = Arrays.asList(locales);
+
+		return new ArrayList<>(localeList);
 	}
 
 	public void setLocale(Locale locale) {
