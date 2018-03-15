@@ -45,6 +45,7 @@ public class DrawAudio extends Drawable {
 	private int getPlaySize() {
 		return height - 2 * PLAY_MARGIN;
 	}
+
 	@Override
 	public void update() {
 		isVisible = geoAudio.isDefined();
@@ -73,9 +74,7 @@ public class DrawAudio extends Drawable {
 		int x = left + PLAY_MARGIN;
 		int y = top + PLAY_MARGIN;
 		AwtFactory.fillTriangle(g2, x, y, x, y + size, x + size, y + (size / 2));
-
 	}
-
 
 	private void drawBox(GGraphics2D g2) {
 		g2.setPaint(GColor.LIGHT_GRAY);
@@ -103,10 +102,8 @@ public class DrawAudio extends Drawable {
 			sb.append("-:-");
 		}
 
-
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2, sb.toString(),
 				x, y, false, null, null);
-
 	}
 
 	@Override

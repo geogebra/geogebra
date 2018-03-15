@@ -21,6 +21,7 @@ public class GeoAudio extends GeoButton {
 	private static final int DEFAULT_PLAYER_HEIGHT = 25;
 	private String dataUrl;
 	private App app;
+
 	/**
 	 * Constructs a new, empty audio element.
 	 * 
@@ -32,7 +33,6 @@ public class GeoAudio extends GeoButton {
 		app = getKernel().getApplication();
 		setWidth(DEFAULT_PLAYER_WIDTH);
 		setHeight(DEFAULT_PLAYER_HEIGHT);
-
 	}
 
 	/**
@@ -100,10 +100,11 @@ public class GeoAudio extends GeoButton {
 	}
 
 	private void addScript() {
-		String playText = "PlaySound[\"%0\"]";
+		String playText = "PlaySound[self]";
 		Script playScript = app.createScript(ScriptType.GGBSCRIPT, playText, true);
 		setClickScript(playScript);
 	}
+
 	@Override
 	public boolean isGeoAudio() {
 		return true;
