@@ -266,6 +266,7 @@ public class PageListPanel
 			app.getKernel().getConstruction().getUndoManager().storeAction(
 					EventType.CLEAR_SLIDE, id);
 			pageController.loadNewPage(0);
+			update();
 		} else {
 
 			pageController.removeSlide(index);

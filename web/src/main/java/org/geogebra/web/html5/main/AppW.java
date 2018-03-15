@@ -1554,6 +1554,7 @@ public abstract class AppW extends App implements SetLabels {
 					geoImage.setAuxiliaryObject(false);
 				}
 				setDefaultCursor();
+				storeUndoInfo();
 			}
 		});
 	}

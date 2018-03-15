@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Look and Feel for SMART
  *
  */
-public class SmartLookAndFeel extends GLookAndFeel{
+public class SmartLookAndFeel extends GLookAndFeel {
 	/**
 	 * Creates smart LAF
 	 */

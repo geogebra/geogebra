@@ -501,7 +501,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private Label syntaxLabel(String line) {
 		Label syntax = new Label(line);
 		final String fLine = line;
-		syntax.addMouseDownHandler(new MouseDownHandler(){
+		syntax.addMouseDownHandler(new MouseDownHandler() {
 
 			@Override
 			public void onMouseDown(MouseDownEvent event) {

@@ -10,7 +10,7 @@ import org.geogebra.web.full.gui.browser.SignInButton;
  * Look and Feel for SMART
  *
  */
-public class OfficeLookAndFeel extends SmartLookAndFeel{
+public class OfficeLookAndFeel extends SmartLookAndFeel {
 	
 	@Override
     public boolean undoRedoSupported() {

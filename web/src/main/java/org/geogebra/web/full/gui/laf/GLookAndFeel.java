@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Represents different designs/platforms of GeoGebra deployment
  */
-public class GLookAndFeel implements GLookAndFeelI{
+public class GLookAndFeel implements GLookAndFeelI {
 	/** width of menu */
 	public static final int MENUBAR_WIDTH = 270; //TODO make it smaller - wordWrap
 	/** height of header in browse gui */
