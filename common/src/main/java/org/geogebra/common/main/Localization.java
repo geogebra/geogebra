@@ -1287,7 +1287,7 @@ public abstract class Localization {
 		if (language.getLocaleGWT().length() == 5) {
 			country = language.getLocaleGWT().substring(3);
 		}
-		return new Locale(lang, country);
+		return createLocale(lang, country);
 	}
 
 	public Locale[] getLocales(Language[] languages) {
