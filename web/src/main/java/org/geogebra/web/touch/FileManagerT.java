@@ -48,7 +48,6 @@ public class FileManagerT extends FileManager {
 	private static final String OLD_THUMB_PREFIX = "img#";
 	private static final String OLD_META_PREFIX = "meta#";
 	Storage stockStore = Storage.getLocalStorageIfSupported();
-	//
 	
 	PhoneGap phonegap;
 	Flags createIfNotExist = new Flags(true, false);
@@ -60,7 +59,7 @@ public class FileManagerT extends FileManager {
 		init();
 	}
 	
-	protected void init(){
+	protected void init() {
 		this.phonegap = PhoneGapManager.getPhoneGap();
 		convertToNewFileFormat();
 	}
@@ -331,7 +330,7 @@ public class FileManagerT extends FileManager {
 	}
 	
 	@Override
-	public void rename(final String newTitle, final Material mat){
+	public void rename(final String newTitle, final Material mat) {
 		rename(newTitle, mat, null);
 	}
 

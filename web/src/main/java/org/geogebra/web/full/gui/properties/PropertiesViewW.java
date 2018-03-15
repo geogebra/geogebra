@@ -293,14 +293,14 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void update(GeoElement geo) {
-		if(geo.isLabelSet()){
+		if (geo.isLabelSet()) {
 			updatePropertiesGUI();
 		}
 	}
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-		if(geo.isLabelSet()){
+		if (geo.isLabelSet()) {
 			updatePropertiesGUI();
 		}
 	}
@@ -414,7 +414,7 @@ public class PropertiesViewW extends PropertiesView
 		Widget wPanel = optionPanel.getWrappedPanel();
 		notImplemented.setText(getTypeString(type) + " - Not implemented");
 		contentsPanel.add(wPanel != null ? wPanel : notImplemented);
-		if(wPanel != null) {
+		if (wPanel != null) {
 			onResize();
 		}
 		this.styleBar.selectButton(type);
@@ -513,20 +513,19 @@ public class PropertiesViewW extends PropertiesView
 		updatePropertiesGUI();
 	}
 
-    @Override
+	@Override
 	public void onResize() {
 		int width = getWrappedPanel().getOffsetWidth()
 				- (app.isUnbundledOrWhiteboard() ? 40 : 37);
-    	int height = getWrappedPanel().getOffsetHeight();
-    	if(height > 0 && width > 0) {
-    		contentsPanel.setWidth(width + "px");
-		} else if (app.isUnbundledOrWhiteboard()
-				&& width == -40
+		int height = getWrappedPanel().getOffsetHeight();
+		if (height > 0 && width > 0) {
+			contentsPanel.setWidth(width + "px");
+		} else if (app.isUnbundledOrWhiteboard() && width == -40
 				&& getWrappedPanel() != null) {
 			contentsPanel.setWidth("460px");
-    	}
-    }
-    
+		}
+	}
+
 	@Override
 	public boolean suggestRepaint(){
 		return false;

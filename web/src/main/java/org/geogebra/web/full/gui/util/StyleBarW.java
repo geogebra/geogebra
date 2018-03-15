@@ -70,7 +70,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	/**
 	 * adds a {@link VerticalSeparator}
 	 */
-	protected void addSeparator(){
+	protected void addSeparator() {
 		VerticalSeparator s = new VerticalSeparator(32);
 		add(s);
 	}
@@ -78,11 +78,11 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	/**
 	 * adds a {@link MyCJButton button} to show properties dialog
 	 */
-	protected void addMenuButton(){
+	protected void addMenuButton() {
 		if (!app.letShowPropertiesDialog()) {
 			return;
 		}
-		if(menuButton == null){
+		if (menuButton == null) {
 			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 				menuButton = new StandardButton(
 						GuiResources.INSTANCE.stylebar_more(), app);
@@ -136,7 +136,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	 * adds a {@link PopupMenuButtonW button} to show a popup, where the user can
 	 * either close this view or open another one.
 	 */
-	protected void addViewButton(){
+	protected void addViewButton() {
 		int numOfViews = Views.numOfViews();
 		ImageOrText[] data = new ImageOrText[numOfViews + 1];
 		final int[] viewIDs = new int[numOfViews + 1];
@@ -229,7 +229,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 					separatorIndex = -1;
 				}
 				app.hideKeyboard();
-				if (i == closeButtonIndex){
+				if (i == closeButtonIndex) {
 					app.getGuiManager().setShowView(false, viewID);
 				} else if (i != separatorIndex) { // ignore separator
 					app.getGuiManager().setShowView(true, viewIDs[i]);
@@ -241,13 +241,13 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		});
 		add(viewButton);
 	}
-	
+
 	@Override
 	public void onViewsChanged() {
-	    if(viewButton != null){
-	    	remove(viewButton);
-	    	addViewButton();
-	    }
+		if (viewButton != null) {
+			remove(viewButton);
+			addViewButton();
+		}
 	}
 
 	@Override

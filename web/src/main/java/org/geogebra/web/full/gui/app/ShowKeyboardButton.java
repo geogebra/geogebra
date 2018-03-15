@@ -52,12 +52,12 @@ public class ShowKeyboardButton extends SimplePanel {
 				? KeyboardResources.INSTANCE.keyboard_show_material()
 						.getSafeUri().asString()
 				: KeyboardResources.INSTANCE
-		        .keyboard_show().getSafeUri().asString());
+						.keyboard_show().getSafeUri().asString());
 		this.add(showKeyboard);
 
 		//TODO: app paramater used only for feature checking so this can be removed later
 		if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
-			if (listener instanceof ComplexPanel){
+			if (listener instanceof ComplexPanel) {
 				((ComplexPanel) listener).add(this);
 			}
 		} else {
@@ -66,7 +66,7 @@ public class ShowKeyboardButton extends SimplePanel {
 			}				
 		}
 		ClickStartHandler.init(this, new ClickStartHandler(
-		        true, true) {
+				true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {

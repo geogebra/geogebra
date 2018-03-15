@@ -317,21 +317,18 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * timer system suggests a repaint
 	 */
 	@Override
-	public boolean suggestRepaint(){
-
+	public boolean suggestRepaint() {
 		// repaint sliders as fast as possible
 
 		if (isShowing()) {
-
 			deferredRepaintSliders();
 		}
 
-
-		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
 			return false;
 		}
 
-		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
+		if (waitForRepaint == TimerSystemW.REPAINT_FLAG) {
 			if (isShowing()){
 				deferredRepaint();	
 				waitForRepaint = TimerSystemW.SLEEPING_FLAG;	
@@ -346,7 +343,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public final void repaintView() {
 		app.ensureTimerRunning();
-		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
 			waitForRepaint = TimerSystemW.ALGEBRA_LOOPS;
 		}
 	}
@@ -355,7 +352,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Make sure we repaint all updated objects in nodes that were collapsed before
 	 */
 	@Override
-	public void onOpen(OpenEvent<TreeItem> event){
+	public void onOpen(OpenEvent<TreeItem> event) {
 		this.deferredRepaint();
 	}
 
@@ -665,7 +662,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		for (int i : collapsedNodes) {
 			TreeItem node = getItem(i);
-			if(node != null){
+			if (node != null) {
 				node.setState(false);
 				if (node.getWidget() instanceof GroupHeader) {
 					((GroupHeader) node.getWidget()).setChecked(false);
@@ -1583,7 +1580,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void addItem(TreeItem item) {
 		// make sure the item is inserted before the inputPanel
-		if(isAlgebraInputVisible()){
+		if (isAlgebraInputVisible()) {
 			removeItem(inputPanelTreeItem);
 		}
 		super.addItem(item);

@@ -270,19 +270,19 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof SlopeTriangleSizeModel) {
 			return new SlopeTriangleSizePanel((SlopeTriangleSizeModel) m);
 		}
-		if(m instanceof IneqStyleModel){
+		if (m instanceof IneqStyleModel) {
 			return new IneqPanel((IneqStyleModel) m, app);
 		}
-		if(m instanceof TextFieldSizeModel){
+		if (m instanceof TextFieldSizeModel) {
 			return new TextFieldSizePanel((TextFieldSizeModel) m, app);
 		}
-		if(m instanceof ButtonSizeModel){
+		if (m instanceof ButtonSizeModel) {
 			return new ButtonSizePanel((ButtonSizeModel) m, app);
 		}
-		if(m instanceof FillingModel){
+		if (m instanceof FillingModel) {
 			return new FillingPanel((FillingModel) m, app);
 		}
-		if(m instanceof LodModel){
+		if (m instanceof LodModel) {
 			return new LodPanel((LodModel) m);
 		}
 		if (m instanceof SymbolicModel) {
@@ -292,16 +292,16 @@ public class OptionsTab extends FlowPanel {
 			((SymbolicModel) m).setListener(ret);
 			return ret;
 		}
-		if(m instanceof InterpolateImageModel){
+		if (m instanceof InterpolateImageModel) {
 			return new CheckboxPanel("Interpolate", app.getLocalization(),
 					(InterpolateImageModel) m);
 		}
-		if(m instanceof DecoAngleModel){
+		if (m instanceof DecoAngleModel) {
 			DecoAnglePanel dap = new DecoAnglePanel((DecoAngleModel) m, app);
 			dap.getWidget().setStyleName("optionsPanel");
 			return dap;
 		}
-		if(m instanceof DecoSegmentModel){
+		if (m instanceof DecoSegmentModel) {
 			DecoSegmentPanel dsp = new DecoSegmentPanel((DecoSegmentModel) m,
 					app);
 			dsp.getWidget().setStyleName("optionsPanel");

@@ -32,8 +32,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 /**
  * StyleBar for AlgebraView
  */
-public class AlgebraStyleBarW extends StyleBarW2 implements
- SettingListener {
+public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 
 	/** button to open the popup with the supported tree-modes */
 	PopupMenuButtonW treeModeButton;
@@ -174,7 +173,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		supportedModes.add(SortMode.LAYER);
 
 		ImageOrText[] strTreeMode = getTreeModeStr();
-		if(treeModeButton == null){
+		if (treeModeButton == null) {
 			treeModeButton = new PopupMenuButtonW(app, strTreeMode,
 					strTreeMode.length, 1, SelectionTable.MODE_TEXT, false);
 	

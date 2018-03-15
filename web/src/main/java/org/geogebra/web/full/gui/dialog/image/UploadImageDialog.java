@@ -118,8 +118,7 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 
 	@Override
 	public void center() {
-		
-		if(mayCenter){
+		if (mayCenter) {
 			super.center();
 			setLabels();
 			uploadClicked();

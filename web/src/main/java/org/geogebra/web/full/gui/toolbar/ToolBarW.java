@@ -330,14 +330,14 @@ public class ToolBarW extends FlowPanel
 	}
 
 	public int getGroupCount() {
-		if(this.modeToggleMenus == null){
+		if (this.modeToggleMenus == null) {
 			return -1;
 		}
-	    return this.modeToggleMenus.size();
-    }
+		return this.modeToggleMenus.size();
+	}
 
 	public void setMaxButtons(int max) {
-		for(ModeToggleMenuW m: this.modeToggleMenus){
+		for (ModeToggleMenuW m : this.modeToggleMenus) {
 			m.setMaxHeight(app.getHeight() - GLookAndFeel.TOOLBAR_OFFSET);
 		}
 

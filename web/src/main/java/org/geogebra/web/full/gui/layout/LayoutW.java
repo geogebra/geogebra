@@ -121,7 +121,7 @@ public class LayoutW extends Layout implements SettingListener {
 		app.setKeyboardNeeded(false);
 		for (DockPanelData dp : perspective.getDockPanelData()) {
 			
-			if(app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
+			if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 				if (dp.isVisible()
 						&& mayHaveKeyboard(dp)) {
 					app.setKeyboardNeeded(true);
@@ -184,7 +184,7 @@ public class LayoutW extends Layout implements SettingListener {
 	public void applyPerspective(String id) throws IllegalArgumentException {
 		Perspective perspective = getPerspective(id);
 		
-		if(perspective != null) {
+		if (perspective != null) {
 			applyPerspective(perspective);
 		} else {
 			throw new IllegalArgumentException("Could not find perspective with the given name.");
@@ -208,7 +208,7 @@ public class LayoutW extends Layout implements SettingListener {
 	 * @return perspective at given index
 	 */
 	public Perspective getPerspective(int index) {
-		if(index >= perspectives.size()) {
+		if (index >= perspectives.size()) {
 			throw new IndexOutOfBoundsException();
 		}
 		
@@ -225,9 +225,9 @@ public class LayoutW extends Layout implements SettingListener {
 				return getDefaultPerspectives(i);
 			}
 		}
-		
-		for(Perspective perspective : perspectives) {
-			if(id.equals(perspective.getId())) {
+
+		for (Perspective perspective : perspectives) {
+			if (id.equals(perspective.getId())) {
 				return perspective;
 			}
 		}
@@ -244,7 +244,7 @@ public class LayoutW extends Layout implements SettingListener {
 	public void addPerspective(Perspective perspective) {
 		perspectives.add(perspective);
 	}
-	
+
 	/**
 	 * Remove a perspective identified by the object.
 	 * 
@@ -252,11 +252,11 @@ public class LayoutW extends Layout implements SettingListener {
 	 *            perspective
 	 */
 	public void removePerspective(Perspective perspective) {
-		if(perspectives.contains(perspective)) {
+		if (perspectives.contains(perspective)) {
 			perspectives.remove(perspective);
 		}
 	}
-	
+
 	/**
 	 * Remove a perspective identified by the index.
 	 * 
@@ -264,19 +264,18 @@ public class LayoutW extends Layout implements SettingListener {
 	 *            perspective index
 	 */
 	public void removePerspective(int index) {
-		if(index >= 0 && index < perspectives.size()) {
+		if (index >= 0 && index < perspectives.size()) {
 			perspectives.remove(index);
 		} else {
 			Log.debug("Invalid perspective index: " + index);
 		}
 	}
-	
+
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		// TODO Auto-generated method stub
-
 	}
-	
+
 	/**
 	 * Create a perspective for the current layout.
 	 * 
@@ -372,19 +371,19 @@ public class LayoutW extends Layout implements SettingListener {
 		DockPanelW[] panels = dockManager.getPanels();
 		boolean foundView = false;
 
-		for(int i = 0; i < panels.length; ++i) {
+		for (int i = 0; i < panels.length; ++i) {
 			// check if the view is visible at all
-			if(panels[i].getViewId() == viewId) {
+			if (panels[i].getViewId() == viewId) {
 				foundView = true;
 
-				if(!panels[i].isVisible()) {
+				if (!panels[i].isVisible()) {
 					return false;
 				}
 			}
 			
 			// abort if any other view is visible
 			else {
-				if(panels[i].isVisible()) {
+				if (panels[i].isVisible()) {
 					return false;
 				}
 			}
@@ -408,7 +407,7 @@ public class LayoutW extends Layout implements SettingListener {
 	}
 
 	public DockSplitPaneW getRootComponent() {
-		if(dockManager == null) {
+		if (dockManager == null) {
 			return null;
 		}		
 		return dockManager.getRoot();

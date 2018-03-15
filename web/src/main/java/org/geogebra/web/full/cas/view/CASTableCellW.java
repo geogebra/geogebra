@@ -127,7 +127,7 @@ public class CASTableCellW extends VerticalPanel {
 		textField.setText(newText == null ? textBeforeEdit : newText);
 		casEditorW.ensureEditing();
 		add(outputPanel);
-		if(getCASCell() != null && getCASCell().isError()){
+		if (getCASCell() != null && getCASCell().isError()) {
 			showError();
 		}
 		textField.requestFocus();

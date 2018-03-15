@@ -442,16 +442,15 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 
 		for (int i = 0; i < popupBtnList.length; i++) {
-			if (popupBtnList[i] != null) {// null pointer fix until necessary
+			if (popupBtnList[i] != null) { // null pointer fix until necessary
 				popupBtnList[i].update(geos);
 			}
 		}
 		for (int i = 0; i < toggleBtnList.length; i++) {
-			if (toggleBtnList[i] != null) {// null pointer fix until necessary
+			if (toggleBtnList[i] != null) { // null pointer fix until necessary
 				toggleBtnList[i].update(geos);
 			}
 		}
-
 	}
 
 	@Override

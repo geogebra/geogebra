@@ -2586,7 +2586,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public MathKeyboardListener getKeyboardListener(DockPanel panel) {
 		MathKeyboardListener ml = null;
-		if(panel instanceof DockPanelW){
+		if (panel instanceof DockPanelW) {
 			ml = ((DockPanelW) panel).getKeyboardListener();
 		}
 		if (ml == null && getApp().showAlgebraInput()

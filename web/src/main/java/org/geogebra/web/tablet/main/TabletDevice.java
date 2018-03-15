@@ -13,7 +13,7 @@ public class TabletDevice extends TouchDevice {
 
 	@Override
 	public FileManager createFileManager(AppW app) {
-		if (Tablet.useCordova()){
+		if (Tablet.useCordova()) {
 			return new FileManagerT(app);
 		}
 		return new TabletFileManager(app);
@@ -32,7 +32,7 @@ public class TabletDevice extends TouchDevice {
 	
 	@Override
 	public boolean isOffline(AppW app) {
-		if (Tablet.useCordova()){
+		if (Tablet.useCordova()) {
 			return super.isOffline(app);
 		}
 		return !isOnlineNative();	

@@ -239,7 +239,7 @@ public class FileManagerW extends FileManager {
 			if (stockStore != null) {
 				if (stockStore.getItem(TIMESTAMP) != null) {
 					long l = 0;
-					try{
+					try {
 						l = Long.parseLong(stockStore.getItem(TIMESTAMP));
 					} catch (Exception e) {
 						Log.warn("Invalid timestamp.");

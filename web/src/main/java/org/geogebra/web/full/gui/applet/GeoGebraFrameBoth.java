@@ -682,7 +682,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	@Override
 	public void updateKeyboardHeight() {
-		if(isKeyboardShowing()){
+		if (isKeyboardShowing()) {
 			int newHeight = getOnScreenKeyboard(null)
 					.getOffsetHeight();
 			if (newHeight == 0) {
@@ -859,10 +859,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * Attach keyboard button
 	 */
 	public void attachKeyboardButton() {
-		if(showKeyboardButton != null){
+		if (showKeyboardButton != null) {
 			add(this.showKeyboardButton);
 		}
-		
 	}
 
 	@Override

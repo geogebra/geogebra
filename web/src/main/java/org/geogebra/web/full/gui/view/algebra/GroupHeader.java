@@ -92,7 +92,7 @@ public class GroupHeader extends FlowPanel {
 		 */
 		public void setImage(String url) {
 			//String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
-			if(img == null){
+			if (img == null) {
 				img = new Image(url);
 				this.add(img);
 			} else {

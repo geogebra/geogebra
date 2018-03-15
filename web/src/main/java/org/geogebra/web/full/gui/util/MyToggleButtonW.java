@@ -129,7 +129,7 @@ public class MyToggleButtonW extends ToggleButton implements MouseDownHandler {
 	 */
 	public void setSelected(boolean isSelected) {
 		setDown(isSelected);
-		if(isSelected) {
+		if (isSelected) {
 			this.addStyleName("selected");
 		} else {
 			this.removeStyleName("selected");
@@ -145,9 +145,8 @@ public class MyToggleButtonW extends ToggleButton implements MouseDownHandler {
 		return isDown();
 	}
 
-
 	/**
-	 * 
+	 * Remove change handler
 	 */
 	public void removeValueChangeHandler() {
 		if (actionListener != null) {

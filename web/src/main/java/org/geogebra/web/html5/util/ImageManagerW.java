@@ -59,7 +59,7 @@ public class ImageManagerW extends ImageManager {
 
 	public ImageElement getExternalImage(String fileName, AppW app1) {
 		ImageElement match = getMatch(fileName);
-		if(match == null){
+		if (match == null) {
 			match = getMatch(StringUtil.changeFileExtension(fileName,
 					FileExtensions.PNG));
 		}

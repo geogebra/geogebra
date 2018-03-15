@@ -41,7 +41,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets
 		
-		if(stylebar){
+		if (stylebar) {
 			component = loadComponent();
 		} else {
 			component = loadComponent();

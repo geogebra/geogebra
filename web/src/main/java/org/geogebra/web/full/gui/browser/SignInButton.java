@@ -31,7 +31,7 @@ public class SignInButton extends Button implements EventRenderable {
 			@Override
 			public void onClick(ClickEvent event) {
 				SignInButton.this.login();
-				if(delay > 0){
+				if (delay > 0) {
 					loginChecker = new Timer() {
 					private String oldCookie = null;
 					@Override

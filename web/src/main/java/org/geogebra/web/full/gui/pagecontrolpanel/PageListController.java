@@ -93,7 +93,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public GgbFile getSlide(int index) {
-		if(selectedCard == slides.get(index)){
+		if (selectedCard == slides.get(index)) {
 			return app.getGgbApi().createArchiveContent(true,
 					slides.get(index).getFile());
 		}

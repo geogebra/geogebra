@@ -76,7 +76,7 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 					dummyDragElem.getElement().setInnerHTML(draggedRow.getInnerHTML());
 					RootPanel.get().add(dummyDragElem);
 					event.preventDefault(); //to avoid scrolling
-				} else if(isDragging) {
+				} else if (isDragging) {
 					dummyDragElem.getElement().setAttribute("style", getStyleString());
 					event.preventDefault();
 				}
@@ -116,7 +116,7 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 			
 			@Override
 			public void onTouchEnd(TouchEndEvent event) {
-				if(draggedRow != null) {
+				if (draggedRow != null) {
 					draggedRow.removeClassName("isDragging");
 				}
 				if (!isDragging) {

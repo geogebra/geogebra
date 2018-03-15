@@ -84,7 +84,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 			final GeoElement geo, boolean swap) {
 		MyToggleButtonW btnSymbolic = null;
 		for (int i = 0; i < parent.getWidgetCount(); i++) {
-			if(parent.getWidget(i).getStyleName().contains("symbolicButton")){
+			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
 				btnSymbolic = (MyToggleButtonW) parent.getWidget(i);
 			}
 		}

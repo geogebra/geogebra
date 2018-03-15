@@ -197,7 +197,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						getApp().openSearch(null);
 					}
 				});
-		if(getApp().getLAF().undoRedoSupported()) {
+		if (getApp().getLAF().undoRedoSupported()) {
 			addItem(MainMenu.getMenuBarHtml(
 					getApp().isUnbundledOrWhiteboard()
 							? MaterialDesignResources.INSTANCE.save_black()

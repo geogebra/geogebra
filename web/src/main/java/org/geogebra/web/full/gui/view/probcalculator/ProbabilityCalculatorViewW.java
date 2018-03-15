@@ -602,7 +602,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		} else {
 			addRemoveTable(false);
 			densityCurve.update();
-			if(pdfCurve != null){
+			if (pdfCurve != null) {
 				pdfCurve.update();
 			}
 			if (hasIntegral) {

@@ -1433,11 +1433,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		int offx = ssGrid.getAbsoluteLeft();
 		int offy = ssGrid.getAbsoluteTop();
 		int left, top;
-		if(scaleOffset){
-		    left = (int) ((wt.getAbsoluteLeft() - offx) / app
-		        .getArticleElement().getScaleX()) + offx;
-			top = (int) ((wt.getAbsoluteTop() - offy) / app.getArticleElement()
-		        .getScaleY()) + offy;
+		if (scaleOffset) {
+			left = (int) ((wt.getAbsoluteLeft() - offx)
+					/ app.getArticleElement().getScaleX()) + offx;
+			top = (int) ((wt.getAbsoluteTop() - offy)
+					/ app.getArticleElement().getScaleY()) + offy;
 		} else {
 			left = (int) (wt.getAbsoluteLeft()
 					/ app.getArticleElement().getScaleX());

@@ -25,11 +25,11 @@ public class TabletFileManager extends FileManagerT {
 	private int callbacksCount = NO_CALLBACK;
 
 	private abstract class MyCallback implements Callback<Object, Object> {
+		private int id;
+
 		protected MyCallback() {
 			// protected
 		}
-
-		private int id;
 
 		public void setId(int id){
 			this.id = id;

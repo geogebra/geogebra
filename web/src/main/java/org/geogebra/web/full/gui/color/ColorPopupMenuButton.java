@@ -74,7 +74,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		}
 
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE)){
-			if(hasSlider) {
+			if (hasSlider) {
 				addSliderTitle();
 			}
 			((ButtonPopupMenu) getMyPopup()).getPanel()
@@ -298,7 +298,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		if (!enableTable && app.isUnbundled()) {
 			getMyPopup().setHeight("30px");
 		}
-		if(!enableTable && app.has(Feature.MOW_COLOR_FILLING_LINE)){
+		if (!enableTable && app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			getMyPopup().setHeight("65px");
 		}
 	}

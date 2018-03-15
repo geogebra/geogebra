@@ -474,7 +474,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 
 		return ret;
-
 	}
 
 	/**
@@ -489,9 +488,9 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 */
 	private void formattedHTMLString(ArrayList<Widget> ret, String s, boolean cas) {
 		String[]lines = s.split("\n");
-		for(String line: lines){
+		for (String line : lines) {
 			Label syntax = syntaxLabel(line);
-			if(cas){
+			if (cas) {
 				syntax.addStyleName("inputHelp-CAScmdSyntax");
 			}
 			ret.add(syntax);

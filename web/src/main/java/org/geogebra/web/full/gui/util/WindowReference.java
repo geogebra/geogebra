@@ -82,20 +82,21 @@ public final class WindowReference implements EventRenderable {
 	private void initClosedCheck() {
 		requestAnimationFrame = AnimationScheduler.get()
 				.requestAnimationFrame(new AnimationCallback() {
-			
-			@Override
-			public void execute(double timestamp) {
-				if (instance != null && instance.closed()) {
-					if(lOW != null){
-				    	lOW.stayLoggedOut();
-				    }
-					cleanWindowReferences();
-				} else {
-					AnimationScheduler.get().requestAnimationFrame(this);
-				}
-			}
-		});
-    }
+
+					@Override
+					public void execute(double timestamp) {
+						if (instance != null && instance.closed()) {
+							if (lOW != null) {
+								lOW.stayLoggedOut();
+							}
+							cleanWindowReferences();
+						} else {
+							AnimationScheduler.get()
+									.requestAnimationFrame(this);
+						}
+					}
+				});
+	}
 
 	/**
 	 * @return the window instance wrapper
@@ -115,28 +116,28 @@ public final class WindowReference implements EventRenderable {
 		return false;
 	}-*/;
 
-    @Override
+	@Override
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent
 				&& !((LoginEvent) event).isSuccessful()) {
-    		return;
-    	}
-    	if(event instanceof LoginAttemptEvent){
-    		return;
-    	}
-	    if (!this.closed()) {
-	    	this.close();
-	    	cleanWindowReferences();
-	    }
-    }
+			return;
+		}
+		if (event instanceof LoginAttemptEvent) {
+			return;
+		}
+		if (!this.closed()) {
+			this.close();
+			cleanWindowReferences();
+		}
+	}
 
 	void cleanWindowReferences() {
-	    requestAnimationFrame.cancel();
+		requestAnimationFrame.cancel();
 		synchronized (lock) {
 			WindowReference.instance = null;
 			lOW = null;
 		}
-    }
+	}
 
 	private static JavaScriptObject createWindowReference(String name,
 			String redirect, String callback, int width, int height) {

@@ -218,7 +218,7 @@ public class ItemControls extends FlowPanel
 	 *         the user disabled AV slider for given number
 	 */
 	private static boolean animPanelFits(GeoElement geo) {
-		if(geo instanceof GeoNumeric){
+		if (geo instanceof GeoNumeric) {
 			return ItemFactory.matchSlider(geo);
 		}
 		return geo.getKernel()

@@ -470,7 +470,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
-		if(CancelEventTimer.cancelMouseEvent()){
+		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
 		handlePointerMove(event);

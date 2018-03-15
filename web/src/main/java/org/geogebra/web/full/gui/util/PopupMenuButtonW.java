@@ -385,7 +385,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 * click triggered our popup (the click was in the triangle region), then we
 	 * must pass action events from the popup to the invoker
 	 */
-	public void handlePopupActionEvent(){
+	public void handlePopupActionEvent() {
 		if (popupHandler != null) {
 			popupHandler.fireActionPerformed(this);
 		} else {
@@ -393,13 +393,13 @@ public class PopupMenuButtonW extends MyCJButton
 		}
 		
 		updateGUI();
-		if(!keepVisible) {
+		if (!keepVisible) {
 			myPopup.hide();
 		}
 	}
 	
-	private void updateGUI(){
-		if(isIniting) {
+	private void updateGUI() {
+		if (isIniting) {
 			return;
 		}
 
@@ -442,7 +442,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 * @param icon
 	 *            {@link ImageOrText}
 	 */
-	public void setFixedIcon(ImageOrText icon){
+	public void setFixedIcon(ImageOrText icon) {
 		isFixedIcon = true;
 		this.fixedIcon = icon;
 		setIcon(icon);
@@ -477,9 +477,8 @@ public class PopupMenuButtonW extends MyCJButton
 
 	@Override
 	public void onSliderInput() {
-		if(mySlider != null) {
-			   setSliderValue(mySlider.getValue());
-			   
+		if (mySlider != null) {
+			setSliderValue(mySlider.getValue());
 		}
 		if (changeEventHandler != null) {
 			changeEventHandler.fireActionPerformed(this);
@@ -659,7 +658,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 * @param handler
 	 *            change handler
 	 */
-	public void setChangeEventHandler(StyleBarW2 handler){
+	public void setChangeEventHandler(StyleBarW2 handler) {
 		this.changeEventHandler = handler;
 	}
 }

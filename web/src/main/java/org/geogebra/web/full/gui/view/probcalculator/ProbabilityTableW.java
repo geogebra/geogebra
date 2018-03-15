@@ -130,7 +130,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 		int[] selRow = table.getSelectedRows();
 
 		// exit if initing or nothing selected
-		if(isIniting() || selRow.length == 0) {
+		if (isIniting() || selRow.length == 0) {
 			return;
 		}
 

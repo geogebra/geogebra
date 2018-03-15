@@ -71,7 +71,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			this.setWidth(width + "px");
 		}
 	}
-	
+
 	protected class AxisTab extends EuclidianTab {
 		private AxisPanel axisPanel;
 			
@@ -791,7 +791,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	@Override
 	public void onResize(int height, int width) {
-		for(int i = 0; i < tabPanel.getWidgetCount(); i++) {
+		for (int i = 0; i < tabPanel.getWidgetCount(); i++) {
 			EuclidianTab tab = (EuclidianTab) tabPanel.getWidget(i);
 			if (tab != null) {
 				tab.onResize(height, width);

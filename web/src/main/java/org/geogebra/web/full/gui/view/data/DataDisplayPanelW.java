@@ -467,10 +467,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 						btnExport.removeSubPopup();
 			        }
 		});
-		
+
 		menu.addItem(miToGraphich);
 
-		if(app.getLAF().copyToClipboardSupported()){
+		if (app.getLAF().copyToClipboardSupported()) {
 			AriaMenuItem miAsPicture = new AriaMenuItem(
 					loc.getMenu("ExportAsPicture"), false,
 			        new Command() {

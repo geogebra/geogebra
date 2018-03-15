@@ -222,7 +222,7 @@ public class SpreadsheetColumnHeaderW
 	 *            column index
 	 */
 	private void updateCellSelection(boolean selected, int index) {
-		if(selected) {
+		if (selected) {
 			grid.getCellFormatter().addStyleName(0, index, "selected");
 		} else {
 			grid.getCellFormatter().removeStyleName(0, index, "selected");

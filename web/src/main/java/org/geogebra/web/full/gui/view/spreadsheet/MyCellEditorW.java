@@ -394,7 +394,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				break;
 			case KeyCodes.KEY_UP:
 			
-				if(isSuggesting()){
+				if (isSuggesting()) {
 					return;
 				}
 				if (isFormulaBarListener) {
@@ -423,8 +423,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				break;
 
 			case KeyCodes.KEY_ENTER:
-				
-				if(isSuggesting()){
+				if (isSuggesting()) {
 					return;
 				}
 				
@@ -461,11 +460,10 @@ public class MyCellEditorW implements BaseCellEditor {
 				break;
 
 			case KeyCodes.KEY_DOWN:
-				
-				if(isSuggesting()){
+				if (isSuggesting()) {
 					return;
 				}
-				
+
 				if (isFormulaBarListener) {
 					// ?//e.consume();
 					return;

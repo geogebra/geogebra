@@ -153,7 +153,7 @@ public class PropertiesStyleBarW extends
 		buttonMap = new HashMap<>();
 		
 		for (final OptionType type : OPTION_TYPE_IMPL) {
-			if (typeAvailable(type)){
+			if (typeAvailable(type)) {
 				final PropertiesButton btn = new PropertiesButton(app,
 						getMenuHtml(type), new Command() {
 
@@ -178,7 +178,7 @@ public class PropertiesStyleBarW extends
 	 * @param type type
 	 * @return true if the type is really available
 	 */
-	protected boolean typeAvailable(OptionType type){
+	protected boolean typeAvailable(OptionType type) {
 		return type != OptionType.EUCLIDIAN3D
 				&& type != OptionType.EUCLIDIAN_FOR_PLANE;
 	}
@@ -188,12 +188,12 @@ public class PropertiesStyleBarW extends
 	 *            option type
 	 */
 	protected void selectButton(OptionType type) {
-		if(currentButton != null){
+		if (currentButton != null) {
 			this.currentButton.removeStyleName("selected");
 		}
 		currentButton = buttonMap.get(type);
 		currentButton.addStyleName("selected");
-    }
+	}
 
 	private String getMenuHtml(OptionType type) {
 		String typeString = ""; // propertiesView.getTypeString(type);

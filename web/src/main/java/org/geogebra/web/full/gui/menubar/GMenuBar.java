@@ -53,7 +53,7 @@ public class GMenuBar extends AriaMenuBar {
 	/**
 	 * @return whether first item is selected
 	 */
-	public boolean isFirstItemSelected(){
+	public boolean isFirstItemSelected() {
 		return this.getItemIndex(this.getSelectedItem()) == 0;
 	}
 

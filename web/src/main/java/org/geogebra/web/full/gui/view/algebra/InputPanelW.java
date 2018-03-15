@@ -141,7 +141,7 @@ public class InputPanelW extends FlowPanel {
 	}
 
 	@Override
-    public void setVisible(boolean visible){
+	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		if (textComponent != null) {
 			textComponent.setVisible(visible);

@@ -232,13 +232,13 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public InputPosition getAlgebraPosition(InputPosition def) {
 		String pos = getStringDataParam("algebraInputPosition", "")
 				.toLowerCase().trim();
-		if("top".equals(pos)){
+		if ("top".equals(pos)) {
 			return InputPosition.top;
 		}
-		if("bottom".equals(pos)){
+		if ("bottom".equals(pos)) {
 			return InputPosition.bottom;
 		}
-		if(pos.length() > 0){
+		if (pos.length() > 0) {
 			return InputPosition.algebraView;
 		}
 		return def;
@@ -317,15 +317,14 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	@Override
 	public int getDataParamWidth() {
 		return getIntegerAttribute("width", 0);
-
 	}
 
 	private int getIntegerAttribute(String string, int fallback) {
 		String val = this.getAttribute("data-param-" + string);
-		if(val == null || val.isEmpty()){
+		if (val == null || val.isEmpty()) {
 			return fallback;
 		}
-		try{
+		try {
 			return (int) Math.round(Double.parseDouble(val));
 		} catch (Exception e) {
 			Log.warn("Invalid value of " + string + ":" + val);

@@ -48,7 +48,7 @@ public class GGWMenuBar extends Composite {
 	/**
 	 * Clear the menu
 	 */
-	public void removeMenus(){
+	public void removeMenus() {
 		ggbmenubarwrapper.clear();
 	}
 
