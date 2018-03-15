@@ -660,18 +660,13 @@ public class CommandDispatcherGiac {
 			// create ExpressionNode
 			return new ExpressionNode(kernel, ret);
 		} catch (Exception e) {
-			if (cmdName != null
-					&& !cmdName.startsWith(Kernel.TMP_VARIABLE_PREFIX)) {
-				e.printStackTrace();
-				Log.error(
-						"CommandDispatcherGiac: error when processing command: "
+			e.printStackTrace();
+			Log.error("CommandDispatcherGiac: error when processing command: "
 								+ cmdName + ", " + args);
-			}
 		}
 
 		// exception, eg Derivative[f(x)+g(x)]
 		return null;
-
 	}
 
 }
