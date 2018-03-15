@@ -4007,7 +4007,7 @@ public abstract class App implements UpdateSelection {
 
 		// AND-875
 		case MOB_LOAD_SAVE_FOR_PRE_LOLLIPOP:
-			return prerelease;
+			return true;
 
 		// MOB-1471
 		case MOB_DEFAULT_SLIDER_INCREMENT_VALUE:
@@ -4019,7 +4019,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-1463
 		case MOB_DISABLE_3D_COMMANDS:
-			return prerelease;
+			return true;
 
 		// AND-722
 		case MOB_MATERIAL_INPUT:
