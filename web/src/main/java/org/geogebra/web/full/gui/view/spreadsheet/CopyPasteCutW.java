@@ -46,7 +46,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 	private String removeTrailingZeros(String valueString) {
 		int indx = valueString
-				.indexOf(app.getKernel().getLocalization().unicodeDecimalPoint);
+				.indexOf(app.getKernel().getLocalization().getDecimalPoint());
 		if (indx > -1) {
 			int end = valueString.length() - 1;
 			// only in this case, we should remove trailing zeroes!

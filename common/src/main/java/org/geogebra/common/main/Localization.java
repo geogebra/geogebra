@@ -51,11 +51,11 @@ public abstract class Localization {
 	public boolean rightToLeftReadingOrder = false;
 
 	/** decimal point (different in eg Arabic) */
-	public char unicodeDecimalPoint = '.';
+	private char unicodeDecimalPoint = '.';
 	/** comma (different in Arabic) */
-	public char unicodeComma = ','; // \u060c for Arabic comma
+	private char unicodeComma = ','; // \u060c for Arabic comma
 	/** zero (different in eg Arabic) */
-	public char unicodeZero = '0';
+	private char unicodeZero = '0';
 
 	public Localization(int dimension, int maxFigures) {
 		this.dimension = dimension;
@@ -1418,5 +1418,29 @@ public abstract class Localization {
 			return Locale.ENGLISH;
 		}
 		return currentLocale;
+	}
+
+	/**
+	 * 
+	 * @return decimal point character for current language
+	 */
+	public char getDecimalPoint() {
+		return unicodeDecimalPoint;
+	}
+
+	/**
+	 * 
+	 * @return character for "," in current language
+	 */
+	public char getComma() {
+		return unicodeComma;
+	}
+
+	/**
+	 * 
+	 * @return character for zero (0) in current language
+	 */
+	public char getZero() {
+		return unicodeZero;
 	}
 }

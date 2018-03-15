@@ -805,7 +805,7 @@ public class MyList extends ValidExpression
 				ExpressionValue exp = listElements.get(i);
 				sb.append(valueMode ? exp.toOutputValueString(tpl)
 						: exp.toString(tpl)); // .toOutputValueString());
-				sb.append(kernel.getLocalization().unicodeComma);
+				sb.append(kernel.getLocalization().getComma());
 				sb.append(" ");
 			}
 

@@ -898,7 +898,7 @@ public class GeoList extends GeoElement
 			for (int i = 0; i < lastIndex; i++) {
 				final GeoElement geo = elements.get(i);
 				sbBuildValueString.append(geo.toOutputValueString(tpl));
-				sbBuildValueString.append(getLoc().unicodeComma);
+				sbBuildValueString.append(getLoc().getComma());
 				sbBuildValueString.append(" ");
 			}
 

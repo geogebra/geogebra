@@ -1623,7 +1623,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		default:
 			separator = Character
-					.toString(kernel.getLocalization().unicodeComma);
+					.toString(kernel.getLocalization().getComma());
 		}
 		if (tpl.hasCASType()) {
 			separator = ",";
@@ -1710,7 +1710,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			default:
 				sbBuildValueString
-						.append(kernel.getLocalization().unicodeComma);
+						.append(kernel.getLocalization().getComma());
 				sbBuildValueString.append(" ");
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));

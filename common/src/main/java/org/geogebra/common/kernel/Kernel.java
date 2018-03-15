@@ -1487,7 +1487,7 @@ public class Kernel implements SpecialPointsListener {
 		// App.printStacktrace(x+"");
 		String ret = formatRaw(x, tpl);
 
-		if (app.getLocalization().unicodeZero != '0') {
+		if (app.getLocalization().getZero() != '0') {
 			ret = internationalizeDigits(ret, tpl);
 		}
 
@@ -1536,11 +1536,11 @@ public class Kernel implements SpecialPointsListener {
 			char c = RTL ? num.charAt(num.length() - (negative ? 0 : 1) - i)
 					: num.charAt(i);
 			if (c == '.') {
-				c = getLocalization().unicodeDecimalPoint;
+				c = getLocalization().getDecimalPoint();
 			} else if ((c >= '0') && (c <= '9')) {
 
 				// convert to eg Arabic Numeral
-				c += app.getLocalization().unicodeZero - '0';
+				c += app.getLocalization().getZero() - '0';
 			}
 
 			formatSB.append(c);
@@ -1568,7 +1568,7 @@ public class Kernel implements SpecialPointsListener {
 			StringTemplate tpl) {
 
 
-		if (app.getLocalization().unicodeZero != '0') {
+		if (app.getLocalization().getZero() != '0') {
 
 			String num = formatPiERaw(x, numF, tpl);
 

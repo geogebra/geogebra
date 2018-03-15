@@ -1523,7 +1523,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			}
 
 			// check for 0 at right
-			if (valueForm && rightStr.equals(loc.unicodeZero + "")) {
+			if (valueForm && rightStr.equals(loc.getZero() + "")) {
 				break;
 			}
 
@@ -1618,10 +1618,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 			else if ((rightStr.length() == 2 &&
 
 					((rightStr.charAt(0) == Unicode.DEGREE_CHAR
-							&& rightStr.charAt(1) == (loc.unicodeZero + 1))
+							&& rightStr.charAt(1) == (loc.getZero() + 1))
 
 							|| (rightStr.charAt(1) == Unicode.DEGREE_CHAR
-									&& rightStr.charAt(0) == loc.unicodeZero
+									&& rightStr.charAt(0) == loc.getZero()
 											+ 1)))
 
 					|| rightStr.equals(Unicode.DEGREE_STRING)) {
