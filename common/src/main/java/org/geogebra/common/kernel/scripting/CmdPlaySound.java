@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -50,9 +51,10 @@ public class CmdPlaySound extends CmdScripting {
 				sm.playFile((((GeoText) arg[0])
 						.toValueString(StringTemplate.defaultTemplate)));
 				return arg;
-			}
-			// pause/resume current sound
-			else if (arg[0].isGeoBoolean()) {
+			} else if (arg[0].isGeoAudio()) {
+				sm.playFile((((GeoAudio) arg[0]).getDataUrl()));
+				return arg;
+			} else if (arg[0].isGeoBoolean()) { // pause/resume current sound
 				sm.pauseResumeSound((((GeoBoolean) arg[0]).getBoolean()));
 				return arg;
 			} else {
