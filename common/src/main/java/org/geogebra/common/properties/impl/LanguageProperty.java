@@ -27,6 +27,7 @@ public class LanguageProperty extends AbstractEnumerableProperty {
         Language[] languages = localization.getSupportedLanguages(
                 app.has(Feature.ALL_LANGUAGES));
         String[] values = new String[languages.length];
+        languageCodes = new String[languages.length];
         for (int i = 0; i < languages.length; i++) {
             Language language = languages[i];
             values[i] = language.name;
