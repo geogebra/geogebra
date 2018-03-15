@@ -150,8 +150,6 @@ public class GDecoratorPanel extends SimplePanel {
 		return tdElem;
 	}
 
-
-
 	/**
 	 * Create a new {@link DecoratorPanel}.
 	 */

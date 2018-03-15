@@ -158,7 +158,6 @@ public class AVSelectionController {
 			selection.removeSelectedGeo(getLastSelectedGeo());
 			setLastSelectedGeo(null);
 		}
-
 	}
 
 	private void ensureClearLastSelection() {
@@ -185,8 +184,6 @@ public class AVSelectionController {
 	// selection.toggleSelectedGeo(geo1);
 	// }
 	// }
-
-
 
 	/**
 	 * Selecting the GeoElement

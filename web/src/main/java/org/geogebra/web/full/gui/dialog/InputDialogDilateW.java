@@ -52,7 +52,6 @@ public class InputDialogDilateW extends InputDialogW {
 	}
 
 	private void processInput() {
-
 		// avoid labeling of num
 		final Construction cons = kernel.getConstruction();
 		final boolean oldVal = cons.isSuppressLabelsActive();
@@ -75,36 +74,6 @@ public class InputDialogDilateW extends InputDialogW {
 						setVisible(!ok);
 					}
 				});
-
-
-
-
-
-		/*
-		 * 
-		 * // avoid labeling of num Construction cons =
-		 * kernel.getConstruction(); boolean oldVal =
-		 * cons.isSuppressLabelsActive(); cons.setSuppressLabelCreation(true);
-		 * 
-		 * boolean success = inputHandler.processInput(inputPanel.getText());
-		 * 
-		 * cons.setSuppressLabelCreation(oldVal);
-		 * 
-		 * if (success) { NumberValue num =
-		 * ((NumberInputHandler)inputHandler).getNum();
-		 * 
-		 * if (selGeos.length > 0) { // mirror all selected geos //GeoElement []
-		 * selGeos = getSelectedGeos(); GeoPoint2 point = points[0];
-		 * ArrayList<GeoElement> ret = new ArrayList<GeoElement>(); for (int
-		 * i=0; i < selGeos.length; i++) { if (selGeos[i] != point) { if
-		 * ((selGeos[i] instanceof Transformable) || selGeos[i].isGeoList())
-		 * ret.addAll(Arrays.asList(kernel.Dilate(null, selGeos[i], num,
-		 * point))); } } if (!ret.isEmpty()) {
-		 * kernel.getApplication().getActiveEuclidianView
-		 * ().getEuclidianController().memorizeJustCreatedGeos(ret);
-		 * app.storeUndoInfo(); } return true; } } return false;
-		 */
-
 	}
 
 }

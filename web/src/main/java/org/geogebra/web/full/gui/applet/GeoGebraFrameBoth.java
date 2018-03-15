@@ -123,7 +123,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		return application;
 	}
 
-
 	/**
 	 * Main entry points called by geogebra.web.full.Web.startGeoGebra()
 	 * 
@@ -543,8 +542,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 		return app.showView(App.VIEW_CAS);
 	}
-
-
 
 	/**
 	 * @param show

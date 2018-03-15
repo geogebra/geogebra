@@ -59,8 +59,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	/** application */
 	protected final AppW app;
 
-
-
 	/**
 	 * @param app
 	 *            application

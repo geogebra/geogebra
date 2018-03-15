@@ -229,7 +229,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				Integer euclidianViewID = (Integer) this
 						.getValue("euclidianViewID");
 
-			
 				// if null ID then use EV1 unless shift is down, then use EV2
 				if (euclidianViewID == null) {
 					euclidianViewID = GlobalKeyDispatcherW.getShiftDown()
@@ -261,12 +260,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		probCalcPanel.addStyleName("ProbCalcPanel");
 		
 		probCalcPanel.add(mainSplitPane);
-		
-		//TODO: do css here!
-		
-		
-		
-    }
+	}
 
 	private void createLayoutPanels() {
 		//control panel
@@ -404,7 +398,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    fldLow.addBlurHandler(this);
 		addInsertHandler(fldLow);
 	    fldLow.getTextBox().setTabIndex(maxParameterCount);
-
 
 	    fldHigh = new AutoCompleteTextFieldW(app);
 	    fldHigh.setColumns(4);
@@ -888,9 +881,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				updateProbabilityType();
 			}
 		}
-		
-
-    }
+	}
 
 	private void simulateRadioButtons(MyToggleButtonW source) {
 	   if (source.getValue()) {

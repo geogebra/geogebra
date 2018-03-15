@@ -52,7 +52,7 @@ public class InputDialogAngleFixedW extends AngleInputDialogW {
 	public void onClick(ClickEvent e) {
 		actionPerformed(e);
 	}
-	
+
 	@Override
 	protected void actionPerformed(DomEvent e){
 		Object source = e.getSource();
@@ -104,9 +104,6 @@ public class InputDialogAngleFixedW extends AngleInputDialogW {
 						setVisibleForTools(ok);
 						}
 				});
-
-
-		
 	}
 
 	/**
@@ -125,7 +122,6 @@ public class InputDialogAngleFixedW extends AngleInputDialogW {
 
 				((NumberInputHandler) getInputHandler()).getNum(),
 				rbClockWise.getValue(), ec);
-
 	}
 
 	protected void setVisibleForTools(boolean ok) {

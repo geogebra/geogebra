@@ -8,8 +8,6 @@ import com.google.gwt.user.client.ui.UIObject;
  */
 public interface HasHelpButton {
 
-
-
 	/**
 	 * @return command at caret
 	 */

@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author mathieu
  *
  */
-@SuppressWarnings({ "javadoc", "synthetic-access" })
+@SuppressWarnings({ "synthetic-access" })
 public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 	private AxisTab zAxisTab;
@@ -64,6 +64,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		/**
 		 * constructor
+		 * 
+		 * @param o
+		 *            euclidian options
 		 */
 		public BasicTab3D(OptionsEuclidianW o) {
 			super(o);
@@ -259,10 +262,20 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		return new GridTab3D();
 	}
 
+	/**
+	 * @param cb
+	 *            input
+	 * @param string
+	 *            text
+	 */
 	public void setText(HasText cb, String string) {
 		cb.setText(loc.getMenu(string));
 	}
 
+	/**
+	 * Grid settings for 3D
+	 *
+	 */
 	class GridTab3D extends GridTab {
 
 		@Override
@@ -631,8 +644,10 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 	}
 
+	/**
+	 * @return 3D view
+	 */
 	public EuclidianView3D get3dview() {
-		// TODO Auto-generated method stub
 		return (EuclidianView3D) view;
 	}
 
@@ -685,6 +700,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		tabPanel.add(projectionTab, "projection");
 	}
 
+	/**
+	 * Repaint 3D (scheduled)
+	 */
 	protected void repaintView() {
 		get3dview().repaintView();
 	}

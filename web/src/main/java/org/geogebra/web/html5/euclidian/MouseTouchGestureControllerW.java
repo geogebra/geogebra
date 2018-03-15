@@ -538,8 +538,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			return;
 		}
 
-
-
 		event.preventDefault();
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		onPointerEventEnd(e);

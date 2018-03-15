@@ -738,8 +738,6 @@ public class GSuggestBox extends Composite
 		return suggestBox;
 	}
 
-
-
 	/**
 	 * Constructor for {@link SuggestBox}. Creates a
 	 * {@link MultiWordSuggestOracle} and {@link TextBox} to use with this

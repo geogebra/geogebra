@@ -175,8 +175,6 @@ public class CASTableControllerW extends CASTableCellController implements
 		event.stopPropagation();
 	}
 
-
-
 	/**
 	 * @param event
 	 *            mouse event

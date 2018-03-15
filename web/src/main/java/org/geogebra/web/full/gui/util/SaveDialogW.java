@@ -475,8 +475,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	}
 
-
-
 	// /**
 	// * @return true if material was already public or shared
 	// */
@@ -515,7 +513,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				} else {
 					handleSync(base64, visibility);
 				}
-
 			}
 
 		};

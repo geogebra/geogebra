@@ -65,8 +65,6 @@ public abstract class SubMenuPanel extends FlowPanel
 		}
 	}
 
-
-
 	/**
 	 * The info (help) panel for the selected tool.
 	 */

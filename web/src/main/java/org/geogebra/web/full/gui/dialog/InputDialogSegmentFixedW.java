@@ -64,10 +64,6 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 						setVisible(!ok);
 					}
 				});
-
-
-
-
 	}
 
 }

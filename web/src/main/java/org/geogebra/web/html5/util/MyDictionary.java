@@ -74,8 +74,6 @@ public final class MyDictionary {
 		throw new MissingResourceException(error, this.toString(), key);
 	}
 
-
-
 	/**
 	 * Constructor for <code>Dictionary</code>.
 	 * 

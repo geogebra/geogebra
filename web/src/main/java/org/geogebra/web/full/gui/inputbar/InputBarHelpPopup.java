@@ -38,8 +38,6 @@ public class InputBarHelpPopup extends GPopupPanel implements HasKeyboardPopup {
 			addStyleName("matDesign");
 		}
 	}
-	
-	
 
 	/**
 	 * Hides the popup and detaches it from the page. This has no effect if it is

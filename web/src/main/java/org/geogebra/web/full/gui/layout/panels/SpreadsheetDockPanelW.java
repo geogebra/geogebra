@@ -64,8 +64,6 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 		super.onResize();
 
 		if (app != null && sview != null) {
-
-
 			int width = getComponentInteriorWidth();
 			int height = getComponentInteriorHeight();
 
@@ -74,11 +72,7 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 			}
 
 			wrapview.setPixelSize(width, height);
-
 			sview.onResize(width, height);
-			
-
-
 		}
 	}
 
@@ -122,7 +116,6 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_MAX);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_MIN);
-
 
 		return sb.toString();
 	}

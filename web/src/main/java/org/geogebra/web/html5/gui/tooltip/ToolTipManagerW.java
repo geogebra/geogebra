@@ -466,7 +466,6 @@ public final class ToolTipManagerW {
 		lastTipVisible = false;
 	}
 
-
 	// =====================================
 	// Getters/Setters
 	// =====================================
@@ -553,8 +552,6 @@ public final class ToolTipManagerW {
 
 			}
 		});
-
-
 	}
 
 	// ======================================
@@ -573,8 +570,6 @@ public final class ToolTipManagerW {
 
 		left = Window.getScrollLeft() + mouseX;
 		topAbove = top = Window.getScrollTop() + mouseY + 18;
-
-
 
 		// handle toolTip overflow at left and bottom edge
 		int w = tipPanel.getOffsetWidth();

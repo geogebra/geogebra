@@ -103,17 +103,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		// org.geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
 		// btnClipping.addPopupHandler(this);
 
-		// ========================================
-		/*
-		 * rotate x text field textRotateX = new JTextField(3);
-		 * textRotateX.addActionListener(this);
-		 */
-
-		// ========================================
-		// view direction button
-
-
-
 		// // ========================================
 		// // projection view button
 		ImageOrText[] projectionIcons = new ImageOrText[4];

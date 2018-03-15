@@ -52,7 +52,6 @@ public class ProbabilityCalculatorStyleBarW extends
 		super(app, probCalc);
 		this.wrappedToolbar = new AriaMenuBar();
 		this.wrappedToolbar.addStyleName("ProbabilityCalculatorStyleBarW");
-		
 
 		createGUI();
 		updateLayout();
@@ -192,9 +191,8 @@ public class ProbabilityCalculatorStyleBarW extends
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
-	
+
 	private AriaMenuBar createRoundingPopup() {
 		AriaMenuBar menu = new AriaMenuBar();
 		
@@ -309,11 +307,7 @@ public class ProbabilityCalculatorStyleBarW extends
 //			probCalc.setShowNormalOverlay(btnNormalOverlay.isSelected());
 //			probCalc.updateAll();
 //		}
-	    
-	    
-    }
-	
-	
+	}
 
 	/**
 	 * @return the toolbar wrapped to this stylebar

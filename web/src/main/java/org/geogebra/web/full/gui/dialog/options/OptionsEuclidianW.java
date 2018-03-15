@@ -297,8 +297,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			FlowPanel gridTickAnglePanel = new FlowPanel();
 			gridTickAnglePanel.setStyleName("panelRow");
 			addGridType(gridTickAnglePanel);
-		
-			
+
 			// grid labels
 			gridLabel1 = new FormLabel("x:").setFor(this.ncbGridTickX);
 			gridLabel2 = new FormLabel("y:").setFor(this.ncbGridTickY);
@@ -328,7 +327,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			typePanel.add(LayoutUtilW.panelRowIndent(
 					ncbGridTickXPanel, ncbGridTickYPanel, ncbGridTickAnglePanel));
 
-			
 			lbGridType.addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
@@ -629,16 +627,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	 * @param tabBar tab bar
 	 * @param gridIndex index for grid tab
 	 */
-	protected void setLabels(Widget tabBar2, int gridIndex) {
-
-		MultiRowsTabBar tabBar = (MultiRowsTabBar) tabBar2;
-
+	protected void setLabels(MultiRowsTabBar tabBar, int gridIndex) {
 		tabBar.setTabText(0, loc.getMenu("Properties.Basic"));
 		tabBar.setTabText(1, loc.getMenu("xAxis"));
 		tabBar.setTabText(2, loc.getMenu("yAxis"));
 		tabBar.setTabText(gridIndex, loc.getMenu("Grid"));
-
-
 
 		basicTab.setLabels();
 		xAxisTab.setLabels();
@@ -650,8 +643,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	 * set labels
 	 */
 	public void setLabels() {
-			setLabels(tabPanel.getTabBar(), 3);
-
+		setLabels(tabPanel.getTabBar(), 3);
 	}
 
 	public void setView(EuclidianView euclidianView1) {
