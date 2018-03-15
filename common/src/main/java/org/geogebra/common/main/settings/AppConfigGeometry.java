@@ -4,6 +4,12 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 
+/**
+ * App-specific behaviors of Geometry app
+ * 
+ * @author Zbynek
+ *
+ */
 public class AppConfigGeometry implements AppConfig {
 
 	@Override
@@ -11,6 +17,7 @@ public class AppConfigGeometry implements AppConfig {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
 			dp.makeVisible();
 			dp.setLocation("3");
+			dp.setToolMode(true);
 		}
 		else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
 			dp.makeVisible();
