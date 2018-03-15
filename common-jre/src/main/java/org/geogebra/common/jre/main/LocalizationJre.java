@@ -342,35 +342,11 @@ public abstract class LocalizationJre extends Localization {
 		return getSupportedLocales(app.has(Feature.ALL_LANGUAGES));
 	}
 
-	protected ArrayList<Locale> getSupportedLocales(boolean prerelease) {
-		if (supportedLocales != null) {
-			return supportedLocales;
+	public ArrayList<Locale> getSupportedLocales(boolean prerelease) {
+		if (supportedLocales == null) {
+			supportedLocales = super.getSupportedLocales(prerelease);
 		}
-
-		supportedLocales = new ArrayList<>();
-
-		Language[] languages = Language.values();
-
-		for (int i = 0; i < languages.length; i++) {
-
-			Language language = languages[i];
-
-			if (language.fullyTranslated || prerelease) {
-				supportedLocales.add(convertToLocale(language));
-			}
-
-		}
-
 		return supportedLocales;
-	}
-
-	public static Locale convertToLocale(Language language) {
-		String lang = language.localeISO6391;
-		String country = "";
-		if (language.getLocaleGWT().length() == 5) {
-			country = language.getLocaleGWT().substring(3);
-		}
-		return new Locale(lang, country);
 	}
 
 	@Override
