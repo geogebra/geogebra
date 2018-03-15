@@ -383,4 +383,8 @@ public final class LocalizationW extends Localization
 		return "US";
 	}
 
+	@Override
+	protected Locale createLocale(String language, String country) {
+		return null;
+	}
 }

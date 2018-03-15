@@ -1223,6 +1223,8 @@ public abstract class Localization {
 
 	abstract protected ArrayList<Locale> getSupportedLocales();
 
+	protected abstract Locale createLocale(String language, String country);
+
 	/**
 	 * Returns a locale object that has the same country and/or language as locale.
 	 * If the language of locale is not supported an English locale is returned.

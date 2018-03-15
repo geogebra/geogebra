@@ -380,4 +380,8 @@ public abstract class LocalizationJre extends Localization {
 		return locale.getVariant();
 	}
 
+	@Override
+	protected Locale createLocale(String language, String country) {
+		return new Locale(language, country);
+	}
 }
