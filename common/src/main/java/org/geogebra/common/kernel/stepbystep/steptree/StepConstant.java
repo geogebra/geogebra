@@ -11,6 +11,8 @@ public final class StepConstant extends StepExpression {
 	public static final StepConstant PI = new StepConstant(Math.PI);
 	public static final StepConstant E = new StepConstant(Math.E);
 
+	public static final StepConstant UNDEFINED = new StepConstant(Double.NaN);
+
 	public static final StepExpression NEG_INF = StepConstant.create(Double.NEGATIVE_INFINITY);
 	public static final StepExpression POS_INF = StepConstant.create(Double.POSITIVE_INFINITY);
 
@@ -103,7 +105,9 @@ public final class StepConstant extends StepExpression {
 
 	@Override
 	public String toString() {
-		if (isEqual(value, Math.PI)) {
+		if (Double.isNaN(value)) {
+			return "undefined";
+		} else if (isEqual(value, Math.PI)) {
 			return "pi";
 		} else if (isEqual(value, Math.E)) {
 			return "e";
@@ -120,7 +124,9 @@ public final class StepConstant extends StepExpression {
 		if (colored && color != 0) {
 			return "\\fgcolor{" + getColorHex() + "}{" + toLaTeXString(loc, false) + "}";
 		}
-		if (isEqual(value, Math.PI)) {
+		if (Double.isNaN(value)) {
+			return "\\text{Undefined}";
+		} else if (isEqual(value, Math.PI)) {
 			return "\\pi";
 		} else if (isEqual(value, Math.E)) {
 			return "e";

@@ -42,6 +42,10 @@ public abstract class StepSolvable extends StepNode {
 		return subtract(LHS.findCoefficient(expr), RHS.findCoefficient(expr));
 	}
 
+	public List<StepSolution> solve(StepVariable sv) {
+		return solve(sv, new SolutionBuilder());
+	}
+
 	public List<StepSolution> solve(StepVariable sv, SolutionBuilder sb) {
 		return solve(sv, sb, new SolveTracker());
 	}

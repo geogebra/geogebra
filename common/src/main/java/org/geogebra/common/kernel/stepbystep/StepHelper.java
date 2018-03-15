@@ -419,13 +419,56 @@ public class StepHelper {
 			constant = StepNode.multiply(integerA, integerB);
 		}
 
-		StepExpression GCD = weakGCD(aFactored, bFactored);
+		StepExpression GCD = simpleGCD(aFactored, bFactored);
 
 		if (aFactored == null || bFactored == null || isOne(GCD)) {
 			return multiply(constant, multiply(aFactored, bFactored));
 		}
 
 		return multiply(constant, multiply(aFactored, bFactored).quotient(GCD));
+	}
+
+	public static StepExpression simpleGCD(StepExpression a, StepExpression b) {
+		if (isZero(a)) {
+			return b;
+		}
+
+		if (isZero(b)) {
+			return a;
+		}
+
+		List<StepExpression> aBases = new ArrayList<>();
+		List<StepExpression> aExponents = new ArrayList<>();
+		List<StepExpression> bBases = new ArrayList<>();
+		List<StepExpression> bExponents = new ArrayList<>();
+
+		a.getBasesAndExponents(aBases, aExponents);
+		b.getBasesAndExponents(bBases, bExponents);
+
+		boolean[] found = new boolean[aBases.size()];
+
+		for (int i = 0; i < aBases.size(); i++) {
+			for (int j = 0; j < bBases.size(); j++) {
+				if (aBases.get(i).equals(bBases.get(j))) {
+					StepExpression common = aExponents.get(i).getCommon(bExponents.get(j));
+
+					if (!isZero(common)) {
+						aExponents.set(i, common);
+						bExponents.set(j, null);
+						found[i] = true;
+					}
+				}
+			}
+		}
+
+		StepExpression result = null;
+		for (int i = 0; i < aBases.size(); i++) {
+			if (found[i]) {
+				result = nonTrivialProduct(result, nonTrivialPower(aBases.get(i), aExponents.get(i)));
+			}
+		}
+
+		return result == null ? StepConstant.create(1) : result;
 	}
 
 	public static StepExpression weakGCD(StepExpression a, StepExpression b) {
@@ -455,37 +498,7 @@ public class StepHelper {
 			return result == null ? StepConstant.create(1) : result;
 		}
 
-		List<StepExpression> aBases = new ArrayList<>();
-		List<StepExpression> aExponents = new ArrayList<>();
-		List<StepExpression> bBases = new ArrayList<>();
-		List<StepExpression> bExponents = new ArrayList<>();
-
-		nonIntegerA.getBasesAndExponents(aBases, aExponents);
-		nonIntegerB.getBasesAndExponents(bBases, bExponents);
-
-		boolean[] found = new boolean[aBases.size()];
-
-		for (int i = 0; i < aBases.size(); i++) {
-			for (int j = 0; j < bBases.size(); j++) {
-				if (aBases.get(i).equals(bBases.get(j))) {
-					StepExpression common = aExponents.get(i).getCommon(bExponents.get(j));
-
-					if (!isZero(common)) {
-						aExponents.set(i, common);
-						bExponents.set(j, null);
-						found[i] = true;
-					}
-				}
-			}
-		}
-
-		for (int i = 0; i < aBases.size(); i++) {
-			if (found[i]) {
-				result = nonTrivialProduct(result, nonTrivialPower(aBases.get(i), aExponents.get(i)));
-			}
-		}
-
-		return result == null ? StepConstant.create(1) : result;
+		return nonTrivialProduct(result, simpleGCD(nonIntegerA, nonIntegerB));
 	}
 
 	public static StepExpression GCD(StepExpression a, StepExpression b) {

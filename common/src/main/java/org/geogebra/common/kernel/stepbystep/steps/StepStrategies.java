@@ -167,10 +167,15 @@ public class StepStrategies {
 												  SolveTracker tracker) {
 		SolveStepGenerator[] strategy = {
 				EquationSteps.REGROUP,
+				InequalitySteps.POSITIVE_AND_ZERO,
 				InequalitySteps.TRIVIAL_SOLUTION,
 				EquationSteps.SUBTRACT_COMMON,
 				EquationSteps.SOLVE_LINEAR,
-				EquationSteps.EXPAND
+				InequalitySteps.FACTOR,
+				InequalitySteps.RATIONAL_INEQUALITY,
+				EquationSteps.DIFF,
+				InequalitySteps.SOLVE_QUADRATIC,
+				EquationSteps.EXPAND,
 		};
 
 		return implementSolveStrategy(se, sv, sb, strategy, tracker);
@@ -256,6 +261,10 @@ public class StepStrategies {
 			StepOperation toReturn = null;
 			for (int i = 0; i < so.noOfOperands(); i++) {
 				StepExpression a = (StepExpression) step.apply(so.getOperand(i), sb, tracker);
+				if (a.isUndefined()) {
+					return a;
+				}
+
 				if (toReturn == null && tracker.getColorTracker() > colorsAtStart) {
 					toReturn = new StepOperation(so.getOperation());
 

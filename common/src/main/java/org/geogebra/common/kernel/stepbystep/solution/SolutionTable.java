@@ -8,7 +8,8 @@ import org.geogebra.common.main.Localization;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
 
 public class SolutionTable extends SolutionStep {
 
@@ -25,7 +26,7 @@ public class SolutionTable extends SolutionStep {
     }
 
     public static SolutionTable createSignTable(StepVariable variable, List<StepExpression> roots,
-                                                Set<StepExpression> expressions) {
+                                                List<StepExpression> expressions) {
         StepExpression[] header = new StepExpression[1 + roots.size()];
         header[0] = variable;
         for (int i = 0; i < roots.size(); i++) {
@@ -61,6 +62,41 @@ public class SolutionTable extends SolutionStep {
         }
 
         return table;
+    }
+
+    public void addInequalityRow(StepExpression numerator, StepExpression denominator) {
+        List<TableElement> newRow = new ArrayList<>();
+        newRow.add(divide(numerator, denominator));
+
+        for (int j = 1; j < rows.get(0).length; j++) {
+            boolean isInvalid = false;
+            boolean isZero = false;
+            boolean isNegative = false;
+
+            for (TableElement[] row : rows) {
+                if (row[j] == TableElementType.ZERO) {
+                    if (denominator != null &&
+                            denominator.containsExpression((StepExpression) row[0])) {
+                        isInvalid = true;
+                    }
+                    isZero = true;
+                } else if (row[j] == TableElementType.NEGATIVE) {
+                    isNegative = !isNegative;
+                }
+            }
+
+            if (isInvalid) {
+                newRow.add(TableElementType.INVALID);
+            } else if (isZero) {
+                newRow.add(TableElementType.ZERO);
+            } else if (isNegative) {
+                newRow.add(TableElementType.NEGATIVE);
+            } else {
+                newRow.add(TableElementType.POSITIVE);
+            }
+        }
+
+        addRow(newRow.toArray(new TableElement[0]));
     }
 
     @Override

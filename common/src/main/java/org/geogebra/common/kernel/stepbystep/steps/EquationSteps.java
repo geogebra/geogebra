@@ -33,6 +33,10 @@ public enum EquationSteps implements SolveStepGenerator {
 				SolutionBuilder restrictionsSteps = new SolutionBuilder();
 
 				for (StepExpression root : roots) {
+					if (root.isConstantIn(variable)) {
+						continue;
+					}
+
 					List<StepSolution> solutions = new StepInequality(root, StepConstant.create(0), false, false)
 							.solve(variable, restrictionsSteps);
 
@@ -48,6 +52,7 @@ public enum EquationSteps implements SolveStepGenerator {
 					tracker.addRestriction(restriction);
 				}
 			} catch (SolveFailedException e) {
+				Log.error("set to true for: " + se + " at roots");
 				tracker.setShouldCheckSolutions();
 				return null;
 			}
@@ -60,6 +65,10 @@ public enum EquationSteps implements SolveStepGenerator {
 				SolutionBuilder undefinedPointsSteps = new SolutionBuilder();
 
 				for (StepExpression denominator : denominators) {
+					if (denominator.isConstantIn(variable)) {
+						continue;
+					}
+
 					List<StepSolution> solutions = new StepEquation(denominator, StepConstant.create(0))
 							.solve(variable, undefinedPointsSteps);
 
@@ -74,6 +83,7 @@ public enum EquationSteps implements SolveStepGenerator {
 					tracker.addUndefinedPoints(undefinedPoints);
 				}
 			} catch (SolveFailedException e) {
+				Log.error("set to true for: " + se + " at denominators");
 				tracker.setShouldCheckSolutions();
 			}
 
@@ -250,10 +260,6 @@ public enum EquationSteps implements SolveStepGenerator {
 				se.addOrSubtract(toComplete, steps, tracker);
 				se.factor(steps, false);
 
-				if (se.getRHS().getValue() < 0) {
-					return new ArrayList<>();
-				}
-
 				return null;
 			}
 
@@ -284,6 +290,17 @@ public enum EquationSteps implements SolveStepGenerator {
 				return new ArrayList<>();
 			}
 
+			a.cleanColors();
+			b.cleanColors();
+			c.cleanColors();
+
+			List<StepSolution> solutions = new ArrayList<>();
+			if (!a.isConstant()) {
+				solutions.add(StepSolution.simpleSolution(variable, divide(c.negate(), b), tracker));
+				solutions.get(0).addCondition(new StepEquation(a, StepConstant.create(0)));
+				tracker.addCondition(new StepEquation(a, StepConstant.create(0)).setInequation());
+			}
+
 			if (!discriminant.isPositive() && !(discriminant.canBeEvaluated() && discriminant.getValue() > 0)) {
 				tracker.addCondition(new StepInequality(discriminant, StepConstant.create(0), false, false));
 			}
@@ -291,7 +308,6 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepExpression solution1 = divide(add(minus(b), root(discriminant, 2)), multiply(2, a));
 			StepExpression solution2 = divide(subtract(minus(b), root(discriminant, 2)), multiply(2, a));
 
-			List<StepSolution> solutions = new ArrayList<>();
 			solutions.add(StepSolution.simpleSolution(variable, solution1.adaptiveRegroup(), tracker));
 			solutions.add(StepSolution.simpleSolution(variable, solution2.adaptiveRegroup(), tracker));
 			return solutions;
@@ -656,7 +672,8 @@ public enum EquationSteps implements SolveStepGenerator {
 			roots.add(0, StepConstant.NEG_INF);
 			roots.add(StepConstant.POS_INF);
 
-            SolutionTable signTable = SolutionTable.createSignTable(variable, roots, absoluteValues);
+            SolutionTable signTable = SolutionTable.createSignTable(variable, roots,
+					new ArrayList<>(absoluteValues));
             steps.add(signTable);
 
 			List<StepSolution> solutions = new ArrayList<>();
@@ -766,6 +783,7 @@ public enum EquationSteps implements SolveStepGenerator {
 			se.multiplyOrDivide(toDivide, steps, tracker);
 
 			if (isEqual(root % 2, 0) && se.getRHS().isConstant() && se.getRHS().getValue() < 0) {
+				steps.add(SolutionStepType.LEFT_POSITIVE_RIGHT_NEGATIVE);
 				return new ArrayList<>();
 			}
 
@@ -897,7 +915,7 @@ public enum EquationSteps implements SolveStepGenerator {
 				}
 
 				if (!tracker.getRestriction().contains(value)) {
-
+					steps.add(SolutionStepType.INVALID_NOT_IN_RANGE, value, tracker.getRestriction());
 					continue;
 				}
 

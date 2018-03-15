@@ -104,7 +104,8 @@ public abstract class StepNode implements TableElement {
 
 		try {
 			ExpressionValue ev = parser.parseGeoGebraExpression(s);
-			return convertExpression(ev);
+			StepNode sn = convertExpression(ev);
+			return cleanupExpression(sn);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;
@@ -120,7 +121,6 @@ public abstract class StepNode implements TableElement {
 		if (ev instanceof ExpressionNode) {
 			switch (((ExpressionNode) ev).getOperation()) {
 			case NO_OPERATION:
-				return convertExpression(((ExpressionNode) ev).getLeft());
 			case SIN:
 			case COS:
 			case TAN:
@@ -157,7 +157,7 @@ public abstract class StepNode implements TableElement {
 				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
 				return power(StepConstant.E, arg);
 			case MULTIPLY:
-				if (((ExpressionNode) ev).getLeft().isConstant()
+				if (((ExpressionNode) ev).getLeft() instanceof MyDouble
 						&& ((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
 					return minus((StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
 				}
@@ -180,6 +180,43 @@ public abstract class StepNode implements TableElement {
 			return StepConstant.create(((MyDouble) ev).getDouble());
 		}
 		return null;
+	}
+
+	public static StepNode cleanupExpression(StepNode sn) {
+		if (sn instanceof StepEquation) {
+			return new StepEquation((StepExpression) cleanupExpression(((StepEquation) sn).getLHS()),
+					(StepExpression) cleanupExpression(((StepEquation) sn).getRHS()));
+		}
+
+		if (sn.isOperation(Operation.MULTIPLY)) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.getOperand(0).isNegative()) {
+				StepOperation result = new StepOperation(Operation.MULTIPLY);
+				result.addOperand((StepExpression) cleanupExpression(so.getOperand(0).negate()));
+				for (int i = 1; i < so.noOfOperands(); i++) {
+					result.addOperand((StepExpression) cleanupExpression(so.getOperand(i)));
+				}
+
+				return result.negate();
+			}
+		}
+
+		if (sn.isOperation(Operation.NO_OPERATION)) {
+			return cleanupExpression(((StepOperation) sn).getOperand(0));
+		}
+
+		if (sn instanceof StepOperation) {
+			StepOperation so = (StepOperation) sn;
+			StepOperation result = new StepOperation(so.getOperation());
+			for (StepExpression operand : so) {
+				result.addOperand((StepExpression) cleanupExpression(operand));
+			}
+
+			return result;
+		}
+
+		return sn;
 	}
 
 	/**

@@ -17,6 +17,8 @@ import java.util.List;
 
 public class StepEquation extends StepSolvable {
 
+	private boolean isInequation;
+
 	public StepEquation(StepExpression LHS, StepExpression RHS) {
 		this.LHS = LHS.deepCopy();
 		this.RHS = RHS.deepCopy();
@@ -27,6 +29,15 @@ public class StepEquation extends StepSolvable {
 
 		this.LHS = (StepExpression) getStepTree(sides[0], parser);
 		this.RHS = (StepExpression) getStepTree(sides[1], parser);
+	}
+
+	public StepEquation setInequation() {
+		this.isInequation = true;
+		return this;
+	}
+
+	public boolean isInequation() {
+		return isInequation;
 	}
 
 	@Override
@@ -52,12 +63,16 @@ public class StepEquation extends StepSolvable {
 	public StepEquation deepCopy() {
 		StepEquation newEq = new StepEquation(LHS.deepCopy(), RHS.deepCopy());
 		newEq.swapped = swapped;
+		newEq.isInequation = isInequation;
 
 		return newEq;
 	}
 
 	@Override
 	public String toString() {
+		if (isInequation) {
+			return LHS + " != " + RHS;
+		}
 		return LHS + " = " + RHS;
 	}
 
@@ -68,9 +83,16 @@ public class StepEquation extends StepSolvable {
 		}
 
 		if (swapped) {
-			return RHS.toLaTeXString(loc, colored) + " = " + LHS.toLaTeXString(loc, colored);
+			return RHS.toLaTeXString(loc, colored) + sign() + LHS.toLaTeXString(loc, colored);
 		}
-		return LHS.toLaTeXString(loc, colored) + " = " + RHS.toLaTeXString(loc, colored);
+		return LHS.toLaTeXString(loc, colored) + sign() + RHS.toLaTeXString(loc, colored);
+	}
+
+	private String sign() {
+		if (isInequation) {
+			return " \\neq ";
+		}
+		return " = ";
 	}
 
 	public StepEquation regroup() {

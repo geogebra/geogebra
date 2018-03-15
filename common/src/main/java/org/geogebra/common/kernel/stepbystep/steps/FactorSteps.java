@@ -25,41 +25,29 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				List<StepExpression> commonBases = new ArrayList<>();
 				List<StepExpression> commonExponents = new ArrayList<>();
 
-				so.getOperand(0).getBasesAndExponents(commonBases, commonExponents);
-
-				for (int i = 0; i < commonBases.size(); i++) {
-					commonBases.set(i, commonBases.get(i).deepCopy());
-					commonExponents.set(i, commonExponents.get(i).deepCopy());
+				StepExpression common = so.getOperand(0);
+				for (int i = 1; i < so.noOfOperands(); i++) {
+					common = StepHelper.simpleGCD(common, so.getOperand(i));
 				}
+
+				if (isOne(common)) {
+					return so;
+				}
+
+				int colorsAtStart = tracker.getColorTracker();
+
+				common.getBasesAndExponents(commonBases, commonExponents);
 
 				List<List<StepExpression>> currentBases = new ArrayList<>();
 				List<List<StepExpression>> currentExponents = new ArrayList<>();
+
+				StepOperation result = new StepOperation(Operation.PLUS);
 
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					currentBases.add(new ArrayList<StepExpression>());
 					currentExponents.add(new ArrayList<StepExpression>());
 					so.getOperand(i).getBasesAndExponents(currentBases.get(i), currentExponents.get(i));
 
-					for (int j = 0; j < commonBases.size(); j++) {
-						int index = currentBases.get(i).indexOf(commonBases.get(j));
-						if (index != -1) {
-							commonExponents.set(j, currentExponents.get(i).get(index).getCommon(
-									commonExponents.get(j)));
-						} else {
-							commonExponents.set(j, null);
-						}
-					}
-				}
-
-				StepExpression common = makeProduct(commonBases, commonExponents);
-
-				if (isOne(common)) {
-					return so;
-				}
-
-				StepOperation result = new StepOperation(Operation.PLUS);
-
-				for (int i = 0; i < currentBases.size(); i++) {
 					StepExpression current = null;
 					for (int j = 0; j < currentBases.get(i).size(); j++) {
 						int index = commonBases.indexOf(currentBases.get(i).get(j));
@@ -95,8 +83,10 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					result.addOperand(current);
 				}
 
-				tracker.incColorTracker();
-				sb.add(SolutionStepType.SPLIT_PRODUCTS);
+				if (colorsAtStart != tracker.getColorTracker()) {
+					sb.add(SolutionStepType.SPLIT_PRODUCTS);
+				}
+
 				tracker.addMark(result, RegroupTracker.MarkType.FACTOR);
 				return result;
 			}
@@ -113,7 +103,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 				StepExpression common = so.getOperand(0);
 				for (int i = 1; i < so.noOfOperands(); i++) {
-					common = StepHelper.weakGCD(common, so.getOperand(i));
+					common = StepHelper.simpleGCD(common, so.getOperand(i));
 				}
 
 				if (isOne(common)) {
@@ -162,7 +152,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					result.addOperand(makeProduct(currentBases.get(i), currentExponents.get(i)));
 				}
 
-				sb.add(SolutionStepType.FACTOR_COMMON, common);
+				sb.add(SolutionStepType.FACTOR_OUT, common);
 				return multiply(common, result);
 			}
 
@@ -608,8 +598,14 @@ public enum FactorSteps implements SimplificationStepGenerator {
 							innerSum.setColor(tracker.incColorTracker());
 							for (int k = polynomialForm.length - 1; k > 0; k--) {
 								long coeff = integerForm[k] / j;
-								factored.addOperand(multiply(innerSum,
-										nonTrivialProduct(coeff, nonTrivialPower(var, k - 1))));
+								if (coeff < 0) {
+									factored.addOperand(multiply(nonTrivialProduct(-coeff, nonTrivialPower(var, k - 1)),
+											innerSum).negate());
+								} else {
+									factored.addOperand(multiply(nonTrivialProduct(coeff, nonTrivialPower(var, k - 1)),
+											innerSum));
+								}
+
 
 								integerForm[k - 1] += i * integerForm[k] / j;
 							}

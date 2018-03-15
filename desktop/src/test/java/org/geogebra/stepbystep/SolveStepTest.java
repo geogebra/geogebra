@@ -38,8 +38,9 @@ public class SolveStepTest {
 	@Test
 	public void conditionalSolution() {
 		t("a*x^2+b*x+c", "0", "x",
-				"x = ((-b + nroot(((b)^(2)-(4)(a)(c)), 2)))/((2)(a)) if ((b)^(2)-(4)(a)(c)) >= 0",
-				"x = ((-b-nroot(((b)^(2)-(4)(a)(c)), 2)))/((2)(a)) if ((b)^(2)-(4)(a)(c)) >= 0");
+				"x = (-c)/(b) if a = 0",
+				"x = ((-b + nroot(((b)^(2)-(4)(a)(c)), 2)))/((2)(a)) if a != 0 and ((b)^(2)-(4)(a)(c)) >= 0",
+				"x = ((-b-nroot(((b)^(2)-(4)(a)(c)), 2)))/((2)(a)) if a != 0 and ((b)^(2)-(4)(a)(c)) >= 0");
 	}
 
 	@Test
@@ -154,7 +155,7 @@ public class SolveStepTest {
 		t("|x|-5", "0", "x", "x = 5", "x = -5");
 		t("|x|-5", "|x-2|", "x");
 		t("|x-4|", "|2-3*x|", "x", "x = -1", "x = (3)/(2)");
-		//t("|3-x|", "3-x", "x", "x in (-inf, 3]");
+		t("|3-x|", "3-x", "x", "x in (-inf, 3]");
 	}
 
 	@Test

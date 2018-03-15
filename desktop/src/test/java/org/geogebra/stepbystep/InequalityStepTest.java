@@ -45,6 +45,24 @@ public class InequalityStepTest {
         i("2x + 1", ">=", "9x+7", "x", "x in [-(6)/(7), inf)");
     }
 
+    @Test
+    public void positiveVsZeroInequality() {
+        i("x^2+2x+1", ">=", "0", "x", "x in R");
+        i("x^2+2x+1", ">", "0", "x", "x in R \\ {-1}");
+        i("x^2+2x+1", "<", "0", "x");
+        i("x^2+2x+1", "<=", "0", "x", "x = -1");
+        i("0", ">=", "x^2+2x+1", "x", "x = -1");
+        i("0", ">", "x^2+2x+1", "x");
+        i("0", "<=", "x^2+2x+1", "x", "x in R");
+        i("0", "<", "x^2+2x+1", "x", "x in R \\ {-1}");
+    }
+
+    @Test
+    public void tableBasedInequality() {
+        i("x^3 + 3 x^2 - 7 x + 3", ">=", "0", "x");
+        i("(x^2-3x+2)/(x-3)", ">=", "0", "x");
+    }
+
     public void i(String LHS, String op, String RHS, String variable, String... expectedSolutions) {
         if (needsHeading) {
             Throwable t = new Throwable();

@@ -106,6 +106,10 @@ public abstract class StepExpression extends StepNode {
 				(isEqual(getValue(), Math.PI) || isEqual(getValue(), Math.E) || Double.isInfinite(getValue()));
 	}
 
+	public boolean isUndefined() {
+		return this instanceof StepConstant && Double.isNaN(getValue());
+	}
+
 	/**
 	 * @return whether the current node is an integer
 	 */
@@ -1021,7 +1025,7 @@ public abstract class StepExpression extends StepNode {
 
 		for (int i = 0; i < bases.size(); i++) {
 			if (exponents.get(i) != null) {
-				product = multiply(product, nonTrivialPower(bases.get(i), exponents.get(i)));
+				product = nonTrivialProduct(product, nonTrivialPower(bases.get(i), exponents.get(i)));
 			}
 		}
 

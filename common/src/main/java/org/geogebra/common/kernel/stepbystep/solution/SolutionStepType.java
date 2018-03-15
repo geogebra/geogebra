@@ -36,6 +36,8 @@ public enum SolutionStepType {
 
 	NO_REAL_SOLUTION("NoRealSolutions", "No Real Solutions"),
 
+	INVALID_NOT_IN_RANGE("InvalidNotInRange", "%0 is not a valid solution, because %0 \\notin%1"),
+
 	SOLUTION("SolutionA", "Solution: %0"),
 
 	SOLUTIONS("SolutionsA", "Solutions: %0") {
@@ -67,6 +69,25 @@ public enum SolutionStepType {
 	STATEMENT_IS_TRUE("StatementIsTrue", "The statement is true"),
 
 	STATEMENT_IS_FALSE("StatementIsFalse", "The statement is false"),
+
+	POSITIVE_GE_ZERO("PositiveGEZero", "The statement is true for all values of %0"),
+
+	POSITIVE_GT_ZERO("PositiveGTZero", "The statement is true, except when %0"),
+
+	POSITIVE_LE_ZERO("PositiveLEZero", "The statement is only true when %0"),
+
+	POSITIVE_LT_ZERO("PositiveLTZero", "The statement is false for all values of %0"),
+
+	ZERO_GE_POSITIVE("PositiveGEZero", "The statement is only true when %0"),
+
+	ZERO_GT_POSITIVE("PositiveGTZero", "The statement is false for all values of %0"),
+
+	ZERO_LE_POSITIVE("PositiveLEZero", "The statement is true for all values of %0"),
+
+	ZERO_LT_POSITIVE("PositiveLTZero", "The statement is true, except when %0"),
+
+	LEFT_POSITIVE_RIGHT_NEGATIVE("LeftPositiveRightNegative", "The left hand side is always positive, the right is " +
+			"always negative"),
 
 	EXCLUDE_UNDEFINED_POINTS("ExcludeUndefinedPoints", "Exclude undefined points",
 			"Exclude undefined points: %0"),
@@ -170,7 +191,7 @@ public enum SolutionStepType {
 
 	ADD_CONSTANTS("AddConstants", "Add constants"),
 
-	COLLECT_LIKE_TERMS("CollectLikeTerms", "Collect like terms: %0"),
+	COLLECT_LIKE_TERMS("CollectLikeTerms", "Collect like terms", "Collect like terms: %0"),
 
 	ADD_FRACTIONS("AddFractions", "Add fractions"),
 
@@ -220,6 +241,9 @@ public enum SolutionStepType {
 
 	ROOT_OF_ONE("RootOfOne", "Any root of 1 is 1"),
 
+	EVEN_ROOT_OF_NEGATIVE("EvenRootOfNegative", "The expression is undefined in the set of the real numbers",
+			"The square root of a negative number is undefined in the set of the real numbers"),
+
 	ODD_ROOT_OF_NEGATIVE("OddRootOfNegative", "An odd root of a negative radicand is always negative"),
 
 	ROOT_OF_ROOT("RootOfRoot", "Use $\\sqrt[m]{\\sqrt[n]{a}} \\equiv \\sqrt[mn]{a}$ to simplify the expression"),
@@ -240,6 +264,8 @@ public enum SolutionStepType {
 	ZERO_IN_ADDITION("AddingOrSubtractionZero", "When adding or subtracting zero, the quantity does not change"),
 
 	ZERO_DIVIDED("ZeroDivided", "Zero divided by anything is zero"),
+
+	DIVIDED_BY_ZERO("DividedByZero", "The expression is undefined", "Any expression divided by zero is undefined"),
 
 	DIVIDE_BY_ONE("DividedByOne", "Any expression divided by one remains the same"),
 	
@@ -285,7 +311,7 @@ public enum SolutionStepType {
 
 	BINOM_CUBED_DIFF_FACTOR("BinomCubed", "Use $a^3 - 3a^2b + 3ab^2 - b^3 \\equiv (a+b)^3$ to factor"),
 
-	FACTOR_OUT("FactorOutA", "Factor out %0"),
+	FACTOR_OUT("FactorOutA", "Factor common", "Factor out %0"),
 
 	FACTOR_COMMON("FactorCommon", "Factor common"),
 
