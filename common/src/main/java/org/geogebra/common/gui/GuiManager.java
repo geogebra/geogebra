@@ -768,8 +768,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		final StringBuilder urlSB = new StringBuilder();
 
-		urlSB.append(GeoGebraConstants.GEOGEBRA_WEBSITE);
-		urlSB.append("help/");
+		urlSB.append(GeoGebraConstants.GEOGEBRA_HELP_WEBSITE);
 		urlSB.append(getApp().getLocalization().getLanguage()); // eg en_GB
 
 		switch (type) {
