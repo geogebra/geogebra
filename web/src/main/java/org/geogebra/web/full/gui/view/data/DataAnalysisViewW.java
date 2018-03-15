@@ -633,7 +633,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		buildStatisticsPanel();
 		setDataPlotPanels();
 		updateLayout();
-
 	}
 
 	@Override
@@ -643,21 +642,17 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		int w = mainSplit.getOffsetWidth();
 		int h = mainSplit.getOffsetHeight();
 		if (show) {
-
-			dataDisplayPanel1.resize(w, h/2, true);
-			dataDisplayPanel1.resize(w, h/2, true);
+			dataDisplayPanel1.resize(w, h / 2, true);
+			dataDisplayPanel1.resize(w, h / 2, true);
 			comboPanelSplit.addNorth(dataDisplayPanel1, h / 2.0);
 			comboPanelSplit.add(dataDisplayPanel2);
 
 		} else {
-
 			dataDisplayPanel1.resize(w, h, true);
 			comboPanelSplit.add(dataDisplayPanel1);
-
 		}
 
 		updateGUI();
-
 	}
 
 	public String format(double value) {

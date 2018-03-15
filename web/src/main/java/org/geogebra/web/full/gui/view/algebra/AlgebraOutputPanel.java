@@ -173,7 +173,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 					geo1.getKernel().getApplication());
 			if (AlgebraItem.needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
-			}else{
+			} else {
 				geo1.getAlgebraDescriptionTextOrHTMLRHS(sb);
 			}
 			valuePanel.add(html);

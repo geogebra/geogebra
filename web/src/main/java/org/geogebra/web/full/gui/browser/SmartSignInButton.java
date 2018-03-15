@@ -13,13 +13,11 @@ public class SmartSignInButton extends SignInButton{
 
 	@Override
 	public void login(){
-		String url =  "https://accounts.geogebra.org/user/signin" 
-					+ "/caller/web/"
-					+"/expiration/600/"
-					+"/clientinfo/smart"
-					+"/?lang="+app.getLocalization().getLocaleStr()
-					+"&url="+URL.encode(Location.getHref());
-		
+		String url = "https://accounts.geogebra.org/user/signin"
+				+ "/caller/web/expiration/600/clientinfo/smart"
+				+ "/?lang=" + app.getLocalization().getLocaleStr() + "&url="
+				+ URL.encode(Location.getHref());
+
 		gotoURL(url);
 	}
 	

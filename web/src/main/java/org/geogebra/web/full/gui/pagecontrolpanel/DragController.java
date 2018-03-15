@@ -290,12 +290,12 @@ class DragController {
 			int y2 = computedY(card.getAbsoluteTop());
 
 			int idx = cardIndexAt(card.getMiddleX(), 
-					isAnimated() ? (down ?  y1: y2): card.getMiddleY());
+					isAnimated() ? (down ? y1 : y2) : card.getMiddleY());
 
 			if (idx == -1 && isAnimated()) {
 				idx = cardIndexAt(card.getMiddleX(), (down ? y2 : y1));
 			}
-			target = idx != -1 ? cards.cardAt(idx): null;
+			target = idx != -1 ? cards.cardAt(idx) : null;
 		}
 
 		private boolean onTargetChange() {

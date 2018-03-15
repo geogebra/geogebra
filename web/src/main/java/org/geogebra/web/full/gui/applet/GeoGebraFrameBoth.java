@@ -100,7 +100,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		this.factory = factory;
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
-
 	}
 
 	@Override
@@ -109,7 +108,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		AppW application = factory.getApplet(article, this, laf, this.device);
 		getArticleMap().put(article.getId(), application);
 		
-		if (app!= null && app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
+		if (app != null && app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 			kbButtonSpace.addStyleName("kbButtonSpace");
 			this.add(kbButtonSpace);
 		}

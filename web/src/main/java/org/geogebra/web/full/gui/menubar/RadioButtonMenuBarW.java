@@ -70,7 +70,7 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 			String[] items, final String[] actionCommands, int selectedPos, boolean changeText) {
 		texts = items;
 		if (changeText){
-			for (int i=0; i<items.length; i++){
+			for (int i = 0; i < items.length; i++) {
 				texts[i] = app.getLocalization().getMenu(items[i]);
 			}
 		}
@@ -88,7 +88,7 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 				radioButtons.add(null);
 				
 			} else {
-				final int j=i;
+				final int j = i;
 				addItem(texts[i], new Command() {
 					@Override
 					public void execute() {

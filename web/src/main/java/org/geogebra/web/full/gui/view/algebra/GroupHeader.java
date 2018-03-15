@@ -95,7 +95,7 @@ public class GroupHeader extends FlowPanel {
 			if(img == null){
 				img = new Image(url);
 				this.add(img);
-			}else{
+			} else {
 				img.setUrl(url);
 			}
 		}

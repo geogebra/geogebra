@@ -154,7 +154,7 @@ public class GridModel {
 
 	private List<DataCell> newRowCells() {
 		ArrayList<DataCell> cells = new ArrayList<>();
-		for (int col=0; col < columnCount; col++) {
+		for (int col = 0; col < columnCount; col++) {
 			cells.add(new DataCell(null, false));
 		}
 		return cells;

@@ -287,7 +287,7 @@ public class ZoomPanel extends FlowPanel
 		homeShown = true;
 		homeBtn.addStyleName("zoomPanelHomeIn");
 		homeBtn.removeStyleName("zoomPanelHomeOut");
-		homeBtn.getElement().setAttribute("arial-hidden", "false");
+		AriaHelper.setHidden(homeBtn, false);
 	}
 
 	/**
@@ -300,7 +300,7 @@ public class ZoomPanel extends FlowPanel
 		homeShown = false;
 		homeBtn.addStyleName("zoomPanelHomeOut");
 		homeBtn.removeStyleName("zoomPanelHomeIn");
-		homeBtn.getElement().setAttribute("arial-hidden", "true");
+		AriaHelper.setHidden(homeBtn, true);
 	}
 
 	private void updateHomeButton() {

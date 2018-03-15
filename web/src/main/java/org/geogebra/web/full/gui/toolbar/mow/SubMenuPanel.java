@@ -92,7 +92,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	 *            GGB application.
 	 */
 	public SubMenuPanel(AppW app/* , boolean info */) {
-		this.app=app;
+		this.app = app;
 		// this.info = info;
 		createGUI();
 	}

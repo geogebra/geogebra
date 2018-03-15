@@ -157,15 +157,13 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		dataTable.setStatTable(maxRows, rowNames, 3, null);
 
 		for (int row = 0; row < maxRows - 1; ++row) {
-			CheckBox cb = new CheckBox("" + (row+1));
+			CheckBox cb = new CheckBox("" + (row + 1));
 			cb.addClickHandler(new DataClickHandler(row));
 			cb.setValue(true);
 			dataTable.getTable().setWidget(row + 1, 0, cb); 
-
-			dataTable.setValueAt(
-					((GeoPoint) (dataArray.get(row))).getInhomX()+"", row+1, 1);
-			dataTable.setValueAt(
-					((GeoPoint) (dataArray.get(row))).getInhomY()+"", row+1, 2);
+			GeoPoint pt = (GeoPoint) dataArray.get(row);
+			dataTable.setValueAt(pt.getInhomX() + "", row + 1, 1);
+			dataTable.setValueAt(pt.getInhomY() + "", row + 1, 2);
 		}
 
 		dataTable.getTable().setWidget(0, 0, cbEnableAll);

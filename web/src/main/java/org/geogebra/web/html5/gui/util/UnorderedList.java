@@ -5,8 +5,14 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Wrapper for the &lt;UL&rt; tag
+ */
 public class UnorderedList extends ComplexPanel {
 
+	/**
+	 * Create new UL
+	 */
 	public UnorderedList() {
 		setElement(Document.get().createULElement());
 	}

@@ -898,7 +898,8 @@ public class MainMenu extends FlowPanel
 	 *         otherwise.
 	 */
 	GMenuBar getMenuAt(int stackIdx) {
-		int idx = stackIdx > -1 && stackIdx < menuPanel.getWidgetCount() ?stackIdx:0; 
+		int idx = stackIdx > -1 && stackIdx < menuPanel.getWidgetCount()
+				? stackIdx : 0;
 		Widget w = menuPanel.getWidget(idx);
 		if (w instanceof GMenuBar) {
 			return (GMenuBar) w;

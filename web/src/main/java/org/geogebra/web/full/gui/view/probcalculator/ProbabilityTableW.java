@@ -61,7 +61,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 
 		// set the table model with the prob. values for this distribution
 		double prob;
-		while(x<=xMax){
+		while (x <= xMax) {
 
 			statTable.setValueAt("" + x, row, 0);
 			if (distType != null) {

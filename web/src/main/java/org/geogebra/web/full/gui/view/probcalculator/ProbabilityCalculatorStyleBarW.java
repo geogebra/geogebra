@@ -74,7 +74,6 @@ public class ProbabilityCalculatorStyleBarW extends
 		// btnNormalOverlay.setTitle(loc.getMenu("OverlayNormalCurve"));
 
 		// btnCumulative.setToolTipText(loc.getMenu("Cumulative"));
-
 	}
 
 	/**
@@ -250,11 +249,8 @@ public class ProbabilityCalculatorStyleBarW extends
 			// add(btnGrid); (grid doesn't work well with discrete graphs and
 			// point
 			// capturing)
-		}else{
-			// keep bar height uniform 
-			///wrappedToolbar.add(Box.createVerticalStrut(20));
 		}
-    }
+	}
 
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {

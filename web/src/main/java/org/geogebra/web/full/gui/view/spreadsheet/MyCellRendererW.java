@@ -230,14 +230,13 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		boolean left = CellFormat.isOneBit(border, LEFT_BIT);
 		
 		if (column > 0) {
-			Byte borderLeft = (Byte) formatHandler.getCellFormat(column -1, row,
-					CellFormat.FORMAT_BORDER);
+			Byte borderLeft = (Byte) formatHandler.getCellFormat(column - 1,
+					row, CellFormat.FORMAT_BORDER);
 			left = left || CellFormat.isOneBit(borderLeft, RIGHT_BIT);
-			
 		}
 
 		if (row > 0) {
-			Byte borderTop = (Byte) formatHandler.getCellFormat(column, row-1,
+			Byte borderTop = (Byte) formatHandler.getCellFormat(column, row - 1,
 					CellFormat.FORMAT_BORDER);
 			top = top || CellFormat.isOneBit(borderTop, BOTTOM_BIT);
 

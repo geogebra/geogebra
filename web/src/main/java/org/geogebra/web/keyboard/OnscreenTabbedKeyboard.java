@@ -33,7 +33,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		implements VirtualKeyboardGUI, ButtonHandler {
 
 	private KeyboardListener processField;
-	private InputBarHelpPopup helpPopup=null;
+	private InputBarHelpPopup helpPopup = null;
 
 	/**
 	 * @param app

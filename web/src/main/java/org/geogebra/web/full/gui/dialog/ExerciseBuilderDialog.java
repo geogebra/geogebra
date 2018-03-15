@@ -288,7 +288,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			public void onChange(ChangeEvent event) {
 				GeoNumberValue num = app.getKernel().getAlgebraProcessor()
 						.evaluateToNumeric(fractions.getText(), true);
-				if(num!=null){
+				if (num != null) {
 					assignment.setFractionForResult(res,
 							(num.getDouble() * 0.01));
 					fractions.setText(

@@ -167,7 +167,7 @@ public class ToolBarW extends FlowPanel
 				}
 			}
 			
-			if (!success && tmpMode !=getFirstMode()) {
+			if (!success && tmpMode != getFirstMode()) {
 				tmpMode = setMode(getFirstMode(), m);
 
 			}

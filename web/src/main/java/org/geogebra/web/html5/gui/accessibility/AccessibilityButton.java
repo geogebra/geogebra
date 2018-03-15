@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.CustomButton;
 public class AccessibilityButton implements AccessibilityInterface {
 	private CustomButton button;
 	private List<TabHandler> tabHandlers;
-	private boolean ignoreTab=false;
+	private boolean ignoreTab = false;
 	
 	public AccessibilityButton(CustomButton button) {
 		this.button = button;

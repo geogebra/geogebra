@@ -346,8 +346,9 @@ public class PagePreviewCard extends FlowPanel
 	 */
 	public void setSpaceValue(int value, boolean down) {
 		int opposite = SPACE_HEIGHT  - value + MARGIN;
-		getElement().getStyle().setMarginTop(down ? opposite: value, Unit.PX);
-		getElement().getStyle().setMarginBottom(down ? value: opposite, Unit.PX);
+		getElement().getStyle().setMarginTop(down ? opposite : value, Unit.PX);
+		getElement().getStyle().setMarginBottom(down ? value : opposite,
+				Unit.PX);
 	}
 
 	/**

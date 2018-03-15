@@ -377,7 +377,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			providerPopup.addPopupHandler(this);
 			providerPopup.setSelectedIndex(app.getFileManager()
 			        .getFileProvider() == Provider.GOOGLE ? 1 : 0);
-		}else if(app.getLAF().supportsLocalSave()) {
+		} else if (app.getLAF().supportsLocalSave()) {
 			providerPopup.addPopupHandler(this);
 			providerPopup.setSelectedIndex(app.getFileManager()
 			        .getFileProvider() == Provider.LOCAL ? 1 : 0);
@@ -400,14 +400,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * <li>material is new or was private, than link to GGT</li>
 	 */
 	protected void onSave() {
-	   if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
+		if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
 			app.getKernel().getConstruction().setTitle(this.title.getText());
 			app.getFileManager().export(app);
-		}else if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
+		} else if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
 			saveLocal();
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
-		}else {
+		} else {
 			if (app.getActiveMaterial() == null
 					|| isMacro()) {
 				app.setActiveMaterial(new Material(0, saveType));

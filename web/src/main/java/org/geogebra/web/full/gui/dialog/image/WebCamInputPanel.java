@@ -201,9 +201,9 @@ public class WebCamInputPanel extends VerticalPanel {
 			message = "";
 		} else if (Browser.isFirefox()) {
 			message = loc.getMenu("Webcam.Firefox"); 
-		}else if(Browser.isEdge()){
+		} else if (Browser.isEdge()) {
 			message = loc.getMenu("Webcam.Edge");
-		}else{
+		} else {
 			message = loc.getMenu("Webcam.Chrome");
 		}
 		video = populate(inputWidget.getElement(), message,

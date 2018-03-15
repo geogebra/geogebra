@@ -277,7 +277,7 @@ public class ConstructionProtocolNavigationW
 			}
 		}
 		prot.scrollToConstructionStep();
-    }
+	}
 	
 	/**
 	 * Make all components enabled / disabled
@@ -285,7 +285,7 @@ public class ConstructionProtocolNavigationW
 	 */
 	void setComponentsEnabled(boolean flag) {
 		NodeList<Element> buttons = implPanel.getElement().getElementsByTagName("button");
-		for (int i=0; i < buttons.getLength(); i++) {
+		for (int i = 0; i < buttons.getLength(); i++) {
 			buttons.getItem(i).setPropertyBoolean("disabled", !flag);
 		}
 		btPlay.setEnabled(true);	

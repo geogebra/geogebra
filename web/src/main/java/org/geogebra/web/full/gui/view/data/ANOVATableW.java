@@ -41,7 +41,7 @@ public class ANOVATableW extends BasicStatTableW {
 				COLUMN_COUNT, getColumnNames());
 
 		AnovaStats stats = ANOVAStatTableModel.getStatsSilent(dataList);
-		if(stats!=null){
+		if (stats != null) {
 			// first column, degrees of freedom
 			statTable.setValueAt(daView.format(stats.getDfbg()), 0, 1);
 			statTable.setValueAt(daView.format(stats.getDfwg()), 1, 1);

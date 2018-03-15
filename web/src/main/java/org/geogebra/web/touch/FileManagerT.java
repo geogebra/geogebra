@@ -931,54 +931,62 @@ public class FileManagerT extends FileManager {
 			return;
 		}
 		getGgbFile(key + FILE_EXT, createIfNotExist,
-		        new Callback<FileEntry, FileError>() {
+				new Callback<FileEntry, FileError>() {
 
-			        @Override
-			        public void onSuccess(final FileEntry ggbFile) {
-				        ggbFile.createWriter(new FileCallback<FileWriter, FileError>() {
+					@Override
+					public void onSuccess(final FileEntry ggbFile) {
+						ggbFile.createWriter(
+								new FileCallback<FileWriter, FileError>() {
 
-					        @Override
-					        public void onSuccess(final FileWriter writer) {
-						        writer.write(material.getBase64());
-						        material.setModified(modified);
-						        material.setLocalID(MaterialsManager
-						        		.getIDFromKey(key));
-						        String newKey = MaterialsManager
-						        		.createKeyString(
-						        				material.getLocalID(),
-						        				material.getTitle());
-						        if (key.equals(newKey)) {
-						        	createMetaData(key, material, null);
-						        }else{
+									@Override
+									public void onSuccess(
+											final FileWriter writer) {
+										material.setModified(modified);
+										writeFile(writer, material, key);
+									}
 
-						        	String newTitle = material.getTitle();
-						        	Log.debug("incoming rename "
-						        			+ newTitle);
-						        	material.setTitle(MaterialsManager
-						        			.getTitleFromKey(key));
-						        	material.setSyncStamp(material
-						        			.getModified());
-						        	FileManagerT.this.rename(newTitle,
-						        			material);
-						        }
-					        }
+									@Override
+									public void onFailure(
+											final FileError error) {
+										Log.error("Cannot write to file" + key
+												+ ", error "
+												+ error.getErrorCode());
+									}
+								});
+					}
 
-					        @Override
-					        public void onFailure(final FileError error) {
-						        Log.error("Cannot write to file" + key
-						                + ", error " + error.getErrorCode());
-					        }
-				        });
-			        }
+					@Override
+					public void onFailure(final FileError error) {
+						Log.error("Cannot create file" + key + ", error "
+								+ error.getErrorCode());
+					}
 
-			        @Override
-			        public void onFailure(final FileError error) {
-				        Log.error("Cannot create file" + key + ", error "
-				                + error.getErrorCode());
-			        }
+				});
+	}
 
-		        });
+	/**
+	 * @param writer
+	 *            writer
+	 * @param material
+	 *            material
+	 * @param key
+	 *            file key
+	 */
+	protected void writeFile(FileWriter writer, Material material, String key) {
+		writer.write(material.getBase64());
+		material.setLocalID(MaterialsManager.getIDFromKey(key));
+		String newKey = MaterialsManager.createKeyString(material.getLocalID(),
+				material.getTitle());
+		if (key.equals(newKey)) {
+			createMetaData(key, material, null);
+		} else {
 
+			String newTitle = material.getTitle();
+			Log.debug("incoming rename " + newTitle);
+			material.setTitle(MaterialsManager.getTitleFromKey(key));
+			material.setSyncStamp(material.getModified());
+			FileManagerT.this.rename(newTitle, material);
+		}
 	}
 
 	@Override

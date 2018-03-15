@@ -413,7 +413,7 @@ public class PropertiesViewW extends PropertiesView
 		updateAVvisible(true);
 		Widget wPanel = optionPanel.getWrappedPanel();
 		notImplemented.setText(getTypeString(type) + " - Not implemented");
-		contentsPanel.add(wPanel != null ? wPanel: notImplemented);
+		contentsPanel.add(wPanel != null ? wPanel : notImplemented);
 		if(wPanel != null) {
 			onResize();
 		}

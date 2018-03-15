@@ -70,7 +70,7 @@ public class ImageInputDialog extends UploadImageDialog {
 		mayCenter = false;
 		if(webcamPanel == null){
 			webcamPanel = new WebCamInputPanel(app);
-		}else{
+		} else {
 			webcamPanel.startVideo();
 		}
     	inputPanel.setWidget(webcamPanel);

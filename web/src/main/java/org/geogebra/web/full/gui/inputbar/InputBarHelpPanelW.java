@@ -397,15 +397,11 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	}
 
 	private TreeMap<String, TreeSet<String>> getCommandTreeMap() {
-
 		return InputBarHelpPanel.getCommandTreeMap(app, comparator);
-
 	}
 
 	private TreeSet<String> getAllCommandsTreeSet() {
-
 		return InputBarHelpPanel.getAllCommandsTreeSet(app, comparator);
-
 	}
 
 	// =================================================================
@@ -439,10 +435,9 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			syntaxPanel.removeStyleName("inputHelp-functionTable");
 			syntaxPanel.addStyleName("inputHelp-cmdSyntax");
 		}
-		for(int i = 0; i< rows.size(); i++){
+		for (int i = 0; i < rows.size(); i++) {
 			syntaxPanel.add(rows.get(i));
 		}
-
 	}
 
 	private ArrayList<Widget> cmdSyntaxHTML() {

@@ -44,7 +44,7 @@ public class ContextMenuPopup extends MyCJButton
 		this.app = app;
 		ImgResourceHelper.setIcon(app.isUnbundledOrWhiteboard()
 				? MaterialDesignResources.INSTANCE.more_vert_black()
-				:AppResources.INSTANCE.dots(), this);
+				: AppResources.INSTANCE.dots(), this);
 		ec = app.getActiveEuclidianView().getEuclidianController();
 		location = new GPoint();
 		updateLocation();

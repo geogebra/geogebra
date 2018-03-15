@@ -58,7 +58,7 @@ public class TabletFileManager extends FileManagerT {
 			MyCallback cb = callbacks.remove(id);
 			if (success){
 				cb.onSuccess(result);
-			}else{
+			} else {
 				cb.onFailure(result);
 			}
 		}
@@ -198,7 +198,7 @@ public class TabletFileManager extends FileManagerT {
 					cb.onError();
 				}
 			});
-		}else{
+		} else {
 			callback = NO_CALLBACK;
 		}
 		String cleanTitle = getTitleWithoutReservedCharacters(

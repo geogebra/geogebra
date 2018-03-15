@@ -226,17 +226,15 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	@Override
 	public void selectInferenceMode(String item) {
-		for (int idx=0; idx < lbInferenceMode.getItemCount(); idx++) {
+		for (int idx = 0; idx < lbInferenceMode.getItemCount(); idx++) {
 			String s = lbInferenceMode.getItemText(idx);
 			if (s.equals(item)) {
 				lbInferenceMode.setSelectedIndex(idx);
 				return;
 			}
-		
 		}
 		
 		lbInferenceMode.setSelectedIndex(0);
-		
 	}
 
 	@Override

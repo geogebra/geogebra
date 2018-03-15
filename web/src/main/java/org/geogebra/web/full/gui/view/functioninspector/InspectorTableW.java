@@ -93,7 +93,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 			return;
 		}
 		DataCell data = model.getData(row - 1, col);
-		cellEditor.setText(data == null ? "": data.toString());
+		cellEditor.setText(data == null ? "" : data.toString());
 		setWidget(row, col, cellEditor);
 	}
 	
@@ -124,8 +124,8 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	@Override
 	public void updateHeader(int col, String title) {
 		setCellWidget(HEADER_ROW, col, "inspectorTableHeader", title);
-    }
-	
+	}
+
 	@Override
 	public void updateDataCell(int row, int col, DataCell value) {
 		// Cells at row 0 are headers.
@@ -212,16 +212,15 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 
 	@Override
 	public void removeLastRow() {
-	    removeRow(getRowCount() -1);
-	  //  App.debug("[TABLE] rowCount: " + getRowCount());
-    }
+		removeRow(getRowCount() - 1);
+	}
 
 	@Override
 	public void removeColumn() {
-		for (int row=0; row < getRowCount(); row++) {
+		for (int row = 0; row < getRowCount(); row++) {
 			removeLastCell(row);
 		}
-    }
+	}
 
 	@Override
 	public void appendColumn(String name) {

@@ -390,7 +390,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 
 		}
-		GeoGebraProfiler.addAlgebra(System.currentTimeMillis()-start);
+		GeoGebraProfiler.addAlgebra(System.currentTimeMillis() - start);
 	}
 
 	/**

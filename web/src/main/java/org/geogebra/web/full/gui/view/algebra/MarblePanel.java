@@ -115,7 +115,7 @@ public class MarblePanel extends FlowPanel
 	 */
 	public void updateIcons(boolean warning) {
 		MyToggleButton btn = null;
-		String tooltip="";
+		String tooltip = "";
 		boolean textInput = item.getController().isInputAsText();
 		noPlus = !StringUtil.emptyTrim(item.getText());
 		if (textInput && !item.isInputTreeItem()
@@ -137,12 +137,14 @@ public class MarblePanel extends FlowPanel
 			if (warning) {
 				tooltip = "";
 			} else {
-				tooltip = noPlus ? " ": item.app.getLocalization().getMenu("AddItem");
+				tooltip = noPlus ? " "
+						: item.app.getLocalization().getMenu("AddItem");
 			}
 		} else {
 			initHelpToggle();
 			btn = btnHelpToggle;
-			tooltip = warning ? "": item.app.getLocalization().getMenu("InputHelp");
+			tooltip = warning ? ""
+					: item.app.getLocalization().getMenu("InputHelp");
 		}
 		
 		btn.setTitle(tooltip);

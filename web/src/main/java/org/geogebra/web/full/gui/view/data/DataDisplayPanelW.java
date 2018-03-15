@@ -54,8 +54,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  * 
  */
 public class DataDisplayPanelW extends FlowPanel implements 
-		StatPanelInterfaceW, RequiresResize,
-		IDataDisplayListener {
+		StatPanelInterfaceW, RequiresResize, IDataDisplayListener {
 	private static final int NUM_CLASSES_IDX = 0;
 	private static final int MANUAL_CLASSES_IDX = 1;
 	private static final int STEM_IDX = 2;
@@ -738,7 +737,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 				: h) - lbDisplayType.getOffsetHeight() -  PLOTPANEL_MARGIN;
 
 		if (daModel.isRegressionMode()) {
-			height -= 2*lblTitleX.getOffsetHeight();
+			height -= 2 * lblTitleX.getOffsetHeight();
 			height -= lblTitleY.getOffsetHeight();
 		}
 		

@@ -106,7 +106,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		GeoNumeric.setSliderFromDefault(number, false);
 		GeoNumeric.setSliderFromDefault(angle, true);
 		number.setValue(1);
-		angle.setValue(45 * Math.PI/180);
+		angle.setValue(45 * Math.PI / 180);
 			
 		number.setSliderLocation(x, y, true);
 		angle.setSliderLocation(x, y, true);

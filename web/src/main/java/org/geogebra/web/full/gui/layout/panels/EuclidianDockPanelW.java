@@ -43,7 +43,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 		
 		if(stylebar){
 			component = loadComponent();
-		}else{
+		} else {
 			component = loadComponent();
 			buildDockPanel();
 		}

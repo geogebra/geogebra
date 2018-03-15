@@ -124,11 +124,11 @@ public class UploadImagePanel extends VerticalPanel {
 		this.fileName = fName;
 		if (previewImg == null) {
 			try{
-			previewImg = new Image(fileData);
-			previewImg.setWidth(previewWidth + "px");
-			previewImg.setHeight(previewHeight + "px");
-			add(previewImg);
-			}catch(Throwable e){
+				previewImg = new Image(fileData);
+				previewImg.setWidth(previewWidth + "px");
+				previewImg.setHeight(previewHeight + "px");
+				add(previewImg);
+			} catch (Throwable e) {
 				Log.debug("ImageProblem" + e.getMessage());
 			}
 		} else {
