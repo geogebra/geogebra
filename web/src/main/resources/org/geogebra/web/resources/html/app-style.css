@@ -553,9 +553,9 @@
 	border-left-color: transparent;
 }
 body .startscreen .GeoGebraFrame img.gwt-Image,body .startscreen .GeoGebraFrame .button.flatButton img.gwt-Image {
-    opacity: 0;
+    opacity: 0.4;
 }
 
 .startscreen .GeoGebraFrame .KeyBoard .gwt-Label {
-    color: transparent;
+    color: rgba(0,0,0,0.4);
 }
