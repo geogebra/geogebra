@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
 /**
@@ -86,11 +85,7 @@ public class LocalizationD extends LocalizationJre {
 
 	@Override
 	protected ResourceBundle createBundle(String key, Locale locale) {
-		// TODO Auto-generated method stub
-		long now = System.nanoTime();
-		ResourceBundle ret = MyResourceBundle.createBundle(key, locale);
-		Log.error(key + " " + locale + " time = " + (System.nanoTime() - now));
-		return ret;
+		return MyResourceBundle.createBundle(key, locale);
 	}
 
 	@Override
