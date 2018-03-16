@@ -130,6 +130,13 @@ abstract public class ImageManager {
 		geoImage.setCorner(point2, 1);
 	}
 
+	/**
+	 * GGB-1419
+	 * 
+	 * @param fileStr
+	 *            SVG to check as string
+	 * @return SVG with
+	 */
 	public static String fixSVG(String fileStr) {
 		int svgStart = fileStr.indexOf("<svg");
 		int svgEnd = fileStr.indexOf(">", svgStart);
