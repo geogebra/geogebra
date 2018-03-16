@@ -1913,6 +1913,10 @@ public class DockManagerW extends DockManager {
 			}
 		} else {
 			double ratio = landscapeRatio;
+			if (split.getLeftComponent() == avPanel && split
+					.getDividerLocation() <= ToolbarPanel.CLOSED_WIDTH_LANDSCAPE) {
+				toolbar.close();
+			}
 			if (toolbar != null && !toolbar.isOpen()) {
 				ratio = ToolbarPanel.CLOSED_WIDTH_LANDSCAPE / app.getWidth();
 			}
