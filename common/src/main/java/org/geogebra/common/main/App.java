@@ -4375,6 +4375,10 @@ public abstract class App implements UpdateSelection {
 		case WEB_SWITCH_APP_FOR_FILE:
 			return true;
 
+		/** GGB-1717 */
+		case IMAGE_EXPORT:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

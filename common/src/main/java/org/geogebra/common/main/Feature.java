@@ -175,6 +175,9 @@ public enum Feature {
 
 	WEB_SWITCH_APP_FOR_FILE,
 
+	/** GGB-1717 */
+	IMAGE_EXPORT,
+
 	/** GGB-2053 */
 	TAB_ON_GUI,
 

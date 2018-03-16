@@ -212,6 +212,21 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						}
 			});			
 		}
+		if (getApp().has(Feature.IMAGE_EXPORT)) {
+			addItem(MainMenu
+					.getMenuBarHtml(
+							MaterialDesignResources.INSTANCE
+									.export_image_black()
+									.getSafeUri().asString(),
+							loc.getMenu("exportImage"), true),
+					true, new MenuCommand(getApp()) {
+
+						@Override
+						public void doExecute() {
+							// to do open export image dialog
+						}
+					});
+		}
 		addSeparator();
 		shareItem = addItem(MainMenu.getMenuBarHtml(
 				getApp().isUnbundledOrWhiteboard()
