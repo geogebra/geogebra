@@ -22,6 +22,7 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -36,7 +37,7 @@ public class AudioInputDialog extends DialogBoxW
 	private FlowPanel buttonPanel;
 	private FormLabel inputLabel;
 	private InputPanelW inputField;
-	private FormLabel errorLabel;
+	private Label errorLabel;
 	private StandardButton insertBtn;
 	private StandardButton cancelBtn;
 
@@ -56,15 +57,15 @@ public class AudioInputDialog extends DialogBoxW
 		inputPanel = new FlowPanel();
 		inputPanel.setStyleName("mowAudioDialogContent");
 		inputPanel.addStyleName("emptyState");
-		inputLabel = new FormLabel();
-		inputLabel.addStyleName("inputLabel");
 		inputField = new InputPanelW("", appW, 1, 25, false);
+		inputLabel = new FormLabel().setFor(inputField.getTextComponent());
+		inputLabel.addStyleName("inputLabel");
 		inputField.getTextComponent().getTextBox().getElement().setAttribute(
 				"placeholder", appW.getLocalization().getMenu("pasteLink"));
 		inputField.addStyleName("inputText");
 		inputPanel.add(inputLabel);
 		inputPanel.add(inputField);
-		errorLabel = new FormLabel();
+		errorLabel = new Label();
 		errorLabel.addStyleName("errorLabel");
 		inputPanel.add(errorLabel);
 		// panel for buttons
@@ -145,7 +146,6 @@ public class AudioInputDialog extends DialogBoxW
 	void resetInputField() {
 		resetError();
 		getInsertBtn().setEnabled(!"".equals(getInputField().getText()));
-
 	}
 
 	/**
