@@ -62,5 +62,10 @@ public class FontA implements Font {
         FontA font = (FontA) f;
         return mName.equals(font.mName) && mTypeface.equals(font.mTypeface) && mSize == font.mSize;
     }
+	
+	public int getScale() {
+		return 1;
+	}
+
 
 }
