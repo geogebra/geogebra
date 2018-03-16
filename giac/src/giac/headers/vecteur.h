@@ -321,6 +321,7 @@ namespace giac {
   bool remove_identity(matrice & res);
   bool remove_identity(std::vector< std::vector<int> > & res,int modulo);
 
+  void mdividebypivot(matrice & a,int lastcol,GIAC_CONTEXT); // in-place div by pivots
   void mdividebypivot(matrice & a,int lastcol=-1); // in-place div by pivots
   // if lastcol==-1, divide last col, if lastcol==-2 do not divide last col
   // if lastcol>=0 stop dividing at lastcol

@@ -7343,7 +7343,8 @@ namespace giac {
       return status;
     if (fullreductionafter){ 
       det=M[lmax-1][c-linit+lmax-1];
-      if (status==3 || is_zero(det) ){ // exactly_zero(det)? 
+      if (status==3 || is_exactly_zero(det)){
+      //if (status==3 || is_zero(det,contextptr) ){ 
 	// not Cramer like, re-reduce, 
 	pivots.clear();
 	matrice2std_matrix_gen(res,M); det=detnum=detnumsave;// this should be commented but some outputs are more complicated
@@ -10258,7 +10259,7 @@ namespace giac {
 	       contextptr))
       return gendimerr(contextptr);
     if (!keep_pivot){
-      mdividebypivot(res,ncols);
+      mdividebypivot(res,ncols,contextptr);
     }
     if (res.front().type==_VECT && res.front()._VECTptr->front().type==_MOD)
       return res;
@@ -10269,18 +10270,36 @@ namespace giac {
   define_unary_function_ptr5( at_rref ,alias_at_rref,&__rref,0,true);
 
   // returns 0 if all elements are 0
-  static gen first_non_zero(const vecteur & v,int lastcol){
+  static gen first_non_zero(const vecteur & v,int lastcol,GIAC_CONTEXT){
     vecteur::const_iterator it=v.begin(),itend=v.end();
     if (itend-it>lastcol)
       itend=it+lastcol;
-    for (;it!=itend;++it){
-      if (!is_zero(*it,context0)) // !is_exactly_zero(*it) ?
-	return *it;
+    if (has_num_coeff(v)){
+      gen vmax=0,tmp; 
+      // in approx mode, we want to make a relative comparison with 0
+      // find the largest value of the row in absolute value
+      for (;it!=itend;++it){
+	if (has_evalf(*it,tmp,1,contextptr) && is_greater((tmp=abs(tmp,contextptr)),vmax,contextptr))
+	  vmax=tmp;
+      }
+      it=v.begin();
+      vmax=inv(vmax,contextptr);
+      for (;it!=itend;++it){
+	if (!is_zero(*it*vmax,contextptr))
+	  //if (!is_exactly_zero(*it))
+	  return *it;
+      }
+    }
+    else {
+      for (;it!=itend;++it){
+	if (!is_zero(*it,contextptr))
+	  return *it;
+      }
     }
     return 0;
   }
 
-  void mdividebypivot(matrice & a,int lastcol){
+  void mdividebypivot(matrice & a,int lastcol,GIAC_CONTEXT){
     if (lastcol==-1)
       lastcol=int(a.front()._VECTptr->size());
     if (lastcol==-2)
@@ -10290,10 +10309,14 @@ namespace giac {
     vecteur::const_iterator ita=a.begin(),itaend=a.end();
     gen pivot;
     for (;ita!=itaend;++ita){
-      pivot=first_non_zero(*(ita->_VECTptr),lastcol);
-      if (!is_zero(pivot,context0)) // !is_exactly_zero(pivot)?
+      pivot=first_non_zero(*(ita->_VECTptr),lastcol,contextptr);
+      if (!is_exactly_zero(pivot))
 	divvecteur(*(ita->_VECTptr),pivot,*(ita->_VECTptr));
     }
+  }
+
+  void mdividebypivot(matrice & a,int lastcol){
+    mdividebypivot(a,lastcol,context0);
   }
 
   void midn(int n,matrice & res){
@@ -14425,7 +14448,7 @@ namespace giac {
 	  /* fullreduction */1,0,true,algorithm,0,
 	       contextptr))
       return false;
-    mdividebypivot(res);
+    mdividebypivot(res,-1,contextptr);
     // put zero lines in res at their proper place, so that
     // non zero pivot are on the diagonal
     int s=int(res.size()),c=int(res.front()._VECTptr->size());
