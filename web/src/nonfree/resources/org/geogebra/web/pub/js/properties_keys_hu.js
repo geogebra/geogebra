@@ -3121,6 +3121,7 @@ __GGB__keysVar["hu"].menu = {
     "exam_start_time": "A vizsga kezd\xe9si ideje",
     "exam_started": "A vizsga megkezd\u0151d\xf6tt",
     "exam_views_deactivated": "Kikapcsolt n\xe9zetek",
+    "exportImage": "Export  Image",
     "firstAxisLength": "nagytengely hossz",
     "fixed": "Fix",
     "fncInspector.Curvature": "G\xf6rb\xfclet",

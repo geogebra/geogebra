@@ -3121,6 +3121,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "exam_start_time": "In\xedcio do \"Modo Exame\"",
     "exam_started": "In\xedcio do \"Modo Exame\"",
     "exam_views_deactivated": "Desativar Vistas",
+    "exportImage": "Export  Image",
     "firstAxisLength": "Comprimento do eixo principal",
     "fixed": "Fixo",
     "fncInspector.Curvature": "Curvatura",

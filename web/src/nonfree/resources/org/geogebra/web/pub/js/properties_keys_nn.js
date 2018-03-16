@@ -3121,6 +3121,7 @@ __GGB__keysVar["nn"].menu = {
     "exam_start_time": "Tid for pr\xf8vestart",
     "exam_started": "Pr\xf8vemodulen er starta",
     "exam_views_deactivated": "Deaktiverte vindauge",
+    "exportImage": "Export  Image",
     "firstAxisLength": "Lengde av den store halvaksen",
     "fixed": "L\xe5st",
     "fncInspector.Curvature": "Krumming",

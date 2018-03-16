@@ -3121,6 +3121,7 @@ __GGB__keysVar["cy"].menu = {
     "exam_start_time": "Start Time",
     "exam_started": "Exam started",
     "exam_views_deactivated": "Deactivated Views",
+    "exportImage": "Export  Image",
     "firstAxisLength": "hyd yr echelin gyntaf",
     "fixed": "Sefydlog",
     "fncInspector.Curvature": "Crymedd",

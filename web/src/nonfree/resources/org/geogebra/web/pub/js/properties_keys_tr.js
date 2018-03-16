@@ -3121,6 +3121,7 @@ __GGB__keysVar["tr"].menu = {
     "exam_start_time": "S\u0131nav Ba\u015flama Zaman\u0131",
     "exam_started": "S\u0131nav ba\u015flat\u0131ld\u0131",
     "exam_views_deactivated": "Devre d\u0131\u015f\u0131 b\u0131rak\u0131lm\u0131\u015f G\xf6r\xfcn\xfcmler",
+    "exportImage": "Export  Image",
     "firstAxisLength": "ilk eksenin uzunlu\u011fu",
     "fixed": "sabit",
     "fncInspector.Curvature": "E\u011frilik",

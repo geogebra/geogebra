@@ -3121,6 +3121,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "exam_start_time": "Hora d'inici de l'examen",
     "exam_started": "El mode examen ha comen\xe7at",
     "exam_views_deactivated": "Vistes desactivades",
+    "exportImage": "Export  Image",
     "firstAxisLength": "Longitud del primer eix",
     "fixed": "fixat",
     "fncInspector.Curvature": "Curvatura",

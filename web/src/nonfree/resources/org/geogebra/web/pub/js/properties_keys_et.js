@@ -3121,6 +3121,7 @@ __GGB__keysVar["et"].menu = {
     "exam_start_time": "Start Time",
     "exam_started": "Exam started",
     "exam_views_deactivated": "Deactivated Views",
+    "exportImage": "Export  Image",
     "firstAxisLength": "fokaalpooltelje pikkus",
     "fixed": "Fikseeritud",
     "fncInspector.Curvature": "K\xf5verus",

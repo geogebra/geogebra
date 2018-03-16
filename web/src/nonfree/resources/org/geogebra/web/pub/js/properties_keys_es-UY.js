@@ -3121,6 +3121,7 @@ __GGB__keysVar["es-UY"].menu = {
     "exam_start_time": "Hora de inicio",
     "exam_started": "Examen iniciado",
     "exam_views_deactivated": "Vistas desactivadas",
+    "exportImage": "Export  Image",
     "firstAxisLength": "Longitud del semieje mayor",
     "fixed": "Fijaci\xf3n",
     "fncInspector.Curvature": "Curvatura",

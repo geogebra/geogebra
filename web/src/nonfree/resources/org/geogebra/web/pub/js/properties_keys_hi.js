@@ -3121,6 +3121,7 @@ __GGB__keysVar["hi"].menu = {
     "exam_start_time": "Start Time",
     "exam_started": "Exam started",
     "exam_views_deactivated": "Deactivated Views",
+    "exportImage": "Export  Image",
     "firstAxisLength": "\u0926\u0940\u0930\u094d\u0918\u0905\u0915\u094d\u0937 \u0932\u0902\u092c\u093e\u0908",
     "fixed": "\u0928\u093f\u0930\u094d\u0927\u093e\u0930\u093f\u0924",
     "fncInspector.Curvature": "\u0935\u0915\u094d\u0930\u0924\u093e",

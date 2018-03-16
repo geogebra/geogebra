@@ -3121,6 +3121,7 @@ __GGB__keysVar["xh"].menu = {
     "exam_start_time": "Ixesha lokuqala kovavanyo",
     "exam_started": "Uvavanyo luqalile",
     "exam_views_deactivated": "Susa Imibonakaliso",
+    "exportImage": "Export  Image",
     "firstAxisLength": "ifirst axis' length",
     "fixed": "Fixed",
     "fncInspector.Curvature": "Igophe",

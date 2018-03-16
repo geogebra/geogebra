@@ -3121,6 +3121,7 @@ __GGB__keysVar["nl"].menu = {
     "exam_start_time": "Begintijdstip",
     "exam_started": "Examenmodus gestart",
     "exam_views_deactivated": "Gedeactiveerde schermen",
+    "exportImage": "Export  Image",
     "firstAxisLength": "lengte van de halve hoofdas",
     "fixed": "Vast",
     "fncInspector.Curvature": "Kromming",

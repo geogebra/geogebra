@@ -3121,6 +3121,7 @@ __GGB__keysVar["id"].menu = {
     "exam_start_time": "Start Time",
     "exam_started": "Exam started",
     "exam_views_deactivated": "Deactivated Views",
+    "exportImage": "Export  Image",
     "firstAxisLength": "panjang sumbu pertama",
     "fixed": "tetap",
     "fncInspector.Curvature": "Lengkungan",

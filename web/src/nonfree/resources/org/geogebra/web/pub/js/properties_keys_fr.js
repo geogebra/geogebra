@@ -3121,6 +3121,7 @@ __GGB__keysVar["fr"].menu = {
     "exam_start_time": "D\xe9but Examen",
     "exam_started": "D\xe9marrer Examen",
     "exam_views_deactivated": "Sans",
+    "exportImage": "Exporter  Image",
     "firstAxisLength": "Demi-Longueur du premier axe",
     "fixed": "fix\xe9",
     "fncInspector.Curvature": "Courbure",
