@@ -121,4 +121,8 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 		fontLoadCallbacks = null;
 	}
 
+	public int getScale() {
+		return 1;
+	}
+
 }

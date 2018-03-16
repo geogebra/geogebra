@@ -85,8 +85,22 @@ public class CharBox extends Box {
 		g2.saveTransformation();
 		g2.translate(x, y);
 		Font font = FontInfo.getFont(cf.fontId);
-		if (size != 1) {
-			g2.scale(size, size);
+		
+		// https://github.com/opencollab/jlatexmath/issues/32
+		int fontScale = font.getScale();
+
+		if (fontScale != 1) {
+
+			if (Math.abs(size - fontScale) > TeXFormula.PREC) {
+				g2.scale(size / fontScale, size / fontScale);
+			}
+
+		} else {
+
+			if (size != 1) {
+				g2.scale(size, size);
+			}
+
 		}
 		Font oldFont = g2.getFont();
 		if (!oldFont.isEqual(font)) {

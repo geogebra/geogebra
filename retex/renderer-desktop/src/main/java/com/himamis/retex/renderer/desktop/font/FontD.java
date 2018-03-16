@@ -89,4 +89,9 @@ public class FontD implements Font {
 	public boolean isEqual(Font f) {
 		return impl.equals(((FontD)f).impl);
 	}
+	
+	@Override
+	public int getScale() {
+		return FontLoaderD.FONT_SCALE_FACTOR;
+	}
 }

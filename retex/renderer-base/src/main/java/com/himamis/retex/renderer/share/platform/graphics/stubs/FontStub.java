@@ -21,4 +21,8 @@ public class FontStub implements Font {
     public boolean isEqual(Font f) {
         return false;
     }
+
+	public int getScale() {
+		return 1;
+	}
 }

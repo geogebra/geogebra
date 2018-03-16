@@ -86,4 +86,9 @@ public class DefaultFont extends FontW implements FontWrapper {
 		return null;
 	}
 
+	@Override
+	public int getScale() {
+		return 1;
+	}
+
 }

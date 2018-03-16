@@ -70,4 +70,6 @@ public interface Font {
 
 	public boolean isEqual(Font f);
 
+	public int getScale();
+
 }

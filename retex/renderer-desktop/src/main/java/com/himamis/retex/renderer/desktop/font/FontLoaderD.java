@@ -47,6 +47,7 @@ import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.exception.ResourceParseException;
 import com.himamis.retex.renderer.share.exception.XMLResourceParseException;
 import com.himamis.retex.renderer.share.platform.Resource;
@@ -55,6 +56,9 @@ import com.himamis.retex.renderer.share.platform.font.FontLoader;
 
 public class FontLoaderD implements FontLoader {
 
+	// https://github.com/opencollab/jlatexmath/issues/32
+	static final int FONT_SCALE_FACTOR = 100;
+	
 	private static boolean shouldRegisterFonts = true;
 
 	@Override
@@ -63,7 +67,7 @@ public class FontLoaderD implements FontLoader {
 		InputStream fontIn = (InputStream) new Resource().loadResource(base, name);
 		try {
 			java.awt.Font f = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, fontIn)
-					.deriveFont((float) PIXELS_PER_POINT);
+					.deriveFont((float) PIXELS_PER_POINT * FONT_SCALE_FACTOR);
 			GraphicsEnvironment graphicEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
 			/**
