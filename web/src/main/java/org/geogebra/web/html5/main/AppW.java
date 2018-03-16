@@ -1572,7 +1572,7 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public native boolean openFileAsImage(JavaScriptObject fileToHandle,
 			JavaScriptObject callback) /*-{
-		var imageRegEx = /\.(png|jpg|jpeg|gif|bmp)$/i;
+		var imageRegEx = /\.(png|jpg|jpeg|gif|bmp|svg)$/i;
 		if (!fileToHandle.name.toLowerCase().match(imageRegEx))
 			return false;
 
