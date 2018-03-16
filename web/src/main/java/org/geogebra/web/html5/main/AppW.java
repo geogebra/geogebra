@@ -78,6 +78,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
+import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
@@ -1534,9 +1535,15 @@ public abstract class AppW extends App implements SetLabels {
 	 * @param imgFileName
 	 *            filename
 	 */
-	private void doDropHappened(final String imgFileName, String fileStr) {
-
+	private void doDropHappened(final String imgFileName, String fileStr0) {
 		Construction cons = getKernel().getConstruction();
+		String fileStr = fileStr0;
+		if (fileStr.startsWith(StringUtil.svgMarker)) {
+			fileStr = Browser.decodeBase64(
+					fileStr.substring(StringUtil.svgMarker.length()));
+			fileStr = ImageManager.fixSVG(fileStr);
+			fileStr = StringUtil.svgMarker + Browser.encodeBase64(fileStr);
+		}
 		getImageManager().addExternalImage(imgFileName, fileStr);
 		final GeoImage geoImage = new GeoImage(cons);
 		getImageManager().triggerSingleImageLoading(imgFileName, geoImage);

@@ -406,7 +406,11 @@ public class MyXMLHandler implements DocHandler {
 		this.cons = origKernel.getConstruction();
 	}
 
-	@Override
+	/**
+	 * For navigation bar
+	 * 
+	 * @return current construction step
+	 */
 	public int getConsStep() {
 		return consStep;
 	}

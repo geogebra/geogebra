@@ -1,14 +1,17 @@
 package org.geogebra.common.util;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.io.QDParser;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 
 abstract public class ImageManager {
 
@@ -125,5 +128,27 @@ abstract public class ImageManager {
 		point2.update();
 		geoImage.setCorner(point1, 0);
 		geoImage.setCorner(point2, 1);
+	}
+
+	public static String fixSVG(String fileStr) {
+		int svgStart = fileStr.indexOf("<svg");
+		int svgEnd = fileStr.indexOf(">", svgStart);
+		String svgTag = fileStr.substring(svgStart, svgEnd + 1) + "</svg>";
+		if (svgTag.contains("width") && svgTag.contains("height")
+				&& svgTag.contains("viewBox")) {
+			return fileStr;
+		}
+		QDParser qd = new QDParser();
+		SVGDocHandler handler = new SVGDocHandler();
+		try {
+			qd.parse(handler, new StringReader(svgTag));
+			return fileStr.substring(0, svgStart) + handler.getSVGTag()
+					+ fileStr.substring(svgEnd + 1);
+		} catch (Exception e) {
+			Log.debug(e);
+		}
+
+		return fileStr;
+
 	}
 }

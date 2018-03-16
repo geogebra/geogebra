@@ -108,7 +108,6 @@ public abstract class ProbabilityCalculatorView
 
 	private static final GColor COLOR_POINT = GColor.BLACK;
 
-
 	private EuclidianView plotPanel;
 
 	private ProbabilityTable table;
@@ -370,20 +369,14 @@ public abstract class ProbabilityCalculatorView
 	 * type and parameters.
 	 */
 	protected void createGeoElements() {
-
 		this.removeGeos();
 
-		
-
 		// create low point
-
 		GeoAxis path = (GeoAxis) kernel.lookupLabel(loc.getMenu("xAxis"));
-
 		AlgoPointOnPath algoLow = new AlgoPointOnPath(cons, path, 0d, 0d);
 		cons.removeFromConstructionList(algoLow);
 
 		lowPoint = (GeoPoint) algoLow.getOutput(0);
-
 		lowPoint.setObjColor(COLOR_POINT);
 		lowPoint.setPointSize(4);
 		lowPoint.setPointStyle(

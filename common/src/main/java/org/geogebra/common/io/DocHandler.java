@@ -62,10 +62,4 @@ public interface DocHandler {
 	 */
 	public void text(String str) throws Exception;
 
-	/**
-	 * For navigation bar
-	 * 
-	 * @return current construction step
-	 */
-	public int getConsStep();
 }
