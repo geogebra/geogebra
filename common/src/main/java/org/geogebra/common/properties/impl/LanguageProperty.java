@@ -1,14 +1,12 @@
 package org.geogebra.common.properties.impl;
 
+import java.util.Locale;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 import org.geogebra.common.util.lang.Language;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 public class LanguageProperty extends AbstractEnumerableProperty {
 
