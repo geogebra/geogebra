@@ -7343,7 +7343,7 @@ namespace giac {
       return status;
     if (fullreductionafter){ 
       det=M[lmax-1][c-linit+lmax-1];
-      if (status==3 || is_zero(det)){ 
+      if (status==3 || is_zero(det) ){ // exactly_zero(det)? 
 	// not Cramer like, re-reduce, 
 	pivots.clear();
 	matrice2std_matrix_gen(res,M); det=detnum=detnumsave;// this should be commented but some outputs are more complicated
@@ -10274,7 +10274,7 @@ namespace giac {
     if (itend-it>lastcol)
       itend=it+lastcol;
     for (;it!=itend;++it){
-      if (!is_zero(*it,context0))
+      if (!is_zero(*it,context0)) // !is_exactly_zero(*it) ?
 	return *it;
     }
     return 0;
@@ -10291,7 +10291,7 @@ namespace giac {
     gen pivot;
     for (;ita!=itaend;++ita){
       pivot=first_non_zero(*(ita->_VECTptr),lastcol);
-      if (!is_zero(pivot,context0))
+      if (!is_zero(pivot,context0)) // !is_exactly_zero(pivot)?
 	divvecteur(*(ita->_VECTptr),pivot,*(ita->_VECTptr));
     }
   }

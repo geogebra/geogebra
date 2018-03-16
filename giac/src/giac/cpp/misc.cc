@@ -535,6 +535,24 @@ namespace giac {
   static define_unary_function_eval (__suppress,&_suppress,_suppress_s);
   define_unary_function_ptr5( at_suppress ,alias_at_suppress,&__suppress,0,true);
 
+  gen _clear(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    gen g=eval(args,1,contextptr);
+    if (g.type==_STRNG) 
+      g=string2gen("",false);
+    else {
+      if (g.type!=_VECT)
+	return gensizeerr(contextptr);
+      g=gen(vecteur(0),args.subtype);
+    }
+    if (args.type==_STRNG || args.type==_VECT)
+      return g;
+    return sto(g,args,contextptr);
+  }
+  static const char _clear_s []="clear";
+  static define_unary_function_eval (__clear,&_clear,_clear_s);
+  define_unary_function_ptr5( at_clear ,alias_at_clear,&__clear,_QUOTE_ARGUMENTS,true);
+
   gen _insert(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)

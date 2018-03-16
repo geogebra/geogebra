@@ -5471,11 +5471,11 @@ namespace giac {
     gen a,b,c;
     if (!check_binary(args,a,b))
       return a;
-    if (b==at_revlist || b==at_reverse || b==at_sort || b==at_append || b==at_prepend || b==at_concat || b==at_extend || b==at_rotate || b==at_shift || b==at_suppress || b==at_index)
+    if (b==at_revlist || b==at_reverse || b==at_sort || b==at_append || b==at_prepend || b==at_concat || b==at_extend || b==at_rotate || b==at_shift || b==at_suppress || b==at_clear || b==at_index)
       return symbolic(at_struct_dot,args);
     if (b.type==_SYMB){
       unary_function_ptr c=b._SYMBptr->sommet;
-      if (c==at_revlist || c==at_reverse || c==at_sort || c==at_append || c==at_prepend || c==at_concat || c==at_extend || c==at_rotate || c==at_shift || c==at_suppress || c==at_index){
+      if (c==at_revlist || c==at_reverse || c==at_sort || c==at_append || c==at_prepend || c==at_concat || c==at_extend || c==at_rotate || c==at_shift || c==at_suppress || c==at_clear || c==at_index){
 	gen d=eval(a,eval_level(contextptr),contextptr);
 	if (b._SYMBptr->feuille.type==_VECT && b._SYMBptr->feuille.subtype==_SEQ__VECT && b._SYMBptr->feuille._VECTptr->empty())
 	  ;
@@ -10512,7 +10512,7 @@ namespace giac {
 	  tmp._VECTptr->push_back(eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr));
 	  return tmp;
 	}
-	if (b._SYMBptr->sommet==at_suppress && b._SYMBptr->feuille.type==_VECT && b._SYMBptr->feuille._VECTptr->empty()){
+	if ( (b._SYMBptr->sommet==at_suppress || b._SYMBptr->sommet==at_clear) && b._SYMBptr->feuille.type==_VECT && b._SYMBptr->feuille._VECTptr->empty()){
 	  tmp._VECTptr->clear();
 	  return tmp;
 	}

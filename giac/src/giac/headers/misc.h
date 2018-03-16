@@ -208,6 +208,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_changebase;
   extern const unary_function_ptr * const  at_epsilon2zero;
   extern const unary_function_ptr * const  at_suppress;
+  extern const unary_function_ptr * const  at_clear;
   extern const unary_function_ptr * const  at_froot;
   extern const unary_function_ptr * const  at_fcoeff;
   extern const unary_function_ptr * const  at_truncate;
