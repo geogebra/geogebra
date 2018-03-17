@@ -998,7 +998,7 @@ namespace giac {
 	gen v2=evalf_double(v[2],1,contextptr);
 	gen v1=evalf_double(v[1],1,contextptr);
 	gen delta=v2-v1;
-	v=makevecteur(c+r*exp(cst_i*(v1-0.1*delta),contextptr),
+	v=makevecteur(c,c+r*exp(cst_i*(v1-0.1*delta),contextptr),
 		      c+r*exp(cst_i*v1,contextptr),
 		      c+r*exp(cst_i*(3*v1+v2)/gen(4),contextptr),
 		      c+r*exp(cst_i*(v1+v2)/gen(2),contextptr),

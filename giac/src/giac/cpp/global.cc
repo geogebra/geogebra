@@ -5757,13 +5757,16 @@ unsigned int ConvertUTF8toUTF16 (
     if (first>=0 && first<sss)
       return s_orig;
     bool pythonmode=false;
+    bool pythoncompat=python_compat(contextptr);
     first=0;
     if (sss>24 && s_orig.substr(0,17)=="add_autosimplify(")
       first=17;
     if (s_orig[first]=='/')
       return s_orig;
-    if (s_orig[first]=='#' || (s_orig[first]=='_' && !isalpha(s_orig[first+1])) || s_orig.substr(first,4)=="from" || s_orig.substr(first,7)=="import ")
+    if (s_orig[first]=='#' || (s_orig[first]=='_' && !isalpha(s_orig[first+1])) || s_orig.substr(first,4)=="from" || s_orig.substr(first,7)=="import "){
       pythonmode=true;
+      pythoncompat=true;
+    }
     for (first=0;!pythonmode && first<sss;){
       int pos=s_orig.find(":]");
       if (pos>=0 && pos<sss){
@@ -5820,7 +5823,6 @@ unsigned int ConvertUTF8toUTF16 (
     res=glue_lines_backslash(res);
     vector<int_string> stack;
     string s,cur; 
-    bool pythoncompat=python_compat(contextptr);
     if (pythoncompat) pythonmode=true;
     for (;res.size();){
       int pos=res.find('\n');
