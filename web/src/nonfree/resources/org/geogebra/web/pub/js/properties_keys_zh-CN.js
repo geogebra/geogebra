@@ -3121,7 +3121,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "exam_start_time": "\u5f00\u59cb\u65f6\u95f4",
     "exam_started": "\u68c0\u6d4b\u5f00\u59cb",
     "exam_views_deactivated": "\u7981\u7528\u7684\u89c6\u56fe",
-    "exportImage": "Export  Image",
+    "exportImage": "\u5bfc\u51fa\u56fe\u7247",
     "firstAxisLength": "\u534a\u957f\u8f74\u957f",
     "fixed": "\u56fa\u5b9a",
     "fncInspector.Curvature": "\u66f2\u7387",
