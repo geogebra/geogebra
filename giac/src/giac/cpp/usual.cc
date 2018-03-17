@@ -4064,11 +4064,21 @@ namespace giac {
 
   // mult==0 for +/-, mult=1 for * and /, mult==2 for iquo (negatif=false), mult==3 for irem (negatif=false)
   static gen increment(const gen & var,const gen & val_orig,bool negatif,int mult,GIAC_CONTEXT){
-    if (var.type!=_IDNT)
-      return gentypeerr(gettext("Increment"));
     gen val=val_orig.eval(1,contextptr);
     if (negatif)
       val=mult==1?inv(val,contextptr):-val;
+    if (var.type!=_IDNT){
+      gen prev=eval(var,1,contextptr);
+      if (mult==0)
+	return sto(prev+val,var,contextptr);
+      if (mult==1)
+	return sto(prev*val,var,contextptr);
+      if (mult==2)
+	return sto(_iquo(makesequence(prev,val),contextptr),var,contextptr);
+      if (mult==3)
+	return sto(_irem(makesequence(prev,val),contextptr),var,contextptr);
+      return gensizeerr(gettext("Increment"));
+    }
     if (contextptr){
       sym_tab::iterator it,itend;
       const context * cptr=contextptr;
