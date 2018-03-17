@@ -5803,6 +5803,7 @@ namespace giac {
   }
 
   static gen operator_times(const gen & a,const gen & b,unsigned t,GIAC_CONTEXT){
+    static bool warnpy=true;
     // COUT << a << "*" << b << endl;
     // if (!( (++control_c_counter) & control_c_counter_mask))
 #ifdef TIMEOUT
@@ -5878,7 +5879,22 @@ namespace giac {
       return is_one(a)?b:gen(a*(*b._CPLXptr),a*(*(b._CPLXptr+1)));
     case _CPLX__CPLX:
       return adjust_complex_display(mult_cplx(a,b,contextptr),a,b);
-    case _VECT__INT_: case _VECT__ZINT: case _VECT__DOUBLE_: case _VECT__FLOAT_: case _VECT__CPLX: case _VECT__SYMB: case _VECT__IDNT: case _VECT__POLY: case _VECT__EXT: case _VECT__MOD: case _VECT__FRAC: case _VECT__REAL: {
+    case _VECT__INT_: 
+      if (b.val>=0 && python_compat(contextptr)){
+	if (warnpy)
+	  *logptr(contextptr) << gettext("Python compatibility, list*integer will duplicate list, integer*list will do vector multiplication") << endl;
+	warnpy=false;
+	vecteur res;
+	res.reserve(a._VECTptr->size()*b.val);
+	const_iterateur it,itend=a._VECTptr->end();
+	int n=b.val;
+	for (int i=0;i<n;++i){
+	  for (it=a._VECTptr->begin();it!=itend;++it)
+	    res.push_back(*it);
+	}
+	return gen(res,a.subtype);
+      }
+    case _VECT__ZINT: case _VECT__DOUBLE_: case _VECT__FLOAT_: case _VECT__CPLX: case _VECT__SYMB: case _VECT__IDNT: case _VECT__POLY: case _VECT__EXT: case _VECT__MOD: case _VECT__FRAC: case _VECT__REAL: {
       gen A(a),B(b);
       if (A.is_approx() && !is_fully_numeric(B))
 	B=evalf(b,1,contextptr);
@@ -5910,7 +5926,12 @@ namespace giac {
       }
       return multgen_poly(B,*A._VECTptr,A.subtype); // gen(multvecteur(b,*a._VECTptr),a.subtype);
     }
-    case _INT___VECT: case _ZINT__VECT: case _DOUBLE___VECT: case _FLOAT___VECT: case _CPLX__VECT: case _SYMB__VECT: case _IDNT__VECT: case _POLY__VECT: case _EXT__VECT: case _MOD__VECT: case _FRAC__VECT: case _REAL__VECT: {
+    case _INT___VECT: 
+      if (warnpy && a.val>=0 && python_compat(contextptr)){
+	*logptr(contextptr) << gettext("Python compatibility, list*integer will duplicate list, integer*list will do vector multiplication") << endl;
+	warnpy=false;
+      }
+    case _ZINT__VECT: case _DOUBLE___VECT: case _FLOAT___VECT: case _CPLX__VECT: case _SYMB__VECT: case _IDNT__VECT: case _POLY__VECT: case _EXT__VECT: case _MOD__VECT: case _FRAC__VECT: case _REAL__VECT: {
       gen A(a),B(b);
       if (A.is_approx() && !is_fully_numeric(B)){
 	B=evalf(b,1,contextptr);
@@ -5938,8 +5959,6 @@ namespace giac {
 	  return A;
 	// if (a.type==_POLY) return b*(*a._POLYptr);
       }
-      if (A.type==_INT_ && B.subtype==0 && python_compat(contextptr))
-	*logptr(contextptr) << gettext("Warning, * is vector multiplication. Run concat(seq(list,n)) to replicate a list.") << endl;
       return multgen_poly(A,*B._VECTptr,B.subtype); // gen(multvecteur(a,*b._VECTptr),b.subtype);
     }
     case _VECT__VECT: {
