@@ -5841,6 +5841,7 @@ unsigned int ConvertUTF8toUTF16 (
 	  continue;
 	if (!instring && pythoncompat &&
 	    ch=='\'' && pos<cur.size()-2 && cur[pos+1]!='\\' && (pos==0 || (cur[pos-1]!='\\' && cur[pos-1]!='\''))){ // workaround for '' string delimiters
+	  alert("// Python compatibility, please use \"...\" for strings",contextptr);
 	  int p=pos,q,beg; // skip spaces
 	  for (p++;p<int(cur.size());++p)
 	    if (cur[p]!=' ') 
@@ -6094,7 +6095,6 @@ unsigned int ConvertUTF8toUTF16 (
 	s += ":;";
       else
 	s += ";";
-      *logptr(contextptr) << "// Python compatibility, check string delimiters \"\" and declare local variables!\n";
       if (debug_infolevel)
 	*logptr(contextptr) << "Translated to Xcas as:\n" << s << endl;
     }

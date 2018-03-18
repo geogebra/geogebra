@@ -4320,7 +4320,7 @@ namespace giac {
 	return gen(addvecteur(*a._VECTptr,*b._VECTptr),0);
       if (warnextend && a.subtype==0 && b.subtype==0 && python_compat(contextptr)){
 	warnextend=false;
-	*logptr(contextptr) << gettext("Warning + is vector addition, run list1.extend(list2) for list concatenation") << endl;
+	alert(gettext("Warning + is vector addition, run list1.extend(list2) for list concatenation"),contextptr);
       }
       return gen(addvecteur(*a._VECTptr,*b._VECTptr),a.subtype?a.subtype:b.subtype);
     case _MAP__MAP:
@@ -5881,9 +5881,6 @@ namespace giac {
       return adjust_complex_display(mult_cplx(a,b,contextptr),a,b);
     case _VECT__INT_: 
       if (b.val>=0 && python_compat(contextptr)){
-	if (warnpy)
-	  *logptr(contextptr) << gettext("Python compatibility, list*integer will duplicate list, integer*list will do vector multiplication") << endl;
-	warnpy=false;
 	vecteur res;
 	res.reserve(a._VECTptr->size()*b.val);
 	const_iterateur it,itend=a._VECTptr->end();
@@ -5928,7 +5925,7 @@ namespace giac {
     }
     case _INT___VECT: 
       if (warnpy && a.val>=0 && python_compat(contextptr)){
-	*logptr(contextptr) << gettext("Python compatibility, list*integer will duplicate list, integer*list will do vector multiplication") << endl;
+	alert(gettext("Python compatibility, integer*list will do vector multiplication, run list*integer to duplicate list"),contextptr);
 	warnpy=false;
       }
     case _ZINT__VECT: case _DOUBLE___VECT: case _FLOAT___VECT: case _CPLX__VECT: case _SYMB__VECT: case _IDNT__VECT: case _POLY__VECT: case _EXT__VECT: case _MOD__VECT: case _FRAC__VECT: case _REAL__VECT: {

@@ -43,6 +43,7 @@ namespace giac {
   extern modules_tab giac_modules_tab;
 #endif
 
+  void alert(const std::string & s,GIAC_CONTEXT);
   gen check_secure(); // in secure mode error
   void set_decimal_digits(int n,GIAC_CONTEXT);
   int digits2bits(int n);
@@ -353,6 +354,7 @@ namespace giac {
 
   gen _sort(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_sort;
+  extern const unary_function_ptr * const  at_sorted;
 
   gen _ans(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_ans;

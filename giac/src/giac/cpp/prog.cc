@@ -81,6 +81,10 @@ extern "C" uint32_t mainThreadStack[];
 #endif
 #endif
 
+#ifdef EMCC
+#include <emscripten.h>
+#endif
+
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
@@ -95,6 +99,18 @@ namespace giac {
 #ifdef HAVE_LIBDL
   modules_tab giac_modules_tab;
 #endif
+
+  void alert(const string & s,GIAC_CONTEXT){
+#ifdef EMCC
+    EM_ASM_ARGS({
+	if (UI.warnpy){
+          var msg = Pointer_stringify($0); // Convert message to JS string
+          alert(msg);                      // Use JS version of alert          
+        }
+      }, s.c_str());
+#endif
+    *logptr(contextptr) << s << endl;
+  }
 
   gen equaltosto(const gen & g,GIAC_CONTEXT){
     if (g.type<=_IDNT || !eval_equaltosto(contextptr))
@@ -5068,7 +5084,6 @@ namespace giac {
   define_unary_function_ptr5( at_rmbreakpoint ,alias_at_rmbreakpoint,&__rmbreakpoint,_QUOTE_ARGUMENTS,true);
 
 #if defined EMCC && !defined GIAC_GGB
-#include <emscripten.h>
   void debug_loop(gen &res,GIAC_CONTEXT){
     if (!debug_ptr(contextptr)->debug_allowed || (!debug_ptr(contextptr)->sst_mode && !equalposcomp(debug_ptr(contextptr)->sst_at,debug_ptr(contextptr)->current_instruction)) )
       return;
@@ -5471,11 +5486,11 @@ namespace giac {
     gen a,b,c;
     if (!check_binary(args,a,b))
       return a;
-    if (b==at_revlist || b==at_reverse || b==at_sort || b==at_append || b==at_prepend || b==at_concat || b==at_extend || b==at_rotate || b==at_shift || b==at_suppress || b==at_clear || b==at_index)
+    if (b==at_revlist || b==at_reverse || b==at_sort || b==at_sorted || b==at_append || b==at_prepend || b==at_concat || b==at_extend || b==at_rotate || b==at_shift || b==at_suppress || b==at_clear || b==at_index)
       return symbolic(at_struct_dot,args);
     if (b.type==_SYMB){
       unary_function_ptr c=b._SYMBptr->sommet;
-      if (c==at_revlist || c==at_reverse || c==at_sort || c==at_append || c==at_prepend || c==at_concat || c==at_extend || c==at_rotate || c==at_shift || c==at_suppress || c==at_clear || c==at_index){
+      if (c==at_revlist || c==at_reverse || c==at_sort || c==at_sorted || c==at_append || c==at_prepend || c==at_concat || c==at_extend || c==at_rotate || c==at_shift || c==at_suppress || c==at_clear || c==at_index){
 	gen d=eval(a,eval_level(contextptr),contextptr);
 	if (b._SYMBptr->feuille.type==_VECT && b._SYMBptr->feuille.subtype==_SEQ__VECT && b._SYMBptr->feuille._VECTptr->empty())
 	  ;
@@ -6596,10 +6611,15 @@ namespace giac {
     bool usersort=v.size()==2 && v[0].type==_VECT && v[1].type!=_VECT
       // && args.subtype==_SEQ__VECT
       ;
+    bool rev=false;
     if (usersort){
       f=v[1];
       subtype=v[0].subtype;
       v=*v[0]._VECTptr;
+      if (is_equal(f) && f._SYMBptr->feuille[0]==at_reverse && !is_zero(f._SYMBptr->feuille[1])){
+	f=at_inferieur_strict;
+	rev=true;
+      }
     }
     else {
       f=at_inferieur_strict_sort;
@@ -6623,25 +6643,37 @@ namespace giac {
 	      *it=val;
 	    }
 	  }
+	  if (rev)
+	    reverse(res.begin(),res.end());
 	  return gen(res,subtype);
 	}
 	sort(w.begin(),w.end());
 	vector_int2vecteur(w,v);
+	if (rev)
+	  reverse(v.begin(),v.end());
 	return gen(v,subtype);
       }
       vector<giac_double> V;
       if (v.front().type==_DOUBLE_ && is_fully_numeric(v) && convert(v,V,true)){
 	sort(V.begin(),V.end());
 	v=vector_giac_double_2_vecteur(V);
+	if (rev)
+	  reverse(v.begin(),v.end());
 	return gen(v,subtype);
       }
     }
     sort(v.begin(),v.end(),gen_sort(f,contextptr));
+    if (rev)
+      reverse(v.begin(),v.end());
     return gen(v,subtype);
   }
   static const char _sort_s []="sort";
   static define_unary_function_eval (__sort,&_sort,_sort_s);
   define_unary_function_ptr5( at_sort ,alias_at_sort,&__sort,0,true);
+
+  static const char _sorted_s []="sorted";
+  static define_unary_function_eval (__sorted,&_sort,_sorted_s);
+  define_unary_function_ptr5( at_sorted ,alias_at_sorted,&__sorted,0,true);
 
   static gen remove_nodisp(const gen & g){
     if (g.is_symb_of_sommet(at_nodisp))
