@@ -5418,19 +5418,13 @@ public class AppD extends App implements KeyEventDispatcher {
 		
 	}
 
-	private void copyImageToClipboard(BufferedImage img) {
+	private static void copyImageToClipboard(BufferedImage img) {
 		ImageSelection imgSel = new ImageSelection(img);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
 				null);
-
-		
 	}
 
 	public void showReinstallMessage() {
-		// FullReinstallNeeded
-		
-		
-		
 		Object[] options = { loc.getMenu("Cancel"), loc.getMenu("Download") };
 		int n = JOptionPane.showOptionDialog(mainComp, loc.getMenu("FullReinstallNeeded"),
 				GeoGebraConstants.APPLICATION_NAME + " - "
@@ -5443,8 +5437,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (n == 1) {
 			showURLinBrowser(GeoGebraConstants.INSTALLERS_URL);
 		}
-
-		
 	}
 
 	@Override
@@ -5465,11 +5457,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public String md5Encrypt(String s) {
 		return md5EncryptStatic(s);
-
 	}
 
 	public static String md5EncryptStatic(String s) {
-
 		if (getMd5Encrypter() == null) {
 			return UUID.randomUUID().toString();
 		}
@@ -5480,10 +5470,9 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		byte[] md5hash = md5EncrypterD.digest();
 		return StringUtil.convertToHex(md5hash);
-
 	}
 
-	public static MessageDigest getMd5Encrypter() {
+	public static synchronized MessageDigest getMd5Encrypter() {
 		if (md5EncrypterD == null) {
 			try {
 				md5EncrypterD = MessageDigest.getInstance("MD5");

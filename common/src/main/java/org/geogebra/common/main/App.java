@@ -5291,7 +5291,7 @@ public abstract class App implements UpdateSelection {
 		return getMD5EncrypterStatic().encrypt(s);
 	}
 
-	public static MD5EncrypterGWTImpl getMD5EncrypterStatic() {
+	public static synchronized MD5EncrypterGWTImpl getMD5EncrypterStatic() {
 		if (md5Encrypter == null) {
 			md5Encrypter = new MD5EncrypterGWTImpl();
 		}

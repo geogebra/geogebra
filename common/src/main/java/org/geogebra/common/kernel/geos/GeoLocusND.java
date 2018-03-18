@@ -482,10 +482,8 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 * @return closest point to changing point
 	 */
 	protected MyPoint getClosestPoint() {
-
 		getClosestLine();
 
-		boolean temp = cons.isSuppressLabelsActive();
 		GeoSegmentND closestSegment = newGeoSegment();
 
 		if (closestPointIndex == -1) {
