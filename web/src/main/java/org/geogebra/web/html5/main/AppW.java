@@ -1507,7 +1507,7 @@ public abstract class AppW extends App implements SetLabels {
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zipDirectory + '/' + fn;
 
-		doDropHappened(imgFileName, url);
+		createImageFromString(imgFileName, url, null, true);
 		if (insertImageCallback != null) {
 			this.insertImageCallback.run();
 		}
@@ -1528,24 +1528,30 @@ public abstract class AppW extends App implements SetLabels {
 
 		String fn = ImageManagerW.getMD5FileName(imgFileName, fileStr);
 
-		doDropHappened(fn, fileStr);
+		createImageFromString(fn, fileStr, null, true);
 	}
 
 	/**
 	 * @param imgFileName
 	 *            filename
 	 */
-	private void doDropHappened(final String imgFileName, String fileStr0) {
+	@Override
+	public GeoImage createImageFromString(final String imgFileName,
+			String imageAsString, GeoImage imageOld,
+			final boolean autoCorners) {
 		Construction cons = getKernel().getConstruction();
-		String fileStr = fileStr0;
+		String fileStr = imageAsString;
 		if (fileStr.startsWith(StringUtil.svgMarker)) {
 			fileStr = Browser.decodeBase64(
 					fileStr.substring(StringUtil.svgMarker.length()));
 			fileStr = ImageManager.fixSVG(fileStr);
-			fileStr = StringUtil.svgMarker + Browser.encodeBase64(fileStr);
+			fileStr = Browser.encodeSVG(fileStr);
+		} else if (fileStr.startsWith("<svg") || fileStr.startsWith("<?xml")) {
+			fileStr = Browser.encodeSVG(fileStr);
 		}
 		getImageManager().addExternalImage(imgFileName, fileStr);
-		final GeoImage geoImage = new GeoImage(cons);
+		final GeoImage geoImage = imageOld != null ? imageOld
+				: new GeoImage(cons);
 		getImageManager().triggerSingleImageLoading(imgFileName, geoImage);
 
 		final ImageWrapper img = new ImageWrapper(
@@ -1556,7 +1562,9 @@ public abstract class AppW extends App implements SetLabels {
 				geoImage.setImageFileName(imgFileName,
 						img.getElement().getWidth(),
 						img.getElement().getHeight());
-				getGuiManager().setImageCornersFromSelection(geoImage);
+				if (autoCorners) {
+					getGuiManager().setImageCornersFromSelection(geoImage);
+				}
 				if (getImageManager().isPreventAuxImage()) {
 					geoImage.setAuxiliaryObject(false);
 				}
@@ -1564,6 +1572,8 @@ public abstract class AppW extends App implements SetLabels {
 				storeUndoInfo();
 			}
 		});
+
+		return geoImage;
 	}
 
 	/**

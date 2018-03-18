@@ -1,18 +1,23 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * CmdExportImage
@@ -39,6 +44,8 @@ public class CmdExportImage extends CmdScripting {
 			throw argNumErr(c);
 		}
 
+		String label = c.getLabel();
+
 		// time between frames (ms) for animated GIF
 		int time = 200;
 		// slider name for animated GIF
@@ -46,6 +53,8 @@ public class CmdExportImage extends CmdScripting {
 		// for animated GIF
 		boolean loop = true;
 
+		GeoPoint corner = null;
+		GeoPoint corner2 = null;
 		int dpi = -1;
 		// pixels
 		int width = -1;
@@ -121,6 +130,16 @@ public class CmdExportImage extends CmdScripting {
 				break;
 			case "height":
 				height = (int) value.evaluateDouble();
+				break;
+			case "corner":
+				if (value instanceof GeoPoint) {
+					corner = (GeoPoint) value;
+				}
+				break;
+			case "corner2":
+				if (value instanceof GeoPoint) {
+					corner2 = (GeoPoint) value;
+				}
 				break;
 			case "view":
 				view = (int) value.evaluateDouble();
@@ -223,20 +242,32 @@ public class CmdExportImage extends CmdScripting {
 		switch (type) {
 		default:
 		case PNG:
+			Log.error("PNG");
 			if (filename != null) {
 				api.writePNGtoFile(filename, exportScale, transparent, dpi);
 			} else {
+
 				String png = api.getPNGBase64(exportScale, transparent, dpi,
 						false);
-				kernel.getApplication().handleImageExport(png);
+
+				if (label != null) {
+					addImageToConstruction(label, png, corner, corner2, false);
+
+				} else {
+
+					kernel.getApplication().handleImageExport(png);
+				}
+
 			}
 
 			break;
 		case SVG:
 
 			String svg = api.exportSVG(filename);
-			
-			if (filename == null) {
+
+			if (label != null) {
+				addImageToConstruction(label, svg, corner, corner2, true);
+			} else if (filename == null) {
 				kernel.getApplication().handleImageExport(svg);
 			}
 
@@ -262,6 +293,39 @@ public class CmdExportImage extends CmdScripting {
 
 		GeoElement[] ret1 = {};
 		return ret1;
+	}
+
+	private void addImageToConstruction(String label, String imageStr,
+			GeoPoint corner, GeoPoint corner2, boolean svg) {
+
+		GeoImage geoImage;
+		GeoImage oldImage = (GeoImage) kernel.lookupLabel(label);
+
+		MD5EncrypterGWTImpl md5 = new MD5EncrypterGWTImpl();
+
+		String imageFilename = md5.encrypt(imageStr) + "/image."
+				+ (svg ? "svg" : "png");
+
+		geoImage = app.createImageFromString(imageFilename,
+				svg ? imageStr : StringUtil.pngMarker + imageStr, oldImage,
+				false);
+
+		if (corner == null) {
+			corner = new GeoPoint(cons, null, 0, 0, 1);
+		}
+		if (corner2 == null) {
+			corner2 = new GeoPoint(cons, null, 1, 0, 1);
+		}
+		try {
+			geoImage.setStartPoint(corner);
+			geoImage.setCorner(corner2, 1);
+
+		} catch (CircularDefinitionException e) {
+			e.printStackTrace();
+		}
+		geoImage.setLabel(label);
+		geoImage.updateRepaint();
+
 	}
 
 }

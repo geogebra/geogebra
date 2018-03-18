@@ -147,6 +147,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.AlgoCubicSwitchInterface;
 import org.geogebra.common.main.AlgoCubicSwitchParams;
 import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
@@ -5440,6 +5441,21 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		
+	}
+
+	@Override
+	public GeoImage createImageFromString(final String imgFileName,
+			String imgBase64, GeoImage imageOld, boolean autoCorners) {
+		GeoImage geoImage = imageOld != null ? imageOld
+				: new GeoImage(getKernel().getConstruction());
+
+		((ImageManagerD) kernel.getApplication().getImageManager())
+				.addExternalImage(imgFileName,
+				imgBase64);
+
+		geoImage.setImageFileName(imgFileName);
+
+		return geoImage;
 	}
 
 }

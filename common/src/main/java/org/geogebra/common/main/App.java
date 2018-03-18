@@ -5280,4 +5280,9 @@ public abstract class App implements UpdateSelection {
 		return new ExamEnvironment.CalculatorType[] {ExamEnvironment.CalculatorType.GRAPHING, ExamEnvironment.CalculatorType.SYMBOLIC};
 	}
 
+	public GeoImage createImageFromString(final String imgFileName,
+			String imgBase64, GeoImage imageOld, boolean autoCorners) {
+		return null;
+	}
+
 }

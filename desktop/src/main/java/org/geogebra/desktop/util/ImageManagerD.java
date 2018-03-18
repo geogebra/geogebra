@@ -28,9 +28,12 @@ import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.PixelGrabber;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.Hashtable;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.geogebra.common.main.App;
@@ -40,6 +43,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
+
+import com.himamis.retex.renderer.desktop.graphics.Base64;
 
 /**
  * An ImageManager provides methods for loading images and icons for a JFrame.
@@ -154,6 +159,7 @@ public class ImageManagerD extends ImageManager {
 	}
 
 	public void addExternalImage(String fileName0, MyImageD img) {
+		Log.error("adding " + fileName0);
 		if (fileName0 != null && img != null) {
 			String fileName = fileName0;
 			// GIF saved as PNG in .ggb files so need to change extension
@@ -477,5 +483,44 @@ public class ImageManagerD extends ImageManager {
 			app.localizeAndShowError("LoadFileFailed");
 			return null;
 		}
+	}
+
+	public void addExternalImage(String filename0, String urlBase64) {
+
+		if (urlBase64.startsWith(StringUtil.pngMarker)) {
+			String pngStr = urlBase64.substring(StringUtil.pngMarker.length());
+
+			BufferedImage image = null;
+			byte[] imageByte = Base64.decode(pngStr);
+			ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+			try {
+				image = ImageIO.read(bis);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (bis != null) {
+					try {
+						bis.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			if (image != null) {
+				MyImageD img = new MyImageD(image);
+				addExternalImage(filename0, img);
+			}
+		} else if (urlBase64.startsWith("<svg")
+				|| urlBase64.startsWith("<?xml")) {
+
+			MyImageD img = new MyImageD(urlBase64, filename0);
+
+			addExternalImage(filename0, img);
+
+		} else {
+			Log.debug(urlBase64.substring(0, 10) + " not supported");
+		}
+
 	}
 }
