@@ -1909,6 +1909,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		kernel.updateConstruction();
 	}
 
+	@Override
+	public String getRounding() {
+		if (kernel.useSignificantFigures) {
+			return kernel.getPrintFigures() + "s";
+		}
+		return kernel.getPrintDecimals() + "";
+	}
+
 	/**
 	 * If there are Macros or an Exercise present in the current file this can
 	 * be used to check if parts of the construction are equivalent to the

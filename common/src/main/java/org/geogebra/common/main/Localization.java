@@ -806,24 +806,6 @@ public abstract class Localization {
 	}
 
 	/**
-	 * @return rounding menu items
-	 */
-	public String[] getRoundingMenuWithoutSeparator() {
-		String[] strDecimalSpaces = { getPlain("ADecimalPlaces", "0"), getPlain("ADecimalPlace", "1"),
-				getPlain("ADecimalPlaces", "2"), getPlain("ADecimalPlaces", "3"), getPlain("ADecimalPlaces", "4"),
-				getPlain("ADecimalPlaces", "5"), getPlain("ADecimalPlaces", "10"), getPlain("ADecimalPlaces", "15"),
-				getPlain("ASignificantFigures", "3"), getPlain("ASignificantFigures", "5"),
-				getPlain("ASignificantFigures", "10"), getPlain("ASignificantFigures", maxFigures + "") };
-
-		// zero is singular in eg French
-		if (!isZeroPlural(getLanguage())) {
-			strDecimalSpaces[0] = getPlain("ADecimalPlace", "0");
-		}
-
-		return strDecimalSpaces;
-	}
-
-	/**
 	 * in French, zero is singular, eg 0 dcimale rather than 0 decimal places
 	 * 
 	 * @param lang

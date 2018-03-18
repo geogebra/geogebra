@@ -180,7 +180,7 @@ public class ScriptManagerW extends ScriptManager {
 			api.listeners[api.listeners.length]=obj;
 			return (api.listeners.length-1) + "";
 		}
-		
+
 		api.getXML = function(objName) {
 			if (objName) {
 				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getXML(Ljava/lang/String;)(objName + "");
@@ -945,9 +945,13 @@ public class ScriptManagerW extends ScriptManager {
 		api.exportAsymptote = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportAsymptote()();
 		};
-		
+
 		api.setRounding = function(digits) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setRounding(Ljava/lang/String;)(digits + "");
+		};
+
+		api.getRounding = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getRounding()();
 		};
 
 		api.copyTextToClipboard = function(text) {

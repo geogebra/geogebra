@@ -2588,8 +2588,8 @@ public class Kernel implements SpecialPointsListener {
 		return nf.getMaximumFractionDigits();
 	}
 
-	/*
-	 * returns number of significant digits, or -1 if using decimal places
+	/**
+	 * @return number of significant digits, or -1 if using decimal places
 	 */
 	final public int getPrintFigures() {
 		if (!useSignificantFigures) {
@@ -2636,6 +2636,9 @@ public class Kernel implements SpecialPointsListener {
 		this.allowVisibilitySideEffects = allowVisibilitySideEffects;
 	}
 
+	/**
+	 * @return whether this is a macro kernel
+	 */
 	public boolean isMacroKernel() {
 		return false;
 	}

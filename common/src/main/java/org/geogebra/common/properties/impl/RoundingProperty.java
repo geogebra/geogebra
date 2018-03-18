@@ -1,11 +1,12 @@
 package org.geogebra.common.properties.impl;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.gui.menubar.OptionsMenu;
+//import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
-
-import java.util.ArrayList;
 
 public class RoundingProperty extends AbstractEnumerableProperty {
 
@@ -39,11 +40,7 @@ public class RoundingProperty extends AbstractEnumerableProperty {
 
     @Override
     public int getCurrent() {
-        int current = OptionsMenu.getMenuDecimalPosition(app.getKernel());
-        if (current > figuresIndex) {
-            current -= 1;
-        }
-        return current;
+		return OptionsMenu.getMenuDecimalPosition(app.getKernel(), true);
     }
 
     @Override

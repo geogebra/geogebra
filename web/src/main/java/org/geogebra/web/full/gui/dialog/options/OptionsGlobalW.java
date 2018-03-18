@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.full.main.GeoGebraPreferencesW;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -106,19 +108,11 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 				@Override
 				public void onChange(ChangeEvent event) {
 					try {
-						String decStr = roundingList
-								.getValue(roundingList.getSelectedIndex())
-								.substring(0, 2).trim();
-						int decimals = Integer.parseInt(decStr);
-						// Application.debug("decimals " + decimals);
-
-						app.getKernel().setPrintDecimals(decimals);
-						app.getKernel().updateConstruction();
-						app.refreshViews();
-
-						// see ticket 79
-						app.getKernel().updateConstruction();
-
+						// TODO copypasted from RoundingProperty
+						int index = roundingList.getSelectedIndex();
+						boolean figures = index >= 8;
+						OptionsMenu.setRounding(app,
+								figures ? index + 1 : index, figures);
 						app.setUnsaved();
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -248,14 +242,8 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 * select decimal places stored in app
 		 */
 		void setRoundingInComboBox() {
-			int decimals = app.getKernel().getPrintDecimals();
-			for (int i = 0; i < roundingList.getItemCount(); i++) {
-				if (roundingList.getValue(i)
-						.startsWith(String.valueOf(decimals))) {
-					roundingList.setSelectedIndex(i);
-					return;
-				}
-			}
+			roundingList.setSelectedIndex(
+					OptionsMenu.getMenuDecimalPosition(app.getKernel(), true));
 		}
 
 		private void addRestoreSettingsBtn() {
@@ -298,7 +286,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 */
 		public void updateGUI() {
 			updateRoundingList();
-			setRoundingInComboBox();
 			updateLabelingList();
 			setLabelingInComboBox();
 			updateFontSizeList();
@@ -341,10 +328,13 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private void updateRoundingList() {
 			roundingList.clear();
 			String[] strDecimalSpaces = app.getLocalization()
-					.getRoundingMenuWithoutSeparator();
+					.getRoundingMenu();
 			for (String str : strDecimalSpaces) {
-				roundingList.addItem(str);
+				if (!Localization.ROUNDING_MENU_SEPARATOR.equals(str)) {
+					roundingList.addItem(str);
+				}
 			}
+			setRoundingInComboBox();
 		}
 
 		/**

@@ -147,7 +147,7 @@ public class OptionsMenu {
 			return;
 		}
 
-		int pos = getMenuDecimalPosition(kernel);
+		int pos = getMenuDecimalPosition(kernel, false);
 
 		try {
 			menuDecimalPlaces.setSelected(pos);
@@ -161,15 +161,18 @@ public class OptionsMenu {
 	 * 
 	 * @param kernel
 	 *            kernel
+	 * @param skipSeparator
+	 *            whether to skip the separator between DP and SF
 	 * @return position in rounding menu regarding current kernel settings
 	 */
-	static final public int getMenuDecimalPosition(Kernel kernel) {
+	static final public int getMenuDecimalPosition(Kernel kernel,
+			boolean skipSeparator) {
 		int pos = -1;
 
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
 			if (figures > 0 && figures < figuresLookupLength()) {
-				pos = figuresLookup(figures);
+				pos = figuresLookup(figures) - (skipSeparator ? 1 : 0);
 			}
 		} else {
 			int decimals = kernel.getPrintDecimals();
@@ -177,11 +180,9 @@ public class OptionsMenu {
 			if (decimals >= 0 && decimals < decimalsLookupLength()) {
 				pos = decimalsLookup(decimals);
 			}
-
 		}
 
 		return pos;
-
 	}
 
 	public void addDecimalPlacesMenu(MenuInterface menu) {

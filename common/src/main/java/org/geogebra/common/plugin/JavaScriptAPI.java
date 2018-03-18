@@ -43,6 +43,10 @@ public interface JavaScriptAPI {
 	/**
 	 * Returns the GeoGebra XML string for the given GeoElement object, i.e.
 	 * only the <element> tag is returned.
+	 * 
+	 * @param objName
+	 *            object name
+	 * @return style XML
 	 */
 	public String getXML(String objName);
 
@@ -50,20 +54,37 @@ public interface JavaScriptAPI {
 	 * For a dependent GeoElement objName the XML string of the parent algorithm
 	 * and all its output objects is returned. For a free GeoElement objName ""
 	 * is returned.
+	 * 
+	 * @param objName
+	 *            object name
+	 * 
+	 * @return algorithm XML
 	 */
 	public String getAlgorithmXML(String objName);
 
 	/**
 	 * Opens construction given in XML format. May be used for loading
 	 * constructions.
+	 * 
+	 * @param xml
+	 *            construction XML
 	 */
 	public void setXML(String xml);
 
+	/**
+	 * Loads encoded file into the applet
+	 * 
+	 * @param base64
+	 *            base64 encoded content
+	 */
 	public void setBase64(String base64);
 
 	/**
 	 * Evaluates the given XML string and changes the current construction.
 	 * Note: the construction is NOT cleared before evaluating the XML string.
+	 * 
+	 * @param xmlString
+	 *            (partial) construction XML
 	 */
 	public void evalXML(String xmlString);
 
@@ -77,12 +98,29 @@ public interface JavaScriptAPI {
 	 */
 	public boolean evalCommand(String cmdString);
 
+	/**
+	 * Runs command in CAS without checking GeoGebra variables
+	 * 
+	 * @param cmdString
+	 *            CAS command
+	 * @return CAS result
+	 */
 	public String evalCommandCAS(String cmdString);
 
+	/**
+	 * Runs command in CAS, all variables are substituted by GeoGebra objects
+	 * 
+	 * @param cmdString
+	 *            CAS command
+	 * @return CAS result
+	 */
 	public String evalGeoGebraCAS(String cmdString);
 
 	/**
-	 * prints a string to the Java Console
+	 * prints a string to the JavaScript / Java Console
+	 * 
+	 * @param string
+	 *            string to be printed in console
 	 */
 	public void debug(String string);
 
@@ -841,4 +879,10 @@ public interface JavaScriptAPI {
 	 */
 	public String exportObj(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
 			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance);
+
+	/**
+	 * @return rounding in the format acceptaable for
+	 *         {@link #setRounding(String)}
+	 */
+	String getRounding();
 }
