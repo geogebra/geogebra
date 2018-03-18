@@ -5188,7 +5188,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private PrintPreviewD printPreview;
 
-	private static MessageDigest md5EncrypterD;
+	private static volatile MessageDigest md5EncrypterD;
 
 	@Override
 	public void schedulePreview(Runnable scheduledPreview) {

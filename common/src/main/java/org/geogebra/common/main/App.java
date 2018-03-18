@@ -413,7 +413,7 @@ public abstract class App implements UpdateSelection {
 	private SpecialPointsManager specialPointsManager;
 
 	private boolean areCommands3DEnabled = true;
-	private static MD5EncrypterGWTImpl md5Encrypter;
+	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
