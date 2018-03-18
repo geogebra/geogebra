@@ -15,7 +15,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GgbAPI;
-import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -301,10 +300,11 @@ public class CmdExportImage extends CmdScripting {
 		GeoImage geoImage;
 		GeoImage oldImage = (GeoImage) kernel.lookupLabel(label);
 
-		MD5EncrypterGWTImpl md5 = new MD5EncrypterGWTImpl();
-
-		String imageFilename = md5.encrypt(imageStr) + "/image."
+		String imageFilename = kernel.getApplication().md5Encrypt(imageStr)
+				+ "/image."
 				+ (svg ? "svg" : "png");
+
+		Log.error("imageFilename " + imageFilename);
 
 		geoImage = app.createImageFromString(imageFilename,
 				svg ? imageStr : StringUtil.pngMarker + imageStr, oldImage,

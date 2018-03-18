@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
@@ -216,19 +217,20 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	public static String getMD5FileName(String imgFileName, String fileStr) {
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
+		MD5EncrypterGWTImpl md5e = App.getMD5EncrypterStatic();
 		String zipDirectory = md5e.encrypt(fileStr);
 
 		String fn = imgFileName;
 		int index = imgFileName.lastIndexOf('/');
 		if (index != -1) {
-			fn = fn.substring(index + 1, fn.length()); // filename without
+			// filename without path
+			fn = fn.substring(index + 1, fn.length());
 		}
-		// path
+
 		fn = org.geogebra.common.util.Util.processFilename(fn);
 
 		// filename will be of form
-		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
+		// "a04c62e6a065b47476607ac815d022cc/liar.gif"
 		return zipDirectory + '/' + fn;
 	}
 }

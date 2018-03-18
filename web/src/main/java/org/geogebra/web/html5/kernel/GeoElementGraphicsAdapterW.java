@@ -3,7 +3,6 @@ package org.geogebra.web.html5.kernel;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
-import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -124,8 +123,7 @@ public class GeoElementGraphicsAdapterW extends
 		String fn = StringUtil.changeFileExtension(imageFileName,
 				FileExtensions.PNG);
 
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		imageFileName = md5e.encrypt(fn) + "/" + fn;
+		imageFileName = app.md5Encrypt(fn) + "/" + fn;
 		Log.debug("Converted:" + oldFn + "->" + imageFileName);
 	}
 

@@ -45,7 +45,6 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -2339,9 +2338,8 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public String getToolImageURL(int mode, GeoImage geoImage) {
 		String url = GGWToolBar.getImageURL(mode, getApp());
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 		String fn = "geogebra_tool_" + mode;
-		String zipDirectory = md5e.encrypt(fn);
+		String zipDirectory = app.md5Encrypt(fn);
 		fn = zipDirectory + "/" + fn;
 		getApp().getImageManager().addExternalImage(fn, url);
 		getApp().getImageManager().triggerSingleImageLoading(fn, geoImage);

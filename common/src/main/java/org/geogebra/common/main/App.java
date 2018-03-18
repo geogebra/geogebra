@@ -95,6 +95,7 @@ import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.LowerCaseDictionary;
+import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
@@ -412,6 +413,7 @@ public abstract class App implements UpdateSelection {
 	private SpecialPointsManager specialPointsManager;
 
 	private boolean areCommands3DEnabled = true;
+	private static MD5EncrypterGWTImpl md5Encrypter;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -5283,6 +5285,17 @@ public abstract class App implements UpdateSelection {
 	public GeoImage createImageFromString(final String imgFileName,
 			String imgBase64, GeoImage imageOld, boolean autoCorners) {
 		return null;
+	}
+
+	public String md5Encrypt(String s) {
+		return getMD5EncrypterStatic().encrypt(s);
+	}
+
+	public static MD5EncrypterGWTImpl getMD5EncrypterStatic() {
+		if (md5Encrypter == null) {
+			md5Encrypter = new MD5EncrypterGWTImpl();
+		}
+		return md5Encrypter;
 	}
 
 }

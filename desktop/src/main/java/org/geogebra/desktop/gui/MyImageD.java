@@ -15,7 +15,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,6 +28,7 @@ import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.main.AppD;
 
 import com.kitfox.svg.SVGCache;
 import com.kitfox.svg.SVGDiagram;
@@ -78,19 +78,7 @@ public class MyImageD implements MyImageJre {
 	public String getMD5() {
 
 		if (img == null) {
-			MessageDigest md;
-			try {
-				md = MessageDigest.getInstance("MD5");
-				md.update(svg.toString().getBytes(Charsets.UTF_8));
-				byte[] md5hash = md.digest();
-				return StringUtil.convertToHex(md5hash);
-			} catch (RuntimeException e) {
-				Log.error("MD5 Runtime Error");
-				return "svg" + UUID.randomUUID();
-			} catch (Exception e) {
-				Log.error("MD5 Error");
-				return "svg" + UUID.randomUUID();
-			}
+			return AppD.md5EncryptStatic(svg.toString());
 		}
 
 		try {
@@ -99,15 +87,12 @@ public class MyImageD implements MyImageJre {
 			ImageIO.write((BufferedImage) img, "png", baos);
 			byte[] fileData = baos.toByteArray();
 
-			MessageDigest md;
-			md = MessageDigest.getInstance("MD5");
+			MessageDigest md = AppD.getMd5Encrypter();
 
 			md.update(fileData, 0, fileData.length);
 			byte[] md5hash = md.digest();
 			return StringUtil.convertToHex(md5hash);
 
-		} catch (NoSuchAlgorithmException e) {
-			//
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

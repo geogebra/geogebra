@@ -69,6 +69,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -5186,6 +5188,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private PrintPreviewD printPreview;
 
+	private static MessageDigest md5EncrypterD;
+
 	@Override
 	public void schedulePreview(Runnable scheduledPreview) {
 
@@ -5456,6 +5460,39 @@ public class AppD extends App implements KeyEventDispatcher {
 		geoImage.setImageFileName(imgFileName);
 
 		return geoImage;
+	}
+
+	@Override
+	public String md5Encrypt(String s) {
+		return md5EncryptStatic(s);
+
+	}
+
+	public static String md5EncryptStatic(String s) {
+
+		if (getMd5Encrypter() == null) {
+			return UUID.randomUUID().toString();
+		}
+		try {
+			getMd5Encrypter().update(s.getBytes(Charsets.UTF_8));
+		} catch (UnsupportedEncodingException e) {
+			return UUID.randomUUID().toString();
+		}
+		byte[] md5hash = md5EncrypterD.digest();
+		return StringUtil.convertToHex(md5hash);
+
+	}
+
+	public static MessageDigest getMd5Encrypter() {
+		if (md5EncrypterD == null) {
+			try {
+				md5EncrypterD = MessageDigest.getInstance("MD5");
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return md5EncrypterD;
 	}
 
 }
