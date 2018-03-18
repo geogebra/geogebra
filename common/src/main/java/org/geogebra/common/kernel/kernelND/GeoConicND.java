@@ -4050,10 +4050,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		 * double d = MyMath.length(x - xC, y - yC); return Math.abs(d - r);
 		 */
 
-		boolean tempLabeling = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-		GeoPoint closestPoint = new GeoPoint(cons, null, pt.x, pt.y, pt.z);
-		cons.setSuppressLabelCreation(tempLabeling);
+		GeoPoint closestPoint = new GeoPoint(cons, pt.x, pt.y, pt.z);
 		closestPoint.setPath(this);
 		pointChanged(closestPoint);
 

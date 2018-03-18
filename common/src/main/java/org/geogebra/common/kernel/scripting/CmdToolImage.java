@@ -80,12 +80,9 @@ public class CmdToolImage extends CommandProcessor {
 				}
 				geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
 
-				boolean oldState = cons.isSuppressLabelsActive();
-				cons.setSuppressLabelCreation(true);
 				if (corner == null) {
-					corner = new GeoPoint(cons, null, 0, 0, 1);
+					corner = new GeoPoint(cons, 0, 0, 1);
 				}
-				cons.setSuppressLabelCreation(oldState);
 				try {
 					geoImage.setStartPoint(corner);
 

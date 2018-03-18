@@ -189,13 +189,11 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		points = new GeoPoint[size];
 
 		// create points and load the point array
-		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
 
 		if (doCumulative) {
 			points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0);
 			for (int i = 0; i < yValue.length - 1; i++) {
-				points[i + 1] = new GeoPoint(cons, null, leftBorder[i + 1],
+				points[i + 1] = new GeoPoint(cons, leftBorder[i + 1],
 						yValue[i], 1.0);
 			}
 		} else {
@@ -204,15 +202,14 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 			points[0] = new GeoPoint(cons, null, midpoint, 0.0, 1.0);
 			for (int i = 0; i < yValue.length - 1; i++) {
 				midpoint = 0.5 * (leftBorder[i + 1] + leftBorder[i]);
-				points[i + 1] = new GeoPoint(cons, null, midpoint, yValue[i],
+				points[i + 1] = new GeoPoint(cons, midpoint, yValue[i],
 						1.0);
 			}
 			midpoint = 1.5 * leftBorder[yValue.length - 1]
 					- .5 * (leftBorder[yValue.length - 2]);
-			points[yValue.length] = new GeoPoint(cons, null, midpoint, 0.0,
+			points[yValue.length] = new GeoPoint(cons, midpoint, 0.0,
 					1.0);
 		}
-		cons.setSuppressLabelCreation(suppressLabelCreation);
 
 		// update the polyLine
 		outputPolyLine.setPoints(points);

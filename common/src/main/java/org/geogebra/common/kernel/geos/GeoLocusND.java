@@ -486,9 +486,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		getClosestLine();
 
 		boolean temp = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
 		GeoSegmentND closestSegment = newGeoSegment();
-		cons.setSuppressLabelCreation(temp);
 
 		if (closestPointIndex == -1) {
 			return null;

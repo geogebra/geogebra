@@ -174,15 +174,13 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 
 		// iterate through the sorted data and create the normal quantile points
 
-		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		for (int i = 0; i < sortedData.length; i++) {
 			if (i < oldListSize) {
 				((GeoPoint) outputList.get(i)).setCoords(sortedData[i],
 						zValues[i], 1.0);
 			} else {
-				outputList.add(new GeoPoint(cons, null, sortedData[i],
+				outputList.add(
+						new GeoPoint(cons, sortedData[i],
 						zValues[i], 1.0));
 			}
 		}
@@ -190,7 +188,6 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		// create qq line segment and add it to the list
 		outputList.add(getQQLineSegment());
 
-		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
 
 }
