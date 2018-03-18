@@ -3036,7 +3036,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_multcrement,1); return T_FOIS;
 case 219:
 YY_RULE_SETUP
 #line 519 "input_lexer.ll"
-index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){return T_DOUBLE_DEUX_POINTS; } else {(*yylval)=gen(at_struct_dot,2); return T_FOIS;}
+index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){return T_DOUBLE_DEUX_POINTS; } else {(*yylval)=gen(at_struct_dot,2); return T_COMPOSE;}
 	YY_BREAK
 case 220:
 YY_RULE_SETUP
