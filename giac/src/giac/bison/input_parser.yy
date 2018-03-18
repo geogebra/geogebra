@@ -927,6 +927,23 @@ int giac_yyerror(yyscan_t scanner,const char *s) {
  const giac::context * contextptr = giac_yyget_extra(scanner);
  int col = giac_yyget_column(scanner);
  int line = giac::lexer_line_number(contextptr);
+ const char * scanb=giac::currently_scanned(contextptr).c_str();
+ std::string curline;
+ if (scanb){
+  for (int i=1;i<line;++i){
+   for (;*scanb;++scanb){
+     if (*scanb=='\n'){
+       ++scanb;
+       break;
+     }
+   }
+  }
+  const char * scane=scanb;
+  for (;*scane;++scane){
+    if (*scane=='\n') break;
+  }
+  curline=std::string (scanb,scane);
+ }
  std::string token_name=string(giac_yyget_text(scanner));
  bool is_at_end = (token_name.size()==2 && (token_name[0]==char(0xC3)) && (token_name[1]==char(0xBF)));
  std::string suffix = " (reserved word)";
@@ -939,10 +956,10 @@ int giac_yyerror(yyscan_t scanner,const char *s) {
  }
  giac::lexer_column_number(contextptr)=col;
  if (is_at_end) {
-  parser_error(":" + giac::print_INT_(line) + ": " +string(s) + " at end of input\n",contextptr);
+  parser_error(":" + giac::print_INT_(line) + ": " +string("syntax error") + " at end of input\n",contextptr); // string(s) replaced with syntax error
   giac::parsed_gen(giac::undef,contextptr);
  } else {
- parser_error( ":" + giac::print_INT_(line) + ": " + string(s) + " line " + giac::print_INT_(line) + " col " + giac::print_INT_(col) + " at " + token_name +"\n",contextptr);
+ parser_error( ":" + giac::print_INT_(line) + ": " + string("syntax error") + " line " + giac::print_INT_(line) + " col " + giac::print_INT_(col) + " at " + token_name +" in "+curline+" \n",contextptr); // string(s) replaced with syntax error
  giac::parsed_gen(giac::string2gen(token_name,false),contextptr);
  }
  if (!giac::first_error_line(contextptr)) {

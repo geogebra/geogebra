@@ -3619,6 +3619,28 @@ namespace giac {
 	return sto(g,destination,in_place,contextptr);
       }
       if (valeur.type==_STRNG){
+	bool indicedeuxpoints=indice.is_symb_of_sommet(*at_deuxpoints);
+	if ( (indice.is_symb_of_sommet(*at_interval) || indicedeuxpoints)&& indice._SYMBptr->feuille.type==_VECT && indice._SYMBptr->feuille._VECTptr->size()==2){
+	  gen deb=indice._SYMBptr->feuille._VECTptr->front();
+	  gen fin=indice._SYMBptr->feuille._VECTptr->back()+(indicedeuxpoints?minus_one:zero);
+	  if (!is_integral(deb) || !is_integral(fin) || deb.type!=_INT_ || fin.type!=_INT_ || a.type!=_STRNG)
+	    return gendimerr();
+	  int d=deb.val,f=fin.val;
+	  if (!in_place)
+	    valeur=string2gen(*valeur._STRNGptr,false);
+	  string & vs=*valeur._STRNGptr;
+	  string *as=a._STRNGptr;
+	  if (d<0) d+=vs.size();
+	  if (f<0) f+=vs.size();
+	  if (d<0 || d>f || f>=vs.size() || f<0 || f-d>=as->size())
+	    return gendimerr(contextptr);
+	  for (int i=d;i<=f;++i){
+	    vs[i]=(*as)[i-d];
+	  }
+	  if (in_place)
+	    return string2gen("Done",false);
+	  return sto(valeur,destination,in_place,contextptr);
+	}
 	if (indice.type!=_INT_ || a.type!=_STRNG || a._STRNGptr->empty())
 	  return gensizeerr(contextptr);
 	if (indice.val<0) indice+=(int) valeur._STRNGptr->size();

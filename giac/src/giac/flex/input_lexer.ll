@@ -1201,6 +1201,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
       lexer_string = ss+" \n ÿ";
       yylex_init(&scanner);
       yyset_extra(contextptr, scanner);
+      currently_scanned(contextptr)=lexer_string;
       YY_BUFFER_STATE state=yy_scan_string(lexer_string.c_str(),scanner);
       return state;
     }

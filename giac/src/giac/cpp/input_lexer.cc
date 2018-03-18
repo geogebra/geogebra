@@ -5614,6 +5614,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
       lexer_string = ss+" \n ÿ";
       giac_yylex_init(&scanner);
       giac_yyset_extra(contextptr,scanner);
+      currently_scanned(contextptr)=lexer_string;
       YY_BUFFER_STATE state=giac_yy_scan_string(lexer_string.c_str(),scanner);
       return state;
     }

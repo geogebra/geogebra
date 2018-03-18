@@ -592,6 +592,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     std::string _format_double_;
     std::string _autosimplify_;
     std::string _lastprog_name_;
+    std::string _currently_scanned_;
     std::vector<logo_turtle> _turtle_stack_; 
     double _total_time_;
     void * _evaled_table_;
@@ -644,6 +645,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
 #endif
 
   const char * & last_evaled_function_name(GIAC_CONTEXT);
+  std::string & currently_scanned(GIAC_CONTEXT);
   const gen * & last_evaled_argptr(GIAC_CONTEXT);
 
   bool make_thread(const giac::gen & g,int level,const giac_callback & f,void * f_param,const context * contextptr);
