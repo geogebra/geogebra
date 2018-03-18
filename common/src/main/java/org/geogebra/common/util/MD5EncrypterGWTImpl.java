@@ -124,7 +124,8 @@ public class MD5EncrypterGWTImpl {
 			d = addUnsigned(d, DD);
 		}
 
-		String temp = wordToHex(a) + wordToHex(b) + wordToHex(c) + wordToHex(d);
+		String temp = StringUtil.convertToHex(a) + StringUtil.convertToHex(b)
+				+ StringUtil.convertToHex(c) + StringUtil.convertToHex(d);
 		return temp.toLowerCase();
 	}
 
@@ -235,18 +236,5 @@ public class MD5EncrypterGWTImpl {
 	private int II(int a, int b, int c, int d, int x, int s, int ac) {
 		int a1 = addUnsigned(a, addUnsigned(addUnsigned(I(b, c, d), x), ac));
 		return addUnsigned(rotateLeft(a1, s), b);
-	}
-
-	private static String wordToHex(int lValue) {
-		StringBuilder WordToHexValue = new StringBuilder();
-		String WordToHexValue_temp = "";
-		int lByte, lCount;
-		for (lCount = 0; lCount <= 3; lCount++) {
-			lByte = (lValue >>> (lCount * 8)) & 255;
-			WordToHexValue_temp = "0" + Integer.toHexString(lByte);
-			WordToHexValue.append(WordToHexValue + WordToHexValue_temp
-					.substring(WordToHexValue_temp.length() - 2));
-		}
-		return WordToHexValue.toString();
 	}
 }

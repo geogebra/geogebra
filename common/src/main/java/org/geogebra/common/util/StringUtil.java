@@ -47,6 +47,26 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 *            to convert
 	 * @return data as a hex String
 	 */
+	public static String convertToHex(int data) {
+		StringBuilder buf = new StringBuilder();
+
+		buf.append(Character.forDigit((data >> 4) & 0xF, 16));
+		buf.append(Character.forDigit((data >> 0) & 0xF, 16));
+		buf.append(Character.forDigit((data >> 12) & 0xF, 16));
+		buf.append(Character.forDigit((data >> 8) & 0xF, 16));
+		buf.append(Character.forDigit((data >> 20) & 0xF, 16));
+		buf.append(Character.forDigit((data >> 16) & 0xF, 16));
+		buf.append(Character.forDigit((data >> 28) & 0xF, 16));
+		buf.append(Character.forDigit((data >> 24) & 0xF, 16));
+
+		return buf.toString();
+	}
+
+	/**
+	 * @param data
+	 *            to convert
+	 * @return data as a hex String
+	 */
 	public static String convertToHex(byte[] data) {
 		StringBuilder buf = new StringBuilder();
 		for (int i = 0; i < data.length; i++) {
