@@ -2417,7 +2417,7 @@ namespace giac {
   static define_unary_function_eval (__XPON,&giac::_XPON,_XPON_s); // FIXME
   define_unary_function_ptr5( at_XPON ,alias_at_XPON,&__XPON,0,T_UNARY_OP_38);
 
-  gen mantissa(const gen & g0,bool includesign,GIAC_CONTEXT){
+  gen mantissa(const gen & g0,bool includesign,int base,gen & expo,GIAC_CONTEXT){
 #if 0 // def BCD
     gen g=evalf2bcd(g0,1,contextptr);
 #else
@@ -2426,11 +2426,17 @@ namespace giac {
     if (is_exactly_zero(g))
       return g;
     gen gabs=abs(g,contextptr);
-    gen gf=_floor(log10(gabs,contextptr),contextptr); 
-    if (abs_calc_mode(contextptr)!=38 && gf.type!=_INT_)
+    expo=base==10?log10(gabs,contextptr):_logb(makesequence(gabs,base),contextptr);
+    expo=_floor(expo,contextptr); 
+    if (abs_calc_mode(contextptr)!=38 && expo.type!=_INT_)
       return gensizeerr(contextptr);
     // FIXME number of digits
-    return (includesign?sign(g,contextptr):1)*evalf(gabs*alog10(-gf,contextptr),1,contextptr);
+    gabs=gabs*(base==10?alog10(-expo,contextptr):pow(base,-expo,contextptr));
+    return (includesign?sign(g,contextptr):1)*evalf(gabs,1,contextptr);
+  }
+  gen mantissa(const gen & g0,bool includesign,GIAC_CONTEXT){
+    gen expo;
+    return mantissa(g0,includesign,10,expo,contextptr);
   }
   gen _MANT(const gen & g0,GIAC_CONTEXT){
     if (g0.type==_STRNG && g0.subtype==-1) return g0;
@@ -2455,6 +2461,30 @@ namespace giac {
   static const char _mantissa_s[]="mantissa";
   static define_unary_function_eval (__mantissa,&giac::_mantissa,_mantissa_s); 
   define_unary_function_ptr5( at_mantissa ,alias_at_mantissa,&__mantissa,0,T_UNARY_OP);
+
+  gen _frexp(const gen & g0,GIAC_CONTEXT){
+    if (g0.type==_STRNG && g0.subtype==-1) return g0;
+    if (is_equal(g0))
+      return apply_to_equal(g0,_frexp,contextptr);
+    if (g0.type==_VECT)
+      return gensizeerr(contextptr); // apply(g0,_frexp,contextptr);
+    gen expo;
+    gen m=mantissa(g0,true,2,expo,contextptr);
+    return makesequence(m/2,expo+1);
+  }
+  static const char _frexp_s[]="frexp";
+  static define_unary_function_eval (__frexp,&giac::_frexp,_frexp_s); 
+  define_unary_function_ptr5( at_frexp ,alias_at_frexp,&__frexp,0,T_UNARY_OP);
+
+  gen _ldexp(const gen & g0,GIAC_CONTEXT){
+    if (g0.type==_STRNG && g0.subtype==-1) return g0;
+    if (g0.type!=_VECT || g0.subtype!=_SEQ__VECT || g0._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    return g0._VECTptr->front()*pow(2,g0._VECTptr->back(),contextptr);
+  }
+  static const char _ldexp_s[]="ldexp";
+  static define_unary_function_eval (__ldexp,&giac::_ldexp,_ldexp_s); 
+  define_unary_function_ptr5( at_ldexp ,alias_at_ldexp,&__ldexp,0,T_UNARY_OP);
 
   gen _HMSX(const gen & g0,GIAC_CONTEXT){
     if ( g0.type==_STRNG && g0.subtype==-1) return  g0;

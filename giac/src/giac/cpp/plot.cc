@@ -14732,7 +14732,7 @@ namespace giac {
       p2=c+cst_i*(R*conj(R,contextptr))/a2;
       return _droite(makesequence(normal(p1,contextptr),normal(p2,contextptr)),contextptr);
     }
-    return symbolic(at_polaire,args);
+    return change_subtype(_coordonnees_polaires(args,contextptr),_SEQ__VECT);//return symbolic(at_polaire,args);
     //return gensizeerr(contextptr);
   }
 

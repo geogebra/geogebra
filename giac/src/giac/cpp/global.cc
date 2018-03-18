@@ -5900,12 +5900,26 @@ unsigned int ConvertUTF8toUTF16 (
 	  if (posi<0 || posi>=int(cur.size()))
 	    posi = cur.find(" import*");
 	  if (posi>pos+5 && posi<int(cur.size())){
-	    posi=cur.find("turtle");
+	    int posturtle=cur.find("turtle");
+	    int poscmath=cur.find("cmath");
+	    int posmath=cur.find("math");
 	    int cs=int(cur.size());
 	    cur=cur.substr(0,pos);
-	    if (posi>=0 && posi<cs){
+	    if (posturtle>=0 && posturtle<cs){
 	      // add python turtle shortcuts
 	      cur += "\npu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface\n";
+	    }
+	    if (poscmath>=0 && poscmath<cs){
+	      posmath=-1;
+	      // add python cmath shortcuts
+	      *logptr(contextptr) << gettext("Assigning phase, j and rect.")<<endl;
+	      cur += "\nphase:=arg;j:=i;rect(r,theta):=r*exp(i*theta);\n";
+	    }
+	    if (posmath>=0 && posmath<cs){
+	      // add python math shortcuts
+	      *logptr(contextptr) << gettext("Assigning log2, expm1 (imprecise), fabs, fmod, modf, radians and degrees. Not yet supported: copysign, isinf, isnan, isfinite.")<<endl;
+	      cur += "\nlog2(x):=logb(x,2);expm1(x):=exp(x)-1;fabs:=abs;fmod(a,b):=a-floor(a/b)*b;modf(x):={ local y:=floor(x); return x-y,y;};radians(x):=x/180*pi;degrees(x):=x/pi*180\n";
+	      // todo copysign, isinf, isnan, isfinite, frexp, ldexp
 	    }
 	    pythonmode=true;
 	    break;
