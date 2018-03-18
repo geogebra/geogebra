@@ -67,7 +67,7 @@ public final class DrawImage extends Drawable {
 	private GRectangle2D cropBox;
 	private double originalRatio = Double.NaN;
 	private boolean wasCroped = false;
-	private boolean debug1 = false;
+	final private static boolean DEBUG = false;
 	/**
 	 * ratio of the whole image and the crop box width
 	 */
@@ -109,13 +109,13 @@ public final class DrawImage extends Drawable {
 	}
 
 	private void debug(String d) {
-		if (debug1) {
+		if (DEBUG) {
 			Log.debug(d);
 		}
 	}
 
 	private void debugPoints(GeoPoint A, GeoPoint B, GeoPoint D){
-		if (!debug1) {
+		if (!DEBUG) {
 			return;
 		}
 		if (A != null) {
@@ -187,7 +187,7 @@ public final class DrawImage extends Drawable {
 				ax = A.inhomX;
 				ay = A.inhomY;
 
-				Log.debug("A: " + ax + ", " + ay);
+				debug("A: " + ax + ", " + ay);
 			}
 
 			// set transform according to corners
