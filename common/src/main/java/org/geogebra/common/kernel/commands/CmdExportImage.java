@@ -16,7 +16,6 @@ import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * CmdExportImage
@@ -241,7 +240,6 @@ public class CmdExportImage extends CmdScripting {
 		switch (type) {
 		default:
 		case PNG:
-			Log.error("PNG");
 			if (filename != null) {
 				api.writePNGtoFile(filename, exportScale, transparent, dpi);
 			} else {
@@ -295,7 +293,10 @@ public class CmdExportImage extends CmdScripting {
 	}
 
 	private void addImageToConstruction(String label, String imageStr,
-			GeoPoint corner, GeoPoint corner2, boolean svg) {
+			GeoPoint corner_0, GeoPoint corner2_0, boolean svg) {
+
+		GeoPoint corner = corner_0;
+		GeoPoint corner2 = corner2_0;
 
 		GeoImage geoImage;
 		GeoImage oldImage = (GeoImage) kernel.lookupLabel(label);
@@ -303,8 +304,6 @@ public class CmdExportImage extends CmdScripting {
 		String imageFilename = kernel.getApplication().md5Encrypt(imageStr)
 				+ "/image."
 				+ (svg ? "svg" : "png");
-
-		Log.error("imageFilename " + imageFilename);
 
 		geoImage = app.createImageFromString(imageFilename,
 				svg ? imageStr : StringUtil.pngMarker + imageStr, oldImage,
