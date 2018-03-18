@@ -227,9 +227,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	@Override
 	public void hideBrowser(MyHeaderPanel bg) {
-		if (!remove(bg)) {
-			return;
+		if (lastBG == null) {
+			return; // MOW-394: childVisible is outdated, return
 		}
+		remove(bg);
 		lastBG = null;
 		ToolTipManagerW.hideAllToolTips();
 		final int count = getWidgetCount();
