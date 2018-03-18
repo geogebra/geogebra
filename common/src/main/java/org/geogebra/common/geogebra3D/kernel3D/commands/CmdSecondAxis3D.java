@@ -29,7 +29,6 @@ public class CmdSecondAxis3D extends CmdSecondAxis {
 			return new AlgoAxisSecond3D(cons1, label, geoConicND);
 		}
 		return new AlgoAxisSecond(cons1, label, geoConicND);
-
 	}
 
 }

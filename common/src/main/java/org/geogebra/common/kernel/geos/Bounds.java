@@ -28,6 +28,12 @@ public class Bounds {
 	private Kernel kernel;
 	private FunctionVariable fv;
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param fv
+	 *            function variable
+	 */
 	public Bounds(Kernel kernel, FunctionVariable fv) {
 		this.kernel = kernel;
 		this.fv = fv;
@@ -315,8 +321,10 @@ public class Bounds {
 		return ret.toString();
 	}
 
+	/**
+	 * @return lower bound or -inf if unbounded
+	 */
 	public double getLower() {
-
 		if (lower == null && condition != null) {
 			Operation op = condition.getOperation();
 			if (op == Operation.FUNCTION) {
@@ -349,6 +357,9 @@ public class Bounds {
 				: lower;
 	}
 
+	/**
+	 * @return upper bound or +inf if unbounded
+	 */
 	public Double getUpper() {
 		if (upper == null && condition != null) {
 			Operation op = condition.getOperation();

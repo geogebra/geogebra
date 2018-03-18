@@ -15,7 +15,6 @@ public class CmdSegment3D extends CmdSegment {
 	 */
 	public CmdSegment3D(Kernel kernel) {
 		super(kernel);
-
 	}
 
 	@Override

@@ -2735,6 +2735,17 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return sbLaTeX.toString().replace("\\questeq", "=");
 	}
 
+	/**
+	 * @param condRoot
+	 *            root of conditional expression
+	 * @param cases
+	 *            list of expressions for individual branches
+	 * @param conditions
+	 *            conditions for branches
+	 * @param parentCond
+	 *            condition for the root
+	 * @return whether parentCond is completely covered by the cases
+	 */
 	public static boolean collectCases(ExpressionNode condRoot,
 			ArrayList<ExpressionNode> cases, ArrayList<Bounds> conditions,
 			Bounds parentCond) {

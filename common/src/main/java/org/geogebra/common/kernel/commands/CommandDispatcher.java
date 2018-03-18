@@ -859,6 +859,9 @@ public abstract class CommandDispatcher {
 		return advancedDispatcher;
 	}
 
+	/**
+	 * @return dispatcher for basic commands
+	 */
 	protected CommandDispatcherBasic getBasicDispatcher() {
 		if (basicDispatcher == null) {
 			basicDispatcher = new CommandDispatcherBasic();

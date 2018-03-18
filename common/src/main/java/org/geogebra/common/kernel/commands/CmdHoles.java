@@ -13,6 +13,10 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdHoles extends CommandProcessor {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdHoles(Kernel kernel) {
 		super(kernel);
 	}
