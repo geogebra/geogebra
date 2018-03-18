@@ -974,7 +974,13 @@ namespace giac {
     if (g.is_symb_of_sommet(at_curve)){
       gen & gf=g._SYMBptr->feuille;
       if (gf.type==_VECT && gf._VECTptr->size()>1){
-	in_autoscale((*gf._VECTptr)[1],vx,vy,vz,contextptr);
+	gen tmp=(*gf._VECTptr)[1];
+	if (is_undef(tmp)){
+	  tmp=(*gf._VECTptr)[0];
+	  if (tmp.type==_VECT && tmp._VECTptr->size()>4)
+	    tmp=(*tmp._VECTptr)[4];
+	}
+	in_autoscale(tmp,vx,vy,vz,contextptr);
       }
       return false;
     }
