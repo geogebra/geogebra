@@ -74,6 +74,20 @@ public class CopyPasteCutW extends CopyPasteCut {
 		return false;
 	}-*/;
 
+	/**
+	 * @param column1
+	 *            left column
+	 * @param row1
+	 *            top row
+	 * @param column2
+	 *            wright column
+	 * @param row2
+	 *            bottom row
+	 * @param skipGeoCopy
+	 *            wehether to skip updating geo buffer
+	 * @param nat
+	 *            called from native event?
+	 */
 	public void copy(int column1, int row1, int column2, int row2,
 			boolean skipGeoCopy, boolean nat) {
 		sourceColumn1 = column1;

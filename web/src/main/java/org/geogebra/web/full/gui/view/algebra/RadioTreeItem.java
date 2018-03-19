@@ -108,7 +108,6 @@ import com.himamis.retex.editor.web.MathFieldW;
  * 
  * definitionPanel -> c | STRING
  */
-@SuppressWarnings("javadoc")
 public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels {
 
@@ -464,6 +463,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		outputPanel.reset();
 	}
 
+	/**
+	 * Clear preview and sugggestions
+	 */
 	public void clearPreviewAndSuggestions() {
 		clearPreview();
 		WarningErrorHandler.setUndefinedValiables(null);
@@ -472,6 +474,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
+	/**
+	 * @param previewGeo
+	 *            preview from input bar
+	 */
 	public void previewValue(GeoElement previewGeo) {
 		if (getAV().getActiveTreeItem() != this) {
 			return;
@@ -523,6 +529,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		buildSuggestions(previewGeo);
 	}
 
+	/**
+	 * Create suggestions for preview
+	 * 
+	 * @param previewGeo
+	 *            preview from input bar
+	 */
 	public void buildSuggestions(GeoElement previewGeo) {
 		if (app.has(Feature.AV_ITEM_DESIGN)) {
 			if (needsSuggestions(previewGeo) != null) {
@@ -534,7 +546,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			}
 			clearUndefinedVariables();
 		}
-
 	}
 
 	protected void buildItemWithSingleRow() {
@@ -592,6 +603,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		controls.updateAnimPanel();
 	}
 
+	/**
+	 * @param first
+	 *            whether this item is first in AV
+	 */
 	public void setFirst(boolean first) {
 		this.first = first;
 		updateButtonPanelPosition();
@@ -609,6 +624,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		// override
 	}
 
+	/**
+	 * Update this item if it was invalidated; update selection
+	 */
 	public void repaint() {
 		if (isNeedsUpdate()) {
 			doUpdate();
@@ -622,6 +640,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		selectItem(selected);
 	}
 
+	/**
+	 * @return whether an item is being edited
+	 */
 	public boolean commonEditingCheck() {
 		return av.isEditItem() || controller.isEditing() || isInputTreeItem()
 				|| geo == null;
@@ -722,6 +743,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	}
 
+	/**
+	 * @param width
+	 *            item width
+	 */
 	public void setItemWidth(int width) {
 		if (getOffsetWidth() != width) {
 			if (isInputTreeItem()) {
@@ -737,7 +762,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected void replaceToCanvas(String text, Widget old) {
-
 		updateLaTeX(text);
 		LayoutUtilW.replace(content, canvas, old);
 	}
@@ -827,15 +851,21 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
+	/**
+	 * Add style for scrollable item
+	 */
 	public void styleScrollBox() {
 		content.addStyleName("scrollableTextBox");
 	}
 
-	public final void stopEditing(String newValue0,
-			final AsyncOperation<GeoElementND> callback) {
-		stopEditing(newValue0, callback, true);
-	}
-
+	/**
+	 * @param newValue0
+	 *            value after edit
+	 * @param callback
+	 *            callback
+	 * @param allowSliderDialog
+	 *            whether to allow slider dialog
+	 */
 	public final void stopEditing(final String newValue0,
 			final AsyncOperation<GeoElementND> callback,
 			boolean allowSliderDialog) {
@@ -971,8 +1001,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @param valid
 	 *            whether this is for valid string (false = last valid substring
 	 *            used)
+	 * @param allowSliders
+	 *            whether to allow sliders at all
 	 * @param withSliders
-	 *            whether to allow slider creation
+	 *            whether to allow slider creation without asking
 	 * @return error handler
 	 */
 	protected final ErrorHandler getErrorHandler(final boolean valid,
@@ -1081,10 +1113,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @param show
 	 *            whether to show input help
 	 */
-	/**
-	 * @param show
-	 *            true to show input help
-	 */
 	public void setShowInputHelpPanel(boolean show) {
 		if (show) {
 			if (!av.isEditItem()) {
@@ -1139,8 +1167,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return (itemTop - getAlgebraDockPanel().getAbsoluteTop() < 35);
 	}
 
+	/**
+	 * @return width in case editor is open
+	 */
 	protected int getWidthForEdit() {
-
 		if (isDefinitionAndValue()
 				&& geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
 				&& definitionPanel != null
@@ -1155,6 +1185,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				+ MARGIN_RESIZE;
 	}
 
+	/**
+	 * Update position of buttons
+	 */
 	protected void updateButtonPanelPosition() {
 		if (controls == null) {
 			return;
@@ -1301,6 +1334,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return selectedItem;
 	}
 
+	/**
+	 * @param selected
+	 *            whether this ite is selected
+	 */
 	public void selectItem(boolean selected) {
 		// Log.printStacktrace("[RTI] selectItem: " + selected);
 
@@ -1365,18 +1402,23 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	}
 
+	/**
+	 * @return whether this is a plaintext item (eg A=(1,1))
+	 */
 	public FlowPanel getPlainTextItem() {
 		return plainTextItem;
 	}
 
-	public void setPlainTextItem(FlowPanel plainTextItem) {
-		this.plainTextItem = plainTextItem;
-	}
-
-	public boolean isNeedsUpdate() {
+	private boolean isNeedsUpdate() {
 		return needsUpdate;
 	}
 
+	/**
+	 * Mark the item as (in)valid.
+	 * 
+	 * @param needsUpdate
+	 *            whether update is needed
+	 */
 	public void setNeedsUpdate(boolean needsUpdate) {
 		this.needsUpdate = needsUpdate;
 	}
@@ -1609,22 +1651,38 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		this.forceControls = forceControls;
 	}
 
+	/**
+	 * @return whether this is a slider item
+	 */
 	public boolean isSliderItem() {
 		return false;
 	}
 
+	/**
+	 * @return whether this is a checkbox item
+	 */
 	public boolean isCheckBoxItem() {
 		return false;
 	}
 
+	/**
+	 * @return whether this is a text item
+	 */
 	public boolean isTextItem() {
 		return false;
 	}
 
+	/**
+	 * @return controller
+	 */
 	public RadioTreeItemController getController() {
 		return controller;
 	}
 
+	/**
+	 * @param controller
+	 *            controller
+	 */
 	public void setController(RadioTreeItemController controller) {
 		this.controller = controller;
 	}
@@ -1635,10 +1693,16 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
+	/**
+	 * @return whether this belongs to an existing geo
+	 */
 	public boolean hasGeo() {
 		return geo != null;
 	}
 
+	/**
+	 * hide control buttons
+	 */
 	public void hideControls() {
 		if (controls != null) {
 			controls.setVisible(false);
@@ -1660,6 +1724,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	}
 
+	/**
+	 * Show control buttons
+	 */
 	public void showControls() {
 		if (controls != null) {
 			controls.setVisible(true);
@@ -1685,6 +1752,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
+	/**
+	 * Remove output panel
+	 */
 	public void removeOutput() {
 		if (outputPanel != null) {
 			outputPanel.removeFromParent();
@@ -1703,14 +1773,19 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return (LatexTreeItemController) getController();
 	}
 
+	/**
+	 * Show keyboard
+	 */
 	public void showKeyboard() {
+		// TODO default implementation is infinite recursion
 		getLatexController().showKeyboard();
-
 	}
 
 	/**
-	 * @param old
-	 *            what to replace
+	 * @param text0
+	 *            new text
+	 * @param showKeyboard
+	 *            whether to show keyboard
 	 */
 	protected void renderLatex(String text0, boolean showKeyboard) {
 		content.clear();
@@ -1913,6 +1988,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		MathFieldW.scrollParent(latexItem, 20);
 	}
 
+	/**
+	 * Show suggestions.
+	 * 
+	 * @return whether suggestions are shown
+	 */
 	public boolean popupSuggestions() {
 		if (controller.isInputAsText()) {
 			return false;
@@ -1936,6 +2016,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				AlgebraInputW.getWarningHandler(this, app));
 	}
 
+	/**
+	 * @return copy of this item
+	 */
 	public RadioTreeItem copy() {
 		return new RadioTreeItem(geo);
 	}
@@ -1945,8 +2028,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		new MathFieldProcessing(mf).autocomplete(text);
 	}
 
+	/**
+	 * Cancel editing
+	 */
 	public void cancelEditing() {
-		stopEditing(null, null);
+		stopEditing(null, null, true);
 		updateIcons(this.errorMessage != null);
 		app.getActiveEuclidianView().requestFocus();
 	}
@@ -1997,6 +2083,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return getLatexController().isSuggesting();
 	}
 
+	/**
+	 * Update pixel ratio of the editor.
+	 * 
+	 * @param pixelRatio
+	 *            pixel ratio
+	 */
 	public void setPixelRatio(double pixelRatio) {
 		if (mf != null) {
 			mf.setPixelRatio(pixelRatio);
@@ -2027,6 +2119,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return mf;
 	}
 
+	/**
+	 * Start editing.
+	 * 
+	 * @return whether editng is possible
+	 */
 	public boolean onEditStart() {
 		String text = "";
 		if (AlgebraItem.needsPacking(geo)) {

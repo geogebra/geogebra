@@ -12,6 +12,24 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 
 public class GifShotExporter {
 
+	/**
+	 * @param app
+	 *            app
+	 * @param timeBetweenFrames
+	 *            delay
+	 * @param slider
+	 *            slider
+	 * @param isLoop
+	 *            loop?
+	 * @param filename
+	 *            filename
+	 * @param scale
+	 *            scale
+	 * @param rotate
+	 *            rotation
+	 * @param gif
+	 *            whether to use gif
+	 */
 	public static void export(App app, int timeBetweenFrames, GeoNumeric slider,
 			boolean isLoop, String filename, double scale, double rotate,
 			boolean gif) {
@@ -108,7 +126,7 @@ public class GifShotExporter {
 		return new AnimatedGifEncoderW(timeBetweenFrames, isLoop, filename);
 	}
 
-	public static void exportAnimatedGIF(App app, FrameCollectorW encoder,
+	private static void exportAnimatedGIF(App app, FrameCollectorW encoder,
 			GeoNumeric num, int n, double val0, double min, double max,
 			double step0, double scale, double rotate, ExportType format) {
 		Log.debug("exporting animation");

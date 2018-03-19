@@ -14,6 +14,9 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
+/**
+ * Popup for history of inputs
+ */
 public class HistoryPopupW extends GPopupPanel implements ClickHandler,
         KeyUpHandler, ChangeHandler {
 
@@ -22,6 +25,12 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 	private ListBox historyList;
 	private String originalTextEditorContent;
 
+	/**
+	 * @param autoCompleteTextField
+	 *            input field
+	 * @param root
+	 *            root for the popup
+	 */
 	public HistoryPopupW(AutoCompleteW autoCompleteTextField, Panel root) {
 		super(root, autoCompleteTextField.getApplication());
 		this.textField = autoCompleteTextField;
@@ -37,10 +46,17 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 		setAutoHideEnabled(true);
 	}
 
+	/**
+	 * @param isDownPopup
+	 *            whether popup should be below the field
+	 */
 	public void setDownPopup(boolean isDownPopup) {
 		this.downPopup = isDownPopup;
 	}
 
+	/**
+	 * Show history popup
+	 */
 	public void showPopup() {
 		ArrayList<String> list = textField.getHistory();
 		if (list.isEmpty()) {
@@ -71,6 +87,9 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 		historyList.setFocus(true);
 	}
 
+	/**
+	 * @return whether popup is below the fiel
+	 */
 	public boolean isDownPopup() {
 		return downPopup;
 	}

@@ -24,6 +24,10 @@ implements ITextFieldListener {
 	private AngleTextFieldW tfAnimStep;
 	private Kernel kernel;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public AnimationStepPanelW(final AppW app) {
 		kernel = app.getKernel();
 		model = new AnimationStepModel(this, app);

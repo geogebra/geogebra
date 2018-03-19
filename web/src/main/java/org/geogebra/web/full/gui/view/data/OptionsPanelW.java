@@ -181,6 +181,12 @@ public class OptionsPanelW extends FlowPanel
 		updateGUI();
 	}
 
+	/**
+	 * Update panel for given plot type.
+	 * 
+	 * @param plotType
+	 *            plot type
+	 */
 	public void setPanel(PlotType plotType) {
 
 		tabPanel.clear();
@@ -639,6 +645,10 @@ public class OptionsPanelW extends FlowPanel
 		isUpdating = false;
 	}
 
+	/**
+	 * @param source
+	 *            event source
+	 */
 	public void actionPerformed(Object source) {
 
 		if (isUpdating) {

@@ -924,8 +924,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 	};
 
+	/**
+	 * Update view settings
+	 */
 	public void settingsChangedCommand() {
-
 		allowSettingUpdate = true;
 
 		// layout
@@ -940,22 +942,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		setAllowSpecialEditor(settings().allowSpecialEditor());
 		setEqualsRequired(settings().equalsRequired());
 		setEnableAutoComplete(settings().isEnableAutoComplete());
-
-		// browser panel
-		/*
-		 * ? if (AppD.hasFullPermissions()) { settings().removeListener(this);
-		 * if (settings().initialBrowserMode() < 0)
-		 * settings().setInitialBrowserMode(FileBrowserPanel.MODE_FILE); if
-		 * (settings().defaultFile() == null)
-		 * settings().setDefaultFile(System.getProperty("user.dir")); if
-		 * (settings().initialFilePath() == null)
-		 * settings().setInitialFilePath(System.getProperty("user.dir")); if
-		 * (settings().initialURL() == null)
-		 * settings().setInitialURL(DEFAULT_URL); settings().addListener(this);
-		 * }
-		 */
-
-		// ?//setShowFileBrowser(settings().showBrowserPanel());
 
 		// row height and column widths
 		setRowHeightsFromSettings();

@@ -20,15 +20,21 @@ public class ColorChooserDialog extends DialogBoxW
 	private Button btnCancel;
 	private Button btnReset;
 	private GColor selectedColor;
-	private AppW app;
 	private ColorChangeHandler handler;
 	private GColor originalColor;
 	
+	/**
+	 * @param app
+	 *            application
+	 * @param originalColor
+	 *            initial color
+	 * @param handler
+	 *            color handler
+	 */
 	public ColorChooserDialog(AppW app, final GColor originalColor,
 			final ColorChangeHandler handler) {
 		super(false, true, null, app.getPanel(), app);
 
-		this.app = app;
 		this.handler = handler;
 		this.originalColor = originalColor;
 
@@ -142,6 +148,10 @@ public class ColorChooserDialog extends DialogBoxW
 		}
 	}
 
+	/**
+	 * @param color
+	 *            initial color
+	 */
 	public void setOriginalColor(GColor color) {
 		originalColor = color;
 		reset();

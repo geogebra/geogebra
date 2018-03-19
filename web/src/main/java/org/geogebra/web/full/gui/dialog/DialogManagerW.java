@@ -544,10 +544,10 @@ public class DialogManagerW extends DialogManager
 	/**
 	 * Creates a new {@link ColorChooserDialog}.
 	 * 
-	 * @param {@link
-	 * 			GColor originalColor}.
-	 * @param {@link
-	 * 			ColorChangeHandler handler}
+	 * @param originalColor
+	 *            initial color
+	 * @param handler
+	 *            color change listener
 	 */
 	public void showColorChooserDialog(GColor originalColor,
 			ColorChangeHandler handler) {

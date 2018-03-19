@@ -1438,6 +1438,12 @@ public abstract class DockPanelW extends ResizeComposite
 		setVisible(visible);
 	}
 
+	/**
+	 * Change dragging state.
+	 * 
+	 * @param drag
+	 *            whether to enable drag
+	 */
 	public void enableDragging(boolean drag) {
 		if (dragPanel == null) {
 			return;
@@ -1477,6 +1483,9 @@ public abstract class DockPanelW extends ResizeComposite
 		return false;
 	}
 
+	/**
+	 * @return estimated size based on prefered width of views
+	 */
 	public GDimension getEstimatedSize() {
 		switch (getViewId()) {
 		case App.VIEW_EUCLIDIAN:
@@ -1601,6 +1610,10 @@ public abstract class DockPanelW extends ResizeComposite
 		closeButtonPanel.setVisible(isVisible);
 	}
 
+	/**
+	 * @param showKeyboardButton
+	 *            keyboard button
+	 */
 	public void addSouth(ShowKeyboardButton showKeyboardButton) {
 		if (this.kbButtonSpace == null) {
 			return;

@@ -61,6 +61,12 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	private Label previewLabel;
 	private Label latexLabel;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param editPanel
+	 *            edit panel
+	 */
 	public TextEditAdvancedPanel(App app, ITextEditPanel editPanel) {
 		super(30, Unit.PX);
 		this.app = (AppW) app;

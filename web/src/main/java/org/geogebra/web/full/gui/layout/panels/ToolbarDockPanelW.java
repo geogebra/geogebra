@@ -9,6 +9,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.core.client.Scheduler;
@@ -42,7 +43,7 @@ public class ToolbarDockPanelW extends DockPanelW
 	
 	@Override
 	protected Widget loadComponent() {
-		int activePerspective = this.app.getActivePerspective();
+		int activePerspective = ((AppWFull) this.app).getActivePerspective();
 
 		ToolbarSettings toolbarSettings = app.getSettings().getToolbarSettings();
 		if (activePerspective == Perspective.GRAPHER_3D - 1) {

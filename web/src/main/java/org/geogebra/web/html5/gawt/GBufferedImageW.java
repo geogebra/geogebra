@@ -26,6 +26,18 @@ public class GBufferedImageW implements GBufferedImage {
 		this(null, width, height, pixelRatio, opaque);
 	}
 
+	/**
+	 * @param canvas
+	 *            canvas
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 * @param pixelRatio
+	 *            CSS pixel ratio
+	 * @param opaque
+	 *            whether white background should be used
+	 */
 	public GBufferedImageW(Canvas canvas, int width, int height,
 			double pixelRatio, boolean opaque) {
 		this.pixelRatio = pixelRatio;

@@ -393,8 +393,6 @@ public class EuclidianViewW extends EuclidianView implements
 	/**
 	 * @param scale
 	 *            scale
-	 * @param transparency
-	 *            transparency
 	 * @return PDF as a base64 String
 	 */
 	@Override
@@ -612,6 +610,18 @@ public class EuclidianViewW extends EuclidianView implements
 		        g2p.getCanvas());
 	}
 
+	/**
+	 * 
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 * @param background
+	 *            background objects
+	 * @param foreground
+	 *            foreground objects
+	 * @return base64 encoded PNG
+	 */
 	public static String getCanvasBase64WithTypeString(double width,
 	        double height, Canvas background, Canvas foreground) {
 
@@ -1461,6 +1471,12 @@ public class EuclidianViewW extends EuclidianView implements
 		$wnd.console.log($doc.activeElement);
 	}-*/;
 
+	/**
+	 * Focus next view on page.
+	 * 
+	 * @param from
+	 *            current view
+	 */
 	public static void cycle(EuclidianView from) {
 		if ((from == EuclidianViewW.lastInstance)
 				&& EuclidianViewW.tabPressed) {
@@ -1491,6 +1507,12 @@ public class EuclidianViewW extends EuclidianView implements
 
 	}
 
+	/**
+	 * 
+	 * @param success
+	 *            whether tab was handled internally
+	 * @return success || last applet left
+	 */
 	public static boolean checkTabPress(boolean success) {
 		if (!success) {
 			// should select first GeoElement in next applet

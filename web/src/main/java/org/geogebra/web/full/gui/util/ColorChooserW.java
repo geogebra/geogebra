@@ -566,6 +566,18 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		}
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 * @param colorIconSize
+	 *            swatch size
+	 * @param padding
+	 *            padding
+	 */
 	public ColorChooserW(final App app, int width, int height,
 			GDimensionW colorIconSize, int padding) {
 		this.app = app;

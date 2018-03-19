@@ -26,6 +26,12 @@ public abstract class ComboBoxPanel extends OptionPanel
 	private App app;
 	private FlowPanel errorPanel;
 	
+	/**
+	 * @param app
+	 *            application
+	 * @param title
+	 *            title
+	 */
 	public ComboBoxPanel(App app, final String title) {
 		this.loc = app.getLocalization();
 		this.app = app;

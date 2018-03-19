@@ -76,6 +76,11 @@ public class InputSuggestions implements HasSuggestions {
 		sug.hideSuggestions();
 	}
 
+	/**
+	 * Show suggestions.
+	 * 
+	 * @return true
+	 */
 	public boolean popupSuggestions() {
 		// sub, or query is the same as the current word,
 		// so moved from method parameter to automatism
@@ -129,6 +134,11 @@ public class InputSuggestions implements HasSuggestions {
 		return ret;
 	}
 
+	/**
+	 * Update completions from input.
+	 * 
+	 * @return completions for current word
+	 */
 	public List<String> resetCompletions() {
 		updateCurrentWord(false);
 		completions = null;

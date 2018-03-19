@@ -14,6 +14,9 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 	TextAreaElement focusTextarea;
 	boolean disabledTextarea;
 
+	/**
+	 * Create new focus panel
+	 */
 	public AdvancedFocusPanel() {
 		// Here it is not the getContainerElement()
 		// that shall get the focus, but another element!

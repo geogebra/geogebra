@@ -144,7 +144,6 @@ public class SpreadsheetColumnHeaderW
 	}
 
 	public void updateColumnCount() {
-
 		if (grid.getColumnCount() >= table.getColumnCount()) {
 			return;
 		}
@@ -185,6 +184,9 @@ public class SpreadsheetColumnHeaderW
 		grid.getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
 	}
 
+	/**
+	 * Update selection rectangle on screen
+	 */
 	public void renderSelection() {
 
 		/*String defaultBackground = MyTableW.BACKGROUND_COLOR_HEADER.toString();
@@ -230,9 +232,9 @@ public class SpreadsheetColumnHeaderW
 	}
 
 	/**
-	 * @param rowIndex
+	 * @param columnIndex
 	 *            index of row to set height
-	 * @param rowHeight
+	 * @param width
 	 *            new row height
 	 */
 	public void setColumnWidth(int columnIndex, int width) {

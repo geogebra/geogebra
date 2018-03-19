@@ -221,6 +221,12 @@ public class ViewW {
 		}
 	}
 
+	/**
+	 * Open file as off / csv / ggb.
+	 * 
+	 * @param url
+	 *            file URL
+	 */
 	public void processFileName(String url) {
 		if (url.endsWith(".off")) {
 
@@ -230,7 +236,6 @@ public class ViewW {
 				@Override
 				public void onSuccess(String response) {
 					app.openOFF(response);
-
 				}
 
 				@Override

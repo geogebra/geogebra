@@ -22,6 +22,10 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 
 	private ZSpaceGwt zSpace;
 
+	/**
+	 * @param view
+	 *            3D view
+	 */
 	public RendererWithImplZSpaceW(final EuclidianViewInput3DW view) {
 		super(view, Canvas.createIfSupported());
 

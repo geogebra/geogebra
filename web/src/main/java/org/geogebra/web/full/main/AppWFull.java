@@ -632,8 +632,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return getAppletFrame().getToolbar();
 	}
 
-	@Override
-	protected final CustomizeToolbarGUI getCustomizeToolbarGUI() {
+	private CustomizeToolbarGUI getCustomizeToolbarGUI() {
 		if (this.ct == null) {
 			this.ct = new CustomizeToolbarGUI(this);
 		}
@@ -700,8 +699,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return dialogManager;
 	}
 
-	@Override
-	public final void showBrowser(HeaderPanel bg) {
+	private void showBrowser(HeaderPanel bg) {
 		getAppletFrame().showBrowser(bg);
 	}
 
@@ -879,7 +877,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 		activePerspective = index;
 	}
 
-	@Override
+	/**
+	 * @return active perspective ID
+	 */
 	public final int getActivePerspective() {
 		return activePerspective;
 	}
@@ -1788,7 +1788,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		super.setFileVersion(version, appName);
 		if (has(Feature.WEB_SWITCH_APP_FOR_FILE)
 				&& "auto".equals(getArticleElement().getDataParamAppName())) {
-			getArticleElement().setAttribute("data-param-appName", appName);
+			getArticleElement().setAttribute("data-param-appName",
+					appName == null ? "" : appName);
 			Versions v = getVersion();
 			if ("graphing".equals(appName)) {
 				v = Versions.WEB_GRAPHING;
@@ -1826,4 +1827,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 	public native boolean isCopyImageToClipboardAvailable() /*-{
 		return !!$wnd.copyGraphicsToClipboardExternal;
 	}-*/;
+
+	@Override
+	public void showCustomizeToolbarGUI() {
+		showBrowser(getCustomizeToolbarGUI());
+	}
 }

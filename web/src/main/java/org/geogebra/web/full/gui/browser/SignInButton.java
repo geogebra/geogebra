@@ -20,6 +20,14 @@ public class SignInButton extends Button implements EventRenderable {
 	private WindowReference signInDialog = null;
 	private String callbackURL;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param delay
+	 *            regular check delay
+	 * @param callbackURL
+	 *            callback URL
+	 */
 	public SignInButton(final App app, final int delay, String callbackURL) {
 		super(app.getLocalization().getMenu("SignIn"));
 		this.callbackURL = callbackURL;

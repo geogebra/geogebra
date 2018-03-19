@@ -1889,6 +1889,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	}
 
+	/**
+	 * Update grid type.
+	 * 
+	 * @param ev
+	 *            view
+	 * @param val
+	 *            grid type
+	 */
 	public static void setGridType(EuclidianView ev, int val) {
 		EuclidianSettings evs = ev.getSettings();
 		boolean gridChanged = false;
@@ -1914,6 +1922,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 	}
 
+	/**
+	 * Update axes style of a view.
+	 * 
+	 * @param ev
+	 *            view
+	 * @param val
+	 *            axes style
+	 */
 	public static void setAxesLineType(EuclidianView ev, int val) {
 		EuclidianSettings evs = ev.getSettings();
 		boolean axesChanged = false;

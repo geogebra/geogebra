@@ -353,6 +353,12 @@ public class OneVarInferencePanelW extends FlowPanel
 
 	}
 
+	/**
+	 * Handle text input
+	 * 
+	 * @param source
+	 *            event source
+	 */
 	public void actionPerformed(Object source) {
 		if (isIniting) {
 			return;
@@ -375,7 +381,6 @@ public class OneVarInferencePanelW extends FlowPanel
 			evaluate();
 			updateResultTable();
 		}
-
 	}
 
 	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
@@ -403,7 +408,6 @@ public class OneVarInferencePanelW extends FlowPanel
 			evaluate();
 			updateGUI();
 		}
-
 	}
 
 	public void setSelectedPlot(int selectedPlot) {
@@ -423,12 +427,10 @@ public class OneVarInferencePanelW extends FlowPanel
 	// ============================================================
 
 	private void evaluate() {
-
 		GeoList dataList = statDialog.getController().getDataSelected();
 		double[] sample = statDialog.getController().getValueArray(dataList);
 
 		model.evaluate(sample);
-
 	}
 
 	// ============================================================

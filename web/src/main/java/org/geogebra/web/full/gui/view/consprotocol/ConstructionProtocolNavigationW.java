@@ -63,8 +63,8 @@ public class ConstructionProtocolNavigationW
 	public static Image getImageForIcon(SafeUri src) {
 		return new Image(src);
 	}
-	
-	public void initGUI(){
+
+	private void initGUI() {
 		btFirst = new PushButton(new Image(
 				GuiResources.INSTANCE.icons_play_skipback()));
 		btFirst.getUpHoveringFace().setImage(
@@ -140,16 +140,7 @@ public class ConstructionProtocolNavigationW
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!app.getGuiManager().showView(
-						App.VIEW_CONSTRUCTION_PROTOCOL)) {
-					app.getGuiManager().setShowView(true,
-							App.VIEW_CONSTRUCTION_PROTOCOL);
-					btOpenWindow.addStyleName("consProtIsOpen");
-				} else {
-					app.getGuiManager().setShowView(false,
-							App.VIEW_CONSTRUCTION_PROTOCOL);
-					btOpenWindow.removeStyleName("consProtIsOpen");
-				}
+				toggleConstructionProtocol();
 
 			}
 		});
@@ -161,10 +152,25 @@ public class ConstructionProtocolNavigationW
 		setLabels();
 		update();
 	}
-	
+
 	/**
-	 * Updates the texts that show the current construction step and
-	 * the number of construction steps.	
+	 * Show or hide construction protocol
+	 */
+	protected void toggleConstructionProtocol() {
+		if (!app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+			app.getGuiManager().setShowView(true,
+					App.VIEW_CONSTRUCTION_PROTOCOL);
+			btOpenWindow.addStyleName("consProtIsOpen");
+		} else {
+			app.getGuiManager().setShowView(false,
+					App.VIEW_CONSTRUCTION_PROTOCOL);
+			btOpenWindow.removeStyleName("consProtIsOpen");
+		}
+	}
+
+	/**
+	 * Updates the texts that show the current construction step and the number
+	 * of construction steps.
 	 */
 	@Override
     public void update() {
@@ -236,7 +242,7 @@ public class ConstructionProtocolNavigationW
 			btOpenWindow.setTitle(app.getLocalization().getPlainTooltip("ConstructionProtocol"));
 		}
 	}
-	
+
 	private void addPaddingPlayPanel(boolean addPadding) {
 		if (addPadding) {
 			playPanel.addStyleName("navbar_playPanel_padding");
@@ -244,7 +250,7 @@ public class ConstructionProtocolNavigationW
 			playPanel.removeStyleName("navbar_playPanel_padding");
 		}
 	}
-	
+
 	public FlowPanel getImpl(){
 		return implPanel;
 	}

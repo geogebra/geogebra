@@ -537,7 +537,11 @@ public class DataDisplayPanelW extends FlowPanel implements
 	// Event Handlers
 	// ============================================================
 	//
-	public void actionPerformed(Object source) {
+	/**
+	 * @param source
+	 *            event source
+	 */
+	protected void actionPerformed(Object source) {
 		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed(source);
 		}
@@ -727,6 +731,14 @@ public class DataDisplayPanelW extends FlowPanel implements
 		this.model = model;
 	}
 
+	/**
+	 * @param offsetWidth
+	 *            width
+	 * @param offsetHeight
+	 *            height
+	 * @param update
+	 *            whether to update plot
+	 */
 	public void resize(int offsetWidth, int offsetHeight, boolean update) {
 		int w = offsetWidth;
 		int h = offsetHeight;

@@ -229,7 +229,7 @@ public class CASgiacW extends CASgiac {
 		if (wasm) {
 
 			// make sure CAS cells etc re-evaluated after CAS loaded
-			setUpInitCAS(((AppW) kernel.getApplication()).getDataParamId());
+			setUpInitCAS(((AppW) kernel.getApplication()).getAppletId());
 
 			GWT.runAsync(new RunAsyncCallback() {
 				@Override

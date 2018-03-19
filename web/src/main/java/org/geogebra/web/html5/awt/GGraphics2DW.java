@@ -205,6 +205,12 @@ public class GGraphics2DW implements GGraphics2DWI {
 		// this.closePath();
 	}
 
+	/**
+	 * Draw shape with extra debugging dots.
+	 * 
+	 * @param shape
+	 *            shape
+	 */
 	public void debug(GShape shape) {
 
 		GPathIterator it = shape.getPathIterator(null);

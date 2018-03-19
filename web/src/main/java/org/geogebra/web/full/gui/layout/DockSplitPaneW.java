@@ -104,6 +104,11 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 				&& !app.showMenuBar();
 	}
 
+	/**
+	 * Recursively compute sizes using the embeded size of panels.
+	 * 
+	 * @return divider location (relative)
+	 */
 	public double computeDividerLocationRecursive() {
 
 		double sizeLeft = 0;
@@ -132,6 +137,11 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		return sizeLeft / sizeAll;
 	}
 
+	/**
+	 * @param parentOrientation
+	 *            orientation of parent pane
+	 * @return size in pixels
+	 */
 	public double computeSizeRecursive(int parentOrientation) {
 
 		double size = 0;
@@ -291,7 +301,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		setComponents();
 	}
 
-	public void setComponentsSilent() {
+	private void setComponentsSilent() {
 
 		// if both components exist give the resizing pane to rightComponent
 		// (in Swing this corresponds to resize weight = 1)
@@ -326,6 +336,10 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		setComponentsSilent();
 	}
 
+	/**
+	 * Recursively add components to DOM without calling updatePanel on
+	 * individual panels
+	 */
 	public void setComponentsSilentRecursive() {
 		setComponentsSilent();
 		updateUI();

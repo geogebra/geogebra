@@ -177,6 +177,18 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		addStyleName("FromDrawTextFieldNew");
 	}
 
+	/**
+	 * @param columns
+	 *            number of columns
+	 * @param app
+	 *            application
+	 * @param handleEscapeKey
+	 *            whether escape key should be handled
+	 * @param keyHandler
+	 *            key handler
+	 * @param forCAS
+	 *            whether to use CAS autocompletion
+	 */
 	public AutoCompleteTextFieldW(int columns, final AppW app,
 			boolean handleEscapeKey, KeyEventsHandler keyHandler,
 			boolean forCAS) {
@@ -1680,6 +1692,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	}
 
+	/**
+	 * Connect to focus/blur handlers to keyboard; disable native editing on
+	 * tablet.
+	 */
 	public void enableGGBKeyboard() {
 		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			return;

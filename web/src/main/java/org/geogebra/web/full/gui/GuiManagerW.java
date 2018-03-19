@@ -47,7 +47,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.editor.MathFieldProcessing;
@@ -247,7 +246,7 @@ public class GuiManagerW extends GuiManager
 
 		if (getApp().has(Feature.MOW_TOOLBAR)
 				&& getApp().isWhiteboardActive()) {
-			(((AppWFull) getApp()).getAppletFrame()).updateMOWToorbar();
+			(getApp().getAppletFrame()).updateMOWToorbar();
 			return;
 		}
 
@@ -720,7 +719,7 @@ public class GuiManagerW extends GuiManager
 		if (this.toolbarPanel != null) {
 			toolbarPanel.setToolbarWidth(width);
 		}
-		((AppWFull) getApp()).updateMenuHeight();
+		getApp().updateMenuHeight();
 		// NB updateViewSizes not needed after root.onResize
 		getApp().recalculateEnvironments();
 		getApp().setPreferredSize(
@@ -1557,8 +1556,8 @@ public class GuiManagerW extends GuiManager
 		// check if frame fits on screen
 		Log.debug("Window resize: " + width + "," + height);
 
-		if (((AppWFull) getApp()).getDevice() != null) {
-			((AppWFull) getApp()).getDevice().resizeView(width, height);
+		if (getApp().getDevice() != null) {
+			getApp().getDevice().resizeView(width, height);
 		}
 
 	}
@@ -1645,8 +1644,8 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public AppW getApp() {
-		return (AppW) app;
+	public AppWFull getApp() {
+		return (AppWFull) app;
 	}
 
 	@Override
@@ -1786,7 +1785,7 @@ public class GuiManagerW extends GuiManager
 		if (show) {
 			showToolBar(true);
 		}
-		GGWToolBar tb = ((AppWFull) getApp()).getAppletFrame().getToolbar();
+		GGWToolBar tb = getApp().getAppletFrame().getToolbar();
 		if (tb != null) {
 			tb.onResize();
 			tb.updateActionPanel();
@@ -1797,7 +1796,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void showToolBar(final boolean show) {
-		ToolBarInterface tb = ((AppWFull) getApp()).getToolbar();
+		ToolBarInterface tb = getApp().getToolbar();
 		boolean currentlyVisible = tb != null && tb
 				.isShown();
 		if (!show) {
@@ -1807,12 +1806,12 @@ public class GuiManagerW extends GuiManager
 			getApp().setShowToolBar(show);
 			getApp().getArticleElement()
 			.removeAttribute("data-param-showToolBar");
-			((AppWFull) getApp()).persistWidthAndHeight();
-			((AppWFull) getApp())
+			getApp().persistWidthAndHeight();
+			getApp()
 			.addToHeight(show ? -GLookAndFeel.TOOLBAR_HEIGHT
 					: GLookAndFeel.TOOLBAR_HEIGHT);
-			((AppWFull) getApp()).updateCenterPanelAndViews();
-			((AppWFull) getApp()).getAppletFrame().refreshKeyboard();
+			getApp().updateCenterPanelAndViews();
+			getApp().getAppletFrame().refreshKeyboard();
 			if (show) {
 				updateToolbar();
 			}
@@ -1828,7 +1827,7 @@ public class GuiManagerW extends GuiManager
 		if (algebraInput != null) {
 			algebraInput.setVisible(show);
 		} else {
-			((AppWFull) getApp()).attachAlgebraInput();
+			getApp().attachAlgebraInput();
 		}
 
 		getApp().setShowAlgebraInput(show, false);
@@ -1856,7 +1855,7 @@ public class GuiManagerW extends GuiManager
 			return mode;
 		}
 		if (getApp().has(Feature.MOW_TOOLBAR)) {
-			(((AppWFull) getApp()).getAppletFrame()).setMOWToorbarMode(mode);
+			(getApp().getAppletFrame()).setMOWToorbarMode(mode);
 			return mode;
 		}
 
@@ -2186,7 +2185,7 @@ public class GuiManagerW extends GuiManager
 			MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {
-			onScreenKeyboard = new OnscreenTabbedKeyboard((HasKeyboard) getApp());
+			onScreenKeyboard = new OnscreenTabbedKeyboard(getApp());
 		}
 
 		if (textField != null) {
@@ -2205,6 +2204,15 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
+	/**
+	 * Create keyboard adapter for text editing object.
+	 * 
+	 * @param textField
+	 *            text / math editor
+	 * @param app
+	 *            application
+	 * @return keyboard adapter
+	 */
 	public static KeyboardListener makeKeyboardListener(
 			MathKeyboardListener textField, App app) {
 		if (textField instanceof RetexKeyboardListener) {

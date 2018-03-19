@@ -26,6 +26,12 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	private KeyHandler keyHandler;
 	private BlurHandler blurHandler;
 	
+	/**
+	 * @param app
+	 *            application
+	 * @param col
+	 *            number of columns
+	 */
 	public InspectorTableW(App app, int col) {
 		super();
 		setStyleName("inspectorTable");

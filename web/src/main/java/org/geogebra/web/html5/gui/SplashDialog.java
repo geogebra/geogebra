@@ -35,6 +35,14 @@ public class SplashDialog extends SimplePanel {
 
 	private final GeoGebraFrameW geogebraFrame;
 
+	/**
+	 * @param showLogo
+	 *            whether to show GeoGebra logo
+	 * @param article
+	 *            configuration element
+	 * @param frame
+	 *            frame
+	 */
 	public SplashDialog(boolean showLogo, ArticleElement article,
 			GeoGebraFrameW frame) {
 		this.article = article;
@@ -107,7 +115,6 @@ public class SplashDialog extends SimplePanel {
 	protected void hide() {
 		this.removeFromParent();
 		removePreviewImg(article);
-
 	}
 
 	private native void removePreviewImg(Element thisArticle) /*-{

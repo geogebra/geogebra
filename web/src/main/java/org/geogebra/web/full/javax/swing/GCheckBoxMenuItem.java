@@ -47,6 +47,14 @@ public class GCheckBoxMenuItem {
 	 */
 	private String textNonSelected;
 
+	/**
+	 * @param text
+	 *            label
+	 * @param isHtml
+	 *            whether do treat text as raw HTML
+	 * @param app
+	 *            application
+	 */
 	public GCheckBoxMenuItem(String text,
 			boolean isHtml, App app) {
 

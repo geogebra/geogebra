@@ -26,6 +26,10 @@ public class SpreadsheetToolbarManagerW {
 		this.table = (MyTableW) view.getSpreadsheetTable();
 	}
 
+	/**
+	 * @param mode
+	 *            app mode
+	 */
 	public void  handleModeChange(int mode){
 
 		// Application.printStacktrace("");

@@ -318,6 +318,12 @@ public class ToolBarW extends FlowPanel
 		tb.selectMenuButton(index);
 	}
 
+	/**
+	 * Focus given submenu. Index is considered mod size.
+	 * 
+	 * @param index
+	 *            index of submenu; may be negative
+	 */
 	public void selectMenu(int index) {
 		tb.deselectButtons();
 		int positiveIndex = index;
@@ -329,6 +335,9 @@ public class ToolBarW extends FlowPanel
 		mtm2.getToolbarButtonPanel().getElement().focus();
 	}
 
+	/**
+	 * @return number of groups or -1 if not initialized
+	 */
 	public int getGroupCount() {
 		if (this.modeToggleMenus == null) {
 			return -1;
@@ -336,6 +345,12 @@ public class ToolBarW extends FlowPanel
 		return this.modeToggleMenus.size();
 	}
 
+	/**
+	 * Update number of buttons that fit in a single row.
+	 * 
+	 * @param max
+	 *            max number of buttons
+	 */
 	public void setMaxButtons(int max) {
 		for (ModeToggleMenuW m : this.modeToggleMenus) {
 			m.setMaxHeight(app.getHeight() - GLookAndFeel.TOOLBAR_OFFSET);

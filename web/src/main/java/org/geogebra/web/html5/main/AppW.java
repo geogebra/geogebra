@@ -155,7 +155,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -324,6 +323,9 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
+	/**
+	 * Remove the external GeoGebraHeader element
+	 */
 	public void removeHeader() {
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
@@ -340,6 +342,9 @@ public abstract class AppW extends App implements SetLabels {
 		// TODO listener (?)
 	}
 
+	/**
+	 * @return whether the app is running on small screen (below 600px)
+	 */
 	public static boolean smallScreen() {
 		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600;
 	}
@@ -480,6 +485,9 @@ public abstract class AppW extends App implements SetLabels {
 		return (EuclidianViewW) euclidianView;
 	}
 
+	/**
+	 * @return timer system for view repaints
+	 */
 	public TimerSystemW getTimerSystem() {
 		if (timers == null) {
 			timers = new TimerSystemW(this);
@@ -511,20 +519,6 @@ public abstract class AppW extends App implements SetLabels {
 				jsStrings.push(obj.toString());
 			}
 			JsEval.callNativeJavaScriptMultiArg(fun, jsStrings);
-		}
-
-	}
-
-	public void callAppletJavaScript(String fun, Object arg0, Object arg1) {
-		if (arg0 == null && arg1 == null) {
-			JsEval.callNativeJavaScript(fun);
-		} else if (arg0 != null && arg1 == null) {
-			// Log.debug("calling function: " + fun + "(" + arg0.toString()
-			// + ")");
-			JsEval.callNativeJavaScript(fun, arg0.toString());
-		} else if (arg0 != null && arg1 != null) {
-			JsEval.callNativeJavaScriptMultiArg(fun, arg0.toString(),
-					arg1.toString());
 		}
 
 	}
@@ -728,6 +722,14 @@ public abstract class AppW extends App implements SetLabels {
 		return super.getReverseCommand(command);
 	}
 
+	/**
+	 * @param archiveContent
+	 *            zip archive content
+	 * @param asSlide
+	 *            whether to reload just a slide
+	 * @throws Exception
+	 *             when loading fails
+	 */
 	public void loadGgbFile(GgbFile archiveContent, boolean asSlide) throws Exception {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
 		algebraSettings.setModeChanged(false);
@@ -749,6 +751,12 @@ public abstract class AppW extends App implements SetLabels {
 		view.processBase64String(dataUrl);
 	}
 
+	/**
+	 * Loads a binary file (ggb, ggs)
+	 * 
+	 * @param binary
+	 *            binary file
+	 */
 	public void loadGgbFileAsBinaryAgain(JavaScriptObject binary) {
 		prepareReloadGgbFile();
 		ViewW view = new ViewW(this);
@@ -1150,7 +1158,6 @@ public abstract class AppW extends App implements SetLabels {
 		if (storage == null) {
 			storage = Storage.getSessionStorageIfSupported();
 		}
-
 	}
 
 	protected boolean hasMacroToRestore() {
@@ -1163,7 +1170,6 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 		return false;
-
 	}
 
 	protected void restoreMacro() {
@@ -1225,17 +1231,26 @@ public abstract class AppW extends App implements SetLabels {
 		return googleDriveOperation;
 	}
 
+	/**
+	 * @param fileToHandle
+	 *            archive
+	 * @param callback
+	 *            callback
+	 * @return whether file is valid
+	 */
 	public boolean openFile(JavaScriptObject fileToHandle,
 			JavaScriptObject callback) {
 		resetPerspectiveParam();
 		return doOpenFile(fileToHandle, callback);
 	}
 
+	/**
+	 * Remove perspective parameter
+	 */
 	public void resetPerspectiveParam() {
 		if (getArticleElement() != null) {
 			getArticleElement().setAttribute("data-param-perspective", "");
 		}
-
 	}
 
 	/**
@@ -2069,6 +2084,9 @@ public abstract class AppW extends App implements SetLabels {
 	// Views
 	// ===================================================
 
+	/**
+	 * @return euclidian panel
+	 */
 	public EuclidianPanelWAbstract getEuclidianViewpanel() {
 		return euclidianViewPanel;
 	}
@@ -2188,6 +2206,9 @@ public abstract class AppW extends App implements SetLabels {
 		return dataUrl;
 	}
 
+	/**
+	 * @return refresh applet image
+	 */
 	public ImageElement getRefreshViewImage() {
 		ImageElement imgE = ImageManagerW
 				.getInternalImage(GuiResourcesSimple.INSTANCE.viewRefresh());
@@ -2195,21 +2216,33 @@ public abstract class AppW extends App implements SetLabels {
 		return imgE;
 	}
 
+	/**
+	 * @return play image
+	 */
 	public ImageElement getPlayImage() {
 		return ImageManagerW.getInternalImage(
 				GuiResourcesSimple.INSTANCE.icons_play_circle());
 	}
 
+	/**
+	 * @return pause image
+	 */
 	public ImageElement getPauseImage() {
 		return ImageManagerW.getInternalImage(
 				GuiResourcesSimple.INSTANCE.icons_play_pause_circle());
 	}
 
+	/**
+	 * @return play image with hover effect
+	 */
 	public ImageElement getPlayImageHover() {
 		return ImageManagerW.getInternalImage(
 				GuiResourcesSimple.INSTANCE.icons_play_circle_hover());
 	}
 
+	/**
+	 * @return pause image with hover effect
+	 */
 	public ImageElement getPauseImageHover() {
 		return ImageManagerW.getInternalImage(
 				GuiResourcesSimple.INSTANCE.icons_play_pause_circle_hover());
@@ -2271,6 +2304,14 @@ public abstract class AppW extends App implements SetLabels {
 	// EXPORT & GEOTUBE
 	// ========================================
 
+	/**
+	 * Export given view to clipboard as png
+	 * 
+	 * TODO actually downloads image
+	 * 
+	 * @param ev
+	 *            view
+	 */
 	public final void copyEVtoClipboard(EuclidianViewW ev) {
 		String image = ev.getExportImageDataUrl(3, true);
 		String title = ev.getApplication().getKernel().getConstruction()
@@ -2333,13 +2374,11 @@ public abstract class AppW extends App implements SetLabels {
 		kernel.setForceUpdatingBoundingBox(force);
 	}
 
-	public String getDataParamId() {
-		return getArticleElement().getDataParamId();
-
-	}
-
 	/**
 	 * File loading callback
+	 * 
+	 * @param asSlide
+	 *            whether jus a slide is loaded
 	 */
 	public abstract void afterLoadFileAppOrNot(boolean asSlide);
 
@@ -2356,15 +2395,16 @@ public abstract class AppW extends App implements SetLabels {
 		return toolTipHtml;
 	}
 
+	/**
+	 * Recalculate offsets/transforms for graphics events
+	 */
 	public void recalculateEnvironments() {
 		if (getGuiManager() != null) {
 			getGuiManager().recalculateEnvironments();
-
 		}
 		if (getEuclidianView1() != null) {
 			getEuclidianView1().getEuclidianController().calculateEnvironment();
 		}
-
 	}
 
 	@Override
@@ -2372,6 +2412,10 @@ public abstract class AppW extends App implements SetLabels {
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * @param widget
+	 *            popup
+	 */
 	public void registerPopup(Widget widget) {
 		popups.add(widget);
 	}
@@ -2461,6 +2505,11 @@ public abstract class AppW extends App implements SetLabels {
 				|| this.articleElement.getDataParamApp();
 	}
 
+	/**
+	 * @param fallback
+	 *            fallback when computation gives 0
+	 * @return width of central pane
+	 */
 	public int getWidthForSplitPanel(int fallback) {
 		int ret = getAppletWidth(); // border already excluded
 
@@ -2576,11 +2625,10 @@ public abstract class AppW extends App implements SetLabels {
 		super.setShowToolBar(toolbar, help);
 	}
 
-
 	/**
 	 * @return applet ID
 	 */
-	public String getAppletId() {
+	public final String getAppletId() {
 		return articleElement.getDataParamId();
 	}
 
@@ -2802,7 +2850,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public void showErrorDialog(final String msg) {
-
 		if (!isErrorDialogsActive()) {
 			return;
 		}
@@ -2810,7 +2857,6 @@ public abstract class AppW extends App implements SetLabels {
 			this.getErrorHandler().showError(msg);
 			return;
 		}
-
 	}
 
 	@Override
@@ -2839,7 +2885,7 @@ public abstract class AppW extends App implements SetLabels {
 
 		// TODO: maybe use sandbox?
 		String script = script0;
-		String ggbApplet = getDataParamId();
+		String ggbApplet = getAppletId();
 
 		script = "document.ggbApplet= document." + ggbApplet
 				+ "; ggbApplet = document." + ggbApplet + ";" + script;
@@ -2851,22 +2897,6 @@ public abstract class AppW extends App implements SetLabels {
 			script = "arg=\"" + arg + "\";" + script;
 		}
 		JsEval.evalScriptNative(script);
-	}
-
-	public static int getAbsoluteLeft(Element element) {
-		return element.getAbsoluteLeft();
-	}
-
-	public static int getAbsoluteRight(Element element) {
-		return element.getAbsoluteRight();
-	}
-
-	public static int getAbsoluteTop(Element element) {
-		return element.getAbsoluteTop();
-	}
-
-	public static int getAbsoluteBottom(Element element) {
-		return element.getAbsoluteBottom();
 	}
 
 	public void attachNativeLoadHandler(ImageElement img) {
@@ -2908,6 +2938,9 @@ public abstract class AppW extends App implements SetLabels {
 		return getFrameElement().getOffsetHeight();
 	}
 
+	/**
+	 * @return whether small keyboard is needed
+	 */
 	public boolean needsSmallKeyboard() {
 		return (getHeight() > 0 && getHeight() < LOWER_HEIGHT)
 				|| (getHeight() == 0 && getArticleElement()
@@ -2924,7 +2957,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public void updateStyleBars() {
-
 		if (!isUsingFullGui() || isIniting()) {
 			return;
 		}
@@ -2940,7 +2972,6 @@ public abstract class AppW extends App implements SetLabels {
 		if (has(Feature.DYNAMIC_STYLEBAR)) {
 			updateDynamicStyleBars();
 		}
-
 	}
 
 	@Override
@@ -3024,27 +3055,11 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public void ensureTimerRunning() {
 		this.getTimerSystem().ensureRunning();
-
 	}
 
 	@Override
 	public void showCustomizeToolbarGUI() {
-		showBrowser(getCustomizeToolbarGUI());
-	}
-
-	protected HeaderPanel getCustomizeToolbarGUI() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * Overwritten for AppFull
-	 * 
-	 * @param hp
-	 *            panel with header
-	 */
-	public void showBrowser(HeaderPanel hp) {
-		// only for full app
+		// only with GUI
 	}
 
 	/**
@@ -3078,6 +3093,9 @@ public abstract class AppW extends App implements SetLabels {
 		// Overwritten in subclass - nothing to do here
 	}
 
+	/**
+	 * @return whether app is offline
+	 */
 	public boolean isOffline() {
 		return !getNetworkOperation().isOnline();
 	}
@@ -3135,6 +3153,10 @@ public abstract class AppW extends App implements SetLabels {
 		return webSocketLogger;
 	}
 
+	/**
+	 * @param b
+	 *            whether keyboard is needed
+	 */
 	public void setKeyboardNeeded(boolean b) {
 		this.keyboardNeeded = b;
 	}
@@ -3154,18 +3176,33 @@ public abstract class AppW extends App implements SetLabels {
 		// probably needed in full version only
 	}
 
+	/**
+	 * @return left within the page
+	 */
 	public double getAbsLeft() {
 		return this.getFrameElement().getAbsoluteLeft();
 	}
 
+	/**
+	 * @return top within the page
+	 */
 	public double getAbsTop() {
 		return this.getFrameElement().getAbsoluteTop();
 	}
 
+	/**
+	 * @return whether file operations (open / save) are allowed
+	 */
 	public boolean enableFileFeatures() {
 		return this.articleElement.getDataParamEnableFileFeatures();
 	}
 
+	/**
+	 * Update prerelease / canary flags
+	 * 
+	 * @param prereleaseStr
+	 *            prerelease parameter
+	 */
 	public void setPrerelease(String prereleaseStr) {
 		this.canary = false;
 		this.prerelease = false;
@@ -3195,6 +3232,10 @@ public abstract class AppW extends App implements SetLabels {
 		// for applets with menubar
 	}
 
+	/**
+	 * @param path
+	 *            path for external saving
+	 */
 	public void setExternalPath(String path) {
 		this.externalPath = path;
 		String title = "";
@@ -3237,7 +3278,6 @@ public abstract class AppW extends App implements SetLabels {
 			getGuiManager().getLayout().getDockManager().getPanel(key)
 					.updateNavigationBar();
 		}
-
 	}
 
 	@Override
@@ -3251,7 +3291,6 @@ public abstract class AppW extends App implements SetLabels {
 	 **/
 	public void openOFF(String response) {
 		// only makes sense in 3D
-
 	}
 
 	/**
@@ -3370,8 +3409,16 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
-	public void updateMaterialURL(int i, String sharingKey, String title) {
-		setTubeId(i);
+	/**
+	 * @param id
+	 *            material id
+	 * @param sharingKey
+	 *            material sharing key
+	 * @param title
+	 *            material title
+	 */
+	public void updateMaterialURL(int id, String sharingKey, String title) {
+		setTubeId(id);
 		if (articleElement.getDataParamApp() && sharingKey != null) {
 			String appName = articleElement.getDataParamAppName();
 			if (StringUtil.empty(appName)) {
@@ -3382,26 +3429,27 @@ public abstract class AppW extends App implements SetLabels {
 				Browser.changeMetaTitle(title);
 			}
 		}
-
 	}
 
+	/**
+	 * Update rounding from article parameter
+	 */
 	public void updateRounding() {
 		setRounding(getArticleElement().getDataParamRounding());
 	}
 
-	/*
-	 * public Runnable showPerspectivesPopupRunnable() { MainMenu menu =
-	 * (MainMenu) laf.getMenuBar(this); return new Runnable() { public void
-	 * run() { menu.getPerspectivesMenuW().showPerspectivesPopup(); } }; }
+	/**
+	 * Show perspective picker
 	 */
-
 	public void showPerspectivesPopup() {
 		// overridden in AppWFull
 	}
 
+	/**
+	 * Hide perspective picker
+	 */
 	public void closePerspectivesPopup() {
 		// only for GUI
-
 	}
 
 	/**
@@ -3410,7 +3458,6 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void setActivePerspective(int index) {
 		// only for GUI
-
 	}
 
 	/**
@@ -3440,6 +3487,9 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
+	/**
+	 * Reset settings for enabled views
+	 */
 	public void resetViewsEnabled() {
 		// reset cas and 3d settings for restart of exam
 		// needed for GGB-1015
@@ -3448,9 +3498,11 @@ public abstract class AppW extends App implements SetLabels {
 		getSettings().getEuclidian(1).resetEnabled();
 		getSettings().getEuclidian(2).resetEnabled();
 		setViewsEnabled();
-
 	}
 
+	/**
+	 * @return whether perspectives popup is visible
+	 */
 	public boolean isPerspectivesPopupVisible() {
 		return false;
 	}
@@ -3461,12 +3513,10 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void loadPreferences(Perspective p) {
 		// GeoGebraPreferencesW.getPref().loadForApp(app, p);
-
 	}
 
 	@Override
 	public void ensureEvSizeSet(EuclidianSettings evSet) {
-
 		GDimension gd = evSet.getPreferredSize();
 		if (gd.getWidth() == 0 || gd.getHeight() == 0) {
 			// border already excluded
@@ -3482,7 +3532,6 @@ public abstract class AppW extends App implements SetLabels {
 			evSet.setPreferredSize(
 					AwtFactory.getPrototype().newDimension(width, height));
 		}
-
 	}
 
 	@Override
@@ -3563,6 +3612,12 @@ public abstract class AppW extends App implements SetLabels {
 		copyToSystemClipboardNative(text);
 	}
 
+	/**
+	 * @param text
+	 *            text to copy
+	 * @param notify
+	 *            callback after copy is done
+	 */
 	public void copyTextToSystemClipboard(String text, Runnable notify) {
 		Log.debug("copying to clipboard " + text);
 		copyToSystemClipboardNative(text);
@@ -3576,12 +3631,11 @@ public abstract class AppW extends App implements SetLabels {
 		lastActiveElement = e;
 	}
 
+	/**
+	 * Toggle menu visibility
+	 */
 	public void toggleMenu() {
 		// only with GUI
-	}
-
-	public int getActivePerspective() {
-		return 0;
 	}
 
 	@Override
@@ -3589,16 +3643,24 @@ public abstract class AppW extends App implements SetLabels {
 		return Browser.externalCAS();
 	}
 
+	/**
+	 * Handle click ouside of any view
+	 */
 	public void onUnhandledClick() {
-		// TODO Auto-generated method stub
-
+		// only with GUI
 	}
 
+	/**
+	 * Update central pane and set view sizes
+	 */
 	public final void updateCenterPanelAndViews() {
 		updateCenterPanel();
 		updateViewSizes();
 	}
 
+	/**
+	 * Recompute height of split panel
+	 */
 	public void updateSplitPanelHeight() {
 		// implemented in subclass
 	}
@@ -3639,6 +3701,9 @@ public abstract class AppW extends App implements SetLabels {
 		return "3d".equals(articleElement.getDataParamAppName());
 	}
 
+	/**
+	 * Zoom to standard view
+	 */
 	public void ensureStandardView() {
 		// only with GUI
 	}

@@ -489,6 +489,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 
 	}
 
+	/**
+	 * Activate editor after letter or digit was typed
+	 */
 	public void letterOrDigitTyped() {
 
 		// memorize that this is OK according to keyCode

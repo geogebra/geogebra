@@ -42,6 +42,10 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		void onSearch(String query);
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public SearchPanel(AppW app) {
 		this.setStyleName("searchDiv");
 		this.listeners = new ArrayList<>();

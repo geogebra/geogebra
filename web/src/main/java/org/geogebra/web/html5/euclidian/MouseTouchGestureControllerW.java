@@ -223,12 +223,20 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// not handled
 	}
 
+	/**
+	 * @param event
+	 *            touch cancel event
+	 */
 	public void onTouchCancel(TouchCancelEvent event) {
 		// AbstractEvent e =
 		// geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		Log.debug(event.getAssociatedType().getName());
 	}
 
+	/**
+	 * @param event
+	 *            touch move event
+	 */
 	public void onTouchMove(TouchMoveEvent event) {
 		GeoGebraProfiler.incrementDrags();
 		long time = System.currentTimeMillis();
@@ -322,6 +330,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		moveCounter++;
 	}
 
+	/**
+	 * Handle touch end
+	 * 
+	 * @param event
+	 *            touch end event
+	 */
 	public void onTouchEnd(TouchEndEvent event) {
 		Event.releaseCapture(event.getRelativeElement());
 		dragModeMustBeSelected = false;
@@ -352,6 +366,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.resetModeAfterFreehand();
 	}
 
+	/**
+	 * Handle touch start
+	 * 
+	 * @param event
+	 *            touch start event
+	 */
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		calculateEnvironment();
@@ -393,7 +413,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		return result;
 	}
 
-	private void debug(String msg) {
+	private static void debug(String msg) {
 		Log.debug("[WPD] " + msg);
 	}
 
@@ -414,6 +434,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.getView().cacheLayers(-1);
 	}
 
+	/**
+	 * Handle mouse scroll.
+	 * 
+	 * @param event
+	 *            mouse wheel event
+	 */
 	public void onMouseWheel(MouseWheelEvent event) {
 		// don't want to roll the scrollbar
 		double delta = event.getDeltaY();
@@ -446,6 +472,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		return -evt.wheelDelta;
 	}-*/;
 
+	/**
+	 * @param event
+	 *            mouseover event
+	 */
 	public void onMouseOver(MouseOverEvent event) {
 		ec.wrapMouseEntered();
 	}
@@ -472,6 +502,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		e.release();
 	}
 
+	/**
+	 * Handle mouse movement
+	 * 
+	 * @param event
+	 *            mouse move event
+	 */
 	public void onMouseMove(MouseMoveEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -547,6 +583,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// }
 	}
 
+	/**
+	 * Handle touch end or mouse up.
+	 * 
+	 * @param e
+	 *            pointer up event
+	 */
 	public void onPointerEventEnd(AbstractEvent e) {
 		if (moveCounter < 2) {
 			ec.resetModeAfterFreehand();
@@ -569,7 +611,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 //		        && ec.pen.getCreatedShape() != null;
 
 		ec.resetModeAfterFreehand();
-
 	}
 
 	public void onMouseDown(MouseDownEvent event) {

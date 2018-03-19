@@ -59,6 +59,14 @@ public class MyCellEditorW implements BaseCellEditor {
 		autoCompleteTextField.setAutoComplete(enableAutoComplete);
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param editorPanel
+	 *            panel
+	 * @param controller
+	 *            controller
+	 */
 	public MyCellEditorW(Kernel kernel,
 			SimplePanel editorPanel, SpreadsheetController controller) {
 		this.controller = controller;
@@ -90,6 +98,21 @@ public class MyCellEditorW implements BaseCellEditor {
 		}
 	}
 
+	/**
+	 * Start editing given cell and return textfield.
+	 * 
+	 * @param table0
+	 *            table
+	 * @param value0
+	 *            cell value
+	 * @param isSelected
+	 *            cell selected
+	 * @param row0
+	 *            row
+	 * @param column0
+	 *            column
+	 * @return editor textfield
+	 */
 	public AutoCompleteTextFieldW getTableCellEditorWidget(MyTableW table0,
 			Object value0,
 			boolean isSelected, int row0, int column0) {
@@ -383,6 +406,12 @@ public class MyCellEditorW implements BaseCellEditor {
 			e.stopPropagation();
 		}
 
+		/**
+		 * Handle arrow keys.
+		 * 
+		 * @param e
+		 *            key down event
+		 */
 		public void checkCursorKeys(KeyDownEvent e) {
 			String text = autoCompleteTextField.getText();
 

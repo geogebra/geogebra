@@ -206,6 +206,12 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 	}
 
+	/**
+	 * @param row
+	 *            cell row
+	 * @param column
+	 *            cell column
+	 */
 	public void updateCellBorder(int row, int column) {
 		Byte border = (Byte) formatHandler.getCellFormat(column, row,
 				CellFormat.FORMAT_BORDER);
@@ -285,6 +291,14 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 	}
 
+	/**
+	 * @param geo
+	 *            cell geo
+	 * @param row
+	 *            row
+	 * @param column
+	 *            column
+	 */
 	public void updateCellBackground(GeoElement geo, int row,
 	        int column) {
 
@@ -316,13 +330,23 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 	}
 
-	public void updateTableCellValue(Grid table, Object value, final int row, final int column) {
+	/**
+	 * @param table1
+	 *            table
+	 * @param value
+	 *            cell value
+	 * @param row
+	 *            row
+	 * @param column
+	 *            column
+	 */
+	public void updateTableCellValue(Grid table1, Object value, final int row, final int column) {
 
 		// Get the cell geo, exit if null
 		if (value != null) {
 			geo = (GeoElement) value;
 		} else {
-			table.setText(row, column, " ");
+			table1.setText(row, column, " ");
 			return;
 		}
 
@@ -340,14 +364,14 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				Context2d c2d = canv.getContext2d();
 				c2d.drawImage(mw.getImage(), 0, 0);
 				sp.add(canv);
-				table.setWidget(row, column, sp);
-				table.getCellFormatter().getElement(row, column)
+				table1.setWidget(row, column, sp);
+				table1.getCellFormatter().getElement(row, column)
 						.addClassName("SVCenterTD");
 				return;
 			}
 		}
 
-		table.getCellFormatter().getElement(row, column)
+		table1.getCellFormatter().getElement(row, column)
 				.removeClassName("SVCenterTD");
 
 		// Set text according to algebra style
@@ -388,22 +412,22 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 		
 		if (useSpecialEditor()) {
-			updateSpecialEditor(table, geo, row, column);
+			updateSpecialEditor(table1, geo, row, column);
 			return;
 		}
 
 		Canvas c = null;
 		if (latex != null) {
-			Widget current = table.getWidget(row, column);
+			Widget current = table1.getWidget(row, column);
 			if (!(current instanceof Canvas)) {
 				c = Canvas.createIfSupported();
-				table.setWidget(row, column, c);
+				table1.setWidget(row, column, c);
 			} else {
 				c = (Canvas) current;
 			}
 		}
 		if (c == null) {
-			table.setText(row, column, text);
+			table1.setText(row, column, text);
 		} else {
 			DrawEquationW.paintOnCanvas(geo, latex, c, app.getFontSizeWeb());
 		}

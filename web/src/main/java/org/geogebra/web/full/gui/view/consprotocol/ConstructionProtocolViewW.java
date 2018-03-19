@@ -187,7 +187,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		setHeaderSizes();
 	}
 
-	public void setHeaderSizes() {
+	/**
+	 * Sync header sizes with content column widths
+	 */
+	protected void setHeaderSizes() {
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
@@ -472,6 +475,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	}
 
+	/**
+	 * Get column of the table.
+	 * 
+	 * @param title
+	 *            column title
+	 * @return column of data
+	 */
 	public Column<RowData, ?> getColumn(String title) {
 		Column<RowData, ?> col = null;
 

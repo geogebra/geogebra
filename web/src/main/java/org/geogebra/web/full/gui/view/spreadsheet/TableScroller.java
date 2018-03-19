@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
-import javax.swing.JComponent;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 
@@ -118,9 +116,6 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	 * example, if <code>contentRect</code> is larger than the viewport,
 	 * scrolling will be confined to the viewport's bounds.
 	 * 
-	 * @param contentRect
-	 *            the <code>Rectangle</code> to display
-	 * @see JComponent#isValidateRoot
 	 * @see java.awt.Component#isValid
 	 * @see java.awt.Component#getPeer
 	 */

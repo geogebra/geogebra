@@ -322,7 +322,7 @@ public class GeoTextEditor extends RichTextArea {
 		return canvas.toDataUrl();
 	}
 
-	public Element createValueElement(String value) {
+	private Element createValueElement(String value) {
 
 		Element elem = getDocument().createElement("input");
 		elem.setClassName(DYNAMIC_TEXT_CLASS);
@@ -348,11 +348,17 @@ public class GeoTextEditor extends RichTextArea {
 
 	}
 
-	public Element createTextElement(String text) {
+	private Element createTextElement(String text) {
 		Element elem = getDocument().createTextNode(text).cast();
 		return elem;
 	}
 
+	/**
+	 * Add textfield for given element.
+	 * 
+	 * @param geo
+	 *            element
+	 */
 	public void insertGeoElement(GeoElement geo) {
 
 		String text = ""; // gives empty box if geo is null
@@ -363,6 +369,14 @@ public class GeoTextEditor extends RichTextArea {
 		insertElement(createValueElement(text));
 	}
 
+	/**
+	 * Insert static text into the editor
+	 * 
+	 * @param str0
+	 *            static text
+	 * @param isLatex
+	 *            whether it's latex
+	 */
 	public void insertTextString(String str0, boolean isLatex) {
 
 		boolean convertGreekLetters = !app.getLocalization().getLanguage()

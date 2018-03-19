@@ -30,12 +30,21 @@ public class ImageManagerW extends ImageManager {
 	private boolean preventAuxImage;
 	protected int imagesLoaded = 0;
 
+	/**
+	 * Clear all lists
+	 */
 	public void reset() {
 		externalImageTable = new HashMap<>();
 		externalImageSrcs = new HashMap<>();
 		imagesLoaded = 0;
 	}
 
+	/**
+	 * @param fileName
+	 *            original filename
+	 * @param src
+	 *            file content
+	 */
 	public void addExternalImage(String fileName, String src) {
 		if (fileName != null && src != null) {
 			Log.debug("addExternalImage: " + fileName);

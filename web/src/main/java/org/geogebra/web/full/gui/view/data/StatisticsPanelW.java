@@ -216,7 +216,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 			setInferencePanel();
 			updatePanel();
 		}
-
 	}
 
 	@Override
@@ -261,8 +260,12 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	}
 
+	/**
+	 * @param rows
+	 *            ANOVA / goodnes rows
+	 * @return estimated height
+	 */
 	public double estimateHeight(int rows) {
-
 		switch (model.getSelectedMode()) {
 
 		case StatisticsModel.INFER_TTEST:

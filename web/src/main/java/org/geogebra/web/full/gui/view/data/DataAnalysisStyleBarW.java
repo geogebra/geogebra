@@ -80,6 +80,9 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		// add(createDataSourcePanel());
 	}
 
+	/**
+	 * Update UI
+	 */
 	public void updateGUI() {
 		DataAnalysisModel model = daView.getModel();
 		btnShowStatistics.setSelected(model.showStatPanel());
@@ -165,6 +168,12 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		return loc.getMenu("Column.X") + " \u21C6 " + loc.getMenu("Column.Y");
 	}
 
+	/**
+	 * Handle input change
+	 * 
+	 * @param source
+	 *            event source
+	 */
 	public void actionPerformed(Object source) {
 		DataAnalysisModel model = daView.getModel();
 	

@@ -1731,12 +1731,16 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		this.allowEditing = allowEditing;
 	}
 
-	/*
+	/**
 	 * we need to return false for this normally, otherwise we can't detect
 	 * double-clicks
+	 * 
+	 * @param row
+	 *            row index
+	 * @param column
+	 *            column index
 	 */
 	public boolean isCellEditable(int row, int column) {
-
 		if (view.isColumnSelect()) {
 			return false;
 		}
@@ -1833,6 +1837,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
+	/**
+	 * Change width of all columns.
+	 * 
+	 * @param width
+	 *            width in pixels
+	 */
 	public void setColumnWidth(final int width) {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -1918,6 +1928,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		scroller.syncTableTop();
 	}
 
+	/**
+	 * Change row height of all rows
+	 * 
+	 * @param rowHeight
+	 *            row height in pixels
+	 * @param updateSettings
+	 *            whether to change settings too
+	 */
 	public void setRowHeight(final int rowHeight,
 			final boolean updateSettings) {
 
@@ -2588,6 +2606,17 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		        - columnHeader.getOffsetHeight());
 	}
 
+	/**
+	 * 
+	 * @param visible
+	 *            whether selection is visible
+	 * @param showDragHandle
+	 *            whether to show blue dot
+	 * @param corner1
+	 *            top left corner
+	 * @param corner2
+	 *            bottom right corner
+	 */
 	public void updateSelectionFrame(boolean visible, boolean showDragHandle,
 	        GPoint corner1, GPoint corner2) {
 
@@ -2627,10 +2656,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				selectionFrame.setVisible(true);
 			}
 		}
-
 	}
 
-	public void updateDragFrame(boolean visible, GPoint corner1, GPoint corner2) {
+	private void updateDragFrame(boolean visible, GPoint corner1,
+			GPoint corner2) {
 		if (dragFrame == null) {
 			return;
 		}
@@ -2654,7 +2683,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
-	public void positionEditorPanel(boolean visible, int row, int column) {
+	private void positionEditorPanel(boolean visible, int row, int column) {
 		if (editorPanel == null) {
 			return;
 		}

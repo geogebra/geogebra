@@ -20,6 +20,14 @@ public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 	private AppW app;
 	private AutoCompleteTextFieldW textField;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param autoCompleteTextField
+	 *            text input
+	 * @param invoker
+	 *            button opening this table
+	 */
 	public SymbolTablePopupW(AppW app,
 			AutoCompleteTextFieldW autoCompleteTextField,
 	        Widget invoker) {

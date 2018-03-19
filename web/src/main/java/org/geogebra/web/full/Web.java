@@ -96,6 +96,11 @@ public class Web implements EntryPoint {
 				getLAF(geoGebraMobileTags), null);
 	}
 
+	/**
+	 * @param geoGebraMobileTags
+	 *            article elements
+	 * @return look and feel based the first article that has laf parameter
+	 */
 	public static GLookAndFeel getLAF(
 			ArrayList<ArticleElement> geoGebraMobileTags) {
 		NodeList<Element> nodes = Dom

@@ -826,6 +826,12 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		}
 	}-*/;
 
+	/**
+	 * Paste text.
+	 * 
+	 * @param text
+	 *            clipboard content
+	 */
 	public void onPaste(String text) {
 		if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
 			boolean storeUndo = ((CopyPasteCutW) table.getCopyPasteCut()).paste(
@@ -838,6 +844,12 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		}
 	}
 
+	/**
+	 * Handle copy
+	 * 
+	 * @param altDown
+	 *            is alt down?
+	 */
 	public void onCopy(final boolean altDown) {
 		// the default action of the browser just modifies
 		// the textarea of the AdvancedFocusPanel, does
@@ -862,6 +874,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		});
 	}
 
+	/**
+	 * Handle cut
+	 */
 	public void onCut() {
 		// the default action of the browser just modifies
 		// the textarea of the AdvancedFocusPanel, does

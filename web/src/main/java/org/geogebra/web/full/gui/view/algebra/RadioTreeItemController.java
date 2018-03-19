@@ -487,7 +487,7 @@ public class RadioTreeItemController implements ClickHandler,
 		if (!editing) {
 			return;
 		}
-		item.stopEditing(item.getText(), null);
+		item.stopEditing(item.getText(), null, true);
 	}
 
 	protected void showKeyboard() {
@@ -539,9 +539,7 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	private boolean markForEdit() {
-
 		if (markForEdit) {
-
 			return true;
 		}
 		markForEdit = true;
@@ -620,9 +618,7 @@ public class RadioTreeItemController implements ClickHandler,
 	 *            wheher rght click was used
 	 */
 	protected boolean handleAVItem(int x, int y, boolean rightClick) {
-
 		return false;
-
 	}
 
 	public void updateSelection(boolean separated, boolean continous) {

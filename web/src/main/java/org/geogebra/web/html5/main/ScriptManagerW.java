@@ -23,7 +23,7 @@ public class ScriptManagerW extends ScriptManager {
 
 		// this should contain alphanumeric characters only,
 		// but it is not checked otherwise
-		ggbApplet = app.getDataParamId();
+		ggbApplet = app.getAppletId();
 
 		api = initAppletFunctions(app.getGgbApi());
 	}
@@ -61,7 +61,7 @@ public class ScriptManagerW extends ScriptManager {
 			}
 			if (!standardJS || app.useBrowserForJavaScript()) {
 
-				String param = ((AppW) app).getDataParamId();
+				String param = ((AppW) app).getAppletId();
 				if (param == null || "".equals(param)) {
 					ggbOnInitStatic();
 				} else {
@@ -132,7 +132,7 @@ public class ScriptManagerW extends ScriptManager {
 						toString(arg1));
 				return;
 			}
-			((AppW) app).callAppletJavaScript(jsFunction, arg0, arg1);
+			JsEval.callAppletJavaScript(jsFunction, arg0, arg1);
 		} catch (Throwable t) {
 			// Log.printStacktrace("");
 			Log.warn("Error in user script: " + jsFunction + " : "

@@ -156,6 +156,12 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	}
 
+	/**
+	 * @param model0
+	 *            model
+	 * @param app
+	 *            application
+	 */
 	public FillingPanel(FillingModel model0, AppW app) {
 		this.app = app;
 		model = model0;

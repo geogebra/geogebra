@@ -228,6 +228,13 @@ public class ModeToggleMenuW extends ListItem
 		}
 	}
 
+	/**
+	 * @param mode
+	 *            mode
+	 * @param m
+	 *            mode setting event type
+	 * @return whether the mode is available in this menu
+	 */
 	public boolean selectMode(int mode, ModeSetter m) {
 		String modeText = mode + "";
 		boolean imageDialog = mode == EuclidianConstants.MODE_IMAGE;
@@ -344,6 +351,12 @@ public class ModeToggleMenuW extends ListItem
 		// TODO
 	}
 
+	/**
+	 * Handle pointer up: set app mode.
+	 * 
+	 * @param event
+	 *            mouse up / touch end event
+	 */
 	public void onEnd(DomEvent<?> event) {
 		int mode = Integer
 				.parseInt(event.getRelativeElement().getAttribute("mode"));

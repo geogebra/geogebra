@@ -1,11 +1,13 @@
 package org.geogebra.web.full.move.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Request;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * API request to create animated gif
+ */
 public class AnimGifRequest implements Request {
 
 	private final static String API = "1.0.0";
@@ -17,10 +19,14 @@ public class AnimGifRequest implements Request {
 	private String base64;
 
 	/**
-	 * @param app
-	 *            AppW
-	 * @param material
-	 *            {@link Material}
+	 * @param base64
+	 *            file base64
+	 * @param sliderName
+	 *            slider label
+	 * @param timing
+	 *            delay
+	 * @param isLoop
+	 *            loop?
 	 */
 	AnimGifRequest(String base64, String sliderName, int timing, boolean isLoop) {
 		this.base64 = base64;
@@ -69,10 +75,14 @@ public class AnimGifRequest implements Request {
 	}
 
 	/**
-	 * @param app
-	 *            AppW
+	 * @param base64
+	 *            file base64
 	 * @param sliderName
 	 *            The slider of animation steps
+	 * @param timing
+	 *            delay
+	 * @param isLoop
+	 *            loop?
 	 * @return AnimGifRequest
 	 */
 	public static AnimGifRequest getRequestElement(String base64,
