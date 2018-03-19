@@ -268,6 +268,9 @@ public enum Feature {
 	/** MOW-349 */
 	MOW_AUDIO_TOOL,
 
+	/** MOW-299 */
+	MOW_VIDEO_TOOL,
+
 	/** IGR-633 */
 	MOB_IOS_EXAM_LOG_DIALOG,
 
