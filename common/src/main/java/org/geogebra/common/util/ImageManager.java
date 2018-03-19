@@ -141,8 +141,7 @@ abstract public class ImageManager {
 		int svgStart = fileStr.indexOf("<svg");
 		int svgEnd = fileStr.indexOf(">", svgStart);
 		String svgTag = fileStr.substring(svgStart, svgEnd + 1) + "</svg>";
-		if (svgTag.contains("width") && svgTag.contains("height")
-				&& svgTag.contains("viewBox")) {
+		if (svgTag.contains("width") && svgTag.contains("height")) {
 			return fileStr;
 		}
 		QDParser qd = new QDParser();
