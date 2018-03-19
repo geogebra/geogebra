@@ -536,6 +536,18 @@ public final class DrawImage extends Drawable {
 		return cropBox.getBounds();
 	}
 
+	private void updateOriginalRatio() {
+		double width, height;
+		if (wasCroped) {
+			width = getBoundingBox().getRectangle().getWidth();
+			height = getBoundingBox().getRectangle().getHeight();
+		} else {
+			width = geoImage.getImageScreenWidth();
+			height = geoImage.getImageScreenHeight();
+		}
+		originalRatio = height / width;
+	}
+
 	@Override
 	public void updateByBoundingBoxResize(AbstractEvent e,
 			EuclidianBoundingBoxHandler handler) {
@@ -551,9 +563,7 @@ public final class DrawImage extends Drawable {
 			}
 			wasCroped = true;
 			if (Double.isNaN(originalRatio)) {
-				double rectWidth = getBoundingBox().getRectangle().getWidth();
-				double rectHeight = getBoundingBox().getRectangle().getHeight();
-				originalRatio = rectHeight / rectWidth;
+				updateOriginalRatio();
 			}
 			updateImageCrop(e, handler);
 		} else {
@@ -562,9 +572,7 @@ public final class DrawImage extends Drawable {
 				return;
 			}
 			if (Double.isNaN(originalRatio)) {
-				double width = geoImage.getImageScreenWidth();
-				double height = geoImage.getImageScreenHeight();
-				originalRatio = height / width;
+				updateOriginalRatio();
 			}
 			if (absoluteLocation && geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
 				// updates the current coordinates of corner points
