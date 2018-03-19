@@ -184,9 +184,6 @@ public enum Feature {
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 
-	/** AND-574 */
-	MOB_NO_LOCK_FOR_PREVIEWABLE_IN_AND_3D,
-
 	/** GGB-2118 */
 	PREVIEW_POINTS,
 
