@@ -120,6 +120,9 @@ public class AudioInputDialog extends DialogBoxW
 							processInput();
 						} else {
 							resetInputField();
+							getInputPanel().addStyleName("focusState");
+							getInputPanel().removeStyleName("emptyState");
+
 						}
 					}
 				});
