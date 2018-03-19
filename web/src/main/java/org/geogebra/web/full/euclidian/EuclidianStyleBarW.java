@@ -585,9 +585,20 @@ public class EuclidianStyleBarW extends StyleBarW2
 			addDeleteButton();
 		}
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR) && hasActiveGeos()) {
+		if (app.has(Feature.DYNAMIC_STYLEBAR) && hasActiveGeos() && isContextMenuNeeded()) {
 			addContextMenuButton();
 		}
+	}
+
+	/**
+	 * @return true if geo needs a 3-dot button.
+	 */
+	protected boolean isContextMenuNeeded() {
+		if (!ev.getEuclidianController().getAppSelectedGeos().isEmpty()
+				&& ev.getEuclidianController().getAppSelectedGeos().get(0).isGeoAudio()) {
+			return false;
+		}
+		return true;
 	}
 
 	private boolean isImageGeoSelected() {

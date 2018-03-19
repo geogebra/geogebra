@@ -81,15 +81,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 	private GPoint calculatePosition(GRectangle2D gRectangle2D,
 			boolean hasBoundingBox, boolean isPoint, boolean isFunction) {
-
 		if (gRectangle2D == null && !isFunction) {
 			return null;
 		}
 
-		int move = this.getContextMenuButton().getAbsoluteLeft()
-				- this.getAbsoluteLeft();
 		int height = this.getOffsetHeight();
-
 		double left, top = -1;
 
 		if (isFunction) {
@@ -131,7 +127,12 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		if (isFunction) {
 			left = this.getView().getEuclidianController().getMouseLoc().x + 10;
 		} else if (hasBoundingBox) {
-			left = gRectangle2D.getMaxX() - move;
+			left = gRectangle2D.getMaxX();
+			if (isContextMenuNeeded()) {
+				left -= getContextMenuButton().getAbsoluteLeft() - getAbsoluteLeft();
+			} else {
+				left -= getOffsetWidth();
+			}
 		} else { // line has no bounding box
 			left = gRectangle2D.getMaxX();
 		}
