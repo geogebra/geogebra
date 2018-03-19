@@ -11,13 +11,7 @@ public class AngleUnitProperty extends AbstractEnumerableProperty {
     public AngleUnitProperty(Kernel kernel, Localization localization) {
         super(localization, "AngleUnit");
         this.kernel = kernel;
-        setupValues(localization);
-    }
-
-    private void setupValues(Localization localization) {
-        String degree = localization.getMenu("Degree");
-        String radiant = localization.getMenu("Radiant");
-        setValues(new String[] { degree, radiant });
+        setValuesAndLocalize(new String[] { "Degree", "Radiant" });
     }
 
     @Override

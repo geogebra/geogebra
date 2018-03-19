@@ -7,12 +7,6 @@ import org.geogebra.common.properties.AbstractEnumerableProperty;
 
 public class LabelingProperty extends AbstractEnumerableProperty {
 
-    private String[] labelingValues = {
-            "Labeling.on",
-            "Labeling.off",
-            "Labeling.pointsOnly"
-    };
-
     private int[] labelingStyles = {
             ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON,
             ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF,
@@ -24,14 +18,11 @@ public class LabelingProperty extends AbstractEnumerableProperty {
     public LabelingProperty(App app, Localization localization) {
         super(localization, "Labeling");
         this.app = app;
-        localizeValues(localization);
-        setValues(labelingValues);
-    }
-
-    private void localizeValues(Localization localization) {
-        for (int i = 0; i < labelingValues.length; i++) {
-            labelingValues[i] = localization.getMenu(labelingValues[i]);
-        }
+        setValuesAndLocalize(new String[] {
+                "Labeling.on",
+                "Labeling.off",
+                "Labeling.pointsOnly"
+        });
     }
 
     @Override

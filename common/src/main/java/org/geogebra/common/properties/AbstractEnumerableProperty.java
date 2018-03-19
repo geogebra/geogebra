@@ -14,6 +14,18 @@ public abstract class AbstractEnumerableProperty extends AbstractProperty implem
         this.values = values;
     }
 
+    protected void setValuesAndLocalize(String[] values) {
+        setValues(values);
+        localizeValues();
+    }
+
+    private void localizeValues() {
+        Localization localization = getLocalization();
+        for (int i = 0; i < values.length; i++) {
+            values[i] = localization.getMenu(values[i]);
+        }
+    }
+
     @Override
     public String[] getValues() {
         return values;
