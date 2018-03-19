@@ -1574,8 +1574,10 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
   void parser_error(const std::string & b,GIAC_CONTEXT){
 #ifndef GIAC_HAS_STO_38
-    alert(b,contextptr);
-    // *logptr(contextptr) << b << endl;
+    if (!giac::first_error_line(contextptr))
+      alert(b,contextptr);
+    else
+      *logptr(contextptr) << b << endl;
 #endif
     if (contextptr && contextptr->globalptr )
       contextptr->globalptr->_pl._parser_error_=b;
