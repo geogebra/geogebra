@@ -5879,6 +5879,7 @@ namespace giac {
       return is_one(a)?b:gen(a*(*b._CPLXptr),a*(*(b._CPLXptr+1)));
     case _CPLX__CPLX:
       return adjust_complex_display(mult_cplx(a,b,contextptr),a,b);
+#ifndef GIAC_GGB
     case _INT___STRNG:{
       string res;
       for (int i=0;i<a.val;++i)
@@ -5891,6 +5892,7 @@ namespace giac {
 	res += *a._STRNGptr;
       return string2gen(res,false);
     }
+#endif
     case _VECT__INT_: 
       if (b.val>=0 && python_compat(contextptr)){
 	vecteur res;
