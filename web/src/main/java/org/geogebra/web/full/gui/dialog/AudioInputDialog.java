@@ -31,6 +31,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AudioInputDialog extends DialogBoxW
 		implements FastClickHandler, ErrorHandler {
+	private static final String HTTP = "http://";
+	private static final String HTTPS = "https://";
 	private AppW appW;
 	private FlowPanel mainPanel;
 	private FlowPanel inputPanel;
@@ -143,6 +145,9 @@ public class AudioInputDialog extends DialogBoxW
 		cancelBtn.addFastClickHandler(this);
 	}
 
+	/**
+	 * Resets input style after error.
+	 */
 	void resetInputField() {
 		resetError();
 		getInsertBtn().setEnabled(!"".equals(getInputField().getText()));
@@ -191,9 +196,14 @@ public class AudioInputDialog extends DialogBoxW
 		}
 	}
 
+	/**
+	 * Handles the URL user has typed.
+	 */
 	void processInput() {
 		if (appW.getGuiManager() != null) {
-			app.getSoundManager().checkURL(inputField.getText(),
+			String url = getUrlWithProtocol();
+			inputField.getTextComponent().setText(url);
+			app.getSoundManager().checkURL(url,
 					new AsyncOperation<Boolean>() {
 
 						@Override
@@ -208,10 +218,33 @@ public class AudioInputDialog extends DialogBoxW
 		}
 	}
 
+	/**
+	 * Adds the GeoAudio instance.
+	 */
 	void addAudio() {
 		resetError();
+
 		app.getGuiManager().addAudio(inputField.getText());
 		hide();
+	}
+
+	private String getUrlWithProtocol() {
+		String url = inputField.getText().trim();
+		String value = isHTTPSOnly() ? url.replaceFirst(HTTP, "") : url;
+
+		if (!url.startsWith(HTTPS)) {
+			value = HTTPS + value;
+		}
+
+		return value;
+	}
+
+	/**
+	 * 
+	 * @return if accepted URLs are HTTPS only or not.
+	 */
+	public boolean isHTTPSOnly() {
+		return true;
 	}
 
 	@Override
