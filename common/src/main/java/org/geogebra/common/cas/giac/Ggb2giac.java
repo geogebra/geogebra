@@ -407,7 +407,10 @@ public class Ggb2giac {
 
 				+ "[seq(when(!contains(lname(factored[j]),REPLACEME1),constant*=factored[j]^factored[j+1],variable*=factored[j]^factored[j+1]),j,0,length(factored)-1,2)],"
 
-				+ "[ggbintans:=constant*integrate(variable,REPLACEME1,REPLACEME2,REPLACEME3)],"
+				+ "[ggbintans:=integrate(variable,REPLACEME1,REPLACEME2,REPLACEME3)],"
+				// separate step to avoid exception handling problem with
+				// multiplication and integrate(piecewise())
+				+ "[ggbintans:=constant*ggbintans],"
 
 				// convert {1.2,3.2} into 3.2
 				+ "[ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[size(ggbintans)-1],ggbintans)],"
