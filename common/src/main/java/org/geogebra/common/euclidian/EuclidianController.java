@@ -6880,7 +6880,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		for (GeoElement hit : view.getHits().getTopHits()) {
-			if (overComboBox(event, hit)) {
+			if (overComboBox(event, hit) || overAudio(event, hit)) {
 				return;
 			}
 		}
@@ -7076,6 +7076,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				((DrawDropDownList) dl).onOptionOver(event.getX(),
 						event.getY());
 				return dl.isCanvasDrawable();
+			}
+		}
+		return false;
+	}
+
+	protected boolean overAudio(AbstractEvent event, GeoElement hit) {
+		if (hit.isGeoAudio()) {
+			DrawableND da = view.getDrawableFor(hit);
+			if (da instanceof DrawAudio) {
+				((DrawAudio) da).onMouseOver(event.getX(), event.getY());
+				return da.isCanvasDrawable();
 			}
 		}
 		return false;

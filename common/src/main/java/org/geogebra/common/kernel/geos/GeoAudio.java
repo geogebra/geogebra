@@ -18,7 +18,7 @@ public class GeoAudio extends GeoButton {
 	/** URL of a test audio file */
 	public static final String TEST_URL = "http://archive.geogebra.org/static/welcome_to_geogebra.mp3";
 	private static final int DEFAULT_PLAYER_WIDTH = 300;
-	private static final int DEFAULT_PLAYER_HEIGHT = 25;
+	private static final int DEFAULT_PLAYER_HEIGHT = 48;
 	private String dataUrl;
 	private App app;
 

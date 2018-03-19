@@ -19,6 +19,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class DrawAudio extends Drawable {
 	private static final int PLAY_MARGIN = 5;
+	private static final GColor BACKGROUND_COLOR = GColor.newColorRGB(0xf5f5f5);
+	private static final GColor PLAY_COLOR = GColor.newColor(0, 0, 0, 54);
+
+	// mebis-teal
+	private static final GColor PLAY_HOVER_COLOR = GColor.newColorRGB(0x00a8d5);
 
 	private final GeoAudio geoAudio;
 	private int top;
@@ -28,6 +33,7 @@ public class DrawAudio extends Drawable {
 	private boolean isVisible;
 	private GRectangle bounds;
 	private GRectangle playRect;
+	private boolean hovered = false;
 
 	/**
 	 * @param view
@@ -42,8 +48,8 @@ public class DrawAudio extends Drawable {
 		update();
 	}
 
-	private int getPlaySize() {
-		return height - 2 * PLAY_MARGIN;
+	private static int getPlaySize() {
+		return 24;
 	}
 
 	@Override
@@ -57,27 +63,36 @@ public class DrawAudio extends Drawable {
 
 		width = geoAudio.getWidth();
 		height = geoAudio.getHeight();
-		int size = getPlaySize();
+		int size = 2 * getPlaySize();
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
-		playRect = AwtFactory.getPrototype().newRectangle(left + PLAY_MARGIN, top + PLAY_MARGIN, size, size);
+		playRect = AwtFactory.getPrototype().newRectangle(left, top, size, size);
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
 		drawBox(g2);
-		drawPlay(g2, getPlaySize(), GColor.BLACK);
+		drawPlay(g2);
 		drawTime(g2);
 	}
 
-	private void drawPlay(GGraphics2D g2, int size, GColor bgColor) {
-		g2.setColor(bgColor);
-		int x = left + PLAY_MARGIN;
-		int y = top + PLAY_MARGIN;
-		AwtFactory.fillTriangle(g2, x, y, x, y + size, x + size, y + (size / 2));
+	private void drawPlay(GGraphics2D g2) {
+		g2.setColor(hovered ? PLAY_HOVER_COLOR : PLAY_COLOR);
+		int size = getPlaySize();
+		int margin = (height - size) / 2;
+		int x = left + margin;
+		int y = top + margin;
+		int x1 = x + PLAY_MARGIN;
+		int y1 = y + PLAY_MARGIN;
+		int x2 = x1;
+		int y2 = y + size - PLAY_MARGIN;
+		int x3 = x + size - PLAY_MARGIN;
+		int y3 = y + size / 2;
+
+		AwtFactory.fillTriangle(g2, x1, y1, x2, y2, x3, y3);
 	}
 
 	private void drawBox(GGraphics2D g2) {
-		g2.setPaint(GColor.LIGHT_GRAY);
+		g2.setPaint(BACKGROUND_COLOR);
 		g2.fillRect(left - 1, top - 1, width, height);
 	}
 
@@ -164,6 +179,19 @@ public class DrawAudio extends Drawable {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Mouse over handler.
+	 * 
+	 * @param x
+	 *            coordinate.
+	 * @param y
+	 *            coordinate.
+	 */
+	public void onMouseOver(int x, int y) {
+		hovered = isPlayHit(x, y);
+		view.repaintView();
 	}
 
 }
