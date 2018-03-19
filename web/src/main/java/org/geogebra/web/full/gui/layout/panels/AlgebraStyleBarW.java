@@ -198,7 +198,6 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 					app.getSettings().getAlgebra()
 							.setTreeMode(supportedModes.get(i));
 					app.closePopups();
-					app.clearJustClosedPopup();
 				}
 			});
 		}
@@ -242,7 +241,6 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 					}
 					app.getKernel().updateConstruction();
 					app.closePopups();
-					app.clearJustClosedPopup();
 				}
 			});
 		}

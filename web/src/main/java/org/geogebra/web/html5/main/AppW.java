@@ -161,7 +161,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-@SuppressWarnings("javadoc")
 public abstract class AppW extends App implements SetLabels {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
 	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
@@ -198,7 +197,6 @@ public abstract class AppW extends App implements SetLabels {
 	private final GLookAndFeelI laf;
 
 	protected ArrayList<Widget> popups = new ArrayList<>();
-	private boolean justClosedPopup = false;
 	// protected GeoGebraFrame frame = null;
 
 	private GlobalKeyDispatcherW globalKeyDispatcher;
@@ -296,6 +294,9 @@ public abstract class AppW extends App implements SetLabels {
 		});
 	}
 
+	/**
+	 * Resize to fill browser
+	 */
 	protected void fitSizeToScreen() {
 		if (getArticleElement().getDataParamFitToScreen()) {
 			updateHeaderVisible();
@@ -553,6 +554,9 @@ public abstract class AppW extends App implements SetLabels {
 		getFrameElement().setLang(lang == null ? "" : lang.replace("_", "-"));
 	}
 
+	/**
+	 * Notify components about initial localization load
+	 */
 	public void notifyLocalizationLoaded() {
 		// TODO Auto-generated method stub
 	}
@@ -901,6 +905,10 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
+	/**
+	 * @param file
+	 *            currently open file
+	 */
 	public void setCurrentFile(GgbFile file) {
 		if (currentFile == file) {
 			return;
@@ -975,15 +983,11 @@ public abstract class AppW extends App implements SetLabels {
 
 		if (ext.equals(FileExtensions.SVG)) {
 			// IE11/Edge needs SVG to be base64 encoded
-			addExternalImage(filename,
+			getImageManager().addExternalImage(filename,
 					StringUtil.svgMarker + Browser.encodeBase64(content));
 		} else {
-			addExternalImage(filename, content);
+			getImageManager().addExternalImage(filename, content);
 		}
-	}
-
-	public void addExternalImage(String filename, String src) {
-		getImageManager().addExternalImage(filename, src);
 	}
 
 	@Override
@@ -1162,7 +1166,6 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	protected void restoreMacro() {
-
 		createStorage();
 		if (storage != null) {
 			StorageMap map = new StorageMap(storage);
@@ -1172,7 +1175,6 @@ public abstract class AppW extends App implements SetLabels {
 				getGgbApi().setBase64(b64);
 			}
 		}
-
 	}
 
 	protected boolean openMacroFromStorage() {
@@ -1334,6 +1336,10 @@ public abstract class AppW extends App implements SetLabels {
 		networkOperation.setView(ov);
 	}
 
+	/**
+	 * @param allowST
+	 *            whether to allow symbol popup in input fields
+	 */
 	public void setAllowSymbolTables(boolean allowST) {
 		allowSymbolTables = allowST;
 	}
@@ -1382,6 +1388,10 @@ public abstract class AppW extends App implements SetLabels {
 		return getKimberlingw();
 	}
 
+	/**
+	 * @param kimberlingw
+	 *            weight function for TriangleCenter command
+	 */
 	public native void setKimberlingWeightFunction(
 			AlgoKimberlingWeightsInterface kimberlingw) /*-{
 		$wnd.geogebraKimberlingWeight = function(obj) {
@@ -1424,6 +1434,10 @@ public abstract class AppW extends App implements SetLabels {
 		return getCubicw();
 	}
 
+	/**
+	 * @param cubicw
+	 *            weights for Cubic command
+	 */
 	public native void setCubicSwitchFunction(
 			AlgoCubicSwitchInterface cubicw) /*-{
 		$wnd.geogebraCubicSwitch = function(obj) {
@@ -1462,13 +1476,6 @@ public abstract class AppW extends App implements SetLabels {
 			return null;
 		}
 		return (EuclidianViewW) getGuiManager().getPlotPanelView(viewId);
-	}
-
-	public boolean isPlotPanelEuclidianView(int viewID) {
-		if (getGuiManager() == null) {
-			return false;
-		}
-		return getGuiManager().getPlotPanelView(viewID) != null;
 	}
 
 	/**
@@ -1628,6 +1635,11 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}-*/;
 
+	/**
+	 * Get a pane for showing messages
+	 * 
+	 * @return option pane
+	 */
 	protected GOptionPaneW getOptionPane() {
 		return getGuiManager() != null ? getGuiManager().getOptionPane()
 				: new GOptionPaneW(getPanel(), this);
@@ -1640,6 +1652,9 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
+	/**
+	 * @return client info for API calls
+	 */
 	public final ClientInfo getClientInfo() {
 		ClientInfo clientInfo = new ClientInfo();
 		clientInfo.setModel(getLoginOperation().getModel());
@@ -1653,6 +1668,11 @@ public abstract class AppW extends App implements SetLabels {
 
 	/**
 	 * Initializes the user authentication
+	 * 
+	 * @param op
+	 *            login operation
+	 * @param mayLogIn
+	 *            whether login dialog may be opened
 	 */
 	public void initSignInEventFlow(LogInOperation op, boolean mayLogIn) {
 
@@ -1670,14 +1690,24 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
+	/**
+	 * Load Google Drive APIs
+	 */
 	protected void initGoogleDriveEventFlow() {
 		// overriden in AppW
 	}
 
+	/**
+	 * @param l
+	 *            listener that checks for opened/closed views
+	 */
 	public void addViewsChangedListener(ViewsChangedListener l) {
 		viewsChangedListener.add(l);
 	}
 
+	/**
+	 * Notify listeners about open/closed view
+	 */
 	public void fireViewsChangedEvent() {
 		for (ViewsChangedListener l : viewsChangedListener) {
 			l.onViewsChanged();
@@ -1714,8 +1744,6 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * Initializes Kernel, EuclidianView, EuclidianSettings, etc..
 	 * 
-	 * @param undoActive
-	 *            whether undo manager should be initialized
 	 * @param this_app
 	 *            app for creating kernel
 	 */
@@ -1862,12 +1890,21 @@ public abstract class AppW extends App implements SetLabels {
 		return tableModel;
 	}
 
+	/**
+	 * Update layout of central pane
+	 */
 	protected abstract void updateTreeUI();
 
+	/**
+	 * Build UI
+	 */
 	public void buildApplicationPanel() {
 		// overridden in AppWApplet
 	}
 
+	/**
+	 * Hide splash screen
+	 */
 	public void appSplashCanNowHide() {
 		// only with GUI
 	}
@@ -1912,6 +1949,9 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
+	/**
+	 * Update toolbar from custom definition
+	 */
 	public void setCustomToolBar() {
 		// only needed in AppWFull
 	}
@@ -1947,6 +1987,9 @@ public abstract class AppW extends App implements SetLabels {
 		return true;
 	}
 
+	/**
+	 * @return article element with parameters
+	 */
 	public ArticleElementInterface getArticleElement() {
 		return articleElement;
 	}
@@ -1956,10 +1999,17 @@ public abstract class AppW extends App implements SetLabels {
 		return !getArticleElement().getDataParamApp();
 	}
 
+	/**
+	 * @return active material
+	 */
 	public Material getActiveMaterial() {
 		return this.activeMaterial;
 	}
 
+	/**
+	 * @param mat
+	 *            active material
+	 */
 	public void setActiveMaterial(Material mat) {
 		this.activeMaterial = mat;
 	}
@@ -1989,7 +2039,7 @@ public abstract class AppW extends App implements SetLabels {
 	 *            show grid ?
 	 * @param id
 	 *            euclidian view id
-	 * @param settings
+	 * @param evSettings
 	 *            view settings
 	 * @return new euclidian view
 	 */
@@ -2002,7 +2052,6 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public EuclidianController newEuclidianController(Kernel kernel1) {
 		return new EuclidianControllerW(kernel1);
-
 	}
 
 	@Override
@@ -2012,15 +2061,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public Factory getFactory() {
-
 		return new FactoryW(this);
-	}
-
-	public void restoreCurrentUndoInfo() {
-		if (isUndoActive()) {
-			kernel.restoreCurrentUndoInfo();
-			// isSaved = false;
-		}
 	}
 
 	// ===================================================
@@ -2090,6 +2131,8 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * Checks for GeoGebraLangUI in URL, then in cookie, then checks browser
 	 * language
+	 * 
+	 * @return user preferred language
 	 */
 	public String getLanguageFromCookie() {
 		String lCookieValue = articleElement.getDataParamApp()
@@ -2352,15 +2395,20 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
+	/**
+	 * Close popups, keep tooltips
+	 */
 	public void closePopupsNoTooltips() {
-		justClosedPopup = false;
 		for (Widget widget : popups) {
-			justClosedPopup = true;
 			widget.setVisible(false);
 		}
 		popups.clear();
 	}
 
+	/**
+	 * @param el
+	 *            element that can be cliked without closingpopups
+	 */
 	public void addAsAutoHidePartnerForPopups(Element el) {
 		for (int i = 0; i < popups.size(); i++) {
 
@@ -2372,22 +2420,24 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
+	/**
+	 * @return whether there are some open popups
+	 */
 	public boolean hasPopup() {
 		return popups.size() > 0;
 	}
 
-	public boolean wasPopupJustClosed() {
-		return justClosedPopup;
-	}
-
-	public void clearJustClosedPopup() {
-		justClosedPopup = false;
-	}
-
+	/**
+	 * @param widget
+	 *            popup
+	 */
 	public void unregisterPopup(Widget widget) {
 		popups.remove(widget);
 	}
 
+	/**
+	 * @return client type for API calls
+	 */
 	public String getClientType() {
 		if (getLAF() == null) {
 			return "web";
@@ -2395,10 +2445,13 @@ public abstract class AppW extends App implements SetLabels {
 		return getLAF().getType();
 	}
 
-	public String getClientID() {
+	private String getClientID() {
 		return getArticleElement().getDataClientID();
 	}
 
+	/**
+	 * @return whether toolbar should be shown
+	 */
 	public boolean isShowToolbar() {
 		if (this.articleElement == null) {
 			return false;
@@ -2423,6 +2476,11 @@ public abstract class AppW extends App implements SetLabels {
 		return ret;
 	}
 
+	/**
+	 * @param fallback
+	 *            fallback if DOM not initialized
+	 * @return height excluding toolbar/inputbar
+	 */
 	public int getHeightForSplitPanel(int fallback) {
 		// border excluded
 		int windowHeight = getAppletHeight();
@@ -2445,6 +2503,9 @@ public abstract class AppW extends App implements SetLabels {
 		return windowHeight;
 	}
 
+	/**
+	 * Initialize undo info without notifying scripts
+	 */
 	protected void initUndoInfoSilent() {
 		getScriptManager().disableListeners();
 		kernel.initUndoInfo();
@@ -2482,6 +2543,9 @@ public abstract class AppW extends App implements SetLabels {
 		return 14;
 	}
 
+	/**
+	 * Update toolbar content
+	 */
 	public void updateToolBar() {
 		if (!showToolBar || isIniting()) {
 			return;
@@ -2511,15 +2575,10 @@ public abstract class AppW extends App implements SetLabels {
 		super.setShowToolBar(toolbar, help);
 	}
 
-	// methods used just from AppWapplication
-	public int getOWidth() {
-		return 0;
-	}
 
-	public int getOHeight() {
-		return 0;
-	}
-
+	/**
+	 * @return applet ID
+	 */
 	public String getAppletId() {
 		return articleElement.getDataParamId();
 	}
@@ -2674,7 +2733,10 @@ public abstract class AppW extends App implements SetLabels {
 	// FILE HANDLING
 	// ========================================================
 
-	protected void clearInputBar() {
+	/**
+	 * Clear classic input bar
+	 */
+	protected final void clearInputBar() {
 		if (isUsingFullGui() && showAlgebraInput() && getGuiManager() != null) {
 			AlgebraInput ai = (getGuiManager().getAlgebraInput());
 			if (ai != null) {
@@ -2701,20 +2763,31 @@ public abstract class AppW extends App implements SetLabels {
 		showErrorDialog(translatedError + ":\n" + error);
 	}
 
-	public void showMessage(final String message) {
-		getOptionPane().showConfirmDialog(this, message,
-				GeoGebraConstants.APPLICATION_NAME + " - "
-						+ getLocalization().getMenu("Info"),
-				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
-				null);
-	}
-
+	/**
+	 * Show message in a popup
+	 * 
+	 * @param message
+	 *            message
+	 * @param title
+	 *            popup title
+	 */
 	public void showMessage(final String message, final String title) {
 		getOptionPane().showConfirmDialog(this, message, title,
 				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
 				null);
 	}
 
+	/**
+	 * @param message
+	 *            message
+	 * @param title
+	 *            popup title
+	 * @param buttonText
+	 *            button text
+	 * @param handler
+	 *            button click handler
+	 * 
+	 */
 	public void showMessage(final String message, final String title,
 			String buttonText, AsyncOperation<String[]> handler) {
 		HTML content = new HTML(message);
@@ -2724,7 +2797,6 @@ public abstract class AppW extends App implements SetLabels {
 		getOptionPane().showConfirmDialog(this, scrollPanel, title,
 				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
 				buttonText, null, handler);
-
 	}
 
 	@Override
@@ -2881,15 +2953,22 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
+	/**
+	 * Update central panel
+	 */
 	public void updateCenterPanel() {
 		// only needed with GUI
 	}
 
 	/**
-	 * @param ggwGraphicsViewWidth
+	 * Resets the width of the Canvas converning the Width of its wrapper
+	 * (splitlayoutpanel center)
 	 * 
-	 *            Resets the width of the Canvas converning the Width of its
-	 *            wrapper (splitlayoutpanel center)
+	 * @param width
+	 *            width in px
+	 * 
+	 * @param height
+	 *            height in px
 	 */
 	public void ggwGraphicsViewDimChanged(int width, int height) {
 		// Log.debug("dim changed" + getSettings().getEuclidian(1));
@@ -3010,22 +3089,31 @@ public abstract class AppW extends App implements SetLabels {
 		this.toolLoadedFromStorage = toolLoadedFromStorage;
 	}
 
+	/**
+	 * @param runnable
+	 *            callback for closing a header panel
+	 */
 	public void setCloseBrowserCallback(Runnable runnable) {
 		this.closeBroserCallback = runnable;
 	}
 
+	/**
+	 * Run callback for closing a header panel
+	 */
 	public void onBrowserClose() {
 		if (this.closeBroserCallback != null) {
 			this.closeBroserCallback.run();
 			this.closeBroserCallback = null;
 		}
-
 	}
 
 	public void addInsertImageCallback(Runnable runnable) {
 		this.insertImageCallback = runnable;
 	}
 
+	/**
+	 * @return whether menu is open
+	 */
 	public boolean isMenuShowing() {
 		return false;
 	}
@@ -3050,6 +3138,9 @@ public abstract class AppW extends App implements SetLabels {
 		this.keyboardNeeded = b;
 	}
 
+	/**
+	 * @return whether keyboard is needed for current perspective
+	 */
 	public boolean isKeyboardNeeded() {
 		return keyboardNeeded;
 	}
@@ -3178,9 +3269,10 @@ public abstract class AppW extends App implements SetLabels {
 		return getArticleElement().getDataParamShowToolBarHelp(true);
 	}
 
-	public Panel getPanel() {
-		return RootPanel.get();
-	}
+	/**
+	 * @return root panel of the applet
+	 */
+	public abstract Panel getPanel();
 
 	private Timer altTextTimer = new Timer() {
 
@@ -3211,6 +3303,9 @@ public abstract class AppW extends App implements SetLabels {
 		return false;
 	}
 
+	/**
+	 * @return whether stylebar may be shown
+	 */
 	public boolean allowStylebar() {
 		return (!isApplet()
 				|| getArticleElement().getDataParamShowMenuBar(false)
@@ -3218,10 +3313,16 @@ public abstract class AppW extends App implements SetLabels {
 				&& enableGraphing();
 	}
 
+	/**
+	 * @return whether graphics view and commands are allowed
+	 */
 	public boolean enableGraphing() {
 		return getArticleElement().getDataParamEnableGraphing(true);
 	}
 
+	/**
+	 * @return whether a file was used for initialization
+	 */
 	public boolean isStartedWithFile() {
 		return getArticleElement().getDataParamFileName().length() > 0
 				|| getArticleElement().getDataParamBase64String().length() > 0
@@ -3311,8 +3412,10 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
+	/**
+	 * Focus this app
+	 */
 	public void addFocusToApp() {
-
 		if (!GlobalKeyDispatcherW.getIsHandlingTab()) {
 			getGlobalKeyDispatcher().setFocused(true);
 			return;

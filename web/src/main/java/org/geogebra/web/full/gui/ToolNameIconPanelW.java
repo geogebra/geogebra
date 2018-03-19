@@ -203,7 +203,7 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 			String dImageURL = ImageResizer.resizeImage(imageURL, ICON_WIDTH,
 			        ICON_HEIGHT);
 			if (!imageURL.equals(dImageURL)) {
-				app.addExternalImage(fileName, dImageURL);
+				app.getImageManager().addExternalImage(fileName, dImageURL);
 			}
 			iconFileName = fileName;
 			icon.setUrl(app.getImageManager().getExternalImageSrc(iconFileName));

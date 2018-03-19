@@ -1767,7 +1767,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			if (!geo.isChangeable()) {
 				if (geo.isProtected(EventType.UPDATE)) {
-					app.showMessage(loc.getError("AssignmentToFixed"));
+					app.showError(loc.getError("AssignmentToFixed"));
 					return;
 				} else if (geo.isRedefineable()
 						&& !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
