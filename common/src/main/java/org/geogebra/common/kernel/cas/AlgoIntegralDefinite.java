@@ -380,7 +380,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 						ArrayList<ExpressionNode> nodesAl = new ArrayList<>();
 						ArrayList<Bounds> boundsAl = new ArrayList<>();
 
-						boolean complete = GeoFunction.collectCases(exp,
+						boolean complete = Bounds.collectCases(exp,
 								nodesAl, boundsAl, new Bounds(kernel,
 										f.getFunctionVariables()[0]));
 
@@ -419,8 +419,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 									coveredMin = lower;
 								} else {
 									// regions are defined in a strange order
-									Log.error(
-											"problem with order of regions, can't use fast method");
+									Log.debug(
+											"problem with order of regions, can't use fast method for "
+													+ bound);
 									n.setValue(numericIntegration(f, lowerLimit,
 											upperLimit,
 											f.includesFreehandOrData()
@@ -442,7 +443,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 											Math.min(upper, upperLimit),
 											STANDARD_MULTIPLIER);
 
-								} else if (Double.isInfinite(lower)) {
+								} else if (Double.isInfinite(upper)) {
 									sum += numericIntegration(fun,
 											Math.max(lower, lowerLimit),
 											upperLimit, STANDARD_MULTIPLIER);

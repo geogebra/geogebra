@@ -34,6 +34,9 @@ public abstract class CommandDispatcher {
 	/** kernel **/
 	protected Kernel kernel;
 	private Construction cons;
+	/**
+	 * Application
+	 */
 	protected App app;
 
 	/**

@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
@@ -8,6 +10,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -51,6 +55,12 @@ public class Bounds {
 				|| e.getOperation().equals(Operation.AND_INTERVAL)) {
 			return addRestriction(e.getLeftTree())
 					.addRestriction(e.getRightTree());
+		}
+		if (e.getOperation() == Operation.FUNCTION
+				&& e.getLeft() instanceof GeoFunction) {
+			GeoFunction fn = ((GeoFunction) e.getLeft());
+			return addRestriction(fn.getFunctionExpression().deepCopy(kernel)
+					.replace(fn.getFunctionVariables()[0], fv).wrap());
 		}
 		Bounds b = new Bounds(kernel, fv);
 		b.lower = lower;
@@ -387,5 +397,70 @@ public class Bounds {
 			}
 		}
 		return upper == null ? Double.valueOf(Double.POSITIVE_INFINITY) : upper;
+	}
+
+	@Override
+	public String toString() {
+		return (condition == null ? ""
+				: this.condition.toString(StringTemplate.xmlTemplate)) + " on ("
+				+ lower + "," + upper + ")";
+	}
+
+	/**
+	 * @param condRoot
+	 *            root of conditional expression
+	 * @param cases
+	 *            list of expressions for individual branches
+	 * @param conditions
+	 *            conditions for branches
+	 * @param parentCond
+	 *            condition for the root
+	 * @return whether parentCond is completely covered by the cases
+	 */
+	public static boolean collectCases(ExpressionNode condRoot,
+			ArrayList<ExpressionNode> cases, ArrayList<Bounds> conditions,
+			Bounds parentCond) {
+		if (condRoot.getOperation() == Operation.IF_LIST) {
+			MyList conds = (MyList) condRoot.getLeft().unwrap();
+			for (int i = 0; i < conds.size(); i++) {
+				conditions.add(parentCond
+						.addRestriction(conds.getListElement(i).wrap()));
+			}
+
+			MyList fns = (MyList) condRoot.getRight().unwrap();
+			for (int i = 0; i < fns.size(); i++) {
+				cases.add(fns.getListElement(i).wrap());
+			}
+			if (fns.size() > conds.size()) {
+				conditions.add(parentCond);
+			}
+			return fns.size() > conds.size();
+		}
+		boolean complete = condRoot.getOperation() == Operation.IF_ELSE;
+		ExpressionNode condFun = complete
+				? ((MyNumberPair) condRoot.getLeft()).getX().wrap()
+				: condRoot.getLeft().wrap();
+		ExpressionNode ifFun = complete
+				? ((MyNumberPair) condRoot.getLeft()).getY().wrap()
+				: condRoot.getRight().wrap();
+		ExpressionNode elseFun = complete ? condRoot.getRight().wrap() : null;
+
+		Bounds positiveCond = parentCond.addRestriction(condFun);
+		Bounds negativeCond = !positiveCond.isValid() ? parentCond
+				: parentCond.addRestriction(condFun.negation());
+		if (ifFun.isConditional()) {
+			complete &= collectCases(ifFun, cases, conditions, positiveCond);
+		} else {
+			cases.add(ifFun);
+			conditions.add(positiveCond);
+		}
+
+		if (elseFun != null && elseFun.isConditional()) {
+			complete &= collectCases(elseFun, cases, conditions, negativeCond);
+		} else if (elseFun != null) {
+			cases.add(elseFun);
+			conditions.add(negativeCond);
+		}
+		return complete;
 	}
 }

@@ -388,6 +388,36 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void piecewiseIntegration() {
+		t("f(x):=x^2", "x^(2)");
+		t("g(x):=1/x", "1 / x");
+		t("h(x):=If(0<x<=2,x^2, x>2, 1/x)",
+				"If[0 < x " + Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x]");
+		t("h2(x):=If(x<=2,x^2, x>2, 1/x)",
+				"If[x " + Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x]");
+		t("h5(x):=If(x>=2,x^2, x<2, 1/x)",
+				"If[x " + Unicode.GREATER_EQUAL + " 2, x^(2), x < 2, 1 / x]");
+		t("h3(x):=If(0<x<=2,f(x), x>2, g(x))",
+				"If[0 < x " + Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x]");
+		t("h4(x):=If(0<x<=2,f(x), 2<x<4, g(x))", "If[0 < x "
+				+ Unicode.LESS_EQUAL + " 2, x^(2), 2 < x < 4, 1 / x]");
+		for (String cmd : new String[] { "Integral", "NIntegral" }) {
+			t(cmd + "(h(x),1,3)", eval("-log(2) + log(3) + 7 / 3"),
+					StringTemplate.editTemplate);
+			t(cmd + "(h2(x),1,3)", eval("-log(2) + log(3) + 7 / 3"),
+					StringTemplate.editTemplate);
+			t(cmd + "(h3(x),1,3)", eval("-log(2) + log(3) + 7 / 3"),
+					StringTemplate.editTemplate);
+			t(cmd + "(h4(x),1,3)", eval("-log(2) + log(3) + 7 / 3"),
+					StringTemplate.editTemplate);
+			t(cmd + "(h5(x),1,3)", "7.02648",
+					StringTemplate.editTemplate);
+		}
+		t("Integral(If(x^2>1,1,x>7,0,0),-1,1)", "0");
+		t("Integral(If(x^2>1,1,x>7,0,0),-2,2)", "2");
+	}
+
+	@Test
 	public void cmdAreCongruent() {
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(1,0),(0,1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(-1,0),(0,-1)]]", "true");
