@@ -80,7 +80,7 @@ public class SVGDocHandler implements DocHandler {
 
 	private String getHeight() {
 		return attrs.get("height") == null ? viewportDiff(1, 3)
-				: attrs.get("width");
+				: attrs.get("height");
 	}
 
 	private String getViewBox() {
