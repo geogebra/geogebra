@@ -7,7 +7,6 @@ import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.binding.CASGiacBinding;
 import org.geogebra.common.cas.giac.binding.Context;
 import org.geogebra.common.cas.giac.binding.Gen;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -66,7 +65,7 @@ public abstract class CASgiacB extends CASgiac {
 
         String exp = wrapInevalfa(exp0);
 
-		debug("giac evalRaw input: ", StringUtil.toJavaString(exp));
+		debug("giac evalRaw input: ", exp);
 
         Gen g = binding.createGen("caseval(" + exp + ")", context);
         g = g.eval(1, context);
