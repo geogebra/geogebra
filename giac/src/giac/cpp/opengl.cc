@@ -2463,34 +2463,6 @@ namespace giac {
       return;
     }
     if (v0.is_symb_of_sommet(at_curve) && v0._SYMBptr->feuille.type==_VECT && !v0._SYMBptr->feuille._VECTptr->empty()){
-      if (f._SYMBptr->feuille._VECTptr->size()>=2){
-	gen f=(*v0._SYMBptr->feuille._VECTptr)[1];
-	if (f.type==_VECT){
-	  // COUT << f << endl;
-	  vecteur v =*f._VECTptr;
-	  int n=v.size();
-	  for (int i=0;i<n-1;++i){
-	    glBegin(GL_LINES);
-	    gen tmp=v[i];
-	    if (tmp.type==_VECT && glvertex(*tmp._VECTptr,0,0,contextptr)){
-	      gen tmp1=v[i+1];
-	      if (tmp1.type==_VECT &&glvertex(*tmp1._VECTptr,0,0,contextptr))
-		;
-	      else {
-		COUT << "rendering err0 " << tmp1 << " " << i+1 << "," << n << endl;
-		glvertex(*tmp._VECTptr,0,0,contextptr);
-	      }
-	    }
-	    else {
-	      glvertex(makevecteur(0,0,0),0,0,contextptr);
-	      glvertex(makevecteur(0,0,0),0,0,contextptr);
-	      COUT << "rendering err1 " << tmp << " " << i << "," << n <<endl;
-	    }
-	    glEnd();
-	  }
-	}
-	return;
-      }
       gen f = v0._SYMBptr->feuille._VECTptr->front();
       // f = vect[ pnt,var,xmin,xmax ]
       if (f.type==_VECT && f._VECTptr->size()>=4){

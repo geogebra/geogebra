@@ -3145,7 +3145,7 @@ namespace giac {
       if (calc_mode(contextptr)!=1)
 	// indefinite integration with constant of integration
 	return _integrate(gen(makevecteur(v[0],v[1]),_SEQ__VECT),contextptr)+v[2];
-      v.insert(v.begin()+1,ggb_var(v.front()));
+      v.insert(v.begin()+1,ggb_var(eval(v.front(),1,contextptr)));
       ++s;
     }
     if (s>6)
