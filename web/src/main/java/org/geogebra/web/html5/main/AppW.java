@@ -984,7 +984,8 @@ public abstract class AppW extends App implements SetLabels {
 		if (ext.equals(FileExtensions.SVG)) {
 			// IE11/Edge needs SVG to be base64 encoded
 			getImageManager().addExternalImage(filename,
-					StringUtil.svgMarker + Browser.encodeBase64(content));
+					StringUtil.svgMarker + Browser
+							.encodeBase64(ImageManager.fixSVG(content)));
 		} else {
 			getImageManager().addExternalImage(filename, content);
 		}
