@@ -3121,6 +3121,7 @@ __GGB__keysVar["gl"].menu = {
     "exam_start_time": "Hora de inicio do exame",
     "exam_started": "O Modo Exame comezou",
     "exam_views_deactivated": "Vistas desactivadas",
+    "expImgRightClickMsg": "Right click to copy to clipboard",
     "exportImage": "Export  Image",
     "firstAxisLength": "lonxitude do eixe principal",
     "fixed": "Fixo",

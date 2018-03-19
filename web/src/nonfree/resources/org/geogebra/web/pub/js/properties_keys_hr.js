@@ -3121,6 +3121,7 @@ __GGB__keysVar["hr"].menu = {
     "exam_start_time": "Po\u010detno vrijeme",
     "exam_started": "Ispitni na\u010din zapo\u010det",
     "exam_views_deactivated": "Deaktiviranje pogleda",
+    "expImgRightClickMsg": "Right click to copy to clipboard",
     "exportImage": "Export  Image",
     "firstAxisLength": "glavna poluos",
     "fixed": "fiksiran",

@@ -3121,6 +3121,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "exam_start_time": "Start Time",
     "exam_started": "Exam started",
     "exam_views_deactivated": "Deactivated Views",
+    "expImgRightClickMsg": "Right click to copy to clipboard",
     "exportImage": "Export  Image",
     "firstAxisLength": "\u4e3b\u8ef8\u534a\u9577",
     "fixed": "\u56fa\u5b9a",

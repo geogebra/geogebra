@@ -3121,6 +3121,7 @@ __GGB__keysVar["uk"].menu = {
     "exam_start_time": "\u0427\u0430\u0441 \u041f\u043e\u0447\u0430\u0442\u043a\u0443",
     "exam_started": "\u0406\u0441\u043f\u0438\u0442 \u0440\u043e\u0437\u043f\u043e\u0447\u0430\u0442\u043e",
     "exam_views_deactivated": "\u0412\u0438\u043c\u043a\u043d\u0443\u0442\u0438 \u0414\u043e\u0434\u0430\u0442\u043a\u0438",
+    "expImgRightClickMsg": "Right click to copy to clipboard",
     "exportImage": "Export  Image",
     "firstAxisLength": "\u0434\u043e\u0432\u0436\u0438\u043d\u0430 \u0432\u0435\u043b\u0438\u043a\u043e\u0457 \u043f\u0456\u0432\u043e\u0441\u0456",
     "fixed": "\u0437\u0430\u043a\u0440\u0456\u043f\u043b\u0435\u043d\u0438\u0439",

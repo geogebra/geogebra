@@ -3121,6 +3121,7 @@ __GGB__keysVar["da"].menu = {
     "exam_start_time": "Eksamen start tid",
     "exam_started": "Eksamen tilstand igang",
     "exam_views_deactivated": "Deaktiverede vinduer",
+    "expImgRightClickMsg": "Right click to copy to clipboard",
     "exportImage": "Export  Image",
     "firstAxisLength": "storakse l\xe6ngde",
     "fixed": "fast",

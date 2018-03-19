@@ -3121,6 +3121,7 @@ __GGB__keysVar["cs"].menu = {
     "exam_start_time": "\u010cas za\u010d\xe1tku zkou\u0161ky",
     "exam_started": "Za\u010d\xe1tek zkou\u0161ky",
     "exam_views_deactivated": "Deaktivovan\xe9 pohledy",
+    "expImgRightClickMsg": "Right click to copy to clipboard",
     "exportImage": "Export  Image",
     "firstAxisLength": "d\xe9lka hlavn\xed osy",
     "fixed": "upevn\u011bn",

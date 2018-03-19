@@ -3121,6 +3121,7 @@ __GGB__keysVar["fi"].menu = {
     "exam_start_time": "Aloitusaika",
     "exam_started": "Koetila k\xe4ynnistetty",
     "exam_views_deactivated": "K\xe4yt\xf6st\xe4 poistetut n\xe4kym\xe4t",
+    "expImgRightClickMsg": "Right click to copy to clipboard",
     "exportImage": "Export  Image",
     "firstAxisLength": "isoakselin pituus",
     "fixed": "Kiinnitetty",

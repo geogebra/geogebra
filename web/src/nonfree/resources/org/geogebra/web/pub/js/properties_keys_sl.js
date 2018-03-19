@@ -3121,6 +3121,7 @@ __GGB__keysVar["sl"].menu = {
     "exam_start_time": "Za\u010detek preverjanja",
     "exam_started": "Re\u0161evanje nalog se je za\u010delo",
     "exam_views_deactivated": "Deaktivirani pogledi",
+    "expImgRightClickMsg": "Right click to copy to clipboard",
     "exportImage": "Export  Image",
     "firstAxisLength": "dol\u017eina prve polosi",
     "fixed": "Fiksno",

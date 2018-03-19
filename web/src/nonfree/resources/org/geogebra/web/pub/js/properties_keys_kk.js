@@ -3121,6 +3121,7 @@ __GGB__keysVar["kk"].menu = {
     "exam_start_time": "\u0415\u043c\u0442\u0438\u0445\u0430\u043d\u043d\u044b\u04a3 \u0431\u0430\u0441\u0442\u0430\u043b\u0443 \u0443\u0430\u049b\u044b\u0442\u044b",
     "exam_started": "\u0415\u043c\u0442\u0438\u0445\u0430\u043d \u0431\u0430\u0441\u0442\u0430\u043b\u0434\u044b",
     "exam_views_deactivated": "Deactivated Views",
+    "expImgRightClickMsg": "Right click to copy to clipboard",
     "exportImage": "Export  Image",
     "firstAxisLength": "\u0430\u043b\u0434\u044b\u04a3\u0493\u044b \u043e\u0441\u044c \u04b1\u0437\u044b\u043d\u0434\u044b\u0493\u044b",
     "fixed": "\u0411\u0435\u043a\u0456\u0442\u0456\u043b\u0433\u0435\u043d",

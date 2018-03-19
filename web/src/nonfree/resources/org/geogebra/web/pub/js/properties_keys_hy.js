@@ -3121,6 +3121,7 @@ __GGB__keysVar["hy"].menu = {
     "exam_start_time": "Start Time",
     "exam_started": "Exam started",
     "exam_views_deactivated": "Deactivated Views",
+    "expImgRightClickMsg": "Right click to copy to clipboard",
     "exportImage": "Export  Image",
     "firstAxisLength": "\u0544\u0565\u056e \u0561\u057c\u0561\u0576\u0581\u0584\u056b \u0565\u0580\u056f\u0561\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0568",
     "fixed": "\u0531\u0574\u0580\u0561\u0581\u057e\u0561\u056e, \u0586\u056b\u0584\u057d\u057e\u0561\u056e",
