@@ -30,6 +30,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 	 */
 	public ExportImageDialog(AppW app) {
 		super(app.getPanel(), app);
+		setAutoHideEnabled(true);
 		this.appW = app;
 		initGui();
 		initActions();
