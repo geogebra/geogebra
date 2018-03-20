@@ -381,7 +381,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 						boolean complete = Bounds.collectCases(exp,
 								nodesAl, boundsAl, new Bounds(kernel,
-										f.getFunctionVariables()[0]));
+										f.getFunctionVariables()[0]),
+								true);
 
 						int size = complete ? (nodesAl.size() - 1)
 								: nodesAl.size();
@@ -408,7 +409,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 								double lower = bound.getLower();
 								double upper = bound.getUpper();
-								if (bound.getCondition() != null) {
+								if (!bound.isInterval()) {
 									Log.debug(
 											"non-linear condition "
 													+ bound);

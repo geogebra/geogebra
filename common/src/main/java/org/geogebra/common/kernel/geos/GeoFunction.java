@@ -2676,7 +2676,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			ArrayList<ExpressionNode> cases = new ArrayList<>();
 			ArrayList<Bounds> conditions = new ArrayList<>();
 			boolean complete = Bounds.collectCases(expr, cases, conditions,
-					new Bounds(kernel, getFunctionVariables()[0]));
+					new Bounds(kernel, getFunctionVariables()[0]), false);
 
 			{
 				int lastValid = conditions.size() - 1;

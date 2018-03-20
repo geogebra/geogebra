@@ -415,19 +415,23 @@ public class Bounds {
 	 *            conditions for branches
 	 * @param parentCond
 	 *            condition for the root
+	 * @param exclusive
+	 *            whether to enforce mutually exclusive conditions
 	 * @return whether parentCond is completely covered by the cases
 	 */
 	public static boolean collectCases(ExpressionNode condRoot,
 			ArrayList<ExpressionNode> cases, ArrayList<Bounds> conditions,
-			Bounds parentCond) {
+			Bounds parentCond, boolean exclusive) {
 		if (condRoot.getOperation() == Operation.IF_LIST) {
 			MyList conds = (MyList) condRoot.getLeft().unwrap();
 			Bounds currentCond = parentCond;
 			for (int i = 0; i < conds.size(); i++) {
 				conditions.add(currentCond
 						.addRestriction(conds.getListElement(i).wrap()));
-				currentCond = currentCond.addRestriction(
+				if (exclusive) {
+					currentCond = currentCond.addRestriction(
 						conds.getListElement(i).wrap().negation());
+				}
 			}
 
 			MyList fns = (MyList) condRoot.getRight().unwrap();
@@ -452,14 +456,16 @@ public class Bounds {
 		Bounds negativeCond = !positiveCond.isValid() ? parentCond
 				: parentCond.addRestriction(condFun.negation());
 		if (ifFun.isConditional()) {
-			complete &= collectCases(ifFun, cases, conditions, positiveCond);
+			complete &= collectCases(ifFun, cases, conditions, positiveCond,
+					true);
 		} else {
 			cases.add(ifFun);
 			conditions.add(positiveCond);
 		}
 
 		if (elseFun != null && elseFun.isConditional()) {
-			complete &= collectCases(elseFun, cases, conditions, negativeCond);
+			complete &= collectCases(elseFun, cases, conditions, negativeCond,
+					true);
 		} else if (elseFun != null) {
 			cases.add(elseFun);
 			conditions.add(negativeCond);
@@ -467,7 +473,10 @@ public class Bounds {
 		return complete;
 	}
 
-	public Object getCondition() {
-		return this.condition;
+	/**
+	 * @return whether this is a simple interval
+	 */
+	public boolean isInterval() {
+		return this.condition == null;
 	}
 }
