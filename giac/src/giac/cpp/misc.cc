@@ -7950,6 +7950,19 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  return w;
 	}
       }
+      a=evalf_double(a,1,contextptr);
+      b=evalf_double(b,1,contextptr);
+      c=evalf_double(c,1,contextptr);
+      if (a.type==_DOUBLE_ && b.type==_DOUBLE_ && c.type==_DOUBLE_){
+	double A=a._DOUBLE_val,B=b._DOUBLE_val,C=c._DOUBLE_val;
+	if ( (A<=B && C>0) || (A>=B && C<0)){
+	  int s=std::ceil((B-A)/C);
+	  vecteur w(s);
+	  for (int i=0;i<s;++i)
+	    w[i]=A+i*C;
+	  return w;
+	}
+      }
     }
     return gensizeerr(contextptr);
   }
