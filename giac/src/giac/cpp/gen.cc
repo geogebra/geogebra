@@ -8898,7 +8898,17 @@ namespace giac {
       bool ideuxpoints=i._SYMBptr->sommet==at_deuxpoints;
       if (i._SYMBptr->sommet==at_interval || ideuxpoints) {
 	gen i1=_ceil(i._SYMBptr->feuille._VECTptr->front(),contextptr);
-	gen i2=_floor(i._SYMBptr->feuille._VECTptr->back(),contextptr)+(ideuxpoints?minus_one:zero);
+	gen iback=i._SYMBptr->feuille._VECTptr->back();
+	int step=1;
+	if (ideuxpoints && iback.is_symb_of_sommet(at_deuxpoints)){
+	  gen istep=iback._SYMBptr->feuille;
+	  iback=istep[0];
+	  istep=istep[1];
+	  if (!is_integral(istep) || istep.type!=_INT_ || istep.val<1)
+	    return gendimerr(contextptr);
+	  step=istep.val;
+	}
+	gen i2=_floor(iback,contextptr)+(ideuxpoints?minus_one:zero);
 	if (is_integral(i1) && is_integral(i2)){
 	  int debut=i1.val,fin=i2.val;
 	  if (debut<0){ 
@@ -8915,6 +8925,23 @@ namespace giac {
 	  }
 	  if (debut<0 || fin<debut)
 	    return (type==_STRNG)?string2gen("",false):gen(vecteur(0),subtype); // swap(debut,fin);
+	  if (step>1){
+	    if (type==_STRNG){
+	      const string & s=*_STRNGptr;
+	      string res;
+	      for (;debut<fin;debut+=step)
+		res += s[debut];
+	      return string2gen(res,false);
+	    }
+	    if (type==_VECT){
+	      const vecteur & v=*_VECTptr;
+	      vecteur res;
+	      res.reserve((fin-debut)/step+1);
+	      for (;debut<fin;debut+=step)
+		res.push_back(v[debut]);
+	      return gen(res,subtype);
+	    }
+	  }
 	  if (type==_STRNG){
 	    return string2gen('"'+_STRNGptr->substr(debut,fin-debut+1)+'"');
 	  }
@@ -8939,8 +8966,18 @@ namespace giac {
 	bool itdeuxpoints=it->type==_SYMB && it->_SYMBptr->sommet==at_deuxpoints;
 	if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_interval || itdeuxpoints) && (it+1!=itend) ){
 	  // submatrix extraction
-	  if ((it->_SYMBptr->feuille._VECTptr->front().type==_INT_) && (it->_SYMBptr->feuille._VECTptr->back().type==_INT_) ){
-	    int debut=it->_SYMBptr->feuille._VECTptr->front().val,fin=it->_SYMBptr->feuille._VECTptr->back().val+(itdeuxpoints?-1:0);
+	  gen iback=it->_SYMBptr->feuille._VECTptr->back();
+	  int step=1;
+	  if (itdeuxpoints && iback.is_symb_of_sommet(at_deuxpoints)){
+	    gen istep=iback._SYMBptr->feuille;
+	    iback=istep[0];
+	    istep=istep[1];
+	    if (!is_integral(istep) || istep.type!=_INT_ || istep.val<1)
+	      return gendimerr(contextptr);
+	    step=istep.val;
+	  }	  
+	  if ((it->_SYMBptr->feuille._VECTptr->front().type==_INT_) && (iback.type==_INT_) ){
+	    int debut=it->_SYMBptr->feuille._VECTptr->front().val,fin=iback.val+(itdeuxpoints?-1:0);
 	    if (res.type==_VECT){
 	      if (debut<0) debut +=res._VECTptr->size();
 	      if (fin<0) fin +=res._VECTptr->size();
@@ -8950,8 +8987,8 @@ namespace giac {
 	      iterateur jt=res._VECTptr->begin()+debut,jtend=_VECTptr->begin()+fin+1;
 	      gen fin_it(vecteur(it+1,itend),_SEQ__VECT);
 	      vecteur v;
-	      v.reserve(jtend-jt);
-	      for (;jt!=jtend;++jt)
+	      v.reserve((jtend-jt)/step+1);
+	      for (;jt<jtend;jt+=step)
 		v.push_back((*jt)[fin_it]);
 	      if (res.subtype==_MATRIX__VECT && !ckmatrix(v))
 		return v;
