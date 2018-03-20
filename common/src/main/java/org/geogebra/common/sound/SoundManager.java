@@ -39,4 +39,19 @@ public interface SoundManager {
 	 */
 	void checkURL(String url, AsyncOperation<Boolean> callback);
 
+	/**
+	 * Plays/resumes GeoAudio object.
+	 * 
+	 * @param geo
+	 *            to play.
+	 */
+	void play(GeoAudio geo);
+
+	/**
+	 * Pauses GeoAudio object.
+	 * 
+	 * @param geo
+	 *            to pause.
+	 */
+	void pause(GeoAudio geo);
 }

@@ -5,8 +5,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.common.plugin.script.Script;
 
 /**
  * Class for representing playable audio data.
@@ -46,7 +44,6 @@ public class GeoAudio extends GeoButton {
 	public GeoAudio(Construction c, String url) {
 		this(c);
 		setDataUrl(url);
-		addScript();
 		setLabel("audio");
 	}
 
@@ -99,12 +96,6 @@ public class GeoAudio extends GeoButton {
 		app.getSoundManager().loadGeoAudio(this);
 	}
 
-	private void addScript() {
-		String playText = "PlaySound[self]";
-		Script playScript = app.createScript(ScriptType.GGBSCRIPT, playText, true);
-		setClickScript(playScript);
-	}
-
 	@Override
 	public boolean isGeoAudio() {
 		return true;
@@ -114,7 +105,7 @@ public class GeoAudio extends GeoButton {
 	 * Plays the audio.
 	 */
 	public void play() {
-		runClickScripts(dataUrl);
+		app.getSoundManager().play(this);
 	}
 
 	/**
@@ -129,5 +120,12 @@ public class GeoAudio extends GeoButton {
 	 */
 	public int getCurrentTime() {
 		return app.getSoundManager().getCurrentTime(dataUrl);
+	}
+
+	/**
+	 * Stops audio playback.
+	 */
+	public void pause() {
+		app.getSoundManager().pause(this);
 	}
 }

@@ -316,4 +316,13 @@ public class SoundManagerD implements SoundManager {
 		// TODO Auto-generated method stub
 
 	}
+	@Override
+	public void play(GeoAudio geo) {
+		// implemented in web only.
+	}
+
+	@Override
+	public void pause(GeoAudio geo) {
+		// implemented in web only.
+	}
 }

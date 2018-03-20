@@ -129,17 +129,21 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		}
 	}
 
-	native void playAudioElement(Element audio) /*-{
-		audio.play();
-	}-*/;
+	private native void playAudioElement(Element audio) /*-{
+														audio.play();
+														}-*/;
+
+	private native void pauseAudioElement(Element audio) /*-{
+															audio.pause();
+															}-*/;
 
 	private native int getDuration(Element audio) /*-{
-		return audio.duration;
-	}-*/;
+													return Math.floor(audio.duration * 1000)
+													}-*/;
 
 	private native int getCurrentTime(Element audio) /*-{
-		return audio.currentTime;
-	}-*/;
+														return Math.floor(audio.currentTime * 1000);
+														}-*/;
 
 	/**
 	 * @param url
@@ -258,5 +262,21 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	public void checkURL(String url, AsyncOperation<Boolean> callback) {
 		urlCallback = callback;
 		checkAudio(url);
+	}
+
+	@Override
+	public void play(GeoAudio geo) {
+		final Element audio = urlToAudio.get(geo.getDataUrl());
+		if (audio != null) {
+			playAudioElement(audio);
+		}
+	}
+
+	@Override
+	public void pause(GeoAudio geo) {
+		final Element audio = urlToAudio.get(geo.getDataUrl());
+		if (audio != null) {
+			pauseAudioElement(audio);
+		}
 	}
 }

@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -19,6 +20,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  */
 public class DrawAudio extends Drawable {
+	private static final int TAP_AREA_SIZE = 48;
+	private static final int TEXT_MARGIN_X = 4;
 	private static final int TIME_FONT = 14;
 	private static final int PLAY_MARGIN = 5;
 	private static final GColor BACKGROUND_COLOR = GColor.newColorRGB(0xf5f5f5);
@@ -39,6 +42,7 @@ public class DrawAudio extends Drawable {
 	private GRectangle bounds;
 	private GRectangle playRect;
 	private boolean hovered = false;
+	private boolean playing = false;
 
 	/**
 	 * @param view
@@ -76,7 +80,11 @@ public class DrawAudio extends Drawable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		drawBox(g2);
-		drawPlay(g2);
+		if (playing) {
+			drawPause(g2);
+		} else {
+			drawPlay(g2);
+		}
 		drawTime(g2);
 	}
 
@@ -96,6 +104,19 @@ public class DrawAudio extends Drawable {
 		AwtFactory.fillTriangle(g2, x1, y1, x2, y2, x3, y3);
 	}
 
+	private void drawPause(GGraphics2D g2) {
+		g2.setColor(hovered ? PLAY_HOVER_COLOR : PLAY_COLOR);
+		int size = getPlaySize();
+		int margin = (height - size) / 2;
+		int barWidth = size / 6;
+		int x = left + margin + barWidth;
+		int y = top + margin + PLAY_MARGIN;
+		int x1 = x + 2 * barWidth;
+		int barHeight = size - 2 * PLAY_MARGIN;
+		g2.fillRect(x, y, barWidth, barHeight);
+		g2.fillRect(x1, y, barWidth, barHeight);
+	}
+
 	private void drawBox(GGraphics2D g2) {
 		g2.setPaint(BACKGROUND_COLOR);
 		g2.fillRect(left - 1, top - 1, width, height);
@@ -105,30 +126,47 @@ public class DrawAudio extends Drawable {
 		GFont font = view.getFont().deriveFont(GFont.PLAIN, TIME_FONT);
 		g2.setFont(font);
 		g2.setPaint(TIME_COLOR);
-		int x = left + 2 * getPlaySize();
-		int y = top + geoAudio.getHeight() / 2 - TIME_FONT / 2;
-		int duration = geoAudio.getDuration();
-		int currTime = geoAudio.getCurrentTime();
-
+		int duration = geoAudio.getDuration() / 1000;
+		int currTime = geoAudio.getCurrentTime() / 1000;
 
 		StringBuilder sb = new StringBuilder();
-		if (currTime != -1) {
-			sb.append(Integer.toString(currTime));
-		} else {
-			sb.append("-:-");
-		}
+		formatTime(sb, currTime);
 		sb.append(" / ");
+		formatTime(sb, duration);
 
-		if (duration != -1) {
-			sb.append(duration);
-		} else {
-			sb.append("-:-");
-		}
+		String text = sb.toString();
+		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(text, font, g2.getFontRenderContext());
+		int x = left + TAP_AREA_SIZE + TEXT_MARGIN_X;
+		int y = top + (int) (height + txtLayout.getBounds().getHeight()) / 2;
 
-		EuclidianStatic.drawIndexedString(view.getApplication(), g2, sb.toString(),
+		EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 				x, y, false, null, null);
 	}
 
+	private static void formatTime(StringBuilder sb, double secs) {
+		if (secs < 0) {
+			sb.append("-:-");
+			return;
+		}
+
+		int hr = (int) Math.floor(secs / 3600);
+		int min = (int) Math.floor((secs - (hr * 3600)) / 60);
+		int sec = (int) Math.floor(secs - (hr * 3600) - (min * 60));
+
+		String minStr = min + "";
+		String secStr = sec + "";
+
+		if (min < 10) {
+			minStr = "0" + min;
+		}
+		if (sec < 10) {
+			secStr = "0" + sec;
+		}
+
+		sb.append(minStr);
+		sb.append(":");
+		sb.append(secStr);
+	}
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
 		return bounds.contains(x, y) && isVisible;
@@ -183,7 +221,12 @@ public class DrawAudio extends Drawable {
 	 */
 	public boolean onMouseDown(int x, int y) {
 		if (isPlayHit(x, y)) {
-			geoAudio.play();
+			playing = !playing;
+			if (playing) {
+				geoAudio.play();
+			} else {
+				geoAudio.pause();
+			}
 			return true;
 		}
 		return false;
