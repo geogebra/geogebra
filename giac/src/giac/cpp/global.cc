@@ -5706,6 +5706,10 @@ unsigned int ConvertUTF8toUTF16 (
 	}
 	continue;
       }
+      if (curch==':' && prevch==':'){
+	cur.insert(cur.begin()+pos,'0');
+	continue;	
+      }
       if (curch=='%'){
 	cur.insert(cur.begin()+pos+1,'/');
 	++pos;

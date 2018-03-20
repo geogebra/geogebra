@@ -8929,7 +8929,7 @@ namespace giac {
 	    if (type==_STRNG){
 	      const string & s=*_STRNGptr;
 	      string res;
-	      for (;debut<fin;debut+=step)
+	      for (;debut<=fin;debut+=step)
 		res += s[debut];
 	      return string2gen(res,false);
 	    }
@@ -8937,7 +8937,7 @@ namespace giac {
 	      const vecteur & v=*_VECTptr;
 	      vecteur res;
 	      res.reserve((fin-debut)/step+1);
-	      for (;debut<fin;debut+=step)
+	      for (;debut<=fin;debut+=step)
 		res.push_back(v[debut]);
 	      return gen(res,subtype);
 	    }

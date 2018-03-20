@@ -3848,7 +3848,9 @@ namespace giac {
 #endif
 
   bool approxint_exact(const gen &f,const gen &x,GIAC_CONTEXT){
-    if (!loptab(Heavisidetosign(when2sign(piecewise2when(f,contextptr),contextptr),contextptr),sign_floor_ceil_round_tab).empty() )
+    if (!lop(f,at_when).empty() || !lop(f,at_piecewise).empty())
+      return false;
+    if (!loptab(Heavisidetosign(f,contextptr),sign_floor_ceil_round_tab).empty() )
       return false;
     if (f.type!=_SYMB || is_constant_wrt(f,x,contextptr))
       return true;
