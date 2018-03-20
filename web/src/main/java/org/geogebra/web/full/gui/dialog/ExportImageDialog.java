@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.dialog;
 
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -19,8 +19,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 	private FlowPanel mainPanel;
 	private FlowPanel contentPanel;
 	private Label rightClickText;
-	private FlowPanel imagePanel;
-	private String image;
+	private NoDragImage previewImage;
 	private FlowPanel buttonPanel;
 	private StandardButton downloadBtn;
 
@@ -43,11 +42,9 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		rightClickText.addStyleName("rightClickHelpText");
 		contentPanel.add(rightClickText);
 		// create image preview
-		imagePanel = new FlowPanel();
-		imagePanel.addStyleName("imagePanel");
 		setPreviewImage(((EuclidianViewWInterface) app.getActiveEuclidianView())
-				.getExportImageDataUrl(1, false));
-		contentPanel.add(imagePanel);
+				.getExportImageDataUrl(1, true));
+		contentPanel.add(previewImage);
 		// panel for buttons
 		downloadBtn = new StandardButton("", appW);
 		// downloadBtn.addStyleName("insertBtn");
@@ -88,11 +85,10 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		downloadBtn.setText(appW.getLocalization().getMenu("Download")); // download
 	}
 
-	private void setPreviewImage(String img) {
-		image = img;
-		if (image != null && image.length() > 0) {
-			imagePanel.getElement().getStyle().setBackgroundImage(
-					"url(" + Browser.normalizeURL(image) + ")");
+	private void setPreviewImage(String imgStr) {
+		if (imgStr != null && imgStr.length() > 0) {
+			previewImage = new NoDragImage(imgStr);
+			previewImage.addStyleName("prevImg");
 		}
 	}
 
