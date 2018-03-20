@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
@@ -13,14 +14,18 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Drawable class for Audio elemens.
- * 
+ *
  * @author laszlo
  *
  */
 public class DrawAudio extends Drawable {
+	private static final int TIME_FONT = 14;
 	private static final int PLAY_MARGIN = 5;
 	private static final GColor BACKGROUND_COLOR = GColor.newColorRGB(0xf5f5f5);
 	private static final GColor PLAY_COLOR = GColor.newColor(0, 0, 0, 54);
+
+	// text-primary
+	private static final GColor TIME_COLOR = GColor.newColor(0, 0, 0, 87);
 
 	// mebis-teal
 	private static final GColor PLAY_HOVER_COLOR = GColor.newColorRGB(0x00a8d5);
@@ -97,15 +102,18 @@ public class DrawAudio extends Drawable {
 	}
 
 	private void drawTime(GGraphics2D g2) {
-		g2.setPaint(GColor.DARK_GRAY);
-		int x = left + PLAY_MARGIN + getPlaySize() + 2 * PLAY_MARGIN;
-		int y = top + geoAudio.getHeight() - PLAY_MARGIN;
+		GFont font = view.getFont().deriveFont(GFont.PLAIN, TIME_FONT);
+		g2.setFont(font);
+		g2.setPaint(TIME_COLOR);
+		int x = left + 2 * getPlaySize();
+		int y = top + geoAudio.getHeight() / 2 - TIME_FONT / 2;
 		int duration = geoAudio.getDuration();
 		int currTime = geoAudio.getCurrentTime();
 
+
 		StringBuilder sb = new StringBuilder();
 		if (currTime != -1) {
-			sb.append(currTime);
+			sb.append(Integer.toString(currTime));
 		} else {
 			sb.append("-:-");
 		}
@@ -127,7 +135,7 @@ public class DrawAudio extends Drawable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 *            coordinate.
 	 * @param y
@@ -166,7 +174,7 @@ public class DrawAudio extends Drawable {
 
 	/**
 	 * Mouse down handler.
-	 * 
+	 *
 	 * @param x
 	 *            coordinate.
 	 * @param y
@@ -183,7 +191,7 @@ public class DrawAudio extends Drawable {
 
 	/**
 	 * Mouse over handler.
-	 * 
+	 *
 	 * @param x
 	 *            coordinate.
 	 * @param y
