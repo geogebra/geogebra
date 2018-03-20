@@ -17,7 +17,6 @@ import com.google.gwt.dom.client.Element;
  *
  */
 public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
-
 	private AppW app;
 	private boolean mp3active = true;
 	private Map<String, Element> urlToAudio = new HashMap<>();
@@ -42,7 +41,6 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	@Override
 	public void playSequenceNote(int note, double duration, int instrument,
 			int velocity) {
-
 		stopCurrentSound();
 		// getMidiSound().playSequenceNote(instrument, note, velocity,
 		// duration);
@@ -51,7 +49,6 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	@Override
 	public void playSequenceFromString(String string, int double1) {
 		Log.debug("playSequenceFromString");
-
 	}
 
 	@Override
@@ -86,11 +83,9 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 					playAudioElement(audio);
 				}
 			});
-
 		} else {
 			playMP3(url);
 		}
-
 		// TODO check extension, play MIDI .mid files
 
 		// if (url.endsWith(".mid") || url.endsWith(".midi")) {
@@ -175,14 +170,12 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 						function() {
 							that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
 						});
-
 		audioElement
 				.addEventListener(
 						"timeupdate",
 						function() {
 							that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
 						});
-
 	}-*/;
 
 	native void checkAudio(String url) /*-{
@@ -193,11 +186,9 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		audioElement.addEventListener("error", function() {
 			that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlError()();
 		});
-
 		audioElement.addEventListener("canplay", function() {
 			that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlOK()(url);
 		});
-
 	}-*/;
 
 	@Override

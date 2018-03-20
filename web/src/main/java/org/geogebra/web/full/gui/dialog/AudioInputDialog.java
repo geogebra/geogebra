@@ -234,11 +234,9 @@ public class AudioInputDialog extends DialogBoxW
 	private String getUrlWithProtocol() {
 		String url = inputField.getText().trim();
 		String value = isHTTPSOnly() ? url.replaceFirst(HTTP, "") : url;
-
 		if (!url.startsWith(HTTPS)) {
 			value = HTTPS + value;
 		}
-
 		return value;
 	}
 
