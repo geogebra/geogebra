@@ -4207,7 +4207,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-2318
 		case SPLIT_INTEGRAL_IF:
-			return prerelease;
+			return true;
 
 		case HANDWRITING:
 			return false;
