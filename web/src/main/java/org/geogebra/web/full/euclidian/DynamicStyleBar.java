@@ -39,7 +39,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 				addStyleName("mowDynStyleBar");
 			}
 			addStyleName("matDynStyleBar");
-
 		}
 
 		app.getSelectionManager()
@@ -50,16 +49,14 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 						if (addToSelection) {
 							return;
 						}
-
-
-							// If the activeGeoList will be null or empty, this
-							// will
-							// hide the dynamic stylebar.
-							// If we clicked on a locked geo, the activeGeoList
-							// will
-							// contain it, so in this case the dynamic stylebar
-							// will
-							// be visible yet.
+						// If the activeGeoList will be null or empty, this
+						// will
+						// hide the dynamic stylebar.
+						// If we clicked on a locked geo, the activeGeoList
+						// will
+						// contain it, so in this case the dynamic stylebar
+						// will
+						// be visible yet.
 						DynamicStyleBar.this.updateStyleBar();
 
 					}
@@ -76,7 +73,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 				});
 			}
 		}
-
 	}-*/;
 
 	private GPoint calculatePosition(GRectangle2D gRectangle2D,
@@ -155,7 +151,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		}
 
 		// make sure it reflects selected geos
-
 		setMode(EuclidianConstants.MODE_MOVE);
 		super.updateStyleBar();
 
@@ -235,7 +230,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		}
 		this.getElement().getStyle().setLeft(newPos.x, Unit.PX);
 		this.getElement().getStyle().setTop(newPos.y, Unit.PX);
-
 	}
 
 	@Override
@@ -250,6 +244,5 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			closeLabelPopup();
 		}
 		super.setVisible(v);
-
 	}
 }
