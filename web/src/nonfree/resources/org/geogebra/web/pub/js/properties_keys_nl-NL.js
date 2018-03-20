@@ -3121,7 +3121,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "exam_start_time": "Begintijdstip",
     "exam_started": "Examenmodus gestart",
     "exam_views_deactivated": "Gedeactiveerde schermen",
-    "expImgRightClickMsg": "Right click to copy to clipboard",
+    "expImgRightClickMsg": "Rechtsklik om te kopi\xebren naar het klembord",
     "exportImage": "Afbeelding Exporteren",
     "firstAxisLength": "lengte van de halve hoofdas",
     "fixed": "Vast",
