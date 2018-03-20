@@ -5879,7 +5879,7 @@ namespace giac {
       return is_one(a)?b:gen(a*(*b._CPLXptr),a*(*(b._CPLXptr+1)));
     case _CPLX__CPLX:
       return adjust_complex_display(mult_cplx(a,b,contextptr),a,b);
-#if 0 //ndef GIAC_GGB
+#if 1 //ndef GIAC_GGB
     case _INT___STRNG:{
       if (b.subtype==-1) return b;
       string res;
