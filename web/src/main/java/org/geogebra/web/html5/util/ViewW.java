@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.util;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.util.debug.Log;
@@ -10,8 +9,6 @@ import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.html5.main.GgbFile;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
 
 public class ViewW {
 
@@ -22,21 +19,6 @@ public class ViewW {
 
 	public ViewW(AppW app) {
 		this.app = app;
-	}
-
-	public static String checkLAF() {
-		NodeList<Element> nodes = Dom
-		        .getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		for (int i = 0; i < nodes.getLength(); i++) {
-			if ("modern"
-			        .equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
-				return "modern";
-			}
-			if ("smart".equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
-				return "smart";
-			}
-		}
-		return "standard";
 	}
 
 	private native void log(Object ex)/*-{

@@ -27,6 +27,10 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	SpreadsheetViewW sview;
 	AbsolutePanel wrapview;
 
+	/**
+	 * @param appl
+	 *            application
+	 */
 	public SpreadsheetDockPanelW(App appl) {
 		super(
 				App.VIEW_SPREADSHEET, 		// view id

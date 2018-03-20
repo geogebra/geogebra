@@ -21,6 +21,22 @@ public class InputDialogDilateW extends InputDialogW {
 	
 	private EuclidianController ec;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param title
+	 *            title
+	 * @param handler
+	 *            value handler
+	 * @param points
+	 *            input points
+	 * @param selGeos
+	 *            transformed geos
+	 * @param kernel
+	 *            kernel
+	 * @param ec
+	 *            euclidian controller
+	 */
 	public InputDialogDilateW(AppW app, String title, InputHandler handler,
 			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
 	
@@ -65,15 +81,20 @@ public class InputDialogDilateW extends InputDialogW {
 						cons.setSuppressLabelCreation(oldVal);
 
 						if (ok) {
-							DialogManager
-									.doDilate(kernel,
-											((NumberInputHandler) getInputHandler())
-													.getNum(),
-											points, selGeos, ec);
+							dilate();
 						}
 						setVisible(!ok);
 					}
 				});
+	}
+
+	/**
+	 * Execute the dilation with input.
+	 */
+	protected void dilate() {
+		DialogManager.doDilate(kernel,
+				((NumberInputHandler) getInputHandler()).getNum(), points,
+				selGeos, ec);
 	}
 
 }

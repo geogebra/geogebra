@@ -40,6 +40,12 @@ public class MultiRowsTabBar extends FlowPanel implements
 		return selectedTab;
 	}
 
+	/**
+	 * Select given tab.
+	 * 
+	 * @param index
+	 *            tab index
+	 */
 	public void selectTab(int index) {
 		if ((index < -1) || (index >= getTabCount())) {
 			throw new IndexOutOfBoundsException();

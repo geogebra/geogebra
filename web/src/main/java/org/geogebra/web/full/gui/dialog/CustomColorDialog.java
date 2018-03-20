@@ -139,6 +139,14 @@ public class CustomColorDialog extends DialogBoxW {
 		}
 	}
 
+	/**
+	 * Create new color dialog.
+	 * 
+	 * @param app
+	 *            application
+	 * @param listener
+	 *            custom color listener
+	 */
 	public CustomColorDialog(App app, ICustomColor listener) {
 		super(((AppW) app).getPanel(), app);
 		this.listener = listener;

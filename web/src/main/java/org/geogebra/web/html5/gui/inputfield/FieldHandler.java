@@ -30,7 +30,6 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 			if (parent instanceof AutoCompleteTextFieldW) {
 				event.preventDefault();
 				focusGained((AutoCompleteTextFieldW) parent, appl);
-
 			}
 		}
 	}

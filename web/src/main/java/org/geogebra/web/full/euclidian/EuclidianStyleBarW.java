@@ -1925,6 +1925,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return widget.getElement().getAttribute("actionCommand");
 	}
 
+	/**
+	 * Get index of selected grid type icon for a view.
+	 * 
+	 * @param ev
+	 *            view
+	 * @return which icon should be selected
+	 */
 	public static int gridIndex(EuclidianView ev) {
 		if (!ev.getShowGrid()) {
 			return 0;

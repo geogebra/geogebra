@@ -32,6 +32,16 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	private Double currentMax = null;
 	private Double currentStep = null;
 
+	/**
+	 * @param min
+	 *            slider min
+	 * @param max
+	 *            slider max
+	 * @param kernel
+	 *            kernel
+	 * @param degrees
+	 *            whether to use degrees
+	 */
 	public SliderPanelW(double min, double max, Kernel kernel, boolean degrees) {
 		this.kernel = kernel;
 		minLabel = new Label();
@@ -52,6 +62,12 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		return slider.getValue();
 	}
 
+	/**
+	 * @param min
+	 *            slider minimum
+	 * @param degrees
+	 *            whether to use degrees
+	 */
 	public void setMinimum(double min, boolean degrees) {
 		if (currentMin == null || !DoubleUtil.isEqual(currentMin, min)) {
 			currentMin = min;
@@ -78,6 +94,12 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 
 	}
 
+	/**
+	 * @param max
+	 *            slider maximum
+	 * @param degrees
+	 *            whether to use degrees
+	 */
 	public void setMaximum(double max, boolean degrees) {
 		if (currentMax == null || !DoubleUtil.isEqual(currentMax, max)) {
 			currentMax = max;
@@ -86,6 +108,10 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		}
 	}
 
+	/**
+	 * @param step
+	 *            slider step
+	 */
 	public void setStep(double step) {
 		if (currentStep == null || !DoubleUtil.isEqual(currentStep, step)) {
 			currentStep = step;
@@ -118,25 +144,29 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		return slider.addChangeHandler(handler);
 	}
 
+	/**
+	 * Resize slider to fit the panel width.
+	 * 
+	 * @param width
+	 *            panel width
+	 */
 	public void setWidth(double width) {
 		double w = width - minLabel.getOffsetWidth()
 				- maxLabel.getOffsetWidth();
 		slider.asWidget().getElement().getStyle().setWidth(w, Unit.PX);
 	}
 
+	/**
+	 * @param color
+	 *            slider color
+	 */
 	public void updateColor(GColor color) {
 		GColor c = color.deriveWithAlpha(102);
 
-		// String sColor = GColor.getColorString(color);
-		// minLabel.getElement().getStyle().setColor(sColor);
-		// maxLabel.getElement().getStyle().setColor(sColor);
-		// slider.asWidget().getElement().getStyle()
-		// .setBackgroundColor(GColor.getColorString(c));
 		Style uiStyle = Dom.querySelectorForElement(getElement(), "ui-slider")
 				.getStyle();
 		uiStyle.setBackgroundColor(GColor.getColorString(c));
 		setUIStyle(getElement(), color);
-
 	}
 
 	private static void setUIStyle(Element elem, GColor color) {
@@ -156,6 +186,5 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		if (slider != null) {
 			slider.setScale(scale);
 		}
-
 	}
 }

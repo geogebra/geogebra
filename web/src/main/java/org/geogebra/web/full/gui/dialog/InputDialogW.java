@@ -151,6 +151,20 @@ public class InputDialogW extends InputDialog
 
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param message
+	 *            description
+	 * @param title
+	 *            title
+	 * @param initString
+	 *            initial value
+	 * @param handler
+	 *            input handler
+	 * @param geo
+	 *            geo
+	 */
 	public InputDialogW(AppW app, String message, String title,
 			String initString, InputHandler handler, GeoElement geo) {
 

@@ -80,7 +80,6 @@ public class SpreadsheetColumnHeaderW
 	}
 
 	private void registerListeners() {
-
 		grid.addDomHandler(this, MouseDownEvent.getType());
 		grid.addDomHandler(this, MouseUpEvent.getType());
 		grid.addDomHandler(this, MouseMoveEvent.getType());
@@ -89,7 +88,6 @@ public class SpreadsheetColumnHeaderW
 		grid.addDomHandler(this, TouchStartEvent.getType());
 		grid.addDomHandler(this, TouchEndEvent.getType());
 		grid.addDomHandler(this, TouchMoveEvent.getType());
-
 	}
 
 	// ============================================
@@ -140,9 +138,11 @@ public class SpreadsheetColumnHeaderW
 		container = new FlowPanel();
 		container.add(grid);
 		container.add(focusPanel);
-
 	}
 
+	/**
+	 * Update the column count and width in header to match the table.
+	 */
 	public void updateColumnCount() {
 		if (grid.getColumnCount() >= table.getColumnCount()) {
 			return;

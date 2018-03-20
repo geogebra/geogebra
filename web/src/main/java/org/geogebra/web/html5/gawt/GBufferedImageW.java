@@ -171,6 +171,9 @@ public class GBufferedImageW implements GBufferedImage {
 		return new GBufferedImageW((ImageElement) img.cloneNode(true));
 	}
 
+	/**
+	 * @return canvas
+	 */
 	public Canvas getCanvas() {
 		if (canv == null) {
 			canv = makeCanvas();

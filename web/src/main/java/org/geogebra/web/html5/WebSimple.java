@@ -52,6 +52,9 @@ public class WebSimple implements EntryPoint {
 		WebSimple.registerSuperdevExceptionHandler();
 	}
 
+	/**
+	 * Load applet after GWT async callback.
+	 */
 	public static void loadAppletAsync() {
 		GWT.runAsync(new RunAsyncCallback() {
 

@@ -605,6 +605,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 * }
 	 */
 
+	/**
+	 * Update column widths from settings.
+	 */
 	public void setColumnWidthsFromSettings() {
 
 		int prefWidth = table.preferredColumnWidth();
@@ -643,6 +646,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 * rowHeader.updateRowHeader(); } }
 	 */
 
+	/**
+	 * @param hScroll
+	 *            horizontal scroll
+	 * @param vScroll
+	 *            vertical scroll
+	 */
 	public void setSpreadsheetScrollPosition(int hScroll, int vScroll) {
 		table.setHorizontalScrollPosition(hScroll);
 		table.setVerticalScrollPosition(vScroll);

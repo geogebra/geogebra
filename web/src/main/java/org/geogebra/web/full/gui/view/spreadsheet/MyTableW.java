@@ -29,7 +29,6 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -823,6 +822,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
+	/**
+	 * Update the content of the copiable textarea.
+	 */
 	public void updateCopiableSelection() {
 		// TODO: can this be made more efficient?
 		if (view != null && view.spreadsheetWrapper != null) {
@@ -838,8 +840,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
+	/**
+	 * Update row heights and count in the header.
+	 */
 	void updateRowCount() {
-
 		if (ssGrid.getRowCount() >= tableModel.getRowCount()) {
 			return;
 		}
@@ -923,7 +927,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				scroller.scrollRectToVisible(cellRect);
 			}
 		}
-
 	}
 
 	/**
@@ -1110,15 +1113,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// for (CellRange cr: selectedCellRanges)cr.debug();
 	}
 
-	public void printSelectionParameters() {
-		Log.debug("----------------------------------");
-		Log.debug("minSelectionColumn = " + minSelectionColumn);
-		Log.debug("maxSelectionColumn = " + maxSelectionColumn);
-		Log.debug("minSelectionRow = " + minSelectionRow);
-		Log.debug("maxSelectionRow = " + maxSelectionRow);
-		Log.debug("----------------------------------");
-	}
-
 	/**
 	 * Sets the initial selection parameters to a single cell. Does this without
 	 * calling changeSelection, so it should only be used at startup.
@@ -1185,8 +1179,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * }
 	 */
 
+	/**
+	 * @param cellName
+	 *            cell name
+	 * @return whether a cell was selected
+	 */
 	public boolean setSelection(String cellName) {
-
 		if (cellName == null) {
 			return setSelection(-1, -1, -1, -1);
 		}
@@ -1204,8 +1202,19 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return setSelection(cr);
 	}
 
+	/**
+	 * 
+	 * @param c1
+	 *            min column
+	 * @param r1
+	 *            min row
+	 * @param c2
+	 *            max column
+	 * @param r2
+	 *            max row
+	 * @return success
+	 */
 	public boolean setSelection(int c1, int r1, int c2, int r2) {
-
 		CellRange cr = new CellRange(app, c1, r1, c2, r2);
 		if (!cr.isValid()) {
 			return false;
@@ -1215,19 +1224,16 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// list.add(cr);
 
 		return setSelection(cr);
-
 	}
 
 	@Override
 	public boolean setSelection(CellRange cr) {
-
 		if (cr != null && !cr.isValid()) {
 			return false;
 		}
 
 		try {
 			if (cr == null || cr.isEmptyRange()) {
-
 				minSelectionColumn = -1;
 				minSelectionRow = -1;
 				maxSelectionColumn = -1;
@@ -1320,6 +1326,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * }
 	 */
 
+	/**
+	 * Switch between column / row / range seletction.
+	 * 
+	 * @param selType
+	 *            MyTableInterface.*_SELECT
+	 */
 	public void setSelectionType(int selType) {
 
 		if (view.isColumnSelect()) {
@@ -1782,6 +1794,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return true;
 	}
 
+	/**
+	 * Finish editing current cell.
+	 * 
+	 * @param editNext
+	 *            whether to go to next cell after
+	 */
 	public void finishEditing(boolean editNext) {
 		editing = false;
 
@@ -1920,7 +1938,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
-	// Keep table and row header heights in sync
+	/**
+	 * Keep table and row header heights in sync
+	 * 
+	 * @param row
+	 *            row to sync
+	 */
 	public void syncRowHeaderHeight(final int row) {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {

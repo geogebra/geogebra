@@ -249,6 +249,9 @@ public class GeoTextEditor extends RichTextArea {
 		return sb.toString();
 	}
 
+	/**
+	 * Handle paste event.
+	 */
 	public void handlePaste() {
 		// setDynamicText();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {

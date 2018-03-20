@@ -41,6 +41,14 @@ public class JsEval {
 		}
 	}-*/;
 
+	/**
+	 * @param fun
+	 *            JS function name
+	 * @param arg0
+	 *            first argument
+	 * @param arg1
+	 *            second argument
+	 */
 	public static void callAppletJavaScript(String fun, Object arg0,
 			Object arg1) {
 		if (arg0 == null && arg1 == null) {

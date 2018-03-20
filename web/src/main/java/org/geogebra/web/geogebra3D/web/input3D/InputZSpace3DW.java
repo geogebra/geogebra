@@ -29,6 +29,9 @@ public class InputZSpace3DW extends Input3D {
 	private boolean isThirdButtonPressed;
 	private boolean hasStylusNotIntersectingPhysicalScreen = true;
 
+	/**
+	 * Create new ZSpace input.
+	 */
 	public InputZSpace3DW() {
 		super();
 		inputPosition = new double[3];

@@ -295,6 +295,14 @@ public class GGraphics2DW implements GGraphics2DWI {
 		context.setGlobalAlpha(((GAlphaCompositeW) comp).getAlpha());
 	}
 
+	/**
+	 * Set a SVG pattern.
+	 * 
+	 * @param svgPaint
+	 *            SVG pattern
+	 * @param lineWidth
+	 *            line width
+	 */
 	public void setPaintSVG(final GPaintSVG svgPaint, double lineWidth) {
 
 		CanvasPattern ptr = context.createPatternSVG(

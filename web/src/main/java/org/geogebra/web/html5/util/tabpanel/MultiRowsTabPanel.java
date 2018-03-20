@@ -15,6 +15,9 @@ public class MultiRowsTabPanel extends Composite
 	MultiRowsTabBar tabBar;
 	DeckPanel deck = new DeckPanel();
 
+	/**
+	 * Create new tab panel.
+	 */
 	public MultiRowsTabPanel() {
 		tabBar = new MultiRowsTabBar(this);
 		tabBar.addStyleName("gwt-TabBar");
@@ -43,20 +46,39 @@ public class MultiRowsTabPanel extends Composite
 		return tabBar;
 	}
 
+	/**
+	 * @param w
+	 *            tab content
+	 * @param tabText
+	 *            tab label
+	 */
 	public void add(Widget w, String tabText) {
 		tabBar.addTab(tabText);
 		w.addStyleName("gwt-TabPanelBottom");
 		deck.add(w);
 	}
 
+	/**
+	 * @param widget
+	 *            tab
+	 * @return tab index
+	 */
 	public int getWidgetIndex(Widget widget) {
 		return deck.getWidgetIndex(widget);
 	}
 
+	/**
+	 * @return number of tabs
+	 */
 	public int getWidgetCount() {
 		return deck.getWidgetCount();
 	}
 
+	/**
+	 * @param i
+	 *            index
+	 * @return tab for index
+	 */
 	public Widget getWidget(int i) {
 		return deck.getWidget(i);
 	}

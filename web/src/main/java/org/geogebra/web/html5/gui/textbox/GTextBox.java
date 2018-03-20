@@ -40,6 +40,12 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 		this(false, null);
 	}
 
+	/**
+	 * @param autocomplete
+	 *            allow browser autocomplete ?
+	 * @param hsp
+	 *            parent AutoComplete field with symbol
+	 */
 	public GTextBox(boolean autocomplete, HasSymbolPopup hsp) {
 		Event.addNativePreviewHandler(this);
 

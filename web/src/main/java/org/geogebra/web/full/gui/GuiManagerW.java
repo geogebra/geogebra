@@ -2185,6 +2185,15 @@ public class GuiManagerW extends GuiManager
 		return onScreenKeyboard != null && onScreenKeyboard.shouldBeShown();
 	}
 
+	/**
+	 * Return a keyboard and connected to given textfield.
+	 * 
+	 * @param textField
+	 *            textfield adapter
+	 * @param listener
+	 *            open/close listener
+	 * @return keyboard
+	 */
 	public VirtualKeyboardGUI getOnScreenKeyboard(
 			MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {

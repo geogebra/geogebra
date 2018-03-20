@@ -25,6 +25,12 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 		this(0, 100);
 	}
 
+	/**
+	 * @param min
+	 *            slider min
+	 * @param max
+	 *            slider max
+	 */
 	public SliderPanel(int min, int max) {
 		//minLabel = new Label(String.valueOf(min));
 		// add(minLabel);

@@ -171,9 +171,16 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			GeoGebraProfiler.decrementMoveEventsIgnored();
 			this.onTouchMoveNow(waitingTouchMove, time, false);
 		}
-
 	}
 
+	/**
+	 * Create new mouse / touch handler.
+	 * 
+	 * @param app
+	 *            application
+	 * @param ec
+	 *            euclidian controller
+	 */
 	public MouseTouchGestureControllerW(AppW app, EuclidianController ec) {
 		super(app, ec);
 		this.app = app;
@@ -610,6 +617,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		moveCounter++;
 	}
 
+	/**
+	 * Handle mouse up event.
+	 * 
+	 * @param event
+	 *            mouse up event
+	 */
 	public void onMouseUp(MouseUpEvent event) {
 		Event.releaseCapture(event.getRelativeElement());
 		if (CancelEventTimer.cancelMouseEvent()) {
@@ -655,6 +668,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.resetModeAfterFreehand();
 	}
 
+	/**
+	 * Handle mouse down event.
+	 * 
+	 * @param event
+	 *            mouse down event
+	 */
 	public void onMouseDown(MouseDownEvent event) {
 		deltaSum = 0;
 
