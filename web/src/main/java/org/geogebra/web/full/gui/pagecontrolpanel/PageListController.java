@@ -410,7 +410,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		if (Browser.isAndroid()) {
+		if (Browser.isMobile()) {
 			return;
 		}
 		event.preventDefault();
@@ -420,7 +420,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
-		if (Browser.isAndroid()) {
+		if (Browser.isMobile()) {
 			return;
 		}
 		dragCtrl.move(event.getClientX(), event.getClientY(), false);
@@ -428,7 +428,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
-		if (Browser.isAndroid()) {
+		if (Browser.isMobile()) {
 			return;
 		}
 		dragCtrl.stop(event.getClientX(), event.getClientY());
@@ -446,12 +446,14 @@ public class PageListController implements PageListControllerInterface,
 		if (dragCtrl.move(t.getClientX(), t.getClientY(), true)) {
 			event.preventDefault();
 			event.stopPropagation();
+			listener.getScrollPanel().setTouchScrollingDisabled(true);
 		}
 			 
 	}
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
+		listener.getScrollPanel().setTouchScrollingDisabled(false);
 		Touch t = event.getTargetTouches().get(0);
 		if (t == null) {
 			t = event.getChangedTouches().get(0);

@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
+import com.google.gwt.user.client.ui.ScrollPanel;
+
 /**
  * Interface for updating card container visuals.
  * 
@@ -49,4 +51,9 @@ public interface CardListInterface {
 	 * @return the height of the visible area of the scroll panel.
 	 */
 	int getScrollParentHeight();
+
+	/**
+	 * @return the scrollPanel
+	 */
+	ScrollPanel getScrollPanel();
 }

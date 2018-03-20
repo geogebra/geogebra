@@ -383,4 +383,8 @@ public class PageListPanel
 	public int getScrollParentHeight() {
 		return scrollPanel.getParent().getOffsetHeight();
 	}
+
+	public ScrollPanel getScrollPanel() {
+		return scrollPanel;
+	}
 }	
