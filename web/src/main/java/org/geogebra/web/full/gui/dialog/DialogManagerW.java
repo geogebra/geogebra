@@ -72,6 +72,10 @@ public class DialogManagerW extends DialogManager
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog dialog = null;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public DialogManagerW(AppW app) {
 		super(app);
 		if (app.getGoogleDriveOperation() != null) {
@@ -143,7 +147,9 @@ public class DialogManagerW extends DialogManager
 	 * shows the {@link RecoverAutoSavedDialog}
 	 * 
 	 * @param app2
-	 *            {@link AppWapplication}
+	 *            {@link AppWFull}
+	 * @param json
+	 *            stored JSON
 	 */
 	public void showRecoverAutoSavedDialog(AppWFull app2, String json) {
 		if (this.autoSavedDialog == null) {
@@ -196,8 +202,9 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
-		ButtonDialogW dialog = new ButtonDialogW(((AppW) app), x, y, textfield);
-		dialog.setVisible(true);
+		ButtonDialogW buttonDialog = new ButtonDialogW(((AppW) app), x, y,
+				textfield);
+		buttonDialog.setVisible(true);
 		return true;
 	}
 
@@ -245,10 +252,12 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * @param loc
+	 * @param corner
 	 *            {@link GeoPoint}
+	 * @param device
+	 *            used device
 	 */
-	public void showImageInputDialog(GeoPoint loc, GDevice device) {
+	public void showImageInputDialog(GeoPoint corner, GDevice device) {
 		if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)
 				&& device instanceof BrowserDevice) {
 			((BrowserDevice) device).getUploadImageWithoutDialog((AppW) app);
@@ -257,7 +266,7 @@ public class DialogManagerW extends DialogManager
 		if (this.imageDialog == null) {
 			this.imageDialog = device.getImageInputDialog((AppW) app);
 		}
-		imageDialog.setLocation(loc);
+		imageDialog.setLocation(corner);
 		imageDialog.center();
 		imageDialog.show();
 	}
@@ -324,8 +333,8 @@ public class DialogManagerW extends DialogManager
 	public boolean showSliderCreationDialog(int x, int y) {
 		app.setWaitCursor();
 
-		SliderDialogW dialog = new SliderDialogW(((AppW) app), x, y);
-		dialog.center();
+		SliderDialogW sliderDialog = new SliderDialogW(((AppW) app), x, y);
+		sliderDialog.center();
 
 		app.setDefaultCursor();
 
@@ -571,7 +580,7 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * @return {@link FunktionInspectorW}
+	 * @return {@link FunctionInspectorW}
 	 */
 	public FunctionInspectorW getFunctionInspector() {
 		return functionInspector;
@@ -591,9 +600,12 @@ public class DialogManagerW extends DialogManager
 				handler, geo);
 	}
 
+	/**
+	 * Show animation export dialog.
+	 */
 	public void showAnimGifExportDialog() {
-		GDialogBox dialog = new AnimationExportDialogW((AppW) app);
-		dialog.center();
-		dialog.show();
+		GDialogBox gifDialog = new AnimationExportDialogW((AppW) app);
+		gifDialog.center();
+		gifDialog.show();
 	}
 }

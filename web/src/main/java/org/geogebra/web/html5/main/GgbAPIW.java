@@ -277,6 +277,14 @@ public class GgbAPIW extends GgbAPI {
 				zipJSworkerURL(), false);
 	}
 
+	/**
+	 * Base64 for ggt file
+	 * 
+	 * @param includeThumbnail
+	 *            whether to add thumbnail
+	 * @param callback
+	 *            callback
+	 */
 	public void getMacrosBase64(boolean includeThumbnail,
 			JavaScriptObject callback) {
 		GgbFile archiveContent = createMacrosArchive();
@@ -314,7 +322,8 @@ public class GgbAPIW extends GgbAPI {
 		return prepareToEntrySet(archiveContent, jso, "", null);
 	}
 
-	private void countShared(GgbFile slide, HashMap<String, Integer> usage,
+	private static void countShared(GgbFile slide,
+			HashMap<String, Integer> usage,
 			GgbFile shared) {
 		for (Entry<String, String> entry : slide.entrySet()) {
 			String filename = entry.getKey();
@@ -330,6 +339,12 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
+	/**
+	 * Load construction and images from JSON
+	 * 
+	 * @param obj
+	 *            JSON archive
+	 */
 	public void setFileJSON(JavaScriptObject obj) {
 		resetPerspective();
 		ViewW view = new ViewW((AppW) app);
@@ -365,6 +380,9 @@ public class GgbAPIW extends GgbAPI {
 
 	}
 
+	/**
+	 * @return base64 for ggt file
+	 */
 	public String getMacrosBase64() {
 		StoreString storeString = new StoreString();
 		GgbFile archiveContent = createMacrosArchive();
@@ -446,6 +464,8 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * @param includeThumbnail
 	 *            whether to include thumbnail
+	 * @param archiveContent
+	 *            zip archive
 	 * @return zip archive (as a map)
 	 */
 	public GgbFile createArchiveContent(boolean includeThumbnail,
@@ -503,12 +523,18 @@ public class GgbAPIW extends GgbAPI {
 		return archiveContent;
 	}
 
+	/**
+	 * @return base64 encoded thumbnail
+	 */
 	public String getThumbnailBase64() {
 		return ((EuclidianViewWInterface) getViewForThumbnail())
 				.getCanvasBase64WithTypeString()
 				.substring(StringUtil.pngMarker.length());
 	}
 
+	/**
+	 * @return view for thumbnail
+	 */
 	public EuclidianViewInterfaceCommon getViewForThumbnail() {
 		EuclidianViewInterfaceCommon ret = getViewForThumbnail(true);
 		if (ret == null) {
@@ -1253,10 +1279,24 @@ public class GgbAPIW extends GgbAPI {
 		gm.updateToolbar();
 	}
 
+	/**
+	 * Make screenshot of the whole app as PNG.
+	 * 
+	 * @param callback
+	 *            callback
+	 */
 	public void getScreenshotBase64(JavaScriptObject callback) {
 		getScreenshotURL(((AppW) app).getPanel().getElement(), callback);
 	}
 
+	/**
+	 * Make a screenshot of given element.
+	 * 
+	 * @param el
+	 *            element
+	 * @param callback
+	 *            callback
+	 */
 	public native void getScreenshotURL(Element el,
 			JavaScriptObject callback)/*-{
 		var canvas = document.createElement("canvas");
@@ -1272,6 +1312,13 @@ public class GgbAPIW extends GgbAPI {
 		});
 	}-*/;
 
+	/**
+	 * @param workerUrls
+	 *            worker folder URL
+	 * @param sync
+	 *            whether to use zipjs synchronously
+	 * @return whether webworkers can be used
+	 */
 	public static native boolean setWorkerURL(String workerUrls,
 			boolean sync) /*-{
 		if (workerUrls === "false" || !workerUrls || sync) {
@@ -1352,7 +1399,6 @@ public class GgbAPIW extends GgbAPI {
 		GifShotExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
 				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename,
 				scale, rotate, false);
-
 	}
 
 }

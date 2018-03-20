@@ -43,6 +43,11 @@ public class GBasicStrokeW extends DefaultBasicStroke {
 		return shape;
 	}
 
+	/**
+	 * @param join
+	 *            native join from context
+	 * @return join type
+	 */
 	public static int getJoin(String join) {
 		switch (join.charAt(0)) {
 		case 'r':
@@ -52,11 +57,15 @@ public class GBasicStrokeW extends DefaultBasicStroke {
 		default:
 			return JOIN_MITER;
 		}
-
 	}
 
-	public static int getCap(String join) {
-		switch (join.charAt(0)) {
+	/**
+	 * @param cap
+	 *            native join from context
+	 * @return cap type
+	 */
+	public static int getCap(String cap) {
+		switch (cap.charAt(0)) {
 		case 'r':
 			return CAP_ROUND;
 		case 's':
@@ -64,13 +73,18 @@ public class GBasicStrokeW extends DefaultBasicStroke {
 		default:
 			return CAP_BUTT;
 		}
-
 	}
 
+	/**
+	 * @return GWT cap
+	 */
 	public LineCap getEndCapString() {
 		return GWT_CAPS[getEndCap()];
 	}
 
+	/**
+	 * @return GWT join
+	 */
 	public LineJoin getLineJoinString() {
 		return GWT_JOINS[getLineJoin()];
 	}

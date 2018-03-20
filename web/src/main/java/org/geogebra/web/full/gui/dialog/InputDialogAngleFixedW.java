@@ -31,6 +31,22 @@ public class InputDialogAngleFixedW extends AngleInputDialogW {
 	
 	private EuclidianController ec;
 		
+	/**
+	 * @param app
+	 *            application
+	 * @param title
+	 *            title
+	 * @param handler
+	 *            input handler
+	 * @param segments
+	 *            selected segments
+	 * @param points
+	 *            selcted points
+	 * @param kernel
+	 *            kernel
+	 * @param ec
+	 *            controller
+	 */
 	public InputDialogAngleFixedW(AppW app, String title, InputHandler handler,
 			GeoSegmentND[] segments, GeoPointND[] points, Kernel kernel,
 			EuclidianController ec) {

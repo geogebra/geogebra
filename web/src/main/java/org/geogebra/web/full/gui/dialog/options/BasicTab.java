@@ -705,7 +705,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	}
 
 	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
-
 		// btAxesColor.setForeground(new GColorW(view.getAxesColor()));
 		cbShowAxes.setValue(this.optionsEuclidianW.view.getShowXaxis()
 				&& this.optionsEuclidianW.view.getShowYaxis());
@@ -713,18 +712,32 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		updateAxesColorButton(color);
 	}
 
+	/**
+	 * @param color
+	 *            axes color
+	 */
 	public void updateAxesColorButton(GColor color) {
 		ImageOrText content = new ImageOrText();
 		content.setBgColor(color);
 		btAxesColor.setIcon(content);
 	}
 
+	/**
+	 * @param color
+	 *            background color
+	 */
 	public void updateBackgroundColorButton(GColor color) {
 		ImageOrText content = new ImageOrText();
 		content.setBgColor(color);
 		btBackgroundColor.setIcon(content);
 	}
 
+	/**
+	 * Update construction protocol navigation settings.
+	 * 
+	 * @param isVisible
+	 *            whether the checkboxes should be enabled
+	 */
 	public void updateConsProtocolPanel(boolean isVisible) {
 		// cons protocol panel
 		cbShowNavbar.setValue(isVisible);

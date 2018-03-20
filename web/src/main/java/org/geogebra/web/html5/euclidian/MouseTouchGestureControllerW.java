@@ -160,6 +160,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		}
 	};
 
+	/**
+	 * Handle waiting mouse/touch move event.
+	 */
 	public void moveIfWaiting() {
 		long time = System.currentTimeMillis();
 		if (this.waitingMouseMove != null) {
@@ -196,6 +199,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		longTouchManager = LongTouchManager.getInstance();
 	}
 
+	/**
+	 * TODO kill long touch
+	 */
 	public void handleLongTouch(int x, int y) {
 		Log.debug("LONG TOUCH");
 		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH,

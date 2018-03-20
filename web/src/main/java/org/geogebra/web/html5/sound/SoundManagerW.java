@@ -146,20 +146,20 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	}
 
 	private native void playAudioElement(Element audio) /*-{
-														audio.play();
-														}-*/;
+		audio.play();
+	}-*/;
 
 	private native void pauseAudioElement(Element audio) /*-{
-															audio.pause();
-															}-*/;
+		audio.pause();
+	}-*/;
 
 	private native int getDuration(Element audio) /*-{
-													return Math.floor(audio.duration * 1000)
-													}-*/;
+		return Math.floor(audio.duration * 1000)
+	}-*/;
 
 	private native int getCurrentTime(Element audio) /*-{
-														return Math.floor(audio.currentTime * 1000);
-														}-*/;
+		return Math.floor(audio.currentTime * 1000);
+	}-*/;
 
 	/**
 	 * @param url
@@ -180,36 +180,36 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	}-*/;
 
 	private native void loadGeoAudio(String url) /*-{
-													var audioElement = $doc.createElement('audio');
-													var that = this;
-													audioElement.setAttribute('src', url);
-													audioElement.load();
-													audioElement
-													.addEventListener(
-													"canplay",
-													function() {
-													that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
-													});
-													audioElement
-													.addEventListener(
-													"timeupdate",
-													function() {
-													that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
-													});
-													}-*/;
+		var audioElement = $doc.createElement('audio');
+		var that = this;
+		audioElement.setAttribute('src', url);
+		audioElement.load();
+		audioElement
+				.addEventListener(
+						"canplay",
+						function() {
+							that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
+						});
+		audioElement
+				.addEventListener(
+						"timeupdate",
+						function() {
+							that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioReady(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
+						});
+	}-*/;
 
 	private native void checkAudio(String url) /*-{
-												var audioElement = $doc.createElement('audio');
-												var that = this;
-												audioElement.setAttribute('src', url);
-												audioElement.load();
-												audioElement.addEventListener("error", function() {
-												that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlError()();
-												});
-												audioElement.addEventListener("canplay", function() {
-												that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlOK()(url);
-												});
-												}-*/;
+		var audioElement = $doc.createElement('audio');
+		var that = this;
+		audioElement.setAttribute('src', url);
+		audioElement.load();
+		audioElement.addEventListener("error", function() {
+			that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlError()();
+		});
+		audioElement.addEventListener("canplay", function() {
+			that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlOK()(url);
+		});
+	}-*/;
 
 	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max,

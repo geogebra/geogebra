@@ -61,6 +61,9 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 		return 30;
 	}
 
+	/**
+	 * Add construction navigation bar.
+	 */
 	public final void addNavigationBar() {
 		consProtNav = (ConstructionProtocolNavigationW) (app.getGuiManager()
 				.getConstructionProtocolNavigation(id));

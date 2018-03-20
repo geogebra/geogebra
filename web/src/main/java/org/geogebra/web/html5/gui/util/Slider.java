@@ -27,10 +27,21 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 	private boolean valueChangeHandlerInitialized;
 	private Integer valueOnDragStart;
 
+	/**
+	 * Slider 0 - 100
+	 */
 	public Slider() {
 		this(0, 100);
 	}
 
+	/**
+	 * Create a new slider.
+	 * 
+	 * @param min
+	 *            slider min
+	 * @param max
+	 *            slider max
+	 */
 	public Slider(int min, int max) {
 		range = Document.get().createElement("input");
 		range.setAttribute("type", "range");
@@ -41,7 +52,6 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 		addMouseDownHandler(this);
 		// addMouseMoveHandler(this);
 		addMouseUpHandler(this);
-
 	}
 
 	public static native void addInputHandler(Element el,

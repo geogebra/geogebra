@@ -9,10 +9,29 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
+/**
+ * Dialog for rotation around a line
+ */
 public class InputDialogRotateAxisW extends InputDialogRotateW {
 
 	private GeoLineND[] lines;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param title
+	 *            title
+	 * @param handler
+	 *            input handler
+	 * @param polys
+	 *            selected polygons
+	 * @param selectedLines
+	 *            selected lines
+	 * @param selGeos
+	 *            selected geos
+	 * @param ec
+	 *            controller
+	 */
 	public InputDialogRotateAxisW(AppW app, String title,
             NumberInputHandler handler, GeoPolygon[] polys,
             GeoLineND[] selectedLines, GeoElement[] selGeos,

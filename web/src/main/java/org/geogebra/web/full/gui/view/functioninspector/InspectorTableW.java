@@ -80,6 +80,9 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		
 	}
 
+	/**
+	 * @return value of edited cell or null if can't be parsed
+	 */
 	public Double getDoubleEdited() {
 		if (cellEditor == null) {
 			return null;
@@ -120,6 +123,9 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		selectedRow = row;	
 	}
 	
+	/**
+	 * Remove selected row style.
+	 */
 	public void clearSelectedRowStyle() {
 		if (selectedRow < getRowCount()) {
 			// making sure it is not removed meanwile
@@ -238,6 +244,14 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		}
 	}
 
+	/**
+	 * Make a cell editable.
+	 * 
+	 * @param row
+	 *            row
+	 * @param col
+	 *            column
+	 */
 	public void setCellEditable(int row, int col) {
 		model.setCellEditable(row, col);
 		setEditorInCell(row + 1, col);

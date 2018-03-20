@@ -2263,6 +2263,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.setPlainTextMode(value);
 	}
 
+	/**
+	 * Initialize LaTeX input
+	 * 
+	 * @return this
+	 */
 	public RadioTreeItem initInput() {
 		this.insertHelpToggle();
 
@@ -2278,8 +2283,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return this;
 	}
 
-	public void toggleSuggestionStyle(boolean b) {
-		if (b) {
+	/**
+	 * @param withSuggestions
+	 *            whether to show suggestions
+	 */
+	public void toggleSuggestionStyle(boolean withSuggestions) {
+		if (withSuggestions) {
 			content.addStyleName("withSuggestions");
 			content.removeStyleName("noSuggestions");
 		} else {
@@ -2327,6 +2336,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
+	/**
+	 * @return width of the whole item
+	 */
 	public int getItemWidth() {
 		return geo == null ? main.getOffsetWidth() : getOffsetWidth();
 	}

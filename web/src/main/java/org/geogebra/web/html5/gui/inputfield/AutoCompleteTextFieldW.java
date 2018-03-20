@@ -1428,6 +1428,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
+	/**
+	 * Remove a character and move virtual caret.
+	 */
 	public void onBackSpace() {
 		int start = getSelectionStart();
 		int end = getSelectionEnd();
@@ -1493,6 +1496,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		this.showSymbolButton = null;
 	}
 
+	/**
+	 * Show table popup next to an anchor widget
+	 * 
+	 * @param w
+	 *            popup anchor
+	 */
 	void showTablePopupRelativeTo(Widget w) {
 		if (tablePopup == null && this.showSymbolButton != null) {
 			tablePopup = new SymbolTablePopupW(app, this, showSymbolButton);
@@ -1735,6 +1744,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		});
 	}
 
+	/**
+	 * Handle focus.
+	 */
 	protected void fieldFocus() {
 		FieldHandler.focusGained(this, app);
 	}

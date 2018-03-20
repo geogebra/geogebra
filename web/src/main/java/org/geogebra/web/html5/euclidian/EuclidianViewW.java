@@ -83,7 +83,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-@SuppressWarnings("javadoc")
+//@SuppressWarnings("javadoc")
 public class EuclidianViewW extends EuclidianView implements
 		EuclidianViewWInterface, PrintableW {
 
@@ -517,6 +517,13 @@ public class EuclidianViewW extends EuclidianView implements
 		return getExportImage(scale, false);
 	}
 
+	/**
+	 * @param scale
+	 *            scale
+	 * @param transparency
+	 *            whether to use transparency
+	 * @return exported image
+	 */
 	public GBufferedImageW getExportImage(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
@@ -587,6 +594,14 @@ public class EuclidianViewW extends EuclidianView implements
 		return true;
 	}
 
+	/**
+	 * Set logical size of the canvas.
+	 * 
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 */
 	public void setCoordinateSpaceSize(int width, int height) {
 
 		g2p.setCoordinateSpaceSize(width, height);
@@ -679,6 +694,9 @@ public class EuclidianViewW extends EuclidianView implements
 		updateBackgroundImage();
 	}
 
+	/**
+	 * Initialize background image
+	 */
 	public void createImage() {
 		bgImage = makeImage();
 		bgGraphics = bgImage.createGraphics();
@@ -1060,12 +1078,16 @@ public class EuclidianViewW extends EuclidianView implements
 		return true;
 	}
 
+	/**
+	 * Mark as not focused
+	 */
 	public void focusLost() {
-		if (inFocus) {
-			this.inFocus = false;
-		}
+		this.inFocus = false;
 	}
 
+	/**
+	 * Mark as focused and notify app.
+	 */
 	public void focusGained() {
 		if (!inFocus) {
 			this.inFocus = true;
@@ -1080,6 +1102,9 @@ public class EuclidianViewW extends EuclidianView implements
 		return inFocus;
 	}
 
+	/**
+	 * Use default cursor when mouse is over this view.
+	 */
 	public void setDefaultCursor() {
 		setCursorClass("cursor_default");
 	}

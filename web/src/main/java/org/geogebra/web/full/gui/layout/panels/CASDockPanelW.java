@@ -22,6 +22,10 @@ public class CASDockPanelW extends NavigableDockPanelW {
 
 	private CASViewW casView;
 
+	/**
+	 * @param appl
+	 *            application
+	 */
 	public CASDockPanelW(App appl) {
 		super(App.VIEW_CAS, // view id
 				"CAS", // view title phrase
@@ -34,10 +38,16 @@ public class CASDockPanelW extends NavigableDockPanelW {
 		app = (AppW) appl;
 	}
 
+	/**
+	 * @return CAS
+	 */
 	public CASViewW getCAS() {
 		return casView;
 	}
 
+	/**
+	 * @return application
+	 */
 	public App getApp() {
 		return app;
 	}

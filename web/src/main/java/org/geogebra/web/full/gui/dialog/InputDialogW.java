@@ -167,7 +167,6 @@ public class InputDialogW extends InputDialog
 	 */
 	public InputDialogW(AppW app, String message, String title,
 			String initString, InputHandler handler, GeoElement geo) {
-
 		this(false, app, false);
 
 		this.geo = geo;
@@ -178,7 +177,6 @@ public class InputDialogW extends InputDialog
 				geo != null, false, DialogType.GeoGebraEditor);
 
 		centerAndFocus(false);
-
 	}
 
 	public InputDialogW(AppW app, String message, String title,
@@ -351,8 +349,13 @@ public class InputDialogW extends InputDialog
 		setVisible(false);
 	}
 
+	/**
+	 * Hide or show this.
+	 * 
+	 * @param visible
+	 *            whether this should be visible
+	 */
 	public void setVisible(boolean visible) {
-
 		inputPanel.setVisible(visible);
 		if (visible) {
 			wrappedPopup.show();
@@ -386,7 +389,6 @@ public class InputDialogW extends InputDialog
 			actionPerformed(event);
 			return;
 		}
-
 	}
 
 	@Override

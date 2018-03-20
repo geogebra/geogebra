@@ -40,6 +40,14 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 		focusLost(null, appl);
 	}
 
+	/**
+	 * Handle focus event.
+	 * 
+	 * @param field
+	 *            textfield
+	 * @param app
+	 *            app
+	 */
 	public static void focusGained(HasKeyboardTF field, AppW app) {
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			if (field != null && app.showKeyboard(field, false)) {
@@ -48,6 +56,14 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 		}
 	}
 
+	/**
+	 * Handle blur event.
+	 * 
+	 * @param field
+	 *            textfield
+	 * @param app
+	 *            app
+	 */
 	public static void focusLost(HasKeyboardTF field, final AppW app) {
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			field.endOnscreenKeyboardEditing();
