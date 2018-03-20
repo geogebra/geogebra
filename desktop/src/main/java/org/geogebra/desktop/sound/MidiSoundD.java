@@ -22,6 +22,7 @@ import javax.sound.midi.Synthesizer;
 import javax.swing.JFileChooser;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
@@ -52,8 +53,8 @@ public class MidiSoundD implements MetaEventListener {
 	/***********************************************
 	 * Constructor
 	 */
-	public MidiSoundD(AppD app) {
-		this.app = app;
+	public MidiSoundD(App app) {
+		this.app = (AppD) app;
 	}
 
 	// ==================================================

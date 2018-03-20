@@ -10,11 +10,11 @@ import javax.swing.SwingUtilities;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.main.App;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.sound.mp3transform.Decoder;
 
 /**
@@ -26,7 +26,7 @@ import org.geogebra.desktop.sound.mp3transform.Decoder;
  */
 public class SoundManagerD implements SoundManager {
 
-	private AppD app;
+	private App app;
 	private MidiSoundD midiSound;
 	private FunctionSoundD functionSound;
 
@@ -43,7 +43,7 @@ public class SoundManagerD implements SoundManager {
 	 * 
 	 * @param app
 	 */
-	public SoundManagerD(AppD app) {
+	public SoundManagerD(App app) {
 		this.app = app;
 	}
 

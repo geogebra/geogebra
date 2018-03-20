@@ -78,6 +78,7 @@ import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.plugin.UDPLoggerD;
+import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.LoggerD;
@@ -98,6 +99,7 @@ public class AppDNoGui extends App {
 	private DrawEquationD drawEquation;
 	private boolean is3Dactive;
 	private EuclidianView3DNoGui ev3d;
+	private SoundManager soundManager;
 
 	/**
 	 * @param loc
@@ -492,8 +494,10 @@ public class AppDNoGui extends App {
 
 	@Override
 	public SoundManager getSoundManager() {
-		// TODO Auto-generated method stub
-		return null;
+		if (soundManager == null) {
+			soundManager = new SoundManagerD(this);
+		}
+		return soundManager;
 	}
 
 	@Override
