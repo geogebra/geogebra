@@ -5879,14 +5879,16 @@ namespace giac {
       return is_one(a)?b:gen(a*(*b._CPLXptr),a*(*(b._CPLXptr+1)));
     case _CPLX__CPLX:
       return adjust_complex_display(mult_cplx(a,b,contextptr),a,b);
-#ifndef GIAC_GGB
+#if 0 //ndef GIAC_GGB
     case _INT___STRNG:{
+      if (b.subtype==-1) return b;
       string res;
       for (int i=0;i<a.val;++i)
 	res += *b._STRNGptr;
       return string2gen(res,false);
     }
     case _STRNG__INT_:{
+      if (a.subtype==-1) return a;
       string res;
       for (int i=0;i<b.val;++i)
 	res += *a._STRNGptr;
