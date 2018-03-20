@@ -2433,9 +2433,22 @@ public class Kernel implements SpecialPointsListener {
 			// RADIANS
 			sbFormatAngle.append(format(phi, tpl));
 
-			if (!tpl.hasType(StringType.GEOGEBRA_XML)) {
+			switch (tpl.getStringType()) {
+
+			default:
 				sbFormatAngle.append(" rad");
+				break;
+
+			case LATEX:
+				sbFormatAngle.append("\\;rad");
+				break;
+
+			case GEOGEBRA_XML:
+			case GIAC:
+				// do nothing
+				break;
 			}
+
 			return sbFormatAngle;
 		}
 	}
