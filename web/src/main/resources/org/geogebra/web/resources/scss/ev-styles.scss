@@ -44,6 +44,10 @@
 	    background-color: $white;
 	    box-shadow: 0 0 2px 1px $popup-shadow;
 	    
+	    &.noContextBtn {
+	    	padding: 8px 0px 8px 8px;
+	    }
+	    
 	    /*stylebar btn*/
 	    .MyCanvasButton {
 			text-align: center;

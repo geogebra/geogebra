@@ -596,6 +596,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected boolean isContextMenuNeeded() {
 		if (!ev.getEuclidianController().getAppSelectedGeos().isEmpty()
 				&& ev.getEuclidianController().getAppSelectedGeos().get(0).isGeoAudio()) {
+			this.addStyleName("noContextBtn");
 			return false;
 		}
 		return true;
