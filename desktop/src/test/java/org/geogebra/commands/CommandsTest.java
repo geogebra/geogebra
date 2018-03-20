@@ -417,6 +417,8 @@ public class CommandsTest extends Assert{
 		t("Integral(If(x^2>1,1,x>7,0,0),-2,2)", "2");
 		t("Integral(If(x>2,1,2),0,2.01)", "4.01");
 		t("Integral(If(x^4>1,1,0),-2,2)", "2");
+		t("Integral(If(x>2,3,x>1,2,1),0.99,3.01)", "5.04",
+				StringTemplate.editTemplate);
 	}
 
 	@Test

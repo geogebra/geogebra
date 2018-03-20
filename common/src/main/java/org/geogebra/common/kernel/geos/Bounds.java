@@ -422,9 +422,12 @@ public class Bounds {
 			Bounds parentCond) {
 		if (condRoot.getOperation() == Operation.IF_LIST) {
 			MyList conds = (MyList) condRoot.getLeft().unwrap();
+			Bounds currentCond = parentCond;
 			for (int i = 0; i < conds.size(); i++) {
-				conditions.add(parentCond
+				conditions.add(currentCond
 						.addRestriction(conds.getListElement(i).wrap()));
+				currentCond = currentCond.addRestriction(
+						conds.getListElement(i).wrap().negation());
 			}
 
 			MyList fns = (MyList) condRoot.getRight().unwrap();
