@@ -448,6 +448,10 @@ public class GuiManagerW extends GuiManager
 		((DialogManagerW) getDialogManager()).showAudioInputDialog();
 	}
 
+	public void showExportImageDialog() {
+		((DialogManagerW) getDialogManager()).showExportImageDialog();
+	}
+
 	@Override
 	public void loadWebcam() {
 		if (getApp().getToolbar() != null) {

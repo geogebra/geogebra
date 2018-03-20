@@ -524,5 +524,29 @@ $duration: 0.2s;
    			}
    		}
    	}
+   
+   .MaterialDialogBox.exportImgDialog {
+   		.expImgContent {
+   			margin-right: 16px;	
+   			width: 440px;
+   		}
+   	
+   		.rightClickHelpText {
+   			margin: 0px;
+   			margin-bottom: 20px;
+   		}
+   		
+   		.imagePanel {
+   			width: 100%;
+			height: 190px;
+			border: 1px solid $preview-border;
+			box-sizing: border-box;
+			border-radius: 2px 2px 0 0 ;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 110%;
+			cursor: pointer;
+   		}
+   }
 }
 	

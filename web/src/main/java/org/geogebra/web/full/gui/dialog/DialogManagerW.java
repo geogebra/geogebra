@@ -273,6 +273,16 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
+	 * show export image dialog
+	 */
+	@Override
+	public void showExportImageDialog() {
+		ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app);
+		expImgDialog.center();
+		expImgDialog.show();
+	}
+
+	/**
 	 * @param device
 	 *            device type
 	 */

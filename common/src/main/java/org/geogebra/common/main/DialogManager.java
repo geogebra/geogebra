@@ -381,7 +381,7 @@ public abstract class DialogManager {
 	}
 
 	public void showAudioInputDialog() {
-		// TODO
+		// nothing to do here
 	}
 
 	public static void makeRegularPolygon(final App app,
@@ -828,6 +828,10 @@ public abstract class DialogManager {
 					}
 				});
 
+	}
+
+	public void showExportImageDialog() {
+		// nothing to do here
 	}
 
 }

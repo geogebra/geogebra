@@ -223,7 +223,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 						@Override
 						public void doExecute() {
-							// to do open export image dialog
+							app.getGuiManager().getDialogManager()
+									.showExportImageDialog();
 						}
 					});
 		}
