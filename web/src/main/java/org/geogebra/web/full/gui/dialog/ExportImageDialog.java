@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -69,7 +70,9 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 	@Override
 	public void onClick(Widget source) {
 		if (source == downloadBtn) {
-			// TO DO DOWNLOAD AS PNG
+			// DOWNLOAD AS PNG
+			Browser.exportImage(previewImage.getUrl(),
+					appW.getExportTitle() + ".png");
 			super.hide();
 		}
 	}
