@@ -1234,6 +1234,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return (AlgebraViewW) av;
 	}
 
+	/**
+	 * @return corresponding construction element
+	 */
 	public GeoElement getGeo() {
 		return geo;
 	}
@@ -1254,10 +1257,16 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		// only show the delete button, but not the extras
 	}
 
+	/**
+	 * Scroll into view.
+	 */
 	public void scrollIntoView() {
 		this.getElement().scrollIntoView();
 	}
 
+	/**
+	 * Remove the controls.
+	 */
 	public void removeCloseButton() {
 		this.maybeSetPButtonVisibility(true);
 		if (controls != null) {
@@ -1274,6 +1283,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				&& ((HasExtendedAV) geo).isShowingExtendedAV());
 	}
 
+	/**
+	 * Make this draggable. Works with mouse only.
+	 */
 	public void setDraggable() {
 		Widget draggableContent = main;
 		getElement().setAttribute("position", "absolute");
@@ -1288,7 +1300,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				getAV().dragStart(event, geo);
 			}
 		}, DragStartEvent.getType());
-
 	}
 
 	// @Override
@@ -1924,7 +1935,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		getLatexController().onEnter(keepFocus, false);
 	}
 
-	public void onEnterWithSliders() {
+	private void onEnterWithSliders() {
 		getLatexController().onEnter(true, true);
 	}
 
@@ -2279,6 +2290,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
+	/**
+	 * Run suggestion for the new geo.
+	 * 
+	 * @param nGeo
+	 *            new geo element
+	 */
 	public void runSuggestionCallbacks(GeoElementND nGeo) {
 		if (controls != null) {
 			controls.updateSuggestions(geo); // old geo
@@ -2289,6 +2306,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
+	/**
+	 * Set suggestion callback.
+	 * 
+	 * @param run
+	 *            callback
+	 * @param autoSliders
+	 *            whether to create sliders
+	 */
 	public void runAfterGeoCreated(AsyncOperation<GeoElementND> run,
 			boolean autoSliders) {
 		if (geo != null) {

@@ -2,6 +2,9 @@ package org.geogebra.web.html5.main;
 
 import com.google.gwt.user.client.Timer;
 
+/**
+ * Timer system for view repaints
+ */
 public class TimerSystemW {
 
 	/**
@@ -35,6 +38,12 @@ public class TimerSystemW {
 	private int idle;
 	private long browserSkipped = 0;
 
+	/**
+	 * Create new timer system
+	 * 
+	 * @param app
+	 *            application
+	 */
 	public TimerSystemW(AppW app) {
 		this.app = app;
 		this.idle = 0;
@@ -58,6 +67,8 @@ public class TimerSystemW {
 
 	/**
 	 * suggests views to repaint
+	 * 
+	 * @return whether at least one view needed repaint
 	 */
 	boolean suggestRepaint() {
 		if (app.getKernel() == null) {
@@ -66,6 +77,9 @@ public class TimerSystemW {
 		return app.getKernel().notifySuggestRepaint();
 	}
 
+	/**
+	 * Make sure the clock is ticking
+	 */
 	public void ensureRunning() {
 		if (!this.repaintTimer.isRunning()) {
 			repaintTimer.scheduleRepeating(MAIN_LOOP_DELAY);
@@ -79,9 +93,5 @@ public class TimerSystemW {
 
 		}
 	}
-
-	// static public long loopsNeeded(long delay){
-	// return delay/MAIN_LOOP_DELAY;
-	// }
 
 }

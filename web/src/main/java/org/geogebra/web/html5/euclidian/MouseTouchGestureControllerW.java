@@ -293,6 +293,14 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		CancelEventTimer.touchEventOccured();
 	}
 
+	/**
+	 * Handle two finger touch move.
+	 * 
+	 * @param touch
+	 *            first touch
+	 * @param touch2
+	 *            second touch
+	 */
 	public void twoTouchMove(Touch touch, Touch touch2) {
 		AbstractEvent first = PointerEvent.wrapEvent(touch, this);
 		AbstractEvent second = PointerEvent.wrapEvent(touch2, this);
@@ -309,6 +317,16 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		        + Math.pow(t1.getY() - t2.getY(), 2));
 	}
 
+	/**
+	 * Handle touch move event immediately.
+	 * 
+	 * @param event
+	 *            touch move
+	 * @param time
+	 *            current time
+	 * @param startCapture
+	 *            whether to start capturing
+	 */
 	public void onTouchMoveNow(PointerEvent event, long time,
 	        boolean startCapture) {
 		this.lastMoveEvent = time;
@@ -423,6 +441,14 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		}
 	}
 
+	/**
+	 * Handle double touch event.
+	 * 
+	 * @param touch
+	 *            first touch
+	 * @param touch2
+	 *            second touch
+	 */
 	public void twoTouchStart(Touch touch, Touch touch2) {
 		calculateEnvironment();
 		AbstractEvent first = PointerEvent.wrapEvent(touch, this);
@@ -480,6 +506,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.wrapMouseEntered();
 	}
 
+	/**
+	 * Handle mouse out event.
+	 * 
+	 * @param event
+	 *            mouse out event.
+	 */
 	public void onMouseOut(MouseOutEvent event) {
 		// cancel repaint to avoid closing newly opened tooltips
 		repaintTimer.cancel();
@@ -547,6 +579,16 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		waitingTouchMove = o;
 	}
 
+	/**
+	 * Handle mouse move event immediately.
+	 * 
+	 * @param event
+	 *            touch move
+	 * @param time
+	 *            current time
+	 * @param startCapture
+	 *            whether to start capturing
+	 */
 	public void onMouseMoveNow(PointerEvent event, long time,
 	        boolean startCapture) {
 		this.lastMoveEvent = time;
@@ -628,6 +670,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ignoreEvent = false;
 	}
 
+	/**
+	 * Handle pointer start event.
+	 * 
+	 * @param event
+	 *            pointer start
+	 */
 	public void onPointerEventStart(AbstractEvent event) {
 		if ((!AutoCompleteTextFieldW.isShowSymbolButtonFocused())
 		        && (!ec.isTextfieldHasFocus())) {

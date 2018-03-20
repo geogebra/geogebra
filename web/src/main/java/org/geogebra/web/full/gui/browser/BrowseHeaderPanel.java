@@ -51,6 +51,14 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 
 	private StandardButton logoutButton;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param browseGUI
+	 *            browsing UI
+	 * @param op
+	 *            network online / offline state
+	 */
 	public BrowseHeaderPanel(final App app, final BrowseGUI browseGUI,
 			NetworkOperation op) {
 		super(app.getLocalization(), browseGUI);
@@ -94,7 +102,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 		if (!op.isOnline()) {
 			render(false);
 		}
-
 	}
 
 	protected void clearSearchPanel() {
@@ -109,7 +116,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 		}
 		this.rightPanel.clear();
 		this.rightPanel.add(this.signInPanel);
-
 	}
 
 	private void onLogin(boolean successful, GeoGebraTubeUser user) {

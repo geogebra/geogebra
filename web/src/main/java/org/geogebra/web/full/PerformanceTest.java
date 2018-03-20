@@ -209,7 +209,7 @@ public class PerformanceTest implements EntryPoint {
 		// GeoGebraProfiler.init(new GeoGebraProfilerW());
 	}
 
-	public static void loadAppletAsync() {
+	private static void loadAppletAsync() {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			@Override

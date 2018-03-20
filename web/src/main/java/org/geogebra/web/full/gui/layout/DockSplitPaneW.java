@@ -557,6 +557,11 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 			splitPaneInfo = new ArrayList<>();
 		}
 
+		/**
+		 * @param rootPane
+		 *            split pane
+		 * @return description of the pane
+		 */
 		public DockSplitPaneData[] getInfo(DockSplitPaneW rootPane) {
 			splitPaneInfo.clear();
 
@@ -651,6 +656,10 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		}
 	}
 
+	/**
+	 * Check if divider is outside the component and move it to the middle if
+	 * needed
+	 */
 	public void checkDividerIsOutside() {
 
 		// w, h should contain the dimensions visible on screen

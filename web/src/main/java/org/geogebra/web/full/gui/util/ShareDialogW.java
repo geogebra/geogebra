@@ -45,6 +45,12 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private Localization loc;
 	private TextBox link;
 
+	/**
+	 * Create a new share dialog.
+	 * 
+	 * @param app
+	 *            application
+	 */
 	public ShareDialogW(final AppW app) {
 		super(app.getPanel(), app);
 		this.app = app;

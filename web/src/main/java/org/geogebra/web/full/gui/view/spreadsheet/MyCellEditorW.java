@@ -229,6 +229,11 @@ public class MyCellEditorW implements BaseCellEditor {
 		}
 	}
 
+	/**
+	 * Stops editing and tries to process input.
+	 * 
+	 * @return whether processing input was successful
+	 */
 	public boolean stopCellEditing() {
 		if (autoCompleteTextField.hasDummyCursor()) {
 			autoCompleteTextField.removeDummyCursor();

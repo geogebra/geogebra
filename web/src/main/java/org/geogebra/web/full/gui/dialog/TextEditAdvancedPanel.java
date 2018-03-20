@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.gui.util.TableSymbolsLaTeX;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -48,9 +49,10 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author G. Sturr
  * 
  */
-public class TextEditAdvancedPanel extends TabLayoutPanel {
+public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 
 	private AppW app;
+	/** Test edit panel */
 	protected ITextEditPanel editPanel;
 
 	private VerticalPanel geoPanel;
@@ -128,6 +130,9 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		});
 	}
 
+	/**
+	 * @return preview panel
+	 */
 	public TextPreviewPanelW getPreviewer() {
 		if (previewer == null) {
 			previewer = new TextPreviewPanelW(app.getKernel());
@@ -136,6 +141,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		return previewer;
 	}
 
+	@Override
 	public void setLabels() {
 		previewLabel.setText(loc.getMenu("Preview"));
 		latexLabel.setText(loc.getMenu("LaTeXFormula"));
@@ -162,6 +168,9 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		});*/
 	}
 
+	/**
+	 * Update list of geos that can be inserted
+	 */
 	public void updateGeoList() {
 		geoPanel.clear();
 		Object[] datas = getGeoObjectList(editPanel.getEditGeo());
@@ -173,13 +182,20 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 
 					@Override
 					public void handle(String s) {
-						editPanel.insertGeoElement(app.getKernel().lookupLabel(
-								s));
+						insertGeo(s);
 
 					}
 				}, geoColors);
 		symTable.getColumnFormatter().setStyleName(0, "geoSelectFirst");
 		geoPanel.add(symTable);
+	}
+
+	/**
+	 * @param label
+	 *            geo label
+	 */
+	protected void insertGeo(String label) {
+		editPanel.insertGeoElement(app.getKernel().lookupLabel(label));
 	}
 
 	/**

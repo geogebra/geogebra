@@ -16,6 +16,12 @@ public class ButtonPopupMenu extends GPopupPanel implements HasKeyboardPopup {
 	FocusPanel container = null;
 	VerticalPanel panel = null;
 	
+	/**
+	 * @param root
+	 *            root for popup
+	 * @param app
+	 *            application
+	 */
 	public ButtonPopupMenu(Panel root, App app) {
 		super(root, app);
 		container = new FocusPanel();

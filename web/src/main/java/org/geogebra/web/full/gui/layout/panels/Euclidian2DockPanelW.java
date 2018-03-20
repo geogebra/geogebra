@@ -29,6 +29,12 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 	Canvas eview1 = null; // static foreground
 	private int idx;
 
+	/**
+	 * @param stylebar
+	 *            allow stylebar?
+	 * @param idx
+	 *            index for app.getEuclidianView2(idx)
+	 */
 	public Euclidian2DockPanelW(boolean stylebar, int idx) {
 		super(App.VIEW_EUCLIDIAN2, // view id
 				"DrawingPad2", // view title

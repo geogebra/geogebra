@@ -17,6 +17,12 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 	private String title;
 	private Localization loc;
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @param title
+	 *            title
+	 */
 	public ListBoxPanel(Localization loc, final String title) {
 		this.loc = loc;
 		this.title = title;

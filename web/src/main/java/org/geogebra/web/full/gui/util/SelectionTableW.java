@@ -86,6 +86,10 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		}
 	}
 
+	/**
+	 * @param si
+	 *            selected items
+	 */
 	public void initSelectedItems(boolean[] si) {
 		selecteditems = si;
 		clearSelection(0);

@@ -589,6 +589,12 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		center(0);
 	}
 	
+	/**
+	 * Center and resize this within area not covered by keyboard.
+	 * 
+	 * @param keyboardHeight
+	 *            keyboard height
+	 */
 	public void centerAndResize(double keyboardHeight){
 		Element childElement = super.getContainerElement()
 				.getFirstChildElement();

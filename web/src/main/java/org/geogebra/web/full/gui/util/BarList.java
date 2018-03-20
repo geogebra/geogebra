@@ -16,6 +16,12 @@ public class BarList extends ListBox {
 		loc = app.getLocalization();
 	}
 
+	/**
+	 * Update visibility and content of this panel.
+	 * 
+	 * @param enabled
+	 *            whether this should be visible
+	 */
 	public void update(boolean enabled) {
 		setVisible(enabled);
 		if (!enabled) {
@@ -29,10 +35,8 @@ public class BarList extends ListBox {
 			addItem(app.getLocalization().getPlain("BarA", i + ""));
 		}
 		if (idx != -1) {
-
 			setSelectedIndex(idx);
 		}
-
 	}
 
 	public int getBarCount() {

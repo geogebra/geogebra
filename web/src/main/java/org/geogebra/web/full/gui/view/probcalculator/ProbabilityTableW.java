@@ -136,16 +136,16 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 
 		if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorView.PROB_INTERVAL) {
-			String lowStr = table.getValueAt(selRow[0], 0);
-			String highStr = table.getValueAt(selRow[selRow.length - 1], 0);
+			String lowStr = table.getText(selRow[0], 0);
+			String highStr = table.getText(selRow[selRow.length - 1], 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low, high);
 		} else if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
-			String lowStr = statTable.getTable().getValueAt(1, 0);
+			String lowStr = statTable.getTable().getText(1, 0);
 			String highStr = statTable.getTable()
-					.getValueAt(selRow[selRow.length - 1], 0);
+					.getText(selRow[selRow.length - 1], 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low, high);
@@ -165,9 +165,9 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			// table.getSelectionModel().addListSelectionListener(this);
 		} else if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorView.PROB_RIGHT) {
-			String lowStr = statTable.getTable().getValueAt(selRow[0], 0);
+			String lowStr = statTable.getTable().getText(selRow[0], 0);
 			int maxRow = statTable.getTable().getRowCount() - 1;
-			String highStr = statTable.getTable().getValueAt(maxRow, 0);
+			String highStr = statTable.getTable().getText(maxRow, 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low, high);

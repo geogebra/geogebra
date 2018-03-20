@@ -72,10 +72,24 @@ public class GBufferedImageW implements GBufferedImage {
 		// img = getImageElement();
 	}
 
+	/**
+	 * New image using with a blank canvas
+	 * 
+	 * @param width
+	 *            canvas width
+	 * @param height
+	 *            canvas height
+	 * @param pixelRatio
+	 *            CSS pixel ratio
+	 */
 	public GBufferedImageW(int width, int height, double pixelRatio) {
 		this(width, height, pixelRatio, false);
 	}
 
+	/**
+	 * @param imageElement
+	 *            img element
+	 */
 	public GBufferedImageW(ImageElement imageElement) {
 		if (imageElement != null) {
 			img = imageElement;
@@ -84,7 +98,12 @@ public class GBufferedImageW implements GBufferedImage {
 		}
 	}
 
-	// this clones this bufferedimage!
+	/**
+	 * New image using clone of the canvas
+	 * 
+	 * @param cv
+	 *            canvas with original image
+	 */
 	public GBufferedImageW(Canvas cv) {
 		if (cv != null) {// This should not called with null
 			canv = makeCanvas();

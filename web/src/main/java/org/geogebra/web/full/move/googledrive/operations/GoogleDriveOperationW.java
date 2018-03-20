@@ -272,6 +272,9 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	}
 
+	/**
+	 * Try to login, show dialog if needed
+	 */
 	public void requestDriveLogin() {
 		if (this.driveLoaded) {
 			this.login(true);

@@ -22,6 +22,19 @@ public class PointStylePopup extends PopupMenuButtonW
 	private PointStyleModel model;
 	private boolean euclidian3D;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param mode
+	 *            mode
+	 * @param hasSlider
+	 *            whether to include size slider
+	 * @param model
+	 *            model
+	 * @param isTealBorder
+	 *            whether to use MOW teal
+	 * @return point stylle popup
+	 */
 	public static PointStylePopup create(AppW app, int mode, boolean hasSlider,
 			PointStyleModel model, boolean isTealBorder) {
 		

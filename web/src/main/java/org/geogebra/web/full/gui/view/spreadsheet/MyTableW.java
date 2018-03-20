@@ -720,6 +720,15 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * editorList = new MyCellEditorList(); return editorList; }
 	 */
 
+	/**
+	 * Get element type of given cell
+	 * 
+	 * @param row
+	 *            row
+	 * @param column
+	 *            column
+	 * @return element type
+	 */
 	public GeoClass getCellEditorType(int row, int column) {
 		GPoint p = new GPoint(column, row);
 		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p)
@@ -917,6 +926,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
+	/**
+	 * Select all cells
+	 */
 	public void selectAll() {
 
 		setSelectionType(MyTableInterface.CELL_SELECT);
@@ -2363,6 +2375,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		defaultTableCellRenderer.updateCellFormat(geo, row, column);
 	}
 
+	/**
+	 * Update format of all cells.
+	 */
 	public void updateAllCellFormats() {
 		for (int row = 0; row < getRowCount(); row++) {
 			for (int column = 0; column < getColumnCount(); column++) {
@@ -2381,6 +2396,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
+	/**
+	 * Update format of given cells.
+	 * 
+	 * @param cellRangeList
+	 *            cells to update
+	 */
 	public void updateCellFormat(ArrayList<CellRange> cellRangeList) {
 		for (int i = 0; i < cellRangeList.size(); i++) {
 			CellRange cr = cellRangeList.get(i);
@@ -2401,6 +2422,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
+	/**
+	 * Check we can show blue dot: not editing, selection has no fixed cells.
+	 * 
+	 * @return whether to show blue dot
+	 */
 	public boolean showCanDragBlueDot() {
 		boolean showBlueDot = !isEditing();
 
@@ -2424,6 +2450,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return false;
 	}
 
+	/**
+	 * Render selection with a delay.
+	 */
 	public void renderSelectionDeferred() {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {

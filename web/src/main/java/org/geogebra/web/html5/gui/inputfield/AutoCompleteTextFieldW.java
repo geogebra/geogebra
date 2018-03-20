@@ -749,6 +749,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	}
 
+	/**
+	 * Add dummy cursor for Android/iOS
+	 * 
+	 * @param caretPos
+	 *            cursor position
+	 */
 	public void addDummyCursor(int caretPos) {
 		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			return;
@@ -815,7 +821,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return dict;
 	}
 
-	// returns the word at position pos in text
+	/**
+	 * Find a word in text at given position.
+	 * 
+	 * @param text
+	 *            input text
+	 * @param pos
+	 *            initial position
+	 * @return the word at position pos in text
+	 */
 	public static String getWordAtPos(String text, int pos) {
 		// search to the left
 		int wordStart = pos - 1;

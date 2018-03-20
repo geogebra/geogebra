@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog.image;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.dialog.DialogBoxW;
@@ -14,7 +15,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public abstract class UploadImageDialog extends DialogBoxW implements ClickHandler {
+public abstract class UploadImageDialog extends DialogBoxW
+		implements ClickHandler, SetLabels {
 
 	protected HorizontalPanel mainPanel;
 	protected VerticalPanel listPanel;
@@ -32,6 +34,14 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 	int previewHeight;
 	int previewWidth;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param previewWidth
+	 *            preview width
+	 * @param previewHeight
+	 *            preview height
+	 */
 	public UploadImageDialog(AppW app, int previewWidth, int previewHeight) {
 		super(app.getPanel(), app);
 		this.app = app;
@@ -86,6 +96,7 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 		upload.addClickHandler(this);
 	}
 
+	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		getCaption().setText(loc.getMenu("Image"));

@@ -11,11 +11,19 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.CustomButton;
 
+/**
+ * Provides accessibility features (tab handling) for a button
+ *
+ */
 public class AccessibilityButton implements AccessibilityInterface {
 	private CustomButton button;
 	private List<TabHandler> tabHandlers;
 	private boolean ignoreTab = false;
 	
+	/**
+	 * @param button
+	 *            wrapped button
+	 */
 	public AccessibilityButton(CustomButton button) {
 		this.button = button;
 		tabHandlers = new ArrayList<>();
@@ -26,6 +34,13 @@ public class AccessibilityButton implements AccessibilityInterface {
 		tabHandlers.add(handler);
 	}
 
+	/**
+	 * @param event
+	 *            browser event
+	 * @param app
+	 *            application
+	 * @return whether event was handled
+	 */
 	public boolean handleBrowserEvent(Event event, App app) {
 		int eventGetType = DOM.eventGetType(event);
 		if (eventGetType == Event.ONKEYDOWN) {

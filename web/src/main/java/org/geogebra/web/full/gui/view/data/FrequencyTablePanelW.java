@@ -5,6 +5,9 @@ import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * Frequency table for Web
+ */
 public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfaceW {
 
 	private String[] strHeader;
@@ -14,12 +17,21 @@ public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfac
 	
 	// private StatPanelSettings settings;
 
+	/**
+	 * Create new frequency table
+	 */
 	public FrequencyTablePanelW() {
 		statTable = new StatTableW();
 		statTable.setStyleName("frequencyTable");
 		add(statTable);
 	}
 
+	/**
+	 * @param algo
+	 *            frequency table algorithm
+	 * @param useClasses
+	 *            whether to use classes
+	 */
 	public void setTableFromGeoFrequencyTable(AlgoFrequencyTable algo,
 			boolean useClasses) {
 		String[] strValue = algo.getValueString();

@@ -1479,6 +1479,9 @@ public abstract class DockPanelW extends ResizeComposite
 		}
 	}
 
+	/**
+	 * @return whether stylebar is empty
+	 */
 	public boolean isStyleBarEmpty() {
 		return false;
 	}
@@ -1600,7 +1603,6 @@ public abstract class DockPanelW extends ResizeComposite
 
 	public void addToToolbar(int mode) {
 		this.toolbarString = ToolBar.addMode(toolbarString, mode);
-
 	}
 
 	public void setCloseButtonVisible(boolean isVisible) {
@@ -1683,6 +1685,9 @@ public abstract class DockPanelW extends ResizeComposite
 
 	}
 
+	/**
+	 * Add reset icon to the stylebar
+	 */
 	public void showResetIcon() {
 		StandardButton resetIcon = new StandardButton(
 				GuiResourcesSimple.INSTANCE.viewRefresh(), null, 24, app);
@@ -1702,6 +1707,10 @@ public abstract class DockPanelW extends ResizeComposite
 		}
 	}
 
+	/**
+	 * @param toolMode
+	 *            whether unbundled toolbar is shown in this panel
+	 */
 	public void setToolMode(boolean toolMode) {
 		// do nothing by default
 	}

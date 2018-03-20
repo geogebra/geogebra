@@ -292,6 +292,12 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		updateGUI();
 	}
 
+	/**
+	 * Handle input event.
+	 * 
+	 * @param source
+	 *            input field
+	 */
 	public void actionPerformed(Object source) {
 		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);

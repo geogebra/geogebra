@@ -618,6 +618,12 @@ public class ModeToggleMenuW extends ListItem
 		return tbutton;
 	}
 
+	/**
+	 * Add modes to the menu, ignore horizontal separators.
+	 * 
+	 * @param menu2
+	 *            list of modes
+	 */
 	public void addModes(Vector<Integer> menu2) {
 		if (this.submenu == null) {
 			this.buildGui();

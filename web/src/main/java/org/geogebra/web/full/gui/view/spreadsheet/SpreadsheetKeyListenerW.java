@@ -19,6 +19,9 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+/**
+ * Key event handler for spreadsheet
+ */
 public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler {
 
 	private AppW app;
@@ -29,8 +32,13 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 	private MyCellEditorW editor;
 	boolean keyDownSomething = false;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param table
+	 *            table
+	 */
 	public SpreadsheetKeyListenerW(AppW app, MyTableW table) {
-
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.table = table;
@@ -353,7 +361,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				table.changeSelection(pos.y, pos.x - 1, shift);
 			}
 		}
-
 	}
 
 	private void handleKeyUp(boolean ctrl, boolean shift,
@@ -611,6 +618,10 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		});
 	}
 
+	/**
+	 * @param elem
+	 *            element for catching copy/paste events
+	 */
 	public native void addPasteHandlerTo(Element elem) /*-{
 		var self = this;
 		elem.onpaste = function(event) {
@@ -647,6 +658,10 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		}
 	}-*/;
 
+	/**
+	 * @param text
+	 *            pasted text
+	 */
 	public void onPaste(String text) {
 		boolean storeUndo = table.paste(text);
 		view.rowHeaderRevalidate();
@@ -655,6 +670,12 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		}
 	}
 
+	/**
+	 * Handle copy
+	 * 
+	 * @param altDown
+	 *            whether alt is pressed
+	 */
 	public void onCopy(final boolean altDown) {
 		// the default action of the browser just modifies
 		// the textarea of the AdvancedFocusPanel, does
@@ -673,6 +694,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		});
 	}
 
+	/** Handle Cut */
 	public void onCut() {
 		// the default action of the browser just modifies
 		// the textarea of the AdvancedFocusPanel, does

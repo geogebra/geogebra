@@ -621,6 +621,14 @@ public class RadioTreeItemController implements ClickHandler,
 		return false;
 	}
 
+	/**
+	 * Update selection with this geo.
+	 * 
+	 * @param separated
+	 *            wehther to keep previously selected geos (ctrl pressed)
+	 * @param continous
+	 *            whether tokeep it continuous (shift pressed)
+	 */
 	public void updateSelection(boolean separated, boolean continous) {
 		GeoElement geo = item.geo;
 		if (geo == null) {

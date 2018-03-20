@@ -53,6 +53,11 @@ public class Browser {
 		return nativeCheckWorkerSupport(workerpath);
 	}
 
+	/**
+	 * @param workerpath
+	 *            path to js folder of this module
+	 * @return whether workers are supported
+	 */
 	public static native boolean nativeCheckWorkerSupport(String workerpath) /*-{
 		// Worker support in Firefox is incompatible at the moment for zip.js,
 		// see http://gildas-lormeau.github.com/zip.js/ for details:
@@ -148,6 +153,11 @@ public class Browser {
 		return !Browser.isIE() || Browser.isHTTP();
 	}
 
+	/**
+	 * @param thumb
+	 *            original URL
+	 * @return URL using appropriate protocol (data or https)
+	 */
 	public static String normalizeURL(String thumb) {
 		if (thumb.startsWith("data:")) {
 			return thumb;
@@ -225,6 +235,16 @@ public class Browser {
 
 	}-*/;
 
+	/**
+	 * @param parent
+	 *            element to be scaled
+	 * @param externalScale
+	 *            scale
+	 * @param x
+	 *            origin x-coord in %
+	 * @param y
+	 *            origin y-coord in %
+	 */
 	public static void scale(Element parent, double externalScale, int x, int y) {
 		if (externalScale < 0) {
 			return;
@@ -244,9 +264,11 @@ public class Browser {
 		parent.getStyle().setProperty("mozTransformOrigin", pos);
 		parent.getStyle().setProperty("webkitTransformOrigin", pos);
 		parent.getStyle().setProperty("transformOrigin", pos);
-
 	}
 
+	/**
+	 * @return whether webcam input is supported in the browser
+	 */
 	public static native boolean supportsWebcam() /*-{
 		if ($wnd.navigator.getUserMedia || $wnd.navigator.webkitGetUserMedia
 				|| $wnd.navigator.mozGetUserMedia
@@ -269,6 +291,9 @@ public class Browser {
 				.test($wnd.navigator.userAgent));
 	}-*/;
 
+	/**
+	 * @return CSS pixel ratio
+	 */
 	public static native double getPixelRatio() /*-{
 		var testCanvas = document.createElement("canvas"), testCtx = testCanvas
 				.getContext("2d");
@@ -477,6 +502,12 @@ public class Browser {
 		return $wnd.navigator.userAgent.indexOf("Edge") > -1;
 	}-*/;
 
+	/**
+	 * @param full
+	 *            whether to go fullscreen
+	 * @param element
+	 *            element to be scaled
+	 */
 	public static native void toggleFullscreen(boolean full,
 			JavaScriptObject element)/*-{
 		var el = element || $doc.documentElement;
@@ -506,6 +537,12 @@ public class Browser {
 		}
 	}-*/;
 
+	/**
+	 * Register handler for fullscreen event.
+	 * 
+	 * @param callback
+	 *            callback for fullscreen event
+	 */
 	public static native void addFullscreenListener(
 			StringHandler callback) /*-{
 		var prefixes = [ "webkit", "ms", "moz" ];
@@ -523,6 +560,9 @@ public class Browser {
 
 	}-*/;
 
+	/**
+	 * @return whether current window covers whole screen
+	 */
 	public static native boolean isCoveringWholeScreen()/*-{
 		var height = $wnd.innerHeight;
 		var width = $wnd.innerWidth;

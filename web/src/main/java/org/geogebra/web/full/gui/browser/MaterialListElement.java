@@ -780,6 +780,12 @@ public class MaterialListElement extends FlowPanel
 		Browser.openTubeWindow(material.getURL());
 	}
 
+	/**
+	 * Sets the material and updates UI.
+	 * 
+	 * @param mat
+	 *            material
+	 */
 	public void setMaterial(Material mat) {
 		this.material = mat;
 

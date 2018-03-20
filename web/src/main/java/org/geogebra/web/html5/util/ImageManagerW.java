@@ -67,6 +67,15 @@ public class ImageManagerW extends ImageManager {
 		}
 	}
 
+	/**
+	 * Image inserted by user as img element.
+	 * 
+	 * @param fileName
+	 *            filename
+	 * @param app1
+	 *            application
+	 * @return image element corresponding to filename
+	 */
 	public ImageElement getExternalImage(String fileName, AppW app1) {
 		ImageElement match = getMatch(fileName);
 		if (match == null) {
@@ -130,6 +139,14 @@ public class ImageManagerW extends ImageManager {
 		}
 	}
 
+	/**
+	 * Load a single image.
+	 * 
+	 * @param imageFileName
+	 *            filename
+	 * @param geoi
+	 *            image for construction
+	 */
 	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
 		ImageElement img = getExternalImage(imageFileName, (AppW) geoi
 				.getKernel().getApplication());
@@ -141,6 +158,14 @@ public class ImageManagerW extends ImageManager {
 		img.setSrc(externalImageSrcs.get(imageFileName));
 	}
 
+	/**
+	 * Load all images and tun callback after all are loaded.
+	 * 
+	 * @param app
+	 *            app
+	 * @param run
+	 *            image load callback
+	 */
 	public void triggerImageLoading(final AppW app,
 			final Runnable run) {
 
@@ -168,6 +193,11 @@ public class ImageManagerW extends ImageManager {
 		return !externalImageTable.isEmpty();
 	}
 
+	/**
+	 * @param resource
+	 *            resource
+	 * @return img element corresponding to the resource
+	 */
 	public static ImageElement getInternalImage(ImageResource resource) {
 		ImageElement img = Document.get().createImageElement();
 		img.setSrc(resource.getSafeUri().asString());
@@ -190,6 +220,9 @@ public class ImageManagerW extends ImageManager {
 		        .asString();
 	}
 
+	/**
+	 * @return whether to prevent images from being auxiliary
+	 */
 	public boolean isPreventAuxImage() {
 		if (preventAuxImage) {
 			preventAuxImage = false;
@@ -202,6 +235,12 @@ public class ImageManagerW extends ImageManager {
 		this.preventAuxImage = value;
 	}
 
+	/**
+	 * Convert all images to saveable format (png or svg).
+	 * 
+	 * @param cons
+	 *            construction
+	 */
 	public void adjustConstructionImages(Construction cons) {
 		// save all GeoImage images
 		// TreeSet images =
@@ -225,6 +264,15 @@ public class ImageManagerW extends ImageManager {
 		}
 	}
 
+	/**
+	 * Prefix filename with a hash.
+	 * 
+	 * @param imgFileName
+	 *            original filename
+	 * @param fileStr
+	 *            file content (base64)
+	 * @return filename with MD5 hash as directory
+	 */
 	public static String getMD5FileName(String imgFileName, String fileStr) {
 		MD5EncrypterGWTImpl md5e = App.getMD5EncrypterStatic();
 		String zipDirectory = md5e.encrypt(fileStr);

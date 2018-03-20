@@ -123,6 +123,12 @@ public class GridModel {
 		listener.addRow(row);
 	}
 	
+	/**
+	 * Add a row with given cell contents.
+	 * 
+	 * @param values
+	 *            row content
+	 */
 	public void addAsRow(List<String> values) {
 		List<DataCell> row = new ArrayList<>();
 		for (Object value: values)  {
@@ -132,6 +138,10 @@ public class GridModel {
 		addRow(row);
 	}
 
+	/**
+	 * @param names
+	 *            header titles
+	 */
 	public void setHeaders(String[] names) {
 		headers.clear();
 		for (String title: names) {
@@ -160,6 +170,10 @@ public class GridModel {
 		return cells;
 	}
 	
+	/**
+	 * @param rows
+	 *            number of rows
+	 */
 	public void setRowCount(int rows) {
 		if (rows == rowCount) {
 			return;
@@ -192,6 +206,9 @@ public class GridModel {
 		listener.appendColumn(name);
 	}
 
+	/**
+	 * Remove last column
+	 */
 	public void removeColumn() {
 		// Log.debug("removeColumn");
 		int col = headers.size() - 1;

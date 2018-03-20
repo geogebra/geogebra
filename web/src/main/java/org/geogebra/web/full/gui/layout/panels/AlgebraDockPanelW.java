@@ -19,6 +19,9 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Classic (no toolbar) dock panel for algebra
+ */
 public class AlgebraDockPanelW extends DockPanelW
 		implements AlgebraPanelInterface {
 
@@ -27,6 +30,9 @@ public class AlgebraDockPanelW extends DockPanelW
 	private AlgebraViewW aview = null;
 	private int savedScrollPosition;
 
+	/**
+	 * Create new dockapanel for algebra
+	 */
 	public AlgebraDockPanelW() {
 		super(
 				App.VIEW_ALGEBRA,	// view id 
@@ -59,6 +65,10 @@ public class AlgebraDockPanelW extends DockPanelW
 		return aview.getStyleBar(true);
 	}
 
+	/**
+	 * @param av
+	 *            algebra view
+	 */
 	public void setAlgebraView(final AlgebraViewW av) {
 		if (av != aview) {
 			if (aview != null && simplep != null) {
@@ -94,6 +104,9 @@ public class AlgebraDockPanelW extends DockPanelW
 		}
 	}
 
+	/**
+	 * @return scroll panel
+	 */
 	public ScrollPanel getAbsolutePanel() {
 		return algebrap;
 	}
@@ -119,6 +132,10 @@ public class AlgebraDockPanelW extends DockPanelW
 		return getResources().menu_icon_algebra();
 	}
 
+	/**
+	 * @param position
+	 *            distance from top
+	 */
 	public void scrollTo(int position) {
 		if (this.algebrap != null) {
 			this.algebrap.setVerticalScrollPosition(position);
@@ -207,6 +224,15 @@ public class AlgebraDockPanelW extends DockPanelW
 		return getResources().styleBar_algebraView();
 	}
 
+	/**
+	 * Start editing and return keyboard adapter.
+	 * 
+	 * @param aview
+	 *            algebra view
+	 * @param ml
+	 *            fallback
+	 * @return keyboard listener for edited item or fallback
+	 */
 	public static MathKeyboardListener updateKeyboardListenerForView(
 			AlgebraViewW aview, MathKeyboardListener ml) {
 		if (aview != null && aview.getInputTreeItem() != ml) {

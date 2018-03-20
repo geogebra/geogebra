@@ -765,6 +765,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 	}
 
+	/**
+	 * Update xmin, xmax, ymin, ymax and scale inputs
+	 */
 	public void updateBounds() {
 
 		updateMinMax();

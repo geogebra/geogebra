@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
@@ -42,7 +43,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * 
  */
 public class TextEditPanel extends VerticalPanel
-		implements ClickHandler, FocusHandler, ITextEditPanel {
+		implements ClickHandler, FocusHandler, ITextEditPanel, SetLabels {
 
 	protected AppW app;
 	protected DynamicTextProcessor dTProcessor;
@@ -107,7 +108,6 @@ public class TextEditPanel extends VerticalPanel
 
 		// force a dummy geo to be created on first use
 		setEditGeo(null);
-
 	}
 
 	// ======================================================
@@ -126,7 +126,6 @@ public class TextEditPanel extends VerticalPanel
 			previewer.updateFonts();
 			advancedPanel.updateGeoList();
 			updatePreviewPanel();
-
 		}
 	}
 
@@ -193,8 +192,8 @@ public class TextEditPanel extends VerticalPanel
 
 	}
 
+	@Override
 	public void setLabels() {
-
 		disclosurePanel.getHeaderTextAccessor()
 				.setText(loc.getMenu("Advanced"));
 		if (!app.has(Feature.DIALOG_DESIGN)) {
@@ -206,7 +205,6 @@ public class TextEditPanel extends VerticalPanel
 		if (advancedPanel != null) {
 			advancedPanel.setLabels();
 		}
-
 	}
 
 	private void registerListeners() {

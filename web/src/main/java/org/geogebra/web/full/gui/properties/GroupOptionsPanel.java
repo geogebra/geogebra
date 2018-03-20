@@ -20,6 +20,14 @@ public class GroupOptionsPanel implements IOptionPanel {
 	private Localization loc;
 	private GroupModel model;
 
+	/**
+	 * @param title
+	 *            group title
+	 * @param loc
+	 *            localization
+	 * @param model
+	 *            model
+	 */
 	public GroupOptionsPanel(final String title, Localization loc,
 			GroupModel model) {
 		super();
@@ -38,6 +46,12 @@ public class GroupOptionsPanel implements IOptionPanel {
 		setTitleLabel();
 	}
 
+	/**
+	 * Add panel to the group.
+	 * 
+	 * @param panel
+	 *            panel
+	 */
 	public void add(IOptionPanel panel) {
 		group.add(panel.getWidget());
 		panels.add(panel);
@@ -52,6 +66,9 @@ public class GroupOptionsPanel implements IOptionPanel {
 
 	}
 
+	/**
+	 * Update title
+	 */
 	protected void setTitleLabel() {
 		titleLabel.setText(getTitle());
 	}

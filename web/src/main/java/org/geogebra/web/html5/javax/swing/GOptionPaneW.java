@@ -339,7 +339,7 @@ public class GOptionPaneW extends GDialogBox
 	/**
 	 * Launches a confirm dialog.
 	 */
-	public int showConfirmDialog(App app, String message, String title,
+	public void showConfirmDialog(App app, String message, String title,
 			int optionType, int messageType, Image icon) {
 
 		this.mApp = app;
@@ -356,12 +356,28 @@ public class GOptionPaneW extends GDialogBox
 
 		showDialog(true);
 		showDialog(true);
-
-		return returnOption;
-
 	}
 
-	public int showConfirmDialog(App app, ScrollPanel scrollPanel, String title,
+	/**
+	 * @param app
+	 *            application
+	 * @param scrollPanel
+	 *            content scroll pane
+	 * @param title
+	 *            title
+	 * @param optionType
+	 *            options
+	 * @param messageType
+	 *            message type
+	 * @param okLabel
+	 *            label for OK button
+	 * @param icon
+	 *            icon
+	 * @param returnHandler
+	 *            handler for clicked buttons
+	 */
+	public void showConfirmDialog(App app, ScrollPanel scrollPanel,
+			String title,
 			int optionType, int messageType, String okLabel, Image icon,
 			AsyncOperation<String[]> returnHandler) {
 
@@ -381,9 +397,6 @@ public class GOptionPaneW extends GDialogBox
 		this.addStyleName("centerDialog");
 		showDialog(true);
 		showDialog(true);
-
-		return returnOption;
-
 	}
 
 	/**
@@ -429,7 +442,7 @@ public class GOptionPaneW extends GDialogBox
 	 */
 	public void showInputDialog(App app, String message,
 			String initialSelectionValue, Object icon,
-			AsyncOperation<String[]> handler, boolean autoComplete) {
+			AsyncOperation<String[]> handler) {
 
 		this.mApp = app;
 		this.mMessage = message;
@@ -442,10 +455,25 @@ public class GOptionPaneW extends GDialogBox
 		this.returnHandler = handler;
 		requiresReturnValue = true;
 
-		showDialog(autoComplete);
-
+		showDialog(true);
 	}
 
+	/**
+	 * Simple download as dialog.
+	 * 
+	 * @param app
+	 *            application
+	 * @param title
+	 *            title
+	 * @param initialSelectionValue
+	 *            initial input value (filename)
+	 * @param icon
+	 *            icon
+	 * @param handler
+	 *            button handler
+	 * @param okLabel
+	 *            label for OK
+	 */
 	public void showSaveDialog(App app, String title,
 			String initialSelectionValue, Object icon,
 			AsyncOperation<String[]> handler, String okLabel) {
@@ -493,15 +521,6 @@ public class GOptionPaneW extends GDialogBox
 		requiresReturnValue = true;
 
 		showDialog(true);
-
-	}
-
-	public void showInputDialog(App app, String message,
-			String initialSelectionValue, Object icon,
-			AsyncOperation<String[]> handler) {
-
-		showInputDialog(app, message, initialSelectionValue, icon, handler,
-				true);
 
 	}
 

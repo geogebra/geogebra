@@ -619,8 +619,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 	}
 
+	/**
+	 * Update row heights from settings.
+	 */
 	public void setRowHeightsFromSettings() {
-
 		// first set all row heights the same
 		int prefHeight = Math.max(settings().preferredRowHeight(),
 				(int) (app.getFontSizeWeb() * 1.5));
@@ -652,98 +654,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// ===============================================================
 	// Data Import & File Browser
 	// ===============================================================
-
-	/*
-	 * public boolean loadSpreadsheetFromURL(File f) {
-	 * 
-	 * boolean succ = false;
-	 * 
-	 * URL url = null; try { url = f.toURI().toURL(); succ =
-	 * loadSpreadsheetFromURL(url); }
-	 * 
-	 * catch (IOException ex) { ex.printStackTrace(); }
-	 * 
-	 * return succ; }
-	 * 
-	 * public boolean loadSpreadsheetFromURL(URL url) {
-	 * 
-	 * boolean succ = table.copyPasteCut.pasteFromURL(url); if (succ) {
-	 * app.storeUndoInfo(); } return succ; }
-	 */
-
-	/*
-	 * public FileBrowserPanel getFileBrowser() { if (fileBrowser == null &&
-	 * AppD.hasFullPermissions()) { fileBrowser = new FileBrowserPanel(this);
-	 * fileBrowser.setMinimumSize(new Dimension(50, 0)); // initFileBrowser();
-	 * // fileBrowser.setRoot(settings.initialPath(), //
-	 * settings.initialBrowserMode()); } return fileBrowser; }
-	 */
-
-	/*
-	 * public void setShowFileBrowser(boolean showFileBrowser) {
-	 * 
-	 * if (showFileBrowser) { splitPane.setLeftComponent(getFileBrowser());
-	 * splitPane.setDividerLocation(defaultDividerLocation);
-	 * splitPane.setDividerSize(4); initFileBrowser();
-	 * 
-	 * } else { splitPane.setLeftComponent(null);
-	 * splitPane.setLastDividerLocation(splitPane.getDividerLocation());
-	 * splitPane.setDividerLocation(0); splitPane.setDividerSize(0); }
-	 * 
-	 * }
-	 */
-
-	/*
-	 * public void minimizeBrowserPanel() { splitPane.setDividerLocation(10);
-	 * splitPane.setDividerSize(0);
-	 * splitPane.setLeftComponent(getRestorePanel()); }
-	 */
-
-	/*
-	 * public void restoreBrowserPanel() {
-	 * splitPane.setDividerLocation(splitPane.getLastDividerLocation());
-	 * splitPane.setDividerSize(4);
-	 * splitPane.setLeftComponent(getFileBrowser());
-	 * 
-	 * }
-	 */
-
-	/*
-	 * public void setBrowserDefaults(boolean doRestore) {
-	 * 
-	 * if (doRestore) { settings().setInitialFilePath(settings().defaultFile());
-	 * settings().setInitialURL(DEFAULT_URL);
-	 * settings().setInitialBrowserMode(FileBrowserPanel.MODE_FILE); //
-	 * initFileBrowser();
-	 * 
-	 * } else { settings().setInitialFilePath(fileBrowser.getRootString());
-	 * settings().setInitialBrowserMode(fileBrowser.getMode()); } }
-	 */
-
-	/*
-	 * public void initFileBrowser() { // don't init file browser without full
-	 * permissions (e.g. unsigned // applets) if (!AppD.hasFullPermissions() ||
-	 * !settings().showBrowserPanel()) return;
-	 * 
-	 * if (settings().initialBrowserMode() == FileBrowserPanel.MODE_FILE)
-	 * setFileBrowserDirectory(settings().initialFilePath(), settings()
-	 * .initialBrowserMode()); else
-	 * setFileBrowserDirectory(settings().initialURL(), settings()
-	 * .initialBrowserMode()); }
-	 */
-
-	/*
-	 * public boolean setFileBrowserDirectory(String rootString, int mode) {
-	 * settings().setInitialBrowserMode(mode); return
-	 * getFileBrowser().setRoot(rootString, mode); }
-	 */
-
-	/*
-	 * public void setDefaultFileBrowserDirectory() { if(this.DEFAULT_MODE ==
-	 * FileBrowserPanel.MODE_FILE) setFileBrowserDirectory(String rootString,
-	 * int mode) else setFileBrowserDirectory(DEFAULT_URL,
-	 * FileBrowserPanel.MODE_URL); }
-	 */
 
 	// ================================================
 	// Spreadsheet Settings
@@ -1128,8 +1038,15 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	}
 
+	/**
+	 * Resize the table.
+	 * 
+	 * @param width
+	 *            width in px
+	 * @param height
+	 *            height in px
+	 */
 	public void onResize(int width, int height) {
-
 		// Log.debug("spreadsheet wrapper size: " + width + " , " + height);
 		if (width <= 0 || height <= 0) {
 			return;

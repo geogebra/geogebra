@@ -147,8 +147,10 @@ public class GeoTextEditor extends RichTextArea {
 
 	}
 
+	/**
+	 * Update editor font.
+	 */
 	public void updateFonts() {
-
 		if (!initialized) {
 			return;
 		}

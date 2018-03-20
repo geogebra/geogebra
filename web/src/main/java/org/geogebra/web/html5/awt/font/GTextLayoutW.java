@@ -18,6 +18,16 @@ public class GTextLayoutW implements GTextLayout {
 	boolean containsLowerCase = false;
 	int advance = -1;
 
+	/**
+	 * Creates a layout for given text.
+	 * 
+	 * @param str
+	 *            string
+	 * @param font
+	 *            font
+	 * @param frc
+	 *            font context
+	 */
 	public GTextLayoutW(String str, GFont font, GFontRenderContextW frc) {
 		this.font = font;
 		this.str = str;

@@ -83,10 +83,24 @@ public class StatTableW extends FlowPanel {
 		}
 	}
 
+	/**
+	 * @param rowNames
+	 *            row names
+	 * @param columnNames
+	 *            column names
+	 */
 	public void setLabels(String[] rowNames, String[] columnNames) {
 		setLabels(rowNames, columnNames, true);
 	}
 	
+	/**
+	 * @param rowNames
+	 *            row names
+	 * @param columnNames
+	 *            column names
+	 * @param hasHeader
+	 *            whether to include header
+	 */
 	public void setLabels(String[] rowNames, String[] columnNames, boolean hasHeader) {
 		// set column names
 		if (columnNames != null && rowNames != null) {
@@ -121,6 +135,10 @@ public class StatTableW extends FlowPanel {
 		private boolean allowCellEdith;
 		private int firstRow = 0;
 
+		/**
+		 * @param columnNames
+		 *            column names
+		 */
 		public void setHeaderCells(String[] columnNames) {
 	        if (columnNames != null) {
 	        	firstRow = 0;
@@ -131,11 +149,6 @@ public class StatTableW extends FlowPanel {
 	        	}
 	        	firstRow = 1;
 	        }
-        }
-
-		public int convertColumnIndexToModel(int column) {
-	        // TODO Auto-generated method stub
-	        return 0;
         }
 
 		public void setAllowCellEdith(boolean allowCellEdit) {
@@ -207,6 +220,9 @@ public class StatTableW extends FlowPanel {
 	        }
         }
 
+		/**
+		 * @return array of selected rows
+		 */
 		public int[] getSelectedRows() {
 			int start = firstRow;
 			int end = 0;
@@ -225,10 +241,6 @@ public class StatTableW extends FlowPanel {
 	        }
 	        
 	       return result;
-        }
-
-		public String getValueAt(int i, int j) {
-	        return this.getText(i, j);
         }
 		
 		private int getFirstSelectedRow(int to) {
@@ -262,6 +274,14 @@ public class StatTableW extends FlowPanel {
 			}
 		}
 
+		/**
+		 * @param row
+		 *            selected row
+		 * @param toggle
+		 *            when false, this is no-op
+		 * @param extend
+		 *            whether to keep old selection
+		 */
 		public void changeSelection(int row, boolean toggle, boolean extend) {
 		   int start;
 		   int r = row + firstRow;
@@ -288,15 +308,38 @@ public class StatTableW extends FlowPanel {
 			super.setWidget(row + firstRow, column, widget);
 		}
 
-		public void setValueAt(String str, int row, int col) {
-	        setWidget(row, col, new Label(str));
+		/**
+		 * Change cell content.
+		 * 
+		 * @param value
+		 *            cell content
+		 * @param row
+		 *            row
+		 * @param col
+		 *            column
+		 */
+		public void setValueAt(String value, int row, int col) {
+			setWidget(row, col, new Label(value));
         }
 	}
 
+	/**
+	 * Change cell content.
+	 * 
+	 * @param value
+	 *            cell content
+	 * @param row
+	 *            row
+	 * @param column
+	 *            column
+	 */
 	public void setValueAt(String value, int row, int column) {
-	   myTable.setWidget(row, column, new Label(value));
+		myTable.setValueAt(value, row, column);
     }
 
+	/**
+	 * @return wrapped table
+	 */
 	public MyTable getTable() {
 	    return myTable;
     }

@@ -303,8 +303,13 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 	}
 
+	/**
+	 * Handle input event
+	 * 
+	 * @param source
+	 *            input field
+	 */
 	public void actionPerformed(Object source) {
-
 		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
 		}

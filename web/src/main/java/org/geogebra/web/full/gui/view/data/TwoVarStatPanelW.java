@@ -24,12 +24,22 @@ import com.google.gwt.user.client.ui.ListBox;
  * 
  */
 public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
-	protected AppW app;
-	protected DataAnalysisViewW statDialog;
-	protected MyTable statTable;
+	private AppW app;
+	private DataAnalysisViewW statDialog;
+	private MyTable statTable;
 	private TwoVarStatModel model;
 	private UpdatePanel listener;
 	
+	/**
+	 * @param app
+	 *            application
+	 * @param statDialog
+	 *            statistics dialog
+	 * @param isPairedData
+	 *            whether to use paired data
+	 * @param listener
+	 *            listener
+	 */
 	public TwoVarStatPanelW(AppW app, DataAnalysisViewW statDialog,
 			boolean isPairedData, UpdatePanel listener) {
 		super();
@@ -43,6 +53,12 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 
 	}
 
+	/**
+	 * Update the table.
+	 * 
+	 * @param isPairedData
+	 *            whether to use paired data
+	 */
 	public void setTable(boolean isPairedData) {
 
 		model.setPairedData(isPairedData);
@@ -57,7 +73,6 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 				model.getSelectedDataIndex0());
 		createListBoxCell(1, 0, loc.getMenu("Sample2"), titles,
 				model.getSelectedDataIndex1());
-
 	}
 
 	private void createListBoxCell(final int row, final int col, String title, String[] items,
@@ -73,13 +88,7 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 			@Override
 			public void onChange(ChangeEvent event) {
 				int idx = listBox.getSelectedIndex();
-				if (row == 0) {
-					model.setSelectedDataIndex0(idx);
-				} else {
-					model.setSelectedDataIndex1(idx);		
-				}
-				updatePanel();
-				listener.updatePanel();
+				listboxChange(row, idx);
 			}
 		});
 	    
@@ -90,6 +99,27 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	    getTable().setWidget(row, col, p);
     }
 
+	/**
+	 * Update model when a listbox in given row changes.
+	 * 
+	 * @param row
+	 *            row
+	 * @param idx
+	 *            selected index
+	 */
+	protected void listboxChange(int row, int idx) {
+		if (row == 0) {
+			model.setSelectedDataIndex0(idx);
+		} else {
+			model.setSelectedDataIndex1(idx);
+		}
+		updatePanel();
+		listener.updatePanel();
+	}
+
+	/**
+	 * Recompute model and update UI.
+	 */
 	public void updatePanel() {
 		model.update();
 	}
@@ -115,6 +145,9 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 		return statDialog.getController().getValueArray(list);
 	}
 
+	/**
+	 * @return selected rows
+	 */
 	public Integer[] getSelectedDataIndex() {
 		return model.getSelectedDataIndex();
 	}

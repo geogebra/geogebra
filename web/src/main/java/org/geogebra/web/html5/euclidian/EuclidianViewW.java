@@ -333,6 +333,13 @@ public class EuclidianViewW extends EuclidianView implements
 		        && g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
 	}
 
+	/**
+	 * @param scale
+	 *            scale
+	 * @param transparency
+	 *            transparency
+	 * @return canvas containing copy of main canvas for this view
+	 */
 	public Canvas getExportImageCanvas(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
@@ -1537,6 +1544,12 @@ public class EuclidianViewW extends EuclidianView implements
 		return true;
 	}
 
+	/**
+	 * Select next geo in given view when tab pressed
+	 * 
+	 * @param view
+	 *            view
+	 */
 	public static void selectNextGeoOnTab(EuclidianView view) {
 		if (EuclidianViewW.tabPressed) {
 			// if focus is moved here from another applet,
