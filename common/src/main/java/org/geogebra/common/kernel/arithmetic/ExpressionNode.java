@@ -663,6 +663,12 @@ public class ExpressionNode extends ValidExpression
 				&& ((ExpressionNode) right).includesNonContinuousIntegral()) {
 			return true;
 		}
+		if ((operation == Operation.FUNCTION
+				|| operation == Operation.FUNCTION_NVAR)
+				&& getLeft() instanceof Functional) {
+			return ((Functional) getLeft()).getFunction()
+					.includesNonContinuousIntegral();
+		}
 
 		return false;
 	}

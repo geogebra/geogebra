@@ -322,6 +322,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			} else if (symbIntegral != null && symbIntegral.isDefined()
 					&& !this.evaluateNumerically) {
 				computeSpecial();
+				if (!n.isDefined()) { // giac failed
+					standardIntegral(lowerLimit, upperLimit);
+				}
 				return;
 			}
 		}
