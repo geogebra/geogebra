@@ -463,4 +463,8 @@ public class Bounds {
 		}
 		return complete;
 	}
+
+	public Object getCondition() {
+		return this.condition;
+	}
 }

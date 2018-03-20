@@ -41,7 +41,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -272,8 +271,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		}
 		this.validButUndefined = false;
 		// check for equal bounds
-		double lowerLimit = a.getDouble();
-		double upperLimit = b.getDouble();
+		final double lowerLimit = a.getDouble();
+		final double upperLimit = b.getDouble();
 		if (DoubleUtil.isEqual(lowerLimit, upperLimit)) {
 			n.setValue(0);
 			return;
@@ -363,8 +362,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 				if (kernel.getApplication().has(Feature.SPLIT_INTEGRAL_IF)
 						&& (f.getParentAlgorithm() instanceof AlgoDependentFunction
-								|| f.getFunctionExpression()
-										.getOperation() == Operation.IF_LIST)) {
+								|| f.getFunctionExpression().isConditional())) {
 
 					AlgoElement algo = f.getParentAlgorithm();
 
@@ -372,11 +370,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 							? ((AlgoDependentFunction) algo).getExpression()
 							: f.getFunctionExpression();
 
-					Operation op = exp.getOperation();
-
 					// Log.debug("op = " + op);
 
-					if (op == Operation.IF_LIST) {
+					if (exp.isConditional()) {
 						ArrayList<ExpressionNode> nodesAl = new ArrayList<>();
 						ArrayList<Bounds> boundsAl = new ArrayList<>();
 
@@ -409,7 +405,13 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 								double lower = bound.getLower();
 								double upper = bound.getUpper();
-
+								if (bound.getCondition() != null) {
+									Log.debug(
+											"non-linear condition "
+													+ bound);
+									standardIntegral(lowerLimit, upperLimit);
+									return;
+								}
 								if (i == 0) {
 									coveredMin = lower;
 									coveredMax = upper;
@@ -422,11 +424,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 									Log.debug(
 											"problem with order of regions, can't use fast method for "
 													+ bound);
-									n.setValue(numericIntegration(f, lowerLimit,
-											upperLimit,
-											f.includesFreehandOrData()
-													? FREEHAND_MULTIPLIER
-													: STANDARD_MULTIPLIER));
+									standardIntegral(lowerLimit, upperLimit);
 									return;
 								}
 
@@ -542,6 +540,12 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		 * Application.debug("***\nsteps: " + maxstep); Application.debug(
 		 * "max_error: " + max_error);
 		 */
+	}
+
+	private void standardIntegral(double lowerLimit, double upperLimit) {
+		n.setValue(numericIntegration(f, lowerLimit, upperLimit,
+				f.includesFreehandOrData() ? FREEHAND_MULTIPLIER
+						: STANDARD_MULTIPLIER));
 	}
 
 	// private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
