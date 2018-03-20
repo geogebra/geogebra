@@ -13,6 +13,7 @@ import org.geogebra.common.plugin.GeoClass;
  *
  */
 public class GeoAudio extends GeoButton {
+	private static final int TIME_SLIDER_THICKNESS = 10;
 	/** URL of a test audio file */
 	public static final String TEST_URL = "http://archive.geogebra.org/static/welcome_to_geogebra.mp3";
 	private static final int DEFAULT_PLAYER_WIDTH = 300;
@@ -31,6 +32,7 @@ public class GeoAudio extends GeoButton {
 		app = getKernel().getApplication();
 		setWidth(DEFAULT_PLAYER_WIDTH);
 		setHeight(DEFAULT_PLAYER_HEIGHT);
+		setLineThickness(TIME_SLIDER_THICKNESS);
 	}
 
 	/**

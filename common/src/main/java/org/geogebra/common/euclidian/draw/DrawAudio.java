@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
@@ -12,6 +13,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Drawable class for Audio elemens.
@@ -20,10 +22,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  */
 public class DrawAudio extends Drawable {
+	private static final int BLOB_SIZE = 7;
 	private static final int TAP_AREA_SIZE = 48;
 	private static final int TEXT_MARGIN_X = 4;
 	private static final int TIME_FONT = 14;
 	private static final int PLAY_MARGIN = 5;
+	private static final int SLIDER_MARGIN = 12;
 	private static final GColor BACKGROUND_COLOR = GColor.newColorRGB(0xf5f5f5);
 	private static final GColor PLAY_COLOR = GColor.newColor(0, 0, 0, 54);
 
@@ -32,6 +36,8 @@ public class DrawAudio extends Drawable {
 
 	// mebis-teal
 	private static final GColor PLAY_HOVER_COLOR = GColor.newColorRGB(0x00a8d5);
+
+	private static final GColor BLOB_COLOR = GColor.newColorRGB(0x00a8d5);
 
 	private final GeoAudio geoAudio;
 	private int top;
@@ -43,6 +49,16 @@ public class DrawAudio extends Drawable {
 	private GRectangle playRect;
 	private boolean hovered = false;
 	private boolean playing = false;
+	private int sliderLength = 100;
+	private int diameter = 2 * GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE + 1;
+
+	// for dot and selection
+	private GEllipse2DDouble circle = AwtFactory.getPrototype().newEllipse2DDouble();
+	private GEllipse2DDouble circleOuter = AwtFactory.getPrototype().newEllipse2DDouble();
+	private GEllipse2DDouble circleHighlight = AwtFactory.getPrototype().newEllipse2DDouble();
+
+	private double[] coords = new double[2];
+	private int sliderLeft;
 
 	/**
 	 * @param view
@@ -75,6 +91,36 @@ public class DrawAudio extends Drawable {
 		int size = 2 * getPlaySize();
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
 		playRect = AwtFactory.getPrototype().newRectangle(left, top, size, size);
+		double min = 0;
+		double max = geoAudio.getDuration();
+
+		double param = (geoAudio.getCurrentTime() - min) / (max - min);
+		sliderLeft = left + width - (sliderLength + SLIDER_MARGIN);
+		updateDot(sliderLeft + sliderLength * param, top + height / 2);
+	}
+
+	private void updateDot(double rwX, double rwY) {
+
+		coords[0] = rwX;
+		coords[1] = rwY;
+
+		// convert to screen
+		// view.toScreenCoords(coords);
+
+		double xUL = (coords[0] - BLOB_SIZE);
+		double yUL = (coords[1] - BLOB_SIZE);
+
+		diameter = 2 * BLOB_SIZE + 1;
+		int HIGHLIGHT_OFFSET = BLOB_SIZE / 2 + 1;
+		int hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
+		// circle might be needed at least for tracing
+		circle.setFrame(xUL, yUL, diameter, diameter);
+
+		// selection area
+		circleHighlight.setFrame(xUL - 2 * HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET * 2,
+				hightlightDiameter + 2 * HIGHLIGHT_OFFSET, hightlightDiameter + 2 * HIGHLIGHT_OFFSET);
+
+		circleOuter.setFrame(xUL - HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET, hightlightDiameter, hightlightDiameter);
 	}
 
 	@Override
@@ -86,6 +132,25 @@ public class DrawAudio extends Drawable {
 			drawPlay(g2);
 		}
 		drawTime(g2);
+		updateStrokes(geoAudio);
+		drawSlider(g2);
+	}
+
+	private void drawSlider(GGraphics2D g2) {
+		if (isVisible) {
+			int x = sliderLeft;
+			int y = top + height / 2;
+
+			g2.setPaint(geo.getSelColor());
+			g2.drawStraightLine(x, y, x + sliderLength, y);
+
+			g2.setPaint(BLOB_COLOR);
+			g2.drawStraightLine(x, y, coords[0], y);
+
+			// draw a dot
+			g2.setPaint(BLOB_COLOR);
+			g2.fill(circle);
+		}
 	}
 
 	private void drawPlay(GGraphics2D g2) {
@@ -141,6 +206,8 @@ public class DrawAudio extends Drawable {
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 				x, y, false, null, null);
+		sliderLeft = (int) (x + txtLayout.getBounds().getWidth() + SLIDER_MARGIN);
+		sliderLength = left + width - (sliderLeft + SLIDER_MARGIN);
 	}
 
 	private static void formatTime(StringBuilder sb, double secs) {
@@ -201,7 +268,6 @@ public class DrawAudio extends Drawable {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
