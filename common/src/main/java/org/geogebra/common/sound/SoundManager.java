@@ -24,6 +24,12 @@ public interface SoundManager {
 	void playFunction(GeoFunction geoFunction, double double1, double double2,
 			int double3, int double4);
 
+	/**
+	 * Loads audio resource represented by GeoAudio object for further operations.
+	 * 
+	 * @param geo
+	 *            to load.
+	 */
 	void loadGeoAudio(GeoAudio geo);
 
 	int getDuration(String url);

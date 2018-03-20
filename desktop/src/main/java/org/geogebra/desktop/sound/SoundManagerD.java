@@ -295,34 +295,33 @@ public class SoundManagerD implements SoundManager {
 
 	@Override
 	public void loadGeoAudio(GeoAudio geo) {
-		// TODO Auto-generated method stub
-
+		// not implemented here.
 	}
 
 	@Override
 	public int getDuration(String url) {
-		// TODO Auto-generated method stub
+		// not implemented here.
 		return 0;
 	}
 
 	@Override
 	public int getCurrentTime(String url) {
-		// TODO Auto-generated method stub
+		// not implemented here.
 		return 0;
 	}
 
 	@Override
 	public void checkURL(String url, AsyncOperation<Boolean> callback) {
-		// TODO Auto-generated method stub
-
+		// not implemented here.
 	}
+
 	@Override
 	public void play(GeoAudio geo) {
-		// implemented in web only.
+		// not implemented here.
 	}
 
 	@Override
 	public void pause(GeoAudio geo) {
-		// implemented in web only.
+		// not implemented here.
 	}
 }
