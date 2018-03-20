@@ -15,6 +15,10 @@ public class GFontW extends GFont {
 	private String lineHeight = "12";
 	private String fontFamily = GEOGEBRA_FONT_SANSERIF;
 
+	/**
+	 * @param otherfont
+	 *            font to copy
+	 */
 	public GFontW(GFontW otherfont) {
 		fontStyle = otherfont.getFontStyle();
 		fontVariant = otherfont.getFontVariant();
@@ -24,10 +28,22 @@ public class GFontW extends GFont {
 		fontFamily = otherfont.getFontFamily();
 	}
 
+	/**
+	 * @param fontStyle
+	 *            style
+	 */
 	public GFontW(String fontStyle) {
 		this.fontStyle = fontStyle;
 	}
 
+	/**
+	 * @param name
+	 *            eg SansSerif, Serif
+	 * @param style
+	 *            style
+	 * @param size
+	 *            size
+	 */
 	public GFontW(String name, int style, int size) {
 		if ("Serif".equals(name)) {
 			fontFamily = GEOGEBRA_FONT_SERIF;
