@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.App;
@@ -88,7 +89,7 @@ public abstract class GgbAPIJre extends GgbAPI {
 			e.printStackTrace();
 			return;
 		}
-		app.loadXML(zipFile);
+		app.loadXML(new ByteArrayZipFile(zipFile));
 
 	}
 
