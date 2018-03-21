@@ -5484,9 +5484,4 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		return md5EncrypterD;
 	}
-
-	final public boolean loadXML(byte[] zipFile) {
-		return loadXML(new ByteArrayZipFile(zipFile));
-	}
-
 }
