@@ -231,6 +231,7 @@ public abstract class AppW extends App implements SetLabels {
 	private Runnable closeBroserCallback;
 	private Runnable insertImageCallback;
 	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<>();
+	private ViewW viewW;
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -3823,6 +3824,13 @@ public abstract class AppW extends App implements SetLabels {
 
 	public boolean isCopyImageToClipboardAvailable() {
 		return false;
+	}
+
+	public ViewW getViewW() {
+		if (viewW == null) {
+			viewW = new ViewW(this);
+		}
+		return viewW;
 	}
 
 }

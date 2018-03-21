@@ -10,6 +10,7 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
@@ -73,9 +74,12 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public void setBase64(String base64) {
-		resetPerspective();
-		ViewW view = new ViewW((AppW) app);
-		view.processBase64String(base64);
+		// resetPerspective();
+		// ViewW view = new ViewW((AppW) app);
+		// view.processBase64String(base64);
+
+		app.loadXML(new Base64ZipFile(base64));
+
 	}
 
 	private void resetPerspective() {

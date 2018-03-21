@@ -5,9 +5,12 @@ import java.io.StringReader;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.QDParser;
+import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.ViewW;
 
 /**
  * Web implementation of XML parser
@@ -65,7 +68,14 @@ public class MyXMLioW extends MyXMLio {
 
 	@Override
 	public final void readZipFromString(ZipFile zipFile) throws Exception {
-		// not implemented in web
+		Base64ZipFile zip = (Base64ZipFile) zipFile;
+
+		String base64 = zip.getBase64();
+
+		((AppW) app).resetPerspectiveParam();
+		ViewW view = ((AppW) app).getViewW();
+		view.processBase64String(base64);
+
 	}
 
 }
