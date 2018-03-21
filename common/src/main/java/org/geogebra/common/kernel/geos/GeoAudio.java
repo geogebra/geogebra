@@ -95,6 +95,9 @@ public class GeoAudio extends GeoButton {
 	 */
 	public void setDataUrl(String dataUrl) {
 		this.dataUrl = dataUrl;
+		if (!hasSoundManager()) {
+			return;
+		}
 		app.getSoundManager().loadGeoAudio(this);
 	}
 
@@ -107,6 +110,10 @@ public class GeoAudio extends GeoButton {
 	 * Plays the audio.
 	 */
 	public void play() {
+		if (!hasSoundManager()) {
+			return;
+		}
+
 		app.getSoundManager().play(this);
 	}
 
@@ -114,6 +121,10 @@ public class GeoAudio extends GeoButton {
 	 * @return the duration of the audio in seconds.
 	 */
 	public int getDuration() {
+		if (!hasSoundManager()) {
+			return -1;
+		}
+
 		return app.getSoundManager().getDuration(dataUrl);
 	}
 
@@ -121,6 +132,10 @@ public class GeoAudio extends GeoButton {
 	 * @return the time where audio play is at.
 	 */
 	public int getCurrentTime() {
+		if (!hasSoundManager()) {
+			return -1;
+		}
+
 		return app.getSoundManager().getCurrentTime(dataUrl);
 	}
 
@@ -128,6 +143,14 @@ public class GeoAudio extends GeoButton {
 	 * Stops audio playback.
 	 */
 	public void pause() {
+		if (!hasSoundManager()) {
+			return;
+		}
+
 		app.getSoundManager().pause(this);
+	}
+
+	private boolean hasSoundManager() {
+		return app.getSoundManager() != null;
 	}
 }
