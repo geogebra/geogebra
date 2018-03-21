@@ -32,16 +32,30 @@ public interface SoundManager {
 	 */
 	void loadGeoAudio(GeoAudio geo);
 
+	/**
+	 * Gets the length of the audio given by its URL.
+	 * 
+	 * @param url
+	 *            URL of the audio resource.
+	 * @return the duration of the audio resource.
+	 */
 	int getDuration(String url);
 
+	/**
+	 * Gets the current time elapsed of the audio given by its URL.
+	 * 
+	 * @param url
+	 *            URL of the audio resource.
+	 * @return the duration of the audio resource.
+	 */
 	int getCurrentTime(String url);
 
 	/**
 	 * 
 	 * @param url
 	 *            to check if it is a valid audio file.
-	 * @param hadler
-	 *            the error handler.
+	 * @param callback
+	 *            to process the result.
 	 */
 	void checkURL(String url, AsyncOperation<Boolean> callback);
 
