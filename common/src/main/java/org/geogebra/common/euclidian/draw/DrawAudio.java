@@ -22,12 +22,12 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  *
  */
 public class DrawAudio extends Drawable {
-	private static final int BLOB_SIZE = 7;
+	private static final int BLOB_SIZE = 6;
 	private static final int TAP_AREA_SIZE = 48;
 	private static final int TEXT_MARGIN_X = 4;
 	private static final int TIME_FONT = 14;
-	private static final int PLAY_MARGIN = 5;
-	private static final int SLIDER_MARGIN = 12;
+	private static final int PLAY_MARGIN = 4;
+	private static final int SLIDER_MARGIN = 8;
 	private static final GColor BACKGROUND_COLOR = GColor.newColorRGB(0xf5f5f5);
 	private static final GColor PLAY_COLOR = GColor.newColor(0, 0, 0, 138);
 
@@ -52,10 +52,8 @@ public class DrawAudio extends Drawable {
 	private int sliderLength = 100;
 	private int diameter = 2 * GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE + 1;
 
-	// for dot and selection
+	// for dot
 	private GEllipse2DDouble circle = AwtFactory.getPrototype().newEllipse2DDouble();
-	private GEllipse2DDouble circleOuter = AwtFactory.getPrototype().newEllipse2DDouble();
-	private GEllipse2DDouble circleHighlight = AwtFactory.getPrototype().newEllipse2DDouble();
 
 	private double[] coords = new double[2];
 	private int sliderLeft;
@@ -93,35 +91,22 @@ public class DrawAudio extends Drawable {
 		playRect = AwtFactory.getPrototype().newRectangle(left, top, size, size);
 		double min = 0;
 		double max = geoAudio.getDuration();
-
 		double param = (geoAudio.getCurrentTime() - min) / (max - min);
 		sliderLeft = left + width - (sliderLength + SLIDER_MARGIN);
-		updateDot(sliderLeft + sliderLength * param, top + height / 2);
+		updateDot(sliderLeft + (sliderLength - BLOB_SIZE) * param, top + height / 2);
 		playing = geoAudio.isPlaying();
 	}
 
 	private void updateDot(double rwX, double rwY) {
-
 		coords[0] = rwX;
 		coords[1] = rwY;
-
-		// convert to screen
-		// view.toScreenCoords(coords);
 
 		double xUL = (coords[0] - BLOB_SIZE);
 		double yUL = (coords[1] - BLOB_SIZE);
 
 		diameter = 2 * BLOB_SIZE + 1;
-		int HIGHLIGHT_OFFSET = BLOB_SIZE / 2 + 1;
-		int hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
-		// circle might be needed at least for tracing
+
 		circle.setFrame(xUL, yUL, diameter, diameter);
-
-		// selection area
-		circleHighlight.setFrame(xUL - 2 * HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET * 2,
-				hightlightDiameter + 2 * HIGHLIGHT_OFFSET, hightlightDiameter + 2 * HIGHLIGHT_OFFSET);
-
-		circleOuter.setFrame(xUL - HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET, hightlightDiameter, hightlightDiameter);
 	}
 
 	@Override
@@ -141,7 +126,7 @@ public class DrawAudio extends Drawable {
 		if (isVisible) {
 			int x = sliderLeft;
 			int y = top + height / 2;
-
+			sliderLength = left + width - sliderLeft - 2 * BLOB_SIZE;
 			g2.setPaint(geo.getSelColor());
 			g2.drawStraightLine(x, y, x + sliderLength, y);
 
@@ -195,22 +180,27 @@ public class DrawAudio extends Drawable {
 		int duration = geoAudio.getDuration() / 1000;
 		int currTime = geoAudio.getCurrentTime() / 1000;
 
-		StringBuilder sb = new StringBuilder();
-		formatTime(sb, currTime);
-		sb.append(" / ");
-		formatTime(sb, duration);
+		String text = getElapsedTime(currTime, duration);
+		String textAll = getElapsedTime(duration, duration);
 
-		String text = sb.toString();
-		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(text, font, g2.getFontRenderContext());
+		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(textAll, font,
+				g2.getFontRenderContext());
 		int x = left + TAP_AREA_SIZE + TEXT_MARGIN_X;
 		int y = top + (int) (height + txtLayout.getBounds().getHeight()) / 2;
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 				x, y, false, null, null);
 		sliderLeft = (int) (x + txtLayout.getBounds().getWidth() + SLIDER_MARGIN);
-		sliderLength = left + width - (sliderLeft + SLIDER_MARGIN);
+		sliderLength = left + width - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_SIZE);
 	}
 
+	private static String getElapsedTime(int current, int all) {
+		StringBuilder sb = new StringBuilder();
+		formatTime(sb, current);
+		sb.append(" / ");
+		formatTime(sb, all);
+		return sb.toString();
+	}
 	private static void formatTime(StringBuilder sb, double secs) {
 		if (secs < 0) {
 			sb.append("-:-");
