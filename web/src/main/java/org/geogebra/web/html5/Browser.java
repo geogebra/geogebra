@@ -16,7 +16,7 @@ public class Browser {
 	public static native boolean isFirefox() /*-{
 		// copying checking code from the checkWorkerSupport method
 		// however, this is not necessarily the best method to decide
-		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1) {
+		if ($wnd.navigator.userAgent.toLowerCase().indexOf("firefox") != -1) {
 			return true;
 		}
 		return false;
@@ -37,6 +37,35 @@ public class Browser {
 				|| (userAgent.indexOf('trident/') > -1)) {
 			return true;
 		}
+		return false;
+	}-*/;
+
+	/**
+	 * https://github.com/cheton/is-electron/blob/master/index.js MIT
+	 * 
+	 * @return true if running in Electron
+	 */
+	public static native boolean isElectron() /*-{
+		// Renderer process
+		if (typeof $wnd !== 'undefined' && typeof $wnd.process === 'object'
+				&& $wnd.process.type === 'renderer') {
+			return true;
+		}
+
+		// Main process
+		if (typeof $wnd.process !== 'undefined'
+				&& typeof $wnd.process.versions === 'object'
+				&& !!$wndprocess.versions.electron) {
+			return true;
+		}
+
+		// Detect the user agent when the `nodeIntegration` option is set to true
+		if (typeof $wnd.navigator === 'object'
+				&& typeof $wnd.navigator.userAgent === 'string'
+				&& $wnd.navigator.userAgent.indexOf('Electron') >= 0) {
+			return true;
+		}
+
 		return false;
 	}-*/;
 
@@ -194,7 +223,7 @@ public class Browser {
 	 */
 	public static native boolean supportsWebGLNative()/*-{
 		try {
-			var canvas = $wnd.document.createElement('canvas');
+			var canvas = $doc.createElement('canvas');
 			var ret = !!$wnd.WebGLRenderingContext
 					&& (canvas.getContext('webgl') || canvas
 							.getContext('experimental-webgl'));
@@ -224,7 +253,7 @@ public class Browser {
 	}-*/;
 
 	public static native boolean isAndroidVersionLessThan(double d) /*-{
-		var navString = navigator.userAgent.toLowerCase();
+		var navString = $wnd.navigator.userAgent.toLowerCase();
 		if (navString.indexOf("android") < 0) {
 			return false;
 		}
@@ -295,7 +324,7 @@ public class Browser {
 	 * @return CSS pixel ratio
 	 */
 	public static native double getPixelRatio() /*-{
-		var testCanvas = document.createElement("canvas"), testCtx = testCanvas
+		var testCanvas = $doc.createElement("canvas"), testCtx = testCanvas
 				.getContext("2d");
 		devicePixelRatio = $wnd.devicePixelRatio || 1;
 		backingStorePixelRatio = testCtx.webkitBackingStorePixelRatio
@@ -476,9 +505,9 @@ public class Browser {
 	}-*/;
 
 	public native static boolean isAndroid()/*-{
-		var userAgent = navigator.userAgent;
+		var userAgent = $wnd.navigator.userAgent;
 		if (userAgent) {
-			return navigator.userAgent.indexOf("Android") != -1;
+			return userAgent.indexOf("Android") != -1;
 		}
 		return false;
 	}-*/;
@@ -487,9 +516,9 @@ public class Browser {
 	 * @return check this is an iPad browser
 	 */
 	public native static boolean isIPad()/*-{
-		var userAgent = navigator.userAgent;
+		var userAgent = $wnd.navigator.userAgent;
 		if (userAgent) {
-			return navigator.userAgent.indexOf("iPad") != -1;
+			return userAgent.indexOf("iPad") != -1;
 		}
 		return false;
 	}-*/;
@@ -530,11 +559,11 @@ public class Browser {
 		if (full) { // current working methods
 			if (el.requestFullscreen) {
 				el.requestFullscreen();
-			} else if (document.documentElement.msRequestFullscreen) {
+			} else if ($doc.documentElement.msRequestFullscreen) {
 				el.msRequestFullscreen();
-			} else if (document.documentElement.mozRequestFullScreen) {
+			} else if ($doc.documentElement.mozRequestFullScreen) {
 				el.mozRequestFullScreen();
-			} else if (document.documentElement.webkitRequestFullScreen) {
+			} else if ($doc.documentElement.webkitRequestFullScreen) {
 				el.style.setProperty("width", "100%", "important");
 				el.style.setProperty("height", "100%", "important");
 				el.webkitRequestFullScreen();
@@ -543,11 +572,11 @@ public class Browser {
 		} else {
 			if ($doc.exitFullscreen) {
 				$doc.exitFullscreen();
-			} else if (document.msExitFullscreen) {
+			} else if ($doc.msExitFullscreen) {
 				$doc.msExitFullscreen();
-			} else if (document.mozCancelFullScreen) {
+			} else if ($doc.mozCancelFullScreen) {
 				$doc.mozCancelFullScreen();
-			} else if (document.webkitCancelFullScreen) {
+			} else if ($doc.webkitCancelFullScreen) {
 				$doc.webkitCancelFullScreen();
 			}
 		}

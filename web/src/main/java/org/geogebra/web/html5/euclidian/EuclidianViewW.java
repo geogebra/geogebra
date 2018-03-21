@@ -503,7 +503,7 @@ public class EuclidianViewW extends EuclidianView implements
 				a.style = "display: none";
 				a.href = url;
 				a.download = "test.pdf";
-				window.setTimeout(function() {
+				$wnd.setTimeout(function() {
 					a.click()
 				}, 100);
 			}

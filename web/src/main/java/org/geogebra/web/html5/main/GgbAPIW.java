@@ -439,7 +439,7 @@ public class GgbAPIW extends GgbAPI {
 		//console.log("base64 = " + base64);
 
 		// encode PNG as Uint8Array
-		var binary_string = window.atob(base64);
+		var binary_string = $wnd.atob(base64);
 		var len = binary_string.length;
 		//console.log("len = " + len);
 		var bytes = new Uint8Array(len);

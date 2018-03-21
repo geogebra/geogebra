@@ -30,7 +30,7 @@ public class CSSAnimation {
 			root.addEventListener("animationend", callback);
 			return;
 		}
-		window.setTimeout(callback, 0);
+		$wnd.setTimeout(callback, 0);
 
 	}-*/;
 }
