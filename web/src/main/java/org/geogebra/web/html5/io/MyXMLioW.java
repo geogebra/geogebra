@@ -5,6 +5,7 @@ import java.io.StringReader;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.QDParser;
+import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 
@@ -63,7 +64,7 @@ public class MyXMLioW extends MyXMLio {
 	}
 
 	@Override
-	public final void readZipFromString(byte[] zipFile) throws Exception {
+	public final void readZipFromString(ZipFile zipFile) throws Exception {
 		// not implemented in web
 	}
 
