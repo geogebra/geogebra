@@ -18,6 +18,22 @@ the Free Software Foundation.
 
 package org.geogebra.common.jre.io;
 
+import org.geogebra.common.io.MyXMLHandler;
+import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.QDParser;
+import org.geogebra.common.io.file.ByteArrayZipFile;
+import org.geogebra.common.io.file.ZipFile;
+import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.Charsets;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -36,20 +52,6 @@ import java.util.TreeSet;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-
-import org.geogebra.common.io.MyXMLHandler;
-import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.io.QDParser;
-import org.geogebra.common.jre.gui.MyImageJre;
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
-import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.util.Charsets;
-import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -98,12 +100,14 @@ public abstract class MyXMLioJre extends MyXMLio {
 	}
 
 	@Override
-	public final void readZipFromString(byte[] zipFile) throws Exception {
+	public void readZipFromString(ZipFile zipFile) throws Exception {
+		if (zipFile instanceof ByteArrayZipFile) {
+			ByteArrayZipFile byteArrayZipFile = (ByteArrayZipFile) zipFile;
+			ZipInputStream zip = new ZipInputStream(
+					new ByteArrayInputStream(byteArrayZipFile.getByteArray()));
 
-		ZipInputStream zip = new ZipInputStream(
-				new ByteArrayInputStream(zipFile));
-
-		readZip(zip, false);
+			readZip(zip, false);
+		}
 	}
 
 	/**
