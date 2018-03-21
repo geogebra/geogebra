@@ -208,7 +208,7 @@ public class Opentype implements FontLoaderWrapper {
 	}-*/;
 
 	private native JavaScriptObject base64ToArrayBuffer(String base64) /*-{
-		var binaryString = window.atob(base64);
+		var binaryString = $wnd.atob(base64);
 		var length = binaryString.length;
 		var bytes = new Uint8Array(length);
 		for (var i = 0; i < length; i++) {
