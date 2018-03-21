@@ -29,10 +29,10 @@ public class DrawAudio extends Drawable {
 	private static final int PLAY_MARGIN = 5;
 	private static final int SLIDER_MARGIN = 12;
 	private static final GColor BACKGROUND_COLOR = GColor.newColorRGB(0xf5f5f5);
-	private static final GColor PLAY_COLOR = GColor.newColor(0, 0, 0, 54);
+	private static final GColor PLAY_COLOR = GColor.newColor(0, 0, 0, 138);
 
 	// text-primary
-	private static final GColor TIME_COLOR = GColor.newColor(0, 0, 0, 87);
+	private static final GColor TIME_COLOR = GColor.newColor(0, 0, 0, 222);
 
 	// mebis-teal
 	private static final GColor PLAY_HOVER_COLOR = GColor.newColorRGB(0x00a8d5);
