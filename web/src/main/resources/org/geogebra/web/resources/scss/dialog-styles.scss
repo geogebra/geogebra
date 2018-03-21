@@ -473,9 +473,12 @@ $duration: 0.2s;
    					}
    			
  					.AutoCompleteTextFieldW {
- 						margin: 8px 16px 7px 0px;	
  						border-bottom: 2px solid $black-87;
  					}
+ 				
+ 					.errorLabel {
+   						margin-top: 9px;
+   					}
  				} 				
    			}    
    			
@@ -485,13 +488,13 @@ $duration: 0.2s;
    					color: $red-87;
    				}
    			
- 				.AutoCompleteTextFieldW {
- 					margin: 8px 16px 7px 0px;	
+ 				.AutoCompleteTextFieldW {	
  					border-bottom: 2px solid $red;
  				}
    					
    				.errorLabel {
    					color: $red-87;
+   					margin-top: 9px;
    				}   				
    			}
    		
@@ -502,9 +505,12 @@ $duration: 0.2s;
    				}
    			
  				.AutoCompleteTextFieldW {
- 					margin: 8px 16px 7px 0px;	
  					border-bottom: 2px solid $mebis-teal-dark;
- 				} 				
+ 				} 		
+ 			
+ 				.errorLabel {
+   					margin-top: 9px;
+   				} 		
    			}		
    		}
    	
