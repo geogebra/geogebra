@@ -141,7 +141,7 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public void openFile(String filename) {
 		resetPerspective();
-		ViewW view = new ViewW((AppW) app);
+		ViewW view = ((AppW) app).getViewW();
 		view.processFileName(filename);
 	}
 
@@ -150,7 +150,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @param exportScale
 	 *            scale
 	 * @param transparent
-	 *            whether to use ransparent background
+	 *            whether to use transparent background
 	 * @param dpi
 	 *            dots per inch eg. for paste to Word
 	 * @return png as String with "data:image/png;base64," header
@@ -351,7 +351,7 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void setFileJSON(JavaScriptObject obj) {
 		resetPerspective();
-		ViewW view = new ViewW((AppW) app);
+		ViewW view = ((AppW) app).getViewW();
 		view.processJSON(obj);
 	}
 

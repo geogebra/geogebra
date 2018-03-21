@@ -748,7 +748,7 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void loadGgbFileAsBase64Again(String dataUrl) {
 		prepareReloadGgbFile();
-		ViewW view = new ViewW(this);
+		ViewW view = getViewW();
 		view.processBase64String(dataUrl);
 	}
 
@@ -760,7 +760,7 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void loadGgbFileAsBinaryAgain(JavaScriptObject binary) {
 		prepareReloadGgbFile();
-		ViewW view = new ViewW(this);
+		ViewW view = getViewW();
 		view.processBinaryString(binary);
 	}
 
