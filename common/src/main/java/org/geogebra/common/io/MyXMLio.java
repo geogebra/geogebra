@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -510,7 +511,7 @@ public abstract class MyXMLio {
 	 * @throws Exception
 	 *             when problem occurs
 	 */
-	abstract public void readZipFromString(byte[] zipFile) throws Exception;
+	abstract public void readZipFromString(ZipFile zipFile) throws Exception;
 
 	/**
 	 * @return whether errors were produced by parsing last file
