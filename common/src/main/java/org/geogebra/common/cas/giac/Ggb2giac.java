@@ -415,13 +415,7 @@ public class Ggb2giac {
 				+ "[ggbintanssimplified:=simplify(ggbintans)],"
 
 				// pick shorter answer (shorter == "simpler")
-				+ "when(ggbintanssimplified==undef||length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),when(regroup(ggbintans)==undef,"
-
-				// in case it all goes wrong, just do the integral
-				// needed for eg piecewise()
-				+ "integrate(REPLACEME0,REPLACEME1,REPLACEME2,REPLACEME3)"
-
-				+ ",regroup(ggbintans)),ggbintanssimplified)"
+				+ "when(ggbintanssimplified==undef||length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)"
 
 				+ "][-1]";
 
