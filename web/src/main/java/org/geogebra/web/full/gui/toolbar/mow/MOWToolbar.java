@@ -16,6 +16,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
@@ -219,8 +221,20 @@ public class MOWToolbar extends FlowPanel {
 				ButtonType.PAGECONTROL, "PageControl", null);
 		pageControlButton.setStyleName("mowFloatingButton");
 		showPageControlButton(true);
+
+		pageControlButton.addTouchStartHandler(new TouchStartHandler() {
+			public void onTouchStart(TouchStartEvent event) {
+				setTouchStyleForCards();
+			}
+		});
 	}
 
+	/**
+	 * make sure style is touch also on whiteboard
+	 */
+	protected void setTouchStyleForCards() {
+		pageControlPanel.setIsTouch();
+	}
 	/**
 	 * Opens the page control panel
 	 */

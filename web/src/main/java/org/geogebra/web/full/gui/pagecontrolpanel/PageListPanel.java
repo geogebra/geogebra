@@ -49,6 +49,7 @@ public class PageListPanel
 	private StandardButton plusButton;
 	private PageListController pageController;
 	private FlowPanel divider = null;
+	private boolean isTouch = false;
 
 	/**
 	 * @param app
@@ -218,6 +219,9 @@ public class PageListPanel
 			return;
 		}
 		final int pageIndex = card.getPageIndex();
+		if (isTouch) {
+			card.removeStyleName("desktop");
+		}
 		if (!app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
 			ClickStartHandler.init(card, new ClickStartHandler() {
 				@Override
@@ -386,5 +390,13 @@ public class PageListPanel
 
 	public ScrollPanel getScrollPanel() {
 		return scrollPanel;
+	}
+
+	/**
+	 * set true if touch event occured
+	 */
+	public void setIsTouch() {
+		isTouch = true;
+		update();
 	}
 }	

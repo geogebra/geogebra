@@ -454,6 +454,16 @@ class DragController {
 			clicked = cards.cardAt(idx);
 			cards.selectCard(clicked);
 			CancelEventTimer.dragCanStart();
+
+			Timer dragStyleTimer = new Timer() {
+				@Override
+				public void run() {
+					if (!CancelEventTimer.noDrag()) {
+						clicked.addDragStartStyle(true);
+					}
+				}
+			};
+			dragStyleTimer.schedule(CancelEventTimer.TIME_BETWEEN_TOUCH_AND_DRAG);
 		}
 	}
 	
@@ -529,8 +539,8 @@ class DragController {
 			}
 
 		}
-
 		cancelDrag();
+		clicked.addDragStartStyle(false);
 	}
 
 	private void createDropAnimation() {

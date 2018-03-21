@@ -75,6 +75,9 @@ public class PagePreviewCard extends FlowPanel
 	
 	private void initGUI() {
 		addStyleName("mowPagePreviewCard");
+		if (!(Browser.isMobile())) {
+			addStyleName("desktop");
+		}
 
 		imagePanel = new FlowPanel();
 		imagePanel.addStyleName("mowImagePanel");
@@ -365,5 +368,17 @@ public class PagePreviewCard extends FlowPanel
 	 */
 	public int getComputedBottom() {
 		return getComputedTop() + CARD_HEIGHT;
+	}
+
+	/**
+	 * @param add
+	 *            true to apply drag style
+	 */
+	public void addDragStartStyle(boolean add) {
+		if (add) {
+			addStyleName("dragCanStart");
+		} else {
+			removeStyleName("dragCanStart");
+		}
 	}
 }

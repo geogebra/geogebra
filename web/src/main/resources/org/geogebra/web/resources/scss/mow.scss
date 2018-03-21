@@ -662,10 +662,6 @@
    		background-color: $white;
    		box-shadow: $shadow-elevation-2;
    		transition: box-shadow .25s;
-		
-		&:hover {
-			box-shadow: $shadow-elevation-8;
-		}
 				
 		.mowImagePanel {
 			width: 100%;
@@ -718,9 +714,6 @@
 			box-shadow: $shadow-elevation-2;
 			transition: box-shadow .25s;
 			
-			&:hover {
-				box-shadow: $shadow-elevation-8;
-			}
 			.mowImagePanel {
 				border: 2px solid $mow_highlight;
 				border-bottom: none;
@@ -735,6 +728,11 @@
 			}
 			.mowMoreButton {
 				padding-bottom: 10px;
+			}
+		}
+		.mowPagePreviewCard.desktop {
+			&:hover {
+				box-shadow: $shadow-elevation-8;
 			}
 		}
 	
@@ -780,7 +778,9 @@
 		.mowMoreButton {
 			right: 0px;
 		}
-	//	border: 1px solid red;
+	}
+	.mowPagePreviewCard.dragCanStart {
+		box-shadow: $shadow-elevation-8 !important;
 	}
 
 /*****************
@@ -805,9 +805,7 @@
 	    visibility: hidden;
 	}
 
-	.mowPagePreviewCard.dragCanStart {
-		box-shadow: $shadow-elevation-8;
-	}
+	
 	
 /*****************
 *   WEBCAM DIALOG
