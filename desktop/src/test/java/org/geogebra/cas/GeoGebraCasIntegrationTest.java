@@ -4961,10 +4961,10 @@ public class GeoGebraCasIntegrationTest {
 				+ Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x)");
 		t("h4(x):=If(0<x<=2,f(x), 2<x<4, g(x))", "Wenn(0 < x "
 				+ Unicode.LESS_EQUAL + " 2, x^(2), 2 < x < 4, 1 / x)");
-		t("Integral(h(x),1,3)", "-log(2) + log(3) + 7 / 3");
+		t("Integral(h(x),1,3)", "-log(2) + log(3) + 7 / 3", "2.738798441441");
 		t("Integral(h2(x),1,3)", "-log(2) + log(3) + 7 / 3");
-		t("Integral(h3(x),1,3)", "-log(2) + log(3) + 7 / 3");
-		t("Integral(h4(x),1,3)", "-log(2) + log(3) + 7 / 3");
+		t("Integral(h3(x),1,3)", "-log(2) + log(3) + 7 / 3", "2.738798441441");
+		t("Integral(h4(x),1,3)", "-log(2) + log(3) + 7 / 3", "2.738798441441");
 
 	}
 
