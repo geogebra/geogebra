@@ -288,8 +288,14 @@ namespace giac {
     }
     if (paren) res +="(";
     const gen * lastarg= last_evaled_argptr(contextptr);
-    if (lastarg)
-      res += lastarg->print(contextptr);
+    if (lastarg){
+      if (strcmp(last,"try_catch")==0 && lastarg->type==_VECT && !lastarg->_VECTptr->empty()){ // workaround for optimizations on some operations like *
+	res = lastarg->_VECTptr->front().print(contextptr);
+	paren = false;
+      }
+      else
+	res += lastarg->print(contextptr);
+    }
     if (paren) res += ")";
     debug_struct * dbg = debug_ptr(contextptr);
     if (!dbg->sst_at_stack.empty()){

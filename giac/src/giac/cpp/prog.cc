@@ -3085,7 +3085,7 @@ namespace giac {
       debug_ptr(contextptr)->current_instruction_stack=save_current_instruction_stack;
       gen id=(*(args._VECTptr))[1];
       string er(error.what());
-      er = '"'+er+'"';
+      er = '"'+er+'"'; // FIXME? string2gen(er,false) instead?
       gen tmpsto;
       if (id.type==_IDNT)
 	tmpsto=sto(gen(er,contextptr),id,contextptr);
