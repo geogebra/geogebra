@@ -447,13 +447,26 @@ public class Browser {
 		return btoa(text);
 	}-*/;
 
-	public static native void removeDefaultContextMenu(Element element) /*-{
+	public static void removeDefaultContextMenu(Element element) {
+		setAllowContextMenu(element, false);
+	}
+
+	/**
+	 * Allow or diallow context menu for an element.
+	 * 
+	 * @param element
+	 *            element
+	 * @param allow
+	 *            whether to allow context menu
+	 */
+	public static native void setAllowContextMenu(Element element,
+			boolean allow) /*-{
 		if (element.addEventListener) {
 			element.addEventListener("MSHoldVisual", function(e) {
-				e.preventDefault();
+				allow ? e.stopPropagation() : e.preventDefault();
 			}, false);
 			element.addEventListener('contextmenu', function(e) {
-				e.preventDefault();
+				allow ? e.stopPropagation() : e.preventDefault();
 			}, false);
 		}
 	}-*/;
@@ -470,6 +483,9 @@ public class Browser {
 		return false;
 	}-*/;
 
+	/**
+	 * @return check this is an iPad browser
+	 */
 	public native static boolean isIPad()/*-{
 		var userAgent = navigator.userAgent;
 		if (userAgent) {

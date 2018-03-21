@@ -223,6 +223,7 @@ public class MOWToolbar extends FlowPanel {
 		showPageControlButton(true);
 
 		pageControlButton.addTouchStartHandler(new TouchStartHandler() {
+			@Override
 			public void onTouchStart(TouchStartEvent event) {
 				setTouchStyleForCards();
 			}

@@ -113,6 +113,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		if (imgStr != null && imgStr.length() > 0) {
 			previewImage = new NoDragImage(imgStr);
 			previewImage.addStyleName("prevImg");
+			Browser.setAllowContextMenu(previewImage.getElement(), true);
 		}
 	}
 

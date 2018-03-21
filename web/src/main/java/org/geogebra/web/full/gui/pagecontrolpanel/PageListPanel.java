@@ -388,6 +388,7 @@ public class PageListPanel
 		return scrollPanel.getParent().getOffsetHeight();
 	}
 
+	@Override
 	public ScrollPanel getScrollPanel() {
 		return scrollPanel;
 	}
