@@ -16378,6 +16378,7 @@ namespace giac {
     return res;
   }
 
+  // csv2gen(filename,sep,nl,decsep,eof[,string])
   gen _csv2gen(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     char sep(';'),nl('\n'),eof(0),decsep(',');
@@ -16419,8 +16420,18 @@ namespace giac {
       return gensizeerr(gettext("Expecting file name to convert"));
     string file=*gs._STRNGptr;
     if (isfile){
+#ifdef EMCC_FETCH
+      istringstream i(fetch(file));
+      return csv2gen(i,sep,nl,decsep,eof,contextptr);
+#else
+      if (file.size()>4 && file.substr(0,4)=="http"){
+	string s=fetch(file);
+	istringstream i(s);
+	return csv2gen(i,sep,nl,decsep,eof,contextptr);
+      }
       ifstream i(file.c_str());
       return csv2gen(i,sep,nl,decsep,eof,contextptr);
+#endif
     }
     else {
       // count [ ]

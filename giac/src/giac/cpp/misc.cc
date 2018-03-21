@@ -8068,6 +8068,62 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__upper,&_upper,_upper_s);
   define_unary_function_ptr5( at_upper ,alias_at_upper,&__upper,0,true);
 
+#ifdef EMCC_FETCH
+#include <emscripten/fetch.h>
+
+  string fetch(const string & url){
+    emscripten_fetch_attr_t attr;
+    emscripten_fetch_attr_init(&attr);
+    strcpy(attr.requestMethod, "GET");
+    attr.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY | EMSCRIPTEN_FETCH_SYNCHRONOUS;
+    emscripten_fetch_t *fetch = emscripten_fetch(&attr, url.c_str()); // Blocks here until the operation is complete.
+    if (fetch->status == 200) {
+      string fetch_string="";
+      for (int i=0;i< fetch->numBytes;++i)
+	fetch_string += char(fetch->data[i]);
+      return fetch_string;
+    }
+    return "Failed";
+  }
+    
+#else
+#ifdef HAVE_LIBCURL
+#include <curl/curl.h>
+#include <curl/easy.h>
+#include <curl/curlbuild.h>
+  size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
+    string data((const char*) ptr, (size_t) size * nmemb);
+    *((stringstream*) stream) << data << endl;
+    return size * nmemb;
+  }
+  string fetch(const string & url){
+    void * curl = curl_easy_init();
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    /* example.com is redirected, so we tell libcurl to follow redirection */
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1); //Prevent "longjmp causes uninitialized stack frame" bug
+    curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "deflate");
+    std::stringstream out;
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &out);
+    /* Perform the request, res will get the return code */
+    CURLcode res = curl_easy_perform(curl);
+    /* Check for errors */
+    if (res != CURLE_OK) {
+      string s=string("Failure: ")+curl_easy_strerror(res);
+      curl_easy_cleanup(curl);
+      return s;
+    }
+    curl_easy_cleanup(curl);
+    return out.str();
+  }
+#else
+  string fetch(const string & url){
+    return "Failed";
+  }
+#endif // HAVE_LIBCURL
+#endif // EMCC_FETCH
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

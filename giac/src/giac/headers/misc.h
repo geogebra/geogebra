@@ -265,6 +265,7 @@ namespace giac {
   gen _find(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_add_autosimplify;
 
+  std::string fetch(const std::string & url);
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // NO_NAMESPACE_GIAC
