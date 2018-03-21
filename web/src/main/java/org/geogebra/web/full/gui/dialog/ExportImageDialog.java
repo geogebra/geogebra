@@ -43,7 +43,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		} else {
 			setPreviewImage(
 					((EuclidianViewWInterface) app.getActiveEuclidianView())
-							.getExportImageDataUrl(1, true));
+							.getExportImageDataUrl(3, false));
 		}
 		initGui();
 		initActions();
