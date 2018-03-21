@@ -419,6 +419,7 @@ $duration: 0.2s;
     		
     		.gwt-Button, .button {
     			@extend .flatDialogBtn;
+    			
     			.html-face {
     				text-align: center;	
     			}
@@ -540,6 +541,25 @@ $duration: 0.2s;
 			border: 1px solid $black-2;
 			border-radius: 2px 2px 0 0 ;
 			cursor: pointer;
+   		}
+   	
+   		.DialogButtonPanel.withCopyToClip {
+   			height: 96px;
+   			padding-top: 24px;
+   			display: grid;
+    		float: right;
+    		
+   			.button {
+   				height: 48px;
+   				line-height: 48px;
+   				position: absolute;
+   				right: 8px;
+   				bottom: 8px;
+   				
+   				&.copyToClipBtn {
+   					bottom: 56px;	 
+   				}
+   			}
    		}
    }
 }

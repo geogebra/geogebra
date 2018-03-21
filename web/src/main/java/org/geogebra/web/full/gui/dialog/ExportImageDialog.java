@@ -23,6 +23,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 	private NoDragImage previewImage;
 	private FlowPanel buttonPanel;
 	private StandardButton downloadBtn;
+	private StandardButton copyToClipboardBtn;
 
 	/**
 	 * @param app
@@ -40,18 +41,27 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		mainPanel = new FlowPanel();
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("expImgContent");
-		rightClickText = new Label();
-		rightClickText.addStyleName("rightClickHelpText");
-		contentPanel.add(rightClickText);
+		if (appW.isCopyImageToClipboardAvailable()) {
+			rightClickText = new Label();
+			rightClickText.addStyleName("rightClickHelpText");
+			contentPanel.add(rightClickText);
+		}
 		// create image preview
 		setPreviewImage(((EuclidianViewWInterface) app.getActiveEuclidianView())
 				.getExportImageDataUrl(1, true));
 		contentPanel.add(previewImage);
 		// panel for buttons
 		downloadBtn = new StandardButton("", appW);
-		// downloadBtn.addStyleName("insertBtn");
+		if (!appW.isCopyImageToClipboardAvailable()) {
+			copyToClipboardBtn = new StandardButton("", appW);
+			copyToClipboardBtn.addStyleName("copyToClipBtn");
+		}
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
+		if (!appW.isCopyImageToClipboardAvailable()) {
+			buttonPanel.add(copyToClipboardBtn);
+			buttonPanel.addStyleName("withCopyToClip");
+		}
 		buttonPanel.add(downloadBtn);
 		// add panels
 		add(mainPanel);
@@ -66,6 +76,9 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 
 	private void initActions() {
 		downloadBtn.addFastClickHandler(this);
+		if (!appW.isCopyImageToClipboardAvailable()) {
+			copyToClipboardBtn.addFastClickHandler(this);
+		}
 	}
 
 	@Override
@@ -75,6 +88,8 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 			Browser.exportImage(previewImage.getUrl(),
 					appW.getExportTitle() + ".png");
 			super.hide();
+		} else if (source == copyToClipboardBtn) {
+			// COPY TO CLIPBOARD
 		}
 	}
 
@@ -84,8 +99,13 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 	public void setLabels() {
 		getCaption().setText(appW.getLocalization().getMenu("exportImage")); // dialog
 		// title
-		rightClickText
+		if (appW.isCopyImageToClipboardAvailable()) {
+			rightClickText
 				.setText(appW.getLocalization().getMenu("expImgRightClickMsg"));
+		} else {
+			copyToClipboardBtn
+					.setText(appW.getLocalization().getMenu("CopyToClipboard"));
+		}
 		downloadBtn.setText(appW.getLocalization().getMenu("Download")); // download
 	}
 
