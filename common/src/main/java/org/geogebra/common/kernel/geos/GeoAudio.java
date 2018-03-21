@@ -118,6 +118,17 @@ public class GeoAudio extends GeoButton {
 	}
 
 	/**
+	 * @return if audio is playing.
+	 */
+	public boolean isPlaying() {
+		if (!hasSoundManager()) {
+			return false;
+		}
+
+		return app.getSoundManager().isPlaying(this);
+	}
+
+	/**
 	 * @return the duration of the audio in seconds.
 	 */
 	public int getDuration() {
@@ -148,6 +159,12 @@ public class GeoAudio extends GeoButton {
 		}
 
 		app.getSoundManager().pause(this);
+	}
+
+	@Override
+	public void remove() {
+		pause();
+		super.remove();
 	}
 
 	private boolean hasSoundManager() {

@@ -74,4 +74,12 @@ public interface SoundManager {
 	 *            to pause.
 	 */
 	void pause(GeoAudio geo);
+
+	/**
+	 * 
+	 * @param geo
+	 *            audio object to check.
+	 * @return if GeoAudio object is playing now.
+	 */
+	boolean isPlaying(GeoAudio geo);
 }

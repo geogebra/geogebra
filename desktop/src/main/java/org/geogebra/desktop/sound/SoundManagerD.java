@@ -324,4 +324,10 @@ public class SoundManagerD implements SoundManager {
 	public void pause(GeoAudio geo) {
 		// not implemented here.
 	}
+
+	@Override
+	public boolean isPlaying(GeoAudio geo) {
+		// not implemented here.
+		return false;
+	}
 }

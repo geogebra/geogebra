@@ -97,6 +97,7 @@ public class DrawAudio extends Drawable {
 		double param = (geoAudio.getCurrentTime() - min) / (max - min);
 		sliderLeft = left + width - (sliderLength + SLIDER_MARGIN);
 		updateDot(sliderLeft + sliderLength * param, top + height / 2);
+		playing = geoAudio.isPlaying();
 	}
 
 	private void updateDot(double rwX, double rwY) {
@@ -310,5 +311,4 @@ public class DrawAudio extends Drawable {
 		hovered = isPlayHit(x, y);
 		view.repaintView();
 	}
-
 }
