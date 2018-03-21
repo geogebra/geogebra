@@ -24,6 +24,7 @@ import org.geogebra.common.io.QDParser;
 import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.jre.io.file.InputStreamZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -107,6 +108,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 					new ByteArrayInputStream(byteArrayZipFile.getByteArray()));
 
 			readZip(zip, false);
+		} else if (zipFile instanceof InputStreamZipFile) {
+			InputStreamZipFile inputStreamZipFile = (InputStreamZipFile) zipFile;
+			ZipInputStream zip = new ZipInputStream(inputStreamZipFile.getInputStream());
+			readZipFromInputStream(zip, false);
 		}
 	}
 
