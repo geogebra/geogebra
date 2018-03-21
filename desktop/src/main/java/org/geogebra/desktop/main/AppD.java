@@ -134,7 +134,6 @@ import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.OFFHandler;
-import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
