@@ -285,8 +285,9 @@ public class DialogManagerW extends DialogManager
 	 * show export image dialog
 	 */
 	@Override
-	public void showExportImageDialog() {
-		ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app);
+	public void showExportImageDialog(String base64Image) {
+		ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app,
+				base64Image);
 		expImgDialog.center();
 		expImgDialog.show();
 	}

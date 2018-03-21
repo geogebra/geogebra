@@ -31,11 +31,20 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 	/**
 	 * @param app
 	 *            see {@link AppW}
+	 * @param base64Image
+	 *            optional image
 	 */
-	public ExportImageDialog(AppW app) {
+	public ExportImageDialog(AppW app, String base64Image) {
 		super(app.getPanel(), app);
 		setAutoHideEnabled(true);
 		this.appW = app;
+		if (base64Image != null) {
+			setPreviewImage(base64Image);
+		} else {
+			setPreviewImage(
+					((EuclidianViewWInterface) app.getActiveEuclidianView())
+							.getExportImageDataUrl(1, true));
+		}
 		initGui();
 		initActions();
 	}
@@ -49,9 +58,6 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 			rightClickText.addStyleName("rightClickHelpText");
 			contentPanel.add(rightClickText);
 		}
-		// create image preview
-		setPreviewImage(((EuclidianViewWInterface) app.getActiveEuclidianView())
-				.getExportImageDataUrl(1, true));
 		contentPanel.add(previewImage);
 		// panel for buttons
 		downloadBtn = new StandardButton("", appW);

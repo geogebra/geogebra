@@ -3740,25 +3740,26 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	@Override
-	public void handleImageExport(String base64image) {
-
-		if (base64image.startsWith(StringUtil.pdfMarker)) {
-			openInLightbox(base64image, true);
-		} else if (base64image.startsWith("JVBER")) {
-			// PDF without header
-			openInLightbox(StringUtil.pdfMarker + base64image, true);
-		} else if (base64image.startsWith("<svg")) {
-			// svg
-
+	public void handleImageExport(String base64image0) {
+		
+		String base64image = base64image0;
+		if (base64image.startsWith("<svg")) {
 			// can't use data:image/svg+xml;utf8 in IE11 / Edge
-			openInLightbox(Browser.encodeSVG(base64image), false);
+			base64image = Browser.encodeSVG(base64image);
+		} else if (base64image.startsWith("JVBER")) {
+			base64image = StringUtil.pdfMarker + base64image;
 		} else if (base64image.startsWith("iVBOR")) {
 			// PNG
-			openInLightbox(StringUtil.pngMarker + base64image, false);
-		} else {
-			// PNG or SVG with header
-			openInLightbox(base64image, false);
+			base64image = StringUtil.pngMarker + base64image;
 		}
+		
+		if (has(Feature.IMAGE_EXPORT) && getDialogManager() != null) {
+			getDialogManager().showExportImageDialog(base64image); 
+			return;
+		}
+
+		openInLightbox(base64image, base64image.startsWith(StringUtil.pdfMarker));
+		
 	}
 
 	public native boolean openInLightbox(String imageBase64, boolean pdf) /*-{

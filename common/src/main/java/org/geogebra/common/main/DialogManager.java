@@ -830,8 +830,13 @@ public abstract class DialogManager {
 
 	}
 
-	public void showExportImageDialog() {
-		// nothing to do here
+	/**
+	 * 
+	 * @param base64Image
+	 *            optional image
+	 */
+	public void showExportImageDialog(String base64Image) {
+		// overridden in web
 	}
 
 }
