@@ -2064,49 +2064,71 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur v=*g._VECTptr;
     int l=int(v.size());
-    if (l==2 && ckmatrix(v[0])){
-      if (v[1]==at_left){
-	matrice m=*v[0]._VECTptr,res;
-	int n=int(m.size());
-	res.reserve(n);
-	for (int i=0;i<n;++i){
-	  vecteur v=*m[i]._VECTptr;
-	  int s=int(v.size());
-	  for (int j=i+1;j<s;++j)
-	    v[j]=0;
-	  res.push_back(v);
+    if (l==2){
+      if (ckmatrix(v[0])){
+	if (v[1]==at_left){
+	  matrice m=*v[0]._VECTptr,res;
+	  int n=int(m.size());
+	  res.reserve(n);
+	  for (int i=0;i<n;++i){
+	    vecteur v=*m[i]._VECTptr;
+	    int s=int(v.size());
+	    for (int j=i+1;j<s;++j)
+	      v[j]=0;
+	    res.push_back(v);
+	  }
+	  return res;
 	}
-	return res;
-      }
-      if (v[1]==at_right){
-	matrice m=*v[0]._VECTptr,res;
-	int n=int(m.size());
-	res.reserve(n);
-	for (int i=0;i<n;++i){
-	  vecteur v=*m[i]._VECTptr;
-	  for (int j=0;j<i;++j)
-	    v[j]=0;
-	  res.push_back(v);
+	if (v[1]==at_right){
+	  matrice m=*v[0]._VECTptr,res;
+	  int n=int(m.size());
+	  res.reserve(n);
+	  for (int i=0;i<n;++i){
+	    vecteur v=*m[i]._VECTptr;
+	    for (int j=0;j<i;++j)
+	      v[j]=0;
+	    res.push_back(v);
+	  }
+	  return res;
 	}
-	return res;
-      }
-      if (v[1]==at_lu){
-	matrice m=*v[0]._VECTptr,resl,resu,diag;
-	int n=int(m.size());
-	resl.reserve(n); resu.reserve(n);
-	for (int i=0;i<n;++i){
-	  vecteur v=*m[i]._VECTptr;
-	  diag.push_back(v[i]);
-	  for (int j=0;j<=i;++j)
-	    v[j]=0;
-	  resu.push_back(v);
-	  v=*m[i]._VECTptr;
-	  int s=int(v.size());
-	  for (int j=i;j<s;++j)
-	    v[j]=0;
-	  resl.push_back(v);
+	if (v[1]==at_lu){
+	  matrice m=*v[0]._VECTptr,resl,resu,diag;
+	  int n=int(m.size());
+	  resl.reserve(n); resu.reserve(n);
+	  for (int i=0;i<n;++i){
+	    vecteur v=*m[i]._VECTptr;
+	    diag.push_back(v[i]);
+	    for (int j=0;j<=i;++j)
+	      v[j]=0;
+	    resu.push_back(v);
+	    v=*m[i]._VECTptr;
+	    int s=int(v.size());
+	    for (int j=i;j<s;++j)
+	      v[j]=0;
+	    resl.push_back(v);
+	  }
+	  return makesequence(resl,diag,resu);
 	}
-	return makesequence(resl,diag,resu);
+      }// if (ckmatrix(v[0])
+      else {
+	if (v[0].type==_VECT &&is_integral(v[1]) && v[1].type==_INT_){
+	  int shift=v[1].val;
+	  const vecteur & V = *v[0]._VECTptr;
+	  const_iterateur it=V.begin();
+	  int vs=int(V.size());
+	  int ts=vs+absint(shift);
+	  vecteur res(ts);
+	  for (int i=0;i<ts;++i){
+	    vecteur ligne(ts);
+	    int j=i+shift;
+	    if (j>=0 && j<ts){
+	      ligne[j]=*it;
+	      ++it;
+	    }
+	    res[i]=ligne;
+	  }
+	  return gen(res,_MATRIX__VECT);
+	}
       }
     }
     if (l==3 && v[0].type==_VECT && v[1].type==_VECT && v[2].type==_VECT && v[0]._VECTptr->size()+1==v[1]._VECTptr->size() && v[0]._VECTptr->size()==v[2]._VECTptr->size() ){

@@ -5924,8 +5924,13 @@ unsigned int ConvertUTF8toUTF16 (
 	    int posturtle=cur.find("turtle");
 	    int poscmath=cur.find("cmath");
 	    int posmath=cur.find("math");
+	    int posnumpy=cur.find("numpy");
 	    int cs=int(cur.size());
 	    cur=cur.substr(0,pos);
+	    if (posnumpy>=0 && posnumpy<cs){
+	      // add python numpy shortcuts
+	      cur += "\nT:=tran;H:=trn;I:=inv;mat:=matrix\n";
+	    }
 	    if (posturtle>=0 && posturtle<cs){
 	      // add python turtle shortcuts
 	      cur += "\npu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface\n";

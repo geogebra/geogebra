@@ -4727,6 +4727,8 @@ namespace giac {
       gen s=args._VECTptr->back();
       if (g.type==_VECT && (g.subtype==_POLY1__VECT || s.type==_SPOL1 || (s.type==_VECT && s.subtype==_POLY1__VECT)) )
 	return horner(*g._VECTptr,s,contextptr);
+      if (ckmatrix(g) && ckmatrix(s))
+	return g*s;
     }
     return symb_compose(args);
   }
@@ -4771,6 +4773,8 @@ namespace giac {
 	  }
 	  return res;
 	}
+	if (ckmatrix(base))
+	  return _pow(args,contextptr);
       }
     }
     return symbolic(at_composepow,args);
@@ -10551,6 +10555,10 @@ function getText(){
     if (ws!=2)
       return gensizeerr(contextptr);
     gen a=w[0],b=w[1];
+    if (b.type==_IDNT)
+      b=eval(b,1,contextptr);
+    if (b.type==_FUNC)
+      b=symbolic(*b._FUNCptr,gen(vecteur(0),_SEQ__VECT));
     if (a.type==_IDNT){
       gen tmp=eval(a,1,contextptr);
       if (tmp.type==_VECT && b.type==_SYMB){
@@ -10571,9 +10579,17 @@ function getText(){
     if (b.type!=_SYMB)
       return _prod(eval(g,eval_level(contextptr),contextptr),contextptr);
     gen f=b;
-    unary_function_ptr & u=b._SYMBptr->sommet;
+    unary_function_ptr u=b._SYMBptr->sommet;
     if (a!=at_random){
       f=b._SYMBptr->feuille;
+      if (u==at_of && f.type==_VECT && f._VECTptr->size()==2){
+	gen fn=eval(f._VECTptr->front(),1,contextptr);
+	if (fn.type==_FUNC){
+	  f=f._VECTptr->back();
+	  u=*fn._FUNCptr;
+	  b=symbolic(u,f);
+	}
+      }
       vecteur v(1,f);
       if (f.type==_VECT && f.subtype==_SEQ__VECT)
 	v=*f._VECTptr;
