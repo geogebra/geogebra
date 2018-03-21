@@ -6,7 +6,10 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.ImageLoadCallback;
+import org.geogebra.web.html5.util.ImageWrapper;
 
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -41,7 +44,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		mainPanel = new FlowPanel();
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("expImgContent");
-		if (appW.isCopyImageToClipboardAvailable()) {
+		if (!appW.isCopyImageToClipboardAvailable()) {
 			rightClickText = new Label();
 			rightClickText.addStyleName("rightClickHelpText");
 			contentPanel.add(rightClickText);
@@ -52,13 +55,19 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		contentPanel.add(previewImage);
 		// panel for buttons
 		downloadBtn = new StandardButton("", appW);
-		if (!appW.isCopyImageToClipboardAvailable()) {
+		if (!appW.isUnbundled()) {
+			downloadBtn.addStyleName("gwt-Button");
+		}
+		if (appW.isCopyImageToClipboardAvailable()) {
 			copyToClipboardBtn = new StandardButton("", appW);
 			copyToClipboardBtn.addStyleName("copyToClipBtn");
+			if (!appW.isUnbundled()) {
+				copyToClipboardBtn.addStyleName("gwt-Button");
+			}
 		}
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
-		if (!appW.isCopyImageToClipboardAvailable()) {
+		if (copyToClipboardBtn != null) {
 			buttonPanel.add(copyToClipboardBtn);
 			buttonPanel.addStyleName("withCopyToClip");
 		}
@@ -72,11 +81,12 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		addStyleName("exportImgDialog");
 		setGlassEnabled(true);
 		setLabels();
+		center();
 	}
 
 	private void initActions() {
 		downloadBtn.addFastClickHandler(this);
-		if (!appW.isCopyImageToClipboardAvailable()) {
+		if (copyToClipboardBtn != null) {
 			copyToClipboardBtn.addFastClickHandler(this);
 		}
 	}
@@ -99,7 +109,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 	public void setLabels() {
 		getCaption().setText(appW.getLocalization().getMenu("exportImage")); // dialog
 		// title
-		if (appW.isCopyImageToClipboardAvailable()) {
+		if (copyToClipboardBtn == null) {
 			rightClickText
 				.setText(appW.getLocalization().getMenu("expImgRightClickMsg"));
 		} else {
@@ -114,6 +124,14 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 			previewImage = new NoDragImage(imgStr);
 			previewImage.addStyleName("prevImg");
 			Browser.setAllowContextMenu(previewImage.getElement(), true);
+			ImageElement img = previewImage.getElement().cast();
+			ImageWrapper.nativeon(img, "load", new ImageLoadCallback() {
+
+				@Override
+				public void onLoad() {
+					center();
+				}
+			});
 		}
 	}
 
