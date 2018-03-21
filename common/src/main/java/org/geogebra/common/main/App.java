@@ -45,6 +45,8 @@ import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.file.ByteArrayZipFile;
+import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.kernel.AnimationManager;
@@ -4693,9 +4695,12 @@ public abstract class App implements UpdateSelection {
 		public void run(int viewID, String viewName);
 	}
 
-	final public boolean loadXML(byte[] zipFile) {
-		try {
+	final public boolean loadXml(byte[] zipFile) {
+		return loadXML(new ByteArrayZipFile(zipFile));
+	}
 
+	final public boolean loadXML(ZipFile zipFile) {
+		try {
 			// make sure objects are displayed in the correct View
 			setActiveView(App.VIEW_EUCLIDIAN);
 
