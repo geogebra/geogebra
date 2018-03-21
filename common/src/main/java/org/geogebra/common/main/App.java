@@ -4695,7 +4695,7 @@ public abstract class App implements UpdateSelection {
 		public void run(int viewID, String viewName);
 	}
 
-	final public boolean loadXml(byte[] zipFile) {
+	final public boolean loadXML(byte[] zipFile) {
 		return loadXML(new ByteArrayZipFile(zipFile));
 	}
 
