@@ -7997,6 +7997,18 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   define_unary_function_ptr5( at_strip ,alias_at_strip,&__strip,0,true);
 
   gen _lower(const gen & args,GIAC_CONTEXT){
+    if (ckmatrix(args)){
+      vecteur res(*args._VECTptr);
+      int l=int(res.size());
+      for (int i=0;i<l;++i){
+	vecteur ligne=*res[i]._VECTptr;
+	int c=int(ligne.size());
+	for (int j=i+1;j<c;++j)
+	  ligne[j]=0;
+	res[i]=ligne;
+      }
+      return gen(res,_MATRIX__VECT);
+    }
     if (args.type!=_STRNG)
       return gensizeerr(contextptr);
     string s(*args._STRNGptr);
@@ -8010,6 +8022,18 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   define_unary_function_ptr5( at_lower ,alias_at_lower,&__lower,0,true);
 
   gen _upper(const gen & args,GIAC_CONTEXT){
+    if (ckmatrix(args)){
+      vecteur res(*args._VECTptr);
+      int l=int(res.size());
+      for (int i=0;i<l;++i){
+	vecteur ligne=*res[i]._VECTptr;
+	int c=int(ligne.size());
+	for (int j=0;j<i;++j)
+	  ligne[j]=0;
+	res[i]=ligne;
+      }
+      return gen(res,_MATRIX__VECT);
+    }
     if (args.type!=_STRNG)
       return gensizeerr(contextptr);
     string s(*args._STRNGptr);

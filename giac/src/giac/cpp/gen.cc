@@ -4581,7 +4581,7 @@ namespace giac {
     }
     bool adeuxpoints=a.is_symb_of_sommet(at_deuxpoints);
     if ( (a.is_symb_of_sommet(at_interval) || adeuxpoints)&& a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2)
-      return symbolic(a._SYMBptr->sommet,makesequence(a._SYMBptr->feuille._VECTptr->front()+b,a._SYMBptr->feuille._VECTptr->back()+b+(adeuxpoints?minus_one:zero)));
+      return symbolic(a._SYMBptr->sommet,makesequence(a._SYMBptr->feuille._VECTptr->front()+b,a._SYMBptr->feuille._VECTptr->back()+b)); // removed +(adeuxpoints?minus_one:zero) otherwise slicing like v[1:4] does not work
     if (a.is_symb_of_sommet(at_unit)){
       if (is_zero(b))
 	return a;
