@@ -9,6 +9,7 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -637,10 +638,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		backgroundColorPanel = new BackgroundColorPanel();
 		tables = Arrays.asList(leftTable, mainTable, recentTable, otherTable);
 
-		setPaletteTitles("RecentColor", "Other");
-		setPreviewTitle("Preview");
-		setBgFgTitles("BackgroundColor", "ForegroundColor");
-		setOpacityTitle("Opacity");
+		setLabels();
+
 		btnCustomColor = new Button("+");
 		btnCustomColor.setStyleName("CustomColorButton");
 		btnCustomColor.addClickHandler(new ClickHandler() {
@@ -789,24 +788,25 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		otherTable.selectByColor(color);
 	}
 
-	public void setPaletteTitles(String recent, String other) {
+	/**
+	 * Update localization
+	 */
+	public void setLabels() {
+		Localization loc = app.getLocalization();
 		leftTable.setTitle("", 0, 0);
-		recentTable.setTitle(recent, 0, 0);
-		otherTable.setTitle(other, 0, 0);
+		recentTable.setTitle(loc.getMenu("RecentColor"), 0, 0);
+		otherTable.setTitle(loc.getMenu("Other"), 0, 0);
+		previewPanel.setLabels(loc.getMenu("Preview"));
+		opacityPanel.setLabels(loc.getMenu("Opacity"));
+		setBgFgTitles(loc.getMenu("BackgroundColor"),
+				loc.getMenu("ForegroundColor"));
 	}
 
-	public void setPreviewTitle(String title) {
-		previewPanel.setLabels(title);
-	}
-
-	public void setBgFgTitles(String bg, String fg) {
+	private void setBgFgTitles(String bg, String fg) {
 		backgroundColorPanel.setLabels(bg, fg);
 		update();
 	}
 
-	public void setOpacityTitle(String title) {
-		opacityPanel.setLabels(title);
-	}
 
 	public void addChangeHandler(ColorChangeHandler handler) {
 		this.changeHandler = handler;

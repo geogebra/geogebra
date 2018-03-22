@@ -108,8 +108,7 @@ public class ColorChooserDialog extends DialogBoxW
 	@Override
 	public void setLabels() {
 		this.getCaption().setText(localize("ChooseColor"));
-		colorChooserW.setPaletteTitles(localize("RecentColor"), localize("Other"));
-		colorChooserW.setPreviewTitle(localize("Preview"));
+		colorChooserW.setLabels();
 		btnOk.setText(localize("OK"));
 		btnCancel.setText(localize("Cancel"));
 		btnReset.setText(localize("Reset"));

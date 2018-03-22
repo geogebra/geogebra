@@ -576,12 +576,7 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			colorChooserW.setPaletteTitles(localize("RecentColor"),
-					localize("Other"));
-			colorChooserW.setPreviewTitle(localize("Preview"));
-			colorChooserW.setBgFgTitles(localize("BackgroundColor"),
-					localize("ForegroundColor"));
-			colorChooserW.setOpacityTitle(localize("Opacity"));
+			colorChooserW.setLabels();
 		}
 
 		/**
