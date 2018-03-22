@@ -28,6 +28,9 @@ public class EuclidianViewNoGui extends EuclidianView {
 	private GDimensionD dim = new GDimensionD(800, 600);
 	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
 			BufferedImage.TYPE_INT_RGB).createGraphics();
+	private final GGraphics2D g2 = new GGraphics2DD(
+			new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB)
+					.createGraphics());
 	private GFont font = new GFontD(new Font("serif", 12, Font.PLAIN));
 
 	/**
@@ -239,8 +242,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public GGraphics2D getGraphicsForPen() {
-		// TODO Auto-generated method stub
-		return null;
+		return g2;
 	}
 
 	@Override

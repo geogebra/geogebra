@@ -236,6 +236,7 @@ public class MOWToolbar extends FlowPanel {
 	protected void setTouchStyleForCards() {
 		pageControlPanel.setIsTouch();
 	}
+
 	/**
 	 * Opens the page control panel
 	 */
