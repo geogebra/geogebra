@@ -5777,8 +5777,8 @@ unsigned int ConvertUTF8toUTF16 (
     first=s_orig.find("xcas_mode");
     if (first>=0 && first<sss)
       return s_orig;
-    bool pythonmode=false;
     bool pythoncompat=python_compat(contextptr);
+    bool pythonmode=false;
     first=0;
     if (sss>24 && s_orig.substr(0,17)=="add_autosimplify(")
       first=17;
@@ -5929,21 +5929,23 @@ unsigned int ConvertUTF8toUTF16 (
 	    cur=cur.substr(0,pos);
 	    if (posnumpy>=0 && posnumpy<cs){
 	      // add python numpy shortcuts
-	      cur += "\nT:=tran;H:=trn;I:=inv;mat:=matrix\n";
+	      cur += "\nT:=tran;H:=trn;I:=inv;mat:=matrix;arange:=range\n";
+	      alert("T:=tran;H:=trn;I:=inv;mat:=matrix;arange:=range",contextptr);
 	    }
 	    if (posturtle>=0 && posturtle<cs){
 	      // add python turtle shortcuts
 	      cur += "\npu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface\n";
+	      alert("pu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface",contextptr);
 	    }
 	    if (poscmath>=0 && poscmath<cs){
 	      posmath=-1;
 	      // add python cmath shortcuts
-	      *logptr(contextptr) << gettext("Assigning phase, j and rect.")<<endl;
+	      alert(gettext("Assigning phase, j and rect."),contextptr);
 	      cur += "\nphase:=arg;j:=i;rect(r,theta):=r*exp(i*theta);\n";
 	    }
 	    if (posmath>=0 && posmath<cs){
 	      // add python math shortcuts
-	      *logptr(contextptr) << gettext("Assigning log2, expm1 (imprecise), fabs, fmod, modf, radians and degrees. Not yet supported: copysign, isinf, isnan, isfinite.")<<endl;
+	      alert(gettext("Assigning log2, expm1 (imprecise), fabs, fmod, modf, radians and degrees. Not supported: copysign."),contextptr);
 	      cur += "\nlog2(x):=logb(x,2);expm1(x):=exp(x)-1;fabs:=abs;fmod(a,b):=a-floor(a/b)*b;modf(x):={ local y:=floor(x); return x-y,y;};radians(x):=x/180*pi;degrees(x):=x/pi*180\n";
 	      // todo copysign, isinf, isnan, isfinite, frexp, ldexp
 	    }
@@ -5982,6 +5984,40 @@ unsigned int ConvertUTF8toUTF16 (
       if (pos<0){ 
 	s+='\n';  
 	continue;
+      }
+      if (cur[pos]!=':'){ // detect oneliner
+	int p=pos;
+	for (;p>0;--p){
+	  if (cur[p]==':' && cur[p+1]!=';')
+	    break;
+	}
+	if (p>0){
+	  int cs=int(cur.size());
+	  int progpos=cur.find("if");
+	  if (p && progpos>=0 && progpos<cs && instruction_at(cur,progpos,2)){
+	    pythonmode=true;
+	    cur=cur.substr(0,p)+" then "+cur.substr(p+1,pos-p);
+	    convert_python(cur,contextptr);
+	    cur += " fi";
+	    p=0;
+	  }
+	  progpos=cur.find("for");
+	  if (p && progpos>=0 && progpos<cs && instruction_at(cur,progpos,3)){
+	    pythonmode=true;
+	    cur=cur.substr(0,p)+" do "+cur.substr(p+1,pos-p);
+	    convert_python(cur,contextptr);
+	    cur += " od";
+	    p=0;
+	  }
+	  progpos=cur.find("while");
+	  if (p && progpos>=0 && progpos<cs && instruction_at(cur,progpos,5)){
+	    pythonmode=true;
+	    cur=cur.substr(0,p)+" do "+cur.substr(p+1,pos-p);
+	    convert_python(cur,contextptr);
+	    cur += " od";
+	    p=0;
+	  }
+	}
       }
       // count whitespaces, compare to stack
       int ws=0;

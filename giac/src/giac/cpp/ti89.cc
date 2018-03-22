@@ -1662,6 +1662,30 @@ namespace giac {
 
   gen _int(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()==2 && g._VECTptr->front().type==_STRNG && g._VECTptr->back().type==_INT_){
+      gen b=g._VECTptr->back();
+      if (b.val<2 || b.val>36)
+	return gendimerr(contextptr);
+      gen res=0;
+      const string & s=*g._VECTptr->front()._STRNGptr;
+      int ss=int(s.size());
+      for (int i=0;i<ss;++i){
+	char ch=s[i];
+	if (ch>='0' && ch<='9'){
+	  res = res*b+int(ch-'0');
+	  continue;
+	}
+	if (ch>='A' && ch<='Z'){
+	  res = res*b+int(ch-'A');
+	  continue;
+	}
+	if (ch>='a' && ch<='z'){
+	  res = res*b+int(ch-'a');
+	  continue;
+	}
+      }
+      return res;
+    }
     if (xcas_mode(contextptr)==3 || (python_compat(contextptr) && g.type!=_VECT)){
       gen g_=g;
       if (g.type==_STRNG)

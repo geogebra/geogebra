@@ -3026,6 +3026,8 @@ namespace giac {
     }
     if (nindexes>>24)
       return gendimerr(gettext("Array too large")+print_INT_(nindexes));
+    if (nindexes==1)
+      return g;
     int is=int(indexsize.size());
     for (int i=0;i<nindexes;++i){
       // generate index by writing nindexes in bases indexsize

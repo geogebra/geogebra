@@ -2245,7 +2245,7 @@ if (xcas_mode(yyextra)==2){ (*yylval) = gen(at_user_operator,6); index_status(yy
 case 62:
 YY_RULE_SETUP
 #line 352 "input_lexer.ll"
-if (xcas_mode(yyextra)==3) { index_status(yyextra)=1; return find_or_make_symbol(yytext,(*yylval),yyscanner,true,yyextra); } index_status(yyextra)=0; (*yylval) = _MAPLE_LIST ; (*yylval).subtype=_INT_MAPLECONVERSION ;return T_TYPE_ID;
+if (python_compat(yyextra)){ *yylval=at_python_list; return T_UNARY_OP; } if (xcas_mode(yyextra)==3) { index_status(yyextra)=1; return find_or_make_symbol(yytext,(*yylval),yyscanner,true,yyextra); } index_status(yyextra)=0; (*yylval) = _MAPLE_LIST ; (*yylval).subtype=_INT_MAPLECONVERSION ;return T_TYPE_ID;
 	YY_BREAK
 /* vector/polynom/matrice delimiters */
 case 63:

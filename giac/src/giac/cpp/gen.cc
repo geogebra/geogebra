@@ -11919,7 +11919,9 @@ namespace giac {
     vecteur & lv=*lastidx._VECTptr;
     unsigned ps=unsigned(pv.size());
     vector<int> indexes(ps);
-    if (lv.size()!=ps)
+    if (ps==0)
+      return res;
+    if (lv.size()!=ps )
       return gendimerr(contextptr);
     for (unsigned i=0;i<ps;++i){
       res.push_back(symb_interval(pv[i]+array_start(contextptr),lv[i]+array_start(contextptr))); // res.push_back(symb_interval(pv[i]+(xcas_mode(contextptr)!=0),lv[i]+(xcas_mode(contextptr)!=0)));

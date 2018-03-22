@@ -4010,6 +4010,10 @@ namespace giac {
   static define_unary_function_eval (__char,&_char,_char_s);
   define_unary_function_ptr5( at_char ,alias_at_char,&__char,0,true);
 
+  static const char _chr_s []="chr";
+  static define_unary_function_eval (__chr,&_char,_chr_s);
+  define_unary_function_ptr5( at_chr ,alias_at_chr,&__chr,0,true);
+
   static gen symb_asc(const gen & args){
     return symbolic(at_asc,args);
   }
@@ -8455,6 +8459,10 @@ namespace giac {
   static const char _string_s []="string";
   static define_unary_function_eval (__string,&giac::_string,_string_s);
   define_unary_function_ptr5( at_string ,alias_at_string,&__string,0,true);
+
+  static const char _str_s []="str";
+  static define_unary_function_eval (__str,&giac::_string,_str_s);
+  define_unary_function_ptr5( at_str ,alias_at_str,&__str,0,true);
 
   gen _part(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;

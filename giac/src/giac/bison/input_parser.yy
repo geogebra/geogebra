@@ -468,22 +468,27 @@ exp	: T_NUMBER		{$$ = $1;}
         }
 	| T_BEGIN_PAR exp T_END_PAR T_BEGIN_PAR suite T_END_PAR {$$ = check_symb_of($2,$5,giac_yyget_extra(scanner));}
 	| T_BEGIN_PAR exp T_END_PAR		{
-	if (abs_calc_mode(giac_yyget_extra(scanner))==38 && $2.type==_VECT && $2.subtype==_SEQ__VECT && $2._VECTptr->size()==2 && ($2._VECTptr->front().type<=_DOUBLE_ || $2._VECTptr->front().type==_FLOAT_) && ($2._VECTptr->back().type<=_DOUBLE_ || $2._VECTptr->back().type==_FLOAT_)){ 
-          const giac::context * contextptr = giac_yyget_extra(scanner);
-	  gen a=evalf($2._VECTptr->front(),1,contextptr),
-	      b=evalf($2._VECTptr->back(),1,contextptr);
-	  if ( (a.type==_DOUBLE_ || a.type==_FLOAT_) &&
-               (b.type==_DOUBLE_ || b.type==_FLOAT_))
-            $$= a+b*cst_i; 
-          else $$=$2;
-  	} else {
-             if (calc_mode(giac_yyget_extra(scanner))==1 && $2.type==_VECT && $1!=_LIST__VECT &&
-	     $2.subtype==_SEQ__VECT && ($2._VECTptr->size()==2 || $2._VECTptr->size()==3) )
-               $$ = gen(*$2._VECTptr,_GGB__VECT);
-             else
-               $$=$2;
-           }
-	} 
+	if ($1==_LIST__VECT && python_compat(giac_yyget_extra(scanner))){
+           $$=symbolic(at_python_list,$2);
+        }
+        else {
+ 	 if (abs_calc_mode(giac_yyget_extra(scanner))==38 && $2.type==_VECT && $2.subtype==_SEQ__VECT && $2._VECTptr->size()==2 && ($2._VECTptr->front().type<=_DOUBLE_ || $2._VECTptr->front().type==_FLOAT_) && ($2._VECTptr->back().type<=_DOUBLE_ || $2._VECTptr->back().type==_FLOAT_)){ 
+           const giac::context * contextptr = giac_yyget_extra(scanner);
+	   gen a=evalf($2._VECTptr->front(),1,contextptr),
+	       b=evalf($2._VECTptr->back(),1,contextptr);
+	   if ( (a.type==_DOUBLE_ || a.type==_FLOAT_) &&
+                (b.type==_DOUBLE_ || b.type==_FLOAT_))
+             $$= a+b*cst_i; 
+           else $$=$2;
+  	 } else {
+              if (calc_mode(giac_yyget_extra(scanner))==1 && $2.type==_VECT && $1!=_LIST__VECT &&
+	      $2.subtype==_SEQ__VECT && ($2._VECTptr->size()==2 || $2._VECTptr->size()==3) )
+                $$ = gen(*$2._VECTptr,_GGB__VECT);
+              else
+                $$=$2;
+          }
+	 }
+        } 
 	| T_VECT_DISPATCH suite T_VECT_END { 
         // cerr << $2 << endl;
         $$ = gen(*($2._VECTptr),$1.val);

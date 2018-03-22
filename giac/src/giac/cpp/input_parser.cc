@@ -915,21 +915,21 @@ static const yytype_uint16 yyrline[] =
      341,   348,   349,   351,   352,   353,   355,   356,   357,   382,
      395,   408,   412,   416,   421,   426,   432,   436,   437,   441,
      442,   443,   444,   445,   446,   447,   448,   449,   450,   451,
-     452,   455,   456,   461,   465,   469,   470,   487,   496,   502,
-     503,   504,   505,   510,   514,   515,   524,   525,   526,   527,
-     528,   532,   533,   536,   541,   542,   543,   544,   549,   554,
-     559,   564,   569,   574,   579,   580,   581,   582,   583,   584,
-     585,   589,   592,   596,   600,   601,   602,   603,   604,   605,
-     606,   607,   608,   609,   610,   611,   612,   613,   614,   615,
-     616,   620,   624,   628,   631,   632,   633,   634,   635,   639,
-     640,   659,   671,   672,   677,   678,   679,   680,   681,   682,
-     690,   695,   699,   700,   701,   705,   706,   709,   712,   715,
-     716,   723,   724,   725,   726,   727,   728,   729,   730,   738,
-     748,   749,   752,   753,   756,   758,   763,   766,   767,   768,
-     771,   841,   842,   845,   846,   847,   848,   851,   852,   855,
-     856,   857,   861,   864,   871,   872,   876,   879,   884,   885,
-     888,   889,   892,   893,   894,   897,   898,   899,   902,   903,
-     904,   905,   908
+     452,   455,   456,   461,   465,   469,   470,   492,   501,   507,
+     508,   509,   510,   515,   519,   520,   529,   530,   531,   532,
+     533,   537,   538,   541,   546,   547,   548,   549,   554,   559,
+     564,   569,   574,   579,   584,   585,   586,   587,   588,   589,
+     590,   594,   597,   601,   605,   606,   607,   608,   609,   610,
+     611,   612,   613,   614,   615,   616,   617,   618,   619,   620,
+     621,   625,   629,   633,   636,   637,   638,   639,   640,   644,
+     645,   664,   676,   677,   682,   683,   684,   685,   686,   687,
+     695,   700,   704,   705,   706,   710,   711,   714,   717,   720,
+     721,   728,   729,   730,   731,   732,   733,   734,   735,   743,
+     753,   754,   757,   758,   761,   763,   768,   771,   772,   773,
+     776,   846,   847,   850,   851,   852,   853,   856,   857,   860,
+     861,   862,   866,   869,   876,   877,   881,   884,   889,   890,
+     893,   894,   897,   898,   899,   902,   903,   904,   907,   908,
+     909,   910,   913
 };
 #endif
 
@@ -5837,28 +5837,33 @@ yyreduce:
 /* Line 1806 of yacc.c  */
 #line 470 "input_parser.yy"
     {
-	if (abs_calc_mode(giac_yyget_extra(scanner))==38 && (yyvsp[(2) - (3)]).type==_VECT && (yyvsp[(2) - (3)]).subtype==_SEQ__VECT && (yyvsp[(2) - (3)])._VECTptr->size()==2 && ((yyvsp[(2) - (3)])._VECTptr->front().type<=_DOUBLE_ || (yyvsp[(2) - (3)])._VECTptr->front().type==_FLOAT_) && ((yyvsp[(2) - (3)])._VECTptr->back().type<=_DOUBLE_ || (yyvsp[(2) - (3)])._VECTptr->back().type==_FLOAT_)){ 
-          const giac::context * contextptr = giac_yyget_extra(scanner);
-	  gen a=evalf((yyvsp[(2) - (3)])._VECTptr->front(),1,contextptr),
-	      b=evalf((yyvsp[(2) - (3)])._VECTptr->back(),1,contextptr);
-	  if ( (a.type==_DOUBLE_ || a.type==_FLOAT_) &&
-               (b.type==_DOUBLE_ || b.type==_FLOAT_))
-            (yyval)= a+b*cst_i; 
-          else (yyval)=(yyvsp[(2) - (3)]);
-  	} else {
-             if (calc_mode(giac_yyget_extra(scanner))==1 && (yyvsp[(2) - (3)]).type==_VECT && (yyvsp[(1) - (3)])!=_LIST__VECT &&
-	     (yyvsp[(2) - (3)]).subtype==_SEQ__VECT && ((yyvsp[(2) - (3)])._VECTptr->size()==2 || (yyvsp[(2) - (3)])._VECTptr->size()==3) )
-               (yyval) = gen(*(yyvsp[(2) - (3)])._VECTptr,_GGB__VECT);
-             else
-               (yyval)=(yyvsp[(2) - (3)]);
-           }
-	}
+	if ((yyvsp[(1) - (3)])==_LIST__VECT && python_compat(giac_yyget_extra(scanner))){
+           (yyval)=symbolic(at_python_list,(yyvsp[(2) - (3)]));
+        }
+        else {
+ 	 if (abs_calc_mode(giac_yyget_extra(scanner))==38 && (yyvsp[(2) - (3)]).type==_VECT && (yyvsp[(2) - (3)]).subtype==_SEQ__VECT && (yyvsp[(2) - (3)])._VECTptr->size()==2 && ((yyvsp[(2) - (3)])._VECTptr->front().type<=_DOUBLE_ || (yyvsp[(2) - (3)])._VECTptr->front().type==_FLOAT_) && ((yyvsp[(2) - (3)])._VECTptr->back().type<=_DOUBLE_ || (yyvsp[(2) - (3)])._VECTptr->back().type==_FLOAT_)){ 
+           const giac::context * contextptr = giac_yyget_extra(scanner);
+	   gen a=evalf((yyvsp[(2) - (3)])._VECTptr->front(),1,contextptr),
+	       b=evalf((yyvsp[(2) - (3)])._VECTptr->back(),1,contextptr);
+	   if ( (a.type==_DOUBLE_ || a.type==_FLOAT_) &&
+                (b.type==_DOUBLE_ || b.type==_FLOAT_))
+             (yyval)= a+b*cst_i; 
+           else (yyval)=(yyvsp[(2) - (3)]);
+  	 } else {
+              if (calc_mode(giac_yyget_extra(scanner))==1 && (yyvsp[(2) - (3)]).type==_VECT && (yyvsp[(1) - (3)])!=_LIST__VECT &&
+	      (yyvsp[(2) - (3)]).subtype==_SEQ__VECT && ((yyvsp[(2) - (3)])._VECTptr->size()==2 || (yyvsp[(2) - (3)])._VECTptr->size()==3) )
+                (yyval) = gen(*(yyvsp[(2) - (3)])._VECTptr,_GGB__VECT);
+              else
+                (yyval)=(yyvsp[(2) - (3)]);
+          }
+	 }
+        }
     break;
 
   case 117:
 
 /* Line 1806 of yacc.c  */
-#line 487 "input_parser.yy"
+#line 492 "input_parser.yy"
     { 
         // cerr << $2 << endl;
         (yyval) = gen(*((yyvsp[(2) - (3)])._VECTptr),(yyvsp[(1) - (3)]).val);
@@ -5873,7 +5878,7 @@ yyreduce:
   case 118:
 
 /* Line 1806 of yacc.c  */
-#line 496 "input_parser.yy"
+#line 501 "input_parser.yy"
     { 
          if ((yyvsp[(1) - (3)]).type==_VECT && (yyvsp[(1) - (3)]).subtype==_SEQ__VECT && !((yyvsp[(3) - (3)]).type==_VECT && (yyvsp[(2) - (3)]).subtype==_SEQ__VECT)){ (yyval)=(yyvsp[(1) - (3)]); (yyval)._VECTptr->push_back((yyvsp[(3) - (3)])); }
 	 else
@@ -5885,28 +5890,28 @@ yyreduce:
   case 119:
 
 /* Line 1806 of yacc.c  */
-#line 502 "input_parser.yy"
+#line 507 "input_parser.yy"
     { (yyval)=gen(vecteur(0),_SEQ__VECT); }
     break;
 
   case 120:
 
 /* Line 1806 of yacc.c  */
-#line 503 "input_parser.yy"
+#line 508 "input_parser.yy"
     {(yyval)=symb_findhelp((yyvsp[(2) - (2)]));}
     break;
 
   case 121:
 
 /* Line 1806 of yacc.c  */
-#line 504 "input_parser.yy"
+#line 509 "input_parser.yy"
     { (yyval)=symb_interrogation((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])); }
     break;
 
   case 122:
 
 /* Line 1806 of yacc.c  */
-#line 505 "input_parser.yy"
+#line 510 "input_parser.yy"
     {
           const giac::context * contextptr = giac_yyget_extra(scanner);
           (yyval)=symb_unit(plus_one,(yyvsp[(2) - (2)]),contextptr); 
@@ -5917,7 +5922,7 @@ yyreduce:
   case 123:
 
 /* Line 1806 of yacc.c  */
-#line 510 "input_parser.yy"
+#line 515 "input_parser.yy"
     {
           const giac::context * contextptr = giac_yyget_extra(scanner);
           (yyval)=symb_unit((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)]),contextptr); 
@@ -5927,14 +5932,14 @@ yyreduce:
   case 124:
 
 /* Line 1806 of yacc.c  */
-#line 514 "input_parser.yy"
+#line 519 "input_parser.yy"
     { (yyval)=symb_pow((yyvsp[(1) - (2)]),(yyvsp[(2) - (2)])); }
     break;
 
   case 125:
 
 /* Line 1806 of yacc.c  */
-#line 515 "input_parser.yy"
+#line 520 "input_parser.yy"
     { 
         const giac::context * contextptr = giac_yyget_extra(scanner);
 #ifdef HAVE_SIGNAL_H_OLD
@@ -5949,35 +5954,35 @@ yyreduce:
   case 126:
 
 /* Line 1806 of yacc.c  */
-#line 524 "input_parser.yy"
+#line 529 "input_parser.yy"
     { (yyval)=(yyvsp[(1) - (1)]); }
     break;
 
   case 127:
 
 /* Line 1806 of yacc.c  */
-#line 525 "input_parser.yy"
+#line 530 "input_parser.yy"
     { (yyval)=symbolic(*(yyvsp[(1) - (2)])._FUNCptr,(yyvsp[(2) - (2)])); }
     break;
 
   case 128:
 
 /* Line 1806 of yacc.c  */
-#line 526 "input_parser.yy"
+#line 531 "input_parser.yy"
     {(yyval) = symbolic(*(yyvsp[(1) - (1)])._FUNCptr,gen(vecteur(0),_SEQ__VECT));}
     break;
 
   case 129:
 
 /* Line 1806 of yacc.c  */
-#line 527 "input_parser.yy"
+#line 532 "input_parser.yy"
     {(yyval) = symbolic(*(yyvsp[(1) - (3)])._FUNCptr,gen(vecteur(0),_SEQ__VECT));}
     break;
 
   case 130:
 
 /* Line 1806 of yacc.c  */
-#line 528 "input_parser.yy"
+#line 533 "input_parser.yy"
     {
           const giac::context * contextptr = giac_yyget_extra(scanner);
           (yyval) = symb_local((yyvsp[(3) - (4)]),contextptr);
@@ -5987,14 +5992,14 @@ yyreduce:
   case 131:
 
 /* Line 1806 of yacc.c  */
-#line 532 "input_parser.yy"
+#line 537 "input_parser.yy"
     {(yyval) = gen(at_local,2);}
     break;
 
   case 132:
 
 /* Line 1806 of yacc.c  */
-#line 533 "input_parser.yy"
+#line 538 "input_parser.yy"
     {
 	(yyval) = symbolic(*(yyvsp[(1) - (6)])._FUNCptr,makevecteur(equaltosame((yyvsp[(3) - (6)])),symb_bloc((yyvsp[(5) - (6)])),(yyvsp[(6) - (6)])));
 	}
@@ -6003,7 +6008,7 @@ yyreduce:
   case 133:
 
 /* Line 1806 of yacc.c  */
-#line 536 "input_parser.yy"
+#line 541 "input_parser.yy"
     {
         vecteur v=makevecteur(equaltosame((yyvsp[(3) - (7)])),(yyvsp[(5) - (7)]),(yyvsp[(7) - (7)]));
 	// *logptr(giac_yyget_extra(scanner)) << v << endl;
@@ -6014,28 +6019,28 @@ yyreduce:
   case 134:
 
 /* Line 1806 of yacc.c  */
-#line 541 "input_parser.yy"
+#line 546 "input_parser.yy"
     { (yyval)=symb_rpn_prog((yyvsp[(2) - (3)])); }
     break;
 
   case 135:
 
 /* Line 1806 of yacc.c  */
-#line 542 "input_parser.yy"
+#line 547 "input_parser.yy"
     { (yyval)=(yyvsp[(1) - (1)]); }
     break;
 
   case 136:
 
 /* Line 1806 of yacc.c  */
-#line 543 "input_parser.yy"
+#line 548 "input_parser.yy"
     { (yyval)=symbolic(at_maple_lib,makevecteur((yyvsp[(1) - (4)]),(yyvsp[(3) - (4)]))); }
     break;
 
   case 137:
 
 /* Line 1806 of yacc.c  */
-#line 544 "input_parser.yy"
+#line 549 "input_parser.yy"
     { 
           if ((yyvsp[(7) - (7)]).type==_INT_ && (yyvsp[(7) - (7)]).val && (yyvsp[(7) - (7)]).val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
           const giac::context * contextptr = giac_yyget_extra(scanner);
@@ -6046,7 +6051,7 @@ yyreduce:
   case 138:
 
 /* Line 1806 of yacc.c  */
-#line 549 "input_parser.yy"
+#line 554 "input_parser.yy"
     { 
           if ((yyvsp[(8) - (8)]).type==_INT_ && (yyvsp[(8) - (8)]).val && (yyvsp[(8) - (8)]).val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
           const giac::context * contextptr = giac_yyget_extra(scanner);
@@ -6057,7 +6062,7 @@ yyreduce:
   case 139:
 
 /* Line 1806 of yacc.c  */
-#line 554 "input_parser.yy"
+#line 559 "input_parser.yy"
     { 
           if ((yyvsp[(7) - (7)]).type==_INT_ && (yyvsp[(7) - (7)]).val && (yyvsp[(7) - (7)]).val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
           const giac::context * contextptr = giac_yyget_extra(scanner);
@@ -6068,7 +6073,7 @@ yyreduce:
   case 140:
 
 /* Line 1806 of yacc.c  */
-#line 559 "input_parser.yy"
+#line 564 "input_parser.yy"
     { 
           if ((yyvsp[(9) - (9)]).type==_INT_ && (yyvsp[(9) - (9)]).val && (yyvsp[(9) - (9)]).val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
           const giac::context * contextptr = giac_yyget_extra(scanner);
@@ -6079,7 +6084,7 @@ yyreduce:
   case 141:
 
 /* Line 1806 of yacc.c  */
-#line 564 "input_parser.yy"
+#line 569 "input_parser.yy"
     { 
           if ((yyvsp[(8) - (8)]).type==_INT_ && (yyvsp[(8) - (8)]).val && (yyvsp[(8) - (8)]).val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
           const giac::context * contextptr = giac_yyget_extra(scanner);
@@ -6090,7 +6095,7 @@ yyreduce:
   case 142:
 
 /* Line 1806 of yacc.c  */
-#line 569 "input_parser.yy"
+#line 574 "input_parser.yy"
     { 
           if ((yyvsp[(8) - (8)]).type==_INT_ && (yyvsp[(8) - (8)]).val && (yyvsp[(8) - (8)]).val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
           const giac::context * contextptr = giac_yyget_extra(scanner);
@@ -6101,7 +6106,7 @@ yyreduce:
   case 143:
 
 /* Line 1806 of yacc.c  */
-#line 574 "input_parser.yy"
+#line 579 "input_parser.yy"
     { 
           if ((yyvsp[(9) - (9)]).type==_INT_ && (yyvsp[(9) - (9)]).val && (yyvsp[(9) - (9)]).val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
           const giac::context * contextptr = giac_yyget_extra(scanner);
@@ -6112,49 +6117,49 @@ yyreduce:
   case 144:
 
 /* Line 1806 of yacc.c  */
-#line 579 "input_parser.yy"
+#line 584 "input_parser.yy"
     {(yyval) = symbolic(*(yyvsp[(1) - (9)])._FUNCptr,makevecteur((yyvsp[(3) - (9)]),equaltosame((yyvsp[(5) - (9)])),(yyvsp[(7) - (9)]),symb_bloc((yyvsp[(9) - (9)]))));}
     break;
 
   case 145:
 
 /* Line 1806 of yacc.c  */
-#line 580 "input_parser.yy"
+#line 585 "input_parser.yy"
     {(yyval) = symbolic(*(yyvsp[(1) - (10)])._FUNCptr,makevecteur((yyvsp[(3) - (10)]),equaltosame((yyvsp[(5) - (10)])),(yyvsp[(7) - (10)]),(yyvsp[(9) - (10)])));}
     break;
 
   case 146:
 
 /* Line 1806 of yacc.c  */
-#line 581 "input_parser.yy"
+#line 586 "input_parser.yy"
     {(yyval) = symbolic(*(yyvsp[(1) - (4)])._FUNCptr,gen2vecteur((yyvsp[(3) - (4)])));}
     break;
 
   case 147:
 
 /* Line 1806 of yacc.c  */
-#line 582 "input_parser.yy"
+#line 587 "input_parser.yy"
     {(yyval)=symbolic(at_member,makesequence((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])));}
     break;
 
   case 148:
 
 /* Line 1806 of yacc.c  */
-#line 583 "input_parser.yy"
+#line 588 "input_parser.yy"
     { (yyval)=symbolic(at_apply,makesequence(symbolic(at_program,makesequence((yyvsp[(4) - (7)]),0*(yyvsp[(4) - (7)]),vecteur(1,(yyvsp[(2) - (7)])))),(yyvsp[(6) - (7)]))); }
     break;
 
   case 149:
 
 /* Line 1806 of yacc.c  */
-#line 584 "input_parser.yy"
+#line 589 "input_parser.yy"
     { (yyval)=symbolic(at_apply,symbolic(at_program,makesequence((yyvsp[(4) - (9)]),0*(yyvsp[(4) - (9)]),vecteur(1,(yyvsp[(2) - (9)])))),symbolic(at_select,makesequence(symbolic(at_program,makesequence((yyvsp[(4) - (9)]),0*(yyvsp[(4) - (9)]),(yyvsp[(8) - (9)]))),(yyvsp[(6) - (9)])))); }
     break;
 
   case 150:
 
 /* Line 1806 of yacc.c  */
-#line 585 "input_parser.yy"
+#line 590 "input_parser.yy"
     { 
 	vecteur v=makevecteur(zero,equaltosame((yyvsp[(3) - (5)])),zero,symb_bloc((yyvsp[(5) - (5)])));
 	(yyval)=symbolic(*(yyvsp[(1) - (5)])._FUNCptr,v); 
@@ -6164,7 +6169,7 @@ yyreduce:
   case 151:
 
 /* Line 1806 of yacc.c  */
-#line 589 "input_parser.yy"
+#line 594 "input_parser.yy"
     { 
 	(yyval)=symbolic(*(yyvsp[(1) - (6)])._FUNCptr,makevecteur(zero,equaltosame((yyvsp[(3) - (6)])),zero,(yyvsp[(5) - (6)]))); 
 	}
@@ -6173,7 +6178,7 @@ yyreduce:
   case 152:
 
 /* Line 1806 of yacc.c  */
-#line 592 "input_parser.yy"
+#line 597 "input_parser.yy"
     { 
           if ((yyvsp[(5) - (5)]).type==_INT_ && (yyvsp[(5) - (5)]).val && (yyvsp[(5) - (5)]).val!=9 && (yyvsp[(5) - (5)]).val!=8) giac_yyerror(scanner,"missing loop end delimiter");
 	  (yyval)=symbolic(*(yyvsp[(1) - (5)])._FUNCptr,makevecteur(zero,equaltosame((yyvsp[(2) - (5)])),zero,symb_bloc((yyvsp[(4) - (5)])))); 
@@ -6183,7 +6188,7 @@ yyreduce:
   case 153:
 
 /* Line 1806 of yacc.c  */
-#line 596 "input_parser.yy"
+#line 601 "input_parser.yy"
     { 
           if ((yyvsp[(5) - (5)]).type==_INT_ && (yyvsp[(5) - (5)]).val && (yyvsp[(5) - (5)]).val!=9 && (yyvsp[(5) - (5)]).val!=8) giac_yyerror(scanner,"missing loop end delimiter");
           (yyval)=symbolic(*(yyvsp[(1) - (5)])._FUNCptr,makevecteur(zero,equaltosame((yyvsp[(2) - (5)])),zero,symb_bloc((yyvsp[(4) - (5)])))); 
@@ -6193,119 +6198,119 @@ yyreduce:
   case 154:
 
 /* Line 1806 of yacc.c  */
-#line 600 "input_parser.yy"
+#line 605 "input_parser.yy"
     { (yyval)=symb_try_catch(makevecteur(symb_bloc((yyvsp[(2) - (7)])),(yyvsp[(5) - (7)]),symb_bloc((yyvsp[(7) - (7)]))));}
     break;
 
   case 155:
 
 /* Line 1806 of yacc.c  */
-#line 601 "input_parser.yy"
+#line 606 "input_parser.yy"
     {(yyval)=symb_try_catch(gen2vecteur((yyvsp[(3) - (4)])));}
     break;
 
   case 156:
 
 /* Line 1806 of yacc.c  */
-#line 602 "input_parser.yy"
+#line 607 "input_parser.yy"
     {(yyval)=gen(at_try_catch,3);}
     break;
 
   case 157:
 
 /* Line 1806 of yacc.c  */
-#line 603 "input_parser.yy"
+#line 608 "input_parser.yy"
     { (yyval)=symb_case((yyvsp[(3) - (7)]),(yyvsp[(6) - (7)])); }
     break;
 
   case 158:
 
 /* Line 1806 of yacc.c  */
-#line 604 "input_parser.yy"
+#line 609 "input_parser.yy"
     { (yyval) = symb_case((yyvsp[(3) - (4)])); }
     break;
 
   case 159:
 
 /* Line 1806 of yacc.c  */
-#line 605 "input_parser.yy"
+#line 610 "input_parser.yy"
     { (yyval)=symb_case((yyvsp[(2) - (4)]),(yyvsp[(3) - (4)])); }
     break;
 
   case 160:
 
 /* Line 1806 of yacc.c  */
-#line 606 "input_parser.yy"
+#line 611 "input_parser.yy"
     { (yyval)=(yyvsp[(2) - (3)]); }
     break;
 
   case 161:
 
 /* Line 1806 of yacc.c  */
-#line 607 "input_parser.yy"
+#line 612 "input_parser.yy"
     { (yyval)=(yyvsp[(1) - (1)]); }
     break;
 
   case 162:
 
 /* Line 1806 of yacc.c  */
-#line 608 "input_parser.yy"
+#line 613 "input_parser.yy"
     {(yyval) = gen(*(yyvsp[(1) - (2)])._FUNCptr,0);}
     break;
 
   case 163:
 
 /* Line 1806 of yacc.c  */
-#line 609 "input_parser.yy"
+#line 614 "input_parser.yy"
     { (yyval)=symbolic(*(yyvsp[(1) - (3)])._FUNCptr,makevecteur(zero,plus_one,zero,symb_bloc((yyvsp[(2) - (3)])))); }
     break;
 
   case 164:
 
 /* Line 1806 of yacc.c  */
-#line 610 "input_parser.yy"
+#line 615 "input_parser.yy"
     {(yyval) = symbolic(*(yyvsp[(1) - (4)])._FUNCptr,makevecteur(equaltosame((yyvsp[(2) - (4)])),(yyvsp[(4) - (4)]),0));}
     break;
 
   case 165:
 
 /* Line 1806 of yacc.c  */
-#line 611 "input_parser.yy"
+#line 616 "input_parser.yy"
     { (yyval)=symb_try_catch(makevecteur(symb_bloc((yyvsp[(2) - (5)])),at_break,symb_bloc((yyvsp[(4) - (5)])))); }
     break;
 
   case 166:
 
 /* Line 1806 of yacc.c  */
-#line 612 "input_parser.yy"
+#line 617 "input_parser.yy"
     { (yyval)=symb_try_catch(makevecteur(symb_bloc((yyvsp[(2) - (4)])),at_break,0)); }
     break;
 
   case 167:
 
 /* Line 1806 of yacc.c  */
-#line 613 "input_parser.yy"
+#line 618 "input_parser.yy"
     { (yyval)=symb_try_catch(makevecteur(symb_bloc((yyvsp[(2) - (6)])),at_break,symb_bloc((yyvsp[(5) - (6)])))); }
     break;
 
   case 168:
 
 /* Line 1806 of yacc.c  */
-#line 614 "input_parser.yy"
+#line 619 "input_parser.yy"
     { (yyval)=symb_try_catch(makevecteur(symb_bloc((yyvsp[(2) - (5)])),at_break,0)); }
     break;
 
   case 169:
 
 /* Line 1806 of yacc.c  */
-#line 615 "input_parser.yy"
+#line 620 "input_parser.yy"
     { vecteur v1(gen2vecteur((yyvsp[(1) - (3)]))),v3(gen2vecteur((yyvsp[(3) - (3)]))); (yyval)=symbolic(at_ti_semi,makevecteur(v1,v3)); }
     break;
 
   case 170:
 
 /* Line 1806 of yacc.c  */
-#line 616 "input_parser.yy"
+#line 621 "input_parser.yy"
     { 
           const giac::context * contextptr = giac_yyget_extra(scanner);
           (yyval)=symb_program_sto((yyvsp[(4) - (13)]),(yyvsp[(4) - (13)])*zero,symb_local((yyvsp[(10) - (13)]),mergevecteur(*(yyvsp[(7) - (13)])._VECTptr,*(yyvsp[(12) - (13)])._VECTptr),contextptr),(yyvsp[(2) - (13)]),false,contextptr); 
@@ -6315,7 +6320,7 @@ yyreduce:
   case 171:
 
 /* Line 1806 of yacc.c  */
-#line 620 "input_parser.yy"
+#line 625 "input_parser.yy"
     { 
           const giac::context * contextptr = giac_yyget_extra(scanner);
 	(yyval)=symb_program_sto((yyvsp[(4) - (12)]),(yyvsp[(4) - (12)])*zero,symb_local((yyvsp[(9) - (12)]),mergevecteur(*(yyvsp[(7) - (12)])._VECTptr,*(yyvsp[(11) - (12)])._VECTptr),contextptr),(yyvsp[(2) - (12)]),false,contextptr); 
@@ -6325,7 +6330,7 @@ yyreduce:
   case 172:
 
 /* Line 1806 of yacc.c  */
-#line 624 "input_parser.yy"
+#line 629 "input_parser.yy"
     { 
           const giac::context * contextptr = giac_yyget_extra(scanner);
 	(yyval)=symb_program_sto((yyvsp[(4) - (12)]),(yyvsp[(4) - (12)])*zero,symb_local((yyvsp[(9) - (12)]),(yyvsp[(11) - (12)]),contextptr),(yyvsp[(2) - (12)]),false,contextptr); 
@@ -6335,7 +6340,7 @@ yyreduce:
   case 173:
 
 /* Line 1806 of yacc.c  */
-#line 628 "input_parser.yy"
+#line 633 "input_parser.yy"
     { 
 	(yyval)=symb_program_sto((yyvsp[(4) - (8)]),(yyvsp[(4) - (8)])*zero,symb_bloc((yyvsp[(7) - (8)])),(yyvsp[(2) - (8)]),false,giac_yyget_extra(scanner)); 
 	}
@@ -6344,35 +6349,35 @@ yyreduce:
   case 174:
 
 /* Line 1806 of yacc.c  */
-#line 631 "input_parser.yy"
+#line 636 "input_parser.yy"
     { (yyval)=symbolic(*(yyvsp[(1) - (3)])._FUNCptr,(yyvsp[(2) - (3)])); }
     break;
 
   case 175:
 
 /* Line 1806 of yacc.c  */
-#line 632 "input_parser.yy"
+#line 637 "input_parser.yy"
     { (yyval)=symbolic(*(yyvsp[(1) - (2)])._FUNCptr,(yyvsp[(2) - (2)])); }
     break;
 
   case 176:
 
 /* Line 1806 of yacc.c  */
-#line 633 "input_parser.yy"
+#line 638 "input_parser.yy"
     { (yyval)=(yyvsp[(2) - (2)]); }
     break;
 
   case 177:
 
 /* Line 1806 of yacc.c  */
-#line 634 "input_parser.yy"
+#line 639 "input_parser.yy"
     { (yyval)=symb_program_sto((yyvsp[(4) - (7)]),(yyvsp[(4) - (7)])*zero,(yyvsp[(7) - (7)]),(yyvsp[(2) - (7)]),false,giac_yyget_extra(scanner));}
     break;
 
   case 178:
 
 /* Line 1806 of yacc.c  */
-#line 635 "input_parser.yy"
+#line 640 "input_parser.yy"
     { 
           const giac::context * contextptr = giac_yyget_extra(scanner);
           (yyval)=symb_program_sto((yyvsp[(4) - (13)]),(yyvsp[(4) - (13)])*zero,symb_local((yyvsp[(10) - (13)]),(yyvsp[(12) - (13)]),contextptr),(yyvsp[(2) - (13)]),false,contextptr);
@@ -6382,14 +6387,14 @@ yyreduce:
   case 179:
 
 /* Line 1806 of yacc.c  */
-#line 639 "input_parser.yy"
+#line 644 "input_parser.yy"
     { (yyval)=symb_program_sto((yyvsp[(4) - (9)]),(yyvsp[(4) - (9)])*zero,symb_bloc((yyvsp[(8) - (9)])),(yyvsp[(2) - (9)]),false,giac_yyget_extra(scanner)); }
     break;
 
   case 180:
 
 /* Line 1806 of yacc.c  */
-#line 640 "input_parser.yy"
+#line 645 "input_parser.yy"
     {
            vecteur & v=*(yyvsp[(2) - (5)])._VECTptr;
            if ( (v.size()<3) || v[0].type!=_IDNT){
@@ -6414,7 +6419,7 @@ yyreduce:
   case 181:
 
 /* Line 1806 of yacc.c  */
-#line 659 "input_parser.yy"
+#line 664 "input_parser.yy"
     { 
 	vecteur v=makevecteur(zero,equaltosame((yyvsp[(2) - (5)])),zero,symb_bloc((yyvsp[(4) - (5)])));
 	(yyval)=symbolic(*(yyvsp[(1) - (5)])._FUNCptr,v); 
@@ -6424,14 +6429,14 @@ yyreduce:
   case 182:
 
 /* Line 1806 of yacc.c  */
-#line 671 "input_parser.yy"
+#line 676 "input_parser.yy"
     { (yyval)=(yyvsp[(1) - (1)]); }
     break;
 
   case 183:
 
 /* Line 1806 of yacc.c  */
-#line 672 "input_parser.yy"
+#line 677 "input_parser.yy"
     { 
 	       gen tmp((yyvsp[(3) - (3)])); 
 	       // tmp.subtype=1; 
@@ -6442,49 +6447,49 @@ yyreduce:
   case 184:
 
 /* Line 1806 of yacc.c  */
-#line 677 "input_parser.yy"
+#line 682 "input_parser.yy"
     { (yyval)=symb_double_deux_points(makevecteur((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)]))); }
     break;
 
   case 185:
 
 /* Line 1806 of yacc.c  */
-#line 678 "input_parser.yy"
+#line 683 "input_parser.yy"
     { (yyval)=symb_double_deux_points(makevecteur((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)]))); }
     break;
 
   case 186:
 
 /* Line 1806 of yacc.c  */
-#line 679 "input_parser.yy"
+#line 684 "input_parser.yy"
     { (yyval)=symb_double_deux_points(makevecteur((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)]))); }
     break;
 
   case 187:
 
 /* Line 1806 of yacc.c  */
-#line 680 "input_parser.yy"
+#line 685 "input_parser.yy"
     { (yyval)=symb_double_deux_points(makevecteur((yyvsp[(1) - (5)]),(yyvsp[(4) - (5)]))); }
     break;
 
   case 188:
 
 /* Line 1806 of yacc.c  */
-#line 681 "input_parser.yy"
+#line 686 "input_parser.yy"
     { (yyval)=symb_double_deux_points(makevecteur(0,(yyvsp[(2) - (2)]))); }
     break;
 
   case 189:
 
 /* Line 1806 of yacc.c  */
-#line 682 "input_parser.yy"
+#line 687 "input_parser.yy"
     { (yyval)=symb_double_deux_points(makevecteur((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)]))); }
     break;
 
   case 190:
 
 /* Line 1806 of yacc.c  */
-#line 690 "input_parser.yy"
+#line 695 "input_parser.yy"
     { 
 	  gen tmp((yyvsp[(1) - (2)])); 
 	  // tmp.subtype=1; 
@@ -6495,70 +6500,70 @@ yyreduce:
   case 191:
 
 /* Line 1806 of yacc.c  */
-#line 695 "input_parser.yy"
+#line 700 "input_parser.yy"
     {(yyval)=symbolic(*(yyvsp[(1) - (2)])._FUNCptr,(yyvsp[(2) - (2)])); }
     break;
 
   case 192:
 
 /* Line 1806 of yacc.c  */
-#line 699 "input_parser.yy"
+#line 704 "input_parser.yy"
     { (yyval)=makevecteur(vecteur(0),vecteur(0)); }
     break;
 
   case 193:
 
 /* Line 1806 of yacc.c  */
-#line 700 "input_parser.yy"
+#line 705 "input_parser.yy"
     { vecteur v1 =gen2vecteur((yyvsp[(1) - (2)])); vecteur v2=gen2vecteur((yyvsp[(2) - (2)])); (yyval)=makevecteur(mergevecteur(gen2vecteur(v1[0]),gen2vecteur(v2[0])),mergevecteur(gen2vecteur(v1[1]),gen2vecteur(v2[1]))); }
     break;
 
   case 194:
 
 /* Line 1806 of yacc.c  */
-#line 701 "input_parser.yy"
+#line 706 "input_parser.yy"
     { (yyval)=(yyvsp[(2) - (2)]); }
     break;
 
   case 195:
 
 /* Line 1806 of yacc.c  */
-#line 705 "input_parser.yy"
+#line 710 "input_parser.yy"
     { if ((yyvsp[(3) - (4)]).type==_VECT) (yyval)=gen(*(yyvsp[(3) - (4)])._VECTptr,_RPN_STACK__VECT); else (yyval)=gen(vecteur(1,(yyvsp[(3) - (4)])),_RPN_STACK__VECT); }
     break;
 
   case 196:
 
 /* Line 1806 of yacc.c  */
-#line 706 "input_parser.yy"
+#line 711 "input_parser.yy"
     { (yyval)=gen(vecteur(0),_RPN_STACK__VECT); }
     break;
 
   case 197:
 
 /* Line 1806 of yacc.c  */
-#line 709 "input_parser.yy"
+#line 714 "input_parser.yy"
     { if (!(yyvsp[(1) - (3)]).val) (yyval)=makevecteur((yyvsp[(2) - (3)]),vecteur(0)); else (yyval)=makevecteur(vecteur(0),(yyvsp[(2) - (3)]));}
     break;
 
   case 198:
 
 /* Line 1806 of yacc.c  */
-#line 712 "input_parser.yy"
+#line 717 "input_parser.yy"
     { (yyval)=(yyvsp[(2) - (3)]); }
     break;
 
   case 199:
 
 /* Line 1806 of yacc.c  */
-#line 715 "input_parser.yy"
+#line 720 "input_parser.yy"
     { (yyval)=gen(vecteur(1,(yyvsp[(1) - (1)])),_SEQ__VECT); }
     break;
 
   case 200:
 
 /* Line 1806 of yacc.c  */
-#line 716 "input_parser.yy"
+#line 721 "input_parser.yy"
     { 
 	       vecteur v=*(yyvsp[(1) - (3)])._VECTptr;
 	       v.push_back((yyvsp[(3) - (3)]));
@@ -6569,56 +6574,56 @@ yyreduce:
   case 201:
 
 /* Line 1806 of yacc.c  */
-#line 723 "input_parser.yy"
+#line 728 "input_parser.yy"
     { (yyval)=(yyvsp[(1) - (1)]); }
     break;
 
   case 202:
 
 /* Line 1806 of yacc.c  */
-#line 724 "input_parser.yy"
+#line 729 "input_parser.yy"
     { (yyval)=symb_sto((yyvsp[(3) - (3)]),(yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])==at_array_sto); }
     break;
 
   case 203:
 
 /* Line 1806 of yacc.c  */
-#line 725 "input_parser.yy"
+#line 730 "input_parser.yy"
     { (yyval)=symb_equal((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])); }
     break;
 
   case 204:
 
 /* Line 1806 of yacc.c  */
-#line 726 "input_parser.yy"
+#line 731 "input_parser.yy"
     { (yyval)=symbolic(at_deuxpoints,makesequence((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])));  }
     break;
 
   case 205:
 
 /* Line 1806 of yacc.c  */
-#line 727 "input_parser.yy"
+#line 732 "input_parser.yy"
     { (yyval)=(yyvsp[(2) - (3)]); }
     break;
 
   case 206:
 
 /* Line 1806 of yacc.c  */
-#line 728 "input_parser.yy"
+#line 733 "input_parser.yy"
     { (yyval)=(yyvsp[(1) - (1)]); *logptr(giac_yyget_extra(scanner)) << "Error: reserved word "<< (yyvsp[(1) - (1)]) <<endl;}
     break;
 
   case 207:
 
 /* Line 1806 of yacc.c  */
-#line 729 "input_parser.yy"
+#line 734 "input_parser.yy"
     { (yyval)=symb_double_deux_points(makevecteur((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)]))); *logptr(giac_yyget_extra(scanner)) << "Error: reserved word "<< (yyvsp[(1) - (3)]) <<endl; }
     break;
 
   case 208:
 
 /* Line 1806 of yacc.c  */
-#line 730 "input_parser.yy"
+#line 735 "input_parser.yy"
     { 
   const giac::context * contextptr = giac_yyget_extra(scanner);
   (yyval)=string2gen("_"+(yyvsp[(1) - (1)]).print(contextptr),false); 
@@ -6632,7 +6637,7 @@ yyreduce:
   case 209:
 
 /* Line 1806 of yacc.c  */
-#line 738 "input_parser.yy"
+#line 743 "input_parser.yy"
     { 
   const giac::context * contextptr = giac_yyget_extra(scanner);
   (yyval)=string2gen("_"+(yyvsp[(1) - (1)]).print(contextptr),false);
@@ -6646,42 +6651,42 @@ yyreduce:
   case 210:
 
 /* Line 1806 of yacc.c  */
-#line 748 "input_parser.yy"
+#line 753 "input_parser.yy"
     { (yyval)=plus_one;}
     break;
 
   case 211:
 
 /* Line 1806 of yacc.c  */
-#line 749 "input_parser.yy"
+#line 754 "input_parser.yy"
     { (yyval)=(yyvsp[(1) - (1)]); }
     break;
 
   case 212:
 
 /* Line 1806 of yacc.c  */
-#line 752 "input_parser.yy"
+#line 757 "input_parser.yy"
     { (yyval)=gen(vecteur(0),_SEQ__VECT); }
     break;
 
   case 213:
 
 /* Line 1806 of yacc.c  */
-#line 753 "input_parser.yy"
+#line 758 "input_parser.yy"
     { (yyval)=makesuite((yyvsp[(1) - (1)])); }
     break;
 
   case 214:
 
 /* Line 1806 of yacc.c  */
-#line 756 "input_parser.yy"
+#line 761 "input_parser.yy"
     { (yyval) = makevecteur((yyvsp[(1) - (1)])); }
     break;
 
   case 215:
 
 /* Line 1806 of yacc.c  */
-#line 758 "input_parser.yy"
+#line 763 "input_parser.yy"
     { vecteur v(1,(yyvsp[(1) - (2)])); 
 			  if ((yyvsp[(1) - (2)]).type==_VECT) v=*((yyvsp[(1) - (2)])._VECTptr); 
 			  v.push_back((yyvsp[(2) - (2)])); 
@@ -6692,119 +6697,119 @@ yyreduce:
   case 216:
 
 /* Line 1806 of yacc.c  */
-#line 763 "input_parser.yy"
+#line 768 "input_parser.yy"
     { (yyval) = (yyvsp[(1) - (2)]);}
     break;
 
   case 217:
 
 /* Line 1806 of yacc.c  */
-#line 766 "input_parser.yy"
+#line 771 "input_parser.yy"
     { (yyval)=vecteur(0); }
     break;
 
   case 218:
 
 /* Line 1806 of yacc.c  */
-#line 767 "input_parser.yy"
+#line 772 "input_parser.yy"
     { (yyval)=mergevecteur(vecteur(1,(yyvsp[(1) - (2)])),*((yyvsp[(2) - (2)])._VECTptr));}
     break;
 
   case 219:
 
 /* Line 1806 of yacc.c  */
-#line 768 "input_parser.yy"
+#line 773 "input_parser.yy"
     { (yyval)=mergevecteur(vecteur(1,(yyvsp[(1) - (3)])),*((yyvsp[(3) - (3)])._VECTptr));}
     break;
 
   case 220:
 
 /* Line 1806 of yacc.c  */
-#line 771 "input_parser.yy"
+#line 776 "input_parser.yy"
     { (yyval)=(yyvsp[(1) - (1)]); }
     break;
 
   case 221:
 
 /* Line 1806 of yacc.c  */
-#line 841 "input_parser.yy"
+#line 846 "input_parser.yy"
     { (yyval)=plus_one; }
     break;
 
   case 222:
 
 /* Line 1806 of yacc.c  */
-#line 842 "input_parser.yy"
+#line 847 "input_parser.yy"
     { (yyval)=(yyvsp[(2) - (2)]); }
     break;
 
   case 223:
 
 /* Line 1806 of yacc.c  */
-#line 845 "input_parser.yy"
+#line 850 "input_parser.yy"
     { (yyval)=plus_one; }
     break;
 
   case 224:
 
 /* Line 1806 of yacc.c  */
-#line 846 "input_parser.yy"
+#line 851 "input_parser.yy"
     { (yyval)=(yyvsp[(2) - (2)]); }
     break;
 
   case 225:
 
 /* Line 1806 of yacc.c  */
-#line 847 "input_parser.yy"
+#line 852 "input_parser.yy"
     { (yyval)=(yyvsp[(2) - (2)]); }
     break;
 
   case 226:
 
 /* Line 1806 of yacc.c  */
-#line 848 "input_parser.yy"
+#line 853 "input_parser.yy"
     { (yyval)=(yyvsp[(2) - (2)]); }
     break;
 
   case 227:
 
 /* Line 1806 of yacc.c  */
-#line 851 "input_parser.yy"
+#line 856 "input_parser.yy"
     { (yyval)=plus_one; }
     break;
 
   case 228:
 
 /* Line 1806 of yacc.c  */
-#line 852 "input_parser.yy"
+#line 857 "input_parser.yy"
     { (yyval)=(yyvsp[(1) - (1)]); }
     break;
 
   case 229:
 
 /* Line 1806 of yacc.c  */
-#line 855 "input_parser.yy"
+#line 860 "input_parser.yy"
     { (yyval)=0; }
     break;
 
   case 230:
 
 /* Line 1806 of yacc.c  */
-#line 856 "input_parser.yy"
+#line 861 "input_parser.yy"
     { (yyval)=(yyvsp[(2) - (3)]); }
     break;
 
   case 231:
 
 /* Line 1806 of yacc.c  */
-#line 857 "input_parser.yy"
+#line 862 "input_parser.yy"
     { (yyval)=symb_bloc((yyvsp[(2) - (2)])); }
     break;
 
   case 232:
 
 /* Line 1806 of yacc.c  */
-#line 861 "input_parser.yy"
+#line 866 "input_parser.yy"
     { 
 	(yyval) = (yyvsp[(2) - (3)]);
 	}
@@ -6813,7 +6818,7 @@ yyreduce:
   case 233:
 
 /* Line 1806 of yacc.c  */
-#line 864 "input_parser.yy"
+#line 869 "input_parser.yy"
     {
           const giac::context * contextptr = giac_yyget_extra(scanner);
           (yyval) = symb_local((yyvsp[(2) - (4)]),(yyvsp[(3) - (4)]),contextptr);
@@ -6823,14 +6828,14 @@ yyreduce:
   case 234:
 
 /* Line 1806 of yacc.c  */
-#line 871 "input_parser.yy"
+#line 876 "input_parser.yy"
     { if ((yyvsp[(1) - (1)]).type==_INT_ && (yyvsp[(1) - (1)]).val && (yyvsp[(1) - (1)]).val!=4) giac_yyerror(scanner,"missing test end delimiter"); (yyval)=0; }
     break;
 
   case 235:
 
 /* Line 1806 of yacc.c  */
-#line 872 "input_parser.yy"
+#line 877 "input_parser.yy"
     {
           if ((yyvsp[(3) - (3)]).type==_INT_ && (yyvsp[(3) - (3)]).val && (yyvsp[(3) - (3)]).val!=4) giac_yyerror(scanner,"missing test end delimiter");
 	(yyval)=symb_bloc((yyvsp[(2) - (3)])); 
@@ -6840,7 +6845,7 @@ yyreduce:
   case 236:
 
 /* Line 1806 of yacc.c  */
-#line 876 "input_parser.yy"
+#line 881 "input_parser.yy"
     { 
 	  (yyval)=symb_ifte(equaltosame((yyvsp[(2) - (5)])),symb_bloc((yyvsp[(4) - (5)])),(yyvsp[(5) - (5)]));
 	  }
@@ -6849,7 +6854,7 @@ yyreduce:
   case 237:
 
 /* Line 1806 of yacc.c  */
-#line 879 "input_parser.yy"
+#line 884 "input_parser.yy"
     { 
 	  (yyval)=symb_ifte(equaltosame((yyvsp[(3) - (6)])),symb_bloc((yyvsp[(5) - (6)])),(yyvsp[(6) - (6)]));
 	  }
@@ -6858,112 +6863,112 @@ yyreduce:
   case 238:
 
 /* Line 1806 of yacc.c  */
-#line 884 "input_parser.yy"
+#line 889 "input_parser.yy"
     { (yyval)=(yyvsp[(1) - (1)]); }
     break;
 
   case 239:
 
 /* Line 1806 of yacc.c  */
-#line 885 "input_parser.yy"
+#line 890 "input_parser.yy"
     { (yyval)=(yyvsp[(2) - (2)]); }
     break;
 
   case 240:
 
 /* Line 1806 of yacc.c  */
-#line 888 "input_parser.yy"
+#line 893 "input_parser.yy"
     { (yyval)=0; }
     break;
 
   case 241:
 
 /* Line 1806 of yacc.c  */
-#line 889 "input_parser.yy"
+#line 894 "input_parser.yy"
     { (yyval)=0; }
     break;
 
   case 242:
 
 /* Line 1806 of yacc.c  */
-#line 892 "input_parser.yy"
+#line 897 "input_parser.yy"
     { (yyval)=vecteur(0); }
     break;
 
   case 243:
 
 /* Line 1806 of yacc.c  */
-#line 893 "input_parser.yy"
+#line 898 "input_parser.yy"
     { (yyval)=makevecteur(symb_bloc((yyvsp[(3) - (3)])));}
     break;
 
   case 244:
 
 /* Line 1806 of yacc.c  */
-#line 894 "input_parser.yy"
+#line 899 "input_parser.yy"
     { (yyval)=mergevecteur(makevecteur((yyvsp[(2) - (5)]),symb_bloc((yyvsp[(4) - (5)]))),*((yyvsp[(5) - (5)])._VECTptr));}
     break;
 
   case 245:
 
 /* Line 1806 of yacc.c  */
-#line 897 "input_parser.yy"
+#line 902 "input_parser.yy"
     { (yyval)=vecteur(0); }
     break;
 
   case 246:
 
 /* Line 1806 of yacc.c  */
-#line 898 "input_parser.yy"
+#line 903 "input_parser.yy"
     { (yyval)=vecteur(1,symb_bloc((yyvsp[(2) - (2)]))); }
     break;
 
   case 247:
 
 /* Line 1806 of yacc.c  */
-#line 899 "input_parser.yy"
+#line 904 "input_parser.yy"
     { (yyval)=mergevecteur(makevecteur((yyvsp[(2) - (5)]),symb_bloc((yyvsp[(4) - (5)]))),*((yyvsp[(5) - (5)])._VECTptr));}
     break;
 
   case 248:
 
 /* Line 1806 of yacc.c  */
-#line 902 "input_parser.yy"
+#line 907 "input_parser.yy"
     { (yyval)=vecteur(0); }
     break;
 
   case 249:
 
 /* Line 1806 of yacc.c  */
-#line 903 "input_parser.yy"
+#line 908 "input_parser.yy"
     { (yyval)=vecteur(1,symb_bloc((yyvsp[(2) - (2)]))); }
     break;
 
   case 250:
 
 /* Line 1806 of yacc.c  */
-#line 904 "input_parser.yy"
+#line 909 "input_parser.yy"
     { (yyval)=mergevecteur(makevecteur((yyvsp[(2) - (6)]),symb_bloc((yyvsp[(4) - (6)]))),gen2vecteur((yyvsp[(6) - (6)])));}
     break;
 
   case 251:
 
 /* Line 1806 of yacc.c  */
-#line 905 "input_parser.yy"
+#line 910 "input_parser.yy"
     { (yyval)=mergevecteur(makevecteur((yyvsp[(2) - (7)]),symb_bloc((yyvsp[(4) - (7)]))),gen2vecteur((yyvsp[(7) - (7)])));}
     break;
 
   case 252:
 
 /* Line 1806 of yacc.c  */
-#line 908 "input_parser.yy"
+#line 913 "input_parser.yy"
     { (yyval)=(yyvsp[(1) - (1)]); }
     break;
 
 
 
 /* Line 1806 of yacc.c  */
-#line 6967 "y.tab.c"
+#line 6972 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -7194,7 +7199,7 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 915 "input_parser.yy"
+#line 920 "input_parser.yy"
 
 
 #ifndef NO_NAMESPACE_GIAC

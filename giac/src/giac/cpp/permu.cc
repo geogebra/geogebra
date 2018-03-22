@@ -1707,6 +1707,22 @@ namespace giac {
       return gentypeerr(contextptr);
     vecteur v(*args._VECTptr);
     gen g1=v.front(),g2=v.back();
+    if (g1.type==_STRNG && g2.type==_STRNG){ // Python "Ceci est une phrase".split(" ")
+      if (g2._STRNGptr->empty())
+	return gendimerr(contextptr);
+      vecteur res;
+      int pos=0,ss=g1._STRNGptr->size();
+      for (;pos<ss;){
+	int npos=g1._STRNGptr->find(*g2._STRNGptr,pos);
+	if (npos<0 || npos>=ss)
+	  break;
+	res.push_back(string2gen(g1._STRNGptr->substr(pos,npos-pos),false));
+	pos=npos+g2._STRNGptr->size();
+      }
+      if (pos<ss)
+	res.push_back(string2gen(g1._STRNGptr->substr(pos,ss-pos),false));
+      return res;
+    }
     if (g2.type!=_VECT)
       return gentypeerr(contextptr);
     vecteur v2(*g2._VECTptr);
@@ -1738,6 +1754,32 @@ namespace giac {
   static const char _split_s[]="split";
   static define_unary_function_eval (__split,&_split,_split_s);
   define_unary_function_ptr5( at_split ,alias_at_split,&__split,0,true);
+ 
+  gen _join(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args._VECTptr->size()==2){
+      gen g1=args._VECTptr->front(),g2=args._VECTptr->back();
+      if (g1.type==_STRNG && g2.type==_VECT){ // Python 
+	const_iterateur it=g2._VECTptr->begin(),itend=g2._VECTptr->end();
+	string res;
+	for (;it!=itend;){
+	  if (it->type==_STRNG)
+	    res += *it->_STRNGptr;
+	  else
+	    res += it->print(contextptr);
+	  ++it;
+	  if (it==itend)
+	    break;
+	  res += *g1._STRNGptr;
+	}
+	return string2gen(res,false);
+      }
+    }
+    return gensizeerr(contextptr);
+  } 
+  static const char _join_s[]="join";
+  static define_unary_function_eval (__join,&_join,_join_s);
+  define_unary_function_ptr5( at_join ,alias_at_join,&__join,0,true);
  
   gen _sum_riemann(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;

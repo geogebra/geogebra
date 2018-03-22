@@ -8068,7 +8068,50 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__upper,&_upper,_upper_s);
   define_unary_function_ptr5( at_upper ,alias_at_upper,&__upper,0,true);
 
+  gen _isinf(const gen & a,GIAC_CONTEXT){
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    return change_subtype(is_inf(a),_INT_BOOLEAN);
+  }
+  static const char _isinf_s []="isinf";
+  static define_unary_function_eval (__isinf,&_isinf,_isinf_s);
+  define_unary_function_ptr5( at_isinf ,alias_at_isinf,&__isinf,0,true);
+
+  gen _isnan(const gen & a,GIAC_CONTEXT){
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    return change_subtype(is_undef(a),_INT_BOOLEAN);
+  }
+  static const char _isnan_s []="isnan";
+  static define_unary_function_eval (__isnan,&_isnan,_isnan_s);
+  define_unary_function_ptr5( at_isnan ,alias_at_isnan,&__isnan,0,true);
+
+  gen _isfinite(const gen & a,GIAC_CONTEXT){
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    return change_subtype(!is_inf(a) && !is_undef(a),_INT_BOOLEAN);
+  }
+  static const char _isfinite_s []="isfinite";
+  static define_unary_function_eval (__isfinite,&_isfinite,_isfinite_s);
+  define_unary_function_ptr5( at_isfinite ,alias_at_isfinite,&__isfinite,0,true);
+
+  // Python compat convert to list
+  gen _python_list(const gen & a,GIAC_CONTEXT){
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type==_VECT) return a;
+    if (a.type==_STRNG){
+      const string & as=*a._STRNGptr;
+      unsigned ass=as.size();
+      vecteur res(ass);
+      for (unsigned i=0;i<ass;++i)
+	res[i]=string2gen(string(1,as[i]),false);
+      return res;
+    }
+    return _convert(makesequence(a,change_subtype(_MAPLE_LIST,_INT_MAPLECONVERSION)),contextptr);
+  }
+  static const char _python_list_s []="python_list";
+  static define_unary_function_eval (__python_list,&_python_list,_python_list_s);
+  define_unary_function_ptr5( at_python_list ,alias_at_python_list,&__python_list,0,true);
+
 #ifdef EMCC_FETCH
+  // with emscripten 1.37.28, it does not work
 #include <emscripten/fetch.h>
 
   string fetch(const string & url){
@@ -8077,6 +8120,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     strcpy(attr.requestMethod, "GET");
     attr.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY | EMSCRIPTEN_FETCH_SYNCHRONOUS;
     emscripten_fetch_t *fetch = emscripten_fetch(&attr, url.c_str()); // Blocks here until the operation is complete.
+    COUT << "status, bytes: " << fetch->status << "," << fetch->numBytes << endl;
     if (fetch->status == 200) {
       string fetch_string="";
       for (int i=0;i< fetch->numBytes;++i)

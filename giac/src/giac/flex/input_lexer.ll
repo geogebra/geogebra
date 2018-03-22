@@ -349,7 +349,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 
                /* integer values */
 "operator"              if (xcas_mode(yyextra)==2){ (*yylval) = gen(at_user_operator,6); index_status(yyextra)=0; return T_UNARY_OP; }  index_status(yyextra)=0; (*yylval) = _FUNC; (*yylval).subtype=_INT_TYPE; return T_TYPE_ID;
-"list"         if (xcas_mode(yyextra)==3) { index_status(yyextra)=1; return find_or_make_symbol(yytext,(*yylval),yyscanner,true,yyextra); } index_status(yyextra)=0; (*yylval) = _MAPLE_LIST ; (*yylval).subtype=_INT_MAPLECONVERSION ;return T_TYPE_ID;
+"list"         if (python_compat(yyextra)){ *yylval=at_python_list; return T_UNARY_OP; } if (xcas_mode(yyextra)==3) { index_status(yyextra)=1; return find_or_make_symbol(yytext,(*yylval),yyscanner,true,yyextra); } index_status(yyextra)=0; (*yylval) = _MAPLE_LIST ; (*yylval).subtype=_INT_MAPLECONVERSION ;return T_TYPE_ID;
 
 
     /* vector/polynom/matrice delimiters */
