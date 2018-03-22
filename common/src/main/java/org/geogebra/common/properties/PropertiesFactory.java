@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
+import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.CoordinatesProperty;
@@ -32,7 +33,8 @@ public class PropertiesFactory {
         Kernel kernel = app.getKernel();
         return new Property[] {
                 new AlgebraDescriptionProperty(kernel, localization),
-                new SortByProperty(algebraView, localization)
+                new SortByProperty(algebraView, localization),
+                new ShowAuxiliaryProperty(app, localization)
         };
     }
 }
