@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionTable;
@@ -13,7 +12,7 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
 public enum InequalitySteps implements SolveStepGenerator {
 
-    TRIVIAL_SOLUTION {
+    TRIVIAL_INEQUALITY {
         @Override
         public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps,
                                         SolveTracker tracker) {
@@ -64,6 +63,57 @@ public enum InequalitySteps implements SolveStepGenerator {
         }
     },
 
+    DIVIDE_BY_COEFFICIENT {
+        @Override
+        public List<StepSolution> apply(StepSolvable ss, StepVariable variable, SolutionBuilder steps,
+                                        SolveTracker tracker) {
+            if (isZero(ss.getRHS()) && !isZero(ss.getLHS().getCoefficient())) {
+                StepExpression coefficient = ss.getLHS().getCoefficient();
+                coefficient.setColor(1);
+
+                StepSolvable original = ss.deepCopy();
+                ss.modify(ss.getLHS().getVariable(), ss.getRHS());
+                steps.addSubstep(original, ss, SolutionStepType.DIVIDE_BOTH_SIDES, coefficient);
+            }
+
+            return null;
+        }
+    },
+
+    POSITIVE_AND_NEGATIVE {
+        @Override
+        public List<StepSolution> apply(StepSolvable ss, StepVariable variable, SolutionBuilder steps,
+                                        SolveTracker tracker) {
+            StepInequality si = (StepInequality) ss;
+
+            List<StepSolution> solutions = new ArrayList<>();
+
+            if (si.getLHS().sign() > 0 && si.getRHS().sign() < 0) {
+                if (si.isLessThan()) {
+                    steps.add(SolutionStepType.POSITIVE_L_NEGATIVE, variable);
+                } else {
+                    steps.add(SolutionStepType.POSTIVE_G_NEGATIVE, variable);
+                    solutions.add(StepSolution.simpleSolution(variable, tracker.getRestriction(), tracker));
+                }
+
+                return solutions;
+            }
+
+            if (si.getLHS().sign() < 0 && si.getRHS().sign() > 0) {
+                if (si.isLessThan()) {
+                    steps.add(SolutionStepType.NEGATIVE_L_POSITIVE, variable);
+                    solutions.add(StepSolution.simpleSolution(variable, tracker.getRestriction(), tracker));
+                } else {
+                    steps.add(SolutionStepType.NEGATIVE_G_POSITIVE, variable);
+                }
+
+                return solutions;
+            }
+
+            return null;
+        }
+    },
+
     POSITIVE_AND_ZERO {
         @Override
         public List<StepSolution> apply(StepSolvable ss, StepVariable variable, SolutionBuilder steps,
@@ -72,7 +122,7 @@ public enum InequalitySteps implements SolveStepGenerator {
 
             List<StepSolution> solutions = new ArrayList<>();
 
-            if (si.getLHS().isPositive() && isZero(si.getRHS())) {
+            if (si.getLHS().sign() > 0 && isZero(si.getRHS())) {
                 if (si.isLessThan()) {
                     if (si.isStrong()) {
                         steps.add(SolutionStepType.POSITIVE_LT_ZERO, variable);
@@ -101,7 +151,7 @@ public enum InequalitySteps implements SolveStepGenerator {
                 return solutions;
             }
 
-            if (isZero(si.getLHS()) && si.getRHS().isPositive()) {
+            if (isZero(si.getLHS()) && si.getRHS().sign() > 0) {
                 if (si.isLessThan()) {
                     if (si.isStrong()) {
                         StepEquation equality = new StepEquation(si.getLHS(), si.getRHS());
@@ -166,6 +216,8 @@ public enum InequalitySteps implements SolveStepGenerator {
                 for (StepExpression term : (StepOperation) numerator) {
                     terms.add(term);
                 }
+            } else {
+                terms.add(numerator);
             }
 
             if (denominator != null && denominator.isOperation(Operation.MULTIPLY)) {
@@ -180,10 +232,6 @@ public enum InequalitySteps implements SolveStepGenerator {
             for (StepExpression term : terms) {
                 if (term.isConstant()) {
                     continue;
-                }
-
-                if (term.degree(variable) != 1) {
-                    throw new SolveFailedException(steps.getSteps());
                 }
 
                 new StepInequality(term, StepConstant.create(0), false,
@@ -210,7 +258,7 @@ public enum InequalitySteps implements SolveStepGenerator {
 
             steps.add(table);
 
-            return new ArrayList<>();
+            return table.readSolution(si, variable, tracker);
         }
     },
 
@@ -221,6 +269,51 @@ public enum InequalitySteps implements SolveStepGenerator {
             if (ss.degree(variable) != 2) {
                 return null;
             }
+
+            StepInequality si = (StepInequality) ss;
+
+            StepEquation equation = new StepEquation(si.getLHS(), si.getRHS());
+            List<StepSolution> solutions = equation.solve(variable, steps);
+
+            StepExpression a = si.findCoefficient(power(variable, 2));
+
+            if (solutions.size() == 0) {
+                ArrayList<StepSolution> solution = new ArrayList<>();
+
+                if (a.canBeEvaluated() && a.getValue() > 0) {
+                    steps.add(SolutionStepType.LEADING_COEFFICIENT_POSITIVE, a, si.getLHS(), variable);
+
+                    if (!si.isLessThan()) {
+                        solution.add(StepSolution.simpleSolution(variable, tracker.getRestriction(), tracker));
+                    }
+                } else if (a.canBeEvaluated()) {
+                    steps.add(SolutionStepType.LEADING_COEFFICIENT_NEGATIVE, a, si.getLHS(), variable);
+
+                    if (si.isLessThan()) {
+                        solution.add(StepSolution.simpleSolution(variable, tracker.getRestriction(), tracker));
+                    }
+                } else {
+                    if (si.isLessThan()) {
+                        tracker.addCondition(new StepInequality(a, StepConstant.create(0), false, true));
+                    } else {
+                        tracker.addCondition(new StepInequality(a, StepConstant.create(0), true, true));
+                    }
+
+                    solution.add(StepSolution.simpleSolution(variable, tracker.getRestriction(), tracker));
+                }
+
+                return solution;
+            }
+
+            StepExpression x1 = (StepExpression) solutions.get(0).getValue();
+            StepExpression x2 = (StepExpression) solutions.get(1).getValue();
+
+            StepInequality original = (StepInequality) ss.deepCopy();
+
+            StepExpression newLHS = multiply(a, multiply(subtract(variable, x1), subtract(variable, x2)));
+            si.modify(newLHS, si.getRHS());
+
+            steps.addSubstep(original, si, SolutionStepType.FACTOR_QUADRATIC);
 
             return null;
         }

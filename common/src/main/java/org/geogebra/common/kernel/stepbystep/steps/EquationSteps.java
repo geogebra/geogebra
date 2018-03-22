@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionTable;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
@@ -52,7 +51,6 @@ public enum EquationSteps implements SolveStepGenerator {
 					tracker.addRestriction(restriction);
 				}
 			} catch (SolveFailedException e) {
-				Log.error("set to true for: " + se + " at roots");
 				tracker.setShouldCheckSolutions();
 				return null;
 			}
@@ -83,7 +81,6 @@ public enum EquationSteps implements SolveStepGenerator {
 					tracker.addUndefinedPoints(undefinedPoints);
 				}
 			} catch (SolveFailedException e) {
-				Log.error("set to true for: " + se + " at denominators");
 				tracker.setShouldCheckSolutions();
 			}
 
@@ -119,7 +116,6 @@ public enum EquationSteps implements SolveStepGenerator {
 				List<StepSolution> solutions = new ArrayList<>();
 				solutions.add(solution);
 
-				Log.error(solutions.toString());
 				return solutions;
 			}
 
@@ -168,6 +164,27 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepExpression common = se.getLHS().nonIntegersOfSum().getCommon(se.getRHS().nonIntegersOfSum());
 			if (!se.getLHS().equals(se.getRHS()) && common != null && !common.isInteger()) {
 				se.addOrSubtract(common, steps, tracker);
+			}
+
+			return null;
+		}
+	},
+
+	NEGATE_BOTH_SIDES {
+		@Override
+		public List<StepSolution> apply(StepSolvable se, StepVariable variable,
+										SolutionBuilder steps, SolveTracker tracker) {
+			if ((se.getLHS().isNegative() && se.getRHS().isNegative())
+					|| (isZero(se.getLHS()) && se.getRHS().isNegative())
+					|| (se.getLHS().isNegative() && isZero(se.getRHS()))) {
+				StepSolvable original = se.deepCopy();
+
+				StepExpression newLHS = isZero(se.getLHS()) ? se.getLHS() : se.getLHS().negate();
+				StepExpression newRHS = isZero(se.getRHS()) ? se.getRHS() : se.getRHS().negate();
+
+				se.modify(newLHS, newRHS);
+
+				steps.addSubstep(original, se, SolutionStepType.NEGATE_BOTH_SIDES);
 			}
 
 			return null;
@@ -223,26 +240,15 @@ public enum EquationSteps implements SolveStepGenerator {
 		}
 	},
 
-	SOLVE_QUADRATIC {
+	COMPLETE_THE_SQUARE {
 		@Override
-		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
-			if (se.degree(variable) != 2) {
+		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps,
+										SolveTracker tracker) {
+			StepExpression difference = subtract(se.getLHS(), se.getRHS()).regroup();
+
+			if (difference.degree(variable) != 2) {
 				return null;
 			}
-
-			double leftSquareCoeff = StepHelper.getCoefficientValue(se.getLHS(), power(variable, 2));
-			double rightSquareCoeff = StepHelper.getCoefficientValue(se.getRHS(), power(variable, 2));
-
-			if (leftSquareCoeff < 0 && isZero(se.getRHS())) {
-				se.multiply(StepConstant.create(-1), steps, tracker);
-			} else if (rightSquareCoeff < 0 && isZero(se.getLHS())) {
-				se.multiply(StepConstant.create(-1), steps, tracker);
-				se.swapSides();
-			} else if (leftSquareCoeff < rightSquareCoeff) {
-				se.swapSides();
-			}
-
-			StepExpression difference = subtract(se.getLHS(), se.getRHS()).regroup();
 
 			StepExpression a = difference.findCoefficient(power(variable, 2));
 			StepExpression b = difference.findCoefficient(variable);
@@ -259,14 +265,33 @@ public enum EquationSteps implements SolveStepGenerator {
 
 				se.addOrSubtract(toComplete, steps, tracker);
 				se.factor(steps, false);
+			}
 
+			return null;
+		}
+	},
+
+	SOLVE_QUADRATIC {
+		@Override
+		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
+			StepExpression difference = subtract(se.getLHS(), se.getRHS()).regroup();
+
+			if (difference.degree(variable) == 2) {
+				if (!isZero(se.getRHS())) {
+					se.subtract(se.getRHS(), steps, tracker);
+					return null;
+				}
+			} else {
 				return null;
 			}
 
-			if (!isZero(se.getRHS())) {
-				se.subtract(se.getRHS(), steps, tracker);
-				return null;
+			if (se.getLHS().findCoefficient(power(variable, 2)).isNegative()) {
+				se.multiply(StepConstant.create(-1), steps, tracker);
 			}
+
+			StepExpression a = se.getLHS().findCoefficient(power(variable, 2));
+			StepExpression b = se.getLHS().findCoefficient(variable);
+			StepExpression c = se.getLHS().findConstantIn(variable);
 
 			a.setColor(1);
 			b.setColor(2);
@@ -301,7 +326,7 @@ public enum EquationSteps implements SolveStepGenerator {
 				tracker.addCondition(new StepEquation(a, StepConstant.create(0)).setInequation());
 			}
 
-			if (!discriminant.isPositive() && !(discriminant.canBeEvaluated() && discriminant.getValue() > 0)) {
+			if (discriminant.sign() <= 0 && !(discriminant.canBeEvaluated() && discriminant.getValue() > 0)) {
 				tracker.addCondition(new StepInequality(discriminant, StepConstant.create(0), false, false));
 			}
 

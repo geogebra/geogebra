@@ -1,9 +1,8 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
 import org.geogebra.common.kernel.stepbystep.StepHelper;
-import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.main.Localization;
 
 import java.util.ArrayList;
@@ -14,14 +13,14 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
 public class SolutionTable extends SolutionStep {
 
     private StepExpression[] header;
-    private List<TableElement[]> rows;
+    private List<List<TableElement>> rows;
 
     public SolutionTable(StepExpression... header) {
         this.header = header;
         rows = new ArrayList<>();
     }
 
-    public void addRow(TableElement... row) {
+    public void addRow(List<TableElement> row) {
         rows.add(row);
     }
 
@@ -58,7 +57,7 @@ public class SolutionTable extends SolutionStep {
                     row.add(TableElementType.POSITIVE);
                 }
             }
-            table.addRow(row.toArray(new TableElement[0]));
+            table.addRow(row);
         }
 
         return table;
@@ -66,37 +65,91 @@ public class SolutionTable extends SolutionStep {
 
     public void addInequalityRow(StepExpression numerator, StepExpression denominator) {
         List<TableElement> newRow = new ArrayList<>();
-        newRow.add(divide(numerator, denominator));
 
-        for (int j = 1; j < rows.get(0).length; j++) {
+        StepExpression expression = divide(numerator, denominator);
+        newRow.add(expression);
+
+        for (int j = 1; j < rows.get(0).size(); j++) {
             boolean isInvalid = false;
             boolean isZero = false;
             boolean isNegative = false;
 
-            for (TableElement[] row : rows) {
-                if (row[j] == TableElementType.ZERO) {
+            for (List<TableElement> row : rows) {
+                if (row.get(j) == TableElementType.ZERO) {
                     if (denominator != null &&
-                            denominator.containsExpression((StepExpression) row[0])) {
+                            denominator.containsExpression((StepExpression) row.get(0))) {
                         isInvalid = true;
                     }
                     isZero = true;
-                } else if (row[j] == TableElementType.NEGATIVE) {
+                } else if (row.get(j) == TableElementType.NEGATIVE) {
                     isNegative = !isNegative;
                 }
             }
 
+            StepNode value;
+            if (j % 2 == 0) {
+                value = new StepInterval(header[j / 2], header[j / 2 + 1], false, false);
+            } else {
+                value = header[j / 2 + 1];
+            }
+
+            SolutionStepType type;
             if (isInvalid) {
                 newRow.add(TableElementType.INVALID);
+                type = SolutionStepType.IS_INVALID_IN;
             } else if (isZero) {
                 newRow.add(TableElementType.ZERO);
+                type = SolutionStepType.IS_ZERO_IN;
             } else if (isNegative) {
                 newRow.add(TableElementType.NEGATIVE);
+                type = SolutionStepType.IS_NEGATIVE_IN_INEQUALITY;
             } else {
                 newRow.add(TableElementType.POSITIVE);
+                type = SolutionStepType.IS_POSITIVE_IN_INEQUALITY;
+            }
+
+            if (!value.equals(StepConstant.POS_INF) && !value.equals(StepConstant.NEG_INF)) {
+                addSubStep(new SolutionLine(type, expression, value));
             }
         }
 
-        addRow(newRow.toArray(new TableElement[0]));
+        addRow(newRow);
+    }
+
+    public List<StepSolution> readSolution(StepInequality si, StepVariable variable, SolveTracker tracker) {
+        List<StepInterval> intervals = new ArrayList<>();
+
+        List<TableElement> row = rows.get(rows.size() - 1);
+        for (int i = 2; i < row.size(); i += 2) {
+            if (si.isLessThan() == (row.get(i) == TableElementType.NEGATIVE)) {
+                StepExpression left = header[i / 2];
+                StepExpression right = header[i / 2 + 1];
+
+                intervals.add(new StepInterval(left, right,
+                        !si.isStrong() && row.get(i - 1) == TableElementType.ZERO,
+                        !si.isStrong() && row.get(i + 1) == TableElementType.ZERO));
+            }
+        }
+
+        for (int i = 0; i < intervals.size() - 1; i++) {
+            if (intervals.get(i).getRightBound().equals(intervals.get(i+1).getLeftBound())
+                    && intervals.get(i).isClosedRight()) {
+                intervals.set(i, new StepInterval(intervals.get(i).getLeftBound(),
+                        intervals.get(i + 1).getRightBound(),
+                        intervals.get(i).isClosedLeft(),
+                        intervals.get(i + 1).isClosedRight()));
+                intervals.remove(i + 1);
+                i--;
+            }
+        }
+
+        List<StepSolution> solutions = new ArrayList<>();
+
+        for (StepInterval interval : intervals) {
+            solutions.add(StepSolution.simpleSolution(variable, interval, tracker));
+        }
+
+        return solutions;
     }
 
     @Override
@@ -119,12 +172,12 @@ public class SolutionTable extends SolutionStep {
         sb.append(" \\\\ ");
         sb.append(" \\hline ");
 
-        for (TableElement[] row : rows) {
-            for (int i = 0; i < row.length; i++) {
+        for (List<TableElement> row : rows) {
+            for (int i = 0; i < row.size(); i++) {
                 if (i != 0) {
                     sb.append(" & ");
                 }
-                sb.append(row[i].toLaTeXString(loc));
+                sb.append(row.get(i).toLaTeXString(loc));
             }
             sb.append(" \\\\ ");
         }

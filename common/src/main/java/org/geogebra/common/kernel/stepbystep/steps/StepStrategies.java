@@ -64,7 +64,7 @@ public class StepStrategies {
 
 	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy,
 											 RegroupTracker tracker) {
-		final boolean printDebug = true;
+		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
 		StepNode newSn;
@@ -136,9 +136,10 @@ public class StepStrategies {
 		SolveStepGenerator[] strategy = {
 				EquationSteps.FIND_DEFINED_RANGE,
 				EquationSteps.SOLVE_PRODUCT,
+				EquationSteps.NEGATE_BOTH_SIDES,
 				EquationSteps.REGROUP,
-				EquationSteps.SEPARATE_PLUSMINUS,
 				EquationSteps.TRIVIAL_EQUATIONS,
+				EquationSteps.SEPARATE_PLUSMINUS,
 				EquationSteps.FACTOR,
 				EquationSteps.SUBTRACT_COMMON,
 				EquationSteps.SOLVE_SIMPLE_ABSOLUTE_VALUE,
@@ -149,6 +150,7 @@ public class StepStrategies {
 				EquationSteps.COMMON_DENOMINATOR,
 				EquationSteps.MULTIPLY_THROUGH,
 				EquationSteps.EXPAND,
+                EquationSteps.COMPLETE_THE_SQUARE,
 				EquationSteps.SOLVE_QUADRATIC,
 				EquationSteps.COMPLETE_CUBE,
 				EquationSteps.REDUCE_TO_QUADRATIC,
@@ -166,14 +168,17 @@ public class StepStrategies {
 	public static List<StepSolution> defaultInequalitySolve(StepInequality se, StepVariable sv, SolutionBuilder sb,
 												  SolveTracker tracker) {
 		SolveStepGenerator[] strategy = {
-				EquationSteps.REGROUP,
-				InequalitySteps.POSITIVE_AND_ZERO,
-				InequalitySteps.TRIVIAL_SOLUTION,
-				EquationSteps.SUBTRACT_COMMON,
+				InequalitySteps.DIVIDE_BY_COEFFICIENT,
 				EquationSteps.SOLVE_LINEAR,
+				EquationSteps.REGROUP,
+				InequalitySteps.TRIVIAL_INEQUALITY,
+				InequalitySteps.POSITIVE_AND_ZERO,
+                InequalitySteps.POSITIVE_AND_NEGATIVE,
+				EquationSteps.SUBTRACT_COMMON,
 				InequalitySteps.FACTOR,
 				InequalitySteps.RATIONAL_INEQUALITY,
 				EquationSteps.DIFF,
+                EquationSteps.COMPLETE_THE_SQUARE,
 				InequalitySteps.SOLVE_QUADRATIC,
 				EquationSteps.EXPAND,
 		};

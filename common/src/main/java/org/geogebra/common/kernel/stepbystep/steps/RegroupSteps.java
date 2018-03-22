@@ -1700,7 +1700,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.ABS)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getOperand(0).isPositive()) {
+				if (so.getOperand(0).sign() > 0) {
 					so.setColor(tracker.getColorTracker());
 
 					sb.add(SolutionStepType.POSITIVE_UNDER_ABSOLUTE_VALUE, tracker.incColorTracker());

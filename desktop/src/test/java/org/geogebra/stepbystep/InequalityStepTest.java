@@ -59,8 +59,21 @@ public class InequalityStepTest {
 
     @Test
     public void tableBasedInequality() {
-        i("x^3 + 3 x^2 - 7 x + 3", ">=", "0", "x");
-        i("(x^2-3x+2)/(x-3)", ">=", "0", "x");
+        i("x^3 + 3 x^2 - 7 x + 3", ">=", "0", "x",
+                "x in [(-nroot(7, 2)-2), (nroot(7, 2)-2)]", "x in [1, inf)");
+        i("(x^2-3x+2)/(x-3)", ">=", "0", "x",
+                "x in [1, 2]", "x in (3, inf)");
+        i("x^3 - 5*x^2 + 8*x - 4", ">=", "0", "x", "x in [1, inf)");
+        i("x^3 - 5*x^2 + 8*x - 4", ">", "0", "x", "x in (1, 2)",
+                "x in (2, inf)");
+    }
+
+    @Test
+    public void quadraticInequality() {
+        i("x^2+4x+5", ">", "0", "x", "x in R");
+        i("2*x^2+5x+6", ">", "0", "x", "x in R");
+        i("3x^2+5x-2", ">", "0", "x", "x in (-inf, -2)", "x in ((1)/(3), inf)");
+        i("3x^2+5x-3", "<=", "0", "x", "x in [((-nroot(61, 2)-5))/(6), ((nroot(61, 2)-5))/(6)]");
     }
 
     public void i(String LHS, String op, String RHS, String variable, String... expectedSolutions) {

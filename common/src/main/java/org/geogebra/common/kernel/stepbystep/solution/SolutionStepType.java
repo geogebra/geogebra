@@ -86,6 +86,18 @@ public enum SolutionStepType {
 
 	ZERO_LT_POSITIVE("PositiveLTZero", "The statement is true, except when %0"),
 
+    POSITIVE_L_NEGATIVE("PositiveLNegative", "The statement is false for all values of %0"),
+
+    POSTIVE_G_NEGATIVE("PositiveGNegative", "The statement is true for all values of %0"),
+
+    NEGATIVE_L_POSITIVE("NegativeLPositive", "The statement is true for all values of %0"),
+
+    NEGATIVE_G_POSITIVE("NegativeGPositive", "The statement is false for all values of %0"),
+
+    LEADING_COEFFICIENT_POSITIVE("LeadingCoefficientPositive", "a = %0 > 0 therefore %1 > 0 for all %2"),
+
+    LEADING_COEFFICIENT_NEGATIVE("LeadingCoefficientNegative", "a = %0 < 0 therefore %1 < 0 for all %2"),
+
 	LEFT_POSITIVE_RIGHT_NEGATIVE("LeftPositiveRightNegative", "The left hand side is always positive, the right is " +
 			"always negative"),
 
@@ -116,6 +128,8 @@ public enum SolutionStepType {
 	IS_POSITIVE_IN("IsPositiveIn", "Resolve Absolute Values", "%0 \\ge 0 in %1"),
 
 	IS_NEGATIVE_IN("IsNegativeIn", "Resolve Absolute Values", "%0 \\le 0 in %1"),
+
+	NEGATE_BOTH_SIDES("NegateBothSides", "Negate both sides"),
 
 	SQUARE_ROOT("TakeSquareRoot", "Take square root of both sides"),
 
@@ -310,6 +324,19 @@ public enum SolutionStepType {
 	BINOM_CUBED_SUM_FACTOR("BinomCubed", "Use $a^3 + 3a^2b + 3ab^2 + b^3 \\equiv (a+b)^3$ to factor"),
 
 	BINOM_CUBED_DIFF_FACTOR("BinomCubed", "Use $a^3 - 3a^2b + 3ab^2 - b^3 \\equiv (a+b)^3$ to factor"),
+
+	IS_POSITIVE_IN_INEQUALITY("IsPositiveInInequality", "%0 is positive in %1, because there are " +
+			"an even number of negative values in the product"),
+
+	IS_NEGATIVE_IN_INEQUALITY("IsNegativeInInequality", "%0 is negative in %1, because there are " +
+			"an odd number of negative values in the product"),
+
+	IS_ZERO_IN("IsZeroIn", "%0 is zero in %1, because at least one of the multiplicands is zero"),
+
+	IS_INVALID_IN("IsInvalidIn", "%0 is invalid in %1, because there is a zero in the denominator"),
+
+	FACTOR_QUADRATIC("FactorQuadratic", "Factor the expression using $x_{1}, x_{2}$",
+			"Use $ax^2+bx+c = a\\left(x - x_{1}\\right)\\left(x - x_{2}\\right)$ to factor the expression"),
 
 	FACTOR_OUT("FactorOutA", "Factor common", "Factor out %0"),
 

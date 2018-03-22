@@ -78,107 +78,21 @@ public class GeneralUnitTests {
     }
 
     @Test
-    public void positiveTest() {
-        isPositive("exp(x)", true);
-        isPositive("e^x", true);
-        isPositive("x^x", false);
-        isPositive("x^2", true);
-        isPositive("(x^2)^x", true);
-        isPositive("2+3", true);
-        isPositive("2+x", false);
-        isPositive("e^x", true);
-        isPositive("|x| + x^2", true);
-        isPositive("|x| - x^2", false);
-        isPositive("x^(2k)", false);
-        isPositive("x^(2k+1)", false);
-        isPositive("x^2*y^4", true);
-    }
-
-    @Test
-    public void simpleTableTest() {
-        SolutionTable table = new SolutionTable(
-                new StepVariable("x"),
-                StepConstant.NEG_INF,
-                StepConstant.create(-2),
-                StepConstant.create(3),
-                StepConstant.POS_INF
-        );
-
-        table.addRow(
-                StepNode.add(new StepVariable("x"), StepConstant.create(2)),
-                TableElementType.NEGATIVE,
-                TableElementType.NEGATIVE,
-                TableElementType.ZERO,
-                TableElementType.POSITIVE,
-                TableElementType.POSITIVE,
-                TableElementType.POSITIVE,
-                TableElementType.POSITIVE
-        );
-
-        table.addRow(
-                StepNode.subtract(new StepVariable("x"), StepConstant.create(3)),
-                TableElementType.NEGATIVE,
-                TableElementType.NEGATIVE,
-                TableElementType.NEGATIVE,
-                TableElementType.NEGATIVE,
-                TableElementType.ZERO,
-                TableElementType.POSITIVE,
-                TableElementType.POSITIVE
-        );
-
-        HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
-        htmlBuilder.addLatexRow(table.getDefault(app.getLocalization()));
-        htmlBuilder.printReport("table.html");
-    }
-
-    @Test
-    public void complexTableTest() {
-        StepVariable var = new StepVariable("x");
-
-        SolutionTable table = new SolutionTable(
-                new StepVariable("x"),
-                StepConstant.NEG_INF,
-                StepConstant.create(-2),
-                StepConstant.create(-1),
-                StepConstant.POS_INF
-        );
-
-        table.addRow(
-                StepNode.multiply(var, StepNode.power(StepConstant.E, var)),
-                TableElementType.VSPACE,
-                TableElementType.CONCAVE_DECREASING,
-                TableElementType.VSPACE,
-                TableElementType.CONVEX_DECREASING,
-                TableElementType.VSPACE,
-                TableElementType.CONVEX_INCREASING,
-                TableElementType.VSPACE
-        );
-
-        table.addRow(
-                StepNode.multiply(StepNode.add(var, StepConstant.create(1)), StepNode.power(StepConstant.E, var)),
-                TableElementType.NEGATIVE,
-                TableElementType.NEGATIVE,
-                TableElementType.NEGATIVE,
-                TableElementType.NEGATIVE,
-                TableElementType.ZERO,
-                TableElementType.POSITIVE,
-                TableElementType.POSITIVE
-        );
-
-        table.addRow(
-                StepNode.multiply(StepNode.add(var, StepConstant.create(2)), StepNode.power(StepConstant.E, var)),
-                TableElementType.NEGATIVE,
-                TableElementType.NEGATIVE,
-                TableElementType.ZERO,
-                TableElementType.POSITIVE,
-                TableElementType.POSITIVE,
-                TableElementType.POSITIVE,
-                TableElementType.POSITIVE
-        );
-
-        HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
-        htmlBuilder.addLatexRow(table.getDefault(app.getLocalization()));
-        htmlBuilder.printReport("table.html");
+    public void signTest() {
+        sign("exp(x)", 1);
+        sign("e^x", 1);
+        sign("x^x", 0);
+        sign("x^2", 1);
+        sign("(x^2)^x", 1);
+        sign("2+3", 1);
+        sign("2+x", 0);
+        sign("e^x", 1);
+        sign("|x| + x^2", 1);
+        sign("|x| - x^2", 0);
+        sign("x^(2k)", 0);
+        sign("x^(2k+1)", 0);
+        sign("x^2*y^4", 1);
+        sign("-3-|x|", -1);
     }
 
     @Test
@@ -200,8 +114,8 @@ public class GeneralUnitTests {
         Assert.assertEquals(convert(b).equals(convert(a)), eq);
     }
 
-    public void isPositive(String a, boolean pos) {
-        Assert.assertEquals(convert(a).isPositive(), pos);
+    public void sign(String a, int sign) {
+        Assert.assertEquals(convert(a).sign(), sign);
     }
 
     public void contains(String a, String b, boolean cont) {

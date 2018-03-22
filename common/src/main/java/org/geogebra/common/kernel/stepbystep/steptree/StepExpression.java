@@ -603,36 +603,48 @@ public abstract class StepExpression extends StepNode {
 	}
 
 	/**
-	 * Using some simple heuristics (such as, even powers are positive,
-	 * exponentials, sum of positives, etc.), checks if the expression
-	 * if positive for all values of the variables.
-	 * @return whether the expression is provably positive
+	 * Returns -1 if the expression is negative, for all values of the variables,
+	 * +1, if it's positive and 0 if it can not decide
+	 * @return the sign of the expression
 	 */
-	public boolean isPositive() {
+	public int sign() {
 		if (this instanceof StepOperation) {
 			StepOperation so = (StepOperation) this;
 
 			switch (so.getOperation()) {
 			case PLUS:
-			case MULTIPLY:
+				int cnt = 0;
 				for (StepExpression operand : so) {
-					if (!operand.isPositive()) {
-						return false;
-					}
+					cnt += operand.sign();
 				}
-				return true;
-			case POWER:
-				return so.getOperand(0).isPositive()
-						|| so.getOperand(1).isEven();
+				return cnt / so.noOfOperands();
+			case MINUS:
+				return -so.getOperand(0).sign();
+			case MULTIPLY:
+				int sign = 1;
+				for (StepExpression operand : so) {
+					sign *= operand.sign();
+				}
+				return sign;
+			case DIVIDE:
+				return so.getOperand(0).sign()
+						* so.getOperand(1).sign();
 			case ABS:
-				return true;
+				return 1;
+			case POWER:
+				if (so.getOperand(0).sign() > 0
+						|| so.getOperand(1).isEven()) {
+					return 1;
+				}
+				return 0;
 			}
-
-			return false;
 		}
 
-		// StepConstants are always positive!
-		return this instanceof StepConstant;
+		if (this instanceof StepConstant) {
+			return 1;
+		}
+
+		return 0;
 	}
 
 	/**
