@@ -3973,10 +3973,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_AND_CHECKBOXES_AND_STATUS_BAR:
 			return true;
 
-		// IGR-655
-		case MOB_IOS_APP_INIT_3D:
-			return true;
-
 		// IGR-633
 		case MOB_IOS_EXAM_LOG_DIALOG:
 			return true;

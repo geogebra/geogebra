@@ -238,9 +238,6 @@ public enum Feature {
 	/** GGB-2258 */
 	VOICEOVER_CURSOR,
 
-	/** IGR-655 */
-	MOB_IOS_APP_INIT_3D,
-
 	/** MOW-360, MOW-381, MOW-382 */
 	MOW_CROP_IMAGE,
 	
