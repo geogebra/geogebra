@@ -175,7 +175,7 @@ public enum SolutionStepType {
 
 	REPLACE_WITH("ReplaceAWithB", "Replace %0 with %1"),
 
-	REPLACE_WITH_AND_REGROUP("ReplaceAWithBAndRegroup", "Replace %0 with %1 and regroup"),
+	REPLACE_AND_REGROUP("ReplaceAndRegroup", "Replace %0 in %1 and regroup"),
 
 	EXPAND_FRACTIONS("ExpandFractions", "Expand Fractions, the common denominator is: %0"),
 
