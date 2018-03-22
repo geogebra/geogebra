@@ -1,4 +1,4 @@
-package org.geogebra.common.properties.impl;
+package org.geogebra.common.properties.impl.general;
 
 import java.util.ArrayList;
 
