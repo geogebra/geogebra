@@ -14,6 +14,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable class for Audio elemens.
@@ -49,7 +50,7 @@ public class DrawAudio extends Drawable {
 	private GRectangle playRect;
 	private boolean hovered = false;
 	private boolean playing = false;
-	private int sliderLength = 100;
+	private int sliderLength = -1;
 	private int diameter = 2 * GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE + 1;
 
 	// for dot
@@ -89,13 +90,28 @@ public class DrawAudio extends Drawable {
 		int size = 2 * getPlaySize();
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
 		playRect = AwtFactory.getPrototype().newRectangle(left, top, size, size);
+		updateSlider(view.getGraphicsForPen());
+		playing = geoAudio.isPlaying();
+	}
+
+	private void updateSlider(GGraphics2D g2) {
+		GFont font = view.getFont().deriveFont(GFont.PLAIN, TIME_FONT);
+		g2.setFont(font);
+		int duration = geoAudio.getDuration();
+		String textAll = getElapsedTime(duration, duration);
+
+		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(textAll, font, g2.getFontRenderContext());
+		int x = left + TAP_AREA_SIZE + TEXT_MARGIN_X;
+
 		double min = 0;
 		double max = geoAudio.getDuration();
 		double param = (geoAudio.getCurrentTime() - min) / (max - min);
-		sliderLeft = left + width - (sliderLength + SLIDER_MARGIN);
-		updateDot(sliderLeft + (sliderLength - BLOB_SIZE) * param, top + height / 2);
-		playing = geoAudio.isPlaying();
+		sliderLeft = (int) (x + txtLayout.getBounds().getWidth() + 2 * BLOB_SIZE);
+		sliderLength = left + width - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_SIZE);
+		updateDot(sliderLeft + (sliderLength) * param, top + height / 2);
+
 	}
+
 
 	private void updateDot(double rwX, double rwY) {
 		coords[0] = rwX;
@@ -107,6 +123,7 @@ public class DrawAudio extends Drawable {
 		diameter = 2 * BLOB_SIZE + 1;
 
 		circle.setFrame(xUL, yUL, diameter, diameter);
+		Log.debug("[DOT] xUL: " + xUL + "  yUL: " + yUL + " diameter: " + diameter);
 	}
 
 	@Override
@@ -126,7 +143,7 @@ public class DrawAudio extends Drawable {
 		if (isVisible) {
 			int x = sliderLeft;
 			int y = top + height / 2;
-			sliderLength = left + width - sliderLeft - 2 * BLOB_SIZE;
+
 			g2.setPaint(geo.getSelColor());
 			g2.drawStraightLine(x, y, x + sliderLength, y);
 
@@ -190,8 +207,6 @@ public class DrawAudio extends Drawable {
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 				x, y, false, null, null);
-		sliderLeft = (int) (x + txtLayout.getBounds().getWidth() + SLIDER_MARGIN);
-		sliderLength = left + width - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_SIZE);
 	}
 
 	private static String getElapsedTime(int current, int all) {
