@@ -80,6 +80,10 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	ListBox rightAngleStyleListBox;
 	ListBox lbTooltips;
 
+	/**
+	 * @param optionsEuclidianW
+	 *            euclidian options panel
+	 */
 	public BasicTab(OptionsEuclidianW optionsEuclidianW) {
 		super(optionsEuclidianW.app);
 		this.optionsEuclidianW = optionsEuclidianW;
@@ -677,7 +681,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		rightAngleStyleLabel.setText(
 				this.optionsEuclidianW.loc.getMenu("RightAngleStyle") + ":");
-
 	}
 
 	private void fillTooltipCombo() {
@@ -687,6 +690,10 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		}
 	}
 
+	/**
+	 * @param value
+	 *            axes ratio
+	 */
 	public void enableAxesRatio(boolean value) {
 		tfAxesRatioX.getTextBox().setEnabled(value);
 		tfAxesRatioY.getTextBox().setEnabled(value);

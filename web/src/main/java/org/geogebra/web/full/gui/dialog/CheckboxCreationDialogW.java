@@ -293,6 +293,12 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		setWidget(optionPane);
 	}
 
+	/**
+	 * Handle input event
+	 * 
+	 * @param src
+	 *            input element
+	 */
 	public void actionPerformed(Object src) {
 		if (src == btCancel) {
 			hide();
@@ -333,14 +339,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		geoBoolean.updateRepaint();
 
 		app.storeUndoInfo();
-	}
-
-	public void windowGainedFocus() {
-		// make sure this dialog is the current selection listener
-		if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER
-				|| app.getCurrentSelectionListener() != this) {
-			app.setSelectionListenerMode(this);
-		}
 	}
 
 	@Override

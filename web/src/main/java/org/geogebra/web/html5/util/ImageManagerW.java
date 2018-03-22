@@ -34,6 +34,7 @@ public class ImageManagerW extends ImageManager {
 	 * Clear all lists
 	 */
 	public void reset() {
+		Log.printStacktrace("CLEAR");
 		externalImageTable = new HashMap<>();
 		externalImageSrcs = new HashMap<>();
 		imagesLoaded = 0;

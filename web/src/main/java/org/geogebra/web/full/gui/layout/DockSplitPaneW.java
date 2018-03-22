@@ -206,6 +206,10 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		dividerLocation = location;
 	}
 
+	/**
+	 * @param proportion
+	 *            relative divider location
+	 */
 	public void setDividerLocation(double proportion) {
 		if (getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 			setDividerLocation((int) (proportion * getOffsetHeight()));
@@ -693,12 +697,22 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		this.forcedLayout = forcedLayout;
 	}
 
+	/**
+	 * @param widget
+	 *            widget
+	 * @return whether widget is the primary widget of this split pane
+	 */
 	public boolean isCenter(IsWidget widget) {
 		LayoutData data = (LayoutData) widget.asWidget().getLayoutData();
 		return data.direction == Direction.CENTER;
-
 	}
 
+	/**
+	 * @param dockPanelW
+	 *            dock panel
+	 * @return preferred height of the panel (based on preferred size of this
+	 *         and split location)
+	 */
 	public int getPreferredHeight(DockPanelW dockPanelW) {
 		if (this.orientation == SwingConstants.HORIZONTAL_SPLIT) {
 			return preferredHeight;
@@ -707,6 +721,12 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 				: preferredHeight - this.dividerLocation - getSplitterSize();
 	}
 
+	/**
+	 * @param dockPanelW
+	 *            dock panel
+	 * @return preferred width of the panel (based on preferred size of this and
+	 *         split location)
+	 */
 	public int getPreferredWidth(DockPanelW dockPanelW) {
 		if (this.orientation == SwingConstants.VERTICAL_SPLIT) {
 			return preferredWidth;
@@ -715,6 +735,12 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 				: preferredWidth - this.dividerLocation - getSplitterSize();
 	}
 
+	/**
+	 * @param width
+	 *            preferred width of the pane
+	 * @param height
+	 *            preferred height of the pane
+	 */
 	public void setPreferredWidth(int width, int height) {
 		this.preferredHeight = height;
 		this.preferredWidth = width;

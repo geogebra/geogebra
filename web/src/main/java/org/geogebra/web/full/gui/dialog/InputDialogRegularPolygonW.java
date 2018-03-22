@@ -9,11 +9,28 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
 
+/**
+ * Web dialog for regular polygons
+ */
 public class InputDialogRegularPolygonW extends InputDialogW {
 	private GeoPointND geoPoint1;
 	private GeoPointND geoPoint2;
 	private EuclidianController ec;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param ec
+	 *            controller
+	 * @param title
+	 *            title
+	 * @param handler
+	 *            input handler
+	 * @param point1
+	 *            first vertex
+	 * @param point2
+	 *            second vertex
+	 */
 	public InputDialogRegularPolygonW(AppW app, EuclidianController ec, String title,
 			InputHandler handler, GeoPointND point1, GeoPointND point2) {
 		super(app, app.getLocalization().getMenu("Points"), title, "4", false,

@@ -1574,6 +1574,10 @@ public abstract class DockPanelW extends ResizeComposite
 
 	protected abstract ResourcePrototype getViewIcon();
 
+	/**
+	 * @param offset
+	 *            stylebar offset from the right
+	 */
 	public void setStyleBarRightOffset(int offset) {
 		if (this.titleBarPanel != null) {
 			this.titleBarPanel.getElement().getStyle()
@@ -1583,12 +1587,21 @@ public abstract class DockPanelW extends ResizeComposite
 		}
 	}
 
+	/**
+	 * Show or hide stylebar if it exists.
+	 * 
+	 * @param show
+	 *            whether to show stylebar
+	 */
 	public void showStyleBarPanel(boolean show) {
 		if (this.titleBarPanel != null) {
 			this.titleBarPanel.setVisible(show);
 		}
 	}
 
+	/**
+	 * @return whether stylebar is visible
+	 */
 	public boolean isStyleBarPanelShown() {
 		if (titleBarPanel != null) {
 			return this.titleBarPanel.isVisible()
@@ -1597,6 +1610,9 @@ public abstract class DockPanelW extends ResizeComposite
 		return false;
 	}
 
+	/**
+	 * @return resource bundle for icons
+	 */
 	protected SvgPerspectiveResources getResources() {
 		return ImageFactory.getPerspectiveResources();
 	}

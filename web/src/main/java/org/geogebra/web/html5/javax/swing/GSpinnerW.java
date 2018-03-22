@@ -2,8 +2,14 @@ package org.geogebra.web.html5.javax.swing;
 
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 
+/**
+ * Wrapper for input[type=number]
+ */
 public class GSpinnerW extends GTextBox {
 
+	/**
+	 * New numeric input.
+	 */
 	public GSpinnerW() {
 		super();
 		getElement().setAttribute("type", "number");

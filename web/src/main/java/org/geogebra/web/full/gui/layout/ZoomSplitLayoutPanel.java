@@ -259,46 +259,51 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
 		}
 
+		/**
+		 * @param minSize
+		 *            minimal size
+		 */
 		public void setMinSize(int minSize) {
-      this.minSize = minSize;
-      LayoutData layout = (LayoutData) target.getLayoutData();
+			this.minSize = minSize;
+			LayoutData layout = (LayoutData) target.getLayoutData();
 
-      // Try resetting the associated widget's size, which will enforce the new
-      // minSize value.
-      setAssociatedWidgetSize((int) layout.size);
-    }
+			// Try resetting the associated widget's size, which will enforce
+			// the new
+			// minSize value.
+			setAssociatedWidgetSize((int) layout.size);
+		}
 
-    public void setSnapClosedSize(int snapClosedSize) {
-      this.snapClosedSize = snapClosedSize;
-    }
+		public void setSnapClosedSize(int snapClosedSize) {
+			this.snapClosedSize = snapClosedSize;
+		}
 
-    public void setToggleDisplayAllowed(boolean allowed) {
-      this.toggleDisplayAllowed = allowed;
-    }
+		public void setToggleDisplayAllowed(boolean allowed) {
+			this.toggleDisplayAllowed = allowed;
+		}
 
-    protected abstract int getAbsolutePosition();
+		protected abstract int getAbsolutePosition();
 
-    protected abstract double getCenterSize();
+		protected abstract double getCenterSize();
 
-    protected abstract int getEventPosition(Event event);
+		protected abstract int getEventPosition(Event event);
 
-    protected abstract int getTargetPosition();
+		protected abstract int getTargetPosition();
 
-    protected abstract int getTargetSize();
+		protected abstract int getTargetSize();
 
-    private double getMaxSize() {
-      // To avoid seeing stale center size values due to deferred layout
-      // updates, maintain our own copy up to date and resync when the
-      // DockLayoutPanel value changes.
-      double newCenterSize = getCenterSize();
-      if (syncedCenterSize != newCenterSize) {
-        syncedCenterSize = newCenterSize;
-        centerSize = newCenterSize;
-      }
+		private double getMaxSize() {
+			// To avoid seeing stale center size values due to deferred layout
+			// updates, maintain our own copy up to date and resync when the
+			// DockLayoutPanel value changes.
+			double newCenterSize = getCenterSize();
+			if (syncedCenterSize != newCenterSize) {
+				syncedCenterSize = newCenterSize;
+				centerSize = newCenterSize;
+			}
 
-      return Math.max(((LayoutData) target.getLayoutData()).size + centerSize,
-                0);
-    }
+			return Math.max(
+					((LayoutData) target.getLayoutData()).size + centerSize, 0);
+		}
 
 		private void setAssociatedWidgetSize(double size0) {
 			double maxSize = getMaxSize();

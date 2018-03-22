@@ -287,9 +287,7 @@ public class OptionsTab extends FlowPanel {
 		}
 		if (m instanceof SymbolicModel) {
 			CheckboxPanel ret = new CheckboxPanel("Symbolic",
-					app.getLocalization());
-			ret.setModel(m);
-			((SymbolicModel) m).setListener(ret);
+					app.getLocalization(), (SymbolicModel) m);
 			return ret;
 		}
 		if (m instanceof InterpolateImageModel) {
@@ -1086,9 +1084,7 @@ public class OptionsTab extends FlowPanel {
 			implements IIneqStyleListener {
 
 		public IneqPanel(IneqStyleModel model, AppW app) {
-			super("ShowOnXAxis", app.getLocalization());
-			model.setListener(this);
-			setModel(model);
+			super("ShowOnXAxis", app.getLocalization(), model);
 		}
 
 		@Override

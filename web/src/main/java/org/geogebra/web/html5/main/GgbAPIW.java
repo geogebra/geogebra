@@ -79,7 +79,6 @@ public class GgbAPIW extends GgbAPI {
 		// view.processBase64String(base64);
 
 		app.loadXML(new Base64ZipFile(base64));
-
 	}
 
 	private void resetPerspective() {
@@ -1267,6 +1266,13 @@ public class GgbAPIW extends GgbAPI {
 		((AppW) app).setExternalPath(s);
 	}
 
+	/**
+	 * If all content is saved, run immediately, otherwise wait until user
+	 * saves.
+	 * 
+	 * @param callback
+	 *            callback after file is saved
+	 */
 	public void checkSaved(final JavaScriptObject callback) {
 		((AppW) app).checkSaved(new Runnable() {
 			@Override
@@ -1276,6 +1282,10 @@ public class GgbAPIW extends GgbAPI {
 		});
 	}
 
+	/**
+	 * @param toolbarString
+	 *            custom toolbar definition
+	 */
 	public void setCustomToolBar(String toolbarString) {
 		GuiManagerInterfaceW gm = ((GuiManagerInterfaceW) app.getGuiManager());
 		gm.setToolBarDefinition(toolbarString);
@@ -1336,6 +1346,9 @@ public class GgbAPIW extends GgbAPI {
 		return $wnd.zip.useWebWorkers;
 	}-*/;
 
+	/**
+	 * @return whether webworkers are used in zipjs
+	 */
 	native boolean isUsingWebWorkers()/*-{
 		return $wnd.zip.useWebWorkers;
 	}-*/;

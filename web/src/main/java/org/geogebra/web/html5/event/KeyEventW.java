@@ -15,6 +15,11 @@ public final class KeyEventW
 		this.event = e;
 	}
 
+	/**
+	 * @param e
+	 *            GWT event
+	 * @return wrapped event
+	 */
 	public static KeyEventW wrapEvent(
 	        com.google.gwt.event.dom.client.KeyPressEvent e) {
 		if (!POOL.isEmpty()) {
@@ -26,6 +31,9 @@ public final class KeyEventW
 		return new KeyEventW(e);
 	}
 
+	/**
+	 * Make the event reusable.
+	 */
 	public void release() {
 		KeyEventW.POOL.add(this);
 	}

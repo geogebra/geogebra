@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
@@ -85,8 +84,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	private class MyImageFileInputDialog extends FileInputDialog {
 
-		public MyImageFileInputDialog(AppW app, GeoPoint location) {
-			super(app, location);
+		public MyImageFileInputDialog(AppW app) {
+			super(app);
 			createGUI();
 			if (app.has(Feature.DIALOG_DESIGN)) {
 				btCancel.addStyleName("dialogBtn");
@@ -445,7 +444,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnOpenFile.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				new MyImageFileInputDialog(app, null);
+				new MyImageFileInputDialog(app);
 			}
 		});
 

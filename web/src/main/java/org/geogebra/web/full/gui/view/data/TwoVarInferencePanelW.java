@@ -57,6 +57,11 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 	/**
 	 * Construct a TwoVarInference panel
+	 * 
+	 * @param app
+	 *            application
+	 * @param view
+	 *            analysis view
 	 */
 	public TwoVarInferencePanelW(AppW app, DataAnalysisViewW view) {
 		
@@ -252,11 +257,14 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	}
 
 	private void updateCBAlternativeHyp() {
-
 		lbAltHyp.clear();
 		model.fillAlternateHyp();
 	}
 
+	/**
+	 * @param selectedPlot
+	 *            selected plot index
+	 */
 	public void setSelectedInference(int selectedPlot) {
 		model.setSelectedInference(selectedPlot);
 		if (!isIniting) {

@@ -15,6 +15,14 @@ public class CheckboxPanel extends OptionPanel implements
 	private final String titleId;
 	private Localization loc;
 
+	/**
+	 * @param title
+	 *            title
+	 * @param loc
+	 *            localization
+	 * @param m
+	 *            model
+	 */
 	public CheckboxPanel(final String title, Localization loc,
 			BooleanOptionModel m) {
 		this(title, loc);
@@ -22,6 +30,12 @@ public class CheckboxPanel extends OptionPanel implements
 		m.setListener(this);
 	}
 
+	/**
+	 * @param title
+	 *            title
+	 * @param loc
+	 *            localization
+	 */
 	public CheckboxPanel(final String title, Localization loc) {
 		this.loc = loc;
 		checkbox = new CheckBox();

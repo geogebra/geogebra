@@ -736,7 +736,14 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		}
 	}
 
-	public boolean colorEquals(GColor color1, GColor color2) {
+	/**
+	 * @param color1
+	 *            first color
+	 * @param color2
+	 *            second color
+	 * @return colors are the same but not null
+	 */
+	public static boolean colorEquals(GColor color1, GColor color2) {
 
 		return (color1 != null && color2 != null)
 				&& (color1.getRed() == color2.getRed()
@@ -750,6 +757,9 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		}
 	}
 
+	/**
+	 * Update the UI.
+	 */
 	public void update() {
 		updateTables();
 		lbBars.update(isBarChart());
@@ -768,12 +778,15 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		return selectedColor;
 	}
 
+	/**
+	 * @param color
+	 *            selected color
+	 */
 	public void setSelectedColor(GColor color) {
 		selectedColor = color;
 		leftTable.selectByColor(color);
 		mainTable.selectByColor(color);
 		otherTable.selectByColor(color);
-
 	}
 
 	public void setPaletteTitles(String recent, String other) {

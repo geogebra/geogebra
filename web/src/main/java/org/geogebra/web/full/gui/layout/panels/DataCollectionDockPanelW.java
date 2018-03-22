@@ -9,6 +9,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class DataCollectionDockPanelW extends DockPanelW {
 	
+	/**
+	 * New panel for data collection.
+	 */
 	public DataCollectionDockPanelW() {
 		super(App.VIEW_DATA_COLLECTION, // view id
 				"DataCollection", // view title phrase

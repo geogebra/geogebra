@@ -71,6 +71,9 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 		getListBox().addItem(item);
 	}
 
+	/**
+	 * @return localized title
+	 */
 	public String getTitle() {
 		String ret = loc.getMenu(title);
 		if (ret.equals(title)) {

@@ -123,7 +123,6 @@ public class GeoTextEditor extends RichTextArea {
 				default:
 					editPanel.updatePreviewPanel();
 				}
-
 			}
 		});
 

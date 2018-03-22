@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.dialog;
 
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 
@@ -14,23 +13,27 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class FileInputDialog extends GPopupPanel implements ClickHandler {
 	protected AppW app;
-	protected GeoPoint location;
 
 	private FileUpload inputWidget;
 	protected Button btCancel;
 
-	public FileInputDialog(AppW app, GeoPoint location) {
+	/**
+	 * @param app
+	 *            application
+	 */
+	public FileInputDialog(AppW app) {
 		super(false, true, app.getPanel(), app);
 		this.app = app;
-		this.location = location;
 		// createGUI();
 		addStyleName("GeoGebraPopup");
 		setGlassEnabled(true);
 		center();
 	}
 
+	/**
+	 * Build the UI.
+	 */
 	protected void createGUI() {
-
 		setInputWidget(new FileUpload());
 		// addGgbChangeHandler(inputWidget.getElement(), app);
 
@@ -51,20 +54,31 @@ public class FileInputDialog extends GPopupPanel implements ClickHandler {
 		}
 	}
 
+	/**
+	 * @return JS callback that hides this
+	 */
 	public native JavaScriptObject getNativeHideAndFocus() /*-{
-		return this.@org.geogebra.web.full.gui.dialog.FileInputDialog::hideAndFocus()();
+		return function() {
+			this.@org.geogebra.web.full.gui.dialog.FileInputDialog::hideAndFocus()();
+		}
 	}-*/;
 
+	/**
+	 * Hide this and focus app
+	 */
 	public void hideAndFocus() {
 		hide();
 		app.getActiveEuclidianView().requestFocusInWindow();
 	}
 
+	/**
+	 * @return input widget
+	 */
 	public FileUpload getInputWidget() {
 		return inputWidget;
 	}
 
-	public void setInputWidget(FileUpload inputWidget) {
+	private void setInputWidget(FileUpload inputWidget) {
 		this.inputWidget = inputWidget;
 	}
 }

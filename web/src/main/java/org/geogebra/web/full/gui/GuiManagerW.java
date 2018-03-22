@@ -294,6 +294,11 @@ public class GuiManagerW extends GuiManager
 		getPopupMenu(geos).show(p);
 	}
 
+	/**
+	 * @param mt
+	 *            spreadsheet table
+	 * @return spreadsheet context menu
+	 */
 	public SpreadsheetContextMenuW getSpreadsheetContextMenu(final MyTableW mt) {
 		removePopup();
 		final SpreadsheetContextMenuW contextMenu = new SpreadsheetContextMenuW(
@@ -965,6 +970,12 @@ public class GuiManagerW extends GuiManager
 		return inputHelpPanel;
 	}
 
+	/**
+	 * Update help panel if exists
+	 * 
+	 * @param forCAS
+	 *            whether to include CAS commands
+	 */
 	public void reInitHelpPanel(boolean forCAS) {
 		if (inputHelpPanel != null) {
 			if (forCAS) {
@@ -1532,6 +1543,13 @@ public class GuiManagerW extends GuiManager
 		return euclidianView2.get(idx);
 	}
 
+	/**
+	 * Get panel for secondary graphics view
+	 * 
+	 * @param idx
+	 *            EV2 index
+	 * @return EV2 panel
+	 */
 	public Euclidian2DockPanelW getEuclidianView2DockPanel(final int idx) {
 		if (euclidianView2DockPanel == null) {
 			euclidianView2DockPanel = new Euclidian2DockPanelW(
@@ -1659,9 +1677,6 @@ public class GuiManagerW extends GuiManager
 
 			updateToolbar();
 		}
-
-		// in theory, it should do not harm to also set mode here:
-		// app.set1rstMode();
 	}
 
 	@Override
@@ -1686,6 +1701,9 @@ public class GuiManagerW extends GuiManager
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 
+	/**
+	 * @return general toolbar definition
+	 */
 	public String getGeneralToolbarDefinition() {
 		// General definition is set to not null by applyPerspective, but anyway
 		if (this.generalToolbarDefinition == null) {
@@ -2189,6 +2207,9 @@ public class GuiManagerW extends GuiManager
 		return getBrowseView(null);
 	}
 
+	/**
+	 * @return default definition for general toolbar
+	 */
 	public String getDefaultToolbarString() {
 		if (toolbarPanel == null) {
 			return "";

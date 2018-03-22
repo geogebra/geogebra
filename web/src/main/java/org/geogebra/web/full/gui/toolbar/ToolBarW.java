@@ -279,6 +279,9 @@ public class ToolBarW extends FlowPanel
 		return activeView;
 	}
 
+	/**
+	 * @return whether a submenu is open
+	 */
 	public boolean hasPopupOpen() {
 		for (int i = 0; i < this.modeToggleMenus.size(); i++) {
 			if (this.modeToggleMenus.get(i).isMenuShown()) {

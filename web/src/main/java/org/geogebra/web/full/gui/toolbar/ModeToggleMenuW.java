@@ -323,13 +323,14 @@ public class ModeToggleMenuW extends ListItem
 		return false;
 	}
 
+	/**
+	 * @return first mode of this menu
+	 */
 	public int getFirstMode() {
 		if (menu.size() == 0) {
 			return -1;
 		}
-
-		int firstmode = menu.get(0);
-		return firstmode;
+		return menu.get(0);
 	}
 
 	void selectItem(Widget mi) {
@@ -373,10 +374,6 @@ public class ModeToggleMenuW extends ListItem
 		getToolbarButtonPanel().getElement().setAttribute("isSelected", "true");
 		getToolbarButtonPanel().getElement().getStyle().setBorderWidth(2,
 				Unit.PX);
-	}
-
-	public void addSeparator() {
-		// TODO
 	}
 
 	/**

@@ -515,7 +515,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void selectGridStyle(int style) {
 			btnGridStyle.selectLineType(style);
 		}
-		
+
 		public void updateGridColorButton(GColor color) {
 			ImageOrText content = new ImageOrText();
 			content.setBgColor(color);
@@ -524,6 +524,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	
 	}
 	
+	/**
+	 * @param app
+	 *            application
+	 * @param activeEuclidianView
+	 *            view
+	 */
 	public OptionsEuclidianW(AppW app,
 			EuclidianViewInterfaceCommon activeEuclidianView) {
 		isIniting = true;
@@ -538,15 +544,15 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	/**
 	 * update the view (also for model)
 	 * 
-	 * @param view
+	 * @param euclidianView
 	 *            view
 	 */
-	public void updateView(EuclidianView view) {
-		setView(view);
-		view.setOptionPanel(this);
-		model.setView(view);
-		xAxisTab.updateView(view);
-		yAxisTab.updateView(view);
+	public void updateView(EuclidianView euclidianView) {
+		setView(euclidianView);
+		euclidianView.setOptionPanel(this);
+		model.setView(euclidianView);
+		xAxisTab.updateView(euclidianView);
+		yAxisTab.updateView(euclidianView);
 	}
 
 	private void initGUI() {

@@ -74,6 +74,11 @@ public class Browser {
 				&& $wnd.evalGeoGebraCASExternal("1+1") == "2";
 	}-*/;
 
+	/**
+	 * @param workerpath
+	 *            JS folder with workers
+	 * @return whether workers are supported
+	 */
 	public static boolean checkWorkerSupport(String workerpath) {
 		if ("tablet".equals(GWT.getModuleName())
 				|| "tabletWin".equals(GWT.getModuleName())) {
@@ -82,12 +87,8 @@ public class Browser {
 		return nativeCheckWorkerSupport(workerpath);
 	}
 
-	/**
-	 * @param workerpath
-	 *            path to js folder of this module
-	 * @return whether workers are supported
-	 */
-	public static native boolean nativeCheckWorkerSupport(String workerpath) /*-{
+	private static native boolean nativeCheckWorkerSupport(
+			String workerpath) /*-{
 		// Worker support in Firefox is incompatible at the moment for zip.js,
 		// see http://gildas-lormeau.github.com/zip.js/ for details:
 		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1) {
@@ -419,6 +420,12 @@ public class Browser {
 
 	}-*/;
 
+	/**
+	 * Change URL if we are running on geogebra.org
+	 * 
+	 * @param string
+	 *            new URL
+	 */
 	public static void changeUrl(String string) {
 		if ((Location.getHost() != null
 				&& Location.getHost().contains("geogebra.org")

@@ -226,6 +226,12 @@ public class TextEditPanel extends VerticalPanel
 	// Getters/Setters
 	// ======================================================
 
+	/**
+	 * Change edited element.
+	 * 
+	 * @param editGeo
+	 *            edited text element
+	 */
 	public void setEditGeo(GeoText editGeo) {
 		if (editGeo == null) {
 			// create dummy GeoText to maintain the visual properties

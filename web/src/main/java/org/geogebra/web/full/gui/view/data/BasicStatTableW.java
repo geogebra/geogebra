@@ -34,6 +34,14 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 		this(app, statDialog, true);
 	} // END constructor
 
+	/**
+	 * @param app
+	 *            application
+	 * @param statDialog
+	 *            stats dialog
+	 * @param defaultModel
+	 *            model
+	 */
 	public BasicStatTableW(AppW app, DataAnalysisViewW statDialog,
 			boolean defaultModel) {
 		this.daView = statDialog;
