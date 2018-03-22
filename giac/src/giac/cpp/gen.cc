@@ -8909,7 +8909,7 @@ namespace giac {
 	if (ideuxpoints && iback.is_symb_of_sommet(at_deuxpoints)){
 	  gen istep=iback._SYMBptr->feuille;
 	  iback=istep[0];
-	  istep=istep[1];
+	  istep=istep[1]+array_start(contextptr);
 	  if (!is_integral(istep) || istep.type!=_INT_ || istep.val==0)
 	    return gendimerr(contextptr);
 	  step=istep.val;
@@ -8987,7 +8987,7 @@ namespace giac {
 	  if (itdeuxpoints && iback.is_symb_of_sommet(at_deuxpoints)){
 	    gen istep=iback._SYMBptr->feuille;
 	    iback=istep[0];
-	    istep=istep[1];
+	    istep=istep[1]+array_start(contextptr);
 	    if (!is_integral(istep) || istep.type!=_INT_ || istep==0)
 	      return gendimerr(contextptr);
 	    step=istep.val;
@@ -15665,7 +15665,7 @@ namespace giac {
     else {
       S=g.print(&C);
 #ifndef GIAC_GGB
-      if (g.type==_FRAC){
+      if (g.type==_FRAC || g.type==_ZINT){
 	S += "=";	  
 	S += evalf_double(g,1,&C).print(&C);
       }
