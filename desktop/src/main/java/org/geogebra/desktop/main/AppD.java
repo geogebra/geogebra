@@ -180,6 +180,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.Log.LogDestination;
+import org.geogebra.common.video.VideoManager;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.GeoGebra;
 import org.geogebra.desktop.awt.GBufferedImageD;
@@ -4363,6 +4364,12 @@ public class AppD extends App implements KeyEventDispatcher {
 			soundManager = new SoundManagerD(this);
 		}
 		return soundManager;
+	}
+
+	@Override
+	public final VideoManager getVideoManager() {
+		// not implemented here.
+		return null;
 	}
 
 	/*

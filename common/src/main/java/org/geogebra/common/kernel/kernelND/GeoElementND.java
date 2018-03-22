@@ -328,6 +328,11 @@ public interface GeoElementND extends ExpressionValue {
 	boolean isGeoAudio();
 
 	/**
+	 * @return whether this is an video
+	 */
+	boolean isGeoVideo();
+
+	/**
 	 * @return caption template including %v, %n, ...
 	 */
 	String getRawCaption();

@@ -102,6 +102,7 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.video.VideoManager;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -2376,6 +2377,11 @@ public abstract class App implements UpdateSelection {
 	 * @return sound manager
 	 */
 	public abstract SoundManager getSoundManager();
+
+	/**
+	 * @return video manager
+	 */
+	public abstract VideoManager getVideoManager();
 
 	/**
 	 * @return kernel for this window

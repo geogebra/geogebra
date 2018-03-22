@@ -84,6 +84,7 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.common.video.VideoManager;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -131,6 +132,7 @@ import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
+import org.geogebra.web.html5.video.VideoManagerW;
 import org.geogebra.web.plugin.WebsocketLogger;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -183,6 +185,7 @@ public abstract class AppW extends App implements SetLabels {
 	private FontManagerW fontManager;
 	private SpreadsheetTableModelW tableModel;
 	private SoundManagerW soundManager;
+	private VideoManagerW videoManager;
 	protected DialogManager dialogManager = null;
 
 	protected MaterialsManagerI fm;
@@ -406,6 +409,14 @@ public abstract class AppW extends App implements SetLabels {
 			soundManager = new SoundManagerW(this);
 		}
 		return soundManager;
+	}
+
+	@Override
+	public final VideoManager getVideoManager() {
+		if (videoManager == null) {
+			videoManager = new VideoManagerW(this);
+		}
+		return videoManager;
 	}
 
 	@Override

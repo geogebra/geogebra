@@ -20,7 +20,9 @@ public class GeoAudio extends GeoButton {
 	private static final int DEFAULT_PLAYER_WIDTH = 300;
 	private static final int DEFAULT_PLAYER_HEIGHT = 48;
 	private String src;
-	private App app;
+
+	/** Application for subclasses too. */
+	protected App app;
 
 	/**
 	 * Constructs a new, empty audio element.

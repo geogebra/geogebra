@@ -154,6 +154,9 @@ public enum GeoClass {
 	/** AUDIO */
 	AUDIO("Audio", 160, false),
 
+	/** VIDEO */
+	VIDEO("Video", 160, false),
+
 	/** DEFAULT */
 	DEFAULT("Default", 160, false);
 
