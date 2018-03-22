@@ -5839,7 +5839,7 @@ unsigned int ConvertUTF8toUTF16 (
 	&& res[res.size()-1]==')'
 	)
       res=res.substr(17,res.size()-18);
-    res=remove_comment(res,"\"\"\"",false);
+    res=remove_comment(res,"\"\"\"",true);
     res=remove_comment(res,"'''",true);
     res=glue_lines_backslash(res);
     vector<int_string> stack;

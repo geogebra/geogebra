@@ -587,6 +587,15 @@ namespace giac {
 
   gen _pop(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()==2 && args._VECTptr->back().type==_INT_){
+      int pos=args._VECTptr->back().val;
+      gen g=args._VECTptr->front();
+      if (pos>=0 && g.type==_VECT && g._VECTptr->size()>pos){
+	gen res=(*g._VECTptr)[pos];
+	g._VECTptr->erase(g._VECTptr->begin()+pos);
+	return res;
+      }
+    }
     if (args.type!=_VECT || args._VECTptr->empty()) return gensizeerr(contextptr);
     gen res=args._VECTptr->back();
     args._VECTptr->pop_back();

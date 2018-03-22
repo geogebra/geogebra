@@ -7821,7 +7821,7 @@ namespace giac {
   static define_unary_function_eval_quoted (__tableseq,&_tableseq,_tableseq_s);
   define_unary_function_ptr5( at_tableseq ,alias_at_tableseq,&__tableseq,_QUOTE_ARGUMENTS,true);
 
-  gen protecteval(const gen & g,int level, GIAC_CONTEXT){
+  gen protectevalorevalf(const gen & g,int level,bool approx,GIAC_CONTEXT){
     gen res;
 #ifdef HAVE_LIBGSL //
     gsl_set_error_handler_off();
@@ -7846,7 +7846,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     try {
 #endif
-      res=approx_mode(contextptr)?g.evalf(level,contextptr):g.eval(level,contextptr);
+      res=approx?g.evalf(level,contextptr):g.eval(level,contextptr);
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & e){
@@ -7860,6 +7860,14 @@ namespace giac {
     }
 #endif
     return res;
+  }
+
+  gen protectevalf(const gen & g,int level, GIAC_CONTEXT){
+    return protectevalorevalf(g,level,true,contextptr);
+  }
+
+  gen protecteval(const gen & g,int level, GIAC_CONTEXT){
+    return protectevalorevalf(g,level,approx_mode(contextptr),contextptr);
   }
 
   static string printasnodisp(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
@@ -10594,7 +10602,7 @@ namespace giac {
       f=symbolic(u,f);
     }
     f=eval(f,eval_level(contextptr),contextptr);
-    if (u==at_revlist || u==at_reverse || u==at_sort || u==at_append || u==at_prepend || u==at_concat || u==at_extend || u==at_rotate || u==at_shift || u==at_suppress || u==at_insert )
+    if (u==at_revlist || u==at_reverse || u==at_sort || u==at_append || u==at_prepend || u==at_concat || u==at_extend || u==at_rotate || u==at_shift || u==at_suppress || u==at_remove || u==at_insert )
       return sto(f,a,contextptr);
     return f;
   }

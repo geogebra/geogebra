@@ -3572,6 +3572,10 @@ namespace giac {
     if ( (b.type==_SYMB) && (b._SYMBptr->sommet==at_at || b._SYMBptr->sommet==at_of) ){
       // Store a in a vector or array or map
       gen destination=b._SYMBptr->feuille._VECTptr->front(),error; // variable name
+      if (destination.is_symb_of_sommet(at_at) && b._SYMBptr->sommet==at_at){
+	destination=symbolic(at_at,makesequence(destination._SYMBptr->feuille[0],makesequence(destination._SYMBptr->feuille[1],b._SYMBptr->feuille._VECTptr->back())));
+	return sto(a,destination,in_place,contextptr);
+      }
       // if (sto_38 && destination.is_symb_of_sommet(at_double_deux_points) && destination._SYMBptr->feuille.type==_VECT && destination._SYMBptr->feuille._VECTptr->size()==2 &&destination._SYMBptr->feuille._VECTptr->front().type==_IDNT && destination._SYMBptr->feuille._VECTptr->back().type==_IDNT && sto_38(a,destination._SYMBptr->feuille._VECTptr->front()._IDNTptr->id_name,destination._SYMBptr->feuille._VECTptr->back()._IDNTptr->id_name,b,error,contextptr))	
       // return is_undef(error)?error:a;
       gen ret;

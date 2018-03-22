@@ -406,6 +406,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_tableseq;
 
   gen protecteval(const gen & g,int level,GIAC_CONTEXT);
+  gen protectevalf(const gen & g,int level,GIAC_CONTEXT);
 
   gen _nodisp(const gen & args);
   extern const unary_function_ptr * const  at_nodisp;
