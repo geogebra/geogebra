@@ -37,7 +37,7 @@ public class SortByProperty extends AbstractEnumerableProperty {
                 return i;
             }
         }
-        return NONE;
+        return -1;
     }
 
     @Override
