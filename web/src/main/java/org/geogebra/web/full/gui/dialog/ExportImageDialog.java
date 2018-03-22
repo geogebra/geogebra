@@ -105,7 +105,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 					appW.getExportTitle() + ".png");
 			super.hide();
 		} else if (source == copyToClipboardBtn) {
-			// COPY TO CLIPBOARD
+			app.copyGraphicsViewToClipboard();
 		}
 	}
 
