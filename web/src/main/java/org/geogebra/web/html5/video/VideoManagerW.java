@@ -1,8 +1,8 @@
 package org.geogebra.web.html5.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.video.VideoManager;
 import org.geogebra.web.html5.main.AppW;
 
 /**

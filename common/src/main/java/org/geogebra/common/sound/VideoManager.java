@@ -1,4 +1,4 @@
-package org.geogebra.common.video;
+package org.geogebra.common.sound;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.util.AsyncOperation;

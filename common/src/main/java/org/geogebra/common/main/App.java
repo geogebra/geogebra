@@ -91,6 +91,7 @@ import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.sound.SoundManager;
+import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GTimer;
@@ -102,7 +103,6 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.video.VideoManager;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
