@@ -2381,7 +2381,9 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * @return video manager
 	 */
-	public abstract VideoManager getVideoManager();
+	public VideoManager getVideoManager() {
+		return null;
+	}
 
 	/**
 	 * @return kernel for this window
