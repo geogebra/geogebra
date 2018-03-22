@@ -55,6 +55,6 @@ public class LanguageProperty extends AbstractEnumerableProperty {
                 return i;
             }
         }
-        return NONE;
+        return -1;
     }
 }

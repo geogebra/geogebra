@@ -39,6 +39,6 @@ public class LabelingProperty extends AbstractEnumerableProperty {
             }
         }
 
-        return NONE;
+        return -1;
     }
 }
