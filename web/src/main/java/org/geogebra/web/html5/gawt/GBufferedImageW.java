@@ -13,14 +13,28 @@ import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.DOM;
 
+/**
+ * Image that can be used for drawing.
+ */
 public class GBufferedImageW implements GBufferedImage {
-
+	/** img element */
 	ImageElement img = null; // necessary
 
+	/** Canvas */
 	Canvas canv = null; // not necessary, but if present, this is the main one
 
 	private double pixelRatio;
 
+	/**
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 * @param pixelRatio
+	 *            pixel ratio
+	 * @param opaque
+	 *            whether to use white background
+	 */
 	public GBufferedImageW(int width, int height, double pixelRatio,
 			boolean opaque) {
 		this(null, width, height, pixelRatio, opaque);
@@ -122,6 +136,10 @@ public class GBufferedImageW implements GBufferedImage {
 		}
 	}
 
+	/**
+	 * @param imageData
+	 *            image data
+	 */
 	public GBufferedImageW(ImageData imageData) {
 		canv = makeCanvas();
 		canv.setCoordinateSpaceWidth(imageData.getWidth());
@@ -150,6 +168,11 @@ public class GBufferedImageW implements GBufferedImage {
 		return canv.getCoordinateSpaceHeight();
 	}
 
+	/**
+	 * Return content as image, convert canvas to img if necessary.
+	 * 
+	 * @return image element
+	 */
 	public ImageElement getImageElement() {
 		if (canv != null) {
 			img = ImageElement.as(DOM.createImg());
@@ -160,10 +183,16 @@ public class GBufferedImageW implements GBufferedImage {
 		return img;
 	}
 
+	/**
+	 * @return whether canvas is initialized
+	 */
 	public boolean hasCanvas() {
 		return canv != null;
 	}
 
+	/**
+	 * @return create a clone using a new canvas / img element
+	 */
 	public GBufferedImageW cloneDeep() {
 		if (canv != null) {
 			return new GBufferedImageW(canv);
@@ -193,6 +222,9 @@ public class GBufferedImageW implements GBufferedImage {
 		return Canvas.createIfSupported();
 	}
 
+	/**
+	 * @return whether this is canvas or loaded img
+	 */
 	public boolean isLoaded() {
 		return img == null || img.getPropertyBoolean("complete");
 	}
@@ -214,6 +246,9 @@ public class GBufferedImageW implements GBufferedImage {
 		return new GBufferedImageW(imageData);
 	}
 
+	/**
+	 * @return image data of the canvas
+	 */
 	public ImageData getImageData() {
 		return getCanvas().getContext2d().getImageData(0, 0, getWidth(),
 		        getHeight());

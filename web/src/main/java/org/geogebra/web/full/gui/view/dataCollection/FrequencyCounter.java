@@ -31,6 +31,12 @@ public class FrequencyCounter {
 		this.data = data;
 	}
 
+	/**
+	 * @param time
+	 *            timestamp
+	 * @param dataCount
+	 *            count
+	 */
 	public synchronized void addTimestamp(double time, int dataCount) {
 		if (dataCount < this.lastDataCount) {
 			clearTimestamps();

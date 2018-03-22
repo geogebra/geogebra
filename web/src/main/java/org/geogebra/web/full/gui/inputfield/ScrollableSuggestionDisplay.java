@@ -79,6 +79,9 @@ public final class ScrollableSuggestionDisplay extends
 		return scrollable;
 	}
 
+	/**
+	 * Update the height.
+	 */
 	public void updateHeight() {
 		if (editor == null) {
 			return;

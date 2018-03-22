@@ -20,6 +20,12 @@ public class SliderW extends FocusWidget implements SliderWI {
 	private boolean valueChangeHandlerInitialized;
 	private Double curValue;
 
+	/**
+	 * @param min
+	 *            slider min
+	 * @param max
+	 *            slider max
+	 */
 	public SliderW(double min, double max) {
 		range = Document.get().createElement("input");
 		range.setAttribute("type", "range");

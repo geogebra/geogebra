@@ -5,18 +5,25 @@ import org.geogebra.common.util.GTimerListener;
 
 import com.google.gwt.user.client.Timer;
 
+/**
+ * Timer for Web
+ */
 public class GTimerW implements GTimer {
 	private Timer timer;
 	private int delay;
-	private GTimerListener listener;
 
-	public GTimerW(GTimerListener listener, int delay) {
-		this.listener = listener;
+	/**
+	 * @param listener
+	 *            listener
+	 * @param delay
+	 *            delay or interval in ms
+	 */
+	public GTimerW(final GTimerListener listener, int delay) {
 		timer = new Timer() {
 
 			@Override
 			public void run() {
-				GTimerW.this.listener.onRun();
+				listener.onRun();
 			}
 		};
 		setDelay(delay);

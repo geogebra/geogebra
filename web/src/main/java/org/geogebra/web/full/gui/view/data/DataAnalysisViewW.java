@@ -496,6 +496,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		// do nothing
 	}
 
+	/**
+	 * Attach this and helper views to kernel.
+	 */
 	public void attachView() {
 		model.updateFromSettings();
 		kernel.attach(this);
@@ -507,8 +510,10 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		}
 	}
 
+	/**
+	 * Detach this, detach helper views to kernel and clear helper objects.
+	 */
 	public void detachView() {
-
 		dataDisplayPanel1.detachView();
 		if (dataDisplayPanel2 != null) {
 			dataDisplayPanel2.detachView();
@@ -684,16 +689,25 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	}
 
 	/**
-	 * For calling the onResize method in a deferred way
+	 * For calling the onResize method in a deferred way.
 	 */
 	public void deferredOnResize() {
 		Scheduler.get().scheduleDeferred(deferredOnRes);
 	}
 
+	/**
+	 * Resize data panel after delay.
+	 */
 	public void deferredDataPanelOnResize() {
 		Scheduler.get().scheduleDeferred(deferredDataPanelOnRes);
 	}
 
+	/**
+	 * Update a display other than the given one.
+	 * 
+	 * @param display
+	 *            display NOT to be updated
+	 */
 	public void updateOtherDataDisplay(DataDisplayPanelW display) {
 		if (!model.showDataDisplayPanel2()) {
 			return;
@@ -703,7 +717,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		} else {
 			dataDisplayPanel1.update();
 		}
-
 	}
 
 	public List<Widget> getPrintable() {

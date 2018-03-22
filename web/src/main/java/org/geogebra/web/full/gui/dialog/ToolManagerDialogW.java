@@ -146,13 +146,17 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 		}
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public ToolManagerDialogW(AppW app) {
 		super(app.getPanel(), app);
 		setModal(true);
 		model = new ToolManagerDialogModel(app, this);
 
 		this.app = app;
-		this.loc = (LocalizationW) app.getLocalization();
+		this.loc = app.getLocalization();
 		initGUI();
 		center();
 	}
@@ -357,7 +361,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 		app.setWaitCursor();
 		// for (Macro macro : toolList.getSelectedMacros()) {
 		app.storeMacro(toolList.getSelectedMacro(), false);
-		((AppW) app).getFileManager().open(Window.Location.getHref(), "", "");
+		app.getFileManager().open(Window.Location.getHref(), "", "");
 
 		app.setDefaultCursor();
 		hide();

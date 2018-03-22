@@ -118,6 +118,14 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
 		protected SplitterImpl impl = GWT.create(SplitterImpl.class);
 
+		/**
+		 * @param target
+		 *            primary component
+		 * @param reverse
+		 *            whether the primary component is right/bottom
+		 * @param splitPanel
+		 *            parent split pane
+		 */
 		public Splitter(Widget target, boolean reverse,
 				ZoomSplitLayoutPanel splitPanel) {
 			this.target = target;

@@ -49,6 +49,12 @@ public class ConstructionProtocolNavigationW
 	final private Image pauseIconHover = new Image(
 			GuiResourcesSimple.INSTANCE.icons_play_pause_circle_hover());
 
+	/**
+	 * @param app
+	 *            application
+	 * @param viewID
+	 *            parent view ID
+	 */
 	public ConstructionProtocolNavigationW(AppW app, int viewID) {
 		implPanel = new FlowPanel();
 		this.app = app;

@@ -942,7 +942,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return history.get(historyIndex);
 	}
 
-	public void mergeKoreanDoubles() {
+	private static void mergeKoreanDoubles() {
 		// avoid shift on Korean keyboards
 		/*
 		 * AG dont do that yet if (app.getLocale().getLanguage().equals("ko")) {
@@ -1372,6 +1372,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	}
 
+	/**
+	 * Add input to hinput history.
+	 * 
+	 * @param str
+	 *            input
+	 */
 	public void addToHistory(String str) {
 		// exit if the new string is the same as the last entered string
 		if (!history.isEmpty() && str.equals(history.get(history.size() - 1))) {
@@ -1395,8 +1401,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return suggestionJustHappened; // && !isSuggestionClickJustHappened;
 	}
 
-	public void setIsSuggestionJustHappened(boolean b) {
-		suggestionJustHappened = b;
+	/**
+	 * @param suggestion
+	 *            whether suggestion happened and ENTER should be ignored
+	 */
+	public void setIsSuggestionJustHappened(boolean suggestion) {
+		suggestionJustHappened = suggestion;
 	}
 
 	/* Hopefully happens only on click */

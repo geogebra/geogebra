@@ -486,6 +486,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 * traceDialog.getTraceSelectionRange(anchorColumn, anchorRow); }
 	 */
 
+	/**
+	 * @param enableMode
+	 *            whether trace dialog is active
+	 */
 	public void setTraceDialogMode(boolean enableMode) {
 		if (enableMode) {
 			table.setSelectionRectangleColor(GColor.GRAY);
@@ -576,9 +580,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 
 		sb.append("</spreadsheetView>\n");
-
-		// Application.debug(sb);
-
 	}
 
 	// ===============================================================
@@ -688,6 +689,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		table.setShowHScrollBar(showHScrollBar);
 	}
 
+	/**
+	 * Update CSS to show/hide keyboard, update stylebar.
+	 * 
+	 * @param showGrid
+	 *            whether to show grid
+	 */
 	public void setShowGrid(boolean showGrid) {
 		// table.setShowGrid(showGrid);
 		if (showGrid) {
@@ -890,6 +897,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		onResize(width, height);
 	}
 
+	/**
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 */
 	public void setPreferredSize(int width, int height) {
 		// getScrollPanel().setWidth(width + "px");
 		// getScrollPanel().setHeight(height + "px");
@@ -914,14 +927,11 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 * return hasFocus; }
 	 */
 
-	// transfer focus to the table
-	// @Override
+	/**
+	 * Focus this view (deferred)
+	 */
 	public void requestFocus() {
-		// if (table != null)
-		// table.requestFocus();
-
 		Log.debug("Spreadsheet requested focus");
-
 		Scheduler.get().scheduleDeferred(requestFocusCommand);
 	}
 

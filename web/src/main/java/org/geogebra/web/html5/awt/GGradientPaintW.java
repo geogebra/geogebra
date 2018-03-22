@@ -6,6 +6,9 @@ import org.geogebra.common.awt.GGradientPaint;
 import com.google.gwt.canvas.dom.client.CanvasGradient;
 import com.google.gwt.canvas.dom.client.Context2d;
 
+/**
+ * Gradient paint for canvas.
+ */
 public class GGradientPaintW implements GGradientPaint {
 	private GColor color1;
 	private GColor color2;
@@ -14,13 +17,33 @@ public class GGradientPaintW implements GGradientPaint {
 	private double y1;
 	private double y2;
 
-	public CanvasGradient getGradient(Context2d c) {
+	/**
+	 * Use the gradient in a context.
+	 * 
+	 * @param c
+	 *            context
+	 */
+	public void apply(Context2d c) {
 		CanvasGradient gradient = c.createLinearGradient(x1, y1, x2, y2);
 		gradient.addColorStop(0, GColor.getColorString(color1));
 		gradient.addColorStop(1, GColor.getColorString(color2));
-		return gradient;
+		c.setFillStyle(gradient);
 	}
 
+	/**
+	 * @param x1
+	 *            initial x
+	 * @param y1
+	 *            initial y
+	 * @param color1
+	 *            initial color
+	 * @param x2
+	 *            terminal x
+	 * @param y2
+	 *            terminal y
+	 * @param color2
+	 *            terminal color
+	 */
 	public GGradientPaintW(double x1, double y1, GColor color1, double x2,
 			double y2, GColor color2) {
 		this.x1 = x1;
@@ -31,6 +54,12 @@ public class GGradientPaintW implements GGradientPaint {
 		this.color2 = color2;
 	}
 
+	/**
+	 * Copy constructor.
+	 * 
+	 * @param gpaint
+	 *            source
+	 */
 	public GGradientPaintW(GGradientPaintW gpaint) {
 		this.x1 = gpaint.x1;
 		this.x2 = gpaint.x2;

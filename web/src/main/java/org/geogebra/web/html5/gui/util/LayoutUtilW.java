@@ -3,8 +3,16 @@ package org.geogebra.web.html5.gui.util;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 
+/**
+ * Utility class for widget layout.
+ */
 public class LayoutUtilW {
 
+	/**
+	 * @param widgets
+	 *            widgets
+	 * @return widgets merged in a row
+	 */
 	public static FlowPanel panelRow(IsWidget... widgets) {
 		FlowPanel p = new FlowPanel();
 		for (IsWidget widget : widgets) {
@@ -15,6 +23,11 @@ public class LayoutUtilW {
 		return p;
 	}
 
+	/**
+	 * @param widgets
+	 *            widgets
+	 * @return widgets merged in a column
+	 */
 	public static FlowPanel panelRowVertical(IsWidget... widgets) {
 		FlowPanel p = new FlowPanel();
 		for (IsWidget widget : widgets) {
@@ -25,6 +38,13 @@ public class LayoutUtilW {
 		return p;
 	}
 
+	/**
+	 * Add widgets ito one row and add indentation CSS.
+	 * 
+	 * @param widgets
+	 *            widgets
+	 * @return widgets merged in a row
+	 */
 	public static FlowPanel panelRowIndent(IsWidget... widgets) {
 		FlowPanel p = panelRow(widgets);
 		p.setStyleName("panelRowIndent");

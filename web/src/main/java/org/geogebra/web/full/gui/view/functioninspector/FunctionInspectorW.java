@@ -19,7 +19,6 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.full.gui.view.functioninspector.GridModel.DataCell;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -187,9 +186,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	public Object getXYValueAt(int row, int col) {
 		Log.debug("GETDATA row: " + row + " col: " + col);
-		DataCell value = modelXY.getData(row, col);
-
-		return value != null ? value.toString() : "";
+		return modelXY.getData(row, col);
 	}
 
 	@Override

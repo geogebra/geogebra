@@ -122,7 +122,11 @@ public class ToolBarW extends FlowPanel
 		// update();
 	}
 
-	// TODO: this function is just a temporary hack! Don't regenate the toolbar.
+	/**
+	 * Rebuild the toolbar.
+	 * 
+	 * TODO: this function is just a temporary hack! Don't regenate the toolbar.
+	 */
 	public void update() {
 		this.clear();
 		int count = menuList.getWidgetCount();
@@ -397,6 +401,12 @@ public class ToolBarW extends FlowPanel
 		return tb;
 	}
 
+	/**
+	 * Scroll to given position.
+	 * 
+	 * @param positionX
+	 *            x offset
+	 */
 	public void setPosition(int positionX) {
 		if (isMouseDown) {
 			if (this.isVisible()) {

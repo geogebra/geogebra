@@ -150,7 +150,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		if (twoVarInferencePanel == null) {
 			twoVarInferencePanel = new TwoVarInferencePanelW(app, statDialog);
 		}
-
 		return twoVarInferencePanel;
 	}
 
@@ -172,7 +171,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	 * Creates the JComboBox that selects inference mode
 	 */
 	private void createInferenceTypeComboBox() {
-
 		if (lbInferenceMode == null) {
 			lbInferenceMode = new ListBox();
 			lbInferenceMode.addChangeHandler(new ChangeHandler() {
@@ -185,7 +183,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		} else {
 			lbInferenceMode.clear();
 		}
-		
+
 		model.fillInferenceModes();
 	}
 
@@ -204,9 +202,14 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		model.update();
 //		this.setMinimumSize(this.getPreferredSize());
 		statDialog.updateStatDataPanelVisibility();
-
 	}
 
+	/**
+	 * Handle input event.
+	 * 
+	 * @param source
+	 *            input element
+	 */
 	public void actionPerformed(Object source) {
 		int idx = lbInferenceMode.getSelectedIndex();
 		if (source == lbInferenceMode

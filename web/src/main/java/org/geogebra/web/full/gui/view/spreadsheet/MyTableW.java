@@ -1371,15 +1371,13 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return isSelectNone;
 	}
 
-	public void setSelectNone(boolean isSelectNone) {
-
+	private void setSelectNone(boolean isSelectNone) {
 		this.isSelectNone = isSelectNone;
 
 		if (isSelectNone) {
 			setSelection(-1, -1, -1, -1);
 			// TODO//view.updateFormulaBar();
 		}
-
 	}
 
 	@Override
@@ -1410,18 +1408,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			}
 		}
 		return columns;
-	}
-
-	// @Override
-	public int[] getSelectedColumns() {
-
-		ArrayList<Integer> columns = getSelectedColumnsList();
-		int[] ret = new int[columns.size()];
-		for (int c = 0; c < columns.size(); c++) {
-			ret[c] = columns.get(c);
-		}
-
-		return ret;
 	}
 
 	// ===============================================================
@@ -1597,6 +1583,19 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return new Rectangle(min.x, min.y, max.x - min.x, max.y - min.y);
 	}
 
+	/**
+	 * @param column1
+	 *            min column
+	 * @param row1
+	 *            min row
+	 * @param column2
+	 *            max column
+	 * @param row2
+	 *            max row
+	 * @param includeSpacing
+	 *            whether to iclude grid
+	 * @return bounding rectangle of the area
+	 */
 	public GRectangle getCellBlockRect(int column1, int row1, int column2,
 	        int row2, boolean includeSpacing) {
 		GRectangle r1 = getCellRect(row1, column1, includeSpacing);
@@ -1935,7 +1934,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				adjustedRowHeights.add(new GPoint(row, rowHeight2));
 			}
 		}
-
 	}
 
 	/**
@@ -1999,9 +1997,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		});
 	}
 
-	// Reset the row heights --- used after addColumn destroys the row heights
+	/**
+	 * Reset the row heights --- used after addColumn destroys the row heights.
+	 */
 	public void resetRowHeights() {
-
 		doRecordRowHeights = false;
 		for (GPoint p : adjustedRowHeights) {
 			setRowHeight(p.x, p.y);

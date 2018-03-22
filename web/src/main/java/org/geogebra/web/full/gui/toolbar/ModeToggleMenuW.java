@@ -57,6 +57,16 @@ public class ModeToggleMenuW extends ListItem
 
 	protected int order;
 
+	/**
+	 * @param appl
+	 *            application
+	 * @param menu1
+	 *            list of tools
+	 * @param tb
+	 *            parent toolbar
+	 * @param order
+	 *            tool order
+	 */
 	public ModeToggleMenuW(AppW appl, Vector<Integer> menu1, ToolBarW tb,
 			int order) {
 		super();
@@ -68,6 +78,9 @@ public class ModeToggleMenuW extends ListItem
 		buildButton();
 	}
 
+	/**
+	 * Create the (top level) button
+	 */
 	protected void buildButton() {
 		tbutton = new FlowPanel();
 		tbutton.addStyleName("toolbar_button");
@@ -141,6 +154,12 @@ public class ModeToggleMenuW extends ListItem
 		}
 	}-*/;
 
+	/**
+	 * Handle pasted image (for image tool).
+	 * 
+	 * @param str
+	 *            image URL
+	 */
 	public void onPaste(String str) {
 		app.getGgbApi().insertImage(str);
 	}
@@ -169,6 +188,10 @@ public class ModeToggleMenuW extends ListItem
 		return new ToolbarSubmenuW(app, order);
 	}
 
+	/**
+	 * @param index
+	 *            tab index
+	 */
 	public void setButtonTabIndex(int index) {
 		tbutton.getElement().setTabIndex(index);
 	}
@@ -180,6 +203,12 @@ public class ModeToggleMenuW extends ListItem
 		return null;
 	}
 
+	/**
+	 * Add event handlers for the widget.
+	 * 
+	 * @param w
+	 *            widget
+	 */
 	public void addDomHandlers(Widget w) {
 		w.addDomHandler(this, MouseDownEvent.getType());
 		w.addDomHandler(this, MouseUpEvent.getType());
@@ -304,7 +333,6 @@ public class ModeToggleMenuW extends ListItem
 	}
 
 	void selectItem(Widget mi) {
-
 		final String miMode = mi.getElement().getAttribute("mode");
 		// check if the menu item is already selected
 		if (tbutton.getElement().getAttribute("isSelected").equals("true")
@@ -461,8 +489,13 @@ public class ModeToggleMenuW extends ListItem
 		}
 	}
 
+	/**
+	 * Show tooltip after tool taped.
+	 * 
+	 * @param event
+	 *            tap event
+	 */
 	protected void showTooltipFor(HumanInputEvent<?> event) {
-
 		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 		int mode = -1;
 		if (event.getSource() == tbutton) {
@@ -480,6 +513,12 @@ public class ModeToggleMenuW extends ListItem
 
 	}
 
+	/**
+	 * @param mode
+	 *            mode number
+	 * @param m
+	 *            mode change event type
+	 */
 	public void showToolTipBottom(int mode, ModeSetter m) {
 		if (m != ModeSetter.CAS_VIEW && app.showToolBarHelp()) {
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
@@ -647,9 +686,15 @@ public class ModeToggleMenuW extends ListItem
 
 	}
 
-	public void setMaxHeight(double d) {
+	/**
+	 * Set submenu max height (to force scrolling in small applets)
+	 * 
+	 * @param maxHeight
+	 *            max height in px
+	 */
+	public void setMaxHeight(double maxHeight) {
 		if (submenu != null) {
-			this.submenu.setMaxHeight((int) d);
+			this.submenu.setMaxHeight((int) maxHeight);
 		}
 	}
 }

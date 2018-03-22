@@ -273,6 +273,12 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		return iconFileName;
 	}
 
+	/**
+	 * Update panel for given macro.
+	 * 
+	 * @param m
+	 *            macro
+	 */
 	public void setMacro(Macro m) {
 		this.macro = m;
 		tfCmdName.setText(m == null ? "" : m.getCommandName());
@@ -280,10 +286,9 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		tfToolHelp.setText(m == null ? "" : m.getToolHelp());
 		showTool.setValue(m != null && m.isShowInToolBar());
 		setIconFileName(m == null ? null : m.getIconFileName());
-
 	}
 
-	public Macro getMacro() {
+	private Macro getMacro() {
 		Macro m = new Macro(app.getKernel(), tfCmdName.getText());
 		m.setToolName(getToolName());
 		m.setToolHelp(getToolHelp());
@@ -292,6 +297,10 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		return m;
 	}
 
+	/**
+	 * @param listener
+	 *            macro listener
+	 */
 	public void setMacroChangeListener(MacroChangeListener listener) {
 		this.listener = listener;
 	}
@@ -340,13 +349,15 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		}
 	}
 
+	/**
+	 * Callback for "show tool" checkbox
+	 */
 	void showToolChanged() {
 		Macro m = getMacro();
 		m.setShowInToolBar(showTool.getValue());
 		if (listener != null) {
 			listener.onShowToolChange(m);
 		}
-
 	}
 
 }

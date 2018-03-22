@@ -95,6 +95,12 @@ public class LoggerW extends Log {
 		}
 	}
 
+	/**
+	 * Start logger if parameters allow it.
+	 * 
+	 * @param article
+	 *            parameters
+	 */
 	public static void startLogger(ArticleElementInterface article) {
 		if (article.getDataParamShowLogging()) {
 			Log.setLogger(new LoggerW());
@@ -104,9 +110,8 @@ public class LoggerW extends Log {
 			// make sure $wnd.console works in IE9
 			LoggerW.initConsole();
 		}
-
 	}
-	
+
 	@Override
 	public native void doPrintStacktrace(String message)/*-{
 		if ($wnd.console && $wnd.console.trace) {

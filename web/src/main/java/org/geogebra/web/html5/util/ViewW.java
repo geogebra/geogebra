@@ -192,10 +192,16 @@ public class ViewW {
        
       }-*/;
 
-	public void onError(String s) {
-		Log.error(s);
+	/**
+	 * Handle file loading error
+	 * 
+	 * @param msg
+	 *            error message
+	 */
+	public void onError(String msg) {
+		Log.error(msg);
 		// eg 403
-		if ((s + "").startsWith("Error 40")) {
+		if ((msg + "").startsWith("Error 40")) {
 			this.app.getScriptManager().ggbOnInit();
 			ToolTipManagerW.sharedInstance().showBottomMessage(
 					app.getLocalization().getMenu("FileLoadingError"), false,

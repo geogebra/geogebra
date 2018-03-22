@@ -79,8 +79,16 @@ public class DockGlassPaneW extends AbsolutePanel
 		this.ae = ae; 
 	}
 
-	public void attach(DockManagerW dockManager, int w, int h) {
-		this.dockManager = dockManager;
+	/**
+	 * @param dockManager1
+	 *            dock manager
+	 * @param w
+	 *            width
+	 * @param h
+	 *            height
+	 */
+	public void attach(DockManagerW dockManager1, int w, int h) {
+		this.dockManager = dockManager1;
 		if (h > 0 && w > 0) {
 			this.getElement().getStyle().setPosition(Position.ABSOLUTE);
 			this.setWidth(w + "px");

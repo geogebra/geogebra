@@ -13,6 +13,9 @@ public class GoogleDriveModelW extends AuthenticationModelW {
 
 	public static final String GGT_GOOGLE_KEY_NAME = "ggt_google";
 
+	/**
+	 * New model.
+	 */
 	public GoogleDriveModelW() {
 		super(null);
 	}
@@ -30,6 +33,12 @@ public class GoogleDriveModelW extends AuthenticationModelW {
 		return false;
 	}
 
+	/**
+	 * Update info about goofgle login in local storage.
+	 * 
+	 * @param loggedInFrom
+	 *            whether we logged in from google
+	 */
 	public void setLoggedInFromGoogleDrive(boolean loggedInFrom) {
 		if (storage == null) {
 			return;
@@ -41,6 +50,9 @@ public class GoogleDriveModelW extends AuthenticationModelW {
 		}
 	}
 
+	/**
+	 * @return whether we logged in from Google last time
+	 */
 	public boolean lastLoggedInFromGoogleDrive() {
 		if (storage == null) {
 			return false;

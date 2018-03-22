@@ -85,6 +85,14 @@ public final class Dom {
 		return false;
 	}
 
+	/**
+	 * @param ui
+	 *            UI element
+	 * @param className
+	 *            CSS class
+	 * @param add
+	 *            whether to add or remove
+	 */
 	public static void toggleClass(UIObject ui, String className, boolean add) {
 		if (add) {
 			ui.getElement().addClassName(className);
@@ -93,6 +101,16 @@ public final class Dom {
 		}
 	}
 
+	/**
+	 * @param ui
+	 *            UI element
+	 * @param classTrue
+	 *            CSS class when toggle is true
+	 * @param classFalse
+	 *            CSS class when toggle is false
+	 * @param add
+	 *            whether to add or remove
+	 */
 	public static void toggleClass(UIObject ui, String classTrue,
 			String classFalse, boolean add) {
 		if (add) {
@@ -101,7 +119,6 @@ public final class Dom {
 		} else {
 			ui.getElement().removeClassName(classTrue);
 			ui.getElement().addClassName(classFalse);
-
 		}
 	}
 

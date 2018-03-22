@@ -350,8 +350,15 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		setLabels();
 	}
 
+	/**
+	 * Apply image uploaded by user.
+	 * 
+	 * @param fileName0
+	 *            image filename
+	 * @param fileData
+	 *            file content
+	 */
 	public void applyImage(String fileName0, String fileData) {
-
 		String fileName = ImageManagerW.getMD5FileName(fileName0, fileData);
 
 		Construction cons = app.getKernel().getConstruction();
@@ -359,7 +366,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		GeoImage geoImage = new GeoImage(cons);
 		app.getImageManager().triggerSingleImageLoading(fileName, geoImage);
 		model.applyImage(fileName);
-
 	}
 
 	private void createImagePanel() {

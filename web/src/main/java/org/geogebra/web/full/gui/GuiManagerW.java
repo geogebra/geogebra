@@ -393,6 +393,14 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
+	/**
+	 * Notify dock manager about focused panel.
+	 * 
+	 * @param panel
+	 *            focused panel
+	 * @param updatePropertiesView
+	 *            whether to switch tab in properties view
+	 */
 	public void setFocusedPanel(final DockPanel panel,
 			final boolean updatePropertiesView) {
 		if (panel != null) {
@@ -437,7 +445,6 @@ public class GuiManagerW extends GuiManager
 
 				return;
 			}
-
 		}
 
 		((DialogManagerW) getDialogManager()).showImageInputDialog(imageLoc,
@@ -904,6 +911,11 @@ public class GuiManagerW extends GuiManager
 		return layout;
 	}
 
+	/**
+	 * Get the toolbar, never null (lazy loading).
+	 * 
+	 * @return the toolbar
+	 */
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
 			toolbarPanel = (GGWToolBar) getApp().getToolbar();
@@ -1031,7 +1043,6 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public View getPropertiesView() {
-
 		if (propertiesView == null) {
 			// initPropertiesDialog();
 			propertiesView = newPropertiesViewW(getApp(),
@@ -1041,13 +1052,18 @@ public class GuiManagerW extends GuiManager
 		return propertiesView;
 	}
 
+	/**
+	 * Get the properties view and initilize the right tab.
+	 * 
+	 * @param ot
+	 *            initial tab
+	 * @return properties view
+	 */
 	public PropertiesView getPropertiesView(OptionType ot) {
-
 		if (propertiesView == null) {
 			// initPropertiesDialog();
 			propertiesView = newPropertiesViewW(getApp(), ot);
 		}
-
 		return propertiesView;
 	}
 
@@ -2368,12 +2384,23 @@ public class GuiManagerW extends GuiManager
 		return fn;
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @return whether keyboard may be shown at startup
+	 */
 	public static boolean mayForceKeyboard(AppW app) {
 		return !app.isStartedWithFile()
 				&& !app.getArticleElement().preventFocus()
 				&& (app.getExam() == null || app.getExam().getStart() > 0);
 	}
 
+	/**
+	 * @param fkey
+	 *            key index (2,3,4)
+	 * @param geo
+	 *            selected element
+	 */
 	public void handleFKeyForAlgebra(int fkey, GeoElement geo) {
 		if (getApp().showView(App.VIEW_ALGEBRA)
 				&& ((AlgebraViewW) getApp().getAlgebraView())
@@ -2381,7 +2408,6 @@ public class GuiManagerW extends GuiManager
 			((AlgebraViewW) getApp().getAlgebraView()).getInputTreeItem()
 			.handleFKey(fkey, geo);
 		}
-
 	}
 
 	@Override
@@ -2398,7 +2424,6 @@ public class GuiManagerW extends GuiManager
 			getAlgebraInput().getTextField().autocomplete(string);
 			getAlgebraInput().getTextField().setFocus(true);
 		}
-
 	}
 
 	@Override
@@ -2416,18 +2441,19 @@ public class GuiManagerW extends GuiManager
 			getAlgebraInput().setText(string);
 			getAlgebraInput().getTextField().setFocus(true);
 		}
-
 	}
 
 	public void setColorTab(ColorPanel colorPanel) {
 		this.colorPanel = colorPanel;
-
 	}
 
 	public ColorPanel getColorPanel() {
 		return colorPanel;
 	}
 
+	/**
+	 * @return toolbar panel for unbundled apps
+	 */
 	public ToolbarPanel getToolbarPanelV2() {
 		if (getApp().isUnbundled()) {
 			DockPanel avPanel = getLayout().getDockManager()

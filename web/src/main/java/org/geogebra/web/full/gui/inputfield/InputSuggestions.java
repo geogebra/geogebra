@@ -30,6 +30,12 @@ public class InputSuggestions implements HasSuggestions {
 
 	private AutoCompleteW component;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param component
+	 *            text input
+	 */
 	public InputSuggestions(AppW app, AutoCompleteW component) {
 		this.app = app;
 		this.component = component;
@@ -53,12 +59,15 @@ public class InputSuggestions implements HasSuggestions {
 		public void onSuggestionSelected(Suggestion s) {
 
 			String sugg = s.getReplacementString();
-			autocomplete(sugg, true);
+			autocompleteAndHide(sugg);
 		}
 	};
 
+	/**
+	 * @param searchRight
+	 *            TODO whether to check chars to the right?
+	 */
 	public void updateCurrentWord(boolean searchRight) {
-		// TODO
 		curWord = new StringBuilder(component.getCommand());
 		// int next = InputHelper.updateCurrentWord(searchRight, this.curWord,
 		// component.getText(), getCaretPosition(), false);
@@ -71,7 +80,11 @@ public class InputSuggestions implements HasSuggestions {
 		return 0;
 	}
 
-	public void autocomplete(String sugg, boolean replace) {
+	/**
+	 * @param sugg
+	 *            suggestion
+	 */
+	public void autocompleteAndHide(String sugg) {
 		component.insertString(sugg);
 		sug.hideSuggestions();
 	}
@@ -108,6 +121,11 @@ public class InputSuggestions implements HasSuggestions {
 		return true;
 	}
 
+	/**
+	 * Hide the suggestions.
+	 * 
+	 * @return true
+	 */
 	public boolean hideSuggestions() {
 		if (sug.isSuggestionListShowing()) {
 			sug.hideSuggestions();
@@ -115,11 +133,16 @@ public class InputSuggestions implements HasSuggestions {
 		return true;
 	}
 
+	/**
+	 * Update the suggestions.
+	 * 
+	 * @param res
+	 *            oracle response
+	 */
 	protected void updateSuggestions(Response res) {
 		sug.updateHeight();
 		component.updatePosition(sug);
 		sug.accessShowSuggestions(res, popup, sugCallback);
-
 	}
 
 	@Override
@@ -223,9 +246,13 @@ public class InputSuggestions implements HasSuggestions {
 		return syntaxes;
 	}
 
+	/**
+	 * Lazy load the dictionary.
+	 * 
+	 * @return dictionary of completions
+	 */
 	public AutoCompleteDictionary getDictionary() {
 		if (this.dict == null) {
-
 			this.dict = component.isForCAS() ? app.getCommandDictionaryCAS()
 					: app.getCommandDictionary();
 		}
@@ -244,6 +271,9 @@ public class InputSuggestions implements HasSuggestions {
 		return sug.isSuggestionListShowing();
 	}
 
+	/**
+	 * @return whether enter should be consumend by suggestions
+	 */
 	public boolean needsEnterForSuggestion() {
 		if (sug.isSuggestionListShowing()) {
 			sugCallback.onSuggestionSelected(sug.accessCurrentSelection());

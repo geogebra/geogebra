@@ -65,6 +65,14 @@ public class InputDialogW extends InputDialog
 	protected final Localization loc;
 	private boolean showingError = false;
 
+	/**
+	 * @param modal
+	 *            whether to block UI
+	 * @param app
+	 *            application
+	 * @param hasKeyboard
+	 *            whether keyboard can be used
+	 */
 	public InputDialogW(boolean modal, AppW app, boolean hasKeyboard) {
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -77,10 +85,27 @@ public class InputDialogW extends InputDialog
 		}
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param message
+	 *            message text
+	 * @param title
+	 *            title
+	 * @param initString
+	 *            initial content
+	 * @param autoComplete
+	 *            whether to allow autocompletion
+	 * @param handler
+	 *            input callback
+	 * @param modal
+	 *            whether it's modal
+	 * @param selectInitText
+	 *            whether to select text after opening
+	 */
 	public InputDialogW(AppW app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
 			boolean modal, boolean selectInitText) {
-
 		this(app, message, title, initString, autoComplete, handler, modal,
 				selectInitText, DialogType.GeoGebraEditor);
 	}

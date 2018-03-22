@@ -65,6 +65,13 @@ public class GridModel {
 		}
 	}
 
+	/**
+	 * 
+	 * @param col
+	 *            number of columns
+	 * @param listener
+	 *            listener
+	 */
 	public GridModel(int col, IGridListener listener) {
 		columnCount = col;
 		rowCount = 0;
@@ -72,16 +79,16 @@ public class GridModel {
 		headers = new ArrayList<>();
 		data = new ArrayList<>();
 		editCell = null;
-	}         
-
-	public void setHeader(int col, String title) {
-		if (col < getColumnCount())  {
-			headers.set(col, title);
-			// Log.debug("[GRIDMODEL] setHeader(" + col + "," + title +")");
-			listener.updateHeader(col, title);
-		}
 	}
 
+	/**
+	 * @param row
+	 *            row
+	 * @param col
+	 *            column
+	 * @param value
+	 *            value
+	 */
 	public void setData(int row, int col, Object value) {
 		if (col < getColumnCount() && row < getRowCount())  {
 			Log.debug("[GRID MODEL] setData(" + row + ", " + col + ", " + value
@@ -89,11 +96,17 @@ public class GridModel {
 			DataCell cell = new DataCell(value, false);
 			data.get(row).set(col, cell);
 			listener.updateDataCell(row, col, cell);
-			Log.debug(toString());
 		}
 	}
 
-	public DataCell getData(int row, int col) {
+	/**
+	 * @param row
+	 *            row
+	 * @param col
+	 *            column
+	 * @return cell content
+	 */
+	public String getData(int row, int col) {
 		// // Log.debug("[GRIDMODEL] getData(" + col + ", " + row + ")");
 		DataCell result = null;
 		if (col < columnCount && row < rowCount)  {
@@ -102,7 +115,7 @@ public class GridModel {
 		}
 		// Log.debug("[GRIDMODEL] = " + result);
 		
-		return result;
+		return result == null ? "" : result.toString();
 	}
 
 	public String getHeader(int col) {
@@ -150,14 +163,16 @@ public class GridModel {
 		listener.setHeaders(names);
 	}
 
+	/**
+	 * @return number of columns
+	 */
 	public int getColumnCount() {
 		return headers.size(); // columnCount;
 	}
 
-	public void setColumnCount(int columnCount) {
-		this.columnCount = columnCount;
-	}
-
+	/**
+	 * @return number of rows
+	 */
 	public int getRowCount() {
 		return rowCount;
 	}
@@ -192,10 +207,14 @@ public class GridModel {
 	}
 
 	private void removeLastRow() {
-	    data.remove(data.size() - 1);
-	    listener.removeLastRow();
-    }
+		data.remove(data.size() - 1);
+		listener.removeLastRow();
+	}
 
+	/**
+	 * @param name
+	 *            column name
+	 */
 	public void addColumn(String name) {
 		columnCount++;
 		headers.add(name);
@@ -228,6 +247,14 @@ public class GridModel {
 		columnCount--;
 	}
 
+	/**
+	 * Make a cell editable.
+	 * 
+	 * @param row
+	 *            row
+	 * @param col
+	 *            column
+	 */
 	public void setCellEditable(int row, int col) {
 		if (editCell != null) {
 			editCell.setEditable(false);

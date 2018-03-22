@@ -76,8 +76,11 @@ public class GGraphics2DW implements GGraphics2DWI {
 		preventContextMenu(canvas.getElement());
 	}
 
-	/*
+	/**
 	 * GGB-1780 special method for SVG export this.canvas not set
+	 * 
+	 * @param ctx
+	 *            context; doesn't belong to canvas
 	 */
 	public GGraphics2DW(Context2d ctx) {
 		// HACK
@@ -89,10 +92,16 @@ public class GGraphics2DW implements GGraphics2DWI {
 		this.context.initTransform();
 	}
 
-	public void setImageInterpolation(boolean b) {
+	/**
+	 * Change how images are drawn on canvas.
+	 * 
+	 * @param interpolate
+	 *            whether to use interpolation
+	 */
+	public void setImageInterpolation(boolean interpolate) {
 		// canvas.getContext2d() doesn't work with canvas2svg.js
 		try {
-			setImageInterpolationNative(canvas.getContext2d(), b);
+			setImageInterpolationNative(canvas.getContext2d(), interpolate);
 		} catch (Exception e) {
 			// do nothing
 		}
@@ -120,6 +129,12 @@ public class GGraphics2DW implements GGraphics2DWI {
 		this.canvas.getElement().setDir("ltr");
 	}
 
+	/**
+	 * @param canvas
+	 *            canvas
+	 * @param resetColor
+	 *            whether to reset the colors
+	 */
 	public GGraphics2DW(Canvas canvas, boolean resetColor) {
 		this(canvas);
 		if (resetColor) {
@@ -327,7 +342,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 		if (paint instanceof GColor) {
 			setColor((GColor) paint);
 		} else if (paint instanceof GGradientPaintW) {
-			context.setFillStyle(((GGradientPaintW) paint).getGradient(context));
+			((GGradientPaintW) paint).apply(context);
 			currentPaint = new GGradientPaintW((GGradientPaintW) paint);
 			color = null;
 		} else if (paint instanceof GTexturePaintW) {

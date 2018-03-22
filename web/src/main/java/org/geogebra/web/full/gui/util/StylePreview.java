@@ -19,6 +19,14 @@ public abstract class StylePreview extends Composite {
 	private int marginY;
 	protected AppW app;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 */
 	public StylePreview(AppW app, int width, int height) {
 		Canvas canvas = Canvas.createIfSupported();
 		canvas.setCoordinateSpaceWidth(width);

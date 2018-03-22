@@ -21,6 +21,14 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	GRectangle contentRect;
 	boolean doAdjustScroll = true;
 
+	/**
+	 * @param table
+	 *            table
+	 * @param rowHeader
+	 *            row header
+	 * @param columnHeader
+	 *            column header
+	 */
 	public TableScroller(MyTableW table, SpreadsheetRowHeaderW rowHeader,
 			SpreadsheetColumnHeaderW columnHeader) {
 		super(table.getGridPanel());

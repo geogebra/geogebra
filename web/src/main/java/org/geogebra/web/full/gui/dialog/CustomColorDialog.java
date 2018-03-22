@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -19,7 +20,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public class CustomColorDialog extends DialogBoxW {
+public class CustomColorDialog extends DialogBoxW implements SetLabels {
 	
 	private static final int PREVIEW_HEIGHT = 40;
 	private static final int PREVIEW_WIDTH = 258;
@@ -103,7 +104,7 @@ public class CustomColorDialog extends DialogBoxW {
 		private Canvas canvas;
 		private Context2d ctx;
 
-		public PreviewPanel() {
+		public PreviewPanel(GColor oColor) {
 			setStyleName("CustomColorPreview");
 			title = new Label();
 			add(title);
@@ -113,13 +114,18 @@ public class CustomColorDialog extends DialogBoxW {
 			canvas.setCoordinateSpaceWidth(PREVIEW_WIDTH * 2);
 			ctx = canvas.getContext2d();
 			add(canvas);
-			drawRect(0, origColor);
-			drawRect(PREVIEW_WIDTH, origColor);
+			reset(oColor);
 		}
 
-		public void reset() {
-			drawRect(0, origColor);
-			drawRect(PREVIEW_WIDTH, origColor);
+		/**
+		 * Reset both color rectangles to original color.
+		 * 
+		 * @param oColor
+		 *            color for both rectangles
+		 */
+		public void reset(GColor oColor) {
+			drawRect(0, oColor);
+			drawRect(PREVIEW_WIDTH, oColor);
 		}
 
 		public void update(){
@@ -175,7 +181,7 @@ public class CustomColorDialog extends DialogBoxW {
 		contents.add(red);
 		contents.add(green);
 		contents.add(blue);
-		preview = new PreviewPanel();
+		preview = new PreviewPanel(origColor);
 		contents.add(preview);	
 		mainWidget.add(contents);
 		
@@ -225,6 +231,7 @@ public class CustomColorDialog extends DialogBoxW {
 		preview.update();
 	}
 
+	@Override
 	public void setLabels() {
 		setTitle(loc.getMenu("ChooseColor"));
 		this.getCaption().setText(loc.getMenu("ChooseColor"));
@@ -237,16 +244,25 @@ public class CustomColorDialog extends DialogBoxW {
 		btnReset.setText(loc.getMenu("Reset"));
 	}
 
+	/**
+	 * Update textfield from original color
+	 */
 	protected void setOriginalValues() {
 		red.setValue(origColor.getRed());
 		green.setValue(origColor.getGreen());
 		blue.setValue(origColor.getBlue());
 	}
 
+	/**
+	 * Show and initialize with a color.
+	 * 
+	 * @param color
+	 *            new initial color
+	 */
 	public void show(GColor color) {
 		this.origColor = color;
 		setOriginalValues();
-		preview.reset();
+		preview.reset(origColor);
 		setLabels();
 		super.center();
 	}

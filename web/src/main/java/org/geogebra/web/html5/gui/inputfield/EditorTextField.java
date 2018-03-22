@@ -11,9 +11,11 @@ public class EditorTextField extends GTextBox implements KeyUpHandler {
 
 	Element target;
 
+	/**
+	 * Create new textfield.
+	 */
 	public EditorTextField() {
 		super();
-
 		// TODO: use CSS style
 		getStyleElement().setAttribute("spellcheck", "false");
 		getStyleElement().setAttribute("oncontextmenu", "return false");
