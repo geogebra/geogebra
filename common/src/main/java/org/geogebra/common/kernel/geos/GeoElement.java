@@ -5315,6 +5315,25 @@ public abstract class GeoElement extends ConstructionElement
 		return strAlgebraDescription;
 	}
 
+	public String getAlgebraDescriptionLaTeX() {
+		if (isDefined()) {
+			return toString(StringTemplate.latexTemplate);
+		} else {
+			final StringBuilder sbAlgebraDesc = new StringBuilder();
+			sbAlgebraDesc.append(label);
+			sbAlgebraDesc.append("\\;");
+			sbAlgebraDesc.append(getLoc().getMenu("Undefined"));
+			return sbAlgebraDesc.toString();
+		}
+	}
+
+	final public String getAlgebraDescriptionRHSLaTeX() {
+		if (!isDefined()) {
+			return getLoc().getMenu("Undefined");
+		}
+		return toValueString(StringTemplate.latexTemplate);
+	}
+
 	/**
 	 * Returns simplified algebraic representation of this GeoElement. Used by
 	 * the regression test output creator.

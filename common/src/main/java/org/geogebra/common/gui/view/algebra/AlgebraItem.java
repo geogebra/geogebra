@@ -242,9 +242,9 @@ public class AlgebraItem {
 					StringTemplate.latexTemplate);
 		} else {
 			if (needsPacking(element)) {
-				outputText = element.getAlgebraDescriptionDefault();
+				outputText = element.getAlgebraDescriptionLaTeX();
 			} else {
-				outputText = element.getAlgebraDescriptionRHS();
+				outputText = element.getAlgebraDescriptionRHSLaTeX();
 			}
 		}
 
