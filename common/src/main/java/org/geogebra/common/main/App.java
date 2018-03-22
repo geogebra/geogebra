@@ -3961,10 +3961,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
 			return false;
 
-		// IGR-546
-		case MOB_IOS_SINGLE_APP_MODE:
-			return true;
-
 		// AND-623
 		case MOB_SYNC_BKG_SERVICE:
 			return true;
