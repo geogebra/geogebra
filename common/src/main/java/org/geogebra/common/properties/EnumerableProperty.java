@@ -1,6 +1,6 @@
 package org.geogebra.common.properties;
 
-public interface EnumerableProperty extends Property {
+public interface EnumerableProperty extends StringProperty {
 
     int NONE = -1;
 

@@ -2,9 +2,10 @@ package org.geogebra.common.properties.impl.algebra;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.AbstractBooleanProperty;
+import org.geogebra.common.properties.AbstractProperty;
+import org.geogebra.common.properties.BooleanProperty;
 
-public class ShowAuxiliaryProperty extends AbstractBooleanProperty {
+public class ShowAuxiliaryProperty extends AbstractProperty implements BooleanProperty {
 
     private App app;
 
@@ -18,7 +19,8 @@ public class ShowAuxiliaryProperty extends AbstractBooleanProperty {
         return app.showAuxiliaryObjects();
     }
 
-    public void setValueSafe(boolean value) {
+    @Override
+    public void setValue(boolean value) {
         app.setShowAuxiliaryObjects(value);
     }
 }
