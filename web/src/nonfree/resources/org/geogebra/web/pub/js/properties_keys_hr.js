@@ -948,7 +948,7 @@ __GGB__keysVar["hr"].command = {
     "Substitute": "Supstitucija",
     "Substitute.SyntaxCAS": "[ <izraz>, <lista supstitucija> ]\n[ <izraz>, <od>, <do> ]",
     "Sum": "Zbroj",
-    "Sum.Syntax": "[ <lista> ]\n[ <lista>, <broje elemenata> ]\n[ <lista>, <lista frekvencija> ]\n[ <izraz>, <varijabla>, <po\u010detna vrijednost>, <krajnja vrijednost> ]",
+    "Sum.Syntax": "[ <lista> ]\n[ <lista>, <broj elemenata> ]\n[ <lista>, <lista frekvencija> ]\n[ <izraz>, <varijabla>, <po\u010detna vrijednost>, <krajnja vrijednost> ]",
     "Sum.SyntaxCAS": "[ <lista> ]\n[ <izraz>, <varijabla>, <po\u010detna vrijednost>, <zavr\u0161na vrijednost> ]",
     "SumSquaredErrors": "ZbrojKvadrataPogre\u0161aka",
     "SumSquaredErrors.Syntax": "[ <lista to\u010daka>, <funkcija> ]",
