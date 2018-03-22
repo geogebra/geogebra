@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Class for representing playable audio data.
@@ -18,7 +19,7 @@ public class GeoAudio extends GeoButton {
 	public static final String TEST_URL = "http://archive.geogebra.org/static/welcome_to_geogebra.mp3";
 	private static final int DEFAULT_PLAYER_WIDTH = 300;
 	private static final int DEFAULT_PLAYER_HEIGHT = 48;
-	private String dataUrl;
+	private String src;
 	private App app;
 
 	/**
@@ -45,7 +46,7 @@ public class GeoAudio extends GeoButton {
 	 */
 	public GeoAudio(Construction c, String url) {
 		this(c);
-		setDataUrl(url);
+		setSrc(url);
 		setLabel("audio");
 	}
 
@@ -57,7 +58,7 @@ public class GeoAudio extends GeoButton {
 	@Override
 	public GeoElement copy() {
 		GeoAudio ret = new GeoAudio(cons);
-		ret.setDataUrl(dataUrl);
+		ret.setSrc(src);
 		return ret;
 	}
 
@@ -66,7 +67,7 @@ public class GeoAudio extends GeoButton {
 		if (!geo.isGeoAudio()) {
 			return;
 		}
-		dataUrl = ((GeoAudio) geo).getDataUrl();
+		src = ((GeoAudio) geo).getSrc();
 	}
 
 	@Override
@@ -81,20 +82,20 @@ public class GeoAudio extends GeoButton {
 
 	/**
 	 * 
-	 * @return the URL of the audio data.
+	 * @return the URL of the audio source.
 	 */
-	public String getDataUrl() {
-		return dataUrl;
+	public String getSrc() {
+		return src;
 	}
 
 	/**
-	 * Sets the URL of the audio data.
+	 * Sets the URL of the audio source.
 	 * 
-	 * @param dataUrl
+	 * @param src
 	 *            to set.
 	 */
-	public void setDataUrl(String dataUrl) {
-		this.dataUrl = dataUrl;
+	public void setSrc(String src) {
+		this.src = src;
 		if (!hasSoundManager()) {
 			return;
 		}
@@ -136,7 +137,7 @@ public class GeoAudio extends GeoButton {
 			return -1;
 		}
 
-		return app.getSoundManager().getDuration(dataUrl);
+		return app.getSoundManager().getDuration(src);
 	}
 
 	/**
@@ -147,7 +148,7 @@ public class GeoAudio extends GeoButton {
 			return -1;
 		}
 
-		return app.getSoundManager().getCurrentTime(dataUrl);
+		return app.getSoundManager().getCurrentTime(src);
 	}
 
 	/**
@@ -169,5 +170,15 @@ public class GeoAudio extends GeoButton {
 
 	private boolean hasSoundManager() {
 		return app.getSoundManager() != null;
+	}
+
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+		if (src != null) {
+			sb.append("\t<audio src=\"");
+			sb.append(StringUtil.encodeXML(src));
+			sb.append("\"/>\n");
+		}
 	}
 }

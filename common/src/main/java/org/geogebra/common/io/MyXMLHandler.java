@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -3561,6 +3562,9 @@ public class MyXMLHandler implements DocHandler {
 				} else if ("angleStyle".equals(eName)) {
 					ok = handleAngleStyle(attrs);
 					break;
+				} else if ("audio".equals(eName)) {
+					ok = handleAudio(attrs);
+					break;
 				}
 
 			case 'b':
@@ -4892,6 +4896,21 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	private boolean handleAudio(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoAudio)) {
+			Log.error("wrong element type for <audio>: " + geo.getClass());
+			return false;
+		}
+
+		try {
+			GeoAudio audio = (GeoAudio) geo;
+			audio.setSrc(attrs.get("src"));
+			return true;
+		} catch (RuntimeException e) {
+
+			return false;
+		}
+	}
 	/*
 	 * needed for old files (4.2 and earlier)
 	 */

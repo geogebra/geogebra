@@ -52,7 +52,7 @@ public class CmdPlaySound extends CmdScripting {
 						.toValueString(StringTemplate.defaultTemplate)));
 				return arg;
 			} else if (arg[0].isGeoAudio()) {
-				sm.playFile((((GeoAudio) arg[0]).getDataUrl()));
+				sm.playFile((((GeoAudio) arg[0]).getSrc()));
 				return arg;
 			} else if (arg[0].isGeoBoolean()) { // pause/resume current sound
 				sm.pauseResumeSound((((GeoBoolean) arg[0]).getBoolean()));

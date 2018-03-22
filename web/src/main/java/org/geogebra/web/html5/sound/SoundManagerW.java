@@ -276,8 +276,8 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	@Override
 	public void loadGeoAudio(GeoAudio geo) {
-		urlToGeoAudio.put(geo.getDataUrl(), geo);
-		loadGeoAudio(geo.getDataUrl());
+		urlToGeoAudio.put(geo.getSrc(), geo);
+		loadGeoAudio(geo.getSrc());
 	}
 
 	@Override
@@ -306,7 +306,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	@Override
 	public void play(GeoAudio geo) {
-		final Element audio = urlToAudio.get(geo.getDataUrl());
+		final Element audio = urlToAudio.get(geo.getSrc());
 		if (audio != null) {
 			playAudioElement(audio);
 		}
@@ -314,7 +314,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	@Override
 	public void pause(GeoAudio geo) {
-		final Element audio = urlToAudio.get(geo.getDataUrl());
+		final Element audio = urlToAudio.get(geo.getSrc());
 		if (audio != null) {
 			pauseAudioElement(audio);
 		}
@@ -322,7 +322,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	@Override
 	public boolean isPlaying(GeoAudio geo) {
-		final Element audio = urlToAudio.get(geo.getDataUrl());
+		final Element audio = urlToAudio.get(geo.getSrc());
 		if (audio != null) {
 			return isAudioElementPlaying(audio);
 		}
