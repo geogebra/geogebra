@@ -39,6 +39,6 @@ public class FontSizeProperty extends AbstractEnumerableProperty {
                 return i;
             }
         }
-        return 0;
+        return NONE;
     }
 }
