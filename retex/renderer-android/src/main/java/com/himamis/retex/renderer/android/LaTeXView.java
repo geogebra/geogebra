@@ -23,8 +23,6 @@ import java.util.concurrent.Future;
 
 public class LaTeXView extends View {
 
-    public static boolean SETUP_ON_BACKGROUND = false;
-
     private ExecutorService mServicePool = Executors.newSingleThreadExecutor();
 
     private Future<?> mTexIconBuilderFuture;
@@ -313,45 +311,25 @@ public class LaTeXView extends View {
     }
 
     private void invalidateView() {
-        if (SETUP_ON_BACKGROUND) {
-            postInvalidate();
-        } else {
-            invalidate();
-        }
+        postInvalidate();
     }
 
     private void requestViewLayout() {
-        if (SETUP_ON_BACKGROUND) {
-            post(mRequestLayout);
-        } else {
-            mRequestLayout.run();
-        }
+        post(mRequestLayout);
     }
 
     private void cleanFormula() {
-        if (SETUP_ON_BACKGROUND) {
-            mServicePool.submit(mCleanFormula);
-        } else {
-            mCleanFormula.run();
-        }
+        mServicePool.submit(mCleanFormula);
     }
 
     private void cleanTexIcon() {
-        if (SETUP_ON_BACKGROUND) {
-            mServicePool.submit(mCleanTexIcon);
-        } else {
-            mCleanTexIcon.run();
-        }
+        mServicePool.submit(mCleanTexIcon);
     }
 
     private void createTexIcon() {
-        if (SETUP_ON_BACKGROUND) {
-            cancelFuture();
+        cancelFuture();
 
-            mTexIconBuilderFuture = mServicePool.submit(mTexIconBuilderRunnable);
-        } else {
-            mTexIconBuilderRunnable.run();
-        }
+        mTexIconBuilderFuture = mServicePool.submit(mTexIconBuilderRunnable);
     }
 
     private void cancelFuture() {
