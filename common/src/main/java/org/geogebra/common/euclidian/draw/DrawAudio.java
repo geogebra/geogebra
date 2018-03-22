@@ -14,7 +14,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable class for Audio elemens.
@@ -112,7 +111,6 @@ public class DrawAudio extends Drawable {
 
 	}
 
-
 	private void updateDot(double rwX, double rwY) {
 		coords[0] = rwX;
 		coords[1] = rwY;
@@ -123,7 +121,6 @@ public class DrawAudio extends Drawable {
 		diameter = 2 * BLOB_SIZE + 1;
 
 		circle.setFrame(xUL, yUL, diameter, diameter);
-		Log.debug("[DOT] xUL: " + xUL + "  yUL: " + yUL + " diameter: " + diameter);
 	}
 
 	@Override
