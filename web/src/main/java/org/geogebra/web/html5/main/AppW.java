@@ -786,7 +786,7 @@ public abstract class AppW extends App implements SetLabels {
 			return;
 		}
 
-		beforeLoadFile();
+		beforeLoadFile(asSlide);
 
 		GgbFile archive = archiveContent.duplicate("tmp");
 
@@ -875,7 +875,7 @@ public abstract class AppW extends App implements SetLabels {
 
 			}
 		};
-		if (!getImageManager().hasImages()) {
+		if (!getImageManager().hasImages() || asSlide) {
 			afterImages.run();
 			setCurrentFile(archiveContent);
 			// getKernel().setNotifyViewsActive(true);
@@ -883,7 +883,6 @@ public abstract class AppW extends App implements SetLabels {
 			// on images do nothing here: wait for callback when images loaded.
 			getImageManager().triggerImageLoading(this, afterImages);
 			setCurrentFile(archiveContent);
-
 		}
 	}
 
@@ -912,11 +911,11 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * Prepare for loading file
 	 */
-	public void beforeLoadFile() {
+	private void beforeLoadFile(boolean asSlide) {
 		startCollectingRepaints();
 		// make sure the image manager will not wait for images from the *old*
 		// file
-		if (this.getImageManager() != null) {
+		if (this.getImageManager() != null && !asSlide) {
 			this.getImageManager().reset();
 		}
 		getEuclidianView1().setReIniting(true);
