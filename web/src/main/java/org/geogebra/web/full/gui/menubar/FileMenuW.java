@@ -169,12 +169,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		 * } else { if (app.isExam()) { return; } }
 		 */
 		// this is enabled always
-		addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.add_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE
-				.menu_icon_file_new().getSafeUri().asString(),
+		addItem(MainMenu
+				.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.add_black()
+								.getSafeUri().asString(),
 				loc.getMenu("New"), true), true, new MenuCommand(getApp()) {
 
 					@Override
@@ -185,11 +183,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		});
 		// open menu is always visible in menu
 		addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.search_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE
-				.menu_icon_file_open().getSafeUri().asString(),
+				MaterialDesignResources.INSTANCE.search_black().getSafeUri()
+						.asString(),
 				loc.getMenu("Open"), true), true, new MenuCommand(getApp()) {
 
 					@Override
@@ -199,11 +194,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				});
 		if (getApp().getLAF().undoRedoSupported()) {
 			addItem(MainMenu.getMenuBarHtml(
-					getApp().isUnbundledOrWhiteboard()
-							? MaterialDesignResources.INSTANCE.save_black()
-									.getSafeUri().asString()
-							: GuiResources.INSTANCE
-					.menu_icon_file_save().getSafeUri().asString(),
+					MaterialDesignResources.INSTANCE.save_black()
+									.getSafeUri().asString(),
 					loc.getMenu("Save"), true), true, new MenuCommand(getApp()) {
 		
 						@Override
@@ -230,11 +222,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
 		addSeparator();
 		shareItem = addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.share_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE
-					.menu_icon_file_share().getSafeUri().asString(),
+				MaterialDesignResources.INSTANCE.share_black().getSafeUri()
+						.asString(),
 					loc.getMenu("Share"), true), true, new MenuCommand(getApp()) {
 
 					@Override
@@ -252,11 +241,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		if (getApp().getLAF().printSupported()) {
 			printItem = new AriaMenuItem(
 					MainMenu.getMenuBarHtml(
-							getApp().isUnbundledOrWhiteboard()
-							? MaterialDesignResources.INSTANCE.print_black()
-									.getSafeUri().asString()
-							: GuiResources.INSTANCE
-							.menu_icons_file_print().getSafeUri().asString(),
+							MaterialDesignResources.INSTANCE.print_black()
+									.getSafeUri().asString(),
 					loc.getMenu("PrintPreview"), true),
 					true, new MenuCommand(getApp()) {
 

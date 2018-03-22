@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.menubar;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.main.AppW;
@@ -121,10 +120,7 @@ public class EditMenuW extends GMenuBar {
 
 	private void addDeleteItem() {
 		addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.delete_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE.menu_icon_edit_delete()
+				MaterialDesignResources.INSTANCE.delete_black()
 								.getSafeUri().asString(),
 				loc.getMenu("Delete"), true), true, new MenuCommand(getApp()) {
 
@@ -137,10 +133,7 @@ public class EditMenuW extends GMenuBar {
 
 	private void addPasteItem() {
 		addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.paste_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE.menu_icon_edit_paste()
+				MaterialDesignResources.INSTANCE.paste_black()
 								.getSafeUri().asString(),
 				loc.getMenu("Paste"), true), true, new MenuCommand(getApp()) {
 
@@ -158,10 +151,7 @@ public class EditMenuW extends GMenuBar {
 
 	private void addCopyToClipboard() {
 		addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.copy_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE.menu_icon_edit_copy()
+				MaterialDesignResources.INSTANCE.copy_black()
 								.getSafeUri().asString(),
 				loc.getMenu("DrawingPadToClipboard"), true), true,
 				new MenuCommand(getApp()) {
@@ -243,11 +233,9 @@ public class EditMenuW extends GMenuBar {
 	}
 
 	private void addPropertiesItem() {
-		addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.gear().getSafeUri()
-								.asString()
-						: GuiResources.INSTANCE.menu_icon_options().getSafeUri()
+		addItem(MainMenu
+				.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.gear().getSafeUri()
 								.asString(),
 				!getApp().getKernel().isEmpty() ? loc.getMenu("Properties")
 						: getApp().isUnbundledOrWhiteboard()
@@ -264,11 +252,9 @@ public class EditMenuW extends GMenuBar {
 	}
 
 	private void addCopy() {
-		addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.copy_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE.menu_icon_edit_copy()
+		addItem(MainMenu
+				.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.copy_black()
 								.getSafeUri().asString(),
 				loc.getMenu("Copy"), true), true, new MenuCommand(getApp()) {
 
@@ -289,11 +275,9 @@ public class EditMenuW extends GMenuBar {
 
 	private void addUndoRedo() {
 		// undo menu
-		addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.undo_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE.menu_icon_edit_undo()
+		addItem(MainMenu
+				.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.undo_black()
 								.getSafeUri().asString(),
 				loc.getMenu("Undo"), true), true, new MenuCommand(getApp()) {
 
@@ -305,11 +289,9 @@ public class EditMenuW extends GMenuBar {
 					}
 				});
 		// redo menu
-		addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.redo_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE.menu_icon_edit_redo()
+		addItem(MainMenu
+				.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.redo_black()
 								.getSafeUri().asString(),
 				loc.getMenu("Redo"), true), true, new MenuCommand(getApp()) {
 

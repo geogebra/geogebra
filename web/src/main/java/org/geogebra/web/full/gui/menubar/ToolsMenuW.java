@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.ExerciseBuilderDialog;
 import org.geogebra.web.full.gui.dialog.ToolCreationDialogW;
@@ -37,10 +36,8 @@ public class ToolsMenuW extends GMenuBar {
 		Localization loc = getApp().getLocalization();
 		if (!getApp().isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					getApp().isUnbundled() ? MaterialDesignResources.INSTANCE
-							.tools_customize_black().getSafeUri().asString()
-							: GuiResources.INSTANCE.menu_icon_tools_customize()
-									.getSafeUri().asString(),
+					MaterialDesignResources.INSTANCE.tools_customize_black()
+							.getSafeUri().asString(),
 					loc.getMenu("Toolbar.Customize"), true), true,
 					new MenuCommand(getApp()) {
 
@@ -52,10 +49,7 @@ public class ToolsMenuW extends GMenuBar {
 		}
 
 		addItem(MainMenu.getMenuBarHtml(
-				getApp().isUnbundled()
-						? MaterialDesignResources.INSTANCE.tools_create_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE.menu_icon_tools_new()
+				MaterialDesignResources.INSTANCE.tools_create_black()
 								.getSafeUri().asString(),
 				loc.getMenu(getApp().isToolLoadedFromStorage() ? "Tool.SaveAs"
 						: "Tool.CreateNew"),
@@ -71,10 +65,7 @@ public class ToolsMenuW extends GMenuBar {
 
 		addItem(MainMenu
 				.getMenuBarHtml(
-						getApp().isUnbundled()
-								? MaterialDesignResources.INSTANCE.tools_black()
-										.getSafeUri().asString()
-								: GuiResources.INSTANCE.menu_icon_tools()
+						MaterialDesignResources.INSTANCE.tools_black()
 										.getSafeUri().asString(),
 						loc.getMenu("Tool.Manage"), true),
 				true, new MenuCommand(getApp()) {
@@ -90,11 +81,8 @@ public class ToolsMenuW extends GMenuBar {
 		if (!getApp().isExam()) {
 			if (getApp().has(Feature.EXERCISES)) {
 				addItem(MainMenu.getMenuBarHtml(
-						getApp().isUnbundled()
-								? MaterialDesignResources.INSTANCE
-								.new_exercise_black().getSafeUri().asString()
-								: GuiResources.INSTANCE.menu_create_exercise()
-										.getSafeUri().asString(),
+						MaterialDesignResources.INSTANCE.new_exercise_black()
+								.getSafeUri().asString(),
 						loc.getMenu("Exercise.CreateNew"), true), true,
 						new MenuCommand(getApp()) {
 
