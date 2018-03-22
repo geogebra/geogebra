@@ -3985,10 +3985,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_IOS_EXAM_LOG_DIALOG:
 			return true;
 
-		// AND-818
-		case MOB_CREATE_TEX_ICON_BACKGROUND:
-			return true;
-			
 		// MOB-1432
 		case MOB_ANGLES_INTERIOR_POLYGON:
 			return true;
