@@ -61,6 +61,7 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.video.VideoManager;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
@@ -837,6 +838,12 @@ public class AppDNoGui extends App {
 		Log.debug(dead.size() + StringUtil.join("\n", dead));
 
 		prerelease = pre;
+	}
+
+	@Override
+	public VideoManager getVideoManager() {
+		// not implemented here.
+		return null;
 	}
 
 }
