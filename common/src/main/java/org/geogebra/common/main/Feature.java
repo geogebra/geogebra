@@ -232,9 +232,6 @@ public enum Feature {
 	/** AND-785 */
 	MOB_AND_CHECKBOXES_AND_STATUS_BAR,
 
-	/** IGR-588, AND-695 */
-	MOB_OUTPUTROW_IN_DESC_MODE,
-
 	/** GGB-650 */
 	GGB_WEB_ASSEMBLY,
 
