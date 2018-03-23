@@ -61,7 +61,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		contentPanel.add(previewImage);
 		// panel for buttons
 		downloadBtn = new StandardButton("", appW);
-		if (!appW.isUnbundled()) {
+		if (!appW.isUnbundled() && !appW.isWhiteboardActive()) {
 			downloadBtn.addStyleName("gwt-Button");
 			downloadBtn.addStyleName("downloadBtn");
 		}
