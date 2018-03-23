@@ -4660,16 +4660,18 @@ public class ExpressionNode extends ValidExpression
 	 * @return negation of this expression (optimizes negation of >,<,=>,<=)
 	 */
 	public ExpressionNode negation() {
-
+		if (Operation.AND_INTERVAL.equals(operation)) {
+			// unary, not binary
+			return new ExpressionNode(kernel, left.wrap().negation(),
+					Operation.OR, right.wrap().negation());
+		}
 		Operation opNegated = this.operation.negate();
 
 		if (Operation.NOT.equals(opNegated)) {
 			// unary, not binary
 			return new ExpressionNode(kernel, this, Operation.NOT, null);
 		}
-
 		return new ExpressionNode(kernel, left, opNegated, right);
-
 	}
 
 	/**

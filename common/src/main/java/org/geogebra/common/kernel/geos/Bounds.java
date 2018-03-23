@@ -46,22 +46,18 @@ public class Bounds {
 	/**
 	 * Adds restrictions from the expression to current bounds
 	 * 
-	 * @param e
+	 * @param e0
 	 *            expression
 	 * @return new bounds
 	 */
-	public Bounds addRestriction(ExpressionNode e) {
+	public Bounds addRestriction(ExpressionNode e0) {
+		ExpressionNode e = unfunction(e0);
 		if (e.getOperation().equals(Operation.AND)
 				|| e.getOperation().equals(Operation.AND_INTERVAL)) {
 			return addRestriction(e.getLeftTree())
 					.addRestriction(e.getRightTree());
 		}
-		if (e.getOperation() == Operation.FUNCTION
-				&& e.getLeft() instanceof GeoFunction) {
-			GeoFunction fn = ((GeoFunction) e.getLeft());
-			return addRestriction(fn.getFunctionExpression().deepCopy(kernel)
-					.replace(fn.getFunctionVariables()[0], fv).wrap());
-		}
+
 		Bounds b = new Bounds(kernel, fv);
 		b.lower = lower;
 		b.upper = upper;
@@ -173,6 +169,16 @@ public class Bounds {
 			}
 		}
 		return b;
+	}
+
+	private ExpressionNode unfunction(ExpressionNode e) {
+		if (e.getOperation() == Operation.FUNCTION
+				&& e.getLeft() instanceof GeoFunction) {
+			GeoFunction fn = ((GeoFunction) e.getLeft());
+			return fn.getFunctionExpression().deepCopy(kernel)
+					.replace(fn.getFunctionVariables()[0], fv).wrap();
+		}
+		return e;
 	}
 
 	private static ExpressionValue evalConstants(ExpressionValue rt) {
@@ -437,7 +443,9 @@ public class Bounds {
 						.addRestriction(conds.getListElement(i).wrap()));
 				if (exclusive) {
 					currentCond = currentCond.addRestriction(
-						conds.getListElement(i).wrap().negation());
+							parentCond
+									.unfunction(conds.getListElement(i).wrap())
+									.negation());
 				}
 			}
 
