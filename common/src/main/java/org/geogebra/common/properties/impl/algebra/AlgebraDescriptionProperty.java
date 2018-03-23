@@ -40,5 +40,6 @@ public class AlgebraDescriptionProperty extends AbstractEnumerableProperty {
     @Override
     protected void setValueSafe(String value, int index) {
         kernel.setAlgebraStyle(algebraStyles[index]);
+        kernel.updateConstruction();
     }
 }
