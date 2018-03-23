@@ -68,9 +68,9 @@ public class Bounds {
 		b.lowerSharp = lowerSharp;
 		b.upperSharp = upperSharp;
 		b.condition = condition;// If[x==1,1,If[x==2,3,4]]
-		ExpressionValue lt = e.getLeft().unwrap();
+		ExpressionValue lt = evalConstants(e.getLeft().unwrap());
 		ExpressionValue rt = e.getRight() == null ? null
-				: e.getRight().unwrap();
+				: evalConstants(e.getRight().unwrap());
 
 		boolean simple = e.getOperation() == Operation.GREATER
 				|| e.getOperation() == Operation.GREATER_EQUAL
@@ -173,6 +173,13 @@ public class Bounds {
 			}
 		}
 		return b;
+	}
+
+	private static ExpressionValue evalConstants(ExpressionValue rt) {
+		if (rt != null && !rt.wrap().containsFreeFunctionVariable(null)) {
+			return rt.evaluate(StringTemplate.defaultTemplate);
+		}
+		return rt;
 	}
 
 	/**
