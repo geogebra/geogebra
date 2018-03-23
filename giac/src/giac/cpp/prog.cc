@@ -3479,6 +3479,10 @@ namespace giac {
   static define_unary_function_eval (__select,&_select,_select_s);
   define_unary_function_ptr5( at_select ,alias_at_select,&__select,0,true);
 
+  static const char _filter_s []="filter";
+  static define_unary_function_eval (__filter,&_select,_filter_s);
+  define_unary_function_ptr5( at_filter ,alias_at_filter,&__filter,0,true);
+
   gen _remove(const gen & args,const context * contextptr){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     return select_remove(args,0,contextptr);
@@ -10561,6 +10565,34 @@ namespace giac {
       b=symbolic(*b._FUNCptr,gen(vecteur(0),_SEQ__VECT));
     if (a.type==_IDNT){
       gen tmp=eval(a,1,contextptr);
+      if (tmp.type==_IDNT && strcmp(tmp._IDNTptr->id_name,"numpy")==0){
+	if (b.type==_SYMB){
+	  tmp=eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr);
+	  if (b.is_symb_of_sommet(at_dot))
+	    return _prod(tmp,contextptr);
+	  return b._SYMBptr->sommet(tmp,contextptr);
+	}
+      }
+      if (ckmatrix(tmp) && w[1].type==_IDNT){
+	const char * ch =w[1]._IDNTptr->id_name;
+	if (ch){
+	  if (ch[0]=='T')
+	    return mtran(*tmp._VECTptr);
+	  if (ch[0]=='H')
+	    return _trn(tmp,contextptr);
+	  if (ch[0]=='I')
+	    return minv(*tmp._VECTptr,contextptr);
+	}
+      }
+      else {
+	if (tmp.type==_VECT && w[1].type==_IDNT){
+	  const char * ch =w[1]._IDNTptr->id_name;
+	  if (ch){
+	    if (ch[0]=='T')
+	      return _tran(tmp,contextptr);
+	  }
+	}
+      }
       if (tmp.type==_VECT && b.type==_SYMB){
 	// check tmp size, workaround for progs with l:=[]; l.append(1);
 	// where the code would self modify itself
@@ -10642,6 +10674,23 @@ namespace giac {
   static const char _index_s []="index";
   static define_unary_function_eval (__index,&_index,_index_s);
   define_unary_function_ptr5( at_index ,alias_at_index,&__index,0,true);
+
+  gen _heappify(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT)
+      return gensizeerr(contextptr);
+    iterateur it=args._VECTptr->begin(),itend=args._VECTptr->end();    
+    gen f=at_inferieur_strict_sort;
+    if (args.type==_SEQ__VECT && itend-it==2 && it->type==_VECT){
+      f=*it;
+      it=f._VECTptr->begin();
+      itend=f._VECTptr->end();
+      f=args._VECTptr->back();
+    }
+    make_heap(it,itend,gen_sort(f,contextptr));
+  }
+  static const char _heappify_s []="heappify";
+  static define_unary_function_eval (__heappify,&_heappify,_heappify_s);
+  define_unary_function_ptr5( at_heappify ,alias_at_heappify,&__heappify,0,true);
 
 
 #ifndef NO_NAMESPACE_GIAC

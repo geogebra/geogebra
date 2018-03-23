@@ -5754,8 +5754,8 @@ unsigned int ConvertUTF8toUTF16 (
   static void python_import(string & cur,int cs,int posturtle,int poscmath,int posmath,int posnumpy,GIAC_CONTEXT){
     if (posnumpy>=0 && posnumpy<cs){
       // add python numpy shortcuts
-      cur += "T:=tran;H:=trn;I:=inv;mat:=matrix;arange:=range;";
-      alert("T:=tran;H:=trn;I:=inv;mat:=matrix;arange:=range",contextptr);
+      cur += "mat:=matrix;arange:=range;reshape:=redim;shape:=dim;conjugate:=conj";
+      alert("mat:=matrix;arange:=range",contextptr);
       return;
     }
     if (posturtle>=0 && posturtle<cs){

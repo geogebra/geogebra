@@ -2118,8 +2118,25 @@ namespace giac {
 	  }
 	  return makesequence(resl,diag,resu);
 	}
+	if (is_integral(v[1]) && v[1].type==_INT_){
+	  // sub diagonal extraction
+	  int shift=v[1].val;
+	  const vecteur & V = *v[0]._VECTptr;
+	  const_iterateur it=V.begin();
+	  int vs=int(V.size());
+	  vecteur res;
+	  for (int i=giacmax(0,-shift);i<vs;++i){
+	    const vecteur & ligne=*V[i]._VECTptr;
+	    if (i+shift>=ligne.size())
+	      break;
+	    res.push_back(ligne[i+shift]);
+	  }
+	  return res;
+	}
       }// if (ckmatrix(v[0])
       else {
+	if (v[1].is_symb_of_sommet(at_equal))
+	  v[1]=v[1]._SYMBptr->feuille[1];
 	if (v[0].type==_VECT &&is_integral(v[1]) && v[1].type==_INT_){
 	  int shift=v[1].val;
 	  const vecteur & V = *v[0]._VECTptr;
