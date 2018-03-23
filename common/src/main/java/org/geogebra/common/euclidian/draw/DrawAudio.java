@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
@@ -14,6 +15,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Drawable class for Audio elemens.
@@ -22,23 +24,19 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  *
  */
 public class DrawAudio extends Drawable {
-	private static final int BLOB_SIZE = 6;
+	private static final int BLOB_RADIUS = 8;
 	private static final int TAP_AREA_SIZE = 48;
-	private static final int TEXT_MARGIN_X = 4;
+	private static final int TEXT_MARGIN_X = 16;
 	private static final int TIME_FONT = 14;
-	private static final int PLAY_MARGIN = 4;
+	private static final int PLAY_PADDING = 4;
 	private static final int SLIDER_MARGIN = 8;
-	private static final GColor BACKGROUND_COLOR = GColor.newColorRGB(0xf5f5f5);
-	private static final GColor PLAY_COLOR = GColor.newColor(0, 0, 0, 138);
-
-	// text-primary
-	private static final GColor TIME_COLOR = GColor.newColor(0, 0, 0, 222);
-
-	// mebis-teal
-	private static final GColor PLAY_HOVER_COLOR = GColor.newColorRGB(0x00a8d5);
-
-	private static final GColor BLOB_COLOR = GColor.newColorRGB(0x00a8d5);
-
+	private static final GColor BACKGROUND_COLOR = GColor.MOW_WIDGET_BACKGROUND;
+	private static final GColor PLAY_COLOR = GColor.MOW_TEXT_PRIMARY;
+	private static final GColor TIME_COLOR = GColor.MOW_TEXT_PRIMARY;
+	private static final GColor PLAY_HOVER_COLOR = GColor.MOW_MEBIS_TEAL;
+	private static final GColor BLOB_COLOR = GColor.MOW_MEBIS_TEAL;
+	private static final GBasicStroke SLIDER_STROKE = EuclidianStatic.getStroke(4,
+			EuclidianStyleConstants.LINE_TYPE_FULL);
 	private final GeoAudio geoAudio;
 	private int top;
 	private int left;
@@ -105,8 +103,8 @@ public class DrawAudio extends Drawable {
 		double min = 0;
 		double max = geoAudio.getDuration();
 		double param = (geoAudio.getCurrentTime() - min) / (max - min);
-		sliderLeft = (int) (x + txtLayout.getBounds().getWidth() + 2 * BLOB_SIZE);
-		sliderLength = left + width - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_SIZE);
+		sliderLeft = (int) (x + txtLayout.getBounds().getWidth() + 2 * BLOB_RADIUS);
+		sliderLength = left + width - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_RADIUS);
 		updateDot(sliderLeft + (sliderLength) * param, top + height / 2);
 	}
 
@@ -114,10 +112,10 @@ public class DrawAudio extends Drawable {
 		coords[0] = rwX;
 		coords[1] = rwY;
 
-		double xUL = (coords[0] - BLOB_SIZE);
-		double yUL = (coords[1] - BLOB_SIZE);
+		double xUL = (coords[0] - BLOB_RADIUS);
+		double yUL = (coords[1] - BLOB_RADIUS);
 
-		diameter = 2 * BLOB_SIZE + 1;
+		diameter = 2 * BLOB_RADIUS + 1;
 		circle.setFrame(xUL, yUL, diameter, diameter);
 	}
 
@@ -143,6 +141,7 @@ public class DrawAudio extends Drawable {
 			g2.drawStraightLine(x, y, x + sliderLength, y);
 
 			g2.setPaint(BLOB_COLOR);
+			g2.setStroke(SLIDER_STROKE);
 			g2.drawStraightLine(x, y, coords[0], y);
 
 			// draw a dot
@@ -157,11 +156,11 @@ public class DrawAudio extends Drawable {
 		int margin = (height - size) / 2;
 		int x = left + margin;
 		int y = top + margin;
-		int x1 = x + PLAY_MARGIN;
-		int y1 = y + PLAY_MARGIN;
+		int x1 = x + PLAY_PADDING;
+		int y1 = y + PLAY_PADDING;
 		int x2 = x1;
-		int y2 = y + size - PLAY_MARGIN;
-		int x3 = x + size - PLAY_MARGIN;
+		int y2 = y + size - PLAY_PADDING;
+		int x3 = x + size - PLAY_PADDING;
 		int y3 = y + size / 2;
 
 		AwtFactory.fillTriangle(g2, x1, y1, x2, y2, x3, y3);
@@ -173,9 +172,9 @@ public class DrawAudio extends Drawable {
 		int margin = (height - size) / 2;
 		int barWidth = size / 6;
 		int x = left + margin + barWidth;
-		int y = top + margin + PLAY_MARGIN;
+		int y = top + margin + PLAY_PADDING;
 		int x1 = x + 2 * barWidth;
-		int barHeight = size - 2 * PLAY_MARGIN;
+		int barHeight = size - 2 * PLAY_PADDING;
 		g2.fillRect(x, y, barWidth, barHeight);
 		g2.fillRect(x1, y, barWidth, barHeight);
 	}
