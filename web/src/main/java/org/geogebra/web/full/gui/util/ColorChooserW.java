@@ -162,7 +162,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 			// ctx.strokeRect(0, 0, getWidth(), getHeight());
 			ctx.restore();
-
 		}
 
 		private void drawColorTile(int col, int row) {
@@ -197,7 +196,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 					ctx.drawImage(checkMark, x + checkX, y + checkY);
 					borderColor = SELECTED_TILE_COLOR;
 				}
-
 			}
 
 			ctx.setStrokeStyle(StringUtil.toHtmlColor(borderColor));
@@ -363,7 +361,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		public RecentTable(int x, int y, int col, int row) {
 			super(x, y, col, row, null);
 			entries = new ArrayList<>();
-
 		}
 
 		public void injectFrom(ColorTable source) {
@@ -427,7 +424,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			previewCtx.setGlobalAlpha(1.0);
 			previewCtx.setLineWidth(PREVIEW_BORDER_WIDTH);
 			previewCtx.strokeRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
-
 		}
 
 		public void setLabels(String previewTitle) {
@@ -467,7 +463,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 				}
 			});
 			Slider.addInputHandler(slider.getElement(), this);
-
 		}
 
 		@Override
@@ -476,7 +471,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 				changeHandler.onAlphaChange();
 			}
 			previewPanel.update();
-
 		}
 
 		public double getAlphaValue() {
@@ -807,7 +801,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		update();
 	}
 
-
 	public void addChangeHandler(ColorChangeHandler handler) {
 		this.changeHandler = handler;
 	}
@@ -825,7 +818,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		canvas.setVisible(enabled);
 		previewPanel.setVisible(enabled);
 		btnCustomColor.setVisible(enabled);
-
 	}
 
 	public void enableOpacity(boolean enabled) {

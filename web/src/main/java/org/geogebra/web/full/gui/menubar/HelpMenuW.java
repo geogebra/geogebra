@@ -67,8 +67,8 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable {
 		forum = addItem(
 				MainMenu.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.forum_black()
-								.getSafeUri().asString()
-						, loc.getMenu("GeoGebraForum"), true),
+								.getSafeUri().asString(),
+						loc.getMenu("GeoGebraForum"), true),
 				true, new MenuCommand(app) {
 
 					@Override

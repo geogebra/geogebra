@@ -233,8 +233,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			});
 		if (getApp().getLAF().exportSupported() && !getApp().isUnbundledOrWhiteboard()) {
 			addItem(MainMenu.getMenuBarHtml(
-					GuiResources.INSTANCE
-							.menu_icons_file_export().getSafeUri().asString(),
+					MaterialDesignResources.INSTANCE.file_download_black()
+							.getSafeUri().asString(),
 					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS, true),
 					true, new ExportMenuW(getApp()), true);
 		}
