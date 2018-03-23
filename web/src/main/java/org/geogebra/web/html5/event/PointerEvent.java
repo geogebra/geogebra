@@ -41,6 +41,18 @@ public class PointerEvent extends AbstractEvent {
 
 	private final boolean relative;
 
+	/**
+	 * @param x
+	 *            client x
+	 * @param y
+	 *            client y
+	 * @param type
+	 *            pointer type
+	 * @param off
+	 *            coordinate system
+	 * @param isRelative
+	 *            whether to use relative position
+	 */
 	public PointerEvent(double x, double y, PointerEventType type,
 			HasOffsets off, boolean isRelative) {
 		this.off = off;
@@ -50,6 +62,16 @@ public class PointerEvent extends AbstractEvent {
 		this.relative = isRelative;
 	}
 
+	/**
+	 * @param x
+	 *            client x
+	 * @param y
+	 *            client y
+	 * @param type
+	 *            pointer type
+	 * @param off
+	 *            coordinate system
+	 */
 	public PointerEvent(double x, double y, PointerEventType type,
 			HasOffsets off) {
 		this(x, y, type, off, type == PointerEventType.MOUSE);

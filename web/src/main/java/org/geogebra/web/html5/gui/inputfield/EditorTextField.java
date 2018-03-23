@@ -23,7 +23,7 @@ public class EditorTextField extends GTextBox implements KeyUpHandler {
 		addKeyUpHandler(this);
 	}
 
-	// TODO: use CSS style
+	/** TODO: use CSS style */
 	public void setFont(GFontW font) {
 		String fontSize = font.getFontSize();
 		String fontFamily = font.getFontFamily();

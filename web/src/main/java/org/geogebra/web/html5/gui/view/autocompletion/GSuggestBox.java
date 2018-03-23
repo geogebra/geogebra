@@ -633,6 +633,9 @@ public class GSuggestBox extends Composite
 	 */
 	public static class SuggestionMenu extends AriaMenuBar {
 
+		/**
+		 * New suggestion menu.
+		 */
 		public SuggestionMenu() {
 			super();
 			// Make sure that CSS styles specified for the default Menu classes

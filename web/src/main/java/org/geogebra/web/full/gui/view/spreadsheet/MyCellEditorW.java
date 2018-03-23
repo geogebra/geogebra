@@ -191,7 +191,12 @@ public class MyCellEditorW implements BaseCellEditor {
 		return autoCompleteTextField.getCaretPosition();
 	}
 
-	/** Insert a geo label into current editor string. */
+	/**
+	 * Insert a geo label into current editor string.
+	 * 
+	 * @param label
+	 *            label to be inserted
+	 */
 	public void addLabel(String label) {
 		if (!editing) {
 			return;
@@ -201,6 +206,10 @@ public class MyCellEditorW implements BaseCellEditor {
 		autoCompleteTextField.insertString(" " + label + " ");
 	}
 
+	/**
+	 * @param text
+	 *            cell content
+	 */
 	public void setLabel(String text) {
 		if (!editing) {
 			return;
@@ -368,7 +377,6 @@ public class MyCellEditorW implements BaseCellEditor {
 
 				// update the formula bar after escape
 				// ?//table.getView().updateFormulaBar();
-
 			}
 		}
 
@@ -572,12 +580,14 @@ public class MyCellEditorW implements BaseCellEditor {
 		this.tabReturnCol = tabReturnCol;
 	}
 
+	/**
+	 * Hanldle Enter key.
+	 */
 	public void onEnter() {
 		if (tabReturnCol > -1) {
 			table.changeSelection(row, tabReturnCol, false);
 			setTabReturnCol(-1);
 		}
-
 	}
 
 	/**

@@ -1158,6 +1158,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		}
 	}
 
+	/**
+	 * 
+	 * @param app
+	 *            app
+	 * @param isDefaults
+	 *            whether it's for defaults
+	 * @param onTabSelection
+	 *            tab selection callback
+	 */
 	public OptionsObjectW(AppW app, boolean isDefaults,
 			Runnable onTabSelection) {
 		this.app = app;
@@ -1443,6 +1452,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		Log.debug(fileName);
 	}
 
+	/**
+	 * Update if given element is selected.
+	 * 
+	 * @param geo
+	 *            element
+	 */
 	public void updateIfInSelection(GeoElement geo) {
 		if (getSelection() != null && getSelection().size() == 1
 				&& getSelection().contains(geo)) {

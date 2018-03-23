@@ -84,11 +84,14 @@ public class DnDState {
 		return target;
 	}
 
+	/**
+	 * @param region
+	 *            one of the DnDState.TOP / BOTTOM etc. contstants
+	 */
 	public void setRegion(int region) {
 		if (region < 0 || region > LEFT_OUT) {
 			throw new IllegalArgumentException();
 		}
-
 		this.region = region;
 	}
 	

@@ -149,6 +149,9 @@ public class LongTouchTimer extends Timer {
 		}
 	}
 
+	/**
+	 * Cancel the running timer.
+	 */
 	public void cancelTimer() {
 		mX = 0;
 		mY = 0;

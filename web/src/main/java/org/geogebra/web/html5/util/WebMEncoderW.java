@@ -99,6 +99,9 @@ public class WebMEncoderW implements Encoder {
 		return url;
 	}-*/;
 
+	/**
+	 * Load JS and clear state.
+	 */
 	public void initialize() {
 		Log.debug("whammy.min.js loading");
 		JavaScriptInjector

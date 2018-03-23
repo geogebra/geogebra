@@ -591,7 +591,6 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		cbBoldAxes.removeActionListener(this);
 		cbBoldAxes.setSelected(isBold);
 		cbBoldAxes.addActionListener(this);
-
 	}
 
 	@Override
@@ -610,7 +609,6 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		cbGridType.removeActionListener(this);
 		cbGridType.setSelectedIndex(gridType);
 		cbGridType.addActionListener(this);
-
 	}
 
 	@Override
@@ -629,7 +627,6 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 		xAxisPanel.updatePanel();
 		yAxisPanel.updatePanel();
-
 	}
 
 	@Override
@@ -644,7 +641,6 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 		ckNavPlay.setEnabled(isVisible);
 		ckOpenConsProtocol.setEnabled(isVisible);
-
 	}
 
 	protected void setTypePanelLabel() {

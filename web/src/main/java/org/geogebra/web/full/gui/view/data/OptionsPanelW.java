@@ -753,7 +753,6 @@ public class OptionsPanelW extends FlowPanel
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private void firePropertyChange() {
@@ -773,9 +772,14 @@ public class OptionsPanelW extends FlowPanel
 	@Override
 	public void onClick(ClickEvent event) {
 		actionPerformed(event.getSource());
-
 	}
 
+	/**
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 */
 	public void resize(int width, int height) {
 		spHistogram.setHeight(height + "px");
 		spGraph.setHeight(height + "px");

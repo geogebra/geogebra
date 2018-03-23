@@ -185,23 +185,27 @@ public class GeoTextEditor extends RichTextArea {
 	// workaround for ff bug that prevents disabling RichTextEditor
 	@Override
 	public void onBrowserEvent(final Event event) {
-
 		if (isEnabled()) {
 			super.onBrowserEvent(event);
 		}
-
 	}
 
-	public native void addCutHandler(Element elem)
-	/*-{
+	/**
+	 * @param elem
+	 *            target element
+	 */
+	public native void addCutHandler(Element elem) /*-{
 		var temp = this;
 		elem.oncut = function(e) {
 			temp.@org.geogebra.web.html5.gui.inputfield.GeoTextEditor::handleCut()();
 		}
 	}-*/;
 
-	public native void addPasteHandler(Element elem)
-	/*-{
+	/**
+	 * @param elem
+	 *            target element
+	 */
+	public native void addPasteHandler(Element elem) /*-{
 		var temp = this;
 		elem.onpaste = function(e) {
 			temp.@org.geogebra.web.html5.gui.inputfield.GeoTextEditor::handlePaste()();
@@ -413,13 +417,17 @@ public class GeoTextEditor extends RichTextArea {
 		}
 	}
 
+	/**
+	 * Update dialog with text elements.
+	 * 
+	 * @param list
+	 *            list of text elements
+	 */
 	public void setText(ArrayList<DynamicTextElement> list) {
 		dynamicList = list;
-
 		if (initialized) {
 			setDynamicText();
 		}
-
 	}
 
 	/**

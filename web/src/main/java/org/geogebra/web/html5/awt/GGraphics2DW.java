@@ -901,6 +901,14 @@ public class GGraphics2DW implements GGraphics2DWI {
 		}
 	}
 
+	/**
+	 * @param img
+	 *            image
+	 * @param x
+	 *            left offset
+	 * @param y
+	 *            top offset
+	 */
 	public void drawImage(ImageElement img, int x, int y) {
 		try {
 			context.drawImage(img, x, y);

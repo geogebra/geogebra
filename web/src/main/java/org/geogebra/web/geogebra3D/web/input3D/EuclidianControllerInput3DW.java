@@ -9,15 +9,22 @@ import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 
+/**
+ * Controller with 3D input
+ */
 public class EuclidianControllerInput3DW extends EuclidianController3DW {
-
+	/** 3D input */
 	protected Input3D input3D;
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param input3D
+	 *            3D input
+	 */
 	public EuclidianControllerInput3DW(Kernel kernel, Input3D input3D) {
 		super(kernel);
-
 		this.input3D = input3D;
-
 		((EuclidianControllerInput3DCompanion) companion).setInput3D(input3D);
 	}
 

@@ -43,7 +43,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 	 *            PointStyle icons.
 	 */
 	public MOWPointStyleButton(AppW app, ImageOrText[] data) {
-		super(app, data, 2, -1, SelectionTable.MODE_ICON, true, true,
+		super(app, data, 2, SelectionTable.MODE_ICON, true, true,
 				new PointStyleModel(app), false);
 
 		// Rearranging content.

@@ -52,22 +52,51 @@ public class PointStylePopup extends PopupMenuButtonW
 					.createPointStyleIcon(EuclidianView.getPointStyle(i));
 		}
 
-		return new PointStylePopup(app, pointStyleIcons, 2, -1,
+		return new PointStylePopup(app, pointStyleIcons, 2,
 				SelectionTable.MODE_ICON, true,
 				hasSlider, model, isTealBorder);
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param mode
+	 *            mode
+	 * @param model
+	 *            model
+	 * @param isTealBorder
+	 *            whether to use MOW teal
+	 * @return point stylle popup
+	 */
 	public static PointStylePopup create(AppW app, int mode,
 			PointStyleModel model, boolean isTealBorder) {
-		return new PointStylePopup(app, null, 1, -1, 
+		return new PointStylePopup(app, null, 1, 
 				SelectionTable.MODE_ICON, false, true, model, isTealBorder);
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param data
+	 *            point style icons
+	 * @param rows
+	 *            number of rows
+	 * @param tableMode
+	 *            selection mode
+	 * @param hasTable
+	 *            whether table is used
+	 * @param hasSlider
+	 *            whether size slider is used
+	 * @param model
+	 *            options model
+	 * @param isTealBorder
+	 *            whether to use MOW teal
+	 */
 	public PointStylePopup(AppW app, ImageOrText[] data, Integer rows,
-			Integer columns, SelectionTable mode,
-			boolean hasTable, boolean hasSlider, PointStyleModel model,
+			SelectionTable tableMode, boolean hasTable, boolean hasSlider,
+			PointStyleModel model,
 			boolean isTealBorder) {
-		super(app, data, rows, columns, mode, hasTable, hasSlider, null,
+		super(app, data, rows, -1, tableMode, hasTable, hasSlider, null,
 				isTealBorder);
 		getMyPopup().addStyleName("pointSizeSlider");
 		this.model = model;

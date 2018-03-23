@@ -11,11 +11,26 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
 
+/**
+ * Dialog for segment with fixed radius.
+ */
 public class InputDialogSegmentFixedW extends InputDialogW {
 	private GeoPointND geoPoint1;
 
 	private Kernel kernel;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param title
+	 *            title
+	 * @param handler
+	 *            input handler
+	 * @param point1
+	 *            startpoint
+	 * @param kernel
+	 *            kernel
+	 */
 	public InputDialogSegmentFixedW(AppW app, String title,
 			InputHandler handler, GeoPointND point1, Kernel kernel) {
 		super(app, app.getLocalization().getMenu("Length"), title, "", false,
@@ -57,13 +72,19 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 					public void callback(Boolean ok) {
 						cons.setSuppressLabelCreation(oldVal);
 						if (ok) {
-							DialogManager.doSegmentFixed(kernel, geoPoint1,
-									((NumberInputHandler) getInputHandler())
-											.getNum());
+							makeSegment();
 						}
 						setVisible(!ok);
 					}
 				});
+	}
+
+	/**
+	 * Create the segment.
+	 */
+	protected void makeSegment() {
+		DialogManager.doSegmentFixed(kernel, geoPoint1,
+				((NumberInputHandler) getInputHandler()).getNum());
 	}
 
 }

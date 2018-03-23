@@ -24,6 +24,14 @@ public final class ScrollableSuggestionDisplay extends
 	private HasSuggestions editor;
 	private ScrollPanel scrollable;
 
+	/**
+	 * @param ed
+	 *            editor
+	 * @param panel
+	 *            panel
+	 * @param app
+	 *            application
+	 */
 	public ScrollableSuggestionDisplay(HasSuggestions ed, Panel panel,
 			App app) {
 		super(panel, app);
@@ -94,13 +102,18 @@ public final class ScrollableSuggestionDisplay extends
 
 	}
 
+	/**
+	 * @param res
+	 *            oracle response
+	 * @param pop
+	 *            popup
+	 * @param xcb
+	 *            callback
+	 */
 	public void accessShowSuggestions(SuggestOracle.Response res,
 			CompletionsPopup pop, GSuggestBox.SuggestionCallback xcb) {
-		showSuggestions(null, res.getSuggestions(),
-		        pop.isDisplayStringHTML(), true, xcb);
-
-		// not working!
-		// getPopupPanel().setHeight("50%");
+		showSuggestions(null, res.getSuggestions(), pop.isDisplayStringHTML(),
+				true, xcb);
 	}
 
 	public Suggestion accessCurrentSelection() {

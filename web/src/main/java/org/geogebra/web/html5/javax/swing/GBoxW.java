@@ -12,17 +12,30 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
+/**
+ * panel for postioning widgets in Graphics
+ *
+ */
 public class GBoxW extends GBox {
 
 	private HorizontalPanel impl;
-	private EuclidianController style;
+	private EuclidianController ec;
 
-	public GBoxW(EuclidianController style) {
-		this.style = style;
+	/**
+	 * @param ec
+	 *            euclidian controller
+	 */
+	public GBoxW(EuclidianController ec) {
+		this.ec = ec;
 		impl = new HorizontalPanel();
 		impl.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
+	/**
+	 * @param box
+	 *            box
+	 * @return underlying panel
+	 */
 	public static HorizontalPanel getImpl(GBox box) {
 		if (!(box instanceof GBoxW)) {
 			return null;
@@ -50,7 +63,6 @@ public class GBoxW extends GBox {
 			((AbsolutePanel) (impl.getParent())).setWidgetPosition(impl,
 					(int) rect.getMinX(), (int) rect.getMinY());
 		}
-
 	}
 
 	@Override
@@ -63,9 +75,9 @@ public class GBoxW extends GBox {
 			top -= impl.getParent().getAbsoluteTop();
 		}
 
-		if (style != null && style.getEnvironmentStyle() != null) {
-			left = (int) (left * (1 / style.getEnvironmentStyle().getScaleX()));
-			top = (int) (top * (1 / style.getEnvironmentStyle().getScaleY()));
+		if (ec != null && ec.getEnvironmentStyle() != null) {
+			left = (int) (left * (1 / ec.getEnvironmentStyle().getScaleX()));
+			top = (int) (top * (1 / ec.getEnvironmentStyle().getScaleY()));
 		} else {
 			Log.debug("ec null");
 		}

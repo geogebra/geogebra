@@ -733,17 +733,15 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		return false;
 	}
 
+	/**
+	 * Initialize tooltip manager.
+	 */
 	public void initToolTipManager() {
-		// set tooltip manager
 		ToolTipManagerW.sharedInstance();
-		// ttm.setInitialDelay(defaultInitialDelay / 2);
-		// ttm.setEnabled((AppW.getAllowToolTips());
-
 	}
 
 	public void resetToolTipManager() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public boolean hitResetIcon() {

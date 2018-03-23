@@ -114,6 +114,12 @@ public class MultiRowsTabBar extends FlowPanel implements
 		}
 	}
 
+	/**
+	 * @param index
+	 *            tab index
+	 * @param enabled
+	 *            whether to enable tab
+	 */
 	public void setTabEnabled(int index, boolean enabled) {
 		assert (index >= 0) && (index < getTabCount()) : "Tab index out of bounds";
 		setStyleName(getWidget(index).getElement(), "gwt-TabBarItem-disabled",

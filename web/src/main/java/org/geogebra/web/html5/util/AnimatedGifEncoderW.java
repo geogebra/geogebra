@@ -102,6 +102,9 @@ public class AnimatedGifEncoderW implements Encoder {
 		return "";
 	}-*/;
 
+	/**
+	 * Load JS and clear state.
+	 */
 	public void initialize() {
 		Log.debug("gifshot.image.min.js loading");
 		JavaScriptInjector

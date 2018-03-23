@@ -758,6 +758,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return ssGrid.getCellFormatter().getElement(0, column).getOffsetWidth();
 	}
 
+	/**
+	 * @return Row where selection ended (start = anchor row)
+	 */
 	public int getLeadSelectionRow() {
 		if (leadSelectionRow < 0) {
 			return getSelectedRow();
@@ -765,6 +768,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return leadSelectionRow;
 	}
 
+	/**
+	 * @return Column where selection ended (start = anchor row)
+	 */
 	public int getLeadSelectionColumn() {
 		if (leadSelectionColumn < 0) {
 			return getSelectedColumn();
@@ -1349,9 +1355,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return selectionType;
 	}
 
-	// By adding a call to selectionChanged in JTable's setRowSelectionInterval
-	// and setColumnSelectionInterval methods, selectionChanged becomes
-	// the sole handler for selection events.
+	/**
+	 * @param row0
+	 *            anchor row
+	 * @param row1
+	 *            lead row
+	 */
 	public void setRowSelectionInterval(int row0, int row1) {
 		setSelectionType(MyTableInterface.ROW_SELECT);
 		anchorSelectionRow = row0;
@@ -1359,6 +1368,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		selectionChanged();
 	}
 
+	/**
+	 * @param col0
+	 *            anchor column
+	 * @param col1
+	 *            lead column
+	 */
 	public void setColumnSelectionInterval(int col0, int col1) {
 		setSelectionType(MyTableInterface.COLUMN_SELECT);
 		anchorSelectionColumn = col0;
@@ -2553,6 +2568,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		resizeMarkedCells();
 	}
 
+	/**
+	 * @return min selected row
+	 */
 	public int getSelectedRow() {
 		if (minSelectionRow < 0) {
 			return -1;
@@ -2560,6 +2578,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return minSelectionRow;
 	}
 
+	/**
+	 * @return min selected ccolumn
+	 */
 	public int getSelectedColumn() {
 		if (minSelectionColumn < 0) {
 			return -1;
@@ -2567,6 +2588,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return minSelectionColumn;
 	}
 
+	/**
+	 * @return max selected row
+	 */
 	public int getMaxSelectedRow() {
 		if (maxSelectionRow < 0) {
 			return -1;
@@ -2574,6 +2598,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return maxSelectionRow;
 	}
 
+	/**
+	 * @return max selected column
+	 */
 	public int getMaxSelectedColumn() {
 		if (maxSelectionColumn < 0) {
 			return -1;
@@ -2834,6 +2861,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
+	/**
+	 * 
+	 * @return spreadsheet mode processor
+	 */
 	public SpreadsheetModeProcessor getSpreadsheetModeProcessor() {
 		if (this.spredsheetModeProcessor == null) {
 			this.spredsheetModeProcessor = new SpreadsheetModeProcessor(app,

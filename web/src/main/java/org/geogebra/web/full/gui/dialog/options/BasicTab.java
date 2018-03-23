@@ -152,7 +152,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 			}
 		});
-
 	}
 
 	private void addDimensionPanel() {
@@ -406,7 +405,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		this.optionsEuclidianW.model.showAxes(value);
 		this.optionsEuclidianW.xAxisTab.setShowAxis(value);
 		this.optionsEuclidianW.yAxisTab.setShowAxis(value);
-
 	}
 
 	protected void fillAxesOptionsPanel() {
@@ -426,7 +424,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		}
 		this.optionsEuclidianW.app.setUnsaved();
 		this.optionsEuclidianW.updateGUI();
-
 	}
 
 	void toggleConsProtButton() {
@@ -703,6 +700,16 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		}
 	}
 
+	/**
+	 * @param minX
+	 *            min x
+	 * @param maxX
+	 *            max x
+	 * @param minY
+	 *            min y
+	 * @param maxY
+	 *            max y
+	 */
 	public void setMinMaxText(String minX, String maxX, String minY,
 			String maxY) {
 		dimField[0].setText(minX);
@@ -711,7 +718,13 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		dimField[3].setText(maxY);
 	}
 
-	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
+	/**
+	 * Updates color, visible and bold checkboxes using current view settings.
+	 * 
+	 * @param color
+	 *            axes color override for axis color
+	 */
+	public final void updateAxes(GColor color) {
 		// btAxesColor.setForeground(new GColorW(view.getAxesColor()));
 		cbShowAxes.setValue(this.optionsEuclidianW.view.getShowXaxis()
 				&& this.optionsEuclidianW.view.getShowYaxis());

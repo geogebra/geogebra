@@ -652,6 +652,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		setLabels(tabPanel.getTabBar(), 3);
 	}
 
+	/**
+	 * Set & update UI
+	 * 
+	 * @param euclidianView1
+	 *            graphics view
+	 */
 	public void setView(EuclidianView euclidianView1) {
 		this.view = euclidianView1;
 		if (!isIniting) {
@@ -711,7 +717,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	@Override
 	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
-		basicTab.updateAxes(color, isShown, isBold);
+		basicTab.updateAxes(color);
 	}
 
 	@Override

@@ -95,7 +95,7 @@ public class TextEditPanel extends JPanel implements ActionListener,
 		return this;
 	}
 
-	private boolean checkGeos(Object[] geos) {
+	private static boolean checkGeos(Object[] geos) {
 		return geos.length == 1 && geos[0] instanceof GeoText
 				&& !((GeoText) geos[0]).isTextCommand()
 				&& !((GeoText) geos[0]).isProtected(EventType.UPDATE);
