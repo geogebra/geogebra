@@ -108,7 +108,6 @@ public class DrawAudio extends Drawable {
 		sliderLeft = (int) (x + txtLayout.getBounds().getWidth() + 2 * BLOB_SIZE);
 		sliderLength = left + width - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_SIZE);
 		updateDot(sliderLeft + (sliderLength) * param, top + height / 2);
-
 	}
 
 	private void updateDot(double rwX, double rwY) {
@@ -119,7 +118,6 @@ public class DrawAudio extends Drawable {
 		double yUL = (coords[1] - BLOB_SIZE);
 
 		diameter = 2 * BLOB_SIZE + 1;
-
 		circle.setFrame(xUL, yUL, diameter, diameter);
 	}
 
@@ -237,6 +235,7 @@ public class DrawAudio extends Drawable {
 		sb.append(":");
 		sb.append(secStr);
 	}
+
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
 		return bounds.contains(x, y) && isVisible;

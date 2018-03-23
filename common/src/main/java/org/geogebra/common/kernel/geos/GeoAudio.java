@@ -116,7 +116,6 @@ public class GeoAudio extends GeoButton {
 		if (!hasSoundManager()) {
 			return;
 		}
-
 		app.getSoundManager().play(this);
 	}
 
@@ -127,7 +126,6 @@ public class GeoAudio extends GeoButton {
 		if (!hasSoundManager()) {
 			return false;
 		}
-
 		return app.getSoundManager().isPlaying(this);
 	}
 
@@ -138,7 +136,6 @@ public class GeoAudio extends GeoButton {
 		if (!hasSoundManager()) {
 			return -1;
 		}
-
 		return app.getSoundManager().getDuration(src);
 	}
 
@@ -149,7 +146,6 @@ public class GeoAudio extends GeoButton {
 		if (!hasSoundManager()) {
 			return -1;
 		}
-
 		return app.getSoundManager().getCurrentTime(src);
 	}
 
@@ -160,7 +156,6 @@ public class GeoAudio extends GeoButton {
 		if (!hasSoundManager()) {
 			return;
 		}
-
 		app.getSoundManager().pause(this);
 	}
 
