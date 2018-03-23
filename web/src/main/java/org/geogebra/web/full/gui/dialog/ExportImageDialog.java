@@ -1,16 +1,21 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.IFrameWrapper;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
 
+import com.google.gwt.dom.client.IFrameElement;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,6 +29,8 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 	private FlowPanel contentPanel;
 	private Label rightClickText;
 	private NoDragImage previewImage;
+	private Frame iframePDF;
+	private String base64Url;
 	private FlowPanel buttonPanel;
 	private StandardButton downloadBtn;
 	private StandardButton copyToClipboardBtn;
@@ -58,7 +65,11 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 			rightClickText.addStyleName("rightClickHelpText");
 			contentPanel.add(rightClickText);
 		}
-		contentPanel.add(previewImage);
+		if (previewImage != null) {
+			contentPanel.add(previewImage);
+		} else if (iframePDF != null) {
+			contentPanel.add(iframePDF);
+		}
 		// panel for buttons
 		downloadBtn = new StandardButton("", appW);
 		if (!appW.isUnbundled() && !appW.isWhiteboardActive()) {
@@ -101,12 +112,22 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 	@Override
 	public void onClick(Widget source) {
 		if (source == downloadBtn) {
-			// DOWNLOAD AS PNG
-			Browser.exportImage(previewImage.getUrl(),
-					appW.getExportTitle() + ".png");
+			// DOWNLOAD AS PNG/SVG/PDF
+			Browser.exportImage(base64Url,
+					appW.getExportTitle() + getExtension(base64Url));
 			super.hide();
 		} else if (source == copyToClipboardBtn) {
 			app.copyGraphicsViewToClipboard();
+		}
+	}
+
+	private String getExtension(String url) {
+		if (url.startsWith(StringUtil.svgMarker)) {
+			return ".svg";
+		} else if (url.startsWith(StringUtil.pdfMarker)) {
+			return ".pdf";
+		} else {
+			return ".png";
 		}
 	}
 
@@ -128,17 +149,47 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 
 	private void setPreviewImage(String imgStr) {
 		if (imgStr != null && imgStr.length() > 0) {
-			previewImage = new NoDragImage(imgStr);
-			previewImage.addStyleName("prevImg");
-			Browser.setAllowContextMenu(previewImage.getElement(), true);
-			ImageElement img = previewImage.getElement().cast();
-			ImageWrapper.nativeon(img, "load", new ImageLoadCallback() {
 
-				@Override
-				public void onLoad() {
-					center();
-				}
-			});
+			base64Url = imgStr;
+
+			if (imgStr.startsWith(StringUtil.pdfMarker)) {
+
+				iframePDF = new Frame(imgStr);
+
+				IFrameElement iframe = iframePDF.getElement().cast();
+
+				Style style = iframe.getStyle();
+				style.setHeight(600, Style.Unit.PX);
+				style.setWidth(600, Style.Unit.PX);
+
+				iframe.setFrameBorder(0);
+				iframe.setTabIndex(-1);
+				iframe.setSrc(imgStr);
+
+				IFrameWrapper.nativeon(iframe, "load", new ImageLoadCallback() {
+
+					@Override
+					public void onLoad() {
+						center();
+					}
+				});
+
+			} else {
+
+				previewImage = new NoDragImage(imgStr);
+				previewImage.addStyleName("prevImg");
+				Browser.setAllowContextMenu(previewImage.getElement(), true);
+				ImageElement img = previewImage.getElement().cast();
+				ImageWrapper.nativeon(img, "load", new ImageLoadCallback() {
+
+					@Override
+					public void onLoad() {
+						center();
+					}
+				});
+			}
+
+
 		}
 	}
 
