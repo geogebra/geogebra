@@ -2900,7 +2900,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_FACTORIAL;
 case 192:
 YY_RULE_SETUP
 #line 491 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_PLUS;
+index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_UNION;
 	YY_BREAK
 case 193:
 YY_RULE_SETUP
@@ -2910,7 +2910,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_FACTORIAL;
 case 194:
 YY_RULE_SETUP
 #line 493 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_PLUS;
+index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_UNION;
 	YY_BREAK
 case 195:
 YY_RULE_SETUP
@@ -3031,7 +3031,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_cross,2); return T_FOIS;
 case 218:
 YY_RULE_SETUP
 #line 518 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_multcrement,1); return T_FOIS;
+index_status(yyextra)=0; (*yylval)=gen(at_multcrement,1); return T_UNION;
 	YY_BREAK
 case 219:
 YY_RULE_SETUP
@@ -3071,22 +3071,22 @@ index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_DIV;
 case 226:
 YY_RULE_SETUP
 #line 526 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_iquo,2); return T_MOD;
+index_status(yyextra)=0; (*yylval)=gen(at_iquo,2); return T_UNION;
 	YY_BREAK
 case 227:
 YY_RULE_SETUP
 #line 527 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_MOD;
+index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_UNION;
 	YY_BREAK
 case 228:
 YY_RULE_SETUP
 #line 528 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_iquosto,2); return T_MOD;
+index_status(yyextra)=0; (*yylval)=gen(at_iquosto,2); return T_UNION;
 	YY_BREAK
 case 229:
 YY_RULE_SETUP
 #line 529 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_iremsto,2); return T_MOD;
+index_status(yyextra)=0; (*yylval)=gen(at_iremsto,2); return T_UNION;
 	YY_BREAK
 case 230:
 YY_RULE_SETUP

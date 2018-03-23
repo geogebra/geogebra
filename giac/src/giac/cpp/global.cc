@@ -5751,6 +5751,33 @@ unsigned int ConvertUTF8toUTF16 (
     return res+line;
   }
 
+  static void python_import(string & cur,int cs,int posturtle,int poscmath,int posmath,int posnumpy,GIAC_CONTEXT){
+    if (posnumpy>=0 && posnumpy<cs){
+      // add python numpy shortcuts
+      cur += "T:=tran;H:=trn;I:=inv;mat:=matrix;arange:=range;";
+      alert("T:=tran;H:=trn;I:=inv;mat:=matrix;arange:=range",contextptr);
+      return;
+    }
+    if (posturtle>=0 && posturtle<cs){
+      // add python turtle shortcuts
+      cur += "pu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface;";
+      alert("pu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface",contextptr);
+      return;
+    }
+    if (poscmath>=0 && poscmath<cs){
+      // add python cmath shortcuts
+      alert(gettext("Assigning phase, j and rect."),contextptr);
+      cur += "phase:=arg;j:=i;rect(r,theta):=r*exp(i*theta);";
+      return;
+    }
+    if (posmath>=0 && posmath<cs){
+      // add python math shortcuts
+      alert(gettext("Assigning log2, expm1 (imprecise), fabs, fmod, modf, radians and degrees. Not supported: copysign."),contextptr);
+      cur += "log2(x):=logb(x,2);expm1(x):=exp(x)-1;fabs:=abs;fmod(a,b):=a-floor(a/b)*b;modf(x):={ local y:=floor(x); return x-y,y;};radians(x):=x/180*pi;degrees(x):=x/pi*180;";
+      // todo copysign, isinf, isnan, isfinite, frexp, ldexp
+    }
+  }
+
   // detect Python like syntax: 
   // remove """ """ docstrings and ''' ''' comments
   // cut string in lines, remove comments at the end (search for #)
@@ -5927,28 +5954,7 @@ unsigned int ConvertUTF8toUTF16 (
 	    int posnumpy=cur.find("numpy");
 	    int cs=int(cur.size());
 	    cur=cur.substr(0,pos);
-	    if (posnumpy>=0 && posnumpy<cs){
-	      // add python numpy shortcuts
-	      cur += "\nT:=tran;H:=trn;I:=inv;mat:=matrix;arange:=range\n";
-	      alert("T:=tran;H:=trn;I:=inv;mat:=matrix;arange:=range",contextptr);
-	    }
-	    if (posturtle>=0 && posturtle<cs){
-	      // add python turtle shortcuts
-	      cur += "\npu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface\n";
-	      alert("pu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface",contextptr);
-	    }
-	    if (poscmath>=0 && poscmath<cs){
-	      posmath=-1;
-	      // add python cmath shortcuts
-	      alert(gettext("Assigning phase, j and rect."),contextptr);
-	      cur += "\nphase:=arg;j:=i;rect(r,theta):=r*exp(i*theta);\n";
-	    }
-	    if (posmath>=0 && posmath<cs){
-	      // add python math shortcuts
-	      alert(gettext("Assigning log2, expm1 (imprecise), fabs, fmod, modf, radians and degrees. Not supported: copysign."),contextptr);
-	      cur += "\nlog2(x):=logb(x,2);expm1(x):=exp(x)-1;fabs:=abs;fmod(a,b):=a-floor(a/b)*b;modf(x):={ local y:=floor(x); return x-y,y;};radians(x):=x/180*pi;degrees(x):=x/pi*180\n";
-	      // todo copysign, isinf, isnan, isfinite, frexp, ldexp
-	    }
+	    python_import(cur,cs,posturtle,poscmath,posmath,posnumpy,contextptr);
 	    pythonmode=true;
 	    break;
 	  }
@@ -5956,11 +5962,17 @@ unsigned int ConvertUTF8toUTF16 (
 	chkfrom=false;
 	// import * as ** -> **:=*
 	if (ch=='i' && pos+7<int(cur.size()) && cur.substr(pos,7)=="import "){
+	  int posturtle=cur.find("turtle");
+	  int poscmath=cur.find("cmath");
+	  int posmath=cur.find("math");
+	  int posnumpy=cur.find("numpy");
+	  int cs=int(cur.size());
 	  int posi=cur.find(" as ");
 	  if (posi>pos+5 && posi<int(cur.size()))
-	    cur=cur.substr(posi+4,cur.size()-posi-4)+":="+cur.substr(7,posi-7);
+	    cur=cur.substr(posi+4,cur.size()-posi-4)+":="+cur.substr(7,posi-7)+';';
 	  else
 	    cur=cur.substr(pos+7,cur.size()-pos-7);
+	  python_import(cur,cs,posturtle,poscmath,posmath,posnumpy,contextptr);
 	  pythonmode=true;
 	  break;	    
 	}
@@ -5992,13 +6004,32 @@ unsigned int ConvertUTF8toUTF16 (
 	    break;
 	}
 	if (p>0){
-	  int cs=int(cur.size());
-	  int progpos=cur.find("if");
-	  if (p && progpos>=0 && progpos<cs && instruction_at(cur,progpos,2)){
+	  int cs=int(cur.size()),q=4;
+	  int progpos=cur.find("elif");;
+	  if (progpos<0 || progpos>=cs){
+	    progpos=cur.find("if");
+	    q=2;
+	  }
+	  if (p && progpos>=0 && progpos<cs && instruction_at(cur,progpos,q)){
 	    pythonmode=true;
 	    cur=cur.substr(0,p)+" then "+cur.substr(p+1,pos-p);
 	    convert_python(cur,contextptr);
-	    cur += " fi";
+	    // no fi if there is an else or elif
+	    for (p=0;p<int(res.size());++p){
+	      if (res[p]!=' ' && res[p]!=char(9))
+		break;
+	    }
+	    if (p<res.size()+5 && (res.substr(p,4)=="else" || res.substr(p,4)=="elif"))
+	      cur += " ";
+	    else
+	      cur += " fi";
+	    p=0;
+	  }
+	  progpos=cur.find("else");
+	  if (p && progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
+	    pythonmode=true;
+	    cur=cur.substr(0,p)+cur.substr(p+1,pos-p)+" fi";
+	    convert_python(cur,contextptr);
 	    p=0;
 	  }
 	  progpos=cur.find("for");

@@ -4054,7 +4054,7 @@ namespace giac {
     gen objet=v.front();
     gen to_map=v[1];
     // FIXME: should have maple_map and mupad_map functions
-    if (xcas_mode(contextptr)==1){
+    if (xcas_mode(contextptr)==1 || (to_map.type!=_FUNC && !to_map.is_symb_of_sommet(at_program) && (objet.type==_FUNC || objet.is_symb_of_sommet(at_program)))){
       objet=v[1];
       to_map=v.front();
     }

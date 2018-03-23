@@ -5328,7 +5328,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 292 "input_parser.yy"
-    {if ((yyvsp[(1) - (3)]).type==_INT_) (yyval)=symb_equal((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])); else {(yyval) = symb_sto((yyvsp[(3) - (3)]),(yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])==at_array_sto); if ((yyvsp[(3) - (3)]).is_symb_of_sommet(at_program)) *logptr(giac_yyget_extra(scanner))<<"// End defining "<<(yyvsp[(1) - (3)])<<endl;}}
+    {if ((yyvsp[(1) - (3)]).type==_FUNC) giac_yyerror(scanner,((yyvsp[(1) - (3)]).print(context0)+" is a reserved word").c_str()); if ((yyvsp[(1) - (3)]).type==_INT_) (yyval)=symb_equal((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])); else {(yyval) = symb_sto((yyvsp[(3) - (3)]),(yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])==at_array_sto); if ((yyvsp[(3) - (3)]).is_symb_of_sommet(at_program)) *logptr(giac_yyget_extra(scanner))<<"// End defining "<<(yyvsp[(1) - (3)])<<endl;}}
     break;
 
   case 61:
@@ -5761,7 +5761,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 449 "input_parser.yy"
-    { (yyval) = symb_union(gen(makevecteur((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])) ,_SEQ__VECT)); }
+    { (yyval) = symbolic(*(yyvsp[(2) - (3)])._FUNCptr,gen(makevecteur((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])) ,_SEQ__VECT)); }
     break;
 
   case 108:
@@ -7243,11 +7243,17 @@ int giac_yyerror(yyscan_t scanner,const char *s) {
    col -= token_name.size();
  }
  giac::lexer_column_number(contextptr)=col;
+ string sy("syntax error ");
+ if (strlen(s)){
+   sy += ": ";
+   sy += s;
+   sy +=", ";
+ }
  if (is_at_end) {
-  parser_error(":" + giac::print_INT_(line) + ": " +string("syntax error") + " at end of input\n",contextptr); // string(s) replaced with syntax error
+  parser_error(":" + giac::print_INT_(line) + ": " +sy + " at end of input\n",contextptr); // string(s) replaced with syntax error
   giac::parsed_gen(giac::undef,contextptr);
  } else {
- parser_error( ":" + giac::print_INT_(line) + ": " + string("syntax error") + " line " + giac::print_INT_(line) + " col " + giac::print_INT_(col) + " at " + token_name +" in "+curline+" \n",contextptr); // string(s) replaced with syntax error
+ parser_error( ":" + giac::print_INT_(line) + ": " + sy + " line " + giac::print_INT_(line) + " col " + giac::print_INT_(col) + " at " + token_name +" in "+curline+" \n",contextptr); // string(s) replaced with syntax error
  giac::parsed_gen(giac::string2gen(token_name,false),contextptr);
  }
  if (!giac::first_error_line(contextptr)) {

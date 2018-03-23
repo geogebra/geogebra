@@ -289,7 +289,7 @@ exp	: T_NUMBER		{$$ = $1;}
         }
 	/* | T_ROOTOF_BEGIN exp T_VIRGULE exp T_ROOTOF_END {if ($2.type==_VECT) $$ = real_complex_rootof(*$2._VECTptr,$4); else $$=zero;} */
 	| T_OF { $$=gen(at_of,2); }
-	| exp T_AFFECT exp 		{if ($1.type==_INT_) $$=symb_equal($1,$3); else {$$ = symb_sto($3,$1,$2==at_array_sto); if ($3.is_symb_of_sommet(at_program)) *logptr(giac_yyget_extra(scanner))<<"// End defining "<<$1<<endl;}}
+	| exp T_AFFECT exp 		{if ($1.type==_FUNC) giac_yyerror(scanner,($1.print(context0)+" is a reserved word").c_str()); if ($1.type==_INT_) $$=symb_equal($1,$3); else {$$ = symb_sto($3,$1,$2==at_array_sto); if ($3.is_symb_of_sommet(at_program)) *logptr(giac_yyget_extra(scanner))<<"// End defining "<<$1<<endl;}}
 	| T_NOT exp	{ $$ = symbolic(*$1._FUNCptr,$2);}
 	| T_ARGS T_BEGIN_PAR exp T_END_PAR	{$$ = symb_args($3);}
 	| T_ARGS T_INDEX_BEGIN exp T_VECT_END	{$$ = symb_args($3);}
@@ -446,7 +446,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_DOLLAR T_SYMBOL { $$=symb_dollar($2); }
 	| exp T_COMPOSE exp { $$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| T_COMPOSE {$$=symbolic(at_ans,-1);}
-	| exp T_UNION exp { $$ = symb_union(gen(makevecteur($1,$3) ,_SEQ__VECT)); }
+	| exp T_UNION exp { $$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| exp T_INTERSECT exp { $$ = symb_intersect(gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| exp T_MINUS exp { $$ = symb_minus(gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| exp T_PIPE exp { 
@@ -960,11 +960,17 @@ int giac_yyerror(yyscan_t scanner,const char *s) {
    col -= token_name.size();
  }
  giac::lexer_column_number(contextptr)=col;
+ string sy("syntax error ");
+ if (strlen(s)){
+   sy += ": ";
+   sy += s;
+   sy +=", ";
+ }
  if (is_at_end) {
-  parser_error(":" + giac::print_INT_(line) + ": " +string("syntax error") + " at end of input\n",contextptr); // string(s) replaced with syntax error
+  parser_error(":" + giac::print_INT_(line) + ": " +sy + " at end of input\n",contextptr); // string(s) replaced with syntax error
   giac::parsed_gen(giac::undef,contextptr);
  } else {
- parser_error( ":" + giac::print_INT_(line) + ": " + string("syntax error") + " line " + giac::print_INT_(line) + " col " + giac::print_INT_(col) + " at " + token_name +" in "+curline+" \n",contextptr); // string(s) replaced with syntax error
+ parser_error( ":" + giac::print_INT_(line) + ": " + sy + " line " + giac::print_INT_(line) + " col " + giac::print_INT_(col) + " at " + token_name +" in "+curline+" \n",contextptr); // string(s) replaced with syntax error
  giac::parsed_gen(giac::string2gen(token_name,false),contextptr);
  }
  if (!giac::first_error_line(contextptr)) {
