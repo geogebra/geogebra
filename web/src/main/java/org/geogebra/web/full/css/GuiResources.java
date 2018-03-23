@@ -55,38 +55,14 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/menu_icons/p20/menu-file-new.png")
 	ImageResource menu_icon_file_new();
 
-	@Source("org/geogebra/common/menu_icons/p20/menu-file-open.png")
-	ImageResource menu_icon_file_open();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-file-save.png")
-	ImageResource menu_icon_file_save();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-file-share.png")
-	ImageResource menu_icon_file_share();
-
 	@Source("org/geogebra/common/menu_icons/p20/menu-file-export.png")
 	ImageResource menu_icons_file_export();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-mode-exam.png")
-	ImageResource menu_icons_exam_mode();
-
-	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_exam.png")
-	ImageResource menu_icon_exam();
 
 	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_exam.png")
 	ImageResource menu_icon_exam24();
 
-	@Source("org/geogebra/common/menu_icons/p20/menu-file-print-preview.png")
-	ImageResource menu_icons_file_print();
-
 	@Source("org/geogebra/common/menu_icons/p20/menu-edit.png")
 	ImageResource menu_icon_edit();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-edit-undo.png")
-	ImageResource menu_icon_edit_undo();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-edit-redo.png")
-	ImageResource menu_icon_edit_redo();
 
 	@Source("org/geogebra/common/menu_icons/p20/menu-edit-copy.png")
 	ImageResource menu_icon_edit_copy();
@@ -124,17 +100,8 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/menu-help.png")
 	ImageResource icon_help();
 
-	@Source("org/geogebra/common/menu_icons/p20/menu-help-about.png")
-	ImageResource menu_icon_help_about();
-
 	@Source("org/geogebra/common/menu_icons/p20/menu-tools.png")
 	ImageResource menu_icon_tools();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-tools-new.png")
-	ImageResource menu_icon_tools_new();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-tools-customize.png")
-	ImageResource menu_icon_tools_customize();
 
 	// Menu icons views and perspectives
 	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_algebra.png")
@@ -171,9 +138,6 @@ public interface GuiResources extends ClientBundle {
 	ImageResource menu_icon_geometry();
 
 	// OTHER MENUICONS
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-create-exercise.png")
-	ImageResource menu_create_exercise();
 
 	@Source("org/geogebra/common/menu_icons/p20/menu-signed-in-m.png")
 	ImageResource menu_icon_signed_in_m();
