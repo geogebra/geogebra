@@ -14,14 +14,16 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
-import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.main.AppW;
 
-public class LayoutW extends Layout implements SettingListener {
+/**
+ * Panel layout for Web
+ */
+public class LayoutW extends Layout {
 	
 	private AppW app;
 
@@ -394,10 +396,13 @@ public class LayoutW extends Layout implements SettingListener {
 		return foundView;
     }
 
+	/**
+	 * @return application
+	 */
 	public AppW getApplication() {
 	    return app;
     }
-	
+
 	/**
 	 * @return The management class for the docking behavior.
 	 */
@@ -406,6 +411,9 @@ public class LayoutW extends Layout implements SettingListener {
 		return dockManager;
 	}
 
+	/**
+	 * @return root split pane
+	 */
 	public DockSplitPaneW getRootComponent() {
 		if (dockManager == null) {
 			return null;
@@ -413,6 +421,12 @@ public class LayoutW extends Layout implements SettingListener {
 		return dockManager.getRoot();
 	}
 
+	/**
+	 * Initialize perspectives; set panel sizes for given app.
+	 * 
+	 * @param app
+	 *            application
+	 */
 	public static void resetPerspectives(AppW app) {
 		Layout.initializeDefaultPerspectives(app,
 				PerspectiveDecoder.landscapeRatio(app, app.getAppletWidth()));

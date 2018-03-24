@@ -431,4 +431,14 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			}
 		}
 	}
+
+	/**
+	 * Reset old size
+	 */
+	public final void reset() {
+		if (getEuclidianPanel() != null) {
+			getEuclidianPanel().oldWidth = 0;
+			getEuclidianPanel().oldHeight = 0;
+		}
+	}
 }

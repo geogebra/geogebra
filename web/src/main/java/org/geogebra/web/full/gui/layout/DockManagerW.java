@@ -22,8 +22,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
-import org.geogebra.web.full.gui.layout.panels.Euclidian2DockPanelW;
-import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -431,10 +429,9 @@ public class DockManagerW extends DockManager {
 				panel.setVisible(
 						dpData[i].isVisible() && !dpData[i].isOpenInFrame());
 
-				if (dpData[i].getViewId() == App.VIEW_EUCLIDIAN) {
-					((EuclidianDockPanelW) panel).reset();
-				} else if (dpData[i].getViewId() == App.VIEW_EUCLIDIAN2) {
-					((Euclidian2DockPanelW) panel).reset();
+				if (dpData[i].getViewId() == App.VIEW_EUCLIDIAN
+						|| dpData[i].getViewId() == App.VIEW_EUCLIDIAN2) {
+					((EuclidianDockPanelWAbstract) panel).reset();
 				}
 			}
 		}
@@ -444,7 +441,6 @@ public class DockManagerW extends DockManager {
 				dockPanel.setVisible(false);
 			}
 		}
-
 	}
 
 	private void setPreferredSizes(DockSplitPaneW pane, int h, int w) {

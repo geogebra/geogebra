@@ -46,7 +46,7 @@ public class TestErrorHandler implements ErrorHandler, ErrorLogger {
 		e.printStackTrace();
 		Throwable cause = e.getCause() == null ? e : e.getCause();
 		StackTraceElement ste[] = cause.getStackTrace();
-		String out = "";
+		String out = cause.getClass().getName() + ":" + cause.getMessage();
 		for (int i = 0; i < ste.length; i++) {
 			out += "\n" + ste[i].getClassName() + "." + ste[i].getMethodName()
 					+ ":" + ste[i].getLineNumber();

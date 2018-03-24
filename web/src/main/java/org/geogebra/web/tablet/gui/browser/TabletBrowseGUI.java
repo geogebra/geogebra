@@ -5,8 +5,15 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.Window;
 
+/**
+ * Browse UI for native tablet apps
+ */
 public class TabletBrowseGUI extends BrowseGUI {
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public TabletBrowseGUI(final AppW app) {
 		super(app, null);
 	}
@@ -26,6 +33,5 @@ public class TabletBrowseGUI extends BrowseGUI {
 	@Override
 	protected void updateViewSizes() {
 		this.resizeTo(Window.getClientWidth(), Window.getClientHeight());
-
 	}
 }

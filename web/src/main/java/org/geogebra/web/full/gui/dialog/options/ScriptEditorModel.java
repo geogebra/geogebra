@@ -8,6 +8,10 @@ public class ScriptEditorModel extends OptionsModel {
 
 	private ScriptEditPanel listener;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public ScriptEditorModel(App app) {
 		super(app);
 	}
@@ -22,6 +26,10 @@ public class ScriptEditorModel extends OptionsModel {
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * @param listener
+	 *            listener for applyModifications
+	 */
 	public void setListener(ScriptEditPanel listener) {
 		this.listener = listener;
 	}
@@ -31,10 +39,12 @@ public class ScriptEditorModel extends OptionsModel {
 		return listener;
 	}
 
+	/**
+	 * Notify listener
+	 */
 	public void applyModifications() {
 		if (listener != null) {
 			listener.applyModifications();
 		}
-
 	}
 }

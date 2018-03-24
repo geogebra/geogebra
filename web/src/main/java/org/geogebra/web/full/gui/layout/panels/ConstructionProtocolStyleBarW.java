@@ -26,6 +26,12 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 	String[] tableColumns = {};
 	boolean[] show = {};
 
+	/**
+	 * @param cpw
+	 *            construction protocol
+	 * @param app
+	 *            application
+	 */
 	public ConstructionProtocolStyleBarW(ConstructionProtocolViewW cpw, AppW app) {
 		super(app, App.VIEW_CONSTRUCTION_PROTOCOL);
 		cpView = cpw;
@@ -33,7 +39,7 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 		addViewButton();
 	}
 
-	protected void addButtons() {
+	private void addButtons() {
 		int k0 = 0;
 		for (int k = 0; k < cpView.getData().getColumnCount(); k++) {
 			ColumnData colData = cpView.getData().getColumns()[k];

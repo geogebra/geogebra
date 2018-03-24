@@ -84,13 +84,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 		return getResources().styleBar_graphics2View();
 	}
 
-	public void reset() {
-		if (euclidianpanel != null) {
-			euclidianpanel.oldWidth = 0;
-			euclidianpanel.oldHeight = 0;
-		}
-	}
-
 	@Override
 	protected Widget loadStyleBar() {
 		if (espanel == null) {

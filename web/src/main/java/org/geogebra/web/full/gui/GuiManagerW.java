@@ -313,6 +313,11 @@ public class GuiManagerW extends GuiManager
 		return (RowHeaderPopupMenuW) currentPopup;
 	}
 
+	/**
+	 * @param geos
+	 *            selected geos
+	 * @return context popup menu
+	 */
 	public ContextMenuGeoElementW getPopupMenu(
 			final ArrayList<GeoElement> geos) {
 		removePopup();
@@ -347,7 +352,6 @@ public class GuiManagerW extends GuiManager
 					geos, p);
 			menu.show(invoker, p.x, p.y);
 		}
-
 	}
 
 	private ContextMenuGeoElementW getPopupMenu(

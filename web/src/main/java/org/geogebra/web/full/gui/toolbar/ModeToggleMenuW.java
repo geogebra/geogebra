@@ -95,6 +95,12 @@ public class ModeToggleMenuW extends ListItem
 		this.add(tbutton);
 	}
 
+	/**
+	 * Add image paste handler
+	 * 
+	 * @param elem
+	 *            target element
+	 */
 	public native void addPasteHandlerTo(Element elem) /*-{
 		var self = this;
 		var wind = $wnd;
@@ -164,6 +170,9 @@ public class ModeToggleMenuW extends ListItem
 		app.getGgbApi().insertImage(str);
 	}
 
+	/**
+	 * Create & add UI elements
+	 */
 	protected void buildGui() {
 		submenu = createToolbarSubmenu(app, order);
 		add(submenu);
@@ -184,8 +193,15 @@ public class ModeToggleMenuW extends ListItem
 		hideMenu();
 	}
 
-	protected ToolbarSubmenuW createToolbarSubmenu(AppW app, int order) {
-		return new ToolbarSubmenuW(app, order);
+	/**
+	 * @param app1
+	 *            application
+	 * @param order1
+	 *            order in top level toolbar
+	 * @return submenu
+	 */
+	protected ToolbarSubmenuW createToolbarSubmenu(AppW app1, int order1) {
+		return new ToolbarSubmenuW(app1, order1);
 	}
 
 	/**
@@ -196,6 +212,9 @@ public class ModeToggleMenuW extends ListItem
 		tbutton.getElement().setTabIndex(index);
 	}
 
+	/**
+	 * @return item list
+	 */
 	public UnorderedList getItemList() {
 		if (submenu != null) {
 			return submenu.getItemList();

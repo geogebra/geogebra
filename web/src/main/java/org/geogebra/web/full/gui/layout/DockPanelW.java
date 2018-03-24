@@ -1171,6 +1171,9 @@ public abstract class DockPanelW extends ResizeComposite
 		this.embeddedDef = embeddedDef;
 	}
 
+	/**
+	 * @return psosition in the UI tree of the splitpanes
+	 */
 	public String getEmbeddedDef() {
 		return embeddedDef;
 	}
@@ -1572,6 +1575,9 @@ public abstract class DockPanelW extends ResizeComposite
 		return GuiResources.INSTANCE.dockbar_triangle_left();
 	}
 
+	/**
+	 * @return image for stylebar toggle
+	 */
 	protected abstract ResourcePrototype getViewIcon();
 
 	/**
@@ -1617,10 +1623,22 @@ public abstract class DockPanelW extends ResizeComposite
 		return ImageFactory.getPerspectiveResources();
 	}
 
+	/**
+	 * Add mode to toolbar definition.
+	 * 
+	 * @param mode
+	 *            app mode
+	 */
 	public void addToToolbar(int mode) {
 		this.toolbarString = ToolBar.addMode(toolbarString, mode);
 	}
 
+	/**
+	 * Show/hide close button.
+	 * 
+	 * @param isVisible
+	 *            whether to show close button
+	 */
 	public void setCloseButtonVisible(boolean isVisible) {
 		if (closeButtonPanel == null) {
 			return;
@@ -1670,35 +1688,52 @@ public abstract class DockPanelW extends ResizeComposite
 		}
 	}
 
+	/**
+	 * @return keyboard listener
+	 */
 	public MathKeyboardListener getKeyboardListener() {
 		return null;
 	}
 
 	@Override
 	public void updateNavigationBar() {
-		// TODO Auto-generated method stub
+		// implemented in subclasses
 	}
 
+	/**
+	 * @return whether this is a view for plane
+	 */
 	public boolean hasPlane() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public int navHeight() {
+	/**
+	 * @return navigation bar height
+	 */
+	protected int navHeight() {
 		return 0;
 	}
 
+	/**
+	 * @return whether to use whole view width
+	 */
 	public boolean hasLongStyleBar() {
 		return longStyleBar;
 	}
 
+	/**
+	 * @param longStyleBar
+	 *            whether to use whole view width
+	 */
 	public void setLongStyleBar(boolean longStyleBar) {
 		this.longStyleBar = longStyleBar;
 	}
 
+	/**
+	 * @return whether navigation bar is shown here
+	 */
 	public int navHeightIfShown() {
 		return app.showConsProtNavigation(getViewId()) ? navHeight() : 0;
-
 	}
 
 	/**

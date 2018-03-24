@@ -128,6 +128,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 	}
 
+	/**
+	 * Initialize material panel
+	 */
 	protected void initMaterialListPanel() {
 		this.materialListPanel = new MaterialListPanel(app);
 		this.addResizeListener(this.materialListPanel);
@@ -201,6 +204,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 	}
 
+	/**
+	 * Add panels to this
+	 */
 	protected void addContent() {
 		initMaterialListPanel();
 		this.container.add(this.materialListPanel);
@@ -240,6 +246,10 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		this.materialListPanel.removeMaterial(mat);
 	}
 
+	/**
+	 * @param rl
+	 *            resize lsitener
+	 */
 	protected void addResizeListener(final ResizeListener rl) {
 		this.resizeListeners.add(rl);
 	}
@@ -269,6 +279,12 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	// super.setFrame(frame);
 	// }
 
+	/**
+	 * @param fileToHandle
+	 *            JS file object
+	 * @param callback
+	 *            callback after file is open
+	 */
 	public void openFile(final JavaScriptObject fileToHandle,
 	        final JavaScriptObject callback) {
 		if (app.getLAF().supportsLocalSave()) {
@@ -333,6 +349,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		this.materialListPanel.displaySearchResults(query);
 	}
 
+	/**
+	 * Update size to fit the app
+	 */
 	protected void updateViewSizes() {
 		resizeTo((int) app.getWidth(), (int) app.getHeight());
 	}
@@ -407,6 +426,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		return app;
 	}
 
+	/**
+	 * Show "Loading..." message
+	 */
 	public void showLoading() {
 		if (!app.isUnbundled()) {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
