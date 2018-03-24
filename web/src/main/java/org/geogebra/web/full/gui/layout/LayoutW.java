@@ -141,7 +141,6 @@ public class LayoutW extends Layout {
 		dockManager.applyPerspective(perspective.getSplitPaneData(),
 		        perspective.getDockPanelData());
 
-
 		app.setMacroViewIds(toolbar3D);
 		boolean linearInput = app.showAlgebraInput()
 				&& app.getInputPosition() != InputPosition.algebraView;
@@ -192,8 +191,7 @@ public class LayoutW extends Layout {
 			throw new IllegalArgumentException("Could not find perspective with the given name.");
 		}		
 	}
-	
-	
+
 	/**
 	 * Get all current perspectives as array.
 	 * 

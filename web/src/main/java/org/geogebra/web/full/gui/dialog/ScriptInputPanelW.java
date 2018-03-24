@@ -89,7 +89,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 		btPanel = new FlowPanel();
 		btPanel.setStyleName("optionsPanel");
 
-		
 		languageSelector = new ListBox();
 		for (ScriptType type : ScriptType.values()) {
 			languageSelector

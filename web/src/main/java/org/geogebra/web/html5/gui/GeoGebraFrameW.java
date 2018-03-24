@@ -55,6 +55,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/** Tab index for graphics */
 	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
 
+	private static final int LOGO_WIDTH = 427;
+
+	private static final int LOGO_HEIGHT = 120;
+
 	private static HashMap<String, AppW> articleMap = new HashMap<>();
 	/** Article element */
 	public ArticleElementInterface ae;
@@ -167,10 +171,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public void createSplash(ArticleElement articleElement) {
 
-		int splashWidth = 427;
-		int splashHeight = 120;
+		int splashWidth = LOGO_WIDTH;
+		int splashHeight = LOGO_HEIGHT;
 
-		// to not touch the DOM twice when computing widht and height
+		// to not touch the DOM twice when computing width and height
 		preProcessFitToSceen();
 
 		int width = computeWidth();
@@ -182,7 +186,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		 * has extra height: height += 57; }
 		 */
 
-		boolean showLogo = ((width >= splashWidth) && (height >= splashHeight));
+		boolean showLogo = ((width >= LOGO_WIDTH) && (height >= LOGO_HEIGHT));
 		splash = new SplashDialog(showLogo, articleElement, this);
 
 		if (splash.isPreviewExists()) {

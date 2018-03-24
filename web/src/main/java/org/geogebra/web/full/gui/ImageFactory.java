@@ -13,7 +13,6 @@ import com.google.gwt.core.shared.GWT;
 public class ImageFactory {
 	private static SvgPerspectiveResources pr;
 
-
 	/**
 	 * @return menu images
 	 */
@@ -22,7 +21,6 @@ public class ImageFactory {
 			pr = GWT.create(SvgPerspectiveResources.class);
 		}
 		return pr;
-
 	}
 
 }

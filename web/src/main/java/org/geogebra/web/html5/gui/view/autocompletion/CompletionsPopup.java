@@ -9,19 +9,33 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 
+/**
+ * Completions popup.
+ */
 public class CompletionsPopup extends MultiWordSuggestOracle {
 
 	private AutoCompleteW textField;
 
+	/**
+	 * New completions popup.
+	 */
 	public CompletionsPopup() {
 		super();
 		clear();
     }
 
+	/**
+	 * @param autoCompleteTextField
+	 *            textfield
+	 */
 	public void addTextField(AutoCompleteW autoCompleteTextField) {
 		this.textField = autoCompleteTextField;
     }
 
+	/**
+	 * @param history
+	 *            input history
+	 */
 	public void showHistoryCompletions(ArrayList<String> history) {
 		if (history != null) {
 			clear();

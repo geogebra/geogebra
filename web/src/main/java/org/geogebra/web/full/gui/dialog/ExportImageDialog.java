@@ -196,8 +196,6 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 					}
 				});
 			}
-
-
 		}
 	}
 

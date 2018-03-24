@@ -43,7 +43,6 @@ public abstract class StylePreview extends Composite {
 	 */
 	protected abstract void createPreviewGeo();
 
-
 	/**
 	 * Clears the preview.
 	 */

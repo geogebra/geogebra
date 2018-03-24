@@ -223,7 +223,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		final int BOTTOM_BIT = 3;
 		final int LEFT_BIT = 0;
 		final int RIGHT_BIT = 2;
-		
 
 		// correct order for borderWidth
 		// top right bottom left

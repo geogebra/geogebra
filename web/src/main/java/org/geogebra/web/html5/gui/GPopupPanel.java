@@ -479,7 +479,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		}
 	}
 
-
 	/**
 	 * Creates an empty popup panel. A child widget must be added to it before
 	 * it is shown.
@@ -1243,16 +1242,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 			}
 		}
 	}
-
-	/**
-	 * Sets the animation used to animate this popup. Used by gwt-incubator to
-	 * allow DropDownPanel to override the default popup animation. Not
-	 * protected because the exact API may change in gwt 1.6.
-	 *
-	 * @param animation
-	 *            the animation to use for this popup
-	 */
-
 
 	/**
 	 * Set the type of animation to use when opening and closing the popup.

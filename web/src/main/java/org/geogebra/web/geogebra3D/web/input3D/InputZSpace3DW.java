@@ -165,7 +165,6 @@ public class InputZSpace3DW extends Input3D {
 				pose.get(14),
 				inputPosition, inputDirection, inputOrientation);
 
-
 		updateOnScreenPosition();
 		
 		// Log.debug("hasStylusNotIntersectingPhysicalScreen = "
@@ -178,7 +177,6 @@ public class InputZSpace3DW extends Input3D {
 
 		updateMouse3DEvent();
 		handleButtons();
-
 
 		return true;
 	}

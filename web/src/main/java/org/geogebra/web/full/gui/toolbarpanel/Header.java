@@ -35,7 +35,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
-
 /**
  * header of toolbar
  *
@@ -87,7 +86,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		}
 	}
 
-	
 	/**
 	 * @param toolbarPanel
 	 *            - panel containing the toolbar
@@ -488,7 +486,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			undoRedoPanel.removeStyleName("hidden");
 		}
 	}
-
 
 	/**
 	 * Hide the entire undo/redo panel (eg. during animation).

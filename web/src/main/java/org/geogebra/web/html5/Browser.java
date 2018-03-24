@@ -206,6 +206,9 @@ public class Browser {
 		return "https://" + url;
 	}
 
+	/**
+	 * @return whether WebGL is supported
+	 */
 	public static boolean supportsWebGL() {
 		if (webglSupported == null) {
 			webglSupported = supportsWebGLNative();

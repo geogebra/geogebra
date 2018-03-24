@@ -157,8 +157,6 @@ public class ProbabilityCalculatorStyleBarW extends
 				roundingPopup);
 	    
 	    updateMenuDecimalPlaces(roundingPopup);
-	    
-	    
     }
 	
 	/**
@@ -219,11 +217,8 @@ public class ProbabilityCalculatorStyleBarW extends
 				}
 				mi.addValueChangeHandler(al);
 				menu.addItem(mi);
-				
-				
 			}
 		}
-	    
     }
 
 	/**

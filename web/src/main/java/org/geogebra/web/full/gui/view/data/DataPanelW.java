@@ -84,13 +84,11 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	private void createGUI() {
+		lblHeader = new Label();
+		add(lblHeader);
+
 		scrollPane = new ScrollPanel();
 		scrollPane.add(dataTable);
-
-		
-		lblHeader = new Label();
-
-		add(lblHeader);
 		add(scrollPane);
 		setLabels();
 	}
@@ -136,7 +134,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 							StringTemplate.defaultTemplate), row + 1, 1);
 		}
 
-		
 		dataTable.getTable().setWidget(0, 0, cbEnableAll);
 		dataTable.setValueAt(titles[0], 0, 1);
 

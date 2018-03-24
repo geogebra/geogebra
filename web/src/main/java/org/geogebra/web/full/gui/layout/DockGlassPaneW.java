@@ -67,12 +67,10 @@ public class DockGlassPaneW extends AbsolutePanel
 		        .setBorderStyle(Style.BorderStyle.SOLID);
 		previewPanel.getElement().getStyle().setBorderColor("gray");
 
-
 		previewPanel.setVisible(false);
 		add(previewPanel);
 
 		this.getElement().getStyle().setZIndex(5000);
-
 	}
 	
 	public void setArticleElement(ArticleElementInterface ae) {

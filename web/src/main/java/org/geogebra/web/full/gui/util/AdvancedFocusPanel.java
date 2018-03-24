@@ -47,7 +47,6 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 			getContainerElement().setTabIndex(1);
 		}
 
-
 		// as the setWidget call happens later, we shall accept
 		// that focusTextarea will actually be the first child
 		// of the AdvancedFocusPanel... but it's not trivial
@@ -57,11 +56,15 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 
 	}
 
-	public AdvancedFocusPanel(Widget w) {
+	/**
+	 * Create new focus panel and set its wrapped widget.
+	 * 
+	 * @param widget
+	 *            wrapped widget
+	 */
+	public AdvancedFocusPanel(Widget widget) {
 		this();
-		// "widget" constructor is just adding a call
-		// of setWidget, there is no better idea!
-		setWidget(w);
+		setWidget(widget);
 	}
 
 	/**
@@ -80,6 +83,9 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 		}
 	}
 
+	/**
+	 * @return textarea for focus events
+	 */
 	public Element getTextarea() {
 		return focusTextarea;
 	}

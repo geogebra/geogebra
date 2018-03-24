@@ -166,12 +166,9 @@ public class PropertiesStyleBarW extends
 				btn.setTitle(propertiesView.getTypeString(type));
 				toolbar.addItem(btn);
 				buttonMap.put(type, btn);
-
-
 			}
 		}
-			this.getWrappedPanel().add(toolbar);
-	    
+		this.getWrappedPanel().add(toolbar);
     }
 	
 	/**

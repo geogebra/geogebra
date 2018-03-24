@@ -122,9 +122,7 @@ public class ContextMenuPopup extends MyCJButton
 					.setIcon(MaterialDesignResources.INSTANCE.more_vert_black(),
 							this);
 		}
-
 	}
-
 
 	/**
 	 * show the menu

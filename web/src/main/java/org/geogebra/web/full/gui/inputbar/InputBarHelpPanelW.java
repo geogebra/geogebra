@@ -450,7 +450,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		String syntaxBasic = loc.getCommandSyntax(cmd);
 
-
 		if (loc.isCASCommand(cmd)) {
 
 			if (!syntaxBasic.equals(cmd + Localization.syntaxStr)) {
@@ -469,7 +468,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 				formattedHTMLString(ret, syntaxCAS, true);
 			}
 		} else {
-
 			formattedHTMLString(ret, syntaxBasic, false);
 		}
 

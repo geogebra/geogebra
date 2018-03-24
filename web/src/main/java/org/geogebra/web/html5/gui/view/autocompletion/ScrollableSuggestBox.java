@@ -38,7 +38,6 @@ public class ScrollableSuggestBox extends GSuggestBox {
 		}
 	}
 
-
 	/**
 	 * Constructor for ScrollableSuggestBox
 	 * @param oracle supplies suggestions based upon the current contents of the text widget

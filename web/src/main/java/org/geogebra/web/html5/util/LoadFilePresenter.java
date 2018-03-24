@@ -25,7 +25,6 @@ public class LoadFilePresenter {
 	// NB this needs to be adjusted in app-release if we change it here
 	private static final int MIN_SIZE_FOR_PICKER = 650;
 
-
 	/**
 	 * Run applet for current view
 	 * 

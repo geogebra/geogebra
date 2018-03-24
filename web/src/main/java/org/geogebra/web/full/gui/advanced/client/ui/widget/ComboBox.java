@@ -77,7 +77,6 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 		implements HasAllFocusHandlers, HasAllKeyHandlers, HasClickHandlers,
 		ListModelListener, HasChangeHandlers, HasCloseHandlers<GPopupPanel> {
 
-
 	/** a combo box data model */
 	private ListDataModel model;
 	/** a list item factory */

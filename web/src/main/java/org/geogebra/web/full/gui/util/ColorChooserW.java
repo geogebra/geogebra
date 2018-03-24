@@ -805,15 +805,25 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		this.changeHandler = handler;
 	}
 
+	/**
+	 * @return alpha value
+	 */
 	public double getAlphaValue() {
 		return opacityPanel.getAlphaValue();
 	}
 
+	/**
+	 * @param alpha
+	 *            alpha value
+	 */
 	public void setAlphaValue(double alpha) {
 		opacityPanel.setAlpaValue(alpha);
-
 	}
 
+	/**
+	 * @param enabled
+	 *            whether to enable color panel
+	 */
 	public void enableColorPanel(boolean enabled) {
 		canvas.setVisible(enabled);
 		previewPanel.setVisible(enabled);
@@ -824,6 +834,10 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		opacityPanel.setVisible(enabled);
 	}
 
+	/**
+	 * @param enable
+	 *            whether to enable background color panel
+	 */
 	public void enableBackgroundColorPanel(boolean enable) {
 		backgroundColorPanel.setVisible(enable);
 		// if (!enable) {
@@ -832,11 +846,13 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 
 	public boolean isBackgroundColorSelected() {
-
 		return backgroundColorPanel.isVisible()
 				&& backgroundColorPanel.backgroundButton.getValue();
 	}
 
+	/**
+	 * Show custom color dialog.
+	 */
 	void showCustomColorDialog() {
 		app.setWaitCursor();
 		if (dialog == null) {
@@ -868,10 +884,17 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		});
 	}
 
+	/**
+	 * @return whether this is for a barchart
+	 */
 	public boolean isBarChart() {
 		return algoBarChart != null;
 	}
 
+	/**
+	 * @param algo
+	 *            barchart
+	 */
 	public void setAlgoBarChart(AlgoBarChart algo) {
 		algoBarChart = algo;
 		if (algo != null) {

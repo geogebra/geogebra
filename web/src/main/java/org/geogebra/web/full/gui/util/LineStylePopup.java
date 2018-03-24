@@ -124,5 +124,3 @@ public class LineStylePopup extends PopupMenuButtonW  {
 		return val == -1 ? DEFAULT_SIZE : val;
 	}
 }
-
-

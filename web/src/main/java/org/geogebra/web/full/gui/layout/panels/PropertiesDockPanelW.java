@@ -76,8 +76,6 @@ public class PropertiesDockPanelW extends DockPanelW {
 		if (view != null) {
 			view.updateAVvisible(visible);
 		}
-
-
 	}
 
 	@Override

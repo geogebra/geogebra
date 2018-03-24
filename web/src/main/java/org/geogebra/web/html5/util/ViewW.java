@@ -189,8 +189,7 @@ public class ViewW {
       
       $wnd.zip.createReader(ggbReader,readerCallback, errorCallback);
        
-       
-      }-*/;
+    }-*/;
 
 	/**
 	 * Handle file loading error

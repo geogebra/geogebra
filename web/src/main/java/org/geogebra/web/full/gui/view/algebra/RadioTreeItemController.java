@@ -87,6 +87,12 @@ public class RadioTreeItemController implements ClickHandler,
 	private int editHeigth;
 	private boolean inputAsText = false;
 
+	/**
+	 * Creates controller for given item.
+	 * 
+	 * @param item
+	 *            AV item
+	 */
 	public RadioTreeItemController(RadioTreeItem item) {
 		this.item = item;
 		this.app = item.app;
@@ -483,6 +489,9 @@ public class RadioTreeItemController implements ClickHandler,
 		}
 	}
 
+	/**
+	 * Stop editing.
+	 */
 	public void stopEdit() {
 		if (!editing) {
 			return;
@@ -495,7 +504,6 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	private void editOnTap(boolean active, MouseEvent<?> event) {
-
 		editOnTap(active,
 				PointerEvent.wrapEventAbsolute(event, ZeroOffset.INSTANCE));
 	}
@@ -513,7 +521,6 @@ public class RadioTreeItemController implements ClickHandler,
 			if (active) {
 				stopEdit();
 			}
-
 		}
 
 		if (enable && (!active || item.isInputTreeItem())) {
@@ -547,7 +554,6 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	private void onRightClick(int x, int y) {
-
 		if (!app.isRightClickEnabledForAV()) {
 			return;
 		}

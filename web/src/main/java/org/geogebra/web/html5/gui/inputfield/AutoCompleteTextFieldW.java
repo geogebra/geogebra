@@ -1540,6 +1540,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return text;
 	}
 
+	/**
+	 * @param withDummyCursor
+	 *            whether to include dummy cursor
+	 * @return input text
+	 */
 	public String getText(boolean withDummyCursor) {
 		if (withDummyCursor) {
 			return textField.getText();
@@ -1552,6 +1557,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.getValueBox().setText(s);
 	}
 
+	/**
+	 * @return wrapped input element
+	 */
 	public FocusWidget getTextBox() {
 		return textField.getValueBox();
 	}
@@ -1567,6 +1575,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		showSymbolButton.setDown(toggled);
 	}
 
+	/**
+	 * @return input with suggestions
+	 */
 	public GSuggestBox getTextField() {
 		return textField;
 	}
@@ -1703,6 +1714,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return textField.getValueBox().addKeyUpHandler(handler);
 	}
 
+	/**
+	 * @param width
+	 *            pixel width
+	 */
 	public void setWidth(int width) {
 		if (width > 0) {
 			textField.setWidth(width + "px");
@@ -1719,6 +1734,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	/**
 	 * @param handler
 	 *            Adds a focus handler to the wrapped textfield.
+	 * @return reference to the handler
 	 */
 	public HandlerRegistration addFocusHandler(FocusHandler handler) {
 		return textField.getValueBox().addFocusHandler(handler);
@@ -1761,6 +1777,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		FieldHandler.focusGained(this, app);
 	}
 
+	/**
+	 * Handle blur.
+	 */
 	protected void fieldBlur() {
 		FieldHandler.focusLost(this, app);
 	}

@@ -2,22 +2,22 @@ package org.geogebra.web.html5.gui.util;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
+/**
+ * Collection of widgets, only one is shown
+ *
+ */
 public class CardPanel extends FlowPanel {
-	private int selectedIndex;
 
-	public CardPanel() {
-		selectedIndex = 0;
-	}
-
-	public int getSelectedIndex() {
-		return selectedIndex;
-	}
-
+	/**
+	 * Show only selected card.
+	 * 
+	 * @param idx
+	 *            selected index
+	 */
 	public void setSelectedIndex(int idx) {
 		for (int i = 0; i < getWidgetCount(); i++) {
 			getWidget(i).setVisible(i == idx);
 		}
-		selectedIndex = idx;
 	}
 
 }

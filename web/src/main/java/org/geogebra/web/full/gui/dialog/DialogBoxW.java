@@ -29,8 +29,6 @@ public class DialogBoxW extends GDialogBox {
 	
 	private ErrorHandler eh;
 	FastButton cancelButton;
-	//private boolean hasOverlapFeature;
-
 
 	/**
 	 * creates a {@link DialogBox}
@@ -79,7 +77,6 @@ public class DialogBoxW extends GDialogBox {
 		}
 	}
 
-	
 	/**
 	 * add resizeHandler to center the dialog
 	 */

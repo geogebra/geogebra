@@ -422,8 +422,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 
 		editGeo = geo;
 		editor.setEditGeo(geo);
-		
-		
+
 		//isLaTeX = geo == null ? false : geo.isLaTeX();
 				
 		inputPanel.getTextAreaComponent().setText(geo);
@@ -438,7 +437,6 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 //		handlingDocumentEventOff = false;
 //		updatePreviewText();
 //		editOccurred = false;
-		
 	}
 	
 	@Override

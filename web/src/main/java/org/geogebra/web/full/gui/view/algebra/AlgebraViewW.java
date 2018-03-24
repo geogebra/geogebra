@@ -65,7 +65,6 @@ import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
-
 /**
  * HTML5 version of AV
  *
@@ -654,7 +653,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// auxilliary objects
 		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
 
-
 		// collapsed nodes
 		if (collapsedNodes == null) {
 			return;
@@ -984,9 +982,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		group.getElement().getStyle().setFontSize(app.getFontSizeWeb(),
 				Unit.PX);
 		ti.setWidget(group);
-
 	}
-
 
 	/**
 	 * Remove this node and prune empty branches
@@ -1543,7 +1539,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
 			}
 		}
-
 
 		if (app.showView(App.VIEW_ALGEBRA) && !isToolMode()) {
 			if (forceKeyboard) {
@@ -2215,7 +2210,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
-
 		final int w = width;
 
 		splitPane.setWidgetSize(avDockPanel.asWidget(), w);
@@ -2260,7 +2254,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		return (AlgebraPanelInterface) app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
-
 
 	/**
 	 * @return whether active element is the input row
@@ -2328,7 +2321,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				* PerspectiveDecoder.landscapeRatio(app, app.getWidth()));
 	}
 
-
 	/**
 	 * Focus the first AV item.
 	 */
@@ -2336,7 +2328,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (inputPanelLatex != null) {
 			inputPanelLatex.focus();
 		}
-
 	}
 
 	/**

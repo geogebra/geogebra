@@ -3833,10 +3833,16 @@ public abstract class AppW extends App implements SetLabels {
 				: getPageController().getSlideID();
 	}
 
+	/**
+	 * @return whether native clipboard API is available
+	 */
 	public boolean isCopyImageToClipboardAvailable() {
 		return false;
 	}
 
+	/**
+	 * @return zip file handler
+	 */
 	public ViewW getViewW() {
 		if (viewW == null) {
 			viewW = new ViewW(this);

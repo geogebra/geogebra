@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.browser.SignInButton;
 
-
 /**
  * @author geogebra
  * Look and Feel for SMART

@@ -4,7 +4,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.Command;
 
-
 /**
  * Command that also closes the menu
  */

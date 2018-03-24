@@ -52,7 +52,6 @@ public class MOWPointStyleButton extends PointStylePopup {
 		panel.add(getMyTable());
 		panel.add(sliderPanel);
 
-
 		canvas = Canvas.createIfSupported();
 		canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
 		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
@@ -71,7 +70,6 @@ public class MOWPointStyleButton extends PointStylePopup {
 		drawPoint = new DrawPoint(app.getActiveEuclidianView(), p);
 		p.setEuclidianVisible(true);
 	}
-
 
 	/**
 	 * 

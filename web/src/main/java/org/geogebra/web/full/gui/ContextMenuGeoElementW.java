@@ -110,9 +110,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		this.setGeos(geos);
 		setGeo(geos.get(0));
 
-
 		String title;
-
 		if (geos.size() == 1) {
 			title = getDescription(getGeo(), false);
 		} else {

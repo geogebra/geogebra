@@ -311,12 +311,9 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 	private void updateGUI() {
 		coModel.update();
-		
+
 		int idx = coModel.getOptionType();
-
 		cards.setSelectedIndex(idx);
-
-
 	}
 
 	@Override
@@ -465,7 +462,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 		// }
 
 		setLabels();
-
 
 		FlowPanel mainPanel = new FlowPanel();
 		mainPanel.addStyleName("Dialog-content");

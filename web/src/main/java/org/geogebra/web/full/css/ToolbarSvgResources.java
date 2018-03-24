@@ -409,7 +409,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_twovarstats_32();
 
-
 	// 3D
 
 	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_circleaxispoint.svg")
@@ -543,7 +542,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser_black.svg")
 	SVGResource mode_eraser_32();
-
 
 	// Whiteboard
 

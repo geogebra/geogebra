@@ -240,7 +240,6 @@ public class ExamEnvironmentW extends ExamEnvironment {
         }
     }
 
-
     /**
      * this method is called through js (see exportGeoGebraAndroidMethods())
      */
@@ -310,7 +309,6 @@ public class ExamEnvironmentW extends ExamEnvironment {
             }
         }
     }
-
 
 	/**
 	 * Callback for screen going on

@@ -112,7 +112,6 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 					}
 				});
 
-
 				buttons.add(btn);
 			}
 		}

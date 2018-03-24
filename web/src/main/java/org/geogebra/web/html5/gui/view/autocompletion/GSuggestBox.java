@@ -832,7 +832,6 @@ public class GSuggestBox extends Composite
 		legacy.setSource(this);
 	}
 
-
 	/**
 	 * Adds a listener to receive focus events on the SuggestBox's text box. The
 	 * source Widget for these events will be the SuggestBox.

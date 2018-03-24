@@ -227,7 +227,6 @@ public class RowHeaderPopupMenuW extends
 			}
 		}
 
-
 		if (undoNeeded) {
 			// store undo info
 			table.getApplication().storeUndoInfo();

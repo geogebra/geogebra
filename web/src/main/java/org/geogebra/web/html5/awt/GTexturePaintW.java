@@ -6,8 +6,14 @@ import org.geogebra.web.html5.gawt.GBufferedImageW;
 public class GTexturePaintW implements GPaint {
 
 	// GRectangleW anchor = null;
-	GBufferedImageW bi;
+	private GBufferedImageW bi;
 
+	/**
+	 * Copy constructor
+	 * 
+	 * @param tp
+	 *            texture
+	 */
 	public GTexturePaintW(GTexturePaintW tp) {
 		// this.anchor = new GRectangleW();
 		// this.anchor.setRect(tp.anchor.getX(), tp.anchor.getY(),
@@ -15,11 +21,18 @@ public class GTexturePaintW implements GPaint {
 		this.bi = tp.bi; // TODO do we need clone deep?
 	}
 
-	public GTexturePaintW(GBufferedImageW subImage) {
-		this.bi = subImage;
+	/**
+	 * @param image
+	 *            image
+	 */
+	public GTexturePaintW(GBufferedImageW image) {
+		this.bi = image;
 		// anchor = rect;
 	}
 
+	/**
+	 * @return wrapped image
+	 */
 	public GBufferedImageW getImg() {
 		return bi;
 	}

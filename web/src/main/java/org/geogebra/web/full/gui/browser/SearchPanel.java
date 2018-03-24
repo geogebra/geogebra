@@ -107,7 +107,6 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		this.add(searchButton);
 		this.add(this.query);
 		this.add(this.cancelButton);
-		
 
 		if (this.op != null) {
 			this.op.getView().add(this);

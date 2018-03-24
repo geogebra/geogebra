@@ -135,9 +135,7 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		sliderContent.add(content);
 
 		sliderContent.add(LayoutUtilW.panelRow(sliderPanel, minMaxPanel));
-
 	}
-
 
 	/**
 	 * resize slider to fit to the panel in a deferred way.
@@ -261,8 +259,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 			}
 		}
 		super.selectItem(selected);
-
-
 	}
 
 	@Override

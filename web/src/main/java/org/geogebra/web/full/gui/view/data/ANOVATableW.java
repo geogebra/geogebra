@@ -5,10 +5,19 @@ import org.geogebra.common.gui.view.data.ANOVAStatTableModel.AnovaStats;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.web.html5.main.AppW;
 
+/**
+ * ANOVA table for Web
+ */
 public class ANOVATableW extends BasicStatTableW {
 	private static final int ROW_COUNT = 3;
 	private static final int COLUMN_COUNT = 6;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param statDialog
+	 *            stats dialog
+	 */
 	public ANOVATableW(AppW app, DataAnalysisViewW statDialog) {
 		super(app, statDialog, false);
 		setModel(new ANOVAStatTableModel(app, this));

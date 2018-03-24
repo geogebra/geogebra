@@ -33,7 +33,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 
-
 /**
  * Table popup for selecting properties of objects
  *
@@ -121,7 +120,6 @@ public class PopupMenuButtonW extends MyCJButton
 				lineStyleMap0, isBorderTeal);
 	}
 
-	
 	/**
 	 * @param app
 	 *            {@link AppW}
@@ -221,7 +219,6 @@ public class PopupMenuButtonW extends MyCJButton
 		}
 		isIniting = false;
 	}
-
 
 	/**
 	 * creates a new {@link ButtonPopupMenu}

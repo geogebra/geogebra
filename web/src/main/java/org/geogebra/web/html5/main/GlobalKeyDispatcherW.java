@@ -54,7 +54,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	private static boolean isHandlingTab;
 
-
 	/**
 	 * @return whether ctrl is pressed
 	 */
@@ -397,7 +396,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		// we have keypress here only
 		// do this only, if we really have focus
-
 
 		if (inFocus) {
 			handleKeyPressed(event);

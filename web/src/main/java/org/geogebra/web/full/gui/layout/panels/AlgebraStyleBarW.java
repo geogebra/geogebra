@@ -221,8 +221,6 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 
 					descriptionButton.setSelectedIndex(
 								AlgebraSettings.indexOfStyleMode(selectedMode));
-
-
 				}
 			});
 
@@ -234,7 +232,6 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 
 					app.getKernel().setAlgebraStyle(
 								AlgebraSettings.getStyleModeAt(i));
-
 
 					if (app.getGuiManager().hasPropertiesView()) {
 						app.getGuiManager().getPropertiesView().repaintView();

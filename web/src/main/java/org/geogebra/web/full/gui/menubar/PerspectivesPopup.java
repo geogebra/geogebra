@@ -86,7 +86,6 @@ public class PerspectivesPopup {
 		addPerspective(2, pr.menu_icon_spreadsheet24());
 		addPerspective(5, pr.menu_icon_probability24());
 
-
 		// add exam mode
 		if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
 			HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam24(),

@@ -60,7 +60,6 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	 */
 	public static final int LHEIGHT = 900;
 
-
 	/**
 	 * @param appl
 	 *            application
@@ -105,7 +104,6 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		// m_cbView.addItem(loc.getMenu(viewName), viewID + "");
 		// }
 		// });
-
 
 		// We can print EVs yet
 		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
@@ -209,13 +207,11 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 				}
 			}
 
-			
 			NodeList<Element> pw = Dom.getElementsByClassName("printableView");
 			if (pw.getLength() != 0) {
 				pw.getItem(0).removeClassName("printableView");
 			}
 		}
-
 	}
 
 	private void addScalePanelOrCreatePreview() {

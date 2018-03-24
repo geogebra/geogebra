@@ -2,7 +2,6 @@ package org.geogebra.web.html5.util;
 
 import org.geogebra.common.util.NumberFormatAdapter;
 
-
 /**
  * @author gabor@geogebra.org
  *

@@ -200,8 +200,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		// test if the transfer string is the same as the internal cell copy
 		// string. If true, then we have a tab-delimited list of cell geos and
 		// can paste them with relative cell references
-		
-		
+
 		boolean doInternalPaste = getCellBufferStr() != null
 				&& transferString.equals(getCellBufferStr().toString());
 	

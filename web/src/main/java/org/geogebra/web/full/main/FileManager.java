@@ -50,7 +50,6 @@ public abstract class FileManager extends MaterialsManager {
 	public abstract void saveFile(String base64, long modified,
 	        final SaveCallback cb);
 
-
 	/**
 	 * @param materialFilter
 	 *            filter

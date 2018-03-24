@@ -189,7 +189,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			return;
 		}
 
-
 		pointerIsDown = true;
 
 		if (editor.isEditing()) {
@@ -579,8 +578,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 						int colOffset = getColOffset(mouseX, selRect);
 
 						// get column distance
-
-
 						if (rowOffset == 0 && colOffset == 0) {
 							table.draggingToColumn = -1;
 							table.draggingToRow = -1;

@@ -224,7 +224,6 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 	}
 
-	
 	// ============================================================
 	// Updates and Event Handlers
 	// ============================================================

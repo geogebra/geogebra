@@ -103,7 +103,6 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		pToolHelp.add(labelToolHelp);
 		pToolHelp.add(tfToolHelp);
 
-
 		tfCmdName.addBlurHandler(this);
 		tfCmdName.addKeyUpHandler(this);
 

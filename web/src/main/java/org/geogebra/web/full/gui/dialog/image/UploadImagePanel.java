@@ -27,8 +27,7 @@ public class UploadImagePanel extends VerticalPanel {
 
 	private UploadImageDialog dialog;
 	private UploadImageWithoutDialog uploadImageWithoutDialog;
-	
-	
+
 	/**
 	 * @param uploadImageDialog
 	 *            dialog containing image upload panel

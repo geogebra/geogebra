@@ -18,7 +18,6 @@ public class LineStylePreview extends StylePreview {
 	private GeoLine line;
 	private DrawLine drawLine;
 
-
 	/**
 	 * @param app
 	 *            application

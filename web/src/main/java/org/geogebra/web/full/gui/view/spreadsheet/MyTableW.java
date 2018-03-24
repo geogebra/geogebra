@@ -177,7 +177,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private FlowPanel rowHeaderContainer;
 
-
 	// special panels for editing and selection
 	private SimplePanel selectionFrame;
 	private SimplePanel dragFrame;
@@ -235,7 +234,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			ssGrid.getColumnFormatter().getElement(i).getStyle()
 			        .setWidth(preferredColumnWidth, Style.Unit.PX);
 		}
-
 
 		// add cell renderer & editors
 		defaultTableCellRenderer = new MyCellRendererW(app, view, this,
@@ -1713,7 +1711,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					// if there is no in the SV yet
 					app.showKeyboard(w, false);
 				}
-
 
 				// set height and position of the editor
 				int editorHeight = ssGrid.getCellFormatter()

@@ -1095,11 +1095,17 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 	}
 
+	/**
+	 * Update objects that depend on pixel ratio (e.g. for LaTex rendered in
+	 * cells).
+	 * 
+	 * @param ratio
+	 *            CSS pixel ratio
+	 */
 	public void setPixelRatio(double ratio) {
 		if (this.table != null) {
 			table.setPixelRatio(ratio);
 		}
-
 	}
 
 	@Override

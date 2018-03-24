@@ -118,6 +118,11 @@ public class GridModel {
 		return result == null ? "" : result.toString();
 	}
 
+	/**
+	 * @param col
+	 *            column
+	 * @return column's header
+	 */
 	public String getHeader(int col) {
 		if (col < getColumnCount())  {
 			return headers.get(col);
@@ -125,11 +130,18 @@ public class GridModel {
 		return "";
 	}
 
+	/**
+	 * Clear the model and UI.
+	 */
 	public void removeAll() {
 		data.clear();
 		listener.removeAllRows();
 	}
 
+	/**
+	 * @param row
+	 *            row data
+	 */
 	public void addRow(List<DataCell> row) {
 		// Log.debug("[GRIDMODEL] addRow(" + row + ")");
 		data.add(row);

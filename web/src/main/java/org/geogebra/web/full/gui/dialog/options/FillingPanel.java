@@ -548,8 +548,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			}
 		}
 		setSymbolsVisible(false);
-
-
 	}
 
 	@Override

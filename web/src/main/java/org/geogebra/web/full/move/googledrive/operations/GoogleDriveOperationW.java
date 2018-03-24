@@ -92,7 +92,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		return getModel().getUserName();
 	}
 
-
 	/**
 	 * Go for the google drive url, and fetch the script
 	 */

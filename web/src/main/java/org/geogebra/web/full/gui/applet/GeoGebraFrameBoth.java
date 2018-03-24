@@ -350,7 +350,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			toolbarPanel.hideMoveFloatingButton();
 		}
 
-
 		keyBoard.prepareShow(animated);
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			app.addAsAutoHidePartnerForPopups(keyBoard.asWidget().getElement());

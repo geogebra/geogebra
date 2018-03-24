@@ -289,9 +289,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 			return 320;
 
 		case StatisticsModel.INFER_ANOVA:
-
 			return 200 + rows * 20;
-
 
 		default:
 			return 70 + rows * 20;

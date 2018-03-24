@@ -329,7 +329,6 @@ public class AxisPanel extends FlowPanel
 		cbAllowSelection.setText(loc.getMenu("SelectionAllowed"));
 	}
 
-
 	//
 	// public void updateFont() {
 	// Font font = app.getPlainFont();

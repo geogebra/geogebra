@@ -73,8 +73,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 		        .getFontSize());
 		GFont textFont = getApp().getFontCommon(serif, previewGeo.getFontStyle(),
 		        size);
-		
-		
+
 		GRectangle rect = AwtFactory.getPrototype().newRectangle();
 		if (isLatex) {
 		

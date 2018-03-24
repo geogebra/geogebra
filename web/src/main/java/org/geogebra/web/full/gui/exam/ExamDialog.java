@@ -162,7 +162,6 @@ public class ExamDialog {
 			}
 		}
 
-
 		if (runsOnAndroid()) {
 			startExamForAndroidWebview(mainWidget);
 		} else {
@@ -176,10 +175,8 @@ public class ExamDialog {
 			});
 		}
 
-
 		mainWidget.add(btnPanel);
 		box.setWidget(mainWidget);
-
 
 		if ((app.getArticleElement().hasDataParamEnableGraphing())) {
 			btnOk.addStyleName("ExamTabletStartButton");
@@ -188,7 +185,6 @@ public class ExamDialog {
 			@Override
 			public void run() {
 				box.center();
-
 			}
 		});
 

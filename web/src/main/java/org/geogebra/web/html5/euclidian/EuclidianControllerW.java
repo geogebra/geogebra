@@ -319,7 +319,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.setComboboxFocused(flag);
 	}
 
-
 	/**
 	 * @return the multiplier that must be used to multiply the native event
 	 *         coordinates

@@ -61,9 +61,6 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 		this.setOpenInFrame(true);
 
 		this.setEmbeddedSize(DEFAULT_WIDTH);
-
-
-		// this.app = app;
 	}
 
 	@Override

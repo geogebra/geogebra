@@ -85,12 +85,36 @@ public class GCheckBoxMenuItem {
 		}
 	}
 
+	/**
+	 * @param text
+	 *            label
+	 * @param cmd
+	 *            callback
+	 * @param isHtml
+	 *            whether to use text as HTML
+	 * @param app
+	 *            app
+	 */
 	public GCheckBoxMenuItem(String text, final ScheduledCommand cmd,
 			boolean isHtml, App app) {
 		this(text, isHtml, app);
 		setCommand(cmd);
 	}
 
+	/**
+	 * @param text
+	 *            label
+	 * @param textSel
+	 *            label override if item is selected
+	 * @param textNonSel
+	 *            label override if item is not selected
+	 * @param cmd
+	 *            callback
+	 * @param isHtml
+	 *            whether to use text as HTML
+	 * @param app
+	 *            app
+	 */
 	public GCheckBoxMenuItem(String text, String textSel, String textNonSel,
 			final ScheduledCommand cmd, boolean isHtml, App app) {
 		this(text, isHtml, app);
@@ -149,10 +173,10 @@ public class GCheckBoxMenuItem {
 		itemPanel.add(w);
 	}
 
-	public boolean isForceCheckbox() {
-		return forceCheckbox;
-	}
-
+	/**
+	 * @param forceCheckbox
+	 *            whether this is a checkbox rather than toggle menu item
+	 */
 	public void setForceCheckbox(boolean forceCheckbox) {
 		this.forceCheckbox = forceCheckbox;
 		checkBox.setVisible(!isToggleMenu());

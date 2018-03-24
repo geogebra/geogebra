@@ -340,11 +340,8 @@ public final class ToolTipManagerW {
 				} else {
 					bottomInfoTipPanel.getElement().getStyle().clearTop();
 
-					if (!lastTipVisible
-							&& link != null) {
+					if (!lastTipVisible && link != null) {
 						animateIn(appw);
-
-
 					} else {
 						bottomInfoTipPanel.getElement().getStyle().setBottom(0, Unit.PX);
 					}

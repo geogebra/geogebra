@@ -45,7 +45,6 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.himamis.retex.editor.share.util.Unicode;
 
-
 /**
  * Web dialog for slider creation
  */
@@ -95,8 +94,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		
 		// create temp geos that may be returned as result
 		Construction cons = app.getKernel().getConstruction();
-		
-		
+
 		number = new GeoNumeric(cons);
 		angle = new GeoAngle(cons);
 		

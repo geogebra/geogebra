@@ -43,8 +43,6 @@ public class CASComponentW extends ScrollPanel implements ScrollHandler,
 				&& event.getTypeInt() == Event.ONTOUCHEND && scrollHappened) {
 					event.cancel();
 					scrollHappened = false;
-
-
 		}
 	}
 

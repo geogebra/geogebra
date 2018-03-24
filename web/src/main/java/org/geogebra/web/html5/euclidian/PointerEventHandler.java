@@ -273,7 +273,6 @@ public class PointerEventHandler {
 							if (e.pointerType == 2 || e.pointerType == "touch") {
 								zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::startLongTouch(II)($wnd.first.x, $wnd.first.y);
 							}
-							
 
 						});
 		function removePointer(out, stopPropagation){

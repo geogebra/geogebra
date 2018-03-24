@@ -149,26 +149,21 @@ public class CASTableControllerW extends CASTableCellController implements
 			}
 		} else if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
 			// in theory, checkHeaderClick(event) is already false here...
-
-				// only do this action when supported
-
-					// only makes sense for mouse events yet
-					// TODO: add this functionality to touch events,
-					// maybe override onPointerUp??
-
+			// only do this action when supported
+			// only makes sense for mouse events yet
+			// TODO: add this functionality to touch events,
+			// maybe override onPointerUp??
 
 			if (!table.isSelectedIndex(point.y)) {
 				table.setSelectedRows(point.y, point.y);
 			}
 
-					// CASTableCellEditor tableCellEditor = table.getEditor();
-					RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app
-					.getGuiManager()).getCASContextMenu(table);
-					popupMenu.show(new GPoint(event.getClientX()
-							+ Window.getScrollLeft(), event.getClientY()
-							+ Window.getScrollTop()));
-
-
+			// CASTableCellEditor tableCellEditor = table.getEditor();
+			RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app.getGuiManager())
+					.getCASContextMenu(table);
+			popupMenu.show(
+					new GPoint(event.getClientX() + Window.getScrollLeft(),
+							event.getClientY() + Window.getScrollTop()));
 		} else {
 			onPointerUp(event);
 		}
@@ -410,7 +405,6 @@ public class CASTableControllerW extends CASTableCellController implements
 				        .getOutputRHS(StringTemplate.defaultTemplate) + " ");
 			return true;
 
-
 		case ')':
 			// insert output of previous row in parentheses
 
@@ -420,7 +414,6 @@ public class CASTableControllerW extends CASTableCellController implements
 				        .getOutputRHS(StringTemplate.defaultTemplate);
 				editor.setInput("(" + prevOutput + ")");
 			return true;
-
 
 		case '=':
 			// insert input of previous row

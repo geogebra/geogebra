@@ -85,7 +85,6 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 			}
 		});
 
-
 		tf.addInsertHandler(new InsertHandler() {
 
 			@Override

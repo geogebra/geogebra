@@ -74,8 +74,6 @@ class ScriptEditPanel extends OptionPanel {
 	@Override
 	public void setLabels() {
 		// setBorder(BorderFactory.createTitledBorder(app.getPlain("JavaScript")));
-
-
 	}
 
 	@Override

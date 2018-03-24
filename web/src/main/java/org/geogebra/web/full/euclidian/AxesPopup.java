@@ -39,8 +39,6 @@ public class AxesPopup extends PopupMenuButtonW {
 							&& app.getMode() != EuclidianConstants.MODE_DELETE);
 
 		}
-		
-		
 	}
 
 	@Override

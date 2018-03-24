@@ -274,7 +274,6 @@ public class AriaStackPanel extends ComplexPanel
 		setStackVisible(visibleStack, true);
 	}
 
-
 	/**
 	 * Adds the {@code styleName} on the {@code 
 	 * <tr>

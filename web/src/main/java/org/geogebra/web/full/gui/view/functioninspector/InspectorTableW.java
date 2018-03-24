@@ -206,10 +206,17 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		}
     }
 
+	/**
+	 * @return selected row index
+	 */
 	public int getSelectedRow() {
 	    return selectedRow;
     }
 
+	/**
+	 * @param idx
+	 *            selected row index
+	 */
 	public void setSelectedRow(int idx) {
 		RowFormatter rf = getRowFormatter();
 		clearSelectedRowStyle();

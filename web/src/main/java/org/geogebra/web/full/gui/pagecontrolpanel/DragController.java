@@ -321,7 +321,6 @@ class DragController {
 				last.setBottom(target.getComputedBottom());
 			}
 
-
 			last.target = target;
 			return true;
 		}

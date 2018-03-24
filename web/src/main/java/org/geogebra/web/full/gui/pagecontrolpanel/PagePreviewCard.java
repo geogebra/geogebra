@@ -133,7 +133,6 @@ public class PagePreviewCard extends FlowPanel
 	 * textField.setWidth(Math.max(Math.min(length, 178), 10)); }
 	 */
 
-
 	/**
 	 * @return ggb file associated to this card
 	 */

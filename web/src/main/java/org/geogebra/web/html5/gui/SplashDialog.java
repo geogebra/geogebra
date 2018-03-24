@@ -112,6 +112,9 @@ public class SplashDialog extends SimplePanel {
 		return false;
 	}-*/;
 
+	/**
+	 * Hide the splash popup.
+	 */
 	protected void hide() {
 		this.removeFromParent();
 		removePreviewImg(article);
@@ -127,6 +130,9 @@ public class SplashDialog extends SimplePanel {
 		}
 	}-*/;
 
+	/**
+	 * Notify about app load; hide popup if it was shown logng enough.
+	 */
 	public void canNowHide() {
 		appLoaded = true;
 		if (timerEllapsed) {
@@ -134,6 +140,9 @@ public class SplashDialog extends SimplePanel {
 		}
 	}
 
+	/**
+	 * @return whether preview is present
+	 */
 	public boolean isPreviewExists() {
 		return previewExists;
 	}

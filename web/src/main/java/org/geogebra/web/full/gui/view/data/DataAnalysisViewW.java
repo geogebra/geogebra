@@ -1,8 +1,6 @@
 package org.geogebra.web.full.gui.view.data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
@@ -25,9 +23,9 @@ import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
@@ -74,29 +72,17 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	/**
 	 * For calling the onResize method in a deferred way
 	 */
-	Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
+	private ScheduledCommand deferredOnRes = new ScheduledCommand() {
 		@Override
 		public void execute() {
 			onResize();
 		}
 	};
 
-	Scheduler.ScheduledCommand deferredDataPanelOnRes = new Scheduler.ScheduledCommand() {
+	private ScheduledCommand deferredDataPanelOnRes = new ScheduledCommand() {
 		@Override
 		public void execute() {
-			if (model.isMultiVar() && model.showStatPanel()) {
-				Log.debug("Showing MultiVar stat panel");
-				dataDisplayPanel1.resize(getOffsetWidth(),
-						getOffsetHeight() - statisticsPanel.getOffsetHeight(),
-						true);
-			} else {
-				dataDisplayPanel1.onResize();
-				dataDisplayPanel2.onResize();
-			}
-		
-			if (model.showDataPanel()) {
-				dataPanel.onResize();
-			}
+			resizeDataPanels();
 		}
 	};
 
@@ -117,13 +103,31 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		daCtrl = new DataAnalysisControllerW(app, this);
 		model = new DataAnalysisModel(app, this, daCtrl);
 
-
 		dataSource = new DataSource(app);
 
 		daCtrl.loadDataLists(true);
 
 		setView(dataSource, mode, true);
 		model.setIniting(false);
+	}
+
+	/**
+	 * Update panels after resize.
+	 */
+	protected void resizeDataPanels() {
+		if (model.isMultiVar() && model.showStatPanel()) {
+			Log.debug("Showing MultiVar stat panel");
+			dataDisplayPanel1.resize(getOffsetWidth(),
+					getOffsetHeight() - statisticsPanel.getOffsetHeight(),
+					true);
+		} else {
+			dataDisplayPanel1.onResize();
+			dataDisplayPanel2.onResize();
+		}
+
+		if (model.showDataPanel()) {
+			dataPanel.onResize();
+		}
 	}
 
 	/**
@@ -135,6 +139,14 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		setView(dataSource, mode, true);
 	}
 
+	/**
+	 * @param dataSource
+	 *            data source
+	 * @param mode
+	 *            app mode
+	 * @param forceModeUpdate
+	 *            whether to force mode change
+	 */
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 		
@@ -159,6 +171,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		updateGUI();
 	}
 
+	/**
+	 * @return stylebar
+	 */
 	public Widget getStyleBar() {
 		if (stylebar == null) {
 			stylebar = new DataAnalysisStyleBarW(app, this);
@@ -169,9 +184,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	private void buildStatisticsPanel() {
 		if (statisticsPanel != null) {
 			// TODO handle any orphaned geo children of stat panel
-			statisticsPanel = null;
 		}
-
 		statisticsPanel = new StatisticsPanelW(app, this);
 	}
 
@@ -179,7 +192,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	public void setPlotPanelOVNotNumeric(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.BARCHART, mode);
 		dataDisplayPanel2.setPanel(PlotType.BARCHART, mode);
-
 	}
 
 	@Override
@@ -232,7 +244,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		}
 
 		return dataPanel;
-
 	}
 
 	@Override
@@ -300,11 +311,11 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 					}
 			mainSplit.setWidgetMinSize(comboPanelSplit, 500);
 
-
-			// ===========================================
-			// regression panel
 		}
 		add(mainSplit);
+
+		// ===========================================
+		// regression panel
 		if (model.isRegressionMode()) {
 			regressionPanel = new RegressionPanelW(app, this);
 			add(regressionPanel);
@@ -315,7 +326,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		} else {
 			mainSplit.setHeight("100%");
 		}
-
 
 		deferredDataPanelOnResize();
 	} 
@@ -388,13 +398,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		updateLayout();
 	}
 
-	public void doPrint() {
-		//		List<Printable> l = new ArrayList<Printable>();
-		//		l.add(this);
-		//		PrintPreview.get(app, App.VIEW_DATA_ANALYSIS, PageFormat.LANDSCAPE)
-		//				.setVisible(true);
-	}
-
 	// =================================================
 	// Event Handlers and Updates
 	// =================================================
@@ -410,11 +413,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	@Override
 	public void setLabels() {
-
 		if (model.isIniting()) {
 			return;
 		}
-
 
 		if (model.isRegressionMode() && regressionPanel != null) {
 			regressionPanel.setLabels();
@@ -423,7 +424,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		if (stylebar != null) {
 			stylebar.setLabels();
 		}
-
 	}
 
 	// =================================================
@@ -527,80 +527,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		return daCtrl.getDataTitles();
 	}
 
-	// =================================================
-	// Printing
-	// =================================================
-
-	//	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
-	//		if (pageIndex > 0)
-	//			return (NO_SUCH_PAGE);
-	//
-	//		Graphics2D g2d = (Graphics2D) g;
-	//		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-	//
-	//		// construction title
-	//		int y = 0;
-	//		Construction cons = kernel.getConstruction();
-	//		String title = cons.getTitle();
-	//		if (!"".equals(title)) {
-	//			Font titleFont = app.getBoldFont().deriveFont(Font.BOLD,
-	//					app.getBoldFont().getSize() + 2);
-	//			g2d.setFont(titleFont);
-	//			g2d.setColor(Color.black);
-	//			// Font fn = g2d.getFont();
-	//			FontMetrics fm = g2d.getFontMetrics();
-	//			y += fm.getAscent();
-	//			g2d.drawString(title, 0, y);
-	//		}
-	//
-	//		// construction author and date
-	//		String author = cons.getAuthor();
-	//		String date = cons.getDate();
-	//		String line = null;
-	//		if (!"".equals(author)) {
-	//			line = author;
-	//		}
-	//		if (!"".equals(date)) {
-	//			if (line == null)
-	//				line = date;
-	//			else
-	//				line = line + " - " + date;
-	//		}
-	//
-	//		if (line != null) {
-	//			g2d.setFont(app.getPlainFont());
-	//			g2d.setColor(Color.black);
-	//			// Font fn = g2d.getFont();
-	//			FontMetrics fm = g2d.getFontMetrics();
-	//			y += fm.getHeight();
-	//			g2d.drawString(line, 0, y);
-	//		}
-	//		if (y > 0) {
-	//			g2d.translate(0, y + 20); // space between title and drawing
-	//		}
-	//
-	//		// scale the dialog so that it fits on one page.
-	//		double xScale = pageFormat.getImageableWidth() / this.getWidth();
-	//		double yScale = (pageFormat.getImageableHeight() - (y + 20))
-	//				/ this.getHeight();
-	//		double scale = Math.min(xScale, yScale);
-	//
-	//		this.paint(g2d, scale);
-	//
-	//		return (PAGE_EXISTS);
-	//	}
-	//
-	//	/**
-	//	 * Paint the dialog with given scale factor (used for printing).
-	//	 */
-	//	public void paint(Graphics graphics, double scale) {
-	//
-	//		Graphics2D g2 = (Graphics2D) graphics;
-	//		g2.scale(scale, scale);
-	//		super.paint(graphics);
-	//
-	//	}
-	//
 	@Override
 	public int getViewID() {
 		return App.VIEW_DATA_ANALYSIS;
@@ -628,6 +554,10 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		return model;
 	}
 
+	/**
+	 * @param model
+	 *            data analysis model
+	 */
 	public void setModel(DataAnalysisModel model) {
 		this.model = model;
 	}
@@ -717,13 +647,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		} else {
 			dataDisplayPanel1.update();
 		}
-	}
-
-	public List<Widget> getPrintable() {
-
-		Widget[] printableList = { new Label("Data analysis View") };
-
-		return Arrays.asList(printableList);
 	}
 
 	@Override

@@ -7,7 +7,6 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
-
 /**
  * Web implementation of the table model
  *
@@ -172,7 +171,6 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 				listener.dimensionChange();
 			}
 		}
-
 
 		if ((value != null || defaultTableModel.get(row * colNum + column) != null)) {
 			defaultTableModel.set(row * colNum + column, value);

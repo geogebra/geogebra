@@ -91,7 +91,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		mtg = new MouseTouchGestureControllerW((AppW) app, this);
 	}
 
-
 	/**
 	 * Creates new controller
 	 * 

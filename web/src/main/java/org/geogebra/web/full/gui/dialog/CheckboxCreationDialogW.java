@@ -44,7 +44,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PushButton;
 
-
 /**
  * Dialog to create a GeoBoolean object (checkbox) that determines the
  * visibility of a list of objects.
@@ -279,7 +278,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 
 		btPanel.add(btOK);
 		btPanel.add(btCancel);
-
 
 		// Create the JOptionPane.
 		optionPane = new FlowPanel();

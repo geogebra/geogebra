@@ -4,7 +4,6 @@ import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.web.full.gui.view.dataCollection.DataCollectionView;
 import org.geogebra.web.html5.main.AppW;
 
-
 /**
  * Settings for sensor Accelerometer
  */

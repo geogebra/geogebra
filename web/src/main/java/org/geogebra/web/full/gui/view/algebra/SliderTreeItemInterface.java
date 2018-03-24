@@ -49,7 +49,6 @@ public interface SliderTreeItemInterface {
 	 */
 	void setSliderVisible(boolean visible);
 
-
 	/**
 	 * @param visible
 	 *            whether to show animation panel

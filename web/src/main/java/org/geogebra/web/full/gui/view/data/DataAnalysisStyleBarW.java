@@ -10,7 +10,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -20,7 +19,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
 	private DataAnalysisViewW daView;
-	private Button btnPrint;
 	private MyToggleButtonW btnShowStatistics;
 	private MyToggleButtonW btnShowPlot2;
 	private MyToggleButtonW btnShowData;
@@ -46,10 +44,6 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	private void createGUI() {
 		this.clear();
 
-		btnPrint = new Button("P");
-//		btnPrint.app.getImageIcon("document-print.png"));
-		btnPrint.addClickHandler(this);
-		
 		btnShowStatistics = new MyToggleButtonW(AppResources.INSTANCE.dataview_showstatistics());
 		btnShowStatistics.addClickHandler(this);
 		
@@ -126,8 +120,6 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		FlowPanel dataSourcePanel = new FlowPanel();
 		// dataSourcePanel.add(btnDataSource, app.borderWest());
 		// dataSourcePanel.add(fldDataSource, BorderLayout.CENTER);
-
-
 		return dataSourcePanel;
 	}
 
@@ -198,10 +190,6 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 //			JPopupMenu menu = daView.getExportMenu();
 //			menu.show(btnExport, 0, btnExport.getHeight());
 			btnExport.setSelected(false);
-		}
-
-		else if (source == btnPrint) {
-			daView.doPrint();
 		}
 	}
 

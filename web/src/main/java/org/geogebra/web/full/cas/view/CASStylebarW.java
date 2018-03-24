@@ -30,7 +30,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 public class CASStylebarW extends StyleBarW implements ClickHandler,
         PopupMenuHandler {
 
-
 	/** button to set input as text */
 	MyToggleButtonW btnUseAsText;
 	/** button to set text to bold */

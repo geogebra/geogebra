@@ -21,7 +21,7 @@
     <!-- Checks for whitespace                               -->
     <!-- See http://checkstyle.sf.net/config_whitespace.html -->
 <module name="RegexpMultiline">
-  <property name="format"   value="\n\s*\n\s*\n\s*\n"/>
+  <property name="format"   value="\n\s*\n\s*\n"/>
 </module>
 
     <module name="TreeWalker">
@@ -103,7 +103,7 @@
             <property name="allowMissingParamTags" value="true"/>
             <property name="allowMissingThrowsTags" value="true"/>
             <property name="allowMissingReturnTag" value="true"/>
-            <property name="minLineCount" value="5"/>
+            <property name="minLineCount" value="3"/>
             <property name="allowedAnnotations" value="Override, Test"/>
             <property name="allowThrowsTagsForSubclasses" value="true"/>
         </module>

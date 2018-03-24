@@ -146,7 +146,6 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		regressionPanel = new FlowPanel();
 		regressionPanel.add(regressionTitle);
 		regressionPanel.add(LayoutUtilW.panelRow(lbPanel, modelPanel));
-
 		
 		add(regressionPanel);
 	}

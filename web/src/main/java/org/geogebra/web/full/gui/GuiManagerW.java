@@ -1279,7 +1279,6 @@ public class GuiManagerW extends GuiManager
 		probCalculator.attachView();
 	}
 
-
 	/**
 	 * @return Data collection view
 	 */

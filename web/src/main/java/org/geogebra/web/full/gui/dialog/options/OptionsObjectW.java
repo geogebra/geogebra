@@ -690,7 +690,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			intervalLabel = new FormLabel("").setFor(intervalLB);
 			mainWidget.add(intervalLabel);
 
-
 			intervalLB.addChangeHandler(new ChangeHandler() {
 
 				@Override

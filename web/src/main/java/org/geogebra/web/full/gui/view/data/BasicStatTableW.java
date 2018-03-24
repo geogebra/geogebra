@@ -121,8 +121,6 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 				}
 			}
 		}
-
-
 	}
 
 	protected AlgoElement getAlgo(Stat algoName, GeoList dataList,

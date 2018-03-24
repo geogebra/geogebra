@@ -186,6 +186,7 @@ public class PropertiesViewW extends PropertiesView
 				euclidianPanel2.showCbView(false);
 			}
 			return euclidianPanel2;
+
 		case EUCLIDIAN3D:
 			if (euclidianPanel3D == null) {
 				euclidianPanel3D = new OptionsEuclidianW((AppW) app,
@@ -195,13 +196,11 @@ public class PropertiesViewW extends PropertiesView
 			}
 			return euclidianPanel2;
 
-			
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
 				spreadsheetPanel = new OptionsSpreadsheetW((AppW) app);
 			}
 			return spreadsheetPanel;
-
 
 		case ALGEBRA:
 			if (algebraPanel == null) {
