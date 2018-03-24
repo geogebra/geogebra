@@ -897,6 +897,13 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 */
 	public static double numericIntegration(UnivariateFunction ad, double a,
 			double b, int maxMultiplier) {
+
+		// GGB-2318
+		// f(x) = If(x < 0, 0, x <= 2, x)
+		if (a == b) {
+			return 0;
+		}
+
 		adaptiveGaussQuadCounter = 0;
 		if (a > b) {
 			return -doAdaptiveGaussQuad(ad, b, a, maxMultiplier);
