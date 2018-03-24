@@ -929,8 +929,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	public static double numericIntegration(UnivariateFunction ad, double a,
 			double b, int maxMultiplier) {
 		
-		Log.debug("integrating from " + a + " to " + b);
-
 		// GGB-2318
 		// f(x) = If(x < 0, 0, x <= 2, x)
 		if (a == b) {
