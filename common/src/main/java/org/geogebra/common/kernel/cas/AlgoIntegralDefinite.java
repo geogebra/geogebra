@@ -336,7 +336,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		if (f.isFreehandFunction()) {
 			n.setValue(freehandIntegration(f, lowerLimit, upperLimit));
 
-			// AbstractApplication.debug(n.getValue()+" "+numericIntegration(f,
+			// AbstractApplication.debug(n.getValue()+" "+sign *
+			// numericIntegration(f,
 			// lowerLimit, upperLimit));
 
 		} else if (f.isDataFunction()) {
@@ -366,6 +367,18 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 				if (kernel.getApplication().has(Feature.SPLIT_INTEGRAL_IF)
 						&& (f.getParentAlgorithm() instanceof AlgoDependentFunction
 								|| f.getFunctionExpression().isConditional())) {
+					
+					double upperLimit0 = upperLimit;
+					double lowerLimit0 = lowerLimit;
+					double sign = +1;
+
+					if (upperLimit < lowerLimit) {
+						Log.debug("swapping");
+						upperLimit0 = lowerLimit;
+						lowerLimit0 = upperLimit;
+						sign = -1;
+
+					}
 
 					AlgoElement algo = f.getParentAlgorithm();
 
@@ -413,7 +426,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 									Log.debug(
 											"non-linear condition "
 													+ bound);
-									standardIntegral(lowerLimit, upperLimit);
+									standardIntegral(lowerLimit0, upperLimit0);
 									return;
 								}
 								if (i == 0) {
@@ -441,44 +454,59 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 								if (Double.isInfinite(lower)) {
 
-									sum += numericIntegration(fun, lowerLimit,
-											Math.min(upper, upperLimit),
-											STANDARD_MULTIPLIER);
+									if (upper > lowerLimit0) {
+										sum += sign * numericIntegration(fun,
+												lowerLimit0,
+												Math.min(upper, upperLimit0),
+												STANDARD_MULTIPLIER);
+									}
 
 								} else if (Double.isInfinite(upper)) {
-									sum += numericIntegration(fun,
-											Math.max(lower, lowerLimit),
-											upperLimit, STANDARD_MULTIPLIER);
 
-								} else if (upper <= lowerLimit
-										|| lower >= upperLimit) {
+									if (lower < upperLimit0) {
+										sum += sign * numericIntegration(fun,
+												Math.max(lower, lowerLimit0),
+												upperLimit0,
+												STANDARD_MULTIPLIER);
+									}
+
+								} else if (upper <= lowerLimit0
+										|| lower >= upperLimit0) {
+
 									// nothing to do
-								} else if (lower >= lowerLimit
-										&& upper <= upperLimit) {
+								} else if (lower >= lowerLimit0
+										&& upper <= upperLimit0) {
+
 									// include all
-									sum += numericIntegration(fun, lower, upper,
+									sum += sign * numericIntegration(fun, lower,
+											upper,
 											STANDARD_MULTIPLIER);
 								} else if ((Double.isNaN(lower)
-										|| lower <= lowerLimit)
-										&& upper <= upperLimit) {
-									sum += numericIntegration(fun, lowerLimit,
+										|| lower <= lowerLimit0)
+										&& upper <= upperLimit0) {
+
+									sum += sign * numericIntegration(fun,
+											lowerLimit0,
 											upper, STANDARD_MULTIPLIER);
 								} else if ((Double.isNaN(upper)
-										|| upper >= upperLimit)
-										&& lower >= lowerLimit) {
-									sum += numericIntegration(fun, lower,
-											upperLimit, STANDARD_MULTIPLIER);
+										|| upper >= upperLimit0)
+										&& lower >= lowerLimit0) {
 
-								} else if (lower <= lowerLimit
-										&& upper >= upperLimit) {
-									sum += numericIntegration(fun, lowerLimit,
-											upperLimit, STANDARD_MULTIPLIER);
+									sum += sign * numericIntegration(fun, lower,
+											upperLimit0, STANDARD_MULTIPLIER);
+
+								} else if (lower <= lowerLimit0
+										&& upper >= upperLimit0) {
+
+									sum += sign * numericIntegration(fun,
+											lowerLimit0, upperLimit0,
+											STANDARD_MULTIPLIER);
 
 								} else {
 									Log.error("lower = " + lower);
-									Log.error("lowerLimit = " + lowerLimit);
+									Log.error("lowerLimit0 = " + lowerLimit0);
 									Log.error("upper = " + upper);
-									Log.error("upperLimit = " + upperLimit);
+									Log.error("upperLimit0 = " + upperLimit0);
 								}
 
 							}
@@ -498,22 +526,25 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 								fun.setExpression(node);
 							}
 
-							if (upperLimit <= coveredMin
-									|| lowerLimit >= coveredMax) {
+							if (upperLimit0 <= coveredMin
+									|| lowerLimit0 >= coveredMax) {
 								// all outside what's been covered already
-								sum += numericIntegration(fun, lowerLimit,
-										upperLimit, STANDARD_MULTIPLIER);
-							} else if (lowerLimit >= coveredMin
-									&& upperLimit <= coveredMax) {
+								sum += sign * numericIntegration(fun,
+										lowerLimit0, upperLimit0,
+										STANDARD_MULTIPLIER);
+							} else if (lowerLimit0 >= coveredMin
+									&& upperLimit0 <= coveredMax) {
 								// nothing to do
-							} else if (lowerLimit <= coveredMin
-									&& upperLimit <= coveredMax) {
-								sum += numericIntegration(fun, lowerLimit,
+							} else if (lowerLimit0 <= coveredMin
+									&& upperLimit0 <= coveredMax) {
+								sum += sign
+										* numericIntegration(fun, lowerLimit0,
 										coveredMin, STANDARD_MULTIPLIER);
-							} else if (lowerLimit >= coveredMin
-									&& upperLimit >= coveredMax) {
-								sum += numericIntegration(fun, coveredMax,
-										upperLimit, STANDARD_MULTIPLIER);
+							} else if (lowerLimit0 >= coveredMin
+									&& upperLimit0 >= coveredMax) {
+								sum += sign * numericIntegration(fun,
+										coveredMax, upperLimit0,
+										STANDARD_MULTIPLIER);
 							} else {
 								Log.error("problem");
 							}
@@ -897,6 +928,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 */
 	public static double numericIntegration(UnivariateFunction ad, double a,
 			double b, int maxMultiplier) {
+		
+		Log.debug("integrating from " + a + " to " + b);
 
 		// GGB-2318
 		// f(x) = If(x < 0, 0, x <= 2, x)
