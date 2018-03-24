@@ -52,17 +52,24 @@ public class Bounds {
 	 */
 	public Bounds addRestriction(ExpressionNode e0) {
 		ExpressionNode e = unfunction(e0);
+		if (condition != null && condition.getOperation() == Operation.OR) {
+			Bounds simple = copyInterval().addRestriction(e);
+			Bounds left = simple.addRestriction(condition.getLeft().wrap());
+			Bounds right = simple.addRestriction(condition.getRight().wrap());
+			if (!left.isValid()) {
+				return right;
+			}
+			if (!right.isValid()) {
+				return left;
+			}
+		}
 		if (e.getOperation().equals(Operation.AND)
 				|| e.getOperation().equals(Operation.AND_INTERVAL)) {
 			return addRestriction(e.getLeftTree())
 					.addRestriction(e.getRightTree());
 		}
 
-		Bounds b = new Bounds(kernel, fv);
-		b.lower = lower;
-		b.upper = upper;
-		b.lowerSharp = lowerSharp;
-		b.upperSharp = upperSharp;
+		Bounds b = copyInterval();
 		b.condition = condition;// If[x==1,1,If[x==2,3,4]]
 		ExpressionValue lt = evalConstants(e.getLeft().unwrap());
 		ExpressionValue rt = e.getRight() == null ? null
@@ -168,6 +175,15 @@ public class Bounds {
 				}
 			}
 		}
+		return b;
+	}
+
+	private Bounds copyInterval() {
+		Bounds b = new Bounds(kernel, fv);
+		b.lower = lower;
+		b.upper = upper;
+		b.lowerSharp = lowerSharp;
+		b.upperSharp = upperSharp;
 		return b;
 	}
 
