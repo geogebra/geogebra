@@ -1406,8 +1406,11 @@ public abstract class Localization {
 	 * 
 	 * @return decimal point character for current language
 	 */
-	public char getDecimalPoint() {
-		return unicodeDecimalPoint;
+	final public char getDecimalPoint() {
+		// return unicodeDecimalPoint;
+		// try to fix obscure bug in web where random character gets returned
+		// here
+		return '.';
 	}
 
 	/**
