@@ -1413,6 +1413,10 @@ public abstract class Localization {
 		return '.';
 	}
 
+	final public char getLocalizedDecimalPoint() {
+		return unicodeDecimalPoint;
+	}
+
 	/**
 	 * 
 	 * @return character for "," in current language

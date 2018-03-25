@@ -393,7 +393,7 @@ public class MyNumberFormat {
 	private String negativeSuffix = "";
 
 	// Locale specific symbol collection.
-	private static final NumberConstants NUMBER_CONSTANTS = new MyNumberConstants();
+	private static final MyNumberConstants NUMBER_CONSTANTS = new MyNumberConstants();
 
 	// The pattern to use for formatting and parsing.
 	private final String pattern;
@@ -822,120 +822,6 @@ public class MyNumberFormat {
 	}
 
 	/**
-	 * Parses text to produce a numeric value. A {@link NumberFormatException}
-	 * is thrown if either the text is empty or if the parse does not consume
-	 * all characters of the text.
-	 *
-	 * @param text
-	 *            the string being parsed
-	 * @return a double value representing the parsed number
-	 * @throws NumberFormatException
-	 *             if the entire text could not be converted into a double
-	 */
-	public double parse(String text) throws NumberFormatException {
-		int[] pos = { 0 };
-		double result = parse(text, pos);
-		if (pos[0] == 0 || pos[0] != text.length()) {
-			throw new NumberFormatException(text);
-		}
-		return result;
-	}
-
-	/**
-	 * Parses text to produce a numeric value.
-	 *
-	 * <p>
-	 * The method attempts to parse text starting at the index given by pos. If
-	 * parsing succeeds, then the index of <code>pos</code> is updated to the
-	 * index after the last character used (parsing does not necessarily use all
-	 * characters up to the end of the string), and the parsed number is
-	 * returned. The updated <code>pos</code> can be used to indicate the
-	 * starting point for the next call to this method. If an error occurs, then
-	 * the index of <code>pos</code> is not changed.
-	 * </p>
-	 *
-	 * @param text
-	 *            the string to be parsed
-	 * @param inOutPos
-	 *            position to pass in and get back
-	 * @return a double value representing the parsed number
-	 * @throws NumberFormatException
-	 *             if the text segment could not be converted into a double
-	 */
-	public double parse(String text, int[] inOutPos)
-			throws NumberFormatException {
-		double ret = 0.0;
-
-		boolean gotPositivePrefix = text.startsWith(positivePrefix,
-				inOutPos[0]);
-		boolean gotNegativePrefix = text.startsWith(negativePrefix,
-				inOutPos[0]);
-		boolean gotPositiveSuffix = text.endsWith(positiveSuffix);
-		boolean gotNegativeSuffix = text.endsWith(negativeSuffix);
-		boolean gotPositive = gotPositivePrefix && gotPositiveSuffix;
-		boolean gotNegative = gotNegativePrefix && gotNegativeSuffix;
-
-		// Handle conflicts where we get both patterns, which usually
-		// happens when one is a prefix of the other (such as the positive
-		// pattern having empty prefix/suffixes).
-		if (gotPositive && gotNegative) {
-			if (positivePrefix.length() > negativePrefix.length()) {
-				gotNegative = false;
-			} else if (positivePrefix.length() < negativePrefix.length()) {
-				gotPositive = false;
-			} else if (positiveSuffix.length() > negativeSuffix.length()) {
-				gotNegative = false;
-			} else if (positiveSuffix.length() < negativeSuffix.length()) {
-				gotPositive = false;
-			} else {
-				// can't tell patterns apart, must be positive
-				gotNegative = false;
-			}
-		} else if (!gotPositive && !gotNegative) {
-			throw new NumberFormatException(text
-					+ " does not have either positive or negative affixes");
-		}
-
-		// Contains just the value to parse, stripping any prefix or suffix
-		String valueOnly = null;
-		if (gotPositive) {
-			inOutPos[0] += positivePrefix.length();
-			valueOnly = text.substring(inOutPos[0],
-					text.length() - positiveSuffix.length());
-		} else {
-			inOutPos[0] += negativePrefix.length();
-			valueOnly = text.substring(inOutPos[0],
-					text.length() - negativeSuffix.length());
-		}
-
-		// Process digits or special values, and find decimal position.
-		if (valueOnly.equals(NUMBER_CONSTANTS.infinity())) {
-			inOutPos[0] += NUMBER_CONSTANTS.infinity().length();
-			ret = Double.POSITIVE_INFINITY;
-		} else if (valueOnly.equals(NUMBER_CONSTANTS.notANumber())) {
-			inOutPos[0] += NUMBER_CONSTANTS.notANumber().length();
-			ret = Double.NaN;
-		} else {
-			int[] tempPos = { 0 };
-			ret = parseNumber(valueOnly, tempPos);
-			inOutPos[0] += tempPos[0];
-		}
-
-		// Check for suffix.
-		if (gotPositive) {
-			inOutPos[0] += positiveSuffix.length();
-		} else if (gotNegative) {
-			inOutPos[0] += negativeSuffix.length();
-		}
-
-		if (gotNegative) {
-			ret = -ret;
-		}
-
-		return ret;
-	}
-
-	/**
 	 * Format a number with its significant digits already represented in string
 	 * form. This is done so both double and BigInteger/Decimal formatting can
 	 * share code without requiring all users to pay the code size penalty for
@@ -994,10 +880,6 @@ public class MyNumberFormat {
 		if (useExponent) {
 			addExponent(digits);
 			// the above call has invalidated digitsLength == digits.length()
-		}
-		char zeroChar = NUMBER_CONSTANTS.zeroDigit().charAt(0);
-		if (zeroChar != '0') {
-			localizeDigits(digits, zeroChar);
 		}
 
 		// add prefix/suffix
@@ -1089,13 +971,6 @@ public class MyNumberFormat {
 	 */
 	protected String getNegativeSuffix() {
 		return negativeSuffix;
-	}
-
-	/**
-	 * Returns the NumberConstants instance for this formatter.
-	 */
-	protected NumberConstants getNumberConstants() {
-		return NUMBER_CONSTANTS;
 	}
 
 	/**
@@ -1235,22 +1110,6 @@ public class MyNumberFormat {
 	}
 
 	/**
-	 * This method return the digit that represented by current character, it
-	 * could be either '0' to '9', or a locale specific digit.
-	 *
-	 * @param ch
-	 *            character that represents a digit
-	 * @return the digit value
-	 */
-	private static int getDigit(char ch) {
-		if ('0' <= ch && ch <= '0' + 9) {
-			return (ch - '0');
-		}
-		char zeroChar = NUMBER_CONSTANTS.zeroDigit().charAt(0);
-		return ((zeroChar <= ch && ch <= zeroChar + 9) ? (ch - zeroChar) : -1);
-	}
-
-	/**
 	 * Insert grouping separators if needed.
 	 *
 	 * @param digits
@@ -1382,87 +1241,6 @@ public class MyNumberFormat {
 			}
 		}
 		return len - start;
-	}
-
-	/**
-	 * This function parses a "localized" text into a <code>double</code>. It
-	 * needs to handle locale specific decimal, grouping, exponent and digit.
-	 *
-	 * @param text
-	 *            the text that need to be parsed
-	 * @param pos
-	 *            in/out parsing position. in case of failure, this shouldn't be
-	 *            changed
-	 * @return double value, could be 0.0 if nothing can be parsed
-	 */
-	private double parseNumber(String text, int[] pos) {
-		double ret;
-		boolean sawDecimal = false;
-		boolean sawExponent = false;
-		boolean sawDigit = false;
-		int scale = 1;
-		String decimal = NUMBER_CONSTANTS.decimalSeparator();
-		String grouping = NUMBER_CONSTANTS.groupingSeparator();
-		String exponentChar = NUMBER_CONSTANTS.exponentialSymbol();
-
-		StringBuilder normalizedText = new StringBuilder();
-		for (; pos[0] < text.length(); ++pos[0]) {
-			char ch = text.charAt(pos[0]);
-			int digit = getDigit(ch);
-			if (digit >= 0 && digit <= 9) {
-				normalizedText.append((char) (digit + '0'));
-				sawDigit = true;
-			} else if (ch == decimal.charAt(0)) {
-				if (sawDecimal || sawExponent) {
-					break;
-				}
-				normalizedText.append('.');
-				sawDecimal = true;
-			} else if (ch == grouping.charAt(0)) {
-				if (sawDecimal || sawExponent) {
-					break;
-				}
-				continue;
-			} else if (ch == exponentChar.charAt(0)) {
-				if (sawExponent) {
-					break;
-				}
-				normalizedText.append('E');
-				sawExponent = true;
-			} else if (ch == '+' || ch == '-') {
-				normalizedText.append(ch);
-			} else if (ch == NUMBER_CONSTANTS.percent().charAt(0)) {
-				if (scale != 1) {
-					break;
-				}
-				scale = 100;
-				if (sawDigit) {
-					++pos[0];
-					break;
-				}
-			} else if (ch == NUMBER_CONSTANTS.perMill().charAt(0)) {
-				if (scale != 1) {
-					break;
-				}
-				scale = 1000;
-				if (sawDigit) {
-					++pos[0];
-					break;
-				}
-			} else {
-				break;
-			}
-		}
-
-		// parseDouble could throw NumberFormatException, rethrow with correct
-		// text.
-		try {
-			ret = Double.parseDouble(normalizedText.toString());
-		} catch (NumberFormatException e) {
-			throw new NumberFormatException(text);
-		}
-		ret = ret / scale;
-		return ret;
 	}
 
 	/**
