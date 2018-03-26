@@ -48,7 +48,6 @@ public class DrawAudio extends Drawable {
 	private boolean isVisible;
 	private GRectangle bounds;
 	private GRectangle playRect;
-	private GRectangle sliderRect;
 	private boolean hovered = false;
 	private boolean playing = false;
 	private int sliderWidth = -1;
@@ -114,7 +113,7 @@ public class DrawAudio extends Drawable {
 		int middle = height / 2;
 		int sliderTop = top + middle;
 		updateDot(sliderLeft + (sliderWidth) * param, sliderTop);
-		sliderRect = AwtFactory.getPrototype().newRectangle(sliderLeft, sliderTop - SLIDER_AREA_WIDTH,
+		AwtFactory.getPrototype().newRectangle(sliderLeft, sliderTop - SLIDER_AREA_WIDTH,
 				sliderLeft - left, 2 * SLIDER_AREA_WIDTH);
 		line.setLine(sliderLeft, sliderTop, sliderLeft + sliderWidth, sliderTop);
 	}
