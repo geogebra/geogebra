@@ -1407,12 +1407,13 @@ public abstract class Localization {
 	 * @return decimal point character for current language
 	 */
 	final public char getDecimalPoint() {
-		// return unicodeDecimalPoint;
-		// try to fix obscure bug in web where random character gets returned
-		// here
-		return '.';
+		return unicodeDecimalPoint;
 	}
 
+	/**
+	 * 
+	 * @return decimal point character for current language
+	 */
 	final public char getLocalizedDecimalPoint() {
 		return unicodeDecimalPoint;
 	}
