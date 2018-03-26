@@ -35,7 +35,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.util.GifShotExporter;
+import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.resources.JavaScriptInjector;
@@ -1396,7 +1396,7 @@ public class GgbAPIW extends GgbAPI {
 			if (sliderLabel == null) {
 				pdf = evw.getExportPDF(scale);
 			} else {
-				pdf = GifShotExporter.export(kernel.getApplication(), 0,
+				pdf = AnimationExporter.export(kernel.getApplication(), 0,
 						(GeoNumeric) kernel.lookupLabel(sliderLabel), false,
 						filename, scale, Double.NaN, ExportType.PDF_HTML5);
 			}
@@ -1417,7 +1417,7 @@ public class GgbAPIW extends GgbAPI {
 			double rotate) {
 
 		// each frame as ExportType.PNG
-		GifShotExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
+		AnimationExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
 				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename,
 				scale, rotate, ExportType.PNG);
 
@@ -1428,7 +1428,7 @@ public class GgbAPIW extends GgbAPI {
 			double timeBetweenFrames, boolean isLoop, String filename,
 			double rotate) {
 		// each frame as ExportType.WEBP
-		GifShotExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
+		AnimationExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
 				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename,
 				scale, rotate, ExportType.WEBP);
 	}

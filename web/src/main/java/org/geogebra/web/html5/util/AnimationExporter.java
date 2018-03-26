@@ -10,7 +10,11 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 
-public class GifShotExporter {
+/**
+ * Export multiple frames eg to GIF, PDF, WebM
+ *
+ */
+public class AnimationExporter {
 
 	/**
 	 * @param app
@@ -27,8 +31,9 @@ public class GifShotExporter {
 	 *            scale
 	 * @param rotate
 	 *            rotation
-	 * @param gif
-	 *            whether to use gif
+	 * @param frameFormat
+	 *            GIF/WebM/PDF
+	 * @return result as base64 URL (not GIF though)
 	 */
 	public static String export(App app, int timeBetweenFrames,
 			GeoNumeric slider,
