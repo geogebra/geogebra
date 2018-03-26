@@ -532,8 +532,8 @@ public final class DrawImage extends Drawable {
 	/**
 	 * @return crop box
 	 */
-	public GRectangle getCropBox() {
-		return cropBox.getBounds();
+	public GRectangle2D getCropBox() {
+		return cropBox.getBounds2D();
 	}
 
 	private void updateOriginalRatio() {
