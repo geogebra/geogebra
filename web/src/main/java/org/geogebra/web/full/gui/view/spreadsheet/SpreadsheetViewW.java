@@ -218,12 +218,18 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// VIEW Implementation
 	// ===============================================================
 
+	/**
+	 * Attach to kernel & add all.
+	 */
 	public void attachView() {
 		// clearView();
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
 	}
 
+	/**
+	 * Detach from kernel.
+	 */
 	public void detachView() {
 		kernel.detach(this);
 		// clearView();
@@ -232,13 +238,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	@Override
 	public void add(GeoElement geo) {
-
-		// Application.debug(new Date() + " ADD: " + geo);
-
 		update(geo);
 		scrollIfNeeded(geo, null);
-
-		// scheduleRepaint();
 	}
 
 	@Override
@@ -262,9 +263,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	@Override
 	public void remove(GeoElement geo) {
-		// Application.debug(new Date() + " REMOVE: " + geo);
-		// table.setRepaintAll();
-
 		if (app.getTraceManager().isTraceGeo(geo)) {
 			app.getTraceManager().removeSpreadsheetTraceGeo(geo);
 			// TODO if (isTraceDialogVisible())
@@ -321,13 +319,11 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	@Override
 	public void clearView() {
-
 		// restore defaults;
 		app.getSettings().restoreDefaultSpreadsheetSettings();
 		setDefaultSelection();
 		table.getOneClickEditMap().clear();
 		tableModel.clearView();
-
 	}
 
 	/** Respond to changes in mode sent by GUI manager */
@@ -381,7 +377,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		// clear the formats and call settingsChanged
 		settings().setCellFormat(null);
-
 	}
 
 	/** Resets spreadsheet after undo/redo call. */

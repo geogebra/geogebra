@@ -663,6 +663,9 @@ public class RadioTreeItemController implements ClickHandler,
 		return app;
 	}
 
+	/**
+	 * Remove edited geo from construction and clear editor.
+	 */
 	public void removeGeo() {
 		item.geo.remove();
 		item.setText(""); // make sure the text is not resubmitted on focus lost

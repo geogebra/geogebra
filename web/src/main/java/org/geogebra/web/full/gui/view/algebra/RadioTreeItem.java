@@ -845,6 +845,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				&& point.isPointerChangeable();
 	}
 
+	/**
+	 * Remove style for scrollable item
+	 */
 	public void styleEditor() {
 		if (!isInputTreeItem()) {
 			content.removeStyleName("scrollableTextBox");
@@ -1698,6 +1701,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		this.controller = controller;
 	}
 
+	/**
+	 * Move the controls to fit new size.
+	 */
 	public void reposition() {
 		if (controls != null) {
 			controls.reposition();
@@ -2169,18 +2175,32 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return true;
 	}
 
+	/**
+	 * Move caret to click position.
+	 * 
+	 * @param x
+	 *            caret x in canvas
+	 * @param y
+	 *            caret y in canvas
+	 */
 	public void adjustCaret(int x, int y) {
 		if (mf != null) {
 			mf.adjustCaret(x, y);
 		}
 	}
 
+	/**
+	 * Update font size of editor
+	 */
 	public final void updateFonts() {
 		if (mf != null) {
 			mf.setFontSize(getFontSize());
 		}
 	}
 
+	/**
+	 * @return LaTeX content of editor
+	 */
 	protected String getEditorLatex() {
 		return mf == null ? null
 				: TeXSerializer.serialize(mf.getFormula().getRootComponent());

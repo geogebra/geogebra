@@ -20,6 +20,12 @@ public class SpreadsheetToolbarManagerW {
 
 	private CreateObjectDialogW id;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param view
+	 *            spreadsheet view
+	 */
 	public SpreadsheetToolbarManagerW(AppW app, SpreadsheetViewW view){
 		this.app = app;
 		this.view = view;

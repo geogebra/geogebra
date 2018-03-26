@@ -307,6 +307,11 @@ public class GuiManagerW extends GuiManager
 		return contextMenu;
 	}
 
+	/**
+	 * @param table
+	 *            CAS table
+	 * @return context menu for CAS
+	 */
 	public RowHeaderPopupMenuW getCASContextMenu(final CASTableW table) {
 		removePopup();
 		currentPopup = new RowHeaderPopupMenuW(table, getApp());

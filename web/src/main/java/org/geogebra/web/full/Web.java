@@ -73,6 +73,9 @@ public class Web implements EntryPoint {
 		}
 	}-*/;
 
+	/**
+	 * Load UI of all applets.
+	 */
 	public static void loadAppletAsync() {
 		startGeoGebra(ArticleElement.getGeoGebraMobileTags());
 	}
@@ -84,12 +87,22 @@ public class Web implements EntryPoint {
 		window.addEventListener("message",function(event){$wnd.postMessage(event.data,"*");});
 	}-*/;
 
+	/**
+	 * @param el
+	 *            article element
+	 * @param clb
+	 *            callback
+	 */
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
 		GeoGebraFrameBoth.renderArticleElement(el,
 				(AppletFactory) GWT.create(AppletFactory.class),
 				getLAF(ArticleElement.getGeoGebraMobileTags()), clb);
 	}
 
+	/**
+	 * @param geoGebraMobileTags
+	 *            article elements
+	 */
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 		GeoGebraFrameBoth.main(geoGebraMobileTags,
 				(AppletFactory) GWT.create(AppletFactory.class),
@@ -130,7 +143,6 @@ public class Web implements EntryPoint {
 		}
 
 		return new GLookAndFeel();
-
 	}
 
 }
