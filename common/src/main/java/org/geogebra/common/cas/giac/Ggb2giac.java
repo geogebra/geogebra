@@ -1084,7 +1084,7 @@ public class Ggb2giac {
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 
 		p("Random.2",
-				"[[ggbranarg0:=%0],ggbranarg0+rand(%1-(ggbranarg0)+1)][1]"); // "RandomBetween"
+				"[[ggbranarg0:=%0],ggbranarg0+rand(%1-(ggbranarg0+0*rndvar)+1)][1]"); // "RandomBetween"
 		p("RandomBinomial.2", "binomial_icdf(%0,%1,rand(0,1))");
 		p("RandomElement.1", "rand(1,%0)[0]");
 		p("RandomPoisson.1", "poisson_icdf(%0,rand(0,1))"); // could also make
@@ -1230,7 +1230,7 @@ public class Ggb2giac {
 		// quote() needed for GGB-2184
 		// Sum(If(Mod(k,2)==0,k,0),k,0,10)
 		p("Sum.4",
-				"expand(subst(sum(subst(quote(%0),%1,ggbsumvar@1),ggbsumvar@1,%2,%3),ggbsumvar@1,%1))");
+				"expand(subst(sum(subst(quote(%0),{%1,rndvar},{ggbsumvar@1,ggbsumvar@1}),ggbsumvar@1,%2,%3),ggbsumvar@1,%1))");
 
 		// svd = singular value decomposition
 		// svd(M)=[U,S,V]
