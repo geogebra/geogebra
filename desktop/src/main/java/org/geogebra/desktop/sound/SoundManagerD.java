@@ -330,4 +330,9 @@ public class SoundManagerD implements SoundManager {
 		// not implemented here.
 		return false;
 	}
+
+	@Override
+	public void setCurrentTime(String url, int pos) {
+		// not implemented here.
+	}
 }

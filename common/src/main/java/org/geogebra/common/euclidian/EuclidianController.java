@@ -7854,6 +7854,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					|| (moveSelected && app.isRightClickEnabled()))) {
 				// ie Button Mode is really selected
 				movedGeoButton = (Furniture) movedGeoElement;
+				if (movedGeoButton.isGeoAudio() && !isMoveAudioExpected(app.getCapturingThreshold(type))) {
+					return;
+				}
 				// move button
 				moveMode = MOVE_BUTTON;
 				startLoc = mouseLoc;
@@ -7964,6 +7967,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// .isSliderFixed())
 		// && !ds.hitPoint(mouseLoc.x, mouseLoc.y, hitThreshold)
 		// && ds.hitSlider(mouseLoc.x, mouseLoc.y, hitThreshold);
+	}
+
+	protected boolean isMoveAudioExpected(int hitThreshold) {
+		DrawAudio da = (DrawAudio) view.getDrawableFor(movedGeoButton);
+		boolean hitSlider = da.isSliderHit(mouseLoc.x, mouseLoc.y, hitThreshold);
+		return (temporaryMode && app.isRightClickEnabled())
+				|| !hitSlider;
 	}
 
 	protected boolean isMoveCheckboxExpected() {
