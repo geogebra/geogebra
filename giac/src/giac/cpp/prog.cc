@@ -1254,9 +1254,14 @@ namespace giac {
       else
 	v=mergevecteur(v,gen2vecteur(w[0]));
       local_vars(w[1],v,contextptr);
+      return;
     }
-    else
-      local_vars(g._SYMBptr->feuille,v,contextptr);
+    if (g._SYMBptr->sommet==at_program && g._SYMBptr->feuille.type==_VECT){
+      vecteur & w = *g._SYMBptr->feuille._VECTptr;
+      if (w[0].type==_VECT )
+	v=mergevecteur(v,*w[0]._VECTptr);
+    }
+    local_vars(g._SYMBptr->feuille,v,contextptr);
   }
 
   gen quote_program(const gen & args,GIAC_CONTEXT){
@@ -10675,7 +10680,7 @@ namespace giac {
   static define_unary_function_eval (__index,&_index,_index_s);
   define_unary_function_ptr5( at_index ,alias_at_index,&__index,0,true);
 
-  gen _heappify(const gen & args,GIAC_CONTEXT){
+  gen _heapify(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT)
       return gensizeerr(contextptr);
     iterateur it=args._VECTptr->begin(),itend=args._VECTptr->end();    
@@ -10687,10 +10692,51 @@ namespace giac {
       f=args._VECTptr->back();
     }
     make_heap(it,itend,gen_sort(f,contextptr));
+    return 1;
   }
-  static const char _heappify_s []="heappify";
-  static define_unary_function_eval (__heappify,&_heappify,_heappify_s);
-  define_unary_function_ptr5( at_heappify ,alias_at_heappify,&__heappify,0,true);
+  static const char _heapify_s []="heapify";
+  static define_unary_function_eval (__heapify,&_heapify,_heapify_s);
+  define_unary_function_ptr5( at_heapify ,alias_at_heapify,&__heapify,0,true);
+
+  gen _heappop(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT)
+      return gensizeerr(contextptr);
+    gen v=args;
+    iterateur it=args._VECTptr->begin(),itend=args._VECTptr->end();
+    gen f=at_inferieur_strict_sort;
+    if (args.type==_SEQ__VECT && itend-it==2 && it->type==_VECT){
+      v=*it;
+      it=v._VECTptr->begin();
+      itend=v._VECTptr->end();
+      f=args._VECTptr->back();
+    }
+    if (itend==it)
+      return gendimerr(contextptr);
+    pop_heap(it,itend,gen_sort(f,contextptr));
+    v._VECTptr->pop_back();
+    return *itend;
+  }
+  static const char _heappop_s []="heappop";
+  static define_unary_function_eval (__heappop,&_heappop,_heappop_s);
+  define_unary_function_ptr5( at_heappop ,alias_at_heappop,&__heappop,0,true);
+
+  gen _heappush(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT)
+      return gensizeerr(contextptr);
+    gen f=at_inferieur_strict_sort;
+    if (args.type!=_VECT || args._VECTptr->size()<2)
+      return gensizeerr(contextptr);
+    vecteur & v=*args._VECTptr;
+    if (v.size()==3) f=v[2];
+    if (v[0].type!=_VECT) return gensizeerr(contextptr);
+    v[0]._VECTptr->push_back(v[1]);
+    iterateur it=v[0]._VECTptr->begin(),itend=v[0]._VECTptr->end();
+    push_heap(it,itend,gen_sort(f,contextptr));
+    return v[0];
+  }
+  static const char _heappush_s []="heappush";
+  static define_unary_function_eval (__heappush,&_heappush,_heappush_s);
+  define_unary_function_ptr5( at_heappush ,alias_at_heappush,&__heappush,0,true);
 
 
 #ifndef NO_NAMESPACE_GIAC

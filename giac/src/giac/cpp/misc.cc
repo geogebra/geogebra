@@ -5473,18 +5473,22 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	*logptr(contextptr) << gettext("Warning: not a graph matrix!") << endl;
     }
     // first make points, 
+    double xmin(0),xmax(0),ymin(0),ymax(0);
     vecteur l(ms),pos(ms),col(ms,_BLACK);
     switch (ms){
     case 2:
+      xmin=-0.5; xmax=1.5; ymin=-0.5; ymax=0.5;
       l[0]=0.; pos[0]=_QUADRANT3;
       l[1]=1.; pos[1]=_QUADRANT4; col[1]=35;
       break;
     case 3:
+      xmin=-0.5; xmax=1.5; ymin=-0.5; ymax=1;
       l[0]=0.0; pos[0]=_QUADRANT3;
       l[1]=1.0; pos[1]=_QUADRANT4;col[1]=35;
       l[2]=gen(0.5,std::sqrt(3.0)/2); pos[2]=_QUADRANT1; col[2]=11;
       break;
     case 4:
+      xmin=-0.5; xmax=1.5; ymin=-0.5; ymax=1;
       l[0]=0.; pos[0]=_QUADRANT3;
       l[1]=1; pos[1]=_QUADRANT4;col[1]=35;
       l[2]=gen(0.5,0.5*std::sqrt(3.0));  pos[2]=_QUADRANT1; col[2]=11;
@@ -5492,6 +5496,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       col[3]=58;
       break;
     case 5:
+      xmin=-0.5; xmax=3.5; ymin=-0.5; ymax=3;
       l[0]=0.; pos[0]=_QUADRANT3;
       l[1]=3.; pos[1]=_QUADRANT4;col[1]=35;
       l[2]=gen(1.5,1.5*std::sqrt(3.0));  pos[2]=_QUADRANT1; col[2]=11;
@@ -5499,6 +5504,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       l[4]=gen(2.,.75); col[4]=_MAGENTA;
       break;
     case 6:
+      xmin=-0.5; xmax=3.5; ymin=-0.5; ymax=3;
       l[0]=0.; pos[0]=_QUADRANT3;
       l[1]=3.; pos[1]=_QUADRANT4;col[1]=35;
       l[2]=gen(1.5,1.5*std::sqrt(3.0));  pos[2]=_QUADRANT1; col[2]=11;
@@ -5507,6 +5513,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       l[5]=gen(1.5,1.36602540378); col[5]=220;
       break;
     default:
+      xmin=-0.5; xmax=3.5; ymin=-0.5; ymax=3;
       l[0]=0.; pos[0]=_QUADRANT3;
       l[1]=3.; pos[1]=_QUADRANT4;col[1]=35;
       l[2]=gen(1.5,1.5*std::sqrt(3.0));  pos[2]=_QUADRANT1; col[2]=11;
@@ -5550,7 +5557,12 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       col=*attributs[0]._VECTptr;
     // then link if matrix cell is not 0
     vecteur res;
-    res.reserve(2*ms*ms+ms);
+    res.reserve(2*ms*ms+ms+3);
+    res.push_back(symb_equal(change_subtype(_AXES,_INT_PLOT),0));
+    if (xmin!=xmax && ymin!=ymax){
+      res.push_back(symb_equal(change_subtype(_GL_X,_INT_PLOT),symb_interval(xmin,xmax)));
+      res.push_back(symb_equal(change_subtype(_GL_Y,_INT_PLOT),symb_interval(ymin,ymax)));
+    }
     for (int i=0;i<ms;++i){
       string s;
       if (leg.type==_VECT && int(leg._VECTptr->size())>i)
@@ -5582,7 +5594,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	if (mij!=0){
 	  gen legende=symb_equal(at_legende,mij);
 	  gen aff=symb_equal(at_display,col[j]);
-	  res.push_back(_arc(gen(makevecteur(l[i],l[j],0.4,2,legende,aff),_SEQ__VECT),contextptr));
+	  res.push_back(_arc(gen(makevecteur(l[i],l[j],0.6,2,legende,aff),_SEQ__VECT),contextptr));
 	}
       }
     }
