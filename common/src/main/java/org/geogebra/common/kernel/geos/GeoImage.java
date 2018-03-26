@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -69,6 +70,9 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	private double scaleX = 1;
 	private double scaleY = 1;
+	
+	private GRectangle2D cropBox;
+
 
 	/**
 	 * Creates new image
@@ -1398,5 +1402,16 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	public double getScaleY() {
 		return scaleY;
+	}
+	
+	/**
+	 * @return crop box
+	 */
+	public GRectangle2D getCropBox() {
+		return cropBox;
+	}
+
+	public void setCropBox(GRectangle2D rect) {
+		cropBox = rect;
 	}
 }
