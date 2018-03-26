@@ -5,14 +5,18 @@ import java.util.Map;
 
 public class SymbolMappings {
 
+	private static final String DOT_FONT = "jlm_cmss10"; // default
+															// jlm_cmmi10_unchanged
+	private static final int DOT_CHAR = 46; // default 58
+
 	private static Map<String, CharFont> map = new HashMap<String, CharFont>();
 	static {
 
 		add("comma", 59, "jlm_cmmi10_unchanged");
-		add("ldotp", 58, "jlm_cmmi10_unchanged");
+		add("ldotp", DOT_CHAR, DOT_FONT);
 		add("cdotp", 162, "jlm_cmsy10");
-		add("normaldot", 58, "jlm_cmmi10_unchanged");
-		add("textnormaldot", 58, "jlm_cmmi10_unchanged");
+		add("normaldot", DOT_CHAR, DOT_FONT);
+		add("textnormaldot", DOT_CHAR, DOT_FONT);
 		add("slash", 61, "jlm_cmmi10_unchanged");
 		add("guillemotleft", 33, "jlm_jlmi10");
 		add("guillemotright", 36, "jlm_jlmi10");
