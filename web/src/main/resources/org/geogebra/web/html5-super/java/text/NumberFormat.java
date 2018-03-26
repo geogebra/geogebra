@@ -73,7 +73,7 @@ public class NumberFormat implements Serializable
     {
         try
         {
-            return format.parse( source );
+            return Double.parseDouble( source );
         }
         catch ( NumberFormatException e )
         {
