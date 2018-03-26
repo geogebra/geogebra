@@ -16,9 +16,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable class for Audio elemens.
@@ -53,7 +51,7 @@ public class DrawAudio extends Drawable {
 	private GRectangle sliderRect;
 	private boolean hovered = false;
 	private boolean playing = false;
-	private int sliderLength = -1;
+	private int sliderWidth = -1;
 	private int diameter = 2 * GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE + 1;
 	private GLine2D line = AwtFactory.getPrototype().newLine2D();
 
@@ -112,13 +110,13 @@ public class DrawAudio extends Drawable {
 		double max = geoAudio.getDuration();
 		double param = (geoAudio.getCurrentTime() - min) / (max - min);
 		sliderLeft = (int) (x + txtLayout.getBounds().getWidth() + 2 * BLOB_RADIUS);
-		sliderLength = left + width - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_RADIUS);
+		sliderWidth = left + width - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_RADIUS);
 		int middle = height / 2;
 		int sliderTop = top + middle;
-		updateDot(sliderLeft + (sliderLength) * param, sliderTop);
+		updateDot(sliderLeft + (sliderWidth) * param, sliderTop);
 		sliderRect = AwtFactory.getPrototype().newRectangle(sliderLeft, sliderTop - SLIDER_AREA_WIDTH,
 				sliderLeft - left, 2 * SLIDER_AREA_WIDTH);
-		line.setLine(sliderLeft, sliderTop, sliderLeft + sliderLength, sliderTop);
+		line.setLine(sliderLeft, sliderTop, sliderLeft + sliderWidth, sliderTop);
 	}
 
 	private void updateDot(double rwX, double rwY) {
@@ -151,7 +149,7 @@ public class DrawAudio extends Drawable {
 			int y = top + height / 2;
 
 			g2.setPaint(geo.getSelColor());
-			g2.drawStraightLine(x, y, x + sliderLength, y);
+			g2.drawStraightLine(x, y, x + sliderWidth, y);
 
 			g2.setPaint(BLOB_COLOR);
 			g2.setStroke(SLIDER_STROKE);
@@ -357,13 +355,8 @@ public class DrawAudio extends Drawable {
 				geoAudio.pause();
 			}
 			return true;
-		} else if (isBlobHit(x, y, App.DEFAULT_THRESHOLD)) {
-			Log.debug("the blob!!!");
-			blobDragging = true;
-		} else if (isSliderHit(x, y, App.DEFAULT_THRESHOLD)) {
-			Log.debug("slider!!!");
-			// return true;
 		}
+
 		return false;
 	}
 
@@ -393,6 +386,21 @@ public class DrawAudio extends Drawable {
 	 */
 	public void onMouseUp(int x, int y) {
 		blobDragging = false;
+	}
+
+	/**
+	 * @return left of the slider.
+	 */
+	public int getSliderLeft() {
+		return sliderLeft;
+	}
+
+	/**
+	 * 
+	 * @return the width of the time slider.
+	 */
+	public double getSliderWidth() {
+		return sliderWidth;
 	}
 
 }

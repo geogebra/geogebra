@@ -205,6 +205,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected static final int MOVE_IMPLICIT_CURVE = 127;
 	public static final int MOVE_Z_AXIS = 128;
 	public static final int MOVE_STROKE = 129;
+	public static final int MOVE_AUDIO_SLIDER = 130;
 	protected static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 	private static final float ZOOM_RECTANGLE_SNAP_RATIO = 1.2f;
 	private static final int ZOOM_RECT_THRESHOLD = 30;
@@ -6532,6 +6533,36 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return DoubleUtil.checkDecimalFraction(ret);
 	}
 
+	private final int getAudioTimeValue(GeoAudio movedAudio, boolean click) {
+		double max = movedAudio.getDuration();
+
+		DrawAudio da = (DrawAudio) view.getDrawableFor(movedAudio);
+		double param = mouseLoc.x - da.getSliderLeft();
+		param = Math.max(0, Math.min(da.getSliderWidth(), param));
+		param = (param * max) / da.getSliderWidth();
+
+		param = Kernel.roundToScale(param, movedAudio.getAnimationStep());
+		int val = (int) param;
+		movedAudio.setCurrentTime(val);
+		if (!click) {
+			return val;
+		}
+
+		if (val == movedAudio.getCurrentTime()) {
+			return val;
+		}
+
+		double ret;
+
+		if (val > movedAudio.getCurrentTime()) {
+			ret = Math.min(movedAudio.getCurrentTime() + movedAudio.getAnimationStep(), movedAudio.getDuration());
+		} else {
+
+			ret = Math.max(movedAudio.getCurrentTime() - movedAudio.getAnimationStep(), 0);
+		}
+		return (int) Math.round(ret);
+	}
+
 	/**
 	 * @param repaint
 	 *            TODO ignored now -- on purpose ?
@@ -6567,6 +6598,28 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// else
 		// movedGeoNumeric.updateCascade();
 
+	}
+
+	protected final void moveAudioSlider(boolean repaint, boolean click) {
+		GeoAudio audio = (GeoAudio) movedGeoButton;
+		int newVal = getAudioTimeValue(audio, click);
+		int oldVal = audio.getCurrentTime();
+		double max = audio.getDuration();
+		if (newVal < 0) {
+			return;
+		}
+
+		if ((max == oldVal) && (newVal > max)) {
+			return;
+		}
+
+		// do not set value unless it really changed!
+		if (oldVal == newVal) {
+			return;
+		}
+
+		audio.setCurrentTime(newVal);
+		audio.updateRepaint();
 	}
 
 	protected final void moveSlider(boolean repaint) {
@@ -7855,6 +7908,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// ie Button Mode is really selected
 				movedGeoButton = (Furniture) movedGeoElement;
 				if (movedGeoButton.isGeoAudio() && !isMoveAudioExpected(app.getCapturingThreshold(type))) {
+					moveMode = MOVE_AUDIO_SLIDER;
+					moveAudioSlider(true, true);
 					return;
 				}
 				// move button
@@ -8237,6 +8292,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		case MOVE_SLIDER:
 			moveSlider(repaint);
+			break;
+
+		case MOVE_AUDIO_SLIDER:
+			moveAudioSlider(repaint, false);
 			break;
 
 		case MOVE_BOOLEAN:

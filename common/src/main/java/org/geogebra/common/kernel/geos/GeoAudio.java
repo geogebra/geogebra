@@ -14,6 +14,7 @@ import org.geogebra.common.util.StringUtil;
  *
  */
 public class GeoAudio extends GeoButton {
+	private static final int DEFAULT_STEP = 4;
 	/** URL of a test audio file */
 	public static final String TEST_URL = "http://archive.geogebra.org/static/welcome_to_geogebra.mp3";
 	private static final int DEFAULT_PLAYER_WIDTH = 300;
@@ -34,6 +35,7 @@ public class GeoAudio extends GeoButton {
 		app = getKernel().getApplication();
 		setWidth(DEFAULT_PLAYER_WIDTH);
 		setHeight(DEFAULT_PLAYER_HEIGHT);
+		setAnimationStep(DEFAULT_STEP);
 	}
 
 	/**
@@ -128,7 +130,7 @@ public class GeoAudio extends GeoButton {
 	}
 
 	/**
-	 * @return the duration of the audio in seconds.
+	 * @return the duration in seconds.
 	 */
 	public int getDuration() {
 		if (!hasSoundManager()) {
@@ -145,6 +147,19 @@ public class GeoAudio extends GeoButton {
 			return -1;
 		}
 		return app.getSoundManager().getCurrentTime(src);
+	}
+
+	/**
+	 * Sets the current position to a given time in seconds.
+	 * 
+	 * @param secs
+	 *            to set.
+	 */
+	public void setCurrentTime(int secs) {
+		if (!hasSoundManager()) {
+			return;
+		}
+		app.getSoundManager().setCurrentTime(src, secs);
 	}
 
 	/**
