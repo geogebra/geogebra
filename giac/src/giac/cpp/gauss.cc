@@ -337,6 +337,7 @@ namespace giac {
       return gendimerr(contextptr);
     if (args._VECTptr->back().type==_VECT)
       return _plus(gauss(args._VECTptr->front(),*(args._VECTptr->back()._VECTptr),contextptr),contextptr);
+    return _randNorm(args,contextptr);
     return symb_gauss(args);
   }
   static const char _gauss_s []="gauss";

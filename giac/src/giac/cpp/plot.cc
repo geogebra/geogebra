@@ -3191,6 +3191,12 @@ namespace giac {
       if (s<1)
 	return gendimerr(contextptr);
       if (has_i(v) || ckmatrix(v)){
+	if ( (v.size()==2 || v.size()==3) && v.front()._VECTptr->size()>3){
+	  v=mtran(v);
+	  for (int i=0;i<int(v.size());++i)
+	    v[i]=put_attributs(_point(v[i],contextptr),attributs,contextptr);
+	  return gen(v,_SEQ__VECT);
+	}
 	for (int i=0;i<s;++i){
 	  if (v[i].type==_VECT)
 	    v[i]=put_attributs(_point(v[i],contextptr),attributs,contextptr);

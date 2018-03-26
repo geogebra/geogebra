@@ -10575,11 +10575,23 @@ namespace giac {
       b=symbolic(*b._FUNCptr,gen(vecteur(0),_SEQ__VECT));
     if (a.type==_IDNT){
       gen tmp=eval(a,1,contextptr);
+      if (tmp==a){ // try to eval at global level
+	tmp=global_eval(tmp,1);
+      }
       if (tmp.type==_IDNT && strcmp(tmp._IDNTptr->id_name,"numpy")==0){
 	if (b.type==_SYMB){
 	  tmp=eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr);
 	  if (b.is_symb_of_sommet(at_dot))
 	    return _prod(tmp,contextptr);
+	  return b._SYMBptr->sommet(tmp,contextptr);
+	}
+	return eval(b,1,contextptr);
+      }
+      if (tmp.type==_IDNT && 
+	  (strcmp(tmp._IDNTptr->id_name,"math")==0 ||
+	   strcmp(tmp._IDNTptr->id_name,"cmath")==0)){
+	if (b.type==_SYMB){
+	  tmp=eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr);
 	  return b._SYMBptr->sommet(tmp,contextptr);
 	}
       }
@@ -10606,7 +10618,7 @@ namespace giac {
       if (tmp.type==_VECT && b.type==_SYMB){
 	// check tmp size, workaround for progs with l:=[]; l.append(1);
 	// where the code would self modify itself
-	if (b._SYMBptr->sommet==at_append && tmp._VECTptr->size()>3){
+	if (b._SYMBptr->sommet==at_append && tmp._VECTptr->size()>=8){
 	  tmp._VECTptr->push_back(eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr));
 	  return tmp;
 	}
@@ -10638,7 +10650,10 @@ namespace giac {
       if (v.empty())
 	f=a;
       else {
-	v.insert(v.begin(),a);
+	if (u==at_remove)
+	  v.push_back(a);
+	else
+	  v.insert(v.begin(),a);
 	f=gen(v,f.type==_VECT?f.subtype:_SEQ__VECT);
       }
       f=symbolic(u,f);
