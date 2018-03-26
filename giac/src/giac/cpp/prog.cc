@@ -7672,6 +7672,11 @@ namespace giac {
     if (s<2)
       return gentoofewargs("");
     int i=-1;
+    if (v[1].type==_MAP){
+      const gen_map & m=*v[1]._MAPptr;
+      gen_map::const_iterator it=m.find(v[0]),itend=m.end();
+      return change_subtype(it!=itend,_INT_BOOLEAN);
+    }
     if (v[0].type==_STRNG && v[1].type==_STRNG){
       string f=*v[0]._STRNGptr,s=*v[1]._STRNGptr;
       int pos=s.find(f);

@@ -5437,7 +5437,7 @@ namespace giac {
     gen_map m(ptr_fun(islesscomplexthanf));
 #endif
     for (;it!=itend;++it){
-      if (is_equal(*it)){
+      if (is_equal(*it) || it->is_symb_of_sommet(at_deuxpoints)){
 	gen & f =it->_SYMBptr->feuille;
 	if (f.type==_VECT && f._VECTptr->size()==2){
 	  vecteur & w=*f._VECTptr;

@@ -5681,6 +5681,10 @@ unsigned int ConvertUTF8toUTF16 (
 	instring=!instring;
       if (instring)
 	continue;
+      if (curch=='}' && prevch=='{'){
+	cur=cur.substr(0,pos-1)+"table()"+cur.substr(pos+1,cur.size()-pos-1);
+	continue;
+      }
       if (curch==':' && (prevch=='[' || prevch==',')){
 	cur.insert(cur.begin()+pos,indexshift?'1':'0');
 	continue;
@@ -5807,10 +5811,15 @@ unsigned int ConvertUTF8toUTF16 (
     bool pythoncompat=python_compat(contextptr);
     bool pythonmode=false;
     first=0;
-    if (sss>24 && s_orig.substr(0,17)=="add_autosimplify(")
-      first=17;
-    if (s_orig[first]=='/')
+    if (sss>19 && s_orig.substr(first,17)=="add_autosimplify(")
+      first+=17;
+    if (s_orig[first]=='/' )
       return s_orig;
+    //if (sss>first+2 && s_orig[first]=='@' && s_orig[first+1]!='@') return s_orig.substr(first+1,sss-first-1);
+    if (sss>first+2 && s_orig.substr(first,2)=="@@"){
+      pythonmode=true;
+      pythoncompat=true;
+    }
     if (s_orig[first]=='#' || (s_orig[first]=='_' && !isalpha(s_orig[first+1])) || s_orig.substr(first,4)=="from" || s_orig.substr(first,7)=="import "){
       pythonmode=true;
       pythoncompat=true;
@@ -5866,6 +5875,8 @@ unsigned int ConvertUTF8toUTF16 (
 	&& res[res.size()-1]==')'
 	)
       res=res.substr(17,res.size()-18);
+    if (res.size()>2 && res.substr(0,2)=="@@")
+      res=res.substr(2,res.size()-2);
     res=remove_comment(res,"\"\"\"",true);
     res=remove_comment(res,"'''",true);
     res=glue_lines_backslash(res);
@@ -5887,6 +5898,25 @@ unsigned int ConvertUTF8toUTF16 (
 	char ch=cur[pos];
 	if (ch==' ' || ch==char(9))
 	  continue;
+	if (!instring && pythoncompat && ch=='{' && (pos==0 || cur[pos-1]!='\\')){
+	  // find matching }, counting : and , and ;
+	  int c1=0,c2=0,c3=0,cs=int(cur.size()),p;
+	  for (p=pos;p<cs;++p){
+	    char ch=cur[p];
+	    if (ch=='}' && cur[p-1]!='\\')
+	      break;
+	    if (ch==':')
+	      ++c1;
+	    if (ch==',')
+	      ++c2;
+	    if (ch==';')
+	      ++c3;
+	  }
+	  if (p<cs && c1 && c1>=c2 && c3==0){
+	    // table initialization, replace {} by table( ) 
+	    cur=cur.substr(0,pos)+"table("+cur.substr(pos+1,p-pos-1)+")"+cur.substr(p+1,cs-pos-1);
+	  }
+	}
 	if (!instring && pythoncompat &&
 	    ch=='\'' && pos<cur.size()-2 && cur[pos+1]!='\\' && (pos==0 || (cur[pos-1]!='\\' && cur[pos-1]!='\''))){ // workaround for '' string delimiters
 	  alert("// Python compatibility, please use \"...\" for strings",contextptr);
