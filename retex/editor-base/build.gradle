@@ -1,3 +1,10 @@
+buildscript {
+	dependencies {
+		classpath 'ca.coglinc:javacc-gradle-plugin:2.3.1'
+	}
+}
+
+apply plugin: 'ca.coglinc.javacc'
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'pmd'
@@ -19,6 +26,13 @@ targetCompatibility = 1.7
 dependencies {
 	compile project(':renderer-base')
 }
+
+sourceSets.main.java.srcDirs += tasks['compileJavacc'].outputs.files
+
+compileJavacc {
+	arguments = [static: 'false', grammar_encoding: 'UTF-8', unicode_input : 'true',  JAVA_TEMPLATE_TYPE: 'modern']
+}
+
 pmd {
      ignoreFailures = true
      ruleSets = []

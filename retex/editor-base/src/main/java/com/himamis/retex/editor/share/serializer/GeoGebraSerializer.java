@@ -1,7 +1,7 @@
-package org.geogebra.common.io.latex;
+package com.himamis.retex.editor.share.serializer;
 
-import org.geogebra.common.util.debug.Log;
-
+import com.himamis.retex.editor.share.io.latex.ParseException;
+import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
@@ -9,7 +9,6 @@ import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.serializer.Serializer;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -269,7 +268,6 @@ public class GeoGebraSerializer implements Serializer {
 			formula1 = parser.parse(serialize(formula.getRootComponent()));
 
 		} catch (ParseException e) {
-			Log.warn("Problem parsing: " + formula.getRootComponent());
 			e.printStackTrace();
 		}
 		return formula1 == null ? formula : formula1;

@@ -1,5 +1,5 @@
 PARSER_BEGIN(Parser)
-package org.geogebra.common.io.latex;
+package com.himamis.retex.editor.share.io.latex;
 
 import com.himamis.retex.editor.share.model.*;
 import com.himamis.retex.editor.share.meta.*;
@@ -151,8 +151,12 @@ void mathAtomOrPower(MathContainer currentField) : {
 }
 {
 
-    (<SPACE>)*    (t= <OPERATOR>)? {
-    if(t!=null)    {            currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
+    (<SPACE>)*
+  
+  (t= <OPERATOR>)? {
+    if(t!=null)
+    {
+            currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
       }
     }
     (
@@ -176,7 +180,8 @@ void mathAtomOrPower(MathContainer currentField) : {
     |
         quotes(currentField)
     |
-        (          (mathAtomCharacter(currentField))+ (arrayParantheses(currentField))?
+        (
+          (mathAtomCharacter(currentField))+ (arrayParantheses(currentField))?
           )
     ) (power(currentField) | superscript(currentField) | subscript(currentField))?
 }
@@ -434,7 +439,8 @@ void mathCharacter(MathContainer currentField) :
                 }
             }
             currentField.addArgument(new MathCharacter(metaCharacter));
-        }else if(currentField.size() >0)              {
+        }else if(currentField.size() >0)
+              {
                              currentField.addArgument(new MathCharacter(createMetaCharacter("\u200b", metaModel)));
             	}
             
