@@ -18,7 +18,6 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class PDFEncoderW implements Encoder {
 
-
 	private String filename;
 
 	private EuclidianViewW ev;
@@ -68,7 +67,6 @@ public class PDFEncoderW implements Encoder {
 		return getPDF(ctx);
 	}
 
-
 	/**
 	 * Load JS and set up
 	 */
@@ -84,7 +82,6 @@ public class PDFEncoderW implements Encoder {
 		ctx = getCanvas2PDF(width, height).cast();
 		g4copy = new GGraphics2DW(ctx);
 		ev.getApplication().setExporting(ExportType.PDF_HTML5, scale);
-
 
 	}
 
@@ -124,6 +121,5 @@ public class PDFEncoderW implements Encoder {
 		return pdfcontext.getPDFbase64();
 
 	}-*/;
-
 
 }
