@@ -14,11 +14,21 @@ import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
 
+/**
+ * Creates properties for the GeoGebra application.
+ */
 public class PropertiesFactory {
 
+    /**
+     * Creates general properties.
+     *
+     * @param app          properties for app
+     * @param localization localization for properties
+     * @return an array of general properties
+     */
     public static Property[] createGeneralProperties(App app, Localization localization) {
         Kernel kernel = app.getKernel();
-        return new Property[] {
+        return new Property[]{
                 new RoundingProperty(app, localization),
                 new AngleUnitProperty(kernel, localization),
                 new LabelingProperty(app, localization),
@@ -28,10 +38,17 @@ public class PropertiesFactory {
         };
     }
 
+    /**
+     * Creates algebra specific properties.
+     *
+     * @param app          properties for app
+     * @param localization localization for properties
+     * @return an array of algebra specific properties
+     */
     public static Property[] createAlgebraProperties(App app, Localization localization) {
         AlgebraView algebraView = app.getAlgebraView();
         Kernel kernel = app.getKernel();
-        return new Property[] {
+        return new Property[]{
                 new AlgebraDescriptionProperty(kernel, localization),
                 new SortByProperty(algebraView, localization),
                 new ShowAuxiliaryProperty(app, localization)

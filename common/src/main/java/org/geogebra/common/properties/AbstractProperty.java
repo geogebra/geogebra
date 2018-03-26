@@ -2,11 +2,20 @@ package org.geogebra.common.properties;
 
 import org.geogebra.common.main.Localization;
 
+/**
+ * Helper class for implementing the localized name of a property.
+ */
 public abstract class AbstractProperty implements Property {
 
     private Localization localization;
     private String name;
 
+    /**
+     * Constructs an abstract property.
+     *
+     * @param localization this is used to localize the name
+     * @param name         the name to be localized
+     */
     public AbstractProperty(Localization localization, String name) {
         this.localization = localization;
         this.name = name;
@@ -17,6 +26,11 @@ public abstract class AbstractProperty implements Property {
         return localization.getMenu(name);
     }
 
+    /**
+     * Returns the localization of the class.
+     *
+     * @return localization used
+     */
     protected Localization getLocalization() {
         return localization;
     }
