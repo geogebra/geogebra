@@ -461,7 +461,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return !!$wnd.C2S;
 	}-*/;
 
-	private native void addPagePDF(JavaScriptObject ctx) /*-{
+	public native void addPagePDF(JavaScriptObject ctx) /*-{
 		ctx.addPage();
 	}-*/;
 
@@ -469,7 +469,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return ctx.getSerializedSvg(true);
 	}-*/;
 
-	private native JavaScriptObject getCanvas2PDF(double width,
+	public native JavaScriptObject getCanvas2PDF(double width,
 			double height) /*-{
 		if ($wnd.canvas2pdf) {
 			return new $wnd.canvas2pdf.PdfContext(width, height);
@@ -478,11 +478,11 @@ public class EuclidianViewW extends EuclidianView implements
 		return null;
 	}-*/;
 
-	private native boolean canvas2PdfLoaded() /*-{
+	public native boolean canvas2PdfLoaded() /*-{
 		return !!$wnd.canvas2pdf;
 	}-*/;
 
-	private native String getPDF(JavaScriptObject pdfcontext) /*-{
+	public native String getPDF(JavaScriptObject pdfcontext) /*-{
 
 		return pdfcontext.getPDFbase64();
 

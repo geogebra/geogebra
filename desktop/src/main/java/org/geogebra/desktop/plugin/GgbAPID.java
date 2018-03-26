@@ -360,7 +360,8 @@ public class GgbAPID extends GgbAPIJre {
 	}
 
 	@Override
-	public String exportPDF(double exportScale, String file0) {
+	public String exportPDF(double exportScale, String file0,
+			String sliderLabel) {
 
 		String filename = file0;
 

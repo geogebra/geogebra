@@ -63,14 +63,18 @@ public class AnimatedGifEncoderW implements Encoder {
 	 * Finishes the internal gif object and starts rendering.
 	 */
 	@Override
-	public void finish(int width, int height) {
+	public String finish(int width, int height) {
 		finished = true;
 		if (!jsLoaded) {
-			return;
+			return null;
 		}
 
 		JavaScriptObject urls = createJsArrayString(gifs);
-		finish(urls, filename, width, height, repeat, frameDelay * 0.001);
+
+		// will return null as GIF is created in webworker
+		return finish(urls, filename, width, height, repeat,
+				frameDelay * 0.001);
+
 	}
 
 	private static native String finish(JavaScriptObject urls,

@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.plugin.GgbAPI;
@@ -1383,18 +1384,29 @@ public class GgbAPIW extends GgbAPI {
 	 * 
 	 */
 	@Override
-	final public String exportPDF(double scale, String filename) {
+	final public String exportPDF(double scale, String filename,
+			String sliderLabel) {
 		EuclidianView ev = app.getActiveEuclidianView();
 
 		if (ev instanceof EuclidianViewW) {
+
 			EuclidianViewW evw = (EuclidianViewW) ev;
-			String pdf = evw.getExportPDF(scale);
+			String pdf;
+
+			if (sliderLabel == null) {
+				pdf = evw.getExportPDF(scale);
+			} else {
+				pdf = GifShotExporter.export(kernel.getApplication(), 0,
+						(GeoNumeric) kernel.lookupLabel(sliderLabel), false,
+						filename, scale, Double.NaN, ExportType.PDF_HTML5);
+			}
 
 			if (filename != null) {
 				Browser.exportImage(pdf, filename);
 			}
 
 			return pdf;
+
 		}
 		return null;
 	}
@@ -1403,9 +1415,11 @@ public class GgbAPIW extends GgbAPI {
 	public void exportGIF(String sliderLabel, double scale,
 			double timeBetweenFrames, boolean isLoop, String filename,
 			double rotate) {
+
+		// each frame as ExportType.PNG
 		GifShotExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
 				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename,
-				scale, rotate, true);
+				scale, rotate, ExportType.PNG);
 
 	}
 
@@ -1413,9 +1427,10 @@ public class GgbAPIW extends GgbAPI {
 	public void exportWebM(String sliderLabel, double scale,
 			double timeBetweenFrames, boolean isLoop, String filename,
 			double rotate) {
+		// each frame as ExportType.WEBP
 		GifShotExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
 				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename,
-				scale, rotate, false);
+				scale, rotate, ExportType.WEBP);
 	}
 
 }

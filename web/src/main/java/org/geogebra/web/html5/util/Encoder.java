@@ -4,6 +4,6 @@ public interface Encoder {
 
 	void addFrame(String url);
 
-	void finish(int width, int height);
+	String finish(int width, int height);
 
 }

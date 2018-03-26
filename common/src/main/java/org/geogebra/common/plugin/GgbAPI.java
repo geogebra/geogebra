@@ -2281,7 +2281,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return null;
 	}
 
-	public String exportPDF(double exportScale, String filename) {
+	public String exportPDF(double exportScale, String filename,
+			String sliderLabel) {
 		// not implemented in Android, iOS
 		return null;
 	}

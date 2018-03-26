@@ -271,7 +271,7 @@ public class CmdExportImage extends CmdScripting {
 			break;
 
 		case PDF_HTML5:
-			String pdf = api.exportPDF(exportScale, filename);
+			String pdf = api.exportPDF(exportScale, filename, sliderName);
 			if (filename == null) {
 				kernel.getApplication().handleImageExport(pdf);
 			}

@@ -1,8 +1,13 @@
 package org.geogebra.web.html5.util;
 
-public interface FrameCollectorW {
-	public void addFrame(String url);
+import org.geogebra.common.main.App.ExportType;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 
-	public void finish(int width, int height);
+public interface FrameCollectorW {
+
+	public String finish(int width, int height);
+
+	public void addFrame(EuclidianViewWInterface ev, double scale,
+			ExportType format);
 
 }
