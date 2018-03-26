@@ -2186,6 +2186,7 @@ var __giac = [ {},
 { cat:"Integral", cmd:"Integral(If(x>=0.4 && 2>x, 1, 0), 0.1,3)", result:"1.600000000001", round:"1.6" },
 { cat:"Sum", cmd:"Sum(If(RandomBetween(1, 6)==6+0t,1,0),t,1,60)!=0 && Sum(If(RandomBetween(1, 6)==6+0t,1,0),t,1,60) !=60", result:"true" },
 { cat:"Sum", cmd:"Sum(If(RandomBetween(1, 6)==6,1,0),t,1,60)!=0 && Sum(If(RandomBetween(1, 6)==6,1,0),t,1,60) !=60", result:"true", notes:"http://dev.geogebra.org/trac/changeset/60686" },
+{ cat:"Sum", cmd:"Sum(RandomBetween(0,1),t,1,20)!=0 && Sum(RandomBetween(0,1),t,1,20)!=20", result:"true", notes:"https://dev.geogebra.org/trac/changeset/60709" },
 //JSONEND
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
 //{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"" },
