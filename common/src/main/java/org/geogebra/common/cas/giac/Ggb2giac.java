@@ -1084,7 +1084,7 @@ public class Ggb2giac {
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 
 		p("Random.2",
-				"[[ggbranarg0:=%0],ggbranarg0+rand(%1-(ggbranarg0+0*rndvar)+1)][1]"); // "RandomBetween"
+				"(%0+rand(%1-(%0+0*rndvar)+1))"); // "RandomBetween"
 		p("RandomBinomial.2", "binomial_icdf(%0,%1,rand(0,1))");
 		p("RandomElement.1", "rand(1,%0)[0]");
 		p("RandomPoisson.1", "poisson_icdf(%0,rand(0,1))"); // could also make
