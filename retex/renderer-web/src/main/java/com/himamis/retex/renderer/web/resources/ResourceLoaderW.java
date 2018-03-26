@@ -130,15 +130,6 @@ public class ResourceLoaderW implements ResourceLoader {
 
 		addResource("DefaultTeXFont.xml", XML_RESOURCES.DefaultTeXFont());
 
-		addResource("fonts/base/jlm_amsfonts.map.xml",
-				XML_RESOURCES.basejlm_amsfonts_map());
-
-		addResource("fonts/base/jlm_amssymb.map.xml",
-				XML_RESOURCES.basejlm_amssymb_map());
-
-		addResource("fonts/base/jlm_base.map.xml",
-				XML_RESOURCES.basejlm_base_map());
-
 		addResource("fonts/base/jlm_cmex10.xml",
 				XML_RESOURCES.basejlm_cmex10());
 

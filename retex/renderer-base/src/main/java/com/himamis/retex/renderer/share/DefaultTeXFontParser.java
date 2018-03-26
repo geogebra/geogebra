@@ -373,58 +373,8 @@ public class DefaultTeXFontParser {
 		return fontAdapter.loadFont(base, name);
 	}
 
-	public Map<String, CharFont> parseSymbolMappings() throws ResourceParseException {
-		Map<String, CharFont> res = new HashMap<String, CharFont>();
-		Element symbolMappings = root.getElementsByTagName("SymbolMappings").item(0).castToElement();
-		if (symbolMappings.isNull()) {
-			// "SymbolMappings" is required!
-			throw new XMLResourceParseException(RESOURCE_NAME, "SymbolMappings");
-		}
-		// iterate all mappings
-		NodeList list = symbolMappings.getElementsByTagName("Mapping");
-		for (int i = 0; i < list.getLength(); i++) {
-			String include = getAttrValueAndCheckIfNotNull("include",
-					list.item(i).castToElement());
-			Element map;
-			try {
-				if (base == null) {
-					map = parserAdapter.createParserAndParseFile(resource
-							.loadResource(DefaultTeXFontParser.class, include));
-				} else {
-					map = parserAdapter.createParserAndParseFile(
-							resource.loadResource(base, include));
-				}
-			} catch (Exception e) {
-				throw new XMLResourceParseException(
-						"Cannot find the file " + include + "!");
-			}
-			NodeList listM = map.getElementsByTagName(SYMBOL_MAPPING_EL);
-			for (int j = 0; j < listM.getLength(); j++) {
-				Element mapping = listM.item(j).castToElement();
-				// get string attribute
-				String symbolName = getAttrValueAndCheckIfNotNull("name",
-						mapping);
-				// get integer attributes
-				int ch = getIntAndCheck("ch", mapping);
-				String fontId = getAttrValueAndCheckIfNotNull("fontId",
-						mapping);
-				// put mapping in table
-				String boldFontId = getAttrValueOrNull("boldId",
-							mapping);
-
-
-				if (boldFontId == null) {
-					res.put(symbolName,
-							new CharFont((char) ch, Font_ID.indexOf(fontId)));
-				} else {
-					res.put(symbolName,
-							new CharFont((char) ch, Font_ID.indexOf(fontId),
-									Font_ID.indexOf(boldFontId)));
-			}
-			}
-		}
-
-		return res;
+	public Map<String, CharFont> parseSymbolMappings() {
+		return SymbolMappings.getMap();
 	}
 
 	public String[] parseDefaultTextStyleMappings() throws ResourceParseException {

@@ -94,15 +94,6 @@ public interface XmlResources extends ClientBundle {
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/DefaultTeXFont.xml")
 	public TextResource DefaultTeXFont();
 
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/fonts/base/jlm_amsfonts.map.xml")
-	public TextResource basejlm_amsfonts_map();
-
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/fonts/base/jlm_amssymb.map.xml")
-	public TextResource basejlm_amssymb_map();
-
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/fonts/base/jlm_base.map.xml")
-	public TextResource basejlm_base_map();
-
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/fonts/base/jlm_cmex10.xml")
 	public TextResource basejlm_cmex10();
 
