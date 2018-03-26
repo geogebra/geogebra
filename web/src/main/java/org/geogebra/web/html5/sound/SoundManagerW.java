@@ -165,6 +165,10 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		return Math.floor(audio.currentTime * 1000);
 	}-*/;
 
+	private native void setCurrentTime(Element audio, int time) /*-{
+																audio.currentTime = Math.floor(time / 1000);
+																}-*/;
+
 	/**
 	 * @param url
 	 *            eg
@@ -296,6 +300,14 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 			return getCurrentTime(audio);
 		}
 		return -1;
+	}
+
+	@Override
+	public void setCurrentTime(String url, int time) {
+		final Element audio = urlToAudio.get(url);
+		if (audio != null) {
+			setCurrentTime(audio, time);
+		}
 	}
 
 	@Override

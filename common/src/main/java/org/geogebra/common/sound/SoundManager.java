@@ -51,6 +51,16 @@ public interface SoundManager {
 	int getCurrentTime(String url);
 
 	/**
+	 * Sets the current time position of the audio given by its URL.
+	 * 
+	 * @param url
+	 *            URL of the audio resource.
+	 * @param pos
+	 *            to set.
+	 */
+	void setCurrentTime(String url, int pos);
+
+	/**
 	 * 
 	 * @param url
 	 *            to check if it is a valid audio file.
