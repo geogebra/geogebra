@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.util;
 
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -13,16 +12,11 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * Wrapper class for the Whammy.js library.
+ * Wrapper class for the canvas2pdf.js library to allow multi-page PDF export
  *
  * adapted from GifShot class
  */
 public class PDFEncoderW implements Encoder {
-
-	/**
-	 * Reference to the gif object created internally.
-	 */
-	private JavaScriptObject internal;
 
 
 	private String filename;
@@ -36,10 +30,10 @@ public class PDFEncoderW implements Encoder {
 	private boolean firstPage = true;
 
 	/**
-	 * @param frameDelay
-	 *            delay between the frames in milliseconds
-	 * @param repeat
-	 *            true to repeat the animation
+	 * @param view
+	 *            EV to export
+	 * @param filename0
+	 *            filename
 	 */
 	public PDFEncoderW(EuclidianViewWInterface view, String filename0) {
 
@@ -65,21 +59,21 @@ public class PDFEncoderW implements Encoder {
 	}
 
 	/**
-	 * Finishes the internal gif object and starts rendering.
+	 * Finish PDF and return it
 	 */
 	@Override
 	public String finish(int width, int height) {
 		ev.getApplication().setExporting(ExportType.NONE, 1);
 
-		return ev.getPDF(ctx);
+		return getPDF(ctx);
 	}
 
 
 	/**
-	 * Load JS and clear state.
+	 * Load JS and set up
 	 */
 	public void initialize() {
-		if (!ev.canvas2PdfLoaded()) {
+		if (!canvas2PdfLoaded()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
 		}
 
@@ -87,13 +81,49 @@ public class PDFEncoderW implements Encoder {
 		int width = (int) Math.floor(ev.getExportWidth() * scale);
 		int height = (int) Math.floor(ev.getExportHeight() * scale);
 
-		EuclidianView view2 = null;
-
-		ctx = ev.getCanvas2PDF(width, height).cast();
+		ctx = getCanvas2PDF(width, height).cast();
 		g4copy = new GGraphics2DW(ctx);
 		ev.getApplication().setExporting(ExportType.PDF_HTML5, scale);
 
 
 	}
+
+	/**
+	 * 
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 * @return canvas2pdf object
+	 */
+	public static native JavaScriptObject getCanvas2PDF(double width,
+			double height) /*-{
+		if ($wnd.canvas2pdf) {
+			return new $wnd.canvas2pdf.PdfContext(width, height);
+		}
+
+		return null;
+	}-*/;
+
+	/**
+	 * 
+	 * @return true if canvas2pdf is already loaded
+	 */
+	public static native boolean canvas2PdfLoaded() /*-{
+		return !!$wnd.canvas2pdf;
+	}-*/;
+
+	/**
+	 * 
+	 * @param pdfcontext
+	 *            canvas2pdf object
+	 * @return the resulting PDF (as base64 URL)
+	 */
+	public static native String getPDF(JavaScriptObject pdfcontext) /*-{
+
+		return pdfcontext.getPDFbase64();
+
+	}-*/;
+
 
 }

@@ -41,6 +41,7 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
+import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -420,11 +421,11 @@ public class EuclidianViewW extends EuclidianView implements
 					Math.floor(view2.getExportHeight() * scale));
 		}
 
-		if (!canvas2PdfLoaded()) {
+		if (!PDFEncoderW.canvas2PdfLoaded()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
 		}
 
-		Context2d ctx = getCanvas2PDF(width, height).cast();
+		Context2d ctx = PDFEncoderW.getCanvas2PDF(width, height).cast();
 
 		if (ctx == null) {
 			Log.debug("canvas2PDF not found");
@@ -445,7 +446,7 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		this.appW.setExporting(ExportType.NONE, 1);
-		return getPDF(ctx);
+		return PDFEncoderW.getPDF(ctx);
 	}
 
 	private native JavaScriptObject getCanvas2SVG(double width,
@@ -467,49 +468,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private native String getSerializedSvg(JavaScriptObject ctx) /*-{
 		return ctx.getSerializedSvg(true);
-	}-*/;
-
-	public native JavaScriptObject getCanvas2PDF(double width,
-			double height) /*-{
-		if ($wnd.canvas2pdf) {
-			return new $wnd.canvas2pdf.PdfContext(width, height);
-		}
-
-		return null;
-	}-*/;
-
-	public native boolean canvas2PdfLoaded() /*-{
-		return !!$wnd.canvas2pdf;
-	}-*/;
-
-	public native String getPDF(JavaScriptObject pdfcontext) /*-{
-
-		return pdfcontext.getPDFbase64();
-
-	}-*/;
-
-	private native String savePdf(JavaScriptObject ctx, String filename) /*-{
-
-		ctx.end();
-		ctx.stream.on('finish', function() {
-			var url = ctx.stream.toBlobURL('application/pdf');
-
-			if ($wnd.navigator.msSaveBlob) {
-				// IE11
-				$wnd.navigator.msSaveBlob(blob, filename);
-			} else {
-				var a = document.createElement("a");
-				document.body.appendChild(a);
-				a.style = "display: none";
-				a.href = url;
-				a.download = "test.pdf";
-				$wnd.setTimeout(function() {
-					a.click()
-				}, 100);
-			}
-
-		});
-
 	}-*/;
 
 	@Override
