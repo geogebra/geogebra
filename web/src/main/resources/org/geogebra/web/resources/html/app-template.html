@@ -405,7 +405,7 @@ function insertScript(codebase){
 		
 		if(/iPhone|iPad|iPod/i
 			.test(window.navigator.userAgent)){
-			link = iosLinks[window.appID];			
+			link = iosLinks[window.appID];
 		}
 		else {
 			link = androidLinks[window.appID];
@@ -418,6 +418,10 @@ function insertScript(codebase){
 		appName.innerText = nameText;
 		appName.clasName = "appName";
 		c("appName").parentElement.className += " mobile";
+		c("GeoGebraFrame").remove();
+		c("mk-spinner-wrap").remove();
+		c("startscreen").style.textAlign="center";
+		c("logo").className += " mobile";
 		//c("GeoGebraHeader").style.display= "none";
 		var tryApp = document.createElement("a");
 		tryApp.innerText = translation.tryApp || "Try App";

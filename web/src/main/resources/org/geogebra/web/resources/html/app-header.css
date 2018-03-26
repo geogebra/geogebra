@@ -81,6 +81,10 @@
 }
 
 .startscreen .logo{
+	display:none;
+}
+.startscreen .logo.mobile{
+	display:block;
 	width: 35%;
 	margin: auto;
 }

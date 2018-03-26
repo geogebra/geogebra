@@ -160,7 +160,7 @@ task copyHtml {
             def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->";
             def stylesheet = prerelease ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :"";
             def startscreenStyle = "startscreen" + (offline ? " offline" : "");
-            return html.replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">"+file(templateDir+appID+"-splash.html").text+"</div>")
+            return html.replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\"><div class=\"logo\">"+file(templateDir+appID+"-min.svg").text+"</div>"+file(templateDir+appID+"-splash.html").text+"</div>")
             .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text+file(templateDir+"app-style.css").text)
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico");
