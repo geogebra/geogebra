@@ -17,6 +17,9 @@ public class GeoAudio extends GeoButton {
 	private static final int DEFAULT_STEP = 4;
 	/** URL of a test audio file */
 	public static final String TEST_URL = "http://archive.geogebra.org/static/welcome_to_geogebra.mp3";
+
+	/** URL of a test audio file */
+	public static final String TEST_URL2 = "https://tomka.hu/~lac/zax/gombszorpV2.mp3";
 	private static final int DEFAULT_PLAYER_WIDTH = 300;
 	private static final int DEFAULT_PLAYER_HEIGHT = 48;
 	private String src;

@@ -27,6 +27,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 public class DrawAudio extends Drawable {
 	private static final int SLIDER_AREA_WIDTH = 4;
 	private static final int BLOB_RADIUS = 8;
+	private static final int INNER_BLOB_RADIUS = 5;
 	private static final int TAP_AREA_SIZE = 48;
 	private static final int TEXT_MARGIN_X = 16;
 	private static final int TIME_FONT = 14;
@@ -38,8 +39,11 @@ public class DrawAudio extends Drawable {
 	private static final GColor TIME_COLOR = GColor.MOW_TEXT_PRIMARY;
 	private static final GColor PLAY_HOVER_COLOR = GColor.MOW_MEBIS_TEAL;
 	private static final GColor BLOB_COLOR = GColor.MOW_MEBIS_TEAL;
+	private static final GColor HIGHLIGHT_BLOB_COLOR = GColor.MOW_MEBIS_TEAL_50;
 	private static final GBasicStroke SLIDER_STROKE = EuclidianStatic.getStroke(SLIDER_THICKNESS,
 			EuclidianStyleConstants.LINE_TYPE_FULL);
+	private static final GBasicStroke SLIDER_HIGHLIGHT_STOKE = EuclidianStatic.getDefaultStroke();
+
 	private final GeoAudio geoAudio;
 	private int top;
 	private int left;
@@ -56,11 +60,13 @@ public class DrawAudio extends Drawable {
 
 	// for dot
 	private GEllipse2DDouble circle = AwtFactory.getPrototype().newEllipse2DDouble();
+	private GEllipse2DDouble circleOuter = AwtFactory.getPrototype().newEllipse2DDouble();
 
 	private double[] coords = new double[2];
 	private int sliderLeft;
 	private boolean blobDragging = false;
 	private int duration;
+	private boolean sliderHighlighted = false;
 
 	/**
 	 * @param view
@@ -125,8 +131,16 @@ public class DrawAudio extends Drawable {
 		double xUL = (coords[0] - BLOB_RADIUS);
 		double yUL = (coords[1] - BLOB_RADIUS);
 
+		double ixUL = (coords[0] - INNER_BLOB_RADIUS);
+		double iyUL = (coords[1] - INNER_BLOB_RADIUS);
+
 		diameter = 2 * BLOB_RADIUS + 1;
-		circle.setFrame(xUL, yUL, diameter, diameter);
+		int innerDiameter = 2 * INNER_BLOB_RADIUS + 1;
+
+		int hightlightDiameter = 2 * BLOB_RADIUS + 1;
+		circle.setFrame(ixUL, iyUL, innerDiameter, innerDiameter);
+		// selection area
+		circleOuter.setFrame(xUL, yUL, hightlightDiameter, hightlightDiameter);
 	}
 
 	@Override
@@ -154,9 +168,14 @@ public class DrawAudio extends Drawable {
 			g2.setStroke(SLIDER_STROKE);
 			g2.drawStraightLine(x, y, coords[0], y);
 
-			// draw a dot
+			g2.setPaint(sliderHighlighted ? HIGHLIGHT_BLOB_COLOR : BLOB_COLOR);
+			g2.fill(circleOuter);
+			g2.setStroke(SLIDER_HIGHLIGHT_STOKE);
+			g2.draw(circleOuter);
+			g2.setStroke(SLIDER_STROKE);
 			g2.setPaint(BLOB_COLOR);
 			g2.fill(circle);
+
 		}
 	}
 
@@ -369,6 +388,7 @@ public class DrawAudio extends Drawable {
 	 */
 	public void onMouseOver(int x, int y) {
 		hovered = isPlayHit(x, y);
+		sliderHighlighted = isSliderHit(x, y, 2);
 		if (blobDragging) {
 			// geoAudio.setCurrentTime(geoAudio.getDuration() / 2);
 		}
