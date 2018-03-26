@@ -4,8 +4,8 @@ import java.text.Normalizer;
 
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.io.latex.BracketsAdapter;
-import org.geogebra.common.io.latex.GeoGebraSerializer;
-import org.geogebra.common.io.latex.ParseException;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
+import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import org.geogebra.common.io.latex.TeXAtomSerializer;
 import org.junit.Assert;
