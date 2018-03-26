@@ -217,9 +217,6 @@ public enum Feature {
 	/** MOW-390 GGB */
 	WHOLE_PAGE_DRAG,
 
-	/** AND-637 */
-	MOB_GGB_KEYBOARD_IN_SETTINGS,
-
 	/** AND-623 */
 	MOB_SYNC_BKG_SERVICE,
 

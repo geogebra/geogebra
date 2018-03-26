@@ -3961,10 +3961,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;
 
-		// AND-637
-		case MOB_GGB_KEYBOARD_IN_SETTINGS:
-			return true;
-
 		// MOB-1319
 		case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
 			return false;
