@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.scripting;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.geogebra.common.kernel.Kernel;
@@ -128,25 +129,23 @@ public class CmdSetValue extends CmdScripting {
 		if (!geo.isLabelSet()) { // eg like first element of {1,2,a}
 			Iterator<GeoElement> it = kernel.getConstruction()
 					.getGeoSetConstructionOrder().iterator();
+			ArrayList<GeoList> lists = new ArrayList<>();
 			while (it.hasNext()) {
 				GeoElement geo2 = it.next();
 				if (geo2.isGeoList()) {
 					final GeoList gl = (GeoList) geo2;
 					for (int i = 0; i < gl.size(); i++) {
 						if (gl.get(i) == geo) {
-
-							// avoid ConcurrentModificationException in desktop
-							kernel.getApplication().invokeLater(new Runnable() {
-								@Override
-								public void run() {
-
-									gl.updateRepaint();
-								}
-							});
+							lists.add(gl);
+							break;
 						}
 					}
 				}
 			}
+			for (GeoList depList : lists) {
+				depList.updateCascade();
+			}
+			kernel.notifyRepaint();
 		}
 		return true;
 	}
