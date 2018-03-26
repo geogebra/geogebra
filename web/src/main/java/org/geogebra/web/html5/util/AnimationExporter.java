@@ -51,6 +51,11 @@ public class AnimationExporter {
 		double step;
 		int n;
 
+		// pages in order, once each!
+		if (frameFormat == ExportType.PDF_HTML5) {
+			type = GeoElement.ANIMATION_INCREASING_ONCE;
+		}
+
 		switch (type) {
 		case GeoElement.ANIMATION_DECREASING:
 			step = -slider.getAnimationStep();
