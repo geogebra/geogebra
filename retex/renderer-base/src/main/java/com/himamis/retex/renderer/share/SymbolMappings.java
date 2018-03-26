@@ -529,7 +529,7 @@ public class SymbolMappings {
 	private static void add(String string, int ch, String fontId) {
 		try {
 		map.put(string, new CharFont((char) ch,
-				DefaultTeXFontParser.Font_ID.indexOf(fontId), -1));
+					DefaultTeXFontParser.Font_ID.indexOf(fontId)));
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
