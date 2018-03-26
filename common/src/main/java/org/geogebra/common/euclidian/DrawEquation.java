@@ -293,7 +293,7 @@ public abstract class DrawEquation {
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 						font.getSize() + 3, style, fgColor);
 			} catch (Exception e2) {
-				Log.debug("LaTeX parse exception: " + e.getMessage() + "\n"
+				Log.debug("LaTeX parse exception: " + e2.getMessage() + "\n"
 						+ text);
 				formula = TeXFormula
 						.getPartialTeXFormula(
