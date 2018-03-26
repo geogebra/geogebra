@@ -4,6 +4,9 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 
+/**
+ * Property for setting sort by in Algebra view.
+ */
 public class SortByProperty extends AbstractEnumerableProperty {
 
     private AlgebraView.SortMode[] sortModes = {
@@ -15,6 +18,12 @@ public class SortByProperty extends AbstractEnumerableProperty {
 
     private AlgebraView algebraView;
 
+    /**
+     * Constructs a sort by property object.
+     *
+     * @param algebraView  algebra view
+     * @param localization localization
+     */
     public SortByProperty(AlgebraView algebraView, Localization localization) {
         super(localization, "SortBy");
         this.algebraView = algebraView;

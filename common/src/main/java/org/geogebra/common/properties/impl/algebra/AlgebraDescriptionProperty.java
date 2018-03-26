@@ -4,6 +4,9 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 
+/**
+ * Property setting for algebra description.
+ */
 public class AlgebraDescriptionProperty extends AbstractEnumerableProperty {
 
     private int[] algebraStyles = {
@@ -15,10 +18,16 @@ public class AlgebraDescriptionProperty extends AbstractEnumerableProperty {
 
     private Kernel kernel;
 
+    /**
+     * Constructs an algebra description property.
+     *
+     * @param kernel       kernel
+     * @param localization localization
+     */
     public AlgebraDescriptionProperty(Kernel kernel, Localization localization) {
         super(localization, "AlgebraDescriptions");
         this.kernel = kernel;
-        setValuesAndLocalize(new String[] {
+        setValuesAndLocalize(new String[]{
                 "DefinitionAndValue",
                 "Value",
                 "Definition",

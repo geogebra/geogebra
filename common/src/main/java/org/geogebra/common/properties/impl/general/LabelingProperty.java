@@ -5,6 +5,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 
+/**
+ * Property for setting the labeling for new objects.
+ */
 public class LabelingProperty extends AbstractEnumerableProperty {
 
     private int[] labelingStyles = {
@@ -15,10 +18,16 @@ public class LabelingProperty extends AbstractEnumerableProperty {
 
     private App app;
 
+    /**
+     * Constructs a labeling property.
+     *
+     * @param app          app
+     * @param localization localization
+     */
     public LabelingProperty(App app, Localization localization) {
         super(localization, "Labeling");
         this.app = app;
-        setValuesAndLocalize(new String[] {
+        setValuesAndLocalize(new String[]{
                 "Labeling.on",
                 "Labeling.off",
                 "Labeling.pointsOnly"

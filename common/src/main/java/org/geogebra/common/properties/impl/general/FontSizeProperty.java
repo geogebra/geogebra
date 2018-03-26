@@ -5,10 +5,19 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 import org.geogebra.common.util.Util;
 
+/**
+ * Property representing the font size.
+ */
 public class FontSizeProperty extends AbstractEnumerableProperty {
 
     private App app;
 
+    /**
+     * Constructs a font size property.
+     *
+     * @param app          app
+     * @param localization localization
+     */
     public FontSizeProperty(App app, Localization localization) {
         super(localization, "FontSize");
         this.app = app;

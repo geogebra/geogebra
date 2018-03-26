@@ -1,13 +1,16 @@
 package org.geogebra.common.properties.impl.general;
 
-import java.util.Locale;
-
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 import org.geogebra.common.util.lang.Language;
 
+import java.util.Locale;
+
+/**
+ * Property for setting the language.
+ */
 public class LanguageProperty extends AbstractEnumerableProperty {
 
     private App app;
@@ -15,6 +18,12 @@ public class LanguageProperty extends AbstractEnumerableProperty {
     private Locale[] locales;
     private String[] languageCodes;
 
+    /**
+     * Constructs a language property.
+     *
+     * @param app          app
+     * @param localization localization
+     */
     public LanguageProperty(App app, Localization localization) {
         super(localization, "Language");
         this.app = app;

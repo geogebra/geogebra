@@ -1,22 +1,30 @@
 package org.geogebra.common.properties.impl.general;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 
+import java.util.ArrayList;
+
+/**
+ * Property for setting the rounding.
+ */
 public class RoundingProperty extends AbstractEnumerableProperty {
 
     private App app;
     private int figuresIndex;
 
+    /**
+     * Constructs a rounding property.
+     *
+     * @param app          app
+     * @param localization localization
+     */
     public RoundingProperty(App app, Localization localization) {
         super(localization, "Rounding");
 
         this.app = app;
-
         setupValues(localization);
     }
 
@@ -39,12 +47,12 @@ public class RoundingProperty extends AbstractEnumerableProperty {
 
     @Override
     public int getCurrent() {
-		return OptionsMenu.getMenuDecimalPosition(app.getKernel(), true);
+        return OptionsMenu.getMenuDecimalPosition(app.getKernel(), true);
     }
 
     @Override
     protected void setValueSafe(String value, int index) {
         boolean figures = index >= figuresIndex;
-        OptionsMenu.setRounding(app, figures ? index + 1: index, figures);
+        OptionsMenu.setRounding(app, figures ? index + 1 : index, figures);
     }
 }
