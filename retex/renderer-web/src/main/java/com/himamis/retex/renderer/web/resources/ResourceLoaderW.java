@@ -226,17 +226,11 @@ public class ResourceLoaderW implements ResourceLoader {
 		addResource("fonts/maths/jlm_rsfs10.xml",
 				XML_RESOURCES.mathsjlm_rsfs10());
 
-		addResource("fonts/maths/jlm_special.map.xml",
-				XML_RESOURCES.mathsjlm_special_map());
-
 		addResource("fonts/maths/jlm_special.xml",
 				XML_RESOURCES.mathsjlm_special());
 
 		addResource("fonts/maths/jlm_stmary10.xml",
 				XML_RESOURCES.mathsjlm_stmary10());
-
-		addResource("fonts/maths/jlm_stmaryrd.map.xml",
-				XML_RESOURCES.mathsjlm_stmaryrd_map());
 
 		addResource("fonts/maths/optional/jlm_dsrom10.xml",
 				XML_RESOURCES.optionaljlm_dsrom10());

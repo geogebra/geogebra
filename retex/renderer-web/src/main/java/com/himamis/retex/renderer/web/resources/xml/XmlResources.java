@@ -190,17 +190,11 @@ public interface XmlResources extends ClientBundle {
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/fonts/maths/jlm_rsfs10.xml")
 	public TextResource mathsjlm_rsfs10();
 
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/fonts/maths/jlm_special.map.xml")
-	public TextResource mathsjlm_special_map();
-
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/fonts/maths/jlm_special.xml")
 	public TextResource mathsjlm_special();
 
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/fonts/maths/jlm_stmary10.xml")
 	public TextResource mathsjlm_stmary10();
-
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/fonts/maths/jlm_stmaryrd.map.xml")
-	public TextResource mathsjlm_stmaryrd_map();
 
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/fonts/maths/optional/jlm_dsrom10.xml")
 	public TextResource optionaljlm_dsrom10();
