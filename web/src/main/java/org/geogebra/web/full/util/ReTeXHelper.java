@@ -2,7 +2,7 @@ package org.geogebra.web.full.util;
 
 import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.io.latex.ParseException;
-import org.geogebra.common.io.latex.Parser;
+import com.himamis.retex.editor.share.io.latex.Parser;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;

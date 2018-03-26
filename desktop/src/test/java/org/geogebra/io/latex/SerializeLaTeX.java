@@ -6,7 +6,7 @@ import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.io.latex.BracketsAdapter;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
-import org.geogebra.common.io.latex.Parser;
+import com.himamis.retex.editor.share.io.latex.Parser;
 import org.geogebra.common.io.latex.TeXAtomSerializer;
 import org.junit.Assert;
 import org.junit.BeforeClass;

@@ -31,7 +31,7 @@ import javax.swing.JFrame;
 
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
-import org.geogebra.common.io.latex.Parser;
+import com.himamis.retex.editor.share.io.latex.Parser;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.event.KeyEvent;
