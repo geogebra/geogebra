@@ -1626,8 +1626,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			}
 		}
 
-		renameFunc(sb, Unicode.EULER_STRING, "2.718281828");
-		renameFunc(sb, "\\pi", "3.1415926535");
+		renameFunc(sb, Unicode.EULER_STRING, Math.E + "");
+		renameFunc(sb, "\\pi", Math.PI + "");
 		return new String(sb);
 	}
 
