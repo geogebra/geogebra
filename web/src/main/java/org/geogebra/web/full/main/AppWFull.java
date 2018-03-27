@@ -7,6 +7,8 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatObj;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -1832,4 +1834,15 @@ public class AppWFull extends AppW implements HasKeyboard {
 	public void showCustomizeToolbarGUI() {
 		showBrowser(getCustomizeToolbarGUI());
 	}
+
+	@Override
+	public void exportCollada() {
+		setExport3D(new FormatCollada());
+	}
+
+	@Override
+	public void exportObj() {
+		setExport3D(new FormatObj());
+	}
+
 }

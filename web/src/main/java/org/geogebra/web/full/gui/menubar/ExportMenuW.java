@@ -1,8 +1,6 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatObj;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -187,7 +185,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				@Override
 				public void doExecute() {
 					menu.hide();
-					app.setExport3D(new FormatCollada());
+					app.exportCollada();
 				}
 			});
 		}
@@ -197,7 +195,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				@Override
 				public void doExecute() {
 					menu.hide();
-					app.setExport3D(new FormatObj());
+					app.exportObj();
 				}
 			});
 		}

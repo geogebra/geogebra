@@ -172,7 +172,7 @@ public abstract class AppW extends App implements SetLabels {
 	private DrawEquationW drawEquation;
 
 	private NormalizerMinimal normalizerMinimal;
-	private GgbAPIW ggbapi;
+	protected GgbAPIW ggbapi;
 	private final LocalizationW loc;
 	private ImageManagerW imageManager;
 	private GgbFile currentFile = null;
@@ -3848,6 +3848,14 @@ public abstract class AppW extends App implements SetLabels {
 			viewW = new ViewW(this);
 		}
 		return viewW;
+	}
+
+	public void exportCollada() {
+		// empty for webSimple
+	}
+
+	public void exportObj() {
+		// empty for webSimple
 	}
 
 }

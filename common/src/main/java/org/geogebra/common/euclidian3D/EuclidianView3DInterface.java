@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.plugin.Geometry3DGetter;
 
 /**
  * 
@@ -229,5 +230,19 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @return renderer
 	 */
 	public Renderer getRenderer();
+
+	public String exportCollada(double xmin, double xmax, double ymin,
+			double ymax, double zmin, double zmax, double xyScale,
+			double xzScale, double xTickDistance, double yTickDistance,
+			double zTickDistance);
+
+	public String exportObj(double xmin, double xmax, double ymin, double ymax,
+			double zmin, double zmax, double xyScale, double xzScale,
+			double xTickDistance, double yTickDistance, double zTickDistance);
+
+	public void exportGeometry3D(Geometry3DGetter getter, double xmin,
+			double xmax, double ymin, double ymax, double zmin, double zmax,
+			double xyScale, double xzScale, double xTickDistance,
+			double yTickDistance, double zTickDistance);
 
 }
