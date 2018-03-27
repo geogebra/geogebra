@@ -159,23 +159,27 @@ var translation = {};
 		}
 		return false;
 	}
+
 	function parentTable(ret){
 		var parent = ret;
-			while(parent = parent.parentElement){
-		
+		while(parent = parent.parentElement){
 			if(parent.tagName == "TABLE"){
 				return parent;
 			}
 		}
 		return ret;
 	}
+
 	function button(id, perspectiveId, caption){
 		var shortId = id.replace("perspective","");
-		if(getPerspective()==shortId){
+		if(getPerspective() == shortId){
 			changeMetaTitle(caption);
 		}
 		var ret = e(id);
-		var parent = parentTable(ret);
+		if (!ret) {
+			return;
+		}
+		var parent = parentTable(ret);		
 		if(id == "tutorials"){
 			parent.addEventListener("click",function(){
 					window.open("https://www.geogebra.org/tutorial")
@@ -197,7 +201,7 @@ var translation = {};
 		}
 		ret.innerHTML = caption;
 	}
-	
+
 	function setPickerLabels(dict){
 		button("graphing", 1, dict["Graphing"] || "Graphing");
 		button("geometry", 2, dict["Perspective.Geometry"] || "Geometry");
@@ -212,6 +216,7 @@ var translation = {};
 			e("download").innerHTML = dict["Download"] || "Download";
 		}
 	}
+
 	function showInLang(lang){
 		var props = __GGB__keysVar[lang];
 		if(window.appID === "graphing"){
@@ -238,7 +243,6 @@ var translation = {};
 		if(e("ggbPage")){
 			setPickerLabels(props.menu);
 		}
-
 	}
 	
 	function showInEnglish(){
