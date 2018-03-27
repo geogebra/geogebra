@@ -5711,7 +5711,12 @@ unsigned int ConvertUTF8toUTF16 (
 	continue;
       }
       if (curch==':' && prevch==':'){
-	cur.insert(cur.begin()+pos,'0');
+	if (pos+1<int(cur.size()) && cur[pos+1]=='-'){
+	  cur.insert(cur.begin()+pos,'-');
+	  cur.insert(cur.begin()+pos+1,'1');
+	}
+	else
+	  cur.insert(cur.begin()+pos,'0');
 	continue;	
       }
       if (curch=='%'){

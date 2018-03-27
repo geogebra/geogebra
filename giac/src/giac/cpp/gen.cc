@@ -8915,7 +8915,7 @@ namespace giac {
 	  step=istep.val;
 	  if (step<0 && is_zero(i1))
 	    i1=minus_one;
-	  if (step<0 && is_zero(iback)){
+	  if (0 && step<0 && is_zero(iback)){ // detected during translation
 	    *logptr(contextptr) << gettext("Warning, using :0:-step, use :-1:-step for ::") << endl;
 	  }
 	}
