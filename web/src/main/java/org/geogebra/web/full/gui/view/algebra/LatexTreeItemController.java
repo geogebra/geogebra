@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
-import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
@@ -19,6 +18,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.Timer;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
