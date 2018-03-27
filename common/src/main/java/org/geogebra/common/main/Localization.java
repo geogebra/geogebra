@@ -1205,6 +1205,13 @@ public abstract class Localization {
 
 	abstract protected ArrayList<Locale> getSupportedLocales();
 
+	/**
+	 * Creates a locale from a language and a country string.
+	 *
+	 * @param language the language of the locale
+	 * @param country the country the language is used in. Might be null.
+	 * @return a new locale
+	 */
 	protected abstract Locale createLocale(String language, String country);
 
 	/**
@@ -1247,13 +1254,15 @@ public abstract class Localization {
 		return Locale.ENGLISH;
 	}
 
+	/**
+	 * Returns the languages that are supported by the app.
+	 *
+	 * @param prerelease if the app is prerelease
+	 * @return an array of supported languages.
+	 */
 	public Language[] getSupportedLanguages(boolean prerelease) {
-		Language[] languages = Language.values();
-		List<Language> supported = new ArrayList<>(languages.length);
-		for (int i = 0; i < languages.length; i++) {
-
-			Language language = languages[i];
-
+		List<Language> supported = new ArrayList<>();
+		for (Language language: Language.values()) {
 			if (language.fullyTranslated || prerelease) {
 				supported.add(language);
 			}
@@ -1263,6 +1272,12 @@ public abstract class Localization {
 		return supported.toArray(supportedLanguages);
 	}
 
+	/**
+	 * Converts the language to a locale object.
+	 *
+	 * @param language the language to convert to.
+	 * @return converted locale
+	 */
 	public Locale convertToLocale(Language language) {
 		String lang = language.localeISO6391;
 		String country = "";
@@ -1272,6 +1287,12 @@ public abstract class Localization {
 		return createLocale(lang, country);
 	}
 
+	/**
+	 * Get an array of locales from langauges.
+	 *
+	 * @param languages array of languages
+	 * @return an array of locales
+	 */
 	public Locale[] getLocales(Language[] languages) {
 		Locale[] locales = new Locale[languages.length];
 		for (int i = 0; i < languages.length; i++) {
@@ -1281,6 +1302,12 @@ public abstract class Localization {
 		return locales;
 	}
 
+	/**
+	 * Returns the supported locales.
+	 *
+	 * @param prerelease if the app is in prerelease
+	 * @return locales that the app can handle
+	 */
 	public ArrayList<Locale> getSupportedLocales(boolean prerelease) {
 		Language[] languages = getSupportedLanguages(prerelease);
 		Locale[] locales = getLocales(languages);
