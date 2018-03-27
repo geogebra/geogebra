@@ -27,7 +27,7 @@ dependencies {
 	compile project(':renderer-base')
 }
 
-sourceSets.main.java.srcDirs += tasks['compileJavacc'].outputs.files
+sourceSets.main.java.srcDirs += [compileJavacc.outputDirectory, compileJavacc.inputDirectory]
 
 compileJavacc {
 	arguments = [static: 'false', grammar_encoding: 'UTF-8', unicode_input : 'true',  JAVA_TEMPLATE_TYPE: 'modern']
