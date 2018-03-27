@@ -92,8 +92,6 @@ public class ResourceLoaderW implements ResourceLoader {
 	 * Please regenerate this if you add/delete/rename xmls.
 	 */
 	private static final void initResources() {
-		addResource("cyrillic/fonts/jlm_cyrillic.map.xml",
-				XML_RESOURCES.fontsjlm_cyrillic_map());
 
 		addResource("cyrillic/fonts/jlm_wnbx10.xml",
 				XML_RESOURCES.fontsjlm_wnbx10());
@@ -261,9 +259,6 @@ public class ResourceLoaderW implements ResourceLoader {
 		addResource("greek/fonts/jlm_fctrpg.xml",
 				XML_RESOURCES.fontsjlm_fctrpg());
 
-		addResource("greek/fonts/jlm_greek.map.xml",
-				XML_RESOURCES.fontsjlm_greek_map());
-
 		addResource("greek/fonts/language_greek.xml",
 				XML_RESOURCES.fontslanguage_greek());
 
@@ -277,7 +272,5 @@ public class ResourceLoaderW implements ResourceLoader {
 				XML_RESOURCES.TeXFormulaSettings());
 
 		addResource("TeXSymbols.xml", XML_RESOURCES.TeXSymbols());
-
-
 	}
 }

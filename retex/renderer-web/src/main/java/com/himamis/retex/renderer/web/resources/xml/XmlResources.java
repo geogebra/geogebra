@@ -55,8 +55,6 @@ public interface XmlResources extends ClientBundle {
 	 * This interface was generated based on the available source xml at that
 	 * time. Please regenerate this if you add/delete/rename xmls.
 	 */
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/cyrillic/fonts/jlm_cyrillic.map.xml")
-	public TextResource fontsjlm_cyrillic_map();
 
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/cyrillic/fonts/jlm_wnbx10.xml")
 	public TextResource fontsjlm_wnbx10();
@@ -226,8 +224,6 @@ public interface XmlResources extends ClientBundle {
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/greek/fonts/jlm_fctrpg.xml")
 	public TextResource fontsjlm_fctrpg();
 
-	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/greek/fonts/jlm_greek.map.xml")
-	public TextResource fontsjlm_greek_map();
 
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/greek/fonts/language_greek.xml")
 	public TextResource fontslanguage_greek();
