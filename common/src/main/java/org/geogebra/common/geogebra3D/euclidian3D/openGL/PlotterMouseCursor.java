@@ -47,8 +47,7 @@ public class PlotterMouseCursor {
 				0);
 		b[5] = new Coords(0.120971069271961 * coeff, -0.468626910474487 * coeff,
 				0);
-		b[6] = new Coords(-0.0280000000000002 * coeff,
-				-0.617597979746448 * coeff, 0);
+		b[6] = new Coords(-0.028 * coeff, -0.617597979746448 * coeff, 0);
 
 		// create geometry with color
 
