@@ -139,19 +139,15 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 	 */
 	public void setLabels() {
 		getCaption().setText(appW.getLocalization().getMenu("exportImage")); // dialog
-		// title
-		if (copyToClipboardBtn == null) {
-
-			// no right click message for:
-			// PDF
-			// iOS
-			// Android
-			if (previewImage != null && !Browser.isMobile()) {
-				rightClickText.setText(
-						appW.getLocalization().getMenu("expImgRightClickMsg"));
-			}
-
-		} else {
+		// no right click message for:
+		// PDF
+		// iOS
+		// Android
+		if (rightClickText != null && previewImage != null && !Browser.isMobile()) {
+			rightClickText.setText(
+					appW.getLocalization().getMenu("expImgRightClickMsg"));
+		}
+		if (copyToClipboardBtn != null) {
 			copyToClipboardBtn
 					.setText(appW.getLocalization().getMenu("CopyToClipboard"));
 		}
