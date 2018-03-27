@@ -1,8 +1,6 @@
 package org.geogebra.web.full.util;
 
 import org.geogebra.common.cas.view.CASTableCellEditor;
-import org.geogebra.common.io.latex.ParseException;
-import com.himamis.retex.editor.share.io.latex.Parser;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
@@ -15,6 +13,8 @@ import org.geogebra.web.full.gui.view.algebra.SliderTreeItemRetex;
 import org.geogebra.web.full.gui.view.algebra.TextTreeItem;
 import org.geogebra.web.html5.main.AppW;
 
+import com.himamis.retex.editor.share.io.latex.ParseException;
+import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.web.MathFieldW;
 
