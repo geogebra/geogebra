@@ -4013,6 +4013,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_MATERIAL_INPUT:
 			return prerelease;
 
+		// AND-679
+		case MOB_AND_QUEUE_ON_GL_THREAD:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************

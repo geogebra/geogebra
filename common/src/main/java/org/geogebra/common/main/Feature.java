@@ -286,6 +286,10 @@ public enum Feature {
 	MOB_MATERIAL_INPUT,
 
 	/** GGB-2318 */
-	SPLIT_INTEGRAL_IF
+	SPLIT_INTEGRAL_IF,
+
+	/** AND-679 */
+	MOB_AND_QUEUE_ON_GL_THREAD
+
 }
 
