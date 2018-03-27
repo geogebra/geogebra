@@ -110,8 +110,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			readZip(zip, false);
 		} else if (zipFile instanceof InputStreamZipFile) {
 			InputStreamZipFile inputStreamZipFile = (InputStreamZipFile) zipFile;
-			ZipInputStream zip = new ZipInputStream(inputStreamZipFile.getInputStream());
-			readZipFromInputStream(zip, false);
+			readZipFromInputStream(inputStreamZipFile.getInputStream(), false);
 		}
 	}
 
