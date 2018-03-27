@@ -1510,6 +1510,8 @@ public class Kernel implements SpecialPointsListener {
 			return num;
 		}
 
+		Log.debug("before = " + num);
+
 		if (formatSB == null) {
 			formatSB = new StringBuilder(17);
 		} else {
@@ -1549,6 +1551,8 @@ public class Kernel implements SpecialPointsListener {
 		if (RTL) {
 			formatSB.append(Unicode.RIGHT_TO_LEFT_MARK);
 		}
+
+		Log.debug("after = " + formatSB.toString());
 
 		return formatSB.toString();
 	}

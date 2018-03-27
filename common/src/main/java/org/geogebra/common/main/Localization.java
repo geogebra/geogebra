@@ -924,6 +924,8 @@ public abstract class Localization {
 		} else {
 			unicodeZero = '0';
 		}
+
+		Log.debug("unicodeDecimalPoint = " + unicodeDecimalPoint);
 	}
 
 	/**
