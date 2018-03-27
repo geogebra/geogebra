@@ -45,7 +45,11 @@
 
 package com.himamis.retex.renderer.share.greek;
 
+import java.util.Map;
+
 import com.himamis.retex.renderer.share.AlphabetRegistration;
+import com.himamis.retex.renderer.share.CharFont;
+import com.himamis.retex.renderer.share.SymbolMappings;
 import com.himamis.retex.renderer.share.character.Character;
 
 public class GreekRegistration implements AlphabetRegistration {
@@ -64,4 +68,9 @@ public class GreekRegistration implements AlphabetRegistration {
 	public String getTeXFontFileName() {
 	return "fonts/language_greek.xml";
     }
+
+	public Map<String, CharFont> getMap() {
+		SymbolMappings.addGreek();
+		return SymbolMappings.getMap();
+	}
 }

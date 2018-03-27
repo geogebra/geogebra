@@ -45,6 +45,8 @@
 
 package com.himamis.retex.renderer.share;
 
+import java.util.Map;
+
 import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.AlphabetRegistrationException;
 
@@ -59,4 +61,6 @@ public interface AlphabetRegistration {
 	public Object getPackage() throws AlphabetRegistrationException;
 
 	public String getTeXFontFileName();
+
+	public Map<String, CharFont> getMap();
 }

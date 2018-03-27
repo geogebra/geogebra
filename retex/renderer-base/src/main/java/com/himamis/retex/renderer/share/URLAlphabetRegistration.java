@@ -47,6 +47,7 @@ package com.himamis.retex.renderer.share;
 
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Map;
 
 import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.AlphabetRegistrationException;
@@ -96,5 +97,9 @@ public class URLAlphabetRegistration implements AlphabetRegistration {
 	@Override
 	public String getTeXFontFileName() {
 		return pack.getTeXFontFileName();
+	}
+
+	public Map<String, CharFont> getMap() {
+		return SymbolMappings.getMap();
 	}
 }

@@ -45,7 +45,11 @@
 
 package com.himamis.retex.renderer.share.cyrillic;
 
+import java.util.Map;
+
 import com.himamis.retex.renderer.share.AlphabetRegistration;
+import com.himamis.retex.renderer.share.CharFont;
+import com.himamis.retex.renderer.share.SymbolMappings;
 import com.himamis.retex.renderer.share.character.Character;
 
 public class CyrillicRegistration implements AlphabetRegistration {
@@ -64,4 +68,9 @@ public class CyrillicRegistration implements AlphabetRegistration {
 	public String getTeXFontFileName() {
 	return "fonts/language_cyrillic.xml";
     }
+
+	public Map<String, CharFont> getMap() {
+		SymbolMappings.addCyrilic();
+		return SymbolMappings.getMap();
+	}
 }

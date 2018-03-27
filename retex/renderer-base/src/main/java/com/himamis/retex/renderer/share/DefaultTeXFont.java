@@ -173,13 +173,14 @@ public class DefaultTeXFont implements TeXFont {
 		symbolMappings.putAll(dtfp.parseSymbolMappings());
 	}
 
-	public static void addTeXFontDescription(Object base, Object in, String name)
+	public static void addTeXFontDescription(Object base, Object in,
+			String name, AlphabetRegistration reg)
 			throws ResourceParseException {
 		DefaultTeXFontParser dtfp = new DefaultTeXFontParser(base, in, name);
 		fontInfo = dtfp.parseFontDescriptions(fontInfo);
 		dtfp.parseExtraPath();
 		textStyleMappings.putAll(dtfp.parseTextStyleMappings());
-		symbolMappings.putAll(dtfp.parseSymbolMappings());
+		symbolMappings.putAll(reg.getMap());
 	}
 
 	public static void addAlphabet(Character.UnicodeBlock alphabet, Object inlanguage, String language,
@@ -193,7 +194,9 @@ public class DefaultTeXFont implements TeXFont {
 		}
 	}
 
-	public static void addAlphabet(Object base, Character.UnicodeBlock[] alphabet, String language)
+	public static void addAlphabet(Object base,
+			Character.UnicodeBlock[] alphabet, String language,
+			AlphabetRegistration reg)
 			throws ResourceParseException {
 		boolean b = false;
 		for (int i = 0; !b && i < alphabet.length; i++) {
@@ -204,7 +207,7 @@ public class DefaultTeXFont implements TeXFont {
 			Object res = new Resource().loadResource(base, language);
 			System.out.println(
 					"ADDING ALPHABET " + language + ":" + res + "," + base);
-			addTeXFontDescription(base, res, language);
+			addTeXFontDescription(base, res, language, reg);
 			for (int i = 0; i < alphabet.length; i++) {
 				loadedAlphabets.add(alphabet[i]);
 			}
@@ -230,7 +233,8 @@ public class DefaultTeXFont implements TeXFont {
 	public static void addAlphabet(AlphabetRegistration reg) {
 		try {
 			if (reg != null) {
-				DefaultTeXFont.addAlphabet(reg.getPackage(), reg.getUnicodeBlock(), reg.getTeXFontFileName());
+				DefaultTeXFont.addAlphabet(reg.getPackage(),
+						reg.getUnicodeBlock(), reg.getTeXFontFileName(), reg);
 			}
 		} catch (FontAlreadyLoadedException e) {
 		} catch (AlphabetRegistrationException e) {
