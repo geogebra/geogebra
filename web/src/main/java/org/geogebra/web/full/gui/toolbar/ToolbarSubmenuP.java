@@ -10,10 +10,15 @@ import com.google.gwt.user.client.ui.Image;
 
 public class ToolbarSubmenuP extends ToolbarSubmenuW {
 
+	/**
+	 * @param app
+	 *            application
+	 * @param order
+	 *            order in parent
+	 */
 	public ToolbarSubmenuP(AppW app, int order) {
 		super(app, order);
 		removeStyleName("toolbar_submenu");
-
 	}
 
 	@Override
@@ -47,6 +52,9 @@ public class ToolbarSubmenuP extends ToolbarSubmenuW {
 
 	}
 
+	/**
+	 * @return number of buttons
+	 */
 	public int getButtonCount() {
 		int count = this.getItemList().getWidgetCount();
 		return count;

@@ -24,20 +24,45 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Small screen tool menu
+ */
 public class ModeToggleMenuP extends ModeToggleMenuW
 		implements MouseMoveHandler {
 
-	FlowPanel submenuPanel;
-	StandardButton back;
+	private FlowPanel submenuPanel;
+	private StandardButton back;
 
 	private int startPosition;
 	private int endPosition;
 
+	/**
+	 * @param appl
+	 *            application
+	 * @param menu1
+	 *            list of modes
+	 * @param tb
+	 *            parent toolbar
+	 * @param order
+	 *            order in toolbar
+	 */
 	public ModeToggleMenuP(AppW appl, Vector<Integer> menu1, ToolBarW tb,
 			int order) {
 		super(appl, menu1, tb, order);
 	}
 
+	/**
+	 * @param appl
+	 *            application
+	 * @param menu1
+	 *            list of modes
+	 * @param tb
+	 *            parent toolbar
+	 * @param order
+	 *            order in toolbar
+	 * @param submenuPanel
+	 *            submenu
+	 */
 	public ModeToggleMenuP(AppW appl, Vector<Integer> menu1, ToolBarW tb,
 			int order, FlowPanel submenuPanel) {
 		super(appl, menu1, tb, order);
@@ -45,8 +70,8 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 	}
 
 	@Override
-	protected ToolbarSubmenuW createToolbarSubmenu(AppW app, int order) {
-		return new ToolbarSubmenuP(app, order);
+	protected ToolbarSubmenuW createToolbarSubmenu(AppW app1, int order1) {
+		return new ToolbarSubmenuP(app1, order1);
 	}
 
 	@Override
@@ -76,6 +101,9 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 		((FlowPanel) submenuPanel.getParent().getParent()).add(back);
 	}
 
+	/**
+	 * Remove the back button.
+	 */
 	public void removeBackButton() {
 		if (back != null) {
 			((FlowPanel) submenuPanel.getParent().getParent()).remove(back);
@@ -134,6 +162,9 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 		}
 	}
 
+	/**
+	 * @return number of buttons
+	 */
 	public int getButtonCount() {
 		int count = submenu.getItemList().getWidgetCount();
 		return count;

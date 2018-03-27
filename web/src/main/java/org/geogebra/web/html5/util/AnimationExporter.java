@@ -110,13 +110,13 @@ public class AnimationExporter {
 				return encoder.finish(width, height);
 			}
 
+			@Override
 			public void addFrame(EuclidianViewWInterface ev, double scale,
 					ExportType format) {
 				String url = ev.getExportImageDataUrl(scale, false, format);
 				encoder.addFrame(url);
-
 			}
-			
+
 		};
 
 		app.setWaitCursor();
@@ -150,7 +150,7 @@ public class AnimationExporter {
 		case PDF_HTML5:
 			return new PDFEncoderW(ev, filename);
 		}
-		
+
 	}
 
 	private static String exportAnimatedGIF(App app, FrameCollectorW encoder,
@@ -191,7 +191,6 @@ public class AnimationExporter {
 				val -= 2 * step;
 				step *= -1;
 			}
-
 		}
 
 		int width = (int) Math.round(ev.getExportWidth() * scale);

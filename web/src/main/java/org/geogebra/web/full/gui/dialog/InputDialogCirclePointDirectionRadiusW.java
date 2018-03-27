@@ -8,11 +8,28 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.web.html5.main.AppW;
 
+/**
+ * Dialog for circle with axis, center and radius.
+ */
 public class InputDialogCirclePointDirectionRadiusW extends InputDialogRadiusW {
 
 	private GeoPointND geoPoint;
 	private GeoDirectionND forAxis;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param title
+	 *            title
+	 * @param handler
+	 *            input handler
+	 * @param geoPoint
+	 *            center point
+	 * @param forAxis
+	 *            direction
+	 * @param kernel
+	 *            kernel
+	 */
 	public InputDialogCirclePointDirectionRadiusW(AppW app, String title,
             NumberInputHandler handler, GeoPointND geoPoint,
             GeoDirectionND forAxis, Kernel kernel) {

@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.browser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.move.views.BooleanRenderable;
@@ -30,7 +31,8 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 
-public class SearchPanel extends FlowPanel implements BooleanRenderable {
+public class SearchPanel extends FlowPanel
+		implements BooleanRenderable, SetLabels {
 
 	private TextBox query;
 	private FastButton cancelButton;
@@ -155,6 +157,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 
 	}
 
+	@Override
 	public void setLabels() {
 		this.query.getElement().setAttribute("placeholder",
 				loc.getMenu("search_geogebra_materials"));

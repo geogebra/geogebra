@@ -407,6 +407,9 @@ public class DockGlassPaneW extends AbsolutePanel
 		}
 	}
 
+	/**
+	 * Handle mouse up.
+	 */
 	public void onMouseUp() {
 		if (dragInProgress) {
 			stopDrag();

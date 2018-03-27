@@ -166,8 +166,8 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	}-*/;
 
 	private native void setCurrentTime(Element audio, int time) /*-{
-																audio.currentTime = Math.floor(time / 1000);
-																}-*/;
+		audio.currentTime = Math.floor(time / 1000);
+	}-*/;
 
 	/**
 	 * @param url
@@ -230,14 +230,13 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		var that = this;
 		audioElement.setAttribute('src', url);
 		audioElement.load();
-		audioElement.addEventListener("error", 
-		function() {
-		that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlError()();
+		audioElement.addEventListener("error", function() {
+			that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlError()();
 		});
 		audioElement.addEventListener("canplay", function() {
-		that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlOK()(url);
+			that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlOK()(url);
 		});
-		}-*/;
+	}-*/;
 
 	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max,

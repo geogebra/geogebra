@@ -7,6 +7,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.web.html5.main.AppW;
 
+/**
+ * Dialog for circle with center and radius.
+ */
 public class InputDialogCirclePointRadiusW extends InputDialogRadiusW {
 	private GeoPoint geoPoint1;
 
