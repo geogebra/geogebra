@@ -183,7 +183,9 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 				.addEventListener(
 						"canplay",
 						function() {
-							that.@org.geogebra.web.html5.sound.SoundManagerW::onCanPlay(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement,url);
+							that.@org.geogebra.web.html5.sound.SoundManagerW::
+								onCanPlay(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)
+								(audioElement,url);
 						});
 	}-*/;
 

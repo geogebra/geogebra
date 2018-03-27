@@ -3,7 +3,6 @@ package org.geogebra.web.html5.video;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.main.AppW;
 
 /**
  * Class for managing audio content.
@@ -12,18 +11,6 @@ import org.geogebra.web.html5.main.AppW;
  *
  */
 public class VideoManagerW implements VideoManager {
-
-	private AppW app;
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param app
-	 *            the Application.
-	 */
-	public VideoManagerW(AppW app) {
-		this.app = app;
-	}
 
 	@Override
 	public void loadGeoVideo(GeoVideo geo) {

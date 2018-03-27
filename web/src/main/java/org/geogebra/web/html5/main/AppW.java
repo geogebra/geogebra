@@ -414,7 +414,7 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public final VideoManager getVideoManager() {
 		if (videoManager == null) {
-			videoManager = new VideoManagerW(this);
+			videoManager = new VideoManagerW();
 		}
 		return videoManager;
 	}
