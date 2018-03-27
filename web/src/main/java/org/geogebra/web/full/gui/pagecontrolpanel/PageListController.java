@@ -154,7 +154,7 @@ public class PageListController implements PageListControllerInterface,
 		PagePreviewCard ret = duplicateSlide(sourceCard);
 		app.getKernel().getConstruction().getUndoManager().storeAction(
 				EventType.DUPLICATE_SLIDE, sourceCard.getPageIndex() + "",
-				ret.getFile().getID());
+				ret.getFile().getID(), sourceCard.getFile().getID());
 		return ret;
 	}
 
@@ -544,7 +544,7 @@ public class PageListController implements PageListControllerInterface,
 				setCardSelected(toLoad);
 			}
 		} else if (action == EventType.CLEAR_SLIDE) {
-			loadNewPage(0);
+			loadNewPage(indexOfId(args[0]));
 		} else if (action == EventType.DUPLICATE_SLIDE) {
 			duplicateSlide(slides.get(Integer.parseInt(args[0])));
 		} else if (action == EventType.MOVE_SLIDE) {
@@ -554,18 +554,21 @@ public class PageListController implements PageListControllerInterface,
 		((AppWFull) app).getAppletFrame().getPageControlPanel().open();
 	}
 
-	@Override
-	public void setActiveSlide(String slideID) {
+	private int indexOfId(String slideID) {
 		if (slideID == null) {
-			selectCard(slides.get(0));
-		} else {
-			for (PagePreviewCard card : slides) {
-				if (slideID.equals(card.getFile().getID())) {
-					selectCard(card);
-					return;
-				}
+			return 0;
+		}
+		for (int i = 0; i < slides.size(); i++) {
+			if (slideID.equals(slides.get(i).getFile().getID())) {
+				return i;
 			}
 		}
+		return 0;
+	}
+
+	@Override
+	public void setActiveSlide(String slideID) {
+		selectCard(slides.get(indexOfId(slideID)));
 	}
 
 	@Override

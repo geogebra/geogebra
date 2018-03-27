@@ -139,10 +139,17 @@ public class UndoCommand {
 			} else {
 				UndoCommand prev = undoManager.getCreationCommand(slideID);
 				if (prev != null) {
-					prev.undoAction(undoManager);
-					prev.redo(undoManager);
+					prev.loadStateAfter(undoManager);
 				}
 			}
+		}
+	}
+
+	private void loadStateAfter(UndoManager mgr) {
+		if (action == EventType.ADD_SLIDE) {
+			mgr.executeAction(EventType.CLEAR_SLIDE, null, args[1]);
+		} else if (action == EventType.DUPLICATE_SLIDE) {
+			mgr.loadUndoInfo(mgr.getCheckpoint(args[2]), args[1]);
 		}
 	}
 

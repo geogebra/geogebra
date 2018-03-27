@@ -91,20 +91,33 @@ public enum EventType {
 
 	/** OPEN_DIALOG */
 	OPEN_DIALOG("openDialog"),
+
 	/** Custom tool created */
 	ADD_MACRO("addMacro"),
+
 	/** Custom tool removed */
 	REMOVE_MACRO("removeMacro"),
+
 	/** Custom tool renamed */
 	RENAME_MACRO("renameMacro"),
+
 	/** construction cleared */
 	CLEAR("clear"),
+
 	/** new slide (whiteboard) */
 	ADD_SLIDE("addSlide"),
+
 	/** remove slide (whiteboard) */
 	REMOVE_SLIDE("removeSlide"),
-	/** duplicate slide (whiteboard) */
-	DUPLICATE_SLIDE("duplicateSlide"), MOVE_SLIDE("moveSlide"), CLEAR_SLIDE("clearSlide");
+
+	/** duplicate slide (whiteboard): source index, target ID, source ID */
+	DUPLICATE_SLIDE("duplicateSlide"),
+
+	/** Move slide: sourceindex, target index */
+	MOVE_SLIDE("moveSlide"),
+
+	/** Clear slide: slide ID */
+	CLEAR_SLIDE("clearSlide");
 
 	private String eventName;
 
