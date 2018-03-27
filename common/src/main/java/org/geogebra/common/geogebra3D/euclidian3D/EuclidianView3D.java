@@ -64,8 +64,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatObj;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
@@ -119,7 +117,6 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.plugin.Geometry3DGetter;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
@@ -4537,53 +4534,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public boolean hasVisibleObjects() {
 		return drawable3DLists != null && !drawable3DLists.isEmpty();
-	}
-
-	public String exportCollada(double xmin, double xmax, double ymin,
-			double ymax, double zmin, double zmax, double xyScale,
-			double xzScale, double xTickDistance, double yTickDistance,
-			double zTickDistance) {
-		// use ad hoc 3D view for export
-		EuclidianSettings3D settings = new EuclidianSettings3D(app);
-		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
-				new EuclidianController3DForExport(app), settings);
-		Format format = new FormatCollada();
-		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale,
-				xzScale, xTickDistance, yTickDistance, zTickDistance);
-		StringBuilder export = exportView3D.export3D(format);
-		app.getKernel().detach(exportView3D);
-		return export.toString();
-
-	}
-
-	public String exportObj(double xmin, double xmax, double ymin, double ymax,
-			double zmin, double zmax, double xyScale, double xzScale,
-			double xTickDistance, double yTickDistance, double zTickDistance) {
-		// use ad hoc 3D view for export
-		EuclidianSettings3D settings = new EuclidianSettings3D(app);
-		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
-				new EuclidianController3DForExport(app), settings);
-		Format format = new FormatObj();
-		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale,
-				xzScale, xTickDistance, yTickDistance, zTickDistance);
-		StringBuilder export = exportView3D.export3D(format);
-		app.getKernel().detach(exportView3D);
-		return export.toString();
-
-	}
-
-	public void exportGeometry3D(Geometry3DGetter getter, double xmin,
-			double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xyScale, double xzScale, double xTickDistance,
-			double yTickDistance, double zTickDistance) {
-		// use ad hoc 3D view for export
-		EuclidianSettings3D settings = new EuclidianSettings3D(app);
-		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
-				new EuclidianController3DForExport(app), settings);
-		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale,
-				xzScale, xTickDistance, yTickDistance, zTickDistance);
-		exportView3D.export3D(getter);
-		app.getKernel().detach(exportView3D);
 	}
 
 }

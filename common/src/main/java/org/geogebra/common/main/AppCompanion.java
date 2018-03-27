@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.plugin.Geometry3DGetter;
 
 /**
  * 
@@ -189,6 +190,70 @@ public class AppCompanion {
 	 *            export format
 	 */
 	public void setExport3D(Format format) {
+		// implemented in App3DCompanion
+	}
+
+	/**
+	 * 
+	 * @param xmin
+	 * @param xmax
+	 * @param ymin
+	 * @param ymax
+	 * @param zmin
+	 * @param zmax
+	 * @param xyScale
+	 * @param xzScale
+	 * @param xTickDistance
+	 * @param yTickDistance
+	 * @param zTickDistance
+	 * @return string describing model in collada (.dae) format
+	 */
+	public String exportCollada(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
+			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
+		// implemented in App3DCompanion
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param xmin
+	 * @param xmax
+	 * @param ymin
+	 * @param ymax
+	 * @param zmin
+	 * @param zmax
+	 * @param xyScale
+	 * @param xzScale
+	 * @param xTickDistance
+	 * @param yTickDistance
+	 * @param zTickDistance
+	 * @return string describing model in .obj format
+	 */
+	public String exportObj(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
+			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
+		// implemented in App3DCompanion
+		return null;
+	}
+
+	/**
+	 * export geometry to getter
+	 * 
+	 * @param getter
+	 * @param xmin
+	 * @param xmax
+	 * @param ymin
+	 * @param ymax
+	 * @param zmin
+	 * @param zmax
+	 * @param xyScale
+	 * @param xzScale
+	 * @param xTickDistance
+	 * @param yTickDistance
+	 * @param zTickDistance
+	 */
+	public void exportGeometry3D(Geometry3DGetter getter, double xmin, double xmax, double ymin, double ymax,
+			double zmin, double zmax, double xyScale, double xzScale, double xTickDistance, double yTickDistance,
+			double zTickDistance) {
 		// implemented in App3DCompanion
 	}
 
