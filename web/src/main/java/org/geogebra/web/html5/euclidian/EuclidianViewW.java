@@ -1612,7 +1612,6 @@ public class EuclidianViewW extends EuclidianView implements
 		 */
 		@Override
 		public void run() {
-			Log.debug("Repaint from view " + evNo + ": " + geo);
 			if (geo instanceof GeoAxis) {
 				app.invokeLater(new Runnable() {
 					@Override
