@@ -6533,34 +6533,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return DoubleUtil.checkDecimalFraction(ret);
 	}
 
-	private final int getAudioTimeValue(GeoAudio movedAudio, boolean click) {
+	private final void setAudioTimeValue(GeoAudio movedAudio, boolean click) {
 		double max = movedAudio.getDuration();
 
 		DrawAudio da = (DrawAudio) view.getDrawableFor(movedAudio);
-		double param = mouseLoc.x - da.getSliderLeft();
-		param = Math.max(0, Math.min(da.getSliderWidth(), param));
-		param = (param * max) / da.getSliderWidth();
-
-		param = Kernel.roundToScale(param, movedAudio.getAnimationStep());
-		int val = (int) param;
+		int d = mouseLoc.x - da.getSliderLeft();
+		double currTime = (max / da.getSliderWidth()) * d;
+		int val = (int) currTime;
 		movedAudio.setCurrentTime(val);
-		if (!click) {
-			return val;
-		}
-
-		if (val == movedAudio.getCurrentTime()) {
-			return val;
-		}
-
-		double ret;
-
-		if (val > movedAudio.getCurrentTime()) {
-			ret = Math.min(movedAudio.getCurrentTime() + movedAudio.getAnimationStep(), movedAudio.getDuration());
-		} else {
-
-			ret = Math.max(movedAudio.getCurrentTime() - movedAudio.getAnimationStep(), 0);
-		}
-		return (int) Math.round(ret);
 	}
 
 	/**
@@ -6602,23 +6582,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected final void moveAudioSlider(boolean repaint, boolean click) {
 		GeoAudio audio = (GeoAudio) movedGeoButton;
-		int newVal = getAudioTimeValue(audio, click);
-		int oldVal = audio.getCurrentTime();
-		double max = audio.getDuration();
-		if (newVal < 0) {
-			return;
-		}
-
-		if ((max == oldVal) && (newVal > max)) {
-			return;
-		}
-
-		// do not set value unless it really changed!
-		if (oldVal == newVal) {
-			return;
-		}
-
-		audio.setCurrentTime(newVal);
+		setAudioTimeValue(audio, click);
 		audio.updateRepaint();
 	}
 
@@ -6933,7 +6897,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		for (GeoElement hit : view.getHits().getTopHits()) {
-			if (overComboBox(event, hit) || overAudio(event, hit)) {
+			if (overComboBox(event, hit)) {
 				return;
 			}
 		}
@@ -7129,17 +7093,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				((DrawDropDownList) dl).onOptionOver(event.getX(),
 						event.getY());
 				return dl.isCanvasDrawable();
-			}
-		}
-		return false;
-	}
-
-	protected boolean overAudio(AbstractEvent event, GeoElement hit) {
-		if (hit.isGeoAudio()) {
-			DrawableND da = view.getDrawableFor(hit);
-			if (da instanceof DrawAudio) {
-				((DrawAudio) da).onMouseOver(event.getX(), event.getY());
-				return da.isCanvasDrawable();
 			}
 		}
 		return false;

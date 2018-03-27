@@ -14,7 +14,7 @@ import org.geogebra.common.util.StringUtil;
  *
  */
 public class GeoAudio extends GeoButton {
-	private static final int DEFAULT_STEP = 4;
+	private static final double DEFAULT_STEP = 0.5;
 	/** URL of a test audio file */
 	public static final String TEST_URL = "http://archive.geogebra.org/static/welcome_to_geogebra.mp3";
 

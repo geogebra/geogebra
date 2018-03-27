@@ -165,8 +165,8 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		return Math.floor(audio.currentTime * 1000);
 	}-*/;
 
-	private native void setCurrentTime(Element audio, int time) /*-{
-		audio.currentTime = Math.floor(time / 1000);
+	private native void setCurrentTime(Element audio, double time) /*-{
+		audio.currentTime = time / 1000;
 	}-*/;
 
 	/**
