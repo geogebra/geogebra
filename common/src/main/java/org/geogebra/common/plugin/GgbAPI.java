@@ -2230,7 +2230,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
 
 		if (app.is3D()) {
-			return app.getEuclidianView3D().exportCollada(xmin, xmax, ymin,
+			return app.getCompanion().exportCollada(xmin, xmax, ymin,
 					ymax, zmin,
 					zmax, xyScale, xzScale, xTickDistance, yTickDistance,
 					zTickDistance);
@@ -2244,7 +2244,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
 		
 		if (app.is3D()) {
-			return app.getEuclidianView3D().exportObj(xmin, xmax, ymin, ymax,
+			return app.getCompanion().exportObj(xmin, xmax, ymin, ymax,
 					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
 					zTickDistance);
 		}
@@ -2258,7 +2258,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double zTickDistance) {
 
 		if (app.is3D()) {
-			app.getEuclidianView3D().exportGeometry3D(getter, xmin, xmax, ymin,
+			app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin,
 					ymax, zmin, zmax, xyScale, xzScale, xTickDistance,
 					yTickDistance, zTickDistance);
 		}
