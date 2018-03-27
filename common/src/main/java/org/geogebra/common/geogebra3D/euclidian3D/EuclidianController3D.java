@@ -4097,6 +4097,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * update all drawables now
 	 */
 	public void updateOwnDrawablesNow() {
+		updateIntersectionCurves();
+	}
+
+	/**
+	 * update intersection curves
+	 */
+	protected void updateIntersectionCurves() {
 		for (IntersectionCurve intersectionCurve : intersectionCurveList) {
 			intersectionCurve.drawable.update();
 			if (intersectionCurve.drawable instanceof DrawIntersectionCurve3D) {
