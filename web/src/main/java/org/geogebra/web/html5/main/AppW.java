@@ -826,7 +826,7 @@ public abstract class AppW extends App implements SetLabels {
 			kernel.setLibraryJavaScript(libraryJS);
 		}
 
-		if (archive.entrySet() != null) {
+		if (archive.entrySet() != null && !asSlide) {
 			for (Entry<String, String> entry : archive.entrySet()) {
 				maybeProcessImage(entry.getKey(), entry.getValue());
 			}
