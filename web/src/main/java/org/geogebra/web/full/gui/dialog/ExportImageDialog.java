@@ -88,6 +88,9 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		if (copyToClipboardBtn != null) {
 			buttonPanel.add(copyToClipboardBtn);
 			buttonPanel.addStyleName("withCopyToClip");
+			if (!appW.isUnbundled() && !appW.isWhiteboardActive()) {
+				buttonPanel.addStyleName("classic");
+			}
 		}
 		buttonPanel.add(downloadBtn);
 		// add panels

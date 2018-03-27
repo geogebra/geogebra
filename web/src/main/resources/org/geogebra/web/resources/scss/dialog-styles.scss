@@ -485,7 +485,7 @@ $duration: 0.2s;
    			&.errorState, &.errorState:hover {
    				@extend .emptyState;
    				.inputLabel {
-   					color: $red-87;
+   					color: $red-A400-87;
    				}
    			
  				.AutoCompleteTextFieldW {	
@@ -493,7 +493,7 @@ $duration: 0.2s;
  				}
    					
    				.errorLabel {
-   					color: $red-87;
+   					color: $red-A400-87;
    					margin-top: 9px;
    				}   				
    			}
@@ -553,7 +553,7 @@ $duration: 0.2s;
    		.DialogButtonPanel.withCopyToClip {
    			height: 96px;
    			padding-top: 24px;
-   			display: grid;
+   			/*display: grid;*/
     		float: right;
     		
    			.button {
@@ -564,7 +564,29 @@ $duration: 0.2s;
    				bottom: 8px;
    				
    				&.copyToClipBtn {
-   					bottom: 56px;	 
+   					bottom: 56px;	
+   					min-width: 148px;
+   					line-height: 48px;
+   				}
+   			}
+   		
+   			&.classic {
+   				height: 56px;
+   				
+   				.button {
+   					min-width: 116px;
+   					max-height: 24px;
+   					line-height: 16px;
+   					position: absolute;
+   					
+   					&.copyToClipBtn {
+   						bottom: 50px;
+   					}
+   					
+   					.html-face {
+   						text-align: center;	
+   						padding: 4px 0px;
+   					}
    				}
    			}
    		}
