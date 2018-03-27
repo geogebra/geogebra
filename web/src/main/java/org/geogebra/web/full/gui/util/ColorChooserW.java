@@ -703,7 +703,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 
 	protected void colorChanged(ColorTable source, GColor color) {
-
 		selectedColor = color;
 		previewPanel.update();
 
@@ -737,7 +736,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 * @return colors are the same but not null
 	 */
 	public static boolean colorEquals(GColor color1, GColor color2) {
-
 		return (color1 != null && color2 != null)
 				&& (color1.getRed() == color2.getRed()
 						&& color1.getGreen() == color2.getGreen()
@@ -760,9 +758,13 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		previewPanel.update();
 	}
 
-	public void setBackground(boolean b) {
+	/**
+	 * @param background
+	 *            whether tho use this for background color
+	 */
+	public void setBackground(boolean background) {
 		if (this.backgroundColorPanel != null) {
-			backgroundColorPanel.setBackground(b);
+			backgroundColorPanel.setBackground(background);
 		}
 	}
 

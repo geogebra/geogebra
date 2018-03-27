@@ -7,6 +7,14 @@ import org.geogebra.web.html5.main.AppW;
 
 public class TabletMaterialElement extends MaterialListElement {
 
+	/**
+	 * @param m
+	 *            material
+	 * @param app
+	 *            app
+	 * @param isLocal
+	 *            whether the material exists only on the device
+	 */
 	public TabletMaterialElement(final Material m, final AppW app,
 	        final boolean isLocal) {
 		super(m, app, isLocal);

@@ -136,9 +136,16 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 		// Border
 		updateCellBorder(row, column);
-
 	}
 
+	/**
+	 * Remove bottom + right border styles from a cell.
+	 * 
+	 * @param row
+	 *            row
+	 * @param column
+	 *            column
+	 */
 	public void clearBorder(int row, int column) {
 		Style s = table.getCellFormatter().getElement(row, column).getStyle();
 		s.clearProperty("borderBottomColor");
@@ -326,7 +333,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		} else {
 			s.clearBackgroundColor();
 		}
-
 	}
 
 	/**

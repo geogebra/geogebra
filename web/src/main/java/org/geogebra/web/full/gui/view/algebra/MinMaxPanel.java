@@ -111,7 +111,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 			this.listener = listener;
 			setDeferredFocus(true);
 			enableGGBKeyboard();
-
 		}
 
 		@Override

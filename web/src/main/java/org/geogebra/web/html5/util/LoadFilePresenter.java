@@ -58,11 +58,9 @@ public class LoadFilePresenter {
 
 					@Override
 					public void run() {
-
 						openEmptyApp(app, view);
 						ToolTipManagerW.sharedInstance().showBottomMessage(app
 								.getLocalization().getError("LoadFileFailed"),
-
 								false, app);
 					}
 				});
@@ -225,7 +223,6 @@ public class LoadFilePresenter {
 				finishEmptyLoading(app, pd);
 
 				return false;
-
 			}
 		}
 

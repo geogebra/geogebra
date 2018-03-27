@@ -10,12 +10,19 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Top bar of a tab panel.
+ */
 public class MultiRowsTabBar extends FlowPanel implements
 		HasSelectionHandlers<Integer> {
 
 	private int selectedTab;
 	private MultiRowsTabPanel tabPanel;
 
+	/**
+	 * @param tabPanel2
+	 *            tab panel
+	 */
 	public MultiRowsTabBar(MultiRowsTabPanel tabPanel2) {
 		tabPanel = tabPanel2;
 	}
@@ -26,9 +33,14 @@ public class MultiRowsTabBar extends FlowPanel implements
 		return addHandler(handler, SelectionEvent.getType());
 	}
 
+	/**
+	 * @param index
+	 *            tab index
+	 * @param tabText
+	 *            tab label
+	 */
 	public void setTabText(int index, String tabText) {
 		assert (index >= 0) && (index < getTabCount()) : "Tab index out of bounds";
-
 		((Label) this.getWidget(index)).setText(tabText);
 	}
 
@@ -36,6 +48,9 @@ public class MultiRowsTabBar extends FlowPanel implements
 		return getWidgetCount();
 	}
 
+	/**
+	 * @return selected tab index
+	 */
 	public int getSelectedTab() {
 		return selectedTab;
 	}
@@ -82,6 +97,10 @@ public class MultiRowsTabBar extends FlowPanel implements
 		// do nothing
 	}
 
+	/**
+	 * @param label
+	 *            tab label
+	 */
 	public void addTab(String label) {
 		Tab tab = new Tab(label);
 		tab.addStyleName("gwt-TabBarItem");
@@ -103,6 +122,10 @@ public class MultiRowsTabBar extends FlowPanel implements
 		}
 	}
 
+	/**
+	 * @param tabWidget
+	 *            tab label widget
+	 */
 	void selectTabByTabWidget(Widget tabWidget) {
 		int numTabs = getWidgetCount();
 

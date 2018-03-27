@@ -9,7 +9,11 @@ import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+/**
+ * Resource injector that includes UI styles.
+ */
 public class ResourcesInjectorReTeX extends ResourcesInjector {
+
 	@Override
 	protected void injectResourcesGUI() {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());

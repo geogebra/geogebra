@@ -750,6 +750,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return ssGrid.getRowFormatter().getElement(row).getOffsetHeight();
 	}
 
+	/**
+	 * @param column
+	 *            column index
+	 * @return width in pixels
+	 */
 	public int getColumnWidth(int column) {
 		// columnFormatter returns 0 (in Chrome at least)
 		// so cellFormatter used instead
@@ -1848,7 +1853,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * }
 	 */
 
-	// Keep column widths of table and column header in sync
+	/**
+	 * Keep column widths of table and column header in sync.
+	 * 
+	 * @param column
+	 *            column index
+	 * @param width
+	 *            column width
+	 */
 	public void setColumnWidth(int column, int width) {
 		setColumnWidthSilent(column, width);
 		this.view.settings().getWidthMap().put(column, width);
@@ -1875,7 +1887,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				columnHeader.setColumnWidth(column, width2);
 			}
 		}
-
 	}
 
 	/**
@@ -1906,7 +1917,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				if (view != null) {
 					// view.updatePreferredRowHeight(rowHeight2);
 				}
-
 			}
 		});
 	}
@@ -2319,6 +2329,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	//
 	// this is temporary code while cleaning up
 	// ===========================================
+	/**
+	 * Copy & return string from selected cells
+	 * 
+	 * @return the content of selected cells
+	 */
 	public String copyString() {
 		return ((CopyPasteCutW) copyPasteCut).copyString(getSelectedColumn(),
 				getSelectedRow(), getMaxSelectedColumn(), getMaxSelectedRow());
@@ -2329,6 +2344,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				getMaxSelectedColumn(), getMaxSelectedRow(), altDown);
 	}
 
+	/**
+	 * Copy string from selected cells
+	 * 
+	 * @param altDown
+	 *            whether alt is pressed
+	 * @param nat
+	 *            whether this is native event
+	 */
 	public void copy(boolean altDown, boolean nat) {
 		((CopyPasteCutW) copyPasteCut).copy(getSelectedColumn(),
 				getSelectedRow(), getMaxSelectedColumn(), getMaxSelectedRow(),
@@ -2340,23 +2363,45 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
-	public boolean paste(String cont) {
+	/**
+	 * Paste string to selected cells
+	 * 
+	 * @param content
+	 *            cell content
+	 * @return success
+	 */
+	public boolean paste(String content) {
 		return ((CopyPasteCutW) copyPasteCut).paste(getSelectedColumn(),
 				getSelectedRow(), getMaxSelectedColumn(), getMaxSelectedRow(),
-				cont);
+				content);
 	}
 
+	/**
+	 * Cut string from selected cells
+	 */
 	public boolean cut() {
 		return copyPasteCut.cut(getSelectedColumn(), getSelectedRow(),
 				getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
+	/**
+	 * Cut string from selected cells
+	 * 
+	 * @param nat
+	 *            whether this is native event
+	 * @return success
+	 */
 	public boolean cut(boolean nat) {
 		return ((CopyPasteCutW) copyPasteCut).cut(getSelectedColumn(),
 				getSelectedRow(),
 		        getMaxSelectedColumn(), getMaxSelectedRow(), nat);
 	}
 
+	/**
+	 * Delete content of selected cells.
+	 * 
+	 * @return success
+	 */
 	public boolean delete() {
 		return copyPasteCut.delete(getSelectedColumn(), getSelectedRow(),
 		        getMaxSelectedColumn(), getMaxSelectedRow());
@@ -2395,7 +2440,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	@Override
 	public void repaint() {
-
 		if (repaintAll) {
 			updateAllCellFormats();
 			repaintAll = false;
@@ -2675,6 +2719,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return tableWrapper.getOffsetHeight();
 	}
 
+	/**
+	 * @param width
+	 *            table width
+	 * @param height
+	 *            table height
+	 */
 	public void setSize(int width, int height) {
 		tableWrapper.setPixelSize(width, height);
 		scroller.setPixelSize(width - rowHeader.getOffsetWidth(), height
@@ -2803,6 +2853,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return scroller.getVerticalScrollPosition();
 	}
 
+	/**
+	 * Update font sizes.
+	 */
 	public void updateFonts() {
 		setRowHeight(0, false);
 		resetRowHeights();
@@ -2852,6 +2905,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
+	/**
+	 * Allow automatic edits.
+	 */
 	public void setAllowAutoEdit() {
 		if (editor != null) {
 			editor.setAllowAutoEdit();

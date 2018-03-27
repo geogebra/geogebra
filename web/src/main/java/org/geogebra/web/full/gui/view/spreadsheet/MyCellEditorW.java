@@ -92,6 +92,12 @@ public class MyCellEditorW implements BaseCellEditor {
 		editorPanel.add(autoCompleteTextField);
 	}
 
+	/**
+	 * Update editor content.
+	 * 
+	 * @param text
+	 *            editor content
+	 */
 	public void setText(String text) {
 		if (!autoCompleteTextField.hasFocus() && !table.isDragging) {
 			autoCompleteTextField.setText(text);

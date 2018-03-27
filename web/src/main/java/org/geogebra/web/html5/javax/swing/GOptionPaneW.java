@@ -63,8 +63,14 @@ public class GOptionPaneW extends GDialogBox
 	private int enterOption;
 	private boolean keyDown;
 
-	private static FocusWidget caller;
+	private FocusWidget caller;
 
+	/**
+	 * @param root
+	 *            popup root
+	 * @param app
+	 *            app
+	 */
 	public GOptionPaneW(Panel root, App app) {
 		super(false, true, root, app);
 		this.mApp = app;
@@ -81,6 +87,9 @@ public class GOptionPaneW extends GDialogBox
 		show();
 	}
 
+	/**
+	 * Close the popup.
+	 */
 	protected void close() {
 		// if hide is called before the callback the callback can create another
 		// Message (without being hidden instantaneously)!
@@ -106,10 +115,9 @@ public class GOptionPaneW extends GDialogBox
 			caller.setFocus(true);
 		}
 		caller = null;
-
 	}
 
-	public static void setCaller(FocusWidget c) {
+	public void setCaller(FocusWidget c) {
 		caller = c;
 	}
 

@@ -23,7 +23,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -343,17 +342,22 @@ public class AlgebraInputW extends FlowPanel
 							getErrorHandler(valid, explicit), info, callback);
 
 		} catch (Exception ee) {
-			inputField.addToHistory(getTextField().getText());
-			GOptionPaneW.setCaller(inputField.getTextBox());
+			storeError();
 			app.showGenericError(ee);
 			return;
 		} catch (MyError ee) {
-			inputField.addToHistory(getTextField().getText());
-			GOptionPaneW.setCaller(inputField.getTextBox());
+			storeError();
 			inputField.showError(ee);
 			return;
 		}
+	}
 
+	private void storeError() {
+		inputField.addToHistory(getTextField().getText());
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().getOptionPane()
+					.setCaller(inputField.getTextBox());
+		}
 	}
 
 	/**

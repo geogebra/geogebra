@@ -6,8 +6,15 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.Window;
 
+/**
+ * Material list panel for tablets
+ */
 public class TabletMaterialListPanel extends MaterialListPanel {
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public TabletMaterialListPanel(final AppW app) {
 		super(app);
 		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight()

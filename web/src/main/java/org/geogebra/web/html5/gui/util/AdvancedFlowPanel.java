@@ -21,11 +21,17 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Focusable flowpanel.
+ */
 public class AdvancedFlowPanel extends Composite implements HasWidgets,
 		HasAllKeyHandlers, HasAllMouseHandlers {
 	private FlowPanel mainPanel;
 	private FocusPanel focusPanel;
 
+	/**
+	 * New flow panel with focus handler.
+	 */
 	public AdvancedFlowPanel() {
 		mainPanel = new FlowPanel();
 		focusPanel = new FocusPanel(mainPanel);
@@ -78,6 +84,11 @@ public class AdvancedFlowPanel extends Composite implements HasWidgets,
 
 	}
 
+	/**
+	 * @param handler
+	 *            blur handler
+	 * @return registration
+	 */
 	public HandlerRegistration addBlurHandler(BlurHandler handler) {
 		return focusPanel.addBlurHandler(handler);
 	}

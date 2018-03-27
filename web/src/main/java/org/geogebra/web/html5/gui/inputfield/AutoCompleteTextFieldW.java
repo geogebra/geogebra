@@ -165,11 +165,24 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * given Application for autocomplete look up. A default model is created
 	 * and the number of columns is 0.
 	 * 
+	 * @param columns
+	 *            number of columns
+	 * @param app
+	 *            app
+	 * 
 	 */
 	public AutoCompleteTextFieldW(int columns, App app) {
 		this(columns, (AppW) app, true, null, false);
 	}
 
+	/**
+	 * @param columns
+	 *            number of columns
+	 * @param app
+	 *            app
+	 * @param drawTextField
+	 *            associated input box
+	 */
 	public AutoCompleteTextFieldW(int columns, App app,
 			Drawable drawTextField) {
 		this(columns, app);
@@ -438,7 +451,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 
 		historyPopup.setDownPopup(isDownPopup);
-
 	}
 
 	@Override
@@ -475,11 +487,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setAutoComplete(boolean val) {
 		autoComplete = val && loc.isAutoCompletePossible();
-
-		/*
-		 * if (autoComplete) app.initTranslatedCommands();
-		 */
-
 	}
 
 	@Override
@@ -1524,6 +1531,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
+	/**
+	 * Hide symbol popup.
+	 */
 	public void hideTablePopup() {
 		if (this.tablePopup != null) {
 			this.tablePopup.hide();

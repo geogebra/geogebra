@@ -448,6 +448,13 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		Log.debug("[WPD] " + msg);
 	}
 
+	/**
+	 * Prevent touch event default behavior unless needed for native elements
+	 * (i.e. inputbox)
+	 * 
+	 * @param event
+	 *            touch event
+	 */
 	public void preventTouchIfNeeded(TouchStartEvent event) {
 		if ((!ec.isTextfieldHasFocus()) && (!comboBoxHit())) {
 			event.preventDefault();
@@ -744,10 +751,13 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * @return whether reset icon was hit
+	 */
 	public boolean hitResetIcon() {
 		return app.showResetIcon()
 				&& ((ec.mouseLoc.y < 20) && (ec.mouseLoc.x > (ec.getView()
-		                .getViewWidth() - 18)));
+						.getViewWidth() - 18)));
 	}
 
 	@Override
@@ -834,6 +844,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		delayUntilMoveFinish = 150;
 	}
 
+	/**
+	 * Close all popups.
+	 */
 	public void closePopups() {
 		app.onUnhandledClick();
 		app.closePerspectivesPopup();

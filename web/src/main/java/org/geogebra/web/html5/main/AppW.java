@@ -369,7 +369,6 @@ public abstract class AppW extends App implements SetLabels {
 			getGuiManager().updateFullscreen();
 
 		}
-
 	}
 
 	@Override
@@ -467,7 +466,6 @@ public abstract class AppW extends App implements SetLabels {
 		if (UtilFactory.getPrototype() == null) {
 			UtilFactory.setPrototypeIfNull(new UtilFactoryW());
 		}
-
 	}
 
 	protected void afterCoreObjectsInited() {
@@ -532,7 +530,6 @@ public abstract class AppW extends App implements SetLabels {
 			}
 			JsEval.callNativeJavaScriptMultiArg(fun, jsStrings);
 		}
-
 	}
 
 	@Override
@@ -810,15 +807,6 @@ public abstract class AppW extends App implements SetLabels {
 			kernel.removeAllMacros();
 		}
 
-		// Macros (optional)
-		// moved after the images are loaded, because otherwise
-		// exception might come for macros which use images
-		// if (macros != null) {
-		// // macros = DataUtil.utf8Decode(macros);
-		// // //DataUtil.utf8Decode(macros);
-		// getXMLio().processXMLString(macros, true, true);
-		// }
-
 		// Library JavaScript (optional)
 		if (libraryJS == null) { // TODO: && !isGGTfile)
 			kernel.resetLibraryJavaScript();
@@ -872,8 +860,8 @@ public abstract class AppW extends App implements SetLabels {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 			}
+
 		};
 		if (!getImageManager().hasImages() || asSlide) {
 			afterImages.run();

@@ -112,6 +112,8 @@ public class ResourcesInjector {
 	}
 
 	/**
+	 * @param el
+	 *            script element
 	 * @param handler
 	 *            if script loaded, calls the callback that implements interface
 	 *            ScriptLoadHandler
@@ -132,12 +134,22 @@ public class ResourcesInjector {
 						}, false);
 	}-*/;
 
-	public static void loadFont(String dataParamFontsCssUrl) {
+	/**
+	 * @param fontsCssUrl
+	 *            font CSS url
+	 */
+	public static void loadFont(String fontsCssUrl) {
 		if (instance != null) {
-			instance.loadWebFont(dataParamFontsCssUrl);
+			instance.loadWebFont(fontsCssUrl);
 		}
 	}
 
+	/**
+	 * Load Mathsans font if needed + additional fonts if specified by param.
+	 * 
+	 * @param dataParamFontsCssUrl
+	 *            font CSS url
+	 */
 	protected void loadWebFont(String dataParamFontsCssUrl) {
 		// intentionally
 	}

@@ -110,11 +110,9 @@ public class PageListController implements PageListControllerInterface,
 	 */
 	private void loadSlide(int i) {
 		try {
-
 			// load last status of file
 			app.resetPerspectiveParam();
 			app.loadGgbFile(slides.get(i).getFile(), true);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -554,7 +552,6 @@ public class PageListController implements PageListControllerInterface,
 		}
 		((AppWFull) app).getAppletFrame().getPageControlPanel().update();
 		((AppWFull) app).getAppletFrame().getPageControlPanel().open();
-
 	}
 
 	@Override
