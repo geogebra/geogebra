@@ -553,6 +553,7 @@ public class ExamEnvironment {
 			app.enableCAS(wasCasEnabled);
 		}
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
+		app.fileNew();
 	}
 
 	/**
