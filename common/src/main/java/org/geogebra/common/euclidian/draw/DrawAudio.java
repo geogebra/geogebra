@@ -39,11 +39,8 @@ public class DrawAudio extends Drawable {
 	private static final GColor TIME_COLOR = GColor.MOW_TEXT_PRIMARY;
 	private static final GColor PLAY_HOVER_COLOR = GColor.MOW_MEBIS_TEAL;
 	private static final GColor BLOB_COLOR = GColor.MOW_MEBIS_TEAL;
-	private static final GColor HIGHLIGHT_BLOB_COLOR = GColor.MOW_MEBIS_TEAL_50;
 	private static final GBasicStroke SLIDER_STROKE = EuclidianStatic.getStroke(SLIDER_THICKNESS,
 			EuclidianStyleConstants.LINE_TYPE_FULL);
-	private static final GBasicStroke SLIDER_HIGHLIGHT_STOKE = EuclidianStatic.getDefaultStroke();
-
 	private final GeoAudio geoAudio;
 	private int top;
 	private int left;
@@ -64,7 +61,6 @@ public class DrawAudio extends Drawable {
 
 	private double[] coords = new double[2];
 	private int sliderLeft;
-	private boolean blobDragging = false;
 	private int duration;
 	private boolean sliderHighlighted = false;
 

@@ -1,11 +1,11 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
 This file is part of GeoGebra.
 
-This program is free software; you can redistribute it and/or modify it 
-under the terms of the GNU General Public License as published by 
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
@@ -519,7 +519,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param mode2
 	 *            EV mode
 	 * @return true if the mode should trigger undo when dragging a geo
@@ -625,7 +625,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		MoveGeos.moveObjects(pastePreviewSelected, translationVec,
 				tmpCoordsL3, null, view);
 	}
-	
+
 	private void setPastePreviewPosition() {
 		if (translationVec == null) {
 			translationVec = new Coords(2);
@@ -875,14 +875,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return mode;
 	}
 
-	public void setMode(int newMode, ModeSetter ms) {		
+	public void setMode(int newMode, ModeSetter ms) {
 		if (getModeChangeListener() != null && !temporaryMode) {
 			getModeChangeListener().onModeChange(newMode);
 		}
 		if (pen != null) {
 			pen.resetPenOffsets();
 		}
-		
+
 		if (view.getShapePolygon() != null) {
 			view.setShapePolygon(null);
 			getShapeMode().clearPointList();
@@ -3995,7 +3995,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		selection.clearLists();
 		view.repaintView();
 	}
-	
+
 	public void clearSelectionAndRectangle() {
 		clearSelections();
 		view.setSelectionRectangle(null);
@@ -6533,7 +6533,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return DoubleUtil.checkDecimalFraction(ret);
 	}
 
-	private final void setAudioTimeValue(GeoAudio movedAudio, boolean click) {
+	private final void setAudioTimeValue(GeoAudio movedAudio) {
 		double max = movedAudio.getDuration();
 
 		DrawAudio da = (DrawAudio) view.getDrawableFor(movedAudio);
@@ -6582,7 +6582,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected final void moveAudioSlider(boolean repaint, boolean click) {
 		GeoAudio audio = (GeoAudio) movedGeoButton;
-		setAudioTimeValue(audio, click);
+		setAudioTimeValue(audio);
 		audio.updateRepaint();
 	}
 
@@ -7562,7 +7562,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (handleMovedElementFreePoint()) {
 			return;
 		}
-		
+
 		// free line
 		else if (movedGeoElement.isGeoLine()) {
 			moveMode = MOVE_LINE;
@@ -8359,7 +8359,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Scales the z-axis
-	 * 
+	 *
 	 * @param repaint
 	 *            whether to repaint afterwards
 	 */
@@ -8419,7 +8419,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// move objects
 		case EuclidianConstants.MODE_MOVE:
 			return moveMode == MOVE_NONE && isAltDown();
-			
+
 		case EuclidianConstants.MODE_SELECT:
 			return true;
 
@@ -8489,7 +8489,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			setDragCursor();
 			return;
 		}
-		
+
 		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
 		// for now allow only corner handlers
 		if (d != null && view
@@ -8684,7 +8684,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean shouldCancelDrag() {
-		if (System.currentTimeMillis() < draggingDelay 
+		if (System.currentTimeMillis() < draggingDelay
 				+ lastMousePressedTime) {
 			// we wait at least DRAGGING_DELAY (100ms) before starting drag
 			// used for interactive boards
@@ -8879,7 +8879,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 										&& ((GeoNumeric) v).isSlider();
 							}
 						});
-								
+
 
 					}
 
@@ -8897,7 +8897,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 								return v instanceof GeoButton;
 							}
 						});
-								
+
 					}
 
 					if (view.getHits().size() > 0
@@ -9659,7 +9659,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getPen().handleMousePressedForPenMode(event, hits);
 			return;
 		}
-		
+
 		Drawable d = view.getBoundingBoxHandlerHit(new GPoint(event.getX(), event.getY()), event.getType());
 		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			// for now allow only corner handlers
@@ -10440,7 +10440,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Needs to be synchronous in some environments and asynchronous in others
-	 * 
+	 *
 	 * @param callback
 	 *            callback for pointer up
 	 */
@@ -11786,7 +11786,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param x1
 	 *            x-coord
 	 * @param y1
@@ -12567,7 +12567,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Show popup when user clicks on the preview Special Point in EV
-	 * 
+	 *
 	 * @param previewPoints
 	 *            preview points
 	 */
