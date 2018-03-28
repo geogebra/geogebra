@@ -282,7 +282,6 @@ public abstract class GeoQuadricND extends GeoElement
 		matrix[7] = m.get(1, 4);
 		matrix[8] = m.get(2, 4);
 		matrix[9] = m.get(3, 4);
-
 	}
 
 	/////////////////////////////////
@@ -398,7 +397,6 @@ public abstract class GeoQuadricND extends GeoElement
 		} else { // radius < 0 or radius = infinite
 			empty();
 		}
-
 	}
 
 	/**
@@ -428,10 +426,8 @@ public abstract class GeoQuadricND extends GeoElement
 	 *            y-coord of midpoint
 	 */
 	protected void setMidpoint(double coord1, double coord2) {
-
 		midpoint.set(1, coord1);
 		midpoint.set(2, coord2);
-
 	}
 
 	/**
@@ -440,7 +436,6 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	protected void setMidpoint(double[] coords) {
 		midpoint.set(coords);
-
 	}
 
 	/**
@@ -575,7 +570,6 @@ public abstract class GeoQuadricND extends GeoElement
 
 		sbToValueString
 				.append(kernel.format(getHalfAxis(0) * getHalfAxis(0), tpl));
-
 	}
 
 	/**
@@ -654,7 +648,6 @@ public abstract class GeoQuadricND extends GeoElement
 
 		return changeableCoordParent.move(rwTransVec, endPosition,
 				viewDirection, updateGeos, tempMoveObjectList, view);
-
 	}
 
 	/**

@@ -5315,18 +5315,23 @@ public abstract class GeoElement extends ConstructionElement
 		return strAlgebraDescription;
 	}
 
+	/**
+	 * @return LaTeX description
+	 */
 	public String getAlgebraDescriptionLaTeX() {
 		if (isDefined()) {
 			return toString(StringTemplate.latexTemplate);
-		} else {
-			final StringBuilder sbAlgebraDesc = new StringBuilder();
-			sbAlgebraDesc.append(label);
-			sbAlgebraDesc.append("\\;");
-			sbAlgebraDesc.append(getLoc().getMenu("Undefined"));
-			return sbAlgebraDesc.toString();
 		}
+		final StringBuilder sbAlgebraDesc = new StringBuilder();
+		sbAlgebraDesc.append(label);
+		sbAlgebraDesc.append("\\;");
+		sbAlgebraDesc.append(getLoc().getMenu("Undefined"));
+		return sbAlgebraDesc.toString();
 	}
 
+	/**
+	 * @return LaTeX description RHS
+	 */
 	final public String getAlgebraDescriptionRHSLaTeX() {
 		if (!isDefined()) {
 			return getLoc().getMenu("Undefined");

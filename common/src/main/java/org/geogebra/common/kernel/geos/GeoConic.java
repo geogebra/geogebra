@@ -72,10 +72,8 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	 *            coefficients
 	 */
 	public GeoConic(Construction c, double[] coeffs) {
-
 		this(c);
 		setCoeffs(coeffs);
-
 	}
 
 	/**
@@ -190,7 +188,6 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 				setUndefined();
 				update();
 				return;
-
 			}
 
 			// does circle being inverted pass through center of the other?
@@ -269,8 +266,8 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 					perpY = -(lx * ly * mx - lx * lx * my + ly * lz)
 							/ (lx * lx + ly * ly);
 					perpX = (-lz - ly * perpY) / lx;
-
 				}
+
 				double dist2 = ((perpX - mx) * (perpX - mx)
 						+ (perpY - my) * (perpY - my));
 				// if line goes through center, we keep it
@@ -294,7 +291,6 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 			GeoLine line = mirror.getLines()[0];
 			mirror(line);
-
 
 		} else {
 			setUndefined();
@@ -540,9 +536,10 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	 *            line
 	 */
 	public void fromLine(GeoLine line) {
-		lines = new GeoLine[2];
-		lines[0] = line.copy();
-		lines[1] = line.copy();
+		getLines();
+		lines[0].set(line);
+		lines[1].set(line);
+		setDefined();
 		type = GeoConicNDConstants.CONIC_LINE;
 		eigenvec[0] = new GeoVec2D(kernel, -line.getY(), line.getX());
 
@@ -554,8 +551,6 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 		b = new GeoVec2D(kernel, sp.getInhomX(), sp.getInhomY());
 		this.setMidpoint(b.getX(), b.getY());
-
-
 	}
 
 	@Override
