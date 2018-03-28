@@ -204,6 +204,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						}
 			});			
 		}
+		addSeparator();
 		if (getApp().has(Feature.IMAGE_EXPORT)) {
 			addItem(MainMenu
 					.getMenuBarHtml(
@@ -220,7 +221,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						}
 					});
 		}
-		addSeparator();
 		shareItem = addItem(MainMenu.getMenuBarHtml(
 				MaterialDesignResources.INSTANCE.share_black().getSafeUri()
 						.asString(),
