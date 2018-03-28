@@ -293,8 +293,10 @@ public class ToolBarW extends FlowPanel
 
 	@Override
 	public void closeAllSubmenu() {
-		for (int i = 0; i < modeToggleMenus.size(); i++) {
-			modeToggleMenus.get(i).hideMenu();
+		if (modeToggleMenus != null) {
+			for (int i = 0; i < modeToggleMenus.size(); i++) {
+				modeToggleMenus.get(i).hideMenu();
+			}
 		}
 		if (submenuPanel != null) {
 			submenuPanel.clear();
@@ -302,7 +304,8 @@ public class ToolBarW extends FlowPanel
 	}
 
 	/**
-	 * 
+	 * @param exceptMenu
+	 *            check all except this one
 	 * @return true if any of the submenus are opened
 	 */
 	public boolean isAnyOtherSubmenuOpen(ModeToggleMenuW exceptMenu) {
