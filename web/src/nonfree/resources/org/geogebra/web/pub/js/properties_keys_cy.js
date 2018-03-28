@@ -646,7 +646,7 @@ __GGB__keysVar["cy"].command = {
     "PartialFractions.SyntaxCAS": "[ <Ffwythiant> ]\n[ <Ffwythiant>, <Newidyn> ]",
     "Pascal": "Pascal",
     "Pascal.Syntax": "[ <Nifer y Llwyddiannau>, <Tebygolrwydd Llwyddiant> ]\n[ <Nifer y Llwyddiannau>, <Tebygolrwydd Llwyddiant>, <Cronnus Boolean> ]\n[ <Nifer y Llwyddiannau>, <Tebygolrwydd Llwyddiant>, <Gwerth y Newidyn>, <Cronnus Boolean> ]",
-    "Pascal.SyntaxCAS": "[ <Number of Successes>, <Probability of Success>, <Variable Value>, <Boolean Cumulative> ]",
+    "Pascal.SyntaxCAS": "[ <n>, <p>, <Variable Value>, <Boolean Cumulative> ]",
     "PathParameter": "ParamedrLlwybr",
     "PathParameter.Syntax": "[ <Pwynt ar Lwybr> ]",
     "Payment": "Payment",

@@ -3226,7 +3226,7 @@ __GGB__keysVar["it"].menu = {
     "units": "unit\xe0",
     "vertical": "Verticale",
     "xAxis": "asseX",
-    "xOyPlane": "PianoxOy",
+    "xOyPlane": "pianoxOy",
     "xmax": "x Max",
     "xmin": "x Min",
     "xstep": "Passo X",

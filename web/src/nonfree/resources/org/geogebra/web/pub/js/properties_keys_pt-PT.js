@@ -3121,7 +3121,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "exam_start_time": "In\xedcio do \"Modo Exame\"",
     "exam_started": "In\xedcio do \"Modo Exame\"",
     "exam_views_deactivated": "Desativar Vistas",
-    "expImgRightClickMsg": "Right click to copy to clipboard",
+    "expImgRightClickMsg": "Clique com o bot\xe3o direito para copiar para a \xe1rea de transfer\xeancia",
     "exportImage": "Exportar imagem",
     "firstAxisLength": "Comprimento do eixo principal",
     "fixed": "Fixo",
