@@ -4102,10 +4102,16 @@ public abstract class GeoElement extends ConstructionElement
 	 *            whether this was triggered by drag
 	 */
 	public void update(boolean dragging) {
-
-		updateGeo(!cons.isUpdateConstructionRunning());
+		updateGeo(!cons.isUpdateConstructionRunning(), dragging);
+		maybeUpdateSpecialPoints();
 
 		kernel.notifyUpdate(this);
+	}
+
+	private void maybeUpdateSpecialPoints() {
+		if (canHaveSpecialPoints() && kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
+			kernel.getApplication().getSpecialPointsManager().updateSpecialPoints(null);
+		}
 	}
 
 	@Override
@@ -4185,6 +4191,10 @@ public abstract class GeoElement extends ConstructionElement
 			algoUpdateSet.updateAll();
 			cons.setAlgoSetCurrentlyUpdated(null);
 		}
+	}
+
+	protected boolean canHaveSpecialPoints() {
+		return false;
 	}
 
 	/**

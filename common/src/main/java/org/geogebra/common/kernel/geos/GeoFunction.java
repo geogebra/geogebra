@@ -59,7 +59,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.roots.RealRootUtil;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -2518,13 +2517,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public void update(boolean dragging) {
-		updateGeo(!cons.isUpdateConstructionRunning(), dragging);
-		if (kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
-			kernel.getApplication().getSpecialPointsManager()
-					.updateSpecialPoints(null);
-		}
-		kernel.notifyUpdate(this);
+	protected boolean canHaveSpecialPoints() {
+		return true;
 	}
 
 	@Override

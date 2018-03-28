@@ -1195,7 +1195,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
 		P.updateCoordsFrom2D(false, null);
-
 	}
 
 	/**
@@ -2051,4 +2050,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return true;
 	}
 
+	@Override
+	protected boolean canHaveSpecialPoints() {
+		return true;
+	}
 }
