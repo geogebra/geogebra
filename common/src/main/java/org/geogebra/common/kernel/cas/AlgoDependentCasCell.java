@@ -157,8 +157,8 @@ public class AlgoDependentCasCell extends AlgoElement
 	 * Returns <cellPair> tag instead of <expression> XML
 	 */
 	@Override
-	protected String getExpXML(StringTemplate tpl) {
-		return casCell.getXML();
+	protected void getExpXML(StringTemplate tpl, StringBuilder sb) {
+		sb.append(casCell.getXML());
 	}
 
 	@Override

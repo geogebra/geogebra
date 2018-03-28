@@ -37,10 +37,13 @@ public class AlgoLocusStroke extends AlgoElement
 		implements AlgoStrokeInterface {
 
 	private static final double MIN_CURVE_ANGLE = Math.PI / 60;// 3degrees
-	protected GeoLocusStroke poly; // output
+	/** output */
+	protected GeoLocusStroke poly;
 	// list of all points (also newly calculated control points of
 	// bezier curve)
 	private ArrayList<MyPoint> pointList = new ArrayList<>();
+	/** cache the part of XML that follows after expression label="stroke1" */
+	private StringBuilder xmlPoints;
 
 	/**
 	 * @param cons
@@ -108,6 +111,7 @@ public class AlgoLocusStroke extends AlgoElement
 	 */
 	public void updatePointArray(List<MyPoint> data, int initialIndex,
 			double xscale) {
+		xmlPoints = null;
 		// check if we have a point list
 		// create new points array
 		int size = data.size();
@@ -301,7 +305,6 @@ public class AlgoLocusStroke extends AlgoElement
 	@Override
 	public void update() {
 		// compute output from input
-		compute();
 		getOutput(0).update();
 	}
 
@@ -309,14 +312,7 @@ public class AlgoLocusStroke extends AlgoElement
 
 	@Override
 	public void compute() {
-
-		// poly.getPoints().clear();
-		// for (int i = 0; i < input.length - 1; i++) {
-		// GeoPoint pt = (GeoPoint) input[i];
-		// poly.getPoints().add(new MyPoint(pt.getInhomX(), pt.getInhomY(),
-		// i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
-		// }
-
+		// no recomputation needed
 	}
 
 
@@ -351,7 +347,12 @@ public class AlgoLocusStroke extends AlgoElement
 		return poly.getPoints();
 	}
 
+	/**
+	 * @param data
+	 *            new point array
+	 */
 	public void updateFrom(List<MyPoint> data) {
+		xmlPoints = null;
 		if (poly.getPoints() != data) {
 			poly.setDefined(true);
 			poly.getPoints().clear();
@@ -362,18 +363,11 @@ public class AlgoLocusStroke extends AlgoElement
 	}
 
 	/**
-	 * Expressions should be shown as out = expression e.g. &lt;expression
-	 * label="u" exp="a + 7 b"/&gt;
-	 * 
-	 * @param tpl
-	 *            string template
-	 * @return expression XML tag
+	 * {@inheritDoc}
 	 */
 	@Override
-	protected String getExpXML(StringTemplate tpl) {
-		StringBuilder sb = new StringBuilder();
+	protected void getExpXML(StringTemplate tpl, StringBuilder sb) {
 		sb.append("<expression");
-		// add label
 		if (/* output != null && */getOutputLength() == 1) {
 			if (getOutput(0).isLabelSet()) {
 				sb.append(" label=\"");
@@ -381,14 +375,20 @@ public class AlgoLocusStroke extends AlgoElement
 				sb.append("\"");
 			}
 		}
-		// add expression
-		sb.append(" exp=\"PolyLine[");
-		appendPoints(sb, tpl);
-		sb.append("]\"");
+		if (xmlPoints == null) {
+			xmlPoints = new StringBuilder();
 
-		// expression
-		sb.append(" />\n");
-		return sb.toString();
+			// add label
+
+			// add expression
+			xmlPoints.append(" exp=\"PolyLine[");
+			appendPoints(xmlPoints, tpl);
+			xmlPoints.append("]\"");
+
+			// expression
+			xmlPoints.append(" />\n");
+		}
+		sb.append(xmlPoints.toString());
 	}
 
 	private void appendPoints(StringBuilder sb, StringTemplate tpl) {
@@ -416,7 +416,6 @@ public class AlgoLocusStroke extends AlgoElement
 	@Override
 	public String getDefinition(StringTemplate tpl) {
 		String def = "PolyLine";
-
 		// #2706
 		if (input == null) {
 			return null;
@@ -428,14 +427,11 @@ public class AlgoLocusStroke extends AlgoElement
 			sbAE.append(def);
 		}
 
-		
-
 		sbAE.append(tpl.leftSquareBracket());
 		// input legth is 0 for ConstructionStep[]
 		
 		appendPoints(sbAE, tpl);
 		sbAE.append(tpl.rightSquareBracket());
 		return sbAE.toString();
-
 	}
 }

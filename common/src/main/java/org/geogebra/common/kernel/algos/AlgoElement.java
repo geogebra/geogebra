@@ -1376,8 +1376,7 @@ public abstract class AlgoElement extends ConstructionElement
 			StringTemplate tpl = StringTemplate.xmlTemplate;
 			String cmdname = getDefinitionName(StringTemplate.xmlTemplate);
 			if (hasExpXML(cmdname)) {
-				sb.append(getExpXML(tpl));
-
+				getExpXML(tpl, sb);
 			} else {
 				sb.append(getCmdXML(cmdname, tpl));
 			}
@@ -1423,7 +1422,7 @@ public abstract class AlgoElement extends ConstructionElement
 			StringTemplate tpl = StringTemplate.ogpTemplate;
 			String cmdname = getDefinitionName(tpl);
 			if ("Expression".equals(cmdname)) {
-				sb.append(getExpXML(tpl));
+				getExpXML(tpl, sb);
 			} else {
 				sb.append(getCmdXML(cmdname, tpl));
 			}
@@ -1462,10 +1461,10 @@ public abstract class AlgoElement extends ConstructionElement
 	 * 
 	 * @param tpl
 	 *            string template
-	 * @return expression XML tag
+	 * @param sb
+	 *            builder for the expression XML tag
 	 */
-	protected String getExpXML(StringTemplate tpl) {
-		StringBuilder sb = new StringBuilder();
+	protected void getExpXML(StringTemplate tpl, StringBuilder sb) {
 		sb.append("<expression");
 		// add label
 		if (/* output != null && */getOutputLength() == 1) {
@@ -1503,8 +1502,6 @@ public abstract class AlgoElement extends ConstructionElement
 
 		// expression
 		sb.append(" />\n");
-
-		return sb.toString();
 	}
 
 	// standard command has cmdname, output, input
