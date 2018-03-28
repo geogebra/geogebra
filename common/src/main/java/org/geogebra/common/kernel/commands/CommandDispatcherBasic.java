@@ -34,6 +34,7 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			if (kernel.getApplication().has(Feature.COMMAND_HOLES)) {
 				return new CmdHoles(kernel);
 			}
+			return null;
 		case Join:
 			return new CmdJoin(kernel);
 		case LCM:

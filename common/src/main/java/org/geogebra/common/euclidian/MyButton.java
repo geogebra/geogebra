@@ -133,8 +133,8 @@ public class MyButton implements Observer {
 		int currentWidth = Math.max((int) (textWidth
 				+ (MARGIN_LEFT + MARGIN_RIGHT)),
 				minSize);
-		currentWidth = Math.max(currentWidth, (int) (imgWidth
-				+ (MARGIN_LEFT + MARGIN_RIGHT)));
+		currentWidth = Math.max(currentWidth,
+				imgWidth + (MARGIN_LEFT + MARGIN_RIGHT));
 
 		int currentHeight = Math.max((int) (textHeight + imgHeight + imgGap
 				+ (MARGIN_TOP + MARGIN_BOTTOM)),
@@ -182,12 +182,10 @@ public class MyButton implements Observer {
 			}
 			if (imgWidth > getWidth()
 					- (MARGIN_LEFT + MARGIN_RIGHT)) {
-				startX = (int) (imgWidth - (getWidth()
-						- (MARGIN_LEFT + MARGIN_RIGHT)
-				));
-				imgWidth = (int) (getWidth()
+				startX = imgWidth - (getWidth()
 						- (MARGIN_LEFT + MARGIN_RIGHT)
 				);
+				imgWidth = getWidth() - (MARGIN_LEFT + MARGIN_RIGHT);
 				startX /= 2;
 			}
 			imgStart = (int) (getHeight() - imgHeight
@@ -307,7 +305,7 @@ public class MyButton implements Observer {
 
 				im.drawSubimage(startX, startY, imgWidth, imgHeight, g,
 						x + (getWidth() - imgWidth) / 2,
-						(int) (y + MARGIN_TOP + imgStart));
+						y + MARGIN_TOP + imgStart);
 			}
 		}
 

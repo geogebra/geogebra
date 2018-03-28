@@ -40,6 +40,8 @@ public class RendererWithImplW extends RendererWithImpl implements
 	/**
 	 * @param view
 	 *            3D view
+	 * @param c
+	 *            canvas
 	 */
 	public RendererWithImplW(EuclidianView3D view, Canvas c) {
 		super(view, RendererType.SHADER);
