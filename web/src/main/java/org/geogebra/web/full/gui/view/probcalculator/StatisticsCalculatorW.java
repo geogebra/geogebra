@@ -618,12 +618,21 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	public void onKeyUp(KeyUpEvent event) {
 		TextBox source = (TextBox) event.getSource();
 		String value = source.getValue();
-		char last = value.charAt(value.length() - 1);
 		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT
 				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT)
-				&& !"".equals(value) && !"-".equals(value) && last != '.') {
+				&& keyUpNeeded(value)) {
 			doTextFieldActionPerformed();
 		}
+	}
+
+	/**
+	 * @param value
+	 *            current value in textfield
+	 * @return whether we can handle the key
+	 */
+	static boolean keyUpNeeded(String value) {
+		char last = value.charAt(value.length() - 1);
+		return !"".equals(value) && !"-".equals(value) && last != '.';
 	}
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
@@ -631,7 +640,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 			@Override
 			public void onInsert(String text) {
 				field.removeDummyCursor();
-				doTextFieldActionPerformed();
+				if (keyUpNeeded(field.getText())) {
+					doTextFieldActionPerformed();
+				}
 				if (Browser.isAndroid() || Browser.isIPad()) {
 					field.addDummyCursor(field.getCaretPosition());
 				}
