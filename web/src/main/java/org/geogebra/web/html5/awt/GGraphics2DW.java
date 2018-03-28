@@ -893,7 +893,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 				}
 				// zero width canvas throws error in FF
 			} else {
-				Log.printStacktrace("img draw");
 				context.drawImage(bi.getImageElement(), 0, 0, bi.getWidth(),
 						bi.getHeight(), x, y, this.getOffsetWidth(),
 						this.getOffsetHeight());
