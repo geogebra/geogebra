@@ -33,6 +33,7 @@ public class ViewW {
 		}
 
 		try {
+			Log.debug("loadggb started" + System.currentTimeMillis());
 			app.loadGgbFile(archiveContent, false);
 			Log.debug("loadggb finished" + System.currentTimeMillis());
 		} catch (Throwable ex) {
