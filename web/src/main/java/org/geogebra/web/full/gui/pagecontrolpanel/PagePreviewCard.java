@@ -65,12 +65,17 @@ public class PagePreviewCard extends FlowPanel
 
 	/**
 	 * Duplicates card with pageIndex incremented by 1.
-	 * @param source to duplicate.
+	 * 
+	 * @param source
+	 *            to duplicate.
+	 * @param targetID
+	 *            ID of the new slide
 	 * @return The duplicated card.
 	 */
-	public static PagePreviewCard duplicate(PagePreviewCard source) {
+	public static PagePreviewCard duplicate(PagePreviewCard source,
+			String targetID) {
 		return new PagePreviewCard(source.app, source.getPageIndex() + 1,
-				source.getFile().duplicate(null));
+				source.getFile().duplicate(targetID));
 	}
 	
 	private void initGUI() {

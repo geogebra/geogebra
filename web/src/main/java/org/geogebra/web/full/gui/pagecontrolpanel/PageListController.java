@@ -151,7 +151,7 @@ public class PageListController implements PageListControllerInterface,
 	 * @return the new, duplicated card.
 	 */
 	public PagePreviewCard duplicateSlideStoreUndo(PagePreviewCard sourceCard) {
-		PagePreviewCard ret = duplicateSlide(sourceCard);
+		PagePreviewCard ret = duplicateSlide(sourceCard, null);
 		app.getKernel().getConstruction().getUndoManager().storeAction(
 				EventType.DUPLICATE_SLIDE, sourceCard.getPageIndex() + "",
 				ret.getFile().getID(), sourceCard.getFile().getID());
@@ -165,9 +165,10 @@ public class PageListController implements PageListControllerInterface,
 	 *            to duplicate.
 	 * @return the new, duplicated card.
 	 */
-	private PagePreviewCard duplicateSlide(PagePreviewCard sourceCard) {
+	private PagePreviewCard duplicateSlide(PagePreviewCard sourceCard,
+			String targetID) {
 		savePreviewCard(selectedCard);
-		PagePreviewCard dup = PagePreviewCard.duplicate(sourceCard);
+		PagePreviewCard dup = PagePreviewCard.duplicate(sourceCard, targetID);
 		int dupIdx = dup.getPageIndex();
 		slides.add(dupIdx, dup);
 		setCardSelected(dup);
@@ -546,7 +547,7 @@ public class PageListController implements PageListControllerInterface,
 		} else if (action == EventType.CLEAR_SLIDE) {
 			loadNewPage(indexOfId(args[0]));
 		} else if (action == EventType.DUPLICATE_SLIDE) {
-			duplicateSlide(slides.get(Integer.parseInt(args[0])));
+			duplicateSlide(slides.get(Integer.parseInt(args[0])), args[1]);
 		} else if (action == EventType.MOVE_SLIDE) {
 			doReorder(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 		}

@@ -84,12 +84,16 @@ class DragController {
 		private boolean scrollDown;
 		private int autoScrollY;
 
+		protected AutoScrollTimer() {
+			// avoid synthetic constructor
+		}
+
 		@Override
 		public void run() {
 			if (scroll()) {
-				int pos = cards.getListener().getVerticalScrollPosition();
+				int pos = getListener().getVerticalScrollPosition();
 				if (scrollDown) {
-					pos += cards.getListener().getScrollParentHeight()
+					pos += getListener().getScrollParentHeight()
 							- PagePreviewCard.SPACE_HEIGHT
 							- PagePreviewCard.MARGIN;
 				}
@@ -102,7 +106,7 @@ class DragController {
 		}
 
 		private boolean scroll() {
-			return cards.getListener().scrollBy((scrollDown ? 1 : -1) * SCROLL_SPEED);
+			return getListener().scrollBy((scrollDown ? 1 : -1) * SCROLL_SPEED);
 		}
 
 		public void start(boolean b) {
@@ -113,7 +117,7 @@ class DragController {
 		
 		public void checkIfNeeded(int y) {
 			int diff = y - autoScrollY;
-			int scrollPos = cards.getListener().getVerticalScrollPosition();
+			int scrollPos = getListener().getVerticalScrollPosition();
 			boolean d = diff > 0;
 			if (autoScroll.isRunning()) {
 				if ((d != scrollDown && Math.abs(diff) > CANCEL_THRESHOLD)
@@ -124,7 +128,8 @@ class DragController {
 					&& scrollPos > 0) {
 				start(false);
 			}
-			if (d && dragged.card.getAbsoluteBottom() > cards.getListener().getScrollParentHeight()
+			if (d && dragged.card
+					.getAbsoluteBottom() > getListener().getScrollParentHeight()
 					- PagePreviewCard.MARGIN) {
 				start(true);
 			}
@@ -325,13 +330,13 @@ class DragController {
 			return true;
 		}
 
-		boolean drop(int y) {
+		boolean drop() {
 			if (!isValid()) {
 				return false;
 			}
 
 			if (isAnimated()) {
-				return dropAnimated(y);
+				return dropAnimated();
 			}
 
 			int srcIdx = index();
@@ -361,7 +366,7 @@ class DragController {
 			return idx;
 		}
 
-		boolean dropAnimated(int y) {
+		boolean dropAnimated() {
 			dropToIdx = -1;
 			if (target != null) {
 				dropToIdx = getDropIndex(target);
@@ -422,7 +427,14 @@ class DragController {
 		autoScroll = new AutoScrollTimer();
 	}
 
-	private int cardIndexAt(int x, int y) {
+	/**
+	 * @param x
+	 *            mouse x
+	 * @param y
+	 *            mouse y
+	 * @return card index
+	 */
+	int cardIndexAt(int x, int y) {
 		int result =  - 1;
 		for (PagePreviewCard card: cards.getCards()) {
 			if ((!dragged.isValid() || card != dragged.card)
@@ -475,7 +487,7 @@ class DragController {
 	 * @return scroll independent coordinate.
 	 */
 	int computedY(int y) {
-		return y + cards.getListener().getVerticalScrollPosition();
+		return y + getListener().getVerticalScrollPosition();
 	}
 
 	/**
@@ -508,7 +520,7 @@ class DragController {
 			}
 			int targetIdx = dragged.move(y);
 			if (targetIdx != -1 && !dragged.isAnimated()) {
-				cards.getListener().insertDivider(targetIdx);
+				getListener().insertDivider(targetIdx);
 			}
 		}
 		return true;
@@ -526,12 +538,12 @@ class DragController {
 		if (clicked != null) {
 			cards.clickPage(clicked.getPageIndex(), true);
 		} else if (CancelEventTimer.isDragging()) {
-			if (dragged.drop(computedY(y))) {
+			if (dragged.drop()) {
 				if (dragged.isAnimated()) {
 					createDropAnimation();
 					return;
 				}
-				cards.getListener().update();
+				getListener().update();
 			}
 			if (dragged.isValid()) {
 				cards.clickPage(dragged.index(), false);
@@ -554,8 +566,8 @@ class DragController {
 		CancelEventTimer.resetDrag();
 		dragged.cancel();
 		clearSpaces();
-		cards.getListener().restoreScrollbar();
-		cards.getListener().removeDivider();
+		getListener().restoreScrollbar();
+		getListener().removeDivider();
 		autoScroll.cancel();
 	}
 
@@ -571,7 +583,7 @@ class DragController {
 	void onDrop() {
 		dropAnimTimer.cancel();
 		cards.reorder(dragged.index(), dragged.dropToIdx);
-		cards.getListener().update();
+		getListener().update();
 		cards.clickPage(dragged.index(), false);
 		cancelDrag();
 	}
@@ -582,6 +594,13 @@ class DragController {
 	void onScrollCancel() {
 		autoScroll.cancel();
 		clearSpaces();
+	}
+
+	/**
+	 * @return cards listener.
+	 */
+	CardListInterface getListener() {
+		return cards.getListener();
 	}
 
 }
