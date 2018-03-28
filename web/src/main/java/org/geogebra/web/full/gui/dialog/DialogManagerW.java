@@ -293,6 +293,16 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
+	 * show insert video dialog
+	 */
+	@Override
+	public void showVideoInputDialog() {
+		VideoInputDialog videoInputDialog = new VideoInputDialog((AppW) app);
+		videoInputDialog.center();
+		videoInputDialog.show();
+	}
+
+	/**
 	 * @param device
 	 *            device type
 	 */

@@ -913,6 +913,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					getDialogManager().showAudioInputDialog();
 				}
 			}
+			if (newMode == EuclidianConstants.MODE_VIDEO
+					&& app.has(Feature.MOW_VIDEO_TOOL)) {
+				if (app.getGuiManager() != null) {
+					getDialogManager().showVideoInputDialog();
+				}
+			}
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(Test.GEOIMAGE, tempArrayList),
 						false);

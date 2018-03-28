@@ -436,8 +436,8 @@ $duration: 0.2s;
    		}   	
 	}
 
-	.MaterialDialogBox.audioDialog {
-   		.mowAudioDialogContent {
+	.MaterialDialogBox.audioDialog, .MaterialDialogBox.videoDialog {
+   		.mowAudioDialogContent, .mowVideoDialogContent {
    			.AutoCompleteTextFieldW {
    				margin: 8px 16px 8px 0px;	
    			}

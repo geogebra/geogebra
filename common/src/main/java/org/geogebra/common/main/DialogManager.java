@@ -384,6 +384,10 @@ public abstract class DialogManager {
 		// nothing to do here
 	}
 
+	public void showVideoInputDialog() {
+		// nothing to do here -> implemented in extended class
+	}
+
 	public static void makeRegularPolygon(final App app,
 			final EuclidianController ec, String inputString,
 			final GeoPointND geoPoint1, final GeoPointND geoPoint2,
