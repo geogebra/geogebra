@@ -76,7 +76,6 @@ public class DrawablesTest {
 
 	private boolean ignore(GeoClass type) {
 		switch (type) {
-		case VIDEO:
 		case NET:
 		case POLYHEDRON:
 		case PLANE3D:

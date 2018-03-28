@@ -19,7 +19,6 @@ package org.geogebra.web.html5.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-
 /**
  * 
  * GWT NumberFormat class with Currency Code removed
@@ -464,34 +463,6 @@ public class MyNumberFormat {
 		}
 		return cachedScientificFormat;
 	}
-
-	/**
-	 * Specify whether all new MyNumberFormat instances will use latin digits
-	 * and related characters rather than the localized ones.
-	 *
-	 * @param useLatinDigits
-	 *            true if latin digits/etc should be used, false if localized
-	 *            digits/etc should be used.
-	 */
-	// public static void setForcedLatinDigits(boolean useLatinDigits) {
-	// // Invalidate cached formats if changing
-	// if (useLatinDigits != forcedLatinDigits()) {
-	// cachedCurrencyFormat = null;
-	// cachedDecimalFormat = null;
-	// cachedPercentFormat = null;
-	// cachedScientificFormat = null;
-	// }
-	// if (useLatinDigits) {
-	// if (latinNumberConstants == null) {
-	// latinNumberConstants = createLatinNumberConstants(
-	// localizedNumberConstants);
-	// }
-	// defaultNumberConstants = latinNumberConstants;
-	// } else {
-	// defaultNumberConstants = localizedNumberConstants;
-	// }
-	// }
-
 
 	/**
 	 * Appends a scaled string representation to a buffer, returning the scale

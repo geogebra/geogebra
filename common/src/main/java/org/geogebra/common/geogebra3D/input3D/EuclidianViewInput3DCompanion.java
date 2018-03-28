@@ -463,27 +463,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 	}
 
-	private boolean drawStylusBeam() {
-		if (!input3D.hasMouseDirection() || input3D.currentlyUseMouse2D()) {
-			return false;
-		}
-
-		if (input3D.isLeftPressed()) { // show stylus beam only if object is
-										// moved
-			if (getView().getEuclidianController()
-					.getMoveMode() == EuclidianController.MOVE_NONE) {
-				return false;
-			}
-			return hasMouse();
-		}
-
-		if (input3D.isRightPressed() || input3D.isThirdButtonPressed()) {
-			return false;
-		}
-
-		return hasMouse();
-	}
-
 	@Override
 	public double getScreenZOffset() {
 		if (input3D != null && input3D.useScreenZOffset()) {
