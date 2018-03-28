@@ -955,7 +955,11 @@ public final class DrawImage extends Drawable {
 			}
 
 			// update crop box
-			geoImage.getCropBox().setRect(screenAX, screenDY, screenCropWidth, screenCropHeight);
+			GRectangle2D cb = AwtFactory.getPrototype().newRectangle2D();
+			cb.setRect(screenAX, screenDY, screenCropWidth, screenCropHeight);
+			geoImage.setCropBox(cb);
+
+
 		}
 
 	}

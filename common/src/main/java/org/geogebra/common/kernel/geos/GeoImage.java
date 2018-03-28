@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
@@ -1408,10 +1409,24 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * @return crop box
 	 */
 	public GRectangle2D getCropBox() {
-		return cropBox;
+		GRectangle2D ret = AwtFactory.getPrototype().newRectangle2D();
+		EuclidianView view = getKernel().getApplication().getActiveEuclidianView();
+		ret.setRect(cropBox.getX() + view.toScreenCoordXd(getStartPoint().getX()),
+				cropBox.getY() + view.toScreenCoordYd(getStartPoint().getY()), cropBox.getWidth(), cropBox.getHeight());
+		return ret;
 	}
 
+	/**
+	 * Sets crop box
+	 * 
+	 * @param rect
+	 */
 	public void setCropBox(GRectangle2D rect) {
-		cropBox = rect;
+		if (cropBox == null) {
+			cropBox = AwtFactory.getPrototype().newRectangle2D();
+		}
+		EuclidianView view = getKernel().getApplication().getActiveEuclidianView();
+		cropBox.setRect(rect.getX() - view.toScreenCoordXd(getStartPoint().getX()),
+				rect.getY() - view.toScreenCoordYd(getStartPoint().getY()), rect.getWidth(), rect.getHeight());
 	}
 }
