@@ -182,12 +182,22 @@ public class VideoInputDialog extends DialogBoxW implements FastClickHandler {
 		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		if (source == cancelBtn) {
 			hide();
 		} else if (source == insertBtn) {
-			// TODO handle insert -> create new video obj
+			processInput();
 		}
+	}
+
+	private void processInput() {
+		addVideo();
+	}
+
+	private void addVideo() {
+		app.getGuiManager().addVideo(inputField.getText());
+		hide();
 	}
 
 	@Override

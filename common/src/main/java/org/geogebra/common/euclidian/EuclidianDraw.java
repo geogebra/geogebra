@@ -33,6 +33,7 @@ import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.euclidian.draw.DrawTurtle;
 import org.geogebra.common.euclidian.draw.DrawUpperLowerSum;
 import org.geogebra.common.euclidian.draw.DrawVector;
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Matrix.CoordSys;
@@ -62,6 +63,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTurtle;
+import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -329,8 +331,11 @@ public class EuclidianDraw {
 		case AUDIO:
 			d = new DrawAudio(ev, (GeoAudio) geo);
 			break;
-		}
 
+		case VIDEO:
+			d = new DrawVideo(ev, (GeoVideo) geo);
+			break;
+		}
 		return d;
 	}
 

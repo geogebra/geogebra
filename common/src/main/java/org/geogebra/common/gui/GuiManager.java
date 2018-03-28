@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
@@ -928,6 +929,16 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public void addAudio(String url) {
+		// TODO in subclasses
+	}
+
+	@Override
+	public void addVideo(String url) {
+		// TODO in subclasses
+	}
+
+	@Override
+	public void updateVideo(GeoVideo video) {
 		// TODO in subclasses
 	}
 }

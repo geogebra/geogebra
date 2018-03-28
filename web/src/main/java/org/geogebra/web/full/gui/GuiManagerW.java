@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
@@ -31,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.DialogManager;
@@ -57,6 +60,7 @@ import org.geogebra.web.full.euclidian.DynamicStyleBar;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogBoxW;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -131,6 +135,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -140,6 +145,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -196,6 +202,8 @@ public class GuiManagerW extends GuiManager
 	private Localization loc;
 
 	private AccessibilityManagerW accessibilityManager = null;
+
+	private Map<GeoVideo, Frame> videoPlayers = new HashMap<>();
 
 	/**
 	 * 
@@ -2680,4 +2688,37 @@ public class GuiManagerW extends GuiManager
 		ev.add(audio);
 		app.getActiveEuclidianView().repaint();
 	}
+
+	@Override
+	public void addVideo(String url) {
+		GeoGebraFrameBoth appFrame = getApp().getAppletFrame();
+		EuclidianView ev = app.getActiveEuclidianView();
+		GeoVideo video = new GeoVideo(kernel.getConstruction(), url);
+		video.setAbsoluteScreenLoc((appFrame.getOffsetWidth() - video.getWidth()) / 2,
+				(appFrame.getOffsetHeight() - video.getHeight()) / 2);
+		ev.add(video);
+		app.getActiveEuclidianView().repaint();
+		Frame player = new Frame();
+		player.addStyleName("mowVideo");
+		videoPlayers.put(video, player);
+		appFrame.add(player);
+
+	}
+
+	@Override
+	public void updateVideo(GeoVideo video) {
+		if (!videoPlayers.containsKey(video) || !video.hasChanged()) {
+			return;
+		}
+
+		Frame player = videoPlayers.get(video);
+		player.setUrl(video.getSrc());
+		player.setWidth(video.getWidth() + "px");
+		player.setHeight(video.getHeight() + "px");
+		Style style = player.getElement().getStyle();
+		style.setLeft(video.getAbsoluteScreenLocX(), Unit.PX);
+		style.setTop(video.getAbsoluteScreenLocY(), Unit.PX);
+		video.setChanged(false);
+	}
+
 }

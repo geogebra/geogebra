@@ -12,7 +12,13 @@ import org.geogebra.common.plugin.GeoClass;
  *
  */
 public class GeoVideo extends GeoAudio {
-
+	/**
+	 * Test video URL.
+	 */
+	public static final String TEST_URL = "https://www.youtube.com/embed/8MPbR6Cbwi4";
+	private static final int VIDEO_WIDTH = 420;
+	private static final int VIDEO_HEIGHT = 345;
+	private boolean changed = false;
 	/**
 	 * Constructor.
 	 * 
@@ -21,6 +27,8 @@ public class GeoVideo extends GeoAudio {
 	 */
 	public GeoVideo(Construction c) {
 		super(c);
+		setWidth(VIDEO_WIDTH);
+		setHeight(VIDEO_HEIGHT);
 	}
 
 	/**
@@ -33,6 +41,9 @@ public class GeoVideo extends GeoAudio {
 	 */
 	public GeoVideo(Construction c, String url) {
 		super(c, url);
+		setLabel("video");
+		setWidth(VIDEO_WIDTH);
+		setHeight(VIDEO_HEIGHT);
 	}
 
 	@Override
@@ -53,6 +64,25 @@ public class GeoVideo extends GeoAudio {
 			return;
 		}
 		setSrc(((GeoVideo) geo).getSrc());
+		changed = true;
+	}
+
+	@Override
+	public void setSrc(String url) {
+		super.setSrc(url);
+		changed = true;
+	}
+
+	@Override
+	public void setWidth(int width) {
+		super.setWidth(width);
+		changed = true;
+	}
+
+	@Override
+	public void setHeight(int height) {
+		super.setHeight(height);
+		changed = true;
 	}
 
 	@Override
@@ -78,4 +108,15 @@ public class GeoVideo extends GeoAudio {
 		return app.getVideoManager() != null;
 	}
 
+	/**
+	 * 
+	 * @return if any relevant property has changed.
+	 */
+	public boolean hasChanged() {
+		return changed;
+	}
+
+	public void setChanged(boolean changed) {
+		this.changed = changed;
+	}
 }
