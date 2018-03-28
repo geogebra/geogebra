@@ -11,14 +11,8 @@
 			l-6.471-24.148l12.557-3.365l6.471,24.148L289.591,360.968z M276.65,312.671l-5.177-19.318l12.557-3.364l5.177,19.317
 			L276.65,312.671z"/>
 		<g style="opacity:0.4;">
-			<defs>
-				<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="-61.42" y="201.667" width="643.185" height="279.989">
-					<feFlood  style="flood-color:white;flood-opacity:1" result="back"/>
-					<feBlend  in="SourceGraphic" in2="back" mode="normal"/>
-				</filter>
-			</defs>
 			<mask maskUnits="userSpaceOnUse" x="-61.42" y="201.667" width="643.185" height="279.989" id="SVGID_1_">
-				<g style="filter:url(#Adobe_OpacityMaskFilter);">
+				<g>
 					
 						<image style="overflow:visible;" width="648" height="285" xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/7AARRHVja3kAAQAEAAAAHgAA/+4AIUFkb2JlAGTAAAAAAQMA
 EAMCAwYAAAZJAAANHQAADy//2wCEABALCwsMCxAMDBAXDw0PFxsUEBAUGx8XFxcXFx8eFxoaGhoX

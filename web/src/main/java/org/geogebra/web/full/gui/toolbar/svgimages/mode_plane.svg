@@ -5,14 +5,9 @@
 	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <g id="mode_x5F_plane">
 	<g style="opacity:0.4;">
-		<defs>
-			<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="-31.06" y="89.15" width="574.119" height="333.699">
-				<feFlood  style="flood-color:white;flood-opacity:1" result="back"/>
-				<feBlend  in="SourceGraphic" in2="back" mode="normal"/>
-			</filter>
-		</defs>
+		
 		<mask maskUnits="userSpaceOnUse" x="-31.06" y="89.15" width="574.119" height="333.699" id="SVGID_1_">
-			<g style="filter:url(#Adobe_OpacityMaskFilter);">
+			<g >
 				
 					<image style="overflow:visible;" width="580" height="338" xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/7AARRHVja3kAAQAEAAAAHgAA/+4AIUFkb2JlAGTAAAAAAQMA
 EAMCAwYAAAa8AAANlwAAD8D/2wCEABALCwsMCxAMDBAXDw0PFxsUEBAUGx8XFxcXFx8eFxoaGhoX
