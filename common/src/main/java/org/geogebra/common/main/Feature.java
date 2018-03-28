@@ -289,7 +289,10 @@ public enum Feature {
 	SPLIT_INTEGRAL_IF,
 
 	/** AND-679 */
-	MOB_AND_QUEUE_ON_GL_THREAD
+	MOB_AND_QUEUE_ON_GL_THREAD,
+
+	/** IGR-748 */
+	MOB_EXPORT_IMAGE
 
 }
 
