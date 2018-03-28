@@ -29,7 +29,8 @@ public class DrawAudio extends Drawable {
 	private static final int BLOB_RADIUS = 8;
 	private static final int INNER_BLOB_RADIUS = 6;
 	private static final int TAP_AREA_SIZE = 48;
-	private static final int TEXT_MARGIN_X = 16;
+	private static final int MARGIN_BEFORE_TEXT_X = 8;
+	private static final int MARGIN_AFTER_TEXT_X = 16;
 	private static final int TIME_FONT = 14;
 	private static final int PLAY_PADDING = 4;
 	private static final int SLIDER_MARGIN = 8;
@@ -37,6 +38,7 @@ public class DrawAudio extends Drawable {
 	private static final GColor BACKGROUND_COLOR = GColor.MOW_WIDGET_BACKGROUND;
 	private static final GColor PLAY_COLOR = GColor.MOW_TEXT_PRIMARY;
 	private static final GColor TIME_COLOR = GColor.MOW_TEXT_PRIMARY;
+	private static final GColor SLIDER_STROKE_COLOR = GColor.MOW_TEXT_PRIMARY;
 	private static final GColor PLAY_HOVER_COLOR = GColor.MOW_MEBIS_TEAL;
 	private static final GColor BLOB_COLOR = GColor.MOW_MEBIS_TEAL;
 	private static final GBasicStroke SLIDER_STROKE = EuclidianStatic.getStroke(SLIDER_THICKNESS,
@@ -105,11 +107,12 @@ public class DrawAudio extends Drawable {
 		duration = geoAudio.getDuration();
 		String textAll = getElapsedTime(duration, duration);
 		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(textAll, font, g2.getFontRenderContext());
-		int x = left + TAP_AREA_SIZE + TEXT_MARGIN_X;
+		int x = left + TAP_AREA_SIZE + MARGIN_BEFORE_TEXT_X;
 
 		double d = geoAudio.getDuration();
 		double param = geoAudio.getCurrentTime() / d;
-		sliderLeft = (int) (x + txtLayout.getBounds().getWidth() + 2 * BLOB_RADIUS);
+		sliderLeft = (int) (x + txtLayout.getBounds().getWidth()
+				+ 2 * BLOB_RADIUS) + MARGIN_AFTER_TEXT_X;
 		sliderWidth = left + width - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_RADIUS);
 		int middle = height / 2;
 		int sliderTop = top + middle;
@@ -156,7 +159,7 @@ public class DrawAudio extends Drawable {
 			int x = sliderLeft;
 			int y = top + height / 2;
 
-			g2.setPaint(geo.getSelColor());
+			g2.setPaint(SLIDER_STROKE_COLOR);
 			g2.drawStraightLine(x, y, x + sliderWidth, y);
 
 			g2.setPaint(BLOB_COLOR);
@@ -220,7 +223,7 @@ public class DrawAudio extends Drawable {
 
 		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(textAll, font,
 				g2.getFontRenderContext());
-		int x = left + TAP_AREA_SIZE + TEXT_MARGIN_X;
+		int x = left + TAP_AREA_SIZE + MARGIN_BEFORE_TEXT_X;
 		int y = top + (int) (height + txtLayout.getBounds().getHeight()) / 2;
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
