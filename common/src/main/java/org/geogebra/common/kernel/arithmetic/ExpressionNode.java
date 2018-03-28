@@ -76,6 +76,7 @@ public class ExpressionNode extends ValidExpression
 					&& ((ExpressionNode) v).getLeft().evaluateDouble() != 0;
 		}
 	};
+	private static final double MAX_NUM_DENOMINATOR = 1E15;
 	private Localization loc;
 	private Kernel kernel;
 	private ExpressionValue left, right;
@@ -5982,7 +5983,8 @@ public class ExpressionNode extends ValidExpression
 
 				boolean pi = false;
 				double piDiv = lt / Math.PI;
-				if (DoubleUtil.isInteger(piDiv) && !DoubleUtil.isZero(piDiv)) {
+				if (DoubleUtil.isInteger(piDiv) && !DoubleUtil.isZero(piDiv)
+						&& Math.abs(piDiv) < MAX_NUM_DENOMINATOR) {
 					lt = piDiv;
 					pi = true;
 				}
@@ -5995,8 +5997,9 @@ public class ExpressionNode extends ValidExpression
 					return;
 				}
 				if (DoubleUtil.isInteger(rt) && DoubleUtil.isInteger(lt)
-						&& !DoubleUtil.isZero(rt) && Math.abs(lt) < 1E15
-						&& Math.abs(rt) < 1E15) {
+						&& !DoubleUtil.isZero(rt)
+						&& Math.abs(lt) < MAX_NUM_DENOMINATOR
+						&& Math.abs(rt) < MAX_NUM_DENOMINATOR) {
 
 					double g = Math
 							.abs(Kernel.gcd(Math.round(lt), Math.round(rt)))
