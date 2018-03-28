@@ -4193,6 +4193,12 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
+	/**
+	 * True if this element can have special points. This is used to e.g.
+	 * update the special points when this element is updated.
+	 *
+	 * @return true if this element can have special points
+	 */
 	protected boolean canHaveSpecialPoints() {
 		return false;
 	}

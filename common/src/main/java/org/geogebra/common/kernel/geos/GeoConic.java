@@ -655,4 +655,9 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		}
 		return vars.toArray(new String[0]);
 	}
+
+	@Override
+	protected boolean canHaveSpecialPoints() {
+		return true;
+	}
 }
