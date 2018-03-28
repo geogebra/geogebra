@@ -19,7 +19,6 @@ package org.geogebra.web.html5.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import com.google.gwt.i18n.client.constants.NumberConstants;
 
 /**
  * 
@@ -332,10 +331,7 @@ public class MyNumberFormat {
 	// produce
 	// the latin mapping for arbitrary locales. Any separator not in either of
 	// these strings will be mapped to non-breaking space (U+00A0).
-	private static final String LOCALIZED_COMMA_EQUIVALENTS = ",\u060C\u066B"
-			+ "\u3001\uFE10\uFE11\uFE50\uFE51\uFF0C\uFF64";
 
-	private static final String LOCALIZED_DOT_EQUIVALENTS = ".\u2024\u3002\uFE12\uFE52\uFF0E\uFF61";
 	private static final char PATTERN_DECIMAL_SEPARATOR = '.';
 	private static final char PATTERN_DIGIT = '#';
 	private static final char PATTERN_EXPONENT = 'E';
@@ -496,137 +492,6 @@ public class MyNumberFormat {
 	// }
 	// }
 
-	/**
-	 * Create a delocalized NumberConstants instance from a localized one.
-	 *
-	 * @param orig
-	 *            localized NumberConstants instance
-	 * @return NumberConstants instance using latin digits/etc
-	 */
-	protected static NumberConstants createLatinNumberConstants(
-			final NumberConstants orig) {
-		final String groupingSeparator = remapSeparator(
-				orig.groupingSeparator());
-		final String decimalSeparator = remapSeparator(orig.decimalSeparator());
-		final String monetaryGroupingSeparator = remapSeparator(
-				orig.monetaryGroupingSeparator());
-		final String monetarySeparator = remapSeparator(
-				orig.monetarySeparator());
-		return new NumberConstants() {
-			@Override
-			public String currencyPattern() {
-				return orig.currencyPattern();
-			}
-
-			@Override
-			public String decimalPattern() {
-				return orig.decimalPattern();
-			}
-
-			@Override
-			public String decimalSeparator() {
-				return decimalSeparator;
-			}
-
-			@Override
-			public String defCurrencyCode() {
-				return orig.defCurrencyCode();
-			}
-
-			@Override
-			public String exponentialSymbol() {
-				return orig.exponentialSymbol();
-			}
-
-			@Override
-			public String globalCurrencyPattern() {
-				return orig.globalCurrencyPattern();
-			}
-
-			@Override
-			public String groupingSeparator() {
-				return groupingSeparator;
-			}
-
-			@Override
-			public String infinity() {
-				return orig.infinity();
-			}
-
-			@Override
-			public String minusSign() {
-				return orig.minusSign();
-			}
-
-			@Override
-			public String monetaryGroupingSeparator() {
-				return monetaryGroupingSeparator;
-			}
-
-			@Override
-			public String monetarySeparator() {
-				return monetarySeparator;
-			}
-
-			@Override
-			public String notANumber() {
-				return orig.notANumber();
-			}
-
-			@Override
-			public String percent() {
-				return orig.percent();
-			}
-
-			@Override
-			public String percentPattern() {
-				return orig.percentPattern();
-			}
-
-			@Override
-			public String perMill() {
-				return orig.perMill();
-			}
-
-			@Override
-			public String plusSign() {
-				return orig.plusSign();
-			}
-
-			@Override
-			public String scientificPattern() {
-				return orig.scientificPattern();
-			}
-
-			@Override
-			public String simpleCurrencyPattern() {
-				return orig.simpleCurrencyPattern();
-			}
-
-			@Override
-			public String zeroDigit() {
-				return "0";
-			}
-		};
-	}
-
-	/**
-	 * Remap a localized separator to an equivalent latin one.
-	 *
-	 * @param separator
-	 *            separator
-	 * @return delocalized separator character
-	 */
-	protected static String remapSeparator(String separator) {
-		char ch = separator.length() > 0 ? separator.charAt(0) : 0xFFFF;
-		if (LOCALIZED_DOT_EQUIVALENTS.indexOf(ch) >= 0) {
-			return ".";
-		}
-		if (LOCALIZED_COMMA_EQUIVALENTS.indexOf(ch) >= 0) {
-			return ",";
-		}
-		return "\u00A0";
-	}
 
 	/**
 	 * Appends a scaled string representation to a buffer, returning the scale
