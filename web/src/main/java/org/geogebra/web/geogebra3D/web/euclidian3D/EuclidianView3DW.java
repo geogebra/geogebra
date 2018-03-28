@@ -1,7 +1,5 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D;
 
-import java.util.HashMap;
-
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -39,6 +37,7 @@ import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.TimerSystemW;
 
@@ -521,7 +520,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 * @param file
 	 *            file
 	 */
-	public void setCurrentFile(HashMap<String, String> file) {
+	public void setCurrentFile(GgbFile file) {
 		// used only when no webGL
 	}
 

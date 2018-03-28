@@ -11,6 +11,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
 
@@ -55,6 +56,9 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	@Override
 	public void repaint() {
 		if (thumb != null) {
+			getG2P().scale(
+					(double) getG2P().getOffsetWidth() / thumb.getWidth(),
+					(double) getG2P().getOffsetHeight() / thumb.getHeight());
 			getG2P().drawImage(thumb, 0, 0);
 		}
 
@@ -67,7 +71,7 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	}
 
 	@Override
-	public void setCurrentFile(HashMap<String, String> f) {
+	public void setCurrentFile(GgbFile f) {
 
 		Log.debug("No 3D:Set thumbnail");
 		HashMap<String, String> file = f;

@@ -47,6 +47,7 @@ import org.geogebra.web.html5.awt.GGradientPaintW;
 import org.geogebra.web.html5.awt.GTexturePaintW;
 import org.geogebra.web.html5.awt.font.GTextLayoutW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
@@ -306,6 +307,13 @@ public class AwtFactoryW extends AwtFactory {
 			((EuclidianViewW) app.getEuclidianView2(1)).doRepaint();
 		}
 		repaintsFromHereInProgress--;
+	}
+
+	@Override
+	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
+			GGraphics2D g2) {
+		return newBufferedImage(pixelWidth, pixelHeight,
+				((GGraphics2DWI) g2).getDevicePixelRatio());
 	}
 
 }

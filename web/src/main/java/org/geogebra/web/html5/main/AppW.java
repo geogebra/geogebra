@@ -947,7 +947,7 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * @return current .zip file as hashmap
 	 */
-	public HashMap<String, String> getCurrentFile() {
+	public GgbFile getCurrentFile() {
 		return currentFile;
 	}
 

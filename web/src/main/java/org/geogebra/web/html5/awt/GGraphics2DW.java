@@ -888,10 +888,12 @@ public class GGraphics2DW implements GGraphics2DWI {
 					context.drawImage(bi.getCanvas().getCanvasElement(), 0, 0,
 						bi.getCanvas().getCoordinateSpaceWidth(),
 						bi.getCanvas().getCoordinateSpaceHeight(), x, y,
-							this.getOffsetWidth(), this.getOffsetHeight());
+							bi.getCanvas().getCoordinateSpaceWidth(),
+							bi.getCanvas().getCoordinateSpaceHeight());
 				}
 				// zero width canvas throws error in FF
 			} else {
+				Log.printStacktrace("img draw");
 				context.drawImage(bi.getImageElement(), 0, 0, bi.getWidth(),
 						bi.getHeight(), x, y, this.getOffsetWidth(),
 						this.getOffsetHeight());

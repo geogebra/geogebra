@@ -54,6 +54,11 @@ public abstract class AwtFactory {
 	public abstract GBufferedImage newBufferedImage(int pixelWidth,
 			int pixelHeight, double pixelRatio);
 
+	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
+			GGraphics2D g2) {
+		return newBufferedImage(pixelWidth, pixelHeight, 1);
+	}
+
 	public abstract GBufferedImage createBufferedImage(int width, int height,
 			boolean transparency);
 

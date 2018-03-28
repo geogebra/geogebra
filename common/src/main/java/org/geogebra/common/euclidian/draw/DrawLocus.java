@@ -14,6 +14,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -52,6 +53,7 @@ public class DrawLocus extends Drawable {
 	private double[] labelPosition;
 	private CoordSys transformSys;
 	private BoundingBox boundingBox;
+	private GBufferedImage bitmap;
 
 	/**
 	 * Creates new drawable for given locus
@@ -75,6 +77,7 @@ public class DrawLocus extends Drawable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
+		bitmap = null;
 		if (!isVisible) {
 			return;
 		}
@@ -160,9 +163,18 @@ public class DrawLocus extends Drawable {
 
 	private void drawLocus(GGraphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(getObjectColor());
-			g2.setStroke(objStroke);
-			g2.draw(gp);
+
+			if (geo.isPenStroke()) {
+				if (bitmap == null) {
+					this.bitmap = makeImage(g2);
+					GGraphics2D g2bmp = bitmap.createGraphics();
+					g2bmp.setAntialiasing();
+					drawPath(g2bmp);
+				}
+				g2.drawImage(bitmap, 0, 0);
+			} else {
+				drawPath(g2);
+			}
 
 			if (geo.isFillable() && geo.isFilled()) {
 
@@ -170,6 +182,17 @@ public class DrawLocus extends Drawable {
 				fill(g2, (geo.isInverseFill() ? getShape() : gp));
 			}
 		}
+	}
+
+	private void drawPath(GGraphics2D g2) {
+		g2.setPaint(getObjectColor());
+		g2.setStroke(objStroke);
+		g2.draw(gp);
+	}
+
+	private GBufferedImage makeImage(GGraphics2D g2p) {
+		return AwtFactory.getPrototype().newBufferedImage(view.getWidth(),
+				view.getHeight(), g2p);
 	}
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
