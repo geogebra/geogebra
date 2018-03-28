@@ -858,7 +858,7 @@ public abstract class AppW extends App implements SetLabels {
 					afterLoadFileAppOrNot(asSlide);
 
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 

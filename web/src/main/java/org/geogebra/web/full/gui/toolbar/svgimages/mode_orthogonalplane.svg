@@ -4,29 +4,13 @@
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
 	 style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <g style="opacity:0.4;">
-	<defs>
-		<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="-31.06" y="89.15" width="574.119" height="333.699">
-			<feFlood  style="flood-color:white;flood-opacity:1" result="back"/>
-			<feBlend  in="SourceGraphic" in2="back" mode="normal"/>
-		</filter>
-	</defs>
-	<mask maskUnits="userSpaceOnUse" x="-31.06" y="89.15" width="574.119" height="333.699" id="SVGID_1_">
-		<g style="filter:url(#Adobe_OpacityMaskFilter);">
-			
-				<image style="overflow:visible;" width="2409" height="1408" xlink:href="5FB3CDC3.jpg"  transform="matrix(0.24 0 0 0.24 -33.0596 87.1504)">
-			</image>
-		</g>
-	</mask>
 	<g style="mask:url(#SVGID_1_);">
 		<polygon style="fill:#993300;" points="543.06,300.012 182.801,422.85 -31.06,211.987 329.2,89.15 		"/>
 	</g>
 </g>
 <g>
-	
 		<line style="fill:none;stroke:#1A171B;stroke-width:13;stroke-miterlimit:10;" x1="256.62" y1="602.543" x2="256.363" y2="402.544"/>
-	
 		<line style="fill:none;stroke:#1A171B;stroke-width:13;stroke-miterlimit:10;stroke-dasharray:25;" x1="256.369" y1="382.837" x2="256.176" y2="244.837"/>
-	
 		<line style="fill:none;stroke:#1A171B;stroke-width:13;stroke-miterlimit:10;" x1="256.176" y1="237.813" x2="255.79" y2="-62.187"/>
 </g>
 <g>
