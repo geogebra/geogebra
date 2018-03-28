@@ -463,21 +463,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 	}
 
-	@Override
-	public void draw(Renderer renderer1) {
-		if (drawStylusBeam()) {
-			stylusBeamDrawable.drawOutline(renderer1);
-		}
-
-	}
-
-	@Override
-	public void drawHidden(Renderer renderer1) {
-		if (drawStylusBeam()) {
-			stylusBeamDrawable.drawHidden(renderer1);
-		}
-	}
-
 	private boolean drawStylusBeam() {
 		if (!input3D.hasMouseDirection() || input3D.currentlyUseMouse2D()) {
 			return false;
