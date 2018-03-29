@@ -292,7 +292,10 @@ public enum Feature {
 	MOB_AND_QUEUE_ON_GL_THREAD,
 
 	/** IGR-748 */
-	MOB_EXPORT_IMAGE
+	MOB_EXPORT_IMAGE,
+
+	/** IGR-601 */
+	MOB_HELP_FEEDBACK
 
 }
 

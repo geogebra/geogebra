@@ -4021,6 +4021,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_EXPORT_IMAGE:
 			return prerelease;
 
+		// IGR-601
+		case MOB_HELP_FEEDBACK:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
