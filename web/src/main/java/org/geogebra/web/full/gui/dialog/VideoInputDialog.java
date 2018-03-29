@@ -3,6 +3,8 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -28,7 +30,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author csilla
  *
  */
-public class VideoInputDialog extends DialogBoxW implements FastClickHandler {
+public class VideoInputDialog extends DialogBoxW
+		implements FastClickHandler, ErrorHandler {
+	private static final String HTTP = "http://";
+	private static final String HTTPS = "https://";
 	private AppW appW;
 	private FlowPanel mainPanel;
 	private FlowPanel inputPanel;
@@ -85,7 +90,6 @@ public class VideoInputDialog extends DialogBoxW implements FastClickHandler {
 		addStyleName("videoDialog");
 		setGlassEnabled(true);
 		setLabels();
-		int dont = 0;
 		inputField.getTextComponent().setText(GeoVideo.TEST_VIDEO_URL);
 		insertBtn.setEnabled(true);
 
@@ -116,7 +120,7 @@ public class VideoInputDialog extends DialogBoxW implements FastClickHandler {
 					public void onKeyUp(KeyUpEvent event) {
 						if (event.getNativeEvent()
 								.getKeyCode() == KeyCodes.KEY_ENTER) {
-							// TODO process input
+							processInput();
 						} else {
 							resetInputField();
 							getInputPanel().addStyleName("focusState");
@@ -169,8 +173,7 @@ public class VideoInputDialog extends DialogBoxW implements FastClickHandler {
 	 * Resets input style after error.
 	 */
 	public void resetInputField() {
-		getInputPanel().setStyleName("mowVideoDialogContent");
-		getInputPanel().addStyleName("emptyState");
+		resetError();
 		getInsertBtn().setEnabled(!"".equals(getInputField().getText()));
 	}
 
@@ -196,13 +199,52 @@ public class VideoInputDialog extends DialogBoxW implements FastClickHandler {
 		}
 	}
 
-	private void processInput() {
-		addVideo();
+	/**
+	 * Handles the URL user has typed.
+	 */
+	protected void processInput() {
+		if (appW.getGuiManager() != null) {
+			String url = getUrlWithProtocol();
+			inputField.getTextComponent().setText(url);
+			app.getVideoManager().checkURL(url, new AsyncOperation<Boolean>() {
+
+				@Override
+				public void callback(Boolean ok) {
+					if (ok) {
+						addVideo();
+					} else {
+						showError("error");
+					}
+				}
+			});
+		}
 	}
 
-	private void addVideo() {
+	/**
+	 * Adds the GeoVideo instance.
+	 */
+	protected void addVideo() {
+		resetError();
 		app.getGuiManager().addVideo(inputField.getText());
 		hide();
+	}
+
+	private String getUrlWithProtocol() {
+		String url = inputField.getText().trim();
+		String value = isHTTPSOnly() ? url.replaceFirst(HTTP, "") : url;
+
+		if (!url.startsWith(HTTPS)) {
+			value = HTTPS + value;
+		}
+		return value;
+	}
+
+	/**
+	 * 
+	 * @return if accepted URLs are HTTPS only or not.
+	 */
+	private static boolean isHTTPSOnly() {
+		return true;
 	}
 
 	@Override
@@ -210,5 +252,34 @@ public class VideoInputDialog extends DialogBoxW implements FastClickHandler {
 		appW.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
 				ModeSetter.TOOLBAR);
 		super.hide();
+	}
+
+	@Override
+	public void showError(String msg) {
+		inputPanel.setStyleName("mowVideoDialogContent");
+		inputPanel.addStyleName("errorState");
+	}
+
+	@Override
+	public void showCommandError(String command, String message) {
+		// not used but must be implemented
+	}
+
+	@Override
+	public String getCurrentCommand() {
+		return null;
+	}
+
+	@Override
+	public boolean onUndefinedVariables(String string,
+			AsyncOperation<String[]> callback) {
+		return false;
+	}
+
+	@Override
+	public void resetError() {
+		getInputPanel().setStyleName("mowVideoDialogContent");
+		getInputPanel().addStyleName("emptyState");
+		inputPanel.removeStyleName("errorState");
 	}
 }

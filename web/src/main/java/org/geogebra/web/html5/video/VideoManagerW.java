@@ -11,6 +11,7 @@ import org.geogebra.common.util.AsyncOperation;
  *
  */
 public class VideoManagerW implements VideoManager {
+	private AsyncOperation<Boolean> urlCallback = null;
 
 	/**
 	 * Head of a regular YouTube URL.
@@ -21,6 +22,11 @@ public class VideoManagerW implements VideoManager {
 	 * Head of a short form of YouTube URL.
 	 */
 	public static final String YOUTUBE_SHORT = "https://youtu.be/";
+
+	/**
+	 * Head of an embedding YouTube URL.
+	 */
+	public static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
 
 	/**
 	 * Head of the preview image of YouTube URL.
@@ -46,10 +52,29 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void checkURL(String url, AsyncOperation<Boolean> callback) {
-		// TODO implement this
-
+		urlCallback = callback;
+		checkVideo(url);
 	}
 
+	private void checkVideo(String url) {
+		if (getYouTubeId(url) == null) {
+			onUrlError();
+		} else {
+			onUrlOK();
+		}
+	}
+
+	private void onUrlError() {
+		if (urlCallback != null) {
+			urlCallback.callback(Boolean.FALSE);
+		}
+	}
+
+	private void onUrlOK() {
+		if (urlCallback != null) {
+			urlCallback.callback(Boolean.TRUE);
+		}
+	}
 	@Override
 	public void play(GeoVideo geo) {
 		// TODO implement this
@@ -65,7 +90,6 @@ public class VideoManagerW implements VideoManager {
 		// TODO implement this
 		return false;
 	}
-
 	@Override
 	public String getYouTubeId(String url) {
 		String id = null;
@@ -73,11 +97,15 @@ public class VideoManagerW implements VideoManager {
 			id = url.replace(YOUTUBE, "");
 		} else if (url.startsWith(YOUTUBE_SHORT)) {
 			id = url.replace(YOUTUBE_SHORT, "");
+		} else if (url.startsWith(YOUTUBE_EMBED)) {
+			id = url.replace(YOUTUBE_EMBED, "");
 		}
 
-		int idx = id.indexOf("&");
-		if (idx != -1) {
-			return id.substring(0, idx);
+		if (id != null) {
+			int idx = id.indexOf("&");
+			if (idx != -1) {
+				return id.substring(0, idx);
+			}
 		}
 		return id;
 	}
