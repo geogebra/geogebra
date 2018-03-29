@@ -6,6 +6,8 @@ import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
@@ -504,22 +506,46 @@ public class ControllerTest {
 
 	@Test
 	public void compassesTool() {
-		app.setMode(EuclidianConstants.MODE_COMPASSES); // TODO 53
+		t("A = (2, -2)");
+		t("B = (0, 0)");
+		app.setMode(EuclidianConstants.MODE_COMPASSES);
+		click(100, 100);
+		click(0, 0);
+		click(150, 0);
+		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)",
+				CommandsTest.unicode("c: (x - 3)^2 + y^2 = 8"));
 	}
 
 	@Test
 	public void mirrorAtCircleTool() {
-		app.setMode(EuclidianConstants.MODE_MIRROR_AT_CIRCLE); // TODO 54
+		t("x^2+y^2=8");
+		t("A=(1, -1)");
+		app.setMode(EuclidianConstants.MODE_MIRROR_AT_CIRCLE);
+		click(50, 50);
+		click(100, 100);
+
+		checkContent(CommandsTest.unicode("c: x^2 + y^2 = 8"),
+				"A = (1, -1)", "A' = (4, -4)");
 	}
 
 	@Test
 	public void ellipse3Tool() {
-		app.setMode(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS); // TODO 55
+		app.setMode(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
+		click(0, 0);
+		click(100, 0);
+		click(50, 150);
+		checkContent("A = (0, 0)", "B = (2, 0)", "C = (1, -3)",
+				CommandsTest.unicode("c: (x - 1)^2 / 10 + y^2 / 9 = 1"));
 	}
 
 	@Test
 	public void hyperbola3Tool() {
-		app.setMode(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS); // TODO 56
+		app.setMode(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
+		click(0, 0);
+		click(500, 0);
+		click(100, 0);
+		checkContent("A = (0, 0)", "B = (10, 0)", "C = (2, 0)",
+				CommandsTest.unicode("c: (x - 5)^2 / 9 - y^2 / 16 = 1"));
 	}
 
 	@Test
@@ -589,7 +615,9 @@ public class ControllerTest {
 
 	@Test
 	public void complexNumberTool() {
-		app.setMode(EuclidianConstants.MODE_COMPLEX_NUMBER); // TODO 72
+		app.setMode(EuclidianConstants.MODE_COMPLEX_NUMBER);
+		click(100, 100);
+		checkContent("z_1 = 2 - 2" + Unicode.IMAGINARY);
 	}
 
 	@Test
@@ -604,7 +632,10 @@ public class ControllerTest {
 
 	@Test
 	public void rootsTool() {
-		app.setMode(EuclidianConstants.MODE_ROOTS); // TODO 76
+		app.setMode(EuclidianConstants.MODE_ROOTS);
+		t("x*(x-2)");
+		click(50, 50);
+		checkContent("f(x) = x (x - 2)", "A = (0, 0)", "B = (2, 0)");
 	}
 
 	@Test
@@ -710,11 +741,16 @@ public class ControllerTest {
 		lastCheck = desc;
 		int i = 0;
 		for (String label : app.getGgbApi().getAllObjectNames()) {
-			Assert.assertEquals(desc[i], app.getKernel().lookupLabel(label)
+			GeoElement geo = app.getKernel().lookupLabel(label);
+			if (desc[i].contains("/") && geo instanceof GeoConic) {
+				((GeoConic) geo).setToSpecific();
+			}
+			Assert.assertEquals(desc[i],
+					geo
 					.toString(StringTemplate.editTemplate));
 			i++;
 		}
 		Assert.assertEquals(desc.length, app.getGgbApi().getObjectNumber());
-
 	}
+
 }

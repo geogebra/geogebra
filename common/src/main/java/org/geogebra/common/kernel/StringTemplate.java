@@ -68,9 +68,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate noLocalDefault = new StringTemplate(
 			"nonLocalDefault");
+
 	static {
 		noLocalDefault.localizeCmds = false;
 	}
+
 	private static final double[] precisions = new double[] { 1, 1E-1, 1E-2,
 			1E-3, 1E-4, 1E-5, 1E-6, 1E-7, 1E-8, 1E-9, 1E-10, 1E-11, 1E-12,
 			1E-13, 1E-14, 1E-15, 1E-16 };
@@ -99,6 +101,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		prefixedDefault.usePrefix = true;
 		prefixedDefault.nf = FormatFactory.getPrototype().getNumberFormat(15);
 	}
+
 	/**
 	 * GeoGebra string type, internationalize digits
 	 */
@@ -110,6 +113,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate realTemplate = new StringTemplate(
 			"realTemplate");
+
 	static {
 		realTemplate.useRealLabels = true;
 	}
@@ -119,6 +123,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate algebraTemplate = new StringTemplate(
 			"algebraTemplate");
+
 	static {
 		algebraTemplate.niceQuotes = true;
 	}
@@ -158,7 +163,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		latexTemplateCAS.setType(StringType.LATEX);
 		latexTemplateCAS.allowPiHack = false;
-
 	}
 
 	/**
@@ -166,6 +170,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate mathmlTemplate = new StringTemplate(
 			"mathmlTemplate");
+
 	static {
 		mathmlTemplate.setType(StringType.CONTENT_MATHML);
 	}
@@ -175,6 +180,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate libreofficeTemplate = new StringTemplate(
 			"libreOfficeTemplate");
+
 	static {
 		libreofficeTemplate.setType(StringType.LIBRE_OFFICE);
 	}
@@ -184,6 +190,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate giacTemplate = new StringTemplate(
 			"giacTemplate");
+
 	static {
 		giacTemplate.internationalizeDigits = false;
 		giacTemplate.numeric = false;
@@ -200,6 +207,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate giacTemplateInternal = new StringTemplate(
 			"giacTemplateMini");
+
 	static {
 		giacTemplateInternal.internationalizeDigits = false;
 		giacTemplateInternal.numeric = false;
@@ -221,6 +229,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return Kernel.COORD_STYLE_DEFAULT;
 		}
 	};
+
 	static {
 		xmlTemplate.forceSF = true;
 		xmlTemplate.allowMoreDigits = true;
@@ -242,6 +251,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return Kernel.COORD_STYLE_DEFAULT;
 		}
 	};
+
 	static {
 		casCopyTemplate.forceSF = true;
 		casCopyTemplate.allowMoreDigits = true;
@@ -253,6 +263,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		casCopyTemplate.questionMarkForNaN = true;
 		casCopyTemplate.changeArcTrig = false;
 	}
+
 	/**
 	 * for input bar; same as default, but increases precision to
 	 * MIN_EDITING_PRINT_PRECISION
@@ -279,14 +290,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		editorTemplate.allowMoreDigits = editTemplate.allowMoreDigits;
 		editorTemplate.hideLHS = editTemplate.hideLHS;
-
 	}
+
 	/**
 	 * Template for regression: uses 6 figures or 6 sig digits based on Kernel
 	 * settings, string type is XML
 	 */
 	public static final StringTemplate regression = new StringTemplate(
 			"regression");
+
 	static {
 		regression.sf = FormatFactory.getPrototype().getScientificFormat(6, 20,
 				false);
@@ -294,13 +306,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 		regression.forceSF = true;
 		regression.setType(StringType.GEOGEBRA_XML);
 		regression.changeArcTrig = false;
-
 	}
+
 	/**
 	 * OGP string type
 	 */
 	public static final StringTemplate ogpTemplate = new StringTemplate(
 			"ogpTemplate");
+
 	static {
 		ogpTemplate.forceSF = false;
 		ogpTemplate.internationalizeDigits = false;
@@ -308,6 +321,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		ogpTemplate.localizeCmds = false;
 		ogpTemplate.nf = FormatFactory.getPrototype().getNumberFormat(0);
 	}
+
 	/**
 	 * Default template, just increases precision to max
 	 */
@@ -326,12 +340,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate maxDecimals = new StringTemplate(
 			"maxPrecision");
+
 	static {
 		maxPrecision.nf = FormatFactory.getPrototype().getNumberFormat(15);
 		maxPrecision.allowMoreDigits = false;
 		maxPrecision.forceNF = true;
 		maxPrecision.localizeCmds = false;
 	}
+
 	/**
 	 * Default template, just increases precision to max 13 not 15 so that when
 	 * sent to Giac is treated as a double, not a multi-precision float (MPFR).
@@ -339,6 +355,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate maxPrecision13 = new StringTemplate(
 			"maxPrecision13");
+
 	static {
 		maxPrecision13.sf = FormatFactory.getPrototype().getScientificFormat(13,
 				20, false);
@@ -353,12 +370,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		maxPrecision13.printFormPI = "3.141592653590";
 	}
+
 	/**
 	 * Default template, just allow bigger precision for Numeric command
 	 */
-
 	public static final StringTemplate numericDefault = new StringTemplate(
 			"numericDefault");
+
 	static {
 		numericDefault.allowMoreDigits = true;
 	}
@@ -366,9 +384,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * Not localized template, allow bigger precision for Numeric command
 	 */
-
 	public static final StringTemplate numericNoLocal = new StringTemplate(
 			"numericNoLocal");
+
 	static {
 		numericNoLocal.allowMoreDigits = true;
 		numericNoLocal.localizeCmds = false;
@@ -379,14 +397,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate numericLatex = new StringTemplate(
 			"numericLatex");
+
 	static {
 		numericLatex.stringType = StringType.LATEX;
 		numericLatex.allowMoreDigits = true;
 		numericLatex.useRealLabels = true;
 	}
+
 	/** Generic template for CAS tests */
 	public static final StringTemplate testTemplate = new StringTemplate(
 			"testTemplate");
+
 	static {
 		testTemplate.internationalizeDigits = false;
 		testTemplate.setType(StringType.GEOGEBRA_XML);
@@ -394,13 +415,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 		testTemplate.sf = FormatFactory.getPrototype().getScientificFormat(15,
 				20, false);
 		testTemplate.changeArcTrig = false;
-
 	}
+
 	/**
 	 * No localized digits, max precision
 	 */
 	public static final StringTemplate testTemplateJSON = new StringTemplate(
 			"testTemplate");
+
 	static {
 		testTemplateJSON.internationalizeDigits = false;
 		// testTemplate.localizeCmds = false;
@@ -408,11 +430,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 				15,
 				20, false);
 		testTemplateJSON.changeArcTrig = false;
-
 	}
+
 	/** Template for CAS tests involving Numeric command */
 	public static final StringTemplate testNumeric = new StringTemplate(
 			"testNumeric");
+
 	static {
 		testNumeric.internationalizeDigits = false;
 		testNumeric.setType(StringType.GEOGEBRA_XML);
@@ -434,8 +457,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		setType(StringType.GEOGEBRA);
 		this.name = name;
 	}
-
-
 
 	/**
 	 * Returns string type of resulting text
@@ -916,7 +937,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	protected boolean isNDvector(ExpressionValue v) {
 		return v.evaluatesToNonComplex2DVector() || v.evaluatesTo3DVector();
 	}
-	
+
 	/**
 	 * @return whether line breaks are allowed
 	 */
@@ -1319,7 +1340,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public String minusString(ExpressionValue l, ExpressionValue r,
 			String leftStr, String rightStr, boolean valueForm,
 			Localization loc) {
-
 		// make sure A:=(1,2) B:=(3,4) A-B works
 		// MyVecNode wrapped in ExpressionNode
 		ExpressionValue left = l.unwrap();
@@ -1475,7 +1495,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 						sb.append("-");
 						sb.append(rightStr);
 						sb.append(")");
-
 					}
 				}
 
@@ -1877,10 +1896,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 			}
 			break;
-
 		}
 		return sb.toString();
-
 	}
 
 	protected String expToString(ExpressionValue v, boolean valueMode) {
@@ -1901,7 +1918,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 
 		return null;
-
 	}
 
 	protected String multiplicationSign() {
@@ -1943,7 +1959,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(str);
 			sb.append(rightBracket());
 		}
-
 	}
 
 	public String divideString(ExpressionValue left, ExpressionValue right,
@@ -2075,7 +2090,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		sb.append(',');
 		sb.append(rightStr);
 		sb.append(')');
-
 	}
 
 	/**
@@ -2289,7 +2303,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		default:
 			return strEQUAL_BOOLEAN;
 		}
-
 	}
 
 	public String perpSign() {
@@ -2330,7 +2343,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		sb.append(operationString);
 		sb.append(' ');
 		tpl.append(sb, rightStr, right, operation);
-
 	}
 
 	public String andIntervalString(ExpressionValue left, ExpressionValue right,
@@ -2510,7 +2522,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				if (finished) {
 					return sb.toString();
 				}
-
 			}
 
 			switch (stringType) {
@@ -2676,7 +2687,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		sb.append(leftBracket());
 		sb.append(leftStr);
 		sb.append(rightBracket());
-
 	}
 
 	private static void exponent(StringBuilder sb, int i0) {
@@ -2723,7 +2733,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 				case 9:
 					index = "\u2079" + index;
 					break;
-
 				}
 				i = i / 10;
 			}
@@ -2914,7 +2923,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		} else {
 			sb.append("{");
 		}
-
 	}
 
 	public void rightCurlyBracket(StringBuilder sb) {
@@ -2923,7 +2931,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		} else {
 			sb.append("}");
 		}
-
 	}
 
 	/**
@@ -2995,7 +3002,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			}
 			return wrapInTexttt(
 					s + "." + StringUtil.string("0", digits) + suffix);
-
 		}
 
 		if (zerosToAdd == 0) {
@@ -3012,7 +3018,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 
 		return wrapInTexttt(s + StringUtil.string("0", zerosToAdd) + suffix);
-
 	}
 
 	/**
@@ -3126,7 +3131,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return "atan" or "atand" as appropriate
 	 */
 	public String atand(Kernel kernel) {
-
 		if (changeArcTrig && kernel.getApplication()
 				.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
 			return "atan";
