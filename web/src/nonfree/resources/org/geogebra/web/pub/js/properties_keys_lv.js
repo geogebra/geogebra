@@ -1886,6 +1886,7 @@ __GGB__keysVar["lv"].menu = {
     "Height": "Augstums",
     "HeightOfA": "Augstums %0",
     "Help": "Pall\u012bdz\u012bba",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Se\u0161st\u016bra",
     "Hidden": "Hidden",
     "Hidden.Dashed": "Dashed",

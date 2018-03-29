@@ -1886,6 +1886,7 @@ __GGB__keysVar["xh"].menu = {
     "Height": "ukuPhakama",
     "HeightOfA": "Ukuphakama okungu %0",
     "Help": "Nceda",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "UmacalaAsithandathu",
     "Hidden": "Okufihliweyo",
     "Hidden.Dashed": "Dashed",

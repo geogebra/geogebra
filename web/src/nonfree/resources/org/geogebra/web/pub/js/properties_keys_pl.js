@@ -1886,6 +1886,7 @@ __GGB__keysVar["pl"].menu = {
     "Height": "Wysoko\u015b\u0107",
     "HeightOfA": "Wysoko\u015b\u0107 %0",
     "Help": "Pomoc",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Sze\u015bciok\u0105t",
     "Hidden": "Ukryte",
     "Hidden.Dashed": "Kropkowany",

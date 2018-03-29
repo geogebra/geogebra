@@ -1886,6 +1886,7 @@ __GGB__keysVar["ru"].menu = {
     "Height": "\u0412\u044b\u0441\u043e\u0442\u0430",
     "HeightOfA": "\u0412\u044b\u0441\u043e\u0442\u0430 %0",
     "Help": "\u0421\u043f\u0440\u0430\u0432\u043a\u0430",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "\u0428\u0435\u0441\u0442\u0438\u0443\u0433\u043e\u043b\u044c\u043d\u0438\u043a",
     "Hidden": "\u0421\u043a\u0440\u044b\u0442\u044b\u0439",
     "Hidden.Dashed": "\u041f\u0443\u043d\u043a\u0442\u0438\u0440\u043d\u044b\u0439",

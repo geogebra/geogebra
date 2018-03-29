@@ -1886,6 +1886,7 @@ __GGB__keysVar["cy"].menu = {
     "Height": "Uchder",
     "HeightOfA": "Height of %0",
     "Help": "Cymorth",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Hecsagon",
     "Hidden": "Hidden",
     "Hidden.Dashed": "Toredig",

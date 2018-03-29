@@ -1886,6 +1886,7 @@ __GGB__keysVar["ko"].menu = {
     "Height": "\ub192\uc774",
     "HeightOfA": "%0 \uc758 \ub192\uc774",
     "Help": "\ub3c4\uc6c0\ub9d0",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "\uc721\uac01\ud615",
     "Hidden": "\ubcf4\uc774\uc9c0 \uc54a\uc74c",
     "Hidden.Dashed": "\uc810\uc120",

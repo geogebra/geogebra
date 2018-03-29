@@ -1886,6 +1886,7 @@ __GGB__keysVar["ml"].menu = {
     "Height": "\u0d09\u0d2f\u0d30\u0d02",
     "HeightOfA": "Height of %0",
     "Help": "Help",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Hexagon",
     "Hidden": "Hidden",
     "Hidden.Dashed": "Dashed",

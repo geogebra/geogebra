@@ -1886,6 +1886,7 @@ __GGB__keysVar["vi"].menu = {
     "Height": "Chi\u1ec1u cao",
     "HeightOfA": "Height of %0",
     "Help": "Tr\u1ee3 gi\xfap",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "H\xecnh l\u1ee5c gi\xe1c",
     "Hidden": "Hidden",
     "Hidden.Dashed": "N\xe9t g\u1ea1ch ngang",

@@ -1886,6 +1886,7 @@ __GGB__keysVar["gl"].menu = {
     "Height": "Altura",
     "HeightOfA": "Altura de %0",
     "Help": "Axuda",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Hex\xe1gono",
     "Hidden": "Agochado",
     "Hidden.Dashed": "Punteado",

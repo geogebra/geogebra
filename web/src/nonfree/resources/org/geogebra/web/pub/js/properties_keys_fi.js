@@ -1886,6 +1886,7 @@ __GGB__keysVar["fi"].menu = {
     "Height": "Korkeus",
     "HeightOfA": "%0n korkeus",
     "Help": "Ohje",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Kuusikulmio",
     "Hidden": "Piilotettu",
     "Hidden.Dashed": "Katkoviivoitettu",

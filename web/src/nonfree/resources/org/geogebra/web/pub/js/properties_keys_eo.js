@@ -1886,6 +1886,7 @@ __GGB__keysVar["eo"].menu = {
     "Height": "Alto",
     "HeightOfA": "Height of %0",
     "Help": "Helpo",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Seslatero",
     "Hidden": "Hidden",
     "Hidden.Dashed": "Haltostreka",

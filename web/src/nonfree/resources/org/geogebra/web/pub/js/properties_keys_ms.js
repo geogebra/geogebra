@@ -1886,6 +1886,7 @@ __GGB__keysVar["ms"].menu = {
     "Height": "Tinggi",
     "HeightOfA": "Ketinggian %0",
     "Help": "Bantuan",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Heksagon",
     "Hidden": "Hidden",
     "Hidden.Dashed": "Bersempang",

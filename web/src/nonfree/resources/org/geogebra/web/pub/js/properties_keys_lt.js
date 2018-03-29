@@ -1886,6 +1886,7 @@ __GGB__keysVar["lt"].menu = {
     "Height": "Auk\u0161tis",
     "HeightOfA": "Auk\u0161tis %0",
     "Help": "Pagalba",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "\u0160e\u0161iakampis",
     "Hidden": "Hidden",
     "Hidden.Dashed": "Punktyras",

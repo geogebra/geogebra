@@ -1886,6 +1886,7 @@ __GGB__keysVar["eu"].menu = {
     "Height": "Altuera",
     "HeightOfA": "%0-(r)en altuera",
     "Help": "Laguntza",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Hexagonoa",
     "Hidden": "Ezkutua",
     "Hidden.Dashed": "Puntuz Estalia",

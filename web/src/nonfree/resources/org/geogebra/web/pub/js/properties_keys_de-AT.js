@@ -1886,6 +1886,7 @@ __GGB__keysVar["de-AT"].menu = {
     "Height": "H\xf6he",
     "HeightOfA": "H\xf6he von %0",
     "Help": "Hilfe",
+    "HelpAndFeedback": "Hilfe & Feedback",
     "Hexagon": "Sechseck",
     "Hidden": "Keine",
     "Hidden.Dashed": "Strichliert",

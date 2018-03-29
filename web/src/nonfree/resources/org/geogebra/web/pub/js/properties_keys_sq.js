@@ -1886,6 +1886,7 @@ __GGB__keysVar["sq"].menu = {
     "Height": "Lartesi",
     "HeightOfA": "Height of %0",
     "Help": "Ndihme",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Gjashte-kendesh",
     "Hidden": "Hidden",
     "Hidden.Dashed": "e Vijezuar",

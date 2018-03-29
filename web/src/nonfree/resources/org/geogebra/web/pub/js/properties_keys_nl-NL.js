@@ -1886,6 +1886,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "Height": "Hoogte",
     "HeightOfA": "Hoogte van %0",
     "Help": "Help",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Zeshoek",
     "Hidden": "Verborgen",
     "Hidden.Dashed": "Gebroken",

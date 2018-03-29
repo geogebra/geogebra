@@ -1886,6 +1886,7 @@ __GGB__keysVar["yi"].menu = {
     "Height": "\u05d4\u05d9\u05d9\u05da",
     "HeightOfA": "Height of %0",
     "Help": "\u05d4\u05d9\u05dc\u05e3",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "\u05d4\u05e2\u05e7\u05e1\u05d0\u05b7\u05d2\u05d0\u05b8\u05df",
     "Hidden": "Hidden",
     "Hidden.Dashed": "\u05d2\u05e2\u05e4\u05bc\u05d9\u05e0\u05d8\u05dc\u05d8",

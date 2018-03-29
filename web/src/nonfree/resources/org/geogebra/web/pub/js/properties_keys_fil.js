@@ -1886,6 +1886,7 @@ __GGB__keysVar["fil"].menu = {
     "Height": "Taas",
     "HeightOfA": "Height of %0",
     "Help": "Help",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Hexagon",
     "Hidden": "Hidden",
     "Hidden.Dashed": "Dashed",

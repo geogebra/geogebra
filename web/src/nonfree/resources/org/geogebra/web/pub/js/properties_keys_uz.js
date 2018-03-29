@@ -1886,6 +1886,7 @@ __GGB__keysVar["uz"].menu = {
     "Height": "Height",
     "HeightOfA": "Height of %0",
     "Help": "Help",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "Oltiburchak",
     "Hidden": "Hidden",
     "Hidden.Dashed": "Dashed",

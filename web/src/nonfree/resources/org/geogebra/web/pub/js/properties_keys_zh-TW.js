@@ -1886,6 +1886,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Height": "\u9ad8\u5ea6",
     "HeightOfA": "Height of %0",
     "Help": "\u8aaa\u660e",
+    "HelpAndFeedback": "Help & Feedback",
     "Hexagon": "\u516d\u89d2\u5f62",
     "Hidden": "Hidden",
     "Hidden.Dashed": "\u865b\u7dda",
