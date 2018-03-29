@@ -4052,7 +4052,7 @@ public abstract class App implements UpdateSelection {
 
 		/** MOW-320 */
 		case MOW_PIN_IMAGE:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 			
 		case MOW_PEN_IS_LOCUS:
 			return prerelease;
@@ -4088,19 +4088,19 @@ public abstract class App implements UpdateSelection {
 
 		/** MOW-269 */
 		case MOW_MULTI_PAGE:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
 		/** MOW-336 */
 		case MOW_DRAG_AND_DROP_PAGES:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
 		/** MOW-336 */
 		case MOW_DRAG_AND_DROP_ANIMATION:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
 		/** MOW-360, MOW-381, MOW-382 */
 		case MOW_CROP_IMAGE:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
 		/** MOW-379, MOW-380 */
 		case MOW_IMAGE_BOUNDING_BOX:
@@ -4112,11 +4112,11 @@ public abstract class App implements UpdateSelection {
 
 		/** MOW-345 */
 		case MOW_MOVING_CANVAS:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
 		/** MOW-349 */
 		case MOW_AUDIO_TOOL:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
 		/** MOW-299 */
 		case MOW_VIDEO_TOOL:
