@@ -140,6 +140,8 @@ import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -2700,6 +2702,14 @@ public class GuiManagerW extends GuiManager
 		app.getActiveEuclidianView().repaint();
 		Frame player = new Frame();
 		player.addStyleName("mowVideo");
+		player.addDomHandler(new MouseDownHandler() {
+
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				Log.debug("hehe");
+
+			}
+		}, MouseDownEvent.getType());
 		videoPlayers.put(video, player);
 		appFrame.add(player);
 
@@ -2712,7 +2722,7 @@ public class GuiManagerW extends GuiManager
 		}
 
 		Frame player = videoPlayers.get(video);
-		player.setUrl(video.getSrc());
+		player.setUrl(video.getEmbeddedUrl());
 		player.setWidth(video.getWidth() + "px");
 		player.setHeight(video.getHeight() + "px");
 		Style style = player.getElement().getStyle();

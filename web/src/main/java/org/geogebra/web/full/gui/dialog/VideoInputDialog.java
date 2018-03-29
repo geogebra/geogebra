@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -84,6 +85,10 @@ public class VideoInputDialog extends DialogBoxW implements FastClickHandler {
 		addStyleName("videoDialog");
 		setGlassEnabled(true);
 		setLabels();
+		int dont = 0;
+		inputField.getTextComponent().setText(GeoVideo.TEST_VIDEO_URL);
+		insertBtn.setEnabled(true);
+
 	}
 
 	private void initActions() {

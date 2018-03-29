@@ -69,4 +69,26 @@ public interface VideoManager {
 	 * @return if GeoVideo object is playing now.
 	 */
 	boolean isPlaying(GeoVideo geo);
+
+	/**
+	 * Gets a preview image
+	 * 
+	 * @param geo
+	 *            the video object.
+	 */
+	void getPreview(GeoVideo geo);
+
+	/**
+	 * Gets the ID of the YouTube video
+	 * ie from https://www.youtube.com/watch?v=E4uvbaTR7mw
+	 * gets 'E4uvbaTR7mw'.
+	 * 
+	 * @param url
+	 *            the URL of the video.
+	 * @return the short ID of video,
+	 *         or null if URL is not from YouTube.
+	 */
+	String getYouTubeId(String url);
+
 }
+

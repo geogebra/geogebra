@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
@@ -20,6 +21,7 @@ import org.geogebra.common.main.App;
 public class DrawVideo extends Drawable {
 	private GeoVideo video;
 	private App app;
+	private GRectangle bounds;
 
 	/**
 	 * @param view
@@ -37,21 +39,26 @@ public class DrawVideo extends Drawable {
 	@Override
 	public void update() {
 		app.getGuiManager().updateVideo(video);
+		int left = video.labelOffsetX;
+		int top = video.labelOffsetY;
+		int width = video.getWidth();
+		int height = video.getHeight();
+		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		// Video is not drawn.
+		// Video is not drawn to canvas.
 	}
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		return false;
+		return bounds.contains(x, y) && video.isVisible();
 	}
 
 	@Override
 	public boolean isInside(GRectangle rect) {
-		return false;
+		return rect.contains(bounds);
 	}
 
 	@Override

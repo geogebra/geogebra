@@ -15,10 +15,12 @@ public class GeoVideo extends GeoAudio {
 	/**
 	 * Test video URL.
 	 */
-	public static final String TEST_URL = "https://www.youtube.com/embed/8MPbR6Cbwi4";
+	public static final String TEST_VIDEO_URL = "https://www.youtube.com/embed/8MPbR6Cbwi4";
+	private static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
 	private static final int VIDEO_WIDTH = 420;
 	private static final int VIDEO_HEIGHT = 345;
 	private boolean changed = false;
+	private String youtubeId;
 	/**
 	 * Constructor.
 	 * 
@@ -70,6 +72,10 @@ public class GeoVideo extends GeoAudio {
 	@Override
 	public void setSrc(String url) {
 		super.setSrc(url);
+		if (hasVideoManager()) {
+			youtubeId = app.getVideoManager().getYouTubeId(url);
+		}
+
 		changed = true;
 	}
 
@@ -116,7 +122,24 @@ public class GeoVideo extends GeoAudio {
 		return changed;
 	}
 
+	/**
+	 * 
+	 * @param changed
+	 *            to set
+	 */
 	public void setChanged(boolean changed) {
 		this.changed = changed;
+	}
+
+	/**
+	 * 
+	 * @return the embedded link of the geo.
+	 */
+	public String getEmbeddedUrl() {
+		if (youtubeId == null) {
+			return null;
+		}
+		return YOUTUBE_EMBED + youtubeId;
+
 	}
 }
