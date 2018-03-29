@@ -20,6 +20,9 @@ import org.geogebra.common.util.DoubleUtil;
 public class GeoLocusStroke extends GeoLocus
 		implements MatrixTransformable, Translateable {
 
+	/** cache the part of XML that follows after expression label="stroke1" */
+	private StringBuilder xmlPoints;
+
 	/**
 	 * @param cons
 	 *            construction
@@ -165,5 +168,29 @@ public class GeoLocusStroke extends GeoLocus
 	@Override
 	public boolean isPenStroke() {
 		return true;
+	}
+
+	/**
+	 * Reset list of points for XML
+	 */
+	@Override
+	public void resetPointsWithoutControl() {
+		super.resetPointsWithoutControl();
+		xmlPoints = null;
+	}
+
+	/**
+	 * @return builder fox XML representation of points
+	 */
+	public StringBuilder getXMLPointBuilder() {
+		return xmlPoints;
+	}
+
+	/**
+	 * @param xmlPointBuilder
+	 *            builder fox XML representation of points
+	 */
+	public void setXMLPointBuilder(StringBuilder xmlPointBuilder) {
+		this.xmlPoints = xmlPointBuilder;
 	}
 }

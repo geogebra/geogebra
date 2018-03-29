@@ -42,8 +42,6 @@ public class AlgoLocusStroke extends AlgoElement
 	// list of all points (also newly calculated control points of
 	// bezier curve)
 	private ArrayList<MyPoint> pointList = new ArrayList<>();
-	/** cache the part of XML that follows after expression label="stroke1" */
-	private StringBuilder xmlPoints;
 
 	/**
 	 * @param cons
@@ -111,7 +109,7 @@ public class AlgoLocusStroke extends AlgoElement
 	 */
 	public void updatePointArray(List<MyPoint> data, int initialIndex,
 			double xscale) {
-		xmlPoints = null;
+		poly.resetPointsWithoutControl();
 		// check if we have a point list
 		// create new points array
 		int size = data.size();
@@ -352,7 +350,6 @@ public class AlgoLocusStroke extends AlgoElement
 	 *            new point array
 	 */
 	public void updateFrom(List<MyPoint> data) {
-		xmlPoints = null;
 		if (poly.getPoints() != data) {
 			poly.setDefined(true);
 			poly.getPoints().clear();
@@ -375,19 +372,15 @@ public class AlgoLocusStroke extends AlgoElement
 				sb.append("\"");
 			}
 		}
+		StringBuilder xmlPoints = poly.getXMLPointBuilder();
 		if (xmlPoints == null) {
 			xmlPoints = new StringBuilder();
-
-			// add label
-
 			// add expression
 			xmlPoints.append(" exp=\"PolyLine[");
 			appendPoints(xmlPoints, tpl);
-			xmlPoints.append("]\"");
-
-			// expression
-			xmlPoints.append(" />\n");
+			xmlPoints.append("]\" />\n");
 		}
+		poly.setXMLPointBuilder(xmlPoints);
 		sb.append(xmlPoints.toString());
 	}
 
