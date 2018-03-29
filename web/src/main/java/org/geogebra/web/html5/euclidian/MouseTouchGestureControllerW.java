@@ -47,8 +47,6 @@ import com.google.gwt.user.client.Window;
 public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		implements HasOffsets {
 
-	private AppW app;
-
 	private long lastMoveEvent = 0;
 	private PointerEvent waitingTouchMove = null;
 	private PointerEvent waitingMouseMove = null;
@@ -99,12 +97,11 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		style = new EnvironmentStyleW();
 		style.setxOffset(getEnvXoffset());
 		style.setyOffset(getEnvYoffset());
-		style.setScaleX(app.getArticleElement().getScaleX());
-		style.setScaleY(app.getArticleElement().getScaleY());
+		style.setScaleX(((AppW) app).getArticleElement().getScaleX());
+		style.setScaleY(((AppW) app).getArticleElement().getScaleY());
 		style.setScrollLeft(Window.getScrollLeft());
 		style.setScrollTop(Window.getScrollTop());
-		ec.getView().setPixelRatio(app.getPixelRatio());
-
+		ec.getView().setPixelRatio(((AppW) app).getPixelRatio());
 	}
 
 	private double getEnvWidthScale() {
@@ -439,13 +436,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 				&& ec.getMode() == EuclidianConstants.MODE_MOVE
 				&& !app.isShiftDragZoomEnabled()
 				&& ec.getView().getHits().isEmpty();
-		debug("Whole page drag: " + (result ? "TRUE" : "FALSE"));
-
 		return result;
-	}
-
-	private static void debug(String msg) {
-		Log.debug("[WPD] " + msg);
 	}
 
 	/**
@@ -669,7 +660,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// but don't hide context menu if we just opened it via long tap in IE
 		if (ec.getDefaultEventType() == PointerEventType.MOUSE
 				&& app.getGuiManager() != null) {
-			app.getGuiManager().removePopup();
+			((AppW) app).getGuiManager().removePopup();
 		}
 
 		ec.wrapMouseReleased(e);
@@ -780,7 +771,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	@Override
 	public int touchEventX(int clientX) {
-		if (app.getLAF() != null && app.getLAF().isSmart()) {
+		if (((AppW) app).getLAF() != null && ((AppW) app).getLAF().isSmart()) {
 			return mouseEventX(clientX - style.getxOffset());
 		}
 		// IE touch events are mouse events
@@ -791,7 +782,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	@Override
 	public int touchEventY(int clientY) {
-		if (app.getLAF() != null && app.getLAF().isSmart()) {
+		if (((AppW) app).getLAF() != null && ((AppW) app).getLAF().isSmart()) {
 			return mouseEventY(clientY - style.getyOffset());
 		}
 		// IE touch events are mouse events
@@ -848,8 +839,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * Close all popups.
 	 */
 	public void closePopups() {
-		app.onUnhandledClick();
-		app.closePerspectivesPopup();
+		((AppW) app).onUnhandledClick();
+		((AppW) app).closePerspectivesPopup();
 		app.closePopups();
 	}
 }
