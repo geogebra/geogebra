@@ -2711,7 +2711,7 @@ public class GuiManagerW extends GuiManager
 			}
 		}, MouseDownEvent.getType());
 		videoPlayers.put(video, player);
-		appFrame.add(player);
+		// appFrame.add(player);
 
 	}
 

@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -22,6 +23,8 @@ public class DrawVideo extends Drawable {
 	private GeoVideo video;
 	private App app;
 	private GRectangle bounds;
+	private int left;
+	private int top;
 
 	/**
 	 * @param view
@@ -39,16 +42,20 @@ public class DrawVideo extends Drawable {
 	@Override
 	public void update() {
 		app.getGuiManager().updateVideo(video);
-		int left = video.labelOffsetX;
-		int top = video.labelOffsetY;
 		int width = video.getWidth();
 		int height = video.getHeight();
+		left = video.getAbsoluteScreenLocX();
+		top = video.getAbsoluteScreenLocY();
+
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		// Video is not drawn to canvas.
+		MyImage preview = video.getPreview();
+		if (preview != null) {
+			g2.drawImage(preview, left, top);
+		}
 	}
 
 	@Override

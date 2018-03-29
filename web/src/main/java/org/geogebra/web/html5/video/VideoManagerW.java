@@ -1,8 +1,16 @@
 package org.geogebra.web.html5.video;
 
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.main.MyImageW;
+
+import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Class for managing audio content.
@@ -12,7 +20,6 @@ import org.geogebra.common.util.AsyncOperation;
  */
 public class VideoManagerW implements VideoManager {
 	private AsyncOperation<Boolean> urlCallback = null;
-
 	/**
 	 * Head of a regular YouTube URL.
 	 */
@@ -24,14 +31,15 @@ public class VideoManagerW implements VideoManager {
 	public static final String YOUTUBE_SHORT = "https://youtu.be/";
 
 	/**
+	 * Head of the preview image of YouTube URL.
+	 */
+	public static final String YOUTUBE_PREV = "https://img.youtube.com/vi/%ID%/0.jpg";
+
+	/**
 	 * Head of an embedding YouTube URL.
 	 */
 	public static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
 
-	/**
-	 * Head of the preview image of YouTube URL.
-	 */
-	public static final String YOUTUBE_PREV = "https://img.youtube.com/vi/%ID%/0.jpg";
 
 	@Override
 	public void loadGeoVideo(GeoVideo geo) {
@@ -101,6 +109,7 @@ public class VideoManagerW implements VideoManager {
 			id = url.replace(YOUTUBE_EMBED, "");
 		}
 
+
 		if (id != null) {
 			int idx = id.indexOf("&");
 			if (idx != -1) {
@@ -111,8 +120,18 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public void getPreview(GeoVideo geo) {
-		// TODO implement this
-	}
+	public void createPreview(GeoVideo geo, final AsyncOperation<MyImage> cb) {
 
+		final Image img = new Image(geo.getPreviewUrl());
+		img.addLoadHandler(new LoadHandler() {
+
+			@Override
+			public void onLoad(LoadEvent event) {
+				final MyImage prev = new MyImageW(ImageElement.as(img.getElement()), false);
+				cb.callback(prev);
+				RootPanel.get().remove(img);
+			}
+		});
+		RootPanel.get().add(img);
+	}
 }

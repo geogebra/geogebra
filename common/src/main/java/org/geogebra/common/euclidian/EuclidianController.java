@@ -10859,7 +10859,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (hits != null && hits.size() > 0) {
 			GeoAudio audio;
 			for (GeoElement geo : hits.getTopHits()) {
-				if (geo instanceof GeoAudio) {
+				if (geo.isGeoAudio()) {
 					audio = (GeoAudio) geo;
 					return (DrawAudio) (view.getDrawable(audio));
 				}

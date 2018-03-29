@@ -1,8 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.AsyncOperation;
 
 /**
  * 
@@ -15,12 +17,15 @@ public class GeoVideo extends GeoAudio {
 	/**
 	 * Test video URL.
 	 */
-	public static final String TEST_VIDEO_URL = "https://www.youtube.com/embed/8MPbR6Cbwi4";
+	public static final String TEST_VIDEO_URL = "https://youtu.be/8MPbR6Cbwi4";
 	private static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
+	private static final String YOUTUBE_PREVIEW = "https://img.youtube.com/vi/%ID%/0.jpg";
 	private static final int VIDEO_WIDTH = 420;
 	private static final int VIDEO_HEIGHT = 345;
 	private boolean changed = false;
-	private String youtubeId;
+	private String youtubeId = null;
+	private String previewUrl = null;
+	private MyImage preview;
 	/**
 	 * Constructor.
 	 * 
@@ -43,6 +48,7 @@ public class GeoVideo extends GeoAudio {
 	 */
 	public GeoVideo(Construction c, String url) {
 		super(c, url);
+		setSrc(url);
 		setLabel("video");
 		setWidth(VIDEO_WIDTH);
 		setHeight(VIDEO_HEIGHT);
@@ -72,10 +78,23 @@ public class GeoVideo extends GeoAudio {
 	@Override
 	public void setSrc(String url) {
 		super.setSrc(url);
-		if (hasVideoManager()) {
-			youtubeId = app.getVideoManager().getYouTubeId(url);
-		}
+		onSetSrc();
+	}
 
+	private void onSetSrc() {
+		if (!hasVideoManager()) {
+			return;
+		}
+		youtubeId = app.getVideoManager().getYouTubeId(getSrc());
+		previewUrl = YOUTUBE_PREVIEW.replace("%ID%", youtubeId);
+		app.getVideoManager().createPreview(this, new AsyncOperation<MyImage>() {
+
+			@Override
+			public void callback(MyImage obj) {
+				preview = obj;
+				app.getActiveEuclidianView().repaint();
+			}
+		});
 		changed = true;
 	}
 
@@ -142,4 +161,22 @@ public class GeoVideo extends GeoAudio {
 		return YOUTUBE_EMBED + youtubeId;
 
 	}
+
+	/**
+	 * 
+	 * @return the preview link of the geo.
+	 */
+	public String getPreviewUrl() {
+		return previewUrl;
+
+	}
+
+	/**
+	 * 
+	 * @return the preview image.
+	 */
+	public MyImage getPreview() {
+		return preview;
+	}
+
 }

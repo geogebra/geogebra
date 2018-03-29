@@ -1,5 +1,6 @@
 package org.geogebra.common.sound;
 
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -74,9 +75,10 @@ public interface VideoManager {
 	 * Gets a preview image
 	 * 
 	 * @param geo
-	 *            the video object.
+	 * @param cb
+	 *            the preview callback.
 	 */
-	void getPreview(GeoVideo geo);
+	void createPreview(GeoVideo geo, AsyncOperation<MyImage> cb);
 
 	/**
 	 * Gets the ID of the YouTube video
