@@ -85,7 +85,7 @@ public class Pstricks {
 		t("FormulaText(sqrt(x/(x+1)))");
 		t("ShowAxes(true)");
 		t("ShowGrid(true)");
-		t("SetColor(a,\"BLUE\")");
+		t("SetColor(A,\"BLUE\")");
 		t("SetColor(f,\"YELLOW\")");
 		t("SetColor(g,\"RED\")");
 		t("SetColor(h,\"GREEN\")");

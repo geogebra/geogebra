@@ -360,7 +360,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public UndoManager getUndoManager(Construction cons) {
-		return new UndoManagerD(cons);
+		return new UndoManagerD(cons, true);
 	}
 
 	@Override

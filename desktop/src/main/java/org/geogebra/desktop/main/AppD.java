@@ -4495,7 +4495,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public UndoManagerD getUndoManager(Construction cons) {
-		return new UndoManagerD(cons);
+		return new UndoManagerD(cons, false);
 	}
 
 	@Override

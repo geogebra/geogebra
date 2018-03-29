@@ -78,6 +78,7 @@ public class UndoManagerD extends UndoManager {
 	}
 
 	private static final String TEMP_FILE_PREFIX = "GeoGebraUndoInfo";
+	private boolean sync;
 
 	/**
 	 * Creates a new UndowManager for the given Construction.
@@ -85,8 +86,9 @@ public class UndoManagerD extends UndoManager {
 	 * @param cons
 	 *            construction
 	 */
-	public UndoManagerD(Construction cons) {
+	public UndoManagerD(Construction cons, boolean sync) {
 		super(cons);
+		this.sync = sync;
 	}
 
 	/**
@@ -107,8 +109,18 @@ public class UndoManagerD extends UndoManager {
 				app.getCopyPaste().pastePutDownCallback(app);
 			}
 		};
-		undoSaverThread.start();
+		execute(undoSaverThread);
+	}
 
+	private void execute(Thread undoSaverThread) {
+		if (iterator == null) {
+			return;
+		}
+		if (sync) {
+			undoSaverThread.run();
+		} else {
+			undoSaverThread.start();
+		}
 	}
 
 	/**
@@ -130,7 +142,7 @@ public class UndoManagerD extends UndoManager {
 				}
 			}
 		};
-		undoSaverThread.start();
+		execute(undoSaverThread);
 	}
 
 	/**
@@ -145,9 +157,7 @@ public class UndoManagerD extends UndoManager {
 			@Override
 			public Object run() {
 				try {
-
 					// perform the security-sensitive operation here
-
 					// save to file
 					File undoInfo = createTempFile(undoXML);
 
