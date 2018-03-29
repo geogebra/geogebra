@@ -174,11 +174,16 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 
 	private void getEquationSpecialPoints(GeoElement geo, boolean xAxis, boolean yAxis, ArrayList<GeoElementND> retList) {
 		Construction cons = kernel.getConstruction();
+		GeoLine xAxisLine = kernel.getXAxis();
+		GeoLine yAxisLine = kernel.getYAxis();
+		if (geo == xAxisLine || geo == yAxisLine) {
+			return;
+		}
 		if (xAxis) {
-			getSpecialPointsIntersect(geo, kernel.getXAxis(), retList);
+			getSpecialPointsIntersect(geo, xAxisLine, retList);
 		}
 		if (yAxis) {
-			getSpecialPointsIntersect(geo, kernel.getYAxis(), retList);
+			getSpecialPointsIntersect(geo, yAxisLine, retList);
 		}
 
 		for (GeoElement element: cons.getGeoSetConstructionOrder()) {
