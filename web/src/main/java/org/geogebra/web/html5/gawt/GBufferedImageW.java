@@ -264,4 +264,11 @@ public class GBufferedImageW implements GBufferedImage {
 		return img.getSrc();
 	}
 
+	/**
+	 * @return pixel ratio of this image
+	 */
+	public double getPixelRatio() {
+		return pixelRatio;
+	}
+
 }

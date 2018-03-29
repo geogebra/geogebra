@@ -85,6 +85,8 @@ public class UndoManagerD extends UndoManager {
 	 * 
 	 * @param cons
 	 *            construction
+	 * @param sync
+	 *            whether to save undo synchronously
 	 */
 	public UndoManagerD(Construction cons, boolean sync) {
 		super(cons);
@@ -112,14 +114,14 @@ public class UndoManagerD extends UndoManager {
 		execute(undoSaverThread);
 	}
 
-	private void execute(Thread undoSaverThread) {
+	private void execute(Runnable undoSaveAction) {
 		if (iterator == null) {
 			return;
 		}
 		if (sync) {
-			undoSaverThread.run();
+			undoSaveAction.run();
 		} else {
-			undoSaverThread.start();
+			new Thread(undoSaveAction).start();
 		}
 	}
 

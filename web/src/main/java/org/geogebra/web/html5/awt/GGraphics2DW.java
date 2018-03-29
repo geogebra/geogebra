@@ -888,8 +888,10 @@ public class GGraphics2DW implements GGraphics2DWI {
 					context.drawImage(bi.getCanvas().getCanvasElement(), 0, 0,
 						bi.getCanvas().getCoordinateSpaceWidth(),
 						bi.getCanvas().getCoordinateSpaceHeight(), x, y,
-							bi.getCanvas().getCoordinateSpaceWidth(),
-							bi.getCanvas().getCoordinateSpaceHeight());
+							checkSize(bi.getCanvas().getCoordinateSpaceWidth(),
+									bi, getCoordinateSpaceWidth()),
+							checkSize(bi.getCanvas().getCoordinateSpaceHeight(),
+									bi, getCoordinateSpaceHeight()));
 				}
 				// zero width canvas throws error in FF
 			} else {
@@ -900,6 +902,15 @@ public class GGraphics2DW implements GGraphics2DWI {
 		} catch (Exception e) {
 			Log.error("error in context.drawImage.4 method");
 		}
+	}
+
+	private static double checkSize(int imgSize, GBufferedImageW bi,
+			int fullSize) {
+		double realSize = imgSize / bi.getPixelRatio();
+		if (realSize >= fullSize - 1 && realSize <= fullSize + 1) {
+			return fullSize;
+		}
+		return realSize;
 	}
 
 	/**
