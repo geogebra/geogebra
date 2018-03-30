@@ -13,7 +13,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsG
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.GpuBlacklist;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 
@@ -88,16 +87,12 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 	@Override
 	protected final void compileShadersProgram() {
-
-		boolean needsSmallFragmentShader = GpuBlacklist
-				.isCurrentGpuBlacklisted(glContext);
 		fragShader = getShader(
 				WebGLRenderingContext.FRAGMENT_SHADER,
-				ShaderProvider.getFragmentShader(needsSmallFragmentShader,
-						true, true));
+				ShaderProvider.getFragmentShader(true, true));
 		vertShader = getShader(
 				WebGLRenderingContext.VERTEX_SHADER,
-				ShaderProvider.getVertexShader(needsSmallFragmentShader, true));
+				ShaderProvider.getVertexShader(true));
 	}
 
 	@Override

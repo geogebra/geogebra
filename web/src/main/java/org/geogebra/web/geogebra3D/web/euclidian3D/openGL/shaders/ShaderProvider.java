@@ -9,19 +9,13 @@ import org.geogebra.common.geogebra3D.main.VertexShader;
 public class ShaderProvider {
 
 	/**
-	 * @param needsSmallFragmentShader
-	 *            says if we need a small fragment shader
 	 * @param shiny
 	 *            says if we use specular light to get it shiny
 	 * @param packed
 	 *            says if we use packed buffers
 	 * @return Fragment shader
 	 */
-	public static String getFragmentShader(boolean needsSmallFragmentShader,
-			boolean shiny, boolean packed) {
-		if (needsSmallFragmentShader) {
-			return Shaders.INSTANCE.fragmentShaderSmaller().getText();
-		}
+	public static String getFragmentShader(boolean shiny, boolean packed) {
 
 		if (shiny) {
 			if (packed) {
@@ -34,15 +28,12 @@ public class ShaderProvider {
 	}
 
 	/**
-	 * @param needsSmallFragmentShader
-	 *            says if we need a small fragment shader
 	 * @param shiny
 	 *            says if we use specular light to get it shiny
 	 * @return Vertex shader
 	 */
-	public static String getVertexShader(boolean needsSmallFragmentShader,
-			boolean shiny) {
-		if (!needsSmallFragmentShader && shiny) {
+	public static String getVertexShader(boolean shiny) {
+		if (shiny) {
 			return VertexShader.getVertexShaderShiny(true);
 		}
 		return VertexShader.getVertexShader(true);
