@@ -990,11 +990,20 @@ public abstract class Drawable3D extends DrawableND {
 		}
 
 		if (DoubleUtil.isRatioEqualTo1(this.zPickNear, d.zPickNear)) {
+			// geos are nearly at the same depth
 			GeoElement geo1 = this.getGeoElement();
 			GeoElement geo2 = d.getGeoElement();
 			if (geo1 == geo2) {
 				return 0;
 			}
+			// point wins over others
+			if (geo1.isGeoPoint() && !geo2.isGeoPoint()) {
+				return -1;
+			}
+			if (!geo1.isGeoPoint() && geo2.isGeoPoint()) {
+				return 1;
+			}
+			// latter created object wins
 			if (geo1.getConstructionIndex() > geo2.getConstructionIndex()) {
 				return -1;
 			}
