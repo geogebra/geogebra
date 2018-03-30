@@ -113,6 +113,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -3038,8 +3039,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param renderer1
 	 */
 	public void draw(Renderer renderer1) {
-		for (int i = 0; i < 3; i++) {
-			axisDrawable[i].drawOutline(renderer1);
+		if (!app.has(Feature.MOB_PACK_JOIN_POINTS)) {
+			for (int i = 0; i < 3; i++) {
+				axisDrawable[i].drawOutline(renderer1);
+			}
 		}
 
 		if (showClippingCube()) {
@@ -3060,8 +3063,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param renderer1
 	 */
 	public void drawHidden(Renderer renderer1) {
-		for (int i = 0; i < 3; i++) {
-			axisDrawable[i].drawHidden(renderer1);
+		if (!app.has(Feature.MOB_PACK_JOIN_POINTS)) {
+			for (int i = 0; i < 3; i++) {
+				axisDrawable[i].drawHidden(renderer1);
+			}
 		}
 
 		xOyPlaneDrawable.drawHidden(renderer1);
@@ -3070,7 +3075,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			clippingCubeDrawable.drawHidden(renderer1);
 		}
 
-		if (getCompanion().decorationVisible()) {
+		if (!app.has(Feature.MOB_PACK_JOIN_POINTS) && getCompanion().decorationVisible()) {
 			pointDecorations.drawHidden(renderer1);
 		}
 
@@ -3133,6 +3138,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void resetAllDrawables() {
 
+		if (app.has(Feature.MOB_PACK_JOIN_POINTS)) {
+			drawable3DLists.setWaitForResetManagerBuffers();
+		}
 		resetOwnDrawables();
 		drawable3DLists.resetAllDrawables();
 
@@ -3311,10 +3319,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public void updateDrawables(Drawable3DListsForView drawables3D) {
 		drawables3D.updateAll(renderer);
-	}
-
-	public void updateOtherDrawables() {
-		updateDrawables(drawable3DLists);
 	}
 
 	/**

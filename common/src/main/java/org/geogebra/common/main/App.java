@@ -4017,6 +4017,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_HELP_FEEDBACK:
 			return prerelease;
 
+		// MOB-1513
+		case MOB_PACK_JOIN_POINTS:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************

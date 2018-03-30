@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /**
  * 
@@ -215,6 +216,9 @@ public abstract class Renderer {
 	protected void updateViewAndDrawables() {
 
 		view3D.update();
+		if (view3D.getApplication().has(Feature.MOB_PACK_JOIN_POINTS)) {
+			view3D.getDrawList3D().updateManagerBuffers(this);
+		}
 		view3D.updateOwnDrawablesNow();
 
 		// update 3D drawables

@@ -289,7 +289,10 @@ public enum Feature {
 	MOB_EXPORT_IMAGE,
 
 	/** IGR-601 */
-	MOB_HELP_FEEDBACK
+	MOB_HELP_FEEDBACK,
+
+	/** MOB-1513 */
+	MOB_PACK_JOIN_POINTS
 
 }
 
