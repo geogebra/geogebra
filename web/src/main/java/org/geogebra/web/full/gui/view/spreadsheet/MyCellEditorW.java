@@ -570,7 +570,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		return autoCompleteTextField;
 	}
 	
-	boolean isSuggesting(){
+	boolean isSuggesting() {
 		return autoCompleteTextField.isSuggesting();
 	}
 

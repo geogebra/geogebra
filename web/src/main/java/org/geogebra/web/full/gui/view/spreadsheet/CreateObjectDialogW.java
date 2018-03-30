@@ -257,7 +257,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 	@Override
 	public void setLabels() {
-		if (isIniting){
+		if (isIniting) {
 			return;
 		}
 

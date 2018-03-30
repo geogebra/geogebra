@@ -119,7 +119,7 @@ public class GBufferedImageW implements GBufferedImage {
 	 *            canvas with original image
 	 */
 	public GBufferedImageW(Canvas cv) {
-		if (cv != null) {// This should not called with null
+		if (cv != null) { // This should not be called with null
 			canv = makeCanvas();
 			canv.setCoordinateSpaceWidth(cv.getCoordinateSpaceWidth());
 			canv.setCoordinateSpaceHeight(cv.getCoordinateSpaceHeight());

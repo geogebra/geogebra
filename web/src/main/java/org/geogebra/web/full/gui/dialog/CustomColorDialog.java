@@ -128,7 +128,7 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 			drawRect(PREVIEW_WIDTH, oColor);
 		}
 
-		public void update(){
+		public void update() {
 			drawRect(PREVIEW_WIDTH, getColor());
 		}
 		

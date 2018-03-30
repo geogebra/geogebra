@@ -440,7 +440,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 	}
 	
 	@Override
-	public void setLabels(){
+	public void setLabels() {
 		super.setLabels();
 		if (editor != null) {
 			editor.setLabels();

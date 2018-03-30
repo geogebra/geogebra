@@ -197,7 +197,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 	@Override
 	protected void glUniform3f(Object location, float x, float y,
-			float z){
+			float z) {
 		glContext.uniform3f((WebGLUniformLocation) location, x, y, z);
 	}
 
@@ -232,7 +232,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 		case TRIANGLE_STRIP:
 			return WebGLRenderingContext.TRIANGLE_STRIP;
 		case TRIANGLE_FAN:
-			// if (Browser.supportsWebGLTriangleFan()){ // no TRIANGLE_FAN for
+			// if (Browser.supportsWebGLTriangleFan()) { // no TRIANGLE_FAN for
 			// internet explorer
 			// return WebGLRenderingContext.TRIANGLE_FAN;
 			// }

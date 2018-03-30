@@ -30,7 +30,7 @@ public class EuclidianViewInput3DW extends EuclidianView3DW {
 	}
 
 	@Override
-	protected void start(){
+	protected void start() {
 		input3D = ((EuclidianControllerInput3DW) euclidianController).input3D;
 		input3D.init(this);
 		getCompanion().setInput3D(input3D);

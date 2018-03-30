@@ -40,7 +40,6 @@ public class VideoManagerW implements VideoManager {
 	 */
 	public static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
 
-
 	@Override
 	public void loadGeoVideo(GeoVideo geo) {
 		// TODO implement this
@@ -83,6 +82,7 @@ public class VideoManagerW implements VideoManager {
 			urlCallback.callback(Boolean.TRUE);
 		}
 	}
+
 	@Override
 	public void play(GeoVideo geo) {
 		// TODO implement this
@@ -98,6 +98,7 @@ public class VideoManagerW implements VideoManager {
 		// TODO implement this
 		return false;
 	}
+
 	@Override
 	public String getYouTubeId(String url) {
 		String id = null;
@@ -108,7 +109,6 @@ public class VideoManagerW implements VideoManager {
 		} else if (url.startsWith(YOUTUBE_EMBED)) {
 			id = url.replace(YOUTUBE_EMBED, "");
 		}
-
 
 		if (id != null) {
 			int idx = id.indexOf("&");

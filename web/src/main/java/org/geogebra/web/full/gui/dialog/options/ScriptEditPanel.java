@@ -78,7 +78,7 @@ class ScriptEditPanel extends OptionPanel {
 
 	@Override
 	public OptionPanel updatePanel(Object[] geos) {
-		if (geos.length != 1){
+		if (geos.length != 1) {
 			return null;
 		}
 

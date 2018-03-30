@@ -73,7 +73,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 			getMySlider().setWidth("120px");
 		}
 
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE)){
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			if (hasSlider) {
 				addSliderTitle();
 			}

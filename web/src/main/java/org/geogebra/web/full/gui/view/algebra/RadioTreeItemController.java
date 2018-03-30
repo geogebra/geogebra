@@ -567,16 +567,12 @@ public class RadioTreeItemController implements ClickHandler,
 		GPoint point = new GPoint(x + Window.getScrollLeft(),
 				y + Window.getScrollTop());
 		if (geo != null) {
-			if (selection.containsSelectedGeo(geo)) {// popup
-				// menu for
-				// current
-				// selection
-				// (including
-				// selected
-				// object)
+			if (selection.containsSelectedGeo(geo)) {
+				// popup menu for current selection
+				// (including selected object)
 				((GuiManagerW) app.getGuiManager()).showPopupMenu(
 						selection.getSelectedGeos(), item.av, point);
-			} else {// select only this object and popup menu
+			} else { // select only this object and popup menu
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(geo, true, true);
 				ArrayList<GeoElement> temp = new ArrayList<>();

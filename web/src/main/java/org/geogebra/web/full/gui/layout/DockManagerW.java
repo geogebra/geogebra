@@ -1411,7 +1411,7 @@ public class DockManagerW extends DockManager {
 
 		app.getGuiManager().updateMenubarSelection();
 
-		// if(focusedDockPanel != null && panel.isInFrame()){
+		// if (focusedDockPanel != null && panel.isInFrame()) {
 		// panel.getFrame().toFront();
 		// }
 

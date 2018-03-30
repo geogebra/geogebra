@@ -69,7 +69,7 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 	public void addRadioButtonMenuItems(MyActionListener al,
 			String[] items, final String[] actionCommands, int selectedPos, boolean changeText) {
 		texts = items;
-		if (changeText){
+		if (changeText) {
 			for (int i = 0; i < items.length; i++) {
 				texts[i] = app.getLocalization().getMenu(items[i]);
 			}

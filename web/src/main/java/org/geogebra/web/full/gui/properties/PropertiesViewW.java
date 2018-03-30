@@ -104,17 +104,12 @@ public class PropertiesViewW extends PropertiesView
 		//mainPanel.add(contentsPanel);
 		wrappedPanel.add(contentsPanel);
 		wrappedPanel.add(getStyleBar().getWrappedPanel());
-		
-//		if(!((AppW) app).getLAF().isSmart()){
-		//mainPanel.add(getStyleBar().getWrappedPanel());
-		//	}
 			
 		//wrappedPanel.add(mainPanel);
 
 		setOptionPanel(optionType, 0);
 		//createButtonPanel();
 		//add(buttonPanel, BorderLayout.SOUTH);
-
 	}
 
 	/**
@@ -508,7 +503,7 @@ public class PropertiesViewW extends PropertiesView
 	/**
 	 * Rebuild GUI for the new font size
 	 */
-	public void updateFonts(){
+	public void updateFonts() {
 		updatePropertiesGUI();
 	}
 
@@ -526,7 +521,7 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 	@Override
-	public boolean suggestRepaint(){
+	public boolean suggestRepaint() {
 		return false;
 	}
 

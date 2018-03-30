@@ -47,7 +47,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
     }
 	
 	@Override
-	public void setTable(Dist distType, double[] parms, int xMin, int xMax){
+	public void setTable(Dist distType, double[] parms, int xMin, int xMax) {
 
 		setIniting(true);
 

@@ -59,7 +59,7 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 	}
 	
 	@Override
-	public boolean isStyleBarEmpty(){
+	public boolean isStyleBarEmpty() {
 		return true;
 	}
 

@@ -26,7 +26,7 @@ public class SpreadsheetToolbarManagerW {
 	 * @param view
 	 *            spreadsheet view
 	 */
-	public SpreadsheetToolbarManagerW(AppW app, SpreadsheetViewW view){
+	public SpreadsheetToolbarManagerW(AppW app, SpreadsheetViewW view) {
 		this.app = app;
 		this.view = view;
 		this.table = (MyTableW) view.getSpreadsheetTable();
@@ -36,7 +36,7 @@ public class SpreadsheetToolbarManagerW {
 	 * @param mode
 	 *            app mode
 	 */
-	public void  handleModeChange(int mode){
+	public void handleModeChange(int mode) {
 
 		// Application.printStacktrace("");
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);

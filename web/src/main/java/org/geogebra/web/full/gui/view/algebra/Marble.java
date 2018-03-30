@@ -24,7 +24,7 @@ public class Marble extends SimplePanel {
 	/**
 	 * Toggle visibility of corresponding geo
 	 */
-	void toggleVisibility(){
+	void toggleVisibility() {
 		GeoElement geo = gc.getGeo();
 
 		geo.setEuclidianVisible(!geo.isSetEuclidianVisible());

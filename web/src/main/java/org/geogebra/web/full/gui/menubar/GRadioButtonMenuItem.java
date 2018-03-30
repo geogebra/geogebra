@@ -34,7 +34,7 @@ public class GRadioButtonMenuItem extends AriaMenuItem {
 	 * 
 	 * sets the radiobutton to selected
 	 */
-	public void setSelected(boolean sel){
+	public void setSelected(boolean sel) {
 		base.radio.setValue(sel);
 		setHTML(base.getSafeHtml().asString());
 	}

@@ -573,7 +573,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	/**
 	 * add tabs
 	 */
-	protected void addTabs(){
+	protected void addTabs() {
 		addBasicTab();
 		addAxesTabs();
 		addGridTab();
@@ -582,7 +582,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	/**
 	 * add tabs for axes
 	 */
-	protected void addAxesTabs(){
+	protected void addAxesTabs() {
 		addXAxisTab();
 		addYAxisTab();
 	}
@@ -592,7 +592,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		tabPanel.add(basicTab, "basic");
 	}
 	
-	protected BasicTab newBasicTab(){
+	protected BasicTab newBasicTab() {
 		return new BasicTab(this);
 	}
 	
@@ -611,7 +611,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	 * @param axis axis id
 	 * @return axis tab
 	 */
-	protected AxisTab newAxisTab(int axis){
+	protected AxisTab newAxisTab(int axis) {
 		return new AxisTab(axis, false);
 	}
 	
@@ -624,7 +624,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	 * 
 	 * @return new grid tab
 	 */
-	protected GridTab newGridTab(){
+	protected GridTab newGridTab() {
 		return new GridTab();
 	}
 

@@ -103,7 +103,7 @@ public class ScriptArea extends TextArea
 	}
 	
 	@Override
-	public void setCursorPos(int pos){
+	public void setCursorPos(int pos) {
 		setCursorPos(pos, true);
 	}
 

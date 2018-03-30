@@ -328,7 +328,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 		if (waitForRepaint == TimerSystemW.REPAINT_FLAG) {
-			if (isShowing()){
+			if (isShowing()) {
 				deferredRepaint();	
 				waitForRepaint = TimerSystemW.SLEEPING_FLAG;	
 			}

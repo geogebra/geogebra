@@ -70,7 +70,7 @@ public class DialogBoxW extends GDialogBox {
 	}
 	
 	@Override
-	public void show(){ 
+	public void show() {
 		super.show();
 		if (eh != null) {
 			eh.resetError();

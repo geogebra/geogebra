@@ -144,7 +144,7 @@ public class PointStylePopup extends PopupMenuButtonW
 	}
 
 	@Override
-	public void handlePopupActionEvent(){
+	public void handlePopupActionEvent() {
 		super.handlePopupActionEvent();
 		model.applyChanges(getSelectedIndex());
 	}

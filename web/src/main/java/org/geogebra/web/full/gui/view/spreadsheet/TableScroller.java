@@ -277,8 +277,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		syncHeaders();
 	}
 	
-	private void syncHeaders(){
-		
+	private void syncHeaders() {
 		int t = -getVerticalScrollPosition();
 		int l = -getHorizontalScrollPosition();
 		rowHeader.setTop(t);
@@ -288,7 +287,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	/* 
 	 * Fits the content of spreadsheet for its header on the left.
 	 */
-	public void syncTableTop(){
+	public void syncTableTop() {
 		setVerticalScrollPosition(rowHeader.getTop());
 	}
 

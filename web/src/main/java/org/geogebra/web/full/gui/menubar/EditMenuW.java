@@ -307,7 +307,7 @@ public class EditMenuW extends GMenuBar {
 	/**
 	 * Make sure next update() rebuilds the UI
 	 */
-	public void invalidate(){
+	public void invalidate() {
 		if (getApp().isMenuShowing()) {
 			this.valid = true;
 			this.initActions();

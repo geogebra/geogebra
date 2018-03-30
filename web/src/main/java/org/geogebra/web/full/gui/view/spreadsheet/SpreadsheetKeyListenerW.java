@@ -571,7 +571,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			e.preventDefault();
 		} else if (e.getCharCode() != 86 && e.getCharCode() != 118 && // "V"
 				e.getCharCode() != 67 && e.getCharCode() != 99 && // "C"
-				e.getCharCode() != 88 && e.getCharCode() != 120) {// "X"
+				e.getCharCode() != 88 && e.getCharCode() != 120) { // "X"
 			e.preventDefault();
 		}
 

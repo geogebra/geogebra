@@ -86,7 +86,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
 		switch (model.getMode()) {
 		case DataAnalysisModel.MODE_ONEVAR:
-			// if (true){//daView.groupType() == GroupType.RAWDATA) {
+			// if (daView.groupType() == GroupType.RAWDATA) {
 			btnShowData.setVisible(true);
 			// } else {
 			// btnShowData.setVisible(false);

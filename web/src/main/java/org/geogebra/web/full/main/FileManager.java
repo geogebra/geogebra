@@ -219,12 +219,12 @@ public abstract class FileManager extends MaterialsManager {
 	}-*/;
 
 	@Override
-	public void open(String url, String name, String features){
+	public void open(String url, String name, String features) {
 		Window.open(url, name, features);
 	}
 
 	@Override
-	public void open(String url){
+	public void open(String url) {
 		openNative(url);
 	}
 	

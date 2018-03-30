@@ -1034,7 +1034,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 	
 	@Override
-	public boolean suggestRepaint(){
+	public boolean suggestRepaint() {
 		return false;
 	}
 

@@ -689,9 +689,9 @@ public abstract class AppW extends App implements SetLabels {
 		String s;
 		String cmdLower = StringUtil.toLowerCaseUS(cmd);
 		Commands[] values = Commands.values();
-		if (revTranslateCommandTable.isEmpty()) {// we should clear this cache
+		if (revTranslateCommandTable.isEmpty()) { // we should clear this cache
 													// on language change!
-			for (Commands c : values) {// and fill it now if needed
+			for (Commands c : values) { // and fill it now if needed
 				s = Commands.englishToInternal(c).name();
 
 				// make sure that when si[] is typed in script, it's changed to
@@ -2757,13 +2757,6 @@ public abstract class AppW extends App implements SetLabels {
 	public MaterialsManagerI getFileManager() {
 		return null;
 	}
-
-	// public ToolTipManagerW getToolTipManager(){
-	// if(toolTipManager == null){
-	// toolTipManager = new ToolTipManagerW(this);
-	// }
-	// return toolTipManager;
-	// }
 
 	// ========================================================
 	// Undo/Redo

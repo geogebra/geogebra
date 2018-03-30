@@ -202,7 +202,7 @@ public class ChiSquarePanelW extends ChiSquarePanel
 	/**
 	 * Copy visibility flags
 	 */
-	public void updateShowFlags(){
+	public void updateShowFlags() {
 		getSc().showExpected = ckExpected.getValue();
 		getSc().showDiff = ckChiDiff.getValue();
 		getSc().showRowPercent = ckRowPercent.getValue();

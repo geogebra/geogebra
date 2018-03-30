@@ -45,7 +45,7 @@ public class Tablet implements EntryPoint {
 			return;
 		}
 		Browser.checkFloat64();
-		if (useCordova()){
+		if (useCordova()) {
 			PhoneGapManager.initializePhoneGap(new BackButtonPressedHandler() {
 	
 				@Override

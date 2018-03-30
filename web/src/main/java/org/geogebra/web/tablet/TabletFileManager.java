@@ -31,11 +31,11 @@ public class TabletFileManager extends FileManagerT {
 			// protected
 		}
 
-		public void setId(int id){
+		public void setId(int id) {
 			this.id = id;
 		}
 
-		public int getId(){
+		public int getId() {
 			return id;
 		}
 	}
@@ -45,7 +45,7 @@ public class TabletFileManager extends FileManagerT {
 	}
 
 	@Override
-	protected void init(){
+	protected void init() {
 		callbacks = new TreeMap<>();
 		exportJavascriptMethods();
 	}
@@ -57,10 +57,10 @@ public class TabletFileManager extends FileManagerT {
 		return callbacksCount;
 	}
 
-	private void runCallback(int id, boolean success, Object result){
-		if (id != NO_CALLBACK){
+	private void runCallback(int id, boolean success, Object result) {
+		if (id != NO_CALLBACK) {
 			MyCallback cb = callbacks.remove(id);
-			if (success){
+			if (success) {
 				cb.onSuccess(result);
 			} else {
 				cb.onFailure(result);
@@ -156,13 +156,13 @@ public class TabletFileManager extends FileManagerT {
 		String fileName = getFileKey(material);
 		int callback = addNewCallback(new MyCallback() {
 			@Override
-			public void onSuccess(Object result){
+			public void onSuccess(Object result) {
 				material.setBase64((String) result);
 				doOpenMaterial(material);
 			}
 
 			@Override
-			public void onFailure(Object result){
+			public void onFailure(Object result) {
 				// not needed
 			}
 		});
@@ -189,16 +189,16 @@ public class TabletFileManager extends FileManagerT {
 		material.setBase64("");
 		final Material saveFileMaterial = material;
 		int callback;
-		if (cb != null){
+		if (cb != null) {
 			callback = addNewCallback(new MyCallback() {
 				@Override
-				public void onSuccess(Object result){
+				public void onSuccess(Object result) {
 					saveFileMaterial.setLocalID((Integer) result);
 					cb.onSaved(saveFileMaterial, true);
 				}
 
 				@Override
-				public void onFailure(Object result){
+				public void onFailure(Object result) {
 					cb.onError();
 				}
 			});
@@ -232,7 +232,7 @@ public class TabletFileManager extends FileManagerT {
 			public void onSuccess(Object result) {
 				int length = (Integer) result;
 				setNotSyncedFileCount(length, events);
-				for (int i = 0; i < length; i++){
+				for (int i = 0; i < length; i++) {
 					int callback = addNewCallback(new MyCallback() {
 						@Override
 						public void onSuccess(Object result) {
@@ -262,7 +262,7 @@ public class TabletFileManager extends FileManagerT {
 			}
 
 			@Override
-			public void onFailure(Object result){
+			public void onFailure(Object result) {
 				// not needed
 			}
 		});
@@ -273,13 +273,13 @@ public class TabletFileManager extends FileManagerT {
 	public void upload(final Material mat) {
 		int callback = addNewCallback(new MyCallback() {
 			@Override
-			public void onSuccess(Object result){
+			public void onSuccess(Object result) {
 				mat.setBase64((String) result);
 				doUpload(mat);
 			}
 
 			@Override
-			public void onFailure(Object result){
+			public void onFailure(Object result) {
 				// not needed
 			}
 		});
@@ -290,7 +290,7 @@ public class TabletFileManager extends FileManagerT {
 	protected void updateFile(final String key, final long modified,
 			final Material material) {	
 		material.setModified(modified);
-		if (key == null){
+		if (key == null) {
 			// save as a new local file
 			String base64 = material.getBase64();
 			material.setBase64("");
@@ -330,12 +330,12 @@ public class TabletFileManager extends FileManagerT {
 	}-*/;
 
 	@Override
-	public void open(String url, String name, String features){
+	public void open(String url, String name, String features) {
 		openUrlInBrowser(url, name, features);
 	}
 
 	@Override
-	public void open(String url){
+	public void open(String url) {
 		openUrlInBrowser(url, "", "");
 	}
 
@@ -356,7 +356,7 @@ public class TabletFileManager extends FileManagerT {
 		int callback1 = addNewCallback(new MyCallback() {			
 			@Override
 			public void onSuccess(Object result) {
-				if (callback != null){
+				if (callback != null) {
 					callback.run();
 				}					
 			}
@@ -399,13 +399,13 @@ public class TabletFileManager extends FileManagerT {
 
 		int callback = addNewCallback(new MyCallback() {
 			@Override
-			public void onSuccess(Object result){
+			public void onSuccess(Object result) {
 				removeFile(mat);
 				onSuccess.run();
 			}
 
 			@Override
-			public void onFailure(Object result){
+			public void onFailure(Object result) {
 				// not needed
 			}
 		});
@@ -483,7 +483,7 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}-*/;
 
-	protected void debug(String s){
+	protected void debug(String s) {
 		Log.debug(s);
 		debugNative(s);
 	}

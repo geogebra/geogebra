@@ -71,12 +71,12 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 	
 	@Override
-	protected boolean titleIsBold(){
+	protected boolean titleIsBold() {
 		return super.titleIsBold() || hasEuclidianFocus;
 	}
 
 	@Override
-	public boolean updateResizeWeight(){
+	public boolean updateResizeWeight() {
 		return true;
 	}
 	

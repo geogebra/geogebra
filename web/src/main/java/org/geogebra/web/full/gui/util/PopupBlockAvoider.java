@@ -4,7 +4,7 @@ public class PopupBlockAvoider {
 
 	private String showURLinBrowserPageUrl = null;
 
-	public PopupBlockAvoider(){
+	public PopupBlockAvoider() {
 		showURLinBrowserWaiterFixedDelay();
 	}
 

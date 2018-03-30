@@ -48,7 +48,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 	 * @param app
 	 *            {@link AppW}
 	 */
-	public AlgebraStyleBarW(AppW app){
+	public AlgebraStyleBarW(AppW app) {
 		super(app, App.VIEW_ALGEBRA);
 		app.getSettings().getAlgebra().addListener(this);
 		this.loc = app.getLocalization();

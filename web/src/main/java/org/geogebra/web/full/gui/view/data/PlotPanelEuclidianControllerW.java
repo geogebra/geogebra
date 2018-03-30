@@ -35,7 +35,8 @@ public class PlotPanelEuclidianControllerW extends EuclidianControllerW {
 	}
 
 	@Override
-	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1, Hits hits){
+	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1,
+			Hits hits) {
 		// kill menu in plot panel
 	}
 		

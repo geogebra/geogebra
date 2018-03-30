@@ -257,7 +257,7 @@ public class ConstructionProtocolNavigationW
 		}
 	}
 
-	public FlowPanel getImpl(){
+	public FlowPanel getImpl() {
 		return implPanel;
 	}
 
@@ -280,7 +280,7 @@ public class ConstructionProtocolNavigationW
 			prot.nextStep();
 			return;
 		}
-		else if (source == btPlay){
+		else if (source == btPlay) {
 			if (isPlaying()) {
 				player.stopAnimation();
 			} else {

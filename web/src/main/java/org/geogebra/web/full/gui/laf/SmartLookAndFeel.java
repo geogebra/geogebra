@@ -63,7 +63,7 @@ public class SmartLookAndFeel extends GLookAndFeel {
     }
 
 	@Override
-    public boolean copyToClipboardSupported(){
+	public boolean copyToClipboardSupported() {
 		return false;
 	}
 

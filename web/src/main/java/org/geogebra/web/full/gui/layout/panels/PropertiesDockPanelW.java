@@ -56,17 +56,15 @@ public class PropertiesDockPanelW extends DockPanelW {
 
 	@Override
 	public void onResize() {
-
 		// this hack may be temporary
 		if (view != null) {
 			view.onResize();
 			view.repaintView();
-			
 		}
 	}
 	
 	@Override
-	public boolean isStyleBarEmpty(){
+	public boolean isStyleBarEmpty() {
 		return false;
 	}
 

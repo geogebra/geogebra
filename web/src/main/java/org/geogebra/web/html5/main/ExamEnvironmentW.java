@@ -85,7 +85,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
         checkScreenState = app.newTimer(new GTimerListener() {
             @Override
             public void onRun() {
-                if (isScreenOff()){
+				if (isScreenOff()) {
                     screenOff();
                 } else {
                     screenOn();
@@ -285,7 +285,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
     }
 
     @Override
-	protected void addCheatingWindowsLeft(long time){
+	protected void addCheatingWindowsLeft(long time) {
         if (app.getVersion().isAndroidWebview()) {
             if (isScreenOff()) {
                 screenOff();

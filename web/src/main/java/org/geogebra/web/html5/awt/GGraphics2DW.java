@@ -346,7 +346,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 			currentPaint = new GGradientPaintW((GGradientPaintW) paint);
 			color = null;
 		} else if (paint instanceof GTexturePaintW) {
-			try {// bug in Firefox
+			try { // bug in Firefox
 				 // https://groups.google.com/forum/#!msg/craftyjs/3qRwn_cW1gs/DdPTaCD81ikJ
 				 // NS_ERROR_NOT_AVAILABLE: Component is not available
 				 // https://bugzilla.mozilla.org/show_bug.cgi?id=574330

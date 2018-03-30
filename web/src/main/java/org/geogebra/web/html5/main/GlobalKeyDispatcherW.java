@@ -223,7 +223,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * @return children with given class name
 	 */
 	public Element getChildElementByStyleName(Element parent,
-			String childName){
+			String childName) {
 		NodeList<Element> elements = Dom.getElementsByClassName(childName);
 		for (int i = 0; i < elements.getLength(); i++) {
 			if (elements.getItem(i).getParentElement() == parent) {
@@ -319,7 +319,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	/**
 	 * Set to focus unless we are handlin tab key
 	 */
-	public void setFocusedIfNotTab(){
+	public void setFocusedIfNotTab() {
 		if (isHandlingTab) {
 			setHandlingTab(false);
 		} else {

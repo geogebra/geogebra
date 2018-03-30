@@ -594,7 +594,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 * @param keyboardHeight
 	 *            keyboard height
 	 */
-	public void centerAndResize(double keyboardHeight){
+	public void centerAndResize(double keyboardHeight) {
 		Element childElement = super.getContainerElement()
 				.getFirstChildElement();
 		
