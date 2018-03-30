@@ -65,36 +65,10 @@ public class EuclidianControllerFor3DCompanion
 	@Override
 	protected GeoElement[] createAngles(GeoPolygon p) {
 
-		if (ec.getApplication().has(Feature.MOB_ANGLES_INTERIOR_POLYGON)) {
-			if (p.isGeoElement3D()) {
-				return ec.kernel.getManager3D().Angles3D(null, p, true);
-			}
-			return super.createAngles(p);
+		if (p.isGeoElement3D()) {
+			return ec.kernel.getManager3D().Angles3D(null, p, true);
 		}
-
-		GeoDirectionND orientation = ec.getView().getDirection();
-
-		if (p.isGeoElement3D()) { // 3D polygon
-			if (orientation == ec.kernel.getSpace()) { // space is default
-														// orientation for 3D
-														// objects
-				return ec.kernel.getManager3D().Angles3D(null, p);
-			}
-			return ec.kernel.getManager3D().Angles3D(null, p, orientation); // use
-																			// view
-																			// orientation
-		}
-
-		// 2D polygon
-		if (orientation == ec.kernel.getXOYPlane()) { // xOy plane is default
-														// orientation for 2D
-														// objects
-			return super.createAngles(p);
-		}
-		return ec.kernel.getManager3D().Angles3D(null, p, orientation); // use
-																		// view
-																		// orientation
-
+		return super.createAngles(p);
 	}
 
 	@Override

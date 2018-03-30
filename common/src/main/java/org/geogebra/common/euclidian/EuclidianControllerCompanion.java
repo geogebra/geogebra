@@ -84,7 +84,7 @@ public class EuclidianControllerCompanion {
 	 * @return angles
 	 */
 	protected GeoElement[] createAngles(GeoPolygon p) {
-		return ec.getAlgoDispatcher().Angles(null, p, ec.getApplication().has(Feature.MOB_ANGLES_INTERIOR_POLYGON));
+		return ec.getAlgoDispatcher().Angles(null, p, true);
 	}
 
 	/**
