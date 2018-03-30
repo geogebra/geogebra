@@ -2040,7 +2040,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	/**
 	 * @return the list of 3D drawables
 	 */
-	public Drawable3DLists getDrawList3D() {
+	public Drawable3DListsForView getDrawList3D() {
 		return drawable3DLists;
 	}
 
