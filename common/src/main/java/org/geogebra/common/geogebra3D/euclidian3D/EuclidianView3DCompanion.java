@@ -14,6 +14,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
@@ -341,6 +342,10 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 	protected boolean decorationVisible() {
 		return getView().getPointDecorations().shouldBeDrawn();
+	}
+
+	protected void setPointDecorations(GeoPointND point) {
+		getView().getPointDecorations().setPoint(point);
 	}
 
 	/**

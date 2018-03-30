@@ -910,6 +910,14 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	}
 
 	@Override
+	protected void setPointDecorations(GeoPointND point) {
+		// no point decoration if using stylus-like input
+		if (!input3D.hasMouseDirection() || input3D.currentlyUseMouse2D()) {
+			super.setPointDecorations(point);
+		}
+	}
+
+	@Override
 	protected boolean drawCrossForFreePoint() {
 		return !input3D.hasMouseDirection() || input3D.currentlyUseMouse2D();
 	}

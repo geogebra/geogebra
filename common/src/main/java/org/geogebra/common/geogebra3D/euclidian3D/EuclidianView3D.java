@@ -2416,7 +2416,11 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setPointDecorations(GeoPointND point) {
 
-		pointDecorations.setPoint(point);
+		if (app.has(Feature.MOB_PACK_JOIN_POINTS)) {
+			getCompanion().setPointDecorations(point);
+		} else {
+			pointDecorations.setPoint(point);
+		}
 
 	}
 
