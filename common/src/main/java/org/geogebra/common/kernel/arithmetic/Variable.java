@@ -210,6 +210,9 @@ public class Variable extends ValidExpression {
 					: (c == Unicode.theta ? 3 : c - 'x')]++;
 			nameNoX = name.substring(0, i);
 			geo2 = kernel.lookupLabel(nameNoX);
+			if (geo2 == null && "i".equals(nameNoX)) {
+				geo2 = kernel.getImaginaryUnit();
+			}
 			Operation op = kernel.getApplication().getParserFunctions()
 					.get(nameNoX, 1);
 			if (op != null && op != Operation.XCOORD && op != Operation.YCOORD
