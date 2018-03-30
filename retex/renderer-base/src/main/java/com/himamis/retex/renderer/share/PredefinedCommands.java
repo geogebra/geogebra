@@ -236,6 +236,13 @@ final class PredefinedCommands {
 				return PredefMacros.text_macro(tp, args);
 			}
 		},
+		ce(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.mhchem_ce_macro(tp, args);
+			}
+		},
 		intertext(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {

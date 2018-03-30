@@ -565,6 +565,16 @@ public class PredefMacros {
 		return new RomanAtom(new TeXFormula(tp, args[1], "mathnormal", false, false).root);
 	}
 
+	public static final Atom mhchem_ce_macro(final TeXParser tp, final String[] args) throws ParseException {
+
+		// convert mhchem -> LaTeX format
+		String converted = MHChem.parse(args[1]);
+
+		TeXFormula formula = new TeXFormula(tp, converted, false);
+
+		return new RomanAtom(formula.root);
+	}
+
 	public static final Atom underscore_macro() throws ParseException {
 		return new UnderscoreAtom();
 	}
