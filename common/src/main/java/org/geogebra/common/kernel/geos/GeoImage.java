@@ -1417,16 +1417,16 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	/**
-	 * Sets crop box
-	 * 
-	 * @param rect
+	 * sets relative posiotion of crop box
 	 */
-	public void setCropBox(GRectangle2D rect) {
-		if (cropBox == null) {
-			cropBox = AwtFactory.getPrototype().newRectangle2D();
-		}
-		EuclidianView view = getKernel().getApplication().getActiveEuclidianView();
-		cropBox.setRect(rect.getX() - view.toScreenCoordXd(getStartPoint().getX()),
-				rect.getY() - view.toScreenCoordYd(getStartPoint().getY()), rect.getWidth(), rect.getHeight());
+	public void setCropBoxRelative(GRectangle2D rect) {
+		cropBox = rect;
+	}
+
+	/**
+	 * @return relative posiotion of crop box
+	 */
+	public GRectangle2D getCropBoxRelative() {
+		return cropBox;
 	}
 }
