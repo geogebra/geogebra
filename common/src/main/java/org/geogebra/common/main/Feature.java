@@ -217,9 +217,6 @@ public enum Feature {
 	/** MOW-390 GGB */
 	WHOLE_PAGE_DRAG,
 
-	/** AND-623 */
-	MOB_SYNC_BKG_SERVICE,
-
 	/** IGR-593 */
 	MOB_IOS_CHECKBOXES_AND_STATUS_BAR,
 
