@@ -186,12 +186,19 @@ namespace giac {
     return res;
   }
 
-  // Run ./icas with export GIAC_DEBUG=-2 to print static_help.h and static_help_w.h
+  // Run ./icas with export GIAC_DEBUG=-2 to print static_help.h and static_help_w.h, then sort in emacs
+  // cascmd_fr -> longhelp.js: 
   static bool output_static_help(vector<aide> & v,const vector<int> & langv){
 #ifndef NSPIRE
+    cout << "Generating xcascmds, for UI.xcascmds in xcas.js, sort and esc-x replace-string ctrl-Q ctrl-j ret ret" << endl;
+    cout << "Generating static_help.h (sort it in emacs)" << endl;
+    cout << "Generating static_help_w.h (same but UTF16)" << endl;
+    ofstream cmds("xcascmds");
+    cmds << "[" << endl;
     ofstream of("static_help.h");
     vector<aide>::iterator it=v.begin(),itend=v.end();
     for (;it!=itend;){
+      cmds << '"' << output_quote(it->cmd_name) << '"' << "," << endl;
       of << "{";
       of << '"' << output_quote(it->cmd_name) << '"' << ",";
       std::vector<localized_string> & blabla = it->blabla;
@@ -244,6 +251,7 @@ namespace giac {
 	break;
       of << "," << endl;
     }
+    cmds << "]" << endl;
     of << endl;
     ofstream ofw("static_help_w.h");
     ofstream ofwindex("index_w.h");

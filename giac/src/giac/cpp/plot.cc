@@ -11548,7 +11548,8 @@ namespace giac {
     int j=1;
     gen newx0;
     double x1;
-    gprintf("======== u_(n+1)=(%gen->%gen)(u_n), u0=%gen",makevecteur(x,f,x0),1,contextptr);
+    //gprintf("======== u_(n+1)=(%gen->%gen)(u_n), u0=%gen",makevecteur(x,f,x0),1,contextptr);
+    gprintf("======== %gen=%gen), %gen=%gen",makevecteur(symb_at(u__IDNT_e,n__IDNT_e+1,contextptr),subst(f,x,symb_at(u__IDNT_e,n__IDNT_e,contextptr),false,contextptr),symb_at(u__IDNT_e,0,contextptr),x0),1,contextptr);
     for (int i=0;i<niter;++i){
       newx0=subst(f,x,x0,false,contextptr).evalf2double(eval_level(contextptr),contextptr);
       gprintf("n=%gen u_n=%gen",makevecteur(i+1,newx0),1,contextptr);

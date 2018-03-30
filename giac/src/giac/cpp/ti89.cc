@@ -362,6 +362,12 @@ namespace giac {
     return solve(remove_equal(v.front()),v.back(),complexmode,contextptr);
   }
   gen _zeros(const gen & g,GIAC_CONTEXT){
+    if (g.type==_VECT && g._VECTptr->size()==2){
+      gen a=eval(g._VECTptr->front(),1,contextptr);
+      gen b=eval(g._VECTptr->back(),1,contextptr);
+      if (is_integral(a) && is_integral(b))
+	return _matrix(makesequence(a,b,0.0),contextptr);
+    }
     return zeros(g,complex_mode(contextptr),contextptr);
   }
   static const char _zeros_s[]="zeros";

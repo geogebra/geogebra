@@ -10577,7 +10577,7 @@ namespace giac {
     size_t ws=w.size();
     if (ws!=2)
       return gensizeerr(contextptr);
-    gen a=w[0],b=w[1];
+    gen a=w[0],b=w[1],m;
     if (b.type==_IDNT)
       b=eval(b,1,contextptr);
     if (b.type==_FUNC)
@@ -10604,16 +10604,20 @@ namespace giac {
 	  return b._SYMBptr->sommet(tmp,contextptr);
 	}
       }
-      if (ckmatrix(tmp) && w[1].type==_IDNT){
-	const char * ch =w[1]._IDNTptr->id_name;
-	if (ch){
-	  if (ch[0]=='T')
-	    return mtran(*tmp._VECTptr);
-	  if (ch[0]=='H')
-	    return _trn(tmp,contextptr);
-	  if (ch[0]=='I')
-	    return minv(*tmp._VECTptr,contextptr);
+      if (ckmatrix(tmp)){
+	if (w[1].type==_IDNT){
+	  const char * ch =w[1]._IDNTptr->id_name;
+	  if (ch){
+	    if (ch[0]=='T')
+	      return mtran(*tmp._VECTptr);
+	    if (ch[0]=='H')
+	      return _trn(tmp,contextptr);
+	    if (ch[0]=='I')
+	      return minv(*tmp._VECTptr,contextptr);
+	  }
 	}
+	if (w[1].is_symb_of_sommet(at_of))
+	  m=tmp;
       }
       else {
 	if (tmp.type==_VECT && w[1].type==_IDNT){
@@ -10661,8 +10665,15 @@ namespace giac {
       else {
 	if (u==at_remove)
 	  v.push_back(a);
-	else
-	  v.insert(v.begin(),a);
+	else {
+	  if (ckmatrix(m) && v.front().type==_IDNT){ // ex: m.reshape(2,4)
+	    b=v.front();
+	    v.front()=m;
+	    v=makevecteur(b,gen(v,_SEQ__VECT));
+	  }
+	  else
+	    v.insert(v.begin(),a);
+	}
 	f=gen(v,f.type==_VECT?f.subtype:_SEQ__VECT);
       }
       f=symbolic(u,f);

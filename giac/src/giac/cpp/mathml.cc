@@ -608,22 +608,25 @@ namespace giac {
 
   //---------------- Zone SVG  ---------------
 
-  static void svg_dx_dy(double svg_width, double svg_height, double & dx, double & dy){
+  static void svg_dx(double svg_width, double & dx){
     // calibrage des graduations
-    int p_h=(int) std::log10(svg_height);
     int p_w=(int) std::log10(svg_width);
     dx=std::pow(10.0,p_w-1);
-    dy=std::pow(10.0,p_h-1);
     if (dx==0)
       dx=1;
-    if (dy==0)
-      dy=1;
-    if (svg_width/dx>25){
+    if (svg_width/dx>25)
       dx *= 5;
-    }
-    if (svg_height/dy>25){
-      dy *=5;
-    }
+    if (svg_width/dx>9)
+      dx*=5;
+    if (svg_width/dx<=2)
+      dx/=5;
+    if (svg_width/dx<=5)
+      dx/=2;
+  }
+
+  static void svg_dx_dy(double svg_width, double svg_height, double & dx, double & dy){
+    svg_dx(svg_width,dx);
+    svg_dx(svg_height,dy);
   }
 
   void arc_en_ciel(int k,int & r,int & g,int & b){
@@ -804,7 +807,7 @@ namespace giac {
     double xthickness((xmax-xmin)/svg_epaisseur1/3),ythickness((ymax-ymin)/svg_epaisseur1/3);
     // double thickness((xmax+ymax-xmin-ymin)/2000);
     
-    for (i=(int) i_min_x; i*dx<xmax; i++){
+    for (i=(int) i_min_x; i*dx<=xmax; i++){
       x=i*dx;
       sprintf(pos,"<line x1=\"%.5g\" y1=\"%.5g\" x2=\"%.5g\" y2=\"%.5g\"",x,ymin,x,ymax);
       pos=buffer+strlen(buffer);
@@ -819,7 +822,7 @@ namespace giac {
       }
       pos=buffer+strlen(buffer);
     }
-    for (i=(int) i_min_y; i*dy<ymax; i++){
+    for (i=(int) i_min_y; i*dy<=ymax; i++){
       y=i*dy;
       sprintf(pos,"<line x1=\"%.5g\" y1=\"%.5g\" x2=\"%.5g\" y2=\"%.5g\"",xmin,y,xmax,y);
       pos=buffer+strlen(buffer);
@@ -891,16 +894,12 @@ namespace giac {
     svg_dx_dy(svg_width, svg_height, dx, dy);
     double x,y;
     int i;
-    if ((xmax-xmin)/dx>9)
-      dx*=5;
-    if ((ymax-ymin)/dy>9)
-      dy*=5;
     double i_min_x= xmin/dx;
     double i_min_y= ymin/dy;
     // index des graduations 
     for (i=(int) i_min_x;  i*dx<=xmax ; ++i){
       x=i*dx;
-      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.5g</text>\n",x/fontscale,(ymax+0.6*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,1.0,x);
+      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.4g</text>\n",x/fontscale,(ymax+0.6*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.75,x);
       pos = buffer+strlen(buffer);
       // sortie << setprecision(5)<<"<text x=\""<<x<<"\" y=\""<<ymax+0.6*y_scale<<"\" ";
       // sortie <<" style=\"font-size:"<<fontscale<<"pt; text-anchor:middle;\"";
@@ -908,7 +907,7 @@ namespace giac {
     } 
     for (i=(int) i_min_y;  i*dy<=ymax ; ++i){
       y=i*dy;
-      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.5g</text>\n",(xmax+0.3*x_scale)/fontscale,(ymax+ymin-y+0.1*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,1.0,y);
+      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.4g</text>\n",(xmax+0.3*x_scale)/fontscale,(ymax+ymin-y+0.1*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.75,y);
       pos = buffer+strlen(buffer);
       // sortie<<setprecision(5)<<"<text x=\""<<xmax+0.2*x_scale<<"\" y=\""<<ymax+ymin-y+0.1*y_scale << "\" ";
       // sortie <<"style=\"font-size:"<<fontscale<<"pt\"";
