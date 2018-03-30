@@ -11,6 +11,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
@@ -697,7 +698,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
 		if (isVisible()) {
-			exportToPrinter3D.export((GeoPolygon) getGeoElement(), vertices, null, getGeoElement().getAlphaValue());
+			GeoPolygon geo = (GeoPolygon) getGeoElement();
+			exportToPrinter3D.export(geo, vertices, null, geo.getAlphaValue());
+			if (!geo.wasInitLabelsCalled()) {
+				exportToPrinter3D.export(getGeometryIndex(), Type.CURVE, geo.getGeoClassType().toString(), geo);
+			}
 		}
 	}
 
