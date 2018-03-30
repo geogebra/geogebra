@@ -57,7 +57,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawText3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawVector3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DLists;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.ScalerXYZ;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
