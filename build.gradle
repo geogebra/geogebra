@@ -48,6 +48,16 @@ task checkPmd(dependsOn: [':common:pmdMain', ':common-jre:pmdMain', ':web:pmdMai
 
 
 // eclipse related tasks
+project(':editor-base') {
+	
+	cleanEclipse.dependsOn('cleanJavacc')
+	eclipseClasspath.dependsOn('compileJavacc')
+
+	eclipse.project {
+ 		natures 'sf.eclipse.javacc.javaccnature'
+	}
+}
+
 project(':common') {
 	
 	cleanEclipse.dependsOn('cleanJavacc')
