@@ -3545,6 +3545,8 @@ namespace giac {
       return symbolic(at_integrate,makesequence(v[0],x,borne_inf,borne_sup));
     }
 #endif
+    if (!lop(res,at_bounded_function).empty())
+      res=undef;
     if (is_undef(res)){
       if (res.type==_STRNG && abs_calc_mode(contextptr)==38)
 	return res;
