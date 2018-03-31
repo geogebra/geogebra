@@ -11,12 +11,21 @@ public abstract class GeoGebraProfiler {
 
 	private static volatile GeoGebraProfiler instance = null;
 
-	private static volatile int repaints, repaintTime, drags, dragTime;
+	private static volatile int repaints;
+	private static volatile int repaintTime;
+	private static volatile int drags;
+	private static volatile int dragTime;
 	private static volatile int moveEventsIgnored;
 
-	private static volatile int algebra, event, hits, cascades;
+	private static volatile int algebra;
+	private static volatile int event;
+	private static volatile int hits;
+	private static volatile int cascades;
 
-	private static volatile long algebraTime, eventTime, hitTime, cascadeTime;
+	private static volatile long algebraTime;
+	private static volatile long eventTime;
+	private static volatile long hitTime;
+	private static volatile long cascadeTime;
 
 	private static Object lock = new Object();
 

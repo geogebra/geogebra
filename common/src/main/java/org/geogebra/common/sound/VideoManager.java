@@ -75,6 +75,7 @@ public interface VideoManager {
 	 * Gets a preview image
 	 * 
 	 * @param geo
+	 *            video
 	 * @param cb
 	 *            the preview callback.
 	 */

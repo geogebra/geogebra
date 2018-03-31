@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.io;
 
 import java.util.ArrayList;
@@ -116,7 +117,7 @@ public abstract class MyXMLio {
 			boolean getListenersToo) {
 
 		Kernel constructionKernel = c.getKernel();
-		boolean kernelIsGettingUndo = constructionKernel.isGettingUndo();
+		final boolean kernelIsGettingUndo = constructionKernel.isGettingUndo();
 		constructionKernel.setIsGettingUndo(true);
 
 		App consApp = c.getApplication();

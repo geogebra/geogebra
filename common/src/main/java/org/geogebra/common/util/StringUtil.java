@@ -19,7 +19,6 @@ import org.geogebra.common.util.debug.Log;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
-@SuppressWarnings("javadoc")
 public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	final static public String mp3Marker = "data:audio/mp3;base64,";
@@ -79,11 +78,12 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
-	 * converts Color to hex String with RGB values
+	 * converts unicode to hex String with RGB values
 	 * 
-	 * @return
+	 * @return hex string with \\u prefix
+	 * @param c
+	 *            unicode char
 	 */
-
 	final public static String toHexString(char c) {
 		int i = c + 0;
 
@@ -96,8 +96,14 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return hexSB.toString();
 	}
 
+	/**
+	 * Convert number into hex.
+	 * 
+	 * @param i
+	 *            number input
+	 * @return hex code
+	 */
 	final public static String toHexString(int i) {
-
 		StringBuilder hexSB = new StringBuilder(16);
 		hexSB.append(hexChar[(i & 0xf0000000) >>> 28]);
 		hexSB.append(hexChar[(i & 0xf000000) >>> 24]);
@@ -110,6 +116,11 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return hexSB.toString();
 	}
 
+	/**
+	 * @param col
+	 *            color
+	 * @return hex string (no prefix)
+	 */
 	final public static String toHexString(GColor col) {
 		byte r = (byte) col.getRed();
 		byte g = (byte) col.getGreen();
@@ -118,6 +129,15 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return toHexString(r, g, b);
 	}
 
+	/**
+	 * @param r
+	 *            red
+	 * @param g
+	 *            green
+	 * @param b
+	 *            blue
+	 * @return hex string
+	 */
 	final public static String toHexString(byte r, byte g, byte b) {
 		StringBuilder hexSB = new StringBuilder(8);
 		// RED
@@ -135,6 +155,11 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return hexSB.toString();
 	}
 
+	/**
+	 * @param s
+	 *            input text
+	 * @return hex string
+	 */
 	final public static String toHexString(String s) {
 		StringBuilder sb = new StringBuilder(s.length() * 6);
 		for (int i = 0; i < s.length(); i++) {
@@ -229,6 +254,11 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * Converts the given unicode string to a string where special characters
 	 * are converted to <code>&#encoding;</code> sequences . The resulting
 	 * string can be used in XML files.
+	 * 
+	 * @param sb
+	 *            output builder
+	 * @param str
+	 *            raw string
 	 */
 	public static void encodeXML(StringBuilder sb, String str) {
 		if (str == null) {
@@ -298,6 +328,10 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return prototype;
 	}
 
+	/**
+	 * @param p
+	 *            prototype
+	 */
 	public static void setPrototypeIfNull(StringUtil p) {
 
 		synchronized (lock) {
@@ -408,9 +442,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return sbReplaceExp.toString();
 	}
 
-	/*
-	 * returns a string with n instances of s eg string("hello",2) ->
-	 * "hellohello";
+	/**
+	 * @param s
+	 *            input string
+	 * @param n
+	 *            number of repetitions
+	 * @return a string with n instances of s eg string("hello",2) ->
+	 *         "hellohello";
 	 */
 	public static String string(String s, int n) {
 
@@ -430,8 +468,12 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return sb.toString();
 	}
 
+	/**
+	 * @param str
+	 *            input string
+	 * @return string without " " chaacters
+	 */
 	public static String removeSpaces(String str) {
-
 		if (str == null || str.length() == 0) {
 			return "";
 		}
@@ -448,17 +490,27 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		}
 
 		return sb.toString();
-
 	}
 
-	public static StringBuilder resetStringBuilder(StringBuilder high) {
-		if (high == null) {
+	/**
+	 * @param sb
+	 *            string builder
+	 * @return sb after reset or new StringBuilder if sb is null
+	 */
+	public static StringBuilder resetStringBuilder(StringBuilder sb) {
+		if (sb == null) {
 			return new StringBuilder();
 		}
-		high.setLength(0);
-		return high;
+		sb.setLength(0);
+		return sb;
 	}
 
+	/**
+	 * @param text
+	 *            input text
+	 * @return whether text consists of localized deigits, decimal points and
+	 *         minus signs
+	 */
 	public static boolean isNumber(String text) {
 
 		if (text == null || "".equals(text)) {
@@ -994,6 +1046,11 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return filename;
 	}
 
+	/**
+	 * @param color
+	 *            color
+	 * @return hex string with # prefix
+	 */
 	public static String toHtmlColor(GColor color) {
 		return "#" + toHexString(color);
 
@@ -1404,6 +1461,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	/**
 	 * @param s
+	 *            input string
 	 * @return s with \n changed to \cr
 	 */
 	public static String convertToLaTeX(String s) {
@@ -1443,7 +1501,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	public static String join(String delimiter, Object[] objects) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < objects.length; i++) {
-			if(i!=0){
+			if (i != 0) {
 				sb.append(delimiter);
 			}
 			sb.append(objects[i]);

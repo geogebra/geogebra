@@ -21,8 +21,8 @@ public abstract class FunctionSound {
 
 	// sound function fields
 	private volatile GeoFunction f;
-	private double min;
-	private double max;
+	private double tMin;
+	private double tMax;
 	private double t; // records current time, used with pause/resume
 
 	private double samplePeriod;
@@ -30,8 +30,6 @@ public abstract class FunctionSound {
 
 	/**
 	 * Constructs instance of FunctionSound
-	 * 
-	 * @throws Exception
 	 */
 	public FunctionSound() {
 		bitDepth = DEFAULT_BIT_RATE;
@@ -45,7 +43,7 @@ public abstract class FunctionSound {
 	 *            = 8000, 16000, 11025, 16000, 22050, or 44100
 	 * @param bitDepth
 	 *            = 8 or 16
-	 * @return
+	 * @return whether params are valid
 	 */
 	protected boolean initStreamingAudio(int sampleRate, int bitDepth) {
 
@@ -70,8 +68,11 @@ public abstract class FunctionSound {
 	 * will be clipped to this range otherwise.
 	 * 
 	 * @param geoFunction
+	 *            function
 	 * @param min
+	 *            minimum x
 	 * @param max
+	 *            maximum x
 	 */
 	public void playFunction(GeoFunction geoFunction, double min, double max) {
 		playFunction(geoFunction, min, max, DEFAULT_SAMPLE_RATE,
@@ -84,21 +85,39 @@ public abstract class FunctionSound {
 	 * will be clipped to this range otherwise.
 	 * 
 	 * @param geoFunction
+	 *            function
 	 * @param min
+	 *            minimum x
 	 * @param max
+	 *            maximum x
 	 * @param sampleRate
+	 *            samples per second
 	 * @param bitDepth
+	 *            depth 8 or 16
 	 */
 	public abstract void playFunction(final GeoFunction geoFunction,
 			final double min, final double max, final int sampleRate,
 			final int bitDepth);
 
+	/**
+	 * @param geoFunction
+	 *            function
+	 * @param min
+	 *            min time
+	 * @param max
+	 *            max time
+	 * @param sampleRate
+	 *            sample rate
+	 * @param bitDepth
+	 *            depth
+	 * @return whether audio initialization fails
+	 */
 	public boolean checkFunction(final GeoFunction geoFunction,
 			final double min, final double max, final int sampleRate,
 			final int bitDepth) {
 		f = geoFunction;
-		this.min = min;
-		this.max = max;
+		this.tMin = min;
+		this.tMax = max;
 		if ((sampleRate != DEFAULT_SAMPLE_RATE || bitDepth != DEFAULT_BIT_RATE)
 				&& !initStreamingAudio(sampleRate, bitDepth)) {
 			return false;
@@ -110,6 +129,7 @@ public abstract class FunctionSound {
 	 * Pauses/resumes sound generation
 	 * 
 	 * @param doPause
+	 *            whether to pause or resume
 	 */
 	public abstract void pause(boolean doPause);
 
@@ -134,6 +154,7 @@ public abstract class FunctionSound {
 	 * GeoFunction f(t) starting at time t. Uses 8-bit mono samples.
 	 * 
 	 * @param t
+	 *            time
 	 */
 	protected void loadBuffer8(double t) {
 		double value;
@@ -166,6 +187,7 @@ public abstract class FunctionSound {
 	 * samples.
 	 * 
 	 * @param t
+	 *            time
 	 */
 	protected void loadBuffer16(double t) {
 		double value;
@@ -205,7 +227,10 @@ public abstract class FunctionSound {
 	 * working?
 	 * 
 	 * @param peakValue
+	 *            peak value
 	 * @param isFadeOut
+	 *            whether to fade out
+	 * @return amplitude values
 	 */
 	protected byte[] getFadeBuffer(short peakValue, boolean isFadeOut) {
 
@@ -247,19 +272,26 @@ public abstract class FunctionSound {
 	}
 
 	public double getMin() {
-		return min;
+		return tMin;
 	}
 
 	public void setMin(double min) {
-		this.min = min;
+		this.tMin = min;
 	}
 
+	/**
+	 * @return max time
+	 */
 	public double getMax() {
-		return max;
+		return tMax;
 	}
 
+	/**
+	 * @param max
+	 *            max time
+	 */
 	public void setMax(double max) {
-		this.max = max;
+		this.tMax = max;
 	}
 
 	public double getT() {

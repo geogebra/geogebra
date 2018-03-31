@@ -18,6 +18,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -979,11 +980,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// throw new MyError(l10n, str);
 		} else if (lt instanceof TextValue && rt instanceof NumberValue) {
 			String txt = ((TextValue) lt).getTextString();
-			MyStringBuffer result = new MyStringBuffer(kernel, "");
-			for (int i = 0; i < rt.evaluateDouble(); i++) {
-				result.append(txt);
-			}
-			return result;
+			return new MyStringBuffer(kernel,
+					StringUtil.string(txt, (int) rt.evaluateDouble()));
 		} else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			// if (!rt.isConstant()) {
 			// String [] str = new String[]{ "ExponentMustBeConstant",

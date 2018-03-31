@@ -28,6 +28,7 @@
  * this exception to your version of the program, but you are not obligated to do so. 
  * If you do not wish to do so, delete this exception statement from your version.
  */
+
 package org.geogebra.common.util.mathIT;
 
 import static java.lang.Math.PI;

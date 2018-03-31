@@ -1,6 +1,7 @@
 /*
  * Created on 2003-11-02
  */
+
 package org.geogebra.common.io;
 
 import java.util.HashMap;
@@ -67,33 +68,32 @@ public class MathMLParser {
 			// Tags:
 			geogebraMap.put("<mfrac>", "((%BLOCK1%) / (%BLOCK2%))");
 			geogebraMap.put("<msup>", "((%BLOCK1%)^(%BLOCK2%))");
-			geogebraMap.put("<msub>", "%BLOCK1%_{%BLOCK2%}");// TODO _{1} -> _1
+			geogebraMap.put("<msub>", "%BLOCK1%_{%BLOCK2%}"); // TODO _{1} -> _1
 																// at
 																// the end of
 																// parsing
 			geogebraMap.put("<msqrt>", "sqrt(%BLOCK1%)");
 			geogebraMap.put("<mroot>", "nroot(%BLOCK1%,%BLOCK2%)");
-			geogebraMap.put("<mfenced>", "(%BLOCK1%)");// e.g. binomial
+			geogebraMap.put("<mfenced>", "(%BLOCK1%)"); // e.g. binomial
 														// coefficient,
 														// FIXME
 			geogebraMap.put("<mfenced open=\"|\" close=\"|\">",
-					"abs(%BLOCK1%)");// abs.
-										// value
-			geogebraMap.put("<msubsup>", "(%BLOCK1%_{%BLOCK2%})^(%BLOCK3%)");// ignored
+					"abs(%BLOCK1%)"); // abs. value
+			geogebraMap.put("<msubsup>", "(%BLOCK1%_{%BLOCK2%})^(%BLOCK3%)"); // ignored
 																				// for
 																				// now,
 																				// FIXME
 																				// (subscripted
 																				// variable
 																				// powered)
-			geogebraMap.put("<munderover>", "%BLOCK1%(%BLOCK2%,%BLOCK3%,");// ignored
+			geogebraMap.put("<munderover>", "%BLOCK1%(%BLOCK2%,%BLOCK3%,"); // ignored
 																			// for
 																			// now,
 																			// FIXME
 																			// (subscripted
 																			// variable
 																			// powered)
-			geogebraMap.put("<munder>", "%BLOCK1%");// ignored for now, FIXME
+			geogebraMap.put("<munder>", "%BLOCK1%"); // ignored for now, FIXME
 			geogebraMap.put("<mtable>", "{%BLOCKS%}");
 			geogebraMap.put("<mtr>", "{%BLOCKS%}, ");
 			geogebraMap.put("<mtd>", "%BLOCK1%, ");
@@ -165,12 +165,12 @@ public class MathMLParser {
 
 			geogebraMap.put("&ohgr;", Unicode.omega + "");
 			geogebraMap.put("&mgr;", Unicode.mu + "");
-			geogebraMap.put("&piv;", Unicode.pi + "");// \\varpi
+			geogebraMap.put("&piv;", Unicode.pi + ""); // \\varpi
 			geogebraMap.put("&phiv;", Unicode.phi + "");
 			geogebraMap.put("&pgr;", Unicode.pi + "");
 			geogebraMap.put("&rgr;", Unicode.rho + "");
 			geogebraMap.put("&tgr;", Unicode.tau + "");
-			geogebraMap.put("&sigmaf;", Unicode.sigmaf + "");// \\varsigma
+			geogebraMap.put("&sigmaf;", Unicode.sigmaf + ""); // \\varsigma
 
 			// geogebraMap.put("&Delta;", Unicode.Delta + "");
 			// geogebraMap.put("&Phi;", Unicode.Phi + "");
@@ -244,8 +244,8 @@ public class MathMLParser {
 			geogebraMap.put("&VerticalBar;", "# ");
 			geogebraMap.put("&crarr;", "# ");
 			geogebraMap.put("&alefsym;", "# ");
-			geogebraMap.put("&image;", "# ");// ???
-			geogebraMap.put("&real;", "# ");// ???
+			geogebraMap.put("&image;", "# "); // ???
+			geogebraMap.put("&real;", "# "); // ???
 			geogebraMap.put("&weierp;", "# ");
 			geogebraMap.put("&otimes;", "# ");
 			geogebraMap.put("&oplus;", "# ");
@@ -328,7 +328,7 @@ public class MathMLParser {
 			geogebraMap.put("&minus;", "- ");
 			geogebraMap.put("&nabla;", "# ");
 			geogebraMap.put("&NotElement;", "# ");
-			geogebraMap.put("&NotEqual;", Unicode.NOTEQUAL + "");// ??? is this
+			geogebraMap.put("&NotEqual;", Unicode.NOTEQUAL + ""); // ??? is this
 																	// good
 																	// in LaTeX?
 			geogebraMap.put("&notin;", "# ");
@@ -1376,7 +1376,8 @@ public class MathMLParser {
 	 * Determines whether this is valid Unicode
 	 * 
 	 * @param vu
-	 * @return
+	 *            unicode string
+	 * @return whether it's valid
 	 */
 	private static boolean isValidUnicode(String vu) {
 

@@ -16,7 +16,8 @@ public class CompatibilityLayout {
 	 * used. Temporary storage for the split divider location of the split panes
 	 * #1/#2.
 	 */
-	protected int sp1, sp2;
+	protected int sp1;
+	protected int sp2;
 
 	/**
 	 * If the split divider is horizontal. (version < 3.03)
@@ -24,12 +25,22 @@ public class CompatibilityLayout {
 	protected boolean spHorizontal = true;
 
 	/**
-	 * If the algebra or spreadsheet view is visible. (version < 3.03)
+	 * If the algebra view is visible. (version < 3.03)
 	 */
-	protected boolean showAlgebra, showSpreadsheet;
+	protected boolean showAlgebra;
+	/**
+	 * If the spreadsheet view is visible. (version < 3.03)
+	 */
+	protected boolean showSpreadsheet;
 
 	private GDimension dimension;
 
+	/**
+	 * @param tmp_perspective
+	 *            perspective
+	 * @param app
+	 *            app
+	 */
 	public void update(Perspective tmp_perspective, App app) {
 		int splitOrientation = spHorizontal
 				? SwingConstants.HORIZONTAL_SPLIT
@@ -175,6 +186,7 @@ public class CompatibilityLayout {
 	 * Kept for backward compatibility with version < 3.3
 	 * 
 	 * @param attrs
+	 *            split attributes
 	 * @return
 	 */
 	boolean handleSplitDivider(LinkedHashMap<String, String> attrs) {

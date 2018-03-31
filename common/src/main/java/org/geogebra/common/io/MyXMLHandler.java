@@ -200,7 +200,8 @@ public class MyXMLHandler implements DocHandler {
 	/** lacalization */
 	protected final Localization loc;
 
-	private String[] macroInputLabels, macroOutputLabels;
+	private String[] macroInputLabels;
+	private String[] macroOutputLabels;
 	private GeoElementND[] cmdOutput;
 	private boolean startAnimation;
 
@@ -208,14 +209,15 @@ public class MyXMLHandler implements DocHandler {
 	 * The point style of the document, for versions < 3.3
 	 */
 	private int docPointStyle;
-
+	private Kernel kernel;
 	// for macros we need to change the kernel, so remember the original kernel
 	// too
-	private Kernel kernel, origKernel;
+	private Kernel origKernel;
 	/** construction */
 	protected Construction cons;
 
-	private Parser parser, origParser;
+	private Parser parser;
+	private Parser origParser;
 
 	// List of LocateableExpPair objects
 	// for setting the start points at the end of the construction
@@ -279,12 +281,16 @@ public class MyXMLHandler implements DocHandler {
 
 	private int casMapParent;
 
-	private HashMap<EuclidianSettings, String> xmin = new HashMap<>(),
-			xmax = new HashMap<>(), ymin = new HashMap<>(),
-			xtick = new HashMap<>(), ytick = new HashMap<>(),
-			ztick = new HashMap<>(), ymax = new HashMap<>();
+	private HashMap<EuclidianSettings, String> xmin = new HashMap<>();
+	private HashMap<EuclidianSettings, String> xmax = new HashMap<>();
+	private HashMap<EuclidianSettings, String> ymin = new HashMap<>();
+	private HashMap<EuclidianSettings, String> xtick = new HashMap<>();
+	private HashMap<EuclidianSettings, String> ytick = new HashMap<>();
+	private HashMap<EuclidianSettings, String> ztick = new HashMap<>();
+	private HashMap<EuclidianSettings, String> ymax = new HashMap<>();
 
-	private boolean sliderTagProcessed, fontTagProcessed;
+	private boolean sliderTagProcessed;
+	private boolean fontTagProcessed;
 
 	private ArrayList<String> entries;
 
@@ -2280,8 +2286,10 @@ public class MyXMLHandler implements DocHandler {
 	 * Backward compatibility for version < 3.3
 	 * 
 	 * @param app1
+	 *            app
 	 * @param attrs
-	 * @return
+	 *            gui tag attributes
+	 * @return success
 	 */
 	private boolean handleGuiShow(App app1,
 			LinkedHashMap<String, String> attrs) {
@@ -2309,10 +2317,12 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * Settings of the user, not saved in the file XML but for preferences XML.
 	 * 
-	 * <settings ignoreDocument=".." showTitleBar=".." />
+	 * &lt;settings ignoreDocument=".." showTitleBar=".." /&gt;
 	 * 
 	 * @param app
+	 *            app
 	 * @param attrs
+	 *            settings tag attributes
 	 * @return
 	 */
 	private static boolean handleGuiSettings(App app,
@@ -2343,8 +2353,6 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-
-
 
 	private boolean handleToolbar(LinkedHashMap<String, String> attrs) {
 		try {
@@ -2427,7 +2435,9 @@ public class MyXMLHandler implements DocHandler {
 	 * Handle the window size: <window width=".." height=".." />
 	 * 
 	 * @param app
+	 *            app
 	 * @param attrs
+	 *            window tag attributes
 	 * @return
 	 */
 	private static boolean handleWindowSize(App app,
@@ -2550,9 +2560,11 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	/**
-	 * Create a new temporary perspective for the current <perspective> element
+	 * Create a new temporary perspective for the current &lt;perspective&gt;
+	 * element
 	 * 
 	 * @param attrs
+	 *            perspective attributes
 	 * @return
 	 */
 	private boolean handlePerspective(LinkedHashMap<String, String> attrs) {
@@ -2697,12 +2709,12 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	/**
-	 * Handle a view.
-	 * <view id=".." visible=".." inframe=".." stylebar=".." window=".."
-	 * location=".." size=".." />
+	 * Handle a view. &lt;view id=".." visible=".." inframe=".." stylebar=".."
+	 * window=".." location=".." size=".." /&gt;
 	 * 
 	 * @param attrs
-	 * @return
+	 *            attributes of the view tag
+	 * @return success
 	 */
 	private boolean handleView(LinkedHashMap<String, String> attrs) {
 		try {
@@ -2758,10 +2770,11 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	/**
-	 * Handle a pane. <pane location".." divider=".." orientation=".." />
+	 * Handle a pane. &lt;pane location".." divider=".." orientation=".." /&gt;
 	 * 
 	 * @param attrs
-	 * @return
+	 *            pane attributes
+	 * @return success
 	 */
 	private boolean handlePane(LinkedHashMap<String, String> attrs) {
 		try {
@@ -2811,7 +2824,6 @@ public class MyXMLHandler implements DocHandler {
 			String toolHelp = attrs.get("toolHelp");
 			String iconFile = attrs.get("iconFile");
 			boolean copyCaptions = parseBoolean(attrs.get("copyCaptions"));
-			String strShowInToolBar = attrs.get("showInToolBar");
 			Integer viewId = null;
 			if (attrs.containsKey("viewId")) {
 				viewId = Integer.parseInt(attrs.get("viewId"));
@@ -2832,6 +2844,7 @@ public class MyXMLHandler implements DocHandler {
 			macro.setCopyCaptionsAndVisibility(copyCaptions);
 			macro.setToolHelp(toolHelp); 
 			macro.setIconFileName(iconFile);
+			String strShowInToolBar = attrs.get("showInToolBar");
 			boolean showTool = strShowInToolBar == null || parseBoolean(strShowInToolBar);
 			macro.setShowInToolBar(showTool);
 			macro.setViewId(viewId);
@@ -4741,6 +4754,7 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
+
 	private boolean handleInterpolate(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoImage())) {
 			Log.error(
@@ -4776,7 +4790,6 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleIsLaTeX(LinkedHashMap<String, String> attrs) {
 		try {
-
 			((GeoText) geo).setLaTeX(parseBoolean(attrs.get("val")), false);
 			return true;
 		} catch (RuntimeException e) {
@@ -4812,8 +4825,9 @@ public class MyXMLHandler implements DocHandler {
 			double x = Double.parseDouble(attrs.get("x"));
 			double y = Double.parseDouble(attrs.get("y"));
 			if (absolute) {
-				if(app.has(Feature.MOW_PIN_IMAGE) && absLoc.isGeoImage()){
-					((GeoImage)absLoc).setAbsoluteScreenLoc((int) x, (int) y, 0);
+				if (app.has(Feature.MOW_PIN_IMAGE) && absLoc.isGeoImage()) {
+					((GeoImage) absLoc).setAbsoluteScreenLoc((int) x, (int) y,
+							0);
 				} else {
 					absLoc.setAbsoluteScreenLoc((int) x, (int) y);					
 				}
@@ -4911,6 +4925,7 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
+
 	/*
 	 * needed for old files (4.2 and earlier)
 	 */
@@ -5752,6 +5767,7 @@ public class MyXMLHandler implements DocHandler {
 	 * types for output
 	 * 
 	 * @param attrs
+	 *            cmd output attributes
 	 * @return true if proceeded
 	 */
 	private boolean handleCmdOutputSizes(LinkedHashMap<String, String> attrs) {
@@ -5777,6 +5793,7 @@ public class MyXMLHandler implements DocHandler {
 	 * Reads all attributes into a String array.
 	 * 
 	 * @param attrs
+	 *            ttribute map
 	 * @return
 	 */
 	private static String[] getAttributeStrings(

@@ -955,7 +955,7 @@ public class DefaultClipper extends ClipperBase {
 	}
 
 	private void buildResult2(PolyTree polytree) {
-		polytree.Clear();
+		polytree.clear();
 
 		// add each output polygon/contour to polytree ...
 		for (int i = 0; i < polyOuts.size(); i++) {

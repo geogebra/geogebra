@@ -239,6 +239,7 @@ public class CSVParser {
 	 * @param nextLine
 	 *            the string to parse
 	 * @param multi
+	 *            multiline
 	 * @return the comma-tokenized list of elements, or null if nextLine is null
 	 * @throws CSVException
 	 *             if bad things happen during the read
@@ -265,7 +266,7 @@ public class CSVParser {
 		if (pending != null) {
 			sb.append(pending);
 			pending = null;
-			inQuotes = !this.ignoreQuotations;// true;
+			inQuotes = !this.ignoreQuotations;
 		}
 		for (int i = 0; i < nextLine.length(); i++) {
 

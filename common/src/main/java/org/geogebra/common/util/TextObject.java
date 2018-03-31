@@ -9,7 +9,6 @@ public interface TextObject {
 
 	void setColumns(int fieldWidth);
 
-
 	void setVisible(boolean b);
 
 	void setEditable(boolean b);

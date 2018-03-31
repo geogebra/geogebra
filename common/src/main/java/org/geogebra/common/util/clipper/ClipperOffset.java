@@ -421,7 +421,7 @@ public class ClipperOffset {
 	 * modified to be compatible with double
 	 */
 	public void execute(PolyTree solution, double delta) {
-		solution.Clear();
+		solution.clear();
 		fixOrientations();
 		doOffset(delta);
 
@@ -455,7 +455,7 @@ public class ClipperOffset {
 					solution.addChild(outerNode.getChilds().get(i));
 				}
 			} else {
-				solution.Clear();
+				solution.clear();
 			}
 		}
 	}

@@ -37,7 +37,7 @@ public abstract class Prover {
 	/**
 	 * Enum list of supported prover backends for GeoGebra
 	 * 
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * @author Zoltan Kovacs
 	 *
 	 */
 	public enum ProverEngine {
@@ -81,7 +81,7 @@ public abstract class Prover {
 	/**
 	 * Possible results of an attempted proof
 	 * 
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * @author Zoltan Kovacs
 	 *
 	 */
 	public enum ProofResult {
@@ -148,10 +148,12 @@ public abstract class Prover {
 	private boolean returnExtraNDGs;
 	private List<ProverEngine> proveAutoOrder;
 	private List<ProverEngine> proveDetailsAutoOrder;
+
 	/**
-	 * @author Zoltan Kovacs <zoltan@geogebra.org> An object which contains a
-	 *         condition description (e.g. "AreCollinear") and an ordered list
-	 *         of GeoElement's (e.g. A, B, C)
+	 * An object which contains a condition description (e.g. "AreCollinear")
+	 * and an ordered list of GeoElement's (e.g. A, B, C)
+	 * 
+	 * @author Zoltan Kovacs
 	 */
 	public static class NDGCondition {
 		/**
@@ -282,7 +284,7 @@ public abstract class Prover {
 			line.setEuclidianVisible(true);
 			line.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 			line.setLabelVisible(true);
-			line.updateVisualStyle(GProperty.COMBINED);// visibility and style
+			line.updateVisualStyle(GProperty.COMBINED); // visibility and style
 			cons.setSuppressLabelCreation(oldMacroMode);
 			return line;
 		}

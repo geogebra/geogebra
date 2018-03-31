@@ -6,7 +6,7 @@ import java.util.List;
 class PolyTree extends PolyNode {
 	private final List<PolyNode> allPolys = new ArrayList<>();
 
-	public void Clear() {
+	public void clear() {
 		allPolys.clear();
 		childs.clear();
 	}
@@ -15,6 +15,9 @@ class PolyTree extends PolyNode {
 		return allPolys;
 	}
 
+	/**
+	 * @return first child
+	 */
 	public PolyNode getFirst() {
 		if (!childs.isEmpty()) {
 			return childs.get(0);
@@ -22,6 +25,9 @@ class PolyTree extends PolyNode {
 		return null;
 	}
 
+	/**
+	 * @return number of polygons except hidden outer one
+	 */
 	public int getTotalSize() {
 		int result = allPolys.size();
 		// with negative offsets, ignore the hidden outer polygon ...

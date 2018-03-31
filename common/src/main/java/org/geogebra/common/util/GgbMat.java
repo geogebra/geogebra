@@ -115,6 +115,12 @@ public class GgbMat extends Array2DRowRealMatrix {
 		}
 	}
 
+	/**
+	 * @param rows
+	 *            number of rows
+	 * @param cols
+	 *            number of columns
+	 */
 	public GgbMat(int rows, int cols) {
 		data = new double[rows][cols];
 		setIsUndefined(false);
@@ -308,6 +314,10 @@ public class GgbMat extends Array2DRowRealMatrix {
 		return true;
 	}
 
+	/**
+	 * @param matrix
+	 *            flat matrix of a GeoConic
+	 */
 	public void set3x3fromConic(double[] matrix) {
 		// Axx
 		setEntry(0, 0, matrix[0]);

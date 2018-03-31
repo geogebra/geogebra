@@ -524,16 +524,15 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			return ev.handleDivide(lt, rt, left, right);
-
 		}
 	},
+
 	POWER {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			return ev.handlePower(lt, rt, right);
-
 		}
 	},
 

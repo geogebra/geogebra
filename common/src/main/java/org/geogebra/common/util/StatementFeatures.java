@@ -34,7 +34,8 @@ class StatementFeatures {
 			"Triangle", "Parabola", "Ray", "Ellipse", "Hyperbola",
 			"Quadrilateral", "Vector" };
 
-	private static String csv_header = "", csv_data = "";
+	private static String csv_header = "";
+	private static String csv_data = "";
 
 	private static HashMap<GeoElement, Integer> nodeLongestPath;
 	private static HashMap<GeoElement, Integer> nodeComplexity;

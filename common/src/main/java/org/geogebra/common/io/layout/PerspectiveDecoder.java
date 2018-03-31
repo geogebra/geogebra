@@ -33,6 +33,7 @@ public class PerspectiveDecoder {
 	private static final double DEFAULT_TOOLBAR_RATIO = 0.4;
 
 	private static Map<String, DockPanelData> viewCodes = new HashMap<>();
+
 	static {
 		viewCodes
 				.put("G",

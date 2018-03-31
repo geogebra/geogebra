@@ -13,6 +13,9 @@ import org.apache.commons.math3.linear.AnyMatrix;
  */
 public class MyMathExact {
 
+	/**
+	 * BigDecimal wrapper with support for fixed scale
+	 */
 	public static class MyDecimal {
 
 		private final int fixedScale;
@@ -20,12 +23,21 @@ public class MyMathExact {
 
 		private final BigDecimal impl;
 
+		/**
+		 * @param significance
+		 *            significance
+		 */
 		public MyDecimal(int significance) {
-			// super(0);
 			impl = BigDecimal.ZERO.setScale(significance);
 			fixedScale = significance;
 		}
 
+		/**
+		 * @param significance
+		 *            significance
+		 * @param val
+		 *            value
+		 */
 		public MyDecimal(int significance, double val) {
 			// super(val);
 			// super.setScale(significance, roundingMode);
@@ -56,6 +68,12 @@ public class MyMathExact {
 			fixedScale = bd.scale();
 		}
 
+		/**
+		 * @param significance
+		 *            significance
+		 * @param bd
+		 *            value
+		 */
 		public MyDecimal(int significance, BigDecimal bd) {
 			impl = new BigDecimal(bd.unscaledValue(), bd.scale())
 					.setScale(significance, roundingMode);
@@ -82,19 +100,37 @@ public class MyMathExact {
 			return impl;
 		}
 
+		/**
+		 * @param md
+		 *            factor
+		 * @return this * md
+		 */
 		public MyDecimal multiply(MyDecimal md) {
 			return new MyDecimal(this.getScale(), impl.multiply(md.getImpl()));
 		}
 
+		/**
+		 * @param md
+		 *            subtrahend
+		 * @return this - md
+		 */
 		public MyDecimal subtract(MyDecimal md) {
 			return new MyDecimal(this.getScale(), impl.subtract(md.getImpl()));
 		}
 
+		/**
+		 * @param md
+		 *            divisor
+		 * @return this / md
+		 */
 		public MyDecimal divide(MyDecimal md) {
 			return new MyDecimal(this.getScale(), impl.divide(md.getImpl(),
 					this.getScale(), BigDecimal.ROUND_HALF_EVEN));
 		}
 
+		/**
+		 * @return square root of this
+		 */
 		public MyDecimal sqrt() {
 
 			if (impl.compareTo(BigDecimal.ZERO) == 0) {
@@ -147,6 +183,14 @@ public class MyMathExact {
 
 		private MyDecimal[][] data;
 
+		/**
+		 * @param significance
+		 *            significance
+		 * @param rowD
+		 *            number of rows
+		 * @param colD
+		 *            number of columns
+		 */
 		public MyDecimalMatrix(int significance, int rowD, int colD) {
 			fixedScale = significance;
 			this.rowD = rowD;
@@ -181,6 +225,9 @@ public class MyMathExact {
 			data[i][j] = new MyDecimal(fixedScale, md.getImpl());
 		}
 
+		/**
+		 * @return copy of the matrix
+		 */
 		public MyDecimalMatrix copy() {
 
 			MyDecimalMatrix mdm = new MyDecimalMatrix(fixedScale, rowD, colD);
@@ -192,9 +239,13 @@ public class MyMathExact {
 			}
 
 			return mdm;
-
 		}
 
+		/**
+		 * @param j
+		 *            column
+		 * @return numbers in given column
+		 */
 		public MyDecimal[] getColumn(int j) {
 			MyDecimal[] ret = new MyDecimal[this.getRowDimension()];
 			for (int i = 0; i < this.getRowDimension(); i++) {
@@ -203,12 +254,23 @@ public class MyMathExact {
 			return ret;
 		}
 
+		/**
+		 * @param j
+		 *            column
+		 * @param column
+		 *            numbers for given column
+		 */
 		public void setColumn(int j, MyDecimal[] column) {
 			for (int i = 0; i < this.getRowDimension(); i++) {
 				this.setEntry(i, j, column[i]);
 			}
 		}
 
+		/**
+		 * @param i
+		 *            row
+		 * @return numbers in given row
+		 */
 		public MyDecimal[] getRow(int i) {
 			MyDecimal[] ret = new MyDecimal[this.getColumnDimension()];
 			for (int j = 0; j < this.getColumnDimension(); j++) {
@@ -217,14 +279,28 @@ public class MyMathExact {
 			return ret;
 		}
 
+		/**
+		 * @param i
+		 *            row
+		 * @param row
+		 *            numbers for given row
+		 */
 		public void setRow(int i, MyDecimal[] row) {
 			for (int j = 0; j < this.getColumnDimension(); j++) {
 				this.setEntry(i, j, row[j]);
 			}
 		}
 
+		/**
+		 * @param matrix
+		 *            matrix
+		 * @param m
+		 *            number of rows
+		 * @param n
+		 *            number of columns
+		 * @return frobenius norm
+		 */
 		public MyDecimal frobNormSq(MyDecimalMatrix matrix, int m, int n) {
-			// m is number of rows; n is number of columns
 			MyDecimal ret = new MyDecimal(BigDecimal.ZERO);
 
 			if (m == 0 || n == 0) {
@@ -241,6 +317,11 @@ public class MyMathExact {
 			return ret;
 		}
 
+		/**
+		 * @param m
+		 *            matrix
+		 * @return product of matrices
+		 */
 		public MyDecimalMatrix multiply(MyDecimalMatrix m) {
 
 			if (this.getColumnDimension() != m.getRowDimension()) {

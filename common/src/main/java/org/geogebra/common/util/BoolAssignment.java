@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.geogebra.common.util;
 
 import org.geogebra.common.kernel.Kernel;

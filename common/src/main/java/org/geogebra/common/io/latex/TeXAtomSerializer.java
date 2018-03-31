@@ -146,8 +146,8 @@ public class TeXAtomSerializer {
 		mappings.put("le", "<=");
 		mappings.put("geq", ">=");
 		mappings.put("leq", "<=");
-		mappings.put("lt","<");
-		mappings.put("gt",">");
+		mappings.put("lt", "<");
+		mappings.put("gt", ">");
 		mappings.put("cdot", "*");
 		mappings.put("times", "*");
 		// mappings.put("theta", Unicode.theta_STRING);

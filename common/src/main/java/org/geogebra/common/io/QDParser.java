@@ -30,14 +30,27 @@ import org.geogebra.common.util.StringUtil;
  * based parser, but with much less functionality.
  */
 public class QDParser {
-	private final static int TEXT = 1, ENTITY = 2, OPEN_TAG = 3, CLOSE_TAG = 4,
-			START_TAG = 5, ATTRIBUTE_LVALUE = 6, ATTRIBUTE_EQUAL = 9,
-			ATTRIBUTE_RVALUE = 10, QUOTE = 7, IN_TAG = 8, SINGLE_TAG = 12,
-			COMMENT = 13, DONE = 11, DOCTYPE = 14, PRE = 15, CDATA = 16;
+	private final static int TEXT = 1;
+	private final static int ENTITY = 2;
+	private final static int OPEN_TAG = 3;
+	private final static int CLOSE_TAG = 4;
+	private final static int START_TAG = 5;
+	private final static int ATTRIBUTE_LVALUE = 6;
+	private final static int ATTRIBUTE_EQUAL = 9;
+	private final static int ATTRIBUTE_RVALUE = 10;
+	private final static int QUOTE = 7;
+	private final static int IN_TAG = 8;
+	private final static int SINGLE_TAG = 12;
+	private final static int COMMENT = 13;
+	private final static int DONE = 11;
+	private final static int DOCTYPE = 14;
+	private final static int PRE = 15;
+	private final static int CDATA = 16;
 
 	private LinkedHashMap<String, String> attrs;
 	private Stack<Integer> stack;
-	private StringBuilder sb, etag;
+	private StringBuilder sb;
+	private StringBuilder etag;
 
 	/**
 	 * Creates new parser
