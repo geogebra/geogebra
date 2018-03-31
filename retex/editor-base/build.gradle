@@ -33,6 +33,11 @@ compileJavacc {
 	arguments = [static: 'false', grammar_encoding: 'UTF-8', unicode_input : 'true',  JAVA_TEMPLATE_TYPE: 'modern']
 }
 
+task cleanJavacc(type: Delete) {
+	description 'Cleans the javacc generated files.'
+	delete compileJavacc
+}
+
 pmd {
      ignoreFailures = true
      ruleSets = []
