@@ -304,7 +304,7 @@ public class Manager3D implements Manager3DInterface {
 	 * Midpoint M = (P + Q)/2
 	 */
 	@Override
-	final public GeoPoint3D Midpoint(String label, GeoPointND P, GeoPointND Q) {
+	final public GeoPoint3D midpoint(String label, GeoPointND P, GeoPointND Q) {
 		AlgoMidpoint3D algo = new AlgoMidpoint3D(cons, label, P, Q);
 		GeoPoint3D M = algo.getPoint();
 		return M;

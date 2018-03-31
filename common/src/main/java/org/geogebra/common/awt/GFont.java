@@ -101,18 +101,19 @@ public abstract class GFont {
 
 	/**
 	 * @param serif
+	 *            whether this is serif font
 	 * @return style as required by JLaTeXMath
 	 */
 	public int getLaTeXStyle(boolean serif) {
 		int style = 0;
 		if (isBold()) {
-			style = style | 2;// TeXFormula.BOLD;
+			style = style | 2; // TeXFormula.BOLD;
 		}
 		if (isItalic()) {
-			style = style | 4;// TeXFormula.ITALIC;
+			style = style | 4; // TeXFormula.ITALIC;
 		}
 		if (!serif) {
-			style = style | 1;// TeXFormula.SANSSERIF;
+			style = style | 1; // TeXFormula.SANSSERIF;
 		}
 
 		return style;

@@ -65,6 +65,17 @@ public abstract class GPoint2D {
 
 	public abstract double distance(GPoint2D q);
 
+	/**
+	 * @param x1
+	 *            x-coord of first point
+	 * @param y1
+	 *            y-coord of first point
+	 * @param x2
+	 *            x-coord of second point
+	 * @param y2
+	 *            y-coord of second point
+	 * @return squared distance
+	 */
 	public static double distanceSq(double x1, double y1, double x2,
 			double y2) {
 		double d_x = x2 - x1;
@@ -72,9 +83,14 @@ public abstract class GPoint2D {
 		return d_x * d_x + d_y * d_y;
 	}
 
+	/**
+	 * @param x
+	 *            new x-coord
+	 * @param y
+	 *            new y-coord
+	 */
 	public void setLocation(double x, double y) {
 		setX(x);
 		setY(y);
-
 	}
 }

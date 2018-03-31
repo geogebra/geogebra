@@ -15,6 +15,10 @@ public abstract class Factory {
 		return prototype;
 	}
 
+	/**
+	 * @param p
+	 *            prototype
+	 */
 	public static void setPrototype(Factory p) {
 		synchronized (lock) {
 			if (prototype == null) {

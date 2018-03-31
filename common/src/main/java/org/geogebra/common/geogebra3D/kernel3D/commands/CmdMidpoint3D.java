@@ -70,7 +70,7 @@ public class CmdMidpoint3D extends CmdMidpoint {
 
 		if (p1.isGeoElement3D() || p2.isGeoElement3D()) {
 			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-					.Midpoint(label, p1, p2) };
+					.midpoint(label, p1, p2) };
 			return ret;
 		}
 

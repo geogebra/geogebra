@@ -33,8 +33,6 @@ public abstract class CASFactory {
 	/**
 	 * @param parser
 	 *            CAS parser
-	 * @param tools
-	 *            helper for output processing
 	 * @param kernel
 	 *            kernel
 	 * @return GIAC instance

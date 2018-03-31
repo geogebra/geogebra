@@ -15,6 +15,10 @@ public abstract class LaTeXFactory {
 		return prototype;
 	}
 
+	/**
+	 * @param p
+	 *            prototype
+	 */
 	public static void setPrototypeIfNull(LaTeXFactory p) {
 
 		synchronized (lock) {

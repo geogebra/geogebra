@@ -96,7 +96,7 @@ public interface Manager3DInterface {
 	 * @param Q
 	 * @return midpoint
 	 */
-	public GeoPointND Midpoint(String label, GeoPointND P, GeoPointND Q);
+	public GeoPointND midpoint(String label, GeoPointND P, GeoPointND Q);
 
 	/**
 	 * Midpoint of segment

@@ -80,6 +80,13 @@ public interface GeoGebraConstants {
 			return platform;
 		}
 
+		/**
+		 * @param prerelease
+		 *            whether we run prerelease
+		 * @param canary
+		 *            whether we run canary
+		 * @return eg X.Y.Zd-prerelease
+		 */
 		public String getVersionString(boolean prerelease, boolean canary) {
 
 			StringBuilder suffix = new StringBuilder(10);
@@ -101,11 +108,12 @@ public interface GeoGebraConstants {
 				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix;
 			case DESKTOP:
 				return VERSION_STRING + "-" + suffix;
-
 			}
-
 		}
 
+		/**
+		 * @return whether this is android exam app
+		 */
 		public boolean isAndroidWebview() {
 			switch (this) {
 			case ANDROID_WEBVIEW:
@@ -165,7 +173,8 @@ public interface GeoGebraConstants {
 	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.0\\jars\\update";
 
 	/** update directory, typically on Windows */
-	public static final String GEOGEBRA_THIRD_PARTY_UPDATE_DIR = "\\GeoGebra 5.0\\thirdparty\\update";
+	public static final String GEOGEBRA_THIRD_PARTY_UPDATE_DIR = "\\GeoGebra 5.0"
+			+ "\\thirdparty\\update";
 
 	/** GeoGebra URL */
 	public final static String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";
@@ -219,7 +228,8 @@ public interface GeoGebraConstants {
 	 * This app's personal client ID assigned by the Google APIs Console
 	 * (http://code.google.com/apis/console).
 	 */
-	public static final String GOOGLE_CLIENT_ID = "656990710877-g0tjpnhriv39e59f5s5ubs81sv2686m6.apps.googleusercontent.com";
+	public static final String GOOGLE_CLIENT_ID = "656990710877-g0tjpnhriv39e59f5s5ubs81sv2686m6"
+			+ ".apps.googleusercontent.com";
 
 	// The auth scope being requested. This scope will allow the application to
 	// identify who the authenticated user is.

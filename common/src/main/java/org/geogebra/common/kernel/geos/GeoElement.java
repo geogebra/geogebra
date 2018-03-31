@@ -1245,7 +1245,7 @@ public abstract class GeoElement extends ConstructionElement
 
 		case GeoElement.COLORSPACE_HSB:
 
-			final int rgb = GColor.HSBtoRGB(redD, greenD, blueD);
+			final int rgb = GColor.fromHSBtoRGB(redD, greenD, blueD);
 			redD = (rgb >> 16) & 0xFF;
 			greenD = (rgb >> 8) & 0xFF;
 			blueD = rgb & 0xFF;

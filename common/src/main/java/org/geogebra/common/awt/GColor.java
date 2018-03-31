@@ -360,7 +360,7 @@ public final class GColor implements GPaint {
 	 *            (0-1)
 	 * @return new color as ARGB
 	 */
-	public static int HSBtoRGB(double hue, double saturation,
+	public static int fromHSBtoRGB(double hue, double saturation,
 			double brightness) {
 		int r = 0, g = 0, b = 0;
 		if (saturation == 0) {

@@ -36,6 +36,10 @@ public abstract class AwtFactory {
 		return prototype;
 	}
 
+	/**
+	 * @param p
+	 *            prototype
+	 */
 	public static void setPrototypeIfNull(AwtFactory p) {
 
 		synchronized (lock) {
@@ -122,26 +126,64 @@ public abstract class AwtFactory {
 
 	public abstract GPaint newTexturePaint(MyImage subimage, GRectangle rect);
 
+	/**
+	 * @param name
+	 *            font name
+	 * @param style
+	 *            style bitmask (see GFont constants)
+	 * @param size
+	 *            size
+	 * @return font
+	 */
 	public abstract GFont newFont(String name, int style, int size);
 
+	/**
+	 * @param tx
+	 *            x shift
+	 * @param ty
+	 *            y shift
+	 * @return translation transform
+	 */
 	public static GAffineTransform getTranslateInstance(double tx, double ty) {
 		GAffineTransform Tx = prototype.newAffineTransform();
 		Tx.setToTranslation(tx, ty);
 		return Tx;
 	}
 
+	/**
+	 *
+	 * @param sx
+	 *            x scale
+	 * @param sy
+	 *            y scale
+	 * @return scale transform
+	 */
 	public static GAffineTransform getScaleInstance(double sx, double sy) {
 		GAffineTransform Tx = prototype.newAffineTransform();
 		Tx.setToScale(sx, sy);
 		return Tx;
 	}
 
+	/**
+	 * @param theta
+	 *            angle
+	 * @return roation transform
+	 */
 	public static GAffineTransform getRotateInstance(double theta) {
 		GAffineTransform Tx = prototype.newAffineTransform();
 		Tx.setToRotation(theta);
 		return Tx;
 	}
 
+	/**
+	 * @param theta
+	 *            angle
+	 * @param x
+	 *            center x
+	 * @param y
+	 *            center y
+	 * @return roation transform
+	 */
 	public static GAffineTransform getRotateInstance(double theta, double x,
 			double y) {
 		GAffineTransform Tx = prototype.newAffineTransform();
@@ -162,10 +204,24 @@ public abstract class AwtFactory {
 	public void fillAfterImageLoaded(GShape fillShape, GGraphics2D g2,
 			GBufferedImage subImage2, App application) {
 		// needed in web only
-
 	}
 
-
+	/**
+	 * @param g2
+	 *            graphics
+	 * @param x1
+	 *            x-coord of the first point
+	 * @param y1
+	 *            y-coord of the first point
+	 * @param x2
+	 *            x-coord of the second point
+	 * @param y2
+	 *            y-coord of the second point
+	 * @param x3
+	 *            x-coord of the third point
+	 * @param y3
+	 *            y-coord of the third point
+	 */
 	public static void fillTriangle(GGraphics2D g2, double x1, double y1,
 			double x2,
 			int y2, int x3, int y3) {
@@ -176,7 +232,6 @@ public abstract class AwtFactory {
 		gp.lineTo(x1, y1);
 		GArea shape = AwtFactory.getPrototype().newArea(gp);
 		g2.fill(shape);
-
 	}
 
 	/**

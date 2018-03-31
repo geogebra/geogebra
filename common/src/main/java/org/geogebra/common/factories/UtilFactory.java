@@ -6,8 +6,9 @@ import org.geogebra.common.util.URLEncoder;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org> Various util-like factories for
- *         common usage
+ * Various util-like factories for common usage
+ * 
+ * @author Zoltan Kovacs
  */
 public abstract class UtilFactory {
 	/**
@@ -21,6 +22,10 @@ public abstract class UtilFactory {
 		return prototype;
 	}
 
+	/**
+	 * @param p
+	 *            prototype
+	 */
 	public static void setPrototypeIfNull(UtilFactory p) {
 
 		synchronized (lock) {

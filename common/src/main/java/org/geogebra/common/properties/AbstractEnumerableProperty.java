@@ -5,7 +5,8 @@ import org.geogebra.common.main.Localization;
 /**
  * Helps implementing enumerable properties. Handles the indexing of values.
  */
-public abstract class AbstractEnumerableProperty extends AbstractProperty implements EnumerableProperty {
+public abstract class AbstractEnumerableProperty extends AbstractProperty
+		implements EnumerableProperty {
 
     private String[] values;
 

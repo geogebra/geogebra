@@ -11,6 +11,7 @@ apply plugin: 'ca.coglinc.javacc'
 apply plugin: 'java'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -92,4 +93,7 @@ pmd {
      ignoreFailures = true
      ruleSets = []
      ruleSetFiles = files("config/pmd.xml")
+}
+checkstyle {
+toolVersion = "8.8"
 }

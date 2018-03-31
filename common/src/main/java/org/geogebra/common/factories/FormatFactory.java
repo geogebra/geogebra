@@ -14,6 +14,10 @@ public abstract class FormatFactory {
 		return prototype;
 	}
 
+	/**
+	 * @param p
+	 *            prototype
+	 */
 	public static void setPrototypeIfNull(FormatFactory p) {
 
 		synchronized (lock) {
