@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -422,20 +423,26 @@ public final class DrawImage extends Drawable {
 					at.transform(corner2, corner2);
 					at.transform(corner3, corner3);
 					at.transform(corner4, corner4);
-					if (highlighting == null) {
-						highlighting = AwtFactory.getPrototype()
-								.newGeneralPath();
-					} else {
-						highlighting.reset();
-					}
-					highlighting.moveTo(corner1.getX(), corner1.getY());
-					highlighting.lineTo(corner2.getX(), corner2.getY());
-					highlighting.lineTo(corner3.getX(), corner3.getY());
-					highlighting.lineTo(corner4.getX(), corner4.getY());
-					highlighting.lineTo(corner1.getX(), corner1.getY());
-					if (!geoImage.getKernel().getApplication()
-							.isWhiteboardActive()) {
-						// no highlight if we have bounding box for mow
+
+					App app = geoImage.getKernel().getApplication();
+
+					// show highlighting on;y if toolbar showing
+					// needed for eg Reflect tool
+					// no highlight if we have bounding box for mow
+					if (!app.isWhiteboardActive() && app.showToolBar()) {
+
+						if (highlighting == null) {
+							highlighting = AwtFactory.getPrototype()
+									.newGeneralPath();
+						} else {
+							highlighting.reset();
+						}
+						highlighting.moveTo(corner1.getX(), corner1.getY());
+						highlighting.lineTo(corner2.getX(), corner2.getY());
+						highlighting.lineTo(corner3.getX(), corner3.getY());
+						highlighting.lineTo(corner4.getX(), corner4.getY());
+						highlighting.lineTo(corner1.getX(), corner1.getY());
+
 						g3.draw(highlighting);
 					}
 
