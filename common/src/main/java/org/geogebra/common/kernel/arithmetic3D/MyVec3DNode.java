@@ -47,10 +47,10 @@ import org.geogebra.common.plugin.GeoClass;
 public class MyVec3DNode extends ValidExpression
 		implements Vector3DValue, MyVecNDNode {
 
-	private ExpressionValue x, y, z;
-	// private int mode = Kernel.COORD_CARTESIAN;
+	private ExpressionValue x;
+	private ExpressionValue y;
+	private ExpressionValue z;
 	private Kernel kernel;
-
 	private int mode = Kernel.COORD_CARTESIAN_3D;
 	private boolean isCASVector = false;
 
@@ -311,12 +311,12 @@ public class MyVec3DNode extends ValidExpression
 	// could be vector or point?
 	@Override
 	public boolean evaluatesToVectorNotPoint() {
-		return isCASVector;// this.mode != Kernel.COORD_COMPLEX;
+		return isCASVector; // this.mode != Kernel.COORD_COMPLEX;
 	}
 
 	@Override
 	public Geo3DVecInterface getVector() {
-		double coords[] = getCoords();
+		double[] coords = getCoords();
 		Geo3DVecInterface ret = kernel.getManager3D().newGeo3DVec(coords[0],
 				coords[1], coords[2]);
 		ret.setMode(mode);
@@ -465,7 +465,5 @@ public class MyVec3DNode extends ValidExpression
 		}
 		return super.evaluate(tpl);
 	}
-
-
 
 }

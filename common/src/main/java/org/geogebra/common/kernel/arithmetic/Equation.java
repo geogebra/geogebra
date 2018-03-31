@@ -37,15 +37,19 @@ public class Equation extends ValidExpression implements EquationValue {
 	private ExpressionNode lhs;
 	private ExpressionNode rhs;
 
-	private Polynomial leftPoly, rightPoly; // polynomial in normalForm
+	private Polynomial leftPoly;
+	private Polynomial rightPoly; // polynomial in normalForm
 	private Polynomial normalForm; // polynomial in normalForm
 	private boolean isFunctionDependent; // Equation depends (non-constant) on
 											// functions (set in InitEquation)
 	private Kernel kernel;
 
-	private boolean forcePlane = false, forceLine = false;
-	private boolean forceConic = false, forceImplicitPoly = false;
-	private boolean forceQuadric = false, forceSurface = false;
+	private boolean forcePlane = false;
+	private boolean forceLine = false;
+	private boolean forceConic = false;
+	private boolean forceImplicitPoly = false;
+	private boolean forceQuadric = false;
+	private boolean forceSurface = false;
 	private ArrayList<ExpressionValue> variableDegrees = null;
 	private boolean isPolynomial = true;
 

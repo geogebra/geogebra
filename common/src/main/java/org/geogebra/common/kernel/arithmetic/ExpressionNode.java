@@ -79,10 +79,12 @@ public class ExpressionNode extends ValidExpression
 	private static final double MAX_NUM_DENOMINATOR = 1E15;
 	private Localization loc;
 	private Kernel kernel;
-	private ExpressionValue left, right;
+	private ExpressionValue left;
+	private ExpressionValue right;
 	private Operation operation = Operation.NO_OPERATION;
-	private boolean forceVector = false, forcePoint = false,
-			forceFunction = false;
+	private boolean forceVector = false;
+	private boolean forcePoint = false;
+	private boolean forceFunction = false;
 
 	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
@@ -1115,8 +1117,6 @@ public class ExpressionNode extends ValidExpression
 				new ExpressionNode(kernel, left, operation, right), ""));
 	}
 
-
-
 	private Polynomial makePolyTreeFromFunction(Function func, Equation equ,
 			boolean keepFraction) {
 		if (right instanceof ExpressionNode) {
@@ -1377,7 +1377,6 @@ public class ExpressionNode extends ValidExpression
 	public String getCASstring(StringTemplate tpl, boolean symbolic) {
 		String ret = null;
 
-
 		if (leaf) { // leaf is GeoElement or not
 			/*
 			 * if (symbolic) { if (left.isGeoElement()) ret = ((GeoElement)
@@ -1441,15 +1440,7 @@ public class ExpressionNode extends ValidExpression
 			}
 		}
 
-
 		return ret;
-	}
-
-	/**
-	 * @return a representation of all classes present in the tree
-	 */
-	final public String getTreeClass() {
-		return getTreeClass("");
 	}
 
 	/**
@@ -1464,8 +1455,7 @@ public class ExpressionNode extends ValidExpression
 		// The following types of operations and GeoElements are supported.
 		// See also the OGP code for the available (parsable) expressions.
 		if (operation.equals(Operation.EQUAL_BOOLEAN)
-				&& ev instanceof GeoSegment)
-		 {
+				&& ev instanceof GeoSegment) {
 			return false; // don't expand "AreEqual[Segment[X,Y],Segment[Z,W]]"
 		}
 							// format expressions
@@ -1477,40 +1467,6 @@ public class ExpressionNode extends ValidExpression
 				|| operation.equals(Operation.POWER))
 				&& (ev instanceof GeoSegment || ev instanceof GeoPolygon
 						|| ev instanceof GeoNumeric));
-	}
-
-	/**
-	 * @param prefix
-	 * @return a representation of all classes present in the tree
-	 */
-	final private String getTreeClass(String prefix) {
-
-		String ret = "";
-
-		ret += "-\n";
-
-		if (left != null) {
-			ret += prefix + "  \\l:";
-			if (left instanceof ExpressionNode) {
-				ret += ((ExpressionNode) left).getTreeClass(prefix + "   ");
-			} else {
-				ret += left.getClass();
-			}
-			ret += "\n";
-		}
-
-		if (right != null) {
-			ret += prefix + "  \\r:";
-			if (right instanceof ExpressionNode) {
-				ret += ((ExpressionNode) right).getTreeClass(prefix + "   ");
-			} else {
-				ret += right.getClass();
-			}
-			ret += "\n";
-		}
-
-		return ret;
-
 	}
 
 	/**
@@ -2697,7 +2653,7 @@ public class ExpressionNode extends ValidExpression
 			tpl.append(sb, leftStr, left, Operation.PLUSMINUS);
 
 			sb.append(Unicode.PLUSMINUS);
-			if(right.isLeaf() || (ExpressionNode
+			if (right.isLeaf() || (ExpressionNode
 					.opID(right) >= Operation.VECTORPRODUCT.ordinal())) {
 				sb.append(rightStr);
 			} else {
@@ -3334,7 +3290,7 @@ public class ExpressionNode extends ValidExpression
 					sb.append(tpl.rightBracket());
 					break;
 				case DERIVATIVE:
-					if(stringType.isGiac()){
+					if (stringType.isGiac()) {
 						sb.append("diff(");
 						sb.append(en.getLeft().toValueString(tpl));
 						sb.append("(");
@@ -3350,22 +3306,21 @@ public class ExpressionNode extends ValidExpression
 						sb.append(")");
 						break;
 					}
-					appendUserFunction(sb,leftStr, rightStr, tpl);
+					appendUserFunction(sb, leftStr, rightStr, tpl);
 					break;
 				default:
-					appendUserFunction(sb,leftStr, rightStr, tpl);
+					appendUserFunction(sb, leftStr, rightStr, tpl);
 					break;
 				}
 			} else {
 				// standard case if we get here
-				appendUserFunction(sb,leftStr, rightStr, tpl);
+				appendUserFunction(sb, leftStr, rightStr, tpl);
 			}
 			break;
 
 		// TODO: put back into case FUNCTION_NVAR:, see #1115
 		case ELEMENT_OF:
 			if (tpl.hasCASType() && right instanceof MyList) {
-
 
 				if (((MyList) right).size() > 1) {
 					sb.append(leftStr);

@@ -159,7 +159,8 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Applies an operation to this list using the given value:
-	 * <this> <operation> <value>.
+	 * 
+	 * [this] [operation] [value].
 	 * 
 	 * @param operation
 	 *            int value like ExpressionNode.MULTIPLY
@@ -177,7 +178,8 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Applies an operation to this list using the given value:
-	 * <value> <operation> <this>.
+	 * 
+	 * [value] [operation] [this].
 	 * 
 	 * @param operation
 	 *            int value like ExpressionNode.MULTIPLY
@@ -255,8 +257,8 @@ public class MyList extends ValidExpression
 	 *            value that should be applied to this list using the given
 	 *            operation
 	 * @param right
-	 *            true for <this> <operation> <value>, false for
-	 *            <value> <operation> <this>
+	 *            true for [this] [operation] [value], false for [value]
+	 *            [operation>] [this]
 	 * @param tpl
 	 *            string template in case we do string concatenation here
 	 * @author Markus Hohenwarter
@@ -620,18 +622,16 @@ public class MyList extends ValidExpression
 						((ListValue) singleValue).getListElement(0))) {
 					return false;
 				}
-				// Application.debug("LHrows"+LHrows);
+
 				if (LHrows > 1) {
-					for (int i = 1; i < LHrows; i++) // check all rows same
-														// length
-					{
+					// check all rows same length
+					for (int i = 1; i < LHrows; i++) {
 						// Application.debug(i);
 						if (isEquation(LHlist.getListElement(i))) {
 							return false;
 						}
 						singleValue = LHlist.getListElement(i)
 								.evaluate(StringTemplate.defaultTemplate);
-						// Application.debug("size"+((ListValue)singleValue).getMyList().size());
 						if (singleValue.evaluatesToList()) {
 							MyList list = ((ListValue) singleValue).getMyList();
 							if (list.size() != LHcols) {
@@ -1141,7 +1141,6 @@ public class MyList extends ValidExpression
 				by);
 		ExpressionNode en2 = new ExpressionNode(kernel, ay, Operation.MULTIPLY,
 				bx);
-		ExpressionNode x, y, z;
 		if (list.size() == 2 || size() == 2) {
 			listElements.add(2,
 					new ExpressionNode(kernel, en, Operation.MINUS, en2));
@@ -1151,6 +1150,8 @@ public class MyList extends ValidExpression
 					new MyDouble(kernel, 0.0), Operation.NO_OPERATION, null));
 			return;
 		}
+
+		ExpressionNode x, y, z;
 		// size 3
 		z = new ExpressionNode(kernel, en, Operation.MINUS, en2);
 		ExpressionValue az = getListElement(2);
@@ -1166,12 +1167,6 @@ public class MyList extends ValidExpression
 		listElements.set(0, x);
 		listElements.set(1, y);
 		listElements.set(2, z);
-		// double tempX = a.y * b.z - a.z * b.y;
-		// double tempY = - a.x * b.z + a.z * b.x;
-		// c.z = a.x * b.y - a.y * b.x;
-		// c.x = tempX;
-		// c.y = tempY;
-
 	}
 
 	/**

@@ -894,7 +894,7 @@ public interface Traversing {
 					tree.add(((Variable) ret)
 							.getName(StringTemplate.defaultTemplate));
 				}
-			} else if (ev instanceof Command) {// Iteration[a+1, a, {1},4]
+			} else if (ev instanceof Command) { // Iteration[a+1, a, {1},4]
 
 				Command com = (Command) ev;
 				if (("Sequence".equals(com.getName())
@@ -936,7 +936,6 @@ public interface Traversing {
 			}
 			return ev;
 		}
-
 	}
 
 	/**
@@ -968,8 +967,6 @@ public interface Traversing {
 		}
 
 	}
-
-
 
 	/**
 	 * Replaces powers by roots or vice versa
@@ -1011,6 +1008,7 @@ public interface Traversing {
 		 * Singleton instance
 		 */
 		public static final DiffReplacer INSTANCE = new DiffReplacer();
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (!ev.isExpressionNode()) {
@@ -1081,6 +1079,7 @@ public interface Traversing {
 	 */
 	public class PrefixRemover implements Traversing {
 		private static PrefixRemover collector = new PrefixRemover();
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Variable) {

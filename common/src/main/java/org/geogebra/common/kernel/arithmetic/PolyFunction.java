@@ -29,7 +29,8 @@ public class PolyFunction
 	protected double[] coeffs;
 	private int degree;
 
-	private PolyFunction derivative, integral;
+	private PolyFunction derivative;
+	private PolyFunction integral;
 
 	// private double [] // for value and derivative's value
 	/**
@@ -214,7 +215,7 @@ public class PolyFunction
 	 *         a[1..order].
 	 */
 	final public double[] evaluateDerivatives(double x, int order) {
-		double pd[] = new double[order + 1];
+		double[] pd = new double[order + 1];
 
 		int nnd, j, i;
 		double cnst = 1.0;

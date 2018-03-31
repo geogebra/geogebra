@@ -72,7 +72,8 @@ public class Inequality {
 	private GeoPoint[] zeros;
 	// if variable x or y appears with 0 coef, we want to replace the
 	// variable by 0 itself to avoid errors on computation
-	private MyDouble zeroDummy0, zeroDummy1;
+	private MyDouble zeroDummy0;
+	private MyDouble zeroDummy1;
 
 	/**
 	 * check whether ExpressionNodes are evaluable to instances of Polynomial or
@@ -260,7 +261,7 @@ public class Inequality {
 		// funBorder for inequality f(x)>g(x) is function f(x)-g(x)
 		funBorder = new GeoFunction(cons, false);
 		funBorder.setFunction(new Function(normal, fv[varIndex]));
-		zeros = RootMultiple(funBorder);
+		zeros = rootMultiple(funBorder);
 
 		// for (int i = 0; i < zeros.length; i++) {
 		// Log.debug(i + ":" + zeros[i]);
@@ -276,7 +277,7 @@ public class Inequality {
 
 	}
 
-	final private static GeoPoint[] RootMultiple(GeoFunction f) {
+	final private static GeoPoint[] rootMultiple(GeoFunction f) {
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.isPolynomialFunction(true)) {
 			return null;
@@ -288,8 +289,8 @@ public class Inequality {
 	}
 
 	/**
-	 * Updates the coefficient k in y<k*f(x) for parametric, for implicit runs
-	 * full update.
+	 * Updates the coefficient k in y &lt; k*f(x) for parametric, for implicit
+	 * runs full update.
 	 */
 	public void updateCoef() {
 		Double coefVal = null, otherVal = null;
@@ -339,10 +340,11 @@ public class Inequality {
 	}
 
 	/**
-	 * Returns true for parametric ineqs like y>border(x), false for y<border(x)
-	 * (for PARAMETRIC_X vars are swapped)
+	 * Returns true for parametric ineqs like y &gt; border(x), false for y &lt;
+	 * border(x) (for PARAMETRIC_X vars are swapped)
 	 * 
-	 * @return true for parametric ineqs like y>border(x), false for y<border(x)
+	 * @return true for parametric ineqs like y &gt; border(x), false for y &lt;
+	 *         border(x)
 	 * 
 	 */
 	public boolean isAboveBorder() {

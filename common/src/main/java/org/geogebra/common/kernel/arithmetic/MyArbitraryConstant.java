@@ -26,8 +26,9 @@ public class MyArbitraryConstant {
 	/** arbitrary complex number */
 	public static final int ARB_COMPLEX = 2;
 
-	private ArrayList<GeoNumeric> consts = new ArrayList<>(),
-			ints = new ArrayList<>(), complexNumbers = new ArrayList<>();
+	private ArrayList<GeoNumeric> consts = new ArrayList<>();
+	private ArrayList<GeoNumeric> ints = new ArrayList<>();
+	private ArrayList<GeoNumeric> complexNumbers = new ArrayList<>();
 
 	private ConstructionElement ce;
 	private int position = 0;

@@ -99,7 +99,8 @@ public interface Inspecting {
 
 		private boolean isOtherVar;
 		private int nrOfPoints;
-		private static int type, dim;
+		private static int type;
+		private static int dim;
 		private static UnplottableChecker checker = new UnplottableChecker();
 
 		@Override

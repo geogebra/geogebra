@@ -717,8 +717,6 @@ public class FunctionNVar extends ValidExpression
 		casEvalMap.clear();
 	}
 
-
-
 	@Override
 	public boolean isNumberValue() {
 		return false;

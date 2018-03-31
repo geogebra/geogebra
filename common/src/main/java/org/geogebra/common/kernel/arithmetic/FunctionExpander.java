@@ -116,7 +116,8 @@ public class FunctionExpander implements Traversing {
 								fun[2].getExpression());
 						en2 = new ExpressionNode(en.getKernel(), vect);
 						if (en.getRight() instanceof MyList
-								&& ((MyList) en.getRight()).getListElement(0) instanceof ExpressionNode
+								&& ((MyList) en.getRight()).getListElement(
+										0) instanceof ExpressionNode
 								&& ((ExpressionNode) ((MyList) en.getRight())
 										.getListElement(0)).getLeft() instanceof MyList) {
 							en.setRight(((ExpressionNode) ((MyList) en
@@ -126,7 +127,7 @@ public class FunctionExpander implements Traversing {
 						en2 = en2.getCopy(((GeoCasCell) geo).getKernel());
 					}
 					fv = ((GeoCasCell) geo).getFunctionVariables();
-						}
+				}
 				if (geo instanceof GeoSurfaceCartesian3D) {
 					surface = true;
 							if (en.getRight() instanceof MyList

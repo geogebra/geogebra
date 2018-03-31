@@ -14,6 +14,7 @@ the Free Software Foundation.
  * Used as internal return type in Parser.
  * Stores a label. 
  */
+
 package org.geogebra.common.kernel.arithmetic;
 
 import java.util.Set;
@@ -339,6 +340,7 @@ public abstract class ValidExpression
 	public String getDebugString() {
 		return debugString(this);
 	}
+
 	/**
 	 * @param s
 	 *            expression

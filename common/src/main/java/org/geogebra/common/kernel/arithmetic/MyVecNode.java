@@ -292,7 +292,7 @@ public class MyVecNode extends ValidExpression
 	// could be vector or point
 	@Override
 	public boolean evaluatesToVectorNotPoint() {
-		return isCASVector;// this.mode != Kernel.COORD_COMPLEX;
+		return isCASVector; // this.mode != Kernel.COORD_COMPLEX;
 	}
 
 	@Override

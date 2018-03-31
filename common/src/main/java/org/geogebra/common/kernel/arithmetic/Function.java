@@ -629,8 +629,7 @@ public class Function extends FunctionNVar
 			// a polynomial with them
 			PolyFunction factor = expandToPolyFunction(ev, symbolic,
 					assumeFalseIfCASNeeded);
-			if (factor == null)
-			 {
+			if (factor == null) {
 				return false; // did not work
 			}
 			l.add(factor);
@@ -1021,13 +1020,6 @@ public class Function extends FunctionNVar
 		c.fVars[0] = f.fVars[0];
 	}
 
-
-
-	/*
-	 * for root finding
-	 */
-
-
 	/**
 	 * Decides whether function includes division by expression containing
 	 * function variable
@@ -1149,7 +1141,6 @@ public class Function extends FunctionNVar
 	 */
 	public void dilateX(double scale) {
 		dilateX(expression, scale, 0);
-
 	}
 
 	/**
@@ -1158,8 +1149,6 @@ public class Function extends FunctionNVar
 	 * function will not affect the returned RealRootDerivFunction.
 	 * 
 	 * Switched to fast derivatives because of #4929
-	 * 
-	 * @Deprecated, replace with UnivariateFunction derivative() (probably)
 	 * 
 	 * @return real root function
 	 */

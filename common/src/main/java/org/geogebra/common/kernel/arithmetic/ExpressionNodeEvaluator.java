@@ -224,11 +224,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 																// get
 					// first element
 					) && !(rt instanceof VectorValue) // eg {1,2} + (1,2)
-					&& !(rt instanceof TextValue)) // bugfix "" + {1,2} Michael
-													// Borcherds
-			// 2008-06-05
-			{
-
+					&& !(rt instanceof TextValue)) { // bugfix "" + {1,2}
 				// list lt operation rt
 				return listOperation((ListValue) lt, operation, rt, right,
 						true, tpl);

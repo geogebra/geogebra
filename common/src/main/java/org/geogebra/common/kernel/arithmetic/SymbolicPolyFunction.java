@@ -82,8 +82,7 @@ public class SymbolicPolyFunction extends PolyFunction {
 				ExpressionValue eval = symbCoeffs[i]
 						.evaluate(StringTemplate.defaultTemplate);
 				coeff = eval.evaluateDouble();
-				if (Double.isNaN(coeff) || Double.isInfinite(coeff))
-				 {
+				if (Double.isNaN(coeff) || Double.isInfinite(coeff)) {
 					return false; // no valid values
 				}
 				coeffs[i] = coeff; // set polynomial coefficient
@@ -102,10 +101,9 @@ public class SymbolicPolyFunction extends PolyFunction {
 
 	@Override
 	protected PolyFunction buildIntegral() {
-
 		// standard case
 		SymbolicPolyFunction integ = new SymbolicPolyFunction(getDegree() + 1);
-		if(symbCoeffs.length > 0){
+		if (symbCoeffs.length > 0) {
 			integ.symbCoeffs[0] = new ExpressionNode(symbCoeffs[0].getKernel(),
 					0);
 		}
