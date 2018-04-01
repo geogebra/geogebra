@@ -34,7 +34,6 @@ package org.geogebra.common.util;
 
 public final class DoubleConsts {
 
-
 	public static final double POSITIVE_INFINITY = java.lang.Double.POSITIVE_INFINITY;
 	public static final double NEGATIVE_INFINITY = java.lang.Double.NEGATIVE_INFINITY;
 	public static final double NaN = java.lang.Double.NaN;

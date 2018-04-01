@@ -28,6 +28,7 @@
  * this exception to your version of the program, but you are not obligated to do so. 
  * If you do not wish to do so, delete this exception statement from your version.
  */
+
 package org.geogebra.common.util.mathIT;
 
 import static java.lang.Math.PI;
@@ -323,7 +324,7 @@ public final class Riemann {
 	 * @param s
 	 *            the argument
 	 * @return the zeta function value &zeta;(<i>s</i>)
-	 * @see #Z(double)
+	 * @see #z(double)
 	 * @see #theta(double)
 	 */
 	public static double[] zeta(double[] s) {
@@ -373,7 +374,7 @@ public final class Riemann {
 	 *            the variable to which the Taylor series is expanded
 	 * @return the error correction term <i>C<sub>n</sub></i>
 	 */
-	private static double C(int n, double z) {
+	private static double termC(int n, double z) {
 		if (n == 0) {
 			return .38268343236508977173 * pow(z, 0.0)
 					+ .43724046807752044936 * pow(z, 2.0)
@@ -584,7 +585,7 @@ public final class Riemann {
 	 * @see #zeta(double[])
 	 * @see #theta(double)
 	 */
-	public static double Z(double t) {
+	public static double z(double t) {
 		if (abs(t) < 10) {
 			double[] s = { 0.5, t };
 			return -Complex.abs(zeta(s));
@@ -605,7 +606,7 @@ public final class Riemann {
 		// add remainder R here
 		double pi2t = 2 * PI / t;
 		for (int k = 0; k <= 4; k++) {
-			R = R + C(k, 2 * p - 1) * pow(pi2t, 0.5 * k);
+			R = R + termC(k, 2 * p - 1) * pow(pi2t, 0.5 * k);
 		}
 
 		sum += (m % 2 == 0) ? -pow(pi2t, 0.25) * R : pow(pi2t, 0.25) * R;
@@ -782,7 +783,7 @@ public final class Riemann {
 	 *            value on the critical line <i>s</i> = &#189; + i<i>t</i>.
 	 * @return <i>&theta;</i>(<i>t</i>)
 	 * @see #zeta(double[])
-	 * @see #Z(double)
+	 * @see #z(double)
 	 */
 	public static double theta(double t) {
 		return -0.5 * t * (1 + log(2) + log(PI) + log(1 / t)) - PI / 8

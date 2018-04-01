@@ -8,7 +8,7 @@ import java.util.TreeSet;
 /**
  * Common logging class
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 
 public abstract class Log {
@@ -444,9 +444,15 @@ public abstract class Log {
 		}
 	}
 
-	public static void debug(Object f, String message) {
+	/**
+	 * @param tag
+	 *            arbitrary message tag
+	 * @param message
+	 *            message
+	 */
+	public static void debug(Object tag, String message) {
 		if (logger != null) {
-			logger.log(logger.DEBUG, "[" + f + "] " + message);
+			logger.log(logger.DEBUG, "[" + tag + "] " + message);
 		}
 	}
 

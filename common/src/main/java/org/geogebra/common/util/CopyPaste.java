@@ -66,7 +66,6 @@ public class CopyPaste {
 	// check if name is valid for geo
 	public static final String labelPrefix = "CLIPBOARDmagicSTRING";
 
-
 	protected HashSet<Macro> copiedMacros;
 	protected StringBuilder copiedXML;
 	protected ArrayList<String> copiedXMLlabels;
@@ -74,7 +73,8 @@ public class CopyPaste {
 	protected StringBuilder copiedXMLforSameWindow;
 	protected ArrayList<String> copiedXMLlabelsforSameWindow;
 	protected EuclidianViewInterfaceCommon copySource;
-	protected Object copyObject, copyObject2;
+	protected Object copyObject;
+	protected Object copyObject2;
 
 	/**
 	 * Returns whether the clipboard is empty
@@ -449,7 +449,6 @@ public class CopyPaste {
 							}
 						}
 					}
-
 				}
 			}
 		}
@@ -462,7 +461,9 @@ public class CopyPaste {
 	 * non-selected GeoNumerics
 	 * 
 	 * @param conels
+	 *            construction elements
 	 * @param selected
+	 *            selected elements
 	 */
 	protected ArrayList<ConstructionElement> removeFreeNonselectedGeoNumerics(
 			ArrayList<ConstructionElement> conels,
@@ -490,7 +491,9 @@ public class CopyPaste {
 	 * were actually hidden...
 	 * 
 	 * @param conels
+	 *            construction elements
 	 * @param geostohide
+	 *            geos to be hidden
 	 */
 	protected void beforeSavingToXML(ArrayList<ConstructionElement> conels,
 			ArrayList<ConstructionElement> geostohide, boolean samewindow,
@@ -549,7 +552,9 @@ public class CopyPaste {
 	 * labels and also show the GeoElements in geostoshow
 	 * 
 	 * @param conels
+	 *            construction elements
 	 * @param geostoshow
+	 *            geos to be shown
 	 */
 	protected void afterSavingToXML(ArrayList<ConstructionElement> conels,
 			ArrayList<ConstructionElement> geostoshow, boolean putdown) {
@@ -762,7 +767,9 @@ public class CopyPaste {
 	 * Convenience method to set new labels instead of labels
 	 * 
 	 * @param app
+	 *            application
 	 * @param labels
+	 *            new labels
 	 */
 	protected void handleLabels(App app, ArrayList<String> labels,
 			boolean putdown) {
@@ -843,6 +850,7 @@ public class CopyPaste {
 	 * Checks whether the copyXMLforSameWindow may be used
 	 * 
 	 * @param app
+	 *            application
 	 * @return boolean
 	 */
 	public boolean pasteFast(App app) {
@@ -860,6 +868,7 @@ public class CopyPaste {
 	 * construction
 	 * 
 	 * @param app
+	 *            application
 	 */
 	public void pasteFromXML(App app, boolean putdown) {
 
@@ -888,7 +897,7 @@ public class CopyPaste {
 			}
 		}
 		
-		if(pasteFast(app)){
+		if (pasteFast(app)) {
 			app.getKernel().notifyPaste(copiedXMLforSameWindow.toString());
 		} else {
 			app.getKernel().notifyPaste(copiedXML.toString());

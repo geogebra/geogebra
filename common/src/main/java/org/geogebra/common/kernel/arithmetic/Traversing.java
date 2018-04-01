@@ -12,11 +12,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -804,36 +806,59 @@ public interface Traversing {
 
 			if (ev instanceof Variable) {
 				Variable v = (Variable) ev;
-				String name = v.getName(StringTemplate.defaultTemplate);
-				ExpressionValue replace = kernel.lookupLabel(name, true,
-						kernel.isResolveUnkownVarsAsDummyGeos());
-				if (replace == null) {
-					replace = Variable.replacement(kernel, name);
-				}
-				if (replace instanceof Variable
-						&& !name.equals(kernel.getConstruction()
-								.getRegisteredFunctionVariable())
-						&& !isException(name)) {
-					name = ((Variable) replace)
-							.getName(StringTemplate.defaultTemplate);
-					boolean old = kernel.getConstruction()
-							.isSuppressLabelsActive();
-					kernel.getConstruction().setSuppressLabelCreation(false);
-					GeoNumeric slider = new GeoNumeric(kernel.getConstruction(),
-							1);
-					slider.setLabel(name);
-					kernel.getConstruction().setSuppressLabelCreation(old);
-					undefined.add(slider);
-					boolean visible = !kernel.getApplication()
-							.showView(App.VIEW_ALGEBRA)
-							|| kernel.getApplication()
-									.showAutoCreatedSlidersInEV();
-					GeoNumeric.setSliderFromDefault(slider, false, visible);
-					return ev;
+				replaceVar(v, GeoClass.NUMERIC);
+			}
+			else if (ev instanceof Command) {
+				int idx = getAngleIndex((Command) ev);
+
+				if (idx >= 0 && ((Command) ev).getArgument(idx)
+						.unwrap() instanceof Variable) {
+					replaceVar(
+							(Variable) ((Command) ev).getArgument(idx).unwrap(),
+							GeoClass.ANGLE);
 				}
 			}
-
 			return ev;
+		}
+
+		private static int getAngleIndex(Command ev) {
+			if ("Rotate".equals(ev.getName())) {
+				return 1;
+			}
+			if ("Surface".equals(ev.getName()) && ev.getArgumentNumber() == 2) {
+				return 1;
+			}
+			return -1;
+		}
+
+		private void replaceVar(Variable v, GeoClass geoClass) {
+			String name = v.getName(StringTemplate.defaultTemplate);
+			ExpressionValue replace = kernel.lookupLabel(name, true,
+					kernel.isResolveUnkownVarsAsDummyGeos());
+			if (replace == null) {
+				replace = Variable.replacement(kernel, name);
+			}
+			if (replace instanceof Variable
+					&& !name.equals(kernel.getConstruction()
+							.getRegisteredFunctionVariable())
+					&& !isException(name)) {
+				name = ((Variable) replace)
+						.getName(StringTemplate.defaultTemplate);
+				boolean old = kernel.getConstruction().isSuppressLabelsActive();
+				kernel.getConstruction().setSuppressLabelCreation(false);
+				GeoNumeric slider = geoClass == GeoClass.ANGLE
+						? new GeoAngle(kernel.getConstruction(), Math.PI / 4)
+						: new GeoNumeric(kernel.getConstruction(), 1);
+				slider.setLabel(name);
+				kernel.getConstruction().setSuppressLabelCreation(old);
+				undefined.add(slider);
+				boolean visible = !kernel.getApplication()
+						.showView(App.VIEW_ALGEBRA)
+						|| kernel.getApplication().showAutoCreatedSlidersInEV();
+				GeoNumeric.setSliderFromDefault(slider,
+						geoClass == GeoClass.ANGLE, visible);
+			}
+
 		}
 
 		private boolean isException(String name) {

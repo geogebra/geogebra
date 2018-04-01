@@ -50,11 +50,15 @@ public class DoubleUtil {
 	 * check if a point is zero, see #5202
 	 * 
 	 * @param e
+	 *            epsilon
 	 * @param x
+	 *            point x
 	 * @param y
+	 *            point y
 	 * @param z
+	 *            point z
 	 * 
-	 * @return
+	 * @return whether x, y, z are all zero
 	 */
 	final public static boolean isEpsilon(double e, double x, double y,
 			double z) {
@@ -85,9 +89,12 @@ public class DoubleUtil {
 	 * check if a point is zero, see #5202
 	 * 
 	 * @param e
+	 *            epsilon
 	 * @param x
+	 *            point x
 	 * @param y
-	 * @return
+	 *            point y
+	 * @return whether x and y are both zero
 	 */
 	final public static boolean isEpsilon(double e, double x, double y) {
 	
@@ -186,11 +193,12 @@ public class DoubleUtil {
 	 * check if e is zero in comparison to x
 	 * 
 	 * @param e
+	 *            e
 	 * @param x
-	 * @return
+	 *            x
+	 * @return whether e is zero compared to x
 	 */
 	final public static boolean isEpsilonToX(double e, double x) {
-	
 		return Math.abs(e) < Math.abs(x) * Kernel.STANDARD_PRECISION;
 	}
 
@@ -254,8 +262,10 @@ public class DoubleUtil {
 	 * check if e is zero in comparison to eps and x
 	 * 
 	 * @param e
+	 *            e
 	 * @param x
-	 * @return
+	 *            x
+	 * @return whether e is zero compared to x and eps
 	 */
 	final public static boolean isEpsilonWithPrecision(double e, double x, double eps) {
 	
@@ -277,7 +287,9 @@ public class DoubleUtil {
 	 * check if e is zero in comparison to STANDARD_PRECISION and x
 	 * 
 	 * @param e
+	 *            e
 	 * @param x
+	 *            x
 	 * @return
 	 */
 	final public static boolean isEpsilon(double e, double x) {
@@ -317,6 +329,11 @@ public class DoubleUtil {
 		return x;
 	}
 
+	/**
+	 * @param x
+	 *            x
+	 * @return close decimal fraction or x if there is not one
+	 */
 	final public static double checkDecimalFraction(double x) {
 		return checkDecimalFraction(x, 1);
 	}
@@ -333,6 +350,12 @@ public class DoubleUtil {
 		return x;
 	}
 
+	/**
+	 * 
+	 * @param val
+	 *            raw value
+	 * @return angle
+	 */
 	final public static double convertToAngleValue(double val) {
 		if ((val > Kernel.STANDARD_PRECISION) && (val < Kernel.PI_2)) {
 			return val;
