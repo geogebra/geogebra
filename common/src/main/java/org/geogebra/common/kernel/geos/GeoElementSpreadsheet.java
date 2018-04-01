@@ -37,7 +37,6 @@ public class GeoElementSpreadsheet {
 
 	private static StringBuilder sb;
 
-
 	/**
 	 * Converts column number to name
 	 * 

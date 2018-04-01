@@ -134,6 +134,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	// Save a strong reference to the algo that created this
 	// function (needed for iOS)
 	private AlgoDependentFunction dependentFunction;
+
 	/**
 	 * Creates new function
 	 * 
@@ -1004,7 +1005,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 	}
 
-
 	/**
 	 * 
 	 * assumes function in form If[ interval, simple function]
@@ -1198,10 +1198,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
 
 		PathParameter pp = P.getPathParameter();
-		pp.t = coords.getX();// P.getX();
+		pp.t = coords.getX(); // P.getX();
 
 		P.updateCoordsFrom2D(false, null);
-
 	}
 
 	private void pointChangedBoolean(boolean b, Coords P) {
@@ -1756,9 +1755,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
-	 * Multiplication of number and function. Needed in Fit[<List of
-	 * Points>,<List of Functions>] to make the result a linear combination of
-	 * existing functions; fit(x)=a*f(x)+b*g(x)+c*h(x)+..
+	 * Multiplication of number and function. Needed in Fit[&lt;List of
+	 * Points&gt; ,&lt;List of Functions&gt;] to make the result a linear
+	 * combination of existing functions; fit(x)=a*f(x)+b*g(x)+c*h(x)+..
 	 * 
 	 * @author Hans-Petter Ulven
 	 * @version 2010-02-22
@@ -1955,23 +1954,19 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				sbCasCommand.setLength(0);
 			}
 
-			String gradientStrMinus = "";
-			String interceptStrMinus = "";
-
 			sbCasCommand.setLength(0);
 			sbCasCommand.append("Limit(");
 			sbCasCommand.append(derivVarStr[0]); // derivative expression
 			sbCasCommand.append(',');
 			sbCasCommand.append(derivVarStr[1]); // derivative function variable
 			sbCasCommand.append(',');
-			if (!positiveInfinity)
-			 {
+			if (!positiveInfinity) {
 				sbCasCommand.append('-'); // -Infinity
 			}
 			sbCasCommand.append(Unicode.INFINITY);
 			sbCasCommand.append(')');
-
-			gradientStrMinus = kernel.evaluateCachedGeoGebraCAS(
+			String gradientStrMinus = kernel
+					.evaluateCachedGeoGebraCAS(
 					sbCasCommand.toString(),
 					null);
 			// Application.debug(sb.toString()+" = "+gradientStrMinus,1);
@@ -1984,7 +1979,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				grad = 0;
 			}
 
-			if (!GeoFunction.CASError(gradientStrMinus, false)
+			if (!GeoFunction.isCASError(gradientStrMinus, false)
 					&& !DoubleUtil.isZero(grad)) {
 				sbCasCommand.setLength(0);
 				sbCasCommand.append("Limit(");
@@ -1998,19 +1993,18 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				sbCasCommand.append(derivVarStr[1]); // derivative function
 														// variable
 				sbCasCommand.append(',');
-				if (!positiveInfinity)
-				 {
+				if (!positiveInfinity) {
 					sbCasCommand.append('-'); // -Infinity
 				}
 				sbCasCommand.append(Unicode.INFINITY);
 				sbCasCommand.append(')');
 
-				interceptStrMinus = kernel
+				String interceptStrMinus = kernel
 						.evaluateCachedGeoGebraCAS(sbCasCommand.toString(),
 								null);
 				// Application.debug(sb.toString()+" = "+interceptStrMinus,1);
 
-				if (!GeoFunction.CASError(interceptStrMinus, false)) {
+				if (!GeoFunction.isCASError(interceptStrMinus, false)) {
 					sbCasCommand.setLength(0);
 					sbCasCommand.append("y = ");
 					sbCasCommand.append(gradientStrMinus);
@@ -2023,10 +2017,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 							SB.append(',');
 						}
 						SB.append(sbCasCommand);
-						// Application.debug("diagonal asymptote minus: y =
-						// "+gradientStrMinus+"x + "+interceptStrMinus,1);
 					}
-
 				}
 			}
 		} catch (Throwable e) {
@@ -2065,8 +2056,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		sbCasCommand.append(',');
 		sbCasCommand.append(funVarStr[1]); // function variable
 		sbCasCommand.append(',');
-		if (!positiveInfinity)
-		 {
+		if (!positiveInfinity) {
 			sbCasCommand.append('-'); // -Infinity
 		}
 		sbCasCommand.append(Unicode.INFINITY);
@@ -2077,9 +2067,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null)
 					.trim();
 
-			// Application.debug(sb.toString()+" = "+limit,1);
-
-			if (!GeoFunction.CASError(limit, false)) {
+			if (!GeoFunction.isCASError(limit, false)) {
 
 				// check not duplicated
 				sbCasCommand.setLength(0);
@@ -2157,7 +2145,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null);
 			// Application.debug(sb.toString()+" = "+verticalAsymptotes,1);
 
-			if (!GeoFunction.CASError(verticalAsymptotes, false)
+			if (!GeoFunction.isCASError(verticalAsymptotes, false)
 					&& verticalAsymptotes.length() > 2) {
 				verticalAsymptotes = verticalAsymptotes.replace('{', ' ');
 				verticalAsymptotes = verticalAsymptotes.replace('}', ' ');
@@ -2175,8 +2163,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					// Application.debug(verticalAsymptotesArray[i]);
 					boolean repeat = false;
 					if (i > 0 && verticalAsymptotesArray.length > 1) { // check
-						// for
-						// repeats
+						// for repeats
 						for (int j = 0; j < i; j++) {
 							if (verticalAsymptotesArray[i]
 									.equals(verticalAsymptotesArray[j])) {
@@ -2191,8 +2178,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 						// Application.debug(verticalAsymptotesArray[i]+"");
 						if (verticalAsymptotesArray[i].trim().equals("")) {
 							isInRange = false; // was complex root
-						// isInRange =
-						// parentFunction.evaluateCondition(StringUtil.parseDouble(verticalAsymptotesArray[i]));
 						} else {
 							isInRange = parentFunction.evaluateCondition(kernel
 									.getAlgebraProcessor()
@@ -2230,7 +2215,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 							// Application.debug("checking for vertical
 							// asymptote: "+sb.toString()+" = "+limit,1);
 							if ("?".equals(limit)
-									|| !GeoFunction.CASError(limit, true)) {
+									|| !GeoFunction.isCASError(limit, true)) {
 								if (verticalSB.length() > 1) {
 									verticalSB.append(',');
 								}
@@ -2270,19 +2255,17 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return exp;
 	}
 
-	final private static boolean CASError(String str, boolean allowInfinity) {
+	final private static boolean isCASError(String str, boolean allowInfinity) {
 		String str1 = str;
 		if (str1 == null || str1.length() == 0) {
 			return true;
 		}
-		if ("?".equals(str1))
-		 {
+		if ("?".equals(str1)) {
 			return true; // undefined/NaN
 		}
 		// if (str.indexOf("%i") > -1 ) return true; // complex answer
 		str1 = StringUtil.toLowerCaseUS(str1);
-		if (str1.charAt(0) == '\'')
-		 {
+		if (str1.charAt(0) == '\'') {
 			return true; // maxima error eg 'diff(
 		}
 		if (!allowInfinity && str1.indexOf(Unicode.INFINITY) > -1) {
@@ -2295,8 +2278,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			if (str1.startsWith("solve")) {
 				return true;
 			}
-			if (str1.startsWith("undefined"))
-			 {
+			if (str1.startsWith("undefined")) {
 				return true;
 			// if (!allowInfinity && str.indexOf("Infinity") > -1) return true;
 			}

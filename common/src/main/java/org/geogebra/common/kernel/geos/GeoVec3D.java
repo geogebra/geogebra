@@ -376,7 +376,7 @@ public abstract class GeoVec3D extends GeoElement
 			return;
 		}
 
-		if (A.isInfinite()) {// A is direction
+		if (A.isInfinite()) { // A is direction
 			if (B.isInfinite()) {
 				// g is undefined
 				g.setUndefined();
@@ -426,7 +426,7 @@ public abstract class GeoVec3D extends GeoElement
 			return;
 		}
 
-		if (DoubleUtil.isZero(A.getZ())) {// A is direction
+		if (DoubleUtil.isZero(A.getZ())) { // A is direction
 			if (DoubleUtil.isZero(B.getZ())) {
 				// g is undefined
 				g.setUndefined();
@@ -469,7 +469,7 @@ public abstract class GeoVec3D extends GeoElement
 		// but we want to avoid large coefficients in the line
 		// and we want v to be the direction vector of the line
 
-		if (A.isInfinite()) {// A is direction
+		if (A.isInfinite()) { // A is direction
 			g.setUndefined();
 		} else { // through point A
 					// v is direction

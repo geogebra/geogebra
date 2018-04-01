@@ -79,7 +79,6 @@ public class GeoCasCell extends GeoElement
 		implements VarString, TextProperties {
 	private static final int TOOLTIP_SCREEN_WIDTH = 80;
 
-
 	/**
 	 * Symbol for static reference
 	 */
@@ -95,8 +94,15 @@ public class GeoCasCell extends GeoElement
 	 */
 	private static final String PLOT_VAR = "GgbmpvarPlot";
 
-	private ValidExpression inputVE, evalVE, outputVE;
-	private String input, prefix, postfix, error, latex, latexInput;
+	private ValidExpression inputVE;
+	private ValidExpression evalVE;
+	private ValidExpression outputVE;
+	private String input;
+	private String prefix;
+	private String postfix;
+	private String error;
+	private String latex;
+	private String latexInput;
 	private String localizedInput;
 	private String currentLocaleStr;
 	private boolean suppressOutput = false;
@@ -105,7 +111,8 @@ public class GeoCasCell extends GeoElement
 	private boolean keepInputUsed;
 
 	// input variables of this cell
-	private TreeSet<String> invars, functionvars;
+	private TreeSet<String> invars;
+	private TreeSet<String> functionvars;
 	// defined input GeoElements of this cell
 	private TreeSet<GeoElement> inGeos;
 	private boolean isCircularDefinition;
@@ -120,7 +127,8 @@ public class GeoCasCell extends GeoElement
 	private boolean includesNumericCommand;
 	private boolean useGeoGebraFallback;
 
-	private String evalCmd, evalComment;
+	private String evalCmd;
+	private String evalComment;
 	private int row = -1; // for CAS view, set by Construction
 	private int preferredRowNumber = -1;
 	// use this cell as text field
@@ -985,7 +993,7 @@ public class GeoCasCell extends GeoElement
 					return null;
 				}
 				return ((GeoElement) cmd.getArgument(1).getLeft())
-						.toString(StringTemplate.defaultTemplate);// StringTemplate.defaultTemplate);
+						.toString(StringTemplate.defaultTemplate);
 			}
 
 			Iterator<GeoElement> it = cmd.getArgument(0).getVariables()
@@ -1035,8 +1043,8 @@ public class GeoCasCell extends GeoElement
 	 * assignment var "b".
 	 * 
 	 * @param var
+	 *            variable
 	 */
-
 	private void setAssignmentVar(final String var) {
 		if (ignoreSetAssignment) {
 			return;
@@ -1091,13 +1099,8 @@ public class GeoCasCell extends GeoElement
 		ignoreSetAssignment = false;
 	}
 
-
-
 	/**
 	 * Replace old assignment var in input, e.g. "m := 8" becomes "a := 8"
-	 * 
-	 * @param oldLabel
-	 * @param newLabel
 	 */
 	private void changeAssignmentVar(final String oldLabel,
 			final String newLabel) {
@@ -1794,7 +1797,6 @@ public class GeoCasCell extends GeoElement
 			}
 		}
 
-
 		if (outputVE.unwrap() instanceof GeoElement
 				&& ((GeoElement) outputVE.unwrap())
 						.getDrawAlgorithm() instanceof DrawInformationAlgo) {
@@ -2094,6 +2096,9 @@ public class GeoCasCell extends GeoElement
 	 * Evaluates ValidExpression in GeoGebra and returns one GeoElement or null.
 	 * 
 	 * @param ve
+	 *            input
+	 * @param allowFunction
+	 *            whether to accept function as a result
 	 * @return result GeoElement or null
 	 */
 	private GeoElement silentEvalInGeoGebra(final ValidExpression ve,
@@ -2263,9 +2268,10 @@ public class GeoCasCell extends GeoElement
 				if (expandedEvalVE.isTopLevelCommand("NSolve")
 						&& ((Command) expandedEvalVE.unwrap()).getArgument(0)
 										.getLeft() instanceof GeoCasCell) {
-					ExpressionNode inputVEofGeoCasCell = (ExpressionNode) ((GeoCasCell) ((Command) expandedEvalVE
-							.unwrap())
-							.getArgument(0).getLeft()).getInputVE();
+					GeoCasCell cellArg = ((GeoCasCell) ((Command) expandedEvalVE
+							.unwrap()).getArgument(0).getLeft());
+					ExpressionNode inputVEofGeoCasCell = (ExpressionNode) cellArg
+							.getInputVE();
 					((Command) expandedEvalVE.unwrap()).setArgument(0,
 							inputVEofGeoCasCell);
 				}
@@ -2794,7 +2800,7 @@ public class GeoCasCell extends GeoElement
 	}
 
 	/**
-	 * Appends <cascell caslabel="m"> XML tag to StringBuilder.
+	 * Appends &lt;cascell caslabel="m"&gt; XML tag to StringBuilder.
 	 */
 	@Override
 	protected void getElementOpenTagXML(StringBuilder sb) {
@@ -2808,7 +2814,7 @@ public class GeoCasCell extends GeoElement
 	}
 
 	/**
-	 * Appends &lt;/cascell> XML tag to StringBuilder.
+	 * Appends &lt;/cascell&gt; XML tag to StringBuilder.
 	 */
 	@Override
 	protected void getElementCloseTagXML(StringBuilder sb) {
@@ -2816,7 +2822,7 @@ public class GeoCasCell extends GeoElement
 	}
 
 	/**
-	 * Appends <cellPair> XML tag to StringBuilder.
+	 * Appends &lt;cellPair&gt; XML tag to StringBuilder.
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
@@ -3102,10 +3108,9 @@ public class GeoCasCell extends GeoElement
 		if (geo instanceof GeoDummyVariable) {
 			GeoElement subst = ((GeoDummyVariable) geo)
 					.getElementWithSameName();
-			if (subst != null && (!subst.sendValueToCas ||
-			// needed for GGB-810
-			// skip constants
-					(subst.getLabelSimple() != null
+			// c_ check needed for GGB-810: skip constants
+			if (subst != null
+					&& (!subst.sendValueToCas || (subst.getLabelSimple() != null
 							&& subst.getLabelSimple().startsWith("c_")))) {
 				return false;
 			} else if (subst == null

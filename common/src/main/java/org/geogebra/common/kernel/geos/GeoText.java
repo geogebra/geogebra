@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class GeoText extends GeoElement
 	public boolean isTextCommand = false;
 	private StringBuilder sbToString = new StringBuilder(80);
 
-	private SpreadsheetTraceableCase spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_NOT_TESTED;
+	private SpreadsheetTraceCase spreadsheetTraceableCase = SpreadsheetTraceCase.NOT_TESTED;
 	private ExpressionValue spreadsheetTraceableValue;
 	private ExpressionNode spreadsheetTraceableLeftTree;
 
@@ -292,8 +293,7 @@ public class GeoText extends GeoElement
 	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
 		// don't allow this if it's eg Text["hello",(2,3)]
-		if (alwaysFixed)
-		 {
+		if (alwaysFixed) {
 			return;
 		// macro output uses initStartPoint() only
 		// if (isAlgoMacroOutput()) return;
@@ -523,7 +523,6 @@ public class GeoText extends GeoElement
 		super.setAlgoMacroOutput(true);
 		setIsTextCommand(true);
 	}
-
 
 	/**
 	 * For Text[Text[a]] the inner text must use template of the outer
@@ -1194,8 +1193,8 @@ public class GeoText extends GeoElement
 		return linkedText.getStringTemplate();
 	}
 
-	private static enum SpreadsheetTraceableCase {
-		SPREADSHEET_TRACEABLE_NOT_TESTED, SPREADSHEET_TRACEABLE_TRUE, SPREADSHEET_TRACEABLE_FALSE
+	private static enum SpreadsheetTraceCase {
+		NOT_TESTED, TRUE, FALSE
 	}
 
 	/**
@@ -1216,7 +1215,7 @@ public class GeoText extends GeoElement
 	 * init case for spreadsheet traceable case
 	 */
 	public void initSpreadsheetTraceableCase() {
-		spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_NOT_TESTED;
+		spreadsheetTraceableCase = SpreadsheetTraceCase.NOT_TESTED;
 	}
 
 	@Override
@@ -1225,16 +1224,16 @@ public class GeoText extends GeoElement
 		// App.printStacktrace("\n"+this+"\n"+spreadsheetTraceableCase);
 
 		switch (spreadsheetTraceableCase) {
-		case SPREADSHEET_TRACEABLE_TRUE:
+		case TRUE:
 			return true;
-		case SPREADSHEET_TRACEABLE_FALSE:
+		case FALSE:
 			return false;
-		case SPREADSHEET_TRACEABLE_NOT_TESTED:
+		case NOT_TESTED:
 			AlgoElement algo = getParentAlgorithm();
 			if (algo != null && (algo instanceof AlgoDependentText)) {
 				((AlgoDependentText) algo).setSpreadsheetTraceableText();
 				if (spreadsheetTraceableLeftTree != null) {
-					spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_TRUE;
+					spreadsheetTraceableCase = SpreadsheetTraceCase.TRUE;
 					// if no traceable value, only copy possible
 					if (spreadsheetTraceableValue == null) {
 						traceModes = TraceModesEnum.ONLY_COPY;
@@ -1245,9 +1244,9 @@ public class GeoText extends GeoElement
 				}
 			}
 			// spreadsheetTraceableCase =
-			// SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_FALSE;
+			// SpreadsheetTraceableCase.FALSE;
 			// return false;
-			spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_TRUE;
+			spreadsheetTraceableCase = SpreadsheetTraceCase.TRUE;
 			traceModes = TraceModesEnum.ONLY_COPY;
 			return true;
 		default:

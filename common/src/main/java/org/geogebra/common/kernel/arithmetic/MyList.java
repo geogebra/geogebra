@@ -267,7 +267,6 @@ public class MyList extends ValidExpression
 			boolean right, StringTemplate tpl) {
 		int size = size();
 
-
 		// matrix ^ integer
 		if (right && operation == Operation.POWER
 				&& value instanceof NumberValue && isMatrix()) {
@@ -348,8 +347,6 @@ public class MyList extends ValidExpression
 
 		matrixRows = -1; // reset
 		matrixCols = -1;
-
-
 
 		if (needsExpand()) {
 			expand();

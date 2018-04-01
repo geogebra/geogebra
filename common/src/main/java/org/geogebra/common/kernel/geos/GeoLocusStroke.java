@@ -32,8 +32,6 @@ public class GeoLocusStroke extends GeoLocus
 		setVisibleInView3D(false);
 	}
 
-
-
 	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.PENSTROKE;

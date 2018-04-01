@@ -297,7 +297,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 					(GeoPoint) points[1], inf,
 					GeoConicNDConstants.CONIC_PART_ARC);
 			cons.removeFromAlgorithmList(ae);
-			GeoElement arc = ae.getConicPart();// GeoConicPart
+			GeoElement arc = ae.getConicPart(); // GeoConicPart
 			arc.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { arc, (GeoElement) points[0],
 					(GeoElement) points[1] };
@@ -342,7 +342,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 					Transform.transformedGeoLabel(this), (GeoPoint) points[0],
 					(GeoPoint) points2[0], (GeoPoint) points2[1],
 					GeoConicNDConstants.CONIC_PART_ARC);
-			GeoElement arc = ae.getConicPart();// GeoConicPart
+			GeoElement arc = ae.getConicPart(); // GeoConicPart
 			arc.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { arc, (GeoElement) points[0] };
 			return geos;

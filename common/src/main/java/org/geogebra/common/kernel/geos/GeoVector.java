@@ -77,7 +77,8 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	// for path interface we use a segment
 	private GeoSegment pathSegment;
-	private GeoPoint pathStartPoint, pathEndPoint;
+	private GeoPoint pathStartPoint;
+	private GeoPoint pathEndPoint;
 	private boolean waitingForStartPoint = false;
 	private HashSet<GeoPointND> waitingPointSet;
 
@@ -501,7 +502,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return sbToString.toString();
 	}
 
-
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
@@ -914,7 +914,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			// \\ \end{tabular} \right)
 			// so use eg \binom{ -10 }{ 0 } in web
 			// see #1987
-
 
 			buildTabular(inputs, sb);
 

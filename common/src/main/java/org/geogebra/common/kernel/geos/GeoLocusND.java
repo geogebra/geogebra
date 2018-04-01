@@ -354,6 +354,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	public void resetPointsWithoutControl() {
 		poitsWithoutControl = null;
 	}
+
 	/**
 	 * @return points without control points
 	 */

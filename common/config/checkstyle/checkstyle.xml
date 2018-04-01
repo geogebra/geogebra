@@ -23,7 +23,9 @@
 <module name="BeforeExecutionExclusionFileFilter">
     <property name="fileNamePattern" value="org.geogebra.common.(kernel.([A-Z]|algos|advanced|barycentric|implicit|prover|parser|stepbystep|kernelND|discrete|statistics|commands|cas|scripting|optimization)|main|euclidian|util|cas|export|geogebra3D|plugin|move|javax|gui)|org.apache|edu.uci.ics|com.google|com.github" />
   </module>
-
+<module name="RegexpMultiline">
+  <property name="format"   value="\n\s*\n\s*\n"/>
+</module>
     <module name="TreeWalker">
         <property name="tabWidth" value="4"/>	
         <module name="OneTopLevelClass"/>

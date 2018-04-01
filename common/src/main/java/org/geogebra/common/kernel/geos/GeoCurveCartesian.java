@@ -669,6 +669,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	 * properly at 0 and 12*2pi
 	 * 
 	 * @param startValResult
+	 *            start value
 	 * @return startValResult adjusted to be in range [startParam, endParam] if
 	 *         it's just outside
 	 */
@@ -756,8 +757,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 			return Double.NaN;
 		}
 
-		double f1eval[] = new double[2];
-		double f2eval[] = new double[2];
+		double[] f1eval = new double[2];
+		double[] f2eval = new double[2];
 		f1eval[0] = f1X.value(t);
 		f1eval[1] = f1Y.value(t);
 		f2eval[0] = f2X.value(t);

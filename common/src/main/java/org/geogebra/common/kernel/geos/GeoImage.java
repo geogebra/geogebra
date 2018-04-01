@@ -52,12 +52,14 @@ public class GeoImage extends GeoElement implements Locateable,
 	protected int pixelWidth;
 	/** height in pixels */
 	protected int pixelHeight;
-	private boolean inBackground, defined;
+	private boolean inBackground;
+	private boolean defined;
 	private boolean hasAbsoluteLocation;
 	private boolean interpolate = true;
 
 	// for absolute screen location
-	private int screenX, screenY;
+	private int screenX;
+	private int screenY;
 	private int[] cornerScreenX = new int[2];
 	private int[] cornerScreenY = new int[2];
 	private boolean hasAbsoluteScreenLocation = false;
@@ -73,7 +75,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	private double scaleY = 1;
 	
 	private GRectangle2D cropBox;
-
 
 	/**
 	 * Creates new image
@@ -679,7 +680,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
-		if(kernel.getApplication().has(Feature.MOW_PIN_IMAGE)){
+		if (kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
 			setAbsoluteScreenLoc(x, y, 0);
 		}
 		screenX = x;
@@ -709,7 +710,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		if(kernel.getApplication().has(Feature.MOW_PIN_IMAGE)){
+		if (kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
 			return getAbsoluteScreenLocX(0);
 		}
 		return screenX;
@@ -717,7 +718,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		if(kernel.getApplication().has(Feature.MOW_PIN_IMAGE)){
+		if (kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
 			return getAbsoluteScreenLocY(0);
 		}
 		return screenY;
@@ -820,7 +821,8 @@ public class GeoImage extends GeoElement implements Locateable,
 		if (getCorner(1) != null) {
 			curScaleX = (getKernel().getApplication().getActiveEuclidianView()
 					.toScreenCoordXd(getCorner(1).inhomX)
-					- getKernel().getApplication().getActiveEuclidianView().toScreenCoordXd(getCorner(0).inhomX))
+					- getKernel().getApplication().getActiveEuclidianView()
+							.toScreenCoordXd(getCorner(0).inhomX))
 					/ width;
 		} else {
 			curScaleX = 1;
@@ -828,15 +830,19 @@ public class GeoImage extends GeoElement implements Locateable,
 		if (getCorner(2) != null) {
 			curScaleY = (getKernel().getApplication().getActiveEuclidianView()
 					.toScreenCoordYd(getCorner(0).inhomY)
-					- getKernel().getApplication().getActiveEuclidianView().toScreenCoordYd(getCorner(2).inhomY))
+					- getKernel().getApplication().getActiveEuclidianView()
+							.toScreenCoordYd(getCorner(2).inhomY))
 					/ height;
 		} else {
 			curScaleY = scaleX;
 		}
 		setScaleX(curScaleX);
 		setScaleY(curScaleY);
-		setAbsoluteScreenLoc(getKernel().getApplication().getActiveEuclidianView().toScreenCoordX(getCorner(0).inhomX),
-				getKernel().getApplication().getActiveEuclidianView().toScreenCoordY(getCorner(0).inhomY));
+		setAbsoluteScreenLoc(
+				getKernel().getApplication().getActiveEuclidianView()
+						.toScreenCoordX(getCorner(0).inhomX),
+				getKernel().getApplication().getActiveEuclidianView()
+						.toScreenCoordY(getCorner(0).inhomY));
 	}
 
 	/**
@@ -844,14 +850,13 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * coordinates.
 	 */
 	public void screenToReal() {
-		double realMinX = this.getKernel().getApplication().getActiveEuclidianView()
-				.toRealWorldCoordX(getAbsoluteScreenLocX());
-		double realMaxX = this.getKernel().getApplication().getActiveEuclidianView()
-				.toRealWorldCoordX(getAbsoluteScreenLocX() + getFillImage().getWidth() * getScaleX());
-		double realMinY = this.getKernel().getApplication().getActiveEuclidianView()
-				.toRealWorldCoordY(getAbsoluteScreenLocY());
+		EuclidianView ev = this.getKernel().getApplication().getActiveEuclidianView();
+		double realMinX = ev.toRealWorldCoordX(getAbsoluteScreenLocX());
+		double realMaxX = ev.toRealWorldCoordX(getAbsoluteScreenLocX()
+						+ getFillImage().getWidth() * getScaleX());
+		double realMinY = ev.toRealWorldCoordY(getAbsoluteScreenLocY());
 		double height = getFillImage().getHeight() * getScaleY();
-		double realMaxY = this.getKernel().getApplication().getActiveEuclidianView()
+		double realMaxY = ev
 				.toRealWorldCoordY(getAbsoluteScreenLocY() - height);
 		setRealWorldCoord(realMinX, realMinY, 0);
 		setRealWorldCoord(realMaxX, realMinY, 1);
@@ -1412,12 +1417,16 @@ public class GeoImage extends GeoElement implements Locateable,
 		GRectangle2D ret = AwtFactory.getPrototype().newRectangle2D();
 		EuclidianView view = getKernel().getApplication().getActiveEuclidianView();
 		ret.setRect(cropBox.getX() + view.toScreenCoordXd(getStartPoint().getX()),
-				cropBox.getY() + view.toScreenCoordYd(getStartPoint().getY()), cropBox.getWidth(), cropBox.getHeight());
+				cropBox.getY() + view.toScreenCoordYd(getStartPoint().getY()),
+				cropBox.getWidth(), cropBox.getHeight());
 		return ret;
 	}
 
 	/**
 	 * sets relative posiotion of crop box
+	 * 
+	 * @param rect
+	 *            crop bounds
 	 */
 	public void setCropBoxRelative(GRectangle2D rect) {
 		cropBox = rect;

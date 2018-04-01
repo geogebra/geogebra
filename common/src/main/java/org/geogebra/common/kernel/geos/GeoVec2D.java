@@ -1385,7 +1385,7 @@ final public class GeoVec2D extends ValidExpression
 			return;
 		}
 
-		double a, b, c, d, e, f, g, h, i, z1, xx = x, yy = y, zz = 1;
+		double xx = x, yy = y, zz = 1;
 
 		boolean vector = false;
 
@@ -1417,19 +1417,19 @@ final public class GeoVec2D extends ValidExpression
 					+ (rt == null ? "null" : rt.getValueType()));
 		}
 
-		a = MyList.getCell(list, 0, 0).evaluateDouble();
-		b = MyList.getCell(list, 1, 0).evaluateDouble();
-		c = MyList.getCell(list, 2, 0).evaluateDouble();
-		d = MyList.getCell(list, 0, 1).evaluateDouble();
-		e = MyList.getCell(list, 1, 1).evaluateDouble();
-		f = MyList.getCell(list, 2, 1).evaluateDouble();
-		g = MyList.getCell(list, 0, 2).evaluateDouble();
-		h = MyList.getCell(list, 1, 2).evaluateDouble();
-		i = MyList.getCell(list, 2, 2).evaluateDouble();
+		double a = MyList.getCell(list, 0, 0).evaluateDouble();
+		double b = MyList.getCell(list, 1, 0).evaluateDouble();
+		double c = MyList.getCell(list, 2, 0).evaluateDouble();
+		double d = MyList.getCell(list, 0, 1).evaluateDouble();
+		double e = MyList.getCell(list, 1, 1).evaluateDouble();
+		double f = MyList.getCell(list, 2, 1).evaluateDouble();
+		double g = MyList.getCell(list, 0, 2).evaluateDouble();
+		double h = MyList.getCell(list, 1, 2).evaluateDouble();
+		double i = MyList.getCell(list, 2, 2).evaluateDouble();
 
 		x = a * xx + b * yy + c * zz;
 		y = d * xx + e * yy + f * zz;
-		z1 = g * xx + h * yy + i * zz;
+		double z1 = g * xx + h * yy + i * zz;
 
 		if (!vector) {
 			x = x / z1;

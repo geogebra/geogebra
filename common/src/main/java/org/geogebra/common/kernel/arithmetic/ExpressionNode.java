@@ -3707,8 +3707,6 @@ public class ExpressionNode extends ValidExpression
 			sb.append("If");
 			sb.append(tpl.leftSquareBracket());
 		}
-
-
 	}
 
 	private static void appendUserFunction(StringBuilder sb, String leftStr,

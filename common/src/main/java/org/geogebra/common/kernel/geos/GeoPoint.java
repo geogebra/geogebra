@@ -116,9 +116,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public double inhomX;
 	/** inhomogeneous y-coord */
 	public double inhomY;
-	private boolean isInfinite, isDefined;
+	private boolean isInfinite;
+	private boolean isDefined;
 	private boolean showUndefinedInAlgebraView = true;
-	private PVariable variableCoordinate1 = null, variableCoordinate2 = null;
+	private PVariable variableCoordinate1 = null;
+	private PVariable variableCoordinate2 = null;
 	private PVariable[] botanaVars;
 
 	// list of Locateables (GeoElements) that this point is start point of
@@ -136,7 +138,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	private static volatile TreeSet<AlgoElement> tempSet;
 
 	private Coords coords2D;
-	private Coords inhomCoords3D, inhomCoords2D;
+	private Coords inhomCoords3D;
+	private Coords inhomCoords2D;
 
 	private CoordMatrix4x4 tmpMatrix4x4;
 
@@ -687,7 +690,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		// of conics correctly for path parameter calculation of point P
 		GeoElement geo = path.toGeoElement();
 		if (geo.isGeoConic()) {
-			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
+			((GeoConicND) geo).addPointOnConic(this); // GeoConicND
 		}
 	}
 
@@ -1930,7 +1933,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		if (path != null) {
 			GeoElement geo = path.toGeoElement();
 			if (geo.isGeoConic()) {
-				((GeoConicND) geo).removePointOnConic(this);// GeoConicND
+				((GeoConicND) geo).removePointOnConic(this); // GeoConicND
 			}
 		}
 
@@ -1940,7 +1943,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			for (int i = 0; i < incidenceList.size(); ++i) {
 				GeoElement geo = incidenceList.get(i);
 				if (geo.isGeoConic()) {
-					((GeoConicND) geo).removePointOnConic(this);// GeoConicND
+					((GeoConicND) geo).removePointOnConic(this); // GeoConicND
 				} else if (geo.isGeoLine()) {
 					((GeoLineND) geo).removePointOnLine(this);
 				}
@@ -2492,7 +2495,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		// GeoConicND, GeoLine, GeoPoint are the three types who have an
 		// incidence list
 		if (geo.isGeoConic()) {
-			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
+			((GeoConicND) geo).addPointOnConic(this); // GeoConicND
 		} else if (geo.isGeoLine() && !isStartPoint) {
 			((GeoLineND) geo).addPointOnLine(this);
 		}
@@ -2538,8 +2541,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public void setParentAlgorithm(AlgoElement algorithm) {
 		super.setParentAlgorithm(algorithm);
-		if (algorithm != null)
-		 {
+		if (algorithm != null) {
 			setConstructionDefaults(); // set colors to dependent colors
 		}
 	}

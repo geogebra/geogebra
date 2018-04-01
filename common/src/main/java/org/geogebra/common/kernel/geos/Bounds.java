@@ -19,15 +19,16 @@ import org.geogebra.common.util.DoubleUtil;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
- * Container for condition tripples (upper bound, lower bound, other
- * conditions)
+ * Container for condition tripples (upper bound, lower bound, other conditions)
  * 
  * @author Zbynek
  * 
  */
 public class Bounds {
-	private boolean lowerSharp, upperSharp;
-	private Double lower, upper;
+	private boolean lowerSharp;
+	private boolean upperSharp;
+	private Double lower;
+	private Double upper;
 	private ExpressionNode condition;
 	private Kernel kernel;
 	private FunctionVariable fv;
@@ -70,7 +71,7 @@ public class Bounds {
 		}
 
 		Bounds b = copyInterval();
-		b.condition = condition;// If[x==1,1,If[x==2,3,4]]
+		b.condition = condition; // If[x==1,1,If[x==2,3,4]]
 		ExpressionValue lt = evalConstants(e.getLeft().unwrap());
 		ExpressionValue rt = e.getRight() == null ? null
 				: evalConstants(e.getRight().unwrap());
@@ -86,26 +87,22 @@ public class Bounds {
 				&& !(rt instanceof FunctionVariable)) {
 			double d = rt.evaluateDouble();
 			if (e.getOperation() == Operation.GREATER
-					&& (lower == null || lower <= d))// x > d
-			{
+					&& (lower == null || lower <= d)) {
 				b.lower = d;
 				b.lowerSharp = true;
 			} else if ((e.getOperation() == Operation.GREATER_EQUAL
 					|| e.getOperation() == Operation.EQUAL_BOOLEAN)
-					&& (lower == null || lower < d))// x > d
-			{
+					&& (lower == null || lower < d)) {
 				b.lower = d;
 				b.lowerSharp = false;
 			} else if (e.getOperation() == Operation.LESS
-					&& (upper == null || upper >= d))// x > d
-			{
+					&& (upper == null || upper >= d)) {
 				b.upper = d;
 				b.upperSharp = true;
 			}
 			if ((e.getOperation() == Operation.LESS_EQUAL
 					|| e.getOperation() == Operation.EQUAL_BOOLEAN)
-					&& (upper == null || upper > d))// x > d
-			{
+					&& (upper == null || upper > d)) { // x > d
 				b.upper = d;
 				b.upperSharp = false;
 			}
@@ -114,26 +111,22 @@ public class Bounds {
 				&& !(lt instanceof FunctionVariable)) {
 			double d = lt.evaluateDouble();
 			if (e.getOperation() == Operation.LESS
-					&& (lower == null || lower <= d))// x > d
-			{
+					&& (lower == null || lower <= d)) {
 				b.lower = d;
 				b.lowerSharp = true;
 			} else if ((e.getOperation() == Operation.LESS_EQUAL
 					|| e.getOperation() == Operation.EQUAL_BOOLEAN)
-					&& (lower == null || lower < d))// x > d
-			{
+					&& (lower == null || lower < d)) {
 				b.lower = d;
 				b.lowerSharp = false;
 			} else if (e.getOperation() == Operation.GREATER
-					&& (upper == null || upper >= d))// x > d
-			{
+					&& (upper == null || upper >= d)) {
 				b.upper = d;
 				b.upperSharp = true;
 			}
 			if ((e.getOperation() == Operation.GREATER_EQUAL
 					|| e.getOperation() == Operation.EQUAL_BOOLEAN)
-					&& (upper == null || upper > d))// x > d
-			{
+					&& (upper == null || upper > d)) {
 				b.upper = d;
 				b.upperSharp = false;
 			}
@@ -151,8 +144,7 @@ public class Bounds {
 			fv.set(b.upper);
 			ExpressionValue v = b.condition
 					.evaluate(StringTemplate.defaultTemplate);
-			if (v instanceof BooleanValue
-					&& ((BooleanValue) v).getBoolean()) {
+			if (v instanceof BooleanValue && ((BooleanValue) v).getBoolean()) {
 				b.condition = null;
 			}
 		}
@@ -316,27 +308,27 @@ public class Bounds {
 					} else {
 						// more complex for eg 3 < x <= 5
 
-						ret.append("<apply>");// <apply>
-						ret.append("<and/>");// <and/>
-						ret.append("<apply>");// <apply>
-						ret.append(lowerSharp ? "<lt/>" : "<leq/>");// <lt/>
+						ret.append("<apply>"); // <apply>
+						ret.append("<and/>"); // <and/>
+						ret.append("<apply>"); // <apply>
+						ret.append(lowerSharp ? "<lt/>" : "<leq/>"); // <lt/>
 						ret.append("<cn>");
 						ret.append(kernel.format(lower, tpl));
-						ret.append("</cn>");// <cn>3</cn>
+						ret.append("</cn>"); // <cn>3</cn>
 						ret.append("<ci>");
 						ret.append(varString);
-						ret.append("</ci>");// <ci>x</ci>
-						ret.append("</apply>");// </apply>
-						ret.append("<apply>");// <apply>
-						ret.append(upperSharp ? "<lt/>" : "<leq/>");// <leq/>
+						ret.append("</ci>"); // <ci>x</ci>
+						ret.append("</apply>"); // </apply>
+						ret.append("<apply>"); // <apply>
+						ret.append(upperSharp ? "<lt/>" : "<leq/>"); // <leq/>
 						ret.append("<ci>");
 						ret.append(varString);
-						ret.append("</ci>");// <ci>x</ci>
+						ret.append("</ci>"); // <ci>x</ci>
 						ret.append("<cn>");
 						ret.append(kernel.format(upper, tpl));
 						ret.append("</cn>"); // <cn>5</cn>
-						ret.append("</apply>");// </apply>
-						ret.append("</apply>");// </apply>
+						ret.append("</apply>"); // </apply>
+						ret.append("</apply>"); // </apply>
 					}
 
 				}
@@ -392,8 +384,7 @@ public class Bounds {
 			}
 		}
 
-		return lower == null ? Double.valueOf(Double.NEGATIVE_INFINITY)
-				: lower;
+		return lower == null ? Double.valueOf(Double.NEGATIVE_INFINITY) : lower;
 	}
 
 	/**
@@ -458,10 +449,9 @@ public class Bounds {
 				conditions.add(currentCond
 						.addRestriction(conds.getListElement(i).wrap()));
 				if (exclusive) {
-					currentCond = currentCond.addRestriction(
-							parentCond
-									.unfunction(conds.getListElement(i).wrap())
-									.negation());
+					currentCond = currentCond.addRestriction(parentCond
+							.unfunction(conds.getListElement(i).wrap())
+							.negation());
 				}
 			}
 

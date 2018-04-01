@@ -55,8 +55,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		case X_AXIS:
 			setCoords(0, 1, 0);
 			label = "xAxis";
-			setObjColor(GColor.newColor(255, 0, 0));// will be
-													// Color.RED
+			setObjColor(GColor.RED);
 			end.setCoords(1, 0, 1);
 			setEndPoint(end);
 			break;

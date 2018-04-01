@@ -405,7 +405,7 @@ public class GeoTurtle extends GeoPoint {
 	 */
 	public void clear() {
 		// Temporarily set speed to 0 in order to avoid stepping
-		double s = speed;
+		final double s = speed;
 		speed = 0;
 		resetProgress();
 		cmdList.clear();

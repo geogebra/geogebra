@@ -199,9 +199,7 @@ public final class GColor implements GPaint {
 		}
 
 		return ret;
-
 	}
-
 
 	/**
 	 * Create a more readable (=darker) version of a color, to make it readable

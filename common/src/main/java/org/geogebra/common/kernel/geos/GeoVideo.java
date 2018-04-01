@@ -26,6 +26,7 @@ public class GeoVideo extends GeoAudio {
 	private String youtubeId = null;
 	private String previewUrl = null;
 	private MyImage preview;
+
 	/**
 	 * Constructor.
 	 * 

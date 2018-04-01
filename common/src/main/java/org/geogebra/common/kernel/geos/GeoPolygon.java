@@ -287,7 +287,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		setPoints(points, null, true);
 	}
 
-
 	/**
 	 * set the vertices to points (cs is only used for 3D stuff)
 	 * 
@@ -1765,8 +1764,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			x2 = getPointX(i) - x0;
 			y2 = getPointY(i) - y0;
 			int inter = intersectOx(x1, y1, x2, y2);
-			if (inter == 2)
-			 {
+			if (inter == 2) {
 				return true; // point on an edge
 			}
 			ret = ret ^ (inter == 1);
@@ -1808,7 +1806,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 				pointChanged(P);
 				rp.setIsOnPath(true);
 			}
-
 		}
 	}
 
@@ -1913,14 +1910,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		for (secondPoint = 1; secondPoint < getPoints().length
 				&& !secondPointFound; secondPoint++) {
 			p1 = getPoint(secondPoint);
-			// Application.debug(" p1 ("+secondPoint+") =
-			// "+p1.inhomX+","+p1.inhomY);
 			if (!DoubleUtil.isEqual(p0.inhomX, p1.inhomX,
 					Kernel.STANDARD_PRECISION)) {
 				secondPointFound = true;
 			} else if (!DoubleUtil.isEqual(p0.inhomY, p1.inhomY,
-					Kernel.STANDARD_PRECISION))
-			 {
+					Kernel.STANDARD_PRECISION)) {
 				secondPointFound = true;
 			// Log.debug(" secondPointFound = " + secondPointFound);
 			}
@@ -2543,9 +2537,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		else {
 			if (getKernel().getApplication().has(Feature.GEO_AV_DESCRIPTION)) {
 				if (points != null && points.length == 3) {
-					name = getLoc().getPlainLabel("triangle");// Name.triangle
+					name = getLoc().getPlainLabel("triangle"); // Name.triangle
 				} else if (points != null && points.length == 4) {
-					name = getLoc().getPlainLabel("quadrilateral");// Name.quadrilateral
+					name = getLoc().getPlainLabel("quadrilateral"); // Name.quadrilateral
 				} else {
 					name = getLoc().getPlainLabel("polygon");
 				}
@@ -2592,7 +2586,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 		return null; // Here maybe an exception should be thrown...?
 	}
-
 
 	@Override
 	public int getMetasLength() {

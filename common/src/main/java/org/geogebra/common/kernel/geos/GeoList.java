@@ -105,9 +105,9 @@ public class GeoList extends GeoElement
 													// start
 	private int[] directionInfoOrdering = null; // simple map to the ordered
 												// indexes
-	private boolean shouldUseAlgoLocusList = true;// whether AlgoLocus is not
+	private boolean shouldUseAlgoLocusList = true; // whether AlgoLocus is not
 													// enough
-	private boolean locusCalledAlgoLocusList = false;// if a locus ever used
+	private boolean locusCalledAlgoLocusList = false; // if a locus ever used
 														// this list as a path
 	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 	private int pointStyle = -1; // use global option if -1
@@ -125,7 +125,6 @@ public class GeoList extends GeoElement
 
 	private int totalWidth = 0;
 	private int totalHeight = 0;
-
 
 	/**
 	 * Creates new GeoList, size defaults to 20
@@ -2457,7 +2456,7 @@ public class GeoList extends GeoElement
 
 		int i = 0;
 		for (; i < this.size(); i++) {
-			directionInfoArray[i] = true;// at first this is used as helper
+			directionInfoArray[i] = true; // at first this is used as helper
 											// array
 			directionInfoOrdering[i] = i;
 
@@ -2515,7 +2514,7 @@ public class GeoList extends GeoElement
 			// to have compatible directions, and then the joined thing
 			// should be made compatible with the main path too
 
-			for (i = j + 1; i < this.size(); i++) {// search, join
+			for (i = j + 1; i < this.size(); i++) { // search, join
 				if (GeoPoint.samePosition(minParArray[j], minParArray[i])) {
 					minParArray[i] = maxParArray[j];
 					i = 0;
@@ -2542,7 +2541,7 @@ public class GeoList extends GeoElement
 				// there was no match, so this path is not a circle graph
 				directionInfoArray = null;
 				directionInfoOrdering = null;
-				return true;// AlgoLocusList
+				return true; // AlgoLocusList
 			}
 		}
 		// otherwise everything has been reduced to one
@@ -2551,7 +2550,7 @@ public class GeoList extends GeoElement
 			// this path is not a circle graph, but a line graph
 			directionInfoArray = null;
 			directionInfoOrdering = null;
-			return true;// AlgoLocusList
+			return true; // AlgoLocusList
 		}
 
 		// otherwise use AlgoLocus
@@ -2561,20 +2560,19 @@ public class GeoList extends GeoElement
 		// directionInfoOrdering: which index is the next
 		// at first search for a minimum index to start from
 		int ii = 0;
-		boolean direction = true;// min-max direction is true in theory... (why
+		boolean direction = true; // min-max direction is true in theory... (why
 									// false in testing?)
 
 		// starting from ii, determine the ordering
 		// here we use the information that this is a "directed graph circle"
 		for (int j = 0; j < this.size(); j++) {
 			directionInfoOrdering[j] = ii;
-			directionInfoArray[ii] = direction;// direction of ii
+			directionInfoArray[ii] = direction; // direction of ii
 
 			// search for the thing after ii with the help of the ref tree
 			for (i = 0; i < this.size(); i++) {
-				if (i == ii)
-				 {
-					continue;// it is not the same as itself
+				if (i == ii) {
+					continue; // it is not the same as itself
 				}
 
 				if (j > 0) {

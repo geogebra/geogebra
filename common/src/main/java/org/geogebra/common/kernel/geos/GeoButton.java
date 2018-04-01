@@ -463,7 +463,6 @@ public class GeoButton extends GeoElement
 		return ValueType.VOID;
 	}
 
-
 	/**
 	 * @return total screen width, overridden in GeoInputBox
 	 */

@@ -55,7 +55,6 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 
 	private GeoElement meta = null;
 
-
 	/** no decoration */
 	public static final int SEGMENT_DECORATION_NONE = 0;
 	/** one tick */

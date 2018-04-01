@@ -55,7 +55,6 @@ public class Equation extends ValidExpression implements EquationValue {
 
 	private static ArrayList<ExpressionNode> undecided = new ArrayList<>();
 
-
 	/**
 	 * check whether ExpressionNodes are evaluable to instances of Polynomial or
 	 * NumberValue and build an Equation out of them

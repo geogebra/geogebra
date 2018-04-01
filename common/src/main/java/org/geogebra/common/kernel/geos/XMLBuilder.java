@@ -171,7 +171,7 @@ public class XMLBuilder {
 		if (geo.getKernel().getApplication().isUsingFullGui()
 				&& geo.isSpreadsheetTraceable()
 				&& geo.getSpreadsheetTrace()) {
-			sb.append(geo.getKernel().getApplication().getTraceXML(geo));// sb.append(null)?
+			sb.append(geo.getKernel().getApplication().getTraceXML(geo));
 		}
 
 		/*

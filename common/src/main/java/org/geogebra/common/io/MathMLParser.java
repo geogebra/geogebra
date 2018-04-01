@@ -718,7 +718,6 @@ public class MathMLParser {
 		return latexMap;
 	}
 
-
 	/**
 	 * Generates the substitution table from the default file path in field
 	 * SUBSTITUTIONS_FILE.

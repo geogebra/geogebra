@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
  */
 public class LengthCurve implements UnivariateFunction {
 	private GeoCurveCartesianND c1;
-	private double f1eval[] = new double[] { 0, 0, 0 };
+	private double[] f1eval = new double[] { 0, 0, 0 };
 
 	/**
 	 * Curve length function for numeric estimation of curve length

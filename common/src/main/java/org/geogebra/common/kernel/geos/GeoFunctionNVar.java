@@ -85,7 +85,8 @@ public class GeoFunctionNVar extends GeoElement
 	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
 
 	/** intervals for plotting, may be null (then interval is R) */
-	private double[] from, to;
+	private double[] from;
+	private double[] to;
 	private StringBuilder sbToString = new StringBuilder(80);
 	private Equation equalityChecker;
 	private GeoPoint helper;
@@ -94,10 +95,12 @@ public class GeoFunctionNVar extends GeoElement
 	private double[][] xyzf;
 
 	private double[] tmp = new double[2];
-	private Coords der1 = new Coords(1, 0, 0), der2 = new Coords(0, 1, 0),
-			normal = new Coords(3);
+	private Coords der1 = new Coords(1, 0, 0);
+	private Coords der2 = new Coords(0, 1, 0);
+	private Coords normal = new Coords(3);
 
-	private CoordsDouble3 p1 = new CoordsDouble3(), p2 = new CoordsDouble3();
+	private CoordsDouble3 p1 = new CoordsDouble3();
+	private CoordsDouble3 p2 = new CoordsDouble3();
 	private boolean shortLHS;
 
 	/**
@@ -179,7 +182,8 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public String getTypeString() {
-		return (isInequality != null && isInequality) ? GeoClass.INEQUALITY : GeoClass.MULTIVARIABLE_FUNCTION;
+		return (isInequality != null && isInequality) ? GeoClass.INEQUALITY
+				: GeoClass.MULTIVARIABLE_FUNCTION;
 	}
 
 	@Override
@@ -895,7 +899,6 @@ public class GeoFunctionNVar extends GeoElement
 
 			resetLastHitParameters();
 		}
-
 	}
 
 	@Override
@@ -1009,6 +1012,7 @@ public class GeoFunctionNVar extends GeoElement
 	 * euclidian view. This should be called only when every algorithm fails.
 	 * 
 	 * @param P
+	 *            point
 	 */
 	private void tryLocateInEV(GeoPointND P) {
 		// EuclidianViewInterfaceSlim ev =
@@ -1195,7 +1199,6 @@ public class GeoFunctionNVar extends GeoElement
 				&& (getLevelOfDetail() == LevelOfDetail.QUALITY)) {
 			sb.append("\t<levelOfDetailQuality val=\"true\"/>\n");
 		}
-
 	}
 
 	// /////////////////////////

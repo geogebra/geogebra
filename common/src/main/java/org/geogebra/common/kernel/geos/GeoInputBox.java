@@ -424,8 +424,6 @@ public class GeoInputBox extends GeoButton {
 		}
 	}
 
-
-
 	@Override
 	public int getPrintDecimals() {
 		return printDecimals;

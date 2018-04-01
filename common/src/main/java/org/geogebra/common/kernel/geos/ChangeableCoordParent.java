@@ -25,7 +25,9 @@ public class ChangeableCoordParent {
 	private GeoNumeric changeableCoordNumber = null;
 	private GeoElement changeableCoordDirector = null;
 	private double startValue;
-	private Coords direction, direction2, centroid;
+	private Coords direction;
+	private Coords direction2;
+	private Coords centroid;
 	private boolean forPolyhedronNet = false;
 	private GeoPolyhedronInterface parent;
 

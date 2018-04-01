@@ -71,7 +71,6 @@ public class FunctionNVar extends ValidExpression
 
 	private static ArrayList<ExpressionNode> undecided = new ArrayList<>();
 
-
 	/**
 	 * Creates new Function from expression. Note: call initFunction() after
 	 * this constructor.

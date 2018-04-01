@@ -351,7 +351,6 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-
 	/**
 	 * Creates a new instance of MyXMLHandler
 	 * 

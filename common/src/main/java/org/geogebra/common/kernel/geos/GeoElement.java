@@ -288,7 +288,8 @@ public abstract class GeoElement extends ConstructionElement
 	// on change: see setVisualValues()
 
 	// spreadsheet specific properties
-	private GPoint spreadsheetCoords, oldSpreadsheetCoords;
+	private GPoint spreadsheetCoords;
+	private GPoint oldSpreadsheetCoords;
 	// number of AlgoCellRange using this cell: don't allow renaming when
 	// greater 0
 	private int cellRangeUsers = 0;
@@ -310,8 +311,10 @@ public abstract class GeoElement extends ConstructionElement
 	/** true if geo is highlited */
 	protected boolean highlighted = false;
 	private boolean selected = false;
-	private String strAlgebraDescription, strAlgebraDescTextOrHTML,
-			strAlgebraDescriptionHTML, strLabelTextOrHTML;
+	private String strAlgebraDescription;
+	private String strAlgebraDescTextOrHTML;
+	private String strAlgebraDescriptionHTML;
+	private String strLabelTextOrHTML;
 	/** LaTeX string for LaTeX export */
 	protected String strLaTeX;
 	private boolean strAlgebraDescriptionNeedsUpdate = true;
@@ -517,7 +520,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	};
 
-
 	/**
 	 * @return used color space (GeoElement.COLORSPACE_*)
 	 */
@@ -557,7 +559,6 @@ public abstract class GeoElement extends ConstructionElement
 	public void setDefaultGeoType(final int defaultGT) {
 		defaultGeoType = defaultGT;
 	}
-
 
 	/********************************************************/
 
@@ -1735,7 +1736,6 @@ public abstract class GeoElement extends ConstructionElement
 		if (layer == 0) {
 			setLayer(geo.getLayer());
 		}
-
 	}
 
 	/**
@@ -1789,7 +1789,6 @@ public abstract class GeoElement extends ConstructionElement
 	public void setAutoColor(boolean sequential) {
 		this.autoColor = sequential;
 	}
-
 
 	@Override
 	public void setAdvancedVisualStyle(final GeoElement geo) {
@@ -2324,7 +2323,8 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return true if user can toggle euclidian visibility
 	 */
 	final public boolean isEuclidianToggleable() {
-		return isEuclidianShowable() && getShowObjectCondition() == null && (!isGeoBoolean() || isIndependent());
+		return isEuclidianShowable() && getShowObjectCondition() == null
+				&& (!isGeoBoolean() || isIndependent());
 	}
 
 	/**
@@ -2970,7 +2970,7 @@ public abstract class GeoElement extends ConstructionElement
 			setLabel(newLabel); // now we rename
 			return true;
 		} else {
-			final String str[] = { "NameUsed", newLabel };
+			final String[] str = { "NameUsed", newLabel };
 			throw new MyError(getLoc(), str);
 		}
 	}
@@ -3364,13 +3364,11 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	private void updateSpreadsheetCoordinates() {
+		// starts with letter and ends with digit
 		if (isLabelSet() && (label.length() > 0)
 				&& com.himamis.retex.editor.share.input.Character
-						.isLetter(label.charAt(0)) // starts with letter
-				&& StringUtil.isDigit(label.charAt(label.length() - 1))) // ends
-																			// with
-																			// digit
-		{
+						.isLetter(label.charAt(0))
+				&& StringUtil.isDigit(label.charAt(label.length() - 1))) {
 
 			// init old and current spreadsheet coords
 			if (spreadsheetCoords == null) {
@@ -3683,8 +3681,8 @@ public abstract class GeoElement extends ConstructionElement
 				if (algoParent.getClassName().equals(Commands.SolveODE)
 						|| algoParent instanceof AlgoIntegralODE || algoParent
 								.getClassName().equals(Commands.NSolveODE)) {
-
-					return defaultNumberedLabel("numericalIntegral", false); // Name.numericalIntegral
+					// Name.numericalIntegral
+					return defaultNumberedLabel("numericalIntegral", false);
 
 				} else if (algoParent.getClassName()
 						.equals(Commands.SlopeField)) {
@@ -3754,7 +3752,6 @@ public abstract class GeoElement extends ConstructionElement
 		return sbDefaultLabel.toString();
 	}
 
-
 	private String defaultNumberedLabel(final String plainKey,
 			boolean allowNoSuffix) {
 		String trans = getLoc().getPlainLabel(plainKey);
@@ -3816,7 +3813,6 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	public void remove() {
-
 		// dependent object: remove parent algorithm
 		if (algoParent != null) {
 			algoParent.remove(this);
@@ -3826,7 +3822,6 @@ public abstract class GeoElement extends ConstructionElement
 				correspondingCasCell.doRemove();
 			}
 			doRemove();
-
 		}
 	}
 
@@ -4174,7 +4169,6 @@ public abstract class GeoElement extends ConstructionElement
 		updateDependentObjects();
 		GeoGebraProfiler.addUpdateCascade(System.currentTimeMillis() - l);
 		kernel.notifyEndBatchUpdate();
-
 	}
 
 	@Override
@@ -5747,7 +5741,8 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		sbNameDescriptionHTML.append(indicesToHTML(label1, false));
 
-		if (this instanceof GeoPointND && getKernel().getApplication().getSettings().getEuclidian(1).axisShown()) {
+		if (this instanceof GeoPointND && getKernel().getApplication()
+				.getSettings().getEuclidian(1).axisShown()) {
 			sbNameDescriptionHTML
 					.append(toValueString(StringTemplate.defaultTemplate));
 		}
@@ -5987,8 +5982,6 @@ public abstract class GeoElement extends ConstructionElement
 		XMLBuilder.getXMLvisualTags(this, sb, true);
 	}
 
-
-
 	/**
 	 * @param sb
 	 *            string builder
@@ -6083,7 +6076,6 @@ public abstract class GeoElement extends ConstructionElement
 			sb.append("\"");
 			sb.append("/>\n");
 		}
-
 	}
 
 	/**
@@ -6092,7 +6084,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param sb
 	 *            string builder
 	 */
-	public void getXMLfixedTag(final StringBuilder sb) {// package private
+	protected void getXMLfixedTag(final StringBuilder sb) {
 		// is object fixed
 		if (fixed && isFixable()) {
 			sb.append("\t<fixed val=\"");
@@ -6113,8 +6105,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param sb
 	 *            string builder
 	 */
-	public final void getXMLisShapeTag(final StringBuilder sb) {// package
-																// private
+	protected final void getXMLisShapeTag(final StringBuilder sb) {
 		// was object created with shape tool
 		if (isShape()) {
 			sb.append("\t<isShape val=\"true\"/>\n");
@@ -6170,7 +6161,6 @@ public abstract class GeoElement extends ConstructionElement
 	protected String toValueStringMinimal(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
-
 
 	/**
 	 * returns the number in rounded format to 6 decimal places, in case of the
@@ -6229,12 +6219,11 @@ public abstract class GeoElement extends ConstructionElement
 	 *            string builder
 	 * @see #getXMLtags(StringBuilder) of GeoConic, GeoLine and GeoVector
 	 */
-	public void getBreakpointXML(final StringBuilder sb) {// package private
+	protected void getBreakpointXML(final StringBuilder sb) {
 		if (isConsProtBreakpoint) {
 			sb.append("\t<breakpoint val=\"");
 			sb.append(isConsProtBreakpoint);
 			sb.append("\"/>\n");
-
 		}
 	}
 
@@ -6848,9 +6837,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            dynamic color as list of numbers {R,G,B} / {H,S,L} / {H,S,B}
 	 */
 	@Override
-	public void setColorFunction(final GeoList col)
-	// throws CircularDefinitionException
-	{
+	public void setColorFunction(final GeoList col) {
 		// Application.debug("setColorFunction"+col.getValue());
 
 		// check for circular definition (not needed)
@@ -6883,7 +6870,6 @@ public abstract class GeoElement extends ConstructionElement
 		// if (colFunction == col)
 		colFunction = null;
 	}
-
 
 	/**
 	 * @return temporary set of algoritms
@@ -6948,8 +6934,6 @@ public abstract class GeoElement extends ConstructionElement
 		return movedGeo;
 
 	}
-
-
 
 	/**
 	 * try to move the geo with coord parent numbers (e.g. point defined by
@@ -7605,8 +7589,8 @@ public abstract class GeoElement extends ConstructionElement
 	public ExtendedBoolean getVisibleInViewForPlane() {
 		return visibleInViewForPlane;
 	}
+
 	/**
-	 * 
 	 * @return true if visible in view for plane
 	 */
 	@Override
@@ -8057,7 +8041,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return string description of values traced
 	 */
 	public String getTraceDialogAsValues() {
-		return getLabelTextOrHTML(false);// columnHeadingsForTraceDialog.toString();
+		return getLabelTextOrHTML(false); // columnHeadingsForTraceDialog.toString();
 	}
 
 	/** Used by TraceDialog for "Trace as... value of/copy of */
@@ -8081,7 +8065,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return possible modes for trace to spreadsheet
 	 */
 	public TraceModesEnum getTraceModes() {
-		return TraceModesEnum.ONE_VALUE_ONLY;// default for NumberValue
+		return TraceModesEnum.ONE_VALUE_ONLY; // default for NumberValue
 	}
 
 	/**
@@ -8521,8 +8505,9 @@ public abstract class GeoElement extends ConstructionElement
 		if (definition == null) {
 			return true;
 		}
-		if(definition.getOperation() == Operation.MULTIPLY){
-			if(definition.getLeft().unwrap() instanceof NumberValue && definition.getRight().unwrap() instanceof MyDouble
+		if (definition.getOperation() == Operation.MULTIPLY) {
+			if (definition.getLeft().unwrap() instanceof NumberValue
+					&& definition.getRight().unwrap() instanceof MyDouble
 					&& MyDouble.exactEqual(definition.getRight()
 							.evaluateDouble(), MyMath.DEG)) {
 				return true;
@@ -8537,7 +8522,6 @@ public abstract class GeoElement extends ConstructionElement
 					&& !DoubleUtil.isEqual(val, Math.E);
 		}
 		return true;
-
 	}
 
 	@Override

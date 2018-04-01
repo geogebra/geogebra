@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class MoveGeos {
 	private static volatile ArrayList<GeoElement> moveObjectsUpdateList;
+
 	/**
 	 * Translates all GeoElement objects in geos by a vector in real world
 	 * coordinates or by (xPixel, yPixel) in screen coordinates.

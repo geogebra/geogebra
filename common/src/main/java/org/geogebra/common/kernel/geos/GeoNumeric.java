@@ -169,8 +169,7 @@ public class GeoNumeric extends GeoElement
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
-		if (setDefaults)
-		 {
+		if (setDefaults) {
 			setConstructionDefaults(); // init visual settings
 		}
 
@@ -504,7 +503,9 @@ public class GeoNumeric extends GeoElement
 
 		if (isAutoStep()) {
 			if (kernel.getApplication().has(Feature.MOB_DEFAULT_SLIDER_INCREMENT_VALUE)) {
-				return isAnimating() || getAutoStepValue() >= DEFAULT_SLIDER_INCREMENT ? getAutoStepValue() : DEFAULT_SLIDER_INCREMENT;
+				return isAnimating()
+						|| getAutoStepValue() >= DEFAULT_SLIDER_INCREMENT
+								? getAutoStepValue() : DEFAULT_SLIDER_INCREMENT;
 			}
 			return getAutoStepValue();
 		}
@@ -820,7 +821,9 @@ public class GeoNumeric extends GeoElement
 	public boolean isFixable() {
 		// visible slider should not be fixable if whiteboard doesn't active
 		return (!isSetEuclidianVisible()
-				|| (kernel.getApplication().isWhiteboardActive() && kernel.getApplication().has(Feature.MOW_IMPROVE_CONTEXT_MENU)))
+				|| (kernel.getApplication().isWhiteboardActive()
+						&& kernel.getApplication()
+								.has(Feature.MOW_IMPROVE_CONTEXT_MENU)))
 						&& !isDefaultGeo();
 	}
 
