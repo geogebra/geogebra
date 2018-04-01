@@ -120,7 +120,7 @@ gradle.projectsEvaluated {
     }
 }
 
-jacocoTestReport {	
+jacocoTestReport {
    afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ['com/kitfox/**','org/jfugue/**','org/freehep/**','org/geogebra/desktop/**'])
