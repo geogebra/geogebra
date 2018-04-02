@@ -36,4 +36,9 @@ public class DrawLine3DForQuadrics extends DrawLine3D {
 	protected GeoLine3D getLine() {
 		return (GeoLine3D) super.getGeoElement();
 	}
+
+	@Override
+	public boolean shouldBePacked() {
+		return false;
+	}
 }
