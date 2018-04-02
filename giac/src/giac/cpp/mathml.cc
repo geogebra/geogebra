@@ -1504,7 +1504,7 @@ namespace giac {
 	return gen2mathml(myfeuille,contextptr)+"<mtext>!</mtext>";
       }
       if ((mysommet==at_neg) || (mysommet==at_plus)){
-	if (myfeuille.type!=_SYMB) 
+	if (myfeuille.type!=_SYMB || ( (myfeuille._SYMBptr->sommet==at_at || myfeuille._SYMBptr->sommet==at_of)&& myfeuille._SYMBptr->feuille[0].type==_IDNT) ) 
 	  return string("<mo>")+mysommet.ptr()->print(contextptr)+"</mo>"+gen2mathml(myfeuille,contextptr); 
 	if (myfeuille._SYMBptr->sommet==at_inv || myfeuille._SYMBptr->sommet==at_pow )
 	  return string("<mo>")+mysommet.ptr()->print(contextptr)+"</mo>"+gen2mathml(myfeuille,contextptr) ;

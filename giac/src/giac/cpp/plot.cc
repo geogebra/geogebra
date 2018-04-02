@@ -970,7 +970,8 @@ namespace giac {
   // evaluate v with v[1] quoted
   vecteur plotpreprocess(const gen & args,GIAC_CONTEXT){
     vecteur v;
-
+    if (args.type==_FUNC)
+      return makevecteur(args(vx_var,contextptr),vx_var);
     gen var,res;
     if (args.type!=_VECT && is_algebraic_program(args,var,res))
       return makevecteur(args,symb_interval(gnuplot_xmin,gnuplot_xmax));

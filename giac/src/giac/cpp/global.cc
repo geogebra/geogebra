@@ -6207,6 +6207,8 @@ unsigned int ConvertUTF8toUTF16 (
 	  stack.push_back(int_string(ws,"ffunction"));
 	  continue;
 	}
+	// no match found, return s
+	s = s+cur;
       }
       else {
 	// normal line add ; at end
