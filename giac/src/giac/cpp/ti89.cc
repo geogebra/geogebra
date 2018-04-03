@@ -375,7 +375,11 @@ namespace giac {
   define_unary_function_ptr5( at_zeros ,alias_at_zeros,&__zeros,_QUOTE_ARGUMENTS,true);
 
   gen _cZeros(const gen & g,GIAC_CONTEXT){
-    return zeros(g,true,contextptr);
+    bool b=complex_mode(contextptr);
+    complex_mode(true,contextptr);
+    gen res=zeros(g,true,contextptr);
+    complex_mode(b,contextptr);
+    return res;
   }
   static const char _cZeros_s[]="cZeros";
   static define_unary_function_eval_quoted (__cZeros,&_cZeros,_cZeros_s);

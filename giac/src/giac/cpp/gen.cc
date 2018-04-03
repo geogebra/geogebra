@@ -11507,6 +11507,10 @@ namespace giac {
 	s=news;
       }
       s=python2xcas(s,contextptr);
+      if (s.empty()){
+	parsed_gen(undef,contextptr);
+	return 1;
+      }
     }
 #if !defined(WIN32) && defined(HAVE_PTHREAD_H)
     if (contextptr && thread_param_ptr(contextptr)->stackaddr){
