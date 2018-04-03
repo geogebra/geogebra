@@ -5,7 +5,9 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVideo;
@@ -26,6 +28,8 @@ public class DrawVideo extends Drawable {
 	private int left;
 	private int top;
 	private BoundingBox boundingBox;
+	private double originalRatio = Double.NaN;
+	private final static int VIDEO_WIDTH_THRESHOLD = 100;
 
 	/**
 	 * @param view
@@ -94,6 +98,77 @@ public class DrawVideo extends Drawable {
 			boundingBox = new BoundingBox(false);
 		}
 		return boundingBox;
+	}
+
+	private void updateOriginalRatio() {
+		double width, height;
+		width = video.getWidth();
+		height = video.getHeight();
+		originalRatio = height / width;
+	}
+
+	@Override
+	public void updateByBoundingBoxResize(AbstractEvent e,
+			EuclidianBoundingBoxHandler handler) {
+		if (Double.isNaN(originalRatio)) {
+			updateOriginalRatio();
+		}
+		int eventX = e.getX();
+		// int eventY = e.getY();
+
+		int newWidth = 1;
+		int newHeight = 1;
+
+		switch (handler) {
+		case TOP_RIGHT:
+			newWidth = eventX - left;
+			if (newWidth <= VIDEO_WIDTH_THRESHOLD) {
+				return;
+			}
+			newHeight = (int) (originalRatio * newWidth);
+			video.setAbsoluteScreenLoc(left,
+					top - newHeight + video.getHeight());
+			video.setWidth(newWidth);
+			video.setHeight(newHeight);
+			update();
+			break;
+
+		case BOTTOM_RIGHT:
+			newWidth = eventX - left;
+			if (newWidth <= VIDEO_WIDTH_THRESHOLD) {
+				return;
+			}
+			newHeight = (int) (originalRatio * newWidth);
+			video.setWidth(newWidth);
+			video.setHeight(newHeight);
+			update();
+			break;
+
+		case TOP_LEFT:
+			newWidth = video.getWidth() + left - eventX;
+			if (newWidth <= VIDEO_WIDTH_THRESHOLD) {
+				return;
+			}
+			newHeight = (int) (originalRatio * newWidth);
+			video.setAbsoluteScreenLoc(eventX,
+					top - (newHeight - video.getHeight()));
+			video.setWidth(newWidth);
+			video.setHeight(newHeight);
+			update();
+			break;
+
+		case BOTTOM_LEFT:
+			newWidth = video.getWidth() + left - eventX;
+			if (newWidth <= VIDEO_WIDTH_THRESHOLD) {
+				return;
+			}
+			newHeight = (int) (originalRatio * newWidth);
+			video.setAbsoluteScreenLoc(eventX, top);
+			video.setWidth(newWidth);
+			video.setHeight(newHeight);
+			update();
+			break;
+		}
 	}
 
 	@Override
