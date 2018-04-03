@@ -29,7 +29,7 @@ public class DrawVideo extends Drawable {
 	private int top;
 	private BoundingBox boundingBox;
 	private double originalRatio = Double.NaN;
-	private final static int VIDEO_WIDTH_THRESHOLD = 100;
+	private final static int VIDEO_SIZE_THRESHOLD = 100;
 
 	/**
 	 * @param view
@@ -114,7 +114,7 @@ public class DrawVideo extends Drawable {
 			updateOriginalRatio();
 		}
 		int eventX = e.getX();
-		// int eventY = e.getY();
+		int eventY = e.getY();
 
 		int newWidth = 1;
 		int newHeight = 1;
@@ -122,7 +122,7 @@ public class DrawVideo extends Drawable {
 		switch (handler) {
 		case TOP_RIGHT:
 			newWidth = eventX - left;
-			if (newWidth <= VIDEO_WIDTH_THRESHOLD) {
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
 				return;
 			}
 			newHeight = (int) (originalRatio * newWidth);
@@ -135,7 +135,7 @@ public class DrawVideo extends Drawable {
 
 		case BOTTOM_RIGHT:
 			newWidth = eventX - left;
-			if (newWidth <= VIDEO_WIDTH_THRESHOLD) {
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
 				return;
 			}
 			newHeight = (int) (originalRatio * newWidth);
@@ -146,12 +146,12 @@ public class DrawVideo extends Drawable {
 
 		case TOP_LEFT:
 			newWidth = video.getWidth() + left - eventX;
-			if (newWidth <= VIDEO_WIDTH_THRESHOLD) {
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
 				return;
 			}
 			newHeight = (int) (originalRatio * newWidth);
 			video.setAbsoluteScreenLoc(eventX,
-					top - (newHeight - video.getHeight()));
+					top - newHeight + video.getHeight());
 			video.setWidth(newWidth);
 			video.setHeight(newHeight);
 			update();
@@ -159,13 +159,55 @@ public class DrawVideo extends Drawable {
 
 		case BOTTOM_LEFT:
 			newWidth = video.getWidth() + left - eventX;
-			if (newWidth <= VIDEO_WIDTH_THRESHOLD) {
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
 				return;
 			}
 			newHeight = (int) (originalRatio * newWidth);
 			video.setAbsoluteScreenLoc(eventX, top);
 			video.setWidth(newWidth);
 			video.setHeight(newHeight);
+			update();
+			break;
+
+		case RIGHT:
+			newWidth = eventX - left;
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			video.setWidth(newWidth);
+			originalRatio = Double.NaN;
+			update();
+			break;
+
+		case LEFT:
+			newWidth = video.getWidth() + left - eventX;
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			video.setAbsoluteScreenLoc(eventX, top);
+			video.setWidth(newWidth);
+			originalRatio = Double.NaN;
+			update();
+			break;
+
+		case TOP:
+			newHeight = video.getHeight() + top - eventY;
+			if (newHeight <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			video.setAbsoluteScreenLoc(left, eventY);
+			video.setHeight(newHeight);
+			originalRatio = Double.NaN;
+			update();
+			break;
+
+		case BOTTOM:
+			newHeight = eventY - top;
+			if (newHeight <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			video.setHeight(newHeight);
+			originalRatio = Double.NaN;
 			update();
 			break;
 		}
