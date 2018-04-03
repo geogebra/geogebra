@@ -39,6 +39,9 @@ public interface SymbolicParametersAlgo {
 	/**
 	 * Calculates the maximum degree of the variables
 	 * 
+	 * @param a
+	 *            Recio's method
+	 * 
 	 * @return the degrees of the coordinates
 	 * @throws NoSymbolicParametersException
 	 *             thrown if no symbolic parameters are available.

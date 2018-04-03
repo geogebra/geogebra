@@ -34,6 +34,8 @@ public class SymbolicParameters {
 	/**
 	 * Getter for the degrees
 	 * 
+	 * @param a
+	 *            Recio's method
 	 * @return the degrees of the polynomial
 	 * @throws NoSymbolicParametersException
 	 *             if no symbolic parameters can be obtained

@@ -5937,7 +5937,7 @@ public class ExpressionNode extends ValidExpression
 				boolean pi = false;
 				double piDiv = lt / Math.PI;
 				if (DoubleUtil.isInteger(piDiv) && !DoubleUtil.isZero(piDiv)
-						&& Math.abs(piDiv) < MAX_NUM_DENOMINATOR) {
+						&& lt < MAX_NUM_DENOMINATOR) {
 					lt = piDiv;
 					pi = true;
 				}
