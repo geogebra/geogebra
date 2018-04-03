@@ -56,6 +56,9 @@ public class DrawVideo extends Drawable {
 
 	@Override
 	public void draw(GGraphics2D g2) {
+		if (video.isPlaying()) {
+			return;
+		}
 		MyImage preview = video.getPreview();
 		if (preview != null) {
 			g2.drawImage(preview, left, top);
@@ -93,4 +96,8 @@ public class DrawVideo extends Drawable {
 		return boundingBox;
 	}
 
+	@Override
+	public GRectangle getBounds() {
+		return bounds;
+	}
 }

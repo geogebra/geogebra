@@ -26,7 +26,7 @@ public class GeoVideo extends GeoAudio {
 	private String youtubeId = null;
 	private String previewUrl = null;
 	private MyImage preview;
-
+	private boolean playing = false;
 	/**
 	 * Constructor.
 	 * 
@@ -93,10 +93,14 @@ public class GeoVideo extends GeoAudio {
 			@Override
 			public void callback(MyImage obj) {
 				preview = obj;
-				app.getActiveEuclidianView().repaint();
 			}
 		});
 		changed = true;
+	}
+
+	@Override
+	public int getWidth() {
+		return isPreviewActive() ? preview.getWidth() : super.getWidth();
 	}
 
 	@Override
@@ -109,6 +113,15 @@ public class GeoVideo extends GeoAudio {
 	public void setHeight(int height) {
 		super.setHeight(height);
 		changed = true;
+	}
+
+	@Override
+	public int getHeight() {
+		return isPreviewActive() ? preview.getHeight() : super.getHeight();
+	}
+
+	private boolean isPreviewActive() {
+		return !playing && preview != null;
 	}
 
 	@Override
@@ -127,7 +140,7 @@ public class GeoVideo extends GeoAudio {
 			return false;
 		}
 
-		return app.getVideoManager().isPlaying(this);
+		return playing;
 	}
 
 	private boolean hasVideoManager() {
@@ -180,4 +193,22 @@ public class GeoVideo extends GeoAudio {
 		return preview;
 	}
 
+	/**
+	 * @param playing
+	 *            to set.
+	 */
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
+		changed = true;
+	}
+
+	@Override
+	public void play() {
+		setPlaying(true);
+	}
+
+	@Override
+	public void pause() {
+		setPlaying(false);
+	}
 }

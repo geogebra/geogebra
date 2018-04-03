@@ -34,6 +34,7 @@ import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDelete;
@@ -107,6 +108,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
@@ -401,6 +403,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	public GPoint dragStartPoint;
 	private boolean snapMoveView = true;
+	private GeoVideo lastVideo = null;
 
 	/**
 	 * state for selection tool over press/release
@@ -9621,6 +9624,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
+		DrawVideo dv = getVideoHit();
+		if (dv == null && lastVideo != null) {
+			lastVideo.pause();
+			lastVideo = null;
+		}
+		if (!event.isRightClick() && dv != null) {
+			clearSelections();
+			lastVideo = (GeoVideo) (dv.geo);
+		}
+
 		lastMousePressedTime = System.currentTimeMillis();
 
 		app.storeUndoInfoIfSetCoordSystemOccured();
@@ -10294,6 +10307,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			am.setTabOverGeos(true);
 		}
 
+		if (lastVideo != null) {
+			lastVideo.play();
+			lastVideo = null;
+		}
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
 
@@ -10868,6 +10885,22 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		return null;
 	}
+
+	protected DrawVideo getVideoHit() {
+		Hits hits = view.getHits();
+		if (hits != null && hits.size() > 0) {
+			GeoVideo video;
+			for (GeoElement geo : hits.getTopHits()) {
+				if (geo.isGeoVideo()) {
+					video = (GeoVideo) geo;
+					return (DrawVideo) (view.getDrawable(video));
+				}
+			}
+
+		}
+		return null;
+	}
+
 	public void endOfWrapMouseReleased(Hits hits, AbstractEvent event) {
 		boolean control = app.isControlDown(event);
 		boolean alt = event.isAltDown();
