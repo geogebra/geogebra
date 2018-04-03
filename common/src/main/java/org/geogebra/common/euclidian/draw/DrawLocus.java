@@ -50,7 +50,8 @@ public class DrawLocus extends Drawable {
 
 	private GeoLocusND<? extends MyPoint> locus;
 
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 	private GeneralPathClippedForCurvePlotter gp;
 	private double[] labelPosition;
 	private CoordSys transformSys;
@@ -59,6 +60,7 @@ public class DrawLocus extends Drawable {
 
 	private int bitmapShiftX;
 	private int bitmapShiftY;
+
 	/**
 	 * Creates new drawable for given locus
 	 * 

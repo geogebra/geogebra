@@ -45,7 +45,8 @@ import org.geogebra.common.util.debug.Log;
 public class DrawPolyLine extends Drawable implements Previewable {
 
 	private GeoPolyLine poly;
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 
 	private GeneralPathClipped gp;
 	private double[] coords = new double[2];
@@ -160,9 +161,9 @@ public class DrawPolyLine extends Drawable implements Previewable {
 					skipNextPoint = false;
 					// collect start points
 					// one point
-					if (pts.length == 1 ||
+					if (pts.length == 1
 					// last point
-							(i - 1 >= 0 && i + 1 == pts.length
+							|| (i - 1 >= 0 && i + 1 == pts.length
 									&& !pts[i - 1].isDefined())
 							// between undef points
 							|| (i - 1 >= 0 && i + 1 < pts.length

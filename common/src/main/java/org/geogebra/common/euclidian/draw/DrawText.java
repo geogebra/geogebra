@@ -44,7 +44,8 @@ public final class DrawText extends Drawable {
 	// private static final int SELECTION_OFFSET = SELECTION_DIAMETER_ADD / 2;
 
 	private GeoText text;
-	private boolean isVisible, isLaTeX;
+	private boolean isVisible;
+	private boolean isLaTeX;
 	private int fontSize = -1;
 	private int fontStyle = -1;
 	private boolean serifFont;
@@ -52,10 +53,12 @@ public final class DrawText extends Drawable {
 	private GeoPointND loc; // text location
 
 	// private Image eqnImage;
-	private int oldXpos, oldYpos;
+	private int oldXpos;
+	private int oldYpos;
 	private boolean needsBoundingBoxOld;
 	private static GBasicStroke rectangleStroke = AwtFactory.getPrototype()
 			.newBasicStroke(2);
+
 	/**
 	 * Creates new DrawText
 	 * 

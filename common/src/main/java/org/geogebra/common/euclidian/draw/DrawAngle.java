@@ -212,7 +212,6 @@ public class DrawAngle extends Drawable implements Previewable {
 		double angExt = angle.getRawAngle();
 		angSt = getAngleStart(angSt, angExt);
 
-
 		switch (angle.getAngleStyle()) {
 		case UNBOUNDED:
 			Log.error("Unbounded angle shouldn't be drawable");

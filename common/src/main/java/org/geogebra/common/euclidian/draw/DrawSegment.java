@@ -54,7 +54,8 @@ public class DrawSegment extends Drawable implements Previewable {
 
 	private GeoLineND s;
 
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 	private ArrayList<GeoPointND> points;
 
 	private GLine2D line;

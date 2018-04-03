@@ -32,9 +32,11 @@ import org.geogebra.common.util.debug.Log;
 public class DrawUpperLowerSum extends Drawable {
 
 	private GeoNumeric sum;
-	private NumberValue a, b; // interval borders
+	private NumberValue a;
+	private NumberValue b; // interval borders
 
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 	private AlgoFunctionAreaSums algo;
 	private GeneralPathClipped gp;
 	private double[] coords = new double[2];
@@ -147,10 +149,10 @@ public class DrawUpperLowerSum extends Drawable {
 		if (histogram) {
 			gp.moveTo(bx, y0);
 		} else {
-			gp.lineTo(bx, y0);// last bar: right
+			gp.lineTo(bx, y0); // last bar: right
 		}
 
-		gp.lineTo(ax, y0);// all bars, along bottom
+		gp.lineTo(ax, y0); // all bars, along bottom
 
 		// gp on screen?
 		if (!view.intersects(gp)) {

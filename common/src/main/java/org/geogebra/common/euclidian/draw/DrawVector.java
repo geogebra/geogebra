@@ -50,7 +50,8 @@ public class DrawVector extends Drawable implements Previewable {
 	private GeoVectorND v;
 	private GeoPointND P;
 
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 	private boolean traceDrawingNeeded = false;
 
 	private GLine2D line;
@@ -58,7 +59,8 @@ public class DrawVector extends Drawable implements Previewable {
 	private double[] coordsB = new double[2];
 	private double[] coordsV = new double[2];
 	private GGeneralPath gp; // for arrow
-	private boolean arrowheadVisible, lineVisible;
+	private boolean arrowheadVisible;
+	private boolean lineVisible;
 	private ArrayList<GeoPointND> points;
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
@@ -109,7 +111,7 @@ public class DrawVector extends Drawable implements Previewable {
 		// start point in real world coords
 		P = v.getStartPoint();
 		if (P != null && !P.isInfinite()) {
-			coords = view.getCoordsForView(P.getInhomCoordsInD3());// P.getCoordsInD3();
+			coords = view.getCoordsForView(P.getInhomCoordsInD3());
 			if (!DoubleUtil.isZero(coords.getZ())) {
 				isVisible = false;
 				return;
@@ -122,7 +124,7 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 
 		// vector
-		coords = view.getCoordsForView(v.getCoordsInD3());// v.getCoordsInD3();
+		coords = view.getCoordsForView(v.getCoordsInD3());
 		if (!DoubleUtil.isZero(coords.getZ())) {
 			isVisible = false;
 			return;
@@ -178,8 +180,7 @@ public class DrawVector extends Drawable implements Previewable {
 	 */
 	private void setArrow(double lineThickness) {
 		// screen coords of start and end point of vector
-		boolean onscreenA = view.toScreenCoords(coordsA);
-		boolean onscreenB = view.toScreenCoords(coordsB);
+
 		coordsV[0] = coordsB[0] - coordsA[0];
 		coordsV[1] = coordsB[1] - coordsA[1];
 
@@ -207,6 +208,8 @@ public class DrawVector extends Drawable implements Previewable {
 			line = AwtFactory.getPrototype().newLine2D();
 		}
 		lineVisible = true;
+		boolean onscreenA = view.toScreenCoords(coordsA);
+		boolean onscreenB = view.toScreenCoords(coordsB);
 		if (onscreenA && onscreenB) {
 			// A and B on screen
 			line.setLine(coordsA[0], coordsA[1], coordsF[0], coordsF[1]);

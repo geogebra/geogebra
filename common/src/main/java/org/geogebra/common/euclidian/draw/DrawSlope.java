@@ -37,8 +37,10 @@ public class DrawSlope extends Drawable {
 	private GeoNumeric slope;
 	private AlgoSlope algo;
 
-	private boolean isVisible, labelVisible;
-	private int xLabelHor, yLabelHor;
+	private boolean isVisible;
+	private boolean labelVisible;
+	private int xLabelHor;
+	private int yLabelHor;
 	private String horLabel; // horizontal label, i.e. triangleSize
 
 	private double[] coords = new double[2];

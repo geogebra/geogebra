@@ -32,7 +32,8 @@ public class DrawPointPlot extends Drawable {
 
 	private DrawType drawType = DrawType.DOT_PLOT;
 
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 	private double[] coords = new double[2];
 
 	private AlgoElement algo;
@@ -241,6 +242,7 @@ public class DrawPointPlot extends Drawable {
 	 * Sets the real world height of a point so that it fits in a stack of dots
 	 * 
 	 * @param pt
+	 *            point
 	 * @param dotCount
 	 *            number of dots the point is stacked above the x-axis
 	 */

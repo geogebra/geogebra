@@ -38,7 +38,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class DrawTurtle extends Drawable {
 	/** turtle */
 	protected GeoTurtle turtle;
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 	/** list of paths */
 	protected ArrayList<PartialPath> pathList;
 
@@ -67,6 +68,7 @@ public class DrawTurtle extends Drawable {
 	private GShape head;
 	private GShape body;
 	private GShape dot;
+
 	/**
 	 * @param view
 	 *            view
@@ -110,7 +112,7 @@ public class DrawTurtle extends Drawable {
 		double turnAngle1 = 0d;
 		private GeneralPathClipped currentPath;
 		// private GeoPointND currentPosition = turtle.getStartPoint();
-		double coords[] = new double[2];
+		double[] coords = new double[2];
 
 		public DrawState() {
 			currentPath = new GeneralPathClipped(getView());
@@ -353,7 +355,6 @@ public class DrawTurtle extends Drawable {
 		return boundRect;
 	}
 
-
 	private void drawTurtleShape(GGraphics2D g2) {
 		gPath.reset();
 
@@ -385,7 +386,6 @@ public class DrawTurtle extends Drawable {
 		g2.fill(dot);
 		// g2.setColor(Color.black);
 		// g2.draw(ellipse);
-
 	}
 
 	private void updateTurtleShape() {
@@ -394,7 +394,6 @@ public class DrawTurtle extends Drawable {
 		gPath.reset();
 
 		// back legs
-
 		x = (1.3 * r * Math.cos(Math.PI / 6));
 		y = (1.3 * r * Math.sin(Math.PI / 6));
 		gPath.moveTo(0, 0);
@@ -423,12 +422,10 @@ public class DrawTurtle extends Drawable {
 		dot = at.createTransformedShape(ellipse);
 		// g2.setColor(Color.black);
 		// g2.draw(ellipse);
-
 	}
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -88,8 +88,11 @@ public class DrawLine extends Drawable implements Previewable {
 	private double gx;
 	private double gy;
 	private double gz;
-	private int labelPos = LEFT, p1Pos, p2Pos;
-	private int x, y;
+	private int labelPos = LEFT;
+	private int p1Pos;
+	private int p2Pos;
+	private int x;
+	private int y;
 	private boolean isVisible;
 	private boolean labelVisible;
 
@@ -98,13 +101,15 @@ public class DrawLine extends Drawable implements Previewable {
 
 	private ArrayList<GeoPointND> points;// for preview
 	private ArrayList<GeoLineND> lines; // for preview
-	private GeoPointND startPoint, previewPoint2;
+	private GeoPointND startPoint;
+	private GeoPointND previewPoint2;
 
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 	private final Coords coordsForMousePos = new Coords(4);
 
 	// clipping attributes
-	private boolean[] attr1 = new boolean[4], attr2 = new boolean[4];
+	private boolean[] attr1 = new boolean[4];
+	private boolean[] attr2 = new boolean[4];
 
 	/**
 	 * Creates new DrawLine

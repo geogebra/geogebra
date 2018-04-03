@@ -40,7 +40,8 @@ public class DrawSlider extends Drawable {
 
 	private GeoNumeric number;
 
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 
 	private double[] coordsRW = new double[2];
 	private double[] coordsScreen = new double[2];

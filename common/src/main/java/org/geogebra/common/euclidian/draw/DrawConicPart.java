@@ -51,7 +51,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	private GeoConicPartND conicPart;
 
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 
 	private GArc2D arc = AwtFactory.getPrototype().newArc2D();
 	private GShape shape;
@@ -77,7 +78,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 	// preview
 	private ArrayList<GeoPointND> prevPoints;
 	private GeoPoint[] previewTempPoints;
-	private int previewMode, neededPrevPoints;
+	private int previewMode;
+	private int neededPrevPoints;
 
 	private boolean isPreview = false;
 	private Coords[] ev;
@@ -203,7 +205,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			M = ((GeoConicND) conicPart).getMidpoint3D().getInhomCoords();
 		} else {
 			M = view.getCoordsForView(((GeoConicND) conicPart).getMidpoint3D());
-			if (!DoubleUtil.isZero(M.getZ())) {// check if in view
+			if (!DoubleUtil.isZero(M.getZ())) { // check if in view
 				isVisible = false;
 				return;
 			}
@@ -218,7 +220,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			} else {
 				ev[j] = view.getCoordsForView(
 						((GeoConicND) conicPart).getEigenvec3D(j));
-				if (!DoubleUtil.isZero(ev[j].getZ())) {// check if in view
+				if (!DoubleUtil.isZero(ev[j].getZ())) { // check if in view
 					isVisible = false;
 					return;
 				}

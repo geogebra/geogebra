@@ -55,11 +55,14 @@ public class DrawParametricCurve extends Drawable {
 
 	private CurveEvaluable curve;
 	private GeneralPathClippedForCurvePlotter gp;
-	private boolean isVisible, labelVisible, fillCurve;
+	private boolean isVisible;
+	private boolean labelVisible;
+	private boolean fillCurve;
 	private StringBuilder labelSB = new StringBuilder();
 	private int nPoints = 0;
 	private ArrayList<GPoint2D> points;
-	private GLine2D diag1, diag2;
+	private GLine2D diag1;
+	private GLine2D diag2;
 	private ExpressionNode dataExpression;
 	private FunctionVariable invFV;
 	private ExpressionNode invert;

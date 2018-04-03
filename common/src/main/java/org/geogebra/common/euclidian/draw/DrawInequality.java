@@ -41,7 +41,8 @@ public class DrawInequality extends Drawable {
 
 	private Drawable drawable;
 	private Operation operation = Operation.NO_OPERATION;
-	private DrawInequality left, right;
+	private DrawInequality left;
+	private DrawInequality right;
 	private Inequality ineq;
 	private FunctionalNVar function;
 

@@ -61,14 +61,21 @@ public final class DrawPoint extends Drawable {
 
 	private GeoPointND P;
 
-	private int diameter, hightlightDiameter, pointSize;
-	private boolean isVisible, labelVisible;
+	private int diameter;
+	private int hightlightDiameter;
+	private int pointSize;
+	private boolean isVisible;
+	private boolean labelVisible;
 	// for dot and selection
 	private GEllipse2DDouble circle = AwtFactory.getPrototype()
 			.newEllipse2DDouble();
 	private GEllipse2DDouble circleHighlight = AwtFactory.getPrototype()
 			.newEllipse2DDouble();
-	private GLine2D line1, line2, line3, line4;// for cross
+
+	private GLine2D line1; // for cross
+	private GLine2D line2;
+	private GLine2D line3; // for diamond
+	private GLine2D line4;
 	private GGeneralPath gp = null;
 
 	private static GBasicStroke borderStroke = EuclidianStatic
@@ -351,8 +358,6 @@ public final class DrawPoint extends Drawable {
 
 		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 	}
-
-
 
 	private void drawClippedSection(GeoElement geo2, GGraphics2D g2) {
 		Drawable drawable;
@@ -643,7 +648,7 @@ public final class DrawPoint extends Drawable {
 			gp.reset();
 		}
 
-		double coords2[] = { x, y };
+		double[] coords2 = { x, y };
 		update(coords2, false);
 	}
 
@@ -656,5 +661,3 @@ public final class DrawPoint extends Drawable {
 	}
 
 }
-
-

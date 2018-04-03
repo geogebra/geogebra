@@ -116,9 +116,15 @@ public class DrawConic extends Drawable implements Previewable {
 	private boolean firstCircle = true;
 	private GeoVec2D midpoint;
 	private GArc2D arc;
-	private GeneralPathClipped arcFiller, gp;
+	private GeneralPathClipped arcFiller;
+	private GeneralPathClipped gp;
 	private GRectangularShape circle;
-	private double mx, my, radius, yradius, angSt, angEnd;
+	private double mx;
+	private double my;
+	private double radius;
+	private double yradius;
+	private double angSt;
+	private double angEnd;
 
 	/** transform for ellipse, hyperbola, parabola */
 	protected GAffineTransform transform = AwtFactory.getPrototype()
@@ -154,12 +160,16 @@ public class DrawConic extends Drawable implements Previewable {
 	private double step;
 	private double t;
 	private double denom;
-	private double x, y;
-	private int index0, index1, n;
+	private double x;
+	private double y;
+	private int index0;
+	private int index1;
 	/** number of points used for hyperbola path */
 	protected int points = PLOT_POINTS;
-	private GeneralPathClipped hypLeft, hypRight;
-	private boolean hypLeftOnScreen, hypRightOnScreen;
+	private GeneralPathClipped hypLeft;
+	private GeneralPathClipped hypRight;
+	private boolean hypLeftOnScreen;
+	private boolean hypRightOnScreen;
 
 	// preview of circle (two points or three points)
 	private ArrayList<GeoPointND> prevPoints;
@@ -169,13 +179,16 @@ public class DrawConic extends Drawable implements Previewable {
 	private GeoPoint[] previewTempPoints;
 	private GeoLineND previewTempLine;
 	private GeoNumeric previewTempRadius;
-	private int previewMode, neededPrevPoints;
+	private int previewMode;
+	private int neededPrevPoints;
 	private boolean isPreview = false;
 	private boolean ignoreSingularities;
 
 	private BoundingBox boundingBox;
-	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
-	private double oldWidth = Double.NaN, oldHeight = Double.NaN;
+	private double fixCornerX = Double.NaN;
+	private double fixCornerY = Double.NaN;
+	private double oldWidth = Double.NaN;
+	private double oldHeight = Double.NaN;
 	private double proportion = Double.NaN;
 	private boolean isCircle = false;
 	/** eigenvectors */
@@ -311,7 +324,6 @@ public class DrawConic extends Drawable implements Previewable {
 		previewTempPoints[0] = new GeoPoint(cons);
 
 		initPreview();
-
 	}
 
 	/**
@@ -556,8 +568,6 @@ public class DrawConic extends Drawable implements Previewable {
 			drawLines[1] = new DrawLine(view, lines[1]);
 			drawLines[0].setGeoElement(geo);
 			drawLines[1].setGeoElement(geo);
-			// drawLines[0].font = view.fontConic;
-			// drawLines[1].font = view.fontConic;
 		}
 
 		CoordMatrix m = null;
@@ -605,9 +615,7 @@ public class DrawConic extends Drawable implements Previewable {
 			} else {
 				fillShape = null;
 			}
-
 		}
-
 	}
 
 	private boolean negativeColored() {
@@ -1080,7 +1088,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		// set number of plot points according to size of x0
 		// add ten points per screen width
-		n = PLOT_POINTS
+		int n = PLOT_POINTS
 				+ (int) (Math.abs(x0 - a) / (view.getXmax() - view.getXmin()))
 						* 10;
 		// n < 0 might result from huge real

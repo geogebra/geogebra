@@ -112,8 +112,8 @@ public class DrawSurface extends Drawable {
 			// TODO Auto-generated method stub
 			return surface;
 		}
-
 	}
+
 	@Override
 	public void update() {
 		boolean labelVisible = geo.isLabelVisible();

@@ -20,12 +20,14 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class DrawBoxPlot extends Drawable {
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 	private double[] coords = new double[2];
 	private GeneralPathClipped gp;
 	private GeoNumeric sum;
 	private AlgoBoxPlot algo;
-	private NumberValue a, b;
+	private NumberValue a;
+	private NumberValue b;
 	private double OUTLIER_SIZE = 4;
 
 	/**

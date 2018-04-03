@@ -201,7 +201,7 @@ public class DrawConicSection extends DrawConic {
 
 		// check if in view
 		Coords M = view.getCoordsForView(conic.getMidpoint3D());
-		if (!DoubleUtil.isZero(M.getZ())) {// check if in view
+		if (!DoubleUtil.isZero(M.getZ())) { // check if in view
 			updateEllipseEdge();
 			onlyEdge = true;
 			return;
@@ -211,7 +211,7 @@ public class DrawConicSection extends DrawConic {
 		}
 		for (int j = 0; j < 2; j++) {
 			ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
-			if (!DoubleUtil.isZero(ev[j].getZ())) {// check if in view
+			if (!DoubleUtil.isZero(ev[j].getZ())) { // check if in view
 				updateEllipseEdge();
 				onlyEdge = true;
 				return;
@@ -353,7 +353,7 @@ public class DrawConicSection extends DrawConic {
 			}
 		}
 
-		if (numPoints > 0) {// close path only if at least two points
+		if (numPoints > 0) { // close path only if at least two points
 			path.closePath();
 			if (lines[numPoints] == null) {
 				lines[numPoints] = AwtFactory.getPrototype().newLine2D();

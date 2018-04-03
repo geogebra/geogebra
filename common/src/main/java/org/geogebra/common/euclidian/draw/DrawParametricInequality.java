@@ -17,8 +17,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
 /**
- * Drawable for drawing inequalities like x<sin(y) or y<x^3. Never stands of its
- * own, always part of DrawInequality tree
+ * Drawable for drawing inequalities like x &lt; sin(y) or y &lt; x^3. Never
+ * stands on its own, always part of DrawInequality tree
  */
 class DrawParametricInequality extends Drawable {
 
