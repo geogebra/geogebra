@@ -46,7 +46,7 @@ public class SpecialPointPopupHelper {
                     }
                 }
             }
-            return localization.getMenu("Root");
+			return localization.getCommand("Root");
         } else if (cmd == Commands.Roots) {
             return localization.getCommand("Root");
         }
