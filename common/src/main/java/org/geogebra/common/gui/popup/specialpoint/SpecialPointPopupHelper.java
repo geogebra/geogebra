@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.popup.specialpoint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -7,9 +10,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SpecialPointPopupHelper {
 
@@ -23,12 +23,12 @@ public class SpecialPointPopupHelper {
      */
     public static List<String> getContentRows(App app, List<GeoElement> previewPoints) {
         List<String> contentRows = new ArrayList<>();
+		GeoElement point = previewPoints.get(0);
         for (GeoElement geo : previewPoints) {
-            if (geo.getParentAlgorithm() != null) {
+			if (geo.getParentAlgorithm() != null && geo.isEqual(point)) {
                 contentRows.add(getContentRow(app, geo));
             }
         }
-        GeoElement point = previewPoints.get(0);
         contentRows.add(point.getAlgebraDescriptionRHS());
         return contentRows;
     }
