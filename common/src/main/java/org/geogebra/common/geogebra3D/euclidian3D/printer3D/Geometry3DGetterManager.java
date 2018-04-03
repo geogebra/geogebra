@@ -20,6 +20,7 @@ public class Geometry3DGetterManager {
 	private Geometry3DGetter getter;
 	private ManagerShadersElementsGlobalBuffer geometriesManager;
 	private double xInvScale;
+	private int elementsOffset;
 
 	/**
 	 * constructor
@@ -70,6 +71,7 @@ public class Geometry3DGetterManager {
 
 					// faces
 					GLBufferIndices bi = geometry.getBufferIndices();
+					elementsOffset = geometry.getElementsOffset();
 					switch (geometry.getType()) {
 					case TRIANGLE_FAN:
 						// for openGL we use replace triangle fans by triangle strips, repeating apex
@@ -82,7 +84,7 @@ public class Geometry3DGetterManager {
 							int v2 = v4;
 							v3 = bi.get();
 							v4 = bi.get();
-							getter.addTriangle(v1, v2, v4);
+							addTriangle(v1, v2, v4);
 						}
 						break;
 					case TRIANGLE_STRIP:
@@ -94,8 +96,8 @@ public class Geometry3DGetterManager {
 							int v2 = v4;
 							v3 = bi.get();
 							v4 = bi.get();
-							getter.addTriangle(v1, v2, v3);
-							getter.addTriangle(v2, v4, v3);
+							addTriangle(v1, v2, v3);
+							addTriangle(v2, v4, v3);
 						}
 						break;
 					case TRIANGLES:
@@ -105,7 +107,7 @@ public class Geometry3DGetterManager {
 							int v1 = bi.get();
 							int v2 = bi.get();
 							v3 = bi.get();
-							getter.addTriangle(v1, v2, v3);
+							addTriangle(v1, v2, v3);
 						}
 						break;
 					}
@@ -113,6 +115,11 @@ public class Geometry3DGetterManager {
 				}
 			}
 		}
+	}
+
+	private void addTriangle(int v1, int v2, int v3) {
+		getter.addTriangle(v1 - elementsOffset, v2 - elementsOffset,
+				v3 - elementsOffset);
 	}
 
 }
