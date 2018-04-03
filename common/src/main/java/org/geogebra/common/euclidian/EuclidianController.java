@@ -9625,6 +9625,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		DrawVideo dv = getVideoHit();
+
 		if (dv == null && lastVideo != null) {
 			lastVideo.pause();
 			lastVideo = null;
@@ -10309,7 +10310,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (lastVideo != null) {
 			lastVideo.play();
-			lastVideo = null;
 		}
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;

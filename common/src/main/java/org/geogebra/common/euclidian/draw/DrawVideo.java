@@ -65,7 +65,16 @@ public class DrawVideo extends Drawable {
 		}
 		MyImage preview = video.getPreview();
 		if (preview != null) {
-			g2.drawImage(preview, 0, 0, video.getWidth(), video.getHeight(), left, top);
+			g2.saveTransform();
+
+			double sx = video.getWidth();
+			sx /= preview.getWidth();
+			double sy = video.getHeight();
+			sy /= preview.getHeight();
+			g2.translate(left, top);
+			g2.scale(sx, sy);
+			g2.drawImage(preview, 0, 0);
+			g2.restoreTransform();
 		}
 	}
 
@@ -209,6 +218,9 @@ public class DrawVideo extends Drawable {
 			video.setHeight(newHeight);
 			originalRatio = Double.NaN;
 			update();
+			break;
+		case UNDEFINED:
+		default:
 			break;
 		}
 	}

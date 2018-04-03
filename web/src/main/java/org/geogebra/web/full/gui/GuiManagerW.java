@@ -2720,17 +2720,16 @@ public class GuiManagerW extends GuiManager
 		if (!videoPlayers.containsKey(video) || !video.hasChanged()) {
 			return;
 		}
-
 		
 		Frame player = videoPlayers.get(video);
+		Style style = player.getElement().getStyle();
+		style.setLeft(video.getAbsoluteScreenLocX(), Unit.PX);
+		style.setTop(video.getAbsoluteScreenLocY(), Unit.PX);
 		if (video.isPlaying()) {
 			player.setVisible(true);
 			player.setUrl(video.getEmbeddedUrl());
 			player.setWidth(video.getWidth() + "px");
 			player.setHeight(video.getHeight() + "px");
-			Style style = player.getElement().getStyle();
-			style.setLeft(video.getAbsoluteScreenLocX(), Unit.PX);
-			style.setTop(video.getAbsoluteScreenLocY(), Unit.PX);
 			video.setChanged(false);
 		} else {
 			player.setVisible(false);
