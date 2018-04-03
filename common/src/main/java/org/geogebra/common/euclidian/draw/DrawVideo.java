@@ -61,7 +61,7 @@ public class DrawVideo extends Drawable {
 		}
 		MyImage preview = video.getPreview();
 		if (preview != null) {
-			g2.drawImage(preview, left, top);
+			g2.drawImage(preview, 0, 0, video.getWidth(), video.getHeight(), left, top);
 		}
 	}
 

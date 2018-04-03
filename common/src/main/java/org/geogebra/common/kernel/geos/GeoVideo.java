@@ -99,11 +99,6 @@ public class GeoVideo extends GeoAudio {
 	}
 
 	@Override
-	public int getWidth() {
-		return isPreviewActive() ? preview.getWidth() : super.getWidth();
-	}
-
-	@Override
 	public void setWidth(int width) {
 		super.setWidth(width);
 		changed = true;
@@ -113,15 +108,6 @@ public class GeoVideo extends GeoAudio {
 	public void setHeight(int height) {
 		super.setHeight(height);
 		changed = true;
-	}
-
-	@Override
-	public int getHeight() {
-		return isPreviewActive() ? preview.getHeight() : super.getHeight();
-	}
-
-	private boolean isPreviewActive() {
-		return !playing && preview != null;
 	}
 
 	@Override
