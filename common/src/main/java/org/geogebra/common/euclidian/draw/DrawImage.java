@@ -426,11 +426,10 @@ public final class DrawImage extends Drawable {
 
 					App app = geoImage.getKernel().getApplication();
 
-					// show highlighting on;y if toolbar showing
+					// show highlighting only if toolbar showing
 					// needed for eg Reflect tool
 					// no highlight if we have bounding box for mow
 					if (!app.isWhiteboardActive() && app.showToolBar()) {
-
 						if (highlighting == null) {
 							highlighting = AwtFactory.getPrototype()
 									.newGeneralPath();
