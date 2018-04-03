@@ -133,6 +133,13 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				}
 			}
 		} else {
+			handler = new AsyncOperation<String[]>() {
+				@Override
+				public void callback(String[] dialogResult) {
+					getApp().fileNew();
+				}
+			};
+			buttonText = loc.getMenu("OK");
 			getApp().showMessage(exam.getLog(loc, getApp().getSettings()),
 					loc.getMenu("exam_log_header") + " "
 							+ getApp().getVersionString(),
