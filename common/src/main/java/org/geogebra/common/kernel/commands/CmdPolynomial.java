@@ -44,28 +44,23 @@ public class CmdPolynomial extends CommandProcessor {
 				GeoElement[] ret = { algo.getPolynomial() };
 				return ret;
 			}
-			// Michael Borcherds 2008-01-22 BEGIN
 			// PolynomialFromCoordinates
 			else if ((arg[0].isGeoList())) {
 				GeoElement[] ret = {
-						PolynomialFunction(c.getLabel(), ((GeoList) arg[0])) };
+						polynomialFunction(c.getLabel(), ((GeoList) arg[0])) };
 				return ret;
-			}
-			// Michael Borcherds 2008-01-22 END
- else {
+			} else {
 				throw argErr(app, c, arg[0]);
 			}
 
 			// more than one argument
 		default:
-			// Markus Hohenwarter 2008-01-26 BEGIN
 			// try to create list of points
 			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
 			if (list != null) {
-				GeoElement[] ret = { PolynomialFunction(c.getLabel(), list) };
+				GeoElement[] ret = { polynomialFunction(c.getLabel(), list) };
 				return ret;
 			}
-			// Markus Hohenwarter 2008-01-26 END
 			throw argNumErr(c);
 		}
 	}
@@ -74,7 +69,7 @@ public class CmdPolynomial extends CommandProcessor {
 	 * Fits a polynomial exactly to a list of coordinates Michael Borcherds
 	 * 2008-01-22
 	 */
-	final private GeoFunction PolynomialFunction(String label, GeoList list) {
+	final private GeoFunction polynomialFunction(String label, GeoList list) {
 		AlgoPolynomialFromCoordinates algo = new AlgoPolynomialFromCoordinates(
 				cons, label, list);
 		return algo.getPolynomial();

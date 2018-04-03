@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoTurningPointPolyInterval;
 import org.geogebra.common.kernel.algos.AlgoTurningPointPolynomial;
-import org.geogebra.common.kernel.algos.AlgoTurningPointPolynomialInterval;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -45,11 +45,10 @@ public class CmdTurningPoint extends CommandProcessor {
 				ExpressionNode exp = fun.getFunctionExpression();
 				if (exp.getOperation().equals(Operation.IF)) {
 
-					AlgoTurningPointPolynomialInterval algo = new AlgoTurningPointPolynomialInterval(
+					AlgoTurningPointPolyInterval algo = new AlgoTurningPointPolyInterval(
 							cons, c.getLabels(), fun);
 					GeoPoint[] g = algo.getRootPoints();
 					return g;
-
 				}
 
 				AlgoTurningPointPolynomial algo = new AlgoTurningPointPolynomial(

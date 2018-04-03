@@ -38,12 +38,12 @@ public class CmdTake extends CommandProcessor {
 
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isGeoNumeric())) {
-				GeoElement[] ret = { Take(c.getLabel(), (GeoList) arg[0],
+				GeoElement[] ret = { take(c.getLabel(), (GeoList) arg[0],
 						(GeoNumeric) arg[1], null) };
 				return ret;
 			} else if ((ok[0] = arg[0].isGeoText())
 					&& (ok[1] = arg[1].isGeoNumeric())) {
-				GeoElement[] ret = { Take(c.getLabel(), (GeoText) arg[0],
+				GeoElement[] ret = { take(c.getLabel(), (GeoText) arg[0],
 						(GeoNumeric) arg[1], null) };
 				return ret;
 			} else {
@@ -54,13 +54,13 @@ public class CmdTake extends CommandProcessor {
 
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
-				GeoElement[] ret = { Take(c.getLabel(), (GeoList) arg[0],
+				GeoElement[] ret = { take(c.getLabel(), (GeoList) arg[0],
 						(GeoNumeric) arg[1], (GeoNumeric) arg[2]) };
 				return ret;
 			} else if ((ok[0] = arg[0].isGeoText())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
-				GeoElement[] ret = { Take(c.getLabel(), (GeoText) arg[0],
+				GeoElement[] ret = { take(c.getLabel(), (GeoText) arg[0],
 						(GeoNumeric) arg[1], (GeoNumeric) arg[2]) };
 				return ret;
 			} else {
@@ -75,7 +75,7 @@ public class CmdTake extends CommandProcessor {
 	/**
 	 * First[string,n] Michael Borcherds
 	 */
-	final private GeoText Take(String label, GeoText list, GeoNumeric m,
+	final private GeoText take(String label, GeoText list, GeoNumeric m,
 			GeoNumeric n) {
 		AlgoTakeString algo = new AlgoTakeString(cons, label, list, m, n);
 		GeoText list2 = algo.getResult();
@@ -85,7 +85,7 @@ public class CmdTake extends CommandProcessor {
 	/**
 	 * Take[list,m,n] Michael Borcherds
 	 */
-	final private GeoList Take(String label, GeoList list, GeoNumeric m,
+	final private GeoList take(String label, GeoList list, GeoNumeric m,
 			GeoNumeric n) {
 		AlgoTake algo = new AlgoTake(cons, label, list, m, n);
 		GeoList list2 = algo.getResult();

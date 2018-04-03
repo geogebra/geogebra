@@ -160,7 +160,7 @@ public class CmdIf extends CommandProcessor {
 			vars = checkAdd(c, functions, arg[n - 1], vars);
 		}
 		return new GeoElement[] {
-				If(c.getLabel(), conditions, functions, vars) };
+				functionIf(c.getLabel(), conditions, functions, vars) };
 
 	}
 
@@ -222,7 +222,7 @@ public class CmdIf extends CommandProcessor {
 		}
 		kernel.getConstruction().setSuppressLabelCreation(oldFlag);
 		return new GeoElement[] {
-				If(c.getLabel(), conditions, functions, vars) };
+				functionIf(c.getLabel(), conditions, functions, vars) };
 	}
 
 	private FunctionalNVar resolveFunction(Command c, int i,
@@ -246,7 +246,7 @@ public class CmdIf extends CommandProcessor {
 	/**
 	 * If-then-else construct for functions. example: If[ x < 2, x^2, x + 2 ]
 	 */
-	final private GeoElement If(String label,
+	final private GeoElement functionIf(String label,
 			ArrayList<FunctionalNVar> conditions,
 			ArrayList<FunctionalNVar> functions, int vars) {
 		FunctionVariable[] fv;

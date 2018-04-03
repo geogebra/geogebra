@@ -42,7 +42,7 @@ public class CmdNDerivative extends CommandProcessor {
 				if (label == null) {
 					label = CmdDerivative.getDerivLabel(f.toGeoElement(), 1);
 				}
-				GeoElement[] ret = { NDerivative(label, f, null, null) };
+				GeoElement[] ret = { nDerivative(label, f, null, null) };
 				return ret;
 			}
 			throw argErr(app, c, arg[0]);
@@ -66,7 +66,7 @@ public class CmdNDerivative extends CommandProcessor {
 	 *            derivative degree
 	 * @return derivaive
 	 */
-	public GeoElement NDerivative(String label, CasEvaluableFunction f,
+	public GeoElement nDerivative(String label, CasEvaluableFunction f,
 			GeoNumeric var, GeoNumberValue n) {
 		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n, true,
 				new EvalInfo(false));

@@ -51,7 +51,7 @@ public class PDFEncoderW implements Encoder {
 		if (firstPage) {
 			firstPage = false;
 		} else {
-			ev.addPagePDF(ctx);
+			addPagePDF(ctx);
 		}
 		ev.exportPaintPre(g4copy, 1, false);
 		ev.drawObjects(g4copy);
@@ -117,9 +117,15 @@ public class PDFEncoderW implements Encoder {
 	 * @return the resulting PDF (as base64 URL)
 	 */
 	public static native String getPDF(JavaScriptObject pdfcontext) /*-{
-
 		return pdfcontext.getPDFbase64();
+	}-*/;
 
+	/**
+	 * @param ctx
+	 *            context
+	 */
+	public static native void addPagePDF(JavaScriptObject ctx) /*-{
+		ctx.addPage();
 	}-*/;
 
 }

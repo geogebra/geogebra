@@ -35,7 +35,7 @@ public class CmdSort extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { Sort(c.getLabel(), (GeoList) arg[0]) };
+				GeoElement[] ret = { sort(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			}
 			throw argErr(app, c, arg[0]);
@@ -60,7 +60,7 @@ public class CmdSort extends CommandProcessor {
 			// try to create list of points (eg FitExp[])
 			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
 			if (list != null) {
-				GeoElement[] ret = { Sort(c.getLabel(), list) };
+				GeoElement[] ret = { sort(c.getLabel(), list) };
 				return ret;
 			}
 
@@ -71,7 +71,7 @@ public class CmdSort extends CommandProcessor {
 	/**
 	 * Sort[list] Michael Borcherds
 	 */
-	final private GeoList Sort(String label, GeoList list) {
+	final private GeoList sort(String label, GeoList list) {
 		AlgoSort algo = new AlgoSort(cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;

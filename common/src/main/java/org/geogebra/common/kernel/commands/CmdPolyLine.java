@@ -83,7 +83,7 @@ public class CmdPolyLine extends CommandProcessor {
 		if (penStroke) {
 			ArrayList<MyPoint> myPoints = new ArrayList<>();
 			for (int i = 0; i < size; i++) {
-				MyVecNode vec =(MyVecNode)c.getArgument(i).unwrap();
+				MyVecNode vec = (MyVecNode) c.getArgument(i).unwrap();
 				myPoints.add(new MyPoint(vec.getX().evaluateDouble(),
 						vec.getY().evaluateDouble()));
 			}

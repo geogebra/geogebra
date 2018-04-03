@@ -440,7 +440,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 		// include view 2 as 2nd page
 		if (page2) {
-			addPagePDF(ctx);
+			PDFEncoderW.addPagePDF(ctx);
 			view2.exportPaintPre(g4copy, scale, false);
 			view2.drawObjects(g4copy);
 		}
@@ -460,10 +460,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private native boolean canvas2svgLoaded() /*-{
 		return !!$wnd.C2S;
-	}-*/;
-
-	public native void addPagePDF(JavaScriptObject ctx) /*-{
-		ctx.addPage();
 	}-*/;
 
 	private native String getSerializedSvg(JavaScriptObject ctx) /*-{
@@ -1078,6 +1074,9 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
+	/**
+	 * Set cursor to hit (hand)
+	 */
 	public void setHitCursor() {
 		setCursorClass("cursor_hit");
 	}
@@ -1457,10 +1456,6 @@ public class EuclidianViewW extends EuclidianView implements
 		scrollState.element.scrollTop = st;
 	}-*/;
 
-	public static native void printFocusedElement()/*-{
-		$wnd.console.log($doc.activeElement);
-	}-*/;
-
 	/**
 	 * Focus next view on page.
 	 * 
@@ -1546,9 +1541,11 @@ public class EuclidianViewW extends EuclidianView implements
 			// for that GeoElement might not be visible in all Graphics
 			// views
 		}
-
 	}
 
+	/**
+	 * Reset the tab flag
+	 */
 	public static void resetTab() {
 		tabPressed = false;
 	}
@@ -1585,7 +1582,6 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 		g2c.setColor(col);
 		g2c.drawString(text, x, y);
-
 	}
 
 	/**
@@ -1594,8 +1590,19 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public Runnable getCallBack(GeoElement geo, boolean firstCall) {
-
 		return firstCall ? new DrawLaTeXCallBack(geo) : null;
+	}
+
+	/**
+	 * Schedule background update.
+	 */
+	public void deferredUpdateBackground() {
+		app.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				updateBackgroundImage();
+			}
+		});
 	}
 
 	private class DrawLaTeXCallBack implements Runnable {
@@ -1613,17 +1620,10 @@ public class EuclidianViewW extends EuclidianView implements
 		@Override
 		public void run() {
 			if (geo instanceof GeoAxis) {
-				app.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						updateBackgroundImage();
-					}
-				});
+				deferredUpdateBackground();
 			}
 			repaintView();
-
 		}
-
 	}
 
 }

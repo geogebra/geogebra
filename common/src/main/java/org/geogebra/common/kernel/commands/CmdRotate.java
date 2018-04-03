@@ -82,7 +82,7 @@ public class CmdRotate extends CommandProcessor {
 			}
 			GeoNumberValue phi = (GeoNumberValue) arg[1];
 
-			return Rotate(c.getLabel(), arg[0], phi);
+			return rotate(c.getLabel(), arg[0], phi);
 		}
 
 		throw argErr(app, c, arg[0]);
@@ -121,7 +121,7 @@ public class CmdRotate extends CommandProcessor {
 	/**
 	 * rotate geoRot by angle phi around (0,0)
 	 */
-	final private GeoElement[] Rotate(String label, GeoElement geoRot,
+	final private GeoElement[] rotate(String label, GeoElement geoRot,
 			GeoNumberValue phi) {
 		Transform t = new TransformRotate(cons, phi);
 		return t.transform(geoRot, label);

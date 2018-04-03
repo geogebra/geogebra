@@ -520,7 +520,7 @@ public class CmdIntersect extends CommandProcessor {
 		else if ((ok[0] = (arg[0].isGeoFunctionable()))
 				&& (ok[1] = (arg[1].isGeoFunctionable()))
 				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-			GeoElement[] ret = { IntersectPolynomialsSingle(c, arg,
+			GeoElement[] ret = { intersectPolynomialsSingle(c, arg,
 					((GeoFunctionable) arg[0]).getGeoFunction(),
 					((GeoFunctionable) arg[1]).getGeoFunction(),
 					(GeoNumberValue) arg[2]) };
@@ -836,7 +836,7 @@ public class CmdIntersect extends CommandProcessor {
 	/**
 	 * get only one intersection point of two polynomials a, b with given index
 	 */
-	final private GeoPoint IntersectPolynomialsSingle(Command c,
+	final private GeoPoint intersectPolynomialsSingle(Command c,
 			GeoElement[] arg, GeoFunction a, GeoFunction b,
 			GeoNumberValue index) {
 

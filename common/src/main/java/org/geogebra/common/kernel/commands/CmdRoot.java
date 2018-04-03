@@ -45,7 +45,7 @@ public class CmdRoot extends CommandProcessor {
 			arg = resArgs(c);
 			if ((arg[0].isGeoFunctionable())) {
 				GeoFunctionable gf = (GeoFunctionable) arg[0];
-				return Root(c, gf);
+				return root(c, gf);
 			}
 			throw argErr(app, c, arg[0]);
 
@@ -89,7 +89,7 @@ public class CmdRoot extends CommandProcessor {
 	 * all Roots of polynomial f (works only for polynomials and functions that
 	 * can be simplified to factors of polynomials, e.g. sqrt(x) to x)
 	 */
-	final private GeoPoint[] Root(Command c, GeoFunctionable f) {
+	final private GeoPoint[] root(Command c, GeoFunctionable f) {
 
 		// special case for If
 		// non-polynomial -> undefined

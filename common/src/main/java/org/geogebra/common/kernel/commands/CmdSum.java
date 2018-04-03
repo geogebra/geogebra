@@ -67,10 +67,10 @@ public class CmdSum extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (fold instanceof NumberFold) {
-				GeoElement[] ret = { Sum(c.getLabel(), list) };
+				GeoElement[] ret = { sum(c.getLabel(), list) };
 				return ret;
 			} else if (fold != null) {
-				GeoElement[] ret = { Sum(c.getLabel(), list, null, fold) };
+				GeoElement[] ret = { sum(c.getLabel(), list, null, fold) };
 				return ret;
 			}
 			throw argErr(app, c, arg[0]);
@@ -85,7 +85,7 @@ public class CmdSum extends CommandProcessor {
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				} else if (fold != null) {
-					GeoElement[] ret = { Sum(c.getLabel(), list,
+					GeoElement[] ret = { sum(c.getLabel(), list,
 							(GeoNumeric) arg[1], fold) };
 					return ret;
 				} else {
@@ -111,7 +111,7 @@ public class CmdSum extends CommandProcessor {
 				GeoList wrapList = wrapInList(kernel, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (wrapList != null) {
-					GeoElement[] ret = { Sum(c.getLabel(), wrapList) };
+					GeoElement[] ret = { sum(c.getLabel(), wrapList) };
 					return ret;
 				}
 			} else if (arg[0] instanceof VectorValue) {
@@ -120,7 +120,7 @@ public class CmdSum extends CommandProcessor {
 						GeoClass.POINT);
 				if (wrapList != null) {
 					GeoElement[] ret = {
-							Sum(c.getLabel(), wrapList, null,
+							sum(c.getLabel(), wrapList, null,
 									new PointNDFold()) };
 					return ret;
 				}
@@ -130,7 +130,7 @@ public class CmdSum extends CommandProcessor {
 						GeoClass.FUNCTION);
 				if (wrapList != null) {
 					GeoElement[] ret = {
-							Sum(c.getLabel(), wrapList, null,
+							sum(c.getLabel(), wrapList, null,
 									new FunctionFold()) };
 					return ret;
 				}
@@ -140,7 +140,7 @@ public class CmdSum extends CommandProcessor {
 						GeoClass.FUNCTION_NVAR);
 				if (wrapList != null) {
 					GeoElement[] ret = {
-							Sum(c.getLabel(), wrapList, null,
+							sum(c.getLabel(), wrapList, null,
 									new FunctionNvarFold()) };
 					return ret;
 				}
@@ -150,7 +150,7 @@ public class CmdSum extends CommandProcessor {
 						GeoClass.TEXT);
 				if (wrapList != null) {
 					GeoElement[] ret = {
-							Sum(c.getLabel(), wrapList, null,
+							sum(c.getLabel(), wrapList, null,
 									new TextFold()) };
 					return ret;
 				}
@@ -160,7 +160,7 @@ public class CmdSum extends CommandProcessor {
 						GeoClass.LIST);
 				if (wrapList != null) {
 					GeoElement[] ret = {
-							Sum(c.getLabel(), wrapList, null,
+							sum(c.getLabel(), wrapList, null,
 									new ListFold()) };
 					return ret;
 				}
@@ -249,18 +249,17 @@ public class CmdSum extends CommandProcessor {
 		return algo.getOutput();
 	}
 
-	final private GeoElement Sum(String label, GeoList list) {
+	final private GeoElement sum(String label, GeoList list) {
 		AlgoSum algo = new AlgoSum(cons, list);
 		algo.getResult().setLabel(label);
 		GeoElement ret = algo.getResult();
 		return ret;
 	}
 
-
 	/**
 	 * Sum[list of text,n] Michael Borcherds
 	 */
-	final private GeoElement Sum(String label, GeoList list, GeoNumeric num,
+	final private GeoElement sum(String label, GeoList list, GeoNumeric num,
 			FoldComputer fold) {
 		AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, label, list, num,
 				Operation.PLUS, fold);

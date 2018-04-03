@@ -22,6 +22,7 @@ public class CmdGetTime extends CommandProcessor {
 
 	private static final int[] month_days = { 31, 28, 31, 30, 31, 30, 31, 31,
 			30, 31, 30, 31 };
+
 	/**
 	 * Create new command processor
 	 * 
@@ -44,13 +45,11 @@ public class CmdGetTime extends CommandProcessor {
 			Date cal = new Date();
 			GeoNumeric mins1 = new GeoNumeric(cons, cal.getMinutes());
 			int d = cal.getDay() + 1;
-			GeoNumeric day = new GeoNumeric(cons, d);
+
 			int m = cal.getMonth() + 1;
-			GeoNumeric month1 = new GeoNumeric(cons, m);
-			GeoNumeric year1 = new GeoNumeric(cons, cal.getYear() + 1900);
+
 			GeoNumeric secs1 = new GeoNumeric(cons, cal.getSeconds());
 			GeoNumeric hours1 = new GeoNumeric(cons, cal.getHours());
-			GeoNumeric date1 = new GeoNumeric(cons, cal.getDate());
 			GeoNumeric ms1 = new GeoNumeric(cons, cal.getTime() % 1000);
 
 			monthStr1.setTextString(loc.getMenu("Month." + m));
@@ -63,12 +62,12 @@ public class CmdGetTime extends CommandProcessor {
 			list.add(secs1);
 			list.add(mins1);
 			list.add(hours1);
-			list.add(date1);
-			list.add(month1);
-			list.add(year1);
+			list.add(new GeoNumeric(cons, cal.getDate()));
+			list.add(new GeoNumeric(cons, m));
+			list.add(new GeoNumeric(cons, cal.getYear() + 1900));
 			list.add(monthStr1);
 			list.add(dayStr1);
-			list.add(day);
+			list.add(new GeoNumeric(cons, d));
 			list.update();
 
 			GeoElement[] ret = { list };

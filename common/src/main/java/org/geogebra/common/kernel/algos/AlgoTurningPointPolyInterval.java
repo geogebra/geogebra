@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  * 
  * @author Michael
  */
-public class AlgoTurningPointPolynomialInterval
+public class AlgoTurningPointPolyInterval
 		extends AlgoTurningPointPolynomial {
 
 	private Function interval;
@@ -37,7 +37,7 @@ public class AlgoTurningPointPolynomialInterval
 	 * @param f
 	 *            function
 	 */
-	public AlgoTurningPointPolynomialInterval(Construction cons,
+	public AlgoTurningPointPolyInterval(Construction cons,
 			String[] labels, GeoFunction f) {
 		super(cons, labels, f);
 	}

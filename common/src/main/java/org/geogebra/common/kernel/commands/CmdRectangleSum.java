@@ -52,4 +52,4 @@ public class CmdRectangleSum extends CommandProcessor {
 			throw argNumErr(c);
 		}
 	}
-}// CmdRectangleSum
+}

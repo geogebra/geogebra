@@ -11,6 +11,8 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Normalize[ &lt;List> ]
+ * 
+ * @author Oana Niculaescu
  */
 public class CmdNormalize extends CommandProcessor {
 
@@ -37,7 +39,7 @@ public class CmdNormalize extends CommandProcessor {
 			if (arg[0].isGeoList()) {
 
 				GeoElement[] ret = {
-						Normalize(c.getLabel(), (GeoList) arg[0]) };
+						normalize(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 
 			} else if (!(arg[0] instanceof VectorValue)) {
@@ -49,7 +51,7 @@ public class CmdNormalize extends CommandProcessor {
 			// try to create list of points (eg FitExp[])
 			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
 			if (list != null) {
-				GeoElement[] ret = { Normalize(c.getLabel(), list) };
+				GeoElement[] ret = { normalize(c.getLabel(), list) };
 				return ret;
 			}
 
@@ -58,9 +60,9 @@ public class CmdNormalize extends CommandProcessor {
 	}
 
 	/**
-	 * Normalize[list] Oana Niculaescu
+	 * Normalize[list]
 	 */
-	final private GeoList Normalize(String label, GeoList list) {
+	final private GeoList normalize(String label, GeoList list) {
 		AlgoNormalize algo = new AlgoNormalize(cons, list);
 		GeoList list2 = algo.getResult();
 		list2.setLabel(label);

@@ -41,7 +41,7 @@ public class CmdShear extends CommandProcessor {
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
 						|| arg[0].isGeoPolygon() || arg[0].isGeoList()) {
 
-					ret = Shear(label, arg[0], (GeoVec3D) arg[1],
+					ret = shear(label, arg[0], (GeoVec3D) arg[1],
 							(GeoNumeric) arg[2]);
 					return ret;
 
@@ -61,7 +61,7 @@ public class CmdShear extends CommandProcessor {
 	/**
 	 * shear
 	 */
-	final private GeoElement[] Shear(String label, GeoElement Q, GeoVec3D l,
+	final private GeoElement[] shear(String label, GeoElement Q, GeoVec3D l,
 			GeoNumeric num) {
 		Transform t = new TransformShearOrStretch(cons, l, num, true);
 		return t.transform(Q, label);

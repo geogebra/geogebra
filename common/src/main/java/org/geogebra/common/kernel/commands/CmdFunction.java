@@ -157,7 +157,7 @@ public class CmdFunction extends CommandProcessor {
 				int r = c.getArgument(0).replaceVariables(varName, fv);
 				c.getArgument(0).replaceVariables(varName, fv);
 				if (r > 0) {
-					boolean oldFlag = kernel.getConstruction()
+					final boolean oldFlag = kernel.getConstruction()
 							.isSuppressLabelsActive();
 					kernel.getConstruction().setSuppressLabelCreation(true);
 
@@ -191,7 +191,7 @@ public class CmdFunction extends CommandProcessor {
 					c.getArgument(0).resolveVariables(argInfo);
 
 					kernel.getConstruction().setSuppressLabelCreation(oldFlag);
-					return new GeoElement[] { Function(c.getLabel(), condFun,
+					return new GeoElement[] { function(c.getLabel(), condFun,
 							(GeoNumberValue) low, (GeoNumberValue) high) };
 				}
 			}
@@ -199,7 +199,7 @@ public class CmdFunction extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-				GeoElement[] ret = { Function(c.getLabel(),
+				GeoElement[] ret = { function(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]) };
 				return ret;
@@ -223,7 +223,7 @@ public class CmdFunction extends CommandProcessor {
 	/**
 	 * function limited to interval [a, b]
 	 */
-	final private GeoFunction Function(String label, GeoFunction f,
+	final private GeoFunction function(String label, GeoFunction f,
 			GeoNumberValue a, GeoNumberValue b) {
 		AlgoFunctionInterval algo = new AlgoFunctionInterval(cons, label, f, a,
 				b);

@@ -39,11 +39,11 @@ public class CmdFirst extends CommandProcessor {
 
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = {
-						First(c.getLabel(), (GeoList) arg[0], null) };
+						first(c.getLabel(), (GeoList) arg[0], null) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
 				GeoElement[] ret = {
-						First(c.getLabel(), (GeoText) arg[0], null) };
+						first(c.getLabel(), (GeoText) arg[0], null) };
 				return ret;
 			} else {
 				throw argErr(app, c, arg[0]);
@@ -53,11 +53,11 @@ public class CmdFirst extends CommandProcessor {
 			boolean string = arg[0].isGeoText();
 			boolean locus = arg[0].isGeoLocusable();
 			if (list && arg[1].isGeoNumeric()) {
-				GeoElement[] ret = { First(c.getLabel(), (GeoList) arg[0],
+				GeoElement[] ret = { first(c.getLabel(), (GeoList) arg[0],
 						(GeoNumeric) arg[1]) };
 				return ret;
 			} else if (string && arg[1].isGeoNumeric()) {
-				GeoElement[] ret = { First(c.getLabel(), (GeoText) arg[0],
+				GeoElement[] ret = { first(c.getLabel(), (GeoText) arg[0],
 						(GeoNumeric) arg[1]) };
 				return ret;
 			} else if (locus && arg[1].isGeoNumeric()) {
@@ -80,7 +80,7 @@ public class CmdFirst extends CommandProcessor {
 	/**
 	 * First[string,n] Michael Borcherds
 	 */
-	final private GeoText First(String label, GeoText list, GeoNumeric n) {
+	final private GeoText first(String label, GeoText list, GeoNumeric n) {
 		AlgoFirstString algo = new AlgoFirstString(cons, label, list, n);
 		GeoText list2 = algo.getResult();
 		return list2;
@@ -89,7 +89,7 @@ public class CmdFirst extends CommandProcessor {
 	/**
 	 * First[list,n] Michael Borcherds
 	 */
-	final private GeoList First(String label, GeoList list, GeoNumeric n) {
+	final private GeoList first(String label, GeoList list, GeoNumeric n) {
 		AlgoFirst algo = new AlgoFirst(cons, label, list, n);
 		GeoList list2 = algo.getResult();
 		return list2;

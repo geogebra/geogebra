@@ -1173,6 +1173,11 @@ public enum Commands implements CommandsConstants,
 		return table;
 	}
 
+	/**
+	 * @param comm
+	 *            english command, e.g. FormulaText
+	 * @return internal command, e.g. LaTeX
+	 */
 	public static Commands englishToInternal(Commands comm) {
 		switch (comm) {
 		case Polyline:
@@ -1258,16 +1263,20 @@ public enum Commands implements CommandsConstants,
 		return name();
 	}
 
+	/**
+	 * Like valueOf(), but no error is thrown
+	 * 
+	 * @param str
+	 *            command nam
+	 * @return command with that name
+	 */
 	public static Commands stringToCommand(String str) {
-
 		for (Commands c : Commands.values()) {
 			if (c.getCommand().equals(str)) {
 				return c;
 			}
 		}
-
 		return null;
-
 	}
 
 }
