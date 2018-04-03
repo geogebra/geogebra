@@ -1,11 +1,14 @@
 package org.geogebra.common.kernel.cas;
 
+import java.util.TreeSet;
+
 import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
@@ -29,6 +32,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Use Solve cas command from AV
@@ -78,21 +82,28 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 		boolean trig = false;
 		StringBuilder sb = new StringBuilder(type.getCommand());
 		sb.append('[');
+		String varString = null;
 		if (equations instanceof GeoList) {
+			TreeSet<String> vars = new TreeSet<>();
 			sb.append("{");
 			for (int i = 0; i < ((GeoList) equations).size(); i++) {
 				if (i != 0) {
 					sb.append(',');
 				}
 				trig = printCAS(((GeoList) equations).get(i), sb) || trig;
+				addVars(((GeoList) equations).get(i), vars);
 			}
 			sb.append("}");
+			varString = "{" + StringUtil.join(",", vars) + "}";
 		} else {
 			trig = printCAS(equations, sb) || trig;
 		}
 		if (hint != null) {
 			sb.append(',');
 			printHint(sb);
+		} else if (varString != null) {
+			sb.append(',');
+			sb.append(varString);
 		}
 		sb.append("]");
 		try {
@@ -125,6 +136,15 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 			e.printStackTrace();
 		}
 		solutions.setNotDrawable();
+	}
+
+	private static void addVars(GeoElement geo, TreeSet<String> vars) {
+		if (geo instanceof EquationValue) {
+			for (String var : ((EquationValue) geo).getEquationVariables()) {
+				vars.add(var);
+			}
+		}
+
 	}
 
 	private boolean elementsDefined(GeoList raw) {
