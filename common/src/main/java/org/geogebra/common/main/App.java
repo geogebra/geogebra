@@ -4007,7 +4007,7 @@ public abstract class App implements UpdateSelection {
 
 		// AND-679
 		case MOB_AND_QUEUE_ON_GL_THREAD:
-			return prerelease;
+			return true;
 
 		// IGR-748
 		case MOB_EXPORT_IMAGE:
