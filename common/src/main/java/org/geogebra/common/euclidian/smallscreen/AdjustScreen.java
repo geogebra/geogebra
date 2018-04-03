@@ -35,6 +35,7 @@ public class AdjustScreen {
 	private List<GeoNumeric> vSliders = new ArrayList<>();
 	private List<GeoInputBox> inputBoxes = new ArrayList<>();
 	private LayoutAbsoluteGeos layoutAbsoluteGeos;
+
 	private static class HSliderComparator implements Comparator<GeoNumeric> {
 		protected HSliderComparator() {
 			// avoid synthetic access warning
@@ -91,7 +92,7 @@ public class AdjustScreen {
 		this.view = view;
 		app = view.getApplication();
 		kernel = app.getKernel();
-		enabled = true;// needsAdjusting();
+		enabled = true; // needsAdjusting();
 		layoutAbsoluteGeos = new LayoutAbsoluteGeos(view);
 	}
 
@@ -125,7 +126,6 @@ public class AdjustScreen {
 		// checkOvelappingInputs();
 		view.repaintView();
 	}
-
 
 	private void collectWidgets() {
 		hSliders.clear();

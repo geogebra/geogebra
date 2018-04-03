@@ -195,8 +195,8 @@ public class MouseTouchGestureController {
 				return;
 			}
 
-			Coords oldStart = firstFingerTouch.getCoords();
-			Coords oldEnd = secondFingerTouch.getCoords();
+			final Coords oldStart = firstFingerTouch.getCoords();
+			final Coords oldEnd = secondFingerTouch.getCoords();
 			if (firstTouchIsAttachedToStartPoint) {
 				firstFingerTouch.setCoords(ec.getView().toRealWorldCoordX(x1d),
 						ec.getView().toRealWorldCoordY(y1d), 1);
@@ -415,14 +415,6 @@ public class MouseTouchGestureController {
 	/**
 	 * screen coordinates
 	 * 
-	 * @param oldStartX
-	 * @param oldStartY
-	 * @param oldEndX
-	 * @param oldEndY
-	 * @param newStartX
-	 * @param newStartY
-	 * @param newEndX
-	 * @param newEndY
 	 * @return true if there are only minimal changes of the two finger-touches
 	 */
 	private boolean onlyJitter(double oldStartX, double oldStartY,

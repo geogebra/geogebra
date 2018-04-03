@@ -477,12 +477,10 @@ public class HatchingHandler {
 			svgDrawLine(xInt / 2.0, yInt / 2.0, 0, yInt);
 			// avoid missing pixels bottom-right
 			svgDrawLine(0, -yInt, 2 * xInt, yInt);
-
 		}
 
 		return getSvgPath();
 	}
-
 
 	private static void drawDotted(double dist, GGraphics2D g2d) {
 		final double size = 2;
@@ -528,14 +526,12 @@ public class HatchingHandler {
 	private String drawChessboardSVG(double angle, double dist) {
 		svgReset();
 		if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
-			
 			svgMoveTo(dist, 0);
 			svgLineTo(2 * dist, dist);
 			svgLineTo(dist, 2 * dist);
 			svgLineTo(0, dist);
 			svgLineTo(dist, 0);
-			
-			
+
 		} else { // 0 degrees
 			svgMoveTo(0, 0);
 			svgLineTo(dist, 0);
@@ -548,7 +544,6 @@ public class HatchingHandler {
 			svgLineTo(2 * dist, 2 * dist);
 			svgLineTo(dist, 2 * dist);
 			svgLineTo(dist, dist);
-
 		}
 		return getSvgPath();
 	}
@@ -556,13 +551,13 @@ public class HatchingHandler {
 	private void drawHoneycomb(double dist, GGraphics2D g2d) {
 
 		double centerX = (dist * Math.sqrt(3) / 2);
-		double width = centerX + centerX;
 		path.moveTo(centerX, dist);
 		path.lineTo(centerX, 2 * dist);
 		path.lineTo(0, 2 * dist + dist / 2);
 		path.lineTo(0, 3 * dist);
 		g2d.draw(path);
 
+		double width = centerX + centerX;
 		path.reset();
 		path.moveTo(centerX, 2 * dist);
 		path.lineTo(width, 2 * dist + dist / 2);

@@ -63,7 +63,7 @@ public interface PathPlotter {
 	 * @param moveToAllowed
 	 *            type of move allowed
 	 */
-	public void firstPoint(double pos[], Gap moveToAllowed);
+	public void firstPoint(double[] pos, Gap moveToAllowed);
 
 	/**
 	 * 

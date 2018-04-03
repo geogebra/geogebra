@@ -28,14 +28,16 @@ public class MyButton implements Observer {
 
 	private GeoButton geoButton;
 	private EuclidianView view;
-	private int x, y;
+	private int x;
+	private int y;
 	private boolean selected;
 	private String text;
 
 	private final static int minSize = 24;
 
 	private GFont font;
-	private boolean pressed, draggedOrContext;
+	private boolean pressed;
+	private boolean draggedOrContext;
 	private double textHeight;
 	private double textWidth;
 	private GBasicStroke borderStroke;
@@ -57,7 +59,7 @@ public class MyButton implements Observer {
 		this.view = view;
 		this.x = 20;
 		this.y = 20;
-		this.borderStroke = EuclidianStatic.getDefaultStroke(); // AwtFactory.getPrototype().newMyBasicStroke(0.25f);
+		this.borderStroke = EuclidianStatic.getDefaultStroke();
 		geoButton.setObserver(this);
 	}
 

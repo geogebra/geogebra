@@ -316,6 +316,7 @@ public class ClipLine {
 	 * @param y22
 	 *            ending y of 2nd line
 	 * @param ret
+	 *            output point
 	 * @return intersection point or <code>null</code>
 	 */
 	private static GPoint2D intersect(double x11, double y11, double x12,

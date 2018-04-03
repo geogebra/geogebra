@@ -31,23 +31,49 @@ public class TextDispatcher {
 	protected Kernel kernel;
 	private EuclidianView view;
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param view
+	 *            graphics view
+	 */
 	public TextDispatcher(Kernel kernel, EuclidianView view) {
 		this.kernel = kernel;
 		this.view = view;
 		this.loc = kernel.getLocalization();
 	}
 
+	/**
+	 * @param label
+	 *            object label
+	 * @return label with removed underscores and braces
+	 */
 	protected static String removeUnderscoresAndBraces(String label) {
 		// remove all subscripts
 		return label.replaceAll("_", "").replaceAll("\\{", "").replaceAll("\\}",
 				"");
 	}
 
+	/**
+	 * @param text
+	 *            text
+	 * @param loc
+	 *            absolute location
+	 */
 	protected void setNoPointLoc(GeoText text, GPoint loc) {
 		text.setAbsoluteScreenLocActive(true);
 		text.setAbsoluteScreenLoc(loc.x, loc.y);
 	}
 
+	/**
+	 * @param conic
+	 *            conic or polygon
+	 * @param area
+	 *            area
+	 * @param loc0
+	 *            text location
+	 * @return text with the area description
+	 */
 	public GeoElement[] getAreaText(GeoElement conic, GeoNumberValue area,
 			GPoint loc0) {
 		// text
@@ -188,7 +214,6 @@ public class TextDispatcher {
 		}
 
 		return text;
-
 	}
 
 	protected GeoPointND getPointForDynamicText(Region object, GPoint loc0) {
@@ -215,7 +240,6 @@ public class TextDispatcher {
 	}
 
 	protected GeoPointND getPointForDynamicText(Path object, GPoint loc0) {
-
 		return view.getEuclidianController().getCompanion().createNewPoint(
 				removeUnderscoresAndBraces(loc.getMenu("Point")
 						+ object.getLabel(StringTemplate.defaultTemplate)),
@@ -223,8 +247,12 @@ public class TextDispatcher {
 				view.toRealWorldCoordY(loc0.y), 0, false, false);
 	}
 
-	protected GeoPointND getPointForDynamicText(GPoint loc) {
-
+	/**
+	 * @param textLoc
+	 *            text location
+	 * @return null; overridden in 3D
+	 */
+	protected GeoPointND getPointForDynamicText(GPoint textLoc) {
 		return null;
 	}
 
@@ -301,6 +329,13 @@ public class TextDispatcher {
 		}
 	}
 
+	/**
+	 * @param conic
+	 *            conic
+	 * @param loc0
+	 *            text location
+	 * @return circumcircle description
+	 */
 	public GeoElement[] createCircumferenceText(GeoConicND conic, GPoint loc0) {
 		if (conic.isGeoConicPart()) {
 
@@ -341,6 +376,13 @@ public class TextDispatcher {
 		return ret;
 	}
 
+	/**
+	 * @param poly
+	 *            polygon
+	 * @param mouseLoc
+	 *            text location
+	 * @return perimeter description
+	 */
 	public GeoElement[] createPerimeterText(GeoPolygon poly, GPoint mouseLoc) {
 		GeoNumeric perimeter = kernel.getAlgoDispatcher().Perimeter(null, poly);
 
@@ -361,6 +403,13 @@ public class TextDispatcher {
 		return ret;
 	}
 
+	/**
+	 * @param poly
+	 *            polyline
+	 * @param mouseLoc
+	 *            text location
+	 * @return perimeter description
+	 */
 	public GeoElement[] createPerimeterText(GeoPolyLine poly, GPoint mouseLoc) {
 		// text
 		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA",
@@ -376,6 +425,15 @@ public class TextDispatcher {
 		return ret;
 	}
 
+	/**
+	 * @param line
+	 *            line
+	 * @param f
+	 *            function
+	 * @param mouseLoc
+	 *            text location
+	 * @return slope object
+	 */
 	public GeoElement[] createSlopeText(GeoLine line, GeoFunction f,
 			GPoint mouseLoc) {
 		GeoNumeric slope;
@@ -413,12 +471,19 @@ public class TextDispatcher {
 		return ret;
 	}
 
+	/**
+	 * @param point1
+	 *            point
+	 * @param point2
+	 *            point
+	 * @return text describing distance between points
+	 */
 	public GeoElement createDistanceText(GeoPointND point1, GeoPointND point2) {
 		GeoNumeric length = kernel.getAlgoDispatcher().Distance(null, point1,
 				point2);
 
 		// set startpoint of text to midpoint of two points
-		GeoPointND midPoint = MidpointForDistance(point1, point2);
+		GeoPointND midPoint = midpointForDistance(point1, point2);
 		return this.createDistanceText(point1, point2, midPoint, length);
 	}
 
@@ -426,26 +491,32 @@ public class TextDispatcher {
 	 * Creates Midpoint M = (P + Q)/2 without label (for use as e.g. start
 	 * point)
 	 */
-	private final GeoPointND MidpointForDistance(GeoPointND P, GeoPointND Q) {
-
+	private final GeoPointND midpointForDistance(GeoPointND P, GeoPointND Q) {
 		return (GeoPointND) view.getEuclidianController().getCompanion()
 				.midpoint(P, Q);
 	}
 
+	/**
+	 * @param point
+	 *            point
+	 * @param line
+	 *            line
+	 * @return text for distance between point and line
+	 */
 	public GeoElement createDistanceText(GeoPointND point, GeoLineND line) {
 		GeoNumeric length = kernel.getAlgoDispatcher().Distance(null, point,
 				line);
 
 		// set startpoint of text to midpoint between point and line
-		GeoPointND midPoint = MidpointForDistance(point,
-				ClosestPoint(point, (Path) line));
+		GeoPointND midPoint = midpointForDistance(point,
+				closestPoint(point, (Path) line));
 		return this.createDistanceText(point, line, midPoint, length);
 	}
 
 	/**
 	 * Returns the projected point of P on line g (or nearest for a Segment)
 	 */
-	final private GeoPointND ClosestPoint(GeoPointND P, Path g) {
+	final private GeoPointND closestPoint(GeoPointND P, Path g) {
 
 		Construction cons = kernel.getConstruction();
 

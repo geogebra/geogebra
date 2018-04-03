@@ -12,8 +12,6 @@ public abstract class CoordSystemAnimation {
 		ZOOM, ZOOM_RW, AXES, MOVE
 	}
 
-	private final EuclidianView view;
-
 	private static final int MAX_STEPS = 15; // frames
 
 	/**
@@ -23,24 +21,39 @@ public abstract class CoordSystemAnimation {
 
 	private static final int MAX_TIME = 400; // millis
 
+	private final EuclidianView view;
 	private AnimationMode mode;
 
-	private double px, py; // zoom point
+	private double px; // zoom point
+	private double py;
 
 	private double factor;
 
-	private int counter, steps;
+	private int counter;
+	private int steps;
 
-	private double oldScale, newScale, add, dx, dy;
+	private double oldScale;
+	private double newScale;
+	private double add;
+	private double dx;
+	private double dy;
 
-	private double x0, x1, y0, y1, xminOld, yminOld, ymaxOld, xmaxOld;
+	private double x0;
+	private double x1;
+	private double y0;
+	private double y1;
+	private double xminOld;
+	private double yminOld;
+	private double ymaxOld;
+	private double xmaxOld;
 
 	private long startTime;
 
 	private boolean storeUndo;
 
 	private boolean setStandard = false;
-	private double standardX, standardY;
+	private double standardX;
+	private double standardY;
 
 	/**
 	 * Creates new zoomer

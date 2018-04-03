@@ -33,7 +33,8 @@ import org.geogebra.common.util.debug.Log;
 public class ModeDelete {
 	private EuclidianView view;
 	private EuclidianController ec;
-	private boolean objDeleteMode = false, penDeleteMode = false;
+	private boolean objDeleteMode = false;
+	private boolean penDeleteMode = false;
 	private ArrayList<GPoint2D> interPoints;
 	private ArrayList<GeoPointND[]> newDataAndRealPoint = new ArrayList<>();
 	private AlgorithmSet as = null;
@@ -49,7 +50,6 @@ public class ModeDelete {
 		this.view = view;
 		this.interPoints = new ArrayList<>();
 	}
-
 
 	/**
 	 * @param e
@@ -212,7 +212,7 @@ public class ModeDelete {
 
 				} else {
 					Log.debug(
-							"Can't delete points on stroke. Different number of in and output points.");
+							"Can't delete points on stroke: input / output length differs.");
 				}
 				if (hasVisiblePart) { // still something visible, don't delete
 					it.remove(); // remove this Stroke from hits
@@ -685,9 +685,9 @@ public class ModeDelete {
 						}
 						// eraser is between the points of segment
 						else {
-							if (i < dataPoints.length - 1 &&
-							  dataPoints[i].isDefined() && 
-							  dataPoints[i + 1].isDefined()) {
+							if (i < dataPoints.length - 1
+									&& dataPoints[i].isDefined()
+									&& dataPoints[i + 1].isDefined()) {
 								i = handleEraserBetweenPointsOfSegment(
 										dataPoints, realPoints, i);
 								if (newDataAndRealPoint != null
@@ -717,7 +717,7 @@ public class ModeDelete {
 
 				} else {
 					Log.debug(
-							"Can't delete points on stroke. Different number of in and output points.");
+							"Can't delete points on stroke: input / output length differs.");
 				}
 				if (!hasVisiblePart) { // still something visible, don't delete
 					// remove this Stroke

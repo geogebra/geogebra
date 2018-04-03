@@ -8,8 +8,12 @@ import org.geogebra.common.awt.GPaint;
  */
 public class GPaintSVG implements GPaint {
 
-	private String path, style, fill;
-	private double width, height, angle;
+	private String path;
+	private String style;
+	private String fill;
+	private double width;
+	private double height;
+	private double angle;
 
 	/**
 	 * @param path0

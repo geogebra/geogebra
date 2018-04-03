@@ -174,12 +174,11 @@ public abstract class DrawEquation {
 
 			return AwtFactory.getPrototype().newDimension(icon.getIconWidth(),
 					icon.getIconHeight());
-
 		}
 
 		Image im = null;
 		try {
-			final int ret[] = new int[2];
+			final int[] ret = new int[2];
 			checkFirstCall(app);
 			im = getCachedDimensions(text, geo, fgColor, font, style, ret);
 

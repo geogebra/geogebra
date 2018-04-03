@@ -106,6 +106,9 @@ public abstract class Drawable extends DrawableND {
 
 	private GRectangle tempFrame;
 
+	/**
+	 * Whether current paint is the first one
+	 */
 	protected boolean firstCall = true;
 
 	// boolean createdByDrawList = false;
@@ -399,11 +402,6 @@ public abstract class Drawable extends DrawableND {
 					view.getApplication(), labelDesc, xLabel, yLabel, g2,
 					isSerif(), textFont, labelRectangle);
 		} else {
-
-
-
-
-
 			// text with indices
 			// label description has changed, search for possible indices
 			oldLabelDesc = labelDesc;
@@ -412,8 +410,6 @@ public abstract class Drawable extends DrawableND {
 					.drawIndexedMultilineString(view.getApplication(),
 							labelDesc, g2, labelRectangle, textFont, isSerif(),
 							xLabel, yLabel);
-
-
 		}
 	}
 

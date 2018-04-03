@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
@@ -55,7 +56,9 @@ public class Hits extends ArrayList<GeoElement> {
 	/** number of coord sys 2D */
 	private int cs2DCount;
 
-	private boolean hasXAxis, hasYAxis, hasZAxis;
+	private boolean hasXAxis;
+	private boolean hasYAxis;
+	private boolean hasZAxis;
 
 	/** init the hits */
 	public void init() {
@@ -70,7 +73,9 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	// Can't override and GWT don't support CLONE anyway.
-	@SuppressWarnings("all")
+	/**
+	 * @return clone of the hits
+	 */
 	public Hits cloneHits() {
 		Hits ret = newHits();
 		if (this.size() > 0) {
@@ -84,8 +89,7 @@ public class Hits extends ArrayList<GeoElement> {
 		ret.hasXAxis = this.hasXAxis;
 		ret.hasYAxis = this.hasYAxis;
 		ret.hasZAxis = this.hasZAxis;
-
-		ret.cs2DCount = cs2DCount;
+		ret.cs2DCount = this.cs2DCount;
 
 		return ret;
 	}
@@ -1000,8 +1004,7 @@ public class Hits extends ArrayList<GeoElement> {
 			// first check if is segment/polygon/quadric side from a geo that
 			// has finite volume
 			if (geo.getMetasLength() > 0) {
-				for (GeoElement meta : ((FromMeta) geo).getMetas())
-				 {
+				for (GeoElement meta : ((FromMeta) geo).getMetas()) {
 					addFiniteVolume(result, meta);
 				// check if the geo has finite volume
 				}

@@ -9,6 +9,12 @@ import org.geogebra.common.util.debug.Log;
 public class AdjustInputBox extends AdjustButton {
 	private GeoInputBox input;
 
+	/**
+	 * @param input
+	 *            input box
+	 * @param view
+	 *            view
+	 */
 	public AdjustInputBox(GeoInputBox input, EuclidianView view) {
 		super(input, view);
 		this.input = input;

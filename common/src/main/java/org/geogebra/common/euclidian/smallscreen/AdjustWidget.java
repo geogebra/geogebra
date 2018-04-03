@@ -20,6 +20,10 @@ public abstract class AdjustWidget {
 	protected double ratioX;
 	protected double ratioY;
 
+	/**
+	 * @param view
+	 *            view
+	 */
 	public AdjustWidget(EuclidianView view) {
 		this.view = view;
 		App app = view.getApplication();

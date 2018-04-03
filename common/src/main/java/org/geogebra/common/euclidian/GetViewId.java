@@ -9,6 +9,7 @@
  the Free Software Foundation.
 
  */
+
 package org.geogebra.common.euclidian;
 
 /**

@@ -51,8 +51,6 @@ public class DrawGrid {
 
 	}
 
-
-
 	// private static int brighterComponent(int comp) {
 	// double factor = 0.3;
 	// return (int) (255 - ((255 - comp) * factor));
@@ -151,9 +149,7 @@ public class DrawGrid {
 			pix = view.toScreenCoordYd(pow);
 			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
 
-
-
-					// not hitting axis label, just draw it
+				// not hitting axis label, just draw it
 				addStraightLineToGeneralPath(g2, left, pix, view.getWidth(),
 						pix);
 
@@ -230,12 +226,13 @@ public class DrawGrid {
 		g2.endAndDrawGeneralPath();
 	}
 
-	private void drawVerticalGridLine(GGraphics2D g2, double pix, double bottom, double xCrossPix, double yCrossPix) {
+	private void drawVerticalGridLine(GGraphics2D g2, double pix, double bottom,
+			double xCrossPix, double yCrossPix) {
 		// don't draw the grid line x=0 if the y-axis is showing
 		// or if it's too close (eg sticky axes)
 		if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
-			if (view.axesLabelsPositionsX.contains(Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
-
+			if (view.axesLabelsPositionsX.contains(
+					Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
 				// hits axis label, draw in 2 sections
 				drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
 			} else {

@@ -11,9 +11,13 @@ public class AdjustButton extends AdjustWidget {
 	private GeoButton button;
 	private int origX;
 	private int origY;
-	// private int origWidth;
-	// private int origHeight;
 
+	/**
+	 * @param button
+	 *            button
+	 * @param view
+	 *            view
+	 */
 	public AdjustButton(GeoButton button, EuclidianView view) {
 		super(view);
 		this.button = button;
@@ -50,7 +54,6 @@ public class AdjustButton extends AdjustWidget {
 	public boolean isYOnScreen() {
 		return DoubleUtil.isEqual(y, origY) && y + height < view.getViewHeight();
 	}
-
 
 	@Override
 	public void apply() {
@@ -90,9 +93,15 @@ public class AdjustButton extends AdjustWidget {
 		if (changed) {
 			button.setAbsoluteScreenLoc((int) x, (int) y);
 		}
-
 	}
 
+	/**
+	 * @param btn
+	 *            button
+	 * @param view
+	 *            view
+	 * @return whether vertical position of the button intersects screen
+	 */
 	public static boolean isVerticallyOnScreen(GeoButton btn,
 			EuclidianView view) {
 		int y = btn.getAbsoluteScreenLocY();

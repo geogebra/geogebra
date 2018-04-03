@@ -82,10 +82,6 @@ public class CurvePlotter {
 	final public static GPoint plotCurve(CurveEvaluable curve, double t1,
 			double t2, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
-		
-
-		// System.out.println("*** START plot: " +
-		// curve.toGeoElement().getLabel() + " in "+ t1 + ", " + t2);
 
 		// ensure MIN_PLOT_POINTS
 		double max_param_step = Math.abs(t2 - t1) / view.getMinSamplePoints();
@@ -135,10 +131,7 @@ public class CurvePlotter {
 		// The following algorithm by John Gillam avoids multiple
 		// evaluations of the curve for the same parameter value t
 		// see an explanation of this algorithm below.
-		// double x0, y0;
-		double t;
-		// double x, y;
-		// double moveX = 0, moveY = 0;
+
 		double[] move = curve.newDoubleArray();
 		for (int i = 0; i < move.length; i++) {
 			move[i] = 0;
@@ -203,7 +196,7 @@ public class CurvePlotter {
 
 		int top = 1;
 		int depth = 0;
-		t = t1;
+		double t = t1;
 		double left = t1;
 		boolean distanceOK, angleOK, segOffScreen;
 
@@ -222,10 +215,9 @@ public class CurvePlotter {
 			angleOK = isAngleOK(prevDiff, diff, segOffScreen
 					? view.getMaxBendOfScreen() : view.getMaxBend());
 
-			// bisect interval as long as ...
-			while ( // max bisection depth not reached
-			depth < view.getMaxDefinedBisections()
-			// distance not ok or angle not ok or step too big
+			// bisect interval as long as max bisection depth not reached & ...
+			while (depth < view.getMaxDefinedBisections()
+					// ... distance not ok or angle not ok or step too big
 					&& (!distanceOK || !angleOK
 							|| divisors[depth] > max_param_step)
 					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,

@@ -9,7 +9,8 @@ public final class DoubleArrayFactory {
 	private double[] double2 = new double[2];
 	private double[] double6 = new double[6];
 
-	private boolean d2free = true, d6free = true;
+	private boolean d2free = true;
+	private boolean d6free = true;
 
 	/**
 	 * Returns a double array of the indicated size.

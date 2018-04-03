@@ -77,6 +77,10 @@ public class LayoutAbsoluteGeos {
 		this.view = view;
 	}
 
+	/**
+	 * @param absGeo
+	 *            absolute geo
+	 */
 	public void add(AbsoluteScreenLocateable absGeo) {
 		if (view.isVisibleInThisView(absGeo)) {
 			originals.add(absGeo);
@@ -96,11 +100,17 @@ public class LayoutAbsoluteGeos {
 		}
 	}
 
+	/**
+	 * Clear the lists.
+	 */
 	public void clear() {
 		all.clear();
 		moveable.clear();
 	}
 
+	/**
+	 * Clear the lists and prepare for collecting.
+	 */
 	public void restart() {
 		clear();
 		collected = false;
@@ -135,6 +145,9 @@ public class LayoutAbsoluteGeos {
 	//
 	// }
 
+	/**
+	 * Adjust geos vertically and horizontally
+	 */
 	public void apply() {
 		all.clear();
 		all.addAll(originals);

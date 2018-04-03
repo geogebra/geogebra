@@ -441,7 +441,7 @@ public class GeneralPathClipped implements GShape {
 	 *            y min
 	 * @param w
 	 *            width
-	 * @param arhg3
+	 * @param h
 	 *            height
 	 * @return true if contains rectangle given by args
 	 */

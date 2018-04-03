@@ -32,6 +32,7 @@ public class DrawAxis {
 	private Integer beforeZeroY;
 	private boolean firstCallX = true;
 	private boolean firstCallY = true;
+
 	/**
 	 * @param euclidianView
 	 *            view
@@ -116,7 +117,6 @@ public class DrawAxis {
 		double arrowAdjustx = drawRightArrow ? view.axesStroke.getLineWidth()
 				: 0;
 
-
 		// Draw just y-axis first (in case any labels need to be drawn over it)
 		if (view.yAxisOnscreen()) {
 
@@ -136,8 +136,6 @@ public class DrawAxis {
 
 			// label of x axis
 			if (view.axesLabels[0] != null) {
-
-
 				drawAxisLabelX(g2, (int) (yCrossPix - 4), frc);
 			}
 
@@ -524,7 +522,6 @@ public class DrawAxis {
 								beforeZeroY = y - fontsize;
 							}	
 						}
-						
 
 						// measure width, so grid line can avoid it
 						// use same (max) for all labels
@@ -855,8 +852,6 @@ public class DrawAxis {
 	 *            y-coord of text (top)
 	 */
 	void drawString(GGraphics2D g2, String text, double x, double y) {
-
-		
 		view.drawStringWithOutline(g2, text, x, y, view.axesColor);
 	}
 
@@ -975,7 +970,6 @@ public class DrawAxis {
 						} else if (yCrossPix <= 0) {
 							y = (int) yoffset;
 						}
-
 
 						boolean bothNull = zero && view.axisCross[0] == 0
 								&& view.axisCross[1] == 0;

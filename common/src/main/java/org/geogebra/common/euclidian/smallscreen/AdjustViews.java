@@ -15,6 +15,10 @@ public class AdjustViews {
 		return app.getWidth() < app.getHeight();
 	}
 
+	/**
+	 * @param force
+	 *            force adjustment if portrait/landscape mode did not change
+	 */
 	public void apply(boolean force) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getLayout().getDockManager().adjustViews(force);

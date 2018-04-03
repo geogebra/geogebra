@@ -69,7 +69,8 @@ public class ClipShape {
 		/** path */
 		final GGeneralPath g;
 		private Stack<double[]> uncommittedPoints = new Stack<>();
-		private double initialX, initialY;
+		private double initialX;
+		private double initialY;
 
 		/**
 		 * @param windingRule
@@ -243,7 +244,8 @@ public class ClipShape {
 
 	/** A linear function */
 	static class LFunction implements Function {
-		private double slope, intercept;
+		private double slope;
+		private double intercept;
 
 		/**
 		 * Defines this linear function.
@@ -282,7 +284,9 @@ public class ClipShape {
 
 	/** A quadratic function */
 	static class QFunction implements Function {
-		private double a, b, c;
+		private double a;
+		private double b;
+		private double c;
 
 		@Override
 		public String toString() {
@@ -335,7 +339,10 @@ public class ClipShape {
 
 	/** A cubic function */
 	static class CFunction implements Function {
-		private double a, b, c, d;
+		private double a;
+		private double b;
+		private double c;
+		private double d;
 		/**
 		 * Recycle arrays here. Remember this is possibly going to be 1 object
 		 * called hundreds of times, so reusing the same arrays here will save

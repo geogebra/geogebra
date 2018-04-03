@@ -29,7 +29,6 @@ public class DrawableList {
 	private Link tail;
 	private int size = 0;
 
-
 	/**
 	 * Number of drawables in list
 	 * 
@@ -67,11 +66,8 @@ public class DrawableList {
 			}
 
 			if (cur.equals(head)) {
-				if (cur.d.getGeoElement().drawBefore(priority, false)) {// add
-																		// at
-																		// end
-																		// (list
-																		// size=1)
+				if (cur.d.getGeoElement().drawBefore(priority, false)) {
+					// add at end (list size=1)
 					Link temp = new Link(d, null);
 					tail.next = temp;
 					tail = temp;

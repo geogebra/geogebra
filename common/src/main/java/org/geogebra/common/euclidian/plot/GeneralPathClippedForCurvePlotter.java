@@ -102,7 +102,6 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 			corner(fp.x, fp.y);
 			closePath();
 		}
-
 	}
 
 	@Override
@@ -145,12 +144,10 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 			drawTo(x0, y, true);
 			return;
 		}
-
 	}
 
 	@Override
-	public void firstPoint(double pos[], Gap moveToAllowed) {
-
+	public void firstPoint(double[] pos, Gap moveToAllowed) {
 		double[] p = Cloner.clone(pos);
 		((EuclidianView) view).toScreenCoords(p);
 		final double x0 = p[0];
