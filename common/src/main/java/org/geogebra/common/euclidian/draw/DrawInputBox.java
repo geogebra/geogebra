@@ -257,8 +257,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			String caption = geo.getCaption(StringTemplate.defaultTemplate);
 			if (!caption.equals(oldCaption)) {
 				oldCaption = caption;
-				labelDesc = caption;// GeoElement.indicesToHTML(caption, true);
-
+				labelDesc = caption; // GeoElement.indicesToHTML(caption, true);
 			}
 		}
 
@@ -375,15 +374,12 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
-		GFont font = g2.getFont();
+		final GFont font = g2.getFont();
 		g2.setFont(getLabelFont().deriveFont(GFont.PLAIN));
 
 		boolean latexLabel = measureLabel(g2, geoInputBox, labelDesc);
-		int textLeft = boxLeft + 2;
-		int textBottom = boxTop + getTextBottom();
 
 		// TF Bounds
-
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
 				boxHeight - 3);
 		if (isSelectedForInput()) {
@@ -407,6 +403,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		g2.setFont(textFont.deriveFont(GFont.PLAIN));
 
+		int textLeft = boxLeft + 2;
+		int textBottom = boxTop + getTextBottom();
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 				text.substring(0, getTruncIndex(text, g2)), textLeft,
 				textBottom, false);

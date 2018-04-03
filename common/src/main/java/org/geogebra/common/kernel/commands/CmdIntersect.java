@@ -120,6 +120,13 @@ public class CmdIntersect extends CommandProcessor {
 		}
 	}
 
+	/**
+	 * @param arg
+	 *            arguments
+	 * @param c
+	 *            command
+	 * @return intersection of two objects
+	 */
 	public GeoElement[] intersect2(GeoElement[] arg, Command c) {
 		boolean[] ok = new boolean[2];
 		if ((ok[0] = (arg[0].isGeoLine())) && (ok[1] = (arg[1].isGeoLine()))) {

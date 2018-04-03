@@ -57,17 +57,21 @@ import org.geogebra.common.util.debug.Log;
 public class DrawPolygon extends Drawable implements Previewable {
 
 	private GeoPolygon poly;
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 
-	private GeneralPathClipped gp, gpTriangularize;
+	private GeneralPathClipped gp;
+	private GeneralPathClipped gpTriangularize;
 	private double[] coords = new double[2];
 	private ArrayList<GeoPointND> points;
 	private Coords[] extraCoords;
 
 	private BoundingBox boundingBox;
-	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
+	private double fixCornerX = Double.NaN;
+	private double fixCornerY = Double.NaN;
 	private double proportion = Double.NaN;
-	private double oldWidth = Double.NaN, oldHeight = Double.NaN;
+	private double oldWidth = Double.NaN;
+	private double oldHeight = Double.NaN;
 	private boolean isSquare = false;
 	private GGeneralPath prewPolygon = AwtFactory.getPrototype()
 			.newGeneralPath();
@@ -448,7 +452,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		// also check for boundingBox is has filling
 		return (t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold,
-						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)))|| (getBoundingBox() != null
+						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)))
+				|| (getBoundingBox() != null
 						&& getBoundingBox().getRectangle() != null
 						&& getBoundingBox().getRectangle().intersects(
 								x - hitThreshold, y - hitThreshold,
@@ -678,8 +683,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	protected void updateFreePolygonCorner(
 			EuclidianBoundingBoxHandler hitHandler,
 			AbstractEvent event) {
-		double pointsX[] = new double[poly.getPointsLength()];
-		double pointsY[] = new double[poly.getPointsLength()];
+		double[] pointsX = new double[poly.getPointsLength()];
+		double[] pointsY = new double[poly.getPointsLength()];
 
 		if (prewPolygon == null) {
 			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
@@ -749,8 +754,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 */
 	protected void updateFreePolygonSide(EuclidianBoundingBoxHandler hitHandler,
 			AbstractEvent event) {
-		double pointsX[] = new double[poly.getPointsLength()];
-		double pointsY[] = new double[poly.getPointsLength()];
+		double[] pointsX = new double[poly.getPointsLength()];
+		double[] pointsY = new double[poly.getPointsLength()];
 
 		if (prewPolygon == null) {
 			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
@@ -889,14 +894,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 		// we have to move back manually to apex since we may have new fan to
 		// draw
 		gpTriangularize.moveTo(startX, startY);
-
 	}
 
 	private void triangularize() {
-
 		PolygonTriangulation pt = poly.getPolygonTriangulation();
 		pt.clear();
-
 
 		calculateCorners();
 
@@ -947,7 +949,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 					boolean reverse = poly.getReverseNormalForDrawing()
 							^ (convexity == Convexity.CLOCKWISE);
 
-					drawPolygonConvex(vertices, poly.getPointsLength(),						reverse);
+					drawPolygonConvex(vertices, poly.getPointsLength(),
+							reverse);
 
 				} else {
 					// set intersections (if needed) and divide the polygon into

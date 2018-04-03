@@ -58,9 +58,12 @@ public final class DrawImage extends Drawable {
 	private GAlphaComposite alphaComp;
 	private double alpha = -1;
 	private boolean isInBackground = false;
-	private GAffineTransform at, atInverse, tempAT;
+	private GAffineTransform at;
+	private GAffineTransform atInverse;
+	private GAffineTransform tempAT;
 	private boolean needsInterpolationRenderingHint;
-	private int screenX, screenY;
+	private int screenX;
+	private int screenY;
 	private GRectangle classicBoundingBox;
 	private GGeneralPath highlighting;
 	private double[] hitCoords = new double[2];
@@ -103,18 +106,17 @@ public final class DrawImage extends Drawable {
 		tempAT = AwtFactory.getPrototype().newAffineTransform();
 		classicBoundingBox = AwtFactory.getPrototype().newRectangle();
 
-		selStroke = AwtFactory.getPrototype().newMyBasicStroke(1.5f);
-
+		selStroke = AwtFactory.getPrototype().newMyBasicStroke(1.5d);
 		update();
 	}
 
-	private void debug(String d) {
+	private static void debug(String d) {
 		if (DEBUG) {
 			Log.debug(d);
 		}
 	}
 
-	private void debugPoints(GeoPoint A, GeoPoint B, GeoPoint D){
+	private static void debugPoints(GeoPoint A, GeoPoint B, GeoPoint D) {
 		if (!DEBUG) {
 			return;
 		}
@@ -154,7 +156,7 @@ public final class DrawImage extends Drawable {
 		absoluteLocation = geoImage.isAbsoluteScreenLocActive();
 
 		// ABSOLUTE SCREEN POSITION
-		if (absoluteLocation){
+		if (absoluteLocation) {
 			// scaleX and scaleY should be 1 if there is no MOW_PIN_IMAGE
 			// feature flag, so in that case there is no any effect of these
 			double scaleX = geoImage.getScaleX();
@@ -162,9 +164,11 @@ public final class DrawImage extends Drawable {
 			screenX = geoImage.getAbsoluteScreenLocX();
 			screenY = (int) (geoImage.getAbsoluteScreenLocY() - height * scaleY);
 			if (geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
-				classicBoundingBox.setBounds(screenX, screenY, (int) (width * scaleX), (int) (height * scaleY));
+				classicBoundingBox.setBounds(screenX, screenY,
+						(int) (width * scaleX), (int) (height * scaleY));
 			}
-			labelRectangle.setBounds(screenX, screenY, (int) (width * scaleX), (int) (height * scaleY));
+			labelRectangle.setBounds(screenX, screenY, (int) (width * scaleX),
+					(int) (height * scaleY));
 		}
 
 		// RELATIVE SCREEN POSITION
@@ -385,8 +389,8 @@ public final class DrawImage extends Drawable {
 							AwtFactory.getPrototype().newAlphaComposite(1.0f));
 					GPoint2D ptDst = AwtFactory.getPrototype().newPoint2D();
 					if (!wasCroped) {
-						GPoint2D ptScr = AwtFactory.getPrototype().newPoint2D(drawRectangle.getX(),
-								drawRectangle.getY());
+						GPoint2D ptScr = AwtFactory.getPrototype().newPoint2D(
+								drawRectangle.getX(), drawRectangle.getY());
 						atInverse.transform(ptScr, ptDst);
 					} else {
 						ptDst.setX(drawRectangle.getMinX());
@@ -558,7 +562,8 @@ public final class DrawImage extends Drawable {
 		if (!(geo.getKernel().getApplication()
 				.has(Feature.MOW_IMAGE_BOUNDING_BOX) && geo.getKernel().getApplication()
 						.has(Feature.MOW_CROP_IMAGE))
-				|| (absoluteLocation && !geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE))) {
+				|| (absoluteLocation && !geo.getKernel().getApplication()
+						.has(Feature.MOW_PIN_IMAGE))) {
 			return;
 		}
 		if (boundingBox.isCropBox()) {
@@ -578,7 +583,8 @@ public final class DrawImage extends Drawable {
 			if (Double.isNaN(originalRatio)) {
 				updateOriginalRatio();
 			}
-			if (absoluteLocation && geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+			if (absoluteLocation && geo.getKernel().getApplication()
+					.has(Feature.MOW_PIN_IMAGE)) {
 				// updates the current coordinates of corner points
 				geoImage.screenToReal();
 			}
@@ -588,7 +594,8 @@ public final class DrawImage extends Drawable {
 			if (!geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
 				return;
 			}			
-			if (absoluteLocation && geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+			if (absoluteLocation && geo.getKernel().getApplication()
+					.has(Feature.MOW_PIN_IMAGE)) {
 				geoImage.updateScaleAndLocation();
 			}
 		}
@@ -713,7 +720,8 @@ public final class DrawImage extends Drawable {
 		boundingBox.setRectangle(rect);
 		// remember last crop box position
 		setCropBox(rect);
-		imagecropRatioX = view.getXscale() * geoImage.getImageScreenWidth() / geoImage.getCropBoxRelative().getWidth();
+		imagecropRatioX = view.getXscale() * geoImage.getImageScreenWidth()
+				/ geoImage.getCropBoxRelative().getWidth();
 		imagecropRatioY = view.getYscale() * geoImage.getImageScreenHeight()
 				/ geoImage.getCropBoxRelative().getHeight();
 	}
@@ -727,7 +735,8 @@ public final class DrawImage extends Drawable {
 	}
 
 	private GRectangle2D getCropBox() {
-		double[] screenArray = { geoImage.getCropBoxRelative().getMinX(), geoImage.getCropBoxRelative().getMinY() };
+		double[] screenArray = { geoImage.getCropBoxRelative().getMinX(),
+				geoImage.getCropBoxRelative().getMinY() };
 		at.transform(screenArray, 0, screenArray, 0, 1);
 		GRectangle2D cb = AwtFactory.getPrototype().newRectangle2D();
 		cb.setRect(screenArray[0], screenArray[1], geoImage.getCropBoxRelative().getWidth(),
@@ -937,7 +946,8 @@ public final class DrawImage extends Drawable {
 				double newDistLeftSide = oldDistLeftSide * curScaleX;
 				double newLeftSideImgScr = screenAX - newDistLeftSide;
 				double newLeftSideImg = view.toRealWorldCoordX(newLeftSideImgScr);
-				double newRightSideImg = view.toRealWorldCoordX(newLeftSideImgScr + newImageWidth);
+				double newRightSideImg = view
+						.toRealWorldCoordX(newLeftSideImgScr + newImageWidth);
 				geoImage.getCorner(1).setX(newRightSideImg);
 				geoImage.getCorner(0).setX(newLeftSideImg);
 				if (geoImage.getCorner(2) != null) {
@@ -967,7 +977,8 @@ public final class DrawImage extends Drawable {
 				geoImage.getCorner(0).setY(newBottomSideImg);
 				geoImage.getCorner(1).setY(newBottomSideImg);
 				if (geoImage.getCorner(2) != null) {
-					double newTopSideImg = view.toRealWorldCoordY(newBottomSideImgScr - newImageHeight);
+					double newTopSideImg = view.toRealWorldCoordY(
+							newBottomSideImgScr - newImageHeight);
 					geoImage.getCorner(2).setY(newTopSideImg);
 				}
 				break;

@@ -69,7 +69,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 			.newAffineTransform();
 
 	// these are needed for degenerate arcs
-	private DrawRay drawRay1, drawRay2;
+	private DrawRay drawRay1;
+	private DrawRay drawRay2;
 	private DrawSegment drawSegment;
 	// private Drawable degDrawable;
 

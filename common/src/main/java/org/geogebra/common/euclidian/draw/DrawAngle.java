@@ -47,7 +47,9 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	private GeoAngle angle;
 
-	private boolean isVisible, labelVisible, show90degrees;
+	private boolean isVisible;
+	private boolean labelVisible;
+	private boolean show90degrees;
 
 	private AlgoAngle algo;
 
@@ -56,15 +58,16 @@ public class DrawAngle extends Drawable implements Previewable {
 	private GGeneralPath polygon = AwtFactory.getPrototype().newGeneralPath();
 	private GEllipse2DDouble dot90degree;
 	private GShape shape;
-	private double m[] = new double[2];
-	private double coords[] = new double[2];
+	private double[] m = new double[2];
+	private double[] coords = new double[2];
 	private double[] firstVec = new double[2];
 
 	private boolean drawDot;
 	private GeoPoint[] previewTempPoints;
 
 	// For decoration
-	private GShape shapeArc1, shapeArc2;
+	private GShape shapeArc1;
+	private GShape shapeArc2;
 	private GArc2D decoArc = AwtFactory.getPrototype().newArc2D();
 	private GLine2D[] tick;
 	private double[] angleTick = new double[2];
@@ -417,9 +420,9 @@ public class DrawAngle extends Drawable implements Previewable {
 				break;
 			case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
 			case GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE:
-				double n2[] = new double[2]; // actual angle for arrow point
-				double n[] = new double[2]; // adjusted to rotate arrow slightly
-				double v[] = new double[2]; // adjusted to rotate arrow slightly
+				double[] n2 = new double[2]; // actual angle for arrow point
+				double[] n = new double[2]; // adjusted to rotate arrow slightly
+				double[] v = new double[2]; // adjusted to rotate arrow slightly
 
 				double rotateangle = 0.25d; // rotate arrow slightly
 
@@ -439,31 +442,26 @@ public class DrawAngle extends Drawable implements Previewable {
 					v[1] = -n[0];
 				}
 
-				double p1[] = new double[2];
-				double p2[] = new double[2];
-				double p3[] = new double[2];
 				rdiff = 4 + geo.getLineThickness() / 2d;
 				r = (arcSize) * view.getInvXscale();
 
+				double[] p1 = new double[2]; // arrow tip
 				p1[0] = m[0] + r * n2[0];
-				p1[1] = m[1] + r * n2[1]; // arrow tip
+				p1[1] = m[1] + r * n2[1];
 
+				double[] p2 = new double[2]; // arrow vertex 1
 				double size = 4d + geo.getLineThickness() / 4d;
 				size = size * 0.9d;
-
 				p2[0] = p1[0]
 						+ (1 * n[0] + 3 * v[0]) * size * view.getInvXscale();
 				p2[1] = p1[1]
-						+ (1 * n[1] + 3 * v[1]) * size * view.getInvYscale(); // arrow
-				// end
-				// 1
+						+ (1 * n[1] + 3 * v[1]) * size * view.getInvYscale();
 
+				double[] p3 = new double[2]; // arrow vertex 2
 				p3[0] = p1[0]
 						+ (-1 * n[0] + 3 * v[0]) * size * view.getInvXscale();
 				p3[1] = p1[1]
-						+ (-1 * n[1] + 3 * v[1]) * size * view.getInvYscale(); // arrow
-				// end
-				// 2
+						+ (-1 * n[1] + 3 * v[1]) * size * view.getInvYscale();
 
 				view.toScreenCoords(p1);
 				view.toScreenCoords(p2);
@@ -474,9 +472,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				polygon.lineTo(p2[0], p2[1]);
 				polygon.lineTo(p3[0], p3[1]);
 				polygon.closePath();
-
 				break;
-
 			}
 			// END
 		}

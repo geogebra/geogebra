@@ -566,11 +566,10 @@ public final class DrawDropDownList extends CanvasDrawable
 				dragged = null;
 
 			}
-
 		}
 
 		public void onMouseOver(int x, int y) {
-			if (!isVisible) {// || isControlHit(x, y)) {
+			if (!isVisible) { // || isControlHit(x, y)) {
 				return;
 			}
 
@@ -1039,7 +1038,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		update();
 	}
 
-
 	private String getLabelText() {
 		// don't need to worry about labeling options, just check if caption
 		// set or not
@@ -1097,33 +1095,25 @@ public final class DrawDropDownList extends CanvasDrawable
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
+		DrawDropDownList opened = view.getOpenedComboBox();
+		if (opened != null && opened != this && opened.isOptionsHit(x, y)) {
+			return false;
+		}
 
-
-			DrawDropDownList opened = view.getOpenedComboBox();
-			if (opened != null && opened != this && opened.isOptionsHit(x, y)) {
-				return false;
-			}
-
-			return super.hit(x, y, hitThreshold) || isControlHit(x, y)
-					|| isOptionsHit(x, y);
-
-
-
+		return super.hit(x, y, hitThreshold) || isControlHit(x, y)
+				|| isOptionsHit(x, y);
 	}
 
 	@Override
 	public boolean isInside(GRectangle rect) {
-
-		return super.isInside(rect);// || drawOptions.isInside(rect);
-
+		return super.isInside(rect);
 	}
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		
 		return super.intersectsRectangle(rect);
-
 	}
+
 	/**
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
@@ -1135,11 +1125,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 
 		return getHitRect().getBounds();
-
-
-
 	}
-
 
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
@@ -1202,7 +1188,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		return (int) (layout.getDescent());
 	}
 
-
 	@Override
 	protected void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
 
@@ -1220,7 +1205,6 @@ public final class DrawDropDownList extends CanvasDrawable
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					xLabel, textBottom, false);
 		}
-
 	}
 
 	@Override
@@ -1232,7 +1216,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		} else {
 			super.highlightLabel(g2, latex);
 		}
-
 	}
 
 	private void drawControl(GGraphics2D g2) {
@@ -1242,7 +1225,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		ctrlRect.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
 		dropDown.drawControl(g2, left, boxTop, boxHeight, boxHeight,
 				geo.getBackgroundColor(), isOptionsVisible());
-
 	}
 
 	@Override
@@ -1360,7 +1342,6 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		return AwtFactory.getPrototype().newDimension(getPreferredWidth(),
 				selectedDimension.getHeight() + COMBO_TEXT_MARGIN);
-
 	}
 
 	/**
@@ -1540,7 +1521,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	 *            Indicates that selector should move left or right.
 	 */
 	public void moveSelectorHorizontal(boolean left) {
-
 		drawOptions.moveSelectorHorizontal(left);
 	}
 
@@ -1548,7 +1528,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * @return if combo have more columns than one.
 	 */
 	public boolean isMultiColumn() {
-
 		return drawOptions.getColCount() > 1;
 	}
 
@@ -1582,7 +1561,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	 *            wheel scroll value; only sign matters
 	 */
 	public void onMouseWheel(double delta) {
-
 		if (delta > 0) {
 			drawOptions.scrollDown();
 		} else {
@@ -1600,7 +1578,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * Update the opened comobox variable for enclosing view
 	 */
 	void updateOpenedComboBox() {
-
 		DrawDropDownList dl = view.getOpenedComboBox();
 		if (drawOptions.isVisible()) {
 			view.setOpenedComboBox(this);
@@ -1621,7 +1598,6 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

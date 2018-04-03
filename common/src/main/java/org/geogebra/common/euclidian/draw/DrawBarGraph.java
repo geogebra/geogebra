@@ -54,7 +54,8 @@ public class DrawBarGraph extends Drawable {
 
 	private int pointType = POINT_NONE;
 
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 	private double[] coords = new double[2];
 	/*
 	 * Use an array to customize bars

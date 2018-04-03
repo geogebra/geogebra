@@ -37,11 +37,14 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 public class DrawIntegralFunctions extends DrawFunctionArea {
 
 	private GeoNumeric n;
-	private GeoFunction f, g;
-	private NumberValue a, b;
+	private GeoFunction f;
+	private GeoFunction g;
+	private NumberValue a;
+	private NumberValue b;
 
 	private GeneralPathClippedForCurvePlotter gp;
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 	private boolean isCasObject;
 
 	/**

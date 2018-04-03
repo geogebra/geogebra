@@ -39,9 +39,11 @@ public class DrawIntegral extends DrawFunctionArea {
 
 	private GeoNumeric n;
 	private GeoFunction f;
-	private NumberValue a, b;
+	private NumberValue a;
+	private NumberValue b;
 	private GeneralPathClippedForCurvePlotter gp;
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 	private boolean isCasObject;
 
 	/**

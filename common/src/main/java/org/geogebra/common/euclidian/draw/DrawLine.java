@@ -99,7 +99,7 @@ public class DrawLine extends Drawable implements Previewable {
 	private PreviewType previewMode = PreviewType.NONE;
 	private boolean isPreviewVisible;
 
-	private ArrayList<GeoPointND> points;// for preview
+	private ArrayList<GeoPointND> points; // for preview
 	private ArrayList<GeoLineND> lines; // for preview
 	private GeoPointND startPoint;
 	private GeoPointND previewPoint2;

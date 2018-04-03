@@ -106,7 +106,8 @@ public class DrawAudio extends Drawable {
 		g2.setFont(font);
 		duration = geoAudio.getDuration();
 		String textAll = getElapsedTime(duration, duration);
-		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(textAll, font, g2.getFontRenderContext());
+		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(textAll,
+				font, g2.getFontRenderContext());
 		int x = left + TAP_AREA_SIZE + MARGIN_BEFORE_TEXT_X;
 
 		double d = geoAudio.getDuration();
@@ -237,6 +238,7 @@ public class DrawAudio extends Drawable {
 		formatTime(sb, all);
 		return sb.toString();
 	}
+
 	private static void formatTime(StringBuilder sb, double secs) {
 		if (secs < 0) {
 			sb.append("-:-");

@@ -47,9 +47,9 @@ import org.geogebra.common.util.MyMath;
 public class DrawRay extends Drawable implements Previewable {
 
 	private GeoLineND ray;
-	// private GeoPoint A;
 
-	private boolean isVisible, labelVisible;
+	private boolean isVisible;
+	private boolean labelVisible;
 	private ArrayList<GeoPointND> points;
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
