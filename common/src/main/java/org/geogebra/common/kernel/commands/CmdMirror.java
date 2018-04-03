@@ -16,12 +16,13 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.main.MyError;
 
 /**
- * (2nd argument is the mirror) Mirror[ <GeoPoint>, <GeoPoint> ] Mirror[
- * <GeoLine>, <GeoPoint> ] Mirror[ <GeoConic>, <GeoPoint> ] Mirror[<GeoPolygon>,
- * <GeoPoint> ]
+ * (2nd argument is the mirror)
  * 
- * Mirror[ <GeoPoint>, <GeoLine> ] Mirror[ <GeoLine>, <GeoLine> ] Mirror[
- * <GeoConic>, <GeoLine> ] Mirror[ <GeoPolygon>, <GeoLine> ]
+ * Mirror[ &lt;Object>, &lt;GeoPoint> ]
+ * 
+ * Mirror[ &lt;Object>, &lt;GeoLine> ]
+ * 
+ * Mirror[ &lt;Object>, &lt;GeoConic> ]
  */
 public class CmdMirror extends CommandProcessor {
 

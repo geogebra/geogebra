@@ -36,7 +36,7 @@ public class CmdJoin extends CommandProcessor {
 			ok[0] = arg[0].isGeoList();
 
 			if (ok[0]) {
-				GeoElement[] ret = { Join(c.getLabel(), (GeoList) arg[0]) };
+				GeoElement[] ret = { join(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			} else
 
@@ -50,7 +50,7 @@ public class CmdJoin extends CommandProcessor {
 			// try to create list of numbers
 			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.LIST);
 			if (list != null) {
-				GeoElement[] ret = { Join(c.getLabel(), list) };
+				GeoElement[] ret = { join(c.getLabel(), list) };
 				return ret;
 			}
 			throw argNumErr(c);
@@ -60,7 +60,7 @@ public class CmdJoin extends CommandProcessor {
 	/**
 	 * Join[list,list] Michael Borcherds
 	 */
-	final private GeoList Join(String label, GeoList list) {
+	final private GeoList join(String label, GeoList list) {
 		AlgoJoin algo = new AlgoJoin(cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;

@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.kernel.Kernel;
 
 /**
- * Corner[ <Image>, <number> ]
+ * Corner[ &lt;Image>, &lt;number> ]
  */
 public class CmdCorner extends CmdVertex {
 

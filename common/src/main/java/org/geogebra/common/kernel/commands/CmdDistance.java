@@ -8,8 +8,13 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Distance[ <GeoPoint>, <GeoPoint> ] Distance[ <GeoPoint>, <GeoLine> ]
- * Distance[ <GeoLine>, <GeoPoint> ] Distance[ <GeoLine>, <GeoLine> ]
+ * Distance[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * 
+ * Distance[ &lt;GeoPoint>, &lt;GeoLine> ]
+ * 
+ * Distance[ &lt;GeoLine>, &lt;GeoPoint> ]
+ * 
+ * Distance[ &lt;GeoLine>, &lt;GeoLine> ]
  */
 public class CmdDistance extends CommandProcessor {
 

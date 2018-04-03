@@ -103,9 +103,8 @@ public class ParametricProcessor {
 		ValidExpression ve = ve0;
 
 		TreeSet<GeoNumeric> num = new TreeSet<>();
-		ap.replaceUndefinedVariables(ve, num, new String[] { varName, "X" });// Iteration[a+1,
-		// a,
-		// {1},4]
+		// Iteration[a+1, a, {1},4]
+		ap.replaceUndefinedVariables(ve, num, new String[] { varName, "X" });
 		for (GeoNumeric slider : num) {
 			undefinedVariables.remove(slider.getLabelSimple());
 		}

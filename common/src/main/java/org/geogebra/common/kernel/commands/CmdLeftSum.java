@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * LeftSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
+ * LeftSum[ &lt;GeoFunction>, &lt;Number>, &lt;Number>, &lt;Number> ]
  */
 public class CmdLeftSum extends CommandProcessor {
 
@@ -50,4 +50,4 @@ public class CmdLeftSum extends CommandProcessor {
 			throw argNumErr(c);
 		}
 	}
-}// CmdLeftSum
+}

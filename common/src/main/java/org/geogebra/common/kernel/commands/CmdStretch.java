@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.MyError;
 
 /**
- * Stretch[<Object>,<Line>,<Ratio>]
+ * Stretch[&lt;Object>, &lt;Line>, &lt;Ratio>]
  */
 public class CmdStretch extends CommandProcessor {
 

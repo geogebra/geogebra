@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Vertex[ <GeoConic> ]
+ * Vertex[ &lt;GeoConic> ]
  */
 public class CmdVertex extends CommandProcessor {
 

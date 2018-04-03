@@ -13,7 +13,9 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Point[ <Path> ] Point[ <Point>, <Vector> ]
+ * Point[ &lt;Path> ]
+ * 
+ * Point[ &lt;Point>, &lt;Vector> ]
  */
 public class CmdPoint extends CommandProcessor {
 	/**

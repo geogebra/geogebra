@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * ContourPlot[ <Function> ]
+ * ContourPlot[ &lt;Function> ]
  */
 public class CmdContourPlot extends CommandProcessor {
 

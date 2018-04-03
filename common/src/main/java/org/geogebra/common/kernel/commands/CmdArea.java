@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Area[ <GeoPoint>, ..., <GeoPoint> ] Area[ <GeoConic> ] Area[ <Polygon> ]
- * (returns Polygon directly)
+ * Area[ &lt;GeoPoint>, ..., &lt;GeoPoint> ] Area[ &lt;GeoConic> ] Area[
+ * &lt;Polygon> ] (returns Polygon directly)
  */
 public class CmdArea extends CommandProcessor {
 

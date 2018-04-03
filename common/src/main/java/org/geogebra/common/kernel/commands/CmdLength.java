@@ -25,10 +25,18 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Length[ <GeoVector> ] Length[ <GeoPoint> ] Length[ <GeoList> ] Victor Franco
- * 18-04-2007: add Length[ <Function>, <Number>, <Number> ] add Length[
- * <Function>, <Point>, <Point> ] add Length[ <Curve>, <Number>, <Number> ] add
- * Length[ <Curve>, <Point>, <Point> ]
+ * Length[ &lt;GeoVector> ] Length[ &lt;GeoPoint> ]
+ * 
+ * Length[ &lt;GeoList> ]
+ * 
+ * Length[ &lt;Function>, &lt;Number>, &lt;Number> ]
+ * 
+ * Length[ &lt;Function>, &lt;Point>, &lt;Point> ] add Length[ &lt;Curve>,
+ * &lt;Number>, &lt;Number> ]
+ * 
+ * Length[ &lt;Curve>, &lt;Point>, &lt;Point> ]
+ * 
+ * @author Markus, Victor Franco
  */
 public class CmdLength extends CommandProcessor {
 

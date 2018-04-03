@@ -31,8 +31,9 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * If[ <GeoBoolean>, <GeoElement> ] If[ <GeoBoolean>, <GeoElement>,
- * <GeoElement> ]
+ * If[ &lt;GeoBoolean>, &lt;GeoElement> ]
+ * 
+ * If[ &lt;GeoBoolean>, &lt;GeoElement>, &lt;GeoElement> ]
  */
 public class CmdIf extends CommandProcessor {
 

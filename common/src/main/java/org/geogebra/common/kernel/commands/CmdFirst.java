@@ -13,7 +13,9 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * First[ <List>,n ] Michael Borcherds 2008-03-04
+ * First[ &lt;List>, n ]
+ * 
+ * @author Michael Borcherds
  */
 public class CmdFirst extends CommandProcessor {
 	/**

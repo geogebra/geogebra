@@ -10,7 +10,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * Normalize[ <List> ]
+ * Normalize[ &lt;List> ]
  */
 public class CmdNormalize extends CommandProcessor {
 

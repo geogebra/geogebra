@@ -11,7 +11,9 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * Conic[ <List> ] Conic[ five GeoPoints ]
+ * Conic[ &lt;List> ]
+ * 
+ * Conic[ five GeoPoints ]
  */
 public class CmdConic extends CommandProcessor {
 
@@ -60,14 +62,14 @@ public class CmdConic extends CommandProcessor {
 	 * conic from coefficients
 	 * 
 	 * @param coeffList
-	 * @return
+	 *            coefficients
+	 * @return conic
 	 */
 	final private GeoElement[] conic(String label, GeoList coeffList) {
 		AlgoConicFromCoeffList algo = new AlgoConicFromCoeffList(cons, label,
 				coeffList);
 
 		return new GeoElement[] { algo.getConic() };
-
 	}
 
 	/**

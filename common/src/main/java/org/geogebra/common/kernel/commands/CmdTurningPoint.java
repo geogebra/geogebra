@@ -13,7 +13,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * TurningPoint[ <GeoFunction> ]
+ * InflectionPoint[ &lt;GeoFunction> ]
  */
 public class CmdTurningPoint extends CommandProcessor {
 

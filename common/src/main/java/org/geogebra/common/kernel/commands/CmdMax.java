@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * Max[ <Number>, <Number> ]
+ * Max[ &lt;Number>, &lt;Number> ]
  */
 public class CmdMax extends CommandProcessor {
 	/**

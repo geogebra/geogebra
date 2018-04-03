@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * BarChart[ <Number>, <Number>, <List> ]
+ * BarChart[ &lt;Number>, &lt;Number>, &lt;List> ]
  */
 public class CmdBarChart extends CommandProcessor {
 
@@ -99,7 +99,7 @@ public class CmdBarChart extends CommandProcessor {
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4] instanceof GeoNumberValue)
 					&& (ok[5] = arg[5] instanceof GeoNumberValue)) {
-				GeoElement[] ret = { BarChart(c.getLabel(),
+				GeoElement[] ret = { barChart(c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						arg[2], (GeoNumeric) arg[3], (GeoNumberValue) arg[4],
 						(GeoNumberValue) arg[5], null) };
@@ -117,7 +117,7 @@ public class CmdBarChart extends CommandProcessor {
 					&& (ok[4] = arg[4] instanceof GeoNumberValue)
 					&& (ok[5] = arg[5] instanceof GeoNumberValue)
 					&& (ok[6] = arg[6] instanceof GeoNumberValue)) {
-				GeoElement[] ret = { BarChart(c.getLabel(),
+				GeoElement[] ret = { barChart(c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						arg[2], (GeoNumeric) arg[3], (GeoNumberValue) arg[4],
 						(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]) };
@@ -133,7 +133,7 @@ public class CmdBarChart extends CommandProcessor {
 	/**
 	 * BarChart
 	 */
-	final private GeoNumeric BarChart(String label, GeoNumberValue a,
+	final private GeoNumeric barChart(String label, GeoNumberValue a,
 			GeoNumberValue b, GeoElement expression, GeoNumeric localVar,
 			GeoNumberValue from, GeoNumberValue to, GeoNumberValue step) {
 

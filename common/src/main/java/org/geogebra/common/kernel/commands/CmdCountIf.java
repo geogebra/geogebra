@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * CountIf[ <GeoBoolean>, <GeoList> ]
+ * CountIf[ &lt;GeoBoolean>, &lt;GeoList> ]
  */
 public class CmdCountIf extends CmdKeepIf {
 

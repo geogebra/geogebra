@@ -7,7 +7,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Vector[ <GeoPoint>, <GeoPoint> ] Vector[ <GeoPoint> ]
+ * Vector[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * 
+ * Vector[ &lt;GeoPoint> ]
  */
 public class CmdVector extends CommandProcessor {
 	/**

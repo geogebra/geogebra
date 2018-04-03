@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
@@ -145,8 +146,10 @@ public class AlgebraProcessor {
 
 	private boolean disableGcd = false;
 
-	private MyStringBuffer xBracket = null, yBracket = null, zBracket = null,
-			closeBracket = null;
+	private MyStringBuffer xBracket = null;
+	private MyStringBuffer yBracket = null;
+	private MyStringBuffer zBracket = null;
+	private MyStringBuffer closeBracket = null;
 
 	private boolean vectorsEnabled = true;
 	private MathMLParser mathmlParserGGB;
@@ -495,7 +498,7 @@ public class AlgebraProcessor {
 				callback.callback(result[0]);
 			}
 		} else {
-			String str[] = { "NameUsed", newLabel };
+			String[] str = { "NameUsed", newLabel };
 			throw new MyError(loc, str);
 		}
 
@@ -2278,8 +2281,6 @@ public class AlgebraProcessor {
 			coefX[i] = scale.plus(coefX[i]);
 		}
 	}
-
-
 
 	private static int getDirection(ExpressionNode enLeft) {
 		int dir = 0;

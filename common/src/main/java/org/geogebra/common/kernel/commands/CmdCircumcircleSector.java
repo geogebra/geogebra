@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
 
 /**
- * CircumcircleSector[ <GeoPoint center>, <GeoPoint>, <GeoPoint> ]
+ * CircumcircleSector[ &lt;GeoPoint center>, &lt;GeoPoint>, &lt;GeoPoint> ]
  */
 public class CmdCircumcircleSector extends CommandProcessor {
 

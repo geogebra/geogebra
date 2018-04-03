@@ -24,7 +24,7 @@ import org.geogebra.common.plugin.Operation;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Function[ <GeoFunction>, <NumberValue>, <NumberValue> ]
+ * Function[ &lt;GeoFunction>, &lt;NumberValue>, &lt;NumberValue> ]
  */
 public class CmdFunction extends CommandProcessor {
 	/**

@@ -12,7 +12,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Locus[ <GeoPoint Q>, <GeoPoint P> ] or Locus[ <GeoPoint Q>, <GeoNumeric P> ]
+ * Locus[ &lt;GeoPoint Q>, &lt;GeoPoint P> ] or Locus[ &lt;GeoPoint Q>,
+ * &lt;GeoNumeric P> ]
  */
 public class CmdLocus extends CommandProcessor {
 

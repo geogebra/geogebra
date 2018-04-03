@@ -11,7 +11,9 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.MyError;
 
 /**
- * Orthogonal[ <GeoPoint>, <GeoVector> ] Orthogonal[ <GeoPoint>, <GeoLine> ]
+ * Orthogonal[ &lt;GeoPoint>, &lt;GeoVector> ]
+ * 
+ * Orthogonal[ &lt;GeoPoint>, &lt;GeoLine> ]
  */
 public class CmdOrthogonalLine extends CommandProcessor {
 

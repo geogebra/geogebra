@@ -125,7 +125,6 @@ public abstract class CommandDispatcher {
 		}
 	}
 
-
 	/**
 	 * Creates new command dispatcher
 	 * 
@@ -827,7 +826,6 @@ public abstract class CommandDispatcher {
 		return statsDispatcher;
 	}
 
-
 	/** @return dispatcher for discrete math */
 	protected CommandDispatcherInterface getDiscreteDispatcher() {
 		if (discreteDispatcher == null) {
@@ -844,7 +842,6 @@ public abstract class CommandDispatcher {
 		return casDispatcher;
 	}
 
-
 	/** @return dispatcher for scripting commands */
 	protected CommandDispatcherInterface getScriptingDispatcher() {
 		if (scriptingDispatcher == null) {
@@ -852,7 +849,6 @@ public abstract class CommandDispatcher {
 		}
 		return scriptingDispatcher;
 	}
-
 
 	/** @return dispatcher for advanced commands */
 	protected CommandDispatcherInterface getAdvancedDispatcher() {

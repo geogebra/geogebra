@@ -21,10 +21,17 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Angle[ number ] Angle[ <GeoPolygon> ] Angle[ <GeoConic> ] Angle[
- * <GeoVector> ] Angle[ <GeoPoint> ] Angle[ <GeoVector>, <GeoVector> ] Angle[
- * <GeoLine>, <GeoLine> ] Angle[ <GeoPoint>, <GeoPoint>, <GeoPoint> ] Angle[
- * <GeoPoint>, <GeoPoint>, <Number> ]
+ * Angle[ number ] Angle[ &lt;GeoPolygon> ]
+ * 
+ * Angle[ &lt;GeoConic> ] Angle[ &lt;GeoVector> ]
+ * 
+ * Angle[ &lt;GeoPoint> ] Angle[ &lt;GeoVector>, &lt;GeoVector> ]
+ * 
+ * Angle[ &lt;GeoLine>, &lt;GeoLine> ]
+ * 
+ * Angle[ &lt;GeoPoint>, &lt;GeoPoint>, &lt;GeoPoint> ]
+ * 
+ * Angle[ &lt;GeoPoint>, &lt;GeoPoint>, &lt;Number> ]
  */
 public class CmdAngle extends CommandProcessor {
 
@@ -58,7 +65,7 @@ public class CmdAngle extends CommandProcessor {
 	 * @throws MyError
 	 *             argument / length error
 	 */
-	protected GeoElement[] process(Command c, int n, boolean ok[])
+	protected GeoElement[] process(Command c, int n, boolean[] ok)
 			throws MyError {
 
 		GeoElement[] arg;

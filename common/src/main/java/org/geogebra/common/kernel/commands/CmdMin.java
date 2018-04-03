@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * Min[ <Number>, <Number> ]
+ * Min[ &lt;Number>, &lt;Number> ]
  */
 public class CmdMin extends CommandProcessor {
 	/**

@@ -8,7 +8,9 @@ import org.geogebra.common.main.MyError;
 
 /**
  * abstract class for Commands with two numberical arguments eg Binomial[
- * <Number>, <Number> ] Michael Borcherds 2008-04-12
+ * &lt;Number>, &lt;Number> ]
+ * 
+ * @author Michael Borcherds
  */
 public abstract class CmdTwoNumFunction extends CommandProcessor {
 	/**

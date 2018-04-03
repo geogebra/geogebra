@@ -13,10 +13,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Translate[ <GeoPoint>, <GeoVector> ] Translate[ <GeoLine>, <GeoVector> ]
- * Translate[ <GeoConic>, <GeoVector> ] Translate[ <GeoFunction>, <GeoVector> ]
- * Translate[ <GeoVector>, <GeoPoint> ] // set start point Translate[
- * <GeoPolygon>, <GeoVector> ]
+ * Translate[ &lt;GeoPoint>, &lt;GeoVector> ] Translate[ &lt;GeoLine>,
+ * &lt;GeoVector> ] Translate[ &lt;GeoConic>, &lt;GeoVector> ] Translate[
+ * &lt;GeoFunction>, &lt;GeoVector> ] Translate[ &lt;GeoVector>, &lt;GeoPoint> ]
+ * // set start point Translate[ &lt;GeoPolygon>, &lt;GeoVector> ]
  * 
  */
 public class CmdTranslate extends CommandProcessor {

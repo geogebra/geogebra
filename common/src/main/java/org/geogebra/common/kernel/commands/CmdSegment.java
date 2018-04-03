@@ -9,7 +9,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Segment[ <GeoPoint>, <GeoPoint> ] Segment[ <GeoPoint>, <Number> ]
+ * Segment[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * 
+ * Segment[ &lt;GeoPoint>, &lt;Number> ]
  */
 public class CmdSegment extends CommandProcessor {
 	/**

@@ -18,8 +18,8 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * Root[ <GeoFunction> ] Root[ <GeoFunction> , <Number> ] Root[ <GeoFunction> ,
- * <Number> , <Number> ]
+ * Root[ &lt;GeoFunction> ] Root[ &lt;GeoFunction> , &lt;Number> ] Root[
+ * &lt;GeoFunction> , &lt;Number> , &lt;Number> ]
  */
 public class CmdRoot extends CommandProcessor {
 

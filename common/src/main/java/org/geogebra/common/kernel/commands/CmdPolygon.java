@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Polygon[ <GeoPoint>, ..., <GeoPoint> ] Polygon[ <GeoPoint>, <GeoPoint>,
- * <Number>] for regular polygon
+ * Polygon[ &lt;GeoPoint>, ..., &lt;GeoPoint> ] Polygon[ &lt;GeoPoint>,
+ * &lt;GeoPoint>, &lt;Number>] for regular polygon
  */
 public class CmdPolygon extends CommandProcessor {
 	/**

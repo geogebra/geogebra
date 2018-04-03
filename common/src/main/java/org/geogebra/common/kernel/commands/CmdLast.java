@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * Last[ <List>,n ]
+ * Last[ &lt;List>,n ]
  * 
  * @author Michael Borcherds
  * @version 2008-03-04
@@ -40,11 +40,11 @@ public class CmdLast extends CommandProcessor {
 
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = {
-						Last(c.getLabel(), (GeoList) arg[0], null) };
+						last(c.getLabel(), (GeoList) arg[0], null) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
 				GeoElement[] ret = {
-						Last(c.getLabel(), (GeoText) arg[0], null) };
+						last(c.getLabel(), (GeoText) arg[0], null) };
 				return ret;
 			} else if (arg[0].isGeoFunction()) {
 				AlgoLastFunction algo = new AlgoLastFunction(cons, c.getLabel(),
@@ -57,11 +57,11 @@ public class CmdLast extends CommandProcessor {
 			boolean list = arg[0].isGeoList();
 			boolean text = arg[0].isGeoText();
 			if (list && arg[1].isGeoNumeric()) {
-				GeoElement[] ret = { Last(c.getLabel(), (GeoList) arg[0],
+				GeoElement[] ret = { last(c.getLabel(), (GeoList) arg[0],
 						(GeoNumeric) arg[1]) };
 				return ret;
 			} else if (text && arg[1].isGeoNumeric()) {
-				GeoElement[] ret = { Last(c.getLabel(), (GeoText) arg[0],
+				GeoElement[] ret = { last(c.getLabel(), (GeoText) arg[0],
 						(GeoNumeric) arg[1]) };
 				return ret;
 			} else {
@@ -77,7 +77,7 @@ public class CmdLast extends CommandProcessor {
 	/**
 	 * Last[string,n] Michael Borcherds
 	 */
-	final private GeoText Last(String label, GeoText list, GeoNumeric n) {
+	final private GeoText last(String label, GeoText list, GeoNumeric n) {
 		AlgoLastString algo = new AlgoLastString(cons, label, list, n);
 		GeoText list2 = algo.getResult();
 		return list2;
@@ -86,7 +86,7 @@ public class CmdLast extends CommandProcessor {
 	/**
 	 * Last[list,n] Michael Borcherds
 	 */
-	final private GeoList Last(String label, GeoList list, GeoNumeric n) {
+	final private GeoList last(String label, GeoList list, GeoNumeric n) {
 		AlgoLast algo = new AlgoLast(cons, label, list, n);
 		GeoList list2 = algo.getResult();
 		return list2;

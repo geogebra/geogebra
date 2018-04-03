@@ -6,7 +6,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * Binomial[ <Number>, <Number> ] Michael Borcherds 2008-04-12
+ * Binomial[ &lt;Number>, &lt;Number> ]
+ * 
+ * @author Michael Borcherds
  */
 public class CmdBinomial extends CmdTwoNumFunction {
 	/**

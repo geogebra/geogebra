@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Semicircle[ <GeoPoint>, <GeoPoint> ]
+ * Semicircle[ &lt;GeoPoint>, &lt;GeoPoint> ]
  */
 public class CmdSemicircle extends CommandProcessor {
 

@@ -9,8 +9,11 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.MyError;
 
 /**
- * Line[ <GeoPoint>, <GeoPoint> ] Line[ <GeoPoint>, <GeoVector> ] Line[
- * <GeoPoint>, <GeoLine> ]
+ * Line[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * 
+ * Line[ &lt;GeoPoint>, &lt;GeoVector> ]
+ * 
+ * Line[ &lt;GeoPoint>, &lt;GeoLine> ]
  */
 public class CmdLine extends CommandProcessor {
 	/**

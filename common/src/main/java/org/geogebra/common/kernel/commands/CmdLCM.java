@@ -10,8 +10,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * LCM[ <Number>, <Number> ] LCM[list] adapted from CmdMax by Michael Borcherds
- * 2008-01-03
+ * LCM[ &lt;Number>, &lt;Number> ] LCM[list]
+ * 
+ * adapted from CmdMax by Michael Borcherds 2008-01-03
  */
 public class CmdLCM extends CommandProcessor {
 

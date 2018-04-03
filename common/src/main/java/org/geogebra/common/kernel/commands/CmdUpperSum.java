@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * UpperSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
+ * UpperSum[ &lt;GeoFunction>, &lt;Number>, &lt;Number>, &lt;Number> ]
  */
 public class CmdUpperSum extends CommandProcessor {
 

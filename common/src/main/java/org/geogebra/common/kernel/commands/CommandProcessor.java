@@ -584,8 +584,8 @@ public abstract class CommandProcessor {
 	 *            positions of vars to be initialized
 	 * @return array of arguments
 	 */
-	protected final GeoElement[] resArgsLocalNumVar(Command c, int varPos[],
-			int initPos[]) {
+	protected final GeoElement[] resArgsLocalNumVar(Command c, int[] varPos,
+			int[] initPos) {
 
 		String[] localVarName = new String[varPos.length];
 

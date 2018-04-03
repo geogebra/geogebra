@@ -16,7 +16,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * Extremum[ <GeoFunction> ]
+ * Extremum[ &lt;GeoFunction> ]
  */
 public class CmdExtremum extends CommandProcessor {
 

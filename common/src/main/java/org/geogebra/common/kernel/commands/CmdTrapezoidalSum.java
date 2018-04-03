@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * LowerSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
+ * TrapezoidalSum[ &lt;GeoFunction>, &lt;Number>, &lt;Number>, &lt;Number> ]
  */
 public class CmdTrapezoidalSum extends CommandProcessor {
 

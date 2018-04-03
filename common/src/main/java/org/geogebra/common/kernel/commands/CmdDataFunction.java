@@ -16,7 +16,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * Function[ <GeoFunction>, <NumberValue>, <NumberValue> ]
+ * Function[ &lt;GeoFunction>, &lt;NumberValue>, &lt;NumberValue> ]
  */
 public class CmdDataFunction extends CommandProcessor {
 	/**

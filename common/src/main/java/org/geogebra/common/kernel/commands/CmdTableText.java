@@ -10,7 +10,9 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * TableText[<Matrix>],TableText[<Matrix>,<Point>]
+ * TableText[&lt;Matrix>]
+ * 
+ * TableText[&lt;Matrix>,&lt;Point>]
  */
 
 public class CmdTableText extends CommandProcessor {

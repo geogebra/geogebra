@@ -11,7 +11,9 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * Element[ <list>, <n> ] Element[ <point>, <n> ]
+ * Element[ &lt;list>, &lt;n> ]
+ * 
+ * Element[ &lt;point>, &lt;n> ]
  */
 public class CmdElement extends CommandProcessor {
 

@@ -10,8 +10,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * GCD[ <Number>, <Number> ] GCD[list] adapted from CmdMax by Michael Borcherds
- * 2008-01-03
+ * GCD[ &lt;Number>, &lt;Number> ] GCD[list]
+ * 
+ * adapted from CmdMax by Michael Borcherds 2008-01-03
  */
 public class CmdGCD extends CommandProcessor {
 	/**

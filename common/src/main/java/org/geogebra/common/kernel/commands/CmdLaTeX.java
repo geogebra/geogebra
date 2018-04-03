@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * FormulaText[ <GeoElement> ]
+ * FormulaText[ &lt;GeoElement> ]
  */
 public class CmdLaTeX extends CommandProcessor {
 
@@ -41,7 +41,7 @@ public class CmdLaTeX extends CommandProcessor {
 
 			arg = resArgs(c, true, info);
 			if (arg[1].isGeoBoolean()) {
-				GeoElement[] ret2 = { LaTeX(c.getLabel(), arg[0],
+				GeoElement[] ret2 = { latex(c.getLabel(), arg[0],
 						(GeoBoolean) arg[1], null) };
 				return ret2;
 			}
@@ -51,7 +51,7 @@ public class CmdLaTeX extends CommandProcessor {
 
 			arg = resArgs(c, true, info);
 			if (arg[1].isGeoBoolean() && arg[2].isGeoBoolean()) {
-				GeoElement[] ret2 = { LaTeX(c.getLabel(), arg[0],
+				GeoElement[] ret2 = { latex(c.getLabel(), arg[0],
 						(GeoBoolean) arg[1], (GeoBoolean) arg[2]) };
 				return ret2;
 			}
@@ -70,7 +70,7 @@ public class CmdLaTeX extends CommandProcessor {
 	/**
 	 * LaTeX of geo.
 	 */
-	final private GeoText LaTeX(String label, GeoElement geo,
+	final private GeoText latex(String label, GeoElement geo,
 			GeoBoolean substituteVars, GeoBoolean showName) {
 		AlgoLaTeX algo = new AlgoLaTeX(cons, label, geo, substituteVars,
 				showName);

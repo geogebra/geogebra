@@ -10,8 +10,11 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Derivative[ <GeoFunction> ] Derivative[ <GeoFunctionNVar>, <var> ]
- * Derivative[ <GeoCurveCartesian> ]
+ * NDerivative[ &lt;GeoFunction> ]
+ * 
+ * NDerivative[ &lt;GeoFunctionNVar>, &lt;var> ]
+ * 
+ * NDerivative[ &lt;GeoCurveCartesian> ]
  */
 public class CmdNDerivative extends CommandProcessor {
 

@@ -8,8 +8,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * CircleArc[ <GeoPoint center>, <GeoPoint>, <GeoPoint> ] CircleSector[
- * <GeoPoint center>, <GeoPoint>, <GeoPoint> ]
+ * CircleArc[ &lt;GeoPoint center>, &lt;GeoPoint>, &lt;GeoPoint> ]
+ * 
+ * CircleSector[ &lt;GeoPoint center>, &lt;GeoPoint>, &lt;GeoPoint> ]
  */
 public class CmdCircleArcSector extends CommandProcessor {
 

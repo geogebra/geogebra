@@ -10,8 +10,11 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Sequence[ <expression>, <number-var>, <from>, <to> ] Sequence[ <expression>,
- * <number-var>, <from>, <to>, <step> ] Sequence[ <number-var>]
+ * Sequence[ &lt;expression>, &lt;number-var>, &lt;from>, &lt;to> ]
+ * 
+ * Sequence[ &lt;expression>, &lt;number-var>, &lt;from>, &lt;to>, &lt;step> ]
+ * 
+ * Sequence[ &lt;number-var>]
  */
 public class CmdSequence extends CommandProcessor {
 	/**

@@ -12,7 +12,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * Polynomial[ <GeoFunction> ]
+ * Polynomial[ &lt;GeoFunction> ]
  */
 public class CmdPolynomial extends CommandProcessor {
 

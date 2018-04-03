@@ -16,10 +16,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Tangent[ <GeoPoint>, <GeoConic> ] Tangent[ <GeoLine>, <GeoConic> ] Tangent[
- * <NumberValue>, <GeoFunction> ] Tangent[ <GeoPoint>, <GeoFunction> ] Tangent[
- * <GeoPoint>, <GeoCurveCartesian> ] Tangent[<GeoPoint>,<GeoImplicitPoly>]
- * Tangent[ <GeoLine>, <GeoImplicitPoly>]
+ * Tangent[ &lt;GeoPoint>, &lt;GeoConic> ] Tangent[ &lt;GeoLine>, &lt;GeoConic>
+ * ] Tangent[ &lt;NumberValue>, &lt;GeoFunction> ] Tangent[ &lt;GeoPoint>,
+ * &lt;GeoFunction> ] Tangent[ &lt;GeoPoint>, &lt;GeoCurveCartesian> ]
+ * Tangent[&lt;GeoPoint>,&lt;GeoImplicitPoly>] Tangent[ &lt;GeoLine>,
+ * &lt;GeoImplicitPoly>]
  */
 public class CmdTangent extends CommandProcessor {
 

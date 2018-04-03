@@ -11,7 +11,9 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * Take[ <List>,m,n ] Michael Borcherds 2008-03-04
+ * Take[ &lt;List>,m,n ]
+ * 
+ * @author Michael Borcherds
  */
 public class CmdTake extends CommandProcessor {
 	/**
