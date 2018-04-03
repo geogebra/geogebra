@@ -25,6 +25,7 @@ public class DrawVideo extends Drawable {
 	private GRectangle bounds;
 	private int left;
 	private int top;
+	private BoundingBox boundingBox;
 
 	/**
 	 * @param view
@@ -48,6 +49,9 @@ public class DrawVideo extends Drawable {
 		top = video.getAbsoluteScreenLocY();
 
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
+		if (bounds != null) {
+			getBoundingBox().setRectangle(bounds);
+		}
 	}
 
 	@Override
@@ -83,8 +87,10 @@ public class DrawVideo extends Drawable {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		// TODO implement this.
-		return null;
+		if (boundingBox == null) {
+			boundingBox = new BoundingBox(false);
+		}
+		return boundingBox;
 	}
 
 }
