@@ -337,21 +337,45 @@ public class AriaStackPanel extends ComplexPanel
 	private boolean remove(Widget child, int index) {
 		// Make sure to call this before disconnecting the DOM.
 		boolean removed = super.remove(child);
+		removeFromLists(index);
+		return removed;
+	}
+
+	private void removeFromLists(int index) {
 		if (index > -1) {
 			headers.remove(index);
 			contents.remove(index);
 			items.remove(index);
 		}
-		return removed;
+	}
+
+	/**
+	 * @param menu
+	 *            stack menu
+	 */
+	public void removeStack(Widget menu) {
+		int index = items.indexOf(menu);
+		if (index >= 0 && index < headers.size()) {
+			headers.get(index).getParentElement().removeFromParent();
+			removeFromLists(index);
+			if (index == visibleStack) {
+				visibleStack = -1;
+				lastVisibleStack = -1;
+			}
+		}
+		updateIndicesFrom(0);
 	}
 
 	private void setStackVisible(int index, boolean visible) {
-		if (index < 0) {
+		if (index < 0 || index >= headers.size()) {
 			return;
 		}
 		Element header = headers.get(index);
 		Element content = contents.get(index);
 		setStyleName(header, DEFAULT_ITEM_STYLENAME + "-selected", visible);
+		if (visible) {
+			items.get(index).setVisible(true);
+		}
 		UIObject.setVisible(content, visible);
 		int nextIdx = index + 1;
 		if (nextIdx < headers.size()) {

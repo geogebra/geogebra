@@ -380,7 +380,6 @@ public class MainMenu extends FlowPanel
 							return;
 						}
 					}
-
 					if (index != -1) {
 						showStack(index);
 					}
@@ -485,6 +484,7 @@ public class MainMenu extends FlowPanel
 		if (!app.enableFileFeatures()) {
 			return;
 		}
+		removeUserSignIn();
 		if (online && app.getLoginOperation().isLoggedIn()) {
 			loggedIn = true;
 			addUserMenu();
@@ -492,12 +492,15 @@ public class MainMenu extends FlowPanel
 			addSignInMenu();
 		} else {
 			loggedIn = false;
-			if (this.signInMenu != null) {
-				this.menuPanel.remove(this.signInMenu);
-			}
-			if (this.userMenu != null) {
-				this.menuPanel.remove(this.userMenu);
-			}
+		}
+	}
+
+	private void removeUserSignIn() {
+		if (this.signInMenu != null) {
+			this.menuPanel.removeStack(this.signInMenu);
+		}
+		if (this.userMenu != null) {
+			this.menuPanel.removeStack(this.userMenu);
 		}
 	}
 
@@ -740,17 +743,13 @@ public class MainMenu extends FlowPanel
 		if (!app.enableFileFeatures()) {
 			return;
 		}
+		removeUserSignIn();
 		if (event instanceof LoginEvent
 				&& ((LoginEvent) event).isSuccessful()) {
-			if (loggedIn) {
-				this.menuPanel.remove(this.userMenu);
-			}
 			loggedIn = true;
-			this.menuPanel.remove(this.signInMenu);
 			addUserMenu();
 			this.userMenu.setVisible(false);
 		} else if (event instanceof LogOutEvent) {
-			this.menuPanel.remove(this.userMenu);
 			loggedIn = false;
 			addSignInMenu();
 			this.signInMenu.setVisible(false);
