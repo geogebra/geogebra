@@ -104,7 +104,7 @@ public class EquationSolver implements EquationSolverInterface {
 	}
 
 	@Override
-	final public int polynomialComplexRoots(double[] real, double complex[]) {
+	final public int polynomialComplexRoots(double[] real, double[] complex) {
 		int ret = -1;
 		switch (real.length - 1) { // degree of polynomial
 		case 0:
@@ -147,7 +147,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 * @return the number of roots, or <code>-1</code> if the equation is a
 	 *         constant
 	 */
-	final public static int solveQuadratic(double eqn[]) {
+	final public static int solveQuadratic(double[] eqn) {
 		return solveQuadraticS(eqn, eqn, Kernel.STANDARD_PRECISION);
 	}
 
@@ -162,7 +162,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 *            precision
 	 * @return number of roots
 	 */
-	final public static int solveQuadraticS(double eqn[], double res[],
+	final public static int solveQuadraticS(double[] eqn, double[] res,
 			double eps) {
 		double a = eqn[2];
 		double b = eqn[1];
@@ -224,8 +224,8 @@ public class EquationSolver implements EquationSolverInterface {
 	 *            imaginary parts on output
 	 * @return number of roots
 	 */
-	final public static int solveQuadraticComplex(double real[],
-			double complex[]) {
+	final public static int solveQuadraticComplex(double[] real,
+			double[] complex) {
 		double a = real[2];
 		double b = real[1];
 		double c = real[0];
@@ -294,7 +294,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 *            an array containing coefficients for a cubic
 	 * @return the number of roots, or -1 if the equation is a constant.
 	 */
-	final public static int solveCubic(double eqn[]) {
+	final public static int solveCubic(double[] eqn) {
 		return solveCubicS(eqn, eqn, Kernel.STANDARD_PRECISION);
 	}
 
@@ -305,7 +305,6 @@ public class EquationSolver implements EquationSolverInterface {
 	 * 
 	 * solve_cubic.c - finds the real roots of x^3 + a x^2 + b x + c = 0
 	 */
-
 
 	/**
 	 * Solves cubic equation
@@ -318,7 +317,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 *            precision
 	 * @return number of roots
 	 */
-	final static public int solveCubicS(double eqn[], double res[],
+	final static public int solveCubicS(double[] eqn, double[] res,
 			double eps) {
 
 		int roots = 0;
@@ -356,8 +355,7 @@ public class EquationSolver implements EquationSolverInterface {
 		// changed back to original GGB-1725
 		// if (Math.abs(R) < Kernel.STANDARD_PRECISION
 		// && Math.abs(Q) < Kernel.STANDARD_PRECISION)
-		if (R == 0 && Q == 0)
-		{
+		if (R == 0 && Q == 0) {
 			res[roots++] = -a / 3;
 			res[roots++] = -a / 3;
 			res[roots++] = -a / 3;
@@ -374,12 +372,8 @@ public class EquationSolver implements EquationSolverInterface {
 		// kernel.STANDARD_PRECISION)
 		// // else if (CR2 == CQ3)
 		else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) * 10
-				/ Math.max(1, Math.abs(2 * a + 3)) * Kernel.STANDARD_PRECISION) // else
-																				// if
-		// (CR2
-		// ==
-		// CQ3)
-		{
+				/ Math.max(1, Math.abs(2 * a + 3))
+				* Kernel.STANDARD_PRECISION) {
 			// this test is actually R2 == Q3, written in a form suitable
 			// for exact computation with integers
 
@@ -401,8 +395,7 @@ public class EquationSolver implements EquationSolverInterface {
 				res[roots++] = 2 * sqrtQ - a / 3;
 			}
 			return 3;
-		} else if (CR2 < CQ3) // equivalent to R2 < Q3
-		{
+		} else if (CR2 < CQ3) { // equivalent to R2 < Q3
 			double sqrtQ = Math.sqrt(Q);
 			double sqrtQ3 = sqrtQ * sqrtQ * sqrtQ;
 			double theta = Math.acos(R / sqrtQ3);
@@ -427,7 +420,7 @@ public class EquationSolver implements EquationSolverInterface {
 			res[roots++] = A + B - a / 3;
 			return 1;
 		}
-	}// */
+	}
 
 	/*
 	 * This pruning step is necessary since solveCubic uses the cosine function
@@ -458,7 +451,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 * place ourselves on the appropriate side of it or on it depending on that
 	 * result.
 	 */
-	private static void fixRoots(double res[], double eqn[]) {
+	private static void fixRoots(double[] res, double[] eqn) {
 		double myepsilon = 1E-5;
 
 		for (int i = 0; i < 3; i++) {
@@ -471,7 +464,7 @@ public class EquationSolver implements EquationSolverInterface {
 		}
 	}
 
-	private static double solveEqn(double eqn[], int order, double t) {
+	private static double solveEqn(double[] eqn, int order, double t) {
 		double v = eqn[order];
 		int counter = order;
 		while (--counter >= 0) {
@@ -480,9 +473,9 @@ public class EquationSolver implements EquationSolverInterface {
 		return v;
 	}
 
-	private static double findZero(double init, double target, double eqn[]) {
+	private static double findZero(double init, double target, double[] eqn) {
 		double t = init;
-		double slopeqn[] = { eqn[1], 2 * eqn[2], 3 * eqn[3] };
+		double[] slopeqn = { eqn[1], 2 * eqn[2], 3 * eqn[3] };
 		double slope;
 		double origdelta = 0;
 		double origt = t;
@@ -552,10 +545,6 @@ public class EquationSolver implements EquationSolverInterface {
 		return INSIDE;
 	}
 
-	/* ************************************************* */
-
-
-
 	/**
 	 * Calculates all roots of a polynomial given by eqn using Laguerres method.
 	 * Polishes roots found. The roots are stored in eqn again.
@@ -567,7 +556,6 @@ public class EquationSolver implements EquationSolverInterface {
 		// for fast evaluation of polynomial (used for root polishing)
 		PolyFunction polyFunc = new PolyFunction(eqn);
 		PolyFunction derivFunc = polyFunc.getDerivative();
-
 
 		Complex[] complexRoots = null;
 		try {
@@ -762,7 +750,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 */
 
 	@Override
-	public int solveQuartic(double eqn[], double res[], double eps) {
+	public int solveQuartic(double[] eqn, double[] res, double eps) {
 
 		if (Math.abs(eqn[4]) < 0) {
 			return solveCubicS(eqn, res, Kernel.STANDARD_PRECISION);
@@ -775,7 +763,9 @@ public class EquationSolver implements EquationSolverInterface {
 		 * This code is based on a simplification of the algorithm from
 		 * zsolve_quartic.c for real roots
 		 */
-		double u[] = new double[3], v[] = new double[3], zarr[] = new double[4];
+		double[] u = new double[3];
+		double[] v = new double[3];
+		double[] zarr = new double[4];
 		double aa, pp, qq, rr, rc, sc, tc, mt;
 		double w1r, w1i, w2r, w2i, w3r;
 		double v1, v2, arg, theta;

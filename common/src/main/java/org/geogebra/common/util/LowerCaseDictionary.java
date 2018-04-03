@@ -169,8 +169,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 
 		String prefixLowerCase = getGreatestCommonPrefix(
 				normalizer.transform(curr));
-		if (prefixLowerCase == null || "".equals(prefixLowerCase))
-		 {
+		if (prefixLowerCase == null || "".equals(prefixLowerCase)) {
 			return ""; // no common prefix
 		}
 
@@ -235,6 +234,9 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		this.treeSet.clear();
 	}
 
+	/**
+	 * @return all commands in the dictionary
+	 */
 	public ArrayList<String> getAllCommands() {
 		ArrayList<String> ret = new ArrayList<>();
 

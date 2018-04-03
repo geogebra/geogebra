@@ -20,7 +20,8 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
  */
 public class RegionParameters {
 
-	private double t1, t2;
+	private double t1;
+	private double t2;
 
 	// private boolean isDefined; //tells if parameters have been fed with
 	// "real" numbers

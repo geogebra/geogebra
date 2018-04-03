@@ -15,6 +15,14 @@ import org.geogebra.common.util.debug.Log;
 
 abstract public class ImageManager {
 
+	/**
+	 * Set image corners; use selected points if any.
+	 * 
+	 * @param geoImage
+	 *            image
+	 * @param app
+	 *            application
+	 */
 	public void setCornersFromSelection(GeoImage geoImage, App app) {
 		boolean label = !app.has(Feature.MOW_IMAGE_BOUNDING_BOX);
 		ArrayList<GeoPointND> corners = new ArrayList<>();
@@ -72,6 +80,14 @@ abstract public class ImageManager {
 		return null;
 	}
 
+	/**
+	 * @param x1
+	 *            1st corner x-coord
+	 * @param point
+	 *            initial position
+	 * @param app
+	 *            app
+	 */
 	public void ensure2ndCornerOnScreen(double x1, GeoPoint point, App app) {
 		double x2 = point.inhomX;
 		EuclidianView ev = app.getActiveEuclidianView();

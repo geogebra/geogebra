@@ -44,7 +44,8 @@ public enum Language {
 			Unicode.LEFT_TO_RIGHT_MARK + "Arabic (Morocco)"
 					+ Unicode.LEFT_TO_RIGHT_MARK + " / "
 					+ Unicode.RIGHT_TO_LEFT_MARK
-					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u0627\u0644\u0645\u063A\u0631\u0628)"
+					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629"
+					+ " (\u0627\u0644\u0645\u063A\u0631\u0628)"
 					+ Unicode.RIGHT_TO_LEFT_MARK,
 			Script.ARABIC),
 
@@ -80,7 +81,8 @@ public enum Language {
 
 	Bulgarian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "bg",
-			"Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A",
+			"Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438"
+					+ " \u0435\u0437\u0438\u043A",
 			Script.CYRILLIC),
 
 	Catalan(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
@@ -240,7 +242,8 @@ public enum Language {
 
 	Macedonian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "mk",
-			"Macedonian / \u041C\u0430\u043A\u0435\u0434\u043E\u043D\u0441\u043A\u0438 \u0458\u0430\u0437\u0438\u043A",
+			"Macedonian / \u041C\u0430\u043A\u0435\u0434\u043E\u043D\u0441\u043A\u0438"
+					+ " \u0458\u0430\u0437\u0438\u043A",
 			Script.CYRILLIC),
 
 	Marathi(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, "\u092e", null,
@@ -343,7 +346,8 @@ public enum Language {
 
 	Ukrainian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "uk",
-			"Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 \u043C\u043E\u0432\u0430",
+			"Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430"
+					+ " \u043C\u043E\u0432\u0430",
 			Script.CYRILLIC),
 
 	Uyghur(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
@@ -429,6 +433,11 @@ public enum Language {
 		return Language.English_US;
 	}
 
+	/**
+	 * @param ggbLangCode
+	 *            language code
+	 * @return display name
+	 */
 	final public static String getDisplayName(String ggbLangCode) {
 		// eg change en_GB to enGB
 		String shortLangCode = ggbLangCode.replaceAll("_", "");
@@ -459,6 +468,11 @@ public enum Language {
 		return "a";
 	}
 
+	/**
+	 * @param browserLangCode
+	 *            language code
+	 * @return closest language supported in the app
+	 */
 	final public static Language getClosestGWTSupportedLanguage(
 			String browserLangCode) {
 		String normalizedLanguage = (browserLangCode + "")
@@ -500,6 +514,7 @@ public enum Language {
 
 	/**
 	 * @param language
+	 *            language string
 	 * @return the currency belonging to the given language (default Dollar)
 	 */
 	final public static String getCurrency(String language) {
@@ -519,6 +534,9 @@ public enum Language {
 		return this.rightAngleStyle;
 	}
 
+	/**
+	 * @return whether localized keyboard is supported
+	 */
 	final public boolean hasTranslatedKeyboard() {
 		switch (this) {
 		case Chinese_Simplified:
@@ -529,6 +547,9 @@ public enum Language {
 		}
 	}
 
+	/**
+	 * @return locale string for GWT
+	 */
 	public String getLocaleGWT() {
 		String lang = this.localeISO6391.replace("nl_BE", "nl");
 		return "nb".equals(lang) || "nn".equals(lang)

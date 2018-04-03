@@ -27,7 +27,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 
 	private ArrayList<? extends MyPoint> myPointList;
-	private boolean noLineToSet, lastNoLineToSet;
+	private boolean noLineToSet;
+	private boolean lastNoLineToSet;
 
 	/**
 	 * Creates new path mover for given locus

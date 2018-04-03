@@ -180,7 +180,6 @@ public class ConstructionDefaults {
 	private final GColor colLine = GColor.BLACK;
 	/** default color for lines in Geometry app */
 	private final GColor colLineGeometry = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
-
 	
 	/** default color for inequalities */
 	private static final GColor colInequality = GColor.BLUE;
@@ -336,7 +335,6 @@ public class ConstructionDefaults {
 		return defaultGeoElements.entrySet();
 	}
 
-
 	private void setDefaultLineStyle(GeoElement geo) {
 		if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES) || cons
 				.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
@@ -351,44 +349,47 @@ public class ConstructionDefaults {
 			if (geo.hasLineOpacity()) {
 				if (cons.getApplication()
 						.has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
-					if (geo instanceof GeoAngle) {
-						geo.setLineOpacity(
-								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_ANGLE);
-					} else if (geo instanceof GeoPolygon) {
-						geo.setLineOpacity(
-								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_POLYGON);
-					} else if (geo instanceof GeoConicPart) {
-						geo.setLineOpacity(
-								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_SECTOR);
-					} else if (cons.getApplication().isUnbundledGeometry()
-							&& (geo instanceof GeoLine
-									|| geo instanceof GeoSegment
-									|| geo instanceof GeoRay
-									|| geo instanceof GeoVector
-									|| geo instanceof GeoPolyLine
-									|| geo instanceof GeoConic)) {
-						geo.setLineOpacity(
-								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_GEOMETRY);
-					} else if (cons.getApplication().isUnbundledGraphing()
-							&& (geo instanceof GeoFunction)) {
-						geo.setLineOpacity(
-								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_FUNCTION_GEOMETRY);
-					} else if (cons.getApplication().isUnbundledGraphing()
-							&& (geo instanceof GeoCurveCartesian)) {
-						geo.setLineOpacity(
-								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_CURVE_GEOMETRY);
-					} else {
-						geo.setLineOpacity(
-								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
-					}
+					setLineOpacity(geo);
 				} else {
 					geo.setLineOpacity(
 							EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
 				}
 			}
 		}
+	}
+
+	private void setLineOpacity(GeoElement geo) {
+		if (geo instanceof GeoAngle) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_ANGLE);
+		} else if (geo instanceof GeoPolygon) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_POLYGON);
+		} else if (geo instanceof GeoConicPart) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_SECTOR);
+		} else if (cons.getApplication().isUnbundledGeometry()
+				&& (geo instanceof GeoLine || geo instanceof GeoSegment
+						|| geo instanceof GeoRay || geo instanceof GeoVector
+						|| geo instanceof GeoPolyLine
+						|| geo instanceof GeoConic)) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_GEOMETRY);
+		} else if (cons.getApplication().isUnbundledGraphing()
+				&& (geo instanceof GeoFunction)) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_FUNCTION_GEOMETRY);
+		} else if (cons.getApplication().isUnbundledGraphing()
+				&& (geo instanceof GeoCurveCartesian)) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_CURVE_GEOMETRY);
+		} else {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
+		}
 
 	}
+
 	/**
 	 * Fills the list of default geos
 	 */
@@ -484,7 +485,6 @@ public class ConstructionDefaults {
 		setDefaultLineStyle(curve);
 		curve.setAutoColor(true);
 		defaultGeoElements.put(DEFAULT_CURVE_CARTESIAN, curve);
-
 
 		// segment
 		GeoSegment seg = new GeoSegment(cons);
@@ -946,7 +946,6 @@ public class ConstructionDefaults {
 			} else {
 				geo.setAllVisualProperties(defaultGeo, isReset);
 			}
-
 
 			if (geo instanceof GeoFunction) {
 				geo.setAlphaValue(defaultGeo.getAlphaValue());

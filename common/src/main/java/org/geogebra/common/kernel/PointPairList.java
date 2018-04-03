@@ -2,13 +2,14 @@
  * Created on 12.11.2005
  *
  */
+
 package org.geogebra.common.kernel;
 
 /**
- * @author HOHENWARTER
+ * sorted list of point pairs (sorted by distance) used in AlgoInteresectConics
+ * and AlgoIntersecLineConic
  * 
- *         sorted list of point pairs (sorted by distance) used in
- *         AlgoInteresectConics and AlgoIntersecLineConic
+ * @author HOHENWARTER
  */
 public class PointPairList {
 	private PointPair head;

@@ -21,6 +21,7 @@ public class MyMath2 {
 	private static int factorialTop = 4;
 
 	private static double[] factorialTable = new double[33];
+
 	static {
 		factorialTable[0] = 1.0;
 		factorialTable[1] = 1.0;
@@ -29,6 +30,13 @@ public class MyMath2 {
 		factorialTable[4] = 24.0;
 	}
 
+	/**
+	 * @param a
+	 *            parameter
+	 * @param x
+	 *            x
+	 * @return gamma(a,x)
+	 */
 	final public static double gammaIncomplete(double a, double x) {
 
 		try {
@@ -40,11 +48,16 @@ public class MyMath2 {
 			// ArithmeticException
 			return Double.NaN;
 		}
-
 	}
 
+	/**
+	 * @param a
+	 *            parameter
+	 * @param x
+	 *            x
+	 * @return gammaRegularized(a,x)
+	 */
 	final public static double gammaIncompleteRegularized(double a, double x) {
-
 		try {
 			return Gamma.regularizedGammaP(a, x);
 		} catch (RuntimeException e) {
@@ -52,15 +65,21 @@ public class MyMath2 {
 			// ArithmeticException
 			return Double.NaN;
 		}
-
 	}
 
 	final public static double beta(double a, double b) {
-
 		return Math.exp(Beta.logBeta(a, b));
-
 	}
 
+	/**
+	 * @param a
+	 *            parameter
+	 * @param b
+	 *            parameter
+	 * @param x
+	 *            x
+	 * @return betaIncomplete(a,b,x)
+	 */
 	final public static double betaIncomplete(double a, double b, double x) {
 
 		try {
@@ -70,9 +89,17 @@ public class MyMath2 {
 			// ArithmeticException
 			return Double.NaN;
 		}
-
 	}
 
+	/**
+	 * @param a
+	 *            parameter
+	 * @param b
+	 *            parameter
+	 * @param x
+	 *            x
+	 * @return beta(a,b,x)
+	 */
 	final public static double betaIncompleteRegularized(double a, double b,
 			double x) {
 
@@ -91,6 +118,7 @@ public class MyMath2 {
 	 * returned.
 	 * 
 	 * @param x
+	 *            real number
 	 * @return factorial
 	 */
 	final public static double factorial(double x) {
@@ -115,6 +143,11 @@ public class MyMath2 {
 		return factorialTable[n];
 	}
 
+	/**
+	 * @param x
+	 *            real number
+	 * @return gamma(x)
+	 */
 	final public static double gamma(double x) {
 
 		// Michael Borcherds 2008-05-04
@@ -135,6 +168,7 @@ public class MyMath2 {
 	 * http://en.wikipedia.org/wiki/Cantor_function
 	 * 
 	 * @param x
+	 *            real number
 	 * @return cantor(x) (calculated iteratively)
 	 */
 	final public static double cantor(double x) {
@@ -142,7 +176,6 @@ public class MyMath2 {
 	}
 
 	final private static double cantor(double x, double depth) {
-
 		if (x < 0) {
 			return 0;
 		}
@@ -166,9 +199,17 @@ public class MyMath2 {
 			return 0.75;
 		}
 		return (cantor(x3 - 2, depth + 1) + 1) / 2;
-
 	}
 
+	/**
+	 * @param mean
+	 *            mean
+	 * @param standardDeviation
+	 *            standard deviation
+	 * @param x
+	 *            real number
+	 * @return erf(x) for given distribution
+	 */
 	final public static double erf(double mean, double standardDeviation,
 			double x) {
 
@@ -234,6 +275,13 @@ public class MyMath2 {
 		return Gamma.logGamma(x);
 	}
 
+	/**
+	 * @param order
+	 *            polynomial order
+	 * @param x
+	 *            real number
+	 * @return polyGamma_order(x)
+	 */
 	final public static double polyGamma(NumberValue order, double x) {
 		int o = (int) order.getDouble();
 		switch (o) {
@@ -381,6 +429,11 @@ public class MyMath2 {
 		return ret;
 	}
 
+	/**
+	 * @param d
+	 *            real number
+	 * @return erf for normal distibution with mean 0 and SD=1
+	 */
 	public static double erf(double d) {
 		return erf(0, 1, d);
 	}

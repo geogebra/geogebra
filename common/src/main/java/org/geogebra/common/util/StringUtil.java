@@ -434,8 +434,6 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 					} else {
 						sbReplaceExp.append(c);
 					}
-
-
 				}
 			}
 		}
@@ -557,8 +555,14 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return s.toUpperCase(Locale.US);
 	}
 
+	/**
+	 * Number parser supporting "null", "undefined" and "Infinity"
+	 * 
+	 * @param s
+	 *            string
+	 * @return parsed number
+	 */
 	public static double parseDouble(String s) {
-
 		if ("NaN".equals(s) || "undefined".equals(s) || "null".equals(s)) {
 			return Double.NaN;
 		} else if ("Infinity".equals(s)) {
@@ -570,6 +574,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return Double.parseDouble(s);
 	}
 
+	/**
+	 * @param c
+	 *            character
+	 * @param count
+	 *            number of repetitions
+	 * @return repeated char
+	 */
 	public static String repeat(char c, int count) {
 		StringBuilder ret = new StringBuilder();
 		for (int i = 0; i < count; i++) {
@@ -578,6 +589,11 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return ret.toString();
 	}
 
+	/**
+	 * @param character
+	 *            character
+	 * @return whether it's localized digit or underscore
+	 */
 	public static boolean isLetterOrDigitOrUnderscore(final char character) {
 		switch (character) {
 		case '_': // allow underscore as a valid letter in an autocompletion
@@ -594,6 +610,10 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
 	 * 
 	 * see also MyDouble.parseDouble()
+	 * 
+	 * @param ch
+	 *            character
+	 * @return whether it's a localized digit
 	 */
 	public static boolean isDigit(char ch) {
 
@@ -715,6 +735,14 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return sb.toString();
 	}
 
+	/**
+	 * Check that brackets in the string are correct; start checking from the
+	 * right.
+	 * 
+	 * @param parseString
+	 *            string
+	 * @return error position
+	 */
 	public static int checkBracketsBackward(String parseString) {
 		int curly = 0;
 		int square = 0;
@@ -776,6 +804,11 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return -1;
 	}
 
+	/**
+	 * @param parseString0
+	 *            input string
+	 * @return replace || with | | where needed; also replace .. with ellipsis
+	 */
 	public static String fixVerticalBars(String parseString0) {
 		String ignoredIndices = ignoreIndices(parseString0);
 		StringBuilder sbFix = new StringBuilder();
@@ -910,6 +943,8 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	/**
 	 * @param label
 	 *            label, may contain bold, italic, indices
+	 * @param font
+	 *            font
 	 * @return ratio of estimated string length and font size
 	 */
 	public double estimateLengthHTML(String label, GFont font) {
@@ -928,6 +963,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return estimateLength(label, bold ? font.deriveFont(GFont.BOLD) : font);
 	}
 
+	/**
+	 * @param label
+	 *            label, may contain indices
+	 * @param font
+	 *            font
+	 * @return ratio of estimated string length and font size
+	 */
 	public double estimateLength(String label, GFont font) {
 		String str = label;
 		boolean bold = font.isBold();
@@ -952,6 +994,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				: visibleChars * 0.5 * font.getSize();
 	}
 
+	/**
+	 * @param string
+	 *            text
+	 * @param font
+	 *            font
+	 * @return text height; depends on indices
+	 */
 	public double estimateHeight(String string, GFont font) {
 		if (font == null) {
 			return 0;
@@ -960,6 +1009,19 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				: font.getSize() * 1.4;
 	}
 
+	/**
+	 * @param sub
+	 *            substitution template
+	 * @param x0
+	 *            replacement for %0
+	 * @param x1
+	 *            replacement for %1
+	 * @param x2
+	 *            replacement for %2
+	 * @param x3
+	 *            replacement for %3
+	 * @return string after substitution
+	 */
 	public static Object format(String sub, double x0, double x1, double x2,
 			double x3) {
 		return sub.replaceAll("%0", x0 + "").replaceAll("%1", x1 + "")
@@ -1139,6 +1201,12 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return ret.toString();
 	}
 
+	/**
+	 * @param str
+	 *            number representation
+	 * @return number with removed trailing .00...0 and added initial 0 in case
+	 *         of ".5"
+	 */
 	public static String cannonicNumber(String str) {
 		boolean zerosNeedRemoving = true;
 		int index = str.indexOf(".");
@@ -1157,27 +1225,17 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		}
 		// Reduce can't handle .5*8
 		return index == 0 ? "0" + str : str;
-
 	}
 
-	// Log.debug(StringUtil.cannonicNumber2("4.3E20"));
-	// Log.debug(StringUtil.cannonicNumber2("1.203"));
-	// Log.debug(StringUtil.cannonicNumber2("1.23000000"));
-	// Log.debug(StringUtil.cannonicNumber2("1000"));
-	// Log.debug(StringUtil.cannonicNumber2("1.20000000E20"));
-	// Log.debug(StringUtil.cannonicNumber2("-4.3E20"));
-	// Log.debug(StringUtil.cannonicNumber2("-1.203"));
-	// Log.debug(StringUtil.cannonicNumber2("-1.23000000"));
-	// Log.debug(StringUtil.cannonicNumber2("-1000"));
-	// Log.debug(StringUtil.cannonicNumber2("-1.20000000E20"));
-	// Log.debug(StringUtil.cannonicNumber2(".23000000000"));
-
-	/*
+	/**
 	 * convert 1.200000000 into 1.2 convert .23 into 0.23 convert 1.23000E20
 	 * into 1.23E20
+	 * 
+	 * @param str
+	 *            number representation
+	 * @return number without redundant trailing zeros
 	 */
 	public static String cannonicNumber2(String str) {
-
 		String num = str;
 		String exponent = "";
 
@@ -1200,11 +1258,11 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		}
 
 		return num + exponent;
-
 	}
 
 	/**
 	 * @param c
+	 *            character
 	 * @return emulation of Character.isWhiteSpace
 	 */
 	public static boolean isWhitespace(char c) {
@@ -1233,6 +1291,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 *            input
 	 * @param ret
 	 *            alternate between open and closed
+	 * @return current quote
 	 */
 	public static char processQuotes(StringBuilder sb, String content,
 			char ret) {
@@ -1263,6 +1322,11 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return currentQuote;
 	}
 
+	/**
+	 * @param str
+	 *            input
+	 * @return encode unicode as \\uXXXX, escape \',\", \t, \n, \r, \\
+	 */
 	final public static String toJavaString(String str) {
 		if (str == null) {
 			return null;
@@ -1334,9 +1398,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return toLowerCaseUS(fileName.substring(dotPos + 1));
 	}
 
+	/***
+	 * @param fileName
+	 *            file name
+	 * @return extension
+	 */
 	public static FileExtensions getFileExtension(String fileName) {
 		String ext = getFileExtensionStr(fileName);
-
 		return FileExtensions.get(ext);
 	}
 
@@ -1382,6 +1450,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return str == null || str.isEmpty();
 	}
 
+	/**
+	 * @param c
+	 *            last typed char
+	 * @param inputText
+	 *            input
+	 * @return input with inserted degree symbol if needed
+	 */
 	public static String addDegreeSignIfNumber(char c, String inputText) {
 		// return unless digit typed
 		if (!StringUtil.isDigit(c)) {
@@ -1398,6 +1473,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return (inputText + Unicode.DEGREE_STRING);
 	}
 
+	/**
+	 * @param c
+	 *            0 to 7
+	 * @param loc
+	 *            localization
+	 * @return localized gray color name
+	 */
 	public static String getGrayString(char c, Localization loc) {
 		switch (c) {
 		case '0':
@@ -1534,6 +1616,9 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * sign) eg for use as a power
 	 * 
 	 * @author Michael
+	 * @param i0
+	 *            number
+	 * @return unicode superscript index
 	 */
 	final public static String numberToIndex(int i0) {
 		int i = i0;
@@ -1593,12 +1678,24 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return sb.toString();
 	}
 
+	/**
+	 * @param c
+	 *            character
+	 * @return whether char is superscript digit
+	 */
 	final public static boolean isSuperscriptDigit(final char c) {
 		return ((c >= Unicode.SUPERSCRIPT_0) && (c <= Unicode.SUPERSCRIPT_9))
 				|| (c == Unicode.SUPERSCRIPT_1) || (c == Unicode.SUPERSCRIPT_2)
 				|| (c == Unicode.SUPERSCRIPT_3);
 	}
 
+	/**
+	 * @param symbolsStartValue
+	 *            first symbol
+	 * @param symbolsNumber
+	 *            number of symbols
+	 * @return unicode range
+	 */
 	public static String[] getSetOfSymbols(int symbolsStartValue,
 			int symbolsNumber) {
 		String[] symbols = new String[symbolsNumber];

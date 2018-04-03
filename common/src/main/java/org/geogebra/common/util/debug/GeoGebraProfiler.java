@@ -86,6 +86,12 @@ public abstract class GeoGebraProfiler {
 		}
 	}
 
+	/**
+	 * Log a repaint
+	 * 
+	 * @param time
+	 *            repaint duration
+	 */
 	public static void addRepaint(long time) {
 		synchronized (lock) {
 			repaints++;
@@ -120,6 +126,10 @@ public abstract class GeoGebraProfiler {
 
 	}
 
+	/**
+	 * @param l
+	 *            hit testing duration
+	 */
 	public static void addHit(long l) {
 		synchronized (lock) {
 			hitTime += l;
@@ -128,14 +138,21 @@ public abstract class GeoGebraProfiler {
 
 	}
 
+	/**
+	 * @param l
+	 *            cascade duration
+	 */
 	public static void addUpdateCascade(long l) {
 		synchronized (lock) {
 			cascades++;
 			cascadeTime += l;
 		}
-
 	}
 
+	/**
+	 * @param l
+	 *            algebra update duration
+	 */
 	public static void addAlgebra(long l) {
 		synchronized (lock) {
 			algebra++;
@@ -143,6 +160,10 @@ public abstract class GeoGebraProfiler {
 		}
 	}
 
+	/**
+	 * @param l
+	 *            event handling duration
+	 */
 	public static void addEvent(long l) {
 		synchronized (lock) {
 			event++;
@@ -150,18 +171,28 @@ public abstract class GeoGebraProfiler {
 		}
 	}
 
+	/**
+	 * Increase ignored event counter.
+	 */
 	public static void incrementMoveEventsIgnored() {
 		synchronized (lock) {
 			moveEventsIgnored++;
 		}
 	}
 
+	/**
+	 * Decrease ignored event counter.
+	 */
 	public static void decrementMoveEventsIgnored() {
 		synchronized (lock) {
 			moveEventsIgnored--;
 		}
 	}
 
+	/**
+	 * @param t
+	 *            drag duration
+	 */
 	public static void incrementDragTime(int t) {
 		synchronized (lock) {
 			dragTime += t;
@@ -169,6 +200,9 @@ public abstract class GeoGebraProfiler {
 
 	}
 
+	/**
+	 * Log a drag event.
+	 */
 	public static void incrementDrags() {
 		synchronized (lock) {
 			drags++;

@@ -463,8 +463,8 @@ public class ModeShape {
 
 	private GeoPoint[] getRealPointsOfPolygon(AbstractEvent event) {
 		GeoPoint[] points = new GeoPoint[5];
-		int pointsX[];
-		int pointsY[];
+		int[] pointsX;
+		int[] pointsY;
 
 		int height = event.getY() - dragStartPoint.y;
 		int radius = event.getY() - (dragStartPoint.y + event.getY()) / 2;
@@ -575,7 +575,6 @@ public class ModeShape {
 				centerY - centerY);
 
 		// construct equation (x-center_x)^2 / b^2 + (y-center_y)^2 / a^2 = 1
-
 
 		return new double[] { sq(1 / b), 0, sq(1 / a), -2 * centerX / sq(b),
 				-2 * centerY / sq(a), sq(centerX / b) + sq(centerY / a) - 1 };
@@ -713,8 +712,8 @@ public class ModeShape {
 	 *            - mouse event
 	 */
 	protected void updateTriangle(AbstractEvent event) {
-		int pointsX[] = new int[3];
-		int pointsY[] = new int[3];
+		int[] pointsX = new int[3];
+		int[] pointsY = new int[3];
 
 		if (polygon == null) {
 			polygon = AwtFactory.getPrototype().newGeneralPath();
@@ -753,8 +752,8 @@ public class ModeShape {
 	 *            - mouse event
 	 */
 	protected void updateRegularPolygon(AbstractEvent event) {
-		int pointsX[];
-		int pointsY[];
+		int[] pointsX;
+		int[] pointsY;
 
 		if (polygon == null) {
 			polygon = AwtFactory.getPrototype().newGeneralPath();
@@ -797,7 +796,7 @@ public class ModeShape {
 		}
 		polygon.reset();
 		polygon.moveTo(pointListFreePoly.get(0).x, pointListFreePoly.get(0).y);
-		if (pointListFreePoly.size()<2) {
+		if (pointListFreePoly.size() < 2) {
 			return;
 		}
 		for (int index = 1; index < pointListFreePoly.size(); index++) {
@@ -813,7 +812,7 @@ public class ModeShape {
 
 	private static int[] getXCoordinates(int centerX, int radius, int vertexNr,
 			double startAngle) {
-		int res[] = new int[vertexNr];
+		int[] res = new int[vertexNr];
 		double addAngle = 2 * Math.PI / vertexNr;
 		double angle = startAngle;
 		for (int i = 0; i < vertexNr; i++) {
@@ -825,7 +824,7 @@ public class ModeShape {
 
 	private static int[] getYCoordinates(int centerY, int radius, int vertexNr,
 			double startAngle) {
-		int res[] = new int[vertexNr];
+		int[] res = new int[vertexNr];
 		double addAngle = 2 * Math.PI / vertexNr;
 		double angle = startAngle;
 		for (int i = 0; i < vertexNr; i++) {

@@ -6,8 +6,6 @@ package org.geogebra.common.kernel;
  */
 public interface EquationSolverInterface {
 
-
-
 	/**
 	 * @param equation
 	 *            coefficients

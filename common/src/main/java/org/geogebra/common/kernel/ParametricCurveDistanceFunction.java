@@ -25,8 +25,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class ParametricCurveDistanceFunction implements DistanceFunction {
 
 	// private GeoPoint P;
-	private double px, py;
-	private UnivariateFunction funX, funY;
+	private double px;
+	private double py;
+	private UnivariateFunction funX;
+	private UnivariateFunction funY;
 
 	// private double mint;
 	// private double maxt;

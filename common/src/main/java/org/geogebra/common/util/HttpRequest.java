@@ -3,10 +3,10 @@ package org.geogebra.common.util;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * Common abstract class for HttpRequest, implemented by different ways in
+ * desktop and web
  * 
- *         Common abstract class for HttpRequest, implemented by different ways
- *         in desktop and web
+ * @author Zoltan Kovacs
  */
 public abstract class HttpRequest {
 	/**
@@ -73,7 +73,6 @@ public abstract class HttpRequest {
 		return processed;
 	}
 
-
 	/**
 	 * @return current timeout for HTTP requests
 	 */
@@ -88,6 +87,5 @@ public abstract class HttpRequest {
 	protected void setResponseText(String responseText) {
 		this.responseText = responseText;
 	}
-
 
 }

@@ -89,9 +89,10 @@ public class Construction {
 	protected UndoManager undoManager;
 
 	/** default elements */
-	protected ConstructionDefaults consDefaults;
-	// TODO: make private once we port ClearConstruction
-	private String title, author, date;
+	private ConstructionDefaults consDefaults;
+	private String title;
+	private String author;
+	private String date;
 	// text for dynamic worksheets: 0 .. above, 1 .. below
 	private String[] worksheetText = new String[2];
 
@@ -164,8 +165,10 @@ public class Construction {
 	private ArrayList<GeoElement> latexGeos;
 
 	// axis objects
-	private GeoAxis xAxis, yAxis;
-	private String xAxisLocalName, yAxisLocalName;
+	private GeoAxis xAxis;
+	private GeoAxis yAxis;
+	private String xAxisLocalName;
+	private String yAxisLocalName;
 	private GeoPoint origin;
 
 	private GeoElement selfGeo;
@@ -1370,7 +1373,7 @@ public class Construction {
 	/**
 	 * Returns this construction in regression file .out format.
 	 * 
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * @author Zoltan Kovacs
 	 * 
 	 * @param sb
 	 *            string builder
@@ -1541,8 +1544,6 @@ public class Construction {
 			return;
 		}
 
-		// Log.debug(oldGeo.getCommandDescription(StringTemplate.maxPrecision)+newGeo.getCommandDescription(StringTemplate.maxPrecision));
-
 		// if an object is redefined the same (eg in a script) rather than
 		// reloading the whole XML, just update it
 		// NB xmlTemplate has faster serialization than maxPrecision template
@@ -1633,7 +1634,7 @@ public class Construction {
 				return;
 
 			} else if (oldGeo.isIndependent() && oldGeo.isGeoPoint()
-					&& oldGeo.isGeoElement3D()) {// GeoPoint3D
+					&& oldGeo.isGeoElement3D()) { // GeoPoint3D
 
 				oldGeo.set(newGeo);
 				oldGeo.setDefinition(null);
@@ -1645,9 +1646,7 @@ public class Construction {
 
 				restoreCurrentUndoInfo();
 				throw new CircularDefinitionException();
-
 			}
-
 		}
 		// 1) remove all brothers and sisters of oldGeo
 		// 2) move all predecessors of newGeo to the left of oldGeo in
@@ -2195,8 +2194,7 @@ public class Construction {
 	 *            spreadsheet)
 	 * @return may return null
 	 */
-	public GeoElement lookupLabel(String label, boolean allowAutoCreate) {// package
-																			// private
+	protected GeoElement lookupLabel(String label, boolean allowAutoCreate) {
 		String label1 = label;
 		if (label1 == null) {
 			return null;
@@ -2292,12 +2290,9 @@ public class Construction {
 		}
 		// try upper case version for spreadsheet label like a1
 		if (allowAutoCreate) {
-
-			if (Character.isLetter(label1.charAt(0)) // starts with letter
-					&& StringUtil.isDigit(label1.charAt(label1.length() - 1))) // ends
-																				// with
-																				// digit
-			{
+			// starts with letter & ends with digit
+			if (Character.isLetter(label1.charAt(0))
+					&& StringUtil.isDigit(label1.charAt(label1.length() - 1))) {
 				String upperCaseLabel = label1.toUpperCase();
 				geo = geoTableVarLookup(upperCaseLabel);
 				if (geo != null) {
@@ -3617,7 +3612,7 @@ public class Construction {
 			idx = ceList.size();
 		}
 		for (int i = idx - 1; i >= 0; i--) {
-			if(check.check(ceList.get(i).getGeoElements()[0])){
+			if (check.check(ceList.get(i).getGeoElements()[0])) {
 				return ceList.get(i).getGeoElements()[0];
 			}
 		}

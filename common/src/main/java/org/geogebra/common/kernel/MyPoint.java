@@ -31,7 +31,6 @@ public class MyPoint extends GPoint2D implements Point {
 	/** lineto flag */
 	private SegmentType segmentType = SegmentType.LINE_TO;
 
-
 	/**
 	 * Creates new empty MyPoint for cache
 	 */

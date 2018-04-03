@@ -46,7 +46,8 @@ public final class MyMath {
 	 * Cubic root
 	 * 
 	 * @param a
-	 * @return cube root
+	 *            real number
+	 * @return cube root of a
 	 */
 	public static double cbrt(double a) {
 		if (a > 0.0) {
@@ -55,6 +56,11 @@ public final class MyMath {
 		return -Math.pow(-a, ONE_THIRD);
 	}
 
+	/**
+	 * @param a
+	 *            real number
+	 * @return sign (0, 1 or -1)
+	 */
 	public static double sgn(double a) {
 
 		// bugfix for graph f(x) = sgn(sqrt(1 - x))
@@ -87,6 +93,7 @@ public final class MyMath {
 	 * csch(0) should return undefined not inf
 	 * 
 	 * @param a
+	 *            real number
 	 * @return csch(a)
 	 */
 	public static double csch(double a) {
@@ -106,9 +113,12 @@ public final class MyMath {
 
 	/**
 	 * need some leeway to make sure asin(0.8^2 / sqrt(0.8^4)) works
+	 * 
+	 * @param a
+	 *            real number
+	 * @return asin(a)
 	 */
 	public static double asin(double a) {
-
 		if (a > 1) {
 			if (DoubleUtil.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
 				return Math.asin(1);
@@ -145,10 +155,10 @@ public final class MyMath {
 	}
 
 	/**
-	 * 
 	 * coth(0) should return undefined not inf
 	 * 
 	 * @param a
+	 *            real number
 	 * @return coth(a)
 	 */
 	public static double coth(double a) {
@@ -167,6 +177,11 @@ public final class MyMath {
 		return FastMath.atanh(a);
 	}
 
+	/**
+	 * @param a
+	 *            real number
+	 * @return csc(a) = 1/sin(a)
+	 */
 	public static double csc(double a) {
 		double sin = Math.sin(a);
 		if (DoubleUtil.isZero(sin)) {
@@ -176,8 +191,12 @@ public final class MyMath {
 		return 1 / sin;
 	}
 
+	/**
+	 * @param a
+	 *            real number
+	 * @return sec(a) = 1 / cos(a)
+	 */
 	public static double sec(double a) {
-
 		// problem with eg sec(270deg)
 		double cos = Math.cos(a);
 		if (DoubleUtil.isZero(cos)) {
@@ -187,6 +206,11 @@ public final class MyMath {
 		return 1 / cos;
 	}
 
+	/**
+	 * @param a
+	 *            real number
+	 * @return cot(a) = cos(a)/sin(a)
+	 */
 	public static double cot(double a) {
 		double sin = Math.sin(a);
 		if (DoubleUtil.isZero(sin)) {
@@ -305,7 +329,6 @@ public final class MyMath {
 			res = lengthAbsNoZero(absx, absy);
 		}
 		return res;
-
 	}
 
 	private static double lengthAbsNoZero(double absx, double absy) {
@@ -434,16 +457,14 @@ public final class MyMath {
 			r = Math.round(r);
 
 			double ncr = binomLog(n, r);
-			if (ncr == Double.POSITIVE_INFINITY)
-			 {
+			if (ncr == Double.POSITIVE_INFINITY) {
 				return Double.POSITIVE_INFINITY; // check to stop needless slow
 													// calculations
 			}
 
 			// BinomLog is not exact for some values
 			// (determined by trial and error)
-			if (n <= 37)
-			 {
+			if (n <= 37) {
 				return ncr;
 			// if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
 			}
@@ -489,9 +510,13 @@ public final class MyMath {
 
 		return Math.floor(0.5 + Math.exp(MyMath2.logGamma(n + 1d)
 				- MyMath2.logGamma(r + 1) - MyMath2.logGamma((n - r) + 1)));
-
 	}
 
+	/**
+	 * @param data
+	 *            numbers
+	 * @return biggest number in the input
+	 */
 	public static double max(double[] data) {
 		double max = data[0];
 		for (int i = 0; i < data.length; i++) {
@@ -502,6 +527,11 @@ public final class MyMath {
 		return max;
 	}
 
+	/**
+	 * @param data
+	 *            numbers
+	 * @return smallest number in the input
+	 */
 	public static double min(double[] data) {
 		double max = data[0];
 		for (int i = 0; i < data.length; i++) {
@@ -512,6 +542,13 @@ public final class MyMath {
 		return max;
 	}
 
+	/**
+	 * @param v0
+	 *            first input
+	 * @param v1
+	 *            second input
+	 * @return whether both inputs have different sign
+	 */
 	public static boolean changedSign(double v0, double v1) {
 		return (v0 < 0 && v1 >= 0) || (v0 > 0 && v1 <= 0);
 	}
@@ -520,11 +557,33 @@ public final class MyMath {
 		return Math.max(a, Math.max(b, c));
 	}
 
+	/**
+	 * @param dx1
+	 *            x component of first vector
+	 * @param dy1
+	 *            y component of first vector
+	 * @param dx2
+	 *            x component of second vector
+	 * @param dy2
+	 *            y component of second vector
+	 * @return angle between vectors
+	 */
 	public static double angle(double dx1, double dy1, double dx2, double dy2) {
 		return Math.acos((dx1 * dx2 + dy1 * dy2) / Math.hypot(dx1, dy1)
 				/ Math.hypot(dx2, dy2));
 	}
 
+	/**
+	 * @param s1
+	 *            first interval start
+	 * @param e1
+	 *            first intrval end
+	 * @param s2
+	 *            second interval start
+	 * @param e2
+	 *            second interval end
+	 * @return whether intervals have an intersection
+	 */
 	public static boolean intervalsIntersect(double s1, double e1, double s2,
 			double e2) {
 		return (s1 <= s2 && s2 <= e1) || (s1 <= e2 && e2 <= e1)

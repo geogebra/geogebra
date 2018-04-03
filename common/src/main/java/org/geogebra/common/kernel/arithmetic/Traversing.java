@@ -739,7 +739,7 @@ public interface Traversing {
 
 					// make sure new cell is autocreated if it doesn't exist
 					// already
-					v.getKernel().getConstruction().lookupLabel(newName, true);
+					v.getKernel().lookupLabel(newName, true, false);
 
 					// Log.debug("setting new name to: "+newName);
 
@@ -761,10 +761,9 @@ public interface Traversing {
 					// make sure new cell is autocreated if it doesn't exist
 					// already
 					// and return it
-					return geo.getConstruction().lookupLabel(newName, true);
+					return geo.getKernel().lookupLabel(newName, true, false);
 
 				}
-
 			}
 
 			return ev;

@@ -32,7 +32,8 @@ import org.geogebra.common.util.debug.Log;
 public class ModeDeleteLocus extends ModeDelete {
 	private EuclidianView view;
 	private EuclidianController ec;
-	private boolean objDeleteMode = false, penDeleteMode = false;
+	private boolean objDeleteMode = false;
+	private boolean penDeleteMode = false;
 	private ArrayList<GPoint2D> interPoints;
 	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
 			100);
@@ -93,7 +94,6 @@ public class ModeDeleteLocus extends ModeDelete {
 				// holds the points which are really drawn (and should be used
 				// for
 				// hit detection).
-
 
 				List<MyPoint> dataPoints;
 
@@ -169,7 +169,7 @@ public class ModeDeleteLocus extends ModeDelete {
 									&& dataPoints.get(i).isDefined()
 									&& dataPoints.get(i + 1).isDefined()) {
 								i = handleEraserBetweenPointsOfSegment(
-										dataPoints, i);// TODO
+										dataPoints, i); // TODO
 								// if (newDataAndRealPoint != null
 								// && !newDataAndRealPoint.isEmpty()) {
 								// i = i + 2;
@@ -195,7 +195,7 @@ public class ModeDeleteLocus extends ModeDelete {
 
 				} else {
 					Log.debug(
-							"Can't delete points on stroke. Different number of in and output points.");
+							"Can't delete points on stroke: output & input sizes differ.");
 				}
 				if (hasVisiblePart) { // still something visible, don't delete
 					it.remove(); // remove this Stroke from hits
@@ -632,7 +632,7 @@ public class ModeDeleteLocus extends ModeDelete {
 									dataPoints.get(i).isDefined()
 									&& dataPoints.get(i + 1).isDefined()) {
 								i = handleEraserBetweenPointsOfSegment(
-										dataPoints, i);// TODO
+										dataPoints, i); // TODO
 								// if (newDataAndRealPoint != null
 								// && !newDataAndRealPoint.isEmpty()) {
 								// i = i + 2;
@@ -657,7 +657,7 @@ public class ModeDeleteLocus extends ModeDelete {
 
 				} else {
 					Log.debug(
-							"Can't delete points on stroke. Different number of in and output points.");
+							"Can't delete points on stroke: input & output sizes differ.");
 				}
 				if (!hasVisiblePart) { // still something visible, don't delete
 					// remove this Stroke

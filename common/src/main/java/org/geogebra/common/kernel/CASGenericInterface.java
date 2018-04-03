@@ -99,7 +99,6 @@ public interface CASGenericInterface extends SettingListener {
 	 */
 	String evaluateCAS(String exp);
 
-
 	/**
 	 * Creates a program to return the elimination ideal in factorized form.
 	 * 

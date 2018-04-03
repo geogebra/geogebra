@@ -1,9 +1,16 @@
 package org.geogebra.common.util;
 
+/**
+ * Builds HTML code of string with indices.
+ */
 public class IndexHTMLBuilder {
 	private StringBuilder sb;
 	private boolean needsTag;
 
+	/**
+	 * @param addTag
+	 *            whether to add &lt;html&gt; tag around
+	 */
 	public IndexHTMLBuilder(boolean addTag) {
 		this.sb = new StringBuilder();
 		if (addTag) {
@@ -44,6 +51,5 @@ public class IndexHTMLBuilder {
 
 	public void appendHTML(String str) {
 		sb.append(StringUtil.toHTMLString(str));
-
 	}
 }

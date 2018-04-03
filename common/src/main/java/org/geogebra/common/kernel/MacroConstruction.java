@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.kernel;
 
 import java.util.HashSet;
@@ -79,8 +80,7 @@ public class MacroConstruction extends Construction {
 	 * @return may return null
 	 */
 	@Override
-	public final GeoElement lookupLabel(String label, boolean autoCreate) {// package
-																			// private
+	protected final GeoElement lookupLabel(String label, boolean autoCreate) {
 		if (label == null) {
 			return null;
 		}
@@ -147,11 +147,9 @@ public class MacroConstruction extends Construction {
 
 		// try upper case version for spreadsheet label like a1
 		if (autoCreate) {
-			if (Character.isLetter(label1.charAt(0)) // starts with letter
-					&& StringUtil.isDigit(label1.charAt(label1.length() - 1))) // ends
-																				// with
-																				// digit
-			{
+			// starts with letter & ends with digit
+			if (Character.isLetter(label1.charAt(0))
+					&& StringUtil.isDigit(label1.charAt(label1.length() - 1))) {
 				String upperCaseLabel = label1.toUpperCase();
 				geo = geoTableVarLookup(upperCaseLabel);
 				if (geo != null) {

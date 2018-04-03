@@ -4,10 +4,24 @@ import org.geogebra.common.util.debug.Log;
 
 public class Validation {
 
+	/**
+	 * @param tf
+	 *            textfield
+	 * @param def
+	 *            default
+	 * @return whether the field contains a double
+	 */
 	public static double validateDouble(TextObject tf, double def) {
 		return new DoubleValidator().validateDouble(tf, def);
 	}
 
+	/**
+	 * @param tf
+	 *            textfield
+	 * @param def
+	 *            default
+	 * @return whether the field contains a positive double
+	 */
 	public static double validateDoublePositive(TextObject tf, double def) {
 		DoubleValidator dv = new DoubleValidator() {
 			@Override

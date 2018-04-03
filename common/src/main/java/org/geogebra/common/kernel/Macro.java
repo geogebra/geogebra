@@ -39,14 +39,18 @@ import org.geogebra.common.util.debug.Log;
 public class Macro {
 
 	private Kernel kernel;
-	private String cmdName = "", toolName = "", toolHelp = "";
+	private String cmdName = "";
+	private String toolName = "";
+	private String toolHelp = "";
 	private String iconFileName = ""; // image file
 	private boolean showInToolBar = true;
 
 	private Construction macroCons; // macro construction
 	private StringBuilder macroConsXML;
-	private GeoElement[] macroInput, macroOutput; // input and output objects
-	private String[] macroInputLabels, macroOutputLabels;
+	private GeoElement[] macroInput;
+	private GeoElement[] macroOutput; // input and output objects
+	private String[] macroInputLabels;
+	private String[] macroOutputLabels;
 	private Test[] inputTypes;
 	private Integer viewId = null;
 	private LinkedList<AlgoElement> usingAlgos = new LinkedList<>();
@@ -471,7 +475,8 @@ public class Macro {
 	 * input and output objects within this construction are given by
 	 * inputLabels and outputLabels
 	 * 
-	 * @param macroXML
+	 * @param macroConstructionXML
+	 *            XML content
 	 */
 	private Construction createMacroConstruction(String macroConstructionXML)
 			throws Exception {
@@ -561,8 +566,8 @@ public class Macro {
 	}
 
 	/**
-	 * Returns a String showing all needed types of this macro. eg [ <Text>,
-	 * <Number> ]
+	 * Returns a String showing all needed types of this macro. eg [
+	 * &lt;Text&gt;, &lt;Number&gt; ]
 	 * 
 	 * @return string showing all needed types of this macro.
 	 */

@@ -39,7 +39,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * "More..." button is pressed). The original content of this file has been
  * moved into RelationNumerical.java and extensively rewritten.
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class Relation {
 	/**
@@ -54,7 +54,7 @@ public class Relation {
 	 * @param rd
 	 *            forth object (optional, can be null)
 	 * 
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * @author Zoltan Kovacs
 	 */
 	public static void showRelation(final App app, final GeoElement ra,
 			final GeoElement rb, final GeoElement rc, final GeoElement rd) {
@@ -88,7 +88,7 @@ public class Relation {
 			relBools[i] = r.boolResult;
 			i++;
 		}
-		final RelationRow rr[] = new RelationRow[rels];
+		final RelationRow[] rr = new RelationRow[rels];
 		for (i = 0; i < rels; i++) {
 			rr[i] = new RelationRow();
 			final String relInfo = relInfos[i].replace("\n", "<br>");
@@ -170,8 +170,8 @@ public class Relation {
 								rel.setInfo(rel.getInfo()
 										+ trueOnParts);
 							} else { // "0"
-								Log.error(
-										"Internal error in prover: Prove==true <-> ProveDetails==false");
+								Log.error("Internal error in prover:"
+												+ " Prove==true <-> ProveDetails==false");
 								rel.setInfo(rel.getInfo() + generallyFalse);
 							}
 							rel.setInfo(rel.getInfo() + "</b>");
@@ -245,7 +245,7 @@ public class Relation {
 	 * @return true if statement holds generally, false if it does not hold,
 	 *         null if cannot be decided by GeoGebra
 	 * 
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * @author Zoltan Kovacs
 	 */
 	final public static Boolean checkGenerally(RelationCommand command,
 			GeoElement g1, GeoElement g2, GeoElement g3, GeoElement g4) {
@@ -323,7 +323,7 @@ public class Relation {
 	 * @return [""]: undefined, ["0"]: false, ["1"]: always true, ["1", cond1,
 	 *         cond2, ...]: true under cond1 and cond2 and ...
 	 * 
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * @author Zoltan Kovacs
 	 * 
 	 */
 	final public static String[] getNDGConditions(RelationCommand command,

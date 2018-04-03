@@ -169,7 +169,8 @@ public class AnimationManager implements GTimerListener {
 	 * Adapts the frame rate depending on how long it took to compute the last
 	 * frame.
 	 * 
-	 * @param frameTime
+	 * @param compTime
+	 *            computation time
 	 */
 	private void adaptFrameRate(long compTime) {
 		// only allow to use 80% of CPU time for animation (800 millis out of 1

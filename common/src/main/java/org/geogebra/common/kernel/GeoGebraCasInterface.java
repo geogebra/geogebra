@@ -144,9 +144,6 @@ public interface GeoGebraCasInterface {
 			final ArrayList<ExpressionNode> args, final boolean symbolic,
 			StringTemplate tpl);
 
-
-	// String toAssignment(final GeoElement geoElement, final StringTemplate
-	// tpl);
 	/**
 	 * Returns the internal names of all the commands available in the current
 	 * CAS.

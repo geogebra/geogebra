@@ -57,7 +57,6 @@ public enum FileExtensions {
 		this.allowedImage = allowedImage;
 		this.isImage = isImage;
 		this.ext = extension;
-
 	}
 
 	@Override
@@ -65,6 +64,11 @@ public enum FileExtensions {
 		return ext;
 	}
 
+	/**
+	 * @param ext0
+	 *            string file extension
+	 * @return corresponding enum value or UNDEFINED
+	 */
 	final public static FileExtensions get(String ext0) {
 		for (FileExtensions fe : FileExtensions.values()) {
 			if (fe.ext.equals(ext0)) {
@@ -73,7 +77,6 @@ public enum FileExtensions {
 		}
 
 		return UNKNOWN;
-
 	}
 
 	final public boolean isAllowedImage() {

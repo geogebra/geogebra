@@ -175,13 +175,13 @@ public class CurvePlotter {
 		// TODO
 		// INIT plotting algorithm
 		int LENGTH = view.getMaxDefinedBisections() + 1;
-		int dyadicStack[] = new int[LENGTH];
-		int depthStack[] = new int[LENGTH];
+		int[] dyadicStack = new int[LENGTH];
+		int[] depthStack = new int[LENGTH];
 		double[][] posStack = new double[LENGTH][];
 		// double xStack[] = new double[LENGTH];
 		// double yStack[] = new double[LENGTH];
-		boolean onScreenStack[] = new boolean[LENGTH];
-		double divisors[] = new double[LENGTH];
+		boolean[] onScreenStack = new boolean[LENGTH];
+		double[] divisors = new double[LENGTH];
 		divisors[0] = t2 - t1;
 		for (int i = 1; i < LENGTH; i++) {
 			divisors[i] = divisors[i - 1] / 2;
@@ -224,9 +224,9 @@ public class CurvePlotter {
 
 			// bisect interval as long as ...
 			while ( // max bisection depth not reached
-			depth < view.getMaxDefinedBisections() &&
+			depth < view.getMaxDefinedBisections()
 			// distance not ok or angle not ok or step too big
-					(!distanceOK || !angleOK
+					&& (!distanceOK || !angleOK
 							|| divisors[depth] > max_param_step)
 					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,
 					// 0, 6]
@@ -460,7 +460,7 @@ public class CurvePlotter {
 			curve.evaluateCurve(t - eps, eval);
 			if (!isUndefined(eval)) {
 				// SINGULARITY: c(t) undef, c(t-eps) and c(t+eps) defined
-				return true;// Math.abs(oldy - eval[1]) < 20 * eps;
+				return true; // Math.abs(oldy - eval[1]) < 20 * eps;
 			}
 		}
 
@@ -584,8 +584,7 @@ public class CurvePlotter {
 				t1 = m;
 			}
 
-			if (DoubleUtil.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION))
-			 {
+			if (DoubleUtil.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION)) {
 				return true;
 			// System.out.println(" largest dist: " + dist + ", [" + t1 + ", "
 			// + t2 +"]");

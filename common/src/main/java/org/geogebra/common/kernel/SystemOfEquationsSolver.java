@@ -59,8 +59,8 @@ public class SystemOfEquationsSolver {
 	 *         are invalid
 	 * 
 	 */
-	final public int solveSystemOfQuadraticEquations(double eqn1[],
-			double eqn2[], double[][] res, double eps) {
+	final public int solveSystemOfQuadraticEquations(double[] eqn1,
+			double[] eqn2, double[][] res, double eps) {
 
 		ArrayList<Double> xs = new ArrayList<>();
 		ArrayList<Double> ys = new ArrayList<>();
@@ -100,7 +100,7 @@ public class SystemOfEquationsSolver {
 		double d21 = a20 * b01 - b20 * a01;
 		double d22 = a20 * b02 - b20 * a02;
 
-		double quarticParams[] = new double[5];
+		double[] quarticParams = new double[5];
 		quarticParams[0] = d00 * d10 - d20 * d20;
 		quarticParams[1] = d01 * d10 + d00 * d11 - 2 * d20 * d21;
 		quarticParams[2] = d01 * d11 + d00 * d12 - d21 * d21 - 2 * d20 * d22;
