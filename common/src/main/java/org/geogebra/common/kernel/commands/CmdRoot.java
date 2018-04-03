@@ -34,7 +34,7 @@ public class CmdRoot extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -61,6 +61,11 @@ public class CmdRoot extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getRootPoint() };
 				return ret;
+			}
+			if (arg[0].isGeoFunction() && arg[1].isGeoFunction()) {
+				c.setName("Intersect"); // bug in some GGB versions saving
+										// Intersect(f,g) as Root(f,g)
+				return kernel.getAlgebraProcessor().processCommand(c, info);
 			}
 			throw argErr(app, c, getBadArg(ok, arg));
 

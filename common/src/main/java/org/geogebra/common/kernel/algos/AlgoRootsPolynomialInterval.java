@@ -96,7 +96,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 
 	@Override
 	public Commands getClassName() {
-		return line == null ? Commands.Root : Commands.Intersect;
+		return line == null && g == null ? Commands.Root : Commands.Intersect;
 	}
 	@Override
 	protected void computeRoots() {
