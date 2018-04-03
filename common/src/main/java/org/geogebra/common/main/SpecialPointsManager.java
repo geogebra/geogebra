@@ -11,15 +11,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
-import org.geogebra.common.kernel.algos.AlgoIntersectAbstract;
-import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
-import org.geogebra.common.kernel.algos.AlgoIntersectLines;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
 import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
-import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.commands.CmdIntersect;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -179,38 +177,38 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		if (geo == xAxisLine || geo == yAxisLine) {
 			return;
 		}
+		Command cmd = new Command(kernel, "Intersect", false);
+		CmdIntersect intersect = new CmdIntersect(kernel);
+		boolean wasSuppressLabelActive = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
 		if (xAxis) {
-			getSpecialPointsIntersect(geo, xAxisLine, retList);
+			getSpecialPointsIntersect(geo, xAxisLine, intersect, cmd, retList);
 		}
 		if (yAxis) {
-			getSpecialPointsIntersect(geo, yAxisLine, retList);
+			getSpecialPointsIntersect(geo, yAxisLine, intersect, cmd, retList);
 		}
 
 		for (GeoElement element: cons.getGeoSetConstructionOrder()) {
-			if (element instanceof GeoLine && element != geo) {
-				getSpecialPointsIntersect(geo, (GeoLine) element, retList);
+			if (element instanceof EquationValue && element != geo) {
+				getSpecialPointsIntersect(geo, element, intersect, cmd, retList);
 			}
 		}
+
+		cons.setSuppressLabelCreation(wasSuppressLabelActive);
 	}
 
-	private void getSpecialPointsIntersect(GeoElement element, GeoLine line, ArrayList<GeoElementND> retList) {
-		boolean kernelWasSilent = kernel.isSilentMode();
-		kernel.setSilentMode(true);
+	private void getSpecialPointsIntersect(GeoElement element, GeoElement secondElement,
+										   CmdIntersect intersect, Command cmd,
+										   ArrayList<GeoElementND> retList) {
+		GeoElement[] elements = intersect.intersect2(new GeoElement[] {element, secondElement}, cmd);
 
-		AlgoIntersectAbstract intersect = null;
-		Construction cons = kernel.getConstruction();
-		if (element instanceof GeoLine) {
-				intersect = new AlgoIntersectLines(cons, null, (GeoLine) element, line);
-		} else if (element instanceof GeoConic) {
-			intersect = new AlgoIntersectLineConic(cons, line, (GeoConic) element);
+		for (GeoElement output: elements) {
+			AlgoElement parent = output.getParentAlgorithm();
+			specPointAlgos.add(parent);
+			kernel.getConstruction().removeFromAlgorithmList(parent);
 		}
-		if (intersect != null) {
-			kernel.getConstruction().removeFromAlgorithmList(intersect);
-			add(intersect.getOutput(), retList);
-			specPointAlgos.add(intersect);
-		}
-
-		kernel.setSilentMode(kernelWasSilent);
+		add(elements, retList);
 	}
 
 	private boolean shouldShowSpecialPoints(GeoElementND geo) {
