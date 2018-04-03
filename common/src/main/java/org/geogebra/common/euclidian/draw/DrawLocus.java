@@ -46,6 +46,8 @@ import org.geogebra.common.util.debug.Log;
  */
 public class DrawLocus extends Drawable {
 
+	private static final int BITMAP_PADDING = 10;
+
 	private GeoLocusND<? extends MyPoint> locus;
 
 	private boolean isVisible, labelVisible;
@@ -55,6 +57,8 @@ public class DrawLocus extends Drawable {
 	private BoundingBox boundingBox;
 	private GBufferedImage bitmap;
 
+	private int bitmapShiftX;
+	private int bitmapShiftY;
 	/**
 	 * Creates new drawable for given locus
 	 * 
@@ -169,9 +173,12 @@ public class DrawLocus extends Drawable {
 					this.bitmap = makeImage(g2);
 					GGraphics2D g2bmp = bitmap.createGraphics();
 					g2bmp.setAntialiasing();
+					bitmapShiftX = (int) getBounds().getMinX() - BITMAP_PADDING;
+					bitmapShiftY = (int) getBounds().getMinY() - BITMAP_PADDING;
+					g2bmp.translate(-bitmapShiftX, -bitmapShiftY);
 					drawPath(g2bmp);
 				}
-				g2.drawImage(bitmap, 0, 0);
+				g2.drawImage(bitmap, bitmapShiftX, bitmapShiftY);
 			} else {
 				drawPath(g2);
 			}
@@ -191,8 +198,9 @@ public class DrawLocus extends Drawable {
 	}
 
 	private GBufferedImage makeImage(GGraphics2D g2p) {
-		return AwtFactory.getPrototype().newBufferedImage(view.getWidth(),
-				view.getHeight(), g2p);
+		return AwtFactory.getPrototype().newBufferedImage(
+				(int) this.getBounds().getWidth() + 2 * BITMAP_PADDING,
+				(int) this.getBounds().getHeight() + 2 * BITMAP_PADDING, g2p);
 	}
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
