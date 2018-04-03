@@ -3135,7 +3135,7 @@ __GGB__keysVar["eu"].menu = {
     "exam_started": "Azterketa abian da",
     "exam_views_deactivated": "Desgaitutako Ikuspegiak",
     "expImgRightClickMsg": "Right click to copy to clipboard",
-    "exportImage": "Export  Image",
+    "exportImage": "Export Image",
     "firstAxisLength": "ardatz nagusiaren luzera",
     "fixed": "Finkatua",
     "fncInspector.Curvature": "Kurbadura",

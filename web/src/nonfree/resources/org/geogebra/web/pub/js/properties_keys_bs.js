@@ -3135,7 +3135,7 @@ __GGB__keysVar["bs"].menu = {
     "exam_started": "Exam started",
     "exam_views_deactivated": "Deactivated Views",
     "expImgRightClickMsg": "Right click to copy to clipboard",
-    "exportImage": "Export  Image",
+    "exportImage": "Export Image",
     "firstAxisLength": "glavna poluosa",
     "fixed": "fiksno",
     "fncInspector.Curvature": "Krivina",

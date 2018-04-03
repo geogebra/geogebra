@@ -3135,7 +3135,7 @@ __GGB__keysVar["sv"].menu = {
     "exam_started": "Provl\xe4get startades",
     "exam_views_deactivated": "Avaktiverade vyer",
     "expImgRightClickMsg": "Right click to copy to clipboard",
-    "exportImage": "Export  Image",
+    "exportImage": "Export Image",
     "firstAxisLength": "halva storaxelns l\xe4ngd",
     "fixed": "L\xe5st",
     "fncInspector.Curvature": "Kr\xf6kning",

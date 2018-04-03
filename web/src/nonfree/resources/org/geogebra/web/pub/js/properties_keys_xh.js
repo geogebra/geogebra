@@ -3135,7 +3135,7 @@ __GGB__keysVar["xh"].menu = {
     "exam_started": "Uvavanyo luqalile",
     "exam_views_deactivated": "Susa Imibonakaliso",
     "expImgRightClickMsg": "Right click to copy to clipboard",
-    "exportImage": "Export  Image",
+    "exportImage": "Export Image",
     "firstAxisLength": "ifirst axis' length",
     "fixed": "Fixed",
     "fncInspector.Curvature": "Igophe",

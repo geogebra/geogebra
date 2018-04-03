@@ -3135,7 +3135,7 @@ __GGB__keysVar["ko"].menu = {
     "exam_started": "\uc2dc\uc791\ub41c \ud3c9\uac00",
     "exam_views_deactivated": "\ube44\ud65c\uc131\ud654\ub41c \ucc3d",
     "expImgRightClickMsg": "Right click to copy to clipboard",
-    "exportImage": "Export  Image",
+    "exportImage": "Export Image",
     "firstAxisLength": "\uccab\uc9f8 \ucd95\uc758 \uae38\uc774",
     "fixed": "\uace0\uc815",
     "fncInspector.Curvature": "\uace1\ub960",

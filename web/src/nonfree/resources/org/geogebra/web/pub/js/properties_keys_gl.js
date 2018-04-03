@@ -3135,7 +3135,7 @@ __GGB__keysVar["gl"].menu = {
     "exam_started": "O Modo Exame comezou",
     "exam_views_deactivated": "Vistas desactivadas",
     "expImgRightClickMsg": "Right click to copy to clipboard",
-    "exportImage": "Export  Image",
+    "exportImage": "Export Image",
     "firstAxisLength": "lonxitude do eixe principal",
     "fixed": "Fixo",
     "fncInspector.Curvature": "Curvatura",

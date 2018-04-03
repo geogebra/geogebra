@@ -3135,7 +3135,7 @@ __GGB__keysVar["ne"].menu = {
     "exam_started": "Exam started",
     "exam_views_deactivated": "Deactivated Views",
     "expImgRightClickMsg": "Right click to copy to clipboard",
-    "exportImage": "Export  Image",
+    "exportImage": "Export Image",
     "firstAxisLength": "\u092a\u094d\u0930\u0925\u092e \u0905\u0915\u094d\u0937\u0915\u094b \u0932\u092e\u094d\u092c\u093e\u0908",
     "fixed": "\u0928\u093f\u0936\u094d\u091a\u093f\u0924",
     "fncInspector.Curvature": "\u092c\u0915\u094d\u0930\u0938\u0924\u0939",

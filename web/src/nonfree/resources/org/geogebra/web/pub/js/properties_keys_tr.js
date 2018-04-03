@@ -3135,7 +3135,7 @@ __GGB__keysVar["tr"].menu = {
     "exam_started": "S\u0131nav ba\u015flat\u0131ld\u0131",
     "exam_views_deactivated": "Devre d\u0131\u015f\u0131 b\u0131rak\u0131lm\u0131\u015f G\xf6r\xfcn\xfcmler",
     "expImgRightClickMsg": "Right click to copy to clipboard",
-    "exportImage": "Export  Image",
+    "exportImage": "Export Image",
     "firstAxisLength": "ilk eksenin uzunlu\u011fu",
     "fixed": "sabit",
     "fncInspector.Curvature": "E\u011frilik",

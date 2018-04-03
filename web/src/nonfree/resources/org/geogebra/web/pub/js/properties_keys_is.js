@@ -3135,7 +3135,7 @@ __GGB__keysVar["is"].menu = {
     "exam_started": "Pr\xf3f hafi\xf0",
     "exam_views_deactivated": "\xd3virkir gluggar",
     "expImgRightClickMsg": "Right click to copy to clipboard",
-    "exportImage": "Export  Image",
+    "exportImage": "Export Image",
     "firstAxisLength": "lengd lang\xe1ss",
     "fixed": "fast",
     "fncInspector.Curvature": "Krappi",

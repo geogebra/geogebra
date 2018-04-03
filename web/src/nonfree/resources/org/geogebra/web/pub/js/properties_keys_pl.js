@@ -3135,7 +3135,7 @@ __GGB__keysVar["pl"].menu = {
     "exam_started": "Egzamin rozpocz\u0105\u0142 si\u0119",
     "exam_views_deactivated": "Dezaktywowane Widoki",
     "expImgRightClickMsg": "Right click to copy to clipboard",
-    "exportImage": "Export  Image",
+    "exportImage": "Export Image",
     "firstAxisLength": "d\u0142ugo\u015b\u0107 osi wielkiej",
     "fixed": "Osadzony",
     "fncInspector.Curvature": "Krzywizna",
