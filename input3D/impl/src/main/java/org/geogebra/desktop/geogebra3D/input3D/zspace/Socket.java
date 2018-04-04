@@ -170,9 +170,9 @@ public class Socket {
 			return true;
 		}
 		
+		zsggb.update();
 		return false;
-		
-		
+
 	}
 
 
