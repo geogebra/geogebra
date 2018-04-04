@@ -4115,7 +4115,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	public boolean modeNeedsKeyboard() {
 		return super.modeNeedsKeyboard()
-				|| getMode() == EuclidianConstants.MODE_SPHERE_POINT_RADIUS;
+				|| getMode() == EuclidianConstants.MODE_SPHERE_POINT_RADIUS
+				|| getMode() == EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS
+				|| getMode() == EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS
+				|| getMode() == EuclidianConstants.MODE_CONIFY
+				|| getMode() == EuclidianConstants.MODE_EXTRUSION
+				|| getMode() == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION
+				|| getMode() == EuclidianConstants.MODE_SPHERE_POINT_RADIUS
+				|| getMode() == EuclidianConstants.MODE_ROTATE_AROUND_LINE;
 	}
 
 	@Override
