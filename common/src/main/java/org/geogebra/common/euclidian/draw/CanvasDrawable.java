@@ -33,7 +33,6 @@ public abstract class CanvasDrawable extends Drawable {
 
 	protected GDimension measureLatex(GGraphics2D g2, GeoElement geo0,
 			GFont font, String text) {
-
 		return drawLatex(g2, geo0, font, text, Integer.MIN_VALUE,
 				Integer.MIN_VALUE);
 	}
@@ -218,10 +217,17 @@ public abstract class CanvasDrawable extends Drawable {
 		this.labelSize = labelSize;
 	}
 
+	/**
+	 * @return label font size
+	 */
 	public int getLabelFontSize() {
 		return labelFontSize;
 	}
 
+	/**
+	 * @param labelFontSize
+	 *            label font size
+	 */
 	public void setLabelFontSize(int labelFontSize) {
 		this.labelFontSize = labelFontSize;
 	}

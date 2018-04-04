@@ -40,6 +40,15 @@ public class EuclidianStyleBarStatic {
 	private final static String[] bracketArray2 = { "\u00D8", "{ }", "( )",
 			"[ ]", "||", "||||" };
 
+	/**
+	 * @param geos
+	 *            elements
+	 * @param flag
+	 *            fixed
+	 * @param ev
+	 *            view
+	 * @return new geoo if redefinition was needed
+	 */
 	public static GeoElement applyFixPosition(ArrayList<GeoElement> geos,
 			boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);
@@ -141,6 +150,15 @@ public class EuclidianStyleBarStatic {
 		return ret;
 	}
 
+	/**
+	 * @param geos
+	 *            elements
+	 * @param flag
+	 *            fix flag
+	 * @param ev
+	 *            view
+	 * @return first geo or null if not fixable
+	 */
 	public static GeoElement applyFixObject(ArrayList<GeoElement> geos,
 			boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);
@@ -229,6 +247,13 @@ public class EuclidianStyleBarStatic {
 
 	}
 
+	/**
+	 * @param geo
+	 *            original geo
+	 * @param cmdtext
+	 *            new definition
+	 * @return redefined geo
+	 */
 	public static GeoElement redefineGeo(GeoElement geo, String cmdtext) {
 		GeoElement newGeo = null;
 
@@ -262,8 +287,22 @@ public class EuclidianStyleBarStatic {
 		return newGeo;
 	}
 
+	/**
+	 * @param geos
+	 *            selected elements
+	 * @param justify
+	 *            justification
+	 * @param hSelected
+	 *            horizontal selection
+	 * @param vSelected
+	 *            vertical selection
+	 * @param index
+	 *            index
+	 * @param app
+	 *            application
+	 */
 	public static void applyTableTextFormat(ArrayList<GeoElement> geos,
-			String justify, boolean HisSelected, boolean VisSelected, int index,
+			String justify, boolean hSelected, boolean vSelected, int index,
 			App app) {
 
 		AlgoElement algo = null;
@@ -274,11 +313,11 @@ public class EuclidianStyleBarStatic {
 		// arg = justifyArray[btnTableTextJustify.getSelectedIndex()];
 		arg = justify;
 		// if (this.btnTableTextLinesH.isSelected())
-		if (HisSelected) {
+		if (hSelected) {
 			arg += "_";
 		}
 		// if (this.btnTableTextLinesV.isSelected())
-		if (VisSelected) {
+		if (vSelected) {
 			arg += "|";
 		}
 		if (index > 0) {
@@ -343,6 +382,15 @@ public class EuclidianStyleBarStatic {
 		return null;
 	}
 
+	/**
+	 * @param geos
+	 *            elements
+	 * @param mode
+	 *            caption mode
+	 * @param index
+	 *            index
+	 * @return success
+	 */
 	public static boolean applyCaptionStyle(ArrayList<GeoElement> geos,
 			int mode, int index) {
 
@@ -366,6 +414,15 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
+	/**
+	 * @param geos
+	 *            elements
+	 * @param lineStyleIndex
+	 *            line style index
+	 * @param lineSize
+	 *            line thickness
+	 * @return success
+	 */
 	public static boolean applyLineStyle(ArrayList<GeoElement> geos,
 			int lineStyleIndex, int lineSize) {
 		int lineStyle = EuclidianView.getLineType(lineStyleIndex);
@@ -385,6 +442,15 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
+	/**
+	 * @param geos
+	 *            elements
+	 * @param pointStyleSelIndex
+	 *            point style index
+	 * @param pointSize
+	 *            point size
+	 * @return success
+	 */
 	public static boolean applyPointStyle(ArrayList<GeoElement> geos,
 			int pointStyleSelIndex, int pointSize) {
 		int pointStyle = EuclidianView.getPointStyle(pointStyleSelIndex);
@@ -406,6 +472,17 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
+	/**
+	 * @param geos
+	 *            elements
+	 * @param color
+	 *            color
+	 * @param alpha
+	 *            opacity
+	 * @param app
+	 *            application
+	 * @return success
+	 */
 	public static boolean applyColor(List<GeoElement> geos, GColor color,
 			double alpha, App app) {
 		boolean needUndo = false;
@@ -444,6 +521,15 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
+	/**
+	 * @param geos
+	 *            elements
+	 * @param color
+	 *            background color
+	 * @param alpha
+	 *            opacity
+	 * @return success
+	 */
 	public static boolean applyBgColor(ArrayList<GeoElement> geos, GColor color,
 			double alpha) {
 		boolean needUndo = false;
@@ -466,6 +552,13 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
+	/**
+	 * @param geos
+	 *            elements
+	 * @param color
+	 *            text color
+	 * @return success
+	 */
 	public static boolean applyTextColor(List<GeoElement> geos, GColor color) {
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
@@ -482,10 +575,12 @@ public class EuclidianStyleBarStatic {
 
 	/**
 	 * @param geos
-	 * @param fontStyle
-	 *            Value of fontStyle is 1 if btnBold pressed, 2 if btnItalic
-	 *            pressed, 0 otherwise
-	 * @return
+	 *            elements
+	 * @param mask
+	 *            bits to filter (&amp;) from font style
+	 * @param add
+	 *            bits to add to font style
+	 * @return success
 	 */
 	public static boolean applyFontStyle(ArrayList<GeoElement> geos, int mask,
 			int add) {
@@ -506,18 +601,18 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
+	/**
+	 * @param geos
+	 *            elements
+	 * @param textSizeIndex
+	 *            text size index
+	 * @return success
+	 */
 	public static boolean applyTextSize(ArrayList<GeoElement> geos,
 			int textSizeIndex) {
 		boolean needUndo = false;
-
-		double fontSize = GeoText.getRelativeFontSize(textSizeIndex); // transform
-																		// indices
-																		// to
-																		// the
-																		// range
-																		// -4,
-																		// .. ,
-		// 4
+		// transform indices to the range -4, // .. , 4
+		double fontSize = GeoText.getRelativeFontSize(textSizeIndex);
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -536,9 +631,12 @@ public class EuclidianStyleBarStatic {
 	 * process the action performed
 	 * 
 	 * @param actionCommand
+	 *            showGrid, showAxes, standardView, pointCapture
 	 * @param targetGeos
+	 *            elements
 	 * @param ev
-	 * @return
+	 *            view
+	 * @return success
 	 */
 	// if all cases will be processed here, instead of
 	// EuclidianStyleBar.processSource, the return value will be unnecessary
@@ -581,8 +679,7 @@ public class EuclidianStyleBarStatic {
 		else if ("pointCapture".equals(actionCommand)) {
 			int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
 
-			if (mode == 3 || mode == 0)
-			 {
+			if (mode == 3 || mode == 0) {
 				mode = 3 - mode; // swap 0 and 3
 			}
 			ev.setPointCapturing(mode);
@@ -599,6 +696,13 @@ public class EuclidianStyleBarStatic {
 		return true;
 	}
 
+	/**
+	 * @param geos
+	 *            tables
+	 * @param mode
+	 *            current app mode
+	 * @return table text
+	 */
 	public static AlgoTableText updateTableText(Object[] geos, int mode) {
 
 		AlgoTableText tableText = null;
@@ -624,6 +728,9 @@ public class EuclidianStyleBarStatic {
 		return tableText;
 	}
 
+	/**
+	 * @return map app mode -&gt; construction default object
+	 */
 	public static HashMap<Integer, Integer> createDefaultMap() {
 		HashMap<Integer, Integer> defaultGeoMap = new HashMap<>();
 		defaultGeoMap.put(EuclidianConstants.MODE_POINT,
@@ -864,6 +971,13 @@ public class EuclidianStyleBarStatic {
 
 	}
 
+	/**
+	 * @param geos
+	 *            elements
+	 * @param index
+	 *            angle interval index
+	 * @return success
+	 */
 	public static boolean applyAngleInterval(ArrayList<GeoElement> geos,
 			int index) {
 
@@ -881,7 +995,6 @@ public class EuclidianStyleBarStatic {
 			}
 		}
 		return needUndo;
-
 	}
 
 	/**

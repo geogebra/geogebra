@@ -75,14 +75,13 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public double LINE_MAX_DET = 0.015;
 	/** Polyline that conects stylebar to pen settings */
-	public final GeoPolyLine DEFAULT_PEN_LINE;
+	public final GeoPolyLine defaultPenLine;
 
 	private AlgoElement lastAlgo = null;
 	/** points created by pen */
 	protected ArrayList<GPoint> penPoints = new ArrayList<>();
 
 	// segment
-
 	private final static int PEN_SIZE_FACTOR = 2;
 	/** skip intermediate points on segments longer than this */
 	private static final double MAX_POINT_DIST = 30;
@@ -132,9 +131,7 @@ public class EuclidianPen implements GTimerListener {
 
 		timer = app.newTimer(this, 1500);
 
-
-
-		DEFAULT_PEN_LINE = new GeoPolyLine(app.getKernel().getConstruction()) {
+		defaultPenLine = new GeoPolyLine(app.getKernel().getConstruction()) {
 			@Override
 			public void setObjColor(GColor color) {
 				super.setObjColor(color);
@@ -160,9 +157,9 @@ public class EuclidianPen implements GTimerListener {
 			}
 		};
 		setDefaults();
-		DEFAULT_PEN_LINE.setLineThickness(penSize);
-		DEFAULT_PEN_LINE.setLineOpacity(lineOpacity);
-		DEFAULT_PEN_LINE.setObjColor(penColor);
+		defaultPenLine.setLineThickness(penSize);
+		defaultPenLine.setLineOpacity(lineOpacity);
+		defaultPenLine.setObjColor(penColor);
 	}
 
 	// ===========================================
@@ -575,10 +572,8 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {
-
 		Construction cons = app.getKernel().getConstruction();
-		// GeoList newPts;// = new GeoList(cons);
-		List<MyPoint> newPts;// = new GeoList(cons);
+		List<MyPoint> newPts;
 		if (startNewStroke) {
 			lastAlgo = null;
 			startNewStroke = false;

@@ -186,6 +186,7 @@ public interface EuclidianViewInterfaceCommon
 	 * @return whether the view has some visible objects
 	 */
 	public boolean hasVisibleObjects();
+
 	/**
 	 * 
 	 * @return string description of plane from the view was created
@@ -249,7 +250,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * @param addBoldItalicTags
-	 *            whether to add <b> etc
+	 *            whether to add &lt;b&gt; etc
 	 * @return array with axes labels
 	 */
 	public String[] getAxesLabels(boolean addBoldItalicTags);

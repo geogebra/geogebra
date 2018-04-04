@@ -70,8 +70,8 @@ public class EuclidianStatic {
 		GTextLayout layout = AwtFactory.getPrototype().newTextLayout(str, font,
 				frc);
 		return layout.getAdvance();
-
 	}
+
 	/**
 	 * Creates a stroke with thickness width, dashed according to line style
 	 * type.
@@ -174,7 +174,8 @@ public class EuclidianStatic {
 	 *            true touseserif font
 	 * @param callback
 	 *            LaTeX loading callback
-	 * @return bounds of resulting LaTeX formula
+	 * @param ret
+	 *            output rectangle
 	 */
 	public static final void drawMultilineLaTeX(App app,
 			GGraphics2D tempGraphics, GeoElementND geo, GGraphics2D g2,

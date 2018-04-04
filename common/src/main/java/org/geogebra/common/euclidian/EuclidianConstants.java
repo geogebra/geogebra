@@ -883,8 +883,10 @@ public final class EuclidianConstants {
 	 */
 	static public boolean keepSelectionWhenSet(int mode, App app) {
 		return isMoveOrSelectionMode(mode)
-				|| (app.has(Feature.SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE) 
-						&& (mode == MODE_SHOW_HIDE_OBJECT || mode == MODE_SHOW_HIDE_LABEL || mode == MODE_DELETE));
+				|| (app.has(Feature.SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE)
+						&& (mode == MODE_SHOW_HIDE_OBJECT
+								|| mode == MODE_SHOW_HIDE_LABEL
+								|| mode == MODE_DELETE));
 		// TODO remove app parameter when SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE
 		// released
 	}
@@ -898,7 +900,8 @@ public final class EuclidianConstants {
 	 * @return whether mode is MOVE or SELECT, and return false if the mode is not compatible
 	 * with dragging occured
 	 */
-	static public boolean isMoveOrSelectionModeCompatibleWithDragging(int mode, boolean draggingOccured) {
+	static public boolean isMoveOrSelectionModeCompatibleWithDragging(int mode,
+			boolean draggingOccured) {
 		switch (mode) {
 			case MODE_MOVE:
 				return !draggingOccured;
@@ -908,7 +911,6 @@ public final class EuclidianConstants {
 				return false;
 		}
 	}
-
 
 	// prevent instantiation
 	private EuclidianConstants() {

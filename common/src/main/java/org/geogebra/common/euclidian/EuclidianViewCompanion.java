@@ -228,7 +228,6 @@ public class EuclidianViewCompanion {
 	public void settingsChanged(AbstractSettings settings) {
 		EuclidianSettings evs = (EuclidianSettings) settings;
 
-		int viewDim = view.getDimension();
 		view.getKernel().getConstruction().setIgnoringNewTypes(true);
 		view.setXminObject(evs.getXminObject());
 		view.setXmaxObject(evs.getXmaxObject());
@@ -249,7 +248,7 @@ public class EuclidianViewCompanion {
 		} else {
 			view.setGridDistances(d);
 		}
-
+		int viewDim = view.getDimension();
 		for (int i = 0; i < viewDim; i++) {
 			view.setShowAxis(i, evs.getShowAxis(i), true);
 		}

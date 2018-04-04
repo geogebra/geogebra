@@ -11,8 +11,14 @@ import java.util.List;
  */
 public abstract class BaseView<T> {
 
+	/**
+	 * Views that need to be notified about events.
+	 */
 	protected List<T> viewComponents;
 
+	/**
+	 * Protected constructor.
+	 */
 	protected BaseView() {
 		viewComponents = new ArrayList<>();
 	}

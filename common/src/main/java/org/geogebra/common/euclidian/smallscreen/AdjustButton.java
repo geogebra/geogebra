@@ -7,7 +7,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class AdjustButton extends AdjustWidget {
 	private static final int MARGIN_X = 5;
-	static final int MARGIN_Y = 5;
+	private static final int MARGIN_Y = 5;
 	private GeoButton button;
 	private int origX;
 	private int origY;
