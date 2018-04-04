@@ -465,6 +465,7 @@ $duration: 0.2s;
    				.errorLabel {
    					color: $white;
    					font-size: 75%;
+   					margin-top: 9px;
    				}  	
    			
    				&.hoverState {	
@@ -477,7 +478,7 @@ $duration: 0.2s;
  					}
  				
  					.errorLabel {
-   						margin-top: 9px;
+   						margin-top: 8px;
    					}
  				} 				
    			}    
@@ -494,7 +495,7 @@ $duration: 0.2s;
    					
    				.errorLabel {
    					color: $red-A400-87;
-   					margin-top: 9px;
+   					margin-top: 8px;
    				}   				
    			}
    		
@@ -509,7 +510,7 @@ $duration: 0.2s;
  				} 		
  			
  				.errorLabel {
-   					margin-top: 9px;
+   					margin-top: 8px;
    				} 		
    			}		
    		}
