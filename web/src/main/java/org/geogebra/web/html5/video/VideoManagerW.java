@@ -7,7 +7,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
 
@@ -171,7 +171,7 @@ public class VideoManagerW implements VideoManager {
 	@Override
 	public void addPlayer(GeoVideo video) {
 		AppW app = (AppW) video.getKernel().getApplication();
-		GeoGebraFrameBoth appFrame = (GeoGebraFrameBoth) app.getAppletFrame();
+		GeoGebraFrameW appFrame = (GeoGebraFrameW) app.getAppletFrame();
 		Frame player = new Frame();
 		player.addStyleName("mowVideo");
 		player.getElement().setId(video.getYouTubeId());
@@ -196,10 +196,14 @@ public class VideoManagerW implements VideoManager {
 		style.setLeft(video.getAbsoluteScreenLocX(), Unit.PX);
 		style.setTop(video.getAbsoluteScreenLocY(), Unit.PX);
 		if (video.isPlaying()) {
-			player.setVisible(true);
-			player.setUrl(video.getEmbeddedUrl());
-			player.setWidth(video.getWidth() + "px");
-			player.setHeight(video.getHeight() + "px");
+			String embed = video.getEmbeddedUrl();
+			if (!player.equals(embed)) {
+				player.setVisible(true);
+				player.setUrl(embed);
+				player.setWidth(video.getWidth() + "px");
+				player.setHeight(video.getHeight() + "px");
+			}
+
 			video.setChanged(false);
 		} else {
 			player.setVisible(false);
