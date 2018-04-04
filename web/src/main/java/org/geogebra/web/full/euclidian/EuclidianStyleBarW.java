@@ -318,7 +318,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			ArrayList<GeoElement> justCreatedGeos = ec.getJustCreatedGeos();
 			Integer type = defaultGeoMap.get(mode);
 			if (mode == EuclidianConstants.MODE_PEN) {
-				GeoElement geo = ec.getPen().DEFAULT_PEN_LINE;
+				GeoElement geo = ec.getPen().defaultPenLine;
 				if (geo != null) {
 					activeGeoList.add(geo);
 				}
@@ -1231,7 +1231,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 						if (EuclidianView.isPenMode(mode)) {
 							geoColor = app.getActiveEuclidianView()
 									.getEuclidianController()
-									.getPen().DEFAULT_PEN_LINE.getObjectColor();
+									.getPen().defaultPenLine.getObjectColor();
 						} else {
 							geoColor = ((GeoElement) geos[0]).getObjectColor();
 						}

@@ -548,7 +548,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 
 		setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
-		getEuclidianController().getPen().DEFAULT_PEN_LINE
+		getEuclidianController().getPen().defaultPenLine
 				.setLineThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
 		getActiveEuclidianView().getSettings()
 				.setDeleteToolSize(EuclidianConstants.DEFAULT_ERASER_SIZE);

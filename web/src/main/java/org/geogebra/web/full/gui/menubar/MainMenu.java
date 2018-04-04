@@ -93,7 +93,6 @@ public class MainMenu extends FlowPanel
 	 * simple settings menu item
 	 */
 	GMenuBar settingsMenu;
-	private boolean loggedIn = false;
 
 	/**
 	 * Constructs the menubar
@@ -486,12 +485,9 @@ public class MainMenu extends FlowPanel
 		}
 		removeUserSignIn();
 		if (online && app.getLoginOperation().isLoggedIn()) {
-			loggedIn = true;
 			addUserMenu();
 		} else if (online) {
 			addSignInMenu();
-		} else {
-			loggedIn = false;
 		}
 	}
 
@@ -746,11 +742,9 @@ public class MainMenu extends FlowPanel
 		removeUserSignIn();
 		if (event instanceof LoginEvent
 				&& ((LoginEvent) event).isSuccessful()) {
-			loggedIn = true;
 			addUserMenu();
 			this.userMenu.setVisible(false);
 		} else if (event instanceof LogOutEvent) {
-			loggedIn = false;
 			addSignInMenu();
 			this.signInMenu.setVisible(false);
 		}

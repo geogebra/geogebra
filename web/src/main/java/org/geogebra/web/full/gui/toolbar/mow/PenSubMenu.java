@@ -319,7 +319,7 @@ public class PenSubMenu extends SubMenuPanel {
 
 	private GeoElement getPenGeo() {
 		return app.getActiveEuclidianView().getEuclidianController()
-				.getPen().DEFAULT_PEN_LINE;
+				.getPen().defaultPenLine;
 	}
 
 	@Override
