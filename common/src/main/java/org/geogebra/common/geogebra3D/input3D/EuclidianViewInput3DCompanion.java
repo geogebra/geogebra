@@ -41,6 +41,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	protected CoordMatrix4x4 tmpMatrix4x4_3 = CoordMatrix4x4.Identity();
 	private GeoSegment3D stylusBeam;
 	private DrawSegment3D stylusBeamDrawable;
+	boolean stylusBeamIsVisible;
 
 	static private int STYLUS_BEAM_THICKNESS = 9;
 
@@ -366,10 +367,11 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			stylusBeam.setObjColor(GColor.GREEN);
 			stylusBeam.setLineThickness(STYLUS_BEAM_THICKNESS);
 
+			stylusBeamIsVisible = false;
 			stylusBeamDrawable = new DrawSegment3D(getView(), stylusBeam) {
 				@Override
 				protected boolean isVisible() {
-					return true;
+					return stylusBeamIsVisible;
 				}
 			};
 		}
@@ -459,6 +461,25 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	@Override
 	public void update() {
 		if (input3D.hasMouseDirection()) {
+			if (input3D.currentlyUseMouse2D()) {
+				stylusBeamIsVisible = false;
+			} else {
+				if (input3D.isLeftPressed()) { // show stylus beam only if
+												// object is
+												// moved
+					if (getView().getEuclidianController()
+							.getMoveMode() == EuclidianController.MOVE_NONE) {
+						stylusBeamIsVisible = false;
+					} else {
+						stylusBeamIsVisible = hasMouse();
+					}
+				} else if (input3D.isRightPressed()
+						|| input3D.isThirdButtonPressed()) {
+					stylusBeamIsVisible = false;
+				} else {
+					stylusBeamIsVisible = true;
+				}
+			}
 			stylusBeamDrawable.update();
 		}
 	}
