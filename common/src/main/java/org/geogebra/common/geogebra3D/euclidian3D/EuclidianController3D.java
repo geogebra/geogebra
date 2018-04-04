@@ -4113,6 +4113,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
+	public boolean modeNeedsKeyboard() {
+		return super.modeNeedsKeyboard()
+				|| getMode() == EuclidianConstants.MODE_SPHERE_POINT_RADIUS;
+	}
+
+	@Override
 	public void setMode(int newMode, ModeSetter ms) {
 
 		// clear specific modes fields
