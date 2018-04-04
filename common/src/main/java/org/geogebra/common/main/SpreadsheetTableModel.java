@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  */
 public abstract class SpreadsheetTableModel implements UpdateLocationView {
 
+	/** application */
 	protected final App app;
 	private int highestUsedColumn = -1;
 	private int highestUsedRow = -1;
@@ -111,14 +112,14 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	}
 
 	/**
-	 * Returns index of highest used column. Returns -1 if empty spreadsheet.
+	 * @return index of highest used column. Returns -1 if empty spreadsheet.
 	 */
 	public int getHighestUsedColumn() {
 		return highestUsedColumn;
 	}
 
 	/**
-	 * Returns index of highest used row. Returns -1 if empty spreadsheet.
+	 * @return index of highest used row. Returns -1 if empty spreadsheet.
 	 */
 	public int getHighestUsedRow() {
 		return highestUsedRow;
@@ -348,6 +349,11 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 
 	}
 
+	/**
+	 * @param table
+	 *            table
+	 * @return cell formatter
+	 */
 	public CellFormatInterface getCellFormat(MyTableInterface table) {
 		if (formatHandler == null) {
 			formatHandler = new CellFormat(table, app);

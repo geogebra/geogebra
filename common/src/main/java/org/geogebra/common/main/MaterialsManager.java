@@ -25,6 +25,7 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	private int notSyncedFileCount;
 	/** files waiting for download */
 	int notDownloadedFileCount;
+
 	/**
 	 * @param matID
 	 *            local ID of material
@@ -94,7 +95,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	public static String getTitleFromKey(String key) {
 		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
 	}
-
 
 	/**
 	 * uploads the material and removes it from localStorage
@@ -200,6 +200,7 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 		this.notSyncedFileCount--;
 		checkMaterialsToDownload(events);
 	}
+
 	@Override
 	public void getFromTube(final int id, final boolean fromAnotherDevice) {
 		getApp().getLoginOperation().getGeoGebraTubeAPI().getItem(id + "",

@@ -63,8 +63,8 @@ public class ScreenReader {
 			} else if (!geo0.isGeoInputBox()) {
 				appendSentence(sb, "PressEnterToEdit", app);
 			}
-			if (geo0.isGeoBoolean()){
-				if(((GeoBoolean)geo0).getBoolean()){
+			if (geo0.isGeoBoolean()) {
+				if (((GeoBoolean) geo0).getBoolean()) {
 					appendSentence(sb, "PressSpaceCheckboxOff", app);
 				} else {
 					appendSentence(sb, "PressSpaceCheckboxOn", app);

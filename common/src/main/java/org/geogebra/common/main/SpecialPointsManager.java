@@ -170,7 +170,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 	}
 
-	private void getEquationSpecialPoints(GeoElement geo, boolean xAxis, boolean yAxis, ArrayList<GeoElementND> retList) {
+	private void getEquationSpecialPoints(GeoElement geo, boolean xAxis,
+			boolean yAxis, ArrayList<GeoElementND> retList) {
 		Construction cons = kernel.getConstruction();
 		GeoLine xAxisLine = kernel.getXAxis();
 		GeoLine yAxisLine = kernel.getYAxis();
@@ -201,7 +202,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private void getSpecialPointsIntersect(GeoElement element, GeoElement secondElement,
 										   CmdIntersect intersect, Command cmd,
 										   ArrayList<GeoElementND> retList) {
-		GeoElement[] elements = intersect.intersect2(new GeoElement[] {element, secondElement}, cmd);
+		GeoElement[] elements = intersect
+				.intersect2(new GeoElement[] { element, secondElement }, cmd);
 
 		for (GeoElement output: elements) {
 			AlgoElement parent = output.getParentAlgorithm();
@@ -211,17 +213,19 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		add(elements, retList);
 	}
 
-	private boolean shouldShowSpecialPoints(GeoElementND geo) {
-		return (geo instanceof GeoFunction || geo instanceof EquationValue) && geo.isVisible() && geo.isDefined() && geo.isEuclidianVisible();
+	private static boolean shouldShowSpecialPoints(GeoElementND geo) {
+		return (geo instanceof GeoFunction || geo instanceof EquationValue)
+				&& geo.isVisible() && geo.isDefined()
+				&& geo.isEuclidianVisible();
 	}
 
-	private void add(GeoElement[] geos1, ArrayList<GeoElementND> retList) {
+	private static void add(GeoElement[] geos1,
+			ArrayList<GeoElementND> retList) {
 		if (geos1 != null) {
-			for(int i=0;i<geos1.length;i++){
+			for (int i = 0; i < geos1.length; i++) {
 				retList.add(geos1[i]);
 			}
 		}
-
 	}
 
 	/**

@@ -52,7 +52,8 @@ public interface MaterialsManagerI {
 
 	void nativeShare(String s, String string);
 
-	void showExportAsPictureDialog(String url, String filename, String extension, String titleKey, App app);
+	void showExportAsPictureDialog(String url, String filename,
+			String extension, String titleKey, App app);
 
 	void refreshAutosaveTimestamp();
 

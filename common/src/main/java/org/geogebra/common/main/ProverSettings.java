@@ -52,6 +52,9 @@ public class ProverSettings {
 	 */
 	public boolean captionAlgebra = false;
 
+	/**
+	 * @return singleton instance
+	 */
 	public static ProverSettings get() {
 		if (INSTANCE == null) {
 			INSTANCE = new ProverSettings();
@@ -59,10 +62,17 @@ public class ProverSettings {
 		return INSTANCE;
 	}
 
+	/**
+	 * @param max
+	 *            max terms
+	 */
 	public void setMaxTerms(int max) {
 		maxTerms = max;
 	}
 
+	/**
+	 * @return max terms
+	 */
 	public int getMaxTerms() {
 		return maxTerms;
 	}

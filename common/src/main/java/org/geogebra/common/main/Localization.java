@@ -84,8 +84,10 @@ public abstract class Localization {
 	 */
 	public String[] getFontSizeStrings() {
 		if (fontSizeStrings == null) {
-			fontSizeStrings = new String[] { getMenu("ExtraSmall"), getMenu("VerySmall"), getMenu("Small"),
-					getMenu("Medium"), getMenu("Large"), getMenu("VeryLarge"), getMenu("ExtraLarge") };
+			fontSizeStrings = new String[] { getMenu("ExtraSmall"),
+					getMenu("VerySmall"), getMenu("Small"), getMenu("Medium"),
+					getMenu("Large"), getMenu("VeryLarge"),
+					getMenu("ExtraLarge") };
 		}
 
 		return fontSizeStrings;
@@ -97,7 +99,7 @@ public abstract class Localization {
 	 * @param text
 	 *            the translation text to fix
 	 * @return the fixed text
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * @author Zoltan Kovacs
 	 */
 
 	private static String translationFixHu(String inputText) {
@@ -112,7 +114,8 @@ public abstract class Localization {
 		// too big solution for us), http://dren.dk/hunspell.html.
 		// TODO: The used method is not as fast as it could be, so speedup is
 		// possible.
-		String[] affixesList = { "-ra/-re", "-nak/-nek", "-ba/-be", "-ban/-ben", "-hoz/-hez", "-val/-vel" };
+		String[] affixesList = { "-ra/-re", "-nak/-nek", "-ba/-be", "-ban/-ben",
+				"-hoz/-hez", "-val/-vel" };
 		String[] endE2 = { "10", "40", "50", "70", "90" };
 		// FIXME: Numbers in endings which greater than 999 are not supported
 		// yet.
@@ -130,10 +133,13 @@ public abstract class Localization {
 					String prevChars = translationFixPronouncedPrevChars(text, match, 1);
 					if (Unicode.TRANSLATION_FIX_HU_END_E1_STRING.indexOf(prevChars) > -1) {
 						text = translationFixHuAffixChange(text, match, affix, "e", prevChars);
-					} else if (Unicode.TRANSLATION_FIX_HU_END_O1_STRING.indexOf(prevChars) > -1) {
+					} else if (Unicode.TRANSLATION_FIX_HU_END_O1_STRING
+							.indexOf(prevChars) > -1) {
 						text = translationFixHuAffixChange(text, match, affix, "o", prevChars);
-					} else if (Unicode.TRANSLATION_FIX_HU_END_OE1_STRING.indexOf(prevChars) > -1) {
-						text = translationFixHuAffixChange(text, match, affix, Unicode.TRANSLATION_FIX_HU_OE_STRING,
+					} else if (Unicode.TRANSLATION_FIX_HU_END_OE1_STRING
+							.indexOf(prevChars) > -1) {
+						text = translationFixHuAffixChange(text, match, affix,
+								Unicode.TRANSLATION_FIX_HU_OE_STRING,
 								prevChars);
 					} else if (match > 1) {
 						// Append the previous character.
@@ -143,7 +149,8 @@ public abstract class Localization {
 						boolean found2 = false;
 						for (String last2fit : endE2) {
 							if (!found2 && last2fit.equals(prevChars)) {
-								text = translationFixHuAffixChange(text, match, affix, "e", prevChars);
+								text = translationFixHuAffixChange(text, match,
+										affix, "e", prevChars);
 								found2 = true;
 							}
 						}
@@ -152,7 +159,8 @@ public abstract class Localization {
 						if (!found2) {
 							for (String last2fit : endO2) {
 								if (!found2 && last2fit.equals(prevChars)) {
-									text = translationFixHuAffixChange(text, match, affix, "o", prevChars);
+									text = translationFixHuAffixChange(text,
+											match, affix, "o", prevChars);
 									found2 = true;
 								}
 							}
@@ -160,12 +168,14 @@ public abstract class Localization {
 
 						if (!found2) {
 							// Use heuristics:
-							text = translationFixHuAffixChange(text, match, affix, "o", prevChars);
+							text = translationFixHuAffixChange(text, match,
+									affix, "o", prevChars);
 						}
 
 					} else {
 						// Use heuristics:
-						text = translationFixHuAffixChange(text, match, affix, "o", prevChars);
+						text = translationFixHuAffixChange(text, match, affix,
+								"o", prevChars);
 					}
 				}
 			} while (match > -1);
@@ -217,7 +227,8 @@ public abstract class Localization {
 	 *            required length for the output
 	 * @return lowercased output
 	 */
-	private static String translationFixPronouncedPrevChars(String text, int match, int length) {
+	private static String translationFixPronouncedPrevChars(String text,
+			int match, int length) {
 		int pos = match;
 		String rettext = "";
 		int rettextlen = 0;
@@ -247,9 +258,11 @@ public abstract class Localization {
 	 * @param affixForm
 	 *            abbreviation for the change type ("o"/"a"/"e")
 	 * @param prevChars
+	 *            previous characters
 	 * @return the corrected text
 	 */
-	private static String translationFixHuAffixChange(String inputText, int match, String affixes, String affixForm,
+	private static String translationFixHuAffixChange(String inputText,
+			int match, String affixes, String affixForm,
 			String prevChars) {
 		String text = inputText;
 		String replace = "";
@@ -312,7 +325,8 @@ public abstract class Localization {
 						replace = valVelTo2[index] + replace.substring(1);
 					}
 				}
-			} else if ((prevChars.length() == 2) && prevChars.substring(1).equals("0")) {
+			} else if ((prevChars.length() == 2)
+					&& prevChars.substring(1).equals("0")) {
 				// (Currently the second part of the conditional is
 				// unnecessary.)
 				// 00-zal, 10-zel, 30-cal etc.
@@ -339,7 +353,8 @@ public abstract class Localization {
 		}
 		int affixesLength = affixes.length();
 		// Replace.
-		text = text.substring(0, match) + "-" + replace + text.substring(match + affixesLength);
+		text = text.substring(0, match) + "-" + replace
+				+ text.substring(match + affixesLength);
 		return text;
 	}
 
@@ -423,7 +438,8 @@ public abstract class Localization {
 	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
-	final public String getPlainArray(String key, String default0, String[] args) {
+	final public String getPlainArray(String key, String default0,
+			String[] args) {
 		String str = getMenu(key);
 
 		if (default0 != null && key.equals(str)) {
@@ -507,6 +523,16 @@ public abstract class Localization {
 		return getPlainArray(key, null, arg0);
 	}
 
+	/**
+	 * @param key
+	 *            key
+	 * @param default0
+	 *            fallback if properties not loaded
+	 * @param args
+	 *            replacements for %0, %1
+	 * @return LaTeX text; replacements are formula, everything else is a
+	 *         \\text{} block
+	 */
 	final public String getMenuLaTeX(String key, String default0, String... args) {
 		String str = getMenu(key);
 
@@ -557,7 +583,8 @@ public abstract class Localization {
 	}
 
 	/** replace "%0" by arg0 */
-	final public String getPlainDefault(String key, String default0, String... arg0) {
+	final public String getPlainDefault(String key, String default0,
+			String... arg0) {
 		return getPlainArray(key, default0, arg0);
 	}
 
@@ -579,13 +606,13 @@ public abstract class Localization {
 	}
 
 	/**
-	 * In some languages, a properties file cannot completely describe translations.
-	 * This method tries to rewrite a text to the correct form.
+	 * In some languages, a properties file cannot completely describe
+	 * translations. This method tries to rewrite a text to the correct form.
 	 * 
 	 * @param text
 	 *            the translation text to fix
-	 * @return text the fixed text
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * @return the fixed text
+	 * @author Zoltan Kovacs
 	 */
 	public String translationFix(String text) {
 		// Currently no other language is supported than Hungarian.
@@ -613,9 +640,11 @@ public abstract class Localization {
 		}
 
 		// check here for languages where 1st = 1
-		if ("pt".equals(lang) || "ar".equals(lang) || "cy".equals(lang) || "fa".equals(lang) || "ja".equals(lang)
-				|| "ko".equals(lang) || "lt".equals(lang) || "mr".equals(lang) || "ms".equals(lang) || "nl".equals(lang)
-				|| "si".equals(lang) || "th".equals(lang) || "vi".equals(lang) || "zh".equals(lang)) {
+		if ("pt".equals(lang) || "ar".equals(lang) || "cy".equals(lang)
+				|| "fa".equals(lang) || "ja".equals(lang) || "ko".equals(lang)
+				|| "lt".equals(lang) || "mr".equals(lang) || "ms".equals(lang)
+				|| "nl".equals(lang) || "si".equals(lang) || "th".equals(lang)
+				|| "vi".equals(lang) || "zh".equals(lang)) {
 			return n + "";
 		}
 
@@ -635,9 +664,10 @@ public abstract class Localization {
 
 		sbOrdinal.append(n);
 
-		if ("cs".equals(lang) || "da".equals(lang) || "et".equals(lang) || "eu".equals(lang) || "hr".equals(lang)
-				|| "hu".equals(lang) || "is".equals(lang) || "no".equals(lang) || "sk".equals(lang) || "sr".equals(lang)
-				|| "tr".equals(lang)) {
+		if ("cs".equals(lang) || "da".equals(lang) || "et".equals(lang)
+				|| "eu".equals(lang) || "hr".equals(lang) || "hu".equals(lang)
+				|| "is".equals(lang) || "no".equals(lang) || "sk".equals(lang)
+				|| "sr".equals(lang) || "tr".equals(lang)) {
 			sbOrdinal.append('.');
 		} else if ("de".equals(lang)) {
 			sbOrdinal.append("th");
@@ -645,7 +675,8 @@ public abstract class Localization {
 			sbOrdinal.append(":s");
 		} else if ("el".equals(lang)) {
 			sbOrdinal.append('\u03b7');
-		} else if ("ro".equals(lang) || "es".equals(lang) || "it".equals(lang) || "pt".equals(lang)) {
+		} else if ("ro".equals(lang) || "es".equals(lang) || "it".equals(lang)
+				|| "pt".equals(lang)) {
 			sbOrdinal.append(Unicode.FEMININE_ORDINAL_INDICATOR);
 		} else if ("bs".equals(lang) || "sl".equals(lang)) {
 			sbOrdinal.append("-ti");
@@ -700,7 +731,6 @@ public abstract class Localization {
 		}
 
 		return sbOrdinal.toString();
-
 	}
 
 	/**
@@ -751,11 +781,18 @@ public abstract class Localization {
 		return !Locale.ENGLISH.equals(getLocale());
 	}
 
+	/**
+	 * @param closed
+	 *            closed intercal
+	 * @param template
+	 *            template
+	 * @return interval start bracket
+	 */
 	public String intervalStartBracket(boolean closed, StringTemplate template) {
 		String lang = getLanguage();
 
 		if (closed) {
-			if ("cz".equals(lang)) {
+			if ("cs".equals(lang)) {
 				return template.leftAngleBracket();
 			}
 
@@ -769,11 +806,18 @@ public abstract class Localization {
 		return template.leftBracket();
 	}
 
+	/**
+	 * @param closed
+	 *            closed intercal
+	 * @param template
+	 *            template
+	 * @return interval end bracket
+	 */
 	public String intervalEndBracket(boolean closed, StringTemplate template) {
 		String lang = getLanguage();
 
 		if (closed) {
-			if ("cz".equals(lang)) {
+			if ("cs".equals(lang)) {
 				return template.rightAngleBracket();
 			}
 
@@ -791,11 +835,17 @@ public abstract class Localization {
 	 * @return rounding menu items
 	 */
 	public String[] getRoundingMenu() {
-		String[] strDecimalSpaces = { getPlain("ADecimalPlaces", "0"), getPlain("ADecimalPlace", "1"),
-				getPlain("ADecimalPlaces", "2"), getPlain("ADecimalPlaces", "3"), getPlain("ADecimalPlaces", "4"),
-				getPlain("ADecimalPlaces", "5"), getPlain("ADecimalPlaces", "10"), getPlain("ADecimalPlaces", "15"),
-				ROUNDING_MENU_SEPARATOR, getPlain("ASignificantFigures", "3"), getPlain("ASignificantFigures", "5"),
-				getPlain("ASignificantFigures", "10"), getPlain("ASignificantFigures", maxFigures + "") };
+		String[] strDecimalSpaces = { getPlain("ADecimalPlaces", "0"),
+				getPlain("ADecimalPlace", "1"), getPlain("ADecimalPlaces", "2"),
+				getPlain("ADecimalPlaces", "3"),
+				getPlain("ADecimalPlaces", "4"),
+				getPlain("ADecimalPlaces", "5"),
+				getPlain("ADecimalPlaces", "10"),
+				getPlain("ADecimalPlaces", "15"), ROUNDING_MENU_SEPARATOR,
+				getPlain("ASignificantFigures", "3"),
+				getPlain("ASignificantFigures", "5"),
+				getPlain("ASignificantFigures", "10"),
+				getPlain("ASignificantFigures", maxFigures + "") };
 
 		// zero is singular in eg French
 		if (!isZeroPlural(getLanguage())) {
@@ -881,8 +931,7 @@ public abstract class Localization {
 		// (Character.getDirectionality(getPlain("Algebra").charAt(1)) ==
 		// Character.DIRECTIONALITY_RIGHT_TO_LEFT);
 
-		// turn off auto-complete for Korean
-		isAutoCompletePossible = true;// !"ko".equals(lang);
+		isAutoCompletePossible = true; // !"ko".equals(lang);
 
 		// defaults
 		unicodeDecimalPoint = '.';
@@ -934,12 +983,9 @@ public abstract class Localization {
 	 * @return whether to use LTR
 	 */
 	public static boolean rightToLeftReadingOrder(String language) {
-
 		String lang = language.substring(0, 2);
-		// Guy Hed, 25.8.2008
-		// Guy Hed, 26.4.2009 - added Yiddish and Persian as RTL languages
-		return ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang) || "ji".equals(lang) || "he".equals(lang)
-				|| "ug".equals(lang));
+		return ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang)
+				|| "ji".equals(lang) || "he".equals(lang) || "ug".equals(lang));
 	}
 
 	/**
@@ -1073,7 +1119,7 @@ public abstract class Localization {
 	/**
 	 * can be over-ridden if required to provide tooltips in another language
 	 * 
-	 * @param string
+	 * @param key
 	 *            key
 	 * @return translation of key from menu bundle in tooltip language
 	 */
@@ -1170,13 +1216,19 @@ public abstract class Localization {
 		return Language.getRightAngleStyle(getLanguage());
 	}
 
+	/**
+	 * @param command
+	 *            localized command
+	 * @return internal command
+	 */
 	public String getReverseCommand(String command) {
 		if (command == null) {
 			return null;
 		}
 		String key = StringUtil.toLowerCaseUS(command);
 
-		String ret = translateCommandTable == null ? key : translateCommandTable.get(key);
+		String ret = translateCommandTable == null ? key
+				: translateCommandTable.get(key);
 		if (ret != null) {
 			return ret;
 		}
@@ -1189,6 +1241,9 @@ public abstract class Localization {
 		return null;
 	}
 
+	/**
+	 * Clear command translation.
+	 */
 	public void initTranslateCommand() {
 		if (translateCommandTable == null) {
 			translateCommandTable = new HashMap<>();
@@ -1364,6 +1419,13 @@ public abstract class Localization {
 		return "East";
 	}
 
+	/**
+	 * English and internal names differ for e.g. LaTeX vs FormulaText.
+	 * 
+	 * @param internalName
+	 *            internal command name
+	 * @return English command name
+	 */
 	public String getEnglishCommand(String internalName) {
 		// String internalName = "LineBisector";
 		Commands toTest = Commands.stringToCommand(internalName);
@@ -1377,7 +1439,8 @@ public abstract class Localization {
 
 			// check for Commands.TABLE_ENGLISH to avoid
 			// InfiniteCone -> ConeInfinite
-			if (c.getTable() != CommandsConstants.TABLE_ENGLISH && toTest.equals(cInternal)
+			if (c.getTable() != CommandsConstants.TABLE_ENGLISH
+					&& toTest.equals(cInternal)
 					&& !c.name().equals(cInternal.toString())) {
 				Log.debug("English name for " + internalName + " is " + c.name());
 				return c.name();
@@ -1392,6 +1455,7 @@ public abstract class Localization {
 	/**
 	 * 
 	 * @param key
+	 *            menu key
 	 * @param default0
 	 *            return this if lookup failed
 	 * @return translation of key
@@ -1407,8 +1471,8 @@ public abstract class Localization {
 	}
 
 	/**
-	 * 
 	 * @param key
+	 *            error key
 	 * @param default0
 	 *            return this if lookup failed
 	 * @return translation of key
@@ -1423,6 +1487,9 @@ public abstract class Localization {
 		return ret;
 	}
 
+	/**
+	 * @return locale for command translation
+	 */
 	protected Locale getCommandLocale() {
 		Language language = Language.getLanguage(getLanguage());
 		if (language != null && !language.hasTranslatedKeyboard()) {
@@ -1436,7 +1503,7 @@ public abstract class Localization {
 	 * @return decimal point character for current language
 	 */
 	final public char getDecimalPoint() {
-		return '.';// unicodeDecimalPoint;
+		return '.'; // unicodeDecimalPoint;
 	}
 
 	/**

@@ -6,5 +6,7 @@ package org.geogebra.common.main;
 public enum OptionType {
 	// Order matters for the selection menu. A separator is placed after
 	// OBJECTS and SPREADSHEET to isolate the view options
-	OBJECTS, EUCLIDIAN, EUCLIDIAN2, EUCLIDIAN_FOR_PLANE, EUCLIDIAN3D, CAS, SPREADSHEET, LAYOUT, DEFAULTS, ALGEBRA, GLOBAL
+	OBJECTS, EUCLIDIAN, EUCLIDIAN2, EUCLIDIAN_FOR_PLANE, EUCLIDIAN3D,
+
+	CAS, SPREADSHEET, LAYOUT, DEFAULTS, ALGEBRA, GLOBAL
 }

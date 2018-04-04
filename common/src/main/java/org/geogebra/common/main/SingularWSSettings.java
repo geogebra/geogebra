@@ -61,12 +61,20 @@ public class SingularWSSettings {
 		}
 	}
 
+	/**
+	 * @param url
+	 *            service URL
+	 */
 	public static void setSingularWebServiceRemoteURL(String url) {
 		synchronized (lock) {
 			singularWebServiceRemoteURL = url;
 		}
 	}
 
+	/**
+	 * @param t
+	 *            timeout
+	 */
 	public static void setTimeout(int t) {
 		synchronized (lock) {
 			singularWebServiceTimeout = t;
@@ -85,11 +93,14 @@ public class SingularWSSettings {
 		return useSingularWebService;
 	}
 
+	/**
+	 * @param b
+	 *            flag for using remote Singular
+	 */
 	public static void setUseSingularWebService(boolean b) {
 		synchronized (lock) {
 			useSingularWebService = b;
 		}
-
 	}
 
 }

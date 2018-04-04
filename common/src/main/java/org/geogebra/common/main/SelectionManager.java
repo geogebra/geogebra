@@ -72,7 +72,7 @@ public class SelectionManager {
 	private final ArrayList<GeoList> selectedLists = new ArrayList<>();
 	private final ArrayList<GeoCoordSys> selectedCS2D = new ArrayList<>();
 	private final ArrayList<GeoQuadricND> selectedQuadric = new ArrayList<>();
-	private final ArrayList<GeoQuadric3DLimitedInterface> selectedQuadricLimited = new ArrayList<>();
+	private final ArrayList<GeoQuadric3DLimitedInterface> selectedQuadricLim = new ArrayList<>();
 	private final ArrayList<GeoPolyhedronInterface> selectedPolyhedron = new ArrayList<>();
 
 	private ArrayList<GeoPlaneND> selectedPlane = new ArrayList<>();
@@ -82,7 +82,6 @@ public class SelectionManager {
 	private boolean geoToggled = false;
 
 	private ArrayList<GeoElement> tempMoveGeoList;
-
 
 	/**
 	 * @param kernel
@@ -310,8 +309,7 @@ public class SelectionManager {
 	 *         layer are selected
 	 */
 	public int getSelectedLayer() {
-		if (getSelectedGeos().size() == 0)
-		 {
+		if (getSelectedGeos().size() == 0) {
 			return -1; // return -1 if nothing selected
 		}
 
@@ -319,8 +317,7 @@ public class SelectionManager {
 
 		for (int i = 1; i < getSelectedGeos().size(); i++) {
 			GeoElement geo = getSelectedGeos().get(i);
-			if (geo.getLayer() != layer)
-			 {
+			if (geo.getLayer() != layer) {
 				return -2; // return -2 if more than one layer selected
 			}
 		}
@@ -559,7 +556,6 @@ public class SelectionManager {
 		}
 
 		return geo;
-
 	}
 
 	/**
@@ -657,7 +653,6 @@ public class SelectionManager {
 
 		tree = new TreeSet<>(tree);
 
-
 		// remove geos that don't have isSelectionAllowed()==true
 		// or are not visible in the view
 		filterInvisible(tree, ev);
@@ -690,8 +685,7 @@ public class SelectionManager {
 			Iterator<GeoElement> itt = tree.iterator();
 			while (itt.hasNext()) {
 				actual = itt.next();
-				if (selectedGeos.contains(actual)) {// && (selGeo == null) //
-													// redundant
+				if (selectedGeos.contains(actual)) {
 					selGeo = actual;
 					break;
 				}
@@ -1026,6 +1020,9 @@ public class SelectionManager {
 		return selectedLists;
 	}
 
+	/**
+	 * @return temporary moveable geo list
+	 */
 	public ArrayList<GeoElement> getTempMoveGeoList() {
 		if (tempMoveGeoList == null) {
 			tempMoveGeoList = new ArrayList<>();
@@ -1033,6 +1030,15 @@ public class SelectionManager {
 		return tempMoveGeoList;
 	}
 
+	/**
+	 * @param selectionList
+	 *            selection list
+	 * @param geo
+	 *            (un)selected geo
+	 * @param max
+	 *            max size of selctionList after addition
+	 * @return 0/1/-1 if nothing happened / geo selected / geo unselected
+	 */
 	public <T> int addToSelectionList(ArrayList<T> selectionList, T geo,
 			int max) {
 		if (geo == null) {
@@ -1078,13 +1084,19 @@ public class SelectionManager {
 	}
 
 	public ArrayList<GeoQuadric3DLimitedInterface> getSelectedQuadricLimitedList() {
-		return selectedQuadricLimited;
+		return selectedQuadricLim;
 	}
 
 	public ArrayList<GeoPolyhedronInterface> getSelectedPolyhedronList() {
 		return selectedPolyhedron;
 	}
 
+	/**
+	 * @param selectionList
+	 *            selection list
+	 * @param doUpdateSelection
+	 *            whether to notify listeners
+	 */
 	public final void clearSelection(ArrayList<?> selectionList,
 			boolean doUpdateSelection) {
 		// unselect
@@ -1132,6 +1144,9 @@ public class SelectionManager {
 
 	/**
 	 * set geos selected from their names
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public void recallSelectedGeosNames(Kernel kernel) {
 		ArrayList<GeoElement> list = new ArrayList<>();

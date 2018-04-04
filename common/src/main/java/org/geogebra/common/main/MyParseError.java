@@ -30,8 +30,8 @@ public class MyParseError extends MyError {
 	/**
 	 * Creates new MyError
 	 * 
-	 * @param app
-	 *            application
+	 * @param loc
+	 *            localization
 	 * @param errorName
 	 *            error name (should be a key in error.properties)
 	 */
@@ -40,8 +40,8 @@ public class MyParseError extends MyError {
 	}
 
 	/**
-	 * @param app
-	 *            application
+	 * @param loc
+	 *            localization
 	 * @param strs
 	 *            lines of the error
 	 */

@@ -23,7 +23,9 @@ public class ExamEnvironment {
 	protected LinkedList<Long> cheatingTimes = null;
 
 	protected enum CheatingEvent {
-		WINDOWS_LEFT, WINDOW_ENTERED, AIRPLANE_MODE_OFF, AIRPLANE_MODE_ON, WIFI_ENABLED, WIFI_DISABLED,
+		WINDOWS_LEFT, WINDOW_ENTERED, AIRPLANE_MODE_OFF,
+
+		AIRPLANE_MODE_ON, WIFI_ENABLED, WIFI_DISABLED,
 		TASK_UNLOCKED, TASK_LOCKED, BLUETOOTH_ENABLED, BLUETOOTH_DISABLED,
 		SCREEN_ON, SCREEN_OFF
 	}
@@ -50,7 +52,9 @@ public class ExamEnvironment {
 	private boolean hasGraph = false;
 
 	private CalculatorType calculatorType;
-	private boolean wasCasEnabled, wasCommands3DEnabled, wasTaskLocked;
+	private boolean wasCasEnabled;
+	private boolean wasCommands3DEnabled;
+	private boolean wasTaskLocked;
 	private TimeFormatAdapter timeFormatter;
 
 	/**
@@ -95,6 +99,10 @@ public class ExamEnvironment {
 		checkCheating(os); // needed for ctr+win+down
 	}
 
+	/**
+	 * @param os
+	 *            operating system
+	 */
 	public void checkCheating(String os) {
 
 		boolean delay;
@@ -127,12 +135,19 @@ public class ExamEnvironment {
 		}
 	}
 
+	/**
+	 * @param time
+	 *            window left absolute timestamp
+	 */
 	protected void addCheatingWindowsLeft(long time) {
 		initLists();
 		cheatingTimes.add(time);
 		cheatingEvents.add(CheatingEvent.WINDOWS_LEFT);
 	}
 
+	/**
+	 * Log end of cheating.
+	 */
 	public void stopCheating() {
 		maybeCheating = -1;
 		if (cheatingTimes == null || getStart() < 0) {
@@ -349,12 +364,24 @@ public class ExamEnvironment {
 		return getLogStartEnd(loc, true);
 	}
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @param showEndTime
+	 *            whether to include end time
+	 * @return log with start and end of the exam
+	 */
 	public String getLogStartEnd(Localization loc, boolean showEndTime) {
 		StringBuilder sb = new StringBuilder();
 		appendStartEnd(loc, sb, showEndTime);
 		return sb.toString();
 	}
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @return log start + current time
+	 */
 	public String getLogStartAndCurrentTime(Localization loc) {
 		StringBuilder sb = new StringBuilder();
 
@@ -372,6 +399,13 @@ public class ExamEnvironment {
 		return getLogTimes(loc, true);
 	}
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @param showEndTime
+	 *            whether to show end time
+	 * @return log times
+	 */
 	public String getLogTimes(Localization loc, boolean showEndTime) {
 		StringBuilder sb = new StringBuilder();
 		appendLogTimes(loc, sb, showEndTime);
@@ -418,6 +452,11 @@ public class ExamEnvironment {
 		this.hasGraph = hasGraph;
 	}
 
+	/**
+	 * @param timestamp
+	 *            relative timestamp
+	 * @return MM:SS
+	 */
 	public String timeToString(long timestamp) {
 		if (examStartTime < 0) {
 			return "0:00";
@@ -443,6 +482,15 @@ public class ExamEnvironment {
 		storeEndTime();
 	}
 
+	/**
+	 * @param cmdInt
+	 *            command name
+	 * @param loc
+	 *            localization
+	 * @param settings
+	 *            settings
+	 * @return syntax
+	 */
 	public String getSyntax(String cmdInt, Localization loc,
 			Settings settings) {
 		if (settings.getCasSettings().isEnabled()) {
@@ -745,7 +793,8 @@ public class ExamEnvironment {
      * @return header for log dialogs
      */
     public String getLogHeader() {
-        return app.getLocalization().getPlainDefault("exam_log_header_calculator_time_check", "Exam log: %0   %1 %2",
+		return app.getLocalization().getPlainDefault(
+				"exam_log_header_calculator_time_check", "Exam log: %0   %1 %2",
                 getCalculatorTypeName(), getElapsedTime(), getMarkCheatingOrNot());
     }
 

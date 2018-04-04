@@ -75,9 +75,11 @@ public class GeoGebraPreferencesXML {
 				+ "<gridColor r=\"192\" g=\"192\" b=\"192\"/>"
 				+ "<lineStyle axes=\"1\" grid=\"0\"/>"
 				+ "<axis id=\"0\" show=\"" + xAxis
-				+ "\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\" axisCross=\"0.0\" positiveAxis=\"false\"/>"
+				+ "\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\""
+				+ " axisCross=\"0.0\" positiveAxis=\"false\"/>"
 				+ "<axis id=\"1\" show=\"" + yAxis
-				+ "\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\" axisCross=\"0.0\" positiveAxis=\"false\"/>"
+				+ "\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\""
+				+ " axisCross=\"0.0\" positiveAxis=\"false\"/>"
 				+ "</euclidianView>"
 
 				+ "<kernel>" + "<continuous val=\"false\"/>"

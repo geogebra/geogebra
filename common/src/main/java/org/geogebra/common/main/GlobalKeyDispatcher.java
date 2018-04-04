@@ -183,6 +183,7 @@ public abstract class GlobalKeyDispatcher {
 					"[lac] open settings for " + geo.getDefinitionForEditor());
 		}
 	}
+
 	private void toggleSelectionVisibility() {
 		int selSize = selection.selectedGeosSize();
 		if (selSize > 0 && app.getGuiManager() != null
@@ -434,14 +435,11 @@ public abstract class GlobalKeyDispatcher {
 								app.getActiveEuclidianView(), new GPoint(0, 0));
 
 					}
-
 				}
 				return true;
 			}
 			break;
 		}
-		
-
 
 		/*
 		 * // make sure Ctrl-1/2/3 works on the Numeric Keypad even with Numlock
@@ -532,7 +530,7 @@ public abstract class GlobalKeyDispatcher {
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-1 from working (| on some
 			// keyboards)
-			if (isShiftDown && app.getGuiManager() != null) {// ||
+			if (isShiftDown && app.getGuiManager() != null) { // ||
 																// event.isAltDown())
 																// {
 				app.getGuiManager().setShowView(
@@ -554,7 +552,7 @@ public abstract class GlobalKeyDispatcher {
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-2 from working (superscript
 			// 2 on some keyboards)
-			if (isShiftDown && app.getGuiManager() != null) {// ||
+			if (isShiftDown && app.getGuiManager() != null) { // ||
 																// event.isAltDown())
 																// {
 				app.getGuiManager().setShowView(

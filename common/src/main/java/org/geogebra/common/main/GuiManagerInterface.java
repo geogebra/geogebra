@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
@@ -216,6 +217,7 @@ public interface GuiManagerInterface {
 	 * @version 2008-10-21
 	 * 
 	 * @param viewId
+	 *            view ID
 	 */
 	public void attachView(int viewId);
 
@@ -234,6 +236,7 @@ public interface GuiManagerInterface {
 	 * @version 2008-10-21
 	 * 
 	 * @param viewId
+	 *            view ID
 	 */
 	public void detachView(int viewId);
 
