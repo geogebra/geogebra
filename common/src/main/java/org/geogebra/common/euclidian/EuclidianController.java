@@ -8333,7 +8333,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void clearVideo() {
-		app.getVideoManager().pause(lastVideo);
+		if (app.getVideoManager() != null) {
+			app.getVideoManager().pause(lastVideo);
+		}
 		lastVideo = null;
 	}
 
