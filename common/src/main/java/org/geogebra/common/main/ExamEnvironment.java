@@ -69,7 +69,6 @@ public class ExamEnvironment {
 	 */
 	public ExamEnvironment(App app) {
 		this.app = app;
-		timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 	}
 
 	public long getStart() {
@@ -812,7 +811,9 @@ public class ExamEnvironment {
      * @return the localized formatted time string
      */
     private String timeToStringLocalized(long timestamp) {
-
+		if (timeFormatter == null) {
+			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
+		}
         if (examStartTime < 0) {
             return timeFormatter.format(app.getLocalization().getLocale(), "%02d:%02d", 0);
         }
