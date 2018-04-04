@@ -20,11 +20,15 @@ public class GeoVideo extends GeoAudio {
 	public static final String TEST_VIDEO_URL = "https://youtu.be/8MPbR6Cbwi4";
 	private static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
 	private static final String YOUTUBE_PREVIEW = "https://img.youtube.com/vi/%ID%/0.jpg";
+	private static final String TIME_PARAM = "t=";
+	private static final String EMBED_TIME_PARAM = "start=";
 	private static final int VIDEO_WIDTH = 420;
 	private static final int VIDEO_HEIGHT = 345;
+	private static final String JAVASCRIPT_API = "enablejsapi=1";
 	private boolean changed = false;
 	private String youtubeId = null;
 	private String previewUrl = null;
+	private Integer startTime = null;
 	private MyImage preview;
 	private boolean playing = false;
 
@@ -96,7 +100,21 @@ public class GeoVideo extends GeoAudio {
 				preview = obj;
 			}
 		});
+		initStartTime();
 		changed = true;
+	}
+
+	private void initStartTime() {
+		String url = getSrc();
+		int idx = url.indexOf(TIME_PARAM);
+		if (idx != -1) {
+			String t = url.substring(idx + TIME_PARAM.length());
+			int idx2 = t.indexOf("&");
+			String time = idx2 == -1 ? t : t.substring(0, idx2);
+			startTime = Integer.valueOf(time);
+		} else {
+			startTime = null;
+		}
 	}
 
 	@Override
@@ -159,7 +177,19 @@ public class GeoVideo extends GeoAudio {
 		if (youtubeId == null) {
 			return null;
 		}
-		return YOUTUBE_EMBED + youtubeId;
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(YOUTUBE_EMBED);
+		sb.append(youtubeId);
+		sb.append("?");
+		if (startTime != null) {
+			sb.append(EMBED_TIME_PARAM);
+			sb.append(startTime);
+			sb.append("&");
+		}
+		sb.append(JAVASCRIPT_API);
+
+		return sb.toString();
 
 	}
 
@@ -197,5 +227,13 @@ public class GeoVideo extends GeoAudio {
 	@Override
 	public void pause() {
 		setPlaying(false);
+	}
+
+	/**
+	 * 
+	 * @return the YouTube ID without any arguments.
+	 */
+	public String getYouTubeId() {
+		return youtubeId;
 	}
 }

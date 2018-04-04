@@ -1,14 +1,23 @@
 package org.geogebra.web.html5.video;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -39,6 +48,12 @@ public class VideoManagerW implements VideoManager {
 	 * Head of an embedding YouTube URL.
 	 */
 	public static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
+
+	private static final String CMD_PLAY = "playVideo";
+
+	private static final String CMD_PAUSE = "pauseVideo";
+
+	private Map<GeoVideo, Frame> players = new HashMap<>();
 
 	@Override
 	public void loadGeoVideo(GeoVideo geo) {
@@ -84,13 +99,28 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public void play(GeoVideo geo) {
-		// TODO implement this
+	public void play(GeoVideo video) {
+		if (video == null) {
+			return;
+		}
+
+		video.play();
+		Frame player = players.get(video);
+		controlPlayer(player.getElement(), CMD_PLAY);
+		updatePlayer(video);
 	}
 
 	@Override
-	public void pause(GeoVideo geo) {
-		// TODO implement this
+	public void pause(GeoVideo video) {
+		if (video == null) {
+			return;
+		}
+
+		video.pause();
+		Frame player = players.get(video);
+		controlPlayer(player.getElement(), CMD_PAUSE);
+		updatePlayer(video);
+
 	}
 
 	@Override
@@ -111,7 +141,10 @@ public class VideoManagerW implements VideoManager {
 		}
 
 		if (id != null) {
-			int idx = id.indexOf("&");
+			int idx = id.indexOf("?");
+			if (idx == -1) {
+				idx = id.indexOf("&");
+			}
 			if (idx != -1) {
 				return id.substring(0, idx);
 			}
@@ -134,4 +167,47 @@ public class VideoManagerW implements VideoManager {
 		});
 		RootPanel.get().add(img);
 	}
+
+	@Override
+	public void addPlayer(GeoVideo video) {
+		AppW app = (AppW) video.getKernel().getApplication();
+		GeoGebraFrameBoth appFrame = (GeoGebraFrameBoth) app.getAppletFrame();
+		Frame player = new Frame();
+		player.addStyleName("mowVideo");
+		player.getElement().setId(video.getYouTubeId());
+		players.put(video, player);
+		appFrame.add(player);
+		player.setVisible(false);
+	}
+
+	@Override
+	public boolean hasPlayer(GeoVideo video) {
+		return players.containsKey(video);
+	}
+
+	@Override
+	public void updatePlayer(GeoVideo video) {
+		if (!hasPlayer(video) || !video.hasChanged()) {
+			return;
+		}
+
+		Frame player = players.get(video);
+		Style style = player.getElement().getStyle();
+		style.setLeft(video.getAbsoluteScreenLocX(), Unit.PX);
+		style.setTop(video.getAbsoluteScreenLocY(), Unit.PX);
+		if (video.isPlaying()) {
+			player.setVisible(true);
+			player.setUrl(video.getEmbeddedUrl());
+			player.setWidth(video.getWidth() + "px");
+			player.setHeight(video.getHeight() + "px");
+			video.setChanged(false);
+		} else {
+			player.setVisible(false);
+		}
+	}
+
+	private native void controlPlayer(JavaScriptObject player, String command) /*-{
+		player.contentWindow.postMessage('{"event":"command","func":"'
+				+ command + '","args":""}', '*');
+	}-*/;
 }

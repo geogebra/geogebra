@@ -6805,9 +6805,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (!hits.isEmpty()) {
 				GeoElement hit = hits.get(0);
 				if (hit != null) {
-					if (hit.isGeoButton()
-							&& !(hit.isGeoInputBox() || hit.isGeoAudio()
-									|| hit.isGeoVideo())) {
+					if (hit.isGeoButton() && !(hit.isGeoInputBox() || hit.isGeoAudio())) {
 						checkBoxOrButtonJustHitted = true;
 						if (!app.showView(App.VIEW_PROPERTIES)) {
 							selection.removeSelectedGeo(hit, true, false); // make
@@ -8327,8 +8325,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		default: // do nothing
 		}
+
+		clearVideo();
+
 		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
+	}
+
+	private void clearVideo() {
+		app.getVideoManager().pause(lastVideo);
+		lastVideo = null;
 	}
 
 	private void moveView() {
@@ -9641,11 +9647,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		DrawVideo dv = getVideoHit();
 
-		if (dv == null && lastVideo != null) {
-			clearSelections();
-			app.getSelectionManager().addSelectedGeo(da.geo);
-			lastVideo.pause();
-			lastVideo = null;
+		if (dv == null) {
+			clearVideo();
 		}
 		if (!event.isRightClick() && dv != null) {
 			clearSelections();
@@ -10326,7 +10329,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (lastVideo != null) {
-			lastVideo.play();
+			app.getVideoManager().play(lastVideo);
 		}
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
@@ -10775,9 +10778,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean shouldClearSelectionForMove() {
 		List<GeoElement> selectedGeos = selection.getSelectedGeos();
 		return !(selectedGeos.size() == 1
-				&& (selectedGeos.get(0) instanceof GeoFunction
-						|| selectedGeos.get(0).isGeoAudio()
-						|| selectedGeos.get(0).isGeoVideo())
+				&& (selectedGeos.get(0) instanceof GeoFunction || selectedGeos.get(0).isGeoAudio())
 				&& mode != EuclidianConstants.MODE_MOVE);
 	}
 

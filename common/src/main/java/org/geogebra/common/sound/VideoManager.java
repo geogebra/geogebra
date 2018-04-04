@@ -48,6 +48,30 @@ public interface VideoManager {
 	void checkURL(String url, AsyncOperation<Boolean> callback);
 
 	/**
+	 * Adds a video player GUI.
+	 * 
+	 * @param video
+	 *            to add GUI for.
+	 */
+	void addPlayer(GeoVideo video);
+
+	/**
+	 * Checks if there is a player already for video.
+	 * 
+	 * @param video
+	 *            to check.
+	 * @return if has player for the video specified.
+	 */
+	boolean hasPlayer(GeoVideo video);
+
+	/**
+	 * Updates the player due to video.
+	 * 
+	 * @param video
+	 */
+	void updatePlayer(GeoVideo video);
+
+	/**
 	 * Plays/resumes GeoVideo object.
 	 * 
 	 * @param geo

@@ -1,9 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
@@ -135,19 +133,15 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -204,8 +198,6 @@ public class GuiManagerW extends GuiManager
 	private Localization loc;
 
 	private AccessibilityManagerW accessibilityManager = null;
-
-	private Map<GeoVideo, Frame> videoPlayers = new HashMap<>();
 
 	/**
 	 * 
@@ -2700,40 +2692,12 @@ public class GuiManagerW extends GuiManager
 				(appFrame.getOffsetHeight() - video.getHeight()) / 2);
 		ev.add(video);
 		app.getActiveEuclidianView().repaint();
-		Frame player = new Frame();
-		player.addStyleName("mowVideo");
-		player.addDomHandler(new MouseDownHandler() {
-
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				Log.debug("hehe");
-
-			}
-		}, MouseDownEvent.getType());
-		videoPlayers.put(video, player);
-		appFrame.add(player);
-		player.setVisible(false);
+		app.getVideoManager().addPlayer(video);
 	}
 
 	@Override
 	public void updateVideo(GeoVideo video) {
-		if (!videoPlayers.containsKey(video) || !video.hasChanged()) {
-			return;
-		}
-		
-		Frame player = videoPlayers.get(video);
-		Style style = player.getElement().getStyle();
-		style.setLeft(video.getAbsoluteScreenLocX(), Unit.PX);
-		style.setTop(video.getAbsoluteScreenLocY(), Unit.PX);
-		if (video.isPlaying()) {
-			player.setVisible(true);
-			player.setUrl(video.getEmbeddedUrl());
-			player.setWidth(video.getWidth() + "px");
-			player.setHeight(video.getHeight() + "px");
-			video.setChanged(false);
-		} else {
-			player.setVisible(false);
-		}
+		app.getVideoManager().updatePlayer(video);
 	}
 
 }
