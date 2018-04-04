@@ -217,48 +217,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			// get factors without power of left side
 			ArrayList<ExpressionNode> factors = copyLeft.getFactorsWithoutPow();
 			if (!factors.isEmpty()) {
-				ExpressionNode expr = new ExpressionNode(factors.get(0));
-
-				// build expressionNode from factors by multiplying
-				int noFactors = factors.size();
-				coeffSquarefree = new double[noFactors][][];
-				factorExpression = new FunctionNVar[noFactors];
-
-				for (int i = 0; i < noFactors; i++) {
-					Equation fEqn = new Equation(kernel, factors.get(i),
-							new MyDouble(kernel, 0.0));
-					fEqn.initEquation();
-					Polynomial lhs = fEqn.getNormalForm();
-					setCoeffSquarefree(lhs.getCoeff(), i);
-
-					ExpressionNode functionExpression = new ExpressionNode(
-							factors.get(i));
-					FunctionVariable x = new FunctionVariable(kernel, "x");
-					FunctionVariable y = new FunctionVariable(kernel, "y");
-					VariableReplacer repl = VariableReplacer
-							.getReplacer(kernel);
-					VariableReplacer.addVars("x", x);
-					VariableReplacer.addVars("y", y);
-					functionExpression.traverse(repl);
-					FunctionNVar fun = new FunctionNVar(functionExpression,
-							new FunctionVariable[] { x, y });
-					factorExpression[i] = fun;
-
-					if (i >= 1) {
-						ExpressionNode copy = expr.deepCopy(kernel);
-						expr = new ExpressionNode(kernel, copy,
-								Operation.MULTIPLY, factors.get(i));
-					}
-				}
-				/*
-				 * Use the squarefree version of the equation for non-visual
-				 * computations (like intersection or mirror about circle). This
-				 * should improve numerical stability.
-				 */
-				Equation squareFree = new Equation(kernel, expr,
-						new MyDouble(kernel, 0.0));
-				updateCoeff(squareFree);
+				updateFromFactors(factors);
 			}
+		} else if (!checkAbsValue(leftHandSide, rightHandSide)) {
+			checkAbsValue(rightHandSide, leftHandSide);
 		}
 
 		ExpressionNode functionExpression;
@@ -294,6 +256,72 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		euclidianViewUpdate();
+	}
+
+	private boolean checkAbsValue(ExpressionNode leftHandSide,
+			ExpressionNode rightHandSide) {
+		if (rightHandSide.isConstant() && leftHandSide.isExpressionNode()
+				&& leftHandSide.wrap().getOperation() == Operation.ABS) {
+
+			ArrayList<ExpressionNode> factors = new ArrayList<>(2);
+			factors.add(
+					new ExpressionNode(kernel, leftHandSide.wrap().getLeft(),
+							Operation.MINUS, rightHandSide.deepCopy(kernel)));
+			factors.add(
+					new ExpressionNode(kernel, leftHandSide.wrap().getLeft(),
+							Operation.PLUS, rightHandSide.deepCopy(kernel)));
+			Equation eq = new Equation(kernel, factors.get(0), factors.get(1));
+			eq.initEquation();
+			if (eq.mayBePolynomial()) {
+				updateFromFactors(factors);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void updateFromFactors(ArrayList<ExpressionNode> factors) {
+		ExpressionNode expr = new ExpressionNode(factors.get(0));
+
+		// build expressionNode from factors by multiplying
+		int noFactors = factors.size();
+		coeffSquarefree = new double[noFactors][][];
+		factorExpression = new FunctionNVar[noFactors];
+
+		for (int i = 0; i < noFactors; i++) {
+			Equation fEqn = new Equation(kernel, factors.get(i),
+					new MyDouble(kernel, 0.0));
+			fEqn.initEquation();
+			Polynomial lhs = fEqn.getNormalForm();
+			setCoeffSquarefree(lhs.getCoeff(), i);
+
+			ExpressionNode functionExpression = new ExpressionNode(
+					factors.get(i));
+			FunctionVariable x = new FunctionVariable(kernel, "x");
+			FunctionVariable y = new FunctionVariable(kernel, "y");
+			VariableReplacer repl = VariableReplacer.getReplacer(kernel);
+			VariableReplacer.addVars("x", x);
+			VariableReplacer.addVars("y", y);
+			functionExpression.traverse(repl);
+			FunctionNVar fun = new FunctionNVar(functionExpression,
+					new FunctionVariable[] { x, y });
+			factorExpression[i] = fun;
+
+			if (i >= 1) {
+				ExpressionNode copy = expr.deepCopy(kernel);
+				expr = new ExpressionNode(kernel, copy, Operation.MULTIPLY,
+						factors.get(i));
+			}
+		}
+		/*
+		 * Use the squarefree version of the equation for non-visual
+		 * computations (like intersection or mirror about circle). This should
+		 * improve numerical stability.
+		 */
+		Equation squareFree = new Equation(kernel, expr,
+				new MyDouble(kernel, 0.0));
+		updateCoeff(squareFree);
+
 	}
 
 	/*
