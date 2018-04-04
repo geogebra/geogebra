@@ -11,7 +11,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.JavaScriptException;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -50,24 +49,6 @@ public class WebSimple implements EntryPoint {
 		// instead, load it immediately
 		startGeoGebra(ArticleElement.getGeoGebraMobileTags());
 		WebSimple.registerSuperdevExceptionHandler();
-	}
-
-	/**
-	 * Load applet after GWT async callback.
-	 */
-	public static void loadAppletAsync() {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			@Override
-			public void onSuccess() {
-				startGeoGebra(ArticleElement.getGeoGebraMobileTags());
-			}
-
-			@Override
-			public void onFailure(Throwable reason) {
-				// TODO Auto-generated method stub
-			}
-		});
 	}
 
 	/**
