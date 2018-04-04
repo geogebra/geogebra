@@ -878,6 +878,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return mode;
 	}
 
+	public boolean modeNeedsKeyboard() {
+		return getMode() == EuclidianConstants.MODE_ANGLE_FIXED
+				|| getMode() == EuclidianConstants.MODE_SEGMENT_FIXED
+				|| getMode() == EuclidianConstants.MODE_REGULAR_POLYGON
+				|| getMode() == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS
+				|| getMode() == EuclidianConstants.MODE_ROTATE_BY_ANGLE
+				|| getMode() == EuclidianConstants.MODE_SLIDER
+				|| getMode() == EuclidianConstants.MODE_TEXT
+				|| getMode() == EuclidianConstants.MODE_BUTTON_ACTION
+				|| getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX
+				|| getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION;
+	}
+
 	public void setMode(int newMode, ModeSetter ms) {
 		if (getModeChangeListener() != null && !temporaryMode) {
 			getModeChangeListener().onModeChange(newMode);

@@ -482,8 +482,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
-				|| (app.getGuiManager() != null
-						&& app.getGuiManager().getKeyboardShouldBeShownFlag())) {
+				|| ((app.getGuiManager() != null
+						&& app.getGuiManager().getKeyboardShouldBeShownFlag())
+						|| (app.isApplet() && app.isShowToolbar()
+								&& app.getActiveEuclidianView()
+								.getEuclidianController()
+								.modeNeedsKeyboard()))) {
 			doShowKeyBoard(show, textField);
 			return true;
 		}
