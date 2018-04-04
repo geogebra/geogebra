@@ -581,7 +581,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 */
 	protected boolean isContextMenuNeeded() {
 		if (!ev.getEuclidianController().getAppSelectedGeos().isEmpty()
-				&& ev.getEuclidianController().getAppSelectedGeos().get(0).isGeoAudio()) {
+				&& (ev.getEuclidianController().getAppSelectedGeos().get(0)
+						.isGeoAudio()
+						|| ev.getEuclidianController().getAppSelectedGeos()
+								.get(0).isGeoVideo())) {
 			this.addStyleName("noContextBtn");
 			return false;
 		}
@@ -1121,7 +1124,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
 						if (geo instanceof GeoText
-								|| geo instanceof GeoButton || geo.isGeoAudio()) {
+								|| geo instanceof GeoButton || geo.isGeoAudio()
+								|| geo.isGeoVideo()) {
 							geosOK = false;
 							break;
 						}
@@ -1383,12 +1387,15 @@ public class EuclidianStyleBarW extends StyleBarW2
 			@Override
 			public void update(Object[] geos) {
 
-				boolean geosOK = (geos.length > 0 && !((GeoElement) geos[0]).isGeoAudio());
+				boolean geosOK = (geos.length > 0
+						&& !((GeoElement) geos[0]).isGeoAudio()
+						&& !((GeoElement) geos[0]).isGeoVideo());
 				for (int i = 0; i < geos.length; i++) {
 					GeoElement geo = ((GeoElement) geos[i])
 							.getGeoElementForPropertiesDialog();
 					if (!(geo instanceof GeoText)
-							&& !(geo instanceof GeoButton || geo.isGeoAudio())) {
+							&& !(geo instanceof GeoButton || geo.isGeoAudio()
+									|| geo.isGeoVideo())) {
 						geosOK = false;
 						break;
 					}
@@ -1486,7 +1493,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 					GeoElement geo0 = (GeoElement) geos[0];
 					boolean geosOK = checkGeoText(geos)
-							&& !(geo0.isGeoInputBox() || geo0.isGeoAudio());
+							&& !(geo0.isGeoInputBox() || geo0.isGeoAudio()
+									|| geo0.isGeoVideo());
 					super.setVisible(geosOK);
 					if (geosOK) {
 						GeoElement geo = ((GeoElement) geos[0])
@@ -1567,7 +1575,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 				public void update(Object[] geos) {
 					GeoElement geo0 = (GeoElement) geos[0];
 					boolean geosOK = checkGeoText(geos)
-							&& !(geo0.isGeoInputBox() || geo0.isGeoAudio());
+							&& !(geo0.isGeoInputBox() || geo0.isGeoAudio()
+									|| geo0.isGeoVideo());
 					super.setVisible(geosOK);
 					if (geosOK) {
 						GeoElement geo = ((GeoElement) geos[0])
@@ -1611,7 +1620,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 			@Override
 			public void update(Object[] geos) {
 
-				boolean geosOK = checkGeoText(geos) && !((GeoElement) geos[0]).isGeoAudio();
+				boolean geosOK = checkGeoText(geos)
+						&& !((GeoElement) geos[0]).isGeoAudio()
+						&& !((GeoElement) geos[0]).isGeoVideo();
 				super.setVisible(geosOK);
 
 				if (geosOK) {
