@@ -672,4 +672,11 @@ public class ZSpaceGeoGebra {
 		return 60; // default angle for zStation 100
 	}
 
+	/**
+	 * update
+	 */
+	public void update() {
+		// call zspace update
+	}
+
 }
