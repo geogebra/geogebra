@@ -5213,6 +5213,19 @@ static define_unary_function_eval (__bitxor,&_bitxor,_bitxor_s);
 
   gen _hamdist(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()==2 && g._VECTptr->front().type==_VECT && g._VECTptr->back().type==_VECT && g._VECTptr->front().subtype!=_LIST__VECT && g._VECTptr->back().subtype!=_LIST__VECT){
+      const vecteur & f=*g._VECTptr->front()._VECTptr;
+      const vecteur & b=*g._VECTptr->back()._VECTptr;
+      size_t fs=f.size();
+      if (f.size()==b.size()){
+	int res=0;
+	for (size_t i=0;i<fs;++i){
+	  if (f[i]!=b[i]) 
+	    res++;
+	}
+	return res;
+      }
+    }
     return binop(g,giac_hamdist);
   }
   static const char _hamdist_s []="hamdist";

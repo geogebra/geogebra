@@ -6032,9 +6032,17 @@ unsigned int ConvertUTF8toUTF16 (
 	s+='\n';  
 	continue;
       }
-      if (cur[pos]!=':'){ // detect oneliner
-	int p=pos;
-	for (;p>0;--p){
+      if (cur[pos]!=':'){ // detect oneliner and function/fonction
+	int p;
+	for (p=0;p<pos;++p){
+	  if (cur[p]!=' ')
+	    break;
+	}
+	if (p<pos-8 && (cur.substr(p,8)=="function" || cur.substr(p,8)=="fonction")){
+	  s = s+cur+'\n';
+	  continue;
+	}
+	for (p=pos;p>0;--p){
 	  if (cur[p]==':' && cur[p+1]!=';')
 	    break;
 	}
