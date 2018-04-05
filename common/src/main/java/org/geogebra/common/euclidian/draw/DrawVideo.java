@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 
@@ -80,9 +81,22 @@ public class DrawVideo extends Drawable {
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
+		if (hitBoundingBox(x, y, hitThreshold)) {
+			video.setLastHitType(HitType.ON_BOUNDARY);
+			return false;
+		}
+
+		video.setLastHitType(HitType.ON_FILLING);
 		return bounds.contains(x, y) && video.isVisible();
 	}
 
+	private boolean hitBoundingBox(int hitX, int hitY, int hitThreshold) {
+		return getBoundingBox() != null && getBoundingBox().getRectangle() != null
+				&& getBoundingBox() == view.getBoundingBox()
+				&& getBoundingBox().getRectangle().intersects(hitX - hitThreshold, hitY - hitThreshold,
+						2 * hitThreshold, 2 * hitThreshold)
+				&& getBoundingBox().hitSideOfBoundingBox(hitX, hitY, hitThreshold);
+	}
 	@Override
 	public boolean isInside(GRectangle rect) {
 		return rect.contains(bounds);

@@ -31,6 +31,7 @@ public class GeoVideo extends GeoAudio {
 	private Integer startTime = null;
 	private MyImage preview;
 	private boolean playing = false;
+	private HitType lastHitType;
 
 	/**
 	 * Constructor.
@@ -235,5 +236,18 @@ public class GeoVideo extends GeoAudio {
 	 */
 	public String getYouTubeId() {
 		return youtubeId;
+	}
+
+	/**
+	 * @param type
+	 *            hit type
+	 */
+	final public void setLastHitType(HitType type) {
+		lastHitType = type;
+	}
+
+	@Override
+	final public HitType getLastHitType() {
+		return lastHitType;
 	}
 }

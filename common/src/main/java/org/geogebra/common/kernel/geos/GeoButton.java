@@ -454,7 +454,7 @@ public class GeoButton extends GeoElement
 	}
 
 	@Override
-	final public HitType getLastHitType() {
+	public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
 

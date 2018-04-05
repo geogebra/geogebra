@@ -177,7 +177,7 @@ public class VideoManagerW implements VideoManager {
 		player.getElement().setId(video.getYouTubeId());
 		players.put(video, player);
 		appFrame.add(player);
-		player.setVisible(false);
+		player.addStyleName("hidden");
 	}
 
 	@Override
@@ -198,7 +198,7 @@ public class VideoManagerW implements VideoManager {
 		if (video.isPlaying()) {
 			String embed = video.getEmbeddedUrl();
 			if (!player.equals(embed)) {
-				player.setVisible(true);
+				player.removeStyleName("hidden");
 				player.setUrl(embed);
 				player.setWidth(video.getWidth() + "px");
 				player.setHeight(video.getHeight() + "px");
@@ -206,7 +206,7 @@ public class VideoManagerW implements VideoManager {
 
 			video.setChanged(false);
 		} else {
-			player.setVisible(false);
+			player.addStyleName("hidden");
 		}
 	}
 
@@ -214,4 +214,5 @@ public class VideoManagerW implements VideoManager {
 		player.contentWindow.postMessage('{"event":"command","func":"'
 				+ command + '","args":""}', '*');
 	}-*/;
+
 }
