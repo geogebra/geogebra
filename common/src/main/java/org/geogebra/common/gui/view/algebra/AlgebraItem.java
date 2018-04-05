@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.algebra;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
@@ -398,13 +399,9 @@ public class AlgebraItem {
 	public static boolean shouldShowDescription(GeoElement geoElement) {
 		AlgoElement parentAlgo = geoElement.getParentAlgorithm();
 		if (parentAlgo == null) {
-			return !geoElement.isGeoFunction();
+			return !geoElement.isGeoFunction() && !(geoElement instanceof GeoNumeric);
 		}
 
-		if (parentAlgo instanceof AlgoDependentFunction) {
-			return false;
-		}
-
-		return true;
+		return !(parentAlgo instanceof AlgoDependentFunction) && !(parentAlgo instanceof AlgoDependentNumber);
 	}
 }
