@@ -3070,6 +3070,7 @@ __GGB__keysVar["mr"].menu = {
     "ar.title.ruledsurface": "Ruled surface",
     "ar.title.sierpinski": "Sierpinski pyramid",
     "ar.title.staircase": "Spiral staircase",
+    "ar.twofunctions": "Two Functions",
     "back": "\u092e\u093e\u0917\u0947 \u091c\u093e",
     "cartesian": "\u0915\u093e\u0930\u094d\u091f\u0947\u0936\u093f\u0905\u0928",
     "clockwise": "\u0918\u0921\u094d\u092f\u093e\u0933\u0915\u093e\u091f\u094d\u092f\u093e\u091a\u0940 \u0926\u093f\u0936\u093e (clockwise)",

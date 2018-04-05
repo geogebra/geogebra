@@ -3070,6 +3070,7 @@ __GGB__keysVar["sl"].menu = {
     "ar.title.ruledsurface": "Ruled surface",
     "ar.title.sierpinski": "Piramida Sierpinskega",
     "ar.title.staircase": "Spiralne stopni\u010dke",
+    "ar.twofunctions": "Two Functions",
     "back": "Nazaj",
     "cartesian": "kartezi\u010dni",
     "clockwise": "negativna smer (gibanje urinega kazalca)",

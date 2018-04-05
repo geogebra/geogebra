@@ -3070,6 +3070,7 @@ __GGB__keysVar["eu"].menu = {
     "ar.title.ruledsurface": "Gainazal gidaduna",
     "ar.title.sierpinski": "Sierpinski piramidea",
     "ar.title.staircase": "Spiral staircase",
+    "ar.twofunctions": "Two Functions",
     "back": "atzera",
     "cartesian": "Kartesiarra",
     "clockwise": "erloju-orratzen noranzkoan",

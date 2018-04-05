@@ -3070,6 +3070,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "ar.title.ruledsurface": "Superf\xedcie regrada.",
     "ar.title.sierpinski": "Pir\xe2mide Sierpinski",
     "ar.title.staircase": "Spiral staircase",
+    "ar.twofunctions": "Two Functions",
     "back": "Anterior",
     "cartesian": "Cartesiana",
     "clockwise": "sentido hor\xe1rio",

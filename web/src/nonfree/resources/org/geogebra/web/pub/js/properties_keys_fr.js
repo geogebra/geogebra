@@ -3070,6 +3070,7 @@ __GGB__keysVar["fr"].menu = {
     "ar.title.ruledsurface": "Surface r\xe9gl\xe9e",
     "ar.title.sierpinski": "Pyramide de Sierpinski",
     "ar.title.staircase": "Escalier en colima\xe7on",
+    "ar.twofunctions": "Deux fonctions",
     "back": "pr\xe9c\xe9dent",
     "cartesian": "cart\xe9sien",
     "clockwise": "Sens horaire",
