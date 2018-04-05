@@ -1378,7 +1378,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * @param s
 	 *            new scale
 	 */
-	public void setScaleX(double s) {
+	private void setScaleX(double s) {
 		scaleX = s;
 	}
 
@@ -1397,7 +1397,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * @param s
 	 *            new scale
 	 */
-	public void setScaleY(double s) {
+	private void setScaleY(double s) {
 		scaleY = s;
 	}
 
@@ -1409,21 +1409,9 @@ public class GeoImage extends GeoElement implements Locateable,
 	public double getScaleY() {
 		return scaleY;
 	}
-	
-	/**
-	 * @return crop box
-	 */
-	public GRectangle2D getCropBox() {
-		GRectangle2D ret = AwtFactory.getPrototype().newRectangle2D();
-		EuclidianView view = getKernel().getApplication().getActiveEuclidianView();
-		ret.setRect(cropBox.getX() + view.toScreenCoordXd(getStartPoint().getX()),
-				cropBox.getY() + view.toScreenCoordYd(getStartPoint().getY()),
-				cropBox.getWidth(), cropBox.getHeight());
-		return ret;
-	}
 
 	/**
-	 * sets relative posiotion of crop box
+	 * sets relative position of crop box
 	 * 
 	 * @param rect
 	 *            crop bounds
@@ -1433,7 +1421,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	/**
-	 * @return relative posiotion of crop box
+	 * @return relative position of crop box
 	 */
 	public GRectangle2D getCropBoxRelative() {
 		return cropBox;
