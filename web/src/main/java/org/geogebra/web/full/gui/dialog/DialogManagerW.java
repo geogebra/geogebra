@@ -56,7 +56,6 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -206,16 +205,6 @@ public class DialogManagerW extends DialogManager
 				textfield);
 		buttonDialog.setVisible(true);
 		return true;
-	}
-
-	@Override
-	protected String prompt(String message, String def) {
-		return Window.prompt(message, def);
-	}
-
-	@Override
-	protected boolean confirm(String string) {
-		return Window.confirm(string);
 	}
 
 	@Override

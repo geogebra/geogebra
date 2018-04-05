@@ -11,10 +11,16 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -25,6 +31,8 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.gui.dialog.TextInputDialogD;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class DialogManagerMinimal extends DialogManager {
 
@@ -40,12 +48,22 @@ public class DialogManagerMinimal extends DialogManager {
 
 	}
 
-	@Override
+	/**
+	 * @param message
+	 *            message
+	 * @param def
+	 *            default
+	 * @return user input
+	 */
 	protected String prompt(String message, String def) {
 		return JOptionPane.showInputDialog(message);
 	}
 
-	@Override
+	/**
+	 * @param string
+	 *            message
+	 * @return confirmation
+	 */
 	protected boolean confirm(String string) {
 		return JOptionPane.showConfirmDialog(null,
 				string) == JOptionPane.OK_CANCEL_OPTION;
@@ -204,5 +222,99 @@ public class DialogManagerMinimal extends DialogManager {
 			String initString, InputHandler handler, GeoElement geo) {
 		return new InputDialogD((AppD) app1, message, title, initString,
 				true, handler, geo);
+	}
+
+	@Override
+	public boolean showSliderCreationDialog(int x, int y)		 {
+				Kernel kernel = app.getKernel();
+				boolean isAngle = !confirm("OK for number, Cancel for angle");
+				GeoNumeric slider = GeoNumeric
+						.setSliderFromDefault(
+								isAngle ? new GeoAngle(kernel.getConstruction())
+										: new GeoNumeric(kernel.getConstruction()),
+								isAngle);
+
+				StringTemplate tmpl = StringTemplate.defaultTemplate;
+
+				// convert to degrees (angle only)
+				String minStr = isAngle
+						? kernel.format(Math.toDegrees(slider.getIntervalMin()), tmpl)
+								+ Unicode.DEGREE_STRING
+						: kernel.format(slider.getIntervalMin(), tmpl);
+				String maxStr = isAngle
+						? kernel.format(Math.toDegrees(slider.getIntervalMax()), tmpl)
+								+ Unicode.DEGREE_STRING
+						: kernel.format(slider.getIntervalMax(), tmpl);
+				String incStr = isAngle
+						? kernel.format(Math.toDegrees(slider.getAnimationStep()), tmpl)
+								+ Unicode.DEGREE_STRING
+						: kernel.format(slider.getAnimationStep(), tmpl);
+
+				// get input from user
+				NumberValue min = getNumber(kernel, "Enter minimum", minStr);
+				NumberValue max = getNumber(kernel, "Enter maximum", maxStr);
+				NumberValue increment = getNumber(kernel, "Enter increment", incStr);
+
+				if (min != null) {
+					slider.setIntervalMin(min);
+				}
+				if (max != null) {
+					slider.setIntervalMax(max);
+				}
+				if (increment != null) {
+					slider.setAnimationStep(increment);
+				}
+
+				slider.setLabel(null);
+				slider.setValue(isAngle ? 45 * Math.PI / 180 : 1);
+				slider.setSliderLocation(x, y, true);
+				slider.setEuclidianVisible(true);
+
+				slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+				slider.setLabelVisible(true);
+				slider.update();
+				// slider.setRandom(cbRandom.isSelected());
+
+				app.storeUndoInfo();
+
+				return true;
+
+	}
+
+	protected GeoNumberValue getNumber(Kernel kernel, String message,
+			String def) {
+
+		Construction cons = kernel.getConstruction();
+		boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		String str = prompt(message, def);
+
+		GeoNumberValue result = kernel.getAlgebraProcessor()
+				.evaluateToNumeric(str, true);
+
+		cons.setSuppressLabelCreation(oldVal);
+
+		return result;
+	}
+
+	@Override
+	public void showNumberInputDialogRotate(String menu,
+			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
+			GeoElement[] selGeos, EuclidianController ec) {
+		String inputString = prompt(menu + " " + loc.getMenu("Angle"),
+				defaultAngle);
+
+		rotateObject(app, inputString, false, selectedPolygons,
+				new CreateGeoForRotatePoint(selectedPoints[0]), selGeos, ec,
+				app.getDefaultErrorHandler(), new AsyncOperation<String>() {
+
+					@Override
+					public void callback(String obj) {
+						defaultAngle = obj;
+
+					}
+				});
+
 	}
 }
