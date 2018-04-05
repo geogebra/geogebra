@@ -239,7 +239,8 @@ namespace HoloToolkit.Unity.InputModule
                 if (isTeleportValid)
                 {
                     RaycastHit hitInfo;
-                    Vector3 hitPos = teleportMarker.transform.position + Vector3.up * (Physics.Raycast(CameraCache.Main.transform.position, Vector3.down, out hitInfo, 5.0f) ? hitInfo.distance : 2.6f);
+                    Vector3 hitPos = teleportMarker.transform.position + Vector3.up * 
+                        (Physics.Raycast(CameraCache.Main.transform.position, Vector3.down, out hitInfo, 5.0f) ? hitInfo.distance : 2.6f);
 
                     fadeControl.DoFade(0.25f, 0.5f, () =>
                     {

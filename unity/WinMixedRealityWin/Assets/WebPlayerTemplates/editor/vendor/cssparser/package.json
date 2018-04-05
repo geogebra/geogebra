@@ -1,0 +1,52 @@
+{
+    "name": "cssparser",
+    "author": {
+    	"name":"Chang W. Doh",
+    	"email": "changwook.doh@gmail.com",
+    	"site": "http://www.cwdoh.com"
+    },
+    "description": "parsing CSS document and transforming to JSON format",
+    "keywords": [
+        "css",
+        "parser",
+        "json",
+        "validation",
+        "transform"
+    ],
+    "version": "0.2.2",
+    "preferGlobal": true,
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/cwdoh/cssparser.js.git"
+    },
+    "bugs": {
+        "url": "http://github.com/cwdoh/cssparser.js/issues"
+    },
+    "main": "lib/cssparser.js",
+    "bin": {
+        "cssparser": "lib/cli.js"
+    },
+    "engines": {
+        "node": ">= 0.6"
+    },
+    "dependencies": {
+        "nomnom": ">= 1.5.x",
+        "colors": ">= 0.6.0"
+    },
+    "devDependencies": {
+		"grunt": "~0.4.x",
+		"jison": ">= 0.4.4",
+		"grunt-contrib-concat": "~0.1.2",
+		"grunt-contrib-uglify": "~0.1.2",
+		"grunt-contrib-copy": "~0.4.0",
+		"grunt-contrib-yuidoc": "~0.4.0",
+		"grunt-contrib-clean": "~0.4.0",
+		"grunt-contrib-coffee": "~0.6.0"
+    },
+    "homepage": "http://cwdoh.github.io/cssparser.js/",
+    "optionalDependencies": {},
+    "license": {
+		 "type": "MIT",
+		 "url": "http://www.opensource.org/licenses/mit-license.php"
+	}
+}

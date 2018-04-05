@@ -1,0 +1,3 @@
+This is a DEVELOPER RELEASE only for testing purpoise.
+Not suitable for production environments.
+Go here for complete release: http://www.areaaperta.com/nicescroll/

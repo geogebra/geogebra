@@ -1,0 +1,108 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+    <meta charset="utf-8" /> 
+    <title>CSS.stringify()</title> 
+    <script src="cssparser.js"></script>
+    <script>
+      window.onload = function () {
+        document.getElementById("button").onclick = function () {
+          try {
+            var result = parser.parse(document.getElementById("source").value);
+            if (result) {
+              document.getElementById("result").innerHTML = "CSS is valid!";
+              document.getElementById("result").className = "pass";
+              if (document.getElementById("indent").checked) {
+                document.getElementById("json").value = JSON.stringify(result, null, '\t');
+              }
+              else {
+				document.getElementById("json").value = JSON.stringify(result);
+              }
+            }
+          } catch(e) {
+            document.getElementById("result").innerHTML = e;
+            document.getElementById("result").className = "fail";
+          }
+        };
+      }
+    </script>
+    <style>
+      body {font-family: sans-serif;}
+      #result {
+        padding: 1em;
+      }
+      .pass {
+        background-color: #efe;
+        color: #393;
+        border: 2px solid #393;
+      }
+      .fail {
+        background-color: #fee;
+        color: #933;
+        border: 2px solid #933;
+      }
+      textarea { width: 100%; }
+    </style>
+</head> 
+<body> 
+  <h1>CSS.stringify()</h1> 
+  <p>'CSS.stringify()' supports to transform CSS Document to JSON style.</p>
+  <p>This project is based on cssparser.js(<a href="//github.com/cwdoh/cssparser.js">Project on github</a>).</p> 
+  <textarea id="source" rows="20" cols="50">
+@charset 'utf-8';
+
+@import 'custom.css';
+@import url("fineprint.css");
+@import url("fineprint.css") print;
+@import url("bluish.css") projection, tv;
+@import "common.css" screen, projection;
+@import url('landscape.css') screen and (orientation:landscape);
+
+@namespace "http://www.w3c.org";
+@namespace svg "http://www.w3c.org/svg";
+
+@media screen {
+	* {
+	   position: absolute;
+	 }
+
+	.box_shadow {
+	  -webkit-box-shadow: 0px 0px 4px 0px #ffffff; /* Android 2.3+, iOS 4.0.2-4.2, Safari 3-4 */
+			  box-shadow: 0px 0px 4px 0px #ffffff; /* Chrome 6+, Firefox 4+, IE 9+, iOS 5+, Opera 10.50+ */
+	}
+}
+
+@-webkit-keyframes myanim {
+  0%   { opacity: 0.0; }
+  50%  { opacity: 0.5; }
+  100% { opacity: 1.0; }
+}
+
+.matrix {
+  
+-webkit-transform: matrix(1.186,-0.069,0.102,1.036,16.595,73.291);
+-moz-transform: matrix(1.186,-0.069,0.102,1.036,16.595px,73.291px);
+-ms-transform: matrix(1.186,-0.069,0.102,1.036,16.595,73.291);
+-o-transform: matrix(1.186,-0.069,0.102,1.036,16.595,73.291);
+transform: matrix(1.186,-0.069,0.102,1.036,16.595,73.291);
+
+}
+
+@font-face {
+  font-family: 'WebFont';
+  src: url('myfont.woff') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+       url('myfont.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+  </textarea>
+  <p>
+    <button id="button">Transform</button>
+    <input type="checkbox" value="yes" id="indent" /><label for="indent">indent JSON</label>
+  </p>
+  <h2>Results</h2>
+  <pre id="result"></pre>
+  <textarea id="json" rows="20" cols="50">
+  </textarea>
+
+  <p style="float: right">Page format is inherited from <a href="//github.com/zaach/jsonlint/blob/master/web/jsonlint.html">Zach Carter's jsonlint page</a></p>
+</body> 
+</html> 

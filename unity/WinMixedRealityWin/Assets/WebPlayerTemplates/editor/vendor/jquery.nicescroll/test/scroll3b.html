@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery NiceScroll Test 3 - DOJO</title>
+<style type="text/css">
+#boxscroll {
+	padding: 0px;
+	height: 450px;
+	width: 420px;
+	border: 2px solid #0000FF;
+	overflow: auto;
+	margin: 0px;
+}
+.tabtest {
+}
+.row {
+	background-color: #FFFFCC;
+}
+.row2 {
+	background-color: #66CCFF;
+}
+#boxscroll2 {
+	padding: 0px;
+	height: 450px;
+	width: 420px;
+	border: 2px solid #FF0000;
+	overflow: auto;
+	margin: 0px;
+}
+div:focus {
+   outline: none;
+   ie-dummy: expression(this.hideFocus=true);
+}
+
+.mush {
+  width:4960px;
+  height:450px;
+  background-image:url(img/mariomushrooms.png);
+}
+
+.bgm {
+  background-image:url(img/mariomushrooms2.png);
+}
+
+body {
+  font-family: georgia,serif;
+}
+
+.header {
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+ </style>
+</style>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+
+<script src="ext/iphone-style-checkboxes.js" type="text/javascript"></script>
+<link rel="stylesheet" href="ext/iphone-style-checkboxes.css" type="text/css" media="screen" />
+
+<script>
+  var nice1,nice2;
+  var body;
+  var off;
+
+  $(window).load(function(){
+    off = $("#boxscroll").position();
+    off.top+=2;
+    off.left+=2;
+    $("#boxscroll").scroll();
+  });
+  
+  function initScroll() {
+
+    var tb = $('#nctouch').prop("checked");
+  
+    if (nice1) nice1.remove();
+  
+    nice1 = $("#boxscroll").niceScroll({touchbehavior:tb,cursorcolor:"#0000FF",cursoropacitymax:0.6,cursorwidth:8,horizrailenabled:true});
+    $("#ncver").html(nice1.version);
+
+    $("#boxscroll").scroll(function(e) {
+      if (!off) return;
+      var px = $("#boxscroll").scrollLeft() - off.left;
+      var py = $("#boxscroll").scrollTop() - off.top;
+      body.style.backgroundPosition=-px+"px "+-py+"px";
+     
+      $("#infoscroll1").html($("#boxscroll").scrollLeft()+'x'+$("#boxscroll").scrollTop());
+    });
+    
+    $("#boxscroll").scroll();
+    
+    //$("#boxscroll2 div").html($("#boxscroll").html());
+	
+    if (nice2) nice2.remove();
+  
+    nice2 = $("#boxscroll2").niceScroll("#boxscroll2 div.mush",{touchbehavior:tb,cursorcolor:"#FF0000",cursoropacitymax:0.6,cursorwidth:8,horizrailenabled:true});
+/*    
+    nice2.scrollstart(function(info){
+      console.log(info);
+    });
+*/
+
+/*
+    nice2.scrollend(function(info){
+      console.log(info);
+    });
+*/    
+    
+    $("#boxscroll2").scroll(function(e) {
+      var me = $(this);
+      $("#infoscroll2").html(me.scrollLeft()+'x'+me.scrollTop());
+    });
+    
+//    console.log($(":nicescroll").getNiceScroll());
+
+  }
+  
+  $(document).ready(function() {
+  
+    body = document.getElementsByTagName("body")[0];
+  
+    $('body').niceScroll({cursoropacitymax:0.8,cursorwidth:8});
+    
+    $('#nctouch').iphoneStyle().change(function(){      
+      initScroll();
+    });
+    
+    initScroll();
+    
+  });
+  
+  function getScroll(name) {
+    $(name).scrollTop(Math.floor(Math.random()*3000));
+  }
+
+  function getScroll2D(name) {
+    $(name).getNiceScroll().doScrollPos(Math.floor(Math.random()*4000),Math.floor(Math.random()*4000),150);
+  }
+  
+</script>
+
+<meta name="viewport" content="user-scalable=no" />
+
+</head>
+
+<body class="bgm">
+
+<div style="height:120px" class="header">
+  <h2>NICESCROLL - SCROLLING TEST</h2>
+  <div>TEST PAGE - Nicescroll version: <span id="ncver"></span></div>
+  <table border="0" cellspacing="0" cellpadding="4"><tr><td>Enable touchbehavior option:</td><td><input type="checkbox" id="nctouch" /></td></tr></table>
+</div>
+  
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td>NATIVE (simple div with overflow:auto) <span id="infoscroll1"></span></td>
+    <td>HWSCROLL (div+wrapper) <span id="infoscroll2"></span></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">
+       <div id="boxscroll"><div class="mush"></div></div>
+    </td>
+    <td align="left" valign="top">
+      <div id="boxscroll2"><div class="mush"></div></div>
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><input type="button" value="GET SCROLL!" onclick='getScroll("#boxscroll")' />&nbsp;<input type="button" value="GET SCROLL2D!" onclick='getScroll2D("#boxscroll")' /></td>
+    <td align="left" valign="top"><input type="button" value="GET SCROLL!" onclick='getScroll("#boxscroll2")' />&nbsp;<input type="button" value="GET SCROLL2D!" onclick='getScroll2D("#boxscroll2")' /></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+<input type="button" value="HIDE ALL!" onclick='$(":nicescroll").getNiceScroll().hide()' />&nbsp;<input type="button" value="SHOW ALL!" onclick='$(":nicescroll").getNiceScroll().show()' />
+
+</body>
+</html>

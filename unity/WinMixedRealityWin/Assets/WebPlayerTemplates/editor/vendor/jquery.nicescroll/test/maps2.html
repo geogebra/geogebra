@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery NiceScroll Test 3.0.0 - DOJO</title>
+<style type="text/css">
+html {
+}
+body {
+	margin: 0px;  
+}
+.tile {
+	width:256px;	
+  height:256px;
+  float:left;
+}
+.row {
+  height:256px;
+}
+#credits {
+  position:fixed;
+  top:2px;
+  left:2px;
+  background-color:#000;
+  background-color:rgba(0,0,0,0.3);
+  width:220px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+}
+#credits div {
+  color:#fff;
+  font-size:12px;
+  font-family:Arial;
+  padding:6px;
+}
+#nice {
+  position:fixed;
+  top:2px;
+  left:226px;
+  background-color:#004000;
+  background-color:rgba(0,64,0,0.3);
+  width:220px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+}
+#nice div {
+  color:#fff;
+  font-size:12px;
+  font-family:Arial;
+  padding:6px;
+}
+#maps {
+  width:500px;
+  height:500px;
+  overflow:hidden;
+}
+
+#maps div.wrapper {
+  width:5120px;
+}
+</style>
+
+<script src="../jquery.min.js"></script>
+<script src="../jquery.nicescroll.js"></script>
+
+
+<script>
+  function long2tile(lon,zoom) { return (Math.floor((lon+180)/360*Math.pow(2,zoom))); }
+  function lat2tile(lat,zoom)  { return (Math.floor((1-Math.log(Math.tan(lat*Math.PI/180) + 1/Math.cos(lat*Math.PI/180))/Math.PI)/2 *Math.pow(2,zoom))); }
+
+  var zm = 6;
+  var tx = long2tile(-7.338867,zm);
+  var ty = lat2tile(55.165482,zm);
+  
+  $(document).ready(function() {  
+  
+    var py = ty;
+    for(var y=0;y<10;y++) {      
+      var dv = $('<div/>').addClass('row');
+      var px = tx;
+      for(var x=0;x<20;x++) {
+        var url = '	http://a.tile.openstreetmap.org/'+zm+'/'+px+'/'+py+'.png';
+        dv.append("<div class='tile' style='background-image:url("+url+")' />");
+        px++;
+      }
+      dv.css('width',256*20);
+      $("#maps div.wrapper").append(dv);
+      py++;
+    }
+
+    var nice = $("#maps").niceScroll("#maps div.wrapper",{touchbehavior:true,cursorcolor:"#0000FF",cursoropacitymax:0.6,cursorwidth:8});
+  
+    $("#nice div").html($("#nice div").html()+' '+nice.version);
+  
+  });
+  
+</script>
+
+<meta name="viewport" content="user-scalable=no" />
+
+</head>
+
+<body>
+  <div id="maps"><div class="wrapper"></div></div>
+
+  <div id="credits"><div>All maps <a href="http://creativecommons.org/licenses/by-sa/2.0/">cc-by-sa</a> <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors </div></div>
+  <div id="nice"><div>Nicescroll version:</div></div>
+    
+</body>
+</html>
