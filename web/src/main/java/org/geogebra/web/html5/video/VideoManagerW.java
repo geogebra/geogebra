@@ -13,11 +13,8 @@ import org.geogebra.web.html5.main.MyImageW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -48,7 +45,7 @@ public class VideoManagerW implements VideoManager {
 
 	private static final String CMD_PAUSE = "pauseVideo";
 
-	private Map<GeoVideo, Frame> players = new HashMap<>();
+	private Map<String, VideoPlayer> players = new HashMap<>();
 
 	@Override
 	public void loadGeoVideo(GeoVideo geo) {
@@ -102,9 +99,9 @@ public class VideoManagerW implements VideoManager {
 			addPlayer(video);
 		}
 		video.play();
-		Frame player = players.get(video);
+		VideoPlayer player = getPlayer(video);
 		controlPlayer(player.getElement(), CMD_PLAY);
-		updatePlayer(video);
+		player.update();
 	}
 
 	@Override
@@ -113,8 +110,7 @@ public class VideoManagerW implements VideoManager {
 			return;
 		}
 		video.pause();
-		Frame player = players.get(video);
-		controlPlayer(player.getElement(), CMD_PAUSE);
+		controlPlayer(getPlayer(video).getElement(), CMD_PAUSE);
 		updatePlayer(video);
 	}
 
@@ -169,42 +165,25 @@ public class VideoManagerW implements VideoManager {
 	public void addPlayer(GeoVideo video) {
 		AppW app = (AppW) video.getKernel().getApplication();
 		GeoGebraFrameW appFrame = (GeoGebraFrameW) app.getAppletFrame();
-		Frame player = new Frame();
-		player.addStyleName("mowVideo");
-		player.getElement().setId(video.getYouTubeId());
-		players.put(video, player);
+		VideoPlayer player = new VideoPlayer(video);
+		players.put(video.getYouTubeId(), player);
 		appFrame.add(player);
-		player.addStyleName("hidden");
 	}
 
 	@Override
 	public boolean hasPlayer(GeoVideo video) {
-		return players.containsKey(video);
+		return players.containsKey(video.getYouTubeId());
 	}
 
+	private VideoPlayer getPlayer(GeoVideo video) {
+		return players.get(video.getYouTubeId());
+	}
 	@Override
 	public void updatePlayer(GeoVideo video) {
 		if (!hasPlayer(video) || !video.hasChanged()) {
 			return;
 		}
-
-		Frame player = players.get(video);
-		Style style = player.getElement().getStyle();
-		style.setLeft(video.getAbsoluteScreenLocX(), Unit.PX);
-		style.setTop(video.getAbsoluteScreenLocY(), Unit.PX);
-		if (video.isPlaying()) {
-			String embed = video.getEmbeddedUrl();
-			if (!player.equals(embed)) {
-				player.removeStyleName("hidden");
-				player.setUrl(embed);
-				player.setWidth(video.getWidth() + "px");
-				player.setHeight(video.getHeight() + "px");
-			}
-
-			video.setChanged(false);
-		} else {
-			player.addStyleName("hidden");
-		}
+		getPlayer(video).update();
 	}
 
 	private native void controlPlayer(JavaScriptObject player, String command) /*-{
