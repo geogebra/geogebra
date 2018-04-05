@@ -30,7 +30,6 @@ public class LoggerW extends Log {
 	 * and-is-it-a-real-function
 	 */
 	public static native void initConsole() /*-{
-
 		if (!$wnd.console) {
 			$wnd.console = {};
 		}
@@ -38,7 +37,6 @@ public class LoggerW extends Log {
 			$wnd.console.log = function() {
 			};
 		}
-
 	}-*/;
 
 	@Override
@@ -67,13 +65,21 @@ public class LoggerW extends Log {
 		}
 		if (getLogDestination() == LogDestination.CONSOLE) {
 			// don't change this to Application.debug!!
-			printWebConsole(logEntry);
+			if (level == ERROR) {
+				printWebConsoleError(logEntry);
+			} else {
+				printWebConsole(logEntry);
+			}
 			return;
 		}
 	}
 
 	private native void printWebConsole(String s) /*-{
 		$wnd.console.log(s);
+	}-*/;
+
+	private native void printWebConsoleError(String s) /*-{
+		$wnd.console.error(s);
 	}-*/;
 
 	/**
