@@ -369,10 +369,19 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public String getExportImageDataUrl(double scale, boolean transparency,
 			ExportType format) {
-		Canvas c = getExportImageCanvas(scale, transparency);
-		return c == null ? ""
+		return dataURL(getExportImageCanvas(scale, transparency), format);
+	}
+
+	private static String dataURL(Canvas c, ExportType format) {
+		try {
+			return c == null ? ""
 				: c.toDataUrl(
 						format == ExportType.WEBP ? "image/webp" : "image/png");
+		} catch (Throwable t) {
+			Log.error(t.getMessage());
+			return GuiResourcesSimple.INSTANCE.dialog_warning().getSafeUri()
+					.asString();
+		}
 	}
 
 	@Override
@@ -626,7 +635,7 @@ public class EuclidianViewW extends EuclidianView implements
 		c2.drawImage(foreground.getCanvasElement(), 0, 0, (int) thx,
 		        (int) thy);
 
-		return canv.toDataUrl();
+		return dataURL(canv, null);
 	}
 
 	@Override
