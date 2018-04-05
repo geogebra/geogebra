@@ -3042,7 +3042,8 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param renderer1
 	 */
 	public void draw(Renderer renderer1) {
-		if (!app.has(Feature.MOB_PACK_JOIN_POINTS)) {
+		if (!app.has(Feature.MOB_PACK_JOIN_POINTS)
+				|| !getRenderer().getGeometryManager().packBuffers()) {
 			for (int i = 0; i < 3; i++) {
 				axisDrawable[i].drawOutline(renderer1);
 			}
@@ -3066,7 +3067,8 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param renderer1
 	 */
 	public void drawHidden(Renderer renderer1) {
-		if (!app.has(Feature.MOB_PACK_JOIN_POINTS)) {
+		if (!app.has(Feature.MOB_PACK_JOIN_POINTS)
+				|| !getRenderer().getGeometryManager().packBuffers()) {
 			for (int i = 0; i < 3; i++) {
 				axisDrawable[i].drawHidden(renderer1);
 			}
@@ -3078,7 +3080,9 @@ public abstract class EuclidianView3D extends EuclidianView
 			clippingCubeDrawable.drawHidden(renderer1);
 		}
 
-		if (!app.has(Feature.MOB_PACK_JOIN_POINTS) && getCompanion().decorationVisible()) {
+		if ((!app.has(Feature.MOB_PACK_JOIN_POINTS)
+				|| !getRenderer().getGeometryManager().packBuffers())
+				&& getCompanion().decorationVisible()) {
 			pointDecorations.drawHidden(renderer1);
 		}
 
