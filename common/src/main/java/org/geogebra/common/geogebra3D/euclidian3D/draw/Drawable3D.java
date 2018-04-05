@@ -1247,7 +1247,7 @@ public abstract class Drawable3D extends DrawableND {
 		double s = 255 * getColorShift() / distance;
 		int a = color[0].getAlpha();
 		// sufficient alpha to be seen
-		if (a < ALPHA_MIN_HIGHLIGHTING) {
+		if (a > 0 && a < ALPHA_MIN_HIGHLIGHTING) {
 			a = ALPHA_MIN_HIGHLIGHTING;
 		}
 		// highlighted color
