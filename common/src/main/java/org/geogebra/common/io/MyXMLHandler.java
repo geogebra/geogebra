@@ -83,6 +83,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -3803,6 +3804,9 @@ public class MyXMLHandler implements DocHandler {
 				if ("value".equals(eName)) {
 					ok = handleValue(attrs);
 					break;
+				} else if ("video".equals(eName)) {
+					ok = handleVideo(attrs);
+					break;
 				}
 
 			default:
@@ -4910,17 +4914,29 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleAudio(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoAudio)) {
+		if (!(geo instanceof GeoAudio) || geo instanceof GeoVideo) {
 			Log.error("wrong element type for <audio>: " + geo.getClass());
 			return false;
 		}
-
 		try {
 			GeoAudio audio = (GeoAudio) geo;
 			audio.setSrc(attrs.get("src"));
 			return true;
 		} catch (RuntimeException e) {
+			return false;
+		}
+	}
 
+	private boolean handleVideo(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoVideo)) {
+			Log.error("wrong element type for <video>: " + geo.getClass());
+			return false;
+		}
+		try {
+			GeoVideo video = (GeoVideo) geo;
+			video.setSrc(attrs.get("src"));
+			return true;
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}

@@ -8332,7 +8332,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		kernel.notifyRepaint();
 	}
 
-	private void clearVideo() {
+	/**
+	 * Stops the last video
+	 *
+	 */
+	public void clearVideo() {
 		if (app.getVideoManager() != null) {
 			app.getVideoManager().pause(lastVideo);
 		}

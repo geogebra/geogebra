@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -150,7 +151,11 @@ public class GeoFactory {
 			}
 			return new GeoInputBox(cons1); // textfield
 
-		case 'v': // vector
+		case 'v':
+			if ("video".equals(type)) {
+				return new GeoVideo(cons1);
+			}
+			// vector
 			return new GeoVector(cons1);
 		default:
 			Log.error("GeoFactory: element of type " + type

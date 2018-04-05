@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * 
@@ -191,7 +192,6 @@ public class GeoVideo extends GeoAudio {
 		sb.append(JAVASCRIPT_API);
 
 		return sb.toString();
-
 	}
 
 	/**
@@ -200,7 +200,6 @@ public class GeoVideo extends GeoAudio {
 	 */
 	public String getPreviewUrl() {
 		return previewUrl;
-
 	}
 
 	/**
@@ -228,6 +227,16 @@ public class GeoVideo extends GeoAudio {
 	@Override
 	public void pause() {
 		setPlaying(false);
+	}
+
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+		if (getEmbeddedUrl() != null) {
+			sb.append("\t<video src=\"");
+			sb.append(StringUtil.encodeXML(getEmbeddedUrl()));
+			sb.append("\"/>\n");
+		}
 	}
 
 	/**

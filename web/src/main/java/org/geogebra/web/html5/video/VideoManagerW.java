@@ -103,7 +103,9 @@ public class VideoManagerW implements VideoManager {
 		if (video == null) {
 			return;
 		}
-
+		if (!hasPlayer(video)) {
+			addPlayer(video);
+		}
 		video.play();
 		Frame player = players.get(video);
 		controlPlayer(player.getElement(), CMD_PLAY);
@@ -112,15 +114,13 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void pause(GeoVideo video) {
-		if (video == null) {
+		if (video == null || !hasPlayer(video)) {
 			return;
 		}
-
 		video.pause();
 		Frame player = players.get(video);
 		controlPlayer(player.getElement(), CMD_PAUSE);
 		updatePlayer(video);
-
 	}
 
 	@Override
