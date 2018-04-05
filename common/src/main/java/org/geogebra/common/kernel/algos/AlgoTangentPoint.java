@@ -351,8 +351,88 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 					return botanaPolynomialsThis;
 				}
 
+				/* We use that the mirror F' of the focus about the tangent PT lies
+				 * on the directrix. Therefore the external point P is equidistant
+				 * from F and F'. This implies that F' lies on a circle with center
+				 * P and radius FP, on the directrix. Finally PT=PM where M
+				 * is the midpoint of FF'.
+				 */
 
-			throw new NoSymbolicParametersException();
+                PVariable[] botanaVarsThis = new PVariable[4];
+                if (getBotanaVars(geo) == null) {
+                    // M - midpoint of FF'
+                    botanaVarsThis[0] = new PVariable(kernel);
+                    botanaVarsThis[1] = new PVariable(kernel);
+                    // P - external point
+                    botanaVarsThis[2] = vPoint[0];
+                    botanaVarsThis[3] = vPoint[1];
+                    // the line PM will be the tangent
+                    botanaVars.put(geo, botanaVarsThis);
+                } else {
+                    botanaVarsThis = getBotanaVars(geo);
+                }
+
+                PPolynomial[] botanaPolynomialsThis = null;
+                /*
+                 * Force a criterion that the two points M must differ.
+                 * See AlgoIntersectConics.java.
+                 */
+                PVariable[] botanaVarsOther;
+                Iterator<Entry<GeoElementND, PVariable[]>> it = botanaVars.entrySet()
+                        .iterator();
+                boolean found = false;
+                while (it.hasNext()) {
+                    Entry<GeoElementND, PVariable[]> entry = it.next();
+                    GeoElementND otherGeo = entry.getKey();
+                    /*
+                     * This should be at most one element. There is one element if
+                     * we found the second tangent point, otherwise (for the
+                     * first tangent point) there is no otherGeo yet, so we
+                     * will not create any polynomials here (yet).
+                     */
+                    if (!otherGeo.equals(geo)) {
+                        botanaPolynomialsThis = new PPolynomial[5];
+                        botanaVarsOther = entry.getValue();
+                        botanaPolynomialsThis[4] = (PPolynomial
+                                .sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
+                                        botanaVarsOther[0], botanaVarsOther[1])
+                                .multiply(new PPolynomial(new PVariable(kernel))))
+                                .subtract(new PPolynomial(1));
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    botanaPolynomialsThis = new PPolynomial[4];
+                }
+
+            PPolynomial m1 = new PPolynomial(botanaVarsThis[0]);
+            PPolynomial m2 = new PPolynomial(botanaVarsThis[1]);
+            // coordinates of focus point of parabola
+            PPolynomial f1 = new PPolynomial(vparabola[8]);
+            PPolynomial f2 = new PPolynomial(vparabola[9]);
+            // coordinates of F'
+            PVariable f_1 = new PVariable(kernel);
+            PVariable f_2 = new PVariable(kernel);
+
+            PPolynomial f_1p = new PPolynomial(f_1);
+            PPolynomial f_2p = new PPolynomial(f_2);
+
+            // M midpoint of FF'
+            botanaPolynomialsThis[0] = new PPolynomial(2).multiply(m1)
+                    .subtract(f1).subtract(f_1p);
+            botanaPolynomialsThis[1] = new PPolynomial(2).multiply(m2)
+                    .subtract(f2).subtract(f_2p);
+
+            // F' is on the directrix (we need to declare it)
+            botanaPolynomialsThis[2] = PPolynomial.collinear(f_1, f_2,
+                    vparabola[4], vparabola[5], vparabola[6],
+                    vparabola[7]);
+            // PF' = PF
+            botanaPolynomialsThis[3] = PPolynomial.equidistant(f_1, f_2,
+                    vPoint[0], vPoint[1], vparabola[8], vparabola[9]);
+
+            botanaPolynomials.put(geo, botanaPolynomialsThis);
+            return botanaPolynomialsThis;
 
 		}
 
