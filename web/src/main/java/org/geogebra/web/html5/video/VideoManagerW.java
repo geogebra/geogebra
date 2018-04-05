@@ -40,11 +40,6 @@ public class VideoManagerW implements VideoManager {
 	public static final String YOUTUBE_SHORT = "https://youtu.be/";
 
 	/**
-	 * Head of the preview image of YouTube URL.
-	 */
-	public static final String YOUTUBE_PREV = "https://img.youtube.com/vi/%ID%/0.jpg";
-
-	/**
 	 * Head of an embedding YouTube URL.
 	 */
 	public static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
@@ -156,6 +151,7 @@ public class VideoManagerW implements VideoManager {
 	public void createPreview(GeoVideo geo, final AsyncOperation<MyImage> cb) {
 
 		final Image img = new Image(geo.getPreviewUrl());
+		img.getElement().setAttribute("crossorigin", "anonymous");
 		img.addLoadHandler(new LoadHandler() {
 
 			@Override
