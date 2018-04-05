@@ -2,6 +2,8 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -386,5 +388,23 @@ public class AlgebraItem {
 			GeoElement geoElement, int style) {
 		return getDescriptionModeForGeo(geoElement,
 				style) != DescriptionMode.DEFINITION;
+	}
+
+	/**
+	 * @param geoElement
+	 *            geo
+	 * @return whether the input should be replaced by description or not
+	 */
+	public static boolean shouldShowDescription(GeoElement geoElement) {
+		AlgoElement parentAlgo = geoElement.getParentAlgorithm();
+		if (parentAlgo == null) {
+			return !geoElement.isGeoFunction();
+		}
+
+		if (parentAlgo instanceof AlgoDependentFunction) {
+			return false;
+		}
+
+		return true;
 	}
 }
