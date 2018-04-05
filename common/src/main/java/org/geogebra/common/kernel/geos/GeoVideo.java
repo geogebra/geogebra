@@ -100,6 +100,9 @@ public class GeoVideo extends GeoAudio {
 			@Override
 			public void callback(MyImage obj) {
 				preview = obj;
+				changed = true;
+				app.getActiveEuclidianView().repaint();
+
 			}
 		});
 		initStartTime();
