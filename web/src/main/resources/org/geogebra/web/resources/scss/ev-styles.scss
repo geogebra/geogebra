@@ -123,8 +123,12 @@
 		}
 	}
 
-	.matDynStyleBar.noContextBtn {
+	.mowDynStyleBar.matDynStyleBar.noContextBtn{
 	    padding: 8px 0px 8px 8px;
+	    
+	    .MyCanvasButton.delete{
+	    	margin-right: -12px;
+	    }
 	}
 
 	/* text size popup */

@@ -51,6 +51,7 @@ import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -586,6 +587,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 						|| ev.getEuclidianController().getAppSelectedGeos()
 								.get(0).isGeoVideo())) {
 			this.addStyleName("noContextBtn");
+			if (Browser.isIPad()) {
+				btnDelete.addStyleName("delete");
+			}
 			return false;
 		}
 		return true;
