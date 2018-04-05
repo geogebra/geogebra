@@ -29,9 +29,7 @@ import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Input3DConstants;
-import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
-import org.geogebra.common.export.pstricks.GeoGebraToPgf;
-import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
+import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -92,6 +90,7 @@ import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.sound.VideoManager;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GTimer;
@@ -4946,29 +4945,31 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * 
-	 * @return GeoGebraToPstricks object
+	 * @param callback
+	 *            GeoGebraToPstricks object
 	 */
-	public GeoGebraToPstricks newGeoGebraToPstricks() {
+	public void newGeoGebraToPstricks(
+			AsyncOperation<GeoGebraExport> callback) {
 		// overridden in AppD, AppW
-		return null;
 	}
 
 	/**
 	 * 
-	 * @return GeoGebraToAsymptote object
+	 * @param callback
+	 *            GeoGebraToAsymptote object
 	 */
-	public GeoGebraToAsymptote newGeoGebraToAsymptote() {
+	public void newGeoGebraToAsymptote(
+			AsyncOperation<GeoGebraExport> callback) {
 		// overridden in AppD, AppW
-		return null;
 	}
 
 	/**
 	 * 
-	 * @return GeoGebraToPgf object
+	 * @param callback
+	 *            GeoGebraToPgf object
 	 */
-	public GeoGebraToPgf newGeoGebraToPgf() {
+	public void newGeoGebraToPgf(AsyncOperation<GeoGebraExport> callback) {
 		// overridden in AppD, AppW
-		return null;
 	}
 
 	/**

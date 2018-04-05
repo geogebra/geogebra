@@ -233,9 +233,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			} else {
 
 				if (list == null) {
-					PSLQappendQuadratic(sb, decimal, tpl);
+					pslqAppendQuadratic(sb, decimal, tpl);
 				} else {
-					PSLQappendGeneral(sb, decimal, tpl);
+					pslqAppendGeneral(sb, decimal, tpl);
 				}
 			}
 
@@ -296,7 +296,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * @param tpl
 	 *            template for CAS and formal solution
 	 */
-	protected void PSLQappendGeneral(StringBuilder sBuilder, double number,
+	protected void pslqAppendGeneral(StringBuilder sBuilder, double number,
 			StringTemplate tpl) {
 
 		// Zero Test: Is num 0?
@@ -556,7 +556,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * @param tpl
 	 *            output template
 	 */
-	protected void PSLQappendQuartic(StringBuilder sBuilder, double num1,
+	protected void pslqAppendQuartic(StringBuilder sBuilder, double num1,
 			StringTemplate tpl) {
 		double[] numPowers = new double[5];
 		double temp = 1.0;
@@ -566,7 +566,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			temp *= num1;
 		}
 
-		int[] coeffs = PSLQ(numPowers, Kernel.STANDARD_PRECISION, 10);
+		int[] coeffs = pslq(numPowers, Kernel.STANDARD_PRECISION, 10);
 
 		if (coeffs[0] == 0 && coeffs[1] == 0) {
 
@@ -694,7 +694,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * @param tpl
 	 *            output template
 	 */
-	protected void PSLQappendQuadratic(StringBuilder sBuilder, double num1,
+	protected void pslqAppendQuadratic(StringBuilder sBuilder, double num1,
 			StringTemplate tpl) {
 
 		if (DoubleUtil.isZero(num1)) {
@@ -703,7 +703,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 
 		double[] numPowers = { num1 * num1, num1, 1.0 };
-		int[] coeffs = PSLQ(numPowers, 1E-10, 10);
+		int[] coeffs = pslq(numPowers, 1E-10, 10);
 
 		if (coeffs == null) {
 			appendUndefined(sBuilder, num1);
@@ -809,14 +809,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 	}
 
-	private static int[] PSLQ(double[] x, double AccuracyFactor, int bound) {
-		return PSLQ(x.length, x, AccuracyFactor, bound, null, null);
+	private static int[] pslq(double[] x, double AccuracyFactor, int bound) {
+		return pslq(x.length, x, AccuracyFactor, bound, null, null);
 	}
 
 	/*
 	 * Algorithm PSLQ from Ferguson and Bailey (1992)
 	 */
-	private static int[] PSLQ(int n, double[] x_input, double AccuracyFactor,
+	private static int[] pslq(int n, double[] x_input, double accuracyFactor,
 			int bound, int[][] B_mutable, double[] xB_mutable) {
 
 		double[] x = new double[n];
@@ -1022,7 +1022,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				for (int k = 0; k < n; k++) {
 					xB[i] += x[k] * B[k][i];
 				}
-				if (DoubleUtil.isEqual(xB[i], 0, AccuracyFactor / normX)) {
+				if (DoubleUtil.isEqual(xB[i], 0, accuracyFactor / normX)) {
 
 					solutionFound = true;
 

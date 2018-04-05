@@ -41,6 +41,13 @@ public class JsEval {
 		}
 	}-*/;
 
+	public static native void runCallback(JavaScriptObject onLoadCallback,
+			String ref) /*-{
+		if (typeof onLoadCallback === "function") {
+			onLoadCallback(ref);
+		}
+	}-*/;
+
 	/**
 	 * @param fun
 	 *            JS function name

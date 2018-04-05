@@ -926,8 +926,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::writePNGtoFile(Ljava/lang/String;DZD)(filename + "", exportScale, !!transparent, DPI);
 		};
 
-		api.exportPGF = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPGF()();
+		api.exportPGF = function(callback) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPGF(Lcom/google/gwt/core/client/JavaScriptObject;)(callback);
 		};
 		
 		api.exportSVG = function(filename) {
@@ -938,12 +938,12 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPDF(DLjava/lang/String;Ljava/lang/String;)(scale | 1, filename, sliderLabel);
 		};
 
-		api.exportPSTricks = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPSTricks()();
+		api.exportPSTricks = function(callback) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPSTricks(Lcom/google/gwt/core/client/JavaScriptObject;)(callback);
 		};
 
-		api.exportAsymptote = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportAsymptote()();
+		api.exportAsymptote = function(callback) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportAsymptote(Lcom/google/gwt/core/client/JavaScriptObject;)(callback);
 		};
 
 		api.setRounding = function(digits) {

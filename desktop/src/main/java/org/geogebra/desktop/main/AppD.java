@@ -122,9 +122,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
-import org.geogebra.common.export.pstricks.GeoGebraToPgf;
-import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
+import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -5332,18 +5330,19 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public GeoGebraToPstricks newGeoGebraToPstricks() {
-		return new GeoGebraToPstricksD(this);
+	public void newGeoGebraToPstricks(AsyncOperation<GeoGebraExport> callback) {
+		callback.callback(new GeoGebraToPstricksD(this));
 	}
 
 	@Override
-	public GeoGebraToAsymptote newGeoGebraToAsymptote() {
-		return new GeoGebraToAsymptoteD(this);
+	public void newGeoGebraToAsymptote(
+			AsyncOperation<GeoGebraExport> callback) {
+		callback.callback(new GeoGebraToAsymptoteD(this));
 	}
 
 	@Override
-	public GeoGebraToPgf newGeoGebraToPgf() {
-		return new GeoGebraToPgfD(this);
+	public void newGeoGebraToPgf(AsyncOperation<GeoGebraExport> callback) {
+		callback.callback(new GeoGebraToPgfD(this));
 	}
 
 	public void setPrintPreview(PrintPreviewD printPreviewD) {

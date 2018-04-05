@@ -12,9 +12,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.export.pstricks.ExportFrameMinimal;
-import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
-import org.geogebra.common.export.pstricks.GeoGebraToPgf;
-import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
+import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilderJson;
@@ -56,6 +54,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -2125,70 +2124,53 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * 
-	 * @return current construction as PGF/Tikz
+	 * @param handler
+	 *            handle current construction as PGF/Tikz
 	 */
-	final public String exportPGF() {
-		GeoGebraToPgf export = app.newGeoGebraToPgf();
+	final public void exportPGF(final AsyncOperation<String> handler) {
+		app.newGeoGebraToPgf(exportCallback(handler));
+	}
 
-		if (export == null) {
-			// not implemented eg Android, iOS)
-			return "";
-		}
+	private AsyncOperation<GeoGebraExport> exportCallback(
+			final AsyncOperation<String> handler) {
+		return new AsyncOperation<GeoGebraExport>() {
 
-		EuclidianView ev = app.getActiveEuclidianView();
+			@Override
+			public void callback(GeoGebraExport export) {
+				if (export == null) {
+					// not implemented eg Android, iOS)
+					handler.callback("");
+				}
 
-		ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
-				ev.getYmax());
-		export.setFrame(frame);
-		export.generateAllCode();
+				EuclidianView ev = app.getActiveEuclidianView();
 
-		return frame.getCode();
+				ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
+						ev.getYmax());
+				export.setFrame(frame);
+				export.generateAllCode();
 
+				handler.callback(frame.getCode());
+			}
+
+		};
 	}
 
 	/**
 	 * 
-	 * @return current construction as PSTricks
+	 * @param handler
+	 *            handle current construction as PSTricks
 	 */
-	final public String exportPSTricks() {
-		GeoGebraToPstricks export = app.newGeoGebraToPstricks();
-
-		if (export == null) {
-			// not implemented eg Android, iOS)
-			return "";
-		}
-		EuclidianView ev = app.getActiveEuclidianView();
-
-		ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
-				ev.getYmax());
-		export.setFrame(frame);
-		export.generateAllCode();
-
-		return frame.getCode();
-
+	final public void exportPSTricks(AsyncOperation<String> handler) {
+		app.newGeoGebraToPstricks(exportCallback(handler));
 	}
 
 	/**
 	 * 
-	 * @return current construction as in Asymptote format
+	 * @param handler
+	 *            handle current construction in Asymptote format
 	 */
-	final public String exportAsymptote() {
-		GeoGebraToAsymptote export = app.newGeoGebraToAsymptote();
-
-		if (export == null) {
-			// not implemented eg Android, iOS)
-			return "";
-		}
-
-		EuclidianView ev = app.getActiveEuclidianView();
-
-		ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
-				ev.getYmax());
-		export.setFrame(frame);
-		export.generateAllCode();
-
-		return frame.getCode();
-
+	final public void exportAsymptote(AsyncOperation<String> handler) {
+		app.newGeoGebraToAsymptote(exportCallback(handler));
 	}
 
 	/**

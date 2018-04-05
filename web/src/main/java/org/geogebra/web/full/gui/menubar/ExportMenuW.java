@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.menubar;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -120,7 +121,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 		// }
 		// });
 		// }
-
 		menu.addItem(menuText("PSTricks"), true, new MenuCommand(app) {
 
 			@Override
@@ -129,12 +129,8 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				app.getActiveEuclidianView().getEuclidianController()
 						.clearSelections();
 				menu.hide();
-				String url = "data:text/plain;charset=utf-8,"
-						+ app.getGgbApi().exportPSTricks();
+				app.getGgbApi().exportPSTricks(exportCllback("Pstricks", app));
 
-				app.getFileManager().showExportAsPictureDialog(url,
-						app.getExportTitle(), "txt", "Export", app);
-				dialogEvent(app, "exportPSTricks");
 			}
 		});
 
@@ -145,12 +141,8 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				app.getActiveEuclidianView().getEuclidianController()
 						.clearSelectionAndRectangle();
 				menu.hide();
-				String url = "data:text/plain;charset=utf-8,"
-						+ app.getGgbApi().exportPGF();
 
-				app.getFileManager().showExportAsPictureDialog(url,
-						app.getExportTitle(), "txt", "Export", app);
-				dialogEvent(app, "exportPGF");
+				app.getGgbApi().exportPGF(exportCllback("PGF", app));
 			}
 		});
 
@@ -161,12 +153,10 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				app.getActiveEuclidianView().getEuclidianController()
 						.clearSelectionAndRectangle();
 				menu.hide();
-				String url = "data:text/plain;charset=utf-8,"
-						+ app.getGgbApi().exportAsymptote();
+				app.getGgbApi()
+						.exportAsymptote(
+								exportCllback("Asymptote", app));
 
-				app.getFileManager().showExportAsPictureDialog(url,
-						app.getExportTitle(), "txt", "Export", app);
-				dialogEvent(app, "exportPGF");
 			}
 		});
 
@@ -199,6 +189,21 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				}
 			});
 		}
+
+	}
+
+	protected static AsyncOperation<String> exportCllback(final String string,
+			final AppW app) {
+		return new AsyncOperation<String>() {
+
+			@Override
+			public void callback(String obj) {
+				String url = "data:text/plain;charset=utf-8," + obj;
+				app.getFileManager().showExportAsPictureDialog(url,
+						app.getExportTitle(), "txt", "Export", app);
+				dialogEvent(app, "export" + string);
+			}
+		};
 
 	}
 

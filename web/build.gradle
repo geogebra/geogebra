@@ -95,6 +95,7 @@ gwt {
         } else {
             disableClassMetadata = true;
         }
+       // soycDetailed = true;
         // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
     }
 }

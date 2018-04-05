@@ -154,12 +154,12 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		double y = coords.getY();
 
 		StringBuilder sb = new StringBuilder();
-		PSLQappendQuadratic(sb, x, text.getStringTemplate());
+		pslqAppendQuadratic(sb, x, text.getStringTemplate());
 
 		String xStr = sb.toString();
 
 		sb.setLength(0);
-		PSLQappendQuadratic(sb, y, text.getStringTemplate());
+		pslqAppendQuadratic(sb, y, text.getStringTemplate());
 
 		String yStr = sb.toString();
 
@@ -222,17 +222,11 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 			return true;
 		}
 
-
 		return false;
 	}
 
 	private void append(double value) {
-		PSLQappendQuadratic(sbp, value, text.getStringTemplate());
-	}
-
-	@Override
-	public boolean isLaTeXTextCommand() {
-		return true;
+		pslqAppendQuadratic(sbp, value, text.getStringTemplate());
 	}
 
 }

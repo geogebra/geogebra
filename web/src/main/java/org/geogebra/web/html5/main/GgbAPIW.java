@@ -25,6 +25,7 @@ import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
@@ -1433,4 +1434,38 @@ public class GgbAPIW extends GgbAPI {
 				scale, rotate, ExportType.WEBP);
 	}
 
+	/**
+	 * @param callback
+	 *            native callback
+	 */
+	public void exportPSTricks(JavaScriptObject callback) {
+		this.exportPSTricks(asyncOperation(callback));
+	}
+
+	/**
+	 * @param callback
+	 *            native callback
+	 */
+	public void exportPGF(JavaScriptObject callback) {
+		this.exportPGF(asyncOperation(callback));
+	}
+
+	/**
+	 * @param callback
+	 *            native callback
+	 */
+	public void exportAsymptote(JavaScriptObject callback) {
+		this.exportAsymptote(asyncOperation(callback));
+	}
+
+	private AsyncOperation<String> asyncOperation(
+			final JavaScriptObject callback) {
+		return new AsyncOperation<String>() {
+
+			@Override
+			public void callback(String obj) {
+				JsEval.runCallback(callback, obj);
+			}
+		};
+	}
 }

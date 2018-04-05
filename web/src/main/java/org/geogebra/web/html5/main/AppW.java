@@ -13,9 +13,7 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
-import org.geogebra.common.export.pstricks.GeoGebraToPgf;
-import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
+import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -3319,6 +3317,9 @@ public abstract class AppW extends App implements SetLabels {
 			}
 		}
 	};
+	private GeoGebraExport pstricks;
+	protected GeoGebraToAsymptoteW asymptote;
+	protected GeoGebraToPgfW pgf;
 
 	@Override
 	public void setAltText() {
@@ -3550,18 +3551,60 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	@Override
-	public GeoGebraToPstricks newGeoGebraToPstricks() {
-		return new GeoGebraToPstricksW(this);
+	public void newGeoGebraToPstricks(
+			final AsyncOperation<GeoGebraExport> callback) {
+		GWT.runAsync(GeoGebraExport.class, new RunAsyncCallback() {
+
+			@Override
+			public void onFailure(Throwable reason) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onSuccess() {
+				callback.callback(new GeoGebraToPstricksW(AppW.this));
+
+			}
+		});
 	}
 
 	@Override
-	public GeoGebraToAsymptote newGeoGebraToAsymptote() {
-		return new GeoGebraToAsymptoteW(this);
+	public void newGeoGebraToAsymptote(
+			final AsyncOperation<GeoGebraExport> callback) {
+		GWT.runAsync(GeoGebraExport.class, new RunAsyncCallback() {
+
+			@Override
+			public void onFailure(Throwable reason) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onSuccess() {
+				callback.callback(new GeoGebraToAsymptoteW(AppW.this));
+
+			}
+		});
 	}
 
 	@Override
-	public GeoGebraToPgf newGeoGebraToPgf() {
-		return new GeoGebraToPgfW(this);
+	public void newGeoGebraToPgf(
+			final AsyncOperation<GeoGebraExport> callback) {
+		GWT.runAsync(GeoGebraExport.class, new RunAsyncCallback() {
+
+			@Override
+			public void onFailure(Throwable reason) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onSuccess() {
+				callback.callback(new GeoGebraToPgfW(AppW.this));
+
+			}
+		});
 	}
 
 	public static native Element getHiddenTextArea() /*-{
