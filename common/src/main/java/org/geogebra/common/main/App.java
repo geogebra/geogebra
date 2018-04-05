@@ -4453,12 +4453,11 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public boolean isModeValid(int mode) {
-		return !"".equals(getToolName(mode));
+		return mode >= 0 && !"".equals(getToolName(mode));
 	}
 
 	public void updateKeyboard() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -5283,6 +5282,16 @@ public abstract class App implements UpdateSelection {
 		return new ExamEnvironment.CalculatorType[] {ExamEnvironment.CalculatorType.GRAPHING, ExamEnvironment.CalculatorType.SYMBOLIC};
 	}
 
+	/**
+	 * @param imgFileName
+	 *            file name
+	 * @param imgBase64
+	 *            base64 of image content
+	 * @param imageOld
+	 *            old image
+	 * @param autoCorners
+	 *            whether to create corners
+	 */
 	public GeoImage createImageFromString(final String imgFileName,
 			String imgBase64, GeoImage imageOld, boolean autoCorners) {
 		return null;

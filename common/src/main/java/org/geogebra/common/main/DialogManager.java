@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
@@ -44,7 +45,6 @@ import org.geogebra.common.util.AsyncOperation;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-@SuppressWarnings("javadoc")
 public abstract class DialogManager {
 
 	protected String defaultAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
@@ -52,12 +52,10 @@ public abstract class DialogManager {
 	protected App app;
 	protected Localization loc;
 
-
 	/**
 	 * Dialog for styling text objects.
 	 */
 	protected TextInputDialog textInputDialog;
-
 
 	public DialogManager() {
 	}
@@ -65,7 +63,6 @@ public abstract class DialogManager {
 	public DialogManager(App app) {
 		this.app = app;
 		this.loc = app.getLocalization();
-
 	}
 
 	public abstract boolean showFunctionInspector(GeoFunction geoFunction);
@@ -73,8 +70,13 @@ public abstract class DialogManager {
 	public abstract void showDataSourceDialog(int mode,
 			boolean doAutoLoadSelectedGeos);
 
+	/**
+	 * @param geo
+	 *            redefined element
+	 * @param allowTextDialog
+	 *            whether to allow text dialog instead
+	 */
 	public void showRedefineDialog(GeoElement geo, boolean allowTextDialog) {
-
 		if (allowTextDialog && geo.isGeoText() && !geo.isTextCommand()) {
 			showTextDialog((GeoText) geo);
 			return;
@@ -86,7 +88,6 @@ public abstract class DialogManager {
 
 		newInputDialog(app, geo.getNameDescription(), loc.getMenu("Redefine"),
 				str, handler, geo);
-
 	}
 
 	public abstract InputDialog newInputDialog(App app1, String message,
@@ -99,10 +100,15 @@ public abstract class DialogManager {
 	/**
 	 * 
 	 * @param menu
+	 *            title
 	 * @param selectedSegments
+	 *            segments
 	 * @param selectedPoints
+	 *            points
 	 * @param selGeos
+	 *            selected elements
 	 * @param ec
+	 *            controller
 	 */
 	public void showNumberInputDialogAngleFixed(String menu,
 			GeoSegmentND[] selectedSegments, GeoPointND[] selectedPoints,
@@ -114,9 +120,22 @@ public abstract class DialogManager {
 				getNumber(app.getKernel(), menu + " " + loc.getMenu("Length"),
 						""),
 				false, ec);
-
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param segments
+	 *            selected segments
+	 * @param points
+	 *            selected points
+	 * @param num
+	 *            angle value
+	 * @param clockWise
+	 *            whether to use clockwise angle
+	 * @param ec
+	 *            controller
+	 */
 	public static void doAngleFixed(Kernel kernel, GeoSegmentND[] segments,
 			GeoPointND[] points, GeoNumberValue num,
 			boolean clockWise, EuclidianController ec) {
@@ -140,9 +159,15 @@ public abstract class DialogManager {
 		}
 
 		kernel.getApplication().storeUndoInfoAndStateForModeStarting();
-
 	}
 
+	/**
+	 * @param x
+	 *            x position
+	 * @param y
+	 *            y position
+	 * @return success
+	 */
 	public boolean showSliderCreationDialog(int x, int y) {
 		Kernel kernel = app.getKernel();
 		boolean isAngle = !confirm("OK for number, Cancel for angle");
@@ -200,6 +225,18 @@ public abstract class DialogManager {
 
 	protected abstract boolean confirm(String string);
 
+	/**
+	 * @param menu
+	 *            title
+	 * @param selectedPolygons
+	 *            selected polygons
+	 * @param selectedPoints
+	 *            selected points
+	 * @param selGeos
+	 *            selected geos
+	 * @param ec
+	 *            controller
+	 */
 	public void showNumberInputDialogRotate(String menu,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
@@ -216,7 +253,6 @@ public abstract class DialogManager {
 
 					}
 				});
-
 	}
 
 	public abstract void showNumberInputDialogDilate(String menu,
@@ -292,6 +328,26 @@ public abstract class DialogManager {
 		}
 	}
 
+	/**
+	 * @param app
+	 *            app
+	 * @param angleText
+	 *            angle
+	 * @param clockwise
+	 *            whether angle is clockwise
+	 * @param polys
+	 *            selected polygons
+	 * @param creator
+	 *            rotated geo creator
+	 * @param selGeos
+	 *            selected geos
+	 * @param ec
+	 *            controller
+	 * @param eh
+	 *            error handler
+	 * @param callback
+	 *            callback
+	 */
 	public static void rotateObject(final App app, final String angleText,
 			boolean clockwise, final GeoPolygon[] polys,
 			final CreateGeoForRotate creator, final GeoElement[] selGeos,
@@ -377,7 +433,6 @@ public abstract class DialogManager {
 
 					}
 				});
-
 	}
 
 	public void showAudioInputDialog() {
@@ -388,6 +443,22 @@ public abstract class DialogManager {
 		// nothing to do here -> implemented in extended class
 	}
 
+	/**
+	 * @param app
+	 *            app
+	 * @param ec
+	 *            controller
+	 * @param inputString
+	 *            input
+	 * @param geoPoint1
+	 *            first vertex
+	 * @param geoPoint2
+	 *            second vertex
+	 * @param handler
+	 *            error handler
+	 * @param cb
+	 *            callback
+	 */
 	public static void makeRegularPolygon(final App app,
 			final EuclidianController ec, String inputString,
 			final GeoPointND geoPoint1, final GeoPointND geoPoint2,
@@ -440,7 +511,6 @@ public abstract class DialogManager {
 
 		kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
 				inputString, false, handler, true, checkNumber);
-
 	}
 
 	protected GeoNumberValue getNumber(Kernel kernel, String message,
@@ -472,6 +542,19 @@ public abstract class DialogManager {
 	public abstract void showPropertiesDialog(OptionType type,
 			ArrayList<GeoElement> geos);
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param num
+	 *            dilation factor
+	 * @param points
+	 *            selected points
+	 * @param selGeos
+	 *            selected geos
+	 * @param ec
+	 *            controller
+	 * @return success
+	 */
 	public static boolean doDilate(Kernel kernel, GeoNumberValue num,
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
 
@@ -498,6 +581,14 @@ public abstract class DialogManager {
 		return false;
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param geoPoint1
+	 *            start point
+	 * @param num
+	 *            length
+	 */
 	public static void doSegmentFixed(Kernel kernel, GeoPointND geoPoint1,
 			GeoNumberValue num) {
 
@@ -515,6 +606,9 @@ public abstract class DialogManager {
 
 	/**
 	 * Displays the text dialog for a given text.
+	 * 
+	 * @param text
+	 *            text
 	 */
 	final public void showTextDialog(GeoText text) {
 		showTextDialog(text, null, true);
@@ -558,7 +652,9 @@ public abstract class DialogManager {
 	 * @param ec
 	 *            controller
 	 * @param title
+	 *            title
 	 * @param geoPoint
+	 *            point
 	 */
 	public void showNumberInputDialogSpherePointRadius(String title,
 			GeoPointND geoPoint, EuclidianController ec) {
@@ -570,6 +666,7 @@ public abstract class DialogManager {
 	 * for creating a cone
 	 * 
 	 * @param title
+	 *            title
 	 * @param a
 	 *            basis center
 	 * @param b
@@ -587,6 +684,7 @@ public abstract class DialogManager {
 	 * for creating a cylinder
 	 * 
 	 * @param title
+	 *            title
 	 * @param a
 	 *            basis center
 	 * @param b
@@ -597,36 +695,41 @@ public abstract class DialogManager {
 	public void showNumberInputDialogCylinderTwoPointsRadius(String title,
 			GeoPointND a, GeoPointND b, EuclidianController ec) {
 		// 3D stuff
-
 	}
 
 	/**
 	 * @param ec
 	 *            controller
 	 * @param title
+	 *            title
 	 * @param geoPoint
+	 *            point
 	 * @param forAxis
+	 *            axis
 	 * 
 	 */
 	public void showNumberInputDialogCirclePointDirectionRadius(String title,
 			GeoPointND geoPoint, GeoDirectionND forAxis,
 			EuclidianController ec) {
 		// 3D stuff
-
 	}
 
 	/**
 	 * @param title
+	 *            title
 	 * @param polys
+	 *            polygons
 	 * @param selectedLines
+	 *            lines
 	 * @param selGeos
+	 *            selected geos
 	 * @param ec
+	 *            controller
 	 */
 	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
 			GeoLineND[] selectedLines, GeoElement[] selGeos,
 			EuclidianController ec) {
 		// 3D stuff
-
 	}
 
 	public boolean hasFunctionInspector() {
@@ -653,8 +756,15 @@ public abstract class DialogManager {
 
 	public static class CreateConeFromRadius implements CreateGeoFromRadius {
 
-		private GeoPointND point1, point2;
+		private GeoPointND point1;
+		private GeoPointND point2;
 
+		/**
+		 * @param point1
+		 *            bottom center
+		 * @param point2
+		 *            apex
+		 */
 		public CreateConeFromRadius(GeoPointND point1, GeoPointND point2) {
 			this.point1 = point1;
 			this.point2 = point2;
@@ -670,8 +780,15 @@ public abstract class DialogManager {
 	public static class CreateCylinderFromRadius
 			implements CreateGeoFromRadius {
 
-		private GeoPointND point1, point2;
+		private GeoPointND point1;
+		private GeoPointND point2;
 
+		/**
+		 * @param point1
+		 *            bottom center
+		 * @param point2
+		 *            top center
+		 */
 		public CreateCylinderFromRadius(GeoPointND point1, GeoPointND point2) {
 			this.point1 = point1;
 			this.point2 = point2;
@@ -716,6 +833,20 @@ public abstract class DialogManager {
 		}
 	}
 
+	/**
+	 * @param app
+	 *            app
+	 * @param ec
+	 *            controller
+	 * @param inputString
+	 *            input
+	 * @param createGeoFromRadius
+	 *            radius handler
+	 * @param handler
+	 *            error handler
+	 * @param callback
+	 *            success callback
+	 */
 	public static void makeGeoPointRadius(final App app,
 			final EuclidianController ec, String inputString,
 			final CreateGeoFromRadius createGeoFromRadius,
@@ -773,6 +904,20 @@ public abstract class DialogManager {
 
 	}
 
+	/**
+	 * @param app
+	 *            app
+	 * @param inputString
+	 *            input
+	 * @param creator
+	 *            input handler
+	 * @param changeSign
+	 *            whether to change sign of the number
+	 * @param handler
+	 *            error handler
+	 * @param callback
+	 *            success callback
+	 */
 	public static void makeGeoFromNumber(final App app, String inputString,
 			final AsyncOperation<GeoNumberValue> creator,
 			final boolean changeSign, final ErrorHandler handler,
@@ -831,7 +976,6 @@ public abstract class DialogManager {
 
 					}
 				});
-
 	}
 
 	/**
