@@ -3035,7 +3035,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       return "es/";
     case 4:
       return "el/";
-    case 5:
+    case 9:
       return "pt/";
     case 6:
       return "it/";
@@ -3046,7 +3046,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       */
     case 8:
       return "zh/";
-    case 9:
+    case 5:
       return "de/";
       break;
     default:
@@ -3068,7 +3068,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     case 4:
       return "doc/el/";
       break;
-    case 5:
+    case 9:
       return "doc/pt/";
       break;
     case 6:
@@ -3082,7 +3082,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     case 8:
       return "doc/zh/";
       break;
-    case 9:
+    case 5:
       return "doc/de/";
       break;
     default:
@@ -3186,7 +3186,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     if (s=="el")
       return 4;
     if (s=="pt")
-      return 5;
+      return 9;
     if (s=="it")
       return 6;
     if (s=="tr")
@@ -3194,7 +3194,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     if (s=="zh")
       return 8;
     if (s=="de")
-      return 9;
+      return 5;
     return 0;
   }
 

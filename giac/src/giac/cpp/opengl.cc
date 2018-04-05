@@ -4318,14 +4318,34 @@ bool tri2(const char4 & a,const char4 & b){
   return res<0;
 }
 
+int giac2aspen(int lang){
+  switch (lang){
+  case 0: case 2:
+    return 1;
+  case 1:
+    return 3;
+  case 3:
+    return 5;
+  case 6:
+    return 7;
+  case 8:
+    return 2;
+  case 5:
+    return 4;
+  }
+  return 0;
+}
+
 const char * gettext(const char * s) { 
-  int lang=language(context0); // 0 english 1 french 
+  int lang=language(context0); 
+  // 0 and 2 english 1 french 3 sp 4 el 5 de 6 it 7 tr 8 zh 9 pt
+  lang=giac2aspen(lang);
   char4 s4={s};
   std::pair<char4 * const,char4 *const> pp=equal_range(aspen_giac_translations,aspen_giac_translations+aspen_giac_records,s4,tri2);
   if (pp.first!=pp.second && 
       pp.second!=aspen_giac_translations+aspen_giac_records &&
-      (*pp.first)[lang+1]){
-    return (*pp.first)[lang+1];
+      (*pp.first)[lang]){
+    return (*pp.first)[lang];
   }
   return s;
 }

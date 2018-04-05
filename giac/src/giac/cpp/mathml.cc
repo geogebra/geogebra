@@ -899,7 +899,7 @@ namespace giac {
     // index des graduations 
     for (i=(int) i_min_x;  i*dx<=xmax ; ++i){
       x=i*dx;
-      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.4g</text>\n",x/fontscale,(ymax+0.6*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.75,x);
+      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.4g</text>\n",x/fontscale,(ymax+0.6*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.63,x);
       pos = buffer+strlen(buffer);
       // sortie << setprecision(5)<<"<text x=\""<<x<<"\" y=\""<<ymax+0.6*y_scale<<"\" ";
       // sortie <<" style=\"font-size:"<<fontscale<<"pt; text-anchor:middle;\"";
@@ -907,7 +907,7 @@ namespace giac {
     } 
     for (i=(int) i_min_y;  i*dy<=ymax ; ++i){
       y=i*dy;
-      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.4g</text>\n",(xmax+0.3*x_scale)/fontscale,(ymax+ymin-y+0.1*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.75,y);
+      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.4g</text>\n",(xmax+0.3*x_scale)/fontscale,(ymax+ymin-y+0.1*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.63,y);
       pos = buffer+strlen(buffer);
       // sortie<<setprecision(5)<<"<text x=\""<<xmax+0.2*x_scale<<"\" y=\""<<ymax+ymin-y+0.1*y_scale << "\" ";
       // sortie <<"style=\"font-size:"<<fontscale<<"pt\"";

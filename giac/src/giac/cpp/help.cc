@@ -56,7 +56,7 @@ using namespace std;
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
   
-  const int HELP_LANGUAGES=4;
+  const int HELP_LANGUAGES=5;
 
   struct static_help_t {
     const char * cmd_name;
@@ -70,7 +70,7 @@ namespace giac {
 #if !defined RTOS_THREADX && !defined BESTA_OS && !defined GIAC_HAS_STO_38 
 #include "static_help.h"
 #else
-    { "", { "", "", "", ""}, "", "", "" },
+    { "", { "", "", "", "",""}, "", "", "" },
 #endif
   };
 
@@ -109,7 +109,7 @@ namespace giac {
     int l=int(s.size());
     if ( (l>2) && (s[0]=='\'') && (s[l-1]=='\'') )
       s=s.substr(1,l-2);
-    static_help_t h={s.c_str(),{0,0,0,0},0,0,0};
+    static_help_t h={s.c_str(),{0,0,0,0,0},0,0,0};
     std::pair<const static_help_t *,const static_help_t *> p=equal_range(static_help,static_help+static_help_size,h,static_help_sort());
     if (p.first!=p.second && p.first!=static_help+static_help_size){
       howto=p.first->cmd_howto[lang-1];
@@ -190,6 +190,7 @@ namespace giac {
   // cascmd_fr -> longhelp.js: 
   static bool output_static_help(vector<aide> & v,const vector<int> & langv){
 #ifndef NSPIRE
+    add_language(5,context0); // add german help de/aide_cas
     cout << "Generating xcascmds, for UI.xcascmds in xcas.js, sort and esc-x replace-string ctrl-Q ctrl-j ret ret" << endl;
     cout << "Generating static_help.h (sort it in emacs)" << endl;
     cout << "Generating static_help_w.h (same but UTF16)" << endl;
@@ -206,7 +207,7 @@ namespace giac {
       int bs=int(blabla.size());
       of << "{";
       for (int i=0;i<HELP_LANGUAGES;i++){
-	if (i<bs && equalposcomp(langv,i+1))
+	if (i<bs && i+1==blabla[i].language && equalposcomp(langv,i+1))
 	  of << '"' << output_quote(blabla[i].chaine) << '"' ;
 	else
 	  of << 0 ;
@@ -566,8 +567,9 @@ namespace giac {
       vector<int> langv;
       langv.push_back(1);
       langv.push_back(2);
-      // langv.push_back(3);
-      // langv.push_back(4);
+      langv.push_back(3);
+      langv.push_back(4);
+      langv.push_back(5);
       output_static_help(v,langv);
     }
 #endif
