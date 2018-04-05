@@ -14304,7 +14304,14 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symbolic(at_arc,args);
-    vecteur & v=*args._VECTptr;
+    vecteur v=*args._VECTptr;
+    bool segment_cercle=false;
+    for (int i=0;i<int(v.size());++i){
+      if (v[i]==at_segment){
+	segment_cercle=true;
+	v.erase(v.begin()+i);
+      }
+    }
     vecteur attributs(1,default_color(contextptr));
     int s=read_attributs(v,attributs,contextptr);
     if (s<3)
@@ -14335,8 +14342,23 @@ namespace giac {
 	return gensizeerr(contextptr);
       c=normal((e+f)/2+cst_i*(f-e)/(2*tan(g/2,contextptr)),contextptr);
     }
-    diametre=gen(makevecteur(2*c-e,e),_GROUP__VECT);
-    gen res=pnt_attrib(symbolic(at_cercle,gen((s==4 && v[3].type<_IDNT)?makevecteur(diametre,zero,g,v[3]):makevecteur(diametre,zero,g),_PNT__VECT)),attributs,contextptr);
+    gen res;
+    if (segment_cercle){
+      //gen t(identificateur("t_arc"));
+      //res=_plotparam(makesequence(c+(e-c)*exp(cst_i*t,contextptr),t,0,g),contextptr);
+      vecteur v;
+      gen ec=e-c;
+      for (int i=0;i<=50;i++){
+	v.push_back(c+ec*exp(cst_i*g*i/50.0,contextptr));
+      }
+      v.push_back(v.front());
+      polygonify(v,contextptr);
+      res=pnt_attrib(gen(v,_GROUP__VECT),attributs,contextptr);
+    }
+    else {
+      diametre=gen(makevecteur(2*c-e,e),_GROUP__VECT);
+      res=pnt_attrib(symbolic(at_cercle,gen((s==4 && v[3].type<_IDNT)?makevecteur(diametre,zero,g,v[3]):makevecteur(diametre,zero,g),_PNT__VECT)),attributs,contextptr);
+    }
     gen h=abs_norm(c-e,contextptr);
     if (s==3 || v[3].type<_IDNT)
       return res;
