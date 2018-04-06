@@ -42,7 +42,7 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Returns the GeoGebra XML string for the given GeoElement object, i.e.
-	 * only the <element> tag is returned.
+	 * only the &lt;element&gt; tag is returned.
 	 * 
 	 * @param objName
 	 *            object name
@@ -633,6 +633,7 @@ public interface JavaScriptAPI {
 	 * @return objects of this type
 	 */
 	public String[] getAllObjectNames(String type);
+
 	/**
 	 * Returns the number of objects in the construction.
 	 */
@@ -870,19 +871,27 @@ public interface JavaScriptAPI {
 	 * 
 	 * @return 3D model exported in collada format
 	 */
-	public String exportCollada(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance);
+	public String exportCollada(double xmin, double xmax, double ymin,
+			double ymax, double zmin, double zmax, double xyScale,
+			double xzScale, double xTickDistance, double yTickDistance,
+			double zTickDistance);
 
 	/**
 	 * 
 	 * @return 3D model exported in obj format
 	 */
-	public String exportObj(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance);
+	public String exportObj(double xmin, double xmax, double ymin, double ymax,
+			double zmin, double zmax, double xyScale, double xzScale,
+			double xTickDistance, double yTickDistance, double zTickDistance);
 
 	/**
 	 * @return rounding in the format acceptaable for
 	 *         {@link #setRounding(String)}
 	 */
 	String getRounding();
+
+	void exportGeometry3D(Geometry3DGetter getter, double xmin, double xmax,
+			double ymin, double ymax, double zmin, double zmax, double xyScale,
+			double xzScale, double xTickDistance, double yTickDistance,
+			double zTickDistance);
 }

@@ -298,7 +298,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * Returns the GeoGebra XML string for the given GeoElement object, i.e.
-	 * only the <element> tag is returned.
+	 * only the &lt;element&gt; tag is returned.
 	 */
 	@Override
 	public synchronized String getXML(String objName) {
@@ -422,11 +422,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			GeoElement geo = it.next();
 			objNames[i] = geo.getLabelSimple();
 			i++;
-
 		}
 		return objNames;
 	}
-	
 
 	@Override
 	public synchronized String[] getAllObjectNames(String type) {
@@ -2197,6 +2195,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return geo != null && geo.getTrace();
 	}
 
+	/**
+	 * @param eq
+	 *            stepable command
+	 * @return JSON with steps
+	 */
 	public String stepByStep(String eq) {
 		StepEquation se = new StepEquation(eq, kernel.getParser());
 		StepGuiBuilderJson builder = new StepGuiBuilderJson();
@@ -2209,12 +2212,25 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	final public String exportCollada(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
-
+	final public String exportCollada(double xmin, double xmax, double ymin,
+			double ymax, double zmin, double zmax, double xyScale,
+			double xzScale, double xTickDistance, double yTickDistance,
+			double zTickDistance) {
 		if (app.is3D()) {
-			return app.getCompanion().exportCollada(xmin, xmax, ymin,
-					ymax, zmin,
+			return app.getCompanion().exportCollada(xmin, xmax, ymin, ymax,
+					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+					zTickDistance);
+		}
+		return null;
+	}
+
+	@Override
+	final public String exportObj(double xmin, double xmax, double ymin,
+			double ymax, double zmin, double zmax, double xyScale,
+			double xzScale, double xTickDistance, double yTickDistance,
+			double zTickDistance) {
+		if (app.is3D()) {
+			return app.getCompanion().exportObj(xmin, xmax, ymin, ymax, zmin,
 					zmax, xyScale, xzScale, xTickDistance, yTickDistance,
 					zTickDistance);
 		}
@@ -2223,29 +2239,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	final public String exportObj(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
-		
+	final public void exportGeometry3D(Geometry3DGetter getter, double xmin,
+			double xmax, double ymin, double ymax, double zmin, double zmax,
+			double xyScale, double xzScale, double xTickDistance,
+			double yTickDistance, double zTickDistance) {
 		if (app.is3D()) {
-			return app.getCompanion().exportObj(xmin, xmax, ymin, ymax,
+			app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
 					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
 					zTickDistance);
 		}
-
-		return null;
-
-	}
-
-	final public void exportGeometry3D(Geometry3DGetter getter, double xmin, double xmax, double ymin, double ymax,
-			double zmin, double zmax, double xyScale, double xzScale, double xTickDistance, double yTickDistance,
-			double zTickDistance) {
-
-		if (app.is3D()) {
-			app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin,
-					ymax, zmin, zmax, xyScale, xzScale, xTickDistance,
-					yTickDistance, zTickDistance);
-		}
-
 	}
 
 	public String exportSVG(String filename) {

@@ -358,14 +358,21 @@ public abstract class ScriptManager implements EventListener {
 
 	/**
 	 * Registers a JS function to be notified of client events.
+	 * 
+	 * @param jsFunctionName
+	 *            client listener name
 	 */
-	public synchronized void registerClientListener(String JSFunctionName) {
-		registerGlobalListener(clientListeners, JSFunctionName);
+	public synchronized void registerClientListener(String jsFunctionName) {
+		registerGlobalListener(clientListeners, jsFunctionName);
 	}
 
-	public synchronized void unregisterClientListener(String JSFunctionName) {
+	/**
+	 * @param jsFunctionName
+	 *            client listener name
+	 */
+	public synchronized void unregisterClientListener(String jsFunctionName) {
 		if (clientListeners != null) {
-			clientListeners.remove(JsScript.fromName(app, JSFunctionName));
+			clientListeners.remove(JsScript.fromName(app, jsFunctionName));
 		}
 	}
 
@@ -463,6 +470,14 @@ public abstract class ScriptManager implements EventListener {
 
 	abstract public void callJavaScript(String jsFunction, Object[] args);
 
+	/**
+	 * @param jsFunction
+	 *            function name
+	 * @param arg0
+	 *            first argument
+	 * @param arg1
+	 *            second argument
+	 */
 	public void callJavaScript(String jsFunction, Object arg0, Object arg1) {
 		if (arg0 == null) {
 			callJavaScript(jsFunction, new Object[0]);
@@ -477,6 +492,9 @@ public abstract class ScriptManager implements EventListener {
 
 	// ------ getters for listeners -------------
 
+	/**
+	 * @return add listeners
+	 */
 	public ArrayList<JsScript> getAddListeners() {
 		if (addListeners == null) {
 			addListeners = new ArrayList<>();
@@ -484,6 +502,9 @@ public abstract class ScriptManager implements EventListener {
 		return addListeners;
 	}
 
+	/**
+	 * @return strore undo listeners
+	 */
 	public ArrayList<JsScript> getStoreUndoListeners() {
 		if (storeUndoListeners == null) {
 			storeUndoListeners = new ArrayList<>();
@@ -491,6 +512,9 @@ public abstract class ScriptManager implements EventListener {
 		return storeUndoListeners;
 	}
 
+	/**
+	 * @return remove listeners
+	 */
 	public ArrayList<JsScript> getRemoveListeners() {
 		if (removeListeners == null) {
 			removeListeners = new ArrayList<>();
@@ -498,6 +522,9 @@ public abstract class ScriptManager implements EventListener {
 		return removeListeners;
 	}
 
+	/**
+	 * @return rename listeners
+	 */
 	public ArrayList<JsScript> getRenameListeners() {
 		if (renameListeners == null) {
 			renameListeners = new ArrayList<>();
@@ -505,6 +532,9 @@ public abstract class ScriptManager implements EventListener {
 		return renameListeners;
 	}
 
+	/**
+	 * @return update listeners
+	 */
 	public ArrayList<JsScript> getupdateListeners() {
 		if (updateListeners == null) {
 			updateListeners = new ArrayList<>();
@@ -512,6 +542,9 @@ public abstract class ScriptManager implements EventListener {
 		return updateListeners;
 	}
 
+	/**
+	 * @return clear listeners
+	 */
 	public ArrayList<JsScript> getClearListeners() {
 		if (clearListeners == null) {
 			clearListeners = new ArrayList<>();
@@ -519,6 +552,9 @@ public abstract class ScriptManager implements EventListener {
 		return clearListeners;
 	}
 
+	/**
+	 * @return object update listeners
+	 */
 	public HashMap<GeoElement, JsScript> getUpdateListenerMap() {
 		if (updateListenerMap == null) {
 			updateListenerMap = new HashMap<>();
@@ -526,6 +562,9 @@ public abstract class ScriptManager implements EventListener {
 		return updateListenerMap;
 	}
 
+	/**
+	 * @return object click listeners
+	 */
 	public HashMap<GeoElement, JsScript> getClickListenerMap() {
 		if (clickListenerMap == null) {
 			clickListenerMap = new HashMap<>();
@@ -537,6 +576,9 @@ public abstract class ScriptManager implements EventListener {
 		// to be overridden
 	}
 
+	/**
+	 * @return whether there are some listeners
+	 */
 	public boolean hasListeners() {
 		if (updateListenerMap != null && updateListenerMap.size() > 0) {
 			return true;

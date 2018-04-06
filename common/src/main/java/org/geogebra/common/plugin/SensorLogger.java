@@ -95,6 +95,11 @@ public abstract class SensorLogger {
 			return string;
 		}
 
+		/**
+		 * @param s
+		 *            type name
+		 * @return type with given name
+		 */
 		public static Types lookup(String s) {
 			for (Types type : Types.values()) {
 				if (type.string.equals(s)) {
@@ -116,7 +121,6 @@ public abstract class SensorLogger {
 	protected HashMap<Types, Integer> listLimits = new HashMap<>();
 	protected HashMap<Types, Integer> listenersAges = new HashMap<>();
 
-
 	private int stepsToGo = DEFAULT_LIMIT;
 
 	protected SensorLogger(Kernel kernel) {
@@ -126,10 +130,17 @@ public abstract class SensorLogger {
 	protected int getUDPPort() {
 		return port;
 	}
+
 	public abstract boolean startLogging();
 
 	protected abstract void closeSocket();
 
+	/**
+	 * @param s
+	 *            sensor type name
+	 * @param geo
+	 *            logging object
+	 */
 	public void registerGeo(String s, GeoElement geo) {
 		Types type = Types.lookup(s);
 
@@ -151,7 +162,6 @@ public abstract class SensorLogger {
 	 */
 	protected void beforeLog() {
 		stepsToGo--;
-
 	}
 
 	/**
@@ -220,6 +230,14 @@ public abstract class SensorLogger {
 		registerGeoFunction(s, list, 0);
 	}
 
+	/**
+	 * @param s
+	 *            sensor type name
+	 * @param function
+	 *            logging function
+	 * @param limit
+	 *            max number of values
+	 */
 	public void registerGeoFunction(String s, GeoFunction function,
 			double limit) {
 		Types type = Types.lookup(s);
@@ -230,6 +248,14 @@ public abstract class SensorLogger {
 		}
 	}
 
+	/**
+	 * @param s
+	 *            sensor type name
+	 * @param list
+	 *            logging list
+	 * @param limit
+	 *            max number of values
+	 */
 	public void registerGeoList(String s, GeoList list, double limit) {
 		Types type = Types.lookup(s);
 
@@ -240,6 +266,9 @@ public abstract class SensorLogger {
 		}
 	}
 
+	/**
+	 * Stop logging.
+	 */
 	public void stopLogging() {
 		kernel.setUndoActive(oldUndoActive);
 		kernel.storeUndoInfo();

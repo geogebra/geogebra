@@ -36,6 +36,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class DialogManagerMinimal extends DialogManager {
 
+	private String defaultAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
+
 	/**
 	 * Minimal implementation of DialogManager Potentially can be used in
 	 * applets without needing GuiManager

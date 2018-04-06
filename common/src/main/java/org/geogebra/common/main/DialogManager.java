@@ -43,11 +43,6 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public abstract class DialogManager {
 
-	/**
-	 * Default value for angle
-	 */
-	public String defaultAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
-
 	protected App app;
 	protected Localization loc;
 

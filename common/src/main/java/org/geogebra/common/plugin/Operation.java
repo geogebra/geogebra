@@ -457,9 +457,38 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			MyList ret=new MyList(ev.getKernel(),true);if(rt instanceof MyNumberPair){if(left.wrap().containsFreeFunctionVariable(null)){ret.addListElement(ev.getKernel().getAlgebraProcessor().makeFunctionNVar(MyList.get(left,0).wrap()));ret.addListElement(ev.getKernel().getAlgebraProcessor().makeFunctionNVar(MyList.get(left,1).wrap().multiplyR(-1)));}else{ret.addListElement(MyList.get(lt,0));ret.addListElement(ExpressionNode.unaryMinus(ev.getKernel(),MyList.get(lt,1)).evaluate(tpl));}}else{if(left.wrap().containsFreeFunctionVariable(null)||right.wrap().containsFreeFunctionVariable(null)){Log.debug(right);add(ret,MyList.get(left,0),MyList.get(right,0),Operation.PLUS);add(ret,MyList.get(left,1),MyList.get(right,1),Operation.MINUS);}else{ret.addListElement(ev.handlePlus(MyList.get(lt,0),MyList.get(rt,0),StringTemplate.defaultTemplate,false));
+			MyList ret = new MyList(ev.getKernel(), true);
+			if (rt instanceof MyNumberPair) {
+				if (left.wrap().containsFreeFunctionVariable(null)) {
+					ret.addListElement(ev.getKernel().getAlgebraProcessor()
+							.makeFunctionNVar(MyList.get(left, 0).wrap()));
+					ret.addListElement(ev.getKernel().getAlgebraProcessor()
+							.makeFunctionNVar(
+									MyList.get(left, 1).wrap().multiplyR(-1)));
+				} else {
+					ret.addListElement(MyList.get(lt, 0));
+					ret.addListElement(ExpressionNode
+							.unaryMinus(ev.getKernel(), MyList.get(lt, 1))
+							.evaluate(tpl));
+				}
+			} else {
+				if (left.wrap().containsFreeFunctionVariable(null)
+						|| right.wrap().containsFreeFunctionVariable(null)) {
+					Log.debug(right);
+					add(ret, MyList.get(left, 0), MyList.get(right, 0),
+							Operation.PLUS);
+					add(ret, MyList.get(left, 1), MyList.get(right, 1),
+							Operation.MINUS);
+				} else {
+					ret.addListElement(
+							ev.handlePlus(MyList.get(lt, 0), MyList.get(rt, 0),
+									StringTemplate.defaultTemplate, false));
 
-	ret.addListElement(ev.handleMinus(MyList.get(lt,1),MyList.get(rt,1)));}}return ret;
+					ret.addListElement(ev.handleMinus(MyList.get(lt, 1),
+							MyList.get(rt, 1)));
+				}
+			}
+			return ret;
 		}
 
 		private void add(MyList ret, ExpressionValue lt,
@@ -1866,6 +1895,11 @@ public enum Operation {
 		}
 	};
 
+	/**
+	 * @param op
+	 *            operation
+	 * @return whether operation is a real->real function
+	 */
 	public static boolean isSimpleFunction(Operation op) {
 		switch (op) {
 		case SIN:
@@ -2042,6 +2076,11 @@ public enum Operation {
 		return Operation.NO_OPERATION;
 	}
 
+	/**
+	 * @param op
+	 *            operation
+	 * @return whether operation is one of (freehand, data)
+	 */
 	public static boolean includesFreehandOrData(Operation op) {
 		switch (op) {
 		case DATA:
@@ -2051,9 +2090,13 @@ public enum Operation {
 		}
 
 		return false;
-
 	}
 
+	/**
+	 * @param op
+	 *            operation
+	 * @return whether integral of this function is not continuous
+	 */
 	public static boolean integralIsNonContinuous(Operation op) {
 
 		switch (op) {

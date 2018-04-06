@@ -59,12 +59,21 @@ public class GgbScript extends Script {
 								null);
 				success = success && res != null;
 			} catch (Throwable e) {
-
+				// error handler should actually catch it
 			}
 		}
 		return success;
 	}
 
+	/**
+	 * Localize the script.
+	 * 
+	 * @param app
+	 *            app
+	 * @param st
+	 *            script with internal commands
+	 * @return localized script
+	 */
 	public static String script2LocalizedScript(App app, String st) {
 		final String[] starr = splitScriptByCommands(st);
 		boolean isAssignment = false;
@@ -297,9 +306,8 @@ public class GgbScript extends Script {
 				// then we're probably in a string.
 				// For this computation, we use numChars.
 
-				forLength1 = text.substring(0, numChars).replaceAll("\\\"", "");// String:
-																				// /"
-				forLength2 = forLength1.replaceAll("\"", "");// String: "
+				forLength1 = text.substring(0, numChars).replaceAll("\\\"", "");
+				forLength2 = forLength1.replaceAll("\"", "");
 				lengthChars = forLength1.length() - forLength2.length();
 
 				if (MyDouble.isOdd(lengthChars)) {

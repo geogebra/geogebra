@@ -85,6 +85,13 @@ public class JsScript extends Script {
 		return false;
 	}
 
+	/**
+	 * @param app
+	 *            app
+	 * @param string
+	 *            script name
+	 * @return script
+	 */
 	public static JsScript fromName(App app, String string) {
 		if (nameToScript == null) {
 			nameToScript = new HashMap<>();

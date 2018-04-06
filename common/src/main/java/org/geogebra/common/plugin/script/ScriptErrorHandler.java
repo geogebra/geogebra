@@ -7,16 +7,27 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 
+/**
+ * Handler for errors from GGBScript
+ */
 public class ScriptErrorHandler implements ErrorHandler {
 
 	private App app;
 	private Event evt;
 	private int line;
 
-	public ScriptErrorHandler(App app, Event evt, int i) {
+	/**
+	 * @param app
+	 *            application
+	 * @param evt
+	 *            scripting event
+	 * @param line
+	 *            line
+	 */
+	public ScriptErrorHandler(App app, Event evt, int line) {
 		this.app = app;
 		this.evt = evt;
-		this.line = i;
+		this.line = line;
 	}
 
 	@Override
