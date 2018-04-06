@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -13,7 +12,7 @@ import org.geogebra.common.util.StringUtil;
  * @author laszlo
  *
  */
-public class GeoAudio extends GeoButton {
+public class GeoAudio extends GeoMedia {
 	private static final double DEFAULT_STEP = 0.5;
 	/** URL of a test audio file */
 	public static final String TEST_URL = "http://archive.geogebra.org/static/welcome_to_geogebra.mp3";
@@ -22,10 +21,6 @@ public class GeoAudio extends GeoButton {
 	public static final String TEST_URL2 = "https://tomka.hu/~lac/zax/gombszorpV2.mp3";
 	private static final int DEFAULT_PLAYER_WIDTH = 300;
 	private static final int DEFAULT_PLAYER_HEIGHT = 48;
-	private String src;
-
-	/** Application for subclasses too. */
-	protected App app;
 
 	/**
 	 * Constructs a new, empty audio element.
@@ -85,22 +80,8 @@ public class GeoAudio extends GeoButton {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @return the URL of the audio source.
-	 */
-	public String getSrc() {
-		return src;
-	}
-
-	/**
-	 * Sets the URL of the audio source.
-	 * 
-	 * @param src
-	 *            to set.
-	 */
-	public void setSrc(String src) {
-		this.src = src;
+	@Override
+	protected void onSourceChanged() {
 		if (!hasSoundManager()) {
 			return;
 		}
@@ -112,9 +93,7 @@ public class GeoAudio extends GeoButton {
 		return true;
 	}
 
-	/**
-	 * Plays the audio.
-	 */
+	@Override
 	public void play() {
 		if (!hasSoundManager()) {
 			return;
@@ -122,9 +101,7 @@ public class GeoAudio extends GeoButton {
 		app.getSoundManager().play(this);
 	}
 
-	/**
-	 * @return if audio is playing.
-	 */
+	@Override
 	public boolean isPlaying() {
 		if (!hasSoundManager()) {
 			return false;
@@ -132,9 +109,7 @@ public class GeoAudio extends GeoButton {
 		return app.getSoundManager().isPlaying(this);
 	}
 
-	/**
-	 * @return the duration in seconds.
-	 */
+	@Override
 	public int getDuration() {
 		if (!hasSoundManager()) {
 			return -1;
@@ -142,9 +117,7 @@ public class GeoAudio extends GeoButton {
 		return app.getSoundManager().getDuration(src);
 	}
 
-	/**
-	 * @return the time where audio play is at.
-	 */
+	@Override
 	public int getCurrentTime() {
 		if (!hasSoundManager()) {
 			return -1;
@@ -152,12 +125,7 @@ public class GeoAudio extends GeoButton {
 		return app.getSoundManager().getCurrentTime(src);
 	}
 
-	/**
-	 * Sets the current position to a given time in seconds.
-	 * 
-	 * @param secs
-	 *            to set.
-	 */
+	@Override
 	public void setCurrentTime(int secs) {
 		if (!hasSoundManager()) {
 			return;
@@ -165,9 +133,7 @@ public class GeoAudio extends GeoButton {
 		app.getSoundManager().setCurrentTime(src, secs);
 	}
 
-	/**
-	 * Stops audio playback.
-	 */
+	@Override
 	public void pause() {
 		if (!hasSoundManager()) {
 			return;
