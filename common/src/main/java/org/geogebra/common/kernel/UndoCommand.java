@@ -137,15 +137,18 @@ public class UndoCommand {
 			if (checkpoint != null) {
 				undoManager.loadUndoInfo(checkpoint, slideID);
 			} else {
-				UndoCommand prev = undoManager.getCreationCommand(slideID);
-				if (prev != null) {
-					prev.loadStateAfter(undoManager);
-				}
+				undoManager.getCreationCommand(slideID);
 			}
 		}
 	}
 
-	private void loadStateAfter(UndoManager mgr) {
+	/**
+	 * Get the app to the state right after this was executed.
+	 * 
+	 * @param mgr
+	 *            undo manager
+	 */
+	public void loadStateAfter(UndoManager mgr) {
 		if (action == EventType.ADD_SLIDE) {
 			mgr.executeAction(EventType.CLEAR_SLIDE, null, args[1]);
 		} else if (action == EventType.DUPLICATE_SLIDE) {

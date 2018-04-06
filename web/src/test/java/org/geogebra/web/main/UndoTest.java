@@ -12,13 +12,22 @@ import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.WithClassesToStub;
 import com.himamis.retex.renderer.web.parser.NodeW;
 
+/**
+ * Tests for Undo with multiple slides
+ * 
+ * @author Zbynek
+ *
+ */
 @RunWith(GwtMockitoTestRunner.class)
 @WithClassesToStub({ TextAreaElement.class, NodeW.class })
 public class UndoTest {
 	private static AppWFull app;
 
+	/**
+	 * Undo / redo with a single slide.
+	 */
 	@Test
-	public void createUndo() {
+	public void undoSingle() {
 		app = MockApp
 				.mockApplet(new TestArticleElement("canary", "whiteboard"));
 		addObject("x");
@@ -27,46 +36,90 @@ public class UndoTest {
 
 		app.getGgbApi().undo();
 		shouldHaveUndoPoints(1);
+		app.getAppletFrame().initPageControlPanel(app);
+		slideShouldHaveObjects(0, 1);
+
+		app.getGgbApi().redo();
+		shouldHaveUndoPoints(2);
+		slideShouldHaveObjects(0, 2);
+	}
+
+	/**
+	 * Create two pages with some objects, reorder, undo, redo
+	 */
+	@Test
+	public void undoReorder() {
+		app = MockApp
+				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+		addObject("x");
+		addObject("-x");
+		shouldHaveUndoPoints(2);
 
 		app.getAppletFrame().initPageControlPanel(app);
 		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
-		shouldHaveUndoPoints(2);
-		shouldHaveSlides(2);
-		slideShouldHaveObjects(0, 1);
-		slideShouldHaveObjects(1, 0);
+		shouldHaveUndoPoints(3);
+		addObject("x");
+		objectsPerSlideShouldBe(2, 1);
 
 		app.getPageController().reorder(0, 1);
 		app.getAppletFrame().getPageControlPanel().update();
-		slideShouldHaveObjects(0, 0);
-		slideShouldHaveObjects(1, 1);
+		objectsPerSlideShouldBe(1, 2);
 
 		app.getGgbApi().undo();
-		slideShouldHaveObjects(0, 1);
-		slideShouldHaveObjects(1, 0);
+		objectsPerSlideShouldBe(2, 1);
 
-
-		app.getAppletFrame().getPageControlPanel().duplicatePage(
-				((PageListController) app.getPageController()).getCard(0));
-		shouldHaveSlides(3);
-		slideShouldHaveObjects(0, 1);
-		slideShouldHaveObjects(1, 1);
-		slideShouldHaveObjects(2, 0);
-
-		app.getGgbApi().undo();
-		shouldHaveSlides(2);
-		slideShouldHaveObjects(0, 1);
-		slideShouldHaveObjects(1, 0);
-
-		app.getAppletFrame().getPageControlPanel().removePage(0);
-		shouldHaveSlides(1);
-		slideShouldHaveObjects(0, 0);
-
-		app.getGgbApi().undo();
-		shouldHaveSlides(2);
-		slideShouldHaveObjects(0, 1);
-		slideShouldHaveObjects(1, 0);
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(1, 2);
 	}
 
+	/**
+	 * Duplicate a slide with one object, add object to each copy, undo all,
+	 * redo all
+	 */
+	@Test
+	public void undoDuplicate() {
+		app = MockApp
+				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+		addObject("x");
+		shouldHaveUndoPoints(1);
+
+		app.getAppletFrame().initPageControlPanel(app);
+		app.getAppletFrame().getPageControlPanel().duplicatePage(
+				((PageListController) app.getPageController()).getCard(0));
+		shouldHaveSlides(2);
+		objectsPerSlideShouldBe(1, 1);
+
+		selectPage(0);
+		addObject("2x");
+		objectsPerSlideShouldBe(2, 1);
+
+		selectPage(1);
+		addObject("2x");
+		objectsPerSlideShouldBe(2, 2);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(2, 1);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1, 1);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(1, 1);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(2, 1);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(2, 2);
+
+	}
+
+	/**
+	 * Undo and redo removing the last page.
+	 */
 	@Test
 	public void undoRedo() {
 		app = MockApp
@@ -94,11 +147,17 @@ public class UndoTest {
 	}
 
 
+	/**
+	 * Make sure asserts don't kill the tests
+	 */
 	@Before
 	public void rootPanel() {
 		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
 	}
 
+	/**
+	 * Create objects on slide 1, 2, 1, 2, undo all, redo all.
+	 */
 	@Test
 	public void pageSwitch() {
 		app = MockApp
@@ -151,6 +210,9 @@ public class UndoTest {
 		app.getPageController().clickPage(i, true);
 	}
 
+	/**
+	 * Create four pages with object each, undo all, red all
+	 */
 	@Test
 	public void switchFourSlides() {
 		app = MockApp
@@ -207,6 +269,9 @@ public class UndoTest {
 		objectsPerSlideShouldBe(1, 1, 1, 1);
 	}
 
+	/**
+	 * Create three slides, then one object on each, undo all, redo all.
+	 */
 	@Test
 	public void singleObjectPerSlide() {
 		app = MockApp
@@ -238,25 +303,22 @@ public class UndoTest {
 		objectsPerSlideShouldBe(0, 0);
 		app.getGgbApi().undo();
 		objectsPerSlideShouldBe(0);
-
-
-
 	}
 
-	private void addObject(String string) {
+	private static void addObject(String string) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
 				true);
 
 	}
 
-	private void objectsPerSlideShouldBe(int... counts) {
+	private static void objectsPerSlideShouldBe(int... counts) {
 		shouldHaveSlides(counts.length);
 		for (int i = 0; i < counts.length; i++) {
 			slideShouldHaveObjects(i, counts[i]);
 		}
 	}
 
-	private void slideShouldHaveObjects(int slide, int expectedCount) {
+	private static void slideShouldHaveObjects(int slide, int expectedCount) {
 		String xml = app.getPageController().getSlide(slide)
 				.get("geogebra.xml");
 		int start = 0;

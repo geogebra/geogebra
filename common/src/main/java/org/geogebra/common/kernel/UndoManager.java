@@ -88,9 +88,15 @@ public abstract class UndoManager {
 				break;
 			}
 		}
+
+		if (state != null) {
+			state.loadStateAfter(this);
+		}
+
 		for (int i = 0; i < steps; i++) {
 			iterator.next();
 		}
+
 		return state;
 	}
 
