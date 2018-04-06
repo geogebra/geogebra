@@ -6890,6 +6890,8 @@ namespace giac {
 
   gen convert_real(const gen & g,GIAC_CONTEXT){
 #if defined HAVE_LIBMPFI && !defined NO_RTTI
+    if (g.type==_STRNG)
+      return convert_real(gen(*g._STRNGptr,contextptr),contextptr);
     if (g.type==_VECT){
       vecteur res(*g._VECTptr);
       for (unsigned i=0;i<res.size();++i)
@@ -7058,6 +7060,28 @@ namespace giac {
     }
     if (s>2)
       g=gen(mergevecteur(vecteur(1,g),vecteur(v.begin()+2,v.begin()+s)),args.subtype);
+    if (g.type==_STRNG){
+      string s=*g._STRNGptr;
+      int i=f.type==_INT_?f.val:-1;
+      if (i==_IDNT)
+	return identificateur(s);
+      if (i==_INT_ || i==_ZINT || f==at_int){
+	f=gen(s,contextptr);
+	if (!is_integral(f)) 
+	  return gensizeerr(contextptr);
+	return f;
+      }
+      if (i==_SYMB || i==_FRAC)
+	return gen(s,contextptr);
+      if (i==_FRAC || f==at_frac){
+	f=exact(gen(s,contextptr),contextptr);
+	return f;
+      }
+      if (i==_REAL)
+	return evalf(gen(s,contextptr),1,contextptr);
+      if (i==_DOUBLE_ || f==at_real || f==at_float)
+	return evalf_double(gen(s,contextptr),1,contextptr);
+    }
 #ifndef CAS38_DISABLED
     if (v[1].type==_FUNC){
       if (f==at_sincos)

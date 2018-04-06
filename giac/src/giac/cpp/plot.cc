@@ -14349,7 +14349,7 @@ namespace giac {
       vecteur v;
       gen ec=e-c;
       for (int i=0;i<=50;i++){
-	v.push_back(c+ec*exp(cst_i*g*i/50.0,contextptr));
+	v.push_back(c+ec*exp(cst_i*g*gen(i/50.0),contextptr));
       }
       v.push_back(v.front());
       polygonify(v,contextptr);
