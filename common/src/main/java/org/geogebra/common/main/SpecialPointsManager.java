@@ -87,6 +87,9 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	 *            geo which special points will be updated
 	 */
 	public void updateSpecialPoints(GeoElement geo) {
+		if ("3D".equals(kernel.getApplication().getVersion().getAppName())) {
+			return;
+		}
 		getSpecPoints(geo, kernel.getApplication().getSelectionManager()
 				.getSelectedGeos());
 
@@ -202,15 +205,19 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private void getSpecialPointsIntersect(GeoElement element, GeoElement secondElement,
 										   CmdIntersect intersect, Command cmd,
 										   ArrayList<GeoElementND> retList) {
-		GeoElement[] elements = intersect
-				.intersect2(new GeoElement[] { element, secondElement }, cmd);
+		try {
+			GeoElement[] elements = intersect
+					.intersect2(new GeoElement[]{element, secondElement}, cmd);
 
-		for (GeoElement output: elements) {
-			AlgoElement parent = output.getParentAlgorithm();
-			specPointAlgos.add(parent);
-			kernel.getConstruction().removeFromAlgorithmList(parent);
+			for (GeoElement output : elements) {
+				AlgoElement parent = output.getParentAlgorithm();
+				specPointAlgos.add(parent);
+				kernel.getConstruction().removeFromAlgorithmList(parent);
+			}
+			add(elements, retList);
+		} catch (Exception exception) {
+			// ignore
 		}
-		add(elements, retList);
 	}
 
 	private static boolean shouldShowSpecialPoints(GeoElementND geo) {
