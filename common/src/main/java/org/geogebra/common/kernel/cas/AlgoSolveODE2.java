@@ -24,17 +24,23 @@ import org.geogebra.common.util.debug.Log;
  * Algorithm for second order ODEs
  */
 public class AlgoSolveODE2 extends AlgoElement {
-
-	private GeoFunction b, c, f; // input
-	private GeoNumeric x, y, yDot, end, step; // input
-	// private GeoList g; // output
-	private GeoLocus locus; // output
+	// input
+	private GeoFunction b;
+	private GeoFunction c;
+	private GeoFunction f;
+	private GeoNumeric x;
+	private GeoNumeric y;
+	private GeoNumeric yDot;
+	private GeoNumeric end;
+	private GeoNumeric step;
+	// output
+	private GeoLocus locus;
 	/** points of the locus */
 	ArrayList<MyPoint> al;
 
 	/**
-	 * SolveODE[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <End
-	 * x>, <Step>]
+	 * SolveODE[ &lt;b(x)>, &lt;c(x)>, &lt;f(x)>, &lt;Start x>, &lt;Start y>,
+	 * &lt;Start y'>, &lt;End x>, &lt;Step>]
 	 * 
 	 * @param cons
 	 *            construction
@@ -70,11 +76,9 @@ public class AlgoSolveODE2 extends AlgoElement {
 		this.end = end;
 		this.step = step;
 
-		// g = new GeoList(cons);
 		locus = new GeoLocus(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
-		// g.setLabel(label);
 		locus.setLabel(label);
 	}
 
@@ -175,7 +179,9 @@ public class AlgoSolveODE2 extends AlgoElement {
 
 	private static class ODE2 implements FirstOrderDifferentialEquations {
 
-		GeoFunction b, c, f;
+		GeoFunction b;
+		GeoFunction c;
+		GeoFunction f;
 
 		public ODE2(GeoFunction b, GeoFunction c, GeoFunction f) {
 			this.b = b;

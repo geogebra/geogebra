@@ -8,7 +8,9 @@ import org.geogebra.common.main.MyError;
 /**
  * Presses the pen down.
  * 
- * @author judit TurtleUp[ <Turtle>]
+ * TurtleDown[ &lt;Turtle>]
+ * 
+ * @author judit
  */
 public class CmdTurtleDown extends CmdTurtleCommand {
 

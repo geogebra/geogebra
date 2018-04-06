@@ -19,7 +19,9 @@ public class ExtreumumFinderBrent implements ExtremumFinderI {
 
 	private BrentOptimizer brentOptimizer;
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * Default constructor.
+	 */
 	public ExtreumumFinderBrent() {
 		this.brentOptimizer = new BrentOptimizer(Kernel.STANDARD_PRECISION,
 				Kernel.MAX_PRECISION);

@@ -54,9 +54,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		implements DrawInformationAlgo, AlgoIntegralDefiniteInterface {
 
 	private GeoFunction f; // input
-	private NumberValue a, b; // input
+	private NumberValue a; // input
+	private NumberValue b; // input
 	private GeoBoolean evaluate; // input
-	private GeoElement ageo, bgeo;
+	private GeoElement ageo;
+	private GeoElement bgeo;
 	private GeoNumeric n; // output g = integral(f(x), x, a, b)
 	private boolean numeric;
 	// for symbolic integration
@@ -69,7 +71,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	private static final int SECOND_ORDER = 5;
 	private static final int MIN_ITER = 1;
 	private static final int MAX_ITER = 5;
-	private static LegendreGaussIntegrator firstGauss, secondGauss;
+	private static LegendreGaussIntegrator firstGauss;
+	private static LegendreGaussIntegrator secondGauss;
 	private static int adaptiveGaussQuadCounter = 0;
 	private static final int MAX_GAUSS_QUAD_CALLS = 500;
 	private static final int STANDARD_MULTIPLIER = 1;
@@ -439,7 +442,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 								} else {
 									// regions are defined in a strange order
 									Log.debug(
-											"problem with order of regions, can't use fast method for "
+											"regions not sorted, can't use fast method for "
 													+ bound);
 									standardIntegral(lowerLimit, upperLimit);
 									return;
@@ -745,9 +748,12 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 * split the DataFunction into trapeziums to calculate the area
 	 * 
 	 * @param f2
+	 *            function
 	 * @param lowerLimitUser
+	 *            lower limit from user input
 	 * @param upperLimitUser
-	 * @return
+	 *            upper limit from user input
+	 * @return integral
 	 */
 	private static double dataIntegration(GeoFunction f2, double lowerLimitUser,
 			double upperLimitUser) {

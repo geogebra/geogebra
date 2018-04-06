@@ -842,13 +842,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 
 		// other working variables
-		double normX;
-		double[] ss;
-		double[][] H, newH;
-		int[][] D, E, A, newAorB;
-		double[][][] G;
-		int[][][] R;
-		double gamma, deltaSq;
 
 		for (int i = 0; i < n; i++) {
 			coeffs[i] = 0;
@@ -904,7 +897,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// xBCD
 
 		// normalize x
-		normX = 0;
+		double normX = 0;
 		for (int i = 0; i < n; i++) {
 			normX += x[i] * x[i];
 		}
@@ -914,7 +907,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 
 		// partial sums of squares
-		ss = new double[n];
+		double[] ss = new double[n];
 		ss[n - 1] = x[n - 1] * x[n - 1];
 		for (int i = n - 2; i >= 0; i--) {
 			ss[i] = ss[i + 1] + x[i] * x[i];
@@ -930,7 +923,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 
 		// initialize Matrix H (lower trapezoidal
-		H = new double[n][n - 1];
+		double[][] H = new double[n][n - 1];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < i; j++) {
 				H[i][j] = -x[i] * x[j] / Pss[j];
@@ -967,7 +960,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// );
 
 		// initialize matrices R
-		R = new int[n - 1][n][n];
+		int[][][] R = new int[n - 1][n][n];
 		for (int j = 0; j < n - 1; j++) {
 			for (int i = 0; i < n; i++) {
 				for (int k = 0; k < n; k++) {
@@ -983,11 +976,11 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			R[j][j + 1][j + 1] = 0;
 		}
 
-		gamma = 1.5;
-		deltaSq = 3.0 / 4 - (1.0 / gamma) / gamma;
+		double gamma = 1.5;
+		double deltaSq = 3.0 / 4 - (1.0 / gamma) / gamma;
 
 		// initialize A, B = I_n
-		A = new int[n][n];
+		int[][] A = new int[n][n];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				A[i][j] = 0;
@@ -1041,7 +1034,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 			// 0.5. calculate D, E
 			// matrix D
-			D = new int[n][n];
+			int[][] D = new int[n][n];
 			double[][] D0 = new double[n][n]; // testing
 			for (int i = 0; i < n; i++) {
 				// define backwards. the 0's and 1's should be defined first.
@@ -1067,7 +1060,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 
 			// matrix E = D^{-1}
-			E = new int[n][n];
+			int[][] E = new int[n][n];
 			for (int i = 0; i < n; i++) {
 				// define backwards. the 0's and 1's should be defined first.
 				for (int j = n - 1; j >= i + 1; j--) {
@@ -1086,7 +1079,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 
 			// 1. replace H by DH
-			newH = new double[n][n - 1];
+			double[][] newH = new double[n][n - 1];
 			double[][] newH0 = new double[n][n - 1];
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n - 1; j++) {
@@ -1122,7 +1115,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 
 			// 2.5 calculate matrices G[0], G[1],... G[n-2]
-			G = new double[n - 1][n - 1][n - 1];
+			double[][][] G = new double[n - 1][n - 1][n - 1];
 			for (int i = 0; i < n - 1; i++) {
 				for (int k = 0; k < n - 1; k++) {
 					G[n - 2][i][k] = 0;
@@ -1172,7 +1165,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				}
 			}
 
-			newAorB = new int[n][n];
+			int[][] newAorB = new int[n][n];
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
 					newAorB[i][j] = 0;
@@ -1255,7 +1248,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		private MyDecimal oneLess;
 
 		// parameters
-		private double tau, rho, gamma;
+		private double tau;
+		private double rho;
+		private double gamma;
 		double err; // error bound for x
 
 		// input
@@ -1278,7 +1273,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// (B_rest is in IntRelation class)
 		private MyDecimalMatrix xB;
 
-		private MyDecimal b, l, d;
+		private MyDecimal b;
+		private MyDecimal l;
+		private MyDecimal d;
 		private int r;
 
 		// results
@@ -1658,7 +1655,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			private int nilDim; // dimension of the nil-subspace corresponding
 								// to vector m, that is, the # cols of B_sol
-			private MyDecimalMatrix B1, B_sol, B_rest;
+			private MyDecimalMatrix B1;
+			private MyDecimalMatrix B_sol;
+			private MyDecimalMatrix B_rest;
 			MyDecimalMatrix xB1;
 			int[] orthoIndices;
 
@@ -2171,22 +2170,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					formalSolution.append(")");
 				}
 			} else {
-
-				double Avalue = bestRelation[numOfConsts * 3]
-						+ evaluateCombination(numOfConsts, constValues,
-								bestRelation, 0, 3);
-				double Bvalue = bestRelation[numOfConsts * 3 + 1]
-						+ evaluateCombination(numOfConsts, constValues,
-								bestRelation, 1, 3);
-				double Cvalue = bestRelation[numOfConsts * 3 + 2]
-						+ evaluateCombination(numOfConsts, constValues,
-								bestRelation, 2, 3);
-				double discr = Bvalue * Bvalue - 4 * Avalue * Cvalue;
-				StringBuilder AString = new StringBuilder();
-				StringBuilder BString = new StringBuilder();
-				StringBuilder CString = new StringBuilder();
-
-				AString.append(
+				StringBuilder AString = new StringBuilder(
 						kernel.format(bestRelation[numOfConsts * 3], tpl));
 				if (!isARational) {
 					AString.append("+");
@@ -2194,7 +2178,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 							bestRelation, 0, 3, tpl);
 				}
 
-				BString.append(
+				StringBuilder BString = new StringBuilder(
 						kernel.format(bestRelation[numOfConsts * 3 + 1], tpl));
 				if (!isBRational) {
 					BString.append("+");
@@ -2202,7 +2186,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 							bestRelation, 1, 3, tpl);
 				}
 
-				CString.append(
+				StringBuilder CString = new StringBuilder(
 						kernel.format(bestRelation[numOfConsts * 3 + 2], tpl));
 				if (!isCRational) {
 					CString.append("+");
@@ -2216,6 +2200,16 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				formalSolution.append(BString.toString());
 				formalSolution.append(")");
 
+				double Avalue = bestRelation[numOfConsts * 3]
+						+ evaluateCombination(numOfConsts, constValues,
+								bestRelation, 0, 3);
+				double Bvalue = bestRelation[numOfConsts * 3 + 1]
+						+ evaluateCombination(numOfConsts, constValues,
+								bestRelation, 1, 3);
+				double Cvalue = bestRelation[numOfConsts * 3 + 2]
+						+ evaluateCombination(numOfConsts, constValues,
+								bestRelation, 2, 3);
+				double discr = Bvalue * Bvalue - 4 * Avalue * Cvalue;
 				if (!DoubleUtil.isZero(discr)) {
 					if (num1 * 2 * Cvalue + Bvalue >= 0) {
 						formalSolution.append("+");
@@ -2245,9 +2239,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				formalSolution.append(CString.toString());
 				formalSolution.append(")");
 				formalSolution.append(")");
-
 			}
-
 		}
 
 		/**
@@ -2266,8 +2258,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// int[][] M = new int[n][n];
 			// int[][] B2 = new int[n][n];
 			// double[] xB2 = new double[n];
-			MyDecimalMatrix B_comp;
-			MyDecimalMatrix result2;
 
 			// now n>=2.
 			int p = n; // length of current x
@@ -2298,7 +2288,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// we need the correct field.
 			r2 = new MyDecimalMatrix(m.getBMatrix().getScale(), n, n);
 
-			result2 = m.getBSolMatrix();
+			MyDecimalMatrix result2 = m.getBSolMatrix();
 			if (result2 != null) {
 				q = result2.getColumnDimension();
 			} else {
@@ -2323,7 +2313,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				}
 			}
 
-			B_comp = m.getBRestMatrix();
+			MyDecimalMatrix B_comp = m.getBRestMatrix();
 
 			// second and more cycles. If p<oldp means at least one solution has
 			// been found in the last cycle.
@@ -2413,6 +2403,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		 * vector (number,1)
 		 * 
 		 * @param number
+		 *            real number
 		 */
 		private void computeRationalNumber(double number) {
 			numOfConsts = 0;

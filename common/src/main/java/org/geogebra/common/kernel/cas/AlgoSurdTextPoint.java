@@ -100,8 +100,6 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		boolean complex = p.getMode() == Kernel.COORD_COMPLEX;
 
 		if (input[0].isDefined()) {
-
-
 			sbp.setLength(0);
 
 			if (!complex) {

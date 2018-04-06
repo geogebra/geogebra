@@ -34,13 +34,15 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoIntegralFunctions extends AlgoElement
 		implements DrawInformationAlgo, AlgoIntegralDefiniteInterface {
 
-	private GeoFunction f, g; // input
-	private NumberValue a, b; // input
+	private GeoFunction f; // input
+	private GeoFunction g; // input
+	private NumberValue a; // input
+	private NumberValue b; // input
 	private GeoBoolean evaluate; // input
-	private GeoElement ageo, bgeo;
 	private GeoNumeric n; // output n = integral(f(x) - g(x), x, a, b)
 
-	private GeoNumeric intF, intG;
+	private GeoNumeric intF;
+	private GeoNumeric intG;
 
 	/**
 	 * @param cons
@@ -87,8 +89,6 @@ public class AlgoIntegralFunctions extends AlgoElement
 		this.a = a;
 		this.b = b;
 		this.evaluate = evaluate;
-		ageo = a.toGeoElement();
-		bgeo = b.toGeoElement();
 
 		// helper algorithms for integral f and g
 		AlgoIntegralDefinite algoInt = new AlgoIntegralDefinite(cons, f, a, b,
@@ -153,14 +153,14 @@ public class AlgoIntegralFunctions extends AlgoElement
 			input = new GeoElement[4];
 			input[0] = f;
 			input[1] = g;
-			input[2] = ageo;
-			input[3] = bgeo;
+			input[2] = a.toGeoElement(cons);
+			input[3] = b.toGeoElement(cons);
 		} else {
 			input = new GeoElement[5];
 			input[0] = f;
 			input[1] = g;
-			input[2] = ageo;
-			input[3] = bgeo;
+			input[2] = a.toGeoElement(cons);
+			input[3] = b.toGeoElement(cons);
 			input[4] = evaluate;
 		}
 		setOutputLength(1);
@@ -205,8 +205,8 @@ public class AlgoIntegralFunctions extends AlgoElement
 
 	@Override
 	public final void compute() {
-		if (!f.isDefined() || !g.isDefined() || !ageo.isDefined()
-				|| !bgeo.isDefined()) {
+		if (!f.isDefined() || !g.isDefined() || !a.isDefined()
+				|| !b.isDefined()) {
 			n.setUndefined();
 			return;
 		}

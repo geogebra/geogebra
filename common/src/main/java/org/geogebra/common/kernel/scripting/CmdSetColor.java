@@ -64,7 +64,6 @@ public class CmdSetColor extends CmdScripting {
 		target = resArg(c.getArgument(0), argInfo)[0];
 		cons.setSuppressLabelCreation(oldMacroMode);
 
-
 		switch (n) {
 		case 2:
 
@@ -117,13 +116,11 @@ public class CmdSetColor extends CmdScripting {
 				CellFormatInterface formatHandler = kernel.getApplication()
 						.getSpreadsheetTableModel().getCellFormat(null);
 
-
 				formatHandler.setFormat(coords, CellFormat.FORMAT_BGCOLOR,
 						col);
 
 				return null;
 			}
-
 
 			if (background) {
 				target.setBackgroundColor(col);
@@ -134,8 +131,6 @@ public class CmdSetColor extends CmdScripting {
 			target.updateRepaint();
 
 			return target.asArray();
-
-
 
 		default:
 			throw argNumErr(c);
@@ -231,6 +226,7 @@ public class CmdSetColor extends CmdScripting {
 		}
 		return ret;
 	}
+
 	/** remove quotes and spaces */
 	private static String trim(String color) {
 		return StringUtil.removeSpaces(color.replace("\"", ""));

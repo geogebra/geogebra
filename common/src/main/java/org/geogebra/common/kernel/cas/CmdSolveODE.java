@@ -64,7 +64,7 @@ public class CmdSolveODE extends CommandProcessor {
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoNumeric())) {
 				GeoElement[] ret = {
-						SolveODE(c.getLabel(), (FunctionalNVar) arg[0], null,
+						solveODE(c.getLabel(), (FunctionalNVar) arg[0], null,
 								(GeoNumeric) arg[1], (GeoNumeric) arg[2],
 								(GeoNumeric) arg[3], (GeoNumeric) arg[4]) };
 				return ret;
@@ -77,7 +77,7 @@ public class CmdSolveODE extends CommandProcessor {
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoNumeric())
 					&& (ok[5] = arg[5].isGeoNumeric())) {
-				GeoElement[] ret = { SolveODE(c.getLabel(),
+				GeoElement[] ret = { solveODE(c.getLabel(),
 						(FunctionalNVar) arg[0], (FunctionalNVar) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4], (GeoNumeric) arg[5]) };
@@ -112,7 +112,7 @@ public class CmdSolveODE extends CommandProcessor {
 		}
 	}
 
-	final private GeoLocus SolveODE(String label, FunctionalNVar f,
+	final private GeoLocus solveODE(String label, FunctionalNVar f,
 			FunctionalNVar g, GeoNumeric x, GeoNumeric y, GeoNumeric end,
 			GeoNumeric step) {
 		AlgoSolveODE algo = new AlgoSolveODE(cons, label, f, g, x, y, end,

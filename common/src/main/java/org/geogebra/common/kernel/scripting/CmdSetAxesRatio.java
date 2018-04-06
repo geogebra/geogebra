@@ -43,7 +43,8 @@ public class CmdSetAxesRatio extends CmdScripting {
 					ev.zoomAxesRatio(numGeo.getDouble() / numGeo2.getDouble(),
 							true);
 				} else if (ev.isEuclidianView3D()) {
-					((EuclidianView3DInterface) ev).zoomAxesRatio(numGeo.getDouble() / numGeo2.getDouble(), 0);
+					((EuclidianView3DInterface) ev).zoomAxesRatio(
+							numGeo.getDouble() / numGeo2.getDouble(), 0);
 				}
 
 				return arg;
@@ -53,7 +54,8 @@ public class CmdSetAxesRatio extends CmdScripting {
 		case 3:
 			arg = resArgs(c);
 			boolean ok1 = false;
-			if ((ok0 = arg[0].isGeoNumeric()) && (ok1 = arg[1].isGeoNumeric()) && arg[2].isGeoNumeric()) {
+			if ((ok0 = arg[0].isGeoNumeric()) && (ok1 = arg[1].isGeoNumeric())
+					&& arg[2].isGeoNumeric()) {
 				
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoNumeric numGeo2 = (GeoNumeric) arg[1];
@@ -63,7 +65,8 @@ public class CmdSetAxesRatio extends CmdScripting {
 					ev.zoomAxesRatio(numGeo.getDouble() / numGeo2.getDouble(),
 							true);
 				} else if (ev.isEuclidianView3D()) {
-					((EuclidianView3DInterface) ev).zoomAxesRatio(numGeo.getDouble() / numGeo2.getDouble(),
+					((EuclidianView3DInterface) ev).zoomAxesRatio(
+							numGeo.getDouble() / numGeo2.getDouble(),
 							numGeo.getDouble() / numGeo3.getDouble());
 				}
 

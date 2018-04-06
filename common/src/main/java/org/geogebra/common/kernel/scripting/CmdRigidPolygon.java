@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.MyError;
 
 /**
- * RigidPolygon[ <GeoPoint>, ..., <GeoPoint> ]
+ * RigidPolygon[ &lt;GeoPoint>, ..., &lt;GeoPoint> ]
  */
 public class CmdRigidPolygon extends CommandProcessor {
 	/**

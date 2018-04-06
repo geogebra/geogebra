@@ -10,7 +10,6 @@
     to Java by a US government employee on official time.  
     Thus this software is also in the public domain.
 
-
     The translator's mail address is:
 
     Steve Verrill 
@@ -19,11 +18,9 @@
     Madison, Wisconsin
     53705
 
-
     The translator's e-mail address is:
 
     steve@www1.fpl.fs.fed.us
-
 
 ***********************************************************************
 
@@ -41,7 +38,6 @@ OF THIS SOFTWARE.
 Sorry about that.
 
 ***********************************************************************
-
 
 History:
 
@@ -181,42 +177,39 @@ public class ExtremumFinder implements ExtremumFinderI {
 		 * 
 		 */
 
-		double c, d, e, eps, xm, p, q, r, tol1, t2, u, v, w, fu, fv, fw, fx, x,
-				tol3;
-
 		// start value
-		c = .5 * (3.0 - Math.sqrt(5.0));
-		d = 0.0;
+		double c = .5 * (3.0 - Math.sqrt(5.0));
+		double d = 0.0;
 
 		// 1.1102e-16 is machine precision
 
-		eps = 1.2e-16;
-		tol1 = eps + 1.0;
+		double eps = 1.2e-16;
+		double tol1 = eps + 1.0;
 		eps = Math.sqrt(eps);
 
-		v = a + c * (b - a);
-		w = v;
-		x = v;
-		e = 0.0;
+		double v = a + c * (b - a);
+		double w = v;
+		double x = v;
+		double e = 0.0;
 
-		fx = minclass.value(x);
+		double fx = minclass.value(x);
 		/* added by Markus Hohenwarter */
 		if (Double.isNaN(fx)) {
 			return Double.NaN;
 			/* *********** */
 		}
 
-		fv = fx;
-		fw = fx;
-		tol3 = tol / 3.0;
+		double fv = fx;
+		double fw = fx;
+		double tol3 = tol / 3.0;
 
-		xm = .5 * (a + b);
+		double xm = .5 * (a + b);
 		tol1 = eps * Math.abs(x) + tol3;
-		t2 = 2.0 * tol1;
+		double t2 = 2.0 * tol1;
 
 		// main loop
 		double iterations = 0;
-
+		double p, q, r, u, fu;
 		while (Math.abs(x - xm) > (t2 - .5 * (b - a))) {
 
 			if (iterations > maxIterations) {

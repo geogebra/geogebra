@@ -69,7 +69,7 @@ public class CmdSelectObjects extends CmdScripting {
 		final long expiration = System.currentTimeMillis() + 1000;
 		Runnable callback = new Runnable() {
 			@Override
-			public void run(){
+			public void run() {
 				if (System.currentTimeMillis() < expiration) {
 					app1.getActiveEuclidianView().focusAndShowTextField(geo);
 				}

@@ -25,7 +25,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoPolynomialMod extends AlgoElement {
 
-	private GeoFunction f1, f2; // input
+	private GeoFunction f1; // input
+	private GeoFunction f2; // input
 	private GeoFunction g; // output
 
 	/**

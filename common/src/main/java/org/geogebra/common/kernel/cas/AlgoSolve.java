@@ -202,10 +202,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 
 				@Override
 				public ExpressionValue process(ExpressionValue ev) {
-					if (ev instanceof ExpressionNode){
+					if (ev instanceof ExpressionNode) {
 						ExpressionNode en = ev.wrap();
-						if(en.getOperation() == Operation.MULTIPLY && MyDouble
-							.exactEqual(Math.PI,
+						if (en.getOperation() == Operation.MULTIPLY
+								&& MyDouble.exactEqual(Math.PI,
 									en.getRight().evaluateDouble())) {
 							MyDouble angle = new MyDouble(kernel,
 									en.getLeft().evaluateDouble() * Math.PI);
@@ -250,8 +250,6 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 					.getReplacer(equations2.getKernel()));
 		}
 		return false;
-		
-
 	}
 
 	private void printHint(StringBuilder sb) {
@@ -333,9 +331,9 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 					rhs,
 					getKernel().getParser());
 		} else {
-			se = new StepEquation(					geo
-					.getDefinitionNoLabel(StringTemplate.defaultTemplate),
-				kernel.getParser());
+			se = new StepEquation(
+					geo.getDefinitionNoLabel(StringTemplate.defaultTemplate),
+					kernel.getParser());
 		}
 		SolutionBuilder sb = new SolutionBuilder();
 		se.solve(new StepVariable("x"), sb);

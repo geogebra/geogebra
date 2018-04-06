@@ -8,8 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * Derivative[ <GeoFunction> ] Derivative[ <GeoFunctionNVar>, <var> ]
- * ParametricDerivative[ <GeoCurveCartesian> ]
+ * ParametricDerivative[ &lt;GeoCurveCartesian> ]
  */
 public class CmdParametricDerivative extends CommandProcessor {
 

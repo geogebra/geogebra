@@ -31,8 +31,10 @@ import org.geogebra.common.kernel.geos.GeoList;
  */
 public class AlgoPolynomialDivision extends AlgoElement {
 
-	private GeoFunction f1, f2; // input
-	private GeoFunction g, h; // output
+	private GeoFunction f1; // input
+	private GeoFunction f2; // input
+	private GeoFunction g; // output
+	private GeoFunction h; // output
 	private GeoList result;
 
 	/**

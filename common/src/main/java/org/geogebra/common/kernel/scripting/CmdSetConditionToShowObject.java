@@ -26,7 +26,7 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 	@Override
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		GeoElement arg2[];
+		GeoElement[] arg2;
 		switch (n) {
 		case 2:
 			arg2 = resArgs(c);

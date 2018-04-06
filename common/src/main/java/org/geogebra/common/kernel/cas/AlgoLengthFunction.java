@@ -18,7 +18,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 
-	private GeoNumeric A, B; // input
+	private GeoNumeric A;
+	private GeoNumeric B; // input
 	private GeoFunction f; // f1 is f'(x)
 	private GeoNumeric length; // output
 	private UnivariateFunction lengthFunction; // is T = sqrt(1+(f')^2)

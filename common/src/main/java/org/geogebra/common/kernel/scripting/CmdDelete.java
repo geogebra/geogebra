@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.statistics.AlgoCellRange;
 import org.geogebra.common.main.MyError;
 
 /**
- * Delete[ <GeoElement> ]
+ * Delete[ &lt;GeoElement> ]
  */
 public class CmdDelete extends CmdScripting {
 

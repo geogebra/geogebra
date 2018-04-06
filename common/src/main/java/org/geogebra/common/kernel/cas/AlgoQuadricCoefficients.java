@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
  */
 public class AlgoQuadricCoefficients extends AlgoConicCoefficients {
 
-
 	/**
 	 * @param cons
 	 *            construction
@@ -61,7 +60,6 @@ public class AlgoQuadricCoefficients extends AlgoConicCoefficients {
 		// compute();
 		g.setLabel(label);
 	}
-
 
 	@Override
 	public final void compute() {

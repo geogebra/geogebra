@@ -20,7 +20,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 
-	private GeoPointND A, B; // input
+	private GeoPointND A; // input
+	private GeoPointND B; // input
 	private GeoCurveCartesianND c;
 	private GeoCurveCartesianND derivative;
 	private GeoNumeric length; // output

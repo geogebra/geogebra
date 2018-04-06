@@ -28,8 +28,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * <h3>FitRealFunction</h3>
  * 
  * <pre>
- *   Class with FitRealFunction which will be used when Fit[<list>,<function>] does
- *   nonlinear curve-fitting on a copy of <function> where gliders a,b,c,...
+ *   Class with FitRealFunction which will be used when Fit[&lt;list>,&lt;function>] does
+ *   nonlinear curve-fitting on a copy of &lt;function> where gliders a,b,c,...
  *   are used as parameters.
  *   
  *   Implements:
@@ -40,7 +40,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  *   
  *   Interface:
  *   
- *   	FitRealFunction(Function)				Makes a copy of Function with gliders replaced by mydouble parameters
+ *   	FitRealFunction(Function)				Makes a copy of Function with gliders
+ *												replaced by mydouble parameters
  *   	value(double,double[])					Evaluates for x and pars[]
  *   	gradient(double,double[])				Evaluates a gradient for x and pars[] numerically
  *   
@@ -52,7 +53,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  *   
  *   For later extensions and external use:
  *   
- *   	evaluate(double,double[])				As value(...), perhaps implementing other interfaces later?
+ *   	evaluate(double,double[])				As value(...), perhaps implementing 
+ *   											other interfaces later?
  *   	evaluate(double)						As an ordinary function
  *   	evaluate()								Last value
  *   	getFunction(double[])					Get as Function with parameters replaced
@@ -83,7 +85,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 
 	/** Probably not needed? */
 	public FitRealFunction() {
-	}// Constructor
+	}
 
 	/**
 	 * Main constructor
@@ -94,7 +96,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	public FitRealFunction(Function f) {
 		super();
 		setFunction(f);
-	}// Constructor
+	}
 
 	/**
 	 * Implementing org.apache...fitting.ParametricUnivariateFunction
@@ -113,7 +115,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		} // for all parameter
 		lastvalue = newf.value(x);
 		return lastvalue;
-	}// evaluate(x,pars[])
+	}
 
 	/**
 	 * Returns array of partial derivatives with respect to parameters.
@@ -130,7 +132,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	@Override
 	public final double[] gradient(double x, double... pars) {
 		double oldf, newf1;
-		double deltap = 1.0E-5;// 1E-10 and 1E-15 is far too small, keep E-5
+		double deltap = 1.0E-5; // 1E-10 and 1E-15 is far too small, keep E-5
 								// until search algo is made
 		double[] gradient = new double[numberOfParameters];
 		for (int i = 0; i < numberOfParameters; i++) {
@@ -236,7 +238,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	 */
 	public final double value(double x) {
 		return newf.value(x);
-	}// evaluate(x);
+	}
 
 	/**
 	 * @return wrapped function
@@ -259,4 +261,4 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		return parametersOK;
 	}
 
-}// Class FitRealFunction
+}

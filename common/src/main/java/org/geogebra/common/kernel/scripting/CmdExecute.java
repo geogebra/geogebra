@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * Execute[<list of commands>]
+ * Execute[&lt;list of commands>]
  */
 public class CmdExecute extends CmdScripting {
 

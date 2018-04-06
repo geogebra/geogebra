@@ -8,7 +8,9 @@ import org.geogebra.common.main.MyError;
 /**
  * Make turtle move back
  * 
- * @author arno TurtleBack[ <Turtle>, <distance> ]
+ * TurtleBack[ &lt;Turtle>, &lt;distance> ]
+ * 
+ * @author arno
  */
 public class CmdTurtleBack extends CmdTurtleCommand {
 

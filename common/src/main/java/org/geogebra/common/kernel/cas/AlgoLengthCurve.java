@@ -19,7 +19,8 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 
 public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 
-	private GeoNumeric t0, t1; // input
+	private GeoNumeric t0; // input
+	private GeoNumeric t1; // input
 	private GeoCurveCartesianND c; // c1 is c'(x)
 
 	private GeoNumeric length; // output

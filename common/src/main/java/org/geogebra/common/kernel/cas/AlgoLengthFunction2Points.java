@@ -19,8 +19,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 
-	private GeoPointND A, B; // input
-	private GeoFunction f;// f1 is f'(x)
+	private GeoPointND A;
+	private GeoPointND B; // input
+	private GeoFunction f;
 	private GeoNumeric length; // output
 	private UnivariateFunction lengthFunction; // is T = sqrt(1+(f')^2)
 

@@ -34,15 +34,18 @@ public class AlgoSolveODE extends AlgoElement {
 
 	private FunctionalNVar f0; // input
 	private FunctionalNVar f1;
-	private GeoNumeric x, y, end, step; // input
+	private GeoNumeric x;
+	private GeoNumeric y;
+	private GeoNumeric end;
+	private GeoNumeric step; // input
 	private GeoLocus locus; // output
-	@SuppressWarnings("javadoc")
+	/** integral line points */
 	ArrayList<MyPoint> al;
 	private AlgoNumeratorDenominatorFun numAlgo;
 	private AlgoNumeratorDenominatorFun denAlgo;
 	private FunctionalNVar num;
 	private FunctionalNVar den;
-	@SuppressWarnings("javadoc")
+	/** whether expression is in the form f/g */
 	boolean quotient;
 
 	/**
@@ -241,7 +244,7 @@ public class AlgoSolveODE extends AlgoElement {
 		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
-			double input[] = { t, y[0] };
+			double[] input = { t, y[0] };
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[y, x(A), y(A), 5, 0.1]
@@ -257,7 +260,8 @@ public class AlgoSolveODE extends AlgoElement {
 
 	private static class ODE2 implements FirstOrderDifferentialEquations {
 
-		FunctionalNVar y0, y1;
+		FunctionalNVar y0;
+		FunctionalNVar y1;
 
 		public ODE2(FunctionalNVar y, FunctionalNVar x) {
 			this.y0 = y;
@@ -272,7 +276,7 @@ public class AlgoSolveODE extends AlgoElement {
 		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
-			double input[] = { y[0], y[1] };
+			double[] input = { y[0], y[1] };
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[-y, x, x(A), y(A), 5, 0.1]
@@ -291,9 +295,7 @@ public class AlgoSolveODE extends AlgoElement {
 			} else {
 				yDot[1] = y0.evaluate(input);
 			}
-
 		}
-
 	}
 
 	@Override

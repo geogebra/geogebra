@@ -47,8 +47,8 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoCasBaseSingleArgument(Construction cons, String label, CasEvaluableFunction f, Commands cmd,
-			EvalInfo info) {
+	public AlgoCasBaseSingleArgument(Construction cons, String label, CasEvaluableFunction f, 
+			Commands cmd, EvalInfo info) {
 		super(cons, label, f, cmd, info);
 	}
 
@@ -67,8 +67,10 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 		App app = kernel.getApplication();
 
 		SolutionBuilder sb = new SolutionBuilder();
+		String definitionNoLabel = f.toGeoElement()
+				.getDefinitionNoLabel(StringTemplate.defaultTemplate);
 		StepExpression sn = (StepExpression) StepNode.getStepTree(
-				f.toGeoElement().getDefinitionNoLabel(StringTemplate.defaultTemplate), app.getKernel().getParser());
+				definitionNoLabel, app.getKernel().getParser());
 		switch (getClassName()) {
 		case Expand:
 			sn.expand(sb);

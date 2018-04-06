@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -29,25 +30,25 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
 
 /**
+ * tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t)).
+ * 
  * @author Victor Franco Espino
  * @version 11-02-2007
- * 
- *          tangent to Curve f in point P: (b'(t), -a'(t),
- *          a'(t)*b(t)-a(t)*b'(t))
  */
 
 public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 
 	private GeoPointND P; // input
-	private GeoCurveCartesian f, df; // input f
+	private GeoCurveCartesian f; // input f
+	private GeoCurveCartesian df;
 	private GeoLine tangent; // output
 	private GeoPoint T;
 	private boolean pointOnCurve;
 	private boolean pointOnCurveSpecial;
 	private ExpressionValue pointOnCurveSpecialParam;
 	private AlgoDerivative algo;
-	private double feval[] = new double[2];
-	private double dfeval[] = new double[2];
+	private double[] feval = new double[2];
+	private double[] dfeval = new double[2];
 
 	/**
 	 * @param cons

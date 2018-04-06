@@ -154,7 +154,7 @@ public class AlgoDependentCasCell extends AlgoElement
 	}
 
 	/**
-	 * Returns <cellPair> tag instead of <expression> XML
+	 * Returns &lt;cellPair&lt; tag instead of &lt;expression&gt; XML
 	 */
 	@Override
 	protected void getExpXML(StringTemplate tpl, StringBuilder sb) {

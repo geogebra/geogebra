@@ -8,7 +8,9 @@ import org.geogebra.common.main.MyError;
 /**
  * Turn turtle anticlockwise
  * 
- * @author arno TurtleLeft[ <Turtle>, <Angle in radians>]
+ * TurtleLeft[ &lt;Turtle>, &lt;Angle in radians>]
+ * 
+ * @author arno
  */
 public class CmdTurtleLeft extends CmdTurtleCommand {
 

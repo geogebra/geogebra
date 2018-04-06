@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * Textfield[],Textfield[object]
+ * InputBox[], InputBox[object]
  * 
  * @author Zbynek
  *

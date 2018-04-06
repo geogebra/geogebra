@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -21,7 +22,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * ShowAxex[] ShowAxes[<Boolean>] ShowAxes[<View ID>, <Boolean]
+ * ShowAxex[]
+ * 
+ * ShowAxes[&lt;Boolean>]
+ * 
+ * ShowAxes[&lt;View ID>, &lt;Boolean]
  */
 public class CmdShowAxes extends CmdScripting {
 

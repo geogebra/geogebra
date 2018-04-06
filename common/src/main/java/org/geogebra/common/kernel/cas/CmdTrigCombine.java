@@ -11,7 +11,9 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyError;
 
 /**
- * TrigCombine[<Function>] TrigCombine[<Function>, <Target Function>]
+ * TrigCombine[&lt;Function>]
+ * 
+ * TrigCombine[&lt;Function>, &lt;Target Function>]
  * 
  * @author Zbynek Konecny
  */
