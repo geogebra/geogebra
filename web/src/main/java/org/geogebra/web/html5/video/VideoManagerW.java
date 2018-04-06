@@ -178,6 +178,7 @@ public class VideoManagerW implements VideoManager {
 	private VideoPlayer getPlayer(GeoVideo video) {
 		return players.get(video.getYouTubeId());
 	}
+
 	@Override
 	public void updatePlayer(GeoVideo video) {
 		if (!hasPlayer(video) || !video.hasChanged()) {

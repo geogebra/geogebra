@@ -3317,9 +3317,6 @@ public abstract class AppW extends App implements SetLabels {
 			}
 		}
 	};
-	private GeoGebraExport pstricks;
-	protected GeoGebraToAsymptoteW asymptote;
-	protected GeoGebraToPgfW pgf;
 
 	@Override
 	public void setAltText() {

@@ -2140,6 +2140,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				if (export == null) {
 					// not implemented eg Android, iOS)
 					handler.callback("");
+					return;
 				}
 
 				EuclidianView ev = app.getActiveEuclidianView();
