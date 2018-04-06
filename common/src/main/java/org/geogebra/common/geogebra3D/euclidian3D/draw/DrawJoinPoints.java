@@ -397,6 +397,13 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	}
 
 	@Override
+	protected void updateForViewVisible() {
+		if (!waitForUpdate()) {
+			updateForView();
+		}
+	}
+
+	@Override
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
 		if (shouldBePacked()) {
 			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
