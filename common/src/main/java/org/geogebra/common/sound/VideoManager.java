@@ -68,6 +68,7 @@ public interface VideoManager {
 	 * Updates the player due to video.
 	 * 
 	 * @param video
+	 *            video
 	 */
 	void updatePlayer(GeoVideo video);
 

@@ -1049,7 +1049,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 	}
 
-
 	@Override
 	public Set<String> getAvailableCommandNames() {
 		Set<String> cmdSet = new HashSet<>();

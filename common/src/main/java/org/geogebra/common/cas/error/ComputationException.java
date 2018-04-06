@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.CASException;
  * error, incompatible input etc.) and cannot return the correct result.
  * Currently used in SingularWS only.
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class ComputationException extends CASException {
 

@@ -12,8 +12,7 @@ public class MyLine {
 	}
 
 	public double lengthSquared() {
-		return (p1.getX() - p2.getX()) * (p1.getX() - p2.getX())
-				+ (p1.getY() - p2.getY()) * (p1.getY() - p2.getY());
+		return GPoint2D.distanceSq(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 	}
 
 }

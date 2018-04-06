@@ -42,6 +42,7 @@ public abstract class CASSubDialog {
 
 	/** Contains substitution values */
 	protected Vector<Vector<String>> data;
+
 	/**
 	 * Class containing row information
 	 */
@@ -90,8 +91,6 @@ public abstract class CASSubDialog {
 			value = val;
 		}
 	}
-
-
 
 	/**
 	 * @param prefix

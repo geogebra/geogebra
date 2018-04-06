@@ -93,7 +93,8 @@ public class DrawVideo extends Drawable {
 	private boolean hitBoundingBox(int hitX, int hitY, int hitThreshold) {
 		return getBoundingBox() != null && getBoundingBox().getRectangle() != null
 				&& getBoundingBox() == view.getBoundingBox()
-				&& getBoundingBox().getRectangle().intersects(hitX - hitThreshold, hitY - hitThreshold,
+				&& getBoundingBox().getRectangle().intersects(
+						hitX - hitThreshold, hitY - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold)
 				&& getBoundingBox().hitSideOfBoundingBox(hitX, hitY, hitThreshold);
 	}

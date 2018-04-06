@@ -361,7 +361,7 @@ public class AlgoAreEqual extends AlgoElement
 			}
 			PVariable[] botanaVars = adn.getBotanaVars(n1); // n1 unused
 			// Add the equation var=0 to the polynomial list
-			Map<PVariable, BigInteger> m = new HashMap();
+			Map<PVariable, BigInteger> m = new HashMap<>();
 			m.put(botanaVars[0], BigInteger.ZERO);
 			botanaPolynomials[0][no - 1] = botanaPolynomials[0][no - 1]
 					.substitute(m);

@@ -233,7 +233,6 @@ public class CASInputHandler {
 				}
 			}
 
-
 			// we want to avoid user selecting a+b in (a+b)/c
 			// TODO cache this somehow
 			boolean structureOK = cellValue.isStructurallyEqualToLocalizedInput(
@@ -303,8 +302,6 @@ public class CASInputHandler {
 		// process given row and below, then start editing
 		processRowThenEdit(selRow, focus);
 	}
-
-
 
 	private String wrapPrevCell(int selRow, GeoCasCell cellValue) {
 		// get previous cell
@@ -556,6 +553,7 @@ public class CASInputHandler {
 	 * click
 	 * 
 	 * @param text
+	 *            selected text
 	 * @return whether it is meaningful to consider this as a selection
 	 */
 	private static boolean meaningfulSelection(String text) {
@@ -839,9 +837,9 @@ public class CASInputHandler {
 		if (startEditing || consoleTable.keepEditing(!success, rowNum)) {
 			// start editing row below successful evaluation
 
-			boolean goDown = success &&
+			boolean goDown = success
 			// we are in last row or next row is empty
-					(isLastRow || casView.isRowOutputEmpty(rowNum + 1));
+					&& (isLastRow || casView.isRowOutputEmpty(rowNum + 1));
 			consoleTable.startEditingRow(goDown ? rowNum + 1 : rowNum);
 		}
 
@@ -1024,8 +1022,6 @@ public class CASInputHandler {
 			return false;
 		}
 	}
-
-
 
 	/**
 	 * @param cell
