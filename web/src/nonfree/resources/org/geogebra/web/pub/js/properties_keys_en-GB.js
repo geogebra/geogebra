@@ -3054,7 +3054,7 @@ __GGB__keysVar["en-GB"].menu = {
     "ar.invalidmodel": "Sorry, something went wrong while loading the model",
     "ar.message.fails": "You need to allow access to the photo library to save photos of your 3D maths objects.",
     "ar.message.hint": "Move around slowly until a square appears.",
-    "ar.message.moveslowly": "You need to allow access to the photo library to save photos of your 3D maths objects.",
+    "ar.message.moveslowly": "Move around slowly to detect surfaces.",
     "ar.message.need_camera_access": "You need to allow access to the photo library to save photos of your 3D maths objects.",
     "ar.message.surfacedetected": "You need to allow access to the photo library to save photos of your 3D maths objects.",
     "ar.message.tapscreen": "You need to allow access to the photo library to save photos of your 3D maths objects.",
