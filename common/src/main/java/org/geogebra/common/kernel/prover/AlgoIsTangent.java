@@ -129,16 +129,17 @@ public class AlgoIsTangent extends AlgoElement
 
         if (c.isCircle()) {
 			// intersection of the perpendicular
-			// from the center of the circle to the line (feet)
-			PVariable[] feet = new PVariable[2];
-			feet[0] = new PVariable(kernel);
-			feet[1] = new PVariable(kernel);
+			// from the center of the circle to the line (foot)
+			PVariable[] foot = new PVariable[2];
+			foot[0] = new PVariable(kernel);
+			foot[1] = new PVariable(kernel);
 
 			botanaPolynomials = new PPolynomial[1][3];
-			botanaPolynomials[0][0] = PPolynomial.collinear(feet[0], feet[1], lv[0], lv[1], lv[2], lv[3]);
-			botanaPolynomials[0][1] = PPolynomial.perpendicular(feet[0], feet[1], lv[0], lv[1], feet[0], feet[1],
+			botanaPolynomials[0][0] = PPolynomial.collinear(foot[0], foot[1], lv[0], lv[1], lv[2], lv[3]);
+			botanaPolynomials[0][1] = PPolynomial.perpendicular(foot[0], foot[1], lv[0], lv[1], foot[0], foot[1],
 					cv[0], cv[1]);
-			botanaPolynomials[0][2] = PPolynomial.equidistant(feet[0], feet[1], cv[0], cv[1], cv[2], cv[3]);
+			botanaPolynomials[0][2] = PPolynomial.equidistant(foot[0], foot[1], cv[0], cv[1], cv[2], cv[3]);
+            // FIXME: find some better equations, these yield "true on parts, false on parts"
 
 			return botanaPolynomials;
 		}
