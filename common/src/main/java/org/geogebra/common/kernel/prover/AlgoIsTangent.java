@@ -144,6 +144,31 @@ public class AlgoIsTangent extends AlgoElement
 			return botanaPolynomials;
 		}
 
+        if (c.isParabola()) {
+            // mirroring the focus about the tangent should
+            // be an element of the directrix,
+            // creating the foot first and then the mirror image
+            PVariable[] foot = new PVariable[2];
+            foot[0] = new PVariable(kernel);
+            foot[1] = new PVariable(kernel);
+            PVariable[] mirror = new PVariable[2];
+            mirror[0] = new PVariable(kernel);
+            mirror[1] = new PVariable(kernel);
+
+            botanaPolynomials = new PPolynomial[1][5];
+            botanaPolynomials[0][0] = PPolynomial.collinear(foot[0], foot[1], lv[0], lv[1], lv[2], lv[3]);
+            botanaPolynomials[0][1] = PPolynomial.perpendicular(foot[0], foot[1], lv[0], lv[1], foot[0], foot[1],
+                    cv[8], cv[9]);
+            botanaPolynomials[0][2] = new PPolynomial(foot[0]).multiply(new PPolynomial(2)).
+                    subtract(new PPolynomial(mirror[0])).subtract(new PPolynomial(cv[8]));
+            botanaPolynomials[0][3] = new PPolynomial(foot[1]).multiply(new PPolynomial(2)).
+                    subtract(new PPolynomial(mirror[1])).subtract(new PPolynomial(cv[9]));
+            botanaPolynomials[0][4] = PPolynomial.collinear(mirror[0], mirror[1], cv[4], cv[5], cv[6], cv[7]);
+            // FIXME: find some better equations if possible, these result in three tangents
+
+            return botanaPolynomials;
+        }
+
 		// TODO: implement all other cases
 
 		throw new NoSymbolicParametersException();
