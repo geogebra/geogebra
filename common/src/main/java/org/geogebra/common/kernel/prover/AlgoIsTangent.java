@@ -2,8 +2,18 @@ package org.geogebra.common.kernel.prover;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
+import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
+
 
 /**
  * Decides if the first object is tangent to the second one. Can be embedded into the Prove command to
@@ -11,13 +21,13 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
  * 
  * @author Zoltan Kovacs
  */
-public class AlgoIsTangent extends org.geogebra.common.kernel.algos.AlgoElement
-		implements org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre {
+public class AlgoIsTangent extends AlgoElement
+		implements SymbolicParametersBotanaAlgoAre {
 
-	private org.geogebra.common.kernel.geos.GeoElement inputElement1; // input
-	private org.geogebra.common.kernel.geos.GeoElement inputElement2; // input
+	private GeoElement inputElement1; // input
+	private GeoElement inputElement2; // input
 
-	private org.geogebra.common.kernel.geos.GeoBoolean outputBoolean; // output
+	private GeoBoolean outputBoolean; // output
 	private PPolynomial[][] botanaPolynomials;
 
 	/**
@@ -30,13 +40,13 @@ public class AlgoIsTangent extends org.geogebra.common.kernel.algos.AlgoElement
 	 * @param inputElement2
 	 *            the second object
 	 */
-	public AlgoIsTangent(Construction cons, org.geogebra.common.kernel.geos.GeoElement inputElement1,
-                         org.geogebra.common.kernel.geos.GeoElement inputElement2) {
+	public AlgoIsTangent(Construction cons, GeoElement inputElement1,
+                         GeoElement inputElement2) {
 		super(cons);
 		this.inputElement1 = inputElement1;
 		this.inputElement2 = inputElement2;
 
-		outputBoolean = new org.geogebra.common.kernel.geos.GeoBoolean(cons);
+		outputBoolean = new GeoBoolean(cons);
 
 		setInputOutput();
 		compute();
@@ -56,7 +66,7 @@ public class AlgoIsTangent extends org.geogebra.common.kernel.algos.AlgoElement
 	 *            the second object
 	 */
 	public AlgoIsTangent(Construction cons, String label,
-						 org.geogebra.common.kernel.geos.GeoElement inputElement1, org.geogebra.common.kernel.geos.GeoElement inputElement2) {
+						 GeoElement inputElement1, GeoElement inputElement2) {
 		this(cons, inputElement1, inputElement2);
 		outputBoolean.setLabel(label);
 	}
@@ -68,7 +78,7 @@ public class AlgoIsTangent extends org.geogebra.common.kernel.algos.AlgoElement
 
 	@Override
 	protected void setInputOutput() {
-		input = new org.geogebra.common.kernel.geos.GeoElement[2];
+		input = new GeoElement[2];
 		input[0] = inputElement1;
 		input[1] = inputElement2;
 
@@ -83,23 +93,23 @@ public class AlgoIsTangent extends org.geogebra.common.kernel.algos.AlgoElement
 	 * @return true if the first object is tangent to the second one
 	 */
 
-	public org.geogebra.common.kernel.geos.GeoBoolean getResult() {
+	public GeoBoolean getResult() {
 		return outputBoolean;
 	}
 
 	@Override
 	public final void compute() {
-		org.geogebra.common.kernel.geos.GeoLine l = (org.geogebra.common.kernel.geos.GeoLine) inputElement1;
-		org.geogebra.common.kernel.geos.GeoConic c = (org.geogebra.common.kernel.geos.GeoConic) inputElement2;
+		GeoLine l = (GeoLine) inputElement1;
+		GeoConic c = (GeoConic) inputElement2;
 		Boolean value = null;
 		if (l.isDefinedTangent(c)) {
 			value = true;
 		} else {
 			// intersect line and conic (code copied from RelationNumerical)
-			org.geogebra.common.kernel.geos.GeoPoint[] points = { new org.geogebra.common.kernel.geos.GeoPoint(cons), new org.geogebra.common.kernel.geos.GeoPoint(cons) };
-			int type = org.geogebra.common.kernel.algos.AlgoIntersectLineConic.intersectLineConic(l, c, points,
+			GeoPoint[] points = { new GeoPoint(cons), new GeoPoint(cons) };
+			int type = AlgoIntersectLineConic.intersectLineConic(l, c, points,
 					Kernel.STANDARD_PRECISION);
-			value = type == org.geogebra.common.kernel.algos.AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE;
+			value = type == AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE;
 		}
 		outputBoolean.setValue(value);
 	}
@@ -107,7 +117,34 @@ public class AlgoIsTangent extends org.geogebra.common.kernel.algos.AlgoElement
 	@Override
 	public PPolynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
+        if (botanaPolynomials != null) {
+            return botanaPolynomials;
+        }
+
+        GeoLine l = (GeoLine) inputElement1;
+        GeoConic c = (GeoConic) inputElement2;
+
+        PVariable[] lv = l.getBotanaVars(l);
+		PVariable[] cv = c.getBotanaVars(c);
+
+        if (c.isCircle()) {
+			// intersection of the perpendicular
+			// from the center of the circle to the line (feet)
+			PVariable[] feet = new PVariable[2];
+			feet[0] = new PVariable(kernel);
+			feet[1] = new PVariable(kernel);
+
+			botanaPolynomials = new PPolynomial[1][3];
+			botanaPolynomials[0][0] = PPolynomial.collinear(feet[0], feet[1], lv[0], lv[1], lv[2], lv[3]);
+			botanaPolynomials[0][1] = PPolynomial.perpendicular(feet[0], feet[1], lv[0], lv[1], feet[0], feet[1],
+					cv[0], cv[1]);
+			botanaPolynomials[0][2] = PPolynomial.equidistant(feet[0], feet[1], cv[0], cv[1], cv[2], cv[3]);
+
+			return botanaPolynomials;
+		}
+
+		// TODO: implement all other cases
+
 		throw new NoSymbolicParametersException();
-		// TODO: Implement this.
-	}
+    }
 }
