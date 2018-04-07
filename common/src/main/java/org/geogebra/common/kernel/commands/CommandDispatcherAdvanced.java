@@ -55,6 +55,7 @@ import org.geogebra.common.kernel.advanced.CmdIntersection;
 import org.geogebra.common.kernel.advanced.CmdInvert;
 import org.geogebra.common.kernel.advanced.CmdIsInRegion;
 import org.geogebra.common.kernel.advanced.CmdIsPrime;
+import org.geogebra.common.kernel.advanced.CmdIsTangent;
 import org.geogebra.common.kernel.advanced.CmdIteration;
 import org.geogebra.common.kernel.advanced.CmdIterationList;
 import org.geogebra.common.kernel.advanced.CmdLeftRightSide;
@@ -264,6 +265,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdMinimize(kernel);
 		case AreCollinear:
 			return new CmdAreCollinear(kernel);
+		case IsTangent:
+			return new CmdIsTangent(kernel);
 		case AreParallel:
 			return new CmdAreParallel(kernel);
 		case AreConcyclic:

@@ -441,6 +441,7 @@ public abstract class CommandDispatcher {
 			case AreEqual:
 			case AreCongruent:
 			case AreConcurrent:
+			case IsTangent:
 			case ToBase:
 			case FromBase:
 			case ContinuedFraction:

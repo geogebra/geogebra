@@ -206,6 +206,11 @@ public class NoExceptionsTest {
 	}
 
 	@Test
+	public void cmdIsTangent() {
+		t("IsTangent[ l1,c1 ]");
+	}
+
+	@Test
 	public void cmdAreParallel() {
 		t("AreParallel[ l1,l2 ]");
 	}

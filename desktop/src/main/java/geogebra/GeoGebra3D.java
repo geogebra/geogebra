@@ -7,7 +7,6 @@ public class GeoGebra3D {
 	 * @param cmdArgs
 	 *            command line args
 	 */
-	public static void main(String[] cmdArgs) {
-		org.geogebra.desktop.GeoGebra3D.main(cmdArgs);
+	public static void main(String[] cmdArgs) { org.geogebra.desktop.GeoGebra3D.main(cmdArgs);
 	}
 }

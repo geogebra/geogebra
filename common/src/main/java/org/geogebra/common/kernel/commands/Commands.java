@@ -177,6 +177,8 @@ public enum Commands implements CommandsConstants,
 
 	AreCongruent(TABLE_GEOMETRY),
 
+	IsTangent(TABLE_GEOMETRY),
+
 	LocusEquation(TABLE_GEOMETRY),
 
 	Envelope(TABLE_GEOMETRY),
