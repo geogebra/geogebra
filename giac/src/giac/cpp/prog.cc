@@ -3704,7 +3704,7 @@ namespace giac {
   }
 
   vector<int> rand_k_n(int k,int n,bool sorted,GIAC_CONTEXT){
-    if (k<=0 || n<=0)
+    if (k<=0 || n<=0 || k>n)
       return vector<int>(0);
     if (//n>=65536 && 
 	k*double(k)<=n/4){
@@ -3875,6 +3875,7 @@ namespace giac {
 	if (m>M){ int tmp=m; m=M; M=tmp; }
 #if 1
 	vector<int> v=rand_k_n(n,M-m+1,false,contextptr);
+	if (v.empty()) return gendimerr(contextptr);
 	for (int i=0;i<n;++i)
 	  v[i] += m;
 	vecteur res;
