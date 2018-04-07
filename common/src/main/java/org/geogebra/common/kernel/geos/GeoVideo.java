@@ -8,13 +8,13 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 
 /**
- * 
+ *
  * GeoElement to represent a video object.
- * 
+ *
  * @author laszlo
  *
  */
-public class GeoVideo extends GeoAudio {
+public class GeoVideo extends GeoMedia {
 	/**
 	 * Test video URL.
 	 */
@@ -36,7 +36,7 @@ public class GeoVideo extends GeoAudio {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param c
 	 *            the construction.
 	 */
@@ -48,7 +48,7 @@ public class GeoVideo extends GeoAudio {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param c
 	 *            the construction.
 	 * @param url
@@ -84,12 +84,7 @@ public class GeoVideo extends GeoAudio {
 	}
 
 	@Override
-	public void setSrc(String url) {
-		super.setSrc(url);
-		onSetSrc();
-	}
-
-	private void onSetSrc() {
+	protected void onSourceChanged() {
 		if (!hasVideoManager()) {
 			return;
 		}
@@ -99,9 +94,9 @@ public class GeoVideo extends GeoAudio {
 
 			@Override
 			public void callback(MyImage obj) {
-				preview = obj;
-				changed = true;
-				app.getActiveEuclidianView().repaint();
+				setPreview(obj);
+				setChanged(true);
+				app.getActiveEuclidianView().updateAllDrawablesForView(true);
 
 			}
 		});
@@ -158,7 +153,7 @@ public class GeoVideo extends GeoAudio {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if any relevant property has changed.
 	 */
 	public boolean hasChanged() {
@@ -166,7 +161,7 @@ public class GeoVideo extends GeoAudio {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param changed
 	 *            to set
 	 */
@@ -175,7 +170,7 @@ public class GeoVideo extends GeoAudio {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the embedded link of the geo.
 	 */
 	public String getEmbeddedUrl() {
@@ -198,7 +193,7 @@ public class GeoVideo extends GeoAudio {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the preview link of the geo.
 	 */
 	public String getPreviewUrl() {
@@ -206,7 +201,7 @@ public class GeoVideo extends GeoAudio {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the preview image.
 	 */
 	public MyImage getPreview() {
@@ -243,7 +238,7 @@ public class GeoVideo extends GeoAudio {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the YouTube ID without any arguments.
 	 */
 	public String getYouTubeId() {
@@ -261,5 +256,31 @@ public class GeoVideo extends GeoAudio {
 	@Override
 	final public HitType getLastHitType() {
 		return lastHitType;
+	}
+
+	@Override
+	public int getDuration() {
+		// TODO Implement this
+		return 0;
+	}
+
+	@Override
+	public int getCurrentTime() {
+		// TODO Implement this
+		return 0;
+	}
+
+	@Override
+	public void setCurrentTime(int secs) {
+		// TODO Implement this
+
+	}
+
+	/**
+	 * @param preview
+	 *            Video preview image to set.
+	 */
+	public void setPreview(MyImage preview) {
+		this.preview = preview;
 	}
 }

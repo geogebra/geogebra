@@ -16,9 +16,9 @@ import org.geogebra.common.main.App;
 
 /**
  * Drawable class for GeoVideo
- * 
+ *
  * It uses HTML representation.
- * 
+ *
  * @author laszlo
  *
  */
