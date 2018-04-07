@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.RelationNumerical.Report;
 import org.geogebra.common.kernel.RelationNumerical.Report.RelationCommand;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -24,6 +25,7 @@ import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.kernel.prover.AlgoAreParallel;
 import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
 import org.geogebra.common.kernel.prover.AlgoIsOnPath;
+import org.geogebra.common.kernel.prover.AlgoIsTangent;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.App;
@@ -364,6 +366,9 @@ public class Relation {
 			case AreConcurrent:
 				ae = new AlgoAreConcurrent(cons, (GeoLine) g1, (GeoLine) g2,
 						(GeoLine) g3);
+				break;
+			case IsTangent:
+				ae = new AlgoIsTangent(cons, (GeoLine) g1, (GeoConic) g2);
 				break;
 			}
 		} catch (Exception ex) {

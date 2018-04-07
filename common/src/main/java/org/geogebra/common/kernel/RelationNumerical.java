@@ -102,7 +102,9 @@ public class RelationNumerical {
 			/** concyclic points */
 			AreConcyclic,
 			/** concurrent lines */
-			AreConcurrent
+			AreConcurrent,
+			/** line tangent to conic */
+			IsTangent
 		}
 
 		/**
@@ -649,17 +651,24 @@ public class RelationNumerical {
 		if (g.isDefinedTangent(c)) {
 			str = lineConicString(g, c,
 					AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE);
+			register(true, RelationCommand.IsTangent, str);
+			// TODO: Consider showing "always true" in this case immediately
 		} else if (g.isDefinedAsymptote(c)) {
 			str = lineConicString(g, c,
 					AlgoIntersectLineConic.INTERSECTION_ASYMPTOTIC_LINE);
+			register(null, null, str); // unsupported symbolically
 		} else {
 			// intersect line and conic
 			GeoPoint[] points = { new GeoPoint(cons), new GeoPoint(cons) };
 			type = AlgoIntersectLineConic.intersectLineConic(g, c, points,
 					Kernel.STANDARD_PRECISION);
 			str = lineConicString(g, c, type);
+			if (type == AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE) {
+				register(true, RelationCommand.IsTangent, str);
+			} else {
+				register(false, null, str);
+			}
 		}
-		register(null, null, str); // TODO: Completely unsupported symbolically.
 		return reports;
 	}
 
