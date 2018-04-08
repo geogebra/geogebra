@@ -486,6 +486,8 @@ __GGB__keysVar["pl"].command = {
     "IsInteger.Syntax": "[ <Liczba> ]",
     "IsPrime": "CzyLiczbaPierwsza",
     "IsPrime.Syntax": "[ <Liczba> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Iteracja",
     "Iteration.Syntax": "[ <Funkcja>, <Warto\u015b\u0107 pocz\u0105tkowa>, <Liczba Iteracji> ]\n[ <Wyra\u017cenie>, <Zmienne>, <Warto\u015b\u0107 pocz\u0105tkowa>, <Licznik> ]",
     "IterationList": "ListaIteracji",

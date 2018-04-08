@@ -486,6 +486,8 @@ __GGB__keysVar["ko"].command = {
     "IsInteger.Syntax": "[ <\uc218> ]",
     "IsPrime": "\uc18c\uc218\uc5ec\ubd80",
     "IsPrime.Syntax": "[ <\uc218> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "\ubc18\ubcf5\ubc95",
     "Iteration.Syntax": "[ <\ud568\uc218>, <\uc2dc\uc791\uac12>, <\ubc18\ubcf5 \ud69f\uc218> ]\n[ <\uc2dd>, <\ubcc0\uc218>, <\uc2dc\uc791\uac12>, <\uc138\uae30> ]",
     "IterationList": "\ubc18\ubcf5\ub9ac\uc2a4\ud2b8",

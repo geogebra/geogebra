@@ -486,6 +486,8 @@ __GGB__keysVar["is"].command = {
     "IsInteger.Syntax": "[ <Tala> ]",
     "IsPrime": "ErFrumtala",
     "IsPrime.Syntax": "[ <Tala> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "\xcdtrekun",
     "Iteration.Syntax": "[ <Fall>, <Upphafsgildi>, <Fj\xf6ldi \xedtrekana> ]\n[ <St\xe6\xf0a>, <Breytur>, <Upphafsgildi>, <Talning> ]",
     "IterationList": "\xcdtrekunarListi",

@@ -486,6 +486,8 @@ __GGB__keysVar["tr"].command = {
     "IsInteger.Syntax": "[ <Say\u0131> ]",
     "IsPrime": "Asalm\u0131",
     "IsPrime.Syntax": "[ <Say\u0131> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "D\xf6ng\xfc",
     "Iteration.Syntax": "[ <\u0130\u015flev>, <Ba\u015flang\u0131\xe7 De\u011feri>, <D\xf6ng\xfc Say\u0131s\u0131> ]\n[ <\u0130\u015flev>, <De\u011fi\u015fkenler>, <Ba\u015flang\u0131\xe7 De\u011ferleri>, <Saya\xe7> ]",
     "IterationList": "D\xf6ng\xfcListesi",

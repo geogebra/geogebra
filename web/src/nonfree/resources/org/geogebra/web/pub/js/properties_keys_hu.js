@@ -486,6 +486,8 @@ __GGB__keysVar["hu"].command = {
     "IsInteger.Syntax": "[ <Sz\xe1m> ]",
     "IsPrime": "Pr\xedmE",
     "IsPrime.Syntax": "[ <Sz\xe1m> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Iter\xe1ci\xf3",
     "Iteration.Syntax": "[ <F\xfcggv\xe9ny>, <Kezd\u0151\xe9rt\xe9k>, <Iter\xe1ci\xf3k sz\xe1ma> ]",
     "IterationList": "Iter\xe1ci\xf3Lista",

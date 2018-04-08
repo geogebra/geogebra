@@ -486,6 +486,8 @@ __GGB__keysVar["eu"].command = {
     "IsInteger.Syntax": "[ <Zenbakia> ]",
     "IsPrime": "LehenaDa",
     "IsPrime.Syntax": "[ <Zenbakia> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Iterazioa",
     "Iteration.Syntax": "[ <Funtzioa>, <Hasierako Balioa>, <Zenbat Iterazio> ]\n[ <Adierazpena>, <Aldagaiak>, <Hasierako Balioak>, <Zenbatu> ]",
     "IterationList": "IterazioZerrenda",

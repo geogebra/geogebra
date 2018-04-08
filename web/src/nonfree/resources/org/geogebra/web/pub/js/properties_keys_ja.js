@@ -486,6 +486,8 @@ __GGB__keysVar["ja"].command = {
     "IsInteger.Syntax": "[ <\u6570\u5024> ]",
     "IsPrime": "IsPrime",
     "IsPrime.Syntax": "[ <\u6570\u5024> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Iteration",
     "Iteration.Syntax": "[ <\u95a2\u6570>, <\u958b\u59cb\u5024>, <\u53cd\u5fa9\u56de\u6570> ]\n[ <\u5f0f>, <\u5909\u6570>, <\u958b\u59cb\u5024>, <\u30ab\u30a6\u30f3\u30c8> ]",
     "IterationList": "IterationList",

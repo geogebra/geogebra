@@ -486,6 +486,8 @@ __GGB__keysVar["ms"].command = {
     "IsInteger.Syntax": "[ <Nombor> ]",
     "IsPrime": "AdalahPerdana",
     "IsPrime.Syntax": "[ <Nombor> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Lelaran",
     "Iteration.Syntax": "[ <Fungsi>, <Nilai Mula>, <Bilangan Lelaran> ]\n[ <Ungkapan>, <Pembolehubah>, <Nilai Mula>, <Bilangan> ]",
     "IterationList": "SenaraiLelaran",

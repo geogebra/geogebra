@@ -486,6 +486,8 @@ __GGB__keysVar["lt"].command = {
     "IsInteger.Syntax": "[ <Skai\u010dus> ]",
     "IsPrime": "YraPirminis",
     "IsPrime.Syntax": "[ <Skai\u010dius> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Iteracija",
     "Iteration.Syntax": "[ <Funkcija>, <Prad\u017eios reik\u0161m\u0117>, <Iteracij\u0173 skai\u010dius> ]",
     "IterationList": "Iteracij\u0173S\u0105ra\u0161as",

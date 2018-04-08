@@ -486,6 +486,8 @@ __GGB__keysVar["fi"].command = {
     "IsInteger.Syntax": "[ <Luku> ]",
     "IsPrime": "OnkoAlkuluku",
     "IsPrime.Syntax": "[ <Luku> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Iteraatio",
     "Iteration.Syntax": "[ <Funktio>, <Alkuarvo>, <Iteraatioiden m\xe4\xe4r\xe4> ]\n[ <Lauseke>, <Muuttujat>, <Alkuarvot>, <Lukum\xe4\xe4r\xe4> ]",
     "IterationList": "Iteraatiolista",

@@ -486,6 +486,8 @@ __GGB__keysVar["lv"].command = {
     "IsInteger.Syntax": "[ <Skaitlis> ]",
     "IsPrime": "IrPirmskaitlis",
     "IsPrime.Syntax": "[ <Skaitlis> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Iter\u0101cija",
     "Iteration.Syntax": "[ <Funkcija>, <S\u0101kuma V\u0113rt\u012bba>, <Atk\u0101rtojumu Skaits> ]",
     "IterationList": "Iter\u0101cijuSaraksts",

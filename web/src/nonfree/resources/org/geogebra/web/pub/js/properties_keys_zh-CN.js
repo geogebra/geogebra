@@ -486,6 +486,8 @@ __GGB__keysVar["zh-CN"].command = {
     "IsInteger.Syntax": "[ <\u6570\u5b57> ]",
     "IsPrime": "\u8d28\u6570",
     "IsPrime.Syntax": "[ <\u6570\u5b57> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "\u8fed\u4ee3",
     "Iteration.Syntax": "[ <\u51fd\u6570>, <\u8d77\u59cb\u503c>, <\u8fed\u4ee3\u6b21\u6570> ]\n[ <\u8868\u8fbe\u5f0f>, <\u53d8\u91cf>, <\u8d77\u59cb\u503c>, <\u6b21\u6570> ]",
     "IterationList": "\u8fed\u4ee3\u5217\u8868",

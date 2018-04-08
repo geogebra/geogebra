@@ -486,6 +486,8 @@ __GGB__keysVar["ar-TN"].command = {
     "IsInteger.Syntax": "[ <\u0639\u062f\u062f> ]",
     "IsPrime": "\u0639\u062f\u062f\u0640\u0623\u0648\u0644\u064a",
     "IsPrime.Syntax": "[ <\u0639\u062f\u062f> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "\u062a\u0643\u0631\u064a\u0631",
     "Iteration.Syntax": "[ <\u062f\u0627\u0644\u0629>, <\u0642\u064a\u0645\u0629 \u0627\u0644\u0628\u062f\u0627\u064a\u0629>, <\u0639\u062f\u062f \u0627\u0644\u062a\u0643\u0631\u064a\u0631> ]",
     "IterationList": "\u0642\u0627\u0626\u0645\u0629\u0640\u0640\u0627\u0644\u062a\u0643\u0631\u064a\u0631",

@@ -486,6 +486,8 @@ __GGB__keysVar["pt-PT"].command = {
     "IsInteger.Syntax": "[ <N\xfamero> ]",
     "IsPrime": "\xc9Primo",
     "IsPrime.Syntax": "[ <N\xfamero> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Itera\xe7\xe3o",
     "Iteration.Syntax": "[ <Fun\xe7\xe3o>, <Valor Inicial>, <N\xfamero de Itera\xe7\xf5es> ]\n[ <Express\xe3o>, <Vari\xe1veis>, <Valores Iniciais>, <Contar> ]",
     "IterationList": "ListaItera\xe7\xe3o",

@@ -486,6 +486,8 @@ __GGB__keysVar["id"].command = {
     "IsInteger.Syntax": "[ <Angka> ]",
     "IsPrime": "ApaBilanganPrima",
     "IsPrime.Syntax": "[ <Angka> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Iterasi",
     "Iteration.Syntax": "[ <Fungsi>, <NilaiAwal>, <Banyaknya Iterasi> ]",
     "IterationList": "DaftarIterasi",

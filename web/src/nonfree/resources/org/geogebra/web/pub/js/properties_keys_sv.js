@@ -486,6 +486,8 @@ __GGB__keysVar["sv"].command = {
     "IsInteger.Syntax": "[ <Tal> ]",
     "IsPrime": "KontrolleraOmTalet\xc4rPrimtal",
     "IsPrime.Syntax": "[ <Tal> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Iteration",
     "Iteration.Syntax": "[ <Funktion i x>, <start-v\xe4rde f\xf6r x>, <Antal iterationer> ]\n[ <Uttryck>, <Lista med variabler>, <Lista med startv\xe4rden>, <Antal iterationer> ]",
     "IterationList": "Iterationslista",

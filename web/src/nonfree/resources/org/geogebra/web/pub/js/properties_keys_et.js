@@ -486,6 +486,8 @@ __GGB__keysVar["et"].command = {
     "IsInteger.Syntax": "[ <Arv> ]",
     "IsPrime": "KasOnAlgarv",
     "IsPrime.Syntax": "[ <Arv> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Itereeri",
     "Iteration.Syntax": "[ <Funktsioon>, <Algv\xe4\xe4rtus>, <Iteratsioonide arv> ]",
     "IterationList": "IteratsiooniLoend",

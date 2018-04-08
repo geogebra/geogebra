@@ -486,6 +486,8 @@ __GGB__keysVar["cs"].command = {
     "IsInteger.Syntax": "[ <\u010c\xedslo> ]",
     "IsPrime": "JePrvocislo",
     "IsPrime.Syntax": "[ <\u010c\xedslo> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Iterace",
     "Iteration.Syntax": "[ <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnota>, <\u010c\xedslo n> ]\n[ <Funkce>, <Prom\u011bnn\xe9>, <Seznam po\u010d\xe1te\u010dn\xedch hodnot>, <\u010c\xedslo n> ]",
     "IterationList": "SeznamIterace",

@@ -486,6 +486,8 @@ __GGB__keysVar["eo"].command = {
     "IsInteger.Syntax": "[ <Nombro> ]",
     "IsPrime": "Prima",
     "IsPrime.Syntax": "[ <Nombro> ]",
+    "IsTangent": "IsTangent",
+    "IsTangent.Syntax": "[ <Line>, <Conic> ]",
     "Iteration": "Iteracio",
     "Iteration.Syntax": "[ <Funkcio>, <Komenca Valoro>, <Nombro de Iteracioj> ]",
     "IterationList": "RipetiListo",
