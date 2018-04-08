@@ -193,10 +193,6 @@ public class Material implements Comparable<Material>, Serializable {
 		return this.author;
 	}
 
-	public String getAuthorURL() {
-		return GeoGebraConstants.PROFILE_URL_BASE + this.author_id;
-	}
-
 	/**
 	 * @return the URL to the overview page of the material as a String
 	 */
@@ -387,9 +383,7 @@ public class Material implements Comparable<Material>, Serializable {
 		sb.append(" ");
 		sb.append("by ");
 		sb.append(this.author);
-		sb.append(" (");
-		sb.append(this.getAuthorURL());
-		sb.append("), ");
+		sb.append(", ");
 		sb.append("Date: ");
 		sb.append(this.getDate());
 		sb.append("\n");
