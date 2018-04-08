@@ -328,14 +328,19 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	public int startPolygons(Drawable3D d) {
 		if (d.shouldBePacked()) {
-			if (d.addedFromClosedSurface()) {
-				currentBufferManager = bufferManagerSurfacesClosed;
-			} else {
-				currentBufferManager = bufferManagerSurfaces;
-			}
-			this.currentColor = d.getSurfaceColor();
+			setPackSurface(d);
 		}
 		return super.startPolygons(d);
+	}
+
+	@Override
+	public void setPackSurface(Drawable3D d) {
+		if (d.addedFromClosedSurface()) {
+			currentBufferManager = bufferManagerSurfacesClosed;
+		} else {
+			currentBufferManager = bufferManagerSurfaces;
+		}
+		this.currentColor = d.getSurfaceColor();
 	}
 
 	@Override

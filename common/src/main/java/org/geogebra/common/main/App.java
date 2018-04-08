@@ -4020,6 +4020,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_PACK_JOIN_POINTS:
 			return prerelease;
 
+		// MOB-1514
+		case MOB_PACK_CONIC:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************

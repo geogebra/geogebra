@@ -237,6 +237,9 @@ public abstract class Drawable3D extends DrawableND {
 	/** number max of drawing types */
 	public static final int DRAW_TYPE_MAX = DRAW_TYPE_LISTS + 1;
 
+	/** visibility as intersection curve */
+	protected boolean intersectionCurveVisibility;
+
 	// /////////////////////////////////////////////////////////////////////////////
 	// constructors
 
@@ -1829,7 +1832,7 @@ public abstract class Drawable3D extends DrawableND {
 	 *
 	 * @return true should be packed for the current geometry manager
 	 */
-	protected boolean shouldBePackedForManager() {
+	final protected boolean shouldBePackedForManager() {
 		return getView3D().getRenderer().getGeometryManager().packBuffers() && shouldBePacked();
 	}
 
@@ -1851,5 +1854,25 @@ public abstract class Drawable3D extends DrawableND {
 			return NOT_REUSABLE_INDEX;
 		}
 		return index;
+	}
+
+	/**
+	 * set visibility as intersection curve
+	 * 
+	 * @param visible
+	 *            if visible
+	 */
+	public void setIntersectionCurveVisibility(boolean visible) {
+		intersectionCurveVisibility = visible;
+	}
+
+	/**
+	 * update visibility as intersection curve
+	 * 
+	 */
+	public void updateIntersectionCurveVisibility() {
+		if (shouldBePacked()) {
+			setGeometriesVisibility(intersectionCurveVisibility);
+		}
 	}
 }

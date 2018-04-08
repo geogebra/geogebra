@@ -1,8 +1,10 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -181,11 +183,20 @@ public class PlotterSurface {
 		float uT = getTextureCoord(1, uNb, uMinFadeNb, uMaxFadeNb);
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);
 		manager.texture(uT, vT);
-
+		
+		if (shouldPackConics()) {
+			tmpCoords3.setCrossProduct(tmpCoords.setSub3(p2, p1),
+					tmpCoords2.setSub3(p3, p1));
+			manager.normalToScale(tmpCoords3.normalize());
+		}
 		manager.vertexToScale(p1);
 		manager.vertexToScale(p3);
 		manager.vertexToScale(p2);
-		manager.endGeometry();
+		if (shouldPackConics()) {
+			manager.endGeometry(1, TypeElement.TRIANGLE_STRIP);
+		} else {
+			manager.endGeometry();
+		}
 	}
 
 	/**
@@ -208,11 +219,20 @@ public class PlotterSurface {
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);
 		manager.texture(uT, vT);
 
+		if (shouldPackConics()) {
+			tmpCoords3.setCrossProduct(tmpCoords.setSub3(p2, p1),
+					tmpCoords2.setSub3(p3, p1));
+			manager.normalToScale(tmpCoords3.normalize());
+		}
 		manager.vertexToScale(p1);
 		manager.vertexToScale(p2);
 		manager.vertexToScale(p4);
 		manager.vertexToScale(p3);
-		manager.endGeometry();
+		if (shouldPackConics()) {
+			manager.endGeometry(2, TypeElement.TRIANGLE_STRIP);
+		} else {
+			manager.endGeometry();
+		}
 	}
 
 	public void drawQuadNoTexture(Coords p1, Coords p2, Coords p3, Coords p4) {
@@ -904,34 +924,37 @@ public class PlotterSurface {
 	 * draw part of the surface
 	 */
 	public void draw() {
+		draw(false);
+	}
+
+	/**
+	 * draw part of the surface
+	 * 
+	 * @param packed
+	 *            if use packed buffer
+	 */
+	public void draw(boolean packed) {
 		manager.startGeometry(Manager.Type.TRIANGLES);
 
 		du = (uMax - uMin) / uNb;
 		dv = (vMax - vMin) / vNb;
 
-		/*
-		 * uMinFadeNb = uNb*uMinFade/(uMax-uMin); uMaxFadeNb =
-		 * uNb*uMaxFade/(uMax-uMin); vMinFadeNb = vNb*vMinFade/(vMax-vMin);
-		 * vMaxFadeNb = vNb*vMaxFade/(vMax-vMin);
-		 */
 		uMinFadeNb = uMinFade / du;
 		uMaxFadeNb = uMaxFade / du;
 		vMinFadeNb = vMinFade / dv;
 		vMaxFadeNb = vMaxFade / dv;
 
-		// Application.debug("vMin, vMax, dv="+vMin+", "+vMax+", "+dv);
-
 		for (int ui = 0; ui < uNb; ui++) {
-
 			for (int vi = 0; vi < vNb; vi++) {
-
 				drawQuad(ui, vi);
-
 			}
-
 		}
 
-		manager.endGeometry();
+		if (packed) {
+			manager.endGeometry(2 * uNb * vNb, TypeElement.TRIANGLES);
+		} else {
+			manager.endGeometry();
+		}
 	}
 
 	// private Coords n1, n2, n3, n4, v1, v2, v3, v4;
@@ -1082,7 +1105,11 @@ public class PlotterSurface {
 			manager.triangleFanVertex(m);
 		}
 
-		manager.endGeometry();
+		if (shouldPackConics()) {
+			manager.endGeometry(longitude, TypeElement.TRIANGLE_FAN);
+		} else {
+			manager.endGeometry();
+		}
 
 	}
 
@@ -1400,7 +1427,11 @@ public class PlotterSurface {
 			manager.triangleFanVertex(center.add(m1));
 		}
 
-		manager.endGeometry();
+		if (shouldPackConics()) {
+			manager.endGeometry(longitude, TypeElement.TRIANGLE_FAN);
+		} else {
+			manager.endGeometry();
+		}
 
 	}
 
@@ -1462,7 +1493,11 @@ public class PlotterSurface {
 			manager.triangleFanVertex(center.add(m1));
 		}
 
-		manager.endGeometry();
+		if (shouldPackConics()) {
+			manager.endGeometry(longitude, TypeElement.TRIANGLE_FAN);
+		} else {
+			manager.endGeometry();
+		}
 
 	}
 
@@ -1543,6 +1578,11 @@ public class PlotterSurface {
 		}
 
 		return TEXTURE_FADE_IN;
+	}
+
+	private boolean shouldPackConics() {
+		return manager.getRenderer().getView().getApplication()
+				.has(Feature.MOB_PACK_CONIC) && manager.packBuffers();
 	}
 
 }

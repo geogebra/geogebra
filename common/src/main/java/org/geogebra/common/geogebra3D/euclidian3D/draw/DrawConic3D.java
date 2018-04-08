@@ -14,9 +14,11 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.geos.FromMeta;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -145,6 +147,26 @@ public class DrawConic3D extends Drawable3DCurves
 		}
 	}
 
+	private void setPackCurve() {
+		if (shouldBePacked()) {
+			getView3D().getRenderer().getGeometryManager().setPackCurve(
+					getColor(), getGeoElement().getLineType(),
+					getGeoElement().getLineTypeHidden());
+		}
+	}
+
+	private void setPackSurface() {
+		if (shouldBePacked()) {
+			getView3D().getRenderer().getGeometryManager().setPackSurface(this);
+		}
+	}
+
+	private void endPacking() {
+		if (shouldBePacked()) {
+			getView3D().getRenderer().getGeometryManager().endPacking();
+		}
+	}
+
 	@Override
 	protected boolean updateForItSelf() {
 
@@ -172,6 +194,7 @@ public class DrawConic3D extends Drawable3DCurves
 
 			if (visible != Visible.FRUSTUM_INSIDE) { // no outline when frustum
 														// inside
+				setPackCurve();
 				PlotterBrush brush = renderer.getGeometryManager().getBrush();
 				brush.start(getReusableGeometryIndex());
 
@@ -207,9 +230,11 @@ public class DrawConic3D extends Drawable3DCurves
 				}
 
 				setGeometryIndex(brush.end());
+				endPacking();
 			}
 
 			// surface
+			setPackSurface();
 			PlotterSurface surface = renderer.getGeometryManager().getSurface();
 			surface.start(getReusableSurfaceIndex());
 
@@ -237,6 +262,7 @@ public class DrawConic3D extends Drawable3DCurves
 			}
 
 			setSurfaceIndex(surface.end());
+			endPacking();
 		}
 
 		return true;
@@ -418,6 +444,7 @@ public class DrawConic3D extends Drawable3DCurves
 	 *            surface plotter
 	 */
 	protected void updateSinglePoint(PlotterSurface surface) {
+		setPackCurve();
 		surface.start(this, getReusableGeometryIndex());
 		// number of vertices depends on point size
 		int nb = 2 + conic.getLineThickness();
@@ -425,8 +452,9 @@ public class DrawConic3D extends Drawable3DCurves
 		surface.setNbU(2 * nb);
 		surface.setV((float) getMinParameter(1), (float) getMaxParameter(1));
 		surface.setNbV(nb);
-		surface.draw();
+		surface.draw(shouldBePackedForManager());
 		setGeometryIndex(surface.end());
+		endPacking();
 	}
 
 	/**
@@ -996,5 +1024,146 @@ public class DrawConic3D extends Drawable3DCurves
 		}
 
 		return super.doHighlighting();
+	}
+
+	@Override
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
+		if (shouldBePacked()) {
+			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
+				setWaitForUpdateColor();
+			} else if (prop == GProperty.VISIBLE) {
+				setWaitForUpdateVisibility();
+			} else {
+				super.setWaitForUpdateVisualStyle(prop);
+			}
+		} else {
+			super.setWaitForUpdateVisualStyle(prop);
+		}
+	}
+
+	@Override
+	protected void updateForViewVisible() {
+		if (!waitForUpdate()) {
+			updateForView();
+		}
+	}
+
+	@Override
+	protected void updateForViewNotVisible() {
+		if (shouldBePacked()) {
+			switch (((GeoConicND) getGeoElement()).getType()) {
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			case GeoConicNDConstants.CONIC_LINE:
+			case GeoConicNDConstants.CONIC_PARABOLA:
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+				if (getView3D().viewChangedByZoom()
+						|| getView3D().viewChangedByTranslate()) {
+					setWaitForUpdate();
+				}
+				break;
+			case GeoConicNDConstants.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				if (getView3D().viewChangedByZoom()
+						|| (visible != Visible.TOTALLY_INSIDE
+								&& getView3D().viewChangedByTranslate())) {
+					setWaitForUpdate();
+				}
+				break;
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
+				if (getView3D().viewChangedByZoom()) {
+					setWaitForUpdate();
+				}
+				break;
+
+			default:
+				if (getView3D().viewChangedByZoom()) {
+					// will be updated if visible again
+					setWaitForUpdate();
+				}
+				break;
+			}
+			updateGeometriesVisibility();
+		}
+	}
+
+	@Override
+	public void disposePreview() {
+		if (shouldBePacked()) {
+			removePreviewFromGL();
+		}
+		super.disposePreview();
+	}
+
+	@Override
+	protected void updateGeometriesColor() {
+		updateColors();
+		getView3D().getRenderer().getGeometryManager().updateColor(getColor(),
+				getGeometryIndex());
+		getView3D().getRenderer().getGeometryManager()
+				.updateColor(getSurfaceColor(), getSurfaceIndex());
+		if (!isVisible()) {
+			setGeometriesVisibility(false);
+		}
+	}
+
+	@Override
+	protected void updateGeometriesVisibility() {
+		boolean isVisible = isVisible();
+		if (geometriesSetVisible != isVisible) {
+			setGeometriesVisibility(isVisible);
+		}
+	}
+
+	@Override
+	protected void setGeometriesVisibility(boolean visible) {
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getGeometryIndex());
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getSurfaceIndex());
+		geometriesSetVisible = visible;
+	}
+
+	@Override
+	public int getReusableSurfaceIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getSurfaceIndex());
+		}
+		return super.getReusableSurfaceIndex();
+	}
+
+	@Override
+	protected int getReusableGeometryIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getGeometryIndex());
+		}
+		return super.getReusableGeometryIndex();
+	}
+
+	@Override
+	protected void recordTrace() {
+		if (!shouldBePackedForManager()) {
+			super.recordTrace();
+		}
+	}
+
+	@Override
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
+		if (shouldBePackedForManager()) {
+			if (tracesPackingBuffer != null) {
+				while (!tracesPackingBuffer.isEmpty()) {
+					doRemoveGeometryIndex(tracesPackingBuffer.pop());
+				}
+			}
+		} else {
+			super.clearTraceForViewChangedByZoomOrTranslate();
+		}
+	}
+
+	@Override
+	public boolean shouldBePacked() {
+		return getView3D().getApplication().has(Feature.MOB_PACK_CONIC)
+				&& !createdByDrawList();
 	}
 }

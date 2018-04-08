@@ -32,6 +32,10 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 			return 3 * (size - 2);
 		case SURFACE:
 			return size;
+		case TRIANGLE_FAN:
+			return 3 * size;
+		case TRIANGLE_STRIP:
+			return 3 * size;
 		default:
 			// should not happen
 			return 0;
@@ -69,6 +73,21 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 				putToIndices(indices.get(i));
 			}
 			break;
+		case TRIANGLE_FAN:
+			// TODO: simplify Manager.triangleFanVertex() when possible to
+			// minimize vertex count
+			for (int i = 0; i < size; i++) {
+				putToIndices(0);
+				putToIndices(2 * i + 1);
+				putToIndices(2 * i + 3);
+			}
+			break;
+		case TRIANGLE_STRIP:
+			for (int i = 0; i < size; i++) {
+				putToIndices(i);
+				putToIndices(i + 1 + (i % 2));
+				putToIndices(i + 2 - (i % 2));
+			}
 		default:
 			// should not happen
 			break;

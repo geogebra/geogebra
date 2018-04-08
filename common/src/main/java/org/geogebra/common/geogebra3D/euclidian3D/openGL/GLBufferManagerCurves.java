@@ -15,23 +15,41 @@ public class GLBufferManagerCurves extends GLBufferManager {
 
 	@Override
 	protected int calculateIndicesLength(int size, TypeElement type) {
-		return 3 * 2 * size * PlotterBrush.LATITUDES;
+		switch (type) {
+		case CURVE:
+			return 3 * 2 * size * PlotterBrush.LATITUDES;
+		case TRIANGLES:
+			return 3 * size;
+		default: // should not happen
+			return 0;
+		}
 	}
 
 	@Override
 	protected void putIndices(int size, TypeElement type) {
-		for (int k = 0; k < size; k++) {
-			for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
-				int iNext = (i + 1) % PlotterBrush.LATITUDES;
-				// first triangle
-				putToIndices(i + k * PlotterBrush.LATITUDES);
-				putToIndices(i + (k + 1) * PlotterBrush.LATITUDES);
-				putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
-				// second triangle
-				putToIndices(i + k * PlotterBrush.LATITUDES);
-				putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
-				putToIndices(iNext + k * PlotterBrush.LATITUDES);
+		switch (type) {
+		case CURVE:
+			for (int k = 0; k < size; k++) {
+				for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
+					int iNext = (i + 1) % PlotterBrush.LATITUDES;
+					// first triangle
+					putToIndices(i + k * PlotterBrush.LATITUDES);
+					putToIndices(i + (k + 1) * PlotterBrush.LATITUDES);
+					putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
+					// second triangle
+					putToIndices(i + k * PlotterBrush.LATITUDES);
+					putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
+					putToIndices(iNext + k * PlotterBrush.LATITUDES);
+				}
 			}
+			break;
+		case TRIANGLES:
+			for (int i = 0; i < 3 * size; i++) {
+				putToIndices(i);
+			}
+			break;
+		default: // should not happen
+			break;
 		}
 	}
 

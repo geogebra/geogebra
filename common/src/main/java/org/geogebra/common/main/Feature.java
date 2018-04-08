@@ -292,7 +292,10 @@ public enum Feature {
 	MOB_HELP_FEEDBACK,
 
 	/** MOB-1513 */
-	MOB_PACK_JOIN_POINTS
+	MOB_PACK_JOIN_POINTS,
+
+	/** MOB-1514 */
+	MOB_PACK_CONIC
 
 }
 

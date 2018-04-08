@@ -839,6 +839,16 @@ abstract public class Manager {
 	}
 
 	/**
+	 * set manager in packing mode for surface
+	 * 
+	 * @param d
+	 *            drawable
+	 */
+	public void setPackSurface(Drawable3D d) {
+		// not needed here
+	}
+
+	/**
 	 * set manager in packing mode for curves
 	 * 
 	 * @param color

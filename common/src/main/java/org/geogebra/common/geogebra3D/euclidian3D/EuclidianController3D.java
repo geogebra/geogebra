@@ -2990,9 +2990,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				resultedIntersectionCurve = intersectionCurve;
 				zNear = d.getZPickNear();
 			}
-			if (d instanceof DrawIntersectionCurve3D) {
-				((DrawIntersectionCurve3D) d).setDrawablesVisibility(false);
-			}
+			d.setIntersectionCurveVisibility(false);
 		}
 
 		// Log.debug("\n\n==== INTER: "+resultedGeo+"\nz="+zNear+"\n\n");
@@ -3094,9 +3092,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		addToGoodHits(hits.get(0));
 		addToGoodHits(hits.get(1));
 
-		if (resultedIntersectionCurve.drawable instanceof DrawIntersectionCurve3D) {
-			((DrawIntersectionCurve3D) resultedIntersectionCurve.drawable).setDrawablesVisibility(true);
-		}
+		resultedIntersectionCurve.drawable.setIntersectionCurveVisibility(true);
 		view3D.setPreview((Previewable) resultedIntersectionCurve.drawable);
 	}
 
@@ -4106,9 +4102,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected void updateIntersectionCurves() {
 		for (IntersectionCurve intersectionCurve : intersectionCurveList) {
 			intersectionCurve.drawable.update();
-			if (intersectionCurve.drawable instanceof DrawIntersectionCurve3D) {
-				((DrawIntersectionCurve3D) intersectionCurve.drawable).updateDrawablesVisibility();
-			}
+			intersectionCurve.drawable.updateIntersectionCurveVisibility();
 		}
 	}
 

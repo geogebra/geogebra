@@ -45,7 +45,7 @@ public class ManagerShaders extends Manager {
 	}
 
 	public enum TypeElement {
-		NONE, CURVE, SURFACE, FAN_DIRECT, FAN_INDIRECT
+		NONE, CURVE, SURFACE, FAN_DIRECT, FAN_INDIRECT, TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES
 	}
 
 	@Override
