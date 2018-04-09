@@ -383,19 +383,14 @@ public final class DrawImage extends Drawable {
 					g3.drawImage(image, 0, 0);
 				}
 				if (getBoundingBox().isCropBox() || wasCroped) {
-					GRectangle2D drawRectangle = wasCroped ? geoImage.getCropBoxRelative()
+					GRectangle2D drawRectangle = wasCroped ? getCropBox()
 							: getBoundingBox().getRectangle();
 					g3.setComposite(
 							AwtFactory.getPrototype().newAlphaComposite(1.0f));
 					GPoint2D ptDst = AwtFactory.getPrototype().newPoint2D();
-					if (!wasCroped) {
-						GPoint2D ptScr = AwtFactory.getPrototype().newPoint2D(
-								drawRectangle.getX(), drawRectangle.getY());
-						atInverse.transform(ptScr, ptDst);
-					} else {
-						ptDst.setX(drawRectangle.getMinX());
-						ptDst.setY(drawRectangle.getMinY());
-					}
+					GPoint2D ptScr = AwtFactory.getPrototype().newPoint2D(
+							drawRectangle.getX(), drawRectangle.getY());
+					atInverse.transform(ptScr, ptDst);
 					GShape shape = atInverse.createTransformedShape(drawRectangle);
 					g3.drawImage(image,
 							(int) ptDst.getX(), (int) ptDst.getY(),
@@ -720,27 +715,54 @@ public final class DrawImage extends Drawable {
 		boundingBox.setRectangle(rect);
 		// remember last crop box position
 		setCropBox(rect);
-		imagecropRatioX = view.getXscale() * geoImage.getImageScreenWidth()
-				/ geoImage.getCropBoxRelative().getWidth();
-		imagecropRatioY = view.getYscale() * geoImage.getImageScreenHeight()
-				/ geoImage.getCropBoxRelative().getHeight();
+		imagecropRatioX = geoImage.getFillImage().getWidth() / geoImage.getCropBoxRelative().getWidth();
+		imagecropRatioY = geoImage.getFillImage().getHeight() / geoImage.getCropBoxRelative().getHeight();
+	}
+
+	/**
+	 * Gets the ratio the current width of the image drawn on canvas and the
+	 * original width of image.
+	 */
+	private double getOriginalRatioX() {
+		return (view.getXscale() * geoImage.getImageScreenWidth()) / geoImage.getFillImage().getWidth();
+
+	}
+
+	/**
+	 * Gets the ratio the current height of the image drawn on canvas and the
+	 * original width of image.
+	 */
+	private double getOriginalRatioY() {
+		return (view.getYscale() * geoImage.getImageScreenHeight()) / geoImage.getFillImage().getHeight();
+	}
+
+	private int getImageTop() {
+		if (geoImage.getCorner(2) == null) {
+			return view.toScreenCoordY(geoImage.getCorner(0).getY()) - geoImage.getFillImage().getHeight();
+		}
+		return view.toScreenCoordY(geoImage.getCorner(2).getY());
 	}
 
 	private void setCropBox(GRectangle2D rect) {
+		int locX = view.toScreenCoordX(geoImage.getRealWorldLocX());
+		int locY = getImageTop();
 		GRectangle2D cb = AwtFactory.getPrototype().newRectangle2D();
-		double[] screenArray = { rect.getMinX(), rect.getMinY() };
-		atInverse.transform(screenArray, 0, screenArray, 0, 1);
-		cb.setRect(screenArray[0], screenArray[1], rect.getWidth(), rect.getHeight());
+		cb.setRect(rect.getMinX() / getOriginalRatioX() - locX,
+				rect.getMinY() / getOriginalRatioY() - locY,
+				rect.getWidth() / getOriginalRatioX(),
+				rect.getHeight() / getOriginalRatioY());
 		geoImage.setCropBoxRelative(cb);
 	}
 
 	private GRectangle2D getCropBox() {
-		double[] screenArray = { geoImage.getCropBoxRelative().getMinX(),
-				geoImage.getCropBoxRelative().getMinY() };
-		at.transform(screenArray, 0, screenArray, 0, 1);
+		GRectangle2D rect = geoImage.getCropBoxRelative();
+		int locX = view.toScreenCoordX(geoImage.getRealWorldX(0));
+		int locY = getImageTop();
 		GRectangle2D cb = AwtFactory.getPrototype().newRectangle2D();
-		cb.setRect(screenArray[0], screenArray[1], geoImage.getCropBoxRelative().getWidth(),
-				geoImage.getCropBoxRelative().getHeight());
+		cb.setRect(rect.getMinX() * getOriginalRatioX() + locX,
+				rect.getMinY() * getOriginalRatioY() + locY,
+				rect.getWidth() * getOriginalRatioX(),
+				rect.getHeight() * getOriginalRatioY());
 		return cb;
 	}
 
@@ -996,12 +1018,6 @@ public final class DrawImage extends Drawable {
 				geoImage.getCorner(2).updateCoords();
 				geoImage.getCorner(2).updateRepaint();
 			}
-
-			// update crop box and affine transfrom of the image
-			updateAffineTransform();
-			GRectangle2D cb = AwtFactory.getPrototype().newRectangle2D();
-			cb.setRect(screenAX, screenDY, screenCropWidth, screenCropHeight);
-			setCropBox(cb);
 		}
 	}
 
