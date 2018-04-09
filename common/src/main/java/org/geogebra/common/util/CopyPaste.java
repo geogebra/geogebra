@@ -82,11 +82,7 @@ public class CopyPaste {
 	 * @return whether the clipboard is empty
 	 */
 	public boolean isEmpty() {
-		if (copiedXML == null) {
-			return true;
-		}
-
-		return (copiedXML.length() == 0);
+		return copiedXML == null || copiedXML.length() == 0;
 	}
 
 	/**
@@ -872,11 +868,7 @@ public class CopyPaste {
 	 */
 	public void pasteFromXML(App app, boolean putdown) {
 
-		if (copiedXML == null) {
-			return;
-		}
-
-		if (copiedXML.length() == 0) {
+		if (copiedXML == null || copiedXML.length() == 0) {
 			return;
 		}
 
@@ -888,11 +880,8 @@ public class CopyPaste {
 				.getCurrentUndoInfo();
 
 		if (pasteFast(app) && !putdown) {
-			if (copiedXMLforSameWindow == null) {
-				return;
-			}
-
-			if (copiedXMLforSameWindow.length() == 0) {
+			if (copiedXMLforSameWindow == null
+					|| copiedXMLforSameWindow.length() == 0) {
 				return;
 			}
 		}
@@ -987,6 +976,9 @@ public class CopyPaste {
 	 * Currently, we call this only if the pasted object is put down, but it
 	 * would be better if this were called every time when kernel.storeUndoInfo
 	 * called and there wasn't anything deleted
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public void pastePutDownCallback(App app) {
 		if (pasteFast(app)) {
