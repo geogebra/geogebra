@@ -52,6 +52,9 @@ namespace giac {
   std::string svg_grid(double xmin,double xmax,double ymin,double ymax,const plot_attr & p);
   extern const char svg_end[];
   std::string ingen2mathml(const gen & g,bool html5,GIAC_CONTEXT);
+  // greek letter support 
+  std::string idnt2mathml(const std::string & s0);
+  std::string idnt2mathml_(const std::string & s0);
 
 #endif // RTOS_THREADX
 
