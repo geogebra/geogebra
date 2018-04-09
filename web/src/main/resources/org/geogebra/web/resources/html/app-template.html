@@ -59,7 +59,7 @@ var translation = {};
 			e("ggw").setAttribute("data-param-marginTop", marginTop);
 
 			if(id){
-				if(id.substring(0,4) == "exam") {
+				if((id+"").substring(0,4) == "exam") {
 					e("ggw").setAttribute("data-param-enableGraphing","true");
 				}
 				if(id == "exam-simple"){
