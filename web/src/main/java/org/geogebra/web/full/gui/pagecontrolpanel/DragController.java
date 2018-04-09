@@ -22,7 +22,8 @@ class DragController {
 	 * @author laszlo 
 	 */
 	final Cards cards;
-	private DragCard dragged;
+	/** Currently dragged card */
+	DragCard dragged;
 	private App app;
 
 	/** The page which the pointer was down at start. */
@@ -137,14 +138,13 @@ class DragController {
 	}
 
 	private static class LastTarget {
+		PagePreviewCard target = null;
+		int top;
+		int bottom;
 
 		protected LastTarget() {
 			// protected constructor
 		}
-
-		PagePreviewCard target = null;
-		int top;
-		int bottom;
 
 		void reset() {
 			target = null;
@@ -189,12 +189,12 @@ class DragController {
 			return isValid() ? card.getPageIndex() : -1;
 		}
 
-		boolean isAnimated() {
-			return app.has(Feature.MOW_DRAG_AND_DROP_ANIMATION);
-		}
-
 		boolean isValid() {
 			return card != null;
+		}
+
+		int getDropIndex() {
+			return dropToIdx;
 		}
 
 		private void addSpaceTop() {
@@ -532,7 +532,7 @@ class DragController {
 				return true;
 			}
 			int targetIdx = dragged.move(y);
-			if (targetIdx != -1 && !dragged.isAnimated()) {
+			if (targetIdx != -1 && !isAnimated()) {
 				getListener().insertDivider(targetIdx);
 			}
 		}
@@ -552,7 +552,7 @@ class DragController {
 			cards.clickPage(clicked.getPageIndex(), true);
 		} else if (CancelEventTimer.isDragging()) {
 			if (dragged.drop()) {
-				if (dragged.isAnimated()) {
+				if (isAnimated()) {
 					createDropAnimation();
 					return;
 				}
@@ -598,7 +598,7 @@ class DragController {
 	 */
 	void onDrop() {
 		dropAnimTimer.cancel();
-		cards.reorder(dragged.index(), dragged.dropToIdx);
+		cards.reorder(dragged.index(), dragged.getDropIndex());
 		getListener().update();
 		cards.clickPage(dragged.index(), false);
 		cancelDrag();
@@ -617,6 +617,13 @@ class DragController {
 	 */
 	CardListInterface getListener() {
 		return cards.getListener();
+	}
+
+	/**
+	 * @return whether animation is supported
+	 */
+	boolean isAnimated() {
+		return app.has(Feature.MOW_DRAG_AND_DROP_ANIMATION);
 	}
 
 }
