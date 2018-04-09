@@ -215,7 +215,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 				kernel.getConstruction().removeFromAlgorithmList(parent);
 			}
 			add(elements, retList);
-		} catch (Exception exception) {
+		} catch (Throwable exception) {
 			// ignore
 		}
 	}
@@ -223,7 +223,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private static boolean shouldShowSpecialPoints(GeoElementND geo) {
 		return (geo instanceof GeoFunction || geo instanceof EquationValue)
 				&& geo.isVisible() && geo.isDefined()
-				&& geo.isEuclidianVisible();
+				&& geo.isEuclidianVisible() && !geo.isGeoElement3D();
 	}
 
 	private static void add(GeoElement[] geos1,
