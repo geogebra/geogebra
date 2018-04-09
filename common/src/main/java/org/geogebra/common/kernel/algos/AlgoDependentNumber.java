@@ -771,4 +771,9 @@ public class AlgoDependentNumber extends AlgoElement
 		return strForGiac.toString();
 	}
 
+	@Override
+	public boolean mayShowDescriptionInsteadOfDefinition() {
+		return false;
+	}
+
 }

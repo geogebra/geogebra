@@ -2017,4 +2017,9 @@ public class GeoNumeric extends GeoElement
 	public double evaluateDouble() {
 		return getDouble();
 	}
+
+	@Override
+	protected boolean mayShowDescriptionInsteadOfDefinitionNoAlgoParent() {
+		return false;
+	}
 }

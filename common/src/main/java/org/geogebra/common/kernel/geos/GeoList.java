@@ -3228,4 +3228,9 @@ public class GeoList extends GeoElement
 		isDrawable = false;
 	}
 
+	@Override
+	protected boolean mayShowDescriptionInsteadOfDefinitionNoAlgoParent() {
+		return false;
+	}
+
 }
