@@ -610,17 +610,13 @@ namespace giac {
 
   static void svg_dx(double svg_width, double & dx){
     // calibrage des graduations
-    int p_w=(int) std::log10(svg_width);
-    dx=std::pow(10.0,p_w-1);
+    int p_w= int(std::floor( std::log10(svg_width)));
+    dx=std::pow(10.0,p_w); // dx<=svg_width<=10*dx
     if (dx==0)
       dx=1;
-    if (svg_width/dx>25)
-      dx *= 5;
-    if (svg_width/dx>9)
-      dx*=5;
     if (svg_width/dx<=2)
       dx/=5;
-    if (svg_width/dx<=5)
+    while (svg_width/dx<=5)
       dx/=2;
   }
 
@@ -797,8 +793,8 @@ namespace giac {
     // calibrage des graduations
     double  dx, dy;
     svg_dx_dy(svg_width, svg_height, dx, dy);
-    double i_min_x= xmin/dx;
-    double i_min_y= ymin/dy;
+    double i_min_x= std::ceil(xmin/dx);
+    double i_min_y= std::ceil(ymin/dy);
     // check axe=0 inside g
     if (axes_off(g))
       return buffer;
@@ -839,6 +835,7 @@ namespace giac {
     }
     //cadre
     sprintf(pos,"<rect stroke=\"black\" stroke-width=\"%.5g\" fill=\"none\" x=\"%.5g\" y=\"%.5g\" width=\"%.5g\" height=\"%.5g\" />",2*std::min(xthickness,ythickness),xmin,ymin,svg_width,svg_height);
+    pos=buffer+strlen(buffer);
     // sortie<<"<rect stroke=\""<<"black"<<"\"  stroke-width=\""<<2*thickness<<"\" fill=\"none\" x=\""<<xmin<<"\" y=\""<<ymin<<"\" width=\""<<svg_width<<"\" height=\""<<svg_height<<"\" />"<<endl;  
     // string s=sortie.str();
     return buffer;
@@ -860,7 +857,7 @@ namespace giac {
     return svg_grid(gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax);
   }
   
-  string svg_grid(double xmin,double xmax,double ymin,double ymax){
+  string svg_grid(double xmin,double xmax,double ymin,double ymax,const plot_attr & p){
     double svg_width=xmax-xmin;
     double svg_height=ymax-ymin;
 #ifdef HAVE_SSTREAM
@@ -894,26 +891,44 @@ namespace giac {
     svg_dx_dy(svg_width, svg_height, dx, dy);
     double x,y;
     int i;
-    double i_min_x= xmin/dx;
-    double i_min_y= ymin/dy;
-    // index des graduations 
+    double i_min_x= std::ceil(xmin/dx);
+    double i_min_y= std::ceil(ymin/dy);
+    // graduations horizontales
     for (i=(int) i_min_x;  i*dx<=xmax ; ++i){
       x=i*dx;
-      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.4g</text>\n",x/fontscale,(ymax+0.6*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.63,x);
+      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.4g</text>\n",x/fontscale,(ymax+0.6*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.67,x);
       pos = buffer+strlen(buffer);
       // sortie << setprecision(5)<<"<text x=\""<<x<<"\" y=\""<<ymax+0.6*y_scale<<"\" ";
       // sortie <<" style=\"font-size:"<<fontscale<<"pt; text-anchor:middle;\"";
       // sortie << ">" << (float)x <<"</text>"<<endl;
     } 
+    if (p.xlegende.size()){
+      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:start;\">%s</text>\n",xmin/fontscale,(ymax+0.6*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.67,p.xlegende.c_str());
+      pos = buffer+strlen(buffer);
+    }
+    // graduations verticales
     for (i=(int) i_min_y;  i*dy<=ymax ; ++i){
       y=i*dy;
-      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.4g</text>\n",(xmax+0.3*x_scale)/fontscale,(ymax+ymin-y+0.1*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.63,y);
+      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:end;\">%.4g</text>\n",(xmax+0.6*x_scale)/fontscale,(ymax+ymin-y+0.1*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.67,y);
       pos = buffer+strlen(buffer);
       // sortie<<setprecision(5)<<"<text x=\""<<xmax+0.2*x_scale<<"\" y=\""<<ymax+ymin-y+0.1*y_scale << "\" ";
       // sortie <<"style=\"font-size:"<<fontscale<<"pt\"";
       // sortie << ">" << (float)y<<"</text>"<<endl;
     }
+    if (p.ylegende.size()){
+      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:end;\">%s</text>\n",(xmax+0.6*x_scale)/fontscale,(ymin+0.0*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.67,p.ylegende.c_str());
+      pos = buffer+strlen(buffer);
+    }
+    if (p.title.size()){
+      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%s</text>\n",(0.5*xmax+0.5*xmin)/fontscale,(ymin+0.0*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,0.67,p.title.c_str());
+      pos = buffer+strlen(buffer);
+    }
     return buffer;
+  }
+
+  string svg_grid(double xmin,double xmax,double ymin,double ymax){
+    plot_attr P;
+    return svg_grid(xmin,xmax,ymin,ymax,P);
   }
 
   static inline string color_string(svg_attribut attr){

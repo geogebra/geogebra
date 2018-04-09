@@ -1094,6 +1094,36 @@ namespace giac {
     return res;
   }
 
+  void title_legende(const gen & g,plot_attr & p){
+    if (g.type==_VECT){
+      vecteur v =*g._VECTptr;
+      for (int i=0;i<int(v.size());++i){
+	title_legende(v[i],p);
+      }
+      return;
+    }
+    if (g.is_symb_of_sommet(at_equal)){
+      gen f=g._SYMBptr->feuille;
+      if (f.type==_VECT && f._VECTptr->size()==2){
+	gen optname= f._VECTptr->front(),optvalue=f._VECTptr->back();
+	if (optname.type==_INT_ && optname.subtype==_INT_PLOT){
+	  string s=optvalue.type==_STRNG?*optvalue._STRNGptr:optvalue.print(context0);
+	  switch (optname.val){
+	  case _TITLE:
+	    p.title=s;
+	    break;
+	  case _GL_X_AXIS_NAME:
+	    p.xlegende=s;
+	    break;
+	  case _GL_Y_AXIS_NAME:
+	    p.ylegende=s;
+	    break;
+	  }
+	}
+      }
+    }
+  }
+
   static void zoom(double &m,double & M,double d){
     double x_center=(M+m)/2;
     double dx=(M-m);

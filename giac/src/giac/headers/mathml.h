@@ -49,6 +49,7 @@ namespace giac {
   std::string svg_preamble(double svg_width_cm, double svg_height_cm,double xmin,double xmax,double ymin,double ymax,bool ortho,bool xml);
   std::string svg_grid();
   std::string svg_grid(double xmin,double xmax,double ymin,double ymax);
+  std::string svg_grid(double xmin,double xmax,double ymin,double ymax,const plot_attr & p);
   extern const char svg_end[];
   std::string ingen2mathml(const gen & g,bool html5,GIAC_CONTEXT);
 

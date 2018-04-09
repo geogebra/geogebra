@@ -452,6 +452,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "▶"                index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 "→"                    index_status(yyextra)=0; if (xcas_mode(yyextra)==3){ (*yylval)=gen(at_sto,2); return TI_STO; } else return T_MAPSTO;
 "=>"                    index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
+"=%"                    index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 "=<"                    index_status(yyextra)=0; (*yylval)=gen(at_array_sto,2); return T_AFFECT;
 "=&lt;"                  index_status(yyextra)=0; (*yylval)=gen(at_array_sto,2); return T_AFFECT;
 "@"{D}+                   index_status(yyextra)=1; yytext[0]='0'; (*yylval) = symb_double_deux_points(makevecteur(_IDNT_id_at,chartab2gen(yytext,yyextra))); return T_SYMBOL;

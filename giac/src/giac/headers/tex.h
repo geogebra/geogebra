@@ -66,6 +66,11 @@ namespace giac {
   extern const unary_function_ptr * const  at_TeX ;
   std::string get_path(const std::string & st);
   std::string remove_path(const std::string & st);
+  struct plot_attr {
+    std::string xlegende,ylegende,title;
+  };
+  // find title, xlegende and ylegende in a 2d graphic object
+  void title_legende(const gen & g,plot_attr & p);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
