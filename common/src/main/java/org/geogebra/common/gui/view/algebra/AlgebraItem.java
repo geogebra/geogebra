@@ -21,6 +21,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.IndexLaTeXBuilder;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -389,6 +390,25 @@ public class AlgebraItem {
 			GeoElement geoElement, int style) {
 		return getDescriptionModeForGeo(geoElement,
 				style) != DescriptionMode.DEFINITION;
+	}
+
+	/**
+	 *
+	 * @param element geo
+	 * @param style AV style
+	 * @return description string for element to show in AV row; null if element prefers showing definition
+	 */
+	public static String getDescriptionString(GeoElement element, int style) {
+		if (element.mayShowDescriptionInsteadOfDefinition()) {
+			IndexLaTeXBuilder builder = new IndexLaTeXBuilder();
+			AlgebraItem.getDefinitionText(element, style, builder);
+			return getLatexText(builder.toString().replace("^", "\\^{\\;}"));
+		}
+		return null;
+	}
+
+	private static String getLatexText(String text) {
+		return "\\text{" + text + '}';
 	}
 
 }
