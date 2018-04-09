@@ -129,7 +129,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				app.getActiveEuclidianView().getEuclidianController()
 						.clearSelections();
 				menu.hide();
-				app.getGgbApi().exportPSTricks(exportCllback("Pstricks", app));
+				app.getGgbApi().exportPSTricks(exportCallback("Pstricks", app));
 
 			}
 		});
@@ -142,7 +142,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						.clearSelectionAndRectangle();
 				menu.hide();
 
-				app.getGgbApi().exportPGF(exportCllback("PGF", app));
+				app.getGgbApi().exportPGF(exportCallback("PGF", app));
 			}
 		});
 
@@ -155,7 +155,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				menu.hide();
 				app.getGgbApi()
 						.exportAsymptote(
-								exportCllback("Asymptote", app));
+								exportCallback("Asymptote", app));
 
 			}
 		});
@@ -192,7 +192,14 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 	}
 
-	protected static AsyncOperation<String> exportCllback(final String string,
+	/**
+	 * @param string
+	 *            file type (for event logging)
+	 * @param app
+	 *            application
+	 * @return callback for saving text export / images
+	 */
+	protected static AsyncOperation<String> exportCallback(final String string,
 			final AppW app) {
 		return new AsyncOperation<String>() {
 

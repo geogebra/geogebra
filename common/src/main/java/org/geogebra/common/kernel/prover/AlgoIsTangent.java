@@ -24,8 +24,8 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 public class AlgoIsTangent extends AlgoElement
 		implements SymbolicParametersBotanaAlgoAre {
 
-	private GeoElement inputElement1; // input
-	private GeoElement inputElement2; // input
+	private GeoLine inputElement1; // input
+	private GeoConic inputElement2; // input
 
 	private GeoBoolean outputBoolean; // output
 	private PPolynomial[][] botanaPolynomials;
@@ -40,8 +40,8 @@ public class AlgoIsTangent extends AlgoElement
 	 * @param inputElement2
 	 *            the second object
 	 */
-	public AlgoIsTangent(Construction cons, GeoElement inputElement1,
-                         GeoElement inputElement2) {
+	public AlgoIsTangent(Construction cons, GeoLine inputElement1,
+			GeoConic inputElement2) {
 		super(cons);
 		this.inputElement1 = inputElement1;
 		this.inputElement2 = inputElement2;
@@ -66,7 +66,7 @@ public class AlgoIsTangent extends AlgoElement
 	 *            the second object
 	 */
 	public AlgoIsTangent(Construction cons, String label,
-						 GeoElement inputElement1, GeoElement inputElement2) {
+			GeoLine inputElement1, GeoConic inputElement2) {
 		this(cons, inputElement1, inputElement2);
 		outputBoolean.setLabel(label);
 	}
@@ -99,8 +99,8 @@ public class AlgoIsTangent extends AlgoElement
 
 	@Override
 	public final void compute() {
-		GeoLine l = (GeoLine) inputElement1;
-		GeoConic c = (GeoConic) inputElement2;
+		GeoLine l = inputElement1;
+		GeoConic c = inputElement2;
 		Boolean value = null;
 		if (l.isDefinedTangent(c)) {
 			value = true;
@@ -121,8 +121,8 @@ public class AlgoIsTangent extends AlgoElement
             return botanaPolynomials;
         }
 
-        GeoLine l = (GeoLine) inputElement1;
-        GeoConic c = (GeoConic) inputElement2;
+		GeoLine l = inputElement1;
+		GeoConic c = inputElement2;
 
         PVariable[] lv = l.getBotanaVars(l);
 		PVariable[] cv = c.getBotanaVars(c);

@@ -370,7 +370,8 @@ public class Relation {
 			case IsTangent:
 			    if ((g1 instanceof GeoLine) && (g2 instanceof GeoConic)) {
                     ae = new AlgoIsTangent(cons, (GeoLine) g1, (GeoConic) g2);
-                } else  if ((g2 instanceof GeoConic) && (g1 instanceof GeoLine)) {
+				} else if ((g1 instanceof GeoConic)
+						&& (g2 instanceof GeoLine)) {
                     ae = new AlgoIsTangent(cons, (GeoLine) g2, (GeoConic) g1);
                 }
 				break;

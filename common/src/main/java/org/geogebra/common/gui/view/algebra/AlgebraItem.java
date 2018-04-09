@@ -2,9 +2,6 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoDependentFunction;
-import org.geogebra.common.kernel.algos.AlgoDependentNumber;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -300,6 +297,14 @@ public class AlgebraItem {
 		}
 	}
 
+	/**
+	 * @param geoElement
+	 *            element
+	 * @param style
+	 *            Kenel.ALGEBRA_STYLE_*
+	 * @param sb
+	 *            builder
+	 */
 	public static void getDefinitionText(GeoElement geoElement, int style, IndexHTMLBuilder sb) {
 		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION && needsPacking(geoElement)) {
 			String value = geoElement.getDefinitionDescription(StringTemplate.editorTemplate);

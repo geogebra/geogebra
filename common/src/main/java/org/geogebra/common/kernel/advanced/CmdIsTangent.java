@@ -16,7 +16,9 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.prover.AlgoIsTangent;
 import org.geogebra.common.main.MyError;
 
@@ -49,8 +51,8 @@ public class CmdIsTangent extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
 
-				AlgoIsTangent algo = new AlgoIsTangent(cons, c.getLabel(), arg[0],
-						arg[1]);
+				AlgoIsTangent algo = new AlgoIsTangent(cons, c.getLabel(),
+						(GeoLine) arg[0], (GeoConic) arg[1]);
 				GeoElement[] ret = {algo.getResult()};
 
 				return ret;

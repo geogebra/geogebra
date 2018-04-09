@@ -21,7 +21,7 @@ class DragController {
 	 * Class to handle drag and drop cards 
 	 * @author laszlo 
 	 */
-	private final Cards cards;
+	final Cards cards;
 	private DragCard dragged;
 	private App app;
 
@@ -98,8 +98,7 @@ class DragController {
 							- PagePreviewCard.MARGIN;
 				}
 
-				dragged.card.setTop(pos);
-				dragged.handleTarget(pos);
+				onScroll(pos);
 			} else {
 				onScrollCancel();
 			}
@@ -119,7 +118,7 @@ class DragController {
 			int diff = y - autoScrollY;
 			int scrollPos = getListener().getVerticalScrollPosition();
 			boolean d = diff > 0;
-			if (autoScroll.isRunning()) {
+			if (isRunning()) {
 				if ((d != scrollDown && Math.abs(diff) > CANCEL_THRESHOLD)
 						|| (!scrollDown && scrollPos == 0)) {
 					onScrollCancel();
@@ -138,6 +137,11 @@ class DragController {
 	}
 
 	private static class LastTarget {
+
+		protected LastTarget() {
+			// protected constructor
+		}
+
 		PagePreviewCard target = null;
 		int top;
 		int bottom;
@@ -428,6 +432,15 @@ class DragController {
 	}
 
 	/**
+	 * @param pos
+	 *            scroll vertical position
+	 */
+	public void onScroll(int pos) {
+		dragged.card.setTop(pos);
+		dragged.handleTarget(pos);
+	}
+
+	/**
 	 * @param x
 	 *            mouse x
 	 * @param y
@@ -571,7 +584,10 @@ class DragController {
 		autoScroll.cancel();
 	}
 
-	private void clearSpaces() {
+	/**
+	 * Remove all spaces
+	 */
+	void clearSpaces() {
 		for (PagePreviewCard card: cards.getCards()) {
 			card.removeSpace();
 		}
