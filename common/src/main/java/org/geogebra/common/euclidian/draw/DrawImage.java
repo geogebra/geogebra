@@ -712,8 +712,7 @@ public final class DrawImage extends Drawable {
 		int locX = view.toScreenCoordX(geoImage.getRealWorldLocX());
 		int locY = getImageTop();
 		GRectangle2D cb = AwtFactory.getPrototype().newRectangle2D();
-		cb.setRect(rect.getMinX() / getOriginalRatioX() - locX,
-				rect.getMinY() / getOriginalRatioY() - locY,
+		cb.setRect((rect.getMinX() - locX) / getOriginalRatioX(), (rect.getMinY() - locY) / getOriginalRatioY(),
 				rect.getWidth() / getOriginalRatioX(),
 				rect.getHeight() / getOriginalRatioY());
 		geoImage.setCropBoxRelative(cb);
