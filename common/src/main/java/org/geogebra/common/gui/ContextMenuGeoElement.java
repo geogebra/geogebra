@@ -742,6 +742,9 @@ public abstract class ContextMenuGeoElement {
 	 * Duplicates selected elements
 	 */
 	public void duplicateCmd() {
+		if (app.getSelectionManager().getSelectedGeos().isEmpty()) {
+			app.getSelectionManager().addSelectedGeo(getGeo());
+		}
 		app.getCopyPaste().copyToXML(app,
 				app.getSelectionManager().getSelectedGeos(), false);
 		app.getCopyPaste().pasteFromXML(app, false);
