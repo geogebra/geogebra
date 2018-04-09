@@ -21,6 +21,7 @@ import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.util.SaveDialogW;
 import org.geogebra.web.full.gui.util.ShareDialogW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
@@ -131,6 +132,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							loc.getMenu("ExamSimpleCalc.long"), buttonText,
 							handler);
 				}
+			} else {
+				getApp().getLAF().toggleFullscreen(true);
+				resetAfterExam();
+				getApp().setNewExam();
+				((AppWFull) getApp()).examWelcome();
+				return;
 			}
 		} else {
 			handler = new AsyncOperation<String[]>() {
@@ -145,6 +152,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							+ getApp().getVersionString(),
 					buttonText, handler);
 		}
+		resetAfterExam();
+	}
+
+	private void resetAfterExam() {
 		getApp().setExam(null);
 		getApp().resetViewsEnabled();
 		LayoutW.resetPerspectives(getApp());
@@ -155,8 +166,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				ToolBar.getAllToolsNoMacros(true, false, getApp()));
 		getApp().getGuiManager().resetMenu();
 		getApp().setActivePerspective(0);
+
 	}
-	
+
 	private void initActions() {
 		// if (!app.has(Feature.NEW_START_SCREEN)) {
 		if (getApp().isExam()) {

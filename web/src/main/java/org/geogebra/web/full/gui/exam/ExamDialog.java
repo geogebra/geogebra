@@ -66,7 +66,16 @@ public class ExamDialog {
 		ensureExamStyle();
 		loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
-		box = new DialogBoxKbW(false, true, null, app.getPanel(), app);
+		final boolean hasGraphing = app.getArticleElement()
+				.hasDataParamEnableGraphing();
+		box = new DialogBoxKbW(false, true, null, app.getPanel(), app){
+			@Override
+			protected void onCancel() {
+				if (!hasGraphing) {
+					cancelExam();
+				}
+			}
+		};
 
 		VerticalPanel mainWidget = new VerticalPanel();
 		FlowPanel btnPanel = new FlowPanel();
@@ -79,7 +88,7 @@ public class ExamDialog {
 
 		btnPanel.add(btnOk);
 		// we don't need cancel and help buttons for tablet exam apps
-		if (!(app.getArticleElement().hasDataParamEnableGraphing())) {
+		if (!hasGraphing) {
 			btnPanel.add(btnCancel);
 			btnPanel.add(btnHelp);
 			box.addStyleName("boxsize");

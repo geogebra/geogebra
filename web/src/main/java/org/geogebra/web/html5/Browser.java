@@ -357,8 +357,8 @@ public class Browser {
 			return data.substring(0, input.length) === input;
 		}
 		//global function in Chrome Kiosk App
-		if (typeof $wnd.exportFile == "function") {
-			$wnd.exportFile(url, title);
+		if (typeof $wnd.ggbExportFile == "function") {
+			$wnd.ggbExportFile(url, title);
 			return;
 		}
 		if (startsWith(url, @org.geogebra.common.util.StringUtil::pngMarker)) {

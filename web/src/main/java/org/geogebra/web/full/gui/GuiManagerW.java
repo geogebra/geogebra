@@ -2184,8 +2184,8 @@ public class GuiManagerW extends GuiManager
 			var URL = $wnd.URL || $wnd.webkitURL;
 			var ggburl = URL.createObjectURL(ggbZip);
 			//global function in Chrome Kiosk App
-			if (typeof $wnd.exportFile == "function") {
-				$wnd.exportFile(ggburl, title);
+			if (typeof $wnd.ggbExportFile == "function") {
+				$wnd.ggbExportFile(ggburl, title);
 				return;
 			}
 			if ($wnd.navigator.msSaveBlob) {

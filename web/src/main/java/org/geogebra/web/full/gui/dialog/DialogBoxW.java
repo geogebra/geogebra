@@ -65,7 +65,7 @@ public class DialogBoxW extends GDialogBox {
 		super.onPreviewNativeEvent(event);
 		if (event.getTypeInt() == Event.ONKEYUP
 				&& event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
-			hide();
+			onCancel();
 		}
 	}
 	
