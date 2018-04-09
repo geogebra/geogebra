@@ -220,4 +220,9 @@ public class AlgoCurveCartesian extends AlgoElement {
 		curve.setInterval(from.getDouble(), to.getDouble());
 	}
 
+	@Override
+	public boolean mayShowDescriptionInsteadOfDefinition() {
+		return false;
+	}
+
 }
