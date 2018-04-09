@@ -38,6 +38,7 @@ public class DynamicTextProcessor {
 	 * Constructor
 	 * 
 	 * @param app
+	 *            application
 	 */
 	public DynamicTextProcessor(App app) {
 		this.app = app;
@@ -84,11 +85,11 @@ public class DynamicTextProcessor {
 	 * 
 	 * @param en
 	 *            node to be parsed
-	 * @param dList
+	 * @param dynList
 	 *            list of DynamicTextElements derived from the given node
 	 */
 	private void splitString(ExpressionNode en,
-			ArrayList<DynamicTextElement> dList) {
+			ArrayList<DynamicTextElement> dynList) {
 
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
@@ -100,17 +101,17 @@ public class DynamicTextProcessor {
 				DynamicTextElement d = createDynamicTextElement(
 						((GeoElement) left).getLabel(tpl));
 				// add at end
-				dList.add(d);
+				dynList.add(d);
 			} else if (left.isExpressionNode()) {
-				splitString((ExpressionNode) left, dList);
+				splitString((ExpressionNode) left, dynList);
 			} else if (left instanceof MyStringBuffer) {
 				DynamicTextElement d = createDynamicTextElement(
 						left.toString(tpl).replaceAll("\"", ""));
-				dList.add(d);
+				dynList.add(d);
 			} else {
 				DynamicTextElement d = createDynamicTextElement(
 						left.toString(tpl));
-				dList.add(d);
+				dynList.add(d);
 			}
 		}
 
@@ -121,39 +122,39 @@ public class DynamicTextProcessor {
 				// neither left nor right are free texts, eg a+3 in
 				// (a+3)+"hello"
 				// so no splitting needed
-				dList.add(createDynamicTextElement(en.toString(tpl)));
+				dynList.add(createDynamicTextElement(en.toString(tpl)));
 				return;
 			}
 
 			// expression node
 			if (left.isGeoElement()) {
-				dList.add(createDynamicTextElement(
+				dynList.add(createDynamicTextElement(
 						((GeoElement) left).getLabel(tpl)));
 
 			} else if (left.isExpressionNode()) {
-				this.splitString((ExpressionNode) left, dList);
+				this.splitString((ExpressionNode) left, dynList);
 			} else if (left instanceof MyStringBuffer) {
-				dList.add(new DynamicTextElement(
+				dynList.add(new DynamicTextElement(
 						left.toString(tpl).replaceAll("\"", ""),
 						DynamicTextType.STATIC));
 			} else {
-				dList.add(createDynamicTextElement(left.toString(tpl)));
+				dynList.add(createDynamicTextElement(left.toString(tpl)));
 			}
 
 			if (right != null) {
 				if (right.isGeoElement()) {
-					dList.add(createDynamicTextElement(
+					dynList.add(createDynamicTextElement(
 							((GeoElement) right).getLabel(tpl)));
 
 				} else if (right.isExpressionNode()) {
-					this.splitString((ExpressionNode) right, dList);
+					this.splitString((ExpressionNode) right, dynList);
 				} else if (right instanceof MyStringBuffer) {
 
-					dList.add(new DynamicTextElement(
+					dynList.add(new DynamicTextElement(
 							right.toString(tpl).replaceAll("\"", ""),
 							DynamicTextType.STATIC));
 				} else {
-					dList.add(createDynamicTextElement(right.toString(tpl)));
+					dynList.add(createDynamicTextElement(right.toString(tpl)));
 				}
 			}
 		}
@@ -213,6 +214,9 @@ public class DynamicTextProcessor {
 
 	/**
 	 * Converts a list of DynamicTextElements into a GeoText string.
+	 * 
+	 * @param list
+	 *            list of dynamic elements
 	 * 
 	 * @param latex
 	 *            boolean

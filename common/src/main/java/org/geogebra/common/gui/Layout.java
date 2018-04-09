@@ -60,9 +60,6 @@ public abstract class Layout implements SettingListener {
 		defaultPerspectives = new Perspective[n];
 
 		DockPanelData[] dpData;
-		DockSplitPaneData[] spData;
-
-		String defToolbar;
 
 		// algebra & graphics (default settings of GeoGebra < 3.2)
 		dpData = new DockPanelData[6];
@@ -96,9 +93,9 @@ public abstract class Layout implements SettingListener {
 		// "1,1",
 		// 500);
 
-		spData = getSPData(app, AVpercent);
+		DockSplitPaneData[] spData = getSPData(app, AVpercent);
 
-		defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
+		String defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
 				app.isExam(), app);
 
 		int i = 0; // current perspective

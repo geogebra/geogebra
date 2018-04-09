@@ -714,8 +714,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			// + ") w: " + w + " h: " + h);
 			g2.setPaint(geoList.getBackgroundColor());
 			g2.fillRoundRect(x, y, w, h, ROUND, ROUND);
-			dropDown.drawScrollUp(g2, x, y, w, h, geoList.getBackgroundColor(),
-					false);
+			dropDown.drawScrollUp(g2, x, y, w, h, geoList.getBackgroundColor());
 
 			int x2 = (int) rectDown.getX();
 			int y2 = (int) rectDown.getY();
@@ -729,7 +728,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 			g2.fillRoundRect(x2, y2, w2, h2, ROUND, ROUND);
 			dropDown.drawScrollDown(g2, x2, y2, w2, h2,
-					geoList.getBackgroundColor(), false);
+					geoList.getBackgroundColor());
 
 		}
 
@@ -1224,7 +1223,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		ctrlRect.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
 		dropDown.drawControl(g2, left, boxTop, boxHeight, boxHeight,
-				geo.getBackgroundColor(), isOptionsVisible());
+				geo.getBackgroundColor());
 	}
 
 	@Override

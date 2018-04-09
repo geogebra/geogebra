@@ -448,26 +448,26 @@ public class TextInputDialogD extends InputDialogD
 		menu = new JMenu();
 		laTexButtonTitleMap.put("FrakturLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.mathfrak(), 4, -1,
+				TableSymbolsD.mathfrak(), 4, -1,
 				SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("CalligraphicLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.mathcal(), 2, -1, SelectionTable.MODE_LATEX));
+				TableSymbolsD.mathcal(), 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("BlackboardLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.mathbb(), 2, -1, SelectionTable.MODE_LATEX));
+				TableSymbolsD.mathbb(), 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("CursiveLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.mathscr(), 2, -1, SelectionTable.MODE_LATEX));
+				TableSymbolsD.mathscr(), 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		JMenuItem menuItem = new JMenuItem();

@@ -691,7 +691,6 @@ public class ToolCategorization {
 		storeIfNotEmpty(category, tools);
 	}
 
-
 	private void build3DGrapherCommonTools() {
 		if (level.equals(ToolsetLevel.ADVANCED)) {
 			build3DGrapherAdvancedCommonTools();
@@ -766,7 +765,6 @@ public class ToolCategorization {
 		addToList(tools, EuclidianConstants.MODE_VOLUME);
 		storeIfNotEmpty(category, tools);
 	}
-
 
 	private void build3DGrapherAdvancedCommonTools() {
 		Category category;

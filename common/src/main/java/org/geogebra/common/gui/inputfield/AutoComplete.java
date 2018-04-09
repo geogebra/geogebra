@@ -1,6 +1,7 @@
 //------------------------------------------------------------------------------
 // Copyright (c) 1999-2001 Matt Welsh. 
 //------------------------------------------------------------------------------
+
 package org.geogebra.common.gui.inputfield;
 
 import org.geogebra.common.util.AutoCompleteDictionary;
@@ -12,10 +13,8 @@ public interface AutoComplete {
 	/**
 	 * Set the dictionary that autocomplete lookup should be performed by.
 	 *
-	 * @param dict
-	 *            The dictionary that will be used for the autocomplete lookups.
-	 *            The dictionary implemetation should be very fast at lookups to
-	 *            avoid delays as the user types.
+	 * @param forCAS
+	 *            whether to use CAS dictionary
 	 */
 	public void setDictionary(boolean forCAS);
 

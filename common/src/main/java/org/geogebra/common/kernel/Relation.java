@@ -368,15 +368,17 @@ public class Relation {
 						(GeoLine) g3);
 				break;
 			case IsTangent:
-			    if ((g1 instanceof GeoLine) && (g2 instanceof GeoConic)) {
-                    ae = new AlgoIsTangent(cons, (GeoLine) g1, (GeoConic) g2);
+				if ((g1 instanceof GeoLine) && (g2 instanceof GeoConic)) {
+					ae = new AlgoIsTangent(cons, (GeoLine) g1, (GeoConic) g2);
 				} else if ((g1 instanceof GeoConic)
 						&& (g2 instanceof GeoLine)) {
-                    ae = new AlgoIsTangent(cons, (GeoLine) g2, (GeoConic) g1);
-                }
+					ae = new AlgoIsTangent(cons, (GeoLine) g2, (GeoConic) g1);
+				}
 				break;
+			default:
+				Log.debug("Missing case: " + command);
 			}
-		} catch (Exception ex) {
+		} catch (RuntimeException ex) {
 			ret = new String[1];
 			ret[0] = ""; // on error: undefined (UNKNOWN)
 			return ret;

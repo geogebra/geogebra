@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.gui;
 
 import java.util.ArrayList;
@@ -42,7 +43,6 @@ import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class GuiManager implements GuiManagerInterface {
-
 
 	/**
 	 * possible GeoGebraTube syntaxes
@@ -324,6 +324,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * @version 2008-10-21
 	 * 
 	 * @param viewId
+	 *            view ID
 	 */
 	@Override
 	public void attachView(int viewId) {
@@ -428,6 +429,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * @version 2008-10-21
 	 * 
 	 * @param viewId
+	 *            view ID
 	 */
 	@Override
 	public void detachView(int viewId) {
@@ -654,7 +656,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	// PlotPanel ID handling
 	// =================================
 
-
 	protected HashMap<Integer, PlotPanelEuclidianViewInterface> getPlotPanelIDMap() {
 		if (plotPanelIDMap == null) {
 			plotPanelIDMap = new HashMap<>();
@@ -667,7 +668,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * returns a unique viewID
 	 * 
 	 * @param plotPanel
-	 * @return
+	 *            plot panel
+	 * @return plot panel ID
 	 */
 	public int assignPlotPanelID(PlotPanelEuclidianViewInterface plotPanel) {
 		lastUsedPlotPanelID--;
@@ -752,6 +754,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	/**
 	 * @param mode
+	 *            app mode
 	 * @param m
 	 *            mode setter
 	 * @return sets the toolbar's mode
@@ -760,7 +763,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return 0;
 		// should be implemented in subclasses if needed
 	}
-
 
 	@Override
 	final public String getHelpURL(final Help type, String pageName) {
@@ -828,6 +830,13 @@ public abstract class GuiManager implements GuiManagerInterface {
 		setToolBarDefinition(refreshCustomToolsInToolBar(oldToolbar));
 	}
 
+	/**
+	 * Add / remove macros from toolbar.
+	 * 
+	 * @param initial
+	 *            initial toolbar definition
+	 * @return new toolbar definition
+	 */
 	public String refreshCustomToolsInToolBar(String initial) {
 		int macroCount = kernel.getMacroNumber();
 
@@ -897,9 +906,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void setInputText(String string) {
 		// override this in platforms where needed
 	}
-
-
-
 
 	/**
 	 * Loads the image and sets its corners

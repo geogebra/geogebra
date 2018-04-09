@@ -6,7 +6,7 @@ import org.geogebra.common.javax.swing.RelationPane;
  * An object for storing a GeoGebra command (Prove or ProveDetails) and a check
  * (AreParallel, ArePerpendicular etc.). It is used in the new Relation Tool.
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  *
  */
 public interface RelationMore {

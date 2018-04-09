@@ -24,11 +24,14 @@ public class InputBarHelpPanel {
 	private Collection<String>[] mCommands;
 	private StringBuilder mStringBuilder;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public InputBarHelpPanel(App app) {
 		super();
 		this.mApp = app;
 		updateDictionaries();
-
 	}
 
 	/**
@@ -93,8 +96,10 @@ public class InputBarHelpPanel {
 		return treeSet;
 	}
 
+	/**
+	 * Update command dictionaries.
+	 */
 	public void updateDictionaries() {
-
 		// math functions
 		String[] translatedFunctions = TableSymbols
 				.getTranslatedFunctions(mApp);
@@ -169,6 +174,11 @@ public class InputBarHelpPanel {
 		return mSubDict[i];
 	}
 
+	/**
+	 * @param category
+	 *            category idex
+	 * @return category dictionary
+	 */
 	public LowerCaseDictionary getCategoryDictionary(int category) {
 		if (category == CommandsConstants.MATH_FUNC_INDEX) {
 			return getMathFuncDictionary();
@@ -191,6 +201,11 @@ public class InputBarHelpPanel {
 		return mCategoryNameToTableIndex;
 	}
 
+	/**
+	 * @param category
+	 *            category index
+	 * @return all commands in category
+	 */
 	public Collection<String> getCommandsFromCategory(int category) {
 		if (category == CommandsConstants.MATH_FUNC_INDEX) {
 			return getMathFunc();
@@ -209,6 +224,13 @@ public class InputBarHelpPanel {
 		return mApp.getLocalization().getMenu("AllCommands");
 	}
 
+	/**
+	 * @param command
+	 *            command
+	 * @param urlCaller
+	 *            caller parameter (?caller=phone disables UI)
+	 * @return help URL
+	 */
 	public String getURLForCommand(String command, String urlCaller) {
 
 		// safety check
@@ -250,6 +272,10 @@ public class InputBarHelpPanel {
 
 	/**
 	 * verify that word is not reserved or an existing geo
+	 * 
+	 * @param word
+	 *            word arround cursor
+	 * @return whether it's a function or geo
 	 */
 	public boolean checkWordAroundCursorIsUsable(String word) {
 		if (word.length() > 0 && (mApp.getParserFunctions().isReserved(word) || mApp.getKernel().lookupLabel(word) != null)) {

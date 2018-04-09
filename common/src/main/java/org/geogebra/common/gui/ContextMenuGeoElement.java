@@ -215,7 +215,6 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
-
 	/**
 	 * Change equation type to implicit / expanded
 	 */
@@ -603,26 +602,35 @@ public abstract class ContextMenuGeoElement {
 				boolean flag = !geoText.isAbsoluteScreenLocActive();
 				if (flag) {
 					// convert real world to screen coords
-					int x = app.getActiveEuclidianView().toScreenCoordX(geoText.getRealWorldLocX());
-					int y = app.getActiveEuclidianView().toScreenCoordY(geoText.getRealWorldLocY());
+					int x = app.getActiveEuclidianView()
+							.toScreenCoordX(geoText.getRealWorldLocX());
+					int y = app.getActiveEuclidianView()
+							.toScreenCoordY(geoText.getRealWorldLocY());
 					geoText.setAbsoluteScreenLoc(x, y);
-					if (geoText.isGeoImage() && geoText.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+					if (geoText.isGeoImage() && geoText.getKernel()
+							.getApplication().has(Feature.MOW_PIN_IMAGE)) {
 						((GeoImage) geoText).updateScaleAndLocation();
 					}
-				} else {
+					} else {
 					// convert screen coords to real world
-					if (geoText.isGeoImage() && geoText.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+					if (geoText.isGeoImage() && geoText.getKernel()
+							.getApplication().has(Feature.MOW_PIN_IMAGE)) {
 						((GeoImage) geoText).screenToReal();
 					} else {
-						double x = app.getActiveEuclidianView().toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
-						double y = app.getActiveEuclidianView().toRealWorldCoordY(geoText.getAbsoluteScreenLocY());
+						double x = app.getActiveEuclidianView()
+								.toRealWorldCoordX(
+										geoText.getAbsoluteScreenLocX());
+						double y = app.getActiveEuclidianView()
+								.toRealWorldCoordY(
+										geoText.getAbsoluteScreenLocY());
 						geoText.setRealWorldLoc(x, y);
 					}
 				}
 				geoText.setAbsoluteScreenLocActive(flag);
 				geoText.updateRepaint();
 			} else if (getGeo().isPinnable()) {
-				EuclidianStyleBarStatic.applyFixPosition(geos2, isSelected, app.getActiveEuclidianView());
+				EuclidianStyleBarStatic.applyFixPosition(geos2, isSelected,
+						app.getActiveEuclidianView());
 			}
 		}
 

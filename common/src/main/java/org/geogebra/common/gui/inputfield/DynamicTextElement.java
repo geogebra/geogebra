@@ -24,7 +24,9 @@ public class DynamicTextElement {
 
 	/**
 	 * @param text
-	 * @param mode
+	 *            element content
+	 * @param type
+	 *            element type
 	 */
 	public DynamicTextElement(String text, DynamicTextType type) {
 		this.text = text;

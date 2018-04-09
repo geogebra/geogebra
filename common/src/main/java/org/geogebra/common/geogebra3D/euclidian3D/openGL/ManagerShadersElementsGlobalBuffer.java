@@ -295,11 +295,11 @@ public class ManagerShadersElementsGlobalBuffer
 				indicesLength = 3 * (size - 2);
 				hasSharedIndexBuffer = true;
 				break;
-
+			default:
+				Log.debug("Missing case: " + type);
 			}
 
 			oldType = type;
-
 		}
 
 		@Override

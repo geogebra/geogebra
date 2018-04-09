@@ -32,6 +32,12 @@ public class DropDownList {
 		void onScroll(int x, int y);
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param listener
+	 *            selection listener
+	 */
 	public DropDownList(App app, DropDownListener listener) {
 		this.listener = listener;
 		clickTimer = app.newTimer(new GTimerListener() {
@@ -51,14 +57,36 @@ public class DropDownList {
 		}, scrollDelay);
 	}
 
+	/**
+	 * Run click listener.
+	 */
 	public void doRunClick() {
 		listener.onClick(mouseX, mouseY);
 	}
 
+	/**
+	 * Run scroll listener.
+	 */
 	public void doScroll() {
 		listener.onScroll(mouseX, mouseY);
 	}
 
+	/**
+	 * @param geo
+	 *            list
+	 * @param g2
+	 *            graphics
+	 * @param bgColor
+	 *            background color
+	 * @param left
+	 *            left
+	 * @param top
+	 *            top
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 */
 	public void drawSelected(GeoElement geo, GGraphics2D g2, GColor bgColor,
 			int left, int top, int width, int height) {
 		g2.setPaint(bgColor);
@@ -70,8 +98,22 @@ public class DropDownList {
 
 	}
 
+	/**
+	 * @param g2
+	 *            graphics
+	 * @param bgColor
+	 *            background color
+	 * @param left
+	 *            left
+	 * @param top
+	 *            top
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 */
 	public void drawControl(GGraphics2D g2, int left, int top, int width,
-			int height, GColor bgColor, boolean pressed) {
+			int height, GColor bgColor) {
 		g2.setColor(GColor.DARK_GRAY);
 
 		int midx = left + width / 2;
@@ -85,11 +127,24 @@ public class DropDownList {
 		AwtFactory.fillTriangle(g2, midx - tW, midy + tH, midx + tW, midy + tH,
 				midx,
 				midy + 2 * tW);
-
 	}
 
+	/**
+	 * @param g2
+	 *            graphics
+	 * @param bgColor
+	 *            background color
+	 * @param left
+	 *            left
+	 * @param top
+	 *            top
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 */
 	public void drawScrollUp(GGraphics2D g2, int left, int top, int width,
-			int height, GColor bgColor, boolean pressed) {
+			int height, GColor bgColor) {
 		g2.setColor(GColor.DARK_GRAY);
 
 		int midx = left + width / 2;
@@ -112,8 +167,22 @@ public class DropDownList {
 
 	}
 
+	/**
+	 * @param g2
+	 *            graphics
+	 * @param bgColor
+	 *            background color
+	 * @param left
+	 *            left
+	 * @param top
+	 *            top
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 */
 	public void drawScrollDown(GGraphics2D g2, int left, int top, int width,
-			int height, GColor bgColor, boolean pressed) {
+			int height, GColor bgColor) {
 		g2.setColor(GColor.DARK_GRAY);
 
 		int midx = left + width / 2;
@@ -134,6 +203,14 @@ public class DropDownList {
 		mouseY = y;
 	}
 
+	/**
+	 * Start click timer.
+	 * 
+	 * @param x
+	 *            pointer x
+	 * @param y
+	 *            pointer y
+	 */
 	public void startClickTimer(int x, int y) {
 		setMouse(x, y);
 		// might be null eg Android, iOS
@@ -142,6 +219,14 @@ public class DropDownList {
 		}
 	}
 
+	/**
+	 * Start scroll timer.
+	 * 
+	 * @param x
+	 *            pointer x
+	 * @param y
+	 *            pointer y
+	 */
 	public void startScrollTimer(int x, int y) {
 		setMouse(x, y);
 		if (scrollTimer != null) {
@@ -149,6 +234,9 @@ public class DropDownList {
 		}
 	}
 
+	/**
+	 * Stop click timer.
+	 */
 	public void stopClickTimer() {
 		// might be null eg Android, iOS
 		if (clickTimer != null) {
@@ -156,6 +244,9 @@ public class DropDownList {
 		}
 	}
 
+	/**
+	 * Stop scroll timer.
+	 */
 	public void stopScrollTimer() {
 		// might be null eg Android, iOS
 		if (scrollTimer != null) {
@@ -163,6 +254,9 @@ public class DropDownList {
 		}
 	}
 
+	/**
+	 * @return whether click timer is running
+	 */
 	public boolean isClickTimerRunning() {
 		// might be null eg Android, iOS
 		if (clickTimer != null) {
@@ -172,6 +266,9 @@ public class DropDownList {
 		return false;
 	}
 
+	/**
+	 * @return whether scroll timer is running
+	 */
 	public boolean isScrollTimerRunning() {
 		// might be null eg Android, iOS
 		if (scrollTimer != null) {
