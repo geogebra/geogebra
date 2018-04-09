@@ -1071,12 +1071,6 @@ public class DrawConic3D extends Drawable3DCurves
 					setWaitForUpdate();
 				}
 				break;
-			case GeoConicNDConstants.CONIC_SINGLE_POINT:
-				if (getView3D().viewChangedByZoom()) {
-					setWaitForUpdate();
-				}
-				break;
-
 			default:
 				if (getView3D().viewChangedByZoom()) {
 					// will be updated if visible again

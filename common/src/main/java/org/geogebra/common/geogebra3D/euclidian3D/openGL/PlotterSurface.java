@@ -192,11 +192,7 @@ public class PlotterSurface {
 		manager.vertexToScale(p1);
 		manager.vertexToScale(p3);
 		manager.vertexToScale(p2);
-		if (shouldPackConics()) {
-			manager.endGeometry(1, TypeElement.TRIANGLE_STRIP);
-		} else {
-			manager.endGeometry();
-		}
+		endGeometryForConics(1, TypeElement.TRIANGLE_STRIP);
 	}
 
 	/**
@@ -228,11 +224,7 @@ public class PlotterSurface {
 		manager.vertexToScale(p2);
 		manager.vertexToScale(p4);
 		manager.vertexToScale(p3);
-		if (shouldPackConics()) {
-			manager.endGeometry(2, TypeElement.TRIANGLE_STRIP);
-		} else {
-			manager.endGeometry();
-		}
+		endGeometryForConics(2, TypeElement.TRIANGLE_STRIP);
 	}
 
 	public void drawQuadNoTexture(Coords p1, Coords p2, Coords p3, Coords p4) {
@@ -1105,12 +1097,7 @@ public class PlotterSurface {
 			manager.triangleFanVertex(m);
 		}
 
-		if (shouldPackConics()) {
-			manager.endGeometry(longitude, TypeElement.TRIANGLE_FAN);
-		} else {
-			manager.endGeometry();
-		}
-
+		endGeometryForConics(longitude, TypeElement.TRIANGLE_FAN);
 	}
 
 	/**
@@ -1427,12 +1414,7 @@ public class PlotterSurface {
 			manager.triangleFanVertex(center.add(m1));
 		}
 
-		if (shouldPackConics()) {
-			manager.endGeometry(longitude, TypeElement.TRIANGLE_FAN);
-		} else {
-			manager.endGeometry();
-		}
-
+		endGeometryForConics(longitude, TypeElement.TRIANGLE_FAN);
 	}
 
 	/**
@@ -1493,12 +1475,7 @@ public class PlotterSurface {
 			manager.triangleFanVertex(center.add(m1));
 		}
 
-		if (shouldPackConics()) {
-			manager.endGeometry(longitude, TypeElement.TRIANGLE_FAN);
-		} else {
-			manager.endGeometry();
-		}
-
+		endGeometryForConics(longitude, TypeElement.TRIANGLE_FAN);
 	}
 
 	private void drawQuad(int ui, int vi) {
@@ -1583,6 +1560,14 @@ public class PlotterSurface {
 	private boolean shouldPackConics() {
 		return manager.getRenderer().getView().getApplication()
 				.has(Feature.MOB_PACK_CONIC) && manager.packBuffers();
+	}
+
+	private void endGeometryForConics(int longitude, TypeElement type) {
+		if (shouldPackConics()) {
+			manager.endGeometry(longitude, type);
+		} else {
+			manager.endGeometry();
+		}
 	}
 
 }

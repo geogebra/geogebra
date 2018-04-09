@@ -335,11 +335,9 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 	@Override
 	public void setPackSurface(Drawable3D d) {
-		if (d.addedFromClosedSurface()) {
-			currentBufferManager = bufferManagerSurfacesClosed;
-		} else {
-			currentBufferManager = bufferManagerSurfaces;
-		}
+		currentBufferManager = d.addedFromClosedSurface()
+				? bufferManagerSurfacesClosed
+				: bufferManagerSurfaces;
 		this.currentColor = d.getSurfaceColor();
 	}
 
