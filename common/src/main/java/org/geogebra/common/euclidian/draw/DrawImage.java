@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -70,7 +69,6 @@ public final class DrawImage extends Drawable {
 	private BoundingBox boundingBox;
 	private double originalRatio = Double.NaN;
 	private boolean wasCroped = false;
-	final private static boolean DEBUG = false;
 	/**
 	 * ratio of the whole image and the crop box width
 	 */
@@ -108,33 +106,6 @@ public final class DrawImage extends Drawable {
 
 		selStroke = AwtFactory.getPrototype().newMyBasicStroke(1.5d);
 		update();
-	}
-
-	private static void debug(String d) {
-		if (DEBUG) {
-			Log.debug(d);
-		}
-	}
-
-	private static void debugPoints(GeoPoint A, GeoPoint B, GeoPoint D) {
-		if (!DEBUG) {
-			return;
-		}
-		if (A != null) {
-			debug("A: " + A.getInhomX() + ", " + A.getInhomY());
-		} else {
-			debug("A is null");
-		}
-		if (B != null) {
-			debug("B: " + B.getInhomX() + ", " + B.getInhomY());
-		} else {
-			debug("B is null");
-		}
-		if (D != null) {
-			debug("D: " + D.getInhomX() + ", " + D.getInhomY());
-		} else {
-			debug("D is null");
-		}
 	}
 	
 	@Override
@@ -177,10 +148,6 @@ public final class DrawImage extends Drawable {
 			GeoPoint A = geoImage.getCorner(center ? 3 : 0);
 			GeoPoint B = center ? null : geoImage.getCorner(1);
 			GeoPoint D = center ? null : geoImage.getCorner(2);
-			
-			debug("points in update: ");
-			debugPoints(A, B, D);    
-
 			double ax = 0;
 			double ay = 0;
 			if (A != null) {
@@ -190,8 +157,6 @@ public final class DrawImage extends Drawable {
 				}
 				ax = A.inhomX;
 				ay = A.inhomY;
-
-				debug("A: " + ax + ", " + ay);
 			}
 
 			// set transform according to corners
@@ -807,10 +772,6 @@ public final class DrawImage extends Drawable {
 			D = new GeoPoint(geoImage.cons);
 			geoImage.calculateCornerPoint(D, 3);
 		}
-
-		debug("points in updateImageResize: ");
-		debugPoints(A, B, D);
-
 		switch (handler) {
 		case TOP_RIGHT:
 			if (eventX - view.toScreenCoordXd(A.getInhomX()) <= Math
