@@ -2183,7 +2183,11 @@ public class GuiManagerW extends GuiManager
 		return function(ggbZip) {
 			var URL = $wnd.URL || $wnd.webkitURL;
 			var ggburl = URL.createObjectURL(ggbZip);
-
+			//global function in Chrome Kiosk App
+			if (typeof $wnd.exportFile == "function") {
+				$wnd.exportFile(ggburl, title);
+				return;
+			}
 			if ($wnd.navigator.msSaveBlob) {
 				//works for chrome and internet explorer
 				$wnd.navigator.msSaveBlob(ggbZip, title);
