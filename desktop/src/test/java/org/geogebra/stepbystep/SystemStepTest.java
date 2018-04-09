@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.stepbystep.CASConflictException;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.steps.SystemSteps;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquationSystem;
 import org.geogebra.common.main.App;
@@ -38,17 +39,31 @@ public class SystemStepTest {
 
     @Test
     public void linearSystems() {
-        t(new String[] { "3x + 2y + z = 2", "2x + 3y + 3z = 1", "3x + 2y + 3z = 3"}, new String[] {});
-        t(new String[] { "3x + 2y = 1", "2x + 3y = 2"}, new String[] {});
+        t(new String[] { "3x + 2y + z = 2", "2x + 3y + 3z = 1", "3x + 2y + 3z = 3"}, 0);
+        t(new String[] { "3x + 2y = 1", "2x + 3y = 2"}, 0);
     }
 
     @Test
     public void quadraticLinear() {
-        t(new String[] { "3x + 2y = 1", "x^2 + y^2 = 1"}, new String[] {});
-        t(new String[] { "x^2 + y^2 + z^2 = 9", "x + y = 2", "y + z = 3"}, new String[] {});
+        t(new String[] { "3x + 2y = 1", "x^2 + y^2 = 1"}, 0);
+        t(new String[] { "x^2 + y^2 + z^2 = 9", "x + y = 2", "y + z = 3"}, 0);
     }
 
-    public void t(String[] equations, String[] expectedSolutions) {
+    @Test
+    public void simpleElimination() {
+        t(new String[] { "3x + 2y = 1", "2x + 3y = 2", "3x + 3y = 4"}, 1, "fail");
+        t(new String[] { "3x + 2y = 1", "2x + 3y + z = 1"}, 1, "fail");
+        t(new String[] { "3x + 2y = 1 + y - x", "3 + x + y = -x + 2y"}, 1);
+        t(new String[] { "3x + 2y = 2", "2x + 3y = 1"}, 1);
+        t(new String[] { "-3x + 2y = 2", "2x + 3y = 1"}, 1);
+        t(new String[] { "3x + 2y = 2", "-2x + -3y = 1"}, 1);
+        t(new String[] { "sqrt(2) * x + 4/5 * y = 2", "1/9 * x + sqrt(5) * y = 1"}, 1);
+        t(new String[] { "3x + 8y = 2", "-2x + -2y = 1"}, 1);
+        t(new String[] { "3x + 4y = 2", "3x + 4y = 3"}, 1);
+        t(new String[] { "3x + 4y = 2", "6x + 8y = 4"}, 1);
+    }
+
+    public void t(String[] equations, int method, String... expectedSolutions) {
         if (needsHeading) {
             Throwable t = new Throwable();
             htmlBuilder.addHeading(t.getStackTrace()[1].getMethodName(), 1);
@@ -66,10 +81,18 @@ public class SystemStepTest {
         StepEquationSystem ses = new StepEquationSystem(stepEquations.toArray(new StepEquation[0]));
 
         try {
-			ses.solve(steps);
+            switch (method) {
+                case 0:
+                    SystemSteps.solveBySubstitution(ses, steps);
+                    break;
+                case 1:
+                    SystemSteps.solveByElimination(ses, steps);
+            }
         } catch (SolveFailedException e) {
             htmlBuilder.addHeading("Failed: ", 4);
-            e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+            if (e.getSteps() != null) {
+                e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+            }
 
             Assert.assertArrayEquals(expectedSolutions, new String[] { "fail" });
             return;

@@ -242,6 +242,10 @@ public abstract class StepExpression extends StepNode {
 		return null;
 	}
 
+	public StepExpression findConstant() {
+		return findConstantIn(null);
+	}
+
 	/**
 	 * @return subexpression which does not contain any variable part
 	 */

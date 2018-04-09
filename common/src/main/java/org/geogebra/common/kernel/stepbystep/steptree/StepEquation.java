@@ -172,4 +172,9 @@ public class StepEquation extends StepSolvable {
 	public StepEquation replace(StepExpression from, StepExpression to) {
 		return (StepEquation) super.replace(from, to);
 	}
+
+	@Override
+	public StepEquation replace(StepExpression from, StepExpression to, SolutionBuilder steps) {
+		return (StepEquation) super.replace(from, to, steps);
+	}
 }

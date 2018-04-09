@@ -164,7 +164,22 @@ public abstract class StepSolvable extends StepNode {
 		RHS = newRHS;
 	}
 
+	public void reorganize(SolutionBuilder steps, SolveTracker tracker, int eqNum) {
+		//move constants to the right
+		StepExpression constantOne = getLHS().findConstant();
+		addOrSubtract(constantOne, steps, tracker, eqNum);
+
+		//move variables to the left
+		StepExpression variableOne = subtract(getRHS(),
+				getRHS().findConstant()).regroup();
+		addOrSubtract(variableOne, steps, tracker, eqNum);
+	}
+
 	public void add(StepExpression toAdd, SolutionBuilder steps, SolveTracker tracker) {
+		add(toAdd, steps, tracker, -1);
+	}
+
+	public void add(StepExpression toAdd, SolutionBuilder steps, SolveTracker tracker, int eqNum) {
 		if (!isZero(toAdd)) {
 			toAdd.setColor(1);
 
@@ -173,7 +188,11 @@ public abstract class StepSolvable extends StepNode {
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
-			steps.add(SolutionStepType.ADD_TO_BOTH_SIDES, toAdd);
+			if (eqNum == -1) {
+				steps.add(SolutionStepType.ADD_TO_BOTH_SIDES, toAdd);
+			} else {
+				steps.add(SolutionStepType.ADD_TO_BOTH_SIDES_NUM, toAdd, StepConstant.create(eqNum + 1));
+			}
 			steps.levelDown();
 			steps.add(this);
 
@@ -187,6 +206,10 @@ public abstract class StepSolvable extends StepNode {
 	}
 
 	public void subtract(StepExpression toSubtract, SolutionBuilder steps, SolveTracker tracker) {
+		subtract(toSubtract, steps, tracker, -1);
+	}
+
+	public void subtract(StepExpression toSubtract, SolutionBuilder steps, SolveTracker tracker, int eqNum) {
 		if (!isZero(toSubtract)) {
 			toSubtract.setColor(1);
 
@@ -195,7 +218,11 @@ public abstract class StepSolvable extends StepNode {
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
-			steps.add(SolutionStepType.SUBTRACT_FROM_BOTH_SIDES, toSubtract);
+			if (eqNum == -1) {
+				steps.add(SolutionStepType.SUBTRACT_FROM_BOTH_SIDES, toSubtract);
+			} else {
+				steps.add(SolutionStepType.SUBTRACT_FROM_BOTH_SIDES_NUM, toSubtract, StepConstant.create(eqNum + 1));
+			}
 			steps.levelDown();
 			steps.add(this);
 
@@ -209,18 +236,26 @@ public abstract class StepSolvable extends StepNode {
 	}
 
 	public void addOrSubtract(StepExpression se, SolutionBuilder steps, SolveTracker tracker) {
+		addOrSubtract(se, steps, tracker, -1);
+	}
+
+	public void addOrSubtract(StepExpression se, SolutionBuilder steps, SolveTracker tracker, int eqNum) {
 		if (se == null) {
 			return;
 		}
 
 		if (se.isNegative()) {
-			add(se.negate().deepCopy(), steps, tracker);
+			add(se.negate().deepCopy(), steps, tracker, eqNum);
 		} else {
-			subtract(se.deepCopy(), steps, tracker);
+			subtract(se.deepCopy(), steps, tracker, eqNum);
 		}
 	}
 
 	public void multiply(StepExpression toMultiply, SolutionBuilder steps, SolveTracker tracker) {
+		multiply(toMultiply, steps, tracker, -1);
+	}
+
+	public void multiply(StepExpression toMultiply, SolutionBuilder steps, SolveTracker tracker, int eqNum) {
 		if (!isOne(toMultiply) && !isZero(toMultiply)) {
 			toMultiply.setColor(1);
 
@@ -234,7 +269,11 @@ public abstract class StepSolvable extends StepNode {
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
-			steps.add(SolutionStepType.MULTIPLY_BOTH_SIDES, toMultiply);
+			if (eqNum == -1) {
+				steps.add(SolutionStepType.MULTIPLY_BOTH_SIDES, toMultiply);
+			} else {
+				steps.add(SolutionStepType.MULTIPLY_BOTH_SIDES_NUM, toMultiply, StepConstant.create(eqNum + 1));
+			}
 			steps.levelDown();
 			steps.add(this);
 
@@ -248,6 +287,10 @@ public abstract class StepSolvable extends StepNode {
 	}
 
 	public void divide(StepExpression toDivide, SolutionBuilder steps, SolveTracker tracker) {
+		divide(toDivide, steps, tracker, -1);
+	}
+
+	public void divide(StepExpression toDivide, SolutionBuilder steps, SolveTracker tracker, int eqNum) {
 		if (!isOne(toDivide) && !isZero(toDivide)) {
 			toDivide.setColor(1);
 
@@ -256,7 +299,11 @@ public abstract class StepSolvable extends StepNode {
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
-			steps.add(SolutionStepType.DIVIDE_BOTH_SIDES, toDivide);
+			if (eqNum == -1) {
+				steps.add(SolutionStepType.DIVIDE_BOTH_SIDES, toDivide);
+			} else {
+				steps.add(SolutionStepType.DIVIDE_BOTH_SIDES_NUM, toDivide, StepConstant.create(eqNum + 1));
+			}
 			steps.levelDown();
 			steps.add(this);
 
@@ -270,6 +317,10 @@ public abstract class StepSolvable extends StepNode {
 	}
 
 	public void multiplyOrDivide(StepExpression se, SolutionBuilder steps, SolveTracker tracker) {
+		multiplyOrDivide(se, steps, tracker, -1);
+	}
+
+	public void multiplyOrDivide(StepExpression se, SolutionBuilder steps, SolveTracker tracker, int eqNum) {
 		if (se == null) {
 			return;
 		}
@@ -279,12 +330,12 @@ public abstract class StepSolvable extends StepNode {
 		}
 
 		if (se.canBeEvaluated() && isEqual(se.getValue(), -1)) {
-			multiply(se.deepCopy(), steps, tracker);
+			multiply(se.deepCopy(), steps, tracker, eqNum);
 		} else if (se.isOperation(Operation.DIVIDE)) {
 			StepOperation so = (StepOperation) se;
-			multiply(StepNode.divide(so.getOperand(1), so.getOperand(0)), steps, tracker);
+			multiply(StepNode.divide(so.getOperand(1), so.getOperand(0)), steps, tracker, eqNum);
 		} else {
-			divide(se.deepCopy(), steps, tracker);
+			divide(se.deepCopy(), steps, tracker, eqNum);
 		}
 	}
 
@@ -341,7 +392,7 @@ public abstract class StepSolvable extends StepNode {
 		return this;
 	}
 
-	public void replace(StepExpression from, StepExpression to, SolutionBuilder steps) {
+	public StepSolvable replace(StepExpression from, StepExpression to, SolutionBuilder steps) {
 		from.setColor(1);
 		to.setColor(1);
 
@@ -354,5 +405,7 @@ public abstract class StepSolvable extends StepNode {
 		from.cleanColors();
 		to.cleanColors();
 		cleanColors();
+
+		return this;
 	}
 }

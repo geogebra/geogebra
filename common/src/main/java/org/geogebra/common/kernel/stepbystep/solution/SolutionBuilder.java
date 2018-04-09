@@ -92,6 +92,10 @@ public class SolutionBuilder {
 	}
 
 	public void addGroup(SolutionLine groupHeader, SolutionBuilder group, StepNode result) {
+		if (group.getSteps().getSubsteps() == null) {
+			return;
+		}
+
 		add(SolutionStepType.GROUP_WRAPPER);
 		levelDown();
 		add(groupHeader);

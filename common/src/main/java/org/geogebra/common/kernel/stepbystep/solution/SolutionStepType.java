@@ -153,11 +153,19 @@ public enum SolutionStepType {
 
 	ADD_TO_BOTH_SIDES("AddAToBothSides", "Add %0 to both sides"),
 
+	ADD_TO_BOTH_SIDES_NUM("AddToBithSidesNum", "Add %0 to the %1 equation"),
+
 	SUBTRACT_FROM_BOTH_SIDES("SubtractAFromBothSides", "Subtract %0 from both sides"),
+
+	SUBTRACT_FROM_BOTH_SIDES_NUM("SubtractFromBothSidesNum", "Subtract %0 from both sides of equation %1"),
 
 	MULTIPLY_BOTH_SIDES("MultiplyBothSidesByA", "Multiply both sides by %0"),
 
+	MULTIPLY_BOTH_SIDES_NUM("MultiplyBothSidesNum", "Multiply both sides by %0 of equation %1"),
+
 	DIVIDE_BOTH_SIDES("DivideBothSidesByA", "Divide both sides by %0"),
+
+	DIVIDE_BOTH_SIDES_NUM("DivideBothSidesNum", "Divide both sides by %0 of equation %1"),
 
 	FACTOR_EQUATION("FactorEquation", "Factor equation"),
 
@@ -176,6 +184,8 @@ public enum SolutionStepType {
 	REPLACE_WITH("ReplaceAWithB", "Replace %0 with %1"),
 
 	REPLACE_AND_REGROUP("ReplaceAndRegroup", "Replace %0 in %1 and regroup"),
+
+	REPLACE_AND_SOLVE("ReplaceAndSolve", "Replace %0 with %1 in %2 and solve the equation"),
 
 	EXPAND_FRACTIONS("ExpandFractions", "Expand Fractions, the common denominator is: %0"),
 
@@ -485,7 +495,9 @@ public enum SolutionStepType {
 			"\\frac{d}{dx} arccos(u(x)) = -\\frac{1}{\\sqrt{1-(u(x))^2}} \\cdot \\frac{d}{dx} u(x)"),
 
 	DIFF_ARCTAN_CHAIN("ArctanRuleChain", "Use the rules of inverse trigonometric funtions",
-			"\\frac{d}{dx} arctan(u(x)) = \\frac{1}{(u(x))^2+1} \\cdot \\frac{d}{dx} u(x)");
+			"\\frac{d}{dx} arctan(u(x)) = \\frac{1}{(u(x))^2+1} \\cdot \\frac{d}{dx} u(x)"),
+
+	ADD_EQUATIONS("AddEquations", "Add the equations to eliminate %0");
 
 	private final String keyText;
 	private final String defaultText;
