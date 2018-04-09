@@ -1899,4 +1899,12 @@ public abstract class AlgoElement extends ConstructionElement
 		labelEnable = b;
 	}
 
+	/**
+	 *
+	 * @return true if when AV has description mode, we want to show description instead of definition
+	 */
+	public boolean mayShowDescriptionInsteadOfDefinition() {
+		return true;
+	}
+
 }

@@ -391,17 +391,4 @@ public class AlgebraItem {
 				style) != DescriptionMode.DEFINITION;
 	}
 
-	/**
-	 * @param geoElement
-	 *            geo
-	 * @return whether the input should be replaced by description or not
-	 */
-	public static boolean shouldShowDescription(GeoElement geoElement) {
-		AlgoElement parentAlgo = geoElement.getParentAlgorithm();
-		if (parentAlgo == null) {
-			return !geoElement.isGeoFunction() && !(geoElement instanceof GeoNumeric);
-		}
-
-		return !(parentAlgo instanceof AlgoDependentFunction) && !(parentAlgo instanceof AlgoDependentNumber);
-	}
 }

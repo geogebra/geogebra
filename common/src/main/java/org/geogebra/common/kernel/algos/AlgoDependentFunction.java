@@ -542,4 +542,8 @@ public class AlgoDependentFunction extends AlgoElement
 		return expression;
 	}
 
+	public boolean mayShowDescriptionInsteadOfDefinition() {
+		return false;
+	}
+
 }

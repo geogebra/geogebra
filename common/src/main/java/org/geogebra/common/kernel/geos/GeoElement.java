@@ -8733,4 +8733,25 @@ public abstract class GeoElement extends ConstructionElement
 	public boolean isAlgebraDuplicateable() {
 		return true;
 	}
+
+	/**
+	 *
+	 * @return true if when AV has description mode, we want to show description instead of definition
+	 */
+	final public boolean mayShowDescriptionInsteadOfDefinition() {
+		if (algoParent == null) {
+			return mayShowDescriptionInsteadOfDefinitionNoAlgoParent();
+		}
+		return algoParent.mayShowDescriptionInsteadOfDefinition();
+	}
+
+	/**
+	 *
+	 * @return true if when AV has description mode, we want to show description instead of definition
+	 * (when no algoParent)
+	 */
+	protected boolean mayShowDescriptionInsteadOfDefinitionNoAlgoParent() {
+		return true;
+	}
+
 }
