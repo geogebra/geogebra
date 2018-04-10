@@ -556,6 +556,10 @@ public class EuclidianSettings extends AbstractSettings {
 		return automaticAxesNumberingDistances[axis];
 	}
 
+	public boolean[] getAutomaticAxesNumberingDistances() {
+		return automaticAxesNumberingDistances;
+	}
+
 	public int[] getAxesTickStyles() {
 		return axesTickStyles;
 	}

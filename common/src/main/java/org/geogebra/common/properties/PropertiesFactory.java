@@ -16,6 +16,7 @@ import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
+import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
@@ -75,7 +76,8 @@ public class PropertiesFactory {
                 new AxesVisibilityProperty(localization, euclidianSettings),
                 new GridVisibilityProperty(localization, euclidianSettings),
                 new GridStyleProperty(localization, euclidianSettings),
-				new LabelsPropertyCollection(localization, euclidianSettings)
+                new DistancePropertyCollection(localization, euclidianSettings),
+                new LabelsPropertyCollection(localization, euclidianSettings)
         };
     }
 }
