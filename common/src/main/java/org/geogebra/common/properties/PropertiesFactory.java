@@ -18,6 +18,7 @@ import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
+import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 
 /**
  * Creates properties for the GeoGebra application.
@@ -73,7 +74,8 @@ public class PropertiesFactory {
         return new Property[]{
                 new AxesVisibilityProperty(localization, euclidianSettings),
                 new GridVisibilityProperty(localization, euclidianSettings),
-                new GridStyleProperty(localization, euclidianSettings)
+                new GridStyleProperty(localization, euclidianSettings),
+                new LabelsPropertyCollection(localization)
         };
     }
 }
