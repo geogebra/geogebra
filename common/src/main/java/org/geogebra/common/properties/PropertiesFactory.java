@@ -75,7 +75,7 @@ public class PropertiesFactory {
                 new AxesVisibilityProperty(localization, euclidianSettings),
                 new GridVisibilityProperty(localization, euclidianSettings),
                 new GridStyleProperty(localization, euclidianSettings),
-                new LabelsPropertyCollection(localization)
+				new LabelsPropertyCollection(localization, euclidianSettings)
         };
     }
 }
