@@ -9868,6 +9868,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void handleVideoPressed(AbstractEvent event) {
+		if (mode != EuclidianConstants.MODE_MOVE) {
+			return;
+		}
+
 		DrawVideo dv = getVideoHit();
 
 		if (dv == null) {
@@ -9881,10 +9885,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void moveVideo() {
+		if (mode != EuclidianConstants.MODE_MOVE) {
+			return;
+		}
+
 		lastVideo = (GeoVideo) movedGeoButton;
 	}
 
 	private void handleVideoReleased() {
+		if (mode != EuclidianConstants.MODE_MOVE) {
+			return;
+		}
+
 		if (lastVideo != null && selection.containsSelectedGeo(lastVideo)) {
 			if (lastVideo.isReady()) {
 				view.setBoundingBox(null);
@@ -9905,6 +9917,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& mode == EuclidianConstants.MODE_SELECT
 					&& (f.isGeoBoolean() || f.isGeoButton() || combo
 							|| slider)) {
+				return;
+			}
+
+			if (f.isGeoVideo()) {
 				return;
 			}
 
