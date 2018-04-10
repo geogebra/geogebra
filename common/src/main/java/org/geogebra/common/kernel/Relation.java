@@ -288,6 +288,8 @@ public class Relation {
 				ae = new AlgoAreConcurrent(cons, (GeoLine) g1, (GeoLine) g2,
 						(GeoLine) g3);
 				break;
+			case IsTangent:
+				Log.debug("Missing case: " + command);
 			}
 		} catch (Exception ex) {
 			return ret; // there was an error during Prove
@@ -375,8 +377,6 @@ public class Relation {
 					ae = new AlgoIsTangent(cons, (GeoLine) g2, (GeoConic) g1);
 				}
 				break;
-			default:
-				Log.debug("Missing case: " + command);
 			}
 		} catch (RuntimeException ex) {
 			ret = new String[1];

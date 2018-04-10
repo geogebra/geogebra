@@ -134,17 +134,7 @@ public abstract class Layout implements SettingListener {
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,1,1", 500);
 
-		/*
-		 * defaultPerspectives[1] = new Perspective("BasicGeometry", spData,
-		 * dpData,
-		 * "0 | 1 501 5 19 | 2 15 45 , 18 65 | 4 3 , 8 9 | 16 | 51 | 10 53 , 24 20 , 21 | 36 46 , 38 49 | 30 32 31 33 | 26 17 62 | 25 | 40 41 42 27 , 6"
-		 * , true, false, false, false, false, false);
-		 * defaultPerspectives[1].setUnitAxesRatio(true);
-		 * defaultPerspectives[1].
-		 * setIconString("perspectives_basic_geometry.png");
-		 */
-
-		// geometry - like basic geometry but with less toolbar entries
+		// geometry
 		defaultPerspectives[++i] = new Perspective(Perspective.GEOMETRY, spData,
 				dpData,
 				defToolbar, true, false, false, false, true,
@@ -501,7 +491,9 @@ public abstract class Layout implements SettingListener {
 				changed |= ev.showGrid(perspective.getShowGrid());
 			}
 			
-			if (app.isUnbundled() && perspective.getDefaultID() == Perspective.GEOMETRY && app.getEuclidianView1() == ev) {
+			if (app.isUnbundled()
+					&& perspective.getDefaultID() == Perspective.GEOMETRY
+					&& app.getEuclidianView1() == ev) {
 				app.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF);
 			}
 
@@ -576,6 +568,11 @@ public abstract class Layout implements SettingListener {
 
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @return whether initialization was needed
+	 */
 	protected boolean initializeCommon(App app) {
 		if (isInitialized) {
 			return false;

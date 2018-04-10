@@ -247,12 +247,12 @@ public class InputBarHelpPanel {
 		// check if math func
 		if (command.contains("(")) {
 //			Log.debug("math func");
-			String mathFuncHelpURL = mApp.getGuiManager().getHelpURL(GuiManager.Help.GENERIC, App.WIKI_OPERATORS);
+			String mathFuncHelpURL = mApp.getGuiManager()
+					.getHelpURL(GuiManager.Help.GENERIC, App.WIKI_OPERATORS);
 
 			mStringBuilder.append(mathFuncHelpURL);
 			mStringBuilder.append(urlCaller);
 			String ret = mStringBuilder.toString();
-//			Log.debug("math func: " + command + ", url: " + mathFuncHelpURL + ", url with caller: " + ret);
 			return ret.replaceAll(" ", "%20");
 		}
 
@@ -265,7 +265,6 @@ public class InputBarHelpPanel {
 		mStringBuilder.append(urlCaller);
 
 		String ret = mStringBuilder.toString();
-//		Log.debug("command " + command + ", internal: " + internal + ", url: " + url + ", url with caller: " + ret);
 		return ret.replaceAll(" ", "%20");
 
 	}
@@ -278,7 +277,8 @@ public class InputBarHelpPanel {
 	 * @return whether it's a function or geo
 	 */
 	public boolean checkWordAroundCursorIsUsable(String word) {
-		if (word.length() > 0 && (mApp.getParserFunctions().isReserved(word) || mApp.getKernel().lookupLabel(word) != null)) {
+		if (word.length() > 0 && (mApp.getParserFunctions().isReserved(word)
+				|| mApp.getKernel().lookupLabel(word) != null)) {
 			return false;
 		}
 		return true;
