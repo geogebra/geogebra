@@ -180,7 +180,7 @@ public class ExamEnvironment {
 	 * @param translation The translation identifier from the Translation enum.
 	 * @return The translation identified by the Translation parameter.
 	 */
-	private String getTranslatedString(Translation translation) {
+	public String getTranslatedString(Translation translation) {
 		Localization localization = app.getLocalization();
 		switch (translation) {
 			case EXAM_MODE:
@@ -212,21 +212,21 @@ public class ExamEnvironment {
 	/**
 	 * @return The exam date in localized format.
 	 */
-	private String getDate() {
+	public String getDate() {
 		return getLocalizedDateOnly(app.getLocalization(), examStartTime);
 	}
 
 	/**
 	 * @return The exam start time in localized format.
 	 */
-	private String getStartTime() {
+	public String getStartTime() {
 		return getLocalizedTimeOnly(app.getLocalization(), examStartTime);
 	}
 
 	/**
 	 * @return The exam end time in localized format.
 	 */
-	private String getEndTime() {
+	public String getEndTime() {
 		return getLocalizedTimeOnly(app.getLocalization(), closed);
 	}
 
@@ -234,7 +234,7 @@ public class ExamEnvironment {
 	 * @param withEndTime Whether the returned log string should contain the elapsed time as exam end time.
 	 * @return The (cheating) activity log.
 	 */
-	private String getActivityLog(boolean withEndTime) {
+	public String getActivityLog(boolean withEndTime) {
 		if (cheatingTimes == null) {
 			return "";
 		}
@@ -310,7 +310,7 @@ public class ExamEnvironment {
 	 *
 	 * @return elapsed time
 	 */
-	private String getElapsedTime() {
+	public String getElapsedTime() {
 		return timeToString(System.currentTimeMillis());
 	}
 
@@ -610,7 +610,7 @@ public class ExamEnvironment {
 	/**
 	 * @return name for current calculator type
 	 */
-	private String getCalculatorTypeName() {
+	public String getCalculatorTypeName() {
 		return getShortCalcTypeName(calculatorType);
 	}
 
@@ -658,7 +658,7 @@ public class ExamEnvironment {
 	 *            calculator type
 	 * @return hint for a calculator type
 	 */
-	private String getCalculatorTypeHint(CalculatorType type) {
+	public String getCalculatorTypeHint(CalculatorType type) {
 		switch (type) {
 			case GRAPHING:
 				return app.getLocalization().getMenu("exam_calctype_graphing_desc");
