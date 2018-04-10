@@ -238,7 +238,7 @@ public class ExamEnvironment {
 		if (cheatingTimes == null) {
 			return "";
 		}
-		StringBuilder logBuilder = new StringBuilder();
+		ExamLogBuilder logBuilder = new ExamLogBuilder();
 		appendLogTimes(app.getLocalization(), logBuilder, withEndTime);
 		return logBuilder.toString().trim();
 	}
@@ -260,12 +260,14 @@ public class ExamEnvironment {
 		return "<br>";
 	}
 
-	protected void appendSettings(Localization loc, Settings settings, StringBuilder sb) {
+	protected void appendSettings(Localization loc, Settings settings,
+			ExamLogBuilder builder) {
 		// Deactivated Views
 		boolean supportsCAS = settings.getCasSettings().isEnabled();
 		boolean supports3D = settings.supports3D();
 
 		if (!hasGraph) {
+			StringBuilder sb = new StringBuilder();
 			if (!supportsCAS || !supports3D) {
 				sb.append(loc.getMenu("exam_views_deactivated"));
 				sb.append(": ");
@@ -279,30 +281,34 @@ public class ExamEnvironment {
 			if (!supports3D) {
 				sb.append(loc.getMenu("Perspective.3DGraphics"));
 			}
-			sb.append(lineBreak());
+			builder.addLine(sb);
 		}
 
 	}
 
-	private void appendStartEnd(Localization loc, StringBuilder sb, boolean showEndTime) {
+	private void appendStartEnd(Localization loc, ExamLogBuilder builder,
+			boolean showEndTime) {
 		// Exam Start Date
+		StringBuilder sb = new StringBuilder();
 		sb.append(loc.getMenu("exam_start_date"));
 		sb.append(": ");
 		sb.append(getLocalizedDateOnly(loc, examStartTime));
-		sb.append(lineBreak());
+		builder.addLine(sb);
 
 		// Exam Start Time
+		sb.setLength(0);
 		sb.append(loc.getMenu("exam_start_time"));
 		sb.append(": ");
 		sb.append(getLocalizedTimeOnly(loc, examStartTime));
-		sb.append(lineBreak());
+		builder.addLine(sb);
 
 		// Exam End Time
 		if (showEndTime && closed > 0) {
+			sb.setLength(0);
 			sb.append(loc.getMenu("exam_end_time"));
 			sb.append(": ");
 			sb.append(getLocalizedTimeOnly(loc, closed));
-			sb.append(lineBreak());
+			builder.addLine(sb);
 		}
 	}
 
@@ -314,34 +320,30 @@ public class ExamEnvironment {
 		return timeToString(System.currentTimeMillis());
 	}
 
-	/**
-	 *
-	 * @return closed time
-	 */
-	private String getClosedTime() {
-		return timeToString(closed);
-	}
-
-	private void appendLogTimes(Localization loc, StringBuilder sb, boolean showEndTime) {
+	private void appendLogTimes(Localization loc, ExamLogBuilder builder,
+			boolean showEndTime) {
 		// Log times
-
+		StringBuilder sb = new StringBuilder();
 		sb.append("0:00");
 		sb.append(' ');
 		sb.append(loc.getMenu("exam_started"));
-		sb.append(lineBreak());
+		builder.addLine(sb);
 
 		if (cheatingTimes != null) {
 			for (int i = 0; i < cheatingTimes.size(); i++) {
+				sb.setLength(0);
 				sb.append(timeToString(cheatingTimes.get(i)));
 				sb.append(' ');
 				sb.append(getCheatingString(cheatingEvents.get(i), loc));
-				sb.append(lineBreak());
+				builder.addLine(sb);
 			}
 		}
 		if (showEndTime && closed > 0) {
+			sb.setLength(0);
 			sb.append(timeToString(closed)); // get exit timestamp
 			sb.append(' ');
 			sb.append(loc.getMenu("exam_ended"));
+			builder.addLine(sb);
 		}
 	}
 
@@ -349,18 +351,25 @@ public class ExamEnvironment {
 	 * NEW LOG DIALOG
 	 */
 	public String getLog(Localization loc, Settings settings) {
-		StringBuilder sb = new StringBuilder();
-
-		appendSettings(loc, settings, sb);
-
-		appendStartEnd(loc, sb, true);
-
-		sb.append("<hr>");
-		sb.append(lineBreak());
-
-		appendLogTimes(loc, sb, true);
-
+		ExamLogBuilder sb = new ExamLogBuilder();
+		getLog(loc, settings, sb);
 		return sb.toString();
+	}
+
+	/**
+	 * @param loc
+	 *            localization
+	 * @param settings
+	 *            settings
+	 * @param sb
+	 *            log builder
+	 */
+	public void getLog(Localization loc, Settings settings,
+			ExamLogBuilder sb) {
+		appendSettings(loc, settings, sb);
+		appendStartEnd(loc, sb, true);
+		sb.addHR();
+		appendLogTimes(loc, sb, true);
 	}
 
 	public String getLogStartEnd(Localization loc) {
@@ -375,26 +384,8 @@ public class ExamEnvironment {
 	 * @return log with start and end of the exam
 	 */
 	private String getLogStartEnd(Localization loc, boolean showEndTime) {
-		StringBuilder sb = new StringBuilder();
+		ExamLogBuilder sb = new ExamLogBuilder();
 		appendStartEnd(loc, sb, showEndTime);
-		return sb.toString();
-	}
-
-	/**
-	 * @param loc
-	 *            localization
-	 * @return log start + current time
-	 */
-	private String getLogStartAndCurrentTime(Localization loc) {
-		StringBuilder sb = new StringBuilder();
-
-		appendStartEnd(loc, sb, false);
-
-		// Exam Current Time
-		sb.append(loc.getMenu("exam_current_time"));
-		sb.append(": ");
-		sb.append(timeToString(System.currentTimeMillis()));
-
 		return sb.toString();
 	}
 
@@ -410,7 +401,7 @@ public class ExamEnvironment {
 	 * @return log times
 	 */
 	public String getLogTimes(Localization loc, boolean showEndTime) {
-		StringBuilder sb = new StringBuilder();
+		ExamLogBuilder sb = new ExamLogBuilder();
 		appendLogTimes(loc, sb, showEndTime);
 		return sb.toString();
 	}
@@ -445,10 +436,6 @@ public class ExamEnvironment {
 
 		}
 		return "";
-	}
-
-	private boolean getHasGraph() {
-		return hasGraph;
 	}
 
 	public void setHasGraph(boolean hasGraph) {
@@ -826,4 +813,8 @@ public class ExamEnvironment {
 
         return timeFormatter.format(app.getLocalization().getLocale(), "%02d:%02d", millis);
     }
+
+	public int getEventCount() {
+		return cheatingEvents.size();
+	}
 }
