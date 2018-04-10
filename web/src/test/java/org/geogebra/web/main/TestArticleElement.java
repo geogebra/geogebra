@@ -392,4 +392,10 @@ public class TestArticleElement implements ArticleElementInterface {
 		return false;
 	}
 
+	@Override
+	public String getParamScaleConteinerClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

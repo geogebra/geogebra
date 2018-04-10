@@ -205,7 +205,7 @@ public class InputSuggestions implements HasSuggestions {
 	 * Take a list of commands and return all possible syntaxes for these
 	 * commands
 	 */
-	private List<String> getSyntaxes(List<String> commands) {
+	public List<String> getSyntaxes(List<String> commands) {
 		if (commands == null) {
 			return null;
 		}

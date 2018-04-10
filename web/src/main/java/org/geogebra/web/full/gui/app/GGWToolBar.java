@@ -41,6 +41,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -285,34 +286,35 @@ public class GGWToolBar extends Composite
 			// clicking on info button
 			@Override
 			public void onClick(ClickEvent event) {
+				HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
+				exam.getLog(loc, settings, htmlBuilder);
+				HTML html = htmlBuilder.getHTML();
 				if (app.getArticleElement().hasDataParamEnableGraphing()) {
 					exam.setHasGraph(true);
 					boolean supportsCAS = settings.getCasSettings().isEnabled();
 					boolean supports3D = settings.getEuclidian(-1).isEnabled();
 					if (!supports3D && supportsCAS) {
-						app.showMessage(exam.getLog(loc, settings),
+						app.showMessage(html,
 								loc.getMenu("ExamCAS"), null, null);
+						return;
 					} else if (!supports3D && !supportsCAS) {
 						if (app.enableGraphing()) {
-							app.showMessage(exam.getLog(loc, settings),
+							app.showMessage(html,
 									loc.getMenu("ExamGraphingCalc.long"), null,
 									null);
 						} else {
-							app.showMessage(exam.getLog(loc, settings),
+							app.showMessage(html,
 									loc.getMenu("ExamSimpleCalc.long"), null,
 									null);
 						}
+						return;
 					}
-
-				} else {
-					app.showMessage(
-							app.getExam().getLog(app.getLocalization(),
-									app.getSettings()),
-							loc.getMenu("exam_log_header") + " "
-									+ app.getVersionString(),
-							null, null);
 				}
-
+				app.showMessage(
+						html,
+						loc.getMenu("exam_log_header") + " "
+								+ app.getVersionString(),
+						null, null);
 			}
 		}, ClickEvent.getType());
 		return fp;

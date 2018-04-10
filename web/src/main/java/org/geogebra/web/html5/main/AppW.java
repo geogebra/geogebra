@@ -2817,8 +2817,8 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	/**
-	 * @param message
-	 *            message
+	 * @param content
+	 *            content
 	 * @param title
 	 *            popup title
 	 * @param buttonText
@@ -2827,9 +2827,8 @@ public abstract class AppW extends App implements SetLabels {
 	 *            button click handler
 	 * 
 	 */
-	public void showMessage(final String message, final String title,
+	public void showMessage(final HTML content, final String title,
 			String buttonText, AsyncOperation<String[]> handler) {
-		HTML content = new HTML(message);
 		content.addStyleName("examContent");
 		ScrollPanel scrollPanel = new ScrollPanel(content);
 		scrollPanel.addStyleName("examScrollPanel");

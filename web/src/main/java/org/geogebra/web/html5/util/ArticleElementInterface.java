@@ -447,4 +447,9 @@ public interface ArticleElementInterface {
 	 */
 	boolean useCompatibilityCookie();
 
+	/**
+	 * @return scale container CSS class
+	 */
+	String getParamScaleConteinerClass();
+
 }

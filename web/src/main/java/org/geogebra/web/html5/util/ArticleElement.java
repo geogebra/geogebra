@@ -830,4 +830,9 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public boolean useCompatibilityCookie() {
 		return this.getBoolDataParam("useCompatibilityCookie", false);
 	}
+
+	@Override
+	public String getParamScaleConteinerClass() {
+		return this.getStringDataParam("scaleContainerClass", "");
+	}
 }

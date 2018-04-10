@@ -1,9 +1,12 @@
 package org.geogebra.web.full.gui.menubar;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
+import org.geogebra.common.main.ExamLogBuilder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialsManagerI;
@@ -15,16 +18,21 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.export.PrintPreviewW;
+import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.browser.SignInButton;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.util.SaveDialogW;
 import org.geogebra.web.full.gui.util.ShareDialogW;
+import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.awt.GFontW;
+import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -32,6 +40,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	
+	private static final double PADDING = 24;
+	/** Canvas line height */
+	protected static final int LINE_HEIGHT = 24;
 	private AriaMenuItem shareItem;
 	/** clear construction and reset GUI */
 	Runnable newConstruction;
@@ -124,28 +135,19 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					.isEnabled();
 			boolean supports3D = getApp().getSettings().getEuclidian(-1).isEnabled();
 			if (!supports3D && supportsCAS) {
-					getApp().showMessage(
-						exam.getLog(getApp().getLocalization(), getApp().getSettings()),
-						loc.getMenu("ExamCAS"), buttonText, handler);
+				showFinalLog(loc.getMenu("ExamCAS"), buttonText, handler);
 			} else if (!supports3D && !supportsCAS) {
 				if (getApp().enableGraphing()) {
-					getApp().showMessage(
-							exam.getLog(getApp().getLocalization(),
-									getApp().getSettings()),
-							loc.getMenu("ExamGraphingCalc.long"), buttonText,
-							handler);
+					showFinalLog(loc.getMenu("ExamGraphingCalc.long"),
+							buttonText, handler);
 				} else {
-					getApp().showMessage(
-							exam.getLog(getApp().getLocalization(),
-									getApp().getSettings()),
-							loc.getMenu("ExamSimpleCalc.long"), buttonText,
+					showFinalLog(loc.getMenu("ExamSimpleCalc.long"), buttonText,
 							handler);
 				}
 			} else {
-				getApp().showMessage(
-						exam.getLog(getApp().getLocalization(),
-								getApp().getSettings()),
-						loc.getMenu("ExamSimpleCalc.long"), buttonText,
+				showFinalLog(loc.getMenu("exam_log_header") + " "
+								+ getApp().getVersionString(),
+						buttonText,
 						welcomeHandler);
 			}
 		} else {
@@ -156,12 +158,47 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				}
 			};
 			buttonText = loc.getMenu("OK");
-			getApp().showMessage(exam.getLog(loc, getApp().getSettings()),
-					loc.getMenu("exam_log_header") + " "
+			showFinalLog(loc.getMenu("exam_log_header") + " "
 							+ getApp().getVersionString(),
 					buttonText, handler);
 		}
 		resetAfterExam();
+	}
+
+	private void showFinalLog(String menu, String buttonText,
+			AsyncOperation<String[]> handler) {
+		HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
+		getApp().getExam().getLog(loc, getApp().getSettings(), htmlBuilder);
+		getApp().showMessage(htmlBuilder.getHTML(), menu, buttonText, handler);
+		Canvas canvas = Canvas.createIfSupported();
+		final GGraphics2DW g2 = new GGraphics2DW(canvas);
+		g2.setCoordinateSpaceSize(500,
+				getApp().getExam().getEventCount() * LINE_HEIGHT + 200);
+		g2.setColor(GColor.WHITE);
+		g2.fillRect(0, 0, canvas.getCoordinateSpaceWidth(),
+				canvas.getCoordinateSpaceHeight());
+		g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 24));
+		g2.setColor(GColor.BLACK);
+		g2.drawString(menu, PADDING, PADDING);
+		ExamLogBuilder canvasLogBuilder = new ExamLogBuilder() {
+			private int yOffset = 48;
+			@Override
+			public void addLine(StringBuilder sb) {
+				g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 16));
+				g2.drawString(sb.toString(), PADDING, yOffset);
+				yOffset += LINE_HEIGHT;
+			}
+
+			@Override
+			public void addHR() {
+				g2.drawStraightLine(PADDING, yOffset - LINE_HEIGHT / 2,
+						PADDING + 200, yOffset - LINE_HEIGHT / 2);
+				yOffset += LINE_HEIGHT / 2;
+			}
+		};
+		getApp().getExam().getLog(loc, getApp().getSettings(),
+				canvasLogBuilder);
+		Browser.exportImage(canvas.toDataUrl(), "ExamLog.png");
 	}
 
 	private void resetAfterExam() {
