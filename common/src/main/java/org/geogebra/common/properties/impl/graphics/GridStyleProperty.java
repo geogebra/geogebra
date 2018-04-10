@@ -5,10 +5,19 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 import org.geogebra.common.properties.IconsEnumerableProperty;
 
+/**
+ * This property controls the style of the grid.
+ */
 public class GridStyleProperty extends AbstractEnumerableProperty implements IconsEnumerableProperty {
 
     private EuclidianSettings euclidianSettings;
 
+    /**
+     * Controls a grid style property.
+     *
+     * @param localization      localization for the title
+     * @param euclidianSettings euclidian settings.
+     */
     public GridStyleProperty(Localization localization, EuclidianSettings euclidianSettings) {
         super(localization, "GridType");
         this.euclidianSettings = euclidianSettings;
