@@ -31,6 +31,9 @@ public class VideoManagerW implements VideoManager {
 	 */
 	public static final String YOUTUBE = "https://www.youtube.com/watch?v=";
 
+	/**
+	 * Head of a YouTube URL without www.
+	 */
 	public static final String YOUTUBE_NO_WWW = "https://youtube.com/watch?v=";
 
 	/**
@@ -73,7 +76,7 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	private void checkVideo(String url) {
-		if (getYouTubeId(url) == null || getYouTubeId(url) == "") {
+		if (getYouTubeId(url) == null || "".equals(getYouTubeId(url))) {
 			onUrlError();
 		} else {
 			onUrlOK();
