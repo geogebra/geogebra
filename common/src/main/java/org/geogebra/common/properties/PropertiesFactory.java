@@ -16,6 +16,7 @@ import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
+import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 
 /**
  * Creates properties for the GeoGebra application.
@@ -69,7 +70,8 @@ public class PropertiesFactory {
         EuclidianView activeView = app.getActiveEuclidianView();
         EuclidianSettings euclidianSettings = activeView.getSettings();
         return new Property[]{
-                new AxesVisibilityProperty(localization, euclidianSettings)
+                new AxesVisibilityProperty(localization, euclidianSettings),
+                new GridVisibilityProperty(localization, euclidianSettings)
         };
     }
 }
