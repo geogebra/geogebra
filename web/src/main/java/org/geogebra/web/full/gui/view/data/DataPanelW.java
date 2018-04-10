@@ -58,7 +58,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	 *            data analysis view
 	 */
 	public DataPanelW(AppW app, DataAnalysisViewW statDialog) {
-		this.loc = (LocalizationW) app.getLocalization();
+		this.loc = app.getLocalization();
 		this.daView = statDialog;
 		this.statController = statDialog.getController();
 

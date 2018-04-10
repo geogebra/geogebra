@@ -70,7 +70,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	public RegressionPanelW(AppW app, DataAnalysisViewW statDialog) {
 
 		this.app = app;
-		this.loc = (LocalizationW) app.getLocalization();
+		this.loc = app.getLocalization();
 		this.statDialog = statDialog;
 		this.daModel = statDialog.getModel();
 		setStyleName("daRegressionPanel");

@@ -32,7 +32,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 
-	private AppW app;
 	private Assignment assignment;
 	private Button btApply;
 	private FlexTable hintsAndFractiosforResult;
@@ -55,7 +54,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 			ExerciseBuilderDialog exerciseBuilderDialog) {
 		super(false, false, null, ((AppW) app).getPanel(), app);
 		
-		this.app = (AppW) app;
+		this.app = app;
 		this.loc = app.getLocalization();
 		this.assignment = assignment;
 		this.exerciseBuilderDialog = exerciseBuilderDialog;
@@ -162,7 +161,6 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 			exerciseBuilderDialog.show();
 			exerciseBuilderDialog.setVisible(true);
 		}
-
 	}
 
 }

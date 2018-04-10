@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class FileInputDialog extends GPopupPanel implements ClickHandler {
-	protected AppW app;
 
 	private FileUpload inputWidget;
 	protected Button btCancel;
@@ -23,7 +22,6 @@ public class FileInputDialog extends GPopupPanel implements ClickHandler {
 	 */
 	public FileInputDialog(AppW app) {
 		super(false, true, app.getPanel(), app);
-		this.app = app;
 		// createGUI();
 		addStyleName("GeoGebraPopup");
 		setGlassEnabled(true);

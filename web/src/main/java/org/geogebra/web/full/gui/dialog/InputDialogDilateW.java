@@ -13,9 +13,12 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
 
+/**
+ * Dialog for dilate tool
+ */
 public class InputDialogDilateW extends InputDialogW {
-	GeoPointND[] points;
-	GeoElement[] selGeos;
+	private GeoPointND[] points;
+	private GeoElement[] selGeos;
 
 	private Kernel kernel;
 	

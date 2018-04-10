@@ -97,9 +97,9 @@ public class DialogBoxW extends GDialogBox {
 	/**
 	 * closes the dialog
 	 */
-    protected void onCancel() {
-    	hide();
-    }
+	protected void onCancel() {
+		hide();
+	}
 
 	/**
 	 * Adds a little cross to cancel the dialog if there is already a panel

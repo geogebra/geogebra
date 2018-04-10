@@ -59,7 +59,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 	private GeoAttachedListBox gbList;
 
 	private GPoint location;
-	private AppW app;
 	private GeoBoolean geoBoolean;
 
 	private LocalizationW loc;
@@ -113,12 +112,12 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 			if (idx > 0) {
 				remove(geos.lastIndexOf(geo));
 			}
-        }
+		}
 		
 		public void remove(int idx) {
 			removeItem(idx);
 			geos.remove(idx);
-        }
+		}
 	}
 	
 	private class GeoAttachedListBox extends GeoListBox {
@@ -153,7 +152,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		super(false, false, null, app.getPanel(), app);
 
 		this.app = app;
-		this.loc = (LocalizationW) app.getLocalization();
+		this.loc = app.getLocalization();
 		this.location = loc2;
 		this.geoBoolean = geoBoolean;
 		initLists();

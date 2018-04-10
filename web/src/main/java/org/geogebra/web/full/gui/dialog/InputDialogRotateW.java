@@ -14,11 +14,15 @@ import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.himamis.retex.editor.share.util.Unicode;
 
+/**
+ * Generic rotate dialog
+ */
 public abstract class InputDialogRotateW extends AngleInputDialogW {
-
+	/** selcted polygons */
 	GeoPolygon[] polys;
+	/** selected geos */
 	GeoElement[] selGeos;
-	
+	/** controller */
 	protected EuclidianController ec;
 
 	/** 45 degrees */
@@ -100,6 +104,10 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 		}
 	}
 
+	/**
+	 * @param op
+	 *            callback
+	 */
 	protected abstract void processInput(AsyncOperation<String> op);
 
 	/*

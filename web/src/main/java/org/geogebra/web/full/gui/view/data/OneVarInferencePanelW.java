@@ -112,7 +112,7 @@ public class OneVarInferencePanelW extends FlowPanel
 
 		isIniting = true;
 		this.app = app;
-		this.loc = (LocalizationW) app.getLocalization();
+		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.model = new OneVarModel();
 		this.statDialog = statDialog;
