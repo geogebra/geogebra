@@ -981,10 +981,6 @@ public final class DrawImage extends Drawable {
 		}
 	}
 
-	private void updateAffineTransform() {
-		update();
-	}
-
 	private void setCorner(GeoPoint point, int corner) {
 		if (!wasCroped) {
 			geoImage.setCorner(point, corner);
