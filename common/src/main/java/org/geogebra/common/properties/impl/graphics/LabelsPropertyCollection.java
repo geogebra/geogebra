@@ -14,9 +14,9 @@ public class LabelsPropertyCollection extends AbstractProperty implements Proper
     private Property[] collection;
 
     /**
-     * Constructs a lables property collection.
+     * Constructs a labels property collection.
      *
-     * @param localization localization for the title
+     * @param localization      localization for the title
      * @param euclidianSettings euclidian settings
      */
     public LabelsPropertyCollection(Localization localization, EuclidianSettings euclidianSettings) {

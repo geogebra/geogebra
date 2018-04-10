@@ -15,7 +15,7 @@ public class AxesLabelsVisibilityProperty extends AbstractProperty implements Bo
     /**
      * Constructs an Axes visibility property.
      *
-     * @param localization localization for the title
+     * @param localization      localization for the title
      * @param euclidianSettings euclidian settings
      */
     public AxesLabelsVisibilityProperty(Localization localization, EuclidianSettings euclidianSettings) {

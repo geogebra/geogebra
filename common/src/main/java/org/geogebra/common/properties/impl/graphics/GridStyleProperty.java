@@ -14,7 +14,7 @@ public class GridStyleProperty extends AbstractEnumerableProperty implements Ico
 
     private EuclidianSettings euclidianSettings;
 
-    private PropertyResource[] icons = new PropertyResource[] {
+    private PropertyResource[] icons = new PropertyResource[]{
             PropertyResource.ICON_CARTESIAN,
             PropertyResource.ICON_CARTESIAN_MINOR,
             PropertyResource.ICON_POLAR,

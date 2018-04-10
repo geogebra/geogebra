@@ -15,9 +15,10 @@ public class AxisLabelProperty extends AbstractProperty implements StringPropert
 
     /**
      * Constructs an xAxis property.
-     * @param localization localization for the title
+     *
+     * @param localization      localization for the title
      * @param euclidianSettings euclidian settings
-     * @param axis the axis for label
+     * @param axis              the axis for label
      */
     public AxisLabelProperty(Localization localization, EuclidianSettings euclidianSettings, String label, int axis) {
         super(localization, label);
