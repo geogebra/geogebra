@@ -363,7 +363,7 @@ public class ExamEnvironment {
 		return sb.toString();
 	}
 
-	private String getLogStartEnd(Localization loc) {
+	public String getLogStartEnd(Localization loc) {
 		return getLogStartEnd(loc, true);
 	}
 
@@ -398,7 +398,7 @@ public class ExamEnvironment {
 		return sb.toString();
 	}
 
-	private String getLogTimes(Localization loc) {
+	public String getLogTimes(Localization loc) {
 		return getLogTimes(loc, true);
 	}
 
@@ -409,7 +409,7 @@ public class ExamEnvironment {
 	 *            whether to show end time
 	 * @return log times
 	 */
-	private String getLogTimes(Localization loc, boolean showEndTime) {
+	public String getLogTimes(Localization loc, boolean showEndTime) {
 		StringBuilder sb = new StringBuilder();
 		appendLogTimes(loc, sb, showEndTime);
 		return sb.toString();
@@ -477,7 +477,7 @@ public class ExamEnvironment {
 	/**
 	 * store end time
 	 */
-	private void storeEndTime() {
+	public void storeEndTime() {
 		this.closed = System.currentTimeMillis();
 	}
 
@@ -795,7 +795,7 @@ public class ExamEnvironment {
     /**
      * @return header for log dialogs
      */
-	private String getLogHeader() {
+	public String getLogHeader() {
 		return app.getLocalization().getPlainDefault(
 				"exam_log_header_calculator_time_check", "Exam log: %0   %1 %2",
                 getCalculatorTypeName(), getElapsedTime(), getMarkCheatingOrNot());
@@ -805,7 +805,7 @@ public class ExamEnvironment {
      *
      * @return the localized elapsed time string
      */
-	private String getElapsedTimeLocalized() {
+	public String getElapsedTimeLocalized() {
         return  timeToStringLocalized(System.currentTimeMillis());
     }
 
