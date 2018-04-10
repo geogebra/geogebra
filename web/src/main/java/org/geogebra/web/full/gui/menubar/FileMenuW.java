@@ -21,7 +21,6 @@ import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.util.SaveDialogW;
 import org.geogebra.web.full.gui.util.ShareDialogW;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
@@ -90,6 +89,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		boolean examFile = getApp().getArticleElement().hasDataParamEnableGraphing();
 		String buttonText = null;
 		AsyncOperation<String[]> handler = null;
+		AsyncOperation<String[]> welcomeHandler = null;
 		if (examFile) {
 			if (getApp().getVersion().isAndroidWebview()) {
 				handler = new AsyncOperation<String[]>() {
@@ -106,6 +106,15 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					public void callback(String[] dialogResult) {
 						getApp().setNewExam();
 						ExamDialog.startExam(null, getApp());
+					}
+				};
+				welcomeHandler = new AsyncOperation<String[]>(){
+
+					@Override
+					public void callback(String[] obj) {
+						getApp().getLAF().toggleFullscreen(true);
+						getApp().setNewExam();
+						getApp().examWelcome();
 					}
 				};
 				buttonText = loc.getMenu("Restart");
@@ -133,11 +142,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							handler);
 				}
 			} else {
-				getApp().getLAF().toggleFullscreen(true);
-				resetAfterExam();
-				getApp().setNewExam();
-				((AppWFull) getApp()).examWelcome();
-				return;
+				getApp().showMessage(
+						exam.getLog(getApp().getLocalization(),
+								getApp().getSettings()),
+						loc.getMenu("ExamSimpleCalc.long"), buttonText,
+						welcomeHandler);
 			}
 		} else {
 			handler = new AsyncOperation<String[]>() {

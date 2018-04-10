@@ -68,7 +68,7 @@ public class ExamDialog {
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
 		final boolean hasGraphing = app.getArticleElement()
 				.hasDataParamEnableGraphing();
-		box = new DialogBoxKbW(false, true, null, app.getPanel(), app){
+		box = new DialogBoxKbW(false, true, null, app.getPanel(), app) {
 			@Override
 			protected void onCancel() {
 				if (!hasGraphing) {
