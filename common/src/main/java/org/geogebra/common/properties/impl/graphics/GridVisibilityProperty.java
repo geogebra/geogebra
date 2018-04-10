@@ -30,6 +30,6 @@ public class GridVisibilityProperty extends AbstractProperty implements BooleanP
 
     @Override
     public void setValue(boolean value) {
-        euclidianSettings.setShowGridSetting(value);
+        euclidianSettings.showGrid(value);
     }
 }
