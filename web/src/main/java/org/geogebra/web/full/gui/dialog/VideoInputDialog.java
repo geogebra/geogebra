@@ -89,9 +89,6 @@ public class VideoInputDialog extends DialogBoxW
 		addStyleName("videoDialog");
 		setGlassEnabled(true);
 		setLabels();
-		// inputField.getTextComponent().setText(GeoVideo.TEST_VIDEO_URL);
-		// insertBtn.setEnabled(true);
-
 	}
 
 	private void initActions() {
