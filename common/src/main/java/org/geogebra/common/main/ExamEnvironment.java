@@ -550,7 +550,7 @@ public class ExamEnvironment {
 	 * @param type
 	 *            calculator type
 	 */
-	private void setCalculatorType(CalculatorType type) {
+	public void setCalculatorType(CalculatorType type) {
 		calculatorType = type;
 
 	}
@@ -619,7 +619,7 @@ public class ExamEnvironment {
 	 *            calculator type
 	 * @return name for a calculator type
 	 */
-	private String getCalculatorTypeName(CalculatorType type) {
+	public String getCalculatorTypeName(CalculatorType type) {
 		switch (type) {
 			case GRAPHING:
 				return app.getLocalization().getMenu("exam_calctype_graphing");
