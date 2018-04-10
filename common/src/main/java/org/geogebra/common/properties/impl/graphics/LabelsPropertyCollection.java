@@ -17,11 +17,14 @@ public class LabelsPropertyCollection extends AbstractProperty implements Proper
      * Constructs a lables property collection.
      *
      * @param localization localization for the title
+     * @param euclidianSettings euclidian settings
      */
     public LabelsPropertyCollection(Localization localization, EuclidianSettings euclidianSettings) {
         super(localization, "Labels");
         collection = new Property[]{
-                new AxesLabelsVisibilityProperty(localization, euclidianSettings)
+                new AxesLabelsVisibilityProperty(localization, euclidianSettings),
+                new AxisLabelProperty(localization, euclidianSettings, "xAxis", 0),
+                new AxisLabelProperty(localization, euclidianSettings, "yAxis", 1)
         };
     }
 
