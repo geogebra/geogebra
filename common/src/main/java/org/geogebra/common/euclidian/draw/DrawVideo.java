@@ -121,7 +121,7 @@ public class DrawVideo extends Drawable {
 		if (boundingBox == null) {
 			boundingBox = new BoundingBox(false);
 		}
-		return boundingBox;
+		return video.isPlaying() ? null : boundingBox;
 	}
 
 	private void updateOriginalRatio() {

@@ -850,6 +850,10 @@
 		position: absolute;
 		border-style: none;
 	}
+
+	.mowVideo.hidden {
+		z-index: -1;	
+	}
 }
 
 

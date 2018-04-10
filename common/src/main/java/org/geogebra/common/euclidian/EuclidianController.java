@@ -7887,6 +7887,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					moveAudioSlider(true, true);
 					return;
 				}
+
+				if (movedGeoButton.isGeoVideo()) {
+					moveVideo();
+				}
 				// move button
 				moveMode = MOVE_BUTTON;
 				startLoc = mouseLoc;
@@ -8325,8 +8329,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		default: // do nothing
 		}
-
-		clearVideo();
 
 		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
@@ -9651,15 +9653,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		DrawVideo dv = getVideoHit();
-
-		if (dv == null) {
-			clearVideo();
-		}
-		if (!event.isRightClick() && dv != null) {
-			clearSelections();
-			lastVideo = (GeoVideo) (dv.geo);
-		}
+		handleVideoPressed(event);
 
 		lastMousePressedTime = System.currentTimeMillis();
 
@@ -9873,6 +9867,32 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		switchModeForMousePressed(event);
 	}
 
+	private void handleVideoPressed(AbstractEvent event) {
+		DrawVideo dv = getVideoHit();
+
+		if (dv == null) {
+			clearVideo();
+		}
+		if (!event.isRightClick() && dv != null) {
+			clearSelections();
+			lastVideo = (GeoVideo) (dv.geo);
+		}
+
+	}
+
+	private void moveVideo() {
+		lastVideo = (GeoVideo) movedGeoButton;
+	}
+
+	private void handleVideoReleased() {
+		if (lastVideo != null && selection.containsSelectedGeo(lastVideo)) {
+			if (lastVideo.isReady()) {
+				view.setBoundingBox(null);
+				view.repaintView();
+			}
+			app.getVideoManager().play(lastVideo);
+		}
+	}
 	private void setMoveModeForFurnitures() {
 
 		Hits hits = view.getHits();
@@ -10334,9 +10354,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			am.setTabOverGeos(true);
 		}
 
-		if (lastVideo != null) {
-			app.getVideoManager().play(lastVideo);
-		}
+		handleVideoReleased();
+
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
 

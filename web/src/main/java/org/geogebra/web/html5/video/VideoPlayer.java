@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Frame;
  */
 public class VideoPlayer extends Frame {
 	private GeoVideo video;
+	private String embedUrl = null;
 
 	/**
 	 * Constructor.
@@ -26,6 +27,7 @@ public class VideoPlayer extends Frame {
 		this.video = video;
 		addStyleName("mowVideo");
 		getElement().setId(video.getYouTubeId());
+		embedUrl = video.getEmbeddedUrl();
 	}
 	
 	/**
@@ -36,14 +38,15 @@ public class VideoPlayer extends Frame {
 		style.setLeft(video.getAbsoluteScreenLocX(), Unit.PX);
 		style.setTop(video.getAbsoluteScreenLocY(), Unit.PX);
 		if (video.isPlaying()) {
-			String embed = video.getEmbeddedUrl();
 			removeStyleName("hidden");
-			setUrl(embed);
-			setWidth(video.getWidth() + "px");
-			setHeight(video.getHeight() + "px");
 			video.setChanged(false);
 		} else {
 			addStyleName("hidden");
+			if (!video.getEmbeddedUrl().equals(embedUrl)) {
+				embedUrl = video.getEmbeddedUrl();
+			}
+			setWidth(video.getWidth() + "px");
+			setHeight(video.getHeight() + "px");
 		}
 	}
 }

@@ -99,9 +99,11 @@ public class VideoManagerW implements VideoManager {
 			addPlayer(video);
 		}
 		video.play();
-		VideoPlayer player = getPlayer(video);
-		controlPlayer(player.getElement(), CMD_PLAY);
-		player.update();
+		if (video.isPlaying()) {
+			VideoPlayer player = getPlayer(video);
+			controlPlayer(player.getElement(), CMD_PLAY);
+			player.update();
+		}
 	}
 
 	@Override
@@ -112,6 +114,7 @@ public class VideoManagerW implements VideoManager {
 		video.pause();
 		controlPlayer(getPlayer(video).getElement(), CMD_PAUSE);
 		updatePlayer(video);
+		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
 	}
 
 	@Override
@@ -145,7 +148,6 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void createPreview(GeoVideo geo, final AsyncOperation<MyImage> cb) {
-
 		final Image img = new Image();
 		img.getElement().setAttribute("crossorigin", "anonymous");
 		img.setUrl(geo.getPreviewUrl());

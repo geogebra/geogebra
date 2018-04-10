@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  *
@@ -15,6 +16,20 @@ import org.geogebra.common.util.StringUtil;
  *
  */
 public class GeoVideo extends GeoMedia {
+	/**
+	 * Indicates video state
+	 */
+	public enum State {
+		/** Video unselected and shows preview image */
+		NONE,
+
+		/** Video is selected and ready to play (still preview is shown) */
+		READY,
+
+		/** video is playing */
+		PLAYING
+	}
+
 	/**
 	 * Test video URL.
 	 */
@@ -31,8 +46,8 @@ public class GeoVideo extends GeoMedia {
 	private String previewUrl = null;
 	private Integer startTime = null;
 	private MyImage preview;
-	private boolean playing = false;
 	private HitType lastHitType;
+	private State state = State.NONE;
 
 	/**
 	 * Constructor.
@@ -130,22 +145,13 @@ public class GeoVideo extends GeoMedia {
 	}
 
 	@Override
-	public boolean isGeoAudio() {
-		return false;
-	}
-
-	@Override
 	public boolean isGeoVideo() {
 		return true;
 	}
 
 	@Override
 	public boolean isPlaying() {
-		if (!hasVideoManager()) {
-			return false;
-		}
-
-		return playing;
+		return state == State.PLAYING;
 	}
 
 	private boolean hasVideoManager() {
@@ -208,23 +214,29 @@ public class GeoVideo extends GeoMedia {
 		return preview;
 	}
 
-	/**
-	 * @param playing
-	 *            to set.
-	 */
-	public void setPlaying(boolean playing) {
-		this.playing = playing;
-		changed = true;
-	}
 
 	@Override
 	public void play() {
-		setPlaying(true);
+		state = processState();
+		Log.debug("PLAY state: " + state);
+		changed = true;
 	}
 
+	private State processState() {
+		switch (state) {
+		case NONE:
+			return State.READY;
+		case READY:
+			return State.PLAYING;
+		default:
+			return State.NONE;
+
+		}
+	}
 	@Override
 	public void pause() {
-		setPlaying(false);
+		state = State.NONE;
+		changed = true;
 	}
 
 	@Override
@@ -283,4 +295,20 @@ public class GeoVideo extends GeoMedia {
 	public void setPreview(MyImage preview) {
 		this.preview = preview;
 	}
+
+	/**
+	 * 
+	 * @return if player is ready to play.
+	 */
+	public boolean isReady() {
+		return state == State.READY;
+	}
+
+	/**
+	 * Sets video playable for next click.
+	 */
+	public void setReady() {
+		state = State.READY;
+	}
+
 }
