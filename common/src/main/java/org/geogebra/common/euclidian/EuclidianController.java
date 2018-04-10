@@ -9893,10 +9893,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void handleVideoReleased() {
-		if (mode != EuclidianConstants.MODE_MOVE) {
-			return;
-		}
-
 		if (lastVideo != null && selection.containsSelectedGeo(lastVideo)) {
 			if (lastVideo.isReady()) {
 				view.setBoundingBox(null);
