@@ -453,6 +453,10 @@ public class EuclidianSettings extends AbstractSettings {
 		return showAxes[0] && showAxes[1];
 	}
 
+	public boolean[] getShowAxes() {
+		return showAxes;
+	}
+
 	public boolean getLogAxis(int axis) {
 		return logAxes[axis];
 	}
