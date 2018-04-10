@@ -11,4 +11,12 @@ public interface Property {
      * @return the name of the property
      */
     String getName();
+
+    /**
+     * Returns whether the property is enabled. In some cases
+     * properties can depend on other settings, so they may be disabled.
+     *
+     * @return true iff the property is enabled
+     */
+    boolean isEnabled();
 }

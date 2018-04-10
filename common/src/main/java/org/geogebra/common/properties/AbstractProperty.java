@@ -26,6 +26,11 @@ public abstract class AbstractProperty implements Property {
         return localization.getMenu(name);
     }
 
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     /**
      * Returns the localization of the class.
      *
