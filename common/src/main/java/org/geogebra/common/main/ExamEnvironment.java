@@ -597,7 +597,7 @@ public class ExamEnvironment {
 	 * close exam mode and reset CAS etc.
 	 *
 	 */
-	private void closeExam() {
+	public void closeExam() {
 		if (app.has(Feature.MOB_DISABLE_3D_COMMANDS)) {
 			app.enableCAS3D(wasCasEnabled, wasCommands3DEnabled);
 		} else {
