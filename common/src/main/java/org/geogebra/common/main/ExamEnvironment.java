@@ -93,6 +93,10 @@ public class ExamEnvironment {
 		lastCheatingEventWindowWasLeft = false;
 	}
 
+	/**
+	 * @param os
+	 *            operating system
+	 */
 	public void startCheating(String os) {
 		maybeCheating = System.currentTimeMillis();
 		checkCheating(os); // needed for ctr+win+down
@@ -176,7 +180,7 @@ public class ExamEnvironment {
 	 * @param translation The translation identifier from the Translation enum.
 	 * @return The translation identified by the Translation parameter.
 	 */
-	public String getTranslatedString(Translation translation) {
+	private String getTranslatedString(Translation translation) {
 		Localization localization = app.getLocalization();
 		switch (translation) {
 			case EXAM_MODE:
@@ -208,21 +212,21 @@ public class ExamEnvironment {
 	/**
 	 * @return The exam date in localized format.
 	 */
-	public String getDate() {
+	private String getDate() {
 		return getLocalizedDateOnly(app.getLocalization(), examStartTime);
 	}
 
 	/**
 	 * @return The exam start time in localized format.
 	 */
-	public String getStartTime() {
+	private String getStartTime() {
 		return getLocalizedTimeOnly(app.getLocalization(), examStartTime);
 	}
 
 	/**
 	 * @return The exam end time in localized format.
 	 */
-	public String getEndTime() {
+	private String getEndTime() {
 		return getLocalizedTimeOnly(app.getLocalization(), closed);
 	}
 
@@ -230,7 +234,7 @@ public class ExamEnvironment {
 	 * @param withEndTime Whether the returned log string should contain the elapsed time as exam end time.
 	 * @return The (cheating) activity log.
 	 */
-	public String getActivityLog(boolean withEndTime) {
+	private String getActivityLog(boolean withEndTime) {
 		if (cheatingTimes == null) {
 			return "";
 		}
@@ -306,7 +310,7 @@ public class ExamEnvironment {
 	 *
 	 * @return elapsed time
 	 */
-	public String getElapsedTime() {
+	private String getElapsedTime() {
 		return timeToString(System.currentTimeMillis());
 	}
 
@@ -314,7 +318,7 @@ public class ExamEnvironment {
 	 *
 	 * @return closed time
 	 */
-	public String getClosedTime() {
+	private String getClosedTime() {
 		return timeToString(closed);
 	}
 
@@ -359,7 +363,7 @@ public class ExamEnvironment {
 		return sb.toString();
 	}
 
-	public String getLogStartEnd(Localization loc) {
+	private String getLogStartEnd(Localization loc) {
 		return getLogStartEnd(loc, true);
 	}
 
@@ -370,7 +374,7 @@ public class ExamEnvironment {
 	 *            whether to include end time
 	 * @return log with start and end of the exam
 	 */
-	public String getLogStartEnd(Localization loc, boolean showEndTime) {
+	private String getLogStartEnd(Localization loc, boolean showEndTime) {
 		StringBuilder sb = new StringBuilder();
 		appendStartEnd(loc, sb, showEndTime);
 		return sb.toString();
@@ -381,7 +385,7 @@ public class ExamEnvironment {
 	 *            localization
 	 * @return log start + current time
 	 */
-	public String getLogStartAndCurrentTime(Localization loc) {
+	private String getLogStartAndCurrentTime(Localization loc) {
 		StringBuilder sb = new StringBuilder();
 
 		appendStartEnd(loc, sb, false);
@@ -394,7 +398,7 @@ public class ExamEnvironment {
 		return sb.toString();
 	}
 
-	public String getLogTimes(Localization loc) {
+	private String getLogTimes(Localization loc) {
 		return getLogTimes(loc, true);
 	}
 
@@ -405,7 +409,7 @@ public class ExamEnvironment {
 	 *            whether to show end time
 	 * @return log times
 	 */
-	public String getLogTimes(Localization loc, boolean showEndTime) {
+	private String getLogTimes(Localization loc, boolean showEndTime) {
 		StringBuilder sb = new StringBuilder();
 		appendLogTimes(loc, sb, showEndTime);
 		return sb.toString();
@@ -443,7 +447,7 @@ public class ExamEnvironment {
 		return "";
 	}
 
-	public boolean getHasGraph() {
+	private boolean getHasGraph() {
 		return hasGraph;
 	}
 
@@ -473,7 +477,7 @@ public class ExamEnvironment {
 	/**
 	 * store end time
 	 */
-	public void storeEndTime() {
+	private void storeEndTime() {
 		this.closed = System.currentTimeMillis();
 	}
 
@@ -546,7 +550,7 @@ public class ExamEnvironment {
 	 * @param type
 	 *            calculator type
 	 */
-	public void setCalculatorType(CalculatorType type) {
+	private void setCalculatorType(CalculatorType type) {
 		calculatorType = type;
 
 	}
@@ -593,7 +597,7 @@ public class ExamEnvironment {
 	 * close exam mode and reset CAS etc.
 	 *
 	 */
-	public void closeExam() {
+	private void closeExam() {
 		if (app.has(Feature.MOB_DISABLE_3D_COMMANDS)) {
 			app.enableCAS3D(wasCasEnabled, wasCommands3DEnabled);
 		} else {
@@ -606,7 +610,7 @@ public class ExamEnvironment {
 	/**
 	 * @return name for current calculator type
 	 */
-	public String getCalculatorTypeName() {
+	private String getCalculatorTypeName() {
 		return getShortCalcTypeName(calculatorType);
 	}
 
@@ -615,7 +619,7 @@ public class ExamEnvironment {
 	 *            calculator type
 	 * @return name for a calculator type
 	 */
-	public String getCalculatorTypeName(CalculatorType type) {
+	private String getCalculatorTypeName(CalculatorType type) {
 		switch (type) {
 			case GRAPHING:
 				return app.getLocalization().getMenu("exam_calctype_graphing");
@@ -634,7 +638,7 @@ public class ExamEnvironment {
 	 * @param type The CalculatorType for which we want the short name
 	 * @return The short name of the CalculatorType parameter in human readable string format
 	 */
-	public String getShortCalcTypeName(CalculatorType type) {
+	private String getShortCalcTypeName(CalculatorType type) {
 		switch (type) {
 			case GRAPHING:
 				return app.getLocalization().getMenu("exam_calctype_graphing_short");
@@ -654,7 +658,7 @@ public class ExamEnvironment {
 	 *            calculator type
 	 * @return hint for a calculator type
 	 */
-	public String getCalculatorTypeHint(CalculatorType type) {
+	private String getCalculatorTypeHint(CalculatorType type) {
 		switch (type) {
 			case GRAPHING:
 				return app.getLocalization().getMenu("exam_calctype_graphing_desc");
@@ -784,14 +788,14 @@ public class ExamEnvironment {
 	 *
 	 * @return a string representation that represents if currently cheating or not
 	 */
-	public String getMarkCheatingOrNot() {
+	private String getMarkCheatingOrNot() {
 		return isCheating() ? MARK_CHEATING : MARK_NOT_CHEATING;
 	}
 
     /**
      * @return header for log dialogs
      */
-    public String getLogHeader() {
+	private String getLogHeader() {
 		return app.getLocalization().getPlainDefault(
 				"exam_log_header_calculator_time_check", "Exam log: %0   %1 %2",
                 getCalculatorTypeName(), getElapsedTime(), getMarkCheatingOrNot());
@@ -801,7 +805,7 @@ public class ExamEnvironment {
      *
      * @return the localized elapsed time string
      */
-    public String getElapsedTimeLocalized() {
+	private String getElapsedTimeLocalized() {
         return  timeToStringLocalized(System.currentTimeMillis());
     }
 
