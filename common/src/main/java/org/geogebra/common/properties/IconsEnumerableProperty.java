@@ -6,10 +6,10 @@ package org.geogebra.common.properties;
 public interface IconsEnumerableProperty extends EnumerableProperty {
 
     /**
-     * Returns an array with the identifiers of the icons. The identifiers are usually
-     * tied to a specific property
+     * Returns an array with the icon resources. The identifiers are usually
+     * tied to a specific property.
      *
      * @return an array of identifiers
      */
-    int[] getIconIds();
+    PropertyResource[] getIcons();
 }

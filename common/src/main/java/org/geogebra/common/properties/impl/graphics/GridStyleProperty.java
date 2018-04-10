@@ -5,23 +5,20 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 import org.geogebra.common.properties.IconsEnumerableProperty;
+import org.geogebra.common.properties.PropertyResource;
 
 /**
  * This property controls the style of the grid.
  */
 public class GridStyleProperty extends AbstractEnumerableProperty implements IconsEnumerableProperty {
 
-    public static final int ICON_CARTESIAN = 0;
-    public static final int ICON_CARTESIAN_MINOR = 1;
-    public static final int ICON_POLAR = 2;
-    public static final int ICON_ISOMETRIC = 3;
-
     private EuclidianSettings euclidianSettings;
 
-    private int[] iconIds = new int[]{
-            ICON_CARTESIAN,
-            ICON_CARTESIAN_MINOR,
-            ICON_POLAR, ICON_ISOMETRIC
+    private PropertyResource[] icons = new PropertyResource[] {
+            PropertyResource.ICON_CARTESIAN,
+            PropertyResource.ICON_CARTESIAN_MINOR,
+            PropertyResource.ICON_POLAR,
+            PropertyResource.ICON_ISOMETRIC
     };
 
     private int[] gridTypes = new int[]{
@@ -75,7 +72,7 @@ public class GridStyleProperty extends AbstractEnumerableProperty implements Ico
     }
 
     @Override
-    public int[] getIconIds() {
-        return iconIds;
+    public PropertyResource[] getIcons() {
+        return icons;
     }
 }
