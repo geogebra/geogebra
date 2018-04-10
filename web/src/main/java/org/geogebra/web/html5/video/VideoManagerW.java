@@ -31,6 +31,8 @@ public class VideoManagerW implements VideoManager {
 	 */
 	public static final String YOUTUBE = "https://www.youtube.com/watch?v=";
 
+	public static final String YOUTUBE_NO_WWW = "https://youtube.com/watch?v=";
+
 	/**
 	 * Head of a short form of YouTube URL.
 	 */
@@ -71,7 +73,7 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	private void checkVideo(String url) {
-		if (getYouTubeId(url) == null) {
+		if (getYouTubeId(url) == null || getYouTubeId(url) == "") {
 			onUrlError();
 		} else {
 			onUrlOK();
@@ -128,6 +130,8 @@ public class VideoManagerW implements VideoManager {
 		String id = null;
 		if (url.startsWith(YOUTUBE)) {
 			id = url.replace(YOUTUBE, "");
+		} else if (url.startsWith(YOUTUBE_NO_WWW)) {
+			id = url.replace(YOUTUBE_NO_WWW, "");
 		} else if (url.startsWith(YOUTUBE_SHORT)) {
 			id = url.replace(YOUTUBE_SHORT, "");
 		} else if (url.startsWith(YOUTUBE_EMBED)) {

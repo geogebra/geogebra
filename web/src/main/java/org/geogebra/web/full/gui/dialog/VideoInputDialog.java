@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -90,8 +89,8 @@ public class VideoInputDialog extends DialogBoxW
 		addStyleName("videoDialog");
 		setGlassEnabled(true);
 		setLabels();
-		inputField.getTextComponent().setText(GeoVideo.TEST_VIDEO_URL);
-		insertBtn.setEnabled(true);
+		// inputField.getTextComponent().setText(GeoVideo.TEST_VIDEO_URL);
+		// insertBtn.setEnabled(true);
 
 	}
 
@@ -101,8 +100,13 @@ public class VideoInputDialog extends DialogBoxW
 
 					@Override
 					public void onFocus(FocusEvent event) {
-						getInputPanel().setStyleName("mowVideoDialogContent");
-						getInputPanel().addStyleName("focusState");
+						if (!isInputFieldEmpty()) {
+							processInput();
+						}
+						if (getInsertBtn().isEnabled()
+								|| isInputFieldEmpty()) {
+							setFocusState();
+						}
 					}
 				});
 		inputField.getTextComponent().getTextBox()
@@ -110,7 +114,7 @@ public class VideoInputDialog extends DialogBoxW
 
 					@Override
 					public void onBlur(BlurEvent event) {
-						resetInputField();
+						setEmptyState();
 					}
 				});
 		inputField.getTextComponent().getTextBox()
@@ -118,13 +122,22 @@ public class VideoInputDialog extends DialogBoxW
 
 					@Override
 					public void onKeyUp(KeyUpEvent event) {
-						if (event.getNativeEvent()
-								.getKeyCode() == KeyCodes.KEY_ENTER) {
-							processInput();
+						if (isInputFieldEmpty()) {
+							setFocusState();
 						} else {
-							resetInputField();
-							getInputPanel().addStyleName("focusState");
-							getInputPanel().removeStyleName("emptyState");
+							processInput();
+						}
+						if (event.getNativeEvent()
+								.getKeyCode() == KeyCodes.KEY_BACKSPACE
+								&& isInputFieldEmpty()) {
+							getInputField().getTextComponent().setText("");
+						} else if (getInsertBtn().isEnabled()) {
+							if (event.getNativeEvent()
+									.getKeyCode() == KeyCodes.KEY_ENTER) {
+								addVideo();
+							} else {
+								setFocusState();
+							}
 						}
 					}
 				});
@@ -170,14 +183,6 @@ public class VideoInputDialog extends DialogBoxW
 	}
 
 	/**
-	 * Resets input style after error.
-	 */
-	public void resetInputField() {
-		resetError();
-		getInsertBtn().setEnabled(!"".equals(getInputField().getText()));
-	}
-
-	/**
 	 * set button labels and dialog title
 	 */
 	public void setLabels() {
@@ -195,7 +200,7 @@ public class VideoInputDialog extends DialogBoxW
 		if (source == cancelBtn) {
 			hide();
 		} else if (source == insertBtn) {
-			processInput();
+			addVideo();
 		}
 	}
 
@@ -211,7 +216,8 @@ public class VideoInputDialog extends DialogBoxW
 				@Override
 				public void callback(Boolean ok) {
 					if (ok) {
-						addVideo();
+						resetError();
+						getInsertBtn().setEnabled(true);
 					} else {
 						showError("error");
 					}
@@ -224,7 +230,6 @@ public class VideoInputDialog extends DialogBoxW
 	 * Adds the GeoVideo instance.
 	 */
 	protected void addVideo() {
-		resetError();
 		app.getGuiManager().addVideo(inputField.getText());
 		hide();
 	}
@@ -256,8 +261,9 @@ public class VideoInputDialog extends DialogBoxW
 
 	@Override
 	public void showError(String msg) {
-		inputPanel.setStyleName("mowVideoDialogContent");
 		inputPanel.addStyleName("errorState");
+		inputPanel.removeStyleName("focusState");
+		insertBtn.setEnabled(false);
 	}
 
 	@Override
@@ -278,8 +284,36 @@ public class VideoInputDialog extends DialogBoxW
 
 	@Override
 	public void resetError() {
-		getInputPanel().setStyleName("mowVideoDialogContent");
-		getInputPanel().addStyleName("emptyState");
+		inputPanel.addStyleName("emptyState");
 		inputPanel.removeStyleName("errorState");
+	}
+
+	/**
+	 * sets the style of InputPanel to focus state
+	 */
+	protected void setFocusState() {
+		inputPanel.addStyleName("focusState");
+		inputPanel.removeStyleName("emptyState");
+		inputPanel.removeStyleName("errorState");
+	}
+
+	/**
+	 * sets the style of InputPanel to empty state
+	 */
+	protected void setEmptyState() {
+		inputPanel.addStyleName("emptyState");
+		inputPanel.removeStyleName("focusState");
+		inputPanel.removeStyleName("errorState");
+	}
+
+	/**
+	 * check if input field is empty
+	 * 
+	 * @return true if input field is empty or contains only https
+	 */
+	protected boolean isInputFieldEmpty() {
+		return "".equals(getInputField().getText())
+				|| "https://".equals(getInputField().getText())
+				|| "https:/".equals(getInputField().getText());
 	}
 }
