@@ -821,23 +821,4 @@ public class ExamEnvironment {
 		return cheatingEvents == null ? 0 : cheatingEvents.size();
 	}
 
-	/**
-	 * @param loc
-	 *            localization
-	 * @return exam start + current time
-	 */
-	public String getLogStartAndCurrentTime(Localization loc) {
-		ExamLogBuilder builder = new ExamLogBuilder();
-
-		appendStartEnd(loc, builder, false);
-
-		// Exam Current Time
-		StringBuilder sb = new StringBuilder();
-		sb.append(loc.getMenu("exam_current_time"));
-		sb.append(": ");
-		sb.append(timeToString(System.currentTimeMillis()));
-		builder.addLine(sb);
-
-		return builder.toString();
-	}
 }
