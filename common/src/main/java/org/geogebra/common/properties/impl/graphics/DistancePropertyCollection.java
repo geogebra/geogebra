@@ -1,5 +1,6 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.AbstractProperty;
@@ -18,10 +19,12 @@ public class DistancePropertyCollection extends AbstractProperty implements Prop
      *
      * @param localization localization for the title
      */
-    public DistancePropertyCollection(Localization localization, EuclidianSettings euclidianSettings) {
+    public DistancePropertyCollection(Localization localization, Kernel kernel, EuclidianSettings euclidianSettings) {
         super(localization, "Distance");
         collection = new Property[]{
-                new AxesNumberingDistanceProperty(localization, euclidianSettings)
+                new AxesNumberingDistanceProperty(localization, euclidianSettings),
+                new AxisDistanceProperty(localization, kernel, euclidianSettings, "xAxis", 0),
+                new AxisDistanceProperty(localization, kernel, euclidianSettings, "yAxis", 1)
         };
     }
 
