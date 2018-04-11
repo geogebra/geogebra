@@ -1793,7 +1793,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 																			// -(x
 																			// /
 																			// a)
-								)) || (showMultiplicationSign && stringType.equals(StringType.GEOGEBRA))) // 3
+								)) ) // 3
 																											// (5)
 				{
 					if (rtlMinus) {
@@ -1929,7 +1929,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return " cdot ";
 
 		case GEOGEBRA:
-			return " "; // space for multiplication
+			return " * "; // space for multiplication
 
 		default:
 			return " * ";
