@@ -814,7 +814,30 @@ public class ExamEnvironment {
         return timeFormatter.format(app.getLocalization().getLocale(), "%02d:%02d", millis);
     }
 
+	/**
+	 * @return number of cheating events
+	 */
 	public int getEventCount() {
 		return cheatingEvents.size();
+	}
+
+	/**
+	 * @param loc
+	 *            localization
+	 * @return exam start + current time
+	 */
+	public String getLogStartAndCurrentTime(Localization loc) {
+		ExamLogBuilder builder = new ExamLogBuilder();
+
+		appendStartEnd(loc, builder, false);
+
+		// Exam Current Time
+		StringBuilder sb = new StringBuilder();
+		sb.append(loc.getMenu("exam_current_time"));
+		sb.append(": ");
+		sb.append(timeToString(System.currentTimeMillis()));
+		builder.addLine(sb);
+
+		return builder.toString();
 	}
 }
