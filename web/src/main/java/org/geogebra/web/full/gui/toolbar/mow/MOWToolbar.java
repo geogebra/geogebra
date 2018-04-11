@@ -419,6 +419,8 @@ public class MOWToolbar extends FlowPanel {
 			selectButton(penButton);
 		}
 		if (!(mode == EuclidianConstants.MODE_PEN && currentMenu == penMenu)
+				&& !(mode == EuclidianConstants.MODE_HIGHLIGHTER
+						&& currentMenu == penMenu)
 				&& !((mode == EuclidianConstants.MODE_TEXT
 						|| mode == EuclidianConstants.MODE_MOVE)
 						&& currentMenu == mediaMenu)) {

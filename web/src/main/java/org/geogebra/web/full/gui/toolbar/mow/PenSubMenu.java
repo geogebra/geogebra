@@ -84,14 +84,22 @@ public class PenSubMenu extends SubMenuPanel {
 		pen.getUpFace().setImage(im);
 		pen.addStyleName("plusMarginLeft");
 		eraser = createButton(EuclidianConstants.MODE_ERASER);
-		eraser.addStyleName("plusMarginLeft");
-		move = createButton(EuclidianConstants.MODE_MOVE);
 		highlighter = createButton(EuclidianConstants.MODE_HIGHLIGHTER);
 		highlighter.addStyleName("highlighterBtn");
+		if (app.has(Feature.MOW_HIGHLIGHTER_TOOL)) {
+			highlighter.addStyleName("plusMarginLeft");
+		} else {
+			eraser.addStyleName("plusMarginLeft");
+		}
+		move = createButton(EuclidianConstants.MODE_MOVE);
 		select = createButton(EuclidianConstants.MODE_SELECT);
-		penPanel.add(LayoutUtilW.panelRow(
-				app.has(Feature.MOW_HIGHLIGHTER_TOOL) ? highlighter : move, pen,
+		if (app.has(Feature.MOW_HIGHLIGHTER_TOOL)) {
+			penPanel.add(
+					LayoutUtilW.panelRow(select, pen, eraser, highlighter));
+		} else {
+			penPanel.add(LayoutUtilW.panelRow(move, pen,
 				select, eraser));
+		}
 	}
 
 	/**
@@ -207,6 +215,8 @@ public class PenSubMenu extends SubMenuPanel {
 			app.setMode(EuclidianConstants.MODE_SELECT);
 		} else if (source == btnCustomColor) {
 			openColorDialog();
+		} else if (source == highlighter) {
+			app.setMode(EuclidianConstants.MODE_HIGHLIGHTER);
 		}
 		closeFloatingMenus();
 	}
@@ -226,6 +236,16 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.getElement().setAttribute("disabled", "false");
 		preview.setVisible(true);
 		updatePreview();
+	}
+
+	private void doSelectHighlighter() {
+		highlighter.getElement().setAttribute("selected", "true");
+		setColorsEnabled(true);
+		if (lastSelectedColor == null) {
+			selectColor(BLACK);
+		} else {
+			selectColor(lastSelectedColor);
+		}
 	}
 
 	private void doSelectEraser() {
@@ -262,6 +282,7 @@ public class PenSubMenu extends SubMenuPanel {
 		eraser.getElement().setAttribute("selected", "false");
 		move.getElement().setAttribute("selected", "false");
 		select.getElement().setAttribute("selected", "false");
+		highlighter.getElement().setAttribute("selected", "false");
 		setColorsEnabled(false);
 	}
 
@@ -340,6 +361,8 @@ public class PenSubMenu extends SubMenuPanel {
 			doSelectEraser();
 		} else if (mode == EuclidianConstants.MODE_PEN) {
 			doSelectPen();
+		} else if (mode == EuclidianConstants.MODE_HIGHLIGHTER) {
+			doSelectHighlighter();
 		}
 	}
 
