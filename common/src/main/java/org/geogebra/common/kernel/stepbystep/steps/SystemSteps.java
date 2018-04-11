@@ -302,7 +302,12 @@ public class SystemSteps {
 
         StepExpression[] values = new StepExpression[4];
         for (int i = 0; i < 4; i++) {
-            values[i] = determinants[i].calculateDeterminant(steps);
+            tempSteps.reset();
+            values[i] = determinants[i].calculateDeterminant(tempSteps);
+            StepEquation output = new StepEquation(
+                    new StepVariable("D" + ((i == 0) ? "" : ("_{" + i + "}"))),
+                    values[i]);
+            steps.addGroup(SolutionStepType.CALCULATE_DETERINANT, tempSteps, output, determinants[i]);
         }
 
         if (isZero(values[0])) {
