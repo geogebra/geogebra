@@ -38,6 +38,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class PenSubMenu extends SubMenuPanel {
 	private static final int MAX_PEN_SIZE = 12;
 	private static final int MAX_ERASER_SIZE = 100;
+	private static final int MIN_HIGHLIGHTER_SIZE = 15;
+	private static final int MAX_HIGHLIGHTER_SIZE = 30;
 	private static final int PEN_STEP = 1;
 	private static final int ERASER_STEP = 20;
 	private static final int BLACK = 0;
@@ -246,6 +248,16 @@ public class PenSubMenu extends SubMenuPanel {
 		} else {
 			selectColor(lastSelectedColor);
 		}
+		slider.setMinimum(MIN_HIGHLIGHTER_SIZE, false);
+		slider.setMaximum(MAX_HIGHLIGHTER_SIZE, false);
+		slider.setStep(PEN_STEP);
+		slider.setValue(
+				((double) getPenGeo().getLineThickness()) < MIN_HIGHLIGHTER_SIZE
+						? MIN_HIGHLIGHTER_SIZE
+						: (double) getPenGeo().getLineThickness());
+		slider.getElement().setAttribute("disabled", "false");
+ 		preview.setVisible(true);
+		updatePreview();
 	}
 
 	private void doSelectEraser() {
