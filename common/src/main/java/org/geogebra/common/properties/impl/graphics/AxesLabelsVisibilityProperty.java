@@ -25,19 +25,19 @@ public class AxesLabelsVisibilityProperty extends AbstractProperty implements Bo
 
     @Override
     public boolean getValue() {
-        boolean[] axisNumbers = euclidianSettings.getShowAxisNumbers();
+        String[] axesLabels = euclidianSettings.getAxesLabels();
         boolean value = false;
-        for (boolean axisNumber : axisNumbers) {
-            value |= axisNumber;
+        for (String axisLabel : axesLabels) {
+            value |= axisLabel != null;
         }
         return value;
     }
 
     @Override
     public void setValue(boolean value) {
-        int length = euclidianSettings.getShowAxisNumbers().length;
-        for (int i = 0; i < length; i++) {
-            euclidianSettings.setShowAxisNumbers(i, value);
+        String[] values = euclidianSettings.getAxesLabels();
+        for (int i = 0; i < values.length; i++) {
+            values[i] = value ? EuclidianSettings.DEFAULT_AXIS_LABELS[i] : null;
         }
     }
 }

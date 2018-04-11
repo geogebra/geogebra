@@ -28,6 +28,9 @@ public class AxisLabelProperty extends AbstractProperty implements StringPropert
 
     @Override
     public String getValue() {
+        if (!isEnabled()) {
+             return EuclidianSettings.DEFAULT_AXIS_LABELS[axis];
+        }
         return euclidianSettings.getAxesLabels()[axis];
     }
 
@@ -38,6 +41,11 @@ public class AxisLabelProperty extends AbstractProperty implements StringPropert
 
     @Override
     public boolean isEnabled() {
-        return true;
+        String[] labels = euclidianSettings.getAxesLabels();
+        boolean enabled = false;
+        for (String label : labels) {
+            enabled |= label != null;
+        }
+        return enabled;
     }
 }

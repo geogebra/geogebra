@@ -25,6 +25,8 @@ import com.himamis.retex.editor.share.util.Unicode;
  * is determined in {@link Settings}.
  */
 public class EuclidianSettings extends AbstractSettings {
+
+	public static final String[] DEFAULT_AXIS_LABELS = { "x", "y", "z" };
 	public static final int[] DELETE_SIZES = { 20, 40, 80 };
 
 	/**
