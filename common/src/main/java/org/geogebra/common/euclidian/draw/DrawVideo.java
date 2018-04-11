@@ -100,6 +100,7 @@ public class DrawVideo extends Drawable {
 						2 * hitThreshold, 2 * hitThreshold)
 				&& getBoundingBox().hitSideOfBoundingBox(hitX, hitY, hitThreshold);
 	}
+
 	@Override
 	public boolean isInside(GRectangle rect) {
 		return rect.contains(bounds);

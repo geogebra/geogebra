@@ -201,9 +201,13 @@ public class InputSuggestions implements HasSuggestions {
 		return completions;
 	}
 
-	/*
+	/**
 	 * Take a list of commands and return all possible syntaxes for these
 	 * commands
+	 * 
+	 * @param commands
+	 *            commands
+	 * @return syntaxes
 	 */
 	public List<String> getSyntaxes(List<String> commands) {
 		if (commands == null) {

@@ -119,7 +119,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						ExamDialog.startExam(null, getApp());
 					}
 				};
-				welcomeHandler = new AsyncOperation<String[]>(){
+				welcomeHandler = new AsyncOperation<String[]>() {
 
 					@Override
 					public void callback(String[] obj) {

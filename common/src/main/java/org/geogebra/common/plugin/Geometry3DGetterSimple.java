@@ -14,8 +14,12 @@ package org.geogebra.common.plugin;
  */
 public class Geometry3DGetterSimple implements Geometry3DGetter {
 
-	private StringBuilder vsb, nsb, csb, tsb;
-	private int index, nextShift;
+	private StringBuilder vsb;
+	private StringBuilder nsb;
+	private StringBuilder csb;
+	private StringBuilder tsb;
+	private int index;
+	private int nextShift;
 
 	/**
 	 * constructor
@@ -39,8 +43,8 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 	}
 
 	@Override
-	public void addVertexNormalColor(double x, double y, double z, double nx, double ny, double nz, double r, double g,
-			double b, double a) {
+	public void addVertexNormalColor(double x, double y, double z, double nx,
+			double ny, double nz, double r, double g, double b, double a) {
 		vsb.append(" ");
 		vsb.append(x);
 		vsb.append(" ");

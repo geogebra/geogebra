@@ -818,7 +818,7 @@ public class ExamEnvironment {
 	 * @return number of cheating events
 	 */
 	public int getEventCount() {
-		return cheatingEvents.size();
+		return cheatingEvents == null ? 0 : cheatingEvents.size();
 	}
 
 	/**

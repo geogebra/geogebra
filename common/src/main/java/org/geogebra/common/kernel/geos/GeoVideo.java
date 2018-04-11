@@ -228,6 +228,7 @@ public class GeoVideo extends GeoMedia {
 			return State.NONE;
 		}
 	}
+
 	@Override
 	public void pause() {
 		state = State.NONE;
