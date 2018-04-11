@@ -74,4 +74,18 @@ public class LayoutUtilW {
 
 		return true;
 	}
+
+	/**
+	 * @param xscale
+	 *            xscale
+	 * @param yscale
+	 *            yscale
+	 * @return smaller scale
+	 */
+	public static double getDeviceScale(double xscale, double yscale) {
+		if (xscale < 1 || yscale < 1) {
+			return Math.min(1d, Math.min(xscale, yscale));
+		}
+		return Math.max(1d, Math.min(xscale, yscale));
+	}
 }

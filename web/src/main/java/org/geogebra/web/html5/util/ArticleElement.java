@@ -832,7 +832,7 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	}
 
 	@Override
-	public String getParamScaleConteinerClass() {
+	public String getParamScaleContainerClass() {
 		return this.getStringDataParam("scaleContainerClass", "");
 	}
 }

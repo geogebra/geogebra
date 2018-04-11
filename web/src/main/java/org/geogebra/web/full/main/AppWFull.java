@@ -1420,6 +1420,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		this.setPreferredSize(
 				new GDimensionW((int) this.getWidth(), (int) this.getHeight()));
 		setDefaultCursor();
+		checkScaleContainer();
 		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
 		GeoGebraProfiler.getInstance().profileEnd();
 		onOpenFile();

@@ -295,7 +295,10 @@ public enum Feature {
 	MOB_PACK_JOIN_POINTS,
 
 	/** MOB-1514 */
-	MOB_PACK_CONIC
+	MOB_PACK_CONIC,
+
+	/** GGB-2269 */
+	SCALE_CONTAINER
 
 }
 

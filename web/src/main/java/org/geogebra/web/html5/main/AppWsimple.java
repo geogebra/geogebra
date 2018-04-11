@@ -120,6 +120,7 @@ public class AppWsimple extends AppW {
 		frame.hideSplash();
 
 		setDefaultCursor();
+		checkScaleContainer();
 		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
 		GeoGebraProfiler.getInstance().profileEnd();
 		setAltText();

@@ -106,6 +106,7 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.io.ConstructionException;
@@ -307,6 +308,38 @@ public abstract class AppW extends App implements SetLabels {
 				getAccessibilityManager().focusMenu();
 			}
 		}
+		checkScaleContainer();
+	}
+
+	protected void checkScaleContainer() {
+		if (!StringUtil
+				.empty(getArticleElement().getParamScaleContainerClass())
+				&& has(Feature.SCALE_CONTAINER)) {
+			scaleTo(getParent(
+					getArticleElement().getParamScaleContainerClass()));
+		}
+
+	}
+
+	private void scaleTo(Element parent) {
+
+		double xscale = parent.getOffsetWidth() / getWidth();
+		double yscale = parent.getOffsetHeight() / getHeight();
+		double scale = LayoutUtilW.getDeviceScale(xscale, yscale);
+		Log.printStacktrace(xscale + "," + yscale + "=>" + scale);
+		Browser.scale(articleElement.getParentElement(), scale, 0, 0);
+		getArticleElement().resetScale();
+	}
+
+	private Element getParent(String containerClass) {
+		Element current = getFrameElement();
+		while(current!=null){
+			if(current.hasClassName(containerClass)){
+				return current;
+			}
+			current = current.getParentElement();
+		}
+		return null;
 	}
 
 	/**

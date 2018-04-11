@@ -450,6 +450,6 @@ public interface ArticleElementInterface {
 	/**
 	 * @return scale container CSS class
 	 */
-	String getParamScaleConteinerClass();
+	String getParamScaleContainerClass();
 
 }
