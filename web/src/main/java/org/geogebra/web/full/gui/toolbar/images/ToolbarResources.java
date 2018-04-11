@@ -287,6 +287,6 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_camera_32();
 
-	// ResourcePrototype mode_highlighter_32();
+	ResourcePrototype mode_highlighter_32();
 
 }

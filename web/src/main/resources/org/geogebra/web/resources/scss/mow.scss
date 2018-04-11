@@ -160,6 +160,13 @@
 	    margin: 3px !important;
 	    width: 32px;
 	    height: 32px;
+	    
+	    &.highlighterBtn {
+	    	img {
+	    		width: 28px;
+    			padding: 2px;
+    		}
+    	}
 	}
 	.mowToolButton[selected=true]{
 		padding: 2px;

@@ -1111,6 +1111,9 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_ERASER:
 			return resourceBundle.mode_eraser_32();
 
+		case EuclidianConstants.MODE_HIGHLIGHTER:
+			return resourceBundle.mode_highlighter_32();
+
 		case EuclidianConstants.MODE_VIDEO:
 			return resourceBundle.mode_video_32();
 

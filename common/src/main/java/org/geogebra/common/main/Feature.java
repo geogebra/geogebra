@@ -253,6 +253,9 @@ public enum Feature {
 	/** MOW-299 */
 	MOW_VIDEO_TOOL,
 
+	/** MOW-278 */
+	MOW_HIGHLIGHTER_TOOL,
+
 	/** IGR-633 */
 	MOB_IOS_EXAM_LOG_DIALOG,
 

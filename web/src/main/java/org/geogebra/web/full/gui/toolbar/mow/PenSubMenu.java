@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -42,6 +43,8 @@ public class PenSubMenu extends SubMenuPanel {
 	private static final int BLACK = 0;
 	private StandardButton pen;
 	private StandardButton eraser;
+	private StandardButton highlighter;
+	// TODO please remove me if MOW_HIGHLIGHTER_TOOL feature is released!!!
 	private StandardButton move;
 	private StandardButton select;
 	private FlowPanel penPanel;
@@ -83,8 +86,12 @@ public class PenSubMenu extends SubMenuPanel {
 		eraser = createButton(EuclidianConstants.MODE_ERASER);
 		eraser.addStyleName("plusMarginLeft");
 		move = createButton(EuclidianConstants.MODE_MOVE);
+		highlighter = createButton(EuclidianConstants.MODE_HIGHLIGHTER);
+		highlighter.addStyleName("highlighterBtn");
 		select = createButton(EuclidianConstants.MODE_SELECT);
-		penPanel.add(LayoutUtilW.panelRow(move, pen, select, eraser));
+		penPanel.add(LayoutUtilW.panelRow(
+				app.has(Feature.MOW_HIGHLIGHTER_TOOL) ? highlighter : move, pen,
+				select, eraser));
 	}
 
 	/**
