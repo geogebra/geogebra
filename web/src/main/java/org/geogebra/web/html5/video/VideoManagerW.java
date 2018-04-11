@@ -54,7 +54,8 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void loadGeoVideo(GeoVideo geo) {
-		// TODO implement this
+		addPlayer(geo);
+		updatePlayer(geo);
 	}
 
 	@Override
@@ -100,14 +101,14 @@ public class VideoManagerW implements VideoManager {
 		if (video == null) {
 			return;
 		}
-		if (!hasPlayer(video)) {
+		if (!(hasPlayer(video)
+				&& isPlayerValid(getPlayer(video).getElement()))) {
 			addPlayer(video);
 		}
 		video.play();
 		if (video.isPlaying()) {
-			VideoPlayer player = getPlayer(video);
-			controlPlayer(player.getElement(), CMD_PLAY);
-			player.update();
+			controlPlayer(getPlayer(video).getElement(), CMD_PLAY);
+			updatePlayer(video);
 		}
 	}
 
@@ -201,4 +202,7 @@ public class VideoManagerW implements VideoManager {
 				+ command + '","args":""}', '*');
 	}-*/;
 
+	private native boolean isPlayerValid(JavaScriptObject player) /*-{
+		return player.contentWindow != null;
+	}-*/;
 }

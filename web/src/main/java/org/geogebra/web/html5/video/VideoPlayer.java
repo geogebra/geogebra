@@ -37,6 +37,8 @@ public class VideoPlayer extends Frame {
 		Style style = getElement().getStyle();
 		style.setLeft(video.getAbsoluteScreenLocX(), Unit.PX);
 		style.setTop(video.getAbsoluteScreenLocY(), Unit.PX);
+		setWidth(video.getWidth() + "px");
+		setHeight(video.getHeight() + "px");
 		if (video.isPlaying()) {
 			removeStyleName("hidden");
 			video.setChanged(false);
@@ -45,8 +47,6 @@ public class VideoPlayer extends Frame {
 			if (!video.getEmbeddedUrl().equals(embedUrl)) {
 				embedUrl = video.getEmbeddedUrl();
 			}
-			setWidth(video.getWidth() + "px");
-			setHeight(video.getHeight() + "px");
 		}
 	}
 }

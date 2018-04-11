@@ -85,7 +85,9 @@ public class DrawVideo extends Drawable {
 			video.setLastHitType(HitType.ON_BOUNDARY);
 			return false;
 		}
-
+		if (bounds == null) {
+			return false;
+		}
 		video.setLastHitType(HitType.ON_FILLING);
 		return bounds.contains(x, y) && video.isVisible();
 	}

@@ -111,9 +111,9 @@ public class GeoVideo extends GeoMedia {
 				setPreview(obj);
 				setChanged(true);
 				app.getActiveEuclidianView().updateAllDrawablesForView(true);
-
 			}
 		});
+		app.getVideoManager().loadGeoVideo(this);
 		initStartTime();
 		changed = true;
 	}
@@ -182,7 +182,6 @@ public class GeoVideo extends GeoMedia {
 		if (youtubeId == null) {
 			return null;
 		}
-
 		StringBuilder sb = new StringBuilder();
 		sb.append(YOUTUBE_EMBED);
 		sb.append(youtubeId);
@@ -193,7 +192,6 @@ public class GeoVideo extends GeoMedia {
 			sb.append("&");
 		}
 		sb.append(JAVASCRIPT_API);
-
 		return sb.toString();
 	}
 
@@ -213,7 +211,6 @@ public class GeoVideo extends GeoMedia {
 		return preview;
 	}
 
-
 	@Override
 	public void play() {
 		state = processState();
@@ -229,7 +226,6 @@ public class GeoVideo extends GeoMedia {
 			return State.PLAYING;
 		default:
 			return State.NONE;
-
 		}
 	}
 	@Override
@@ -284,7 +280,6 @@ public class GeoVideo extends GeoMedia {
 	@Override
 	public void setCurrentTime(int secs) {
 		// TODO Implement this
-
 	}
 
 	/**
@@ -310,4 +305,8 @@ public class GeoVideo extends GeoMedia {
 		state = State.READY;
 	}
 
+	@Override
+	public boolean isFixedSize() {
+		return true;
+	}
 }
