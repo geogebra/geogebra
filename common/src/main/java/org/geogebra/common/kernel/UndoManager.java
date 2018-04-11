@@ -46,20 +46,26 @@ public abstract class UndoManager {
 	}
 
 	/**
-	 * @param string
+	 * @param slideID
 	 *            slide ID
 	 * @return last state of given slide
 	 */
-	public AppState getCheckpoint(String string) {
+	public AppState getCheckpoint(String slideID) {
 		AppState state = null;
 		int steps = 0;
+		String sourceID = slideID;
 		while (iterator.hasPrevious()) {
 			UndoCommand cmd = iterator.previous();
 			steps++;
 			if (cmd.getAppState() != null && (cmd.getSlideID() == null
-					|| cmd.getSlideID().equals(string))) {
+					|| cmd.getSlideID().equals(sourceID))) {
 				state = cmd.getAppState();
 				break;
+			}
+			if ((cmd.getAction() == EventType.DUPLICATE_SLIDE)
+					&& cmd.getArgs().length > 1
+					&& cmd.getArgs()[1].equals(slideID)) {
+				sourceID = cmd.getArgs()[2];
 			}
 		}
 		for (int i = 0; i < steps; i++) {

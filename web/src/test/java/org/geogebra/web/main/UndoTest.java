@@ -114,9 +114,57 @@ public class UndoTest {
 
 		app.getGgbApi().redo();
 		objectsPerSlideShouldBe(2, 2);
-
 	}
 
+	/**
+	 * Make duplicate of a duplicate, add objects to all slides, undo & redo
+	 */
+	@Test
+	public void undoDuplicateChain() {
+		app = MockApp
+				.mockApplet(new TestArticleElement("canary", "whiteboard"));
+		addObject("x");
+		shouldHaveUndoPoints(1);
+
+		app.getAppletFrame().initPageControlPanel(app);
+		app.getAppletFrame().getPageControlPanel().duplicatePage(
+				((PageListController) app.getPageController()).getCard(0));
+		objectsPerSlideShouldBe(1, 1);
+
+		app.getAppletFrame().getPageControlPanel().duplicatePage(
+				((PageListController) app.getPageController()).getCard(1));
+		objectsPerSlideShouldBe(1, 1, 1);
+
+		selectPage(0);
+		addObject("2x");
+		objectsPerSlideShouldBe(2, 1, 1);
+
+		selectPage(1);
+		addObject("2x");
+		objectsPerSlideShouldBe(2, 2, 1);
+
+		selectPage(2);
+		addObject("2x");
+		objectsPerSlideShouldBe(2, 2, 2);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(2, 2, 1);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(2, 1, 1);
+
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1, 1, 1);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(2, 1, 1);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(2, 2, 1);
+
+		app.getGgbApi().redo();
+		objectsPerSlideShouldBe(2, 2, 2);
+	}
 	/**
 	 * Undo and redo removing the last page.
 	 */

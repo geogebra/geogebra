@@ -680,8 +680,10 @@ public final class DrawImage extends Drawable {
 		boundingBox.setRectangle(rect);
 		// remember last crop box position
 		setCropBox(rect);
-		imagecropRatioX = geoImage.getFillImage().getWidth() / geoImage.getCropBoxRelative().getWidth();
-		imagecropRatioY = geoImage.getFillImage().getHeight() / geoImage.getCropBoxRelative().getHeight();
+		imagecropRatioX = geoImage.getFillImage().getWidth()
+				/ geoImage.getCropBoxRelative().getWidth();
+		imagecropRatioY = geoImage.getFillImage().getHeight()
+				/ geoImage.getCropBoxRelative().getHeight();
 	}
 
 	/**
@@ -689,7 +691,8 @@ public final class DrawImage extends Drawable {
 	 * original width of image.
 	 */
 	private double getOriginalRatioX() {
-		return (view.getXscale() * geoImage.getImageScreenWidth()) / geoImage.getFillImage().getWidth();
+		return (view.getXscale() * geoImage.getImageScreenWidth())
+				/ geoImage.getFillImage().getWidth();
 
 	}
 
@@ -698,12 +701,14 @@ public final class DrawImage extends Drawable {
 	 * original width of image.
 	 */
 	private double getOriginalRatioY() {
-		return (view.getYscale() * geoImage.getImageScreenHeight()) / geoImage.getFillImage().getHeight();
+		return (view.getYscale() * geoImage.getImageScreenHeight())
+				/ geoImage.getFillImage().getHeight();
 	}
 
 	private int getImageTop() {
 		if (geoImage.getCorner(2) == null) {
-			return view.toScreenCoordY(geoImage.getCorner(0).getY()) - geoImage.getFillImage().getHeight();
+			return view.toScreenCoordY(geoImage.getCorner(0).getY())
+					- geoImage.getFillImage().getHeight();
 		}
 		return view.toScreenCoordY(geoImage.getCorner(2).getY());
 	}
@@ -712,7 +717,8 @@ public final class DrawImage extends Drawable {
 		int locX = view.toScreenCoordX(geoImage.getRealWorldLocX());
 		int locY = getImageTop();
 		GRectangle2D cb = AwtFactory.getPrototype().newRectangle2D();
-		cb.setRect((rect.getMinX() - locX) / getOriginalRatioX(), (rect.getMinY() - locY) / getOriginalRatioY(),
+		cb.setRect((rect.getMinX() - locX) / getOriginalRatioX(),
+				(rect.getMinY() - locY) / getOriginalRatioY(),
 				rect.getWidth() / getOriginalRatioX(),
 				rect.getHeight() / getOriginalRatioY());
 		geoImage.setCropBoxRelative(cb);
