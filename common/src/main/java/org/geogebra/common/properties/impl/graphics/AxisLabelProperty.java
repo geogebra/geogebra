@@ -31,7 +31,8 @@ public class AxisLabelProperty extends AbstractProperty implements StringPropert
         if (!isEnabled()) {
              return EuclidianSettings.DEFAULT_AXIS_LABELS[axis];
         }
-        return euclidianSettings.getAxesLabels()[axis];
+        String axisLabel = euclidianSettings.getAxesLabels()[axis];
+        return axisLabel == null ? "" : axisLabel;
     }
 
     @Override
