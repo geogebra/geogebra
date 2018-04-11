@@ -63,6 +63,11 @@ public class SystemStepTest {
         t(new String[] { "3x + 4y = 2", "6x + 8y = 4"}, 1);
     }
 
+    @Test
+    public void cramersRule() {
+        t(new String[] {"x + y - 3 = -z", "2x + 2y + 3z = 8 - z", "-12 + 4x + 5y + 5z = x + y"}, 2);
+    }
+
     public void t(String[] equations, int method, String... expectedSolutions) {
         if (needsHeading) {
             Throwable t = new Throwable();
@@ -87,6 +92,9 @@ public class SystemStepTest {
                     break;
                 case 1:
                     SystemSteps.solveByElimination(ses, steps);
+                    break;
+                case 2:
+                    SystemSteps.cramersRule(ses, steps);
             }
         } catch (SolveFailedException e) {
             htmlBuilder.addHeading("Failed: ", 4);

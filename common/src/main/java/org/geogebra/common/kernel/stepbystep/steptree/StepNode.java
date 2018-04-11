@@ -226,6 +226,12 @@ public abstract class StepNode implements TableElement {
 	 *            set of variables found in the tree
 	 */
 	public void getListOfVariables(Set<StepVariable> variableList) {
+		if (this instanceof StepEquationSystem) {
+			for (StepEquation se : ((StepEquationSystem) this).getEquations()) {
+				se.getListOfVariables(variableList);
+			}
+		}
+
 		if (this instanceof StepSolvable) {
 			StepSolvable ss = (StepSolvable) this;
 
@@ -400,6 +406,15 @@ public abstract class StepNode implements TableElement {
 
 	public static StepExpression multiply(StepExpression a, StepExpression b) {
 		return applyBinaryOp(Operation.MULTIPLY, a, b);
+	}
+
+	public static StepExpression multiply(StepExpression... multiplicands) {
+		StepExpression product = null;
+		for (StepExpression multiplicand : multiplicands) {
+			// Each term will be copied exactly once
+			product = multiplyNoCopy(product, multiplicand.deepCopy());
+		}
+		return product;
 	}
 
 	/**

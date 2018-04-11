@@ -96,7 +96,7 @@ public abstract class Localization {
 	/**
 	 * Text fixer for the Hungarian language
 	 * 
-	 * @param text
+	 * @param inputText
 	 *            the translation text to fix
 	 * @return the fixed text
 	 * @author Zoltan Kovacs
@@ -131,13 +131,11 @@ public abstract class Localization {
 				if ((match > -1) && (match > 0)) {
 					// Affix found. Get the previous character.
 					String prevChars = translationFixPronouncedPrevChars(text, match, 1);
-					if (Unicode.TRANSLATION_FIX_HU_END_E1_STRING.indexOf(prevChars) > -1) {
+					if (Unicode.TRANSLATION_FIX_HU_END_E1_STRING.contains(prevChars)) {
 						text = translationFixHuAffixChange(text, match, affix, "e", prevChars);
-					} else if (Unicode.TRANSLATION_FIX_HU_END_O1_STRING
-							.indexOf(prevChars) > -1) {
+					} else if (Unicode.TRANSLATION_FIX_HU_END_O1_STRING.contains(prevChars)) {
 						text = translationFixHuAffixChange(text, match, affix, "o", prevChars);
-					} else if (Unicode.TRANSLATION_FIX_HU_END_OE1_STRING
-							.indexOf(prevChars) > -1) {
+					} else if (Unicode.TRANSLATION_FIX_HU_END_OE1_STRING.contains(prevChars)) {
 						text = translationFixHuAffixChange(text, match, affix,
 								Unicode.TRANSLATION_FIX_HU_OE_STRING,
 								prevChars);
@@ -237,7 +235,7 @@ public abstract class Localization {
 
 		while ((rettextlen < length) && (pos > 0)) {
 			thisChar = text.substring(pos - 1, pos);
-			if (ignoredChars.indexOf(thisChar) == -1) {
+			if (!ignoredChars.contains(thisChar)) {
 				rettext = thisChar.toLowerCase() + rettext;
 				rettextlen++;
 			}
@@ -249,7 +247,7 @@ public abstract class Localization {
 	/**
 	 * Changes a set of possible affixes to the right one
 	 * 
-	 * @param text
+	 * @param inputText
 	 *            the text to be corrected
 	 * @param match
 	 *            starting position of possible change
@@ -496,7 +494,6 @@ public abstract class Localization {
 	 * @return "poly" (the suffix is added later)
 	 */
 	final public String getPlainLabel(String key) {
-
 		String ret = getMenu("Name." + key);
 
 		if (ret == null || ret.startsWith("Name.")) {
@@ -543,17 +540,26 @@ public abstract class Localization {
 
 		StringBuilder sbPlain = new StringBuilder();
 		sbPlain.setLength(0);
-		boolean opened = false;
+		boolean textMode = false;
+		boolean mathMode = false;
 		for (int i = 0; i < str.length(); i++) {
 			char ch = str.charAt(i);
-			if (!opened && ch != '%') {
+
+			if (ch == '$') {
+			    mathMode = !mathMode;
+			    if (textMode) {
+                    sbPlain.append("}");
+                    textMode = false;
+                }
+            }
+			if (!mathMode && !textMode && ch != '%') {
 				sbPlain.append("\\text{");
-				opened = true;
+				textMode = true;
 			}
 			if (ch == '%') {
-				if (opened) {
+				if (textMode) {
 					sbPlain.append("}");
-					opened = false;
+					textMode = false;
 				}
 				// get number after %
 				i++;
@@ -565,12 +571,12 @@ public abstract class Localization {
 					// failed
 					sbPlain.append(ch);
 				}
-			} else {
+			} else if (ch != '$') {
 				sbPlain.append(ch);
 			}
 		}
 
-		if (opened) {
+		if (textMode) {
 			sbPlain.append("}");
 		}
 
@@ -911,7 +917,6 @@ public abstract class Localization {
 	 *            language
 	 */
 	public void updateLanguageFlags(String lang) {
-
 		rightToLeftReadingOrder = rightToLeftReadingOrder(lang);
 
 		// force update
@@ -1004,18 +1009,10 @@ public abstract class Localization {
 			}
 		}
 
-		String syntaxString = Localization.syntaxStr;
+        String syntax = getCommand(key + Localization.syntaxStr);
+        syntax = buildSyntax(syntax, command);
 
-		String syntax = null;
-
-		if (syntaxString != null) {
-
-			syntax = getCommand(key + syntaxString);
-
-			syntax = buildSyntax(syntax, command);
-		}
-
-		return syntax;
+        return syntax;
 	}
 
 	private String buildSyntax(String syntax, String command) {
@@ -1081,7 +1078,6 @@ public abstract class Localization {
 	 * @return CAS syntax
 	 */
 	public String getCommandSyntaxCAS(String key) {
-
 		String keyCAS = key + syntaxCAS;
 
 		String command = getCommand(key);
@@ -1104,17 +1100,11 @@ public abstract class Localization {
 	 * @return true if this command has a CAS-specific syntax
 	 */
 	public boolean isCASCommand(String key) {
-
 		String keyCAS = key + syntaxCAS;
-
 		String syntax = getCommand(keyCAS);
 
-		if (syntax.equals(keyCAS)) {
-			return false;
-		}
-
-		return true;
-	}
+        return !syntax.equals(keyCAS);
+    }
 
 	/**
 	 * can be over-ridden if required to provide tooltips in another language
@@ -1124,7 +1114,6 @@ public abstract class Localization {
 	 * @return translation of key from menu bundle in tooltip language
 	 */
 	public String getMenuTooltip(String key) {
-
 		return getMenu(key);
 	}
 
@@ -1276,7 +1265,6 @@ public abstract class Localization {
 	 * If the language of locale is not supported an English locale is returned.
 	 */
 	protected Locale getClosestSupportedLocale(Locale locale) {
-
 		int size = getSupportedLocales().size();
 
 		// try to find country and and language

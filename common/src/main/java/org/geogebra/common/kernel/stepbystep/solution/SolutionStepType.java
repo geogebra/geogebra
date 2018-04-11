@@ -94,9 +94,9 @@ public enum SolutionStepType {
 
     NEGATIVE_G_POSITIVE("NegativeGPositive", "The statement is false for all values of %0"),
 
-    LEADING_COEFFICIENT_POSITIVE("LeadingCoefficientPositive", "a = %0 > 0 therefore %1 > 0 for all %2"),
+    LEADING_COEFFICIENT_POSITIVE("LeadingCoefficientPositive", "$a = %0 > 0$ therefore $%1 > 0$ for all %2"),
 
-    LEADING_COEFFICIENT_NEGATIVE("LeadingCoefficientNegative", "a = %0 < 0 therefore %1 < 0 for all %2"),
+    LEADING_COEFFICIENT_NEGATIVE("LeadingCoefficientNegative", "$a = %0 < 0$ therefore $%1 < 0$ for all %2"),
 
 	LEFT_POSITIVE_RIGHT_NEGATIVE("LeftPositiveRightNegative", "The left hand side is always positive, the right is " +
 			"always negative"),
@@ -497,7 +497,18 @@ public enum SolutionStepType {
 	DIFF_ARCTAN_CHAIN("ArctanRuleChain", "Use the rules of inverse trigonometric funtions",
 			"\\frac{d}{dx} arctan(u(x)) = \\frac{1}{(u(x))^2+1} \\cdot \\frac{d}{dx} u(x)"),
 
-	ADD_EQUATIONS("AddEquations", "Add the equations to eliminate %0");
+	ADD_EQUATIONS("AddEquations", "Add the equations to eliminate %0"),
+
+	USE_CRAMERS_RULE("UseCramersRule", "Use Cramer's rule to solve the equation system"),
+
+	DETERMINANTS("", "$D = %3, D_{1} = %0, D_{2} = %1, D_{3} = %2$"),
+
+	CRAMER_VARIABLE("", "$%0 = \\frac{D_{%1}}{D} = \\frac{%2}{%3}$"),
+
+	USE_LEIBNIZ_FORMULA("UseLeibnizFormula", "Evaluate the determinant",
+			"Use the Leibniz formula to evaluate the determinant"),
+
+	CALCULATE_DETERINANT("CalculateDeterminant", "Calculate the determinant %0");
 
 	private final String keyText;
 	private final String defaultText;

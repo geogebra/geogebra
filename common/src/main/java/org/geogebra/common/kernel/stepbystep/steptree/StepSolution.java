@@ -123,32 +123,56 @@ public class StepSolution extends StepNode {
     }
 
     public String convertToString(Localization loc, boolean colored) {
-        StringBuilder solutionString = new StringBuilder();
-        for (Map.Entry<StepVariable, StepNode> entry : values.entrySet()) {
-            if (!"".equals(solutionString.toString())) {
-                solutionString.append(", ");
-            }
-            solutionString.append(entry.getKey().toLaTeXString(loc, colored));
-            if (entry.getValue() instanceof StepExpression) {
-                solutionString.append(" = ");
+        StringBuilder conditionsString = new StringBuilder();
+        String solution;
+
+        if (getValue() != null) {
+            if (getValue() instanceof StepExpression) {
+                solution = getVariable().toLaTeXString(loc, colored)
+                        + " = " + getValue().toLaTeXString(loc, colored);
             } else {
-                solutionString.append(" \\in ");
+                solution = getVariable().toLaTeXString(loc, colored)
+                        + " \\in " + getValue().toLaTeXString(loc, colored);
             }
-            solutionString.append(entry.getValue().toLaTeXString(loc, colored));
+        } else {
+            StringBuilder variablesString = new StringBuilder();
+            StringBuilder valuesString = new StringBuilder();
+
+            for (Map.Entry<StepVariable, StepNode> entry : values.entrySet()) {
+                if (!"".equals(variablesString.toString())) {
+                    variablesString.append(", ");
+                    valuesString.append(", ");
+                }
+                variablesString.append(entry.getKey().toLaTeXString(loc, colored));
+                if (entry.getValue() instanceof StepExpression) {
+                    valuesString.append(entry.getValue().toLaTeXString(loc, colored));
+                } else {
+                    valuesString.append(entry.getKey().toLaTeXString(loc, colored));
+                    if (!"".equals(conditionsString.toString())) {
+                        conditionsString.append(" \\text{ and } ");
+                    }
+                    conditionsString.append(entry.getKey().toLaTeXString(loc, colored));
+                    conditionsString.append(" \\in ");
+                    conditionsString.append(entry.getValue().toLaTeXString(loc, colored));
+                }
+            }
+
+            solution = "\\left(" + variablesString.toString() + "\\right) = \\left("
+                    + valuesString + "\\right)";
         }
 
-        if (conditions.isEmpty()) {
-            return solutionString.toString();
-        }
-
-        StringBuilder conditionString = new StringBuilder();
         for (StepSolvable condition : conditions) {
-            if (!"".equals(conditionString.toString())) {
-                conditionString.append(" \\text{ and } ");
+            if (!"".equals(conditionsString.toString())) {
+                conditionsString.append(" \\text{ and } ");
             }
-            conditionString.append(condition.toLaTeXString(loc, colored));
+            conditionsString.append(condition.toLaTeXString(loc, colored));
         }
 
-        return solutionString.toString() + " \\text{ if } " + conditionString.toString();
+
+        if ("".equals(conditionsString.toString())) {
+            return solution;
+        }
+
+        return solution + "\\text{ if } " + conditionsString.toString();
     }
 }

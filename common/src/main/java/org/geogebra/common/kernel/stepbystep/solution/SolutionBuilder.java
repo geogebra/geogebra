@@ -87,8 +87,9 @@ public class SolutionBuilder {
 		}
 	}
 
-	public void addGroup(SolutionStepType groupHeader, SolutionBuilder group, StepNode result) {
-		addGroup(new SolutionLine(groupHeader), group, result);
+	public void addGroup(SolutionStepType groupHeader, SolutionBuilder group,
+						 StepNode result, StepNode... parameters) {
+		addGroup(new SolutionLine(groupHeader, parameters), group, result);
 	}
 
 	public void addGroup(SolutionLine groupHeader, SolutionBuilder group, StepNode result) {

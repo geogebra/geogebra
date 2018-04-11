@@ -128,8 +128,7 @@ public class SystemSteps {
         }
 
         Set<StepVariable> variables = new HashSet<>();
-        ses.getEquation(0).getListOfVariables(variables);
-        ses.getEquation(1).getListOfVariables(variables);
+        ses.getListOfVariables(variables);
 
         if (variables.size() != 2) {
             throw new SolveFailedException("incorrect number of variables");
@@ -143,11 +142,11 @@ public class SystemSteps {
         StepVariable y = (StepVariable) variables.toArray()[1];
 
         for (int i = 0; i < 2; i++) {
+            ses.getEquation(i).reorganize(tempSteps, null, i);
+
             if (ses.getEquation(i).degree(x) != 1 || ses.getEquation(i).degree(y) != 1) {
                 throw new SolveFailedException("nonlinear equation in elimination");
             }
-
-            ses.getEquation(i).reorganize(tempSteps, null, i);
         }
 
         steps.addGroup(SolutionStepType.REORGANIZE_EXPRESSION, tempSteps, ses);
@@ -251,4 +250,79 @@ public class SystemSteps {
         return solutions;
     }
 
+    public static List<StepSolution> cramersRule(StepEquationSystem ses, SolutionBuilder steps) {
+        if (ses.getEquations().length != 3) {
+            throw new SolveFailedException("incorrect number of equations");
+        }
+
+        Set<StepVariable> variablesSet = new HashSet<>();
+        ses.getListOfVariables(variablesSet);
+        StepVariable[] variables = variablesSet.toArray(new StepVariable[0]);
+
+        if (variables.length != 3) {
+            throw new SolveFailedException("incorrect number of variables");
+        }
+
+        steps.add(SolutionStepType.SOLVE, ses);
+
+        SolutionBuilder tempSteps = new SolutionBuilder();
+
+        StepExpression[][] matrix = new StepExpression[3][4];
+
+        for (int i = 0; i < 3; i++) {
+            ses.getEquation(i).reorganize(tempSteps, null, i);
+
+            for (int j = 0; j < 3; j++) {
+                int degree = ses.getEquation(i).degree(variables[j]);
+                if (degree != 0 && degree != 1) {
+                    throw new SolveFailedException("nonlinear equation in elimination");
+                }
+
+                matrix[i][j] = ses.getEquation(i).getLHS().findCoefficient(variables[j]);
+            }
+            matrix[i][3] = ses.getEquation(i).getRHS();
+        }
+
+        steps.addGroup(SolutionStepType.REORGANIZE_EXPRESSION, tempSteps, ses);
+
+        StepMatrix.Determinant[] determinants = new StepMatrix.Determinant[4];
+
+        for (int i = 0; i < 4; i++) {
+            StepExpression[][] tempMatrix = new StepExpression[3][3];
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    tempMatrix[j][k] = matrix[j][k == i ? 3 : k];
+                }
+            }
+            determinants[(i + 3) % 4] = new StepMatrix(tempMatrix).getDeterminant();
+        }
+
+        steps.add(SolutionStepType.USE_CRAMERS_RULE);
+        steps.add(SolutionStepType.DETERMINANTS, determinants);
+
+        StepExpression[] values = new StepExpression[4];
+        for (int i = 0; i < 4; i++) {
+            values[i] = determinants[i].calculateDeterminant(steps);
+        }
+
+        if (isZero(values[0])) {
+            throw new SolveFailedException(steps.getSteps());
+        }
+
+        StepSolution solution = new StepSolution();
+        for (int i = 1; i < 4; i++) {
+            tempSteps.reset();
+            StepEquation equation = new StepEquation(variables[i - 1],
+                    divide(values[i], values[0])).regroup(tempSteps, null);
+            steps.addGroup(SolutionStepType.CRAMER_VARIABLE, tempSteps, equation, variables[i - 1],
+                    StepConstant.create(i), values[i], values[0]);
+            solution.addVariableSolutionPair(variables[i - 1], equation.getRHS());
+        }
+
+        steps.add(SolutionStepType.SOLUTION, solution);
+
+        List<StepSolution> solutions = new ArrayList<>();
+        solutions.add(solution);
+        return solutions;
+    }
 }
