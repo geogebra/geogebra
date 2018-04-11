@@ -4010,19 +4010,19 @@ public abstract class App implements UpdateSelection {
 
 		// IGR-748
 		case MOB_EXPORT_IMAGE:
-			return prerelease;
+			return true;
 
 		// IGR-601
 		case MOB_HELP_FEEDBACK:
-			return prerelease;
+			return true;
 
 		// MOB-1513
 		case MOB_PACK_JOIN_POINTS:
-			return prerelease;
+			return true;
 
 		// MOB-1514
 		case MOB_PACK_CONIC:
-			return prerelease;
+			return true;
 
 		// **********************************************************************
 		// MOBILE END
