@@ -1240,7 +1240,7 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdFit() {
-		t("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]", unicode("1x^2 + 0x + 1 (1)"),
+		t("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]", unicode("1x^2 + 0x + 1 * 1"),
 				StringTemplate.editTemplate);
 		t("Fit[ {(0,1,1),(1,1,2),(2,1,5),(0,2,4),(1,2,5),(2,2,8)}, {x^2,x,1,x^2*y,x*y,y} ]",
 				unicode("3y + 0x y + 0x^2 y - 2 + 0x + 1x^2"),

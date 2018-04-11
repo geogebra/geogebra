@@ -510,27 +510,33 @@ public class AlgebraStyleTest extends Assert {
 		mult("3x*5x", "3x 5x", "(((3)*(x))*(5))*(x)");
 		mult("pi*x", Unicode.pi + " x", "(pi)*(x)");
 		mult("3*4*x", "12x", "(12)*(x)");
-		mult("3*(4*x)", "3 (4x)", "(3)*((4)*(x))");
-		mult("3*4", "3 (4)", "12", "(3)*(4)");
+		mult("3*(4*x)", "3 * 4x", "3 * 4x", "12x", "(3)*((4)*(x))");
+		mult("3*4", "3 * 4", "12", "(3)*(4)");
 		t("a1=7");
-		mult("3a1*x", "3a1 x", "3 (7) x", "((3)*(7))*(x)");
-		mult("a1*a1*a1*x", "a1 a1 a1 x", "7 (7) 7 x", "(((7)*(7))*(7))*(x)");
+		mult("3a1*x", "3a1 x", "3 * 7 x", "((3)*(7))*(x)");
+		mult("a1*a1*a1*x", "a1 a1 a1 x", "7 * 7 * 7 x", "(((7)*(7))*(7))*(x)");
 		t("a1=pi");
 		mult("3a1*x", "3a1 x", "3%p x", "((3)*(pi))*(x)");
 		mult("a1*a1*a1*x", "a1 a1 a1 x", "%p %p %p x",
 				"(((pi)*(pi))*(pi))*(x)");
-
 	}
+
 	private static void mult(String def, String expect, String expectGiac) {
 		mult(def, expect, expect, expectGiac);
 	}
 
+	private static void mult(String def, String expect, String expectVal,
+			String expectGiac) {
+		mult(def, expect, expectVal, expectVal, expectGiac);
+	}
+
 	private static void mult(String def, String expectDef, String expectVal,
+			String expectSimple,
 			String expectGiac) {
 		mult(def, expectVal, StringTemplate.editTemplate, true);
 		mult(def, expectVal, StringTemplate.editorTemplate, true);
 		mult(def, expectDef, StringTemplate.editorTemplate, false);
-		mult(expectDef, expectVal, StringTemplate.editTemplate, true);
+		mult(expectDef, expectSimple, StringTemplate.editTemplate, true);
 		mult(def, expectGiac, StringTemplate.giacTemplate, true);
 	}
 
