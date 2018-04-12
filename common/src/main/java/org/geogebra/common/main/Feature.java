@@ -217,9 +217,6 @@ public enum Feature {
 	/** MOW-390 GGB */
 	WHOLE_PAGE_DRAG,
 
-	/** AND-785 */
-	MOB_AND_CHECKBOXES_AND_STATUS_BAR,
-
 	/** GGB-650 */
 	GGB_WEB_ASSEMBLY,
 
