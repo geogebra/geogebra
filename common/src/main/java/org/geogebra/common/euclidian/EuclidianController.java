@@ -11085,6 +11085,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			altClicked(type);
 		}
 		stopCollectingMinorRepaints();
+		// selection is not highlighted during move in 3D view
+		selection.updateSelectionHighlight();
 		kernel.notifyRepaint();
 	}
 
