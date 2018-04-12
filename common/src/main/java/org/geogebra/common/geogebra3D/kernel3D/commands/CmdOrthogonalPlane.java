@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Orthogonal[ <GeoPoint3D>, <GeoCoordSys> ]
+ * Orthogonal[ &lt;GeoPoint3D>, &lt;GeoCoordSys> ]
  */
 public class CmdOrthogonalPlane extends CommandProcessor {
 	/**

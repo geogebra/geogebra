@@ -86,10 +86,10 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 		PathParameter pp = P.getPathParameter();
 		// Application.debug(pp.t);
 		if (closestPoint != null) {
-			coords.setX(closestPoint.x);// (1 - closestPointParameter) *
+			coords.setX(closestPoint.x); // (1 - closestPointParameter) *
 										// locusPoint.x +
 			// closestPointParameter * locusPoint2.x;
-			coords.setY(closestPoint.y);// (1 - closestPointParameter) *
+			coords.setY(closestPoint.y); // (1 - closestPointParameter) *
 										// locusPoint.y +
 			// closestPointParameter * locusPoint2.y;
 			coords.setZ(closestPoint.getZ());

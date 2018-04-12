@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Pyramid[ <GeoPoint3D>, <GeoPoint3D>, <GeoPoint3D>, ... ]
+ * Pyramid[ &lt;GeoPoint3D>, &lt;GeoPoint3D>, &lt;GeoPoint3D>, ... ]
  */
 public class CmdPyramid extends CommandProcessor {
 	/**

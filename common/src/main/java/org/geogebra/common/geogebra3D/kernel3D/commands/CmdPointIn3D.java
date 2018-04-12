@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.commands.CmdPointIn;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
- * PointIn[ <Region> ]
+ * PointIn[ &lt;Region> ]
  */
 public class CmdPointIn3D extends CmdPointIn {
 	/**
@@ -20,7 +20,6 @@ public class CmdPointIn3D extends CmdPointIn {
 
 	@Override
 	protected GeoElement[] pointIn(String label, Region region) {
-
 		if (region.isRegion3D()) {
 			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 					.Point3DIn(label, region, false) };
@@ -28,6 +27,5 @@ public class CmdPointIn3D extends CmdPointIn {
 		}
 
 		return super.pointIn(label, region);
-
 	}
 }

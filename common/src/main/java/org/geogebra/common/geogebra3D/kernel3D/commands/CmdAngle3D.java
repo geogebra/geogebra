@@ -36,7 +36,7 @@ public class CmdAngle3D extends CmdAngle {
 	}
 
 	@Override
-	protected GeoElement[] process(Command c, int n, boolean ok[])
+	protected GeoElement[] process(Command c, int n, boolean[] ok)
 			throws MyError {
 
 		if (n == 4) {

@@ -55,7 +55,6 @@ public class GeoVector3D extends GeoVec4D
 
 	private boolean trace;
 
-
 	/**
 	 * simple constructor
 	 * 

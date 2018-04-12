@@ -49,10 +49,16 @@ public class GeoPlane3D extends GeoElement3D
 	private static final char[] Labels = { 'p', 'q', 'r' };
 
 	private static boolean KEEP_LEADING_SIGN = true;
-
-	private double xmin, xmax, ymin, ymax; // values for grid and interactions
-	private double xPlateMin, xPlateMax, yPlateMin, yPlateMax; // values for
-																// plate
+	// values for grid and interactions
+	private double xmin;
+	private double xmax;
+	private double ymin;
+	private double ymax;
+	// values for plate
+	private double xPlateMin;
+	private double xPlateMax;
+	private double yPlateMin;
+	private double yPlateMax;
 
 	// grid and plate
 	private boolean plateVisible = true;
@@ -68,7 +74,8 @@ public class GeoPlane3D extends GeoElement3D
 	private float fading = 0.10f;
 	private EuclidianViewForPlaneCompanionInterface euclidianViewForPlane;
 
-	private Coords tmpCoords1, tmpCoords2;
+	private Coords tmpCoords1;
+	private Coords tmpCoords2;
 	private boolean trace;
 
 	/** string repre of coordinates */
@@ -539,16 +546,12 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public double getMinParameter(int index) {
-
 		return 0; // TODO
-
 	}
 
 	@Override
 	public double getMaxParameter(int index) {
-
 		return 0; // TODO
-
 	}
 
 	@Override
@@ -569,6 +572,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	/**
 	 * @param definition
+	 *            plane definition
 	 * @return whether this is a (wrapped) equation with both sides defined, ie
 	 *         x=? is undefined, x=x defined
 	 */

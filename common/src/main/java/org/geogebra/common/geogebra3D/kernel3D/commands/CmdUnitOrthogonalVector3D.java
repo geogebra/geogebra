@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.main.MyError;
 
 /**
- * UnitOrthogonalVector[ <GeoPlane3D> ]
+ * UnitOrthogonalVector[ &lt;GeoPlane3D> ]
  */
 public class CmdUnitOrthogonalVector3D extends CmdUnitOrthogonalVector {
 	/**

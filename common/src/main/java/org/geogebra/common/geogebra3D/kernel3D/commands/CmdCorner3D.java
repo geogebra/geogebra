@@ -8,7 +8,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * 
- * Corner[ <Conic section> ]
+ * Vertex[ &lt;Conic section> ]
  * 
  * @author mathieu
  *

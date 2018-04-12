@@ -28,7 +28,6 @@ import org.geogebra.common.util.debug.Log;
 public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 		MirrorableAtPlane {
 
-
 	private int index1;
 	private int index2;
 	private Coords direction1 = null;

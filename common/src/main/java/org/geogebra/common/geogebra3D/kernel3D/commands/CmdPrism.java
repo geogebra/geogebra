@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Prism[ <GeoPoint3D>, <GeoPoint3D>, <GeoPoint3D>, ... ]
+ * Prism[ &lt;GeoPoint3D>, &lt;GeoPoint3D>, &lt;GeoPoint3D>, ... ]
  */
 public class CmdPrism extends CommandProcessor {
 	/**
@@ -67,7 +67,6 @@ public class CmdPrism extends CommandProcessor {
 		} else {
 			throw argNumErr(c);
 		}
-
 	}
 
 }

@@ -11,21 +11,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Intersect[ <GeoPlane3D>, <GeoConicND> ]
+ * ClosestPoint(Path or Region, Point)
  * 
- * Intersect[ <GeoLineND>, <GeoQuadric3D> ]
- * 
- * Intersect[ <GeoConicND>, <GeoConicND> ]
- * 
- * Intersect[ <GeoLineND>, <GeoPolygon> ]
- * 
- * Intersect[ <GeoLineND>, <GeoCoordSys2D> ]
- * 
- * Intersect[ <GeoLineND>, <GeoLineND> ]
- * 
- * Intersect[ <GeoLineND>, <GeoConicND>, <GeoNumeric> ]
- * 
- * Intersect[ <GeoLineND>, <GeoQuadric3D>, <GeoNumeric> ]
+ * ClosestPoint(Point, Path or Region)
  */
 public class CmdClosestPoint3D extends CmdClosestPoint {
 	/**

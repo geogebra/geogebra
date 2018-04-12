@@ -73,10 +73,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	private GeoLine3D line;
 
-	private CoordMatrix eigenvecNDMatrix, semiDiagMatrix;
+	private CoordMatrix eigenvecNDMatrix;
+	private CoordMatrix semiDiagMatrix;
 
-	private Coords tmpCoords2, tmpCoords3, tmpCoords4, tmpCoords5;
-	private CoordMatrix tmpMatrix4x2, tmpMatrix2x4;
+	private Coords tmpCoords2;
+	private Coords tmpCoords3;
+	private Coords tmpCoords4;
+	private Coords tmpCoords5;
+	private CoordMatrix tmpMatrix4x2;
+	private CoordMatrix tmpMatrix2x4;
 	private CoordMatrix4x4 tmpMatrix4x4;
 	private double[] tmpEqn;
 
@@ -176,15 +181,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (!defined) {
 			return;
 		}
-		
+
 		double max = Math.abs(matrix[0]);
-		for (int i = 1 ; i < 3 ; i++){
+		for (int i = 1; i < 3; i++) {
 			double v = Math.abs(matrix[i]);
 			if (v > max) {
 				max = v;
 			}
 		}
-		for (int i = 4 ; i < 7 ; i++){
+		for (int i = 4; i < 7; i++) {
 			double v = Math.abs(matrix[i]);
 			if (v > max) {
 				max = v;
@@ -545,10 +550,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	private void parabolicCylinder(double value) {
 
-		double a = semiDiagMatrix.get(1, 4);
-		double b = semiDiagMatrix.get(2, 4);
-		double c = semiDiagMatrix.get(3, 4);
-		double d = semiDiagMatrix.get(4, 4);
+		final double a = semiDiagMatrix.get(1, 4);
+		final double b = semiDiagMatrix.get(2, 4);
+		final double c = semiDiagMatrix.get(3, 4);
+		final double d = semiDiagMatrix.get(4, 4);
 
 		// set ev0 = (a*ev0+b*ev1)/norm and ev1 = (a*ev0-b*ev1)/norm
 		double norm = Math.sqrt(a * a + b * b);
@@ -797,7 +802,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 							hyperboloidOneSheet(eigenval[2], eigenval[0],
 									eigenval[1], beta);
 						}
-					} else {// xx-yy+zz=-beta
+					} else { // xx-yy+zz=-beta
 						if (beta > 0) { // yy-zz-xx=1
 							hyperboloidTwoSheets(eigenval[1], eigenval[2],
 									eigenval[0], beta);
@@ -1110,9 +1115,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	private void ellipsoid(double beta) {
-
-		Log.debug(eigenval[0]+","+eigenval[1]+","+eigenval[2]+","+beta);
-		
 		// sphere
 		if (DoubleUtil.isEqual(eigenval[0] / eigenval[1], 1.0)
 				&& DoubleUtil.isEqual(eigenval[0] / eigenval[2], 1.0)) {
@@ -1166,14 +1168,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					}
 					dot0 = eigenvecND[1].dotproduct3(eigenvec[0]);
 					dot1 = eigenvecND[1].dotproduct3(eigenvec[1]);
-					if (Math.abs(dot1) > Math.abs(dot0)) {// set ND1 to 1
+					if (Math.abs(dot1) > Math.abs(dot0)) { // set ND1 to 1
 						eigenvecND[1].setValues(eigenvec[1], 3);
 						// set ND2 to 0 (last one)
 						eigenvecND[2].setValues(eigenvec[0], 3);
 						eigenval[2] = tmp;
 						dot0 = dot1;
 						reverse = !reverse;
-					} else {// set ND1 to 0
+					} else { // set ND1 to 0
 						eigenvecND[1].setValues(eigenvec[0], 3);
 						// set ND2 to 1 (last one)
 						eigenvecND[2].setValues(eigenvec[1], 3);
@@ -1198,14 +1200,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					}
 					dot0 = eigenvecND[1].dotproduct3(eigenvec[0]);
 					dot2 = eigenvecND[1].dotproduct3(eigenvec[2]);
-					if (Math.abs(dot2) > Math.abs(dot0)) {// set ND1 to 2
+					if (Math.abs(dot2) > Math.abs(dot0)) { // set ND1 to 2
 						eigenvecND[1].setValues(eigenvec[2], 3);
 						// set ND2 to 0 (last one)
 						eigenvecND[2].setValues(eigenvec[0], 3);
 						eigenval[1] = eigenval[2];
 						eigenval[2] = tmp;
 						dot0 = dot2;
-					} else {// set ND1 to 0
+					} else { // set ND1 to 0
 						eigenvecND[1].setValues(eigenvec[0], 3);
 						eigenval[1] = tmp;
 						// set ND2 to 2 (last one)
@@ -1232,14 +1234,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					}
 					dot0 = eigenvecND[1].dotproduct3(eigenvec[0]);
 					dot1 = eigenvecND[1].dotproduct3(eigenvec[1]);
-					if (Math.abs(dot1) > Math.abs(dot0)) {// set ND1 to 1
+					if (Math.abs(dot1) > Math.abs(dot0)) { // set ND1 to 1
 						eigenvecND[1].setValues(eigenvec[1], 3);
 						// set ND2 to 0 (last one)
 						eigenvecND[2].setValues(eigenvec[0], 3);
 						eigenval[2] = tmp;
 						dot0 = dot1;
 						reverse = !reverse;
-					} else {// set ND1 to 0
+					} else { // set ND1 to 0
 						eigenvecND[1].setValues(eigenvec[0], 3);
 						// set ND2 to 1 (last one)
 						eigenvecND[2].setValues(eigenvec[1], 3);
@@ -1262,7 +1264,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					}
 					dot1 = eigenvecND[1].dotproduct3(eigenvec[1]);
 					dot2 = eigenvecND[1].dotproduct3(eigenvec[2]);
-					if (Math.abs(dot2) > Math.abs(dot1)) {// set ND1 to 2
+					if (Math.abs(dot2) > Math.abs(dot1)) { // set ND1 to 2
 						eigenvecND[1].setValues(eigenvec[2], 3);
 						// set ND2 to 1 (last one)
 						eigenvecND[2].setValues(eigenvec[1], 3);
@@ -1271,7 +1273,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 						eigenval[2] = tmp;
 						reverse = !reverse;
 						dot1 = dot2;
-					} else {// set ND1 to 1
+					} else { // set ND1 to 1
 						eigenvecND[1].setValues(eigenvec[1], 3);
 						// set ND2 to 2 (last one)
 						eigenvecND[2].setValues(eigenvec[2], 3);
@@ -1534,9 +1536,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (c < 0 || s < 0) {
 			defined = false;
 		} else if (DoubleUtil.isZero(c)) {
-			defined = false;// TODO if c=0 then draws a plane
+			defined = false; // TODO if c=0 then draws a plane
 		} else if (DoubleUtil.isZero(s)) {
-			defined = false;// TODO if s=0 then draws a line
+			defined = false; // TODO if s=0 then draws a line
 		} else {
 			r = s / c;
 			setCone(origin.getInhomCoordsInD3(), direction.getCoordsInD3(),
@@ -1862,11 +1864,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// copy everything
 		toStringMode = quadric.toStringMode;
-		boolean typeChanged = type != quadric.type;
+		final boolean typeChanged = type != quadric.type;
 		type = quadric.type;
 
-		for (int i = 0; i < 10; i++)
-		 {
+		for (int i = 0; i < 10; i++) {
 			matrix[i] = quadric.matrix[i]; // flat matrix A
 		}
 
@@ -2614,7 +2615,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return getPoint(u, v);
 	}
 
-
 	@Override
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection) {
@@ -2804,9 +2804,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	/**
-	 * 
 	 * @param source
-	 * @return direction from p to center (midpoint, or axis for cone,
+	 *            source point
+	 * @return direction from source to center (midpoint, or axis for cone,
 	 *         cylinder...)
 	 */
 	private Coords getDirectionToCenter(Coords source) {

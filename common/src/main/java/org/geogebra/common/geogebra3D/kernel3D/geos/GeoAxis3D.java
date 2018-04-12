@@ -57,8 +57,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 			setCoord(Coords.O, Coords.VY);
 			label = "yAxis3D";
 			// setObjColor(Color.GREEN);
-			setObjColor(GColor.DARK_GREEN);// (new
-											// geogebra.awt.GColorD(0,0.5f,0));
+			setObjColor(GColor.DARK_GREEN);
 			break;
 
 		case Z_AXIS_3D:

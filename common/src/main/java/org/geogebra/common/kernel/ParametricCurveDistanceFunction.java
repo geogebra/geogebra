@@ -62,7 +62,6 @@ public class ParametricCurveDistanceFunction implements DistanceFunction {
 	 */
 	@Override
 	public double value(double t) {
-
 		double dx = funX.value(t) - px;
 		double dy = funY.value(t) - py;
 		return dx * dx + dy * dy;

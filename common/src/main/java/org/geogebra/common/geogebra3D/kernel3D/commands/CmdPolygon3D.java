@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Polygon[ <GeoPoint3D>, <GeoPoint3D>, ... ] or CmdPolygon
+ * Polygon[ &lt;GeoPoint3D>, &lt;GeoPoint3D>, ... ] or CmdPolygon
  */
 public class CmdPolygon3D extends CmdPolygon {
 

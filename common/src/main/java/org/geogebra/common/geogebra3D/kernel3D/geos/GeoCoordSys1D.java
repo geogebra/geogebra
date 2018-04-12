@@ -53,7 +53,8 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	private CoordMatrix4x4 tmpMatrix4x4;
 
-	private Coords tmpCoords1, tmpCoords2;
+	private Coords tmpCoords1;
+	private Coords tmpCoords2;
 	private boolean trace;
 
 	/**
@@ -292,7 +293,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	public Coords getPointInD(int dimension, double lambda) {
 
 		Coords v = getPoint(lambda);
-		// Application.debug("v("+lambda+")=\n"+v+"\no=\n"+coordsys.getOrigin()+"\nVx=\n"+coordsys.getVx()+"\ncoordsys=\n"+coordsys.getMatrixOrthonormal());
 		switch (dimension) {
 		case 3:
 			return v;
@@ -454,7 +454,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	public boolean isOnFullLine(Coords p, double eps) {
 		Coords cross;
 
-		if (DoubleUtil.isZero(p.getW())) {// infinite point : check direction
+		if (DoubleUtil.isZero(p.getW())) { // infinite point : check direction
 			cross = p.crossProduct(getDirectionInD3());
 			return cross.equalsForKernel(0, Kernel.MIN_PRECISION);
 		}
@@ -987,7 +987,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	@Override
 	public ExpressionValue evaluateCurve(double t) {
-		Coords O = coordsys.getOrigin();// TODO inhom coords, also copied from
+		Coords O = coordsys.getOrigin(); // TODO inhom coords, also copied from
 										// toString
 		Coords V = coordsys.getVx();
 		if (getParentAlgorithm() instanceof AlgoLinePoint) {

@@ -131,10 +131,6 @@ public class GeoImplicitSurface extends GeoElement3D
 
 	/**
 	 * Set derivatives which are required to evaluate normals
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
 	 */
 	private void setDerivatives(FunctionVariable x, FunctionVariable y,
 			FunctionVariable z) {
@@ -997,8 +993,8 @@ public class GeoImplicitSurface extends GeoElement3D
 		 * 
 		 * @param vertex
 		 *            vertex
-		 * @return isFinite(v) ? ((v <= 0) ? 0 : 1) : -1, where v is evaluated
-		 *         value at given vertex
+		 * @return isFinite(v) ? ((v &lt;= 0) ? 0 : 1) : -1, where v is
+		 *         evaluated value at given vertex
 		 * 
 		 */
 		public int sign(int vertex) {

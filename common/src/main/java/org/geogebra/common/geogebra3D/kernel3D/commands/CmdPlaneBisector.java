@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
 
 /**
- * PlaneBisector[ <GeoPoint3D>, <GeoCoordSys> ]
+ * PlaneBisector[ &lt;GeoPoint3D>, &lt;GeoCoordSys> ]
  */
 public class CmdPlaneBisector extends CommandProcessor {
 	/**

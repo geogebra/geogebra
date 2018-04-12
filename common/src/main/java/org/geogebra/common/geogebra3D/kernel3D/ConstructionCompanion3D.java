@@ -23,13 +23,13 @@ import org.geogebra.common.main.Localization;
 public class ConstructionCompanion3D extends ConstructionCompanion {
 
 	// axis objects
-	private GeoAxis3D // xAxis3D, yAxis3D,
-	zAxis3D;
+	private GeoAxis3D zAxis3D;
 	private GeoPlane3DConstant xOyPlane;
 	private GeoSpace space;
 	private GeoClippingCube3D clippingCube;
-	private String // xAxis3DLocalName, yAxis3DLocalName,
-	zAxis3DLocalName, xOyPlaneLocalName, spaceLocalName;
+	private String zAxis3DLocalName;
+	private String xOyPlaneLocalName;
+	private String spaceLocalName;
 
 	/**
 	 * default constructor

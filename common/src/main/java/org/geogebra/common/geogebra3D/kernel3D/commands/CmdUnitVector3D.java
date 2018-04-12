@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * UnitOrthogonalVector[ <GeoPlane3D> ]
+ * UnitOrthogonalVector[ &lt;GeoPlane3D> ]
  */
 public class CmdUnitVector3D extends CmdUnitVector {
 

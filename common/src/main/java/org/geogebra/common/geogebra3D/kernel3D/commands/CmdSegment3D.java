@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * Segment[ <GeoPoint3D>, <GeoPoint3D> ] or CmdSegment
+ * Segment[ &lt;GeoPoint3D>, &lt;GeoPoint3D> ] or CmdSegment
  */
 public class CmdSegment3D extends CmdSegment {
 	/**

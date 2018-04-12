@@ -23,7 +23,8 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		FromMeta, GeoQuadric3DPartInterface, GeoQuadric3DLimitedOrPart {
-	private double bottom, top;
+	private double bottom;
+	private double top;
 
 	/** min value for limites */
 	private double min;
@@ -33,8 +34,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	private double[] tmpDouble2bis = new double[2];
 	private double area;
 	private GeoElement meta = null;
-
-
 
 	/**
 	 * constructor
@@ -150,10 +149,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 			default:
 				Log.debug("todo-GeoQuadric3DPart");
 				return "?";
-
-
 		}
-
 	}
 
 	@Override
@@ -181,7 +177,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		} else if (parameters[1] > getMaxParameter(1)) {
 			parameters[1] = getMaxParameter(1);
 		}
-
 	}
 
 	@Override
@@ -197,7 +192,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		}
 
 		return super.getProjection(willingCoords, willingDirection, t1, t2);
-
 	}
 
 	@Override
@@ -271,7 +265,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		}
 		return new Coords[] { getPoint(tmpDouble2[0], tmpDouble2[1]),
 				new Coords(tmpDouble2) };
-
 	}
 
 	@Override
@@ -314,7 +307,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	// AREA
 	// ////////////////////////
 
-
 	/**
 	 * Update the area
 	 */
@@ -336,7 +328,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 				double h = max - min;
 				double a = getHalfAxis(0) * h;
 				double b = getHalfAxis(1) * h;
-
 
 				area = 0.5 * a
 						* Math.sqrt(

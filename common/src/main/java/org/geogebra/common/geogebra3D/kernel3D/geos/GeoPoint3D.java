@@ -85,7 +85,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		MatrixTransformable, RotateableND,
 		Transformable, MirrorableAtPlane {
 
-	private boolean isInfinite, isDefined;
+	private boolean isInfinite;
+	private boolean isDefined;
 	private int pointSize;
 
 	// mouse moving
@@ -131,9 +132,13 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	private boolean showUndefinedInAlgebraView = true;
 
-	private Coords tmpCoords1, tmpCoords2, tmpCoords3;
+	private Coords tmpCoords1;
+	private Coords tmpCoords2;
+	private Coords tmpCoords3;
 
-	private Coords tmpWillingCoords, tmpWillingDirection, tmpCoordsOld;
+	private Coords tmpWillingCoords;
+	private Coords tmpWillingDirection;
+	private Coords tmpCoordsOld;
 
 	/** matrix used as orientation by the {@link Drawable3D} */
 	private CoordMatrix4x4 m_drawingMatrix = null;
@@ -163,9 +168,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		setCartesian3D();
 		setUndefined();
 		this.setIncidenceList(null);
-
 	}
-
 
 	/**
 	 * Creates point on path
@@ -445,7 +448,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public Coords getCoordsInD2(CoordSys coordSys) {
-
 		setCoords2D(coordSys);
 		return tmpCoordsLength3;
 	}
@@ -493,7 +495,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		tmpCoordsLength3.setZ(1);
 
 		return DoubleUtil.isZero(tmpCoords1.getZ());
-
 	}
 
 	@Override
@@ -502,7 +503,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		case 3:
 			return getCoords();
 		case 2:
-			// Application.debug("willingCoords=\n"+willingCoords+"\nwillingDirection=\n"+willingDirection);
 			/*
 			 * GgbVector coords; if (getWillingCoords()!=null) if
 			 * (getWillingDirection()!=null){ //TODO use region matrix in place
@@ -681,7 +681,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 			updateCoords2D(region, true);
 
-		} else {// project on xOy plane
+		} else { // project on xOy plane
 			x2D = getX();
 			y2D = getY();
 			z2D = getZ();
@@ -1229,7 +1229,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			GeoElement.updateCascadeLocation(locateableList, cons);
 		}
 	}
-
 
 	protected static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
@@ -1908,7 +1907,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		// GeoConicND, GeoLine, GeoPoint are the three types who have an
 		// incidence list
 		if (geo.isGeoConic()) {
-			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
+			((GeoConicND) geo).addPointOnConic(this);
 		} else if (geo.isGeoLine() && !isStartPoint) {
 			((GeoLineND) geo).addPointOnLine(this);
 		}

@@ -62,7 +62,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	private boolean reverseNormal = false;
 	private double[] tmp3;
 
-
 	/**
 	 * default constructor
 	 * 
@@ -609,7 +608,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 				segment.pointChanged(P);
 			}
 
-			double dist;// = P.getInhomCoords().sub(coordsOld).squareNorm();
+			double dist; // = P.getInhomCoords().sub(coordsOld).squareNorm();
 			// double dist = 0;
 			if (P.hasWillingCoords() && P.hasWillingDirection()) {
 				dist = P.getInhomCoords().distLine(P.getWillingCoords(),

@@ -52,7 +52,8 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	// private GeoPointND bottomPoint, topPoint;
 
-	private double bottomParameter, topParameter;
+	private double bottomParameter;
+	private double topParameter;
 	private Coords direction;
 	private Coords origin;
 	private double radius;
@@ -404,7 +405,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		type = QUADRIC_CONE;
 	}
 
-
 	// ///////////////////////
 	// GEOELEMENT
 	// ///////////////////////
@@ -420,7 +420,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 			top.setObjColor(color);
 		}
 		side.setObjColor(color);
-
 	}
 
 	@Override
@@ -505,7 +504,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 			top.setLineType(type);
 			top.update();
 		}
-
 	}
 
 	@Override
@@ -665,7 +663,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		// default:
 		// volume=Double.NaN;
 		}
-
 	}
 
 	@Override
@@ -693,8 +690,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 			Log.debug("todo-GeoQuadric3DLimited");
 			return "?";
 		}
-
-
 	}
 
 	@Override
@@ -705,13 +700,11 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	@Override
 	public void setSphereND(GeoPointND M, GeoSegmentND segment) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setSphereND(GeoPointND M, GeoPointND P) {
 		// TODO Auto-generated method stub
-
 	}
 
 	// ////////////////////////////////
@@ -773,7 +766,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
-
 	}
 
 	@Override
@@ -786,7 +778,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
-
 	}
 
 	@Override
@@ -800,7 +791,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
-
 	}
 
 	@Override
@@ -813,7 +803,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
-
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * Polygon[ <GeoPoint3D>, <GeoPoint3D>, ... ] or CmdPolygon
+ * Polyline[ &lt;GeoPoint3D>, &lt;GeoPoint3D>, ... ] or CmdPolyline
  */
 public class CmdPolyLine3D extends CmdPolyLine {
 	/**
@@ -16,7 +16,6 @@ public class CmdPolyLine3D extends CmdPolyLine {
 	 */
 	public CmdPolyLine3D(Kernel kernel) {
 		super(kernel);
-
 	}
 
 	@Override
@@ -42,7 +41,6 @@ public class CmdPolyLine3D extends CmdPolyLine {
 	@Override
 	protected GeoElement[] polyLine(String label, GeoPointND[] points,
 			boolean is3D) {
-
 		if (is3D) {
 			return kernel.getManager3D().PolyLine3D(label, points);
 		}

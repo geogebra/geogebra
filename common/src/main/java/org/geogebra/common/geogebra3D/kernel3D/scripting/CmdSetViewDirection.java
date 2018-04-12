@@ -18,6 +18,7 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdSetViewDirection extends CmdScripting {
 	private Coords tmpCoords;
+
 	/**
 	 * Creates new ZooomOut command
 	 * 

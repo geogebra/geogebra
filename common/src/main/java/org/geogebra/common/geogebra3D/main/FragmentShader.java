@@ -100,6 +100,11 @@ public class FragmentShader {
 
 			+ "} \n" + "";
 
+	/**
+	 * @param isHTML5
+	 *            whether to add HTML5 prefix
+	 * @return non-shiny shader
+	 */
 	public static String getFragmentShader(boolean isHTML5) {
 
 		if (!isHTML5) {
@@ -107,9 +112,15 @@ public class FragmentShader {
 		}
 
 		return fragmentHeaderHTML5 + regular;
-
 	}
 
+	/**
+	 * @param shine
+	 *            TODO not used
+	 * @param isHTML5
+	 *            whether to add HTML5 prefix
+	 * @return shiny shader
+	 */
 	public static String getFragmentShaderShiny(float shine,
 			boolean isHTML5) {
 
@@ -136,7 +147,7 @@ public class FragmentShader {
 
 				+ "float x;\n"
 				+ "if (enableClipPlanes == 1  // clip the scene\n"
-				+ "&& (   realWorldCoords.x < clipPlanesMin.x || realWorldCoords.x > clipPlanesMax.x\n"
+				+ "&& (realWorldCoords.x < clipPlanesMin.x || realWorldCoords.x > clipPlanesMax.x\n"
 				+ "|| realWorldCoords.y < clipPlanesMin.y || realWorldCoords.y > clipPlanesMax.y \n"
 				+ "|| realWorldCoords.z < clipPlanesMin.z || realWorldCoords.z > clipPlanesMax.z \n"
 				+ "   )){\n"
@@ -209,15 +220,25 @@ public class FragmentShader {
 				+ "gl_FragColor = color;\n"
 
 				+ "} ";
-
 	}
 
+	/**
+	 * @param shine
+	 *            shine level
+	 * @param isHTML5
+	 *            whether to use html5 header
+	 * @return shiny shader
+	 */
 	public static String getFragmentShaderShinyForPacking(float shine, boolean isHTML5) {
 
 		String header = isHTML5 ? fragmentHeaderHTML5 : fragmentHeaderDesktop;
 
-		return header + "uniform int enableShine; \n" + "uniform int textureType;\n" + "uniform int enableClipPlanes;\n"
-				+ "uniform vec3 clipPlanesMin;\n" + "uniform vec3 clipPlanesMax;\n" + "uniform float dashValues[4];\n"
+		return header + "uniform int enableShine; \n"
+				+ "uniform int textureType;\n"
+				+ "uniform int enableClipPlanes;\n"
+				+ "uniform vec3 clipPlanesMin;\n"
+				+ "uniform vec3 clipPlanesMax;\n"
+				+ "uniform float dashValues[4];\n"
 				+ "uniform sampler2D Texture0;\n"
 				// in (incoming varying data to the fragment shader sent from
 				// the vertex shader)
@@ -233,9 +254,10 @@ public class FragmentShader {
 
 				+ "float x, y;\n"
 				+ "if (enableClipPlanes == 1  // clip the scene\n"
-				+ "&& (   realWorldCoords.x < clipPlanesMin.x || realWorldCoords.x > clipPlanesMax.x\n"
+				+ "&& (realWorldCoords.x < clipPlanesMin.x || realWorldCoords.x > clipPlanesMax.x\n"
 				+ "|| realWorldCoords.y < clipPlanesMin.y || realWorldCoords.y > clipPlanesMax.y \n"
-				+ "|| realWorldCoords.z < clipPlanesMin.z || realWorldCoords.z > clipPlanesMax.z \n" + "   )){\n"
+				+ "|| realWorldCoords.z < clipPlanesMin.z || realWorldCoords.z > clipPlanesMax.z \n"
+				+ " )){\n"
 
 				+ "discard;\n"
 
@@ -245,7 +267,8 @@ public class FragmentShader {
 				// adding specular
 				+ "float specular = dot(lightReflect, viewDirection);\n"
 				+ "if (specular > 0.0){\n" + "  float specular2  = specular  * specular;\n"
-				+ "  float specular4  = specular2 * specular2;\n" + "  float specular16  = specular4 * specular4;\n"
+				+ "  float specular4  = specular2 * specular2;\n"
+				+ "  float specular16  = specular4 * specular4;\n"
 				+ "  color.rgb = varying_Color.rgb + 0.2 * specular16 * vec3(1.0, 1.0, 1.0);\n"
 				+ "  color.a = varying_Color.a;\n"
 
@@ -271,15 +294,18 @@ public class FragmentShader {
 				// fading
 				+ "if (textureType == 1){ // TEXTURE_TYPE_FADING = 1\n" + "float factor;\n"
 
-				+ "x = max(coordTexture.x, 0.0);\n" + "float y = max(coordTexture.y, 0.0);\n"
-				+ "gl_FragColor.rgb  = color.rgb;\n" + "gl_FragColor.a = color.a * (1.0 - x) * (1.0 - y);\n"
+				+ "x = max(coordTexture.x, 0.0);\n"
+				+ "float y = max(coordTexture.y, 0.0);\n"
+				+ "gl_FragColor.rgb  = color.rgb;\n"
+				+ "gl_FragColor.a = color.a * (1.0 - x) * (1.0 - y);\n"
 				+ "return;\n"
 
 				+ "}\n"
 
 				// text
 				+ "if (textureType == 2){ // TEXTURE_TYPE_TEXT = 2;\n"
-				+ "vec4 textureVal = texture2D(Texture0, coordTexture);\n" + "if (textureVal.a < 0.25){\n"
+				+ "vec4 textureVal = texture2D(Texture0, coordTexture);\n"
+				+ "if (textureVal.a < 0.25){\n"
 
 				+ "  discard; // don't write\n" + "  }\n"
 
@@ -291,7 +317,9 @@ public class FragmentShader {
 				
 				// dash packed
 				+ "if (textureType == 14) { // TEXTURE_TYPE_DASH + DASH_PACKED = 4 + 10;\n"
-				+ "y = (coordTexture.y -  float((int(coordTexture.y) / " + Textures.DASH_ID_LENGTH + ") * " + Textures.DASH_ID_LENGTH + ") + 0.5) / "
+				+ "y = (coordTexture.y -  float((int(coordTexture.y) / "
+				+ Textures.DASH_ID_LENGTH + ") * " + Textures.DASH_ID_LENGTH
+				+ ") + 0.5) / "
 				+ TexturesShaders.DESCRIPTIONS_LENGTH + ".0;\n"
 				+ "vec4 textureDash = texture2D(Texture0, vec2(coordTexture.x, y));\n"
 				+ "if (textureDash.a < 0.5){\n"
@@ -304,12 +332,15 @@ public class FragmentShader {
 				+ "if (textureType == 15) { // TEXTURE_TYPE_DASH + DASH_PACKED_HIDDEN = 4 + 11;\n"
 				+ "y = (float(int(coordTexture.y) / " + Textures.DASH_ID_LENGTH + ") + 0.5) / "
 				+ TexturesShaders.DESCRIPTIONS_LENGTH + ".0;\n"
-				+ "vec4 textureDash = texture2D(Texture0, vec2(coordTexture.x, y));\n" + "if (textureDash.a < 0.5){\n"
-				+ "  discard; // don't write\n" + "  }\n" + "gl_FragColor = color;\n" + "return;\n" + "}\n "
+				+ "vec4 textureDash = texture2D(Texture0, vec2(coordTexture.x, y));\n"
+				+ "if (textureDash.a < 0.5){\n" 
+				+ "  discard; // don't write\n" + "  }\n"
+				+ "gl_FragColor = color;\n" + "return;\n" + "}\n "
 
 				// dash
 				+ "x =  mod(dashValues[0] * coordTexture.x, 1.0);\n"
-				+ "if (x > dashValues[1] || (x > dashValues[2] && x <= dashValues[3])){\n" + "discard;\n"
+				+ "if (x > dashValues[1] || (x > dashValues[2] && x <= dashValues[3])){\n"
+				+ "discard;\n" 
 				+ "}\n"
 				+ "gl_FragColor = color;\n"
 				+ "} ";

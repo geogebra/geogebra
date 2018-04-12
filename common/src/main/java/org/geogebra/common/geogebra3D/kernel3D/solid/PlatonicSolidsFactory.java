@@ -3,15 +3,18 @@ package org.geogebra.common.geogebra3D.kernel3D.solid;
 import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
- * Creates the five platonic solids
+ * Creates the five platonic solids.
  * 
  * @author Mathieu
  *
  */
 public class PlatonicSolidsFactory {
 
-	static private volatile PlatonicSolid tetrahedron, cube, octahedron,
-			dodecahedron, icosahedron;
+	static private volatile PlatonicSolid tetrahedron;
+	static private volatile PlatonicSolid cube;
+	static private volatile PlatonicSolid octahedron;
+	static private volatile PlatonicSolid dodecahedron;
+	static private volatile PlatonicSolid icosahedron;
 
 	/**
 	 * 

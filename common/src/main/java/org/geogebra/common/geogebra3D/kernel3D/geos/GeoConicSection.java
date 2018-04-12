@@ -22,10 +22,16 @@ import org.geogebra.common.util.MyMath;
 public class GeoConicSection extends GeoConic3D
 		implements GeoConicSectionInterface {
 
-	private double[] paramStart, paramEnd, paramExtent;
+	private double[] paramStart;
+	private double[] paramEnd;
+	private double[] paramExtent;
 
-	private double[] edgeStartX, edgeStartY, edgeEndX, edgeEndY, edgeStartParam,
-			edgeEndParam;
+	private double[] edgeStartX;
+	private double[] edgeStartY;
+	private double[] edgeEndX;
+	private double[] edgeEndY;
+	private double[] edgeStartParam;
+	private double[] edgeEndParam;
 
 	private boolean[] edgeExists;
 	private TreeSet<IndexedParameter> parametersTree = new TreeSet<>();
@@ -406,7 +412,9 @@ public class GeoConicSection extends GeoConic3D
 	 * -inf, +inf
 	 * 
 	 * @param param
+	 *            output array of branch parameters
 	 * @param value
+	 *            number from [-1,1] (or [1,3])
 	 */
 	private static void setInfParameter(double[] param, double value) {
 		if (Double.isNaN(value)) {

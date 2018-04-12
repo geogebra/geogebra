@@ -210,14 +210,11 @@ final public class Geo3DVec extends ValidExpression
 		return length(x, y, z);
 	}
 
-
-
 	/**
 	 * Calculates the euclidian length sqrt(a^2 + b^2).
 	 */
 	private static double length(double a, double b, double c) {
 		return Math.sqrt(a * a + b * b + c * c);
-
 	}
 
 	/**
@@ -273,7 +270,6 @@ final public class Geo3DVec extends ValidExpression
 		c.y = a.y + b.getY();
 		c.z = a.z;
 	}
-
 
 	/**
 	 * c = Vector (Cross) Product of a and b
@@ -500,23 +496,20 @@ final public class Geo3DVec extends ValidExpression
 	 *            VectorNDValue (as ExpressionValue) to get coords from
 	 */
 	public void multiplyMatrix3x3(MyList list, VectorNDValue rt) {
-
-		double a, b, c, d, e, f, g, h, i, xx, yy, zz;
-
 		GeoVecInterface v = rt.getVector();
-		xx = v.getX();
-		yy = v.getY();
-		zz = v.getZ();
+		double xx = v.getX();
+		double yy = v.getY();
+		double zz = v.getZ();
 
-		a = MyList.getCell(list, 0, 0).evaluateDouble();
-		b = MyList.getCell(list, 1, 0).evaluateDouble();
-		c = MyList.getCell(list, 2, 0).evaluateDouble();
-		d = MyList.getCell(list, 0, 1).evaluateDouble();
-		e = MyList.getCell(list, 1, 1).evaluateDouble();
-		f = MyList.getCell(list, 2, 1).evaluateDouble();
-		g = MyList.getCell(list, 0, 2).evaluateDouble();
-		h = MyList.getCell(list, 1, 2).evaluateDouble();
-		i = MyList.getCell(list, 2, 2).evaluateDouble();
+		double a = MyList.getCell(list, 0, 0).evaluateDouble();
+		double b = MyList.getCell(list, 1, 0).evaluateDouble();
+		double c = MyList.getCell(list, 2, 0).evaluateDouble();
+		double d = MyList.getCell(list, 0, 1).evaluateDouble();
+		double e = MyList.getCell(list, 1, 1).evaluateDouble();
+		double f = MyList.getCell(list, 2, 1).evaluateDouble();
+		double g = MyList.getCell(list, 0, 2).evaluateDouble();
+		double h = MyList.getCell(list, 1, 2).evaluateDouble();
+		double i = MyList.getCell(list, 2, 2).evaluateDouble();
 
 		x = a * xx + b * yy + c * zz;
 		y = d * xx + e * yy + f * zz;
@@ -567,22 +560,20 @@ final public class Geo3DVec extends ValidExpression
 			return;
 		}
 
-		double a, b, c, d, e, f, g, h, i, j, k, l;
+		double a = MyList.getCell(list, 0, 0).evaluateDouble();
+		double b = MyList.getCell(list, 1, 0).evaluateDouble();
+		double c = MyList.getCell(list, 2, 0).evaluateDouble();
+		double d = MyList.getCell(list, 3, 0).evaluateDouble();
 
-		a = MyList.getCell(list, 0, 0).evaluateDouble();
-		b = MyList.getCell(list, 1, 0).evaluateDouble();
-		c = MyList.getCell(list, 2, 0).evaluateDouble();
-		d = MyList.getCell(list, 3, 0).evaluateDouble();
+		double e = MyList.getCell(list, 0, 1).evaluateDouble();
+		double f = MyList.getCell(list, 1, 1).evaluateDouble();
+		double g = MyList.getCell(list, 2, 1).evaluateDouble();
+		double h = MyList.getCell(list, 3, 1).evaluateDouble();
 
-		e = MyList.getCell(list, 0, 1).evaluateDouble();
-		f = MyList.getCell(list, 1, 1).evaluateDouble();
-		g = MyList.getCell(list, 2, 1).evaluateDouble();
-		h = MyList.getCell(list, 3, 1).evaluateDouble();
-
-		i = MyList.getCell(list, 0, 2).evaluateDouble();
-		j = MyList.getCell(list, 1, 2).evaluateDouble();
-		k = MyList.getCell(list, 2, 2).evaluateDouble();
-		l = MyList.getCell(list, 3, 2).evaluateDouble();
+		double i = MyList.getCell(list, 0, 2).evaluateDouble();
+		double j = MyList.getCell(list, 1, 2).evaluateDouble();
+		double k = MyList.getCell(list, 2, 2).evaluateDouble();
+		double l = MyList.getCell(list, 3, 2).evaluateDouble();
 
 		x = a * xx + b * yy + c * zz + d * ww;
 		y = e * xx + f * yy + g * zz + h * ww;
@@ -605,19 +596,16 @@ final public class Geo3DVec extends ValidExpression
 	 *            VectorNDValue (as ExpressionValue) to get coords from
 	 */
 	public void multiplyMatrix3x2(MyList list, VectorNDValue rt) {
-
-		double a, b, d, e, g, h, xx, yy;
-
 		GeoVecInterface v = rt.getVector();
-		xx = v.getX();
-		yy = v.getY();
+		double xx = v.getX();
+		double yy = v.getY();
 
-		a = MyList.getCell(list, 0, 0).evaluateDouble();
-		b = MyList.getCell(list, 1, 0).evaluateDouble();
-		d = MyList.getCell(list, 0, 1).evaluateDouble();
-		e = MyList.getCell(list, 1, 1).evaluateDouble();
-		g = MyList.getCell(list, 0, 2).evaluateDouble();
-		h = MyList.getCell(list, 1, 2).evaluateDouble();
+		double a = MyList.getCell(list, 0, 0).evaluateDouble();
+		double b = MyList.getCell(list, 1, 0).evaluateDouble();
+		double d = MyList.getCell(list, 0, 1).evaluateDouble();
+		double e = MyList.getCell(list, 1, 1).evaluateDouble();
+		double g = MyList.getCell(list, 0, 2).evaluateDouble();
+		double h = MyList.getCell(list, 1, 2).evaluateDouble();
 
 		x = a * xx + b * yy;
 		y = d * xx + e * yy;
@@ -637,22 +625,19 @@ final public class Geo3DVec extends ValidExpression
 	static public void multiplyMatrix(MyList list, VectorNDValue rt,
 			GeoVec2D ret) {
 
-		double a, b, c, d, e, f, xx, yy, zz;
-
 		GeoVecInterface v = rt.getVector();
-		xx = v.getX();
-		yy = v.getY();
-		zz = v.getZ();
+		double xx = v.getX();
+		double yy = v.getY();
+		double zz = v.getZ();
 
-		a = MyList.getCell(list, 0, 0).evaluateDouble();
-		b = MyList.getCell(list, 1, 0).evaluateDouble();
-		c = MyList.getCell(list, 2, 0).evaluateDouble();
-		d = MyList.getCell(list, 0, 1).evaluateDouble();
-		e = MyList.getCell(list, 1, 1).evaluateDouble();
-		f = MyList.getCell(list, 2, 1).evaluateDouble();
+		double a = MyList.getCell(list, 0, 0).evaluateDouble();
+		double b = MyList.getCell(list, 1, 0).evaluateDouble();
+		double c = MyList.getCell(list, 2, 0).evaluateDouble();
+		double d = MyList.getCell(list, 0, 1).evaluateDouble();
+		double e = MyList.getCell(list, 1, 1).evaluateDouble();
+		double f = MyList.getCell(list, 2, 1).evaluateDouble();
 
 		ret.setCoords(a * xx + b * yy + c * zz, d * xx + e * yy + f * zz);
-
 	}
 
 	@Override

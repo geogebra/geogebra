@@ -93,7 +93,9 @@ import org.geogebra.common.plugin.GeoClass;
  */
 
 public class Kernel3D extends Kernel {
-	private double zmin3, zmax3, zscale3;
+	private double zmin3;
+	private double zmax3;
+	private double zscale3;
 
 	/**
 	 * @param app
@@ -102,9 +104,7 @@ public class Kernel3D extends Kernel {
 	 *            factory for geos
 	 */
 	public Kernel3D(App app, GeoFactory factory) {
-
 		super(app, factory);
-
 	}
 
 	@Override

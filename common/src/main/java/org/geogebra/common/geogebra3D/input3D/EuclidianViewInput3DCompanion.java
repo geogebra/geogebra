@@ -58,6 +58,10 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	final private static double GRAY_SCALE_FOR_INPUT3D = 255 * 0.75;
 
+	/**
+	 * @param view
+	 *            3D view
+	 */
 	public EuclidianViewInput3DCompanion(EuclidianView view) {
 		super(view);
 
@@ -65,6 +69,10 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		mouse3DScenePosition.setW(1);
 	}
 
+	/**
+	 * @param input3D
+	 *            3D input
+	 */
 	public void setInput3D(Input3D input3D) {
 		this.input3D = input3D;
 		if (input3D.useCompletingDelay()) {
@@ -74,7 +82,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	@Override
 	public void drawMouseCursor(Renderer renderer1) {
-
 		if (input3D.currentlyUseMouse2D()) {
 			super.drawMouseCursor(renderer1);
 			return;
@@ -109,12 +116,11 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 
 		getView().drawMouseCursor(renderer1, mouse3DScreenPosition);
-
 	}
 
 	/**
-	 * 
 	 * @param renderer1
+	 *            renderer
 	 * @return false if we need also the mouse cursor
 	 */
 	private boolean drawCompletingCursor(Renderer renderer1) {
@@ -688,7 +694,8 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 		private GeoElement geo;
 
-		private long startTime, lastTime;
+		private long startTime;
+		private long lastTime;
 
 		private long delay = -1;
 
@@ -718,7 +725,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			} else {
 				if (newGeo == geo) { // remember last time
 					// check if mouse has changed too much: reset the timer
-					int threshold = 30;// getCapturingThreshold(PointerEventType.TOUCH);
+					int threshold = 30; // getCapturingThreshold(PointerEventType.TOUCH);
 					if (Math.abs(mousePosition.getX()
 							- startMousePosition.getX()) > threshold
 							|| Math.abs(mousePosition.getY()
@@ -796,8 +803,8 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	public class StationaryCoords {
 
-		private Coords startCoords = new Coords(4),
-				currentCoords = new Coords(4);
+		private Coords startCoords = new Coords(4);
+		private Coords currentCoords = new Coords(4);
 		private long startTime;
 		private long delay;
 		private Coords newCoords = Coords.createInhomCoorsInD3();
@@ -807,6 +814,14 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			delay = -1;
 		}
 
+		/**
+		 * @param start
+		 *            start coordinates
+		 * @param translation
+		 *            direction
+		 * @param time
+		 *            time
+		 */
 		public void setCoords(Coords start, Coords translation, long time) {
 			newCoords.setValues(start, 3);
 			newCoords.addInside(translation);
@@ -818,8 +833,11 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			updateCoords(time);
 		}
 
+		/**
+		 * @param time
+		 *            time
+		 */
 		public void updateCoords(long time) {
-
 			if (startCoords.isDefined()) {
 				double distance = Math
 						.abs(startCoords.getX() - newCoords.getX())

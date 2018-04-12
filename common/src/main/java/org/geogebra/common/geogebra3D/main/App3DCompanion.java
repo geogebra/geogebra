@@ -329,7 +329,6 @@ public abstract class App3DCompanion extends AppCompanion {
 		StringBuilder export = exportView3D.export3D(format);
 		app.getKernel().detach(exportView3D);
 		return export.toString();
-
 	}
 
 	@Override
@@ -345,6 +344,6 @@ public abstract class App3DCompanion extends AppCompanion {
 				xzScale, xTickDistance, yTickDistance, zTickDistance);
 		exportView3D.export3D(getter);
 		app.getKernel().detach(exportView3D);
-		}
+	}
 
 }

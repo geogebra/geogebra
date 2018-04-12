@@ -44,7 +44,6 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 		setConstructionDefaults(); // init visual settings
 	}
 
-
 	/**
 	 * Creates new GeoVec4D with coordinates (x,y,z,w) and label
 	 * 

@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;

@@ -22,21 +22,21 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Intersect[ <GeoPlane3D>, <GeoConicND> ]
+ * Intersect[ &lt;GeoPlane3D>, &lt;GeoConicND> ]
  * 
- * Intersect[ <GeoLineND>, <GeoQuadric3D> ]
+ * Intersect[ &lt;GeoLineND>, &lt;GeoQuadric3D> ]
  * 
- * Intersect[ <GeoConicND>, <GeoConicND> ]
+ * Intersect[ &lt;GeoConicND>, &lt;GeoConicND> ]
  * 
- * Intersect[ <GeoLineND>, <GeoPolygon> ]
+ * Intersect[ &lt;GeoLineND>, &lt;GeoPolygon> ]
  * 
- * Intersect[ <GeoLineND>, <GeoCoordSys2D> ]
+ * Intersect[ &lt;GeoLineND>, &lt;GeoCoordSys2D> ]
  * 
- * Intersect[ <GeoLineND>, <GeoLineND> ]
+ * Intersect[ &lt;GeoLineND>, &lt;GeoLineND> ]
  * 
- * Intersect[ <GeoLineND>, <GeoConicND>, <GeoNumeric> ]
+ * Intersect[ &lt;GeoLineND>, &lt;GeoConicND>, &lt;GeoNumeric> ]
  * 
- * Intersect[ <GeoLineND>, <GeoQuadric3D>, <GeoNumeric> ]
+ * Intersect[ &lt;GeoLineND>, &lt;GeoQuadric3D>, &lt;GeoNumeric> ]
  */
 public class CmdIntersect3D extends CmdIntersect {
 

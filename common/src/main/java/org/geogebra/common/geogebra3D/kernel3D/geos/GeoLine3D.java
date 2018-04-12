@@ -150,7 +150,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 		}
 
 		AlgoElement algo = getParentAlgorithm();
-		Coords O = coordsys.getOrigin();// TODO inhom coords
+		Coords O = coordsys.getOrigin(); // TODO inhom coords
 		Coords V = coordsys.getVx();
 		if (algo instanceof AlgoLinePoint) {
 			AlgoLinePoint algoLP = (AlgoLinePoint) algo;
@@ -169,8 +169,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 				V = vec.getCoordsInD3();
 			}
 		}
-
-
 
 		sbToString.append("X = (");
 		sbToString.append(kernel.format(O.get(1), tpl));
@@ -209,7 +207,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 	 */
 	protected void getCoordsXML(StringBuilder sb) {
 
-		Coords o = coordsys.getOrigin();// TODO inhom coords
+		Coords o = coordsys.getOrigin(); // TODO inhom coords
 		Coords v = coordsys.getVx();
 
 		sb.append("\t<coords");

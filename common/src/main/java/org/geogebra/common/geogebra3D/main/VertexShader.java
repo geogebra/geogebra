@@ -207,6 +207,11 @@ public class VertexShader {
 
 			+ "}";
 
+	/**
+	 * @param isHTML5
+	 *            whether to skip the desktop prefix
+	 * @return shiny shader
+	 */
 	final public static String getVertexShaderShiny(boolean isHTML5) {
 
 		if (isHTML5) {
@@ -214,9 +219,13 @@ public class VertexShader {
 		}
 
 		return vertexHeaderDesktop + shiny;
-
 	}
 
+	/**
+	 * @param isHTML5
+	 *            whether to skip the desktop prefix
+	 * @return less shiny shader
+	 */
 	final public static String getVertexShader(boolean isHTML5) {
 
 		if (isHTML5) {
@@ -224,7 +233,6 @@ public class VertexShader {
 		}
 
 		return vertexHeaderDesktop + regular;
-
 	}
 
 }

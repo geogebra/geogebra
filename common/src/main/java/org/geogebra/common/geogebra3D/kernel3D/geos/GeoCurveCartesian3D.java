@@ -63,7 +63,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * @param point
 	 *            point expression (may be null)
 	 */
-	public GeoCurveCartesian3D(Construction c, Function fun[],
+	public GeoCurveCartesian3D(Construction c, Function[] fun,
 			ExpressionNode point) {
 		super(c, fun, point);
 	}
@@ -292,17 +292,12 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		SurfaceTransform.rotate(fun, kernel, r, S, orientation, tmpMatrix4x4);
 	}
 
-
-
 	@Override
 	public void rotate(NumberValue r, GeoLineND line) {
-
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
-
 		SurfaceTransform.rotate(fun, kernel, r, line, tmpMatrix4x4);
-
 	}
 
 	@Override
@@ -462,7 +457,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	private static class CurveCartesian3DDistanceFunction
 			implements DistanceFunction {
 
-		private Coords distCoords, distDirection;
+		private Coords distCoords;
+		private Coords distDirection;
 
 		private GeoCurveCartesian3D curve;
 

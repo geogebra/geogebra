@@ -66,7 +66,6 @@ public class EuclidianControllerInput3DCompanion extends
 		return (EuclidianViewInput3DCompanion) ec.getView().getCompanion();
 	}
 
-
 	@Override
 	protected GeoPoint3D createNewFreePoint(boolean complex) {
 
@@ -268,7 +267,8 @@ public class EuclidianControllerInput3DCompanion extends
 	}
 
 	private boolean stickToPoints() {
-		return ec.getView().getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
+		return ec.getView()
+				.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 	}
 
 	@Override
@@ -297,7 +297,6 @@ public class EuclidianControllerInput3DCompanion extends
 					movedGeoPointStartCoords);
 
 			plane.translate(v);
-
 
 			if (stickToPoints()) {
 				// check sticky points
@@ -346,7 +345,6 @@ public class EuclidianControllerInput3DCompanion extends
 								}
 							}
 
-
 							if (!stickyPointsForDirection.isEmpty()) {
 								StickyPointForDirection spd2 = stickyPointsForDirection
 										.pollFirst();
@@ -369,10 +367,7 @@ public class EuclidianControllerInput3DCompanion extends
 										}
 									}
 								}
-
 							}
-
-
 						}
 
 					} else {
@@ -406,14 +401,12 @@ public class EuclidianControllerInput3DCompanion extends
 						}
 						break;
 					}
-
 				}
 			}
 
 			// update
 			plane.setDefinition(null);
 			plane.updateCascade();
-
 
 			if (input3D.hasCompletedGrabbingDelay()) {
 
@@ -425,7 +418,6 @@ public class EuclidianControllerInput3DCompanion extends
 					releaseGrabbing();
 				}
 			}
-
 		}
 	}
 
@@ -441,7 +433,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 	private static boolean checkDistanceToStickyPoint(double d, double scale,
 			int threshold) {
-		return d * scale < DrawPoint.getSelectionThreshold(threshold);// point.getPointSize()
+		return d * scale < DrawPoint.getSelectionThreshold(threshold); // point.getPointSize()
 																		// +
 																		// threshold;
 	}

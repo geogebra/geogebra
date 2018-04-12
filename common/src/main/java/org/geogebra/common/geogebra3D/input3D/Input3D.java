@@ -28,34 +28,43 @@ abstract public class Input3D implements Input3DConstants {
 		LEFT, RIGHT, FAR, NEAR, BOTTOM, TOP, NO, NEVER, YES
 	}
 
-	private Coords mouse3DScenePosition, mouse3DDirection;
+	private Coords mouse3DScenePosition;
+	private Coords mouse3DDirection;
 	protected Coords[] glassesPosition;
 
-	protected double screenHalfWidth, screenHalfHeight;
-	protected int panelWidth, panelHeight, panelX, panelY;
+	protected double screenHalfWidth;
+	protected double screenHalfHeight;
+	protected int panelWidth;
+	protected int panelHeight;
+	protected int panelX;
+	protected int panelY;
 
 	protected EuclidianView3D view3D;
 
 	private double[] inputPositionOnScreen;
 
-	protected int onScreenX, onScreenY;
+	protected int onScreenX;
+	protected int onScreenY;
 	private Coords mouse3DPosition;
 
 	private boolean wasRightReleased;
 	private boolean wasLeftReleased;
 	private boolean wasThirdButtonReleased;
-	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3),
-			tmpCoords3 = new Coords(3);
+	private Coords tmpCoords = new Coords(3);
+	private Coords tmpCoords2 = new Coords(3);
+	private Coords tmpCoords3 = new Coords(3);
 
 	private Coords startMouse3DPosition;
 
-	private Coords vx, vz;
+	private Coords vx;
+	private Coords vz;
 
 	private double angleOld;
 
 	private Coords rightDragElevation = new Coords(3);
 
-	private Quaternion mouse3DOrientation, startMouse3DOrientation;
+	private Quaternion mouse3DOrientation;
+	private Quaternion startMouse3DOrientation;
 	private Coords rotV;
 	private CoordMatrix startOrientationMatrix;
 	private CoordMatrix4x4 toSceneRotMatrix;
@@ -289,11 +298,6 @@ abstract public class Input3D implements Input3DConstants {
 	/**
 	 * update values
 	 * 
-	 * @param panelPosition
-	 *            TODO
-	 * @param panelDimension
-	 *            TODO
-	 * 
 	 * @return true if the update worked
 	 */
 	abstract public boolean update();
@@ -381,9 +385,12 @@ abstract public class Input3D implements Input3DConstants {
 	 */
 	abstract public void setSpecificSettings(EuclidianSettings3D settings);
 
-
-	public void init(EuclidianView3D view3D) {
-		this.view3D = view3D;
+	/**
+	 * @param eView3D
+	 *            3D view
+	 */
+	public void init(EuclidianView3D eView3D) {
+		this.view3D = eView3D;
 
 		// glasses position
 		glassesPosition = new Coords[2];
@@ -392,6 +399,12 @@ abstract public class Input3D implements Input3DConstants {
 		}
 	}
 
+	/**
+	 * @param halfWidth
+	 *            half-width
+	 * @param halfHeight
+	 *            half-height
+	 */
 	public void setScreenHalfDimensions(double halfWidth, double halfHeight) {
 		screenHalfWidth = halfWidth;
 		screenHalfHeight = halfHeight;
@@ -405,6 +418,16 @@ abstract public class Input3D implements Input3DConstants {
 		return screenHalfHeight;
 	}
 
+	/**
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 * @param x
+	 *            panel left
+	 * @param y
+	 *            panel top
+	 */
 	public void setPanel(int width, int height, int x, int y) {
 		panelWidth = width;
 		panelHeight = height;
@@ -428,6 +451,9 @@ abstract public class Input3D implements Input3DConstants {
 		return panelY;
 	}
 
+	/**
+	 * Update glasses position.
+	 */
 	protected void setGlassesPosition() {
 		for (int i = 0; i < 2; i++) {
 			double[] pos = getGlassesPosition(i);
@@ -436,6 +462,9 @@ abstract public class Input3D implements Input3DConstants {
 		}
 	}
 
+	/**
+	 * Update head tracking.
+	 */
 	public void updateHeadTracking() {
 		// eyes : set position only if we use glasses
 		if (useHeadTracking() && view3D
@@ -455,16 +484,17 @@ abstract public class Input3D implements Input3DConstants {
 
 			view3D.setProjectionPerspectiveEyeDistance(
 					glassesPosition[0].getZ(), glassesPosition[1].getZ());
-
 		}
 	}
 
 	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos) {
-
 		setPositionXYOnPanel(absolutePos, panelPos, screenHalfWidth,
 				screenHalfHeight, panelX, panelY, panelWidth, panelHeight);
 	}
 
+	/**
+	 * Update input position on screen.
+	 */
 	public void updateOnScreenPosition() {
 		if (hasMouseDirection()) { // project position on
 			// screen
@@ -498,7 +528,6 @@ abstract public class Input3D implements Input3DConstants {
 			setPositionOffScreen();
 			// Log.debug("NOT onS: " + x1 + "," + y1);
 		}
-
 	}
 
 	public int getOnScreenX() {
@@ -534,7 +563,6 @@ abstract public class Input3D implements Input3DConstants {
 			tmpCoords2.setMul(view3D.getToSceneMatrix(), tmpCoords.val);
 
 			view3D.setCoordSystemFromMouse3DMove(tmpCoords2);
-
 		}
 	}
 
@@ -623,7 +651,6 @@ abstract public class Input3D implements Input3DConstants {
 
 		view3D.rememberOrigins();
 		vz = view3D.getRotationMatrix().getVz();
-
 	}
 
 	private void processRightDrag() {
@@ -652,7 +679,6 @@ abstract public class Input3D implements Input3DConstants {
 		((EuclidianController3D) view3D.getEuclidianController())
 				.setTimeOld(time);
 		angleOld = angle;
-
 	}
 
 	private void processRightDragQuaternions() {
@@ -750,7 +776,6 @@ abstract public class Input3D implements Input3DConstants {
 		startOrientationMatrix = startMouse3DOrientation.getRotMatrix();
 
 		toSceneRotMatrix.set(view3D.getUndoRotationMatrix());
-
 	}
 
 	/**
@@ -780,6 +805,9 @@ abstract public class Input3D implements Input3DConstants {
 		return currentRot;
 	}
 
+	/**
+	 * Update button released flags, check for completed grab.
+	 */
 	public void handleButtons() {
 		if (isThirdButtonPressed()) { // process 3rd
 			// button
@@ -834,10 +862,7 @@ abstract public class Input3D implements Input3DConstants {
 			wasLeftReleased = true;
 			wasThirdButtonReleased = true;
 		}
-
 	}
-
-
 
 	/**
 	 * 
@@ -847,8 +872,10 @@ abstract public class Input3D implements Input3DConstants {
 		return rightDragElevation;
 	}
 
+	/**
+	 * Update 3D mouse location / direction.
+	 */
 	final public void updateMouse3DEvent() {
-
 		mouse3DLoc = new GPointWithZ(
 				getPanelWidth() / 2 + (int) mouse3DPosition.getX(),
 				getPanelHeight() / 2 - (int) mouse3DPosition.getY(),
@@ -872,7 +899,6 @@ abstract public class Input3D implements Input3DConstants {
 
 		// Log.debug("\nstart: "+startMouse3DOrientation+"\ncurrent:
 		// "+mouse3DOrientation);
-
 	}
 
 	public GPoint getMouseLoc() {
@@ -900,7 +926,6 @@ abstract public class Input3D implements Input3DConstants {
 	 * @return 3D mouse position (scene coords)
 	 */
 	public Coords getMouse3DScenePosition() {
-
 		return mouse3DScenePosition;
 	}
 
@@ -909,7 +934,6 @@ abstract public class Input3D implements Input3DConstants {
 	 * @return 3D mouse direction
 	 */
 	public Coords getMouse3DDirection() {
-
 		return mouse3DDirection;
 	}
 

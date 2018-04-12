@@ -573,8 +573,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		((ParametricCurveDistanceFunction) distFun).setFunctions(this);
 	}
 
-
-
 	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);

@@ -30,7 +30,7 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 	private GeoImplicitSurfaceND surface;
 	private GeoElementND eqn;
 	private OutputHandler<GeoPoint3D> outputs;
-	private String labels[];
+	private String[] labels;
 
 	/**
 	 * 

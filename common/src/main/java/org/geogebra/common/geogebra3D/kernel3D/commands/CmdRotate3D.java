@@ -11,12 +11,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
+ * Extends rotation for 3D objects.
+ * 
+ * Rotate[ &lt;GeoPoint>, &lt;NumberValue> ]
+ * 
  * @author mathieu
- * 
- *         Extends rotation for 3D objects
- * 
- *         Rotate[ <GeoPoint>, <NumberValue> ]
- *
  */
 public class CmdRotate3D extends CmdRotate {
 

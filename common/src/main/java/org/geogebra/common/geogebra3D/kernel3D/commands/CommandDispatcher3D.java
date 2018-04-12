@@ -181,7 +181,6 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case IntersectConic:
 				return new CmdIntersectConic(kernel);
 
-
 			case Angle:
 				return new CmdAngle3D(kernel);
 

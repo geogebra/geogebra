@@ -665,7 +665,6 @@ public class GeoPolyhedron extends GeoElement3D
 		// labels for segments
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setLabel(labels[index]);
-			// Application.debug("labels["+index+"]="+labels[index]+",\nsegment:"+segment.getParentAlgorithm());
 			index++;
 		}
 
@@ -678,8 +677,8 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	/**
-	 * 
 	 * @param geo
+	 *            element
 	 * @return level of usability of the label
 	 */
 	private static int usableLabel(GeoElement geo) {
@@ -1945,7 +1944,7 @@ public class GeoPolyhedron extends GeoElement3D
 				segment.pointChanged(P);
 			}
 
-			double dist;// = P.getInhomCoords().sub(coordsOld).squareNorm();
+			double dist; // = P.getInhomCoords().sub(coordsOld).squareNorm();
 			// double dist = 0;
 			if (P.hasWillingCoords() && P.hasWillingDirection()) {
 				dist = P.getInhomCoords().distLine(P.getWillingCoords(),
@@ -1973,7 +1972,7 @@ public class GeoPolyhedron extends GeoElement3D
 				segment.pointChanged(P);
 			}
 
-			double dist;// = P.getInhomCoords().sub(coordsOld).squareNorm();
+			double dist; // = P.getInhomCoords().sub(coordsOld).squareNorm();
 			// double dist = 0;
 			if (P.hasWillingCoords() && P.hasWillingDirection()) {
 				dist = P.getInhomCoords().distLine(P.getWillingCoords(),

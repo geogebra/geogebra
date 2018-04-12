@@ -43,14 +43,17 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	private boolean isSurfaceOfRevolutionAroundOx = false;
 	private CoordMatrix4x4 tmpMatrix4x4;
 	private double[] xyzuv;
-	private double lastHitU, lastHitV;
+	private double lastHitU;
+	private double lastHitV;
 	private double[] tmp = new double[2];
 	private boolean trace;
 	private boolean hasLastHitParameters = false;
 
-	private Coords der1 = new Coords(3), der2 = new Coords(3),
-			normal = new Coords(3);
-	private CoordsDouble3 p1 = new CoordsDouble3(), p2 = new CoordsDouble3();
+	private Coords der1 = new Coords(3);
+	private Coords der2 = new Coords(3);
+	private Coords normal = new Coords(3);
+	private CoordsDouble3 p1 = new CoordsDouble3();
+	private CoordsDouble3 p2 = new CoordsDouble3();
 
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
@@ -74,7 +77,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	 *            functions
 	 */
 	public GeoSurfaceCartesian3D(Construction c, ExpressionNode point,
-			FunctionNVar fun[]) {
+			FunctionNVar[] fun) {
 		super(c, point, fun);
 		isSurfaceOfRevolutionAroundOx = false;
 	}
@@ -145,10 +148,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		n.setNormalizedIfPossible(normal);
 
 		return true;
-
 	}
-
-
 
 	/**
 	 * set the jacobian matrix for bivariate newton method
@@ -274,7 +274,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	// /////////////////////////
 	// FUNCTIONAL2VAR
 
-
 	/**
 	 * evaluate point at parameters u,v
 	 * 
@@ -330,9 +329,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		if (getLevelOfDetail() == LevelOfDetail.QUALITY) {
 			sb.append("\t<levelOfDetailQuality val=\"true\"/>\n");
 		}
-
 	}
-
 
 	// ////////////////
 	// TRACE
@@ -390,7 +387,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		return kernel.getApplication()
 				.has(Feature.PARAMETRIC_SURFACE_IS_REGION);
 	}
-
 
 	@Override
 	public void pointChangedForRegion(GeoPointND P) {
@@ -554,9 +550,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 						}
 					}
 				}
-
 			}
-
 		}
 
 		return !Double.isNaN(finalError);
@@ -600,13 +594,10 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 			// check bounds
 			randomBackInIntervalsIfNeeded(uvParams);
-
 		}
 
 		return Double.NaN;
 	}
-
-
 
 	@Override
 	public void regionChanged(GeoPointND P) {
