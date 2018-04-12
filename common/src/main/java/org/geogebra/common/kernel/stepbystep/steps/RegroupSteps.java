@@ -832,13 +832,15 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				sb.add(SolutionStepType.ZERO_IN_ADDITION, tracker.incColorTracker());
 			}
 
+			if (newSum.noOfOperands() == 0) {
+				return newConstants;
+			}
+
 			if (!isEqual(constantSum, 0)) {
 				newSum.addOperand(newConstants);
 			}
 
-			if (newSum.noOfOperands() == 0) {
-				return StepConstant.create(0);
-			} else if (newSum.noOfOperands() == 1) {
+			if (newSum.noOfOperands() == 1) {
 				return newSum.getOperand(0);
 			}
 
@@ -851,6 +853,25 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIVIDE)) {
 				StepOperation so = (StepOperation) sn;
+
+				if (so.getOperand(0).equals(so.getOperand(1))) {
+					StepExpression result = StepConstant.create(1);
+					so.setColor(tracker.getColorTracker());
+					result.setColor(tracker.getColorTracker());
+
+					sb.add(SolutionStepType.DIVIDED_BY_ITSELF, tracker.incColorTracker());
+					return result;
+				}
+
+				if (so.getOperand(0).isInteger() && so.getOperand(1).isInteger()
+						&& so.getOperand(0).integerDivisible(so.getOperand(1))) {
+					StepExpression result = so.getOperand(0).quotient(so.getOperand(1));
+					so.setColor(tracker.getColorTracker());
+					result.setColor(tracker.getColorTracker());
+
+					sb.add(SolutionStepType.EVALUATE_DIVISION, tracker.incColorTracker());
+					return result;
+				}
 
 				if (isEqual(so.getOperand(0), 0)) {
 					StepExpression result = StepConstant.create(0);
@@ -1785,6 +1806,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
+					TRIVIAL_FRACTIONS,
 					NEGATIVE_FRACTIONS,
 					ELIMINATE_OPPOSITES,
 					REGROUP_SUMS,
@@ -1793,8 +1815,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					FACTOR_FRACTIONS,
 					FACTOR_MINUS_FROM_SUMS,
 					CANCEL_FRACTION,
-					CANCEL_INTEGER_FRACTION,
-					TRIVIAL_FRACTIONS
+					CANCEL_INTEGER_FRACTION
 			};
 
 			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);

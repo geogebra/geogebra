@@ -86,6 +86,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void regroupTest() {
+		r("2 - 2", "0");
 		r("(-(nroot(7, 2))^(3) + (7)(nroot(7, 2)))", "0");
 		r("((nroot(2, 2))^(3))/(8)", "(nroot(2, 2))/(4)");
 		r("nroot(81x^(3)y^(4), 3)", "(3)(x)(y)(nroot((3)(y), 3))");

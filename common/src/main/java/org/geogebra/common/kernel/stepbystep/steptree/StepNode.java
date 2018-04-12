@@ -64,6 +64,13 @@ public abstract class StepNode implements TableElement {
 		} else if (this instanceof StepSolvable) {
 			((StepSolvable) this).getLHS().setColor(color);
 			((StepSolvable) this).getRHS().setColor(color);
+		} else if (this instanceof StepMatrix) {
+			StepMatrix sm = (StepMatrix) this;
+			for (int i = 0; i < sm.getHeight(); i++) {
+				for (int j = 0; j < sm.getWidth(); j++) {
+					sm.get(i, j).setColor(color);
+				}
+			}
 		}
 	}
 

@@ -297,6 +297,18 @@ public class StepStrategies {
 			result.modify(newLHS, newRHS);
 
 			return result;
+		} else if (sn instanceof StepMatrix) {
+			StepMatrix sm = (StepMatrix) sn;
+
+			StepMatrix result = sm.deepCopy();
+			for (int i = 0; i < sm.getHeight(); i++) {
+				for (int j = 0; j < sm.getWidth(); j++) {
+					StepExpression elem = (StepExpression) step.apply(sm.get(i, j), sb, tracker);
+					result.set(i, j, elem);
+				}
+			}
+
+			return result;
 		}
 
 		return sn;

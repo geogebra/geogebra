@@ -68,6 +68,11 @@ public class SystemStepTest {
         t(new String[] {"x + y - 3 = -z", "2x + 2y + 3z = 8 - z", "-12 + 4x + 5y + 5z = x + y"}, 2);
     }
 
+    @Test
+    public void gaussJordanElimination() {
+        t(new String[] {"x + y - 3 = -z", "2x + 2y + 3z = 8 - z", "-12 + 4x + 5y + 5z = x + y"}, 3);
+    }
+
     public void t(String[] equations, int method, String... expectedSolutions) {
         if (needsHeading) {
             Throwable t = new Throwable();
@@ -95,6 +100,9 @@ public class SystemStepTest {
                     break;
                 case 2:
                     SystemSteps.cramersRule(ses, steps);
+                    break;
+                case 3:
+                    SystemSteps.gaussJordanElimination(ses, steps);
             }
         } catch (SolveFailedException e) {
             htmlBuilder.addHeading("Failed: ", 4);

@@ -287,13 +287,17 @@ public enum SolutionStepType {
 
 	ZERO_IN_ADDITION("AddingOrSubtractionZero", "When adding or subtracting zero, the quantity does not change"),
 
-	ZERO_DIVIDED("ZeroDivided", "Zero divided by anything is zero"),
+	ZERO_DIVIDED("ZeroDivided", "Evaluate Fractions", "Zero divided by anything is zero"),
+
+	EVALUATE_DIVISION("EvaluateDivision", "Evaluate Fractions", "Evaluate the division"),
+
+	DIVIDED_BY_ITSELF("DividedByItself", "Evaluate Fractions", "Any expression divided by itself equals 1"),
 
 	DIVIDED_BY_ZERO("DividedByZero", "The expression is undefined", "Any expression divided by zero is undefined"),
 
-	DIVIDE_BY_ONE("DividedByOne", "Any expression divided by one remains the same"),
+	DIVIDE_BY_ONE("DividedByOne", "Evaluate Fractions", "Any expression divided by one remains the same"),
 	
-	DIVIDE_BY_NEGATVE_ONE("DividedByNegativeOne", "Any expression divided by negative one negates the expression"),
+	DIVIDE_BY_NEGATVE_ONE("DividedByNegativeOne", "Evaluate Fractions", "Any expression divided by negative one negates the expression"),
 
 	REWRITE_AS("RewriteAAsB", "Rewrite %0 as %1"),
 
@@ -508,7 +512,18 @@ public enum SolutionStepType {
 	USE_LEIBNIZ_FORMULA("UseLeibnizFormula", "Evaluate the determinant",
 			"Use the Leibniz formula to evaluate the determinant"),
 
-	CALCULATE_DETERINANT("CalculateDeterminant", "Calculate the determinant %0");
+	CALCULATE_DETERINANT("CalculateDeterminant", "Calculate the determinant %0"),
+
+    WRITE_IN_MATRIX_FORM("WriteInMatrixForm", "Write the equation in matrix form"),
+
+	MULTIPLY_ROW_AND_ADD("MultiplyRowAndAdd", "Multiply row %0 by %1 and add it to row %2"),
+
+	MULTIPLY_EACH_ELEMENT_AND_ADD("MultiplyEachElementAndAdd",
+			"Multiply each element in row %0 by %1 and add that product to row %2"),
+
+	DIVIDE_ROW("DivideRow", "Divide row %0 by %1"),
+
+	DIVIDE_EACH_ELEMENT("DivideEachElement", "Divide each element in row %0 by %1");
 
 	private final String keyText;
 	private final String defaultText;

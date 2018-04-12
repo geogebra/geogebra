@@ -330,4 +330,82 @@ public class SystemSteps {
         solutions.add(solution);
         return solutions;
     }
+
+    public static List<StepSolution> gaussJordanElimination(StepEquationSystem ses, SolutionBuilder steps) {
+        Set<StepVariable> variablesSet = new HashSet<>();
+        ses.getListOfVariables(variablesSet);
+        StepVariable[] variables = variablesSet.toArray(new StepVariable[0]);
+
+        steps.add(SolutionStepType.SOLVE, ses);
+
+        SolutionBuilder tempSteps = new SolutionBuilder();
+
+        StepExpression[][] matrixData = new StepExpression[ses.getEquations().length][variables.length + 1];
+
+        for (int i = 0; i < ses.getEquations().length; i++) {
+            ses.getEquation(i).reorganize(tempSteps, null, i);
+
+            for (int j = 0; j < variables.length; j++) {
+                int degree = ses.getEquation(i).degree(variables[j]);
+                if (degree != 0 && degree != 1) {
+                    throw new SolveFailedException("nonlinear equation in elimination");
+                }
+
+                matrixData[i][j] = ses.getEquation(i).getLHS().findCoefficient(variables[j]);
+            }
+            matrixData[i][variables.length] = ses.getEquation(i).getRHS();
+        }
+
+        steps.addGroup(SolutionStepType.REORGANIZE_EXPRESSION, tempSteps, ses);
+
+        StepMatrix matrix = new StepMatrix(matrixData);
+        matrix.setAugmented();
+
+        steps.addSubstep(ses, matrix, SolutionStepType.WRITE_IN_MATRIX_FORM);
+
+        boolean[] solved = new boolean[variables.length];
+        for (int k = 0; k < variables.length; k++) {
+            for (int i = 0; i < ses.getEquations().length; i++) {
+                StepExpression GCD = matrix.get(i, 0);
+                for (int j = 1; j <= variables.length; j++ ) {
+                    GCD = StepHelper.GCD(GCD, matrix.get(i, j));
+                }
+                if (!isOne(GCD)) {
+                    matrix = matrix.divideRow(i, GCD, steps);
+                }
+            }
+
+            int pivoti = -1;
+            int pivotj = -1;
+            for (int i = 0; i < ses.getEquations().length; i++) {
+                for (int j = 0; j < variables.length; j++) {
+                    if (solved[i] || isZero(matrix.get(i, j))) {
+                        continue;
+                    }
+
+                    if (pivoti == -1) {
+                        pivoti = i;
+                        pivotj = j;
+                    }
+                }
+            }
+
+            if (pivoti == -1) {
+                break;
+            }
+
+            solved[pivoti] = true;
+            StepExpression pivot = matrix.get(pivoti, pivotj);
+            for (int i = 0; i < ses.getEquations().length; i++) {
+                if (i == pivoti || isZero(matrix.get(i, pivotj))) {
+                    continue;
+                }
+
+                StepExpression coefficient = divide(matrix.get(i, pivotj), pivot).regroup();
+                matrix = matrix.addRow(pivoti, i, coefficient.negate(), steps);
+            }
+        }
+
+        return null;
+    }
 }
