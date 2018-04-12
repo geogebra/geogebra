@@ -1676,9 +1676,9 @@ namespace giac {
 	else
 	  b=b._SYMBptr->feuille;
 	if (sina)
-	  a=cst_pi/2-a;
+	  a=a-cst_pi/2;
 	if (sinb)
-	  b=cst_pi/2-b;
+	  b=b-cst_pi/2;
 	// cos(a)+cos(b)=0 equivalent to cos((a+b)/2)*cos((a-b)/2)=0
 	expr=cos((a+b)/2,contextptr)*cos((a-b)/2,contextptr);
 	return expr;
