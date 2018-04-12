@@ -1953,7 +1953,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		if (previewFromInputBarGeos != null) {
 			for (GeoElement geo : previewFromInputBarGeos) {
-				remove(geo);
+				if (!geo.isLabelSet()) {
+					remove(geo);
+				}
 			}
 		}
 		previewFromInputBarGeos = geos;
@@ -1975,6 +1977,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (previewFromInputBarGeos != null) {
 			for (GeoElement geo : previewFromInputBarGeos) {
 				needsRepaint = createPreviewDrawable(geo) || needsRepaint;
+				needsRepaint = updatePreviewDrawable(geo) || needsRepaint;
 			}
 		}
 
@@ -1983,6 +1986,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (needsRepaint) {
 			repaint();
 		}
+	}
+
+	private boolean updatePreviewDrawable(GeoElement geo) {
+		if (drawableMap.containsKey(geo)) {
+			DrawableND drawable = drawableMap.get(geo);
+			drawable.setNeedsUpdate(true);
+			return true;
+		}
+		return false;
 	}
 
 	/**

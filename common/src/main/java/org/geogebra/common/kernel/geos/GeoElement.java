@@ -5288,14 +5288,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return algebraic representation for preview output
 	 */
 	final public String getAlgebraDescriptionForPreviewOutput() {
-		String text = getAlgebraDescription(StringTemplate.latexTemplate)
-				.replace("null", "").trim();
-		if (!StringUtil.empty(text)
-				&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
-			text = text.substring(1);
-		}
-
-		return text;
+		return getAlgebraDescriptionRHSLaTeX();
 	}
 
 	/**
