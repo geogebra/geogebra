@@ -54,7 +54,7 @@ public class DrawVideo extends Drawable {
 		top = video.getAbsoluteScreenLocY();
 
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
-		if (bounds != null) {
+		if (bounds != null && getBoundingBox() != null) {
 			getBoundingBox().setRectangle(bounds);
 		}
 	}
