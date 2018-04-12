@@ -5,6 +5,9 @@ import org.geogebra.common.main.App.InputPosition;
 
 import com.google.gwt.dom.client.Element;
 
+/**
+ *
+ */
 public interface ArticleElementInterface {
 
 	/**
@@ -451,5 +454,15 @@ public interface ArticleElementInterface {
 	 * @return scale container CSS class
 	 */
 	String getParamScaleContainerClass();
+
+	/**
+	 * @return whether to allow scale > 1
+	 */
+	boolean getParamAllowUpscale();
+
+	/**
+	 * @return whether to allow changing scale
+	 */
+	boolean getParamAllowScale();
 
 }

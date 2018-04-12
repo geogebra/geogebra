@@ -82,8 +82,9 @@ public class LayoutUtilW {
 	 *            yscale
 	 * @return smaller scale
 	 */
-	public static double getDeviceScale(double xscale, double yscale) {
-		if (xscale < 1 || yscale < 1) {
+	public static double getDeviceScale(double xscale, double yscale,
+			boolean allowUpscale) {
+		if (xscale < 1 || yscale < 1 || !allowUpscale) {
 			return Math.min(1d, Math.min(xscale, yscale));
 		}
 		return Math.max(1d, Math.min(xscale, yscale));

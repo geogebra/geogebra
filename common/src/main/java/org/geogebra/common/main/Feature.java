@@ -285,8 +285,5 @@ public enum Feature {
 	/** MOB-1514 */
 	MOB_PACK_CONIC,
 
-	/** GGB-2269 */
-	SCALE_CONTAINER
-
 }
 

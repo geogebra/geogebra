@@ -4366,9 +4366,6 @@ public abstract class App implements UpdateSelection {
 		case IMAGE_EXPORT:
 			return true;
 
-		case SCALE_CONTAINER:
-			return prerelease;
-
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

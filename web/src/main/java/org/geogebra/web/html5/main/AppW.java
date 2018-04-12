@@ -316,18 +316,22 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void checkScaleContainer() {
 		if (!StringUtil
-				.empty(getArticleElement().getParamScaleContainerClass())
-				&& has(Feature.SCALE_CONTAINER)) {
-			scaleTo(getParent(
-					getArticleElement().getParamScaleContainerClass()));
+				.empty(getArticleElement().getParamScaleContainerClass())) {
+			Element parent = getParent(
+					getArticleElement().getParamScaleContainerClass());
+			scaleTo(parent.getOffsetWidth(), parent.getOffsetHeight());
+		} else if (getArticleElement().getParamAllowScale()) {
+			scaleTo(Window.getClientWidth() - (int) getAbsLeft(),
+					Window.getClientHeight());
 		}
 
 	}
 
-	private void scaleTo(Element parent) {
-		double xscale = parent.getOffsetWidth() / getWidth();
-		double yscale = parent.getOffsetHeight() / getHeight();
-		double scale = LayoutUtilW.getDeviceScale(xscale, yscale);
+	private void scaleTo(int width, int height) {
+		double xscale = width / getWidth();
+		double yscale = height / getHeight();
+		double scale = LayoutUtilW.getDeviceScale(xscale, yscale,
+				getArticleElement().getParamAllowUpscale());
 		Log.printStacktrace(xscale + "," + yscale + "=>" + scale);
 		Browser.scale(articleElement.getParentElement(), scale, 0, 0);
 		getArticleElement().resetScale();

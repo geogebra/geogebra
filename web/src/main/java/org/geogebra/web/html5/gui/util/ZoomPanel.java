@@ -420,7 +420,7 @@ public class ZoomPanel extends FlowPanel
 	protected void scaleApplet(Element scaler, Element container) {
 		double xscale = Window.getClientWidth() / app.getWidth();
 		double yscale = Window.getClientHeight() / app.getHeight();
-		double scale = LayoutUtilW.getDeviceScale(xscale, yscale);
+		double scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
 		Browser.scale(scaler, scale, 0, 0);
 		Browser.scale(getElement(), 1 / scale, 120, 100);
 		container.getStyle().setPosition(Position.ABSOLUTE);

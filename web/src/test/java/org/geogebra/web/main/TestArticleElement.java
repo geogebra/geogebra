@@ -6,6 +6,9 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 
+/**
+ * Mock of the article element
+ */
 public class TestArticleElement implements ArticleElementInterface {
 
 	private String appName;
@@ -395,6 +398,16 @@ public class TestArticleElement implements ArticleElementInterface {
 	@Override
 	public String getParamScaleContainerClass() {
 		return "";
+	}
+
+	@Override
+	public boolean getParamAllowUpscale() {
+		return false;
+	}
+
+	@Override
+	public boolean getParamAllowScale() {
+		return false;
 	}
 
 }
