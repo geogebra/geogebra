@@ -180,7 +180,8 @@ public class DrawVector extends Drawable implements Previewable {
 	 */
 	private void setArrow(double lineThickness) {
 		// screen coords of start and end point of vector
-
+		final boolean onscreenA = view.toScreenCoords(coordsA);
+		final boolean onscreenB = view.toScreenCoords(coordsB);
 		coordsV[0] = coordsB[0] - coordsA[0];
 		coordsV[1] = coordsB[1] - coordsA[1];
 
@@ -208,8 +209,7 @@ public class DrawVector extends Drawable implements Previewable {
 			line = AwtFactory.getPrototype().newLine2D();
 		}
 		lineVisible = true;
-		boolean onscreenA = view.toScreenCoords(coordsA);
-		boolean onscreenB = view.toScreenCoords(coordsB);
+
 		if (onscreenA && onscreenB) {
 			// A and B on screen
 			line.setLine(coordsA[0], coordsA[1], coordsF[0], coordsF[1]);
