@@ -291,7 +291,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	@Override
 	public void onPointerDown(int x, int y) {
         if (selectionMode) {
-            ArrayList<Integer> list = new ArrayList<Integer>();
+			ArrayList<Integer> list = new ArrayList<>();
 			if (SelectionBox.touchSelection) {
 				if (length(SelectionBox.startX - x,
 						SelectionBox.startY - y) < 10) {
@@ -334,7 +334,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				selectionDrag = false;
 				return;
 			}
-            ArrayList<Integer> list = new ArrayList<Integer>();
+			ArrayList<Integer> list = new ArrayList<>();
             mathFieldController.getPath(mathFormula, x, y, list);
 			MathComponent cursor = editorState.getCursorField(
 					editorState.getSelectionEnd() != null && selectionLeft(x));
@@ -408,7 +408,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	}
 	
 	private void moveToSelectionDirect(int x, int y) {
-		ArrayList<Integer> list2 = new ArrayList<Integer>();
+		ArrayList<Integer> list2 = new ArrayList<>();
 		EditorState mc = mathFieldController.getPath(mathFormula, x, y,
 				list2);
 		if (mc != null && mc.getCurrentField() != null) {
@@ -430,7 +430,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		MathSequence closestComponent = null;
 		int closestOffset = -1;
 		do  {
-			ArrayList<Integer> list2 = new ArrayList<Integer>();
+			ArrayList<Integer> list2 = new ArrayList<>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
 					editorState.getCurrentOffset());
@@ -447,7 +447,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			editorState.setCurrentField(closestComponent);
 			editorState.setCurrentOffset(closestOffset);
 
-			ArrayList<Integer> list2 = new ArrayList<Integer>();
+			ArrayList<Integer> list2 = new ArrayList<>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
 					editorState.getCurrentOffset());
@@ -466,7 +466,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			mathFieldController.update(mathFormula, editorState, false);
 			return;
 		}
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		ArrayList<Integer> list = new ArrayList<>();
 		mathFieldController.getPath(mathFormula, x, y, list);
 		MathComponent cursor = editorState.getCursorField(
 				editorState.getSelectionEnd() == null || selectionLeft(x));
@@ -579,7 +579,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			insertStringFinished();
 			return;
 		}
-		ArrayList<Integer> path = new ArrayList<Integer>();
+		ArrayList<Integer> path = new ArrayList<>();
 		path.add(getEditorState().getCurrentOffset()
 				- getEditorState().getCurrentField().size());
 		MathContainer field = getEditorState().getCurrentField();

@@ -243,7 +243,7 @@ public class MathArray extends MathContainer {
     }
 
     private void flattenMatrix() {
-        ArrayList<MathComponent> entries = new ArrayList<MathComponent>();
+		ArrayList<MathComponent> entries = new ArrayList<>();
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < ((MathContainer) getArgument(i)
                     .getArgument(0)).size(); j++) {

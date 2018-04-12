@@ -70,7 +70,7 @@ class MetaModelFunctions {
     }
 
 	ListMetaGroup createGeneralFunctionsGroup() {
-        List<MetaComponent> functions = new ArrayList<MetaComponent>();
+		List<MetaComponent> functions = new ArrayList<>();
 
 		functions.add(createFunctionParams(Tag.SUBSCRIPT, "i"));
 		functions.add(createFunctionParams(Tag.SUPERSCRIPT, "n"));

@@ -133,7 +133,7 @@ abstract public class MathContainer extends MathComponent {
 
 	protected void ensureArguments(int size) {
         if (arguments == null) {
-            arguments = new ArrayList<MathComponent>(size);
+			arguments = new ArrayList<>(size);
         } else {
             arguments.ensureCapacity(size);
         }
@@ -159,7 +159,7 @@ abstract public class MathContainer extends MathComponent {
 	 */
     public void setArgument(int i, MathComponent argument) {
         if (arguments == null) {
-            arguments = new ArrayList<MathComponent>(i + 1);
+			arguments = new ArrayList<>(i + 1);
         }
         if (argument != null) {
             argument.setParent(this);
@@ -169,7 +169,7 @@ abstract public class MathContainer extends MathComponent {
 
 	public void removeArgument(int i) {
 		if (arguments == null) {
-			arguments = new ArrayList<MathComponent>(i + 1);
+			arguments = new ArrayList<>(i + 1);
 		}
 		if (arguments.get(i) != null) {
 			arguments.get(i).setParent(null);
@@ -179,7 +179,7 @@ abstract public class MathContainer extends MathComponent {
 
     public void clearArguments() {
         if (arguments == null) {
-            arguments = new ArrayList<MathComponent>();
+			arguments = new ArrayList<>();
         }
         for (int i = arguments.size() - 1; i > -1; i--) {
             removeArgument(i);
@@ -188,7 +188,7 @@ abstract public class MathContainer extends MathComponent {
 
     public void addArgument(MathComponent argument) {
         if (arguments == null) {
-            arguments = new ArrayList<MathComponent>(1);
+			arguments = new ArrayList<>(1);
         }
         if (argument != null) {
             argument.setParent(this);
@@ -198,7 +198,7 @@ abstract public class MathContainer extends MathComponent {
 
 	public boolean addArgument(int index, MathComponent argument) {
         if (arguments == null) {
-            arguments = new ArrayList<MathComponent>(index + 1);
+			arguments = new ArrayList<>(index + 1);
         }
         if (argument != null) {
             argument.setParent(this);

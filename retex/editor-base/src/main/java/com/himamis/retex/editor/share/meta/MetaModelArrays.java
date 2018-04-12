@@ -25,7 +25,7 @@ public class MetaModelArrays {
     }
 
 	ListMetaGroup createArraysGroup() {
-        List<MetaComponent> components = new ArrayList<MetaComponent>();
+		List<MetaComponent> components = new ArrayList<>();
 		MetaArray curly = new MetaArray(1, Tag.CURLY);
 		curly.setOpen(createArrayComponent(OPEN, '{', "\\left\\lbrace "));
 		curly.setClose(createArrayComponent(CLOSE, '}', "\\right\\rbrace "));

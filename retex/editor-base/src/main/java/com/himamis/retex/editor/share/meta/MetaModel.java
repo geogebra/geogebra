@@ -65,7 +65,7 @@ public class MetaModel {
 	private ListMetaGroup arrayGroup;
 	private ListMetaGroup generalFunctionGroup;
 	private MetaGroupCollection operatorGroup;
-	private HashMap<String, MetaCharacter> mergeLookup = new HashMap<String, MetaCharacter>();
+	private HashMap<String, MetaCharacter> mergeLookup = new HashMap<>();
 	private MetaGroupCollection symbolGroup;
 
     public MetaModel() {

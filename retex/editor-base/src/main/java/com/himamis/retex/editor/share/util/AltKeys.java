@@ -8,8 +8,8 @@ public class AltKeys {
 			lookupUpper = null;
 
 	private static void init(boolean chromeApp) {
-		lookupLower = new HashMap<Character, String>();
-		lookupUpper = new HashMap<Character, String>();
+		lookupLower = new HashMap<>();
+		lookupUpper = new HashMap<>();
 
 		lookupLower.put('A', Unicode.alpha + "");
 		lookupUpper.put('A', Unicode.Alpha + "");

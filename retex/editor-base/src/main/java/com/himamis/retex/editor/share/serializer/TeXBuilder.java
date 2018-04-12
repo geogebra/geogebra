@@ -228,7 +228,7 @@ public class TeXBuilder {
 			MathComponent selectionEnd1) {
 		this.currentField = currentField1;
 		this.currentOffset = currentOffset1;
-		this.atomToComponent = new HashMap<Atom, MathComponent>();
+		this.atomToComponent = new HashMap<>();
 		this.selectionStart = selectionStart1;
 		this.selectionEnd = selectionEnd1;
 		return build(rootComponent);

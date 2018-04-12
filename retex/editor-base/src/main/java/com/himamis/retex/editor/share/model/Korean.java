@@ -34,7 +34,7 @@ public class Korean {
 	static HashMap<Character, Character> getKoreanLeadToTail() {
 
 		if (koreanLeadToTail == null) {
-			koreanLeadToTail = new HashMap<Character, Character>();
+			koreanLeadToTail = new HashMap<>();
 
 			koreanLeadToTail.put('\u1100', '\u11a8');
 			koreanLeadToTail.put('\u1101', '\u11a9');
@@ -89,7 +89,7 @@ public class Korean {
 	static HashMap<Character, Character> getKoreanTailToLead() {
 
 		if (koreanTailToLead == null) {
-			koreanTailToLead = new HashMap<Character, Character>();
+			koreanTailToLead = new HashMap<>();
 
 			koreanTailToLead.put('\u11a8', '\u1100');
 			koreanTailToLead.put('\u11a9', '\u1101');

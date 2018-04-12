@@ -169,10 +169,10 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 
 	public GeoElement[] getTransformedOutput(Transform t) {
 
-		GeoPointND p1 = (GeoPointND) t.transform((GeoElement) origin,
-				Transform.transformedGeoLabel((GeoElement) origin))[0];
-		GeoPointND p2 = (GeoPointND) t.transform((GeoElement) secondPoint,
-				Transform.transformedGeoLabel((GeoElement) secondPoint))[0];
+		GeoPointND p1 = (GeoPointND) t.transform(origin,
+				Transform.transformedGeoLabel(origin))[0];
+		GeoPointND p2 = (GeoPointND) t.transform(secondPoint,
+				Transform.transformedGeoLabel(secondPoint))[0];
 		Transform.setVisualStyleForTransformations((GeoElement) origin,
 				(GeoElement) p1);
 		Transform.setVisualStyleForTransformations((GeoElement) secondPoint,

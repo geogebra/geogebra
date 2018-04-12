@@ -324,7 +324,7 @@ public abstract class CopyPasteCut {
 
 			// do the pasting
 			for (int i = 0; i < count; i++) {
-				Record r = (Record) constructionIndexes[i];
+				Record r = constructionIndexes[i];
 				int ix = r.getx1();
 				int iy = r.gety1();
 				values2[ix][iy] = RelativeCopy.doCopyNoStoringUndoInfo0(kernel,

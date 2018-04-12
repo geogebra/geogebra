@@ -312,7 +312,7 @@ public class CursorController {
 
     public static ArrayList<Integer> getPath(EditorState editorState){
 
-        ArrayList<Integer> path = new ArrayList<Integer>();
+		ArrayList<Integer> path = new ArrayList<>();
 
         path.add(editorState.getCurrentOffset());
         MathContainer field = editorState.getCurrentField();
