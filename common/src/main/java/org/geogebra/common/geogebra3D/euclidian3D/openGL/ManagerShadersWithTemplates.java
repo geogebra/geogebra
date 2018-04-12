@@ -17,6 +17,8 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 	 */
 	static public int POINT_TEMPLATES_COUNT = 3;
 
+	private int[] pointGeometry;
+
 	/**
 	 * 
 	 * @param pointSize
@@ -43,8 +45,6 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 			return 7;
 		}
 	}
-
-	private int[] pointGeometry;
 
 	/**
 	 * constructor
