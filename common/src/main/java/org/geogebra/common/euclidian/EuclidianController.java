@@ -7986,16 +7986,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// TEMPORARY_MODE true -> dragging slider using Slider Tool
 		// or right-hand mouse button
 
-		if (app.has(Feature.MOB_INCREASE_TOUCHABLE_AREA)) {
-			boolean hitSliderNotBlob = ds.hitSliderNotBlob(mouseLoc.x, mouseLoc.y, hitThreshold);
-			return ((temporaryMode && app.isRightClickEnabled()) || !movedGeoNumeric.isSliderFixed())
+		boolean hitSliderNotBlob = ds.hitSliderNotBlob(mouseLoc.x, mouseLoc.y, hitThreshold);
+		return ((temporaryMode && app.isRightClickEnabled()) || !movedGeoNumeric.isSliderFixed())
 					&& hitSliderNotBlob;
-		}
 
-		boolean hitPoint = ds.hitPoint(mouseLoc.x, mouseLoc.y, hitThreshold);
-		boolean hitSlider = ds.hitSlider(mouseLoc.x, mouseLoc.y, hitThreshold);
-		return ((temporaryMode && app.isRightClickEnabled())
-				|| !movedGeoNumeric.isSliderFixed()) && !hitPoint && hitSlider;
 		// return ((temporaryMode && app.isRightClickEnabled()) ||
 		// !movedGeoNumeric
 		// .isSliderFixed())
