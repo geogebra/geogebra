@@ -3968,10 +3968,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_AND_CHECKBOXES_AND_STATUS_BAR:
 			return true;
 
-		// MOB-1259
-		case MOB_INCREASE_TOUCHABLE_AREA:
-			return true;
-
 		// AND-875
 		case MOB_LOAD_SAVE_FOR_PRE_LOLLIPOP:
 			return true;
