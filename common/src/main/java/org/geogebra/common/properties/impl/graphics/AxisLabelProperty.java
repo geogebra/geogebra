@@ -18,6 +18,7 @@ public class AxisLabelProperty extends AbstractProperty implements StringPropert
      *
      * @param localization      localization for the title
      * @param euclidianSettings euclidian settings
+     * @param label             the name of the axis
      * @param axis              the axis for label
      */
     public AxisLabelProperty(Localization localization, EuclidianSettings euclidianSettings, String label, int axis) {
@@ -29,7 +30,7 @@ public class AxisLabelProperty extends AbstractProperty implements StringPropert
     @Override
     public String getValue() {
         if (!isEnabled()) {
-             return EuclidianSettings.DEFAULT_AXIS_LABELS[axis];
+            return EuclidianSettings.DEFAULT_AXIS_LABELS[axis];
         }
         String axisLabel = euclidianSettings.getAxesLabels()[axis];
         return axisLabel == null ? "" : axisLabel;
