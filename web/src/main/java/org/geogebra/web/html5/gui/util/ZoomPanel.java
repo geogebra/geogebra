@@ -177,7 +177,7 @@ public class ZoomPanel extends FlowPanel
 			app.getArticleElement().resetScale();
 			app.recalculateEnvironments();
 		}
-
+		app.checkScaleContainer();
 		Browser.scale(getElement(), 1, 0, 0);
 	}
 
@@ -364,6 +364,8 @@ public class ZoomPanel extends FlowPanel
 				containerProps.put("position", containerPositionBefore);
 				setContainerProp(container, "width", "100%");
 				setContainerProp(container, "height", "100%");
+				setContainerProp(container, "maxWidth", "100%");
+				setContainerProp(container, "maxHeight", "100%");
 				setContainerProp(container, "marginLeft", "0");
 				setContainerProp(container, "marginTop", "0");
 

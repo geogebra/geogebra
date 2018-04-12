@@ -311,7 +311,10 @@ public abstract class AppW extends App implements SetLabels {
 		checkScaleContainer();
 	}
 
-	protected void checkScaleContainer() {
+	/**
+	 * Scale to container if needed.
+	 */
+	public void checkScaleContainer() {
 		if (!StringUtil
 				.empty(getArticleElement().getParamScaleContainerClass())
 				&& has(Feature.SCALE_CONTAINER)) {
@@ -3090,6 +3093,7 @@ public abstract class AppW extends App implements SetLabels {
 	 *            keyboard listener
 	 * @param forceShow
 	 *            whether it must appear now
+	 * @return whether keybaord is shown
 	 */
 	public boolean showKeyboard(MathKeyboardListener textField,
 			boolean forceShow) {
