@@ -37,7 +37,9 @@ public class AxesLabelsVisibilityProperty extends AbstractProperty implements Bo
     public void setValue(boolean value) {
         int length = euclidianSettings.getAxesLabels().length;
         for (int i = 0; i < length; i++) {
-            euclidianSettings.setAxisLabel(i, value ? EuclidianSettings.DEFAULT_AXIS_LABELS[i] : null, i == length - 1);
+			euclidianSettings.setAxisLabel(i,
+					value ? EuclidianSettings.getDefaultAxisLabel(i) : null,
+					i == length - 1);
         }
     }
 }

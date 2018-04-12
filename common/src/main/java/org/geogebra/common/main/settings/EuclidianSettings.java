@@ -26,7 +26,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class EuclidianSettings extends AbstractSettings {
 
-	public static final String[] DEFAULT_AXIS_LABELS = { "x", "y", "z" };
+	private static final String[] DEFAULT_AXIS_LABELS = { "x", "y", "z" };
 	public static final int[] DELETE_SIZES = { 20, 40, 80 };
 
 	/**
@@ -1181,6 +1181,15 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public boolean isEnabledSet() {
 		return enabledEB != ExtendedBoolean.UNKNOWN;
+	}
+
+	/**
+	 * @param i
+	 *            axis index
+	 * @return default label
+	 */
+	public static String getDefaultAxisLabel(int i) {
+		return DEFAULT_AXIS_LABELS[i];
 	}
 
 }
