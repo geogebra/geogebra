@@ -4,7 +4,6 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.DistanceFunction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
@@ -28,7 +27,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
-import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -463,101 +461,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * @return optimal parameter value t
 	 */
 	@Override
-	public double getClosestParameter(GeoPointND P, double startValue) {
-		double startVal = startValue;
-		if (distFun == null) {
-			distFun = new CurveCartesian3DDistanceFunction(this);
-		}
-
-		distFun.setDistantPoint(P);
-
-		// check if P is on this curve and has the right path parameter already
-		if (P.getPath() == this) {
-			// point A is on curve c, take its parameter
-			PathParameter pp = P.getPathParameter();
-			double pathParam = pp.t;
-			if (distFun.value(pathParam) < Kernel.MIN_PRECISION
-					* Kernel.MIN_PRECISION) {
-				return pathParam;
-			}
-
-			// if we don't have a startValue yet, let's take the path parameter
-			// as a guess
-			if (Double.isNaN(startVal)) {
-				startVal = pathParam;
-			}
-		}
-
-		// first sample distFun to find a start intervall for ExtremumFinder
-		double step = (endParam - startParam) / CLOSEST_PARAMETER_SAMPLES;
-		double minVal = distFun.value(startParam);
-		double minParam = startParam;
-		double t = startParam;
-		for (int i = 0; i < CLOSEST_PARAMETER_SAMPLES; i++) {
-			t = t + step;
-			double ft = distFun.value(t);
-			if (ft < minVal) {
-				// found new minimum
-				minVal = ft;
-				minParam = t;
-			}
-		}
-
-		// use interval around our minParam found by sampling
-		// to find minimum
-		// Math.max/min removed and ParametricCurveDistanceFunction modified
-		// instead
-		double left = minParam - step;
-		double right = minParam + step;
-
-		ExtremumFinderI extFinder = kernel.getExtremumFinder();
-		double sampleResult = extFinder.findMinimum(left, right, distFun,
-				Kernel.MIN_PRECISION);
-
-		sampleResult = adjustRange(sampleResult);
-
-		// if we have a valid startParam we try the interval around it too
-		// however, we don't check the same interval again
-		if (!Double.isNaN(startVal) && (startVal < left || right < startVal)) {
-
-			// Math.max/min removed and ParametricCurveDistanceFunction modified
-			// instead
-			left = startVal - step;
-			right = startVal + step;
-
-			double startValResult = extFinder.findMinimum(left, right, distFun,
-					Kernel.MIN_PRECISION);
-
-			startValResult = adjustRange(startValResult);
-
-			if (distFun
-					.value(startValResult) < distFun.value(sampleResult)
-							+ Kernel.MIN_PRECISION / 2) {
-				return startValResult;
-			}
-		}
-
-		return sampleResult;
-	}
-
-	/**
-	 * allow a curve like Curve[sin(t), cos(t), t, 0, 12*2pi] to "join up"
-	 * properly at 0 and 12*2pi
-	 * 
-	 * @param startValResult
-	 * @return startValResult adjusted to be in range [startParam, endParam] if
-	 *         it's just outside
-	 */
-	private double adjustRange(double startValResult) {
-		if (startValResult < startParam) {
-			return startValResult + (endParam - startParam);
-		}
-
-		if (startValResult > endParam) {
-			return startValResult - (endParam - startParam);
-		}
-
-		return startValResult;
+	protected DistanceFunction createDistanceFunction() {
+		return new CurveCartesian3DDistanceFunction(this);
 	}
 
 	// /////////////////////////////////////

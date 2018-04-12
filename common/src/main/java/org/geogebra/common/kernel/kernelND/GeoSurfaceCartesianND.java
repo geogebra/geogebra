@@ -782,14 +782,40 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		return a + (b - a) * cons.getApplication().getRandomNumber();
 	}
 
+	/**
+	 * @param i
+	 *            coordinate index
+	 * @param j
+	 *            derivative variable index
+	 * @param k
+	 *            derivative variable index
+	 * @param d
+	 *            variable values
+	 * @return second derivative
+	 */
 	protected double fun2evaluate(int i, int j, int k, double[] d) {
 		return fun2[i][j][k].evaluate(d);
 	}
 
+	/**
+	 * @param i
+	 *            coordinate index
+	 * @param j
+	 *            derivative variable index
+	 * @param d
+	 *            variable values
+	 * @return first derivative
+	 */
 	protected double fun1evaluate(int i, int j, double[] d) {
 		return fun1[i][j].evaluate(d);
 	}
 
+	/**
+	 * Mirror in point.
+	 * 
+	 * @param Q
+	 *            center
+	 */
 	public void mirror(Coords Q) {
 		dilate(new MyDouble(kernel, -1.0), Q);
 	}

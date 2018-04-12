@@ -324,6 +324,12 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public double distanceToPath(PathOrPoint path);
 
+	/**
+	 * @param path
+	 *            path
+	 * @param isStartPoint
+	 *            whether this is start point of the path
+	 */
 	public void addIncidence(GeoElement path, boolean isStartPoint);
 
 	/**

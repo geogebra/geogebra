@@ -4,6 +4,9 @@ import java.util.TreeMap;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.DistanceFunction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ParametricCurveDistanceFunction;
+import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -18,6 +21,7 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.ParametricCurve;
+import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -488,15 +492,114 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	}
 
 	/**
+	 * Returns the parameter value t where this curve has minimal distance to
+	 * point P.
 	 * 
-	 * @param p
-	 *            point
-	 * @param minParameter
-	 *            minimal parameter
-	 * @return path parameter
+	 * @param startValue
+	 *            an interval around startValue is specially investigated
+	 * @param P
+	 *            point to which the distance is minimized
+	 * @return optimal parameter value t
 	 */
-	public abstract double getClosestParameter(GeoPointND p,
-			double minParameter);
+	public final double getClosestParameter(GeoPointND P, double startValue) {
+		double startVal = startValue;
+		if (this.distFun == null) {
+			this.distFun = createDistanceFunction();
+		}
+
+		this.distFun.setDistantPoint(P);
+
+		// check if P is on this curve and has the right path parameter already
+		if (P.getPath() == this) {
+			// point A is on curve c, take its parameter
+			PathParameter pp = P.getPathParameter();
+			double pathParam = pp.t;
+			if (this.distFun.value(pathParam) < Kernel.MIN_PRECISION
+					* Kernel.MIN_PRECISION) {
+				return pathParam;
+			}
+
+			// if we don't have a startValue yet, let's take the path parameter
+			// as a guess
+			if (Double.isNaN(startVal)) {
+				startVal = pathParam;
+			}
+		}
+
+		// first sample distFun to find a start interval for ExtremumFinder
+		double step = (this.endParam - this.startParam)
+				/ CLOSEST_PARAMETER_SAMPLES;
+		double minVal = this.distFun.value(this.startParam);
+		double minParam = this.startParam;
+		double t = this.startParam;
+		for (int i = 0; i < CLOSEST_PARAMETER_SAMPLES; i++) {
+			t = t + step;
+			double ft = this.distFun.value(t);
+			if (ft < minVal || Double.isNaN(minVal)) {
+				// found new minimum
+				minVal = ft;
+				minParam = t;
+			}
+		}
+
+		// use interval around our minParam found by sampling
+		// to find minimum
+		// Math.max/min removed and ParametricCurveDistanceFunction modified
+		// instead
+		// TRAC-4583 #4567 removed wrong check, put Math.max/min in
+		double left = Math.max(this.getMinParameter(), minParam - step);
+		double right = Math.min(this.getMaxParameter(), minParam + step);
+
+		ExtremumFinderI extFinder = this.kernel.getExtremumFinder();
+		double sampleResult = extFinder.findMinimum(left, right, this.distFun,
+				Kernel.MIN_PRECISION);
+
+		sampleResult = adjustRange(sampleResult);
+
+		// if we have a valid startParam we try the interval around it too
+		// however, we don't check the same interval again
+		if (!Double.isNaN(startVal) && (startVal < left || right < startVal)) {
+
+			// Math.max/min removed and ParametricCurveDistanceFunction modified
+			// instead
+			left = startVal - step;
+			right = startVal + step;
+
+			double startValResult = extFinder.findMinimum(left, right,
+					this.distFun, Kernel.MIN_PRECISION);
+
+			startValResult = adjustRange(startValResult);
+
+			if (this.distFun
+					.value(startValResult) < this.distFun.value(sampleResult)
+							+ Kernel.MIN_PRECISION / 2) {
+				return startValResult;
+			}
+		}
+
+		return sampleResult;
+	}
+
+	/**
+	 * allow a curve like Curve[sin(t), cos(t), t, 0, 12*2pi] to "join up"
+	 * properly at 0 and 12*2pi
+	 * 
+	 * @param startValResult
+	 *            start value
+	 * @return startValResult adjusted to be in range [startParam, endParam] if
+	 *         it's just outside
+	 */
+	private double adjustRange(double startValResult) {
+		if (startValResult < this.startParam) {
+			return startValResult + (this.endParam - this.startParam);
+		}
+
+		if (startValResult > this.endParam) {
+			return startValResult - (this.endParam - this.startParam);
+		}
+
+		return startValResult;
+	}
 
 	@Override
 	public abstract double evaluateCurvature(double t);
@@ -693,6 +796,13 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	 */
 	protected Coords pointToCoords(GeoPointND geoPointND) {
 		return geoPointND.getInhomCoordsInD2();
+	}
+
+	/**
+	 * @return distance function
+	 */
+	protected DistanceFunction createDistanceFunction() {
+		return new ParametricCurveDistanceFunction(this);
 	}
 
 }
