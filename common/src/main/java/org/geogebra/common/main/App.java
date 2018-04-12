@@ -3964,10 +3964,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
 			return false;
 
-		// IGR-593
-		case MOB_IOS_CHECKBOXES_AND_STATUS_BAR:
-			return true;
-
 		// AND-785
 		case MOB_AND_CHECKBOXES_AND_STATUS_BAR:
 			return true;
