@@ -22,6 +22,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedronNet;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -137,10 +138,11 @@ public class CopyPaste3D extends CopyPaste {
 						}
 					}
 				} else if (geo instanceof GeoQuadric3DLimited) {
-					if (geo.getParentAlgorithm() instanceof AlgoQuadricLimitedPointPointRadiusCone
-							|| geo.getParentAlgorithm() instanceof AlgoQuadricLimitedPointPointRadiusCylinder
-							|| geo.getParentAlgorithm() instanceof AlgoQuadricLimitedConicHeightCone
-							|| geo.getParentAlgorithm() instanceof AlgoQuadricLimitedConicHeightCylinder) {
+					AlgoElement algo = geo.getParentAlgorithm();
+					if (algo instanceof AlgoQuadricLimitedPointPointRadiusCone
+							|| algo instanceof AlgoQuadricLimitedPointPointRadiusCylinder
+							|| algo instanceof AlgoQuadricLimitedConicHeightCone
+							|| algo instanceof AlgoQuadricLimitedConicHeightCylinder) {
 						TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(
 								geo);
 
@@ -230,9 +232,10 @@ public class CopyPaste3D extends CopyPaste {
 					 * geo.getParentAlgorithm().getInput(); if
 					 * (!geos.contains(pgeos[0])) geos.add(pgeos[0]); if
 					 * (!geos.contains(pgeos[1])) geos.add(pgeos[1]); } else
-					 */if (geo
-							.getParentAlgorithm() instanceof AlgoCircle3DThreePoints
-							|| geo.getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint3D) {
+					 */
+					AlgoElement algo = geo.getParentAlgorithm();
+					if (algo instanceof AlgoCircle3DThreePoints
+							|| algo instanceof AlgoEllipseHyperbolaFociPoint3D) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						if (!geos.contains(pgeos[0])) {

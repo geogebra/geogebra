@@ -450,16 +450,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		}
 	}
 
-	/**
-	 * Returns the parameter value t where this curve has minimal distance to
-	 * point P.
-	 * 
-	 * @param startValue
-	 *            an interval around startValue is specially investigated
-	 * @param P
-	 *            point to which the distance is minimized
-	 * @return optimal parameter value t
-	 */
 	@Override
 	protected DistanceFunction createDistanceFunction() {
 		return new CurveCartesian3DDistanceFunction(this);

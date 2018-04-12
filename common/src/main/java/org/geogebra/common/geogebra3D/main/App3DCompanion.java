@@ -194,7 +194,7 @@ public abstract class App3DCompanion extends AppCompanion {
 			return null;
 		}
 
-		ViewCreator vc = (ViewCreator) geo;// getViewCreator(id);
+		ViewCreator vc = (ViewCreator) geo; // getViewCreator(id);
 		vc.setEuclidianViewForPlane(createEuclidianViewForPlane(vc, false));
 		return getPanelForPlane();
 	}
@@ -290,7 +290,8 @@ public abstract class App3DCompanion extends AppCompanion {
 			}
 		}
 		// use ad hoc 3D view for export
-		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(new EuclidianController3DForExport(app),
+		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
+				new EuclidianController3DForExport(app),
 				app.getSettings().getEuclidian(3));
 		StringBuilder export = exportView3D.export3D(format);
 		app.getKernel().detach(exportView3D);
@@ -298,49 +299,52 @@ public abstract class App3DCompanion extends AppCompanion {
 	}
 
 	@Override
-	public String exportCollada(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
-		// use ad hoc 3D view for export
-		EuclidianSettings3D settings = new EuclidianSettings3D(app);
-		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(new EuclidianController3DForExport(app),
-				settings);
-		Format format = new FormatCollada();
-		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-				zTickDistance);
-		StringBuilder export = exportView3D.export3D(format);
-		app.getKernel().detach(exportView3D);
-		return export.toString();
-
-	}
-
-	@Override
-	public String exportObj(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
-		// use ad hoc 3D view for export
-		EuclidianSettings3D settings = new EuclidianSettings3D(app);
-		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(new EuclidianController3DForExport(app),
-				settings);
-		Format format = new FormatObj();
-		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-				zTickDistance);
-		StringBuilder export = exportView3D.export3D(format);
-		app.getKernel().detach(exportView3D);
-		return export.toString();
-
-	}
-
-	@Override
-	public void exportGeometry3D(Geometry3DGetter getter, double xmin, double xmax, double ymin, double ymax,
-			double zmin, double zmax, double xyScale, double xzScale, double xTickDistance, double yTickDistance,
+	public String exportCollada(double xmin, double xmax, double ymin,
+			double ymax, double zmin, double zmax, double xyScale,
+			double xzScale, double xTickDistance, double yTickDistance,
 			double zTickDistance) {
 		// use ad hoc 3D view for export
 		EuclidianSettings3D settings = new EuclidianSettings3D(app);
-		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(new EuclidianController3DForExport(app),
-				settings);
-		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-				zTickDistance);
+		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
+				new EuclidianController3DForExport(app), settings);
+		Format format = new FormatCollada();
+		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale,
+				xzScale, xTickDistance, yTickDistance, zTickDistance);
+		StringBuilder export = exportView3D.export3D(format);
+		app.getKernel().detach(exportView3D);
+		return export.toString();
+	}
+
+	@Override
+	public String exportObj(double xmin, double xmax, double ymin, double ymax,
+			double zmin, double zmax, double xyScale, double xzScale,
+			double xTickDistance, double yTickDistance, double zTickDistance) {
+		// use ad hoc 3D view for export
+		EuclidianSettings3D settings = new EuclidianSettings3D(app);
+		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
+				new EuclidianController3DForExport(app), settings);
+		Format format = new FormatObj();
+		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale,
+				xzScale, xTickDistance, yTickDistance, zTickDistance);
+		StringBuilder export = exportView3D.export3D(format);
+		app.getKernel().detach(exportView3D);
+		return export.toString();
+
+	}
+
+	@Override
+	public void exportGeometry3D(Geometry3DGetter getter, double xmin,
+			double xmax, double ymin, double ymax, double zmin, double zmax,
+			double xyScale, double xzScale, double xTickDistance,
+			double yTickDistance, double zTickDistance) {
+		// use ad hoc 3D view for export
+		EuclidianSettings3D settings = new EuclidianSettings3D(app);
+		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
+				new EuclidianController3DForExport(app), settings);
+		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale,
+				xzScale, xTickDistance, yTickDistance, zTickDistance);
 		exportView3D.export3D(getter);
 		app.getKernel().detach(exportView3D);
-	}
+		}
 
 }

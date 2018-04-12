@@ -2,7 +2,8 @@ package org.geogebra.common.geogebra3D.main;
 
 public class VertexShader {
 
-	final private static String vertexHeaderDesktop = "#if __VERSION__ >= 130 // GLSL 130+ uses in and out\n"
+	final private static String vertexHeaderDesktop = "#if __VERSION__ >= 130 "
+			+ "// GLSL 130+ uses in and out\n"
 			+ "  #define attribute in // instead of attribute and varying \n"
 			+ "  #define varying out  // used by OpenGL 3 core and later. \n"
 			+ "#endif \n"

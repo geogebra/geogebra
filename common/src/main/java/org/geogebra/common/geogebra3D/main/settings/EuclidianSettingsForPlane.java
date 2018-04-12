@@ -14,12 +14,11 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 	private int rotate = 0;
 	private boolean isFromLoadFile = false;
 
-
 	/**
 	 * constructor
 	 * 
-	 * @param standardSettings
-	 *            standard settings
+	 * @param app
+	 *            application
 	 */
 	public EuclidianSettingsForPlane(App app) {
 		super(app);
