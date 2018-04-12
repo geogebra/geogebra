@@ -619,7 +619,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		for (int i = 0; i < CLOSEST_PARAMETER_SAMPLES; i++) {
 			t = t + step;
 			double ft = this.distFun.value(t);
-			if (ft < minVal) {
+			if (ft < minVal || Double.isNaN(minVal)) {
 				// found new minimum
 				minVal = ft;
 				minParam = t;
