@@ -298,7 +298,7 @@ public class CmdExportImage extends CmdScripting {
 		GeoPoint corner = corner_0;
 		GeoPoint corner2 = corner2_0;
 
-		GeoImage geoImage;
+		final GeoImage geoImage;
 		GeoImage oldImage = (GeoImage) kernel.lookupLabel(label);
 
 		String imageFilename = kernel.getApplication().md5Encrypt(imageStr)
@@ -323,7 +323,14 @@ public class CmdExportImage extends CmdScripting {
 			e.printStackTrace();
 		}
 		geoImage.setLabel(label);
-		geoImage.updateRepaint();
+
+		// invokeLater needed in web to make sure image appears
+		app.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				geoImage.updateRepaint();
+			}
+		});
 
 	}
 
