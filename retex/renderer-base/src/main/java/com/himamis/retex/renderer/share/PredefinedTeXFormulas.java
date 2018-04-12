@@ -145,7 +145,8 @@ final class PredefinedTeXFormulas {
 		TeXFormula.predefinedTeXFormulasAsString.put("gcd", "\\mathop{\\mathrm{gcd}}");
 		TeXFormula.predefinedTeXFormulasAsString.put("deg", "\\mathop{\\mathrm{deg}}\\nolimits");
 		TeXFormula.predefinedTeXFormulasAsString.put("bmod", "\\:\\mathbin{\\mathrm{mod}}\\:");
-		TeXFormula.predefinedTeXFormulasAsString.put("JLaTeXMath", "\\mathbb{J}\\LaTeX Math");
+		// TeXFormula.predefinedTeXFormulasAsString.put("JLaTeXMath",
+		// "\\mathbb{J}\\LaTeX Math");
 		TeXFormula.predefinedTeXFormulasAsString.put("Mapsto", "\\Mapstochar\\Rightarrow");
 		TeXFormula.predefinedTeXFormulasAsString.put("mapsfrom", "\\leftarrow\\mapsfromchar");
 		TeXFormula.predefinedTeXFormulasAsString.put("Mapsfrom", "\\Leftarrow\\Mapsfromchar");
