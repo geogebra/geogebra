@@ -36,7 +36,7 @@ public class AlgebraDescriptionProperty extends AbstractEnumerableProperty {
     }
 
     @Override
-    public int getCurrent() {
+    public int getIndex() {
         int algebraStyle = kernel.getAlgebraStyle();
         for (int i = 0; i < algebraStyles.length; i++) {
             if (algebraStyles[i] == algebraStyle) {

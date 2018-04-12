@@ -31,7 +31,7 @@ public class AngleUnitProperty extends AbstractEnumerableProperty {
     }
 
     @Override
-    public int getCurrent() {
+    public int getIndex() {
         return kernel.getAngleUnit() == Kernel.ANGLE_DEGREE ? 0 : 1;
     }
 }

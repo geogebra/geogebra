@@ -34,7 +34,7 @@ public class CoordinatesProperty extends AbstractEnumerableProperty {
     }
 
     @Override
-    public int getCurrent() {
+    public int getIndex() {
         return kernel.getCoordStyle();
     }
 }

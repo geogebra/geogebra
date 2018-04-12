@@ -6,7 +6,7 @@ import org.geogebra.common.main.Localization;
  * Helps implementing enumerable properties. Handles the indexing of values.
  */
 public abstract class AbstractEnumerableProperty extends AbstractProperty
-		implements EnumerableProperty {
+        implements EnumerableProperty {
 
     private String[] values;
 
@@ -53,22 +53,14 @@ public abstract class AbstractEnumerableProperty extends AbstractProperty
     }
 
     @Override
-    public void setValue(String value) {
+    public void setIndex(int index) {
         if (values == null) {
             throw new RuntimeException("Set values must be called in the constructor.");
         }
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].equals(value)) {
-                setValueSafe(value, i);
-                return;
-            }
+        if (index < 0 || index >= values.length) {
+            throw new RuntimeException("Index must be between (0, values.length-1)");
         }
-        throw new RuntimeException("The property value should be one of its own values.");
-    }
-
-    @Override
-    public String getValue() {
-        return values[getCurrent()];
+        setValueSafe(values[index], index);
     }
 
     /**

@@ -41,7 +41,7 @@ public class FontSizeProperty extends AbstractEnumerableProperty {
     }
 
     @Override
-    public int getCurrent() {
+    public int getIndex() {
         int fontSize = app.getFontSize();
         for (int i = 0; i < Util.menuFontSizesLength(); i++) {
             if (Util.menuFontSizes(i) == fontSize) {

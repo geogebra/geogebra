@@ -50,7 +50,7 @@ public class LanguageProperty extends AbstractEnumerableProperty {
     }
 
     @Override
-    public int getCurrent() {
+    public int getIndex() {
         Localization localization = getLocalization();
         Locale locale = localization.getLocale();
         for (int i = 0; i < locales.length; i++) {

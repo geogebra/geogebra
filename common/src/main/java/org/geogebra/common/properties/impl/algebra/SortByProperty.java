@@ -39,7 +39,7 @@ public class SortByProperty extends AbstractEnumerableProperty {
     }
 
     @Override
-    public int getCurrent() {
+    public int getIndex() {
         AlgebraView.SortMode sortMode = algebraView.getTreeMode();
         for (int i = 0; i < sortModes.length; i++) {
             if (sortModes[i] == sortMode) {

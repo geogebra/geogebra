@@ -46,7 +46,7 @@ public class GridStyleProperty extends AbstractEnumerableProperty implements Ico
     }
 
     @Override
-    public int getCurrent() {
+    public int getIndex() {
         switch (euclidianSettings.getGridType()) {
             case EuclidianView.GRID_CARTESIAN:
                 return 0;

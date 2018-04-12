@@ -40,7 +40,7 @@ public class LabelingProperty extends AbstractEnumerableProperty {
     }
 
     @Override
-    public int getCurrent() {
+    public int getIndex() {
         int labelingStyle = app.getLabelingStyle();
         for (int i = 0; i < labelingStyles.length; i++) {
             if (labelingStyle == labelingStyles[i]) {
