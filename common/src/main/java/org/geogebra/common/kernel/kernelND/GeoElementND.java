@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+
 package org.geogebra.common.kernel.kernelND;
 
 import java.util.ArrayList;
@@ -712,7 +713,6 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean isChangeable();
 
-
 	boolean isGeoImplicitCurve();
 
 	boolean hasIndexLabel();
@@ -739,8 +739,8 @@ public interface GeoElementND extends ExpressionValue {
 
 	/**
 	 * Also copy advanced settings of this object.
-	 * 
-	 * @param geo
+	 *
+	 * @param defaultGeo
 	 *            source geo
 	 */
 	void setAdvancedVisualStyle(GeoElement defaultGeo);

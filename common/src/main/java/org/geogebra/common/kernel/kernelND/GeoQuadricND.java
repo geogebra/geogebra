@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+
 package org.geogebra.common.kernel.kernelND;
 
 import java.util.ArrayList;
@@ -43,8 +44,7 @@ public abstract class GeoQuadricND extends GeoElement
 	// types
 
 	/** quadric type */
-	public int type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED; // of
-																	// quadric
+	public int type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 
 	/**
 	 * flat matrix
@@ -55,7 +55,6 @@ public abstract class GeoQuadricND extends GeoElement
 	protected double[] matrix;
 
 	private CoordMatrix symetricMatrix;
-
 
 	/**
 	 * half axes
@@ -230,7 +229,6 @@ public abstract class GeoQuadricND extends GeoElement
 		return getSymetricMatrix(matrix);
 	}
 
-
 	/**
 	 * sets the matrix values from eigenvectors, midpoint and "diagonal" values
 	 */
@@ -243,7 +241,6 @@ public abstract class GeoQuadricND extends GeoElement
 	 *            element (4,1) of diagonalized matrix
 	 */
 	protected final void setMatrixFromEigen(double m21) {
-
 		if (tmpEigenMatrix == null) {
 			tmpEigenMatrix = new CoordMatrix(4, 4);
 		}

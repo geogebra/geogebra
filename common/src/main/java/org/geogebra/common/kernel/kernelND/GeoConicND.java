@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+
 package org.geogebra.common.kernel.kernelND;
 
 import java.util.ArrayList;
@@ -137,7 +138,14 @@ public abstract class GeoConicND extends GeoQuadricND
 	protected ArrayList<GeoPointND> pointsOnConic;
 
 	// for classification
-	transient private double detS, length, temp, temp1, temp2, nx, ny, lambda;
+	private double detS;
+	private double length;
+	private double temp;
+	private double temp1;
+	private double temp2;
+	private double nx;
+	private double ny;
+	private double lambda;
 	private int index = 0;
 	private GeoVec2D c = new GeoVec2D(kernel);
 	/** error DetS */
@@ -152,11 +160,13 @@ public abstract class GeoConicND extends GeoQuadricND
 	private GgbMat polarMatrix;
 	private boolean isEndOfQuadric = false;
 	private HitType lastHitType = HitType.NONE;
-	private Coords labelPosition, labelPosition3D;
+	private Coords labelPosition;
+	private Coords labelPosition3D;
 	private PathParameter labelParameter;
 	private TreeSet<GeoElement> metas;
 	private String parameter = "t";
-	private Coords tmpCoords1, tmpCoords2;
+	private Coords tmpCoords1;
+	private Coords tmpCoords2;
 
 	/**
 	 * 
@@ -516,7 +526,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			// convert line parameter to (-1,1)
 			pp.setT(PathNormalizer.inverseInfFunction(pp.getT()));
 			if (!firstLine) {
-				pp.setT(pp.getT() + 2);// convert from (-1,1) to (1,3)
+				pp.setT(pp.getT() + 2); // convert from (-1,1) to (1,3)
 			}
 			break;
 
@@ -596,7 +606,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			} else {
 				// To solve (1-u^2)*(b*py + (a^2-b^2)*u)^2-a^2*px^2*u^2 = 0,
 				// where u = sin(theta)
-				double roots[] = getPerpendicularParams(abspx, abspy);
+				double[] roots = getPerpendicularParams(abspx, abspy);
 
 				if (roots[0] > 0) {
 					pp.setT(Math.asin(roots[0]));
@@ -1301,8 +1311,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		// copy everything
 		toStringMode = co.toStringMode;
 		type = co.type;
-		for (int i = 0; i < 6; i++)
-		 {
+		for (int i = 0; i < 6; i++) {
 			matrix[i] = co.matrix[i]; // flat matrix A
 		}
 
@@ -3997,17 +4006,20 @@ public abstract class GeoConicND extends GeoQuadricND
 				.plus(x.multiply(2 * matrix[4]))
 				.plus(y.multiply(2 * matrix[5]));
 		ExpressionNode rhs = new ExpressionNode(kernel, 0.0);
+		curve.fromEquation(new Equation(kernel, lhs, rhs), getImplicitCoeff());
+	}
 
-		double coeff[][] = new double[3][3];
-		coeff[0][0] = matrix[2];
-		coeff[1][1] = 2 * matrix[3];
-		coeff[2][2] = 0;
-		coeff[1][0] = 2 * matrix[4];
-		coeff[0][1] = 2 * matrix[5];
-		coeff[2][0] = matrix[0];
-		coeff[0][2] = matrix[1];
-		coeff[2][1] = coeff[1][2] = 0;
-		curve.fromEquation(new Equation(kernel, lhs, rhs), coeff);
+	private double[][] getImplicitCoeff() {
+		double[][] coeff = new double[3][3];
+                coeff[0][0] = matrix[2];
+                coeff[1][1] = 2 * matrix[3];
+                coeff[2][2] = 0;
+                coeff[1][0] = 2 * matrix[4];
+                coeff[0][1] = 2 * matrix[5];
+                coeff[2][0] = matrix[0];
+                coeff[0][2] = matrix[1];
+                coeff[2][1] = coeff[1][2] = 0;
+		return coeff;
 	}
 
 	/**
@@ -4420,7 +4432,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		case CONIC_PARALLEL_LINES:
 			Coords c1 = getOrigin3D(0);
 			Coords c2 = getOrigin3D(1);
-			Coords d = getDirection3D(0);
 			createTmpCoords();
 			tmpCoords1.setAdd(c1, c2).mulInside(0.5);
 			tmpCoords2.setSub(c2, c1).mulInside(0.5);
@@ -4436,13 +4447,14 @@ public abstract class GeoConicND extends GeoQuadricND
 					sbBuildValueString);
 			sbBuildValueString.append(") + ");
 			sbBuildValueString.append(Unicode.lambda);
+
+			Coords d = getDirection3D(0);
 			sbBuildValueString.append(" (");
 			sbBuildValueString.append(kernel.format(d.getX(), tpl));
 			sbBuildValueString.append(", ");
 			sbBuildValueString.append(kernel.format(d.getY(), tpl));
 			sbBuildValueString.append(", ");
 			sbBuildValueString.append(kernel.format(d.getZ(), tpl));
-
 			sbBuildValueString.append(")");
 			break;
 
@@ -4463,7 +4475,6 @@ public abstract class GeoConicND extends GeoQuadricND
 			sbBuildValueString.append(kernel.format(d.getY(), tpl));
 			sbBuildValueString.append(", ");
 			sbBuildValueString.append(kernel.format(d.getZ(), tpl));
-
 			sbBuildValueString.append(")");
 			break;
 

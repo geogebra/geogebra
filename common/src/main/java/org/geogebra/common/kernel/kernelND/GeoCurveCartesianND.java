@@ -531,8 +531,6 @@ public abstract class GeoCurveCartesianND extends GeoElement
 
 			String param = getVarString(tpl);
 
-
-
 			if (!hideRangeInFormula && point == null) {
 				sbTemp.append("\\left.");
 					}

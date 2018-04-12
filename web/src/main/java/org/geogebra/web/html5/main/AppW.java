@@ -322,7 +322,6 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	private void scaleTo(Element parent) {
-
 		double xscale = parent.getOffsetWidth() / getWidth();
 		double yscale = parent.getOffsetHeight() / getHeight();
 		double scale = LayoutUtilW.getDeviceScale(xscale, yscale);
@@ -333,8 +332,8 @@ public abstract class AppW extends App implements SetLabels {
 
 	private Element getParent(String containerClass) {
 		Element current = getFrameElement();
-		while(current!=null){
-			if(current.hasClassName(containerClass)){
+		while (current != null) {
+			if (current.hasClassName(containerClass)) {
 				return current;
 			}
 			current = current.getParentElement();

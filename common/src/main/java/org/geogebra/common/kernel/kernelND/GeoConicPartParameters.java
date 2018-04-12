@@ -27,7 +27,8 @@ public class GeoConicPartParameters {
 	/** sector or arc */
 	public int conicPartType;
 
-	private double area, arcLength;
+	private double area;
+	private double arcLength;
 	/** value */
 	public double value;
 	private boolean valueDefined;
@@ -301,7 +302,6 @@ public class GeoConicPartParameters {
 		sb.append("\t<keepTypeOnTransform val=\"");
 		sb.append(keepTypeOnGeometricTransform);
 		sb.append("\"/>\n");
-
 	}
 
 	/**
@@ -312,14 +312,11 @@ public class GeoConicPartParameters {
 	 * @return whether (x,y) is in region
 	 */
 	public boolean isInRegion(double x0, double y0) {
-
 		// for sector, check if (x0,y0) is on the arc outline
 		if (conicPartType == GeoConicNDConstants.CONIC_PART_SECTOR) {
 			double arg = computeArg(x0, y0);
-			if (arg < 0)
-			 {
+			if (arg < 0) {
 				arg += Kernel.PI_2;
-			// Application.debug(arg+" <? "+paramExtent);
 			}
 
 			return ((arg >= -Kernel.STANDARD_PRECISION)

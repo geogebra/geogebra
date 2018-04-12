@@ -315,9 +315,6 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 * @return true if tracing
 	 */
 	public boolean getTrace();
-	// private boolean movePointMode = MOVE_POINT_MODE_XY;
-
-
 
 	/**
 	 * 

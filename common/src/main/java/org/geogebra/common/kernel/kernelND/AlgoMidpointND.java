@@ -31,7 +31,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public abstract class AlgoMidpointND extends AlgoElement {
 
-	private GeoPointND P, Q; // input
+	private GeoPointND P; // input
+	private GeoPointND Q; // input
 	private GeoPointND M; // output
 
 	/**

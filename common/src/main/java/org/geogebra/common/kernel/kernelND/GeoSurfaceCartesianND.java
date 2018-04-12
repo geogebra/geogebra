@@ -51,9 +51,17 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	/** flag for isDefined() */
 	protected boolean isDefined = true;
 	private ExpressionNode point;
-	protected double[] xyz, xyzDu, xyzDv, xyzDuu, xyzDuv, xyzDvv, xyzDvu, uv;
+	protected double[] xyz;
+	protected double[] xyzDu;
+	protected double[] xyzDv;
+	protected double[] xyzDuu;
+	protected double[] xyzDuv;
+	protected double[] xyzDvv;
+	protected double[] xyzDvu;
+	protected double[] uv;
 
-	protected Coords bivariateVector, bivariateDelta;
+	protected Coords bivariateVector;
+	protected Coords bivariateDelta;
 
 	protected CoordMatrix jacobian;
 	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
@@ -178,7 +186,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 */
 	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
-
 		for (int i = 0; i < fun.length; i++) {
 			if (fun[i] != null) {
 				fun[i].replaceChildrenByValues(geo);
@@ -194,11 +201,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 * @param endParam
 	 *            end parameter
 	 */
-	public void setIntervals(double[] startParam, double endParam[]) {
-
+	public void setIntervals(double[] startParam, double[] endParam) {
 		this.startParam = startParam;
 		this.endParam = endParam;
-
 		isDefined = true;
 
 		for (int i = 0; i < startParam.length && isDefined; i++) {
@@ -407,12 +412,19 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 * parameters
 	 * 
 	 * @param x0
+	 *            point x
 	 * @param y0
+	 *            point y
 	 * @param z0
+	 *            point z
 	 * @param vx
+	 *            direction x
 	 * @param vy
+	 *            direction y
 	 * @param vz
+	 *            direction z
 	 * @param xyzuv1
+	 *            output coords
 	 * 
 	 * @return true if found
 	 */
@@ -655,11 +667,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 						xzyzuvOut[3] = uv[0];
 						xzyzuvOut[4] = uv[1];
 					}
-
 				}
-
 			}
-
 		}
 	}
 
@@ -671,10 +680,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 			xyz[0] = fun[0].evaluate(uvOut);
 			xyz[1] = fun[1].evaluate(uvOut);
 			xyz[2] = fun[2].evaluate(uvOut);
-
-			double dx = xyz[0] - x0;
-			double dy = xyz[1] - y0;
-			double dz = xyz[2] - z0;
 
 			// calculate derivatives values
 			xyzDu[0] = fun1evaluate(0, 0, uvOut);
@@ -702,6 +707,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 			xyzDvv[2] = fun2evaluate(1, 1, 2, uvOut);
 
 			// set bivariate vector
+			double dx = xyz[0] - x0;
+			double dy = xyz[1] - y0;
+			double dz = xyz[2] - z0;
 			bivariateVector.setX(dx * xyzDu[0] + dy * xyzDu[1] + dz * xyzDu[2]);
 			bivariateVector.setY(dx * xyzDv[0] + dy * xyzDv[1] + dz * xyzDv[2]);
 
