@@ -29,6 +29,7 @@ public abstract class GeoGebraTubeExport {
 	 * Constructs a new instance of the GeoGebraTube exporter.
 	 * 
 	 * @param app
+	 *            application
 	 */
 	public GeoGebraTubeExport(App app) {
 		this.app = app;
@@ -48,6 +49,7 @@ public abstract class GeoGebraTubeExport {
 	 * returns a base64 encoded .ggb file
 	 * 
 	 * @throws IOException
+	 *             when output fails
 	 */
 	protected String getBase64String() throws IOException {
 		return app.getGgbApi().getBase64(true);
@@ -57,6 +59,7 @@ public abstract class GeoGebraTubeExport {
 	 * returns a base64 encoded .ggt file
 	 * 
 	 * @throws IOException
+	 *             when output fails
 	 */
 	protected abstract String getBase64Tools(ArrayList<Macro> macros)
 			throws IOException;
@@ -74,12 +77,13 @@ public abstract class GeoGebraTubeExport {
 		/**
 		 * Parse upload result string.
 		 * 
-		 * @param string
+		 * @param string0
+		 *            server response
 		 */
 		public UploadResults(String string0) {
 			String string = string0;
 			status = uid = errorMessage = "";
-			if(string.indexOf("status:")>0){
+			if (string.indexOf("status:") > 0) {
 				string = string.substring(string.indexOf("status:"));
 			}
 			for (String line : string.split(",")) {

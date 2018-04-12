@@ -131,12 +131,12 @@ public class GeoVideo extends GeoMedia {
 			int idxS = time.indexOf("s"); // seconds
 			if (idxM != -1) {
 				String minutes = time.substring(0, idxM);
-				startTime = Integer.valueOf(minutes) * 60;
+				startTime = Integer.parseInt(minutes) * 60;
 			}
 			if (idxS != -1) {
 				String seconds = idxM == -1 ? time.substring(0, idxS)
 						: time.substring(idxM + 1, idxS);
-				startTime += Integer.valueOf(seconds);
+				startTime += Integer.parseInt(seconds);
 			}
 		} else {
 			startTime = null;

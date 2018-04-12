@@ -3,11 +3,43 @@ package org.geogebra.common.export;
 import org.geogebra.common.util.StringUtil;
 
 public class MathmlTemplate {
+	/**
+	 * Add MATHM code of an operation.
+	 * 
+	 * @param sb
+	 *            builder
+	 * @param op
+	 *            operation
+	 * @param leftStr
+	 *            left string
+	 * @param rightStr
+	 *            right string
+	 */
 	public static void mathml(StringBuilder sb, String op, String leftStr,
 			String rightStr) {
 		mathml(sb, op, "", leftStr, "", "", rightStr, "");
 	}
 
+	/**
+	 * Add MATHM code of an operation.
+	 * 
+	 * @param sb
+	 *            builder
+	 * @param op
+	 *            operation
+	 * @param preL
+	 *            left prefix
+	 * @param leftStr
+	 *            left string
+	 * @param postL
+	 *            left postfix
+	 * @param preR
+	 *            right prefix
+	 * @param rightStr
+	 *            right string
+	 * @param postR
+	 *            right postfix
+	 */
 	public static void mathml(StringBuilder sb, String op, String preL,
 			String leftStr, String postL, String preR, String rightStr,
 			String postR) {

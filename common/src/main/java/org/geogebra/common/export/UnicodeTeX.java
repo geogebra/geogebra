@@ -12,6 +12,9 @@ public class UnicodeTeX {
 		unicode2tex.put(unicode, tex);
 	}
 
+	/**
+	 * @return map unicode to latex
+	 */
 	public static HashMap<Character, String> getMap() {
 		if (unicode2tex != null) {
 			return unicode2tex;
