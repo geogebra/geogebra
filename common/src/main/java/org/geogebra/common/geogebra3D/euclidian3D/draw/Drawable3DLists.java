@@ -263,11 +263,18 @@ public class Drawable3DLists {
 	 */
 	public void drawHiddenNotTextured(Renderer renderer) {
 		// points TODO hidden aspect ?
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_POINTS]
-				.iterator(); d.hasNext();) {
-			Drawable3D d3d = d.next();
-			if (!d3d.shouldBePacked()) {
-				d3d.drawHidden(renderer);
+		if (renderer.getGeometryManager().packBuffers()) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_POINTS]
+					.iterator(); d.hasNext();) {
+				Drawable3D d3d = d.next();
+				if (!d3d.shouldBePacked()) {
+					d3d.drawHidden(renderer);
+				}
+			}
+		} else {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_POINTS]
+					.iterator(); d.hasNext();) {
+				d.next().drawHidden(renderer);
 			}
 		}
 
