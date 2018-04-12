@@ -317,13 +317,13 @@ public interface GuiManagerInterface {
 
 	public void applyCPsettings(ConstructionProtocolSettings cpSettings);
 
-	public ConstructionProtocolNavigation getConstructionProtocolNavigationIfExists();
+	public ConstructionProtocolNavigation getCPNavigationIfExists();
 
 	ConstructionProtocolNavigation getConstructionProtocolNavigation(int id);
 
 	ConstructionProtocolNavigation getConstructionProtocolNavigation();
 
-	public Collection<ConstructionProtocolNavigation> getAllConstructionProtocolNavigations();
+	public Collection<ConstructionProtocolNavigation> getAllCPNavigations();
 
 	public void logout();
 

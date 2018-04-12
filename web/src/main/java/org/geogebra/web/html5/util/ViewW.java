@@ -53,7 +53,7 @@ public class ViewW {
 		if (app.getGuiManager() != null && app.getUseFullGui()) {
 			ConstructionProtocolNavigation cpNav = this.getApplication()
 			        .getGuiManager()
-			        .getConstructionProtocolNavigationIfExists();
+			        .getCPNavigationIfExists();
 			if (cpNav != null) {
 				cpNav.update();
 			}

@@ -1094,7 +1094,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Collection<ConstructionProtocolNavigation> cpns = app
-					.getGuiManager().getAllConstructionProtocolNavigations();
+					.getGuiManager().getAllCPNavigations();
 			for (ConstructionProtocolNavigation cpn : cpns) {
 				cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 				// cpn.initGUI();
@@ -1113,7 +1113,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		public void actionPerformed(ActionEvent e) {
 
 			Collection<ConstructionProtocolNavigation> cpns = app
-					.getGuiManager().getAllConstructionProtocolNavigations();
+					.getGuiManager().getAllCPNavigations();
 			for (ConstructionProtocolNavigation cpn : cpns) {
 				cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 				// cpn.initGUI();

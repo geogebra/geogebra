@@ -563,7 +563,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	final public Collection<ConstructionProtocolNavigation> getAllConstructionProtocolNavigations() {
+	final public Collection<ConstructionProtocolNavigation> getAllCPNavigations() {
 		if (constProtocolNavigationMap == null) {
 			return null;
 		}
@@ -613,7 +613,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * not exists.
 	 */
 	@Override
-	public ConstructionProtocolNavigation getConstructionProtocolNavigationIfExists() {
+	public ConstructionProtocolNavigation getCPNavigationIfExists() {
 		if (constProtocolNavigationMap == null) {
 			return null;
 		}

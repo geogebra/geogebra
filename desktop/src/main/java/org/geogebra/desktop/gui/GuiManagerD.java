@@ -926,7 +926,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (constructionProtocolView != null) {
 			constructionProtocolView.initGUI();
 		}
-		if (getConstructionProtocolNavigationIfExists() != null) {
+		if (getCPNavigationIfExists() != null) {
 			((ConstructionProtocolNavigationD) getConstructionProtocolNavigation())
 					.initGUI();
 		}

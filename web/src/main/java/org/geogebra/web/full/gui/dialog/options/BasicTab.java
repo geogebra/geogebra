@@ -418,7 +418,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	void togglePlayButton() {
 
 		Collection<ConstructionProtocolNavigation> cpns = this.optionsEuclidianW.app
-				.getGuiManager().getAllConstructionProtocolNavigations();
+				.getGuiManager().getAllCPNavigations();
 		for (ConstructionProtocolNavigation cpn : cpns) {
 			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 		}
@@ -428,7 +428,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 	void toggleConsProtButton() {
 		Collection<ConstructionProtocolNavigation> cpns = this.optionsEuclidianW.app
-				.getGuiManager().getAllConstructionProtocolNavigations();
+				.getGuiManager().getAllCPNavigations();
 		for (ConstructionProtocolNavigation cpn : cpns) {
 			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 		}
@@ -762,7 +762,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		// cons protocol panel
 		cbShowNavbar.setValue(isVisible);
 		ConstructionProtocolNavigation cpn = this.optionsEuclidianW.app
-				.getGuiManager().getConstructionProtocolNavigationIfExists();
+				.getGuiManager().getCPNavigationIfExists();
 		cbNavPlay.setValue(cpn == null || cpn.isPlayButtonVisible());
 		cbOpenConsProtocol
 				.setValue(cpn == null || cpn.isConsProtButtonVisible());
