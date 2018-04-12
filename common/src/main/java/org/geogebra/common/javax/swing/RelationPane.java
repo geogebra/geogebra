@@ -6,7 +6,7 @@ import org.geogebra.common.main.App;
 /**
  * Common interface for the Relation Tool information window.
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  *
  */
 public interface RelationPane {
@@ -14,7 +14,7 @@ public interface RelationPane {
 	/**
 	 * One row in the information window.
 	 * 
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * @author Zoltan Kovacs
 	 *
 	 */
 	public class RelationRow {

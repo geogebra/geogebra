@@ -70,8 +70,6 @@ public interface SwingConstants {
 	 */
 	public static final int NORTH_WEST = 8;
 
-
-
 	/** See JSplitPane.HORIZONTAL_SPLIT */
 	public static final int HORIZONTAL_SPLIT = 1;
 	/** See JSplitPane.VERTICAL_SPLIT */
