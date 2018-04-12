@@ -324,7 +324,6 @@ public abstract class AppW extends App implements SetLabels {
 			scaleTo(Window.getClientWidth() - (int) getAbsLeft(),
 					Window.getClientHeight());
 		}
-
 	}
 
 	private void scaleTo(int width, int height) {
@@ -332,7 +331,6 @@ public abstract class AppW extends App implements SetLabels {
 		double yscale = height / getHeight();
 		double scale = LayoutUtilW.getDeviceScale(xscale, yscale,
 				getArticleElement().getParamAllowUpscale());
-		Log.printStacktrace(xscale + "," + yscale + "=>" + scale);
 		Browser.scale(articleElement.getParentElement(), scale, 0, 0);
 		getArticleElement().resetScale();
 	}

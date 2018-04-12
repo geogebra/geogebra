@@ -120,7 +120,7 @@ public class GeoVideo extends GeoMedia {
 
 	private void initStartTime() {
 		String url = getSrc();
-		int idx = url.indexOf(TIME_PARAM);// t=
+		int idx = url.indexOf(TIME_PARAM); // t=
 		if (idx != -1) {
 			String t = url.substring(idx + TIME_PARAM.length());
 			int idx2 = t.indexOf("&");

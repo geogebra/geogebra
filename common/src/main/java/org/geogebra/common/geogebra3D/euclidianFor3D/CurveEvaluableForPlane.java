@@ -17,7 +17,8 @@ import org.geogebra.common.util.DoubleUtil;
 public class CurveEvaluableForPlane implements CurveEvaluable {
 
 	GeoCurveCartesian3D parent;
-	Coords parentOut, parentOutInView;
+	Coords parentOut;
+	Coords parentOutInView;
 	EuclidianViewForPlaneCompanion companion;
 
 	private FunMustBeZero funZ;
@@ -46,7 +47,6 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 
 			return 0;
 		}
-
 
 	}
 

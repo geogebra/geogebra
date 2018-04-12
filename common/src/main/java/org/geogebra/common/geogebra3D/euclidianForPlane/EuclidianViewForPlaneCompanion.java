@@ -50,7 +50,8 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	private boolean initViewJustCreated = false;
 	private Coords tmpCoords = new Coords(4);
 
-	private CoordMatrix4x4 planeMatrix, transformedMatrix;
+	private CoordMatrix4x4 planeMatrix;
+	private CoordMatrix4x4 transformedMatrix;
 	private CoordMatrix inverseTransformedMatrix;
 
 	private int transformMirror;
@@ -210,7 +211,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		// }
 		planeMatrix = plane.getCoordSys().getDrawingMatrix();
 
-		transformedMatrix = planeMatrix.mul(transform);// transform.mul(planeMatrix);
+		transformedMatrix = planeMatrix.mul(transform); // transform.mul(planeMatrix);
 
 		// Coords vx2 = transformedMatrix.getVx();
 		// Log.debug("\nvx1=\n"+vx1+"\nvx2=\n"+vx2);
