@@ -262,7 +262,7 @@ public class AlgebraTreeController extends AlgebraController
 			} else {// select only this objet and popup menu
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(geo, true, true);
-				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> temp = new ArrayList<>();
 				temp.add(geo);
 				((GuiManagerD) app.getGuiManager()).showPopupMenu(temp, tree,
 						mouseCoords);
@@ -370,7 +370,7 @@ public class AlgebraTreeController extends AlgebraController
 			} else { // collect geos of the group
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp
 						.getLastPathComponent();
-				ArrayList<GeoElement> groupedGeos = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> groupedGeos = new ArrayList<>();
 				for (int i = 0; i < node.getChildCount(); i++) {
 					groupedGeos.add((GeoElement) ((DefaultMutableTreeNode) node
 							.getChildAt(i)).getUserObject());
@@ -445,7 +445,7 @@ public class AlgebraTreeController extends AlgebraController
 					if (e.getX() - rect.x > 16) { // collect geos of the group
 						DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp
 								.getLastPathComponent();
-						ArrayList<GeoElement> groupedGeos = new ArrayList<GeoElement>();
+						ArrayList<GeoElement> groupedGeos = new ArrayList<>();
 						for (int i = 0; i < node.getChildCount(); i++) {
 							groupedGeos
 									.add((GeoElement) ((DefaultMutableTreeNode) node

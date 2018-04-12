@@ -178,7 +178,7 @@ public final class GeoGebraLexer extends Lexer
 	private Element elem;
 
 	public GeoGebraLexer(AppD app) {
-		variables = new HashSet<String>();
+		variables = new HashSet<>();
 		Iterator<GeoElement> iter = app.getKernel().getConstruction()
 				.getGeoSetLabelOrder().iterator();
 		while (iter.hasNext()) {
@@ -187,7 +187,7 @@ public final class GeoGebraLexer extends Lexer
 				variables.add(g.getLabel(StringTemplate.defaultTemplate));
 			}
 		}
-		commands = new HashSet<String>();
+		commands = new HashSet<>();
 		commands.addAll(app.getCommandDictionary().values());
 	}
 

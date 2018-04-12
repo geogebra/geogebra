@@ -59,9 +59,9 @@ public class FontManagerD extends FontManager {
 
 		// certain languages need special fonts to display its characters
 		final StringBuilder testCharacters = new StringBuilder();
-		final LinkedList<String> tryFontsSansSerif = new LinkedList<String>(
+		final LinkedList<String> tryFontsSansSerif = new LinkedList<>(
 				Arrays.asList(FONT_NAMES_SANSSERIF));
-		final LinkedList<String> tryFontsSerif = new LinkedList<String>(
+		final LinkedList<String> tryFontsSerif = new LinkedList<>(
 				Arrays.asList(FONT_NAMES_SERIF));
 
 		final String testChar = Language.getTestChar(lang);
@@ -265,9 +265,8 @@ public class FontManagerD extends FontManager {
 		// fonts to find one that can display the testString
 		try {
 			final LinkedList<String> tryFonts = serif
-					? new LinkedList<String>(Arrays.asList(FONT_NAMES_SERIF))
-					: new LinkedList<String>(
-							Arrays.asList(FONT_NAMES_SANSSERIF));
+					? new LinkedList<>(Arrays.asList(FONT_NAMES_SERIF))
+					: new LinkedList<>(Arrays.asList(FONT_NAMES_SANSSERIF));
 			final String fontName = getFontCanDisplay(tryFonts, testString);
 			return getFont(fontName, fontStyle, fontSize);
 		} catch (final Exception e) {

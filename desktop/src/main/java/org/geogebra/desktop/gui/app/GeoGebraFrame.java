@@ -99,14 +99,14 @@ public class GeoGebraFrame extends JFrame
 	// 9999):
 	private static final int VERSION_TO_LONG_MULTIPLIER = 1000;
 
-	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
+	private static ArrayList<GeoGebraFrame> instances = new ArrayList<>();
 
 	private static GeoGebraFrame activeInstance;
 	private static Object lock = new Object();
 
 	private static FileDropTargetListener dropTargetListener;
 
-	private static List<NewInstanceListener> instanceListener = new ArrayList<NewInstanceListener>();
+	private static List<NewInstanceListener> instanceListener = new ArrayList<>();
 
 	protected AppD app;
 

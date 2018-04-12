@@ -54,7 +54,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 * @see #addExtension
 	 */
 	public MyFileFilter() {
-		filters = new ArrayList<FileExtensions>();
+		filters = new ArrayList<>();
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 */
 	public void addExtension(FileExtensions extension) {
 		if (filters == null) {
-			filters = new ArrayList<FileExtensions>(5);
+			filters = new ArrayList<>(5);
 		}
 
 		filters.add(extension);

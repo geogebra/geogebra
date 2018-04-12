@@ -139,13 +139,13 @@ public class PrintPreviewD extends JDialog {
 	}
 
 	private static List<Printable> wrap(Gridable target) {
-		List<Printable> list = new ArrayList<Printable>();
+		List<Printable> list = new ArrayList<>();
 		list.add(new PrintGridable(target));
 		return list;
 	}
 
 	private static List<Printable> wrap(Printable mainComponent) {
-		ArrayList<Printable> list = new ArrayList<Printable>();
+		ArrayList<Printable> list = new ArrayList<>();
 		list.add(mainComponent);
 		return list;
 	}
@@ -296,7 +296,7 @@ public class PrintPreviewD extends JDialog {
 								.toString();
 						// change view
 						if (selItem.equals(loc.getMenu("AllViews"))) {
-							final List<Printable> l = new ArrayList<Printable>();
+							final List<Printable> l = new ArrayList<>();
 							app.forEachView(new App.ViewCallback() {
 
 								@Override
@@ -309,7 +309,7 @@ public class PrintPreviewD extends JDialog {
 
 							m_target = l;
 						} else {
-							m_target = new ArrayList<Printable>();
+							m_target = new ArrayList<>();
 							app.forEachView(new App.ViewCallback() {
 
 								@Override
@@ -437,7 +437,7 @@ public class PrintPreviewD extends JDialog {
 	}
 
 	private String[] getAvailableViews() {
-		final ArrayList<String> list = new ArrayList<String>();
+		final ArrayList<String> list = new ArrayList<>();
 		final Localization loc = app.getLocalization();
 		app.forEachView(new App.ViewCallback() {
 

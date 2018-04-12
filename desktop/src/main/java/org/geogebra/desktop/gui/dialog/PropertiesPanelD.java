@@ -396,10 +396,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * Initialize the tabs
 	 */
 	private void initTabs() {
-		tabPanelList = new ArrayList<TabPanel>();
+		tabPanelList = new ArrayList<>();
 
 		// basic tab
-		ArrayList<JPanel> basicTabList = new ArrayList<JPanel>();
+		ArrayList<JPanel> basicTabList = new ArrayList<>();
 
 		if (!isDefaults) {
 			basicTabList.add(namePanel);
@@ -437,7 +437,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		tabPanelList.add(basicTab);
 
 		// text tab
-		ArrayList<JPanel> textTabList = new ArrayList<JPanel>();
+		ArrayList<JPanel> textTabList = new ArrayList<>();
 		textTabList.add(textOptionsPanel);
 
 		if (!isDefaults) {
@@ -453,20 +453,20 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		// slider tab
 		// if(!isDefaults)
 		{
-			ArrayList<JPanel> sliderTabList = new ArrayList<JPanel>();
+			ArrayList<JPanel> sliderTabList = new ArrayList<>();
 			sliderTabList.add(sliderPanel);
 			sliderTab = new TabPanel(sliderTabList);
 			tabPanelList.add(sliderTab);
 		}
 
 		// color tab
-		ArrayList<JPanel> colorTabList = new ArrayList<JPanel>();
+		ArrayList<JPanel> colorTabList = new ArrayList<>();
 		colorTabList.add(colorPanel);
 		colorTab = new TabPanel(colorTabList);
 		tabPanelList.add(colorTab);
 
 		// style tab
-		ArrayList<JPanel> styleTabList = new ArrayList<JPanel>();
+		ArrayList<JPanel> styleTabList = new ArrayList<>();
 		styleTabList.add(slopeTriangleSizePanel);
 		styleTabList.add(pointSizePanel);
 		styleTabList.add(pointStylePanel);
@@ -494,7 +494,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		// position
 		if (!isDefaults) {
-			ArrayList<JPanel> positionTabList = new ArrayList<JPanel>();
+			ArrayList<JPanel> positionTabList = new ArrayList<>();
 
 			positionTabList.add(startPointPanel);
 			positionTabList.add(cornerPointsPanel);
@@ -508,7 +508,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		// algebra tab
-		ArrayList<JPanel> algebraTabList = new ArrayList<JPanel>();
+		ArrayList<JPanel> algebraTabList = new ArrayList<>();
 		algebraTabList.add(coordPanel);
 		algebraTabList.add(lineEqnPanel);
 		algebraTabList.add(planeEqnPanel);
@@ -521,7 +521,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		// advanced tab
 		if (!isDefaults) {
-			ArrayList<JPanel> advancedTabList = new ArrayList<JPanel>();
+			ArrayList<JPanel> advancedTabList = new ArrayList<>();
 
 			advancedTabList.add(showConditionPanel);
 			advancedTabList.add(colorFunctionPanel);
@@ -1065,7 +1065,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public TabPanel(JPanel panel) {
-			panelList = new ArrayList<JPanel>();
+			panelList = new ArrayList<>();
 			panelList.add(panel);
 
 			setLayout(new BorderLayout());

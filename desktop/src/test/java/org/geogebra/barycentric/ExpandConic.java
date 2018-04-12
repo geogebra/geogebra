@@ -17,7 +17,8 @@ import org.geogebra.desktop.main.AppD;
 public class ExpandConic {
 	static AppD app;
 	
-	static TreeSet<String> sym=new TreeSet<String>(), asym=new TreeSet<String>(), nosym=new TreeSet<String>(), acyc=new TreeSet<String>();
+	static TreeSet<String> sym = new TreeSet<>(), asym = new TreeSet<>(),
+			nosym = new TreeSet<>(), acyc = new TreeSet<>();
 	public static void main(String[] a){
 		app = new AppD(new CommandLineArguments(new String[] { "--silent", "--giac" }), new JFrame(), false);
 		try {

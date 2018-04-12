@@ -1082,7 +1082,7 @@ public class VirtualKeyboardD extends JFrame
 		return alternative;
 	}
 
-	HashMap<Character, Boolean> characterIsTooWide = new HashMap<Character, Boolean>(
+	HashMap<Character, Boolean> characterIsTooWide = new HashMap<>(
 			200);
 
 	private void updateButton(int i, int j) {
@@ -1202,7 +1202,7 @@ public class VirtualKeyboardD extends JFrame
 		return getFont((int) (minButtonSize()), true);
 	}
 
-	private HashMap<Integer, Font> fontsHash = new HashMap<Integer, Font>(30);
+	private HashMap<Integer, Font> fontsHash = new HashMap<>(30);
 
 	private Font getFont(int size, boolean setFont) {
 
@@ -1255,7 +1255,7 @@ public class VirtualKeyboardD extends JFrame
 
 	}
 
-	private Hashtable<String, KeyboardKeys> myKeys = new Hashtable<String, KeyboardKeys>();
+	private Hashtable<String, KeyboardKeys> myKeys = new Hashtable<>();
 
 	private Locale kbLocale = null;
 

@@ -80,7 +80,7 @@ public class ModeToggleMenuD extends JPanel {
 
 		popMenu = new JPopupMenu();
 		popMenu.setBackground(bgColor);
-		menuItemList = new ArrayList<JMenuItem>();
+		menuItemList = new ArrayList<>();
 		popupMenuItemListener = new MenuItemListener();
 		size = 0;
 

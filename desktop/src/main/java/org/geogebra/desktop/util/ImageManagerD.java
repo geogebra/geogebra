@@ -54,9 +54,9 @@ import com.himamis.retex.renderer.desktop.graphics.Base64;
  */
 public class ImageManagerD extends ImageManager {
 
-	private Hashtable<String, ImageIcon> iconTable = new Hashtable<String, ImageIcon>();
-	private Hashtable<String, MyImageD> internalImageTable = new Hashtable<String, MyImageD>();
-	private static Hashtable<String, MyImageD> externalImageTable = new Hashtable<String, MyImageD>();
+	private Hashtable<String, ImageIcon> iconTable = new Hashtable<>();
+	private Hashtable<String, MyImageD> internalImageTable = new Hashtable<>();
+	private static Hashtable<String, MyImageD> externalImageTable = new Hashtable<>();
 
 	private Toolkit toolKit;
 	private MediaTracker tracker;

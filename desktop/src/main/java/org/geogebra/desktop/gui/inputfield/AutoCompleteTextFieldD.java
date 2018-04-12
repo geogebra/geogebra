@@ -128,7 +128,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		curWord = new StringBuilder();
 
 		historyIndex = 0;
-		history = new ArrayList<String>(50);
+		history = new ArrayList<>(50);
 
 		completions = null;
 
@@ -794,7 +794,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		if (commands == null) {
 			return null;
 		}
-		ArrayList<String> syntaxes = new ArrayList<String>();
+		ArrayList<String> syntaxes = new ArrayList<>();
 		for (String cmd : commands) {
 
 			String cmdInt = app.getInternalCommand(cmd);

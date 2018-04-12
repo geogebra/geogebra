@@ -293,7 +293,7 @@ public class SpreadsheetViewDnD
 			int rowCount = list.size();
 			int columnCount = 1;
 			GeoList tempList, tempMatrix;
-			ArrayList<ArrayList<String>> dataList = new ArrayList<ArrayList<String>>();
+			ArrayList<ArrayList<String>> dataList = new ArrayList<>();
 
 			for (int geoIndex = 0; geoIndex < list.size(); geoIndex++) {
 
@@ -302,7 +302,7 @@ public class SpreadsheetViewDnD
 						&& !((GeoList) geoArray[geoIndex]).isMatrix()) {
 
 					tempList = (GeoList) geoArray[geoIndex];
-					ArrayList<String> currentRow = new ArrayList<String>();
+					ArrayList<String> currentRow = new ArrayList<>();
 					columnCount = Math.max(columnCount, tempList.size());
 
 					for (int k = 0; k < tempList.size(); k++) {
@@ -327,7 +327,7 @@ public class SpreadsheetViewDnD
 					rowCount += tempMatrix.size() - 1;
 					for (int row = 0; row < tempMatrix.size(); row++) {
 						tempList = (GeoList) tempMatrix.get(row);
-						ArrayList<String> currentRow = new ArrayList<String>();
+						ArrayList<String> currentRow = new ArrayList<>();
 						columnCount = Math.max(columnCount, tempList.size());
 						for (int col = 0; col < tempList.size(); col++) {
 							if (isCopyByValue) {
@@ -347,7 +347,7 @@ public class SpreadsheetViewDnD
 
 				// single geo
 				else {
-					ArrayList<String> currentRow = new ArrayList<String>();
+					ArrayList<String> currentRow = new ArrayList<>();
 					if (isCopyByValue) {
 						currentRow.add(geoArray[geoIndex]
 								.toValueString(StringTemplate.maxPrecision));

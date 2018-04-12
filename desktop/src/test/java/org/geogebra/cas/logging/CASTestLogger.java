@@ -18,7 +18,7 @@ public class CASTestLogger {
 	 * does the needed initialization
 	 */
 	public CASTestLogger() {
-		logs = new ArrayList<String>();
+		logs = new ArrayList<>();
 	}
 
 	/**

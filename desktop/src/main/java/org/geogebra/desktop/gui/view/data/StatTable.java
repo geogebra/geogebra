@@ -199,11 +199,11 @@ public class StatTable extends JScrollPane {
 		this.al = al;
 
 		if (comboBoxEditorMap == null) {
-			comboBoxEditorMap = new HashMap<Point, MyComboBoxEditor>();
+			comboBoxEditorMap = new HashMap<>();
 		}
 		comboBoxEditorMap.clear();
 		if (comboBoxRendererMap == null) {
-			comboBoxRendererMap = new HashMap<Point, MyComboBoxRenderer>();
+			comboBoxRendererMap = new HashMap<>();
 		}
 		comboBoxRendererMap.clear();
 

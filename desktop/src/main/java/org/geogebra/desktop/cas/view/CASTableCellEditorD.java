@@ -35,7 +35,7 @@ public class CASTableCellEditorD extends CASTableCell
 	private String inputOnEditingStart;
 	private boolean isUseAsTextOnEditingStart;
 
-	private ArrayList<CellEditorListener> listeners = new ArrayList<CellEditorListener>();
+	private ArrayList<CellEditorListener> listeners = new ArrayList<>();
 
 	/**
 	 * @param view

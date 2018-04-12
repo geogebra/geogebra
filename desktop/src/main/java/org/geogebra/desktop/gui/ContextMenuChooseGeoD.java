@@ -86,7 +86,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		// add geos
 		geoAddedForSelectAnother = false;
 
-		metas = new TreeSet<GeoElement>();
+		metas = new TreeSet<>();
 
 		for (GeoElement geo : geos) {
 			if (geo != geoSelected) {// don't add selected geo

@@ -261,7 +261,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 	 */
 	private void createDefaultMap() {
 
-		typeToNode = new Hashtable<DefaultMutableTreeNode, Integer>(15);
+		typeToNode = new Hashtable<>(15);
 		typeToNode.put(pointsFreeNode, ConstructionDefaults.DEFAULT_POINT_FREE);
 		typeToNode.put(pointsDepNode,
 				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);

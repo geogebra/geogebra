@@ -118,8 +118,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public boolean[] selectedColumns;
 
 	// Used for rendering headers with ctrl-select
-	protected HashSet<Integer> selectedColumnSet = new HashSet<Integer>();
-	protected HashSet<Integer> selectedRowSet = new HashSet<Integer>();
+	protected HashSet<Integer> selectedColumnSet = new HashSet<>();
+	protected HashSet<Integer> selectedRowSet = new HashSet<>();
 
 	private int selectionType = MyTableInterface.CELL_SELECT;
 
@@ -154,14 +154,14 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public HashSet<GPoint> cellResizeHeightSet;
 	public HashSet<GPoint> cellResizeWidthSet;
 
-	private ArrayList<GPoint> adjustedRowHeights = new ArrayList<GPoint>();
+	private ArrayList<GPoint> adjustedRowHeights = new ArrayList<>();
 	private boolean doRecordRowHeights = true;
 
 	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
 
 	// Collection of cells that contain geos that can be edited with one click,
 	// e.g. booleans, buttons, lists
-	protected HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<GPoint, GeoElement>();
+	protected HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<>();
 
 	public HashMap<GPoint, GeoElement> getOneClickEditMap() {
 		return oneClickEditMap;
@@ -188,8 +188,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public MyTableD(SpreadsheetViewD view, DefaultTableModel tableModel) {
 		super(tableModel);
 
-		cellResizeHeightSet = new HashSet<GPoint>();
-		cellResizeWidthSet = new HashSet<GPoint>();
+		cellResizeHeightSet = new HashSet<>();
+		cellResizeWidthSet = new HashSet<>();
 
 		app = view.getApplication();
 		kernel = app.getKernel();
@@ -239,7 +239,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields
-		selectedCellRanges = new ArrayList<CellRange>();
+		selectedCellRanges = new ArrayList<>();
 		selectedCellRanges.add(new CellRange(app));
 		setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		setCellSelectionEnabled(true);
@@ -684,7 +684,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		// update the geo selection list
-		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> list = new ArrayList<>();
 		for (int i = 0; i < selectedCellRanges.size(); i++) {
 			list.addAll(0, (selectedCellRanges.get(i)).toGeoList());
 		}
@@ -1004,7 +1004,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	public ArrayList<Integer> getSelectedColumnsList() {
 
-		ArrayList<Integer> columns = new ArrayList<Integer>();
+		ArrayList<Integer> columns = new ArrayList<>();
 
 		for (CellRange cr : this.selectedCellRanges) {
 			for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
@@ -1352,7 +1352,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		if (ob instanceof GeoElement) {
 			GeoElement geo = (GeoElement) ob;
 			if (geo.isGeoButton() || geo.isGeoImage()) {
-				ArrayList<GeoElement> sel = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> sel = new ArrayList<>();
 				sel.add(geo);
 				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
 						sel);

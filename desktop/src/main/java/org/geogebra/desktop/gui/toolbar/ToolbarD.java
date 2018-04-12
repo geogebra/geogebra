@@ -91,7 +91,7 @@ public class ToolbarD extends JToolBar {
 		mode = -1;
 
 		ModeToggleButtonGroup bg = new ModeToggleButtonGroup();
-		modeToggleMenus = new ArrayList<ModeToggleMenuD>();
+		modeToggleMenus = new ArrayList<>();
 
 		// create toolbar
 		removeAll();
@@ -256,7 +256,7 @@ public class ToolbarD extends JToolBar {
 	private void beginAdd() {
 		if (app.useHugeGuiForInput3D()) {
 			if (componentsToAdd == null) {
-				componentsToAdd = new ArrayList<Component>();
+				componentsToAdd = new ArrayList<>();
 			}
 		}
 	}

@@ -63,7 +63,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	private MatchingBlockManager matchLR;
 	private MatchingBlockManager matchRL;
 	private Point mousePoint;
-	private List<KeywordListener> kwListeners = new ArrayList<KeywordListener>();
+	private List<KeywordListener> kwListeners = new ArrayList<>();
 	private int type;
 
 	/**

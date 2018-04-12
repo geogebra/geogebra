@@ -176,20 +176,20 @@ public class EuclidianStyleBarD extends JToolBar
 
 		// init handling of default geos
 		createDefaultMap();
-		defaultGeos = new ArrayList<GeoElement>();
+		defaultGeos = new ArrayList<>();
 
 		// toolbar display settings
 		setFloatable(false);
 		updatePreferredSize();
 		// init button-specific fields
 		// TODO: put these in button classes
-		pointStyleMap = new HashMap<Integer, Integer>();
+		pointStyleMap = new HashMap<>();
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
 		}
 
 		Integer[] lineStyleArray = EuclidianView.getLineTypes();
-		lineStyleMap = new HashMap<Integer, Integer>();
+		lineStyleMap = new HashMap<>();
 		for (int i = 0; i < lineStyleArray.length; i++) {
 			lineStyleMap.put(lineStyleArray[i], i);
 		}
@@ -297,7 +297,7 @@ public class EuclidianStyleBarD extends JToolBar
 		// These are either the selected geos or the current default geo.
 		// Each button uses this list to update its gui and set visibility
 		// -----------------------------------------------------
-		activeGeoList = new ArrayList<GeoElement>();
+		activeGeoList = new ArrayList<>();
 
 		// -----------------------------------------------------
 		// MODE_MOVE case: load activeGeoList with all selected geos
@@ -1542,7 +1542,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 		needUndo = false;
 
-		ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> targetGeos = new ArrayList<>();
 		targetGeos.addAll(ec.getJustCreatedGeos());
 		if (!EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			targetGeos.addAll(defaultGeos);

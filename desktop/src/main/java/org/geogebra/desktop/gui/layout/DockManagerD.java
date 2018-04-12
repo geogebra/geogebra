@@ -83,8 +83,8 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 		this.layout = layout;
 		this.app = layout.getApplication();
 
-		dockPanels = new ArrayList<DockPanelD>();
-		showDockPanelListener = new ArrayList<ShowDockPanelListener>();
+		dockPanels = new ArrayList<>();
+		showDockPanelListener = new ArrayList<>();
 		glassPane = new DockGlassPane(this);
 
 		if (!app.isApplet()) {
@@ -147,7 +147,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 
 				panel.setAlone(false);
 			}
-			TreeSet<Integer> updated = new TreeSet<Integer>();
+			TreeSet<Integer> updated = new TreeSet<>();
 			// copy dock panel info settings
 			for (int i = 0; i < dpData.length; ++i) {
 				DockPanelD panel = getPanel(dpData[i]);

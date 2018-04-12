@@ -195,7 +195,7 @@ public class AlgebraViewD extends AlgebraTree
 			// don't re-init anything
 			if (rootLayer == null) {
 				rootLayer = new DefaultMutableTreeNode();
-				layerNodesMap = new HashMap<Integer, DefaultMutableTreeNode>(
+				layerNodesMap = new HashMap<>(
 						10);
 			}
 
@@ -416,7 +416,7 @@ public class AlgebraViewD extends AlgebraTree
 		// open Object Properties for eg GeoImages
 		// also for GeoPenStroke
 		if (!geo.isAlgebraViewEditable()) {
-			ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> geos = new ArrayList<>();
 			geos.add(geo);
 			app.getDialogManager().showPropertiesDialog(geos);
 			return;
@@ -671,7 +671,7 @@ public class AlgebraViewD extends AlgebraTree
 		// specific case for ORDER mode
 		if (getTreeMode() == SortMode.ORDER) {
 			int found = 0;
-			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> ret = new ArrayList<>();
 			DefaultMutableTreeNode root = getRoot();
 			for (int i = 0; i < root.getChildCount() && found < 2; i++) {
 				DefaultMutableTreeNode child = (DefaultMutableTreeNode) root
@@ -1057,7 +1057,7 @@ public class AlgebraViewD extends AlgebraTree
 		}
 
 		if (collapsedNodes == null) {
-			collapsedNodes = new ArrayList<Integer>();
+			collapsedNodes = new ArrayList<>();
 		} else {
 			collapsedNodes.clear();
 		}
@@ -1133,7 +1133,7 @@ public class AlgebraViewD extends AlgebraTree
 		}
 
 		if (this.collapsedNodes == null) {
-			this.collapsedNodes = new ArrayList<Integer>();
+			this.collapsedNodes = new ArrayList<>();
 		} else {
 			this.collapsedNodes.clear();
 		}

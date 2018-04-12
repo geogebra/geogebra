@@ -233,7 +233,7 @@ public class AutoCompletion {
 	public static <T> Object install(JTextField textField,
 			CompletionProvider<T> completionProvider,
 			ListCellRenderer listCellRenderer, int maxPopupRowCount) {
-		return new OptionsPopup<T>(textField, completionProvider,
+		return new OptionsPopup<>(textField, completionProvider,
 				listCellRenderer,
 				maxPopupRowCount);
 	}

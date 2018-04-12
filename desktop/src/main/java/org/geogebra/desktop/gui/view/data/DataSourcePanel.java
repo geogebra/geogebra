@@ -959,7 +959,7 @@ public class DataSourcePanel extends JPanel
 			itmNumeric.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					ArrayList<DataItem> itemList = new ArrayList<DataItem>();
+					ArrayList<DataItem> itemList = new ArrayList<>();
 					itemList.add(new DataItem());
 					itemList.add(new DataItem());
 					var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
@@ -973,7 +973,7 @@ public class DataSourcePanel extends JPanel
 			itmPoint.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					ArrayList<DataItem> itemList = new ArrayList<DataItem>();
+					ArrayList<DataItem> itemList = new ArrayList<>();
 					itemList.add(new DataItem());
 					var.setDataVariableAsRawData(GeoClass.POINT, itemList);
 					updatePanel(mode, false);

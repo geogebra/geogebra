@@ -56,7 +56,7 @@ public class TitlePanel extends JPanel {
 
 	private JFormattedTextField dateField;
 
-	private ArrayList<ActionListener> listeners = new ArrayList<ActionListener>();
+	private ArrayList<ActionListener> listeners = new ArrayList<>();
 
 	private Construction cons;
 	private LocalizationD loc;

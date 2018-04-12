@@ -487,7 +487,7 @@ public class ToolbarConfigPanel extends JPanel
 	 * 
 	 */
 	public Vector<Integer> generateToolsVector(String toolbarDefinition) {
-		Vector<Integer> vector = new Vector<Integer>();
+		Vector<Integer> vector = new Vector<>();
 		// separator
 		vector.add(ToolBar.SEPARATOR);
 
@@ -496,7 +496,7 @@ public class ToolbarConfigPanel extends JPanel
 		try {
 			defTools = ToolBar.parseToolbarString(toolbarDefinition);
 		} catch (Exception e) {
-			return new Vector<Integer>();
+			return new Vector<>();
 		}
 		for (int i = 0; i < defTools.size(); i++) {
 			ToolbarItem element = defTools.get(i);

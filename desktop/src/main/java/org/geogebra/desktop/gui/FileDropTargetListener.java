@@ -155,7 +155,7 @@ public class FileDropTargetListener implements DropTargetListener {
 
 	private ArrayList<File> getGGBfiles(Transferable transferable) {
 
-		ArrayList<File> al = new ArrayList<File>();
+		ArrayList<File> al = new ArrayList<>();
 
 		try {
 			// try to get an image

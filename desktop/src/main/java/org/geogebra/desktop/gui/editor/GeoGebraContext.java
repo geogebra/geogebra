@@ -36,7 +36,7 @@ public class GeoGebraContext extends ViewContext {
 	/**
 	 * TOKENS : A Map which contains the names of keywords
 	 */
-	private static final Map<String, Integer> TOKENS = new HashMap<String, Integer>(
+	private static final Map<String, Integer> TOKENS = new HashMap<>(
 			14);
 
 	static {
@@ -57,9 +57,9 @@ public class GeoGebraContext extends ViewContext {
 
 	private View view;
 	private AppD app;
-	private List<Integer> typeToDefault = new ArrayList<Integer>();
+	private List<Integer> typeToDefault = new ArrayList<>();
 
-	private static final Map<String, Color> colorMap = new HashMap<String, Color>();
+	private static final Map<String, Color> colorMap = new HashMap<>();
 
 	/* Tokens color */
 	static {
@@ -78,7 +78,7 @@ public class GeoGebraContext extends ViewContext {
 		colorMap.put("Tabulation", Color.decode("#dcdcdc"));
 	}
 
-	private static final Map<String, Integer> attribMap = new HashMap<String, Integer>();
+	private static final Map<String, Integer> attribMap = new HashMap<>();
 
 	/*
 	 * 0 for nothing 1 to underline 2 to stroke 4 to highlight Just add 1,2 & 4

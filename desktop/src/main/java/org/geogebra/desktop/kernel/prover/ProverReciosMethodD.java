@@ -51,7 +51,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 	/**
 	 * The queue which contains the coordinates of the points to test
 	 */
-	final LinkedBlockingQueue<BigInteger[]> coordinatesQueue = new LinkedBlockingQueue<BigInteger[]>();
+	final LinkedBlockingQueue<BigInteger[]> coordinatesQueue = new LinkedBlockingQueue<>();
 	private AtomicInteger verifiedPoints;
 	private boolean stop;
 	private boolean errorOccured;
@@ -220,7 +220,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 
 			if (as != null) {
 				// use Botana's method
-				HashMap<PVariable, BigInteger> substitutions = new HashMap<PVariable, BigInteger>();
+				HashMap<PVariable, BigInteger> substitutions = new HashMap<>();
 				for (Entry<PVariable, BigInteger> entry : values.entrySet()) {
 
 					PVariable v = entry.getKey();

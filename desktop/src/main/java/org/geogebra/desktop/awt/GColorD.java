@@ -11,7 +11,7 @@ import org.geogebra.common.awt.GColor;
  */
 public class GColorD {
 
-	private static HashMap<GColor, Color> map = new HashMap<GColor, Color>();
+	private static HashMap<GColor, Color> map = new HashMap<>();
 
 	/**
 	 * @param gColor

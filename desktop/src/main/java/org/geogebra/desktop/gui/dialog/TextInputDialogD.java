@@ -402,7 +402,7 @@ public class TextInputDialogD extends InputDialogD
 		btInsertLaTeX.setFixedIcon(GeoGebraIconD.createDownTriangleIcon(10));
 		btInsertLaTeX.setVisible(false);
 
-		laTexButtonTitleMap = new HashMap<String, JMenuItem>();
+		laTexButtonTitleMap = new HashMap<>();
 
 		JMenu menu;
 		menu = new JMenu();
@@ -506,7 +506,7 @@ public class TextInputDialogD extends InputDialogD
 
 		TreeSet<GeoElement> ts = app.getKernel().getConstruction()
 				.getGeoSetLabelOrder();
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 
 		// first possibility : create empty box
 		list.add(loc.getMenu("EmptyBox"));

@@ -146,7 +146,7 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 
 			String[] splitPart = part.split("[\\+\\-]");
 
-			terms[i] = new HashMap<String, String>();
+			terms[i] = new HashMap<>();
 
 			for (int p = 0; p < splitPart.length; p++) {
 				handleTerm(splitPart[p], signs.charAt(p), terms[i]);
@@ -170,7 +170,7 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 		String numericalFactor = "1";
 
 		String[] splitTerm = term.split("\\*");
-		LinkedList<String> variables = new LinkedList<String>();
+		LinkedList<String> variables = new LinkedList<>();
 		for (int i = 0; i < splitTerm.length; i++) {
 			// handle the number of the factor or one variable
 			String s = splitTerm[i];

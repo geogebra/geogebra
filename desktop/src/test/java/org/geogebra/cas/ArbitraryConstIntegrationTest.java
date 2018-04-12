@@ -392,7 +392,7 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	private static String getOutput(GeoCasCell f2) {
-		HashSet<Command> commands = new HashSet<Command>();
+		HashSet<Command> commands = new HashSet<>();
 
 		f2.getInputVE().traverse(CommandCollector.getCollector(commands));
 		boolean includesNumericCommand = false;

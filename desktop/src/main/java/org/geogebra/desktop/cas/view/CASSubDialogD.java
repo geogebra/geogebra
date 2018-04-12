@@ -100,7 +100,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 
 		initData(cell);
 
-		Vector<String> header = new Vector<String>();
+		Vector<String> header = new Vector<>();
 		header.add(loc.getMenu("OldExpression"));
 		header.add(loc.getMenu("NewExpression"));
 		replaceTable = new JTable(data, header);
@@ -199,7 +199,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 					data.get(row).set(col,
 							editor.getCellEditorValue().toString());
 				}
-				data.add(new Vector<String>(
+				data.add(new Vector<>(
 						Arrays.asList(new String[] { "", "" })));
 				replaceTable.revalidate();
 				dialog.pack();

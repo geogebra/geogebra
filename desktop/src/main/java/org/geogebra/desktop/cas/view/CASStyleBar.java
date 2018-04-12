@@ -70,12 +70,11 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		this.loc = app.getLocalization();
 		this.casView = view;
 
-		selectedRows = new ArrayList<GeoElement>();
+		selectedRows = new ArrayList<>();
 
 		setFloatable(false);
 
 		initGUI();
-
 	}
 
 	/**

@@ -114,7 +114,7 @@ public class GeoGebraCasIntegrationTest {
     // Resolve Variable objects in ValidExpression as GeoDummy objects.
     parser.resolveVariablesForCAS(outputVe, kernel);
     boolean includesNumericCommand = false;
-    HashSet<Command> commands = new HashSet<Command>();
+		HashSet<Command> commands = new HashSet<>();
     inputVe.traverse(CommandCollector.getCollector(commands));
     if (!commands.isEmpty()) {
       for (Command cmd : commands) {
@@ -177,7 +177,7 @@ public class GeoGebraCasIntegrationTest {
 			}
 
 			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<Command>();
+			HashSet<Command> commands = new HashSet<>();
 
 			f.getInputVE().traverse(CommandCollector.getCollector(commands));
 

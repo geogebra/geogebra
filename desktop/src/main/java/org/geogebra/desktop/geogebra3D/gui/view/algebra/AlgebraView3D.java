@@ -114,7 +114,7 @@ public class AlgebraView3D extends AlgebraViewD {
 		// don't re-init anything
 		if (rootView == null) {
 			rootView = new DefaultMutableTreeNode();
-			viewNodesMap = new HashMap<String, DefaultMutableTreeNode>(5);
+			viewNodesMap = new HashMap<>(5);
 		}
 
 		// always try to remove the auxiliary node

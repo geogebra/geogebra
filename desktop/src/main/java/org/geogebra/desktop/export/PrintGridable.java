@@ -59,7 +59,7 @@ public class PrintGridable implements Printable {
 		// double pSum=0;
 		int sum = 0;
 		// int pagesHor=0;
-		ArrayList<Integer> boundsHor = new ArrayList<Integer>();
+		ArrayList<Integer> boundsHor = new ArrayList<>();
 		boundsHor.add(sum);
 		for (int i = 0; i < colWidths.length; i++) {
 			if ((sum + colWidths[i]
@@ -77,7 +77,7 @@ public class PrintGridable implements Printable {
 		boundsHor.add(sum);
 
 		sum = 0;
-		ArrayList<Integer> boundsVer = new ArrayList<Integer>();
+		ArrayList<Integer> boundsVer = new ArrayList<>();
 		boundsVer.add(sum);
 		for (int i = 0; i < rowHeights.length; i++) {
 			if ((sum + rowHeights[i]

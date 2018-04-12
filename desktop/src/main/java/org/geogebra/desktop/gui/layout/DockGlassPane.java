@@ -77,8 +77,8 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 
 		// cache the absolute bounds of all DockPanels
 		dockPanels = dockManager.getPanels();
-		ArrayList<DockPanelD> dockPanelsList = new ArrayList<DockPanelD>();
-		ArrayList<Rectangle> bounds = new ArrayList<Rectangle>();
+		ArrayList<DockPanelD> dockPanelsList = new ArrayList<>();
+		ArrayList<Rectangle> bounds = new ArrayList<>();
 		Rectangle tmpRect;
 
 		for (int i = 0; i < dockPanels.length; ++i) {

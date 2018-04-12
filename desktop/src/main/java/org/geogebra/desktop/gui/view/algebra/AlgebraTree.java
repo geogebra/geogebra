@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -53,7 +52,7 @@ public class AlgebraTree extends JTree {
 	protected HashMap<String, DefaultMutableTreeNode> typeNodesMap;
 
 	// store all pairs of GeoElement -> node in the Tree
-	protected HashMap<GeoElement, DefaultMutableTreeNode> nodeTable = new HashMap<GeoElement, DefaultMutableTreeNode>(
+	protected HashMap<GeoElement, DefaultMutableTreeNode> nodeTable = new HashMap<>(
 			500);
 
 	/**
@@ -145,7 +144,7 @@ public class AlgebraTree extends JTree {
 		// don't re-init anything
 		if (rootType == null) {
 			rootType = new DefaultMutableTreeNode();
-			typeNodesMap = new HashMap<String, DefaultMutableTreeNode>(5);
+			typeNodesMap = new HashMap<>(5);
 		}
 
 		checkRemoveAuxiliaryNode();
@@ -242,7 +241,7 @@ public class AlgebraTree extends JTree {
 			return null;
 		}
 
-		ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> ret = new ArrayList<>();
 		addChilds(ret, node, 0, node.getChildCount());
 		return ret;
 	}
@@ -499,12 +498,12 @@ public class AlgebraTree extends JTree {
 			if (p1 == p2) {// same category
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) root
 						.getChildAt(p1);
-				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> ret = new ArrayList<>();
 				addChilds(ret, node, c1, c2 + 1);
 				return ret;
 			} // else, all geos between the two categories
 
-			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> ret = new ArrayList<>();
 
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root
 					.getChildAt(p1);

@@ -41,7 +41,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Transform;
 public class EpsGraphicsWrapper implements Graphics2DInterface {
 
 	private EpsGraphicsD impl;
-	private LinkedList<GAffineTransform> transformationStack = new LinkedList<GAffineTransform>();
+	private LinkedList<GAffineTransform> transformationStack = new LinkedList<>();
 
 	public EpsGraphicsWrapper(EpsGraphicsD impl) {
 		this.impl = impl;

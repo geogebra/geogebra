@@ -12,7 +12,7 @@ import org.geogebra.common.move.ggtapi.models.SyncEvent;
 
 public class TestMaterialsManager extends MaterialsManager {
 
-	private HashMap<String, String> stockStore = new HashMap<String, String>();
+	private HashMap<String, String> stockStore = new HashMap<>();
 	private App app;
 
 	public TestMaterialsManager(App app) {
@@ -38,7 +38,7 @@ public class TestMaterialsManager extends MaterialsManager {
 		if (this.stockStore == null || this.stockStore.size() <= 0) {
 			return;
 		}
-		ArrayList<String> keys = new ArrayList<String>();
+		ArrayList<String> keys = new ArrayList<>();
 		for (String key : stockStore.keySet()) {
 			keys.add(key);
 		}

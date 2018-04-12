@@ -173,7 +173,7 @@ public class NoExceptionsTest {
 	@Test
 	public void selfTest() {
 		Method[] mtds = NoExceptionsTest.class.getMethods();
-		Set<String> methodNames = new TreeSet<String>();
+		Set<String> methodNames = new TreeSet<>();
 		for (int i = 0; i < mtds.length; i++) {
 			methodNames.add(mtds[i].getName());
 		}

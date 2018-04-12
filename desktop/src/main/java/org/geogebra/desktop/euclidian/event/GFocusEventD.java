@@ -8,7 +8,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class GFocusEventD extends GFocusEvent {
 
-	private static final LinkedList<GFocusEventD> pool = new LinkedList<GFocusEventD>();
+	private static final LinkedList<GFocusEventD> pool = new LinkedList<>();
 
 	private GFocusEventD(FocusEvent e) {
 		Log.debug("possible missing release()");

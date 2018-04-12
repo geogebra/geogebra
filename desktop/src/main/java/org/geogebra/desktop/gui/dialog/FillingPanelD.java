@@ -148,7 +148,7 @@ class FillingPanelD extends JPanel
 		angleSlider.setSnapToTicks(true);
 
 		// Create the label table
-		Hashtable<Integer, JLabel> labelHash = new Hashtable<Integer, JLabel>();
+		Hashtable<Integer, JLabel> labelHash = new Hashtable<>();
 		labelHash.put(Integer.valueOf(0), new JLabel("0" + Unicode.DEGREE_STRING));
 		labelHash.put(Integer.valueOf(45),
 				new JLabel(Unicode.FORTY_FIVE_DEGREES_STRING));
@@ -306,7 +306,7 @@ class FillingPanelD extends JPanel
 		// create array of image files from toolbar icons
 		// for testing only ...
 
-		imgFileNameList = new ArrayList<ImageResourceD>();
+		imgFileNameList = new ArrayList<>();
 
 		imgFileNameList.add(null); // for delete
 		imgFileNameList.add(GuiResourcesD.GO_DOWN);

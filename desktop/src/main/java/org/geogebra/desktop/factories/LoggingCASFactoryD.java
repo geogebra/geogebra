@@ -14,7 +14,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.cas.giac.CASgiacD;
 
 public class LoggingCASFactoryD extends CASFactory {
-	private static HashMap<String, String> rawResponses = new HashMap<String, String>();
+	private static HashMap<String, String> rawResponses = new HashMap<>();
 
 	@Override
 	public CASGenericInterface newGiac(CASparser parser, Kernel kernel) {

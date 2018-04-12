@@ -36,7 +36,7 @@ public class JavascriptContext extends ViewContext {
 	/**
 	 * TOKENS : A Map which contains the names of keywords
 	 */
-	private static final Map<String, Integer> TOKENS = new HashMap<String, Integer>(
+	private static final Map<String, Integer> TOKENS = new HashMap<>(
 			14);
 
 	static {
@@ -62,9 +62,9 @@ public class JavascriptContext extends ViewContext {
 	}
 
 	private View view;
-	private List<Integer> typeToDefault = new ArrayList<Integer>();
+	private List<Integer> typeToDefault = new ArrayList<>();
 
-	private static final Map<String, Color> colorMap = new HashMap<String, Color>();
+	private static final Map<String, Color> colorMap = new HashMap<>();
 	static {
 		colorMap.put("Default", Color.decode("#000000"));
 		colorMap.put("Operator", Color.decode("#000000"));
@@ -86,7 +86,7 @@ public class JavascriptContext extends ViewContext {
 		colorMap.put("Tabulation", Color.decode("#dcdcdc"));
 	}
 
-	private static final Map<String, Integer> attribMap = new HashMap<String, Integer>();
+	private static final Map<String, Integer> attribMap = new HashMap<>();
 	static {
 		attribMap.put("Default", 0);
 		attribMap.put("Operator", 0);

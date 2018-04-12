@@ -1308,7 +1308,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 		// do nothing, used in web
 	}
 
-	private LinkedList<GAffineTransform> transformationStack = new LinkedList<GAffineTransform>();
+	private LinkedList<GAffineTransform> transformationStack = new LinkedList<>();
 
 	@Override
 	public void saveTransform() {

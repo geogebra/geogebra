@@ -328,7 +328,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 		GeoElement[] output = toGeoElements(outputList);
 
 		// determine all free parents of output
-		TreeSet<GeoElement> freeParents = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> freeParents = new TreeSet<>();
 		for (int i = 0; i < output.length; i++) {
 			output[i].addPredecessorsToSet(freeParents, true);
 		}

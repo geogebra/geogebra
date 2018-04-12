@@ -59,7 +59,7 @@ public class CAStestJSON {
 		protected String rounding;
 	}
 
-	static HashMap<String, ArrayList<CasTest>> testcases = new HashMap<String, ArrayList<CasTest>>();
+	static HashMap<String, ArrayList<CasTest>> testcases = new HashMap<>();
 
 	private static String readFileAsString(String filePath) throws IOException {
 		StringBuffer fileData = new StringBuffer();

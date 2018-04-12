@@ -67,7 +67,7 @@ public class CompressedAlgebraView extends AlgebraViewD
 		updateTimer.setRepeats(false);
 		repaintTimer = new Timer(1000 / rps, null);
 		repaintTimer.setRepeats(false);
-		updateSet = new HashSet<GeoElement>();
+		updateSet = new HashSet<>();
 		updateListener = new CompressedUpdateListener(this, updateTimer,
 				updateSet, lock);
 		updateTimer.addActionListener(updateListener);

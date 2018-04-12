@@ -43,7 +43,7 @@ public abstract class SortedArrayCompletionProvider<T extends Comparable<T>>
 		final String prefixWithProperCase = caseInsensitiveCompletion
 				? prefix.toLowerCase() : prefix;
 
-		List<T> options = new ArrayList<T>();
+		List<T> options = new ArrayList<>();
 		for (T option : sortedCompletionOptions) {
 			String optionString = toString(option);
 			if (isValidCompletionOpiton(prefixWithProperCase, optionString)) {

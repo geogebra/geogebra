@@ -293,7 +293,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 					}
 					return false;
 				}
-				TreeSet<File> sortedSet = new TreeSet<File>(
+				TreeSet<File> sortedSet = new TreeSet<>(
 						UtilD.getFileComparator());
 				for (int i = 0; i < options.length; i++) {
 					if (options[i].isFile()) {

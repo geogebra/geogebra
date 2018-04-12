@@ -36,7 +36,7 @@ public class CommandLineArguments {
 	 *            arguments
 	 */
 	public CommandLineArguments(String[] cmdArgs) {
-		args = new HashMap<String, String>();
+		args = new HashMap<>();
 
 		if (cmdArgs == null) {
 			return;
