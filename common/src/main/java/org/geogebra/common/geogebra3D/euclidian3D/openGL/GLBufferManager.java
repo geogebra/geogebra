@@ -22,7 +22,8 @@ abstract class GLBufferManager {
 	private TreeMap<Index, BufferSegment> bufferSegments;
 	private int indicesIndex;
 	private TreeMap<Index, LinkedList<BufferSegment>> availableSegments;
-	private BufferPack currentBufferPack;
+	/** current buffer pack */
+	protected BufferPack currentBufferPack;
 	private ArrayList<BufferPack> bufferPackList;
 	/** vertex array for current geometry */
 	ArrayList<Double> vertexArray;
@@ -32,7 +33,8 @@ abstract class GLBufferManager {
 	ArrayList<Double> textureArray;
 	/** flag for if current geometry uses one normal */
 	boolean oneNormal;
-	private int elementsLength;
+	/** elements length */
+	protected int elementsLength;
 	/** color for current geometry */
 	GColor color;
 
@@ -213,8 +215,11 @@ abstract class GLBufferManager {
 	 *            geometry size
 	 * @param type
 	 *            element type
+	 * @param reuseSegment
+	 *            says if it is reusing a segment
 	 */
-	abstract protected void putIndices(int size, TypeElement type);
+	abstract protected void putIndices(int size, TypeElement type,
+			boolean reuseSegment);
 
 	/**
 	 * 
@@ -245,6 +250,7 @@ abstract class GLBufferManager {
 		// get buffer segment and pack
 		currentBufferSegment = bufferSegments.get(currentIndex);
 		int indicesLength = calculateIndicesLength(size, type);
+		boolean reuseSegment = false;
 		if (currentBufferSegment == null || currentBufferSegmentDoesNotFit(indicesLength, type)) {
 			// try to reuse available segment
 			currentLengths.set(elementsLength, indicesLength);
@@ -256,6 +262,8 @@ abstract class GLBufferManager {
 				}
 				currentBufferSegment = new BufferSegment(currentBufferPack, elementsLength, indicesLength);
 				currentBufferPack.addToLength(elementsLength, indicesLength);
+			} else {
+				reuseSegment = true;
 			}
 			currentBufferSegment.type = type;
 			bufferSegments.put(new Index(currentIndex), currentBufferSegment);
@@ -263,18 +271,29 @@ abstract class GLBufferManager {
 
 			// set indices
 			indicesIndex = currentBufferSegment.indicesOffset;
-			putIndices(size, type);
+			putIndices(size, type, reuseSegment);
 		} else {
 			currentBufferPack = currentBufferSegment.bufferPack;
+			reuseSegment = true;
 		}
 
 		// set elements
-		currentBufferPack.setElements();
+		setElements(reuseSegment);
 
 		// release arrays
 		vertexArray = null;
 		normalArray = null;
 		textureArray = null;
+	}
+
+	/**
+	 * set elements to current buffer pack
+	 * 
+	 * @param reuseSegment
+	 *            says if segment is reused
+	 */
+	protected void setElements(boolean reuseSegment) {
+		currentBufferPack.setElements();
 	}
 
 	/**
@@ -386,5 +405,13 @@ abstract class GLBufferManager {
 	 */
 	public void setBufferSegmentToCurrentIndex() {
 		currentBufferSegment = bufferSegments.get(currentIndex);
+	}
+
+	/**
+	 * 
+	 * @return true if buffer manager for creating points templates
+	 */
+	public boolean isTemplateForPoints() {
+		return false;
 	}
 }

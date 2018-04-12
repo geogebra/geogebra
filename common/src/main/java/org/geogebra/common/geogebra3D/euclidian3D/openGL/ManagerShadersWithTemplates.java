@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
@@ -10,6 +11,39 @@ import org.geogebra.common.kernel.Matrix.Coords;
  *
  */
 public class ManagerShadersWithTemplates extends ManagerShaders {
+
+	/**
+	 * number of templates for points
+	 */
+	static public int POINT_TEMPLATES_COUNT = 3;
+
+	/**
+	 * 
+	 * @param pointSize
+	 *            point size
+	 * @return template index for this size
+	 */
+	static public int getIndexForPointSize(int pointSize) {
+		return pointSize < 3 ? 0 : (pointSize > 5 ? 2 : 1);
+	}
+
+	/**
+	 * 
+	 * @param index
+	 *            template index
+	 * @return sphere size for template index
+	 */
+	static public int getSphereSizeForIndex(int index) {
+		switch (index) {
+		case 0:
+			return 2;
+		case 1:
+			return 4;
+		default:
+			return 7;
+		}
+	}
+
 	private int[] pointGeometry;
 
 	/**
@@ -27,33 +61,18 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 		// points geometry templates
 		setScalerIdentity();
 		pointGeometry = new int[3];
-		pointGeometry[0] = drawSphere(2, Coords.O, 1d, -1);
-		pointGeometry[1] = drawSphere(4, Coords.O, 1d, -1);
-		pointGeometry[2] = drawSphere(7, Coords.O, 1d, -1);
+		for (int i = 0; i < 3; i++) {
+			pointGeometry[i] = drawSphere(getSphereSizeForIndex(i), Coords.O,
+					1d, -1);
+		}
 		setScalerView();
 
 	}
 
 	@Override
-	public int drawPoint(int size, Coords center, int index) {
-
+	public int drawPoint(DrawPoint3D d, int size, Coords center, int index) {
 		scaleXYZ(center);
-
-		// find point geometry template
-		int i = 1;
-		// int size2 = 4;
-		if (size < 3) {
-			i = 0;
-			// size2 = 2;
-		} else if (size > 5) {
-			i = 2;
-			// size2 = 7;
-		}
-		// if (pointGeometry[i] == -1){
-		// pointGeometry[i] = drawSphere(size2, Coords.O, 1d);
-		// }
-
-		return pointGeometry[i];
+		return pointGeometry[getIndexForPointSize(size)];
 	}
 
 	@Override

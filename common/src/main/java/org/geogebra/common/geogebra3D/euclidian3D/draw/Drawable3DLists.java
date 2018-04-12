@@ -261,11 +261,14 @@ public class Drawable3DLists {
 	 * @param renderer
 	 *            renderer
 	 */
-	final public void drawHiddenNotTextured(Renderer renderer) {
+	public void drawHiddenNotTextured(Renderer renderer) {
 		// points TODO hidden aspect ?
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_POINTS]
 				.iterator(); d.hasNext();) {
-			d.next().drawHidden(renderer);
+			Drawable3D d3d = d.next();
+			if (!d3d.shouldBePacked()) {
+				d3d.drawHidden(renderer);
+			}
 		}
 
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_LISTS]

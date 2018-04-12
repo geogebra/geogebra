@@ -26,7 +26,8 @@ public class GLBufferManagerCurves extends GLBufferManager {
 	}
 
 	@Override
-	protected void putIndices(int size, TypeElement type) {
+	protected void putIndices(int size, TypeElement type,
+			boolean reuseSegment) {
 		switch (type) {
 		case CURVE:
 			for (int k = 0; k < size; k++) {

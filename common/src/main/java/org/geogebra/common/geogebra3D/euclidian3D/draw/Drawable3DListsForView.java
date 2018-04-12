@@ -120,4 +120,13 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		}
 	}
 
+	@Override
+	public void drawHiddenNotTextured(Renderer renderer) {
+		super.drawHiddenNotTextured(renderer);
+		if (renderer.getGeometryManager().packBuffers()) {
+			((ManagerShadersElementsGlobalBufferPacking) renderer
+					.getGeometryManager()).drawPoints(renderer);
+		}
+	}
+
 }

@@ -1165,7 +1165,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return current color (may be highlighted)
 	 */
-	final protected GColor getColor() {
+	final public GColor getColor() {
 		if (doHighlighting()) {
 			return color[1];
 		}

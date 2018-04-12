@@ -43,7 +43,8 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 	}
 
 	@Override
-	protected void putIndices(int size, TypeElement type) {
+	protected void putIndices(int size, TypeElement type,
+			boolean reuseSegment) {
 		switch (type) {
 		case FAN_DIRECT:
 			short k = 1;

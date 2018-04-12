@@ -12,8 +12,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 
 //TODO does not extend Drawable3DCurves
 
@@ -95,7 +97,7 @@ public class DrawPoint3D extends Drawable3DCurves
 
 		// warning: plotter will scale center coords
 		setGeometryIndex(getView3D().getRenderer().getGeometryManager()
-				.drawPoint(point.getPointSize(), center,
+				.drawPoint(this, point.getPointSize(), center,
 						getReusableGeometryIndex()));
 
 		// bounds
@@ -114,7 +116,7 @@ public class DrawPoint3D extends Drawable3DCurves
 	@Override
 	protected void doRemoveGeometryIndex(int index) {
 		// for shaders: use Manager templates -- no remove for points
-		if (!getView3D().getRenderer().useShaders()) {
+		if (!getView3D().getRenderer().useShaders() || shouldBePacked()) {
 			super.doRemoveGeometryIndex(index);
 		}
 	}
@@ -147,12 +149,6 @@ public class DrawPoint3D extends Drawable3DCurves
 		super(a_view3D);
 
 		setGeoElement(a_view3D.getCursor3D());
-
-	}
-
-	@Override
-	public void disposePreview() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -358,4 +354,105 @@ public class DrawPoint3D extends Drawable3DCurves
 		}
 
 	}
+
+	@Override
+	protected void updateForViewVisible() {
+		if (!waitForUpdate()) {
+			updateForView();
+		}
+	}
+
+	@Override
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
+		if (shouldBePacked()) {
+			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
+				setWaitForUpdateColor();
+			} else if (prop == GProperty.VISIBLE) {
+				setWaitForUpdateVisibility();
+			} else {
+				super.setWaitForUpdateVisualStyle(prop);
+			}
+		} else {
+			super.setWaitForUpdateVisualStyle(prop);
+		}
+	}
+
+	@Override
+	protected void updateGeometriesColor() {
+
+		updateColors();
+		getView3D().getRenderer().getGeometryManager().updateColor(getColor(),
+				getGeometryIndex());
+		if (!isVisible()) {
+			setGeometriesVisibility(false);
+		}
+	}
+
+	@Override
+	protected void updateGeometriesVisibility() {
+		boolean isVisible = isVisible();
+		if (geometriesSetVisible != isVisible) {
+			setGeometriesVisibility(isVisible);
+		}
+	}
+
+	@Override
+	protected void setGeometriesVisibility(boolean visible) {
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getGeometryIndex());
+		geometriesSetVisible = visible;
+	}
+
+	@Override
+	protected void updateForViewNotVisible() {
+		if (shouldBePacked()) {
+			if (getView3D().viewChangedByZoom()) {
+				// will be updated if visible again
+				setWaitForUpdate();
+			}
+			updateGeometriesVisibility();
+		}
+	}
+
+	@Override
+	public void disposePreview() {
+		if (shouldBePacked()) {
+			removePreviewFromGL();
+		}
+	}
+
+	@Override
+	protected int getReusableGeometryIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getGeometryIndex());
+		}
+		return super.getReusableGeometryIndex();
+	}
+
+	@Override
+	protected void recordTrace() {
+		if (!shouldBePackedForManager()) {
+			super.recordTrace();
+		}
+	}
+
+	@Override
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
+		if (shouldBePackedForManager()) {
+			if (tracesPackingBuffer != null) {
+				while (!tracesPackingBuffer.isEmpty()) {
+					doRemoveGeometryIndex(tracesPackingBuffer.pop());
+				}
+			}
+		} else {
+			super.clearTraceForViewChangedByZoomOrTranslate();
+		}
+	}
+
+	@Override
+	public boolean shouldBePacked() {
+		return getView3D().getApplication().has(Feature.MOB_PACK_POINTS)
+				&& !createdByDrawList();
+	}
+
 }

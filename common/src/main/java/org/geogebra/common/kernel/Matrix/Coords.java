@@ -2474,6 +2474,18 @@ public class Coords {
 		}
 	}
 
+	/**
+	 * get values and set it in ret
+	 * 
+	 * @param ret
+	 *            ret
+	 */
+	public void get(float[] ret) {
+		for (int i = 0; i < ret.length; i++) {
+			ret[i] = (float) val[i];
+		}
+	}
+
 	/** @return false if at least one value is infinite */
 	public boolean isFinite() {
 

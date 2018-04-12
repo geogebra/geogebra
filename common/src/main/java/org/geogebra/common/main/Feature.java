@@ -285,5 +285,8 @@ public enum Feature {
 	/** MOB-1514 */
 	MOB_PACK_CONIC,
 
+	/** MOB-1515 */
+	MOB_PACK_POINTS
+
 }
 

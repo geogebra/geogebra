@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
+import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
  * manager packing geometries
@@ -20,6 +22,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 	private GLBufferManagerCurves bufferManagerCurves;
 	private GLBufferManagerSurfaces bufferManagerSurfaces, bufferManagerSurfacesClosed;
+	private GLBufferManagerPoints bufferManagerPoints;
 	private GLBufferManager currentBufferManager;
 	private GColor currentColor;
 	private int currentTextureType;
@@ -235,6 +238,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		bufferManagerCurves = new GLBufferManagerCurves();
 		bufferManagerSurfaces = new GLBufferManagerSurfaces(this);
 		bufferManagerSurfacesClosed = new GLBufferManagerSurfaces(this);
+		bufferManagerPoints = new GLBufferManagerPoints(this);
 		currentBufferManager = null;
 	}
 
@@ -266,6 +270,16 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public void drawSurfaces(Renderer renderer) {
 		bufferManagerSurfaces.draw((RendererShadersInterface) renderer);
+	}
+
+	/**
+	 * draw points
+	 * 
+	 * @param renderer
+	 *            renderer
+	 */
+	public void drawPoints(Renderer renderer) {
+		bufferManagerPoints.draw((RendererShadersInterface) renderer);
 	}
 
 	/**
@@ -323,6 +337,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		bufferManagerCurves.reset();
 		bufferManagerSurfaces.reset();
 		bufferManagerSurfacesClosed.reset();
+		bufferManagerPoints.reset();
 	}
 
 	@Override
@@ -384,6 +399,60 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	public void endList() {
 	    super.endList();
 		currentGeometriesSet.hideLastGeometries();
+	}
+
+	@Override
+	public int drawPoint(DrawPoint3D d, int size, Coords center, int index) {
+		if (d.shouldBePacked()) {
+			this.currentColor = d.getColor();
+			return bufferManagerPoints.drawPoint(d, size, center, index);
+		}
+		return super.drawPoint(d, size, center, index);
+
+	}
+
+	@Override
+	public GLBufferIndices getCurrentGeometryIndices(int size) {
+		if (currentBufferManager != null
+				&& currentBufferManager.isTemplateForPoints()) {
+			return bufferManagerPoints.getBufferTemplates()
+					.getBufferIndicesArray();
+		}
+		return super.getCurrentGeometryIndices(size);
+
+	}
+
+	/**
+	 * set current buffer manager
+	 * 
+	 * @param bufferManager
+	 *            buffer manager
+	 */
+	public void setCurrentBufferManager(GLBufferManager bufferManager) {
+		currentBufferManager = bufferManager;
+	}
+
+	/**
+	 * end geometry with known size, elements length, vertices and normals
+	 * arrays
+	 * 
+	 * @param size
+	 *            indices size
+	 * @param elementsLength
+	 *            vertices, normals length
+	 * @param vertices
+	 *            vertices array
+	 * @param normals
+	 *            normals array
+	 */
+	public void endGeometry(int size, int elementsLength,
+			ArrayList<Double> vertices,
+			ArrayList<Double> normals) {
+		currentGeometriesSet.setVertices(vertices, elementsLength * 3);
+		currentGeometriesSet.setNormals(normals, elementsLength * 3);
+		currentGeometriesSet.setTextures(null, 0);
+		currentGeometriesSet.setColors(null, 0);
+		currentGeometriesSet.bindGeometry(size, TypeElement.NONE);
 	}
 
 }

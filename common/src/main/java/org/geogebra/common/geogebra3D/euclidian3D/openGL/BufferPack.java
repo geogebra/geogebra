@@ -134,6 +134,29 @@ class BufferPack {
 	}
 
 	/**
+	 * set elements to buffers
+	 * 
+	 * @param translate
+	 *            translate all vertices
+	 * @param scale
+	 *            scale all vertices
+	 * @param reuseSegment
+	 *            says if it reuses an existing segment
+	 */
+	public void setElements(float[] translate, float scale,
+			boolean reuseSegment) {
+		int offset = manager.currentBufferSegment.elementsOffset;
+		int length = manager.currentBufferSegment.elementsLength;
+		vertexBuffer.set(manager.vertexArray, translate, scale, offset * 3,
+				length * 3);
+		if (!reuseSegment) {
+			normalBuffer.set(manager.normalArray, offset * 3, length * 3);
+			textureBuffer.set(0, offset * 2, length * 2, 1);
+		}
+		setColor(manager.color, offset, length);
+	}
+
+	/**
 	 * set color to buffer
 	 * 
 	 * @param color

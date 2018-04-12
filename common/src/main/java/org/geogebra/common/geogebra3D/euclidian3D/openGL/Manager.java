@@ -637,7 +637,7 @@ abstract public class Manager {
 	 *            center
 	 * @return geometry index
 	 */
-	public int drawPoint(int size, Coords center, int index) {
+	public int drawPoint(DrawPoint3D d, int size, Coords center, int index) {
 
 		double radius = size * DrawPoint3D.DRAW_POINT_FACTOR;
 		scaleXYZ(center);
