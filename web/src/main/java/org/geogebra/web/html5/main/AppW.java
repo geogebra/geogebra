@@ -1070,7 +1070,7 @@ public abstract class AppW extends App implements SetLabels {
 		resetMaxLayerUsed();
 		setCurrentFile(null);
 		setMoveMode();
-
+		
 		return true;
 
 		// }

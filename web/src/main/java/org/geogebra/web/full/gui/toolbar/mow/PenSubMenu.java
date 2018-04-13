@@ -125,11 +125,9 @@ public class PenSubMenu extends SubMenuPanel {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-
 				if (!colorsEnabled) {
 					return;
 				}
-
 				selectColor(colorIndex);
 			}
 		});
@@ -172,7 +170,6 @@ public class PenSubMenu extends SubMenuPanel {
 			@Override
 			public void onValueChange(ValueChangeEvent<Double> event) {
 				sliderValueChanged(event.getValue());
-				app.storeUndoInfo();
 			}
 		});
 	}
