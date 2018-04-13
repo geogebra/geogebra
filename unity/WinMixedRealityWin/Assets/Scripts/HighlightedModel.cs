@@ -34,8 +34,6 @@ public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
 
         if (instructionText == null)
         {
-            Debug.Log("in instructionText == null");
-            Debug.Log(transform.root.name + " / Room01 / TV / Canvas / Lissajous_Text");
             string tempName = name + "_Text";
             instructionText = GameObject.Find(transform.root.name + "/Room01/TV/Canvas/" + tempName);
         }
@@ -66,7 +64,6 @@ public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        Debug.Log("You clicked on me");
         gameManagerObj.GetComponent<GameManager>().tempModel = workModel;
         gameManagerObj.GetComponent<GameManager>().tempText = instructionText;
         gameManagerObj.GetComponent<GameManager>().OnButtonPressed();
@@ -74,7 +71,6 @@ public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
 
     void TaskOnClick()
     {
-        Debug.Log("You clicked on me");
         gameManagerObj.GetComponent<GameManager>().tempModel = workModel;
         gameManagerObj.GetComponent<GameManager>().OnButtonPressed();      
     }

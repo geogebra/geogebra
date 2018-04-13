@@ -69,7 +69,7 @@ public class ScreenshotManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        #region Assigning missing reference
         if (gameManager == null)
         {
             gameManager = GameObject.Find("GameManager");
@@ -78,6 +78,18 @@ public class ScreenshotManager : MonoBehaviour {
         {
             camera = Camera.main;
         }
+        if (photoPreviewMain == null)
+            photoPreviewMain = GameObject.Find("Image_Main");
+        if (photoPreview1 == null)
+            photoPreview1 = GameObject.Find("Image1");
+        if (photoPreview2 == null)
+            photoPreview2 = GameObject.Find("Image2");
+        if (photoPreview3 == null)
+            photoPreview3 = GameObject.Find("Image3");
+        if (photoPreview4 == null)
+            photoPreview4 = GameObject.Find("Image4");
+
+        #endregion
 
         onPostRenderCameraScript = camera.GetComponent<OnPostRenderCamera>();
 

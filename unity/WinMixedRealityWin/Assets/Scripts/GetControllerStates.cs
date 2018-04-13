@@ -7,6 +7,7 @@ using UnityEngine;
 #if UNITY_WSA && UNITY_2017_2_OR_NEWER
 using System.Collections.Generic;
 using UnityEngine.XR.WSA.Input;
+using Coherent.UIGT;
 #endif
 
 namespace HoloToolkit.Unity

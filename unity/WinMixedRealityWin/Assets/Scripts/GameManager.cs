@@ -75,6 +75,10 @@ public class GameManager : MonoBehaviour {
         if (tempTextSecondScreen == null)
             tempTextSecondScreen = GameObject.Find("SecondScreenCanvas");
 
+        // Clone screen
+        if (cloneScreen == null)
+            cloneScreen = GameObject.Find("SecondScreenCanvas");
+
         #endregion
     }
     
