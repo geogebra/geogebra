@@ -608,4 +608,10 @@ public class MOWToolbar extends FlowPanel {
 			}
 		}
 	}
+
+	public void resetPen() {
+		if (penMenu != null) {
+			((PenSubMenu) penMenu).resetPen();
+		}
+	}
 }

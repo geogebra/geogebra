@@ -66,7 +66,7 @@ public class PenSubMenu extends SubMenuPanel {
 	private final static String[] HEX_COLORS = { "000000", "2E7D32", "00A8A8",
 			"1565C0", "6557D2", "CC0099", "D32F2F", "DB6114", "FFCC00" };
 	private GColor lastSelectedColor = null;
-	private int lastPenThickness = getPen().getLineThickness();
+	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
 	private int lastHighlighterThinckness = DEFAULT_HIGHLIGHTER_SIZE;
 
 	/**
@@ -465,5 +465,13 @@ public class PenSubMenu extends SubMenuPanel {
 				}
 			});
 		}
+	}
+
+	/**
+	 * reset size of pen (for pen and highlighter)
+	 */
+	public void resetPen() {
+		lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
+		lastHighlighterThinckness = DEFAULT_HIGHLIGHTER_SIZE;
 	}
 }
