@@ -2250,6 +2250,22 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 	}
 
+	@Override
+	final public String exportSimple3d(String name, double xmin, double xmax,
+			double ymin,
+			double ymax, double zmin, double zmax, double xyScale,
+			double xzScale, double xTickDistance, double yTickDistance,
+			double zTickDistance) {
+		if (app.is3D()) {
+			Geometry3DGetterSimple getter = new Geometry3DGetterSimple(name);
+			app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
+					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+					zTickDistance);
+			return getter.get().toString();
+		}
+		return "";
+	}
+
 	public String exportSVG(String filename) {
 		// not implemented in Android, iOS
 		return null;

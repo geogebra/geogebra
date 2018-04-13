@@ -885,6 +885,16 @@ public interface JavaScriptAPI {
 			double xTickDistance, double yTickDistance, double zTickDistance);
 
 	/**
+	 * 
+	 * @return 3D model exported in simple 3d format
+	 */
+	public String exportSimple3d(String name, double xmin, double xmax,
+			double ymin,
+			double ymax, double zmin, double zmax, double xyScale,
+			double xzScale, double xTickDistance, double yTickDistance,
+			double zTickDistance);
+
+	/**
 	 * @return rounding in the format acceptaable for
 	 *         {@link #setRounding(String)}
 	 */

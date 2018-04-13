@@ -1,5 +1,7 @@
 package org.geogebra.common.plugin;
 
+import org.geogebra.common.kernel.geos.GeoElement;
+
 /**
  * interface to get geometries from 3D renderer
  */
@@ -10,20 +12,29 @@ public interface Geometry3DGetter {
 	 */
 	public enum GeometryType {
 		/** geometry from an axis */
-		AXIS,
+		AXIS("axes"),
 		/** geometry from a surface */
-		SURFACE,
+		SURFACE("surfaces"),
 		/** geometry from a curve or line */
-		CURVE
+		CURVE("curves");
+
+		/** name for export */
+		final public String name;
+
+		GeometryType(String name) {
+			this.name = name;
+		}
 	}
 
 	/**
 	 * 
+	 * @param geo
+	 *            geo
 	 * @param type
 	 *            geometry type
 	 * @return true if it handles the geometry type
 	 */
-	public boolean handles(GeometryType type);
+	public boolean handles(GeoElement geo, GeometryType type);
 
 	/**
 	 * start new geometry

@@ -976,6 +976,14 @@ public class ScriptManagerW extends ScriptManager {
 			    xmin | -5, xmax | 5, ymin | -5, ymax | 5, zmin | -5, zmax | 5, xyScale | 1, 
 			    xzScale | 1, xTickDistance | -1, yTickDistance | -1, zTickDistance | -1);
 		};
+		
+				
+		api.exportSimple3d = function(name, xmin, xmax, ymin, ymax, zmin, zmax, 
+					xyScale, xzScale, xTickDistance, yTickDistance, zTickDistance) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportSimple3d(Ljava/lang/String;DDDDDDDDDDD)(
+			    name + "", xmin, xmax, ymin, ymax, zmin, zmax, xyScale, 
+			    xzScale, xTickDistance, yTickDistance, zTickDistance);
+		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;

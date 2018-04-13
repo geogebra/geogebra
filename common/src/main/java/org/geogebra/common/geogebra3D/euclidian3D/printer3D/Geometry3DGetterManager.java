@@ -8,6 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.Geometri
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.Geometry;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Geometry3DGetter;
 import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 
@@ -37,13 +38,17 @@ public class Geometry3DGetterManager {
 	/**
 	 * export geometry with color and alpha
 	 * 
+	 * @param geo
+	 *            geo to export
+	 * 
 	 * @param geometryIndex
 	 * @param color
 	 * @param alpha
 	 * @param type
 	 */
-	public void export(int geometryIndex, GColor color, double alpha, GeometryType type) {
-		if (getter.handles(type)) {
+	public void export(GeoElement geo, int geometryIndex, GColor color,
+			double alpha, GeometryType type) {
+		if (getter.handles(geo, type)) {
 			GeometriesSet currentGeometriesSet = geometriesManager.getGeometrySet(geometryIndex);
 			double red = color.getRed() / 255.0;
 			double green = color.getGreen() / 255.0;

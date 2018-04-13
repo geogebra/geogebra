@@ -360,7 +360,8 @@ public class DrawAxis3D extends DrawLine3D {
 	@Override
 	public void export(Geometry3DGetterManager manager) {
 		if (isVisible()) {
-			manager.export(getGeometryIndex(), getGeoElement().getObjectColor(), 1, GeometryType.AXIS);
+			manager.export(getGeoElement(), getGeometryIndex(),
+					getGeoElement().getObjectColor(), 1, GeometryType.AXIS);
 		}
 	}
 
