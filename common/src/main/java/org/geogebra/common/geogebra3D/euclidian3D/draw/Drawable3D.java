@@ -329,6 +329,7 @@ public abstract class Drawable3D extends DrawableND {
 
 			if (waitForUpdateColor) {
 				updateGeometriesColor();
+				setLabelWaitForUpdate();
 				waitForUpdateColor = false;
 				waitForUpdateVisibility = false;
 			} else if (waitForUpdateVisibility) {
