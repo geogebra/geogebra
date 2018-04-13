@@ -470,5 +470,8 @@ public class PenSubMenu extends SubMenuPanel {
 	public void resetPen() {
 		lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
 		lastHighlighterThinckness = DEFAULT_HIGHLIGHTER_SIZE;
+		if (app.getMode() == EuclidianConstants.MODE_PEN) {
+			slider.setValue((double) lastPenThickness);
+		}
 	}
 }

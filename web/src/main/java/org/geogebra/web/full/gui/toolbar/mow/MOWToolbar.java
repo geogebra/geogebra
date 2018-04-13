@@ -609,6 +609,9 @@ public class MOWToolbar extends FlowPanel {
 		}
 	}
 
+	/**
+	 * reset pen and highlighter size
+	 */
 	public void resetPen() {
 		if (penMenu != null) {
 			((PenSubMenu) penMenu).resetPen();
