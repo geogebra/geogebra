@@ -8425,6 +8425,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				nrHandler = ((DrawSegment) getResizedShape())
 						.getHandler(mouseLoc);
 			}
+
 			switch (nrHandler) {
 			case TOP_LEFT:
 			case BOTTOM_RIGHT:
@@ -8450,6 +8451,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				getResizedShape().updateByBoundingBoxResize(event,
 					view.getHitHandler());
 			}
+
 			hideDynamicStylebar();
 			view.repaintView();
 			stopCollectingMinorRepaints();
@@ -8472,7 +8474,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			return;
 		}
-
 		altCopy = false;
 		// moveMode was set in mousePressed()
 		switch (moveMode) {
@@ -8784,7 +8785,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (app.isControlDown(e)) {
 			return;
 		}
-
 		// move label?
 		// warning: ensure that view.setLabelHitNeedsRefresh() is called e.g. at
 		// EuclidianController.wrapMousePressed() start
@@ -8797,7 +8797,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			setDragCursor();
 			return;
 		}
-
 		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
 		// for now allow only corner handlers
 		if (d != null && view
@@ -8830,7 +8829,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			setResizedShape(d);
 		}
-
 		// find and set movedGeoElement
 		setViewHits(e.getType());
 		Hits viewHits = view.getHits();
@@ -9118,7 +9116,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (shouldCancelDrag() || this.animationButtonPressed) {
 			return;
 		}
-
 		scriptsHaveRun = false;
 
 		if (isTextfieldHasFocus() && moveMode != MOVE_BUTTON) {
@@ -9142,13 +9139,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return;
 			}
 		}
-
 		clearJustCreatedGeos();
 
 		if (!draggingBeyondThreshold && isDraggingBeyondThreshold()) {
 			draggingBeyondThreshold = true;
 		}
-
 		if (!draggingOccured) {
 			draggingOccured = true;
 
@@ -9263,11 +9258,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					return;
 				}
 			}
-
 			// Slider can be moved too on whiteboard without using right mouse
 			// button or selecting slider tool.
 			else if (app.isWhiteboardActive()
 					&& app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)) {
+
 				setViewHits(event.getType());
 				GeoElement geo0 = null;
 				Hits hits0 = view.getHits();
@@ -9292,13 +9287,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return;
 				// Michael Borcherds 2007-10-07
 			}
-
 			if (mode == EuclidianConstants.MODE_MOVE_ROTATE) {
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(rotationCenter, false, true);
 			}
 
 		}
+
 		lastMouseLoc = mouseLoc;
 		setMouseLocation(event);
 		transformCoords();
@@ -9320,6 +9315,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		}
+
 		// dragging eg a fixed point shouldn't start the selection rectangle
 		if (view.getHits().isEmpty()) {
 
@@ -9969,7 +9965,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getPen().handleMousePressedForPenMode(event, hits);
 			return;
 		}
-
 		Drawable d = view.getBoundingBoxHandlerHit(
 				new GPoint(event.getX(), event.getY()), event.getType());
 		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
@@ -10008,6 +10003,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				default:
 					break;
 				}
+
 				setResizedShape(d);
 			}
 		}
@@ -10164,14 +10160,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		lastVideo = (GeoVideo) movedGeoButton;
 	}
 
-	private void handleVideoReleased() {
+	private boolean handleVideoReleased() {
 		if (lastVideo != null && selection.containsSelectedGeo(lastVideo)) {
 			if (lastVideo.isReady()) {
 				view.setBoundingBox(null);
 				view.repaintView();
 			}
 			app.getVideoManager().play(lastVideo);
+			return true;
 		}
+		return false;
 	}
 
 	private void setMoveModeForFurnitures() {
@@ -10655,7 +10653,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			am.setTabOverGeos(true);
 		}
 
-		handleVideoReleased();
+		if (handleVideoReleased()) {
+			return;
+		}
 
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;

@@ -505,6 +505,7 @@ public abstract class Drawable extends DrawableND {
 				&& getBoundingBox() == view.getBoundingBox()) {
 			hit = getBoundingBox().hitHandlers(x, y, hitThreshold);
 		}
+
 		switch (hit) {
 		case 0:
 			return EuclidianBoundingBoxHandler.TOP_LEFT;

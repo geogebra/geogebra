@@ -34,7 +34,7 @@ public class GeoVideo extends GeoMedia {
 	 * Test video URL.
 	 */
 	private static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
-	private static final String YOUTUBE_PREVIEW = "https://crossorigin.me/https://img.youtube.com/vi/%ID%/0.jpg";
+	private static final String YOUTUBE_PREVIEW = "https://img.youtube.com/vi/%ID%/0.jpg";
 	private static final String TIME_PARAM = "t=";
 	private static final String EMBED_TIME_PARAM = "start=";
 	private static final int VIDEO_WIDTH = 420;

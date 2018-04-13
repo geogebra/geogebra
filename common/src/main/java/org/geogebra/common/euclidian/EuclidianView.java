@@ -36,6 +36,7 @@ import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawVector;
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
@@ -2299,7 +2300,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			hitHandler = d.hitBoundingBoxHandler(p.x, p.y, app.getCapturingThreshold(type));
+			int threshold = d instanceof DrawVideo ? DrawVideo.HANDLER_THRESHOLD : app.getCapturingThreshold(type);
+			hitHandler = d.hitBoundingBoxHandler(p.x, p.y, threshold);
 			if (hitHandler != EuclidianBoundingBoxHandler.UNDEFINED) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {

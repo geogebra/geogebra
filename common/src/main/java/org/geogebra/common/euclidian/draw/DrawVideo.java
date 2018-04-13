@@ -32,6 +32,9 @@ public class DrawVideo extends Drawable {
 	private double originalRatio = Double.NaN;
 	private final static int VIDEO_SIZE_THRESHOLD = 100;
 
+	/** Threshold correction for resizing handler capturing */
+	public static final int HANDLER_THRESHOLD = -4;
+
 	/**
 	 * @param view
 	 *            The euclidian view.
@@ -43,11 +46,16 @@ public class DrawVideo extends Drawable {
 		this.video = geo;
 		this.geo = geo;
 		this.app = geo.getKernel().getApplication();
+		setMetrics();
 	}
 
 	@Override
 	public void update() {
 		app.getGuiManager().updateVideo(video);
+		setMetrics();
+	}
+
+	private void setMetrics() {
 		int width = video.getWidth();
 		int height = video.getHeight();
 		left = video.getAbsoluteScreenLocX();
