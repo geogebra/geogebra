@@ -406,7 +406,7 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
-	public boolean getParamAllowScale() {
+	public boolean getParamDisableAutoScale() {
 		return false;
 	}
 

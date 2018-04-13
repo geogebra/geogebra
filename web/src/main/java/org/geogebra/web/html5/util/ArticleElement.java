@@ -842,7 +842,7 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	}
 
 	@Override
-	public boolean getParamAllowScale() {
-		return getBoolDataParam("allowScale", false);
+	public boolean getParamDisableAutoScale() {
+		return getBoolDataParam("disableAutoScale", false);
 	}
 }

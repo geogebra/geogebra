@@ -463,6 +463,6 @@ public interface ArticleElementInterface {
 	/**
 	 * @return whether to allow changing scale
 	 */
-	boolean getParamAllowScale();
+	boolean getParamDisableAutoScale();
 
 }
