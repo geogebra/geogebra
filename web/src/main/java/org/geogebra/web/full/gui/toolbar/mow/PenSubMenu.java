@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianPen;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -39,6 +40,7 @@ public class PenSubMenu extends SubMenuPanel {
 	private static final int MAX_PEN_SIZE = 12;
 	private static final int MAX_ERASER_SIZE = 100;
 	private static final int MIN_HIGHLIGHTER_SIZE = 15;
+	private static final int DEFAULT_HIGHLIGHTER_SIZE = 20;
 	private static final int MAX_HIGHLIGHTER_SIZE = 30;
 	private static final int PEN_STEP = 1;
 	private static final int ERASER_STEP = 20;
@@ -64,6 +66,8 @@ public class PenSubMenu extends SubMenuPanel {
 	private final static String[] HEX_COLORS = { "000000", "2E7D32", "00A8A8",
 			"1565C0", "6557D2", "CC0099", "D32F2F", "DB6114", "FFCC00" };
 	private GColor lastSelectedColor = null;
+	private int lastPenThickness = getPen().getLineThickness();
+	private int lastHighlighterThinckness = DEFAULT_HIGHLIGHTER_SIZE;
 
 	/**
 	 * 
@@ -168,6 +172,7 @@ public class PenSubMenu extends SubMenuPanel {
 			@Override
 			public void onValueChange(ValueChangeEvent<Double> event) {
 				sliderValueChanged(event.getValue());
+				app.storeUndoInfo();
 			}
 		});
 	}
@@ -180,7 +185,14 @@ public class PenSubMenu extends SubMenuPanel {
 	 */
 	void sliderValueChanged(double value) {
 		if (colorsEnabled) {
-			getPenGeo().setLineThickness((int) value);
+			getPen().setPenSize((int) value);
+			if (app.getActiveEuclidianView()
+					.getMode() == EuclidianConstants.MODE_PEN) {
+				lastPenThickness = (int) value;
+			} else if (app.getActiveEuclidianView()
+					.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
+				lastHighlighterThinckness = (int) value;
+			}
 			updatePreview();
 		} else {
 			app.getActiveEuclidianView().getSettings().setDeleteToolSize((int) value);
@@ -234,7 +246,8 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.setMinimum(1, false);
 		slider.setMaximum(MAX_PEN_SIZE, false);
 		slider.setStep(PEN_STEP);
-		slider.setValue((double) getPenGeo().getLineThickness());
+		slider.setValue((double) lastPenThickness);
+		getPen().setPenSize(lastPenThickness);
 		slider.getElement().setAttribute("disabled", "false");
 		preview.setVisible(true);
 		updatePreview();
@@ -251,10 +264,8 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.setMinimum(MIN_HIGHLIGHTER_SIZE, false);
 		slider.setMaximum(MAX_HIGHLIGHTER_SIZE, false);
 		slider.setStep(PEN_STEP);
-		slider.setValue(
-				((double) getPenGeo().getLineThickness()) < MIN_HIGHLIGHTER_SIZE
-						? MIN_HIGHLIGHTER_SIZE
-						: (double) getPenGeo().getLineThickness());
+		slider.setValue((double) lastHighlighterThinckness);
+		getPen().setPenSize(lastHighlighterThinckness);
 		slider.getElement().setAttribute("disabled", "false");
  		preview.setVisible(true);
 		updatePreview();
@@ -360,6 +371,10 @@ public class PenSubMenu extends SubMenuPanel {
 	private GeoElement getPenGeo() {
 		return app.getActiveEuclidianView().getEuclidianController()
 				.getPen().defaultPenLine;
+	}
+
+	private EuclidianPen getPen() {
+		return app.getActiveEuclidianView().getEuclidianController().getPen();
 	}
 
 	@Override
