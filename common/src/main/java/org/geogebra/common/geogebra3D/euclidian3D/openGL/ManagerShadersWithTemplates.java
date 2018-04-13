@@ -15,7 +15,7 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 	/**
 	 * number of templates for points
 	 */
-	static public int POINT_TEMPLATES_COUNT = 3;
+	final static public int POINT_TEMPLATES_COUNT = 3;
 
 	private int[] pointGeometry;
 

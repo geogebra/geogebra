@@ -5206,7 +5206,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				checkZooming();
 
 				// three points: center, distance between two points
-				GeoElement circle = CircleCompasses(centerPoint, points[0],
+				GeoElement circle = circleCompasses(centerPoint, points[0],
 						points[1]);
 				GeoElement[] ret = { circle };
 				clearSelections();
@@ -5234,7 +5234,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				checkZooming();
 
 				// center point and circle which defines radius
-				GeoElement circlel = Circle(centerPoint, circle);
+				GeoElement circlel = circle(centerPoint, circle);
 				GeoElement[] ret = { circlel };
 				clearSelections();
 				return ret;
@@ -5291,7 +5291,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * circle with midpoint A and radius the same as circle/sphere Michael
 	 * Borcherds 2008-03-14
 	 */
-	final private GeoConicND Circle(
+	final private GeoConicND circle(
 			// this is actually a macro
 			GeoPointND A, GeoQuadricND c) {
 
@@ -5310,7 +5310,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	/**
 	 * circle with midpoint M and radius BC Michael Borcherds 2008-03-14
 	 */
-	final private GeoConicND CircleCompasses(GeoPointND A, GeoPointND B,
+	final private GeoConicND circleCompasses(GeoPointND A, GeoPointND B,
 			GeoPointND C) {
 
 		Construction cons = kernel.getConstruction();
