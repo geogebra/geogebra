@@ -48,8 +48,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	// preferred size
 	private GDimension preferredSize;
-	private int HScrollBarValue;
-	private int VScrollBarValue;
+	private int hScrollBarValue;
+	private int vScrollBarValue;
 
 	public static class Defaults {
 		public static final boolean SHOW_FORMULA_BAR = false;
@@ -73,6 +73,10 @@ public class SpreadsheetSettings extends AbstractSettings {
 	// Row/Column Dimension Settings
 	// ============================================
 
+	/**
+	 * @param listeners
+	 *            settings listeners
+	 */
 	public SpreadsheetSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
@@ -83,6 +87,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
+	/**
+	 * @return column widths
+	 */
 	public HashMap<Integer, Integer> getWidthMap() {
 		if (widthMap == null) {
 			widthMap = new HashMap<>();
@@ -104,6 +111,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 		settingChanged();
 	}
 
+	/**
+	 * @return row heights
+	 */
 	public HashMap<Integer, Integer> getHeightMap() {
 		if (heightMap == null) {
 			heightMap = new HashMap<>();
@@ -418,23 +428,29 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	public void setHScrollBalValue(int hScrollBalValue) {
-		HScrollBarValue = hScrollBalValue;
+		this.hScrollBarValue = hScrollBalValue;
 	}
 
 	public void setVScrollBalValue(int vScrollBalValue) {
-		VScrollBarValue = vScrollBalValue;
+		this.vScrollBarValue = vScrollBalValue;
 	}
 
 	// ============================================
 	// Defaults
 	// ============================================
 
+	/**
+	 * @return whether all settings are default
+	 */
 	public boolean isAllDefaults() {
 		return (isDefaultPreferredSize() && isSelectionDefaults()
 				&& isLayoutDefaults() && !hasCellFormat()
 				&& isRowColumnSizeDefaults());
 	}
 
+	/**
+	 * @return whether row & column sizes are default
+	 */
 	public boolean isRowColumnSizeDefaults() {
 		return preferredColumnWidth == TABLE_CELL_WIDTH
 				&& preferredRowHeight == TABLE_CELL_HEIGHT
@@ -442,10 +458,13 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	public boolean isSelectionDefaults() {
-		return (HScrollBarValue == 0 && VScrollBarValue == 0
+		return (hScrollBarValue == 0 && vScrollBarValue == 0
 				&& selectedCell.getX() == 0 && selectedCell.getY() == 0);
 	}
 
+	/**
+	 * @return whether layout settings are all default
+	 */
 	public boolean isLayoutDefaults() {
 		return (isDefaultShowFormulaBar() && isDefaultShowGrid()
 				&& isDefaultShowRowHeader() && isDefaultShowColumnHeader()
@@ -491,6 +510,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 		return showGrid == Defaults.SHOW_GRID;
 	}
 
+	/**
+	 * @return whether prefered cell size is default
+	 */
 	public boolean isDefaultPreferredSize() {
 		int w = preferredSize.getWidth();
 		int h = preferredSize.getHeight();
@@ -505,6 +527,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	/**
 	 * returns settings in XML format
+	 * 
+	 * @param sb
+	 *            string builder
+	 * @param asPreference
+	 *            whether this is for preference
 	 */
 	public void getXML(StringBuilder sb, boolean asPreference) {
 		if (!hasInitialized()) {
@@ -513,8 +540,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 		sb.append("<spreadsheetView>\n");
 
 		GDimension size = preferredSize();
-		int width = size.getWidth();// getPreferredSize().width;
-		int height = size.getHeight();// getPreferredSize().height;
+		int width = size.getWidth();
+		int height = size.getHeight();
 
 		if (!isDefaultPreferredSize()) {
 			sb.append("\t<size ");
@@ -562,15 +589,15 @@ public class SpreadsheetSettings extends AbstractSettings {
 			if (!isSelectionDefaults()) {
 				sb.append("\t<selection ");
 
-				if (HScrollBarValue != 0) {
+				if (hScrollBarValue != 0) {
 					sb.append(" hScroll=\"");
-					sb.append(HScrollBarValue);
+					sb.append(hScrollBarValue);
 					sb.append("\"");
 				}
 
-				if (VScrollBarValue != 0) {
+				if (vScrollBarValue != 0) {
 					sb.append(" vScroll=\"");
-					sb.append(VScrollBarValue);
+					sb.append(vScrollBarValue);
 					sb.append("\"");
 				}
 
@@ -608,6 +635,12 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	}
 
+	/**
+	 * Add layout settings.
+	 * 
+	 * @param sb
+	 *            XML string builder
+	 */
 	public void getLayoutXML(StringBuilder sb) {
 		if (!isLayoutDefaults()) {
 			sb.append("\t<layout ");
@@ -658,6 +691,12 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	}
 
+	/**
+	 * Append width / height settings to XML.
+	 * 
+	 * @param sb
+	 *            XML string builder
+	 */
 	public void getWidthsAndHeightsXML(StringBuilder sb) {
 		// column widths
 		HashMap<Integer, Integer> widthMap1 = getWidthMap();

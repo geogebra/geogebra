@@ -208,10 +208,17 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 		return this.high;
 	}
 
+	/**
+	 * @param stats
+	 *            stats collection
+	 */
 	public void setCollection(StatisticsCollection stats) {
 		this.stats = stats;
 	}
 
+	/**
+	 * @return stats collection
+	 */
 	public StatisticsCollection getCollection() {
 		if (stats == null) {
 			stats = new StatisticsCollection();

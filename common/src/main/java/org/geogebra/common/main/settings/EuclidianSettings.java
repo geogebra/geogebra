@@ -57,17 +57,21 @@ public class EuclidianSettings extends AbstractSettings {
 	/**
 	 * Various distances between lines of the grid.
 	 */
-	double[] gridDistances = null;// { 2, 2, Math.PI/6 };
+	double[] gridDistances = null; // { 2, 2, Math.PI/6 };
 
 	// we need 3 values for 3D view, as it may copy values from ev1
 	private final double[] axisCross = { 0, 0, 0 };
 	private final boolean[] positiveAxes = { false, false, false };
 	private final boolean[] drawBorderAxes = { false, false, false };
-	private NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
+	private NumberValue xminObject;
+	private NumberValue xmaxObject;
+	private NumberValue yminObject;
+	private NumberValue ymaxObject;
 
 	private int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
-	private GDimension sizeFromFile, size;
+	private GDimension sizeFromFile;
+	private GDimension size;
 
 	protected boolean[] showAxes = { true, true, true };
 	protected boolean[] selectionAllowed = { true, true, true };
@@ -87,7 +91,7 @@ public class EuclidianSettings extends AbstractSettings {
 	// for axes labeling with numbers
 	protected boolean[] automaticAxesNumberingDistances = { true, true, true };
 
-	protected GeoNumberValue axisNumberingDistances[] = new GeoNumeric[] { null,
+	protected GeoNumberValue[] axisNumberingDistances = new GeoNumeric[] { null,
 			null, null };
 
 	// distances between grid lines
@@ -127,9 +131,10 @@ public class EuclidianSettings extends AbstractSettings {
 
 	protected App app;
 
-	// settings for the base EuclidianView (or null if this is the base)
-	// private final EuclidianSettings euclidianSettings1;
-
+	/**
+	 * @param app
+	 *            application
+	 */
 	public EuclidianSettings(App app) {
 		// this.euclidianSettings1 = euclidianSettings1;
 		xZero = EuclidianView.XZERO_STANDARD; // needs to be positive
@@ -139,7 +144,7 @@ public class EuclidianSettings extends AbstractSettings {
 		resetNoFire();
 	}
 
-	/*
+	/**
 	 * some settings are not stored in XML, eg eg automaticGridDistance so we
 	 * need to clear these parameters to make sure the others are set OK see
 	 * EuclidianView.settingsChanged()
@@ -242,6 +247,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * Change background color.
 	 * 
 	 * @param col
+	 *            background color
 	 */
 	public void setBackground(GColor col) {
 		if (!col.equals(backgroundColor)) {
@@ -261,6 +267,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * Change axes color.
 	 * 
 	 * @param col
+	 *            axes color
 	 */
 	public void setAxesColor(GColor col) {
 		if (!col.equals(axesColor)) {
@@ -280,6 +287,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * Change grid color.
 	 * 
 	 * @param col
+	 *            grid color
 	 */
 	public void setGridColor(GColor col) {
 		if (!col.equals(gridColor)) {
@@ -299,6 +307,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * Change line style of axes.
 	 * 
 	 * @param style
+	 *            axes style
 	 */
 	public void setAxesLineStyle(int style) {
 		if (axesLineStyle != style) {
@@ -318,6 +327,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * Change line style of grid.
 	 * 
 	 * @param style
+	 *            grid style
 	 */
 	public void setGridLineStyle(int style) {
 		if (gridLineStyle != style) {
@@ -337,6 +347,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * Change grid distances.
 	 * 
 	 * @param dists
+	 *            grid distances for x, y
 	 */
 	public void setGridDistances(double[] dists) {
 		boolean changed = false;
@@ -372,30 +383,43 @@ public class EuclidianSettings extends AbstractSettings {
 		return gridDistances;
 	}
 
-	public void setAutomaticGridDistance(boolean agd, boolean callsc) {
+	/**
+	 * @param agd
+	 *            automatic grid sistance
+	 * @param fire
+	 *            whether to notify listeners
+	 */
+	public void setAutomaticGridDistance(boolean agd, boolean fire) {
 		if (automaticGridDistance != agd) {
 			automaticGridDistance = agd;
 
 			if (agd) {
 				gridDistances = null;
-				if (callsc) {
-					settingChanged();
-				}
-			} else if (callsc) {
+			}
+			if (fire) {
 				settingChanged();
 			}
 		}
 	}
 
+	/**
+	 * @return whether grid distance is automatic
+	 */
 	public boolean getAutomaticGridDistance() {
 		return automaticGridDistance;
 	}
 
-
+	/**
+	 * @return whether mouse coords are allowed
+	 */
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
 	}
 
+	/**
+	 * @param neverShowMouseCoords
+	 *            whther to show mouse coordinates
+	 */
 	public void setAllowShowMouseCoords(boolean neverShowMouseCoords) {
 		if (neverShowMouseCoords == this.allowShowMouseCoords) {
 			return;
@@ -404,8 +428,14 @@ public class EuclidianSettings extends AbstractSettings {
 		settingChanged();
 	}
 
-	/*
+	/**
 	 * change visibility of axes
+	 * 
+	 * @param axis
+	 *            axis
+	 * @param flag
+	 *            whether it should be visible
+	 * @return whether setting changed
 	 */
 	public boolean setShowAxis(int axis, boolean flag) {
 		boolean changed = setShowAxisNoFireSettingChanged(axis, flag);
@@ -415,9 +445,15 @@ public class EuclidianSettings extends AbstractSettings {
 		return changed;
 	}
 
-	/*
- * change visibility of axes
- */
+	/**
+	 * change visibility of axes
+	 * 
+	 * @param axis
+	 *            axis
+	 * @param flag
+	 *            whether it should be visible
+	 * @return whether setting changed
+	 */
 	public boolean setShowAxisNoFireSettingChanged(int axis, boolean flag) {
 		boolean changed = flag != showAxes[axis];
 
@@ -427,8 +463,14 @@ public class EuclidianSettings extends AbstractSettings {
 		return changed;
 	}
 
-	/*
+	/**
 	 * change logarithmic of axes
+	 * 
+	 * @param axis
+	 *            axis
+	 * @param flag
+	 *            whether it should be logarithmic
+	 * @return whether setting changed
 	 */
 	public boolean setLogAxis(int axis, boolean flag) {
 		boolean changed = flag != logAxes[axis];
@@ -467,12 +509,25 @@ public class EuclidianSettings extends AbstractSettings {
 	 * sets the axis label to axisLabel
 	 * 
 	 * @param axis
+	 *            axis
 	 * @param axisLabel
+	 *            label
 	 */
 	public void setAxisLabel(int axis, String axisLabel) {
 		setAxisLabel(axis, axisLabel, true);
 	}
 
+	/**
+	 * sets the axis label to axisLabel
+	 * 
+	 * @param axis
+	 *            axis
+	 * @param axisLabel
+	 *            label
+	 * @param fireSettingsChanged
+	 *            whether to notify listeners
+	 * @return whether settings changed
+	 */
 	public boolean setAxisLabel(int axis, String axisLabel, boolean fireSettingsChanged) {
 		boolean changed = false;
 		if (StringUtil.empty(axisLabel)) {
@@ -498,6 +553,12 @@ public class EuclidianSettings extends AbstractSettings {
 		return axesUnitLabels;
 	}
 
+	/**
+	 * Change units.
+	 * 
+	 * @param axesUnitLabels
+	 *            unit labels
+	 */
 	public void setAxesUnitLabels(String[] axesUnitLabels) {
 		this.axesUnitLabels = axesUnitLabels;
 
@@ -529,6 +590,14 @@ public class EuclidianSettings extends AbstractSettings {
 		setAxisNumberingDistance(i, dist, true);
 	}
 
+	/**
+	 * @param i
+	 *            axis
+	 * @param dist
+	 *            distance
+	 * @param fireSettingChanged
+	 *            whether to notify listeners
+	 */
 	public void setAxisNumberingDistance(int i, GeoNumberValue dist, boolean fireSettingChanged) {
 		axisNumberingDistances[i] = dist;
 		setAutomaticAxesNumberingDistance(false, i, false);
@@ -537,6 +606,14 @@ public class EuclidianSettings extends AbstractSettings {
 		}
 	}
 
+	/**
+	 * @param flag
+	 *            automatic distance flag
+	 * @param axis
+	 *            axis
+	 * @param callsc
+	 *            whether to notify listeners
+	 */
 	public void setAutomaticAxesNumberingDistance(boolean flag, int axis,
 			boolean callsc) {
 
@@ -566,6 +643,14 @@ public class EuclidianSettings extends AbstractSettings {
 		return axesTickStyles;
 	}
 
+	/**
+	 * Set minor or major ticks.
+	 * 
+	 * @param axis
+	 *            axis
+	 * @param tickStyle
+	 *            EuclidianStyleConstants.AXES_TICK_STYLE_* constant
+	 */
 	public void setAxisTickStyle(int axis, int tickStyle) {
 
 		if (axesTickStyles[axis] != tickStyle) {
@@ -578,6 +663,12 @@ public class EuclidianSettings extends AbstractSettings {
 		return axisCross;
 	}
 
+	/**
+	 * @param axis
+	 *            axis
+	 * @param cross
+	 *            cross cordinate
+	 */
 	public void setAxisCross(int axis, double cross) {
 		if (axisCross[axis] != cross) {
 			axisCross[axis] = cross;
@@ -585,11 +676,22 @@ public class EuclidianSettings extends AbstractSettings {
 		}
 	}
 
+	/**
+	 * @return whether each axis is only shown in positive direction from cross
+	 */
 	public boolean[] getPositiveAxes() {
 		return positiveAxes;
 	}
 
-	// for xml handler
+	/**
+	 * Set axes to be shown in positive direction from cross.
+	 * 
+	 * @param axis
+	 *            axis index
+	 * @param isPositiveAxis
+	 *            whether to only show positive
+	 * 
+	 */
 	public void setPositiveAxis(int axis, boolean isPositiveAxis) {
 		if (positiveAxes[axis] == isPositiveAxis) {
 			return;
@@ -679,40 +781,59 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
-	 * Returns x coordinate of axes origin.
+	 * @return x coordinate of axes origin.
 	 */
 	public double getXZero() {
 		return xZero;
 	}
 
 	/**
-	 * Returns y coordinate of axes origin.
+	 * @return y coordinate of axes origin.
 	 */
 	public double getYZero() {
 		return yZero;
 	}
 
 	/**
-	 * Returns xscale of this view. The scale is the number of pixels in screen
-	 * space that represent one unit in user space.
+	 * The scale is the number of pixels in screen space that represent one unit
+	 * in user space.
+	 * 
+	 * @return xscale of this view.
 	 */
 	public double getXscale() {
 		return xscale;
 	}
 
 	/**
-	 * Returns the yscale of this view. The scale is the number of pixels in
-	 * screen space that represent one unit in user space.
+	 * The scale is the number of pixels in screen space that represent one unit
+	 * in user space.
+	 * 
+	 * @return the yscale of this view.
 	 */
 	public double getYscale() {
 		return yscale;
 	}
 
+	/**
+	 * @return whether dynamic bounds exist
+	 */
 	public boolean hasDynamicBounds() {
 		return xminObject != null && yminObject != null && xmaxObject != null
 				&& ymaxObject != null;
 	}
 
+	/**
+	 * @param xZero
+	 *            x-coord of the origin
+	 * @param yZero
+	 *            y-coord of the origin
+	 * @param xscale
+	 *            x scale
+	 * @param yscale
+	 *            y scale
+	 * @param fire
+	 *            whether to notify listeners
+	 */
 	public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale, boolean fire) {
 		if (Double.isNaN(xscale) || (xscale < Kernel.MAX_DOUBLE_PRECISION)
@@ -731,17 +852,35 @@ public class EuclidianSettings extends AbstractSettings {
 		if (fire) {
 			settingChanged();
 		}
-
 	}
 
-	public void setAxesNumberingDistance(GeoNumberValue tickDist, int axis, boolean fireSettingChanged) {
+	/**
+	 * @param tickDist
+	 *            tick distance
+	 * @param axis
+	 *            axis index
+	 * @param fireSettingChanged
+	 *            whether to notify listeners
+	 */
+	public void setAxesNumberingDistance(GeoNumberValue tickDist, int axis,
+			boolean fireSettingChanged) {
 		setAxisNumberingDistance(axis, tickDist, fireSettingChanged);
 	}
 
+	/**
+	 * @param tickDist
+	 *            tick distance
+	 * @param axis
+	 *            axis
+	 */
 	public void setAxesNumberingDistance(GeoNumberValue tickDist, int axis) {
 		setAxesNumberingDistance(tickDist, axis, true);
 	}
 
+	/**
+	 * @param dimension
+	 *            preferred view size
+	 */
 	public void setPreferredSize(GDimension dimension) {
 		preferredSize = dimension;
 		settingChanged();
@@ -752,17 +891,28 @@ public class EuclidianSettings extends AbstractSettings {
 		return preferredSize;
 	}
 
+	/**
+	 * @param x
+	 *            whether to show xAxis
+	 * @param y
+	 *            whether to show yAxis
+	 * @return whether settings changed
+	 */
 	public boolean setShowAxes(boolean x, boolean y) {
 		boolean changedX = this.setShowAxis(0, x);
 		return this.setShowAxis(1, y) || changedX;
 		// settingChanged() is called from those above
-
 	}
 
+	/**
+	 * @param flag
+	 *            whether to show axes
+	 * @return whether setting changed
+	 */
 	public boolean setShowAxes(boolean flag) {
-		boolean changed = this.setShowAxisNoFireSettingChanged(0, flag);
-		changed = this.setShowAxisNoFireSettingChanged(1, flag) || changed;
-		changed = this.setShowAxisNoFireSettingChanged(2, flag) || changed;
+		boolean changed = setShowAxisNoFireSettingChanged(0, flag);
+		changed = setShowAxisNoFireSettingChanged(1, flag) || changed;
+		changed = setShowAxisNoFireSettingChanged(2, flag) || changed;
 		if (changed) {
 			settingChanged();
 			if (app.has(Feature.PREVIEW_POINTS)) {
@@ -772,21 +922,24 @@ public class EuclidianSettings extends AbstractSettings {
 		return changed;
 	}
 
+	/**
+	 * @param x
+	 *            xAxis logarithmic?
+	 * @param y
+	 *            yAxis logarithmic?
+	 * @return whether settings changed
+	 */
 	public boolean setLogAxes(boolean x, boolean y) {
 		boolean changedX = this.setLogAxis(0, x);
 		return this.setLogAxis(1, y) || changedX;
 		// settingChanged() is called from those above
-
 	}
 
-	public boolean setLogAxes(boolean flag) {
-		boolean changed = this.setLogAxis(0, flag);
-		changed = this.setLogAxis(1, flag) || changed;
-		return this.setLogAxis(2, flag) || changed;
-		// settingChanged() is called from those above
-
-	}
-
+	/**
+	 * @param show
+	 *            whether to show grid
+	 * @return whether settings changed
+	 */
 	public boolean showGrid(boolean show) {
 		if (show == showGrid) {
 			return false;
@@ -808,22 +961,30 @@ public class EuclidianSettings extends AbstractSettings {
 		return gridIsBold;
 	}
 
+	/**
+	 * @param gridIsBold
+	 *            bold grid?
+	 */
 	public void setGridIsBold(boolean gridIsBold) {
 		if (this.gridIsBold == gridIsBold) {
 			return;
 		}
-
 		this.gridIsBold = gridIsBold;
-
 		settingChanged();
 	}
 
+	/**
+	 * @return grid type
+	 */
 	final public int getGridType() {
 		return gridType;
 	}
 
 	/**
-	 * Set grid type.
+	 * Set grid type: cartesian, polar, isometric, ....
+	 * 
+	 * @param type
+	 *            one fof EuclidianView.GRID_* constants
 	 */
 	public void setGridType(int type) {
 		if (gridType == type) {
@@ -839,6 +1000,8 @@ public class EuclidianSettings extends AbstractSettings {
 
 	/**
 	 * Returns point capturing mode.
+	 * 
+	 * @return EuclidianStyleConstants.POINT_CAPTURING_*
 	 */
 	final public int getPointCapturingMode() {
 		return pointCapturingMode;
@@ -847,10 +1010,12 @@ public class EuclidianSettings extends AbstractSettings {
 	/**
 	 * Set capturing of points to the grid.
 	 * 
+	 * @param mode
+	 *            EuclidianStyleConstants.POINT_CAPTURING_*
+	 * 
 	 * @return true if setting changed
 	 */
 	public boolean setPointCapturing(int mode) {
-
 		if (pointCapturingMode == mode) {
 			return false;
 		}
@@ -859,6 +1024,10 @@ public class EuclidianSettings extends AbstractSettings {
 		return false;
 	}
 
+	/**
+	 * @param setto
+	 *            whether to allow tooltips
+	 */
 	public void setAllowToolTips(int setto) {
 		if (setto == tooltipsInThisView) {
 			return;
@@ -871,6 +1040,12 @@ public class EuclidianSettings extends AbstractSettings {
 		return tooltipsInThisView;
 	}
 
+	/**
+	 * @param axis
+	 *            axis
+	 * @param value
+	 *            whether axis should stick to border
+	 */
 	public void setDrawBorderAxes(int axis, boolean value) {
 		if ((axis == 0) || (axis == 1)) {
 			if (drawBorderAxes[axis] == value) {
@@ -881,10 +1056,17 @@ public class EuclidianSettings extends AbstractSettings {
 		}
 	}
 
+	/**
+	 * @return whether each axis is sticking to border
+	 */
 	final public boolean[] getDrawBorderAxes() {
 		return drawBorderAxes;
 	}
 
+	/**
+	 * @param ratio
+	 *            x:y ratio; ratio &lt; 0 means unlocked
+	 */
 	public void setLockedAxesRatio(double ratio) {
 		if (DoubleUtil.isEqual(lockedAxesRatio, ratio)) {
 			return;
@@ -893,10 +1075,17 @@ public class EuclidianSettings extends AbstractSettings {
 		settingChanged();
 	}
 
+	/**
+	 * @return axes ratio if locked; number &lt; 1 otherwise
+	 */
 	public double getLockedAxesRatio() {
 		return lockedAxesRatio;
 	}
 
+	/**
+	 * @param bold
+	 *            bold axes
+	 */
 	public void setBoldAxes(boolean bold) {
 		int oldAxesLineStyle = axesLineStyle;
 		axesLineStyle = EuclidianView.getBoldAxes(bold, axesLineStyle);
@@ -906,14 +1095,27 @@ public class EuclidianSettings extends AbstractSettings {
 		}
 	}
 
+	/**
+	 * @return
+	 */
 	public int getDeleteToolSize() {
 		return this.deleteToolSize;
 	}
 
+	/**
+	 * @param size
+	 *            delee tool size
+	 */
 	public void setDeleteToolSize(int size) {
 		this.deleteToolSize = size;
 	}
 
+	/**
+	 * @param i
+	 *            axis index
+	 * @param sbxml
+	 *            xml builder
+	 */
 	public void addAxisXML(int i, StringBuilder sbxml) {
 		sbxml.append("\t<axis id=\"");
 		sbxml.append(i);
@@ -978,6 +1180,10 @@ public class EuclidianSettings extends AbstractSettings {
 		return axesLabels[i];
 	}
 
+	/**
+	 * @param scale
+	 *            screen : RW ratio for x-coordinate
+	 */
 	final public void setXscale(double scale) {
 		if (this.xscale != scale) {
 			setXscaleValue(scale);
@@ -989,12 +1195,15 @@ public class EuclidianSettings extends AbstractSettings {
 		this.xscale = scale;
 	}
 
+	/**
+	 * @param scale
+	 *            screen : RW ratio for y-coordinate
+	 */
 	final public void setYscale(double scale) {
 		if (this.yscale != scale) {
 			setYscaleValue(scale);
 			settingChanged();
 		}
-
 	}
 
 	protected void setYscaleValue(double scale) {
@@ -1055,15 +1264,22 @@ public class EuclidianSettings extends AbstractSettings {
 		return axesLabelsSerif;
 	}
 
-	public void setAxesLabelsSerif(boolean b) {
-		if (axesLabelsSerif != b) {
-			axesLabelsSerif = b;
+	/**
+	 * @param serif
+	 *            whether to use serif font
+	 */
+	public void setAxesLabelsSerif(boolean serif) {
+		if (axesLabelsSerif != serif) {
+			axesLabelsSerif = serif;
 			settingChanged();
 		}
 	}
 
+	/**
+	 * @param style
+	 *            axes font style
+	 */
 	public void setAxisFontStyle(int style) {
-
 		if (axisFontStyle != style) {
 			axisFontStyle = style;
 			settingChanged();
@@ -1074,16 +1290,29 @@ public class EuclidianSettings extends AbstractSettings {
 	 * set size from XML file. Reset size value
 	 * 
 	 * @param newDimension
+	 *            size from file
 	 */
 	public void setSizeFromFile(GDimension newDimension) {
 		this.sizeFromFile = newDimension;
 		this.size = null;
 	}
 
+	/**
+	 * @param w
+	 *            width
+	 * @param h
+	 *            height
+	 */
 	public void setSize(int w, int h) {
 		size = AwtFactory.getPrototype().newDimension(w, h);
 	}
 
+	/**
+	 * @param xZero
+	 *            origin screen x-coord
+	 * @param yZero
+	 *            origin screen y-coord
+	 */
 	public void setOriginNoUpdate(double xZero, double yZero) {
 		this.xZero = xZero;
 		this.yZero = yZero;

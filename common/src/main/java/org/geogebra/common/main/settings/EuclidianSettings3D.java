@@ -20,11 +20,14 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	private double zZero = EuclidianView3D.ZZERO_SCENE_STANDARD;
 
 	private double a = EuclidianView3D.ANGLE_ROT_OZ;
-	private double b = EuclidianView3D.ANGLE_ROT_XOY;// angles (in degrees)
+	private double b = EuclidianView3D.ANGLE_ROT_XOY; // angles (in degrees)
 
 	private boolean hadSettingChanged = false;
 	private boolean hasSameScales = true;
-	private double xyScale, yzScale, zxScale, maxScale;
+	private double xyScale;
+	private double yzScale;
+	private double zxScale;
+	private double maxScale;
 	private boolean showPlate = true;
 	private int projectionPerspectiveEyeDistance = PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT;
 	public static final int EYE_SEP_DEFAULT = 200;
@@ -53,6 +56,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 */
 	public static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public EuclidianSettings3D(App app) {
 		super(app);
 
@@ -62,6 +69,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		xZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 		yZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 	}
+
 	/**
 	 * 
 	 * @return true if some setting has been changed
@@ -76,6 +84,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		hadSettingChanged = true;
 	}
 
+	/**
+	 * @param scale
+	 *            screen : RW ratio for z-axis
+	 */
 	public void setZscale(double scale) {
 		if (this.zscale != scale) {
 			setZscaleValue(scale);
@@ -161,31 +173,45 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return hasSameScales;
 	}
 
+	/**
+	 * @param a2
+	 *            xy rotation
+	 * @param b2
+	 *            xz rotation
+	 */
 	public void setRotXYinDegrees(double a2, double b2) {
 		if (this.a != a2 || this.b != b2) {
 			this.a = a2;
 			this.b = b2;
 			settingChanged();
 		}
-
 	}
 
 	/**
 	 * we won't call settingChanged() here since it's called from view
 	 * 
 	 * @param a2
+	 *            OZ rotation
 	 * @param b2
+	 *            xOy rotation
 	 */
 	public void setRotXYinDegreesFromView(double a2, double b2) {
 		this.a = a2;
 		this.b = b2;
-
 	}
 
 	public void updateRotXY(EuclidianView3D view) {
 		view.setRotXYinDegrees(a, b);
 	}
 
+	/**
+	 * @param xZero2
+	 *            x-coord of the origin
+	 * @param yZero2
+	 *            y-coord of the origin
+	 * @param zZero2
+	 *            z-coord of the origin
+	 */
 	public void updateOrigin(double xZero2, double yZero2, double zZero2) {
 		if (this.xZero != xZero2 || this.yZero != yZero2
 				|| this.zZero != zZero2) {
@@ -200,8 +226,11 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * we won't call settingChanged() here since it's called from view
 	 * 
 	 * @param xZero2
+	 *            origin x-coord
 	 * @param yZero2
+	 *            origin y-coord
 	 * @param zZero2
+	 *            origin z-coord
 	 */
 	public void updateOriginFromView(double xZero2, double yZero2,
 			double zZero2) {
@@ -210,6 +239,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		this.zZero = zZero2;
 	}
 
+	/**
+	 * @param view
+	 *            view to be updated
+	 */
 	public void updateOrigin(EuclidianView3D view) {
 		view.setXZero(getXZero());
 		view.setYZero(getYZero());
@@ -220,8 +253,11 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return zZero;
 	}
 
+	/**
+	 * @param flag
+	 *            whether to use clipping
+	 */
 	public void setUseClippingCube(boolean flag) {
-
 		if (useClippingCube != flag) {
 			useClippingCube = flag;
 			settingChanged();
@@ -232,6 +268,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return useClippingCube;
 	}
 
+	/**
+	 * @param flag
+	 *            whether to show clipping cube
+	 */
 	public void setShowClippingCube(boolean flag) {
 		if (showClippingCube != flag) {
 			showClippingCube = flag;
@@ -243,6 +283,12 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return showClippingCube;
 	}
 
+	/**
+	 * Change clipping cube size.
+	 * 
+	 * @param value
+	 *            GeoClippingCube3D.REDUCTION_*
+	 */
 	public void setClippingReduction(int value) {
 		if (clippingReduction != value) {
 			clippingReduction = value;
@@ -254,6 +300,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return clippingReduction;
 	}
 
+	/**
+	 * @param flag
+	 *            whether to show xOy plate
+	 */
 	public void setShowPlate(boolean flag) {
 		if (showPlate != flag) {
 			showPlate = flag;
@@ -274,6 +324,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	}
 
+	/**
+	 * @param projection
+	 *            projection index
+	 */
 	public void setProjection(int projection) {
 		if (this.projection != projection) {
 			this.projection = projection;
@@ -298,6 +352,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * perspective (in pixels)
 	 * 
 	 * @param distance
+	 *            eye distance
 	 */
 	public void setProjectionPerspectiveEyeDistance(int distance) {
 		if (projectionPerspectiveEyeDistance != distance) {
@@ -306,6 +361,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		}
 	}
 
+	/**
+	 * @param value
+	 *            eye separation
+	 */
 	public void setEyeSep(int value) {
 		if (eyeSep != value) {
 			eyeSep = value;
@@ -317,6 +376,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return eyeSep;
 	}
 
+	/**
+	 * @param value
+	 *            oblique projection angle
+	 */
 	public void setProjectionObliqueAngle(double value) {
 		if (projectionObliqueAngle != value) {
 			projectionObliqueAngle = value;
@@ -328,6 +391,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return projectionObliqueAngle;
 	}
 
+	/**
+	 * @param value
+	 *            oblique projection factor
+	 */
 	public void setProjectionObliqueFactor(double value) {
 		if (projectionObliqueFactor != value) {
 			projectionObliqueFactor = value;
@@ -347,6 +414,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return yAxisVertical;
 	}
 
+	/**
+	 * @param flag
+	 *            whether yAxis should be vertical
+	 */
 	public void setYAxisVertical(boolean flag) {
 		if (yAxisVertical != flag) {
 			yAxisVertical = flag;
@@ -354,6 +425,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		}
 	}
 
+	/**
+	 * @param flag
+	 *            whether to use light
+	 */
 	public void setUseLight(boolean flag) {
 		if (useLight != flag) {
 			useLight = flag;
@@ -427,7 +502,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	public void setRotSpeed(double d) {
 		this.rotSpeed = d;
-
 	}
 
 	public double getRotSpeed() {
@@ -436,8 +510,12 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	/**
 	 * returns settings in XML format, read by xml handlers
+	 * 
+	 * @param sb
+	 *            xml builder
+	 * @param asPreference
+	 *            whether this is for preferences
 	 *
-	 * @return the XML description of 3D view settings
 	 * @see org.geogebra.common.io.MyXMLHandler
 	 * @see org.geogebra.common.geogebra3D.io.MyXMLHandler3D
 	 */

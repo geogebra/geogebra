@@ -87,6 +87,7 @@ public abstract class AbstractSettings {
 	 * Add a new setting listener to be informed about setting changes.
 	 * 
 	 * @param listener
+	 *            settings listener
 	 */
 	public final void addListener(SettingListener listener) {
 		listeners.add(listener);
@@ -96,6 +97,7 @@ public abstract class AbstractSettings {
 	 * Remove a setting listener.
 	 * 
 	 * @param listener
+	 *            settings listener
 	 */
 	public final void removeListener(SettingListener listener) {
 		listeners.remove(listener);

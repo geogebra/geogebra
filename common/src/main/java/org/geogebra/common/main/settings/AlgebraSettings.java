@@ -27,10 +27,17 @@ public class AlgebraSettings extends AbstractSettings {
 			Kernel.ALGEBRA_STYLE_VALUE, Kernel.ALGEBRA_STYLE_DEFINITION,
 			Kernel.ALGEBRA_STYLE_DESCRIPTION);
 
+	/**
+	 * @param listeners
+	 *            settings listeners
+	 */
 	public AlgebraSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
 	}
 
+	/**
+	 * New AV settings.
+	 */
 	public AlgebraSettings() {
 		super();
 	}
@@ -46,6 +53,10 @@ public class AlgebraSettings extends AbstractSettings {
 		settingChanged();
 	}
 
+	/**
+	 * @param val
+	 *            tree grouping mode
+	 */
 	public void setTreeMode(SortMode val) {
 		treeMode = val;
 		settingChanged();
@@ -106,14 +117,26 @@ public class AlgebraSettings extends AbstractSettings {
 		collapsedNodes = null;
 	}
 
+	/**
+	 * @return whether description mode changed from XML
+	 */
 	public boolean isModeChanged() {
 		return modeChanged;
 	}
 
+	/**
+	 * @param modeChanged
+	 *            whether tree mode was changed from XML
+	 */
 	public void setModeChanged(boolean modeChanged) {
 		this.modeChanged = modeChanged;
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @return available description modes
+	 */
 	public static String[] getDescriptionModes(App app) {
 		Localization loc = app.getLocalization();
 		return app.has(Feature.AV_DEFINITION_AND_VALUE)

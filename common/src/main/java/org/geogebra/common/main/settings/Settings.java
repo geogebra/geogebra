@@ -324,6 +324,9 @@ public class Settings {
 		return consProtSettings;
 	}
 
+	/**
+	 * @return layout settings
+	 */
 	public final LayoutSettings getLayout() {
 		return layoutSettings;
 	}
@@ -335,14 +338,23 @@ public class Settings {
 		return applicationSettings;
 	}
 
+	/**
+	 * @return desktop keyboard settings
+	 */
 	public final KeyboardSettings getKeyboard() {
 		return keyboardSettings;
 	}
 
+	/**
+	 * @return CAS settings
+	 */
 	public final CASSettings getCasSettings() {
 		return casSettings;
 	}
 
+	/**
+	 * @return data collection settings
+	 */
 	public final DataCollectionSettings getDataCollection() {
 		return dataCollectionSettings;
 	}
@@ -377,6 +389,9 @@ public class Settings {
 		}
 	}
 
+	/**
+	 * @return data analysis settings
+	 */
 	public DataAnalysisSettings getDataAnalysis() {
 		if (this.daSettings == null) {
 			daSettings = new DataAnalysisSettings();
@@ -384,6 +399,9 @@ public class Settings {
 		return daSettings;
 	}
 
+	/**
+	 * Reset euclidian settings for all views, no notifications.
+	 */
 	public void resetNoFireEuclidianSettings() {
 		if (euclidianSettings == null) {
 			return;
