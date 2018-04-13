@@ -145,7 +145,9 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.ScriptElement;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.URL;
@@ -321,8 +323,17 @@ public abstract class AppW extends App implements SetLabels {
 					getArticleElement().getParamScaleContainerClass());
 			scaleTo(parent.getOffsetWidth(), parent.getOffsetHeight());
 		} else if (getArticleElement().getParamAllowScale()) {
-			scaleTo(Window.getClientWidth() - (int) getAbsLeft(),
-					Window.getClientHeight());
+			int border = Window.getClientWidth() > 480 ? 30 : 10;
+			int width = Window.getClientWidth() - (int) getAbsLeft() - border;
+			scaleTo(width, Window.getClientHeight());
+			if (articleElement.getParentElement() != null && articleElement
+					.getParentElement().getParentElement() != null) {
+				Style style = articleElement.getParentElement()
+						.getParentElement().getStyle();
+				double scale = articleElement.getScaleX();
+				style.setWidth(getWidth() * scale, Unit.PX);
+				style.setHeight(getHeight() * scale, Unit.PX);
+			}
 		}
 	}
 
