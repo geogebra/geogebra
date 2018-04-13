@@ -5763,8 +5763,8 @@ unsigned int ConvertUTF8toUTF16 (
   static void python_import(string & cur,int cs,int posturtle,int poscmath,int posmath,int posnumpy,GIAC_CONTEXT){
     if (posnumpy>=0 && posnumpy<cs){
       // add python numpy shortcuts
-      cur += "mat:=matrix;arange:=range;resize:=redim;shape:=dim;conjugate:=conj;full:=matrix;ones(n,c):=matrix(n,c,1);reshape(m,n,c):=matrix(n,c,flatten(m));";
-      alert("mat:=matrix;arange:=range;resize:=redim;shape:=dim;conjugate:=conj;full:=matrix;ones(n,c):=matrix(n,c,1);reshape(m,n,c):=matrix(n,c,flatten(m));",contextptr);
+      cur += "mat:=matrix;arange:=range;resize:=redim;shape:=dim;conjugate:=conj;full:=matrix;eye:=idn;ones(n,c):=matrix(n,c,1);reshape(m,n,c):=matrix(n,c,flatten(m));";
+      alert("mat:=matrix;arange:=range;resize:=redim;shape:=dim;conjugate:=conj;full:=matrix;eye:=idn;ones(n,c):=matrix(n,c,1);reshape(m,n,c):=matrix(n,c,flatten(m));",contextptr);
       return;
     }
     if (posturtle>=0 && posturtle<cs){

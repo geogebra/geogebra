@@ -3555,7 +3555,7 @@ namespace giac {
     vecteur sp;
     sp=lidnt(evalf(makevecteur(primitive,borne_inf,borne_sup),1,contextptr));
     if (sp.size()>1){
-      *logptr(contextptr) << gettext("No check were made for singular points of antiderivative ")+primitive.print(contextptr)+gettext(" for definite integration in [")+borne_inf.print(contextptr)+","+borne_sup.print(contextptr)+"]" << endl ;
+      *logptr(contextptr) << gettext("No checks were made for singular points of antiderivative ")+primitive.print(contextptr)+gettext(" for definite integration in [")+borne_inf.print(contextptr)+","+borne_sup.print(contextptr)+"]" << endl ;
       sp.clear();
     }
     else {

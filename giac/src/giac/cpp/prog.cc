@@ -3865,8 +3865,12 @@ namespace giac {
 	if ( (v.back().type==_SYMB) && (v.back()._SYMBptr->sommet==at_interval) ){
 	  // arg1=loi, arg2=intervalle
 	}
+	if (v[0].type==_DOUBLE_ && v[1].type==_INT_)
+	  return _randvector(makesequence(v[1],symb_interval(0,1)),contextptr);
 	return rand_interval(v,args.subtype==0,contextptr);
       }
+      if (s==3 && v[0].type==_DOUBLE_ && v[1].type==_INT_ && v[2].type==_INT_)
+	return _ranm(makesequence(v[1],v[2],symb_interval(0,1)),contextptr);
       if (s==3 && v[0].type==_INT_ && v[1].type==_INT_ && v[2].type==_INT_){ 
 	// 3 integers expected, rand(n,min,max) choose n in min..max
 	int n=v[0].val;
