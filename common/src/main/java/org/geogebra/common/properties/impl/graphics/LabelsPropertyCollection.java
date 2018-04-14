@@ -9,27 +9,33 @@ import org.geogebra.common.properties.PropertyCollection;
 /**
  * This collection groups properties that are related to labeling the axes.
  */
-public class LabelsPropertyCollection extends AbstractProperty implements PropertyCollection {
+public class LabelsPropertyCollection extends AbstractProperty
+		implements PropertyCollection {
 
-    private Property[] collection;
+	private Property[] collection;
 
-    /**
-     * Constructs a labels property collection.
-     *
-     * @param localization      localization for the title
-     * @param euclidianSettings euclidian settings
-     */
-    public LabelsPropertyCollection(Localization localization, EuclidianSettings euclidianSettings) {
-        super(localization, "Labels");
-        collection = new Property[]{
-                new AxesLabelsVisibilityProperty(localization, euclidianSettings),
-                new AxisLabelProperty(localization, euclidianSettings, "xAxis", 0),
-                new AxisLabelProperty(localization, euclidianSettings, "yAxis", 1)
-        };
-    }
+	/**
+	 * Constructs a labels property collection.
+	 *
+	 * @param localization
+	 *            localization for the title
+	 * @param euclidianSettings
+	 *            euclidian settings
+	 */
+	public LabelsPropertyCollection(Localization localization,
+			EuclidianSettings euclidianSettings) {
+		super(localization, "Labels");
+		collection = new Property[] {
+				new AxesLabelsVisibilityProperty(localization,
+						euclidianSettings),
+				new AxisLabelProperty(localization, euclidianSettings, "xAxis",
+						0),
+				new AxisLabelProperty(localization, euclidianSettings, "yAxis",
+						1) };
+	}
 
-    @Override
-    public Property[] getProperties() {
-        return collection;
-    }
+	@Override
+	public Property[] getProperties() {
+		return collection;
+	}
 }

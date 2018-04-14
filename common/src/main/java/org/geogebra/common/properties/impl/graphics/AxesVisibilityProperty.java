@@ -8,37 +8,41 @@ import org.geogebra.common.properties.BooleanProperty;
 /**
  * This property controls the visibility of the axes.
  */
-public class AxesVisibilityProperty extends AbstractProperty implements BooleanProperty {
+public class AxesVisibilityProperty extends AbstractProperty
+		implements BooleanProperty {
 
-    private EuclidianSettings euclidianSettings;
+	private EuclidianSettings euclidianSettings;
 
-    /**
-     * Constructs an AxesVisibility property.
-     *
-     * @param localization      localization for the name
-     * @param euclidianSettings euclidian settings
-     */
-    public AxesVisibilityProperty(Localization localization, EuclidianSettings euclidianSettings) {
-        super(localization, "ShowAxes");
-        this.euclidianSettings = euclidianSettings;
-    }
+	/**
+	 * Constructs an AxesVisibility property.
+	 *
+	 * @param localization
+	 *            localization for the name
+	 * @param euclidianSettings
+	 *            euclidian settings
+	 */
+	public AxesVisibilityProperty(Localization localization,
+			EuclidianSettings euclidianSettings) {
+		super(localization, "ShowAxes");
+		this.euclidianSettings = euclidianSettings;
+	}
 
-    @Override
-    public boolean getValue() {
-        boolean[] showAxes = euclidianSettings.getShowAxes();
-        boolean value = false;
-        for (boolean showAxis : showAxes) {
-            value |= showAxis;
-        }
+	@Override
+	public boolean getValue() {
+		boolean[] showAxes = euclidianSettings.getShowAxes();
+		boolean value = false;
+		for (boolean showAxis : showAxes) {
+			value |= showAxis;
+		}
 
-        return value;
-    }
+		return value;
+	}
 
-    @Override
-    public void setValue(boolean value) {
-        int axesLength = euclidianSettings.getShowAxes().length;
-        for (int i = 0; i < axesLength; i++) {
-            euclidianSettings.setShowAxis(i, value);
-        }
-    }
+	@Override
+	public void setValue(boolean value) {
+		int axesLength = euclidianSettings.getShowAxes().length;
+		for (int i = 0; i < axesLength; i++) {
+			euclidianSettings.setShowAxis(i, value);
+		}
+	}
 }

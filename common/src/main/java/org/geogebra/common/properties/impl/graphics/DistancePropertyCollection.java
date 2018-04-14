@@ -8,28 +8,34 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 
 /**
- * This collection groups properties that are related to the distances of axes numbering.
+ * This collection groups properties that are related to the distances of axes
+ * numbering.
  */
-public class DistancePropertyCollection extends AbstractProperty implements PropertyCollection {
+public class DistancePropertyCollection extends AbstractProperty
+		implements PropertyCollection {
 
-    private Property[] collection = new Property[]{};
+	private Property[] collection = new Property[] {};
 
-    /**
-     * Constructs a numbering distances property collection.
-     *
-     * @param localization localization for the title
-     */
-    public DistancePropertyCollection(Localization localization, Kernel kernel, EuclidianSettings euclidianSettings) {
-        super(localization, "Distance");
-        collection = new Property[]{
-                new AxesNumberingDistanceProperty(localization, euclidianSettings),
-                new AxisDistanceProperty(localization, kernel, euclidianSettings, "xAxis", 0),
-                new AxisDistanceProperty(localization, kernel, euclidianSettings, "yAxis", 1)
-        };
-    }
+	/**
+	 * Constructs a numbering distances property collection.
+	 *
+	 * @param localization
+	 *            localization for the title
+	 */
+	public DistancePropertyCollection(Localization localization, Kernel kernel,
+			EuclidianSettings euclidianSettings) {
+		super(localization, "Distance");
+		collection = new Property[] {
+				new AxesNumberingDistanceProperty(localization,
+						euclidianSettings),
+				new AxisDistanceProperty(localization, kernel,
+						euclidianSettings, "xAxis", 0),
+				new AxisDistanceProperty(localization, kernel,
+						euclidianSettings, "yAxis", 1) };
+	}
 
-    @Override
-    public Property[] getProperties() {
-        return collection;
-    }
+	@Override
+	public Property[] getProperties() {
+		return collection;
+	}
 }
