@@ -57,7 +57,7 @@ public class CmdAngle3D extends CmdAngle {
 							(GeoPointND) arg[1], (GeoPointND) arg[2]);
 				}
 
-				GeoElement[] ret = { kernel.getManager3D().Angle3D(
+				GeoElement[] ret = { kernel.getManager3D().angle3D(
 						c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 						(GeoPointND) arg[2], (GeoDirectionND) arg[3]) };
 				return ret;
@@ -75,12 +75,12 @@ public class CmdAngle3D extends CmdAngle {
 
 		// angle between line and plane
 		if ((ok[0] = (arg[0].isGeoLine())) && (ok[1] = (arg[1].isGeoPlane()))) {
-			GeoElement[] ret = { kernel.getManager3D().Angle3D(c.getLabel(),
+			GeoElement[] ret = { kernel.getManager3D().angle3D(c.getLabel(),
 					(GeoLineND) arg[0], (GeoPlane3D) arg[1]) };
 			return ret;
 		}
 		if ((ok[1] = (arg[1].isGeoLine())) && (ok[0] = (arg[0].isGeoPlane()))) {
-			GeoElement[] ret = { kernel.getManager3D().Angle3D(c.getLabel(),
+			GeoElement[] ret = { kernel.getManager3D().angle3D(c.getLabel(),
 					(GeoLineND) arg[1], (GeoPlane3D) arg[0]) };
 			return ret;
 		}
@@ -88,7 +88,7 @@ public class CmdAngle3D extends CmdAngle {
 		// angle between planes
 		if ((ok[0] = (arg[0].isGeoPlane()))
 				&& (ok[1] = (arg[1].isGeoPlane()))) {
-			GeoElement[] ret = { kernel.getManager3D().Angle3D(c.getLabel(),
+			GeoElement[] ret = { kernel.getManager3D().angle3D(c.getLabel(),
 					(GeoPlane3D) arg[0], (GeoPlane3D) arg[1]) };
 			return ret;
 		}
@@ -107,7 +107,7 @@ public class CmdAngle3D extends CmdAngle {
 				return super.angle(c.getLabels(), (GeoPolygon) arg[0]);
 			}
 
-			GeoElement[] ret = kernel.getManager3D().Angles3D(c.getLabels(),
+			GeoElement[] ret = kernel.getManager3D().angles3D(c.getLabels(),
 					(GeoPolygon) arg[0], (GeoDirectionND) arg[1]);
 			return ret;
 		}
@@ -129,7 +129,7 @@ public class CmdAngle3D extends CmdAngle {
 						(GeoLineND) arg[1]);
 			}
 
-			GeoElement[] ret = { kernel.getManager3D().Angle3D(c.getLabel(),
+			GeoElement[] ret = { kernel.getManager3D().angle3D(c.getLabel(),
 					(GeoLineND) arg[0], (GeoLineND) arg[1],
 					(GeoDirectionND) arg[2]) };
 			return ret;
@@ -146,7 +146,7 @@ public class CmdAngle3D extends CmdAngle {
 						(GeoVectorND) arg[1]);
 			}
 
-			GeoElement[] ret = { kernel.getManager3D().Angle3D(c.getLabel(),
+			GeoElement[] ret = { kernel.getManager3D().angle3D(c.getLabel(),
 					(GeoVectorND) arg[0], (GeoVectorND) arg[1],
 					(GeoDirectionND) arg[2]) };
 			return ret;
@@ -160,7 +160,7 @@ public class CmdAngle3D extends CmdAngle {
 			GeoPointND p3) {
 		if (p1.isGeoElement3D() || p2.isGeoElement3D() || p3.isGeoElement3D()) {
 			GeoElement[] ret = {
-					kernel.getManager3D().Angle3D(label, p1, p2, p3) };
+					kernel.getManager3D().angle3D(label, p1, p2, p3) };
 			return ret;
 		}
 
@@ -171,7 +171,7 @@ public class CmdAngle3D extends CmdAngle {
 	protected GeoElement[] angle(String label, GeoLineND g, GeoLineND h) {
 
 		if (g.isGeoElement3D() || h.isGeoElement3D()) {
-			GeoElement[] ret = { kernel.getManager3D().Angle3D(label, g, h) };
+			GeoElement[] ret = { kernel.getManager3D().angle3D(label, g, h) };
 			return ret;
 		}
 
@@ -182,7 +182,7 @@ public class CmdAngle3D extends CmdAngle {
 	protected GeoElement[] angle(String label, GeoVectorND v, GeoVectorND w) {
 
 		if (v.isGeoElement3D() || w.isGeoElement3D()) {
-			GeoElement[] ret = { kernel.getManager3D().Angle3D(label, v, w) };
+			GeoElement[] ret = { kernel.getManager3D().angle3D(label, v, w) };
 			return ret;
 		}
 
@@ -227,7 +227,7 @@ public class CmdAngle3D extends CmdAngle {
 	protected GeoElement[] angle(String[] labels, GeoPolygon p) {
 
 		if (p.isGeoElement3D()) {
-			return kernel.getManager3D().Angles3D(labels, p);
+			return kernel.getManager3D().angles3D(labels, p);
 		}
 
 		return super.angle(labels, p);
@@ -250,13 +250,13 @@ public class CmdAngle3D extends CmdAngle {
 								 * || direction == kernelA.getSpace()
 								 */) { // use xOy plane
 			if (p1.isGeoElement3D() || p2.isGeoElement3D()) {
-				return kernel.getManager3D().Angle(labels, p1, p2, a,
+				return kernel.getManager3D().angle(labels, p1, p2, a,
 						kernel.getXOYPlane(), true);
 			}
 
 			return super.angle(labels, p1, p2, a);
 		}
 
-		return kernel.getManager3D().Angle(labels, p1, p2, a, direction, true);
+		return kernel.getManager3D().angle(labels, p1, p2, a, direction, true);
 	}
 }

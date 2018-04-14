@@ -48,7 +48,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
 
-				ret[0] = kernel.getManager3D().SurfaceOfRevolution(
+				ret[0] = kernel.getManager3D().surfaceOfRevolution(
 						c.getLabel(), (ParametricCurve) arg[0],
 						(GeoNumberValue) arg[1]);
 
@@ -59,7 +59,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
 
-				ret[0] = kernel.getManager3D().SurfaceOfRevolution(
+				ret[0] = kernel.getManager3D().surfaceOfRevolution(
 						c.getLabel(), (Path) arg[0], (GeoNumberValue) arg[1],
 						null);
 
@@ -73,7 +73,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					&& (ok[2] = arg[2] instanceof GeoLineND)) {
 				GeoElement[] ret = new GeoElement[1];
 
-				ret[0] = kernel.getManager3D().SurfaceOfRevolution(
+				ret[0] = kernel.getManager3D().surfaceOfRevolution(
 						c.getLabel(), (ParametricCurve) arg[0],
 						(GeoNumberValue) arg[1], (GeoLineND) arg[2]);
 
@@ -85,7 +85,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					&& (ok[2] = arg[2] instanceof GeoLineND)) {
 				GeoElement[] ret = new GeoElement[1];
 
-				ret[0] = kernel.getManager3D().SurfaceOfRevolution(
+				ret[0] = kernel.getManager3D().surfaceOfRevolution(
 						c.getLabel(), (Path) arg[0], (GeoNumberValue) arg[1],
 						(GeoLineND) arg[2]);
 
@@ -117,7 +117,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					coords[i] = nx.getNumber();
 				}
 				GeoElement[] ret = new GeoElement[1];
-				ret[0] = kernel.getManager3D().SurfaceCartesian3D(c.getLabel(),
+				ret[0] = kernel.getManager3D().surfaceCartesian3D(c.getLabel(),
 						exp, coords,
 						(GeoNumeric) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], (GeoNumeric) arg[4],
@@ -141,7 +141,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 				GeoNumberValue[] coords = new GeoNumberValue[] {
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2] };
-				ret[0] = kernel.getManager3D().SurfaceCartesian3D(c.getLabel(),
+				ret[0] = kernel.getManager3D().surfaceCartesian3D(c.getLabel(),
 						null, coords, (GeoNumeric) arg[3],
 						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5],
 						(GeoNumeric) arg[6], (GeoNumberValue) arg[7],

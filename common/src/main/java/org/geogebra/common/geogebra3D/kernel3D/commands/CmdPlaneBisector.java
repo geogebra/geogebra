@@ -31,7 +31,7 @@ public class CmdPlaneBisector extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoSegmentND) {
 				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-						.PlaneBisector(c.getLabel(), (GeoSegmentND) arg[0]) };
+						.planeBisector(c.getLabel(), (GeoSegmentND) arg[0]) };
 				return ret;
 			}
 			throw argErr(app, c, arg[0]);
@@ -41,7 +41,7 @@ public class CmdPlaneBisector extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-						.PlaneBisector(c.getLabel(), (GeoPointND) arg[0],
+						.planeBisector(c.getLabel(), (GeoPointND) arg[0],
 								(GeoPointND) arg[1]) };
 				return ret;
 			}

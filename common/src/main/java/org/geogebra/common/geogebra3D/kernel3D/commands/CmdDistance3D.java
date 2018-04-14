@@ -37,28 +37,28 @@ public class CmdDistance3D extends CmdDistance {
 				if (arg[0].isGeoLine() && arg[1].isGeoLine()) {
 
 					return new GeoElement[] {
-							kernel.getManager3D().Distance(c.getLabel(),
+							kernel.getManager3D().distance(c.getLabel(),
 									(GeoLineND) arg[0], (GeoLineND) arg[1]) };
 				}
 
 				if (arg[0].isGeoPoint() && arg[1].isGeoPlane()) {
 
 					return new GeoElement[] {
-							kernel.getManager3D().Distance(c.getLabel(),
+							kernel.getManager3D().distance(c.getLabel(),
 									(GeoPointND) arg[0], (GeoPlaneND) arg[1]) };
 				}
 
 				if (arg[1].isGeoPoint() && arg[0].isGeoPlane()) {
 
 					return new GeoElement[] {
-							kernel.getManager3D().Distance(c.getLabel(),
+							kernel.getManager3D().distance(c.getLabel(),
 									(GeoPointND) arg[1], (GeoPlaneND) arg[0]) };
 				}
 
 				if (arg[1].isGeoPlane() && arg[0].isGeoPlane()) {
 
 					return new GeoElement[] {
-							kernel.getManager3D().Distance(c.getLabel(),
+							kernel.getManager3D().distance(c.getLabel(),
 									(GeoPlaneND) arg[1], (GeoPlaneND) arg[0]) };
 				}
 			}

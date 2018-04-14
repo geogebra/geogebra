@@ -40,7 +40,7 @@ public class InputDialogConeTwoPointsRadiusW extends InputDialogRadiusW {
 
 	@Override
 	protected GeoElement createOutput(GeoNumberValue num) {
-		return kernel.getManager3D().ConeLimited(null, a, b, num)[0];
+		return kernel.getManager3D().coneLimited(null, a, b, num)[0];
 	}
 
 }

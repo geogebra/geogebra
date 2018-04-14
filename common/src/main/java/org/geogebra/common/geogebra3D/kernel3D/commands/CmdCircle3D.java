@@ -29,7 +29,7 @@ public class CmdCircle3D extends CmdCircle {
 
 		if ((ok[0] = (arg[0] instanceof GeoLineND))
 				&& (ok[1] = (arg[1].isGeoPoint()))) {
-			GeoElement[] ret = { kernel.getManager3D().Circle3D(c.getLabel(),
+			GeoElement[] ret = { kernel.getManager3D().circle3D(c.getLabel(),
 					(GeoLineND) arg[0], (GeoPointND) arg[1]) };
 			return ret;
 		}
@@ -51,7 +51,7 @@ public class CmdCircle3D extends CmdCircle {
 			}
 		}
 
-		return kernel.getManager3D().Circle3D(label, a, v, orientation);
+		return kernel.getManager3D().circle3D(label, a, v, orientation);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class CmdCircle3D extends CmdCircle {
 			}
 		}
 
-		return kernel.getManager3D().Circle3D(label, a, b, orientation);
+		return kernel.getManager3D().circle3D(label, a, b, orientation);
 	}
 
 	@Override
@@ -78,12 +78,12 @@ public class CmdCircle3D extends CmdCircle {
 		if ((ok[0] = (arg[0].isGeoPoint()))
 				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
 			if (arg[1] instanceof GeoNumberValue) {
-				GeoElement[] ret = { kernel.getManager3D().Circle3D(
+				GeoElement[] ret = { kernel.getManager3D().circle3D(
 						c.getLabel(), (GeoPointND) arg[0],
 						(GeoNumberValue) arg[1], (GeoDirectionND) arg[2]) };
 				return ret;
 			} else if (arg[1].isGeoPoint()) {
-				GeoElement[] ret = { kernel.getManager3D().Circle3D(
+				GeoElement[] ret = { kernel.getManager3D().circle3D(
 						c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 						(GeoDirectionND) arg[2]) };
 				return ret;
@@ -99,7 +99,7 @@ public class CmdCircle3D extends CmdCircle {
 			GeoPointND c) {
 
 		if (a.isGeoElement3D() || b.isGeoElement3D() || c.isGeoElement3D()) {
-			return kernel.getManager3D().Circle3D(label, a, b, c);
+			return kernel.getManager3D().circle3D(label, a, b, c);
 		}
 
 		return super.circle(label, a, b, c);

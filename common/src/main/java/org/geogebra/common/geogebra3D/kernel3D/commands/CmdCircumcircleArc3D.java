@@ -24,7 +24,7 @@ public class CmdCircumcircleArc3D extends CmdCircumcircleArc {
 			GeoElement C) {
 
 		if (A.isGeoElement3D() || B.isGeoElement3D() || C.isGeoElement3D()) {
-			return (GeoElement) kernel.getManager3D().CircumcircleArc3D(label,
+			return (GeoElement) kernel.getManager3D().circumcircleArc3D(label,
 					(GeoPointND) A, (GeoPointND) B, (GeoPointND) C);
 		}
 

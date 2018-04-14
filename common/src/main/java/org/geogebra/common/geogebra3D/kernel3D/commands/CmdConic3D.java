@@ -21,7 +21,6 @@ public class CmdConic3D extends CmdConic {
 
 	@Override
 	protected GeoElement conic(String label, GeoElement[] arg) {
-
 		GeoPointND[] points = new GeoPointND[5];
 
 		boolean is3D = false;
@@ -33,7 +32,7 @@ public class CmdConic3D extends CmdConic {
 		}
 
 		if (is3D) {
-			return kernel.getManager3D().Conic3D(label, points);
+			return kernel.getManager3D().conic3D(label, points);
 		}
 
 		return super.conic(label, arg);

@@ -49,7 +49,7 @@ public class CmdRotate3D extends CmdRotate {
 			if ((ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoLineND))) {
 
-				return kernel.getManager3D().Rotate3D(c.getLabel(), arg[0],
+				return kernel.getManager3D().rotate3D(c.getLabel(), arg[0],
 						(GeoNumberValue) arg[1], (GeoLineND) arg[2]);
 
 			}
@@ -67,7 +67,7 @@ public class CmdRotate3D extends CmdRotate {
 					&& (ok[2] = (arg[2].isGeoPoint()))
 					&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
 
-				return kernel.getManager3D().Rotate3D(c.getLabel(), arg[0],
+				return kernel.getManager3D().rotate3D(c.getLabel(), arg[0],
 						(GeoNumberValue) arg[1], (GeoPointND) arg[2],
 						(GeoDirectionND) arg[3]);
 			}

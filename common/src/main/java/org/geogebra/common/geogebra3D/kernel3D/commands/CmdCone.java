@@ -38,7 +38,7 @@ public class CmdCone extends CommandProcessor {
 
 			if ((ok[0] = (arg[0] instanceof GeoConicND))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				return kernel.getManager3D().ConeLimited(c.getLabels(),
+				return kernel.getManager3D().coneLimited(c.getLabels(),
 						(GeoConicND) arg[0], (GeoNumberValue) arg[1]);
 			}
 
@@ -53,7 +53,7 @@ public class CmdCone extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoVector()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-				GeoElement[] ret = { kernel.getManager3D().Cone(c.getLabel(),
+				GeoElement[] ret = { kernel.getManager3D().cone(c.getLabel(),
 						(GeoPointND) arg[0], (GeoVectorND) arg[1],
 						(GeoNumberValue) arg[2]) };
 				return ret;
@@ -65,7 +65,7 @@ public class CmdCone extends CommandProcessor {
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1] instanceof GeoLineND))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-				GeoElement[] ret = { kernel.getManager3D().Cone(c.getLabel(),
+				GeoElement[] ret = { kernel.getManager3D().cone(c.getLabel(),
 						(GeoPointND) arg[0], (GeoLineND) arg[1],
 						(GeoNumberValue) arg[2]) };
 				return ret;
@@ -100,7 +100,7 @@ public class CmdCone extends CommandProcessor {
 	 */
 	protected GeoElement[] conePointPointRadius(Command c, GeoPointND p1,
 			GeoPointND p2, NumberValue r) {
-		return kernel.getManager3D().ConeLimited(c.getLabels(), p1, p2, r);
+		return kernel.getManager3D().coneLimited(c.getLabels(), p1, p2, r);
 	}
 
 }

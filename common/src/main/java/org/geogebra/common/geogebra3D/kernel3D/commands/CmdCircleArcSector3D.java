@@ -30,13 +30,13 @@ public class CmdCircleArcSector3D extends CmdCircleArcSector {
 		GeoDirectionND orientation = CommandProcessor3D
 				.getCurrentViewOrientation(kernel, app);
 		if (orientation != null) {
-			return (GeoElement) kernel.getManager3D().CircleArcSector3D(label,
+			return (GeoElement) kernel.getManager3D().circleArcSector3D(label,
 					center, startPoint, endPoint, orientation, type);
 		}
 
 		if (center.isGeoElement3D() || startPoint.isGeoElement3D()
 				|| endPoint.isGeoElement3D()) {
-			return (GeoElement) kernel.getManager3D().CircleArcSector3D(label,
+			return (GeoElement) kernel.getManager3D().circleArcSector3D(label,
 					center, startPoint, endPoint, type);
 		}
 
@@ -53,7 +53,7 @@ public class CmdCircleArcSector3D extends CmdCircleArcSector {
 				&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
 
 			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-					.CircleArcSector3D(c.getLabel(), (GeoPointND) arg[0],
+					.circleArcSector3D(c.getLabel(), (GeoPointND) arg[0],
 							(GeoPointND) arg[1], (GeoPointND) arg[2],
 							(GeoDirectionND) arg[3], type) };
 			return ret;

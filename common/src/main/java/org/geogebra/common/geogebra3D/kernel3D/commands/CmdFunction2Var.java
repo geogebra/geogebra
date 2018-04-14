@@ -49,7 +49,7 @@ public class CmdFunction2Var extends CmdFunction {
 				if (arg[0] instanceof GeoFunctionNVar) {
 					if ("x".equals(arg[1].getLabelSimple())) {
 						GeoElement[] ret = {
-								kernel.getManager3D().Function2Var(
+								kernel.getManager3D().function2Var(
 										c.getLabel(), (GeoFunctionNVar) arg[0],
 										(GeoNumberValue) arg[2],
 										(GeoNumberValue) arg[3],
@@ -57,14 +57,14 @@ public class CmdFunction2Var extends CmdFunction {
 										(GeoNumberValue) arg[6]) };
 						return ret;
 					}
-					GeoElement[] ret = { kernel.getManager3D().Function2Var(
+					GeoElement[] ret = { kernel.getManager3D().function2Var(
 							c.getLabel(), (GeoFunctionNVar) arg[0],
 							(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
 							(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]) };
 					return ret;
 
 				}
-				GeoElement[] ret = { kernel.getManager3D().Function2Var(
+				GeoElement[] ret = { kernel.getManager3D().function2Var(
 						c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoNumeric) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], (GeoNumeric) arg[4],
@@ -96,7 +96,7 @@ public class CmdFunction2Var extends CmdFunction {
 					&& (ok[4] = arg[4] instanceof GeoNumberValue) // y to
 
 			) {
-				GeoElement[] ret = { kernel.getManager3D().Function2Var(
+				GeoElement[] ret = { kernel.getManager3D().function2Var(
 						c.getLabel(), (GeoFunctionNVar) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], (GeoNumberValue) arg[4]) };

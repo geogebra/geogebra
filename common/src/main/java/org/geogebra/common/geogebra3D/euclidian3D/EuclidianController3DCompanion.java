@@ -366,7 +366,7 @@ public class EuclidianController3DCompanion
 					.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_NONE) {
 				return null;
 			}
-			point3D = (GeoPoint3D) ec.kernel.getManager3D().Point3D(null, 0, 0,
+			point3D = (GeoPoint3D) ec.kernel.getManager3D().point3D(null, 0, 0,
 					0, false);
 		} else {
 			point3D = createNewFreePoint(complex);
@@ -396,7 +396,7 @@ public class EuclidianController3DCompanion
 		GeoPoint3D point3D;
 
 		if (!forPreviewable) {
-			point3D = (GeoPoint3D) ec.getKernel().getManager3D().Point3D(null,
+			point3D = (GeoPoint3D) ec.getKernel().getManager3D().point3D(null,
 					path, false);
 		} else {
 			point3D = ec3D.view3D.getCursor3D();
@@ -493,7 +493,7 @@ public class EuclidianController3DCompanion
 		if (!forPreviewable) {
 
 			GeoPoint3D ret = (GeoPoint3D) ec.getKernel().getManager3D()
-					.Point3DIn(null, region, false);
+					.point3DIn(null, region, false);
 			ret.set(point3D);
 			// ret.setRegion(region);
 			ret.doRegion();

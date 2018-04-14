@@ -33,12 +33,12 @@ public class CmdPrism extends CommandProcessor {
 		if (n == 2) {
 			if ((ok[0] = (arg[0].isGeoPolygon()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = kernel.getManager3D().Prism(c.getLabels(),
+				GeoElement[] ret = kernel.getManager3D().prism(c.getLabels(),
 						(GeoPolygon) arg[0], (GeoPointND) arg[1]);
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPolygon()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				GeoElement[] ret = kernel.getManager3D().Prism(c.getLabels(),
+				GeoElement[] ret = kernel.getManager3D().prism(c.getLabels(),
 						(GeoPolygon) arg[0], (GeoNumberValue) arg[1]);
 				return ret;
 			} else {
@@ -60,7 +60,7 @@ public class CmdPrism extends CommandProcessor {
 				points[i] = (GeoPointND) arg[i];
 			}
 			// everything ok
-			GeoElement[] ret = kernel.getManager3D().Prism(c.getLabels(),
+			GeoElement[] ret = kernel.getManager3D().prism(c.getLabels(),
 					points);
 			return ret;
 

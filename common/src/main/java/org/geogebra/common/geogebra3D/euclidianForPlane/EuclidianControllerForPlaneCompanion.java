@@ -83,7 +83,7 @@ public class EuclidianControllerForPlaneCompanion
 
 		Coords coords = getCoordsFromView(ec.xRW, ec.yRW);
 
-		GeoPointND ret = ec.kernel.getManager3D().Point3DIn(null,
+		GeoPointND ret = ec.kernel.getManager3D().point3DIn(null,
 				ec.getView().getPlaneContaining(), coords, !forPreviewable,
 				false);
 		return ret;
@@ -144,7 +144,7 @@ public class EuclidianControllerForPlaneCompanion
 	public GeoElement[] rotateByAngle(GeoElement geoRot, GeoNumberValue phi,
 			GeoPointND Q) {
 
-		return ec.kernel.getManager3D().Rotate3D(null, geoRot, phi, Q,
+		return ec.kernel.getManager3D().rotate3D(null, geoRot, phi, Q,
 				ec.getView().getDirection());
 
 	}

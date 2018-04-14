@@ -293,7 +293,7 @@ public class Kernel3D extends Kernel {
 	final public GeoRayND rayND(String label, GeoPointND P, GeoPointND Q) {
 		if (((GeoElement) P).isGeoElement3D()
 				|| ((GeoElement) Q).isGeoElement3D()) {
-			return getManager3D().Ray3D(label, P, Q);
+			return getManager3D().ray3D(label, P, Q);
 		}
 		return super.ray(label, (GeoPoint) P, (GeoPoint) Q);
 	}
@@ -304,7 +304,7 @@ public class Kernel3D extends Kernel {
 
 		if (((GeoElement) P).isGeoElement3D()
 				|| ((GeoElement) Q).isGeoElement3D()) {
-			return getManager3D().Segment3D(label, P, Q);
+			return getManager3D().segment3D(label, P, Q);
 		}
 		return super.segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}
@@ -320,7 +320,7 @@ public class Kernel3D extends Kernel {
 		}
 
 		if (is3D) {
-			return getManager3D().Polygon3D(labels, P);
+			return getManager3D().polygon3D(labels, P);
 		}
 		return super.polygon(labels, P);
 	}
@@ -336,7 +336,7 @@ public class Kernel3D extends Kernel {
 		}
 
 		if (is3D) {
-			return getManager3D().PolyLine3D(label, P);
+			return getManager3D().polyLine3D(label, P);
 		}
 		return super.polyLine(label, P);
 
@@ -430,7 +430,7 @@ public class Kernel3D extends Kernel {
 	protected GeoPointND rigidPolygonPointOnCircle(GeoConicND circle,
 			GeoPointND point1) {
 		if (circle.isGeoElement3D()) {
-			return getManager3D().Point3D(null, circle, point1.getInhomX(),
+			return getManager3D().point3D(null, circle, point1.getInhomX(),
 					point1.getInhomY(), point1.getInhomZ(), false, true);
 		}
 		return super.rigidPolygonPointOnCircle(circle, point1);

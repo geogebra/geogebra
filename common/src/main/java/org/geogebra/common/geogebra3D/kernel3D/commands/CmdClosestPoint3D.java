@@ -40,30 +40,30 @@ public class CmdClosestPoint3D extends CmdClosestPoint {
 			}
 
 			if (arg[0].isPath() && arg[1].isGeoPoint()) {
-				return new GeoElement[] { kernel.getManager3D().ClosestPoint(
+				return new GeoElement[] { kernel.getManager3D().closestPoint(
 						c.getLabel(), (Path) arg[0], (GeoPointND) arg[1]) };
 			}
 
 			if (arg[1].isPath() && arg[0].isGeoPoint()) {
-				return new GeoElement[] { kernel.getManager3D().ClosestPoint(
+				return new GeoElement[] { kernel.getManager3D().closestPoint(
 						c.getLabel(), (Path) arg[1], (GeoPointND) arg[0]) };
 			}
 
 			if (arg[0].isGeoLine() || arg[1].isGeoLine()) {
 
-				return new GeoElement[] { kernel.getManager3D().ClosestPoint(
+				return new GeoElement[] { kernel.getManager3D().closestPoint(
 						c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]) };
 			}
 
 			if ((ok[0] = arg[0].isRegion()) && (ok[1] = arg[1].isGeoPoint())) {
 				return new GeoElement[] { (GeoElement) kernel.getManager3D()
-						.ClosestPoint(c.getLabel(), (Region) arg[0],
+						.closestPoint(c.getLabel(), (Region) arg[0],
 								(GeoPointND) arg[1]) };
 			}
 
 			if ((ok[1] = arg[1].isRegion()) && (ok[0] = arg[0].isGeoPoint())) {
 				return new GeoElement[] { (GeoElement) kernel.getManager3D()
-						.ClosestPoint(c.getLabel(), (Region) arg[1],
+						.closestPoint(c.getLabel(), (Region) arg[1],
 								(GeoPointND) arg[0]) };
 			}
 

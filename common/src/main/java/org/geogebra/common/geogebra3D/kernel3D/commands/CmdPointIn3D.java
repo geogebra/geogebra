@@ -22,7 +22,7 @@ public class CmdPointIn3D extends CmdPointIn {
 	protected GeoElement[] pointIn(String label, Region region) {
 		if (region.isRegion3D()) {
 			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-					.Point3DIn(label, region, false) };
+					.point3DIn(label, region, false) };
 			return ret;
 		}
 

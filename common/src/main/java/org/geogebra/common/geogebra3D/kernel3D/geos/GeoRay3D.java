@@ -144,7 +144,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 			GeoPointND[] points = { algo.getP(), algo.getQ() };
 			points = t.transformPoints(points);
 			// if(t.isAffine()){
-			GeoElement ray = (GeoElement) kernel.getManager3D().Ray3D(label1,
+			GeoElement ray = (GeoElement) kernel.getManager3D().ray3D(label1,
 					points[0], points[1]);
 			ray.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { ray, (GeoElement) points[0],

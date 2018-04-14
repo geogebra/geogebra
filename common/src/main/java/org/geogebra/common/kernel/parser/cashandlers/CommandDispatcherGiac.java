@@ -320,7 +320,7 @@ public class CommandDispatcherGiac {
 					a = args.getItem(0).evaluateDouble();
 					b = args.getItem(1).evaluateDouble();
 					double c = args.getItem(2).evaluateDouble();
-					GeoElementND point = kernel.getManager3D().Point3D(a, b, c,
+					GeoElementND point = kernel.getManager3D().point3D(a, b, c,
 							false);
 					return new ExpressionNode(kernel, point);
 				default:

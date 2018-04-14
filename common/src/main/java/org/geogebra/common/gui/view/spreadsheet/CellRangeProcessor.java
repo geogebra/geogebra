@@ -392,7 +392,7 @@ public class CellRangeProcessor {
 				isSorted, doStoreUndo, doCreateFreePoints);
 		GeoElement ret;
 		if (list != null && list.size() > 1 && list.get(0).isGeoElement3D()) {
-			ret = list.getKernel().getManager3D().PolyLine3D(null, list)[0];
+			ret = list.getKernel().getManager3D().polyLine3D(null, list)[0];
 		} else {
 			AlgoPolyLine al = new AlgoPolyLine(cons, list);
 			ret = al.getOutput(0);
@@ -630,7 +630,7 @@ public class CellRangeProcessor {
 		GeoPointND geoPoint;
 
 		if (byValue) {
-			geoPoint = kernel.getManager3D().Point3D(
+			geoPoint = kernel.getManager3D().point3D(
 					((GeoNumeric) xCoord).getDouble(),
 					((GeoNumeric) yCoord).getDouble(),
 					((GeoNumeric) zCoord).getDouble(), false);
@@ -643,7 +643,7 @@ public class CellRangeProcessor {
 					Operation.NO_OPERATION, null);
 			point.setForcePoint();
 
-			geoPoint = kernel.getManager3D().DependentPoint3D(point,
+			geoPoint = kernel.getManager3D().dependentPoint3D(point,
 					doCreateFreePoints);
 
 		}

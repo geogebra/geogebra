@@ -22,7 +22,7 @@ public class CmdParabola3D extends CmdParabola {
 	@Override
 	protected GeoElement parabola(String label, GeoPointND a, GeoLineND d) {
 		if (a.isGeoElement3D() || d.isGeoElement3D()) {
-			return kernel.getManager3D().Parabola3D(label, a, d);
+			return kernel.getManager3D().parabola3D(label, a, d);
 		}
 
 		return super.parabola(label, a, d);

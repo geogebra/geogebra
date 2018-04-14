@@ -23,7 +23,7 @@ public class CmdLength3D extends CmdLength {
 	@Override
 	protected GeoElement length(String label, GeoVectorND v) {
 		if (v.isGeoElement3D()) {
-			return kernel.getManager3D().Length(label, v);
+			return kernel.getManager3D().length(label, v);
 		}
 
 		return super.length(label, v);

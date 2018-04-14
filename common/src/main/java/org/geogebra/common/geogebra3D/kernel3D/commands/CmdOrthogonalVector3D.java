@@ -31,7 +31,7 @@ public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoCoordSys2D) {
 				GeoElement[] ret = {
-						(GeoElement) kernel.getManager3D().OrthogonalVector3D(
+						(GeoElement) kernel.getManager3D().orthogonalVector3D(
 								c.getLabel(), (GeoCoordSys2D) arg[0]) };
 				return ret;
 			}
@@ -42,7 +42,7 @@ public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 			if (arg[0] instanceof GeoLineND
 					&& arg[1] instanceof GeoDirectionND) {
 				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-						.OrthogonalVector3D(c.getLabel(), (GeoLineND) arg[0],
+						.orthogonalVector3D(c.getLabel(), (GeoLineND) arg[0],
 								(GeoDirectionND) arg[1]) };
 				return ret;
 			}

@@ -46,7 +46,7 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 					&& (ok[4] = arg[4] instanceof GeoNumberValue)
 					&& (ok[5] = arg[5] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
-				ret[0] = kernel.getManager3D().CurveCartesian3D(
+				ret[0] = kernel.getManager3D().curveCartesian3D(
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2], (GeoNumeric) arg[3],
 						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5]);

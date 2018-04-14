@@ -24,7 +24,7 @@ public class CmdCircumcircleSector3D extends CmdCircumcircleSector {
 			GeoElement C) {
 
 		if (A.isGeoElement3D() || B.isGeoElement3D() || C.isGeoElement3D()) {
-			return (GeoElement) kernel.getManager3D().CircumcircleSector3D(
+			return (GeoElement) kernel.getManager3D().circumcircleSector3D(
 					label, (GeoPointND) A, (GeoPointND) B, (GeoPointND) C);
 		}
 

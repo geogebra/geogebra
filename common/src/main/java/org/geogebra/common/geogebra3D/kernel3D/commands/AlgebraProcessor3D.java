@@ -94,18 +94,18 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			double y = p[1];
 			double z = p[2];
 			if (isVector) {
-				ret[0] = kernel.getManager3D().Vector3D(x, y, z);
+				ret[0] = kernel.getManager3D().vector3D(x, y, z);
 			} else {
-				ret[0] = kernel.getManager3D().Point3D(x, y, z, false)
+				ret[0] = kernel.getManager3D().point3D(x, y, z, false)
 						.toGeoElement();
 			}
 			ret[0].setDefinition(n);
 
 		} else {
 			if (isVector) {
-				ret[0] = kernel.getManager3D().DependentVector3D(n);
+				ret[0] = kernel.getManager3D().dependentVector3D(n);
 			} else {
-				ret[0] = kernel.getManager3D().DependentPoint3D(n, true)
+				ret[0] = kernel.getManager3D().dependentPoint3D(n, true)
 						.toGeoElement();
 			}
 
@@ -198,7 +198,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			quadric = new GeoQuadric3D(cons, coeffs);
 		} else {
 			quadric = (GeoQuadric3D) kernel.getManager3D()
-					.DependentQuadric3D(equ);
+					.dependentQuadric3D(equ);
 		}
 		quadric.setDefinition(def);
 		quadric.showUndefinedInAlgebraView(true);
@@ -232,10 +232,10 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			b = lhs.getCoeffValue("y");
 			c = lhs.getCoeffValue("z");
 			d = lhs.getCoeffValue("");
-			plane = (GeoPlane3D) kernel.getManager3D().Plane3D(a, b, c, d);
+			plane = (GeoPlane3D) kernel.getManager3D().plane3D(a, b, c, d);
 			plane.setDefinition(def);
 		} else {
-			plane = (GeoPlane3D) kernel.getManager3D().DependentPlane3D(equ);
+			plane = (GeoPlane3D) kernel.getManager3D().dependentPlane3D(equ);
 		}
 		plane.showUndefinedInAlgebraView(true);
 		setEquationLabelAndVisualStyle(plane, label, info);

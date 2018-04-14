@@ -108,7 +108,7 @@ public class Manager3D implements Manager3DInterface {
 
 	/** Point3D label with cartesian coordinates (x,y,z) */
 	@Override
-	final public GeoPoint3D Point3D(String label, double x, double y, double z,
+	final public GeoPoint3D point3D(String label, double x, double y, double z,
 			boolean coords2D) {
 		GeoPoint3D p = new GeoPoint3D(cons);
 		if (coords2D) {
@@ -123,7 +123,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoPoint3D Point3D(double x, double y, double z,
+	final public GeoPoint3D point3D(double x, double y, double z,
 			boolean coords2D) {
 		GeoPoint3D p = new GeoPoint3D(cons);
 		if (coords2D) {
@@ -141,7 +141,7 @@ public class Manager3D implements Manager3DInterface {
 	 * tree. e.g. P = (4t, 2s, 7)
 	 */
 	@Override
-	final public GeoPoint3D DependentPoint3D(ExpressionNode root,
+	final public GeoPoint3D dependentPoint3D(ExpressionNode root,
 			boolean addToCons) {
 		AlgoDependentPoint3D algo = new AlgoDependentPoint3D(cons, root,
 				addToCons);
@@ -151,14 +151,14 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoVector3D DependentVector3D(ExpressionNode root) {
+	final public GeoVector3D dependentVector3D(ExpressionNode root) {
 		AlgoDependentVector3D algo = new AlgoDependentVector3D(cons, root);
 		GeoVector3D P = algo.getVector3D();
 		return P;
 	}
 
 	@Override
-	final public GeoVector3D Vector3D(double x, double y,
+	final public GeoVector3D vector3D(double x, double y,
 			double z) {
 		GeoVector3D v = new GeoVector3D(cons, x, y, z);
 		return v;
@@ -168,7 +168,7 @@ public class Manager3D implements Manager3DInterface {
 	 * Vector named label from Point P to Q
 	 */
 	@Override
-	final public GeoVector3D Vector3D(String label, GeoPointND P,
+	final public GeoVector3D vector3D(String label, GeoPointND P,
 			GeoPointND Q) {
 		AlgoVector3D algo = new AlgoVector3D(cons, P, Q);
 		GeoVector3D v = (GeoVector3D) algo.getVector();
@@ -180,7 +180,7 @@ public class Manager3D implements Manager3DInterface {
 
 	/** Point in region with cartesian coordinates (x,y,z) */
 	@Override
-	final public GeoPoint3D Point3DIn(String label, Region region,
+	final public GeoPoint3D point3DIn(String label, Region region,
 			Coords coords, boolean addToConstruction, boolean coords2D) {
 		boolean oldMacroMode = false;
 
@@ -209,7 +209,7 @@ public class Manager3D implements Manager3DInterface {
 
 	/** Point in region with cartesian coordinates (x,y,z) */
 	@Override
-	final public GeoPoint3D Point3DIn(Region region, Coords coords,
+	final public GeoPoint3D point3DIn(Region region, Coords coords,
 			boolean coords2D) {
 		AlgoPoint3DInRegion algo = new AlgoPoint3DInRegion(cons, region,
 				coords);
@@ -225,14 +225,14 @@ public class Manager3D implements Manager3DInterface {
 
 	/** Point in region */
 	@Override
-	final public GeoPoint3D Point3DIn(String label, Region region,
+	final public GeoPoint3D point3DIn(String label, Region region,
 			boolean coords2D) {
-		return Point3DIn(label, region, null, true, coords2D);
+		return point3DIn(label, region, null, true, coords2D);
 	}
 
 	/** Point3D on a 1D path with cartesian coordinates (x,y,z) */
 	@Override
-	final public GeoPoint3D Point3D(String label, Path path, double x, double y,
+	final public GeoPoint3D point3D(String label, Path path, double x, double y,
 			double z, boolean addToConstruction, boolean coords2D) {
 		boolean oldMacroMode = false;
 		if (!addToConstruction) {
@@ -257,12 +257,12 @@ public class Manager3D implements Manager3DInterface {
 
 	/** Point3D on a 1D path without cartesian coordinates */
 	@Override
-	final public GeoPoint3D Point3D(String label, Path path, boolean coords2D) {
+	final public GeoPoint3D point3D(String label, Path path, boolean coords2D) {
 		// try (0,0,0)
 		// AlgoPoint3DOnPath algo = new AlgoPoint3DOnPath(cons, label, path, 0,
 		// 0, 0);
 		// GeoPoint3D p = algo.getP();
-		GeoPoint3D p = Point3D(label, path, 0, 0, 0, true, coords2D);
+		GeoPoint3D p = point3D(label, path, 0, 0, 0, true, coords2D);
 
 		/*
 		 * TODO below // try (1,0,0) if (!p.isDefined()) { p.setCoords(1,0,1);
@@ -276,7 +276,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoPointND Point3D(String label, Path path, GeoNumberValue param) {
+	public GeoPointND point3D(String label, Path path, GeoNumberValue param) {
 
 		// try (0,0,0)
 		AlgoPoint3DOnPath algo = null;
@@ -311,7 +311,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoPointND Midpoint(String label, GeoSegmentND segment) {
+	public GeoPointND midpoint(String label, GeoSegmentND segment) {
 
 		AlgoMidpoint3D algo = new AlgoMidpointSegment3D(cons, label, segment);
 		GeoPoint3D M = algo.getPoint();
@@ -320,7 +320,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoPointND Center(String label, GeoConicND conic) {
+	public GeoPointND center(String label, GeoConicND conic) {
 
 		AlgoCenterConic3D algo = new AlgoCenterConic3D(cons, label, conic);
 		return algo.getPoint();
@@ -328,7 +328,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoPointND CenterQuadric(String label, GeoQuadricND quadric) {
+	public GeoPointND centerQuadric(String label, GeoQuadricND quadric) {
 		AlgoCenterQuadric algo = new AlgoCenterQuadric(cons, label,
 				(GeoQuadric3D) quadric);
 		return algo.getPoint();
@@ -337,14 +337,14 @@ public class Manager3D implements Manager3DInterface {
 
 	/** Segment3D label linking points v1 and v2 */
 	/*
-	 * final public GeoSegment3D Segment3D(String label, Ggb3DVector v1,
+	 * final public GeoSegment3D segment3D(String label, Ggb3DVector v1,
 	 * Ggb3DVector v2){ GeoSegment3D s = new GeoSegment3D(cons,v1,v2);
 	 * s.setLabel(label); return s; }
 	 */
 
 	/** Segment3D label linking points P1 and P2 */
 	@Override
-	final public GeoSegment3D Segment3D(String label, GeoPointND P1,
+	final public GeoSegment3D segment3D(String label, GeoPointND P1,
 			GeoPointND P2) {
 		AlgoJoinPoints3D algo = new AlgoJoinPoints3D(cons, label, P1, P2,
 				GeoClass.SEGMENT3D);
@@ -354,7 +354,7 @@ public class Manager3D implements Manager3DInterface {
 
 	/** Line3D label linking points P1 and P2 */
 	@Override
-	final public GeoLine3D Line3D(String label, GeoPointND P1, GeoPointND P2) {
+	final public GeoLine3D line3D(String label, GeoPointND P1, GeoPointND P2) {
 		AlgoJoinPoints3D algo = new AlgoJoinPoints3D(cons, label, P1, P2,
 				GeoClass.LINE3D);
 		GeoLine3D l = (GeoLine3D) algo.getCS();
@@ -362,14 +362,14 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoLineND Line3D(String label, GeoPointND P, GeoLineND l) {
+	final public GeoLineND line3D(String label, GeoPointND P, GeoLineND l) {
 		AlgoLinePointLine3D algo = new AlgoLinePointLine3D(cons, label, P, l);
 		GeoLineND g = algo.getLine();
 		return g;
 	}
 
 	@Override
-	final public GeoLineND Line3D(String label, GeoPointND P, GeoVectorND v) {
+	final public GeoLineND line3D(String label, GeoPointND P, GeoVectorND v) {
 		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons, label, P,
 				v);
 		GeoLineND g = algo.getLine();
@@ -378,7 +378,7 @@ public class Manager3D implements Manager3DInterface {
 
 	/** Ray3D label linking points P1 and P2 */
 	@Override
-	final public GeoRay3D Ray3D(String label, GeoPointND P1, GeoPointND P2) {
+	final public GeoRay3D ray3D(String label, GeoPointND P1, GeoPointND P2) {
 		// Application.debug("Kernel3D : Ray3D");
 		// AlgoJoinPointsRay3D algo = new AlgoJoinPointsRay3D(cons, label, P1,
 		// P2);
@@ -390,7 +390,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoLineND OrthogonalLine3D(String label, GeoPointND point,
+	public GeoLineND orthogonalLine3D(String label, GeoPointND point,
 			GeoCoordSys2D cs) {
 		AlgoOrthoLinePointPlane algo = new AlgoOrthoLinePointPlane(cons, label,
 				point, cs);
@@ -398,7 +398,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoLineND OrthogonalLine3D(String label, GeoPointND point,
+	public GeoLineND orthogonalLine3D(String label, GeoPointND point,
 			GeoLineND line) {
 		AlgoOrthoLinePointLine3D algo = new AlgoOrthoLinePointLine3D(cons,
 				label, point, line);
@@ -406,12 +406,12 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoLineND OrthogonalLine3D(String label, GeoPointND point,
+	public GeoLineND orthogonalLine3D(String label, GeoPointND point,
 			GeoDirectionND line, GeoDirectionND direction) {
 
 		// when have space as direction, just to say it's not as in 2D
 		if (line instanceof GeoLineND && direction instanceof GeoSpace) {
-			return OrthogonalLine3D(label, point, (GeoLineND) line);
+			return orthogonalLine3D(label, point, (GeoLineND) line);
 		}
 
 		// when using Locus (via macro) or xOy plane as direction, check if it's
@@ -429,7 +429,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoLineND OrthogonalLine3D(String label, GeoLineND line1,
+	public GeoLineND orthogonalLine3D(String label, GeoLineND line1,
 			GeoLineND line2) {
 		AlgoOrthoLineLineLine algo = new AlgoOrthoLineLineLine(cons, label,
 				line1, line2);
@@ -437,14 +437,14 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoVectorND OrthogonalVector3D(String label, GeoCoordSys2D plane) {
+	public GeoVectorND orthogonalVector3D(String label, GeoCoordSys2D plane) {
 		AlgoOrthoVectorPlane algo = new AlgoOrthoVectorPlane(cons, label,
 				plane);
 		return algo.getVector();
 	}
 
 	@Override
-	public GeoVectorND OrthogonalVector3D(String label, GeoLineND line,
+	public GeoVectorND orthogonalVector3D(String label, GeoLineND line,
 			GeoDirectionND direction) {
 		AlgoOrthoVectorLineDirection algo = new AlgoOrthoVectorLineDirection(
 				cons, label, line, direction);
@@ -452,7 +452,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoVectorND UnitOrthogonalVector3D(String label,
+	public GeoVectorND unitOrthogonalVector3D(String label,
 			GeoCoordSys2D plane) {
 		AlgoUnitOrthoVectorPlane algo = new AlgoUnitOrthoVectorPlane(cons,
 				label, plane);
@@ -469,7 +469,7 @@ public class Manager3D implements Manager3DInterface {
 	 * @return the polygon
 	 */
 	@Override
-	final public GeoElement[] Polygon3D(String[] label, GeoPointND[] points) {
+	final public GeoElement[] polygon3D(String[] label, GeoPointND[] points) {
 
 		AlgoPolygon3D algo = new AlgoPolygon3D(cons, label, points, null);
 
@@ -478,7 +478,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] Polygon3D(String[] label, GeoPointND[] points,
+	final public GeoElement[] polygon3D(String[] label, GeoPointND[] points,
 			GeoDirectionND direction) {
 		AlgoPolygon algo = new AlgoPolygon3DDirection(cons, label, points,
 				direction);
@@ -488,13 +488,13 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] PolyLine3D(String label, GeoPointND[] P) {
+	final public GeoElement[] polyLine3D(String label, GeoPointND[] P) {
 		AlgoPolyLine3D algo = new AlgoPolyLine3D(cons, label, P);
 		return algo.getOutput();
 	}
 
 	@Override
-	final public GeoElement[] PolyLine3D(String label, GeoList pointList) {
+	final public GeoElement[] polyLine3D(String label, GeoList pointList) {
 		AlgoPolyLine3D algo = new AlgoPolyLine3D(cons, label, pointList);
 		return algo.getOutput();
 	}
@@ -509,7 +509,7 @@ public class Manager3D implements Manager3DInterface {
 	 * @return the polyhedron
 	 */
 	@Override
-	final public GeoElement[] Prism(String[] labels, GeoPointND[] points) {
+	final public GeoElement[] prism(String[] labels, GeoPointND[] points) {
 
 		AlgoPolyhedronPointsPrism algo = new AlgoPolyhedronPointsPrism(cons,
 				labels, points);
@@ -519,7 +519,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] Prism(String[] labels, GeoPolygon polygon,
+	final public GeoElement[] prism(String[] labels, GeoPolygon polygon,
 			GeoPointND point) {
 
 		AlgoPolyhedronPointsPrism algo = new AlgoPolyhedronPointsPrism(cons,
@@ -530,7 +530,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] Prism(String[] labels, GeoPolygon polygon,
+	final public GeoElement[] prism(String[] labels, GeoPolygon polygon,
 			GeoNumberValue height) {
 
 		AlgoPolyhedronPointsPrism algo = new AlgoPolyhedronPointsPrism(cons,
@@ -549,7 +549,7 @@ public class Manager3D implements Manager3DInterface {
 	 * @return the polyhedron
 	 */
 	@Override
-	final public GeoElement[] Pyramid(String[] labels, GeoPointND[] points) {
+	final public GeoElement[] pyramid(String[] labels, GeoPointND[] points) {
 
 		AlgoPolyhedronPointsPyramid algo = new AlgoPolyhedronPointsPyramid(cons,
 				labels, points);
@@ -559,7 +559,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
+	final public GeoElement[] pyramid(String[] labels, GeoPolygon polygon,
 			GeoPointND point) {
 
 		AlgoPolyhedronPointsPyramid algo = new AlgoPolyhedronPointsPyramid(cons,
@@ -570,7 +570,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
+	final public GeoElement[] pyramid(String[] labels, GeoPolygon polygon,
 			GeoNumberValue height) {
 		AlgoPolyhedronPointsPyramid algo = new AlgoPolyhedronPointsPyramid(cons,
 				labels, polygon, height);
@@ -579,7 +579,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoPlane3D Plane3D(double a, double b, double c, double d) {
+	final public GeoPlane3D plane3D(double a, double b, double c, double d) {
 		GeoPlane3D plane = new GeoPlane3D(cons, a, b, c, d);
 		if (Double.isNaN(d) || Double.isNaN(c) || Double.isNaN(b)
 				|| Double.isNaN(a)) {
@@ -589,19 +589,19 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoPlane3D DependentPlane3D(Equation equ) {
+	final public GeoPlane3D dependentPlane3D(Equation equ) {
 		AlgoDependentPlane3D algo = new AlgoDependentPlane3D(cons, equ);
 		return algo.getPlane();
 	}
 
 	@Override
-	final public GeoQuadric3D DependentQuadric3D(Equation equ) {
+	final public GeoQuadric3D dependentQuadric3D(Equation equ) {
 		AlgoDependentQuadric3D algo = new AlgoDependentQuadric3D(cons, equ);
 		return algo.getQuadric();
 	}
 
 	@Override
-	final public GeoPlane3D Plane3D(String label, GeoPointND point,
+	final public GeoPlane3D plane3D(String label, GeoPointND point,
 			GeoLineND line) {
 		AlgoPlaneThroughPointAndLine algo = new AlgoPlaneThroughPointAndLine(
 				cons, label, point, line);
@@ -609,7 +609,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoPlane3D Plane3D(String label, GeoPointND point,
+	final public GeoPlane3D plane3D(String label, GeoPointND point,
 			GeoCoordSys2D cs) {
 		AlgoPlaneThroughPointAndPlane algo = new AlgoPlaneThroughPointAndPlane(
 				cons, label, point, cs);
@@ -620,7 +620,7 @@ public class Manager3D implements Manager3DInterface {
 	 * Plane named label through Point P orthogonal to line l
 	 */
 	@Override
-	final public GeoPlane3D OrthogonalPlane3D(String label, GeoPointND point,
+	final public GeoPlane3D orthogonalPlane3D(String label, GeoPointND point,
 			GeoLineND line) {
 
 		return new AlgoOrthoPlanePointLine(cons, label, point, line).getPlane();
@@ -630,7 +630,7 @@ public class Manager3D implements Manager3DInterface {
 	 * Plane named label through Point P orthogonal to line l
 	 */
 	@Override
-	final public GeoPlane3D OrthogonalPlane3D(String label, GeoPointND point,
+	final public GeoPlane3D orthogonalPlane3D(String label, GeoPointND point,
 			GeoVectorND vector) {
 
 		return new AlgoOrthoPlanePointVector(cons, label, point, vector)
@@ -638,7 +638,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoPlane3D PlaneBisector(String label, GeoPointND point1,
+	final public GeoPlane3D planeBisector(String label, GeoPointND point1,
 			GeoPointND point2) {
 
 		return new AlgoOrthoPlaneBisectorPointPoint(cons, label, point1, point2)
@@ -646,7 +646,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoPlane3D PlaneBisector(String label, GeoSegmentND segment) {
+	final public GeoPlane3D planeBisector(String label, GeoSegmentND segment) {
 
 		return new AlgoOrthoPlaneBisectorSegment(cons, label, segment)
 				.getPlane();
@@ -654,7 +654,7 @@ public class Manager3D implements Manager3DInterface {
 
 	/** Sphere label linking with center o and radius r */
 	@Override
-	final public GeoQuadric3D Sphere(String label, GeoPointND M,
+	final public GeoQuadric3D sphere(String label, GeoPointND M,
 			GeoNumberValue r) {
 		AlgoSpherePointRadius algo = new AlgoSpherePointRadius(cons, M,
 				r);
@@ -667,7 +667,7 @@ public class Manager3D implements Manager3DInterface {
 	 * Sphere with midpoint M through point P
 	 */
 	@Override
-	final public GeoQuadric3D Sphere(String label, GeoPointND M, GeoPointND P) {
+	final public GeoQuadric3D sphere(String label, GeoPointND M, GeoPointND P) {
 		AlgoSphereTwoPoints algo = new AlgoSphereTwoPoints(cons, M, P);
 		algo.getSphere().setToSpecific();
 		algo.getSphere().setLabel(label);
@@ -678,7 +678,7 @@ public class Manager3D implements Manager3DInterface {
 	 * Cone
 	 */
 	@Override
-	final public GeoQuadric3D Cone(String label, GeoPointND origin,
+	final public GeoQuadric3D cone(String label, GeoPointND origin,
 			GeoVectorND direction, NumberValue angle) {
 		AlgoQuadric algo = new AlgoConeInfinitePointVectorNumber(cons, label,
 				origin, direction, angle);
@@ -686,7 +686,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoQuadric3D Cone(String label, GeoPointND origin,
+	final public GeoQuadric3D cone(String label, GeoPointND origin,
 			GeoPointND secondPoint, NumberValue angle) {
 		AlgoQuadric algo = new AlgoConeInfinitePointPointNumber(cons, label,
 				origin, secondPoint, angle);
@@ -694,7 +694,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoQuadric3D Cone(String label, GeoPointND origin,
+	final public GeoQuadric3D cone(String label, GeoPointND origin,
 			GeoLineND axis, NumberValue angle) {
 		AlgoConePointLineAngle algo = new AlgoConePointLineAngle(cons, label,
 				origin, axis, angle);
@@ -702,7 +702,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] ConeLimited(String[] labels, GeoPointND origin,
+	final public GeoElement[] coneLimited(String[] labels, GeoPointND origin,
 			GeoPointND secondPoint, NumberValue r) {
 		AlgoQuadricLimitedPointPointRadius algo = new AlgoQuadricLimitedPointPointRadiusCone(
 				cons, labels, origin, secondPoint, r);
@@ -710,7 +710,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] ConeLimited(String[] labels, GeoConicND bottom,
+	final public GeoElement[] coneLimited(String[] labels, GeoConicND bottom,
 			GeoNumberValue height) {
 		AlgoQuadricLimitedConicHeightCone algo = new AlgoQuadricLimitedConicHeightCone(
 				cons, labels, bottom, height);
@@ -722,7 +722,7 @@ public class Manager3D implements Manager3DInterface {
 	 * Cylinder
 	 */
 	@Override
-	final public GeoQuadric3D Cylinder(String label, GeoPointND origin,
+	final public GeoQuadric3D cylinder(String label, GeoPointND origin,
 			GeoVectorND direction, NumberValue r) {
 		AlgoQuadric algo = new AlgoCylinderInfinitePointVectorNumber(cons,
 				label, origin, direction, r);
@@ -730,7 +730,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoQuadric3D Cylinder(String label, GeoPointND origin,
+	final public GeoQuadric3D cylinder(String label, GeoPointND origin,
 			GeoPointND secondPoint, NumberValue r) {
 		AlgoQuadric algo = new AlgoCylinderInfinitePointPointNumber(cons, label,
 				origin, secondPoint, r);
@@ -738,14 +738,14 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoQuadric3D Cylinder(String label, GeoLineND axis,
+	final public GeoQuadric3D cylinder(String label, GeoLineND axis,
 			NumberValue r) {
 		AlgoQuadric algo = new AlgoCylinderAxisRadius(cons, label, axis, r);
 		return algo.getQuadric();
 	}
 
 	@Override
-	final public GeoElement[] CylinderLimited(String[] labels,
+	final public GeoElement[] cylinderLimited(String[] labels,
 			GeoPointND origin, GeoPointND secondPoint, GeoNumberValue r) {
 		AlgoQuadricLimitedPointPointRadius algo = new AlgoQuadricLimitedPointPointRadiusCylinder(
 				cons, labels, origin, secondPoint, r);
@@ -754,7 +754,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] CylinderLimited(String[] labels,
+	final public GeoElement[] cylinderLimited(String[] labels,
 			GeoConicND bottom, GeoNumberValue height) {
 		AlgoQuadricLimitedConicHeightCylinder algo = new AlgoQuadricLimitedConicHeightCylinder(
 				cons, labels, bottom, height);
@@ -763,7 +763,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoQuadric3DPart QuadricSide(String label,
+	final public GeoQuadric3DPart quadricSide(String label,
 			GeoQuadricND quadric) {
 		AlgoQuadric algo = new AlgoQuadricSide(cons,
 				(GeoQuadric3DLimited) quadric, false, null);
@@ -772,14 +772,14 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoConic3D QuadricBottom(String label, GeoQuadricND quadric) {
+	final public GeoConic3D quadricBottom(String label, GeoQuadricND quadric) {
 		AlgoQuadricEnd algo = new AlgoQuadricEndBottom(cons, label,
 				(GeoQuadric3DLimited) quadric);
 		return algo.getSection();
 	}
 
 	@Override
-	final public GeoConic3D QuadricTop(String label, GeoQuadricND quadric) {
+	final public GeoConic3D quadricTop(String label, GeoQuadricND quadric) {
 		AlgoQuadricEnd algo = new AlgoQuadricEndTop(cons, label,
 				(GeoQuadric3DLimited) quadric);
 		return algo.getSection();
@@ -789,7 +789,7 @@ public class Manager3D implements Manager3DInterface {
 	 * circle through points A, B, C
 	 */
 	@Override
-	final public GeoConic3D Circle3D(String label, GeoPointND A, GeoPointND B,
+	final public GeoConic3D circle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
 		AlgoCircleThreePoints algo = new AlgoCircle3DThreePoints(cons, label, A,
 				B, C);
@@ -801,7 +801,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoConic3D Circle3D(String label, GeoLineND axis, GeoPointND A) {
+	public GeoConic3D circle3D(String label, GeoLineND axis, GeoPointND A) {
 		AlgoCircle3DAxisPoint algo = new AlgoCircle3DAxisPoint(cons, label,
 				axis, A);
 		GeoConic3D circle = algo.getCircle();
@@ -812,7 +812,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoConicND Circle3D(String label, GeoPointND A,
+	public GeoConicND circle3D(String label, GeoPointND A,
 			GeoNumberValue radius, GeoDirectionND axis) {
 
 		if (!A.isGeoElement3D() && axis == kernel.getXOYPlane()) {
@@ -830,13 +830,13 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoConicND Circle3D(String label, GeoPointND A,
+	public GeoConicND circle3D(String label, GeoPointND A,
 			GeoNumberValue radius) {
-		return Circle3D(label, A, radius, kernel.getXOYPlane());
+		return circle3D(label, A, radius, kernel.getXOYPlane());
 	}
 
 	@Override
-	public GeoConicND Circle3D(String label, GeoPointND A, GeoPointND B,
+	public GeoConicND circle3D(String label, GeoPointND A, GeoPointND B,
 			GeoDirectionND orientation) {
 
 		if (!((GeoElement) A).isGeoElement3D()
@@ -864,7 +864,7 @@ public class Manager3D implements Manager3DInterface {
 	 * plane through points A, B, C
 	 */
 	@Override
-	final public GeoPlane3D Plane3D(String label, GeoPointND A, GeoPointND B,
+	final public GeoPlane3D plane3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
 		AlgoPlaneThreePoints algo = new AlgoPlaneThreePoints(cons, label, A, B,
 				C);
@@ -873,13 +873,13 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement Plane3D(String label, GeoLineND a, GeoLineND b) {
+	public GeoElement plane3D(String label, GeoLineND a, GeoLineND b) {
 		AlgoPlaneTwoLines algo = new AlgoPlaneTwoLines(cons, label, a, b);
 		return (GeoPlane3D) algo.getCoordSys();
 	}
 
 	@Override
-	final public GeoPlane3D Plane3D(String label, GeoCoordSys2D cs2D) {
+	final public GeoPlane3D plane3D(String label, GeoCoordSys2D cs2D) {
 		AlgoPlaneCS2D algo = new AlgoPlaneCS2D(cons, cs2D);
 		GeoPlane3D plane = (GeoPlane3D) algo.getCoordSys();
 		plane.setLabel(label);
@@ -887,7 +887,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoPlane3D Plane3D(GeoCoordSys2D cs2D) {
+	final public GeoPlane3D plane3D(GeoCoordSys2D cs2D) {
 		AlgoPlaneCS2D algo = new AlgoPlaneCS2D(cons, cs2D);
 		GeoPlane3D plane = (GeoPlane3D) algo.getCoordSys();
 		return plane;
@@ -897,7 +897,7 @@ public class Manager3D implements Manager3DInterface {
 	// INTERSECTION (POINTS)
 
 	@Override
-	final public GeoElement Intersect(String label, GeoLineND cs1,
+	final public GeoElement intersect(String label, GeoLineND cs1,
 			GeoCoordSys2D cs2, boolean swapInputs) {
 
 		AlgoIntersectCoordSys algo = new AlgoIntersectCS1D2D(cons, label, cs1,
@@ -907,7 +907,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement Intersect(String label, GeoLineND cs1,
+	final public GeoElement intersect(String label, GeoLineND cs1,
 			GeoLineND cs2) {
 
 		AlgoIntersectCoordSys algo = new AlgoIntersectCS1D1D(cons, label, cs1,
@@ -917,7 +917,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] IntersectionPoint(String[] labels, GeoLineND g,
+	public GeoElement[] intersectionPoint(String[] labels, GeoLineND g,
 			GeoSurfaceFinite p) {
 
 		if (p instanceof GeoPolygon) {
@@ -930,7 +930,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] IntersectionPoint(String[] labels, GeoPlaneND plane,
+	public GeoElement[] intersectionPoint(String[] labels, GeoPlaneND plane,
 			GeoElement s) {
 
 		if (s instanceof GeoPolygon) {
@@ -949,7 +949,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] IntersectPath(String[] labels, GeoLineND g,
+	public GeoElement[] intersectPath(String[] labels, GeoLineND g,
 			GeoSurfaceFinite p) {
 
 		AlgoIntersectPathLinePolygon3D algo;
@@ -964,7 +964,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] IntersectPath(String[] labels, GeoPlaneND plane,
+	public GeoElement[] intersectPath(String[] labels, GeoPlaneND plane,
 			GeoElement p) {
 
 		if (p instanceof GeoPolygon) {
@@ -978,15 +978,15 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] IntersectPlaneFunctionNVar(String label,
+	public GeoElement[] intersectPlaneFunctionNVar(String label,
 			GeoPlaneND plane, GeoFunctionNVar fun) {
-		GeoElement[] ret = IntersectPlaneFunctionNVar(plane, fun);
+		GeoElement[] ret = intersectPlaneFunctionNVar(plane, fun);
 		ret[0].setLabel(label);
 		return ret;
 	}
 
 	@Override
-	public GeoElement[] IntersectPlaneFunctionNVar(GeoPlaneND plane,
+	public GeoElement[] intersectPlaneFunctionNVar(GeoPlaneND plane,
 			GeoFunctionNVar fun) {
 		AlgoIntersectFunctionNVarPlane algo = new AlgoIntersectFunctionNVarPlane(
 				cons, fun, plane);
@@ -994,7 +994,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] IntersectPath(GeoPlaneND plane, GeoPolygon p) {
+	public GeoElement[] intersectPath(GeoPlaneND plane, GeoPolygon p) {
 
 		AlgoIntersectPathPlanePolygon3D algo = new AlgoIntersectPathPlanePolygon3D(
 				cons, (GeoPlane3D) plane, p);
@@ -1004,7 +1004,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] IntersectRegion(String[] labels, GeoPlaneND plane,
+	public GeoElement[] intersectRegion(String[] labels, GeoPlaneND plane,
 			GeoElement p, int[] outputSizes) {
 
 		if (p.isGeoPolyhedron()) {
@@ -1019,7 +1019,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] IntersectRegion(GeoPlaneND plane, GeoElement p) {
+	public GeoElement[] intersectRegion(GeoPlaneND plane, GeoElement p) {
 
 		if (p.isGeoPolyhedron()) {
 			AlgoIntersectRegionPlanePolyhedron algo = new AlgoIntersectRegionPlanePolyhedron(
@@ -1033,7 +1033,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoConic3D Intersect(String label, GeoPlaneND plane,
+	public GeoConic3D intersect(String label, GeoPlaneND plane,
 			GeoQuadricND quadric) {
 		GeoConic3D ret;
 		if (quadric instanceof GeoQuadric3DPart) {
@@ -1051,7 +1051,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoConicND IntersectQuadricLimited(String label, GeoPlaneND plane,
+	public GeoConicND intersectQuadricLimited(String label, GeoPlaneND plane,
 			GeoQuadricND quadric) {
 
 		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadricLimited(
@@ -1061,7 +1061,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoConicND IntersectQuadricLimited(GeoPlaneND plane,
+	public GeoConicND intersectQuadricLimited(GeoPlaneND plane,
 			GeoQuadricND quadric) {
 		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadricLimited(
 				cons, (GeoPlane3D) plane, quadric);
@@ -1070,7 +1070,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoConic3D Intersect(GeoPlaneND plane, GeoQuadricND quadric) {
+	public GeoConic3D intersect(GeoPlaneND plane, GeoQuadricND quadric) {
 
 		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadric(cons,
 				plane, quadric);
@@ -1079,7 +1079,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] IntersectAsCircle(String[] labels,
+	public GeoElement[] intersectAsCircle(String[] labels,
 			GeoQuadricND quadric1, GeoQuadricND quadric2) {
 
 		AlgoIntersectQuadricsAsCircle algo = new AlgoIntersectQuadricsAsCircle(
@@ -1089,7 +1089,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] IntersectAsCircle(GeoQuadricND quadric1,
+	public GeoElement[] intersectAsCircle(GeoQuadricND quadric1,
 			GeoQuadricND quadric2) {
 
 		AlgoIntersectQuadricsAsCircle algo = new AlgoIntersectQuadricsAsCircle(
@@ -1102,7 +1102,7 @@ public class Manager3D implements Manager3DInterface {
 	// FUNCTIONS (2 VARS)
 
 	@Override
-	final public GeoFunctionNVar Function2Var(String label,
+	final public GeoFunctionNVar function2Var(String label,
 			GeoNumberValue zcoord, GeoNumeric localVarU, GeoNumberValue Ufrom,
 			GeoNumberValue Uto, GeoNumeric localVarV, GeoNumberValue Vfrom,
 			GeoNumberValue Vto) {
@@ -1118,7 +1118,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoFunctionNVar Function2Var(String label, GeoFunctionNVar f,
+	final public GeoFunctionNVar function2Var(String label, GeoFunctionNVar f,
 			GeoNumberValue xFrom, GeoNumberValue xTo, GeoNumberValue yFrom,
 			GeoNumberValue yTo) {
 
@@ -1138,7 +1138,7 @@ public class Manager3D implements Manager3DInterface {
 	 * y-coord>, <expression z-coord>, <number-var>, <from>, <to> ]
 	 */
 	@Override
-	final public GeoCurveCartesian3D CurveCartesian3D(GeoNumberValue xcoord,
+	final public GeoCurveCartesian3D curveCartesian3D(GeoNumberValue xcoord,
 			GeoNumberValue ycoord, GeoNumberValue zcoord, GeoNumeric localVar,
 			GeoNumberValue from, GeoNumberValue to) {
 		AlgoCurveCartesian3D algo = new AlgoCurveCartesian3D(cons, null,
@@ -1151,7 +1151,7 @@ public class Manager3D implements Manager3DInterface {
 	// 3D SURFACE (2 VARS)
 
 	@Override
-	public GeoElement SurfaceCartesian3D(String label, ExpressionNode point,
+	public GeoElement surfaceCartesian3D(String label, ExpressionNode point,
 			GeoNumberValue[] coords,
 			GeoNumeric uVar, GeoNumberValue uFrom, GeoNumberValue uTo,
 			GeoNumeric vVar, GeoNumberValue vFrom, GeoNumberValue vTo) {
@@ -1166,7 +1166,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement SurfaceOfRevolution(String label,
+	public GeoElement surfaceOfRevolution(String label,
 			ParametricCurve function, GeoNumberValue angle) {
 		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons, label,
 				function, angle);
@@ -1174,7 +1174,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement SurfaceOfRevolution(String label, Path function,
+	public GeoElement surfaceOfRevolution(String label, Path function,
 			GeoNumberValue angle, GeoLineND line) {
 		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons, label,
 				function, angle, line);
@@ -1211,7 +1211,7 @@ public class Manager3D implements Manager3DInterface {
 	 * line g and conic c
 	 */
 	@Override
-	final public GeoPoint3D[] IntersectLineConic(String[] labels, GeoLineND g,
+	final public GeoPoint3D[] intersectLineConic(String[] labels, GeoLineND g,
 			GeoConicND c) {
 		AlgoIntersectLineConic3D algo = getIntersectionAlgorithm(g, c);
 		algo.setPrintedInXML(true);
@@ -1225,7 +1225,7 @@ public class Manager3D implements Manager3DInterface {
 	 * location (xRW, yRW)
 	 */
 	@Override
-	final public GeoPoint3D IntersectLineConicSingle(String label, GeoLineND g,
+	final public GeoPoint3D intersectLineConicSingle(String label, GeoLineND g,
 			GeoConicND c, double xRW, double yRW, CoordMatrix mat) {
 
 		AlgoIntersectLineConic3D algo = getIntersectionAlgorithm(g, c);
@@ -1243,10 +1243,10 @@ public class Manager3D implements Manager3DInterface {
 	 * input
 	 */
 	@Override
-	final public GeoPoint3D IntersectLineConicSingle(String label, GeoLineND g,
+	final public GeoPoint3D intersectLineConicSingle(String label, GeoLineND g,
 			GeoConicND c, NumberValue index) {
 
-		return IntersectLineConicSingle(label, g, c,
+		return intersectLineConicSingle(label, g, c,
 				(int) index.getDouble() - 1);
 	}
 
@@ -1255,7 +1255,7 @@ public class Manager3D implements Manager3DInterface {
 	 * input
 	 */
 	@Override
-	final public GeoPoint3D IntersectLineConicSingle(String label, GeoLineND g,
+	final public GeoPoint3D intersectLineConicSingle(String label, GeoLineND g,
 			GeoConicND c, int index) {
 		AlgoIntersectLineConic3D algo = getIntersectionAlgorithm(g, c); // index
 																		// - 1
@@ -1272,7 +1272,7 @@ public class Manager3D implements Manager3DInterface {
 	 * get only one intersection point of two conics, near to refPoint
 	 */
 	@Override
-	public GeoPoint3D IntersectLineConicSingle(String label, GeoLineND g,
+	public GeoPoint3D intersectLineConicSingle(String label, GeoLineND g,
 			GeoConicND c, GeoPointND refPoint) {
 		AlgoIntersectLineConic3D algo = getIntersectionAlgorithm(g, c); // index
 																		// - 1
@@ -1316,7 +1316,7 @@ public class Manager3D implements Manager3DInterface {
 	 * conics A and B
 	 */
 	@Override
-	final public GeoPoint3D[] IntersectConics(String[] labels, GeoConicND A,
+	final public GeoPoint3D[] intersectConics(String[] labels, GeoConicND A,
 			GeoQuadricND B) {
 		AlgoIntersectConics3D algo = getIntersectionAlgorithmConics(A, B);
 		algo.setPrintedInXML(true);
@@ -1326,7 +1326,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
+	final public GeoPoint3D intersectConicsSingle(String label, GeoConicND A,
 			GeoQuadricND B, double xRW, double yRW, CoordMatrix mat) {
 
 		AlgoIntersectConics3D algo = getIntersectionAlgorithmConics(A, B);
@@ -1339,13 +1339,13 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
+	final public GeoPoint3D intersectConicsSingle(String label, GeoConicND A,
 			GeoQuadricND B, NumberValue index) {
-		return IntersectConicsSingle(label, A, B, (int) index.getDouble() - 1);
+		return intersectConicsSingle(label, A, B, (int) index.getDouble() - 1);
 	}
 
 	@Override
-	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
+	final public GeoPoint3D intersectConicsSingle(String label, GeoConicND A,
 			GeoQuadricND B, int index) {
 		AlgoIntersectConics3D algo = getIntersectionAlgorithmConics(A, B); // index
 																			// -
@@ -1361,7 +1361,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
+	final public GeoPoint3D intersectConicsSingle(String label, GeoConicND A,
 			GeoQuadricND B, GeoPointND refPoint) {
 		AlgoIntersectConics3D algo = getIntersectionAlgorithmConics(A, B); // index
 																			// -
@@ -1398,7 +1398,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoPointND[] IntersectLineQuadric(String[] labels, GeoLineND A,
+	public GeoPointND[] intersectLineQuadric(String[] labels, GeoLineND A,
 			GeoQuadricND B) {
 		AlgoIntersectLineQuadric3D algo = getIntersectionAlgorithm(A, B);
 		algo.setPrintedInXML(true);
@@ -1412,10 +1412,10 @@ public class Manager3D implements Manager3DInterface {
 	 * command input
 	 */
 	@Override
-	final public GeoPoint3D IntersectLineQuadricSingle(String label,
+	final public GeoPoint3D intersectLineQuadricSingle(String label,
 			GeoLineND g, GeoQuadricND q, NumberValue index) {
 
-		return IntersectLineQuadricSingle(label, g, q,
+		return intersectLineQuadricSingle(label, g, q,
 				(int) index.getDouble() - 1);
 	}
 
@@ -1424,7 +1424,7 @@ public class Manager3D implements Manager3DInterface {
 	 * command input
 	 */
 	@Override
-	final public GeoPoint3D IntersectLineQuadricSingle(String label,
+	final public GeoPoint3D intersectLineQuadricSingle(String label,
 			GeoLineND g, GeoQuadricND q, int index) {
 		AlgoIntersectLineQuadric3D algo = getIntersectionAlgorithm(g, q); // index
 																			// -
@@ -1444,7 +1444,7 @@ public class Manager3D implements Manager3DInterface {
 	 * location (xRW, yRW)
 	 */
 	@Override
-	final public GeoPoint3D IntersectLineQuadricSingle(String label,
+	final public GeoPoint3D intersectLineQuadricSingle(String label,
 			GeoLineND g, GeoQuadricND q, double xRW, double yRW,
 			CoordMatrix4x4 mat) {
 
@@ -1458,7 +1458,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoPoint3D IntersectLineQuadricSingle(String label,
+	final public GeoPoint3D intersectLineQuadricSingle(String label,
 			GeoLineND g, GeoQuadricND q, GeoPointND refPoint) {
 		AlgoIntersectLineQuadric3D algo = getIntersectionAlgorithm(g, q); // index
 																			// -
@@ -1512,7 +1512,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoPointND[] IntersectPlaneConic(String[] labels, GeoCoordSys2D A,
+	public GeoPointND[] intersectPlaneConic(String[] labels, GeoCoordSys2D A,
 			GeoConicND B) {
 		AlgoIntersectPlaneConic algo = getIntersectionAlgorithm(A, B);
 		algo.setPrintedInXML(true);
@@ -1522,7 +1522,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElementND[] IntersectPlaneCurve(String[] labels, GeoCoordSys2D A,
+	public GeoElementND[] intersectPlaneCurve(String[] labels, GeoCoordSys2D A,
 			GeoCurveCartesianND B) {
 		AlgoIntersectPlaneCurve algo = getIntersectionAlgorithmCurve(A, B,
 				labels);
@@ -1533,7 +1533,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement IntersectPlanes(String label, GeoPlaneND cs1,
+	final public GeoElement intersectPlanes(String label, GeoPlaneND cs1,
 			GeoPlaneND cs2) {
 
 		AlgoIntersectPlanes algo = new AlgoIntersectPlanes(cons, label, cs1,
@@ -1542,27 +1542,27 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement IntersectPlanes(GeoPlaneND cs1, GeoPlaneND cs2) {
+	final public GeoElement intersectPlanes(GeoPlaneND cs1, GeoPlaneND cs2) {
 
 		AlgoIntersectPlanes algo = new AlgoIntersectPlanes(cons, cs1, cs2);
 		return algo.getIntersection();
 	}
 
 	@Override
-	public GeoElement ClosestPoint(String label, GeoLineND g, GeoLineND h) {
+	public GeoElement closestPoint(String label, GeoLineND g, GeoLineND h) {
 		AlgoClosestPointLines3D algo = new AlgoClosestPointLines3D(cons, label,
 				g, h);
 		return algo.getPoint();
 	}
 
 	@Override
-	public GeoPoint3D ClosestPoint(String label, Path p, GeoPointND P) {
+	public GeoPoint3D closestPoint(String label, Path p, GeoPointND P) {
 		AlgoClosestPoint3D algo = new AlgoClosestPoint3D(cons, label, p, P);
 		return (GeoPoint3D) algo.getP();
 	}
 
 	@Override
-	public GeoPointND ClosestPoint(String label, Region r, GeoPointND P) {
+	public GeoPointND closestPoint(String label, Region r, GeoPointND P) {
 		AlgoClosestPointToRegion3D algo = new AlgoClosestPointToRegion3D(cons,
 				label, r, P);
 		return algo.getOutputPoint();
@@ -1573,7 +1573,7 @@ public class Manager3D implements Manager3DInterface {
 	 ********************************************************************/
 
 	@Override
-	final public GeoAngle Angle3D(String label, GeoPointND A, GeoPointND B,
+	final public GeoAngle angle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
 		AlgoAnglePoints3D algo = new AlgoAnglePoints3D(cons, A, B, C);
 		GeoAngle angle = algo.getAngle();
@@ -1582,7 +1582,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoAngle Angle3D(String label, GeoPointND A, GeoPointND B,
+	final public GeoAngle angle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C, GeoDirectionND orientation) {
 		AlgoAnglePoints3DOrientation algo = new AlgoAnglePoints3DOrientation(
 				cons, A, B, C, orientation);
@@ -1592,7 +1592,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] Angle(String[] labels, GeoPointND B, GeoPointND A,
+	final public GeoElement[] angle(String[] labels, GeoPointND B, GeoPointND A,
 			GeoNumberValue alpha, GeoDirectionND orientation,
 			boolean posOrientation) {
 		// this is actually a macro
@@ -1611,15 +1611,15 @@ public class Manager3D implements Manager3DInterface {
 		}
 
 		// rotate B around A using angle alpha
-		GeoPointND C = (GeoPointND) Rotate3D(pointLabel, (GeoElement) B, alpha,
+		GeoPointND C = (GeoPointND) rotate3D(pointLabel, (GeoElement) B, alpha,
 				A, orientation)[0];
 
 		// create angle according to orientation
 		GeoAngle angle;
 		if (posOrientation) {
-			angle = Angle3D(angleLabel, B, A, C, orientation);
+			angle = angle3D(angleLabel, B, A, C, orientation);
 		} else {
-			angle = Angle3D(angleLabel, C, A, B, orientation);
+			angle = angle3D(angleLabel, C, A, B, orientation);
 		}
 
 		// return angle and new point
@@ -1628,7 +1628,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h) {
+	final public GeoAngle angle3D(String label, GeoLineND g, GeoLineND h) {
 		AlgoAngleLines3D algo = new AlgoAngleLines3D(cons, g, h);
 		GeoAngle angle = algo.getAngle();
 		angle.setLabel(label);
@@ -1636,7 +1636,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h,
+	final public GeoAngle angle3D(String label, GeoLineND g, GeoLineND h,
 			GeoDirectionND orientation) {
 		AlgoAngleLines3D algo = new AlgoAngleLines3DOrientation(cons, g,
 				h, orientation);
@@ -1646,7 +1646,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoAngle Angle3D(String label, GeoPlaneND p1, GeoPlaneND p2) {
+	final public GeoAngle angle3D(String label, GeoPlaneND p1, GeoPlaneND p2) {
 		AlgoAnglePlanes algo = new AlgoAnglePlanes(cons, (GeoPlane3D) p1,
 				(GeoPlane3D) p2);
 		GeoAngle angle = algo.getAngle();
@@ -1655,7 +1655,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoAngle Angle3D(String label, GeoLineND l, GeoPlaneND p) {
+	final public GeoAngle angle3D(String label, GeoLineND l, GeoPlaneND p) {
 		AlgoAngleLinePlane algo = new AlgoAngleLinePlane(cons, label, l,
 				(GeoPlane3D) p);
 		GeoAngle angle = algo.getAngle();
@@ -1679,18 +1679,18 @@ public class Manager3D implements Manager3DInterface {
 			GeoPointND b2 = b.getEndPoint();
 
 			if (a1 == b1) {
-				angle = Angle3D(null, a2, a1, b2);
+				angle = angle3D(null, a2, a1, b2);
 			} else if (a1 == b2) {
-				angle = Angle3D(null, a2, a1, b1);
+				angle = angle3D(null, a2, a1, b1);
 			} else if (a2 == b1) {
-				angle = Angle3D(null, a1, a2, b2);
+				angle = angle3D(null, a1, a2, b2);
 			} else if (a2 == b2) {
-				angle = Angle3D(null, a1, a2, b1);
+				angle = angle3D(null, a1, a2, b1);
 			}
 		}
 
 		if (angle == null) {
-			angle = Angle3D(null, line1, line2);
+			angle = angle3D(null, line1, line2);
 		}
 
 		return angle;
@@ -1714,25 +1714,25 @@ public class Manager3D implements Manager3DInterface {
 			GeoPointND b2 = b.getEndPoint();
 
 			if (a1 == b1) {
-				angle = Angle3D(null, a2, a1, b2, orientation);
+				angle = angle3D(null, a2, a1, b2, orientation);
 			} else if (a1 == b2) {
-				angle = Angle3D(null, a2, a1, b1, orientation);
+				angle = angle3D(null, a2, a1, b1, orientation);
 			} else if (a2 == b1) {
-				angle = Angle3D(null, a1, a2, b2, orientation);
+				angle = angle3D(null, a1, a2, b2, orientation);
 			} else if (a2 == b2) {
-				angle = Angle3D(null, a1, a2, b1, orientation);
+				angle = angle3D(null, a1, a2, b1, orientation);
 			}
 		}
 
 		if (angle == null) {
-			angle = Angle3D(null, line1, line2, orientation);
+			angle = angle3D(null, line1, line2, orientation);
 		}
 
 		return angle;
 	}
 
 	@Override
-	final public GeoAngle Angle3D(String label, GeoVectorND v, GeoVectorND w) {
+	final public GeoAngle angle3D(String label, GeoVectorND v, GeoVectorND w) {
 		AlgoAngleVectors3D algo = new AlgoAngleVectors3D(cons, v, w);
 		GeoAngle angle = algo.getAngle();
 		angle.setLabel(label);
@@ -1740,7 +1740,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoAngle Angle3D(String label, GeoVectorND v, GeoVectorND w,
+	final public GeoAngle angle3D(String label, GeoVectorND v, GeoVectorND w,
 			GeoDirectionND orientation) {
 		AlgoAngleVectors3D algo = new AlgoAngleVectors3DOrientation(cons,
 				v, w, orientation);
@@ -1750,14 +1750,14 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] Angles3D(String[] labels, GeoPolygon poly) {
+	final public GeoElement[] angles3D(String[] labels, GeoPolygon poly) {
 		AlgoAnglePolygon3D algo = new AlgoAnglePolygon3D(cons, labels, poly);
 		GeoElement[] angles = algo.getAngles();
 		return angles;
 	}
 
 	@Override
-	final public GeoElement[] Angles3D(String[] labels, GeoPolygon poly,
+	final public GeoElement[] angles3D(String[] labels, GeoPolygon poly,
 			GeoDirectionND orientation) {
 		AlgoAnglePolygon3D algo = new AlgoAnglePolygon3DOrientation(cons,
 				labels, poly, orientation);
@@ -1766,7 +1766,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] Angles3D(String[] labels, GeoPolygon poly, boolean internalAngle) {
+	public GeoElement[] angles3D(String[] labels, GeoPolygon poly, boolean internalAngle) {
 		AlgoAnglePolygon3D algo = new AlgoAnglePolygon3D(cons, labels, poly, internalAngle);
 		GeoElement[] angles = algo.getAngles();
 		return angles;
@@ -1782,14 +1782,14 @@ public class Manager3D implements Manager3DInterface {
 	 * @return length of the vector
 	 */
 	@Override
-	final public GeoNumeric Length(String label, GeoVectorND v) {
+	final public GeoNumeric length(String label, GeoVectorND v) {
 		AlgoLengthVector3D algo = new AlgoLengthVector3D(cons, label, v);
 		GeoNumeric num = algo.getLength();
 		return num;
 	}
 
 	@Override
-	final public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
+	final public GeoElement[] archimedeanSolid(String[] labels, GeoPointND A,
 			GeoPointND B, GeoDirectionND v, Commands name) {
 		AlgoArchimedeanSolid algo = new AlgoArchimedeanSolid(cons, labels, A, B,
 				v, name);
@@ -1797,7 +1797,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
+	final public GeoElement[] archimedeanSolid(String[] labels, GeoPointND A,
 			GeoPointND B, GeoPointND C, Commands name) {
 		AlgoArchimedeanSolidThreePoints algo = new AlgoArchimedeanSolidThreePoints(
 				cons, labels, A, B, C, name);
@@ -1805,7 +1805,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
+	final public GeoElement[] archimedeanSolid(String[] labels, GeoPointND A,
 			GeoPointND B, Commands name) {
 
 		// create segment A, B
@@ -1949,7 +1949,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
+	public GeoNumeric distance(String label, GeoLineND g, GeoLineND h) {
 
 		AlgoDistanceLines3D algo = new AlgoDistanceLines3D(cons, label, g, h);
 
@@ -1957,7 +1957,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoNumeric Distance(String label, GeoPointND point,
+	public GeoNumeric distance(String label, GeoPointND point,
 			GeoPlaneND plane) {
 
 		AlgoDistancePointPlane3D algo = new AlgoDistancePointPlane3D(cons,
@@ -1971,7 +1971,7 @@ public class Manager3D implements Manager3DInterface {
 	 ********************************************************************/
 
 	@Override
-	final public GeoElement[] Translate3D(String label, GeoElementND geoTrans,
+	final public GeoElement[] translate3D(String label, GeoElementND geoTrans,
 			GeoVectorND v) {
 		Transform t = new TransformTranslate3D(cons, v);
 		return t.transform(geoTrans, label);
@@ -1983,42 +1983,42 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] Rotate3D(String label, GeoElement geoRot,
+	final public GeoElement[] rotate3D(String label, GeoElement geoRot,
 			GeoNumberValue phi, GeoPointND center, GeoDirectionND orientation) {
 		Transform t = new TransformRotate3D(cons, phi, center, orientation);
 		return t.transform(geoRot, label);
 	}
 
 	@Override
-	final public GeoElement[] Rotate3D(String label, GeoElement geoRot,
+	final public GeoElement[] rotate3D(String label, GeoElement geoRot,
 			GeoNumberValue phi, GeoLineND line) {
 		Transform t = new TransformRotate3D(cons, phi, line);
 		return t.transform(geoRot, label);
 	}
 
 	@Override
-	final public GeoElement[] Mirror3D(String label, GeoElement geo,
+	final public GeoElement[] mirror3D(String label, GeoElement geo,
 			GeoPointND p) {
 		Transform t = new TransformMirror3D(cons, p);
 		return t.transform(geo, label);
 	}
 
 	@Override
-	final public GeoElement[] Mirror3D(String label, GeoElement geo,
+	final public GeoElement[] mirror3D(String label, GeoElement geo,
 			GeoLineND line) {
 		Transform t = new TransformMirror3D(cons, line);
 		return t.transform(geo, label);
 	}
 
 	@Override
-	final public GeoElement[] Mirror3D(String label, GeoElement geo,
+	final public GeoElement[] mirror3D(String label, GeoElement geo,
 			GeoCoordSys2D plane) {
 		Transform t = new TransformMirror3D(cons, plane);
 		return t.transform(geo, label);
 	}
 
 	@Override
-	final public GeoElement[] Dilate3D(String label, GeoElement geoDil,
+	final public GeoElement[] dilate3D(String label, GeoElement geoDil,
 			GeoNumberValue r, GeoPointND S) {
 
 		Transform t = new TransformDilate3D(cons, r, S);
@@ -2027,27 +2027,27 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoNumeric Volume(String label, HasVolume hasVolume) {
+	final public GeoNumeric volume(String label, HasVolume hasVolume) {
 		AlgoVolume algo = new AlgoVolume(cons, label, hasVolume);
 		return algo.getVolume();
 	}
 
 	@Override
-	final public GeoNumeric OrientedHeight(String label, HasHeight hasHeight) {
+	final public GeoNumeric orientedHeight(String label, HasHeight hasHeight) {
 		AlgoOrientedHeight algo = new AlgoOrientedHeight(cons, label,
 				hasHeight);
 		return algo.getOrientedHeight();
 	}
 
 	@Override
-	final public GeoPoint3D[] Corner(String[] labels, GeoConicND conic) {
+	final public GeoPoint3D[] corner(String[] labels, GeoConicND conic) {
 		AlgoCornerConicSection algo = new AlgoCornerConicSection(cons, labels,
 				(GeoConicSection) conic);
 		return algo.getCorners();
 	}
 
 	@Override
-	final public GeoElement[] RegularPolygon(String[] labels, GeoPointND A,
+	final public GeoElement[] regularPolygon(String[] labels, GeoPointND A,
 			GeoPointND B, GeoNumberValue n, GeoDirectionND direction) {
 		AlgoPolygonRegular3D algo = new AlgoPolygonRegular3D(cons, labels, A, B,
 				n, direction);
@@ -2055,7 +2055,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p,
+	public GeoElement[] polyhedronNet(String[] labels, GeoElement p,
 			NumberValue v, GeoPolygon bottomFace,
 			GeoSegmentND[] pivotSegments) {
 
@@ -2102,7 +2102,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] PolyhedronConvex(String[] labels,
+	public GeoElement[] polyhedronConvex(String[] labels,
 			GeoElement[] pointList) {
 		AlgoElement algo = new AlgoPolyhedronConvex(cons, labels, pointList);
 		return algo.getOutput();
@@ -2112,7 +2112,7 @@ public class Manager3D implements Manager3DInterface {
 	 * circle arc from three points
 	 */
 	@Override
-	final public GeoConicPart3D CircumcircleArc3D(String label, GeoPointND A,
+	final public GeoConicPart3D circumcircleArc3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
 		AlgoConicPartCircumcircle3D algo = new AlgoConicPartCircumcircle3D(cons,
 				label, A, B, C, GeoConicNDConstants.CONIC_PART_ARC);
@@ -2123,7 +2123,7 @@ public class Manager3D implements Manager3DInterface {
 	 * circle sector from three points
 	 */
 	@Override
-	final public GeoConicPart3D CircumcircleSector3D(String label, GeoPointND A,
+	final public GeoConicPart3D circumcircleSector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
 		AlgoConicPartCircumcircle3D algo = new AlgoConicPartCircumcircle3D(cons,
 				label, A, B, C, GeoConicNDConstants.CONIC_PART_SECTOR);
@@ -2131,7 +2131,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] AngularBisector3D(String[] labels, GeoLineND g,
+	final public GeoElement[] angularBisector3D(String[] labels, GeoLineND g,
 			GeoLineND h) {
 		AlgoAngularBisectorLines3D algo = new AlgoAngularBisectorLines3D(cons,
 				labels, g, h);
@@ -2140,7 +2140,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoLine3D AngularBisector3D(String label, GeoPointND A,
+	final public GeoLine3D angularBisector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
 		AlgoAngularBisectorPoints3D algo = new AlgoAngularBisectorPoints3D(cons,
 				label, A, B, C);
@@ -2148,7 +2148,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoLine3D AngularBisector3D(String label, GeoPointND A,
+	final public GeoLine3D angularBisector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
 		AlgoAngularBisectorPoints3DOrientation algo = new AlgoAngularBisectorPoints3DOrientation(
 				cons, label, A, B, C, orientation);
@@ -2156,7 +2156,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoConicPart3D CircleArcSector3D(String label, GeoPointND A,
+	final public GeoConicPart3D circleArcSector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, int type) {
 		AlgoConicPartCircle3D algo = new AlgoConicPartCircle3D(cons, label, A,
 				B, C, type);
@@ -2164,7 +2164,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoConicPartND CircleArcSector3D(String label, GeoPointND A,
+	final public GeoConicPartND circleArcSector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation, int type) {
 
 		if (((GeoElement) A).isGeoElement3D()
@@ -2173,7 +2173,7 @@ public class Manager3D implements Manager3DInterface {
 			if (orientation == kernel.getSpace()) { // space is default
 													// orientation for 3D
 													// objects
-				return CircleArcSector3D(null, A, B, C, type);
+				return circleArcSector3D(null, A, B, C, type);
 			}
 
 			// use view orientation
@@ -2197,7 +2197,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoLine3D Line3D(String label, ExpressionValue[] coefX,
+	public GeoLine3D line3D(String label, ExpressionValue[] coefX,
 			ExpressionValue[] coefY, ExpressionValue[] coefZ) {
 		MyVec3DNode start = new MyVec3DNode(kernel, coefX[0], coefY[0],
 				coefZ[0]);
@@ -2213,7 +2213,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoConicPartND Semicircle3D(String label, GeoPointND A,
+	final public GeoConicPartND semicircle3D(String label, GeoPointND A,
 			GeoPointND B, GeoDirectionND orientation) {
 
 		if (((GeoElement) A).isGeoElement3D()
@@ -2243,7 +2243,7 @@ public class Manager3D implements Manager3DInterface {
 	 * tangents to c through P
 	 */
 	@Override
-	final public GeoElement[] Tangent3D(String[] labels, GeoPointND P,
+	final public GeoElement[] tangent3D(String[] labels, GeoPointND P,
 			GeoConicND c) {
 		if (P.isGeoElement3D() || c.isGeoElement3D()) {
 			AlgoTangentPoint3D algo = new AlgoTangentPoint3D(cons, labels, P,
@@ -2255,7 +2255,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement[] Tangent3D(String[] labels, GeoLineND l, GeoConicND c) {
+	public GeoElement[] tangent3D(String[] labels, GeoLineND l, GeoConicND c) {
 		if (l.isGeoElement3D() || c.isGeoElement3D()) {
 			AlgoTangentLine3D algo = new AlgoTangentLine3D(cons, labels, l, c);
 			return algo.getOutput();
@@ -2268,7 +2268,7 @@ public class Manager3D implements Manager3DInterface {
 	 * common tangents to c1 and c2 dsun48 [6/26/2011]
 	 */
 	@Override
-	final public GeoElement[] CommonTangents3D(String[] labels, GeoConicND c1,
+	final public GeoElement[] commonTangents3D(String[] labels, GeoConicND c1,
 			GeoConicND c2) {
 		if (c1.isGeoElement3D() || c2.isGeoElement3D()) {
 			AlgoCommonTangents3D algo = new AlgoCommonTangents3D(cons, labels,
@@ -2283,7 +2283,7 @@ public class Manager3D implements Manager3DInterface {
 	 * diameter line conjugate to direction of g relative to c
 	 */
 	@Override
-	final public GeoElement DiameterLine3D(String label, GeoLineND g,
+	final public GeoElement diameterLine3D(String label, GeoLineND g,
 			GeoConicND c) {
 
 		if (g.isGeoElement3D() || c.isGeoElement3D()) {
@@ -2298,7 +2298,7 @@ public class Manager3D implements Manager3DInterface {
 	 * diameter line conjugate to v relative to c
 	 */
 	@Override
-	final public GeoElement DiameterLine3D(String label, GeoVectorND v,
+	final public GeoElement diameterLine3D(String label, GeoVectorND v,
 			GeoConicND c) {
 
 		if (v.isGeoElement3D() || c.isGeoElement3D()) {
@@ -2311,7 +2311,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement LineBisector3D(String label, GeoSegmentND segment,
+	final public GeoElement lineBisector3D(String label, GeoSegmentND segment,
 			GeoDirectionND orientation) {
 
 		if (!segment.isGeoElement3D() // 2D geo
@@ -2330,7 +2330,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement LineBisector3D(String label, GeoPointND a,
+	final public GeoElement lineBisector3D(String label, GeoPointND a,
 			GeoPointND b, GeoDirectionND orientation) {
 
 		if (!a.isGeoElement3D() && !b.isGeoElement3D() // 2D geo
@@ -2349,14 +2349,14 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoConicND Conic3D(String label, GeoPointND[] points) {
+	final public GeoConicND conic3D(String label, GeoPointND[] points) {
 		AlgoConicFivePoints3D algo = new AlgoConicFivePoints3D(cons, label,
 				points);
 		return algo.getConic();
 	}
 
 	@Override
-	final public GeoConicND EllipseHyperbola3D(String label, GeoPointND A,
+	final public GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, final int type) {
 		AlgoEllipseHyperbolaFociPoint3D algo = new AlgoEllipseHyperbolaFociPoint3D(
 				cons, label, A, B, C, type);
@@ -2365,7 +2365,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoConicND EllipseHyperbola3D(String label, GeoPointND A,
+	final public GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation,
 			final int type) {
 
@@ -2381,7 +2381,7 @@ public class Manager3D implements Manager3DInterface {
 
 		if (orientation == kernel.getSpace()) { // space is default orientation
 												// for 2D objects
-			return EllipseHyperbola3D(null, A, B, C, type);
+			return ellipseHyperbola3D(null, A, B, C, type);
 		}
 
 		AlgoEllipseHyperbolaFociPoint3DOriented algo = new AlgoEllipseHyperbolaFociPoint3DOriented(
@@ -2392,7 +2392,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoConicND Parabola3D(String label, GeoPointND F,
+	final public GeoConicND parabola3D(String label, GeoPointND F,
 			GeoLineND l) {
 		AlgoParabolaPointLine3D algo = new AlgoParabolaPointLine3D(cons, label,
 				F, l);
@@ -2400,7 +2400,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement Locus3D(String label, GeoPointND Q, GeoPointND P) {
+	final public GeoElement locus3D(String label, GeoPointND Q, GeoPointND P) {
 		if (!kernel.getAlgoDispatcher().LocusCheck(P, Q)) {
 			return null;
 		}
@@ -2409,7 +2409,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement Tangent3D(String label, GeoPointND point,
+	public GeoElement tangent3D(String label, GeoPointND point,
 			GeoCurveCartesianND curve) {
 
 		if (curve.isGeoElement3D()) {
@@ -2424,7 +2424,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement Locus3D(String label, GeoPointND Q, GeoNumeric slider) {
+	public GeoElement locus3D(String label, GeoPointND Q, GeoNumeric slider) {
 		return new AlgoLocusSlider3D(cons, label, Q, slider).getLocus();
 	}
 
@@ -2434,7 +2434,7 @@ public class Manager3D implements Manager3DInterface {
 	 * @author thilina
 	 */
 	@Override
-	public GeoElement[] IntersectPolygons(String[] labels, GeoPoly inPoly0,
+	public GeoElement[] intersectPolygons(String[] labels, GeoPoly inPoly0,
 			GeoPoly inPoly1) {
 
 		AlgoIntersectPathPolygons3D algo = new AlgoIntersectPathPolygons3D(cons,
@@ -2449,7 +2449,7 @@ public class Manager3D implements Manager3DInterface {
 	 * @author thilina
 	 */
 	@Override
-	public GeoElement[] DifferencePolygons(String[] labels,
+	public GeoElement[] differencePolygons(String[] labels,
 			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1) {
 		AlgoDifferencePolygons3D algo = new AlgoDifferencePolygons3D(cons,
 				labels, inPoly0, inPoly1);
@@ -2463,7 +2463,7 @@ public class Manager3D implements Manager3DInterface {
 	 */
 
 	@Override
-	public GeoElement[] DifferencePolygons(String[] labels,
+	public GeoElement[] differencePolygons(String[] labels,
 			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1, GeoBoolean exclusive) {
 		AlgoDifferencePolygons3D algo = new AlgoDifferencePolygons3D(cons,
 				labels, inPoly0, inPoly1, exclusive);
@@ -2476,7 +2476,7 @@ public class Manager3D implements Manager3DInterface {
 	 * @author thilina
 	 */
 	@Override
-	public GeoElement[] UnionPolygons(String[] labels, GeoPoly inPoly0,
+	public GeoElement[] unionPolygons(String[] labels, GeoPoly inPoly0,
 			GeoPoly inPoly1) {
 		AlgoUnionPolygons3D algo = new AlgoUnionPolygons3D(cons, labels,
 				inPoly0, inPoly1);
@@ -2489,7 +2489,7 @@ public class Manager3D implements Manager3DInterface {
 	 * @author thilina
 	 */
 	@Override
-	public GeoElement[] IntersectionPoint(String[] labels, GeoPolygon poly0,
+	public GeoElement[] intersectionPoint(String[] labels, GeoPolygon poly0,
 			GeoPolygon poly1) {
 		AlgoIntersectPolygons3D algo = new AlgoIntersectPolygons3D(cons, labels,
 				poly0, poly1);
@@ -2497,14 +2497,14 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoNumeric Distance(String label, GeoPlaneND a, GeoPlaneND b) {
+	public GeoNumeric distance(String label, GeoPlaneND a, GeoPlaneND b) {
 		AlgoDistancePlanes algo = new AlgoDistancePlanes(cons, label, a, b);
 
 		return algo.getDistance();
 	}
 
 	@Override
-	public GeoElement[] IntersectPlaneImplicitSurface(GeoPlaneND plane,
+	public GeoElement[] intersectPlaneImplicitSurface(GeoPlaneND plane,
 			GeoImplicitSurfaceND surface) {
 		return new AlgoIntersectImplicitSurfacePlane(cons,
 				(GeoImplicitSurface) surface, plane).getOutput();

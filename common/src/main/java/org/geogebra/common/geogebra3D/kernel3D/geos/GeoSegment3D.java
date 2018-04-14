@@ -352,7 +352,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 			points = t.transformPoints(points);
 			// create SEGMENT
 			GeoElement segment = (GeoElement) kernel.getManager3D()
-					.Segment3D(labelTrans, points[0], points[1]);
+					.segment3D(labelTrans, points[0], points[1]);
 			segment.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { segment, (GeoElement) points[0],
 					(GeoElement) points[1] };

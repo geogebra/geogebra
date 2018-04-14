@@ -51,12 +51,12 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			// Line - Polygon(as region) in 2D/3D
 			if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoPolygon()))) {
-				GeoElement[] ret = kernel.getManager3D().IntersectPath(
+				GeoElement[] ret = kernel.getManager3D().intersectPath(
 						c.getLabels(), (GeoLineND) arg[0], (GeoPolygon) arg[1]);
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPolygon()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = kernel.getManager3D().IntersectPath(
+				GeoElement[] ret = kernel.getManager3D().intersectPath(
 						c.getLabels(), (GeoLineND) arg[1], (GeoPolygon) arg[0]);
 				return ret;
 			}
@@ -64,23 +64,23 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			// Plane - Polygon
 			if ((ok[0] = (arg[0].isGeoPlane()))
 					&& (ok[1] = (arg[1].isGeoPolygon()))) {
-				return kernel.getManager3D().IntersectPath(c.getLabels(),
+				return kernel.getManager3D().intersectPath(c.getLabels(),
 						(GeoPlane3D) arg[0], (GeoPolygon) arg[1]);
 			} else if ((ok[1] = (arg[1].isGeoPlane()))
 					&& (ok[0] = (arg[0].isGeoPolygon()))) {
-				return kernel.getManager3D().IntersectPath(c.getLabels(),
+				return kernel.getManager3D().intersectPath(c.getLabels(),
 						(GeoPlane3D) arg[1], (GeoPolygon) arg[0]);
 			}
 
 			// Plane - Polyhedron
 			if ((ok[0] = (arg[0].isGeoPlane()))
 					&& (ok[1] = (arg[1].isGeoPolyhedron()))) {
-				return kernel.getManager3D().IntersectRegion(c.getLabels(),
+				return kernel.getManager3D().intersectRegion(c.getLabels(),
 						(GeoPlane3D) arg[0], (GeoPolyhedron) arg[1],
 						c.getOutputSizes());
 			} else if ((ok[1] = (arg[1].isGeoPlane()))
 					&& (ok[0] = (arg[0].isGeoPolyhedron()))) {
-				return kernel.getManager3D().IntersectRegion(c.getLabels(),
+				return kernel.getManager3D().intersectRegion(c.getLabels(),
 						(GeoPlane3D) arg[1], (GeoPolyhedron) arg[0],
 						c.getOutputSizes());
 			}
@@ -88,7 +88,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			// intersection 3D polygons
 			if ((ok[0] = (arg[0].isGeoPolygon()))
 					&& (ok[1] = (arg[1].isGeoPolygon()))) {
-				GeoElement[] result = kernel.getManager3D().IntersectPolygons(
+				GeoElement[] result = kernel.getManager3D().intersectPolygons(
 						c.getLabels(), (GeoPolygon) arg[0],
 						(GeoPolygon) arg[1]);
 				return result;
@@ -106,7 +106,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 					&& (ok[0] = (arg[1].isGeoPlane()))) {
 
 				GeoElement[] ret = {
-						kernel.getManager3D().IntersectPlanes(c.getLabel(),
+						kernel.getManager3D().intersectPlanes(c.getLabel(),
 								(GeoPlaneND) arg[0], (GeoPlaneND) arg[1]) };
 				return ret;
 
@@ -162,11 +162,11 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 		GeoElement result = null;
 		if ((ok[0] = (arg[0].isGeoPlane()))
 				&& (ok[1] = (arg[1].isGeoImplicitSurface()))) {
-			result = kernel.getManager3D().IntersectPlaneImplicitSurface(
+			result = kernel.getManager3D().intersectPlaneImplicitSurface(
 					(GeoPlaneND) arg[0], (GeoImplicitSurface) arg[1])[0];
 		} else if ((ok[1] = (arg[1].isGeoPlane()))
 				&& (ok[0] = (arg[0].isGeoImplicitSurface()))) {
-			result = kernel.getManager3D().IntersectPlaneImplicitSurface(
+			result = kernel.getManager3D().intersectPlaneImplicitSurface(
 					(GeoPlaneND) arg[1], (GeoImplicitSurface) arg[0])[0];
 		}
 
@@ -223,14 +223,14 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 				&& (ok[1] = (arg[1] instanceof GeoQuadricND))) {
 			GeoElement ret =
 
-					kernelA.getManager3D().Intersect(c.getLabel(),
+					kernelA.getManager3D().intersect(c.getLabel(),
 							(GeoPlaneND) arg[0], (GeoQuadricND) arg[1]);
 			return ret;
 		} else if ((arg[0] instanceof GeoQuadricND)
 				&& (arg[1] instanceof GeoPlaneND)) {
 			GeoElement ret =
 
-					kernelA.getManager3D().Intersect(c.getLabel(),
+					kernelA.getManager3D().intersect(c.getLabel(),
 							(GeoPlaneND) arg[1], (GeoQuadricND) arg[0]);
 			return ret;
 		}
@@ -240,7 +240,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 
 	static private final GeoElement intersectPlaneQuadricLimited(Kernel kernelA,
 			String label, GeoPlaneND plane, GeoQuadric3DLimited quadric) {
-		return kernelA.getManager3D().IntersectQuadricLimited(label, plane,
+		return kernelA.getManager3D().intersectQuadricLimited(label, plane,
 				quadric);
 	}
 

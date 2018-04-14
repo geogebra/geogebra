@@ -36,7 +36,7 @@ public class CmdPolyhedronNet extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPolyhedron()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
-				return kernel.getManager3D().PolyhedronNet(c.getLabels(),
+				return kernel.getManager3D().polyhedronNet(c.getLabels(),
 						(GeoPolyhedron) arg[0], (NumberValue) arg[1], null,
 						null);
 			}
@@ -50,14 +50,13 @@ public class CmdPolyhedronNet extends CommandProcessor {
 			 * case 3 : arg = resArgs(c); if ( (ok[0] = (arg[0]
 			 * .isGeoPolyhedron() ) ) && (ok[1] = (arg[1].isNumberValue() )) &&
 			 * (ok[2] = (arg[2].isGeoPolygon() )) ) { return
-			 * kernelA.getManager3D().PolyhedronNet( c.getLabels(),
+			 * kernelA.getManager3D().polyhedronNet( c.getLabels(),
 			 * (GeoPolyhedron) arg[0], (NumberValue) arg[1], (GeoPolygon)
 			 * arg[2], null); }
 			 * 
 			 * 
-			 * if (!ok[0]) throw argErr(app, c, arg[0]); if (!ok[1])
-			 * throw argErr(app, c, arg[1]); throw argErr(app,
-			 * c.getName(), arg[2]);
+			 * if (!ok[0]) throw argErr(app, c, arg[0]); if (!ok[1]) throw
+			 * argErr(app, c, arg[1]); throw argErr(app, c.getName(), arg[2]);
 			 */
 
 		case 0:
@@ -81,7 +80,7 @@ public class CmdPolyhedronNet extends CommandProcessor {
 					}
 
 				}
-				return kernel.getManager3D().PolyhedronNet(c.getLabels(),
+				return kernel.getManager3D().polyhedronNet(c.getLabels(),
 						(GeoPolyhedron) arg[0], (NumberValue) arg[1],
 						(GeoPolygon) arg[2], segments);
 			}

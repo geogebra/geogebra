@@ -296,11 +296,11 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 				if (view.getEuclidianController()
 						.getMode() == EuclidianConstants.MODE_EXTRUSION) {
 					// prism
-					ret = basis.getKernel().getManager3D().Prism(null,
+					ret = basis.getKernel().getManager3D().prism(null,
 							(GeoPolygon) basis, num)[0];
 				} else {
 					// pyramid
-					ret = basis.getKernel().getManager3D().Pyramid(null,
+					ret = basis.getKernel().getManager3D().pyramid(null,
 							(GeoPolygon) basis, num)[0];
 				}
 
@@ -308,12 +308,12 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 				if (view.getEuclidianController()
 						.getMode() == EuclidianConstants.MODE_EXTRUSION) {
 					// cylinder
-					ret = basis.getKernel().getManager3D().CylinderLimited(null,
+					ret = basis.getKernel().getManager3D().cylinderLimited(null,
 							(GeoConicND) basis, num)[0];
 
 				} else {
 					// cone
-					ret = basis.getKernel().getManager3D().ConeLimited(null,
+					ret = basis.getKernel().getManager3D().coneLimited(null,
 							(GeoConicND) basis, num)[0];
 				}
 			}

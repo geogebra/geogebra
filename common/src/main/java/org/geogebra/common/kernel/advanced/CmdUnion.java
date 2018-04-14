@@ -87,6 +87,6 @@ public class CmdUnion extends CommandProcessor {
 	 */
 	protected GeoElement[] union3D(String[] labels, GeoPoly poly1,
 			GeoPoly poly2) {
-		return kernel.getManager3D().UnionPolygons(labels, poly1, poly2);
+		return kernel.getManager3D().unionPolygons(labels, poly1, poly2);
 	}
 }

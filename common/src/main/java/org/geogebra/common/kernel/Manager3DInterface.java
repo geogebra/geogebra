@@ -49,44 +49,44 @@ import org.geogebra.common.kernel.kernelND.HasVolume;
 public interface Manager3DInterface {
 
 	/** Point3D label with cartesian coordinates (x,y,z) */
-	public GeoElement Point3D(String label, double x, double y, double z,
+	public GeoElement point3D(String label, double x, double y, double z,
 			boolean coords2D);
 
-	public GeoPointND Point3D(double x, double y, double z, boolean coords2D);
+	public GeoPointND point3D(double x, double y, double z, boolean coords2D);
 
 	/**
 	 * Point dependent on arithmetic expression with variables, represented by a
 	 * tree. e.g. P = (4t, 2s)
 	 */
-	public GeoPointND DependentPoint3D(ExpressionNode root, boolean addToCons);
+	public GeoPointND dependentPoint3D(ExpressionNode root, boolean addToCons);
 
-	public GeoElement DependentVector3D(ExpressionNode root);
+	public GeoElement dependentVector3D(ExpressionNode root);
 
-	public GeoElement Vector3D(double x, double y, double z);
+	public GeoElement vector3D(double x, double y, double z);
 
 	/**
 	 * Vector named label from Point P to Q
 	 */
-	public GeoElement Vector3D(String label, GeoPointND P, GeoPointND Q);
+	public GeoElement vector3D(String label, GeoPointND P, GeoPointND Q);
 
 	/** Point in region with cartesian coordinates (x,y,z) */
-	public GeoPointND Point3DIn(String label, Region region, Coords coords,
+	public GeoPointND point3DIn(String label, Region region, Coords coords,
 			boolean addToConstruction, boolean coords2D);
 
-	public GeoPointND Point3DIn(Region region, Coords coords, boolean coords2D);
+	public GeoPointND point3DIn(Region region, Coords coords, boolean coords2D);
 
 	/** Point in region */
-	public GeoPointND Point3DIn(String label, Region region, boolean coords2D);
+	public GeoPointND point3DIn(String label, Region region, boolean coords2D);
 
 	/** Point3D on a 1D path with cartesian coordinates (x,y,z) */
-	public GeoPointND Point3D(String label, Path path, double x, double y,
+	public GeoPointND point3D(String label, Path path, double x, double y,
 			double z, boolean addToConstruction, boolean coords2D);
 
 	/** Point3D on a 1D path without cartesian coordinates */
-	public GeoPointND Point3D(String label, Path path, boolean coords2D);
+	public GeoPointND point3D(String label, Path path, boolean coords2D);
 
 	/** Point3D on a 1D path with path parameter */
-	public GeoPointND Point3D(String label, Path path, GeoNumberValue param);
+	public GeoPointND point3D(String label, Path path, GeoNumberValue param);
 
 	/**
 	 * Midpoint M = (P + Q)/2
@@ -105,7 +105,7 @@ public interface Manager3DInterface {
 	 * @param segment
 	 * @return midpoint
 	 */
-	public GeoPointND Midpoint(String label, GeoSegmentND segment);
+	public GeoPointND midpoint(String label, GeoSegmentND segment);
 
 	/**
 	 * Center of conic
@@ -114,7 +114,7 @@ public interface Manager3DInterface {
 	 * @param conic
 	 * @return center
 	 */
-	public GeoPointND Center(String label, GeoConicND conic);
+	public GeoPointND center(String label, GeoConicND conic);
 
 	/**
 	 * Center of quadric
@@ -123,55 +123,55 @@ public interface Manager3DInterface {
 	 * @param quadric
 	 * @return center
 	 */
-	public GeoPointND CenterQuadric(String label, GeoQuadricND quadric);
+	public GeoPointND centerQuadric(String label, GeoQuadricND quadric);
 
 	/** Segment3D label linking points v1 and v2 */
 	/*
-	 * public GeoSegment3D Segment3D(String label, Ggb3DVector v1, Ggb3DVector
+	 * public GeoSegment3D segment3D(String label, Ggb3DVector v1, Ggb3DVector
 	 * v2){ GeoSegment3D s = new GeoSegment3D(cons,v1,v2); s.setLabel(label);
 	 * return s; }
 	 */
 
 	/** Segment3D label linking points P1 and P2 */
-	public GeoSegmentND Segment3D(String label, GeoPointND P1, GeoPointND P2);
+	public GeoSegmentND segment3D(String label, GeoPointND P1, GeoPointND P2);
 
 	/** Line3D label linking points P1 and P2 */
-	public GeoElement Line3D(String label, GeoPointND P1, GeoPointND P2);
+	public GeoElement line3D(String label, GeoPointND P1, GeoPointND P2);
 
 	/** Line3D label through point P and parallel to line l */
-	public GeoLineND Line3D(String label, GeoPointND P, GeoLineND l);
+	public GeoLineND line3D(String label, GeoPointND P, GeoLineND l);
 
 	/** Line3D label through point P and parallel to vector v */
-	public GeoLineND Line3D(String label, GeoPointND P, GeoVectorND v);
+	public GeoLineND line3D(String label, GeoPointND P, GeoVectorND v);
 
 	/** Ray3D label linking points P1 and P2 */
-	public GeoRayND Ray3D(String label, GeoPointND P1, GeoPointND P2);
+	public GeoRayND ray3D(String label, GeoPointND P1, GeoPointND P2);
 
 	/** Line3D through point orthogonal to plane */
-	public GeoLineND OrthogonalLine3D(String label, GeoPointND point,
+	public GeoLineND orthogonalLine3D(String label, GeoPointND point,
 			GeoCoordSys2D plane);
 
 	/** Line3D through point orthogonal to line */
-	public GeoLineND OrthogonalLine3D(String label, GeoPointND point,
+	public GeoLineND orthogonalLine3D(String label, GeoPointND point,
 			GeoLineND line);
 
 	/** Line3D through point orthogonal to line and direction */
-	public GeoLineND OrthogonalLine3D(String label, GeoPointND point,
+	public GeoLineND orthogonalLine3D(String label, GeoPointND point,
 			GeoDirectionND line, GeoDirectionND direction);
 
 	/** Line3D orthogonal two lines */
-	public GeoLineND OrthogonalLine3D(String label, GeoLineND line1,
+	public GeoLineND orthogonalLine3D(String label, GeoLineND line1,
 			GeoLineND line2);
 
 	/** Vector3D orthogonal to plane */
-	public GeoVectorND OrthogonalVector3D(String label, GeoCoordSys2D plane);
+	public GeoVectorND orthogonalVector3D(String label, GeoCoordSys2D plane);
 
 	/** Vector3D orthogonal to line with direction */
-	public GeoVectorND OrthogonalVector3D(String label, GeoLineND line,
+	public GeoVectorND orthogonalVector3D(String label, GeoLineND line,
 			GeoDirectionND direction);
 
 	/** Vector3D unit orthogonal to plane */
-	public GeoVectorND UnitOrthogonalVector3D(String label,
+	public GeoVectorND unitOrthogonalVector3D(String label,
 			GeoCoordSys2D plane);
 
 	/**
@@ -183,7 +183,7 @@ public interface Manager3DInterface {
 	 *            vertices of the polygon
 	 * @return the polygon
 	 */
-	public GeoElement[] Polygon3D(String[] label, GeoPointND[] points);
+	public GeoElement[] polygon3D(String[] label, GeoPointND[] points);
 
 	/**
 	 * Polygon3D linking points P1, P2, ...
@@ -194,19 +194,19 @@ public interface Manager3DInterface {
 	 *            vertices of the polygon
 	 * @return the polygon
 	 */
-	public GeoElement[] Polygon3D(String[] label, GeoPointND[] points,
+	public GeoElement[] polygon3D(String[] label, GeoPointND[] points,
 			GeoDirectionND direction);
 
 	/**
 	 * Regular polygon with vertices A and B and n total vertices. The labels
 	 * name the polygon itself, its segments and points
 	 */
-	public GeoElement[] RegularPolygon(String[] labels, GeoPointND A,
+	public GeoElement[] regularPolygon(String[] labels, GeoPointND A,
 			GeoPointND B, GeoNumberValue n, GeoDirectionND direction);
 
-	public GeoElement[] PolyLine3D(String label, GeoPointND[] P);
+	public GeoElement[] polyLine3D(String label, GeoPointND[] P);
 
-	public GeoElement[] PolyLine3D(String label, GeoList pointList);
+	public GeoElement[] polyLine3D(String label, GeoList pointList);
 
 	/**
 	 * Prism with vertices (last one is first vertex of second parallel face)
@@ -217,7 +217,7 @@ public interface Manager3DInterface {
 	 *            vertices
 	 * @return the polyhedron
 	 */
-	public GeoElement[] Prism(String[] labels, GeoPointND[] points);
+	public GeoElement[] prism(String[] labels, GeoPointND[] points);
 
 	/**
 	 * Prism with basis and first vertex of second parallel face
@@ -227,7 +227,7 @@ public interface Manager3DInterface {
 	 * @param point
 	 * @return the polyhedron
 	 */
-	public GeoElement[] Prism(String[] labels, GeoPolygon polygon,
+	public GeoElement[] prism(String[] labels, GeoPolygon polygon,
 			GeoPointND point);
 
 	/**
@@ -238,7 +238,7 @@ public interface Manager3DInterface {
 	 * @param height
 	 * @return the polyhedron
 	 */
-	public GeoElement[] Prism(String[] labels, GeoPolygon polygon,
+	public GeoElement[] prism(String[] labels, GeoPolygon polygon,
 			GeoNumberValue height);
 
 	/**
@@ -250,7 +250,7 @@ public interface Manager3DInterface {
 	 *            vertices
 	 * @return the polyhedron
 	 */
-	public GeoElement[] Pyramid(String[] labels, GeoPointND[] points);
+	public GeoElement[] pyramid(String[] labels, GeoPointND[] points);
 
 	/**
 	 * Pyramid with basis and top vertex
@@ -263,7 +263,7 @@ public interface Manager3DInterface {
 	 *            top vertex
 	 * @return the polyhedron
 	 */
-	public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
+	public GeoElement[] pyramid(String[] labels, GeoPolygon polygon,
 			GeoPointND point);
 
 	/**
@@ -273,136 +273,136 @@ public interface Manager3DInterface {
 	 * @param polygon
 	 * @param height
 	 */
-	public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
+	public GeoElement[] pyramid(String[] labels, GeoPolygon polygon,
 			GeoNumberValue height);
 
 	/** Plane a x + b y + c z + d = 0 */
-	public GeoPlaneND Plane3D(double a, double b, double c, double d);
+	public GeoPlaneND plane3D(double a, double b, double c, double d);
 
 	/**
 	 * Plane dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees.
 	 */
-	public GeoPlaneND DependentPlane3D(Equation equ);
+	public GeoPlaneND dependentPlane3D(Equation equ);
 
 	/**
 	 * Quadric dependent on coefficients of arithmetic expressions with
 	 * variables, represented by trees.
 	 */
-	public GeoQuadricND DependentQuadric3D(Equation equ);
+	public GeoQuadricND dependentQuadric3D(Equation equ);
 
 	/**
 	 * Plane named label through point and line
 	 */
-	public GeoPlaneND Plane3D(String label, GeoPointND point, GeoLineND line);
+	public GeoPlaneND plane3D(String label, GeoPointND point, GeoLineND line);
 
 	/**
 	 * Plane named label through point parallel to plane
 	 */
-	public GeoPlaneND Plane3D(String label, GeoPointND point, GeoCoordSys2D cs);
+	public GeoPlaneND plane3D(String label, GeoPointND point, GeoCoordSys2D cs);
 
 	/**
 	 * Plane named label through Point P orthogonal to line l
 	 */
-	public GeoPlaneND OrthogonalPlane3D(String label, GeoPointND point,
+	public GeoPlaneND orthogonalPlane3D(String label, GeoPointND point,
 			GeoLineND line);
 
-	public GeoPlaneND OrthogonalPlane3D(String label, GeoPointND point,
+	public GeoPlaneND orthogonalPlane3D(String label, GeoPointND point,
 			GeoVectorND vector);
 
-	public GeoPlaneND PlaneBisector(String label, GeoPointND point1,
+	public GeoPlaneND planeBisector(String label, GeoPointND point1,
 			GeoPointND point2);
 
-	public GeoPlaneND PlaneBisector(String label, GeoSegmentND segment);
+	public GeoPlaneND planeBisector(String label, GeoSegmentND segment);
 
 	/** Sphere label linking with center o and radius r */
-	public GeoElement Sphere(String label, GeoPointND M, GeoNumberValue r);
+	public GeoElement sphere(String label, GeoPointND M, GeoNumberValue r);
 
 	/**
 	 * Sphere with midpoint M through point P
 	 */
-	public GeoElement Sphere(String label, GeoPointND M, GeoPointND P);
+	public GeoElement sphere(String label, GeoPointND M, GeoPointND P);
 
 	/**
 	 * Cone
 	 */
-	public GeoQuadricND Cone(String label, GeoPointND origin,
+	public GeoQuadricND cone(String label, GeoPointND origin,
 			GeoVectorND direction, NumberValue angle);
 
-	public GeoQuadricND Cone(String label, GeoPointND origin,
+	public GeoQuadricND cone(String label, GeoPointND origin,
 			GeoPointND secondPoint, NumberValue angle);
 
-	public GeoQuadricND Cone(String label, GeoPointND origin, GeoLineND axis,
+	public GeoQuadricND cone(String label, GeoPointND origin, GeoLineND axis,
 			NumberValue angle);
 
-	public GeoElement[] ConeLimited(String[] labels, GeoPointND origin,
+	public GeoElement[] coneLimited(String[] labels, GeoPointND origin,
 			GeoPointND secondPoint, NumberValue r);
 
-	public GeoElement[] ConeLimited(String[] labels, GeoConicND bottom,
+	public GeoElement[] coneLimited(String[] labels, GeoConicND bottom,
 			GeoNumberValue height);
 
 	/**
 	 * Cylinder
 	 */
-	public GeoQuadricND Cylinder(String label, GeoPointND origin,
+	public GeoQuadricND cylinder(String label, GeoPointND origin,
 			GeoVectorND direction, NumberValue r);
 
-	public GeoQuadricND Cylinder(String label, GeoPointND origin,
+	public GeoQuadricND cylinder(String label, GeoPointND origin,
 			GeoPointND secondPoint, NumberValue r);
 
-	public GeoQuadricND Cylinder(String label, GeoLineND axis, NumberValue r);
+	public GeoQuadricND cylinder(String label, GeoLineND axis, NumberValue r);
 
-	public GeoElement[] CylinderLimited(String[] labels, GeoPointND origin,
+	public GeoElement[] cylinderLimited(String[] labels, GeoPointND origin,
 			GeoPointND secondPoint, GeoNumberValue r);
 
-	public GeoElement[] CylinderLimited(String[] labels, GeoConicND bottom,
+	public GeoElement[] cylinderLimited(String[] labels, GeoConicND bottom,
 			GeoNumberValue height);
 
 	/**
 	 * Limited quadrics
 	 */
-	public GeoQuadricND QuadricSide(String label, GeoQuadricND quadric);
+	public GeoQuadricND quadricSide(String label, GeoQuadricND quadric);
 
-	public GeoConicND QuadricBottom(String label, GeoQuadricND quadric);
+	public GeoConicND quadricBottom(String label, GeoQuadricND quadric);
 
-	public GeoConicND QuadricTop(String label, GeoQuadricND quadric);
+	public GeoConicND quadricTop(String label, GeoQuadricND quadric);
 
 	/**
 	 * circle through points A, B, C
 	 */
-	public GeoConicND Circle3D(String label, GeoPointND A, GeoPointND B,
+	public GeoConicND circle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C);
 
 	/**
 	 * circle with axis through point
 	 */
-	public GeoConicND Circle3D(String label, GeoLineND axis, GeoPointND A);
+	public GeoConicND circle3D(String label, GeoLineND axis, GeoPointND A);
 
 	/**
 	 * circle with point, radius, axis
 	 */
-	public GeoConicND Circle3D(String label, GeoPointND A,
+	public GeoConicND circle3D(String label, GeoPointND A,
 			GeoNumberValue radius, GeoDirectionND axis);
 
 	/**
 	 * circle with point, radius, axis orthogonal to xOy plane
 	 */
-	public GeoConicND Circle3D(String label, GeoPointND A,
+	public GeoConicND circle3D(String label, GeoPointND A,
 			GeoNumberValue radius);
 
-	public GeoConicND Circle3D(String label, GeoPointND A, GeoPointND B,
+	public GeoConicND circle3D(String label, GeoPointND A, GeoPointND B,
 			GeoDirectionND axis);
 
 	/**
 	 * plane through points A, B, C
 	 */
-	public GeoElement Plane3D(String label, GeoPointND A, GeoPointND B,
+	public GeoElement plane3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C);
 
 	/**
 	 * plane through lines a, b
 	 */
-	public GeoElement Plane3D(String label, GeoLineND a, GeoLineND b);
+	public GeoElement plane3D(String label, GeoLineND a, GeoLineND b);
 
 	/**
 	 * 
@@ -410,14 +410,14 @@ public interface Manager3DInterface {
 	 * @param cs2D
 	 * @return plane containing the 2D coord sys
 	 */
-	public GeoPlaneND Plane3D(String label, GeoCoordSys2D cs2D);
+	public GeoPlaneND plane3D(String label, GeoCoordSys2D cs2D);
 
-	public GeoPlaneND Plane3D(GeoCoordSys2D cs2D);
+	public GeoPlaneND plane3D(GeoCoordSys2D cs2D);
 
 	// //////////////////////////////////////////////
 	// INTERSECTION (POINTS)
 
-	public GeoElement Intersect(String label, GeoLineND cs1, GeoCoordSys2D cs2,
+	public GeoElement intersect(String label, GeoLineND cs1, GeoCoordSys2D cs2,
 			boolean swapInputs);
 
 	/**
@@ -431,38 +431,38 @@ public interface Manager3DInterface {
 	 *            second line
 	 * @return point intersection
 	 */
-	public GeoElement Intersect(String label, GeoLineND cs1, GeoLineND cs2);
+	public GeoElement intersect(String label, GeoLineND cs1, GeoLineND cs2);
 
 	/**
 	 * Calculate the intersection of the line g with the region of p
 	 */
 
-	public GeoElement[] IntersectionPoint(String[] labels, GeoLineND g,
+	public GeoElement[] intersectionPoint(String[] labels, GeoLineND g,
 			GeoSurfaceFinite s);
 
-	public GeoElement[] IntersectPath(String[] labels, GeoLineND g,
+	public GeoElement[] intersectPath(String[] labels, GeoLineND g,
 			GeoSurfaceFinite s);
 
-	public GeoElement[] IntersectPath(String[] labels, GeoPlaneND plane,
+	public GeoElement[] intersectPath(String[] labels, GeoPlaneND plane,
 			GeoElement s);
 
-	public GeoElement[] IntersectPlaneFunctionNVar(String label,
+	public GeoElement[] intersectPlaneFunctionNVar(String label,
 			GeoPlaneND plane, GeoFunctionNVar fun);
 
-	public GeoElement[] IntersectPlaneFunctionNVar(GeoPlaneND plane,
+	public GeoElement[] intersectPlaneFunctionNVar(GeoPlaneND plane,
 			GeoFunctionNVar fun);
 
-	public GeoElement[] IntersectPlaneImplicitSurface(GeoPlaneND plane,
+	public GeoElement[] intersectPlaneImplicitSurface(GeoPlaneND plane,
 			GeoImplicitSurfaceND fun);
 
-	public GeoElement[] IntersectPath(GeoPlaneND plane, GeoPolygon p);
+	public GeoElement[] intersectPath(GeoPlaneND plane, GeoPolygon p);
 
-	public GeoElement[] IntersectRegion(String[] labels, GeoPlaneND plane,
+	public GeoElement[] intersectRegion(String[] labels, GeoPlaneND plane,
 			GeoElement s, int[] outputSize);
 
-	public GeoElement[] IntersectRegion(GeoPlaneND plane, GeoElement p);
+	public GeoElement[] intersectRegion(GeoPlaneND plane, GeoElement p);
 
-	public GeoElement[] IntersectionPoint(String[] labels, GeoPlaneND p,
+	public GeoElement[] intersectionPoint(String[] labels, GeoPlaneND p,
 			GeoElement s);
 
 	/**
@@ -474,16 +474,16 @@ public interface Manager3DInterface {
 	 * @param quadric
 	 * @return conic intersection
 	 */
-	public GeoConicND Intersect(String label, GeoPlaneND plane,
+	public GeoConicND intersect(String label, GeoPlaneND plane,
 			GeoQuadricND quadric);
 
-	public GeoConicND IntersectQuadricLimited(String label, GeoPlaneND plane,
+	public GeoConicND intersectQuadricLimited(String label, GeoPlaneND plane,
 			GeoQuadricND quadric);
 
-	public GeoConicND IntersectQuadricLimited(GeoPlaneND plane,
+	public GeoConicND intersectQuadricLimited(GeoPlaneND plane,
 			GeoQuadricND quadric);
 
-	public GeoConicND Intersect(GeoPlaneND plane, GeoQuadricND quadric);
+	public GeoConicND intersect(GeoPlaneND plane, GeoQuadricND quadric);
 
 	/**
 	 * Calculate the intersection of two quadrics, if it's a conic
@@ -494,7 +494,7 @@ public interface Manager3DInterface {
 	 * @param quadric2
 	 * @return conic intersection
 	 */
-	public GeoElement[] IntersectAsCircle(String[] labels,
+	public GeoElement[] intersectAsCircle(String[] labels,
 			GeoQuadricND quadric1, GeoQuadricND quadric2);
 
 	/**
@@ -504,17 +504,17 @@ public interface Manager3DInterface {
 	 * @param quadric2
 	 * @return conic intersection
 	 */
-	public GeoElement[] IntersectAsCircle(GeoQuadricND quadric1,
+	public GeoElement[] intersectAsCircle(GeoQuadricND quadric1,
 			GeoQuadricND quadric2);
 
 	// //////////////////////////////////////////////
 	// FUNCTIONS (2 VARS)
 
-	public GeoFunctionNVar Function2Var(String label, GeoNumberValue zcoord,
+	public GeoFunctionNVar function2Var(String label, GeoNumberValue zcoord,
 			GeoNumeric localVarU, GeoNumberValue Ufrom, GeoNumberValue Uto,
 			GeoNumeric localVarV, GeoNumberValue Vfrom, GeoNumberValue Vto);
 
-	public GeoFunctionNVar Function2Var(String label, GeoFunctionNVar f,
+	public GeoFunctionNVar function2Var(String label, GeoFunctionNVar f,
 			GeoNumberValue xFrom, GeoNumberValue xTo, GeoNumberValue yFrom,
 			GeoNumberValue yTo);
 
@@ -526,7 +526,7 @@ public interface Manager3DInterface {
 	 * &lt;expression y-coord&gt;, &lt;expression z-coord&gt;,
 	 * &lt;number-var&gt;, &lt;from&gt;, &lt;to&gt; ]
 	 */
-	public GeoElement CurveCartesian3D(GeoNumberValue xcoord,
+	public GeoElement curveCartesian3D(GeoNumberValue xcoord,
 			GeoNumberValue ycoord, GeoNumberValue zcoord, GeoNumeric localVar,
 			GeoNumberValue from, GeoNumberValue to);
 
@@ -539,7 +539,7 @@ public interface Manager3DInterface {
 	 * &lt;u-from&gt;, &lt;u-to&gt;, &lt;v-var&gt;, &lt;v-from&gt;, &lt;v-to&gt;
 	 * ]
 	 */
-	public GeoElement SurfaceCartesian3D(String label, ExpressionNode point,
+	public GeoElement surfaceCartesian3D(String label, ExpressionNode point,
 			GeoNumberValue[] xcoord,
 			GeoNumeric uVar, GeoNumberValue uFrom, GeoNumberValue uTo,
 			GeoNumeric vVar, GeoNumberValue vFrom, GeoNumberValue vTo);
@@ -555,10 +555,10 @@ public interface Manager3DInterface {
 	 *            angle
 	 * @return surface of revolution
 	 */
-	public GeoElement SurfaceOfRevolution(String label,
+	public GeoElement surfaceOfRevolution(String label,
 			ParametricCurve function, GeoNumberValue angle);
 
-	public GeoElement SurfaceOfRevolution(String label, Path function,
+	public GeoElement surfaceOfRevolution(String label, Path function,
 			GeoNumberValue angle, GeoLineND line);
 
 	// //////////////////////////////////////////////
@@ -569,32 +569,32 @@ public interface Manager3DInterface {
 	 * 
 	 * @return two intersection points
 	 */
-	public GeoPointND[] IntersectLineConic(String[] labels, GeoLineND g,
+	public GeoPointND[] intersectLineConic(String[] labels, GeoLineND g,
 			GeoConicND c);
 
 	/**
 	 * get only one intersection point of two conics that is near to the given
 	 * location (xRW, yRW)
 	 */
-	public GeoPointND IntersectLineConicSingle(String label, GeoLineND g,
+	public GeoPointND intersectLineConicSingle(String label, GeoLineND g,
 			GeoConicND c, double xRW, double yRW, CoordMatrix mat);
 
 	/**
 	 * get only one intersection point of two conics
 	 */
-	public GeoPointND IntersectLineConicSingle(String label, GeoLineND g,
+	public GeoPointND intersectLineConicSingle(String label, GeoLineND g,
 			GeoConicND c, NumberValue index);
 
 	/**
 	 * get only one intersection point of two conics
 	 */
-	public GeoPointND IntersectLineConicSingle(String label, GeoLineND g,
+	public GeoPointND intersectLineConicSingle(String label, GeoLineND g,
 			GeoConicND c, int index);
 
 	/**
 	 * get only one intersection point of two conics, near to refPoint
 	 */
-	public GeoPointND IntersectLineConicSingle(String label, GeoLineND g,
+	public GeoPointND intersectLineConicSingle(String label, GeoLineND g,
 			GeoConicND c, GeoPointND refPoint);
 
 	/**
@@ -605,62 +605,62 @@ public interface Manager3DInterface {
 	 * @param B
 	 * @return 4 intersection points
 	 */
-	public GeoPointND[] IntersectConics(String[] labels, GeoConicND A,
+	public GeoPointND[] intersectConics(String[] labels, GeoConicND A,
 			GeoQuadricND B);
 
-	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
+	public GeoPointND intersectConicsSingle(String label, GeoConicND A,
 			GeoQuadricND B, double xRW, double yRW, CoordMatrix mat);
 
-	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
+	public GeoPointND intersectConicsSingle(String label, GeoConicND A,
 			GeoQuadricND B, NumberValue index);
 
-	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
+	public GeoPointND intersectConicsSingle(String label, GeoConicND A,
 			GeoQuadricND B, int index);
 
-	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
+	public GeoPointND intersectConicsSingle(String label, GeoConicND A,
 			GeoQuadricND B, GeoPointND refPoint);
 
 	/**
 	 * intersect line/quadric
 	 */
 
-	public GeoPointND[] IntersectLineQuadric(String[] labels, GeoLineND A,
+	public GeoPointND[] intersectLineQuadric(String[] labels, GeoLineND A,
 			GeoQuadricND B);
 
 	/**
 	 * get only one intersection point of two conics that is near to the given
 	 * location (xRW, yRW)
 	 */
-	public GeoPointND IntersectLineQuadricSingle(String label, GeoLineND g,
+	public GeoPointND intersectLineQuadricSingle(String label, GeoLineND g,
 			GeoQuadricND q, double xRW, double yRW, CoordMatrix4x4 mat);
 
 	/**
 	 * get only one intersection point of line and quadric choice depends on
 	 * command input
 	 */
-	public GeoPointND IntersectLineQuadricSingle(String label, GeoLineND g,
+	public GeoPointND intersectLineQuadricSingle(String label, GeoLineND g,
 			GeoQuadricND q, NumberValue index);
 
 	/**
 	 * get only one intersection point of line and quadric choice depends on
 	 * command input
 	 */
-	public GeoPointND IntersectLineQuadricSingle(String label, GeoLineND g,
+	public GeoPointND intersectLineQuadricSingle(String label, GeoLineND g,
 			GeoQuadricND q, int index);
 
-	public GeoPointND IntersectLineQuadricSingle(String label, GeoLineND g,
+	public GeoPointND intersectLineQuadricSingle(String label, GeoLineND g,
 			GeoQuadricND q, GeoPointND refPoint);
 
 	/**
 	 * intersect plane/conic
 	 */
-	public GeoPointND[] IntersectPlaneConic(String[] labels, GeoCoordSys2D A,
+	public GeoPointND[] intersectPlaneConic(String[] labels, GeoCoordSys2D A,
 			GeoConicND B);
 
-	public GeoElementND[] IntersectPlaneCurve(String[] labels, GeoCoordSys2D A,
+	public GeoElementND[] intersectPlaneCurve(String[] labels, GeoCoordSys2D A,
 			GeoCurveCartesianND B);
 
-	public GeoElement IntersectPlanes(String label, GeoPlaneND cs1,
+	public GeoElement intersectPlanes(String label, GeoPlaneND cs1,
 			GeoPlaneND cs2);
 
 	/**
@@ -668,80 +668,80 @@ public interface Manager3DInterface {
 	 * 
 	 * @return intersect points
 	 */
-	public GeoElement[] IntersectionPoint(String[] labels, GeoPolygon poly0,
+	public GeoElement[] intersectionPoint(String[] labels, GeoPolygon poly0,
 			GeoPolygon poly1);
 
 	/**
 	 * intersect polygons (region)
 	 */
-	public GeoElement[] IntersectPolygons(String[] labels, GeoPoly inPoly0,
+	public GeoElement[] intersectPolygons(String[] labels, GeoPoly inPoly0,
 			GeoPoly inPoly1);
 
 	/**
 	 * Difference polygons (region)
 	 */
-	public GeoElement[] DifferencePolygons(String[] labels,
+	public GeoElement[] differencePolygons(String[] labels,
 			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1);
 
 	/**
 	 * Difference polygons or exclusive difference polygons (region)
 	 */
-	public GeoElement[] DifferencePolygons(String[] labels,
+	public GeoElement[] differencePolygons(String[] labels,
 			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1, GeoBoolean exclusive);
 
 	/**
 	 * Union polygons (region)
 	 */
-	public GeoElement[] UnionPolygons(String[] labels, GeoPoly inPoly0,
+	public GeoElement[] unionPolygons(String[] labels, GeoPoly inPoly0,
 			GeoPoly inPoly1);
 
-	public GeoElement IntersectPlanes(GeoPlaneND cs1, GeoPlaneND cs2);
+	public GeoElement intersectPlanes(GeoPlaneND cs1, GeoPlaneND cs2);
 
-	public GeoElement ClosestPoint(String label, GeoLineND g, GeoLineND h);
+	public GeoElement closestPoint(String label, GeoLineND g, GeoLineND h);
 
-	public GeoElement ClosestPoint(String label, Path p, GeoPointND P);
+	public GeoElement closestPoint(String label, Path p, GeoPointND P);
 
-	public GeoPointND ClosestPoint(String label, Region r, GeoPointND P);
+	public GeoPointND closestPoint(String label, Region r, GeoPointND P);
 
-	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h);
+	public GeoNumeric distance(String label, GeoLineND g, GeoLineND h);
 
-	public GeoNumeric Distance(String label, GeoPointND point,
+	public GeoNumeric distance(String label, GeoPointND point,
 			GeoPlaneND plane);
 
-	public GeoNumeric Distance(String label, GeoPlaneND a, GeoPlaneND b);
+	public GeoNumeric distance(String label, GeoPlaneND a, GeoPlaneND b);
 
 	/**
 	 * Angle named label between three points
 	 */
-	public GeoAngle Angle3D(String label, GeoPointND A, GeoPointND B,
+	public GeoAngle angle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C);
 
 	/**
 	 * Angle (oriented) named label between three points
 	 */
-	public GeoAngle Angle3D(String label, GeoPointND A, GeoPointND B,
+	public GeoAngle angle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C, GeoDirectionND orientation);
 
 	/**
 	 * Angle named label between lines
 	 */
-	public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h);
+	public GeoAngle angle3D(String label, GeoLineND g, GeoLineND h);
 
 	/**
 	 * Angle named label between lines, oriented
 	 */
-	public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h,
+	public GeoAngle angle3D(String label, GeoLineND g, GeoLineND h,
 			GeoDirectionND orientation);
 
 	/**
 	 * Angle named label between planes
 	 */
-	public GeoAngle Angle3D(String label, GeoPlaneND g, GeoPlaneND h);
+	public GeoAngle angle3D(String label, GeoPlaneND g, GeoPlaneND h);
 
 	/**
 	 * Angle named label between line and plane
 	 */
-	public GeoAngle Angle3D(String label, GeoLineND l, GeoPlaneND p);
+	public GeoAngle angle3D(String label, GeoLineND l, GeoPlaneND p);
 
 	/**
 	 * create angle checking start/end points
@@ -766,12 +766,12 @@ public interface Manager3DInterface {
 	/**
 	 * Angle named label between vectors
 	 */
-	public GeoAngle Angle3D(String label, GeoVectorND v, GeoVectorND w);
+	public GeoAngle angle3D(String label, GeoVectorND v, GeoVectorND w);
 
 	/**
 	 * Angle (oriented) named label between vectors
 	 */
-	public GeoAngle Angle3D(String label, GeoVectorND v, GeoVectorND w,
+	public GeoAngle angle3D(String label, GeoVectorND v, GeoVectorND w,
 			GeoDirectionND orientation);
 
 	/**
@@ -780,14 +780,14 @@ public interface Manager3DInterface {
 	 * @param poly
 	 * @return angles for the polygon
 	 */
-	public GeoElement[] Angles3D(String[] labels, GeoPolygon poly);
+	public GeoElement[] angles3D(String[] labels, GeoPolygon poly);
 
 	/**
 	 * Creates a new point C by rotating B around A using angle alpha and a new
 	 * angle BAC (for positive orientation) resp. angle CAB (for negative
 	 * orientation). The labels[0] is for the angle, labels[1] for the new point
 	 */
-	public GeoElement[] Angle(String[] labels, GeoPointND B, GeoPointND A,
+	public GeoElement[] angle(String[] labels, GeoPointND B, GeoPointND A,
 			GeoNumberValue alpha, GeoDirectionND orientation,
 			boolean posOrientation);
 
@@ -797,7 +797,7 @@ public interface Manager3DInterface {
 	 * @param poly
 	 * @return angles for the polygon, oriented
 	 */
-	public GeoElement[] Angles3D(String[] labels, GeoPolygon poly,
+	public GeoElement[] angles3D(String[] labels, GeoPolygon poly,
 			GeoDirectionND orientation);
 
 	/**
@@ -807,31 +807,31 @@ public interface Manager3DInterface {
 	 * @param internalAngle
 	 * @return angles for the polygon, maybe internal
 	 */
-	public GeoElement[] Angles3D(String[] labels, GeoPolygon poly, boolean internalAngle);
+	public GeoElement[] angles3D(String[] labels, GeoPolygon poly, boolean internalAngle);
 
 	/**
 	 * Length named label of vector v
 	 * 
 	 * @return length of the vector
 	 */
-	public GeoNumeric Length(String label, GeoVectorND v);
+	public GeoNumeric length(String label, GeoVectorND v);
 
 	/**
 	 * @return cube with A, B for first points and v for direction
 	 */
-	public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
+	public GeoElement[] archimedeanSolid(String[] labels, GeoPointND A,
 			GeoPointND B, GeoDirectionND v, Commands name);
 
 	/**
 	 * @return cube with A, B, C for first points
 	 */
-	public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
+	public GeoElement[] archimedeanSolid(String[] labels, GeoPointND A,
 			GeoPointND B, GeoPointND C, Commands name);
 
 	/**
 	 * @return cube with A, B, C for first points (C point on an ad hoc circle)
 	 */
-	public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
+	public GeoElement[] archimedeanSolid(String[] labels, GeoPointND A,
 			GeoPointND B, Commands name);
 
 	/********************************************************************
@@ -841,7 +841,7 @@ public interface Manager3DInterface {
 	/**
 	 * translate geoTrans by vector v
 	 */
-	public GeoElement[] Translate3D(String label, GeoElementND geoTrans,
+	public GeoElement[] translate3D(String label, GeoElementND geoTrans,
 			GeoVectorND v);
 
 	public Geo3DVecInterface newGeo3DVec(double double1, double double2,
@@ -857,7 +857,7 @@ public interface Manager3DInterface {
 	 * @param orientation
 	 * @return geo rotated
 	 */
-	public GeoElement[] Rotate3D(String label, GeoElement geoRot,
+	public GeoElement[] rotate3D(String label, GeoElement geoRot,
 			GeoNumberValue phi, GeoPointND Q, GeoDirectionND orientation);
 
 	/**
@@ -869,20 +869,20 @@ public interface Manager3DInterface {
 	 * @param line
 	 * @return geo rotated
 	 */
-	public GeoElement[] Rotate3D(String label, GeoElement geoRot,
+	public GeoElement[] rotate3D(String label, GeoElement geoRot,
 			GeoNumberValue phi, GeoLineND line);
 
 	/**
 	 * 
 	 */
-	public GeoElement[] Mirror3D(String label, GeoElement geo, GeoPointND p);
+	public GeoElement[] mirror3D(String label, GeoElement geo, GeoPointND p);
 
-	public GeoElement[] Mirror3D(String label, GeoElement geo, GeoLineND line);
+	public GeoElement[] mirror3D(String label, GeoElement geo, GeoLineND line);
 
-	public GeoElement[] Mirror3D(String label, GeoElement geo,
+	public GeoElement[] mirror3D(String label, GeoElement geo,
 			GeoCoordSys2D plane);
 
-	public GeoElement[] Dilate3D(String label, GeoElement geoDil,
+	public GeoElement[] dilate3D(String label, GeoElement geoDil,
 			GeoNumberValue r, GeoPointND S);
 
 	/**
@@ -891,7 +891,7 @@ public interface Manager3DInterface {
 	 * @param hasVolume
 	 * @return volume of hasVolume
 	 */
-	public GeoNumeric Volume(String label, HasVolume hasVolume);
+	public GeoNumeric volume(String label, HasVolume hasVolume);
 
 	/**
 	 * 
@@ -899,7 +899,7 @@ public interface Manager3DInterface {
 	 * @param hasHeight
 	 * @return oriented height of hasHeight
 	 */
-	public GeoNumeric OrientedHeight(String label, HasHeight hasHeight);
+	public GeoNumeric orientedHeight(String label, HasHeight hasHeight);
 
 	/**
 	 * 
@@ -907,7 +907,7 @@ public interface Manager3DInterface {
 	 * @param conic
 	 * @return corners for a conic section
 	 */
-	public GeoElement[] Corner(String[] labels, GeoConicND conic);
+	public GeoElement[] corner(String[] labels, GeoConicND conic);
 
 	/**
 	 * Net of a polyhedron
@@ -920,114 +920,114 @@ public interface Manager3DInterface {
 	 *            value "opening" the net
 	 * @return net, faces, etc.
 	 */
-	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p,
+	public GeoElement[] polyhedronNet(String[] labels, GeoElement p,
 			NumberValue v, GeoPolygon bottomFace, GeoSegmentND[] pivotSegments);
 
-	public GeoElement[] PolyhedronConvex(String[] labels,
+	public GeoElement[] polyhedronConvex(String[] labels,
 			GeoElement[] pointList);
 
 	/**
 	 * circle arc from three points
 	 */
-	public GeoConicPartND CircumcircleArc3D(String label, GeoPointND A,
+	public GeoConicPartND circumcircleArc3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C);
 
 	/**
 	 * circle sector from three points
 	 */
-	public GeoConicPartND CircumcircleSector3D(String label, GeoPointND A,
+	public GeoConicPartND circumcircleSector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C);
 
 	/**
 	 * Angular bisectors of lines g, h
 	 */
-	public GeoElement[] AngularBisector3D(String[] labels, GeoLineND g,
+	public GeoElement[] angularBisector3D(String[] labels, GeoLineND g,
 			GeoLineND h);
 
 	/**
 	 * Angular bisectors of points A, B, C
 	 */
-	public GeoElement AngularBisector3D(String label, GeoPointND A,
+	public GeoElement angularBisector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C);
 
 	/**
 	 * Angular bisectors of points A, B, C, oriented
 	 */
-	public GeoElement AngularBisector3D(String label, GeoPointND A,
+	public GeoElement angularBisector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation);
 
 	/**
 	 * circle arc/sector from center and two points on arc
 	 */
-	public GeoConicPartND CircleArcSector3D(String label, GeoPointND A,
+	public GeoConicPartND circleArcSector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, int type);
 
 	/**
 	 * circle arc/sector from center and two points on arc (oriented)
 	 */
-	public GeoConicPartND CircleArcSector3D(String label, GeoPointND A,
+	public GeoConicPartND circleArcSector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation, int type);
 
-	public GeoLineND Line3D(String label, ExpressionValue[] coefX,
+	public GeoLineND line3D(String label, ExpressionValue[] coefX,
 			ExpressionValue[] coefY, ExpressionValue[] coefZ);
 
 	/**
 	 * semicircle joining A and B, oriented
 	 */
-	public GeoConicPartND Semicircle3D(String label, GeoPointND A, GeoPointND B,
+	public GeoConicPartND semicircle3D(String label, GeoPointND A, GeoPointND B,
 			GeoDirectionND orientation);
 
 	/**
 	 * tangents to c through P
 	 */
-	public GeoElement[] Tangent3D(String[] labels, GeoPointND P, GeoConicND c);
+	public GeoElement[] tangent3D(String[] labels, GeoPointND P, GeoConicND c);
 
-	public GeoElement[] Tangent3D(String[] labels, GeoLineND l, GeoConicND c);
+	public GeoElement[] tangent3D(String[] labels, GeoLineND l, GeoConicND c);
 
-	public GeoElement[] CommonTangents3D(String[] labels, GeoConicND c1,
+	public GeoElement[] commonTangents3D(String[] labels, GeoConicND c1,
 			GeoConicND c2);
 
-	public GeoElement DiameterLine3D(String label, GeoLineND g, GeoConicND c);
+	public GeoElement diameterLine3D(String label, GeoLineND g, GeoConicND c);
 
-	public GeoElement DiameterLine3D(String label, GeoVectorND v, GeoConicND c);
+	public GeoElement diameterLine3D(String label, GeoVectorND v, GeoConicND c);
 
-	public GeoElement LineBisector3D(String label, GeoSegmentND segment,
+	public GeoElement lineBisector3D(String label, GeoSegmentND segment,
 			GeoDirectionND orientation);
 
-	public GeoElement LineBisector3D(String label, GeoPointND a, GeoPointND b,
+	public GeoElement lineBisector3D(String label, GeoPointND a, GeoPointND b,
 			GeoDirectionND orientation);
 
-	public GeoConicND Conic3D(String label, GeoPointND[] points);
+	public GeoConicND conic3D(String label, GeoPointND[] points);
 
 	/**
 	 * ellipse with foci A, B passing thorugh C
 	 */
-	public GeoConicND EllipseHyperbola3D(String label, GeoPointND A,
+	public GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, final int type);
 
 	/**
 	 * ellipse with foci A, B passing thorugh C, oriented
 	 */
-	public GeoConicND EllipseHyperbola3D(String label, GeoPointND A,
+	public GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation,
 			final int type);
 
 	/**
 	 * parabola with focus F and line l
 	 */
-	public GeoConicND Parabola3D(String label, GeoPointND F, GeoLineND l);
+	public GeoConicND parabola3D(String label, GeoPointND F, GeoLineND l);
 
 	/**
 	 * locus line for Q dependent on P. Note: P must be a point on a path.
 	 */
-	public GeoElement Locus3D(String label, GeoPointND Q, GeoPointND P);
+	public GeoElement locus3D(String label, GeoPointND Q, GeoPointND P);
 
-	public GeoElement Locus3D(String label, GeoPointND Q, GeoNumeric slider);
+	public GeoElement locus3D(String label, GeoPointND Q, GeoNumeric slider);
 
 	/*
 	 * tangent to parametric curve
 	 */
-	public GeoElement Tangent3D(String label, GeoPointND point,
+	public GeoElement tangent3D(String label, GeoPointND point,
 			GeoCurveCartesianND curve);
 
 }

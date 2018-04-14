@@ -23,7 +23,7 @@ public class CmdRay3D extends CmdRay {
 	@Override
 	protected GeoElement ray(String label, GeoPointND a, GeoPointND b) {
 		if (a.isGeoElement3D() || b.isGeoElement3D()) {
-			return (GeoElement) kernel.getManager3D().Ray3D(label, a, b);
+			return (GeoElement) kernel.getManager3D().ray3D(label, a, b);
 		}
 
 		return super.ray(label, a, b);

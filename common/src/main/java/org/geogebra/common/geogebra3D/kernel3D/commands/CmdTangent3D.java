@@ -24,24 +24,24 @@ public class CmdTangent3D extends CmdTangent {
 	@Override
 	protected GeoElement[] tangent(String[] labels, GeoPointND a,
 			GeoConicND c) {
-		return kernel.getManager3D().Tangent3D(labels, a, c);
+		return kernel.getManager3D().tangent3D(labels, a, c);
 	}
 
 	@Override
 	protected GeoElement[] tangent(String[] labels, GeoLineND l, GeoConicND c) {
-		return kernel.getManager3D().Tangent3D(labels, l, c);
+		return kernel.getManager3D().tangent3D(labels, l, c);
 	}
 
 	@Override
 	protected GeoElement[] tangent(String[] labels, GeoConicND c1,
 			GeoConicND c2) {
-		return kernel.getManager3D().CommonTangents3D(labels, c1, c2);
+		return kernel.getManager3D().commonTangents3D(labels, c1, c2);
 	}
 
 	@Override
 	protected GeoElement tangentToCurve(String label, GeoPointND point,
 			GeoCurveCartesianND curve) {
-		return kernel.getManager3D().Tangent3D(label, point, curve);
+		return kernel.getManager3D().tangent3D(label, point, curve);
 	}
 
 }

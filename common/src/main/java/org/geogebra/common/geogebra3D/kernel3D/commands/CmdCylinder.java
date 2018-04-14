@@ -38,12 +38,12 @@ public class CmdCylinder extends CommandProcessor {
 
 			if ((ok[0] = (arg[0] instanceof GeoConicND))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				return kernel.getManager3D().CylinderLimited(c.getLabels(),
+				return kernel.getManager3D().cylinderLimited(c.getLabels(),
 						(GeoConicND) arg[0], (GeoNumberValue) arg[1]);
 			} else if ((ok[0] = (arg[0] instanceof GeoLineND))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				GeoElement[] ret = {
-						kernel.getManager3D().Cylinder(c.getLabel(),
+						kernel.getManager3D().cylinder(c.getLabel(),
 								(GeoLineND) arg[0], (GeoNumberValue) arg[1]) };
 				return ret;
 			}
@@ -58,7 +58,7 @@ public class CmdCylinder extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoVector()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-				GeoElement[] ret = { kernel.getManager3D().Cylinder(
+				GeoElement[] ret = { kernel.getManager3D().cylinder(
 						c.getLabel(), (GeoPointND) arg[0], (GeoVectorND) arg[1],
 						(GeoNumberValue) arg[2]) };
 				return ret;
@@ -98,7 +98,7 @@ public class CmdCylinder extends CommandProcessor {
 	 */
 	protected GeoElement[] cylinderPointPointRadius(Command c, GeoPointND p1,
 			GeoPointND p2, GeoNumberValue r) {
-		return kernel.getManager3D().CylinderLimited(c.getLabels(), p1, p2, r);
+		return kernel.getManager3D().cylinderLimited(c.getLabels(), p1, p2, r);
 	}
 
 }

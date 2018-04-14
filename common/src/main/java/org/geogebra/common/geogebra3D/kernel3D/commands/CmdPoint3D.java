@@ -42,21 +42,21 @@ public class CmdPoint3D extends CmdPoint {
 					&& ((GeoList) geo0).containsGeoElement3D())) {
 				if (geo0.isPath()) {
 					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-							.Point3D(c.getLabel(), (Path) geo0, false) };
+							.point3D(c.getLabel(), (Path) geo0, false) };
 					return ret;
 				}
 				// if arg[0] isn't a Path, try to process it as a region (e.g.
 				// GeoPlane3D)
 				if (geo0.isRegion()) {
 					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-							.Point3DIn(c.getLabel(), (Region) arg[0], false) };
+							.point3DIn(c.getLabel(), (Region) arg[0], false) };
 					return ret;
 				}
 
 				throw argErr(app, c, geo0);
 			} else if (geo0.isRegion3D() && !geo0.isPath()) {
 				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-						.Point3DIn(c.getLabel(), (Region) arg[0], false) };
+						.point3DIn(c.getLabel(), (Region) arg[0], false) };
 				return ret;
 			} else if (arg[0].isGeoList() && ((GeoList) arg[0])
 					.getGeoElementForPropertiesDialog().isGeoNumeric()) {
@@ -86,7 +86,7 @@ public class CmdPoint3D extends CmdPoint {
 
 		if (path.isGeoElement3D() || (((GeoElement) path).isGeoList()
 				&& ((GeoList) path).containsGeoElement3D())) {
-			return (GeoElement) kernel.getManager3D().Point3D(label, path,
+			return (GeoElement) kernel.getManager3D().point3D(label, path,
 					value);
 		}
 

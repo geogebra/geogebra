@@ -54,7 +54,7 @@ public class CmdTranslate3D extends CmdTranslate {
 						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList());
 				// translate object
 				if (ok[0] && (ok[1] = (arg[1].isGeoVector()))) {
-					ret = kernel.getManager3D().Translate3D(label, arg[0],
+					ret = kernel.getManager3D().translate3D(label, arg[0],
 							(GeoVectorND) arg[1]);
 					return ret;
 				} else if (ok[0] && (ok[1] = (arg[1] instanceof GeoPointND))) {
@@ -64,7 +64,7 @@ public class CmdTranslate3D extends CmdTranslate {
 							(GeoPointND) arg[1]);
 					cons.removeFromConstructionList(algoVP);
 
-					ret = kernel.getManager3D().Translate3D(label, arg[0],
+					ret = kernel.getManager3D().translate3D(label, arg[0],
 							algoVP.getVector());
 					return ret;
 				}

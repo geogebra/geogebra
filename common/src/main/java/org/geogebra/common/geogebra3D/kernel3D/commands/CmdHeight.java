@@ -34,7 +34,7 @@ public class CmdHeight extends CommandProcessor {
 
 			if (arg[0] instanceof HasHeight) {
 				return new GeoElement[] { kernel.getManager3D()
-						.OrientedHeight(c.getLabel(), (HasHeight) arg[0]) };
+						.orientedHeight(c.getLabel(), (HasHeight) arg[0]) };
 			}
 
 			throw argErr(app, c, arg[0]);

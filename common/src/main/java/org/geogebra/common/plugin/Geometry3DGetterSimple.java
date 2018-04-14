@@ -22,10 +22,19 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class Geometry3DGetterSimple implements Geometry3DGetter {
 
-	private class GeometryStringBuilders {
-		public StringBuilder vsb, nsb, csb, tsb;
+	private HashMap<GeometryType, GeometryStringBuilders> geometryStringsMap;
+	private GeometryStringBuilders currentGeometryStrings;
+	private String exportName;
+	private boolean filterGeoNames;
+
+	private static class GeometryStringBuilders {
+		public StringBuilder vsb;
+		public StringBuilder nsb;
+		public StringBuilder csb;
+		public StringBuilder tsb;
 		public GeometryType type;
-		public int index, nextShift;
+		public int index;
+		public int nextShift;
 
 		public GeometryStringBuilders(GeometryType type) {
 			this.type = type;
@@ -37,13 +46,6 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 			tsb = new StringBuilder("t");
 		}
 	}
-
-	private HashMap<GeometryType, GeometryStringBuilders> geometryStringsMap;
-
-	private GeometryStringBuilders currentGeometryStrings;
-
-	private String exportName;
-	private boolean filterGeoNames;
 
 	/**
 	 * constructor
@@ -61,6 +63,7 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 		}
 	}
 
+	@Override
 	public boolean handles(GeoElement geo, GeometryType type) {
 		if (filterGeoNames) {
 			boolean ret = exportName.equals(geo.getLabelSimple());
@@ -69,8 +72,8 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 		return true;
 	}
 
+	@Override
 	public void startGeometry(GeometryType type) {
-
 		currentGeometryStrings = geometryStringsMap.get(type);
 		if (currentGeometryStrings == null) {
 			currentGeometryStrings = new GeometryStringBuilders(type);

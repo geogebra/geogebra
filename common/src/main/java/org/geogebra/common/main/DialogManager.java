@@ -236,7 +236,7 @@ public abstract class DialogManager {
 		@Override
 		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo,
 				GeoNumberValue num) {
-			return ec.getKernel().getManager3D().Rotate3D(null, geo, num, line);
+			return ec.getKernel().getManager3D().rotate3D(null, geo, num, line);
 		}
 
 		@Override
@@ -648,7 +648,7 @@ public abstract class DialogManager {
 
 		@Override
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
-			return kernel.getManager3D().Sphere(null, point, num);
+			return kernel.getManager3D().sphere(null, point, num);
 		}
 	}
 
@@ -670,7 +670,7 @@ public abstract class DialogManager {
 
 		@Override
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
-			return kernel.getManager3D().ConeLimited(null, point1, point2,
+			return kernel.getManager3D().coneLimited(null, point1, point2,
 					num)[0];
 		}
 	}
@@ -694,7 +694,7 @@ public abstract class DialogManager {
 
 		@Override
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
-			return kernel.getManager3D().CylinderLimited(null, point1, point2,
+			return kernel.getManager3D().cylinderLimited(null, point1, point2,
 					num)[0];
 		}
 	}
@@ -713,7 +713,7 @@ public abstract class DialogManager {
 
 		@Override
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
-			return kernel.getManager3D().Circle3D(null, point, num, forAxis);
+			return kernel.getManager3D().circle3D(null, point, num, forAxis);
 		}
 	}
 

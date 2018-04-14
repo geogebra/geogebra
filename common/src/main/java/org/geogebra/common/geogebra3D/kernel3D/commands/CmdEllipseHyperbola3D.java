@@ -34,7 +34,7 @@ public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 			GeoPointND c) {
 
 		if (a.isGeoElement3D() || b.isGeoElement3D() || c.isGeoElement3D()) {
-			return kernel.getManager3D().EllipseHyperbola3D(label, a, b, c,
+			return kernel.getManager3D().ellipseHyperbola3D(label, a, b, c,
 					type);
 		}
 
@@ -49,7 +49,7 @@ public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 				&& (ok[2] = (arg[2].isGeoPoint()))
 				&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
 
-			GeoElement[] ret = { kernel.getManager3D().EllipseHyperbola3D(
+			GeoElement[] ret = { kernel.getManager3D().ellipseHyperbola3D(
 					c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 					(GeoPointND) arg[2], (GeoDirectionND) arg[3], type) };
 			return ret;

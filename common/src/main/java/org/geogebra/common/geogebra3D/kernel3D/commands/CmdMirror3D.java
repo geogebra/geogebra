@@ -38,7 +38,7 @@ public class CmdMirror3D extends CmdMirror {
 																		// mirror
 																		// at
 																		// circle
-			ret = kernel.getManager3D().Mirror3D(label, arg[0],
+			ret = kernel.getManager3D().mirror3D(label, arg[0],
 					(GeoCoordSys2D) arg[1]);
 			return ret;
 
@@ -52,12 +52,12 @@ public class CmdMirror3D extends CmdMirror {
 
 			if (arg[0] instanceof Transformable) {
 				if (arg[1].isGeoPoint()) {
-					ret = kernel.getManager3D().Mirror3D(label, arg[0],
+					ret = kernel.getManager3D().mirror3D(label, arg[0],
 							(GeoPointND) arg[1]);
 					return ret;
 				}
 				if (arg[1].isGeoLine()) {
-					ret = kernel.getManager3D().Mirror3D(label, arg[0],
+					ret = kernel.getManager3D().mirror3D(label, arg[0],
 							(GeoLineND) arg[1]);
 					return ret;
 				}

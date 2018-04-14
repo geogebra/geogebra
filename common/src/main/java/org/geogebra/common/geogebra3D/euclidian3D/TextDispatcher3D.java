@@ -93,7 +93,7 @@ public class TextDispatcher3D extends TextDispatcher {
 	 *            text location
 	 */
 	public void createVolumeText(GeoElement hasVolume, GPoint corner) {
-		GeoNumeric volume = kernel.getManager3D().Volume(null,
+		GeoNumeric volume = kernel.getManager3D().volume(null,
 				(HasVolume) hasVolume);
 
 		// text

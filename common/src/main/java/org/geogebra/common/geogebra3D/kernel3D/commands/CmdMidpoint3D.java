@@ -31,7 +31,7 @@ public class CmdMidpoint3D extends CmdMidpoint {
 		if ((arg instanceof GeoQuadric3D)
 				&& !(arg instanceof GeoQuadric3DPart)) {
 			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-					.CenterQuadric(c.getLabel(), (GeoQuadricND) arg) };
+					.centerQuadric(c.getLabel(), (GeoQuadricND) arg) };
 			return ret;
 		}
 
@@ -44,7 +44,7 @@ public class CmdMidpoint3D extends CmdMidpoint {
 
 		if (segment.isGeoElement3D()) {
 			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-					.Midpoint(label, segment) };
+					.midpoint(label, segment) };
 			return ret;
 		}
 
@@ -56,7 +56,7 @@ public class CmdMidpoint3D extends CmdMidpoint {
 
 		if (conic.isGeoElement3D()) {
 			GeoElement[] ret = {
-					(GeoElement) kernel.getManager3D().Center(label, conic) };
+					(GeoElement) kernel.getManager3D().center(label, conic) };
 			return ret;
 		}
 

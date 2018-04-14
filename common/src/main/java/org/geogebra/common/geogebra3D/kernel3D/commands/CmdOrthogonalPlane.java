@@ -32,11 +32,11 @@ public class CmdOrthogonalPlane extends CommandProcessor {
 			if (arg[0].isGeoPoint()) {
 				if (arg[1] instanceof GeoLineND) {
 					return new GeoElement[] { (GeoElement) kernel
-							.getManager3D().OrthogonalPlane3D(c.getLabel(),
+							.getManager3D().orthogonalPlane3D(c.getLabel(),
 									(GeoPointND) arg[0], (GeoLineND) arg[1]) };
 				} else if (arg[1] instanceof GeoVectorND) {
 					return new GeoElement[] { (GeoElement) kernel
-							.getManager3D().OrthogonalPlane3D(c.getLabel(),
+							.getManager3D().orthogonalPlane3D(c.getLabel(),
 									(GeoPointND) arg[0],
 									(GeoVectorND) arg[1]) };
 				} else {

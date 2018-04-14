@@ -977,7 +977,6 @@ public class ScriptManagerW extends ScriptManager {
 			    xzScale | 1, xTickDistance | -1, yTickDistance | -1, zTickDistance | -1);
 		};
 		
-				
 		api.exportSimple3d = function(name, xmin, xmax, ymin, ymax, zmin, zmax, 
 					xyScale, xzScale, xTickDistance, yTickDistance, zTickDistance) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportSimple3d(Ljava/lang/String;DDDDDDDDDDD)(

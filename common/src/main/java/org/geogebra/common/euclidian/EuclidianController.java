@@ -1520,7 +1520,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			tmpCoordsL4.setY(y);
 			tmpCoordsL4.setZ(z);
 			tmpCoordsL4.setW(1);
-			GeoPointND point = kernel.getManager3D().Point3DIn(label, region,
+			GeoPointND point = kernel.getManager3D().point3DIn(label, region,
 					tmpCoordsL4, !forPreviewable, coords2D);
 
 			return point;
@@ -2331,7 +2331,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GeoPointND[] points = getSelectedPointsND();
 		GeoElement[] ret = { null };
 		if (points[0].isGeoElement3D() || points[1].isGeoElement3D()) {
-			ret[0] = getKernel().getManager3D().Line3D(null, points[0],
+			ret[0] = getKernel().getManager3D().line3D(null, points[0],
 					points[1]);
 		} else {
 			ret[0] = getAlgoDispatcher().line(null, (GeoPoint) points[0],
@@ -2349,7 +2349,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GeoElement[] ret = { null };
 		if (points[0].isGeoElement3D() || points[1].isGeoElement3D()) {
 			ret[0] = getKernel().getManager3D()
-					.Ray3D(null, points[0], points[1]).toGeoElement();
+					.ray3D(null, points[0], points[1]).toGeoElement();
 		} else {
 			ret[0] = getAlgoDispatcher().ray(null, (GeoPoint) points[0],
 					(GeoPoint) points[1]);
@@ -2954,7 +2954,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (points[0].isGeoElement3D()
 						|| vectors[0].isGeoElement3D()) {
 					ret[0] = getKernel().getManager3D()
-							.Line3D(null, points[0], vectors[0]);
+							.line3D(null, points[0], vectors[0]);
 				} else {
 					ret[0] = getAlgoDispatcher().Line(null,
 							(GeoPoint) points[0], (GeoVector) vectors[0]);
@@ -2967,7 +2967,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// create new line
 				if (points[0].isGeoElement3D() || lines[0].isGeoElement3D()) {
 					ret[0] = getKernel().getManager3D()
-							.Line3D(null, points[0], lines[0]);
+							.line3D(null, points[0], lines[0]);
 				} else {
 					ret[0] = getAlgoDispatcher().Line(null,
 							(GeoPoint) points[0], (GeoLine) lines[0]);
@@ -3211,7 +3211,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			if (points[0].isGeoElement3D() || points[1].isGeoElement3D()
 					|| points[2].isGeoElement3D()) {
-				ret[0] = kernel.getManager3D().Circle3D(null, points[0],
+				ret[0] = kernel.getManager3D().circle3D(null, points[0],
 						points[1], points[2]);
 			} else {
 				ret[0] = getAlgoDispatcher().Circle(null, (GeoPoint) points[0],

@@ -22,7 +22,7 @@ public class CmdInteriorAngles3D extends CmdInteriorAngles {
 	@Override
 	protected GeoElement[] process(String[] labels, GeoPolygon poly) {
 		if (poly.isGeoElement3D()) {
-			return kernel.getManager3D().Angles3D(labels, poly, true);
+			return kernel.getManager3D().angles3D(labels, poly, true);
 		}
 		return super.process(labels, poly);
 	}

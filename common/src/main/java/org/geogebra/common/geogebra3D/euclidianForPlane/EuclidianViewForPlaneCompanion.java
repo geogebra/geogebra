@@ -446,7 +446,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		if (plane instanceof GeoPlaneND) {
 			return (GeoPlaneND) plane;
 		}
-		return view.getKernel().getManager3D().Plane3D(plane);
+		return view.getKernel().getManager3D().plane3D(plane);
 
 	}
 

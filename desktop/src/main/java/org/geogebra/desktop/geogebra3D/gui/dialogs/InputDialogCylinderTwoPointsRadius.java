@@ -34,7 +34,7 @@ public class InputDialogCylinderTwoPointsRadius extends InputDialogRadiusD {
 
 	@Override
 	protected GeoElement createOutput(GeoNumberValue num) {
-		return kernel.getManager3D().CylinderLimited(null, a, b, num)[0];
+		return kernel.getManager3D().cylinderLimited(null, a, b, num)[0];
 	}
 
 }

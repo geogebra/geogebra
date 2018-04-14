@@ -29,7 +29,7 @@ public class CmdBottom extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoQuadric3DLimited) {
-				GeoElement[] ret = { kernel.getManager3D().QuadricBottom(
+				GeoElement[] ret = { kernel.getManager3D().quadricBottom(
 						c.getLabel(), (GeoQuadric3DLimited) arg[0]) };
 				return ret;
 			}

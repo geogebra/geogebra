@@ -29,7 +29,7 @@ public class CmdDilate3D extends CmdDilate {
 			GeoNumberValue r, GeoElement point) {
 
 		if (geoDil.isGeoElement3D() || point.isGeoElement3D()) {
-			return kernel.getManager3D().Dilate3D(label, geoDil, r,
+			return kernel.getManager3D().dilate3D(label, geoDil, r,
 					(GeoPointND) point);
 		}
 

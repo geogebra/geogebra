@@ -77,7 +77,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	public GeoPointND IntersectLines(String label, GeoLineND g, GeoLineND h) {
 
 		if (g.isGeoElement3D() || h.isGeoElement3D()) {
-			return (GeoPointND) getManager3D().Intersect(label, g, h);
+			return (GeoPointND) getManager3D().intersect(label, g, h);
 		}
 
 		return super.IntersectLines(label, g, h);
@@ -100,7 +100,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			GeoConicND b) {
 
 		if (a.isGeoElement3D() || b.isGeoElement3D()) {
-			return getManager3D().IntersectConics(labels, a, b);
+			return getManager3D().intersectConics(labels, a, b);
 		}
 		return super.IntersectConics(labels, a, b);
 	}
@@ -110,7 +110,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			GeoConicND c) {
 
 		if (g.isGeoElement3D() || c.isGeoElement3D()) {
-			return getManager3D().IntersectLineConic(null, g, c);
+			return getManager3D().intersectLineConic(null, g, c);
 		}
 
 		return super.IntersectLineConic(labels, g, c);
@@ -171,7 +171,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			algoPoint.getP().setLabel(pointLabel);
 			// return segment and new point
 			GeoElement[] ret = { (GeoElement) getManager3D()
-					.Segment3D(segmentLabel, A, algoPoint.getP()),
+					.segment3D(segmentLabel, A, algoPoint.getP()),
 					(GeoElement) algoPoint.getP() };
 
 			return ret;
@@ -201,7 +201,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 				pointLabel, algoSphere.getSphere(), tmpCoords);
 
 		// return segment and new point
-		GeoElement[] ret = { (GeoElement) getManager3D().Segment3D(segmentLabel,
+		GeoElement[] ret = { (GeoElement) getManager3D().segment3D(segmentLabel,
 				A, algoPoint.getP()), algoPoint.getP() };
 
 		return ret;
@@ -212,7 +212,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 
 		for (int i = 0; i < P.length; i++) {
 			if (P[i].isGeoElement3D()) {
-				return getManager3D().Polygon3D(labels, P);
+				return getManager3D().polygon3D(labels, P);
 			}
 		}
 
@@ -223,7 +223,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	final public GeoConicND Circle(String label, GeoPointND M,
 			GeoNumberValue r) {
 		if (M.isGeoElement3D()) {
-			return getManager3D().Circle3D(label, M, r);
+			return getManager3D().circle3D(label, M, r);
 		}
 
 		return super.Circle(label, M, r);
@@ -235,7 +235,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			boolean addToConstruction, boolean complex, boolean coords2D) {
 
 		if (region.isRegion3D()) {
-			return getManager3D().Point3DIn(label, region, coords,
+			return getManager3D().point3DIn(label, region, coords,
 					addToConstruction, coords2D);
 		}
 
@@ -248,7 +248,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			boolean addToConstruction, boolean complex, boolean coords2D) {
 
 		if (path.isGeoElement3D()) {
-			return getManager3D().Point3D(label, path, coords.getX(),
+			return getManager3D().point3D(label, path, coords.getX(),
 					coords.getY(), coords.getZ(), addToConstruction, coords2D);
 		}
 
@@ -266,7 +266,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 				yOffset = DETACH_OFFSET * view.getInvYscale();
 			}
 
-			return (GeoPointND) getManager3D().Point3D(null,
+			return (GeoPointND) getManager3D().point3D(null,
 					point.getInhomX() + xOffset, point.getInhomY() + yOffset,
 					point.getInhomZ(),
 					point.getMode() == Kernel.COORD_CARTESIAN);
@@ -276,7 +276,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	public GeoVectorND Vector3D(String label) {
-		GeoVectorND ret = (GeoVectorND) getManager3D().Vector3D(0, 0, 0);
+		GeoVectorND ret = (GeoVectorND) getManager3D().vector3D(0, 0, 0);
 		ret.setLabel(label);
 		return ret;
 	}
@@ -291,14 +291,14 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	@Override
 	public GeoElement[] TranslateND(String label, GeoElementND geoTrans,
 			GeoVectorND v) {
-		return getManager3D().Translate3D(label, geoTrans, v);
+		return getManager3D().translate3D(label, geoTrans, v);
 	}
 
 	@Override
 	protected GeoElement LocusNoCheck(String label, GeoPointND Q,
 			GeoNumeric P) {
 		if (Q.isGeoElement3D()) {
-			return getManager3D().Locus3D(label, Q, P);
+			return getManager3D().locus3D(label, Q, P);
 		}
 		return super.LocusNoCheck(label, Q, P);
 	}

@@ -23,7 +23,7 @@ public class CmdLocus3D extends CmdLocus {
 	protected GeoElement locus(String label, GeoPointND p1, GeoPointND p2) {
 
 		if (p1.isGeoElement3D() || p2.isGeoElement3D()) {
-			return kernel.getManager3D().Locus3D(label, p1, p2);
+			return kernel.getManager3D().locus3D(label, p1, p2);
 		}
 
 		return super.locus(label, p1, p2);
@@ -32,7 +32,7 @@ public class CmdLocus3D extends CmdLocus {
 	@Override
 	protected GeoElement locus(String label, GeoPointND p, GeoNumeric slider) {
 		if (p.isGeoElement3D()) {
-			return kernel.getManager3D().Locus3D(label, p, slider);
+			return kernel.getManager3D().locus3D(label, p, slider);
 		}
 		return super.locus(label, p, slider);
 	}

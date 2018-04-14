@@ -2300,7 +2300,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			int threshold = d instanceof DrawVideo ? DrawVideo.HANDLER_THRESHOLD : app.getCapturingThreshold(type);
+			int threshold = d instanceof DrawVideo ? DrawVideo.HANDLER_THRESHOLD
+					: app.getCapturingThreshold(type);
 			hitHandler = d.hitBoundingBoxHandler(p.x, p.y, threshold);
 			if (hitHandler != EuclidianBoundingBoxHandler.UNDEFINED) {
 				GeoElement geo = d.getGeoElement();

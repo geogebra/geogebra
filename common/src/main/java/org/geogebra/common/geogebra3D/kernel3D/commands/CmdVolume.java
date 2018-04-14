@@ -33,7 +33,7 @@ public class CmdVolume extends CommandProcessor {
 
 			if (arg[0] instanceof HasVolume) {
 				return new GeoElement[] { kernel.getManager3D()
-						.Volume(c.getLabel(), (HasVolume) arg[0]) };
+						.volume(c.getLabel(), (HasVolume) arg[0]) };
 			}
 
 			throw argErr(app, c, arg[0]);

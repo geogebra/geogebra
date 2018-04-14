@@ -149,7 +149,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 						line.setLabel(label);
 					}
 				} else {
-					line = (GeoLine3D) kernel.getManager3D().Line3D(label,
+					line = (GeoLine3D) kernel.getManager3D().line3D(label,
 							coefX, coefY, coefZ);
 
 				}

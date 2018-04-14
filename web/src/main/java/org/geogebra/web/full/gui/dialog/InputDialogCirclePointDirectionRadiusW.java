@@ -40,7 +40,7 @@ public class InputDialogCirclePointDirectionRadiusW extends InputDialogRadiusW {
 
 	@Override
 	protected GeoElement createOutput(GeoNumberValue num) {
-		return kernel.getManager3D().Circle3D(
+		return kernel.getManager3D().circle3D(
 				null,
 				geoPoint,
 				num,
