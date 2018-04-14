@@ -92,8 +92,11 @@ public interface Manager3DInterface {
 	 * Midpoint M = (P + Q)/2
 	 * 
 	 * @param label
+	 *            output label
 	 * @param P
+	 *            P
 	 * @param Q
+	 *            Q
 	 * @return midpoint
 	 */
 	public GeoPointND midpoint(String label, GeoPointND P, GeoPointND Q);
@@ -102,7 +105,9 @@ public interface Manager3DInterface {
 	 * Midpoint of segment
 	 * 
 	 * @param label
+	 *            output label
 	 * @param segment
+	 *            segment
 	 * @return midpoint
 	 */
 	public GeoPointND midpoint(String label, GeoSegmentND segment);
@@ -111,7 +116,9 @@ public interface Manager3DInterface {
 	 * Center of conic
 	 * 
 	 * @param label
+	 *            output label
 	 * @param conic
+	 *            conic
 	 * @return center
 	 */
 	public GeoPointND center(String label, GeoConicND conic);
@@ -120,7 +127,9 @@ public interface Manager3DInterface {
 	 * Center of quadric
 	 * 
 	 * @param label
+	 *            output label
 	 * @param quadric
+	 *            quadric
 	 * @return center
 	 */
 	public GeoPointND centerQuadric(String label, GeoQuadricND quadric);
@@ -223,8 +232,11 @@ public interface Manager3DInterface {
 	 * Prism with basis and first vertex of second parallel face
 	 * 
 	 * @param labels
+	 *            output labels
 	 * @param polygon
+	 *            polygon
 	 * @param point
+	 *            point
 	 * @return the polyhedron
 	 */
 	public GeoElement[] prism(String[] labels, GeoPolygon polygon,
@@ -234,8 +246,11 @@ public interface Manager3DInterface {
 	 * Right prism with basis and height
 	 * 
 	 * @param labels
+	 *            output labels
 	 * @param polygon
+	 *            polygon
 	 * @param height
+	 *            height
 	 * @return the polyhedron
 	 */
 	public GeoElement[] prism(String[] labels, GeoPolygon polygon,
@@ -270,7 +285,9 @@ public interface Manager3DInterface {
 	 * pyramid with top point over center of bottom face
 	 * 
 	 * @param labels
+	 *            output labels
 	 * @param polygon
+	 *            polygon
 	 * @param height
 	 */
 	public GeoElement[] pyramid(String[] labels, GeoPolygon polygon,
@@ -407,7 +424,9 @@ public interface Manager3DInterface {
 	/**
 	 * 
 	 * @param label
+	 *            output label
 	 * @param cs2D
+	 *            cs2D
 	 * @return plane containing the 2D coord sys
 	 */
 	public GeoPlaneND plane3D(String label, GeoCoordSys2D cs2D);
@@ -471,7 +490,9 @@ public interface Manager3DInterface {
 	 * @param label
 	 *            name of the point
 	 * @param plane
+	 *            plane
 	 * @param quadric
+	 *            quadric
 	 * @return conic intersection
 	 */
 	public GeoConicND intersect(String label, GeoPlaneND plane,
@@ -491,7 +512,9 @@ public interface Manager3DInterface {
 	 * @param labels
 	 * 
 	 * @param quadric1
+	 *            quadric1
 	 * @param quadric2
+	 *            quadric2
 	 * @return conic intersection
 	 */
 	public GeoElement[] intersectAsCircle(String[] labels,
@@ -501,7 +524,9 @@ public interface Manager3DInterface {
 	 * Calculate the intersection of two quadrics, if it's a conic
 	 * 
 	 * @param quadric1
+	 *            quadric1
 	 * @param quadric2
+	 *            quadric2
 	 * @return conic intersection
 	 */
 	public GeoElement[] intersectAsCircle(GeoQuadricND quadric1,
@@ -601,8 +626,11 @@ public interface Manager3DInterface {
 	 * intersection between two 3D conics
 	 * 
 	 * @param labels
+	 *            output labels
 	 * @param A
+	 *            A
 	 * @param B
+	 *            B
 	 * @return 4 intersection points
 	 */
 	public GeoPointND[] intersectConics(String[] labels, GeoConicND A,
@@ -747,7 +775,9 @@ public interface Manager3DInterface {
 	 * create angle checking start/end points
 	 * 
 	 * @param line1
+	 *            line1
 	 * @param line2
+	 *            line2
 	 * @return angle
 	 */
 	public GeoAngle createLineAngle(GeoLineND line1, GeoLineND line2);
@@ -756,8 +786,11 @@ public interface Manager3DInterface {
 	 * create (oriented) angle checking start/end points
 	 * 
 	 * @param line1
+	 *            line1
 	 * @param line2
+	 *            line2
 	 * @param orientation
+	 *            orientation
 	 * @return angle
 	 */
 	public GeoAngle createLineAngle(GeoLineND line1, GeoLineND line2,
@@ -777,7 +810,9 @@ public interface Manager3DInterface {
 	/**
 	 * 
 	 * @param labels
+	 *            output labels
 	 * @param poly
+	 *            poly
 	 * @return angles for the polygon
 	 */
 	public GeoElement[] angles3D(String[] labels, GeoPolygon poly);
@@ -794,7 +829,9 @@ public interface Manager3DInterface {
 	/**
 	 * 
 	 * @param labels
+	 *            output labels
 	 * @param poly
+	 *            poly
 	 * @return angles for the polygon, oriented
 	 */
 	public GeoElement[] angles3D(String[] labels, GeoPolygon poly,
@@ -803,8 +840,11 @@ public interface Manager3DInterface {
 	/**
 	 * 
 	 * @param labels
+	 *            output labels
 	 * @param poly
+	 *            poly
 	 * @param internalAngle
+	 *            internalAngle
 	 * @return angles for the polygon, maybe internal
 	 */
 	public GeoElement[] angles3D(String[] labels, GeoPolygon poly, boolean internalAngle);
@@ -851,10 +891,15 @@ public interface Manager3DInterface {
 	 * rotate about a point + direction
 	 * 
 	 * @param label
+	 *            output label
 	 * @param geoRot
+	 *            geoRot
 	 * @param phi
+	 *            phi
 	 * @param Q
+	 *            Q
 	 * @param orientation
+	 *            orientation
 	 * @return geo rotated
 	 */
 	public GeoElement[] rotate3D(String label, GeoElement geoRot,
@@ -864,9 +909,13 @@ public interface Manager3DInterface {
 	 * rotate about line
 	 * 
 	 * @param label
+	 *            output label
 	 * @param geoRot
+	 *            geoRot
 	 * @param phi
+	 *            phi
 	 * @param line
+	 *            line
 	 * @return geo rotated
 	 */
 	public GeoElement[] rotate3D(String label, GeoElement geoRot,
@@ -888,7 +937,9 @@ public interface Manager3DInterface {
 	/**
 	 * 
 	 * @param label
+	 *            output label
 	 * @param hasVolume
+	 *            hasVolume
 	 * @return volume of hasVolume
 	 */
 	public GeoNumeric volume(String label, HasVolume hasVolume);
@@ -896,7 +947,9 @@ public interface Manager3DInterface {
 	/**
 	 * 
 	 * @param label
+	 *            output label
 	 * @param hasHeight
+	 *            hasHeight
 	 * @return oriented height of hasHeight
 	 */
 	public GeoNumeric orientedHeight(String label, HasHeight hasHeight);
@@ -904,7 +957,9 @@ public interface Manager3DInterface {
 	/**
 	 * 
 	 * @param labels
+	 *            output labels
 	 * @param conic
+	 *            conic
 	 * @return corners for a conic section
 	 */
 	public GeoElement[] corner(String[] labels, GeoConicND conic);

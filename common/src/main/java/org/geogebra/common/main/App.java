@@ -369,7 +369,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * flag for current state
 	 */
-	private StoreUndoInfoForSetCoordSystem storeUndoInfoForSetCoordSystem = StoreUndoInfoForSetCoordSystem.NONE;
+	private CoordSystemStateForUndo storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.NONE;
 	private boolean blockUpdateScripts = false;
 	private boolean useBrowserForJavaScript = true;
 	private EventDispatcher eventDispatcher;
@@ -445,6 +445,7 @@ public abstract class App implements UpdateSelection {
 	 * Changes version; should be called only once, right after the constructor
 	 * 
 	 * @param version
+	 *            version
 	 */
 	public void setVersion(Versions version) {
 		this.version = version;
@@ -893,6 +894,12 @@ public abstract class App implements UpdateSelection {
 		storeUndoInfoAndStateForModeStarting(true);
 	}
 
+	/**
+	 * Store global undo point an possibly one for mode.
+	 * 
+	 * @param storeForMode
+	 *            whether to store a mode undo point too
+	 */
 	final public void storeUndoInfoAndStateForModeStarting(
 			boolean storeForMode) {
 		if (isUndoActive()) {
@@ -909,12 +916,11 @@ public abstract class App implements UpdateSelection {
 	 * store undo info only if view coord system has changed
 	 */
 	public void storeUndoInfoIfSetCoordSystemOccured() {
-
-		if (storeUndoInfoForSetCoordSystem == StoreUndoInfoForSetCoordSystem.SET_COORD_SYSTEM_OCCURED) {
+		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.SET_COORD_SYSTEM_OCCURED) {
 			storeUndoInfo();
 		}
 
-		storeUndoInfoForSetCoordSystem = StoreUndoInfoForSetCoordSystem.NONE;
+		storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.NONE;
 	}
 
 	/**
@@ -922,8 +928,8 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void setCoordSystemOccured() {
 
-		if (storeUndoInfoForSetCoordSystem == StoreUndoInfoForSetCoordSystem.MAY_SET_COORD_SYSTEM) {
-			storeUndoInfoForSetCoordSystem = StoreUndoInfoForSetCoordSystem.SET_COORD_SYSTEM_OCCURED;
+		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.MAY_SET_COORD_SYSTEM) {
+			storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.SET_COORD_SYSTEM_OCCURED;
 		}
 	}
 
@@ -931,8 +937,8 @@ public abstract class App implements UpdateSelection {
 	 * tells the coord sys may be set
 	 */
 	public void maySetCoordSystem() {
-		if (storeUndoInfoForSetCoordSystem == StoreUndoInfoForSetCoordSystem.NONE) {
-			storeUndoInfoForSetCoordSystem = StoreUndoInfoForSetCoordSystem.MAY_SET_COORD_SYSTEM;
+		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.NONE) {
+			storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.MAY_SET_COORD_SYSTEM;
 		}
 	}
 
@@ -1034,9 +1040,10 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Shows error dialog with a given text
 	 *
-	 * @param s
+	 * @param msg
+	 *            error message
 	 */
-	protected abstract void showErrorDialog(String s);
+	protected abstract void showErrorDialog(String msg);
 
 	/**
 	 * @param useBrowserForJavaScript
@@ -1600,6 +1607,9 @@ public abstract class App implements UpdateSelection {
 	 */
 	public abstract void setActiveView(int evID);
 
+	/**
+	 * Update backgrounds and repaint views.
+	 */
 	public void refreshViews() {
 		getEuclidianView1().updateBackground();
 		if (hasEuclidianView2(1)) {
@@ -1638,35 +1648,17 @@ public abstract class App implements UpdateSelection {
 		setXML(newXml, true);
 	}
 
+	/**
+	 * Open macro with given name in a new window.
+	 * 
+	 * @param macroName
+	 *            macro name
+	 */
 	public void openMacro(String macroName) {
 		Macro editMacro = getKernel().getMacro(macroName);
 		Log.debug("[STORAGE] nr: " + getKernel().getMacroNumber()
 				+ " macro for open is " + editMacro.getToolName());
 		openMacro(editMacro);
-
-		// // for (int i = 0; i < editMacro.getKernel().getMacroNumber(); i++) {
-		// // if (editMacro.getKernel().getMacro(i) == editMacro) {
-		// // break;
-		// // }
-		// // kernel.addMacro(editMacro.getKernel().getMacro(i));
-		// // }
-		// try {
-		// getXMLio().processXMLString(macroXml, true, false, false);
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// this.macro = getKernel().getMacro(0);
-		//
-		// }
-		// String allXml = getXML();
-		// String header = allXml.substring(0, allXml.indexOf("<construction"));
-		// String footer = allXml.substring(allXml.indexOf("</construction>"),
-		// allXml.length());
-		//
-		// String newXml = header
-		// + macroXml.substring(macroXml.indexOf("<construction"),
-		// macroXml.indexOf("</construction>")) + footer;
-		// setXML(newXml, true);
 	}
 
 	/**
@@ -3148,6 +3140,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * 
 	 * @param url
+	 *            url
 	 * @return url converted to a data URI if possible. If not, returns the URL
 	 *         unaltered
 	 */
@@ -3164,8 +3157,11 @@ public abstract class App implements UpdateSelection {
 
 	public abstract void exitAll();
 
-	// protected abstract Object getMainComponent();
-
+	/**
+	 * Full version eg X.Y.Zd-prerelease
+	 * 
+	 * @return version string
+	 */
 	public String getVersionString() {
 
 		if (version != null) {
@@ -3308,7 +3304,7 @@ public abstract class App implements UpdateSelection {
 	 * @param rd
 	 *            forth object (optional, can be null)
 	 *
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * @author Zoltan Kovacs
 	 */
 	public void showRelation(final GeoElement ra, final GeoElement rb,
 			final GeoElement rc, final GeoElement rd) {
@@ -3753,6 +3749,7 @@ public abstract class App implements UpdateSelection {
 	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	 *
 	 * @param kw
+	 *            kimberling weights
 	 * @return
 	 */
 	public abstract double kimberlingWeight(AlgoKimberlingWeightsParams kw);
@@ -3772,10 +3769,11 @@ public abstract class App implements UpdateSelection {
 	 *
 	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	 *
-	 * @param kw
-	 * @return
+	 * @param cw
+	 *            cubic weights
+	 * @return cubic equation
 	 */
-	public abstract String cubicSwitch(AlgoCubicSwitchParams kw);
+	public abstract String cubicSwitch(AlgoCubicSwitchParams cw);
 
 	public abstract CommandDispatcher getCommandDispatcher(Kernel k);
 
@@ -4024,7 +4022,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOW-29
 		case MOW_TOOLBAR:
-			return prerelease && whiteboard;// prerelease;
+			return prerelease && whiteboard; // prerelease;
 
 		case MOW_CONTEXT_MENU:
 			return relaunch && isUnbundledOrWhiteboard();
@@ -4227,7 +4225,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
-			return false;// &&
+			return false; // &&
 							// Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
 
 		// GGB-944
@@ -4650,7 +4648,9 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public enum ExportType {
-		NONE, PDF_TEXTASSHAPES, PDF_EMBEDFONTS, PDF_HTML5, EPS, EMF, PNG, PNG_BRAILLE, SVG, PRINTING, ANIMATED_GIF, WEBP, WEBM;
+		NONE, PDF_TEXTASSHAPES, PDF_EMBEDFONTS, PDF_HTML5, EPS, EMF,
+
+		PNG, PNG_BRAILLE, SVG, PRINTING, ANIMATED_GIF, WEBP, WEBM;
 
 		public char getAxisMinusSign() {
 			switch (this) {
@@ -4668,7 +4668,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * state to know if we'll need to store undo info
 	 */
-	private enum StoreUndoInfoForSetCoordSystem {
+	private enum CoordSystemStateForUndo {
 		/** tells that the mouse has been pressed */
 		MAY_SET_COORD_SYSTEM,
 		/** tells that the coord system has changed */
@@ -5272,7 +5272,8 @@ public abstract class App implements UpdateSelection {
 	 * @return available calculator types for exam mode
 	 */
 	public ExamEnvironment.CalculatorType[] getAvailableExamCalculatorTypes() {
-		return new ExamEnvironment.CalculatorType[] {ExamEnvironment.CalculatorType.GRAPHING, ExamEnvironment.CalculatorType.SYMBOLIC};
+		return new ExamEnvironment.CalculatorType[] { ExamEnvironment.CalculatorType.GRAPHING,
+				ExamEnvironment.CalculatorType.SYMBOLIC };
 	}
 
 	/**
