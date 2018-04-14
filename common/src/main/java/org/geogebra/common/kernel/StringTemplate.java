@@ -133,8 +133,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate latexTemplate = new StringTemplate(
 			"latexTemplate");
+
 	static {
 		latexTemplate.setType(StringType.LATEX);
+	}
+
+	/**
+	 * LaTeX string type, do not internationalize digits
+	 */
+	public static final StringTemplate latexTemplateHideLHS = new StringTemplate("latexTemplate");
+
+	static {
+		latexTemplateHideLHS.setType(StringType.LATEX);
+		latexTemplateHideLHS.hideLHS = true;
 	}
 
 	/**

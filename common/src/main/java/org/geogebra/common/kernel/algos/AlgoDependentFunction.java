@@ -469,6 +469,7 @@ public class AlgoDependentFunction extends AlgoElement
 		}
 		return false;
 	}
+
 	@Override
 	public String toString(StringTemplate tpl) {
 		if (sb == null) {

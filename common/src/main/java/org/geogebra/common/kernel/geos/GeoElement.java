@@ -5419,7 +5419,7 @@ public abstract class GeoElement extends ConstructionElement
 
 		}
 		if (ret != null && ret.length() > 0) {
-			ret = getAssignmentLHS(StringTemplate.editTemplate)
+			ret = getAssignmentLHS(tpl)
 					+ getLabelDelimiterWithSpace() + ret;
 
 			return ret;
@@ -8565,7 +8565,6 @@ public abstract class GeoElement extends ConstructionElement
 		addLabelTextOrHTML(def0, sbDef);
 		String def = sbDef.toString();
 		String val = getAlgebraDescriptionTextOrHTMLDefault(sbVal);
-
 		return !def.equals(val) ? DescriptionMode.DEFINITION_VALUE
 				: DescriptionMode.VALUE;
 	}
