@@ -91,6 +91,8 @@ class MetaModelSymbols {
 		collection
 				.addComponent(createOperator("vee", "||", "\\vee", Unicode.OR));
 		collection.addComponent(
+				createOperator("oplus", "NaN", "\\oplus", Unicode.XOR));
+		collection.addComponent(
 				createOperator("wedge", "&&", "\\wedge", Unicode.AND));
 		collection.addComponent(createOperator("implication", "->", "\\implies",
 				Unicode.IMPLIES));

@@ -2241,7 +2241,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				if (isInsertLineBreaks()) {
 					sb.append("\\-");
 				}
-				sb.append("\\vee");
+				sb.append("\\oplus");
 				break;
 			case LIBRE_OFFICE:
 				sb.append("xor");
