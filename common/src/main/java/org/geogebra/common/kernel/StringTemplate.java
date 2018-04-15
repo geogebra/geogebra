@@ -162,15 +162,18 @@ public class StringTemplate implements ExpressionNodeConstants {
 					.replaceAll("\\^", "\\\\^{\\ } ");
 		}
 	};
+
 	static {
 		latexTemplateJLM.setType(StringType.LATEX);
 	}
+
 	/**
 	 * LaTeX template for CAS; like LaTeX template but do not substitute
 	 * 3.1415926535 by pi
 	 */
 	public static final StringTemplate latexTemplateCAS = new StringTemplate(
 			"latexTemplate");
+
 	static {
 		latexTemplateCAS.setType(StringType.LATEX);
 		latexTemplateCAS.allowPiHack = false;
@@ -252,6 +255,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		xmlTemplate.questionMarkForNaN = false;
 		xmlTemplate.changeArcTrig = false;
 	}
+
 	/**
 	 * XML string type, do not internationalize digits
 	 */
@@ -287,6 +291,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate editorTemplate = new StringTemplate(
 			"editorTemplate");
+
 	/**
 	 * For simplicity make this static now and see in the future whether we will
 	 * need more engines in one app
@@ -338,6 +343,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static final StringTemplate maxPrecision = new StringTemplate(
 			"maxPrecision");
+
 	static {
 		maxPrecision.sf = FormatFactory.getPrototype().getScientificFormat(15,
 				20, false);
@@ -549,7 +555,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			printFormPI = Unicode.PI_STRING;
 			printFormImaginary = Unicode.IMAGINARY + "";
 		}
-
 	}
 
 	/**
@@ -1348,6 +1353,21 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @param l
+	 *            left expression
+	 * @param r
+	 *            right expression
+	 * @param leftStr
+	 *            serialized left expression
+	 * @param rightStr
+	 *            serialized right expression
+	 * @param valueForm
+	 *            whether to substitute variables
+	 * @param loc
+	 *            localization
+	 * @return l-r with appropriate brackets
+	 */
 	public String minusString(ExpressionValue l, ExpressionValue r,
 			String leftStr, String rightStr, boolean valueForm,
 			Localization loc) {
@@ -1608,6 +1628,21 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return sb.toString();
 	}
 
+	/**
+	 * @param left
+	 *            left expression
+	 * @param right
+	 *            right expression
+	 * @param leftStr
+	 *            serialized left expression
+	 * @param rightStr
+	 *            serialized right expression
+	 * @param valueForm
+	 *            whether to substitute variables
+	 * @param loc
+	 *            localization
+	 * @return left + right with appropriate brackets
+	 */
 	public String multiplyString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr, boolean valueForm,
 			Localization loc) {
@@ -1645,11 +1680,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// }
 
 			// check for degree sign or 1degree or degree1 (eg for Arabic)
-			else if ((rightStr.length() == 2 &&
-
-					((rightStr.charAt(0) == Unicode.DEGREE_CHAR
+			else if ((rightStr.length() == 2
+					&& ((rightStr.charAt(0) == Unicode.DEGREE_CHAR
 							&& rightStr.charAt(1) == (loc.getZero() + 1))
-
 							|| (rightStr.charAt(1) == Unicode.DEGREE_CHAR
 									&& rightStr.charAt(0) == loc.getZero()
 											+ 1)))
@@ -1739,13 +1772,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 						char lastLeft = leftStr.charAt(leftStr.length() - 1);
 						char firstRight = rightStr.charAt(0);
 						showMultiplicationSign =
-								StringUtil.isDigit(firstRight) ||
+								StringUtil.isDigit(firstRight)
 								// left is digit or ends with }, e.g. exponent,
 								// fraction
-								(StringUtil.isDigit(lastLeft)
-										|| (lastLeft == '}')) &&
-								// right is digit or fraction
-										rightStr.startsWith("\\frac");
+										|| (StringUtil.isDigit(lastLeft)
+												|| lastLeft == '}')
+												&& rightStr
+														.startsWith("\\frac");
 						multiplicationSpaceNeeded = !(right instanceof MySpecialDouble
 								&& Unicode.DEGREE_STRING.equals(
 										right.toString(defaultTemplate)));
@@ -1796,17 +1829,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				if (((rtlMinus = rightStr
 						.startsWith(Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN))
 						|| (rightStr.charAt(0) == '-')) // 2 (-5) or -(-5)
-						|| (!nounary && !right.isLeaf()
-								&& (opIDright <= Operation.DIVIDE.ordinal() // -(x
-																			// *
-																			// a)
-																			// or
-																			// -(x
-																			// /
-																			// a)
-								)) ) // 3
-																											// (5)
-				{
+						|| (!nounary && !right.isLeaf() // -(x*a) or -(x/a)
+								&& (opIDright <= Operation.DIVIDE.ordinal()))) {
 					if (rtlMinus) {
 						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					}
@@ -1952,6 +1976,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return (stringType.equals(StringType.LATEX)) ? " \\; " : " ";
 	}
 
+	/**
+	 * Append expression to the string builder, add brackets if needed. Special
+	 * handling for symbolic fractions.
+	 * 
+	 * @param sb
+	 *            builder
+	 * @param str
+	 *            serialized expression
+	 * @param ev
+	 *            expression
+	 * @param op
+	 *            parent node operation
+	 */
 	public void append(StringBuilder sb, String str, ExpressionValue ev,
 			Operation op) {
 		if (ev.isGeoElement() && ((GeoElement) ev).isGeoNumeric()
@@ -1972,6 +2009,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @param left
+	 *            left expression
+	 * @param right
+	 *            right expression
+	 * @param leftStr
+	 *            serialized left expression
+	 * @param rightStr
+	 *            serialized right expression
+	 * @param valueForm
+	 *            whether to substitute variables
+	 * @return left / right with appropriate brackets
+	 */
 	public String divideString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr, boolean valueForm) {
 		StringBuilder sb = new StringBuilder();
@@ -2047,6 +2097,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return sb.toString();
 	}
 
+	/**
+	 * @param left
+	 *            expression
+	 * @param leftStr
+	 *            serialized expression
+	 * @return !left
+	 */
 	public String notString(ExpressionValue left, String leftStr) {
 		StringBuilder sb = new StringBuilder();
 
@@ -2159,7 +2216,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *            left string
 	 * @param rightStr
 	 *            right string
-	 * @return leftStr || rightStr for this string type
+	 * @return leftStr XOR rightStr for this string type
 	 */
 	public String xorString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr) {
@@ -2201,6 +2258,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return sb.toString();
 	}
 
+	/**
+	 * @return &gt;= sign
+	 */
 	public String geqSign() {
 		switch (getStringType()) {
 		case LATEX:
@@ -2216,6 +2276,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @return &lt;= sign
+	 */
 	public String leqSign() {
 		switch (getStringType()) {
 		case LATEX:
@@ -2232,7 +2295,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * @return > for this string type
+	 * @return &gt; for this string type
 	 */
 	public String greaterSign() {
 		if (hasType(StringType.LATEX) && isInsertLineBreaks()) {
@@ -2242,7 +2305,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * @return < for this string type
+	 * @return &lt; for this string type
 	 */
 	public String lessSign() {
 		if (hasType(StringType.LATEX) && isInsertLineBreaks()) {
@@ -2251,6 +2314,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return "<";
 	}
 
+	/**
+	 * @return strict subset sign
+	 */
 	public String strictSubsetSign() {
 		switch (getStringType()) {
 		case LATEX:
@@ -2265,6 +2331,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @return subset sign
+	 */
 	public String subsetSign() {
 		switch (getStringType()) {
 		case LATEX:
@@ -2279,8 +2348,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @return != sign
+	 */
 	public String notEqualSign() {
-
 		switch (getStringType()) {
 		case LATEX:
 			if (isInsertLineBreaks()) {
@@ -2298,8 +2369,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	}
 
+	/**
+	 * @return == sign
+	 */
 	public String equalSign() {
-
 		switch (getStringType()) {
 		case LATEX:
 			if (isInsertLineBreaks()) {
@@ -2316,6 +2389,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @return sign for perpendicular lines
+	 */
 	public String perpSign() {
 
 		switch (getStringType()) {
@@ -2331,6 +2407,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @return sign for parallel lines
+	 */
 	public String parallelSign() {
 		switch (getStringType()) {
 		case LATEX:
@@ -2345,17 +2424,52 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * Append left (op) right to the builder with brackets as needed.
+	 * 
+	 * @param sb
+	 *            builder
+	 * @param left
+	 *            left expression
+	 * @param right
+	 *            right expression
+	 * @param operation
+	 *            operation
+	 * @param leftStr
+	 *            serialized left expression
+	 * @param rightStr
+	 *            serialized right expression
+	 * @param operationString
+	 *            serialized operation
+	 */
 	public void infixBinary(StringBuilder sb, ExpressionValue left,
 			ExpressionValue right, Operation operation, String leftStr,
-			String rightStr, StringTemplate tpl, String operationString) {
+			String rightStr, String operationString) {
 
-		tpl.append(sb, leftStr, left, operation);
+		append(sb, leftStr, left, operation);
 		sb.append(' ');
 		sb.append(operationString);
 		sb.append(' ');
-		tpl.append(sb, rightStr, right, operation);
+		append(sb, rightStr, right, operation);
 	}
 
+	/**
+	 * Serialize chained boolean operations, eg 2>x>1.
+	 * 
+	 * @param left
+	 *            left expression eg 2>x
+	 * @param right
+	 *            right expression eg x>1
+	 * 
+	 * @param leftStr
+	 *            serialized left expression
+	 * @param rightStr
+	 *            serialized right expression
+	 * @param valueForm
+	 *            whether to substitute variables
+	 * @return 2>x>1 with appropriate brackets
+	 * 
+	 */
 	public String andIntervalString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr, boolean valueForm) {
 		StringBuilder sb = new StringBuilder();
@@ -2409,6 +2523,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return andString(left, right, leftStr, rightStr);
 	}
 
+	/**
+	 * @param left
+	 *            left expression
+	 * @param right
+	 *            right expression
+	 * @param leftStr
+	 *            left string
+	 * @param rightStr
+	 *            right string
+	 * @return leftStr AND rightStr for this string type
+	 */
 	public String andString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr) {
 		StringBuilder sb = new StringBuilder();
@@ -2449,7 +2574,20 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		return sb.toString();
 	}
-
+	
+	/**
+	 * @param left
+	 *            left expression
+	 * @param right
+	 *            right expression
+	 * @param leftStr
+	 *            left string
+	 * @param rightStr
+	 *            right string
+	 * @param valueForm
+	 *            whether to substitute variables
+	 * @return leftStr || rightStr for this string type
+	 */
 	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
 			"missing break is deliberate" })
 	public String powerString(ExpressionValue left, ExpressionValue right,
@@ -2694,6 +2832,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return sb.toString();
 	}
 
+	/**
+	 * Append expression to builder, add brackets.
+	 * 
+	 * @param sb
+	 *            builder
+	 * @param leftStr
+	 *            serialized expression
+	 */
 	public void appendWithBrackets(StringBuilder sb, String leftStr) {
 		sb.append(leftBracket());
 		sb.append(leftStr);
@@ -2801,8 +2947,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return sb.toString();
 	}
 
-	/*
-	 * convert 3E3 to 3000 convert 3.33 to 333/100 convert 3E-3 to 3/1000
+	/**
+	 * Convert 3E3 to 3000 convert 3.33 to 333/100 convert 3E-3 to 3/1000.
+	 * 
+	 * @param originalString
+	 *            raw number string
+	 * @return decimal fraction
 	 */
 	public String convertScientificNotationGiac(String originalString) {
 
@@ -2895,14 +3045,31 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return originalString;
 	}
 
+	/**
+	 * @return whether to suppress serialization of LHS in f(x)=x
+	 */
 	public boolean isHideLHS() {
 		return this.hideLHS;
 	}
 
+	/**
+	 * @return whether to print decimals equal to 3.14... as pi
+	 */
 	public boolean allowPiHack() {
 		return this.allowPiHack;
 	}
 
+	/**
+	 * Split eg 3.1E10 to 3.1 and 10; keep small numbers.
+	 * 
+	 * @param decimal
+	 *            number
+	 * @param kernel
+	 *            kernel
+	 * @param parts
+	 *            splits of the number
+	 * @return (coefficient, exponent) or (number, null)
+	 */
 	public static String[] printLimitedWidth(double decimal, Kernel kernel,
 			String[] parts) {
 		if (Math.abs(decimal) < 1E4
@@ -2920,14 +3087,30 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return str.split("E");
 	}
 
+	/**
+	 * Overridden in subtypes; by default does nothing.
+	 * 
+	 * @param string
+	 *            string
+	 * @return escaped string
+	 */
 	public String escapeString(String string) {
 		return string;
 	}
 
+	/**
+	 * @return whether to print NaN as ?
+	 */
 	public boolean hasQuestionMarkForNaN() {
 		return this.questionMarkForNaN;
 	}
 
+	/**
+	 * Append left curly bracket to the builder
+	 * 
+	 * @param sb
+	 *            builder
+	 */
 	public void leftCurlyBracket(StringBuilder sb) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\left\\{");
@@ -2936,6 +3119,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * Append right curly bracket to the builder
+	 * 
+	 * @param sb
+	 *            builder
+	 */
 	public void rightCurlyBracket(StringBuilder sb) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\right\\}");
@@ -2953,19 +3142,25 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return numeric;
 	}
 
+	/**
+	 * @return whether symbolic fractions should be printed as fractions
+	 */
 	public boolean supportsFractions() {
 		return supportsFractions;
 	}
 
+	/**
+	 * @param fractions
+	 *            whether to support fractions
+	 * @return copy of this template with given fraction support
+	 */
 	public StringTemplate deriveWithFractions(boolean fractions) {
 		if (supportsFractions == fractions) {
 			return this;
 		}
 
 		StringTemplate ret = this.copy();
-
 		ret.supportsFractions = fractions;
-
 		return ret;
 	}
 
@@ -3052,10 +3247,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return prefix + "\\phantom{\\texttt{" + s + "}}";
 	}
 
+	/**
+	 * @return whether to use English quotes instead of "
+	 */
 	public boolean niceQuotes() {
 		return niceQuotes;
 	}
 
+	/**
+	 * @return " or English opening quote
+	 */
 	public char getOpenQuote() {
 		if (niceQuotes || stringType.equals(StringType.LATEX)) {
 			return Unicode.OPEN_DOUBLE_QUOTE;
@@ -3063,6 +3264,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return '\"';
 	}
 
+	/**
+	 * @return " or English closing quote
+	 */
 	public char getCloseQuote() {
 		if (niceQuotes || stringType.equals(StringType.LATEX)) {
 			return Unicode.CLOSE_DOUBLE_QUOTE;
@@ -3088,6 +3292,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 				: leftSquareBracket();
 	}
 
+	/**
+	 * @return ^2 for this string type
+	 */
 	public String squared() {
 		switch (getStringType()) {
 		case LATEX:
@@ -3101,6 +3308,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @return true TODO remove this?
+	 */
 	public boolean degreeMode() {
 		return true;
 	}

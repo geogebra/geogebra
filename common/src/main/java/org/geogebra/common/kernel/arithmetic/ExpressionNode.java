@@ -1758,7 +1758,7 @@ public class ExpressionNode extends ValidExpression
 				} else {
 
 					tpl.infixBinary(sb, left, right, operation, leftStr,
-							rightStr, tpl, tpl.equalSign());
+							rightStr, tpl.equalSign());
 				}
 			}
 			break;
@@ -1768,7 +1768,7 @@ public class ExpressionNode extends ValidExpression
 				MathmlTemplate.mathml(sb, "<neq/>", leftStr, rightStr);
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
-						tpl, tpl.notEqualSign());
+						tpl.notEqualSign());
 			}
 			break;
 
@@ -1818,7 +1818,7 @@ public class ExpressionNode extends ValidExpression
 				sb.append(") union {},true,false)");
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
-						tpl, tpl.subsetSign());
+						tpl.subsetSign());
 			}
 			break;
 
@@ -1840,7 +1840,7 @@ public class ExpressionNode extends ValidExpression
 				sb.append("union {}),true,false)");
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
-						tpl, tpl.strictSubsetSign());
+						tpl.strictSubsetSign());
 			}
 			break;
 
@@ -1887,7 +1887,7 @@ public class ExpressionNode extends ValidExpression
 			} else {
 
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
-						tpl, tpl.lessSign());
+						tpl.lessSign());
 			}
 			break;
 
@@ -1896,7 +1896,7 @@ public class ExpressionNode extends ValidExpression
 				MathmlTemplate.mathml(sb, "<gt/>", leftStr, rightStr);
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
-						tpl, tpl.greaterSign());
+						tpl.greaterSign());
 			}
 			break;
 
@@ -1905,7 +1905,7 @@ public class ExpressionNode extends ValidExpression
 				MathmlTemplate.mathml(sb, "<leq/>", leftStr, rightStr);
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
-						tpl, tpl.leqSign());
+						tpl.leqSign());
 			}
 			break;
 
@@ -1914,7 +1914,7 @@ public class ExpressionNode extends ValidExpression
 				MathmlTemplate.mathml(sb, "<qeq/>", leftStr, rightStr);
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
-						tpl, tpl.geqSign());
+						tpl.geqSign());
 			}
 			break;
 
@@ -1923,7 +1923,7 @@ public class ExpressionNode extends ValidExpression
 				sb.append("AreParallel[" + leftStr + "," + rightStr + "]");
 				break;
 			}
-			tpl.infixBinary(sb, left, right, operation, leftStr, rightStr, tpl,
+			tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
 					tpl.parallelSign());
 			break;
 
@@ -1932,7 +1932,7 @@ public class ExpressionNode extends ValidExpression
 				sb.append("ArePerpendicular[" + leftStr + "," + rightStr + "]");
 				break;
 			}
-			tpl.infixBinary(sb, left, right, operation, leftStr, rightStr, tpl,
+			tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
 					tpl.perpSign());
 			break;
 

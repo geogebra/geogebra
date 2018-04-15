@@ -338,8 +338,7 @@ public class Kernel implements SpecialPointsListener {
 	private boolean isGettingUndo;
 	private StringBuilder stateForModeStarting;
 	private GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
-	private ScheduledPreviewFromInputBar scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar(
-			this);
+	private final ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
 	private boolean userStopsLoading = false;
 	private AnimationManager animationManager;
 
@@ -405,6 +404,7 @@ public class Kernel implements SpecialPointsListener {
 		sf = FormatFactory.getPrototype().getScientificFormat(5, 16, false);
 		this.deleteList = new ArrayList<>();
 		this.geoFactory = factory;
+		scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar(this);
 	}
 
 	/**
@@ -1116,13 +1116,32 @@ public class Kernel implements SpecialPointsListener {
 	}
 
 	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
+	/**
+	 * @param numbers
+	 *            coefficients
+	 * @param vars
+	 *            variables
+	 * @param keepLeadingSign
+	 *            whether to keep sign of first coefficient
+	 * @param cancelDown
+	 *            whether to cancel GCDs
+	 * @param needsZ
+	 *            whether term in z is needed
+	 * @param op
+	 *            equality operator
+	 * @param tpl
+	 *            string template
+	 * @param implicit
+	 *            whether last var should be in LHS
+	 * @return serialized equation
+	 */
 	public final StringBuilder buildImplicitEquation(double[] numbers,
-			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
+			String[] vars, boolean keepLeadingSign, boolean cancelDown,
 			boolean needsZ, char op, StringTemplate tpl, boolean implicit) {
 
 		sbBuildImplicitEquation.setLength(0);
 		double[] temp = buildImplicitVarPart(sbBuildImplicitEquation, numbers,
-				vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN, needsZ,
+				vars, keepLeadingSign || (op == '='), cancelDown, needsZ,
 				tpl);
 
 		if (!implicit && !isZeroFigure(temp[vars.length], tpl)) {
@@ -1570,8 +1589,6 @@ public class Kernel implements SpecialPointsListener {
 	 */
 	final public String formatPiE(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
-
-
 		if (app.getLocalization().getZero() != '0') {
 
 			String num = formatPiERaw(x, numF, tpl);
@@ -1932,6 +1949,7 @@ public class Kernel implements SpecialPointsListener {
 	 * @param x
 	 *            value
 	 * @param tpl
+	 *            strin template
 	 * @return true if x is built as "0"
 	 */
 	private boolean isZeroFigure(double x, StringTemplate tpl) {
@@ -2470,23 +2488,10 @@ public class Kernel implements SpecialPointsListener {
 		Log.debug(str);
 		libraryJavaScript = str;
 
-		// libraryJavaScript =
-		// "function ggbOnInit()
-		// {ggbApplet.evalCommand('A=(1,2)');ggbApplet.registerObjectUpdateListener('A','listener');}function
-		// listener() {//java.lang.System.out.println('add listener called');
-		// var x = ggbApplet.getXcoord('A');var y = ggbApplet.getYcoord('A');var
-		// len = Math.sqrt(x*x + y*y);if (len > 5) { x=x*5/len; y=y*5/len;
-		// }ggbApplet.unregisterObjectUpdateListener('A');ggbApplet.setCoords('A',x,y);ggbApplet.registerObjectUpdateListener('A','listener');}";
-		// libraryJavaScript =
-		// "function ggbOnInit() {ggbApplet.evalCommand('A=(1,2)');}";
 		if (app.getScriptManager() != null) {
 			app.getScriptManager().setGlobalScript();
 		}
 	}
-
-	// public String getLibraryJavaScriptXML() {
-	// return Util.encodeXML(libraryJavaScript);
-	// }
 
 	/**
 	 * @return global JavaScript
@@ -2495,19 +2500,30 @@ public class Kernel implements SpecialPointsListener {
 		return libraryJavaScript;
 	}
 
-	/** return all points of the current construction */
+	/**
+	 * return all points of the current construction
+	 * 
+	 * @return points in construction
+	 */
 	public TreeSet<GeoElement> getPointSet() {
 		return getConstruction().getGeoSetLabelOrder(GeoClass.POINT);
 	}
 
-	/*******************************************************
+	/*------------------------------------------------------
 	 * SAVING
 	 *******************************************************/
 
+	/**
+	 * @return whether save is being executed
+	 */
 	public synchronized boolean isSaving() {
 		return isSaving;
 	}
 
+	/**
+	 * @param saving
+	 *            whether save is being executed
+	 */
 	public synchronized void setSaving(boolean saving) {
 		isSaving = saving;
 	}
@@ -2537,6 +2553,9 @@ public class Kernel implements SpecialPointsListener {
 		angleUnit = unit;
 	}
 
+	/**
+	 * @return Kernel.ANGLE_DEGREE or Kernel.ANGLE_RADIANT
+	 */
 	final public int getAngleUnit() {
 		return angleUnit;
 	}
@@ -2781,6 +2800,7 @@ public class Kernel implements SpecialPointsListener {
 	 *            variable names
 	 * @return result string (null possible)
 	 * @throws Throwable
+	 *             when CAS failed
 	 */
 	private String evaluateGeoGebraCAS(String exp, boolean useCaching,
 			MyArbitraryConstant arbconst, StringTemplate tpl)
@@ -2828,7 +2848,6 @@ public class Kernel implements SpecialPointsListener {
 
 		return result;
 	}
-
 
 	public void putToCasCache(String exp, String result) {
 		getCasCache().put(exp, result);
@@ -2885,7 +2904,6 @@ public class Kernel implements SpecialPointsListener {
 	public boolean hasCasCache() {
 		return ggbCasCache != null;
 	}
-
 
 	/**
 	 * Tells this kernel about the bounds and the scales for x-Axis and y-Axis
@@ -3319,6 +3337,7 @@ public class Kernel implements SpecialPointsListener {
 
 	/**
 	 * @param geo
+	 *            geo
 	 * @return RealWorld Coordinates of the rectangle covering all euclidian
 	 *         views in which <b>geo</b> is shown.<br>
 	 *         Format: {xMin,xMax,yMin,yMax,xScale,yScale}
@@ -3938,8 +3957,8 @@ public class Kernel implements SpecialPointsListener {
 		return viewReiniting;
 	}
 
-	/*
-	 * /************************** Undo /Redo
+	/**
+	 * Recompute all objects.
 	 */
 	public void updateConstruction() {
 
@@ -3955,8 +3974,10 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Update construction from language change.
+	 */
 	public void updateConstructionLanguage() {
-
 		// views are notified about update at the end of this method
 		cons.updateConstructionLanguage();
 
@@ -3971,7 +3992,10 @@ public class Kernel implements SpecialPointsListener {
 	/**
 	 * update construction n times
 	 * 
+	 * @param randomize
+	 *            whether variables should be randomized
 	 * @param n
+	 *            number of repetitions
 	 */
 	public void updateConstruction(boolean randomize, int n) {
 
@@ -4037,7 +4061,6 @@ public class Kernel implements SpecialPointsListener {
 			cons.initUndoInfo();
 		}
 	}
-
 
 	public void redo() {
 		if (undoActive && cons.getUndoManager().redoPossible()) {
@@ -4484,8 +4507,6 @@ public class Kernel implements SpecialPointsListener {
 
 		app.dispatchEvent(new Event(EventType.RENAME_MACRO, null,
 				"[\"" + macro.getCommandName() + "\",\"" + cmdName + "\"]"));
-
-
 		macroManager.setMacroCommandName(macro, cmdName);
 
 		return true;
@@ -4680,9 +4701,12 @@ public class Kernel implements SpecialPointsListener {
 	 * congruent to original
 	 * 
 	 * @param poly
+	 *            polygon
 	 * @param offsetX
+	 *            translation x
 	 * @param offsetY
-	 * @return
+	 *            translation y
+	 * @return draggable copy of a polygon
 	 */
 	final public GeoElement[] rigidPolygon(GeoPolygon poly, double offsetX,
 			double offsetY) {
@@ -5035,9 +5059,12 @@ public class Kernel implements SpecialPointsListener {
 	 * over-ridden in Kernel3D
 	 * 
 	 * @param transformedLabel
+	 *            output label
 	 * @param geoPointND
+	 *            start point
 	 * @param geoPointND2
-	 * @return
+	 *            point on ray
+	 * @return ray
 	 */
 	public GeoRayND rayND(String transformedLabel, GeoPointND geoPointND,
 			GeoPointND geoPointND2) {
@@ -5049,12 +5076,14 @@ public class Kernel implements SpecialPointsListener {
 	 * over-ridden in Kernel3D
 	 * 
 	 * @param label
+	 *            output label
 	 * @param P
+	 *            start point
 	 * @param Q
-	 * @return
+	 *            end point
+	 * @return segment
 	 */
 	public GeoSegmentND segmentND(String label, GeoPointND P, GeoPointND Q) {
-
 		return getAlgoDispatcher().Segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}
 
@@ -5205,8 +5234,8 @@ public class Kernel implements SpecialPointsListener {
 	}
 
 	/**
-	 * 
 	 * @param geo
+	 *            2D or 3D geo
 	 * @return 3D copy of the geo (if exists)
 	 */
 	public final GeoElement copy3D(GeoElement geo) {
@@ -5214,10 +5243,10 @@ public class Kernel implements SpecialPointsListener {
 	}
 
 	/**
-	 * 
 	 * @param cons1
 	 *            target cons
 	 * @param geo
+	 *            geo to copy
 	 * @return 3D copy internal of the geo (if exists)
 	 */
 	public final GeoElement copyInternal3D(Construction cons1, GeoElement geo) {
@@ -5231,7 +5260,6 @@ public class Kernel implements SpecialPointsListener {
 	 *            point
 	 */
 	public void setStringMode(GeoPointND point) {
-
 		if (cons.isFileLoading()) {
 			// nothing to do : string mode will be set from the XML
 			return;
