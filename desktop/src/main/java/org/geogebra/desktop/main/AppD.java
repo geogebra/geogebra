@@ -4383,13 +4383,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * "checkCommands: " + s); } } } }
 	 */
 
-	@Override
-	public void setScrollToShow(boolean b) {
-		if (guiManager != null) {
-			guiManager.setScrollToShow(b);
-		}
-	}
-
 	DrawEquationD drawEquation;
 
 	@Override

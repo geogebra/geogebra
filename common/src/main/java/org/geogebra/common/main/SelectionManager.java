@@ -1204,6 +1204,9 @@ public class SelectionManager {
 		this.listeners.add(listener);
 	}
 
+	/**
+	 * Update highlighting of selected geos.
+	 */
 	public void updateSelectionHighlight() {
 		for (GeoElement geo : selectedGeos) {
 			kernel.notifyUpdateHightlight(geo);

@@ -138,6 +138,9 @@ public interface GuiManagerInterface {
 
 	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference);
 
+	/**
+	 * Update undo/redo and menu for selection.
+	 */
 	public void updateActions();
 
 	public void updateSpreadsheetColumnWidths();
@@ -260,7 +263,13 @@ public interface GuiManagerInterface {
 
 	public void resetSpreadsheet();
 
-	public void setScrollToShow(boolean b);
+	/**
+	 * Enable / disable autoscroll in spreadsheet.
+	 * 
+	 * @param scrollToShow
+	 *            scrolling flag for spreadsheet
+	 */
+	public void setScrollToShow(boolean scrollToShow);
 
 	public void showURLinBrowser(String strURL);
 
@@ -299,8 +308,14 @@ public interface GuiManagerInterface {
 
 	public void updateCheckBoxesForShowConstructinProtocolNavigation(int id);
 
+	/**
+	 * Switch navigation bar buttons to pause.
+	 */
 	public void setNavBarButtonPause();
 
+	/**
+	 * Switch navigation bar buttons to play.
+	 */
 	public void setNavBarButtonPlay();
 
 	/**

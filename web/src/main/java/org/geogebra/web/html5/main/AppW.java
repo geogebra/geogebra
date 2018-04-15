@@ -2784,17 +2784,6 @@ public abstract class AppW extends App implements SetLabels {
 		return this.articleElement.getDataParamScreenshotGenerator();
 	}
 
-	// ========================================================
-	// INITIALIZING
-	// ========================================================
-
-	@Override
-	public void setScrollToShow(boolean b) {
-		if (getGuiManager() != null) {
-			getGuiManager().setScrollToShow(b);
-		}
-	}
-
 	/**
 	 * Overwritten for applets, full app and for touch
 	 * 

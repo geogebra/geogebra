@@ -287,8 +287,9 @@ public interface Manager3DInterface {
 	 * @param labels
 	 *            output labels
 	 * @param polygon
-	 *            polygon
+	 *            base
 	 * @param height
+	 *            pyramid height
 	 */
 	public GeoElement[] pyramid(String[] labels, GeoPolygon polygon,
 			GeoNumberValue height);

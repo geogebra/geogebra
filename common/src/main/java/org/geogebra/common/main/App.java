@@ -1546,11 +1546,15 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param b
+	 * Enable / disable autoscroll in spreadsheet.
+	 * 
+	 * @param scrollToShow
+	 *            scrolling flag for spreadsheet
 	 */
-	public void setScrollToShow(boolean b) {
-		// TODO Auto-generated method stub
-
+	public final void setScrollToShow(boolean scrollToShow) {
+		if (getGuiManager() != null) {
+			getGuiManager().setScrollToShow(scrollToShow);
+		}
 	}
 
 	/**
@@ -1700,6 +1704,12 @@ public abstract class App implements UpdateSelection {
 				&& getGuiManager().hasEuclidianView2(idx);
 	}
 
+	/**
+	 * Show localized message for an error.
+	 * 
+	 * @param e
+	 *            error
+	 */
 	public final void showError(MyError e) {
 		if (isWhiteboardActive()) {
 			return;
@@ -1714,8 +1724,14 @@ public abstract class App implements UpdateSelection {
 		getErrorHandler().showCommandError(command, message);
 	}
 
+	/**
+	 * Unexpected exception: can't work out anything better, just show "Invalid
+	 * Input"
+	 * 
+	 * @param e
+	 *            exception
+	 */
 	public final void showGenericError(Exception e) {
-		// can't work out anything better, just show "Invalid Input"
 		e.printStackTrace();
 		showError(getLocalization().getErrorDefault("InvalidInput",
 				"Invalid Input"));
@@ -2110,10 +2126,17 @@ public abstract class App implements UpdateSelection {
 		showToolBar = toolbar;
 	}
 
+	/**
+	 * Update toolbar settings (no UI update)
+	 * 
+	 * @param toolbar
+	 *            show toolbar?
+	 * @param help
+	 *            show toolbar help?
+	 */
 	public void setShowToolBar(boolean toolbar, boolean help) {
 		showToolBar = toolbar;
 		showToolBarHelp = help;
-
 	}
 
 	public int getToolbarPosition() {
@@ -2849,6 +2872,12 @@ public abstract class App implements UpdateSelection {
 		this.useTransparentCursorWhenDragging = useTransparentCursorWhenDragging;
 	}
 
+	/**
+	 * Update UI after redefinition
+	 * 
+	 * @param geo
+	 *            redefined geo
+	 */
 	public void doAfterRedefine(GeoElementND geo) {
 		if (getGuiManager() != null) {
 			getGuiManager().doAfterRedefine(geo);
@@ -3327,8 +3356,12 @@ public abstract class App implements UpdateSelection {
 		getEventDispatcher().dispatchEvent(evt);
 	}
 
+	/**
+	 * @param mf
+	 *            menu factory
+	 * @return options menu
+	 */
 	public OptionsMenu getOptionsMenu(MenuFactory mf) {
-
 		if (optionsMenu == null) {
 			optionsMenu = new OptionsMenu(this, mf);
 		}
@@ -3339,6 +3372,9 @@ public abstract class App implements UpdateSelection {
 		return optionsMenu != null;
 	}
 
+	/**
+	 * @return XML input / output utility
+	 */
 	public MyXMLio getXMLio() {
 		if (myXMLio == null) {
 			myXMLio = createXMLio(kernel.getConstruction());
@@ -3360,6 +3396,14 @@ public abstract class App implements UpdateSelection {
 		kernel.notifyRepaint();
 	}
 
+	/**
+	 * Show or hide the input bar.
+	 * 
+	 * @param flag
+	 *            whwther to show
+	 * @param update
+	 *            whether to update UI
+	 */
 	public void setShowAlgebraInput(boolean flag, boolean update) {
 		showAlgebraInput = flag;
 
@@ -3405,6 +3449,9 @@ public abstract class App implements UpdateSelection {
 
 	public abstract Localization getLocalization();
 
+	/**
+	 * @return selction manager
+	 */
 	public SelectionManager getSelectionManager() {
 		if (selection == null) {
 			selection = new SelectionManager(getKernel(), this);
@@ -3439,16 +3486,22 @@ public abstract class App implements UpdateSelection {
 		return sbTooltip.toString();
 	}
 
+	/**
+	 * Make sure we start a new penstroke.
+	 */
 	public void resetPen() {
-
 		getEuclidianView1().getEuclidianController().resetPen();
 
 		if (hasEuclidianView2(1)) {
 			getEuclidianView2(1).getEuclidianController().resetPen();
 		}
-
 	}
 
+	/**
+	 * @param id
+	 *            view ID
+	 * @return whether navigation bar in given view needs update
+	 */
 	public boolean getShowCPNavNeedsUpdate(int id) {
 		if (showConstProtNavigationNeedsUpdate == null) {
 			return false;
@@ -3475,6 +3528,9 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
+	/**
+	 * @return whether navigation bar is shown in at least one view
+	 */
 	public boolean showConsProtNavigation() {
 		if (showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
 			return true;
@@ -3492,6 +3548,12 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
+	/**
+	 * Add space separated list of view IDs that are showing navigation bar
+	 * 
+	 * @param sb
+	 *            XML builder
+	 */
 	public void getConsProtNavigationIds(StringBuilder sb) {
 		if (showConsProtNavigation == null) {
 			if (showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
@@ -3514,6 +3576,11 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
+	/**
+	 * @param id
+	 *            view ID
+	 * @return whether navigation bar is shown in view with that ID
+	 */
 	public boolean showConsProtNavigation(int id) {
 		if (id == App.VIEW_CONSTRUCTION_PROTOCOL) {
 			return true;
@@ -3565,6 +3632,9 @@ public abstract class App implements UpdateSelection {
 
 	}
 
+	/**
+	 * Hide all navigation bars or set the flags if UI not loaded.
+	 */
 	public void setHideConstructionProtocolNavigation() {
 		if (!showConsProtNavigation() && (!getShowCPNavNeedsUpdate())) {
 			return;
@@ -3633,7 +3703,6 @@ public abstract class App implements UpdateSelection {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -3663,18 +3732,30 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
+	/**
+	 * Switch navigation bar buttons to pause.
+	 */
 	public void setNavBarButtonPause() {
 		if (getGuiManager() != null) {
 			getGuiManager().setNavBarButtonPause();
 		}
 	}
 
+	/**
+	 * Switch navigation bar buttons to play.
+	 */
 	public void setNavBarButtonPlay() {
 		if (getGuiManager() != null) {
 			getGuiManager().setNavBarButtonPlay();
 		}
 	}
 
+	/**
+	 * Toggle navigation bar on given view.
+	 * 
+	 * @param id
+	 *            view ID
+	 */
 	public void toggleShowConstructionProtocolNavigation(int id) {
 
 		setShowConstructionProtocolNavigation(!showConsProtNavigation(id), id);
@@ -3715,6 +3796,9 @@ public abstract class App implements UpdateSelection {
 	 */
 	public abstract double getMillisecondTime();
 
+	/**
+	 * Update undo/redo and menu for selection.
+	 */
 	public void updateActions() {
 		if (isUsingFullGui() && getGuiManager() != null) {
 			getGuiManager().updateActions();
@@ -3827,18 +3911,30 @@ public abstract class App implements UpdateSelection {
 		return null;
 	}
 
-	public void registerOpenFileListener(OpenFileListener o) {
+	/**
+	 * Add file open listener.
+	 * 
+	 * @param openListener
+	 *            listener
+	 */
+	public void registerOpenFileListener(OpenFileListener openListener) {
 		if (openFileListener == null) {
 			this.openFileListener = new ArrayList<>();
 		}
-		this.openFileListener.add(o);
+		this.openFileListener.add(openListener);
 	}
 
-	public void unregisterOpenFileListener(OpenFileListener o) {
+	/**
+	 * Remove file open listener.
+	 * 
+	 * @param openListener
+	 *            listener
+	 */
+	public void unregisterOpenFileListener(OpenFileListener openListener) {
 		if (openFileListener == null) {
 			return;
 		}
-		this.openFileListener.remove(o);
+		this.openFileListener.remove(openListener);
 	}
 
 	protected void onOpenFile() {
@@ -3850,6 +3946,9 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
+	/**
+	 * @return whether more than one of EV1 and EV2 is showing
+	 */
 	public boolean isShowingMultipleEVs() {
 		if (getGuiManager() == null
 				|| getGuiManager().getEuclidianViewCount() < 2) {
@@ -3935,6 +4034,14 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
+	/**
+	 * Check if featue is supported; depends on prerelease/ canary flags and
+	 * platform / app name.
+	 * 
+	 * @param f
+	 *            feature
+	 * @return whether it's supported
+	 */
 	public final boolean has(Feature f) {
 		boolean whiteboard = isWhiteboardActive();
 		boolean relaunch = true;
@@ -4567,6 +4674,12 @@ public abstract class App implements UpdateSelection {
 
 	}
 
+	/**
+	 * Run a callback on each view.
+	 * 
+	 * @param c
+	 *            view callback
+	 */
 	public void forEachView(ViewCallback c) {
 		if (getGuiManager().showView(App.VIEW_ALGEBRA)) {
 			c.run(App.VIEW_ALGEBRA, "AlgebraWindow");
@@ -4652,6 +4765,9 @@ public abstract class App implements UpdateSelection {
 
 		PNG, PNG_BRAILLE, SVG, PRINTING, ANIMATED_GIF, WEBP, WEBM;
 
+		/**
+		 * @return minus sign for axes description
+		 */
 		public char getAxisMinusSign() {
 			switch (this) {
 			case PDF_HTML5:
@@ -4685,6 +4801,13 @@ public abstract class App implements UpdateSelection {
 		return loadXML(new ByteArrayZipFile(zipFile));
 	}
 
+	/**
+	 * Opens a file.
+	 * 
+	 * @param zipFile
+	 *            ggb file
+	 * @return success
+	 */
 	final public boolean loadXML(ZipFile zipFile) {
 		try {
 			// make sure objects are displayed in the correct View
@@ -4724,6 +4847,13 @@ public abstract class App implements UpdateSelection {
 		// not needed in basic implementation
 	}
 
+	/**
+	 * Get url to eg play an MP3.
+	 * 
+	 * @param id
+	 *            matrial ID
+	 * @return download URL
+	 */
 	public String getURLforID(String id) {
 		String url;
 		if (has(Feature.TUBE_BETA)) {
@@ -4762,6 +4892,13 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
+	/**
+	 * Change rounding; setting may contain "s" for scientific digits or "r" to
+	 * prefer rationals.
+	 * 
+	 * @param rounding
+	 *            rounding description
+	 */
 	public void setRounding(String rounding) {
 		if (rounding.length() > 0) {
 			StringBuilder roundingNum = new StringBuilder("0");
@@ -4815,6 +4952,12 @@ public abstract class App implements UpdateSelection {
 		// used in android
 	}
 
+	/**
+	 * Adjust widgets on screen.
+	 * 
+	 * @param reset
+	 *            whether to reset the stored offsets
+	 */
 	public void adjustScreen(boolean reset) {
 		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
 			return;
@@ -4861,6 +5004,15 @@ public abstract class App implements UpdateSelection {
 		return version;
 	}
 
+	/**
+	 * Description of a labeling style.
+	 * 
+	 * @param app
+	 *            app
+	 * @param id
+	 *            labeling style (GeoElement.LABEL_*)
+	 * @return localized labeling style
+	 */
 	final public static String getLabelStyleName(App app, int id) {
 		switch (id) {
 		case (-1):
@@ -4878,8 +5030,10 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
+	/**
+	 * @return copy/paste utility
+	 */
 	public CopyPaste getCopyPaste() {
-
 		// return 2D version in AppD, AppW, AppWSimple
 		if (copyPaste == null) {
 			copyPaste = new CopyPaste3D();
@@ -4915,10 +5069,18 @@ public abstract class App implements UpdateSelection {
 		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
 	}
 
+	/**
+	 * @return whether Singular web service was initialized properly
+	 */
 	public boolean singularWSisAvailable() {
 		return singularWS != null && singularWS.isAvailable();
 	}
 
+	/**
+	 * @param s
+	 *            CAS command
+	 * @return command translated to Singular
+	 */
 	public String singularWSgetTranslatedCASCommand(String s) {
 		if (singularWS == null) {
 			return null;
@@ -4926,6 +5088,13 @@ public abstract class App implements UpdateSelection {
 		return singularWS.getTranslatedCASCommand(s);
 	}
 
+	/**
+	 * @param s
+	 *            singular command
+	 * @return singular answer
+	 * @throws Throwable
+	 *             when command invalid or problem with Singular occurs
+	 */
 	public String singularWSdirectCommand(String s) throws Throwable {
 		if (singularWS == null) {
 			return null;
@@ -4972,10 +5141,12 @@ public abstract class App implements UpdateSelection {
 		// overridden in AppD, AppW
 	}
 
-	////////////////////////////////////////////////////
-	// last commands selected from help (used in Android & iOS native)
-	////////////////////////////////////////////////////
-
+	/**
+	 * last commands selected from help (used in Android & iOS native)
+	 * 
+	 * @param commandName
+	 *            last command
+	 */
 	public void addToLastCommandsSelectedFromHelp(String commandName) {
 		if (mLastCommandsSelectedFromHelp == null) {
 			mLastCommandsSelectedFromHelp = new ArrayList<>();
@@ -4983,9 +5154,11 @@ public abstract class App implements UpdateSelection {
 		// remove if already in it
 		mLastCommandsSelectedFromHelp.remove(commandName);
 		mLastCommandsSelectedFromHelp.add(commandName);
-
 	}
 
+	/**
+	 * @return last commands selected from help (used in Android & iOS native)
+	 */
 	public ArrayList<String> getLastCommandsSelectedFromHelp() {
 		return mLastCommandsSelectedFromHelp;
 	}
@@ -5042,6 +5215,9 @@ public abstract class App implements UpdateSelection {
 		return nextVariableID++;
 	}
 
+	/**
+	 * @return tool categorization for this app
+	 */
 	public ToolCategorization createToolCategorization() {
 		ToolCategorization.AppType type;
 		boolean isPhoneApp;
@@ -5164,6 +5340,11 @@ public abstract class App implements UpdateSelection {
 		// overwritten in web
 	}
 
+	/**
+	 * Lazy load special points manager
+	 * 
+	 * @return special points manager
+	 */
 	public SpecialPointsManager getSpecialPointsManager() {
 		if (this.specialPointsManager == null) {
 			specialPointsManager = new SpecialPointsManager(kernel);
@@ -5181,6 +5362,7 @@ public abstract class App implements UpdateSelection {
 	 * enable/disable CAS and re-init command table
 	 * 
 	 * @param enable
+	 *            whether to enable CAS
 	 */
 	public void enableCAS(boolean enable) {
 		getSettings().getCasSettings().setEnabled(enable);
@@ -5295,6 +5477,9 @@ public abstract class App implements UpdateSelection {
 		return getMD5EncrypterStatic().encrypt(s);
 	}
 
+	/**
+	 * @return MD5 encrypter that can be used in GWT
+	 */
 	public static synchronized MD5EncrypterGWTImpl getMD5EncrypterStatic() {
 		if (md5Encrypter == null) {
 			md5Encrypter = new MD5EncrypterGWTImpl();

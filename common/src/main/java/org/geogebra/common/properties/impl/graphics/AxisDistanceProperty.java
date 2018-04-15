@@ -26,7 +26,8 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
      * @param label             label of the axis
      * @param axis              the axis for the numbering distance will be set
      */
-    public AxisDistanceProperty(Localization localization, Kernel kernel, EuclidianSettings euclidianSettings, String label, int axis) {
+	public AxisDistanceProperty(Localization localization, Kernel kernel,
+			EuclidianSettings euclidianSettings, String label, int axis) {
         super(localization, label);
         this.euclidianSettings = euclidianSettings;
         this.kernel = kernel;
