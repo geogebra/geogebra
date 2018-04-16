@@ -2574,6 +2574,13 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
+	 * @return the font size for the Algebra View.
+	 */
+	public int getAlgebraFontSize() {
+		return getFontSize() + 2;
+	}
+
+	/**
 	 * Changes font size and possibly resets fonts
 	 *
 	 * @param points
