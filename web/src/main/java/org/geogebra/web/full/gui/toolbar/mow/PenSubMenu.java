@@ -245,6 +245,7 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.setStep(PEN_STEP);
 		slider.setValue((double) lastPenThickness);
 		getPen().setPenSize(lastPenThickness);
+		getPen().setPenOpacity(255);
 		slider.getElement().setAttribute("disabled", "false");
 		preview.setVisible(true);
 		updatePreview();
@@ -263,6 +264,7 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.setStep(PEN_STEP);
 		slider.setValue((double) lastHighlighterThinckness);
 		getPen().setPenSize(lastHighlighterThinckness);
+		getPen().setPenOpacity(77);
 		slider.getElement().setAttribute("disabled", "false");
  		preview.setVisible(true);
 		updatePreview();

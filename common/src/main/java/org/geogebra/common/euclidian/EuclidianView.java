@@ -5759,7 +5759,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public static boolean isPenMode(int mode) {
 		return mode == EuclidianConstants.MODE_PEN
-				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE;
+				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE
+				|| mode == EuclidianConstants.MODE_HIGHLIGHTER;
 	}
 
 	/**

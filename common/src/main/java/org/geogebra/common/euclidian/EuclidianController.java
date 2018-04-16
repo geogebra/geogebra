@@ -486,6 +486,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_PEN:
 			// case EuclidianConstants.MODE_PENCIL:
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
+		case EuclidianConstants.MODE_HIGHLIGHTER:
 			return true;
 		}
 		return false;
@@ -11606,6 +11607,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			break;
 		case EuclidianConstants.MODE_PEN:
+		case EuclidianConstants.MODE_HIGHLIGHTER:
 			if (pen == null || pen.isFreehand()) {
 				pen = new EuclidianPen(app, view);
 			}
