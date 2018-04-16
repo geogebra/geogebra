@@ -157,7 +157,9 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		});
 
 		HorizontalPanel iconSelectShowPanel = new HorizontalPanel();
-		iconSelectShowPanel.add(iconPanel);
+		if (!app.isExam()) {
+			iconSelectShowPanel.add(iconPanel);
+		}
 		iconSelectShowPanel.add(showTool);
 
 		mainWidget.add(iconSelectShowPanel);

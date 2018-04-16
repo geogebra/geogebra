@@ -317,6 +317,9 @@ public abstract class AppW extends App implements SetLabels {
 	 * Scale to container if needed.
 	 */
 	public void checkScaleContainer() {
+		if (getArticleElement().getDataParamFitToScreen()) {
+			return;
+		}
 		if (!StringUtil
 				.empty(getArticleElement().getParamScaleContainerClass())) {
 			Element parent = getParent(

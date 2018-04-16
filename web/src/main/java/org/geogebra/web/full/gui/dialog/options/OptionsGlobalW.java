@@ -67,6 +67,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		ListBox languageList;
 		private StandardButton saveSettingsBtn;
 		private StandardButton restoreSettingsBtn;
+		private FlowPanel saveRestoreRow;
 
 		/**
 		 * constructor
@@ -262,8 +263,10 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					setRoundingInComboBox();
 				}
 			});
-			optionsPanel.add(LayoutUtilW.panelRowIndent(saveSettingsBtn,
-					restoreSettingsBtn));
+			saveRestoreRow = LayoutUtilW
+					.panelRowIndent(saveSettingsBtn, restoreSettingsBtn);
+			saveRestoreRow.setVisible(!app.isExam());
+			optionsPanel.add(saveRestoreRow);
 		}
 
 		private void addSaveSettingBtn() {
@@ -292,6 +295,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			setFontSizeInComboBox();
 			updateLanguageList();
 			setLanguageInComboBox();
+			saveRestoreRow.setVisible(!app.isExam());
 		}
 
 		private void updateFontSizeList() {

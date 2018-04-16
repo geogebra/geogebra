@@ -63,22 +63,22 @@ public class ToolsMenuW extends GMenuBar {
 					}
 				});
 
-		addItem(MainMenu
-				.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.tools_black()
-										.getSafeUri().asString(),
-						loc.getMenu("Tool.Manage"), true),
-				true, new MenuCommand(getApp()) {
-
-					@Override
-					public void doExecute() {
-						ToolManagerDialogW toolManageDialog = new ToolManagerDialogW(
-								getApp());
-						toolManageDialog.center();
-					}
-				});
-
 		if (!getApp().isExam()) {
+			addItem(MainMenu
+					.getMenuBarHtml(
+							MaterialDesignResources.INSTANCE.tools_black()
+									.getSafeUri().asString(),
+							loc.getMenu("Tool.Manage"), true),
+					true, new MenuCommand(getApp()) {
+
+						@Override
+						public void doExecute() {
+							ToolManagerDialogW toolManageDialog = new ToolManagerDialogW(
+									getApp());
+							toolManageDialog.center();
+						}
+					});
+
 			if (getApp().has(Feature.EXERCISES)) {
 				addItem(MainMenu.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.new_exercise_black()

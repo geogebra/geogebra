@@ -1530,6 +1530,10 @@ public class GuiManagerW extends GuiManager
 			bar.removeMenus();
 			bar.init(getApp());
 		}
+		if (propertiesView != null) {
+			((PropertiesViewW) this.getPropertiesView())
+					.getOptionPanel(OptionType.GLOBAL, 0).updateGUI();
+		}
 	}
 
 	public void updatePrintMenu() {
