@@ -148,9 +148,9 @@ public class DrawVideo extends Drawable {
 		if (Double.isNaN(originalRatio)) {
 			updateOriginalRatio();
 		}
+
 		int eventX = e.getX();
 		int eventY = e.getY();
-
 		int newWidth = 1;
 		int newHeight = 1;
 
