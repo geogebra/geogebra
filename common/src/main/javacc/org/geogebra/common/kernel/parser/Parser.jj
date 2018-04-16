@@ -891,15 +891,32 @@ ExpressionValue ANDterm():
 }
 
 /**
- * ORterm =   ANDterm <OR> ANDterm
+ * XORterm =   ANDterm <OR> ANDterm
+ */
+ExpressionValue XORterm():
+{
+    ExpressionValue ret, f;
+}
+{
+    ret = ANDterm()
+    ( <XOR>  f = ANDterm()
+        {
+          ret = new ExpressionNode(kernel, ret, Operation.XOR, f);
+        }
+    )*
+    { return ret; }
+}
+
+/**
+ * ORterm =   XORterm <OR> XORterm
  */
 ExpressionValue ORterm():
 {
     ExpressionValue ret, f;
 }
 {
-    ret = ANDterm()
-    ( <OR>  f = ANDterm()
+    ret = XORterm()
+    ( <OR>  f = XORterm()
         {
           ret = new ExpressionNode(kernel, ret, Operation.OR, f);
         }
@@ -932,12 +949,6 @@ ExpressionValue COMPAREterm():
        (<NOT_EQUAL>  right = listopnode()
        {
            result = new ExpressionNode(kernel, left, Operation.NOT_EQUAL, right);
-         }
-       )
-     |
-       (<XOR>  right = listopnode()
-       {
-           result = new ExpressionNode(kernel, left, Operation.XOR, right);
          }
        )
      |
