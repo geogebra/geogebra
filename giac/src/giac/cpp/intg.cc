@@ -2694,7 +2694,13 @@ namespace giac {
       gen xvar(gen_x);
       return integrate_rational(e,gen_x,remains_to_integrate,xvar,intmode,contextptr);
     }
-
+    bool do_risch=true;
+    for (size_t i=0;i<rvar.size();++i){
+      if (rvar[i].is_symb_of_sommet(at_pow)){
+	do_risch=false;
+	break;
+      }
+    }
     // square roots
     if ( (rvarsize==2) && (rvar.back().type==_SYMB) && (rvar.back()._SYMBptr->sommet==at_pow) ){
       if (integrate_sqrt(e,gen_x,rvar,res,remains_to_integrate,intmode,contextptr)){
@@ -2874,6 +2880,10 @@ namespace giac {
     }
     if (trig_fraction)
       return integrate_trig_fraction(e,gen_x,var,coeff_trig,trig_fraction,remains_to_integrate,intmode,contextptr);
+    if (!do_risch){
+      remains_to_integrate=e;
+      return 0;
+    }
     // finish by calling the Risch algorithm
     if ( (intmode & 2)==0)
       gprintf(step_risch,gettext("Integrate %gen, no heuristic found, running Risch algorithm"),makevecteur(e),contextptr);
