@@ -77,4 +77,10 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public Canvas getBackgroundCanvas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -126,4 +126,10 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 			((EuclidianViewW) getEuclidianView()).updateFirstAndLast(sv, false);
 		}
 	}
+
+	@Override
+	public Canvas getBackgroundCanvas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

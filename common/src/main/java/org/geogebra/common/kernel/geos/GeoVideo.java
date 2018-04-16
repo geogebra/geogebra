@@ -16,6 +16,8 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class GeoVideo extends GeoMedia {
+	private static final String WMODE_TRANSPARENT = "&wmode=transparent";
+
 	/**
 	 * Indicates video state
 	 */
@@ -204,6 +206,7 @@ public class GeoVideo extends GeoMedia {
 			sb.append("&");
 		}
 		sb.append(JAVASCRIPT_API);
+		sb.append(WMODE_TRANSPARENT);
 		return sb.toString();
 	}
 

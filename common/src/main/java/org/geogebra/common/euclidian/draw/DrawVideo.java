@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /**
  * Drawable class for GeoVideo
@@ -69,7 +70,7 @@ public class DrawVideo extends Drawable {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (video.isPlaying()) {
+		if (!app.has(Feature.MOW_DOUBLE_CANVAS) && video.isPlaying()) {
 			return;
 		}
 		MyImage preview = video.getPreview();
@@ -82,7 +83,11 @@ public class DrawVideo extends Drawable {
 			sy /= preview.getHeight();
 			g2.translate(left, top);
 			g2.scale(sx, sy);
-			g2.drawImage(preview, 0, 0);
+			if (video.isPlaying()) {
+				g2.clearRect(0, 0, (int) sx, (int) sy);
+			} else {
+				g2.drawImage(preview, 0, 0);
+			}
 			g2.restoreTransform();
 		}
 	}

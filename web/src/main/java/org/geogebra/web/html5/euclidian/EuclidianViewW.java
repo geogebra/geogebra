@@ -91,6 +91,7 @@ public class EuclidianViewW extends EuclidianView implements
 	final public static int DELAY_BETWEEN_MOVE_EVENTS = 15;
 
 	private GGraphics2DWI g2p = null;
+	private GGraphics2DWI g2bg = null;
 	private GGraphics2D g2dtemp;
 	private GGraphics2DW g4copy = null;
 	private GColor backgroundColor = GColor.WHITE;
@@ -251,13 +252,20 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public final void paintBackground(GGraphics2D g2) {
+		GGraphics2DW g2w = null;
+		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
+			g2w = (GGraphics2DW) g2bg;
+			g2.clearRect(0, 0, getPhysicalWidth(), getPhysicalHeight());
+		} else {
+			g2w = (GGraphics2DW) g2;
+		}
 		if (isGridOrAxesShown() || hasBackgroundImages() || isTraceDrawn()
 				|| appW.showResetIcon()
 		        || kernel.needToShowAnimationButton()) {
-			((GGraphics2DW) g2).drawImage(bgImage,
+			g2w.drawImage(bgImage,
 					0, 0);
 		} else {
-			((GGraphics2DW) g2).fillWith(getBackgroundCommon());
+			g2w.fillWith(getBackgroundCommon());
 		}
 
 	}
@@ -568,6 +576,10 @@ public class EuclidianViewW extends EuclidianView implements
 	public void setCoordinateSpaceSize(int width, int height) {
 
 		g2p.setCoordinateSpaceSize(width, height);
+		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
+			g2bg.setCoordinateSpaceSize(width, height);
+
+		}
 		try {
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getCanvas().getElement().getParentElement().getStyle()
@@ -693,12 +705,29 @@ public class EuclidianViewW extends EuclidianView implements
 		return new MyEuclidianViewPanel(this);
 	}
 
+	private void initBackgroundCanvas(EuclidianPanelWAbstract euclidianViewPanel) {
+		final Canvas bg = euclidianViewPanel.getBackgroundCanvas();
+		if (bg != null) {
+			this.g2bg = new GGraphics2DW(bg);
+			g2bg.setDevicePixelRatio(appW.getPixelRatio());
+
+			g2bg.setColor(GColor.RED);
+			g2bg.drawRect(0, 0, 100, 100);
+		} else {
+			this.g2bg = new GGraphics2DE();
+		}
+	}
+
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
 			EuclidianController euclidiancontroller, int newEvNo,
 			EuclidianSettings settings) {
 
 		final Canvas canvas = euclidianViewPanel.getCanvas();
 		this.evNo = newEvNo;
+		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
+			initBackgroundCanvas(euclidianViewPanel);
+		}
+
 		if (canvas != null) {
 			this.g2p = new GGraphics2DW(canvas);
 			g2p.setDevicePixelRatio(appW.getPixelRatio());

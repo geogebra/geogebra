@@ -250,6 +250,9 @@ public enum Feature {
 	/** MOW-278 */
 	MOW_HIGHLIGHTER_TOOL,
 
+	/** MOW-459 */
+	MOW_DOUBLE_CANVAS,
+
 	COMMAND_HOLES, WEB_CLASSIC_FLOATING_MENU,
 
 	/** AND-875 */

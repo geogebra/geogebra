@@ -136,4 +136,10 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 	public void resizeView(int width, int height) {
 		app.ggwGraphicsView2DimChanged(width, height);
 	}
+
+	@Override
+	public Canvas getBackgroundCanvas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

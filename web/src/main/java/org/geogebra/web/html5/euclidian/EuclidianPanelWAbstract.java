@@ -15,6 +15,8 @@ public interface EuclidianPanelWAbstract {
 
 	public Canvas getCanvas();
 
+	public Canvas getBackgroundCanvas();
+
 	public EuclidianView getEuclidianView();
 
 	public void setPixelSize(int x, int y);

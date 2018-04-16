@@ -9,7 +9,6 @@ import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -20,6 +19,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	EuclidianPanel euclidianpanel;
 
 	Canvas eview1 = null; // static foreground
+	Canvas eviewBg = null; // static background
+	private boolean doubleCanvas = false;
 
 	/**
 	 * This constructor is used by the Application
@@ -27,7 +28,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	 * 
 	 * @param stylebar (is there stylebar?)
 	 */
-	public EuclidianDockPanelW(boolean stylebar) {
+	public EuclidianDockPanelW(boolean stylebar, boolean doubleCanvas) {
 		super(
 				App.VIEW_EUCLIDIAN,	// view id 
 				"DrawingPad", 				// view title
@@ -41,6 +42,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets
 		
+		this.doubleCanvas = doubleCanvas;
+
 		if (stylebar) {
 			component = loadComponent();
 		} else {
@@ -58,7 +61,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	 *            whether to use stylebar
 	 */
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
-		this(stylebar);
+		this(stylebar, application.has(Feature.MOW_DOUBLE_CANVAS));
 		attachApp(application);
 	}
 
@@ -82,15 +85,29 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();
-			if (eview1 != null) {
-				eview1.getElement().getStyle()
-						.setPosition(Style.Position.RELATIVE);
-				eview1.getElement().getStyle().setZIndex(0);
-				euclidianpanel.getAbsolutePanel().add(eview1);
+			if (doubleCanvas) {
+				eviewBg = Canvas.createIfSupported();
+				eviewBg.addStyleName("mowBackground");
+				eview1.addStyleName("mowForeground");
+				addCanvas(eviewBg, 0);
+				addCanvas(eview1, 1);
+				euclidianpanel.addStyleName("mowDoubleCanvas");
+			} else {
+				addCanvas(eview1, 0);
 			}
+
 		}
 
 		return euclidianpanel;
+	}
+
+	private void addCanvas(Canvas c, int zindex) {
+		if (c != null) {
+		// c.getElement().getStyle().setPosition(Style.Position.RELATIVE);
+		// c.getElement().getStyle().setZIndex(0);
+			euclidianpanel.getAbsolutePanel().add(c);
+		}
+
 	}
 
 	@Override
@@ -104,6 +121,11 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	@Override
 	public Canvas getCanvas() {
 		return eview1;
+	}
+
+	@Override
+	public Canvas getBackgroundCanvas() {
+		return eviewBg;
 	}
 
 	@Override

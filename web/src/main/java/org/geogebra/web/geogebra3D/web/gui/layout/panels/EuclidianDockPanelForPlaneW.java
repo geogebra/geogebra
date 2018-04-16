@@ -169,4 +169,10 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	protected ResourcePrototype getViewIcon() {
 		return null;
 	}
+
+	@Override
+	public Canvas getBackgroundCanvas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

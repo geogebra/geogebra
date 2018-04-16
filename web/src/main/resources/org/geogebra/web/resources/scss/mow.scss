@@ -20,6 +20,12 @@
 	$shadow-elevation-8: 0px 5px 5px -3px $black-2, 0px 8px 10px 1px $black-14, 0px 3px 14px 2px $black-12;
 	$shadow-elevation-16: 0px 8px 10px -5px $black-2, 0px 16px 24px 2px $black-14, 0px 6px 30px 5px $black-12;
 	
+	// comes from youtube player, you must not change this.
+	$z_mow_video: 12;
+	$z_mow_foreground: 50;
+	$z_mow_toolbar: 51;
+	$z_mow_toolbar_slider: 54;
+	
 /*****************
 *   TOOLBAR
 ******************/	
@@ -35,7 +41,7 @@
    		border-bottom-left-radius: 0px;
 		
 		box-shadow: 0px -4px 6px 0px $black-28;
-		
+		z-index: $z_mow_toolbar;
 	    
 	    img {
 	   		width: 32px;
@@ -209,6 +215,7 @@
 		top: $toolbarHeight;
 		width: 300%;
 		height: 123px;
+		z-index: $z_mow_toolbar;
 	}
 	.mowSubMenu {
 		width: calc(100% /3);
@@ -335,7 +342,7 @@
 	        box-shadow: none !important;
 	        transition: all .2s ease;
 	        user-select: none;
-	        z-index: 2;
+	        z-index: $z_mow_toolbar_slider;
 	        
 	        span{
 	        	border: none !important;
@@ -856,11 +863,35 @@
 	.mowVideo {
 		position: absolute;
 		border-style: none;
+		z-index: $z_mow_video;
 	}
 
 	.mowVideo.hidden {
 		z-index: -1;	
 	}
+
+	.mowDoubleCanvas {
+		.mowVideo {
+			z-index: $z_mow_video;
+		}
+			
+		.mowBackground {
+			position: absolute; 
+			top: 0px;
+			bottom: 0px;
+			z-index: 0; 
+		}	
+		
+		.cursor_pen,
+		.cursor_hit,
+		.cursor_drag,
+		.cursor_transparent {
+			position: absolute; 
+			top: 0px;
+			bottom: 0px;
+			 z-index: $z_mow_foreground;
+		 }		
+		}
 }
 
 
