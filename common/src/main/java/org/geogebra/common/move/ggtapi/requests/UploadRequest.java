@@ -22,6 +22,7 @@ public class UploadRequest implements Request {
 	private int uniqueID;
 	private String base64;
 	private String visibility;
+	private int parent;
 
 	/**
 	 * Used to upload the actual opened application to GeoGebraTube
@@ -39,12 +40,13 @@ public class UploadRequest implements Request {
 	 *            material type
 	 */
 	UploadRequest(int tubeID, String visibility, String consTitle,
-			String base64, MaterialType type) {
+			String base64, MaterialType type, int parent) {
 		this.consTitle = consTitle;
 		this.type = type == MaterialType.ggb ? "applet" : type.name();
 		this.uniqueID = tubeID;
 		this.base64 = base64;
 		this.visibility = visibility;
+		this.parent = parent;
 		if (visibility == null || "".equals(visibility)) {
 			this.visibility = "P";
 		}
@@ -95,11 +97,14 @@ public class UploadRequest implements Request {
 	 *            String
 	 * @param type
 	 *            material type
+	 * @param parent
+	 *            parent ID
 	 * @return the upload XML as JSON String
 	 */
 	public static UploadRequest getRequestElement(int tubeID, String visibility,
-			String filename, String base64, MaterialType type) {
-		return new UploadRequest(tubeID, visibility, filename, base64, type);
+			String filename, String base64, MaterialType type, int parent) {
+		return new UploadRequest(tubeID, visibility, filename, base64, type,
+				parent);
 	}
 
 	/**
@@ -176,6 +181,9 @@ public class UploadRequest implements Request {
 			settings.put("-toolbar", Boolean.FALSE);
 			settings.put("-menubar", Boolean.FALSE);
 			settings.put("-inputbar", Boolean.FALSE);
+			if (parent > 0) {
+				task.put("parent", parent);
+			}
 			task.put("settings", settings);
 
 			// file

@@ -419,7 +419,6 @@ public abstract class GeoGebraTubeAPI {
 				MaterialRequest.forWorksheet(id, client).toJSONString(client),
 				cb);
 	}
-
 	/**
 	 * Uploads the actual opened application to ggt
 	 * 
@@ -440,9 +439,35 @@ public abstract class GeoGebraTubeAPI {
 	public void uploadMaterial(int tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,
 			MaterialType type) {
+		uploadMaterial(tubeID, visibility, filename, base64, cb, type, -1);
+	}
+
+	/**
+	 * Uploads the actual opened application to ggt
+	 * 
+	 * @param tubeID
+	 *            tube id
+	 * @param visibility
+	 *            visibility string
+	 * 
+	 * @param filename
+	 *            String
+	 * @param base64
+	 *            base64 string
+	 * @param cb
+	 *            MaterialCallback
+	 * @param type
+	 *            material type
+	 * @param parent
+	 *            parent ID
+	 */
+	public void uploadMaterial(int tubeID, String visibility,
+			final String filename, String base64, final MaterialCallbackI cb,
+			MaterialType type, int parent) {
 
 		performRequest(UploadRequest
-				.getRequestElement(tubeID, visibility, filename, base64, type)
+				.getRequestElement(tubeID, visibility, filename, base64, type,
+						parent)
 				.toJSONString(client), cb);
 
 	}

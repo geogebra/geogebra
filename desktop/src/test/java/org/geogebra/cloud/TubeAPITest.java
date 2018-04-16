@@ -125,6 +125,7 @@ public class TubeAPITest extends Assert {
 
 	private void uploadMaterial(GeoGebraTubeAPID api,
 			final ArrayList<String> titles, int id, final IdCallback callback) {
+
 		api.uploadMaterial(id, "O", "testfile" + new Date() + Math.random(),
 				circleBase64, new MaterialCallbackI() {
 
@@ -151,6 +152,51 @@ public class TubeAPITest extends Assert {
 
 					}
 				}, MaterialType.ggb);
+
+	}
+
+	@Test
+	public void copyMaterial() {
+		final GeoGebraTubeAPID api = getAuthAPI();
+		api.getItem("144", new MaterialCallbackI() {
+
+			public void onLoaded(List<Material> result,
+					ArrayList<Chapter> meta) {
+				api.uploadMaterial(0, "O",
+						result.get(0).getTitle() + Math.random(),
+						result.get(0).getBase64(),
+						new MaterialCallbackI() {
+
+							@Override
+							public void onLoaded(List<Material> result,
+									ArrayList<Chapter> meta) {
+								Log.debug("Wheee!");
+							}
+
+							@Override
+							public void onError(Throwable exception) {
+								exception.printStackTrace();
+								Assert.assertNull(exception.getMessage());
+
+							}
+						}, MaterialType.ggb, result.get(0).getId());
+
+			}
+
+			public void onError(Throwable exception) {
+				System.err.println(exception);
+
+			}
+		});
+		for (int i = 0; i < 20; i++) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 
 	}
 	/**
