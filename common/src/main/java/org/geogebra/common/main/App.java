@@ -4656,11 +4656,6 @@ public abstract class App implements UpdateSelection {
 		getExam().setStart((new Date()).getTime());
 	}
 
-	public void startNewExam() {
-		setNewExam();
-		startExam();
-	}
-
 	/**
 	 * @param lang
 	 *            locale description
