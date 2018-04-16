@@ -29,6 +29,7 @@ public class SuggestionRootExtremum extends Suggestion {
 				|| (((GeoFunction) geo).getFunction() == null)) {
 			return;
 		}
+
 		PolyFunction poly = ((GeoFunction) geo).getFunction()
 				.expandToPolyFunction(
 				((GeoFunction) geo).getFunctionExpression(), false, true);
@@ -40,13 +41,12 @@ public class SuggestionRootExtremum extends Suggestion {
 		if (poly == null || poly.getDegree() > 1) {
 			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
 					"Extremum[" + geo.getLabelSimple() + "]", true);
-		} else {
-			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
+		}
+		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
 					"Intersect[" + geo.getLabelSimple() + ","
 							+ geo.getKernel().getLocalization().getMenu("yAxis")
 							+ "]",
 					true);
-		}
 	}
 
 	/**
