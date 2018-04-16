@@ -241,7 +241,7 @@ public class CurvePlotter {
 				if (isUndefined(eval)) {
 					// check if c(t-eps) and c(t+eps) are both defined
 					boolean singularity = isContinuousAround(curve, t,
-							divisors[length - 1], view);
+							divisors[length - 1], view, eval);
 
 					// split interval: f(t+eps) or f(t-eps) not defined
 					if (!singularity) {
@@ -441,7 +441,7 @@ public class CurvePlotter {
 	 * Returns whether curve is defined for c(t-eps) and c(t + eps).
 	 */
 	private static boolean isContinuousAround(CurveEvaluable curve, double t,
-			double eps, EuclidianView view) {
+			double eps, EuclidianView view, double[] evalT) {
 		// check if c(t) is undefined
 		double[] eval = curve.newDoubleArray();
 
@@ -452,8 +452,16 @@ public class CurvePlotter {
 			// c(t - eps)
 			curve.evaluateCurve(t - eps, eval);
 			if (!isUndefined(eval)) {
-				// SINGULARITY: c(t) undef, c(t-eps) and c(t+eps) defined
-				return Math.abs(oldy - eval[1]) * view.getYscale() < MAX_JUMP;
+				// SINGULARITY for functions: c(t) undef, c(t-eps) and c(t+eps)
+				// defined and close
+				if (curve.isFunctionInX()
+						&& Math.abs(oldy - eval[1]) * view.getYscale() < MAX_JUMP) {
+					evalT[1] = (oldy + eval[1]) * 0.5;
+					return true;
+				}
+				// SINGULARITY for curves: c(t) undef, c(t-eps) and c(t+eps)
+				// defined, ignore distance
+				return !curve.isFunctionInX();
 			}
 		}
 
