@@ -40,11 +40,13 @@ public class PenSubMenu extends SubMenuPanel {
 	private static final int MAX_PEN_SIZE = 12;
 	private static final int MAX_ERASER_SIZE = 100;
 	private static final int MIN_HIGHLIGHTER_SIZE = 15;
+	private static final int DEFAULT_HIGHLIGHTER_OPACITY = 77;
 	private static final int DEFAULT_HIGHLIGHTER_SIZE = 20;
 	private static final int MAX_HIGHLIGHTER_SIZE = 30;
 	private static final int PEN_STEP = 1;
 	private static final int ERASER_STEP = 20;
-	private static final int BLACK = 0;
+	private static final int BLACK_COLOR_IND = 0;
+	private static final int GREEN_COLOR_IND = 1;
 	private StandardButton pen;
 	private StandardButton eraser;
 	private StandardButton highlighter;
@@ -65,7 +67,8 @@ public class PenSubMenu extends SubMenuPanel {
 	// yellow
 	private final static String[] HEX_COLORS = { "000000", "2E7D32", "00A8A8",
 			"1565C0", "6557D2", "CC0099", "D32F2F", "DB6114", "FFCC00" };
-	private GColor lastSelectedColor = null;
+	private GColor lastSelectedPenColor = penColor[BLACK_COLOR_IND];
+	private GColor lastSelectedHighlighterColor = penColor[GREEN_COLOR_IND];
 	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
 	private int lastHighlighterThinckness = DEFAULT_HIGHLIGHTER_SIZE;
 
@@ -85,8 +88,9 @@ public class PenSubMenu extends SubMenuPanel {
 		pen = createButton(EuclidianConstants.MODE_PEN);
 		// pen gets a separate icon here so it can show the selected color
 		ToolbarResources pr = ToolbarSvgResources.INSTANCE;
-		NoDragImage im = new NoDragImage(ImgResourceHelper.safeURI(pr.mode_pen_white_32()), 32);
-		im.addStyleName("opacityFixForOldIcons");
+		NoDragImage im = new NoDragImage(
+				ImgResourceHelper.safeURI(pr.mode_pen_black_32()), 32);
+		// im.addStyleName("opacityFixForOldIcons");
 		pen.getUpFace().setImage(im);
 		pen.addStyleName("plusMarginLeft");
 		eraser = createButton(EuclidianConstants.MODE_ERASER);
@@ -94,6 +98,7 @@ public class PenSubMenu extends SubMenuPanel {
 		highlighter.addStyleName("highlighterBtn");
 		if (app.has(Feature.MOW_HIGHLIGHTER_TOOL)) {
 			highlighter.addStyleName("plusMarginLeft");
+			eraser.addStyleName("eraserBtn");
 		} else {
 			eraser.addStyleName("plusMarginLeft");
 		}
@@ -235,11 +240,7 @@ public class PenSubMenu extends SubMenuPanel {
 	private void doSelectPen() {
 		pen.getElement().setAttribute("selected", "true");
 		setColorsEnabled(true);
-		if (lastSelectedColor == null) {
-			selectColor(BLACK);
-		} else {
-			selectColor(lastSelectedColor);
-		}
+		selectColor(lastSelectedPenColor);
 		slider.setMinimum(1, false);
 		slider.setMaximum(MAX_PEN_SIZE, false);
 		slider.setStep(PEN_STEP);
@@ -254,17 +255,13 @@ public class PenSubMenu extends SubMenuPanel {
 	private void doSelectHighlighter() {
 		highlighter.getElement().setAttribute("selected", "true");
 		setColorsEnabled(true);
-		if (lastSelectedColor == null) {
-			selectColor(BLACK);
-		} else {
-			selectColor(lastSelectedColor);
-		}
+		selectColor(lastSelectedHighlighterColor);
 		slider.setMinimum(MIN_HIGHLIGHTER_SIZE, false);
 		slider.setMaximum(MAX_HIGHLIGHTER_SIZE, false);
 		slider.setStep(PEN_STEP);
 		slider.setValue((double) lastHighlighterThinckness);
 		getPen().setPenSize(lastHighlighterThinckness);
-		getPen().setPenOpacity(77);
+		getPen().setPenOpacity(DEFAULT_HIGHLIGHTER_OPACITY);
 		slider.getElement().setAttribute("disabled", "false");
  		preview.setVisible(true);
 		updatePreview();
@@ -312,11 +309,12 @@ public class PenSubMenu extends SubMenuPanel {
 	 * @param colorStr
 	 *            color string
 	 */
-	public void setPenIconColor(String colorStr) {
-		// set background of pen icon to selected color
-		pen.getElement().getFirstChildElement().getNextSiblingElement()
-				.setAttribute("style", "background-color: " + colorStr);
-	}
+	/*
+	 * public void setPenIconColor(String colorStr) { // set background of pen
+	 * icon to selected color
+	 * pen.getElement().getFirstChildElement().getNextSiblingElement()
+	 * .setAttribute("style", "background-color: " + colorStr); }
+	 */
 
 	/**
 	 * @param idx
@@ -327,9 +325,14 @@ public class PenSubMenu extends SubMenuPanel {
 			if (idx == i) {
 				getPenGeo().setObjColor(penColor[i]);
 				if (colorsEnabled) {
-					lastSelectedColor = penColor[i];
 					btnColor[i].addStyleName("mowColorButton-selected");
-					setPenIconColor(penColor[i].toString());
+					// setPenIconColor(penColor[i].toString());
+					if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
+						getPen().setPenOpacity(DEFAULT_HIGHLIGHTER_OPACITY);
+						lastSelectedHighlighterColor = penColor[i];
+					} else {
+						lastSelectedPenColor = penColor[i];
+					}
 				}
 			} else {
 				btnColor[i].removeStyleName("mowColorButton-selected");
@@ -341,9 +344,9 @@ public class PenSubMenu extends SubMenuPanel {
 	// remember and set a color that was picked from color chooser
 	private void selectColor(GColor color) {
 		getPenGeo().setObjColor(color);
-		if (colorsEnabled) {
-			setPenIconColor(color.toString());
-		}
+		/*
+		 * if (colorsEnabled) { setPenIconColor(color.toString()); }
+		 */
 		updatePreview();
 	}
 
@@ -351,8 +354,14 @@ public class PenSubMenu extends SubMenuPanel {
 		for (int i = 0; i < btnColor.length; i++) {
 			if (enable) {
 				btnColor[i].removeStyleName("disabled");
-				if (penColor[i] == lastSelectedColor) {
-					btnColor[i].addStyleName("mowColorButton-selected");
+				if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
+					if (penColor[i] == lastSelectedHighlighterColor) {
+						btnColor[i].addStyleName("mowColorButton-selected");
+					}
+				} else if (app.getMode() == EuclidianConstants.MODE_PEN) {
+					if (penColor[i] == lastSelectedPenColor) {
+						btnColor[i].addStyleName("mowColorButton-selected");
+					}
 				}
 			} else {
 				btnColor[i].addStyleName("disabled");
@@ -393,18 +402,33 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	/**
-	 * @return last selected color
+	 * @return last selected pen color
 	 */
-	public GColor getLastSelectedColor() {
-		return lastSelectedColor;
+	public GColor getLastSelectedPenColor() {
+		return lastSelectedPenColor;
 	}
 
 	/**
-	 * @param lastSelectedColor
-	 *            update last selected color
+	 * @param lastSelectedPenColor
+	 *            update last selected pen color
 	 */
-	public void setLastSelectedColor(GColor lastSelectedColor) {
-		this.lastSelectedColor = lastSelectedColor;
+	public void setLastSelectedPenColor(GColor lastSelectedPenColor) {
+		this.lastSelectedPenColor = lastSelectedPenColor;
+	}
+
+	/**
+	 * @return last selected highlighter color
+	 */
+	public GColor getLastSelectedHighlighterColor() {
+		return lastSelectedHighlighterColor;
+	}
+
+	/**
+	 * @param lastSelectedHighlighterColor
+	 *            update last selected highlighter color
+	 */
+	public void setLastSelectedColor(GColor lastSelectedHighlighterColor) {
+		this.lastSelectedHighlighterColor = lastSelectedHighlighterColor;
 	}
 
 	/**
@@ -437,7 +461,7 @@ public class PenSubMenu extends SubMenuPanel {
 				@Override
 				public void onColorChange(GColor color) {
 					penGeo.setObjColor(color);
-					setPenIconColor(color.toString());
+					// setPenIconColor(color.toString());
 					setLastSelectedColor(color);
 					selectColor(-1);
 					getPreview().update();

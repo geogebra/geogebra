@@ -283,7 +283,7 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_audio_32();
 
-	ResourcePrototype mode_pen_white_32();
+	ResourcePrototype mode_pen_black_32();
 
 	ResourcePrototype mode_camera_32();
 

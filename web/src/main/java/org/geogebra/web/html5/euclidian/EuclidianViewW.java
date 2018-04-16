@@ -1218,6 +1218,10 @@ public class EuclidianViewW extends EuclidianView implements
 		setCursorClass("cursor_pen");
 	}
 
+	private void setHighlighterCursor() {
+		setCursorClass("cursor_highlighter");
+	}
+
 	@Override
 	public boolean hasFocus() {
 		// changed to return true, otherwise Arrow keys don't work to pan the
@@ -1398,7 +1402,6 @@ public class EuclidianViewW extends EuclidianView implements
 			setTransparentCursor();
 			return;
 		case ERASER:
-
 			if (appW.isWhiteboardActive() && getEuclidianController()
 					.getDefaultEventType() != PointerEventType.MOUSE) {
 				setTransparentCursor();
@@ -1413,7 +1416,14 @@ public class EuclidianViewW extends EuclidianView implements
 			} else {
 				setPenCursor();
 			}
-
+			return;
+		case HIGHLIGHTER:
+			if (appW.isWhiteboardActive() && getEuclidianController()
+					.getDefaultEventType() != PointerEventType.MOUSE) {
+				setTransparentCursor();
+			} else {
+				setHighlighterCursor();
+			}
 			return;
 		}
 	}

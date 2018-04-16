@@ -31,5 +31,7 @@ public enum EuclidianCursor {
 	/** Eraser */
 	ERASER,
 	/** Pen */
-	PEN
+	PEN,
+	/** Highlighter */
+	HIGHLIGHTER
 }

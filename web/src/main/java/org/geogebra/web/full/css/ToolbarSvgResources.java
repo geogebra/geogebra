@@ -570,8 +570,8 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_audio_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen_white.svg")
-	SVGResource mode_pen_white_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen_black.svg")
+	SVGResource mode_pen_black_32();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_highlighter.svg")

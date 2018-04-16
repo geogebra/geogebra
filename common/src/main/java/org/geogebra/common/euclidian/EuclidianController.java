@@ -6164,6 +6164,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.setCursor(EuclidianCursor.PEN);
 			break;
 
+		case EuclidianConstants.MODE_HIGHLIGHTER:
+			view.setCursor(EuclidianCursor.HIGHLIGHTER);
+			break;
+
 		// Michael Borcherds 2008-03-13
 		case EuclidianConstants.MODE_COMPASSES:
 			ret = compasses(hits, selectionPreview);
