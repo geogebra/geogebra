@@ -77,7 +77,7 @@ public class PropertiesFactory {
                 new GridVisibilityProperty(localization, euclidianSettings),
                 new GridStyleProperty(localization, euclidianSettings),
                 new DistancePropertyCollection(localization, app.getKernel(), euclidianSettings),
-                new LabelsPropertyCollection(localization, euclidianSettings)
+                new LabelsPropertyCollection(app, localization, euclidianSettings)
         };
     }
 }
