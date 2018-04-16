@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
@@ -177,14 +178,14 @@ public class PlotterSurface {
 		this.vMaxFade = max;
 	}
 
-	public void drawTriangle(Coords p1, Coords p2, Coords p3) {
+	public void drawTriangle(Drawable3D d, Coords p1, Coords p2, Coords p3) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		float uT = getTextureCoord(1, uNb, uMinFadeNb, uMaxFadeNb);
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);
 		manager.texture(uT, vT);
 		
-		if (shouldPackConics()) {
+		if (shouldPackConics(d)) {
 			tmpCoords3.setCrossProduct(tmpCoords.setSub3(p2, p1),
 					tmpCoords2.setSub3(p3, p1));
 			manager.normalToScale(tmpCoords3.normalize());
@@ -192,11 +193,14 @@ public class PlotterSurface {
 		manager.vertexToScale(p1);
 		manager.vertexToScale(p3);
 		manager.vertexToScale(p2);
-		endGeometryForConics(1, TypeElement.TRIANGLE_STRIP);
+		endGeometryForConics(d, 1, TypeElement.TRIANGLE_STRIP);
 	}
 
 	/**
 	 * draw a quadrilateral
+	 * 
+	 * @param d
+	 *            drawable
 	 * 
 	 * @param p1
 	 *            point 1
@@ -207,7 +211,7 @@ public class PlotterSurface {
 	 * @param p4
 	 *            point 4
 	 */
-	public void drawQuad(Coords p1, Coords p2, Coords p3, Coords p4) {
+	public void drawQuad(Drawable3D d, Coords p1, Coords p2, Coords p3, Coords p4) {
 
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
@@ -215,7 +219,7 @@ public class PlotterSurface {
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);
 		manager.texture(uT, vT);
 
-		if (shouldPackConics()) {
+		if (shouldPackConics(d)) {
 			tmpCoords3.setCrossProduct(tmpCoords.setSub3(p2, p1),
 					tmpCoords2.setSub3(p3, p1));
 			manager.normalToScale(tmpCoords3.normalize());
@@ -224,7 +228,7 @@ public class PlotterSurface {
 		manager.vertexToScale(p2);
 		manager.vertexToScale(p4);
 		manager.vertexToScale(p3);
-		endGeometryForConics(2, TypeElement.TRIANGLE_STRIP);
+		endGeometryForConics(d, 2, TypeElement.TRIANGLE_STRIP);
 	}
 
 	public void drawQuadNoTexture(Coords p1, Coords p2, Coords p3, Coords p4) {
@@ -1026,10 +1030,11 @@ public class PlotterSurface {
 	 * @param start
 	 * @param extent
 	 */
-	public void ellipsePart(Coords center, Coords v1, Coords v2, double a,
+	public void ellipsePart(Drawable3D d, Coords center, Coords v1, Coords v2,
+			double a,
 			double b, double start, double extent) {
 
-		ellipsePart(center, v1, v2, a, b, start, extent, true);
+		ellipsePart(d, center, v1, v2, a, b, start, extent, true);
 
 	}
 
@@ -1044,7 +1049,8 @@ public class PlotterSurface {
 	 * @param fromEllipseCenter
 	 *            says if the surface is drawn from center of the ellipse
 	 */
-	public void ellipsePart(Coords center, Coords v1, Coords v2, double a,
+	public void ellipsePart(Drawable3D d, Coords center, Coords v1, Coords v2,
+			double a,
 			double b, double start, double extent, boolean fromEllipseCenter) {
 
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
@@ -1097,7 +1103,7 @@ public class PlotterSurface {
 			manager.triangleFanVertex(m);
 		}
 
-		endGeometryForConics(longitude, TypeElement.TRIANGLE_FAN);
+		endGeometryForConics(d, longitude, TypeElement.TRIANGLE_FAN);
 	}
 
 	/**
@@ -1375,7 +1381,8 @@ public class PlotterSurface {
 	 * @param tMax
 	 *            t max
 	 */
-	public void hyperbolaPart(Coords center, Coords v1, Coords v2, double a,
+	public void hyperbolaPart(Drawable3D d, Coords center, Coords v1, Coords v2,
+			double a,
 			double b, double tMin, double tMax) {
 
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
@@ -1414,7 +1421,7 @@ public class PlotterSurface {
 			manager.triangleFanVertex(center.add(m1));
 		}
 
-		endGeometryForConics(longitude, TypeElement.TRIANGLE_FAN);
+		endGeometryForConics(d, longitude, TypeElement.TRIANGLE_FAN);
 	}
 
 	/**
@@ -1433,7 +1440,8 @@ public class PlotterSurface {
 	 * @param tMax
 	 *            t max
 	 */
-	public void parabola(Coords center, Coords v1, Coords v2, double p,
+	public void parabola(Drawable3D d, Coords center, Coords v1, Coords v2,
+			double p,
 			double tMin, double tMax) {
 
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
@@ -1475,7 +1483,7 @@ public class PlotterSurface {
 			manager.triangleFanVertex(center.add(m1));
 		}
 
-		endGeometryForConics(longitude, TypeElement.TRIANGLE_FAN);
+		endGeometryForConics(d, longitude, TypeElement.TRIANGLE_FAN);
 	}
 
 	private void drawQuad(int ui, int vi) {
@@ -1557,13 +1565,15 @@ public class PlotterSurface {
 		return TEXTURE_FADE_IN;
 	}
 
-	private boolean shouldPackConics() {
+	private boolean shouldPackConics(Drawable3D d) {
 		return manager.getRenderer().getView().getApplication()
-				.has(Feature.MOB_PACK_CONIC) && manager.packBuffers();
+				.has(Feature.MOB_PACK_CONIC) && manager.packBuffers()
+				&& d.shouldBePacked();
 	}
 
-	private void endGeometryForConics(int longitude, TypeElement type) {
-		if (shouldPackConics()) {
+	private void endGeometryForConics(Drawable3D d, int longitude,
+			TypeElement type) {
+		if (shouldPackConics(d)) {
 			manager.endGeometry(longitude, type);
 		} else {
 			manager.endGeometry();

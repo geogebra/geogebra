@@ -272,7 +272,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 					break;
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
 					surface.start(getReusableSurfaceIndex());
-					surface.ellipsePart(center, v1, v2, size, size, 0,
+					surface.ellipsePart(this, center, v1, v2, size, size, 0,
 							angleValue);
 					setSurfaceIndex(surface.end());
 					break;
@@ -282,7 +282,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 				}
 			} else {
 				surface.start(getReusableSurfaceIndex());
-				surface.ellipsePart(center, v1, vn2, size, size, 0, angleValue);
+				surface.ellipsePart(this, center, v1, vn2, size, size, 0,
+						angleValue);
 				setSurfaceIndex(surface.end());
 			}
 

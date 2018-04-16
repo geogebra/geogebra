@@ -91,12 +91,13 @@ public class DrawConicSection3D extends DrawConic3D {
 
 		if (!Double.isNaN(start0)) { // there is at least one hole
 
-			surface.ellipsePart(m, ev1, ev2, e1, e2, start0, extent0, false);
+			surface.ellipsePart(this, m, ev1, ev2, e1, e2, start0, extent0,
+					false);
 
 			if (!Double.isNaN(start1)) { // there is two holes
-				surface.ellipsePart(m, ev1, ev2, e1, e2, start1, extent1,
+				surface.ellipsePart(this, m, ev1, ev2, e1, e2, start1, extent1,
 						false);
-				surface.drawQuad(
+				surface.drawQuad(this,
 						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
 								start0),
 						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
@@ -165,13 +166,13 @@ public class DrawConicSection3D extends DrawConic3D {
 		// first branch
 		double start = getStart(0);
 		if (!Double.isNaN(start)) {
-			surface.hyperbolaPart(m, ev1, ev2, e1, e2, start, getEnd(0));
+			surface.hyperbolaPart(this, m, ev1, ev2, e1, e2, start, getEnd(0));
 		}
 
 		// second branch
 		start = getStart(1);
 		if (!Double.isNaN(start)) {
-			surface.hyperbolaPart(m, ev1.mul(-1), ev2, e1, e2, start,
+			surface.hyperbolaPart(this, m, ev1.mul(-1), ev2, e1, e2, start,
 					getEnd(1));
 		}
 
@@ -179,7 +180,7 @@ public class DrawConicSection3D extends DrawConic3D {
 
 	@Override
 	protected void updateIntersectingLines(PlotterSurface surface) {
-		surface.drawTriangle(points[0], points[1], points[3]);
+		surface.drawTriangle(this, points[0], points[1], points[3]);
 	}
 
 	@Override

@@ -338,7 +338,7 @@ public class DrawConic3D extends Drawable3DCurves
 	 */
 	protected void updateParallelLines(PlotterSurface surface) {
 		if (points[0].isDefined()) { // in case second line is infinite
-			surface.drawQuad(points[0], points[1], points[2], points[3]);
+			surface.drawQuad(this, points[0], points[1], points[2], points[3]);
 		}
 	}
 
@@ -349,8 +349,8 @@ public class DrawConic3D extends Drawable3DCurves
 	 *            surface plotter
 	 */
 	protected void updateIntersectingLines(PlotterSurface surface) {
-		surface.drawTriangle(points[0], points[2], conic.getMidpoint3D());
-		surface.drawTriangle(points[1], points[3], conic.getMidpoint3D());
+		surface.drawTriangle(this, points[0], points[2], conic.getMidpoint3D());
+		surface.drawTriangle(this, points[1], points[3], conic.getMidpoint3D());
 	}
 
 	/**
@@ -397,7 +397,7 @@ public class DrawConic3D extends Drawable3DCurves
 	 *            surface plotter
 	 */
 	protected void updateParabola(PlotterSurface surface) {
-		surface.parabola(m, ev1, ev2, conic.p, minmax[0], minmax[1]);
+		surface.parabola(this, m, ev1, ev2, conic.p, minmax[0], minmax[1]);
 	}
 
 	/**
@@ -421,8 +421,8 @@ public class DrawConic3D extends Drawable3DCurves
 	 *            surface plotter
 	 */
 	protected void updateHyperbola(PlotterSurface surface) {
-		surface.hyperbolaPart(m, ev1, ev2, e1, e2, minmax[0], minmax[1]);
-		surface.hyperbolaPart(m, ev1.mul(-1), ev2, e1, e2, minmax[2],
+		surface.hyperbolaPart(this, m, ev1, ev2, e1, e2, minmax[0], minmax[1]);
+		surface.hyperbolaPart(this, m, ev1.mul(-1), ev2, e1, e2, minmax[2],
 				minmax[3]);
 	}
 
@@ -433,7 +433,7 @@ public class DrawConic3D extends Drawable3DCurves
 	 *            surface plotter
 	 */
 	protected void updateEllipse(PlotterSurface surface) {
-		surface.ellipsePart(m, ev1, ev2, e1, e2, getEllipseSurfaceStart(),
+		surface.ellipsePart(this, m, ev1, ev2, e1, e2, getEllipseSurfaceStart(),
 				getEllipseSurfaceExtent(), isSector());
 	}
 
