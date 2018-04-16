@@ -20,7 +20,7 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class CurvePlotter {
-
+	private static final double MAX_JUMP = 5;
 	// low quality settings
 	// // maximum and minimum distance between two plot points in pixels
 	// private static final int MAX_PIXEL_DISTANCE = 16; // pixels
@@ -167,16 +167,16 @@ public class CurvePlotter {
 
 		// TODO
 		// INIT plotting algorithm
-		int LENGTH = view.getMaxDefinedBisections() + 1;
-		int[] dyadicStack = new int[LENGTH];
-		int[] depthStack = new int[LENGTH];
-		double[][] posStack = new double[LENGTH][];
+		int length = view.getMaxDefinedBisections() + 1;
+		int[] dyadicStack = new int[length];
+		int[] depthStack = new int[length];
+		double[][] posStack = new double[length][];
 		// double xStack[] = new double[LENGTH];
 		// double yStack[] = new double[LENGTH];
-		boolean[] onScreenStack = new boolean[LENGTH];
-		double[] divisors = new double[LENGTH];
+		boolean[] onScreenStack = new boolean[length];
+		double[] divisors = new double[length];
 		divisors[0] = t2 - t1;
-		for (int i = 1; i < LENGTH; i++) {
+		for (int i = 1; i < length; i++) {
 			divisors[i] = divisors[i - 1] / 2;
 		}
 		int i = 1;
@@ -191,7 +191,7 @@ public class CurvePlotter {
 		int countDiffZeros = 0;
 
 		// init previous slope using (t1, t1 + min_step)
-		curve.evaluateCurve(t1 + divisors[LENGTH - 1], eval);
+		curve.evaluateCurve(t1 + divisors[length - 1], eval);
 		double[] prevDiff = view.getOnScreenDiff(eval0, eval);
 
 		int top = 1;
@@ -241,7 +241,7 @@ public class CurvePlotter {
 				if (isUndefined(eval)) {
 					// check if c(t-eps) and c(t+eps) are both defined
 					boolean singularity = isContinuousAround(curve, t,
-							divisors[LENGTH - 1]);
+							divisors[length - 1], view);
 
 					// split interval: f(t+eps) or f(t-eps) not defined
 					if (!singularity) {
@@ -441,18 +441,19 @@ public class CurvePlotter {
 	 * Returns whether curve is defined for c(t-eps) and c(t + eps).
 	 */
 	private static boolean isContinuousAround(CurveEvaluable curve, double t,
-			double eps) {
+			double eps, EuclidianView view) {
 		// check if c(t) is undefined
 		double[] eval = curve.newDoubleArray();
 
 		// c(t + eps)
 		curve.evaluateCurve(t + eps, eval);
+		double oldy = eval[1];
 		if (!isUndefined(eval)) {
 			// c(t - eps)
 			curve.evaluateCurve(t - eps, eval);
 			if (!isUndefined(eval)) {
 				// SINGULARITY: c(t) undef, c(t-eps) and c(t+eps) defined
-				return true; // Math.abs(oldy - eval[1]) < 20 * eps;
+				return Math.abs(oldy - eval[1]) * view.getYscale() < MAX_JUMP;
 			}
 		}
 
