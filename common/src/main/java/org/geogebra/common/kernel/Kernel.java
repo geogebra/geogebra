@@ -2267,6 +2267,19 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * @param numbers
+	 *            coefficients
+	 * @param vars
+	 *            expressions
+	 * @param opDefault
+	 *            equality sign; may be flipped for inequalities
+	 * @param tpl
+	 *            string template
+	 * @param explicit
+	 *            whether to keep all variables on RHS
+	 * @return explicit equation
+	 */
 	public final StringBuilder buildExplicitEquation(double[] numbers,
 			String[] vars, char opDefault, StringTemplate tpl,
 			boolean explicit) {
@@ -2380,6 +2393,8 @@ public class Kernel implements SpecialPointsListener {
 	 *            angle in radians
 	 * @param tpl
 	 *            string template
+	 * @param unbounded
+	 *            whether to allow angles out of [0,2pi]
 	 * @return formated angle
 	 */
 	final public StringBuilder formatAngle(double phi, StringTemplate tpl,
@@ -2391,6 +2406,17 @@ public class Kernel implements SpecialPointsListener {
 		return ret;
 	}
 
+	/**
+	 * @param alpha
+	 *            angle
+	 * @param precision
+	 *            precision for decimal fraction checking
+	 * @param tpl
+	 *            string template
+	 * @param unbounded
+	 *            whether to allow angles out of [0,2pi]
+	 * @return formatted angle
+	 */
 	final public StringBuilder formatAngle(double alpha, double precision,
 			StringTemplate tpl, boolean unbounded) {
 		double phi = alpha;
@@ -2597,6 +2623,12 @@ public class Kernel implements SpecialPointsListener {
 		return str.replace(TMP_VARIABLE_PREFIX, replace);
 	}
 
+	/**
+	 * Switch to significant figures and set precision.
+	 * 
+	 * @param figures
+	 *            significant figures for format();
+	 */
 	final public void setPrintFigures(int figures) {
 		if (figures >= 0) {
 			useSignificantFigures = true;
@@ -2605,6 +2637,12 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Switch to fixed decimals and set precision.
+	 * 
+	 * @param decimals
+	 *            print decimals for format()
+	 */
 	final public void setPrintDecimals(int decimals) {
 		if (decimals >= 0) {
 			useSignificantFigures = false;
@@ -2612,6 +2650,9 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * @return print decimals; defaults to 5
+	 */
 	final public int getPrintDecimals() {
 		if (nf == null) {
 			return 5;
@@ -2858,6 +2899,12 @@ public class Kernel implements SpecialPointsListener {
 		algebraStyle = style;
 	}
 
+	/**
+	 * Change description style for spreadsheet.
+	 * 
+	 * @param style
+	 *            description style
+	 */
 	final public void setAlgebraStyleSpreadsheet(int style) {
 		if (style == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
 			algebraStyleSpreadsheet = Kernel.ALGEBRA_STYLE_VALUE;
@@ -3532,6 +3579,9 @@ public class Kernel implements SpecialPointsListener {
 		return needed;
 	}
 
+	/**
+	 * Reset all views.
+	 */
 	final public void notifyReset() {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -3550,6 +3600,9 @@ public class Kernel implements SpecialPointsListener {
 
 	}
 
+	/**
+	 * Clear newly created geo lists i views.
+	 */
 	public void clearJustCreatedGeosInViews() {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -3561,7 +3614,12 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
-	// notify only construction protocol
+	/**
+	 * notify only construction protocol about add
+	 * 
+	 * @param geo
+	 *            added geo
+	 */
 	public void notifyConstructionProtocol(GeoElement geo) {
 		for (View view : views) {
 			if (view.getViewID() == App.VIEW_CONSTRUCTION_PROTOCOL) {
@@ -3570,6 +3628,13 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Turn on or off views notifications; if turned on add all geos to all
+	 * views.
+	 * 
+	 * @param flag
+	 *            whether views should be notified
+	 */
 	public void setNotifyViewsActive(boolean flag) {
 		// Application.debug("setNotifyViews: " + flag);
 
@@ -3776,6 +3841,14 @@ public class Kernel implements SpecialPointsListener {
 		return somethingHappened;
 	}
 
+	/**
+	 * Add all elements up to construction step to a view.
+	 * 
+	 * @param view
+	 *            view
+	 * @param consStep
+	 *            construction step
+	 */
 	final public void notifyAddAll(View view, int consStep) {
 		if (!notifyViewsActive) {
 			return;
@@ -3795,6 +3868,12 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Notify views about added geo.
+	 * 
+	 * @param geo
+	 *            added geo
+	 */
 	public final void notifyAdd(GeoElement geo) {
 		if (notifyViewsActive) {
 			if (addingPolygon && geo.isLabelSet()) {
@@ -3814,13 +3893,14 @@ public class Kernel implements SpecialPointsListener {
 		notifyRenameListenerAlgos();
 	}
 
+	/**
+	 * Notify views about adding polygon.
+	 */
 	public final void addingPolygon() {
 		if (notifyViewsActive) {
 			this.addingPolygon = true;
-			for (View view : views) {
-				if (view instanceof ClientView) {
-					((ClientView) view).addingPolygon();
-				}
+			if (app.hasEventDispatcher()) {
+				app.getEventDispatcher().addingPolygon();
 			}
 		}
 	}
@@ -3829,12 +3909,8 @@ public class Kernel implements SpecialPointsListener {
 	 * Notify views about new polygon
 	 */
 	public final void notifyPolygonAdded() {
-		if (notifyViewsActive) {
-			for (View view : views) {
-				if (view instanceof ClientView) {
-					((ClientView) view).addPolygonComplete(this.newPolygon);
-				}
-			}
+		if (notifyViewsActive && app.hasEventDispatcher()) {
+			app.getEventDispatcher().addPolygonComplete(this.newPolygon);
 		}
 	}
 
@@ -3842,12 +3918,8 @@ public class Kernel implements SpecialPointsListener {
 	 * Notify views about mass remove
 	 */
 	public final void notifyRemoveGroup() {
-		if (notifyViewsActive) {
-			for (View view : views) {
-				if (view instanceof ClientView) {
-					((ClientView) view).deleteGeos(deleteList);
-				}
-			}
+		if (notifyViewsActive && app.hasEventDispatcher()) {
+			app.getEventDispatcher().deleteGeos(deleteList);
 		}
 		this.deleteList.clear();
 	}
@@ -3899,12 +3971,8 @@ public class Kernel implements SpecialPointsListener {
 	 * Notify views about moving multiple geos (start)
 	 */
 	public final void movingGeoSet() {
-		if (notifyViewsActive) {
-			for (View view : views) {
-				if (view instanceof ClientView) {
-					((ClientView) view).movingGeos();
-				}
-			}
+		if (notifyViewsActive && app.hasEventDispatcher()) {
+			app.getEventDispatcher().movingGeos();
 		}
 	}
 
@@ -3915,15 +3983,17 @@ public class Kernel implements SpecialPointsListener {
 	 *            moved geos
 	 */
 	public final void movedGeoSet(ArrayList<GeoElement> elmSet) {
-		if (notifyViewsActive) {
-			for (View view : views) {
-				if (view instanceof ClientView) {
-					((ClientView) view).movedGeos(elmSet);
-				}
-			}
+		if (notifyViewsActive && app.hasEventDispatcher()) {
+			app.getEventDispatcher().movedGeos(elmSet);
 		}
 	}
 
+	/**
+	 * Notify views about possible value change
+	 * 
+	 * @param geo
+	 *            element
+	 */
 	public final void notifyUpdate(GeoElement geo) {
 		// event dispatcher should not collect calls to stay compatible with 4.0
 		if (notifyViewsActive) {
@@ -3933,6 +4003,12 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Notify views about changed geo's location on screen.
+	 * 
+	 * @param geo
+	 *            element
+	 */
 	public final void notifyUpdateLocation(GeoElement geo) {
 		// event dispatcher should not collect calls to stay compatible with 4.0
 		if (notifyViewsActive) {
@@ -3947,6 +4023,14 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Notify views about changed visual style.
+	 * 
+	 * @param geo
+	 *            element
+	 * @param prop
+	 *            property
+	 */
 	public final void notifyUpdateVisualStyle(GeoElement geo, GProperty prop) {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -3955,6 +4039,12 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Notify views about highlighting geo.
+	 * 
+	 * @param geo
+	 *            highlighted geo
+	 */
 	public final void notifyUpdateHightlight(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -3963,6 +4053,12 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Notify views about auxiliary property change
+	 * 
+	 * @param geo
+	 *            changed geo
+	 */
 	public final void notifyUpdateAuxiliaryObject(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -3971,6 +4067,12 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Notify views about rename
+	 * 
+	 * @param geo
+	 *            renamed geo
+	 */
 	public final void notifyRename(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -3981,6 +4083,12 @@ public class Kernel implements SpecialPointsListener {
 		notifyRenameListenerAlgos();
 	}
 
+	/**
+	 * Notify views about geo type change
+	 * 
+	 * @param geo
+	 *            new geo after type change
+	 */
 	public final void notifyTypeChanged(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -3991,34 +4099,33 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Notify about finished rename.
+	 */
 	public final void notifyRenameUpdatesComplete() {
-		if (notifyViewsActive) {
-			for (View view : views) {
-				if (view instanceof ClientView) {
-					((ClientView) view).renameUpdatesComplete();
-				}
-			}
+		if (notifyViewsActive && app.hasEventDispatcher()) {
+			app.getEventDispatcher().renameUpdatesComplete();
 		}
 	}
 
+	/**
+	 * @param pasteXml
+	 *            XML of pasted construction part
+	 */
 	public void notifyPaste(String pasteXml) {
-		if (notifyViewsActive) {
-			for (View view : views) {
-				if (view instanceof ClientView) {
-					((ClientView) view).pasteElms(pasteXml);
-				}
-			}
+		if (notifyViewsActive && app.hasEventDispatcher()) {
+			app.getEventDispatcher().pasteElms(pasteXml);
 		}
 	}
 
+	/**
+	 * Notify views about finished paste.
+	 */
 	public void notifyPasteComplete() {
-		if (notifyViewsActive) {
-			for (View view : views) {
-				if (view instanceof ClientView) {
-					((ClientView) view).pasteElmsComplete(
+		if (notifyViewsActive && app.hasEventDispatcher()) {
+			app.getEventDispatcher().pasteElmsComplete(
 							app.getSelectionManager().getSelectedGeos());
-				}
-			}
+
 		}
 	}
 
@@ -4117,18 +4224,27 @@ public class Kernel implements SpecialPointsListener {
 		return undoActive;
 	}
 
+	/**
+	 * Store an undo point.
+	 */
 	public void storeUndoInfo() {
 		if (undoActive && cons != null) {
 			cons.storeUndoInfo();
 		}
 	}
 
+	/**
+	 * Restore state from last undo point.
+	 */
 	public void restoreCurrentUndoInfo() {
 		if (undoActive) {
 			cons.restoreCurrentUndoInfo();
 		}
 	}
 
+	/**
+	 * Initialize undo manager if possible.
+	 */
 	public void initUndoInfo() {
 		if (undoActive && cons != null) {
 			cons.initUndoInfo();
@@ -4168,11 +4284,17 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Store mode-specific undo point.
+	 */
 	public void storeStateForModeStarting() {
 		stateForModeStarting = cons.getCurrentUndoXML(true);
 		getSelectionManager().resetGeoToggled();
 	}
 
+	/**
+	 * Store both global and mode specific undo point.
+	 */
 	public void storeUndoInfoAndStateForModeStarting() {
 		if (cons != null) {
 			storeStateForModeStarting();
@@ -4331,9 +4453,15 @@ public class Kernel implements SpecialPointsListener {
 		return new ExpressionNode(this,
 				new ExpressionNode(this, en, type, null), Operation.POWER,
 				convertIndexToNumber(image));
-
 	}
 
+	/**
+	 * @param type
+	 *            trig operation
+	 * @param en
+	 *            argument
+	 * @return type^-1(x)
+	 */
 	public ExpressionNode inverseTrig(Operation type, ExpressionValue en) {
 		switch (type) {
 		case SIN:
@@ -4381,6 +4509,13 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Take 42 from "sin<sup>42</sup>(".
+	 * 
+	 * @param str
+	 *            superscript text
+	 * @return number
+	 */
 	final public MyDouble convertIndexToNumber(String str) {
 		int i = 0;
 		while ((i < str.length())
@@ -4388,25 +4523,19 @@ public class Kernel implements SpecialPointsListener {
 			i++;
 		}
 
-		// Application.debug(str.substring(i, str.length() - 1));
-		MyDouble md = new MyDouble(this, str.substring(i, str.length() - 1)); // strip
-																				// off
-																				// eg
-																				// "sin"
-																				// at
-																				// start,
-																				// "("
-																				// at
-																				// end
+		// strip off eg "sin" at start, "(" at end
+		MyDouble md = new MyDouble(this, str.substring(i, str.length() - 1));
 
 		return md;
-
 	}
 
-	/***********************************
+	/*----------------------------------
 	 * FACTORY METHODS FOR GeoElements
 	 ***********************************/
 
+	/**
+	 * @return imaginary unit
+	 */
 	public GeoVec2D getImaginaryUnit() {
 		if (imaginaryUnit == null) {
 			imaginaryUnit = new GeoVec2D(this, 0, 1);
@@ -4672,6 +4801,9 @@ public class Kernel implements SpecialPointsListener {
 		return (macroManager == null) ? -1 : macroManager.getMacroID(macro);
 	}
 
+	/**
+	 * @return exercise
+	 */
 	public Exercise getExercise() {
 		if (exercise == null) {
 			exercise = new Exercise(getApplication());
@@ -4747,7 +4879,6 @@ public class Kernel implements SpecialPointsListener {
 	 */
 	final public GeoLine tangent(String label, GeoPointND P,
 			GeoCurveCartesian f) {
-
 		return KernelCAS.tangent(cons, label, P, f);
 	}
 
@@ -4929,6 +5060,9 @@ public class Kernel implements SpecialPointsListener {
 		return getAlgoDispatcher().Segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}
 
+	/**
+	 * @return factory for AlgoElements
+	 */
 	public AlgoDispatcher getAlgoDispatcher() {
 		if (algoDispatcher == null) {
 			algoDispatcher = newAlgoDispatcher(cons);
@@ -5029,6 +5163,9 @@ public class Kernel implements SpecialPointsListener {
 		return !app.isScreenshotGenerator();
 	}
 
+	/**
+	 * Notify views about started update batch.
+	 */
 	public void notifyBatchUpdate() {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -5037,6 +5174,9 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Notify views about finished update batch.
+	 */
 	public void notifyEndBatchUpdate() {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -5045,6 +5185,9 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Call setLabels on all views.
+	 */
 	public void setViewsLabels() {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -5055,6 +5198,9 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Notify views about orientation
+	 */
 	public void setViewsOrientation() {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -5115,6 +5261,9 @@ public class Kernel implements SpecialPointsListener {
 		point.update();
 	}
 
+	/**
+	 * @return whether parser should prefer 3d objects (x=y is a plane)
+	 */
 	public boolean isParsingFor3D() {
 		if (getLoadingMode()) {
 			return false;
@@ -5128,14 +5277,24 @@ public class Kernel implements SpecialPointsListener {
 
 	}
 
+	/**
+	 * @param pt
+	 *            point
+	 * @return Vector(point)
+	 */
 	public GeoElement wrapInVector(GeoPointND pt) {
 		AlgoVectorPoint algo = new AlgoVectorPoint(cons, pt);
 		cons.removeFromConstructionList(algo);
 		return (GeoElement) algo.getVector();
 	}
 
-	public GeoPointND wrapInPoint(GeoVectorND pt) {
-		AlgoPointVector algo = new AlgoPointVector(cons, cons.getOrigin(), pt);
+	/**
+	 * @param vec
+	 *            vector
+	 * @return Point(vector)
+	 */
+	public GeoPointND wrapInPoint(GeoVectorND vec) {
+		AlgoPointVector algo = new AlgoPointVector(cons, cons.getOrigin(), vec);
 		cons.removeFromConstructionList(algo);
 		return algo.getQ();
 	}
@@ -5167,7 +5326,6 @@ public class Kernel implements SpecialPointsListener {
 	 */
 	public GeoElement createGeoElement(Construction cons1, String type) {
 		return geoFactory.createGeoElement(cons1, type);
-
 	}
 
 	public GeoImplicit newImplicitPoly(Construction cons2) {
@@ -5186,6 +5344,12 @@ public class Kernel implements SpecialPointsListener {
 
 	}
 
+	/**
+	 * Notify views about preview geos.
+	 * 
+	 * @param geos
+	 *            preview geos
+	 */
 	public final void notifyUpdatePreviewFromInputBar(GeoElement[] geos) {
 		// event dispatcher should not collect calls to stay compatible with 4.0
 		if (notifyViewsActive) {
@@ -5197,12 +5361,8 @@ public class Kernel implements SpecialPointsListener {
 
 	@Override
 	public void specialPointsChanged(SpecialPointsManager manager, List<GeoElement> specialPoints) {
-		notifyUpdateSpecPointsPreviewOnEV(specialPoints);
-	}
-
-	public final void notifyUpdateSpecPointsPreviewOnEV(List<GeoElement> geos) {
 		if (notifyViewsActive) {
-			app.getActiveEuclidianView().updateSpecPointFromInputBar(geos);
+			app.getActiveEuclidianView().updateSpecPointFromInputBar(specialPoints);
 		}
 	}
 

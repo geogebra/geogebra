@@ -436,7 +436,6 @@ public class Kernel3D extends Kernel {
 		return super.rigidPolygonPointOnCircle(circle, point1);
 	}
 
-
 	@Override
 	public GeoElement wrapInVector(GeoPointND pt) {
 		if (pt instanceof GeoPoint3D) {
