@@ -3061,9 +3061,11 @@ public class Kernel implements SpecialPointsListener {
 		cons.clearConstruction();
 		notifyClearView();
 		notifyRepaint();
-
 	}
 
+	/**
+	 * @return max value of xmax of shown views; EV1 considered to be shown
+	 */
 	public double getXmax() {
 		if (graphicsView2showing) {
 			return MyMath.max(xmax);
@@ -3071,6 +3073,9 @@ public class Kernel implements SpecialPointsListener {
 		return xmax[0];
 	}
 
+	/**
+	 * @return min value of xmin of shown views; EV1 considered to be shown
+	 */
 	public double getXmin() {
 		if (graphicsView2showing) {
 			return MyMath.min(xmin);
@@ -3078,6 +3083,9 @@ public class Kernel implements SpecialPointsListener {
 		return xmin[0];
 	}
 
+	/**
+	 * @return max xscale of shown views; EV1 considered to be shown
+	 */
 	public double getXscale() {
 		if (graphicsView2showing) {
 			// xscale = pixel per unit
@@ -3085,9 +3093,11 @@ public class Kernel implements SpecialPointsListener {
 			return MyMath.max(xscale);
 		}
 		return xscale[0];
-
 	}
 
+	/**
+	 * @return max value of ymax of shown views; EV1 considered to be shown
+	 */
 	public double getYmax() {
 		if (graphicsView2showing) {
 			return MyMath.max(ymax);
@@ -3095,6 +3105,9 @@ public class Kernel implements SpecialPointsListener {
 		return ymax[0];
 	}
 
+	/**
+	 * @return min value of ymin of shown views; EV1 considered to be shown
+	 */
 	public double getYmin() {
 		if (graphicsView2showing) {
 			return MyMath.min(ymin);
@@ -3102,6 +3115,9 @@ public class Kernel implements SpecialPointsListener {
 		return ymin[0];
 	}
 
+	/**
+	 * @return max yscale of shown views; EV1 considered to be shown
+	 */
 	public double getYscale() {
 		if (graphicsView2showing) {
 			// yscale = pixel per unit
@@ -3111,6 +3127,13 @@ public class Kernel implements SpecialPointsListener {
 		return yscale[0];
 	}
 
+	/**
+	 * @param ev1
+	 *            whether to consider EV1
+	 * @param ev2
+	 *            whether to consider EV2
+	 * @return max of xmax values of used views
+	 */
 	public double getXmax(boolean ev1, boolean ev2) {
 		if (ev2 && !ev1) {
 			return xmax[1];
@@ -3173,6 +3196,13 @@ public class Kernel implements SpecialPointsListener {
 		return getXscale();
 	}
 
+	/**
+	 * @param ev1
+	 *            whether to consider EV1
+	 * @param ev2
+	 *            whether to consider EV2
+	 * @return min of xmin values of used views
+	 */
 	public double getXmin(boolean ev1, boolean ev2) {
 		if (ev2 && !ev1) {
 			return xmin[1];
@@ -3182,6 +3212,13 @@ public class Kernel implements SpecialPointsListener {
 		return getXmin();
 	}
 
+	/**
+	 * @param ev1
+	 *            whether to consider EV1
+	 * @param ev2
+	 *            whether to consider EV2
+	 * @return max of xscale values of used views
+	 */
 	public double getXscale(boolean ev1, boolean ev2) {
 		if (ev2 && !ev1) {
 			// xscale = pixel per unit
@@ -3193,6 +3230,13 @@ public class Kernel implements SpecialPointsListener {
 		return getXscale();
 	}
 
+	/**
+	 * @param ev1
+	 *            whether to consider EV1
+	 * @param ev2
+	 *            whether to consider EV2
+	 * @return max of ymax values of used views
+	 */
 	public double getYmax(boolean ev1, boolean ev2) {
 		if (ev2 && !ev1) {
 			return ymax[1];
@@ -3202,6 +3246,13 @@ public class Kernel implements SpecialPointsListener {
 		return getYmax();
 	}
 
+	/**
+	 * @param ev1
+	 *            whether to consider EV1
+	 * @param ev2
+	 *            whether to consider EV2
+	 * @return min of ymin values of used views
+	 */
 	public double getYmin(boolean ev1, boolean ev2) {
 		if (ev2 && !ev1) {
 			return ymin[1];
@@ -3211,6 +3262,13 @@ public class Kernel implements SpecialPointsListener {
 		return getYmin();
 	}
 
+	/**
+	 * @param ev1
+	 *            whether to consider EV1
+	 * @param ev2
+	 *            whether to consider EV2
+	 * @return max of yscale values of used views
+	 */
 	public double getYscale(boolean ev1, boolean ev2) {
 		if (ev2 && !ev1) {
 			return yscale[1];

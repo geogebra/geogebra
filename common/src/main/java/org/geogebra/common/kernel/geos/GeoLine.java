@@ -1119,13 +1119,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (DoubleUtil.isZero(x) || DoubleUtil.isZero(y)) {
 			return kernel.buildExplicitEquation(g, vars, op, tpl, true);
 		}
-		if (kernel.getAlgebraProcessor().getDisableGcd()) {
-			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
-					false, false, op, tpl, true);
-		}
-		return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN, true,
-				false, op, tpl, true);
-
+		boolean useGCD = !kernel.getAlgebraProcessor().getDisableGcd();
+		return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN, useGCD, false, op, tpl,
+				true);
 	}
 
 	private StringBuilder getSbBuildValueString() {
