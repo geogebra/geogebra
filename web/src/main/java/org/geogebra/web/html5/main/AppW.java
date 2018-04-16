@@ -109,6 +109,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
+import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
@@ -236,6 +237,7 @@ public abstract class AppW extends App implements SetLabels {
 	private Runnable insertImageCallback;
 	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<>();
 	private ViewW viewW;
+	private ZoomPanel zoomPanel;
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -317,7 +319,8 @@ public abstract class AppW extends App implements SetLabels {
 	 * Scale to container if needed.
 	 */
 	public void checkScaleContainer() {
-		if (getArticleElement().getDataParamFitToScreen()) {
+		if (getArticleElement().getDataParamFitToScreen()
+				|| (zoomPanel != null && zoomPanel.isFullScreen())) {
 			return;
 		}
 		if (!StringUtil
@@ -3917,6 +3920,14 @@ public abstract class AppW extends App implements SetLabels {
 
 	public void exportObj() {
 		// empty for webSimple
+	}
+
+	/**
+	 * @param zoomPanel
+	 *            zoom panel
+	 */
+	public void setZoomPanel(ZoomPanel zoomPanel) {
+		this.zoomPanel = zoomPanel;
 	}
 
 }

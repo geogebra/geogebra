@@ -292,6 +292,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	protected void tryBuildZoomPanel() {
 		if (allowZoomPanel()) {
 			zoomPanel = new ZoomPanel(getEuclidianView());
+			app.setZoomPanel(zoomPanel);
 		}
 	}
 

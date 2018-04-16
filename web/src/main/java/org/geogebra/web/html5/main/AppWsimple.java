@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AppWsimple extends AppW {
 	private GeoGebraFrameW frame;
-	private ZoomPanel zoomPanel;
 
 	/******************************************************
 	 * Constructs AppW for applets
@@ -80,8 +79,9 @@ public class AppWsimple extends AppW {
 		GeoGebraFrameW.handleLoadFile(articleElement, this);
 		initing = false;
 		if (ZoomPanel.neededFor(this)) {
-			this.zoomPanel = new ZoomPanel(getEuclidianView1());
-			euclidianViewPanel.getAbsolutePanel().add(zoomPanel);
+			ZoomPanel zp = new ZoomPanel(getEuclidianView1());
+			setZoomPanel(zp);
+			euclidianViewPanel.getAbsolutePanel().add(zp);
 		}
 	}
 

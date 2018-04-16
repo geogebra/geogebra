@@ -47,7 +47,7 @@ public class ZoomPanel extends FlowPanel
 	/**
 	 * is in fullscreen mode
 	 */
-	boolean isFullScreen = false;
+	boolean fullScreenActive = false;
 
 	/** application */
 	private AppW app;
@@ -97,13 +97,13 @@ public class ZoomPanel extends FlowPanel
 	 */
 	public void updateFullscreen() {
 		ArticleElementInterface ae = app.getArticleElement();
-		if (!ae.getDataParamApp() && isFullScreen) {
+		if (!ae.getDataParamApp() && fullScreenActive) {
 			scaleApplet(ae.getParentElement(),
 					ae.getParentElement().getParentElement());
 		}
 		if (ae.getDataParamApp() && fullscreenBtn != null) {
 			fullscreenBtn.setVisible(
-					isFullScreen || !Browser.isCoveringWholeScreen());
+					fullScreenActive || !Browser.isCoveringWholeScreen());
 		}
 	}
 
@@ -149,7 +149,7 @@ public class ZoomPanel extends FlowPanel
 	 * Handler that runs on switching to fullscreen.
 	 */
 	void onFullscreen() {
-		isFullScreen = true;
+		fullScreenActive = true;
 		fullscreenBtn
 				.setIcon(ZoomPanelResources.INSTANCE.fullscreen_exit_black18());
 	}
@@ -158,7 +158,7 @@ public class ZoomPanel extends FlowPanel
 	 * Handler that runs on exiting to fullscreen.
 	 */
 	void onExitFullscreen() {
-		isFullScreen = false;
+		fullScreenActive = false;
 		fullscreenBtn.setIcon(ZoomPanelResources.INSTANCE.fullscreen_black18());
 		if (!app.getArticleElement().getDataParamFitToScreen()) {
 
@@ -354,7 +354,7 @@ public class ZoomPanel extends FlowPanel
 			ArticleElementInterface ae = app.getArticleElement();
 			final Element scaler = ae.getParentElement();
 			container = scaler.getParentElement();
-			if (!isFullScreen) {
+			if (!fullScreenActive) {
 				String containerPositionBefore = container.getStyle()
 						.getPosition();
 				if (StringUtil.empty(containerPositionBefore)) {
@@ -398,8 +398,8 @@ public class ZoomPanel extends FlowPanel
 		}
 
 		if (!ipad) {
-			isFullScreen = !isFullScreen;
-			Browser.toggleFullscreen(isFullScreen, container);
+			fullScreenActive = !fullScreenActive;
+			Browser.toggleFullscreen(fullScreenActive, container);
 		}
 	}
 
@@ -554,5 +554,9 @@ public class ZoomPanel extends FlowPanel
 		}
 
 		return null;
+	}
+
+	public boolean isFullScreen() {
+		return this.fullScreenActive;
 	}
 }
