@@ -627,9 +627,6 @@ public class MainMenu extends FlowPanel
 	 * Update all submenus that depend on file content
 	 */
 	public void updateMenubar() {
-		if (app.hasOptionsMenu()) {
-			app.getOptionsMenu(null).update();
-		}
 		if (viewMenu != null) {
 			viewMenu.update();
 		}
