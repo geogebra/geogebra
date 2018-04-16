@@ -12727,6 +12727,12 @@ namespace giac {
       }
     }
     if (subtype==_INT_BOOLEAN){
+      if (python_compat(contextptr)){
+	if (val)
+	  return "True";
+	else
+	  return "False";
+      }
       if (xcas_mode(contextptr)==2){
 	if (val)
 	  return "TRUE";

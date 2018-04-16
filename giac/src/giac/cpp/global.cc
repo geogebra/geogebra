@@ -5775,8 +5775,8 @@ unsigned int ConvertUTF8toUTF16 (
     }
     if (poscmath>=0 && poscmath<cs){
       // add python cmath shortcuts
-      alert(gettext("Assigning phase, j and rect."),contextptr);
-      cur += "phase:=arg;j:=i;rect(r,theta):=r*exp(i*theta);";
+      alert(gettext("Assigning phase, j, J and rect."),contextptr);
+      cur += "phase:=arg;j:=i;J:=i;rect(r,theta):=r*exp(i*theta);";
       return;
     }
     if (posmath>=0 && posmath<cs){

@@ -737,7 +737,7 @@ namespace giac {
     if (e.type!=_SYMB)
       return ln(e,contextptr);
     if (e._SYMBptr->sommet==at_prod)
-      return symbolic(at_plus,apply(e._SYMBptr->feuille,ln_expand0,contextptr));
+      return _plus(apply(e._SYMBptr->feuille,ln_expand0,contextptr),contextptr);//symbolic(at_plus,apply(e._SYMBptr->feuille,ln_expand0,contextptr));
     if (e._SYMBptr->sommet==at_inv)
       return -ln_expand0(e._SYMBptr->feuille,contextptr);
     if (e._SYMBptr->sommet==at_pow){

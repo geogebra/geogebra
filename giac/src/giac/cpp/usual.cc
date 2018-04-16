@@ -1283,7 +1283,7 @@ namespace giac {
 	return analytic_apply(at_sqrt,*e._VECTptr,contextptr);
       return apply(e,giac::sqrt,contextptr);
     }
-    if (is_zero(e) || is_undef(e) || (e==plus_inf) || (e==unsigned_inf))
+    if ( (is_zero(e) && !e.is_symb_of_sommet(at_unit)) || is_undef(e) || (e==plus_inf) || (e==unsigned_inf))
       return e;
     if (is_perfect_square(e))
       return isqrt(e);
@@ -5975,7 +5975,12 @@ namespace giac {
     return r;
   }
   static const char _irem_s []="irem";
-  static define_unary_function_eval (__irem,&giac::_irem,_irem_s);
+  static string printasirem(const gen & g,const char * s,GIAC_CONTEXT){
+    if (python_compat(contextptr) && g.type==_VECT && g._VECTptr->size()==2)
+      return g._VECTptr->front().print(contextptr)+" % "+g._VECTptr->back().print(contextptr);
+    return s+("("+g.print(contextptr)+")");
+  }  
+  static define_unary_function_eval2 (__irem,&giac::_irem,_irem_s,printasirem);
   define_unary_function_ptr5( at_irem ,alias_at_irem,&__irem,0,true);
 
   static const char _mods_s []="mods";
@@ -6035,7 +6040,12 @@ namespace giac {
     return Iquo(f,b);
   }
   static const char _iquo_s []="iquo";
-  static define_unary_function_eval (__iquo,&giac::_iquo,_iquo_s);
+  static string printasiquo(const gen & g,const char * s,GIAC_CONTEXT){
+    if (python_compat(contextptr) && g.type==_VECT && g._VECTptr->size()==2)
+      return g._VECTptr->front().print(contextptr)+" // "+g._VECTptr->back().print(contextptr);
+    return s+("("+g.print(contextptr)+")");
+  }  
+  static define_unary_function_eval2 (__iquo,&giac::_iquo,_iquo_s,printasiquo);
   define_unary_function_ptr5( at_iquo ,alias_at_iquo,&__iquo,0,true);
 
   static vecteur iquorem(const gen & a,const gen & b){

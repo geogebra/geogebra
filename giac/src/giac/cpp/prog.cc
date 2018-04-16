@@ -10214,7 +10214,7 @@ namespace giac {
   gen cst_qe(_cst_qe); // q 1.60217733e-19 C
   identificateur _cst_hPlanck("_h_",symbolic(at_unit,makevecteur(6.6260755e-34,_J_unit*_s_unit)));
   gen cst_hPlanck(_cst_hPlanck); //  h 6.6260755e-34 Js
-  identificateur _cst_G("_G_",symbolic(at_unit,makevecteur(6.67259e-11,unitpow(_m_unit,3)*unitpow(_s_unit,-2)*unitpow(_kg_unit,-1))));
+  identificateur _cst_G("_G_",symbolic(at_unit,makevecteur(6.67408e-11,unitpow(_m_unit,3)*unitpow(_s_unit,-2)*unitpow(_kg_unit,-1))));
   gen cst_G(_cst_G); // G 6.67259e-11m^3/s^2kg
   identificateur _cst_mu0("_mu0_",symbolic(at_unit,makevecteur(1.25663706144e-6,_H_unit/_m_unit)));
   gen cst_mu0(_cst_mu0); // mu0 1.25663706144e-6 H/m

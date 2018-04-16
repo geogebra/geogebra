@@ -606,7 +606,7 @@ namespace giac {
     for (;;){
       if (itb==itend)
 	return s;
-      if ( itb->type==_SYMB || itb->type==_FRAC || itb->type==_CPLX || (itb->type==_VECT && itb->subtype==_SEQ__VECT) )
+      if ( (itb->type==_SYMB || itb->type==_FRAC || itb->type==_CPLX || (itb->type==_VECT && itb->subtype==_SEQ__VECT) ) && sommetstr!="." )
 	s += sommetstr + '('+itb->print(contextptr)+")";
       else
 	s += sommetstr + itb->print(contextptr);
