@@ -37,8 +37,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
-import org.geogebra.common.gui.menubar.MenuFactory;
-import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
@@ -388,7 +386,6 @@ public abstract class App implements UpdateSelection {
 	private Random random = new Random();
 	private GeoScriptRunner geoScriptRunner;
 	private GeoElement geoForCopyStyle;
-	private OptionsMenu optionsMenu;
 	private boolean isErrorDialogsActive = true;
 	private ArrayList<OpenFileListener> openFileListener;
 	// whether to allow perspective and login popups
@@ -3354,22 +3351,6 @@ public abstract class App implements UpdateSelection {
 
 	public void dispatchEvent(Event evt) {
 		getEventDispatcher().dispatchEvent(evt);
-	}
-
-	/**
-	 * @param mf
-	 *            menu factory
-	 * @return options menu
-	 */
-	public OptionsMenu getOptionsMenu(MenuFactory mf) {
-		if (optionsMenu == null) {
-			optionsMenu = new OptionsMenu(this, mf);
-		}
-		return optionsMenu;
-	}
-
-	public boolean hasOptionsMenu() {
-		return optionsMenu != null;
 	}
 
 	/**

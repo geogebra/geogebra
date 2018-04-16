@@ -18,7 +18,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.MyActionListener;
-import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -44,7 +43,12 @@ public class OptionsMenuD extends BaseMenu
 	// drawingPadPropAction,
 	showOptionsAction, saveSettings, restoreDefaultSettings;
 
+	private OptionsMenuController optionsMenu;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public OptionsMenuD(AppD app) {
 		super(app, "Options");
 
@@ -334,32 +338,37 @@ public class OptionsMenuD extends BaseMenu
 		getOptionsMenu().processActionPerformed(command);
 	}
 
-	private OptionsMenu getOptionsMenu() {
-		return app.getOptionsMenu(new MenuFactory() {
+	private OptionsMenuController getOptionsMenu() {
 
-			@Override
-			public RadioButtonMenuBar newSubmenu() {
-				return new RadioButtonMenuBarD(app);
-			}
+		if (optionsMenu == null) {
+			optionsMenu = new OptionsMenuController(app, new MenuFactory() {
 
-			@Override
-			public void addMenuItem(MenuInterface parentMenu, String key,
-					boolean asHtml, MenuInterface subMenu) {
-				ImageResourceD res = null;
-				if ("Labeling".equals(key)) {
-					res = GuiResourcesD.MODE_SHOWHIDELABEL;
+				@Override
+				public RadioButtonMenuBar newSubmenu() {
+					return new RadioButtonMenuBarD(app);
 				}
-				if ("FontSize".equals(key)) {
-					res = GuiResourcesD.FONT;
-				}
-				if (res != null) {
-					((JMenuItem) subMenu).setIcon(app.getMenuIcon(res));
-				}
-				((JMenuItem) subMenu).setText(loc.getMenu(key));
-				((JMenu) parentMenu).add((JMenuItem) subMenu);
 
-			}
-		});
+				@Override
+				public void addMenuItem(MenuInterface parentMenu, String key,
+						boolean asHtml, MenuInterface subMenu) {
+					ImageResourceD res = null;
+					if ("Labeling".equals(key)) {
+						res = GuiResourcesD.MODE_SHOWHIDELABEL;
+					}
+					if ("FontSize".equals(key)) {
+						res = GuiResourcesD.FONT;
+					}
+					if (res != null) {
+						((JMenuItem) subMenu).setIcon(app.getMenuIcon(res));
+					}
+					((JMenuItem) subMenu).setText(loc.getMenu(key));
+					((JMenu) parentMenu).add((JMenuItem) subMenu);
+
+				}
+			});
+		}
+		return optionsMenu;
+
 	}
 
 }

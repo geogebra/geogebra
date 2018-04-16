@@ -212,6 +212,7 @@ import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
+import org.geogebra.desktop.gui.menubar.OptionsMenuController;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.ImageSelection;
@@ -5185,6 +5186,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	private ScheduledFuture<?> handler;
 
 	private PrintPreviewD printPreview;
+
+	private OptionsMenuController optionsMenu;
 
 	private static volatile MessageDigest md5EncrypterD;
 
