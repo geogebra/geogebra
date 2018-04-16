@@ -113,6 +113,7 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
+import org.geogebra.common.kernel.geos.PolygonFactory;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
@@ -2454,7 +2455,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 				checkZooming();
 
-				GeoElement[] ret = kernel.vectorPolygon(null, pointsCopy);
+				GeoElement[] ret = new PolygonFactory(kernel).vectorPolygon(null, pointsCopy);
 
 				// offset the copy slightly
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
@@ -2477,7 +2478,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// offset the copy slightly
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
 
-				GeoElement[] ret = kernel.rigidPolygon(poly[0], offset,
+				GeoElement[] ret = new PolygonFactory(kernel).rigidPolygon(poly[0], offset,
 						-offset);
 
 				return ret;
@@ -2553,7 +2554,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (polygonMode == POLYGON_RIGID) {
 			GeoElement[] ret = { null };
-			GeoElement[] ret0 = kernel.rigidPolygon(null,
+			GeoElement[] ret0 = new PolygonFactory(kernel).rigidPolygon(null,
 					getSelectedPointsND());
 			if (ret0 != null) {
 				ret[0] = ret0[0];
@@ -2561,7 +2562,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return ret;
 		} else if (polygonMode == POLYGON_VECTOR) {
 			GeoElement[] ret = { null };
-			GeoElement[] ret0 = kernel.vectorPolygon(null,
+			GeoElement[] ret0 = new PolygonFactory(kernel).vectorPolygon(null,
 					getSelectedPointsND());
 			if (ret0 != null) {
 				ret[0] = ret0[0];

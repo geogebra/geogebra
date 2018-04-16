@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.PolygonFactory;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -40,7 +41,7 @@ public class CmdRigidPolygon extends CommandProcessor {
 
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
 
-				GeoElement[] ret = kernel.rigidPolygon((GeoPolygon) arg[0],
+				GeoElement[] ret = new PolygonFactory(kernel).rigidPolygon((GeoPolygon) arg[0],
 						offset, -offset);
 
 				return ret;
@@ -56,7 +57,7 @@ public class CmdRigidPolygon extends CommandProcessor {
 			if (arg[0].isGeoPolygon() && arg[1] instanceof GeoNumberValue
 					&& arg[2] instanceof GeoNumberValue) {
 
-				GeoElement[] ret = kernel.rigidPolygon((GeoPolygon) arg[0],
+				GeoElement[] ret = new PolygonFactory(kernel).rigidPolygon((GeoPolygon) arg[0],
 						((GeoNumberValue) arg[1]).getDouble(),
 						((GeoNumberValue) arg[2]).getDouble());
 
@@ -77,7 +78,7 @@ public class CmdRigidPolygon extends CommandProcessor {
 			}
 
 			// everything ok
-			return kernel.rigidPolygon(c.getLabels(), points);
+			return new PolygonFactory(kernel).rigidPolygon(c.getLabels(), points);
 		}
 	}
 }

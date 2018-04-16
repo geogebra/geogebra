@@ -427,7 +427,7 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	protected GeoPointND rigidPolygonPointOnCircle(GeoConicND circle,
+	public GeoPointND rigidPolygonPointOnCircle(GeoConicND circle,
 			GeoPointND point1) {
 		if (circle.isGeoElement3D()) {
 			return getManager3D().point3D(null, circle, point1.getInhomX(),
@@ -436,15 +436,6 @@ public class Kernel3D extends Kernel {
 		return super.rigidPolygonPointOnCircle(circle, point1);
 	}
 
-	@Override
-	protected void rigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D) {
-		if (is3D) {
-			sb.append("],xOyPlane]");
-		} else {
-			super.rigidPolygonAddEndOfCommand(sb, is3D);
-		}
-
-	}
 
 	@Override
 	public GeoElement wrapInVector(GeoPointND pt) {

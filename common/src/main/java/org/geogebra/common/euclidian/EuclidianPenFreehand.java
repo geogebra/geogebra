@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.PolygonFactory;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -421,11 +422,12 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				// true if all the points are GeoPoints, otherwise the
 				// original Polygon will not be deleted
 				polygon.remove();
+				PolygonFactory factory = new PolygonFactory(this.app.getKernel());
 				if (expected == ShapeType.rigidPolygon) {
-					this.app.getKernel().rigidPolygon(null,
+					factory.rigidPolygon(null,
 							list.toArray(new GeoPoint[0]));
 				} else {
-					this.app.getKernel().vectorPolygon(null,
+					factory.vectorPolygon(null,
 							list.toArray(new GeoPoint[0]));
 				}
 				return true;
