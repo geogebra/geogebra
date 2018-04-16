@@ -725,8 +725,10 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @param exportToPrinter3D
 	 *            exporter
+	 * @param exportSurface
+	 *            true if it is the surface that it is exported
 	 */
-	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		// default : do nothing
 	}
 

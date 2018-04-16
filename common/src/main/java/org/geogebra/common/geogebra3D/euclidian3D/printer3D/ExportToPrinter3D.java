@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.main.Feature;
 
 public class ExportToPrinter3D {
 
@@ -117,15 +118,17 @@ public class ExportToPrinter3D {
 
 	public void export(Drawable3D d, Type type) {
 		if (type == Type.POINT) {
-			center = ((DrawPoint3D) d).getCenter();
+			if (view.getApplication().has(Feature.MOB_PACK_POINTS)
+					&& d.shouldBePacked()) {
+				center = null;
+			} else {
+				center = ((DrawPoint3D) d).getCenter();
+			}
 		} else {
 			center = null;
 		}
 		GeoElement geo = d.getGeoElement();
 		export(d.getGeometryIndex(), type, geo.getGeoClassType().toString(), geo);
-		if (type == Type.CURVE_CLOSED) {
-			exportSurface(d.getGeoElement(), d.getSurfaceIndex());
-		}
 	}
 
 	public void export(int geometryIndex, Type type, String geoType,
@@ -174,7 +177,7 @@ public class ExportToPrinter3D {
 					int v1 = bi.get();
 					int v2 = bi.get();
 					int v3 = bi.get();
-					getFace(notFirst, offset, v1, v2, v3, -1);
+					getFaceWithOffset(notFirst, offset, v1, v2, v3);
 					notFirst = true;
 				}
 				bi.rewind();
@@ -182,7 +185,7 @@ public class ExportToPrinter3D {
 				if (type == Type.CURVE && format.needsClosedObjects()) {
 					// face for start
 					for (int i = 1; i < 7; i++) {
-						getFace(notFirst, 0, i, i + 1);
+						getFaceWithOffset(notFirst, offset, 0, i, i + 1);
 					}
 
 					// update index
@@ -190,7 +193,8 @@ public class ExportToPrinter3D {
 
 					// face for end
 					for (int i = 2; i < 8; i++) {
-						getFace(notFirst, l - 1, l - i, l - i - 1);
+						getFaceWithOffset(notFirst, offset, l - 1, l - i,
+								l - i - 1);
 					}
 				}
 
@@ -208,13 +212,22 @@ public class ExportToPrinter3D {
 	 * 
 	 * @param d
 	 *            surface drawable
+	 * @param exportSurface
+	 *            says if surface/mesh is to export
 	 */
-	public void export(DrawSurface3DElements d) {
+	public void export(DrawSurface3DElements d, boolean exportSurface) {
 		if (format.handlesSurfaces()) {
 			reverse = false;
 			GeoElement geo = d.getGeoElement();
-			export(geo, d.getGeometryIndex(), "SURFACE_MESH", false, GColor.BLACK, 1);
-			exportSurface(geo, d.getSurfaceIndex());
+			if (exportSurface) {
+				exportSurface(geo, d.getSurfaceIndex());
+			} else {
+				if (geo.getLineThickness() > 0) {
+					export(geo, d.getGeometryIndex(), "SURFACE_MESH", false,
+							GColor.BLACK, 1);
+				}
+			}
+
 		}
 	}
 
@@ -222,7 +235,15 @@ public class ExportToPrinter3D {
 		exportSurface(d.getGeoElement(), d.getSurfaceIndex());
 	}
 
-	private void exportSurface(GeoElement geo, int index) {
+	/**
+	 * export as surface
+	 * 
+	 * @param geo
+	 *            geo
+	 * @param index
+	 *            surface index
+	 */
+	public void exportSurface(GeoElement geo, int index) {
 		double alpha = geo.getAlphaValue();
 		reverse = false;
 		export(geo, index, "SURFACE", true, null, alpha);
@@ -269,6 +290,7 @@ public class ExportToPrinter3D {
 
 				// faces
 				GLBufferIndices bi = geometry.getBufferIndices();
+				int offset = geometry.getElementsOffset();
 				switch (geometry.getType()) {
 				case TRIANGLE_FAN:
 					// for openGL we use replace triangle fans by triangle strips, repeating apex
@@ -283,7 +305,7 @@ public class ExportToPrinter3D {
 						int v2 = v4;
 						v3 = bi.get();
 						v4 = bi.get();
-						getFace(notFirst, v1, v2, v4);
+						getFaceWithOffset(notFirst, offset, v1, v2, v4);
 						notFirst = true;
 					}
 					break;
@@ -298,9 +320,9 @@ public class ExportToPrinter3D {
 						int v2 = v4;
 						v3 = bi.get();
 						v4 = bi.get();
-						getFace(notFirst, v1, v2, v3);
+						getFaceWithOffset(notFirst, offset, v1, v2, v3);
 						notFirst = true;
-						getFace(notFirst, v2, v4, v3);
+						getFaceWithOffset(notFirst, offset, v2, v4, v3);
 					}
 					break;
 				case TRIANGLES:
@@ -312,7 +334,7 @@ public class ExportToPrinter3D {
 						int v1 = bi.get();
 						int v2 = bi.get();
 						v3 = bi.get();
-						getFace(notFirst, v1, v2, v3);
+						getFaceWithOffset(notFirst, offset, v1, v2, v3);
 						notFirst = true;
 					}
 					break;
@@ -387,7 +409,7 @@ public class ExportToPrinter3D {
 
 				// vertices
 				boolean notFirst = false;
-				format.getVerticesStart(sb, format.needsClosedObjects() ? length * 2 : length);
+				format.getVerticesStart(sb, length * 2);
 				for (int i = 0; i < length; i++) {
 					Coords v = vertices[i];
 					double x, y, z;
@@ -401,6 +423,8 @@ public class ExportToPrinter3D {
 					} else {
 						getVertex(notFirst, x, y, z);
 						notFirst = true;
+						getVertex(notFirst, x, y, z); // we need it twice for
+														// front/back sides
 					}
 				}
 				format.getVerticesEnd(sb);
@@ -418,21 +442,18 @@ public class ExportToPrinter3D {
 				notFirst = false;
 
 				for (int i = 1; i < length - 1; i++) {
-					if (format.needsClosedObjects()) {
-						getFace(notFirst, 0, 2 * i, 2 * (i + 1), 0); // top
-						notFirst = true;
-						getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1, 1); // bottom
-					} else {
-						getFace(notFirst, 0, i, i + 1, 0); // top
-						notFirst = true;
-						getFace(notFirst, 0, i + 1, i, 1); // bottom
-					}
+					getFace(notFirst, 0, 2 * i, 2 * (i + 1), 0); // top
+					notFirst = true;
+					getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1, 1); // bottom
 				}
 
 				if (format.needsClosedObjects()) {
 					for (int i = 0; i < length; i++) { // side
-						getFace(notFirst, 2 * i, 2 * i + 1, (2 * i + 3) % (2 * length));
-						getFace(notFirst, 2 * i, (2 * i + 3) % (2 * length), (2 * i + 2) % (2 * length));
+						getFaceWithOffset(notFirst, 0, 2 * i, 2 * i + 1,
+								(2 * i + 3) % (2 * length));
+						getFaceWithOffset(notFirst, 0, 2 * i,
+								(2 * i + 3) % (2 * length),
+								(2 * i + 2) % (2 * length));
 					}
 				}
 
@@ -545,8 +566,9 @@ public class ExportToPrinter3D {
 		format.getNormalsSeparator(sb);
 	}
 	
-	private void getFace(boolean notFirst, int v1, int v2, int v3) {
-		getFace(notFirst, v1, v2, v3, -1);
+	private void getFaceWithOffset(boolean notFirst, int offset, int v1, int v2,
+			int v3) {
+		getFace(notFirst, offset, v1, v2, v3, -1);
 	}
 
 	private void getFace(boolean notFirst, int offset, int v1, int v2, int v3, int normal) {
@@ -577,7 +599,7 @@ public class ExportToPrinter3D {
 
 		sb.setLength(0);
 		format.getScriptStart(sb);
-		view.getRenderer().drawable3DLists.exportToPrinter3D(this);
+		view.exportToPrinter3D(this);
 		format.getScriptEnd(sb);
 		return sb;
 	}

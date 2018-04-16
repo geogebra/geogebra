@@ -357,10 +357,11 @@ public class DrawList3D extends Drawable3D {
 	}
 
 	@Override
-	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible()) {
 			for (DrawableND d : drawables) {
-				((Drawable3D) d).exportToPrinter3D(exportToPrinter3D);
+				((Drawable3D) d).exportToPrinter3D(exportToPrinter3D,
+						exportSurface);
 			}
 		}
 	}

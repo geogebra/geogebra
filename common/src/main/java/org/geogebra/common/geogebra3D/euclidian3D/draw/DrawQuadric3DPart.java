@@ -43,7 +43,9 @@ public class DrawQuadric3DPart extends DrawQuadric3D {
 			}
 			break;
 		case GeoQuadricNDConstants.QUADRIC_CONE:
-			updateForItSelf();
+			if (getView3D().viewChanged()) {
+				updateForItSelf();
+			}
 			break;
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			if (getView3D().viewChangedByZoom()) {

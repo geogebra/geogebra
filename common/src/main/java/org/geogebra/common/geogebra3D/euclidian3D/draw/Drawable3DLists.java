@@ -295,10 +295,32 @@ public class Drawable3DLists {
 	 * 
 	 */
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
-		for (Drawable3DList list : lists) {
-			for (Drawable3D d : list) {
-				d.exportToPrinter3D(exportToPrinter3D);
-			}
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_POINTS]) {
+			d.exportToPrinter3D(exportToPrinter3D, false);
+		}
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
+			d.exportToPrinter3D(exportToPrinter3D, false);
+		}
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
+			d.exportToPrinter3D(exportToPrinter3D, false);
+		}
+
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
+			d.exportToPrinter3D(exportToPrinter3D, true);
+		}
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
+			d.exportToPrinter3D(exportToPrinter3D, true);
+		}
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
+			d.exportToPrinter3D(exportToPrinter3D, true);
+		}
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
+			d.exportToPrinter3D(exportToPrinter3D, true);
+		}
+
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			d.exportToPrinter3D(exportToPrinter3D, false);
+			d.exportToPrinter3D(exportToPrinter3D, true);
 		}
 	}
 

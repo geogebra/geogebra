@@ -1452,9 +1452,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	@Override
-	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible()) {
-			exportToPrinter3D.exportSurface(this);
+			if (exportSurface) {
+				exportToPrinter3D.exportSurface(this);
+			} else {
+				// TODO
+			}
 		}
 	}
 

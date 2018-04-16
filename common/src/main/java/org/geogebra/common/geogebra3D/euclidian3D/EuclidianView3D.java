@@ -4547,4 +4547,11 @@ public abstract class EuclidianView3D extends EuclidianView
 		return drawable3DLists != null && !drawable3DLists.isEmpty();
 	}
 
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+		drawable3DLists.exportToPrinter3D(exportToPrinter3D);
+		for (int i = 0; i < 3; i++) {
+			axisDrawable[i].exportToPrinter3D(exportToPrinter3D, false);
+		}
+	}
+
 }

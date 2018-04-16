@@ -485,20 +485,23 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	}
 
 	@Override
-	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible()) {
-			// faces
-			for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
-					.getPolygonsLinked()) {
-				exportToPrinter3D(exportToPrinter3D, p);
+			if (exportSurface) {
+				// faces
+				for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
+						.getPolygonsLinked()) {
+					exportToPrinter3D(exportToPrinter3D, p);
+				}
+				for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
+						.getPolygons()) {
+					exportToPrinter3D(exportToPrinter3D, p);
+				}
+			} else {
+				// edges
+				exportToPrinter3D.export(getGeometryIndex(), Type.CURVE,
+						"SEGMENT", getGeoElement());
 			}
-			for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
-					.getPolygons()) {
-				exportToPrinter3D(exportToPrinter3D, p);
-			}
-			// edges
-			exportToPrinter3D.export(getGeometryIndex(), Type.CURVE, "SEGMENT",
-					getGeoElement());
 		}
 	}
 

@@ -146,7 +146,13 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 			@Override
 			public void setType(Type type) {
-				this.type = type;
+				// not needed: all geometries are triangles
+			}
+
+			@Override
+			public Type getType() {
+				// all geometries are triangles
+				return Type.TRIANGLES;
 			}
 
 			@Override
