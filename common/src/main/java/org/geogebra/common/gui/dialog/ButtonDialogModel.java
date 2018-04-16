@@ -29,34 +29,33 @@ public class ButtonDialogModel {
 
 	private App app;
 
-	private GeoElement geoResult = null;
 	private GeoButton button = null;
-	private int x, y;
+	private int x;
+	private int y;
 
-	public ButtonDialogModel(App app, int x, int y, boolean textField) {
+	/**
+	 * @param app
+	 *            app
+	 * @param x
+	 *            button screen x-coord
+	 * @param y
+	 *            button screen y-coord
+	 * @param inputBox
+	 *            whether output is input box
+	 */
+	public ButtonDialogModel(App app, int x, int y, boolean inputBox) {
 		this.app = app;
-		this.textField = textField;
+		this.textField = inputBox;
 		this.x = x;
 		this.y = y;
-
 	}
 
-	public GeoElement getResult(String labelText) {
-		if (geoResult != null) {
-			// set label of geoResult
-			String strLabel;
-			try {
-				strLabel = app.getKernel().getAlgebraProcessor()
-						.parseLabel(labelText);
-			} catch (Exception e) {
-				strLabel = null;
-			}
-			geoResult.setLabel(strLabel);
-		}
-
-		return geoResult;
-	}
-
+	/**
+	 * @param caption
+	 *            caption
+	 * @param scriptText
+	 *            script content
+	 */
 	public void apply(String caption, String scriptText) {
 		Construction cons = app.getKernel().getConstruction();
 		button = textField
@@ -88,14 +87,7 @@ public class ButtonDialogModel {
 		button.setFixed(true);
 		button.updateRepaint();
 
-		geoResult = button;
-
 		app.storeUndoInfo();
-
-	}
-
-	public void cancel() {
-		geoResult = null;
 	}
 
 	public String getTitle() {
@@ -110,9 +102,11 @@ public class ButtonDialogModel {
 
 	public boolean isTextField() {
 		return textField;
-
 	}
 
+	/**
+	 * @return click script
+	 */
 	public String getClickScript() {
 		String result = "";
 		Script clickScript = button == null ? null
@@ -123,8 +117,11 @@ public class ButtonDialogModel {
 		return result;
 	}
 
+	/**
+	 * @param geo
+	 *            linked geo for input box
+	 */
 	public void setLinkedGeo(GeoElement geo) {
 		linkedGeo = geo;
-
 	}
 }

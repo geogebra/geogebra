@@ -266,7 +266,6 @@ public class ButtonDialogD extends JDialog
 			model.apply(tfCaption.getText(), tfScript.getText());
 			setVisible(false);
 		} else if (source == btCancel) {
-			model.cancel();
 			setVisible(false);
 		}
 	}

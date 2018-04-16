@@ -22,8 +22,13 @@ public class NumberChangeSignInputHandler extends NumberInputHandler {
 	 * If (changeSign==true), change sign of the number handled
 	 * 
 	 * @param inputString
+	 *            input
 	 * @param changeSign
-	 * @return number handled
+	 *            whether sign change checkbox is checked
+	 * @param handler
+	 *            error handler
+	 * @param callback
+	 *            callback
 	 */
 	public void processInput(String inputString, boolean changeSign,
 			ErrorHandler handler, AsyncOperation<Boolean> callback) {

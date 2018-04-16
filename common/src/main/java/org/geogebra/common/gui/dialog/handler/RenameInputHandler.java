@@ -12,6 +12,9 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
+/**
+ * Handler for rename dialog.
+ */
 public class RenameInputHandler implements InputHandler {
 	private GeoElementND geo;
 
@@ -19,12 +22,24 @@ public class RenameInputHandler implements InputHandler {
 
 	private App app;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param geo
+	 *            renamed geo
+	 * @param storeUndo
+	 *            whether to store undo point after rename
+	 */
 	public RenameInputHandler(App app, GeoElement geo, boolean storeUndo) {
 		this.app = app;
 		this.geo = geo;
 		this.storeUndo = storeUndo;
 	}
 
+	/**
+	 * @param geo
+	 *            renamed geo
+	 */
 	public void setGeoElement(GeoElementND geo) {
 		this.geo = geo;
 	}

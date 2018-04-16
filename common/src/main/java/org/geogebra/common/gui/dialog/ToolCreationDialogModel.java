@@ -308,28 +308,58 @@ public class ToolCreationDialogModel {
 		return newTool;
 	}
 
+	/**
+	 * Add element to output.
+	 * 
+	 * @param geo
+	 *            element
+	 */
 	public void addToOutput(GeoElement geo) {
 		outputList.add(geo);
 		listener.updateLists();
 	}
 
+	/**
+	 * Add a geo to output.
+	 * 
+	 * @param selectedIndex
+	 *            index in output list
+	 */
 	public void addToOutput(int selectedIndex) {
 		if (selectedIndex >= 0) {
 			addToOutput(outputAddList.get(selectedIndex));
 		}
 	}
 
+	/**
+	 * Add element to input.
+	 * 
+	 * @param geo
+	 *            element
+	 */
 	public void addToInput(GeoElement geo) {
 		inputList.add(geo);
 		listener.updateLists();
 	}
 
+	/**
+	 * Add a geo to input.
+	 * 
+	 * @param selectedIndex
+	 *            index in input list
+	 */
 	public void addToInput(int selectedIndex) {
 		if (selectedIndex >= 0) {
 			addToInput(inputAddList.get(selectedIndex));
 		}
 	}
 
+	/**
+	 * Remove elements from output
+	 * 
+	 * @param selIndices
+	 *            indices in output list
+	 */
 	public void removeFromOutput(ArrayList<Integer> selIndices) {
 		for (int i = selIndices.size() - 1; i >= 0; i--) {
 			int selectedIndex = selIndices.get(i);
@@ -340,6 +370,12 @@ public class ToolCreationDialogModel {
 		listener.updateLists();
 	}
 
+	/**
+	 * Remove elements from input
+	 * 
+	 * @param selIndices
+	 *            indices in input list
+	 */
 	public void removeFromInput(ArrayList<Integer> selIndices) {
 		for (int i = selIndices.size() - 1; i >= 0; i--) {
 			int selectedIndex = selIndices.get(i);
@@ -349,6 +385,12 @@ public class ToolCreationDialogModel {
 		listener.updateLists();
 	}
 
+	/**
+	 * Move output elements up in the list.
+	 * 
+	 * @param selIndices
+	 *            indices in output list
+	 */
 	public void moveOutputUp(ArrayList<Integer> selIndices) {
 		for (int i = 0; i < selIndices.size(); i++) {
 			int selectedIndex = selIndices.get(i);
@@ -361,6 +403,12 @@ public class ToolCreationDialogModel {
 		listener.updateLists();
 	}
 
+	/**
+	 * Move output elements down in the list.
+	 * 
+	 * @param selIndices
+	 *            indices in output list
+	 */
 	public void moveOutputDown(ArrayList<Integer> selIndices) {
 		for (int i = selIndices.size() - 1; i >= 0; i--) {
 			int selectedIndex = selIndices.get(i);
@@ -373,6 +421,12 @@ public class ToolCreationDialogModel {
 		listener.updateLists();
 	}
 
+	/**
+	 * Move input elements up in the list.
+	 * 
+	 * @param selIndices
+	 *            indices in input list
+	 */
 	public void moveInputUp(ArrayList<Integer> selIndices) {
 		for (int i = 0; i < selIndices.size(); i++) {
 			int selectedIndex = selIndices.get(i);
@@ -385,6 +439,12 @@ public class ToolCreationDialogModel {
 		listener.updateLists();
 	}
 
+	/**
+	 * Move input elements up in the list.
+	 * 
+	 * @param selIndices
+	 *            indices in input list
+	 */
 	public void moveInputDown(ArrayList<Integer> selIndices) {
 		for (int i = selIndices.size() - 1; i >= 0; i--) {
 			int selectedIndex = selIndices.get(i);
@@ -397,6 +457,12 @@ public class ToolCreationDialogModel {
 		listener.updateLists();
 	}
 
+	/**
+	 * Fill in the dialog from a macro.
+	 * 
+	 * @param macro
+	 *            macro
+	 */
 	public void setFromMacro(Macro macro) {
 		for (int i = 0; i < macro.getMacroInput().length; i++) {
 			GeoElement el = app.getKernel().lookupLabel(macro.getMacroInput()[i]

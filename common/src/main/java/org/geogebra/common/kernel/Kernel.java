@@ -3386,6 +3386,11 @@ public class Kernel implements SpecialPointsListener {
 				GeoElementSpreadsheet.getSpreadsheetCellName(col, row));
 	}
 
+	/**
+	 * Lazy load animation manager.
+	 * 
+	 * @return animation manager
+	 */
 	final public AnimationManager getAnimatonManager() {
 		if (animationManager == null) {
 			animationManager = getApplication().newAnimationManager(this);
@@ -3455,12 +3460,21 @@ public class Kernel implements SpecialPointsListener {
 		return ((geo == cons.getXAxis()) || (geo == cons.getYAxis()));
 	}
 
+	/**
+	 * Update localized axis names.
+	 */
 	public void updateLocalAxesNames() {
 		if (cons != null) {
 			cons.updateLocalAxesNames();
 		}
 	}
 
+	/**
+	 * Update notify repaint flag and call repaint if needed.
+	 * 
+	 * @param flag
+	 *            whether to notify views
+	 */
 	public void setNotifyRepaintActive(boolean flag) {
 		if (flag != notifyRepaint) {
 			notifyRepaint = flag;
@@ -3474,6 +3488,9 @@ public class Kernel implements SpecialPointsListener {
 		return notifyRepaint;
 	}
 
+	/**
+	 * Notify all views to repaint.
+	 */
 	public final void notifyRepaint() {
 		if (notifyRepaint && notifyViewsActive) {
 			for (View view : views) {
@@ -3482,6 +3499,9 @@ public class Kernel implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Notify all views about zoom / pan.
+	 */
 	public final void notifyScreenChanged() {
 		for (View view : views) {
 			if (view instanceof EuclidianViewInterfaceCommon) {

@@ -16,12 +16,26 @@ public class NumberInputHandler implements InputHandler {
 	private boolean oldVal;
 	private App app;
 
+	/**
+	 * @param algebraProcessor
+	 *            algebra processor
+	 */
 	public NumberInputHandler(AlgebraProcessor algebraProcessor) {
 		super();
 		this.algebraProcessor = algebraProcessor;
 		this.app = algebraProcessor.getKernel().getApplication();
 	}
 
+	/**
+	 * @param algebraProcessor
+	 *            algebra processor
+	 * @param cb
+	 *            callback
+	 * @param appl
+	 *            app
+	 * @param oldValue
+	 *            old value
+	 */
 	public NumberInputHandler(AlgebraProcessor algebraProcessor,
 			AsyncOperation<GeoNumberValue> cb, App appl, boolean oldValue) {
 		this(algebraProcessor);

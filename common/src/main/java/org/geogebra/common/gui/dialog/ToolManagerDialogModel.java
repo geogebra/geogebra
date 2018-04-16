@@ -43,6 +43,12 @@ public class ToolManagerDialogModel {
 
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param listener
+	 *            listener
+	 */
 	public ToolManagerDialogModel(App app, ToolManagerDialogListener listener) {
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -140,8 +146,11 @@ public class ToolManagerDialogModel {
 		return deletedMacros;
 	}
 
+	/**
+	 * @param sel
+	 *            selected macros
+	 */
 	public void uploadToGeoGebraTube(final Object[] sel) {
-
 		app.setWaitCursor();
 		try {
 			app.getSelectionManager().clearSelectedGeos(true, false);

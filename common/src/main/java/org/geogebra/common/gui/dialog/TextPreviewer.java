@@ -40,7 +40,8 @@ public abstract class TextPreviewer {
 	protected Kernel kernel;
 	private App app;
 
-	private GeoText previewGeoIndependent, previewGeoDependent;
+	private GeoText previewGeoIndependent;
+	private GeoText previewGeoDependent;
 
 	private AlgoDependentText textAlgo;
 	private final Construction cons;
@@ -81,6 +82,7 @@ public abstract class TextPreviewer {
 	 * these dimensions.
 	 * 
 	 * @param previewGeo
+	 *            preview text
 	 */
 	protected abstract void updateViewportSize(GeoText previewGeo);
 
@@ -151,9 +153,7 @@ public abstract class TextPreviewer {
 		// parse the input text
 		try {
 			exp = kernel.getParser().parseGeoGebraExpression(inputValue);
-		}
-
-		catch (ParseException e) {
+		} catch (ParseException e) {
 			isIndependent = true;
 			hasParseError = true;
 			if (inputValue.length() > 0) {
@@ -176,9 +176,7 @@ public abstract class TextPreviewer {
 				exp.resolveVariables(new EvalInfo(false));
 				isIndependent = exp.isConstant();
 				eval = exp.evaluate(tpl);
-			}
-
-			catch (Error e) {
+			} catch (Error e) {
 				isIndependent = true;
 				showErrorMessage = true;
 				// Log.debug("resolve error:" + e.getCause());

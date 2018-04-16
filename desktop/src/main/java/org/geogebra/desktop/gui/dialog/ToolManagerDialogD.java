@@ -60,7 +60,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 
 	AppD app;
 	final LocalizationD loc;
-	private DefaultListModel toolsModel;
+	private DefaultListModel<Macro> toolsModel;
 	private ToolManagerDialogModel model;
 
 	public ToolManagerDialogD(AppD app) {
@@ -97,7 +97,8 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	/**
 	 * Deletes all selected tools that are not used in the construction.
 	 */
-	private void deleteTools(JList toolList, DefaultListModel listModel) {
+	private void deleteTools(JList<Macro> toolList,
+			DefaultListModel<Macro> listModel) {
 		Object[] sel = toolList.getSelectedValuesList().toArray();
 		if (sel == null || sel.length == 0) {
 			return;
@@ -137,9 +138,9 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 					BorderFactory.createTitledBorder(loc.getMenu("Tools")));
 			getContentPane().add(toolListPanel, BorderLayout.NORTH);
 
-			toolsModel = new DefaultListModel();
+			toolsModel = new DefaultListModel<>();
 			insertTools(toolsModel);
-			final JList toolList = new JList(toolsModel);
+			final JList<Macro> toolList = new JList<>(toolsModel);
 			toolList.setCellRenderer(new MacroCellRenderer());
 			toolList.setVisibleRowCount(6);
 
@@ -275,7 +276,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	 * @param toolList
 	 *            Tools to be opened
 	 */
-	private void openTools(JList toolList) {
+	private void openTools(JList<Macro> toolList) {
 		Object[] sel = toolList.getSelectedValuesList().toArray();
 		if (sel == null || sel.length == 0) {
 			return;
@@ -314,7 +315,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 		}
 	}
 
-	private void insertTools(DefaultListModel listModel) {
+	private void insertTools(DefaultListModel<Macro> listModel) {
 		Kernel kernel = app.getKernel();
 		int size = kernel.getMacroNumber();
 		for (int i = 0; i < size; i++) {
@@ -371,7 +372,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	/*
 	 * upload selected Tools to GeoGebraTube
 	 */
-	private void uploadToGeoGebraTube(final JList toolList) {
+	private void uploadToGeoGebraTube(final JList<Macro> toolList) {
 
 		Thread runner = new Thread() {
 			@Override
@@ -386,7 +387,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	/**
 	 * Saves all selected tools in a new file.
 	 */
-	private void saveTools(JList toolList) {
+	private void saveTools(JList<Macro> toolList) {
 		Object[] sel = toolList.getSelectedValuesList().toArray();
 		if (sel == null || sel.length == 0) {
 			return;

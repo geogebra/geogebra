@@ -10,12 +10,23 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
+/**
+ * Input handler for redefine dialog
+ */
 public class RedefineInputHandler implements InputHandler {
 
 	private GeoElementND geo;
 	App app;
 	String oldString;
 
+	/**
+	 * @param app
+	 *            app
+	 * @param geo
+	 *            redefined element
+	 * @param oldString
+	 *            old definition
+	 */
 	public RedefineInputHandler(App app, GeoElement geo, String oldString) {
 		this.geo = geo;
 		this.app = app;
@@ -24,6 +35,7 @@ public class RedefineInputHandler implements InputHandler {
 
 	/**
 	 * @param geo
+	 *            redefined element
 	 */
 	public void setGeoElement(GeoElementND geo) {
 		this.geo = geo;

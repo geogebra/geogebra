@@ -225,7 +225,6 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 			app.getActiveEuclidianView().requestFocusInWindow();
 		} 
 		else if (source == btCancel) {
-			model.cancel();
 			hide();
 			app.getActiveEuclidianView().requestFocusInWindow();
 		} 
