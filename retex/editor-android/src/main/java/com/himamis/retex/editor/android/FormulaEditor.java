@@ -56,6 +56,7 @@ public class FormulaEditor extends View implements MathField {
 
     public static MetaModel sMetaModel = new MetaModel();
     protected MathFieldInternal mMathFieldInternal;
+    protected float mScale;
     private TeXIcon mTeXIcon;
     private Graphics2DA mGraphics;
     private float mSize = DEFAULT_SIZE;
@@ -64,7 +65,6 @@ public class FormulaEditor extends View implements MathField {
     private ColorA mForegroundColor = new ColorA(Color.BLACK);
     private int mType = TeXFormula.SERIF;
     private String mText;
-    private float mScale;
     private float mMinHeight;
     private Parser mParser;
     private int mIconWidth;
@@ -211,7 +211,7 @@ public class FormulaEditor extends View implements MathField {
         mMathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
     }
 
-    private float getMinHeight() {
+    protected float getMinHeight() {
         if (mMinHeight == 0) {
             TeXIcon tempIcon = new TeXFormula("|").new TeXIconBuilder().setSize(mSize * mScale)
                     .setStyle(TeXConstants.STYLE_DISPLAY).build();
