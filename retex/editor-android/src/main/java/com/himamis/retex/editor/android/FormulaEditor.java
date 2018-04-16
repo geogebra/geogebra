@@ -276,11 +276,6 @@ public class FormulaEditor extends View implements MathField {
         }
     }
 
-    public void setSize(float size) {
-        mSize = size;
-        initFormulaEditor();
-    }
-
     private void createTeXFormula() {
         mMathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel, mParser, mText));
     }
