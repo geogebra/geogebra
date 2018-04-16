@@ -259,6 +259,12 @@ public class FormulaEditor extends View implements MathField {
         requestLayout();
     }
 
+    public void setSize(float size) {
+        mSize = size;
+        mMathFieldInternal.setSize(mSize * mScale);
+        mMathFieldInternal.update();
+    }
+
     public void setPreviewText(String text) {
         if (text != null) {
             TeXFormula texFormula = new TeXFormula(text);
