@@ -8,6 +8,9 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.AbstractProperty;
 import org.geogebra.common.properties.StringProperty;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  * This property controls the distance of an axis numbering
  */
@@ -16,6 +19,7 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
     private EuclidianSettings euclidianSettings;
     private Kernel kernel;
     private int axis;
+    private NumberFormat mNumberFormat;
 
     /**
      * Constructs an xAxis property.
@@ -26,17 +30,27 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
      * @param label             label of the axis
      * @param axis              the axis for the numbering distance will be set
      */
-	public AxisDistanceProperty(Localization localization, Kernel kernel,
-			EuclidianSettings euclidianSettings, String label, int axis) {
+    AxisDistanceProperty(Localization localization, EuclidianSettings
+            euclidianSettings, Kernel kernel, String label, int axis) {
         super(localization, label);
         this.euclidianSettings = euclidianSettings;
         this.kernel = kernel;
         this.axis = axis;
+
+        mNumberFormat = NumberFormat.getInstance(Locale.ENGLISH);
+        mNumberFormat.setGroupingUsed(false);
+        mNumberFormat.setMaximumFractionDigits(2);
     }
 
     @Override
     public String getValue() {
-        return "" + euclidianSettings.getAxisNumberingDistance(axis);
+        //double[] axisDistances = app.getActiveEuclidianView().getAxesNumberingDistances();
+
+        if(euclidianSettings.getAxisNumberingDistance(axis) != null) {
+            return "" + euclidianSettings.getAxisNumberingDistance(axis).getDouble();
+        } else {
+            return "0.5";
+        }
     }
 
     @Override
@@ -51,6 +65,17 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
 
     @Override
     public boolean isEnabled() {
-        return true;
+        boolean[] axesAutomaticDistances = euclidianSettings.getAutomaticAxesNumberingDistances();
+
+        for (boolean auto : axesAutomaticDistances) {
+            if (!auto) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String getFormattedValue(double value) {
+        return mNumberFormat.format(value);
     }
 }
