@@ -8,9 +8,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.AbstractProperty;
 import org.geogebra.common.properties.StringProperty;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 /**
  * This property controls the distance of an axis numbering
  */
@@ -19,7 +16,6 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
     private EuclidianSettings euclidianSettings;
     private Kernel kernel;
     private int axis;
-    private NumberFormat mNumberFormat;
 
     /**
      * Constructs an xAxis property.
@@ -36,17 +32,11 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
         this.euclidianSettings = euclidianSettings;
         this.kernel = kernel;
         this.axis = axis;
-
-        mNumberFormat = NumberFormat.getInstance(Locale.ENGLISH);
-        mNumberFormat.setGroupingUsed(false);
-        mNumberFormat.setMaximumFractionDigits(2);
     }
 
     @Override
     public String getValue() {
-        //double[] axisDistances = app.getActiveEuclidianView().getAxesNumberingDistances();
-
-        if(euclidianSettings.getAxisNumberingDistance(axis) != null) {
+        if (euclidianSettings.getAxisNumberingDistance(axis) != null) {
             return "" + euclidianSettings.getAxisNumberingDistance(axis).getDouble();
         } else {
             return "0.5";
@@ -75,7 +65,4 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
         return false;
     }
 
-    private String getFormattedValue(double value) {
-        return mNumberFormat.format(value);
-    }
 }
