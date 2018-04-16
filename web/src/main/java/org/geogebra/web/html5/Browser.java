@@ -6,6 +6,7 @@ import org.geogebra.web.html5.main.StringHandler;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window.Location;
 
 public class Browser {
@@ -289,14 +290,18 @@ public class Browser {
 			transform = "none";
 		}
 		String pos = x + "% " + y + "%";
-		parent.getStyle().setProperty("webkitTransform", transform);
-		parent.getStyle().setProperty("mozTransform", transform);
-		parent.getStyle().setProperty("msTransform", transform);
-		parent.getStyle().setProperty("transform", transform);
-		parent.getStyle().setProperty("msTransformOrigin", pos);
-		parent.getStyle().setProperty("mozTransformOrigin", pos);
-		parent.getStyle().setProperty("webkitTransformOrigin", pos);
-		parent.getStyle().setProperty("transformOrigin", pos);
+
+		Style style = parent.getStyle();
+		if (style != null) {
+			style.setProperty("webkitTransform", transform);
+			style.setProperty("mozTransform", transform);
+			style.setProperty("msTransform", transform);
+			style.setProperty("transform", transform);
+			style.setProperty("msTransformOrigin", pos);
+			style.setProperty("mozTransformOrigin", pos);
+			style.setProperty("webkitTransformOrigin", pos);
+			style.setProperty("transformOrigin", pos);
+		}
 	}
 
 	/**
