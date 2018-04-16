@@ -514,7 +514,9 @@ public enum SolutionStepType {
 
 	CALCULATE_DETERINANT("CalculateDeterminant", "Calculate the determinant %0"),
 
-    WRITE_IN_MATRIX_FORM("WriteInMatrixForm", "Write the equation in matrix form"),
+	WRITE_IN_MATRIX_FORM("WriteInMatrixForm", "Write the equation system in matrix form"),
+
+	WRITE_IN_SYSTEM_FORM("WriteInSystemForm", "Write the matrix in equation system form"),
 
 	MULTIPLY_ROW_AND_ADD("MultiplyRowAndAdd", "Multiply row %0 by %1 and add it to row %2"),
 

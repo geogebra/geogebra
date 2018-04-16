@@ -45,6 +45,10 @@ public class StepEquationSystem extends StepNode {
         return equations;
     }
 
+    public int size() {
+        return equations.length;
+    }
+
     @Override
     public StepEquationSystem deepCopy() {
         StepEquation[] copy = new StepEquation[equations.length];

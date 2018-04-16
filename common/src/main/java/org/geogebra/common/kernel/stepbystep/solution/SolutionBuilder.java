@@ -87,6 +87,13 @@ public class SolutionBuilder {
 		}
 	}
 
+	public void addIfNontrivial(SolutionBuilder group) {
+		if (group.getSteps().getComplexity() > 4) {
+			addAll(group.getSteps());
+		}
+		group.reset();
+	}
+
 	public void addGroup(SolutionStepType groupHeader, SolutionBuilder group,
 						 StepNode result, StepNode... parameters) {
 		addGroup(new SolutionLine(groupHeader, parameters), group, result);
@@ -105,6 +112,7 @@ public class SolutionBuilder {
 		levelUp();
 		add(result);
 		levelUp();
+		group.reset();
 	}
 
 	public void addSubstep(StepNode original, StepNode result, SolutionStepType substep, StepNode... parameters) {
