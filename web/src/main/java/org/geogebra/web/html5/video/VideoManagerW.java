@@ -108,8 +108,8 @@ public class VideoManagerW implements VideoManager {
 		video.play();
 		if (video.isPlaying()) {
 			controlPlayer(getPlayer(video).getElement(), CMD_PLAY);
-			updatePlayer(video);
 		}
+		updatePlayer(video);
 	}
 
 	@Override
@@ -123,6 +123,15 @@ public class VideoManagerW implements VideoManager {
 		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
 	}
 
+	@Override
+	public void background(GeoVideo video) {
+		if (video == null || !hasPlayer(video)) {
+			return;
+		}
+		video.setBackground(true);
+		updatePlayer(video);
+		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
+	}
 	@Override
 	public boolean isPlaying(GeoVideo geo) {
 		// TODO implement this

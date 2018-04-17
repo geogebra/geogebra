@@ -8617,7 +8617,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void clearVideo() {
 		if (app.getVideoManager() != null) {
-			app.getVideoManager().pause(lastVideo);
+			if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
+				app.getVideoManager().background(lastVideo);
+			} else {
+				app.getVideoManager().pause(lastVideo);
+			}
 		}
 		lastVideo = null;
 	}

@@ -39,14 +39,13 @@ public class VideoPlayer extends Frame {
 		style.setTop(video.getAbsoluteScreenLocY(), Unit.PX);
 		setWidth(video.getWidth() + "px");
 		setHeight(video.getHeight() + "px");
-		if (video.isPlaying()) {
-			removeStyleName("hidden");
-			video.setChanged(false);
-		} else {
-			addStyleName("hidden");
+		if (video.isBackground()) {
+			addStyleName("background");
 			if (!video.getEmbeddedUrl().equals(embedUrl)) {
 				embedUrl = video.getEmbeddedUrl();
 			}
+		} else {
+			removeStyleName("background");
 		}
 	}
 }

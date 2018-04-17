@@ -89,6 +89,14 @@ public interface VideoManager {
 	void pause(GeoVideo geo);
 
 	/**
+	 * Puts GeoVideo object on the background.
+	 * 
+	 * @param geo
+	 *            to send background.
+	 */
+	void background(GeoVideo geo);
+
+	/**
 	 * 
 	 * @param geo
 	 *            Video object to check.

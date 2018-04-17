@@ -49,7 +49,7 @@ public class GeoVideo extends GeoMedia {
 	private MyImage preview;
 	private HitType lastHitType;
 	private State state = State.NONE;
-
+	private boolean background = true;
 	/**
 	 * Constructor.
 	 *
@@ -228,6 +228,7 @@ public class GeoVideo extends GeoMedia {
 
 	@Override
 	public void play() {
+		setBackground(false);
 		state = processState();
 		Log.debug("PLAY state: " + state);
 		changed = true;
@@ -324,5 +325,24 @@ public class GeoVideo extends GeoMedia {
 	@Override
 	public boolean isFixedSize() {
 		return true;
+	}
+
+	/**
+	 * 
+	 * @return if video is in background.
+	 */
+	public boolean isBackground() {
+		return background;
+	}
+
+	/**
+	 * Sets the video to the background, thus
+	 * you can draw on it.
+	 * 
+	 * @param background
+	 *            to set;
+	 */
+	public void setBackground(boolean background) {
+		this.background = background;
 	}
 }

@@ -21,7 +21,8 @@
 	$shadow-elevation-16: 0px 8px 10px -5px $black-2, 0px 16px 24px 2px $black-14, 0px 6px 30px 5px $black-12;
 	
 	// comes from youtube player, you must not change this.
-	$z_mow_video: 12;
+	$z_mow_video: 99;
+	$z_mow_video_background: 12;
 	$z_mow_foreground: 50;
 	$z_mow_toolbar: 51;
 	$z_mow_toolbar_slider: 54;
@@ -866,16 +867,21 @@
 		z-index: $z_mow_video;
 	}
 
-	.mowVideo.hidden {
-		z-index: -1;	
+	.mowVideo.background {
+		@extend .mowVideo;
+		z-index: $z_mow_video_background;
 	}
+	
 
 	.mowDoubleCanvas {
 		.mowVideo {
+			position: absolute;
+			border-style: none;
 			z-index: $z_mow_video;
 		}
 			
-		.mowBackground {
+	
+	.mowBackground {
 			position: absolute; 
 			top: 0px;
 			bottom: 0px;
@@ -885,6 +891,10 @@
 		.cursor_pen,
 		.cursor_hit,
 		.cursor_drag,
+		.cursor_resizeEW,
+		.cursor_resizeNS,
+		.cursor_resizeNESW,
+		.cursor_resizeNWSE,
 		.cursor_transparent {
 			position: absolute; 
 			top: 0px;
