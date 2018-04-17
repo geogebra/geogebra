@@ -163,7 +163,7 @@ public class TubeAPITest extends Assert {
 			public void onLoaded(List<Material> result,
 					ArrayList<Chapter> meta) {
 				api.uploadMaterial(0, "O",
-						result.get(0).getTitle() + Math.random(),
+						result.get(0).getTitle() + (int) (Math.random() * 1000),
 						result.get(0).getBase64(),
 						new MaterialCallbackI() {
 
@@ -179,7 +179,7 @@ public class TubeAPITest extends Assert {
 								Assert.assertNull(exception.getMessage());
 
 							}
-						}, MaterialType.ggb, result.get(0).getId());
+						}, MaterialType.ggb, result.get(0));
 
 			}
 

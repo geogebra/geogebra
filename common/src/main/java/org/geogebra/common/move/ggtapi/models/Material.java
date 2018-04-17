@@ -90,8 +90,13 @@ public class Material implements Comparable<Material>, Serializable {
 	private int height;
 	private String instructionsPre;
 	private String instructionsPost;
-	private boolean showMenu, showToolbar, showInputbar, showResetIcon,
-			shiftDragZoom;
+	private boolean showMenu;
+	private boolean showToolbar;
+	private boolean showInputbar;
+	private boolean showResetIcon;
+	private boolean shiftDragZoom;
+	private boolean rightClick;
+	private boolean labelDrags;
 	private String base64;
 	private String googleID;
 	private long syncStamp;
@@ -151,6 +156,8 @@ public class Material implements Comparable<Material>, Serializable {
 		this.showInputbar = false;
 		this.showResetIcon = false;
 		this.shiftDragZoom = true;
+		this.rightClick = true;
+		this.labelDrags = true;
 	}
 
 	public void setShowMenu(boolean showMenu) {
@@ -527,6 +534,14 @@ public class Material implements Comparable<Material>, Serializable {
 		return this.shiftDragZoom;
 	}
 
+	public boolean getRightClick() {
+		return this.rightClick;
+	}
+
+	public boolean getLabelDrags() {
+		return this.labelDrags;
+	}
+
 	public boolean getShowMenu() {
 		return this.showMenu;
 	}
@@ -695,5 +710,13 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setViewerID(int int1) {
 		this.viewerID = int1;
+	}
+
+	public void setRightClick(boolean rightClick) {
+		this.rightClick = rightClick;
+	}
+
+	public void setLabelDrags(boolean labelDrags) {
+		this.labelDrags = labelDrags;
 	}
 }

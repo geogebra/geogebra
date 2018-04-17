@@ -439,7 +439,7 @@ public abstract class GeoGebraTubeAPI {
 	public void uploadMaterial(int tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,
 			MaterialType type) {
-		uploadMaterial(tubeID, visibility, filename, base64, cb, type, -1);
+		uploadMaterial(tubeID, visibility, filename, base64, cb, type, null);
 	}
 
 	/**
@@ -463,7 +463,7 @@ public abstract class GeoGebraTubeAPI {
 	 */
 	public void uploadMaterial(int tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,
-			MaterialType type, int parent) {
+			MaterialType type, Material parent) {
 
 		performRequest(UploadRequest
 				.getRequestElement(tubeID, visibility, filename, base64, type,
