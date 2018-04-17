@@ -2,10 +2,8 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -17,10 +15,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -29,16 +23,11 @@ import com.google.gwt.user.client.ui.Widget;
  * @author csilla
  *
  */
-public class VideoInputDialog extends DialogBoxW
-		implements FastClickHandler, ErrorHandler {
-	private static final String HTTP = "http://";
-	private static final String HTTPS = "https://";
+public class VideoInputDialog extends MediaDialog {
 	private AppW appW;
 	private FlowPanel mainPanel;
-	private FlowPanel inputPanel;
 	private FlowPanel buttonPanel;
 	private FormLabel inputLabel;
-	private InputPanelW inputField;
 	private Label errorLabel;
 	private StandardButton insertBtn;
 	private StandardButton cancelBtn;
@@ -90,7 +79,7 @@ public class VideoInputDialog extends DialogBoxW
 		setGlassEnabled(true);
 		setLabels();
 
-		int dont;
+		// FIXME remove the lines below;
 		inputField.getTextComponent().setText("https://www.youtube.com/watch?v=07G4xhSefuI");
 		insertBtn.setEnabled(true);
 	}
@@ -118,16 +107,13 @@ public class VideoInputDialog extends DialogBoxW
 						setEmptyState();
 					}
 				});
+		addInputHandler();
 		inputField.getTextComponent().getTextBox()
 				.addKeyUpHandler(new KeyUpHandler() {
 
 					@Override
 					public void onKeyUp(KeyUpEvent event) {
-						if (isInputFieldEmpty()) {
-							setFocusState();
-						} else {
-							processInput();
-						}
+						onInput();
 						if (event.getNativeEvent()
 								.getKeyCode() == KeyCodes.KEY_BACKSPACE
 								&& isInputFieldEmpty()) {
@@ -142,31 +128,9 @@ public class VideoInputDialog extends DialogBoxW
 						}
 					}
 				});
-		inputField.getTextComponent().getTextBox()
-				.addMouseOverHandler(new MouseOverHandler() {
-
-					@Override
-					public void onMouseOver(MouseOverEvent event) {
-						getInputPanel().addStyleName("hoverState");
-					}
-				});
-		inputField.getTextComponent().getTextBox()
-				.addMouseOutHandler(new MouseOutHandler() {
-
-					@Override
-					public void onMouseOut(MouseOutEvent event) {
-						getInputPanel().removeStyleName("hoverState");
-					}
-				});
+		addHoverHandlers();
 		insertBtn.addFastClickHandler(this);
 		cancelBtn.addFastClickHandler(this);
-	}
-
-	/**
-	 * @return panel holding input with label and error label
-	 */
-	public FlowPanel getInputPanel() {
-		return inputPanel;
 	}
 
 	/**
@@ -174,13 +138,6 @@ public class VideoInputDialog extends DialogBoxW
 	 */
 	public StandardButton getInsertBtn() {
 		return insertBtn;
-	}
-
-	/**
-	 * @return input field
-	 */
-	public InputPanelW getInputField() {
-		return inputField;
 	}
 
 	/**
@@ -268,19 +225,12 @@ public class VideoInputDialog extends DialogBoxW
 	}
 
 	@Override
-	public void showCommandError(String command, String message) {
-		// not used but must be implemented
-	}
-
-	@Override
-	public String getCurrentCommand() {
-		return null;
-	}
-
-	@Override
-	public boolean onUndefinedVariables(String string,
-			AsyncOperation<String[]> callback) {
-		return false;
+	public void onInput() {
+		if (isInputFieldEmpty()) {
+			setFocusState();
+		} else {
+			processInput();
+		}
 	}
 
 	@Override

@@ -277,7 +277,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		textField.sinkEvents(
 				Event.ONMOUSEMOVE | Event.ONMOUSEUP | Event.TOUCHEVENTS);
-
+		Browser.setAllowContextMenu(textField.getValueBox().getElement(), true);
 		if (columns > 0) {
 			setColumns(columns);
 		}
