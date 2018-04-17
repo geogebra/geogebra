@@ -1946,8 +1946,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 		specPoints = geos;
-
-		repaintForPreviewFromInputBar();
 	}
 
 	@Override
@@ -1965,15 +1963,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					|| previewFromInputBarGeos.length == 0) ? null
 							: previewFromInputBarGeos[0];
 			app.getSpecialPointsManager().updateSpecialPoints(geo0);
-		} else {
-			repaintForPreviewFromInputBar();
 		}
+		repaintForPreviewFromInputBar();
 	}
 
-	/**
-	 * Repaint for input preview, overridden in 3D
-	 */
-	protected void repaintForPreviewFromInputBar() {
+	private void repaintForPreviewFromInputBar() {
 		boolean needsRepaint = false;
 		if (previewFromInputBarGeos != null) {
 			for (GeoElement geo : previewFromInputBarGeos) {
