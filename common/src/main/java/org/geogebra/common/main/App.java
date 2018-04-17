@@ -4105,6 +4105,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_PREVIEW_WHEN_EDITING:
 			return prerelease;
 
+		// MOB-1516
+		case MOB_PACK_ALL_CURVES:
+			return false;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************

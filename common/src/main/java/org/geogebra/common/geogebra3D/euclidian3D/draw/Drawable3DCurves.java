@@ -5,6 +5,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 
 /**
  * 
@@ -110,10 +111,103 @@ public abstract class Drawable3DCurves extends Drawable3D {
 
 	@Override
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
-		super.setWaitForUpdateVisualStyle(prop);
+		if (shouldBePacked()) {
+			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
+				setWaitForUpdateColor();
+			} else if (prop == GProperty.VISIBLE) {
+				setWaitForUpdateVisibility();
+			} else {
+				super.setWaitForUpdateVisualStyle(prop);
+				if (!getView3D().getApplication()
+						.has(Feature.MOB_PACK_ALL_CURVES)) {
+					// also update for e.g. line width
+					setWaitForUpdate();
+				}
+			}
+		} else {
+			super.setWaitForUpdateVisualStyle(prop);
+			if (!getView3D().getApplication()
+					.has(Feature.MOB_PACK_ALL_CURVES)) {
+				// also update for e.g. line width
+				setWaitForUpdate();
+			}
+		}
+	}
 
-		// also update for e.g. line width
-		setWaitForUpdate();
+	@Override
+	protected void updateForViewVisible() {
+		if (!waitForUpdate()) {
+			updateForView();
+		}
+	}
+
+	@Override
+	public void disposePreview() {
+		if (shouldBePacked()) {
+			removePreviewFromGL();
+		}
+		super.disposePreview();
+	}
+
+	@Override
+	protected void updateGeometriesVisibility() {
+		boolean isVisible = isVisible();
+		if (geometriesSetVisible != isVisible) {
+			setGeometriesVisibility(isVisible);
+		}
+	}
+
+	@Override
+	public int getReusableSurfaceIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getSurfaceIndex());
+		}
+		return super.getReusableSurfaceIndex();
+	}
+
+	@Override
+	protected int getReusableGeometryIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getGeometryIndex());
+		}
+		return super.getReusableGeometryIndex();
+	}
+
+	@Override
+	protected void recordTrace() {
+		if (!shouldBePackedForManager()) {
+			super.recordTrace();
+		}
+	}
+
+	@Override
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
+		if (shouldBePackedForManager()) {
+			if (tracesPackingBuffer != null) {
+				while (!tracesPackingBuffer.isEmpty()) {
+					doRemoveGeometryIndex(tracesPackingBuffer.pop());
+				}
+			}
+		} else {
+			super.clearTraceForViewChangedByZoomOrTranslate();
+		}
+	}
+
+	@Override
+	protected void updateForViewNotVisible() {
+		if (shouldBePacked()) {
+			if (getView3D().viewChangedByZoom()) {
+				// will be updated if visible again
+				setWaitForUpdate();
+			}
+			updateGeometriesVisibility();
+		}
+	}
+
+	@Override
+	public boolean shouldBePacked() {
+		return getView3D().getApplication().has(Feature.MOB_PACK_ALL_CURVES)
+				&& !createdByDrawList();
 	}
 
 }

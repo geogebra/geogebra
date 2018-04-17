@@ -11,7 +11,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
@@ -397,28 +396,6 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	}
 
 	@Override
-	protected void updateForViewVisible() {
-		if (!waitForUpdate()) {
-			updateForView();
-		}
-	}
-
-	@Override
-	public void setWaitForUpdateVisualStyle(GProperty prop) {
-		if (shouldBePacked()) {
-			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
-				setWaitForUpdateColor();
-			} else if (prop == GProperty.VISIBLE) {
-				setWaitForUpdateVisibility();
-			} else {
-				super.setWaitForUpdateVisualStyle(prop);
-			}
-		} else {
-			super.setWaitForUpdateVisualStyle(prop);
-		}
-	}
-
-	@Override
 	protected void updateGeometriesColor() {
 		updateColors();
 		getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
@@ -428,64 +405,9 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	}
 
 	@Override
-	protected void updateGeometriesVisibility() {
-		boolean isVisible = isVisible();
-		if (geometriesSetVisible != isVisible) {
-			setGeometriesVisibility(isVisible);
-		}
-	}
-
-	@Override
 	protected void setGeometriesVisibility(boolean visible) {
 		getView3D().getRenderer().getGeometryManager().updateVisibility(visible, getGeometryIndex());
 		geometriesSetVisible = visible;
-	}
-
-	@Override
-	protected void updateForViewNotVisible() {
-		if (shouldBePacked()) {
-			if (getView3D().viewChangedByZoom()) {
-				// will be updated if visible again
-				setWaitForUpdate();
-			}
-			updateGeometriesVisibility();
-		}
-	}
-
-	@Override
-	public void disposePreview() {
-		if (shouldBePacked()) {
-			removePreviewFromGL();
-		}
-		super.disposePreview();
-	}
-
-	@Override
-	protected int getReusableGeometryIndex() {
-		if (shouldBePackedForManager()) {
-			return addToTracesPackingBuffer(getGeometryIndex());
-		}
-		return super.getReusableGeometryIndex();
-	}
-
-	@Override
-	protected void recordTrace() {
-		if (!shouldBePackedForManager()) {
-			super.recordTrace();
-		}
-	}
-
-	@Override
-	protected void clearTraceForViewChangedByZoomOrTranslate() {
-		if (shouldBePackedForManager()) {
-			if (tracesPackingBuffer != null) {
-				while (!tracesPackingBuffer.isEmpty()) {
-					doRemoveGeometryIndex(tracesPackingBuffer.pop());
-				}
-			}
-		} else {
-			super.clearTraceForViewChangedByZoomOrTranslate();
-		}
 	}
 
 	@Override

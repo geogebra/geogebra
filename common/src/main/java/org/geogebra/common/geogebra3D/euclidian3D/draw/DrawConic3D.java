@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.geos.FromMeta;
-import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -1034,28 +1033,6 @@ public class DrawConic3D extends Drawable3DCurves
 	}
 
 	@Override
-	public void setWaitForUpdateVisualStyle(GProperty prop) {
-		if (shouldBePacked()) {
-			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
-				setWaitForUpdateColor();
-			} else if (prop == GProperty.VISIBLE) {
-				setWaitForUpdateVisibility();
-			} else {
-				super.setWaitForUpdateVisualStyle(prop);
-			}
-		} else {
-			super.setWaitForUpdateVisualStyle(prop);
-		}
-	}
-
-	@Override
-	protected void updateForViewVisible() {
-		if (!waitForUpdate()) {
-			updateForView();
-		}
-	}
-
-	@Override
 	protected void updateForViewNotVisible() {
 		if (shouldBePacked()) {
 			switch (((GeoConicND) getGeoElement()).getType()) {
@@ -1090,14 +1067,6 @@ public class DrawConic3D extends Drawable3DCurves
 	}
 
 	@Override
-	public void disposePreview() {
-		if (shouldBePacked()) {
-			removePreviewFromGL();
-		}
-		super.disposePreview();
-	}
-
-	@Override
 	protected void updateGeometriesColor() {
 		updateColors();
 		getView3D().getRenderer().getGeometryManager().updateColor(getColor(),
@@ -1110,56 +1079,12 @@ public class DrawConic3D extends Drawable3DCurves
 	}
 
 	@Override
-	protected void updateGeometriesVisibility() {
-		boolean isVisible = isVisible();
-		if (geometriesSetVisible != isVisible) {
-			setGeometriesVisibility(isVisible);
-		}
-	}
-
-	@Override
 	protected void setGeometriesVisibility(boolean visible) {
 		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
 				getGeometryIndex());
 		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
 				getSurfaceIndex());
 		geometriesSetVisible = visible;
-	}
-
-	@Override
-	public int getReusableSurfaceIndex() {
-		if (shouldBePackedForManager()) {
-			return addToTracesPackingBuffer(getSurfaceIndex());
-		}
-		return super.getReusableSurfaceIndex();
-	}
-
-	@Override
-	protected int getReusableGeometryIndex() {
-		if (shouldBePackedForManager()) {
-			return addToTracesPackingBuffer(getGeometryIndex());
-		}
-		return super.getReusableGeometryIndex();
-	}
-
-	@Override
-	protected void recordTrace() {
-		if (!shouldBePackedForManager()) {
-			super.recordTrace();
-		}
-	}
-
-	@Override
-	protected void clearTraceForViewChangedByZoomOrTranslate() {
-		if (shouldBePackedForManager()) {
-			if (tracesPackingBuffer != null) {
-				while (!tracesPackingBuffer.isEmpty()) {
-					doRemoveGeometryIndex(tracesPackingBuffer.pop());
-				}
-			}
-		} else {
-			super.clearTraceForViewChangedByZoomOrTranslate();
-		}
 	}
 
 	@Override
