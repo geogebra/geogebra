@@ -84,13 +84,13 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
         if (distance == 0) {
             return numberFormatter.format(0);
         } else if (equals(distance, Math.PI)) {
-            return String.valueOf(Unicode.PI_STRING);
+            return Unicode.PI_STRING;
         } else if (distance % Math.PI == 0) {
-            return numberFormatter.format(distance / Math.PI) + String.valueOf(Unicode.PI_STRING);
+            return numberFormatter.format(distance / Math.PI) + Unicode.PI_STRING;
         } else if (equals(distance, Math.PI / 2)) {
-            return String.valueOf(Unicode.PI_STRING) + "/2";
+            return Unicode.PI_STRING + "/2";
         } else if (equals(distance, Math.PI / 4)) {
-            return String.valueOf(Unicode.PI_STRING) + "/4";
+            return Unicode.PI_STRING + "/4";
         } else {
             return numberFormatter.format(distance);
         }

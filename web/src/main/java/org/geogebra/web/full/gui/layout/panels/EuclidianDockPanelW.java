@@ -89,11 +89,11 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 				eviewBg = Canvas.createIfSupported();
 				eviewBg.addStyleName("mowBackground");
 				eview1.addStyleName("mowForeground");
-				addCanvas(eviewBg, 0);
-				addCanvas(eview1, 1);
+				addCanvas(eviewBg);
+				addCanvas(eview1);
 				euclidianpanel.addStyleName("mowDoubleCanvas");
 			} else {
-				addCanvas(eview1, 0);
+				addCanvas(eview1);
 			}
 
 		}
@@ -101,7 +101,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 		return euclidianpanel;
 	}
 
-	private void addCanvas(Canvas c, int zindex) {
+	private void addCanvas(Canvas c) {
 		if (c != null) {
 		// c.getElement().getStyle().setPosition(Style.Position.RELATIVE);
 		// c.getElement().getStyle().setZIndex(0);
