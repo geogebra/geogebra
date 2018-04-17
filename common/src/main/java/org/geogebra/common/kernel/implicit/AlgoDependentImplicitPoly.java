@@ -362,8 +362,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 
 	@Override
 	protected String toExpString(StringTemplate tpl) {
-		return geoElement.getLabel(tpl) + ": "
-				+ geoElement.getDefinition().toString(tpl);
+		return geoElement.getDefinition().toString(tpl);
 	}
 
 }
