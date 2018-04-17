@@ -523,6 +523,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 		resetToolbarPanel();
 
+		if (getGuiManager() != null) {
+			getGuiManager().updateGlobalOptions();
+		}
+
 	}
 
 	private void resetAllToolbars() {

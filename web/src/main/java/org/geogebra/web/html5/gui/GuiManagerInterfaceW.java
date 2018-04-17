@@ -136,4 +136,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	public void clearAbsolutePanels();
 
+	/**
+	 * Update global tab of properties if exists
+	 */
+	public void updateGlobalOptions();
+
 }

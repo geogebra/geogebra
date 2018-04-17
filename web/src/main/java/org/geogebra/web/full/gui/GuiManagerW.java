@@ -1530,6 +1530,11 @@ public class GuiManagerW extends GuiManager
 			bar.removeMenus();
 			bar.init(getApp());
 		}
+		updateGlobalOptions();
+	}
+
+	@Override
+	public void updateGlobalOptions() {
 		if (propertiesView != null) {
 			((PropertiesViewW) this.getPropertiesView())
 					.getOptionPanel(OptionType.GLOBAL, 0).updateGUI();

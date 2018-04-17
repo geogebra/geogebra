@@ -327,7 +327,9 @@ public abstract class AppW extends App implements SetLabels {
 				.empty(getArticleElement().getParamScaleContainerClass())) {
 			Element parent = getParent(
 					getArticleElement().getParamScaleContainerClass());
-			scaleTo(parent.getOffsetWidth(), parent.getOffsetHeight());
+			if (parent != null) {
+				scaleTo(parent.getOffsetWidth(), parent.getOffsetHeight());
+			}
 		} else if (!getArticleElement().getParamDisableAutoScale()) {
 			int border = Window.getClientWidth() > 480 ? 30 : 10;
 			int width = Window.getClientWidth() - (int) getAbsLeft() - border;
