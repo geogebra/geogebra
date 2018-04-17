@@ -289,7 +289,9 @@ public enum Feature {
 	MOB_PACK_CONIC,
 
 	/** MOB-1515 */
-	MOB_PACK_POINTS
+	MOB_PACK_POINTS,
 
+	/** MOB-1537 */
+	MOB_PREVIEW_WHEN_EDITING
 }
 
