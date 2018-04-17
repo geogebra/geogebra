@@ -130,16 +130,12 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 				AlgoRoots algoRoots = new AlgoRoots(kernel.getConstruction(),
 						null, geo, view.getXminObject(),
 						view.getXmaxObject(), false);
-				add(algoRoots.getRootPoints(), retList);
-				specPointAlgos.add(algoRoots);
+				add(algoRoots, retList);
 			} else {
 				AlgoRootsPolynomial algoRootsPolynomial = new AlgoRootsPolynomial(
 						kernel.getConstruction(), null, geo,
 						false);
-				kernel.getConstruction()
-						.removeFromAlgorithmList(algoRootsPolynomial);
-				add(algoRootsPolynomial.getRootPoints(), retList);
-				specPointAlgos.add(algoRootsPolynomial);
+				add(algoRootsPolynomial, retList);
 			}
 		}
 		if (poly == null || poly.getDegree() > 1) {
@@ -149,16 +145,12 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 				AlgoExtremumMulti algoExtremumMulti = new AlgoExtremumMulti(
 						kernel.getConstruction(), null, geo,
 						view.getXminObject(), view.getXmaxObject(), false);
-				add(algoExtremumMulti.getExtremumPoints(), retList);
-				specPointAlgos.add(algoExtremumMulti);
+				add(algoExtremumMulti, retList);
 			} else {
 				AlgoExtremumPolynomial algoExtremumPolynomial = new AlgoExtremumPolynomial(
 						kernel.getConstruction(), null, geo,
 						false);
-				kernel.getConstruction()
-						.removeFromAlgorithmList(algoExtremumPolynomial);
-				add(algoExtremumPolynomial.getRootPoints(), retList);
-				specPointAlgos.add(algoExtremumPolynomial);
+				add(algoExtremumPolynomial, retList);
 			}
 		}
 
@@ -166,10 +158,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			AlgoIntersectPolynomialLine algoPolynomialLine = new AlgoIntersectPolynomialLine(
 					kernel.getConstruction(), geo,
 					kernel.getConstruction().getYAxis());
-			kernel.getConstruction()
-					.removeFromAlgorithmList(algoPolynomialLine);
-			add(algoPolynomialLine.getOutput(), retList);
-			specPointAlgos.add(algoPolynomialLine);
+			add(algoPolynomialLine, retList);
 		}
 	}
 
@@ -224,6 +213,12 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		return (geo instanceof GeoFunction || geo instanceof EquationValue)
 				&& geo.isVisible() && geo.isDefined()
 				&& geo.isEuclidianVisible() && !geo.isGeoElement3D();
+	}
+
+	private void add(AlgoElement algoElement, ArrayList<GeoElementND> retList) {
+		kernel.getConstruction().removeFromAlgorithmList(algoElement);
+		add(algoElement.getOutput(), retList);
+		specPointAlgos.add(algoElement);
 	}
 
 	private static void add(GeoElement[] geos1,
