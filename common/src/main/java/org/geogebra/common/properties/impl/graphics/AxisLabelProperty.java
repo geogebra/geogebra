@@ -9,51 +9,52 @@ import org.geogebra.common.properties.StringProperty;
  * This property controls the label on an axis.
  */
 public class AxisLabelProperty extends AbstractProperty
-		implements StringProperty {
+        implements StringProperty {
 
-	private EuclidianSettings euclidianSettings;
-	private int axis;
+    private EuclidianSettings euclidianSettings;
+    private int axis;
 
-	/**
-	 * Constructs an xAxis property.
-	 *
-	 * @param localization
-	 *            localization for the title
-	 * @param euclidianSettings
-	 *            euclidian settings
-	 * @param label
-	 *            the name of the axis
-	 * @param axis
-	 *            the axis for label
-	 */
-	public AxisLabelProperty(Localization localization,
-			EuclidianSettings euclidianSettings, String label, int axis) {
-		super(localization, label);
-		this.euclidianSettings = euclidianSettings;
-		this.axis = axis;
-	}
+    /**
+     * Constructs an xAxis property.
+     *
+     * @param localization      localization for the title
+     * @param euclidianSettings euclidian settings
+     * @param label             the name of the axis
+     * @param axis              the axis for label
+     */
+    public AxisLabelProperty(Localization localization,
+            EuclidianSettings euclidianSettings, String label, int axis) {
+        super(localization, label);
+        this.euclidianSettings = euclidianSettings;
+        this.axis = axis;
+    }
 
-	@Override
-	public String getValue() {
-		if (!isEnabled()) {
-			return EuclidianSettings.getDefaultAxisLabel(axis);
-		}
-		String axisLabel = euclidianSettings.getAxesLabels()[axis];
-		return axisLabel == null ? "" : axisLabel;
-	}
+    @Override
+    public String getValue() {
+        if (!isEnabled()) {
+            return EuclidianSettings.getDefaultAxisLabel(axis);
+        }
+        String axisLabel = euclidianSettings.getAxesLabels()[axis];
+        return axisLabel == null ? "" : axisLabel;
+    }
 
-	@Override
-	public void setValue(String value) {
-		euclidianSettings.setAxisLabel(axis, value);
-	}
+    @Override
+    public void setValue(String value) {
+        euclidianSettings.setAxisLabel(axis, value);
+    }
 
-	@Override
-	public boolean isEnabled() {
-		String[] labels = euclidianSettings.getAxesLabels();
-		boolean enabled = false;
-		for (String label : labels) {
-			enabled |= label != null;
-		}
-		return enabled;
-	}
+    @Override
+    public boolean isValid(String value) {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        String[] labels = euclidianSettings.getAxesLabels();
+        boolean enabled = false;
+        for (String label : labels) {
+            enabled |= label != null;
+        }
+        return enabled;
+    }
 }

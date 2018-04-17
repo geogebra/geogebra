@@ -49,10 +49,10 @@ public class AxesNumberingDistanceProperty extends AbstractProperty implements B
     }
 
     private void setCustomDistance() {
-        int length = euclidianSettings.getAutomaticAxesNumberingDistances().length;
-        for (int i = 0; i < length; i++) {
+        double[] axesDistances = app.getActiveEuclidianView().getAxesNumberingDistances();
+        for (int i = 0; i < axesDistances.length; i++) {
             euclidianSettings.setAxisNumberingDistance(i, app.getKernel().getAlgebraProcessor()
-                    .evaluateToNumeric("0.5", ErrorHelper.silent()));
+                    .evaluateToNumeric("" + axesDistances[i] / 2, ErrorHelper.silent()));
         }
     }
 

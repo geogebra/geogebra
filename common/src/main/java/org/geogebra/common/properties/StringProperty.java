@@ -18,4 +18,11 @@ public interface StringProperty extends Property {
      * @param value the new value for the property
      */
     void setValue(String value);
+
+    /**
+     * Validates the value and returns a boolean whether it was valid or not
+     *
+     * @return a boolean whether the value is valid or not
+     */
+    boolean isValid(String value);
 }

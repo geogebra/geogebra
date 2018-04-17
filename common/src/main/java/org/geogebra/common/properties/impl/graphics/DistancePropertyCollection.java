@@ -27,13 +27,13 @@ public class DistancePropertyCollection extends AbstractProperty implements Prop
 
         ArrayList<Property> properties = new ArrayList<>();
         properties.add(new AxesNumberingDistanceProperty(localization, euclidianSettings, app));
-        properties.add(new AxisDistanceProperty(localization, euclidianSettings, app.getKernel(),
+        properties.add(new AxisDistanceProperty(localization, euclidianSettings, app,
                 "xAxis", 0));
-        properties.add(new AxisDistanceProperty(localization, euclidianSettings, app.getKernel(),
+        properties.add(new AxisDistanceProperty(localization, euclidianSettings, app,
                 "yAxis", 1));
         if ("3D".equals(app.getVersion().getAppName())) {
             properties.add(
-                    new AxisDistanceProperty(localization, euclidianSettings, app.getKernel(),
+                    new AxisDistanceProperty(localization, euclidianSettings, app,
                             "zAxis", 2));
         }
 
