@@ -136,11 +136,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				GeoElement existingGeo = this.kernel.lookupLabel(ve.getLabel());
 				if (existingGeo == null) {
 
-					GeoElementND[] inputGeos = this.kernel.getAlgebraProcessor()
-							.processAlgebraCommandNoExceptionHandling(ve, false,
-									validation, null,
-									info.withSliders(kernel.getApplication()
-											.has(Feature.INPUT_BAR_ADD_SLIDER)));
+					GeoElementND[] inputGeos = evalValidExpression(ve, info);
 					previewGeos = null;
 					if (inputGeos != null) {
 						// TODO use thisif we want text centering
@@ -173,11 +169,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				} else if (kernel.getApplication().has(Feature.MOB_PREVIEW_WHEN_EDITING) &&
 						existingGeo.getParentAlgorithm() == null && !existingGeo.hasChildren()) {
 					ve.setLabels(null);
-					GeoElementND[] inputGeos = this.kernel.getAlgebraProcessor()
-							.processAlgebraCommandNoExceptionHandling(ve, false,
-									validation, null,
-									info.withSliders(kernel.getApplication()
-											.has(Feature.INPUT_BAR_ADD_SLIDER)));
+					GeoElementND[] inputGeos = evalValidExpression(ve, info);
 					if (inputGeos != null && inputGeos.length == 1) {
 						GeoElementND redefined = inputGeos[0];
 						existingGeo.set(redefined);
@@ -211,6 +203,12 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			maxLength = validInput.length();
 			validInput = null;
 		}
+	}
+
+	private GeoElementND[] evalValidExpression(ValidExpression ve, EvalInfo info) {
+		return kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(ve, false,
+						validation, null, info.withSliders(kernel.getApplication().has(Feature
+						.INPUT_BAR_ADD_SLIDER)));
 	}
 
 	private static boolean isCASeval(ValidExpression ve) {
