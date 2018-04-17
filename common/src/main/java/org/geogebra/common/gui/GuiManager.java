@@ -935,16 +935,16 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public void addAudio(String url) {
-		// TODO in subclasses
+		// implemented in subclasses
 	}
 
 	@Override
 	public void addVideo(String url) {
-		// TODO in subclasses
+		// implemented in subclasses
 	}
 
 	@Override
 	public void updateVideo(GeoVideo video) {
-		// TODO in subclasses
+		// implemented in subclasses
 	}
 }

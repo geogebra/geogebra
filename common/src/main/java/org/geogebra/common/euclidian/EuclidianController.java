@@ -9268,7 +9268,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// button or selecting slider tool.
 			else if (app.isWhiteboardActive()
 					&& app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)) {
-
 				setViewHits(event.getType());
 				GeoElement geo0 = null;
 				Hits hits0 = view.getHits();
