@@ -170,8 +170,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					}
 
 					this.kernel.notifyUpdatePreviewFromInputBar(previewGeos);
-				} else if (existingGeo.getParentAlgorithm() == null && !existingGeo.hasChildren()) {
-					Log.debug("Existing geo element without children");
+				} else if (kernel.getApplication().has(Feature.MOB_PREVIEW_WHEN_EDITING) &&
+						existingGeo.getParentAlgorithm() == null && !existingGeo.hasChildren()) {
 					ve.setLabels(null);
 					GeoElementND[] inputGeos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(ve, false,
