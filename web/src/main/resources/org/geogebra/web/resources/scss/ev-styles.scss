@@ -1,19 +1,23 @@
 @import 'colors';
 	
 .GeoGebraFrame {
+	$always_on_top: 1000000;
+	
+	.TitleBarPanel {
+		z-index: 99;	
+	}
 	
 	.MatTitleBarPanelContent {
 		box-shadow:none;	
 		padding: 0px;
 		background-color: transparent;
 	}
-	
+
 	.button.flatButton.graphicsContextMenuBtn.button-up {
 		margin-top: 10px;
 		margin-right: 10px;	
 		position: absolute;
 		right: 0px;
-			
 		img {
 			opacity: 0.54;
 		}
@@ -327,7 +331,8 @@
 		cursor: default;
 		top: auto !important;
     	left: auto !important;
-    	
+    	z-index: $always_on_top;
+		
     	.zoomPanelBtn {
     		position: relative;
     		width: 36px;
@@ -411,8 +416,8 @@
 		padding-bottom: 4px;
 		padding-left: 12px;
 		position: absolute;
-		z-index: 10;
-
+		z-index: $always_on_top;
+		
 		.flatButton {
 			display: inline-block;
 		}
