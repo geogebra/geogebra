@@ -603,10 +603,12 @@ public class ProbabilityManager {
 		case PASCAL:
 			// r = parms[0]
 			// p = parms[1]
-			// if r <= 1, mode = 0, else mode = floor(p(r-1)/(1-p)
+			// care: p swapped with 1-p from Wikipedia page
+			// https://en.wikipedia.org/wiki/Negative_binomial_distribution
+			// if r <= 1, mode = 0, else mode = floor((1-p)(r-1)/(p)
 			mode = 0;
 			if (parms[0] > 1) {
-				mode = Math.floor(parms[1] * (parms[0] - 1) / (1 - parms[1]));
+				mode = Math.floor((1 - parms[1]) * (parms[0] - 1) / (parms[1]));
 			}
 
 			xMin = probCalc.getDiscreteXMin();
