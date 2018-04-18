@@ -166,7 +166,7 @@ public class VideoManagerW implements VideoManager {
 	@Override
 	public void createPreview(GeoVideo geo, final AsyncOperation<MyImage> cb) {
 		final Image img = new Image();
-		// img.getElement().setAttribute("crossorigin", "anonymous");
+		img.getElement().setAttribute("crossorigin", "anonymous");
 		img.setUrl(geo.getPreviewUrl());
 		img.addLoadHandler(new LoadHandler() {
 
