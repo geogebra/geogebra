@@ -278,7 +278,7 @@ abstract class GLBufferManager {
 		}
 
 		// set elements
-		setElements(reuseSegment);
+		setElements(reuseSegment, type);
 
 		// release arrays
 		vertexArray = null;
@@ -291,8 +291,10 @@ abstract class GLBufferManager {
 	 * 
 	 * @param reuseSegment
 	 *            says if segment is reused
+	 * @param type
+	 *            element type
 	 */
-	protected void setElements(boolean reuseSegment) {
+	protected void setElements(boolean reuseSegment, TypeElement type) {
 		currentBufferPack.setElements();
 	}
 

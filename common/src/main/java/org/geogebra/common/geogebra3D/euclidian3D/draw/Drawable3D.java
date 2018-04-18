@@ -1878,4 +1878,33 @@ public abstract class Drawable3D extends DrawableND {
 			setGeometriesVisibility(intersectionCurveVisibility);
 		}
 	}
+
+	/**
+	 * setup manager start packing curves (if possible)
+	 */
+	protected void setPackCurve() {
+		if (shouldBePacked()) {
+			getView3D().getRenderer().getGeometryManager().setPackCurve(
+					getColor(), getGeoElement().getLineType(),
+					getGeoElement().getLineTypeHidden());
+		}
+	}
+
+	/**
+	 * setup manager start packing surfaces (if possible)
+	 */
+	protected void setPackSurface() {
+		if (shouldBePacked()) {
+			getView3D().getRenderer().getGeometryManager().setPackSurface(this);
+		}
+	}
+
+	/**
+	 * setup manager end packing
+	 */
+	protected void endPacking() {
+		if (shouldBePacked()) {
+			getView3D().getRenderer().getGeometryManager().endPacking();
+		}
+	}
 }

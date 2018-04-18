@@ -153,26 +153,6 @@ public class DrawConic3D extends Drawable3DCurves
 		}
 	}
 
-	private void setPackCurve() {
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackCurve(
-					getColor(), getGeoElement().getLineType(),
-					getGeoElement().getLineTypeHidden());
-		}
-	}
-
-	private void setPackSurface() {
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackSurface(this);
-		}
-	}
-
-	private void endPacking() {
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().endPacking();
-		}
-	}
-
 	@Override
 	protected boolean updateForItSelf() {
 

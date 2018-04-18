@@ -117,20 +117,25 @@ public abstract class Drawable3DCurves extends Drawable3D {
 			} else if (prop == GProperty.VISIBLE) {
 				setWaitForUpdateVisibility();
 			} else {
-				super.setWaitForUpdateVisualStyle(prop);
-				if (!getView3D().getApplication()
-						.has(Feature.MOB_PACK_ALL_CURVES)) {
-					// also update for e.g. line width
-					setWaitForUpdate();
-				}
+				setWaitForUpdateOtherStyles(prop);
 			}
 		} else {
-			super.setWaitForUpdateVisualStyle(prop);
-			if (!getView3D().getApplication()
-					.has(Feature.MOB_PACK_ALL_CURVES)) {
+			setWaitForUpdateOtherStyles(prop);
+		}
+	}
+
+	private void setWaitForUpdateOtherStyles(GProperty prop) {
+		super.setWaitForUpdateVisualStyle(prop);
+		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_CURVES)) {
+			if (prop == GProperty.ANGLE_STYLE || prop == GProperty.LINE_STYLE
+					|| prop == GProperty.COMBINED
+					|| prop == GProperty.POINT_STYLE) {
 				// also update for e.g. line width
 				setWaitForUpdate();
 			}
+		} else {
+			// also update for e.g. line width
+			setWaitForUpdate();
 		}
 	}
 

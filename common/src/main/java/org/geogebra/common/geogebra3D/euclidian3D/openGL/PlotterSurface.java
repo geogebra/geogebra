@@ -49,10 +49,11 @@ public class PlotterSurface {
 
 	protected Coords m = new Coords(4);
 	protected Coords tmpCoords = new Coords(4);
-
 	protected Coords tmpCoords2 = new Coords(4);
-
 	protected Coords tmpCoords3 = new Coords(4);
+	protected Coords tmpCoords4 = new Coords(4);
+	protected Coords tmpCoords5 = new Coords(4);
+	protected Coords tmpCoords6 = new Coords(4);
 
 	protected Coords center1 = new Coords(4);
 
@@ -990,33 +991,44 @@ public class PlotterSurface {
 	/**
 	 * draws a parallelogram
 	 * 
+	 * @param d
+	 * 
 	 * @param center
 	 * @param v1
 	 * @param v2
 	 * @param l1
 	 * @param l2
 	 */
-	public void parallelogram(Coords center, Coords v1, Coords v2, double l1,
+	public void parallelogram(Drawable3D d, Coords center, Coords v1, Coords v2,
+			double l1,
 			double l2) {
-		manager.startGeometry(Manager.Type.TRIANGLES);
 
-		manager.setDummyTexture();
-		tmpCoords.setCrossProduct(v1, v2);
-		manager.normalToScale(tmpCoords);
+		if (manager.packBuffers() && d.shouldBePacked()) {
+			tmpCoords4.setAdd(center, tmpCoords4.setMul(v1, l1));
+			tmpCoords5.setAdd(tmpCoords4, tmpCoords5.setMul(v2, l2));
+			tmpCoords6.setAdd(center, tmpCoords6.setMul(v2, l2));
+			drawQuad(d, center, tmpCoords4, tmpCoords5, tmpCoords6);
+		} else {
+			manager.startGeometry(Manager.Type.TRIANGLES);
 
-		tmpCoords.setAdd(center, tmpCoords.setMul(v1, l1));
-		tmpCoords2.setAdd(tmpCoords, tmpCoords2.setMul(v2, l2));
-		tmpCoords3.setAdd(center, tmpCoords3.setMul(v2, l2));
+			manager.setDummyTexture();
+			tmpCoords.setCrossProduct(v1, v2);
+			manager.normalToScale(tmpCoords);
 
-		manager.vertexToScale(center);
-		manager.vertexToScale(tmpCoords);
-		manager.vertexToScale(tmpCoords2);
+			tmpCoords.setAdd(center, tmpCoords.setMul(v1, l1));
+			tmpCoords2.setAdd(tmpCoords, tmpCoords2.setMul(v2, l2));
+			tmpCoords3.setAdd(center, tmpCoords3.setMul(v2, l2));
 
-		manager.vertexToScale(center);
-		manager.vertexToScale(tmpCoords2);
-		manager.vertexToScale(tmpCoords3);
+			manager.vertexToScale(center);
+			manager.vertexToScale(tmpCoords);
+			manager.vertexToScale(tmpCoords2);
 
-		manager.endGeometry();
+			manager.vertexToScale(center);
+			manager.vertexToScale(tmpCoords2);
+			manager.vertexToScale(tmpCoords3);
+
+			manager.endGeometry();
+		}
 	}
 
 	/**

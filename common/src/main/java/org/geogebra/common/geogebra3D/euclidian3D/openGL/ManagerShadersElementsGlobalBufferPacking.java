@@ -23,10 +23,13 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	private GLBufferManagerCurves bufferManagerCurves;
 	private GLBufferManagerSurfaces bufferManagerSurfaces, bufferManagerSurfacesClosed;
 	private GLBufferManagerPoints bufferManagerPoints;
+	private GLBufferManagerTemplatesForPoints bufferTemplates;
 	private GLBufferManager currentBufferManager;
 	private GColor currentColor;
 	private int currentTextureType;
 	private ReusableArrayList<Short> indices;
+	private float[] translate;
+	private float scale;
 
 	private class GeometriesSetElementsGlobalBufferPacking extends GeometriesSetElementsGlobalBuffer {
 
@@ -241,11 +244,13 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	public ManagerShadersElementsGlobalBufferPacking(Renderer renderer,
 			EuclidianView3D view3d) {
 		super(renderer, view3d);
-		bufferManagerCurves = new GLBufferManagerCurves();
+		bufferTemplates = new GLBufferManagerTemplatesForPoints();
+		bufferManagerCurves = new GLBufferManagerCurves(this);
 		bufferManagerSurfaces = new GLBufferManagerSurfaces(this);
 		bufferManagerSurfacesClosed = new GLBufferManagerSurfaces(this);
 		bufferManagerPoints = new GLBufferManagerPoints(this);
 		currentBufferManager = null;
+		translate = new float[3];
 	}
 
 	@Override
@@ -410,19 +415,68 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	public int drawPoint(DrawPoint3D d, int size, Coords center, int index) {
 		if (d.shouldBePacked()) {
+			// get/create point geometry with template buffer
+			setCurrentBufferManager(bufferTemplates);
+			bufferTemplates.selectSphereAndCreateIfNeeded(this, size);
+			// draw in points manager
+			setCurrentBufferManager(bufferManagerPoints);
 			this.currentColor = d.getColor();
-			return bufferManagerPoints.drawPoint(d, size, center, index);
+			setPointValues(size, DrawPoint3D.DRAW_POINT_FACTOR, center);
+			int ret = bufferManagerPoints.drawPoint(index);
+			setCurrentBufferManager(null);
+			return ret;
 		}
 		return super.drawPoint(d, size, center, index);
+	}
 
+	@Override
+	public void drawPoint(Drawable3D d, float size, Coords center) {
+		if (d.shouldBePacked()) {
+			// get/create point geometry with template buffer
+			bufferTemplates.selectSphere((int) size);
+			// draw point in current curve
+			this.currentColor = d.getColor();
+			setPointValues(size, 2.5f, center);
+			bufferManagerCurves.drawPoint();
+		} else {
+			super.drawPoint(d, size, center);
+		}
+	}
+
+	@Override
+	public void createPointTemplateIfNeeded(int size) {
+		setCurrentBufferManager(bufferTemplates);
+		bufferTemplates.createSphereIfNeeded(this, size);
+		setCurrentBufferManager(null);
+	}
+
+	private void setPointValues(float size, float sizeScale, Coords center) {
+		scale = size * sizeScale;
+		scaleXYZ(center);
+		center.get(translate);
+	}
+
+	/**
+	 * 
+	 * @return translate (for point drawing)
+	 */
+	public float[] getTranslate() {
+		return translate;
+	}
+
+	/**
+	 * 
+	 * @return scale (for point drawing)
+	 */
+	public float getScale() {
+		return scale;
 	}
 
 	@Override
 	public GLBufferIndices getCurrentGeometryIndices(int size) {
 		if (currentBufferManager != null
 				&& currentBufferManager.isTemplateForPoints()) {
-			return bufferManagerPoints.getBufferTemplates()
-					.getBufferIndicesArray();
+			return bufferTemplates.getBufferIndicesArray();
 		}
 		return super.getCurrentGeometryIndices(size);
 
@@ -458,7 +512,15 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		currentGeometriesSet.setNormals(normals, elementsLength * 3);
 		currentGeometriesSet.setTextures(null, 0);
 		currentGeometriesSet.setColors(null, 0);
-		currentGeometriesSet.bindGeometry(size, TypeElement.NONE);
+		currentGeometriesSet.bindGeometry(size, TypeElement.TEMPLATE);
+	}
+
+	/**
+	 * 
+	 * @return buffer templates (for points)
+	 */
+	public GLBufferManagerTemplatesForPoints getBufferTemplates() {
+		return bufferTemplates;
 	}
 
 }

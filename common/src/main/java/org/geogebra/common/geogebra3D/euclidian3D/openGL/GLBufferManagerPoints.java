@@ -2,9 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import java.util.List;
 
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
-import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
  * manager for packing buffers (for curves)
@@ -19,10 +17,6 @@ public class GLBufferManagerPoints extends GLBufferManager {
 	static final private int INDICES_SIZE_START = 11520;
 
 	private ManagerShadersElementsGlobalBufferPacking manager;
-	private GLBufferManagerTemplatesForPoints bufferTemplates;
-
-	private float[] translate;
-	private float scale;
 
 	/**
 	 * constructor
@@ -33,8 +27,6 @@ public class GLBufferManagerPoints extends GLBufferManager {
 	public GLBufferManagerPoints(
 			ManagerShadersElementsGlobalBufferPacking manager) {
 		this.manager = manager;
-		bufferTemplates = new GLBufferManagerTemplatesForPoints();
-		translate = new float[3];
 	}
 
 	@Override
@@ -46,7 +38,8 @@ public class GLBufferManagerPoints extends GLBufferManager {
 	protected void putIndices(int size, TypeElement type,
 			boolean reuseSegment) {
 		if (!reuseSegment) {
-			List<Short> indicesArray = bufferTemplates.getCurrentIndicesArray();
+			List<Short> indicesArray = manager.getBufferTemplates()
+					.getCurrentIndicesArray();
 			for (short i : indicesArray) {
 				putToIndices(i);
 			}
@@ -74,45 +67,22 @@ public class GLBufferManagerPoints extends GLBufferManager {
 	}
 
 	@Override
-	protected void setElements(boolean reuseSegment) {
-		currentBufferPack.setElements(translate, scale, reuseSegment);
+	protected void setElements(boolean reuseSegment, TypeElement type) {
+		currentBufferPack.setElements(manager.getTranslate(),
+				manager.getScale(), reuseSegment);
 	}
 
 	/**
 	 * 
-	 * @param d
-	 *            point drawable
-	 * @param size
-	 *            point size
-	 * @param center
-	 *            point center
 	 * @param index
 	 *            old geometry index
 	 * @return point geometry index
 	 */
-	public int drawPoint(DrawPoint3D d, int size, Coords center, int index) {
-
-		// get/create point geometry with template buffer
-		manager.setCurrentBufferManager(bufferTemplates);
-		bufferTemplates.selectSphere(manager, size);
-		manager.setCurrentBufferManager(this);
-
-		// copy into this buffer
-		scale = size * DrawPoint3D.DRAW_POINT_FACTOR;
-		manager.scaleXYZ(center);
-		center.get(translate);
-		int ret = bufferTemplates.drawSphere(manager, index);
-
-		manager.setCurrentBufferManager(null);
+	public int drawPoint(int index) {
+		int ret = manager.startNewList(index);
+		manager.getBufferTemplates().drawSphere(manager);
+		manager.endList();
 		return ret;
-	}
-
-	/**
-	 * 
-	 * @return buffer templates
-	 */
-	public GLBufferManagerTemplatesForPoints getBufferTemplates() {
-		return bufferTemplates;
 	}
 
 }

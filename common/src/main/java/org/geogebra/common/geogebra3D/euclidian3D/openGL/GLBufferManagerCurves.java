@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import java.util.List;
+
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
 /**
@@ -13,6 +15,18 @@ public class GLBufferManagerCurves extends GLBufferManager {
 	// and 3 indices per triangle
 	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 3;
 
+	private ManagerShadersElementsGlobalBufferPacking manager;
+
+	/**
+	 * 
+	 * @param manager
+	 *            manager
+	 */
+	public GLBufferManagerCurves(
+			ManagerShadersElementsGlobalBufferPacking manager) {
+		this.manager = manager;
+	}
+
 	@Override
 	protected int calculateIndicesLength(int size, TypeElement type) {
 		switch (type) {
@@ -20,6 +34,8 @@ public class GLBufferManagerCurves extends GLBufferManager {
 			return 3 * 2 * size * PlotterBrush.LATITUDES;
 		case TRIANGLES:
 			return 3 * size;
+		case TEMPLATE:
+			return size;
 		default: // should not happen
 			return 0;
 		}
@@ -46,6 +62,13 @@ public class GLBufferManagerCurves extends GLBufferManager {
 			break;
 		case TRIANGLES:
 			for (int i = 0; i < 3 * size; i++) {
+				putToIndices(i);
+			}
+			break;
+		case TEMPLATE:
+			List<Short> indicesArray = manager.getBufferTemplates()
+					.getCurrentIndicesArray();
+			for (short i : indicesArray) {
 				putToIndices(i);
 			}
 			break;
@@ -76,6 +99,24 @@ public class GLBufferManagerCurves extends GLBufferManager {
 	@Override
 	protected int getIndicesSizeStart() {
 		return INDICES_SIZE_START;
+	}
+
+	/**
+	 * draw a point
+	 * 
+	 */
+	public void drawPoint() {
+		manager.getBufferTemplates().drawSphere(manager);
+	}
+
+	@Override
+	protected void setElements(boolean reuseSegment, TypeElement type) {
+		if (type == TypeElement.TEMPLATE) {
+			currentBufferPack.setElements(manager.getTranslate(),
+					manager.getScale(), reuseSegment);
+		} else {
+			super.setElements(reuseSegment, type);
+		}
 	}
 
 }

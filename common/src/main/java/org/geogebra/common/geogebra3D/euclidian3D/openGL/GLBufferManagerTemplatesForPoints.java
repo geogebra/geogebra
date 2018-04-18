@@ -95,6 +95,55 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	}
 
 	/**
+	 * 
+	 * @param manager
+	 *            manager
+	 * @param pointSize
+	 *            point size
+	 */
+	public void createSphereIfNeeded(
+			ManagerShadersElementsGlobalBufferPacking manager,
+			int pointSize) {
+
+		int templateIndex = ManagerShadersWithTemplates
+				.getIndexForPointSize(pointSize);
+
+		currentVertexArray = vertexTemplates[templateIndex];
+		if (currentVertexArray == null) {
+			createSphere(manager, templateIndex);
+		}
+	}
+
+	private void createSphere(ManagerShadersElementsGlobalBufferPacking manager,
+			int templateIndex) {
+
+		manager.setScalerIdentity();
+		manager.drawSphere(ManagerShadersWithTemplates
+				.getSphereSizeForIndex(templateIndex), Coords.O, 1d, -1);
+		manager.setScalerView();
+
+		currentVertexArray = new ArrayList<>();
+		for (int i = 0; i < elementsLength * 3; i++) {
+			currentVertexArray.add(vertexArray.get(i));
+		}
+		vertexTemplates[templateIndex] = currentVertexArray;
+
+		currentNormalArray = new ArrayList<>();
+		for (int i = 0; i < elementsLength * 3; i++) {
+			currentNormalArray.add(normalArray.get(i));
+		}
+		normalTemplates[templateIndex] = currentNormalArray;
+
+		currentIndicesArray = new ArrayList<>();
+		currentIndicesArray.addAll(bufferIndicesArray);
+		indicesTemplates[templateIndex] = currentIndicesArray;
+
+		vertexArray = null;
+		normalArray = null;
+		bufferIndicesArray = null;
+	}
+
+	/**
 	 * select template according to point size
 	 * 
 	 * @param manager
@@ -102,36 +151,14 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 * @param pointSize
 	 *            point size
 	 */
-	public void selectSphere(Manager manager, int pointSize) {
+	public void selectSphereAndCreateIfNeeded(ManagerShadersElementsGlobalBufferPacking manager,
+			int pointSize) {
 
 		int templateIndex = ManagerShadersWithTemplates
 				.getIndexForPointSize(pointSize);
 		currentVertexArray = vertexTemplates[templateIndex];
 		if (currentVertexArray == null) {
-			manager.setScalerIdentity();
-			manager.drawSphere(ManagerShadersWithTemplates
-					.getSphereSizeForIndex(templateIndex), Coords.O, 1d, -1);
-			manager.setScalerView();
-
-			currentVertexArray = new ArrayList<>();
-			for (int i = 0; i < elementsLength * 3; i++) {
-				currentVertexArray.add(vertexArray.get(i));
-			}
-			vertexTemplates[templateIndex] = currentVertexArray;
-
-			currentNormalArray = new ArrayList<>();
-			for (int i = 0; i < elementsLength * 3; i++) {
-				currentNormalArray.add(normalArray.get(i));
-			}
-			normalTemplates[templateIndex] = currentNormalArray;
-
-			currentIndicesArray = new ArrayList<>();
-			currentIndicesArray.addAll(bufferIndicesArray);
-			indicesTemplates[templateIndex] = currentIndicesArray;
-
-			vertexArray = null;
-			normalArray = null;
-			bufferIndicesArray = null;
+			createSphere(manager, templateIndex);
 		} else {
 			elementsLength = currentVertexArray.size() / 3;
 			currentNormalArray = normalTemplates[templateIndex];
@@ -140,22 +167,32 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	}
 
 	/**
+	 * select sphere corresponding to point size. WARNING: geometries must have
+	 * been created first
+	 * 
+	 * @param pointSize
+	 *            point size
+	 */
+	public void selectSphere(int pointSize) {
+		int templateIndex = ManagerShadersWithTemplates
+				.getIndexForPointSize(pointSize);
+		currentVertexArray = vertexTemplates[templateIndex];
+		elementsLength = currentVertexArray.size() / 3;
+		currentNormalArray = normalTemplates[templateIndex];
+		currentIndicesArray = indicesTemplates[templateIndex];
+	}
+
+	/**
 	 * draw current sphere
 	 * 
 	 * @param manager
 	 *            manager
-	 * @param index
-	 *            old geometry index
-	 * @return geometry index
 	 */
-	public int drawSphere(ManagerShadersElementsGlobalBufferPacking manager,
-			int index) {
-		int ret = manager.startNewList(index);
+	public void drawSphere(ManagerShadersElementsGlobalBufferPacking manager) {
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		manager.endGeometry(currentIndicesArray.size(), elementsLength,
 				currentVertexArray, currentNormalArray);
 		manager.endList();
-		return ret;
 	}
 
 }

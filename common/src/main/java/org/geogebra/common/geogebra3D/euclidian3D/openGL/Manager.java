@@ -651,6 +651,32 @@ abstract public class Manager {
 	}
 
 	/**
+	 * draw a dot (for right angle)
+	 * 
+	 * @param d
+	 *            drawable
+	 * @param size
+	 *            dot size
+	 * @param center
+	 *            center
+	 */
+	public void drawPoint(Drawable3D d, float size, Coords center) {
+		setScalerIdentity();
+		getView3D().scaleXYZ(center);
+		surface.drawSphere(center, 2.5 * size, 16);
+		setScalerView();
+	}
+
+	/**
+	 * 
+	 * @param size
+	 *            point size
+	 */
+	public void createPointTemplateIfNeeded(int size) {
+		// implemented for packed buffers
+	}
+
+	/**
 	 * draws a sphere
 	 * 
 	 * @param size

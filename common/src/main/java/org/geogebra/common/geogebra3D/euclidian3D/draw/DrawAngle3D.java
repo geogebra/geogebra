@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoAnglePointsND;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -185,14 +186,18 @@ public class DrawAngle3D extends Drawable3DCurves {
 			PlotterBrush brush = renderer.getGeometryManager().getBrush();
 			PlotterSurface surface = renderer.getGeometryManager().getSurface();
 
-			brush.start(getReusableGeometryIndex());
-			brush.setThickness(getGeoElement().getLineThickness(),
-					(float) getView3D().getScale());
+			if (!getView3D().getApplication()
+					.has(Feature.MOB_PACK_ALL_CURVES)) {
+				brush.start(getReusableGeometryIndex());
+				brush.setThickness(getGeoElement().getLineThickness(),
+						(float) getView3D().getScale());
+			}
 
 			if (show90degrees) {
 				switch (getView3D().getRightAngleStyle()) {
 				default:
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
+					startBrush(brush);
 					size *= 0.7071067811865;
 					offset = 0;
 					brush.setAffineTexture(0.5f, 0.25f);
@@ -212,6 +217,16 @@ public class DrawAngle3D extends Drawable3DCurves {
 					break;
 
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
+					// create point template if needed
+					float pointSize = getGeoElement().getLineThickness()
+							* PlotterBrush.LINE3D_THICKNESS;
+					if (getView3D().getApplication().has(
+							Feature.MOB_PACK_ALL_CURVES) && shouldBePacked()) {
+						renderer.getGeometryManager()
+								.createPointTemplateIfNeeded((int) pointSize);
+					}
+					// create angle outline + dot
+					startBrush(brush);
 					// arc
 					brush.setAffineTexture(0f, 0f);
 					brush.arc(center, v1, v2, size, 0, angleValue, 60);
@@ -222,15 +237,24 @@ public class DrawAngle3D extends Drawable3DCurves {
 					brush.segment(center, tmpCoords.setAdd(center,
 							tmpCoords.setMul(v2, size)));
 					// dot (use surface plotter)
-					renderer.getGeometryManager().setScalerIdentity();
-					tmpCoords.set3(labelCenter);
-					getView3D().scaleXYZ(tmpCoords);
-					surface.drawSphere(tmpCoords, 2.5 * brush.getThickness(), 16);
-					renderer.getGeometryManager().setScalerView();
+					if (getView3D().getApplication()
+							.has(Feature.MOB_PACK_ALL_CURVES)) {
+						tmpCoords.set3(labelCenter);
+						renderer.getGeometryManager().drawPoint(this, pointSize,
+								tmpCoords);
+					} else {
+						renderer.getGeometryManager().setScalerIdentity();
+						tmpCoords.set3(labelCenter);
+						getView3D().scaleXYZ(tmpCoords);
+						surface.drawSphere(tmpCoords,
+								2.5 * brush.getThickness(), 16);
+						renderer.getGeometryManager().setScalerView();
+					}
 					setGeometryIndex(brush.end());
 					break;
 
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
+					startBrush(brush);
 					size *= 0.7071067811865;
 					offset = size * 0.4;
 					brush.setAffineTexture(0.5f, 0.25f);
@@ -249,6 +273,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 					break;
 				}
 			} else {
+				startBrush(brush);
 				// arc
 				brush.setAffineTexture(0f, 0f);
 				brush.arc(center, v1, vn2, size, 0, angleValue, 60);
@@ -260,14 +285,16 @@ public class DrawAngle3D extends Drawable3DCurves {
 						tmpCoords.setAdd(center, tmpCoords.setMul(v2, size)));
 				setGeometryIndex(brush.end());
 			}
+			endPacking();
 
 			// surface
+			setPackSurface();
 			if (show90degrees) {
 				switch (getView3D().getRightAngleStyle()) {
 				default:
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
 					surface.start(getReusableSurfaceIndex());
-					surface.parallelogram(center, v1, v2, size, size);
+					surface.parallelogram(this, center, v1, v2, size, size);
 					setSurfaceIndex(surface.end());
 					break;
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
@@ -286,10 +313,20 @@ public class DrawAngle3D extends Drawable3DCurves {
 						angleValue);
 				setSurfaceIndex(surface.end());
 			}
+			endPacking();
 
 		}
 
 		return true;
+	}
+
+	private void startBrush(PlotterBrush brush) {
+		setPackCurve();
+		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_CURVES)) {
+			brush.start(getReusableGeometryIndex());
+			brush.setThickness(getGeoElement().getLineThickness(),
+					(float) getView3D().getScale());
+		}
 	}
 
 	private void initCoords() {
@@ -455,6 +492,27 @@ public class DrawAngle3D extends Drawable3DCurves {
 		setPickingType(PickingType.POINT_OR_CURVE);
 
 		return true;
+	}
+
+	@Override
+	protected void updateGeometriesColor() {
+		updateColors();
+		getView3D().getRenderer().getGeometryManager().updateColor(getColor(),
+				getGeometryIndex());
+		getView3D().getRenderer().getGeometryManager()
+				.updateColor(getSurfaceColor(), getSurfaceIndex());
+		if (!isVisible()) {
+			setGeometriesVisibility(false);
+		}
+	}
+
+	@Override
+	protected void setGeometriesVisibility(boolean visible) {
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getGeometryIndex());
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getSurfaceIndex());
+		geometriesSetVisible = visible;
 	}
 
 }
