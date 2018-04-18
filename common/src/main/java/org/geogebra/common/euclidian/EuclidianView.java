@@ -1946,6 +1946,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 		specPoints = geos;
+		repaintForPreviewFromInputBar();
 	}
 
 	@Override
@@ -1963,8 +1964,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					|| previewFromInputBarGeos.length == 0) ? null
 							: previewFromInputBarGeos[0];
 			app.getSpecialPointsManager().updateSpecialPoints(geo0);
+		} else {
+			repaintForPreviewFromInputBar();
 		}
-		repaintForPreviewFromInputBar();
 	}
 
 	private void repaintForPreviewFromInputBar() {
