@@ -783,8 +783,12 @@ public class ProbabilityManager {
 		case PASCAL:
 			r = parms[0];
 			p = parms[1];
-			mean = p * r / (1 - p);
-			var = p * r / ((1 - p) * (1 - p));
+			// care needed, p and 1-p are swapped from here
+			// https://en.wikipedia.org/wiki/Negative_binomial_distribution
+			// OK here:
+			// http://stat.ethz.ch/R-manual/R-devel/library/stats/html/NegBinomial.html
+			mean = r * (1 - p) / p;
+			var = r * (1 - p) / p / p;
 			sigma = Math.sqrt(var);
 			break;
 
