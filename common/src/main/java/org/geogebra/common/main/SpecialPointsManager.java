@@ -197,9 +197,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		try {
 			GeoElement[] elements = intersect
 					.intersect2(new GeoElement[]{element, secondElement}, cmd);
-
 			for (GeoElement output : elements) {
 				AlgoElement parent = output.getParentAlgorithm();
+				element.removeAlgorithm(parent);
+				secondElement.removeAlgorithm(parent);
 				specPointAlgos.add(parent);
 				kernel.getConstruction().removeFromAlgorithmList(parent);
 			}
