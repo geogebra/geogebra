@@ -8612,10 +8612,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * Stops the last video
+	 * Sends the video to background.
 	 *
 	 */
-	public void clearVideo() {
+	public void videoToBackground() {
 		if (app.getVideoManager() != null) {
 			if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
 				app.getVideoManager().background(lastVideo);
@@ -10146,15 +10146,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void handleVideoPressed(AbstractEvent event) {
+		DrawVideo dv = getVideoHit();
+
+		if (dv == null) {
+			videoToBackground();
+		}
+
 		if (mode != EuclidianConstants.MODE_MOVE) {
 			return;
 		}
 
-		DrawVideo dv = getVideoHit();
-
-		if (dv == null) {
-			clearVideo();
-		}
 		if (!event.isRightClick() && dv != null) {
 			clearSelections();
 			lastVideo = (GeoVideo) (dv.geo);

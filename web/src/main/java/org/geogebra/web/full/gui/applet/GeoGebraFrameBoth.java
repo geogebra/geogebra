@@ -911,7 +911,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 */
 	protected void onMenuButtonPressed() {
 		if (app.has(Feature.MOW_VIDEO_TOOL)) {
-			app.getActiveEuclidianView().getEuclidianController().clearVideo();
+			app.getActiveEuclidianView().getEuclidianController().videoToBackground();
 		}
 		app.hideKeyboard();
 		app.closePopups();

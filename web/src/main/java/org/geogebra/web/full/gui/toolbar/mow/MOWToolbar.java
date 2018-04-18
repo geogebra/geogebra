@@ -244,7 +244,7 @@ public class MOWToolbar extends FlowPanel {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-		app.getActiveEuclidianView().getEuclidianController().clearVideo();
+		app.getActiveEuclidianView().getEuclidianController().videoToBackground();
 		if (pageControlPanel == null) {
 			pageControlPanel = ((AppWFull) app).getAppletFrame()
 					.getPageControlPanel();
