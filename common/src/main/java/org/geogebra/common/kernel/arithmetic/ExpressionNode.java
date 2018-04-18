@@ -2423,6 +2423,14 @@ public class ExpressionNode extends ValidExpression
 				sb.append(tpl.rightBracket());
 				break;
 			case GIAC:
+				// make sure eg log_10(100) works
+				if ("10".equals(leftStr)) {
+					sb.append("log10(");
+					sb.append(rightStr);
+					sb.append(")");
+					break;
+				}
+				//$FALL-THROUGH$
 			case PSTRICKS:
 			case PGF:
 				// ln(x)/ln(b)
