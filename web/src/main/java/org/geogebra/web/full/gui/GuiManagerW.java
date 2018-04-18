@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
@@ -60,7 +59,6 @@ import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
-import org.geogebra.web.full.gui.dialog.DialogBoxW;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
@@ -123,8 +121,6 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.keyboard.OnscreenTabbedKeyboard;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -132,21 +128,10 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Tree;
-import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
 @SuppressWarnings("javadoc")
@@ -170,7 +155,7 @@ public class GuiManagerW extends GuiManager
 	private String strCustomToolbarDefinition;
 	private boolean draggingViews;
 	private final ObjectPool objectPool;
-	/** device: tbalet / browser */
+	/** device: tablet / browser */
 	protected final GDevice device;
 	private int toolbarID = App.VIEW_EUCLIDIAN;
 	private ConstructionProtocolView constructionProtocolView;
@@ -510,61 +495,6 @@ public class GuiManagerW extends GuiManager
 		 */
 	}
 
-	private void updateFontSizeStyleElement() {
-
-		final String fontsizeString = getApp().getGUIFontSize() + "px";
-		final int imagesize = (int) Math
-				.round(getApp().getGUIFontSize() * 4.0 / 3.0);
-		int toolbariconSize = 2 * getApp().getGUIFontSize();
-
-		// until we have no enough place for the big icons in the toolbar, don't
-		// enable to increase too much the size of icons.
-		if (toolbariconSize > 45) {
-			toolbariconSize = 45;
-		}
-
-		// Build inner text for a style element that handles font size
-		// =============================================================
-		String innerText = ".GeoGebraMenuBar, .GeoGebraPopupMenu, .DialogBox, "
-				+ ".gwt-PopupPanel, .ToolTip, .gwt-SuggestBoxPopup";
-		innerText += "{font-size: " + fontsizeString + " !important}";
-
-		innerText += ".GeoGebraMenuImage{height: " + imagesize + "px; width: "
-				+ imagesize + "px;}";
-
-		innerText += ".GeoGebraMenuBar input[type=\"checkbox\"],"
-				+ ".GeogebraMenuBar input[type=\"radio\"], "
-				+ ".GeoGebraPopupMenu input[type=\"checkbox\"],"
-				+ ".GeogebraPopupMenu input[type=\"radio\"] ";
-		innerText += "{height: " + fontsizeString + "; width: "
-				+ fontsizeString + ";}";
-
-		innerText += ".toolbar_menuitem{font-size: " + fontsizeString + ";}";
-		innerText += ".toolbar_menuitem img{width: " + toolbariconSize + "px;}";
-
-		// ============================================================
-
-		// Create a new style element for font size changes, and remove the old
-		// ones, if they already exist. Then add the new element for all
-		// GeoGebraWeb applets or application.
-
-		final NodeList<Element> fontsizeElements = Dom
-				.getElementsByClassName("GGWFontsize");
-		for (int i = 0; i < fontsizeElements.getLength(); i++) {
-			fontsizeElements.getItem(i).removeFromParent();
-		}
-
-		final Element fontsizeElement = DOM.createElement("style");
-		fontsizeElement.addClassName("GGWFontsize");
-		fontsizeElement.setInnerText(innerText);
-
-		final NodeList<Element> geogebrawebElements = Dom
-				.getElementsByClassName("geogebraweb");
-		for (int i = 0; i < geogebrawebElements.getLength(); i++) {
-			geogebrawebElements.getItem(i).appendChild(fontsizeElement);
-		}
-	}
-
 	@Override
 	public boolean isInputFieldSelectionListener() {
 		return false;
@@ -597,13 +527,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean hasSpreadsheetView() {
-		if (spreadsheetView == null) {
-			return false;
-		}
-		if (!spreadsheetView.isShowing()) {
-			return false;
-		}
-		return true;
+		return spreadsheetView != null && spreadsheetView.isShowing();
 	}
 
 	@Override
@@ -652,7 +576,6 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean showView(final int viewId) {
-
 		try {
 			return layout.getDockManager().getPanel(viewId).isVisible();
 		} catch (final Exception e) {
@@ -716,13 +639,10 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void resize(final int width, final int height) {
-
-		int widthChanged = 0;
-		int heightChanged = 0;
 		final Element geogebraFrame = getApp().getFrameElement();
 
-		widthChanged = width - geogebraFrame.getOffsetWidth();
-		heightChanged = height - geogebraFrame.getOffsetHeight();
+		int widthChanged = width - geogebraFrame.getOffsetWidth();
+		int heightChanged = height - geogebraFrame.getOffsetHeight();
 		int borderThickness = getApp().getArticleElement()
 				.getBorderThickness();
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
@@ -1387,13 +1307,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean hasDataAnalysisView() {
-		if (dataAnalysisView == null) {
-			return false;
-		}
-		if (!dataAnalysisView.isShowing()) {
-			return false;
-		}
-		return true;
+		return dataAnalysisView != null && dataAnalysisView.isShowing();
 	}
 
 	@Override
@@ -1476,10 +1390,7 @@ public class GuiManagerW extends GuiManager
 		if (idx == 1) {
 			return showView(App.VIEW_EUCLIDIAN2);
 		}
-		if (!euclidianView2.get(idx).isShowing()) {
-			return false;
-		}
-		return true;
+		return euclidianView2.get(idx).isShowing();
 	}
 
 	@Override
@@ -1506,8 +1417,8 @@ public class GuiManagerW extends GuiManager
 		if (getLayout() != null && getLayout().getDockManager() != null) {
 			final DockPanelW[] panels = getLayout().getDockManager()
 					.getPanels();
-			for (int i = 0; i < panels.length; i++) {
-				panels[i].setLabels();
+			for (DockPanelW panel : panels) {
+				panel.setLabels();
 			}
 		}
 		if (propertiesView != null) {
@@ -1595,11 +1506,8 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot(final int idx) {
-		if (euclidianView2 == null || euclidianView2.size() <= idx
-				|| euclidianView2.get(idx) == null) {
-			return false;
-		}
-		return true;
+		return euclidianView2 != null && euclidianView2.size() > idx
+				&& euclidianView2.get(idx) != null;
 	}
 
 	@Override
@@ -1634,10 +1542,7 @@ public class GuiManagerW extends GuiManager
 			return false;
 		}
 		// get from model, not DOM because it may be hidden by tool panel
-		if (!showView(App.VIEW_ALGEBRA)) {
-			return false;
-		}
-		return true;
+		return showView(App.VIEW_ALGEBRA);
 	}
 
 	@Override
@@ -1685,7 +1590,7 @@ public class GuiManagerW extends GuiManager
 		this.toolbarID = toolbarID;
 
 		if (changed) {
-			getToolbarPanel().setActiveToolbar(Integer.valueOf(toolbarID));
+			getToolbarPanel().setActiveToolbar(toolbarID);
 			refreshCustomToolsInToolBar();
 			if (toolbarID == App.VIEW_EUCLIDIAN
 					|| toolbarID == App.VIEW_EUCLIDIAN2) {
@@ -1923,20 +1828,6 @@ public class GuiManagerW extends GuiManager
 		}
 		// layout.getDockManager().setToolbarMode(mode);
 		return ret;
-	}
-
-	private int getAlgebraInputHeight() {
-		if (algebraInput != null) {
-			return algebraInput.getOffsetHeight();
-		}
-		return 0;
-	}
-
-	private int getToolbarHeight() {
-		if (toolbarPanel != null) {
-			return toolbarPanel.getOffsetHeight();
-		}
-		return 0;
 	}
 
 	@Override
@@ -2315,7 +2206,6 @@ public class GuiManagerW extends GuiManager
 		}
 
 		return null;
-
 	}
 
 	@Override
@@ -2343,7 +2233,6 @@ public class GuiManagerW extends GuiManager
 		if (hasDataCollectionView()) {
 			dataCollectionView.getXML(sb, asPreference);
 		}
-
 	}
 
 	/**
@@ -2404,7 +2293,6 @@ public class GuiManagerW extends GuiManager
 		if (hasSpreadsheetView()) {
 			getSpreadsheetView().setPixelRatio(ratio);
 		}
-
 	}
 
 	@Override
@@ -2513,8 +2401,8 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void switchToolsToAV() {
 		if (getApp().isUnbundled()) {
-			((ToolbarDockPanelW) (getLayout().getDockManager()
-					.getPanel(App.VIEW_ALGEBRA))).setToolMode(false);
+			getLayout().getDockManager()
+					.getPanel(App.VIEW_ALGEBRA).setToolMode(false);
 		}
 	}
 
@@ -2527,118 +2415,8 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public StepGuiBuilder getStepGuiBuilder() {
-		final GeoNumeric gn = new GeoNumeric(kernel.getConstruction());
-		final Tree tree = new Tree();
-		tree.addStyleName("stepTree");
-		return new StepGuiBuilder() {
-
-			private TreeItem item;
-			private TreeItem child = null;
-			private boolean detailed = false;
-			private Button showDetails;
-			private ArrayList<Widget> summary = new ArrayList<>();
-
-			@Override
-			public void addLatexRow(String equations) {
-				Canvas c = DrawEquationW.paintOnCanvas(gn, equations, null,
-						getApp().getFontSizeWeb());
-				if (detailed) {
-					c.setVisible(false);
-				}
-				summary.add(c);
-				addWidget(c);
-			}
-
-			private void addWidget(Widget c) {
-				child = new TreeItem(c);
-				if (item != null) {
-					item.addItem(child);
-				} else {
-					tree.addItem(child);
-				}
-				if (detailed) {
-					child.getElement().getStyle().setDisplay(Display.NONE);
-				}
-			}
-
-			@Override
-			public void addPlainRow(String equations) {
-				addWidget(new Label(equations));
-			}
-
-			@Override
-			public void show() {
-				DialogBoxW box = new DialogBoxW(true, false, null,
-						getApp().getPanel(), getApp());
-				ScrollPanel sp = new ScrollPanel();
-				box.getCaption().setText("Steps");
-				sp.add(tree);
-				sp.setHeight("300px");
-				box.add(sp);
-				box.addCancelButton();
-				box.center();
-			}
-
-			@Override
-			public void startGroup() {
-				if (child == null || tree.getItemCount() == 1) {
-					return;
-				}
-				item = child;
-			}
-
-			@Override
-			public void endGroup() {
-				if (item != null) {
-					item = item.getParentItem();
-				}
-			}
-
-			@Override
-			public void linebreak() {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void startDefault() {
-				summary = new ArrayList<>();
-				detailed = false;
-				showDetails = new Button("?");
-				addWidget(showDetails);
-				showDetails.getElement().getStyle().setPadding(1, Unit.PX);
-				showDetails.getElement().getStyle().setFontSize(5, Unit.PX);
-				showDetails.getElement().getParentElement().getParentElement()
-				.getStyle().setProperty("float", "left");
-			}
-
-			@Override
-			public void switchToDetailed() {
-				detailed = true;
-			}
-
-			@Override
-			public void endDetailed() {
-				detailed = false;
-				final ArrayList<Widget> swap = new ArrayList<>(summary);
-				summary = new ArrayList<>();
-				showDetails.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						event.getSource();
-						for (Widget line : swap) {
-							boolean visible = !line.isVisible();
-							line.setVisible(visible);
-							line.getElement().getParentElement()
-							.getParentElement().getStyle()
-							.setDisplay(visible ? Display.BLOCK
-									: Display.NONE);
-						}
-					}
-				});
-			}
-		};
-
+		return ((ToolbarDockPanelW) getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
+				.getToolbar().openSteps(true);
 	}
 
 	@Override

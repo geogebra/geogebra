@@ -2,21 +2,21 @@ package org.geogebra.common.gui.view.algebra;
 
 public interface StepGuiBuilder {
 
-	public void addPlainRow(String equations);
+	void addPlainRow(String equations);
 
-	public void addLatexRow(String equations);
+	void addLatexRow(String equations);
 
-	public void show();
+	void show();
 
-	public void startGroup();
+	void startGroup();
 
-	public void endGroup();
+	void endGroup();
 
-	public void startDefault();
+	void startDefault();
 
-	public void switchToDetailed();
+	void switchToDetailed();
 
-	public void endDetailed();
+	void endDetailed();
 
-	public void linebreak();
+	void linebreak();
 }

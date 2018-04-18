@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
@@ -68,7 +69,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		ALGEBRA,
 
 		/** tab two */
-		TOOLS
+		TOOLS,
+
+		/** tab three */
+		STEPS
 	}
 
 	/** Header of the panel with buttons and tabs */
@@ -80,6 +84,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	private Integer lastOpenWidth = null;
 	private AlgebraTab tabAlgebra = null;
 	private ToolsTab tabTools = null;
+	private StepsTab tabSteps = null;
 	private TabIds selectedTabId;
 	private boolean closedByUser = false;
 	private ScheduledCommand deferredOnRes = new ScheduledCommand() {
@@ -222,8 +227,12 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		main.addStyleName("main");
 		tabAlgebra = new AlgebraTab(this);
 		tabTools = new ToolsTab(this);
+		tabSteps = new StepsTab(this);
 		add(tabAlgebra);
 		add(tabTools);
+		if (app.has(Feature.SHOW_STEPS)) {
+			add(tabSteps);
+		}
 		addMoveBtn();
 		add(main);
 		ClickStartHandler.initDefaults(main, false, true);
@@ -615,6 +624,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		tabAlgebra.setActive(true);
 		tabTools.setActive(false);
+		if (app.has(Feature.SHOW_STEPS)) {
+			tabSteps.setActive(false);
+		}
 		setFadeTabs(fade);
 		hideMoveFloatingButton();
 		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
@@ -640,8 +652,30 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		main.addStyleName("tools");
 		tabAlgebra.setActive(false);
 		tabTools.setActive(true);
+		if (app.has(Feature.SHOW_STEPS)) {
+			tabSteps.setActive(false);
+		}
 		setFadeTabs(fade);
 		updateMoveButton();
+	}
+
+
+	/**
+	 * Opens steps tab and returns stepGuiBuilder
+	 * @param fade decides if tab should fade during animation
+	 * @return StepGuiBuilder
+	 */
+	public StepGuiBuilder openSteps(boolean fade) {
+		ToolTipManagerW.hideAllToolTips();
+		open();
+		main.removeStyleName("algebra");
+		main.addStyleName("steps");
+		tabAlgebra.setActive(false);
+		tabSteps.setActive(true);
+		setFadeTabs(fade);
+		updateMoveButton();
+
+		return tabSteps.getStepGuiBuilder();
 	}
 
 	/**
@@ -869,6 +903,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	public void setFadeTabs(boolean fade) {
 		tabAlgebra.setFade(fade);
 		tabTools.setFade(fade);
+		tabSteps.setFade(fade);
 	}
 
 	/** Sets focus to Burger menu */
