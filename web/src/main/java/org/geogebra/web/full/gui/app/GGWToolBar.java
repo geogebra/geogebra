@@ -486,9 +486,7 @@ public class GGWToolBar extends Composite
 						.setTextDecoration(TextDecoration.LINE_THROUGH);
 				nocas.getElement().setClassName("timer");
 				// do not add CAS to toolBar for tablet exam apps
-				if (!app.getArticleElement().hasDataParamEnableGraphing()) {
-					rightButtonPanel.add(nocas);
-				}
+				rightButtonPanel.add(nocas);
 			}
 			if (!app.getSettings().getEuclidian(-1).isEnabled()) {
 				Label no3d = new Label("3D");
@@ -496,9 +494,7 @@ public class GGWToolBar extends Composite
 						.setTextDecoration(TextDecoration.LINE_THROUGH);
 				no3d.getElement().setClassName("timer");
 				// do not add 3D to toolBar for tablet exam apps
-				if (!app.getArticleElement().hasDataParamEnableGraphing()) {
-					rightButtonPanel.add(no3d);
-				}
+				rightButtonPanel.add(no3d);
 			}
 			rightButtonPanel.add(getTimer());
 		}
