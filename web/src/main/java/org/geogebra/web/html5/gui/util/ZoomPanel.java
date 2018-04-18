@@ -175,9 +175,8 @@ public class ZoomPanel extends FlowPanel
 							: app.getArticleElement().getDataParamScale(),
 					0, 0);
 			app.getArticleElement().resetScale();
-			app.recalculateEnvironments();
+			app.checkScaleContainer();
 		}
-		app.checkScaleContainer();
 		Browser.scale(getElement(), 1, 0, 0);
 	}
 

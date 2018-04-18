@@ -343,6 +343,7 @@ public abstract class AppW extends App implements SetLabels {
 				style.setHeight(getHeight() * scale, Unit.PX);
 			}
 		}
+		recalculateEnvironments();
 	}
 
 	private void scaleTo(int width, int height) {
@@ -3811,6 +3812,9 @@ public abstract class AppW extends App implements SetLabels {
 				"Export", this);
 	}
 
+	/**
+	 * @return file extension of current construction
+	 */
 	public String getFileExtension() {
 		return getPageController() == null ? ".ggb" : ".ggs";
 	}
