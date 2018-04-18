@@ -6,6 +6,9 @@ import org.geogebra.common.move.ggtapi.models.Request;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Request for deletion.
+ */
 public class DeleteRequest implements Request {
 
 	private final static String API = "1.0.0";
@@ -15,8 +18,6 @@ public class DeleteRequest implements Request {
 	private Material material;
 
 	/**
-	 * @param app
-	 *            AppW
 	 * @param material
 	 *            {@link Material}
 	 */
@@ -27,7 +28,6 @@ public class DeleteRequest implements Request {
 	@Override
 	public String toJSONString(ClientInfo client) {
 		try {
-			JSONObject request = new JSONObject();
 			JSONObject api = new JSONObject();
 			api.put("-api", DeleteRequest.API);
 
@@ -46,6 +46,7 @@ public class DeleteRequest implements Request {
 			task.put("id", Integer.toString(this.material.getId()));
 
 			api.put("task", task);
+			JSONObject request = new JSONObject();
 			request.put("request", api);
 			return request.toString();
 		} catch (Exception e) {
@@ -55,8 +56,6 @@ public class DeleteRequest implements Request {
 	}
 
 	/**
-	 * @param app
-	 *            AppW
 	 * @param mat
 	 *            Material
 	 * @return DeleteRequest

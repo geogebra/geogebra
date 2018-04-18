@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.geogebra.common.move.ggtapi.models.json;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;

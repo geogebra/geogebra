@@ -5,9 +5,9 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.SwingUtilities;
 
-import org.geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.w3c.dom.events.Event;
 
 import javafx.embed.swing.JFXPanel;

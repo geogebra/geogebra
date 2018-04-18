@@ -153,7 +153,6 @@ public class JSONParserGGT {
 		return Integer.parseInt(str.toString());
 	}
 
-
 	private static long getLong(JSONObject obj, String string, long def) {
 		if (!obj.has(string)) {
 			return def;
@@ -217,7 +216,6 @@ public class JSONParserGGT {
 			Log.debug("error parsing unfavorite");
 		}
 		events.add(se);
-
 	}
 
 	/**
@@ -237,8 +235,6 @@ public class JSONParserGGT {
 		} else if (items instanceof JSONObject) {
 			addEvent((JSONObject) items, events);
 		}
-
-
 	}
 
 	/**

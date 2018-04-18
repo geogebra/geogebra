@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.geogebra.common.move.ggtapi.models.json;
 
 import java.util.ArrayList;
@@ -60,14 +61,13 @@ public class JSONArray {
 
 	/**
 	 * Creates a new {@code JSONArray} by copying all values from the given
-	 * collection.
-	 *
+	 * collection. Accept a raw type for API compatibility
+	 * 
 	 * @param copyFrom
 	 *            a collection whose values are of supported types. Unsupported
 	 *            values are not permitted and will yield an array in an
 	 *            inconsistent state.
 	 */
-	/* Accept a raw type for API compatibility */
 	public JSONArray(Collection copyFrom) {
 		this();
 		if (copyFrom != null) {

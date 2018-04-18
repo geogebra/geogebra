@@ -183,6 +183,11 @@ public abstract class GeoGebraTubeAPI {
 		return requestJSON.toString();
 	}
 
+	/**
+	 * @param op
+	 *            login operation
+	 * @return whether the API is available; assume true if not tested
+	 */
 	public boolean checkAvailable(LogInOperation op) {
 		if (this.availabilityCheckDone && op != null) {
 			op.onEvent(new TubeAvailabilityCheckEvent(this.available));
@@ -191,6 +196,9 @@ public abstract class GeoGebraTubeAPI {
 		return this.available;
 	}
 
+	/**
+	 * @return whether the API is available; assume true if not tested
+	 */
 	public boolean isAvailable() {
 		return this.available;
 	}
@@ -248,6 +256,12 @@ public abstract class GeoGebraTubeAPI {
 		return this.available;
 	}
 
+	/**
+	 * @param lang
+	 *            user language
+	 * @param token
+	 *            login token
+	 */
 	public void setUserLanguage(String lang, String token) {
 		performRequest("{\"request\": {" + "\"api\":\"1.0.0\","
 				+ "\"login\": {\"token\":\"" + token
@@ -268,6 +282,12 @@ public abstract class GeoGebraTubeAPI {
 		});
 	}
 
+	/**
+	 * Log user out.
+	 * 
+	 * @param token
+	 *            login token
+	 */
 	public void logout(String token) {
 		performRequest("{\"request\": {" + "\"api\":\"1.0.0\","
 				+ "\"logout\": {\"token\":\"" + token
@@ -286,6 +306,12 @@ public abstract class GeoGebraTubeAPI {
 		});
 	}
 
+	/**
+	 * @param id
+	 *            material id
+	 * @param favorite
+	 *            whether to favorite or unfavorite
+	 */
 	public void favorite(int id, boolean favorite) {
 		performRequest("{\"request\": {" + "\"-api\":\"1.0.0\","
 				+ "\"login\": {\"-token\":\"" + getToken() + "\"},"
@@ -347,6 +373,18 @@ public abstract class GeoGebraTubeAPI {
 				cb);
 	}
 
+	/**
+	 * Share material with particular user and send an email about it.
+	 * 
+	 * @param material
+	 *            material
+	 * @param to
+	 *            recipient
+	 * @param message
+	 *            email message
+	 * @param cb
+	 *            callback
+	 */
 	public void shareMaterial(Material material, String to, String message,
 			final MaterialCallbackI cb) {
 		performRequest(ShareRequest.getRequestElement(material, to, message)
@@ -363,6 +401,12 @@ public abstract class GeoGebraTubeAPI {
 				cb);
 	}
 
+	/**
+	 * Get materials of currently logged in user.
+	 * 
+	 * @param cb
+	 *            callback
+	 */
 	public void getUsersOwnMaterials(MaterialCallbackI cb) {
 		System.out.println(client.getModel().getUserId());
 		performRequest(
@@ -414,11 +458,20 @@ public abstract class GeoGebraTubeAPI {
 				cb);
 	}
 
+	/**
+	 * Get all ggb elements from a worksheet.
+	 * 
+	 * @param id
+	 *            worksheet id
+	 * @param cb
+	 *            callback
+	 */
 	public void getWorksheetItems(int id, MaterialCallbackI cb) {
 		performRequest(
 				MaterialRequest.forWorksheet(id, client).toJSONString(client),
 				cb);
 	}
+
 	/**
 	 * Uploads the actual opened application to ggt
 	 * 
@@ -524,6 +577,14 @@ public abstract class GeoGebraTubeAPI {
 		return availabilityCheckDone;
 	}
 
+	/**
+	 * Synchrinize a material.
+	 * 
+	 * @param timestamp
+	 *            timestamp
+	 * @param cb
+	 *            callback
+	 */
 	public void sync(long timestamp, final SyncCallback cb) {
 		this.performRequest(new SyncRequest(timestamp).toJSONString(client),
 				false, new AjaxCallback() {
@@ -555,8 +616,6 @@ public abstract class GeoGebraTubeAPI {
 					}
 				});
 	}
-
-
 
 	protected String getToken() {
 		return client.getModel().getLoginToken();

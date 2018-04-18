@@ -5,6 +5,9 @@ import org.geogebra.common.util.StringUtil;
 public abstract class MaterialFilter {
 	public abstract boolean check(Material m);
 
+	/**
+	 * @return filter that keeps everything
+	 */
 	public static MaterialFilter getUniversalFilter() {
 		return new MaterialFilter() {
 			@Override

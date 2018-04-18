@@ -83,7 +83,6 @@ public abstract class AuthenticationModel extends BaseModel {
 		}
 	}
 
-
 	/**
 	 * override this method if another behaviour needed
 	 */
@@ -130,6 +129,12 @@ public abstract class AuthenticationModel extends BaseModel {
 		return true;
 	}
 
+	/**
+	 * Initialize for offline use (assume last user logged in).
+	 * 
+	 * @param api
+	 *            tube API
+	 */
 	public void startOffline(GeoGebraTubeAPI api) {
 		if (this.loadLastUser() != null) {
 			GeoGebraTubeUser offline = new GeoGebraTubeUser(null);
@@ -137,7 +142,6 @@ public abstract class AuthenticationModel extends BaseModel {
 				this.loggedInUser = offline;
 			}
 		}
-
 	}
 
 	public abstract String loadLastUser();

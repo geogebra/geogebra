@@ -119,14 +119,12 @@ public class Material implements Comparable<Material>, Serializable {
 	private String sharingKey;
 	private int elemcntApplet;
 
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
-
+	/**
+	 * @param id
+	 *            material id
+	 * @param type
+	 *            material type
+	 */
 	public Material(int id, MaterialType type) {
 		this.id = id;
 		this.type = type;
@@ -158,6 +156,14 @@ public class Material implements Comparable<Material>, Serializable {
 		this.shiftDragZoom = true;
 		this.rightClick = true;
 		this.labelDrags = true;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public void setShowMenu(boolean showMenu) {
@@ -265,27 +271,40 @@ public class Material implements Comparable<Material>, Serializable {
 										// SECONDS
 	}
 
+	/**
+	 * Reset timestamp and autosave timestamp.
+	 */
 	public void resetTimestamp() {
 		setTimestamp(0);
 		setAutosaveTimestamp(0);
 	}
 
+	/**
+	 * @param autoSaveTimestamp
+	 *            autosave timestamp in s
+	 */
 	public void setAutosaveTimestamp(long autoSaveTimestamp) {
 		this.autoSaveTimestamp = autoSaveTimestamp;
 	}
 
+	/**
+	 * JAVA USES MILLISECONDS, UNIX USES SECONDS
+	 * 
+	 * @param autoSaveTimestamp
+	 *            autosave timestamp in ms
+	 */
 	public void setAutosaveTimestampFromJava(long autoSaveTimestamp) {
-		setAutosaveTimestamp(autoSaveTimestamp / 1000); // JAVA USES
-														// MILLISECONDS, UNIX
-														// USES SECONDS
+		setAutosaveTimestamp(autoSaveTimestamp / 1000);
 	}
 
 	public long getAutosaveTimestamp() {
 		return autoSaveTimestamp;
 	}
 
+	/**
+	 * @return autosave timestamp in ms
+	 */
 	public long getAutosaveTimestampForJava() {
-		// JAVA USES MILLISECONDS, UNIX USES SECONDS
 		return autoSaveTimestamp * 1000;
 	}
 
@@ -424,6 +443,11 @@ public class Material implements Comparable<Material>, Serializable {
 		return toJson(false);
 	}
 
+	/**
+	 * @param storeLocalValues
+	 *            whether to include local ID and autosave timestamp
+	 * @return JSON representation
+	 */
 	public JSONObject toJson(boolean storeLocalValues) {
 		JSONObject ret = new JSONObject();
 		putString(ret, "thumbnail", thumbnail);
@@ -510,12 +534,20 @@ public class Material implements Comparable<Material>, Serializable {
 		return instructionsPost;
 	}
 
+	/**
+	 * @param height
+	 *            applet height in px
+	 */
 	public void setHeight(int height) {
 		if (height > 0) {
 			this.height = height;
 		}
 	}
 
+	/**
+	 * @param width
+	 *            applet width in px
+	 */
 	public void setWidth(int width) {
 		if (width > 0) {
 			this.width = width;

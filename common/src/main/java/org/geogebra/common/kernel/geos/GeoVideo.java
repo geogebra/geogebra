@@ -50,6 +50,7 @@ public class GeoVideo extends GeoMedia {
 	private HitType lastHitType;
 	private State state = State.NONE;
 	private boolean background = true;
+
 	/**
 	 * Constructor.
 	 *

@@ -20,11 +20,21 @@ public class MaterialRequest implements Request {
 	}
 
 	public enum Fields {
-		id, title, type, description, timestamp, author, author_id, url, url_direct, language, thumbnail, featured, likes, width, height, instructions_pre, instructions_post, ggbBase64, toolbar, menubar, inputbar, modified, visibility, favorite, is3d, spreadsheet, cas, graphics2, constprot, propcalc, dataanalysis, funcinsp, macro, sharing_key, preview_url, elemcnt_applet;
+		id, title, type, description, timestamp, author, author_id, url, url_direct, language,
+
+		thumbnail, featured, likes, width, height, instructions_pre, instructions_post,
+
+		ggbBase64, toolbar, menubar, inputbar, modified, visibility, favorite, is3d, spreadsheet,
+
+		cas, graphics2, constprot, propcalc, dataanalysis, funcinsp, macro, sharing_key,
+
+		preview_url, elemcnt_applet;
 	}
 
 	public enum Filters {
-		id, title, search, type, description, timestamp, author, author_url, language, featured, likes, inbook, inws, author_id;
+		id, title, search, type, description, timestamp, author, author_url, language, featured,
+
+		likes, inbook, inws, author_id;
 	}
 
 	public enum Order {
@@ -117,7 +127,7 @@ public class MaterialRequest implements Request {
 	}
 
 	@Override
-	public String toJSONString(ClientInfo client) {
+	public String toJSONString(ClientInfo clientInfo) {
 		try {
 			this.apiJSON.put("-api", MaterialRequest.api);
 			this.taskJSON.put("-type", this.task.toString());
@@ -160,11 +170,11 @@ public class MaterialRequest implements Request {
 			}
 			if (this.client != null) {
 				JSONObject clientJSON = new JSONObject();
-				clientJSON.put("-id", client.getId());
-				clientJSON.put("-width", client.getWidth() + "");
-				clientJSON.put("-height", client.getHeight() + "");
-				clientJSON.put("-type", client.getType());
-				clientJSON.put("-language", client.getLanguage());
+				clientJSON.put("-id", clientInfo.getId());
+				clientJSON.put("-width", clientInfo.getWidth() + "");
+				clientJSON.put("-height", clientInfo.getHeight() + "");
+				clientJSON.put("-type", clientInfo.getType());
+				clientJSON.put("-language", clientInfo.getLanguage());
 				this.apiJSON.put("client", clientJSON);
 			}
 			this.apiJSON.put("task", this.taskJSON);
@@ -177,6 +187,13 @@ public class MaterialRequest implements Request {
 
 	}
 
+	/**
+	 * @param userId
+	 *            user ID
+	 * @param client
+	 *            api client
+	 * @return request for user's materials
+	 */
 	public static MaterialRequest forUser(int userId, ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.author_url, Filters.type };
@@ -187,6 +204,13 @@ public class MaterialRequest implements Request {
 		return req;
 	}
 
+	/**
+	 * Gets personalized selection of materials (own, favorite, featured).
+	 * 
+	 * @param client
+	 *            api client
+	 * @return request
+	 */
 	public static MaterialRequest forCurrentUser(ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.type };
@@ -196,6 +220,13 @@ public class MaterialRequest implements Request {
 		return req;
 	}
 
+	/**
+	 * Gets personalized selection of materials (own, favorite, featured).
+	 * 
+	 * @param client
+	 *            api client
+	 * @return request for personalized selection; filter just ggbs
+	 */
 	public static MaterialRequest forCurrentUserGgb(ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.type };
@@ -204,6 +235,11 @@ public class MaterialRequest implements Request {
 		return req;
 	}
 
+	/**
+	 * @param client
+	 *            client info
+	 * @return request for featured materials
+	 */
 	public static MaterialRequest forFeatured(ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.featured, Filters.type };
@@ -214,6 +250,11 @@ public class MaterialRequest implements Request {
 		return req;
 	}
 
+	/**
+	 * @param client
+	 *            client info
+	 * @return request for featured materials, filter just ggbs
+	 */
 	public static MaterialRequest forFeaturedGgb(ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.featured, Filters.type };
@@ -223,6 +264,13 @@ public class MaterialRequest implements Request {
 		return req;
 	}
 
+	/**
+	 * @param client
+	 *            API client
+	 * @param query
+	 *            search term
+	 * @return search request
+	 */
 	public static MaterialRequest searchGgb(ClientInfo client, String query) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.search, Filters.type };
@@ -231,6 +279,13 @@ public class MaterialRequest implements Request {
 		return req;
 	}
 
+	/**
+	 * @param id
+	 *            book id
+	 * @param client
+	 *            api client
+	 * @return request for book's contents
+	 */
 	public static MaterialRequest forBook(int id, ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.inbook, Filters.type };
@@ -242,6 +297,13 @@ public class MaterialRequest implements Request {
 		return req;
 	}
 
+	/**
+	 * @param id
+	 *            worksheet id
+	 * @param client
+	 *            api client
+	 * @return request for ggb elements of given worksheet
+	 */
 	public static MaterialRequest forWorksheet(int id, ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.inws, Filters.type };

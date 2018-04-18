@@ -141,8 +141,6 @@ public class UploadRequest implements Request {
 		try {
 			// TODO for save we only need title
 			// request
-			JSONObject request = new JSONObject();
-
 			JSONObject api = new JSONObject();
 			api.put("-api", UploadRequest.API);
 
@@ -204,6 +202,7 @@ public class UploadRequest implements Request {
 			}
 
 			api.put("task", task);
+			JSONObject request = new JSONObject();
 			request.put("request", api);
 
 			return request.toString();

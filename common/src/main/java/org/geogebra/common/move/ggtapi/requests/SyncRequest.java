@@ -19,8 +19,6 @@ public class SyncRequest implements Request {
 	/**
 	 * Used to upload the actual opened application to GeoGebraTube
 	 * 
-	 * @param app
-	 *            AppW
 	 * @param timestamp
 	 *            since when we want to see the events
 	 */
@@ -31,10 +29,6 @@ public class SyncRequest implements Request {
 	@Override
 	public String toJSONString(ClientInfo client) {
 		try {
-			// TODO for save we only need title
-			// request
-			JSONObject request = new JSONObject();
-
 			JSONObject api = new JSONObject();
 			api.put("-api", SyncRequest.API);
 
@@ -53,6 +47,7 @@ public class SyncRequest implements Request {
 			task.put("timestamp", this.timestamp + "");
 
 			api.put("task", task);
+			JSONObject request = new JSONObject();
 			request.put("request", api);
 
 			return request.toString();

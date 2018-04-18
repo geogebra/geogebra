@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.geogebra.common.move.ggtapi.models.json;
 
 import java.util.ArrayList;
@@ -134,13 +135,14 @@ public class JSONObject {
 	 * Creates a new {@code JSONObject} by copying all name/value mappings from
 	 * the given map.
 	 *
+	 * (accept a raw type for API compatibility)
+	 *
 	 * @param copyFrom
 	 *            a map whose keys are of type {@link String} and whose values
 	 *            are of supported types.
 	 * @throws NullPointerException
 	 *             if any of the map's keys are null.
 	 */
-	/* (accept a raw type for API compatibility) */
 	public JSONObject(Map copyFrom) {
 		this();
 		Map<?, ?> contentsTyped = copyFrom;

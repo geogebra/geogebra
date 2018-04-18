@@ -1,4 +1,4 @@
-package org.geogebra.common.move.ggtapi.operations;
+package org.geogebra.desktop.move;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;

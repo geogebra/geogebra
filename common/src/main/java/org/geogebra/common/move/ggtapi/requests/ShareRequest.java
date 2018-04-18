@@ -6,6 +6,10 @@ import org.geogebra.common.move.ggtapi.models.Request;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Request for email share.
+ *
+ */
 public class ShareRequest implements Request {
 
 	private final static String API = "1.0.0";
@@ -17,8 +21,6 @@ public class ShareRequest implements Request {
 	private String message;
 
 	/**
-	 * @param app
-	 *            AppW
 	 * @param material
 	 *            {@link Material}
 	 */
@@ -31,7 +33,6 @@ public class ShareRequest implements Request {
 	@Override
 	public String toJSONString(ClientInfo client) {
 		try {
-			JSONObject request = new JSONObject();
 			JSONObject api = new JSONObject();
 			api.put("-api", ShareRequest.API);
 
@@ -52,6 +53,7 @@ public class ShareRequest implements Request {
 			task.put("message", this.message);
 
 			api.put("task", task);
+			JSONObject request = new JSONObject();
 			request.put("request", api);
 			return request.toString();
 		} catch (Exception e) {
@@ -61,11 +63,13 @@ public class ShareRequest implements Request {
 	}
 
 	/**
-	 * @param app
-	 *            AppW
 	 * @param mat
 	 *            Material
-	 * @return DeleteRequest
+	 * @param recipient
+	 *            email recipient
+	 * @param message
+	 *            message body
+	 * @return ShareRequest
 	 */
 	public static ShareRequest getRequestElement(Material mat, String recipient,
 			String message) {

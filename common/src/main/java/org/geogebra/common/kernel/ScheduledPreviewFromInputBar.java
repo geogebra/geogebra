@@ -166,8 +166,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					}
 
 					this.kernel.notifyUpdatePreviewFromInputBar(previewGeos);
-				} else if (kernel.getApplication().has(Feature.MOB_PREVIEW_WHEN_EDITING) &&
-						existingGeo.getParentAlgorithm() == null && !existingGeo.hasChildren()) {
+				} else if (kernel.getApplication().has(Feature.MOB_PREVIEW_WHEN_EDITING)
+						&& existingGeo.getParentAlgorithm() == null && !existingGeo.hasChildren()) {
 					ve.setLabels(null);
 					GeoElementND[] inputGeos = evalValidExpression(ve, info);
 					if (inputGeos != null && inputGeos.length == 1) {
