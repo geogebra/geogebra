@@ -4,8 +4,7 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steps.SystemSteps;
 import org.geogebra.common.main.Localization;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class StepEquationSystem extends StepNode {
 
@@ -34,7 +33,13 @@ public class StepEquationSystem extends StepNode {
     }
 
     public List<StepSolution> solve(SolutionBuilder steps) {
-        return SystemSteps.solveBySubstitution(this, steps);
+        Set<StepVariable> variableSet = new HashSet<>();
+        getListOfVariables(variableSet);
+        return solve(steps, new ArrayList<>(variableSet));
+    }
+
+    public List<StepSolution> solve(SolutionBuilder steps, List<StepVariable> variables) {
+        return SystemSteps.solveBySubstitution(this, variables, steps);
     }
 
     public StepEquation getEquation(int i) {

@@ -14,19 +14,19 @@ import java.util.*;
 public class SystemSteps {
 
     public static List<StepSolution> solveBySubstitution(StepEquationSystem ses,
-                                                         SolutionBuilder steps) {
-        int n = ses.getEquations().length;
-
+                                             List<StepVariable> variables, SolutionBuilder steps) {
         SolutionBuilder tempSteps = new SolutionBuilder();
         StepEquationSystem tempSystem = ses.deepCopy();
 
         int eqIndex = -1, minSolutions = -1, minComplexity = -1;
         StepVariable minVariable = null;
-        for (int i = 0; i < n; i++) {
-            Set<StepVariable> variableSet = new HashSet<>();
-            tempSystem.getEquation(i).getListOfVariables(variableSet);
+        for (int i = 0; i < ses.size(); i++) {
+            for (StepVariable variable : variables) {
+                if (ses.getEquation(i).getLHS().isConstantIn(variable)
+                        && ses.getEquation(i).getRHS().isConstantIn(variable)) {
+                    continue;
+                }
 
-            for (StepVariable variable : variableSet) {
                 try {
                     List<StepSolution> solutions = tempSystem.getEquation(i)
                             .solve(variable, tempSteps);
@@ -51,7 +51,7 @@ public class SystemSteps {
             throw new SolveFailedException(steps.getSteps());
         }
 
-        if (n != 1) {
+        if (ses.size() != 1) {
             steps.add(SolutionStepType.SOLVE, ses);
             steps.levelDown();
         }
@@ -60,7 +60,7 @@ public class SystemSteps {
                 .solve(minVariable, tempSteps);
         steps.addIfNontrivial(tempSteps);
 
-        if (n == 1) {
+        if (ses.size() == 1) {
             return solutions;
         }
 
@@ -68,10 +68,12 @@ public class SystemSteps {
             steps.add(SolutionStepType.NO_REAL_SOLUTION);
         }
 
+        variables.remove(minVariable);
+
         List<StepSolution> finalSolutions = new ArrayList<>();
         for (StepSolution solution : solutions) {
-            StepEquation[] newEquations = new StepEquation[n - 1];
-            for (int j = 0; j < n; j++) {
+            StepEquation[] newEquations = new StepEquation[ses.size() - 1];
+            for (int j = 0; j < ses.size(); j++) {
                 if (j > eqIndex) {
                     newEquations[j - 1] = tempSystem.getEquation(j).deepCopy();
                 } else if (j < eqIndex) {
@@ -79,8 +81,8 @@ public class SystemSteps {
                 }
             }
 
-            List<StepSolution> tempSolutions = substituteAndSolve(newEquations, solution,
-                    tempSteps);
+            List<StepSolution> tempSolutions = substituteAndSolve(newEquations, variables,
+                    solution, tempSteps);
             steps.addIfNontrivial(tempSteps);
 
             StepEquation equation = new StepEquation(minVariable,
@@ -106,7 +108,7 @@ public class SystemSteps {
     }
 
     private static List<StepSolution> substituteAndSolve(StepEquation[] equations,
-                                                 StepSolution solution, SolutionBuilder steps) {
+                     List<StepVariable> variables, StepSolution solution, SolutionBuilder steps) {
         steps.levelDown();
         for (StepEquation equation : equations) {
             if (!contains(equation, solution)) {
@@ -122,7 +124,7 @@ public class SystemSteps {
         steps.levelUp();
 
         StepEquationSystem newSystem = new StepEquationSystem(equations);
-        return solveBySubstitution(newSystem, steps);
+        return solveBySubstitution(newSystem, variables, steps);
     }
 
     private static boolean contains(StepEquation se, StepSolution ss) {
@@ -146,13 +148,10 @@ public class SystemSteps {
     }
 
     public static List<StepSolution> solveByElimination(StepEquationSystem ses,
-                                                        SolutionBuilder steps) {
+                                            List<StepVariable> variables, SolutionBuilder steps) {
         if (ses.getEquations().length != 2) {
             throw new SolveFailedException("incorrect number of equations");
         }
-
-        Set<StepVariable> variables = new HashSet<>();
-        ses.getListOfVariables(variables);
 
         if (variables.size() != 2) {
             throw new SolveFailedException("incorrect number of variables");
@@ -163,8 +162,8 @@ public class SystemSteps {
 
         SolutionBuilder tempSteps = new SolutionBuilder();
 
-        StepVariable x = (StepVariable) variables.toArray()[0];
-        StepVariable y = (StepVariable) variables.toArray()[1];
+        StepVariable x = variables.get(0);
+        StepVariable y = variables.get(1);
 
         for (int i = 0; i < 2; i++) {
             ses.getEquation(i).reorganize(tempSteps, null, i);
@@ -274,16 +273,13 @@ public class SystemSteps {
         return solutions;
     }
 
-    public static List<StepSolution> cramersRule(StepEquationSystem ses, SolutionBuilder steps) {
+    public static List<StepSolution> cramersRule(StepEquationSystem ses,
+                                             List<StepVariable> variables, SolutionBuilder steps) {
         if (ses.getEquations().length != 3) {
             throw new SolveFailedException("incorrect number of equations");
         }
 
-        Set<StepVariable> variablesSet = new HashSet<>();
-        ses.getListOfVariables(variablesSet);
-        StepVariable[] variables = variablesSet.toArray(new StepVariable[0]);
-
-        if (variables.length != 3) {
+        if (variables.size() != 3) {
             throw new SolveFailedException("incorrect number of variables");
         }
 
@@ -298,12 +294,12 @@ public class SystemSteps {
             ses.getEquation(i).reorganize(tempSteps, null, i);
 
             for (int j = 0; j < 3; j++) {
-                int degree = ses.getEquation(i).degree(variables[j]);
+                int degree = ses.getEquation(i).degree(variables.get(j));
                 if (degree != 0 && degree != 1) {
                     throw new SolveFailedException("nonlinear equation in elimination");
                 }
 
-                matrix[i][j] = ses.getEquation(i).getLHS().findCoefficient(variables[j]);
+                matrix[i][j] = ses.getEquation(i).getLHS().findCoefficient(variables.get(j));
             }
             matrix[i][3] = ses.getEquation(i).getRHS();
         }
@@ -342,11 +338,11 @@ public class SystemSteps {
         List<StepSolution> solutions = new ArrayList<>();
         solutions.add(new StepSolution());
         for (int i = 1; i < 4; i++) {
-            StepEquation equation = new StepEquation(variables[i - 1],
+            StepEquation equation = new StepEquation(variables.get(i - 1),
                     divide(values[i], values[0])).regroup(tempSteps, null);
-            steps.addGroup(SolutionStepType.CRAMER_VARIABLE, tempSteps, equation, variables[i - 1],
-                    StepConstant.create(i), values[i], values[0]);
-            solutions.get(0).addVariableSolutionPair(variables[i - 1], equation.getRHS());
+            steps.addGroup(SolutionStepType.CRAMER_VARIABLE, tempSteps, equation,
+                    variables.get(i - 1), StepConstant.create(i), values[i], values[0]);
+            solutions.get(0).addVariableSolutionPair(variables.get(i - 1), equation.getRHS());
         }
 
         steps.levelUp();
@@ -356,30 +352,26 @@ public class SystemSteps {
     }
 
     public static List<StepSolution> gaussJordanElimination(StepEquationSystem ses,
-                                                            SolutionBuilder steps) {
-        Set<StepVariable> variablesSet = new HashSet<>();
-        ses.getListOfVariables(variablesSet);
-        StepVariable[] variables = variablesSet.toArray(new StepVariable[0]);
-
+                                            List<StepVariable> variables, SolutionBuilder steps) {
         steps.add(SolutionStepType.SOLVE, ses);
         steps.levelDown();
 
         SolutionBuilder tempSteps = new SolutionBuilder();
 
-        StepExpression[][] matrixData = new StepExpression[ses.size()][variables.length + 1];
+        StepExpression[][] matrixData = new StepExpression[ses.size()][variables.size() + 1];
 
         for (int i = 0; i < ses.size(); i++) {
             ses.getEquation(i).reorganize(tempSteps, null, i);
 
-            for (int j = 0; j < variables.length; j++) {
-                int degree = ses.getEquation(i).degree(variables[j]);
+            for (int j = 0; j < variables.size(); j++) {
+                int degree = ses.getEquation(i).degree(variables.get(j));
                 if (degree != 0 && degree != 1) {
                     throw new SolveFailedException("nonlinear equation in elimination");
                 }
 
-                matrixData[i][j] = ses.getEquation(i).getLHS().findCoefficient(variables[j]);
+                matrixData[i][j] = ses.getEquation(i).getLHS().findCoefficient(variables.get(j));
             }
-            matrixData[i][variables.length] = ses.getEquation(i).getRHS();
+            matrixData[i][variables.size()] = ses.getEquation(i).getRHS();
         }
 
         steps.addGroup(SolutionStepType.REORGANIZE_EXPRESSION, tempSteps, ses);
@@ -389,11 +381,11 @@ public class SystemSteps {
 
         steps.addSubstep(ses, matrix, SolutionStepType.WRITE_IN_MATRIX_FORM);
 
-        boolean[] solved = new boolean[variables.length];
-        for (int k = 0; k < variables.length; k++) {
+        boolean[] solved = new boolean[variables.size()];
+        for (int k = 0; k < variables.size(); k++) {
             for (int i = 0; i < ses.getEquations().length; i++) {
                 StepExpression GCD = matrix.get(i, 0);
-                for (int j = 1; j <= variables.length; j++ ) {
+                for (int j = 1; j <= variables.size(); j++ ) {
                     GCD = StepHelper.GCD(GCD, matrix.get(i, j));
                 }
                 if (!isOne(GCD)) {
@@ -404,7 +396,7 @@ public class SystemSteps {
             int pivoti = -1;
             int pivotj = -1;
             for (int i = 0; i < ses.getEquations().length; i++) {
-                for (int j = 0; j < variables.length; j++) {
+                for (int j = 0; j < variables.size(); j++) {
                     if (solved[i] || isZero(matrix.get(i, j))) {
                         continue;
                     }
@@ -435,9 +427,9 @@ public class SystemSteps {
         StepEquation[] newEquations = new StepEquation[matrix.getHeight()];
         for (int i = 0; i < matrix.getHeight(); i++) {
             StepExpression LHS = StepConstant.create(0);
-            for (int j = 0; j < variables.length; j++) {
+            for (int j = 0; j < variables.size(); j++) {
                 if (!isZero(matrix.get(i, j))) {
-                    LHS = nonTrivialSum(LHS, nonTrivialProduct(matrix.get(i, j), variables[j]));
+                    LHS = nonTrivialSum(LHS, nonTrivialProduct(matrix.get(i, j), variables.get(j)));
                 }
             }
             newEquations[i] = new StepEquation(LHS, matrix.get(i, matrix.getWidth() - 1));
@@ -447,7 +439,7 @@ public class SystemSteps {
 
         steps.addSubstep(matrix, newSystem, SolutionStepType.WRITE_IN_SYSTEM_FORM);
 
-        List<StepSolution> solutions = solveBySubstitution(newSystem, tempSteps);
+        List<StepSolution> solutions = solveBySubstitution(newSystem, variables, tempSteps);
 
         if (tempSteps.getSteps().getComplexity() > 4) {
             steps.add(tempSteps.getSteps());

@@ -1,9 +1,7 @@
 package org.geogebra.stepbystep;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.CASException;
@@ -14,6 +12,7 @@ import org.geogebra.common.kernel.stepbystep.steps.SystemSteps;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquationSystem;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -42,18 +41,20 @@ public class SystemStepTest {
 
     @Test
     public void linearSystems() {
-        t(new String[] { "3x + 2y + z = 2", "2x + 3y + 3z = 1", "3x + 2y + 3z = 3"}, 0,
+        t(new String[] { "3x + 2y + z = 2", "2x + 3y + 3z = 1"}, "x y", 0,
+                "x = (((3)(z) + 4))/(5), y = -(((7)(z) + 1))/(5)");
+        t(new String[] { "3x + 2y + z = 2", "2x + 3y + 3z = 1", "3x + 2y + 3z = 3"}, "x y z", 0,
                 "x = (11)/(10), y = -(9)/(10), z = (1)/(2)");
-        t(new String[] { "3x + 2y = 1", "2x + 3y = 2"}, 0,
+        t(new String[] { "3x + 2y = 1", "2x + 3y = 2"}, "x y" ,0,
                 "x = -(1)/(5), y = (4)/(5)");
     }
 
     @Test
     public void quadraticLinear() {
-        t(new String[] { "3x + 2y = 1", "x^2 + y^2 = 1"}, 0,
+        t(new String[] { "3x + 2y = 1", "x^2 + y^2 = 1"}, "x y", 0,
                 "x = (((4)(nroot(3, 2)) + 3))/(13), y = ((2-(6)(nroot(3, 2))))/(13)",
                 "x = ((-(4)(nroot(3, 2)) + 3))/(13), y = ((2 + (6)(nroot(3, 2))))/(13)");
-        t(new String[] { "x^2 + y^2 + z^2 = 9", "x + y = 2", "y + z = 3"}, 0,
+        t(new String[] { "x^2 + y^2 + z^2 = 9", "x + y = 2", "y + z = 3"}, "x y z", 0,
                 "x = ((-nroot(13, 2) + 1))/(3), y = ((nroot(13, 2) + 5))/(3), " +
                         "z = ((4-nroot(13, 2)))/(3)",
                 "x = ((nroot(13, 2) + 1))/(3), y = ((-nroot(13, 2) + 5))/(3), " +
@@ -62,42 +63,43 @@ public class SystemStepTest {
 
     @Test
     public void simpleElimination() {
-        t(new String[] { "3x + 2y = 1", "2x + 3y = 2", "3x + 3y = 4"}, 1, "fail");
-        t(new String[] { "3x + 2y = 1", "2x + 3y + z = 1"}, 1, "fail");
-        t(new String[] { "3x + 2y = 1 + y - x", "3 + x + y = -x + 2y"}, 1,
+        t(new String[] { "3x + 2y = 1", "2x + 3y = 2", "3x + 3y = 4"}, "x y", 1, "fail");
+        t(new String[] { "3x + 2y = 1", "2x + 3y + z = 1"}, "x y z", 1, "fail");
+        t(new String[] { "3x + 2y = 1 + y - x", "3 + x + y = -x + 2y"}, "x y", 1,
                 "x = -(1)/(3), y = (7)/(3)");
-        t(new String[] { "3x + 2y = 2", "2x + 3y = 1"}, 1,
+        t(new String[] { "3x + 2y = 2", "2x + 3y = 1"}, "x y", 1,
                 "x = (4)/(5), y = -(1)/(5)");
-        t(new String[] { "-3x + 2y = 2", "2x + 3y = 1"}, 1,
+        t(new String[] { "-3x + 2y = 2", "2x + 3y = 1"}, "x y", 1,
                 "x = -(4)/(13), y = (7)/(13)");
-        t(new String[] { "3x + 2y = 2", "-2x + -3y = 1"}, 1,
+        t(new String[] { "3x + 2y = 2", "-2x + -3y = 1"}, "x y", 1,
                 "x = (8)/(5), y = -(7)/(5)");
-        t(new String[] { "sqrt(2) * x + 4/5 * y = 2", "1/9 * x + sqrt(5) * y = 1"}, 1,
+        t(new String[] { "sqrt(2) * x + 4/5 * y = 2", "1/9 * x + sqrt(5) * y = 1"}, "x y", 1,
                 "x = (((-(36)(nroot(2, 2)) + (90)(nroot(10, 2))-(810)(nroot(5, 2)) " +
                         "+ 10125))(nroot(2, 2)))/(10117), " +
                         "y = (((-2 + (9)(nroot(2, 2))))(5)((4 + (45)(nroot(10, 2)))))/(20234)");
-        t(new String[] { "3x + 8y = 2", "-2x + -2y = 1"}, 1,
+        t(new String[] { "3x + 8y = 2", "-2x + -2y = 1"}, "x y", 1,
                 "x = -(6)/(5), y = (7)/(10)");
-        t(new String[] { "3x + 4y = 2", "3x + 4y = 3"}, 1);
-        t(new String[] { "3x + 4y = 2", "6x + 8y = 4"}, 1,
+        t(new String[] { "3x + 4y = 2", "3x + 4y = 3"}, "x y", 1);
+        t(new String[] { "3x + 4y = 2", "6x + 8y = 4"}, "x y", 1,
                 "x in R, y = ((2-(3)(x)))/(4)");
     }
 
     @Test
     public void cramersRule() {
         t(new String[] {"x + y - 3 = -z", "2x + 2y + 3z = 8 - z", "-12 + 4x + 5y + 5z = x + y"},
-                2, "x = 1, y = 1, z = 1");
+                "x y z", 2, "x = 1, y = 1, z = 1");
     }
 
     @Test
     public void gaussJordanElimination() {
         t(new String[] {"x + y - 3 = -z", "2x + 2y + 3z = 8 - z", "-12 + 4x + 5y + 5z = x + y"},
-                3, "x = 1, y = 1, z = 1");
+                "x y z", 3, "x = 1, y = 1, z = 1");
         t(new String[] { "3x + 2y + z = 2", "2x + 3y + 3z = 1", "3x + 2y + 3z = 3"},
-                3, "x = (11)/(10), y = -(9)/(10), z = (1)/(2)");
+                "x y z", 3, "x = (11)/(10), y = -(9)/(10), z = (1)/(2)");
     }
 
-    public void t(String[] equations, int method, String... expectedSolutions) {
+    public void t(String[] equations, String variableString, int method,
+                  String... expectedSolutions) {
         if (needsHeading) {
             Throwable t = new Throwable();
             htmlBuilder.addHeading(t.getStackTrace()[1].getMethodName(), 1);
@@ -114,22 +116,29 @@ public class SystemStepTest {
         SolutionBuilder steps = new SolutionBuilder();
         StepEquationSystem ses = new StepEquationSystem(stepEquations.toArray(new StepEquation[0]));
 
+        List<StepVariable> variables = new ArrayList<>();
+        for (String variableName : variableString.split(" ")) {
+            variables.add(new StepVariable(variableName));
+        }
+
         try {
             List<StepSolution> solutions = null;
 
             switch (method) {
                 case 0:
-                    solutions = SystemSteps.solveBySubstitution(ses, steps);
+                    solutions = SystemSteps.solveBySubstitution(ses, variables, steps);
                     break;
                 case 1:
-                    solutions = SystemSteps.solveByElimination(ses, steps);
+                    solutions = SystemSteps.solveByElimination(ses, variables, steps);
                     break;
                 case 2:
-                    solutions = SystemSteps.cramersRule(ses, steps);
+                    solutions = SystemSteps.cramersRule(ses, variables, steps);
                     break;
                 case 3:
-                    solutions = SystemSteps.gaussJordanElimination(ses, steps);
+                    solutions = SystemSteps.gaussJordanElimination(ses, variables, steps);
             }
+
+            steps.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
 
             String[] actualSolutions = new String[solutions.size()];
             for (int i = 0; i < solutions.size(); i++) {
@@ -147,19 +156,15 @@ public class SystemStepTest {
             }
 
             Assert.assertArrayEquals(expectedSolutions, new String[] { "fail" });
-            return;
         } catch (CASConflictException e) {
             htmlBuilder.addHeading("CAS conflict: ", 4);
             e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
 
             Assert.assertArrayEquals(expectedSolutions, new String[] { "CASfail" });
-            return;
         } catch (CASException e) {
             e.printStackTrace();
             Assert.fail();
         }
-
-        steps.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
     }
 
     @Before
