@@ -20,7 +20,7 @@ public interface StringProperty extends Property {
     void setValue(String value);
 
     /**
-     * Validates the value and returns a boolean whether it was valid or not
+     * Validates the value and returns a boolean whether it was valid or not.
      *
      * @return a boolean whether the value is valid or not
      */
