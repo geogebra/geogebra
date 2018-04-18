@@ -130,12 +130,12 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 				AlgoRoots algoRoots = new AlgoRoots(kernel.getConstruction(),
 						null, geo, view.getXminObject(),
 						view.getXmaxObject(), false);
-				add(algoRoots, retList);
+				processAlgo(geo, algoRoots, retList);
 			} else {
 				AlgoRootsPolynomial algoRootsPolynomial = new AlgoRootsPolynomial(
 						kernel.getConstruction(), null, geo,
 						false);
-				add(algoRootsPolynomial, retList);
+				processAlgo(geo, algoRootsPolynomial, retList);
 			}
 		}
 		if (poly == null || poly.getDegree() > 1) {
@@ -145,12 +145,12 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 				AlgoExtremumMulti algoExtremumMulti = new AlgoExtremumMulti(
 						kernel.getConstruction(), null, geo,
 						view.getXminObject(), view.getXmaxObject(), false);
-				add(algoExtremumMulti, retList);
+				processAlgo(geo, algoExtremumMulti, retList);
 			} else {
 				AlgoExtremumPolynomial algoExtremumPolynomial = new AlgoExtremumPolynomial(
 						kernel.getConstruction(), null, geo,
 						false);
-				add(algoExtremumPolynomial, retList);
+				processAlgo(geo, algoExtremumPolynomial, retList);
 			}
 		}
 
@@ -158,7 +158,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			AlgoIntersectPolynomialLine algoPolynomialLine = new AlgoIntersectPolynomialLine(
 					kernel.getConstruction(), geo,
 					kernel.getConstruction().getYAxis());
-			add(algoPolynomialLine, retList);
+			processAlgo(geo, algoPolynomialLine, retList);
 		}
 	}
 
@@ -215,7 +215,9 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 				&& geo.isEuclidianVisible() && !geo.isGeoElement3D();
 	}
 
-	private void add(AlgoElement algoElement, ArrayList<GeoElementND> retList) {
+	private void processAlgo(GeoElement element, AlgoElement algoElement, ArrayList<GeoElementND>
+			retList) {
+		element.removeAlgorithm(algoElement);
 		kernel.getConstruction().removeFromAlgorithmList(algoElement);
 		add(algoElement.getOutput(), retList);
 		specPointAlgos.add(algoElement);
