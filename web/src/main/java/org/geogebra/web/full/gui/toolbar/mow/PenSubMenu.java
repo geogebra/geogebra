@@ -39,14 +39,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class PenSubMenu extends SubMenuPanel {
 	private static final int MAX_PEN_SIZE = 12;
 	private static final int MAX_ERASER_SIZE = 100;
-	private static final int MIN_HIGHLIGHTER_SIZE = 15;
-	private static final int DEFAULT_HIGHLIGHTER_OPACITY = 77;
-	private static final int DEFAULT_HIGHLIGHTER_SIZE = 20;
-	private static final int MAX_HIGHLIGHTER_SIZE = 30;
 	private static final int PEN_STEP = 1;
 	private static final int ERASER_STEP = 20;
-	private static final int BLACK_COLOR_IND = 0;
-	private static final int GREEN_COLOR_IND = 1;
 	private StandardButton pen;
 	private StandardButton eraser;
 	private StandardButton highlighter;
@@ -67,10 +61,10 @@ public class PenSubMenu extends SubMenuPanel {
 	// yellow
 	private final static String[] HEX_COLORS = { "000000", "2E7D32", "00A8A8",
 			"1565C0", "6557D2", "CC0099", "D32F2F", "DB6114", "FFCC00" };
-	private GColor lastSelectedPenColor = penColor[BLACK_COLOR_IND];
-	private GColor lastSelectedHighlighterColor = penColor[GREEN_COLOR_IND];
+	private GColor lastSelectedPenColor = GColor.BLACK;
+	private GColor lastSelectedHighlighterColor = GColor.MOW_GREEN;
 	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
-	private int lastHighlighterThinckness = DEFAULT_HIGHLIGHTER_SIZE;
+	private int lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
 
 	/**
 	 * 
@@ -256,12 +250,12 @@ public class PenSubMenu extends SubMenuPanel {
 		highlighter.getElement().setAttribute("selected", "true");
 		setColorsEnabled(true);
 		selectColor(lastSelectedHighlighterColor);
-		slider.setMinimum(MIN_HIGHLIGHTER_SIZE, false);
-		slider.setMaximum(MAX_HIGHLIGHTER_SIZE, false);
+		slider.setMinimum(EuclidianConstants.MIN_HIGHLIGHTER_SIZE, false);
+		slider.setMaximum(EuclidianConstants.MAX_HIGHLIGHTER_SIZE, false);
 		slider.setStep(PEN_STEP);
 		slider.setValue((double) lastHighlighterThinckness);
 		getPen().setPenSize(lastHighlighterThinckness);
-		getPen().setPenOpacity(DEFAULT_HIGHLIGHTER_OPACITY);
+		getPen().setPenOpacity(EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY);
 		slider.getElement().setAttribute("disabled", "false");
  		preview.setVisible(true);
 		updatePreview();
@@ -328,7 +322,8 @@ public class PenSubMenu extends SubMenuPanel {
 					btnColor[i].addStyleName("mowColorButton-selected");
 					// setPenIconColor(penColor[i].toString());
 					if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
-						getPen().setPenOpacity(DEFAULT_HIGHLIGHTER_OPACITY);
+						getPen().setPenOpacity(
+								EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY);
 						lastSelectedHighlighterColor = penColor[i];
 					} else {
 						lastSelectedPenColor = penColor[i];
@@ -495,7 +490,7 @@ public class PenSubMenu extends SubMenuPanel {
 	 */
 	public void resetPen() {
 		lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
-		lastHighlighterThinckness = DEFAULT_HIGHLIGHTER_SIZE;
+		lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
 		if (app.getMode() == EuclidianConstants.MODE_PEN) {
 			slider.setValue((double) lastPenThickness);
 		}

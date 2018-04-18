@@ -61,6 +61,8 @@ public final class GColor implements GPaint {
 	public static final GColor MOW_TEXT_PRIMARY = newColor(0, 0, 0, 138);
 	/** MOW WIDGET BACKGROUND */
 	public static final GColor MOW_WIDGET_BACKGROUND = newColor(245, 245, 245);
+	/** MOW GREEN */
+	public static final GColor MOW_GREEN = newColor(46, 125, 50);
 
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer

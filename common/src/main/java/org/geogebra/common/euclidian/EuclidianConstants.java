@@ -431,6 +431,23 @@ public final class EuclidianConstants {
 	public static final int DEFAULT_CHECKBOX_SIZE = 26;
 
 	/**
+	 * min line thickness of highlighter
+	 */
+	public static final int MIN_HIGHLIGHTER_SIZE = 15;
+	/**
+	 * default opacity of highlighter (0.3)
+	 */
+	public static final int DEFAULT_HIGHLIGHTER_OPACITY = 77;
+	/**
+	 * default line thickness of highlighter
+	 */
+	public static final int DEFAULT_HIGHLIGHTER_SIZE = 20;
+	/**
+	 * max line thickness of highlighter
+	 */
+	public static final int MAX_HIGHLIGHTER_SIZE = 30;
+
+	/**
 	 * @param mode
 	 *            mode ID
 	 * @return tool name without the .tool suffix
