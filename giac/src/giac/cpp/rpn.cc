@@ -766,8 +766,14 @@ namespace giac {
 	  if (!equalposcomp(*keywordsptr,g)){
 	    if (strng)
 	      g=string2gen(it->first,false);
-	    if (strngeq)
-	      g=string2gen(it->first+("="+it->second.print(contextptr)),false);
+	    if (strngeq){
+	      res.push_back(string2gen(it->first,false));
+	      int t=it->second.type;
+	      if ( (t==_SYMB && it->second._SYMBptr->sommet!=at_program) || t==_FRAC || t<=_REAL || t==_VECT)
+		g=_mathml(makesequence(it->second,1),contextptr);
+	      else
+		g=string2gen(it->second.print(contextptr),false);
+	    }
 	    if (val)
 	      g=symbolic(at_equal,makesequence(g,it->second));
 	    if (valsto)
