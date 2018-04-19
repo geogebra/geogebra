@@ -2,9 +2,10 @@ package org.geogebra.common.properties.impl.graphics;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -20,7 +21,8 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
     private static final double EPS = 0.00001;
 
     private EuclidianSettings euclidianSettings;
-    private App app;
+    private EuclidianView euclidianView;
+    private Kernel kernel;
     private int axis;
     private NumberFormatAdapter numberFormatter;
 
@@ -29,15 +31,17 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
      *
      * @param localization      localization for the title
      * @param euclidianSettings euclidian settings
-     * @param app               App
+     * @param euclidianView     the active euclidian view
+     * @param kernel            kernel
      * @param label             label of the axis
      * @param axis              the axis for the numbering distance will be set
      */
     AxisDistanceProperty(Localization localization, EuclidianSettings
-            euclidianSettings, App app, String label, int axis) {
+            euclidianSettings, EuclidianView euclidianView, Kernel kernel, String label, int axis) {
         super(localization, label);
         this.euclidianSettings = euclidianSettings;
-        this.app = app;
+        this.euclidianView = euclidianView;
+        this.kernel = kernel;
         this.axis = axis;
         this.numberFormatter = FormatFactory.getPrototype().getNumberFormat(2);
     }
@@ -47,7 +51,7 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
         if (euclidianSettings.getAxisNumberingDistance(axis) != null) {
             return getFormatted(euclidianSettings.getAxisNumberingDistance(axis).getDouble());
         } else {
-            return getFormatted(app.getActiveEuclidianView().getAxesNumberingDistances()[axis] /
+            return getFormatted(euclidianView.getAxesNumberingDistances()[axis] /
                     2);
         }
     }
@@ -76,16 +80,16 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
     }
 
     private GeoNumberValue getNumberValue(String value) {
-        return app.getKernel().getAlgebraProcessor()
+        return kernel.getAlgebraProcessor()
                 .evaluateToNumeric(value.trim(), ErrorHelper.silent());
     }
 
     private String getFormatted(double distance) {
-        if (distance == 0) {
+        if (equals(distance, 0)) {
             return numberFormatter.format(0);
         } else if (equals(distance, Math.PI)) {
             return Unicode.PI_STRING;
-        } else if (distance % Math.PI == 0) {
+        } else if (equals(distance % Math.PI, 0)) {
             return numberFormatter.format(distance / Math.PI) + Unicode.PI_STRING;
         } else if (equals(distance, Math.PI / 2)) {
             return Unicode.PI_STRING + "/2";

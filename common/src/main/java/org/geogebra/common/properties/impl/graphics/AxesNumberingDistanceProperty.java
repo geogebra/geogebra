@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -13,7 +14,8 @@ import org.geogebra.common.properties.BooleanProperty;
 public class AxesNumberingDistanceProperty extends AbstractProperty implements BooleanProperty {
 
     private EuclidianSettings euclidianSettings;
-    private App app;
+    private Kernel kernel;
+    private EuclidianView euclidianView;
 
     /**
      * Constructs an Axes numbering distance property.
@@ -21,10 +23,11 @@ public class AxesNumberingDistanceProperty extends AbstractProperty implements B
      * @param localization localization for the title
      */
     AxesNumberingDistanceProperty(Localization localization, EuclidianSettings
-            euclidianSettings, App app) {
+            euclidianSettings, EuclidianView euclidianView, Kernel kernel) {
         super(localization, "Automatic");
         this.euclidianSettings = euclidianSettings;
-        this.app = app;
+        this.kernel = kernel;
+        this.euclidianView = euclidianView;
     }
 
     @Override
@@ -49,9 +52,9 @@ public class AxesNumberingDistanceProperty extends AbstractProperty implements B
     }
 
     private void setCustomDistance() {
-        double[] axesDistances = app.getActiveEuclidianView().getAxesNumberingDistances();
+        double[] axesDistances = euclidianView.getAxesNumberingDistances();
         for (int i = 0; i < axesDistances.length; i++) {
-            euclidianSettings.setAxisNumberingDistance(i, app.getKernel().getAlgebraProcessor()
+            euclidianSettings.setAxisNumberingDistance(i, kernel.getAlgebraProcessor()
                     .evaluateToNumeric("" + axesDistances[i] / 2, ErrorHelper.silent()));
         }
     }

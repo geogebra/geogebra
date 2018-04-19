@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
  */
 public class DistancePropertyCollection extends AbstractProperty implements PropertyCollection {
 
-    private Property[] collection = new Property[]{};
+    private Property[] collection;
 
     /**
      * Constructs a numbering distances property collection.
@@ -25,15 +27,19 @@ public class DistancePropertyCollection extends AbstractProperty implements Prop
             euclidianSettings) {
         super(localization, "Distance");
 
+        Kernel kernel = app.getKernel();
+        EuclidianView euclidianView = app.getActiveEuclidianView();
         ArrayList<Property> properties = new ArrayList<>();
-        properties.add(new AxesNumberingDistanceProperty(localization, euclidianSettings, app));
-        properties.add(new AxisDistanceProperty(localization, euclidianSettings, app,
-                "xAxis", 0));
-        properties.add(new AxisDistanceProperty(localization, euclidianSettings, app,
-                "yAxis", 1));
+
+        properties.add(new AxesNumberingDistanceProperty(localization, euclidianSettings,
+                euclidianView, kernel));
+        properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
+                kernel, "xAxis", 0));
+        properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
+                kernel, "yAxis", 1));
         if ("3D".equals(app.getVersion().getAppName())) {
             properties.add(
-                    new AxisDistanceProperty(localization, euclidianSettings, app,
+                    new AxisDistanceProperty(localization, euclidianSettings, euclidianView, kernel,
                             "zAxis", 2));
         }
 
