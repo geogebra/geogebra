@@ -263,7 +263,7 @@ abstract class QuadTree {
 		return EMPTY;
 	}
 
-	private double minAbs(double a, double b) {
+	private static double minAbs(double a, double b) {
 		return Math.min(Math.abs(a), Math.abs(b));
 	}
 
@@ -297,6 +297,10 @@ abstract class QuadTree {
 		this.abortList();
 	}
 
+	/**
+	 * @param pt
+	 *            point to be polished
+	 */
 	public void polishPointOnPath(GeoPointND pt) {
 		// pt.setUndefined();
 	}

@@ -41,7 +41,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 		p2.set(p1);
 		p2.set(3, 0);
 
-		planeMatrix = CoordMatrix4x4.Identity();
+		planeMatrix = CoordMatrix4x4.identity();
 		planeMatrix.setVx(Coords.VX.mul(0.2));
 		planeMatrix.setVy(Coords.VY.mul(0.2));
 

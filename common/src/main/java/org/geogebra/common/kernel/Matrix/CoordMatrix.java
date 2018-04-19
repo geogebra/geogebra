@@ -175,7 +175,7 @@ public class CoordMatrix {
 	 *            values on diagonal (determines dimension)
 	 * @return diagonal matrix
 	 */
-	public static final CoordMatrix diagonalMatrix(double vals[]) {
+	public static final CoordMatrix diagonalMatrix(double[] vals) {
 
 		int n = vals.length;
 		CoordMatrix m = new CoordMatrix(n, n);

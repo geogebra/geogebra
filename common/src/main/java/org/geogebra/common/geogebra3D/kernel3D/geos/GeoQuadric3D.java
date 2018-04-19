@@ -62,7 +62,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private static String[] vars3D = { "x\u00b2", "y\u00b2", "z\u00b2", "x y",
 			"x z", "y z", "x", "y", "z" };
 
-	private CoordMatrix4x4 eigenMatrix = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 eigenMatrix = CoordMatrix4x4.identity();
 	/** helper for 2d projection */
 	protected double[] tmpDouble2 = new double[2];
 	private double detS;
@@ -3082,7 +3082,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
 
-		CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD3(),
+		CoordMatrix4x4.rotation4x4(r.getDouble(), S.getInhomCoordsInD3(),
 				tmpMatrix4x4);
 		rotate(tmpMatrix4x4);
 
@@ -3108,7 +3108,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
 
-		CoordMatrix4x4.Rotation4x4(r.getDouble(), tmpMatrix4x4);
+		CoordMatrix4x4.rotation4x4(r.getDouble(), tmpMatrix4x4);
 		rotate(tmpMatrix4x4);
 
 		// planes
@@ -3152,7 +3152,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
-		CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(),
+		CoordMatrix4x4.rotation4x4(orientation.getDirectionInD3().normalized(),
 				r.getDouble(), S.getInhomCoordsInD3(), tmpMatrix4x4);
 		rotate(tmpMatrix4x4);
 
@@ -3177,7 +3177,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
-		CoordMatrix4x4.Rotation4x4(axis.getDirectionInD3().normalized(),
+		CoordMatrix4x4.rotation4x4(axis.getDirectionInD3().normalized(),
 				r.getDouble(), axis.getStartInhomCoords(), tmpMatrix4x4);
 		rotate(tmpMatrix4x4);
 

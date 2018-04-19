@@ -121,7 +121,8 @@ public final class CoordMatrixUtil {
 	 * 
 	 * @param v
 	 *            3D vector in cartesian coords
-	 * @return the spherical coords of v
+	 * @param ret
+	 *            output param for the spherical coords of v
 	 */
 	static public void sphericalCoords(Coords v, Coords ret) {
 
@@ -162,10 +163,12 @@ public final class CoordMatrixUtil {
 	}
 
 	/**
-	 * 
 	 * @param origin
+	 *            line origin
 	 * @param direction
+	 *            line direction
 	 * @param plane
+	 *            plane
 	 * @return (a,b,c) where ax+by+c=0 is an equation of the line in the plane
 	 */
 	static public Coords lineEquationVector(Coords origin,
@@ -179,9 +182,10 @@ public final class CoordMatrixUtil {
 	}
 
 	/**
-	 * 
 	 * @param origin
+	 *            line origin
 	 * @param direction
+	 *            line direction
 	 * @return (a,b,c) where ax+by+c=0 is an equation of the line in xOy plane
 	 */
 	static public Coords lineEquationVector(Coords origin,
@@ -202,7 +206,9 @@ public final class CoordMatrixUtil {
 	/**
 	 * 
 	 * @param plane1
+	 *            first plane
 	 * @param plane2
+	 *            second plane
 	 * @return {origin, direction} of the line intersection of the two planes
 	 */
 	static public Coords[] intersectPlanes(CoordMatrix plane1,

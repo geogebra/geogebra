@@ -674,7 +674,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 			double a11) {
 
 		if (tmpMatrix4x4 == null) {
-			tmpMatrix4x4 = CoordMatrix4x4.Identity();
+			tmpMatrix4x4 = CoordMatrix4x4.identity();
 		} else {
 			tmpMatrix4x4.set(1, 3, 0);
 			tmpMatrix4x4.set(1, 4, 0);
@@ -707,7 +707,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 			double a11, double a12, double a20, double a21, double a22) {
 
 		if (tmpMatrix4x4 == null) {
-			tmpMatrix4x4 = CoordMatrix4x4.Identity();
+			tmpMatrix4x4 = CoordMatrix4x4.identity();
 		} else {
 			tmpMatrix4x4.set(1, 4, 0);
 			tmpMatrix4x4.set(2, 4, 0);

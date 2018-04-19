@@ -38,7 +38,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	private Coords mouse3DScreenPosition = null;
 	private Coords mouse3DScenePosition;
 
-	protected CoordMatrix4x4 tmpMatrix4x4_3 = CoordMatrix4x4.Identity();
+	protected CoordMatrix4x4 tmpMatrix4x4_3 = CoordMatrix4x4.identity();
 	private GeoSegment3D stylusBeam;
 	private DrawSegment3D stylusBeamDrawable;
 	boolean stylusBeamIsVisible;
@@ -129,7 +129,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		float hittedGeoCompletingDelay = hittedGeo.getCompletingDelay();
 		if (hittedGeoCompletingDelay > PlotterCompletingCursor.START_DRAW
 				&& hittedGeoCompletingDelay <= PlotterCompletingCursor.END_DRAW) {
-			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
+			CoordMatrix4x4.identity(tmpMatrix4x4_3);
 			completingCursorOrigin
 					.setValues(getView().getCursor3D().getInhomCoordsInD3(), 3);
 			getView().toScreenCoords3D(completingCursorOrigin);
@@ -142,7 +142,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 				.getCompletingDelay();
 		if (stationaryCoordsCompletingDelay > PlotterCompletingCursor.START_DRAW
 				&& stationaryCoordsCompletingDelay <= PlotterCompletingCursor.END_DRAW) {
-			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
+			CoordMatrix4x4.identity(tmpMatrix4x4_3);
 			completingCursorOrigin
 					.setValues(stationaryCoords.getCurrentCoords(), 3);
 			getView().toScreenCoords3D(completingCursorOrigin);
@@ -154,7 +154,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		// are we moving?
 		if (stationaryCoordsCompletingDelay >= 0
 				&& stationaryCoordsCompletingDelay <= PlotterCompletingCursor.START_DRAW) {
-			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
+			CoordMatrix4x4.identity(tmpMatrix4x4_3);
 			completingCursorOrigin
 					.setValues(stationaryCoords.getCurrentCoords(), 3);
 			getView().toScreenCoords3D(completingCursorOrigin);
@@ -165,7 +165,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		// are we over a moveable geo?
 		if (hittedGeo.getGeo() != null
 				&& hittedGeoCompletingDelay <= PlotterCompletingCursor.START_DRAW) {
-			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
+			CoordMatrix4x4.identity(tmpMatrix4x4_3);
 			completingCursorOrigin
 					.setValues(getView().getCursor3D().getInhomCoordsInD3(), 3);
 			getView().toScreenCoords3D(completingCursorOrigin);

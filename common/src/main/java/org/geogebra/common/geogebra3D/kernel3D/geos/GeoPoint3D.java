@@ -164,7 +164,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 */
 	public GeoPoint3D(Construction c) {
 		super(c);
-		setDrawingMatrix(CoordMatrix4x4.Identity());
+		setDrawingMatrix(CoordMatrix4x4.identity());
 		setCartesian3D();
 		setUndefined();
 		this.setIncidenceList(null);
@@ -180,7 +180,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 */
 	public GeoPoint3D(Construction c, Path path) {
 		super(c);
-		setDrawingMatrix(CoordMatrix4x4.Identity());
+		setDrawingMatrix(CoordMatrix4x4.identity());
 		setCartesian3D();
 		setPath(path);
 	}
@@ -212,7 +212,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 */
 	public GeoPoint3D(Construction c, Region region) {
 		super(c);
-		setDrawingMatrix(CoordMatrix4x4.Identity());
+		setDrawingMatrix(CoordMatrix4x4.identity());
 		setCartesian3D();
 		setRegion(region);
 	}
@@ -471,7 +471,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 
 		if (coordSys == null) { // project on plane xOy
-			CoordMatrix4x4.Identity(tmpMatrix4x4);
+			CoordMatrix4x4.identity(tmpMatrix4x4);
 		} else {
 			tmpMatrix4x4.set(coordSys.getMatrixOrthonormal());
 		}
@@ -935,7 +935,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 */
 	public GeoPoint3D(GeoPointND point) {
 		super(point.getConstruction());
-		setDrawingMatrix(CoordMatrix4x4.Identity());
+		setDrawingMatrix(CoordMatrix4x4.identity());
 		set(point);
 	}
 

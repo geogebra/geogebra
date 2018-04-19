@@ -380,7 +380,7 @@ public class EuclidianController3DCompanion
 			return point3D;
 		}
 
-		CoordMatrix4x4.Identity(ec3D.getCurrentPlane());
+		CoordMatrix4x4.identity(ec3D.getCurrentPlane());
 		ec3D.movePointOnCurrentPlane(point3D, false);
 
 		return point3D;
@@ -536,7 +536,7 @@ public class EuclidianController3DCompanion
 			GeoPointND movedGeoPoint, CoordMatrix4x4 currentPlane) {
 		if (!movedGeoPoint.isPointOnPath() && !movedGeoPoint.hasRegion()) {
 
-			CoordMatrix4x4.Identity(currentPlane);
+			CoordMatrix4x4.identity(currentPlane);
 			// update the moving plane altitude
 			currentPlane.set(coords, 4);
 

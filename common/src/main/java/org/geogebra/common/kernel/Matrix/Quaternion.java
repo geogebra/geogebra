@@ -8,7 +8,10 @@ package org.geogebra.common.kernel.Matrix;
  */
 public class Quaternion {
 
-	private double x, y, z, w;
+	private double x;
+	private double y;
+	private double z;
+	private double w;
 
 	/**
 	 * constructor
@@ -44,8 +47,8 @@ public class Quaternion {
 	 * 
 	 * @param rotX
 	 *            rotation around X
-	 * @param rotY
-	 *            rotation around Y
+	 * @param rotZ
+	 *            rotation around Z
 	 */
 	public Quaternion(double rotX, double rotZ) {
 

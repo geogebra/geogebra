@@ -200,7 +200,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	protected CoordMatrix rotationAndScaleMatrix;
 	// EuclidianViewInterface
 	protected Coords pickPoint = new Coords(0, 0, 0, 1);
-	protected CoordMatrix4x4 tmpMatrix4x4_3 = CoordMatrix4x4.Identity();
+	protected CoordMatrix4x4 tmpMatrix4x4_3 = CoordMatrix4x4.identity();
 	protected Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
 	protected GColor bgColor, bgApplyedColor;
 
@@ -226,11 +226,11 @@ public abstract class EuclidianView3D extends EuclidianView
 	// Map (geo, drawable) for GeoElements and Drawables
 	private TreeMap<GeoElement, Drawable3D> drawable3DMap = new TreeMap<>();
 	// matrix for changing coordinate system
-	private CoordMatrix4x4 mWithoutScale = CoordMatrix4x4.Identity();
-	private CoordMatrix4x4 mWithScale = CoordMatrix4x4.Identity();
-	private CoordMatrix4x4 mInvWithUnscale = CoordMatrix4x4.Identity();
-	private CoordMatrix4x4 mInvTranspose = CoordMatrix4x4.Identity();
-	private CoordMatrix4x4 undoRotationMatrix = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 mWithoutScale = CoordMatrix4x4.identity();
+	private CoordMatrix4x4 mWithScale = CoordMatrix4x4.identity();
+	private CoordMatrix4x4 mInvWithUnscale = CoordMatrix4x4.identity();
+	private CoordMatrix4x4 mInvTranspose = CoordMatrix4x4.identity();
+	private CoordMatrix4x4 undoRotationMatrix = CoordMatrix4x4.identity();
 	private double a = ANGLE_ROT_OZ;
 	private double b = ANGLE_ROT_XOY;// angles (in degrees)
 
@@ -252,19 +252,19 @@ public abstract class EuclidianView3D extends EuclidianView
 	private GeoPoint3D cursor3D;
 	private int cursor3DType = PREVIEW_POINT_NONE;
 	private EuclidianCursor cursor = EuclidianCursor.DEFAULT;
-	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.Identity();
-	private CoordMatrix4x4 undoScaleMatrix = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.identity();
+	private CoordMatrix4x4 undoScaleMatrix = CoordMatrix4x4.identity();
 	private CoordMatrix4x4 translationMatrixWithScale = CoordMatrix4x4
-			.Identity();
+			.identity();
 	private CoordMatrix4x4 translationMatrixWithoutScale = CoordMatrix4x4
-			.Identity();
-	private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.Identity();
+			.identity();
+	private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.identity();
 	private CoordMatrix rotationMatrix;
 	private Coords viewDirectionPersp;
 	private Coords tmpCoordsLength3 = new Coords(3);
 	private int intersectionThickness;
 	private GeoPointND intersectionPoint;
-	private CoordMatrix4x4 tmpMatrix4x4 = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 tmpMatrix4x4 = CoordMatrix4x4.identity();
 	private boolean defaultCursorWillBeHitCursor = false;
 	private double[] parameters = new double[2];
 	private boolean viewChangedByZoom = true;
@@ -290,7 +290,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	private Coords startPos;
 
-	private CoordMatrix4x4 startTranslation = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 startTranslation = CoordMatrix4x4.identity();
 
 	private EuclidianView3DAnimator animator;
 
@@ -2343,7 +2343,7 @@ public abstract class EuclidianView3D extends EuclidianView
 							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
 							cursorMatrix);
 				} else {
-					CoordMatrix4x4.Identity(cursorMatrix);
+					CoordMatrix4x4.identity(cursorMatrix);
 				}
 
 				cursorMatrix.setOrigin(
@@ -2454,7 +2454,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void drawMouseCursor(Renderer renderer1, Coords v) {
 
-		CoordMatrix4x4.Identity(tmpMatrix4x4_3);
+		CoordMatrix4x4.identity(tmpMatrix4x4_3);
 
 		tmpMatrix4x4_3.setOrigin(v);
 		renderer1.setMatrix(tmpMatrix4x4_3);

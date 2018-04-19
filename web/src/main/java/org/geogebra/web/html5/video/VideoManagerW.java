@@ -132,11 +132,6 @@ public class VideoManagerW implements VideoManager {
 		updatePlayer(video);
 		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
 	}
-	@Override
-	public boolean isPlaying(GeoVideo geo) {
-		// TODO implement this
-		return false;
-	}
 
 	@Override
 	public String getYouTubeId(String url) {

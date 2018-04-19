@@ -26,6 +26,7 @@ public class CoordSys {
 	 * "xOy" coord sys (with vx, vy for first vectors)
 	 */
 	public static final CoordSys XOY;
+
 	static {
 		XOY = new CoordSys(2);
 
@@ -35,14 +36,14 @@ public class CoordSys {
 		XOY.addVectorWithoutCheckMadeCoordSys(Coords.VX);
 		XOY.addVectorWithoutCheckMadeCoordSys(Coords.VY);
 		XOY.makeOrthoMatrix(false, false);
-
 	}
 
 	// matrix for the coord sys
 	private CoordMatrix matrix;
 	private int dimension;
 	private int madeCoordSys;
-	private CoordMatrix4x4 matrixOrthonormal, drawingMatrix;
+	private CoordMatrix4x4 matrixOrthonormal;
+	private CoordMatrix4x4 drawingMatrix;
 	private CoordMatrix tempMatrix3x3;
 
 	/** vector used for equation of hyperplanes, like ax+by+cz+d=0 for planes */
@@ -54,8 +55,10 @@ public class CoordSys {
 	/** dimension of the space (2 for 2D, 3 for 3D, ...) */
 	private int spaceDimension = 3;
 
-	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4),
-			tmpCoords3 = new Coords(4), tmpCoords4 = new Coords(4);
+	private Coords tmpCoords1 = new Coords(4);
+	private Coords tmpCoords2 = new Coords(4);
+	private Coords tmpCoords3 = new Coords(4);
+	private Coords tmpCoords4 = new Coords(4);
 
 	/**
 	 * create a coord sys
@@ -81,8 +84,13 @@ public class CoordSys {
 		resetCoordSys();
 	}
 
+	/**
+	 * Copy from other system.
+	 * 
+	 * @param cs
+	 *            other system
+	 */
 	public void set(CoordSys cs) {
-
 		setOrigin(cs.getOrigin());
 		for (int i = 0; i < spaceDimension; i++) {
 			setV(cs.getV(i), i);
@@ -101,8 +109,6 @@ public class CoordSys {
 		// spaceDimension=cs.spaceDimension;
 		// vectors=cs.vectors;
 	}
-
-
 
 	public CoordMatrix getMatrix() {
 		return matrix;
@@ -159,6 +165,17 @@ public class CoordSys {
 		return getPoint(coords2D.getX(), coords2D.getY(), result);
 	}
 
+	/**
+	 * Convert from this system to the global coord system.
+	 * 
+	 * @param x
+	 *            x coord in this system
+	 * @param y
+	 *            y coord in this system
+	 * @param result
+	 *            output coordinates
+	 * @return result
+	 */
 	public Coords getPoint(double x, double y, Coords result) {
 		result.setAdd(matrixOrthonormal.getOrigin(),
 				getVector(x, y, tmpCoords2));
@@ -194,6 +211,17 @@ public class CoordSys {
 		return getPoint(x / z, y / z);
 	}
 
+	/**
+	 * @param x
+	 *            homogeneous x-coord in this system
+	 * @param y
+	 *            homogeneous y-coord in this system
+	 * @param z
+	 *            homogeneous z-coord in this system
+	 * @param result
+	 *            output coords
+	 * @return result
+	 */
 	public Coords getPoint(double x, double y, double z, Coords result) {
 		if (DoubleUtil.isZero(z)) {
 			return getVector(x, y, result);
@@ -211,6 +239,15 @@ public class CoordSys {
 		return drawingMatrix.mul(new Coords(x, y, 0, 1));
 	}
 
+	/**
+	 * @param x
+	 *            x-coord in this system
+	 * @param y
+	 *            y-coord in this system
+	 * @param result
+	 *            point for drawing
+	 * @return result
+	 */
 	public Coords getPointForDrawing(double x, double y, Coords result) {
 		tmpCoords1.setX(x);
 		tmpCoords1.setY(y);
@@ -255,6 +292,17 @@ public class CoordSys {
 				.add(matrixOrthonormal.getVy().mul(y));
 	}
 
+	/**
+	 * Get vector from origin to given point.
+	 * 
+	 * @param x
+	 *            x-coord in this system
+	 * @param y
+	 *            y-coord in this system
+	 * @param result
+	 *            output vector
+	 * @return result
+	 */
 	public Coords getVector(double x, double y, Coords result) {
 		result.setAdd(result.setMul(matrixOrthonormal.getVx(), x),
 				tmpCoords1.setMul(matrixOrthonormal.getVy(), y));
@@ -276,6 +324,12 @@ public class CoordSys {
 	//
 	// ///////////////////////////////////
 
+	/**
+	 * @param coords
+	 *            coords
+	 * @return two vectors {globalCoords,inPlaneCoords}: the point projected,
+	 *         and the original point in plane coords
+	 */
 	public Coords[] getNormalProjection(Coords coords) {
 		Coords[] result = new Coords[] { new Coords(4), new Coords(4) };
 		coords.projectPlane(this.getMatrixOrthonormal(), result[0], result[1]);
@@ -532,9 +586,13 @@ public class CoordSys {
 	 * creates the coord sys from the equation, e.g. ax+by+cz+d=0 for planes
 	 * 
 	 * @param a
+	 *            x coefficient
 	 * @param b
+	 *            y coefficient
 	 * @param c
+	 *            z coefficient
 	 * @param d
+	 *            constant
 	 * 
 	 */
 	public void makeCoordSys(double a, double b, double c, double d) {
@@ -549,6 +607,7 @@ public class CoordSys {
 	 * creates the coord sys from the equation, e.g. ax+by+cz+d=0 for planes
 	 * 
 	 * @param vals
+	 *            coefficients
 	 */
 	public void makeCoordSys(double[] vals) {
 
@@ -587,8 +646,6 @@ public class CoordSys {
 		Coords[] v = equationVector.completeOrthonormal();
 		addVectorWithoutCheckMadeCoordSys(v[1]);
 		addVectorWithoutCheckMadeCoordSys(v[0]);
-
-		// Application.debug("O=\n"+getOrigin().toString()+"\nVx=\n"+getVx().toString()+"\nVy=\n"+getVy().toString());
 	}
 
 	/**
@@ -702,12 +759,12 @@ public class CoordSys {
 		resetCoordSys();
 	}
 
-	/** returns orthonormal matrix */
+	/** @return orthonormal matrix */
 	public CoordMatrix4x4 getMatrixOrthonormal() {
 		return matrixOrthonormal;
 	}
 
-	/** returns drawing matrix */
+	/** @return drawing matrix */
 	public CoordMatrix4x4 getDrawingMatrix() {
 		return drawingMatrix;
 	}
@@ -724,10 +781,10 @@ public class CoordSys {
 		setVy(Coords.VY);
 		setVz(Coords.VZ);
 
-		matrixOrthonormal = CoordMatrix4x4.Identity();
+		matrixOrthonormal = CoordMatrix4x4.identity();
 		matrixOrthonormal.setOrigin(m);
 
-		drawingMatrix = CoordMatrix4x4.Identity();
+		drawingMatrix = CoordMatrix4x4.identity();
 		drawingMatrix.setOrigin(m);
 	}
 
@@ -804,7 +861,7 @@ public class CoordSys {
 			if (vx.isZero()) {
 				if (vy.isZero()) { // all to 0
 					ret = new double[] { 0, 0, 0 };
-					CoordMatrix4x4.Identity(matrixOrthonormal);
+					CoordMatrix4x4.identity(matrixOrthonormal);
 					matrixOrthonormal.setOrigin(o);
 				} else { // vy != 0
 					vy.calcNorm();
@@ -1009,8 +1066,7 @@ public class CoordSys {
 	 *            center point
 	 */
 	public void dilate(double r, Coords point) {
-
-		if (r < 0) {// reverse all values
+		if (r < 0) { // reverse all values
 			matrixOrthonormal.mulInside3x3(-1);
 		}
 
@@ -1036,7 +1092,6 @@ public class CoordSys {
 			}
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
-
 	}
 
 	/**
@@ -1251,6 +1306,9 @@ public class CoordSys {
 	 * return the (v1, v2, o) parametric matrix of this plane, ie each point of
 	 * the plane is (v1, v2, o)*(a,b,1) for some a, b value
 	 * 
+	 * @param parametricMatrix
+	 *            output matrix
+	 * 
 	 * @return the (v1, v2, o) parametric matrix of this plane
 	 */
 	public CoordMatrix getParametricMatrix(CoordMatrix parametricMatrix) {
@@ -1266,6 +1324,7 @@ public class CoordSys {
 	 * set coord sys for equation x=v
 	 * 
 	 * @param value
+	 *            x coefficient
 	 */
 	public void setXequal(double value) {
 		resetCoordSys();
@@ -1296,8 +1355,11 @@ public class CoordSys {
 	 * set coord sys for equation ax+by+d=0 (b!=0)
 	 * 
 	 * @param a
+	 *            x coefficient
 	 * @param b
+	 *            y coefficient
 	 * @param d
+	 *            constant
 	 */
 	public void setYequal(double a, double b, double d) {
 		resetCoordSys();
@@ -1328,9 +1390,13 @@ public class CoordSys {
 	 * set coord sys for equation ax+by+cz+d=0 (c!=0)
 	 * 
 	 * @param a
+	 *            x coefficient
 	 * @param b
+	 *            ty coefficient
 	 * @param c
+	 *            z coefficient
 	 * @param d
+	 *            constant
 	 */
 	public void setZequal(double a, double b, double c, double d) {
 		resetCoordSys();

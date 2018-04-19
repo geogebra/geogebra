@@ -14,12 +14,12 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	final static public int VY = 1;
 	final static public int VZ = 2;
 
-	final static public CoordMatrix4x4 IDENTITY = Identity();
-	final static public CoordMatrix4x4 MIRROR_O = Identity().mirrorO();
-	final static public CoordMatrix4x4 MIRROR_X = Identity().mirrorX();
-	final static public CoordMatrix4x4 MIRROR_Y = Identity().mirrorY();
-	final static public CoordMatrix4x4 ROTATION_OZ_90 = RotationOz(Math.PI / 2);
-	final static public CoordMatrix4x4 ROTATION_OZ_M90 = RotationOz(
+	final static public CoordMatrix4x4 IDENTITY = identity();
+	final static public CoordMatrix4x4 MIRROR_O = identity().mirrorO();
+	final static public CoordMatrix4x4 MIRROR_X = identity().mirrorX();
+	final static public CoordMatrix4x4 MIRROR_Y = identity().mirrorY();
+	final static public CoordMatrix4x4 ROTATION_OZ_90 = rotationOz(Math.PI / 2);
+	final static public CoordMatrix4x4 ROTATION_OZ_M90 = rotationOz(
 			-Math.PI / 2);
 
 	// /////////////////////////////////////////////////
@@ -96,7 +96,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 * 
 	 * @return 4x4 identity matrix
 	 */
-	static final public CoordMatrix4x4 Identity() {
+	static final public CoordMatrix4x4 identity() {
 		CoordMatrix4x4 ret = new CoordMatrix4x4();
 		for (int i = 1; i <= 4; i++) {
 			ret.set(i, i, 1.0);
@@ -110,13 +110,11 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 * @param ret
 	 *            matrix set
 	 */
-	static final public void Identity(CoordMatrix4x4 ret) {
-
+	static final public void identity(CoordMatrix4x4 ret) {
 		for (int i = 0; i < 4; i++) {
 			ret.vectors[i].set(0.0);
 			ret.vectors[i].set(i + 1, 1.0);
 		}
-
 	}
 
 	/**
@@ -127,7 +125,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 * 
 	 * @return 4x4 dilate matrix
 	 */
-	static final public CoordMatrix4x4 Dilate(double f) {
+	static final public CoordMatrix4x4 dilate(double f) {
 		CoordMatrix4x4 ret = new CoordMatrix4x4();
 		for (int i = 1; i <= 3; i++) {
 			ret.set(i, i, f);
@@ -136,7 +134,14 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		return ret;
 	}
 
-	static final public CoordMatrix4x4 RotationOz(double angle) {
+	/**
+	 * Rotate around zAxis
+	 * 
+	 * @param angle
+	 *            angle
+	 * @return rotation matrix
+	 */
+	static final public CoordMatrix4x4 rotationOz(double angle) {
 		CoordMatrix4x4 ret = new CoordMatrix4x4();
 		double c = Math.cos(angle);
 		double s = Math.sin(angle);
@@ -158,7 +163,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 *            ret matrix
 	 * 
 	 */
-	public static final void Rotation4x4(double angle, CoordMatrix4x4 m) {
+	public static final void rotation4x4(double angle, CoordMatrix4x4 m) {
 
 		double cos = Math.cos(angle);
 		double sin = Math.sin(angle);
@@ -190,7 +195,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 * @param m
 	 *            ret matrix
 	 */
-	public static final void Rotation4x4(double angle, Coords center,
+	public static final void rotation4x4(double angle, Coords center,
 			CoordMatrix4x4 m) {
 
 		double cos = Math.cos(angle);
@@ -226,9 +231,10 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 *            angle of rotation
 	 * @param center
 	 *            center of rotation
-	 * @return matrix
+	 * @param m
+	 *            output matrix
 	 */
-	public static final void Rotation4x4(Coords u, double angle, Coords center,
+	public static final void rotation4x4(Coords u, double angle, Coords center,
 			CoordMatrix4x4 m) {
 
 		double ux = u.getX();
@@ -269,7 +275,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 *            point on line
 	 * @return matrix
 	 */
-	public static final CoordMatrix4x4 AxialSymetry(Coords u, Coords center) {
+	public static final CoordMatrix4x4 axialSymetry(Coords u, Coords center) {
 
 		double ux = u.getX();
 		double uy = u.getY();
@@ -306,7 +312,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 *            point on plane
 	 * @return matrix
 	 */
-	public static final CoordMatrix4x4 PlaneSymetry(Coords n, Coords center) {
+	public static final CoordMatrix4x4 planeSymetry(Coords n, Coords center) {
 
 		double nx = n.getX();
 		double ny = n.getY();
@@ -332,7 +338,6 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		m.set(4, 4, 1);
 
 		return m;
-
 	}
 
 	/**
@@ -364,13 +369,17 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 * method
 	 * 
 	 * @param origin
+	 *            origin
 	 * @param direction
+	 *            direction
 	 * @param type
 	 *            says which place takes the direction given (VX, VY or VZ)
 	 * @param Vn1
 	 *            first normal vector (maybe changed)
 	 * @param Vn2
 	 *            second normal vector (maybe changed)
+	 * @param ret
+	 *            output matrix
 	 */
 	public static void createOrthoToDirection(Coords origin, Coords direction,
 			int type, Coords Vn1, Coords Vn2, CoordMatrix4x4 ret) {
@@ -399,6 +408,25 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		}
 	}
 
+	/**
+	 * complete a given origin and direction to a 4 x 4 matrix, orthogonal
+	 * method
+	 * 
+	 * @param origin
+	 *            origin
+	 * @param direction
+	 *            direction
+	 * @param type
+	 *            says which place takes the direction given (VX, VY or VZ)
+	 * @param vOld
+	 *            old vector
+	 * @param Vn1
+	 *            first normal vector (maybe changed)
+	 * @param Vn2
+	 *            second normal vector (maybe changed)
+	 * @param ret
+	 *            output matrix
+	 */
 	public static void createOrthoToDirection(Coords origin, Coords direction,
 			int type, Coords vOld, Coords Vn1, Coords Vn2, CoordMatrix4x4 ret) {
 
@@ -450,7 +478,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 
 	}
 
-	public static final void getOrthoVectors(Coords V, Coords Vn1, Coords Vn2,
+	private static final void getOrthoVectors(Coords V, Coords Vn1, Coords Vn2,
 			Coords Vn1Old) {
 
 		Vn2.setCrossProduct(V, Vn1Old);

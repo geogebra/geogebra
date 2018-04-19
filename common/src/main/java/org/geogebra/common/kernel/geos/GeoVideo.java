@@ -133,6 +133,7 @@ public class GeoVideo extends GeoMedia {
 		app.getVideoManager().updatePlayer(this);
 		changed = false;
 	}
+
 	private void initStartTime() {
 		String url = getSrc();
 		int idx = url.indexOf(TIME_PARAM); // t=

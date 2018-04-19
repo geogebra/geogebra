@@ -59,7 +59,7 @@ public class SurfaceTransform {
 			GeoCoordSys2D plane) {
 		CoordMatrix4x4 m = plane.getCoordSys().getMatrixOrthonormal();
 		transform(fun, kernel,
-				CoordMatrix4x4.PlaneSymetry(m.getVz(), m.getOrigin()));
+				CoordMatrix4x4.planeSymetry(m.getVz(), m.getOrigin()));
 
 	}
 
@@ -74,7 +74,7 @@ public class SurfaceTransform {
 	public static void mirror(FunctionNVar[] fun, Kernel kernel,
 			GeoLineND line) {
 		transform(fun, kernel,
-				CoordMatrix4x4.AxialSymetry(
+				CoordMatrix4x4.axialSymetry(
 						line.getDirectionInD3().normalized(),
 						line.getStartInhomCoords()));
 
@@ -94,7 +94,7 @@ public class SurfaceTransform {
 	 */
 	public static void rotate(FunctionNVar[] fun, Kernel kernel, NumberValue r,
 			GeoPointND s, CoordMatrix4x4 tmpMatrix4x4) {
-		CoordMatrix4x4.Rotation4x4(r.getDouble(), s.getInhomCoordsInD3(),
+		CoordMatrix4x4.rotation4x4(r.getDouble(), s.getInhomCoordsInD3(),
 				tmpMatrix4x4);
 		transform(fun, kernel, tmpMatrix4x4);
 
@@ -115,7 +115,7 @@ public class SurfaceTransform {
 	 */
 	public static void rotate(FunctionNVar[] fun, Kernel kernel, NumberValue r,
 			CoordMatrix4x4 tmpMatrix4x4) {
-		CoordMatrix4x4.Rotation4x4(r.getDouble(), tmpMatrix4x4);
+		CoordMatrix4x4.rotation4x4(r.getDouble(), tmpMatrix4x4);
 		transform(fun, kernel, tmpMatrix4x4);
 
 	}
@@ -137,7 +137,7 @@ public class SurfaceTransform {
 	public static void rotate(FunctionNVar[] fun, Kernel kernel, NumberValue r,
 			GeoPointND s, GeoDirectionND orientation,
 			CoordMatrix4x4 tmpMatrix4x4) {
-		CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(),
+		CoordMatrix4x4.rotation4x4(orientation.getDirectionInD3().normalized(),
 				r.getDouble(), s.getInhomCoordsInD3(), tmpMatrix4x4);
 		transform(fun, kernel, tmpMatrix4x4);
 
@@ -158,7 +158,7 @@ public class SurfaceTransform {
 	 */
 	public static void rotate(FunctionNVar[] fun, Kernel kernel, NumberValue r,
 			GeoLineND line, CoordMatrix4x4 tmpMatrix4x4) {
-		CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(),
+		CoordMatrix4x4.rotation4x4(line.getDirectionInD3().normalized(),
 				r.getDouble(), line.getStartInhomCoords(), tmpMatrix4x4);
 		transform(fun, kernel, tmpMatrix4x4);
 

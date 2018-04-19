@@ -312,7 +312,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	protected CoordMatrix4x4 getCurrentPlane() {
 		if (currentPlane == null) {
-			currentPlane = CoordMatrix4x4.Identity();
+			currentPlane = CoordMatrix4x4.identity();
 		}
 		return currentPlane;
 	}

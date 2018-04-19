@@ -1,7 +1,5 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -12,6 +10,8 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.AbstractProperty;
 import org.geogebra.common.properties.StringProperty;
 import org.geogebra.common.util.NumberFormatAdapter;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * This property controls the distance of an axis numbering
@@ -50,10 +50,8 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
     public String getValue() {
         if (euclidianSettings.getAxisNumberingDistance(axis) != null) {
             return getFormatted(euclidianSettings.getAxisNumberingDistance(axis).getDouble());
-        } else {
-            return getFormatted(euclidianView.getAxesNumberingDistances()[axis] /
-                    2);
         }
+		return getFormatted(euclidianView.getAxesNumberingDistances()[axis] / 2);
     }
 
     @Override

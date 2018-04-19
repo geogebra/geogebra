@@ -97,14 +97,6 @@ public interface VideoManager {
 	void background(GeoVideo geo);
 
 	/**
-	 * 
-	 * @param geo
-	 *            Video object to check.
-	 * @return if GeoVideo object is playing now.
-	 */
-	boolean isPlaying(GeoVideo geo);
-
-	/**
 	 * Gets a preview image
 	 * 
 	 * @param geo
