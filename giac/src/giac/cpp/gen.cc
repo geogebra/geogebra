@@ -8186,7 +8186,7 @@ namespace giac {
       return double(a.val)==b._DOUBLE_val;
     case _DOUBLE___INT_:
       return a._DOUBLE_val==double(b.val);
-    case _REAL__INT_: case _INT___REAL: case _REAL__ZINT: case _ZINT__REAL: case _REAL__FRAC: case _FRAC__REAL:
+    case _REAL__INT_: case _INT___REAL: case _REAL__ZINT: case _ZINT__REAL: case _REAL__FRAC: case _FRAC__REAL: case _DOUBLE___FRAC: case _FRAC__DOUBLE_: case _FRAC__FLOAT_: case _FLOAT___FRAC:
       return is_exactly_zero(a-b);
     case _INT___FLOAT_:
       return giac_float(a.val)==b._FLOAT_val;

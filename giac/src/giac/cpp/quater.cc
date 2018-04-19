@@ -188,7 +188,7 @@ namespace giac {
       if (pari.type==_VECT)
 	return *pari._VECTptr;
 #else
-      return gensizeerr("Compile with PARI for characteristic>2^31");
+      return vecteur(1,gensizeerr("Compile with PARI for characteristic>2^31"));
 #endif
     }
     int p=p_.val;
