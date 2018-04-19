@@ -873,9 +873,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public void setLabels() {
 		header.setLabels();
-		tabTools.toolsPanel.setLabels();
-		tabTools.moreBtn.setText(app.getLocalization().getMenu("Tools.More"));
-		tabTools.lessBtn.setText(app.getLocalization().getMenu("Tools.Less"));
+		if (!getTabTools().isCustomToolbar) {
+			tabTools.toolsPanel.setLabels();
+			tabTools.moreBtn
+					.setText(app.getLocalization().getMenu("Tools.More"));
+			tabTools.lessBtn
+					.setText(app.getLocalization().getMenu("Tools.Less"));
+		}
 	}
 
 	/**

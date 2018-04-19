@@ -1,10 +1,12 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
 import org.geogebra.common.main.App;
@@ -50,11 +52,13 @@ public class Tools extends FlowPanel implements SetLabels {
 	/**
 	 * @param app
 	 *            application
+	 * @param isCustom
+	 *            true if toolbar is custom
 	 */
-	public Tools(AppW app) {
+	public Tools(AppW app, boolean isCustom) {
 		this.app = app;
 		this.addStyleName("toolsPanel");
-		buildGui();
+		buildGui(isCustom);
 	}
 
 	/**
@@ -138,27 +142,56 @@ public class Tools extends FlowPanel implements SetLabels {
 
 	/**
 	 * Builds the panel of tools.
+	 * 
+	 * @param isCustom
+	 *            true if toolbar is custom
 	 */
-	public void buildGui() {
+	public void buildGui(boolean isCustom) {
 		this.clear();
-		mToolCategorization = new ToolCategorization(app,
+		app.setCustomToolBar();
+		String def = app.getGuiManager().getCustomToolbarDefinition();
+		categoryPanelList = new ArrayList<>();
+		if (!isCustom) {
+			mToolCategorization = new ToolCategorization(app,
 				app.getSettings().getToolbarSettings().getType(),
 				app.getSettings().getToolbarSettings().getToolsetLevel(),
 				false);
-		String def = app.getGuiManager().getCustomToolbarDefinition();
-		if (app.isUnbundled3D()) {
-			def = app.getGuiManager().getLayout().getDockManager()
+			if (app.isUnbundled3D()) {
+				def = app.getGuiManager().getLayout().getDockManager()
 					.getPanel(App.VIEW_EUCLIDIAN3D).getToolbarString();
-		}
-		mToolCategorization.resetTools(def);
-		categories = mToolCategorization.getCategories();
-		categoryPanelList = new ArrayList<>();
-		for (int i = 0; i < categories.size(); i++) {
-			CategoryPanel catPanel = new CategoryPanel(categories.get(i));
-			categoryPanelList.add(catPanel);
-			add(catPanel);
+			}
+			mToolCategorization.resetTools(def);
+			categories = mToolCategorization.getCategories();
+			for (int i = 0; i < categories.size(); i++) {
+				CategoryPanel catPanel = new CategoryPanel(categories.get(i));
+				categoryPanelList.add(catPanel);
+				add(catPanel);
+			}
+		} else {
+			this.addStyleName("customToolbar");
+			Vector<ToolbarItem> toolbarItems = getToolbarVec(def);
+			for (ToolbarItem toolbarItem : toolbarItems) {
+				CategoryPanel catPanel = new CategoryPanel(toolbarItem);
+				categoryPanelList.add(catPanel);
+				add(catPanel);
+			}
 		}
 		setMoveMode();
+	}
+
+	/**
+	 * @param toolbarString
+	 *            string definition of toolbar
+	 * @return the vector of groups of tools
+	 */
+	protected Vector<ToolbarItem> getToolbarVec(String toolbarString) {
+		Vector<ToolbarItem> toolbarVec;
+		try {
+			toolbarVec = ToolBar.parseToolbarString(toolbarString);
+		} catch (Exception e) {
+			toolbarVec = ToolBar.parseToolbarString(ToolBar.getAllTools(app));
+		}
+		return toolbarVec;
 	}
 
 	@Override
@@ -181,6 +214,24 @@ public class Tools extends FlowPanel implements SetLabels {
 			super();
 			category = cat;
 			initGui();
+		}
+
+		public CategoryPanel(ToolbarItem toolbarItem) {
+			toolsPanel = new FlowPanel();
+			toolsPanel.addStyleName("categoryPanel");
+			toolBtnList = new ArrayList<>();
+			Vector<Integer> tools = toolbarItem.getMenu();
+			for (Integer mode : tools) {
+				if (app.isModeValid(mode)) {
+					StandardButton btn = getButton(mode);
+					toolBtnList.add(btn);
+					toolsPanel.add(btn);
+					if (mode == EuclidianConstants.MODE_MOVE) {
+						setMoveButton(btn);
+					}
+				}
+				add(toolsPanel);
+			}
 		}
 
 		private void initGui() {

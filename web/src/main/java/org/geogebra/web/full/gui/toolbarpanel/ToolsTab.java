@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * tab of tools
  */
-class ToolsTab extends ToolbarPanel.ToolbarTab {
+public class ToolsTab extends ToolbarPanel.ToolbarTab {
 
 	/**
 	 * 
@@ -45,6 +45,10 @@ class ToolsTab extends ToolbarPanel.ToolbarTab {
 	private ScrollPanel sp;
 
 	private App app;
+	/**
+	 * 
+	 */
+	public boolean isCustomToolbar = false;
 
 	/**
 	 * panel containing tools
@@ -56,7 +60,7 @@ class ToolsTab extends ToolbarPanel.ToolbarTab {
 		createContents();
 		handleMoreLessButtons();
 	}
-	
+
 	private void handleMoreLessButtons() {
 		createMoreLessButtons();
 		addMoreLessButtons();
@@ -103,7 +107,7 @@ class ToolsTab extends ToolbarPanel.ToolbarTab {
 			app.getSettings().getToolbarSettings()
 					.setToolsetLevel(ToolsetLevel.ADVANCED);
 		}
-		updateContent();
+		updateContent(false);
 	}
 
 	/** Less button handler */
@@ -122,7 +126,7 @@ class ToolsTab extends ToolbarPanel.ToolbarTab {
 			app.getSettings().getToolbarSettings()
 					.setToolsetLevel(ToolsetLevel.STANDARD);
 		}
-		updateContent();
+		updateContent(false);
 	}
 
 	/**
@@ -168,21 +172,29 @@ class ToolsTab extends ToolbarPanel.ToolbarTab {
 	private void createContents() {
 		sp = new ScrollPanel();
 		sp.setAlwaysShowScrollBars(false);
-		toolsPanel = new Tools((AppW) app);
+		toolsPanel = new Tools((AppW) app, false);
 		sp.add(toolsPanel);
 		add(sp);
 	}
 	
 	/**
 	 * update the content of tool panel
+	 * 
+	 * @param isCustom
+	 *            true if toolbar is custom
 	 */
-	public void updateContent() {
+	public void updateContent(boolean isCustom) {
+		if (isCustom != isCustomToolbar) {
+			isCustomToolbar = isCustom;
+		}
 		toolsPanel.removeFromParent();
-		toolsPanel = new Tools((AppW) app);
+		toolsPanel = new Tools((AppW) app, isCustom);
 		sp.clear();
 		sp.add(toolsPanel);
-		this.toolbarPanel.setLabels();
-		handleMoreLessButtons();
+		if (!isCustom) {
+			this.toolbarPanel.setLabels();
+			handleMoreLessButtons();
+		}
 	}
 
 	/**

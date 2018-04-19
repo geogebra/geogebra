@@ -226,6 +226,10 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		
 			padding: 0px 16px 14px 16px;
 			
+			&.customToolbar {
+				padding: 16px 16px 14px 16px;
+			}
+			
 			.gwt-Label {
 				cursor: default;
 				height: 48px;

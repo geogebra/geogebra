@@ -527,6 +527,11 @@ public class AppWFull extends AppW implements HasKeyboard {
 			getGuiManager().updateGlobalOptions();
 		}
 
+		if (isUnbundled() && getGuiManager() != null
+				&& getGuiManager().getUnbundledToolbar() != null) {
+			getGuiManager().getUnbundledToolbar().getTabTools()
+					.updateContent(false);
+		}
 	}
 
 	private void resetAllToolbars() {
@@ -538,7 +543,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 				panel.setToolbarString(panel.getDefaultToolbarString());
 			}
 		}
-
 		gm.setToolBarDefinition(gm.getDefaultToolbarString());
 
 	}
@@ -1352,6 +1356,18 @@ public class AppWFull extends AppW implements HasKeyboard {
 			}
 		}
 		frame.setApplication(this);
+		if (isUnbundled()) {
+			Perspective current = getTmpPerspective(null);
+			if (current != null && current.getToolbarDefinition() != null) {
+				getGuiManager().setGeneralToolBarDefinition(
+						current.getToolbarDefinition());
+				if (getGuiManager() != null
+						&& getGuiManager().getUnbundledToolbar() != null) {
+					getGuiManager().getUnbundledToolbar().getTabTools()
+							.updateContent(true);
+				}
+			}
+		}
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
 			Perspective current = getTmpPerspective(null);

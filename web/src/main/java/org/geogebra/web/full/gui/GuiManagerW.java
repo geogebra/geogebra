@@ -2125,10 +2125,12 @@ public class GuiManagerW extends GuiManager
 	 * @return default definition for general toolbar
 	 */
 	public String getDefaultToolbarString() {
-		if (toolbarPanel == null) {
+		if (toolbarPanel == null && !app.isUnbundled()) {
 			return "";
 		}
-
+		if (app.isUnbundled() && getUnbundledToolbar() != null) {
+			return ToolBar.getAllToolsNoMacros(true, false, getApp());
+		}
 		return getGeneralToolbar().getDefaultToolbarString();
 	}
 
@@ -2394,7 +2396,6 @@ public class GuiManagerW extends GuiManager
 				return ((ToolbarDockPanelW) (avPanel)).getToolbar();
 			}
 		}
-
 		return null;
 	}
 
@@ -2490,4 +2491,7 @@ public class GuiManagerW extends GuiManager
 		app.getVideoManager().updatePlayer(video);
 	}
 
+	public ToolbarPanel getUnbundledToolbar() {
+		return getToolbarPanelV2();
+	}
 }
