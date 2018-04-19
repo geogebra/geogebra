@@ -9,7 +9,7 @@
 // on applet loaded
 window.ggbAppletOnLoad = onAppletLoaded;
 function onAppletLoaded() {
-	log("loaded");
+	<!--log("loaded");-->
 	exportToUnity("");
 	ggbApplet.registerAddListener("onAdd");
     ggbApplet.registerRemoveListener("onRemove");
@@ -23,11 +23,11 @@ function log(v) {
 
 // listeners
 function onAdd(name) {
-	log("add object: "+name);
+	<!--log("add object: "+name);-->
 	if("multivariablefunction" === ggbApplet.getObjectType(name)) {
 		onAddFunction(name)
 	} else {
-		log("not a function: delete");
+		<!--log("not a function: delete");-->
 		ggbApplet.unregisterRemoveListener("onRemove");
 		ggbApplet.deleteObject(name);
 		ggbApplet.registerRemoveListener("onRemove");
@@ -35,12 +35,12 @@ function onAdd(name) {
 }
 
 function onRemove(name) {
-	log("remove object: "+name);
+	<!--log("remove object: "+name);-->
 	engine.trigger('OnRemove', name);
 }
 
 function onUpdate(name) {
-	log("update object: "+name);
+	<!--log("update object: "+name);-->
 	if("multivariablefunction" === ggbApplet.getObjectType(name)) {
 		exportToUnity(name);
 	}
@@ -55,7 +55,7 @@ function onAddFunction(name) {
 // export
 function exportToUnity(name) {
 	var exportString = ggbApplet.exportSimple3d(name, -5.5, 5.5, -5.5, 5.5, -5.5, 5.5, 1, 1, 1, 1, 1);
-	log("export: name = "+name+", length = "+exportString.length);
+	<!--log("export: name = "+name+", length = "+exportString.length);-->
 	engine.trigger('GGB3dExport', exportString);
 }
 </script>
@@ -63,7 +63,7 @@ function exportToUnity(name) {
 
 <body>
     <article class="geogebraweb"
-    style="border: 1px solid black; display:inline-block;"
+    style="border: 1 solid black; display:inline-block; background-color:white;"
 	data-param-width="800"
 	data-param-height="500" 
 	data-param-showAlgebraInput="true"
@@ -71,9 +71,10 @@ function exportToUnity(name) {
 	data-param-perspective="A"
     data-param-id="ggbApplet">
     </article>
-
+</body>
+<!--
 <div>------------ Log ------------
     <div id="log">Log:</div>
-</div>
+</div>-->
 </html>
 
