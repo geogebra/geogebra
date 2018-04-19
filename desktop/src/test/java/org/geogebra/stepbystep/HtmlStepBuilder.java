@@ -103,12 +103,6 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 	}
 
 	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void startGroup() {
 		indent++;
 		groupCnt++;
