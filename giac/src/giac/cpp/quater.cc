@@ -180,15 +180,18 @@ namespace giac {
     return 1;
   }
 
-  vecteur find_irreducible_primitive(int p,int m,bool primitive,GIAC_CONTEXT){
-#if 0 // def HAVE_LIBPARI
-    if (!primitive){
-      gen pari=pari_ffinit(p,m);
+  vecteur find_irreducible_primitive(const gen & p_,int m,bool primitive,GIAC_CONTEXT){
+    if (p_.type==_ZINT){
+#ifdef HAVE_LIBPARI
+      gen pari=pari_ffinit(p_,m);
       pari=unmod(pari);
       if (pari.type==_VECT)
 	return *pari._VECTptr;
-    }
+#else
+      return gensizeerr("Compile with PARI for characteristic>2^31");
 #endif
+    }
+    int p=p_.val;
     // First check M random polynomials
     int M=100*m;
     // start coefficients near the end if only irreducible minpoly required
@@ -437,12 +440,12 @@ namespace giac {
       }
     }
     else {
-      if (g.type!=_VECT || g._VECTptr->size()<2 || g._VECTptr->front().type!=_INT_ || (*g._VECTptr)[1].type!=_INT_)
+      if (g.type!=_VECT || g._VECTptr->size()<2 || !is_integer(g._VECTptr->front()) || (*g._VECTptr)[1].type!=_INT_)
 	P=gensizeerr(gettext("Expecting characteristic p, integer m"));
       else {
-	int p0=g._VECTptr->front().val; // max(absint(),2);
-	if (p0<2)
-	  P=gensizeerr(gettext("Bad characteristic: ")+print_INT_(p0));
+	gen p0=g._VECTptr->front(); // max(absint(),2);
+	if (is_greater(1,p0,contextptr))
+	  P=gensizeerr(gettext("Bad characteristic: ")+p0.print(contextptr));
 	else {
 	  int m0=(*g._VECTptr)[1].val; // max(absint(),2);
 	  if (m0<2)

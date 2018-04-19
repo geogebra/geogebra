@@ -100,7 +100,7 @@ namespace giac {
   // Is the polynomial v irreducible and primitive modulo p?
   // If it is only irreducible, returns 2 and sets vmin
   int is_irreducible_primitive(const vecteur & v,const gen & p,vecteur & vmin,bool primitive,GIAC_CONTEXT);
-  vecteur find_irreducible_primitive(int p,int m,bool primitive,GIAC_CONTEXT);
+  vecteur find_irreducible_primitive(const gen & p,int m,bool primitive,GIAC_CONTEXT);
   gen _galois_field(const gen & args,GIAC_CONTEXT);
 
   struct gen_context_t {
