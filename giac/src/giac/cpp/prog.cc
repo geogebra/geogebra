@@ -5701,12 +5701,15 @@ namespace giac {
   gen python_xcas(const gen & args,bool py,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     // parse in current mode and print in python mode
-    gen g(args);
-    if (args.type==_STRNG)
-      g=gen(*args._STRNGptr,contextptr);
+    gen g(eval(args,1,contextptr));
+    if (g.type==_STRNG)
+      g=gen(*g._STRNGptr,contextptr);
     int p=python_compat(contextptr);
     python_compat(py?1:0,contextptr);
-    g=string2gen(g.print(contextptr),false);
+    string s(g.print(contextptr));
+    if (!py)
+      s=args.print(contextptr)+":="+s;
+    g=string2gen(s,false);
     python_compat(p,contextptr);
     return g;
   }
@@ -5715,15 +5718,15 @@ namespace giac {
     return python_xcas(args,true,contextptr);
   }
   static const char _python_s []="python";
-  static define_unary_function_eval (__python,&_python,_python_s);
-  define_unary_function_ptr5( at_python ,alias_at_python,&__python,0,true);
+  static define_unary_function_eval_quoted (__python,&_python,_python_s);
+  define_unary_function_ptr5( at_python ,alias_at_python,&__python,_QUOTE_ARGUMENTS,true);
 
   gen _xcas(const gen & args,GIAC_CONTEXT){
     return python_xcas(args,false,contextptr);
   }
   static const char _xcas_s []="xcas";
-  static define_unary_function_eval (__xcas,&_xcas,_xcas_s);
-  define_unary_function_ptr5( at_xcas ,alias_at_xcas,&__xcas,0,true);
+  static define_unary_function_eval_quoted (__xcas,&_xcas,_xcas_s);
+  define_unary_function_ptr5( at_xcas ,alias_at_xcas,&__xcas,_QUOTE_ARGUMENTS,true);
 
   static string printasvirgule(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
