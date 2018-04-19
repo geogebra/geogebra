@@ -2913,7 +2913,7 @@ __GGB__keysVar["it"].menu = {
     "Tutorial3D": "aWhYSpvy",
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
-    "TutorialGraphing": "vd6UC685",
+    "TutorialGraphing": "tXEVFKSH",
     "Tutorials": "Tutorial",
     "TwoVarStats": "Analisi di regressione bivariata",
     "TwoVarStats.Help": "Analizza i valori numerici appaiati in due o tre colonne selezionate",
