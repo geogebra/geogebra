@@ -904,7 +904,7 @@ namespace giac {
     // K* has cardinal p^m-1, a has a sqrt iff a^((p^m-1)/2)==1
     environment env;
     env.modulo=p;
-    gen gpm=pow(p.val,m);
+    gen gpm=pow(p,int(m),contextptr);
     // if (gpm.type!=_INT_) return gensizeerr(gettext("Field too large"));
     // int pn=gpm.val;
     env.moduloon=true;
@@ -929,7 +929,7 @@ namespace giac {
     X[2]=-*this;
     polynome px(unmodularize(X));
     factorization sqff_f(squarefree_fp(px,env.modulo.val,m)),f;
-    if (p.val!=2){
+    if (p!=2){
       if (!sqff_ffield_factor(sqff_f,env.modulo.val,&env,f) || f.size()!=2)
 	return undef;
       sqff_f.swap(f);
@@ -968,6 +968,8 @@ namespace giac {
   }
 
   gen galois_field::makegen(int i) const {
+    if (p.type==_ZINT)
+      return galois_field(p,P,x,vecteur(1,i));
     if (P.type!=_VECT || p.type!=_INT_)
       return gendimerr();
     unsigned n=unsigned(P._VECTptr->size())-1;
@@ -1004,7 +1006,7 @@ namespace giac {
       return gendimerr(gettext("Multivariate GF factorization not yet implemented"));
 #endif
     }
-    if (P.type!=_VECT)
+    if (P.type!=_VECT || this->p.type!=_INT_)
       return gensizeerr(gettext("GF polyfactor"));
     environment env;
     env.moduloon=true; // false;
@@ -1025,7 +1027,7 @@ namespace giac {
   }
 
   gen galois_field::rand (GIAC_CONTEXT) const {
-    int c=p.val;
+    int c=p.type==_INT_?p.val:RAND_MAX;
     int m=int(P._VECTptr->size())-1;
     vecteur v(m);
     for (int i=0;i<m;++i){
