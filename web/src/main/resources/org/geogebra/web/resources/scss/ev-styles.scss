@@ -1,7 +1,7 @@
 @import 'colors';
 	
 .GeoGebraFrame {
-	$always_on_top: 1000000;
+	$always_on_top: 60;
 	
 	.TitleBarPanel {
 		z-index: 99;	
