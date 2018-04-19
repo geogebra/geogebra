@@ -209,6 +209,13 @@ task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
     into warDirRel
 }
 
+task mergeDeploy(dependsOn: ['compileGwt']){
+   description 'merge deploy.js and web3d.nocache.js'      
+   doLast {
+      file(warDirRel + "/deployggbmerged.js").text = file(warDirRel + "/deployggb.js").text + file("./build/gwt/out/web3d/web3d.nocache.js").text
+   }
+}
+
 task symlinkIntoWar(dependsOn: ['copyHtml']) {
     description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory. [UNUSED]'
     doLast {
