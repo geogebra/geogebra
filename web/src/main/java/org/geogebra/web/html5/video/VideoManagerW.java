@@ -202,6 +202,12 @@ public class VideoManagerW implements VideoManager {
 		getPlayer(video).update();
 	}
 
+	@Override
+	public void removePlayers() {
+		for (VideoPlayer player : players.values()) {
+			player.removeFromParent();
+		}
+	}
 	private native void controlPlayer(JavaScriptObject player, String command) /*-{
 		player.contentWindow.postMessage('{"event":"command","func":"'
 				+ command + '","args":""}', '*');

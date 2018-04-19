@@ -118,5 +118,10 @@ public interface VideoManager {
 	 */
 	String getYouTubeId(String url);
 
+	/**
+	 * Removes all players from application.
+	 */
+	void removePlayers();
 }
+
 

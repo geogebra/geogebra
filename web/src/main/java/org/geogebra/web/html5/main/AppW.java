@@ -799,6 +799,9 @@ public abstract class AppW extends App implements SetLabels {
 	public void loadGgbFile(GgbFile archiveContent, boolean asSlide) throws Exception {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
 		algebraSettings.setModeChanged(false);
+		if (has(Feature.MOW_DOUBLE_CANVAS) && videoManager != null) {
+			videoManager.removePlayers();
+		}
 
 		loadFile(archiveContent, asSlide);
 
