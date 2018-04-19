@@ -359,8 +359,20 @@ public class EuclidianViewCompanion {
 	 *            graphics
 	 */
 	public void paint(GGraphics2D g2) {
+		paint(g2, null);
+	}
 
-		view.paintTheBackground(g2);
+	/**
+	 * Paints content of this view.
+	 * 
+	 * @param g2
+	 *            graphics
+	 * @param g3
+	 *            background
+	 */
+	public void paint(GGraphics2D g2, GGraphics2D g3) {
+
+		view.paintTheBackground(g3 == null ? g2 : g3);
 
 		g2.setAntialiasing();
 

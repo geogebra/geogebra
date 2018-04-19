@@ -278,7 +278,11 @@ public class EuclidianViewW extends EuclidianView implements
 		long time = System.currentTimeMillis();
 		this.updateBackgroundIfNecessary();
 
-		paint(this.g2p);
+		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
+			GGraphics2DW g2 = (GGraphics2DW) g2p;
+			g2.clearRect(0, 0, getPhysicalWidth(), getPhysicalHeight());
+		}
+		paint(g2p, g2bg);
 
 		// if we have pen tool in action
 		// repaint the preview line

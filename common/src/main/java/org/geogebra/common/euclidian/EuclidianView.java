@@ -3751,6 +3751,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	public void paint(GGraphics2D g2) {
+		paint(g2, null);
+	}
+
+	/**
+	 * Paints content of this view.
+	 * 
+	 * @param g2
+	 *            graphics
+	 * @param g3
+	 *            background
+	 */
+	public void paint(GGraphics2D g2, GGraphics2D g3) {
 		synchronized (kernel.getConcurrentModificationLock()) {
 			// synchronized means that no two Threads can simultaneously
 			// enter any blocks locked by the same lock object,
@@ -3758,7 +3770,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// these blocks... as there is only one lock object and
 			// these methods probably do not call other synchronized
 			// code blocks, it probably does not cause any problem
-			companion.paint(g2);
+			companion.paint(g2, g3);
 			if (getEuclidianController().getPen().needsRepaint()) {
 				getEuclidianController().getPen().doRepaintPreviewLine(g2);
 			}
