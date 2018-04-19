@@ -119,8 +119,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public boolean getKeyboardShouldBeShownFlag();
 
-	public void updateFullscreen();
-
 	public void addKeyboardAutoHidePartner(GPopupPanel popup);
 
 	public void switchToolsToAV();

@@ -311,15 +311,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 */
 	public abstract void resizeView(int width, int height);
 
-	/**
-	 * updates icon on the full screen button.
-	 */
-	public void updateFullscreen() {
-		if (zoomPanel != null) {
-			zoomPanel.updateFullscreen();
-		}
-	}
-	
 	@Override
 	public final void setLabels() {
 		super.setLabels();

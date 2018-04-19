@@ -2408,13 +2408,6 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void updateFullscreen() {
-		((EuclidianDockPanelWAbstract) layout.getDockManager()
-				.getPanel(App.VIEW_EUCLIDIAN)).updateFullscreen();
-
-	}
-
-	@Override
 	public StepGuiBuilder getStepGuiBuilder() {
 		return ((ToolbarDockPanelW) getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
 				.getToolbar().openSteps(true);

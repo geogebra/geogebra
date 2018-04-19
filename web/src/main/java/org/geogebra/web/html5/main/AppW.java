@@ -422,8 +422,9 @@ public abstract class AppW extends App implements SetLabels {
 		}
 		if (this.getGuiManager() != null) {
 			getGuiManager().setPixelRatio(getPixelRatio());
-			getGuiManager().updateFullscreen();
-
+		}
+		if (this.zoomPanel != null) {
+			zoomPanel.updateFullscreen();
 		}
 	}
 
