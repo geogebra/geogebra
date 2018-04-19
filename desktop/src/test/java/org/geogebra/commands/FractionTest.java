@@ -21,6 +21,7 @@ public class FractionTest {
 	public void symbolicFractionsCAS() {
 		t("a=2/3-1/3", "1 / 3");
 		t("Simplify(x/3/a)", "x");
+		t("Simplify(x^a)", "cbrt(x)");
 	}
 
 	private void t(String string, String string2) {

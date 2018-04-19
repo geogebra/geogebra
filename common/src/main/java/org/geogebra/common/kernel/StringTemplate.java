@@ -1991,10 +1991,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public void append(StringBuilder sb, String str, ExpressionValue ev,
 			Operation op) {
-		if (ev.isGeoElement() && ((GeoElement) ev).isGeoNumeric()
-				&& ((GeoNumeric) ev).isSymbolicMode()
-				&& ((GeoElement) ev).getDefinition() != null
-				&& ((GeoElement) ev).getDefinition().isFraction()) {
+		if (isFraction(ev)) {
 			append(sb, str, ((GeoElement) ev).getDefinition(), op);
 			return;
 		}
@@ -2007,6 +2004,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(str);
 			sb.append(rightBracket());
 		}
+	}
+
+	private static boolean isFraction(ExpressionValue ev) {
+		return ev.isGeoElement() && ((GeoElement) ev).isGeoNumeric()
+				&& ((GeoNumeric) ev).isSymbolicMode() && ((GeoElement) ev).getDefinition() != null
+				&& ((GeoElement) ev).getDefinition().isFraction();
 	}
 
 	/**
@@ -2802,7 +2805,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				break;
 
 			default:
-				if (right.isLeaf() || ((ExpressionNode
+				if ((right.isLeaf() && !isFraction(right))
+						|| ((ExpressionNode
 						.opID(right) > Operation.POWER.ordinal())
 						&& (ExpressionNode.opID(right) != Operation.EXP
 								.ordinal()))) { // not
