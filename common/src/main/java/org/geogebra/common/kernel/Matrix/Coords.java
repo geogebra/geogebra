@@ -27,7 +27,8 @@ import org.geogebra.common.util.MyMath;
  */
 public class Coords {
 
-	private double norm, sqNorm;
+	private double norm;
+	private double sqNorm;
 	private boolean calcNorm = true;
 	private boolean calcSqNorm = true;
 
@@ -138,7 +139,9 @@ public class Coords {
 	 * creates a 2D vector with the specified values
 	 * 
 	 * @param u
+	 *            u
 	 * @param v
+	 *            v
 	 */
 	public Coords(double u, double v) {
 		this(2);
@@ -150,8 +153,11 @@ public class Coords {
 	 * creates a 3D vector with the specified values
 	 * 
 	 * @param x
+	 *            x
 	 * @param y
+	 *            y
 	 * @param z
+	 *            z
 	 */
 	public Coords(double x, double y, double z) {
 		this(3);
@@ -164,9 +170,13 @@ public class Coords {
 	 * creates a 3D vector/point with the specified values
 	 * 
 	 * @param x
+	 *            x
 	 * @param y
+	 *            y
 	 * @param z
+	 *            z
 	 * @param w
+	 *            w
 	 */
 	public Coords(double x, double y, double z, double w) {
 		this(4);
@@ -195,9 +205,13 @@ public class Coords {
 	 * set four first values
 	 * 
 	 * @param x
+	 *            x
 	 * @param y
+	 *            y
 	 * @param z
+	 *            z
 	 * @param w
+	 *            w
 	 */
 	public void set(double x, double y, double z, double w) {
 		val[0] = x;
@@ -374,6 +388,7 @@ public class Coords {
 	 * sets the "x-coord"
 	 * 
 	 * @param val
+	 *            val
 	 */
 	public void setX(double val) {
 		this.val[0] = val;
@@ -384,6 +399,7 @@ public class Coords {
 	 * sets the "y-coord"
 	 * 
 	 * @param val
+	 *            val
 	 */
 	public void setY(double val) {
 		this.val[1] = val;
@@ -394,6 +410,7 @@ public class Coords {
 	 * sets the "z-coord"
 	 * 
 	 * @param val
+	 *            val
 	 */
 	public void setZ(double val) {
 		this.val[2] = val;
@@ -404,6 +421,7 @@ public class Coords {
 	 * sets the "w-coord"
 	 * 
 	 * @param val
+	 *            val
 	 */
 	public void setW(double val) {
 		this.val[3] = val;
@@ -618,6 +636,7 @@ public class Coords {
 	/**
 	 * 
 	 * @param v
+	 *            v
 	 * @return 4-length vector equal to cross product this ^ v
 	 * 
 	 *         deprecated create vector and use
@@ -637,7 +656,9 @@ public class Coords {
 	 * set x,y,z values according to v1 ^ v2 cross product
 	 * 
 	 * @param v1
+	 *            v1
 	 * @param v2
+	 *            v2
 	 */
 	final public void setCrossProduct(Coords v1, Coords v2) {
 		val[0] = v1.val[1] * v2.val[2] - v1.val[2] * v2.val[1];
@@ -1164,8 +1185,11 @@ public class Coords {
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
 	 * 
 	 * @param vx
+	 *            vx
 	 * @param vy
+	 *            vy
 	 * @param vz
+	 *            vz
 	 * @param o
 	 *
 	 *            matrix {vx vy vz o} where (o,vx,vy) is a coord sys for the
@@ -1567,6 +1591,11 @@ public class Coords {
 		return result;
 	}
 
+	/**
+	 * @param i
+	 *            index
+	 * @return inhomogenous coord at given index
+	 */
 	public double getInhom(int i) {
 		int r = rows;
 		double wdiv = 1 / val[r - 1];
@@ -1740,6 +1769,7 @@ public class Coords {
 	 * @param v
 	 *            vector compared with
 	 * @param precision
+	 *            precision
 	 * @return true if the vectors are equal
 	 */
 	public boolean equalsForKernel(Coords v, double precision) {
@@ -1785,10 +1815,9 @@ public class Coords {
 	}
 
 	/**
-	 * check if all entries are zero
+	 * Check if all entries are within standard precision from 0.
 	 * 
-	 * @param precision
-	 * @return
+	 * @return whether all entries are zero
 	 */
 	public boolean isZero() {
 		int len = getLength();
@@ -1842,6 +1871,8 @@ public class Coords {
 	 * 
 	 * deprecated create vectors and use
 	 * {@link #completeOrthonormal(Coords, Coords)} instead
+	 * 
+	 * @return two orthonormal vectors
 	 */
 
 	public Coords[] completeOrthonormal() {
@@ -1987,6 +2018,7 @@ public class Coords {
 	/**
 	 * 
 	 * @param v
+	 *            vector to add
 	 * @return
 	 * 
 	 * 		deprecated create vector and use {@link #setAdd(Coords, Coords)}
@@ -2037,10 +2069,11 @@ public class Coords {
 	/**
 	 * 
 	 * @param v
+	 *            vector in smaller dim than this
 	 * @return
 	 * 
 	 * 		deprecated create vector and use {@link #setAdd(Coords, Coords)}
-	 *         or {@link #setAdd3(Coords, Coords) instead
+	 *         or {@link #setAdd3(Coords, Coords)} instead
 	 */
 
 	public Coords addSmaller(Coords v) {
@@ -2095,6 +2128,7 @@ public class Coords {
 	/**
 	 * 
 	 * @param val0
+	 *            val0
 	 * @return
 	 * 
 	 * 		deprecated create vector and use {@link #setMul(Coords, double)}
@@ -2253,11 +2287,9 @@ public class Coords {
 		return this;
 	}
 
-
 	/**
 	 * if the ND hom coords is in x-y plane, return this coords
 	 * 
-	 * @param coordsND
 	 * @return
 	 * 
 	 * 		deprecated create 3 rows vector and use
@@ -2341,6 +2373,9 @@ public class Coords {
 		return 0.2989 * getX() + 0.5870 * getY() + 0.1140 * getZ();
 	}
 
+	/**
+	 * Convert to (greyScale, greyScale, greyScale), see getGrayScale().
+	 */
 	public void convertToGrayScale() {
 		double gray = getGrayScale();
 		setX(gray);
@@ -2685,9 +2720,13 @@ public class Coords {
 	 * set 2D barycenter from the two points
 	 * 
 	 * @param param1
+	 *            param1
 	 * @param param2
+	 *            param2
 	 * @param leftPoint
+	 *            leftPoint
 	 * @param rightPoint
+	 *            rightPoint
 	 */
 	public void set(double param1, double param2, MyPoint leftPoint,
 			MyPoint rightPoint) {

@@ -10,7 +10,9 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class CoordsDouble3 extends Coords3 {
 
-	public double x, y, z;
+	public double x;
+	public double y;
+	public double z;
 
 	/**
 	 * constructor
@@ -132,7 +134,7 @@ public class CoordsDouble3 extends Coords3 {
 	}
 
 	@Override
-	public void mulInside(double a, double b, double c){
+	public void mulInside(double a, double b, double c) {
 		x *= a;
 		y *= b;
 		z *= c;

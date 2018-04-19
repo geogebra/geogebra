@@ -9,7 +9,7 @@ package org.geogebra.common.kernel.Matrix;
 public abstract class Coords3 {
 
 	/** undefined vector */
-	public static final Coords3 UNDEFINED = new CoordsFloat3(0f, 0f, 0f) {
+	public static final Coords3 UNDEFINED = new CoordsDouble3(0f, 0f, 0f) {
 		@Override
 		public boolean isNotFinalUndefined() {
 			return false;
