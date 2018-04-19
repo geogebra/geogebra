@@ -73,7 +73,8 @@ public class GeoVideo extends GeoMedia {
 	 */
 	public GeoVideo(Construction c, String url) {
 		super(c, url);
-		setSrc(url);
+		setSrc(url, false);
+		youtubeId = app.getVideoManager().getYouTubeId(getSrc());
 		setLabel("video");
 		setWidth(VIDEO_WIDTH);
 		setHeight(VIDEO_HEIGHT);
@@ -121,6 +122,17 @@ public class GeoVideo extends GeoMedia {
 		changed = true;
 	}
 
+	/**
+	 * Refresh the video 
+	 */
+	public void refresh() {
+		if (!changed) {
+			return;
+		}
+		changed = true;
+		app.getVideoManager().updatePlayer(this);
+		changed = false;
+	}
 	private void initStartTime() {
 		String url = getSrc();
 		int idx = url.indexOf(TIME_PARAM); // t=

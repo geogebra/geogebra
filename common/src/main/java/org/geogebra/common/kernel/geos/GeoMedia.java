@@ -65,10 +65,24 @@ public abstract class GeoMedia extends GeoButton {
 	 * 
 	 * @param src
 	 *            to set.
+	 * @param fireChanged
+	 *            determines if handler should be called or not.
+	 */
+	public void setSrc(String src, boolean fireChanged) {
+		this.src = src;
+		if (fireChanged) {
+			onSourceChanged();
+		}
+	}
+
+	/**
+	 * Set the source and call changed handler.
+	 * 
+	 * @param src
+	 *            to set.
 	 */
 	public void setSrc(String src) {
-		this.src = src;
-		onSourceChanged();
+		setSrc(src, true);
 	}
 
 	/**

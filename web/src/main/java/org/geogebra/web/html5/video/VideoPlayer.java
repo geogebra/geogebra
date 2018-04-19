@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.web.full.gui.Persistable;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -12,7 +13,7 @@ import com.google.gwt.user.client.ui.Frame;
  * @author Laszlo Gal
  *
  */
-public class VideoPlayer extends Frame {
+public class VideoPlayer extends Frame implements Persistable {
 	private GeoVideo video;
 	private String embedUrl = null;
 
