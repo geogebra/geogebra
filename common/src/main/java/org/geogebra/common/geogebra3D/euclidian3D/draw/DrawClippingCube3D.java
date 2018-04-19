@@ -5,6 +5,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing 3D constant planes.
@@ -347,6 +348,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		// (GeoElement.MAX_LINE_WIDTH*PlotterBrush.LINE3D_THICKNESS/getView3D().getScale());
 
 		// geometry
+		setPackCurve();
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
 		brush.start(getReusableGeometryIndex());
@@ -372,6 +374,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		drawSegment(brush, 0, 1, 1, 0, 1, 0);
 
 		setGeometryIndex(brush.end());
+		endPacking();
 
 		updateRendererClipPlanes();
 
@@ -515,9 +518,29 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	@Override
 	protected boolean isVisible() {
-		return true;
-		// TODO -- take care of updateRendererClipPlanes();
-		// return getView3D().showClippingCube();
+		return getView3D().showClippingCube();
+	}
+
+	@Override
+	protected void updateGeometriesColor() {
+		updateColors();
+		getView3D().getRenderer().getGeometryManager().updateColor(getColor(),
+				getGeometryIndex());
+		if (!isVisible()) {
+			setGeometriesVisibility(false);
+		}
+	}
+
+	@Override
+	protected void setGeometriesVisibility(boolean visible) {
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getGeometryIndex());
+		geometriesSetVisible = visible;
+	}
+
+	@Override
+	public boolean shouldBePacked() {
+		return getView3D().getApplication().has(Feature.MOB_PACK_ALL_CURVES);
 	}
 
 }
