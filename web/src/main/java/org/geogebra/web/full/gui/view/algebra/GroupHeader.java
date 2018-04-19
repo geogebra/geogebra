@@ -2,12 +2,8 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.main.SelectionManager;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TreeItem;
 
 /**
@@ -46,76 +42,8 @@ public class GroupHeader extends FlowPanel {
 		this.setStyleName("elemHeading");
 		this.label = key;
 		
-		add(open = new OpenButton(showUrl, hiddenUrl, parent));
+		add(open = new OpenButton(showUrl, hiddenUrl, parent, "algebraOpenButton"));
 		add(il = new GroupNameLabel(selection, parent, strlab));
-	}
-	
-	/**
-	 * Toggle button connected to tree item state
-	 *
-	 */
-	public static class OpenButton extends SimplePanel {
-		private SafeUri showUrl;
-		private SafeUri hiddenUrl;
-		private Image img;
-
-		/**
-		 * @param showUrl
-		 *            image for open button
-		 * @param hiddenUrl
-		 *            image for close button
-		 * @param ti
-		 *            parent item
-		 */
-		public OpenButton(SafeUri showUrl, SafeUri hiddenUrl,
-				final TreeItem ti) {
-			this.showUrl = showUrl;
-			this.hiddenUrl = hiddenUrl;
-			
-			addDomHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					boolean open = ti.getState();
-					ti.setState(!open);
-					setChecked(!open);
-				}
-			}, ClickEvent.getType());
-			setChecked(true);
-		}
-
-		/**
-		 * set background-images via HTML
-		 * 
-		 * @param url
-		 *            image url
-		 */
-		public void setImage(String url) {
-			//String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
-			if (img == null) {
-				img = new Image(url);
-				this.add(img);
-			} else {
-				img.setUrl(url);
-			}
-		}
-
-		/**
-		 * @param value
-		 *            whether it's open
-		 */
-		public void setChecked(boolean value) {
-			if (value) {
-				setImage(showUrl.asString());
-				this.setStyleName("arrowBottom");
-			}
-			else {
-				setImage(hiddenUrl.asString());
-				this.setStyleName("arrowLeft");
-			}
-			this.getElement().addClassName("algebraOpenButton");
-		}
-
 	}
 
 	/**

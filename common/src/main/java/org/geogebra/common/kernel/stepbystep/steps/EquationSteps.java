@@ -729,10 +729,20 @@ public enum EquationSteps implements SolveStepGenerator {
 				return null;
 			}
 
+			List<StepSolution> solutions = new ArrayList<>();
+
+			if (se.countOperation(Operation.PLUSMINUS) == 1
+					&& se.getRHS().isOperation(Operation.PLUSMINUS)) {
+				StepExpression argument = ((StepOperation) se.getRHS()).getOperand(0);
+
+				solutions.add(StepSolution.simpleSolution(variable, argument, tracker));
+				solutions.add(StepSolution.simpleSolution(variable, argument.negate(), tracker));
+
+				return solutions;
+			}
+
 			StepSolvable replacedPlus = StepHelper.replaceWithPlus(se);
 			StepSolvable replacedMinus = StepHelper.replaceWithMinus(se);
-
-			List<StepSolution> solutions = new ArrayList<>();
 
 			solutions.addAll(replacedPlus.solve(variable, steps, tracker));
 			solutions.addAll(replacedMinus.solve(variable, steps, tracker));
