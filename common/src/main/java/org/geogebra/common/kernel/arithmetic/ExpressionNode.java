@@ -2013,7 +2013,7 @@ public class ExpressionNode extends ValidExpression
 
 			default:
 				if (((leftStr.charAt(0) != '-') && // no unary
-						left.isLeaf())
+						left.isLeaf() && !StringTemplate.isFraction(left))
 						|| (opID(left) > Operation.POWER.ordinal()
 								&& opID(left) != Operation.FACTORIAL
 										.ordinal())) { // not +,

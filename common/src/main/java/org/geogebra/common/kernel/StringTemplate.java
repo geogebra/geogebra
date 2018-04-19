@@ -2006,7 +2006,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
-	private static boolean isFraction(ExpressionValue ev) {
+	/**
+	 * @param ev
+	 *            expression
+	 * @return whether expression is a GeoNumeric that needs to be written as a
+	 *         fraction
+	 */
+	public static boolean isFraction(ExpressionValue ev) {
 		return ev.isGeoElement() && ((GeoElement) ev).isGeoNumeric()
 				&& ((GeoNumeric) ev).isSymbolicMode() && ((GeoElement) ev).getDefinition() != null
 				&& ((GeoElement) ev).getDefinition().isFraction();
