@@ -21,7 +21,6 @@ public class SuggestionSteps extends Suggestion {
 		StepGuiBuilder builder = geo.getKernel().getApplication()
 				.getGuiManager().getStepGuiBuilder();
 		((HasSteps) geo.getParentAlgorithm()).getSteps(builder);
-		builder.show();
 	}
 
 	public static Suggestion get(GeoElement geo) {

@@ -6,8 +6,6 @@ public interface StepGuiBuilder {
 
 	void addLatexRow(String equations);
 
-	void show();
-
 	void startGroup();
 
 	void endGroup();

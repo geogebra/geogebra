@@ -106,10 +106,6 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
         }
 
         @Override
-        public void show() {
-        }
-
-        @Override
         public void startGroup() {
             if (child == null || tree.getItemCount() == 1) {
                 return;

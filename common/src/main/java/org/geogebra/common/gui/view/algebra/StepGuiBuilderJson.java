@@ -36,11 +36,6 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 	}
 
 	@Override
-	public void show() {
-		// not needed
-	}
-
-	@Override
 	public String toString() {
 		return "[" + sb.toString() + "]";
 	}

@@ -87,7 +87,6 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 
 		SolutionStep steps = sb.getSteps();
 		steps.getListOfSteps(builder, app.getLocalization());
-
 	}
 
 	@Override
