@@ -1959,22 +1959,25 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 		previewFromInputBarGeos = geos;
+		updatePreviewFromInputBar();
+	}
+
+	protected void updatePreviewFromInputBar() {
 		if (app.has(Feature.PREVIEW_POINTS)) {
 			GeoElement geo0 = (previewFromInputBarGeos == null
 					|| previewFromInputBarGeos.length == 0) ? null
-							: previewFromInputBarGeos[0];
+					: previewFromInputBarGeos[0];
 			app.getSpecialPointsManager().updateSpecialPoints(geo0);
 		} else {
 			repaintForPreviewFromInputBar();
 		}
 	}
 
-	private void repaintForPreviewFromInputBar() {
+	protected void repaintForPreviewFromInputBar() {
 		boolean needsRepaint = false;
 		if (previewFromInputBarGeos != null) {
 			for (GeoElement geo : previewFromInputBarGeos) {
-				needsRepaint = createPreviewDrawable(geo) || needsRepaint;
-				needsRepaint = updatePreviewDrawable(geo) || needsRepaint;
+				needsRepaint = createAndUpdatePreviewDrawable(geo) || needsRepaint;
 			}
 		}
 
@@ -1983,6 +1986,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (needsRepaint) {
 			repaint();
 		}
+	}
+
+	protected boolean createAndUpdatePreviewDrawable(GeoElement geo) {
+		boolean needsRepaint = createPreviewDrawable(geo);
+		needsRepaint = updatePreviewDrawable(geo) || needsRepaint;
+		return needsRepaint;
 	}
 
 	private boolean updatePreviewDrawable(GeoElement geo) {

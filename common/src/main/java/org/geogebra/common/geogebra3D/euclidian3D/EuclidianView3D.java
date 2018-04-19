@@ -532,6 +532,17 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 
+	@Override
+	protected void updatePreviewFromInputBar() {
+		repaintForPreviewFromInputBar();
+	}
+
+	@Override
+	protected boolean createAndUpdatePreviewDrawable(GeoElement geo) {
+		return createAndAddDrawable(geo);
+	}
+
+
 	/**
 	 * add the geo now
 	 *
