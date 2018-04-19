@@ -4226,7 +4226,9 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1252
 		case KEYBOARD_BEHAVIOUR:
-			return true;
+			return !whiteboard; // we may need keyboard for videos in
+								// whiteboard; also overriding keyboard kills
+								// Paste (MOW-442)
 
 		/**
 		 * GGB-1398 + GGB-1529
