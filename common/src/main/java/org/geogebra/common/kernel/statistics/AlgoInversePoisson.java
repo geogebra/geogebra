@@ -72,7 +72,7 @@ public class AlgoInversePoisson extends AlgoDistribution {
 				if (result >= Integer.MAX_VALUE) {
 					num.setUndefined();
 				} else {
-					num.setValue(result + 1);
+					num.setValue(result);
 				}
 
 			} catch (Exception e) {
