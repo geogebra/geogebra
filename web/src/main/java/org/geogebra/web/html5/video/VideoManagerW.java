@@ -187,6 +187,7 @@ public class VideoManagerW implements VideoManager {
 		VideoPlayer player = new VideoPlayer(video);
 		players.put(video.getYouTubeId(), player);
 		appFrame.add(player);
+		player.update();
 	}
 
 	@Override

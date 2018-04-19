@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui;
+package org.geogebra.web.html5.gui;
 
 /**
  * Interface for preventing widgets to remove from frame

@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
-import org.geogebra.web.full.gui.Persistable;
+import org.geogebra.web.html5.gui.Persistable;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 

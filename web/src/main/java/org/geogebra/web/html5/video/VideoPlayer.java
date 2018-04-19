@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.web.full.gui.Persistable;
+import org.geogebra.web.html5.gui.Persistable;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
