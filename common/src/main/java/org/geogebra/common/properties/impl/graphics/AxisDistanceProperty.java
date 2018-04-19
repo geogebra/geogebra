@@ -59,12 +59,15 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
     @Override
     public void setValue(String value) {
         GeoNumberValue distance = !value.trim().equals("") ? getNumberValue(value) : null;
-        euclidianSettings.setAxisNumberingDistance(axis, distance);
+        if (distance != null && !Double.isNaN(distance.getDouble())) {
+            euclidianSettings.setAxisNumberingDistance(axis, distance);
+        }
     }
 
     @Override
     public boolean isValid(String value) {
-        return getNumberValue(value) != null;
+        GeoNumberValue number = getNumberValue(value);
+        return number != null && !Double.isNaN(number.getDouble());
     }
 
     @Override
