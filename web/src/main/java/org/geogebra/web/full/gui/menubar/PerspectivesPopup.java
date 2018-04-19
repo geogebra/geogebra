@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -12,13 +11,14 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.resources.SVGResource;
 
+import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -32,10 +32,6 @@ public class PerspectivesPopup {
 	/** application */
 	final AppWFull app;
 	private FlowPanel contentPanel;
-	/** tutorial links */
-	final static String[] tutorials = new String[] { "graphing/", "graphing/",
-			"geometry/", "spreadsheet/", "cas/", "3d/", "probability/", "exam/",
-			"" };
 
 	/**
 	 * @param app
@@ -127,6 +123,16 @@ public class PerspectivesPopup {
 
 		box.getCaption()
 				.setText(app.getLocalization().getMenu("CreateYourOwn"));
+		AnchorElement helpLink = DOM.createAnchor().cast();
+		helpLink.setHref(app.getLocalization()
+				.getTutorialURL(app.getConfig()));
+		helpLink.setTarget("_blank");
+		NoDragImage helpBtn = new NoDragImage(GuiResources.INSTANCE.icon_help(),
+				24);
+		helpBtn.addStyleName("perspectivesHelp");
+		helpLink.appendChild(helpBtn.getElement());
+		box.getCaption().asWidget().getElement()
+				.appendChild(helpLink);
 	}
 
 	private void addPerspective(int i, ResourcePrototype icon) {
@@ -159,22 +165,6 @@ public class PerspectivesPopup {
 		rowPanel.setStyleName("perspectivesRow");
 
 		// help button
-		if (index != -2) {
-			Image helpBtn = new Image(GuiResources.INSTANCE.icon_help());
-			helpBtn.addStyleName("perspectivesHelp");
-			helpBtn.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					String URL = GeoGebraConstants.QUICKSTART_URL + tutorials[defID]
-							+ app.getLocalization().getLocaleStr() + "/";
-					// TODO check if online
-					app.getFileManager().open(URL);
-					event.stopPropagation();
-				}
-			});
-			rowPanel.add(helpBtn);
-		}
 
 		rowPanel.addDomHandler(new ClickHandler() {
 
@@ -191,8 +181,8 @@ public class PerspectivesPopup {
 					app.examWelcome();
 					// activePerspective = -1;
 				} else if (index == -2) {
-					String URL = GeoGebraConstants.QUICKSTART_URL + tutorials[defID]
-							+ app.getLocalization().getLocaleStr() + "/";
+					String URL = app.getLocalization()
+							.getTutorialURL(app.getConfig());
 					// TODO check if online
 					app.getFileManager().open(URL);
 				}

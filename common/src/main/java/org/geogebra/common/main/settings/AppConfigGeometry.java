@@ -41,4 +41,9 @@ public class AppConfigGeometry implements AppConfig {
 		return "Perspective.Geometry";
 	}
 
+	@Override
+	public String getTutorialKey() {
+		return "TutorialGeometry";
+	}
+
 }

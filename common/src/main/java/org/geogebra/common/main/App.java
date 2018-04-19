@@ -114,8 +114,6 @@ public abstract class App implements UpdateSelection {
 	public static final String WIKI_MANUAL = "Manual";
 	/** Url for wiki article about CAS */
 	public static final String WIKI_CAS_VIEW = "CAS_View";
-	/** Url for wiki tutorials */
-	public static final String WIKI_TUTORIAL = "Tutorial:Main Page";
 	/** Url for Intel RealSense tutorials */
 	public static final String REALSENSE_TUTORIAL = "https://www.geogebra.org/b/OaGmb7LE";
 

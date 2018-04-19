@@ -194,11 +194,11 @@ var translation = {};
 				changeMetaTitle(ret.innerText);
 				perspective(perspectiveId,id.replace("perspective",""));
 			});
-			parent.getElementsByTagName("TD")[2].addEventListener("click",function(e){
+			/*.addEventListener("click",function(e){
 				var evt = e || window.event;
 				evt.stopPropagation();
 				window.open("https://www.geogebra.org/tutorial/"+shortId);
-			});
+			})*/;
 		}
 		ret.innerHTML = caption;
 	}

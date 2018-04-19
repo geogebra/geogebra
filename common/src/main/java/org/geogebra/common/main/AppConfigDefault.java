@@ -29,4 +29,9 @@ public class AppConfigDefault implements AppConfig {
 				|| "whiteboard".equals(appName) || "3d".equals(appName);
 	}
 
+	@Override
+	public String getTutorialKey() {
+		return "TutorialClassic";
+	}
+
 }

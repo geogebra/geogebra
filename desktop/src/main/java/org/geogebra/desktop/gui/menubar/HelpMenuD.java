@@ -77,8 +77,16 @@ class HelpMenuD extends BaseMenu {
 					app.getMenuIcon(GuiResourcesD.HELP), loc.getMenu("Manual"),
 					App.WIKI_MANUAL);
 
-			tutorialAction = new HelpAction(app, null, loc.getMenu("Tutorials"),
-					App.WIKI_TUTORIAL);
+			tutorialAction = new AbstractAction(loc.getMenu("Tutorials"),
+					app.getEmptyIcon()) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					app.getGuiManager().showURLinBrowser(app.getLocalization()
+							.getTutorialURL(app.getConfig()));
+				}
+			};
 
 			if (app.getInput3DType().equals(Input3DConstants.PREFS_REALSENSE)) {
 				input3DTutorialAction = new AbstractAction(

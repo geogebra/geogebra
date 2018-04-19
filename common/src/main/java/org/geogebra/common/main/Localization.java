@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
@@ -1508,5 +1509,14 @@ public abstract class Localization {
 	 */
 	public char getZero() {
 		return unicodeZero;
+	}
+
+	/**
+	 * @param config
+	 *            app config
+	 * @return url for current app
+	 */
+	public String getTutorialURL(AppConfig config) {
+		return GeoGebraConstants.GEOGEBRA_WEBSITE + "m/" + getMenu(config.getTutorialKey());
 	}
 }

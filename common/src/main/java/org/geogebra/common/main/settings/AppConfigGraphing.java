@@ -35,4 +35,9 @@ public class AppConfigGraphing implements AppConfig {
 		return "GraphingCalculator";
 	}
 
+	@Override
+	public String getTutorialKey() {
+		return "TutorialGraphing";
+	}
+
 }

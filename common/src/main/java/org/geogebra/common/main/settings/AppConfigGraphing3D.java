@@ -7,4 +7,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 		return "Graphing3D";
 	}
 
+	@Override
+	public String getTutorialKey() {
+		return "Tutorial3D";
+	}
+
 }

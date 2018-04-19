@@ -59,6 +59,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
+import org.geogebra.common.main.settings.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -3760,7 +3761,7 @@ public abstract class AppW extends App implements SetLabels {
 			return new AppConfigGeometry();
 		}
 		if ("3d".equals(articleElement.getDataParamAppName())) {
-			return new AppConfigGeometry();
+			return new AppConfigGraphing3D();
 		}
 		return new AppConfigDefault();
 	}

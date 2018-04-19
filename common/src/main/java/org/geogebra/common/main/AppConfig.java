@@ -12,4 +12,6 @@ public interface AppConfig {
 
 	public String getAppTitle();
 
+	public String getTutorialKey();
+
 }

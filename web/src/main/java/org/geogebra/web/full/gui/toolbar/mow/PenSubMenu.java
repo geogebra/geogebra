@@ -59,8 +59,8 @@ public class PenSubMenu extends SubMenuPanel {
 	boolean colorsEnabled;
 	// preset colors black, green, teal,blue, purple,magenta, red, carrot,
 	// yellow
-	private final static String[] HEX_COLORS = { "000000", "2E7D32", "00A8A8",
-			"1565C0", "6557D2", "CC0099", "D32F2F", "DB6114", "FFCC00" };
+	private final static int[] HEX_COLORS = { 0x000000, 0x2E7D32, 0x00A8A8,
+			0x1565C0, 0x6557D2, 0xCC0099, 0xD32F2F, 0xDB6114, 0xFFCC00 };
 	private GColor lastSelectedPenColor = GColor.BLACK;
 	private GColor lastSelectedHighlighterColor = GColor.MOW_GREEN;
 	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
@@ -139,8 +139,7 @@ public class PenSubMenu extends SubMenuPanel {
 		btnColor = new Label[HEX_COLORS.length];
 		penColor = new GColor[HEX_COLORS.length];
 		for (int i = 0; i < HEX_COLORS.length; i++) {
-			penColor[i] = GColor
-					.newColorRGB(Integer.parseInt(HEX_COLORS[i], 16));
+			penColor[i] = GColor.newColorRGB(HEX_COLORS[i]);
 			btnColor[i] = createColorButton(penColor[i], i);
 		}
 		btnCustomColor = new StandardButton(

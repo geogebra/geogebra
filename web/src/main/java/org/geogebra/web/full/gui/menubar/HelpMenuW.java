@@ -47,7 +47,9 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable {
 
 					@Override
 					public void doExecute() {
-						app.getGuiManager().openHelp(App.WIKI_TUTORIAL);
+						app.getFileManager().open(app.getLocalization()
+								.getTutorialURL(app.getConfig()),
+								"_blank", "");
 					}
 				});
 		// Help

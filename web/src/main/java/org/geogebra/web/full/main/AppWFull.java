@@ -382,8 +382,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 	 *            perspective ID
 	 */
 	void doShowStartTooltip(int perspID) {
-		String[] tutorials = new String[] { "graphing", "graphing", "geometry",
-				"spreadsheet", "cas", "3d", "probability" };
 		if (articleElement.getDataParamShowStartTooltip(perspID > 0)) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			String tooltipText = getLocalization().getMenu("NewToGeoGebra")
@@ -391,9 +389,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 					+ getLocalization().getPlain("CheckOutTutorial",
 							getLocalization().getMenu(
 									Perspective.getPerspectiveName(perspID)));
-			String tooltipURL = GeoGebraConstants.QUICKSTART_URL
-					+ tutorials[perspID] + "/"
-					+ getLocalization().getLocaleStr() + "/";
+			String tooltipURL = getLocalization().getTutorialURL(getConfig());
 			DockPanelW focused = ((DockManagerW) getGuiManager().getLayout()
 					.getDockManager()).getPanelForKeyboard();
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(tooltipText,
