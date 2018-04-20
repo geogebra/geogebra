@@ -12,6 +12,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
@@ -176,13 +178,19 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public void addPlayer(GeoVideo video) {
+	public void addPlayer(final GeoVideo video) {
 		AppW app = (AppW) video.getKernel().getApplication();
 		GeoGebraFrameW appFrame = (GeoGebraFrameW) app.getAppletFrame();
 		VideoPlayer player = new VideoPlayer(video);
 		players.put(video.getYouTubeId(), player);
 		appFrame.add(player);
-		player.update();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				updatePlayer(video);
+			}
+		});
 	}
 
 	@Override

@@ -53,7 +53,7 @@ public interface VideoManager {
 	 * @param video
 	 *            to add GUI for.
 	 */
-	void addPlayer(GeoVideo video);
+	void addPlayer(final GeoVideo video);
 
 	/**
 	 * Checks if there is a player already for video.
