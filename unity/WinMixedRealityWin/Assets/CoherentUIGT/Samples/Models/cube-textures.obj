@@ -1,0 +1,52 @@
+# cube.obj with materials and documentation
+#
+mtllib cube-textures.mtl
+g cube
+# v1 is origin: back lower left (bll)
+# v2=fll, v3=bul, v4=ful, v5=blr, v6=flr, v7=
+v  0.0  0.0  0.0   v1 = back lower left (origin)
+v  0.0  0.0  1.0   v2 = front lower left
+v  0.0  1.0  0.0   v3 = back upper left
+v  0.0  1.0  1.0   v4 = front upper left
+v  1.0  0.0  0.0   v5 = back lower right
+v  1.0  0.0  1.0   v6 = front lower right
+v  1.0  1.0  0.0   v7 = back upper right
+v  1.0  1.0  1.0   v8 = front upper right
+
+vn  0.0  0.0  1.0
+vn  0.0  0.0 -1.0
+vn  0.0  1.0  0.0
+vn  0.0 -1.0  0.0
+vn  1.0  0.0  0.0
+vn -1.0  0.0  0.0
+ 
+vt 0.0 0.0  # vt=1 is upper left of texture
+vt 0.0 1.0  # vt=2 is lower left of texture
+vt 1.0 0.0  # vt=3 is upper right of texture
+vt 1.0 1.0  # vt=4 is lower right of texture
+
+# remember, syntax is v/vt/vn
+g back face
+usemtl buffy-gray
+f  1/4/2  7/1/2  5/2/2
+f  1/4/2  3/3/2  7/1/2 
+g left face
+usemtl buffy-blue
+f  1/2/6  4/3/6  3/1/6 
+f  1/2/6  2/4/6  4/3/6 
+g top face
+usemtl buffy-red
+f  3/1/3  8/4/3  7/3/3 
+f  3/1/3  4/2/3  8/4/3 
+g right face
+usemtl buffy-green
+f  5/4/5  7/3/5  8/1/5 
+f  5/4/5  8/1/5  6/2/5 
+g bottom face
+usemtl buffy-red
+f  1/2/4  5/4/4  6/3/4 
+f  1/2/4  6/3/4  2/1/4 
+g front face
+usemtl buffy-gray
+f  2/2/1  6/4/1  8/3/1 
+f  2/2/1  8/3/1  4/1/1 
