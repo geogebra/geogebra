@@ -673,8 +673,6 @@ public enum Commands implements CommandsConstants,
 
 	RandomPolynomial(TABLE_PROBABILITY),
 
-	nPr(TABLE_PROBABILITY),
-
 	RandomDiscrete(TABLE_PROBABILITY),
 
 	RandomPointIn(TABLE_PROBABILITY),

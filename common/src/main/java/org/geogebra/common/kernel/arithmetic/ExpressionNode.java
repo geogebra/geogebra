@@ -2113,65 +2113,15 @@ public class ExpressionNode extends ValidExpression
 			break;
 
 		case ARCTAN2:
-			if (stringType.equals(StringType.CONTENT_MATHML)) {
-				MathmlTemplate.mathml(sb, "<atan/>", leftStr, rightStr);
-			} else {
-				switch (stringType) {
-				case LATEX:
-
-					wrapInBackslashOperatorname(sb, "atan2");
-
-					sb.append(" \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("func atan2 left( ");
-					break;
-				case PSTRICKS:
-					sb.append("ATAN2(");
-					break;
-
-				case GIAC:
-					sb.append(giacDegFix("atan2", kernel));
-					sb.append("(");
-					break;
-
-				default:
-					sb.append("atan2(");
-				}
-				sb.append(leftStr);
-				sb.append(',');
-				sb.append(rightStr);
-				sb.append(tpl.rightBracket());
-			}
+			twoVar(sb, leftStr, rightStr, "atan2", "<arctan/>", "ATAN2", "atan2", tpl, kernel,
+					true);
 			break;
-
 		case ARCTAN2D:
-			if (stringType.equals(StringType.CONTENT_MATHML)) {
-				MathmlTemplate.mathml(sb, "<atan/>", leftStr, rightStr);
-			} else {
-				switch (stringType) {
-				case LATEX:
-
-					wrapInBackslashOperatorname(sb, "atan2");
-
-					sb.append(" \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("func atan2 left( ");
-					break;
-				case PSTRICKS:
-					sb.append("ATAN2(");
-					break;
-
-				case GIAC:
-				default:
-					sb.append("atan2d(");
-				}
-				sb.append(leftStr);
-				sb.append(',');
-				sb.append(rightStr);
-				sb.append(tpl.rightBracket());
-			}
+			twoVar(sb, leftStr, rightStr, "atan2", "<arctan/>", "ATAN2", "atan2d", tpl, kernel,
+					false);
+			break;
+		case NPR:
+			twoVar(sb, leftStr, rightStr, "nPr", "<npr/>", "NPR", "nPr", tpl, kernel, false);
 			break;
 
 		case COSH:
@@ -3704,6 +3654,47 @@ public class ExpressionNode extends ValidExpression
 			sb.append(operation);
 		}
 		return sb.toString();
+	}
+
+	private static void twoVar(StringBuilder sb, String leftStr, String rightStr, String op,
+			String mathml, String pstricks, String giac, StringTemplate tpl, Kernel kernel,
+			boolean trig) {
+		StringType stringType = tpl.getStringType(); 
+		if (stringType.equals(StringType.CONTENT_MATHML)) {
+			MathmlTemplate.mathml(sb, mathml, leftStr, rightStr);
+		} else {
+			switch (stringType) {
+			case LATEX:
+
+				wrapInBackslashOperatorname(sb, op);
+
+				sb.append(" \\left( ");
+				break;
+			case LIBRE_OFFICE:
+				sb.append("func ");
+				sb.append(op);
+				sb.append("left( ");
+				break;
+			case PSTRICKS:
+				sb.append(pstricks);
+				sb.append("(");
+				break;
+
+			case GIAC:
+				sb.append(trig ? giacDegFix(giac, kernel) : op);
+				sb.append("(");
+				break;
+
+			default:
+				sb.append(op);
+				sb.append(tpl.leftBracket());
+			}
+			sb.append(leftStr);
+			sb.append(", ");
+			sb.append(rightStr);
+			sb.append(tpl.rightBracket());
+		}
+
 	}
 
 	private static void appendIfCommand(StringBuilder sb, StringTemplate tpl,

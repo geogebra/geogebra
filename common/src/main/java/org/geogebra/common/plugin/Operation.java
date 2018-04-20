@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
+import org.geogebra.common.kernel.statistics.AlgoNpR;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
@@ -1485,6 +1486,18 @@ public enum Operation {
 				return ((NumberValue) rt).getNumber().log((NumberValue) lt);
 			}
 			return ev.illegalArgument(lt, rt, "log(");
+		}
+	},
+	NPR {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev, ExpressionValue lt,
+				ExpressionValue rt, ExpressionValue left, ExpressionValue right, StringTemplate tpl,
+				boolean holdsLaTeX) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
+				return new MyDouble(ev.getKernel(),
+						AlgoNpR.NpR(lt.evaluateDouble(), rt.evaluateDouble()));
+			}
+			return ev.illegalArgument(lt, rt, "nPr(");
 		}
 	},
 	CI {

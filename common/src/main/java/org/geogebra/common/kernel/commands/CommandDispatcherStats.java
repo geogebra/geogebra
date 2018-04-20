@@ -266,8 +266,6 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdZMeanTest(kernel);
 		case ZMean2Test:
 			return new CmdZMean2Test(kernel);
-		case nPr:
-			return new CmdNpR(kernel);
 		default:
 			break;
 		}

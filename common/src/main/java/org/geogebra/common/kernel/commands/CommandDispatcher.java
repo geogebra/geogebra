@@ -700,7 +700,6 @@ public abstract class CommandDispatcher {
 			case Mode:
 			case Normal:
 			case NormalQuantilePlot:
-			case nPr:
 			case OrdinalRank:
 			case PMCC:
 			case Pascal:

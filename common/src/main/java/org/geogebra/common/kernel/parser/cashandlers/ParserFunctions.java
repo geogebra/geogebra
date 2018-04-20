@@ -304,6 +304,8 @@ public class ParserFunctions {
 
 		put(1, "vectorize", Operation.MATRIXTOVECTOR, null);
 
+		put(2, "nPr", Operation.NPR, "( <n>, <r> )");
+
 		RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY + "");
 		RESERVED_FUNCTION_NAMES.add("freehand");
 		RESERVED_FUNCTION_NAMES.add("deg");
@@ -334,6 +336,7 @@ public class ParserFunctions {
 		}
 
 		put(2, loc.getFunction("nroot"), Operation.NROOT, "( <x>, <n> )");
+		put(2, loc.getFunction("nPr"), Operation.NPR, "( <n>, <r> )");
 	}
 
 	/**
