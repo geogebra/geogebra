@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable class for GeoVideo
@@ -52,6 +52,7 @@ public class DrawVideo extends Drawable {
 
 	@Override
 	public void update() {
+		Log.debug("updateVideo");
 		app.getGuiManager().updateVideo(video);
 		setMetrics();
 	}
@@ -69,7 +70,7 @@ public class DrawVideo extends Drawable {
 	}
 
 	private boolean isPreviewNeeded() {
-		return app.has(Feature.MOW_DOUBLE_CANVAS) && video.isPlaying() && false;
+		return false;
 	}
 
 	@Override
@@ -80,7 +81,6 @@ public class DrawVideo extends Drawable {
 		MyImage preview = video.getPreview();
 		if (preview != null) {
 			g2.saveTransform();
-
 			double sx = video.getWidth();
 			sx /= preview.getWidth();
 			double sy = video.getHeight();

@@ -9277,18 +9277,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				Hits hits0 = view.getHits();
 				if (!hits0.isEmpty()) {
 					geo0 = hits0.get(0);
-
 					if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()
 							&& viewHasHitsForMouseDragged()) {
 						setTempMode(EuclidianConstants.MODE_MOVE);
 						handleMousePressedForMoveMode(event, true);
-
 						// make sure that dragging doesn't deselect the geos
 						dontClearSelection = true;
-
 						return;
 					}
-
 				}
 			}
 
