@@ -1107,8 +1107,6 @@ __GGB__keysVar["et"].command = {
     "ZoomIn.Syntax": "[ <Skaala tegur> ]\n[ <Skaala tegur>, <Keskpunkt> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "V\xe4henda",
     "ZoomOut.Syntax": "[ <Skaala tegur> ]\n[ <Skaala tegur>, <Keskpunkt> ]",
-    "nPr": "nPermutatsioonideArv",
-    "nPr.Syntax": "[ <Arv>, <Arv> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["et"].menu = {
     "Function.fractionalPart": "murdosa",
     "Function.freehand": "vabak\xe4ejoonis",
     "Function.imaginary": "imaginaarosa",
+    "Function.nPr": "nPermutatsioonideArv",
     "Function.nroot": "nnullkoht",
     "Function.real": "reaalosa",
     "Function.sec": "sec",

@@ -1107,8 +1107,6 @@ __GGB__keysVar["sq"].command = {
     "ZoomIn.Syntax": "[ <Faktori Zmadhues> ]\n[ <Faktori Zmadhues>, <Pika Qender> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Zvogelim",
     "ZoomOut.Syntax": "[ <Faktori Zvogelues> ]\n[ <Faktori Zvogeues>, <Pika Qender> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Numer>, <Numer> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["sq"].menu = {
     "Function.fractionalPart": "Pjese-thyesore",
     "Function.freehand": "dore-lire",
     "Function.imaginary": "imagjinar",
+    "Function.nPr": "nPr",
     "Function.nroot": "nRrenje",
     "Function.real": "real",
     "Function.sec": "sec",

@@ -1107,8 +1107,6 @@ __GGB__keysVar["cs"].command = {
     "ZoomIn.Syntax": "[ <M\u011b\u0159\xedtko> ]\n[ <M\u011b\u0159\xedtko>, <St\u0159ed> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Zmensit",
     "ZoomOut.Syntax": "[ <M\u011b\u0159\xedtko> ]\n[ <M\u011b\u0159\xedtko>, <St\u0159ed> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <\u010c\xedslo>, <\u010c\xedslo> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["cs"].menu = {
     "Function.fractionalPart": "desetinnaCast",
     "Function.freehand": "Od ruky",
     "Function.imaginary": "Im",
+    "Function.nPr": "nPr",
     "Function.nroot": "ntaOdmocnina",
     "Function.real": "realna",
     "Function.sec": "sec",

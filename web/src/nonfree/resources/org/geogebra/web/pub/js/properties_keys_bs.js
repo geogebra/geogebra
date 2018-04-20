@@ -1107,8 +1107,6 @@ __GGB__keysVar["bs"].command = {
     "ZoomIn.Syntax": "[ <Koeficijent uve\u0107anja> ]\n[ <Koeficijent uve\u0107anja>, <Ta\u010dka-centar> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Umanjenje",
     "ZoomOut.Syntax": "[ <Koeficijent umanjenja> ]\n[ <Koeficijent umanjenja>, <Ta\u010dka-centar> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Broj>, <Broj> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["bs"].menu = {
     "Function.fractionalPart": "RazlomljeniDio",
     "Function.freehand": "skica",
     "Function.imaginary": "ImaginarniDio",
+    "Function.nPr": "nPr",
     "Function.nroot": "NNula",
     "Function.real": "RealniDio",
     "Function.sec": "sec",

@@ -1107,8 +1107,6 @@ __GGB__keysVar["ko"].command = {
     "ZoomIn.Syntax": "[ <\ub2e8\uc704> ]\n[ <\ub2e8\uc704>, <\uc911\uc2ec\uc810> ]\n[ <\ucd5c\uc18c x>, <\ucd5c\uc18c y>, <\ucd5c\ub300 x>, <\ucd5c\ub300 y> ]",
     "ZoomOut": "\uc791\uac8c\ubcf4\uae30",
     "ZoomOut.Syntax": "[ <\ub2e8\uc704> ]\n[ <\ub2e8\uc704>, <\uc911\uc2ec\uc810> ]",
-    "nPr": "\uc21c\uc5f4",
-    "nPr.Syntax": "[ <\uc218 n>, <\uc218 r> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["ko"].menu = {
     "Function.fractionalPart": "\uc18c\uc218\ubd80\ubd84",
     "Function.freehand": "\ud504\ub9ac\ud578\ub4dc",
     "Function.imaginary": "\ud5c8\uc218\ubd80\ubd84",
+    "Function.nPr": "\uc21c\uc5f4",
     "Function.nroot": "n\uc81c\uacf1\uadfc",
     "Function.real": "\uc2e4\uc218\ubd80\ubd84",
     "Function.sec": "sec",

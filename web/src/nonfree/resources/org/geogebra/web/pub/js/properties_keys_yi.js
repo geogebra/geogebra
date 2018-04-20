@@ -1107,8 +1107,6 @@ __GGB__keysVar["yi"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Number>, <Number> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["yi"].menu = {
     "Function.fractionalPart": "FractionalPart",
     "Function.freehand": "freehand",
     "Function.imaginary": "Imaginary",
+    "Function.nPr": "nPr",
     "Function.nroot": "NRoot",
     "Function.real": "Real",
     "Function.sec": "sec",

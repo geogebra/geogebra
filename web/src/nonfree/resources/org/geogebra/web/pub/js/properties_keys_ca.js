@@ -1107,8 +1107,6 @@ __GGB__keysVar["ca"].command = {
     "ZoomIn.Syntax": "[ <Factor d\u2019escala> ]\n[ <Factor d\u2019escala>, <Punt de centre> ]\n[ <x m\xednima>, <y m\xednima>, <x m\xe0xima>, <y m\xe0xima> ]",
     "ZoomOut": "Allunya",
     "ZoomOut.Syntax": "[ <Factor d\u2019escala> ]\n[ <Factor d\u2019escala>, <Punt de centre> ]",
-    "nPr": "Variacions",
-    "nPr.Syntax": "[ <Nombre>, <Nombre> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["ca"].menu = {
     "Function.fractionalPart": "partFraccion\xe0ria",
     "Function.freehand": "Funci\xf3 a m\xe0 al\xe7ada",
     "Function.imaginary": "partImagin\xe0ria",
+    "Function.nPr": "Variacions",
     "Function.nroot": "arrelN",
     "Function.real": "partReal",
     "Function.sec": "sec",

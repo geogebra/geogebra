@@ -1107,8 +1107,6 @@ __GGB__keysVar["tr"].command = {
     "ZoomIn.Syntax": "[ <\xd6l\xe7ek Fakt\xf6r\xfc> ]\n[ <\xd6l\xe7ek Fakt\xf6r\xfc>, <Merkez Nokta> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Uzakla\u015ft\u0131r",
     "ZoomOut.Syntax": "[ <\xd6l\xe7ek Fakt\xf6r\xfc> ]\n[ <\xd6l\xe7ek Fakt\xf6r\xfc>, <Merkez Nokta> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Say\u0131>, <Say\u0131> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["tr"].menu = {
     "Function.fractionalPart": "KesirliK\u0131s\u0131m",
     "Function.freehand": "taslak",
     "Function.imaginary": "SanalK\u0131s\u0131m",
+    "Function.nPr": "nPr",
     "Function.nroot": "SK\xf6k",
     "Function.real": "Ger\xe7ek",
     "Function.sec": "sec",

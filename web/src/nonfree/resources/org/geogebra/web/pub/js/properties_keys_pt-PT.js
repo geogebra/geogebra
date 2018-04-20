@@ -1107,8 +1107,6 @@ __GGB__keysVar["pt-PT"].command = {
     "ZoomIn.Syntax": "[ <Fator de Escala> ]\n[ <Fator de Escala>, <Ponto Central> ]\n[ <x M\xednimo>, <y M\xednimo>, <x M\xe1ximo>, <y M\xe1ximo> ]",
     "ZoomOut": "Reduzir",
     "ZoomOut.Syntax": "[ <Fator de Escala> ]\n[ <Fator de Escala>, <Ponto Central> ]",
-    "nPr": "nAr",
-    "nPr.Syntax": "[ <N\xfamero>, <N\xfamero> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "Function.fractionalPart": "Partefracion\xe1ria",
     "Function.freehand": "M\xe3oLivre",
     "Function.imaginary": "Imagin\xe1rio",
+    "Function.nPr": "nAr",
     "Function.nroot": "nraiz",
     "Function.real": "ParteReal",
     "Function.sec": "sec",

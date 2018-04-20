@@ -1107,8 +1107,6 @@ __GGB__keysVar["it"].command = {
     "ZoomIn.Syntax": "[ <Fattore di scala> ]\n[ <Fattore di scala>, <Punto centrale> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomIndietro",
     "ZoomOut.Syntax": "[ <Fattore di scala> ]\n[ <Fattore di scala>, <Punto centrale> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Numero>, <Numero> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["it"].menu = {
     "Function.fractionalPart": "partefrazionaria",
     "Function.freehand": "manolibera",
     "Function.imaginary": "parteimmaginaria",
+    "Function.nPr": "nPr",
     "Function.nroot": "radicen",
     "Function.real": "partereale",
     "Function.sec": "sec",

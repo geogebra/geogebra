@@ -1107,8 +1107,6 @@ __GGB__keysVar["sv"].command = {
     "ZoomIn.Syntax": "[ <Skalfaktor> ]\n[ <Skalfaktor>, <Centrumpunkt> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomaUt",
     "ZoomOut.Syntax": "[ <Skalfaktor> ]\n[ <Skalfaktor>, <Centrumpunkt> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Tal>, <Tal> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["sv"].menu = {
     "Function.fractionalPart": "decimalDel",
     "Function.freehand": "frihandsfunktion",
     "Function.imaginary": "imagin\xe4rDel",
+    "Function.nPr": "nPr",
     "Function.nroot": "nrot",
     "Function.real": "realDel",
     "Function.sec": "sec",

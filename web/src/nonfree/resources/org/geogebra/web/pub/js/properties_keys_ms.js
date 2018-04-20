@@ -1107,8 +1107,6 @@ __GGB__keysVar["ms"].command = {
     "ZoomIn.Syntax": "[ <Faktor Skala> ]\n[ <Faktor Skala>, <Titik Pusat> ]\n[ <Minimum x>, <Minimum y>, <Maks x>, <Maks y> ]",
     "ZoomOut": "ZumKeluar",
     "ZoomOut.Syntax": "[ <Faktor Skala> ]\n[ <Faktor Skala>, <Titik Pusat> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Nombor>, <Nombor> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["ms"].menu = {
     "Function.fractionalPart": "BahagianPecahan",
     "Function.freehand": "gaya bebas",
     "Function.imaginary": "Khayalan",
+    "Function.nPr": "nPr",
     "Function.nroot": "NPunca",
     "Function.real": "Nyata",
     "Function.sec": "sec",

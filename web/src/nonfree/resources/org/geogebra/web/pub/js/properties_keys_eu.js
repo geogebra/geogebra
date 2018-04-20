@@ -1107,8 +1107,6 @@ __GGB__keysVar["eu"].command = {
     "ZoomIn.Syntax": "[ <Eskala-faktorea> ]\n[ <Eskala-faktorea>, <Zentroa (puntua)> ]\n[ <x Min>, <y Min>, <x Max>, <y Max> ]",
     "ZoomOut": "Txikiagotu",
     "ZoomOut.Syntax": "[ <Eskala-faktorea> ]\n[ <Eskala-faktorea>, <Zentroa (puntua)> ]",
-    "nPr": "Permutazioak",
-    "nPr.Syntax": "[ <Zenbakia>, <Zenbakia> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["eu"].menu = {
     "Function.fractionalPart": "ZatiZatikiarra",
     "Function.freehand": "Esku hutsez",
     "Function.imaginary": "Irudikaria",
+    "Function.nPr": "Permutazioak",
     "Function.nroot": "NErroa",
     "Function.real": "Erreala",
     "Function.sec": "sec",

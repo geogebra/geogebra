@@ -1107,8 +1107,6 @@ __GGB__keysVar["hu"].command = {
     "ZoomIn.Syntax": "[ <Ar\xe1ny> ]\n[ <Ar\xe1ny>, <K\xf6z\xe9ppont> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Kicsiny\xedt\xe9s",
     "ZoomOut.Syntax": "[ <Ar\xe1ny> ]\n[ <Ar\xe1ny>, <K\xf6z\xe9ppont> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Sz\xe1m>, <Sz\xe1m> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["hu"].menu = {
     "Function.fractionalPart": "T\xf6rtR\xe9sz",
     "Function.freehand": "szabadk\xe9zi",
     "Function.imaginary": "K\xe9pzetesR\xe9sz",
+    "Function.nPr": "nPr",
     "Function.nroot": "Gy\xf6kvon\xe1s",
     "Function.real": "Val\xf3sR\xe9sz",
     "Function.sec": "sec",

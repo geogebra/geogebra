@@ -1107,8 +1107,6 @@ __GGB__keysVar["ja"].command = {
     "ZoomIn.Syntax": "[ <\u500d\u7387> ]\n[ <\u500d\u7387>, <\u4e2d\u5fc3\u70b9> ]\n[ <x\u6700\u5c0f>, <y\u6700\u5c0f>, <x\u6700\u5927>, <y\u6700\u5927> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <\u500d\u7387> ]\n[ <\u500d\u7387>, <\u4e2d\u5fc3\u70b9> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <\u6570\u5024>, <\u6570\u5024> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["ja"].menu = {
     "Function.fractionalPart": "fractionalPart",
     "Function.freehand": "\u30d5\u30ea\u30fc\u30cf\u30f3\u30c9",
     "Function.imaginary": "Imaginary",
+    "Function.nPr": "nPr",
     "Function.nroot": "NRoot",
     "Function.real": "Real",
     "Function.sec": "sec",

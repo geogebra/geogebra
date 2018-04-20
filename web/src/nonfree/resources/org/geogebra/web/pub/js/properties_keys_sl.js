@@ -1107,8 +1107,6 @@ __GGB__keysVar["sl"].command = {
     "ZoomIn.Syntax": "[ <faktor> ]\n[ <faktor>, <sredi\u0161\u010dna to\u010dka> ]\n[ <min x>, <min y>, <maks x>, <maks y> ]",
     "ZoomOut": "Pomanj\u0161evanje",
     "ZoomOut.Syntax": "[ <faktor> ]\n[ <faktor>, <sredi\u0161\u010dna to\u010dka> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <\u0161tevilo>, <\u0161tevilo> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["sl"].menu = {
     "Function.fractionalPart": "CeliDelUlomka",
     "Function.freehand": "prostoro\u010dno",
     "Function.imaginary": "ImaginarnaKomponenta",
+    "Function.nPr": "nPr",
     "Function.nroot": "Numeri\u010dniKoren",
     "Function.real": "RealnaKomponenta",
     "Function.sec": "sec",

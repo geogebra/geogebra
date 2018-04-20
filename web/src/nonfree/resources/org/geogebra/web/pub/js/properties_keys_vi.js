@@ -1107,8 +1107,6 @@ __GGB__keysVar["vi"].command = {
     "ZoomIn.Syntax": "[ <T\u1ec9 l\u1ec7> ]\n[ <T\u1ec9 l\u1ec7>, <T\xe2m> ]\n[ <GTNN x>, <GTNN y>, <GTLN x>, <GTLN y> ]",
     "ZoomOut": "PhongTo",
     "ZoomOut.Syntax": "[ <T\u1ec9 l\u1ec7> ]\n[ <T\u1ec9 l\u1ec7>, <T\xe2m> ]",
-    "nPr": "nChinhHop",
-    "nPr.Syntax": "[ <S\u1ed1>, <S\u1ed1> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["vi"].menu = {
     "Function.fractionalPart": "PhanPhanSo",
     "Function.freehand": "k\xe9o th\u1ea3 t\u1ef1 do",
     "Function.imaginary": "PhanAo",
+    "Function.nPr": "nChinhHop",
     "Function.nroot": "NghiemThuN",
     "Function.real": "PhanThuc",
     "Function.sec": "sec",

@@ -1107,8 +1107,6 @@ __GGB__keysVar["gl"].command = {
     "ZoomIn.Syntax": "[ <Factor de escala> ]\n[ <Factor de escala>, <Centro> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomAfasta",
     "ZoomOut.Syntax": "[ <Factor de escala> ]\n[ <Factor de escala>, <Centro> ]",
-    "nPr": "Variaci\xf3ns",
-    "nPr.Syntax": "[ <n>, <k> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["gl"].menu = {
     "Function.fractionalPart": "Partefraccionaria",
     "Function.freehand": "manAlzada",
     "Function.imaginary": "Parteimaxinaria",
+    "Function.nPr": "Variaci\xf3ns",
     "Function.nroot": "ra\xedzN",
     "Function.real": "Partereal",
     "Function.sec": "sec",

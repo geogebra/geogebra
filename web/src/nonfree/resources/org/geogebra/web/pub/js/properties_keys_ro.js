@@ -1107,8 +1107,6 @@ __GGB__keysVar["ro"].command = {
     "ZoomIn.Syntax": "[ <Factor scalare> ]\n[ <Factor scalare>, <Punct centru> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "\xcendep\u0103rtare",
     "ZoomOut.Syntax": "[ <Factor dimensiune> ]\n[ <Factor dimensiune>, <Punct centru> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Num\u0103r>, <Num\u0103r> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["ro"].menu = {
     "Function.fractionalPart": "parteFrac\u021bionar\u0103",
     "Function.freehand": "m\xe2n\u0103liber\u0103",
     "Function.imaginary": "Im",
+    "Function.nPr": "nPr",
     "Function.nroot": "NR\u0103d\u0103cin\u0103",
     "Function.real": "Re",
     "Function.sec": "sec",

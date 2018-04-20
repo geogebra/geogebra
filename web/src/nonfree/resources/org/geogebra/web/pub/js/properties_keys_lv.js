@@ -1107,8 +1107,6 @@ __GGB__keysVar["lv"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Samazin\u0101t",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Skaitlis>, <Skaitlis> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["lv"].menu = {
     "Function.fractionalPart": "sa\u013cveidaDa\u013ca",
     "Function.freehand": "br\u012bvroku",
     "Function.imaginary": "imagin\u0101rs",
+    "Function.nPr": "nPr",
     "Function.nroot": "nsakne",
     "Function.real": "re\u0101ls",
     "Function.sec": "sec",

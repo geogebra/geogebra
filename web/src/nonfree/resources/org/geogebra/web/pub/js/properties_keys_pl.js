@@ -1107,8 +1107,6 @@ __GGB__keysVar["pl"].command = {
     "ZoomIn.Syntax": "[ <Czynnik Skaluj\u0105cy> ]\n[ <Czynnik Skaluj\u0105cy>, <Punkt \u015arodkowy> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "OddalWidok",
     "ZoomOut.Syntax": "[ <Czynnik Skaluj\u0105cy> ]\n[ <Czynnik Skaluj\u0105cy>, <Punkt \u015arodkowy> ]",
-    "nPr": "WariacjeBezPowtorzen",
-    "nPr.Syntax": "[ <Liczba>, <Liczba> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["pl"].menu = {
     "Function.fractionalPart": "Cz\u0119\u015b\u0107U\u0142amkowa",
     "Function.freehand": "Odr\u0119czny",
     "Function.imaginary": "Cz\u0119\u015b\u0107Urojona",
+    "Function.nPr": "WariacjeBezPowtorzen",
     "Function.nroot": "NPierwiastek",
     "Function.real": "Cz\u0119\u015b\u0107Rzeczywista",
     "Function.sec": "sec",

@@ -1107,8 +1107,6 @@ __GGB__keysVar["cy"].command = {
     "ZoomIn.Syntax": "[ <Ffactor Graddfa> ]\n[ <Ffactor Graddfa>, <Canolbwynt> ]\n[ <Min x>, <Min y>, <Macs x>, <Macs y> ]",
     "ZoomOut": "ChwyddoAllan",
     "ZoomOut.Syntax": "[ <Ffactor Graddfa> ]\n[ <Ffactor Graddfa>, <Canolbwynt> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Rhif>, <Rhif> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["cy"].menu = {
     "Function.fractionalPart": "RhanFfracsiynol",
     "Function.freehand": "freehand",
     "Function.imaginary": "Dychmygol",
+    "Function.nPr": "nPr",
     "Function.nroot": "IsraddN",
     "Function.real": "Real",
     "Function.sec": "sec",

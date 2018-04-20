@@ -1107,8 +1107,6 @@ __GGB__keysVar["hi"].command = {
     "ZoomIn.Syntax": "[ <\u0938\u094d\u0915\u0947\u0932 \u0917\u0941\u0923\u0915> ]\n[ <\u0938\u094d\u0915\u0947\u0932 \u0917\u0941\u0923\u0915>, <\u092e\u0927\u094d\u092f \u092c\u093f\u0902\u0926\u0941> ]\n[ <\u0928\u094d\u092f\u0942\u0928 x>, <\u0928\u094d\u092f\u0942\u0928 y>, <\u0909\u091a\u094d\u091a x>, <\u0909\u091a\u094d\u091a y> ]",
     "ZoomOut": "\u091c\u093c\u0942\u092e\u0906\u0909\u091f",
     "ZoomOut.Syntax": "[ <\u0938\u094d\u0915\u0947\u0932 \u0917\u0941\u0923\u0915> ]\n[ <\u0938\u094d\u0915\u0947\u0932 \u0917\u0941\u0923\u0915>, <\u092e\u0927\u094d\u092f \u092c\u093f\u0902\u0926\u0941> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <\u0938\u0902\u0916\u094d\u092f\u093e>, <\u0938\u0902\u0916\u094d\u092f\u093e> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["hi"].menu = {
     "Function.fractionalPart": "\u092b\u094d\u0930\u0948\u0915\u094d\u0936\u0928\u0932\u092a\u093e\u0930\u094d\u091f",
     "Function.freehand": "\u092b\u094d\u0930\u0940\u0939\u0948\u0902\u0921",
     "Function.imaginary": "\u0915\u093e\u0932\u094d\u092a\u0928\u093f\u0915",
+    "Function.nPr": "nPr",
     "Function.nroot": "nroot",
     "Function.real": "\u0935\u093e\u0938\u094d\u0924\u0935\u093f\u0915",
     "Function.sec": "sec",

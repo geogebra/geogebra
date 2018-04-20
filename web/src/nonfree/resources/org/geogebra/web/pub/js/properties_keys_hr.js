@@ -1107,8 +1107,6 @@ __GGB__keysVar["hr"].command = {
     "ZoomIn.Syntax": "[ <faktor> ]\n[ <faktor>, <sredi\u0161te> ]\n[ <min x>, <min y>, <max x>, <max y> ]",
     "ZoomOut": "SmanjiPrikaz",
     "ZoomOut.Syntax": "[ <faktor> ]\n[ <faktor>, <sredi\u0161te> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <broj>, <broj> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["hr"].menu = {
     "Function.fractionalPart": "RazlomljeniDio",
     "Function.freehand": "prostoru\u010dno",
     "Function.imaginary": "ImaginarniDio",
+    "Function.nPr": "nPr",
     "Function.nroot": "NKorijen",
     "Function.real": "realni",
     "Function.sec": "sec",

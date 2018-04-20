@@ -1107,8 +1107,6 @@ __GGB__keysVar["ar-TN"].command = {
     "ZoomIn.Syntax": "[ <\u0639\u0627\u0645\u0644> ]\n[ <\u0639\u0627\u0645\u0644>, <\u0645\u0631\u0643\u0632> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "\u062a\u0640\u0635\u063a\u064a\u0631",
     "ZoomOut.Syntax": "[ <\u0639\u0627\u0645\u0644> ]\n[ <\u0639\u0627\u0645\u0644>, <\u0645\u0631\u0643\u0632> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <\u0631\u0642\u0645>, <\u0631\u0642\u0645> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "Function.fractionalPart": "\u0627\u0644\u062c\u0632\u0621\u0627\u0644\u0643\u0633\u0631\u064a",
     "Function.freehand": "\u0627\u0644\u0631\u0633\u0645_\u0627\u0644\u062d\u0631\u0651",
     "Function.imaginary": "\u062a\u062e\u064a\u064f\u0651\u0644\u064a",
+    "Function.nPr": "nPr",
     "Function.nroot": "\u0627\u0644\u062c\u0630\u0631_n",
     "Function.real": "\u062d\u0642\u064a\u0642\u0649",
     "Function.sec": "\u0642\u0627",

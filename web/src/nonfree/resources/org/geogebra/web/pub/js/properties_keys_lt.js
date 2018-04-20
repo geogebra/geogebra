@@ -1107,8 +1107,6 @@ __GGB__keysVar["lt"].command = {
     "ZoomIn.Syntax": "[ <Skal\u0117s faktorius> ]\n[ <Skal\u0117s faktorius>, <Centro ta\u0161kas> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Tolinti",
     "ZoomOut.Syntax": "[ <Skal\u0117s faktorius> ]\n[ <Skal\u0117s faktorius>, <Centro ta\u0161kas> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Skai\u010dius>, <Skai\u010dius> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["lt"].menu = {
     "Function.fractionalPart": "Trupmenin\u0117Dalis",
     "Function.freehand": "laisva forma",
     "Function.imaginary": "\u012esivaizduojamas",
+    "Function.nPr": "nPr",
     "Function.nroot": "n\u0161aknis",
     "Function.real": "Realus",
     "Function.sec": "sec",

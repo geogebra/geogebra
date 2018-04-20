@@ -1107,8 +1107,6 @@ __GGB__keysVar["de-AT"].command = {
     "ZoomIn.Syntax": "[ <Skalierungsfaktor> ]\n[ <Skalierungsfaktor>, <Mittelpunkt> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Skalierungsfaktor> ]\n[ <Skalierungsfaktor>, <Mittelpunkt> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Zahl n>, <Zahl r> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["de-AT"].menu = {
     "Function.fractionalPart": "Bruchteil",
     "Function.freehand": "Freihandfunktion",
     "Function.imaginary": "Imagin\xe4rteil",
+    "Function.nPr": "nPr",
     "Function.nroot": "NteWurzel",
     "Function.real": "Realteil",
     "Function.sec": "sec",

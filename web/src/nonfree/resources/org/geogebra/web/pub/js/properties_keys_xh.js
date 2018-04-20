@@ -1107,8 +1107,6 @@ __GGB__keysVar["xh"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Ichaphaza Lasembindini> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Bhekelisa",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Ichaphaza Lasembindini> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Inani>, <Inani> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["xh"].menu = {
     "Function.fractionalPart": "Indawo yeQhezu",
     "Function.freehand": "ngeSandlaSendalo",
     "Function.imaginary": "eNgqondweniKuphela",
+    "Function.nPr": "nPr",
     "Function.nroot": "nroot",
     "Function.real": "real",
     "Function.sec": "sec",

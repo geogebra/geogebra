@@ -1107,8 +1107,6 @@ __GGB__keysVar["nl"].command = {
     "ZoomIn.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Uitzoomen",
     "ZoomOut.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Getal>, <Getal> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["nl"].menu = {
     "Function.fractionalPart": "breukgedeelte",
     "Function.freehand": "Vrije hand",
     "Function.imaginary": "im",
+    "Function.nPr": "nPr",
     "Function.nroot": "nwortel",
     "Function.real": "re",
     "Function.sec": "sec",
@@ -2910,10 +2909,10 @@ __GGB__keysVar["nl"].menu = {
     "TrueOnPartsFalseOnParts": "(deels juist, deels fout)",
     "Turtle": "Turtle",
     "Tutorial": "Initiatiehandleiding",
-    "Tutorial3D": "skdDvK9G",
+    "Tutorial3D": "jQmdP6ee",
     "TutorialClassic": "jaQ4NQ3U",
-    "TutorialGeometry": "xavgBNs3",
-    "TutorialGraphing": "uhnMAStm",
+    "TutorialGeometry": "jQmdP6ee",
+    "TutorialGraphing": "TQK5Y7Ws",
     "Tutorials": "Initiatiehandleidingen",
     "TwoVarStats": "Regressieanalyse",
     "TwoVarStats.Help": "Analyseert de gekoppelde waarden in twee of meer geselecteerde kolommen",

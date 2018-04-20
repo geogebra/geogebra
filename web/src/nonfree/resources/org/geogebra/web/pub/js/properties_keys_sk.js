@@ -1107,8 +1107,6 @@ __GGB__keysVar["sk"].command = {
     "ZoomIn.Syntax": "[ <Faktor> ]\n[ <Faktor>, <Stred> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Oddiali\u0165",
     "ZoomOut.Syntax": "[ <Factor> ]\n[ <Factor>, <Stred> ]",
-    "nPr": "Permut\xe1cia",
-    "nPr.Syntax": "[ <\u010c\xedslo n>, <\u010c\xedslo r> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["sk"].menu = {
     "Function.fractionalPart": "Zlomkov\xe1\u010cas\u0165",
     "Function.freehand": "Rukou kreslen\xe1",
     "Function.imaginary": "Imagin\xe1rna",
+    "Function.nPr": "Permut\xe1cia",
     "Function.nroot": "NOdmocnina",
     "Function.real": "Re\xe1lna",
     "Function.sec": "sec",

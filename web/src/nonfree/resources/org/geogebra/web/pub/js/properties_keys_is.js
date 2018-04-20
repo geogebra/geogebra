@@ -1107,8 +1107,6 @@ __GGB__keysVar["is"].command = {
     "ZoomIn.Syntax": "[ <Sk\xf6lun> ]\n[ <Sk\xf6lun>, <Mi\xf0punktur> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "\xdeysja\xdat",
     "ZoomOut.Syntax": "[ <Sk\xf6lun> ]\n[ <Sk\xf6lun>, <Mi\xf0punktur> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Tala>, <Tala> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["is"].menu = {
     "Function.fractionalPart": "Brothluti",
     "Function.freehand": "fr\xedhendis",
     "Function.imaginary": "\xdeverhluti",
+    "Function.nPr": "nPr",
     "Function.nroot": "nTaR\xf3t",
     "Function.real": "Raunhluti",
     "Function.sec": "sec",

@@ -1107,8 +1107,6 @@ __GGB__keysVar["fr"].command = {
     "ZoomIn.Syntax": "[ <Facteur> ]\n[ <Facteur>, <Centre> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "R\xe9duire",
     "ZoomOut.Syntax": "[ <Facteur de r\xe9duction> ]\n[ <Facteur de r\xe9duction>, <Centre> ]",
-    "nPr": "Arrangement",
-    "nPr.Syntax": "[ <Nombre n>, <Nombre p> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["fr"].menu = {
     "Function.fractionalPart": "PartieFractionnaire",
     "Function.freehand": "mainlev\xe9e",
     "Function.imaginary": "Im",
+    "Function.nPr": "Arrangement",
     "Function.nroot": "NRacine",
     "Function.real": "Re",
     "Function.sec": "sec",

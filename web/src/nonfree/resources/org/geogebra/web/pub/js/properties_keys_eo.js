@@ -1107,8 +1107,6 @@ __GGB__keysVar["eo"].command = {
     "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Malzomi",
     "ZoomOut.Syntax": "[ <Skalfaktoro> ]\n[ <Skalfaktoro>, <Centra Punkto> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Nombro>, <Nombro> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["eo"].menu = {
     "Function.fractionalPart": "fractionalPart",
     "Function.freehand": "freehand",
     "Function.imaginary": "Im",
+    "Function.nPr": "nPr",
     "Function.nroot": "nroot",
     "Function.real": "Re",
     "Function.sec": "sec",

@@ -1107,8 +1107,6 @@ __GGB__keysVar["fi"].command = {
     "ZoomIn.Syntax": "[ <Kerroin> ]\n[ <Kerroin>, <Keskipiste> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
     "ZoomOut": "Loitonna",
     "ZoomOut.Syntax": "[ <Kerroin> ]\n[ <Kerroin>, <Keskipiste> ]",
-    "nPr": "nPr",
-    "nPr.Syntax": "[ <Luku>, <Luku> ]",
 };
 
 
@@ -1823,6 +1821,7 @@ __GGB__keysVar["fi"].menu = {
     "Function.fractionalPart": "MurtoOsa",
     "Function.freehand": "vapaa k\xe4si",
     "Function.imaginary": "imaginaariosa",
+    "Function.nPr": "nPr",
     "Function.nroot": "nJuuri",
     "Function.real": "reaaliosa",
     "Function.sec": "sec",
