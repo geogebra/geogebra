@@ -21,24 +21,6 @@ public interface VideoManager {
 	void loadGeoVideo(GeoVideo geo);
 
 	/**
-	 * Gets the length of the Video given by its URL.
-	 * 
-	 * @param url
-	 *            URL of the Video resource.
-	 * @return the duration of the Video resource.
-	 */
-	int getDuration(String url);
-
-	/**
-	 * Gets the current time elapsed of the Video given by its URL.
-	 * 
-	 * @param url
-	 *            URL of the Video resource.
-	 * @return the duration of the Video resource.
-	 */
-	int getCurrentTime(String url);
-
-	/**
 	 * 
 	 * @param url
 	 *            to check if it is a valid Video file.
@@ -123,5 +105,3 @@ public interface VideoManager {
 	 */
 	void removePlayers();
 }
-
-

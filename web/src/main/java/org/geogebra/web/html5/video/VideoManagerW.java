@@ -61,18 +61,6 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public int getDuration(String url) {
-		// TODO implement this
-		return 0;
-	}
-
-	@Override
-	public int getCurrentTime(String url) {
-		// TODO implement this
-		return 0;
-	}
-
-	@Override
 	public void checkURL(String url, AsyncOperation<Boolean> callback) {
 		urlCallback = callback;
 		checkVideo(url);
@@ -216,6 +204,7 @@ public class VideoManagerW implements VideoManager {
 			player.removeFromParent();
 		}
 	}
+
 	private native void controlPlayer(JavaScriptObject player, String command) /*-{
 		player.contentWindow.postMessage('{"event":"command","func":"'
 				+ command + '","args":""}', '*');
