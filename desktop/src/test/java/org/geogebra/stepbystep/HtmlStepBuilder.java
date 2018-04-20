@@ -3,6 +3,8 @@ package org.geogebra.stepbystep;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.test.util.ReportBuilder;
 
+import java.util.List;
+
 /**
  * Builds step-by step report for multiple testcases, separated by headings into
  * categories
@@ -76,30 +78,41 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 	private boolean addDetailedButton;
 
 	@Override
-	public void addPlainRow(String equations) {
-		// TODO Auto-generated method stub
+	public void addRow(List<String> equations) {
+		sb.append("<br>");
+		sb.append("<span style=\"margin-left:")
+				.append(indent)
+				.append("em\">");
 
-	}
-
-	@Override
-	public void addLatexRow(String equations) {
-		sb.append("<br><canvas class=\"latex\" id=\"line\" style=\"height:0.5em;margin-left:"
-				+ indent
-				+ "em\" data-content=\"" + equations + "\">" + equations
-				+ "</canvas>\n");
+		for (String str : equations) {
+			if (str.startsWith("$") && !"$".equals(str)) {
+				sb.append("<canvas class=\"latex\" data-content=\"")
+						.append(str.substring(1))
+						.append("\">")
+						.append(str.substring(1))
+						.append("</canvas>");
+			} else {
+				sb.append("<span>")
+				.append(str)
+				.append("</span>");
+			}
+		}
 
 		if (addDefaultButton) {
-			sb.append("<canvas class='latex' onclick=\"switch_to_detailed('" + alternativeCnt
-					+ "');\" data-content='\\Xi'>\\Xi</canvas>\n");
+			sb.append("<canvas class='latex' onclick=\"switch_to_detailed('")
+					.append(alternativeCnt)
+					.append("');\" data-content='\\Xi'>\\Xi</canvas>\n");
 			addDefaultButton = false;
 		}
 
 		if (addDetailedButton) {
-			sb.append("<canvas class='latex' onclick=\"switch_to_default('" + alternativeCnt
-					+ "');\" data-content='\\Xi'>\\Xi</canvas>\n");
+			sb.append("<canvas class='latex' onclick=\"switch_to_default('")
+					.append(alternativeCnt)
+					.append("');\" data-content='\\Xi'>\\Xi</canvas>\n");
 			addDetailedButton = false;
 		}
 
+		sb.append("</span>");
 	}
 
 	@Override
@@ -107,10 +120,15 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 		indent++;
 		groupCnt++;
 		
-		sb.append("<canvas class='latex' id='button" + groupCnt + "' onclick=\"toggle_visibility('" + groupCnt
-				+ "');\" data-content='\\nabla'>\\nabla</canvas>\n");
+		sb.append("<canvas class='latex' id='button")
+				.append(groupCnt)
+				.append("' onclick=\"toggle_visibility('")
+				.append(groupCnt)
+				.append("');\" data-content='\\nabla'>\\nabla</canvas>\n");
 		
-		sb.append("<span style='display: none' id='group" + groupCnt + "'>");
+		sb.append("<span style='display: none' id='group")
+				.append(groupCnt)
+				.append("'>");
 	}
 
 
@@ -125,14 +143,18 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 	public void startDefault() {
 		alternativeCnt++;
 
-		sb.append("<span id = 'default" + alternativeCnt + "' >");
+		sb.append("<span id = 'default")
+				.append(alternativeCnt)
+				.append("' >");
 		addDefaultButton = true;
 	}
 
 	@Override
 	public void switchToDetailed() {
 		sb.append("</span>");
-		sb.append("<span id = 'detailed" + alternativeCnt + "' style='display: none'>");
+		sb.append("<span id = 'detailed")
+				.append(alternativeCnt)
+				.append("' style='display: none'>");
 		addDetailedButton = true;
 	}
 
@@ -162,8 +184,13 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 	 *            heading level
 	 */
 	public void addHeading(String methodName, int i) {
-		sb.append("<h" + i + ">" + methodName + "</h" + i + ">");
-
+		sb.append("<h")
+				.append(i)
+				.append(">")
+				.append(methodName)
+				.append("</h")
+				.append(i)
+				.append(">");
 	}
 
 	/**

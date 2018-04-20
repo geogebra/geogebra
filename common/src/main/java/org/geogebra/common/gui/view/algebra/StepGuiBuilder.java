@@ -1,10 +1,10 @@
 package org.geogebra.common.gui.view.algebra;
 
+import java.util.List;
+
 public interface StepGuiBuilder {
 
-	void addPlainRow(String equations);
-
-	void addLatexRow(String equations);
+	void addRow(List<String> equations);
 
 	void startGroup();
 

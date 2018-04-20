@@ -40,7 +40,7 @@ public class SolutionLine extends SolutionStep {
 	 * @return default text, formatted using LaTeX
 	 */
 	@Override
-	public String getDefault(Localization loc) {
+	public List<String> getDefault(Localization loc) {
 		return type.getDefaultText(loc, parameters);
 	}
 
@@ -50,7 +50,7 @@ public class SolutionLine extends SolutionStep {
 	 * @return colored text, formatted using LaTeX
 	 */
 	@Override
-	public String getDetailed(Localization loc) {
+	public List<String> getDetailed(Localization loc) {
 		return type.getDetailedText(loc, colors, parameters);
 	}
 

@@ -10,9 +10,9 @@ public abstract class SolutionStep {
 
     protected List<SolutionStep> substeps;
 
-    public abstract String getDefault(Localization loc);
+    public abstract List<String> getDefault(Localization loc);
 
-    public abstract String getDetailed(Localization loc);
+    public abstract List<String> getDetailed(Localization loc);
 
     public void addSubStep(SolutionStep substep) {
         if (substeps == null) {
@@ -33,9 +33,9 @@ public abstract class SolutionStep {
 
     public void getListOfSteps(StepGuiBuilder builder, Localization loc, boolean detailed) {
         if (detailed) {
-            builder.addLatexRow(getDetailed(loc));
+            builder.addRow(getDetailed(loc));
         } else {
-            builder.addLatexRow(getDefault(loc));
+            builder.addRow(getDefault(loc));
         }
 
         if (substeps != null) {

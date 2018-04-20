@@ -14,6 +14,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StepsTab extends ToolbarPanel.ToolbarTab {
 
@@ -38,30 +39,24 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
         private ArrayList<Widget> summary = new ArrayList<>();
 
         @Override
-        public void addLatexRow(String equations) {
-            Canvas c = DrawEquationW.paintOnCanvas(gn, equations, null,
-                    app.getFontSizeWeb());
+        public void addRow(List<String> equations) {
+            FlowPanel row = new FlowPanel();
 
-            Widget row;
+            for (String s : equations) {
+                if (s.startsWith("$")) {
+                    row.add(DrawEquationW.paintOnCanvas(gn, s.substring(1), null,
+                            app.getFontSizeWeb()));
+                } else {
+                    row.add(new InlineLabel(s));
+                }
+            }
 
             if (addShowDetails) {
-                FlowPanel flowPanel = new FlowPanel();
-                flowPanel.add(c);
-                flowPanel.add(showDetails);
-
+                row.add(showDetails);
                 addShowDetails = false;
-
-                row = flowPanel;
             } else if (addHideDetails) {
-                FlowPanel flowPanel = new FlowPanel();
-                flowPanel.add(c);
-                flowPanel.add(hideDetails);
-
+                row.add(hideDetails);
                 addHideDetails = false;
-
-                row = flowPanel;
-            } else {
-                row = c;
             }
 
             if (detailed) {
@@ -76,18 +71,15 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
             child = new TreeItem(c);
             if (item != null) {
                 if (item.getChildCount() == 0) {
-                    Widget oldWidget = item.getWidget();
-                    FlowPanel header = new FlowPanel();
-                    header.add(oldWidget);
+                    FlowPanel row = (FlowPanel) item.getWidget();
 
                     OpenButton openButton = new OpenButton(
                             GuiResources.INSTANCE.algebra_tree_open().getSafeUri(),
                             GuiResources.INSTANCE.algebra_tree_closed().getSafeUri(),
                             item, "stepOpenButton");
                     openButton.setChecked(false);
-                    header.add(openButton);
+                    row.add(openButton);
 
-                    item.setWidget(header);
                     item.addStyleName("stepTreeItem");
                 }
 
@@ -98,11 +90,6 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
             if (detailed) {
                 child.getElement().getStyle().setDisplay(Style.Display.NONE);
             }
-        }
-
-        @Override
-        public void addPlainRow(String equations) {
-            addWidget(new Label(equations));
         }
 
         @Override

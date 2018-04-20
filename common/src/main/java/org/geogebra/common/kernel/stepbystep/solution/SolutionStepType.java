@@ -42,7 +42,7 @@ public enum SolutionStepType {
 
 	SOLUTIONS("SolutionsA", "Solutions: %0") {
 		@Override
-		public String getDefaultText(Localization loc, StepNode[] parameters) {
+		public List<String> getDefaultText(Localization loc, StepNode[] parameters) {
 			StringBuilder serializedDefault = new StringBuilder();
 			for (int i = 0; i < parameters.length; i++) {
 				if (i != 0) {
@@ -54,7 +54,8 @@ public enum SolutionStepType {
 		}
 
 		@Override
-		public String getDetailedText(Localization loc, List<Integer> color, StepNode[] parameters) {
+		public List<String> getDetailedText(Localization loc, List<Integer> color, StepNode[]
+				parameters) {
 			StringBuilder serializedColored = new StringBuilder();
 			for (int i = 0; i < parameters.length; i++) {
 				if (i != 0) {
@@ -62,7 +63,7 @@ public enum SolutionStepType {
 				}
 				serializedColored.append(parameters[i].toLaTeXString(loc, true));
 			}
-			return loc.getMenuLaTeX(getKey(), getDetailed(), serializedColored.toString()) + colorText(color);
+			return loc.getMenuLaTeX(getKey(), getDetailed(), serializedColored.toString());
 		}
 	},
 
@@ -137,13 +138,14 @@ public enum SolutionStepType {
 
 	NTH_ROOT("TakeNthRoot", "Take %0 root of both sides") {
 		@Override
-		public String getDefaultText(Localization loc, StepNode[] parameters) {
+		public List<String> getDefaultText(Localization loc, StepNode[] parameters) {
 			String ordinal = loc.getOrdinalNumber((int) ((StepExpression) parameters[0]).getValue());
 			return loc.getMenuLaTeX(getKey(), getDefault(), ordinal);
 		}
 
 		@Override
-		public String getDetailedText(Localization loc, List<Integer> color, StepNode[] parameters) {
+		public List<String> getDetailedText(Localization loc, List<Integer> color, StepNode[]
+				parameters) {
 			String ordinal = loc.getOrdinalNumber((int) ((StepExpression) parameters[0]).getValue());
 			return loc.getMenuLaTeX(getKey(), getDetailed(), ordinal);
 		}
@@ -364,7 +366,7 @@ public enum SolutionStepType {
 
 	FACTOR_GCD("FactorGCD", "Factor out the greatest common divisor of %0 and %1: %2") {
 		@Override
-		public String getDefaultText(Localization loc, StepNode[] parameters) {
+		public List<String> getDefaultText(Localization loc, StepNode[] parameters) {
 			StringBuilder serializedDefault = new StringBuilder();
 			for (int i = 0; i < parameters.length - 2; i++) {
 				if (i != 0) {
@@ -379,7 +381,8 @@ public enum SolutionStepType {
 		}
 
 		@Override
-		public String getDetailedText(Localization loc, List<Integer> color, StepNode[] parameters) {
+		public List<String> getDetailedText(Localization loc, List<Integer> color, StepNode[]
+				parameters) {
 			StringBuilder serializedDefault = new StringBuilder();
 			for (int i = 0; i < parameters.length - 2; i++) {
 				if (i != 0) {
@@ -553,7 +556,7 @@ public enum SolutionStepType {
 		return detailedText;
 	}
 
-	public String getDefaultText(Localization loc, StepNode[] parameters) {
+	public List<String> getDefaultText(Localization loc, StepNode[] parameters) {
 		if (parameters == null) {
 			return loc.getMenuLaTeX(keyText, defaultText);
 		}
@@ -565,17 +568,27 @@ public enum SolutionStepType {
 		return loc.getMenuLaTeX(keyText, defaultText, serializedDefault);
 	}
 
-	public String getDetailedText(Localization loc, List<Integer> color, StepNode[] parameters) {
+	public List<String> getDetailedText(Localization loc, List<Integer> color, StepNode[]
+			parameters) {
+
+		List<String> result;
 		if (parameters == null) {
-			return loc.getMenuLaTeX(keyText, detailedText) + colorText(color);
+			result = loc.getMenuLaTeX(keyText, detailedText);
+		} else {
+			String[] serializedColored = new String[parameters.length];
+			for (int i = 0; i < parameters.length; i++) {
+				serializedColored[i] = parameters[i].toLaTeXString(loc, true);
+			}
+
+			result = loc.getMenuLaTeX(keyText, detailedText, serializedColored);
 		}
 
-		String[] serializedColored = new String[parameters.length];
-		for (int i = 0; i < parameters.length; i++) {
-			serializedColored[i] = parameters[i].toLaTeXString(loc, true);
+		String colorText = colorText(color);
+		if (!"".equals(colorText)) {
+			result.add("$" + colorText);
 		}
 
-		return loc.getMenuLaTeX(keyText, detailedText, serializedColored) + colorText(color);
+		return result;
 	}
 
 	public static String colorText(List<Integer> colors) {

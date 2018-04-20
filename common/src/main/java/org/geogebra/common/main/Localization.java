@@ -531,7 +531,7 @@ public abstract class Localization {
 	 * @return LaTeX text; replacements are formula, everything else is a
 	 *         \\text{} block
 	 */
-	final public String getMenuLaTeX(String key, String default0, String... args) {
+	final public List<String> getMenuLaTeX(String key, String default0, String... args) {
 		String str = getMenu(key);
 
 		if (default0 != null && key.equals(str)) {
@@ -539,54 +539,43 @@ public abstract class Localization {
 			str = default0;
 		}
 
-		StringBuilder sbPlain = new StringBuilder();
-		sbPlain.setLength(0);
-		boolean textMode = false;
-		boolean mathMode = false;
+		List<String> result = new ArrayList<>();
+
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < str.length(); i++) {
 			char ch = str.charAt(i);
 
 			if (ch == '$') {
-			    mathMode = !mathMode;
-			    if (textMode) {
-                    sbPlain.append("}");
-                    textMode = false;
-                }
-            }
-			if (!mathMode && !textMode && ch != '%') {
-				sbPlain.append("\\text{");
-				textMode = true;
-			}
-			if (ch == '%') {
-				if (textMode) {
-					sbPlain.append("}");
-					textMode = false;
+				String current = sb.toString();
+				if (!"".equals(current)) {
+					result.add(current);
+					sb.setLength(0);
 				}
-				// get number after %
+
+				if (!current.startsWith("$")) {
+					sb.append(ch);
+				}
+            } else if (ch == '%') {
+				if (!"".equals(sb.toString())) {
+					result.add(sb.toString());
+					sb.setLength(0);
+				}
+
 				i++;
 				int pos = str.charAt(i) - '0';
 				if ((pos >= 0) && (pos < args.length)) {
-					// success
-					sbPlain.append(args[pos]);
-				} else {
-					// failed
-					sbPlain.append(ch);
+					result.add("$" + args[pos]);
 				}
-			} else if (ch != '$') {
-				sbPlain.append(ch);
+			} else {
+				sb.append(ch);
 			}
 		}
 
-		if (textMode) {
-			sbPlain.append("}");
+		if (!"".equals(sb.toString())) {
+			result.add(sb.toString());
 		}
 
-		// In some languages we may need some final fixes:
-		return translationFix(sbPlain.toString());
-	}
-
-	final public String getMenuLaTeX(String key, String default0) {
-		return "\\text{" + getMenuDefault(key, default0) + "}";
+		return result;
 	}
 
 	/** replace "%0" by arg0 */

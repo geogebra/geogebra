@@ -2,6 +2,8 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.util.StringUtil;
 
+import java.util.List;
+
 /**
  * Makes a JSON object with a list of steps
  *
@@ -11,28 +13,22 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 	private StringBuilder sb = new StringBuilder();
 	
 	@Override
-	public void addPlainRow(String s) {
+	public void addRow(List<String> s) {
+		for (String ss : s) {
+			if (sb.length() > 0) {
+				sb.append(',');
+			}
 
-		if (sb.length() > 0) {
-			sb.append(',');
+			sb.append("{ 'text':'");
+
+			if (ss.startsWith("$")) {
+				sb.append(StringUtil.toJavaString(ss.substring(1)));
+				sb.append("', latex':true }");
+			} else {
+				sb.append(StringUtil.toJavaString(ss));
+				sb.append("', 'plain':true }");
+			}
 		}
-
-		sb.append("{ 'text':'");
-		sb.append(StringUtil.toJavaString(s));
-		sb.append("', 'plain':true }");
-		
-	}
-
-	@Override
-	public void addLatexRow(String s) {
-		if (sb.length() > 0) {
-			sb.append(',');
-		}
-
-		sb.append("{ 'text':'");
-		sb.append(StringUtil.toJavaString(s));
-		sb.append("', 'latex':true }");
-		
 	}
 
 	@Override
