@@ -227,10 +227,7 @@ public interface ArticleElementInterface {
 	 * 
 	 * @return that the article element has (inherited) direction attribute
 	 */
-	boolean isRTL() /*-{
-		var style = $wnd.getComputedStyle(this);
-		return style && style.direction === "rtl";
-	}-*/;
+	boolean isRTL();
 
 	/**
 	 * @return get CSS scale of parent element
