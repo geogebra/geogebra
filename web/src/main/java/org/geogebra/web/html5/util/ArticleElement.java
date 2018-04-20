@@ -386,6 +386,11 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	 */
 	@Override
 	public native boolean isRTL() /*-{
+		// https://bugzilla.mozilla.org/show_bug.cgi?id=548397
+		if (!$wnd.getComputedStyle) {
+			return false;
+		}
+
 		var style = $wnd.getComputedStyle(this);
 		return style && style.direction === "rtl";
 	}-*/;
