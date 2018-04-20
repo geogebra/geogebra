@@ -1686,11 +1686,11 @@ namespace giac {
 	  continue;
 	}
 	if (ch>='A' && ch<='Z'){
-	  res = res*b+int(ch-'A');
+	  res = res*b+int(ch-'A')+10;
 	  continue;
 	}
 	if (ch>='a' && ch<='z'){
-	  res = res*b+int(ch-'a');
+	  res = res*b+int(ch-'a')+10;
 	  continue;
 	}
       }
