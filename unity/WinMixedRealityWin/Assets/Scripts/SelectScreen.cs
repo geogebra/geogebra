@@ -1,11 +1,12 @@
-﻿using HoloToolkit.Unity.InputModule;
+﻿using MixedRealityToolkit.InputModule.EventData;
+using MixedRealityToolkit.InputModule.InputHandlers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 
-public class SelectScreen : MonoBehaviour,IFocusable, IInputClickHandler {
+public class SelectScreen : MonoBehaviour, IFocusable, IInputClickHandler {
 
     public float highlightedSize = 1.1f;
     private Vector3 _originTransform;

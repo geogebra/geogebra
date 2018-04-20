@@ -76,10 +76,14 @@ public class GenerateMesh : MonoBehaviour
     {
         if (parentObj == null)
         {
-            parentObj = new GameObject("Generated Surface");
-            parentObj.transform.position = spawnerObj.transform.position;
-            parentObj.transform.localRotation = Quaternion.Euler(-90, 0, 0);
-            parentObj.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            parentObj = GameObject.Find("Generated Surface");
+            if (parentObj == null)
+            {
+                parentObj = new GameObject("Generated Surface");
+                parentObj.transform.position = spawnerObj.transform.position;
+                parentObj.transform.localRotation = Quaternion.Euler(-90, 0, 0);
+                parentObj.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            }           
         }        
 
         int counter = 0;
@@ -161,7 +165,6 @@ public class GenerateMesh : MonoBehaviour
                     case MeshParameter.ModelName:
                         int i = 9;
                         modelName = bit;
-                        Debug.Log("Model name is " + modelName);
                         GameObject go = new GameObject(modelName);
                         currentParrent = go;
                         go.transform.parent = parentObj.transform;

@@ -1,8 +1,8 @@
-﻿
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using HoloToolkit.Unity.InputModule;
+using MixedRealityToolkit.InputModule;
+using MixedRealityToolkit.InputModule.Utilities;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -168,7 +168,7 @@ namespace HoloToolkit.Unity.ControllerExamples
         private void InteractionSourcePressed(InteractionSourcePressedEventArgs obj)
         {
             // Check handedness, see if it is left controller
-            if (obj.state.source.handedness == handedness)
+            if (obj.state.source.handedness == InteractionSourceHandedness.Unknown)
             {
                 switch (obj.pressType)
                 {
@@ -201,7 +201,7 @@ namespace HoloToolkit.Unity.ControllerExamples
 
         private void InteractionSourceReleased(InteractionSourceReleasedEventArgs obj)
         {
-            if (obj.state.source.handedness == handedness)
+            if (obj.state.source.handedness == InteractionSourceHandedness.Unknown)
             {
                 switch (obj.pressType)
                 {

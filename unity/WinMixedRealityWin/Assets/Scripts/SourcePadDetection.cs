@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // using HoloToolkit.Unity.Controllers; missing reference
-using HoloToolkit.Unity.InputModule;
 
 #if UNITY_WSA && UNITY_2017_2_OR_NEWER
 using UnityEngine.XR.WSA.Input;

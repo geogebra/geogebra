@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using HoloToolkit.Unity.InputModule;
 using UnityEngine.XR.WSA;
 using UnityEngine;
+using MixedRealityToolkit.InputModule.EventData;
+using MixedRealityToolkit.InputModule.InputHandlers;
 
 public class WebviewManager : MonoBehaviour, IFocusable, IInputClickHandler
 {

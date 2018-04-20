@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using MixedRealityToolkit.InputModule.InputHandlers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using HoloToolkit.Unity.InputModule;
 
 
 public class HighlightSizeOnFocuse : MonoBehaviour, IFocusable {

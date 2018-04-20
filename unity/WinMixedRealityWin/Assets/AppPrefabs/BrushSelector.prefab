@@ -1,0 +1,383 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1554623883218694}
+  m_IsPrefabParent: 1
+--- !u!1 &1399634423300290
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4619208353451588}
+  m_Layer: 0
+  m_Name: TransformHelper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1554623883218694
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4963028933550254}
+  - component: {fileID: 114661879801688092}
+  m_Layer: 0
+  m_Name: BrushSelector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1759047365439608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4197359369901074}
+  - component: {fileID: 114263958003342106}
+  - component: {fileID: 114412594797402372}
+  m_Layer: 0
+  m_Name: Menu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4197359369901074
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1759047365439608}
+  m_LocalRotation: {x: -0, y: -0, z: 2.0876504e-14, w: 1}
+  m_LocalPosition: {x: -0, y: -0.1, z: -0.15}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4619208353451588}
+  m_Father: {fileID: 4963028933550254}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4619208353451588
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1399634423300290}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.025982331, y: 0.014997281, z: -0.000000029802322}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4197359369901074}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4963028933550254
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1554623883218694}
+  m_LocalRotation: {x: -0.006705106, y: 0.0000002483291, z: -0.00000037038293, w: 0.9999775}
+  m_LocalPosition: {x: 0.24, y: 0.1652, z: 0.164}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4197359369901074}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114263958003342106
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1759047365439608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cccf71c6020899a488d4caf5464be842, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Space: 1
+  LineStartClamp: 0
+  LineEndClamp: 0.5
+  RotationType: 1
+  FlipUpVector: 0
+  OriginOffset: {x: 0, y: 0, z: 0}
+  ManualUpVectorBlend: 0
+  ManualUpVectors:
+  - {x: 0, y: 1, z: 0}
+  VelocitySearchRange: 0.002
+  VelocityBlend: 0.5
+  DistortionStrength:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  loops: 0
+  Resolution: 36
+  Radius: {x: 0.03, y: 0.03}
+--- !u!114 &114412594797402372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1759047365439608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca3666f103ce01d419b1fd9d4a33a5b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Objects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  DistributionOffset: 0
+  LengthOffset: 0
+  ScaleOffset: 0
+  ScaleMultiplier: 2
+  PositionMultiplier: 1
+  ObjectScale:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: -0.0022407123
+      value: -0.00059232116
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.12429147
+      value: 0.38304013
+      inSlope: 1.1645257
+      outSlope: 1.1645257
+      tangentMode: 1
+    - serializedVersion: 2
+      time: 0.44998825
+      value: 1.0000948
+      inSlope: 2.1088006
+      outSlope: 0
+      tangentMode: 1
+    - serializedVersion: 2
+      time: 0.5501014
+      value: 1.0001875
+      inSlope: 0
+      outSlope: -1.9904659
+      tangentMode: 1
+    - serializedVersion: 2
+      time: 0.8645734
+      value: 0.37393576
+      inSlope: -1.2177229
+      outSlope: -1.2177229
+      tangentMode: 1
+    - serializedVersion: 2
+      time: 0.9611222
+      value: 0.0019291937
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  ObjectPosition:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0.0026313374
+      value: -1.0059102
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.44984806
+      value: 0.49754605
+      inSlope: 5.165288
+      outSlope: 0
+      tangentMode: 1
+    - serializedVersion: 2
+      time: 0.55031884
+      value: 0.49745867
+      inSlope: 0
+      outSlope: -6.050386
+      tangentMode: 1
+    - serializedVersion: 2
+      time: 0.9934074
+      value: -1.0107929
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  FlipRotation: 1
+  RotationOffset: {x: 0, y: 0, z: 90}
+  PositionOffset: {x: 0, y: 0, z: 0.01}
+  RotationTypeOverride: 1
+  DistributionType: 0
+  StepMode: 0
+  source: {fileID: 114263958003342106}
+--- !u!114 &114661879801688092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1554623883218694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2241eb5c410180c4dbd2a53787deb25d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handedness: 2
+  element: 6
+  SetChildrenInactiveWhenDetached: 1
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  setScaleOnAttach: 0
+  brushCollection: {fileID: 114412594797402372}
+  currentAction: 0
+  swipeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0.44065592
+      outSlope: 0.44065592
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.2616839
+      value: 0.7030703
+      inSlope: 4.2307243
+      outSlope: 4.2307243
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.34630072
+      value: 1.1623088
+      inSlope: 5.0791893
+      outSlope: 5.0791893
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.4780403
+      value: 0.90566796
+      inSlope: -0.18335718
+      outSlope: -0.18335718
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.60077304
+      value: 1.1096094
+      inSlope: -1.2465854
+      outSlope: -1.2465854
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.69892895
+      value: 0.98935425
+      inSlope: 1.1235638
+      outSlope: 1.1235638
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.8202404
+      value: 1.0088048
+      inSlope: -0.90024406
+      outSlope: -0.90024406
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  swipeDuration: 0.45
+  displayBrushindex: 0
+  activeBrushindex: 3
+  colorPicker: {fileID: 0}
+  menuTimeout: 2
+  selectPressedDrawThreshold: 0.001
+  selectPressedStartValue: 0.2
+  selectWidthCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0.18211141
+      outSlope: 0.18211141
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.6359759
+      value: 0.77979594
+      inSlope: 1.3545039
+      outSlope: 1.3545039
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: -0.017451808
+      outSlope: -0.017451808
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  touchpadMaterial: {fileID: 2100000, guid: 9ab2a9ffd08a18a4b897b448b582c956, type: 2}
+  touchpadColor:
+    serializedVersion: 2
+    key0: {r: 0, g: 0.5448277, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 0.5803922}
+    key2: {r: 0, g: 0, b: 0, a: 0.4862745}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 42791
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 16384
+    atime2: 65535
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 3
+  touchpadGlowLossTime: 0.5

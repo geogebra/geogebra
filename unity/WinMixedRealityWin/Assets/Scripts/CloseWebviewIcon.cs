@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using HoloToolkit.Unity.InputModule;
+using MixedRealityToolkit.InputModule.InputHandlers;
+using MixedRealityToolkit.InputModule.EventData;
 
-public class CloseWebviewIcon : MonoBehaviour, IFocusable, IInputClickHandler {
+public class CloseWebviewIcon : MonoBehaviour, IFocusable {
 
     public GameObject webviewManager;
     private WebviewManager webviewManagerScript;
@@ -17,21 +18,23 @@ public class CloseWebviewIcon : MonoBehaviour, IFocusable, IInputClickHandler {
         }
 	}
 
-    public void OnFocusEnter()
-    {
-    }
-
-    public void OnFocusExit()
-    {
-    }
+    // Update is called once per frame
+    void Update () {
+		
+	}
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
         webviewManagerScript.DissapperWebview();
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    public void OnFocusEnter()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnFocusExit()
+    {
+        throw new System.NotImplementedException();
+    }
 }

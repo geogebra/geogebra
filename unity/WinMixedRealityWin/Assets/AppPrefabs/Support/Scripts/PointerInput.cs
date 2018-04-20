@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using HoloToolkit.Unity.InputModule;
+using MixedRealityToolkit.InputModule.Utilities;
 using UnityEngine;
 
 #if UNITY_WSA && UNITY_2017_2_OR_NEWER
@@ -61,7 +61,7 @@ namespace HoloToolkit.Unity.Controllers
         /// <param name="obj"></param>
         private void InteractionSourcePressed(InteractionSourcePressedEventArgs obj)
         {
-            if (obj.state.source.handedness == handedness && obj.pressType == activePressType)
+            if (obj.state.source.handedness == InteractionSourceHandedness.Unknown && obj.pressType == activePressType)
             {
                 pointer.Active = true;
             }
@@ -73,7 +73,7 @@ namespace HoloToolkit.Unity.Controllers
         /// <param name="obj"></param>
         private void InteractionSourceUpdated(InteractionSourceUpdatedEventArgs obj)
         {
-            if (obj.state.source.handedness == handedness && obj.state.thumbstickPressed)
+            if (obj.state.source.handedness == InteractionSourceHandedness.Unknown && obj.state.thumbstickPressed)
             {
                 float angle = 0f;
                 Vector2 thumbstickPosition = obj.state.thumbstickPosition;
@@ -91,7 +91,7 @@ namespace HoloToolkit.Unity.Controllers
         /// <param name="obj"></param>
         private void InteractionSourceReleased(InteractionSourceReleasedEventArgs obj)
         {
-            if (obj.state.source.handedness == handedness && obj.pressType == activePressType)
+            if (obj.state.source.handedness == InteractionSourceHandedness.Unknown && obj.pressType == activePressType)
             {
                 pointer.Active = false;
             }

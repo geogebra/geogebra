@@ -1,10 +1,11 @@
-﻿using HoloToolkit.Unity.InputModule;
+﻿using MixedRealityToolkit.InputModule.EventData;
+using MixedRealityToolkit.InputModule.InputHandlers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemInput : MonoBehaviour, IInputClickHandler
+public class ItemInput : MonoBehaviour
 {
 
     #region Members
@@ -14,24 +15,6 @@ public class ItemInput : MonoBehaviour, IInputClickHandler
     #endregion
 
     public GameObject buttonModel;
-
-    private void Start()
-    {
-        gameManager = GameObject.Find("GameManager");
-    }
-
-    public void OnInputClicked(InputClickedEventData eventData)
-    {
-        Debug.Log("OnInputClick");
-       // gameManager.GetComponent<GameManager>().CheckForItem(itemName);       
-    }
-
-    /* void TaskOnClick()
-    {
-        gameManager.GetComponent<GameManager>().TempModel = ButtonModel;
-        gameManager.GetComponent<GameManager>().OnButtonPressed();
-    }
-    */
 }
 
 

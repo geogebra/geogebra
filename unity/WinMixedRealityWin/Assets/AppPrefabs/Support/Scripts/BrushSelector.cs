@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using HoloToolkit.Unity.Design;
-using HoloToolkit.Unity.InputModule;
+using MixedRealityToolkit.InputModule.Utilities;
 using UnityEngine;
 
 #if UNITY_WSA && UNITY_2017_2_OR_NEWER
@@ -191,7 +191,7 @@ namespace HoloToolkit.Unity.ControllerExamples
 #if UNITY_WSA && UNITY_2017_2_OR_NEWER
         private void InteractionSourceUpdated(InteractionSourceUpdatedEventArgs obj)
         {
-            if (obj.state.source.handedness == handedness)
+            if (obj.state.source.handedness == InteractionSourceHandedness.Unknown)
             {
                 if (obj.state.touchpadPressed)
                 {
