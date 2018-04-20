@@ -303,6 +303,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 		editTemplate.allowMoreDigits = true;
 		editTemplate.hideLHS = true;
+		editTemplate.changeArcTrig = false;
 
 		editorTemplate.allowMoreDigits = editTemplate.allowMoreDigits;
 		editorTemplate.hideLHS = editTemplate.hideLHS;
@@ -3335,6 +3336,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		if (changeArcTrig && kernel.getApplication()
 				.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
+			Log.error(this.toString());
+			Log.printStacktrace("");
 			return "asin";
 		}
 		return "asind";

@@ -700,7 +700,8 @@ public class TextInputDialogD extends InputDialogD
 					setInitString("\"" + getInitString() + "\"");
 				}
 			} else {
-				setInitString(geo.getDefinition(StringTemplate.defaultTemplate));
+				setInitString(
+						geo.getDefinition(StringTemplate.defaultTemplate));
 			}
 			isLaTeX = geo.isLaTeX();
 		}

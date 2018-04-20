@@ -291,7 +291,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	public void splitString(ExpressionNode en, TextInputDialogD id) {
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
-		StringTemplate tpl = StringTemplate.defaultTemplate;
+		StringTemplate tpl = StringTemplate.editTemplate;
 		if (en.isLeaf()) {
 
 			if (left.isGeoElement()) {
