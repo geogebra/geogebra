@@ -2117,8 +2117,8 @@ public class ExpressionNode extends ValidExpression
 					true);
 			break;
 		case ARCTAN2D:
-			twoVar(sb, leftStr, rightStr, "atan2", "<arctan/>", "ATAN2", "atan2d", tpl, kernel,
-					false);
+			twoVar(sb, leftStr, rightStr, "atan2d", "<arctan/>", "ATAN2",
+					"atan2d", tpl, kernel, false);
 			break;
 		case NPR:
 			twoVar(sb, leftStr, rightStr, "nPr", "<npr/>", "NPR", "nPr", tpl, kernel, false);
