@@ -79,6 +79,11 @@ public interface VideoManager {
 	void background(GeoVideo geo);
 
 	/**
+	 * Puts all GeoVideo objects on the background.
+	 */
+	void backgroundAll();
+
+	/**
 	 * Gets a preview image
 	 * 
 	 * @param geo
@@ -104,4 +109,12 @@ public interface VideoManager {
 	 * Removes all players from application.
 	 */
 	void removePlayers();
+
+	/**
+	 * 
+	 * @param video
+	 *            to check.
+	 * @return if videos are online.
+	 */
+	boolean isOnline(GeoVideo video);
 }

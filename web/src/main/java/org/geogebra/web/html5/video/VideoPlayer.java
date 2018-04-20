@@ -36,18 +36,27 @@ public class VideoPlayer extends Frame implements Persistable {
 	 */
 	public void update() {
 		Style style = getElement().getStyle();
-		style.setLeft(video.getAbsoluteScreenLocX(), Unit.PX);
-		style.setTop(video.getAbsoluteScreenLocY(), Unit.PX);
-		setWidth(video.getWidth() + "px");
-		setHeight(video.getHeight() + "px");
-		if (video.isBackground()) {
+		style.setLeft(getVideo().getAbsoluteScreenLocX(), Unit.PX);
+		style.setTop(getVideo().getAbsoluteScreenLocY(), Unit.PX);
+		setWidth(getVideo().getWidth() + "px");
+		setHeight(getVideo().getHeight() + "px");
+		if (getVideo().isBackground()) {
 			addStyleName("background");
-			if (!video.getEmbeddedUrl().equals(embedUrl)) {
-				embedUrl = video.getEmbeddedUrl();
+			if (!getVideo().getEmbeddedUrl().equals(embedUrl)) {
+				embedUrl = getVideo().getEmbeddedUrl();
 			}
 		} else {
 			removeStyleName("background");
 		}
 	}
+
+	/**
+	 * 
+	 * @return the associated GeoVideo object.
+	 */
+	public GeoVideo getVideo() {
+		return video;
+	}
+
 }
 

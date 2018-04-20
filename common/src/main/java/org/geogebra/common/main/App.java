@@ -2312,6 +2312,9 @@ public abstract class App implements UpdateSelection {
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			currentSelectionListener = null;
 		}
+		if (getVideoManager() != null && mode != EuclidianConstants.MODE_MOVE) {
+			getVideoManager().backgroundAll();
+		}
 		if (getGuiManager() != null) {
 			setModeFromGuiManager(mode, m);
 			this.updateDynamicStyleBars();

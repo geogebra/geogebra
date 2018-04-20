@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.main.App;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -115,6 +116,10 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void background(GeoVideo video) {
+		background(video, true);
+	}
+
+	private void background(GeoVideo video, boolean repaint) {
 		if (video == null || !hasPlayer(video)) {
 			return;
 		}
@@ -205,6 +210,11 @@ public class VideoManagerW implements VideoManager {
 		}
 	}
 
+	@Override
+	public boolean isOnline(GeoVideo video) {
+		return ((AppW) video.getKernel().getApplication()).getNetworkOperation().isOnline();
+	}
+
 	private native void controlPlayer(JavaScriptObject player, String command) /*-{
 		player.contentWindow.postMessage('{"event":"command","func":"'
 				+ command + '","args":""}', '*');
@@ -213,4 +223,22 @@ public class VideoManagerW implements VideoManager {
 	private native boolean isPlayerValid(JavaScriptObject player) /*-{
 		return player.contentWindow != null;
 	}-*/;
+
+	@Override
+	public void backgroundAll() {
+		if (players.isEmpty()) {
+			return;
+		}
+		App app = null;
+		for (VideoPlayer player : players.values()) {
+			background(player.getVideo());
+			if (app == null) {
+				app = player.getVideo().getKernel().getApplication();
+			}
+		}
+
+		if (app != null) {
+			app.getActiveEuclidianView().repaintView();
+		}
+	}
 }

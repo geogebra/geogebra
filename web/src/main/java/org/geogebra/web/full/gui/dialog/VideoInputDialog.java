@@ -78,6 +78,10 @@ public class VideoInputDialog extends MediaDialog {
 		addStyleName("videoDialog");
 		setGlassEnabled(true);
 		setLabels();
+
+		// FIXME remove the lines below;
+		inputField.getTextComponent().setText("https://www.youtube.com/watch?v=07G4xhSefuI");
+		insertBtn.setEnabled(true);
 	}
 
 	private void initActions() {
