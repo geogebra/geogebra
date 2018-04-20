@@ -171,6 +171,13 @@ public abstract class AppW extends App implements SetLabels {
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 
 	private static final int LOWER_HEIGHT = 350;
+	/*
+	 * Note: the following numbers need to be in sync with deploygbb to scale
+	 * screenshots
+	 */
+	private static final int SCREEN_WIDTH_THRESHOLD = 480;
+	private static final int BIG_SCREEN_MARGIN = 30;
+	private static final int SMALL_SCREEN_MARGIN = 10;
 
 	private DrawEquationW drawEquation;
 
@@ -332,7 +339,8 @@ public abstract class AppW extends App implements SetLabels {
 				scaleTo(parent.getOffsetWidth(), parent.getOffsetHeight());
 			}
 		} else if (!getArticleElement().getParamDisableAutoScale()) {
-			int border = Window.getClientWidth() > 480 ? 30 : 10;
+			int border = Window.getClientWidth() > SCREEN_WIDTH_THRESHOLD
+					? BIG_SCREEN_MARGIN : SMALL_SCREEN_MARGIN;
 			int width = Window.getClientWidth() - (int) getAbsLeft() - border;
 			scaleTo(width, Window.getClientHeight());
 			if (articleElement.getParentElement() != null && articleElement

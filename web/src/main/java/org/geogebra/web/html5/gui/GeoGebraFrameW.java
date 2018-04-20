@@ -39,7 +39,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public abstract class GeoGebraFrameW extends FlowPanel implements
         HasAppletProperties {
-
+	private static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
+	private static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
 
 	/** The application */
@@ -335,9 +336,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			}
 		}
 		gf.getElement().removeClassName(
-		        GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
+				APPLET_FOCUSED_CLASSNAME);
 		gf.getElement().addClassName(
-		        GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
+				APPLET_UNFOCUSED_CLASSNAME);
 		ae.getElement().getStyle().setOutlineStyle(OutlineStyle.NONE);
 	}
 
@@ -358,8 +359,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				setBorder(ae, gfE, dpBorder, thickness);
 			}
 		}
-		gfE.removeClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
-		gfE.addClassName(GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
+		gfE.removeClassName(APPLET_FOCUSED_CLASSNAME);
+		gfE.addClassName(APPLET_UNFOCUSED_CLASSNAME);
 	}
 
 	/**
@@ -376,9 +377,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// Log.debug("useFocusedBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
 		gf.getElement().removeClassName(
-		        GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
+				APPLET_UNFOCUSED_CLASSNAME);
 		gf.getElement()
-		        .addClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
+				.addClassName(APPLET_FOCUSED_CLASSNAME);
 		int thickness = ae.getBorderThickness() / 2;
 		if (dpBorder != null && "none".equals(dpBorder)) {
 			setBorder(ae, gf, "transparent", thickness);
@@ -395,8 +396,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public static void useFocusedBorder(ArticleElement ae, Element gfE) {
 		// Log.debug("useFocusedBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
-		gfE.removeClassName(GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
-		gfE.addClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
+		gfE.removeClassName(APPLET_UNFOCUSED_CLASSNAME);
+		gfE.addClassName(APPLET_FOCUSED_CLASSNAME);
 		int thickness = ae.getBorderThickness() / 2;
 		if (dpBorder != null && "none".equals(dpBorder)) {
 			setBorder(ae, gfE, "transparent", thickness);

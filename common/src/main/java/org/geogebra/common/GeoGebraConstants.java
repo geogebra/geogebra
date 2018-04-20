@@ -239,9 +239,7 @@ public interface GeoGebraConstants {
 	public static final String USERINFO_PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
-	public static final String FORUM_URL = "https://www.geogebra.org/help";
-	public static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
-	public static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
+	public static final String FORUM_URL = "https://help.geogebra.org/";
 
 	public static final String DATA_LOGGING_WEBSOCKET_URL = "//data-logger.geogebra.org";
 	public static final String DATA_LOGGING_WEBSOCKET_PORT = "80";
