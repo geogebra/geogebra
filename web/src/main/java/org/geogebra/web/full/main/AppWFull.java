@@ -1356,16 +1356,18 @@ public class AppWFull extends AppW implements HasKeyboard {
 		frame.setApplication(this);
 		if (isUnbundled()) {
 			Perspective current = getTmpPerspective(null);
-			if (current != null && current.getToolbarDefinition() != null) {
+			if (current != null && current.getToolbarDefinition() != null && getGuiManager() != null
+					&& getGuiManager() instanceof GuiManagerW) {
+				boolean isCustom = !(current
+						.getToolbarDefinition() == ((GuiManagerW) getGuiManager())
+								.getDefaultToolbarString());
 				getGuiManager().setGeneralToolBarDefinition(
 						current.getToolbarDefinition());
-				if (getGuiManager() != null
-						&& getGuiManager() instanceof GuiManagerW
-						&& ((GuiManagerW) getGuiManager())
+				if (((GuiManagerW) getGuiManager())
 								.getToolbarPanelV2() != null) {
 					((GuiManagerW) getGuiManager()).getToolbarPanelV2()
 							.getTabTools()
-							.updateContent(true);
+							.updateContent(isCustom);
 				}
 			}
 		}
