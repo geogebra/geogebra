@@ -81,7 +81,7 @@ public class ZoomPanel extends FlowPanel
 		if (ZoomPanel.needsZoomButtons(app)) {
 			addZoomButtons();
 		}
-		if (ZoomPanel.needsFullscreenButton(app)) {
+		if (ZoomPanel.needsFullscreenButton(app) && view.isPrimaryEV()) {
 			addFullscreenButton();
 		}
 		setLabels();
@@ -555,6 +555,9 @@ public class ZoomPanel extends FlowPanel
 		return null;
 	}
 
+	/**
+	 * @return whether fullscreen is active
+	 */
 	public boolean isFullScreen() {
 		return this.fullScreenActive;
 	}

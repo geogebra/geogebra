@@ -5668,7 +5668,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return this.getViewID() == evp.getViewId();
 	}
 
-	private boolean isPrimaryEV() {
+	/**
+	 * @return whether reset and fullscreen should prefer this view
+	 */
+	public boolean isPrimaryEV() {
 		return this.getEuclidianViewNo() == 1
 				|| (!app.showView(App.VIEW_EUCLIDIAN) && this.isDefault2D());
 	}
