@@ -315,9 +315,7 @@ public class DrawLocus extends Drawable {
 	@Override
 	final public GRectangle getBounds() {
 		if (!geo.isDefined()
-				|| (!locus.isClosedPath() && (!geo.getKernel().getApplication()
-						.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)
-						|| geo.getGeoClassType() != GeoClass.PENSTROKE))
+				|| (!locus.isClosedPath() && geo.getGeoClassType() != GeoClass.PENSTROKE)
 				|| !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
