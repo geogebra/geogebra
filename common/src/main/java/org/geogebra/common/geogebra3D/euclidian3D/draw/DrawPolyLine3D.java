@@ -98,6 +98,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 		Renderer renderer = getView3D().getRenderer();
 
+		setPackCurve();
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
 		brush.start(getReusableGeometryIndex());
@@ -119,6 +120,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 		}
 
 		setGeometryIndex(brush.end());
+		endPacking();
 
 		return true;
 	}
@@ -173,6 +175,23 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 		if (getView3D().viewChangedByZoom()) {
 			updateForItSelf();
 		}
+	}
+
+	@Override
+	protected void updateGeometriesColor() {
+		updateColors();
+		getView3D().getRenderer().getGeometryManager().updateColor(getColor(),
+				getGeometryIndex());
+		if (!isVisible()) {
+			setGeometriesVisibility(false);
+		}
+	}
+
+	@Override
+	protected void setGeometriesVisibility(boolean visible) {
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getGeometryIndex());
+		geometriesSetVisible = visible;
 	}
 
 }
