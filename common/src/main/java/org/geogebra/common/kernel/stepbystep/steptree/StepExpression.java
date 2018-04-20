@@ -612,6 +612,10 @@ public abstract class StepExpression extends StepNode {
 	 * @return the sign of the expression
 	 */
 	public int sign() {
+		if (canBeEvaluated()) {
+			return getValue() < 0 ? -1 : 1;
+		}
+
 		if (this instanceof StepOperation) {
 			StepOperation so = (StepOperation) this;
 
@@ -642,10 +646,6 @@ public abstract class StepExpression extends StepNode {
 				}
 				return 0;
 			}
-		}
-
-		if (this instanceof StepConstant) {
-			return 1;
 		}
 
 		return 0;

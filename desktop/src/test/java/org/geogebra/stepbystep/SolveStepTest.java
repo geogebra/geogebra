@@ -113,6 +113,8 @@ public class SolveStepTest {
 
 	@Test
 	public void quadraticEquations() {
+		t("3x^2-1", "0", "x", "x = (nroot(3, 2))/(3)", "x = -(nroot(3, 2))/(3)");
+		t("1", "3x^2", "x", "x = (nroot(3, 2))/(3)", "x = -(nroot(3, 2))/(3)");
 		t("((1-2y)/3)^2 + y^2", "1", "y", "y = ((2 + (6)(nroot(3, 2))))/(13)", "y = ((2-(6)(nroot(3, 2))))/(13)");
 		t("x^2+4", "4x", "x", "x = 2");
 		t("x^2+3x+1", "x-1", "x");

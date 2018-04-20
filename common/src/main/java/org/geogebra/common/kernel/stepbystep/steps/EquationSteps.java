@@ -731,14 +731,24 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			List<StepSolution> solutions = new ArrayList<>();
 
-			if (se.countOperation(Operation.PLUSMINUS) == 1
+			if (se.countOperation(Operation.PLUSMINUS) == 1) {
+				StepExpression argument = null;
+
+				if (se.getLHS().equals(variable)
 					&& se.getRHS().isOperation(Operation.PLUSMINUS)) {
-				StepExpression argument = ((StepOperation) se.getRHS()).getOperand(0);
+					argument = ((StepOperation) se.getRHS()).getOperand(0);
+				} else if (se.getRHS().equals(variable)
+						&& se.getLHS().isOperation(Operation.PLUSMINUS)) {
+					argument = ((StepOperation) se.getLHS()).getOperand(0);
+				}
 
-				solutions.add(StepSolution.simpleSolution(variable, argument, tracker));
-				solutions.add(StepSolution.simpleSolution(variable, argument.negate(), tracker));
+				if (argument != null && argument.isConstantIn(variable)) {
+					solutions.add(StepSolution.simpleSolution(variable, argument, tracker));
+					solutions.add(StepSolution.simpleSolution(variable, argument.negate(),
+							tracker));
 
-				return solutions;
+					return solutions;
+				}
 			}
 
 			StepSolvable replacedPlus = StepHelper.replaceWithPlus(se);
@@ -817,7 +827,7 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepExpression toDivide = se.getLHS().getCoefficient();
 			se.multiplyOrDivide(toDivide, steps, tracker);
 
-			if (isEqual(root % 2, 0) && se.getRHS().isConstant() && se.getRHS().getValue() < 0) {
+			if (root % 2 == 0 && se.getRHS().sign() < 0) {
 				steps.add(SolutionStepType.LEFT_POSITIVE_RIGHT_NEGATIVE);
 				return new ArrayList<>();
 			}
