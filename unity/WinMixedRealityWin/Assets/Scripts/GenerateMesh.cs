@@ -173,10 +173,8 @@ public class GenerateMesh : MonoBehaviour
                         go.transform.localScale = Vector3.one;
                         go.layer = 8; // 8 is for layer
                         i = ConvertLetterToIndex(modelName);
-                        Debug.Log("Int i is " + i);
                         if (functionsArray[i] != null)
                         {
-                            Debug.Log(functionsArray[i].name);
                             Destroy(functionsArray[i]);                            
                         }
                         functionsArray[i] = go;
@@ -356,6 +354,9 @@ public class GenerateMesh : MonoBehaviour
         go.transform.parent = _currentParent.transform;
         go.transform.position = parentObj.transform.position;
         go.transform.rotation = parentObj.transform.rotation;
+        Vector3 v = go.transform.rotation.eulerAngles;
+        go.transform.rotation = Quaternion.Euler(-90, v.y, v.z);
+
         go.transform.localScale = parentObj.transform.localScale;
         go.layer = 8; // 8 is for "function" layer
     }
