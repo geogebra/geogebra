@@ -5,9 +5,20 @@ import java.math.BigInteger;
 
 import org.geogebra.common.util.MyMath2;
 
+/**
+ * Helper for nPr operation
+ *
+ */
 public class AlgoNpR {
 
-	public static double NpR(double n, double r) {
+	/**
+	 * @param n
+	 *            size of the set
+	 * @param r
+	 *            sie of the permutation
+	 * @return number of r-element permutations in a n-element set
+	 */
+	public static double nPr(double n, double r) {
 		double INFINITY = Double.POSITIVE_INFINITY;
 		try {
 			if (n == 0d && r == 0d) {

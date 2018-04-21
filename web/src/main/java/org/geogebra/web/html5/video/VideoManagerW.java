@@ -116,10 +116,6 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void background(GeoVideo video) {
-		background(video, true);
-	}
-
-	private void background(GeoVideo video, boolean repaint) {
 		if (video == null || !hasPlayer(video)) {
 			return;
 		}

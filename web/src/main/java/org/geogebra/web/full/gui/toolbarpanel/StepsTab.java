@@ -1,10 +1,8 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.full.css.GuiResources;
@@ -13,8 +11,16 @@ import org.geogebra.web.full.gui.view.algebra.TreeImages;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.Widget;
 
 public class StepsTab extends ToolbarPanel.ToolbarTab {
 

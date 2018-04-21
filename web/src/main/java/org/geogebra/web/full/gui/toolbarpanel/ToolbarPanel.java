@@ -659,7 +659,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		updateMoveButton();
 	}
 
-
 	/**
 	 * Opens steps tab and returns stepGuiBuilder
 	 * @param fade decides if tab should fade during animation

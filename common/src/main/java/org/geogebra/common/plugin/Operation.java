@@ -1495,7 +1495,7 @@ public enum Operation {
 				boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return new MyDouble(ev.getKernel(),
-						AlgoNpR.NpR(lt.evaluateDouble(), rt.evaluateDouble()));
+						AlgoNpR.nPr(lt.evaluateDouble(), rt.evaluateDouble()));
 			}
 			return ev.illegalArgument(lt, rt, "nPr(");
 		}
