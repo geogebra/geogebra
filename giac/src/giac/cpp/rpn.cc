@@ -769,9 +769,11 @@ namespace giac {
 	    if (strngeq){
 	      res.push_back(string2gen(it->first,false));
 	      int t=it->second.type;
+#ifndef GIAC_HAS_STO_38
 	      if ( (t==_SYMB && it->second._SYMBptr->sommet!=at_program) || t==_FRAC || t<=_REAL || t==_VECT)
 		g=_mathml(makesequence(it->second,1),contextptr);
 	      else
+#endif
 		g=string2gen(it->second.print(contextptr),false);
 	    }
 	    if (val)

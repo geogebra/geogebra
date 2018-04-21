@@ -689,7 +689,7 @@ namespace giac {
       eval_sto_pnt_symb(feuille,e,contextptr);
     if ( e.type==_VECT && !e._VECTptr->empty() && e._VECTptr->back().type==_SYMB && e._VECTptr->back()._SYMBptr->sommet==at_pnt && (contextptr?!contextptr->previous:!protection_level))
       eval_sto_pnt_vect(feuilleback,e,contextptr);
-    return sto(e,feuilleback,contextptr);
+    return sto(e,feuilleback,python_compat(contextptr),contextptr);
   } // end sommet==at_sto
 
   // http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-34.html#%_sec_5.4

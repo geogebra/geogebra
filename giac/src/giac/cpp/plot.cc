@@ -6003,7 +6003,7 @@ namespace giac {
     gen res;
 #if defined EMCC && !defined GIAC_GGB
     string mesg="Input\n";
-    mesg += args[0].type==_STRNG?*args[0]._STRNGptr:args[0].print(contextptr);
+    mesg += v[0].type==_STRNG?*v[0]._STRNGptr:v[0].print(contextptr);
     int i=EM_ASM_INT({
 	var msg = Pointer_stringify($0); // Convert message to JS string
 	var tst=prompt(msg,' ');

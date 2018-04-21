@@ -5698,35 +5698,50 @@ namespace giac {
   static define_unary_function_eval_quoted (__mupad2xcas,&_mupad2xcas,_mupad2xcas_s);
   define_unary_function_ptr5( at_mupad2xcas ,alias_at_mupad2xcas,&__mupad2xcas,_QUOTE_ARGUMENTS,true);
 
-  gen python_xcas(const gen & args,bool py,GIAC_CONTEXT){
+  // py==0 Xcas, py==1 Python-like, py==2 JS-like
+  gen python_xcas(const gen & args,int py,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     // parse in current mode and print in python mode
     gen g(eval(args,1,contextptr));
-    if (g.type==_STRNG)
-      g=gen(*g._STRNGptr,contextptr);
     int p=python_compat(contextptr);
-    python_compat(py?1:0,contextptr);
+    if (g.type==_STRNG){
+      if (py==0) 
+	return string2gen(python2xcas(*g._STRNGptr,contextptr),false);
+      g=gen(*g._STRNGptr,contextptr);
+    }
+    python_compat(py==2?0:1,contextptr);
     string s(g.print(contextptr));
-    if (!py)
-      s=args.print(contextptr)+":="+s;
-    g=string2gen(s,false);
     python_compat(p,contextptr);
+    if (py==0)
+      return string2gen(python2xcas(s,contextptr),false);
+    if (py==2){
+      // TODO add function, replace := by =, local by var, -> by nothing
+      s=args.print()+": function"+s;
+    }
+    g=string2gen(s,false);
     return g;
   }
 
   gen _python(const gen & args,GIAC_CONTEXT){
-    return python_xcas(args,true,contextptr);
+    return python_xcas(args,1,contextptr);
   }
   static const char _python_s []="python";
   static define_unary_function_eval_quoted (__python,&_python,_python_s);
   define_unary_function_ptr5( at_python ,alias_at_python,&__python,_QUOTE_ARGUMENTS,true);
 
   gen _xcas(const gen & args,GIAC_CONTEXT){
-    return python_xcas(args,false,contextptr);
+    return python_xcas(args,0,contextptr);
   }
   static const char _xcas_s []="xcas";
   static define_unary_function_eval_quoted (__xcas,&_xcas,_xcas_s);
   define_unary_function_ptr5( at_xcas ,alias_at_xcas,&__xcas,_QUOTE_ARGUMENTS,true);
+
+  gen _javascript(const gen & args,GIAC_CONTEXT){
+    return python_xcas(args,2,contextptr);
+  }
+  static const char _javascript_s []="javascript";
+  static define_unary_function_eval_quoted (__javascript,&_javascript,_javascript_s);
+  define_unary_function_ptr5( at_javascript ,alias_at_javascript,&__javascript,_QUOTE_ARGUMENTS,true);
 
   static string printasvirgule(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
@@ -8334,7 +8349,10 @@ namespace giac {
     return v;
   }
   gen inputform_post_analysis(const vecteur & v,const gen & res,GIAC_CONTEXT){
-    return res.eval(eval_level(contextptr),contextptr);
+    gen tmp=res.eval(eval_level(contextptr),contextptr);
+    if (tmp.type==_VECT && !tmp._VECTptr->empty() && python_compat(contextptr))
+      return tmp._VECTptr->back();
+    return tmp;
   }
   // user input sent back to the parent process
   gen _inputform(const gen & args,GIAC_CONTEXT){
