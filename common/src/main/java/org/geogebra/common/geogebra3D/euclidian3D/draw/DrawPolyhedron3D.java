@@ -201,7 +201,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 		if (shouldBePacked()) {
 			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getGeoElement().getLineType(),
-					getGeoElement().getLineTypeHidden());
+					getGeoElement().getLineTypeHidden(), false);
 		}
 		GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
 

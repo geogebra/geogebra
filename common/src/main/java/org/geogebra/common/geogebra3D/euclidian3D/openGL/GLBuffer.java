@@ -68,6 +68,19 @@ public interface GLBuffer {
 	/**
 	 * @param array
 	 *            values array
+	 * @param arrayOffset
+	 *            arrayOffset where to start in array
+	 * @param offset
+	 *            start offset
+	 * @param length
+	 *            length to copy
+	 */
+	public void set(ArrayList<Double> array, int arrayOffset, int offset,
+			int length);
+
+	/**
+	 * @param array
+	 *            values array
 	 * @param translate
 	 *            translation
 	 * @param scale

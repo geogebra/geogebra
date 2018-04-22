@@ -90,6 +90,14 @@ public class GLBufferJre implements GLBuffer {
 	}
 
 	@Override
+	public void set(ArrayList<Double> array, int arrayOffset, int offset,
+			int length) {
+		for (int i = 0; i < length; i++) {
+			impl.put(i + offset, array.get(arrayOffset + i).floatValue());
+		}
+	}
+
+	@Override
 	public void set(ArrayList<Double> array, float[] translate, float scale,
 			int offset, int length) {
 		for (int i = 0; i < length; i++) {

@@ -882,8 +882,11 @@ abstract public class Manager {
 	 * @param lineType
 	 *            line type
 	 * @param lineTypeHidden
+	 *            line type (hidden parts)
+	 * @param clipped
+	 *            curve is clipped
 	 */
-	public void setPackCurve(GColor color, int lineType, int lineTypeHidden) {
+	public void setPackCurve(GColor color, int lineType, int lineTypeHidden, boolean clipped) {
 		// not needed here
 	}
 

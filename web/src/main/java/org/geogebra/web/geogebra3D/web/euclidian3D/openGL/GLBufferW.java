@@ -98,6 +98,14 @@ public class GLBufferW implements GLBuffer {
 	}
 
 	@Override
+	public void set(ArrayList<Double> array, int arrayOffset, int offset,
+			int length) {
+		for (int i = 0; i < length; i++) {
+			impl.set(i + offset, array.get(arrayOffset + i));
+		}
+	}
+
+	@Override
 	public void set(ArrayList<Double> array, float[] translate, float scale,
 			int offset, int length) {
 		for (int i = 0; i < length; i++) {

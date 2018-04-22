@@ -318,7 +318,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		if (shouldBePacked()) {
 			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getGeoElement().getLineType(),
-					getGeoElement().getLineTypeHidden());
+					getGeoElement().getLineTypeHidden(), false);
 		}
 		int thickness = getGeoElement().getLineThickness();
 		if (thickness == 0) {

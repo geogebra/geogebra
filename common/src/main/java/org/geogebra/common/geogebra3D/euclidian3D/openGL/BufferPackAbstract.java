@@ -1,0 +1,142 @@
+package org.geogebra.common.geogebra3D.euclidian3D.openGL;
+
+import org.geogebra.common.awt.GColor;
+
+/**
+ * Interface for buffer that packs several geometries
+ *
+ */
+abstract class BufferPackAbstract {
+
+	/** max size for elements */
+	public static final int ELEMENT_SIZE_MAX = Short.MAX_VALUE + 1;
+
+	/** elements length */
+	int elementsLength;
+	/** indices length */
+	int indicesLength;
+
+	/**
+	 * 
+	 * @param elementsLength
+	 *            geometry elements length
+	 * @param indicesLength
+	 *            geometry indices length
+	 * @return true if possible to add geometry to this pack
+	 */
+	abstract boolean canAdd(int elementsLength, int indicesLength);
+
+	/**
+	 * Prepare buffers to add geometry and update length
+	 * 
+	 * @param elementsLengthToAdd
+	 *            geometry to add elements length
+	 * @param indicesLengthToAdd
+	 *            geometry to add indices length
+	 */
+	abstract void addToLength(int elementsLengthToAdd, int indicesLengthToAdd);
+
+	/**
+	 * set elements to buffers
+	 */
+	abstract void setElements();
+
+	/**
+	 * set elements to buffers
+	 * 
+	 * @param translate
+	 *            translate all vertices
+	 * @param scale
+	 *            scale all vertices
+	 * @param reuseSegment
+	 *            says if it reuses an existing segment
+	 */
+	abstract void setElements(float[] translate, float scale,
+			boolean reuseSegment);
+
+	/**
+	 * set color to buffer
+	 * 
+	 * @param color
+	 *            color
+	 * @param offset
+	 *            offset where to write
+	 * @param length
+	 *            length to write
+	 */
+	abstract void setColor(GColor color, int offset, int length);
+
+	/**
+	 * set alpha to current buffer segment
+	 * 
+	 * @param alpha
+	 */
+	abstract void setAlpha(int alpha);
+
+	/**
+	 * draw this pack
+	 * 
+	 * @param r
+	 *            renderer
+	 */
+	abstract void draw(RendererShadersInterface r);
+
+	/**
+	 * reset buffers and lengths
+	 */
+	abstract void reset();
+
+	/**
+	 * set alpha values to transparent
+	 * 
+	 * @param offset
+	 *            elements offset
+	 * @param length
+	 *            elements length
+	 */
+	abstract void setAlphaToTransparent(int offset, int length);
+
+	/**
+	 * put index in indices buffer
+	 * 
+	 * @param indicesIndex
+	 *            index in buffer
+	 * @param value
+	 *            value to put
+	 * 
+	 */
+	abstract void putToIndices(int indicesIndex, short value);
+
+	/**
+	 * 
+	 * @param position
+	 *            position in buffer
+	 * @return vertex buffer at position
+	 */
+	abstract GLBuffer getVertexBuffer(int position);
+
+	/**
+	 * 
+	 * @param position
+	 *            position in buffer
+	 * @return normal buffer at position
+	 */
+	abstract GLBuffer getNormalBuffer(int position);
+
+	/**
+	 * 
+	 * @param position
+	 *            position in buffer
+	 * @return vertex buffer at position
+	 */
+	abstract GLBufferIndices getIndicesBuffer(int position);
+
+	/**
+	 * 
+	 * @return if can be reused (when adding available segments)
+	 */
+	public boolean canBeReused() {
+		return true;
+	}
+
+}

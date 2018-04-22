@@ -1883,10 +1883,20 @@ public abstract class Drawable3D extends DrawableND {
 	 * setup manager start packing curves (if possible)
 	 */
 	protected void setPackCurve() {
+		setPackCurve(false);
+	}
+
+	/**
+	 * setup manager start packing curves (if possible)
+	 * 
+	 * @param clipped
+	 *            if curve is clipped
+	 */
+	protected void setPackCurve(boolean clipped) {
 		if (shouldBePacked()) {
 			getView3D().getRenderer().getGeometryManager().setPackCurve(
 					getColor(), getGeoElement().getLineType(),
-					getGeoElement().getLineTypeHidden());
+					getGeoElement().getLineTypeHidden(), clipped);
 		}
 	}
 

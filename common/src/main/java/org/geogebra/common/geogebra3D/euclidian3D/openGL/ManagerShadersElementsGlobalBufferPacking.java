@@ -21,6 +21,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	static final public float ALPHA_INVISIBLE_VALUE = -1f;
 
 	private GLBufferManagerCurves bufferManagerCurves;
+	private GLBufferManagerCurvesClipped bufferManagerCurvesClipped;
 	private GLBufferManagerSurfaces bufferManagerSurfaces, bufferManagerSurfacesClosed;
 	private GLBufferManagerPoints bufferManagerPoints;
 	private GLBufferManagerTemplatesForPoints bufferTemplates;
@@ -246,6 +247,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		super(renderer, view3d);
 		bufferTemplates = new GLBufferManagerTemplatesForPoints();
 		bufferManagerCurves = new GLBufferManagerCurves(this);
+		bufferManagerCurvesClipped = new GLBufferManagerCurvesClipped();
 		bufferManagerSurfaces = new GLBufferManagerSurfaces(this);
 		bufferManagerSurfacesClosed = new GLBufferManagerSurfaces(this);
 		bufferManagerPoints = new GLBufferManagerPoints(this);
@@ -271,6 +273,19 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public void drawCurves(Renderer renderer, boolean hidden) {
 		bufferManagerCurves.draw((RendererShadersInterface) renderer, hidden);
+	}
+
+	/**
+	 * draw clipped curves
+	 * 
+	 * @param renderer
+	 *            renderer
+	 * @param hidden
+	 *            if hidden
+	 */
+	public void drawCurvesClipped(Renderer renderer, boolean hidden) {
+		bufferManagerCurvesClipped.draw((RendererShadersInterface) renderer,
+				hidden);
 	}
 
 	/**
@@ -304,8 +319,9 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	}
 
 	@Override
-	public void setPackCurve(GColor color, int lineType, int lineTypeHidden) {
-		currentBufferManager = bufferManagerCurves;
+	public void setPackCurve(GColor color, int lineType, int lineTypeHidden, boolean clipped) {
+		currentBufferManager = clipped ? bufferManagerCurvesClipped
+				: bufferManagerCurves;
 		this.currentColor = color;
 		this.currentTextureType = Textures.getDashIdFromLineType(lineType, lineTypeHidden);
 	}
@@ -346,6 +362,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	public void reset() {
 		bufferManagerCurves.reset();
+		bufferManagerCurvesClipped.reset();
 		bufferManagerSurfaces.reset();
 		bufferManagerSurfacesClosed.reset();
 		bufferManagerPoints.reset();

@@ -47,6 +47,8 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		view3D.drawHidden(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
 			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer, true);
+			((ManagerShadersElementsGlobalBufferPacking) renderer
+					.getGeometryManager()).drawCurvesClipped(renderer, true);
 		}
 	}
 
@@ -65,6 +67,8 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		view3D.draw(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
 			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer, false);
+			((ManagerShadersElementsGlobalBufferPacking) renderer
+					.getGeometryManager()).drawCurvesClipped(renderer, false);
 		}
 	}
 

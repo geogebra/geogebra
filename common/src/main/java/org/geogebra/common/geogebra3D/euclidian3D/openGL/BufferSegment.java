@@ -16,7 +16,7 @@ class BufferSegment {
 	/** length for indices in BufferPack */
 	int indicesLength;
 	/** BufferPack */
-	BufferPack bufferPack;
+	BufferPackAbstract bufferPack;
 	/** element type */
 	TypeElement type;
 
@@ -30,7 +30,8 @@ class BufferSegment {
 	 * @param indicesLength
 	 *            indices length
 	 */
-	public BufferSegment(BufferPack bufferPack, int elementsLength, int indicesLength) {
+	public BufferSegment(BufferPackAbstract bufferPack, int elementsLength,
+			int indicesLength) {
 		this.bufferPack = bufferPack;
 		elementsOffset = bufferPack.elementsLength;
 		indicesOffset = bufferPack.indicesLength;

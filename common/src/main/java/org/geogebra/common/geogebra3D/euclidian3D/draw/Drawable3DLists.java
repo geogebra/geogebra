@@ -450,9 +450,19 @@ public class Drawable3DLists {
 
 		if (containsClippedCurves()) {
 			renderer.enableClipPlanesIfNeeded();
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]
-					.iterator(); d.hasNext();) {
-				d.next().drawHidden(renderer);
+			if (renderer.getGeometryManager().packBuffers()) {
+				for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]
+						.iterator(); d.hasNext();) {
+					Drawable3D d3d = d.next();
+					if (!d3d.shouldBePacked()) {
+						d3d.drawHidden(renderer);
+					}
+				}
+			} else {
+				for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]
+						.iterator(); d.hasNext();) {
+					d.next().drawHidden(renderer);
+				}
 			}
 			renderer.disableClipPlanesIfNeeded();
 		}
@@ -590,9 +600,19 @@ public class Drawable3DLists {
 
 		if (containsClippedCurves()) {
 			renderer.enableClipPlanesIfNeeded();
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]
-					.iterator(); d.hasNext();) {
-				d.next().drawOutline(renderer);
+			if (renderer.getGeometryManager().packBuffers()) {
+				for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]
+						.iterator(); d.hasNext();) {
+					Drawable3D d3d = d.next();
+					if (!d3d.shouldBePacked()) {
+						d3d.drawOutline(renderer);
+					}
+				}
+			} else {
+				for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]
+						.iterator(); d.hasNext();) {
+					d.next().drawOutline(renderer);
+				}
 			}
 			renderer.disableClipPlanesIfNeeded();
 		}

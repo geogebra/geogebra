@@ -6,24 +6,19 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 /**
  * Buffer that packs several geometries
  */
-class BufferPack {
-
-	static final private int ELEMENT_SIZE_MAX = Short.MAX_VALUE;
+class BufferPack extends BufferPackAbstract {
 
 	private GLBufferManager manager;
 	/** buffer for vertices */
-	GLBuffer vertexBuffer;
+	private GLBuffer vertexBuffer;
 	/** buffer for normals */
-	GLBuffer normalBuffer;
+	private GLBuffer normalBuffer;
 	private GLBuffer textureBuffer;
 	/** buffer for colors */
-	GLBuffer colorBuffer;
+	private GLBuffer colorBuffer;
 	/** buffer for indices */
-	GLBufferIndices indicesBuffer;
-	/** elements length */
-	int elementsLength;
-	/** indices length */
-	int indicesLength;
+	public GLBufferIndices indicesBuffer;
+
 
 	private int elementsSize, indicesSize;
 
@@ -35,6 +30,22 @@ class BufferPack {
 	 *            geometries manager
 	 */
 	public BufferPack(GLBufferManager manager) {
+		this(manager, manager.getElementSizeStart(),
+				manager.getIndicesSizeStart());
+	}
+
+	/**
+	 * creates a new buffer pack
+	 * 
+	 * @param manager
+	 *            geometries manager
+	 * @param elementsSize
+	 *            elementsSize
+	 * @param indicesSize
+	 *            indicesSize
+	 */
+	protected BufferPack(GLBufferManager manager, int elementsSize,
+			int indicesSize) {
 		this.manager = manager;
 		vertexBuffer = GLFactory.getPrototype().newBuffer();
 		normalBuffer = GLFactory.getPrototype().newBuffer();
@@ -42,8 +53,8 @@ class BufferPack {
 		colorBuffer = GLFactory.getPrototype().newBuffer();
 		indicesBuffer = GLFactory.getPrototype().newBufferIndices();
 
-		elementsSize = manager.getElementSizeStart();
-		indicesSize = manager.getIndicesSizeStart();
+		this.elementsSize = elementsSize;
+		this.indicesSize = indicesSize;
 		vertexBuffer.allocate(elementsSize * 3);
 		normalBuffer.allocate(elementsSize * 3);
 		textureBuffer.allocate(elementsSize * 2);
@@ -75,26 +86,18 @@ class BufferPack {
 		return ret;
 	}
 
-	/**
-	 * 
-	 * @param elementsLength
-	 *            geometry elements length
-	 * @param indicesLength
-	 *            geometry indices length
-	 * @return true if possible to add geometry to this pack
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#canAdd(int, int)
 	 */
+	@Override
 	public boolean canAdd(int elementsLength, int indicesLength) {
 		return this.elementsLength + elementsLength < ELEMENT_SIZE_MAX;
 	}
 
-	/**
-	 * Prepare buffers to add geometry and update length
-	 * 
-	 * @param elementsLengthToAdd
-	 *            geometry to add elements length
-	 * @param indicesLengthToAdd
-	 *            geometry to add indices length
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#addToLength(int, int)
 	 */
+	@Override
 	public void addToLength(int elementsLengthToAdd, int indicesLengthToAdd) {
 		elementsLength += elementsLengthToAdd;
 		if (elementsLength > elementsSize) {
@@ -111,9 +114,10 @@ class BufferPack {
 		indicesBuffer.setLimit(this.indicesLength);
 	}
 
-	/**
-	 * set elements to buffers
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#setElements()
 	 */
+	@Override
 	public void setElements() {
 		int offset = manager.currentBufferSegment.elementsOffset;
 		int length = manager.currentBufferSegment.elementsLength;
@@ -134,15 +138,26 @@ class BufferPack {
 	}
 
 	/**
-	 * set elements to buffers
+	 * set elements for big curve
 	 * 
-	 * @param translate
-	 *            translate all vertices
-	 * @param scale
-	 *            scale all vertices
-	 * @param reuseSegment
-	 *            says if it reuses an existing segment
+	 * @param curve
+	 *            curve index for array offset
+	 * 
+	 * @param length
+	 *            length to write
 	 */
+	protected void setElementsForBigCurve(int curve, int length) {
+		int arrayOffset = (ELEMENT_SIZE_MAX - PlotterBrush.LATITUDES) * curve;
+		vertexBuffer.set(manager.vertexArray, arrayOffset * 3, 0, length * 3);
+		normalBuffer.set(manager.normalArray, arrayOffset * 3, 0, length * 3);
+		textureBuffer.set(manager.textureArray, arrayOffset * 2, 0, length * 2);
+		setColor(manager.color, 0, length);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#setElements(float[], float, boolean)
+	 */
+	@Override
 	public void setElements(float[] translate, float scale,
 			boolean reuseSegment) {
 		int offset = manager.currentBufferSegment.elementsOffset;
@@ -156,16 +171,10 @@ class BufferPack {
 		setColor(manager.color, offset, length);
 	}
 
-	/**
-	 * set color to buffer
-	 * 
-	 * @param color
-	 *            color
-	 * @param offset
-	 *            offset where to write
-	 * @param length
-	 *            length to write
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#setColor(org.geogebra.common.awt.GColor, int, int)
 	 */
+	@Override
 	public void setColor(GColor color, int offset, int length) {
 		int colorOffset = offset * 4;
 		colorBuffer.set((float) color.getRed() / 255, colorOffset, length, 4);
@@ -177,11 +186,10 @@ class BufferPack {
 		setAlpha(color.getAlpha(), colorOffset, length);
 	}
 
-	/**
-	 * set alpha to current buffer segment
-	 * 
-	 * @param alpha
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#setAlpha(int)
 	 */
+	@Override
 	public void setAlpha(int alpha) {
 		setAlpha(alpha, manager.currentBufferSegment.elementsOffset * 4 + 3,
 				manager.currentBufferSegment.elementsLength);
@@ -191,12 +199,10 @@ class BufferPack {
 		colorBuffer.set(alpha <= 0 ? GLBufferManager.ALPHA_INVISIBLE : ((float) alpha / 255), offset, length, 4);
 	}
 
-	/**
-	 * draw this pack
-	 * 
-	 * @param r
-	 *            renderer
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#draw(org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface)
 	 */
+	@Override
 	public void draw(RendererShadersInterface r) {
 		vertexBuffer.rewind();
 		normalBuffer.rewind();
@@ -213,9 +219,10 @@ class BufferPack {
 		r.draw(Type.TRIANGLES, indicesLength);
 	}
 
-	/**
-	 * reset buffers and lengths
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#reset()
 	 */
+	@Override
 	public void reset() {
 		elementsLength = 0;
 		indicesLength = 0;
@@ -225,4 +232,50 @@ class BufferPack {
 		textureBuffer.setLimit(0);
 		indicesBuffer.setLimit(0);
 	}
+
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#setAlphaToTransparent(int, int)
+	 */
+	@Override
+	public void setAlphaToTransparent(int offset, int length) {
+		colorBuffer.set(
+				ManagerShadersElementsGlobalBufferPacking.ALPHA_INVISIBLE_VALUE,
+				offset * 4 + 3, length, 4);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#putToIndices(int, short)
+	 */
+	@Override
+	public void putToIndices(int indicesIndex, short value) {
+		indicesBuffer.put(indicesIndex, value);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#getVertexBuffer(int)
+	 */
+	@Override
+	public GLBuffer getVertexBuffer(int position) {
+		vertexBuffer.position(position);
+		return vertexBuffer;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#getNormalBuffer(int)
+	 */
+	@Override
+	public GLBuffer getNormalBuffer(int position) {
+		normalBuffer.position(position);
+		return normalBuffer;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#getIndicesBuffer(int)
+	 */
+	@Override
+	public GLBufferIndices getIndicesBuffer(int position) {
+		indicesBuffer.position(position);
+		return indicesBuffer;
+	}
+
 }

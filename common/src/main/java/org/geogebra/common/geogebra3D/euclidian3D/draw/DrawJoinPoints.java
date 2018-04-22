@@ -135,7 +135,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	protected void updateForItSelf(Coords p1, Coords p2) {
 
 		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getLineType(), getLineTypeHidden());
+			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getLineType(), getLineTypeHidden(), false);
 		}
 
 		// TODO prevent too large values

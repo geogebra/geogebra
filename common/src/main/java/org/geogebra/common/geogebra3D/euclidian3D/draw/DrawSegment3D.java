@@ -109,7 +109,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	protected void updateForItSelf(Coords p1, Coords p2) {
 		if (shouldBePacked()) {
 			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getGeoElement().getLineType(),
-					getGeoElement().getLineTypeHidden());
+					getGeoElement().getLineTypeHidden(), false);
 		}
 		super.updateForItSelf(p1, p2);
 		if (shouldBePacked()) {

@@ -46,19 +46,7 @@ public class GLBufferManagerCurves extends GLBufferManager {
 			boolean reuseSegment) {
 		switch (type) {
 		case CURVE:
-			for (int k = 0; k < size; k++) {
-				for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
-					int iNext = (i + 1) % PlotterBrush.LATITUDES;
-					// first triangle
-					putToIndices(i + k * PlotterBrush.LATITUDES);
-					putToIndices(i + (k + 1) * PlotterBrush.LATITUDES);
-					putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
-					// second triangle
-					putToIndices(i + k * PlotterBrush.LATITUDES);
-					putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
-					putToIndices(iNext + k * PlotterBrush.LATITUDES);
-				}
-			}
+			putToIndicesForCurve(size);
 			break;
 		case TRIANGLES:
 			for (int i = 0; i < 3 * size; i++) {

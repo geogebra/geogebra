@@ -23,8 +23,8 @@ abstract class GLBufferManager {
 	private int indicesIndex;
 	private TreeMap<Index, LinkedList<BufferSegment>> availableSegments;
 	/** current buffer pack */
-	protected BufferPack currentBufferPack;
-	private ArrayList<BufferPack> bufferPackList;
+	protected BufferPackAbstract currentBufferPack;
+	private ArrayList<BufferPackAbstract> bufferPackList;
 	/** vertex array for current geometry */
 	ArrayList<Double> vertexArray;
 	/** normal array for current geometry */
@@ -39,13 +39,31 @@ abstract class GLBufferManager {
 	GColor color;
 
 	/**
+	 * 
+	 * @param size
+	 *            curve size
+	 * @return elements length for given curve size
+	 */
+	static public int getElementsLengthForCurve(int size) {
+		return (size + 1) * PlotterBrush.LATITUDES;
+	}
+
+	/**
+	 * 
+	 * @param size
+	 *            curve size
+	 * @return indices length for given curve size
+	 */
+	static public int getIndicesLengthForCurve(int size) {
+		return 3 * 2 * size * PlotterBrush.LATITUDES;
+	}
+
+	/**
 	 * constructor
 	 */
 	public GLBufferManager() {
 		currentIndex = new Index();
-		currentBufferPack = new BufferPack(this);
 		bufferPackList = new ArrayList<>();
-		bufferPackList.add(currentBufferPack);
 
 		currentLengths = new Index();
 		bufferSegments = new TreeMap<>();
@@ -108,8 +126,9 @@ abstract class GLBufferManager {
 	}
 
 	private void setAlphaToTransparent() {
-		currentBufferPack.colorBuffer.set(ManagerShadersElementsGlobalBufferPacking.ALPHA_INVISIBLE_VALUE,
-				currentBufferSegment.elementsOffset * 4 + 3, currentBufferSegment.elementsLength, 4);
+		currentBufferPack.setAlphaToTransparent(
+				currentBufferSegment.elementsOffset,
+				currentBufferSegment.elementsLength);
 	}
 
 	/**
@@ -179,14 +198,21 @@ abstract class GLBufferManager {
 			return;
 		}
 		currentBufferPack = currentBufferSegment.bufferPack;
-		setAlphaToTransparent();
-		currentLengths.set(currentBufferSegment.elementsLength, currentBufferSegment.indicesLength);
-		LinkedList<BufferSegment> list = availableSegments.get(currentLengths);
-		if (list == null) {
-			list = new LinkedList<>();
-			availableSegments.put(new Index(currentLengths), list);
+
+		if (currentBufferPack.canBeReused()) {
+			setAlphaToTransparent();
+			currentLengths.set(currentBufferSegment.elementsLength,
+					currentBufferSegment.indicesLength);
+			LinkedList<BufferSegment> list = availableSegments
+					.get(currentLengths);
+			if (list == null) {
+				list = new LinkedList<>();
+				availableSegments.put(new Index(currentLengths), list);
+			}
+			list.add(currentBufferSegment);
+		} else {
+			bufferPackList.remove(currentBufferPack);
 		}
-		list.add(currentBufferSegment);
 	}
 
 
@@ -256,8 +282,9 @@ abstract class GLBufferManager {
 			currentLengths.set(elementsLength, indicesLength);
 			currentBufferSegment = getAvailableSegment();
 			if (currentBufferSegment == null) {
-				if (!currentBufferPack.canAdd(elementsLength, indicesLength)) {
-					currentBufferPack = new BufferPack(this);
+				if (currentBufferPack == null || !currentBufferPack
+						.canAdd(elementsLength, indicesLength)) {
+					currentBufferPack = createBufferPack();
 					bufferPackList.add(currentBufferPack);
 				}
 				currentBufferSegment = new BufferSegment(currentBufferPack, elementsLength, indicesLength);
@@ -305,7 +332,8 @@ abstract class GLBufferManager {
 	 *            index to write
 	 */
 	protected void putToIndices(int index) {
-		currentBufferPack.indicesBuffer.put(indicesIndex, (short) (currentBufferSegment.elementsOffset + index));
+		currentBufferPack.putToIndices(indicesIndex,
+				(short) (currentBufferSegment.elementsOffset + index));
 		indicesIndex++;
 	}
 
@@ -316,7 +344,8 @@ abstract class GLBufferManager {
 	 *            renderer
 	 */
 	protected void drawBufferPacks(RendererShadersInterface r) {
-		for (BufferPack bufferPack : bufferPackList) {
+
+		for (BufferPackAbstract bufferPack : bufferPackList) {
 			if (bufferPack.elementsLength > 0) {
 				bufferPack.draw(r);
 			}
@@ -329,7 +358,7 @@ abstract class GLBufferManager {
 	public void reset() {
 		availableSegments.clear();
 		bufferSegments.clear();
-		for (BufferPack bufferPack : bufferPackList) {
+		for (BufferPackAbstract bufferPack : bufferPackList) {
 			bufferPack.reset();
 		}
 
@@ -361,9 +390,8 @@ abstract class GLBufferManager {
 	 * @return vertex buffer positioned to current buffer segment offset
 	 */
 	public GLBuffer getCurrentBufferVertices() {
-		GLBuffer ret = currentBufferSegment.bufferPack.vertexBuffer;
-		ret.position(currentBufferSegment.elementsOffset * 3);
-		return ret;
+		return currentBufferSegment.bufferPack
+				.getVertexBuffer(currentBufferSegment.elementsOffset * 3);
 	}
 
 	/**
@@ -371,9 +399,8 @@ abstract class GLBufferManager {
 	 * @return normal buffer positioned to current buffer segment offset
 	 */
 	public GLBuffer getCurrentBufferNormals() {
-		GLBuffer ret = currentBufferSegment.bufferPack.normalBuffer;
-		ret.position(currentBufferSegment.elementsOffset * 3);
-		return ret;
+		return currentBufferSegment.bufferPack
+				.getNormalBuffer(currentBufferSegment.elementsOffset * 3);
 	}
 
 	/**
@@ -397,9 +424,8 @@ abstract class GLBufferManager {
 	 * @return indices buffer positioned to current buffer segment offset
 	 */
 	public GLBufferIndices getCurrentBufferIndices() {
-		GLBufferIndices ret = currentBufferSegment.bufferPack.indicesBuffer;
-		ret.position(currentBufferSegment.indicesOffset);
-		return ret;
+		return currentBufferSegment.bufferPack
+				.getIndicesBuffer(currentBufferSegment.indicesOffset);
 	}
 
 	/**
@@ -415,5 +441,35 @@ abstract class GLBufferManager {
 	 */
 	public boolean isTemplateForPoints() {
 		return false;
+	}
+
+	/**
+	 * 
+	 * @return a new buffer pack
+	 */
+	protected BufferPackAbstract createBufferPack() {
+		return new BufferPack(this);
+	}
+
+	/**
+	 * put to indices for curve
+	 * 
+	 * @param size
+	 *            curve size
+	 */
+	protected void putToIndicesForCurve(int size) {
+		for (int k = 0; k < size; k++) {
+			for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
+				int iNext = (i + 1) % PlotterBrush.LATITUDES;
+				// first triangle
+				putToIndices(i + k * PlotterBrush.LATITUDES);
+				putToIndices(i + (k + 1) * PlotterBrush.LATITUDES);
+				putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
+				// second triangle
+				putToIndices(i + k * PlotterBrush.LATITUDES);
+				putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
+				putToIndices(iNext + k * PlotterBrush.LATITUDES);
+			}
+		}
 	}
 }
