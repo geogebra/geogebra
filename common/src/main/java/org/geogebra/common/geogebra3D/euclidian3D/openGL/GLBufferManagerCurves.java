@@ -107,4 +107,12 @@ public class GLBufferManagerCurves extends GLBufferManager {
 		}
 	}
 
+	@Override
+	protected boolean checkCurrentBufferSegmentDoesNotFit(int indicesLength,
+			TypeElement type) {
+		return type != currentBufferSegment.type
+				|| super.checkCurrentBufferSegmentDoesNotFit(indicesLength,
+						type);
+	}
+
 }

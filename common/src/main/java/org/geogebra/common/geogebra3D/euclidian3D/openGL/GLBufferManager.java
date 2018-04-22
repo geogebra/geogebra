@@ -247,21 +247,28 @@ abstract class GLBufferManager {
 	abstract protected void putIndices(int size, TypeElement type,
 			boolean reuseSegment);
 
+
+	private boolean currentBufferSegmentDoesNotFit(int indicesLength,
+			TypeElement type) {
+		if (checkCurrentBufferSegmentDoesNotFit(indicesLength, type)) {
+			addCurrentToAvailableSegments();
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * 
 	 * @param indicesLength
 	 *            indices length
 	 * @param type
 	 *            element type
-	 * @return true if we can't reuse the same buffer segment
+	 * @return true if current buffer segment doesn't fit length and type
 	 */
-	protected boolean currentBufferSegmentDoesNotFit(int indicesLength, TypeElement type) {
-		if (elementsLength != currentBufferSegment.elementsLength
-				|| indicesLength != currentBufferSegment.indicesLength) {
-			addCurrentToAvailableSegments();
-			return true;
-		}
-		return false;
+	protected boolean checkCurrentBufferSegmentDoesNotFit(int indicesLength,
+			TypeElement type) {
+		return elementsLength != currentBufferSegment.elementsLength
+				|| indicesLength != currentBufferSegment.indicesLength;
 	}
 
 	/**

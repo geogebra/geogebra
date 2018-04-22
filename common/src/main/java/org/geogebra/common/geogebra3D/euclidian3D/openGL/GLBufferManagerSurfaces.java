@@ -106,13 +106,13 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 	}
 
 	@Override
-	protected boolean currentBufferSegmentDoesNotFit(int indicesLength, TypeElement type) {
-		if (type == TypeElement.SURFACE || currentBufferSegment.type == TypeElement.SURFACE
-				|| type != currentBufferSegment.type) {
-			addCurrentToAvailableSegments();
-			return true;
-		}
-		return super.currentBufferSegmentDoesNotFit(indicesLength, type);
+	protected boolean checkCurrentBufferSegmentDoesNotFit(int indicesLength,
+			TypeElement type) {
+		return type == TypeElement.SURFACE
+				|| currentBufferSegment.type == TypeElement.SURFACE
+				|| type != currentBufferSegment.type
+				|| super.checkCurrentBufferSegmentDoesNotFit(indicesLength,
+						type);
 	}
 
 	@Override
