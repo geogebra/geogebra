@@ -49,6 +49,7 @@ public class DrawLocus3D extends Drawable3DCurves {
 
 		Renderer renderer = view.getRenderer();
 
+		setPackCurve(true);
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 		brush.start(getReusableGeometryIndex());
 		brush.setThickness(getGeoElement().getLineThickness(),
@@ -59,6 +60,7 @@ public class DrawLocus3D extends Drawable3DCurves {
 		CurvePlotter.draw(brush, getLocus().getPoints(), transformCoordSys);
 
 		setGeometryIndex(brush.end());
+		endPacking();
 
 		return true;
 
@@ -94,6 +96,23 @@ public class DrawLocus3D extends Drawable3DCurves {
 	@Override
 	protected boolean isLabelVisible() {
 		return false;
+	}
+
+	@Override
+	protected void updateGeometriesColor() {
+		updateColors();
+		getView3D().getRenderer().getGeometryManager().updateColor(getColor(),
+				getGeometryIndex());
+		if (!isVisible()) {
+			setGeometriesVisibility(false);
+		}
+	}
+
+	@Override
+	protected void setGeometriesVisibility(boolean visible) {
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getGeometryIndex());
+		geometriesSetVisible = visible;
 	}
 
 }
