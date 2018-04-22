@@ -358,10 +358,15 @@ abstract class GLBufferManager {
 	public void reset() {
 		availableSegments.clear();
 		bufferSegments.clear();
+		ArrayList<BufferPackAbstract> buffersToRemove = new ArrayList<>();
 		for (BufferPackAbstract bufferPack : bufferPackList) {
-			bufferPack.reset();
+			if (bufferPack.canBeReused()) {
+				bufferPack.reset();
+			} else {
+				buffersToRemove.add(bufferPack);
+			}
 		}
-
+		bufferPackList.removeAll(buffersToRemove);
 	}
 
 	/**
