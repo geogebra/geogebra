@@ -120,10 +120,10 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	@Override
 	public void setAlpha(int alpha) {
 		for (BufferPack bufferPack : bufferPacks) {
-			bufferPack.setAlpha(alpha);
+			bufferPack.setAlpha(alpha, ELEMENT_SIZE_MAX);
 		}
 		if (lastBufferElementsLength > 0) {
-			lastBuffer.setAlpha(alpha);
+			lastBuffer.setAlpha(alpha, lastBufferElementsLength);
 		}
 	}
 

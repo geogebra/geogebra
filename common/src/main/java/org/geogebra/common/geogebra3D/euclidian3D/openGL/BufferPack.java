@@ -195,6 +195,18 @@ class BufferPack extends BufferPackAbstract {
 				manager.currentBufferSegment.elementsLength);
 	}
 
+	/**
+	 * set alpha
+	 * 
+	 * @param alpha
+	 *            alpha value
+	 * @param length
+	 *            length
+	 */
+	protected void setAlpha(int alpha, int length) {
+		setAlpha(alpha, 3, length);
+	}
+
 	private void setAlpha(int alpha, int offset, int length) {
 		colorBuffer.set(alpha <= 0 ? GLBufferManager.ALPHA_INVISIBLE : ((float) alpha / 255), offset, length, 4);
 	}
