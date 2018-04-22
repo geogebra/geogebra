@@ -180,13 +180,14 @@ abstract public class ObjectSettingsModel {
      *         set the point style for all selected geoElements
      */
     public void setPointStyle(int pointStyle) {
-        for (GeoElement geo : geoElementsList) {
-            ((PointProperties) geo).setPointStyle(pointStyle);
-            geo.updateVisualStyleRepaint(GProperty.POINT_STYLE);
-        }
-
-        app.setPropertiesOccured();
-    }
+		for (GeoElement geo : geoElementsList) {
+    		if (geo instanceof PointProperties) {
+				((PointProperties) geo).setPointStyle(pointStyle);
+				geo.updateVisualStyleRepaint(GProperty.POINT_STYLE);
+			}
+		}
+		app.setPropertiesOccured();
+	}
 
     /**
      * @return the point size or line thickness, depending on the geoElement's type
