@@ -1161,6 +1161,8 @@ public enum Commands implements CommandsConstants,
 
 	TrigCombine(TABLE_FUNCTION),
 
+	nPr(TABLE_ENGLISH),
+
 	RoundedPolygon(TABLE_ENGLISH); // TODO move to TABLE_GEOMETRY
 
 	private int table;

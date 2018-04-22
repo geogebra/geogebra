@@ -66,6 +66,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdCAStoOperation(kernel, Operation.MULTIPLY);
 		case Cross:
 			return new CmdCAStoOperation(kernel, Operation.VECTORPRODUCT);
+		case nPr:
+			return new CmdCAStoOperation(kernel, Operation.NPR);
 		case PolyLine:
 			return new CmdPolyLine(kernel);
 		case PointIn:

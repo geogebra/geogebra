@@ -41,6 +41,7 @@ public class CmdCAStoOperation extends CommandProcessor {
 			break;
 		case MULTIPLY:
 		case VECTORPRODUCT:
+		case NPR:
 			en = new ExpressionNode(kernel, args[0], op, args[1]);
 			break;
 		default:

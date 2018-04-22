@@ -493,6 +493,7 @@ public abstract class CommandDispatcher {
 			case Vector:
 			case Dot:
 			case Cross:
+			case nPr:
 			case PolyLine:
 			case Polyline:
 			case PointIn:
