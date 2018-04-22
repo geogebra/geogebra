@@ -3250,7 +3250,7 @@ __GGB__keysVar["ca"].menu = {
     "units": "unitat(s)",
     "vertical": "vertical",
     "xAxis": "EixX",
-    "xOyPlane": "Pla xy",
+    "xOyPlane": "Plaxy",
     "xmax": "x m\xe0x",
     "xmin": "x m\xedn",
     "xstep": "Pas X",

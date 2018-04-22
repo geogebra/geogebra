@@ -3250,7 +3250,7 @@ __GGB__keysVar["si"].menu = {
     "units": "\u0d91\u0d9a\u0d9a(\u0dba)",
     "vertical": "\u0dc3\u0dd2\u0dbb\u0dc3",
     "xAxis": "X\u0d85\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba",
-    "xOyPlane": "xOy \u0dad\u0dbd\u0dba",
+    "xOyPlane": "xOy\u0dad\u0dbd\u0dba",
     "xmax": "X\u0dc4\u0dd3 \u0d8b\u0db4\u0dbb\u0dd2\u0db8\u0dba",
     "xmin": "X\u0dc4\u0dd3 \u0d85\u0dc0\u0db8\u0dba",
     "xstep": "X \u0db4\u0dd2\u0dba\u0dc0\u0dbb",

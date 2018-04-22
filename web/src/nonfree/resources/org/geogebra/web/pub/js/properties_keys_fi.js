@@ -3250,7 +3250,7 @@ __GGB__keysVar["fi"].menu = {
     "units": "yksikk\xf6(\xe4)",
     "vertical": "Pystysuora",
     "xAxis": "xAkseli",
-    "xOyPlane": "xy-taso",
+    "xOyPlane": "xytaso",
     "xmax": "x max",
     "xmin": "x min",
     "xstep": "X askel",

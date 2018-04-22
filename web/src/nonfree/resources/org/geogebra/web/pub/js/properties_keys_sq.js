@@ -3250,7 +3250,7 @@ __GGB__keysVar["sq"].menu = {
     "units": "unit(s)",
     "vertical": "Vertikal",
     "xAxis": "Boshtix",
-    "xOyPlane": "Plani xOy",
+    "xOyPlane": "PlanixOy",
     "xmax": "x-max",
     "xmin": "x-min",
     "xstep": "X Shkalle",

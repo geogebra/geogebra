@@ -3250,7 +3250,7 @@ __GGB__keysVar["ug"].menu = {
     "units": "\u0628\u0649\u0631\u0644\u0649\u0643\u0649 (s)",
     "vertical": "\u06cb\u06d0\u0631\u062a\u0649\u0643\u0627\u0644",
     "xAxis": "x\u0626\u0648\u0642",
-    "xOyPlane": "xOy \u062a\u06d5\u0643\u0634\u0649\u0644\u0649\u0643",
+    "xOyPlane": "xOy\u062a\u06d5\u0643\u0634\u0649\u0644\u0649\u0643",
     "xmax": "x Max",
     "xmin": "x Min",
     "xstep": "X \u0626\u0627\u0631\u0649\u0644\u0649\u0642",

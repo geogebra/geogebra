@@ -3250,7 +3250,7 @@ __GGB__keysVar["nl"].menu = {
     "units": "eenheid",
     "vertical": "Verticaal",
     "xAxis": "xAs",
-    "xOyPlane": "Oxy-vlak",
+    "xOyPlane": "Oxyvlak",
     "xmax": "xMax",
     "xmin": "xMin",
     "xstep": "X Stapgrootte",

@@ -3250,7 +3250,7 @@ __GGB__keysVar["es-UY"].menu = {
     "units": "unidad(es)",
     "vertical": "Vertical",
     "xAxis": "EjeX",
-    "xOyPlane": "Plano xOy",
+    "xOyPlane": "PlanoxOy",
     "xmax": "x M\xe1x",
     "xmin": "x M\xedn",
     "xstep": "Paso X",

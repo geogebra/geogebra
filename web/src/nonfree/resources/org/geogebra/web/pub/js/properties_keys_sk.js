@@ -3250,7 +3250,7 @@ __GGB__keysVar["sk"].menu = {
     "units": "jednotka(y)",
     "vertical": "vertik\xe1lna",
     "xAxis": "xOs",
-    "xOyPlane": "xy rovina",
+    "xOyPlane": "xyrovina",
     "xmax": "xmax",
     "xmin": "xmin",
     "xstep": "x krok",

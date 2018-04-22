@@ -3250,7 +3250,7 @@ __GGB__keysVar["et"].menu = {
     "units": "\xfchik(ud)",
     "vertical": "Vertikaalne",
     "xAxis": "xtelg",
-    "xOyPlane": "xOy-Tasand",
+    "xOyPlane": "xOyTasand",
     "xmax": "x max",
     "xmin": "x min",
     "xstep": "X Samm",

@@ -3250,7 +3250,7 @@ __GGB__keysVar["vi"].menu = {
     "units": "unit(s)",
     "vertical": "Th\u1eb3ng \u0111\u1ee9ng",
     "xAxis": "TrucHoanh",
-    "xOyPlane": "M\u1eb7t ph\u1eb3ng xOy",
+    "xOyPlane": "M\u1eb7tph\u1eb3ngxOy",
     "xmax": "GTLNx",
     "xmin": "GNNNx",
     "xstep": "X B\u01b0\u1edbc",

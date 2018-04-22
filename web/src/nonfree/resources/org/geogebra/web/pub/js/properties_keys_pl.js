@@ -3250,7 +3250,7 @@ __GGB__keysVar["pl"].menu = {
     "units": "jednostka(jednostki)",
     "vertical": "pionowy",
     "xAxis": "O\u015bX",
-    "xOyPlane": "p\u0142aszczyzna xOy",
+    "xOyPlane": "p\u0142aszczyznaxOy",
     "xmax": "xMax",
     "xmin": "xMin",
     "xstep": "X krok",
