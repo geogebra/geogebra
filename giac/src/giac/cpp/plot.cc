@@ -3133,10 +3133,10 @@ namespace giac {
       return false;
     gen a=remove_at_pnt(diam._VECTptr->front());
     gen b=remove_at_pnt(diam._VECTptr->back());
-    centre=recursive_normal(rdiv(a+b,plus_two,contextptr),contextptr);
+    centre=recursive_normal(ratnormal(rdiv(a+b,plus_two,contextptr),contextptr),contextptr);
     rayon=rdiv(b-a,plus_two,contextptr);
     if (absrayon)
-      rayon=abs(recursive_normal(rayon,contextptr),contextptr);
+      rayon=abs(recursive_normal(ratnormal(rayon,contextptr),contextptr),contextptr);
     return true;
   }
 
@@ -4717,7 +4717,8 @@ namespace giac {
     gen a=exinscrit?-sqrt(a2,contextptr):sqrt(a2,contextptr);
     gen b=sqrt(b2,contextptr);
     gen c=sqrt(c2,contextptr);
-    gen I=normal((a*A+b*B+c*C)/(a+b+c),contextptr);
+    gen I=(a*A+b*B+c*C)/(a+b+c);
+    I=normal(I,contextptr);
     gen AB(B-A), AC(C-A);
     gen surface=re(AB,contextptr)*im(AC,contextptr)-im(AB,contextptr)*re(AC,contextptr);
     gen r=normal(surface/(a+b+c),contextptr);
