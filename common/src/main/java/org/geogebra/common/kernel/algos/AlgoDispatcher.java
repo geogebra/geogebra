@@ -110,7 +110,7 @@ public class AlgoDispatcher {
 	}
 
 	public void addIntersectionAlgorithm(AlgoIntersectAbstract algo) {
-		if (cons.getKernel().isSilentMode()) {
+		if (!isIntersectCacheEnabled || cons.getKernel().isSilentMode()) {
 			return;
 		}
 		intersectionAlgos.add(algo);
