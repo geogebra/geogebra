@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable class for GeoVideo
@@ -52,7 +51,6 @@ public class DrawVideo extends Drawable {
 
 	@Override
 	public void update() {
-		Log.debug("updateVideo");
 		app.getGuiManager().updateVideo(video);
 		setMetrics();
 	}
