@@ -1369,11 +1369,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public synchronized void setAxesVisible(boolean xVisible,
 			boolean yVisible) {
-		app.getEuclidianView1().setShowAxis(EuclidianViewInterfaceCommon.AXIS_X,
-				xVisible, false);
-		app.getEuclidianView1().setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y,
-				yVisible, false);
-		kernel.notifyRepaint();
+		setAxesVisible(1, xVisible, yVisible, false);
 	}
 
 	@Override
