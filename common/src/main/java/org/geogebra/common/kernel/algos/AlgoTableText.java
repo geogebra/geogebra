@@ -60,27 +60,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	private int columns;
 	private int rows;
 
-	private static String currencyList = Unicode.CURRENCY_BAHT + "" +
-
-			Unicode.CURRENCY_DOLLAR + "" +
-
-			Unicode.CURRENCY_DONG + "" +
-
-			Unicode.CURRENCY_EURO + "" +
-
-			Unicode.CURRENCY_INDIAN_RUPEE + "" +
-
-			Unicode.CURRENCY_POUND + "" +
-
-			Unicode.CURRENCY_RUPEE + "" +
-
-			Unicode.CURRENCY_SHEKEL + "" +
-
-			Unicode.CURRENCY_TUGHRIK + "" +
-
-			Unicode.CURRENCY_WON + "" +
-
-			Unicode.CURRENCY_YEN + "";
 
 	// getters for style variables (used by EuclidianStyleBar)
 
@@ -224,10 +203,10 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 				alignment = Alignment.VERTICAL; // vertical table
 			}
 
-			if (currencyList.indexOf(optionsStr.charAt(0)) > -1) {
+			if (Unicode.currencyList.indexOf(optionsStr.charAt(0)) > -1) {
 				currencyStart = (optionsStr.charAt(0) + "").replace("$",
 						"\\dollar ");
-			} else if (currencyList
+			} else if (Unicode.currencyList
 					.indexOf(optionsStr.charAt(optionsStr.length() - 1)) > -1) {
 				currencyEnd = (optionsStr.charAt(optionsStr.length() - 1) + "")
 						.replace("$", "\\dollar ");

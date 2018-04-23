@@ -4478,6 +4478,10 @@ public abstract class App implements UpdateSelection {
 		case IMAGE_EXPORT:
 			return true;
 
+		/** GGB-2346 */
+		case CURRENCY_UNIT:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

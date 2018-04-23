@@ -226,6 +226,9 @@ public enum Feature {
 	/** GGB-2258 */
 	VOICEOVER_CURSOR,
 
+	/** GGB-2346 */
+	CURRENCY_UNIT,
+
 	/** MOW-360, MOW-381, MOW-382 */
 	MOW_CROP_IMAGE,
 	

@@ -205,4 +205,28 @@ public class Unicode {
 
 	public static final char CENTER_DOT = '\u00b7';
 	public static final char BULLET = '\u2022';
+	public static String currencyList = CURRENCY_BAHT + "" + CURRENCY_DOLLAR
+			+ "" + CURRENCY_DONG + "" + CURRENCY_EURO + ""
+			+ CURRENCY_INDIAN_RUPEE + "" + CURRENCY_POUND + "" + CURRENCY_RUPEE
+			+ "" + CURRENCY_SHEKEL + "" + CURRENCY_TUGHRIK + "" + CURRENCY_WON
+			+ "" + CURRENCY_YEN + "";
+
+	/**
+	 * @param ch
+	 *            to check.
+	 * @return true iff the character is a currency sign
+	 */
+	public static boolean isCurrency(char ch) {
+		return currencyList.indexOf(ch) != -1;
+	}
+
+	/**
+	 * @param text
+	 *            to check.
+	 * @return true iff the string is a currency sign
+	 */
+	public static boolean isCurrency(String text) {
+		String str = text.trim();
+		return str.length() == 1 && isCurrency(str.charAt(0));
+	}
 }
