@@ -886,14 +886,16 @@ public abstract class GuiManager implements GuiManagerInterface {
 			if (lastToolId >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 				return toolbarDef + customToolBar.toString();
 			}
-			return toolbarDef + " ||" + customToolBar.toString();
+			return "".equals(customToolBar.toString()) ? toolbarDef
+					: toolbarDef + " ||" + customToolBar.toString();
 		} catch (NumberFormatException e) {
 			// could not identify the last tool so just add the custom tools
 			// onto the end
 			if (last.contains("|")) {
 				return toolbarDef + customToolBar.toString();
 			}
-			return toolbarDef + " ||" + customToolBar.toString();
+			return "".equals(customToolBar.toString()) ? toolbarDef
+					: toolbarDef + " ||" + customToolBar.toString();
 		}
 	}
 

@@ -149,6 +149,7 @@ public class Tools extends FlowPanel implements SetLabels {
 	 * Builds the panel of tools.
 	 */
 	public void buildGui() {
+		// clear panel
 		this.clear();
 		categoryPanelList = new ArrayList<>();
 		// decide if custom toolbar or not
@@ -156,7 +157,7 @@ public class Tools extends FlowPanel implements SetLabels {
 		boolean isCustomToolbar = !def
 				.equals(ToolBar.getAllToolsNoMacros(true, false, app));
 		parentTab.isCustomToolbar = isCustomToolbar;
-
+		// build tools panel depending on if custom or not
 		if (!isCustomToolbar) {
 			mToolCategorization = new ToolCategorization(app,
 				app.getSettings().getToolbarSettings().getType(),
