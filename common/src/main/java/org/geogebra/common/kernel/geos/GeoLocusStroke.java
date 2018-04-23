@@ -44,7 +44,7 @@ public class GeoLocusStroke extends GeoLocus
 
 	@Override
 	public boolean hasLineOpacity() {
-		return false;
+		return true;
 	}
 
 	@Override
