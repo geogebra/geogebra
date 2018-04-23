@@ -331,6 +331,7 @@ public abstract class AppW extends App implements SetLabels {
 				|| (zoomPanel != null && zoomPanel.isFullScreen())) {
 			return;
 		}
+		Log.debug("RESIZE: Start");
 		if (!StringUtil
 				.empty(getArticleElement().getParamScaleContainerClass())) {
 			Element parent = getParent(
@@ -356,6 +357,7 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	private void scaleTo(int width, int height) {
+		Log.debug("RESIZE: dim " + width + " x " + height);
 		double xscale = width / getWidth();
 		double yscale = height / getHeight();
 		double scale = LayoutUtilW.getDeviceScale(xscale, yscale,
