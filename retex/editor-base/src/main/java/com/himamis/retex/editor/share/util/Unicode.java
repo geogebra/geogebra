@@ -226,6 +226,9 @@ public class Unicode {
 	 * @return true iff the string is a currency sign
 	 */
 	public static boolean isCurrency(String text) {
+		if (text == null) {
+			return false;
+		}
 		String str = text.trim();
 		return str.length() == 1 && isCurrency(str.charAt(0));
 	}

@@ -14,9 +14,12 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Draws axes in 2D
@@ -460,6 +463,8 @@ public class DrawAxis {
 		// arraylist
 		ArrayList<TickNumber> numbers = new ArrayList<>();
 
+		boolean currencyUnit = view.getApplication().has(Feature.CURRENCY_UNIT);
+
 		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
 			if (pix >= maxY && pix < yAxisEnd + 1) {
 				if (view.showAxesNumbers[1]
@@ -474,18 +479,31 @@ public class DrawAxis {
 					String strNum = tickDescription(view, labelno, 1);
 
 					if ((labelno % unitsPerLabelY) == 0) {
+						String unit = view.axesUnitLabels[1];
+						boolean currency = currencyUnit && Unicode.isCurrency(unit);
 
-						StringBuilder sb = new StringBuilder(strNum);
+						StringBuilder sb = new StringBuilder();
+						if (currency) {
+							boolean negative = strNum.charAt(0) == '-';
+							if (negative) {
+								sb.append(minusSign);
+							}
+							sb.append(unit);
+							sb.append(negative ? strNum.substring(1) : strNum);
+						} else {
+							sb.append(strNum);
+						}
+
 
 						// don't check rw < 0 as it fails for eg
 						// -0.0000000001
-						if (sb.charAt(0) == '-') {
+						if (sb.charAt(0) == '-' && !currency) {
 							// change minus sign (too short) to n-dash
 							sb.setCharAt(0, minusSign);
 						}
 
 						if ((view.axesUnitLabels[1] != null)
-								&& !view.piAxisUnit[1]) {
+								&& !view.piAxisUnit[1] && !currency) {
 							sb.append(view.axesUnitLabels[1]);
 						}
 
