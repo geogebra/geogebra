@@ -246,7 +246,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		getWidget().addStyleName("latexEditor");
 		if (app.isUnbundled() && geo0.getParentAlgorithm() != null
 				&& geo0.getParentAlgorithm() instanceof AlgoPointOnPath) {
-			getWidget().getElement().getStyle().setProperty("height", 72,
+			getWidget().getElement().getStyle().setProperty("minHeight", 72,
 					Unit.PX);
 		}
 	}
