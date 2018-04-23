@@ -697,7 +697,7 @@ public class GGWToolBar extends Composite
 						32, false, false);
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);
-				return null;
+				return myIconResourceBundle.mode_tool_32();
 			}
 		}
 
