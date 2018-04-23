@@ -10,7 +10,6 @@ import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
 import org.geogebra.common.main.App;
-import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.html5.Browser;
@@ -154,8 +153,8 @@ public class Tools extends FlowPanel implements SetLabels {
 		categoryPanelList = new ArrayList<>();
 		// decide if custom toolbar or not
 		String def = app.getGuiManager().getCustomToolbarDefinition();
-		boolean isCustomToolbar = !def
-				.equals(ToolBar.getAllToolsNoMacros(true, false, app));
+
+		boolean isCustomToolbar = !ToolBar.isDefaultToolbar(def);
 		parentTab.isCustomToolbar = isCustomToolbar;
 		// build tools panel depending on if custom or not
 		if (!isCustomToolbar) {
@@ -215,7 +214,6 @@ public class Tools extends FlowPanel implements SetLabels {
 		private FlowPanel toolsPanel;
 		private Label categoryLabel;
 		private ArrayList<StandardButton> toolBtnList;
-		private ToolbarSvgResources toolSvgRes = ToolbarSvgResources.INSTANCE;
 
 		public CategoryPanel(ToolCategorization.Category cat) {
 			super();

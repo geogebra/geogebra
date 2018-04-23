@@ -8,7 +8,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 /**
  * @author gabor
@@ -34,8 +33,12 @@ public class ToolBar {
 	/**
 	 * any toolbar composed of a set of following menus should be considered as
 	 * default toolbar
+	 * 
+	 * The first group depends on selection tool and rotate tool (different for
+	 * desktop x web and prerelease x stable): accept all
 	 */
-	static private final String[][] DEFAULT_TOOLBAR = { { "0 39 73 62 110" },
+	static private final String[][] DEFAULT_TOOLBAR = {
+			{ "0 39 73 62 110", "0 39 73 62", "0 73 62", "0 77 73 62" },
 			{ "1 501 67 5 19 72 75 76" }, { "2 15 45 18 65 7 37" },
 			{ "4 3 8 9 13 44 58 47" }, { "16 51 64 70" },
 			{ "10 34 53 11 24 20 22 21 23" }, { "55 56 57 12" },
@@ -57,7 +60,6 @@ public class ToolBar {
 	 * Integer used to indicate a separator in the toolbar.
 	 */
 	public static final Integer SEPARATOR = Integer.valueOf(-1);
-
 	/**
 	 * Returns with the default definition of the general tool bar without
 	 * macros.
@@ -73,6 +75,23 @@ public class ToolBar {
 	 */
 	public static String getAllToolsNoMacros(boolean html5, boolean exam,
 			App app) {
+		return getAllToolsNoMacros(html5, exam, app.isUnbundled());
+	}
+
+	/**
+	 * Returns with the default definition of the general tool bar without
+	 * macros.
+	 * 
+	 * @param html5
+	 *            true, if all menus must appear. (On the web there are some
+	 *            tools, which don't appear.)
+	 * @param exam
+	 *            true, if exam mode is set.
+	 * @param appUnbundled
+	 *            whether this is for unbundled app
+	 * @return The default definition of the general tool bar without macros.
+	 */
+	public static String getAllToolsNoMacros(boolean html5, boolean exam, boolean appUnbundled) {
 
 		StringBuilder sb = new StringBuilder();
 
@@ -83,7 +102,7 @@ public class ToolBar {
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_MOVE_ROTATE);
 		}
-		if (app != null && app.isUnbundled()) {
+		if (appUnbundled) {
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_SELECT);
 		}
@@ -93,10 +112,6 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PEN);
-		if (app != null && app.has(Feature.ERASER)) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_ERASER);
-		}
 
 		// points
 		sb.append(" | ");
@@ -1110,6 +1125,7 @@ public class ToolBar {
 				}
 			}
 			if (!found) {
+				System.out.println(menu);
 				return false;
 			}
 		}
