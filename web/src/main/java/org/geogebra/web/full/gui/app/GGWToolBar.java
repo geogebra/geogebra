@@ -39,6 +39,8 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -665,14 +667,17 @@ public class GGWToolBar extends Composite
 	 * @return tool image URL
 	 */
 	public static String getImageURL(int mode, AppW app) {
+		return ImgResourceHelper.safeURI(getImageResource(mode, app));
+	}
 
-		// String modeText = app.getKernel().getModeText(mode);
-		// // bugfix for Turkish locale added Locale.US
-		// String iconName = "mode_" +StringUtil.toLowerCase(modeText)
-		// + "_32";
-		//
-
-		// macro
+	/**
+	 * @param mode
+	 *            app mode
+	 * @param app
+	 *            application
+	 * @return icon for macro or builtin mode
+	 */
+	public static ResourcePrototype getImageResource(int mode, AppW app) {
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			try {
@@ -680,23 +685,23 @@ public class GGWToolBar extends Composite
 				String iconName = macro.getIconFileName();
 				if (iconName == null || iconName.length() == 0) {
 					// default icon
-					return ImgResourceHelper
-							.safeURI(myIconResourceBundle.mode_tool_32());
+					return myIconResourceBundle.mode_tool_32();
 				}
 				// use image as icon
 				Image img = new NoDragImage(
 						app.getImageManager().getExternalImageSrc(iconName),
 						32);
 
-				return img.getUrl();
+				return new ImageResourcePrototype("",
+						UriUtils.fromString(img.getUrl()), 0, 0, 32,
+						32, false, false);
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);
-				return "";
+				return null;
 			}
 		}
 
-		return ImgResourceHelper
-				.safeURI(getImageURLNotMacro(myIconResourceBundle, mode));
+		return getImageURLNotMacro(myIconResourceBundle, mode);
 
 	}
 

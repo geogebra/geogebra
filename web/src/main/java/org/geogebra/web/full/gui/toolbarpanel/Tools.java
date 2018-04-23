@@ -273,11 +273,10 @@ public class Tools extends FlowPanel implements SetLabels {
 			int size = (mode == EuclidianConstants.MODE_DELETE
 					|| mode == EuclidianConstants.MODE_IMAGE) ? 24 : 32;
 			final StandardButton btn = new StandardButton(
-					GGWToolBar.getImageURLNotMacro(toolSvgRes, mode), null,
+					GGWToolBar.getImageResource(mode, app), null,
 					size, getApp());
 			AriaHelper.hide(btn);
-			btn.setTitle(getApp().getLocalization()
-					.getMenu(EuclidianConstants.getModeText(mode)));
+			btn.setTitle(getApp().getToolName(mode));
 			if (mode == EuclidianConstants.MODE_DELETE
 					|| mode == EuclidianConstants.MODE_IMAGE) {
 				btn.addStyleName("plusPadding");
