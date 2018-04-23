@@ -26,7 +26,10 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	 * This constructor is used by the Application
 	 * and by the other constructor
 	 * 
-	 * @param stylebar (is there stylebar?)
+	 * @param stylebar
+	 *            (is there stylebar?)
+	 * @param doubleCanvas
+	 *            if application uses double canvas or not.
 	 */
 	public EuclidianDockPanelW(boolean stylebar, boolean doubleCanvas) {
 		super(
@@ -41,9 +44,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets
-		
-		this.doubleCanvas = doubleCanvas;
 
+		this.doubleCanvas = doubleCanvas;
 		if (stylebar) {
 			component = loadComponent();
 		} else {
@@ -95,9 +97,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 			} else {
 				addCanvas(eview1);
 			}
-
 		}
-
 		return euclidianpanel;
 	}
 

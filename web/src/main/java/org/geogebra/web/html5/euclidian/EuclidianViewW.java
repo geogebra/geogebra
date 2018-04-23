@@ -578,11 +578,9 @@ public class EuclidianViewW extends EuclidianView implements
 	 *            height
 	 */
 	public void setCoordinateSpaceSize(int width, int height) {
-
 		g2p.setCoordinateSpaceSize(width, height);
 		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
 			g2bg.setCoordinateSpaceSize(width, height);
-
 		}
 		try {
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
