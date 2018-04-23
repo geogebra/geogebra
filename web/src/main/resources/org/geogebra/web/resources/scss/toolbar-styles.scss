@@ -24,17 +24,25 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		}
 	}
 
-	.stepOpenButton {
-	    display: inline;
-	    vertical-align: top;
-	}
-
 	.stepTree {
 		div table:not(.spec) tr>td:first-child {
 			display: none;
 		}
 
-		.stepTreeItem {
+		.stepTreeElem {
+			vertical-align: middle;
+		}
+
+		.stepTreeButton {
+			padding: 2px;
+			display: inline;
+		}
+
+		.stepTreeButton img {
+			vertical-align: middle;
+		}
+
+		.stepTreeGroup {
 			padding: 3px 3px 3px 23px !important;
 		}
 	}

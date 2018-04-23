@@ -8,13 +8,12 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.view.algebra.OpenButton;
 import org.geogebra.web.full.gui.view.algebra.TreeImages;
+import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -36,8 +35,8 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
         private TreeItem child = null;
         private boolean detailed = false;
 
-        private Button showDetails;
-        private Button hideDetails;
+        private StandardButton showDetails;
+        private StandardButton hideDetails;
 
         private boolean addShowDetails;
         private boolean addHideDetails;
@@ -49,12 +48,16 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
             FlowPanel row = new FlowPanel();
 
             for (String s : equations) {
+                Widget toAdd;
                 if (s.startsWith("$")) {
-                    row.add(DrawEquationW.paintOnCanvas(gn, s.substring(1), null,
-                            app.getFontSizeWeb()));
+                    toAdd = DrawEquationW.paintOnCanvas(gn, s.substring(1), null,
+                            app.getFontSizeWeb());
                 } else {
-                    row.add(new InlineLabel(s));
+                    toAdd = new InlineLabel(s);
                 }
+
+                toAdd.addStyleName("stepTreeElem");
+                row.add(toAdd);
             }
 
             if (addShowDetails) {
@@ -82,11 +85,11 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
                     OpenButton openButton = new OpenButton(
                             GuiResources.INSTANCE.algebra_tree_open().getSafeUri(),
                             GuiResources.INSTANCE.algebra_tree_closed().getSafeUri(),
-                            item, "stepOpenButton");
+                            item, "stepTreeButton");
                     openButton.setChecked(false);
                     row.add(openButton);
 
-                    item.addStyleName("stepTreeItem");
+                    item.addStyleName("stepTreeGroup");
                 }
 
                 item.addItem(child);
@@ -120,20 +123,18 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
 
         @Override
         public void startDefault() {
-            showDetails = new Button("<img src=\""
-                    + GuiResources.INSTANCE.algebra_tree_closed().getURL()
-                    + "\"></img>");
-            hideDetails = new Button("<img src=\""
-                    + GuiResources.INSTANCE.algebra_tree_open().getURL()
-                    + "\"></img>");
+            showDetails = new StandardButton(
+                    GuiResources.INSTANCE.algebra_tree_closed(), app);
+            hideDetails = new StandardButton(
+                    GuiResources.INSTANCE.algebra_tree_open(), app);
 
             showDetails.getElement().getStyle().setPadding(1, Style.Unit.PX);
             showDetails.getElement().getStyle().setFontSize(10, Style.Unit.PX);
-            showDetails.setStyleName("stepOpenButton");
+            showDetails.setStyleName("stepTreeButton");
 
             hideDetails.getElement().getStyle().setPadding(1, Style.Unit.PX);
             hideDetails.getElement().getStyle().setFontSize(10, Style.Unit.PX);
-            hideDetails.setStyleName("stepOpenButton");
+            hideDetails.setStyleName("stepTreeButton");
 
             addShowDetails = true;
             summary = new ArrayList<>();
@@ -154,11 +155,10 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
             final ArrayList<Widget> swap = new ArrayList<>(summary);
             summary = new ArrayList<>();
 
-            ClickHandler clickHandler = new ClickHandler() {
+            FastClickHandler clickHandler = new FastClickHandler() {
 
                 @Override
-                public void onClick(ClickEvent event) {
-                    event.getSource();
+                public void onClick(Widget w) {
                     for (Widget line : swap) {
                         boolean visible = !line.isVisible();
                         line.setVisible(visible);
@@ -170,8 +170,8 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
                 }
             };
 
-            showDetails.addClickHandler(clickHandler);
-            hideDetails.addClickHandler(clickHandler);
+            showDetails.addFastClickHandler(clickHandler);
+            hideDetails.addFastClickHandler(clickHandler);
         }
     };
 
