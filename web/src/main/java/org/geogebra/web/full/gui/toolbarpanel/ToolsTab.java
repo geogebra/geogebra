@@ -58,7 +58,9 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 		this.toolbarPanel = toolbarPanel;
 		this.app = toolbarPanel.app;
 		createContents();
-		handleMoreLessButtons();
+		if (!isCustomToolbar) {
+			handleMoreLessButtons();
+		}
 	}
 
 	private void handleMoreLessButtons() {
@@ -107,7 +109,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 			app.getSettings().getToolbarSettings()
 					.setToolsetLevel(ToolsetLevel.ADVANCED);
 		}
-		updateContent(false);
+		updateContent();
 	}
 
 	/** Less button handler */
@@ -126,7 +128,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 			app.getSettings().getToolbarSettings()
 					.setToolsetLevel(ToolsetLevel.STANDARD);
 		}
-		updateContent(false);
+		updateContent();
 	}
 
 	/**
@@ -172,26 +174,23 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	private void createContents() {
 		sp = new ScrollPanel();
 		sp.setAlwaysShowScrollBars(false);
-		toolsPanel = new Tools((AppW) app, false);
+		toolsPanel = new Tools((AppW) app, this);
 		sp.add(toolsPanel);
 		add(sp);
 	}
 	
 	/**
 	 * update the content of tool panel
-	 * 
-	 * @param isCustom
-	 *            true if toolbar is custom
 	 */
-	public void updateContent(boolean isCustom) {
-		if (isCustom != isCustomToolbar) {
-			isCustomToolbar = isCustom;
-		}
+	public void updateContent() {
 		toolsPanel.removeFromParent();
-		toolsPanel = new Tools((AppW) app, isCustom);
+		toolsPanel = new Tools((AppW) app, this);
 		sp.clear();
 		sp.add(toolsPanel);
-		if (!isCustom) {
+		if (!isCustomToolbar) {
+			if (moreBtn == null && lessBtn == null) {
+				createMoreLessButtons();
+			}
 			this.toolbarPanel.setLabels();
 			handleMoreLessButtons();
 		}

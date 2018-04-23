@@ -40,6 +40,10 @@ public class Tools extends FlowPanel implements SetLabels {
 	 */
 	AppW app;
 	/**
+	 * see {@link ToolsTab}
+	 */
+	ToolsTab parentTab;
+	/**
 	 * move button
 	 */
 	private StandardButton moveButton;
@@ -52,13 +56,14 @@ public class Tools extends FlowPanel implements SetLabels {
 	/**
 	 * @param app
 	 *            application
-	 * @param isCustom
-	 *            true if toolbar is custom
+	 * @param parentTab
+	 *            see {@link ToolsTab}
 	 */
-	public Tools(AppW app, boolean isCustom) {
+	public Tools(AppW app, ToolsTab parentTab) {
 		this.app = app;
+		this.parentTab = parentTab;
 		this.addStyleName("toolsPanel");
-		buildGui(isCustom);
+		buildGui();
 	}
 
 	/**
@@ -142,16 +147,17 @@ public class Tools extends FlowPanel implements SetLabels {
 
 	/**
 	 * Builds the panel of tools.
-	 * 
-	 * @param isCustom
-	 *            true if toolbar is custom
 	 */
-	public void buildGui(boolean isCustom) {
+	public void buildGui() {
 		this.clear();
-		app.setCustomToolBar();
-		String def = app.getGuiManager().getCustomToolbarDefinition();
 		categoryPanelList = new ArrayList<>();
-		if (!isCustom) {
+		// decide if custom toolbar or not
+		String def = app.getGuiManager().getCustomToolbarDefinition();
+		boolean isCustomToolbar = !def
+				.equals(ToolBar.getAllToolsNoMacros(true, false, app));
+		parentTab.isCustomToolbar = isCustomToolbar;
+
+		if (!isCustomToolbar) {
 			mToolCategorization = new ToolCategorization(app,
 				app.getSettings().getToolbarSettings().getType(),
 				app.getSettings().getToolbarSettings().getToolsetLevel(),

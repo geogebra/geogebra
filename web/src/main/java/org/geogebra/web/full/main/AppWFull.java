@@ -528,7 +528,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				&& ((GuiManagerW) getGuiManager())
 						.getToolbarPanelV2() != null) {
 			((GuiManagerW) getGuiManager()).getToolbarPanelV2().getTabTools()
-					.updateContent(false);
+					.updateContent();
 		}
 	}
 
@@ -1364,7 +1364,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 						&& ((GuiManagerW) getGuiManager())
 								.getToolbarPanelV2() != null) {
 					((GuiManagerW) getGuiManager()).getToolbarPanelV2()
-							.getTabTools().updateContent(true);
+							.getTabTools().updateContent();
 				}
 			}
 		}
