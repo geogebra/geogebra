@@ -68,6 +68,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class AlgoDispatcher {
 	protected final static int DETACH_OFFSET = 20;
 	protected Construction cons;
+
+	/**
+	 * Controls whether the cache is enabled for intersection algos.
+	 * Default is true.
+	 */
+	protected boolean isIntersectCacheEnabled = true;
+
 	/*
 	 * to avoid multiple calculations of the intersection points of the same two
 	 * objects, we remember all the intersection algorithms created
@@ -76,6 +83,26 @@ public class AlgoDispatcher {
 
 	public AlgoDispatcher(Construction cons) {
 		this.cons = cons;
+	}
+
+	/**
+	 * Sets whether this object reuses existing intersection algos,
+	 * to avoid recomputations. Set this to false, to disable this behaviour.
+	 * Default is enabled.
+	 *
+	 * @param enabled to enable the cache.
+	 */
+	public void setIntersectCacheEnabled(boolean enabled) {
+		isIntersectCacheEnabled = enabled;
+	}
+
+	/**
+	 * Tells whether the intersection cache is enabled.
+	 *
+	 * @return true if the cache is enabled
+	 */
+	public boolean isIntersectCacheEnabled() {
+		return isIntersectCacheEnabled;
 	}
 
 	public void removeIntersectionAlgorithm(AlgoIntersectAbstract algo) {
@@ -1767,6 +1794,9 @@ public class AlgoDispatcher {
 
 	public AlgoElement findExistingIntersectionAlgorithm(GeoElementND a,
 			GeoElementND b) {
+		if (!isIntersectCacheEnabled) {
+			return null;
+		}
 		int size = intersectionAlgos.size();
 		AlgoElement algo;
 		for (int i = 0; i < size; i++) {

@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
@@ -194,7 +195,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private void getSpecialPointsIntersect(GeoElement element, GeoElement secondElement,
 										   CmdIntersect intersect, Command cmd,
 										   ArrayList<GeoElementND> retList) {
+		AlgoDispatcher dispatcher = kernel.getAlgoDispatcher();
+		boolean oldValue = dispatcher.isIntersectCacheEnabled();
 		try {
+			dispatcher.setIntersectCacheEnabled(false);
 			GeoElement[] elements = intersect
 					.intersect2(new GeoElement[]{element, secondElement}, cmd);
 			for (GeoElement output : elements) {
@@ -207,6 +211,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			add(elements, retList);
 		} catch (Throwable exception) {
 			// ignore
+		} finally {
+			dispatcher.setIntersectCacheEnabled(oldValue);
 		}
 	}
 
