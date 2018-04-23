@@ -2911,7 +2911,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Tutorial": "\u6559\u7a0b",
     "Tutorial3D": "3D\u7ed8\u56fe\u6559\u7a0b",
     "TutorialClassic": "\u7ecf\u5178\u5e94\u7528\u6559\u7a0b",
-    "TutorialGeometry": "\u51e0\u4f55\u6559\u7a0b",
+    "TutorialGeometry": "\u51e0\u4f55\u5e94\u7528\u6559\u7a0b",
     "TutorialGraphing": "\u56fe\u5f62\u8ba1\u7b97\u5668\u6559\u7a0b",
     "Tutorials": "\u6559\u7a0b",
     "TwoVarStats": "\u53cc\u53d8\u91cf\u56de\u5f52\u5206\u6790",
