@@ -409,7 +409,7 @@ public final class ArticleElement extends Element implements ArticleElementInter
 			var matrixRegex = /matrix\((-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+)\)/;
 			var style;
 			// https://bugzilla.mozilla.org/show_bug.cgi?id=548397
-			if ($wnd.getComputedStyle) {
+			if ($wnd.getComputedStyle && current) {
 				style = $wnd.getComputedStyle(current);
 			}
 			if (style) {
