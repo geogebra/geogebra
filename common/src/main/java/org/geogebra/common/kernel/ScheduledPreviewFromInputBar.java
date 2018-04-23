@@ -172,8 +172,10 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					GeoElementND[] inputGeos = evalValidExpression(ve, info);
 					if (inputGeos != null && inputGeos.length == 1) {
 						GeoElementND redefined = inputGeos[0];
-						existingGeo.set(redefined);
-						kernel.notifyUpdatePreviewFromInputBar(new GeoElement[] {existingGeo});
+						if (redefined.getGeoClassType() == existingGeo.getGeoClassType()) {
+							existingGeo.set(redefined);
+							kernel.notifyUpdatePreviewFromInputBar(new GeoElement[] {existingGeo});
+						}
 					}
 				} else {
 					Log.debug("existing geo: " + existingGeo);
