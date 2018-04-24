@@ -684,11 +684,6 @@ public class MyNumberFormat {
 	 *            fractional digits
 	 */
 	protected void format(boolean isNegative, StringBuilder digits, int scale) {
-		char decimalSeparator;
-		char groupingSeparator;
-
-		decimalSeparator = NUMBER_CONSTANTS.decimalSeparator().charAt(0);
-		groupingSeparator = NUMBER_CONSTANTS.groupingSeparator().charAt(0);
 
 		// Set these transient fields, which will be adjusted/used by the
 		// routines
@@ -709,10 +704,9 @@ public class MyNumberFormat {
 		}
 		processLeadingZeros(digits);
 		roundValue(digits);
-		insertGroupingSeparators(digits, groupingSeparator,
-				currentGroupingSize);
+		insertGroupingSeparators(digits, currentGroupingSize);
 		adjustFractionDigits(digits);
-		addZeroAndDecimal(digits, decimalSeparator);
+		addZeroAndDecimal(digits);
 		if (useExponent) {
 			addExponent(digits);
 			// the above call has invalidated digitsLength == digits.length()
@@ -852,11 +846,8 @@ public class MyNumberFormat {
 	/**
 	 * @param digits
 	 *            string builder
-	 * @param decimalSeparator
-	 *            separator
 	 */
-	private void addZeroAndDecimal(StringBuilder digits,
-			char decimalSeparator) {
+	private void addZeroAndDecimal(StringBuilder digits) {
 		// add zero and decimal point if required
 		if (digitsLength == 0) {
 			digits.insert(0, '0');
@@ -864,7 +855,7 @@ public class MyNumberFormat {
 			++digitsLength;
 		}
 		if (decimalPosition < digitsLength || decimalSeparatorAlwaysShown) {
-			digits.insert(decimalPosition, decimalSeparator);
+			digits.insert(decimalPosition, ".");
 			++digitsLength;
 		}
 	}
@@ -950,16 +941,13 @@ public class MyNumberFormat {
 	 *
 	 * @param digits
 	 *            string builder
-	 * @param groupingSeparator
-	 *            separator
 	 * @param g
 	 *            group size (or 0 to do nothing)
 	 */
-	private void insertGroupingSeparators(StringBuilder digits,
-			char groupingSeparator, int g) {
+	private void insertGroupingSeparators(StringBuilder digits, int g) {
 		if (g > 0) {
 			for (int i = g; i < decimalPosition; i += g + 1) {
-				digits.insert(decimalPosition - i, groupingSeparator);
+				digits.insert(decimalPosition - i, ",");
 				++decimalPosition;
 				++digitsLength;
 			}
