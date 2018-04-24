@@ -387,9 +387,6 @@ public class MyNumberFormat {
 
 	private String negativeSuffix = "";
 
-	// Locale specific symbol collection.
-	private static final MyNumberConstants NUMBER_CONSTANTS = new MyNumberConstants();
-
 	// The pattern to use for formatting and parsing.
 	private final String pattern;
 
@@ -417,7 +414,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getDecimalFormat() {
 		if (cachedDecimalFormat == null) {
 			cachedDecimalFormat = new MyNumberFormat(
-					NUMBER_CONSTANTS.decimalPattern());
+					MyNumberConstants.decimalPattern);
 		}
 		return cachedDecimalFormat;
 	}
@@ -445,7 +442,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getPercentFormat() {
 		if (cachedPercentFormat == null) {
 			cachedPercentFormat = new MyNumberFormat(
-					NUMBER_CONSTANTS.percentPattern());
+					MyNumberConstants.percentPattern);
 		}
 		return cachedPercentFormat;
 	}
@@ -459,7 +456,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getScientificFormat() {
 		if (cachedScientificFormat == null) {
 			cachedScientificFormat = new MyNumberFormat(
-					NUMBER_CONSTANTS.scientificPattern());
+					MyNumberConstants.scientificPattern);
 		}
 		return cachedScientificFormat;
 	}
@@ -542,7 +539,7 @@ public class MyNumberFormat {
 	 */
 	public String format(double number0) {
 		if (Double.isNaN(number0)) {
-			return NUMBER_CONSTANTS.notANumber();
+			return MyNumberConstants.notANumber;
 		}
 		boolean isNegative = ((number0 < 0.0)
 				|| (number0 == 0.0 && 1 / number0 < 0.0));
@@ -555,7 +552,7 @@ public class MyNumberFormat {
 		StringBuilder buf = new StringBuilder();
 		if (Double.isInfinite(number)) {
 			buf.append(isNegative ? negativePrefix : positivePrefix);
-			buf.append(NUMBER_CONSTANTS.infinity());
+			buf.append(MyNumberConstants.infinity);
 			buf.append(isNegative ? negativeSuffix : positiveSuffix);
 			return buf.toString();
 		}
@@ -831,10 +828,10 @@ public class MyNumberFormat {
 	 *            string builder
 	 */
 	private void addExponent(StringBuilder digits) {
-		digits.append(NUMBER_CONSTANTS.exponentialSymbol());
+		digits.append(MyNumberConstants.exponentialSymbol);
 		if (exponent < 0) {
 			exponent = -exponent;
-			digits.append(NUMBER_CONSTANTS.minusSign());
+			digits.append(MyNumberConstants.minusSign);
 		}
 		String exponentDigits = String.valueOf(exponent);
 		for (int i = exponentDigits.length(); i < minExponentDigits; ++i) {
@@ -1043,7 +1040,7 @@ public class MyNumberFormat {
 						}
 						multiplier = 100;
 					}
-					affix.append(NUMBER_CONSTANTS.percent());
+					affix.append(MyNumberConstants.percent);
 					break;
 				case PATTERN_PER_MILLE:
 					if (!inNegativePattern) {
@@ -1054,7 +1051,7 @@ public class MyNumberFormat {
 						}
 						multiplier = 1000;
 					}
-					affix.append(NUMBER_CONSTANTS.perMill());
+					affix.append(MyNumberConstants.perMill);
 					break;
 				case PATTERN_MINUS:
 					affix.append("-");
@@ -1093,7 +1090,7 @@ public class MyNumberFormat {
 			pos += parseAffix(pattern, pos, affix, true);
 			negativeSuffix = affix.toString();
 		} else {
-			negativePrefix = NUMBER_CONSTANTS.minusSign() + positivePrefix;
+			negativePrefix = MyNumberConstants.minusSign + positivePrefix;
 			negativeSuffix = positiveSuffix;
 		}
 	}

@@ -2,73 +2,39 @@ package org.geogebra.web.html5.util;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class MyNumberConstants {
-	public String notANumber() {
-		return "NaN";
-	}
+final public class MyNumberConstants {
+	final public static String notANumber = "NaN";
 
-	public String currencyPattern() {
-		return "\u00A4#,##0.00";
-	}
+	final public static String currencyPattern = "\u00A4#,##0.00";
 
-	public String decimalPattern() {
-		return "#,##0.###";
-	}
+	final public static String decimalPattern = "#,##0.###";
 
-	public String decimalSeparator() {
-		return ".";
-	}
+	final public static String decimalSeparator = ".";
 
-	public String defCurrencyCode() {
-		return "USD";
-	}
+	final public static String defCurrencyCode = "USD";
 
-	public String exponentialSymbol() {
-		return "E";
-	}
+	final public static String exponentialSymbol = "E";
 
-	public String globalCurrencyPattern() {
-		return "\u00A4\u00A4\u00A4\u00A4#,##0.00 \u00A4\u00A4";
-	}
+	final public static String globalCurrencyPattern = "\u00A4\u00A4\u00A4\u00A4#,##0.00 \u00A4\u00A4";
 
-	public String groupingSeparator() {
-		return ",";
-	}
+	final public static String groupingSeparator = ",";
 
-	public String infinity() {
-		return Unicode.INFINITY + "";
-	}
+	final public static String infinity = Unicode.INFINITY + "";
 
-	public String minusSign() {
-		return "-";
-	}
+	final public static String minusSign = "-";
 
-	public String monetaryGroupingSeparator() {
-		return ",";
-	}
+	final public static String monetaryGroupingSeparator = ",";
 
-	public String percent() {
-		return "%";
-	}
+	final public static String percent = "%";
 
-	public String percentPattern() {
-		return "#,##0%";
-	}
+	final public static String percentPattern = "#,##0%";
 
-	public String perMill() {
-		return "\u2030";
-	}
+	final public static String perMill = "\u2030";
 
-	public String plusSign() {
-		return "+";
-	}
+	final public static String plusSign = "+";
 
-	public String scientificPattern() {
-		return "#E0";
-	}
+	final public static String scientificPattern = "#E0";
 
-	public String simpleCurrencyPattern() {
-		return "\u00A4\u00A4\u00A4\u00A4#,##0.00";
-	}
+	final public static String simpleCurrencyPattern = "\u00A4\u00A4\u00A4\u00A4#,##0.00";
 
 }
