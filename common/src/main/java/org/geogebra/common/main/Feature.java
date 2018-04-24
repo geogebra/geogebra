@@ -208,6 +208,9 @@ public enum Feature {
 	/** GGB-2203 */
 	HELP_AND_SHORTCUTS_IMPROVEMENTS,
 
+	/** GGB-2347 */
+	READ_DROPDOWNS,
+
 	/** GGB-2204 */
 	TAB_ON_MENU,
 

@@ -4463,6 +4463,10 @@ public abstract class App implements UpdateSelection {
 		case HELP_AND_SHORTCUTS_IMPROVEMENTS:
 			return true;
 
+		/** GGB-2347 */
+		case READ_DROPDOWNS:
+			return prerelease;
+
 		/** GGB-2204 */
 		case TAB_ON_MENU:
 			return true;
