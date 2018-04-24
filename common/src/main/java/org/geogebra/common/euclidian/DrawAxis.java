@@ -557,7 +557,8 @@ public class DrawAxis {
 		}
 	}
 
-	private StringBuilder formatUnitLabel(String strNum, int idx, char minusSign, boolean currency) {
+	private StringBuilder formatUnitLabel(String strNum, int idx, char minusSign,
+			boolean currency) {
 		String unit = view.axesUnitLabels[idx];
 		StringBuilder sb = new StringBuilder();
 		if (currency) {
@@ -594,8 +595,7 @@ public class DrawAxis {
 	 * @return if number should be fixed at the left or right edge, it returns
 	 *         the x position of number, otherwise returns null
 	 */
-	Integer getXPositionAtEdge(double xCrossPix, double xoffset,
-			double width) {
+	Integer getXPositionAtEdge(double xCrossPix, double xoffset, double width) {
 		double leftLimit = (view.yLabelMaxWidthNeg > 0 ? view.yLabelMaxWidthNeg
 				: view.yLabelMaxWidthPos) + 10;
 		if (xCrossPix < leftLimit) {
