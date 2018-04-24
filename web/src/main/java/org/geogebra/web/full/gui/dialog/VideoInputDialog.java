@@ -78,6 +78,11 @@ public class VideoInputDialog extends MediaDialog {
 		addStyleName("videoDialog");
 		setGlassEnabled(true);
 		setLabels();
+		/*
+		 * inputField.getTextComponent()
+		 * .setText("https://www.youtube.com/watch?v=07G4xhSefuI");
+		 * insertBtn.setEnabled(true);
+		 */
 	}
 
 	private void initActions() {
@@ -86,13 +91,7 @@ public class VideoInputDialog extends MediaDialog {
 
 					@Override
 					public void onFocus(FocusEvent event) {
-						if (!isInputFieldEmpty()) {
-							processInput();
-						}
-						if (getInsertBtn().isEnabled()
-								|| isInputFieldEmpty()) {
 							setFocusState();
-						}
 					}
 				});
 		inputField.getTextComponent().getTextBox()
@@ -100,7 +99,7 @@ public class VideoInputDialog extends MediaDialog {
 
 					@Override
 					public void onBlur(BlurEvent event) {
-						setEmptyState();
+						resetInputField();
 					}
 				});
 		addInputHandler();
@@ -109,24 +108,24 @@ public class VideoInputDialog extends MediaDialog {
 
 					@Override
 					public void onKeyUp(KeyUpEvent event) {
-						onInput();
 						if (event.getNativeEvent()
-								.getKeyCode() == KeyCodes.KEY_BACKSPACE
-								&& isInputFieldEmpty()) {
-							getInputField().getTextComponent().setText("");
-						} else if (getInsertBtn().isEnabled()) {
-							if (event.getNativeEvent()
-									.getKeyCode() == KeyCodes.KEY_ENTER) {
-								addVideo();
-							} else {
-								setFocusState();
-							}
+								.getKeyCode() == KeyCodes.KEY_ENTER) {
+							processInput();
+						} else {
+							onInput();
 						}
 					}
 				});
 		addHoverHandlers();
 		insertBtn.addFastClickHandler(this);
 		cancelBtn.addFastClickHandler(this);
+	}
+
+	/**
+	 * Resets input style after error.
+	 */
+	void resetInputField() {
+		resetError();
 	}
 
 	/**
@@ -154,7 +153,7 @@ public class VideoInputDialog extends MediaDialog {
 		if (source == cancelBtn) {
 			hide();
 		} else if (source == insertBtn) {
-			addVideo();
+			processInput();
 		}
 	}
 
@@ -170,8 +169,7 @@ public class VideoInputDialog extends MediaDialog {
 				@Override
 				public void callback(Boolean ok) {
 					if (ok) {
-						resetError();
-						getInsertBtn().setEnabled(true);
+						addVideo();
 					} else {
 						showError("error");
 					}
@@ -184,6 +182,7 @@ public class VideoInputDialog extends MediaDialog {
 	 * Adds the GeoVideo instance.
 	 */
 	protected void addVideo() {
+		resetError();
 		app.getGuiManager().addVideo(inputField.getText());
 		hide();
 	}
@@ -215,52 +214,31 @@ public class VideoInputDialog extends MediaDialog {
 
 	@Override
 	public void showError(String msg) {
+		inputPanel.setStyleName("mowVideoDialogContent");
 		inputPanel.addStyleName("errorState");
-		inputPanel.removeStyleName("focusState");
 		insertBtn.setEnabled(false);
 	}
 
 	@Override
-	public void onInput() {
-		if (isInputFieldEmpty()) {
-			setFocusState();
-		} else {
-			processInput();
-		}
+	public void resetError() {
+		getInputPanel().setStyleName("mowVideoDialogContent");
+		getInputPanel().addStyleName("emptyState");
+		inputPanel.removeStyleName("errorState");
+		getInsertBtn().setEnabled(!"".equals(getInputField().getText()));
 	}
 
 	@Override
-	public void resetError() {
-		inputPanel.addStyleName("emptyState");
-		inputPanel.removeStyleName("errorState");
+	public void onInput() {
+		resetInputField();
+		getInputPanel().addStyleName("focusState");
+		getInputPanel().removeStyleName("emptyState");
 	}
 
 	/**
 	 * sets the style of InputPanel to focus state
 	 */
 	protected void setFocusState() {
-		inputPanel.addStyleName("focusState");
-		inputPanel.removeStyleName("emptyState");
-		inputPanel.removeStyleName("errorState");
-	}
-
-	/**
-	 * sets the style of InputPanel to empty state
-	 */
-	protected void setEmptyState() {
-		inputPanel.addStyleName("emptyState");
-		inputPanel.removeStyleName("focusState");
-		inputPanel.removeStyleName("errorState");
-	}
-
-	/**
-	 * check if input field is empty
-	 * 
-	 * @return true if input field is empty or contains only https
-	 */
-	protected boolean isInputFieldEmpty() {
-		return "".equals(getInputField().getText())
-				|| "https://".equals(getInputField().getText())
-				|| "https:/".equals(getInputField().getText());
+		getInputPanel().setStyleName("mowVideoDialogContent");
+		getInputPanel().addStyleName("focusState");
 	}
 }
