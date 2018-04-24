@@ -306,6 +306,18 @@ public abstract class AppW extends App implements SetLabels {
 				windowResized();
 			}
 		});
+		if (!StringUtil
+				.empty(getArticleElement().getParamScaleContainerClass())){
+			Browser.addMutationObserver(getParent(
+					getArticleElement().getParamScaleContainerClass()),
+					new AsyncOperation<String>() {
+
+						@Override
+						public void callback(String obj) {
+							checkScaleContainer();
+						}
+					});
+		}
 	}
 
 	/**
@@ -367,7 +379,7 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	private Element getParent(String containerClass) {
-		Element current = getFrameElement();
+		Element current = getArticleElement().getElement();
 		while (current != null) {
 			if (current.hasClassName(containerClass)) {
 				return current;

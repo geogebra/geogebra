@@ -1,5 +1,6 @@
 package org.geogebra.web.html5;
 
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.html5.main.StringHandler;
 
@@ -638,6 +639,37 @@ public class Browser {
 		//$wnd.console.log("width: " + width, screenWidth);
 
 		return height >= screenHeight && width >= screenWidth;
+	}-*/;
+
+	/**
+	 * Add mutation observer to element and all its parents.
+	 * 
+	 * @param el
+	 *            target element
+	 * @param asyncOperation
+	 *            callback
+	 */
+	public static native void addMutationObserver(Element el,
+			AsyncOperation<String> asyncOperation) /*-{
+		try {
+			var current = el;
+			while (current) {
+				var observer = new MutationObserver(
+						function(mutations) {
+							mutations
+									.forEach(function(mutation) {
+										asyncOperation.@org.geogebra.common.util.AsyncOperation::callback(*)(mutation.type);
+									});
+						});
+				observer.observe(current, {
+					attributes : true,
+					attributeFilter : [ "class", "style" ]
+				});
+				current = current.parentElement;
+			}
+		} catch (ex) {
+			//Mutation observer not supported
+		}
 	}-*/;
 
 }
