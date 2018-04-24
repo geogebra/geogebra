@@ -31,6 +31,8 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.TextDecoration;
@@ -638,7 +640,8 @@ public class GGWToolBar extends Composite
 	 * @param target
 	 *            icon for macro or builtin mode
 	 */
-	public static void getImageResource(int mode, AppW app, HasResource target) {
+	public static void getImageResource(final int mode, AppW app,
+			final HasResource target) {
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			try {
@@ -665,9 +668,17 @@ public class GGWToolBar extends Composite
 				return;
 			}
 		}
+		GWT.runAsync(new RunAsyncCallback() {
 
-		target.setResource(
-				getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode));
+			public void onFailure(Throwable reason) {
+				// failed loading toolbar
+			}
+
+			public void onSuccess() {
+				target.setResource(getImageURLNotMacro(
+						ToolbarSvgResources.INSTANCE, mode));
+			}
+		});
 
 	}
 

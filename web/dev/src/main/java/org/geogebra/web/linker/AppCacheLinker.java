@@ -150,7 +150,7 @@ public class AppCacheLinker extends AbstractLinker {
 							|| pathName.endsWith("windowslive.html")
 							|| pathName.endsWith("devmode.js")
 							|| pathName.startsWith("js/properties_")
-							|| pathName.endsWith("5.nocache.js")) {
+							|| pathName.endsWith("6.nocache.js")) {
 						// skip these resources
 					} else {
 						publicSourcesSb
