@@ -18,6 +18,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -1207,7 +1208,7 @@ public class DrawAxis {
 		if (!view.getApplication().has(Feature.CURRENCY_UNIT)) {
 			return false;
 		}
-		return Unicode.isCurrency(view.axesUnitLabels[axis]);
+		return StringUtil.isCurrency(view.axesUnitLabels[axis]);
 
 	}
 }

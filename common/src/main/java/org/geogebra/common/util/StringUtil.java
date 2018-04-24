@@ -1726,4 +1726,25 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return true;
 	}
 
+	/**
+	 * @param ch
+	 *            to check.
+	 * @return true iff the character is a currency sign
+	 */
+	public static boolean isCurrency(char ch) {
+		return Unicode.currencyList.indexOf(ch) != -1;
+	}
+
+	/**
+	 * @param text
+	 *            to check.
+	 * @return true iff the string is a currency sign
+	 */
+	public static boolean isCurrency(String text) {
+		if (text == null) {
+			return false;
+		}
+		String str = text.trim();
+		return str.length() == 1 && isCurrency(str.charAt(0));
+	}
 }
