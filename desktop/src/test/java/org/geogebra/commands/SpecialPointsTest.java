@@ -35,7 +35,6 @@ public class SpecialPointsTest {
 		Assert.assertEquals(18, numberOfSpecialPoints());
 	}
 
-
 	@Test
 	public void specialPointForLines() {
 		t("f:x=2+y");
@@ -45,6 +44,16 @@ public class SpecialPointsTest {
 		Assert.assertEquals(5, numberOfSpecialPoints());
 		updateSpecialPoints("g");
 		Assert.assertEquals(5, numberOfSpecialPoints());
+	}
+
+	@Test
+	public void specialPointsRedefine() {
+		t("f(x)=x^2");
+		updateSpecialPoints("f");
+		t("a=1");
+		t("f(x)=x^2+a");
+		updateSpecialPoints("f");
+		Assert.assertEquals(3, numberOfSpecialPoints());
 	}
 
 	private static int numberOfSpecialPoints() {
