@@ -391,10 +391,24 @@ public class AlgebraItem {
 	 *            current algebrastyle
 	 * @return whether the output should be shown or not
 	 */
-	public static boolean shouldShowOutputRowForAlgebraStyle(
-			GeoElement geoElement, int style) {
-		return getDescriptionModeForGeo(geoElement,
-				style) != DescriptionMode.DEFINITION;
+	public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
+		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
+			return getDescriptionModeForGeo(geoElement, style) != DescriptionMode.DEFINITION;
+		}
+		return style != Kernel.ALGEBRA_STYLE_VALUE && style != Kernel.ALGEBRA_STYLE_DEFINITION;
+	}
+
+	/**
+	 * Tells whether AV should show two rows for a geo element.
+	 *
+	 * @param element the element
+	 * @param style the algebra style
+	 * @return true if both rows should be shown.
+	 */
+	public static boolean shouldShowBothRows(GeoElement element, int style) {
+		return ((element.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE ||
+				(AlgebraItem.isTextItem(element) && !element.isIndependent())) &&
+				shouldShowOutputRowForAlgebraStyle(element, style));
 	}
 
 	/**
@@ -415,5 +429,4 @@ public class AlgebraItem {
 	private static String getLatexText(String text) {
 		return "\\text{" + text + '}';
 	}
-
 }
