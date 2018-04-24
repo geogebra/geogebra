@@ -58,9 +58,9 @@ public class DrawableList {
 			GeoElement priority = d.getGeoElement();
 			Link cur = head;
 			Link last = head;
-
+			// cur.next test only relevant in concurrent scenarios
 			while ((cur.d.getGeoElement().drawBefore(priority, false))
-					&& !cur.equals(tail)) {
+					&& !cur.equals(tail) && cur.next != null) {
 				last = cur;
 				cur = cur.next;
 			}
