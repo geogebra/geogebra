@@ -463,7 +463,6 @@ public class DrawAxis {
 		// arraylist
 		ArrayList<TickNumber> numbers = new ArrayList<>();
 
-		boolean currencyUnit = view.getApplication().has(Feature.CURRENCY_UNIT);
 
 		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
 			if (pix >= maxY && pix < yAxisEnd + 1) {
@@ -476,11 +475,11 @@ public class DrawAxis {
 						&& (pix < view.getHeight() - (view.xLabelHeights + 5)
 								|| yCrossPix < view.getHeight()
 										- (view.xLabelHeights + 5))) {
-					String strNum = tickDescription(view, labelno, 1);
+
+					boolean currency = isCurrencyUnit(1);
+					String strNum = currency ? tickUnit(view, labelno, 1) : tickDescription(view, labelno, 1);
 
 					if ((labelno % unitsPerLabelY) == 0) {
-						String unit = view.axesUnitLabels[1];
-						boolean currency = currencyUnit && Unicode.isCurrency(unit);
 
 						StringBuilder sb = formatUnitLabel(strNum, 1, minusSign, currency);
 
@@ -938,18 +937,16 @@ public class DrawAxis {
 			pix += axesStep;
 			labelno += 1;
 		}
-		boolean currencyUnit = view.getApplication().has(Feature.CURRENCY_UNIT);
+
 		for (; pix < view.getWidth(); pix += axesStep) {
 
 			// 285, 285.1, 285.2 -> rounding problems
 			if (pix >= xAxisStart && pix <= maxX) {
 				if (view.showAxesNumbers[0]) {
-					String strNum = tickDescription(view, labelno, 0);
+					boolean currency = isCurrencyUnit(0);
+					String strNum = currency ? tickUnit(view, labelno, 0) : tickDescription(view, labelno, 0);
 
 					if ((labelno % unitsPerLabelX) == 0) {
-						String unit = view.axesUnitLabels[0];
-						boolean currency = currencyUnit && Unicode.isCurrency(unit);
-
 						StringBuilder sb = formatUnitLabel(strNum, 0, minusSign, currency);
 
 						int x, y = (int) (yCrossPix + yoffset);
@@ -1126,6 +1123,16 @@ public class DrawAxis {
 
 	}
 
+	private static String tickUnit(EuclidianView view, long labelno, int axis) {
+		double num = Math.round(100 * labelno * view.axesNumberingDistances[axis]) / 100.0;
+		StringBuilder sb = new StringBuilder();
+		sb.append(num);
+		if (Math.round(num) != num) {
+			sb.append((Math.round(num * 100) % 10 == 0) ? "0" : "");
+		}
+
+		return sb.toString();
+	}
 	/**
 	 * @param view
 	 *            view
@@ -1175,5 +1182,13 @@ public class DrawAxis {
 	public static String multiple(ExpressionNode definition, long labelno) {
 		return definition.multiply(labelno)
 				.toFractionString(StringTemplate.defaultTemplate);
+	}
+
+	private boolean isCurrencyUnit(int axis) {
+		if (!view.getApplication().has(Feature.CURRENCY_UNIT)) {
+			return false;
+		}
+		return Unicode.isCurrency(view.axesUnitLabels[axis]);
+
 	}
 }
