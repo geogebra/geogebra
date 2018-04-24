@@ -72,8 +72,8 @@ public class ToolbarConfigPanel extends JPanel
 	private JScrollPane configScrollPane;
 	private JScrollPane modeScrollPane;
 	private JPanel selectionPanel;
-	private JList toolList;
-	private DefaultListModel toolListModel;
+	private JList<Integer> toolList;
+	private DefaultListModel<Integer> toolListModel;
 	private AppD app;
 	private LocalizationD loc;
 
@@ -94,8 +94,8 @@ public class ToolbarConfigPanel extends JPanel
 
 		tree = generateTree();
 
-		toolListModel = new DefaultListModel();
-		toolList = new JList(toolListModel);
+		toolListModel = new DefaultListModel<>();
+		toolList = new JList<>(toolListModel);
 
 		setToolbar(null,
 				((GuiManagerD) app.getGuiManager()).getToolbarDefinition());
@@ -233,7 +233,7 @@ public class ToolbarConfigPanel extends JPanel
 						userOb = ((DefaultMutableTreeNode) selNode
 								.getFirstChild()).getUserObject();
 					} else {
-						toolListModel.addElement(userOb);
+						toolListModel.addElement((Integer) userOb);
 					}
 				} else {
 					for (int i = 0; i < selNode.getChildCount(); i++) {
@@ -270,12 +270,13 @@ public class ToolbarConfigPanel extends JPanel
 			childIndex++;
 
 			boolean didInsert = false;
-			Object[] tools = toolList.getSelectedValuesList().toArray();
+			Integer[] tools = toolList.getSelectedValuesList()
+					.toArray(new Integer[0]);
 			for (int i = 0; i < tools.length; i++) {
 				// check if too is already there
-				Integer modeInt = (Integer) tools[i];
+				Integer modeInt = tools[i];
 				if (modeInt.intValue() > -1
-						&& containsTool(root, (Integer) tools[i])) {
+						&& containsTool(root, tools[i])) {
 					continue;
 				}
 

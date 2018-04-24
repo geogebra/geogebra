@@ -307,7 +307,7 @@ public abstract class AppW extends App implements SetLabels {
 			}
 		});
 		if (!StringUtil
-				.empty(getArticleElement().getParamScaleContainerClass())){
+				.empty(getArticleElement().getParamScaleContainerClass())) {
 			Browser.addMutationObserver(getParent(
 					getArticleElement().getParamScaleContainerClass()),
 					new AsyncOperation<String>() {

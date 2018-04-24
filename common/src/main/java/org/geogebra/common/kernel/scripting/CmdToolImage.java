@@ -58,33 +58,33 @@ public class CmdToolImage extends CommandProcessor {
 
 				final GeoImage geoImage = new GeoImage(
 						app.getKernel().getConstruction());
+				AsyncOperation<String> callback = new AsyncOperation<String>() {
+
+					@Override
+					public void callback(String fileName) {
+						geoImage.setImageFileName(fileName);
+						geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
+
+						try {
+							geoImage.setStartPoint(corner == null
+									? new GeoPoint(cons, 0, 0, 1) : corner);
+
+							if (corner2 != null) {
+								geoImage.setCorner(corner2, 1);
+							}
+
+						} catch (CircularDefinitionException e) {
+							e.printStackTrace();
+						}
+						geoImage.setLabel(c.getLabel());
+
+					}
+				};
 				if (app.getGuiManager() != null) {
-
 					app.getGuiManager().getToolImageURL(mode,
-							geoImage, new AsyncOperation<String>() {
-
-								@Override
-								public void callback(String fileName) {
-									geoImage.setImageFileName(fileName);
-									geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
-
-									try {
-										geoImage.setStartPoint(corner == null
-												? new GeoPoint(cons, 0, 0, 1) : corner);
-
-										if (corner2 != null) {
-											geoImage.setCorner(corner2, 1);
-										}
-
-									} catch (CircularDefinitionException e) {
-										e.printStackTrace();
-									}
-									geoImage.setLabel(c.getLabel());
-
-								}
-							});
-
-
+							geoImage, callback);
+				} else {
+					callback.callback("");
 				}
 
 				GeoElement[] ret = {};

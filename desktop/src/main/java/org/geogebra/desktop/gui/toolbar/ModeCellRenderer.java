@@ -28,7 +28,7 @@ import org.geogebra.desktop.main.AppD;
  *
  */
 public class ModeCellRenderer extends DefaultTreeCellRenderer
-		implements ListCellRenderer {
+		implements ListCellRenderer<Integer> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -83,9 +83,9 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
+	public Component getListCellRendererComponent(JList list, Integer value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-		handleModeNode(((Integer) value).intValue());
+		handleModeNode(value.intValue());
 		handleSelection(isSelected);
 		return this;
 	}
