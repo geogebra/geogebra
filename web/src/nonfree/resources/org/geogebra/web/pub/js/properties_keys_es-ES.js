@@ -909,7 +909,7 @@ __GGB__keysVar["es-ES"].command = {
     "SlopeField": "CampoDirecciones",
     "SlopeField.Syntax": "[ <f(x, y)> ]\n[ <f(x, y)>, <N\xfamero n> ]\n[ <f(x, y)>, <N\xfamero n>, <Factor longitud a> ]\n[ <f(x, y)>, <N\xfamero n>, <Factor longitud a>, <M\xedn x>, <M\xedn y>, <M\xe1x x>, <M\xe1x y> ]",
     "SlowPlot": "TrazadoLento",
-    "SlowPlot.Syntax": "[ <Funci\xf3n> ]\n[ <Funci\xf3n>, <Repetir (valor l\xf3gico)> ]",
+    "SlowPlot.Syntax": "[ <Funci\xf3n> ]\n[ <Funci\xf3n>, <Repetir (true/false)> ]",
     "Solutions": "Soluciones",
     "Solutions.Syntax": "[ <Ecuaci\xf3n> ]",
     "Solutions.SyntaxCAS": "[ <Ecuaci\xf3n> ]\n[ <Ecuaci\xf3n>, <Variable> ]\n[ <Lista de ecuaciones>, <Lista de variables> ]",
