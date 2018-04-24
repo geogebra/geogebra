@@ -482,30 +482,7 @@ public class DrawAxis {
 						String unit = view.axesUnitLabels[1];
 						boolean currency = currencyUnit && Unicode.isCurrency(unit);
 
-						StringBuilder sb = new StringBuilder();
-						if (currency) {
-							boolean negative = strNum.charAt(0) == '-';
-							if (negative) {
-								sb.append(minusSign);
-							}
-							sb.append(unit);
-							sb.append(negative ? strNum.substring(1) : strNum);
-						} else {
-							sb.append(strNum);
-						}
-
-
-						// don't check rw < 0 as it fails for eg
-						// -0.0000000001
-						if (sb.charAt(0) == '-' && !currency) {
-							// change minus sign (too short) to n-dash
-							sb.setCharAt(0, minusSign);
-						}
-
-						if ((view.axesUnitLabels[1] != null)
-								&& !view.piAxisUnit[1] && !currency) {
-							sb.append(view.axesUnitLabels[1]);
-						}
+						StringBuilder sb = formatUnitLabel(strNum, 1, minusSign, currency);
 
 						GTextLayout layout = AwtFactory.getPrototype()
 								.newTextLayout(sb.toString(),
@@ -578,6 +555,32 @@ public class DrawAxis {
 		}
 	}
 
+	private StringBuilder formatUnitLabel(String strNum, int idx, char minusSign, boolean currency) {
+		String unit = view.axesUnitLabels[idx];
+		StringBuilder sb = new StringBuilder();
+		if (currency) {
+			boolean negative = strNum.charAt(0) == '-';
+			if (negative) {
+				sb.append(minusSign);
+			}
+			sb.append(unit);
+			sb.append(negative ? strNum.substring(1) : strNum);
+		} else {
+			sb.append(strNum);
+		}
+
+		// don't check rw < 0 as it fails for eg
+		// -0.0000000001
+		if (sb.charAt(0) == '-' && !currency) {
+			// change minus sign (too short) to n-dash
+			sb.setCharAt(0, minusSign);
+		}
+
+		if ((view.axesUnitLabels[idx] != null) && !view.piAxisUnit[idx] && !currency) {
+			sb.append(view.axesUnitLabels[idx]);
+		}
+		return sb;
+	}
 	/**
 	 * 
 	 * @param xCrossPix
@@ -935,7 +938,7 @@ public class DrawAxis {
 			pix += axesStep;
 			labelno += 1;
 		}
-
+		boolean currencyUnit = view.getApplication().has(Feature.CURRENCY_UNIT);
 		for (; pix < view.getWidth(); pix += axesStep) {
 
 			// 285, 285.1, 285.2 -> rounding problems
@@ -944,19 +947,10 @@ public class DrawAxis {
 					String strNum = tickDescription(view, labelno, 0);
 
 					if ((labelno % unitsPerLabelX) == 0) {
+						String unit = view.axesUnitLabels[0];
+						boolean currency = currencyUnit && Unicode.isCurrency(unit);
 
-						StringBuilder sb = new StringBuilder(strNum);
-
-						// don't check rw < 0 as it fails for eg
-						// -0.0000000001
-						if (sb.charAt(0) == '-') {
-							// change minus sign (too short) to n-dash
-							sb.setCharAt(0, minusSign);
-						}
-						if ((view.axesUnitLabels[0] != null)
-								&& !view.piAxisUnit[0]) {
-							sb.append(view.axesUnitLabels[0]);
-						}
+						StringBuilder sb = formatUnitLabel(strNum, 0, minusSign, currency);
 
 						int x, y = (int) (yCrossPix + yoffset);
 

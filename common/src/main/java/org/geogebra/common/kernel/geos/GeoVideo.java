@@ -359,4 +359,14 @@ public class GeoVideo extends GeoMedia {
 	public void setBackground(boolean background) {
 		this.background = background;
 	}
+
+	/**
+	 * @return if video is online.
+	 */
+	public boolean isP() {
+		if (!hasVideoManager()) {
+			return false;
+		}
+		return app.getVideoManager().isOnline(this);
+	}
 }
