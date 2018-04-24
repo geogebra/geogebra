@@ -445,6 +445,28 @@ public abstract class Log {
 	}
 
 	/**
+	 * Prints special debugging message, level DEBUG
+	 * 
+	 * @param message
+	 *            message to be printed
+	 */
+	public static void debugSpecial(String message) {
+		if (logger != null) {
+
+			for (int i = 0; i < message.length(); i++) {
+				char c = message.charAt(i);
+				if (c != '.' && c != '-' && c != 'e' && c != '+'
+						&& (c < '0' || c > '9')) {
+					logger.log(logger.DEBUG,
+							"Problem with decimal point " + message);
+					return;
+				}
+			}
+
+		}
+	}
+
+	/**
 	 * @param tag
 	 *            arbitrary message tag
 	 * @param message
