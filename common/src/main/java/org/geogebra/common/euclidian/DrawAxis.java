@@ -25,6 +25,8 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Draws axes in 2D
  */
 public class DrawAxis {
+	private static final int CURRENCY_DOLLAR_BATCH = 1000;
+	private static final int CURRENCY_DOLLAR_MOD = 3;
 	/** view */
 	EuclidianView view;
 	private GGeneralPath gp;
@@ -1125,12 +1127,29 @@ public class DrawAxis {
 
 	private static String tickUnit(EuclidianView view, long labelno, int axis) {
 		double num = Math.round(100 * labelno * view.axesNumberingDistances[axis]) / 100.0;
+		String strNum = num + "";
 		StringBuilder sb = new StringBuilder();
-		sb.append(num);
+		if (view.axesUnitLabels[axis].charAt(0) == Unicode.CURRENCY_DOLLAR && Math.abs(num) > CURRENCY_DOLLAR_BATCH) {
+			int length = strNum.length();
+			if (num < 0) {
+				length--;
+			}
+			int mod = length % CURRENCY_DOLLAR_MOD;
+			if (mod == 0) {
+				mod = 3;
+			}
+			sb.append(strNum.substring(0, num < 0 ? mod + 1 : mod));
+
+			for (int i = mod; i < length; i += CURRENCY_DOLLAR_MOD) {
+				sb.append(",");
+				sb.append(strNum.substring(i, i + CURRENCY_DOLLAR_MOD));
+			}
+		} else {
+			sb.append(num);
+		}
 		if (Math.round(num) != num) {
 			sb.append((Math.round(num * 100) % 10 == 0) ? "0" : "");
 		}
-
 		return sb.toString();
 	}
 	/**
