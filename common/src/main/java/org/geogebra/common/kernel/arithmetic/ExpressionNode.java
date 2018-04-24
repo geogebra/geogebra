@@ -3249,11 +3249,19 @@ public class ExpressionNode extends ValidExpression
 					break;
 				case DERIVATIVE:
 					if (stringType.isGiac()) {
+
+						String funStr = en.getLeft().toValueString(tpl);
+
 						sb.append("diff(");
-						sb.append(en.getLeft().toValueString(tpl));
-						sb.append("(");
-						sb.append(rightStr);
-						sb.append(")");
+						sb.append(funStr);
+
+						// GGB-2356
+						if (funStr.startsWith(Kernel.TMP_VARIABLE_PREFIX)) {
+							sb.append("(");
+							sb.append(rightStr);
+							sb.append(")");
+						}
+
 						String deg = en.getRight().toValueString(tpl);
 						// TODO doesn't work for var!=f, solve this in
 						// FunctionExpander
