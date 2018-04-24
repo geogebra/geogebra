@@ -72,8 +72,6 @@ public class EuclidianControllerCompanion {
 	 * @return angle
 	 */
 	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C) {
-		ec.checkZooming();
-
 		return ec.getAlgoDispatcher().Angle(null, (GeoPoint) A, (GeoPoint) B,
 				(GeoPoint) C);
 	}
@@ -135,8 +133,6 @@ public class EuclidianControllerCompanion {
 	 * @return translated object
 	 */
 	protected GeoElement[] translate(GeoElement geo, GeoVectorND vec) {
-		ec.checkZooming();
-
 		return ec.getAlgoDispatcher().Translate(null, geo, (GeoVector) vec);
 	}
 
@@ -210,7 +206,7 @@ public class EuclidianControllerCompanion {
 				// line and function
 				GeoFunction f = ((GeoFunctionable) b).getGeoFunction();
 				if (f.isPolynomialFunction(false)) {
-					point = ec.getAlgoDispatcher()
+					 ec.getAlgoDispatcher()
 							.IntersectPolynomialLineSingle(null, f, (GeoLine) a,
 									ec.xRW, ec.yRW);
 				}
@@ -293,8 +289,6 @@ public class EuclidianControllerCompanion {
 	 * @return line orthogonal to the given one, going through a point
 	 */
 	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line) {
-		ec.checkZooming();
-
 		return new GeoElement[] { ec.getAlgoDispatcher().OrthogonalLine(null,
 				(GeoPoint) point, (GeoLine) line) };
 	}
@@ -334,11 +328,9 @@ public class EuclidianControllerCompanion {
 	 * @return midpoint for segment
 	 */
 	protected GeoElement midpoint(GeoSegmentND segment) {
-
 		GeoElement mp = ec.getAlgoDispatcher().Midpoint((GeoSegment) segment);
 		mp.setLabel(null);
 		return mp;
-
 	}
 
 	/**
@@ -359,9 +351,7 @@ public class EuclidianControllerCompanion {
 	 * @return center of conic
 	 */
 	protected GeoElement midpoint(GeoConicND conic) {
-
 		return (GeoElement) ec.getAlgoDispatcher().Center(null, conic);
-
 	}
 
 	/**
@@ -373,11 +363,9 @@ public class EuclidianControllerCompanion {
 	 * @return midpoint for two points
 	 */
 	protected GeoElement midpoint(GeoPointND p1, GeoPointND p2) {
-
 		AlgoMidpoint algo = new AlgoMidpoint(ec.kernel.getConstruction(),
 				(GeoPoint) p1, (GeoPoint) p2);
 		return algo.getPoint();
-
 	}
 
 	/**
@@ -397,8 +385,6 @@ public class EuclidianControllerCompanion {
 				geoPoint1, geoPoint2, value);
 		ec.kernel.notifyPolygonAdded();
 		return elms;
-		// return kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1,
-		// geoPoint2, value);
 	}
 
 	/**
@@ -543,12 +529,6 @@ public class EuclidianControllerCompanion {
 				DoubleUtil.checkDecimalFraction(ec.yRW), 1.0);
 
 		if (event.isAltDown()) {
-
-			// 1/24 -> steps of 15 degrees (for circle)
-			// otherwise use Object Properties -> Algebra -> Increment
-			// double multiplier = event.isAltDown() ? 1.0/24.0 :
-			// movedGeoPoint.getAnimationStep();
-
 			double multiplier = ec.movedGeoPoint.getAnimationStep();
 
 			int n = (int) Math.ceil(1.0 / multiplier);
@@ -558,7 +538,6 @@ public class EuclidianControllerCompanion {
 			}
 
 			if (ec.movedGeoPoint.isPointOnPath()) {
-
 				double dist = Double.MAX_VALUE;
 
 				Path path = ec.movedGeoPoint.getPath();
@@ -586,11 +565,10 @@ public class EuclidianControllerCompanion {
 
 				path.pathChanged(ec.movedGeoPoint);
 				ec.movedGeoPoint.updateCoords();
-
 			}
 		}
 
-		((GeoElement) ec.movedGeoPoint).updateCascade();
+		ec.movedGeoPoint.updateCascade();
 
 		if (repaint) {
 			ec.kernel.notifyRepaint();
@@ -618,9 +596,6 @@ public class EuclidianControllerCompanion {
 	 */
 	protected GeoPointND createNewPoint(boolean forPreviewable,
 			boolean complex) {
-
-		ec.checkZooming(forPreviewable);
-
 		GeoPointND ret = ec.getAlgoDispatcher().Point(
 				DoubleUtil.checkDecimalFraction(ec.xRW),
 				DoubleUtil.checkDecimalFraction(ec.yRW), complex);
@@ -675,8 +650,6 @@ public class EuclidianControllerCompanion {
 	 *            path for mode locking
 	 */
 	protected void processModeLock(Path path) {
-		ec.checkZooming();
-
 		GeoPoint p = ec.getAlgoDispatcher().Point(null, path, ec.xRW, ec.yRW,
 				false, false, true);
 		p.update();
@@ -869,9 +842,8 @@ public class EuclidianControllerCompanion {
 	 * @return vector equal to v with a for start point
 	 */
 	protected GeoElement vectorPoint(GeoPointND a, GeoVectorND v) {
-
 		GeoPoint endPoint = (GeoPoint) ec.getAlgoDispatcher().Translate(null,
-				(GeoPoint) a, (GeoVector) v)[0];
+				a, (GeoVector) v)[0];
 		return ec.getAlgoDispatcher().Vector(null, (GeoPoint) a, endPoint);
 	}
 
