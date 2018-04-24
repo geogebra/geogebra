@@ -934,7 +934,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final GImageIconW wrapGetModeIcon(int mode) {
-		return new GImageIconW(GGWToolBar.getImageURL(mode, this));
+		GImageIconW icon = new GImageIconW("");
+		GGWToolBar.getImageResource(mode, this, icon);
+		return icon;
 	}
 
 	@Override

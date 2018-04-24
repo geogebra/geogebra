@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Image;
 /**
  * Image that prevents dragging by default
  */
-public class NoDragImage extends Image {
+public class NoDragImage extends Image implements HasResource {
 
 	/**
 	 * @param uri
@@ -71,5 +71,10 @@ public class NoDragImage extends Image {
 			return ((SVGResource) res).getSafeUri().asString();
 		}
 		return "";
+	}
+
+	public void setResource(ResourcePrototype res) {
+		this.setUrl(NoDragImage.safeURI(res));
+		
 	}
 }

@@ -24,7 +24,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
+import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -631,47 +631,14 @@ public class GGWToolBar extends Composite
 	}
 
 	/**
-	 * Gets an HTML fragment that displays the image belonging to mode given in
-	 * parameter
-	 * 
-	 * @param mode
-	 *            mode ID
-	 * @return HTML fragment
-	 */
-	public String getImageHtml(int mode) {
-		String url = getImageURL(mode);
-		return (url.length() > 0) ? "<img src=\"" + url + "\" width=\"32\">"
-				: "";
-	}
-
-	/**
-	 * @param mode
-	 *            app mode
-	 * @return tool icon URL
-	 */
-	public String getImageURL(int mode) {
-		return getImageURL(mode, app);
-	}
-
-	/**
-	 * @param mode
-	 *            tool / mode
-	 * @param app
-	 *            app
-	 * @return tool image URL
-	 */
-	public static String getImageURL(int mode, AppW app) {
-		return ImgResourceHelper.safeURI(getImageResource(mode, app));
-	}
-
-	/**
 	 * @param mode
 	 *            app mode
 	 * @param app
 	 *            application
-	 * @return icon for macro or builtin mode
+	 * @param target
+	 *            icon for macro or builtin mode
 	 */
-	public static ResourcePrototype getImageResource(int mode, AppW app) {
+	public static void getImageResource(int mode, AppW app, HasResource target) {
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			try {
@@ -679,23 +646,28 @@ public class GGWToolBar extends Composite
 				String iconName = macro.getIconFileName();
 				if (iconName == null || iconName.length() == 0) {
 					// default icon
-					return ToolbarSvgResourcesSync.INSTANCE.mode_tool_32();
+					target.setResource(ToolbarSvgResourcesSync.INSTANCE.mode_tool_32());
+					return;
 				}
 				// use image as icon
 				Image img = new NoDragImage(
 						app.getImageManager().getExternalImageSrc(iconName),
 						32);
 
-				return new ImageResourcePrototype("",
+				target.setResource(new ImageResourcePrototype("",
 						UriUtils.fromString(img.getUrl()), 0, 0, 32,
-						32, false, false);
+						32, false, false));
+				return;
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);
-				return ToolbarSvgResourcesSync.INSTANCE.mode_tool_32();
+				target.setResource(
+						ToolbarSvgResourcesSync.INSTANCE.mode_tool_32());
+				return;
 			}
 		}
 
-		return getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode);
+		target.setResource(
+				getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode));
 
 	}
 

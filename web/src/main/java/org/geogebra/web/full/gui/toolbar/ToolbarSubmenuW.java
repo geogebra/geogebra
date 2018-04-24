@@ -126,8 +126,9 @@ public class ToolbarSubmenuW extends FlowPanel {
 	}
 
 	protected Image createImage(int mode) {
-		Image img = new NoDragImage(
-				((GGWToolBar) app.getToolbar()).getImageURL(mode), 32);
+		NoDragImage img = new NoDragImage("", 32);
+
+		GGWToolBar.getImageResource(mode, app, img);
 		// temporary opacity fix until all the icons will be renewed
 		if (mode == EuclidianConstants.MODE_IMAGE
 				|| mode == EuclidianConstants.MODE_TEXTFIELD_ACTION

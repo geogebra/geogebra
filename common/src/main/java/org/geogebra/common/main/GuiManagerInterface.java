@@ -352,7 +352,7 @@ public interface GuiManagerInterface {
 
 	public void updatePropertiesViewStylebar();
 
-	public String getToolImageURL(int mode, GeoImage geoImage);
+	public void getToolImageURL(int mode, GeoImage geoImage, AsyncOperation<String> onload);
 
 	public EuclidianViewInterfaceCommon getPlotPanelEuclidanView();
 

@@ -214,7 +214,8 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * @return Newly created toolbar button to set its mode.
 	 */
 	protected StandardButton createButton(int mode) {
-		NoDragImage im = new NoDragImage(GGWToolBar.getImageURL(mode, app));
+		NoDragImage im = new NoDragImage("", 32);
+		GGWToolBar.getImageResource(mode, app, im);
 		// opacity hack: old icons don't need opacity, new ones do
 		if (imageNeedsOpacity(mode)) {
 			im.addStyleName("opacityFixForOldIcons");

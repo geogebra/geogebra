@@ -3297,12 +3297,14 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public String getToolImageURL(int mode, GeoImage gi) {
+	public void getToolImageURL(int mode, GeoImage gi,
+			AsyncOperation<String> callback) {
 		String modeStr = StringUtil
 				.toLowerCaseUS(EuclidianConstants.getModeTextSimple(mode));
-		return getApp().getImageManager().createImage(
+		callback.callback(getApp().getImageManager().createImage(
 				getApp()
-				.getImageManager().getToolImageResource(modeStr), getApp());
+						.getImageManager().getToolImageResource(modeStr),
+				getApp()));
 	}
 
 	@Override

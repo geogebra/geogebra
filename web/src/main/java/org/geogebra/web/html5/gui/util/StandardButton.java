@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.Label;
  * @author csilla
  * 
  */
-public class StandardButton extends FastButton {
+public class StandardButton extends FastButton implements HasResource {
 
 	private App app;
 	private ResourcePrototype icon;
@@ -202,5 +202,10 @@ public class StandardButton extends FastButton {
 	@Override
 	public App getApp() {
 		return app;
+	}
+
+	@Override
+	public void setResource(ResourcePrototype res) {
+		btnImage.setResource(res);
 	}
 }

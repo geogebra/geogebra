@@ -116,6 +116,7 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
+import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -130,6 +131,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
@@ -2309,14 +2311,23 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public String getToolImageURL(int mode, GeoImage geoImage) {
-		String url = GGWToolBar.getImageURL(mode, getApp());
-		String fn = "geogebra_tool_" + mode;
-		String zipDirectory = app.md5Encrypt(fn);
-		fn = zipDirectory + "/" + fn;
-		getApp().getImageManager().addExternalImage(fn, url);
-		getApp().getImageManager().triggerSingleImageLoading(fn, geoImage);
-		return fn;
+	public void getToolImageURL(final int mode, final GeoImage geoImage,
+			final AsyncOperation<String> s) {
+
+		GGWToolBar.getImageResource(mode, getApp(), new HasResource() {
+
+			public void setResource(ResourcePrototype mode_tool_32) {
+				String url = NoDragImage.safeURI(mode_tool_32);
+				String fn = "geogebra_tool_" + mode;
+				String zipDirectory = app.md5Encrypt(fn);
+				fn = zipDirectory + "/" + fn;
+				getApp().getImageManager().addExternalImage(fn, url);
+				getApp().getImageManager().triggerSingleImageLoading(fn,
+						geoImage);
+				s.callback(fn);
+			}
+		});
+
 	}
 
 	/**

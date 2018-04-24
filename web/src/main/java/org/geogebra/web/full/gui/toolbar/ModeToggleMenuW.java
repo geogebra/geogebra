@@ -37,7 +37,6 @@ import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ModeToggleMenuW extends ListItem
@@ -84,8 +83,8 @@ public class ModeToggleMenuW extends ListItem
 	protected void buildButton() {
 		tbutton = new FlowPanel();
 		tbutton.addStyleName("toolbar_button");
-		Image toolbarImg = new NoDragImage(((GGWToolBar) app.getToolbar())
-				.getImageURL(menu.get(0).intValue()), 32);
+		NoDragImage toolbarImg = new NoDragImage("", 32);
+		GGWToolBar.getImageResource(menu.get(0).intValue(), app, toolbarImg);
 		toolbarImg.addStyleName("toolbar_icon");
 		tbutton.add(toolbarImg);
 		tbutton.getElement().setAttribute("mode", menu.get(0).intValue() + "");
@@ -363,8 +362,9 @@ public class ModeToggleMenuW extends ListItem
 		tbutton.getElement().setAttribute("mode", miMode);
 		//
 		tbutton.clear();
-		Image buttonImage = new NoDragImage(((GGWToolBar) app.getToolbar())
-				.getImageURL(Integer.parseInt(miMode)), 32);
+		NoDragImage buttonImage = new NoDragImage("", 32);
+		GGWToolBar
+				.getImageResource(Integer.parseInt(miMode), app, buttonImage);
 		buttonImage.addStyleName("toolbar_icon");
 		if (Integer.parseInt(miMode) == EuclidianConstants.MODE_DELETE) {
 			buttonImage.addStyleName("plusPadding");

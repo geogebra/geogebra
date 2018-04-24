@@ -34,7 +34,6 @@ public final class MyImageW implements MyImage {
 
 		width = img.getWidth();
 		height = img.getHeight();
-
 		if (width == 0 || height == 0) {
 			// hack for IE10/11/12
 			// can't work out SVG height unless it's attached to the DOM

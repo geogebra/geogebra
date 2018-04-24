@@ -34,7 +34,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
@@ -324,7 +323,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		private Integer mode;
 		TreeItem treeItem;
-		private Image toolbarImg;
+		private NoDragImage toolbarImg;
 		private FlowPanel btn;
 		private HandlerRegistration hrDrop;
 		private HandlerRegistration hrDragEnter;
@@ -540,8 +539,9 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		public void setMode(Integer mode) {
 			this.mode = mode;
 			clear();
-			toolbarImg = new NoDragImage(
-					GGWToolBar.getImageURL(mode, app), 32);
+			toolbarImg = new NoDragImage(""
+					, 32);
+			GGWToolBar.getImageResource(mode, app, toolbarImg);
 			toolbarImg.addStyleName("toolbar_icon");
 			toolbarImg.setWidth("32px");
 			btn.clear();

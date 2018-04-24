@@ -3337,7 +3337,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		if (changeArcTrig && kernel.getApplication()
 				.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
 			Log.error(this.toString());
-			Log.printStacktrace("");
 			return "asin";
 		}
 		return "asind";

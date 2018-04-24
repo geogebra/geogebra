@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -27,33 +28,19 @@ public class CmdToolImage extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(final Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;
 		arg = resArgs(c);
 
-		GeoPoint corner = null, corner2 = null;
+		final GeoPoint corner = checkarg(arg, c, 1);
+		final GeoPoint corner2 = checkarg(arg, c, 2);
 
 		switch (n) {
 
 		case 2:
 		case 3:
-			if (arg[1] instanceof GeoPoint) {
-				corner = (GeoPoint) arg[1];
-			} else {
-				throw argErr(app, c, arg[1]);
-			}
-
-			if (n == 3) {
-				if (arg[2] instanceof GeoPoint) {
-					corner2 = (GeoPoint) arg[2];
-				} else {
-					throw argErr(app, c, arg[2]);
-				}
-
-			}
-
 			// FALL THROUGH
 		case 1:
 			if (arg[0].isGeoNumeric()) {
@@ -69,31 +56,36 @@ public class CmdToolImage extends CommandProcessor {
 
 				// TODO Fix me
 
-				GeoImage geoImage = new GeoImage(
+				final GeoImage geoImage = new GeoImage(
 						app.getKernel().getConstruction());
 				if (app.getGuiManager() != null) {
 
-					String fileName = app.getGuiManager().getToolImageURL(mode,
-							geoImage);
-					geoImage.setImageFileName(fileName);
+					app.getGuiManager().getToolImageURL(mode,
+							geoImage, new AsyncOperation<String>() {
+
+								@Override
+								public void callback(String fileName) {
+									geoImage.setImageFileName(fileName);
+									geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
+
+									try {
+										geoImage.setStartPoint(corner == null
+												? new GeoPoint(cons, 0, 0, 1) : corner);
+
+										if (corner2 != null) {
+											geoImage.setCorner(corner2, 1);
+										}
+
+									} catch (CircularDefinitionException e) {
+										e.printStackTrace();
+									}
+									geoImage.setLabel(c.getLabel());
+
+								}
+							});
+
 
 				}
-				geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
-
-				if (corner == null) {
-					corner = new GeoPoint(cons, 0, 0, 1);
-				}
-				try {
-					geoImage.setStartPoint(corner);
-
-					if (corner2 != null) {
-						geoImage.setCorner(corner2, 1);
-					}
-
-				} catch (CircularDefinitionException e) {
-					e.printStackTrace();
-				}
-				geoImage.setLabel(c.getLabel());
 
 				GeoElement[] ret = {};
 				return ret;
@@ -104,5 +96,15 @@ public class CmdToolImage extends CommandProcessor {
 		default:
 			throw argNumErr(c);
 		}
+	}
+
+	private GeoPoint checkarg(GeoElement[] arg, Command c, int i) {
+		if (arg.length <= i) {
+			return null;
+		}
+		if (arg[i] instanceof GeoPoint) {
+			return (GeoPoint) arg[i];
+		}
+		throw argErr(app, c, arg[i]);
 	}
 }
