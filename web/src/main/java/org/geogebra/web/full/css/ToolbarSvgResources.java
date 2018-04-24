@@ -253,21 +253,9 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_semicircle_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_showcheckbox.svg")
-	@Override
-	SVGResource mode_showcheckbox_32();
-
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_showhidelabel.svg")
-	@Override
-	SVGResource mode_showhidelabel_32();
-
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_showhideobject.svg")
 	@Override
 	SVGResource mode_showhideobject_32();
-
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_slider.svg")
-	@Override
-	SVGResource mode_slider_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_slope.svg")
 	@Override
@@ -284,10 +272,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_textfieldaction.svg")
 	@Override
 	SVGResource mode_textfieldaction_32();
-
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_tool.svg")
-	@Override
-	SVGResource mode_tool_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_translatebyvector.svg")
 	@Override
@@ -568,10 +552,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_audio_black.svg")
 	SVGResource mode_audio_32();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen_black.svg")
-	SVGResource mode_pen_black_32();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_highlighter.svg")

@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
@@ -117,10 +117,9 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		mainWidget.add(pToolHelp);
 
 		VerticalPanel iconPanel = new VerticalPanel();
-		icon = new NoDragImage(
-				ImgResourceHelper.safeURI(
-						GGWToolBar
-		        .getMyIconResourceBundle().mode_tool_32()), 32);
+		icon = new NoDragImage(ImgResourceHelper
+				.safeURI(ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()),
+				32);
 		Button labelIcon = new Button(loc.getMenu("Icon") + " ...");
 		labelIcon.addClickHandler(new ClickHandler() {
 
@@ -210,8 +209,7 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 			icon.setUrl(app.getImageManager().getExternalImageSrc(iconFileName));
 		} else {
 			icon.setUrl(ImgResourceHelper.safeURI(
-					GGWToolBar.getMyIconResourceBundle()
-			        .mode_tool_32()));
+					ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()));
 			iconFileName = null;
 		}
 

@@ -9,9 +9,8 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.css.ToolbarSvgResources;
+import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PenPreview;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -80,9 +79,10 @@ public class PenSubMenu extends SubMenuPanel {
 		penPanel.addStyleName("penPanel");
 		pen = createButton(EuclidianConstants.MODE_PEN);
 		// pen gets a separate icon here so it can show the selected color
-		ToolbarResources pr = ToolbarSvgResources.INSTANCE;
 		NoDragImage im = new NoDragImage(
-				ImgResourceHelper.safeURI(pr.mode_pen_black_32()), 32);
+				ImgResourceHelper.safeURI(
+						ToolbarSvgResourcesSync.INSTANCE.mode_pen_black_32()),
+				32);
 		// im.addStyleName("opacityFixForOldIcons");
 		pen.getUpFace().setImage(im);
 		pen.addStyleName("plusMarginLeft");

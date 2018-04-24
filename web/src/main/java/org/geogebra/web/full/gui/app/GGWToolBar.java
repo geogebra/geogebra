@@ -12,6 +12,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.ToolbarSvgResources;
+import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -56,8 +57,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class GGWToolBar extends Composite
 		implements RequiresResize, ToolBarInterface, SetLabels {
 
-	static private ToolbarResources myIconResourceBundle = ToolbarSvgResources.INSTANCE;
-
 	private ArrayList<ToolBarW> toolbars;
 	/** application */
 	AppW app;
@@ -81,15 +80,6 @@ public class GGWToolBar extends Composite
 	/** undo button */
 	StandardButton undoButton;
 	private StandardButton redoButton;
-
-	/**
-	 * PNG or SVG resource bundle
-	 * 
-	 * @return bundle
-	 */
-	static public ToolbarResources getMyIconResourceBundle() {
-		return myIconResourceBundle;
-	}
 
 	/**
 	 * Create a new GGWToolBar object
@@ -654,7 +644,11 @@ public class GGWToolBar extends Composite
 				: "";
 	}
 
-	@Override
+	/**
+	 * @param mode
+	 *            app mode
+	 * @return tool icon URL
+	 */
 	public String getImageURL(int mode) {
 		return getImageURL(mode, app);
 	}
@@ -685,7 +679,7 @@ public class GGWToolBar extends Composite
 				String iconName = macro.getIconFileName();
 				if (iconName == null || iconName.length() == 0) {
 					// default icon
-					return myIconResourceBundle.mode_tool_32();
+					return ToolbarSvgResourcesSync.INSTANCE.mode_tool_32();
 				}
 				// use image as icon
 				Image img = new NoDragImage(
@@ -697,11 +691,11 @@ public class GGWToolBar extends Composite
 						32, false, false);
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);
-				return myIconResourceBundle.mode_tool_32();
+				return ToolbarSvgResourcesSync.INSTANCE.mode_tool_32();
 			}
 		}
 
-		return getImageURLNotMacro(myIconResourceBundle, mode);
+		return getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode);
 
 	}
 
@@ -951,16 +945,16 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_semicircle_32();
 
 		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
-			return resourceBundle.mode_showcheckbox_32();
+			return ToolbarSvgResourcesSync.INSTANCE.mode_showcheckbox_32();
 
 		case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
-			return resourceBundle.mode_showhidelabel_32();
+			return ToolbarSvgResourcesSync.INSTANCE.mode_showhidelabel_32();
 
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
 			return resourceBundle.mode_showhideobject_32();
 
 		case EuclidianConstants.MODE_SLIDER:
-			return resourceBundle.mode_slider_32();
+			return ToolbarSvgResourcesSync.INSTANCE.mode_slider_32();
 
 		case EuclidianConstants.MODE_SLOPE:
 			return resourceBundle.mode_slope_32();

@@ -387,11 +387,6 @@ public class ToolBarW extends FlowPanel
 				return;
 			}
 		}
-    }
-
-	@Override
-	public String getImageURL(int mode) {
-		return GGWToolBar.getImageURL(mode, app);
 	}
 
 	@Override

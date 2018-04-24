@@ -53,6 +53,7 @@ import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.cas.view.CASTableW;
 import org.geogebra.web.full.cas.view.CASViewW;
 import org.geogebra.web.full.cas.view.RowHeaderPopupMenuW;
+import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.euclidian.DynamicStyleBar;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
@@ -1697,8 +1698,8 @@ public class GuiManagerW extends GuiManager
 
 		final Image icon = new NoDragImage(
 				ImgResourceHelper.safeURI(
-						GGWToolBar
-						.getMyIconResourceBundle().mode_slider_32()), 32);
+						ToolbarSvgResourcesSync.INSTANCE.mode_slider_32()),
+				32);
 		icon.addStyleName("dialogToolIcon");
 		// icon.getElement().getStyle()
 		// .setProperty("border", "3px solid steelblue");

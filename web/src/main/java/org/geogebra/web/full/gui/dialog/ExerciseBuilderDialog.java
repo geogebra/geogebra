@@ -18,7 +18,7 @@ import org.geogebra.common.util.BoolAssignment;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.GeoAssignment;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 
@@ -405,7 +405,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 */
 	SafeUri getIconFile(String fileName) {
 		if (BoolAssignment.class.getSimpleName().equals(fileName)) {
-			return GGWToolBar.getMyIconResourceBundle().mode_showcheckbox_32()
+			return ToolbarSvgResourcesSync.INSTANCE.mode_showcheckbox_32()
 					.getSafeUri();
 		} else if (!fileName.isEmpty()) {
 			String imageURL = ((AppW) app).getImageManager()
@@ -415,7 +415,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				return UriUtils.fromString(imageURL);
 			}
 		}
-		return GGWToolBar.getMyIconResourceBundle().mode_tool_32().getSafeUri();
+		return ToolbarSvgResourcesSync.INSTANCE.mode_tool_32().getSafeUri();
 	}
 
 	@Override

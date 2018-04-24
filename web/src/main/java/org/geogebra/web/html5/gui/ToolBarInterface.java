@@ -6,8 +6,6 @@ public interface ToolBarInterface {
 
 	public int setMode(int mode, ModeSetter m);
 
-	public String getImageURL(int mode);
-
 	public void setVisible(boolean show);
 
 	void closeAllSubmenu();

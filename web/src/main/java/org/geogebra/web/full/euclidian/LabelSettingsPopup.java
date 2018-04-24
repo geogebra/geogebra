@@ -10,7 +10,7 @@ import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueLis
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.css.ToolbarSvgResources;
+import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -65,7 +65,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		this.app = app;
 		loc = app.getLocalization();
 		this.setIcon(
-				new ImageOrText(ToolbarSvgResources.INSTANCE
+				new ImageOrText(ToolbarSvgResourcesSync.INSTANCE
 						.mode_showhidelabel_32(), 24));
 		createPopup();
 
