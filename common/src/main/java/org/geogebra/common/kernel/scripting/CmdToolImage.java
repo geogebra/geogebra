@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -55,9 +56,8 @@ public class CmdToolImage extends CommandProcessor {
 				}
 
 				// TODO Fix me
-
-				final GeoImage geoImage = new GeoImage(
-						app.getKernel().getConstruction());
+				final Construction cons1 = app.getKernel().getConstruction();
+				final GeoImage geoImage = new GeoImage(cons1);
 				AsyncOperation<String> callback = new AsyncOperation<String>() {
 
 					@Override
@@ -67,7 +67,7 @@ public class CmdToolImage extends CommandProcessor {
 
 						try {
 							geoImage.setStartPoint(corner == null
-									? new GeoPoint(cons, 0, 0, 1) : corner);
+									? new GeoPoint(cons1, 0, 0, 1) : corner);
 
 							if (corner2 != null) {
 								geoImage.setCorner(corner2, 1);
