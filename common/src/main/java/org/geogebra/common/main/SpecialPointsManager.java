@@ -39,6 +39,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private List<AlgoElement> specPointAlgos = new ArrayList<>();
 
 	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();
+	private boolean isUpdating = false;
 
 	/**
 	 * @param kernel
@@ -88,13 +89,18 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	 *            geo which special points will be updated
 	 */
 	public void updateSpecialPoints(GeoElement geo) {
-		if ("3D".equals(kernel.getApplication().getVersion().getAppName())) {
+		if ("3D".equals(kernel.getApplication().getVersion().getAppName()) || isUpdating) {
 			return;
 		}
+		// Prevent calling update special points recursively
+		isUpdating = true;
+
 		getSpecPoints(geo, kernel.getApplication().getSelectionManager()
 				.getSelectedGeos());
 
 		fireSpecialPointsChangedEvent();
+
+		isUpdating = false;
 	}
 
 	private void getSpecPoints(GeoElementND geo,
