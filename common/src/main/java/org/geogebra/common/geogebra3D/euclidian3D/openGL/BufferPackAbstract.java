@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import java.util.TreeMap;
+
 import org.geogebra.common.awt.GColor;
 
 /**
@@ -15,6 +17,8 @@ abstract class BufferPackAbstract {
 	int elementsLength;
 	/** indices length */
 	int indicesLength;
+
+	private TreeMap<Index, BufferSegment> segmentEnds;
 
 	/**
 	 * 
@@ -84,7 +88,11 @@ abstract class BufferPackAbstract {
 	/**
 	 * reset buffers and lengths
 	 */
-	abstract void reset();
+	public void reset() {
+		if (segmentEnds != null) {
+			segmentEnds.clear();
+		}
+	}
 
 	/**
 	 * set alpha values to transparent
@@ -137,6 +145,17 @@ abstract class BufferPackAbstract {
 	 */
 	public boolean canBeReused() {
 		return true;
+	}
+
+	/**
+	 * 
+	 * @return segments ends
+	 */
+	public TreeMap<Index, BufferSegment> getSegmentEnds() {
+		if (segmentEnds == null) {
+			segmentEnds = new TreeMap<>();
+		}
+		return segmentEnds;
 	}
 
 }

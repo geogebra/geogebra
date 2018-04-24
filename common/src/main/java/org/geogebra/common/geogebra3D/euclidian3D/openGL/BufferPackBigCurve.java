@@ -139,8 +139,7 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-
+		// no need
 	}
 
 	@Override

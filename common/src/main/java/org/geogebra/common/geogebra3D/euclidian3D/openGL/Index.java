@@ -5,7 +5,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
  *
  */
 class Index implements Comparable<Index> {
-	private int v1, v2;
+	public int v1, v2;
 
 	/**
 	 * simple constructor
@@ -21,8 +21,20 @@ class Index implements Comparable<Index> {
 	 *            index
 	 */
 	public Index(Index index) {
-		this.v1 = index.v1;
-		this.v2 = index.v2;
+		this(index.v1, index.v2);
+	}
+
+	/**
+	 * constructor
+	 * 
+	 * @param v1
+	 *            first value
+	 * @param v2
+	 *            second value
+	 */
+	public Index(int v1, int v2) {
+		this.v1 = v1;
+		this.v2 = v2;
 	}
 
 	/**
@@ -36,6 +48,28 @@ class Index implements Comparable<Index> {
 	public void set(int v1, int v2) {
 		this.v1 = v1;
 		this.v2 = v2;
+	}
+
+	/**
+	 * set index parameters
+	 * 
+	 * @param bufferSegment
+	 *            buffer segment
+	 */
+	public void setAvailableLengths(BufferSegment bufferSegment) {
+		set(bufferSegment.getElementsAvailableLength(),
+				bufferSegment.getIndicesAvailableLength());
+	}
+
+	/**
+	 * set index parameters
+	 * 
+	 * @param bufferSegment
+	 *            buffer segment
+	 */
+	public void setLengths(BufferSegment bufferSegment) {
+		set(bufferSegment.getElementsLength(),
+				bufferSegment.getIndicesLength());
 	}
 
 	@Override

@@ -16,12 +16,15 @@ abstract class GLBufferManager {
 	static final int ALPHA_INVISIBLE = -1;
 
 	private Index currentIndex;
-	private Index currentLengths;
+	/** current elements/indices lengths */
+	protected Index currentLengths;
 	/** current buffer segment */
 	protected BufferSegment currentBufferSegment;
 	private TreeMap<Index, BufferSegment> bufferSegments;
-	private int indicesIndex;
-	private TreeMap<Index, LinkedList<BufferSegment>> availableSegments;
+	/** indices index for writing */
+	protected int indicesIndex;
+	/** segments available for reuse */
+	protected TreeMap<Index, LinkedList<BufferSegment>> availableSegments;
 	/** current buffer pack */
 	protected BufferPackAbstract currentBufferPack;
 	private ArrayList<BufferPackAbstract> bufferPackList;
@@ -46,6 +49,16 @@ abstract class GLBufferManager {
 	 */
 	static public int getElementsLengthForCurve(int size) {
 		return (size + 1) * PlotterBrush.LATITUDES;
+	}
+
+	/**
+	 * 
+	 * @param elementsLength
+	 *            elements length
+	 * @return size for given curve elements length
+	 */
+	static public int getSizeForCurveFromElements(int elementsLength) {
+		return elementsLength / PlotterBrush.LATITUDES - 1;
 	}
 
 	/**
@@ -125,10 +138,13 @@ abstract class GLBufferManager {
 		this.color = color;
 	}
 
-	private void setAlphaToTransparent() {
+	/**
+	 * set current buffer segment alpha to transparent
+	 */
+	protected void setAlphaToTransparent() {
 		currentBufferPack.setAlphaToTransparent(
 				currentBufferSegment.elementsOffset,
-				currentBufferSegment.elementsLength);
+				currentBufferSegment.getElementsLength());
 	}
 
 	/**
@@ -146,7 +162,9 @@ abstract class GLBufferManager {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.get(currentIndex);
 			currentBufferPack = currentBufferSegment.bufferPack;
-			currentBufferPack.setColor(color, currentBufferSegment.elementsOffset, currentBufferSegment.elementsLength);
+			currentBufferPack.setColor(color,
+					currentBufferSegment.elementsOffset,
+					currentBufferSegment.getElementsLength());
 		}
 	}
 
@@ -198,25 +216,41 @@ abstract class GLBufferManager {
 			return;
 		}
 		currentBufferPack = currentBufferSegment.bufferPack;
-
 		if (currentBufferPack.canBeReused()) {
-			setAlphaToTransparent();
-			currentLengths.set(currentBufferSegment.elementsLength,
-					currentBufferSegment.indicesLength);
-			LinkedList<BufferSegment> list = availableSegments
-					.get(currentLengths);
-			if (list == null) {
-				list = new LinkedList<>();
-				availableSegments.put(new Index(currentLengths), list);
-			}
-			list.add(currentBufferSegment);
+			addCurrentToAvailableSegmentsMayMerge();
 		} else {
 			bufferPackList.remove(currentBufferPack);
 		}
 	}
 
+	/**
+	 * add current buffer segment to available list or merge it with previous
+	 */
+	protected void addCurrentToAvailableSegmentsMayMerge() {
+		setAlphaToTransparent();
+		currentLengths.setAvailableLengths(currentBufferSegment);
+		addToAvailableSegments(currentBufferSegment);
+	}
 
-	private BufferSegment getAvailableSegment() {
+	/**
+	 * add buffer segment to available list
+	 * 
+	 * @param bufferSegment
+	 *            buffer segment
+	 */
+	protected void addToAvailableSegments(BufferSegment bufferSegment) {
+		LinkedList<BufferSegment> list = availableSegments.get(currentLengths);
+		if (list == null) {
+			list = new LinkedList<>();
+			availableSegments.put(new Index(currentLengths), list);
+		}
+		list.add(bufferSegment);
+	}
+
+	/**
+	 * @return available segment for current length
+	 */
+	protected BufferSegment getAvailableSegment() {
 		LinkedList<BufferSegment> list = availableSegments.get(currentLengths);
 		if (list == null || list.isEmpty()) {
 			return null;
@@ -267,8 +301,8 @@ abstract class GLBufferManager {
 	 */
 	protected boolean checkCurrentBufferSegmentDoesNotFit(int indicesLength,
 			TypeElement type) {
-		return elementsLength != currentBufferSegment.elementsLength
-				|| indicesLength != currentBufferSegment.indicesLength;
+		return elementsLength != currentBufferSegment.getElementsLength()
+				|| indicesLength != currentBufferSegment.getIndicesLength();
 	}
 
 	/**
@@ -394,7 +428,7 @@ abstract class GLBufferManager {
 	 * @return current buffer segment elements length
 	 */
 	public int getCurrentElementsLength() {
-		return currentBufferSegment.elementsLength;
+		return currentBufferSegment.getElementsLength();
 	}
 
 	/**
@@ -428,7 +462,7 @@ abstract class GLBufferManager {
 	 * @return current buffer segment indices length
 	 */
 	public int getCurrentIndicesLength() {
-		return currentBufferSegment.indicesLength;
+		return currentBufferSegment.getIndicesLength();
 	}
 
 	/**

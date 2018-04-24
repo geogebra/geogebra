@@ -120,7 +120,7 @@ class BufferPack extends BufferPackAbstract {
 	@Override
 	public void setElements() {
 		int offset = manager.currentBufferSegment.elementsOffset;
-		int length = manager.currentBufferSegment.elementsLength;
+		int length = manager.currentBufferSegment.getElementsLength();
 		vertexBuffer.set(manager.vertexArray, offset * 3, length * 3);
 		if (manager.oneNormal) {
 			for (int i = 0; i < 3; i++) {
@@ -161,7 +161,7 @@ class BufferPack extends BufferPackAbstract {
 	public void setElements(float[] translate, float scale,
 			boolean reuseSegment) {
 		int offset = manager.currentBufferSegment.elementsOffset;
-		int length = manager.currentBufferSegment.elementsLength;
+		int length = manager.currentBufferSegment.getElementsLength();
 		vertexBuffer.set(manager.vertexArray, translate, scale, offset * 3,
 				length * 3);
 		if (!reuseSegment) {
@@ -192,7 +192,7 @@ class BufferPack extends BufferPackAbstract {
 	@Override
 	public void setAlpha(int alpha) {
 		setAlpha(alpha, manager.currentBufferSegment.elementsOffset * 4 + 3,
-				manager.currentBufferSegment.elementsLength);
+				manager.currentBufferSegment.getElementsLength());
 	}
 
 	/**
@@ -236,6 +236,7 @@ class BufferPack extends BufferPackAbstract {
 	 */
 	@Override
 	public void reset() {
+		super.reset();
 		elementsLength = 0;
 		indicesLength = 0;
 		vertexBuffer.setLimit(0);
