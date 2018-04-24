@@ -266,7 +266,7 @@ public class Ggb2giac {
 
 		// split into real+imag #4522
 		p("Expand.1",
-				"[[ggbexpandarg:=%0],when(contains(ggbexpandarg,i),normal(real(ggbexpandarg))+normal(i*im(ggbexpandarg)),normal(ggbexpandarg))][1]");
+				"[[ggbexpandarg:=%0],when(contains(ggbexpandarg,i),normal(real(ggbexpandarg))+normal(i*im(ggbexpandarg)),normal(lnexpand(ggbexpandarg)))][1]");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
 		p("Extremum.1",
@@ -276,7 +276,7 @@ public class Ggb2giac {
 		// factor over rationals
 		// add x so that Factor[(-k x^2+4k x+x^3)] gives a nicer answer
 		p("Factor.1",
-				"[with_sqrt(0),[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],with_sqrt(1),ggbfacans][4]");
+				"[with_sqrt(0),[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(lncollect(ggbfacans),x); fi],with_sqrt(1),ggbfacans][4]");
 		p("Factor.2",
 				"[with_sqrt(0),[ggbfacans:=%0],[ggbfacans:=factor(ggbfacans,%1)],with_sqrt(1),ggbfacans][4]");
 
