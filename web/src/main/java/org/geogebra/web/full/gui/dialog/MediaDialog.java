@@ -1,18 +1,31 @@
 package org.geogebra.web.full.gui.dialog;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.FormLabel;
+import org.geogebra.web.html5.gui.util.StandardButton;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Audio / video dialog.
@@ -22,13 +35,22 @@ import com.google.gwt.user.client.ui.Panel;
 public abstract class MediaDialog extends DialogBoxW
 		implements FastClickHandler, ErrorHandler {
 	/** http prefix */
-	protected static final String HTTP = "http://";
+	private static final String HTTP = "http://";
 	/** https prefix */
-	protected static final String HTTPS = "https://";
+	private static final String HTTPS = "https://";
+	/**
+	 * application
+	 */
+	protected AppW appW;
+	private FlowPanel mainPanel;
+	private FlowPanel buttonPanel;
+	private FormLabel inputLabel;
+	private Label errorLabel;
 	/** input */
 	protected InputPanelW inputField;
-	/** input panel */
-	protected FlowPanel inputPanel;
+	private FlowPanel inputPanel;
+	private StandardButton insertBtn;
+	private StandardButton cancelBtn;
 
 	/**
 	 * @param root
@@ -36,21 +58,97 @@ public abstract class MediaDialog extends DialogBoxW
 	 * @param app
 	 *            app
 	 */
-	public MediaDialog(Panel root, App app) {
+	public MediaDialog(Panel root, AppW app) {
 		super(root, app);
+		this.appW = app;
+		initGui();
+		initActions();
+	}
+
+	private void initGui() {
+		mainPanel = new FlowPanel();
+		inputPanel = new FlowPanel();
+		inputPanel.setStyleName("mowMediaDialogContent");
+		inputPanel.addStyleName("emptyState");
+		inputField = new InputPanelW("", appW, 1, 25, false);
+		inputLabel = new FormLabel().setFor(inputField.getTextComponent());
+		inputLabel.addStyleName("inputLabel");
+		inputField.getTextComponent().getTextBox().getElement().setAttribute(
+				"placeholder", appW.getLocalization().getMenu("pasteLink"));
+		inputField.addStyleName("inputText");
+		inputPanel.add(inputLabel);
+		inputPanel.add(inputField);
+		errorLabel = new Label();
+		errorLabel.addStyleName("errorLabel");
+		inputPanel.add(errorLabel);
+		// panel for buttons
+		insertBtn = new StandardButton("", appW);
+		insertBtn.addStyleName("insertBtn");
+		insertBtn.setEnabled(false);
+		cancelBtn = new StandardButton("", app);
+		cancelBtn.addStyleName("cancelBtn");
+		buttonPanel = new FlowPanel();
+		buttonPanel.setStyleName("DialogButtonPanel");
+		buttonPanel.add(cancelBtn);
+		buttonPanel.add(insertBtn);
+		// add panels
+		add(mainPanel);
+		mainPanel.add(inputPanel);
+		mainPanel.add(buttonPanel);
+		// style
+		addStyleName("GeoGebraPopup");
+		addStyleName("mediaDialog");
+		setGlassEnabled(true);
+		setLabels();
+	}
+
+	private void initActions() {
+		inputField.getTextComponent().getTextBox()
+				.addFocusHandler(new FocusHandler() {
+
+					@Override
+					public void onFocus(FocusEvent event) {
+						setFocusState();
+					}
+				});
+		inputField.getTextComponent().getTextBox()
+				.addBlurHandler(new BlurHandler() {
+
+					@Override
+					public void onBlur(BlurEvent event) {
+						resetInputField();
+					}
+				});
+		addInputHandler();
+		inputField.getTextComponent().getTextBox()
+				.addKeyUpHandler(new KeyUpHandler() {
+
+					@Override
+					public void onKeyUp(KeyUpEvent event) {
+						if (event.getNativeEvent()
+								.getKeyCode() == KeyCodes.KEY_ENTER) {
+							processInput();
+						} else {
+							onInput();
+						}
+					}
+				});
+		addHoverHandlers();
+		insertBtn.addFastClickHandler(this);
+		cancelBtn.addFastClickHandler(this);
 	}
 
 	/**
 	 * Add handler for input event
 	 */
-	public void addInputHandler() {
+	private void addInputHandler() {
 		nativeon(inputField.getTextComponent().getInputElement());
 	}
 
 	/**
 	 * Add mouse over/ out handlers
 	 */
-	protected void addHoverHandlers() {
+	private void addHoverHandlers() {
 		inputField.getTextComponent().getTextBox()
 				.addMouseOverHandler(new MouseOverHandler() {
 
@@ -67,14 +165,100 @@ public abstract class MediaDialog extends DialogBoxW
 						getInputPanel().removeStyleName("hoverState");
 					}
 				});
+	}
 
+	@Override
+	public void onClick(Widget source) {
+		if (source == cancelBtn) {
+			hide();
+		} else if (source == insertBtn) {
+			processInput();
+		}
 	}
 
 	/**
-	 * @return input field
+	 * set button labels
 	 */
-	public InputPanelW getInputField() {
-		return inputField;
+	public void setLabels() {
+		inputLabel.setText(appW.getLocalization().getMenu("Link"));
+		errorLabel.setText(appW.getLocalization().getMenu("Error") + ": "
+				+ appW.getLocalization().getError("InvalidInput"));
+		insertBtn.setText(appW.getLocalization().getMenu("Insert")); // insert
+		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
+	}
+
+	/**
+	 * @return url with https prefix
+	 */
+	protected String getUrlWithProtocol() {
+		String url = inputField.getText().trim();
+		String value = isHTTPSOnly() ? url.replaceFirst(HTTP, "") : url;
+
+		if (!url.startsWith(HTTPS)) {
+			value = HTTPS + value;
+		}
+		return value;
+	}
+
+	/**
+	 * 
+	 * @return if accepted URLs are HTTPS only or not.
+	 */
+	private static boolean isHTTPSOnly() {
+		return true;
+	}
+
+	@Override
+	public void hide() {
+		appW.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
+				ModeSetter.TOOLBAR);
+		super.hide();
+	}
+
+	/**
+	 * @return panel holding input with label and error label
+	 */
+	public FlowPanel getInputPanel() {
+		return inputPanel;
+	}
+
+	@Override
+	public void showError(String msg) {
+		inputPanel.setStyleName("mowMediaDialogContent");
+		inputPanel.addStyleName("errorState");
+		insertBtn.setEnabled(false);
+	}
+
+	@Override
+	public void resetError() {
+		getInputPanel().setStyleName("mowMediaDialogContent");
+		getInputPanel().addStyleName("emptyState");
+		inputPanel.removeStyleName("errorState");
+		insertBtn.setEnabled(!"".equals(inputField.getText()));
+	}
+
+	/**
+	 * sets the style of InputPanel to focus state
+	 */
+	protected void setFocusState() {
+		getInputPanel().setStyleName("mowMediaDialogContent");
+		getInputPanel().addStyleName("focusState");
+	}
+
+	/**
+	 * Resets input style after error.
+	 */
+	protected void resetInputField() {
+		resetError();
+	}
+
+	/**
+	 * Input changed (paste or key event happened)
+	 */
+	protected void onInput() {
+		resetError();
+		getInputPanel().addStyleName("focusState");
+		getInputPanel().removeStyleName("emptyState");
 	}
 
 	private native void nativeon(Element img) /*-{
@@ -85,9 +269,9 @@ public abstract class MediaDialog extends DialogBoxW
 	}-*/;
 
 	/**
-	 * Input changed (paste or key event happened)
+	 * Handles the URL user has typed.
 	 */
-	public abstract void onInput();
+	protected abstract void processInput();
 
 	@Override
 	public final void showCommandError(String command, String message) {
@@ -103,12 +287,5 @@ public abstract class MediaDialog extends DialogBoxW
 	public final boolean onUndefinedVariables(String string,
 			AsyncOperation<String[]> callback) {
 		return false;
-	}
-
-	/**
-	 * @return panel holding input with label and error label
-	 */
-	public FlowPanel getInputPanel() {
-		return inputPanel;
 	}
 }
