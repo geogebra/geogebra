@@ -10,7 +10,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 
-public class InputBarCallback extends AsyncOperation<GeoElementND[]> {
+public class InputBarCallback implements AsyncOperation<GeoElementND[]> {
 	private App app;
 	private AutoCompleteTextFieldD inputField;
 	private String input;

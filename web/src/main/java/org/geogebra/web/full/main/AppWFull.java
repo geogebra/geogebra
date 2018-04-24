@@ -38,6 +38,7 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -97,7 +98,6 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
-import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
@@ -455,10 +455,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
 		final GeoGebraTubeExportW ggbtube = new GeoGebraTubeExportW(this);
-		getGgbApi().getBase64(true, new StringHandler() {
+		getGgbApi().getBase64(true, new AsyncOperation<String>() {
 
 			@Override
-			public final void handle(String s) {
+			public final void callback(String s) {
 				ggbtube.uploadWorksheetSimple(s, popupBlockAvoider);
 
 			}

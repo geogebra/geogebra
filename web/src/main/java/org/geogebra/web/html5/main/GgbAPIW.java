@@ -243,9 +243,10 @@ public class GgbAPIW extends GgbAPI {
 			final JavaScriptObject callback) {
 		final boolean oldWorkers = setWorkerURL(zipJSworkerURL(), false);
 		final JavaScriptObject arch = getFileJSON(includeThumbnail);
-		getGGBZipJs(arch, callback, nativeCallback(new StringHandler() {
+		getGGBZipJs(arch, callback,
+				nativeCallback(new AsyncOperation<String>() {
 			@Override
-			public void handle(String s) {
+					public void callback(String s) {
 				if (oldWorkers && !isUsingWebWorkers()) {
 					Log.warn(
 							"Saving with workers failed, trying without workers.");
@@ -356,7 +357,7 @@ public class GgbAPIW extends GgbAPI {
 		view.processJSON(obj);
 	}
 
-	private static class StoreString implements StringHandler {
+	private static class StoreString implements AsyncOperation<String> {
 		private String result = "";
 
 		protected StoreString() {
@@ -364,7 +365,7 @@ public class GgbAPIW extends GgbAPI {
 		}
 
 		@Override
-		public void handle(String s) {
+		public void callback(String s) {
 			this.result = s;
 		}
 
@@ -406,7 +407,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @param callback
 	 *            callback
 	 */
-	public void getBase64(boolean includeThumbnail, StringHandler callback) {
+	public void getBase64(boolean includeThumbnail,
+			AsyncOperation<String> callback) {
 		getBase64(includeThumbnail, nativeCallback(callback));
 	}
 
@@ -417,13 +419,14 @@ public class GgbAPIW extends GgbAPI {
 	 *            callback
 	 */
 	public void getMacrosBase64(boolean includeThumbnail,
-			StringHandler callback) {
+			AsyncOperation<String> callback) {
 		getMacrosBase64(includeThumbnail, nativeCallback(callback));
 	}
 
-	private native JavaScriptObject nativeCallback(StringHandler callback) /*-{
+	private native JavaScriptObject nativeCallback(
+			AsyncOperation<String> callback) /*-{
 		return function(b) {
-			callback.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(b);
+			callback.@org.geogebra.common.util.AsyncOperation::callback(*)(b);
 		};
 	}-*/;
 
@@ -762,9 +765,9 @@ public class GgbAPIW extends GgbAPI {
 	void getBase64ZipJs(final JavaScriptObject arch, final JavaScriptObject clb,
 			String workerUrls, boolean sync) {
 		final boolean oldWorkers = setWorkerURL(workerUrls, sync);
-		getBase64ZipJs(arch, clb, nativeCallback(new StringHandler() {
+		getBase64ZipJs(arch, clb, nativeCallback(new AsyncOperation<String>() {
 			@Override
-			public void handle(String s) {
+			public void callback(String s) {
 				if (oldWorkers && !isUsingWebWorkers()) {
 					Log.warn(
 							"Saving with workers failed, trying without workers.");

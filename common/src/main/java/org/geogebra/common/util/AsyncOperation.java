@@ -6,7 +6,7 @@ package org.geogebra.common.util;
  * @param <T>
  *            callback parameter type
  */
-public abstract class AsyncOperation<T> {
+public interface AsyncOperation<T> {
 	/**
 	 * @param obj
 	 *            callback parameter

@@ -12,12 +12,12 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.FileManager;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.StringHandler;
 
 public class WinFileManager extends FileManager {
 
@@ -188,10 +188,10 @@ public class WinFileManager extends FileManager {
 
 	@Override
 	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
-		nativeUploadUsersMaterials(new StringHandler() {
+		nativeUploadUsersMaterials(new AsyncOperation<String>() {
 
 			@Override
-			public void handle(String jsString) {
+			public void callback(String jsString) {
 				JSONTokener tok = new JSONTokener(jsString);
 				try {
 				JSONObject jv = new JSONObject(tok);
@@ -217,12 +217,13 @@ public class WinFileManager extends FileManager {
 	 * @param sh
 	 *            handler that uploads the files
 	 */
-	public native void nativeUploadUsersMaterials(StringHandler sh) /*-{
+	public native void nativeUploadUsersMaterials(
+			AsyncOperation<String> sh) /*-{
 		var that = this;
 		if ($wnd.android && $wnd.android.getFiles) {
 			$wnd.android
 					.getFiles(function(jsString) {
-						sh.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(jsString);
+						sh.@org.geogebra.common.util.AsyncOperation::callback(*)(jsString);
 					});
 		}
 	}-*/;
@@ -286,10 +287,10 @@ public class WinFileManager extends FileManager {
 	public void export(final App app) {
 		final String title1 = app.getExportTitle();
 		app.getGgbApi().showTooltip(app.getLocalization().getMenu("Saving"));
-		final StringHandler onFileDialogCancel = new StringHandler() {
+		final AsyncOperation<String> onFileDialogCancel = new AsyncOperation<String>() {
 
 			@Override
-			public void handle(final String path) {
+			public void callback(final String path) {
 				app.getGgbApi().showTooltip("");
 				((DialogManagerW) app.getDialogManager()).getSaveDialog()
 						.hide();
@@ -297,18 +298,18 @@ public class WinFileManager extends FileManager {
 						new Event(EventType.EXPORT, null, "[\"ggb\"]"));
 			}
 		};
-		final StringHandler onFileDialogClosed = new StringHandler() {
+		final AsyncOperation<String> onFileDialogClosed = new AsyncOperation<String>() {
 
 			@Override
-			public void handle(final String path) {
-				onFileDialogCancel.handle(path);
+			public void callback(final String path) {
+				onFileDialogCancel.callback(path);
 			}
 		};
 
-		((AppW) app).getGgbApi().getBase64(true, new StringHandler() {
+		((AppW) app).getGgbApi().getBase64(true, new AsyncOperation<String>() {
 
 			@Override
-			public void handle(final String data) {
+			public void callback(final String data) {
 				saveDialog(data, title1, onFileDialogClosed,
 						onFileDialogCancel);
 			}
@@ -325,8 +326,9 @@ public class WinFileManager extends FileManager {
 	 * @param onFailure
 	 *            failure handler
 	 */
-	native void saveDialog(String data, String title, StringHandler onSuccess,
-			StringHandler onFailure)/*-{
+	native void saveDialog(String data, String title,
+			AsyncOperation<String> onSuccess,
+			AsyncOperation<String> onFailure)/*-{
 		var that = this;
 		if ($wnd.android && $wnd.android.callPlugin) {
 			$wnd.android
@@ -334,10 +336,10 @@ public class WinFileManager extends FileManager {
 							'SaveDialog',
 							[ data, title, 'ggb' ],
 							function(path) {
-								onSuccess.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(path);
+								onSuccess.@org.geogebra.common.util.AsyncOperation::callback(*)(path);
 							},
 							function(path) {
-								onFailure.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(path);
+								onFailure.@org.geogebra.common.util.AsyncOperation::callback(*)(path);
 							});
 		}
 	}-*/;

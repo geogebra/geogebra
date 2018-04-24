@@ -30,7 +30,6 @@ import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.StringHandler;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -431,10 +430,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 *            application
 	 * @return handler for native sharing
 	 */
-	public static StringHandler getShareStringHandler(final AppW app) {
-		return new StringHandler() {
+	public static AsyncOperation<String> getShareStringHandler(final AppW app) {
+		return new AsyncOperation<String>() {
 			@Override
-			public void handle(String s) {
+			public void callback(String s) {
 				String title = app.getKernel().getConstruction().getTitle();
 				MaterialsManagerI fm = app.getFileManager();
 				fm.nativeShare(s, "".equals(title) ? "construction" : title);

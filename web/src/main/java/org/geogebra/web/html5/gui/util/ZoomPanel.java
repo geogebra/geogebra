@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.html5.Browser;
@@ -17,7 +18,6 @@ import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.dom.client.Element;
@@ -133,10 +133,10 @@ public class ZoomPanel extends FlowPanel
 		}
 
 		fullscreenBtn.addFastClickHandler(handlerFullscreen);
-		Browser.addFullscreenListener(new StringHandler() {
+		Browser.addFullscreenListener(new AsyncOperation<String>() {
 
 			@Override
-			public void handle(String obj) {
+			public void callback(String obj) {
 				if (!"true".equals(obj)) {
 					onExitFullscreen();
 				}

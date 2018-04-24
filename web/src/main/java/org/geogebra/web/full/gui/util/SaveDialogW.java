@@ -16,6 +16,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.browser.BrowseResources;
@@ -34,7 +35,6 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.StringHandler;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
@@ -455,10 +455,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			app.setLocalID(-1);
 		}
 		app.getKernel().getConstruction().setTitle(this.title.getText());
-		app.getGgbApi().getBase64(true, new StringHandler() {
+		app.getGgbApi().getBase64(true, new AsyncOperation<String>() {
 
 			@Override
-			public void handle(String s) {
+			public void callback(String s) {
 				((FileManager) app.getFileManager()).saveFile(s,
 				        getCurrentTimestamp(app), new SaveCallback(app,
 				                SaveState.OK) {
@@ -496,9 +496,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			app.getKernel().getConstruction().setTitle(this.title.getText());
 		}
 		
-		final StringHandler handler = new StringHandler() {
+		final AsyncOperation<String> handler = new AsyncOperation<String>() {
 			@Override
-			public void handle(String base64) {
+			public void callback(String base64) {
 				if (titleChanged
 						&& isWorksheet()) {
 					Log.debug("SAVE filename changed");

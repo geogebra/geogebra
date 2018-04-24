@@ -13,13 +13,13 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.gui.inputfield.SymbolTableW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.StringHandler;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.BorderStyle;
@@ -178,10 +178,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		GColor[] geoColors = (GColor[]) datas[1];
 
 		final SymbolTableW symTable = newSymbolTable(geoLabels, false, 2,
-				new StringHandler() {
+				new AsyncOperation<String>() {
 
 					@Override
-					public void handle(String s) {
+					public void callback(String s) {
 						insertGeo(s);
 
 					}
@@ -270,10 +270,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	        boolean addSeparator) {
 
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, isLatex,
-				rowSize, new StringHandler() {
+				rowSize, new AsyncOperation<String>() {
 
 					@Override
-					public void handle(String s) {
+					public void callback(String s) {
 						editPanel.insertTextString(s, isLatex);
 
 					}
@@ -330,10 +330,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	        int rowSize, boolean addSeparator) {
 
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, true,
-				rowSize, new StringHandler() {
+				rowSize, new AsyncOperation<String>() {
 
 					@Override
-					public void handle(String s) {
+					public void callback(String s) {
 						editPanel.insertTextString(s, true);
 						editPanel.ensureLaTeX();
 					}
@@ -352,7 +352,8 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	// =====================================================
 
 	private SymbolTableW newSymbolTable(String[] table, boolean isLatexSymbol,
-			int rowSize, final StringHandler onChange, GColor[] colors) {
+			int rowSize, final AsyncOperation<String> onChange,
+			GColor[] colors) {
 
 		final SymbolTableW symTable = new SymbolTableW(table, 
 				isLatexSymbol, rowSize, app, colors);
@@ -375,7 +376,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 					int row = TableRowElement.as(td.getParentElement())
 							.getSectionRowIndex();
 					int column = TableCellElement.as(td).getCellIndex();
-						onChange.handle(symTable.getSymbolText(row, column));
+						onChange.callback(symTable.getSymbolText(row, column));
 				}
 				event.preventDefault();
 				event.stopPropagation();
@@ -395,7 +396,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 					}
 					String text = symTable.getSymbolText(
 							clickCell.getRowIndex(), clickCell.getCellIndex());
-					onChange.handle(text);
+					onChange.callback(text);
 				}
 			});
 		}

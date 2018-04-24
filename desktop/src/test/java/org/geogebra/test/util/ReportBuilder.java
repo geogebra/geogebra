@@ -8,7 +8,7 @@ import java.io.OutputStreamWriter;
 
 import org.geogebra.common.util.AsyncOperation;
 
-public class ReportBuilder extends AsyncOperation<String> {
+public class ReportBuilder implements AsyncOperation<String> {
 	OutputStreamWriter isw = null;
 
 	public ReportBuilder(String filename) {

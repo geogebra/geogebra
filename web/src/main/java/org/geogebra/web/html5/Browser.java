@@ -2,7 +2,6 @@ package org.geogebra.web.html5;
 
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.web.html5.main.StringHandler;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -609,7 +608,7 @@ public class Browser {
 	 *            callback for fullscreen event
 	 */
 	public static native void addFullscreenListener(
-			StringHandler callback) /*-{
+			AsyncOperation<String> callback) /*-{
 		var prefixes = [ "webkit", "ms", "moz" ];
 		for ( var i in prefixes) {
 			var prefix = prefixes[i];
@@ -618,7 +617,7 @@ public class Browser {
 							prefix + "fullscreenchange",
 							(function(pfx) {
 								return function(e) {
-									callback.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(($doc[pfx+"FullscreenElement"] || $doc.mozFullScreen) ?  "true" : "false");
+									callback.@org.geogebra.common.util.AsyncOperation::callback(*)(($doc[pfx+"FullscreenElement"] || $doc.mozFullScreen) ?  "true" : "false");
 								}
 							})(prefix));
 		}
