@@ -331,23 +331,19 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public void set(GeoElementND geo, boolean macroFeedback) {
 		this.isDefined = geo.isDefined();
-		if (geo instanceof GeoPoint) {
-			GeoPoint p = (GeoPoint) geo;
-			if (p.pathParameter != null) {
-				pathParameter = getPathParameter();
-				pathParameter.set(p.pathParameter);
-			}
-			animationValue = p.animationValue;
-			setCoords(p.x, p.y, p.z, macroFeedback);
-			setMode(p.toStringMode); // complex etc
-		} else if (geo instanceof GeoPointND) {
+		if (geo instanceof GeoPointND) {
 			GeoPointND p = (GeoPointND) geo;
 			if (p.getPathParameter() != null) {
 				pathParameter = getPathParameter();
 				pathParameter.set(p.getPathParameter());
 			}
 			animationValue = p.getAnimationValue();
-			setCoords(p.getInhomX(), p.getInhomY(), 1, macroFeedback);
+			if (geo instanceof GeoPoint) {
+				GeoPoint pt = (GeoPoint) p;
+				setCoords(pt.x, pt.y, pt.z, macroFeedback);
+			} else {
+				setCoords(p.getInhomX(), p.getInhomY(), 1, macroFeedback);
+			}
 			setMode(p.getToStringMode()); // complex etc
 		} else if (geo.isGeoVector()) {
 			GeoVector v = (GeoVector) geo;
@@ -2913,6 +2909,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return super.showToolTipText();
 	}
 
+	@Override
 	public int getToStringMode() {
 		return toStringMode;
 	}
