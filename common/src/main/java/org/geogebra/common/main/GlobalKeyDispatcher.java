@@ -1559,7 +1559,7 @@ public abstract class GlobalKeyDispatcher {
 
 				GeoElement geo = geos.get(i);
 
-				if (geo.isChangeable()) {
+				if (geo.isPointerChangeable()) {
 
 					// update number
 					if (geo.isGeoNumeric()
