@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.util;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
@@ -42,11 +43,12 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 				? new MOWLineStyleButton(app)
 				: new EuclidianLineStylePopup(app, 5, true);
 		btnLineStyle.getMySlider().setMinimum(1);
-		btnLineStyle.getMySlider().setMaximum(13);
+		btnLineStyle.getMySlider()
+				.setMaximum(app.has(Feature.MOW_HIGHLIGHTER_TOOL)
+						? 2 * EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE : 13);
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.addPopupHandler(this);
-
 	}
 
 	protected void createPointStyleBtn(int mode) {
