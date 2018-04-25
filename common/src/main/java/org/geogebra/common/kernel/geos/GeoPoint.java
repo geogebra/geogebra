@@ -2428,10 +2428,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		pathParameter = null;
 	}
 
-	// needed for GeoPointND interface for 3D, do nothing
+	// needed for GeoPointND interface for 3D
+	// can be called eg SetCoords(A, 1,2,0)
 	@Override
 	public void setCoords(double x, double y, double z, double w) {
-		// 3D only
+
+		// ignore z-coord, take nearest 2D point
+		setCoords(x, y, w);
 	}
 
 	@Override
