@@ -369,11 +369,13 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	private void scaleTo(int width, int height) {
-		Log.debug("RESIZE: dim " + width + " x " + height);
 		double xscale = width / getWidth();
 		double yscale = height / getHeight();
-		double scale = LayoutUtilW.getDeviceScale(xscale, yscale,
-				getArticleElement().getParamAllowUpscale());
+		boolean upscale = getArticleElement().getParamAllowUpscale();
+		double scale = LayoutUtilW.getDeviceScale(xscale, yscale, upscale);
+		if (!upscale) {
+			scale = Math.min(scale, getArticleElement().getDataParamScale());
+		}
 		Browser.scale(articleElement.getParentElement(), scale, 0, 0);
 		getArticleElement().resetScale();
 	}
@@ -1193,6 +1195,9 @@ public abstract class AppW extends App implements SetLabels {
 		resetUI();
 	}
 
+	/**
+	 * Reset the UI.
+	 */
 	protected void resetUI() {
 		kernel.getInputPreviewHelper().clear();
 		clearInputBar();
@@ -2378,7 +2383,6 @@ public abstract class AppW extends App implements SetLabels {
 		if (getGuiManager() != null) {
 			getGuiManager().setPixelRatio(getPixelRatio());
 		}
-		// Log.debug("updateUI: implementation needed for GUI"); // TODO
 	}
 
 	// ========================================
@@ -2399,11 +2403,6 @@ public abstract class AppW extends App implements SetLabels {
 				.getTitle();
 		title = "".equals(title) ? "GeoGebraImage" : title;
 		getFileManager().exportImage(image, title, "png");
-	}
-
-	@Override
-	public void copyGraphicsViewToClipboard() {
-		Log.debug("unimplemented");
 	}
 
 	// ========================================

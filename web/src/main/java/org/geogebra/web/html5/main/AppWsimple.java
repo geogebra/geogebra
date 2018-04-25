@@ -213,4 +213,9 @@ public class AppWsimple extends AppW {
 		return frame;
 	}
 
+	@Override
+	public void copyGraphicsViewToClipboard() {
+		Log.debug("unimplemented");
+	}
+
 }

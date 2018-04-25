@@ -9,6 +9,9 @@ import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 
+/**
+ * Callback for Tube API material load.
+ */
 public abstract class MaterialCallback implements MaterialCallbackI {
 
 	@Override

@@ -14,6 +14,7 @@ import com.google.gwt.storage.client.Storage;
 public class AuthenticationModelW extends AuthenticationModel {
 
 	private static final String GGB_LAST_USER = "last_user";
+	/** token storage */
 	protected Storage storage = null;
 	private String authToken = null;
 	private AppW app;
