@@ -459,4 +459,6 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 * @return description for points ("Point A" instead of "A = (0,0)")
 	 */
 	public String toStringDescription(StringTemplate tpl);
+
+	public int getToStringMode();
 }

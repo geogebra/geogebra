@@ -2225,4 +2225,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 		return toString(tpl);
 	}
+
+	public int getToStringMode() {
+		return toStringMode;
+	}
 }
