@@ -1476,6 +1476,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					points = polyl.getPoints();
 					tempArrayList.removeAll(Arrays.asList(points));
 					break;
+
+				default:
+					// do nothing
 			}
 		}
 
@@ -12204,6 +12207,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			case RIGHT:
 				view.setCursor(EuclidianCursor.RESIZE_EW);
 				break;
+			default:
+				// do nothing
 		}
 	}
 }
