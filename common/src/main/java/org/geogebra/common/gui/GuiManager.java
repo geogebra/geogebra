@@ -787,7 +787,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			break;
 		case GENERIC:
 			// eg openHelp("Custom_Tools", Help.GENERIC)
-			// returns http://www.geogebra.org/help/hu/article/Custom_Tools
+			// returns http://help.geogebra.org/hu/article/Custom_Tools
 			// wiki redirects to correct page
 			// ie http://wiki.geogebra.org/hu/Egy%E9ni_eszk%F6z%F6k
 			urlSB.append("/article/");
