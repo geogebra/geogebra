@@ -451,7 +451,7 @@ public enum SolutionStepType {
 	EVEN_POWER_OF_ABSOLUTE_VALUE("EvenPowerOfAbsoluteValue", "Use rules for absolute values",
 			"An even power of an absolute value is already positive"),
 
-	DIFFERENTIATE("Derivate", "Derivate %0"),
+	DIFFERENTIATE("Differentiate", "Differentiate %0"),
 
 	DIFF_SUM("SumRule", "Use the sum rule",
 			"$\\frac{d}{dx} \\left[f(x) + g(x)\\right] = \\frac{d}{dx}f(x) + \\frac{d}{dx}g(x)$"),
