@@ -12,7 +12,7 @@ CSV=none
 # Don't use this, it is just an example:
 COLUMNS="DesktopInternal DesktopGrobcov Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/art-plotter
-GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=https://dev.geogebra.org/trac/export
+GEOGEBRAWEB_URL1=https://www.geogebra.org/classic/?filename=https://dev.geogebra.org/trac/export
 GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/art-plotter
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 DOTS=20

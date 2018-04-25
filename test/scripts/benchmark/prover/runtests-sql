@@ -11,7 +11,7 @@ DBDEBUG=0
 TIMEOUT=20
 PROVERS="Recio PureSymbolic Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
-GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=https://dev.geogebra.org/trac/export
+GEOGEBRAWEB_URL1=https://www.geogebra.org/classic/?filename=https://dev.geogebra.org/trac/export
 GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1

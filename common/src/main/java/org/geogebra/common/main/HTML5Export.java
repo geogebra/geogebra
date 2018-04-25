@@ -122,7 +122,7 @@ public class HTML5Export {
 		sb.append("var applet = new GGBApplet(parameters, '5.0', views);\n");
 
 		// String codeBase = kernel.kernelHas3DObjects() ? "web3d" : "web";
-		// sb.append("applet.setHTML5Codebase('http://web.geogebra.org/5.0/"
+		// sb.append("applet.setHTML5Codebase('http://cdn.geogebra.org/apps/latest/"
 		// + codeBase + "/');\n");
 		sb.append("window.onload = function() {applet.inject('ggbApplet')};\n");
 
