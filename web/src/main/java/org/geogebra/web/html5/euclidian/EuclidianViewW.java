@@ -255,7 +255,7 @@ public class EuclidianViewW extends EuclidianView implements
 		GGraphics2DW g2w = null;
 		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
 			g2w = (GGraphics2DW) g2bg;
-			g2.clearRect(0, 0, getPhysicalWidth(), getPhysicalHeight());
+			g2w.clearAll();
 		} else {
 			g2w = (GGraphics2DW) g2;
 		}
@@ -280,7 +280,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
 			GGraphics2DW g2 = (GGraphics2DW) g2p;
-			g2.clearRect(0, 0, getPhysicalWidth(), getPhysicalHeight());
+			g2.clearAll();
 		}
 		paint(g2p, g2bg);
 
@@ -712,9 +712,6 @@ public class EuclidianViewW extends EuclidianView implements
 		if (bg != null) {
 			this.g2bg = new GGraphics2DW(bg);
 			g2bg.setDevicePixelRatio(appW.getPixelRatio());
-
-			g2bg.setColor(GColor.RED);
-			g2bg.drawRect(0, 0, 100, 100);
 		} else {
 			this.g2bg = new GGraphics2DE();
 		}

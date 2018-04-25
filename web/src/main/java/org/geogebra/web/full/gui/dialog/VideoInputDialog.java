@@ -31,7 +31,8 @@ public class VideoInputDialog extends MediaDialog {
 	protected void processInput() {
 		if (appW.getGuiManager() != null) {
 			String url = getUrlWithProtocol();
-			inputField.getTextComponent().setText(url);
+			inputField.getTextComponent().setText("https://www.youtube.com/watch?v=Kc2iLAubras");
+			// inputField.getTextComponent().setText(url);
 			app.getVideoManager().checkURL(url, new AsyncOperation<Boolean>() {
 
 				@Override

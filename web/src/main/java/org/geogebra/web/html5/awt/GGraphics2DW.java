@@ -855,6 +855,14 @@ public class GGraphics2DW implements GGraphics2DWI {
 		this.fillRect(0, 0, getOffsetWidth(), getOffsetHeight());
 	}
 
+	/**
+	 * Clears the whole graphics.
+	 */
+	public void clearAll() {
+		double scale = getScale();
+		clearRect(0, 0, (int) (scale * getOffsetWidth()), (int) (scale * getOffsetHeight()));
+	}
+
 	public double getScale() {
 		return getDevicePixelRatio();
 	}
