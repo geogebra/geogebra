@@ -32,22 +32,24 @@ public class VideoManagerW implements VideoManager {
 	/**
 	 * Head of a regular YouTube URL.
 	 */
-	public static final String YOUTUBE = "https://www.youtube.com/watch?v=";
-
-	/**
-	 * Head of a YouTube URL without www.
-	 */
-	public static final String YOUTUBE_NO_WWW = "https://youtube.com/watch?v=";
-
+	public static final String YOUTUBE = "youtube.com/";
 	/**
 	 * Head of a short form of YouTube URL.
 	 */
-	public static final String YOUTUBE_SHORT = "https://youtu.be/";
+	public static final String YOUTUBE_SHORT = "youtu.be/";
 
 	/**
-	 * Head of an embedding YouTube URL.
+	 * regular start of YouTube ID
 	 */
-	public static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
+	public static final String ID_PARAM_1 = "v=";
+	/**
+	 * alternative start of YouTube ID
+	 */
+	public static final String ID_PARAM_2 = "v/";
+	/**
+	 * embed start of YouTube ID
+	 */
+	public static final String EMBED = "embed/";
 
 	private static final String CMD_PLAY = "playVideo";
 
@@ -127,23 +129,33 @@ public class VideoManagerW implements VideoManager {
 	@Override
 	public String getYouTubeId(String url) {
 		String id = null;
-		if (url.startsWith(YOUTUBE)) {
-			id = url.replace(YOUTUBE, "");
-		} else if (url.startsWith(YOUTUBE_NO_WWW)) {
-			id = url.replace(YOUTUBE_NO_WWW, "");
-		} else if (url.startsWith(YOUTUBE_SHORT)) {
-			id = url.replace(YOUTUBE_SHORT, "");
-		} else if (url.startsWith(YOUTUBE_EMBED)) {
-			id = url.replace(YOUTUBE_EMBED, "");
+		int startIdx;
+		String subString = null;
+
+		if (url.contains(YOUTUBE)) {
+			if (url.contains(ID_PARAM_1) || url.contains(ID_PARAM_2)) {
+				startIdx = url.indexOf(ID_PARAM_1) != -1
+						? url.indexOf(ID_PARAM_1) : url.indexOf(ID_PARAM_2);
+				subString = url.substring(startIdx + ID_PARAM_1.length());
+
+			} else if (url.contains(EMBED)) {
+				startIdx = url.indexOf(EMBED);
+				subString = url.substring(startIdx + EMBED.length());
+			}
+		} else if (url.contains(YOUTUBE_SHORT)) {
+			startIdx = url.indexOf(YOUTUBE_SHORT);
+			subString = url.substring(startIdx + YOUTUBE_SHORT.length());
 		}
 
-		if (id != null) {
-			int idx = id.indexOf("?");
-			if (idx == -1) {
-				idx = id.indexOf("&");
-			}
-			if (idx != -1) {
-				return id.substring(0, idx);
+		if (subString != null) {
+			int endIdx = subString.indexOf("?") != -1 ? subString.indexOf("?")
+					: (subString.indexOf("&") != -1 ? subString.indexOf("&")
+							: (subString.indexOf("\"") != -1
+									? subString.indexOf("\"") : -1));
+			if (endIdx != -1) {
+				id = subString.substring(0, endIdx);
+			} else {
+				id = subString;
 			}
 		}
 		return id;
@@ -219,6 +231,7 @@ public class VideoManagerW implements VideoManager {
 	private native boolean isPlayerValid(JavaScriptObject player) /*-{
 		return player.contentWindow != null;
 	}-*/;
+
 
 	@Override
 	public void backgroundAll() {

@@ -36,9 +36,11 @@ public class GeoVideo extends GeoMedia {
 	 * Test video URL.
 	 */
 	private static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
-	private static final String YOUTUBE_PREVIEW = "http://dev.geogebra.org/crossorigin/?url=https://img.youtube.com/vi/%ID%/0.jpg";
-	private static final String TIME_PARAM = "t=";
-	private static final String EMBED_TIME_PARAM = "start=";
+	private static final String YOUTUBE_PREVIEW = "https://dev.geogebra.org/crossorigin/?url=https://img.youtube.com/vi/%ID%/0.jpg";
+
+	private static final String TIME_PARAM_A = "&t=";
+	private static final String TIME_PARAM_Q = "?t=";
+	private static final String TIME_PARAM_S = "start=";
 	private static final int VIDEO_WIDTH = 420;
 	private static final int VIDEO_HEIGHT = 345;
 	private static final String JAVASCRIPT_API = "enablejsapi=1";
@@ -118,7 +120,6 @@ public class GeoVideo extends GeoMedia {
 			}
 		});
 		app.getVideoManager().loadGeoVideo(this);
-		initStartTime();
 		changed = true;
 	}
 
@@ -136,11 +137,22 @@ public class GeoVideo extends GeoMedia {
 
 	private void initStartTime() {
 		String url = getSrc();
-		int idx = url.indexOf(TIME_PARAM); // t=
-		if (idx != -1) {
-			String t = url.substring(idx + TIME_PARAM.length());
-			int idx2 = t.indexOf("&");
-			String time = idx2 == -1 ? t : t.substring(0, idx2);
+
+		int startIdx = url.indexOf(TIME_PARAM_A) != -1
+				? url.indexOf(TIME_PARAM_A)
+				: (url.indexOf(TIME_PARAM_Q) != -1 ? url.indexOf(TIME_PARAM_Q)
+						: (url.indexOf(TIME_PARAM_S) != -1
+								? url.indexOf(TIME_PARAM_S) : -1));
+		if (startIdx != -1) {
+			String t = url.indexOf(TIME_PARAM_S) != -1
+					? url.substring(startIdx + TIME_PARAM_S.length())
+					: url.substring(startIdx + TIME_PARAM_A.length());
+
+			int endIdx = t.indexOf("&") != -1 ? t.indexOf("&")
+					: (t.indexOf("?") != -1 ? t.indexOf("?")
+							: (t.indexOf("\"") != -1 ? t.indexOf("\"") : -1));
+
+			String time = endIdx == -1 ? t : t.substring(0, endIdx);
 
 			startTime = 0;
 			int idxM = time.indexOf("m"); // minutes
@@ -153,6 +165,10 @@ public class GeoVideo extends GeoMedia {
 				String seconds = idxM == -1 ? time.substring(0, idxS)
 						: time.substring(idxM + 1, idxS);
 				startTime += Integer.parseInt(seconds);
+			}
+			if (idxM == -1 && idxS == -1) {
+				String seconds = time;
+				startTime = Integer.parseInt(seconds);
 			}
 		} else {
 			startTime = null;
@@ -210,12 +226,14 @@ public class GeoVideo extends GeoMedia {
 		if (youtubeId == null) {
 			return null;
 		}
+
+		initStartTime();
 		StringBuilder sb = new StringBuilder();
 		sb.append(YOUTUBE_EMBED);
 		sb.append(youtubeId);
 		sb.append("?");
 		if (startTime != null) {
-			sb.append(EMBED_TIME_PARAM);
+			sb.append(TIME_PARAM_S);
 			sb.append(startTime);
 			sb.append("&");
 		}
