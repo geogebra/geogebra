@@ -5,8 +5,6 @@ import com.himamis.retex.editor.share.util.Unicode;
 final public class MyNumberConstants {
 	final public static String notANumber = "NaN";
 
-	final public static String currencyPattern = "\u00A4#,##0.00";
-
 	final public static String decimalPattern = "#,##0.###";
 
 	final public static String decimalSeparator = ".";
@@ -14,8 +12,6 @@ final public class MyNumberConstants {
 	final public static String defCurrencyCode = "USD";
 
 	final public static String exponentialSymbol = "E";
-
-	final public static String globalCurrencyPattern = "\u00A4\u00A4\u00A4\u00A4#,##0.00 \u00A4\u00A4";
 
 	final public static String groupingSeparator = ",";
 
@@ -34,7 +30,5 @@ final public class MyNumberConstants {
 	final public static String plusSign = "+";
 
 	final public static String scientificPattern = "#E0";
-
-	final public static String simpleCurrencyPattern = "\u00A4\u00A4\u00A4\u00A4#,##0.00";
 
 }
