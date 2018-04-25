@@ -418,6 +418,14 @@ public class ControllerTest {
 	@Test
 	public void distanceTool() {
 		app.setMode(EuclidianConstants.MODE_DISTANCE); // TODO 38
+		t("A=(0,0)");
+		t("B=(0,-2)");
+		t("p=Polygon(A,B,4)");
+		click(50, 50);
+		checkContent("A = (0, 0)", "B = (0, -2)", "p = 4", "f = 2", "g = 2",
+				"C = (2, -2)", "D = (2, 0)", "h = 2", "i = 2",
+				"perimeterp = 8", "Textp = \"Perimeter of p = 8\"",
+				"Pointp = (1, -1)");
 	}
 
 	@Test
@@ -486,12 +494,22 @@ public class ControllerTest {
 
 	@Test
 	public void areaTool() {
-		app.setMode(EuclidianConstants.MODE_AREA); // TODO 49
+		app.setMode(EuclidianConstants.MODE_AREA);
+		t("A=(0,0)");
+		t("B=(0,-2)");
+		t("p=Polygon(A,B,4)");
+		click(50, 50);
+		checkContent("A = (0, 0)", "B = (0, -2)", "p = 4", "f = 2", "g = 2",
+				"C = (2, -2)", "D = (2, 0)", "h = 2", "i = 2",
+				"Textp = \"Area of p = 4\"", "Pointp = (1, -1)");
 	}
 
 	@Test
 	public void slopeTool() {
-		app.setMode(EuclidianConstants.MODE_SLOPE); // TODO 50
+		app.setMode(EuclidianConstants.MODE_SLOPE);
+		t("f:y=-3x");
+		click(50, 150);
+		checkContent("f: y = -3x", "m = -3");
 	}
 
 	@Test
@@ -555,7 +573,16 @@ public class ControllerTest {
 
 	@Test
 	public void fitLineTool() {
-		app.setMode(EuclidianConstants.MODE_FITLINE); // TODO 58
+		app.setMode(EuclidianConstants.MODE_FITLINE);
+		t("A = (2, -2)");
+		t("B = (3, -5)");
+		t("C = (4, -8)");
+		ec.setDraggingDelay(0);
+		pointerDown(50, 50);
+		drag(500, 500);
+		checkContent("A = (2, -2)", "B = (3, -5)", "C = (4, -8)",
+				"f: y = -3x + 4");
+		events.clear();
 	}
 
 	@Test
@@ -737,11 +764,28 @@ public class ControllerTest {
 		ec.wrapMouseReleased(evt);
 	}
 
+	private static void pointerDown(int x, int y) {
+		TestEvent evt = new TestEvent(x, y);
+		ec.wrapMousePressed(evt);
+	}
+
+	private static void drag(int x, int y) {
+		TestEvent evt = new TestEvent(x, y);
+		ec.wrapMouseDragged(evt, true);
+		ec.wrapMouseDragged(evt, true);
+		ec.wrapMouseReleased(evt);
+	}
+
 	private static void checkContent(String... desc) {
 		lastCheck = desc;
 		int i = 0;
 		for (String label : app.getGgbApi().getAllObjectNames()) {
 			GeoElement geo = app.getKernel().lookupLabel(label);
+
+			if (i >= desc.length) {
+				Assert.assertEquals("",
+						geo.toString(StringTemplate.editTemplate));
+			}
 			if (desc[i].contains("/") && geo instanceof GeoConic) {
 				((GeoConic) geo).setToSpecific();
 			}

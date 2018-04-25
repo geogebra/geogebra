@@ -236,7 +236,7 @@ public class TextDispatcher {
 		return view.getEuclidianController().createNewPoint(
 				removeUnderscoresAndBraces(loc.getMenu("Point")
 						+ object.getLabel(StringTemplate.defaultTemplate)),
-				false, object, rwx, rwy, 0, false, false);
+				false, object, rwx, rwy, 0, false, true);
 	}
 
 	protected GeoPointND getPointForDynamicText(Path object, GPoint loc0) {

@@ -701,8 +701,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public boolean isSelectionRectangleAllowed() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
