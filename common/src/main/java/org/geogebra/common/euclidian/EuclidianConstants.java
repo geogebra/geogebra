@@ -433,7 +433,11 @@ public final class EuclidianConstants {
 	/**
 	 * min line thickness of highlighter
 	 */
-	public static final int MIN_HIGHLIGHTER_SIZE = 15;
+	public static final int MIN_PEN_HIGHLIGHTER_SIZE = 1;
+	/**
+	 * default step size to increase line thickness of pen/highlighter
+	 */
+	public static final int DEFAULT_PEN_STEP = 1;
 	/**
 	 * default opacity of highlighter (0.3)
 	 */
@@ -445,7 +449,7 @@ public final class EuclidianConstants {
 	/**
 	 * max line thickness of highlighter
 	 */
-	public static final int MAX_HIGHLIGHTER_SIZE = 30;
+	public static final int MAX_PEN_HIGHLIGHTER_SIZE = 30;
 
 	/**
 	 * @param mode

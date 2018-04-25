@@ -35,9 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class PenSubMenu extends SubMenuPanel {
-	private static final int MAX_PEN_SIZE = 12;
 	private static final int MAX_ERASER_SIZE = 100;
-	private static final int PEN_STEP = 1;
 	private static final int ERASER_STEP = 20;
 	private StandardButton pen;
 	private StandardButton eraser;
@@ -159,6 +157,9 @@ public class PenSubMenu extends SubMenuPanel {
 		sizePanel.addStyleName("sizePanel");
 		slider = new SliderPanelW(0, 20, app.getKernel(), false);
 		slider.addStyleName("mowOptionsSlider");
+		slider.setMinimum(EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE, false);
+		slider.setMaximum(EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE, false);
+		slider.setStep(EuclidianConstants.DEFAULT_PEN_STEP);
 		preview = new PenPreview(app, 50, 30);
 		preview.addStyleName("preview");
 		slider.add(preview);
@@ -233,9 +234,6 @@ public class PenSubMenu extends SubMenuPanel {
 		pen.getElement().setAttribute("selected", "true");
 		setColorsEnabled(true);
 		selectColor(lastSelectedPenColor);
-		slider.setMinimum(1, false);
-		slider.setMaximum(MAX_PEN_SIZE, false);
-		slider.setStep(PEN_STEP);
 		slider.setValue((double) lastPenThickness);
 		getPenGeo().setLineThickness(lastPenThickness);
 		getPenGeo().setLineOpacity(255);
@@ -248,9 +246,6 @@ public class PenSubMenu extends SubMenuPanel {
 		highlighter.getElement().setAttribute("selected", "true");
 		setColorsEnabled(true);
 		selectColor(lastSelectedHighlighterColor);
-		slider.setMinimum(EuclidianConstants.MIN_HIGHLIGHTER_SIZE, false);
-		slider.setMaximum(EuclidianConstants.MAX_HIGHLIGHTER_SIZE, false);
-		slider.setStep(PEN_STEP);
 		slider.setValue((double) lastHighlighterThinckness);
 		getPenGeo().setLineThickness(lastHighlighterThinckness);
 		getPenGeo()
