@@ -542,29 +542,39 @@ public abstract class Localization {
 		List<String> result = new ArrayList<>();
 
 		StringBuilder sb = new StringBuilder();
+		boolean mathMode = false;
 		for (int i = 0; i < str.length(); i++) {
 			char ch = str.charAt(i);
 
 			if (ch == '$') {
-				String current = sb.toString();
-				if (!"".equals(current)) {
-					result.add(current);
-					sb.setLength(0);
-				}
-
-				if (!current.startsWith("$")) {
-					sb.append(ch);
-				}
-            } else if (ch == '%') {
-				if (!"".equals(sb.toString())) {
+				if (mathMode) {
 					result.add(sb.toString());
 					sb.setLength(0);
+				} else {
+					if (sb.length() != 0) {
+						result.add(sb.toString());
+						sb.setLength(0);
+					}
+
+					sb.append("$");
 				}
 
+				mathMode = !mathMode;
+            } else if (ch == '%') {
 				i++;
 				int pos = str.charAt(i) - '0';
-				if ((pos >= 0) && (pos < args.length)) {
-					result.add("$" + args[pos]);
+
+				if (mathMode) {
+					sb.append(args[pos]);
+				} else {
+					if (sb.length() != 0) {
+						result.add(sb.toString());
+						sb.setLength(0);
+					}
+
+					if ((pos >= 0) && (pos < args.length)) {
+						result.add("$" + args[pos]);
+					}
 				}
 			} else {
 				sb.append(ch);

@@ -36,7 +36,8 @@ public enum SolutionStepType {
 
 	NO_REAL_SOLUTION("NoRealSolutions", "No Real Solutions"),
 
-	INVALID_NOT_IN_RANGE("InvalidNotInRange", "%0 is not a valid solution, because %0 \\notin%1"),
+	INVALID_NOT_IN_RANGE("InvalidNotInRange", "%0 is not a valid solution, " +
+			"because $%0 \\notin %1$"),
 
 	SOLUTION("SolutionA", "Solution: %0"),
 
@@ -95,12 +96,14 @@ public enum SolutionStepType {
 
     NEGATIVE_G_POSITIVE("NegativeGPositive", "The statement is false for all values of %0"),
 
-    LEADING_COEFFICIENT_POSITIVE("LeadingCoefficientPositive", "$a = %0 > 0$ therefore $%1 > 0$ for all %2"),
+    LEADING_COEFFICIENT_POSITIVE("LeadingCoefficientPositive",
+			"$a = %0 > 0$ therefore $%1 > 0$ for all %2"),
 
-    LEADING_COEFFICIENT_NEGATIVE("LeadingCoefficientNegative", "$a = %0 < 0$ therefore $%1 < 0$ for all %2"),
+    LEADING_COEFFICIENT_NEGATIVE("LeadingCoefficientNegative",
+			"$a = %0 < 0$ therefore $%1 < 0$ for all %2"),
 
-	LEFT_POSITIVE_RIGHT_NEGATIVE("LeftPositiveRightNegative", "The left hand side is always positive, the right is " +
-			"always negative"),
+	LEFT_POSITIVE_RIGHT_NEGATIVE("LeftPositiveRightNegative",
+			"The left hand side is always positive, the right is always negative"),
 
 	EXCLUDE_UNDEFINED_POINTS("ExcludeUndefinedPoints", "Exclude undefined points",
 			"Exclude undefined points: %0"),
@@ -113,22 +116,23 @@ public enum SolutionStepType {
 
 	INVALID_SOLUTION("InvalidSolution", "Invalid Solution: %0"),
 
-	VALID_SOLUTION_ABS("ValidSolutionAbs", "%0 \\in %1"),
+	VALID_SOLUTION_ABS("ValidSolutionAbs", "$%0 \\in %1$"),
 
-	INVALID_SOLUTION_ABS("ValidSolutionAbs", "%0 \\notin %1"),
+	INVALID_SOLUTION_ABS("ValidSolutionAbs", "$%0 \\notin %1$"),
 
 	FIND_UNDEFINED_POINTS("FindUndefinedPoints", "Find undefined points"),
 
 	DETERMINE_THE_DEFINED_RANGE("DetermineTheDefinedRange", "Determine the defined range"),
 
-	ROOTS_AND_SIGN_TABLE("FindRootsAndCreateSignTable", "Find the roots of the absolute values and create sign table"),
+	ROOTS_AND_SIGN_TABLE("FindRootsAndCreateSignTable",
+			"Find the roots of the absolute values and create sign table"),
 
-	RESOLVE_ABSOLUTE_VALUES("ResolveAbsoluteValues", "Resolve Absolute Values", "\\left|a\\right| = \\left|b\\right| " +
-			"\\implies a = \\pm b"),
+	RESOLVE_ABSOLUTE_VALUES("ResolveAbsoluteValues", "Resolve Absolute Values",
+			"$\\left|a\\right| = \\left|b\\right| \\implies a = \\pm b$"),
 
-	IS_POSITIVE_IN("IsPositiveIn", "Resolve Absolute Values", "%0 \\ge 0 in %1"),
+	IS_POSITIVE_IN("IsPositiveIn", "Resolve Absolute Values", "$%0 \\ge 0$ in %1"),
 
-	IS_NEGATIVE_IN("IsNegativeIn", "Resolve Absolute Values", "%0 \\le 0 in %1"),
+	IS_NEGATIVE_IN("IsNegativeIn", "Resolve Absolute Values", "$%0 \\le 0$ in %1"),
 
 	NEGATE_BOTH_SIDES("NegateBothSides", "Negate both sides"),
 
@@ -159,7 +163,8 @@ public enum SolutionStepType {
 
 	SUBTRACT_FROM_BOTH_SIDES("SubtractAFromBothSides", "Subtract %0 from both sides"),
 
-	SUBTRACT_FROM_BOTH_SIDES_NUM("SubtractFromBothSidesNum", "Subtract %0 from both sides of equation %1"),
+	SUBTRACT_FROM_BOTH_SIDES_NUM("SubtractFromBothSidesNum",
+			"Subtract %0 from both sides of equation %1"),
 
 	MULTIPLY_BOTH_SIDES("MultiplyBothSidesByA", "Multiply both sides by %0"),
 
@@ -173,15 +178,17 @@ public enum SolutionStepType {
 
 	RECIPROCATE_BOTH_SIDES("ReciprocateBothSides", "Reciprocate  both sides"),
 
-	USE_QUADRATIC_FORMULA("UseQuadraticFormulaWithABC", "Use quadratic formula with a = %0, b = %1, c = %2"),
+	USE_QUADRATIC_FORMULA("UseQuadraticFormulaWithABC",
+			"Use quadratic formula with $a = %0$, $b = %1$, $c = %2$"),
 
-	QUADRATIC_FORMULA("QuadraticFormula", "%0 = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}"),
+	QUADRATIC_FORMULA("QuadraticFormula", "$%0 = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$"),
 
 	COMPLETE_THE_CUBE("CompleteCube", "Complete the cube"),
 
 	COMPLETE_THE_SQUARE("CompleteSquare", "Complete the square"),
 
-	NO_SOLUTION_TRIGONOMETRIC("NoSolutionTrigonometricSin", "%0 \\in [-1, 1] for all %1 \\in \\mathbb{R}"),
+	NO_SOLUTION_TRIGONOMETRIC("NoSolutionTrigonometricSin",
+			"$%0 \\in [-1, 1]$ for all $%1 \\in \\mathbb{R}$"),
 
 	REPLACE_WITH("ReplaceAWithB", "Replace %0 with %1"),
 
@@ -207,7 +214,8 @@ public enum SolutionStepType {
 
 	RATIONALIZE_DENOMINATOR("RationalizeDenominator", "Rationalize the denominator."),
 
-	MULTIPLY_NUM_DENOM("MultiplyNumeratorAndDenominator", "Mutiply the numerator and denominator by %0"),
+	MULTIPLY_NUM_DENOM("MultiplyNumeratorAndDenominator",
+			"Mutiply the numerator and denominator by %0"),
 
 	DISTRIBUTE_POWER_FRAC("DistributePowerOverFraction", "Distribute power over fraction"),
 
@@ -233,7 +241,8 @@ public enum SolutionStepType {
 
 	MULTIPLY_CONSTANTS("MultiplyConstants", "Multiply constants"),
 
-	MULTIPLIED_BY_ONE("MultipliedByOne", "Multiply constants", "Any expression multiplied by one is itself"),
+	MULTIPLIED_BY_ONE("MultipliedByOne", "Multiply constants",
+			"Any expression multiplied by one is itself"),
 
 	EVEN_NUMBER_OF_NEGATIVES("EvenNumberOfNegative", "Multiply negatives",
 			"Multiplying an even number of negative numbers gives a positive"),
@@ -245,13 +254,17 @@ public enum SolutionStepType {
 
 	ODD_POWER_NEGATIVE("OddPowerNegative", "An odd power of a negative number is a negative"),
 
-	NEGATIVE_NUM_AND_DENOM("NegativeNumeratorAndDenominator", "Use \\frac{-a}{-b} = \\frac{a}{b}"),
+	NEGATIVE_NUM_AND_DENOM("NegativeNumeratorAndDenominator",
+			"Use $\\frac{-a}{-b} = \\frac{a}{b}$"),
 
-	NEGATIVE_NUM_OR_DENOM("NegativeNumeratorOrDenominator", "Use \\frac{-a}{b} = \\frac{a}{-b} = -\\frac{a}{b}"),
+	NEGATIVE_NUM_OR_DENOM("NegativeNumeratorOrDenominator",
+			"Use $\\frac{-a}{b} = \\frac{a}{-b} = -\\frac{a}{b}$"),
 
-	REDUCE_ROOT_AND_POWER("ReduceRootAndPower", "Reduce the root and power", "Reduce the root and power by: %0"),
+	REDUCE_ROOT_AND_POWER("ReduceRootAndPower", "Reduce the root and power",
+			"Reduce the root and power by: %0"),
 
-	REDUCE_ROOT_AND_POWER_EVEN("ReduceRootAndPowerEven", "Reduce the root and power", "Reduce the root and power by: %0"),
+	REDUCE_ROOT_AND_POWER_EVEN("ReduceRootAndPowerEven", "Reduce the root and power",
+			"Reduce the root and power by: %0"),
 
 	EVALUATE_FRACTION("EvaluateFraction", "Evaluate fraction"),
 
@@ -270,11 +283,14 @@ public enum SolutionStepType {
 	EVEN_ROOT_OF_NEGATIVE("EvenRootOfNegative", "The expression is undefined in the set of the real numbers",
 			"The square root of a negative number is undefined in the set of the real numbers"),
 
-	ODD_ROOT_OF_NEGATIVE("OddRootOfNegative", "An odd root of a negative radicand is always negative"),
+	ODD_ROOT_OF_NEGATIVE("OddRootOfNegative",
+			"An odd root of a negative radicand is always negative"),
 
-	ROOT_OF_ROOT("RootOfRoot", "Use $\\sqrt[m]{\\sqrt[n]{a}} \\equiv \\sqrt[mn]{a}$ to simplify the expression"),
+	ROOT_OF_ROOT("RootOfRoot",
+			"Use $\\sqrt[m]{\\sqrt[n]{a}} \\equiv \\sqrt[mn]{a}$ to simplify the expression"),
 
-	REWRITE_DECIMAL_AS_COMMON_FRACTION("RewriteDecimalAsCommonFraction", "Rewrite decimal as common fraction"),
+	REWRITE_DECIMAL_AS_COMMON_FRACTION("RewriteDecimalAsCommonFraction",
+			"Rewrite decimal as common fraction"),
 
 	SPLIT_PRODUCTS("SplitProducts", "Split products for factoring"),
 
@@ -287,19 +303,24 @@ public enum SolutionStepType {
 
 	ELIMINATE_OPPOSITES("EliminateOpposites", "Eliminate the opposites"),
 
-	ZERO_IN_ADDITION("AddingOrSubtractionZero", "When adding or subtracting zero, the quantity does not change"),
+	ZERO_IN_ADDITION("AddingOrSubtractionZero",
+			"When adding or subtracting zero, the quantity does not change"),
 
 	ZERO_DIVIDED("ZeroDivided", "Evaluate Fractions", "Zero divided by anything is zero"),
 
 	EVALUATE_DIVISION("EvaluateDivision", "Evaluate Fractions", "Evaluate the division"),
 
-	DIVIDED_BY_ITSELF("DividedByItself", "Evaluate Fractions", "Any expression divided by itself equals 1"),
+	DIVIDED_BY_ITSELF("DividedByItself", "Evaluate Fractions",
+			"Any expression divided by itself equals 1"),
 
-	DIVIDED_BY_ZERO("DividedByZero", "The expression is undefined", "Any expression divided by zero is undefined"),
+	DIVIDED_BY_ZERO("DividedByZero", "The expression is undefined",
+			"Any expression divided by zero is undefined"),
 
-	DIVIDE_BY_ONE("DividedByOne", "Evaluate Fractions", "Any expression divided by one remains the same"),
+	DIVIDE_BY_ONE("DividedByOne", "Evaluate Fractions",
+			"Any expression divided by one remains the same"),
 	
-	DIVIDE_BY_NEGATVE_ONE("DividedByNegativeOne", "Evaluate Fractions", "Any expression divided by negative one negates the expression"),
+	DIVIDE_BY_NEGATVE_ONE("DividedByNegativeOne", "Evaluate Fractions",
+			"Any expression divided by negative one negates the expression"),
 
 	REWRITE_AS("RewriteAAsB", "Rewrite %0 as %1"),
 
@@ -321,7 +342,8 @@ public enum SolutionStepType {
 
 	BINOM_CUBED("BinomCubed", "Use $(a+b)^3 \\equiv a^3 + 3a^2b + 3ab^2 + b^3$ to expand"),
 
-	TRINOM_SQUARED("TrinomSquared", "Use $(a+b+c)^2 \\equiv a^2 + b^2 + c^2 + 2ab + 2bc + 2ac$ to expand"),
+	TRINOM_SQUARED("TrinomSquared",
+			"Use $(a+b+c)^2 \\equiv a^2 + b^2 + c^2 + 2ab + 2bc + 2ac$ to expand"),
 
 	DIFFERENCE_OF_SQUARES("DifferenceOfSquares", "Use $(a+b)(a-b) \\equiv a^2-b^2$ to expand"),
 
@@ -331,15 +353,20 @@ public enum SolutionStepType {
 
 	BINOM_SQUARED_SUM_FACTOR("BinomSquaredSum", "Use $a^2 + 2ab + b^2 \\equiv (a+b)^2$ to factor"),
 
-	BINOM_SQUARED_DIFF_FACTOR("BinomSquaredDiff", "Use $a^2 - 2ab + b^2 \\equiv (a-b)^2$ to factor"),
+	BINOM_SQUARED_DIFF_FACTOR("BinomSquaredDiff",
+			"Use $a^2 - 2ab + b^2 \\equiv (a-b)^2$ to factor"),
 
-	DIFFERENCE_OF_CUBES_FACTOR("DifferenceOfCubes", "Use $a^3 - b^3 = (a - b)(a^2 + ab + b^2)$ to factor"),
+	DIFFERENCE_OF_CUBES_FACTOR("DifferenceOfCubes",
+			"Use $a^3 - b^3 = (a - b)(a^2 + ab + b^2)$ to factor"),
 	
-	DIFFERENCE_OF_SQUARES_FACTOR("DifferenceOfSquaresFactor", "Use $a^2-b^2 \\equiv (a+b)(a-b)$ to factor"),
+	DIFFERENCE_OF_SQUARES_FACTOR("DifferenceOfSquaresFactor",
+			"Use $a^2-b^2 \\equiv (a+b)(a-b)$ to factor"),
 
-	BINOM_CUBED_SUM_FACTOR("BinomCubed", "Use $a^3 + 3a^2b + 3ab^2 + b^3 \\equiv (a+b)^3$ to factor"),
+	BINOM_CUBED_SUM_FACTOR("BinomCubed",
+			"Use $a^3 + 3a^2b + 3ab^2 + b^3 \\equiv (a+b)^3$ to factor"),
 
-	BINOM_CUBED_DIFF_FACTOR("BinomCubed", "Use $a^3 - 3a^2b + 3ab^2 - b^3 \\equiv (a+b)^3$ to factor"),
+	BINOM_CUBED_DIFF_FACTOR("BinomCubed",
+			"Use $a^3 - 3a^2b + 3ab^2 - b^3 \\equiv (a+b)^3$ to factor"),
 
 	IS_POSITIVE_IN_INEQUALITY("IsPositiveInInequality", "%0 is positive in %1, because there are " +
 			"an even number of negative values in the product"),
@@ -408,95 +435,109 @@ public enum SolutionStepType {
 
 	EXPAND_ROOT("ExpandRoot", "Using $\\sqrt[n]{a} \\equiv \\sqrt[mn]{a^m}$, expand the expression"),
 
-	PRODUCT_OF_ROOTS("ProductOfRoots", "The product of roots with the same index is equal to the root of the product"),
+	PRODUCT_OF_ROOTS("ProductOfRoots",
+			"The product of roots with the same index is equal to the root of the product"),
 
 	POLYNOMIAL_DIVISION("DivideAByBToGetC", "Divide %0 by %1 to get %2"),
 
 	EVALUATE_INVERSE_TRIGO("EvaluateInverseTrigo", "Evaluate inverse trigonometric function"),
 
-	POSITIVE_UNDER_ABSOLUTE_VALUE("PositiveUnderAbsoluteValue", "Use rules for absolute values", "The absolute value of a positive value is itself"),
+	POSITIVE_UNDER_ABSOLUTE_VALUE("PositiveUnderAbsoluteValue", "Use rules for absolute values",
+			"The absolute value of a positive value is itself"),
 
-	NEGATIVE_UNDER_ABSOLUTE_VALUE("NegativeUnderAbsoluteValue", "Use rules for absolute values", "The absolute value " +
-			"of a negative value is the negation of itself"),
+	NEGATIVE_UNDER_ABSOLUTE_VALUE("NegativeUnderAbsoluteValue", "Use rules for absolute values",
+			"The absolute value of a negative value is the negation of itself"),
 
-	EVEN_POWER_OF_ABSOLUTE_VALUE("EvenPowerOfAbsoluteValue", "Use rules for absolute values", "An even power of an " +
-			"absolute value is already positive"),
+	EVEN_POWER_OF_ABSOLUTE_VALUE("EvenPowerOfAbsoluteValue", "Use rules for absolute values",
+			"An even power of an absolute value is already positive"),
 
 	DIFFERENTIATE("Derivate", "Derivate %0"),
 
 	DIFF_SUM("SumRule", "Use the sum rule",
-			"\\frac{d}{dx} \\left[f(x) + g(x)\\right] = \\frac{d}{dx}f(x) + \\frac{d}{dx}g(x)"),
+			"$\\frac{d}{dx} \\left[f(x) + g(x)\\right] = \\frac{d}{dx}f(x) + \\frac{d}{dx}g(x)$"),
 
 	DIFF_CONSTANT("ConstantRule", "The derivative of a constant is zero"),
 
 	DIFF_CONSTANT_COEFFICIENT("ConstantCoefficientRule", "Use the constant factor rule",
-			"\\frac{d}{dx} \\left[k \\cdot f(x) \\right] = k \\cdot \\frac{d}{dx} f(x)"),
+			"$\\frac{d}{dx} \\left[k \\cdot f(x) \\right] = k \\cdot \\frac{d}{dx} f(x)$"),
 
 	DIFF_PRODUCT("ProductRule", "Use the product rule",
-			"\\frac{d}{dx}\\left[f(x) \\cdot g(x)\\right] = \\frac{d}{dx} f(x) \\cdot g(x) + f(x) \\cdot \\frac{d}{dx} g(x)"),
+			"$\\frac{d}{dx}\\left[f(x) \\cdot g(x)\\right] = \\frac{d}{dx} f(x) \\cdot g(x) + f" +
+					"(x) \\cdot \\frac{d}{dx} g(x)$"),
 
 	DIFF_FRACTION("QuotientRule", "Use the quotient rule",
-			"\\frac{d}{dx} \\frac{f(x)}{g(x)} = \\frac{\\frac{d}{dx} f(x) \\cdot g(x) - f(x) \\cdot \\frac{d}{dx} g(x)}{(g(x))^2}"),
+			"$\\frac{d}{dx} \\frac{f(x)}{g(x)} = \\frac{\\frac{d}{dx} f(x) \\cdot g(x) - f(x) " +
+					"\\cdot \\frac{d}{dx} g(x)}{(g(x))^2}$"),
 
-	DIFF_VARIABLE("DifferentiateVariable", "Use the power rule", "\\frac{d}{dx} x = 1"),
+	DIFF_VARIABLE("DifferentiateVariable", "Use the power rule", "$\\frac{d}{dx} x = 1$"),
 
-	DIFF_POWER("PowerRule", "Use the power rule", "\\frac{d}{dx} x^n = n x^{n-1}"),
+	DIFF_POWER("PowerRule", "Use the power rule", "$\\frac{d}{dx} x^n = n x^{n-1}$"),
 
-	DIFF_EXPONENTIAL_E("ExponentialRuleE", "Use the exponential rule", "\\frac{d}{dx} e^x = e^x"),
+	DIFF_EXPONENTIAL_E("ExponentialRuleE", "Use the exponential rule",
+			"$\\frac{d}{dx} e^x = e^x$"),
 
-	DIFF_EXPONENTIAL("ExponentialRule", "Use the exponential rule", "\\frac{d}{dx} a^x = \\ln(a) a^x"),
+	DIFF_EXPONENTIAL("ExponentialRule", "Use the exponential rule",
+			"$\\frac{d}{dx} a^x = \\ln(a) a^x$"),
 
-	DIFF_ROOT("RootRule", "Use the root rule", "\\frac{d}{dx} \\sqrt[n]{x} = \\frac{1}{n \\sqrt[n]{x^{n-1}}}"),
+	DIFF_ROOT("RootRule", "Use the root rule",
+			"$\\frac{d}{dx} \\sqrt[n]{x} = \\frac{1}{n \\sqrt[n]{x^{n-1}}}$"),
 
 	DIFF_LOG("LogRule", "Use the log rule",
-			"\\frac{d}{dx} \\( \\log_{a} \\left(x\\right) \\) = \\frac{1}{\\ln(a) \\cdot x}"),
+			"$\\frac{d}{dx} \\( \\log_{a} \\left(x\\right) \\) = \\frac{1}{\\ln(a) \\cdot x}$"),
 
-	DIFF_NATURAL_LOG("NaturalLogRule", "Use the log rule", "\\frac{d}{dx} \\ln(x) = \\frac{1}{x}"),
+	DIFF_NATURAL_LOG("NaturalLogRule", "Use the log rule",
+			"$\\frac{d}{dx} \\ln(x) = \\frac{1}{x}$"),
 
-	DIFF_SIN("SinRule", "Use the rules of trigonometric functions", "\\frac{d}{dx} sin(x) = cos(x)"),
+	DIFF_SIN("SinRule", "Use the rules of trigonometric functions",
+			"$\\frac{d}{dx} sin(x) = cos(x)$"),
 
-	DIFF_COS("CosRule", "Use the rules of trigonometric funtions", "\\frac{d}{dx} cos(x) = -sin(x)"),
+	DIFF_COS("CosRule", "Use the rules of trigonometric funtions",
+			"$\\frac{d}{dx} cos(x) = -sin(x)$"),
 
-	DIFF_TAN("TanRule", "Use the rules of trigonometric funtions", "\\frac{d}{dx} tan(x) = \\frac{1}{cos^2(x)}"),
+	DIFF_TAN("TanRule", "Use the rules of trigonometric funtions",
+			"$\\frac{d}{dx} tan(x) = \\frac{1}{cos^2(x)}$"),
 
 	DIFF_ARCSIN("ArcsinRule", "Use the rules of inverse trigonometric funtions",
-			"\\frac{d}{dx} arcsin(x) = \\frac{1}{\\sqrt{1-x^2}}"),
+			"$\\frac{d}{dx} arcsin(x) = \\frac{1}{\\sqrt{1-x^2}}$"),
 
 	DIFF_ARCCOS("ArccosRule", "Use the rules of inverse trigonometric funtions",
-			"\\frac{d}{dx} arccos(x) = -\\frac{1}{\\sqrt{1-x^2}}"),
+			"$\\frac{d}{dx} arccos(x) = -\\frac{1}{\\sqrt{1-x^2}}$"),
 
 	DIFF_ARCTAN("ArctanRule", "Use the rules of inverse trigonometric funtions",
-			"\\frac{d}{dx} arctan(x) = \\frac{1}{x^2+1}"),
+			"$\\frac{d}{dx} arctan(x) = \\frac{1}{x^2+1}$"),
 
 	DIFF_POWER_CHAIN("PowerRuleChain", "Use the power rule",
-			"\\frac{d}{dx} (u(x))^n = n (u(x))^{n-1} \\cdot \\frac{d}{dx} u(x)"),
+			"$\\frac{d}{dx} (u(x))^n = n (u(x))^{n-1} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_EXPONENTIAL_E_CHAIN("ExponentialRuleEChain", "Use the exponential rule",
-			"\\frac{d}{dx} a^{u(x)} = \\ln(a) a^{u(x)} \\cdot \\frac{d}{dx} u(x)"),
+			"$\\frac{d}{dx} a^{u(x)} = \\ln(a) a^{u(x)} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_EXPONENTIAL_CHAIN("ExponentialRuleChain", "Use the exponential rule",
-			"\\frac{d}{dx} e^{u(x)} = e^{u(x)} \\cdot \\frac{d}{dx} u(x)"),
+			"$\\frac{d}{dx} e^{u(x)} = e^{u(x)} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_ROOT_CHAIN("RootRuleChain", "Use the root rule",
-			"\\frac{d}{dx} \\sqrt[n]{u(x)} = \\frac{1}{n \\sqrt[n]{(u(x))^{n-1}}} \\cdot \\frac{d}{dx} u(x)"),
+			"$\\frac{d}{dx} \\sqrt[n]{u(x)} = \\frac{1}{n \\sqrt[n]{(u(x))^{n-1}}} \\cdot " +
+					"\\frac{d}{dx} u(x)$"),
 
 	DIFF_LOG_CHAIN("LogRuleChain", "Use the log rule",
-			"\\frac{d}{dx} \\log_{a}(u(x)) = \\frac{1}{\\ln(a) \\cdot u(x)} \\cdot \\frac{d}{dx} u(x)"),
+			"$\\frac{d}{dx} \\log_{a}(u(x)) " +
+					"= \\frac{1}{\\ln(a) \\cdot u(x)} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_NATURAL_LOG_CHAIN("NaturalLogRuleChain", "Use the log rule",
-			"\\frac{d}{dx} \\ln(u(x)) = \\frac{1}{u(x)} \\cdot \\frac{d}{dx} u(x)"),
+			"$\\frac{d}{dx} \\ln(u(x)) = \\frac{1}{u(x)} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_SIN_CHAIN("SinRuleChain", "Use the rules of trigonometric funtions",
-			"\\frac{d}{dx} sin(u(x)) = cos(u(x)) \\cdot \\frac{d}{dx} u(x)"),
+			"$\\frac{d}{dx} sin(u(x)) = cos(u(x)) \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_COS_CHAIN("CosRuleChain", "Use the rules of trigonometric funtions",
-			"\\frac{d}{dx} cos(u(x)) = -sin(u(x)) \\cdot \\frac{d}{dx} u(x)"),
+			"$\\frac{d}{dx} cos(u(x)) = -sin(u(x)) \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_TAN_CHAIN("TanRuleChain", "Use the rules of trigonometric funtions",
-			"\\frac{d}{dx} tan(u(x)) = \\frac{1}{cos^2(u(x))} \\cdot \\frac{d}{dx} u(x)"),
+			"$\\frac{d}{dx} tan(u(x)) = \\frac{1}{cos^2(u(x))} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_ARCSIN_CHAIN("ArcsinRuleChain", "Use the rules of inverse trigonometric funtions",
-			"\\frac{d}{dx} arcsin(u(x)) = \\frac{1}{\\sqrt{1-(u(x))^2}} \\cdot \\frac{d}{dx} u(x)"),
+			"$\\frac{d}{dx} arcsin(u(x)) " +
+					"= \\frac{1}{\\sqrt{1-(u(x))^2}} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_ARCCOS_CHAIN("ArccosRuleChain", "Use the rules of inverse trigonometric funtions",
 			"\\frac{d}{dx} arccos(u(x)) = -\\frac{1}{\\sqrt{1-(u(x))^2}} \\cdot \\frac{d}{dx} u(x)"),
@@ -508,7 +549,7 @@ public enum SolutionStepType {
 
 	USE_CRAMERS_RULE("UseCramersRule", "Use Cramer's rule to solve the equation system"),
 
-	DETERMINANTS("", "$D = %3, D_{1} = %0, D_{2} = %1, D_{3} = %2$"),
+	DETERMINANTS("", "$D = %3$, $D_{1} = %0$, $D_{2} = %1$, $D_{3} = %2$"),
 
 	CRAMER_VARIABLE("", "$%0 = \\frac{D_{%1}}{D} = \\frac{%2}{%3}$"),
 
