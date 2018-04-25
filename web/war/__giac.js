@@ -2197,7 +2197,7 @@ var __giac = [ {},
 { cat:"NSolve", cmd:"NSolve[sin(35deg)/8=sin(A deg)/5]", result:"{A = 21.00720054179, A = 158.9927994582}", round:"{A = 21.01, A = 158.99}", notes:"TRAC-4681" },
 { cat:"NSolve", cmd:"NSolve[sin(40deg)/5=sin(A deg)/7]", result:"{A = 64.14527443098}", round:"{A = 64.15}", notes:"TRAC-4681" },
 //JSONEND
-{ cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
+// { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
