@@ -181,20 +181,15 @@ var translation = {};
 			return;
 		}
 		var parent = parentTable(ret);		
-		if(id == "tutorials"){
-			parent.addEventListener("click",function(){
-					window.open("https://www.geogebra.org/tutorial")
-					
-			});
-		} else {
-			parent.addEventListener("click",function(){
-				if(e("ggw")){
-					e("ggw").setAttribute("data-param-showAppsPicker","false");
-				}
-				changeMetaTitle(ret.innerText);
-				perspective(perspectiveId,id.replace("perspective",""));
-			});
-		}
+		
+		parent.addEventListener("click",function(){
+			if(e("ggw")){
+				e("ggw").setAttribute("data-param-showAppsPicker","false");
+			}
+			changeMetaTitle(ret.innerText);
+			perspective(perspectiveId,id.replace("perspective",""));
+		});
+		
 		ret.innerHTML = caption;
 	}
 

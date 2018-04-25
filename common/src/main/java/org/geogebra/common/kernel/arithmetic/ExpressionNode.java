@@ -3324,8 +3324,7 @@ public class ExpressionNode extends ValidExpression
 						en.replace(func.getFunctionVariables()[i],
 								((MyList) right).getListElement(i));
 					}
-					// add brackets, see
-					// http://www.geogebra.org/trac/ticket/1446
+					// add brackets, see TRAC-1287
 					if (!stringType.equals(StringType.LATEX)) {
 						sb.append(tpl.leftBracket());
 					}
@@ -3910,7 +3909,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Returns true iff ev1 and ev2 are equal.
 	 * 
-	 * http://tube.geogebra.org/m/1199093?cb=jenkins4310
+	 * https://www.geogebra.org/m/NTKKwVWK
 	 * 
 	 * @param ev1
 	 *            first value to compare

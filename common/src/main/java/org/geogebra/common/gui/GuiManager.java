@@ -66,12 +66,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * 
 	 * also can have ?mobile=true ?mobile=false on end
 	 */
-	private static final String ggbTubeOld = "geogebratube.org/";
-	private static final String ggbTube = "tube.geogebra.org/";
-	private static final String ggbTubeBeta = "beta.geogebra.org/";
-	private static final String ggbTubeShort = "ggbtu.be/";
-	private static final String ggbMatShort = "ggbm.at/";
-	private static final String material = "/material/show/id/";
 
 	protected Kernel kernel;
 	protected App app;
@@ -188,6 +182,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	public boolean loadURL(String urlString, boolean suppressErrorMsg) {
 		String processedUrlString = urlString.trim();
+		final String ggbTubeOld = "geogebratube.org/";
+		final String ggbTube = "tube.geogebra.org/";
+		final String ggbTubeBeta = "beta.geogebra.org/";
+		final String ggbTubeShort = "ggbtu.be/";
+		final String ggbMatShort = "ggbm.at/";
+		final String material = "/material/show/id/";
 
 		boolean success = false;
 		boolean isMacroFile = false;
@@ -767,7 +767,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	final public String getHelpURL(final Help type, String pageName) {
 		// try to get help for given language
-		// eg http://www.geogebra.org/help/en_GB/cmd/FitLogistic
+		// eg http://help.geogebra.org/en_GB/cmd/FitLogistic
 
 		final StringBuilder urlSB = new StringBuilder();
 

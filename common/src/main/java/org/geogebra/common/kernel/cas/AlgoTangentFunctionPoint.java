@@ -114,7 +114,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 			points = new GeoPoint[steps];
 
 			// order 5, 10 steps, 100 slices seems to work nicely
-			// mockup http://tube.geogebra.org/student/m683647
+			// mockup https://www.geogebra.org/m/zTJ7KeE6
 			algoFitPoly = new AlgoFitPoly(cons, geoList,
 					new GeoNumeric(cons, 5));
 			cons.removeFromConstructionList(algoFitPoly);

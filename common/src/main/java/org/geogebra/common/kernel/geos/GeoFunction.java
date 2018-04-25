@@ -1843,8 +1843,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		sbCasCommand.append(',');
 		sbCasCommand.append(MyDouble.toString(x));
 		sbCasCommand.append("),");
-		// increase precision to improve problems like
-		// http://www.geogebra.org/trac/ticket/1106
+		// increase precision to improve problems like TRAC-2778
 		sbCasCommand.append("50)");
 		return sbCasCommand.toString();
 	}

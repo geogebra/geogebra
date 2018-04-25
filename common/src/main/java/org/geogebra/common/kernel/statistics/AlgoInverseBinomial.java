@@ -75,7 +75,7 @@ public class AlgoInverseBinomial extends AlgoDistribution {
 
 				// subtract eps to fix eg
 				// InverseBinomial[10,1/10,617003001/625000000]
-				// https://tube.geogebra.org/m/d23dHjw2
+				// https://www.geogebra.org/m/d23dHjw2
 				double result = dist.inverseCumulativeProbability(val - 1E-14);
 
 				// eg InversePascal[1,1,1] returns 2147483647

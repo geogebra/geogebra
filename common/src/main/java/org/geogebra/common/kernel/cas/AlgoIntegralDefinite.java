@@ -568,7 +568,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 				// freehand functions aren't generally nice and smooth, so more
 				// iterations may be needed
-				// https://www.geogebra.org/help/topic/problem-mit-integral-unter-freihandskizze
+				// https://help.geogebra.org/topic/problem-mit-integral-unter-freihandskizze
 				n.setValue(numericIntegration(f, lowerLimit, upperLimit,
 						f.includesFreehandOrData() ? FREEHAND_MULTIPLIER
 								: STANDARD_MULTIPLIER));

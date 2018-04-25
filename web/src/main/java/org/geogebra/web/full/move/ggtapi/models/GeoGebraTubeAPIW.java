@@ -100,22 +100,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			}
 
 			// Further fields are not parsed yet, because they are not needed
-			// This is the complete response with all available fields:
-			/*
-			 * <responses> <response> <userinfo> <user_id>4711</user_id>
-			 * <username>johndoe</username>
-			 * <ggt_profile_url>http://tube.geogebra.org/user/profile/id/4711
-			 * </ggt_profile_url> <group>user</group>
-			 * <date_created>2012-09-18</date_created> <lang_ui>en</lang_ui>
-			 * <lang_content>en,en_US,it</lang_content>
-			 * <timezone>America/New_York</timezone> <materials>31</materials>
-			 * <favorites>4</favorites> <collections>2</collections>
-			 * <identifier>forum:0815</identifier> <realname>John Doe</realname>
-			 * <occupation>Maths teacher</occupation> <location>New
-			 * York</location> <website>www.thisisme.com</website>
-			 * <profilemessage>Any text</profilemessage> </userinfo> </response>
-			 * </responses>
-			 */
 
 			// user.setGGTProfileURL(userinfo.getString("ggt_profile_url"));
 			// user.setGroup(userinfo.getString("group"));

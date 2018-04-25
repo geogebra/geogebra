@@ -128,7 +128,7 @@ public class AlgoConicPartCircle extends AlgoConicPart implements
 	@Override
 	public final void compute() {
 
-		// needed for eg http://tube.geogebra.org/m/mfafi40w
+		// needed for eg http://www.geogebra.org/m/mfafi40w
 		if (!startPoint.isDefined() || !endPoint.isDefined()
 				|| !center.isDefined()) {
 			conicPart.setUndefined();

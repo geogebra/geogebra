@@ -1427,7 +1427,7 @@ public class ProverBotanasMethod {
 										 * for more on info (Pappus6 will work
 										 * with 7, too)
 										 */
-				/* Pappus6 is at http://www.tube.geogebra.org/student/m57255 */
+				/* Pappus6 is at https://www.geogebra.org/m/TEQGgRKe */
 			}
 			while (!found && permutation < MAX_PERMUTATIONS) {
 

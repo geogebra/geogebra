@@ -856,7 +856,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		case GIAC:
 			// make sure we don't interfer with reserved names
 			// or command names in the underlying CAS
-			// see http://www.geogebra.org/trac/ticket/1051
+			// see TRAC-793
 			return addTempVariablePrefix(label.replace("$", ""));
 
 		default:

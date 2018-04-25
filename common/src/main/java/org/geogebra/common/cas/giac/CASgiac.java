@@ -1075,7 +1075,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * {{6,5,-184,304,-160,28,-2,52,-136,96,-14,1,-2,-12,-12,0,0,27,2,2,0,0,-10,
 	 * 0,0,0,0,1,0,0,0,0},{2,2,1,-2,1,5,5,92,-152,80,-14,1,20,-8,-8,0,0,11,2,2,0
 	 * ,0,-8,0,0,0,0,1,0,0,0,0}} describes a Steiner deltoid
-	 * (http://tube.geogebra.org/m/xWCP09dk) by its expanded polynomial
+	 * (http://www.geogebra.org/m/xWCP09dk) by its expanded polynomial
 	 * x^5+x*y^4+2*x^3*y^2-10*x^4-2*y^4-14*x*y^3-12*x^2*y^2+2*x^3*y+27*x^3+28*y^
 	 * 3+96*x*y^2-12*x^2*y-2*x^2-160*y^2-136*x*y+52*x+304*y-184 which is the
 	 * first list {6,5,...} and its two factors: x-2=0 and

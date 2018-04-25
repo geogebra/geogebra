@@ -5,7 +5,7 @@ SVNDIR=${HOME}/svn # Office workstation
 #SVNDIR=/home/zoltan/svn # Linz server
 
 # Repository:
-REPO=http://www.geogebra.org/svn/trunk/geogebra # for other installations
+REPO=http://dev.geogebra.org/svn/trunk/geogebra # for other installations
 
 # Java home:
 JAVA_HOME=/usr/lib/jvm/java-1.5.0-sun
