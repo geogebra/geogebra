@@ -9,7 +9,6 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.GWT;
@@ -591,27 +590,6 @@ public final class ArticleElement extends Element implements ArticleElementInter
 			Log.warn("Invalid buttonRounding");
 		}
 		return ret;
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.geogebra.web.html5.util.ArticleElementInterface#adjustScale()
-	 */
-	@Override
-	public void adjustScale() {
-		if (getDataParamApp()
-		        || (getAttribute("data-scalex") != null && !""
-		                .equals(getAttribute("data-scalex")))) {
-			return;
-		}
-		double externalScale = getDataParamScale();
-		Element parent = this.getParentElement();
-		if (parent.getParentElement() != null
-		        && "applet_container".equals(parent.getParentElement().getId())) {
-			parent = parent.getParentElement();
-		}
-		Browser.scale(parent, externalScale, 0, 0);
-		resetScale();
 
 	}
 

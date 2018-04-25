@@ -41,7 +41,7 @@ public class LoadFilePresenter {
 		// ViewW view = getView();
 		String base64String;
 		String filename;
-		view.adjustScale();
+		app.checkScaleContainer();
 		boolean fileOpened = true;
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		app.setErrorDialogsActive(view.getDataParamErrorDialogsActive());

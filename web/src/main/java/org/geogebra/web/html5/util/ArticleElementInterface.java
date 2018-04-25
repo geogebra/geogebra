@@ -313,11 +313,6 @@ public interface ArticleElementInterface {
 	 */
 	double getDataParamButtonRounding();
 
-	/**
-	 * Sync data-scale params with external environment
-	 * 
-	 */
-	void adjustScale();
 
 	/**
 	 * Remove cached scale values

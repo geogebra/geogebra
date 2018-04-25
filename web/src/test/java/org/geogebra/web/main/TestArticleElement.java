@@ -276,11 +276,6 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
-	public void adjustScale() {
-		// intentionally empty
-	}
-
-	@Override
 	public void resetScale() {
 		// intentionally empty
 	}
