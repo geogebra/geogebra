@@ -14,7 +14,9 @@ public class LocalizationTest {
 				"../web/src/nonfree/resources/org/geogebra/web/pub/js/");
 		TreeSet<String> available = new TreeSet<>();
 		for (File f : dir.listFiles()) {
-			available.add(f.getAbsolutePath());
+			if (!f.getAbsolutePath().contains(".svn")) {
+				available.add(f.getAbsolutePath());
+			}
 		}
 		for (Language lang : Language.values()) {
 			File trans = new File(
