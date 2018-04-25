@@ -413,7 +413,7 @@ public class DrawAxis {
 		long labelno = Math.round(rw / view.axesNumberingDistances[1]);
 		// by default we start with minor tick to the left of first major
 		// tick, exception is for positive only
-		double axesStep = view.getYscale() * view.axesNumberingDistances[1]; // pixelstep
+		double axesStep = view.getYscale() * (view.axesNumberingDistances[1]); // pixelstep
 		if (view.getPositiveAxes()[1]
 				&& (DoubleUtil.isGreaterEqual(view.axisCross[0], view.getYmin()))) {
 			// start labels at the y-axis instead of screen border
@@ -1154,7 +1154,7 @@ public class DrawAxis {
 		} else {
 			sb.append(strNum);
 		}
-		if (Math.round(num) != num) {
+		if (!DoubleUtil.isInteger(num)) {
 			sb.append((Math.round(num * 100) % 10 == 0) ? "0" : "");
 		}
 		return sb.toString();
