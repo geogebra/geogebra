@@ -556,13 +556,13 @@ public class FunctionNVar extends ValidExpression
 		// for multi-variate functions we need to ensure value form,
 		// i.e. f(x,m)=x^2+m, g(x)=f(x,2), Derivative[g] gets sent as
 		// Derivative[x^2+2] instead of Derivative[f(x,2)]
-		// see http://www.geogebra.org/trac/ticket/1466
+		// see TRAC-1310
 		symbolic = symbolic && !expression.containsGeoFunctionNVar();
 
 		// make sure to use temporary variable names
 		// e.g. a in Derivative[a*x^2,x] needs to be renamed temporarily when a
 		// exists in GeoGebra
-		// see http://www.geogebra.org/trac/ticket/929
+		// see TRAC-2547
 
 		StringTemplate tpl = StringTemplate.prefixedDefault;
 		// did expression change since last time?

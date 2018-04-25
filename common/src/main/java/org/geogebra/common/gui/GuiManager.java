@@ -201,7 +201,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 																	// a ggb
 																	// file,
 				// however ends with ".ggb":
-				// http://www.geogebra.org/web/test42/?f=_circles5.ggb
+				// script.php?file=_circles5.ggb
 				// loadURL_GGB(processedUrlString);
 				getApp().getGgbApi().openFile(processedUrlString);
 

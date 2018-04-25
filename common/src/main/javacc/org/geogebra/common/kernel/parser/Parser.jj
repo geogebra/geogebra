@@ -460,7 +460,7 @@ ValidExpression buildCASExpression(GeoCasCell cell) :
     |
          // labeled equation, e.g. g: 3x + y = 7
          // assignment
-        // b := 27 + c, also allow x := 5, see http://www.geogebra.org/trac/ticket/946
+        // b := 27 + c, also allow x := 5, see TRAC-864
         LOOKAHEAD(2147483647)
     l = casVar() (assign= ":" |assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = expressionOrEquation()
    |

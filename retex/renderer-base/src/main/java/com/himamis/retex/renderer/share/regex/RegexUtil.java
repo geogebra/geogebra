@@ -50,7 +50,7 @@ public class RegexUtil {
 	public static String quoteReplacement(String s) {
 		
 		// eg \textit
-		// https://www.geogebra.org/help/topic/textit-en-textbf-behaviour
+		// https://help.geogebra.org/topic/textit-en-textbf-behaviour
 		if (s == null) {
 			throw new ParseException("null argument");
 		}

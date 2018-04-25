@@ -7,7 +7,7 @@ import java.util.LinkedList;
  * setting listeners and batching.
  * 
  * @author Florian Sonner
- * @see "http://www.geogebra.org/trac/wiki/GuiRefactoring"
+ * @see "http://dev.geogebra.org/trac/wiki/GuiRefactoring"
  */
 public abstract class AbstractSettings {
 	/**

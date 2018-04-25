@@ -9,7 +9,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to parse command line arguments. A list of possible arguments for
- * GeoGebra is available online at http://www.geogebra.org/wiki.
+ * GeoGebra is available online at http://wiki.geogebra.org/.
  * 
  * Arguments are accepted in the following format: --key1=value1 --key2=value2
  * ... file1 file2 ... filen

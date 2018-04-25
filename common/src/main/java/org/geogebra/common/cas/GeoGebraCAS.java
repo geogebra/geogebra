@@ -64,7 +64,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				kernel.getApplication().getParserFunctions());
 
 		// DO NOT init underlying CAS here to avoid hanging animation,
-		// see http://www.geogebra.org/trac/ticket/1565
+		// see TRAC-1398
 		// getCurrentCAS();
 	}
 
@@ -573,8 +573,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			Kernel kern = app.getKernel();
 
 			// convert command names x, y, z to xcoord, ycoord, ycoord to
-			// protect it in CAS
-			// see http://www.geogebra.org/trac/ticket/1440
+			// protect it in CAS see TRAC-1283
 			boolean handled = false;
 			if (name.length() == 1) {
 				char ch = name.charAt(0);

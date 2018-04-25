@@ -1950,10 +1950,10 @@ var __giac = [ {},
 { cat:"Solve", cmd:"Solve[1-x^2=abs(x^2-1)]", result:"{x = -1, x = 1, -1  <  x  <  1}" },
 { cat:"Solve", cmd:"Solve[x^2-1=abs(1-x^2)]", result:"{x = -1, x = 1, x  <  -1, x > 1}" },
 { cat:"Solve", cmd:"Solve[abs(6x - 3) + abs(6x + 9) - 12=0]", result:"{x = (-3) / 2, x = 1 / 2, (-3) / 2  <  x \u2264 1 / 2}", notes:"" },
-{ cat:"SolveODE", cmd:"SolveODE[sin(0.016*x)*y]", result:"y = c_0 \u212F^(-125 cos(2x / 125) / 2)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
-{ cat:"SolveODE", cmd:"SolveODE[sin(0.017*x)*y]", result:"y = c_0 \u212F^(-1000 cos(17x / 1000) / 17)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
-{ cat:"SolveODE", cmd:"SolveODE[y'=0.1*sin(0.017*x-1.03)*y]", result:"y = c_0 \u212F^(-100 cos((17x - 1030) / 1000) / 17)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
-{ cat:"SolveODE", cmd:"SolveODE[y' = 0.01sin(0.017x - 1.03) y,(0, 100)]", result:"y = 100\u212F^(-10 cos((17x - 1030) / 1000) / 17) / \u212F^(-10 cos(103 / 100) / 17)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
+{ cat:"SolveODE", cmd:"SolveODE[sin(0.016*x)*y]", result:"y = c_0 \u212F^(-125 cos(2x / 125) / 2)", notes:"https://help.geogebra.org/topic/cas-cannot-solve-differential-equation" },
+{ cat:"SolveODE", cmd:"SolveODE[sin(0.017*x)*y]", result:"y = c_0 \u212F^(-1000 cos(17x / 1000) / 17)", notes:"https://help.geogebra.org/topic/cas-cannot-solve-differential-equation" },
+{ cat:"SolveODE", cmd:"SolveODE[y'=0.1*sin(0.017*x-1.03)*y]", result:"y = c_0 \u212F^(-100 cos((17x - 1030) / 1000) / 17)", notes:"https://help.geogebra.org/topic/cas-cannot-solve-differential-equation" },
+{ cat:"SolveODE", cmd:"SolveODE[y' = 0.01sin(0.017x - 1.03) y,(0, 100)]", result:"y = 100\u212F^(-10 cos((17x - 1030) / 1000) / 17) / \u212F^(-10 cos(103 / 100) / 17)", notes:"https://help.geogebra.org/topic/cas-cannot-solve-differential-equation" },
 { cat:"Determinant", cmd:"Determinant[{{1,-1/2,1/2},{0,(sqrt(11))/2,-(sqrt(11))/2},{1/2,-3/2,5/2}}]", result:"sqrt(11)/2" },
 { cat:"SolveODE", cmd:"SolveODE[y' sin(x)=y ln(y)]", result:"y = \u212F^(sqrt(-cos(x)\u00B2 + 1) \u212F^(-c_0) / (cos(x) + 1))|OR|y = \u212F^(sqrt(-cos(x)\u00B2 + 1) / (cos(x) + 1) / c_0)|OR|y = \u212F^(sqrt(-cos(x)^2 + 1) \u212F^(-c_0) / (cos(x) + 1))" },
 { cat:"SolveTrig", cmd:"Solve[(sin(x) * exp(x)) + (cos(x) * exp(x))]", result:"{x = 2n_120 \u03C0 + 3 / 4 \u03C0, x = 2n_121 \u03C0 - 1 / 4 \u03C0}|OR|{x = 2n_120 \u03C0 - 1 / 4 \u03C0, x = 2n_121 \u03C0 + 3 / 4 \u03C0}|OR|{x = 2k_0 \u03C0 + 3 / 4 \u03C0, x = 2k_0 \u03C0 - 1 / 4 \u03C0}" },
@@ -2315,7 +2315,7 @@ var notSupported = [
 // OK in GUI, causes problems in the tests - sent to Giac as
 // evalfa(ggbsort(normal(zeros((ggbtmpvart)^(2)=(4)*(ggbtmpvart),x))))
 { cat:"Solutions", cmd:"Solutions[t^2 = 4t]", result:"{0,4}" },
-{ cat:"Integral", cmd:"Integral[abs(sin(x))*cos(n*x), x,- pi , pi ]", result:"(((-2) * cos((n * \u03C0))) - 2) / (n^(2) - 1)", notes:"https://www.geogebra.org/help/topic/integralabssenxcosnx-x-%CF%80-%CF%80" }
+{ cat:"Integral", cmd:"Integral[abs(sin(x))*cos(n*x), x,- pi , pi ]", result:"(((-2) * cos((n * \u03C0))) - 2) / (n^(2) - 1)", notes:"https://help.geogebra.org/topic/integralabssenxcosnx-x-%CF%80-%CF%80" }
 
 ];
 

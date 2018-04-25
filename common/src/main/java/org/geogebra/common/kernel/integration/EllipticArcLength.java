@@ -88,7 +88,7 @@ public class EllipticArcLength {
 			double semiMinor) {
 		double k = semiMinor / semiMajor;
 		// Gauss-KummerSeries doesn't converge fast so use Cayley in this case
-		// http://www.geogebra.org/help/topic/inaccurate-circumference-of-ellipse
+		// http://help.geogebra.org/topic/inaccurate-circumference-of-ellipse
 		// for eccentricity > 0.92, i.e. k < 0.392
 		if (k < 0.392) {
 
