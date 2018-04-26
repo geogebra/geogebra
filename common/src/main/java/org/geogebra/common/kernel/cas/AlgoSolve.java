@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Use Solve cas command from AV
@@ -336,10 +337,14 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 					kernel.getParser());
 		}
 		SolutionBuilder sb = new SolutionBuilder();
+		double start = kernel.getApplication().getMillisecondTime();
 		se.solve(new StepVariable("x"), sb);
-
+		double solved = kernel.getApplication().getMillisecondTime();
 		sb.getSteps().getListOfSteps(builder, kernel.getLocalization());
-
+		double done = kernel.getApplication().getMillisecondTime();
+		Log.debug("Show steps total time: " + (done - start) + " ms, out of which:");
+		Log.debug("Solving the equation: " + (solved - start) + " ms");
+		Log.debug("Preparing the output: " + (done - solved) + " ms");
 	}
 
 	private static String asString(Operation operation) {
