@@ -17,6 +17,11 @@ public class HTML5Export {
 		sb.append("<!DOCTYPE html>\n");
 		sb.append("<html>\n");
 		sb.append("<head>\n");
+
+		// make sure scaling works
+		sb.append(
+				"<meta name=viewport content=\"width=device-width,initial-scale=1\">");
+
 		if (app.has(Feature.TUBE_BETA)) {
 			sb.append(
 					"<script src=\"https://beta.geogebra.org/scripts/deployggb.js\"></script>\n\n");
@@ -62,6 +67,7 @@ public class HTML5Export {
 		sb.append("\"showFullscreenButton\":true,\n");
 		sb.append("\"scale\":1,\n");
 		sb.append("\"disableAutoScale\":false,\n");
+		sb.append("\"allowUpscale\":false,\n");
 		sb.append("\"clickToLoad\":false,\n");
 		sb.append("\"appName\":\"" + app.getVersion().getAppName() + "\",\n");
 		sb.append("\"showSuggestionButtons\":true,\n");
