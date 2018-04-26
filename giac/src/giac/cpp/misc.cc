@@ -8161,6 +8161,29 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__python_list,&_python_list,_python_list_s);
   define_unary_function_ptr5( at_python_list ,alias_at_python_list,&__python_list,0,true);
 
+  static vecteur & pixel_v(){
+    static vecteur * ptr=new vecteur();
+    return *ptr;
+  }
+  gen _set_pixel(const gen & a_,GIAC_CONTEXT){
+    gen a(a_);
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type==_VECT && a._VECTptr->empty())
+      return pixel_v();
+    if (is_integral(a)){
+      pixel_v().clear();
+      if (a==0) a=vecteur(0);
+      return _pixon(a,contextptr);
+    }
+    else {
+      pixel_v().push_back(_pixon(a,contextptr));
+    }
+    return 1;
+  }
+  static const char _set_pixel_s []="set_pixel";
+  static define_unary_function_eval (__set_pixel,&_set_pixel,_set_pixel_s);
+  define_unary_function_ptr5( at_set_pixel ,alias_at_set_pixel,&__set_pixel,0,true);
+
 #ifdef EMCC_FETCH
   // with emscripten 1.37.28, it does not work
 #include <emscripten/fetch.h>
