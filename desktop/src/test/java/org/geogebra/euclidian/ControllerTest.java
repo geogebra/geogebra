@@ -50,6 +50,7 @@ public class ControllerTest {
 	public void repeatWithDrag() {
 		if (!events.isEmpty()) {
 			reset();
+			app.initDialogManager(false);
 			for (TestEvent evt : events) {
 				if (evt.command != null) {
 					app.getKernel().getAlgebraProcessor()
@@ -71,6 +72,7 @@ public class ControllerTest {
 
 	private static void reset() {
 		app.getKernel().clearConstruction(true);
+		app.initDialogManager(true);
 		app.getActiveEuclidianView().clearView();
 		app.getSettings().beginBatch();
 		app.getActiveEuclidianView().getSettings().reset();
@@ -515,6 +517,12 @@ public class ControllerTest {
 	@Test
 	public void regularPolygonTool() {
 		app.setMode(EuclidianConstants.MODE_REGULAR_POLYGON); // TODO 51
+		app.initDialogManager(false);
+		click(100, 100);
+		click(0, 0);
+		checkContent("A = (2, -2)", "B = (0, 0)", "poly1 = 8",
+				"f = 2.82843", "g = 2.82843", "C = (-2, -2)", "D = (0, -4)",
+				"h = 2.82843", "i = 2.82843");
 	}
 
 	@Test

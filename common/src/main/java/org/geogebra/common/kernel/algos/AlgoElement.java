@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.commands.Commands;
@@ -121,7 +122,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 *            Output length
 	 * 
 	 */
-	protected void setOutputLength(int n) {
+	protected final void setOutputLength(int n) {
 		output = new GeoElement[n];
 	}
 
@@ -145,7 +146,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param geo
 	 *            output geo
 	 */
-	protected void setOutput(int i, GeoElement geo) {
+	protected final void setOutput(int i, GeoElement geo) {
 		output[i] = geo;
 	}
 
@@ -1905,6 +1906,19 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	public boolean mayShowDescriptionInsteadOfDefinition() {
 		return true;
+	}
+
+	/**
+	 * Extract input variables from definition.
+	 * 
+	 * @param unwrap
+	 *            definition
+	 */
+	protected void setInputFrom(ExpressionNode unwrap) {
+		input = unwrap.getGeoElementVariables();
+		if (input == null) {
+			input = new GeoElement[0];
+		}
 	}
 
 }

@@ -504,7 +504,7 @@ public class FunctionNVar extends ValidExpression
 	 * 
 	 * @return GeoElements acting as variables
 	 */
-	public GeoElement[] getGeoElementVariables() {
+	public final GeoElement[] getGeoElementVariables() {
 		return expression.getGeoElementVariables();
 	}
 

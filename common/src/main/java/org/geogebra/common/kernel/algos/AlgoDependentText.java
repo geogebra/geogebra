@@ -82,14 +82,13 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = text.getDefinition().getGeoElementVariables();
+		setInputFrom(text.getDefinition());
 		for (int i = 0; i < input.length; i++) {
 			if (input[i].isGeoText()) {
 				((GeoText) input[i]).addTextDescendant(text);
 			}
 		}
-		super.setOutputLength(1);
-		super.setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -67,8 +67,7 @@ public class AlgoDependentVector3D extends AlgoElement3D
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = vec.getDefinition().getGeoElementVariables();
-
+		setInputFrom(vec.getDefinition());
 		setOnlyOutput(vec);
 		setDependencies(); // done by AlgoElement
 	}

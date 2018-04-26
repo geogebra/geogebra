@@ -67,8 +67,7 @@ public class AlgoDependentPoint3D extends AlgoElement3D
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = P.getDefinition().getGeoElementVariables();
-
+		setInputFrom(P.getDefinition());
 		setOnlyOutput(P);
 		setDependencies(); // done by AlgoElement
 	}

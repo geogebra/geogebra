@@ -194,10 +194,7 @@ public class AlgoDependentNumber extends AlgoElement
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = number.getDefinition().getGeoElementVariables();
-		if (input == null) {
-			input = new GeoElement[0];
-		}
+		setInputFrom(number.getDefinition());
 		setOutputLength(1);
 		setOutput(0, number.toGeoElement());
 		setDependencies(); // done by AlgoElement

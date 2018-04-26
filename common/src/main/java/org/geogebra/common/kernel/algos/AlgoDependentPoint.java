@@ -98,10 +98,8 @@ public class AlgoDependentPoint extends AlgoElement
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = P.getDefinition().getGeoElementVariables();
-
-		setOutputLength(1);
-		setOutput(0, P);
+		setInputFrom(P.getDefinition());
+		setOnlyOutput(P);
 		setDependencies(); // done by AlgoElement
 	}
 

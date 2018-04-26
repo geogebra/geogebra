@@ -70,10 +70,8 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = fun.getGeoElementVariables();
-
-		setOutputLength(1);
-		setOutput(0, f);
+		setInputFrom(fun.getExpression());
+		setOnlyOutput(f);
 		setDependencies(); // done by AlgoElement
 	}
 

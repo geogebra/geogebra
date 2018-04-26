@@ -71,10 +71,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = bool.getDefinition().getGeoElementVariables();
-
-		super.setOutputLength(1);
-		super.setOutput(0, bool);
+		setInputFrom(bool.getDefinition());
+		setOnlyOutput(bool);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -66,8 +66,7 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = ((Equation) conic.getDefinition().unwrap()).getRHS()
-				.getGeoElementVariables();
+		setInputFrom(((Equation) conic.getDefinition().unwrap()).getRHS());
 
 		setOnlyOutput(conic);
 		setDependencies(); // done by AlgoElement

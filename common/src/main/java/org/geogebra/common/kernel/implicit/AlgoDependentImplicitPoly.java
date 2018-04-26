@@ -327,7 +327,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		if (input == null) {
-			input = geoElement.getDefinition().getGeoElementVariables();
+			setInputFrom(geoElement.getDefinition());
 			dependentFromFunctions = new HashSet<>();
 			addAllFunctionalDescendents(this, dependentFromFunctions,
 					new TreeSet<AlgoElement>());

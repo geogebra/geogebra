@@ -83,10 +83,7 @@ public class AlgoDependentListExpression extends AlgoElement
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = list.getDefinition().getGeoElementVariables();
-		if (input == null) {
-			input = new GeoElement[0];
-		}
+		setInputFrom(list.getDefinition());
 		setOutputLength(1);
 		setOutput(0, list);
 		setDependencies(); // done by AlgoElement

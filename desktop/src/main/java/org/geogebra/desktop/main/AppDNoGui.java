@@ -101,6 +101,7 @@ public class AppDNoGui extends App {
 	private boolean is3Dactive;
 	private EuclidianView3DNoGui ev3d;
 	private SoundManager soundManager;
+	private DialogManager dialogManager;
 
 	/**
 	 * @param loc
@@ -270,8 +271,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public DialogManager getDialogManager() {
-		// TODO Auto-generated method stub
-		return null;
+		return dialogManager;
 	}
 
 	@Override
@@ -829,8 +829,6 @@ public class AppDNoGui extends App {
 					dead.add(f);
 				}
 			}
-
-
 		}
 		Log.debug(stable.size() + StringUtil.join("\n", stable));
 		Log.debug(beta.size() + StringUtil.join("\n", beta));
@@ -843,6 +841,10 @@ public class AppDNoGui extends App {
 	public VideoManager getVideoManager() {
 		// not implemented here.
 		return null;
+	}
+
+	public void initDialogManager(boolean clear) {
+		dialogManager = clear ? null : new DialogManagerNoGui(this);
 	}
 
 }

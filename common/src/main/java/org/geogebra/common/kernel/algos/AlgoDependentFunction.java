@@ -128,10 +128,9 @@ public class AlgoDependentFunction extends AlgoElement
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = fun.getGeoElementVariables();
+		setInputFrom(fun.getExpression());
 		unconditionalInput = fun.getFunctionExpression().getUnconditionalVars();
-		super.setOutputLength(1);
-		super.setOutput(0, f);
+		setOnlyOutput(f);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -77,10 +77,8 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = v.getDefinition().getGeoElementVariables();
-
-		super.setOutputLength(1);
-		super.setOutput(0, v);
+		setInputFrom(v.getDefinition());
+		setOnlyOutput(v);
 		setDependencies(); // done by AlgoElement
 	}
 
