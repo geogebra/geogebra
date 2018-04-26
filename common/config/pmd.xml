@@ -11,8 +11,7 @@
 	<exclude-pattern>.*/com/github/.*</exclude-pattern>
 	<exclude-pattern>.*/com/google/.*</exclude-pattern>
 	<exclude-pattern>.*/edu/uci/.*</exclude-pattern>
-	<exclude-pattern>.*/org/geogebra/common/kernel/parser/.*</exclude-pattern>
-	<exclude-pattern>.*/org/geogebra/common/io/latex/.*</exclude-pattern>
+	<exclude-pattern>.*/org/geogebra/common/kernel/parser/.*</exclude-pattern>	
 	<exclude-pattern>.*/org/geogebra/common/kernel/prover/polynomial/.*</exclude-pattern>
 	<!-- We'll use the entire 'strings' ruleset -->
 	<rule ref="rulesets/java/strings.xml">

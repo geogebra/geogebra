@@ -1335,8 +1335,6 @@ public class Korean {
 	}
 
 	final public static String toHexString(String s) {
-
-		StringBuilder hexSB = new StringBuilder(8);
 		for (int i = 0; i < s.length(); i++) {
 			sb.append(toHexString(s.charAt(i)));
 		}

@@ -8,6 +8,7 @@
   This ruleset checks my code for bad stuff
 	</description>
 	<exclude-pattern>.*/org/mozilla/.*</exclude-pattern>
+	<exclude-pattern>.*/com/himamis/retex/editor/share/io/latex.*</exclude-pattern>
 	<!-- We'll use the entire 'strings' ruleset -->
 	<rule ref="rulesets/java/strings.xml">
 		<exclude name="ConsecutiveAppendsShouldReuse" />
@@ -52,7 +53,6 @@
 	<exclude name="NonThreadSafeSingleton"/>
 	<exclude name="ConfusingTernary"/>
 	<exclude name="SwitchStmtsShouldHaveDefault"/>
-	<exclude name="SwitchDensity"/>
 	<exclude name="UseCollectionIsEmpty"/>
 	<exclude name="ConstantsInInterface"/>
 	<exclude name="CompareObjectsWithEquals"/>
