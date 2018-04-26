@@ -4484,7 +4484,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2346 */
 		case CURRENCY_UNIT:
-			return prerelease;
+			return true;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
