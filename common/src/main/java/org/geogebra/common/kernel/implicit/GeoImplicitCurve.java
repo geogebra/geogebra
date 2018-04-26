@@ -509,8 +509,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (coeff1 != null) {
 			for (int i = coeff1.length - 1; i >= 1; i--) {
 				zs = 0;
-				for (int j = coeff1[i].length - 1; j >= 0; j--) {
-					zs = y * zs + coeff1[i][j];
+				if (coeff1[i] != null) { // from Android reports, cause unknown
+					for (int j = coeff1[i].length - 1; j >= 0; j--) {
+						zs = y * zs + coeff1[i][j];
+					}
 				}
 				sum = sum * x + i * zs;
 			}
@@ -534,8 +536,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (coeff1 != null) {
 			for (int i = coeff1.length - 1; i >= 0; i--) {
 				zs = 0;
-				for (int j = coeff1[i].length - 1; j >= 1; j--) {
-					zs = y * zs + j * coeff1[i][j];
+				if (coeff1[i] != null) { // from Android reports, cause unknown
+					for (int j = coeff1[i].length - 1; j >= 1; j--) {
+						zs = y * zs + j * coeff1[i][j];
+					}
 				}
 				sum = sum * x + zs;
 			}
