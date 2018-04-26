@@ -7,13 +7,6 @@
 	<description>
   This ruleset checks my code for bad stuff
 	</description>
-	<exclude-pattern>.*/org/apache/.*</exclude-pattern>
-	<exclude-pattern>.*/com/github/.*</exclude-pattern>
-	<exclude-pattern>.*/com/google/.*</exclude-pattern>
-	<exclude-pattern>.*/edu/uci/.*</exclude-pattern>
-	<exclude-pattern>.*/org/geogebra/common/kernel/parser/.*</exclude-pattern>
-	<exclude-pattern>.*/org/geogebra/common/io/latex/.*</exclude-pattern>
-	<exclude-pattern>.*/org/geogebra/common/kernel/prover/polynomial/.*</exclude-pattern>
 	<!-- We'll use the entire 'strings' ruleset -->
 	<rule ref="rulesets/java/strings.xml">
 		<exclude name="ConsecutiveAppendsShouldReuse" />
@@ -43,7 +36,6 @@
 	
 	<rule ref="rulesets/java/empty.xml">
 		<exclude name="EmptyCatchBlock"/>
-		<exclude name="EmptyIfStmt"/>
 	</rule>
 	
 	<rule ref="rulesets/java/imports.xml">
@@ -68,7 +60,6 @@
 	<exclude name="NonThreadSafeSingleton"/>
 	<exclude name="ConfusingTernary"/>
 	<exclude name="SwitchStmtsShouldHaveDefault"/>
-	<exclude name="SwitchDensity"/>
 	<exclude name="UseCollectionIsEmpty"/>
 	<exclude name="ConstantsInInterface"/>
 	<exclude name="CompareObjectsWithEquals"/>

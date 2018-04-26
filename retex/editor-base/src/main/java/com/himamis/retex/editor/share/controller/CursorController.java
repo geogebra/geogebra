@@ -165,9 +165,9 @@ public class CursorController {
             // this component has no parent
             // previous component doesn't exist
             // no-op
-
-            // try sequence
-        } else if (container instanceof MathSequence) {
+			return;
+		}
+		if (container instanceof MathSequence) {
             editorState.setCurrentField((MathSequence) container);
             editorState.setCurrentOffset(component.getParentIndex());
 

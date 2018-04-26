@@ -164,8 +164,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				// editor
 				event.preventDefault();
 				setFocus(true);
-				rightAltDown = false;
-				leftAltDown = false;
+				setRightAltDown(false);
+				setLeftAltDown(false);
 
 			}
 		}, MouseDownEvent.getType());
@@ -270,7 +270,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			public void onKeyPress(KeyPressEvent event) {
 				// don't kill Ctrl+V or write V
 				if (controlDown(event) && (event.getCharCode() == 'v'
-						|| event.getCharCode() == 'V') || leftAltDown) {
+						|| event.getCharCode() == 'V') || isLeftAltDown()) {
 
 					event.stopPropagation();
 				} else {
@@ -309,10 +309,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (isRightAlt(event.getNativeEvent())) {
-					rightAltDown = true;
+					setRightAltDown(true);
 				}
 				if (isLeftAlt(event.getNativeEvent())) {
-					leftAltDown = true;
+					setLeftAltDown(true);
 				}
 
 				int code = convertToGWTKeyCode(event.getNativeEvent());
@@ -327,7 +327,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				if (code == JavaKeyCodes.VK_DELETE
 						|| code == JavaKeyCodes.VK_ESCAPE
 						|| handled
-						|| leftAltDown) {
+						|| isLeftAltDown()) {
 					event.preventDefault();
 				}
 				event.stopPropagation();
@@ -347,10 +347,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 */
 	protected void updateAltForKeyUp(KeyUpEvent event) {
 		if (isRightAlt(event.getNativeEvent())) {
-			rightAltDown = false;
+			setRightAltDown(false);
 		}
 		if (isLeftAlt(event.getNativeEvent())) {
-			leftAltDown = false;
+			setLeftAltDown(false);
 		}
 		event.stopPropagation();
 	}
@@ -377,10 +377,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return evt.code == check;
 	}-*/;
 
-	private static native boolean checkNativeKey(NativeEvent evt,
-			String check) /*-{
-		return evt.key == check;
-	}-*/;
 	/**
 	 * @param nativeEvent
 	 *            native event
@@ -390,7 +386,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return checkCode(nativeEvent, "AltLeft");
 	}
 
-	private int convertToGWTKeyCode(NativeEvent evt) {
+	/**
+	 * @param evt
+	 *            native event
+	 * @return java key code
+	 */
+	int convertToGWTKeyCode(NativeEvent evt) {
 
 		int keyCodeGWT = evt.getKeyCode();
 
@@ -411,7 +412,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	protected int getModifiers(
 			com.google.gwt.event.dom.client.KeyEvent<?> event) {
 		return (event.isShiftKeyDown() ? KeyEvent.SHIFT_MASK : 0)
-				+ (controlDown(event) || rightAltDown ? KeyEvent.CTRL_MASK
+				+ (controlDown(event) || isRightAltDown() ? KeyEvent.CTRL_MASK
 						: 0)
 				+ (event.isAltKeyDown() ? KeyEvent.ALT_MASK : 0);
 	}
@@ -771,9 +772,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 					instances.remove(MathFieldW.this);
 					resetFlags();
 					event.stopPropagation();
-					if (onTextfieldBlur != null) {
-						onTextfieldBlur.onBlur(event);
-					}
+					runBlurCallback(event);
 
 				}
 			});
@@ -790,9 +789,18 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	// $wnd.console.log(s);
 	// }-*/;
 
+	/**
+	 * Run blur callback.
+	 */
+	protected void runBlurCallback(BlurEvent event) {
+		if (onTextfieldBlur != null) {
+			onTextfieldBlur.onBlur(event);
+		}
+	}
+
 	protected void resetFlags() {
-		this.rightAltDown = false;
-		this.leftAltDown = false;
+		this.setRightAltDown(false);
+		this.setLeftAltDown(false);
 	}
 
 	public void setOnBlur(BlurHandler run) {
@@ -944,6 +952,36 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	public void requestViewFocus(Runnable runnable) {
 		setEnabled(true);
 		setFocus(true, runnable);
+	}
+
+	/**
+	 * @return whether right alt is down
+	 */
+	protected boolean isRightAltDown() {
+		return rightAltDown;
+	}
+
+	/**
+	 * @param rightAltDown
+	 *            whether right alt is down
+	 */
+	protected void setRightAltDown(boolean rightAltDown) {
+		this.rightAltDown = rightAltDown;
+	}
+
+	/**
+	 * @return whether left alt is down
+	 */
+	protected boolean isLeftAltDown() {
+		return leftAltDown;
+	}
+
+	/**
+	 * @param leftAltDown
+	 *            whether left alt is down
+	 */
+	protected void setLeftAltDown(boolean leftAltDown) {
+		this.leftAltDown = leftAltDown;
 	}
 
 }

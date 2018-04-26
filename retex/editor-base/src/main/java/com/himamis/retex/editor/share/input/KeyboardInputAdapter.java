@@ -163,9 +163,7 @@ public class KeyboardInputAdapter {
             KeyboardAdapter adapter = adapters.get(i);
             adapter.commit(mathFieldInternal, input);
             mathFieldInternal.update();
-        } else {
-            // No adapter found for input
-        }
+		}
     }
 
     public static void onCommandInput(MathFieldInternal mathFieldInternal, String commandName) {

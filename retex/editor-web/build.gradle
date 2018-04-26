@@ -7,6 +7,7 @@ buildscript {
 apply plugin: 'gwt'
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'pmd'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -116,4 +117,10 @@ def deleteDir(dir) {
 // http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
 javadoc {
     options.addStringOption("sourcepath", "")
+}
+
+pmd {
+     ignoreFailures = true
+     ruleSets = []
+     ruleSetFiles = files("config/pmd.xml")
 }

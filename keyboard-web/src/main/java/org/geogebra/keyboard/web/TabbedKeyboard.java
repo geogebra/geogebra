@@ -174,10 +174,7 @@ public class TabbedKeyboard extends FlowPanel {
 			};
 			closeButton.getElement().setAttribute("aria-label",
 					locale.getMenu("Close"));
-			if (hasTooltips) {
-				// closeButton.getElement().setAttribute("data-title",
-				// locale.getMenu("Close"));
-			}
+
 			closeButton.getUpFace().setImage(img);
 			closeButton.getUpHoveringFace().setImage(hoverImg);
 			closeButton.addStyleName("closeTabbedKeyboardButton");
@@ -201,10 +198,7 @@ public class TabbedKeyboard extends FlowPanel {
 			moreButton = new ToggleButton(img, hoverImg);
 			moreButton.getElement().setAttribute("aria-label",
 					locale.getMenu("Commands"));
-			if (hasTooltips) {
-				// moreButton.getElement().setAttribute("data-title",
-				// locale.getMenu("Commands"));
-			}
+
 			moreButton.getUpHoveringFace().setImage(hoverImg);
 			moreButton.addStyleName("moreKeyboardButton");
 			ClickStartHandler.init(moreButton, new ClickStartHandler() {
@@ -469,59 +463,63 @@ public class TabbedKeyboard extends FlowPanel {
 			return functionButton(wb, b);
 		case TEXT:
 		default:
-			String name = wb.getActionName();
-			if (name.equals(Action.TOGGLE_ACCENT_ACUTE.name())) {
-				return accentButton(Accents.ACCENT_ACUTE, b);
-			}
-			if (name.equals(Action.TOGGLE_ACCENT_CARON.name())) {
-				return accentButton(Accents.ACCENT_CARON, b);
-			}
-			if (name.equals(Action.TOGGLE_ACCENT_CIRCUMFLEX.name())) {
-				return accentButton(Accents.ACCENT_CIRCUMFLEX, b);
-			}
-			if (name.equals(Action.TOGGLE_ACCENT_GRAVE.name())) {
-				return accentButton(Accents.ACCENT_GRAVE, b);
-			}
-			if ("*".equals(name)) {
-				return new KeyBoardButtonBase(Unicode.MULTIPLY + "", b);
-			}
-			if ("/".equals(name)) {
-				return new KeyBoardButtonBase(Unicode.DIVIDE + "", b);
-			}
-			if ("|".equals(name)) {
-				return new KeyBoardButtonBase("|a|", "abs", b);
-			}
-			if ("-".equals(name)) {
-				return new KeyBoardButtonBase(Unicode.MINUS + "", b);
-			}
-			if (Unicode.EULER_STRING.equals(name)) {
-				return new KeyBoardButtonBase("e", Unicode.EULER_STRING, b);
-			}
-			if (name.equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name())
-					|| name.equals(Action.SWITCH_TO_ABC.name())) {
-				return functionButton(wb, btnHandler);
-			}
-			if (("" + Unicode.LFLOOR).equals(name)) {
-				return new KeyBoardButtonBase(KeyboardConstants.FLOOR, name,
-						btnHandler);
-			}
-			if (("" + Unicode.LCEIL).equals(name)) {
-				return new KeyBoardButtonBase(KeyboardConstants.CEIL, name,
-						btnHandler);
-			}
-			if (doubleBrackets) {
-				if ("(".equals(name)) {
-					return new KeyBoardButtonBase("(", "()", b);
-				}
-				if ("{".equals(name)) {
-					return new KeyBoardButtonBase("{", "{}", b);
-				}
-				if ("[".equals(name)) {
-					return new KeyBoardButtonBase("[", "[]", b);
-				}
-			}
-			return new KeyBoardButtonBase(name, b);
+			return textButton(wb, b);
 		}
+	}
+
+	private KeyBoardButtonBase textButton(WeightedButton wb, ButtonHandler b) {
+		String name = wb.getActionName();
+		if (name.equals(Action.TOGGLE_ACCENT_ACUTE.name())) {
+			return accentButton(Accents.ACCENT_ACUTE, b);
+		}
+		if (name.equals(Action.TOGGLE_ACCENT_CARON.name())) {
+			return accentButton(Accents.ACCENT_CARON, b);
+		}
+		if (name.equals(Action.TOGGLE_ACCENT_CIRCUMFLEX.name())) {
+			return accentButton(Accents.ACCENT_CIRCUMFLEX, b);
+		}
+		if (name.equals(Action.TOGGLE_ACCENT_GRAVE.name())) {
+			return accentButton(Accents.ACCENT_GRAVE, b);
+		}
+		if ("*".equals(name)) {
+			return new KeyBoardButtonBase(Unicode.MULTIPLY + "", b);
+		}
+		if ("/".equals(name)) {
+			return new KeyBoardButtonBase(Unicode.DIVIDE + "", b);
+		}
+		if ("|".equals(name)) {
+			return new KeyBoardButtonBase("|a|", "abs", b);
+		}
+		if ("-".equals(name)) {
+			return new KeyBoardButtonBase(Unicode.MINUS + "", b);
+		}
+		if (Unicode.EULER_STRING.equals(name)) {
+			return new KeyBoardButtonBase("e", Unicode.EULER_STRING, b);
+		}
+		if (name.equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name())
+				|| name.equals(Action.SWITCH_TO_ABC.name())) {
+			return functionButton(wb, btnHandler);
+		}
+		if (("" + Unicode.LFLOOR).equals(name)) {
+			return new KeyBoardButtonBase(KeyboardConstants.FLOOR, name,
+					btnHandler);
+		}
+		if (("" + Unicode.LCEIL).equals(name)) {
+			return new KeyBoardButtonBase(KeyboardConstants.CEIL, name,
+					btnHandler);
+		}
+		if (doubleBrackets) {
+			if ("(".equals(name)) {
+				return new KeyBoardButtonBase("(", "()", b);
+			}
+			if ("{".equals(name)) {
+				return new KeyBoardButtonBase("{", "{}", b);
+			}
+			if ("[".equals(name)) {
+				return new KeyBoardButtonBase("[", "[]", b);
+			}
+		}
+		return new KeyBoardButtonBase(name, b);
 	}
 
 	private static KeyBoardButtonBase accentButton(String accent,
