@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 import com.google.j2objc.annotations.WeakOuter;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -887,8 +888,22 @@ public final class DrawDropDownList extends CanvasDrawable
 			return visible;
 		}
 
-		boolean setVisible(boolean visible) {
+		private void readOpenText(){
+			StringBuilder sb = new StringBuilder();		
+			String arg[] = { geoList.getNameDescription() };
+			sb.append(geoList.getKernel().getApplication().getLocalization().getPlainArray("DropDownOpened",
+					"Drop down " + arg[0] + " opened", arg));
+			sb.append(geoList.getKernel().getApplication().getLocalization().getMenuDefault("PressArrowsToGo",
+					"Press up arrow and down arrow to go to different options."));
+			sb.append(geoList.getKernel().getApplication().getLocalization().getMenuDefault("PressEnterToSelect",
+					"Press enter to select."));
+			geoList.getKernel().getApplication().getActiveEuclidianView().readText(sb.toString());
+		}
 
+		boolean setVisible(boolean visible) {
+			if (geoList.getKernel().getApplication().has(Feature.READ_DROPDOWNS) && visible) {
+				readOpenText();
+			}
 			boolean repaintNeeded = this.visible != visible;
 
 			this.visible = visible;
@@ -1462,9 +1477,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	 *            change visibility of dropdown items
 	 */
 	private boolean setOptionsVisible(boolean optionsVisible) {
-
 		return drawOptions.setVisible(optionsVisible);
-
 	}
 
 	/**
