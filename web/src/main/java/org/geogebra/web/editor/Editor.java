@@ -41,7 +41,6 @@ public class Editor implements EntryPoint, MathFieldListener {
 		CreateLibrary.exportLibrary(library, opentype);
 		addEditorFunction(this);
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
-
 	}
 
 	/**
@@ -101,7 +100,6 @@ public class Editor implements EntryPoint, MathFieldListener {
 	@Override
 	public void onEnter() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

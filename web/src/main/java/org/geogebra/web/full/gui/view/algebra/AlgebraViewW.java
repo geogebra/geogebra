@@ -186,15 +186,14 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			initGUI((AlgebraControllerW) algCtrl);
 		}
 
-			app.getSelectionManager()
-					.addSelectionListener(new GeoElementSelectionListener() {
-						@Override
-						public void geoElementSelected(GeoElement geo,
-								boolean addToSelection) {
-							updateSelection();
-						}
-					});
-
+		app.getSelectionManager()
+				.addSelectionListener(new GeoElementSelectionListener() {
+					@Override
+					public void geoElementSelected(GeoElement geo,
+							boolean addToSelection) {
+						updateSelection();
+					}
+				});
 	}
 
 	/**
@@ -491,7 +490,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				collapsedNodes.add(i);
 			}
 		}
-
 	}
 
 	/**
@@ -573,7 +571,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			sb.append(sbXML);
 			sb.append("</algebraView>\n");
 		}
-
 	}
 
 	private void setCollapsedNodes(int[] collapsedNodes) {
@@ -1031,7 +1028,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			layerNodesMap.remove(i);
 			parent.remove();
 		}
-
 	}
 
 	private void addRadioTreeItem(TreeItem parent, RadioTreeItem node) {
@@ -1203,7 +1199,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 		showAlgebraInput(false);
 		maxItemWidth = 0;
-
 	}
 
 	/**
@@ -1414,13 +1409,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -1667,7 +1660,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 		RadioTreeItem.as(node).selectItem(select);
-
 	}
 
 	/**
@@ -1720,7 +1712,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public void cancelEditItem() {
 		editItem = false;
 		setAnimationEnabled(true);
-
 	}
 
 	@Override
@@ -1859,7 +1850,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -1954,7 +1944,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (activeItem != null) {
 			activeItem.updateButtonPanelPosition();
 		}
-
 	}
 
 	/**
@@ -2087,7 +2076,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		TreeItem node = nodeTable.get(geo);
 		RadioTreeItem.as(node).selectItem(false);
 		selectRow(geo, false);
-
 	}
 
 	@Override
@@ -2244,7 +2232,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			avParent.setWidgetSize(avDockPanel.asWidget(), w);
 			avDockPanel.deferredOnResize();
 		}
-
 	}
 
 	/**
@@ -2277,7 +2264,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public void setLaTeXLoaded() {
 		latexLoaded = true;
-
 	}
 
 	/**
@@ -2305,7 +2291,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public void setUserWidth(int userWidth) {
 		MinMaxPanel.closeMinMaxPanel();
 		this.userWidth = userWidth;
-
 	}
 
 	/**

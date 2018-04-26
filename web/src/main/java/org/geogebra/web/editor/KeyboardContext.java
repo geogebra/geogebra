@@ -13,7 +13,6 @@ public class KeyboardContext implements HasKeyboard {
 	@Override
 	public void updateKeyboardHeight() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -66,7 +65,6 @@ public class KeyboardContext implements HasKeyboard {
 	@Override
 	public void updateCenterPanelAndViews() {
 		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -53,7 +53,6 @@ public class CASgiacW extends CASgiac {
 		} else {
 			Log.debug("CAS not possible");
 		}
-
 	}
 
 	@Override
@@ -149,7 +148,6 @@ public class CASgiacW extends CASgiac {
 		}
 
 		return nativeEvaluateRaw(giacCommand, showOutput);
-
 	}
 
 	private native String setUpInitCAS(String ggbApplet) /*-{
@@ -189,7 +187,6 @@ public class CASgiacW extends CASgiac {
 
 	private boolean casLoaded() {
 		return nativeCASloaded() || externalCAS();
-
 	}
 
 	private native boolean nativeCASloaded() /*-{

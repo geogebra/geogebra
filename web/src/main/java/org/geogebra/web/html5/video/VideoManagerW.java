@@ -232,7 +232,6 @@ public class VideoManagerW implements VideoManager {
 		return player.contentWindow != null;
 	}-*/;
 
-
 	@Override
 	public void backgroundAll() {
 		if (players.isEmpty()) {

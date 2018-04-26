@@ -1497,105 +1497,11 @@ public class GeoGebraCasIntegrationTest {
 
   // TODO Abstract, as well?
 
-
-  /* FractionalPart */
-
-  @Test
-  public void FractionalPart_0 () {
-    t("FractionalPart[6/5]", "1 / 5");
-  }
-
-  @Test
-  public void FractionalPart_1 () {
-    t("FractionalPart[1/5 + 3/2 + 2]", "7 / 10");
-  }
-
-  @Test
-  public void FractionalPart_2 () {
-    t("FractionalPart[-14/5]", "(-4) / 5");
-  }
-
-
-  /* GCD */
-
-  /* Constants only */
-
-  @Test
-  public void GCD_ConstantsOnly_0 () {
-    t("GCD[12, 15]", "3");
-  }
-
-  @Test
-  public void GCD_ConstantsOnly_1 () {
-    t("GCD[{12, 30, 18}]", "6");
-  }
-
-  /* Variables */
-
-  @Test
-  public void GCD_Variables_0 () {
-    t("GCD[x^2 + 4 x + 4, x^2 - x - 6]", "x + 2");
-  }
-
-  @Test
-  public void GCD_Variables_1 () {
-    t("GCD[{x^2 + 4 * x + 4, x^2 - x - 6, x^3 - 4 * x^2 - 3 * x + 18}]", "x + 2");
-  }
-
-
-  /* HyperGeometric */
-
-  /* Non-Cumulative */
-
-  @Test
-  public void HyperGeometric_NonCumulative_0 () {
-    t("HyperGeometric[10, 2, 2, 0, false]", "28 / 45");
-  }
-
-  @Test
-  public void HyperGeometric_NonCumulative_1 () {
-    t("HyperGeometric[10, 2, 2, 1, false]", "16 / 45");
-  }
-
-  @Test
-  public void HyperGeometric_NonCumulative_2 () {
-    t("HyperGeometric[10, 2, 2, 2, false]", "1 / 45");
-  }
-
-  @Test
-  public void HyperGeometric_NonCumulative_3 () {
-    t("HyperGeometric[10, 2, 2, 3, false]", "0");
-  }
-
   /* Cumulative */
 
-  @Test
-  public void HyperGeometric_Cumulative_0 () {
-    t("HyperGeometric[10, 2, 2, 0, true]", "28 / 45");
-  }
-
-  @Test
-  public void HyperGeometric_Cumulative_1 () {
-    t("HyperGeometric[10, 2, 2, 1, true]", "44 / 45");
-  }
-
-  @Test
-  public void HyperGeometric_Cumulative_2 () {
-    t("HyperGeometric[10, 2, 2, 2, true]", "1");
-  }
-
-  @Test
-  public void HyperGeometric_Cumulative_3 () {
-    t("HyperGeometric[10, 2, 2, 3, true]", "1");
-  }
 
 
   /* Identity */
-
-  @Test
-  public void Identity_0 () {
-    t("Identity[3]", "{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
-  }
 
   @Test
   public void Identity_1 () {
@@ -1621,26 +1527,6 @@ public class GeoGebraCasIntegrationTest {
   }
 
 
-  /* Imaginary */
-
-  @Test
-  public void Imaginary_0 () {
-    t("Imaginary[17 + 3  \u03af]", "3");
-  }
-
-
-  /* ImplicitDerivative */
-
-  @Test
-  public void ImplicitDerivative_0 () {
-    t("ImplicitDerivative[x + y + 5, y, x]", "-1");
-  }
-
-  @Test
-  public void ImplicitDerivative_1 () {
-    t("ImplicitDerivative[x^2 + y^2, y, x]", "(-x) / y");
-  }
-
 
   /* Integral */
 
@@ -1662,131 +1548,10 @@ public class GeoGebraCasIntegrationTest {
     s("Integral[-x^3 + x^2]", "(-1) / 4 * x^(4) + 1 / 3 * x^(3) + c_INDEX");
   }
 
-  /* Definite Integral */
-
-  @Test
-  public void Integral_Definite_0 () {
-    t("Integral[cos(x), x, a, b]", "-sin(a) + sin(b)");
-  }
-
-  @Test
-  public void Integral_Definite_1 () {
-    t("Integral[cos(t), t, a, b]", "-sin(a) + sin(b)");
-  }
-
-
-  /* IntegralBetween */
-
-  @Test
-  public void IntegralBetween_0 () {
-		t("IntegralBetween[sin(x), cos(x), pi / 4, pi * 5 / 4]", "sqrt(2) * 2",
-				"4 / sqrt(2)",
-				"2 * sqrt(2)");
-  }
-
-  @Test
-  public void IntegralBetween_1 () {
-		t("IntegralBetween[a * sin(t), a * cos(t), t, pi / 4, pi * 5 / 4]",
-				"sqrt(2) * 2 * a", "2 * a * sqrt(2)", "2 * sqrt(2) * a");
-  }
-
   @Test
   public void Intersect () {
     t("Intersect[m_1 x + b_1 , m_2 x +b_2 ]", "{((-b_1 + b_2) / (m_1 - m_2), (-b_1 * m_2 + b_2 * m_1) / (m_1 - m_2))}");
   }
-
-
-  /* Invert */
-
-  /* Constants Only */
-
-  @Test
-  public void Invert_ConstantsOnly_0 () {
-    t("Invert[{{1, 2}, {3, 4}}]", "{{-2, 1}, {3 / 2, (-1) / 2}}");
-  }
-
-  /* Variables */
-
-  @Test
-  public void Invert_Variables_0 () {
-    t("Invert[{{a, b}, {c, d}}]", "{{d / (a * d - b * c), (-b) / (a * d - b * c)}, {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
-  }
-
-
-  /* IsPrime */
-
-  @Test
-  public void IsPrime_0 () {
-    t("IsPrime[-11]", "false");
-  }
-
-  @Test
-  public void IsPrime_1 () {
-    t("IsPrime[-10]", "false");
-  }
-
-  @Test
-  public void IsPrime_2 () {
-    t("IsPrime[-2]", "false");
-  }
-
-  @Test
-  public void IsPrime_3 () {
-    t("IsPrime[-1]", "false");
-  }
-
-  @Test
-  public void IsPrime_4 () {
-    t("IsPrime[0]", "false");
-  }
-
-  @Test
-  public void IsPrime_5 () {
-    t("IsPrime[1]", "false");
-  }
-
-  @Test
-  public void IsPrime_6 () {
-    t("IsPrime[2]", "true");
-  }
-
-  @Test
-  public void IsPrime_7 () {
-    t("IsPrime[10]", "false");
-  }
-
-  @Test
-  public void IsPrime_8 () {
-    t("IsPrime[11]", "true");
-  }
-
-
-  /* Last */
-
-  /* Constants Only */
-
-  @Test
-  public void Last_ConstantsOnly_0 () {
-    t("Last[{1, 4, 3}]", "{3}");
-  }
-
-  @Test
-  public void Last_ConstantsOnly_1 () {
-    t("Last[{1, 4, 3}, 2]", "{4, 3}");
-  }
-
-  /* Variables */
-
-  @Test
-  public void Last_Variables_0 () {
-    t("Last[{a, b, c, d}]", "{d}");
-  }
-
-  @Test
-  public void Last_Variables_1 () {
-    t("Last[{a, b, c, d}, 2]", "{c, d}");
-  }
-
 
   /* LeftSide */
 

@@ -233,7 +233,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					loc.getMenu("Settings")),
 					loc.getMenu("Settings"));
 		}
-
 	}
 
 	private void addDeleteItem() {
@@ -258,7 +257,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}, MainMenu.getMenuBarHtml(img, loc.getMenu("Delete")),
 					loc.getMenu("Delete"));
 		}
-
 	}
 
 	private void addAnimationItem() {
@@ -286,7 +284,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbItem);
 		}
-
 	}
 
 	private void addAuxiliaryItem() {
@@ -308,7 +305,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			wrappedPopup.addItem(cbItem);
 
 		}
-
 	}
 
 	private void addSpreadsheetTraceItem() {
@@ -364,7 +360,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				wrappedPopup.addItem(cbItem);
 			}
 		}
-
 	}
 
 	private void addTraceItem() {
@@ -423,7 +418,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				wrappedPopup.addItem(cbItem);
 			}
 		}
-
 	}
 
 	private void addShowLabelItem() {
@@ -444,7 +438,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			cbItem.setSelected(isLabelShown(), wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbItem);
 		}
-
 	}
 
 	private void addShowObjectItem() {
@@ -467,7 +460,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			wrappedPopup.addItem(cbItem);
 
 		}
-
 	}
 
 	private void addLock() {
@@ -556,7 +548,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbItem);
 		}
-
 	}
 
 	private void addRename() {
@@ -606,7 +597,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}, MainMenu.getMenuBarHtml(img2, loc.getMenu("Edit")),
 					loc.getMenu("Edit"));
 		}
-
 	}
 
 	private void addObjectPropertiesMenu() {
@@ -657,7 +647,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		}
 		// wrappedPopup.addSeparator();
-
 	}
 
 	private void addPinAndFixObject() {
@@ -1040,7 +1029,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		};
 		addAction(action, null, app.getLocalization().getPlain("ShowAas2DView",
 				getGeo().getLabelSimple()));
-
 	}
 
 	private void addUserInputItem() {
@@ -1095,7 +1083,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			};
 			addAction(action, null, loc.getMenu("ExpandedForm"));
 		}
-
 	}
 
 	private void addNumberItems() {
@@ -1274,7 +1261,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			};
 			addAction(action, null, sb.toString());
 		}
-
 	}
 
 	private void addCoordsModeItems() {
@@ -1345,7 +1331,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addAction(action, null, loc.getMenu("Spherical"));
 			break;
 		}
-
 	}
 
 	/**

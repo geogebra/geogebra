@@ -43,21 +43,18 @@ public class MathFieldProcessing implements KeyboardListener {
 	@Override
 	public void setFocus(boolean focus) {
 		mf.setFocus(focus);
-
 	}
 
 	@Override
 	public void onEnter() {
 		mf.getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_ENTER));
 		mf.getKeyListener().onKeyReleased(new KeyEvent(JavaKeyCodes.VK_ENTER));
-
 	}
 
 	@Override
 	public void onBackSpace() {
 		mf.getKeyListener()
 				.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_BACK_SPACE));
-
 	}
 
 	@Override
@@ -66,7 +63,6 @@ public class MathFieldProcessing implements KeyboardListener {
 				: JavaKeyCodes.VK_RIGHT;
 
 		mf.getKeyListener().onKeyPressed(new KeyEvent(arrowType));
-
 	}
 
 	@Override
@@ -112,7 +108,6 @@ public class MathFieldProcessing implements KeyboardListener {
 			}
 			type(text);
 		}
-
 	}
 
 	private void type(String text) {
@@ -125,13 +120,11 @@ public class MathFieldProcessing implements KeyboardListener {
 				|| "[]".equals(text))) {
 			onArrow(ArrowType.left);
 		}
-
 	}
 
 	@Override
 	public void scrollCursorIntoView() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -143,13 +136,11 @@ public class MathFieldProcessing implements KeyboardListener {
 	@Override
 	public void updateForNewLanguage(KeyboardLocale localization) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setKeyBoardModeText(boolean text) {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -163,7 +154,6 @@ public class MathFieldProcessing implements KeyboardListener {
 			mf.selectNextArgument();
 			mf.setFocus(true);
 		}
-
 	}
 
 	@Override
@@ -174,7 +164,6 @@ public class MathFieldProcessing implements KeyboardListener {
 	@Override
 	public void endEditing() {
 		mf.blur();
-
 	}
 
 	@Override
@@ -185,7 +174,6 @@ public class MathFieldProcessing implements KeyboardListener {
 	@Override
 	public void onKeyboardClosed() {
 		// TODO Auto-generated method stub
-
 	}
 
 }
