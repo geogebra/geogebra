@@ -5730,7 +5730,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   }
   static const char _caseval_s []="caseval";
   static define_unary_function_eval (__caseval,&_caseval,_caseval_s);
-  define_unary_function_ptr5( at_caseval ,alias_at_caseval,&__caseval,_QUOTE_ARGUMENTS,true);
+  define_unary_function_ptr5( at_caseval ,alias_at_caseval,&__caseval,0,true);
 
   gen scalarproduct(const vecteur & a,const vecteur & b,GIAC_CONTEXT){
     vecteur::const_iterator ita=a.begin(), itaend=a.end();
