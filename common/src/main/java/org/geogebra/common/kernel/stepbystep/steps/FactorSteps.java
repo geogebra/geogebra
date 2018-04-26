@@ -19,7 +19,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 	SPLIT_PRODUCTS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn.isOperation(Operation.PLUS)) {
+			if (sn.isOperation(Operation.PLUS)
+					&& !tracker.isMarked(sn, RegroupTracker.MarkType.FACTOR)) {
 				StepOperation so = (StepOperation) sn;
 
 				List<StepExpression> commonBases = new ArrayList<>();
@@ -87,6 +88,10 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					sb.add(SolutionStepType.SPLIT_PRODUCTS);
 				}
 
+				if (!result.equals(sn)) {
+					tracker.incColorTracker();
+				}
+
 				tracker.addMark(result, RegroupTracker.MarkType.FACTOR);
 				return result;
 			}
@@ -98,7 +103,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 	FACTOR_COMMON {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn.isOperation(Operation.PLUS) && tracker.isMarked(sn, RegroupTracker.MarkType.FACTOR)) {
+			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
 				StepExpression common = so.getOperand(0);
@@ -299,9 +304,10 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					StepExpression b = third.getSquareRoot();
 					StepExpression _2ab = multiply(2, multiply(a, b));
 
-					if (isEqual(subtract(second, _2ab).regroup(), 0) || isEqual(add(second, _2ab).regroup(), 0)) {
-						boolean negative = isEqual(add(second, _2ab).regroup(), 0);
+					boolean positive = isEqual(subtract(second, _2ab).weakRegroup(), 0);
+					boolean negative = !positive && isEqual(add(second, _2ab).weakRegroup(), 0);
 
+					if (positive || negative) {
 						if (second.equals(_2ab) || second.equals(_2ab.negate())) {
 							if (second.isOperation(Operation.MINUS)) {
 								second = ((StepOperation) second).getOperand(0);
@@ -626,7 +632,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					COMPLETING_THE_SQUARE,
-					FACTOR_BINOM_SQUARED
+					FACTOR_BINOM_SQUARED,
 			};
 
 			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
@@ -638,7 +644,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					REORGANIZE_POLYNOMIAL,
-					FACTOR_POLYNOMIAL
+					FACTOR_POLYNOMIAL,
 			};
 
 			return StepStrategies.implementGroup(sn, SolutionStepType.FACTOR_POLYNOMIAL, strategy, sb, tracker);
@@ -649,8 +655,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
+					SPLIT_PRODUCTS,
 					FACTOR_COMMON,
-					SPLIT_PRODUCTS
 			};
 
 			return StepStrategies.implementGroup(sn, SolutionStepType.FACTOR_COMMON, strategy, sb, tracker);

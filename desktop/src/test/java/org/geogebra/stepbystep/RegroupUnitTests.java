@@ -26,9 +26,9 @@ public class RegroupUnitTests {
     public void regroupProductsTest() {
         regroupProduct("2*3*4", "24");
         regroupProduct("2*2*2", "8");
-        regroupProduct("2*2^2", "(2)^(3)");
-        regroupProduct("2*2*2^3", "(2)^(5)");
-        regroupProduct("sqrt(2*2)", "nroot((2)^(2), 2)");
+        regroupProduct("2*2^2", "(2)^((1 + 2))");
+        regroupProduct("2*2*2^3", "(2)^((1 + 1 + 3))");
+        regroupProduct("sqrt(2*2)", "nroot((2)^((1 + 1)), 2)");
     }
 
     @Test

@@ -144,7 +144,6 @@ public class SolveStepTest {
 		t("sqrt(1+ sqrt(1+ sqrt(1+ sqrt(x))))", "5", "x", "x = 109312229376");
 		t("sqrt(1+sqrt(x))", "10", "x", "x = 9801");
 		t("1+ sqrt(1+ sqrt(1+ sqrt(x)))", "5", "x", "x = 50176");
-
 	}
 
 	@Test
@@ -273,8 +272,6 @@ public class SolveStepTest {
 		}
 
 		steps.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
-
-		Log.error(Arrays.toString(solutions));
 
 		Assert.assertEquals(expectedSolutions.length, solutions.length);
 

@@ -52,8 +52,7 @@ public enum FractionSteps implements SimplificationStepGenerator {
                     if (!newDenominator.equals(currentDenominator)) {
                         wasChanged = true;
 
-                        StepExpression toExpand = divide(newDenominator, operand.getDenominator());
-                        toExpand = toExpand.regroup();
+                        StepExpression toExpand = newDenominator.quotient(currentDenominator);
                         toExpand.setColor(tempTracker++);
 
                         StepExpression oldNumerator;
@@ -147,8 +146,12 @@ public enum FractionSteps implements SimplificationStepGenerator {
                     RegroupSteps.SIMPLIFY_FRACTIONS
             };
 
-            return StepStrategies.implementGroup(sn, SolutionStepType.ADD_FRACTIONS, fractionAddition,
-                    sb, tracker);
+            if (RegroupSteps.contains(sn, Operation.DIVIDE)) {
+                return StepStrategies.implementGroup(sn, SolutionStepType.ADD_FRACTIONS, fractionAddition,
+                        sb, tracker);
+            }
+
+            return sn;
         }
     };
 

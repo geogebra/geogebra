@@ -565,14 +565,16 @@ public abstract class Localization {
 				int pos = str.charAt(i) - '0';
 
 				if (mathMode) {
-					sb.append(args[pos]);
+					if (pos >= 0 && pos < args.length) {
+						sb.append(args[pos]);
+					}
 				} else {
 					if (sb.length() != 0) {
 						result.add(sb.toString());
 						sb.setLength(0);
 					}
 
-					if ((pos >= 0) && (pos < args.length)) {
+					if (pos >= 0 && pos < args.length) {
 						result.add("$" + args[pos]);
 					}
 				}

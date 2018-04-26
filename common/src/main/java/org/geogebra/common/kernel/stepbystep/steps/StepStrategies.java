@@ -62,70 +62,54 @@ public class StepStrategies {
 		return defaultDifferentiate(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy,
-											 RegroupTracker tracker) {
+	public static StepNode implementGroup(StepNode sn, SolutionStepType groupHeader, SimplificationStepGenerator[]
+			strategy, SolutionBuilder sb, RegroupTracker tracker) {
 		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
-		StepNode newSn;
-
+		SolutionBuilder substeps = new SolutionBuilder();
 		sn.cleanColors();
-		for (SimplificationStepGenerator simplificationStep : strategy) {
-			newSn = simplificationStep.apply(sn, changes, tracker);
 
-			if (printDebug) {
-				if (tracker.wasChanged()) {
-					System.out.println("changed at " + simplificationStep);
-					System.out.println("from: " + sn);
-					System.out.println("to: " + newSn);
-				}
-			}
+		StepNode current = null, old = sn.deepCopy();
+		do {
+			tracker.resetTracker();
+			for (SimplificationStepGenerator simplificationStep : strategy) {
+				current = simplificationStep.apply(old, changes, tracker);
 
-			if (tracker.wasChanged()) {
-				if (sb != null) {
-					if (simplificationStep.isGroupType()) {
-						sb.addAll(changes.getSteps());
+				if (printDebug) {
+					if (tracker.wasChanged()) {
+						System.out.println("changed at " + simplificationStep);
+						System.out.println("from: " + old);
+						System.out.println("to: " + current);
 					} else {
-						sb.addSubsteps(sn, newSn, changes);
+						//System.out.println("unchanged at " + simplificationStep);
 					}
 				}
 
-				tracker.resetTracker();
-				sn.cleanColors();
-				newSn.cleanColors();
-				return newSn;
+				if (tracker.wasChanged()) {
+					if (simplificationStep.isGroupType()) {
+						substeps.addAll(changes.getSteps());
+					} else {
+						substeps.addSubsteps(old, current, changes);
+					}
+
+					old = current;
+
+					changes.reset();
+					break;
+				}
 			}
-		}
+		} while (tracker.wasChanged2());
 
-		return sn;
-	}
-
-	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy) {
-		return implementStrategy(sn, sb, strategy, new RegroupTracker());
-	}
-
-	public static StepNode implementGroup(StepNode sn, SolutionStepType groupHeader, SimplificationStepGenerator[]
-			strategy, SolutionBuilder sb, RegroupTracker tracker) {
-		SolutionBuilder tempSteps = new SolutionBuilder();
-
-		String old, current = null;
-		StepNode result = sn;
-		do {
-			result = StepStrategies.implementStrategy(result, tempSteps, strategy, tracker);
-
-			old = current;
-			current = result.toString();
-		} while (!current.equals(old));
-
-		if (!result.equals(sn)) {
+		if (!sn.equals(current)) {
 			if (sb != null && groupHeader != null) {
-				sb.addGroup(groupHeader, tempSteps, result);
+				sb.addGroup(groupHeader, substeps, current);
 			} else if (sb != null) {
-				sb.addAll(tempSteps.getSteps());
+				sb.addAll(substeps.getSteps());
 			}
 
 			tracker.incColorTracker();
-			return result;
+			return current;
 		}
 
 		return sn;
@@ -188,7 +172,7 @@ public class StepStrategies {
 
 	public static List<StepSolution> implementSolveStrategy(StepSolvable se, StepVariable variable, SolutionBuilder sb,
 			SolveStepGenerator[] strategy, SolveTracker tracker) {
-		final boolean printDebug = true;
+		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
 

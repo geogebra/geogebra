@@ -6,6 +6,8 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 
+import java.util.Arrays;
+
 public class StepMatrix extends StepNode {
 
     private StepExpression[][] data;
@@ -74,6 +76,25 @@ public class StepMatrix extends StepNode {
                 this.data[i][j] = data[i][j].deepCopy();
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof StepMatrix) {
+            StepMatrix sm = (StepMatrix) obj;
+
+            return isAugmented == sm.isAugmented
+                    && Arrays.deepEquals(data, sm.data);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.deepHashCode(data);
+        result = 31 * result + (isAugmented ? 1 : 0);
+        return result;
     }
 
     public int getHeight() {
@@ -165,6 +186,20 @@ public class StepMatrix extends StepNode {
             sm.setAugmented();
         }
         return sm;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (StepExpression[] row : data) {
+            sb.append("\n");
+            for (StepExpression element : row) {
+                sb.append(element);
+                sb.append(" ");
+            }
+        }
+
+        return sb.toString();
     }
 
     @Override

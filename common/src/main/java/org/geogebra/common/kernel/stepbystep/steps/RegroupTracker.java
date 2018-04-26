@@ -2,8 +2,8 @@ package org.geogebra.common.kernel.stepbystep.steps;
 
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class RegroupTracker {
 
@@ -13,8 +13,9 @@ public class RegroupTracker {
 	private boolean weakFactor;
 	private boolean integerFractions;
 	private boolean strongExpand;
+	private boolean changed;
 
-	private List<Mark> marks;
+	private Set<Mark> marks;
 
 	public enum MarkType {
 		EXPAND,			// marked for expansion
@@ -56,10 +57,10 @@ public class RegroupTracker {
 
 	public void addMark(StepNode toMark, MarkType type) {
 		if (marks == null) {
-			marks = new ArrayList<>();
+			marks = new HashSet<>();
 		}
 
-		marks.add(new Mark(toMark, type));
+		changed |= marks.add(new Mark(toMark, type));
 	}
 
 	public boolean isMarked(StepNode toCheck, MarkType type) {
@@ -106,6 +107,10 @@ public class RegroupTracker {
 		return colorTracker > 1;
 	}
 
+	public boolean wasChanged2() {
+		return changed || colorTracker > 1;
+	}
+
 	public int incColorTracker() {
 		return colorTracker++;
 	}
@@ -119,6 +124,7 @@ public class RegroupTracker {
 	}
 
 	public void resetTracker() {
+		changed = false;
 		this.colorTracker = 1;
 	}
 }

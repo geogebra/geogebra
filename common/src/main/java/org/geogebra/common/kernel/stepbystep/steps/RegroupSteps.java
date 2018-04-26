@@ -8,10 +8,7 @@ import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
-import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
 
 public enum RegroupSteps implements SimplificationStepGenerator {
@@ -1513,7 +1510,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				StepExpression exponent1 = so.getOperand(1);
 				StepExpression exponent2 = ((StepOperation) so.getOperand(0)).getOperand(1);
 
-				StepExpression gcd = StepHelper.GCD(exponent1, exponent2);
+				StepExpression gcd = StepHelper.weakGCD(exponent1, exponent2);
 
 				if (!isOne(gcd)) {
 					exponent1 = exponent1.quotient(gcd);
@@ -1546,7 +1543,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				StepExpression exponent1 = so.getOperand(1);
 				StepExpression exponent2 = ((StepOperation) so.getOperand(0)).getOperand(1);
 
-				StepExpression gcd = StepHelper.GCD(exponent1, exponent2);
+				StepExpression gcd = StepHelper.weakGCD(exponent1, exponent2);
 
 				if (!isOne(gcd)) {
 					exponent1 = exponent1.quotient(gcd);
@@ -1779,7 +1776,11 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					EVEN_POWER_OF_ABSOLUTE_VALUE
 			};
 
-			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
+			if (contains(sn, Operation.ABS)) {
+				return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
+			}
+
+			return sn;
 		}
 	},
 
@@ -1802,26 +1803,6 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
-	SIMPLIFY_FRACTIONS {
-		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
-					TRIVIAL_FRACTIONS,
-					NEGATIVE_FRACTIONS,
-					ELIMINATE_OPPOSITES,
-					REGROUP_SUMS,
-					REGROUP_PRODUCTS,
-					SIMPLE_POWERS,
-					FACTOR_FRACTIONS,
-					FACTOR_MINUS_FROM_SUMS,
-					CANCEL_FRACTION,
-					CANCEL_INTEGER_FRACTION
-			};
-
-			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
-		}
-	},
-
 	REGROUP_PRODUCTS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
@@ -1830,10 +1811,52 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					MULTIPLY_NEGATIVES,
 					MULTIPLY_CONSTANTS,
 					COLLECT_LIKE_TERMS_PRODUCT,
-					REGROUP_SUMS
 			};
 
-			return StepStrategies.implementGroup(sn, SolutionStepType.REGROUP_PRODUCTS, strategy, sb, tracker);
+			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
+		}
+	},
+
+	SIMPLIFY_FRACTIONS {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
+					COMMON_FRACTION,
+					REWRITE_COMPLEX_FRACTIONS,
+					TRIVIAL_FRACTIONS,
+					NEGATIVE_FRACTIONS,
+					ELIMINATE_OPPOSITES,
+					SIMPLE_POWERS,
+					FACTOR_FRACTIONS,
+					FACTOR_MINUS_FROM_SUMS,
+					CANCEL_FRACTION,
+					CANCEL_INTEGER_FRACTION
+			};
+
+			if (contains(sn, Operation.DIVIDE)) {
+				return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
+			}
+
+			return sn;
+		}
+	},
+
+	SIMPLIFY_POWERS {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
+					SIMPLE_POWERS,
+					POWER_OF_NEGATIVE,
+					POWER_OF_POWER,
+					DISTRIBUTE_POWER_OVER_PRODUCT,
+					DISTRIBUTE_POWER_OVER_FRACION,
+			};
+
+			if (contains(sn, Operation.POWER)) {
+				return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
+			}
+
+			return sn;
 		}
 	},
 
@@ -1841,16 +1864,22 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
+					DISTRIBUTE_ROOT_OVER_FRACTION,
+					REWRITE_ROOT_UNDER_POWER,
 					ROOT_OF_ROOT,
 					REWRITE_INTEGER_UNDER_ROOT,
 					REWRITE_POWER_UNDER_ROOT,
 					SPLIT_ROOTS,
 					SIMPLIFY_POWER_OF_ROOT,
 					SIMPLIFY_ROOT_OF_POWER,
-					SIMPLE_ROOTS
+					SIMPLE_ROOTS,
 			};
 
-			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
+			if (contains(sn, Operation.NROOT)) {
+				return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
+			}
+
+			return sn;
 		}
 	},
 
@@ -1872,7 +1901,11 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					RATIONALIZE_COMPLEX_DENOMINATOR
 			};
 
-			return StepStrategies.implementGroup(sn, SolutionStepType.RATIONALIZE_DENOMINATOR, strategy, sb, tracker);
+			if (contains(sn, Operation.DIVIDE)) {
+				return StepStrategies.implementGroup(sn, SolutionStepType.RATIONALIZE_DENOMINATOR, strategy, sb, tracker);
+			}
+
+			return sn;
 		}
 	},
 
@@ -1893,25 +1926,10 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] weakStrategy = new SimplificationStepGenerator[] {
-					RegroupSteps.CALCULATE_INVERSE_TRIGO,
 					RegroupSteps.ELIMINATE_OPPOSITES,
 					RegroupSteps.DOUBLE_MINUS,
-					RegroupSteps.POWER_OF_NEGATIVE,
-					RegroupSteps.DISTRIBUTE_ROOT_OVER_FRACTION,
-					RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
-					RegroupSteps.DISTRIBUTE_POWER_OVER_FRACION,
-					RegroupSteps.EXPAND_ROOT,
-					RegroupSteps.COMMON_ROOT,
-					RegroupSteps.REWRITE_ROOT_UNDER_POWER,
-					RegroupSteps.SIMPLIFY_ROOTS,
-					RegroupSteps.NEGATIVE_FRACTIONS,
-					RegroupSteps.TRIVIAL_FRACTIONS,
-					RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
-					RegroupSteps.COMMON_FRACTION,
 					RegroupSteps.REGROUP_SUMS,
 					RegroupSteps.REGROUP_PRODUCTS,
-					RegroupSteps.SIMPLE_POWERS,
-					RegroupSteps.SIMPLIFY_FRACTIONS,
 			};
 
 			return StepStrategies.implementGroup(sn, null, weakStrategy, sb, tracker);
@@ -1926,25 +1944,15 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					RegroupSteps.ELIMINATE_OPPOSITES,
 					RegroupSteps.DOUBLE_MINUS,
 					RegroupSteps.DISTRIBUTE_MINUS,
-					RegroupSteps.POWER_OF_NEGATIVE,
-					RegroupSteps.POWER_OF_POWER,
 					RegroupSteps.SIMPLIFY_ABSOLUTE_VALUES,
-					RegroupSteps.DISTRIBUTE_ROOT_OVER_FRACTION,
-					RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
-					RegroupSteps.DISTRIBUTE_POWER_OVER_FRACION,
 					RegroupSteps.EXPAND_ROOT,
 					RegroupSteps.COMMON_ROOT,
-					RegroupSteps.REWRITE_ROOT_UNDER_POWER,
+					RegroupSteps.SIMPLIFY_FRACTIONS,
+					RegroupSteps.SIMPLIFY_POWERS,
 					RegroupSteps.SIMPLIFY_ROOTS,
-					RegroupSteps.TRIVIAL_FRACTIONS,
-					RegroupSteps.NEGATIVE_FRACTIONS,
-					RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
 					RegroupSteps.REGROUP_SUMS,
 					RegroupSteps.REWRITE_AS_EXPONENTIAL,
-					RegroupSteps.COMMON_FRACTION,
 					RegroupSteps.REGROUP_PRODUCTS,
-					RegroupSteps.SIMPLE_POWERS,
-					RegroupSteps.SIMPLIFY_FRACTIONS,
 					RegroupSteps.FACTOR_FRACTIONS,
 					ExpandSteps.EXPAND_PRODUCTS,
 					RegroupSteps.RATIONALIZE_DENOMINATORS,
@@ -1971,5 +1979,25 @@ public enum RegroupSteps implements SimplificationStepGenerator {
                 || this == REGROUP_PRODUCTS
                 || this == CONVERT_DECIMAL_TO_FRACTION
 				|| this == SIMPLIFY_ABSOLUTE_VALUES;
+	}
+
+	static boolean contains(StepNode sn, Operation op) {
+		if (sn instanceof StepExpression) {
+			return ((StepExpression) sn).countOperation(op) > 0;
+		} else if (sn instanceof StepSolvable) {
+			return contains(((StepSolvable) sn).getLHS(), op)
+					|| contains(((StepSolvable) sn).getRHS(), op);
+		} else if (sn instanceof StepMatrix) {
+			StepMatrix sm = (StepMatrix) sn;
+			for (int i = 0; i < sm.getHeight(); i++) {
+				for (int j = 0; j < sm.getWidth(); j++) {
+					if (contains(sm.get(i, j), op)) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 }

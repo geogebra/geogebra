@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.stepbystep.steps.RegroupSteps;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public abstract class StepExpression extends StepNode {
 
@@ -103,7 +104,8 @@ public abstract class StepExpression extends StepNode {
 	 */
 	public boolean specialConstant() {
 		return this instanceof StepConstant &&
-				(isEqual(getValue(), Math.PI) || isEqual(getValue(), Math.E) || Double.isInfinite(getValue()));
+				(isEqual(getValue(), Math.PI) || isEqual(getValue(), Math.E)
+						|| Double.isInfinite(getValue()) || Double.isNaN(getValue()));
 	}
 
 	public boolean isUndefined() {
@@ -437,6 +439,10 @@ public abstract class StepExpression extends StepNode {
 	 * @return the quotient of this / se
 	 */
 	public StepExpression quotient(StepExpression expr) {
+		if (expr == null) {
+			return this;
+		}
+
 		if (isInteger() && expr.isInteger()) {
 			return StepConstant.create(Math.floor(getValue() / expr.getValue()));
 		}
@@ -735,6 +741,9 @@ public abstract class StepExpression extends StepNode {
 
 	public int maxDecimal() {
 		if (nonSpecialConstant() && !isInteger()) {
+			if (Double.toString(getValue()).split("\\.").length < 2) {
+				Log.error(Double.toString(getValue()));
+			}
 			return Double.toString(getValue()).split("\\.")[1].length();
 		}
 
@@ -767,6 +776,15 @@ public abstract class StepExpression extends StepNode {
 
 	public StepExpression convertToFractions(SolutionBuilder sb) {
 		return (StepExpression) StepStrategies.convertToFraction(this, sb);
+	}
+
+	public StepExpression weakRegroup() {
+		if (this instanceof StepOperation) {
+			return (StepExpression) RegroupSteps.WEAK_REGROUP
+					.apply(this, null, new RegroupTracker());
+		}
+
+		return this;
 	}
 
 	/**

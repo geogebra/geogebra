@@ -38,7 +38,8 @@ public final class StepConstant extends StepExpression {
 		if (obj instanceof StepConstant) {
 			StepConstant se = (StepConstant) obj;
 
-			return Double.isInfinite(se.value) && Double.isInfinite(value) ||
+			return  Double.isNaN(se.value) && Double.isNaN(value) ||
+					Double.isInfinite(se.value) && Double.isInfinite(value) ||
 					isEqual(se.value, value);
 		}
 
