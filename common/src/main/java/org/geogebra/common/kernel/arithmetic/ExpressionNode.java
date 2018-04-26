@@ -867,7 +867,6 @@ public class ExpressionNode extends ValidExpression
 					Operation.SQRT, null);
 			operation = Operation.MULTIPLY;
 		}
-
 	}
 
 	private void fixPowerFactorial(Operation multiplicativeOperation) {
@@ -879,7 +878,6 @@ public class ExpressionNode extends ValidExpression
 			left = ((ExpressionNode) left).getLeft();
 			operation = Operation.MULTIPLY;
 		}
-
 	}
 
 	@Override
@@ -1360,7 +1358,6 @@ public class ExpressionNode extends ValidExpression
 		}
 
 		return ret;
-
 	}
 
 	/**
@@ -1378,22 +1375,7 @@ public class ExpressionNode extends ValidExpression
 		String ret = null;
 
 		if (leaf) { // leaf is GeoElement or not
-			/*
-			 * if (symbolic) { if (left.isGeoElement()) ret = ((GeoElement)
-			 * left).getLabel(); else if (left.isExpressionNode()) ret =
-			 * ((ExpressionNode)left).printJSCLString(symbolic); else ret =
-			 * left.toString(); } else { ret = left.toValueString(); }
-			 */
-
-			if (symbolic && left.isGeoElement()) {
-				ret = ((GeoElement) left).getLabel(tpl);
-			} else if (left.isExpressionNode()) {
-				ret = ((ExpressionNode) left).getCASstring(tpl, symbolic);
-			} else if (left.isGeoElement() && ((GeoElement) left).getDefinition() != null) {
-				ret = ((GeoElement) left).getDefinition().toValueString(tpl);
-			}else {
-				ret = symbolic ? left.toString(tpl) : left.toValueString(tpl);
-			}
+			ret = getCasString(left, tpl, symbolic, false);
 		}
 
 		// STANDARD case: no leaf
@@ -1405,29 +1387,11 @@ public class ExpressionNode extends ValidExpression
 			// http://www.geogebra.org/forum/viewtopic.php?f=22&t=29017
 			// numerGroup();
 
-			String leftStr = null, rightStr = null;
-			if (symbolic && left.isGeoElement()) {
-				leftStr = ((GeoElement) left).getLabel(tpl);
-			} else if (left.isExpressionNode()) {
-				leftStr = ((ExpressionNode) left).getCASstring(tpl,
-								symbolic);
-					} else {
-				leftStr = symbolic ? left.toString(tpl)
-						: left.toValueString(tpl);
-			}
-
+			String leftStr = getCasString(left, tpl, symbolic, false);
+			String rightStr = null;
+			
 			if (right != null) {
-				if (symbolic && right.isGeoElement()) {
-					rightStr = ((GeoElement) right).getLabel(tpl);
-				} else if (right.isExpressionNode()) {
-					rightStr = ((ExpressionNode) right).getCASstring(tpl,
-							symbolic);
-				} else if (shaveBrackets()) {
-					rightStr = ((MyList) right).toString(tpl, !symbolic, false);
-				} else {
-					rightStr = symbolic ? right.toString(tpl)
-							: right.toValueString(tpl);
-				}
+				rightStr = getCasString(right, tpl, symbolic, true);
 			}
 			// do not send random() to CAS
 			// #4072
@@ -1443,6 +1407,20 @@ public class ExpressionNode extends ValidExpression
 		}
 
 		return ret;
+	}
+
+	private String getCasString(ExpressionValue left2, StringTemplate tpl, boolean symbolic,
+			boolean isRight) {
+		if (symbolic && left2.isGeoElement()) {
+			return ((GeoElement) left2).getLabel(tpl);
+		} else if (left2.isExpressionNode()) {
+			return ((ExpressionNode) left2).getCASstring(tpl, symbolic);
+		} else if (left2.isGeoElement() && ((GeoElement) left2).getDefinition() != null) {
+			return ((GeoElement) left2).getDefinition().toValueString(tpl);
+		} else if (isRight && shaveBrackets()) {
+			return ((MyList) left2).toString(tpl, !symbolic, false);
+		}
+		return symbolic ? left2.toString(tpl) : left2.toValueString(tpl);
 	}
 
 	/**
@@ -1522,7 +1500,6 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private boolean shaveBrackets() {
-		// TODO Auto-generated method stub
 		return (operation == Operation.FUNCTION_NVAR
 				|| operation == Operation.ELEMENT_OF
 				|| (operation == Operation.VEC_FUNCTION
@@ -1533,7 +1510,6 @@ public class ExpressionNode extends ValidExpression
 	/** like toString() but with current values of variables */
 	@Override
 	final public String toValueString(StringTemplate tpl) {
-
 		if (isSecret()) {
 			return isSecret.getDefinition(tpl);
 		}
@@ -3703,7 +3679,6 @@ public class ExpressionNode extends ValidExpression
 			sb.append(rightStr);
 			sb.append(tpl.rightBracket());
 		}
-
 	}
 
 	private static void appendIfCommand(StringBuilder sb, StringTemplate tpl,
@@ -3721,7 +3696,6 @@ public class ExpressionNode extends ValidExpression
 			String rightStr, StringTemplate tpl) {
 		sb.append(leftStr);
 		tpl.appendWithBrackets(sb, rightStr);
-
 	}
 
 	private static void wrapInBackslashOperatorname(StringBuilder sb,
@@ -3730,7 +3704,6 @@ public class ExpressionNode extends ValidExpression
 		sb.append("\\operatorname{");
 		sb.append(cmd);
 		sb.append("}");
-
 	}
 
 	private static void appendFunctionNVar(StringBuilder sb,
@@ -3758,7 +3731,6 @@ public class ExpressionNode extends ValidExpression
 
 			sb.append(tpl.rightBracket());
 		}
-
 	}
 
 	private static String giacDegFix(String string, Kernel kernel) {
@@ -3776,7 +3748,6 @@ public class ExpressionNode extends ValidExpression
 		// send "key" for Giac
 		trig(leftStr, sb, mathml, latex, psTricks, key,
 				libreOffice, key, tpl, loc, needDegrees);
-
 	}
 
 	private static void trig(
@@ -3858,7 +3829,6 @@ public class ExpressionNode extends ValidExpression
 				sb.append(")");
 			}
 		}
-
 	}
 
 	private static void appendFunction(StringBuilder sb, String string) {
@@ -4059,7 +4029,6 @@ public class ExpressionNode extends ValidExpression
 		}
 
 		return 0.0;
-
 	}
 
 	/*
@@ -4089,7 +4058,6 @@ public class ExpressionNode extends ValidExpression
 		default:
 			return false;
 		}
-
 	}
 
 	/**
@@ -5566,7 +5534,6 @@ public class ExpressionNode extends ValidExpression
 			return true;
 		}
 		return false;
-
 	}
 
 	/**
@@ -5641,7 +5608,6 @@ public class ExpressionNode extends ValidExpression
 			parts[1] = null;
 			return;
 		}
-
 	}
 
 	private static ExpressionValue multiplyCheck(ExpressionValue denR,
@@ -5804,7 +5770,6 @@ public class ExpressionNode extends ValidExpression
 
 			}
 		});
-
 	}
 
 	/**
@@ -5998,7 +5963,6 @@ public class ExpressionNode extends ValidExpression
 		} else {
 			resolve = new ExpressionNode(kernel, pi ? Math.PI * ratio : ratio);
 		}
-
 	}
 
 	private String toFractionStringFlat(StringTemplate tpl) {
