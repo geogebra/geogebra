@@ -1765,7 +1765,19 @@ namespace giac {
       test=equaltosame(test).eval(evallevel,contextptr);
       if (!is_integer(test)){
 	test=test.evalf_double(evallevel,contextptr);
-	if ( (test.type!=_DOUBLE_) && (test.type!=_CPLX) ){
+	if (test.type==_VECT && python_compat(contextptr)){
+	  // OR test on a list
+	  const_iterateur it=test._VECTptr->begin(),itend=test._VECTptr->end();
+	  for (;it!=itend;++it){
+	    if (!is_zero(*it,contextptr)){
+	      test=*it;
+	      break;
+	    }
+	  }
+	  if (it==itend)
+	    test=0;
+	}
+	if ( test.type>_CPLX ){
 	  if (isifte){
 	    gensizeerr(gettext("Ifte: Unable to check test"),res); 
 	    return res;

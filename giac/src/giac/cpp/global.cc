@@ -5969,8 +5969,11 @@ unsigned int ConvertUTF8toUTF16 (
 	  continue;
 	if (ch=='#'){
 	  // workaround to declare local variables
-	  if (cur.size()>pos+8 && (cur.substr(pos,8)=="# local " || cur.substr(pos,7)=="#local "))
+	  if (cur.size()>pos+8 && (cur.substr(pos,8)=="# local " || cur.substr(pos,7)=="#local ")){
 	    cur.erase(cur.begin()+pos);
+	    if (cur[pos]==' ')
+	      cur.erase(cur.begin()+pos);	      
+	  }
 	  else
 	    cur=cur.substr(0,pos);
 	  pythonmode=true;
@@ -6220,7 +6223,7 @@ unsigned int ConvertUTF8toUTF16 (
       }
       else {
 	// normal line add ; at end
-	if (pythonmode && pos>=0 && cur[pos]!=';' && cur[pos]!=',' && cur[pos]!='{')
+	if (pythonmode && pos>=0 && cur[pos]!=';' && cur[pos]!=',' && cur[pos]!='{' && cur[pos]!='(' && cur[pos]!='[')
 	  cur = cur +';';
 	if (pythonmode)
 	  convert_python(cur,contextptr);
