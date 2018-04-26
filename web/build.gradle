@@ -212,8 +212,10 @@ task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
 task mergeDeploy(dependsOn: ['compileGwt']){
    description 'merge deploy.js and web3d.nocache.js'
    doLast {
-      String templateJs = "src/main/resources/org/geogebra/web/resources/js/deployggb-template.js"
-      file(warDirRel + "/deployggb.js").text = file(templateJs).text + file("./build/gwt/out/web3d/web3d.nocache.js").text
+      def permutation = file("./build/gwt/out/web3d/deferredjs").listFiles()[0].name;
+      def templateJs = "src/main/resources/org/geogebra/web/resources/js/deployggb-template.js"
+      file(warDirRel + "/deployggb.js").text = file(templateJs).text.replace('%WEB3D_PERMUTATION%', permutation)
+                                                                    .replace('%MODULE_BASE%','web3d/');
    }
 }
 
