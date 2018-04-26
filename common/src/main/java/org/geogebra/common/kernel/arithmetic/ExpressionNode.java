@@ -1389,10 +1389,12 @@ public class ExpressionNode extends ValidExpression
 				ret = ((GeoElement) left).getLabel(tpl);
 			} else if (left.isExpressionNode()) {
 				ret = ((ExpressionNode) left).getCASstring(tpl, symbolic);
-			} else {
+			} else if (left.isGeoElement() && ((GeoElement) left).getDefinition() != null) {
+				ret = ((GeoElement) left).getDefinition().toValueString(tpl);
+			}else {
 				ret = symbolic ? left.toString(tpl) : left.toValueString(tpl);
 			}
-				}
+		}
 
 		// STANDARD case: no leaf
 		else {

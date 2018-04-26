@@ -1399,13 +1399,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdRoot() {
-		t("Root[ polynom1 ]");
-		t("Root[ f1, n1 ]");
-		t("Root[ f1, n2, n3 ]");
-	}
-
-	@Test
 	public void cmdRootList() {
 		t("RootList[ list1 ]");
 	}

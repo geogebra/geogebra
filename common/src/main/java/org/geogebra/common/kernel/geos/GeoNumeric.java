@@ -1204,10 +1204,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public GeoFunction getGeoFunction() {
-		ExpressionNode en = getDefinition() == null
-				? new ExpressionNode(kernel, this)
-				: getDefinition().deepCopy(kernel);
-		Function fun = new Function(en, new FunctionVariable(kernel));
+		Function fun = new Function(wrap(), new FunctionVariable(kernel));
 		GeoFunction ret;
 
 		// we get a dependent function if this number has a label or is

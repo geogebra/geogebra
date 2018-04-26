@@ -1330,7 +1330,20 @@ public class CommandsTest extends Assert{
 		t("A", "(0, 0)", StringTemplate.editTemplate);
 		t("Object[\"B\"]", "(3.14159, 0)", StringTemplate.editTemplate);
 	}
-	
+
+	@Test
+	public void cmdRoot() {
+		t("Root[ x^3-x ]", new String[] { "(-1, 0)", "(0, 0)", "(1, 0)" },
+				StringTemplate.defaultTemplate);
+		t("Root[ sin(x*pi), 1.3 ]", "(1, 0)", StringTemplate.defaultTemplate);
+		t("Root[ sin(x*pi), -3,3 ]",
+				"(0, 0)", StringTemplate.defaultTemplate);
+		t("a:=4/5", "0.8");
+		t("Root(a)", "(NaN, NaN)");
+		t("b:=0/5", "0");
+		t("Root(b)", "(NaN, NaN)");
+	}
+
 	@Test
 	public void cmdDerivative() {
 		t("Derivative[ Curve[sin(t),cos(t),t,0,1] ]",
