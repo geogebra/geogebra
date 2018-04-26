@@ -7336,10 +7336,12 @@ namespace giac {
     else {
       --x;
       if (x<20){
-	long_double a = L9[0];
-	for (int i = 1; i < 9; ++i) {
-	  a+= L9[i]/(x+(long_double)(i));
-	}
+        // CdB Loop manually unrolled due to a IAR compiler bug!
+        long_double a = L9[0] + L9[1]/(x+1.0) + L9[2]/(x+2.0) + L9[3]/(x+3.0) + L9[4]/(x+4.0) + L9[5]/(x+5.0) + L9[6]/(x+6.0) + L9[7]/(x+7.0) + L9[8]/(x+8.0);
+//	long_double a = L9[0];
+//	for (int i = 1; i < 9; ++i) {
+//	  a+= L9[i]/(x+(long_double)(i));
+//	}
 #ifndef HAVE_LONG_DOUBLE
 	res= (LN_SQRT2PI + std::log(a) - 7.) + (x+.5)*(std::log(x+7.5)-1.);
 #else

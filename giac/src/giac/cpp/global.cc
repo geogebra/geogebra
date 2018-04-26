@@ -6220,7 +6220,7 @@ unsigned int ConvertUTF8toUTF16 (
       }
       else {
 	// normal line add ; at end
-	if (pythonmode && pos>=0 && cur[pos]!=';')
+	if (pythonmode && pos>=0 && cur[pos]!=';' && cur[pos]!=',' && cur[pos]!='{')
 	  cur = cur +';';
 	if (pythonmode)
 	  convert_python(cur,contextptr);
