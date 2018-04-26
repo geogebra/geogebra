@@ -6223,7 +6223,7 @@ unsigned int ConvertUTF8toUTF16 (
       }
       else {
 	// normal line add ; at end
-	if (pythonmode && pos>=0 && cur[pos]!=';' && cur[pos]!=',' && cur[pos]!='{' && cur[pos]!='(' && cur[pos]!='[')
+	if (pythonmode && !res.empty() && pos>=0 && cur[pos]!=';' && cur[pos]!=',' && cur[pos]!='{' && cur[pos]!='(' && cur[pos]!='[')
 	  cur = cur +';';
 	if (pythonmode)
 	  convert_python(cur,contextptr);
@@ -6248,8 +6248,11 @@ unsigned int ConvertUTF8toUTF16 (
       }
       if (s.size()>10 && s.substr(s.size()-9,9)=="ffunction")
 	s += ":;";
-      else
-	s += ";";
+      else {
+	int pos=s.find('\n');
+	if (pos>=0 && pos<s.size())
+	  s += ";";
+      }
       if (debug_infolevel)
 	*logptr(contextptr) << "Translated to Xcas as:\n" << s << endl;
     }
