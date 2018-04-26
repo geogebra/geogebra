@@ -343,37 +343,29 @@ public class ToolCreationDialogW extends DialogBoxW implements
 				// do nothing
 				break;
 			case 0:
-				if (outputLB.getSelectedIndex() >= 0) {
-					for (int i = 0; i < outputLB.getItemCount(); i++) {
-						if (outputLB.isItemSelected(i)) {
-							selIndices.add(i);
-						}
-					}
-					if (target.getTitle().equals(loc.getMenu("Down"))) {
-						toolModel.moveOutputDown(selIndices);
-					} else if (target.getTitle().equals(loc.getMenu("Up"))) {
-						toolModel.moveOutputUp(selIndices);
-					} else if (target.getTitle().equals(loc.getMenu("Remove"))) {
-						toolModel.removeFromOutput(selIndices);
-					}
-				}
+				updateList(outputLB, true, target, selIndices);
 				break;
 			case 1:
-				selIndices = new ArrayList<>();
-				if (inputLB.getSelectedIndex() >= 0) {
-					for (int i = 0; i < inputLB.getItemCount(); i++) {
-						if (inputLB.isItemSelected(i)) {
-							selIndices.add(i);
-						}
-					}
-					if (target.getTitle().equals(loc.getMenu("Down"))) {
-						toolModel.moveInputDown(selIndices);
-					} else if (target.getTitle().equals(loc.getMenu("Up"))) {
-						toolModel.moveInputUp(selIndices);
-					} else if (target.getTitle().equals(loc.getMenu("Remove"))) {
-						toolModel.removeFromInput(selIndices);
-					}
+				updateList(inputLB, false, target, selIndices);
+				break;
+			}
+		}
+	}
+
+	private void updateList(ListBox listPanel, boolean output, Element target,
+			ArrayList<Integer> selIndices) {
+		if (listPanel.getSelectedIndex() >= 0) {
+			for (int i = 0; i < listPanel.getItemCount(); i++) {
+				if (listPanel.isItemSelected(i)) {
+					selIndices.add(i);
 				}
+			}
+			if (target.getTitle().equals(loc.getMenu("Down"))) {
+				toolModel.moveDown(selIndices, output);
+			} else if (target.getTitle().equals(loc.getMenu("Up"))) {
+				toolModel.moveUp(selIndices, output);
+			} else if (target.getTitle().equals(loc.getMenu("Remove"))) {
+				toolModel.removeFromList(selIndices, output);
 			}
 		}
 	}

@@ -6,6 +6,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -13,14 +14,18 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Euclidian panel for WebSimple
+ *
+ */
 public class EuclidianSimplePanelW extends AbsolutePanel implements
         EuclidianPanelWAbstract, RequiresResize {
 
-	AppW app;
-	int oldHeight = 0;
-	int oldWidth = 0;
+	private AppW app;
+	private int oldHeight = 0;
+	private int oldWidth = 0;
 
-	Canvas eview1 = null; // static foreground
+	private Canvas eview1 = null; // static foreground
 
 	/**
 	 * This constructor is used by the applet
@@ -30,12 +35,12 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 	 */
 	public EuclidianSimplePanelW(AppW application) {
 		super();
-
 		loadComponent();
 		app = application;
+		getElement().setAttribute("role", "application");
 	}
 
-	protected Widget loadComponent() {
+	private Widget loadComponent() {
 		eview1 = Canvas.createIfSupported();
 		eview1.getElement().getStyle().setPosition(Style.Position.RELATIVE);
 		eview1.getElement().getStyle().setZIndex(0);
@@ -107,7 +112,7 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		// onResize();
 	}
 
-	Scheduler.ScheduledCommand onResizeCmd = new Scheduler.ScheduledCommand() {
+	private ScheduledCommand onResizeCmd = new ScheduledCommand() {
 		@Override
 		public void execute() {
 			onResize();

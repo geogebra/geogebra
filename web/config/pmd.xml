@@ -69,7 +69,6 @@
 	<exclude name="NonThreadSafeSingleton"/>
 	<exclude name="ConfusingTernary"/>
 	<exclude name="SwitchStmtsShouldHaveDefault"/>
-	<exclude name="SwitchDensity"/>
 	<exclude name="UseCollectionIsEmpty"/>
 	<exclude name="ConstantsInInterface"/>
 	<exclude name="CompareObjectsWithEquals"/>
@@ -84,6 +83,7 @@
 	<exclude name="PreserveStackTrace"/>
 	
 	</rule>
+
 	<rule ref="rulesets/java/naming.xml">
 		<exclude name="ShortVariable" />
 		<exclude name="LongVariable" />

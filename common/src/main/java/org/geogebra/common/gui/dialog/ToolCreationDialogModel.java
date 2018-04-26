@@ -360,45 +360,14 @@ public class ToolCreationDialogModel {
 	 * @param selIndices
 	 *            indices in output list
 	 */
-	public void removeFromOutput(ArrayList<Integer> selIndices) {
+	public void removeFromList(ArrayList<Integer> selIndices, boolean output) {
+		ToolInputOutputList list = output ? outputList : inputList;
+		ToolInputOutputList addList = output ? outputAddList : inputAddList;
 		for (int i = selIndices.size() - 1; i >= 0; i--) {
 			int selectedIndex = selIndices.get(i);
-			outputAddList.add(outputList.remove(selectedIndex)); // TODO insert
+			addList.add(list.remove(selectedIndex)); // TODO insert
 			// sorted
 
-		}
-		listener.updateLists();
-	}
-
-	/**
-	 * Remove elements from input
-	 * 
-	 * @param selIndices
-	 *            indices in input list
-	 */
-	public void removeFromInput(ArrayList<Integer> selIndices) {
-		for (int i = selIndices.size() - 1; i >= 0; i--) {
-			int selectedIndex = selIndices.get(i);
-			inputAddList.add(inputList.remove(selectedIndex)); // TODO insert
-																// sorted
-		}
-		listener.updateLists();
-	}
-
-	/**
-	 * Move output elements up in the list.
-	 * 
-	 * @param selIndices
-	 *            indices in output list
-	 */
-	public void moveOutputUp(ArrayList<Integer> selIndices) {
-		for (int i = 0; i < selIndices.size(); i++) {
-			int selectedIndex = selIndices.get(i);
-			if (selectedIndex > 0) {
-				GeoElement geo = outputList.remove(selectedIndex);
-				outputList.add(selectedIndex - 1, geo);
-				selIndices.set(i, selectedIndex - 1);
-			}
 		}
 		listener.updateLists();
 	}
@@ -408,13 +377,16 @@ public class ToolCreationDialogModel {
 	 * 
 	 * @param selIndices
 	 *            indices in output list
+	 * @param output
+	 *            whether to use output list (false for input list)
 	 */
-	public void moveOutputDown(ArrayList<Integer> selIndices) {
+	public void moveDown(ArrayList<Integer> selIndices, boolean output) {
+		ToolInputOutputList list = output ? outputList : inputList;
 		for (int i = selIndices.size() - 1; i >= 0; i--) {
 			int selectedIndex = selIndices.get(i);
-			if (selectedIndex < outputList.size() - 1) {
-				GeoElement geo = outputList.remove(selectedIndex);
-				outputList.add(selectedIndex + 1, geo);
+			if (selectedIndex < list.size() - 1) {
+				GeoElement geo = list.remove(selectedIndex);
+				list.add(selectedIndex + 1, geo);
 				selIndices.set(i, selectedIndex + 1);
 			}
 		}
@@ -426,32 +398,17 @@ public class ToolCreationDialogModel {
 	 * 
 	 * @param selIndices
 	 *            indices in input list
+	 * @param output
+	 *            whether to use output list (false for input list)
 	 */
-	public void moveInputUp(ArrayList<Integer> selIndices) {
+	public void moveUp(ArrayList<Integer> selIndices, boolean output) {
+		ToolInputOutputList list = output ? outputList : inputList;
 		for (int i = 0; i < selIndices.size(); i++) {
 			int selectedIndex = selIndices.get(i);
 			if (selectedIndex > 0) {
-				GeoElement geo = inputList.remove(selectedIndex);
-				inputList.add(selectedIndex - 1, geo);
+				GeoElement geo = list.remove(selectedIndex);
+				list.add(selectedIndex - 1, geo);
 				selIndices.set(i, selectedIndex - 1);
-			}
-		}
-		listener.updateLists();
-	}
-
-	/**
-	 * Move input elements up in the list.
-	 * 
-	 * @param selIndices
-	 *            indices in input list
-	 */
-	public void moveInputDown(ArrayList<Integer> selIndices) {
-		for (int i = selIndices.size() - 1; i >= 0; i--) {
-			int selectedIndex = selIndices.get(i);
-			if (selectedIndex < inputList.size() - 1) {
-				GeoElement geo = inputList.remove(selectedIndex);
-				inputList.add(selectedIndex + 1, geo);
-				selIndices.set(i, selectedIndex + 1);
 			}
 		}
 		listener.updateLists();

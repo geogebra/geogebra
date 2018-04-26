@@ -721,88 +721,101 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		switch (treeMode) {
 		default:
 		case DEPENDENCY:
-			// don't re-init anything
-			if (depNode == null || indNode == null || auxiliaryNode == null) {
-				// rootDependency = new TreeItem();
-				depNode = new AVTreeItem(); // dependent objects
-				indNode = new AVTreeItem();
-				auxiliaryNode = new AVTreeItem();
-
-			}
-
-			// set the root
-			clear();
-			addItem(indNode);
-			addItem(depNode);
-
-			// add auxiliary node if neccessary
-			if (app.showAuxiliaryObjects) {
-				if (auxiliaryNode.getTree() != this) {
-					addItem(auxiliaryNode);
-				}
-			}
+			initDependencyOrder();
 			break;
 		case ORDER:
-			if (rootOrder == null) {
-				// both rootOrder and AlgebraView will have the Tree items
-				rootOrder = new AVTreeItem();
-			}
-			setUserObject(rootOrder, "", "");
-
-			// always try to remove the auxiliary node
-			if (app.showAuxiliaryObjects && auxiliaryNode != null) {
-				removeAuxiliaryNode();
-			}
-
-			// set the root
-			clear();
-			if (isAlgebraInputVisible()) {
-				// why is this here and not in case of DEPENDENCY, LAYER
-				super.addItem(inputPanelTreeItem);
-			}
+			initConstructionOrder();
 			break;
-
 		case TYPE:
-			// don't re-init anything
-			if (rootType == null) {
-				rootType = new AVTreeItem();
-				// setUserObject(rootType, "");
-				typeNodesMap = new HashMap<>(5);
-
-			}
-
-			// always try to remove the auxiliary node
-			if (app.showAuxiliaryObjects && auxiliaryNode != null) {
-				removeAuxiliaryNode();
-			}
-
-			// set the root
-			clear();
-			if (isAlgebraInputVisible()) {
-				// why is this here and not in case of DEPENDENCY, LAYER
-				super.addItem(inputPanelTreeItem);
-			} 
+			initTypeOrder();
 			break;
 		case LAYER:
-			// don't re-init anything
-			if (rootLayer == null) {
-				rootLayer = new AVTreeItem();
-				layerNodesMap = new HashMap<>(10);
-			}
-
-			// always try to remove the auxiliary node
-			if (app.showAuxiliaryObjects && auxiliaryNode != null) {
-				removeAuxiliaryNode();
-			}
-
-			// set the root
-			clear();
-			if (isAlgebraInputVisible()) {
-				// why is this here and not in case of DEPENDENCY, LAYER
-				super.addItem(inputPanelTreeItem);
-			} // addItem(rootLayer);
+			initLayer();
 			break;
 		}
+	}
+
+	private void initDependencyOrder() {
+		// don't re-init anything
+		if (depNode == null || indNode == null || auxiliaryNode == null) {
+			// rootDependency = new TreeItem();
+			depNode = new AVTreeItem(); // dependent objects
+			indNode = new AVTreeItem();
+			auxiliaryNode = new AVTreeItem();
+		}
+
+		// set the root
+		clear();
+		addItem(indNode);
+		addItem(depNode);
+
+		// add auxiliary node if neccessary
+		if (app.showAuxiliaryObjects) {
+			if (auxiliaryNode.getTree() != this) {
+				addItem(auxiliaryNode);
+			}
+		}
+	}
+
+	private void initConstructionOrder() {
+		if (rootOrder == null) {
+			// both rootOrder and AlgebraView will have the Tree items
+			rootOrder = new AVTreeItem();
+		}
+		setUserObject(rootOrder, "", "");
+
+		// always try to remove the auxiliary node
+		if (app.showAuxiliaryObjects && auxiliaryNode != null) {
+			removeAuxiliaryNode();
+		}
+
+		// set the root
+		clear();
+		if (isAlgebraInputVisible()) {
+			// why is this here and not in case of DEPENDENCY, LAYER
+			super.addItem(inputPanelTreeItem);
+		}
+	}
+
+	private void initTypeOrder() {
+		// don't re-init anything
+		if (rootType == null) {
+			rootType = new AVTreeItem();
+			// setUserObject(rootType, "");
+			typeNodesMap = new HashMap<>(5);
+		}
+
+		// always try to remove the auxiliary node
+		if (app.showAuxiliaryObjects && auxiliaryNode != null) {
+			removeAuxiliaryNode();
+		}
+
+		// set the root
+		clear();
+		if (isAlgebraInputVisible()) {
+			// why is this here and not in case of DEPENDENCY, LAYER
+			super.addItem(inputPanelTreeItem);
+		}
+	}
+
+	private void initLayer() {
+		// don't re-init anything
+		if (rootLayer == null) {
+			rootLayer = new AVTreeItem();
+			layerNodesMap = new HashMap<>(10);
+		}
+
+		// always try to remove the auxiliary node
+		if (app.showAuxiliaryObjects && auxiliaryNode != null) {
+			removeAuxiliaryNode();
+		}
+
+		// set the root
+		clear();
+		if (isAlgebraInputVisible()) {
+			// why is this here and not in case of DEPENDENCY, LAYER
+			super.addItem(inputPanelTreeItem);
+		} // addItem(rootLayer);
 	}
 
 	/**

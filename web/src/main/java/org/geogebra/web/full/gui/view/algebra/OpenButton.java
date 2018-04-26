@@ -19,13 +19,15 @@ public class OpenButton extends SimplePanel {
     private String className;
 
     /**
-     * @param showUrl
-     *            image for open button
-     * @param hiddenUrl
-     *            image for close button
-     * @param ti
-     *            parent item
-     */
+	 * @param showUrl
+	 *            image for open button
+	 * @param hiddenUrl
+	 *            image for close button
+	 * @param ti
+	 *            parent item
+	 * @param className
+	 *            CSS class
+	 */
     public OpenButton(SafeUri showUrl, SafeUri hiddenUrl,
                       final TreeItem ti, String className) {
         this.showUrl = showUrl;
