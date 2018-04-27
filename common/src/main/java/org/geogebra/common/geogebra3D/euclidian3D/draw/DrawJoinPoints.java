@@ -151,6 +151,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 			// empty geometry
 			brush.start(getReusableGeometryIndex());
 			setGeometryIndex(brush.end());
+			endPacking();
 			return;
 		}
 
