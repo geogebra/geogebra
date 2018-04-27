@@ -37,11 +37,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 
 	/**
-	 * Application
-	 */
-	private AppW app;
-
-	/**
 	 * Vertical panel containing sub-panels.
 	 */
 	private VerticalPanel panel;
@@ -226,7 +221,8 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		String sliderName = sliderComboBox.getSelectedValue().split(" ")[0];
 		GeoPointND p1 = createExportPoint(1, 1);
 		GeoPointND p2 = createExportPoint(2, 3);
-		api.exportAnimGif(app, sliderName, timeBetweenFrames, isLoop.getValue());
+		api.exportAnimGif((AppW) app, sliderName, timeBetweenFrames,
+				isLoop.getValue());
 		p1.remove();
 		p2.remove();
 		app.dispatchEvent(new Event(EventType.EXPORT, null, "[\"gif\"]"));
