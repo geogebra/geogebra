@@ -640,6 +640,7 @@ public class GGWToolBar extends Composite
 	 * @param target
 	 *            icon for macro or builtin mode
 	 */
+	@SuppressWarnings("deprecation")
 	public static void getImageResource(final int mode, AppW app,
 			final HasResource target) {
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
@@ -653,13 +654,12 @@ public class GGWToolBar extends Composite
 					return;
 				}
 				// use image as icon
-				Image img = new NoDragImage(
-						app.getImageManager().getExternalImageSrc(iconName),
-						32);
+				String src = app.getImageManager()
+						.getExternalImageSrc(iconName);
 
 				target.setResource(new ImageResourcePrototype("",
-						UriUtils.fromString(img.getUrl()), 0, 0, 32,
-						32, false, false));
+						UriUtils.unsafeCastFromUntrustedString(src), 0,
+						0, 32, 32, false, false));
 				return;
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);
