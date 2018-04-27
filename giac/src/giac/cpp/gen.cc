@@ -7553,7 +7553,7 @@ namespace giac {
     case _DOUBLE___ZINT:
       return a._DOUBLE_val/mpz_get_d(*b._ZINTptr);
       // _CPLX__DOUBLE_, _DOUBLE___CPLX, _CPLX__CPLX, _ZINT__CPLX, _INT___CPLX
-    case _VECT__INT_: case _VECT__ZINT: case _VECT__DOUBLE_: case _VECT__FLOAT_: case _VECT__CPLX: 
+    case _VECT__INT_: case _VECT__ZINT: case _VECT__DOUBLE_: case _VECT__FLOAT_: case _VECT__CPLX: case _VECT__FRAC:
     case _VECT__SYMB: case _VECT__IDNT: case _VECT__POLY: case _VECT__EXT:
       if (a.subtype==_VECTOR__VECT)
 	return a*inv(b,contextptr);
