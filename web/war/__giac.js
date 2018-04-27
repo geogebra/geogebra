@@ -2193,6 +2193,7 @@ var __giac = [ {},
 { cat:"NSolve", cmd:"NSolve[sin(40deg)/5=sin(A deg)/7]", result:"{A = 64.14527443098}", round:"{A = 64.15}", notes:"TRAC-4681" },
 { cat:"UnitVector", cmd:"UnitVector(Vector(1/3,1/4))", result:"ggbvect((4 / 5, 3 / 5))" },
 { cat:"UnitVector", cmd:"UnitVector((1/2,-1/4))", result:"ggbvect((2 / sqrt(5), (-1) / sqrt(5)))" },
+{ cat:"UnitVector", cmd:"UnitVector((1/3,-1/4))", result:"ggbvect((4 / 5, (-3) / 5))" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },

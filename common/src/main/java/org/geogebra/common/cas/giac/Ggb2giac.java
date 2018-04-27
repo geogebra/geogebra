@@ -1814,7 +1814,7 @@ public class Ggb2giac {
 
 						+ "normalize(ggin)),when((ggin)[0]=='=',"
 						+ "(ggbvect[unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))]),"
-						+ "when(ggin[0]='pnt'&&size(ggin[1])==3,(unitV(ggin)),unitV(ggbvect[real(ggin[1]),im(ggin[1])]))))],ggbuvans][2]))");
+						+ "when(ggin[0]=='pnt'&&size(ggin[1])==3,(unitV(ggin)),ggbvect[xcoord(ggin)/norm(ggin),ycoord(ggin)/norm(ggin)])))],ggbuvans][2]))");
 		return commandMap;
 	}
 
