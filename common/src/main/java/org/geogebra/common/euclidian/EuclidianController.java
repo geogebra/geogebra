@@ -6684,7 +6684,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		if (!hits.isEmpty()) {
+		if (!hits.isEmpty() && mode == EuclidianConstants.MODE_MOVE) {
 			boolean alwaysOn = false;
 			if (view.getAllowToolTips() == EuclidianStyleConstants.TOOLTIPS_ON) {
 				alwaysOn = true;
