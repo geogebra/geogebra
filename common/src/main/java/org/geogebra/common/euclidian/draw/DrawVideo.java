@@ -139,7 +139,7 @@ public class DrawVideo extends Drawable {
 		if (boundingBox == null) {
 			boundingBox = new BoundingBox(false);
 		}
-		return boundingBox;
+		return video.isBackground() ? boundingBox : null;
 	}
 
 	private void updateOriginalRatio() {
@@ -256,6 +256,7 @@ public class DrawVideo extends Drawable {
 		default:
 			break;
 		}
+
 	}
 
 	@Override

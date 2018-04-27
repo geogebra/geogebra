@@ -406,6 +406,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private GPoint dragStartPoint;
 	private boolean snapMoveView = true;
 	private GeoVideo lastVideo = null;
+	private boolean videoMoved;
 
 	/**
 	 * state for selection tool over press/release
@@ -6187,6 +6188,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				view.toScreenCoordX(xRW - getStartPointX()),
 				view.toScreenCoordY(yRW - getStartPointY()));
 
+		if (movedGeoButton.isGeoVideo()) {
+			moveVideo();
+		}
 		if (repaint) {
 			movedGeoButton.updateRepaint();
 		} else {
@@ -7507,9 +7511,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					return;
 				}
 
-				if (movedGeoButton.isGeoVideo()) {
-					moveVideo();
-				}
 				// move button
 				moveMode = MOVE_BUTTON;
 				startLoc = mouseLoc;
@@ -9373,10 +9374,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		lastVideo = (GeoVideo) movedGeoButton;
+		videoMoved = true;
 	}
 
 	private boolean handleVideoReleased() {
-		if (lastVideo != null && selection.containsSelectedGeo(lastVideo)) {
+		if (lastVideo == null) {
+			return false;
+		}
+
+		if (videoMoved) {
+			lastVideo.setReady();
+			videoMoved = false;
+			return false;
+		}
+
+		if (selection.containsSelectedGeo(lastVideo)) {
 			if (lastVideo.isReady()) {
 				view.setBoundingBox(null);
 				view.repaintView();

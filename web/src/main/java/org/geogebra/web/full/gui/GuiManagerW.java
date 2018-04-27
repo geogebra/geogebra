@@ -2316,6 +2316,7 @@ public class GuiManagerW extends GuiManager
 
 		GGWToolBar.getImageResource(mode, getApp(), new HasResource() {
 
+			@Override
 			public void setResource(ResourcePrototype mode_tool_32) {
 				String url = NoDragImage.safeURI(mode_tool_32);
 				String fn = "geogebra_tool_" + mode;
@@ -2485,6 +2486,7 @@ public class GuiManagerW extends GuiManager
 		GeoGebraFrameBoth appFrame = getApp().getAppletFrame();
 		EuclidianView ev = app.getActiveEuclidianView();
 		GeoVideo video = new GeoVideo(kernel.getConstruction(), url);
+		video.setBackground(true);
 		video.setAbsoluteScreenLoc((appFrame.getOffsetWidth() - video.getWidth()) / 2,
 				(appFrame.getOffsetHeight() - video.getHeight()) / 2);
 		ev.add(video);

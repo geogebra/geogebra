@@ -178,12 +178,14 @@ public class GeoVideo extends GeoMedia {
 	@Override
 	public void setWidth(int width) {
 		super.setWidth(width);
+		setReady();
 		changed = true;
 	}
 
 	@Override
 	public void setHeight(int height) {
 		super.setHeight(height);
+		setReady();
 		changed = true;
 	}
 
@@ -354,10 +356,17 @@ public class GeoVideo extends GeoMedia {
 		state = State.READY;
 	}
 
+	/**
+	 * Resets state to none.
+	 */
+	public void resetState() {
+		state = State.NONE;
+	}
 	@Override
 	public boolean isFixedSize() {
 		return true;
 	}
+
 
 	/**
 	 * 
@@ -381,7 +390,7 @@ public class GeoVideo extends GeoMedia {
 	/**
 	 * @return if video is online.
 	 */
-	public boolean isP() {
+	public boolean isOnline() {
 		if (!hasVideoManager()) {
 			return false;
 		}
