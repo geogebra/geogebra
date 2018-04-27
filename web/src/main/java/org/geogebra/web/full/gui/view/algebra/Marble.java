@@ -45,7 +45,7 @@ public class Marble extends SimplePanel {
 		}
 		if (gc.isTextItem()) {
 			imgText = new NoDragImage(
-					MaterialDesignResources.INSTANCE.icon_quote_black(), 24);
+					MaterialDesignResources.INSTANCE.icon_quote_black(), 20);
 			imgText.addStyleName("textOverMarble");
 			add(imgText);
 		}
