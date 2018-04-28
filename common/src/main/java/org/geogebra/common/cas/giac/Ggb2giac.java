@@ -1805,10 +1805,16 @@ public class Ggb2giac {
 						+ "getNum(gguv)[1]/getDenom(gguv)]),"
 						+ "regroup(convert(gguv,25))))][1]" + ")))");
 		p("UnitVector.1",
-				"[[ggin:=%0],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='=',"
-						+ "ggbvect[unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],"
-						+ "when(ggin[0]='pnt'&&size(ggin[1])==3,(unitV(ggin)),unitV(ggbvect[real(ggin[1]),im(ggin[1])]))))],ggbuvans][2]))"); 
-		// Tecna[(10,1),log10(x)]
+				"regroup(normal([[ggin:=%0],[ggbuvans:=when(type(ggin)==DOM_LIST,when(subtype(%0)=="
+						+ GGBVECT_TYPE
+
+						// TODO: simplify this if possible
+						// unitV(ggin) should work but doesn't
+						+ ",ggbvect[xcoord(ggin)/norm(ggin),ycoord(ggin)/norm(ggin)],"
+
+						+ "normalize(ggin)),when((ggin)[0]=='=',"
+						+ "(ggbvect[unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))]),"
+						+ "when(ggin[0]='pnt'&&size(ggin[1])==3,(unitV(ggin)),unitV(ggbvect[real(ggin[1]),im(ggin[1])]))))],ggbuvans][2]))");
 		return commandMap;
 	}
 
