@@ -2194,6 +2194,7 @@ var __giac = [ {},
 { cat:"UnitVector", cmd:"UnitVector(Vector(1/3,1/4))", result:"ggbvect((4 / 5, 3 / 5))" },
 { cat:"UnitVector", cmd:"UnitVector((1/2,-1/4))", result:"ggbvect((2 / sqrt(5), (-1) / sqrt(5)))" },
 { cat:"UnitVector", cmd:"UnitVector((1/3,-1/4))", result:"ggbvect((4 / 5, (-3) / 5))" },
+{ cat:"NSolve", cmd:"NSolve(33/10*x^2*exp(-0.2*x)=22,x)", result:"{x = -2.094145237097, x = 3.760849980469, x = 20.92279005866}", round:"{x = -2.09, x = 3.76, x = 20.92}" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
