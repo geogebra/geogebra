@@ -33,7 +33,7 @@ public class ResourcesInjector {
 		}
 		resourcesInjected = true;
 		// always need English properties available, eg Function.sin
-
+		fixComputedStyle();
 		// insert zip.js
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.zipJs());
 
@@ -68,6 +68,14 @@ public class ResourcesInjector {
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
 	}
+
+	/** Works around https://bugzilla.mozilla.org/show_bug.cgi?id=548397 */
+	private static native void fixComputedStyle() /*-{
+		var oldCS = window.getComputedStyle;
+		window.getComputedStyle = function(el) {
+			return oldCS(el) || {};
+		}
+	}-*/;
 
 	/**
 	 * Inject resources for GUI, overridden in ReTeX injector (to add JQuery +
