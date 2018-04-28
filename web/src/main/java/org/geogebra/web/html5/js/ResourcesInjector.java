@@ -73,7 +73,7 @@ public class ResourcesInjector {
 	private static native void fixComputedStyle() /*-{
 		var oldCS = $wnd.getComputedStyle;
 		$wnd.getComputedStyle = function(el) {
-			return oldCS(el) || {};
+			return oldCS(el) || el.style;
 		}
 	}-*/;
 
