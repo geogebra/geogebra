@@ -270,6 +270,7 @@ public class ExamDialog {
 		// do this *before* perspective so that we have CAS toolbar for CAS
 		guiManager.setGeneralToolBarDefinition(
 				ToolBar.getAllToolsNoMacros(true, true, app));
+		LayoutW.resetPerspectives(app);
 		if (app.enableGraphing()) {
 			// don't check for CAS supported but for data param
 			if (app.getArticleElement().getDataParamEnableCAS(false)) {
@@ -288,7 +289,6 @@ public class ExamDialog {
 		app.fireViewsChangedEvent();
 		guiManager.updateToolbar();
 		guiManager.updateToolbarActions();
-		LayoutW.resetPerspectives(app);
 		guiManager.updateMenubar();
 		guiManager.resetMenu();
 		DockPanelW dp = ((DockManagerW) guiManager.getLayout().getDockManager())
