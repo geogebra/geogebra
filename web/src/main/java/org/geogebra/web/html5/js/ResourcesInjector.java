@@ -71,8 +71,8 @@ public class ResourcesInjector {
 
 	/** Works around https://bugzilla.mozilla.org/show_bug.cgi?id=548397 */
 	private static native void fixComputedStyle() /*-{
-		var oldCS = window.getComputedStyle;
-		window.getComputedStyle = function(el) {
+		var oldCS = $wnd.getComputedStyle;
+		$wnd.getComputedStyle = function(el) {
 			return oldCS(el) || {};
 		}
 	}-*/;
