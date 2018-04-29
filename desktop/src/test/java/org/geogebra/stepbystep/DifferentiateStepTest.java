@@ -20,9 +20,10 @@ public class DifferentiateStepTest {
 	@BeforeClass
 	public static void setupApp() {
 		app = CommandsTest.createApp();
+		htmlBuilder = new HtmlStepBuilder(app.getLocalization());
 	}
 
-	private static HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
+	private static HtmlStepBuilder htmlBuilder;
 	private boolean needsHeading;
 	private static int caseCounter = 0;
 
@@ -63,7 +64,7 @@ public class DifferentiateStepTest {
 		String result = input.differentiateOutput(sb).toString();
 
 		SolutionStep steps = sb.getSteps();
-		steps.getListOfSteps(htmlBuilder, app.getLocalization());
+		htmlBuilder.buildStepGui(steps);
 
 		Assert.assertEquals(expectedResult, result);
 	}

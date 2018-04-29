@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,6 +22,7 @@ public class SolveStepTest {
 	@BeforeClass
 	public static void setupApp() {
 		app = CommandsTest.createApp();
+		htmlBuilder = new HtmlStepBuilder(app.getLocalization());
 		// just to load CAS
 		try {
 			app.getKernel().evaluateGeoGebraCAS("Regroup(1)", null);
@@ -31,7 +31,7 @@ public class SolveStepTest {
 		}
 	}
 
-	private static HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
+	private static HtmlStepBuilder htmlBuilder;
 	private boolean needsHeading;
 	private static int caseCounter = 0;
 
@@ -256,13 +256,13 @@ public class SolveStepTest {
 					.toArray(new StepSolution[0]);
 		} catch (SolveFailedException e) {
 			htmlBuilder.addHeading("Failed: ", 4);
-			e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+			htmlBuilder.buildStepGui(steps.getSteps());
 
 			Assert.assertArrayEquals(expectedSolutions, new String[] { "fail" });
 			return;
 		} catch (CASConflictException e) {
 			htmlBuilder.addHeading("CAS conflict: ", 4);
-			e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+			htmlBuilder.buildStepGui(steps.getSteps());
 
 			Assert.assertArrayEquals(expectedSolutions, new String[] { "CASfail" });
 			return;
@@ -271,7 +271,7 @@ public class SolveStepTest {
 			Assert.fail();
 		}
 
-		steps.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+		htmlBuilder.buildStepGui(steps.getSteps());
 
 		Assert.assertEquals(expectedSolutions.length, solutions.length);
 

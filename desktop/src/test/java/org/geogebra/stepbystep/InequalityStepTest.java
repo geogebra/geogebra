@@ -25,6 +25,7 @@ public class InequalityStepTest {
     @BeforeClass
     public static void setupApp() {
         app = CommandsTest.createApp();
+        htmlBuilder = new HtmlStepBuilder(app.getLocalization());
         // just to load CAS
         try {
             app.getKernel().evaluateGeoGebraCAS("Regroup(1)", null);
@@ -33,7 +34,7 @@ public class InequalityStepTest {
         }
     }
 
-    private static HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
+    private static HtmlStepBuilder htmlBuilder;
     private boolean needsHeading;
     private static int caseCounter = 0;
 
@@ -96,13 +97,13 @@ public class InequalityStepTest {
                     .toArray(new StepSolution[0]);
         } catch (SolveFailedException e) {
             htmlBuilder.addHeading("Failed: ", 4);
-            e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+            htmlBuilder.buildStepGui(steps.getSteps());
 
             Assert.assertArrayEquals(expectedSolutions, new String[] { "fail" });
             return;
         } catch (CASConflictException e) {
             htmlBuilder.addHeading("CAS conflict: ", 4);
-            e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+            htmlBuilder.buildStepGui(steps.getSteps());
 
             Assert.assertArrayEquals(expectedSolutions, new String[] { "CASfail" });
             return;
@@ -111,7 +112,7 @@ public class InequalityStepTest {
             Assert.fail();
         }
 
-        steps.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+        htmlBuilder.buildStepGui(steps.getSteps());
 
         Assert.assertEquals(expectedSolutions.length, solutions.length);
 

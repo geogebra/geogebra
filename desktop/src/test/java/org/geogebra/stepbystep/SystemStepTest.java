@@ -27,6 +27,7 @@ public class SystemStepTest {
     @BeforeClass
     public static void setupApp() {
         app = CommandsTest.createApp();
+        htmlBuilder = new HtmlStepBuilder(app.getLocalization());
         // just to load CAS
         try {
             app.getKernel().evaluateGeoGebraCAS("Regroup(1)", null);
@@ -35,7 +36,7 @@ public class SystemStepTest {
         }
     }
 
-    private static HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
+    private static HtmlStepBuilder htmlBuilder;
     private boolean needsHeading;
     private static int caseCounter = 0;
 
@@ -138,7 +139,7 @@ public class SystemStepTest {
                     solutions = SystemSteps.gaussJordanElimination(ses, variables, steps);
             }
 
-            steps.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+            htmlBuilder.buildStepGui(steps.getSteps());
 
             String[] actualSolutions = new String[solutions.size()];
             for (int i = 0; i < solutions.size(); i++) {
@@ -152,13 +153,13 @@ public class SystemStepTest {
         } catch (SolveFailedException e) {
             htmlBuilder.addHeading("Failed: ", 4);
             if (e.getSteps() != null) {
-                e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+                htmlBuilder.buildStepGui(steps.getSteps());
             }
 
             Assert.assertArrayEquals(expectedSolutions, new String[] { "fail" });
         } catch (CASConflictException e) {
             htmlBuilder.addHeading("CAS conflict: ", 4);
-            e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+            htmlBuilder.buildStepGui(steps.getSteps());
 
             Assert.assertArrayEquals(expectedSolutions, new String[] { "CASfail" });
         } catch (CASException e) {
