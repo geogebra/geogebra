@@ -220,7 +220,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * 
 		 * eg sin(x)^2+cos(x)^2==1
 		 */
-		IS_ZERO("ggbIsZero", "ggbIsZero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]=='pnt' && x[1] == ggbvect[0,0,0])))"),
+		IS_ZERO("ggbIsZero", "ggbIsZero(x):=when(x==0 || simplify(texpand(x))==0 || exp2pow(lin(pow2exp(x)))==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]=='pnt' && x[1] == ggbvect[0,0,0])))"),
 		/**
 		 * Convert the polys into primitive polys in the input list (contains
 		 * temporary fix for primpart also):
