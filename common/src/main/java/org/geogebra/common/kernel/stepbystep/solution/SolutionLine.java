@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.stepbystep.solution;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.Localization;
 
@@ -52,43 +51,6 @@ public class SolutionLine extends SolutionStep {
 	@Override
 	public List<String> getDetailed(Localization loc) {
 		return type.getDetailedText(loc, colors, parameters);
-	}
-
-	/**
-	 * Builds the solution tree using a StepGuiBuilder
-	 *
-	 * @param builder
-	 *            StepGuiBuilder to use (different for the web and for the tests)
-	 */
-	public void getListOfSteps(StepGuiBuilder builder, Localization loc, boolean detailed) {
-		switch (type) {
-		case WRAPPER:
-			for (int i = 0; substeps != null && i < substeps.size(); i++) {
-				substeps.get(i).getListOfSteps(builder, loc, true);
-				if (i != substeps.size() - 1) {
-					builder.linebreak();
-				}
-			}
-			return;
-		case GROUP_WRAPPER:
-			for (SolutionStep substep : substeps) {
-				substep.getListOfSteps(builder, loc, true);
-			}
-			return;
-		case SUBSTEP_WRAPPER:
-			builder.startDefault();
-			substeps.get(1).getListOfSteps(builder, loc, false);
-			substeps.get(substeps.size() - 1).getListOfSteps(builder, loc, false);
-
-			builder.switchToDetailed();
-			for (SolutionStep substep : substeps) {
-				substep.getListOfSteps(builder, loc, true);
-			}
-			builder.endDetailed();
-			return;
-		}
-
-		super.getListOfSteps(builder, loc, detailed);
 	}
 
 	/**

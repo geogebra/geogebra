@@ -22,7 +22,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.IDataAnalysisListener;
@@ -36,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -197,9 +197,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 			// check first for ggb/ggt file
 			if ((processedUrlString.endsWith(".ggb")
 					|| processedUrlString.endsWith(".ggt"))
-					&& (processedUrlString.indexOf("?") == -1)) { // This isn't
-																	// a ggb
-																	// file,
+					&& (!processedUrlString.contains("?"))) {
+				// This isn't a ggb file,
 				// however ends with ".ggb":
 				// script.php?file=_circles5.ggb
 				// loadURL_GGB(processedUrlString);
@@ -208,18 +207,16 @@ public abstract class GuiManager implements GuiManagerInterface {
 				// special case: urlString is from GeoGebraTube
 				// eg http://www.geogebratube.org/student/105 changed to
 				// http://www.geogebratube.org/files/material-105.ggb
-			} else if (processedUrlString
-					.indexOf(GeoGebraConstants.GEOGEBRA_WEBSITE) > -1
-					|| processedUrlString.indexOf(
-							GeoGebraConstants.GEOGEBRA_WEBSITE_BETA) > -1
-					|| processedUrlString.indexOf(ggbTube) > -1
-					|| processedUrlString.indexOf(ggbTubeShort) > -1
-					|| processedUrlString.indexOf(ggbMatShort) > -1
-					|| processedUrlString.indexOf(ggbTubeBeta) > -1
-					|| processedUrlString.indexOf(ggbTubeOld) > -1) {
+			} else if (processedUrlString.contains(GeoGebraConstants.GEOGEBRA_WEBSITE)
+					|| processedUrlString.contains(GeoGebraConstants.GEOGEBRA_WEBSITE_BETA)
+					|| processedUrlString.contains(ggbTube)
+					|| processedUrlString.contains(ggbTubeShort)
+					|| processedUrlString.contains(ggbMatShort)
+					|| processedUrlString.contains(ggbTubeBeta)
+					|| processedUrlString.contains(ggbTubeOld)) {
 
 				// remove eg http:// if it's there
-				if (processedUrlString.indexOf("://") > -1) {
+				if (processedUrlString.contains("://")) {
 					processedUrlString = processedUrlString.substring(
 							processedUrlString.indexOf("://") + 3,
 							processedUrlString.length());
@@ -232,8 +229,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 				String id;
 
 				// determine the start position of ID in the URL
-				int start = -1;
-
+				int start;
 				if (processedUrlString.startsWith(material)) {
 					start = material.length();
 				} else {
@@ -291,11 +287,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 				// 'standard' case: url with GeoGebra applet (Java or HTML5)
 			}
-			// else {
-			// // try to load from GeoGebra applet
-			// success = loadFromApplet(processedUrlString);
-			// isMacroFile = processedUrlString.contains(".ggt");
-			// }
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -321,7 +312,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * Attach a view which by using the view ID.
 	 * 
 	 * @author Florian Sonner
-	 * @version 2008-10-21
 	 * 
 	 * @param viewId
 	 *            view ID
@@ -412,7 +402,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public void doAfterRedefine(GeoElementND geo) {
-
 		// G.Sturr 2010-6-28
 		// if a tracing geo has been redefined, then put it back into the
 		// traceGeoCollection
@@ -426,7 +415,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * Detach a view which by using the view ID.
 	 * 
 	 * @author Florian Sonner
-	 * @version 2008-10-21
 	 * 
 	 * @param viewId
 	 *            view ID
@@ -526,14 +514,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	public void updateNavBars() {
 		if (constProtocolNavigationMap != null) {
-			Iterator<ConstructionProtocolNavigation> it = constProtocolNavigationMap
-					.values().iterator();
-
-			while (it.hasNext()) {
-				ConstructionProtocolNavigation navBar = it.next();
+			for (ConstructionProtocolNavigation navBar
+					: constProtocolNavigationMap.values()) {
 				navBar.update();
 			}
-
 		}
 	}
 
@@ -547,7 +531,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	final public ConstructionProtocolNavigation getConstructionProtocolNavigation(
 			int id) {
-
 		if (constProtocolNavigationMap == null) {
 			constProtocolNavigationMap = new HashMap<>();
 		}
@@ -697,7 +680,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 		// select toolbar button, returns *actual* mode selected - only for
 		// desktop
-		// if (caller_APP == DESKTOP) {
+
 		int newMode = setToolbarMode(mode, m);
 
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER
@@ -705,7 +688,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			mode = newMode;
 			kernel.notifyModeChanged(mode, m);
 		}
-		// }
+
 		if (mode == EuclidianConstants.MODE_PROBABILITY_CALCULATOR) {
 
 			// show or focus the probability calculator
@@ -729,14 +712,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 			// save the selected geos so they can be re-selected later
 			ArrayList<GeoElement> temp = new ArrayList<>();
 			if (getApp().getSelectionManager().getSelectedGeos() != null) {
-				for (GeoElement geo : getApp().getSelectionManager()
-						.getSelectedGeos()) {
-					temp.add(geo);
-				}
+				temp.addAll(getApp().getSelectionManager().getSelectedGeos());
 			}
 
 			if (getApp().getGuiManager() != null) {
-
 				getApp().getDialogManager().showDataSourceDialog(mode, true);
 				getApp().setMoveMode();
 			}
@@ -844,16 +823,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// they are not already there.
 
 		StringBuilder customToolBar = new StringBuilder("");
-		String oldToolbar = initial;
-		// String toolbar3D = "";
-		// if (app.isEuclidianView3Dinited()) {
-		// DockPanel dockPanel = getLayout().getDockManager()
-		// .getPanel(App.VIEW_EUCLIDIAN3D);
-		// toolbar3D = dockPanel.getToolbarString();
-		// if (toolbar3D == null) {
-		// toolbar3D = getToolbarDefinition();
-		// }
-		// }
 
 		for (int i = 0; i < macroCount; i++) {
 			Macro macro = kernel.getMacro(i);
@@ -861,21 +830,16 @@ public abstract class GuiManager implements GuiManagerInterface {
 			int macroViewId = macro.getViewId() != null ? macro.getViewId()
 					: App.VIEW_EUCLIDIAN;
 			int activeViewId = getActiveToolbarId();
-			// boolean tool3d = macroViewId != null
-			// && macroViewId == App.VIEW_EUCLIDIAN3D
-			// || toolbar3D.contains(String.valueOf(macroMode));
-			// Log.debug(
-			// "[CT] macro: " + macro.getToolName() + " is 3D: " + tool3d);
 
 			if (macro.isShowInToolBar()
-					&& !(oldToolbar.contains(String.valueOf(macroMode)))
+					&& !(initial.contains(String.valueOf(macroMode)))
 					&& (macroViewId == activeViewId)) {
 				customToolBar.append(" ");
 				customToolBar.append(macroMode);
 			}
 		}
 
-		String toolbarDef = oldToolbar.trim();
+		String toolbarDef = initial.trim();
 		String last = "";
 		try {
 			// get the last tool mode number in the toolbar def string
@@ -917,10 +881,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 */
 	@Override
 	public void setImageCornersFromSelection(GeoImage geoImage) {
-
 		getApp().getImageManager().setCornersFromSelection(geoImage, getApp());
-		// }
-		// // make sure only the last image will be selected
+
+		// make sure only the last image will be selected
 		GeoElement[] geos = { geoImage };
 		getApp().getActiveEuclidianView().getEuclidianController().clearSelections();
 		getApp().getActiveEuclidianView().getEuclidianController()
@@ -931,8 +894,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public StepGuiBuilder getStepGuiBuilder() {
-		return null;
+	public void buildStepGui(SolutionStep steps) {
+		// overridden in web
 	}
 
 	@Override

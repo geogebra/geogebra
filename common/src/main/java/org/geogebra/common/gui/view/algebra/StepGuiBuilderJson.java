@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.view.algebra;
 
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 
 import java.util.List;
@@ -10,9 +12,25 @@ import java.util.List;
  */
 public class StepGuiBuilderJson implements StepGuiBuilder {
 
-	private StringBuilder sb = new StringBuilder();
-	
+	private Localization loc;
+	private StringBuilder sb;
+
+	public StepGuiBuilderJson(Localization loc) {
+		this.loc = loc;
+		sb = new StringBuilder();
+	}
+
 	@Override
+	public void buildStepGui(SolutionStep step) {
+		addRow(step.getDetailed(loc));
+
+		if (step.getSubsteps() != null) {
+			for (SolutionStep substep : step.getSubsteps()) {
+				buildStepGui(substep);
+			}
+		}
+	}
+
 	public void addRow(List<String> s) {
 		for (String ss : s) {
 			if (sb.length() > 0) {
@@ -35,41 +53,4 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 	public String toString() {
 		return "[" + sb.toString() + "]";
 	}
-
-	@Override
-	public void startGroup() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void endGroup() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void startDefault() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void switchToDetailed() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void endDetailed() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void linebreak() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

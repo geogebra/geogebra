@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.cas;
 
-import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 
 /**
  * Interface for algos that can provide steps for StepGuiBuilder
@@ -10,11 +10,9 @@ public interface HasSteps {
 
 	/**
 	 * Show steps of this computation in given step builder
-	 * 
-	 * @param builder
-	 *            step builder
+	 *
 	 */
-	void getSteps(StepGuiBuilder builder);
+	SolutionStep getSteps();
 
 	/**
 	 * @return whether some steps are showable

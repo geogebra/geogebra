@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
@@ -662,9 +663,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	/**
 	 * Opens steps tab and returns stepGuiBuilder
 	 * @param fade decides if tab should fade during animation
-	 * @return StepGuiBuilder
 	 */
-	public StepGuiBuilder openSteps(boolean fade) {
+	public void openSteps(boolean fade, SolutionStep steps) {
 		ToolTipManagerW.hideAllToolTips();
 		open();
 		main.removeStyleName("algebra");
@@ -674,7 +674,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		setFadeTabs(fade);
 		updateMoveButton();
 
-		return tabSteps.getStepGuiBuilder();
+		tabSteps.buildStepGui(steps);
 	}
 
 	/**

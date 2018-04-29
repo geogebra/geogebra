@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
-import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.main.Localization;
 
 import java.util.ArrayList;
@@ -22,32 +21,8 @@ public abstract class SolutionStep {
         substeps.add(substep);
     }
 
-
     public List<SolutionStep> getSubsteps() {
         return substeps;
-    }
-
-    public void getListOfSteps(StepGuiBuilder builder, Localization loc) {
-        getListOfSteps(builder, loc, true);
-    }
-
-    public void getListOfSteps(StepGuiBuilder builder, Localization loc, boolean detailed) {
-        if (detailed) {
-            builder.addRow(getDetailed(loc));
-        } else {
-            builder.addRow(getDefault(loc));
-        }
-
-        if (substeps != null) {
-            builder.startGroup();
-            for (int i = 0; i < substeps.size(); i++) {
-                (substeps.get(i)).getListOfSteps(builder, loc, true);
-                if (i != substeps.size() - 1) {
-                    builder.linebreak();
-                }
-            }
-            builder.endGroup();
-        }
     }
 
     /**

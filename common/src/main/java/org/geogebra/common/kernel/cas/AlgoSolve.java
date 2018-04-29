@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.cas;
 
+import java.util.Collections;
 import java.util.TreeSet;
 
-import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepInequality;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
@@ -33,7 +34,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Use Solve cas command from AV
@@ -97,7 +97,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 			sb.append("}");
 			varString = "{" + StringUtil.join(",", vars) + "}";
 		} else {
-			trig = printCAS(equations, sb) || trig;
+			trig = printCAS(equations, sb)	;
 		}
 		if (hint != null) {
 			sb.append(',');
@@ -141,11 +141,8 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 
 	private static void addVars(GeoElement geo, TreeSet<String> vars) {
 		if (geo instanceof EquationValue) {
-			for (String var : ((EquationValue) geo).getEquationVariables()) {
-				vars.add(var);
-			}
+			Collections.addAll(vars, ((EquationValue) geo).getEquationVariables());
 		}
-
 	}
 
 	private boolean elementsDefined(GeoList raw) {
@@ -296,23 +293,24 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	}
 
 	/**
-	 * @param builder
-	 *            step UI builder
+	 *
+	 * @return SolutionSteps for the (system of) equation on inequality
 	 */
 	@Override
-	public void getSteps(StepGuiBuilder builder) {
+	public SolutionStep getSteps() {
 		if (equations.isGeoList()) {
 			if (((GeoList) equations).size() == 1) {
-				getStepsSingle(((GeoList) equations).get(0), builder);
+				return getStepsSingle(((GeoList) equations).get(0));
 			} else {
 				// TODO system
+				return null;
 			}
 		} else {
-			getStepsSingle(equations, builder);
+			return getStepsSingle(equations);
 		}
 	}
 
-	private void getStepsSingle(GeoElement geo, StepGuiBuilder builder) {
+	private SolutionStep getStepsSingle(GeoElement geo) {
 		StepSolvable se;
 		if (geo instanceof FunctionalNVar
 				&& ((FunctionalNVar) geo).isBooleanFunction()) {
@@ -320,7 +318,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 					.getFunctionExpression();
 			String operator = asString(expr.getOperation());
 			if (operator.isEmpty()) {
-				return;
+				return null;
 			}
 			String lhs = expr.getLeft().wrap()
 					.toString(StringTemplate.maxDecimals);
@@ -336,15 +334,11 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 					geo.getDefinitionNoLabel(StringTemplate.defaultTemplate),
 					kernel.getParser());
 		}
+
 		SolutionBuilder sb = new SolutionBuilder();
-		double start = kernel.getApplication().getMillisecondTime();
 		se.solve(new StepVariable("x"), sb);
-		double solved = kernel.getApplication().getMillisecondTime();
-		sb.getSteps().getListOfSteps(builder, kernel.getLocalization());
-		double done = kernel.getApplication().getMillisecondTime();
-		Log.debug("Show steps total time: " + (done - start) + " ms, out of which:");
-		Log.debug("Solving the equation: " + (solved - start) + " ms");
-		Log.debug("Preparing the output: " + (done - solved) + " ms");
+
+		return sb.getSteps();
 	}
 
 	private static String asString(Operation operation) {

@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.cas;
 
-import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
@@ -63,7 +62,7 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 	}
 
 	@Override
-	public void getSteps(StepGuiBuilder builder) {
+	public SolutionStep getSteps() {
 		App app = kernel.getApplication();
 
 		SolutionBuilder sb = new SolutionBuilder();
@@ -73,20 +72,19 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 				definitionNoLabel, app.getKernel().getParser());
 		switch (getClassName()) {
 		case Expand:
-			sn.expand(sb);
+			sn.expandOutput(sb);
 			break;
 		case Factor:
-			sn.factor(sb);
+			sn.factorOutput(sb);
 			break;
 		case Simplify:
-			sn.regroup(sb);
+			sn.regroupOutput(sb);
 			break;
 		default:
 			Log.warn("Not supported for steps: " + getClassName());
 		}
 
-		SolutionStep steps = sb.getSteps();
-		steps.getListOfSteps(builder, app.getLocalization());
+		return sb.getSteps();
 	}
 
 	@Override

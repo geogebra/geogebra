@@ -21,7 +21,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.Layout;
-import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
@@ -32,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -46,117 +46,117 @@ import org.geogebra.common.util.AsyncOperation;
 
 public interface GuiManagerInterface {
 
-	public enum Help {
+	enum Help {
 		COMMAND, TOOL, GENERIC
 	}
 
-	public void updateMenubar();
+	void updateMenubar();
 
-	public void updateMenubarSelection();
+	void updateMenubarSelection();
 
-	public DialogManager getDialogManager();
+	DialogManager getDialogManager();
 
-	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
-			EuclidianViewInterfaceCommon euclidianViewInterfaceCommon,
-			GPoint mouseLoc);
+	void showPopupMenu(ArrayList<GeoElement> selectedGeos,
+					   EuclidianViewInterfaceCommon euclidianViewInterfaceCommon,
+					   GPoint mouseLoc);
 
-	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
-			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
-			GPoint p);
+	void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
+							ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
+							GPoint p);
 
-	public void setMode(int mode, ModeSetter m);
+	void setMode(int mode, ModeSetter m);
 
-	public void redo();
+	void redo();
 
-	public void undo();
+	void undo();
 
-	public void setFocusedPanel(AbstractEvent event,
-			boolean updatePropertiesView);
+	void setFocusedPanel(AbstractEvent event,
+						 boolean updatePropertiesView);
 
-	public void loadImage(GeoPoint loc, Object object, boolean altDown,
-			EuclidianView view);
+	void loadImage(GeoPoint loc, Object object, boolean altDown,
+				   EuclidianView view);
 
 	/**
 	 * loads the camera dialog
 	 */
-	public void loadWebcam();
+	void loadWebcam();
 
-	public boolean hasAlgebraViewShowing();
+	boolean hasAlgebraViewShowing();
 
-	public boolean hasAlgebraView();
+	boolean hasAlgebraView();
 
-	public void updateFonts();
+	void updateFonts();
 
-	public boolean isUsingConstructionProtocol();
+	boolean isUsingConstructionProtocol();
 
-	public void getConsProtocolXML(StringBuilder sb);
+	void getConsProtocolXML(StringBuilder sb);
 
-	public boolean isInputFieldSelectionListener();
+	boolean isInputFieldSelectionListener();
 
-	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
-			GPoint mouseLoc);
+	void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
+							 GPoint mouseLoc);
 
-	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
-			GPoint mouseLoc);
+	void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
+							   GPoint mouseLoc);
 
-	public boolean hasSpreadsheetView();
+	boolean hasSpreadsheetView();
 
-	public boolean hasDataCollectionView();
+	boolean hasDataCollectionView();
 
-	public void attachSpreadsheetView();
+	void attachSpreadsheetView();
 
-	public void setShowView(boolean b, int viewID);
+	void setShowView(boolean b, int viewID);
 
-	public void setShowView(boolean b, int viewID, boolean isPermanent);
+	void setShowView(boolean b, int viewID, boolean isPermanent);
 
-	public boolean showView(int viewID);
+	boolean showView(int viewID);
 
-	public View getConstructionProtocolData();
+	View getConstructionProtocolData();
 
-	public Editing getCasView();
+	Editing getCasView();
 
-	public boolean hasCasView();
+	boolean hasCasView();
 
-	public SpreadsheetViewInterface getSpreadsheetView();
+	SpreadsheetViewInterface getSpreadsheetView();
 
-	public View getProbabilityCalculator();
+	View getProbabilityCalculator();
 
-	public View getDataAnalysisView();
+	View getDataAnalysisView();
 
-	public View getPlotPanelView(int id);
+	View getPlotPanelView(int id);
 
-	public View getPropertiesView();
+	View getPropertiesView();
 
-	public boolean hasProbabilityCalculator();
+	boolean hasProbabilityCalculator();
 
-	public void getProbabilityCalculatorXML(StringBuilder sb);
+	void getProbabilityCalculatorXML(StringBuilder sb);
 
-	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference);
+	void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference);
 
-	public void getDataCollectionViewXML(StringBuilder sb,
-			boolean asPreference);
+	void getDataCollectionViewXML(StringBuilder sb,
+								  boolean asPreference);
 
-	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference);
+	void getAlgebraViewXML(StringBuilder sb, boolean asPreference);
 
 	/**
 	 * Update undo/redo and menu for selection.
 	 */
-	public void updateActions();
+	void updateActions();
 
-	public void updateSpreadsheetColumnWidths();
+	void updateSpreadsheetColumnWidths();
 
-	public void updateConstructionProtocol();
+	void updateConstructionProtocol();
 
-	public void updateAlgebraInput();
+	void updateAlgebraInput();
 
-	public void setShowAuxiliaryObjects(boolean flag);
+	void setShowAuxiliaryObjects(boolean flag);
 
-	public void updatePropertiesView();
+	void updatePropertiesView();
 
 	/**
 	 * tells the properties view that mouse has been pressed
 	 */
-	public void mousePressedForPropertiesView();
+	void mousePressedForPropertiesView();
 
 	/**
 	 * tells the properties view that mouse has been released
@@ -164,104 +164,102 @@ public interface GuiManagerInterface {
 	 * @param creatorMode
 	 *            tells if ev is in creator mode (ie not move mode)
 	 */
-	public void mouseReleasedForPropertiesView(boolean creatorMode);
+	void mouseReleasedForPropertiesView(boolean creatorMode);
 
-	public boolean save();
+	boolean save();
 
 	/**
 	 * tells the properties view to show slider tab
 	 */
-	public void showPropertiesViewSliderTab();
+	void showPropertiesViewSliderTab();
 
-	public boolean loadURL(String urlString);
+	boolean loadURL(String urlString);
 
-	public boolean loadURL(String urlString, boolean suppressErrorMsg);
+	boolean loadURL(String urlString, boolean suppressErrorMsg);
 
-	public void updateGUIafterLoadFile(boolean success, boolean isMacroFile);
+	void updateGUIafterLoadFile(boolean success, boolean isMacroFile);
 
-	public void startEditing(GeoElement geoElement);
+	void startEditing(GeoElement geoElement);
 
-	public boolean noMenusOpen();
+	boolean noMenusOpen();
 
-	public void openFile();
+	void openFile();
 
-	public Layout getLayout();
+	Layout getLayout();
 
-	public void showGraphicExport();
+	void showGraphicExport();
 
-	public void showPSTricksExport();
+	void showPSTricksExport();
 
-	public void showWebpageExport();
+	void showWebpageExport();
 
-	public void detachPropertiesView();
+	void detachPropertiesView();
 
-	public boolean hasPropertiesView();
+	boolean hasPropertiesView();
 
-	public void attachPropertiesView();
+	void attachPropertiesView();
 
-	public void attachAlgebraView();
+	void attachAlgebraView();
 
-	public void attachCasView();
+	void attachCasView();
 
-	public void attachConstructionProtocolView();
+	void attachConstructionProtocolView();
 
-	public void attachProbabilityCalculatorView();
+	void attachProbabilityCalculatorView();
 
-	public void attachDataAnalysisView();
+	void attachDataAnalysisView();
 
-	public void detachDataAnalysisView();
+	void detachDataAnalysisView();
 
-	public boolean hasDataAnalysisView();
+	boolean hasDataAnalysisView();
 
 	/**
 	 * Attach a view which by using the view ID.
 	 * 
 	 * @author Florian Sonner
-	 * @version 2008-10-21
 	 * 
 	 * @param viewId
 	 *            view ID
 	 */
-	public void attachView(int viewId);
+	void attachView(int viewId);
 
-	public EuclidianView getActiveEuclidianView();
+	EuclidianView getActiveEuclidianView();
 
-	public void showAxesCmd();
+	void showAxesCmd();
 
-	public void showGridCmd();
+	void showGridCmd();
 
-	public void doAfterRedefine(GeoElementND geo);
+	void doAfterRedefine(GeoElementND geo);
 
 	/**
 	 * Detach a view which by using the view ID.
 	 * 
 	 * @author Florian Sonner
-	 * @version 2008-10-21
 	 * 
 	 * @param viewId
 	 *            view ID
 	 */
-	public void detachView(int viewId);
+	void detachView(int viewId);
 
-	public void detachProbabilityCalculatorView();
+	void detachProbabilityCalculatorView();
 
-	public void detachCasView();
+	void detachCasView();
 
-	public void detachConstructionProtocolView();
+	void detachConstructionProtocolView();
 
-	public void detachSpreadsheetView();
+	void detachSpreadsheetView();
 
-	public void detachAlgebraView();
+	void detachAlgebraView();
 
-	public void openCommandHelp(String command);
+	void openCommandHelp(String command);
 
-	public void openHelp(String page);
+	void openHelp(String page);
 
-	public void setLayout(Layout layout);
+	void setLayout(Layout layout);
 
-	public void initialize();
+	void initialize();
 
-	public void resetSpreadsheet();
+	void resetSpreadsheet();
 
 	/**
 	 * Enable / disable autoscroll in spreadsheet.
@@ -269,54 +267,54 @@ public interface GuiManagerInterface {
 	 * @param scrollToShow
 	 *            scrolling flag for spreadsheet
 	 */
-	public void setScrollToShow(boolean scrollToShow);
+	void setScrollToShow(boolean scrollToShow);
 
-	public void showURLinBrowser(String strURL);
+	void showURLinBrowser(String strURL);
 
-	public void updateToolbar();
+	void updateToolbar();
 
-	public boolean hasEuclidianView2(int idx);
+	boolean hasEuclidianView2(int idx);
 
-	public void setLabels();
+	void setLabels();
 
-	public EuclidianViewInterfaceCommon getEuclidianView2(int idx);
+	EuclidianViewInterfaceCommon getEuclidianView2(int idx);
 
-	public boolean hasEuclidianView2EitherShowingOrNot(int idx);
+	boolean hasEuclidianView2EitherShowingOrNot(int idx);
 
-	public Editing getAlgebraView();
+	Editing getAlgebraView();
 
-	public void applyAlgebraViewSettings();
+	void applyAlgebraViewSettings();
 
-	public void updateFrameSize();
+	void updateFrameSize();
 
-	public void clearInputbar();
+	void clearInputbar();
 
-	public Object createFrame();
+	Object createFrame();
 
 	/**
 	 * 
 	 * @return id of view which is setting the active toolbar
 	 */
-	public int getActiveToolbarId();
+	int getActiveToolbarId();
 
-	public ConstructionProtocolView getConstructionProtocolView();
+	ConstructionProtocolView getConstructionProtocolView();
 
-	public void setShowConstructionProtocolNavigation(boolean show, int id);
+	void setShowConstructionProtocolNavigation(boolean show, int id);
 
-	public void setShowConstructionProtocolNavigation(boolean show, int id,
-			boolean playButton, double playDelay, boolean showProtButton);
+	void setShowConstructionProtocolNavigation(boolean show, int id,
+											   boolean playButton, double playDelay, boolean showProtButton);
 
-	public void updateCheckBoxesForShowConstructinProtocolNavigation(int id);
+	void updateCheckBoxesForShowConstructinProtocolNavigation(int id);
 
 	/**
 	 * Switch navigation bar buttons to pause.
 	 */
-	public void setNavBarButtonPause();
+	void setNavBarButtonPause();
 
 	/**
 	 * Switch navigation bar buttons to play.
 	 */
-	public void setNavBarButtonPlay();
+	void setNavBarButtonPlay();
 
 	/**
 	 * #3490 "Create sliders for a, b?" Create Sliders / Cancel Yes: create
@@ -327,60 +325,60 @@ public interface GuiManagerInterface {
 	 *            eg "a, b"
 	 * @return true/false
 	 */
-	public boolean checkAutoCreateSliders(String string,
-			AsyncOperation<String[]> callback);
+	boolean checkAutoCreateSliders(String string,
+								   AsyncOperation<String[]> callback);
 
-	public void applyCPsettings(ConstructionProtocolSettings cpSettings);
+	void applyCPsettings(ConstructionProtocolSettings cpSettings);
 
-	public ConstructionProtocolNavigation getCPNavigationIfExists();
+	ConstructionProtocolNavigation getCPNavigationIfExists();
 
 	ConstructionProtocolNavigation getConstructionProtocolNavigation(int id);
 
 	ConstructionProtocolNavigation getConstructionProtocolNavigation();
 
-	public Collection<ConstructionProtocolNavigation> getAllCPNavigations();
+	Collection<ConstructionProtocolNavigation> getAllCPNavigations();
 
-	public void logout();
+	void logout();
 
 	int getEuclidianViewCount();
 
-	public void addToToolbarDefinition(int mode);
+	void addToToolbarDefinition(int mode);
 
-	public String getToolbarDefinition();
+	String getToolbarDefinition();
 
-	public void registerConstructionProtocolView(ConstructionProtocolView view);
+	void registerConstructionProtocolView(ConstructionProtocolView view);
 
-	public void updatePropertiesViewStylebar();
+	void updatePropertiesViewStylebar();
 
-	public void getToolImageURL(int mode, GeoImage geoImage, AsyncOperation<String> onload);
+	void getToolImageURL(int mode, GeoImage geoImage, AsyncOperation<String> onload);
 
-	public EuclidianViewInterfaceCommon getPlotPanelEuclidanView();
+	EuclidianViewInterfaceCommon getPlotPanelEuclidanView();
 
 	/**
 	 * redraw Navigation Bars if necessary (eg step changed)
 	 */
-	public void updateNavBars();
+	void updateNavBars();
 
-	public void replaceInputSelection(String string);
+	void replaceInputSelection(String string);
 
-	public void setInputText(String definitionForInputBar);
+	void setInputText(String definitionForInputBar);
 
-	public void setImageCornersFromSelection(GeoImage geoImage);
+	void setImageCornersFromSelection(GeoImage geoImage);
 
-	public void refreshCustomToolsInToolBar();
+	void refreshCustomToolsInToolBar();
 
-	public void getExtraViewsXML(StringBuilder sb);
+	void getExtraViewsXML(StringBuilder sb);
 
-	public String getHelpURL(Help type, String pageName);
+	String getHelpURL(Help type, String pageName);
 
-	public StepGuiBuilder getStepGuiBuilder();
+	void buildStepGui(SolutionStep steps);
 
-	public void openMenuInAVFor(GeoElement geo);
+	void openMenuInAVFor(GeoElement geo);
 
-	public void addAudio(String url);
+	void addAudio(String url);
 
-	public void addVideo(String url);
+	void addVideo(String url);
 
-	public void updateVideo(GeoVideo video);
+	void updateVideo(GeoVideo video);
 
 }

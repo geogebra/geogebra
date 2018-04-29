@@ -2198,12 +2198,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public String stepByStep(String eq) {
 		StepEquation se = new StepEquation(eq, kernel.getParser());
-		StepGuiBuilderJson builder = new StepGuiBuilderJson();
+		StepGuiBuilderJson builder = new StepGuiBuilderJson(kernel.getLocalization());
 		
 		SolutionBuilder sb = new SolutionBuilder();
 		se.solve(new StepVariable("x"), sb);
 		
-		sb.getSteps().getListOfSteps(builder, kernel.getLocalization());
+		builder.buildStepGui(sb.getSteps());
 		return builder.toString();
 	}
 

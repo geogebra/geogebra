@@ -1,20 +1,8 @@
 package org.geogebra.common.gui.view.algebra;
 
-import java.util.List;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 
 public interface StepGuiBuilder {
 
-	void addRow(List<String> equations);
-
-	void startGroup();
-
-	void endGroup();
-
-	void startDefault();
-
-	void switchToDetailed();
-
-	void endDetailed();
-
-	void linebreak();
+	void buildStepGui(SolutionStep step);
 }

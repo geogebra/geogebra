@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.DialogManager;
@@ -2421,9 +2422,9 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public StepGuiBuilder getStepGuiBuilder() {
-		return ((ToolbarDockPanelW) getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
-				.getToolbar().openSteps(true);
+	public void buildStepGui(SolutionStep steps) {
+		((ToolbarDockPanelW) getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
+				.getToolbar().openSteps(true, steps);
 	}
 
 	@Override
