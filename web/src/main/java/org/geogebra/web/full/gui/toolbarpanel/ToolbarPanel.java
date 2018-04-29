@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;

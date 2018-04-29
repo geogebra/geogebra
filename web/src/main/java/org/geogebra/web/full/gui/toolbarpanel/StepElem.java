@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.*;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 
@@ -37,7 +38,12 @@ public class StepElem extends VerticalPanel {
             needsRender = false;
         } else {
             for (int i = 1; i < getWidgetCount(); i++) {
-                getWidget(i).setVisible(!getWidget(i).isVisible());
+                boolean visible = !getWidget(i).isVisible();
+                getWidget(i).setVisible(visible);
+                getWidget(i).getElement().getParentElement()
+                        .getParentElement().getStyle()
+                        .setDisplay(visible ? Style.Display.BLOCK
+                                : Style.Display.NONE);
             }
         }
     }

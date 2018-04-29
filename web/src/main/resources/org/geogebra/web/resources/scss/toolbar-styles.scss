@@ -26,13 +26,12 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
 	.stepTree {
 		td:first-child {
-			width: 100% !important;
+			width: 100% !important
 		}
 
 		.stepGroupPanel {
-			table table:nth-child(n+1) {
-				padding: 3px 3px 3px 23px !important;
-			}
+			box-sizing: border-box;
+			padding: 3px 3px 3px 23px !important;
 			width: 100%;
 		}
 
