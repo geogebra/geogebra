@@ -228,8 +228,8 @@ public class InputSuggestions implements HasSuggestions {
 						: app.getExam().getSyntax(cmdInt, loc,
 								app.getSettings());
 			}
-			if (syntaxString.endsWith(component.isForCAS()
-					? Localization.syntaxCAS : Localization.syntaxStr)) {
+			if (syntaxString.endsWith(Localization.syntaxCAS)
+					|| syntaxString.endsWith(Localization.syntaxStr)) {
 
 				// command not found, check for macros
 				Macro macro = component.isForCAS() ? null

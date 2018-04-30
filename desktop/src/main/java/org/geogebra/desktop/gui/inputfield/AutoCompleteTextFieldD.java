@@ -798,19 +798,23 @@ public class AutoCompleteTextFieldD extends MathTextField
 		for (String cmd : commands) {
 
 			String cmdInt = app.getInternalCommand(cmd);
+
+			if (cmdInt == null || "undefined".equals(cmdInt)) {
+				Log.error("Can't find command " + cmd);
+				continue;
+			}
+
 			String syntaxString;
-			String suffix = Localization.syntaxStr;
 			if (isCASInput) {
 				syntaxString = loc.getCommandSyntaxCAS(cmdInt);
 				if (syntaxString.endsWith(Localization.syntaxCAS)) {
 					syntaxString = loc.getCommandSyntax(cmdInt);
-				} else {
-					suffix = Localization.syntaxCAS;
 				}
 			} else {
 				syntaxString = loc.getCommandSyntax(cmdInt);
 			}
-			if (syntaxString.endsWith(suffix)) {
+			if (syntaxString.endsWith(Localization.syntaxStr)
+					|| syntaxString.endsWith(Localization.syntaxCAS)) {
 
 				// command not found, check for macros
 				Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd);

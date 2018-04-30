@@ -553,8 +553,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			if (syntaxString == null) {
 				continue;
 			}
-			if (syntaxString.endsWith(isCASInput ? Localization.syntaxCAS
-					: Localization.syntaxStr)) {
+			if (syntaxString.endsWith(Localization.syntaxCAS)
+					|| syntaxString.endsWith(Localization.syntaxStr)) {
 
 				// command not found, check for macros
 				Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd);
