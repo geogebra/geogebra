@@ -5023,28 +5023,55 @@ namespace giac {
       identificateur tt=*v[1]._IDNTptr;
       gen vparameq(v[0]);
 #if 1
+      bool numereq=false,approxafter=false;
       if (v.size()>6 && !is_undef(v[6])){
-	v[0]=vparameq=v[6];
 	if (is_constant_wrt(vparameq,v[1],contextptr))
 	  v[1]=t__IDNT_e;
 	v[2]=minus_inf;
 	v[3]=plus_inf;
+	if (has_num_coeff(v[6]))
+	  approxafter=true;
+	v[0]=vparameq=exact(v[6],contextptr);
 	tt=*v[1]._IDNTptr;
+	numereq=true;
+	if (has_num_coeff(p))
+	  approxafter=true;
       }
 #endif
-      gen tangeant(derive(vparameq,tt,contextptr));
-      if (is_undef(tangeant))
-	return tangeant;
       gen t_found=v[2];
 #ifndef NO_STDEXCEPT
       try {
 #endif
-	gen eq=scalar_product(tangeant,p-v[0],contextptr);
-	if (is_undef(eq)) return eq;
-	if (is_inf(v[2]) || is_inf(v[3]))
-	  eq=exact(eq,contextptr);
-	// should expand and assume that tt is real
-	rewrite_with_t_real(eq,v[1],contextptr);
+	gen eq;
+	if (numereq){
+	  gen xy,d,x,y,mx,my,d1,x1,y1;
+	  gen tmp=_fxnd(vparameq,contextptr);
+	  if (tmp.type!=_VECT)
+	    numereq=false;
+	  else {
+	    xy=tmp._VECTptr->front(); d=tmp._VECTptr->back();
+	    d1=derive(d,tt,contextptr);
+	    if (is_zero(im(d1,contextptr))){
+	      reim(xy,x,y,contextptr);
+	      reim(exact(p,contextptr),mx,my,contextptr);
+	      x1=derive(x,tt,contextptr);
+	      y1=derive(y,tt,contextptr);
+	      eq=_numer(d*((x1*d-d1*x)*mx+(y1*d-d1*y)*my)+(x*x+y*y)*d1-d*(x1*x+y1*y),contextptr);
+	    }
+	    else numereq=false;
+	  }
+	}
+	if (!numereq){
+	  gen tangeant(derive(vparameq,tt,contextptr));
+	  if (is_undef(tangeant))
+	    return tangeant;
+	  eq=scalar_product(tangeant,p-v[0],contextptr);
+	  if (is_undef(eq)) return eq;
+	  if (is_inf(v[2]) || is_inf(v[3]))
+	    eq=exact(eq,contextptr);
+	  // should expand and assume that tt is real
+	  rewrite_with_t_real(eq,v[1],contextptr);
+	}
 	vecteur sol;
 	if (has_num_coeff(eq)){
 	  gen rep=re(p,contextptr);
@@ -5064,8 +5091,13 @@ namespace giac {
 	    sol=gen2vecteur(in_fsolve(eqv,contextptr));
 	  }
 	}
-	else
-	  sol=solve(eq,v[1],0,contextptr);
+	else {
+	  if (approxafter && lvarxwithinv(eq,tt,contextptr).size()<2) {
+	    sol=gen2vecteur(_proot(makesequence(evalf(eq,1,contextptr),tt),contextptr));//eq=evalf(eq,1,contextptr);
+	  }
+	  else
+	    sol=solve(eq,v[1],0,contextptr);
+	}
 	if (calc_mode(contextptr)==1 && sol.empty())
 	  return undef;
 	sol.push_back(v[3]);
