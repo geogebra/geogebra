@@ -694,4 +694,15 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		}
 	}
 
+	@Override
+	public boolean setShowAxes(boolean flag) {
+		boolean changed = setShowAxisNoFireSettingChanged(0, flag);
+		changed = setShowAxisNoFireSettingChanged(1, flag) || changed;
+		changed = setShowAxisNoFireSettingChanged(2, flag) || changed;
+		if (changed) {
+			settingChanged();
+		}
+		return changed;
+	}
+
 }
