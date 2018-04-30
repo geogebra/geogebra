@@ -307,6 +307,9 @@ public enum Feature {
 	MOB_FIX_DONT_SWITCH_TO_AV,
 
 	/** GGB-2366 */
-	TIKZ_AXES
+	TIKZ_AXES,
+
+	/** AND-1061 */
+	MOB_EXAM_MODE_EXIT_DIALOG_NEW
 }
 

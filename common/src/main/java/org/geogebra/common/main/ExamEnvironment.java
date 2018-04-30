@@ -205,6 +205,8 @@ public class ExamEnvironment {
 				return localization.getMenu("exam_ended");
 			case EXIT:
 				return localization.getMenu("Exit");
+			case DURATION:
+				return localization.getMenu("Duration");
 		}
 		return null;
 	}

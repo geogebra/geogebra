@@ -11,5 +11,6 @@ public enum Translation {
     ACTIVITY,
     EXAM_STARTED,
     EXAM_ENDED,
-    EXIT
+    EXIT,
+    DURATION
 }
