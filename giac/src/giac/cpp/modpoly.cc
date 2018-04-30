@@ -8750,7 +8750,7 @@ namespace giac {
 #ifdef HAVE_LIBPTHREAD
     int locked=pthread_mutex_trylock(&ntl_mutex);
 #endif // HAVE_LIBPTHREAD
-    if (locked)
+    if (locked || ntl_on(context0)==0)
       return giac_gcd_modular_algo1(p,q,d);
     bool res=true;
     try {

@@ -561,11 +561,20 @@ namespace giac {
       return __ZINTptr->ref_count;
 #endif
     }
+#ifdef SMARTPTR64
+    gen()  {
+      * ((ulonglong * ) this)=0;
+#ifdef COMPILE_FOR_STABILITY
+      control_c();
+#endif
+    };
+#else
     gen(): type(_INT_),subtype(0),val(0) {
 #ifdef COMPILE_FOR_STABILITY
       control_c();
 #endif
     };
+#endif
 #ifdef SMARTPTR64
     gen(void *ptr,short int subt)  {
 #ifdef COMPILE_FOR_STABILITY
@@ -588,6 +597,22 @@ namespace giac {
       __POINTERptr=new ref_void_pointer(ptr); 
     };
 #endif
+#ifdef SMARTPTR64
+    gen(int i) {
+      * ((ulonglong * ) this)=0;
+      val=i;
+#ifdef COMPILE_FOR_STABILITY
+      control_c();
+#endif
+    };
+    gen(size_t i) {
+      * ((ulonglong * ) this)=0;
+      val=int(i);
+#ifdef COMPILE_FOR_STABILITY
+      control_c();
+#endif
+    };
+#else
     gen(int i): type(_INT_),subtype(0),val(i) {
 #ifdef COMPILE_FOR_STABILITY
       control_c();
@@ -598,6 +623,7 @@ namespace giac {
       control_c();
 #endif
     };
+#endif
     gen(long i);
     gen(longlong i);
     gen(longlong i,int nbits);

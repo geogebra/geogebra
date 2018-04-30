@@ -566,11 +566,16 @@ namespace giac {
 #ifdef COMPILE_FOR_STABILITY
     control_c();
 #endif
+#ifdef SMARTPTR64
+    * ((ulonglong * ) this)=0;
+#endif
     val=(int)i;
     //    longlong temp=val;
     if (val==i && val!=1<<31){
+#ifndef SMARTPTR64
       type=_INT_;
       subtype=0;
+#endif
     }
     else {
 #ifdef SMARTPTR64
@@ -598,11 +603,16 @@ namespace giac {
 #ifdef COMPILE_FOR_STABILITY
     control_c();
 #endif
+#ifdef SMARTPTR64
+    * ((ulonglong * ) this)=0;
+#endif
     val=(int)i;
     //    longlong temp=val;
     if (val==i && val!=1<<31){
+#ifndef SMARTPTR64
       type=_INT_;
       subtype=0;
+#endif
     }
     else {
 #ifdef SMARTPTR64
@@ -650,11 +660,16 @@ namespace giac {
 #ifdef COMPILE_FOR_STABILITY
     control_c();
 #endif
+#ifdef SMARTPTR64
+    * ((ulonglong * ) this)=0;
+#endif
     val=(int)i;
     //    longlong temp=val;
     if (val==i && val!=1<<31){
+#ifndef SMARTPTR64
       type=_INT_;
       subtype=0;
+#endif
     }
     else {
 #ifdef SMARTPTR64
@@ -683,11 +698,16 @@ namespace giac {
 #ifdef COMPILE_FOR_STABILITY
     control_c();
 #endif
+#ifdef SMARTPTR64
+    * ((ulonglong * ) this)=0;
+#endif
     val=i;
     //    longlong temp=val;
     if (val==i && val!=1<<31){
+#ifndef SMARTPTR64
       type=_INT_;
       subtype=0;
+#endif
     }
     else {
       bool signe=(i<0);
