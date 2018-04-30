@@ -10024,6 +10024,9 @@ namespace giac {
 
   // solve
   bool padic_linsolve_solve(const matrice & a,const gen & p,const vector<int> & ranklines,const vector<int> & rankcols,const matrice & asub,const matrice & ainv,const vecteur & compat,const vecteur & b,vecteur & sol){
+#ifdef GIAC_HAS_STO_38
+    return false;
+#endif
     // first check that b verifies compat
     int es=int(compat.size());
     for (int i=0;i<es;++i){

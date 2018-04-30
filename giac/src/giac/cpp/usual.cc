@@ -1977,11 +1977,11 @@ namespace giac {
 	gen kk;
 	if (angle_radian(contextptr)) 
 	  kk=normal(rdiv(e,cst_pi,contextptr),contextptr);
-  else if(angle_degree(contextptr))
+	else if(angle_degree(contextptr))
 	  kk=normal(rdiv(e,180,contextptr),contextptr);
-  //grad
+	//grad
 	else
-    kk = normal(rdiv(e, 200, contextptr), contextptr);
+	  kk = normal(rdiv(e, 200, contextptr), contextptr);
 	if (is_assumed_integer(kk,contextptr))
 	  return zero;
 	int n,d;
@@ -2000,13 +2000,22 @@ namespace giac {
 	    sqrt5=sqrt(sqrt5,contextptr);
 	    return n<=2?sqrt5:-sqrt5;
 	  }
+	  if (d%2==0 && n<d/2 && n>d/4){
+	    n = d/2-n; gen res;
+	    if (angle_radian(contextptr)) 
+	      res=symb_tan((n%d)*inv(d,contextptr)*cst_pi);
+	    else if(angle_degree(contextptr))
+	      res= symb_tan(rdiv((n%d)*180,d,contextptr));
+	    else // grad
+	      res= symb_tan(rdiv((n%d)*200,d,contextptr));
+	    return inv(res,contextptr);
+	  }
 	  if (angle_radian(contextptr)) 
 	    return symb_tan((n%d)*inv(d,contextptr)*cst_pi);
-    else if(angle_degree(contextptr))
+	  else if(angle_degree(contextptr))
 	    return symb_tan(rdiv((n%d)*180,d,contextptr));
-    //grad
-	  else
-      return symb_tan(rdiv((n%d)*200,d,contextptr));
+	  else // grad
+	    return symb_tan(rdiv((n%d)*200,d,contextptr));
 	}
       }
     }
