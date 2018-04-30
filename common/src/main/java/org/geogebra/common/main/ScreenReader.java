@@ -93,9 +93,9 @@ public class ScreenReader {
 				appendSentence(sb, "PressArrowsToMove", null, null, app);
 			}
 			if (geo0.isGeoList() && app.has(Feature.READ_DROPDOWNS)) {
-				String arg[] = { geo0.getNameDescription() };
-				appendSentence(sb, "DropDownSelected", "Drop down " + arg[0] + " menu selected", arg,
-						app);
+				String[] arg = { geo0.getNameDescription() };
+				appendSentence(sb, "DropDownSelected", "Drop down " + arg[0] + " menu selected",
+						arg, app);
 				appendSentence(sb, "PressSpaceToOpen", "Press space to open", null, app);
 			}
 		}

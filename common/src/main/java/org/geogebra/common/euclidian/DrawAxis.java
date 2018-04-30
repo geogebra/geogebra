@@ -466,7 +466,6 @@ public class DrawAxis {
 		// arraylist
 		ArrayList<TickNumber> numbers = new ArrayList<>();
 
-
 		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
 			if (pix >= maxY && pix < yAxisEnd + 1) {
 				if (view.showAxesNumbers[1]
@@ -480,7 +479,8 @@ public class DrawAxis {
 										- (view.xLabelHeights + 5))) {
 
 					boolean currency = isCurrencyUnit(1);
-					String strNum = currency ? tickUnit(view, labelno, 1) : tickDescription(view, labelno, 1);
+					String strNum = currency ? tickUnit(view, labelno, 1)
+							: tickDescription(view, labelno, 1);
 
 					if ((labelno % unitsPerLabelY) == 0) {
 
@@ -584,6 +584,7 @@ public class DrawAxis {
 		}
 		return sb;
 	}
+
 	/**
 	 * 
 	 * @param xCrossPix
@@ -947,7 +948,8 @@ public class DrawAxis {
 			if (pix >= xAxisStart && pix <= maxX) {
 				if (view.showAxesNumbers[0]) {
 					boolean currency = isCurrencyUnit(0);
-					String strNum = currency ? tickUnit(view, labelno, 0) : tickDescription(view, labelno, 0);
+					String strNum = currency ? tickUnit(view, labelno, 0)
+							: tickDescription(view, labelno, 0);
 
 					if ((labelno % unitsPerLabelX) == 0) {
 						StringBuilder sb = formatUnitLabel(strNum, 0, minusSign, currency);
@@ -1136,7 +1138,8 @@ public class DrawAxis {
 			strNum += num;
 		}
 		StringBuilder sb = new StringBuilder();
-		if (view.axesUnitLabels[axis].charAt(0) == Unicode.CURRENCY_DOLLAR && Math.abs(num) > CURRENCY_DOLLAR_BATCH) {
+		if (view.axesUnitLabels[axis].charAt(0) == Unicode.CURRENCY_DOLLAR
+				&& Math.abs(num) > CURRENCY_DOLLAR_BATCH) {
 			int length = strNum.length();
 			if (num < 0) {
 				length--;
@@ -1159,6 +1162,7 @@ public class DrawAxis {
 		}
 		return sb.toString();
 	}
+
 	/**
 	 * @param view
 	 *            view

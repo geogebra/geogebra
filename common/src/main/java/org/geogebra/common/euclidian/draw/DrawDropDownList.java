@@ -888,15 +888,16 @@ public final class DrawDropDownList extends CanvasDrawable
 			return visible;
 		}
 
-		private void readOpenText(){
-			StringBuilder sb = new StringBuilder();		
+		private void readOpenText() {
+			StringBuilder sb = new StringBuilder();
 			String arg[] = { geoList.getNameDescription() };
-			sb.append(geoList.getKernel().getApplication().getLocalization().getPlainArray("DropDownOpened",
-					"Drop down " + arg[0] + " opened", arg));
-			sb.append(geoList.getKernel().getApplication().getLocalization().getMenuDefault("PressArrowsToGo",
+			sb.append(geoList.getKernel().getApplication().getLocalization()
+					.getPlainArray("DropDownOpened", "Drop down " + arg[0] + " opened", arg));
+			sb.append(geoList.getKernel().getApplication().getLocalization().getMenuDefault(
+					"PressArrowsToGo",
 					"Press up arrow and down arrow to go to different options."));
-			sb.append(geoList.getKernel().getApplication().getLocalization().getMenuDefault("PressEnterToSelect",
-					"Press enter to select."));
+			sb.append(geoList.getKernel().getApplication().getLocalization()
+					.getMenuDefault("PressEnterToSelect", "Press enter to select."));
 			geoList.getKernel().getApplication().getActiveEuclidianView().readText(sb.toString());
 		}
 

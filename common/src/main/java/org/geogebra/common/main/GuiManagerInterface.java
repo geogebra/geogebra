@@ -302,7 +302,7 @@ public interface GuiManagerInterface {
 	void setShowConstructionProtocolNavigation(boolean show, int id);
 
 	void setShowConstructionProtocolNavigation(boolean show, int id,
-											   boolean playButton, double playDelay, boolean showProtButton);
+			boolean playButton, double playDelay, boolean showProtButton);
 
 	void updateCheckBoxesForShowConstructinProtocolNavigation(int id);
 
