@@ -4256,6 +4256,10 @@ public abstract class App implements UpdateSelection {
 		case ALL_LANGUAGES:
 			return prerelease;
 
+		/** GGB-2366 */
+		case TIKZ_AXES:
+			return prerelease;
+
 		/** GGB-650 */
 		case GGB_WEB_ASSEMBLY:
 			return true;

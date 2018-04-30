@@ -60,6 +60,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -113,15 +114,21 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		codeBeginDoc = new StringBuilder();
 		customColor = new HashMap<>();
 		if (format == GeoGebraToPgf.FORMAT_LATEX) {
-			codePreamble.append("\\documentclass[" + frame.getFontSize()
-					+ "pt]{article}\n"
-					+ "\\usepackage{pgf,tikz}\n\\usepackage{mathrsfs}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
+			codePreamble.append("\\documentclass[");
+			codePreamble.append(frame.getFontSize());
+			codePreamble.append("pt]{article}\n");
+			codePreamble.append("\\usepackage{pgf,tikz");
+			if (kernel.getApplication().has(Feature.TIKZ_AXES)) {
+				codePreamble.append(",pgfplots");
+			}
+			codePreamble.append(
+					")\n\\usepackage{mathrsfs}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
 			codeBeginDoc.append(
-					"\\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=");
-			codeBeginDoc.append(xunit);
-			codeBeginDoc.append("cm,y=");
-			codeBeginDoc.append(yunit);
-			codeBeginDoc.append("cm]\n");
+					"\\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,");
+
+			addScale(codeBeginDoc);
+
+			codeBeginDoc.append("]\n");
 		} else if (format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
 			codePreamble.append(
 					"%Uncomment next line if XeTeX is used\n%\\def\\pgfsysdriver{pgfsys-xetex.def}\n\n");
@@ -165,14 +172,21 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		if (format == FORMAT_BEAMER) {
 			format = FORMAT_LATEX;
 		}
+		
+		if (kernel.getApplication().has(Feature.TIKZ_AXES)) {
+			
+			drawNiceAxesGrid();
 
-		// Draw Grid
-		if (euclidianView.getShowGrid()) {
-			drawGrid();
-		}
-		// Draw axis
-		if (euclidianView.getShowXaxis() || euclidianView.getShowYaxis()) {
-			drawAxis();
+		} else {
+
+			// Draw Grid
+			if (euclidianView.getShowGrid()) {
+				drawGrid();
+			}
+			// Draw axis
+			if (euclidianView.getShowXaxis() || euclidianView.getShowYaxis()) {
+				drawAxis();
+			}
 		}
 		// Clipping
 		codeFilledObject.append("\\clip");
@@ -2540,6 +2554,68 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		codeBeginDoc.append(" grid ");
 		writePoint(xmax, ymax, codeBeginDoc);
 		codeBeginDoc.append(";\n");
+	}
+
+	private void addScale(StringBuilder sb) {
+		sb.append("x=");
+		sb.append(xunit);
+		sb.append("cm,y=");
+		sb.append(yunit);
+		sb.append("cm");
+	}
+
+	/**
+	 * https://de.sharelatex.com/learn/pgfplots_package
+	 */
+	private void drawNiceAxesGrid() {
+		codeBeginDoc.append("\\begin{axis}[\n");
+
+		// codeBeginDoc.append("x=1cm,y=1cm,");
+		addScale(codeBeginDoc);
+
+		// 'middle' or 'edge'
+		codeBeginDoc.append(",\naxis lines=middle");
+
+		// codeBeginDoc.append(",\ngrid=both,\n");
+
+		// grid style=dashed,
+
+		// horizontal grid
+		codeBeginDoc.append("ymajorgrids=true,\n");
+		// vertical grid
+		codeBeginDoc.append("xmajorgrids=true,\n");
+
+		codeBeginDoc.append("xmin=");
+		codeBeginDoc.append(xmin);
+
+		codeBeginDoc.append(",\nxmax=");
+		codeBeginDoc.append(xmax);
+
+		codeBeginDoc.append(",\nymin=");
+		codeBeginDoc.append(ymin);
+
+		codeBeginDoc.append(",\nymax=");
+		codeBeginDoc.append(ymax);
+
+		// eg xtick={-8,-7,...,8}");
+		codeBeginDoc.append(",\nxtick={");
+
+		codeBeginDoc.append(Math.ceil(xmin));
+		codeBeginDoc.append(',');
+		codeBeginDoc.append(Math.ceil(xmin) + 1);
+		codeBeginDoc.append(",...,");
+		codeBeginDoc.append(Math.floor(xmax));
+
+		// eg ytick={-4,-3,...,4");
+		codeBeginDoc.append("},\nytick={");
+
+		codeBeginDoc.append(Math.ceil(ymin));
+		codeBeginDoc.append(',');
+		codeBeginDoc.append(Math.ceil(ymin) + 1);
+		codeBeginDoc.append(",...,");
+		codeBeginDoc.append(Math.floor(ymax));
+
+		codeBeginDoc.append("},]\n\\end{axis}\n");
 	}
 
 	/**

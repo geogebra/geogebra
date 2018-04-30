@@ -304,6 +304,9 @@ public enum Feature {
 	MOB_PACK_ALL_CURVES,
 
 	/** MOB-1153 */
-	MOB_FIX_DONT_SWITCH_TO_AV
+	MOB_FIX_DONT_SWITCH_TO_AV,
+
+	/** GGB-2366 */
+	TIKZ_AXES
 }
 
