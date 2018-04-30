@@ -40,9 +40,6 @@ public class AxesVisibilityProperty extends AbstractProperty
 
 	@Override
 	public void setValue(boolean value) {
-		int axesLength = euclidianSettings.getShowAxes().length;
-		for (int i = 0; i < axesLength; i++) {
-			euclidianSettings.setShowAxis(i, value);
-		}
+		euclidianSettings.setShowAxes(value);
 	}
 }
