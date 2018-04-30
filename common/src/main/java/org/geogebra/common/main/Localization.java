@@ -981,7 +981,6 @@ public abstract class Localization {
 			unicodeZero = '0';
 		}
 
-		Log.debug("unicodeDecimalPoint = " + unicodeDecimalPoint);
 	}
 
 	/**
@@ -1493,7 +1492,7 @@ public abstract class Localization {
 	 * @return decimal point character for current language
 	 */
 	final public char getDecimalPoint() {
-		return '.'; // unicodeDecimalPoint;
+		return unicodeDecimalPoint;
 	}
 
 	/**
