@@ -12,6 +12,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.CustomizeToolbarHeaderPanel.CustomizeToolbarListener;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -539,7 +540,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		public void setMode(Integer mode) {
 			this.mode = mode;
 			clear();
-			toolbarImg = new NoDragImage("", 32);
+			toolbarImg = new NoDragImage(AppResources.INSTANCE.empty(), 32);
 			GGWToolBar.getImageResource(mode, app, toolbarImg);
 			toolbarImg.addStyleName("toolbar_icon");
 			toolbarImg.setWidth("32px");

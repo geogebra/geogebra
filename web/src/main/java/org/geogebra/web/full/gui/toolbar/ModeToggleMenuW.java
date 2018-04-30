@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -83,7 +84,8 @@ public class ModeToggleMenuW extends ListItem
 	protected void buildButton() {
 		tbutton = new FlowPanel();
 		tbutton.addStyleName("toolbar_button");
-		NoDragImage toolbarImg = new NoDragImage("", 32);
+		NoDragImage toolbarImg = new NoDragImage(AppResources.INSTANCE.empty(),
+				32);
 		GGWToolBar.getImageResource(menu.get(0).intValue(), app, toolbarImg);
 		toolbarImg.addStyleName("toolbar_icon");
 		tbutton.add(toolbarImg);
@@ -362,7 +364,8 @@ public class ModeToggleMenuW extends ListItem
 		tbutton.getElement().setAttribute("mode", miMode);
 		//
 		tbutton.clear();
-		NoDragImage buttonImage = new NoDragImage("", 32);
+		NoDragImage buttonImage = new NoDragImage(AppResources.INSTANCE.empty(),
+				32);
 		GGWToolBar
 				.getImageResource(Integer.parseInt(miMode), app, buttonImage);
 		buttonImage.addStyleName("toolbar_icon");

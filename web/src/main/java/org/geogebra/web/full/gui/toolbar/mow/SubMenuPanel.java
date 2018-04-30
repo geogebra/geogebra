@@ -7,6 +7,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -214,7 +215,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * @return Newly created toolbar button to set its mode.
 	 */
 	protected StandardButton createButton(int mode) {
-		NoDragImage im = new NoDragImage("", 32);
+		NoDragImage im = new NoDragImage(AppResources.INSTANCE.empty(), 32);
 		GGWToolBar.getImageResource(mode, app, im);
 		// opacity hack: old icons don't need opacity, new ones do
 		if (imageNeedsOpacity(mode)) {

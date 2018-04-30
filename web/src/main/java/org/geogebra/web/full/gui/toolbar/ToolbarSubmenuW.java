@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
@@ -126,7 +127,7 @@ public class ToolbarSubmenuW extends FlowPanel {
 	}
 
 	protected Image createImage(int mode) {
-		NoDragImage img = new NoDragImage("", 32);
+		NoDragImage img = new NoDragImage(AppResources.INSTANCE.empty(), 32);
 
 		GGWToolBar.getImageResource(mode, app, img);
 		// temporary opacity fix until all the icons will be renewed
