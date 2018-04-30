@@ -262,13 +262,13 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 			break;
 
 		case KeyEvent.VK_F9:
-			kernel.updateConstruction();
+			kernel.updateConstruction(true);
 			e.consume(); // stops editing start
 			break;
 
 		case KeyEvent.VK_R:
 			if (AppD.isControlDown(e)) {
-				kernel.updateConstruction();
+				kernel.updateConstruction(true);
 				e.consume();
 			} else {
 				letterOrDigitTyped();

@@ -475,7 +475,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 		// update macro construction with current values of global vars
 		resetMacroConstruction();
-		macroCons.updateConstruction();
+		macroCons.updateConstruction(false);
 
 		// lines: start from startpoint to avoid inf. problems.
 		// Otherwise go from endpoint to endpoint

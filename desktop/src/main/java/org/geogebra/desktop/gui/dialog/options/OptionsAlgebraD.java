@@ -7,17 +7,17 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.dialog.options.OptionsAlgebra;
-import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
-import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.main.LocalizationD;
-
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+
+import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.dialog.options.OptionsAlgebra;
+import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * Advanced options for the options dialog.
@@ -65,7 +65,7 @@ public class OptionsAlgebraD extends OptionsAlgebra
 				if (description.getSelectedIndex() >= 0) {
 					app.getKernel()
 							.setAlgebraStyle(description.getSelectedIndex());
-					app.getKernel().updateConstruction();
+					app.getKernel().updateConstruction(false);
 				}
 			}
 		});

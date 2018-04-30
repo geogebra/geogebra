@@ -598,19 +598,19 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 			// cbIgnoreDocumentLayout.isSelected());
 		} else if (source == angleUnitRadioDegree) {
 			app.getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
-			app.getKernel().updateConstruction();
+			app.getKernel().updateConstruction(false);
 			app.setUnsaved();
 		} else if (source == angleUnitRadioRadian) {
 			app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
-			app.getKernel().updateConstruction();
+			app.getKernel().updateConstruction(false);
 			app.setUnsaved();
 		} else if (source == continuityRadioOn) {
 			app.getKernel().setContinuous(true);
-			app.getKernel().updateConstruction();
+			app.getKernel().updateConstruction(false);
 			app.setUnsaved();
 		} else if (source == continuityRadioOff) {
 			app.getKernel().setContinuous(false);
-			app.getKernel().updateConstruction();
+			app.getKernel().updateConstruction(false);
 			app.setUnsaved();
 		} else if (source == usePathAndRegionParametersRadioOn) {
 			app.getKernel()
@@ -624,13 +624,13 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 			app.setUnsaved();
 		} else if (source == coordinatesRadio1) {
 			app.getKernel().setCoordStyle(0);
-			app.getKernel().updateConstruction();
+			app.getKernel().updateConstruction(false);
 		} else if (source == coordinatesRadio2) {
 			app.getKernel().setCoordStyle(1);
-			app.getKernel().updateConstruction();
+			app.getKernel().updateConstruction(false);
 		} else if (source == coordinatesRadio3) {
 			app.getKernel().setCoordStyle(2);
-			app.getKernel().updateConstruction();
+			app.getKernel().updateConstruction(false);
 		} else if (source == cbGUIFont) {
 			int index = cbGUIFont.getSelectedIndex();
 			if (index == 0) {

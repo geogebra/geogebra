@@ -393,7 +393,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 		// update macro construction with current values of global vars
 		resetMacroConstruction();
-		macroCons.updateConstruction();
+		macroCons.updateConstruction(false);
 		copyP.setValue(movingSlider.getIntervalMin());
 		// use current position of movingPoint to start Pcopy
 		sliderMover.init(copyP);

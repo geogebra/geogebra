@@ -117,7 +117,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 				getApp().getKernel()
 						.setAlgebraStyle(
 							AlgebraSettings.getStyleModeAt(idx));
-				getApp().getKernel().updateConstruction();
+					getApp().getKernel().updateConstruction(false);
 				}
 			});
 			setLabels();
@@ -177,7 +177,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 			coordStyle.addItem(getApp().getLocalization().getMenu("A(x | y)"));
 			coordStyle.addItem(getApp().getLocalization().getMenu("A: (x, y)"));
 			coordStyle.setSelectedIndex(getApp().getKernel().getCoordStyle());
-			getApp().getKernel().updateConstruction();
+			getApp().getKernel().updateConstruction(false);
 		}
 
 		/**
@@ -192,7 +192,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 			angleUnit.setSelectedIndex(
 					getApp().getKernel().getAngleUnit() == Kernel.ANGLE_RADIANT
 							? 1 : 0);
-			getApp().getKernel().updateConstruction();
+			getApp().getKernel().updateConstruction(false);
 			getApp().setUnsaved();
 		}
 
@@ -245,12 +245,12 @@ public class OptionsAlgebraW extends OptionsAdvanced
 			} else if (source == getCoordStyle()) {
 				int i = getCoordStyle().getSelectedIndex();
 				getApp().getKernel().setCoordStyle(i);
-				getApp().getKernel().updateConstruction();
+				getApp().getKernel().updateConstruction(false);
 			} else if (source == getAngleUnit()) {
 				int i = getAngleUnit().getSelectedIndex();
 				getApp().getKernel().setAngleUnit(
 						i == 0 ? Kernel.ANGLE_DEGREE : Kernel.ANGLE_RADIANT);
-				getApp().getKernel().updateConstruction();
+				getApp().getKernel().updateConstruction(false);
 				getApp().setUnsaved();
 			}
 		}

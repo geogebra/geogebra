@@ -304,7 +304,7 @@ public class OptionsMenuD extends BaseMenu
 									.restoreDefaultGeo();
 						}
 					}
-					app.getKernel().updateConstruction();
+					app.getKernel().updateConstruction(false);
 					// set default layout options
 					app.setToolbarPosition(SwingConstants.NORTH, false);
 					app.setShowToolBarNoUpdate(true);

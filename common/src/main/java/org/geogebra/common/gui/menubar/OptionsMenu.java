@@ -78,11 +78,11 @@ public class OptionsMenu {
 			kernel.setPrintDecimals(OptionsMenu.roundingMenuLookup(id));
 		}
 
-		kernel.updateConstruction();
+		kernel.updateConstruction(false);
 		app.refreshViews();
 
 		// see ticket 79
-		kernel.updateConstruction();
+		kernel.updateConstruction(false);
 
 		app.setUnsaved();
 	}

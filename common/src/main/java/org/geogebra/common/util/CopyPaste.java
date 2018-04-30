@@ -906,17 +906,13 @@ public class CopyPaste {
 
 		if (pasteFast(app) && !putdown) {
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+			app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
+			app.getKernel().getConstruction().updateConstruction(false);
 			if (ev == app.getEuclidianView1()) {
-				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
-				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN);
 			} else if (app.isEuclidianView3D(ev)) {
-				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
-				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN3D);
 			} else {
-				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
-				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
 			handleLabels(app, copiedXMLlabelsforSameWindow, putdown);
@@ -944,17 +940,13 @@ public class CopyPaste {
 			}
 
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+			app.getGgbApi().evalXML(copiedXML.toString());
+			app.getKernel().getConstruction().updateConstruction(false);
 			if (ev == app.getEuclidianView1()) {
-				app.getGgbApi().evalXML(copiedXML.toString());
-				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN);
 			} else if (app.isEuclidianView3D(ev)) {
-				app.getGgbApi().evalXML(copiedXML.toString());
-				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN3D);
 			} else {
-				app.getGgbApi().evalXML(copiedXML.toString());
-				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
 			handleLabels(app, copiedXMLlabels, putdown);

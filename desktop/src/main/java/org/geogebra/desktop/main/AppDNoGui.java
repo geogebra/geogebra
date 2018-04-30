@@ -744,7 +744,7 @@ public class AppDNoGui extends App {
 		// euclidianView.updateRightAngleStyle(locale);
 
 		// make sure digits are updated in all numbers
-		getKernel().updateConstruction();
+		getKernel().updateConstruction(false);
 		setUnsaved();
 
 		// setLabels(); // update display

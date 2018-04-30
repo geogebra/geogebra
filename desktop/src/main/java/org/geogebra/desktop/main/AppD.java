@@ -1485,7 +1485,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				new OutputStreamWriter(new FileOutputStream(regressionFile),
 						"UTF-8"));
 
-		kernel.updateConstruction();
+		kernel.updateConstruction(false);
 		regressionFileWriter.append(getXMLio().getConstructionRegressionOut());
 		regressionFileWriter.close();
 		AppD.exit(0);
@@ -5047,7 +5047,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		setLabelingStyle(ad.getLabelingStyle());
 		getKernel().setConstructionDefaults(ad.getKernel());
 		getKernel().setVisualStyles(ad.getKernel());
-		getKernel().updateConstruction();
+		getKernel().updateConstruction(true);
 
 		// almost forgotten something important!
 		// ad should be closed!

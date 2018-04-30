@@ -26,7 +26,6 @@ public class AlgebraStyleListBox extends ListBox {
 			@Override
 			public void onChange(ChangeEvent event) {
 				int idx = getSelectedIndex();
-
 				Kernel kernel = app.getKernel();
 
 				if (spreadsheet) {
@@ -37,7 +36,7 @@ public class AlgebraStyleListBox extends ListBox {
 							AlgebraSettings.getStyleModeAt(idx));
 				}
 
-				kernel.updateConstruction();
+				kernel.updateConstruction(false);
 			}
 
 		});

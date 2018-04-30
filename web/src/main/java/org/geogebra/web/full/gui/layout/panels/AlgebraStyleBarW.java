@@ -236,7 +236,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 					if (app.getGuiManager().hasPropertiesView()) {
 						app.getGuiManager().getPropertiesView().repaintView();
 					}
-					app.getKernel().updateConstruction();
+					app.getKernel().updateConstruction(false);
 					app.closePopups();
 				}
 			});

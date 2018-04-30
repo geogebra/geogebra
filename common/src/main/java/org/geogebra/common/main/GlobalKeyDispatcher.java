@@ -392,7 +392,7 @@ public abstract class GlobalKeyDispatcher {
 		// cmd-f9 on Mac OS
 		case F9:
 			if (!app.isApplet() || app.isRightClickEnabled()) {
-				app.getKernel().updateConstruction();
+				app.getKernel().updateConstruction(true);
 				app.setUnsaved();
 				consumed = true;
 			}
@@ -802,7 +802,7 @@ public abstract class GlobalKeyDispatcher {
 		// make sure it works in applets without a menubar
 		case R:
 			if (!app.isApplet() || app.isRightClickEnabled()) {
-				app.getKernel().updateConstruction();
+				app.getKernel().updateConstruction(true);
 				app.setUnsaved();
 				consumed = true;
 			}
@@ -898,7 +898,7 @@ public abstract class GlobalKeyDispatcher {
 				kernel.setAlgebraStyleSpreadsheet(
 						(kernel.getAlgebraStyleSpreadsheet() + 1) % 3);
 
-				kernel.updateConstruction();
+				kernel.updateConstruction(false);
 				/*
 				 * if (app.hasOptionsMenu()) {
 				 * app.getOptionsMenu(null).updateMenuViewDescription(); }
@@ -1107,7 +1107,7 @@ public abstract class GlobalKeyDispatcher {
 			setGeoProperties(geo, incr, incr, angleSizeIncr, blackWhiteMode);
 		}
 
-		app.getKernel().updateConstruction();
+		app.getKernel().updateConstruction(false);
 		app.setUnsaved();
 		app.storeUndoInfo();
 

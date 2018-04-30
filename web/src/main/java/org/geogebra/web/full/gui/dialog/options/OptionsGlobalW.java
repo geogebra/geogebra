@@ -375,7 +375,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 				app.getEuclidianView2(1).getStyleBar().restoreDefaultGeo();
 			}
 			// TODO needed to eg. update rounding, possibly too heavy
-			app.getKernel().updateConstruction();
+			app.getKernel().updateConstruction(false);
 		}
 
 		/**

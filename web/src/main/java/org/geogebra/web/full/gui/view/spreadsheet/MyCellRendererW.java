@@ -515,7 +515,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				@Override
 				public void onClick(ClickEvent ce) {
 					gb.runClickScripts(null);
-					gb.getKernel().updateConstruction();
+					gb.getKernel().updateConstruction(true); // TODO: why ???
 				}
 			});
 

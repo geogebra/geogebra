@@ -119,13 +119,13 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			break;
 
 		case GWTKeycodes.KEY_F9:// Event.VK_F9:
-			kernel.updateConstruction();
+			kernel.updateConstruction(true);
 			break;
 
 		case GWTKeycodes.KEY_R:// KeyEvent.VK_R:
 			if (e.isControlKeyDown()) {
 				// AppD.isControlDown(e)) {
-				kernel.updateConstruction();
+				kernel.updateConstruction(true);
 			} else {
 				letterOrDigitTyped();
 			}

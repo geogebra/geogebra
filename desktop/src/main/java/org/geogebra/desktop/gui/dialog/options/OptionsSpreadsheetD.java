@@ -277,7 +277,7 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 		} else if (source == description) {
 			app.getKernel()
 					.setAlgebraStyleSpreadsheet(description.getSelectedIndex());
-			app.getKernel().updateConstruction();
+			app.getKernel().updateConstruction(false);
 		}
 
 		updateGUI();

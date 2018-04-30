@@ -1891,9 +1891,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public void setRounding(String rounding) {
 		app.setRounding(rounding);
-		kernel.updateConstruction();
+		kernel.updateConstruction(false);
 		app.refreshViews();
-		kernel.updateConstruction();
+		kernel.updateConstruction(false);
 	}
 
 	@Override

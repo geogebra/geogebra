@@ -75,7 +75,7 @@ public class ViewMenuW extends GMenuBar {
 
 			@Override
 			public void doExecute() {
-				app.getKernel().updateConstruction();
+						app.getKernel().updateConstruction(true);
 			}
 		});
 	}

@@ -1479,7 +1479,7 @@ public abstract class AppW extends App implements SetLabels {
 			public void onSuccess() {
 				setKimberlingw(new AlgoKimberlingWeights());
 				setKimberlingWeightFunction(getKimberlingw());
-				getKernel().updateConstruction();
+				getKernel().updateConstruction(false);
 			}
 
 			@Override
@@ -1525,7 +1525,7 @@ public abstract class AppW extends App implements SetLabels {
 			public void onSuccess() {
 				setCubicw(new AlgoCubicSwitch());
 				setCubicSwitchFunction(getCubicw());
-				getKernel().updateConstruction();
+				getKernel().updateConstruction(false);
 			}
 
 			@Override

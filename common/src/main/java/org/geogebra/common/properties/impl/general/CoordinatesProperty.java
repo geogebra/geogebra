@@ -30,7 +30,7 @@ public class CoordinatesProperty extends AbstractEnumerableProperty {
     @Override
     protected void setValueSafe(String value, int index) {
         kernel.setCoordStyle(index);
-        kernel.updateConstruction();
+		kernel.updateConstruction(false);
     }
 
     @Override

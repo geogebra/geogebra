@@ -1056,7 +1056,7 @@ public abstract class Localization {
 
 		this.useLocalizedDigits = useLocalizedDigits;
 		updateLanguageFlags(getLanguage());
-		app.getKernel().updateConstruction();
+		app.getKernel().updateConstruction(false);
 		app.setUnsaved();
 
 		if (app.getEuclidianView1() != null) {

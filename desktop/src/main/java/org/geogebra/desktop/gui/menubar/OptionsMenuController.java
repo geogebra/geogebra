@@ -32,11 +32,11 @@ public class OptionsMenuController {
 				// Application.debug("decimals " + decimals);
 
 				kernel.setPrintDecimals(decimals);
-				kernel.updateConstruction();
+				kernel.updateConstruction(false);
 				app.refreshViews();
 
 				// see ticket 79
-				kernel.updateConstruction();
+				kernel.updateConstruction(false);
 
 				app.setUnsaved();
 			} catch (Exception e) {
@@ -53,11 +53,11 @@ public class OptionsMenuController {
 				// Application.debug("figures " + figures);
 
 				kernel.setPrintFigures(figures);
-				kernel.updateConstruction();
+				kernel.updateConstruction(false);
 				app.refreshViews();
 
 				// see ticket 79
-				kernel.updateConstruction();
+				kernel.updateConstruction(false);
 
 				app.setUnsaved();
 			} catch (Exception e) {

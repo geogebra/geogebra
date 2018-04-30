@@ -80,7 +80,7 @@ public class ViewMenuD extends BaseMenu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				app.getKernel().updateConstruction();
+				app.getKernel().updateConstruction(true);
 			}
 		};
 	}

@@ -4140,10 +4140,20 @@ public class Kernel implements SpecialPointsListener {
 	/**
 	 * Recompute all objects.
 	 */
-	public void updateConstruction() {
+	public final void updateConstruction() {
+		updateConstruction(true);
+	}
+
+	/**
+	 * Recompute all objects.
+	 * 
+	 * @param randomize
+	 *            whether to randomize random numbers
+	 */
+	public final void updateConstruction(boolean randomize) {
 
 		// views are notified about update at the end of this method
-		cons.updateConstruction();
+		cons.updateConstruction(randomize);
 
 		// latexes in GeoGebraWeb are rendered afterwards and set updateEVAgain
 		if (getUpdateAgain()) {

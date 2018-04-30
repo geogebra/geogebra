@@ -219,7 +219,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					app.getKernel().setAlgebraStyle(current);
-					app.getKernel().updateConstruction();
+					app.getKernel().updateConstruction(false);
 					buildDescriptionMenu();
 				}
 			});

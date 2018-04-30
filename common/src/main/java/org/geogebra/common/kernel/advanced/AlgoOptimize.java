@@ -136,7 +136,7 @@ public abstract class AlgoOptimize extends AlgoElement {
 		indep.setValue(old);
 
 		// indep.updateCascade();
-		optCons.updateConstruction();
+		optCons.updateConstruction(false);
 		isrunning = false;
 	}
 

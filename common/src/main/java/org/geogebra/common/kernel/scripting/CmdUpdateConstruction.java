@@ -29,7 +29,7 @@ public class CmdUpdateConstruction extends CmdScripting {
 
 		switch (n) {
 		case 0:
-			app.getKernel().updateConstruction();
+			app.getKernel().updateConstruction(true);
 			app.setUnsaved();
 
 			return new GeoElement[0];
