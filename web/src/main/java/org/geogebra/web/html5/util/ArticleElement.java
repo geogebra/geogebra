@@ -828,4 +828,9 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public boolean getParamDisableAutoScale() {
 		return getBoolDataParam("disableAutoScale", false);
 	}
+
+	@Override
+	public boolean getParamAllowRandomization() {
+		return getBoolDataParam("allowRandomization", true);
+	}
 }

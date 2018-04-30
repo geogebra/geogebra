@@ -931,7 +931,8 @@ public abstract class AppW extends App implements SetLabels {
 						getXMLio().processXMLString(macros, true, true);
 					}
 
-					getXMLio().processXMLString(construction, true, false);
+					getXMLio().processXMLString(construction, true, false,
+							getArticleElement().getParamAllowRandomization());
 					// defaults (optional)
 					if (defaults2d != null) {
 						getXMLio().processXMLString(defaults2d, false, true);

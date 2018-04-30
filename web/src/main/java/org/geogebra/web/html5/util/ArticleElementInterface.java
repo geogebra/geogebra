@@ -456,4 +456,10 @@ public interface ArticleElementInterface {
 	 */
 	boolean getParamDisableAutoScale();
 
+	/**
+	 * @return whether randomization after file load should be allowed; default
+	 *         true
+	 */
+	boolean getParamAllowRandomization();
+
 }
