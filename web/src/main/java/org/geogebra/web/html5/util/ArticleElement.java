@@ -830,7 +830,7 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	}
 
 	@Override
-	public boolean getParamAllowRandomization() {
-		return getBoolDataParam("allowRandomization", true);
+	public int getParamRandomSeed() {
+		return getIntegerAttribute("randomSeed", -1);
 	}
 }

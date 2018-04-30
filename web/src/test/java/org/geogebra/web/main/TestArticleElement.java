@@ -405,8 +405,8 @@ public class TestArticleElement implements ArticleElementInterface {
 		return false;
 	}
 
-	public boolean getParamAllowRandomization() {
-		return true;
+	public int getParamRandomSeed() {
+		return -1;
 	}
 
 }

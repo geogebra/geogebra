@@ -930,9 +930,12 @@ public abstract class AppW extends App implements SetLabels {
 						// //DataUtil.utf8Decode(macros);
 						getXMLio().processXMLString(macros, true, true);
 					}
-
+					int seed = getArticleElement().getParamRandomSeed();
+					if (seed != -1) {
+						setRandomSeed(seed);
+					}
 					getXMLio().processXMLString(construction, true, false,
-							getArticleElement().getParamAllowRandomization());
+							seed == -1);
 					// defaults (optional)
 					if (defaults2d != null) {
 						getXMLio().processXMLString(defaults2d, false, true);
