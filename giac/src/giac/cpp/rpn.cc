@@ -2036,27 +2036,41 @@ namespace giac {
 
   gen _HPSUM(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()<=3){
-      if (args._VECTptr->size()!=3)
-	return gensizeerr(contextptr);
-      const vecteur & v = *args._VECTptr;
-      if (is_equal(v[0])){
-	gen var=v[0]._SYMBptr->feuille[0];
-	if (var.type!=_IDNT)
-	  return gensizeerr(contextptr);
-	gen inf=v[0]._SYMBptr->feuille[1];
-	gen sup=v[1];
-	gen expr=v[2];
-	return _sum(gen(makevecteur(expr,var,inf,sup),_SEQ__VECT),contextptr);
+    if (args.type==_VECT && args.subtype==_SEQ__VECT){
+      int s=args._VECTptr->size();
+      if (s==4){
+	gen var=(*args._VECTptr)[1];
+	if (var.type==_IDNT && eval(var,1,contextptr)!=var){
+	  gen newvar(var);
+	  while (eval(newvar,1,contextptr)!=newvar){
+	    newvar=identificateur(newvar.print(contextptr)+"_");
+	  }
+	  gen args_=subst(args,var,newvar,true,contextptr);
+	  return _HPSUM(args_,contextptr);
+	}
       }
-      if (is_equal(v[1])){
-	gen var=v[1]._SYMBptr->feuille[0];
-	if (var.type!=_IDNT)
+      if (s<=3){
+	if (s!=3)
 	  return gensizeerr(contextptr);
-	gen inf=v[1]._SYMBptr->feuille[1];
-	gen sup=v[2];
-	gen expr=v[0];
-	return _sum(gen(makevecteur(expr,var,inf,sup),_SEQ__VECT),contextptr);
+	const vecteur & v = *args._VECTptr;
+	if (is_equal(v[0])){
+	  gen var=v[0]._SYMBptr->feuille[0];
+	  if (var.type!=_IDNT)
+	    return gensizeerr(contextptr);
+	  gen inf=v[0]._SYMBptr->feuille[1];
+	  gen sup=v[1];
+	  gen expr=v[2];
+	  return _sum(gen(makevecteur(expr,var,inf,sup),_SEQ__VECT),contextptr);
+	}
+	if (is_equal(v[1])){
+	  gen var=v[1]._SYMBptr->feuille[0];
+	  if (var.type!=_IDNT)
+	    return gensizeerr(contextptr);
+	  gen inf=v[1]._SYMBptr->feuille[1];
+	  gen sup=v[2];
+	  gen expr=v[0];
+	  return _sum(gen(makevecteur(expr,var,inf,sup),_SEQ__VECT),contextptr);
+	}
       }
     }
     return _sum(args,contextptr);

@@ -10427,7 +10427,7 @@ namespace giac {
       return default_color(contextptr);
     gen c=a._VECTptr->back(),b;
     if (a._VECTptr->size()==3 && c.type==_INT_ && a._VECTptr->front().type==_INT_ && (*a._VECTptr)[1].type==_INT_){
-      return 256*(256*a._VECTptr->front()+(*a._VECTptr)[1])+c;
+      return 256*(256*giacmax(a._VECTptr->front().val,1)+(*a._VECTptr)[1])+c;
     }
     if (a._VECTptr->size()>2)
       b=vecteur(a._VECTptr->begin(),a._VECTptr->end()-1);
