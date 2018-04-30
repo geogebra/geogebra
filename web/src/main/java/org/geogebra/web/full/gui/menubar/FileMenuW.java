@@ -114,6 +114,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				handler = new AsyncOperation<String[]>() {
 					@Override
 					public void callback(String[] dialogResult) {
+						getApp().fileNew();
 						getApp().setNewExam();
 						ExamDialog.startExam(null, getApp());
 					}
@@ -123,6 +124,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					@Override
 					public void callback(String[] obj) {
 						getApp().getLAF().toggleFullscreen(true);
+						getApp().fileNew();
 						getApp().setNewExam();
 						getApp().examWelcome();
 					}
