@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.io.XmlTest;
@@ -125,31 +126,29 @@ public class NoExceptionsTest {
 	private static void  t(String s){
 		testSyntax(s,app,ap);
 	}
-	public static void testSyntax(String s,App app,AlgebraProcessor ap) {
-		if(syntaxes==-1000){
+
+	public static void testSyntax(String s, App app, AlgebraProcessor ap) {
+		if (syntaxes == -1000) {
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
-			String syntax = app.getLocalization().getCommand(cmdName+".Syntax");
+			String syntax = app.getLocalization()
+					.getCommand(cmdName + Localization.syntaxStr);
 			syntaxes = 0;
-			for(int i=0;i<syntax.length();i++) {
-				if(syntax.charAt(i)=='[') {
+			for (int i = 0; i < syntax.length(); i++) {
+				if (syntax.charAt(i) == '[') {
 					syntaxes++;
 				}
 			}
 			System.out.println();
-			System.out.print(cmdName+" ");
-			
+			System.out.print(cmdName + " ");
+
 			/*
-			// This code helps to force timeout for each syntax. Not used at the moment.
-			GeoGebraCAS cas = (GeoGebraCAS) app.getKernel()
-					.getGeoGebraCAS();
-			try {
-				cas.getCurrentCAS().evaluateRaw("caseval(\"timeout 8\")");
-			} catch (Throwable e) {
-				App.error("CAS error " + e);
-			} 
-			*/
-			
+			 * // This code helps to force timeout for each syntax. Not used at
+			 * the moment. GeoGebraCAS cas = (GeoGebraCAS) app.getKernel()
+			 * .getGeoGebraCAS(); try { cas.getCurrentCAS().evaluateRaw(
+			 * "caseval(\"timeout 8\")"); } catch (Throwable e) { App.error(
+			 * "CAS error " + e); }
+			 */
 			
 		}
 		try {

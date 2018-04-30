@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.main.AppDNoGui;
@@ -62,10 +63,12 @@ public class CommandsTest extends Assert{
 		if(syntaxes==-1000){
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
-			syntax = app1.getLocalization().getCommand(cmdName + ".Syntax");
+			syntax = app1.getLocalization()
+					.getCommand(cmdName + Localization.syntaxStr);
 			if (!syntax.contains("[")) {
 				cmdName = t.getStackTrace()[3].getMethodName().substring(3);
-				syntax = app1.getLocalization().getCommand(cmdName + ".Syntax");
+				syntax = app1.getLocalization()
+						.getCommand(cmdName + Localization.syntaxStr);
 			}
 			syntaxes = 0;
 			for (int i = 0; i < syntax.length(); i++) {
