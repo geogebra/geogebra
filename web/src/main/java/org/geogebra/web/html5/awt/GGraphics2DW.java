@@ -63,6 +63,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	private double[] coords = new double[6];
 	private boolean debug = false;
+	private boolean setFontFailed = false;
 
 	/**
 	 * @param canvas
@@ -270,12 +271,16 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void drawString(String str, int x, int y) {
-		context.fillText(str, x, y);
+		if (!setFontFailed) {
+			context.fillText(str, x, y);
+		}
 	}
 
 	@Override
 	public void drawString(String str, double x, double y) {
-		context.fillText(str, x, y);
+		if (!setFontFailed) {
+			context.fillText(str, x, y);
+		}
 	}
 
 	/**
@@ -290,9 +295,10 @@ public class GGraphics2DW implements GGraphics2DWI {
 	 *            the y coordinate of the location where the <code>String</code>
 	 *            should be rendered
 	 */
-
 	public void drawStringStroke(String str, double x, double y) {
-		context.strokeText(str, x, y);
+		if (!setFontFailed) {
+			context.strokeText(str, x, y);
+		}
 	}
 
 	/**
@@ -549,11 +555,13 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void setFont(GFont font) {
+		setFontFailed = false;
 		if (font instanceof GFontW) {
 			currentFont = (GFontW) font;
 			try {
 				context.setFont(currentFont.getFullFontString());
 			} catch (Throwable t) {
+				setFontFailed = true;
 				Log.error("problem setting font: "
 				        + currentFont.getFullFontString());
 			}

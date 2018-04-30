@@ -67,7 +67,11 @@ public class DefaultFont extends FontW implements FontWrapper {
 	@Override
 	public void drawGlyph(String c, int x, int y, int size, Context2d ctx) {
 		FontW derived = new DefaultFont(name, style, size);
-		ctx.setFont(derived.getCssFontString());
+		try {
+			ctx.setFont(derived.getCssFontString());
+		} catch (Exception e) {
+			// invisible frame in FF throws this
+		}
 		ctx.fillText(c, x, y);
 	}
 	

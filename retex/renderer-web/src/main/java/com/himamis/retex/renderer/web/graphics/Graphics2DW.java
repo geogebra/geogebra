@@ -50,6 +50,7 @@ import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
@@ -166,7 +167,11 @@ public class Graphics2DW implements Graphics2DInterface {
 	@Override
 	public void setFont(Font font) {
 		this.font = (FontW) font;
-		context.setFont(this.font.getCssFontString());
+		try {
+			context.setFont(this.font.getCssFontString());
+		} catch (Exception e) {
+			FactoryProvider.getInstance().debug("Problem setting font");
+		}
 	}
 
 	// Consider http://jsfiddle.net/9bMPD/357/ for rectangles!!

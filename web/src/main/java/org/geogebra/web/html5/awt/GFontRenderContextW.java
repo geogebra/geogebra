@@ -29,10 +29,15 @@ public class GFontRenderContextW extends GFontRenderContext {
 	 */
 	public int measureText(String text, String cssFontString) {
 		String oldFont = context.getFont();
-		context.setFont(cssFontString);
-		TextMetrics measure = context.measureText(text);
-		context.setFont(oldFont);
-		return (int) measure.getWidth();
+		try {
+			context.setFont(cssFontString);
+			TextMetrics measure = context.measureText(text);
+			context.setFont(oldFont);
+
+			return (int) measure.getWidth();
+		} catch (Exception e) {
+			return text.length() * 12;
+		}
 	}
 
 }
