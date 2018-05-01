@@ -788,15 +788,6 @@ public class ExamEnvironment {
 	}
 
     /**
-     * @return header for log dialogs
-     */
-	public String getLogHeader() {
-		return app.getLocalization().getPlainDefault(
-				"exam_log_header_calculator_time_check", "Exam log: %0   %1 %2",
-                getCalculatorTypeName(), getElapsedTime(), getMarkCheatingOrNot());
-    }
-
-    /**
      *
      * @return the localized elapsed time string
      */
