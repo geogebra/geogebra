@@ -4116,7 +4116,7 @@ public abstract class App implements UpdateSelection {
 
 		// AND-1061
 		case MOB_EXAM_MODE_EXIT_DIALOG_NEW:
-			return false;
+			return prerelease;
 
 		// **********************************************************************
 		// MOBILE END
