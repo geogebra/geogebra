@@ -1659,6 +1659,7 @@ __GGB__keysVar["cs"].menu = {
     "DrawingPadToClipboard": "Kop\xedrovat n\xe1kresnu do schr\xe1nky",
     "DrawingPagAsPGF": "Grafick\xfd n\xe1hled jako PGF/TikZ",
     "Duplicate": "Vlo\u017eit kopii",
+    "Duration": "Duration",
     "DynamicColors": "Dynamick\xe9 barvy",
     "DynamicCoordinatesOfA": "Dynamick\xe9 sou\u0159adnice %0",
     "DynamicWorksheetAsWebpage": "Dynamick\xfd pracovn\xed list jako webov\xe1 str\xe1nka",

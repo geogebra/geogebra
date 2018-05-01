@@ -1659,6 +1659,7 @@ __GGB__keysVar["fil"].menu = {
     "DrawingPadToClipboard": "Graphics View to Clipboard",
     "DrawingPagAsPGF": "Graphics View bilang PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Dynamic Colors",
     "DynamicCoordinatesOfA": "Mga daynamik na koordineyt ng %0",
     "DynamicWorksheetAsWebpage": "Worksheet na daynamik bilang Webpage",

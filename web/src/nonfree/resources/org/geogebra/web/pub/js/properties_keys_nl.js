@@ -1659,6 +1659,7 @@ __GGB__keysVar["nl"].menu = {
     "DrawingPadToClipboard": "Tekenvenster kopi\xebren",
     "DrawingPagAsPGF": "Tekenvenster als PGF/TikZ",
     "Duplicate": "Dupliceren",
+    "Duration": "Duration",
     "DynamicColors": "Dynamische kleuren",
     "DynamicCoordinatesOfA": "Dynamische co\xf6rdinaten van %0",
     "DynamicWorksheetAsWebpage": "Dynamisch werkblad als webpagina",

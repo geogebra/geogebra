@@ -1659,6 +1659,7 @@ __GGB__keysVar["eu"].menu = {
     "DrawingPadToClipboard": "Kopiatu Ikuspegi Grafikoa Arbelera",
     "DrawingPagAsPGF": "Ikuspegi Grafikoa PGF/TikZ-ren moduan",
     "Duplicate": "Bikoiztu",
+    "Duration": "Duration",
     "DynamicColors": "Kolore Dinamikoak",
     "DynamicCoordinatesOfA": "%0-(r)en koordenatu dinamikoak",
     "DynamicWorksheetAsWebpage": "Eraikuntza elkarreragilea Web-Orrialde gisa",

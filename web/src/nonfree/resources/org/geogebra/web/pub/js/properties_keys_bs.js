@@ -1659,6 +1659,7 @@ __GGB__keysVar["bs"].menu = {
     "DrawingPadToClipboard": "Radna povr\u0161 u radnu memoriju",
     "DrawingPagAsPGF": "Radna povr\u0161 kao PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Dinami\u010dke boje",
     "DynamicCoordinatesOfA": "Dinami\u010dke koordinate od %0",
     "DynamicWorksheetAsWebpage": "Dinami\u010dki radni list kao Web-stranica",

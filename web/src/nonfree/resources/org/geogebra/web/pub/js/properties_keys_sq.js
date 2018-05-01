@@ -1659,6 +1659,7 @@ __GGB__keysVar["sq"].menu = {
     "DrawingPadToClipboard": "Pamja e Vizatimit ne Mbajtese",
     "DrawingPagAsPGF": "Pamje Grafikore si PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Ngjyra Dinamike",
     "DynamicCoordinatesOfA": "Koordinata Dinamike te %0",
     "DynamicWorksheetAsWebpage": "Flete Pune Dinamike si Faqe Interneti",

@@ -1659,6 +1659,7 @@ __GGB__keysVar["sl"].menu = {
     "DrawingPadToClipboard": "Shrani sliko na odlo\u017ei\u0161\u010de",
     "DrawingPagAsPGF": "Grafika kot PGF/TikZ",
     "Duplicate": "Podvoji",
+    "Duration": "Duration",
     "DynamicColors": "Pogojno spreminjanje barv",
     "DynamicCoordinatesOfA": "Dinami\u010dne koordinate %0",
     "DynamicWorksheetAsWebpage": "Dinami\u010dni delovni list kot spletna stran",

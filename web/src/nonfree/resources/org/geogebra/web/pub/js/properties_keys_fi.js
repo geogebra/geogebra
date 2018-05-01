@@ -1659,6 +1659,7 @@ __GGB__keysVar["fi"].menu = {
     "DrawingPadToClipboard": "Kopioi piirtoalue leikep\xf6yd\xe4lle",
     "DrawingPagAsPGF": "Piirtoalue muodossa PGF/TikZ",
     "Duplicate": "Monista",
+    "Duration": "Duration",
     "DynamicColors": "Dynaamiset v\xe4rit",
     "DynamicCoordinatesOfA": "%0:n dynaamiset koordinaatit",
     "DynamicWorksheetAsWebpage": "Dynaaminen ty\xf6tiedosto Web-sivuna",

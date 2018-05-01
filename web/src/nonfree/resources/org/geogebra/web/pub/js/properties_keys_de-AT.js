@@ -1659,6 +1659,7 @@ __GGB__keysVar["de-AT"].menu = {
     "DrawingPadToClipboard": "Grafik-Ansicht in Zwischenablage",
     "DrawingPagAsPGF": "Grafik-Ansicht als PGF / TikZ",
     "Duplicate": "Duplizieren",
+    "Duration": "Duration",
     "DynamicColors": "Dynamische Farben",
     "DynamicCoordinatesOfA": "Dynamische Koordinaten von %0",
     "DynamicWorksheetAsWebpage": "Dynamisches Arbeitsblatt als Webseite",

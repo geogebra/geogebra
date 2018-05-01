@@ -1659,6 +1659,7 @@ __GGB__keysVar["is"].menu = {
     "DrawingPadToClipboard": "Teiknibor\xf0 \xe1 klemmuspjald",
     "DrawingPagAsPGF": "Teiknibor\xf0 sem PGF/TikZ",
     "Duplicate": "Tv\xedfalda",
+    "Duration": "Duration",
     "DynamicColors": "Kvikir litir",
     "DynamicCoordinatesOfA": "Kvik hnit %0",
     "DynamicWorksheetAsWebpage": "Kvikt vinnubla\xf0 sem vefs\xed\xf0a",

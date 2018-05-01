@@ -1659,6 +1659,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "DrawingPadToClipboard": "Copia la zona gr\xe0fica al porta-retalls",
     "DrawingPagAsPGF": "Zona gr\xe0fica com a PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Colors din\xe0mics",
     "DynamicCoordinatesOfA": "Coordenades din\xe0miques de %0",
     "DynamicWorksheetAsWebpage": "Construcci\xf3 din\xe0mica com a p\xe0gina web",

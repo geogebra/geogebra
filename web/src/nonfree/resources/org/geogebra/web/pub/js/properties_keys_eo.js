@@ -1659,6 +1659,7 @@ __GGB__keysVar["eo"].menu = {
     "DrawingPadToClipboard": "Graphics View to Clipboard",
     "DrawingPagAsPGF": "Graphics View as PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Dinamikaj koloroj",
     "DynamicCoordinatesOfA": "Dynamic Coordinates of %0",
     "DynamicWorksheetAsWebpage": "Dynamic Worksheet as Webpage",

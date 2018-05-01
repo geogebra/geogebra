@@ -1659,6 +1659,7 @@ __GGB__keysVar["ko"].menu = {
     "DrawingPadToClipboard": "\uae30\ud558\ucc3d\uc744 \ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac",
     "DrawingPagAsPGF": "\uae30\ud558\ucc3d\uc744 PGF/TikZ\ub85c \uc800\uc7a5",
     "Duplicate": "\ubcf5\uc0ac",
+    "Duration": "Duration",
     "DynamicColors": "\ub3d9\uc801 \uc0c9\uc0c1",
     "DynamicCoordinatesOfA": "%0 \uc758 \ub3d9\uc801 \uc88c\ud45c",
     "DynamicWorksheetAsWebpage": "\uc6f9\ud398\uc774\uc9c0\uc778 \ub3d9\uc801 \uc6cc\ud06c\uc2dc\ud2b8",

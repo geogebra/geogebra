@@ -1659,6 +1659,7 @@ __GGB__keysVar["xh"].menu = {
     "DrawingPadToClipboard": "Ukusuka kumbono weGrafu ukuya kwiClipboard",
     "DrawingPagAsPGF": "iGraphics View njengo PGF/TikZ",
     "Duplicate": "I Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Imibala etshintshatshintshayo",
     "DynamicCoordinatesOfA": "aMananiAhambaKunye aTshintshayo ka %0",
     "DynamicWorksheetAsWebpage": "IndawoYokusebenzela eTshintshayo njenge Webpage",

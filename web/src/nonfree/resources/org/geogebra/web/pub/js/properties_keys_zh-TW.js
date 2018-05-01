@@ -1659,6 +1659,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "DrawingPadToClipboard": "\u8907\u88fd\u5230\u526a\u8cbc\u7c3f",
     "DrawingPagAsPGF": "\u532f\u51fa PGF/TikZ \u6a94",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "\u52d5\u614b\u8272\u5f69",
     "DynamicCoordinatesOfA": "%0 \u7684\u52d5\u614b\u5ea7\u6a19",
     "DynamicWorksheetAsWebpage": "\u532f\u51fa\u7db2\u9801",

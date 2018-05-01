@@ -1659,6 +1659,7 @@ __GGB__keysVar["ca"].menu = {
     "DrawingPadToClipboard": "Copia la finestra gr\xe0fica al porta-retalls",
     "DrawingPagAsPGF": "Finestra gr\xe0fica com a PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Colors Din\xe0mics",
     "DynamicCoordinatesOfA": "Coordenades din\xe0miques de %0",
     "DynamicWorksheetAsWebpage": "Construcci\xf3 interactiva com a p\xe0gina web",

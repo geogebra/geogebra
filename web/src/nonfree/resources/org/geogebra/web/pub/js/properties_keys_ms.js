@@ -1659,6 +1659,7 @@ __GGB__keysVar["ms"].menu = {
     "DrawingPadToClipboard": "Paparan Grafik ke Papanklip",
     "DrawingPagAsPGF": "Paparan Grafik sebagai PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Warna Dinamik",
     "DynamicCoordinatesOfA": "Kordinat Dinamik bagi %0",
     "DynamicWorksheetAsWebpage": "Lembaran Kerja Dinamik sebagai Laman Web",

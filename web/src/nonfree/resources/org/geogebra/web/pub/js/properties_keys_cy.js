@@ -1659,6 +1659,7 @@ __GGB__keysVar["cy"].menu = {
     "DrawingPadToClipboard": "Gwedd graffeg i'r clipfwrdd",
     "DrawingPagAsPGF": "Gwedd graffeg fel PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Lliwiau dynamig",
     "DynamicCoordinatesOfA": "Cyfesurynnau Dynameg o %0",
     "DynamicWorksheetAsWebpage": "Taflen waith ddynamig fel gwe-dudalen",

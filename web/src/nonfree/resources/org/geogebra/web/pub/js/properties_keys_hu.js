@@ -1659,6 +1659,7 @@ __GGB__keysVar["hu"].menu = {
     "DrawingPadToClipboard": "Rajzlap v\xe1g\xf3lapra m\xe1sol\xe1sa",
     "DrawingPagAsPGF": "Rajzlap mint PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Dinamikus sz\xednek",
     "DynamicCoordinatesOfA": "%0 dinamikus koordin\xe1t\xe1i",
     "DynamicWorksheetAsWebpage": "Dinamikus munkalap mint weblap",

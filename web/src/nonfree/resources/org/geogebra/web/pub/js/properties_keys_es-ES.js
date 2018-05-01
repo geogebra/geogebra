@@ -1659,6 +1659,7 @@ __GGB__keysVar["es-ES"].menu = {
     "DrawingPadToClipboard": "Vista gr\xe1fica al Portapapeles",
     "DrawingPagAsPGF": "Vista Gr\xe1fica a PGF/TikZ",
     "Duplicate": "Duplicar",
+    "Duration": "Duration",
     "DynamicColors": "Colores din\xe1micos",
     "DynamicCoordinatesOfA": "Coordenadas din\xe1micas de %0",
     "DynamicWorksheetAsWebpage": "Construcci\xf3n din\xe1mica como p\xe1gina Web",

@@ -1659,6 +1659,7 @@ __GGB__keysVar["sv"].menu = {
     "DrawingPadToClipboard": "Ritomr\xe5det till urklipp",
     "DrawingPagAsPGF": "Ritomr\xe5det som PGF/TikZ",
     "Duplicate": "Kopiera",
+    "Duration": "Duration",
     "DynamicColors": "Dynamiska f\xe4rger",
     "DynamicCoordinatesOfA": "Dynamiska koordinaterna f\xf6r %0",
     "DynamicWorksheetAsWebpage": "Dynamisk arbetsbok som Webbsida",

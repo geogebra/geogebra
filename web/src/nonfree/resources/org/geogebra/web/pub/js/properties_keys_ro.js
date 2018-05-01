@@ -1659,6 +1659,7 @@ __GGB__keysVar["ro"].menu = {
     "DrawingPadToClipboard": "Blocul de desen pe clipboard",
     "DrawingPagAsPGF": "Bloc de desen \xeen format PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Culori dinamice",
     "DynamicCoordinatesOfA": "Coordonate dinamice ale %0",
     "DynamicWorksheetAsWebpage": "Foaie de lucru ca pagin\u0103 web",

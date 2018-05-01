@@ -1659,6 +1659,7 @@ __GGB__keysVar["mr"].menu = {
     "DrawingPadToClipboard": "\u0917\u094d\u0930\u093e\u092b\u093f\u0915\u094d\u0938 \u0926\u0943\u0936\u094d\u092f \u0915\u094d\u0932\u093f\u092a\u092c\u094b\u0930\u094d\u0921\u0935\u0930 \u0928\u094d\u092f\u093e",
     "DrawingPagAsPGF": "Graphics View as PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "\u092c\u0926\u0932\u0923\u093e\u0930\u0947 \u0930\u0902\u0917 (Dynamic Colors)",
     "DynamicCoordinatesOfA": "Dynamic Coordinates of %0",
     "DynamicWorksheetAsWebpage": "\u0921\u093e\u092f\u0928\u0945\u092e\u093f\u0915 \u0915\u093e\u0930\u094d\u092f\u092a\u0924\u094d\u0930\u093f\u0915\u0947\u091a\u0947 \u0935\u0947\u092c \u092a\u0947\u091c (dynamic worksheet as webpage)",

@@ -1659,6 +1659,7 @@ __GGB__keysVar["vi"].menu = {
     "DrawingPadToClipboard": "Sao ch\xe9p v\xf9ng l\xe0m vi\u1ec7c v\xe0o b\u1ed9 nh\u1edb",
     "DrawingPagAsPGF": "Hi\u1ec3n th\u1ecb \u0111\u1ed3 th\u1ecb d\u1ea1ng PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "M\xe0u s\u1eafc",
     "DynamicCoordinatesOfA": "T\u1ecda \u0111\u1ed9 \u0111\u1ed9ng c\u1ee7a %0",
     "DynamicWorksheetAsWebpage": "V\xf9ng l\xe0m vi\u1ec7c d\u1ea1ng trang web",

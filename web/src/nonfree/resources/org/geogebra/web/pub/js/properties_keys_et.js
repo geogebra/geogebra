@@ -1659,6 +1659,7 @@ __GGB__keysVar["et"].menu = {
     "DrawingPadToClipboard": "Graafikavaade l\xf5ikepuhvrisse",
     "DrawingPagAsPGF": "Graafikavaade PGF/TikZna",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "D\xfcnaamilised v\xe4rvid",
     "DynamicCoordinatesOfA": "%0 d\xfcnaamilised koordinaadid",
     "DynamicWorksheetAsWebpage": "D\xfcnaamiline t\xf6\xf6leht veebilehena",

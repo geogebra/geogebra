@@ -1659,6 +1659,7 @@ __GGB__keysVar["lt"].menu = {
     "DrawingPadToClipboard": "Kopijuoti grafin\u012f vaizd\u0105",
     "DrawingPagAsPGF": "Grafinis vaizdas kaip PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Dinamin\u0117s spalvos",
     "DynamicCoordinatesOfA": "Dinamin\u0117s koordinat\u0117s %0",
     "DynamicWorksheetAsWebpage": "Dinamin\u0117 mokomoji med\u017eiaga kaip tinklalapis",

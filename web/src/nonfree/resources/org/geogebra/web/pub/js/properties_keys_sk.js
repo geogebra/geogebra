@@ -1659,6 +1659,7 @@ __GGB__keysVar["sk"].menu = {
     "DrawingPadToClipboard": "Vlo\u017ei\u0165 n\xe1kres\u0148u do schr\xe1nky",
     "DrawingPagAsPGF": "N\xe1kres\u0148a ako PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Dynamick\xe9 farby",
     "DynamicCoordinatesOfA": "Dynamick\xe9 s\xfaradnice toho: %0",
     "DynamicWorksheetAsWebpage": "Dynamick\xe1 kon\u0161trukcia ako webov\xe1 str\xe1nka",

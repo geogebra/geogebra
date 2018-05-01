@@ -1659,6 +1659,7 @@ __GGB__keysVar["da"].menu = {
     "DrawingPadToClipboard": "Kopier tegningen",
     "DrawingPagAsPGF": "Grafik som PGF/TikZ",
     "Duplicate": "Dupliker",
+    "Duration": "Duration",
     "DynamicColors": "Dynamiske farver",
     "DynamicCoordinatesOfA": "Dynamiske koordinater for %0",
     "DynamicWorksheetAsWebpage": "Dynamisk Arbejdsark som webside",

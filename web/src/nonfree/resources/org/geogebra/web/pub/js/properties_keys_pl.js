@@ -1659,6 +1659,7 @@ __GGB__keysVar["pl"].menu = {
     "DrawingPadToClipboard": "Kopiuj Widok Grafiki do schowka",
     "DrawingPagAsPGF": "Widok Grafiki jako PGF/TikZ",
     "Duplicate": "Duplikuj",
+    "Duration": "Duration",
     "DynamicColors": "Kolory dynamiczne",
     "DynamicCoordinatesOfA": "Dynamiczne wsp\xf3\u0142rz\u0119dne %0",
     "DynamicWorksheetAsWebpage": "Dynamiczna Karta Pracy jako strona internetowa",

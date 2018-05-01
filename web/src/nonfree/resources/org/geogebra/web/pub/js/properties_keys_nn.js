@@ -1659,6 +1659,7 @@ __GGB__keysVar["nn"].menu = {
     "DrawingPadToClipboard": "Kopier grafikkfeltet til utklippstavla",
     "DrawingPagAsPGF": "Grafikkfelt som PGF/TikZ",
     "Duplicate": "Lag kopi",
+    "Duration": "Duration",
     "DynamicColors": "Dynamiske fargar",
     "DynamicCoordinatesOfA": "Dynamiske koordinatar til %0",
     "DynamicWorksheetAsWebpage": "Dynamisk ark som webside",

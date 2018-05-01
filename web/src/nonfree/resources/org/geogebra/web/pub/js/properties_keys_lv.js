@@ -1659,6 +1659,7 @@ __GGB__keysVar["lv"].menu = {
     "DrawingPadToClipboard": "Grafiskais skats uz starpliktuvi",
     "DrawingPagAsPGF": "Grafisks Skats k\u0101 PGF/TikZ",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "Dinamiskas kr\u0101sas",
     "DynamicCoordinatesOfA": "Dinamiskas Koordin\u0101tas %0",
     "DynamicWorksheetAsWebpage": "Dinamiska Darba lapa k\u0101 internetlapa",

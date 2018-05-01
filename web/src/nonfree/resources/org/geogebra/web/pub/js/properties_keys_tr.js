@@ -1659,6 +1659,7 @@ __GGB__keysVar["tr"].menu = {
     "DrawingPadToClipboard": "\xc7izim tahtas\u0131ndan panoya",
     "DrawingPagAsPGF": "PGF/TikZ olarak Grafik G\xf6r\xfcn\xfcm\xfc",
     "Duplicate": "Duplicate",
+    "Duration": "Duration",
     "DynamicColors": "De\u011fi\u015fken Renkler",
     "DynamicCoordinatesOfA": "%02\u0131n dinamik koordinatlar\u0131",
     "DynamicWorksheetAsWebpage": "Websayfas\u0131 olarak Dinamik \xc7al\u0131\u015fma Sayfas\u0131",
