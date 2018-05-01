@@ -11,10 +11,6 @@ import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
 public class ExamEnvironment {
-	/** heavy multiplication */
-	private static final String MARK_CHEATING = "\u2716";
-	/** check mark */
-	private static final String MARK_NOT_CHEATING = "\u2713";
 
 	private static final long EXAM_START_TIME_NOT_STARTED = -1;
 	/** exam start timestamp (milliseconds) */
@@ -787,14 +783,6 @@ public class ExamEnvironment {
 	protected void addCheatingTime() {
 		initLists();
 		cheatingTimes.add(System.currentTimeMillis());
-	}
-
-	/**
-	 *
-	 * @return a string representation that represents if currently cheating or not
-	 */
-	private String getMarkCheatingOrNot() {
-		return isCheating() ? MARK_CHEATING : MARK_NOT_CHEATING;
 	}
 
     /**
