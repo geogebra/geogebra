@@ -13,6 +13,10 @@ import org.geogebra.common.util.debug.Log;
 public class ExamEnvironment {
 
 	private static final long EXAM_START_TIME_NOT_STARTED = -1;
+
+	/** how long notification for protocol saved is shown */
+	static public final int EXAM_PROTOCOL_SAVED_NOTIFICATION_DURATION = 5000;
+
 	/** exam start timestamp (milliseconds) */
 	long examStartTime = EXAM_START_TIME_NOT_STARTED;
 	/** cheating timestamps (milliseconds) */

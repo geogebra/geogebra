@@ -4118,6 +4118,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_EXAM_MODE_EXIT_DIALOG_NEW:
 			return prerelease;
 
+		// AND-1071 and IGR-819
+		case MOB_EXAM_MODE_SCREENSHOT_SAVED_NOTIFICATION:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
