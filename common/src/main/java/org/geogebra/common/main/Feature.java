@@ -309,7 +309,7 @@ public enum Feature {
 	/** GGB-2366 */
 	TIKZ_AXES,
 
-	/** AND-1061 */
+	/** AND-1061 and IGR-815 */
 	MOB_EXAM_MODE_EXIT_DIALOG_NEW
 }
 

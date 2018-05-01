@@ -4114,7 +4114,7 @@ public abstract class App implements UpdateSelection {
 		case MOB_FIX_DONT_SWITCH_TO_AV:
 			return prerelease;
 
-		// AND-1061
+		// AND-1061 and IGR-815
 		case MOB_EXAM_MODE_EXIT_DIALOG_NEW:
 			return prerelease;
 
