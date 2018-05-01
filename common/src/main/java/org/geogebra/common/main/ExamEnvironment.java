@@ -215,6 +215,12 @@ public class ExamEnvironment {
 	 * @return The exam date in localized format.
 	 */
 	public String getDate() {
+		if (app.has(Feature.MOB_EXAM_MODE_EXIT_DIALOG_NEW)) {
+			// eg "23 October 2015"
+			// don't use \\S for 23rd (not used in eg French)
+			return CmdGetTime.buildLocalizedDate("\\j \\F \\Y", new Date(examStartTime),
+					app.getLocalization());
+		}
 		return getLocalizedDateOnly(app.getLocalization(), examStartTime);
 	}
 
