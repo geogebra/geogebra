@@ -6042,4 +6042,8 @@ public class ExpressionNode extends ValidExpression
 		return false;
 	}
 
+	public void reset() {
+		resolve = null;
+	}
+
 }

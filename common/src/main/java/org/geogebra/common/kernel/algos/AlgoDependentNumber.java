@@ -30,6 +30,7 @@ import java.util.Set;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -59,7 +60,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus Hohenwarter
  */
 public class AlgoDependentNumber extends AlgoElement
-		implements DependentAlgo, SymbolicParametersBotanaAlgo {
+		implements DependentAlgo, SymbolicParametersBotanaAlgo, SetRandomValue {
 
 	private GeoNumberValue number; // output
 
@@ -771,6 +772,19 @@ public class AlgoDependentNumber extends AlgoElement
 	@Override
 	public boolean mayShowDescriptionInsteadOfDefinition() {
 		return false;
+	}
+
+	public void setRandomValue(double d) {
+		if (number.getDefinition() != null
+				&& number.getDefinition().getOperation() == Operation.RANDOM) {
+			((GeoNumeric) number.getDefinition().getLeft())
+					.setValue(Math.min(Math.max(d, 0), 1));
+			number.getDefinition().reset();
+			((GeoNumeric) number).setValue(Math.min(Math.max(d, 0), 1));
+		} else {
+			compute();
+			updateDependentGeos();
+		}
 	}
 
 }

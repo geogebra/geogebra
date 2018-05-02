@@ -93,6 +93,33 @@ public class RedefineTest extends Assert {
 	}
 
 	@Test
+	public void undoShouldNotRandomize() {
+		app.setRandomSeed(42);
+		app.setUndoRedoEnabled(true);
+		app.setUndoActive(true);
+		t("a=random()", "0.7275636800328681");
+
+		app.storeUndoInfo();
+		t("1", "1");
+		app.storeUndoInfo();
+		app.getKernel().undo();
+
+		t("a", "0.7275636800328681");
+	}
+
+	@Test
+	public void setValueShouldChangeRandom() {
+		app.setRandomSeed(42);
+		app.setUndoRedoEnabled(true);
+		app.setUndoActive(true);
+		t("a=random()", "0.7275636800328681");
+
+		t("SetValue(a,0.5)", new String[0]);
+
+		t("a", "0.5");
+	}
+
+	@Test
 	public void cmdRename() {
 		checkError("Rename[ 6*7, \"$7\" ]",
 				"Command Rename:\nIllegal argument: Text \"$7\"\n\nSyntax:\nRename( <Object>, <Name> )");

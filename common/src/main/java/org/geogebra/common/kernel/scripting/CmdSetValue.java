@@ -198,6 +198,7 @@ public class CmdSetValue extends CmdScripting {
 			// eg a = RandomBetween[0,10]
 			SetRandomValue algo = (SetRandomValue) arg0.getParentAlgorithm();
 			algo.setRandomValue(arg1.evaluateDouble());
+			arg0.updateRepaint();
 		} else if (arg1.isNumberValue()
 				&& arg0.getParentAlgorithm() instanceof AlgoDependentNumber) {
 			// eg a = random()
