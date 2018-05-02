@@ -1,8 +1,9 @@
-package org.geogebra.common.kernel.algos;
+package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoUnitOrthoVectorLine;
+import org.geogebra.common.kernel.algos.AlgoUnitOrthoVectorVector;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoVector;

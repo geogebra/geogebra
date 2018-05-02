@@ -1,8 +1,10 @@
-package org.geogebra.common.kernel.algos;
+package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoUnitVector;
+import org.geogebra.common.kernel.algos.AlgoUnitVectorLine;
+import org.geogebra.common.kernel.algos.AlgoUnitVectorVector;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;

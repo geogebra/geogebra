@@ -1,8 +1,8 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.CmdUnitOrthogonalVector;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.commands.CmdUnitOrthogonalVector;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.main.MyError;

@@ -91,7 +91,6 @@ import org.geogebra.common.kernel.advanced.CmdUnion;
 import org.geogebra.common.kernel.advanced.CmdUnique;
 import org.geogebra.common.kernel.advanced.CmdVerticalText;
 import org.geogebra.common.kernel.advanced.CmdZip;
-import org.geogebra.common.kernel.algos.CmdUnitVector;
 import org.geogebra.common.main.Feature;
 
 /**
@@ -110,8 +109,6 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case IntersectPath:
 		case IntersectRegion: // deprecated
 			return new CmdIntersectPath(kernel);
-		case Direction:
-			return new CmdUnitVector(kernel, false);
 
 		case Difference:
 			return new CmdDifference(kernel);

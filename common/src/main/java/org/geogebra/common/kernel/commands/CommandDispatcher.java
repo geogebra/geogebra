@@ -352,7 +352,6 @@ public abstract class CommandDispatcher {
 			case ContourPlot:
 			case IntersectPath:
 			case IntersectRegion:
-			case Direction:
 
 			case Difference:
 
@@ -489,6 +488,7 @@ public abstract class CommandDispatcher {
 			case Extremum:
 			case Holes:
 			case UnitVector:
+			case Direction:
 			case Text:
 			case Vector:
 			case Dot:

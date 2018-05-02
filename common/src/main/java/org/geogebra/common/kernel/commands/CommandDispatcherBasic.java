@@ -1,8 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.CmdUnitOrthogonalVector;
-import org.geogebra.common.kernel.algos.CmdUnitVector;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
@@ -51,6 +49,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdUnicodeToLetter(kernel);
 		case CountIf:
 			return new CmdCountIf(kernel);
+		case Direction:
+			return new CmdUnitVector(kernel, false);
 		case UnitVector:
 			return new CmdUnitVector(kernel, true);
 
