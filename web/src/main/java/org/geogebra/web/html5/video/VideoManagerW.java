@@ -8,9 +8,12 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
@@ -28,6 +31,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  *
  */
 public class VideoManagerW implements VideoManager {
+	private static boolean youTubeAPI = false;
 	private AsyncOperation<Boolean> urlCallback = null;
 	/**
 	 * Head of a regular YouTube URL.
@@ -60,6 +64,14 @@ public class VideoManagerW implements VideoManager {
 	private boolean previewOnly = false;
 
 	private Map<String, VideoPlayer> players = new HashMap<>();
+
+	/**
+	 * Constructor
+	 */
+	public VideoManagerW() {
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.youtube());
+		loadYouTubeApi();
+	}
 
 	@Override
 	public void loadGeoVideo(GeoVideo geo) {
@@ -194,6 +206,11 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void addPlayer(final GeoVideo video) {
+		if (!youTubeAPI) {
+			Log.warn("No YouTube API!");
+			return;
+		}
+
 		AppW app = (AppW) video.getKernel().getApplication();
 		GeoGebraFrameW appFrame = (GeoGebraFrameW) app.getAppletFrame();
 		VideoPlayer player = new VideoPlayer(video);
@@ -203,7 +220,7 @@ public class VideoManagerW implements VideoManager {
 
 			@Override
 			public void execute() {
-				updatePlayer(video);
+				initPlayer(video.getYouTubeId());
 			}
 		});
 	}
@@ -254,6 +271,51 @@ public class VideoManagerW implements VideoManager {
 		return player.contentWindow != null;
 	}-*/;
 
+	/**
+	 * Called after video specified by its id is loaded.
+	 * 
+	 * @param id
+	 *            the YouTube id of the video.
+	 */
+	public void onPlayerReady(String id) {
+		VideoPlayer player = players.get(id);
+		player.getVideo().setBackground(true);
+		player.update();
+	}
+
+	private static void onPlayerStateChange() {
+		// implement later;
+	}
+
+	private static void onAPIReady() {
+		youTubeAPI = true;
+	}
+	private static native void loadYouTubeApi() /*-{
+		$wnd.youtube_api_ready = function() {
+			@org.geogebra.web.html5.video.VideoManagerW::onAPIReady()();
+		}
+
+		var tag = document.createElement('script');
+		tag.id = 'youtube-iframe';
+		tag.src = 'https://www.youtube.com/iframe_api';
+		var firstScriptTag = $doc.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	}-*/;
+
+	private native void initPlayer(String youtubeId) /*-{
+		var that = this;
+		var yplayer = new $wnd.YT.Player(
+				youtubeId,
+				{
+					events : {
+						'onReady' : function(event) {
+							that.@org.geogebra.web.html5.video.VideoManagerW::onPlayerReady(Ljava/lang/String;)(youtubeId);
+						}
+					}
+				});
+	}-*/;
+
+	//
 	@Override
 	public void backgroundAll() {
 		if (players.isEmpty()) {
