@@ -1476,6 +1476,7 @@
 	        "BBox": [0, 0, this.width, this.height],
 	        "XStep": this.width,
 	        "YStep": this.height,
+			"Length": this.stream.length,
 	        "Resources": {
 	            ProcSet: ["PDF", "ImageC"]
 	        },
