@@ -535,8 +535,16 @@ namespace giac {
   static define_unary_function_eval (__suppress,&_suppress,_suppress_s);
   define_unary_function_ptr5( at_suppress ,alias_at_suppress,&__suppress,0,true);
 
+  static gen & pixel_v(){
+    static gen * ptr=new gen(makevecteur(0));
+    return *ptr;
+  }
   gen _clear(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args._VECTptr->empty()){
+      pixel_v()._VECTptr->clear();
+      return 1;
+    }
     gen g=eval(args,1,contextptr);
     if (g.type==_STRNG) 
       g=string2gen("",false);
@@ -8161,24 +8169,20 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__python_list,&_python_list,_python_list_s);
   define_unary_function_ptr5( at_python_list ,alias_at_python_list,&__python_list,0,true);
 
-  static vecteur & pixel_v(){
-    static vecteur * ptr=new vecteur();
-    return *ptr;
-  }
   gen _set_pixel(const gen & a_,GIAC_CONTEXT){
     gen a(a_);
     if (a.type==_STRNG && a.subtype==-1) return  a;
     if (a.type==_VECT && a._VECTptr->empty())
       return pixel_v();
     if (is_integral(a)){
-      pixel_v().clear();
+      pixel_v()._VECTptr->clear();
       if (a==0) a=vecteur(0);
       return _pixon(a,contextptr);
     }
     else {
-      pixel_v().push_back(_pixon(a,contextptr));
+      pixel_v()._VECTptr->push_back(_pixon(a,contextptr));
     }
-    return 1;
+    return pixel_v();
   }
   static const char _set_pixel_s []="set_pixel";
   static define_unary_function_eval (__set_pixel,&_set_pixel,_set_pixel_s);
