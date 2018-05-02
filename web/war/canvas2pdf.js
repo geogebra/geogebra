@@ -474,6 +474,11 @@
 	    this.lineWidth = 1;
 	    this.lineEndType = 0;
 	    this.alpha = 1;
+		
+		// use pako to compress streams if available
+		// https://github.com/nodeca/pako (MIT)
+		canvas2pdf.usePako = !!pako;
+
 	}
 
 	PDFKitMini.prototype.add = function(a) {
@@ -1338,11 +1343,16 @@
 		
 		var stream = this.stream;
 		
-		// use pako if available for compressing stream
-		// https://github.com/nodeca/pako
-		var usePako = !!pako;
-		if (usePako) {
+		if (canvas2pdf.usePako) {
+			
+			// if we need to pass options:
+			//var deflate = new pako.Deflate({ level: pako.Z_BEST_COMPRESSION});
+			//deflate.push(stream, true)
+			//stream = deflate.result;
+			
+			// simpler:
 			stream = pako.deflate(stream);
+			
 			var buffer = [];
 			for (var i = 0 ; i < stream.length ; i++) {
 				buffer.push(String.fromCharCode(stream[i]));
@@ -1355,7 +1365,7 @@
 	        "Length": stream.length,
 	    };
 		
-		if (usePako) {
+		if (canvas2pdf.usePako) {
 			props["Filter"] = "FlateDecode";
 		}
 		
@@ -1366,19 +1376,34 @@
 	    this.width = canvas.width;
 	    this.height = canvas.height;
 	    var ctx = canvas.getContext("2d");
-	    var buffer = [];
+	    var buffer = new Uint8Array(this.height * this.width * 3);//[];
 	    var rawData = ctx.getImageData(0, 0, this.width, this.height);
-	    for (var y = 0; y < this.height; y++)
+		var i = 0;
+	    for (var y = 0; y < this.height; y++) {
 	        for (var x = 0; x < this.width; x++) {
 	            var red = rawData.data[(x + y * this.width) * 4];
 	            var green = rawData.data[(x + y * this.width) * 4 + 1];
 	            var blue = rawData.data[(x + y * this.width) * 4 + 2];
 
-	            buffer.push(String.fromCharCode(red));
-	            buffer.push(String.fromCharCode(green));
-	            buffer.push(String.fromCharCode(blue));
+	            //buffer.push(String.fromCharCode(red));
+	            //buffer.push(String.fromCharCode(green));
+	            //buffer.push(String.fromCharCode(blue));
+	            buffer[i++] = red;
+	            buffer[i++] = green;
+	            buffer[i++] = blue;
 	        }
-	    this.stream = buffer.join("");
+		}
+		
+		if (canvas2pdf.usePako) {
+			buffer = pako.deflate(buffer);
+		}
+		
+		var buffer2 = [];
+		for (var i = 0 ; i < buffer.length ; i++) {
+			buffer2.push(String.fromCharCode(buffer[i]));
+		}
+		
+	    this.stream = buffer2.join("");
 
 	}
 
@@ -1387,6 +1412,7 @@
 	};
 
 	PDFImage.prototype.getObject = function() {
+	
 	    var props = {
 	        "Type": "XObject",
 	        "Width": this.width,
@@ -1397,6 +1423,10 @@
 	        "Name": "Image" + this.id,
 	        "Length": this.stream.length
 	    }
+		
+		if (canvas2pdf.usePako) {
+			props["Filter"] = "FlateDecode";
+		}
 	    return PDFObject.makeObject(props, this.id, this.stream);
 	};
 
