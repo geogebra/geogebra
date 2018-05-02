@@ -42,6 +42,12 @@ public class AlgoFunctionFreehand extends AlgoElement {
 		g.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            freehand data: xmin, xmax, y1, y2, ....
+	 */
 	public AlgoFunctionFreehand(Construction cons, GeoList f) {
 		super(cons);
 		this.inputList = f;
@@ -122,6 +128,9 @@ public class AlgoFunctionFreehand extends AlgoElement {
 		return inputList.size() - 2;
 	}
 
+	/**
+	 * @return points for First[] command
+	 */
 	public ArrayList<MyPoint> getPoints() {
 		ArrayList<MyPoint> ret = new ArrayList<>();
 		double step, min, max;

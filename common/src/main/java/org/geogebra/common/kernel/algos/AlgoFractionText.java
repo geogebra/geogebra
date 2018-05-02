@@ -31,7 +31,7 @@ public class AlgoFractionText extends AlgoElement {
 	private GeoNumberValue num; // input
 	private GeoText text; // output
 
-	private double frac[] = { 0, 0 };
+	private double[] frac = { 0, 0 };
 
 	private StringBuilder sb = new StringBuilder();
 
@@ -103,7 +103,6 @@ public class AlgoFractionText extends AlgoElement {
 		}
 	}
 
-
 	// https://web.archive.org/web/20111027100847/http://homepage.smc.edu/kennedy_john/DEC2FRAC.PDF
 	/**
 	 * Algorithm To Convert A Decimal To A Fraction by John Kennedy Mathematics
@@ -112,21 +111,17 @@ public class AlgoFractionText extends AlgoElement {
 	 * 
 	 * @param decimal
 	 *            to be converted to fraction
-	 * @param AccuracyFactor
+	 * @param accuracyFactor
 	 *            accuracy
 	 * @return [numerator, denominator]
 	 */
 	public static double[] decimalToFraction(double decimal,
-			double AccuracyFactor) {
+			double accuracyFactor) {
 		double fractionNumerator, fractionDenominator;
 		double decimalSign;
-		double Z;
-		double PreviousDenominator;
-		double ScratchValue;
 
-		double ret[] = { 0, 0 };
-		if (Double.isNaN(decimal))
-		 {
+		double[] ret = { 0, 0 };
+		if (Double.isNaN(decimal)) {
 			return ret; // return 0/0
 		}
 
@@ -149,14 +144,10 @@ public class AlgoFractionText extends AlgoElement {
 
 		double decimalAbs = Math.abs(decimal);
 
-		if (Math.abs(decimalAbs - Math.floor(decimalAbs)) < AccuracyFactor) { // handles
-																		// exact
-																		// integers
-																		// including
-																		// 0
+		if (Math.abs(decimalAbs - Math.floor(decimalAbs)) < accuracyFactor) {
+			// handles exact integers including 0
 			fractionNumerator = decimalAbs * decimalSign;
 			fractionDenominator = 1.0;
-
 			ret[0] = fractionNumerator;
 			ret[1] = fractionDenominator;
 			return ret;
@@ -178,22 +169,23 @@ public class AlgoFractionText extends AlgoElement {
 			return ret;
 		}
 
-		Z = decimalAbs;
-		PreviousDenominator = 0.0;
+		double z = decimalAbs;
+		double previousDenominator = 0.0;
+		double scratchValue;
 		fractionDenominator = 1.0;
 		do {
-			Z = 1.0 / (Z - Math.floor(Z));
-			ScratchValue = fractionDenominator;
-			fractionDenominator = fractionDenominator * Math.floor(Z)
-					+ PreviousDenominator;
-			PreviousDenominator = ScratchValue;
+			z = 1.0 / (z - Math.floor(z));
+			scratchValue = fractionDenominator;
+			fractionDenominator = fractionDenominator * Math.floor(z)
+					+ previousDenominator;
+			previousDenominator = scratchValue;
 			fractionNumerator = Math.floor(decimalAbs * fractionDenominator
 					+ 0.5); // Rounding
 																					// Function
 		} while (Math
 				.abs((decimalAbs - (fractionNumerator
-						/ fractionDenominator))) > AccuracyFactor
-				&& !MyDouble.exactEqual(Z, Math.floor(Z)));
+						/ fractionDenominator))) > accuracyFactor
+				&& !MyDouble.exactEqual(z, Math.floor(z)));
 		fractionNumerator = decimalSign * fractionNumerator;
 
 		ret[0] = fractionNumerator;
@@ -243,6 +235,7 @@ public class AlgoFractionText extends AlgoElement {
 			sb.append(" - \\infty ");
 		}
 	}
+
 	/**
 	 * @param sb
 	 *            builder

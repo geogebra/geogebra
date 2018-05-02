@@ -32,6 +32,16 @@ public class AlgoFirst extends AlgoElement {
 	protected GeoList outputList; // output
 	protected int size;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            input list
+	 * @param n
+	 *            number of elements (null for 1)
+	 */
 	public AlgoFirst(Construction cons, String label, GeoElement inputList,
 			GeoNumeric n) {
 		super(cons);
@@ -96,8 +106,7 @@ public class AlgoFirst extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		if (outsize == 0)
-		 {
+		if (outsize == 0) {
 			return; // return empty list
 		}
 

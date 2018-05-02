@@ -225,9 +225,10 @@ public class CmdFunction extends CommandProcessor {
 	 */
 	final private GeoFunction function(String label, GeoFunction f,
 			GeoNumberValue a, GeoNumberValue b) {
-		AlgoFunctionInterval algo = new AlgoFunctionInterval(cons, label, f, a,
+		AlgoFunctionInterval algo = new AlgoFunctionInterval(cons, f, a,
 				b);
 		GeoFunction g = algo.getFunction();
+		g.setLabel(label);
 		return g;
 	}
 }

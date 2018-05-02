@@ -51,6 +51,7 @@ public class AlgoFoldExpression extends AlgoElement {
 	 * @param truncate
 	 *            number of elements to take
 	 * @param op
+	 *            operation
 	 */
 	public AlgoFoldExpression(Construction cons, String label,
 			GeoElement expression, GeoNumeric var, GeoNumeric from,

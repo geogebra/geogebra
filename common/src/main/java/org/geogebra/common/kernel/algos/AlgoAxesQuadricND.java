@@ -60,7 +60,7 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 	protected AlgoAxesQuadricND(Construction cons, String[] labels,
 			GeoQuadricND c) {
 		this(cons, c);
-		LabelManager.setLabels(labels, (GeoElement[]) axes);
+		LabelManager.setLabels(labels, axes);
 	}
 
 	@Override

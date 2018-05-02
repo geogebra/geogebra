@@ -104,9 +104,14 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 				}
 			}
 		}
-
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            input function
+	 */
 	public AlgoGeoPointsFunction(Construction cons, GeoFunction f) {
 		super(cons);
 		this.f = f;
@@ -117,12 +122,11 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		initPoints(number);
 		// setInputOutput, compute(), show at least one point: must be done in
 		// subclass.
-	}// Constructor
-
+	}
 
 	public GeoPoint[] getPoints() {
 		return points;
-	}// getPoints()
+	}
 
 	// Show at least one root point in algebra view
 	// Copied from AlgoRootsPolynomial...
@@ -133,7 +137,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			points[0].setUndefined();
 			points[0].update();
 		} // if list not defined
-	}// showOneRootInAlgebraView()
+	}
 
 	protected final static void removeDuplicates(double[] tab) {
 		Arrays.sort(tab);
@@ -146,7 +150,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 				tab[maxIndex] = max;
 			} // if greater
 		} // for
-	}// removeDuplicates(double[])
+	}
 
 	// roots array and number of roots
 	protected final void setPoints(double[] curXValues, int number) {
@@ -155,8 +159,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		// now set the new values of the roots
 		for (int i = 0; i < number; i++) {
 
-			points[i].setCoords(curXValues[i], yAt(curXValues[i]), // yValFunction.evaluate(curXValues[i]),
-					1.0);
+			points[i].setCoords(curXValues[i], yAt(curXValues[i]), 1.0);
 
 			// Application.debug(" " + rootPoints[i]);
 
@@ -171,10 +174,15 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			updateLabels(number);
 		}
 		noUndefinedPointsInAlgebraView(points); // **** experiment****
-	}// setPoints(double[],n)
+	}
 
-	protected double yAt(double d) {
-		return f.value(d);
+	/**
+	 * @param x
+	 *            parameter value
+	 * @return f(x); replaced by exact 0 for roots algo
+	 */
+	protected double yAt(double x) {
+		return f.value(x);
 	}
 
 	// number is the number of current roots
@@ -204,7 +212,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		for (int i = 1; i < gpts.length; i++) {
 			gpts[i].showUndefinedInAlgebraView(false);
 		} // for
-	}// noUndefinedPointsInAlgebraView(GeoPoint[])
+	}
 
 	/**
 	 * Removes only one single output element if possible. If this is not
@@ -224,13 +232,13 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 				}
 
 				return;
-			} // if
-		} // for
+			}
+		}
 
 		// if we get here removing output was not possible
 		// so we remove the whole algorithm
 		super.remove();
-	}// remove(GeoElement)
+	}
 
 	protected void initPoints(int number) {
 		// make sure that there are enough points
@@ -248,7 +256,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			points = temp;
 			super.setOutput(points);
 		} // if
-	}// initPoints(n)
+	}
 
 	protected void removePoint(int pos) {
 		points[pos].doRemove();
@@ -263,7 +271,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			temp[i - 1] = points[i];
 		}
 		points = temp;
-	}// removePoint(int pos)
+	}
 
 	protected void updateInterval() {
 		EuclidianViewInterfaceCommon ev = this.kernel.getApplication()
@@ -295,6 +303,13 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		updateLabels(getOutputLength());
 	}
 
+	/**
+	 * @param l
+	 *            left bound
+	 * @param r
+	 *            right bound
+	 * @return number of samples based on zoom
+	 */
 	public final int findNumberOfSamples(double l, double r) {
 		// Find visible area of graphic screen: xmin,xmax,ymin,ymax
 		// pixels_in_visible_interval=...
@@ -315,7 +330,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			return MIN_SAMPLES;
 		}
 		return (int) Math.round(Math.max(screenSamples, MIN_SAMPLES));
-
 	}
 
-}// class AlgoGeoPontsFunction
+}

@@ -174,7 +174,7 @@ public class LabelManager {
 	 * @param indexedOnly
 	 *            true for labels a_1,a_2,a_3,...
 	 */
-	static void setLabels(final String[] labels, final GeoElement[] geos,
+	static void setLabels(final String[] labels, final GeoElementND[] geos,
 			final boolean indexedOnly) {
 		final int labelLen = (labels == null) ? 0 : labels.length;
 
@@ -208,7 +208,7 @@ public class LabelManager {
 	 *            array of geos
 	 */
 	public static void setLabels(final String[] labels,
-			final GeoElement[] geos) {
+			final GeoElementND[] geos) {
 		setLabels(labels, geos, false);
 	}
 }

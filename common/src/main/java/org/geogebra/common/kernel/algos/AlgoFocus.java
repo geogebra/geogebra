@@ -38,7 +38,8 @@ public class AlgoFocus extends AlgoElement {
 	protected GeoConicND c; // input
 	protected GeoPointND[] focus; // output
 
-	transient private double temp1, temp2;
+	transient private double temp1;
+	transient private double temp2;
 	GeoVec2D b;
 	GeoVec2D[] eigenvec;
 
@@ -47,9 +48,17 @@ public class AlgoFocus extends AlgoElement {
 		LabelManager.setLabels(label, focus);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            labels
+	 * @param c
+	 *            conic
+	 */
 	public AlgoFocus(Construction cons, String[] labels, GeoConicND c) {
 		this(cons, c);
-		LabelManager.setLabels(labels, (GeoElement[]) focus);
+		LabelManager.setLabels(labels, focus);
 	}
 
 	AlgoFocus(Construction cons, GeoConicND c) {
@@ -72,14 +81,14 @@ public class AlgoFocus extends AlgoElement {
 	/**
 	 * creates the focus
 	 * 
-	 * @param cons
+	 * @param cons1
+	 *            construction
 	 */
-	protected void createFocus(Construction cons) {
+	protected void createFocus(Construction cons1) {
 		focus = new GeoPoint[2];
 		for (int i = 0; i < focus.length; i++) {
-			focus[i] = new GeoPoint(cons);
+			focus[i] = new GeoPoint(cons1);
 		}
-
 	}
 
 	@Override
@@ -101,6 +110,9 @@ public class AlgoFocus extends AlgoElement {
 		return c;
 	}
 
+	/**
+	 * @return focus points
+	 */
 	public GeoPointND[] getFocus() {
 		return focus;
 	}
@@ -147,8 +159,11 @@ public class AlgoFocus extends AlgoElement {
 	 * set the coords of the i-th focus
 	 * 
 	 * @param i
+	 *            index
 	 * @param x
+	 *            x-ccord in plane (c.getCoordSys())
 	 * @param y
+	 *            y-coord in plane
 	 */
 	protected void setCoords(int i, double x, double y) {
 		focus[i].setCoords(x, y, 1.0);

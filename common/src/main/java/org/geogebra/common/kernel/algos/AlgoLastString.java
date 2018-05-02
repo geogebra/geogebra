@@ -34,7 +34,7 @@ public class AlgoLastString extends AlgoFirstString {
 	 * @param inputText
 	 *            input text
 	 * @param n
-	 *            number of chars
+	 *            number of chars (null for 1)
 	 */
 	public AlgoLastString(Construction cons, String label, GeoText inputText,
 			GeoNumeric n) {
@@ -47,28 +47,8 @@ public class AlgoLastString extends AlgoFirstString {
 	}
 
 	@Override
-	public final void compute() {
-		String str = inputText.getTextString();
-
-		if (str == null) {
-			outputText.setUndefined();
-			return;
-		}
-
-		size = str.length();
-		int outsize = n == null ? 1 : (int) n.getDouble();
-
-		if (!inputText.isDefined() || size == 0 || outsize < 0
-				|| outsize > size) {
-			outputText.setUndefined();
-			return;
-		}
-
-		if (outsize == 0) {
-			outputText.setTextString(""); // return empty string
-		} else {
-			outputText.setTextString(str.substring(size - outsize));
-		}
+	protected String getString(String str, int outsize) {
+		return str.substring(size - outsize);
 	}
 
 }

@@ -27,19 +27,24 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 public class AlgoFunctionInterval extends AlgoElement {
 
 	private GeoFunction f; // input
-	private NumberValue a, b; // input
-	private GeoElement ageo, bgeo;
+	private NumberValue a; // input
+	private NumberValue b; // input
+	private GeoElement ageo;
+	private GeoElement bgeo;
 	private GeoFunction g; // output g
 	private ExpressionNode exp; // current expression of f
 	// (needed to notice change of f)
 
-	/** Creates new AlgoDependentFunction */
-	public AlgoFunctionInterval(Construction cons, String label, GeoFunction f,
-			GeoNumberValue a, GeoNumberValue b) {
-		this(cons, f, a, b);
-		g.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            input function
+	 * @param a
+	 *            left bound
+	 * @param b
+	 *            right bound
+	 */
 	public AlgoFunctionInterval(Construction cons, GeoFunction f,
 			GeoNumberValue a, GeoNumberValue b) {
 		super(cons);
@@ -102,15 +107,12 @@ public class AlgoFunctionInterval extends AlgoElement {
 			boolean defined = g.setInterval(ad, bd);
 			g.setDefined(defined);
 		}
-
 	}
 
-	private boolean hasEqualExpressions(GeoFunction f) {
-		boolean equal;
+	private boolean hasEqualExpressions(GeoFunction f1) {
+		ExpressionNode en = f1.getFunctionExpression();
 
-		ExpressionNode en = f.getFunctionExpression();
-
-		equal = exp == en;
+		boolean equal = exp == en;
 		exp = en;
 
 		return equal;
@@ -118,12 +120,9 @@ public class AlgoFunctionInterval extends AlgoElement {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		// Michael Borcherds 2008-03-30
-		// simplified to allow better Chinese translation
 		return getLoc().getPlainDefault("FunctionAonIntervalBC",
 				"Function %0 on interval [%1, %2]", f.getLabel(tpl),
 				ageo.getLabel(tpl), bgeo.getLabel(tpl));
-
 	}
 
 }

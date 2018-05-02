@@ -87,8 +87,7 @@ public class AlgoFunctionMinMax extends AlgoElement {
 		compute();
 
 		E.setLabel(label);
-
-	}// constructor
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -113,7 +112,7 @@ public class AlgoFunctionMinMax extends AlgoElement {
 	 */
 	public GeoPoint getPoint() {
 		return E;
-	}// getNumericalExtremum()
+	}
 
 	@Override
 	public final void compute() {
@@ -138,6 +137,6 @@ public class AlgoFunctionMinMax extends AlgoElement {
 		E.setCoords(min, f.value(min), 1.0);
 		E.updateRepaint();
 
-	}// compute()
+	}
 
 }

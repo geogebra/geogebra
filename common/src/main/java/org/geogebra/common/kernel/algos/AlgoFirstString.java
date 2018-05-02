@@ -32,6 +32,16 @@ public class AlgoFirstString extends AlgoElement {
 	protected GeoText outputText; // output
 	protected int size;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputText
+	 *            input
+	 * @param n
+	 *            number of characters (null for 1)
+	 */
 	public AlgoFirstString(Construction cons, String label, GeoText inputText,
 			GeoNumeric n) {
 		super(cons);
@@ -93,8 +103,12 @@ public class AlgoFirstString extends AlgoElement {
 		if (outsize == 0) {
 			outputText.setTextString(""); // return empty string
 		} else {
-			outputText.setTextString(str.substring(0, outsize));
+			outputText.setTextString(getString(str, outsize));
 		}
+	}
+
+	protected String getString(String str, int outsize) {
+		return str.substring(0, outsize);
 	}
 
 }

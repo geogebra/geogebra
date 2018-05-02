@@ -104,8 +104,7 @@ public class AlgoLast extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		if (outsize == 0)
-		 {
+		if (outsize == 0) {
 			return; // return empty list
 		}
 

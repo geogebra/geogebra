@@ -42,6 +42,10 @@ public class AlgoFoldFunctions extends AlgoElement {
 	 *            list
 	 * @param truncate
 	 *            number of elements to take
+	 * @param op
+	 *            operation
+	 * @param foldComputer
+	 *            fold helper
 	 */
 	public AlgoFoldFunctions(Construction cons, String label, GeoList geoList,
 			GeoNumeric truncate, Operation op, FoldComputer foldComputer) {

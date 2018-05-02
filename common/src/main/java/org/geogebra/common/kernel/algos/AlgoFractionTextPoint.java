@@ -26,9 +26,9 @@ public class AlgoFractionTextPoint extends AlgoElement {
 	private GeoPointND p; // input
 	private GeoText text; // output
 
-	private double xCoord[] = { 0, 0 };
-	private double yCoord[] = { 0, 0 };
-	private double zCoord[] = { 0, 0 };
+	private double[] xCoord = { 0, 0 };
+	private double[] yCoord = { 0, 0 };
+	private double[] zCoord = { 0, 0 };
 
 	private StringBuilder sb = new StringBuilder();
 

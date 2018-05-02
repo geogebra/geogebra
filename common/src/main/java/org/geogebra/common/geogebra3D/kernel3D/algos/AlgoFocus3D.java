@@ -17,8 +17,11 @@ public class AlgoFocus3D extends AlgoFocus {
 	 * constructor
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param labels
+	 *            labels
 	 * @param c
+	 *            conic
 	 */
 	public AlgoFocus3D(Construction cons, String[] labels, GeoConicND c) {
 		super(cons, labels, c);
