@@ -25,7 +25,8 @@ import org.geogebra.common.kernel.geos.GeoLine;
 public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 
 	private ExpressionNode origGeoNode;
-	private GeoElement origGeo, copyGeo; // input, ouput
+	private GeoElement origGeo; // input
+	private GeoElement copyGeo; // output
 
 	/**
 	 * @param cons

@@ -646,7 +646,7 @@ public class AlgoDependentNumber extends AlgoElement
 						i = new BigDecimal(d * Math.pow(10, nrOfMaxDecimals))
 								.toBigInteger();
 						Log.error(
-								"Possible numerical error in converting formula coefficients to integer");
+								"Possible num. error in converting formula coeff. to integer");
 						/* TODO: check if this conversion is really correct */
 					} else {
 						i = new BigDecimal(d).toBigInteger();
@@ -700,7 +700,8 @@ public class AlgoDependentNumber extends AlgoElement
 					// than multiply the coefficient with 10^n
 					if (nrOfMaxDecimals != 0
 							&& expNode.getOperation() != Operation.POWER) {
-						i = new BigInteger(Long.toString(((long) (d * Math.pow(10, nrOfMaxDecimals)))));
+						i = new BigInteger(
+								Long.toString(((long) (d * Math.pow(10, nrOfMaxDecimals)))));
 					} else {
 						i = new BigInteger(Long.toString(((long) d)));
 					}
@@ -736,7 +737,6 @@ public class AlgoDependentNumber extends AlgoElement
 		strForGiac.append("eliminate([");
 		strForGiac.append(str);
 		StringBuilder labelsStr = new StringBuilder();
-		Iterator<GeoSegment> it = allSegmentsFromExpression.iterator();
 
 		labelsStr.append(Kernel.TMP_VARIABLE_PREFIX);
 		labelsStr.append(botanaVars[0].toString());
@@ -746,7 +746,7 @@ public class AlgoDependentNumber extends AlgoElement
 		strForGiac.append(botanaVars[0].toString());
 		strForGiac.append("=");
 		strForGiac.append(botanaVars[0].toString());
-
+		Iterator<GeoSegment> it = allSegmentsFromExpression.iterator();
 		while (it.hasNext()) {
 			GeoSegment currSeg = it.next();
 			labelsStr.append(",");

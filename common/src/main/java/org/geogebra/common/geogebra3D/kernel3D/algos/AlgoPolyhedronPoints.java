@@ -40,7 +40,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	private class OutputPolygonsHandler extends OutputHandler<GeoPolygon3D> {
 
 		public OutputPolygonsHandler() {
-			super(new elementFactory<GeoPolygon3D>() {
+			super(new ElementFactory<GeoPolygon3D>() {
 				@Override
 				public GeoPolygon3D newElement() {
 					GeoPolygon3D p = new GeoPolygon3D(cons);
@@ -71,7 +71,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	private class OutputSegmentsHandler extends OutputHandler<GeoSegment3D> {
 
 		public OutputSegmentsHandler() {
-			super(new elementFactory<GeoSegment3D>() {
+			super(new ElementFactory<GeoSegment3D>() {
 				@Override
 				public GeoSegment3D newElement() {
 					GeoSegment3D s = new GeoSegment3D(cons);

@@ -563,7 +563,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	 * @return
 	 */
 	protected OutputHandler<GeoSegment> createOutputSegments() {
-		return new OutputHandler<>(new elementFactory<GeoSegment>() {
+		return new OutputHandler<>(new ElementFactory<GeoSegment>() {
 			@Override
 			public GeoSegment newElement() {
 				GeoSegment a = new GeoSegment(cons);

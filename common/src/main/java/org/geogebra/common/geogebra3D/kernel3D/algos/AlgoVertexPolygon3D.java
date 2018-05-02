@@ -67,7 +67,7 @@ public class AlgoVertexPolygon3D extends AlgoVertexPolygon {
 
 	@Override
 	protected OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new ElementFactory<GeoElement>() {
 			@Override
 			public GeoPoint3D newElement() {
 				GeoPoint3D pt = new GeoPoint3D(cons);

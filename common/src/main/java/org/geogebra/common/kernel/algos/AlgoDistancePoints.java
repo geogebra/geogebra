@@ -38,11 +38,20 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 public class AlgoDistancePoints extends AlgoElement
 		implements DistanceAlgo, SymbolicParametersBotanaAlgo {
 
-	private GeoPointND P, Q; // input
+	private GeoPointND P; // input
+	private GeoPointND Q; // input
 	private GeoNumeric dist; // output
 
 	private PVariable[] botanaVars;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param P
+	 *            point
+	 * @param Q
+	 *            point
+	 */
 	public AlgoDistancePoints(Construction cons, GeoPointND P, GeoPointND Q) {
 		super(cons);
 		this.P = P;

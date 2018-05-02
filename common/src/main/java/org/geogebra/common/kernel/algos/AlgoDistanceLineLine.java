@@ -32,7 +32,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public class AlgoDistanceLineLine extends AlgoElement {
 
-	private GeoLine g, h; // input
+	private GeoLine g; // input
+	private GeoLine h; // input
 	/** output: distance */
 	protected GeoNumeric dist;
 

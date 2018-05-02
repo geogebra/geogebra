@@ -160,27 +160,11 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	 * Update spreadsheet traceable flag
 	 */
 	public void setSpreadsheetTraceableText() {
-
-		/*
-		 * AbstractApplication.debug("\nroot: "+root+ "\nleft: "
-		 * +root.getLeftTree()+ "\nright: "+root.getRightTree()+
-		 * "\ngeos:"+root.getVariables()+ "\nright geos:"
-		 * +root.getRightTree().getVariables() ); //
-		 */
-
 		// find first NumberValue in expression and replace
 		numToTraceSet = false;
 		ExpressionNode copy = getSpecialCopy(text.getDefinition());
 
-		// AbstractApplication.printStacktrace("XXX"+copy.evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
-
-		// if (numToTrace != null) {
-		// AbstractApplication.debug("YYY"+numToTrace.toOutputValueString(StringTemplate.defaultTemplate));
-		// }
-
 		text.setSpreadsheetTraceable(copy, numToTrace);
-
-
 	}
 
 	// adpated from ExpressionNode.getCopy()

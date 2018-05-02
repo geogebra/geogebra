@@ -56,7 +56,7 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 		}
 
 		outputPolyhedron = new OutputHandler<>(
-				new elementFactory<GeoPolyhedron>() {
+				new ElementFactory<GeoPolyhedron>() {
 					@Override
 					public GeoPolyhedron newElement() {
 						GeoPolyhedron p = new GeoPolyhedron(cons);
@@ -164,7 +164,7 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 
 	private OutputHandler<GeoSegment3D> createOutputSegments() {
 		return new OutputHandler<>(
-				new elementFactory<GeoSegment3D>() {
+				new ElementFactory<GeoSegment3D>() {
 					@Override
 					public GeoSegment3D newElement() {
 						GeoSegment3D s = new GeoSegment3D(cons);
@@ -176,7 +176,7 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 
 	private OutputHandler<GeoPolygon3D> createOutputPolygons() {
 		return new OutputHandler<>(
-				new elementFactory<GeoPolygon3D>() {
+				new ElementFactory<GeoPolygon3D>() {
 					@Override
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons);

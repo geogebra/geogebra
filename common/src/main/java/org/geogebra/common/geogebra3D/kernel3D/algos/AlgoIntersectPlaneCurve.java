@@ -91,7 +91,7 @@ public class AlgoIntersectPlaneCurve extends AlgoIntersectCoordSysCurve {
 	 * @return handler for output points
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new ElementFactory<GeoElement>() {
 			@Override
 			public GeoPoint3D newElement() {
 				GeoPoint3D p = new GeoPoint3D(cons);

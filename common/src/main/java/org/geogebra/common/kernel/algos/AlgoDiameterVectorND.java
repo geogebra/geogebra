@@ -84,8 +84,6 @@ public abstract class AlgoDiameterVectorND extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-
-
 	/**
 	 * @return result
 	 */

@@ -63,6 +63,18 @@ public class AlgoExtremumNumerical extends AlgoElement {
 	private GeoNumberValue right; // input
 	private GeoPoint E; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param function
+	 *            function
+	 * @param left
+	 *            left bound
+	 * @param right
+	 *            right bound
+	 */
 	public AlgoExtremumNumerical(Construction cons, String label,
 			GeoFunctionable function, GeoNumberValue left,
 			GeoNumberValue right) {
@@ -81,8 +93,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		compute();
 
 		E.setLabel(label);
-
-	}// constru//if error in parametersctor
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -238,6 +249,6 @@ public class AlgoExtremumNumerical extends AlgoElement {
 
 		// debug("iterations: "+iterations+"point: ("+max+","+y+")"+"in
 		// intervall: <"+left.getDouble()+","+right.getDouble()+">");
-	}// compute()
+	}
 
-}// class AlgoExtremumNumerical
+}

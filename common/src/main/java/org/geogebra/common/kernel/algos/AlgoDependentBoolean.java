@@ -40,10 +40,7 @@ import org.geogebra.common.plugin.Operation;
 public class AlgoDependentBoolean extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre, DependentAlgo {
 
-
 	private GeoBoolean bool; // output
-
-
 	private DependentBooleanAdapter proverAdapter;
 
 	/**

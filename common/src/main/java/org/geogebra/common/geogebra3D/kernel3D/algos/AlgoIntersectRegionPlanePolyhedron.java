@@ -999,7 +999,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	private final void createOutput() {
 
 		outputPolygons = new OutputHandler<>(
-				new elementFactory<GeoPolygon3D>() {
+				new ElementFactory<GeoPolygon3D>() {
 					@Override
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p1 = new GeoPolygon3D(cons, true);
@@ -1024,7 +1024,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 		outputPolygons.adjustOutputSize(1, false);
 
 		outputPoints = new OutputHandler<>(
-				new elementFactory<GeoPoint3D>() {
+				new ElementFactory<GeoPoint3D>() {
 					@Override
 					public GeoPoint3D newElement() {
 						GeoPoint3D newPoint = new GeoPoint3D(cons);
@@ -1076,7 +1076,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 		outputSegmentsPolyhedron = // createOutputSegments();
 				new OutputHandler<>(
-						new elementFactory<GeoSegment3D>() {
+						new ElementFactory<GeoSegment3D>() {
 							@Override
 							public GeoSegment3D newElement() {
 								GeoSegment3D segment = (GeoSegment3D) outputPolygons

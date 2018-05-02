@@ -48,10 +48,15 @@ public class AlgoDilate extends AlgoTransformation {
 	 * Creates new labeled enlarge geo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param A
+	 *            dilated geo
 	 * @param r
+	 *            coefficient
 	 * @param S
+	 *            dilation center
 	 */
 	AlgoDilate(Construction cons, String label, GeoElement A, GeoNumberValue r,
 			GeoPointND S) {
@@ -63,9 +68,13 @@ public class AlgoDilate extends AlgoTransformation {
 	 * Creates new unlabeled enlarge geo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param A
+	 *            dilated geo
 	 * @param r
+	 *            coefficient
 	 * @param S
+	 *            dilation center
 	 */
 	public AlgoDilate(Construction cons, GeoElement A, GeoNumberValue r,
 			GeoPointND S) {
@@ -83,7 +92,6 @@ public class AlgoDilate extends AlgoTransformation {
 
 		setInputOutput();
 		compute();
-
 	}
 
 	@Override

@@ -140,7 +140,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 
 		input[0] = algoTangentPoly.getVec();
 
-		tangents = new OutputHandler<>(new elementFactory<GeoLine>() {
+		tangents = new OutputHandler<>(new ElementFactory<GeoLine>() {
 			@Override
 			public GeoLine newElement() {
 				GeoLine g1 = new GeoLine(getConstruction());

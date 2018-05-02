@@ -70,7 +70,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	}
 
 	protected OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new ElementFactory<GeoElement>() {
 			@Override
 			public GeoPoint3D newElement() {
 				GeoPoint3D p1 = new GeoPoint3D(cons);
@@ -82,7 +82,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	}
 
 	protected OutputHandler<GeoElement> createOutputSegments() {
-		return new OutputHandler<>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new ElementFactory<GeoElement>() {
 			@Override
 			public GeoSegment3D newElement() {
 

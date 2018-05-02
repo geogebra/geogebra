@@ -58,7 +58,6 @@ import org.geogebra.common.util.debug.Log;
 
 public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
-
 	// Input-Output
 	private GeoFunction f1;
 
@@ -66,9 +65,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	public AlgoExtremumMulti(Construction cons, String[] labels,
 			GeoFunction function, GeoNumberValue left, GeoNumberValue right, boolean labelEnabled) {
 		super(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(),
-				function); // set
-																		// f,g,l
-																		// null
+				function);
 		this.f1 = function;
 		this.left = left;
 		this.right = right;
@@ -86,9 +83,20 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 			gpt[0].setUndefined();
 			gpt[0].update();
 		} // if list not defined
+	}
 
-	}// constructor
-
+	/**
+	 * Computes extrema visible in given view.
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param function
+	 *            function
+	 * @param view
+	 *            view
+	 */
 	public AlgoExtremumMulti(Construction cons, String[] labels,
 			GeoFunction function, EuclidianViewInterfaceCommon view) {
 		this(cons, labels, function, view.getXminObject(),
@@ -106,7 +114,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	public GeoPoint[] getExtremumPoints() {
 		return getPoints();
-	}// getExtremumPoints()
+	}
 
 	@Override
 	protected void setInputOutput() {
@@ -123,7 +131,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		noUndefinedPointsInAlgebraView(getPoints());
 
 		setDependencies(); // done by AlgoElement
-	}// setInputOutput()
+	}
 
 	@Override
 	public final void compute() {
@@ -182,7 +190,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 			} // if null
 		} // if input is ok?
 
-	}// compute()
+	}
 
 	/**
 	 * Main algorithm, public for eventual use by other commands Finds a
@@ -245,11 +253,10 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 			result[i] = xlist.get(i);
 		} // for all x
 		return result;
-	}// findExtremums(rrfunc,l,r)
+	}
 
 	// / --- Private methods --- ///
 	// Make all private after testing...
-
 
 	private final static boolean gradientChangesSign(UnivariateFunction rrf,
 			double x, double l, double r) {
@@ -310,4 +317,4 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		}
 	}
 
-}// class AlgoExtremumNumerical
+}

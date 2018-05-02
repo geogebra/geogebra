@@ -46,7 +46,6 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		corner.setLabel(label);
 
 		registerEV(absCorner);
-
 	}
 
 	private void registerEV(double absCorner) {
@@ -58,9 +57,18 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		if (DoubleUtil.isEqual(number.getDouble(), absCorner)) {
 			cons.registerCorner5(this);
 		}
-
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param number
+	 *            corner index
+	 * @param evNum
+	 *            view number
+	 * @param absCorner
+	 *            index of abs corner in active view
+	 */
 	public AlgoDrawingPadCorner(Construction cons, GeoNumberValue number,
 			GeoNumberValue evNum, double absCorner) {
 		super(cons);
@@ -73,23 +81,30 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		corner.setEuclidianVisible(false); // hidden by default
 
 		registerEV(absCorner);
-
-	}
-
-	public AlgoDrawingPadCorner(Construction cons, String label,
-			GeoNumberValue number, GeoNumberValue evNum) {
-		this(cons, label, number, evNum, 5);
-
 	}
 
 	/**
-	 * 
 	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param number
+	 *            corner index
+	 * @param evNum
+	 *            view number
+	 */
+	public AlgoDrawingPadCorner(Construction cons, String label,
+			GeoNumberValue number, GeoNumberValue evNum) {
+		this(cons, label, number, evNum, 5);
+	}
+
+	/**
+	 * @param cons1
 	 *            construction
 	 * @return new point
 	 */
-	protected GeoPointND newGeoPoint(Construction cons) {
-		return new GeoPoint(cons);
+	protected GeoPointND newGeoPoint(Construction cons1) {
+		return new GeoPoint(cons1);
 	}
 
 	@Override
@@ -115,6 +130,9 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return corner
+	 */
 	public GeoPointND getCorner() {
 		return corner;
 	}

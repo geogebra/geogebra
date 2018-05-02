@@ -38,7 +38,7 @@ public class AlgoCornerConicSection extends AlgoElement3D {
 	}
 
 	private OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new ElementFactory<GeoElement>() {
 			@Override
 			public GeoPoint3D newElement() {
 				GeoPoint3D p = new GeoPoint3D(cons);

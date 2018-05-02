@@ -39,7 +39,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 
-	private GeoPointND A, B, C; // input
+	private GeoPointND A; // input
+	private GeoPointND B; // input
+	private GeoPointND C; // input
 	protected GeoConicND conic; // output
 
 	final protected int type; // ellipse or hyperbola
@@ -183,18 +185,24 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 		return conic;
 	}
 
+	/**
+	 * @return first focus
+	 */
 	public GeoPointND getFocus1() {
-		// Public for LocusEqu
 		return A;
 	}
 
+	/**
+	 * @return second focus
+	 */
 	public GeoPointND getFocus2() {
-		// Public for LocusEqu
 		return B;
 	}
 
+	/**
+	 * @return input point on conic
+	 */
 	public GeoPointND getConicPoint() {
-		// Public for LocusEqu
 		return C;
 	}
 
@@ -211,9 +219,9 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 	@Override
 	public void compute() {
 
-		double xyA[] = new double[2];
-		double xyB[] = new double[2];
-		double xyC[] = new double[2];
+		double[] xyA = new double[2];
+		double[] xyB = new double[2];
+		double[] xyC = new double[2];
 		getA2d().getInhomCoords(xyA);
 		getB2d().getInhomCoords(xyB);
 		getC2d().getInhomCoords(xyC);

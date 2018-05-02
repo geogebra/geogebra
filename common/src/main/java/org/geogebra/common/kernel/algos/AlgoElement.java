@@ -181,8 +181,6 @@ public abstract class AlgoElement extends ConstructionElement
 		return output.length;
 	}
 
-
-
 	/**
 	 * One OutputHandler has been changed, we put together the new output.
 	 */
@@ -216,7 +214,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 *            extends GeoElement: type of the OutputHandler
 	 */
 	public class OutputHandler<T extends GeoElement> {
-		private elementFactory<T> fac;
+		private ElementFactory<T> fac;
 		private ArrayList<T> outputList;
 		private String[] labels;
 		private String indexLabel;
@@ -232,7 +230,7 @@ public abstract class AlgoElement extends ConstructionElement
 		 * @param fac
 		 *            elementFactory to create new Elements of type T
 		 */
-		public OutputHandler(elementFactory<T> fac) {
+		public OutputHandler(ElementFactory<T> fac) {
 			this.fac = fac;
 			outputList = new ArrayList<>();
 			if (getOutputHandler() == null) {
@@ -247,7 +245,7 @@ public abstract class AlgoElement extends ConstructionElement
 		 * @param labels
 		 *            array of labels to use for Outputelements.
 		 */
-		public OutputHandler(elementFactory<T> fac, String[] labels) {
+		public OutputHandler(ElementFactory<T> fac, String[] labels) {
 			this(fac);
 			this.labels = labels;
 			if (labels != null) {
@@ -500,18 +498,15 @@ public abstract class AlgoElement extends ConstructionElement
 		public void setLabelsMulti(String[] labels2) {
 			// if only one label (e.g. "A") for more than one output, new labels
 			// will be A_1, A_2, ...
-			if (labels2 != null && labels2.length == 1 &&
-			// outputPoints.size() > 1 &&
-					labels2[0] != null && !labels2[0].equals("")) {
+			if (labels2 != null && labels2.length == 1
+					&& labels2[0] != null && !labels2[0].equals("")) {
 				this.setIndexLabels(labels2[0]);
 			} else {
 
 				this.setLabels(labels2);
 				this.setIndexLabels(getElement(0).getLabelSimple());
 			}
-
 		}
-
 	}
 
 	/**
@@ -520,7 +515,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param <S>
 	 *            element type
 	 */
-	public interface elementFactory<S extends GeoElement> {
+	public interface ElementFactory<S extends GeoElement> {
 
 		/**
 		 * this is called by the OutputHandler every Time a new Element is
@@ -1188,7 +1183,6 @@ public abstract class AlgoElement extends ConstructionElement
 		return false;
 	}
 
-
 	@Override
 	public String getNameDescription() {
 		sbAE.setLength(0);
@@ -1382,13 +1376,12 @@ public abstract class AlgoElement extends ConstructionElement
 				sb.append(getCmdXML(cmdname, tpl));
 			}
 
-			if (includeOutputGeos) {// && output != null) {
+			if (includeOutputGeos) { // && output != null) {
 				getOutputXML(sb);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -1428,7 +1421,7 @@ public abstract class AlgoElement extends ConstructionElement
 				sb.append(getCmdXML(cmdname, tpl));
 			}
 
-			if (includeOutputGeos) {// && output != null) {
+			if (includeOutputGeos) { // && output != null) {
 				getOutputXML(sb);
 			}
 		} catch (Exception e) {
@@ -1481,8 +1474,7 @@ public abstract class AlgoElement extends ConstructionElement
 		sb.append("\"");
 
 		// make sure that a vector remains a vector and a point remains a point
-		if (getOutputLength() > 0)// (output != null)
-		{
+		if (getOutputLength() > 0) {
 			if (getOutput(0).isGeoPoint()) {
 				sb.append(" type=\"point\"");
 			} else if (getOutput(0).isGeoVector()) {
@@ -1498,7 +1490,6 @@ public abstract class AlgoElement extends ConstructionElement
 			} else if (getOutput(0).isGeoImplicitPoly()) {
 				sb.append(" type=\"implicitPoly\"");
 			}
-
 		}
 
 		// expression

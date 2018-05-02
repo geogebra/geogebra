@@ -316,7 +316,7 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
 
-		return new OutputHandler<>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new ElementFactory<GeoElement>() {
 			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(getConstruction());

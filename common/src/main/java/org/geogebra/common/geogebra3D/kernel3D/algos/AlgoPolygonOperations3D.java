@@ -298,7 +298,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	private final void createOutput() {
 
 		outputPolygons = new OutputHandler<>(
-				new elementFactory<GeoPolygon3D>() {
+				new ElementFactory<GeoPolygon3D>() {
 					@Override
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons, true);
@@ -316,7 +316,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 		outputPolygons.adjustOutputSize(1, false);
 
 		outputPoints = new OutputHandler<>(
-				new elementFactory<GeoPoint3D>() {
+				new ElementFactory<GeoPoint3D>() {
 					@Override
 					public GeoPoint3D newElement() {
 						GeoPoint3D newPoint = new GeoPoint3D(cons);
@@ -333,7 +333,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 		outputPoints.adjustOutputSize(1, false);
 
 		outputSegments = new OutputHandler<>(
-				new elementFactory<GeoSegment3D>() {
+				new ElementFactory<GeoSegment3D>() {
 					@Override
 					public GeoSegment3D newElement() {
 						GeoSegment3D segment = (GeoSegment3D) outputPolygons

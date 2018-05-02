@@ -146,7 +146,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	}
 
 	protected OutputHandler<GeoElement> createOutputSegments() {
-		return new OutputHandler<>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new ElementFactory<GeoElement>() {
 			@Override
 			public GeoSegment newElement() {
 				GeoSegment a = new GeoSegment(cons);

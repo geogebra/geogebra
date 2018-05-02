@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoEllipseFociLength extends AlgoConicFociLength {
 
-
 	/**
 	 * @param cons
 	 *            construction

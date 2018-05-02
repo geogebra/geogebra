@@ -56,6 +56,18 @@ public class AlgoDistancePointObject extends AlgoElement
 	private GeoNumeric dist; // output
 	private AlgoClosestPoint closePt;
 
+	/**
+	 * Distance between point and object.
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param P
+	 *            point
+	 * @param g
+	 *            object
+	 */
 	public AlgoDistancePointObject(Construction cons, String label,
 			GeoPointND P, GeoElementND g) {
 		super(cons);
@@ -194,6 +206,19 @@ public class AlgoDistancePointObject extends AlgoElement
 		return roots[k];
 	}
 
+	/**
+	 * Find all local extrema and pick the closest one.
+	 * 
+	 * @param polyFunction
+	 *            polynomial
+	 * @param x
+	 *            source x-coord
+	 * @param y
+	 *            source y-coord
+	 * @param kernel
+	 *            kernel
+	 * @return x value for closest point on function
+	 */
 	public static double closestValPoly(PolyFunction polyFunction, double x,
 			double y, Kernel kernel) {
 		PolyFunction polyDervi = polyFunction.getDerivative();

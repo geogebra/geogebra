@@ -41,7 +41,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	public AlgoSimpleRootsPolynomial(Construction c) {
 		super(c);
 		eqnSolver = cons.getKernel().getEquationSolver();
-		points = new OutputHandler<>(new elementFactory<GeoPoint>() {
+		points = new OutputHandler<>(new ElementFactory<GeoPoint>() {
 			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(cons);
