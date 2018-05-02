@@ -2583,12 +2583,17 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// codeBeginDoc.append("x=1cm,y=1cm,");
 		addScale(codeBeginDoc);
 
-		// 'middle' or 'edge'
-		codeBeginDoc.append(",\naxis lines=middle,\n");
+		// ignore y-axis setting (assume same as x)
+		String position = euclidianView.getDrawBorderAxes()[0] ? "edge"
+				: "middle";
+		codeBeginDoc.append(",\naxis lines=" + position + ",\n");
 
 		// codeBeginDoc.append(",\ngrid=both,\n");
 
-		// grid style=dashed,
+		if (euclidianView
+				.getGridLineStyle() != EuclidianStyleConstants.LINE_TYPE_FULL) {
+			codeBeginDoc.append("grid style=dashed,\n");
+		}
 
 		// double tickStepX = euclidianView.getXscale()
 		// * euclidianView.getGridDistances()[0];
@@ -2602,10 +2607,12 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		double endY = MyMath.nextMultiple(ymax + Kernel.STANDARD_PRECISION,
 				tickStepY) - tickStepY;
 
+		if (euclidianView.getShowGrid()) {
 		// horizontal grid
 		codeBeginDoc.append("ymajorgrids=true,\n");
 		// vertical grid
 		codeBeginDoc.append("xmajorgrids=true,\n");
+		}
 
 		codeBeginDoc.append("xmin=");
 		codeBeginDoc.append(xmin);
