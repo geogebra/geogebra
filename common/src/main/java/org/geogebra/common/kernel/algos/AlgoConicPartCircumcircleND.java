@@ -30,7 +30,9 @@ import org.geogebra.common.util.debug.Log;
  */
 public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 
-	protected GeoPointND A, B, C;
+	protected GeoPointND A;
+	protected GeoPointND B;
+	protected GeoPointND C;
 
 	private GeoLine line; // for degenerate case
 

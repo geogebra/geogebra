@@ -34,8 +34,11 @@ public class AlgoCenterConic extends AlgoCenterQuadricND {
 	 * Constructor
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param c
+	 *            conic
 	 */
 	public AlgoCenterConic(Construction cons, String label, GeoConicND c) {
 		super(cons, c);
@@ -75,7 +78,9 @@ public class AlgoCenterConic extends AlgoCenterQuadricND {
 	 * set the coords of the midpoint
 	 * 
 	 * @param x
+	 *            x-coord
 	 * @param y
+	 *            y-coord
 	 */
 	protected void setCoords(double x, double y) {
 		midpoint.setCoords(x, y, 1.0d);

@@ -595,8 +595,9 @@ public class AlgoDispatcher {
 	 */
 	final public GeoConicPart CircleArcSector(String label, GeoPoint A,
 			GeoPoint B, GeoPoint C, int type) {
-		AlgoConicPartCircle algo = new AlgoConicPartCircle(cons, label, A, B, C,
+		AlgoConicPartCircle algo = new AlgoConicPartCircle(cons, A, B, C,
 				type);
+		algo.getConicPart().setLabel(label);
 		return algo.getConicPart();
 	}
 
@@ -700,8 +701,9 @@ public class AlgoDispatcher {
 	 * conic through five points
 	 */
 	final public GeoConicND Conic(String label, GeoPoint[] points) {
-		AlgoConicFivePoints algo = new AlgoConicFivePoints(cons, label, points);
+		AlgoConicFivePoints algo = new AlgoConicFivePoints(cons, points);
 		GeoConicND conic = algo.getConic();
+		conic.setLabel(label);
 		return conic;
 	}
 

@@ -41,7 +41,8 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoCurveCartesian extends AlgoElement {
 
 	private GeoNumberValue[] coords; // input
-	private GeoNumberValue from, to; // input
+	private GeoNumberValue from; // input
+	private GeoNumberValue to; // input
 	private GeoNumeric localVar; // input
 	private GeoCurveCartesianND curve; // output
 	private boolean[] containsFunctions;

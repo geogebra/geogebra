@@ -24,7 +24,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public abstract class AlgoConicPartConicPointsND extends AlgoConicPart {
 
-	protected GeoPointND startPoint, endPoint;
+	protected GeoPointND startPoint;
+	protected GeoPointND endPoint;
 
 	/**
 	 * Creates a new arc or sector algorithm. The type is either

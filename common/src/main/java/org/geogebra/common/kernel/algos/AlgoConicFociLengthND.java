@@ -33,14 +33,13 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public abstract class AlgoConicFociLengthND extends AlgoElement {
 
-	protected GeoPointND A, B; // input
+	protected GeoPointND A; // input
+	protected GeoPointND B; // input
 	protected GeoNumberValue a; // input
 	protected GeoElement ageo;
 	protected GeoConicND conic; // output
 
-	public AlgoConicFociLengthND(
-			// package private
-			Construction cons, String label, GeoPointND A, GeoPointND B,
+	protected AlgoConicFociLengthND(Construction cons, String label, GeoPointND A, GeoPointND B,
 			GeoNumberValue a, GeoDirectionND orientation) {
 		super(cons);
 		this.A = A;

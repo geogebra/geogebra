@@ -1105,6 +1105,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 * Computes stick or step graph from a list of points
 	 * 
 	 * @param list1
+	 *            point list
 	 */
 	private void computeFromPointList(GeoList list1) {
 

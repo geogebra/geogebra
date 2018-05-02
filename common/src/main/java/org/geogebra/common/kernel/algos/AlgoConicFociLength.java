@@ -40,9 +40,8 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
 		implements SymbolicParametersBotanaAlgo {
 	private BotanaEllipseHyperbolaLength botanaParams;
-	public AlgoConicFociLength(
-			// package private
-			Construction cons, String label, GeoPointND A, GeoPointND B,
+
+	protected AlgoConicFociLength(Construction cons, String label, GeoPointND A, GeoPointND B,
 			GeoNumberValue a) {
 		super(cons, label, A, B, a, null);
 	}
@@ -108,6 +107,5 @@ public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
 				"Hyperbola with foci %0, %1 and first axis' length %2",
 				A.getLabel(tpl), B.getLabel(tpl),
 				a.toGeoElement().getLabel(tpl));
-
 	}
 }

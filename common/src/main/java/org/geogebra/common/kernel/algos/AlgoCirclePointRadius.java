@@ -43,11 +43,17 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 	private PVariable[] botanaVars;
 	private PPolynomial[] botanaPolynomials;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param M
+	 *            center
+	 * @param r
+	 *            radius
+	 */
 	public AlgoCirclePointRadius(Construction cons, GeoPoint M,
 			GeoNumberValue r) {
-
 		super(cons, M, r);
-
 	}
 
 	AlgoCirclePointRadius(Construction cons, GeoPoint M, GeoSegment rgeo) {
@@ -75,6 +81,9 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		}
 	}
 
+	/**
+	 * @return resulting conic
+	 */
 	public GeoConic getCircle() {
 		return (GeoConic) getSphereND();
 	}

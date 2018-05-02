@@ -81,8 +81,6 @@ public class CmdUnitVector extends CommandProcessor {
 
 	/**
 	 * 
-	 * @param label
-	 *            vector name
 	 * @param line
 	 *            line
 	 * @return algo for this line
@@ -93,8 +91,6 @@ public class CmdUnitVector extends CommandProcessor {
 
 	/**
 	 * 
-	 * @param label
-	 *            vector name
 	 * @param v
 	 *            vector
 	 * @return algo for this vector

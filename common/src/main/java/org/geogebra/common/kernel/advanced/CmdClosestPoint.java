@@ -76,7 +76,8 @@ public class CmdClosestPoint extends CommandProcessor {
 
 	/** Point anywhere on path with */
 	final private GeoPoint ClosestPoint(String label, Path path, GeoPointND p) {
-		AlgoClosestPoint algo = new AlgoClosestPoint(cons, label, path, p);
+		AlgoClosestPoint algo = new AlgoClosestPoint(cons, path, p);
+		algo.getP().setLabel(label);
 		return (GeoPoint) algo.getP();
 	}
 }

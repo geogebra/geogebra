@@ -46,18 +46,31 @@ import org.geogebra.common.util.MyMath;
 public class AlgoCircleThreePoints extends AlgoElement
 		implements SymbolicParametersBotanaAlgo {
 
-	private GeoPointND A, B, C; // input
+	private GeoPointND A; // input
+	private GeoPointND B; // input
+	private GeoPointND C; // input
 	// protected GeoConicND circle; // output
 	protected GeoConicND circle; // output
 
-
 	// line bisectors
-	private GeoLine s0, s1;
+	private GeoLine s0;
+	private GeoLine s1;
 	private GeoPoint center;
 	private double[] det = new double[3];
-	transient private double ax, ay, bx, by, cx, cy, ABx, ABy, ACx, ACy, BCx,
-			BCy, maxDet;
-	transient private int casenr;
+	private double ax;
+	private double ay;
+	private double bx;
+	private double by;
+	private double cx;
+	private double cy;
+	private double ABx;
+	private double ABy;
+	private double ACx;
+	private double ACy;
+	private double BCx;
+	private double BCy;
+	private double maxDet;
+	private int casenr;
 	private BotanaCircleThreePoints botanaParams;
 
 	public AlgoCircleThreePoints(Construction cons, String label, GeoPointND A,
@@ -66,6 +79,16 @@ public class AlgoCircleThreePoints extends AlgoElement
 		circle.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            first point
+	 * @param B
+	 *            second point
+	 * @param C
+	 *            third point
+	 */
 	public AlgoCircleThreePoints(Construction cons, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
 

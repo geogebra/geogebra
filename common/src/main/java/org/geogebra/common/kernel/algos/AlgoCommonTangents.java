@@ -124,8 +124,6 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 				outer++;
 			}
 		}
-
-
 	}
 
 	private boolean isInner(GeoLine currentTangent2) {

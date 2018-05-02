@@ -24,7 +24,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoConicPartConicPoints extends AlgoConicPartConicPointsND {
 
 	// temp points
-	private GeoPoint P, Q;
+	private GeoPoint P;
+	private GeoPoint Q;
 
 	/**
 	 * Creates a new arc or sector algorithm. The type is either

@@ -22,17 +22,31 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoContourPlot extends AlgoElement {
 
 	private GeoFunctionNVar func; // input expression
-	private double xmin, xmax, ymin, ymax; // the definition domain where the
-											// contour plot is defined
+	// the definition domain where the
+	// contour plot is defined
+	private double xmin;
+	private double xmax;
+	private double ymin;
+	private double ymax;
 	private GeoNumeric contourStep;
 	private GeoList list; // output
 	private Equation equ;
 	private ExpressionNode en;
 	private GeoImplicitCurve implicitPoly;
-	private double min, max, step, xstep, ystep;
+	private double min;
+	private double max;
+	private double step;
+	private double xstep;
+	private double ystep;
 	private int divisionPoints;
-	private double calcmin, calcmax, calcxmin, calcxmax, calcymin, calcymax,
-			minadded, maxadded;
+	private double calcmin;
+	private double calcmax;
+	private double calcxmin;
+	private double calcxmax;
+	private double calcymin;
+	private double calcymax;
+	private double minadded;
+	private double maxadded;
 	private boolean fixed;
 	private static final int minContours = 7;
 	private static final int maxContours = 25;
@@ -145,7 +159,7 @@ public class AlgoContourPlot extends AlgoElement {
 
 	private int calculateBoundary(int order) {
 		double val;
-		int newContours = 0;
+
 		for (int i = order - 1; i < divisionPoints + order - 1; i++) {
 			val = checkPolyValue(i, -order);
 			if (val < min) {
@@ -206,6 +220,7 @@ public class AlgoContourPlot extends AlgoElement {
 		if (val > max) {
 			calcmax = val;
 		}
+		int newContours = 0;
 		newContours += minadded > calcmin
 				? Math.ceil(Math.abs(minadded - calcmin) / step) : 0;
 		newContours += maxadded < calcmax

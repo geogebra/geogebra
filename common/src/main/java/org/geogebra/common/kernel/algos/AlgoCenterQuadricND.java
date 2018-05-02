@@ -34,6 +34,12 @@ public abstract class AlgoCenterQuadricND extends AlgoElement {
 	protected GeoQuadricND c; // input
 	protected GeoPointND midpoint; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param c
+	 *            quadric
+	 */
 	public AlgoCenterQuadricND(Construction cons,
 			GeoQuadricND c) {
 		super(cons);
@@ -45,8 +51,8 @@ public abstract class AlgoCenterQuadricND extends AlgoElement {
 	}
 
 	/**
-	 * 
 	 * @param cons1
+	 *            construction
 	 * @return new GeoPoint
 	 */
 	abstract public GeoPointND newGeoPoint(Construction cons1);
@@ -72,6 +78,9 @@ public abstract class AlgoCenterQuadricND extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting point
+	 */
 	public GeoPointND getPoint() {
 		return midpoint;
 	}

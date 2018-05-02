@@ -54,18 +54,15 @@ public class AlgoConicFivePoints extends AlgoElement
 	protected GeoConicND conic; // output
 	private boolean criticalCase; // true when 5 points is on a parabola
 
-	private double[][] A, B, C;
-	private double e1, e2;
+	private double[][] A;
+	private double[][] B;
+	private double[][] C;
+	private double e1;
+	private double e2;
 	private GeoVec3D[] line;
 
 	private PPolynomial[] botanaPolynomials;
 	private PVariable[] botanaVars;
-
-	public AlgoConicFivePoints(Construction cons, String label,
-			GeoPointND[] inputP) {
-		this(cons, inputP);
-		conic.setLabel(label);
-	}
 
 	protected void setInputPoints() {
 		input = P;
@@ -75,6 +72,12 @@ public class AlgoConicFivePoints extends AlgoElement
 		return (GeoPoint[]) inputP;
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param inputP
+	 *            five input points
+	 */
 	public AlgoConicFivePoints(Construction cons, GeoPointND[] inputP) {
 		super(cons);
 		this.P = createPoints2D(inputP);
@@ -93,12 +96,6 @@ public class AlgoConicFivePoints extends AlgoElement
 		initCoords();
 		compute();
 		addIncidence();
-
-		/*
-		 * moved into addIncidence() for (int i=0; i < P.length; i++) {
-		 * conic.addPointOnConic(P[i]); }
-		 */
-
 	}
 
 	/**
@@ -182,6 +179,9 @@ public class AlgoConicFivePoints extends AlgoElement
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return output conic
+	 */
 	public GeoConicND getConic() {
 		return conic;
 	}
@@ -255,10 +255,12 @@ public class AlgoConicFivePoints extends AlgoElement
 	 * arbitrary, see #5201
 	 * 
 	 * @param e12
+	 *            eigenvalue
 	 * @param M
-	 * @return
+	 *            matrix
+	 * @return whether eigenvalue is too big
 	 */
-	private static boolean hugeForMatrix(double e12, double M[][]) {
+	private static boolean hugeForMatrix(double e12, double[][] M) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				// e12 is much bigger than any matrix entry

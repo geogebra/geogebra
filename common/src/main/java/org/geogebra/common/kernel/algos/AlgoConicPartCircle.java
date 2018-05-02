@@ -33,22 +33,27 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 public class AlgoConicPartCircle extends AlgoConicPart implements
 		SymbolicParametersBotanaAlgo {
 
-	private GeoPoint center, startPoint, endPoint;
+	private GeoPoint center;
+	private GeoPoint startPoint;
+	private GeoPoint endPoint;
 
-	private GeoPoint P, Q;
+	private GeoPoint P;
+	private GeoPoint Q;
 
 	private BotanaCircle botanaParams;
 
 	/**
-	 * Creates a new arc or sector algorithm. The type is either
-	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
+	 * @param cons
+	 *            construction
+	 * @param center
+	 *            center
+	 * @param startPoint
+	 *            start point
+	 * @param endPoint
+	 *            point on end ray
+	 * @param type
+	 *            GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
 	 */
-	public AlgoConicPartCircle(Construction cons, String label, GeoPoint center,
-			GeoPoint startPoint, GeoPoint endPoint, int type) {
-		this(cons, center, startPoint, endPoint, type);
-		conicPart.setLabel(label);
-	}
-
 	public AlgoConicPartCircle(Construction cons, GeoPoint center,
 			GeoPoint startPoint, GeoPoint endPoint, int type) {
 		super(cons, type);

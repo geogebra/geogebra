@@ -27,15 +27,15 @@ public abstract class AlgoConicPart extends AlgoElement {
 	public GeoConicND conic; // input
 	public GeoNumberValue startParam; // input((Construction)
 	public GeoNumberValue endParam;
-	public GeoConicND conicPart; // output//package private
+	protected GeoConicND conicPart; // output
 
-	public int type;// package private
+	protected int type;
 
 	/**
 	 * Creates a new arc or sector algorithm. The type is either
 	 * GeoConicPart.CIRCLE_ARC or GeoConicPart.CIRCLE_ARC.CIRCLE_SECTOR
 	 */
-	public AlgoConicPart(Construction cons, int type) {// package private
+	protected AlgoConicPart(Construction cons, int type) {
 		super(cons);
 		this.type = type;
 	}
