@@ -514,7 +514,7 @@ namespace giac {
       gen & f=g._SYMBptr->feuille;
       if (f.type!=_VECT || f._VECTptr->size()!=2)
 	return;
-      if (protecteval(f._VECTptr->front(),1,contextptr)!=f._VECTptr->front())
+      if (python_compat(contextptr) || protecteval(f._VECTptr->front(),1,contextptr)!=f._VECTptr->front())
 	check_local_assign(f._VECTptr->back(),prog_args,res1,res2,res3,res4,false,contextptr);
       else
 	check_local_assign(f,prog_args,res1,res2,res3,res4,false,contextptr);
@@ -3932,6 +3932,20 @@ namespace giac {
   static const char _randint_s []="randint";
   static define_unary_function_eval (__randint,&_randint,_randint_s);
   define_unary_function_ptr5( at_randint ,alias_at_randint,&__randint,0,true);
+
+  gen _randrange(const gen & args,GIAC_CONTEXT){
+    if (args.type==_INT_)
+      return _rand(args,contextptr);
+    if (args.type!=_VECT || args._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    gen a=args._VECTptr->front(),b=args._VECTptr->back();
+    if (!is_integral(a) || !is_integral(b))
+      return gentypeerr(contextptr);
+    return a+_rand(b-a,contextptr);
+  }
+  static const char _randrange_s []="randrange";
+  static define_unary_function_eval (__randrange,&_randrange,_randrange_s);
+  define_unary_function_ptr5( at_randrange ,alias_at_randrange,&__randrange,0,true);
 
   gen _choice(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT || args.subtype==_SEQ__VECT || args._VECTptr->empty())

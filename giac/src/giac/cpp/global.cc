@@ -5774,27 +5774,43 @@ unsigned int ConvertUTF8toUTF16 (
 
   static void python_import(string & cur,int cs,int posturtle,int poscmath,int posmath,int posnumpy,GIAC_CONTEXT){
     if (posnumpy>=0 && posnumpy<cs){
+      static bool alertnum=true;
       // add python numpy shortcuts
-      cur += "mat:=matrix;arange:=range;resize:=redim;shape:=dim;conjugate:=conj;full:=matrix;eye:=idn;ones(n,c):=matrix(n,c,1);reshape(m,n,c):=matrix(n,c,flatten(m));";
-      alert("mat:=matrix;arange:=range;resize:=redim;shape:=dim;conjugate:=conj;full:=matrix;eye:=idn;ones(n,c):=matrix(n,c,1);reshape(m,n,c):=matrix(n,c,flatten(m));",contextptr);
+      cur += "mat:=matrix:;arange:=range:;resize:=redim:;shape:=dim:;conjugate:=conj:;full:=matrix:;eye:=idn:;ones(n,c):=matrix(n,c,1):;reshape(m,n,c):=matrix(n,c,flatten(m)):;";
+      if (alertnum){
+	alertnum=false;
+	alert("mat:=matrix;arange:=range;resize:=redim;shape:=dim;conjugate:=conj;full:=matrix;eye:=idn;ones(n,c):=matrix(n,c,1);reshape(m,n,c):=matrix(n,c,flatten(m));",contextptr);
+      }
       return;
     }
     if (posturtle>=0 && posturtle<cs){
       // add python turtle shortcuts
-      cur += "pu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface;";
-      alert("pu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface",contextptr);
+      static bool alertturtle=true;      
+      cur += "pu:=penup:;up:=penup:; pd:=pendown:;down:=pendown:; fd:=forward:;bk:=backward:; rt:=right:; lt:=left:; pos:=position:; seth:=heading:;setheading:=heading:; reset:=efface:;";
+      if (alertturtle){
+	alertturtle=false;
+	alert("pu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface",contextptr);
+      }
       return;
     }
     if (poscmath>=0 && poscmath<cs){
       // add python cmath shortcuts
-      alert(gettext("Assigning phase, j, J and rect."),contextptr);
-      cur += "phase:=arg;j:=i;J:=i;rect(r,theta):=r*exp(i*theta);";
+      static bool alertcmath=true;      
+      if (alertcmath){
+	alertcmath=false;
+	alert(gettext("Assigning phase, j, J and rect."),contextptr);
+      }
+      cur += "phase:=arg:;j:=i:;J:=i:;rect(r,theta):=r*exp(i*theta):;";
       return;
     }
     if (posmath>=0 && posmath<cs){
       // add python math shortcuts
-      alert(gettext("Assigning log2, expm1 (imprecise), fabs, fmod, modf, radians and degrees. Not supported: copysign."),contextptr);
-      cur += "log2(x):=logb(x,2);expm1(x):=exp(x)-1;fabs:=abs;fmod(a,b):=a-floor(a/b)*b;modf(x):={ local y:=floor(x); return x-y,y;};radians(x):=x/180*pi;degrees(x):=x/pi*180;";
+      static bool alertmath=true;      
+      if (alertmath){
+	alertmath=false;
+	alert(gettext("Assigning log2, expm1 (imprecise), fabs, fmod, modf, radians and degrees. Not supported: copysign."),contextptr);
+      }
+      cur += "log2(x):=logb(x,2):;expm1(x):=exp(x)-1:;fabs:=abs:;fmod(a,b):=a-floor(a/b)*b:;modf(x):={ local y:=floor(x); return x-y,y;}:;radians(x):=x/180*pi:;degrees(x):=x/pi*180:;";
       // todo copysign, isinf, isnan, isfinite, frexp, ldexp
     }
   }
