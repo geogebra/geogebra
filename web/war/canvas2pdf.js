@@ -741,9 +741,9 @@
 
 	};
 	PDFKitMini.prototype.getBase64Text = function() {
-	    return "data:application/pdf;base64," + btoa(this.getObject(this))
+	    return "data:application/pdf;base64," + btoa(this.getObject(this));
 	};
-
+	
 	function PDFCatalog() {}
 	PDFCatalog.prototype.setPages = function(a) {
 
@@ -1335,10 +1335,31 @@
 	    this.stream = this.stream.replace(a, b)
 	};
 	PDFStream.prototype.getObject = function(a) {
+		
+		var stream = this.stream;
+		
+		// use pako if available for compressing stream
+		// https://github.com/nodeca/pako
+		var usePako = !!pako;
+		if (usePako) {
+			stream = pako.deflate(stream);
+			var buffer = [];
+			for (var i = 0 ; i < stream.length ; i++) {
+				buffer.push(String.fromCharCode(stream[i]));
+			}
+			stream = buffer.join("");
+			
+		}
+		
 	    var props = {
-	        "Length": this.stream.length
+	        "Length": stream.length,
 	    };
-	    return PDFObject.makeObject(props, this.id, this.stream);
+		
+		if (usePako) {
+			props["Filter"] = "FlateDecode";
+		}
+		
+	    return PDFObject.makeObject(props, this.id, stream);
 	};
 
 	function PDFImage(canvas) {
