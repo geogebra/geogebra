@@ -220,8 +220,7 @@ public class Parser implements ParserInterface{
 		}
 
 		return new MyDouble(kernel, val);
-	}}
-
+	}
 
 }
 PARSER_END(Parser)
