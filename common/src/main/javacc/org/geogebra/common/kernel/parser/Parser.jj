@@ -1606,7 +1606,7 @@ ExpressionValue myDouble():
 |
     <RAD>
     {  // constant for radians to radians
-    	GeoElement geo = kernel.lookupLabel(c.image);
+    	GeoElement geo = kernel.lookupLabel("rad");
 		if(geo != null)	{
 			return geo;
 		}
