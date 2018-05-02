@@ -118,11 +118,14 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codePreamble.append(frame.getFontSize());
 			codePreamble.append("pt]{article}\n");
 			codePreamble.append("\\usepackage{pgf,tikz");
+
 			if (kernel.getApplication().has(Feature.TIKZ_AXES)) {
-				codePreamble.append(",pgfplots");
+				codePreamble.append(",pgfplots}\n");
+				codePreamble.append("\\pgfplotsset{compat=1.15");
 			}
+
 			codePreamble.append(
-					")\n\\usepackage{mathrsfs}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
+					"}\n\\usepackage{mathrsfs}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
 			codeBeginDoc.append(
 					"\\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,");
 
@@ -218,6 +221,11 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		code.append(codePoint);
 		// Close Environment tikzpicture
 		if (format == GeoGebraToPgf.FORMAT_LATEX) {
+
+			if (kernel.getApplication().has(Feature.TIKZ_AXES)) {
+				code.append("\\end{axis}\n");
+			}
+
 			code.append("\\end{tikzpicture}\n");
 			if (isBeamer) {
 				code.append("\\end{frame}\n");
@@ -2574,7 +2582,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		addScale(codeBeginDoc);
 
 		// 'middle' or 'edge'
-		codeBeginDoc.append(",\naxis lines=middle");
+		codeBeginDoc.append(",\naxis lines=middle,\n");
 
 		// codeBeginDoc.append(",\ngrid=both,\n");
 
@@ -2615,7 +2623,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		codeBeginDoc.append(",...,");
 		codeBeginDoc.append(Math.floor(ymax));
 
-		codeBeginDoc.append("},]\n\\end{axis}\n");
+		codeBeginDoc.append("},]\n");
 	}
 
 	/**
