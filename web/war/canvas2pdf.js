@@ -477,7 +477,7 @@
 		
 		// use pako to compress streams if available
 		// https://github.com/nodeca/pako (MIT)
-		canvas2pdf.usePako = !!pako;
+		canvas2pdf.usePako = !!window.pako;
 
 	}
 
