@@ -8188,6 +8188,33 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__set_pixel,&_set_pixel,_set_pixel_s);
   define_unary_function_ptr5( at_set_pixel ,alias_at_set_pixel,&__set_pixel,0,true);
 
+  gen _get_pixel(const gen & a_,GIAC_CONTEXT){
+    gen a(a_);
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT || a._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    gen x=a._VECTptr->front(),y=a._VECTptr->back();
+    const vecteur v= *pixel_v()._VECTptr;
+    for (size_t i=0;i<v.size();++i){
+      gen vi=remove_at_pnt(v[i]);
+      if (vi.is_symb_of_sommet(at_pixon)){
+	gen f=vi._SYMBptr->feuille;
+	if (f.type==_VECT){
+	  const vecteur & w=*f._VECTptr;
+	  int ws=w.size();
+	  if (ws>=2 && w.front()==x && w[1]==y){
+	    if (ws>=3) return w[2];
+	    return int(FL_BLACK);
+	  }
+	} 
+      }
+    }
+    return int(FL_WHITE);
+  }
+  static const char _get_pixel_s []="get_pixel";
+  static define_unary_function_eval (__get_pixel,&_get_pixel,_get_pixel_s);
+  define_unary_function_ptr5( at_get_pixel ,alias_at_get_pixel,&__get_pixel,0,true);
+
 #ifdef EMCC_FETCH
   // with emscripten 1.37.28, it does not work
 #include <emscripten/fetch.h>
