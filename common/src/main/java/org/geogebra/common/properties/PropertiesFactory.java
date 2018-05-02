@@ -21,6 +21,8 @@ import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 
+import java.util.ArrayList;
+
 /**
  * Creates properties for the GeoGebra application.
  */
@@ -72,12 +74,20 @@ public class PropertiesFactory {
     public static Property[] createGraphicsProperties(App app, Localization localization) {
         EuclidianView activeView = app.getActiveEuclidianView();
         EuclidianSettings euclidianSettings = activeView.getSettings();
-        return new Property[]{
-                new AxesVisibilityProperty(localization, euclidianSettings),
-                new GridVisibilityProperty(localization, euclidianSettings),
-                new GridStyleProperty(localization, euclidianSettings),
-                new DistancePropertyCollection(app, localization, euclidianSettings),
-                new LabelsPropertyCollection(app, localization, euclidianSettings)
-        };
+        Property[] properties;
+        ArrayList<Property> propertyList = new ArrayList<>();
+
+        propertyList.add(new AxesVisibilityProperty(localization, euclidianSettings));
+        propertyList.add(new GridVisibilityProperty(localization, euclidianSettings));
+
+        if (!"3D".equals(app.getVersion().getAppName())) {
+            propertyList.add(new GridStyleProperty(localization, euclidianSettings));
+        }
+
+        propertyList.add(new DistancePropertyCollection(app, localization, euclidianSettings));
+        propertyList.add(new LabelsPropertyCollection(app, localization, euclidianSettings));
+        properties = new Property[propertyList.size()];
+
+        return propertyList.toArray(properties);
     }
 }
