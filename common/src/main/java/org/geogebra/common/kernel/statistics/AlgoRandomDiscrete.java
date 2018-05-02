@@ -121,6 +121,7 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 		for (int i = 0; i < values.size(); i++) {
 			if (DoubleUtil.isEqual(values.get(i).evaluateDouble(), d)) {
 				randomDiscrete.setValue(values.get(i).evaluateDouble());
+				return;
 			}
 		}
 

@@ -1179,13 +1179,6 @@ public class Construction {
 	}
 
 	/**
-	 * Update construction including random
-	 */
-	final public void updateConstruction() {
-		updateConstruction(true);
-	}
-
-	/**
 	 * Updates all objects in this construction.
 	 * 
 	 * @param randomize
@@ -1251,7 +1244,9 @@ public class Construction {
 				if (algo instanceof AlgoLocusEquation) {
 					((AlgoLocusEquation) algo).resetFingerprint(kernel, true);
 				}
-				if (randomize || !(algo instanceof SetRandomValue)) {
+				if (!randomize && algo instanceof SetRandomValue) {
+					((SetRandomValue) algo).setRandomValue(algo.getOutput(0).evaluateDouble());
+				} else {
 					algo.update();
 				}
 

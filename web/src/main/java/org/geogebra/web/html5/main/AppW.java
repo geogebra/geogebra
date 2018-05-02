@@ -935,7 +935,7 @@ public abstract class AppW extends App implements SetLabels {
 						setRandomSeed(seed);
 					}
 					getXMLio().processXMLString(construction, true, false,
-							seed == -1);
+							true);
 					// defaults (optional)
 					if (defaults2d != null) {
 						getXMLio().processXMLString(defaults2d, false, true);

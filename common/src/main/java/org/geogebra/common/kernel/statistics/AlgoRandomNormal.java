@@ -74,7 +74,5 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction
 	@Override
 	public void setRandomValue(double d) {
 		num.setValue(d);
-		num.updateRepaint();
-
 	}
 }

@@ -53,12 +53,7 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction
 
 	@Override
 	public void setRandomValue(double d) {
-
-		if (d >= a.getDouble() && d <= b.getDouble()) {
-			num.setValue(d);
-			num.updateRepaint();
-		}
-
+		num.setValue(Math.max(a.getDouble(), Math.min(d, b.getDouble())));
 	}
 
 }

@@ -2871,7 +2871,7 @@ public class MyXMLHandler implements DocHandler {
 		origKernel.addMacro(macro);
 		// update construction resets the nearto relations in macro, so "outer
 		// world" won't affect it
-		cons.updateConstruction();
+		cons.updateConstruction(true);
 		// set kernel and construction back to the original values
 		initKernelVars();
 	}

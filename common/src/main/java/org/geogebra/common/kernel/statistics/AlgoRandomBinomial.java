@@ -68,10 +68,7 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 	public void setRandomValue(double d0) {
 		double d = Math.round(DoubleUtil.checkInteger(d0));
 
-		if (d >= 0 && d <= a.getDouble()) {
-			num.setValue(d);
-			num.updateRepaint();
-		}
+		num.setValue(Math.max((int) a.getDouble(), Math.min(d, b.getDouble())));
 
 	}
 

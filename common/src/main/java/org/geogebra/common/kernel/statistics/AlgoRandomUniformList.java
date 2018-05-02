@@ -102,9 +102,9 @@ public class AlgoRandomUniformList extends AlgoElement
 
 	@Override
 	public void setRandomValue(double d) {
-		if (d >= a.getDouble() && d <= b.getDouble()) {
-			// list.setValue(d); ????
-			list.updateRepaint();
+		for (int i = 0; i < list.size(); i++) {
+			((GeoNumeric) list.get(i))
+					.setValue(Math.max(a.getDouble(), Math.min(d, b.getDouble())));
 		}
 	}
 

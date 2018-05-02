@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
@@ -105,6 +106,19 @@ public class RedefineTest extends Assert {
 		app.getKernel().undo();
 
 		t("a", "0.7275636800328681");
+	}
+
+	@Test
+	public void randomizeUpdateConstruction() {
+		app.setRandomSeed(42);
+		app.setUndoRedoEnabled(true);
+		app.setUndoActive(true);
+		t("b=100", "100");
+		t("a=randomUniform(0,b)", "72.75636800328681");
+		((GeoNumeric) app.getKernel().lookupLabel("b")).setValue(10);
+		((GeoNumeric) app.getKernel().lookupLabel("b")).resetDefinition();
+		app.getKernel().updateConstruction(false);
+		t("a", "10");
 	}
 
 	@Test

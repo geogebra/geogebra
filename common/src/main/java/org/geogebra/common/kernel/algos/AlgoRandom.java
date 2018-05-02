@@ -71,7 +71,6 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 
 		if (d >= a.getDouble() && d <= b.getDouble()) {
 			num.setValue(d);
-			num.updateRepaint();
 		}
 
 	}
