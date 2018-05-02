@@ -176,9 +176,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		if (format == FORMAT_BEAMER) {
 			format = FORMAT_LATEX;
 		}
-		
+
 		if (kernel.getApplication().has(Feature.TIKZ_AXES)) {
-			
+
 			drawNiceAxesGrid();
 
 		} else {
@@ -901,14 +901,14 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		double sin = Math.sin(-angle0);
 		double radius = geo.getArcSize();
 		double diff = 2.5 + geo.getLineThickness() / 4d;
-		double x1 = euclidianView.toRealWorldCoordX(
-				vertex[0] + (radius - diff) * cos);
-		double x2 = euclidianView.toRealWorldCoordX(
-				vertex[0] + (radius + diff) * cos);
-		double y1 = euclidianView.toRealWorldCoordY(vertex[1] + (radius - diff)
-				* sin * euclidianView.getScaleRatio());
-		double y2 = euclidianView.toRealWorldCoordY(vertex[1] + (radius + diff)
-				* sin * euclidianView.getScaleRatio());
+		double x1 = euclidianView
+				.toRealWorldCoordX(vertex[0] + (radius - diff) * cos);
+		double x2 = euclidianView
+				.toRealWorldCoordX(vertex[0] + (radius + diff) * cos);
+		double y1 = euclidianView.toRealWorldCoordY(vertex[1]
+				+ (radius - diff) * sin * euclidianView.getScaleRatio());
+		double y2 = euclidianView.toRealWorldCoordY(vertex[1]
+				+ (radius + diff) * sin * euclidianView.getScaleRatio());
 		if (isBeamer) {
 			code.append("  ");
 		}
@@ -2494,7 +2494,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 						}
 					} else if (format == GeoGebraToPgf.FORMAT_CONTEXT
 							|| format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
-						name = name.replaceAll(Unicode.DEGREE_STRING, "{}^{\\\\circ}");
+						name = name.replaceAll(Unicode.DEGREE_STRING,
+								"{}^{\\\\circ}");
 					}
 				}
 				if (null == drawGeo) {
@@ -2593,7 +2594,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// * euclidianView.getGridDistances()[0];
 		double tickStepX = euclidianView.getGridDistances()[0];
 		double startX = MyMath.nextMultiple(xmin, tickStepX);
-		double endX = MyMath.nextMultiple(xmax+Kernel.STANDARD_PRECISION, tickStepX) - tickStepX;
+		double endX = MyMath.nextMultiple(xmax + Kernel.STANDARD_PRECISION,
+				tickStepX) - tickStepX;
 
 		double tickStepY = euclidianView.getGridDistances()[1];
 		double startY = MyMath.nextMultiple(ymin, tickStepY);
@@ -3125,11 +3127,13 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				colorCode(info.getLinecolor(), sb);
 				sb.append(",pattern=");
 				if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
-					if (codePreamble.indexOf("usetikzlibrary{patterns}") == -1) {
+					if (codePreamble
+							.indexOf("usetikzlibrary{patterns}") == -1) {
 						codePreamble.append("\\usetikzlibrary{patterns}\n");
 					}
 				} else {
-					if (codePreamble.indexOf("usetikzlibrary[patterns]") == -1) {
+					if (codePreamble
+							.indexOf("usetikzlibrary[patterns]") == -1) {
 						codePreamble.append("\\usetikzlibrary[patterns]\n");
 					}
 				}
@@ -3444,8 +3448,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		if (Math.abs(y) < 0.001) {
 			y = yprec = 0;
 		}
-		double xprec = curves[0].getFunX()
-				.value(curves[0].getMinParameter());
+		double xprec = curves[0].getFunX().value(curves[0].getMinParameter());
 		double x = xprec;
 		fill.append("\\pgfmoveto{\\pgfxy(" + x + "," + y + ")}");
 		for (int i = 0; i < curves.length; i++) {
