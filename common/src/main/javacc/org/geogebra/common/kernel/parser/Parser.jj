@@ -205,7 +205,22 @@ public class Parser implements ParserInterface{
     undecided.clear();
    }
 
-   private ExpressionValue ifVectorsEnabled(ExpressionValue def){     return enableVectors ? def : new MyDouble(kernel,Double.NaN); }
+   private ExpressionValue ifVectorsEnabled(ExpressionValue def){     return enableVectors ? def : new MyDouble(kernel,Double.NaN); }
+
+	private MyDouble parseDouble(Token c, boolean percent) {
+		String image = c.image.replaceFirst("e", "E");
+		double val = MyDouble.parseDouble(loc, image);
+		if (percent) {
+			val = val * 0.01;
+		}
+		if (ExternalCASParsing || GeoGebraCASParsing) {
+			// preserve string from CAS: it may have higher
+			// precision than double
+			return new MySpecialDouble(kernel, val, percent ? image : image + "%");
+		}
+
+		return new MyDouble(kernel, val);
+	}}
 
 
 }
@@ -1570,39 +1585,19 @@ ExpressionValue myDouble():
     Token c;
     Token percent = null;
     MyDouble d;
-    double val;
 }
 {
    (
      (c = <FLOAT> | c = <EFLOAT>)(percent ="%")?
-      {
-      // check if token includes "b"
-
-          c.image = c.image.replaceFirst("e", "E" );
-        val = MyDouble.parseDouble( loc, c.image );
-        if(percent != null) {
-	 	                        val = val * 0.01;
-	 	}
-
- }
-
     )
   {
-      if (ExternalCASParsing || GeoGebraCASParsing) {
-        // preserve string from CAS: it may have higher
-        // precision than double
-
-           return new MySpecialDouble(kernel, val, percent == null ? c.image : c.image + "%");
-      }
-      else {
-          return new MyDouble(kernel, val);
-      }
+     return parseDouble(c, percent!=null);
     }
 |
     (c = <DEGREE>)
     {  // constant for degree to radians
     if(c.image.length() ==3)    {		GeoElement geo = kernel.lookupLabel(c.image);
-		if(geo != null)		{			return geo;
+		if(geo != null)	{			return geo;
 		}
     }
         d = new MySpecialDouble(kernel, Math.PI / 180.0d, "\u00b0");
@@ -1612,6 +1607,10 @@ ExpressionValue myDouble():
 |
     <RAD>
     {  // constant for radians to radians
+    	GeoElement geo = kernel.lookupLabel(c.image);
+		if(geo != null)	{
+			return geo;
+		}
         d = new MySpecialDouble(kernel, 1.0d, "rad");
         d.setAngle();
         return d;
