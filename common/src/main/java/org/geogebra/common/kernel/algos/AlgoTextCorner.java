@@ -27,6 +27,16 @@ public class AlgoTextCorner extends AlgoElement {
 	private GeoPoint corner; // output
 	private GeoNumberValue number;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param txt
+	 *            text
+	 * @param number
+	 *            corner index (1=SW, 2=SE, 3=NE, 4=NW)
+	 */
 	public AlgoTextCorner(Construction cons, String label, GeoText txt,
 			GeoNumberValue number) {
 		super(cons);

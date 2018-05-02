@@ -29,7 +29,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public abstract class AlgoTwoNumFunction extends AlgoElement {
 
-	protected GeoNumberValue a, b; // input
+	protected GeoNumberValue a; // input
+	protected GeoNumberValue b; // input
 	protected GeoNumeric num; // output
 
 	protected AlgoTwoNumFunction(Construction cons, String label,

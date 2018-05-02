@@ -43,9 +43,9 @@ public class CmdElement extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoList() || arg[0] instanceof GeoList)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-				AlgoListElement algo = new AlgoListElement(cons, c.getLabel(),
+				AlgoListElement algo = new AlgoListElement(cons,
 						(GeoList) arg[0], (GeoNumberValue) arg[1]);
-
+				algo.getElement().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getElement() };
 				return ret;
 			}
@@ -75,9 +75,9 @@ public class CmdElement extends CommandProcessor {
 				}
 			}
 
-			AlgoListElement algo = new AlgoListElement(cons, c.getLabel(),
+			AlgoListElement algo = new AlgoListElement(cons,
 					(GeoList) arg[0], nvs);
-
+			algo.getElement().setLabel(c.getLabel());
 			GeoElement[] ret = { algo.getElement() };
 			return ret;
 		}

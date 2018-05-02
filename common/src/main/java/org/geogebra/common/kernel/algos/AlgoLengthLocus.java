@@ -26,6 +26,14 @@ public class AlgoLengthLocus extends AlgoElement {
 	private GeoLocusable locus; // input
 	private GeoNumeric length; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param locus
+	 *            locus
+	 */
 	public AlgoLengthLocus(Construction cons, String label,
 			GeoLocusable locus) {
 		super(cons);

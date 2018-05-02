@@ -38,6 +38,7 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 	 * @param list2
 	 *            list of heights or raw data
 	 * @param right
+	 *            right histogram?
 	 */
 	public AlgoHistogram(Construction cons, GeoList list1, GeoList list2,
 			boolean right) {
@@ -56,6 +57,7 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 	 * @param list2
 	 *            list of heights or raw data
 	 * @param right
+	 *            right histogram?
 	 */
 	public AlgoHistogram(Construction cons, String label, GeoList list1,
 			GeoList list2, boolean right) {

@@ -21,6 +21,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Text representation of point as (a/b, c/d).
+ */
 public class AlgoFractionTextPoint extends AlgoElement {
 
 	private GeoPointND p; // input
@@ -32,6 +35,14 @@ public class AlgoFractionTextPoint extends AlgoElement {
 
 	private StringBuilder sb = new StringBuilder();
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param p
+	 *            point
+	 */
 	public AlgoFractionTextPoint(Construction cons, String label,
 			GeoPointND p) {
 		this(cons, p);
@@ -67,6 +78,9 @@ public class AlgoFractionTextPoint extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting text
+	 */
 	public GeoText getResult() {
 		return text;
 	}

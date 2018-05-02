@@ -56,12 +56,16 @@ public class AlgoTranslate extends AlgoTransformation
 	private PVariable[] botanaVars;
 
 	/**
-	 * Creates labeled translation algo
+	 * Creates labeled translation algo.
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param in
+	 *            input geo
 	 * @param v
+	 *            translation vector
 	 */
 	public AlgoTranslate(Construction cons, String label, GeoElement in,
 			GeoVec3D v) {
@@ -73,8 +77,11 @@ public class AlgoTranslate extends AlgoTransformation
 	 * Creates unlabeled translation algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param in
+	 *            input geo
 	 * @param v
+	 *            translation vector
 	 */
 	public AlgoTranslate(Construction cons, GeoElement in, GeoElement v) {
 		super(cons);

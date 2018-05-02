@@ -33,11 +33,25 @@ public class AlgoMatrixPlot extends AlgoElement {
 	private GeoCanvasImage outputImage; // output
 	private double[][] data;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param inputList
+	 *            data matrix
+	 */
 	public AlgoMatrixPlot(Construction cons, String label, GeoList inputList) {
 		this(cons, inputList);
 		outputImage.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param inputList
+	 *            data matrix
+	 */
 	public AlgoMatrixPlot(Construction cons, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;

@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-//import geogebra.kernel.AlgoElement;
 import java.util.ArrayList;
 
 import org.apache.commons.math3.analysis.solvers.BrentSolver;
@@ -29,7 +28,6 @@ import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
-//import org.apache.commons.math3.analysis.solvers.UnivariateRealSolverFactory;
 
 /**
  * Command: Roots[ &lt;function&gt;, &lt;left-x&gt;, &lt;right-x&gt;] (TYPE 0)
@@ -53,10 +51,11 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	private static final int TYPE_ROOTS = 0;
 	private static final int TYPE_INTERSECTIONS = 1;
 
-
 	// Input-Output
-	// private GeoFunctionable function; // input
-	private GeoFunction f0, f1, f2, diff;
+	private GeoFunction f0;
+	private GeoFunction f1;
+	private GeoFunction f2;
+	private GeoFunction diff;
 
 	// Vars
 	private int type = TYPE_ROOTS;
@@ -78,11 +77,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		setInputOutput();
 
 		compute();
-
-		showOneRootInAlgebraView(); // Show at least one root point in algebra
-									// view
-
-	}// Constructor TYPE_ROOTS
+		// Show at least one root point in algebra view
+		showOneRootInAlgebraView();
+	}
 
 	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
 			EuclidianViewInterfaceCommon view) {
@@ -106,7 +103,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		setInputOutput();
 
 		compute();
-	}// Constructor TYPE_ROOTS
+	}
 
 	/**
 	 * Computes "all" Roots of f in &lt;l,r&gt; TYPE_INTERSECTIONS
@@ -133,16 +130,16 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		showOneRootInAlgebraView(); // Show at least one root point in algebra
 									// view
 
-	}// Constructor TYPE_INTERSECTIONS
+	}
 
 	@Override
 	public GetCommand getClassName() {
 		return Commands.Roots;
-	}// getClassName()
+	}
 
 	public GeoPoint[] getRootPoints() {
 		return getPoints(); // Points in ancestor
-	}// getRootPoints()
+	}
 
 	@Override
 	protected void setInputOutput() {
@@ -160,14 +157,14 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			input[1] = f2.toGeoElement();
 			input[2] = left.toGeoElement();
 			input[3] = right.toGeoElement();
-		}// switch
+		}
 
 		super.setOutput(getPoints()); // Points in ancestor
 
 		noUndefinedPointsInAlgebraView(getPoints());
 
 		setDependencies(); // done by AlgoElement
-	}// setInputOutput()
+	}
 
 	@Override
 	public final void compute() {
@@ -186,7 +183,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			ok = f1.toGeoElement().isDefined() && f2.toGeoElement().isDefined()
 					&& left.isDefined() && right.isDefined();
 			break;
-		}// switch
+		}
 		if (!ok) {
 			setPoints(new double[1], 0); // debug("error in args");
 		} else {
@@ -200,7 +197,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 				compute2(f0);
 			} // if type
 		} // if ok input
-	}// compute()
+	}
 
 	@Override
 	protected double yAt(double x) {
@@ -254,16 +251,14 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			}
 		} catch (Exception e) {
 			Log.debug("Exception in compute() " + e.toString());
-		} // try-catch
-
-		// }//if
+		}
 
 		if (numberofroots == 0) {
 			setPoints(new double[1], 0); // 0 flags no root=>undefined
 		} else {
 			setPoints(roots, roots.length);
-		} // if
-	}// compute()
+		}
+	}
 
 	/**
 	 * Main algorithm, public for eventual use by other commands Finds a
@@ -327,7 +322,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		}
 		// if valid
 		return null;
-	}// findRoots(f,l,r)
+	}
 
 	// / --- Private methods --- ///
 	// Make all private after testing...
@@ -363,7 +358,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		} // try-catch
 
 		return root;
-	}// calcSingleRoot(f,l,r)
+	}
 
 	private static final boolean signChanged(GeoFunction f, double x) {
 		double delta = Kernel.MIN_PRECISION * 10; // Used in AlgoRootsPolynomial
@@ -383,11 +378,6 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		return signChanged;
 	}// signChanged(f,x,deltax)
 
-	/*
-	 * @Override protected void updateDependentGeos() { // update dependent
-	 * objects for (int i = 0; i < getOutputLength(); i++) {
-	 * getOutput(i).updateCascade(); } }
-	 */
 	@Override
 	public boolean euclidianViewUpdate() {
 		compute();
@@ -456,4 +446,4 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 		super.remove();
 	}
-}// class AlgoRoots
+}

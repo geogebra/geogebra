@@ -36,7 +36,7 @@ import org.geogebra.common.util.StringUtil;
 public class AlgoLocusStroke extends AlgoElement
 		implements AlgoStrokeInterface {
 
-	private static final double MIN_CURVE_ANGLE = Math.PI / 60;// 3degrees
+	private static final double MIN_CURVE_ANGLE = Math.PI / 60; // 3degrees
 	/** output */
 	protected GeoLocusStroke poly;
 	// list of all points (also newly calculated control points of
@@ -224,10 +224,6 @@ public class AlgoLocusStroke extends AlgoElement
 		if (data.size() == 0) {
 			return values;
 		}
-		double[] xCoordsP1 = new double[data.size() - 1];
-		double[] xCoordsP2 = new double[data.size() - 1];
-		double[] yCoordsP1 = new double[data.size() - 1];
-		double[] yCoordsP2 = new double[data.size() - 1];
 
 		double[] a = new double[data.size() - 1];
 		double[] b = new double[data.size() - 1];
@@ -264,6 +260,10 @@ public class AlgoLocusStroke extends AlgoElement
 			rY[i] = rY[i] - m * rY[i - 1];
 		}
 
+		double[] xCoordsP1 = new double[data.size() - 1];
+		double[] xCoordsP2 = new double[data.size() - 1];
+		double[] yCoordsP1 = new double[data.size() - 1];
+		double[] yCoordsP2 = new double[data.size() - 1];
 		xCoordsP1[n - 1] = rX[n - 1] / b[n - 1];
 		yCoordsP1[n - 1] = rY[n - 1] / b[n - 1];
 		for (int i = n - 2; i >= 0; --i) {
@@ -306,19 +306,15 @@ public class AlgoLocusStroke extends AlgoElement
 		getOutput(0).update();
 	}
 
-
-
 	@Override
 	public void compute() {
 		// no recomputation needed
 	}
 
-
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return "";
 	}
-
 
 	@Override
 	public int getPointsLength() {

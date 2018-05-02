@@ -29,7 +29,9 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 
 	protected OutputHandler<GeoPoint> outputPoints;
 
-	protected int numOfOutputPoints, polyPointCount, segCountOfPoly;
+	protected int numOfOutputPoints;
+	protected int polyPointCount;
+	protected int segCountOfPoly;
 	protected ArrayList<Coords> intersectCoords;
 
 	private GeoPoint[] tempSegEndPoints;
@@ -45,9 +47,13 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	 * constructor with labels
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param func
+	 *            function
 	 * @param poly
+	 *            polyline
 	 */
 	public AlgoIntersectPolynomialPolyLine(Construction cons, String[] labels,
 			GeoFunction func, GeoPoly poly, boolean polyClosed) {
@@ -66,8 +72,11 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	 * Common constructor
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param func
+	 *            function
 	 * @param poly
+	 *            polyline
 	 */
 	public AlgoIntersectPolynomialPolyLine(Construction cons, GeoFunction func,
 			GeoPoly poly, boolean polyClosed) {

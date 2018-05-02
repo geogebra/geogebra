@@ -50,19 +50,13 @@ public abstract class AlgoUnitVector extends AlgoElement {
 			try {
 				u.setStartPoint(possStartPoint);
 			} catch (CircularDefinitionException e) {
+				// can't happen for new vector v
 			}
 		}
 
 		setInputOutput(); // for AlgoElement
 
 		compute();
-	}
-
-	public AlgoUnitVector(Construction cons, String label, GeoElement inputGeo,
-			boolean normalize) {
-
-		this(cons, inputGeo, normalize);
-		u.setLabel(label);
 	}
 
 	/**

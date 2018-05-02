@@ -38,7 +38,8 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 public class AlgoJoinPointsRay extends AlgoElement
 		implements SymbolicParametersBotanaAlgo {
 
-	private GeoPoint P, Q; // input
+	private GeoPoint P; // input
+	private GeoPoint Q; // input
 	private GeoRay ray; // output
 
 	private PVariable[] botanaVars;

@@ -63,8 +63,6 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 		compute();
 	}
 
-
-
 	@Override
 	public void compute() {
 
@@ -89,7 +87,6 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			Kernel ker = cons.getKernel();
 			boolean oldSilentMode = ker.isSilentMode();
 			ker.setSilentMode(true);
-
 
 			GeoImplicit iPoly = kernel.newImplicitPoly(cons);
 			iPoly.preventPathCreation();

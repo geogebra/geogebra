@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 
 /**
- * Take first n objects from a list
+ * Take a substring from a text
  * 
  * @author Michael Borcherds
  * @version 2008-03-04
@@ -28,10 +28,23 @@ import org.geogebra.common.kernel.geos.GeoText;
 public class AlgoTakeString extends AlgoElement {
 
 	private GeoText inputText; // input
-	private GeoNumeric n, m; // input
+	private GeoNumeric n;
+	private GeoNumeric m; // input
 	private GeoText outputText; // output
 	private int size;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputText
+	 *            text
+	 * @param m
+	 *            start index (1 based)
+	 * @param n
+	 *            end index (1 based)
+	 */
 	public AlgoTakeString(Construction cons, String label, GeoText inputText,
 			GeoNumeric m, GeoNumeric n) {
 		super(cons);

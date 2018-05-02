@@ -21,7 +21,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -46,8 +45,9 @@ public class AlgoRotatePoint extends AlgoTransformation
 
 	private GeoPointND Q;
 	private PointRotateable out;
-	private NumberValue angle;
-	private GeoElement inGeo, outGeo, angleGeo;
+	private GeoNumberValue angle;
+	private GeoElement inGeo;
+	private GeoElement outGeo;
 
 	private PVariable[] botanaVars;
 	private PPolynomial[] botanaPolynomials;
@@ -70,7 +70,6 @@ public class AlgoRotatePoint extends AlgoTransformation
 		this.angle = angle;
 		this.Q = Q;
 
-		angleGeo = angle.toGeoElement();
 		inGeo = A;
 
 		outGeo = getResultTemplate(inGeo);
@@ -100,7 +99,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 	protected void setInputOutput() {
 		input = new GeoElement[3];
 		input[0] = inGeo;
-		input[1] = angleGeo;
+		input[1] = angle.toGeoElement();
 		input[2] = (GeoElement) Q;
 
 		setOutputLength(1);
@@ -142,11 +141,9 @@ public class AlgoRotatePoint extends AlgoTransformation
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		// Michael Borcherds 2008-03-25
-		// simplified to allow better Chinese translation
 		return getLoc().getPlainDefault("ARotatedByAngleB",
 				"%0 rotated by angle %1", inGeo.getLabel(tpl),
-				angleGeo.getLabel(tpl));
+				angle.getLabel(tpl));
 	}
 
 	@Override

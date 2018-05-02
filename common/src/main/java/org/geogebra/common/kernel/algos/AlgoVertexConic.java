@@ -39,7 +39,8 @@ public class AlgoVertexConic extends AlgoElement {
 	protected GeoConicND c; // input
 	protected GeoPointND[] vertex; // output
 
-	transient private double temp1, temp2;
+	private double temp1;
+	private double temp2;
 	private GeoVec2D b;
 	private GeoVec2D[] eigenvec;
 
@@ -98,12 +99,13 @@ public class AlgoVertexConic extends AlgoElement {
 	/**
 	 * create the vertices
 	 * 
-	 * @param cons
+	 * @param cons1
+	 *            construction
 	 */
-	protected void createVertex(Construction cons) {
+	protected void createVertex(Construction cons1) {
 		vertex = new GeoPoint[4];
 		for (int i = 0; i < vertex.length; i++) {
-			vertex[i] = new GeoPoint(cons);
+			vertex[i] = new GeoPoint(cons1);
 		}
 	}
 
@@ -141,8 +143,11 @@ public class AlgoVertexConic extends AlgoElement {
 	 * set the coords of the i-th vertex
 	 * 
 	 * @param i
+	 *            index
 	 * @param x
+	 *            x-coord in plane
 	 * @param y
+	 *            y-coord in plane
 	 */
 	protected void setCoords(int i, double x, double y) {
 		vertex[i].setCoords(x, y, 1.0);

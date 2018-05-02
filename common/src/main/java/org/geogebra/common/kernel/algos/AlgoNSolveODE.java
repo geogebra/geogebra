@@ -29,11 +29,12 @@ public class AlgoNSolveODE extends AlgoElement {
 	private GeoNumeric startX; // input
 	private GeoNumeric endX; // input
 
-	private GeoLocus out[]; // output
+	private GeoLocus[] out; // output
 	/** list of solutions */
 	protected ArrayList<ArrayList<MyPoint>> al;
 
-	private double t0, y0[];
+	private double t0;
+	private double[] y0;
 	/** dimension (number of functions) */
 	protected int dim;
 
@@ -163,7 +164,7 @@ public class AlgoNSolveODE extends AlgoElement {
 		@Override
 		public void handleStep(StepInterpolator interpolator, boolean isLast) {
 			double t = interpolator.getCurrentTime();
-			if(!MyDouble.isFinite(t)){
+			if (!MyDouble.isFinite(t)) {
 				throw new IllegalArgumentException(
 						"Invalid value of time:" + t);
 			}
@@ -188,7 +189,7 @@ public class AlgoNSolveODE extends AlgoElement {
 
 		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
-			double input1[] = new double[dim + 1];
+			double[] input1 = new double[dim + 1];
 			input1[0] = t;
 			for (int i = 0; i < dim; i++) {
 				input1[i + 1] = y[i];

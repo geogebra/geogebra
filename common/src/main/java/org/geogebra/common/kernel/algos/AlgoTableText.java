@@ -51,15 +51,22 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 	// style variables
 	private Alignment alignment;
-	private boolean verticalLines, horizontalLines, decimalComma;
-	private StringBuilder verticalLinesArray = null,
-			horizontalLinesArray = null;
-	private boolean verticalLinesJustEdges, horizontalLinesJustEdges;
-	private String justification, openBracket, closeBracket, openString,
-			closeString, currencyStart, currencyEnd;
+	private boolean verticalLines;
+	private boolean horizontalLines;
+	private boolean decimalComma;
+	private StringBuilder verticalLinesArray = null;
+	private StringBuilder horizontalLinesArray = null;
+	private boolean verticalLinesJustEdges;
+	private boolean horizontalLinesJustEdges;
+	private String justification;
+	private String openBracket;
+	private String closeBracket;
+	private String openString;
+	private String closeString;
+	private String currencyStart;
+	private String currencyEnd;
 	private int columns;
 	private int rows;
-
 
 	// getters for style variables (used by EuclidianStyleBar)
 
@@ -182,9 +189,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	}
 
 	private void parseArgs() {
-
-		int tableColumns = geoList.size();
-
 		// set defaults
 		alignment = Alignment.HORIZONTAL;
 		verticalLines = false;
@@ -196,7 +200,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		// need an open & close together, so can't use ""
 		openBracket = "\\left.";
 		closeBracket = "\\right.";
-
+		int tableColumns = geoList.size();
 		if (args != null && !StringUtil.empty(args.getTextString())) {
 			String optionsStr = args.getTextString();
 			if (optionsStr.indexOf("v") > -1) {
@@ -535,8 +539,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			GColor col = geo1.getObjectColor();
 			GColor bgCol = geo1.getBackgroundColor();
 			
-			String stylePre="";
-			String stylePost="";
+			String stylePre = "";
+			String stylePost = "";
 			
 			int fontStyle = 0;
 			
@@ -571,7 +575,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			if (geo1.isGeoText() && !((GeoText) geo1).isLaTeX()) {
 				text1 = text1.replace("$", "\\dollar");
 			}
-			
 
 			switch (justification1) {
 			default:
@@ -684,8 +687,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			}
 
 		}
-		if (!finalCell)
-		 {
+		if (!finalCell) {
 			sb.append("&"); // separate columns
 		}
 	}

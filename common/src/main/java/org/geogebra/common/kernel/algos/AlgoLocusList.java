@@ -34,15 +34,18 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoLocusList extends AlgoElement {
 
+	/** min steps */
 	public static final int MIN_STEPS_REALLY = 16;
 
 	ArrayList<AlgoElement> arrLocus;
 
-	private GeoPoint movingPoint, locusPoint; // input
+	private GeoPoint movingPoint; // input
+	private GeoPoint locusPoint; // input
 	private GeoLocus locus; // output
 
 	// for efficient dependency handling
-	private GeoElement[] efficientInput, standardInput;
+	private GeoElement[] efficientInput;
+	private GeoElement[] standardInput;
 
 	private Path path; // path of P
 	private boolean foundDefined;
@@ -50,6 +53,16 @@ public class AlgoLocusList extends AlgoElement {
 
 	private boolean shouldUpdateScreenBorders = false;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param Q
+	 *            locus point
+	 * @param P
+	 *            moving point
+	 * @param registerCE
+	 *            add to construction?
+	 */
 	public AlgoLocusList(Construction cons, GeoPoint Q, GeoPoint P,
 			boolean registerCE) {
 
@@ -74,6 +87,16 @@ public class AlgoLocusList extends AlgoElement {
 		path.pointChanged(P);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param Q
+	 *            locus point
+	 * @param P
+	 *            moving point
+	 */
 	public AlgoLocusList(Construction cons, String label, GeoPoint Q,
 			GeoPoint P) {
 		super(cons);
@@ -196,11 +219,6 @@ public class AlgoLocusList extends AlgoElement {
 	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_LOCUS;
-	}
-
-	public ArrayList<?> getMoveableInputPoints() {
-		// TODO ?
-		return null;
 	}
 
 	/**

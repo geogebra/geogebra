@@ -64,9 +64,8 @@ public class AlgoVertexPolygon extends AlgoElement {
 	private void setLabels(String[] labels) {
 		// if only one label (e.g. "A") for more than one output, new labels
 		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 &&
-		// outputPoints.size() > 1 &&
-				labels[0] != null && !labels[0].equals("")) {
+		if (labels != null && labels.length == 1 && labels[0] != null
+				&& !labels[0].equals("")) {
 			outputPoints.setIndexLabels(labels[0]);
 		} else {
 
@@ -131,11 +130,12 @@ public class AlgoVertexPolygon extends AlgoElement {
 	}
 
 	/**
-	 * @param cons
+	 * @param cons1
+	 *            construction
 	 * @return new GeoPointND
 	 */
-	public GeoPointND newGeoPoint(Construction cons) {
-		return new GeoPoint(cons);
+	public GeoPointND newGeoPoint(Construction cons1) {
+		return new GeoPoint(cons1);
 	}
 
 	@Override
@@ -221,7 +221,9 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 * set the point to the i-th of the polygon
 	 * 
 	 * @param point
+	 *            point
 	 * @param i
+	 *            index
 	 */
 	protected void setPoint(GeoPointND point, int i) {
 		point.set(p.getPointND(i));

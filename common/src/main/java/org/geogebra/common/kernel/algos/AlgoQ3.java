@@ -30,7 +30,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoQ3 extends AlgoElement {
 
-	private GeoList inputList, freqList; // input
+	private GeoList inputList; // input
+	private GeoList freqList; // input
 	private GeoNumeric Q3; // output
 	private int size;
 
@@ -49,6 +50,14 @@ public class AlgoQ3 extends AlgoElement {
 		this(cons, inputList, null);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param inputList
+	 *            data
+	 * @param freqList
+	 *            frequencies
+	 */
 	public AlgoQ3(Construction cons, GeoList inputList, GeoList freqList) {
 		super(cons);
 		this.inputList = inputList;

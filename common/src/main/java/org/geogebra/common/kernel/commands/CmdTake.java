@@ -87,8 +87,9 @@ public class CmdTake extends CommandProcessor {
 	 */
 	final private GeoList take(String label, GeoList list, GeoNumeric m,
 			GeoNumeric n) {
-		AlgoTake algo = new AlgoTake(cons, label, list, m, n);
+		AlgoTake algo = new AlgoTake(cons, list, m, n);
 		GeoList list2 = algo.getResult();
+		list2.setLabel(label);
 		return list2;
 	}
 

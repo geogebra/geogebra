@@ -94,8 +94,6 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 
 		return !MyMath.intervalsIntersect(minX, maxX, min[0], max[0])
 				|| !MyMath.intervalsIntersect(minY, maxY, min[1], max[1]);
-
-
 	}
 
 	@Override

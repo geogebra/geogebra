@@ -1114,7 +1114,6 @@ public class Coords {
 
 		// direction is not parallel to the plane
 		projectPlaneNoCheck(vx, vy, vz, o, globalCoords, inPlaneCoords);
-
 	}
 
 	public void projectPlaneInPlaneCoords(CoordMatrix m, Coords inPlaneCoords) {
@@ -1140,7 +1139,6 @@ public class Coords {
 
 		// direction is not parallel to the plane
 		projectPlaneNoCheckInPlaneCoords(vx, vy, vz, o, inPlaneCoords.val);
-
 	}
 
 	public void projectPlane(CoordMatrix m, Coords globalCoords) {
@@ -1456,7 +1454,8 @@ public class Coords {
 	 *            direction of the line
 	 * @param V2
 	 *            direction of projection
-	 * @return point projected
+	 * @param project
+	 *            output point projected
 	 */
 	public void projectNearLine(Coords O, Coords V, Coords V2, Coords project) {
 

@@ -32,23 +32,24 @@ public class AlgoListMin extends AlgoElement {
 	private GeoList freqList; // input
 	private GeoNumeric min; // output
 
-	public AlgoListMin(Construction cons, String label, GeoList geoList,
-			GeoList freqList) {
-		this(cons, geoList, freqList);
-
-		min.setLabel(label);
-	}
-
-	public AlgoListMin(Construction cons, String label, GeoList geoList) {
-		this(cons, geoList, null);
-
-		min.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geoList
+	 *            list
+	 */
 	public AlgoListMin(Construction cons, GeoList geoList) {
 		this(cons, geoList, null);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geoList
+	 *            list
+	 * @param freqList
+	 *            frequencies
+	 */
 	public AlgoListMin(Construction cons, GeoList geoList, GeoList freqList) {
 		super(cons);
 		this.geoList = geoList;

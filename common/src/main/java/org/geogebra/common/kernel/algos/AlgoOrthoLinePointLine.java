@@ -53,12 +53,17 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	private OrthoLinePointLineAdapter proverAdapter;
 
 	/**
-	 * Creates new AlgoOrthoLinePointLine
+	 * Creates new AlgoOrthoLinePointLine.
+	 * 
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param P
+	 *            point
 	 * @param l
+	 *            line result should be orthogonal to
 	 */
 	public AlgoOrthoLinePointLine(Construction cons, String label, GeoPoint P,
 			GeoLine l) {

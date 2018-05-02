@@ -54,7 +54,8 @@ public class AlgoMacro extends AlgoElement
 	private Macro macro;
 
 	// macro construction, its input and output used by this algo
-	private GeoElement[] macroInput, macroOutput;
+	private GeoElement[] macroInput;
+	private GeoElement[] macroOutput;
 
 	// maps macro geos to algo geos
 	private HashMap<GeoElementND, GeoElement> macroToAlgoMap;
@@ -79,6 +80,8 @@ public class AlgoMacro extends AlgoElement
 	 *            macro
 	 * @param input
 	 *            input objects
+	 * @param add
+	 *            add to construction?
 	 */
 	public AlgoMacro(Construction cons, String[] labels, Macro macro,
 			GeoElement[] input, boolean add) {

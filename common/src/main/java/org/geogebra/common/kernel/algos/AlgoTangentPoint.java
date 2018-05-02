@@ -181,29 +181,28 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 			GeoPoint point = this.getPoint();
 			GeoConic circle = this.getConic();
 
+			PVariable[] vPoint = point.getBotanaVars(point);
+			PVariable[] vcircle = circle.getBotanaVars(circle);
 
-				PVariable[] vPoint = point.getBotanaVars(point);
-				PVariable[] vcircle = circle.getBotanaVars(circle);
-
-				// is tangent point on circle?
-				if (isIntersectionPointIncident()) {
-					PVariable[] botanaVarsThis = new PVariable[4];
-					if (getBotanaVars(geo) == null) {
-						// tangent point
-						botanaVarsThis[0] = vPoint[0];
-						botanaVarsThis[1] = vPoint[1];
-						// point on the tangent line
-						botanaVarsThis[2] = new PVariable(kernel);
-						botanaVarsThis[3] = new PVariable(kernel);
-						botanaVars.put(geo, botanaVarsThis);
-					} else {
-						botanaVarsThis = getBotanaVars(geo);
-					}
+			// is tangent point on circle?
+			if (isIntersectionPointIncident()) {
+				PVariable[] botanaVarsThis = new PVariable[4];
+				if (getBotanaVars(geo) == null) {
+					// tangent point
+					botanaVarsThis[0] = vPoint[0];
+					botanaVarsThis[1] = vPoint[1];
+					// point on the tangent line
+					botanaVarsThis[2] = new PVariable(kernel);
+					botanaVarsThis[3] = new PVariable(kernel);
+					botanaVars.put(geo, botanaVarsThis);
+				} else {
+					botanaVarsThis = getBotanaVars(geo);
+				}
 
 				PPolynomial[] botanaPolynomialsThis = new PPolynomial[2];
-					// rotating the center of vcircle
-					// around vpoint by 90 degrees
-					// to get a point on the tangent line
+				// rotating the center of vcircle
+				// around vpoint by 90 degrees
+				// to get a point on the tangent line
 				botanaPolynomialsThis[0] = new PPolynomial(botanaVarsThis[1])
 						.subtract(new PPolynomial(vcircle[1]))
 						.subtract(new PPolynomial(botanaVarsThis[2]))
@@ -215,84 +214,84 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 				botanaPolynomials.put(geo, botanaPolynomialsThis);
 				return botanaPolynomialsThis;
 
-				}
+			}
 
-				// tangent point is not on the circle
+			// tangent point is not on the circle
 
-				PVariable[] botanaVarsThis = new PVariable[6];
-				if (getBotanaVars(geo) == null) {
+			PVariable[] botanaVarsThis = new PVariable[6];
+			if (getBotanaVars(geo) == null) {
 
-					// T - tangent point of circle
-					botanaVarsThis[0] = new PVariable(kernel);
-					botanaVarsThis[1] = new PVariable(kernel);
-					// A
-					botanaVarsThis[2] = vPoint[0];
-					botanaVarsThis[3] = vPoint[1];
-					// M - midpoint of OE
-					botanaVarsThis[4] = new PVariable(kernel);
-					botanaVarsThis[5] = new PVariable(kernel);
-					botanaVars.put(geo, botanaVarsThis);
-				} else {
-					botanaVarsThis = getBotanaVars(geo);
-				}
+				// T - tangent point of circle
+				botanaVarsThis[0] = new PVariable(kernel);
+				botanaVarsThis[1] = new PVariable(kernel);
+				// A
+				botanaVarsThis[2] = vPoint[0];
+				botanaVarsThis[3] = vPoint[1];
+				// M - midpoint of OE
+				botanaVarsThis[4] = new PVariable(kernel);
+				botanaVarsThis[5] = new PVariable(kernel);
+				botanaVars.put(geo, botanaVarsThis);
+			} else {
+				botanaVarsThis = getBotanaVars(geo);
+			}
 
-				PPolynomial[] botanaPolynomialsThis = null;
+			PPolynomial[] botanaPolynomialsThis = null;
+			/*
+			 * Force a criterion that the two tangent points must differ. See
+			 * AlgoIntersectConics.java.
+			 */
+			PVariable[] botanaVarsOther;
+			Iterator<Entry<GeoElementND, PVariable[]>> it = botanaVars
+					.entrySet().iterator();
+			boolean found = false;
+			while (it.hasNext()) {
+				Entry<GeoElementND, PVariable[]> entry = it.next();
+				GeoElementND otherGeo = entry.getKey();
 				/*
-				 * Force a criterion that the two tangent points must differ.
-				 * See AlgoIntersectConics.java.
+				 * This should be at most one element. There is one element if
+				 * we found the second tangent point, otherwise (for the first
+				 * tangent point) there is no otherGeo yet, so we will not
+				 * create any polynomials here (yet).
 				 */
-				PVariable[] botanaVarsOther;
-				Iterator<Entry<GeoElementND, PVariable[]>> it = botanaVars.entrySet()
-						.iterator();
-				boolean found = false;
-				while (it.hasNext()) {
-					Entry<GeoElementND, PVariable[]> entry = it.next();
-					GeoElementND otherGeo = entry.getKey();
-					/*
-					 * This should be at most one element. There is one element if
-					 * we found the second tangent point, otherwise (for the
-					 * first tangent point) there is no otherGeo yet, so we
-					 * will not create any polynomials here (yet).
-					 */
-					if (!otherGeo.equals(geo)) {
-						botanaPolynomialsThis = new PPolynomial[5];
-						botanaVarsOther = entry.getValue();
-						botanaPolynomialsThis[4] = (PPolynomial
-								.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
-										botanaVarsOther[0], botanaVarsOther[1])
-								.multiply(new PPolynomial(new PVariable(kernel))))
-								.subtract(new PPolynomial(1));
-						found = true;
-					}
+				if (!otherGeo.equals(geo)) {
+					botanaPolynomialsThis = new PPolynomial[5];
+					botanaVarsOther = entry.getValue();
+					botanaPolynomialsThis[4] = (PPolynomial
+							.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
+									botanaVarsOther[0], botanaVarsOther[1])
+							.multiply(new PPolynomial(new PVariable(kernel))))
+									.subtract(new PPolynomial(1));
+					found = true;
 				}
-				if (!found) {
-					botanaPolynomialsThis = new PPolynomial[4];
-				}
+			}
+			if (!found) {
+				botanaPolynomialsThis = new PPolynomial[4];
+			}
 
-				PPolynomial m1 = new PPolynomial(botanaVarsThis[4]);
-				PPolynomial m2 = new PPolynomial(botanaVarsThis[5]);
-				PPolynomial e1 = new PPolynomial(vPoint[0]);
-				PPolynomial e2 = new PPolynomial(vPoint[1]);
-				PPolynomial o1 = new PPolynomial(vcircle[0]);
-				PPolynomial o2 = new PPolynomial(vcircle[1]);
+			PPolynomial m1 = new PPolynomial(botanaVarsThis[4]);
+			PPolynomial m2 = new PPolynomial(botanaVarsThis[5]);
+			PPolynomial e1 = new PPolynomial(vPoint[0]);
+			PPolynomial e2 = new PPolynomial(vPoint[1]);
+			PPolynomial o1 = new PPolynomial(vcircle[0]);
+			PPolynomial o2 = new PPolynomial(vcircle[1]);
 
-				// M midpoint of EO
-				botanaPolynomialsThis[0] = new PPolynomial(2).multiply(m1)
-						.subtract(o1).subtract(e1);
-				botanaPolynomialsThis[1] = new PPolynomial(2).multiply(m2)
-						.subtract(o2).subtract(e2);
+			// M midpoint of EO
+			botanaPolynomialsThis[0] = new PPolynomial(2).multiply(m1)
+					.subtract(o1).subtract(e1);
+			botanaPolynomialsThis[1] = new PPolynomial(2).multiply(m2)
+					.subtract(o2).subtract(e2);
 
-				// MT = ME
-				botanaPolynomialsThis[2] = PPolynomial.equidistant(botanaVarsThis[0],
-						botanaVarsThis[1], botanaVarsThis[4], botanaVarsThis[5], vPoint[0],
-						vPoint[1]);
+			// MT = ME
+			botanaPolynomialsThis[2] = PPolynomial.equidistant(
+					botanaVarsThis[0], botanaVarsThis[1], botanaVarsThis[4],
+					botanaVarsThis[5], vPoint[0], vPoint[1]);
 
-				// OT = OB
-				botanaPolynomialsThis[3] = PPolynomial.equidistant(botanaVarsThis[0],
-						botanaVarsThis[1], vcircle[0], vcircle[1], vcircle[2],
-						vcircle[3]);
-				botanaPolynomials.put(geo, botanaPolynomialsThis);
-				return botanaPolynomialsThis;
+			// OT = OB
+			botanaPolynomialsThis[3] = PPolynomial.equidistant(
+					botanaVarsThis[0], botanaVarsThis[1], vcircle[0],
+					vcircle[1], vcircle[2], vcircle[3]);
+			botanaPolynomials.put(geo, botanaPolynomialsThis);
+			return botanaPolynomialsThis;
 		}
 
 		if (c.isParabola()) {

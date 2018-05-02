@@ -18,11 +18,22 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 
+/**
+ * Convert single letter text to unicode number.
+ */
 public class AlgoLetterToUnicode extends AlgoElement {
 
 	protected GeoText text; // input
 	protected GeoNumeric num; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param text
+	 *            letter as text
+	 */
 	public AlgoLetterToUnicode(Construction cons, String label, GeoText text) {
 		super(cons);
 		this.text = text;
@@ -51,6 +62,9 @@ public class AlgoLetterToUnicode extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return unicode number
+	 */
 	public GeoNumeric getResult() {
 		return num;
 	}

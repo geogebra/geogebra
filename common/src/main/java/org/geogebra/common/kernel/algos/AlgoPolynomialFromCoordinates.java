@@ -108,9 +108,9 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			return;
 		}
 
-		double x[] = new double[n];
-		double y[] = new double[n];
-		double xy[] = new double[2];
+		double[] x = new double[n];
+		double[] y = new double[n];
+		double[] xy = new double[2];
 
 		// copy inputList into two arrays
 		for (int i = 0; i < n; i++) {
@@ -163,7 +163,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		}
 
 		// calculate the coefficients
-		double cof[] = new double[n];
+		double[] cof = new double[n];
 		try {
 			// if (n < 15)
 			// polcoe(x, y, n, cof);
@@ -281,22 +281,18 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		// polynomial Function
 		Function polyFun = new Function(poly, fVar);
 		return polyFun;
-
 	}
 
-
-
-	private static void polcoeBig(double xx[], double yy[], int n,
-			double coff[])
+	private static void polcoeBig(double[] xx, double[] yy, int n,
+			double[] coff) {
 	// Given arrays x[0..n-1] and y[0..n-1] containing a tabulated function yi
 	// = f(xi), this routine
 	// returns an array of coefficients cof[0..n], such that yi = Sigma cofj.xj
 	// adapted from Numerical Recipes chap 3.5
-	{
-		BigDecimal x[] = new BigDecimal[n];
-		BigDecimal y[] = new BigDecimal[n];
-		BigDecimal cof[] = new BigDecimal[n];
-		BigDecimal s[] = new BigDecimal[n];
+		BigDecimal[] x = new BigDecimal[n];
+		BigDecimal[] y = new BigDecimal[n];
+		BigDecimal[] cof = new BigDecimal[n];
+		BigDecimal[] s = new BigDecimal[n];
 		int k, j, i;
 		BigDecimal minusone = new BigDecimal(-1.0d);
 		BigDecimal phi, ff, b;
@@ -304,7 +300,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			x[i] = new BigDecimal(xx[i]);
 			y[i] = new BigDecimal(yy[i]);
 		}
-		// double s[] = new double[n];
+		// double[] s = new double[n];
 		for (i = 0; i < n; i++) {
 			s[i] = cof[i] = BigDecimal.ZERO;
 		}

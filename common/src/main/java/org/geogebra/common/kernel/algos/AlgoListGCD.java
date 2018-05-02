@@ -33,6 +33,14 @@ public class AlgoListGCD extends AlgoElement {
 	private GeoList geoList; // input
 	private GeoNumeric num; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoList
+	 *            list of numbers
+	 */
 	public AlgoListGCD(Construction cons, String label, GeoList geoList) {
 		super(cons);
 		this.geoList = geoList;

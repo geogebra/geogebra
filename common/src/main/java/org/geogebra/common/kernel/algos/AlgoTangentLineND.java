@@ -52,6 +52,16 @@ public abstract class AlgoTangentLineND extends AlgoElement
 		LabelManager.setLabels(label, getOutput());
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param g
+	 *            direction line
+	 * @param c
+	 *            conic
+	 */
 	public AlgoTangentLineND(Construction cons, String[] labels, GeoLineND g,
 			GeoConicND c) {
 		this(cons, g, c);
@@ -107,6 +117,9 @@ public abstract class AlgoTangentLineND extends AlgoElement
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting tangents
+	 */
 	public GeoLineND[] getTangents() {
 		return tangents;
 	}

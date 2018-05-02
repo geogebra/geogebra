@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -30,34 +29,45 @@ import org.geogebra.common.util.DoubleUtil;
 /**
  * Superclass for lower/upper sum of function f in interval [a, b] with n
  * intervals
+ * 
+ * Find global minimum in an interval with the following heuristic:
+ * 
+ * 1) sample the function for some values of x in [a, b]
+ * 
+ * 2) get x[i] with minimal f(x[i])
+ * 
+ * 3) use parabolic interpolation and Brent's Method in One Dimension for
+ * interval x[i-1] to x[i+1] (Numerical Recipes in C++, pp.406)
  */
-@SuppressWarnings("javadoc")
 public abstract class AlgoFunctionAreaSums extends AlgoElement
 		implements DrawInformationAlgo {
 
 	// largest possible number of rectangles
 	private static final int MAX_RECTANGLES = 10000;
+	// tolerance for parabolic interpolation
+	private static final double TOLERANCE = 1E-7;
+	// subsample every 5 pixels
+	private static final int SAMPLE_PIXELS = 5;
+
 	/**
 	 * number of points used for checking that function is defined on the
 	 * interval
 	 **/
 	double CHECKPOINTS = 100;
-	// subsample every 5 pixels
-	private static final int SAMPLE_PIXELS = 5;
-
-	// find global minimum in an interval with the following heuristic:
-	// 1) sample the function for some values of x in [a, b]
-	// 2) get x[i] with minimal f(x[i])
-	// 3) use parabolic interpolation and Brent's Method in One Dimension
-	// for interval x[i-1] to x[i+1]
-	// (Numerical Recipes in C++, pp.406)
-
 	private SumType type;
 
-	private NumberValue d; // input: divider for Rectangle sum, 0..1
-	private GeoList list1, list2, list3; // input
-	private GeoElement ageo, bgeo, ngeo, dgeo, densityGeo,
-			useDensityGeo, isCumulative, p1geo;
+	private GeoNumberValue d; // input: divider for Rectangle sum, 0..1
+	// input
+	private GeoList list1;
+	private GeoList list2;
+	private GeoList list3;
+	private GeoElement ageo;
+	private GeoElement bgeo;
+	private GeoElement ngeo;
+	private GeoElement densityGeo;
+	private GeoElement useDensityGeo;
+	private GeoElement isCumulative;
+	private GeoElement p1geo;
 	private GeoNumeric sum; // output sum
 
 	private int N;
@@ -73,6 +83,17 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 	private boolean histogramRight;
 
+	// input
+	private GeoFunction f;
+	private GeoNumberValue a;
+	private GeoNumberValue b;
+	private GeoNumberValue n;
+	private GeoNumberValue density;
+	private GeoNumberValue p1;
+
+	/**
+	 * Bar chart type
+	 */
 	public enum SumType {
 		/** Upper Rieeman sum **/
 
@@ -97,12 +118,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		/** barchart of a discrete probability distribution **/
 		BARCHART_BERNOULLI
 	}
-
-	// tolerance for parabolic interpolation
-	private static final double TOLERANCE = 1E-7;
-
-	private GeoFunction f; // input
-	private GeoNumberValue a, b, n, density, p1; // input
 
 	/**
 	 * @return the p1
@@ -159,13 +174,21 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * Rectangle sum
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param f
+	 *            function
 	 * @param a
+	 *            left bound
 	 * @param b
+	 *            right bound
 	 * @param n
+	 *            number of bars
 	 * @param d
+	 *            bar percentage for rectangle sum
 	 * @param type
+	 *            sum type
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label, GeoFunction f,
 			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
@@ -183,7 +206,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		ageo = a.toGeoElement();
 		bgeo = b.toGeoElement();
 		ngeo = n.toGeoElement();
-		dgeo = d.toGeoElement();
 
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
@@ -192,6 +214,20 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		sum.setLabel(label);
 	}
 
+	/**
+	 * Rectangle sum: copy
+	 * 
+	 * @param f
+	 *            function
+	 * @param a
+	 *            left bound
+	 * @param b
+	 *            right bound
+	 * @param n
+	 *            number of bars
+	 * @param d
+	 *            bar percentage for rectangle sum
+	 */
 	public AlgoFunctionAreaSums(GeoFunction f, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue n, GeoNumberValue d) {
 		super(f.cons, false);
@@ -204,7 +240,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		ageo = a.toGeoElement();
 		bgeo = b.toGeoElement();
 		ngeo = n.toGeoElement();
-		dgeo = d.toGeoElement();
 
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
@@ -216,12 +251,19 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * Upper o lower sum
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param f
+	 *            function
 	 * @param a
+	 *            left bound
 	 * @param b
+	 *            right bound
 	 * @param n
+	 *            number of bars
 	 * @param type
+	 *            sum type
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label, GeoFunction f,
 			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
@@ -249,6 +291,24 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 	}
 
+	/**
+	 * Upper / lower / trapezoidal / left sum: copy
+	 * 
+	 * @param cons1
+	 *            construction
+	 * @param vals
+	 *            function values
+	 * @param a
+	 *            left bound
+	 * @param b
+	 *            right bound
+	 * @param n
+	 *            number of bars
+	 * @param type
+	 *            sum type
+	 * @param borders
+	 *            interval borders
+	 */
 	public AlgoFunctionAreaSums(GeoNumberValue a, GeoNumberValue b,
 			GeoNumberValue n, SumType type, double[] vals, double[] borders,
 			Construction cons1) {
@@ -268,10 +328,15 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * HISTOGRAM[ &lt;list of class boundaries&gt;, &lt;list of heights&gt; ]
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param list1
+	 *            class boundaries
 	 * @param list2
+	 *            heights
 	 * @param right
+	 *            right histogram?
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label, GeoList list1,
 			GeoList list2, boolean right) {
@@ -284,9 +349,13 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * (no label)
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param list1
+	 *            class boundaries
 	 * @param list2
+	 *            heights
 	 * @param right
+	 *            right histogram?
 	 */
 	public AlgoFunctionAreaSums(Construction cons, GeoList list1, GeoList list2,
 			boolean right) {
@@ -305,6 +374,18 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		sum.setDrawable(true);
 	}
 
+	/**
+	 * Histogram copy
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param vals
+	 *            heights
+	 * @param borders
+	 *            bclass borders
+	 * @param N
+	 *            number of classes
+	 */
 	public AlgoFunctionAreaSums(Construction cons, double[] vals,
 			double[] borders, int N) {
 		super(cons, false);
@@ -320,13 +401,23 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * &lt;useDensity&gt;, &lt;densityFactor&gt;]
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param isCumulative
+	 *            cumulative?
 	 * @param list1
+	 *            class boundaries
 	 * @param list2
+	 *            raw data
+	 * @param list3
+	 *            optional frequencies
 	 * @param useDensity
+	 *            use density?
 	 * @param density
+	 *            density
 	 * @param right
+	 *            right histogram?
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label,
 			GeoBoolean isCumulative, GeoList list1, GeoList list2,
@@ -339,6 +430,27 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		sum.setLabel(label);
 	}
 
+	/**
+	 * Histogram [&lt;list of class boundaries&gt;, &lt;list of raw data&gt;,
+	 * &lt;useDensity&gt;, &lt;densityFactor&gt;]
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param isCumulative
+	 *            cumulative?
+	 * @param list1
+	 *            class boundaries
+	 * @param list2
+	 *            raw data
+	 * @param list3
+	 *            optional frequencies
+	 * @param useDensity
+	 *            use density?
+	 * @param density
+	 *            density
+	 * @param right
+	 *            right histogram?
+	 */
 	public AlgoFunctionAreaSums(Construction cons, GeoBoolean isCumulative,
 			GeoList list1, GeoList list2, GeoList list3, GeoBoolean useDensity,
 			GeoNumeric density, boolean right) {
@@ -367,6 +479,22 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		sum.setDrawable(true);
 	}
 
+	/**
+	 * Histogram density copy constructor.
+	 * 
+	 * @param isCumulative
+	 *            cumulative?
+	 * @param useDensity
+	 *            use density?
+	 * @param density
+	 *            density
+	 * @param vals
+	 *            heights
+	 * @param borders
+	 *            class borders
+	 * @param N
+	 *            number of classes
+	 */
 	public AlgoFunctionAreaSums(GeoBoolean isCumulative, GeoBoolean useDensity,
 			GeoNumeric density, double[] vals, double[] borders, int N) {
 		super(useDensity.getConstruction(), false);
@@ -383,15 +511,18 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	}
 
 	/**
-	 * Discrete distribution bar chart
+	 * Bernoulli bar chart
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param p1
-	 * @param p2
-	 * @param p3
+	 *            success probability
 	 * @param isCumulative
+	 *            cumulative?
 	 * @param type
+	 *            (Bernoulli)
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label,
 			GeoNumberValue p1,
@@ -436,6 +567,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		this.N = N;
 	}
 
+	/**
+	 * @return whether this is right histogram
+	 */
 	public boolean isRight() {
 		return histogramRight;
 	}
@@ -467,7 +601,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			input[1] = ageo;
 			input[2] = bgeo;
 			input[3] = ngeo;
-			input[4] = dgeo;
+			input[4] = d.toGeoElement();
 			break;
 
 		case HISTOGRAM:
@@ -588,8 +722,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * 
 	 * @return d
 	 */
-	public GeoNumeric getD() {
-		return (GeoNumeric) dgeo;
+	public GeoNumberValue getD() {
+		return d;
 	}
 
 	/**
@@ -663,8 +797,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				leftBorder = new double[N];
 			}
 			UnivariateFunction fmin = fun;
-			if (type == SumType.UPPERSUM)
-			 {
+			if (type == SumType.UPPERSUM) {
 				fmin = new NegativeRealRootFunction(fun); // use -f to find
 															// maximum
 			}
@@ -773,7 +906,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			}
 
 			/* Rectanglesum needs extra treatment */
-			if ((type == SumType.RECTANGLESUM) && (!dgeo.isDefined())) { // extra
+			if ((type == SumType.RECTANGLESUM) && (!d.isDefined())) { // extra
 																			// parameter
 				sum.setUndefined();
 			} // if d parameter for rectanglesum
@@ -802,7 +935,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			STEP = (bd - ad) / N;
 
 			// calc minimum in every interval
-			if (yval == null || yval.length < N + 1) {// N+1 for trapezoids
+			if (yval == null || yval.length < N + 1) { // N+1 for trapezoids
 				yval = new double[N + 1]; // N+1 for trapezoids
 				leftBorder = new double[N + 1]; // N+1 for trapezoids
 			}
@@ -847,8 +980,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			sum.setValue(totalArea * STEP);
 			break;
 
-
-
 		case BARCHART_BERNOULLI:
 			double p = p1.getDouble();
 			if (p < 0 || p > 1) {
@@ -880,10 +1011,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				sum.setValue(1);
 			}
 			sum.updateCascade();
-
 			return;
-
-
 
 		case HISTOGRAM:
 		case HISTOGRAM_DENSITY:
@@ -1091,7 +1219,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 					return;
 				}
 				leftBorder[N - 1] = ((GeoNumeric) geo).getDouble();
-
 			}
 
 			// convert to cumulative frequencies if cumulative option is set
@@ -1123,7 +1250,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			sum.setValue(totalArea);
 
 			break;
-
 		}
 	}
 

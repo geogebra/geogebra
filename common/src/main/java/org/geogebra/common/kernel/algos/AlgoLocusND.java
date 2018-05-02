@@ -51,29 +51,41 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	/** maximum time for the computation of one locus point in millis **/
 	public static final int MAX_TIME_FOR_ONE_STEP = 500;
 
-	public int MIN_STEPS_INSTANCE = PathMover.MIN_STEPS;
+	private int minStepsInstance = PathMover.MIN_STEPS;
 
 	protected static final int MAX_X_PIXEL_DIST = 5;
 	private static int MAX_Y_PIXEL_DIST = 5;
 
-	protected GeoPointND movingPoint, locusPoint; // input
+	protected GeoPointND movingPoint; // input
+	protected GeoPointND locusPoint; // input
 	protected GeoLocusND<T> locus; // output
 
 	// for efficient dependency handling
-	private GeoElement[] efficientInput, standardInput;
+	private GeoElement[] efficientInput;
+	private GeoElement[] standardInput;
 
 	private Path path; // path of P
 	private PathMover pathMover;
 	protected int pointCount;
 
 	// copies of P and Q in a macro kernel
-	protected GeoPointND copyP, copyQ, startPPos, startQPos;
-	protected double lastX, lastY;
+	protected GeoPointND copyP;
+	protected GeoPointND copyQ;
+	protected GeoPointND startPPos;
+	protected GeoPointND startQPos;
+	protected double lastX;
+	protected double lastY;
 
-	protected double[] maxXdist, maxYdist, xmin = new double[3],
-			xmax = new double[3], ymin = new double[3], ymax = new double[3],
-			farXmin = new double[3], farXmax = new double[3],
-			farYmin = new double[3], farYmax = new double[3];
+	protected double[] maxXdist;
+	protected double[] maxYdist;
+	protected double[] xmin = new double[3];
+	protected double[] xmax = new double[3];
+	protected double[] ymin = new double[3];
+	protected double[] ymax = new double[3];
+	protected double[] farXmin = new double[3];
+	protected double[] farXmax = new double[3];
+	protected double[] farYmin = new double[3];
+	protected double[] farYmax = new double[3];
 
 	// private Line2D.Double tempLine = new Line2D.Double();
 
@@ -117,7 +129,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 		createMaxDistances();
 
-		MIN_STEPS_INSTANCE = min_steps;
+		minStepsInstance = min_steps;
 		this.movingPoint = P;
 		this.locusPoint = Q;
 
@@ -466,7 +478,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		lastY = Double.MAX_VALUE;
 		maxTimeExceeded = false;
 		foundDefined = false;
-		boolean prevQcopyDefined = false;
 		int max_runs;
 
 		// continuous kernel?
@@ -485,7 +496,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		} else {
 			copyP.getPathParameter().setT(path.getMinParameter());
 		}
-		pathMover.init(copyP, MIN_STEPS_INSTANCE);
+		pathMover.init(copyP, minStepsInstance);
 
 		if (continuous) {
 			// continous constructions may need several parameter run throughs
@@ -497,7 +508,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 		// update Pcopy to compute Qcopy
 		pcopyUpdateCascade();
-		prevQcopyDefined = copyQ.isDefined() && !copyQ.isInfinite();
+		boolean prevQcopyDefined = copyQ.isDefined() && !copyQ.isInfinite();
 
 		// move Pcopy along the path
 		// do this until Qcopy comes back to its start position
@@ -735,7 +746,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 		// check found defined
 		if (!foundDefined && copyQ.isDefined() && !copyQ.isInfinite()) {
-			pathMover.init(copyP, MIN_STEPS_INSTANCE);
+			pathMover.init(copyP, minStepsInstance);
 			((GeoElement) startPPos).set(copyP);
 			((GeoElement) startQPos).set(copyQ);
 			foundDefined = true;
@@ -852,6 +863,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	 * @param Q
 	 *            point
 	 * @param orInsteadOfAnd
+	 *            check that at least one coord is close?
 	 * @return true if distance is small to last point
 	 */
 	abstract protected boolean distanceSmall(GeoPointND Q,
@@ -978,6 +990,12 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	 * Decide if the locus definition is valid in the sense that there is no
 	 * ad-hoc definition of a point on a path/region between the locus point and
 	 * the moving point on the dependency graph of the construction.
+	 * 
+	 * @param locusPoint
+	 *            locus point
+	 * @param movingPoint
+	 *            moving point
+	 * @return whether the points can be used for locus
 	 */
 	public static boolean validLocus(GeoPointND locusPoint,
 			GeoPointND movingPoint) {

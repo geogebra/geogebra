@@ -74,9 +74,13 @@ public class AlgoMirror extends AlgoTransformation implements
 	 * Creates new "mirror at point" algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param in
+	 *            source geo
 	 * @param p
+	 *            mirror point
 	 */
 	protected AlgoMirror(Construction cons, String label, GeoElement in,
 			GeoPointND p) {
@@ -89,8 +93,11 @@ public class AlgoMirror extends AlgoTransformation implements
 	 * Creates new "mirror at point" algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param in
+	 *            source geo
 	 * @param p
+	 *            mirror point
 	 */
 	public AlgoMirror(Construction cons, GeoElement in, GeoPointND p) {
 
@@ -103,9 +110,13 @@ public class AlgoMirror extends AlgoTransformation implements
 	 * Creates new "mirror at conic" algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param in
+	 *            source geo
 	 * @param c
+	 *            mirror conic
 	 */
 	AlgoMirror(Construction cons, String label, GeoElement in, GeoConic c) {
 
@@ -117,8 +128,11 @@ public class AlgoMirror extends AlgoTransformation implements
 	 * Creates new "mirror at conic" algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param in
+	 *            source geo
 	 * @param c
+	 *            mirror conic
 	 */
 	public AlgoMirror(Construction cons, GeoElement in, GeoConic c) {
 
@@ -131,9 +145,13 @@ public class AlgoMirror extends AlgoTransformation implements
 	 * Creates new "mirror at line" algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param in
+	 *            source geo
 	 * @param g
+	 *            mirror line
 	 */
 	AlgoMirror(Construction cons, String label, GeoElement in, GeoLineND g) {
 
@@ -145,8 +163,11 @@ public class AlgoMirror extends AlgoTransformation implements
 	 * Creates new "mirror at line" algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param in
+	 *            source geo
 	 * @param g
+	 *            mirror line
 	 */
 	public AlgoMirror(Construction cons, GeoElement in, GeoLineND g) {
 
@@ -168,17 +189,17 @@ public class AlgoMirror extends AlgoTransformation implements
 	/**
 	 * end of construction
 	 * 
-	 * @param cons
-	 *            cons
+	 * @param cons1
+	 *            construction
 	 * @param in
 	 *            transformed geo
-	 * @param mirror
+	 * @param setMirror
 	 *            mirror
 	 */
-	public void endOfConstruction(Construction cons, GeoElement in,
-			GeoElement mirror) {
+	public void endOfConstruction(Construction cons1, GeoElement in,
+			GeoElement setMirror) {
 
-		this.mirror = mirror;
+		this.mirror = setMirror;
 
 		inGeo = in;
 		outGeo = getResultTemplate(inGeo);
@@ -187,10 +208,10 @@ public class AlgoMirror extends AlgoTransformation implements
 		}
 		setInputOutput();
 
-		transformedPoint = new GeoPoint(cons);
+		transformedPoint = new GeoPoint(cons1);
 		compute();
 		if (inGeo.isGeoFunction()) {
-			cons.registerEuclidianViewCE(this);
+			cons1.registerEuclidianViewCE(this);
 		}
 	}
 

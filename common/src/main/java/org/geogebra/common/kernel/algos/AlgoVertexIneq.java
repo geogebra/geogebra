@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -71,9 +72,8 @@ public class AlgoVertexIneq extends AlgoElement {
 	private void setLabels(String[] labels) {
 		// if only one label (e.g. "A") for more than one output, new labels
 		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 &&
-		// outputPoints.size() > 1 &&
-				labels[0] != null && !labels[0].equals("")) {
+		if (labels != null && labels.length == 1 && labels[0] != null
+				&& !labels[0].equals("")) {
 			outputPoints.setIndexLabels(labels[0]);
 		} else {
 
@@ -438,7 +438,8 @@ public class AlgoVertexIneq extends AlgoElement {
 			co[0] = coef[1] * bp.getX() * bp.getX() + 2 * coef[5] * bp.getX()
 					+ coef[2];
 			Log.debug(co[0] + "," + co[1] + "," + co[2]);
-			int n = kernel.getEquationSolver().solveQuadratic(co);
+			kernel.getEquationSolver();
+			int n = EquationSolver.solveQuadratic(co);
 
 			for (int k = 0; k < n; k++) {
 				ensurePoint();
@@ -457,7 +458,8 @@ public class AlgoVertexIneq extends AlgoElement {
 			co[0] = coef[0] * bp.getX() * bp.getX() + 2 * coef[4] * bp.getX()
 					+ coef[2];
 			Log.debug(co[0] + "," + co[1] + "," + co[2]);
-			int n = kernel.getEquationSolver().solveQuadratic(co);
+			kernel.getEquationSolver();
+			int n = EquationSolver.solveQuadratic(co);
 
 			for (int k = 0; k < n; k++) {
 				ensurePoint();

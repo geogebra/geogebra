@@ -63,4 +63,4 @@ public class AlgoSumLeft extends AlgoFunctionAreaSums {
 		return Commands.LeftSum;
 	}
 
-}// class AlgoSumLeft
+}

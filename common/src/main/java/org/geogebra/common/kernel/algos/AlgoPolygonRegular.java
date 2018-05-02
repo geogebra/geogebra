@@ -206,8 +206,6 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			Log.debug(minpoly);
 			PVariable x = new PVariable(kernel);
 			PVariable y = new PVariable(kernel);
-			PPolynomial xp = new PPolynomial(x);
-			PPolynomial yp = new PPolynomial(y);
 			minpoly = minpoly.replace("x", x.getName());
 			// Ugly way of converting the CAS computation result into PPolynomial:
 			String parsable = "[1]: [1]: _[1]=1 _[2]=" + minpoly + " [2]: 1,1";
@@ -233,7 +231,8 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			}
 			// End of ugly conversion.
 			// Consider using a different method or put this into PPolynomial as a constructor.
-			
+			PPolynomial xp = new PPolynomial(x);
+			PPolynomial yp = new PPolynomial(y);
 			botanaVars = new PVariable[(sides - 2) * 2];
 			botanaPolynomials = new PPolynomial[(sides - 2) * 2 + 2];
 			botanaPolynomials[0] = botanaMinpoly;

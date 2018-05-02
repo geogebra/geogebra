@@ -23,6 +23,14 @@ public class AlgoUnicodeToLetter extends AlgoElement {
 	protected GeoNumberValue a; // input
 	protected GeoText text; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            unicode number
+	 */
 	public AlgoUnicodeToLetter(Construction cons, String label,
 			GeoNumberValue a) {
 		super(cons);

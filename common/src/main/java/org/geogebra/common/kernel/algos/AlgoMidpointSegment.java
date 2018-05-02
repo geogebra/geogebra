@@ -44,7 +44,8 @@ public class AlgoMidpointSegment extends AlgoElement
 
 	private GeoSegment segment; // input
 	private GeoPoint M; // output
-	private GeoPoint P, Q; // endpoints of segment
+	private GeoPoint P; // endpoints of segment
+	private GeoPoint Q; // endpoints of segment
 
 	private PPolynomial[] polynomials;
 	private PVariable[] botanaVars;

@@ -77,5 +77,4 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 		return getInputMaybeXOYPlane(i);
 	}
 
-
 }

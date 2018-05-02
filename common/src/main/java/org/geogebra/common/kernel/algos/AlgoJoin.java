@@ -17,12 +17,24 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
+/**
+ * Join lists
+ */
 public class AlgoJoin extends AlgoElement {
 
 	private GeoList inputList; // input
 	private GeoList outputList; // output
-	private int size, size2;
+	private int size;
+	private int size2;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            list of lists
+	 */
 	public AlgoJoin(Construction cons, String label, GeoList inputList) {
 		super(cons);
 
@@ -56,6 +68,9 @@ public class AlgoJoin extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return joined list
+	 */
 	public GeoList getResult() {
 		return outputList;
 	}

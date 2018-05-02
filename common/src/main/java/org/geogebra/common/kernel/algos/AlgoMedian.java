@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * Sort a list. Adapted from AlgoSort
+ * Find median of a list. Adapted from AlgoSort
  * 
  * @author Michael Borcherds
  * @version 2008-02-16
@@ -32,7 +32,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoMedian extends AlgoElement {
 
-	private GeoList inputList, freqList; // input
+	private GeoList inputList; // input
+	private GeoList freqList; // input
 	private GeoNumeric median; // output
 	private int size;
 
@@ -51,6 +52,14 @@ public class AlgoMedian extends AlgoElement {
 		this(cons, inputList, null);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param inputList
+	 *            data
+	 * @param freqList
+	 *            frequencies
+	 */
 	public AlgoMedian(Construction cons, GeoList inputList, GeoList freqList) {
 		super(cons);
 		this.inputList = inputList;
@@ -221,9 +230,12 @@ public class AlgoMedian extends AlgoElement {
 	 * a sorted list of values and frequencies
 	 * 
 	 * @param index
+	 *            index in expanded list
 	 * @param val
+	 *            data
 	 * @param freq
-	 * @return
+	 *            frequencies
+	 * @return value from expanded list
 	 */
 	public static Double getValueAt(int index, Double[] val, Integer[] freq) {
 
@@ -237,6 +249,13 @@ public class AlgoMedian extends AlgoElement {
 		return null;
 	}
 
+	/**
+	 * @param inputList
+	 *            raw data
+	 * @param freqList
+	 *            frequencies
+	 * @return {sorted unique values, frequencies, sum of frequencies}
+	 */
 	public static Object[] convertValueFreqListToArrays(GeoList inputList,
 			GeoList freqList) {
 

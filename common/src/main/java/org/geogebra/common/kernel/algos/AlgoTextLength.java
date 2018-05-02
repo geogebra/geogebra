@@ -29,6 +29,14 @@ public class AlgoTextLength extends AlgoElement {
 	private GeoText text; // input
 	private GeoNumeric length; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param text
+	 *            text
+	 */
 	public AlgoTextLength(Construction cons, String label, GeoText text) {
 		super(cons);
 		this.text = text;

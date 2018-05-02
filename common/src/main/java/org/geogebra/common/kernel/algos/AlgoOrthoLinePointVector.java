@@ -105,7 +105,6 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 		return g;
 	}
 
-
 	// line through P normal to v
 	@Override
 	public final void compute() {

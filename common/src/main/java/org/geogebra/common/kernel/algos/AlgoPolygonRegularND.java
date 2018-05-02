@@ -145,8 +145,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 					}
 				});
 
-		if (!labelPointsAndSegments)
-		 {
+		if (!labelPointsAndSegments) {
 			outputSegments.removeFromHandler(); // no segments has output
 		}
 
@@ -183,8 +182,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 					}
 				});
 
-		if (!labelPointsAndSegments)
-		 {
+		if (!labelPointsAndSegments) {
 			outputPoints.removeFromHandler(); // no segments has output
 		}
 
@@ -206,7 +204,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 
 		// compute poly
 		if (labelsLength > 1) {
-			compute((labelsLength + 1) / 2);// create maybe undefined outputs
+			compute((labelsLength + 1) / 2); // create maybe undefined outputs
 			poly.setLabel(labels[0]);
 			int d = 1;
 			for (int i = 0; i < outputSegments.size(); i++) {
@@ -350,9 +348,6 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 	 *            number of vertices
 	 */
 	public final void compute(int nd) {
-
-		GeoPolygon poly = getPoly();
-
 		// get integer number of vertices n
 		this.n = Math.max(2, nd);
 
@@ -384,7 +379,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 			((GeoSegmentND) outputSegments.getElement(i))
 					.modifyInputPoints(points[i], points[(i + 1) % n]);
 		}
-
+		GeoPolygon poly = getPoly();
 		// update polygon
 		poly.setPoints(points, null, false); // don't create segments
 		GeoSegmentND[] segments = new GeoSegmentND[n];

@@ -35,8 +35,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoText extends AlgoElement {
 
 	private GeoElement geo; // input
-	private GeoBoolean substituteVars, latex; // optional input
-	private GeoPointND startPoint, startPointCopy; // optional input
+	private GeoBoolean substituteVars; // optional input
+	private GeoBoolean latex; // optional input
+	private GeoPointND startPoint; // optional input
+	private GeoPointND startPointCopy; // optional input
 	private GeoText text; // output
 
 	public AlgoText(Construction cons, String label, GeoElement geo) {
@@ -64,6 +66,18 @@ public class AlgoText extends AlgoElement {
 		text.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geo
+	 *            described geo
+	 * @param p
+	 *            start point
+	 * @param substituteVars
+	 *            whether to show variables as values
+	 * @param latex
+	 *            whether to use LaTeX output
+	 */
 	public AlgoText(Construction cons, GeoElement geo, GeoPointND p,
 			GeoBoolean substituteVars, GeoBoolean latex) {
 		super(cons);
@@ -139,6 +153,9 @@ public class AlgoText extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting text
+	 */
 	public GeoText getGeoText() {
 		return text;
 	}

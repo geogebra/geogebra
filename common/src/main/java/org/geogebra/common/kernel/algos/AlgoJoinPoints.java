@@ -45,7 +45,8 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoJoinPoints extends AlgoElement
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
-	private GeoPoint P, Q; // input
+	private GeoPoint P; // input
+	private GeoPoint Q; // input
 	private GeoLine g; // output
 	private PPolynomial[] polynomials;
 	private PVariable[] botanaVars;
@@ -57,6 +58,14 @@ public class AlgoJoinPoints extends AlgoElement
 		g.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param P
+	 *            start point
+	 * @param Q
+	 *            end point
+	 */
 	public AlgoJoinPoints(Construction cons, GeoPoint P, GeoPoint Q) {
 		super(cons);
 		this.P = P;

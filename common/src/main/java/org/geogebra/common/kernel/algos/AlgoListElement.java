@@ -46,16 +46,12 @@ public class AlgoListElement extends AlgoElement {
 	 * Creates new labeled element algo
 	 * 
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param geoList
+	 *            haystack
 	 * @param num
+	 *            index
 	 */
-	public AlgoListElement(Construction cons, String label, GeoList geoList,
-			GeoNumberValue num) {
-		this(cons, geoList, num);
-		element.setLabel(label);
-	}
-
 	public AlgoListElement(Construction cons, GeoList geoList,
 			GeoNumberValue num) {
 		super(cons);
@@ -105,9 +101,9 @@ public class AlgoListElement extends AlgoElement {
 
 	private static GeoElement getGenericElement(GeoList geoList, int index) {
 		GeoElement toCopy = geoList.get(index);
-		if (geoList.getElementType() == GeoClass.DEFAULT &&
+		if (geoList.getElementType() == GeoClass.DEFAULT
 		// we have list {2,x}, not eg Factors[2x]
-				(geoList.getParentAlgorithm() == null || geoList
+				&& (geoList.getParentAlgorithm() == null || geoList
 						.getParentAlgorithm() instanceof AlgoDependentList)
 				// for {a,x} also return number a, not function
 				&& !Inspecting.dynamicGeosFinder.check(toCopy)) {
@@ -121,14 +117,13 @@ public class AlgoListElement extends AlgoElement {
 	}
 
 	/**
-	 * Creates new unlabeled element algo
+	 * @param cons
+	 *            construction
+	 * @param geoList
+	 *            list
+	 * @param num2
+	 *            element coordinates
 	 */
-	public AlgoListElement(Construction cons, String label, GeoList geoList,
-			GeoNumberValue[] num2) {
-		this(cons, geoList, num2);
-		element.setLabel(label);
-	}
-
 	public AlgoListElement(Construction cons, GeoList geoList,
 			GeoNumberValue[] num2) {
 		super(cons);

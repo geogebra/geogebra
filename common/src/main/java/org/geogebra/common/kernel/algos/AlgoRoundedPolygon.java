@@ -48,7 +48,6 @@ public class AlgoRoundedPolygon extends AlgoElement {
 		input[input.length - 1] = radius.toGeoElement();
 		setOnlyOutput(locus);
 		setDependencies();
-
 	}
 
 	@Override
@@ -60,7 +59,6 @@ public class AlgoRoundedPolygon extends AlgoElement {
 			int j = i == points.length - 1 ? 0 : i + 1;
 			int k = j == points.length - 1 ? 0 : j + 1;
 			int l = k == points.length - 1 ? 0 : k + 1;
-			
 
 			double cos2 = tan(i, j, k);
 			double cos1 = tan(j, k, l);

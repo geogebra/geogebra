@@ -48,7 +48,8 @@ public class AlgoJoinPointsSegment extends AlgoElement
 		implements AlgoJoinPointsSegmentInterface, SymbolicParametersBotanaAlgo,
 		SymbolicParametersAlgo {
 
-	private GeoPoint P, Q; // input
+	private GeoPoint P; // input
+	private GeoPoint Q; // input
 	private GeoSegment s; // output: GeoSegment subclasses GeoLine
 
 	private GeoPolygon poly; // for polygons
@@ -56,13 +57,36 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	private PVariable[] botanaVars;
 	private PPolynomial[] polynomials;
 
-	/** Creates new AlgoJoinPoints */
+	/**
+	 * Creates new AlgoJoinPoints
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param P
+	 *            start point
+	 * @param Q
+	 *            end point
+	 */
 	public AlgoJoinPointsSegment(Construction cons, String label, GeoPoint P,
 			GeoPoint Q) {
 		this(cons, P, Q, null, true);
 		s.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param P
+	 *            start point
+	 * @param Q
+	 *            end point
+	 * @param poly
+	 *            parent polygon
+	 * @param addToConstructionList
+	 *            add to construction?
+	 */
 	public AlgoJoinPointsSegment(Construction cons, GeoPoint P, GeoPoint Q,
 			GeoPolygon poly, boolean addToConstructionList) {
 		super(cons, addToConstructionList);
@@ -146,25 +170,31 @@ public class AlgoJoinPointsSegment extends AlgoElement
 		setInputOutput();
 
 		compute();
-
 	}
 
+	/**
+	 * @return resulting segment
+	 */
 	public GeoSegment getSegment() {
 		return s;
 	}
 
-	// Made public for LocusEqu
+	/**
+	 * @return start point
+	 */
 	public GeoPoint getP() {
 		return P;
 	}
 
-	// Made public for LocusEqu
+	/**
+	 * @return end point
+	 */
 	public GeoPoint getQ() {
 		return Q;
 	}
 
 	@Override
-	public GeoPolygon getPoly() {// protected
+	public GeoPolygon getPoly() {
 		return poly;
 	}
 

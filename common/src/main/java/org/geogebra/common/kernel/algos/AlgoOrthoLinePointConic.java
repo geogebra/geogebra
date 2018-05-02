@@ -46,12 +46,16 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 	private AlgoClosestPoint closestPoint;
 
 	/**
-	 * Creates new AlgoOrthoLinePointLine
+	 * Creates new AlgoOrthoLinePointConic.
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param P
+	 *            point
 	 * @param l
+	 *            conic result should be orthogonal to
 	 */
 	public AlgoOrthoLinePointConic(Construction cons, String label, GeoPoint P,
 			GeoConic l) {

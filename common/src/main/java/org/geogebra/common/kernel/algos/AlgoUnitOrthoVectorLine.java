@@ -51,6 +51,7 @@ public class AlgoUnitOrthoVectorLine extends AlgoElement {
 			try {
 				n.setStartPoint(possStartPoint);
 			} catch (CircularDefinitionException e) {
+				// can't happen for new vector n
 			}
 		}
 

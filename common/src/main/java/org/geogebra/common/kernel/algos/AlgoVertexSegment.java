@@ -96,7 +96,6 @@ public class AlgoVertexSegment extends AlgoElement {
 		return M;
 	}
 
-	// calc midpoint
 	@Override
 	public final void compute() {
 
@@ -115,7 +114,6 @@ public class AlgoVertexSegment extends AlgoElement {
 			M.setUndefined();
 			return;
 		}
-
 	}
 
 }

@@ -28,16 +28,21 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoTake extends AlgoElement {
 
 	private GeoList inputList; // input
-	private GeoNumeric m, n; // input
+	private GeoNumeric m; // input
+	private GeoNumeric n; // input
 	private GeoList outputList; // output
 	private int size;
 
-	public AlgoTake(Construction cons, String label, GeoList inputList,
-			GeoNumeric m, GeoNumeric n) {
-		this(cons, inputList, m, n);
-		outputList.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param inputList
+	 *            list
+	 * @param m
+	 *            start index (1 based)
+	 * @param n
+	 *            end index (1 based)
+	 */
 	public AlgoTake(Construction cons, GeoList inputList, GeoNumeric m,
 			GeoNumeric n) {
 		super(cons);

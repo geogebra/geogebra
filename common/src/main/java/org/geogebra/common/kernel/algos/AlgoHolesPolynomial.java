@@ -24,6 +24,14 @@ public class AlgoHolesPolynomial extends AlgoElement {
 	private GeoList res;
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            function
+	 */
 	public AlgoHolesPolynomial(Construction cons, String label, GeoFunction f) {
 		super(cons);
 
@@ -66,7 +74,7 @@ public class AlgoHolesPolynomial extends AlgoElement {
 		if (expr == null || expr.isConstant()) {
 			return;
 		}
-		if(expr.isExpressionNode()){
+		if (expr.isExpressionNode()) {
 			ExpressionNode node = expr.wrap();
 			if (node.getOperation() == Operation.DIVIDE) {
 				solveDivision(node.getRight());

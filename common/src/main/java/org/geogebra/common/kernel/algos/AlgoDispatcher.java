@@ -862,7 +862,8 @@ public class AlgoDispatcher {
 	 * Length[list]
 	 */
 	final public GeoNumeric Length(String label, GeoList list) {
-		AlgoListLength algo = new AlgoListLength(cons, label, list);
+		AlgoListLength algo = new AlgoListLength(cons, list);
+		algo.getLength().setLabel(label);
 		return algo.getLength();
 	}
 

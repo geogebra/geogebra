@@ -30,10 +30,17 @@ import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoListLCM extends AlgoElement {
 
-	private static final BigInteger bigZero = BigInteger.valueOf(0);
 	private GeoList geoList; // input
 	private GeoNumeric num; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoList
+	 *            list of numbers
+	 */
 	public AlgoListLCM(Construction cons, String label, GeoList geoList) {
 		super(cons);
 		this.geoList = geoList;
@@ -93,8 +100,8 @@ public class AlgoListLCM extends AlgoElement {
 				return;
 			}
 			BigInteger n = BigInteger.valueOf((long) nd);
-			if (n.compareTo(bigZero) == 0) {
-				lcm = bigZero;
+			if (n.compareTo(BigInteger.ZERO) == 0) {
+				lcm = BigInteger.ZERO;
 			} else {
 				BigInteger product = n.multiply(lcm);
 				lcm = product.divide(lcm.gcd(n));
@@ -109,7 +116,6 @@ public class AlgoListLCM extends AlgoElement {
 			return;
 		}
 		num.setValue(resultD);
-
 	}
 
 }

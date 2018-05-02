@@ -45,7 +45,8 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 public class AlgoVector extends AlgoElement
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
-	private GeoPointND P, Q; // input
+	private GeoPointND P; // input
+	private GeoPointND Q; // input
 	private GeoVectorND v; // output
 	private PPolynomial[] polynomials;
 

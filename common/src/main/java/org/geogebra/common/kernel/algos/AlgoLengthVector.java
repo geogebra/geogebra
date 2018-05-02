@@ -38,6 +38,14 @@ public class AlgoLengthVector extends AlgoElement {
 
 	private double[] coords = new double[2];
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param v
+	 *            vector
+	 */
 	public AlgoLengthVector(Construction cons, String label, GeoVec3D v) {
 		super(cons);
 		this.v = v;
@@ -65,6 +73,9 @@ public class AlgoLengthVector extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return vector length / point abs. value
+	 */
 	public GeoNumeric getLength() {
 		return num;
 	}

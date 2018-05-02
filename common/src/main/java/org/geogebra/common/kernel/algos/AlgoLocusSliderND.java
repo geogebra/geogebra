@@ -57,7 +57,8 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	protected GeoLocusND<T> locus; // output
 
 	// for efficient dependency handling
-	private GeoElement[] efficientInput, standardInput;
+	private GeoElement[] efficientInput;
+	private GeoElement[] standardInput;
 
 	private SliderMover sliderMover;
 	protected int pointCount;
@@ -65,19 +66,26 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	// copies of P and Q in a macro kernel
 	private GeoPointND copyQ;
 	protected GeoPointND startQPos;
-	private GeoNumeric copyP, startPPos;
-	protected double lastX, lastY;
+	private GeoNumeric copyP;
+	private GeoNumeric startPPos;
+	protected double lastX;
+	protected double lastY;
 
-	protected double[] maxXdist, maxYdist;
-	protected final double[] xmin = new double[3], xmax = new double[3],
-			ymin = new double[3], ymax = new double[3], farXmin = new double[3],
-			farXmax = new double[3], farYmin = new double[3],
-			farYmax = new double[3];
+	protected double[] maxXdist;
+	protected double[] maxYdist;
+	protected final double[] xmin = new double[3];
+	protected final double[] xmax = new double[3];
+	protected final double[] ymin = new double[3];
+	protected final double[] ymax = new double[3];
+	protected final double[] farXmin = new double[3];
+	protected final double[] farXmax = new double[3];
+	protected final double[] farYmin = new double[3];
+	protected final double[] farYmax = new double[3];
 
 	// private Line2D.Double tempLine = new Line2D.Double();
 
 	private boolean continuous;
-	protected boolean lastFarAway[] = { false, false, false };
+	protected boolean[] lastFarAway = { false, false, false };
 	private boolean foundDefined;
 	private boolean maxTimeExceeded;
 	private Construction macroCons;
@@ -88,7 +96,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	private TreeSet<GeoElement> Qin;
 
 	private int views = 1;
-	protected boolean visibleEV[] = new boolean[] { false, false, false };
+	protected boolean[] visibleEV = new boolean[] { false, false, false };
 
 	// small cache of 3 last parameters and Qcopy positions
 	protected double[] paramCache = new double[3];
@@ -97,14 +105,24 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 	// private Updater updater;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param Q
+	 *            locus point
+	 * @param slider
+	 *            slider
+	 */
 	public AlgoLocusSliderND(Construction cons, String label, GeoPointND Q,
-			GeoNumeric P) {
+			GeoNumeric slider) {
 		super(cons);
 		createMaxDistances();
-		this.movingSlider = P;
+		this.movingSlider = slider;
 		this.locusPoint = Q;
 
-		sliderMover = new SliderMover(P);
+		sliderMover = new SliderMover(slider);
 
 		createStartPos(cons);
 		startPPos = new GeoNumeric(cons);
@@ -124,7 +142,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		// path.pointChanged(P);
 
 		locus.setLabel(label);
-
 	}
 
 	protected void createMaxDistances() {
@@ -133,19 +150,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	}
 
 	protected abstract void createStartPos(Construction cons1);
-
-	// private void printMacroConsStatus() {
-	// System.out.print("MOVER POINT: " + Pcopy);
-	// System.out.print(", pp.t: " + Pcopy.getPathParameter().t);
-	// System.out.println(", locus point: " + Qcopy);
-	//
-	// TreeSet geos = macroCons.getGeoSetLabelOrder();
-	// Iterator it = geos.iterator();
-	// while (it.hasNext()) {
-	// GeoElement geo = (GeoElement) it.next();
-	// System.out.println(" " + geo);
-	// }
-	// }
 
 	protected abstract GeoLocusND<T> newGeoLocus(Construction cons1);
 
@@ -384,7 +388,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		lastY = Double.MAX_VALUE;
 		maxTimeExceeded = false;
 		foundDefined = false;
-		boolean prevQcopyDefined = false;
 		int max_runs;
 
 		// continuous kernel?
@@ -408,7 +411,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 		// update Pcopy to compute Qcopy
 		pcopyUpdateCascade();
-		prevQcopyDefined = copyQ.isDefined() && !copyQ.isInfinite();
+		boolean prevQcopyDefined = copyQ.isDefined() && !copyQ.isInfinite();
 
 		// move Pcopy along the path
 		// do this until Qcopy comes back to its start position
@@ -693,11 +696,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 		paramCache[cacheIndex] = param;
 		setQCopyCache(qcopyCache[cacheIndex], QCopy);
-
 	}
 
 	protected abstract void setQCopyCache(T t, GeoPointND qCopy2);
-
 
 	protected abstract void insertPoint(GeoPointND point, boolean lineTo);
 
@@ -760,7 +761,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			}
 		}
 		return false;
-
 	}
 
 	void updateScreenBorders() {
@@ -784,7 +784,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 				updateScreenBorders(i);
 			}
 		}
-
 	}
 
 	private void updateScreenBorders(int v) {
@@ -815,8 +814,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		}
 
 		setMaxDistances(v);
-
-
 	}
 
 	protected void setMaxDistances(int v) {

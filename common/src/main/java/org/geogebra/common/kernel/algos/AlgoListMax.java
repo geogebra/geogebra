@@ -47,6 +47,14 @@ public class AlgoListMax extends AlgoElement {
 		this(cons, geoList, null);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geoList
+	 *            data
+	 * @param freqList
+	 *            frequencies
+	 */
 	public AlgoListMax(Construction cons, GeoList geoList, GeoList freqList) {
 		super(cons);
 		this.geoList = geoList;

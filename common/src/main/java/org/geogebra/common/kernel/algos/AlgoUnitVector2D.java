@@ -30,7 +30,8 @@ import org.geogebra.common.util.MyMath;
  */
 public abstract class AlgoUnitVector2D extends AlgoUnitVector {
 
-	protected double x, y;
+	protected double x;
+	protected double y;
 
 	/** Creates new AlgoOrthoVectorVector */
 	public AlgoUnitVector2D(Construction cons, GeoElement inputGeo,

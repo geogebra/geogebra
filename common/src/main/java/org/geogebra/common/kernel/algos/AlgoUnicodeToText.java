@@ -24,6 +24,14 @@ public class AlgoUnicodeToText extends AlgoElement {
 	protected GeoList list; // input
 	protected GeoText text; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param list
+	 *            list of unicode numbers
+	 */
 	public AlgoUnicodeToText(Construction cons, String label, GeoList list) {
 		super(cons);
 		this.list = list;

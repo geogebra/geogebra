@@ -29,7 +29,14 @@ public class AlgoProductMatrices extends AlgoElement {
 	private GeoList geoList; // input
 	private GeoList result; // output
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoList
+	 *            list of matrices
+	 */
 	public AlgoProductMatrices(Construction cons, String label,
 			GeoList geoList) {
 		super(cons);
@@ -59,7 +66,9 @@ public class AlgoProductMatrices extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * @return resulting matrix
+	 */
 	public GeoElement getResult() {
 		return result;
 	}

@@ -38,9 +38,8 @@ public class CmdMin extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 
-				AlgoListMin algo = new AlgoListMin(cons, c.getLabel(),
-						(GeoList) arg[0]);
-
+				AlgoListMin algo = new AlgoListMin(cons, (GeoList) arg[0]);
+				algo.getMin().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getMin() };
 				return ret;
 			} else if (arg[0].isGeoInterval()) {
@@ -68,9 +67,9 @@ public class CmdMin extends CommandProcessor {
 					&& (ok[1] = arg[1].isGeoList()))) {
 
 				// value and frequency list
-				AlgoListMin algo = new AlgoListMin(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1]);
-
+				AlgoListMin algo = new AlgoListMin(cons, (GeoList) arg[0],
+						(GeoList) arg[1]);
+				algo.getMin().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getMin() };
 				return ret;
 			}
