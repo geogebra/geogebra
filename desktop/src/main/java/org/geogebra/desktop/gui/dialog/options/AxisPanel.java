@@ -130,7 +130,6 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		cbDrawAtBorder = new JCheckBox();
 		cbDrawAtBorder.addActionListener(this);
 		stickToEdge = new JLabel(loc.getMenu("StickToEdge"));
-		stickToEdge = new JLabel(loc.getMenu("StickToEdge"));
 
 		JPanel crossPanel = LayoutUtil.flowPanel(crossAt, tfCross,
 				cbDrawAtBorder, stickToEdge);
