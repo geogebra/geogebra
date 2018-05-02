@@ -143,7 +143,7 @@ public class PerspectivesMenuW extends GMenuBar {
 			return;
 		}
 
-		Browser.changeUrl("/classic/" + slug);
+		Browser.changeUrl("/classic#" + slug);
 
 	}
 }

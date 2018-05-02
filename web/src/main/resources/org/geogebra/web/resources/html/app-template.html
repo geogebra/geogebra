@@ -101,7 +101,7 @@ var translation = {};
 				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/) && !isLocalhost()){
 			var unbundled = name == "graphing" || name == "geometry" || name == "whiteboard" || name == "3d";
 			if(name != "classic" && (location.pathname.indexOf("classic") > 0 || !unbundled)){
-				name = "classic/" + name;
+				name = "classic#" + name;
 			}
 			history.pushState({}, "GeoGebra", "/"+name);
 		}
