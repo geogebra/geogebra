@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Computes RandomNormal[a, b]
@@ -72,7 +73,8 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction
 	}
 
 	@Override
-	public void setRandomValue(double d) {
-		num.setValue(d);
+	public boolean setRandomValue(GeoElementND d) {
+		num.setValue(d.evaluateDouble());
+		return true;
 	}
 }

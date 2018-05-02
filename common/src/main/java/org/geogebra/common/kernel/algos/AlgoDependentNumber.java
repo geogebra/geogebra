@@ -774,17 +774,18 @@ public class AlgoDependentNumber extends AlgoElement
 		return false;
 	}
 
-	public void setRandomValue(double d) {
+	@Override
+	public boolean setRandomValue(GeoElementND d) {
 		if (number.getDefinition() != null
 				&& number.getDefinition().getOperation() == Operation.RANDOM) {
+			double val = Math.min(Math.max(d.evaluateDouble(), 0), 1);
 			((GeoNumeric) number.getDefinition().getLeft())
-					.setValue(Math.min(Math.max(d, 0), 1));
+					.setValue(val);
 			number.getDefinition().reset();
-			((GeoNumeric) number).setValue(Math.min(Math.max(d, 0), 1));
-		} else {
-			compute();
-			updateDependentGeos();
+			((GeoNumeric) number).setValue(val);
+			return true;
 		}
+		return false;
 	}
 
 }

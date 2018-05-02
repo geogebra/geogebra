@@ -26,11 +26,6 @@ public class AlgoClosestPoint3D extends AlgoClosestPoint {
 
 	}
 
-	public AlgoClosestPoint3D(Construction cons, String label, Path path,
-			GeoPointND point) {
-		super(cons, label, path, point);
-	}
-
 	@Override
 	protected void createOutputPoint(Construction cons1, Path path) {
 		P = new GeoPoint3D(cons1);

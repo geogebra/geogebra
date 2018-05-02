@@ -15,9 +15,9 @@ public class AlgoConicFivePoints3D extends AlgoConicFivePoints {
 	private GeoPointND[] inputP;
 	private double[] tmpCoords;
 
-	public AlgoConicFivePoints3D(Construction cons, String label,
+	public AlgoConicFivePoints3D(Construction cons,
 			GeoPointND[] P) {
-		super(cons, label, P);
+		super(cons, P);
 	}
 
 	@Override

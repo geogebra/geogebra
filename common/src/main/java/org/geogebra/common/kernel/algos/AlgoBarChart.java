@@ -87,12 +87,23 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	private GeoNumeric sum;
 
 	// input
-	private GeoNumberValue a, b, p1, p2, p3;
-	private GeoList list1, list2;
+	private GeoNumberValue a;
+	private GeoNumberValue b;
+	private GeoNumberValue p1;
+	private GeoNumberValue p2;
+	private GeoNumberValue p3;
+	private GeoList list1;
+	private GeoList list2;
 
 	// local fields
-	private GeoElement ageo, bgeo, widthGeo, isCumulative, isHorizontal, p1geo,
-			p2geo, p3geo, hasJoin, pointType;
+	private GeoElement widthGeo;
+	private GeoElement isCumulative;
+	private GeoElement isHorizontal;
+	private GeoElement p1geo;
+	private GeoElement p2geo;
+	private GeoElement p3geo;
+	private GeoElement hasJoin;
+	private GeoElement pointType;
 	private GeoNumeric scale;
 
 	private int type;
@@ -133,8 +144,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		this.a = a;
 		this.b = b;
 		this.list1 = list1;
-		ageo = a.toGeoElement();
-		bgeo = b.toGeoElement();
 
 		// output
 		sum = new GeoNumeric(cons) {
@@ -456,17 +465,19 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		}
 	}
 
-	/**
+	/******************************************************
+	 * Copy constructor for discrete distribution bar chart
+	 * 
 	 * @param p1
+	 *            first value
 	 * @param p2
+	 *            second value
 	 * @param p3
+	 *            third value
 	 * @param isCumulative
+	 *            true if cumulative
 	 * @param type
-	 * @param a
-	 * @param b
-	 * @param vals
-	 * @param borders
-	 * @param N
+	 *            type id
 	 */
 	protected AlgoBarChart(GeoNumberValue p1, GeoNumberValue p2,
 			GeoNumberValue p3, GeoBoolean isCumulative, int type,
@@ -568,8 +579,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		case TYPE_BARCHART_EXPRESSION:
 
 			input = new GeoElement[3];
-			input[0] = ageo;
-			input[1] = bgeo;
+			input[0] = a.toGeoElement();
+			input[1] = b.toGeoElement();
 			input[2] = list1;
 			break;
 
@@ -900,11 +911,10 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		}
 	}
 
-	public void computeWithExp() {
-
+	private void computeWithExp() {
 		GeoElement geo; // temporary var
 
-		if (!(ageo.isDefined() && bgeo.isDefined() && list1.isDefined())) {
+		if (!(a.isDefined() && b.isDefined() && list1.isDefined())) {
 			sum.setUndefined();
 			return;
 		}
@@ -956,7 +966,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 	}
 
-	public void computeWithRawData() {
+	private void computeWithRawData() {
 
 		if (widthGeo == null || !widthGeo.isDefined()) {
 			sum.setUndefined();
@@ -973,7 +983,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 	}
 
-	public void computeWithFrequency() {
+	private void computeWithFrequency() {
 
 		if (list1 == null || !list1.isDefined()) {
 			sum.setUndefined();
@@ -1213,9 +1223,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 			// load class list and probability list
 			loadDistributionLists(first, last, dist);
-		}
-
-		catch (Exception e) {
+		} catch (Exception e) {
 			Log.debug(e.getMessage());
 			return false;
 		}
@@ -1296,10 +1304,21 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		removeHelperAlgos();
 	}
 
+	/**
+	 * @param color
+	 *            fill color
+	 * @param numBar
+	 *            bar index
+	 */
 	public void setBarColor(GColor color, int numBar) {
 		setTag(0, color, numBar);
 	}
 
+	/**
+	 * @param numBar
+	 *            bar index
+	 * @return fill color
+	 */
 	public GColor getBarColor(int numBar) {
 		HashMap<Integer, Object> hm = tags.get(numBar);
 		if (hm != null) {
@@ -1308,6 +1327,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		return null;
 	}
 
+	/**
+	 * @param alpha
+	 *            fill opacity
+	 * @param numBar
+	 *            bar index
+	 */
 	public void setBarAlpha(double alpha, int numBar) {
 		if (alpha == -1) {
 			if (tags.containsKey(numBar)) {
@@ -1370,6 +1395,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		return fallback;
 	}
 
+	/**
+	 * @param symbol
+	 *            fill symbol
+	 * @param numBar
+	 *            bar index
+	 */
 	public void setBarSymbol(String symbol, int numBar) {
 		setTag(3, symbol, numBar);
 	}
@@ -1387,6 +1418,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		return null;
 	}
 
+	/**
+	 * @param image
+	 *            image filename
+	 * @param numBar
+	 *            bar index
+	 */
 	public void setBarImage(String image, int numBar) {
 		setTag(4, image, numBar);
 	}
@@ -1404,6 +1441,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		return null;
 	}
 
+	/**
+	 * @param distance
+	 *            hatch distance
+	 * @param numBar
+	 *            bar index
+	 */
 	public void setBarHatchDistance(int distance, int numBar) {
 		setIntTag(5, distance, numBar);
 	}
@@ -1463,6 +1506,11 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		}
 	}
 
+	/**
+	 * @param numBar
+	 *            bar index
+	 * @return hatching angle
+	 */
 	public int getBarHatchAngle(int numBar) {
 		Object tag = getTag(6, numBar);
 		if (tag != null) {
@@ -1475,6 +1523,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		return tags.get(numBar) == null ? null : tags.get(numBar).get(i);
 	}
 
+	/**
+	 * Appends description of a bar to string builder.
+	 * 
+	 * @param sb
+	 *            XML string builder
+	 */
 	public void barXml(StringBuilder sb) {
 		sb.append("\t<tags>\n");
 		for (int i = 1; i <= N; i++) {
@@ -1534,6 +1588,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		sb.append("\t</tags>\n");
 	}
 
+	/**
+	 * Update tooltip for a bar.
+	 * 
+	 * @param index
+	 *            bar index
+	 */
 	public void setToolTipText(int index) {
 		int freq = (int) yval[index];
 		double percent = 100 * freq / dataSize;

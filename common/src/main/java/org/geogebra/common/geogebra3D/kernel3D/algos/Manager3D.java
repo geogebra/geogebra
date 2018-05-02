@@ -1557,7 +1557,8 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	public GeoPoint3D closestPoint(String label, Path p, GeoPointND P) {
-		AlgoClosestPoint3D algo = new AlgoClosestPoint3D(cons, label, p, P);
+		AlgoClosestPoint3D algo = new AlgoClosestPoint3D(cons, p, P);
+		algo.getP().setLabel(label);
 		return (GeoPoint3D) algo.getP();
 	}
 
@@ -2350,8 +2351,8 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoConicND conic3D(String label, GeoPointND[] points) {
-		AlgoConicFivePoints3D algo = new AlgoConicFivePoints3D(cons, label,
-				points);
+		AlgoConicFivePoints3D algo = new AlgoConicFivePoints3D(cons, points);
+		algo.getConic().setLabel(label);
 		return algo.getConic();
 	}
 

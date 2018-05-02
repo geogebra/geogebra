@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -65,11 +66,10 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 	}
 
 	@Override
-	public void setRandomValue(double d0) {
-		double d = Math.round(DoubleUtil.checkInteger(d0));
-
+	public boolean setRandomValue(GeoElementND d0) {
+		double d = Math.round(DoubleUtil.checkInteger(d0.evaluateDouble()));
 		num.setValue(Math.max((int) a.getDouble(), Math.min(d, b.getDouble())));
-
+		return true;
 	}
 
 	private int randomBinomial(double n, double p) {
@@ -82,7 +82,6 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 		}
 
 		return count;
-
 	}
 
 	// private static double halflog2pi = 0.5 * Math.log(2 * Math.PI);

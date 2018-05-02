@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Computes RandomNormal[a, b]
@@ -52,8 +53,9 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction
 	}
 
 	@Override
-	public void setRandomValue(double d) {
-		num.setValue(Math.max(a.getDouble(), Math.min(d, b.getDouble())));
+	public boolean setRandomValue(GeoElementND d) {
+		num.setValue(Math.max(a.getDouble(), Math.min(d.evaluateDouble(), b.getDouble())));
+		return true;
 	}
 
 }

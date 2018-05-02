@@ -4,11 +4,13 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Computes a list of random numbers using a uniform distribution.
@@ -101,11 +103,17 @@ public class AlgoRandomUniformList extends AlgoElement
 	}
 
 	@Override
-	public void setRandomValue(double d) {
-		for (int i = 0; i < list.size(); i++) {
-			((GeoNumeric) list.get(i))
-					.setValue(Math.max(a.getDouble(), Math.min(d, b.getDouble())));
+	public boolean setRandomValue(GeoElementND d) {
+		if (d instanceof ListValue) {
+			ListValue lv = (ListValue) d;
+			int size = Math.min(list.size(), lv.size());
+			for (int i = 0; i < size; i++) {
+				((GeoNumeric) list.get(i)).setValue(Math.max(a.getDouble(),
+						Math.min(lv.getListElement(i).evaluateDouble(), b.getDouble())));
+			}
+			return true;
 		}
+		return false;
 	}
 
 }

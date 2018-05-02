@@ -15,10 +15,12 @@ package org.geogebra.common.kernel.statistics;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Sort a list. Adapted from AlgoMax and AlgoIterationList
@@ -27,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoList;
  * @version 04-01-2008
  */
 
-public class AlgoShuffle extends AlgoElement {
+public class AlgoShuffle extends AlgoElement implements SetRandomValue {
 
 	private GeoList inputList; // input
 	private GeoList outputList; // output
@@ -73,23 +75,61 @@ public class AlgoShuffle extends AlgoElement {
 			return;
 		}
 
+		ArrayList<GeoElement> list = copyInput();
+
+		// copy the geos back into a GeoList in a random order
+		outputList.setDefined(true);
+		outputList.clear();
+		fill(list);
+
+	}
+
+	private ArrayList<GeoElement> copyInput() {
 		ArrayList<GeoElement> list = new ArrayList<>();
 
 		// copy inputList into arraylist
 		for (int i = 0; i < size; i++) {
 			list.add(inputList.get(i));
 		}
+		return list;
+	}
 
-		// copy the geos back into a GeoList in a random order
-		outputList.setDefined(true);
-		outputList.clear();
-		for (int i = 0; i < size; i++) {
+	private void fill(ArrayList<GeoElement> list) {
+		int listSize = list.size();
+		for (int i = 0; i < listSize; i++) {
 			int pos = (int) Math.floor(
-					cons.getApplication().getRandomNumber() * (size - i));
+					cons.getApplication().getRandomNumber() * (listSize - i));
 			outputList.add(list.get(pos));
 			list.remove(pos);
 		}
 
+	}
+
+	@Override
+	public boolean setRandomValue(GeoElementND d) {
+		if (d instanceof GeoList && ((GeoList) d).size() == inputList.size()) {
+			GeoList lv = ((GeoList) d).copy();
+			outputList.clear();
+			ArrayList<GeoElement> list = copyInput();
+			for (int i = 0; i < lv.size(); i++) {
+				if (removeFromList(lv.get(i), list)) {
+					outputList.add(lv.get(i));
+				}
+			}
+			fill(list);
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean removeFromList(GeoElement geoElement, ArrayList<GeoElement> inputCopy) {
+		for (int i = 0; i < inputCopy.size(); i++) {
+			if (inputCopy.get(i).isEqual(geoElement)) {
+				inputCopy.remove(i);
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

@@ -124,13 +124,26 @@ public class RedefineTest extends Assert {
 	@Test
 	public void setValueShouldChangeRandom() {
 		app.setRandomSeed(42);
-		app.setUndoRedoEnabled(true);
-		app.setUndoActive(true);
 		t("a=random()", "0.7275636800328681");
-
 		t("SetValue(a,0.5)", new String[0]);
-
 		t("a", "0.5");
+	}
+
+	@Test
+	public void setValueShouldChangeShuffle() {
+		app.setRandomSeed(42);
+		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
+		t("SetValue(L_1, {1, 2, 3, 4, 5, 6, 7, 11, 9, 10})", new String[0]);
+		t("L_1", "{1, 2, 3, 4, 5, 6, 7, 9, 10, 8}");
+	}
+
+	@Test
+	public void setValueShouldChangeRandomElement() {
+		app.setRandomSeed(42);
+		t("P=RandomElement((1..10,1..10))",
+				"(8, 8)");
+		t("SetValue(P, (7, 7))", new String[0]);
+		t("P", "(7, 7)");
 	}
 
 	@Test

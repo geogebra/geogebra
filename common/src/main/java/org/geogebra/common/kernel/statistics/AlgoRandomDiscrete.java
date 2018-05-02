@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -117,14 +118,15 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 	}
 
 	@Override
-	public void setRandomValue(double d) {
+	public boolean setRandomValue(GeoElementND rnd) {
+		double d = rnd.evaluateDouble();
 		for (int i = 0; i < values.size(); i++) {
 			if (DoubleUtil.isEqual(values.get(i).evaluateDouble(), d)) {
 				randomDiscrete.setValue(values.get(i).evaluateDouble());
-				return;
+				return true;
 			}
 		}
-
+		return false;
 	}
 
 }

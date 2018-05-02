@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath2;
 
@@ -161,9 +162,10 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 	}
 
 	@Override
-	public void setRandomValue(double d0) {
-		double d = Math.round(DoubleUtil.checkInteger(d0));
+	public boolean setRandomValue(GeoElementND d0) {
+		double d = Math.round(DoubleUtil.checkInteger(d0.evaluateDouble()));
 		num.setValue(Math.max(0, d));
+		return true;
 	}
 
 }

@@ -13,10 +13,12 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * random element of a GeoList object.
@@ -29,7 +31,7 @@ import org.geogebra.common.kernel.geos.GeoList;
  * @version 2010-06-01
  */
 
-public class AlgoRandomElement extends AlgoElement {
+public class AlgoRandomElement extends AlgoElement implements SetRandomValue {
 
 	private GeoList geoList; // input
 	private GeoElement element; // output
@@ -109,6 +111,17 @@ public class AlgoRandomElement extends AlgoElement {
 		} else {
 			element.setUndefined();
 		}
+	}
+
+	@Override
+	public boolean setRandomValue(GeoElementND rnd) {
+		for (int i = 0; i < geoList.size(); i++) {
+			if (geoList.get(i).isEqual(rnd)) {
+				element.set(geoList.get(i));
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

@@ -5,9 +5,7 @@ import java.util.Iterator;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
-import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.commands.CmdScripting;
@@ -17,7 +15,6 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -193,27 +190,11 @@ public class CmdSetValue extends CmdScripting {
 				}
 			}
 			arg0.updateRepaint();
-		} else if (arg1.isNumberValue() && arg0.isGeoNumeric()
-				&& arg0.getParentAlgorithm() instanceof SetRandomValue) {
+		} else if (arg0.getParentAlgorithm() instanceof SetRandomValue) {
 			// eg a = RandomBetween[0,10]
 			SetRandomValue algo = (SetRandomValue) arg0.getParentAlgorithm();
-			algo.setRandomValue(arg1.evaluateDouble());
-			arg0.updateRepaint();
-		} else if (arg1.isNumberValue()
-				&& arg0.getParentAlgorithm() instanceof AlgoDependentNumber) {
-			// eg a = random()
-			double val = arg1.evaluateDouble();
-			if (val >= 0 && val <= 1) {
-				AlgoDependentNumber al = (AlgoDependentNumber) arg0
-						.getParentAlgorithm();
-				ExpressionNode en = al.getExpression();
-				if (en.getOperation().equals(Operation.RANDOM)) {
-					GeoNumeric num = ((GeoNumeric) al.getOutput()[0]);
-					ExpressionNode def = num.getDefinition();
-					num.setValue(val);
-					num.setDefinition(def);
-					num.updateRepaint();
-				}
+			if (algo.setRandomValue(arg1)) {
+				arg0.updateRepaint();
 			}
 		}
 	}

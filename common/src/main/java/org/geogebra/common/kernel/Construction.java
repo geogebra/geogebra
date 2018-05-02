@@ -951,7 +951,7 @@ public class Construction {
 	 * 
 	 * @param algo
 	 *            to be added
-	 * @see #updateConstruction()
+	 * @see #updateConstruction(boolean)
 	 */
 	public void addToAlgorithmList(AlgoElement algo) {
 		algoList.add(algo);
@@ -1244,12 +1244,10 @@ public class Construction {
 				if (algo instanceof AlgoLocusEquation) {
 					((AlgoLocusEquation) algo).resetFingerprint(kernel, true);
 				}
-				if (!randomize && algo instanceof SetRandomValue) {
-					((SetRandomValue) algo).setRandomValue(algo.getOutput(0).evaluateDouble());
-				} else {
+				if (randomize || (algo instanceof SetRandomValue
+						&& !((SetRandomValue) algo).setRandomValue(algo.getOutput(0)))) {
 					algo.update();
 				}
-
 			}
 
 			// G.Sturr 2010-5-28:

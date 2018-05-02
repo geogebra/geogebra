@@ -36,8 +36,8 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	private static final int TYPE_RAW = 1;
 	private static final int TYPE_FREQUENCY = 2;
 	private int type;
-	private GeoNumberValue a;
-	private GeoNumberValue b;
+	private GeoNumberValue yOffset;
+	private GeoNumberValue yScale;
 	private GeoElement ageo;
 	private GeoElement bgeo;
 	private GeoElement minGeo;
@@ -67,10 +67,15 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	 * @param b
 	 *            y-scale
 	 * @param min
+	 *            minimum
 	 * @param Q1
+	 *            first quartile
 	 * @param median
+	 *            median
 	 * @param Q3
+	 *            third quartile
 	 * @param max
+	 *            maximum
 	 */
 	public AlgoBoxPlot(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue min, GeoNumberValue Q1,
@@ -80,8 +85,8 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 		type = TYPE_QUARTILES;
 
-		this.a = a;
-		this.b = b;
+		this.yOffset = a;
+		this.yScale = b;
 		ageo = a.toGeoElement();
 		bgeo = b.toGeoElement();
 		minGeo = min.toGeoElement();
@@ -122,6 +127,22 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		sum.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            y-offset
+	 * @param b
+	 *            y-scale
+	 * @param list1
+	 *            data
+	 * @param freqList
+	 *            frequencies
+	 * @param useOutliers
+	 *            whether to plot outliers separately
+	 */
 	public AlgoBoxPlot(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b, GeoList list1, GeoList freqList,
 			GeoBoolean useOutliers) {
@@ -141,6 +162,8 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	 *            y-scale
 	 * @param list1
 	 *            rawData
+	 * @param freqList
+	 *            frequencies
 	 * @param useOutliers
 	 *            whether to plot outliers separately
 	 */
@@ -151,8 +174,8 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 		type = TYPE_FREQUENCY;
 
-		this.a = a;
-		this.b = b;
+		this.yOffset = a;
+		this.yScale = b;
 		ageo = a.toGeoElement();
 		bgeo = b.toGeoElement();
 		this.list1 = list1;
@@ -166,6 +189,20 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		sum.setDrawable(true);
 	}
 
+	/**
+	 * Creates boxplot from frequency table
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            y-offset
+	 * @param b
+	 *            y-scale
+	 * @param list1
+	 *            rawData
+	 * @param useOutliers
+	 *            whether to plot outliers separately
+	 */
 	public AlgoBoxPlot(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			GeoList list1, GeoBoolean useOutliers) {
 
@@ -173,8 +210,8 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 		type = TYPE_RAW;
 
-		this.a = a;
-		this.b = b;
+		this.yOffset = a;
+		this.yScale = b;
 		ageo = a.toGeoElement();
 		bgeo = b.toGeoElement();
 		this.list1 = list1;
@@ -192,17 +229,17 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		super(cons, false);
 		type = TYPE_RAW;
 
-		this.a = a;
-		this.b = b;
+		this.yOffset = a;
+		this.yScale = b;
 		this.leftBorder = list1;
 	}
 
 	public NumberValue getB() {
-		return b;
+		return yScale;
 	}
 
 	public NumberValue getA() {
-		return a;
+		return yOffset;
 	}
 
 	public GeoList getList1() {
@@ -217,8 +254,8 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	@Override
 	public AlgoBoxPlot copy() {
 		return new AlgoBoxPlot(cons, Cloner.clone(leftBorder),
-				(GeoNumberValue) a.deepCopy(kernel),
-				(GeoNumberValue) b.deepCopy(kernel));
+				(GeoNumberValue) yOffset.deepCopy(kernel),
+				(GeoNumberValue) yScale.deepCopy(kernel));
 	}
 
 	@Override
@@ -291,7 +328,6 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 						addOutlier(x);
 						updateMaxMin = false;
 					}
-
 				}
 
 				// need to adjust max/min (ie exclude outliers)
@@ -305,7 +341,6 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 						max = x;
 					}
 				}
-
 			}
 
 			// Log.debug(min+" "+Q1+" "+median+" "+Q3+" "+max);
@@ -318,10 +353,9 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 			N = 5;
 
 			calcBoxPlot();
-
 		}
 
-		else {// TYPE_QUARTILES:
+		else { // TYPE_QUARTILES:
 
 			tempList.add(minGeo.evaluateDouble());
 			tempList.add(Q1geo.evaluateDouble());
@@ -332,9 +366,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 			N = 5;
 
 			calcBoxPlot();
-
 		}
-
 	}
 
 	private void calcBoxPlot() {
