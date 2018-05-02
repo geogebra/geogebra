@@ -38,6 +38,14 @@ public interface VideoManager {
 	void addPlayer(final GeoVideo video);
 
 	/**
+	 * Removes the player specified by GeoVideo from GUI.
+	 * 
+	 * @param video
+	 *            to add GUI for.
+	 */
+	void removePlayer(final GeoVideo video);
+
+	/**
 	 * Checks if there is a player already for video.
 	 * 
 	 * @param video

@@ -396,4 +396,12 @@ public class GeoVideo extends GeoMedia {
 		}
 		return app.getVideoManager().isOnline(this);
 	}
+
+	@Override
+	public void remove() {
+		if (!hasVideoManager()) {
+			return;
+		}
+		app.getVideoManager().removePlayer(this);
+	}
 }

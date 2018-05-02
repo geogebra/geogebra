@@ -195,6 +195,14 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
+	public void removePlayer(final GeoVideo video) {
+		if (!hasPlayer(video)) {
+			return;
+		}
+		getPlayer(video).removeFromParent();
+	}
+
+	@Override
 	public boolean hasPlayer(GeoVideo video) {
 		return players.containsKey(video.getYouTubeId());
 	}
