@@ -104,21 +104,24 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return output line
+	 */
 	public GeoLine getLine() {
 		return bisector;
 	}
 
-	// Made public for LocusEqu
+	/** @return input point (leg) */
 	public GeoPoint getA() {
 		return A;
 	}
 
-	// Made public for LocusEqu
+	/** @return input point (vertex) */
 	public GeoPoint getB() {
 		return B;
 	}
 
-	// Made public for LocusEqu
+	/** @return input point (leg) */
 	public GeoPoint getC() {
 		return C;
 	}

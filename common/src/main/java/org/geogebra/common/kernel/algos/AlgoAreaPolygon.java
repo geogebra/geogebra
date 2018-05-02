@@ -43,7 +43,13 @@ public class AlgoAreaPolygon extends AlgoElement
 
 	private PVariable[] botanaVars;
 
-	public AlgoAreaPolygon(Construction cons, String label,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param polygon
+	 *            polygon
+	 */
+	public AlgoAreaPolygon(Construction cons, 
 			GeoPolygon polygon) {
 		super(cons);
 		this.polygon = polygon;
@@ -52,8 +58,6 @@ public class AlgoAreaPolygon extends AlgoElement
 
 		// compute angle
 		compute();
-
-		area.setLabel(label);
 	}
 
 	@Override
@@ -77,6 +81,9 @@ public class AlgoAreaPolygon extends AlgoElement
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return output area
+	 */
 	public GeoNumeric getArea() {
 		return area;
 	}

@@ -59,9 +59,13 @@ public class AlgoAngularBisectorLines extends AlgoElement
 	 * Creates new AlgoAngularBisectorLines
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param g
+	 *            first line
 	 * @param h
+	 *            second line
 	 */
 	AlgoAngularBisectorLines(Construction cons, String label, GeoLine g,
 			GeoLine h) {
@@ -69,6 +73,18 @@ public class AlgoAngularBisectorLines extends AlgoElement
 		LabelManager.setLabels(label, bisector);
 	}
 
+	/**
+	 * Creates new AlgoAngularBisectorLines
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param g
+	 *            first line
+	 * @param h
+	 *            second line
+	 */
 	public AlgoAngularBisectorLines(Construction cons, String[] labels,
 			GeoLine g, GeoLine h) {
 		this(cons, g, h);
@@ -119,23 +135,21 @@ public class AlgoAngularBisectorLines extends AlgoElement
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return output lines
+	 */
 	public GeoLine[] getLines() {
 		return bisector;
 	}
 
-	// Made public for LocusEqu
+	/** @return first line */
 	public GeoLine getg() {
 		return g;
 	}
 
-	// Made public for LocusEqu
+	/** @return second line */
 	public GeoLine geth() {
 		return h;
-	}
-
-	// Made public for LocusEqu
-	public GeoPoint getB() {
-		return B;
 	}
 
 	@Override

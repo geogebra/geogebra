@@ -38,13 +38,11 @@ public class AlgoAreaPoints3D extends AlgoAreaPoints {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param P
 	 *            polygon vertices
 	 */
-	public AlgoAreaPoints3D(Construction cons, String label, GeoPointND[] P) {
-		super(cons, label, P);
+	public AlgoAreaPoints3D(Construction cons, GeoPointND[] P) {
+		super(cons, P);
 	}
 
 	@Override

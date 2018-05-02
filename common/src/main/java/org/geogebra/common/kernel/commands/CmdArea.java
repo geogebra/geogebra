@@ -44,9 +44,9 @@ public class CmdArea extends CommandProcessor {
 			// area of polygon = polygon variable
 			else if (arg[0].isGeoPolygon()) {
 
-				AlgoAreaPolygon algo = new AlgoAreaPolygon(cons, c.getLabel(),
+				AlgoAreaPolygon algo = new AlgoAreaPolygon(cons, 
 						(GeoPolygon) arg[0]);
-
+				algo.getArea().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getArea() };
 				return ret;
 			} else {
@@ -71,9 +71,9 @@ public class CmdArea extends CommandProcessor {
 			}
 			// everything ok
 
-			AlgoAreaPoints algo = getAlgoAreaPoints(cons, c.getLabel(), points,
+			AlgoAreaPoints algo = getAlgoAreaPoints(cons, points,
 					is3D);
-
+			algo.getArea().setLabel(c.getLabel());
 			GeoElement[] ret = { algo.getArea() };
 			return ret;
 		} else {
@@ -85,16 +85,14 @@ public class CmdArea extends CommandProcessor {
 	 * 
 	 * @param cons1
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param points
 	 *            points
 	 * @param is3D
 	 *            if there is a 3D point
 	 * @return algo
 	 */
-	protected AlgoAreaPoints getAlgoAreaPoints(Construction cons1, String label,
+	protected AlgoAreaPoints getAlgoAreaPoints(Construction cons1,
 			GeoPointND[] points, boolean is3D) {
-		return new AlgoAreaPoints(cons1, label, points);
+		return new AlgoAreaPoints(cons1, points);
 	}
 }

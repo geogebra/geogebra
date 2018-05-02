@@ -10,11 +10,6 @@ the Free Software Foundation.
 
  */
 
-/*
- * Area of polygon P[0], ..., P[n]
- *
- */
-
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -29,6 +24,10 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
+/**
+ * Computes area of polygon P[0], ..., P[n]
+ *
+ */
 public class AlgoAreaPoints extends AlgoElement
 		implements SymbolicParametersBotanaAlgo {
 
@@ -37,12 +36,13 @@ public class AlgoAreaPoints extends AlgoElement
 
 	private PVariable[] botanaVars;
 
-	public AlgoAreaPoints(Construction cons, String label, GeoPointND[] P) {
-		this(cons, P);
-		area.setLabel(label);
-	}
-
-	AlgoAreaPoints(Construction cons, GeoPointND[] P) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param P
+	 *            points
+	 */
+	public AlgoAreaPoints(Construction cons, GeoPointND[] P) {
 		super(cons);
 		this.P = P;
 		createOutput(cons);
@@ -87,6 +87,9 @@ public class AlgoAreaPoints extends AlgoElement
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return output area
+	 */
 	public GeoNumeric getArea() {
 		return area;
 	}

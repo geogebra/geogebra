@@ -61,6 +61,16 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
 	 * binom.multiply(BigInteger.valueOf(prime).pow(exp)); } } return binom; }
 	 */
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            number of trials
+	 * @param b
+	 *            number of successes
+	 */
 	public AlgoBinomial(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b) {
 		super(cons, label, a, b);

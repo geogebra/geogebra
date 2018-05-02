@@ -24,12 +24,22 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
+/**
+ * Angle between vectors.
+ */
 public class AlgoAngleVectors extends AlgoAngleVectorsND {
 
-	public AlgoAngleVectors(Construction cons, String label, GeoVectorND v,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param v
+	 *            first vector
+	 * @param w
+	 *            second vector
+	 */
+	public AlgoAngleVectors(Construction cons, GeoVectorND v,
 			GeoVectorND w) {
 		super(cons, v, w, null);
-		angle.setLabel(label);
 	}
 
 	// for AlgoElement

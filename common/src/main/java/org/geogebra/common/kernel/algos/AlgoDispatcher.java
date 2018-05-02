@@ -513,8 +513,9 @@ public class AlgoDispatcher {
 	 * Angle named label between vector v and vector w
 	 */
 	final public GeoAngle Angle(String label, GeoVector v, GeoVector w) {
-		AlgoAngleVectors algo = new AlgoAngleVectors(cons, label, v, w);
+		AlgoAngleVectors algo = new AlgoAngleVectors(cons, v, w);
 		GeoAngle angle = algo.getAngle();
+		angle.setLabel(label);
 		return angle;
 	}
 

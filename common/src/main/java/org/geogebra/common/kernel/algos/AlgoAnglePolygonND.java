@@ -35,11 +35,29 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	/** when using angle on polygon to get interior angles */
 	protected boolean internalAngle;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param internalAngle
+	 *            whether to return internal angles
+	 */
 	public AlgoAnglePolygonND(Construction cons, boolean internalAngle) {
 		super(cons);
 		this.internalAngle = internalAngle;
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param poly
+	 *            polygon
+	 * @param orientation
+	 *            plane orientation
+	 * @param internalAngle
+	 *            whether to return internal angles
+	 */
 	public AlgoAnglePolygonND(Construction cons, String[] labels,
 			GeoPolygon poly, GeoDirectionND orientation, boolean internalAngle) {
 		this(cons, poly, orientation, internalAngle);
@@ -74,8 +92,8 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	}
 
 	/**
-	 * 
 	 * @param cons1
+	 *            construction
 	 * @return helper algo
 	 */
 	abstract protected AlgoAnglePointsND newAlgoAnglePoints(Construction cons1);
@@ -104,10 +122,16 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 		setDependencies();
 	}
 
+	/**
+	 * @return output angles
+	 */
 	public GeoElement[] getAngles() {
 		return getOutput();
 	}
 
+	/**
+	 * @return input polygon
+	 */
 	public GeoPolygon getPolygon() {
 		return poly;
 	}

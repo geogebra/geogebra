@@ -28,17 +28,38 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
+/**
+ * Computes angle between vectors.
+ */
 public abstract class AlgoAngleVectorsND extends AlgoAngle {
 
 	protected GeoVectorND v, w; // input
 	protected GeoAngle angle; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param v
+	 *            first vector
+	 * @param w
+	 *            second vector
+	 */
 	public AlgoAngleVectorsND(Construction cons, GeoVectorND v,
 			GeoVectorND w) {
 
 		this(cons, v, w, null);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param v
+	 *            first vector
+	 * @param w
+	 *            second vector
+	 * @param orientation
+	 *            plane orientation
+	 */
 	public AlgoAngleVectorsND(Construction cons, GeoVectorND v,
 			GeoVectorND w, GeoDirectionND orientation) {
 		super(cons);
@@ -78,14 +99,23 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 		this.w = w;
 	}
 
+	/**
+	 * @return output angle
+	 */
 	public GeoAngle getAngle() {
 		return angle;
 	}
 
+	/**
+	 * @return first input vector
+	 */
 	public GeoVectorND getv() {
 		return v;
 	}
 
+	/**
+	 * @return second input vector
+	 */
 	public GeoVectorND getw() {
 		return w;
 	}
