@@ -54,6 +54,10 @@ public class VideoManagerW implements VideoManager {
 	private static final String CMD_PLAY = "playVideo";
 
 	private static final String CMD_PAUSE = "pauseVideo";
+	/**
+	 * true if only preview images are needed (i.e. for image export)
+	 */
+	private boolean previewOnly = false;
 
 	private Map<String, VideoPlayer> players = new HashMap<>();
 
@@ -176,6 +180,16 @@ public class VideoManagerW implements VideoManager {
 			}
 		});
 		RootPanel.get().add(img);
+	}
+
+	@Override
+	public void setPreviewOnly(boolean preview) {
+		previewOnly = preview;
+	}
+
+	@Override
+	public boolean isPreviewOnly() {
+		return previewOnly;
 	}
 
 	@Override

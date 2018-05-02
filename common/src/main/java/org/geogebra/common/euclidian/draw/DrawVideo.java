@@ -68,7 +68,7 @@ public class DrawVideo extends Drawable {
 	}
 
 	private boolean isPreviewNeeded() {
-		return false;
+		return app.getVideoManager().isPreviewOnly();
 	}
 
 	@Override
@@ -85,11 +85,7 @@ public class DrawVideo extends Drawable {
 			sy /= preview.getHeight();
 			g2.translate(left, top);
 			g2.scale(sx, sy);
-			if (video.isPlaying()) {
-				g2.clearRect(0, 0, (int) sx, (int) sy);
-			} else {
-				g2.drawImage(preview, 0, 0);
-			}
+			g2.drawImage(preview, 0, 0);
 			g2.restoreTransform();
 		}
 	}
