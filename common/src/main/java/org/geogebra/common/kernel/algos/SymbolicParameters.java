@@ -197,6 +197,7 @@ public class SymbolicParameters {
 	 * Gets the free variables
 	 * 
 	 * @throws NoSymbolicParametersException
+	 *             if no symbolic variables are available
 	 */
 	private void initFreeVariables() throws NoSymbolicParametersException {
 		variables = new HashSet<>();

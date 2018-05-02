@@ -1,5 +1,6 @@
-package org.geogebra.common.kernel.algos;
+package org.geogebra.common.kernel.prover.adapters;
 
+import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;

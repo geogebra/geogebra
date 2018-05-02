@@ -21,7 +21,9 @@ import org.geogebra.common.util.debug.Log;
 public class PointNDFold implements FoldComputer {
 
 	private GeoElement result;
-	private double x, y, z;
+	private double x;
+	private double y;
+	private double z;
 
 	@Override
 	public GeoElement getTemplate(Construction cons, GeoClass listElement) {

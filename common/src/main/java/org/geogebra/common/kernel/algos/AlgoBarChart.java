@@ -1338,6 +1338,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		return -1;
 	}
 
+	/**
+	 * @param fillType
+	 *            fill type
+	 * @param numBar
+	 *            bar index
+	 */
 	public void setBarFillType(FillType fillType, int numBar) {
 		setTag(2, fillType, numBar);
 	}
@@ -1346,6 +1352,13 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		return getBarFillType(numBar, FillType.STANDARD);
 	}
 
+	/**
+	 * @param numBar
+	 *            bar index
+	 * @param fallback
+	 *            fallback
+	 * @return fill type
+	 */
 	public FillType getBarFillType(int numBar, FillType fallback) {
 		HashMap<Integer, Object> hm = tags.get(numBar);
 		if (hm != null) {
@@ -1361,6 +1374,11 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		setTag(3, symbol, numBar);
 	}
 
+	/**
+	 * @param numBar
+	 *            bar index
+	 * @return filling symbol
+	 */
 	public String getBarSymbol(int numBar) {
 		HashMap<Integer, Object> hm = tags.get(numBar);
 		if (hm != null) {
@@ -1373,6 +1391,11 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		setTag(4, image, numBar);
 	}
 
+	/**
+	 * @param numBar
+	 *            bar index
+	 * @return image filename
+	 */
 	public String getBarImage(int numBar) {
 		HashMap<Integer, Object> hm = tags.get(numBar);
 		if (hm != null) {
@@ -1385,6 +1408,11 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		setIntTag(5, distance, numBar);
 	}
 
+	/**
+	 * @param numBar
+	 *            bar index
+	 * @return hatching distance
+	 */
 	public int getBarHatchDistance(int numBar) {
 		HashMap<Integer, Object> hm = tags.get(numBar);
 		if (hm != null && hm.get(5) != null) {
@@ -1393,6 +1421,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		return -1;
 	}
 
+	/**
+	 * @param angle
+	 *            hatching angle
+	 * @param numBar
+	 *            bar index
+	 */
 	public void setBarHatchAngle(int angle, int numBar) {
 		setIntTag(6, angle, numBar);
 	}

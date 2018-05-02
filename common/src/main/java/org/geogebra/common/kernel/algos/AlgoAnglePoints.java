@@ -30,7 +30,13 @@ import org.geogebra.common.util.DoubleUtil;
  * @author Markus
  */
 public class AlgoAnglePoints extends AlgoAnglePointsND {
-	transient private double bx, by, vx, vy, wx, wy;
+	private double bx;
+	private double by;
+	private double vx;
+	private double vy;
+	private double wx;
+	private double wy;
+
 	/**
 	 * @param cons
 	 *            construction
@@ -43,7 +49,6 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 	 */
 	public AlgoAnglePoints(Construction cons, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
-
 		this(cons, A, B, C, null);
 	}
 

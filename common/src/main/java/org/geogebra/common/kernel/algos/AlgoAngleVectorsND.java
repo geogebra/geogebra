@@ -33,7 +33,8 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
  */
 public abstract class AlgoAngleVectorsND extends AlgoAngle {
 
-	protected GeoVectorND v, w; // input
+	protected GeoVectorND v; // input
+	protected GeoVectorND w; // input
 	protected GeoAngle angle; // output
 
 	/**

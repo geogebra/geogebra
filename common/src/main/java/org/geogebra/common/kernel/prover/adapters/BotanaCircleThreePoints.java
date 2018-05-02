@@ -1,13 +1,12 @@
-package org.geogebra.common.kernel.algos;
+package org.geogebra.common.kernel.prover.adapters;
 
+import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
-public class BotanaCircleThreePoints {
-	private PVariable[] botanaVars;
-	private PPolynomial[] botanaPolynomials;
+public class BotanaCircleThreePoints extends ProverAdapter {
 
 	public PPolynomial[] getPolynomials(GeoElement[] input)
 			throws NoSymbolicParametersException {
@@ -47,7 +46,4 @@ public class BotanaCircleThreePoints {
 		return botanaPolynomials;
 	}
 
-	public PVariable[] getVars() {
-		return botanaVars;
-	}
 }

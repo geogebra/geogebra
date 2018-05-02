@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.adapters.BotanaCircleThreePoints;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
@@ -84,7 +85,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircleThreePoints();
 		}
-		return botanaParams.getVars();
+		return botanaParams.getBotanaVars();
 	}
 
 	@Override

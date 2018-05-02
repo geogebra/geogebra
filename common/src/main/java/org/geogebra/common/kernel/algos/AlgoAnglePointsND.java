@@ -237,15 +237,15 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 		firstVec[0] = ptCoords.getX() - m[0];
 		firstVec[1] = ptCoords.getY() - m[1];
 
-		double vertexScreen[] = new double[2];
+		double[] vertexScreen = new double[2];
 		vertexScreen[0] = m[0];
 		vertexScreen[1] = m[1];
 
-		double firstVecScreen[] = new double[2];
+		double[] firstVecScreen = new double[2];
 		firstVecScreen[0] = ptCoords.getX();
 		firstVecScreen[1] = ptCoords.getY();
 
-		double secondVecScreen[] = new double[2];
+		double[] secondVecScreen = new double[2];
 		secondVecScreen[0] = coords2.getX();
 		secondVecScreen[1] = coords2.getY();
 

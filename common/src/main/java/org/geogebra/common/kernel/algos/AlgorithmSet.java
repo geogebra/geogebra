@@ -24,7 +24,8 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 
 	private HashMap<AlgoElement, AlgoElement> hashMap;
 
-	private Link head, tail;
+	private Link head;
+	private Link tail;
 	private int size;
 
 	/**

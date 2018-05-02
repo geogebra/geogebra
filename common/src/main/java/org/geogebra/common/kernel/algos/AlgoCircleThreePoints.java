@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.adapters.BotanaCircleThreePoints;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.DoubleUtil;
@@ -316,7 +317,7 @@ public class AlgoCircleThreePoints extends AlgoElement
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircleThreePoints();
 		}
-		return botanaParams.getVars();
+		return botanaParams.getBotanaVars();
 	}
 
 	@Override

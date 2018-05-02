@@ -101,9 +101,8 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	protected void setLabels(String[] labels) {
 		// if only one label (e.g. "A") for more than one output, new labels
 		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 &&
-		// outputPoints.size() > 1 &&
-				labels[0] != null && !labels[0].equals("")) {
+		if (labels != null && labels.length == 1
+				&& labels[0] != null && !labels[0].equals("")) {
 			outputAngles.setIndexLabels(labels[0]);
 		} else {
 

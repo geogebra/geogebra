@@ -40,11 +40,14 @@ import org.geogebra.common.util.MyMath;
 public class AlgoAngularBisectorPoints extends AlgoElement
 		implements SymbolicParametersBotanaAlgo {
 
-	private GeoPoint A, B, C; // input
+	private GeoPoint A; // input
+	private GeoPoint B; // input
+	private GeoPoint C; // input
 	private GeoLine bisector; // output
 
 	// temp
-	private GeoLine g, h;
+	private GeoLine g;
+	private GeoLine h;
 	private GeoVector wv; // direction of line bisector
 
 	private PPolynomial[] botanaPolynomials;

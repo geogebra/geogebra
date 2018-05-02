@@ -44,9 +44,13 @@ import org.geogebra.common.util.MyMath;
 public class AlgoAttachCopyToView extends AlgoTransformation {
 
 	private MatrixTransformable out;
-	private GeoElement inGeo, outGeo;
+	private GeoElement inGeo;
+	private GeoElement outGeo;
 	private GeoNumberValue viewID;
-	private GeoPointND corner1, corner3, screenCorner1, screenCorner3;
+	private GeoPointND corner1;
+	private GeoPointND corner3;
+	private GeoPointND screenCorner1;
+	private GeoPointND screenCorner3;
 
 	/**
 	 * Creates new apply matrix algorithm

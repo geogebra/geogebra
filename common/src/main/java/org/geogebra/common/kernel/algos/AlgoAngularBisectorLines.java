@@ -42,11 +42,22 @@ import org.geogebra.common.util.MyMath;
 public class AlgoAngularBisectorLines extends AlgoElement
 		implements SymbolicParametersBotanaAlgo {
 
-	private GeoLine g, h; // input
+	private GeoLine g; // input
+	private GeoLine h; // input
 	private GeoLine[] bisector; // output
 
 	// temp
-	private double gx, gy, hx, hy, wx, wy, bx, by, lenH, lenG, length, ip;
+	private double gx;
+	private double gy;
+	private double hx;
+	private double hy;
+	private double wx;
+	private double wy;
+	private double bx;
+	private double by;
+	private double lenH;
+	private double lenG;
+	private double length;
 	private GeoVector[] wv; // direction of bisector line bisector
 	private GeoPoint B; // intersection point of g, h
 	private boolean infiniteB;
@@ -233,7 +244,7 @@ public class AlgoAngularBisectorLines extends AlgoElement
 		else {
 			// calc direction vector (wx, wy) of angular bisector
 			// check if angle between vectors is > 90degrees
-			ip = gx * hx + gy * hy;
+			double ip = gx * hx + gy * hy;
 			if (ip >= 0.0) { // angle < 90degrees
 				// standard case
 				wx = gx + hx;
