@@ -362,11 +362,11 @@ public class GeoVideo extends GeoMedia {
 	public void resetState() {
 		state = State.NONE;
 	}
+
 	@Override
 	public boolean isFixedSize() {
 		return true;
 	}
-
 
 	/**
 	 * 

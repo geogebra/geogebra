@@ -65,8 +65,8 @@ public class HTML5Export {
 		sb.append("\"preventFocus\":false,\n");
 		sb.append("\"showZoomButtons\":true,\n");
 		sb.append("// add code here to run when rhe applet starts\n");
-		sb.append(
-				"\"appletOnLoad\":function(api){ /* api.evalCommand('Segment((1,2),(3,4))');*/ },\n");
+		sb.append("\"appletOnLoad\":function(api){");
+		sb.append(" /* api.evalCommand('Segment((1,2),(3,4))');*/ },\n");
 		sb.append("\"showFullscreenButton\":true,\n");
 		sb.append("\"scale\":1,\n");
 		sb.append("\"disableAutoScale\":false,\n");

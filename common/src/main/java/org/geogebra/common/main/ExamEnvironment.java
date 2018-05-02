@@ -614,7 +614,7 @@ public class ExamEnvironment {
 	 */
 	public String getCalculatorTypeNameForHeader() {
 		if (app.has(Feature.MOB_EXAM_MODE_EXIT_DIALOG_NEW)) {
-			return "GeoGebra "+getCalculatorTypeName(calculatorType);
+			return "GeoGebra " + getCalculatorTypeName(calculatorType);
 		}
 		return getCalculatorTypeName();
 	}
