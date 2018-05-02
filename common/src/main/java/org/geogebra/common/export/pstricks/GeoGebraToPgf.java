@@ -64,6 +64,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -2588,6 +2589,17 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 		// grid style=dashed,
 
+		// double tickStepX = euclidianView.getXscale()
+		// * euclidianView.getGridDistances()[0];
+		double tickStepX = euclidianView.getGridDistances()[0];
+		double startX = MyMath.nextMultiple(xmin, tickStepX);
+		double endX = MyMath.nextMultiple(xmax+Kernel.STANDARD_PRECISION, tickStepX) - tickStepX;
+
+		double tickStepY = euclidianView.getGridDistances()[1];
+		double startY = MyMath.nextMultiple(ymin, tickStepY);
+		double endY = MyMath.nextMultiple(ymax + Kernel.STANDARD_PRECISION,
+				tickStepY) - tickStepY;
+
 		// horizontal grid
 		codeBeginDoc.append("ymajorgrids=true,\n");
 		// vertical grid
@@ -2608,20 +2620,20 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// eg xtick={-8,-7,...,8}");
 		codeBeginDoc.append(",\nxtick={");
 
-		codeBeginDoc.append(Math.ceil(xmin));
+		codeBeginDoc.append(startX);
 		codeBeginDoc.append(',');
-		codeBeginDoc.append(Math.ceil(xmin) + 1);
+		codeBeginDoc.append(startX + tickStepX);
 		codeBeginDoc.append(",...,");
-		codeBeginDoc.append(Math.floor(xmax));
+		codeBeginDoc.append(endX);
 
 		// eg ytick={-4,-3,...,4");
 		codeBeginDoc.append("},\nytick={");
 
-		codeBeginDoc.append(Math.ceil(ymin));
+		codeBeginDoc.append(startY);
 		codeBeginDoc.append(',');
-		codeBeginDoc.append(Math.ceil(ymin) + 1);
+		codeBeginDoc.append(startY + tickStepY);
 		codeBeginDoc.append(",...,");
-		codeBeginDoc.append(Math.floor(ymax));
+		codeBeginDoc.append(endY);
 
 		codeBeginDoc.append("},]\n");
 	}
