@@ -55,9 +55,6 @@ public class VideoManagerW implements VideoManager {
 	 */
 	public static final String EMBED = "embed/";
 
-	private static final String CMD_PLAY = "playVideo";
-
-	private static final String CMD_PAUSE = "pauseVideo";
 	/**
 	 * true if only preview images are needed (i.e. for image export)
 	 */
@@ -114,11 +111,8 @@ public class VideoManagerW implements VideoManager {
 				&& isPlayerValid(getPlayer(video).getElement()))) {
 			addPlayer(video);
 		}
-		video.play();
-		if (video.isPlaying()) {
-			controlPlayer(getPlayer(video).getElement(), CMD_PLAY);
-		}
-		updatePlayer(video);
+
+		getPlayer(video).play();
 	}
 
 	@Override
@@ -126,9 +120,7 @@ public class VideoManagerW implements VideoManager {
 		if (video == null || !hasPlayer(video)) {
 			return;
 		}
-		video.pause();
-		controlPlayer(getPlayer(video).getElement(), CMD_PAUSE);
-		updatePlayer(video);
+		getPlayer(video).pause();
 		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
 	}
 
@@ -213,14 +205,14 @@ public class VideoManagerW implements VideoManager {
 
 		AppW app = (AppW) video.getKernel().getApplication();
 		GeoGebraFrameW appFrame = (GeoGebraFrameW) app.getAppletFrame();
-		VideoPlayer player = new VideoPlayer(video);
+		final VideoPlayer player = new VideoPlayer(video);
 		players.put(video.getYouTubeId(), player);
 		appFrame.add(player);
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			@Override
 			public void execute() {
-				initPlayer(video.getYouTubeId());
+				player.setYouTubePlayer(createYouTubePlayer(video.getYouTubeId()));
 			}
 		});
 	}
@@ -262,11 +254,6 @@ public class VideoManagerW implements VideoManager {
 		return ((AppW) video.getKernel().getApplication()).getNetworkOperation().isOnline();
 	}
 
-	private native void controlPlayer(JavaScriptObject player, String command) /*-{
-		player.contentWindow.postMessage('{"event":"command","func":"'
-				+ command + '","args":""}', '*');
-	}-*/;
-
 	private native boolean isPlayerValid(JavaScriptObject player) /*-{
 		return player.contentWindow != null;
 	}-*/;
@@ -290,6 +277,7 @@ public class VideoManagerW implements VideoManager {
 	private static void onAPIReady() {
 		youTubeAPI = true;
 	}
+
 	private static native void loadYouTubeApi() /*-{
 		$wnd.youtube_api_ready = function() {
 			@org.geogebra.web.html5.video.VideoManagerW::onAPIReady()();
@@ -302,9 +290,9 @@ public class VideoManagerW implements VideoManager {
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	}-*/;
 
-	private native void initPlayer(String youtubeId) /*-{
+	private native JavaScriptObject createYouTubePlayer(String youtubeId) /*-{
 		var that = this;
-		var yplayer = new $wnd.YT.Player(
+		var ytPlayer = new $wnd.YT.Player(
 				youtubeId,
 				{
 					events : {
@@ -313,6 +301,7 @@ public class VideoManagerW implements VideoManager {
 						}
 					}
 				});
+		return ytPlayer;
 	}-*/;
 
 	//

@@ -3,6 +3,7 @@ package org.geogebra.web.html5.video;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.html5.gui.Persistable;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Frame;
@@ -16,7 +17,7 @@ import com.google.gwt.user.client.ui.Frame;
 public class VideoPlayer extends Frame implements Persistable {
 	private GeoVideo video;
 	private String embedUrl = null;
-
+	private JavaScriptObject ytPlayer;
 	/**
 	 * Constructor.
 	 * 
@@ -58,5 +59,51 @@ public class VideoPlayer extends Frame implements Persistable {
 		return video;
 	}
 
+	/**
+	 * 
+	 * @return the JS YouTube player itself.
+	 */
+	public JavaScriptObject getYouTubePlayer() {
+		return ytPlayer;
+	}
+
+	/**
+	 * 
+	 * sets the JS YouTube player.
+	 * 
+	 * @param ytPlayer
+	 *            to set.
+	 */
+	public void setYouTubePlayer(JavaScriptObject ytPlayer) {
+		this.ytPlayer = ytPlayer;
+	}
+
+	/**
+	 * Play the video.
+	 */
+	public void play() {
+		video.play();
+		if (video.isPlaying()) {
+			play(ytPlayer);
+		}
+		update();
+	}
+
+	/**
+	 * Pause the video.
+	 */
+	public void pause() {
+		video.pause();
+		pause(ytPlayer);
+		update();
+	}
+
+	private native void play(JavaScriptObject player) /*-{
+		player.playVideo();
+	}-*/;
+
+	private native void pause(JavaScriptObject player) /*-{
+		player.pauseVideo();
+	}-*/;
 }
 
