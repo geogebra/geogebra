@@ -6116,7 +6116,7 @@ unsigned int ConvertUTF8toUTF16 (
 	  break;
       }
       if (cur[pos]==':'){
-	// detect else or elif
+	// detect else or elif or except
 	int progpos=cur.find("else");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
 	  pythonmode=true;
@@ -6137,6 +6137,28 @@ unsigned int ConvertUTF8toUTF16 (
 	    }
 	  }
 	  s += cur.substr(0,pos)+"\n";
+	  continue;
+	}
+	progpos=cur.find("except");
+	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,6)){
+	  pythonmode=true;
+	  if (stack.size()>1){ 
+	    int indent=stack[stack.size()-1].decal;
+	    if (ws<indent){
+	      // remove last \n and add explicit endbloc delimiters from stack
+	      int ss=s.size();
+	      bool nl= ss && s[ss-1]=='\n';
+	      if (nl)
+		s=s.substr(0,ss-1);
+	      while (stack.size()>1 && stack[stack.size()-1].decal>ws){
+		s += ' '+stack.back().endbloc+';';
+		stack.pop_back();
+	      }
+	      if (nl)
+		s += '\n';
+	    }
+	  }
+	  s += cur.substr(0,progpos)+"then\n";
 	  continue;
 	}
 	progpos=cur.find("elif");
@@ -6194,6 +6216,15 @@ unsigned int ConvertUTF8toUTF16 (
 	  convert_python(cur,contextptr);
 	  s += cur +" then\n";
 	  stack.push_back(int_string(ws,"fi"));
+	  continue;
+	}
+	progpos=cur.find("try");
+	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,3)){
+	  pythonmode=true;
+	  cur=cur.substr(0,progpos);
+	  convert_python(cur,contextptr);
+	  s += cur +"IFERR ";
+	  stack.push_back(int_string(ws,"end"));
 	  continue;
 	}
 	progpos=cur.find("for");

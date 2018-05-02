@@ -433,6 +433,10 @@ exp	: T_NUMBER		{$$ = $1;}
           if ($7.type==_INT_ && $7.val && $7.val!=4) giac_yyerror(scanner,"missing iferr end delimiter");
            $$=symbolic(at_try_catch,makevecteur(symb_bloc($2),0,symb_bloc($4),symb_bloc($6)));
         }
+	| T_IFERR prg_suite T_THEN prg_suite T_BLOC_END {
+          if ($5.type==_INT_ && $5.val && $5.val!=4) giac_yyerror(scanner,"missing iferr end delimiter");
+           $$=symbolic(at_try_catch,makevecteur(symb_bloc($2),0,symb_bloc($4),symb_bloc(0)));
+        }
 	| T_CASE38 case38 T_BLOC_END {$$=symbolic(at_piecewise,$2); }
 	| T_TYPE_ID { 
 	$$=$1; 
