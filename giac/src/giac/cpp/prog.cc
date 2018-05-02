@@ -2578,7 +2578,7 @@ namespace giac {
       if (vars.size()<=vals.size())
 	break;
       if (vars[i].is_symb_of_sommet(at_equal))
-	vals.insert(vals.begin()+ins,vars[i]._SYMBptr->feuille[1]);
+	vals.insert(vals.begin()+ins,eval(vars[i]._SYMBptr->feuille[1],prog_eval_level(contextptr),contextptr));
       else {
 	if (ins>0)
 	  --ins;

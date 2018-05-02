@@ -6258,7 +6258,7 @@ unsigned int ConvertUTF8toUTF16 (
 	  if (posfleche>0 || posfleche<entete.size())
 	    entete=entete.substr(0,posfleche);
 	  s += cur.substr(0,progpos)+"function"+entete+"\n";
-	  stack.push_back(int_string(ws,"ffunction"));
+	  stack.push_back(int_string(ws,"ffunction:")); // ; added later
 	  continue;
 	}
 	// no match found, return s
@@ -6266,7 +6266,7 @@ unsigned int ConvertUTF8toUTF16 (
       }
       else {
 	// normal line add ; at end
-	if (pythonmode && !res.empty() && pos>=0 && cur[pos]!=';' && cur[pos]!=',' && cur[pos]!='{' && cur[pos]!='(' && cur[pos]!='[')
+	if (pythonmode && !res.empty() && pos>=0 && cur[pos]!=';' && cur[pos]!=',' && cur[pos]!='{' && cur[pos]!='(' && cur[pos]!='[' && cur[pos]!=':')
 	  cur = cur +';';
 	if (pythonmode)
 	  convert_python(cur,contextptr);

@@ -8180,6 +8180,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       return _pixon(a,contextptr);
     }
     else {
+      if (a.type!=_VECT || !is_integer_vecteur(*a._VECTptr))
+	return 0;
       pixel_v()._VECTptr->push_back(_pixon(a,contextptr));
     }
     return pixel_v();
@@ -8187,6 +8189,26 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static const char _set_pixel_s []="set_pixel";
   static define_unary_function_eval (__set_pixel,&_set_pixel,_set_pixel_s);
   define_unary_function_ptr5( at_set_pixel ,alias_at_set_pixel,&__set_pixel,0,true);
+
+  gen _draw_string(const gen & a_,GIAC_CONTEXT){
+    gen a(a_);
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur v(*a._VECTptr);
+    if (v.size()!=3 && v.size()!=4)
+      return gendimerr(contextptr);
+    if (v[0].type!=_STRNG || !is_integral(v[1]) || !is_integral(v[2]))
+      return gensizeerr(contextptr);
+    gen s=v[0];
+    v.erase(v.begin());
+    v.push_back(s);
+    pixel_v()._VECTptr->push_back(_pixon(gen(v,_SEQ__VECT),contextptr));
+    return pixel_v();
+  }
+  static const char _draw_string_s []="draw_string";
+  static define_unary_function_eval (__draw_string,&_draw_string,_draw_string_s);
+  define_unary_function_ptr5( at_draw_string ,alias_at_draw_string,&__draw_string,0,true);
 
   gen _get_pixel(const gen & a_,GIAC_CONTEXT){
     gen a(a_);
