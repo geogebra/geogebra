@@ -10,15 +10,10 @@ import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
-import org.geogebra.web.resources.JavaScriptInjector;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ErrorEvent;
 import com.google.gwt.event.dom.client.ErrorHandler;
@@ -34,7 +29,6 @@ import com.google.gwt.user.client.ui.RootPanel;
  *
  */
 public class VideoManagerW implements VideoManager {
-	private static boolean youTubeAPI = false;
 	private AsyncOperation<Boolean> urlCallback = null;
 	/**
 	 * Head of a regular YouTube URL.
@@ -69,8 +63,7 @@ public class VideoManagerW implements VideoManager {
 	 * Constructor
 	 */
 	public VideoManagerW() {
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.youtube());
-		loadYouTubeApi();
+		VideoPlayer.initYouTubeApi();
 	}
 
 	@Override
@@ -110,12 +103,7 @@ public class VideoManagerW implements VideoManager {
 		if (video == null) {
 			return;
 		}
-		if (!(hasPlayer(video)
-				&& isPlayerValid(getPlayer(video).getElement()))) {
-			addPlayer(video);
-		}
-
-		getPlayer(video).play();
+		playerOf(video).play();
 	}
 
 	@Override
@@ -123,8 +111,7 @@ public class VideoManagerW implements VideoManager {
 		if (video == null || !hasPlayer(video)) {
 			return;
 		}
-		getPlayer(video).pause();
-		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
+		playerOf(video).pause();
 	}
 
 	@Override
@@ -132,9 +119,7 @@ public class VideoManagerW implements VideoManager {
 		if (video == null || !hasPlayer(video)) {
 			return;
 		}
-		video.setBackground(true);
-		updatePlayer(video);
-		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
+		playerOf(video).sendBackground();
 	}
 
 	@Override
@@ -210,7 +195,7 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void addPlayer(final GeoVideo video) {
-		if (!youTubeAPI) {
+		if (!VideoPlayer.hasYouTubeApi()) {
 			Log.warn("No YouTube API!");
 			return;
 		}
@@ -220,13 +205,7 @@ public class VideoManagerW implements VideoManager {
 		final VideoPlayer player = new VideoPlayer(video);
 		players.put(video.getYouTubeId(), player);
 		appFrame.add(player);
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
-			@Override
-			public void execute() {
-				player.setYouTubePlayer(createYouTubePlayer(video.getYouTubeId()));
-			}
-		});
 	}
 
 	@Override
@@ -234,7 +213,7 @@ public class VideoManagerW implements VideoManager {
 		if (!hasPlayer(video)) {
 			return;
 		}
-		getPlayer(video).removeFromParent();
+		playerOf(video).removeFromParent();
 	}
 
 	@Override
@@ -242,7 +221,7 @@ public class VideoManagerW implements VideoManager {
 		return players.containsKey(video.getYouTubeId());
 	}
 
-	private VideoPlayer getPlayer(GeoVideo video) {
+	private VideoPlayer playerOf(GeoVideo video) {
 		return players.get(video.getYouTubeId());
 	}
 
@@ -251,7 +230,7 @@ public class VideoManagerW implements VideoManager {
 		if (!hasPlayer(video) || !video.hasChanged()) {
 			return;
 		}
-		getPlayer(video).update();
+		playerOf(video).update();
 	}
 
 	@Override
@@ -266,57 +245,6 @@ public class VideoManagerW implements VideoManager {
 		return ((AppW) video.getKernel().getApplication()).getNetworkOperation().isOnline();
 	}
 
-	private native boolean isPlayerValid(JavaScriptObject player) /*-{
-		return player.contentWindow != null;
-	}-*/;
-
-	/**
-	 * Called after video specified by its id is loaded.
-	 * 
-	 * @param id
-	 *            the YouTube id of the video.
-	 */
-	public void onPlayerReady(String id) {
-		VideoPlayer player = players.get(id);
-		player.getVideo().setBackground(true);
-		player.update();
-	}
-
-	private static void onPlayerStateChange() {
-		// implement later;
-	}
-
-	private static void onAPIReady() {
-		youTubeAPI = true;
-	}
-
-	private static native void loadYouTubeApi() /*-{
-		$wnd.youtube_api_ready = function() {
-			@org.geogebra.web.html5.video.VideoManagerW::onAPIReady()();
-		}
-
-		var tag = document.createElement('script');
-		tag.id = 'youtube-iframe';
-		tag.src = 'https://www.youtube.com/iframe_api';
-		var firstScriptTag = $doc.getElementsByTagName('script')[0];
-		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-	}-*/;
-
-	private native JavaScriptObject createYouTubePlayer(String youtubeId) /*-{
-		var that = this;
-		var ytPlayer = new $wnd.YT.Player(
-				youtubeId,
-				{
-					events : {
-						'onReady' : function(event) {
-							that.@org.geogebra.web.html5.video.VideoManagerW::onPlayerReady(Ljava/lang/String;)(youtubeId);
-						}
-					}
-				});
-		return ytPlayer;
-	}-*/;
-
-	//
 	@Override
 	public void backgroundAll() {
 		if (players.isEmpty()) {
