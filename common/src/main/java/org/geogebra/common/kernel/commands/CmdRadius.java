@@ -34,9 +34,9 @@ public class CmdRadius extends CommandProcessor {
 			// asymptotes to conic
 			if (arg[0] instanceof GeoQuadricND) {
 
-				AlgoRadius algo = new AlgoRadius(cons, c.getLabel(),
+				AlgoRadius algo = new AlgoRadius(cons,
 						(GeoQuadricND) arg[0]);
-
+				algo.getRadius().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getRadius() };
 				return ret;
 			}

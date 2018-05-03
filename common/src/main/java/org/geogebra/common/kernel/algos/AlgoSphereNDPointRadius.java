@@ -44,8 +44,14 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	final static int TYPE_RADIUS = 0;
 	final static int TYPE_SEGMENT = 1;
 
-
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param M
+	 *            center
+	 * @param r
+	 *            radius
+	 */
 	public AlgoSphereNDPointRadius(Construction cons, GeoPointND M,
 			GeoNumberValue r) {
 
@@ -83,10 +89,11 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	/**
 	 * return a conic (2D) or a quadric (3D)
 	 * 
-	 * @param cons
+	 * @param cons1
+	 *            construction
 	 * @return a conic (2D) or a quadric (3D)
 	 */
-	abstract protected GeoQuadricND createSphereND(Construction cons);
+	abstract protected GeoQuadricND createSphereND(Construction cons1);
 
 	// for AlgoElement
 	@Override
@@ -100,6 +107,9 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting sphere
+	 */
 	public GeoQuadricND getSphereND() {
 		return sphereND;
 	}

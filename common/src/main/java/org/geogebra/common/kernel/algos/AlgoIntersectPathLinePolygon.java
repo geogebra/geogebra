@@ -52,11 +52,14 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 	protected TreeMap<Double, Coords> newCoords;
 	private Coords project = Coords.createInhomCoorsInD3();
-	private Coords project1, project2;
-	private double[] lineCoords, tmp;
+	private Coords project1;
+	private Coords project2;
+	private double[] lineCoords;
+	private double[] tmp;
 
 	private double[] parameters = new double[2];
-	protected Coords o1, d1;
+	protected Coords o1;
+	protected Coords d1;
 	private boolean hasLabels = false;
 
 	/**
@@ -89,7 +92,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * common constructor
 	 * 
 	 * @param c
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param geo
 	 *            line
 	 * @param p
@@ -198,7 +203,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-
 	protected void setIntersectionLine() {
 		o1 = g.getPointInD(3, 0).getInhomCoordsInSameDimension();
 		d1 = g.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o1);
@@ -264,7 +268,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		return DoubleUtil.isGreater(t, 0) && DoubleUtil.isGreater(1, t);
 	}
 
-
 	/**
 	 * check if midpoint (a,b) is in the polygon
 	 * 
@@ -325,8 +328,11 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * add coords
 	 * 
 	 * @param parameter
+	 *            parameter
 	 * @param coords
+	 *            intersection point
 	 * @param parent
+	 *            point or segment
 	 */
 	protected void addCoords(double parameter, Coords coords,
 			GeoElementND parent) {
@@ -375,13 +381,12 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				Coords a = b;
 				b = points[i];
 				if (checkMidpoint(p, a, b)) {
-					if (startSegment == null)
-					 {
+					if (startSegment == null) {
 						startSegment = a; // new start segment
 					}
 					endSegment = b; // extend segment to b
 				} else {
-					if (startSegment != null) {// add last correct segment
+					if (startSegment != null) { // add last correct segment
 						segmentList
 								.add(new Coords[] { startSegment, endSegment });
 						startSegment = null;

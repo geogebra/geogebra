@@ -38,7 +38,9 @@ public class AlgoRotate extends AlgoTransformation {
 
 	private Rotateable out;
 	private GeoNumberValue angle;
-	private GeoElement inGeo, outGeo, angleGeo;
+	private GeoElement inGeo;
+	private GeoElement outGeo;
+	private GeoElement angleGeo;
 
 	/**
 	 * Creates new generic rotation algo

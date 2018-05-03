@@ -34,8 +34,11 @@ public class AlgoReverse extends AlgoElement {
 	 * Creates new reverse list algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param inputList
+	 *            input list
 	 */
 	public AlgoReverse(Construction cons, String label, GeoList inputList) {
 		super(cons);
@@ -89,8 +92,7 @@ public class AlgoReverse extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		if (size == 0)
-		 {
+		if (size == 0) {
 			return; // return empty list
 		}
 

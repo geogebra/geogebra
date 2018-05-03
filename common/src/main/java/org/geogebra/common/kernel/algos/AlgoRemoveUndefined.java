@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * Remove undefined objects from a list
+ * Remove undefined objects from a list.
  * 
  * @author Michael Borcherds
  * @version 2008-03-04
@@ -32,11 +32,14 @@ public class AlgoRemoveUndefined extends AlgoElement {
 	private int size;
 
 	/**
-	 * Creates new undefined removal algo
+	 * Creates new undefined removal algo.
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param inputList
+	 *            list to be filtered
 	 */
 	public AlgoRemoveUndefined(Construction cons, String label,
 			GeoList inputList) {

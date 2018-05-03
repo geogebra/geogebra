@@ -60,22 +60,23 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	/** input conic */
 	protected GeoConic c;
 
-	private GeoPoint[] D; // D: old points; Q: new points, not yet permuted
-	protected GeoPoint[] P, Q; // output -- Q permuted according to D
+	private GeoPoint[] D; // D: old points
+	protected GeoPoint[] P; // output - Q permuted according to D
+	protected GeoPoint[] Q; // new points, not yet permuted
 	protected int intersectionType;
 
 	private HashMap<GeoElementND, PPolynomial[]> botanaPolynomials;
 	private HashMap<GeoElementND, PVariable[]> botanaVars;
 
-	private int age[]; // of defined points D
-	private int permutation[]; // of computed intersection points Q to output
+	private int[] age; // of defined points D
+	private int[] permutation; // of computed intersection points Q to output
 								// points P
 	private double[][] distTable;
-	private boolean isQonPath[]; // for every new intersection point Q: is it on
+	private boolean[] isQonPath; // for every new intersection point Q: is it on
 									// both paths?
 
 	// for every resulting point P: has it ever been defined, i.e. is it alive?
-	private boolean isPalive[];
+	private boolean[] isPalive;
 
 	// private int i;
 	private boolean isDefinedAsTangent;
@@ -106,6 +107,14 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		return EuclidianConstants.MODE_INTERSECT;
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param g
+	 *            line
+	 * @param c
+	 *            conic
+	 */
 	public AlgoIntersectLineConic(Construction cons, GeoLine g, GeoConic c) {
 		super(cons);
 		this.g = g;
@@ -641,7 +650,19 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		return ret;
 	}
 
-	// do the actual computations
+	/**
+	 * do the actual computations
+	 * 
+	 * @param g
+	 *            line
+	 * @param c
+	 *            conic
+	 * @param sol
+	 *            output array for intersections
+	 * @param eps
+	 *            precision
+	 * @return type of intersection
+	 */
 	public final static synchronized int intersectLineConic(GeoLine g,
 			GeoConicND c, GeoPoint[] sol, double eps) {
 		double[] A = c.getFlatMatrix();

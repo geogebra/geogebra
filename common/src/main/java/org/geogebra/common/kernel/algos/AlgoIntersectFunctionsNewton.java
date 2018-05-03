@@ -31,11 +31,23 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  */
 public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 
-	private GeoFunction f, g; // input
-	private GeoPoint startPoint, rootPoint;
+	private GeoFunction f; // input
+	private GeoFunction g; // input
+	private GeoPoint startPoint;
+	private GeoPoint rootPoint; // output
 
 	private Function diffFunction;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            first function
+	 * @param g
+	 *            second function
+	 * @param startPoint
+	 *            initial point for newthon method
+	 */
 	public AlgoIntersectFunctionsNewton(Construction cons, GeoFunction f,
 			GeoFunction g, GeoPoint startPoint) {
 		super(cons);
@@ -51,6 +63,18 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 		compute();
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            first function
+	 * @param g
+	 *            second function
+	 * @param startPoint
+	 *            initial point for newthon method
+	 */
 	public AlgoIntersectFunctionsNewton(Construction cons, String label,
 			GeoFunction f, GeoFunction g, GeoPoint startPoint) {
 		this(cons, f, g, startPoint);
@@ -153,9 +177,11 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 		double x = Double.isNaN(higher) || (startPoint.getInhomX()
 				- lower < higher - startPoint.getInhomX()) ? lower : higher;
 		rootPoint.setCoords(x, real.value(x), 1);
-
 	}
 
+	/**
+	 * @return intersection point
+	 */
 	public GeoPoint getIntersectionPoint() {
 		return rootPoint;
 	}

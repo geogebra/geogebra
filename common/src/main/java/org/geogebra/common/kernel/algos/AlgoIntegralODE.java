@@ -37,12 +37,11 @@ public class AlgoIntegralODE extends AlgoElement {
 
 	private AlgoNumeratorDenominatorFun numAlgo;
 	private AlgoNumeratorDenominatorFun denAlgo;
-	private FunctionalNVar num, den;
+	private FunctionalNVar num;
+	private FunctionalNVar den;
 
-	@SuppressWarnings("javadoc")
-	boolean quotient;
-	@SuppressWarnings("javadoc")
-	ArrayList<MyPoint> al;
+	private boolean quotient;
+	private ArrayList<MyPoint> al;
 
 	final private static double step = 0.02;
 	final private static int n = 20;
@@ -244,11 +243,7 @@ public class AlgoIntegralODE extends AlgoElement {
 			double[] y = interpolator.getInterpolatedState();
 			// System.out.println(t + " " + y[0]);
 
-			if (!quotient) {
-				al.add(new MyPoint(t, y[0], SegmentType.LINE_TO));
-			} else {
-				al.add(new MyPoint(y[0], y[1], SegmentType.LINE_TO));
-			}
+			addMyPoint(t, y);
 
 		}
 
@@ -275,7 +270,7 @@ public class AlgoIntegralODE extends AlgoElement {
 		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
-			double input[] = { t, y[0] };
+			double[] input = { t, y[0] };
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[y, x(A), y(A), 5, 0.1]
@@ -284,14 +279,14 @@ public class AlgoIntegralODE extends AlgoElement {
 			} else {
 				yDot[0] = f.evaluate(input);
 			}
-
 		}
 
 	}
 
 	private static class ODE2 implements FirstOrderDifferentialEquations {
 
-		FunctionalNVar y0, y1;
+		FunctionalNVar y0;
+		FunctionalNVar y1;
 
 		public ODE2(FunctionalNVar y, FunctionalNVar x) {
 			this.y0 = y;
@@ -306,7 +301,7 @@ public class AlgoIntegralODE extends AlgoElement {
 		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
-			double input[] = { y[0], y[1] };
+			double[] input = { y[0], y[1] };
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[-y, x, x(A), y(A), 5, 0.1]
@@ -325,7 +320,6 @@ public class AlgoIntegralODE extends AlgoElement {
 			} else {
 				yDot[1] = y0.evaluate(input);
 			}
-
 		}
 
 	}
@@ -339,6 +333,20 @@ public class AlgoIntegralODE extends AlgoElement {
 		if (quotient && f0 != null) {
 			((GeoElement) f0).removeAlgorithm(numAlgo);
 			((GeoElement) f0).removeAlgorithm(denAlgo);
+		}
+	}
+
+	/**
+	 * @param t
+	 *            time
+	 * @param y
+	 *            interpolator values
+	 */
+	protected void addMyPoint(double t, double[] y) {
+		if (!quotient) {
+			al.add(new MyPoint(t, y[0], SegmentType.LINE_TO));
+		} else {
+			al.add(new MyPoint(y[0], y[1], SegmentType.LINE_TO));
 		}
 	}
 

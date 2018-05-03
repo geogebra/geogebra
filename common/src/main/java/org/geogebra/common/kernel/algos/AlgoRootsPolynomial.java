@@ -132,6 +132,10 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		}
 	}
 
+	/**
+	 * @param f
+	 *            function
+	 */
 	public AlgoRootsPolynomial(GeoFunction f) {
 		super(f.cons);
 		this.f = f;
@@ -162,6 +166,12 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		}
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            function
+	 */
 	public AlgoRootsPolynomial(Construction cons, GeoFunction f) {
 		super(cons);
 		this.f = f;
@@ -181,11 +191,13 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 		setInputOutput(); // for AlgoElement
 		compute();
-
 	}
 
 	/**
 	 * The given labels will be used for the resulting points.
+	 * 
+	 * @param labels
+	 *            output labels
 	 */
 	public void setLabels(String[] labels) {
 		this.labels = labels;
@@ -234,6 +246,9 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		setDependencies();
 	}
 
+	/**
+	 * @return resulting roots
+	 */
 	public GeoPoint[] getRootPoints() {
 		return rootPoints;
 	}
@@ -373,6 +388,9 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * them in solution.curRoots and sets solution.curRealRoots to the number of
 	 * real roots found.
 	 * 
+	 * @param fun
+	 *            function
+	 * 
 	 * @param derivDegree
 	 *            degree of derivative to compute roots from
 	 */
@@ -405,11 +423,22 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		}
 	}
 
+	/**
+	 * @param fun
+	 *            function
+	 * @param derivDegree
+	 *            derivative degree
+	 * @param solution
+	 *            output solution
+	 * @param eqnSolver
+	 *            solver
+	 * @return function used for root finding
+	 */
 	public static UnivariateFunction calcRootsMultiple(Function fun,
 			int derivDegree, Solution solution,
 			EquationSolverInterface eqnSolver) {
 		LinkedList<PolyFunction> factorList;
-		PolyFunction derivPoly = null;// only needed for derivatives
+		PolyFunction derivPoly = null; // only needed for derivatives
 		UnivariateFunction evalFunction = null; // needed to remove wrong extrema
 												// and inflection points
 

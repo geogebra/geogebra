@@ -66,4 +66,4 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 				(GeoNumberValue) this.getD().deepCopy(kernel));
 	}
 
-}// class AlgoSumRectangle
+}

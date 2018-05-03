@@ -44,7 +44,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	private static final int MIN_SAMPLES = 50; // -"- (covers up to 50 in a 250
 	// pxs interval if
 	// 5-pix-convention)
-	protected GeoFunction f; // For calculation of y-values
 
 	protected GeoPoint[] points; // output in subcclass
 
@@ -68,11 +67,9 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	 *            output labels
 	 * @param setLabels
 	 *            whether to set labels
-	 * @param f
-	 *            function
 	 */
 	public AlgoGeoPointsFunction(Construction cons, String[] labels,
-			boolean setLabels, GeoFunction f) {
+			boolean setLabels) {
 		super(cons);
 		this.labels = labels;
 		initLabels = true;
@@ -80,7 +77,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 		this.setLabels = setLabels; // In subclass:
 									// !cons.isSuppressLabelsActive();
-		this.f = f;
 
 		// make sure root points is not null
 		int number = this.labels == null ? 1 : Math.max(1, this.labels.length);
@@ -114,7 +110,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	 */
 	public AlgoGeoPointsFunction(Construction cons, GeoFunction f) {
 		super(cons);
-		this.f = f;
 		setLabels = false;
 		// make sure root points is not null
 		int number = 1;
@@ -124,6 +119,9 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		// subclass.
 	}
 
+	/**
+	 * @return resulting points
+	 */
 	public GeoPoint[] getPoints() {
 		return points;
 	}
@@ -181,9 +179,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	 *            parameter value
 	 * @return f(x); replaced by exact 0 for roots algo
 	 */
-	protected double yAt(double x) {
-		return f.value(x);
-	}
+	protected abstract double yAt(double x);
 
 	// number is the number of current roots
 	protected void updateLabels(int number) {

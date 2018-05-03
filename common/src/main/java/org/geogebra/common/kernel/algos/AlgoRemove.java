@@ -28,7 +28,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoRemove extends AlgoElement {
 
-	private GeoList inputList, inputList2; // input
+	private GeoList inputList;
+	private GeoList inputList2; // input
 	private GeoList outputList; // output
 	private int size;
 	private ArrayList<GeoElement> geosToRemove = new ArrayList<>();
@@ -37,8 +38,13 @@ public class AlgoRemove extends AlgoElement {
 	 * Creates new undefined removal algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param inputList
+	 *            list
+	 * @param inputList2
+	 *            elements to be removed from list
 	 */
 	public AlgoRemove(Construction cons, String label, GeoList inputList,
 			GeoList inputList2) {

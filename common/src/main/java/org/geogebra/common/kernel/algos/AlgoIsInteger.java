@@ -31,6 +31,14 @@ public class AlgoIsInteger extends AlgoElement {
 	private GeoNumeric inputGeo; // input
 	private GeoBoolean outputBoolean; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputGeo
+	 *            number
+	 */
 	public AlgoIsInteger(Construction cons, String label, GeoNumeric inputGeo) {
 		super(cons);
 		this.inputGeo = inputGeo;
@@ -57,6 +65,9 @@ public class AlgoIsInteger extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return boolean result
+	 */
 	public GeoBoolean getResult() {
 		return outputBoolean;
 	}

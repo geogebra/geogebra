@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -33,21 +32,31 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoRootInterval extends AlgoElement {
 
 	private GeoFunction f; // input
-	private NumberValue a, b; // interval bounds
+	private GeoNumberValue a;
+	private GeoNumberValue b; // interval bounds
 	private GeoPoint rootPoint; // output
 
-	private GeoElement aGeo, bGeo;
 	private BrentSolver rootFinder;
 	NewtonSolver rootPolisher;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            function
+	 * @param a
+	 *            interval left bound
+	 * @param b
+	 *            interval right bound
+	 */
 	public AlgoRootInterval(Construction cons, String label, GeoFunction f,
 			GeoNumberValue a, GeoNumberValue b) {
 		super(cons);
 		this.f = f;
 		this.a = a;
 		this.b = b;
-		aGeo = a.toGeoElement();
-		bGeo = b.toGeoElement();
 
 		// output
 		rootPoint = new GeoPoint(cons);
@@ -66,8 +75,8 @@ public class AlgoRootInterval extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[3];
 		input[0] = f;
-		input[1] = aGeo;
-		input[2] = bGeo;
+		input[1] = a.toGeoElement();
+		input[2] = b.toGeoElement();
 
 		super.setOutputLength(1);
 		super.setOutput(0, rootPoint);
@@ -84,7 +93,7 @@ public class AlgoRootInterval extends AlgoElement {
 	}
 
 	final double calcRoot() {
-		if (!(f.isDefined() && aGeo.isDefined() && bGeo.isDefined())) {
+		if (!(f.isDefined() && a.isDefined() && b.isDefined())) {
 			return Double.NaN;
 		}
 
@@ -161,7 +170,7 @@ public class AlgoRootInterval extends AlgoElement {
 		// simplified to allow better Chinese translation
 		return getLoc().getPlainDefault("RootOfAonIntervalBC",
 				"Root of %0 on interval [%0, %1]", f.getLabel(tpl),
-				aGeo.getLabel(tpl), bGeo.getLabel(tpl));
+				a.getLabel(tpl), b.getLabel(tpl));
 	}
 
 }

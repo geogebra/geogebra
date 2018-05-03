@@ -126,7 +126,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			}
 		}
 
-		boolean remove[] = new boolean[n];
+		boolean[] remove = new boolean[n];
 		for (int i = 0; i < n - 1; i++) {
 			remove[i] = false;
 		}
@@ -210,8 +210,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			coeff = cof[k];
 			if (Double.isNaN(coeff) || Double.isInfinite(coeff)) {
 				return null;
-			} else if (coeff == 0)
-			 {
+			} else if (coeff == 0) {
 				continue; // this part vanished
 			}
 
@@ -261,8 +260,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 				poly = new ExpressionNode(kernel, partExp);
 			} else {
 				if (negativeCoeff) {
-					if (coeffMyDouble != null)
-					 {
+					if (coeffMyDouble != null) {
 						coeffMyDouble.set(-coeff); // change sign
 					}
 					poly = new ExpressionNode(kernel, poly, Operation.MINUS,

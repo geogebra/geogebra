@@ -61,8 +61,11 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 **/
 	static final int DIST_MEMORY_SIZE = 8;
 
-	private GeoConic A, B;
-	private GeoPoint[] P, D, Q; // points
+	private GeoConic A;
+	private GeoConic B;
+	private GeoPoint[] P;
+	private GeoPoint[] D;
+	private GeoPoint[] Q; // points
 	/**
 	 * pre-existing intersection points before this Algo is constructed
 	 */
@@ -78,7 +81,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	private GeoConic degConic;
 	private GeoLine tempLine;
 	private int[] age; // for points in D
-	private int permutation[]; // of computed intersection points Q to output
+	private int[] permutation; // of computed intersection points Q to output
 								// points P
 	private double[][] distTable;
 	private boolean[] isQonPath;
@@ -112,21 +115,25 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	public AlgoIntersectConics(Construction cons) {
 		super(cons);
 		init(cons);
-
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param addToConstructionList
+	 *            whether to add to construction list
+	 */
 	public AlgoIntersectConics(Construction cons,
 			boolean addToConstructionList) {
 		super(cons, addToConstructionList);
 		init(cons);
-
 	}
 
-	private void init(Construction cons) {
-		EquationSolver eqnSolver = cons.getKernel().getEquationSolver();
-		sysSolver = cons.getKernel().getSystemOfEquationsSolver(eqnSolver);
+	private void init(Construction cons1) {
+		EquationSolver eqnSolver = cons1.getKernel().getEquationSolver();
+		sysSolver = cons1.getKernel().getSystemOfEquationsSolver(eqnSolver);
 
-		degConic = new GeoConic(cons);
+		degConic = new GeoConic(cons1);
 	}
 
 	/**
@@ -182,7 +189,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		initForNearToRelationship();
 		compute();
 		addIncidence();
-
 	}
 
 	/**
@@ -626,7 +632,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 */
 	private boolean isSingularitySituation() {
 		int count = 0;
-		int index[] = new int[P.length];
+		int[] index = new int[P.length];
 
 		for (int i = 0; i < P.length; i++) {
 			if (P[i].isDefined()) {
@@ -883,7 +889,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		// with C = A + x B that includes all intersection points of A and B.
 		// This leads to a cubic equation for x.
 		double[] eqn = new double[4];
-		double[] sol = new double[3];
 		double[] flatA = new double[6]; // flat matrix of conic A
 		double[] flatB = new double[6]; // flat matrix of conic B
 
@@ -926,6 +931,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		// + eqn[1] + " x + " + eqn[0] );
 
 		// solve cubic equation and sort solutions
+		double[] sol = new double[3];
 		int solnr = EquationSolver.solveCubicS(eqn, sol, eps);
 		if (solnr > -1) {
 			Arrays.sort(sol, 0, solnr);
@@ -1136,10 +1142,13 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 * If there are no defined distances, all distances are set to 0.
 	 * 
 	 * @param D
+	 *            old points
 	 * @param age
 	 *            how long corresponding D has been undefined
 	 * @param Q
+	 *            new points, not permutated
 	 * @param table
+	 *            output distance table
 	 */
 	final public static void distanceTable(GeoPoint[] D, int[] age,
 			GeoPoint[] Q, double[][] table) {
@@ -1198,12 +1207,15 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 * @param P
 	 *            output array
 	 * @param isPalive
+	 *            whether the respective P point was defined already
 	 * @param Q
 	 *            new permutation
 	 * @param isQonPath
+	 *            whether respective element of Q is on both (limited) paths
 	 * @param distTable
+	 *            distance matrix for old points D and new Q
 	 * @param pointList
-	 * 
+	 *            temporary point relation list
 	 * 
 	 * @param permutation
 	 *            is an output parameter for the permutation of points Q used to
@@ -1309,11 +1321,17 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 * to set P that really lie on both paths.
 	 * 
 	 * @param P
+	 *            output array for best fitting permutation
 	 * @param isPalive
+	 *            whether the respective P point was defined already
 	 * @param Q
+	 *            new permutation
 	 * @param isQonPath
+	 *            whether respective element of Q is on both (limited) paths
 	 * @param distTable
+	 *            distance matrix for old points D and new Q
 	 * @param pointList
+	 *            temporary point relation list
 	 * 
 	 * @param permutation
 	 *            is an output parameter for the permutation of points Q used to

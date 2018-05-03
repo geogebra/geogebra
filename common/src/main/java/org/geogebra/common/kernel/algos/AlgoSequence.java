@@ -40,14 +40,16 @@ public class AlgoSequence extends AlgoElement {
 
 	private GeoElementND expression; // input expression dependent on var
 	private GeoNumeric var; // input: local variable
-	private GeoNumberValue var_from, var_to, var_step;
-	private GeoElement var_from_geo, var_to_geo, var_step_geo;
+	private GeoNumberValue var_from;
+	private GeoNumberValue var_to;
+	private GeoNumberValue var_step;
 	private GeoList list; // output
 
-
-	private double last_from = Double.MIN_VALUE, last_to = Double.MIN_VALUE,
-			last_step = Double.MIN_VALUE;
-	private boolean expIsFunctionOrCurve, isEmpty;
+	private double last_from = Double.MIN_VALUE;
+	private double last_to = Double.MIN_VALUE;
+	private double last_step = Double.MIN_VALUE;
+	private boolean expIsFunctionOrCurve;
+	private boolean isEmpty;
 	private AlgoElement expressionParentAlgo;
 
 	// we need to check that some Object[] reference didn't cause infinite
@@ -104,13 +106,8 @@ public class AlgoSequence extends AlgoElement {
 		this.expression = expression;
 		this.var = var;
 		this.var_from = var_from;
-		var_from_geo = var_from.toGeoElement();
 		this.var_to = var_to;
-		var_to_geo = var_to.toGeoElement();
 		this.var_step = var_step;
-		if (var_step != null) {
-			var_step_geo = var_step.toGeoElement();
-		}
 
 		expressionParentAlgo = expression.getParentAlgorithm();
 		expIsFunctionOrCurve = expression instanceof ReplaceChildrenByValues;
@@ -136,10 +133,10 @@ public class AlgoSequence extends AlgoElement {
 		input = new GeoElement[len];
 		input[0] = expression.toGeoElement();
 		input[1] = var;
-		input[2] = var_from_geo;
-		input[3] = var_to_geo;
+		input[2] = var_from.toGeoElement();
+		input[3] = var_to.toGeoElement();
 		if (len == 5) {
-			input[4] = var_step_geo;
+			input[4] = var_step.toGeoElement();
 		}
 
 		setOutputLength(1);
@@ -157,17 +154,17 @@ public class AlgoSequence extends AlgoElement {
 	 * @version 2010-05-13
 	 */
 	@Override
-	public GeoElement[] getInputForUpdateSetPropagation() {
+	public GeoElementND[] getInputForUpdateSetPropagation() {
 		// if expression and var are the same, skip both
 		int skip = expression == var ? 2 : 1;
-		GeoElement[] realInput = new GeoElement[input.length - skip];
+		GeoElementND[] realInput = new GeoElement[input.length - skip];
 		if (skip == 1) {
-			realInput[0] = expression.toGeoElement();
+			realInput[0] = expression;
 		}
-		realInput[2 - skip] = var_from_geo;
-		realInput[3 - skip] = var_to_geo;
+		realInput[2 - skip] = var_from;
+		realInput[3 - skip] = var_to;
 		if (input.length == 5) {
-			realInput[4 - skip] = var_step_geo;
+			realInput[4 - skip] = var_step;
 		}
 
 		return realInput;

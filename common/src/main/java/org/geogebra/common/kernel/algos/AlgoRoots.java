@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
-
 /**
  * Command: Roots[ &lt;function&gt;, &lt;left-x&gt;, &lt;right-x&gt;] (TYPE 0)
  * and Command: Intersect[ &lt;function&gt;, &lt;function&gt;, &lt;left-x&gt;,
@@ -62,12 +61,24 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	/**
 	 * Computes "all" Roots of f in &lt;l,r&gt; TYPE_ROOTS
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param function
+	 *            function
+	 * @param left
+	 *            left bound
+	 * @param right
+	 *            right bound
+	 * @param labelEnabled
+	 *            whether to allow setting labels
 	 */
 	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
 			GeoNumberValue left, GeoNumberValue right, boolean labelEnabled) {
 		// Ancestor gets first function for points!
-		super(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(),
-				function);
+		super(cons, labels, labelEnabled && !cons.isSuppressLabelsActive());
 		this.f0 = function;
 		this.left = left;
 		this.right = right;
@@ -81,6 +92,18 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		showOneRootInAlgebraView();
 	}
 
+	/**
+	 * Computes roots of a function visible in a given view.
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param function
+	 *            function
+	 * @param view
+	 *            view
+	 */
 	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
 			EuclidianViewInterfaceCommon view) {
 		this(cons, labels, function, view.getXminObject(),
@@ -91,6 +114,18 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		intervalDefinedByEV = true;
 	}
 
+	/**
+	 * Computes "all" Roots of f in &lt;l,r&gt; TYPE_ROOTS
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param function
+	 *            function
+	 * @param left
+	 *            left bound
+	 * @param right
+	 *            right bound
+	 */
 	public AlgoRoots(Construction cons, GeoFunction function,
 			GeoNumberValue left, GeoNumberValue right) {
 		super(cons, function); // Ancestor gets first function for points!
@@ -106,16 +141,25 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	}
 
 	/**
-	 * Computes "all" Roots of f in &lt;l,r&gt; TYPE_INTERSECTIONS
+	 * Computes "all" Roots of f-g in &lt;l,r&gt; TYPE_INTERSECTIONS
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param function
+	 *            first function
+	 * @param function2
+	 *            second function
+	 * @param left
+	 *            left bound
+	 * @param right
+	 *            right bound
 	 */
 	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
 			GeoFunction function2, GeoNumberValue left, GeoNumberValue right) {
-		super(cons, labels, !cons.isSuppressLabelsActive(), function); // Ancestor
-																		// gets
-																		// first
-																		// function
-																		// for
-																		// points!
+		// Ancestor gets first function for points!
+		super(cons, labels, !cons.isSuppressLabelsActive());
 		this.f1 = function;
 		this.f2 = function2;
 		this.left = left;
@@ -376,7 +420,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		}
 		signChanged = lefty * righty < 0.0d;
 		return signChanged;
-	}// signChanged(f,x,deltax)
+	}
 
 	@Override
 	public boolean euclidianViewUpdate() {

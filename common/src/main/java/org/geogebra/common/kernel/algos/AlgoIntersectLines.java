@@ -45,7 +45,8 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 public class AlgoIntersectLines extends AlgoIntersectAbstract
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
-	private GeoLine g, h; // input
+	private GeoLine g; // input
+	private GeoLine h; // input
 	private GeoPoint S; // output
 	private PPolynomial[] polynomials;
 	private PPolynomial[] botanaPolynomials;

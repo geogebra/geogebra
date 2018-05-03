@@ -42,7 +42,8 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 		implements UsesCAS {
 
 	private GeoCurveCartesianND curve2;
-	private GeoNumberValue t1, t2;
+	private GeoNumberValue t1;
+	private GeoNumberValue t2;
 
 	// numeric = false is too slow on MPReduce (ggb42). OK to set false for Giac
 	private boolean numeric = false;
@@ -192,11 +193,6 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 			ExpressionNode j01 = eny1.derivative(fVary1, kernel);
 			ExpressionNode minusj11 = eny2.derivative(fVary2, kernel);
 
-			// Log.debug(j00.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
-			// Log.debug(minusj10.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
-			// Log.debug(j01.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
-			// Log.debug(minusj11.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
-
 			// starting point for iteration
 			double x1 = t1.getDouble();
 			double y1 = t2.getDouble();
@@ -329,9 +325,6 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 
 			// eg {{ t = 3 / 2, t2 = 1 / 2}}
 			// Log.debug(result);
-
-			// Log.debug(kernel.getGeoGebraCAS().getCASparser().parseGeoGebraCASInputAndResolveDummyVars(result).evaluate(StringTemplate.maxPrecision));
-			// Log.debug(kernel.getGeoGebraCAS().getCASparser().parseGeoGebraCASInput(result).evaluate(StringTemplate.maxPrecision));
 
 			// result can have eg 1/2 or sqrt(5) in so needs parsing
 			AlgebraProcessor ap = kernel.getAlgebraProcessor();

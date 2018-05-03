@@ -49,14 +49,33 @@ public class AlgoPointOnPath extends AlgoElement
 	private PVariable variable;
 	private PointOnPathAdapter proverAdapter;
 
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param path
+	 *            path
+	 * @param param
+	 *            path parameter
+	 */
 	public AlgoPointOnPath(Construction cons, Path path,
 			GeoNumberValue param) {
-
 		this(cons, path, 0, 0, 0, param);
-
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param path
+	 *            path
+	 * @param x
+	 *            estimate of x-coord
+	 * @param y
+	 *            estimate of y-coord
+	 * @param z
+	 *            estimate of z-coord
+	 * @param param
+	 *            path parameter
+	 */
 	public AlgoPointOnPath(Construction cons, Path path, double x, double y,
 			double z, GeoNumberValue param) {
 		super(cons);
@@ -72,12 +91,34 @@ public class AlgoPointOnPath extends AlgoElement
 		addIncidence();
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param path
+	 *            path
+	 * @param x
+	 *            estimate of x-coord
+	 * @param y
+	 *            estimate of y-coord
+	 */
 	public AlgoPointOnPath(Construction cons, Path path, double x, double y) {
-
 		this(cons, path, x, y, 0, true);
-
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param path
+	 *            path
+	 * @param x
+	 *            estimate of x-coord
+	 * @param y
+	 *            estimate of y-coord
+	 * @param z
+	 *            estimate of z-coord
+	 * @param addIncidence
+	 *            whether to add to incidence list
+	 */
 	public AlgoPointOnPath(Construction cons, Path path, double x, double y,
 			double z, boolean addIncidence) {
 		super(cons, addIncidence);
@@ -104,12 +145,14 @@ public class AlgoPointOnPath extends AlgoElement
 
 	}
 
-	protected void createPoint(Path path, double x, double y, double z) {
-
+	/**
+	 * @param z
+	 *            point z-coord; igored in 2D
+	 */
+	protected void createPoint(Path path1, double x, double y, double z) {
 		P = new GeoPoint(cons);
-		P.setPath(path);
+		P.setPath(path1);
 		P.setCoords(x, y, 1.0);
-
 	}
 
 	@Override
@@ -138,10 +181,16 @@ public class AlgoPointOnPath extends AlgoElement
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting point
+	 */
 	public GeoPointND getP() {
 		return P;
 	}
 
+	/**
+	 * @return path
+	 */
 	public Path getPath() {
 		return path;
 	}

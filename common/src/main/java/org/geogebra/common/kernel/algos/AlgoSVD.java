@@ -20,7 +20,10 @@ public class AlgoSVD extends AlgoElement {
 	private int rows = 0; // rows in M
 	private int columns = 0; // columns in M
 	private RealMatrix M = null;
-	private RealMatrix U, S, V; // decomposition M=USV*
+	// decomposition M=USV*
+	private RealMatrix U;
+	private RealMatrix S;
+	private RealMatrix V;
 	private GeoList listOfMatrices; // output
 
 	/**

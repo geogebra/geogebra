@@ -37,12 +37,30 @@ public abstract class AlgoParabolaPointLineND extends AlgoElement {
 	protected GeoLineND line; // input
 	protected GeoConicND parabola; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param F
+	 *            focus point
+	 * @param l
+	 *            directrix
+	 */
 	public AlgoParabolaPointLineND(Construction cons, String label,
 			GeoPointND F, GeoLineND l) {
 		this(cons, F, l);
 		parabola.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param F
+	 *            focus point
+	 * @param l
+	 *            directrix
+	 */
 	public AlgoParabolaPointLineND(Construction cons, GeoPointND F,
 			GeoLineND l) {
 		super(cons);
@@ -54,7 +72,7 @@ public abstract class AlgoParabolaPointLineND extends AlgoElement {
 		compute();
 	}
 
-	abstract protected GeoConicND newGeoConic(Construction cons);
+	abstract protected GeoConicND newGeoConic(Construction cons1);
 
 	@Override
 	public Commands getClassName() {
@@ -78,24 +96,29 @@ public abstract class AlgoParabolaPointLineND extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return parabola
+	 */
 	public GeoConicND getParabola() {
 		return parabola;
 	}
 
-	// Made public for LocusEqu
+	/**
+	 * @return focus point
+	 */
 	public GeoPointND getFocus() {
 		return F;
 	}
 
-	// Made public for LocusEqu
+	/**
+	 * @return directrix
+	 */
 	public GeoLineND getLine() {
 		return line;
 	}
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		// Michael Borcherds 2008-03-30
-		// simplified to allow better Chinese translation
 		return getLoc().getPlainDefault("ParabolaWithFocusAandDirectrixB",
 				"Parabola with focus %0 and directrix %1",
 				F.getLabel(tpl), line.getLabel(tpl));

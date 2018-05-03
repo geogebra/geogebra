@@ -60,9 +60,13 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 	 * common constructor
 	 * 
 	 * @param c
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param g
+	 *            line
 	 * @param p
+	 *            polyline
 	 */
 	public AlgoIntersectLinePolyLine(Construction c, String[] labels,
 			GeoLineND g, GeoPoly p) {
@@ -89,12 +93,10 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 	protected void setLabels(String[] labels) {
 		// if only one label (e.g. "A") for more than one output, new labels
 		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 &&
-		// outputPoints.size() > 1 &&
-				labels[0] != null && !labels[0].equals("")) {
+		if (labels != null && labels.length == 1 && labels[0] != null
+				&& !labels[0].equals("")) {
 			outputPoints.setIndexLabels(labels[0]);
 		} else {
-
 			outputPoints.setLabels(labels);
 			outputPoints.setIndexLabels(outputPoints.getElement(0)
 					.getLabel(StringTemplate.defaultTemplate));

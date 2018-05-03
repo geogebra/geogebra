@@ -31,13 +31,29 @@ public class AlgoPointInRegion extends AlgoElement {
 	protected Region region; // input
 	protected GeoPoint P; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param region
+	 *            region
+	 */
 	public AlgoPointInRegion(Construction cons, Region region) {
-
 		super(cons);
-
 		this.region = region;
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param region
+	 *            region
+	 * @param x
+	 *            estimated x-coord
+	 * @param y
+	 *            estimated y-coord
+	 */
 	public AlgoPointInRegion(Construction cons, String label, Region region,
 			double x, double y) {
 

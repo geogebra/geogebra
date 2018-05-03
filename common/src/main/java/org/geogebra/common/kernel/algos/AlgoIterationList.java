@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -38,9 +39,11 @@ public class AlgoIterationList extends AlgoElement {
 
 	private GeoFunction f; // input
 	private GeoFunctionNVar fNVar;
-	private GeoNumberValue startValue, n;
+	private GeoNumberValue startValue;
+	private GeoNumberValue n;
 	private GeoList startValues;
-	private GeoElement startValueGeo, nGeo;
+	private GeoElement startValueGeo;
+	private GeoElement nGeo;
 	private GeoList list; // output
 
 	private GeoElement expression; // input expression dependent on var
@@ -48,7 +51,8 @@ public class AlgoIterationList extends AlgoElement {
 	private int varCount;
 	private GeoList[] over;
 
-	private boolean expIsFunctionOrCurve, isEmpty;
+	private boolean expIsFunctionOrCurve;
+	private boolean isEmpty;
 	private AlgoElement expressionParentAlgo;
 
 	enum Type {
@@ -214,7 +218,7 @@ public class AlgoIterationList extends AlgoElement {
 	 * but must be in input array because of GetCommandDescription method).
 	 */
 	@Override
-	public GeoElement[] getInputForUpdateSetPropagation() {
+	public GeoElementND[] getInputForUpdateSetPropagation() {
 		switch (type) {
 		case SIMPLE:
 		case DOUBLE:
@@ -228,7 +232,6 @@ public class AlgoIterationList extends AlgoElement {
 
 			return realInput;
 		}
-
 	}
 
 	/**

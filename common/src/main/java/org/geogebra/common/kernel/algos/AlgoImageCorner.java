@@ -25,6 +25,16 @@ public class AlgoImageCorner extends AlgoElement {
 	private GeoPoint corner; // output
 	private GeoNumberValue number;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param img
+	 *            image
+	 * @param number
+	 *            corner index, see {@link AlgoDrawingPadCorner}
+	 */
 	public AlgoImageCorner(Construction cons, String label, GeoImage img,
 			GeoNumberValue number) {
 		super(cons);
@@ -37,7 +47,6 @@ public class AlgoImageCorner extends AlgoElement {
 		corner.setLabel(label);
 
 		cons.registerEuclidianViewCE(this);
-
 	}
 
 	@Override

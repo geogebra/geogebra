@@ -34,8 +34,19 @@ public class AlgoPointsFromList extends AlgoElement {
 	private GeoPoint3D[] points3D; // output for 3D
 
 	private String[] labels;
-	private boolean initLabels, setLabels;
+	private boolean initLabels;
+	private boolean setLabels;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param setLabels
+	 *            whether to set point labels
+	 * @param list
+	 *            list of numbers
+	 */
 	public AlgoPointsFromList(Construction cons, String[] labels,
 			boolean setLabels, GeoList list) {
 		super(cons);

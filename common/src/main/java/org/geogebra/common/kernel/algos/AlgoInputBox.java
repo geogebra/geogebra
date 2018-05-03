@@ -29,6 +29,14 @@ public class AlgoInputBox extends AlgoElement {
 	private GeoElement linkedGeo; // input
 	private GeoInputBox inputBox; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param linkedGeo
+	 *            linked object
+	 */
 	public AlgoInputBox(Construction cons, String label, GeoElement linkedGeo) {
 		super(cons);
 		this.linkedGeo = linkedGeo;

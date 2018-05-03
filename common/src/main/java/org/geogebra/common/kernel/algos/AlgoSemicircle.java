@@ -32,7 +32,8 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 public class AlgoSemicircle extends AlgoElement
 		implements SymbolicParametersBotanaAlgo {
 
-	private GeoPoint A, B; // input
+	private GeoPoint A; // input
+	private GeoPoint B; // input
 	private GeoConicPart conicPart; // output
 
 	private GeoPoint M; // midpoint of AB

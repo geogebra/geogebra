@@ -98,6 +98,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	public Commands getClassName() {
 		return line == null && g == null ? Commands.Root : Commands.Intersect;
 	}
+
 	@Override
 	protected void computeRoots() {
 		if (f.isDefined()) {
@@ -126,9 +127,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 
 			// extract interval
 			interval = new Function(condExpression, fVar);
-
 		}
-
 	}
 
 	@Override
@@ -141,7 +140,6 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	protected void updateDiffFunctions() {
 		updateIntervalFun();
 		Function.difference(intervalFun, g.getFunction(), diffFunction);
-
 	}
 
 	@Override

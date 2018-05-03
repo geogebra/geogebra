@@ -56,7 +56,6 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 		compute();
 
 		slope.setDrawable(true);
-
 	}
 
 	/**
@@ -109,6 +108,12 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 		return slope;
 	}
 
+	/**
+	 * Get start point of the slope triangle into array of coords.
+	 * 
+	 * @param coords
+	 *            output coords
+	 */
 	public void getInhomPointOnLine(double[] coords) {
 		if (g != null) {
 			g.getInhomPointOnLine(coords);

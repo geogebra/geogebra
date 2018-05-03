@@ -12,6 +12,7 @@
  *
  * Created on 11. March 2015, 19:14
  */
+
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
@@ -37,8 +38,10 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class AlgoIntersectPolyLines extends AlgoElement {
 
-	protected GeoPoly polyA, polyB;
-	protected final boolean polyAClosed, polyBClosed;
+	protected GeoPoly polyA;
+	protected GeoPoly polyB;
+	protected final boolean polyAClosed;
+	protected final boolean polyBClosed;
 
 	protected ArrayList<Coords> intersectingCoords; // intersections
 
@@ -62,11 +65,17 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 	 * Common Constructor
 	 * 
 	 * @param construction
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param polyA
+	 *            first polyline / polygon
 	 * @param polyB
+	 *            second polyline / polygon
 	 * @param polyAClosed
+	 *            whether A is polygon
 	 * @param polyBClosed
+	 *            whether B is polygon
 	 */
 	public AlgoIntersectPolyLines(Construction construction, String[] labels,
 			GeoPoly polyA, GeoPoly polyB, boolean polyAClosed,
@@ -174,13 +183,13 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 	 * A_1, A_2, ...
 	 * 
 	 * @param labels
+	 *            output labels
 	 */
 	protected void setLabels(String[] labels) {
 		// if only one label (e.g. "A") for more than one output, new labels
 		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 &&
-		// outputPoints.size() > 1 &&
-				labels[0] != null && !labels[0].equals("")) {
+		if (labels != null && labels.length == 1 && labels[0] != null
+				&& !labels[0].equals("")) {
 			this.outputPoints.setIndexLabels(labels[0]);
 		} else {
 
@@ -198,7 +207,7 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 	 * @param polyB
 	 *            input polyLine 2
 	 * @param newCoords
-	 *            TreeMap to add calculated intersecting Coords
+	 *            list to add calculated intersecting Coords
 	 */
 	protected void intersectionCoords(GeoPoly polyA, GeoPoly polyB,
 			ArrayList<Coords> newCoords) {

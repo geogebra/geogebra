@@ -4051,7 +4051,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (added) {
 			// propagate up the graph if we didn't do this before
 			if (algoParent != null) {
-				final GeoElement[] input = algoParent
+				final GeoElementND[] input = algoParent
 						.getInputForUpdateSetPropagation();
 				for (int i = 0; i < input.length; i++) {
 					input[i].addToUpdateSets(algorithm);
@@ -4077,7 +4077,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (removed) {
 			// propagate up the graph
 			if (algoParent != null) {
-				final GeoElement[] input = algoParent
+				final GeoElementND[] input = algoParent
 						.getInputForUpdateSetPropagation();
 				for (int i = 0; i < input.length; i++) {
 					input[i].removeFromUpdateSets(algorithm);

@@ -29,9 +29,18 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
  */
 public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 
-	private GeoPointND M, P; // input
+	private GeoPointND M; // input
+	private GeoPointND P; // input
 	private GeoQuadricND sphereND; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param M
+	 *            center
+	 * @param P
+	 *            point on sphere
+	 */
 	public AlgoSphereNDTwoPoints(Construction cons, GeoPointND M,
 			GeoPointND P) {
 		super(cons);
@@ -43,7 +52,7 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 		compute();
 	}
 
-	abstract protected GeoQuadricND createSphereND(Construction cons);
+	abstract protected GeoQuadricND createSphereND(Construction cons1);
 
 	protected AlgoSphereNDTwoPoints(Construction cons, String label,
 			GeoPointND M, GeoPointND P) {
@@ -63,6 +72,9 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting sphere
+	 */
 	public GeoQuadricND getSphereND() {
 		return sphereND;
 	}

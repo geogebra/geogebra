@@ -32,7 +32,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public abstract class AlgoStats1D extends AlgoElement {
 
-	private GeoList geoList, geoList2; // input
+	private GeoList geoList; // data
+	private GeoList geoList2; // frequencies
 	private GeoNumeric Truncate; // input
 	private GeoNumeric result; // output
 
@@ -71,18 +72,23 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 	/**
 	 * @param cons
+	 *            construction
 	 * @param geoList
+	 *            input list
 	 * @param geoList2
-	 * @param Truncate
+	 *            frequencies
+	 * @param truncate
+	 *            truncate index
 	 * @param stat
+	 *            stat type
 	 */
 	protected AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2,
-			GeoNumeric Truncate, int stat) {
+			GeoNumeric truncate, int stat) {
 		super(cons);
 		this.geoList = geoList;
 		this.geoList2 = geoList2;
 		this.stat = stat;
-		this.Truncate = Truncate;
+		this.Truncate = truncate;
 
 		if (geoList.size() > 0 && geoList.get(0).isAngle()) {
 			result = new GeoAngle(cons);

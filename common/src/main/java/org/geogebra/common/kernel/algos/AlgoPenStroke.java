@@ -44,8 +44,6 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 	 * @param points
 	 *            vertices of the polygon
 	 */
-
-
 	public AlgoPenStroke(Construction cons, List<MyPoint> points) {
 		super(cons);
 		this.points = getPointArray(points);
@@ -59,7 +57,6 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 		compute();
 
 		setInputOutput(); // for AlgoElement
-
 	}
 
 	private GeoPointND[] getPointArray(List<MyPoint> dataPoints) {
@@ -92,11 +89,10 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 	 * Update point array of polygon using the given array list
 	 * 
 	 * @param pointList
+	 *            new points
 	 */
 	private void updatePointArray(GeoPoint[] data) {
 		// check if we have a point list
-
-
 		// create new points array
 		int size = data.length;
 		points = new GeoPoint[size];
@@ -104,29 +100,25 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 			points[i] = data[i];
 		}
 		poly.setPoints(points);
-
 	}
 
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
+		input = new GeoElement[points.length + 1];
+		for (int i = 0; i < points.length; i++) {
+			input[i] = (GeoElement) points[i];
+		}
 
-			input = new GeoElement[points.length + 1];
-			for (int i = 0; i < points.length; i++) {
-				input[i] = (GeoElement) points[i];
-			}
-
-			input[points.length] = new GeoBoolean(cons, true); // dummy to
-																// force
-																// PolyLine[...,
-																// true]
-
-
+		input[points.length] = new GeoBoolean(cons, true); // dummy to
+															// force
+															// PolyLine[...,
+															// true]
 
 		// set dependencies
 		for (int i = 0; i < input.length; i++) {
 			input[i].addAlgorithm(this);
-		}
+			}
 
 		// set output
 		setOutputLength(1);
@@ -149,45 +141,41 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 		return points;
 	}
 
-
 	@Override
 	public void compute() {
 		// compute area
 		poly.calcLength();
 	}
 
-
 	@Override
 	final public String toString(StringTemplate tpl) {
-
 		return "";
-
 	}
 
 	public final GeoPointND[] getPointsND() {
 		return points;
 	}
 
+	/**
+	 * @param data
+	 *            new points
+	 */
 	public void updateFrom(GeoPoint[] data) {
-
 		updatePointArray(data);
 		updateInput();
 		update();
-
 	}
 
+	/**
+	 * Rebuild the input array.
+	 */
 	public void updateInput() {
-
 		input = new GeoElement[points.length + 1];
 		for (int i = 0; i < points.length; i++) {
 			input[i] = (GeoElement) points[i];
 		}
-
-		input[points.length] = new GeoBoolean(cons, true); // dummy to
-															// force
-															// PolyLine[...,
-															// true]
-
+		// dummy to force PolyLine[..., true]
+		input[points.length] = new GeoBoolean(cons, true);
 		// set dependencies
 		for (int i = 0; i < input.length; i++) {
 			input[i].addAlgorithm(this);

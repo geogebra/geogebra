@@ -16,7 +16,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -114,6 +113,7 @@ public class AlgoPolyLine extends AlgoElement {
 	 * Update point array of polygon using the given array list
 	 * 
 	 * @param pointList
+	 *            new point list
 	 */
 	private void updatePointArray(GeoList pointList) {
 		// check if we have a point list
@@ -136,26 +136,15 @@ public class AlgoPolyLine extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		if (geoList != null) {
-
-
-				// list as input
-				input = new GeoElement[2];
-				input[0] = geoList;
-				input[1] = new GeoBoolean(cons, true); // dummy to force
-														// PolyLine[list, true]
-
-				// list as input
-				input = new GeoElement[1];
-				input[0] = geoList;
+			// list as input
+			input = new GeoElement[1];
+			input[0] = geoList;
 
 		} else {
 			input = new GeoElement[points.length];
 			for (int i = 0; i < points.length; i++) {
 				input[i] = (GeoElement) points[i];
 			}
-
-
-
 		}
 		// set dependencies
 		for (int i = 0; i < input.length; i++) {

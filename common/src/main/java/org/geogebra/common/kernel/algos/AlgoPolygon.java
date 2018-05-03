@@ -274,27 +274,15 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	private void setOutput() {
 		GeoSegmentND[] segments = poly.getSegments();
 		int size = 1;
-
-		if (segments != null && polyhedron == null && geoList == null) {// if
-																		// from
-																		// polyhedron,
-																		// segments
-																		// are
-																		// output
-																		// of
-																		// algo
-																		// for
-																		// the
-																		// polyhedron
+		// if from polyhedron, segments are output of algo for the polyhedron
+		if (segments != null && polyhedron == null && geoList == null) {
 			size += segments.length;
 		}
 
 		super.setOutputLength(size);
 		super.setOutput(0, poly);
-
-		if (polyhedron == null && geoList == null) {// if from polyhedron,
-													// segments are output of
-													// algo for the polyhedron
+		// if from polyhedron, segments are output of algo for the polyhedron
+		if (polyhedron == null && geoList == null) {
 			for (int i = 0; i < size - 1; i++) {
 				super.setOutput(i + 1, (GeoElement) segments[i]);
 			}

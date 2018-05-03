@@ -143,7 +143,7 @@ public class AlgoSpline extends AlgoElement {
 		return 0;
 	}
 
-	public double[] getParameterIntervalLimits() {
+	private double[] getParameterIntervalLimits() {
 		length = cumulativeValueOfParameter.length;
 		parameterIntervalLimits = new double[length];
 		for (int i = 1; i < length; i++) {
@@ -315,7 +315,7 @@ public class AlgoSpline extends AlgoElement {
 		for (col = 1; col < length; col++) {
 			if (weight != null) {
 				for (row = 1; row <= col; row++) {
-					double value[] = new double[dimension];
+					double[] value = new double[dimension];
 					for (i = 0; i < dimension; i++) {
 						value[i] = doublePoints[row][i]
 								- doublePoints[row - 1][i];

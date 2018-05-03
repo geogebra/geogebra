@@ -35,13 +35,26 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 
 	private GeoFunction f; // input
 	private GeoLine line; // input
-	private GeoPoint startPoint, rootPoint;
+	private GeoPoint startPoint;
+	private GeoPoint rootPoint; // output
 	private GeoPointND tangentPoint;
 
 	private Function diffFunction;
 
 	private boolean isDefinedAsTangent;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            function
+	 * @param line
+	 *            line
+	 * @param startPoint
+	 *            initial point for finding intersection
+	 */
 	public AlgoIntersectFunctionLineNewton(Construction cons, String label,
 			GeoFunction f, GeoLine line, GeoPoint startPoint) {
 		this(cons, f, line, startPoint);
@@ -49,6 +62,16 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		addIncidence();
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            function
+	 * @param line
+	 *            line
+	 * @param startPoint
+	 *            initial point for finding intersection
+	 */
 	public AlgoIntersectFunctionLineNewton(Construction cons, GeoFunction f,
 			GeoLine line, GeoPoint startPoint) {
 		super(cons);

@@ -90,8 +90,8 @@ public class AlgoProductMatrices extends AlgoElement {
 			return;
 		}
 
-		double working[][] = new double[matrix.size()][matrix.size()];
-		double working2[][] = new double[matrix.size()][matrix.size()];
+		double[][] working = new double[matrix.size()][matrix.size()];
+		double[][] working2 = new double[matrix.size()][matrix.size()];
 
 		// fill initial matrix
 		for (int r = 0; r < matrix.size(); r++) {
@@ -99,7 +99,6 @@ public class AlgoProductMatrices extends AlgoElement {
 				working2[r][c] = matrix.get(r, c).evaluateDouble();
 				// Log.debug(working2[r][c]);
 			}
-
 		}
 
 		for (int i = 1; i < size; i++) {
@@ -124,7 +123,6 @@ public class AlgoProductMatrices extends AlgoElement {
 					working[r][c] = working2[r][c];
 					// Log.debug(working2[r][c]);
 				}
-
 			}
 
 			// do the multiplication for one matrix
@@ -143,9 +141,7 @@ public class AlgoProductMatrices extends AlgoElement {
 
 					working2[r][c] = count;
 				}
-
 			}
-
 		}
 
 		// put result back in a GeoList
@@ -159,7 +155,6 @@ public class AlgoProductMatrices extends AlgoElement {
 		}
 
 		result.set(ret);
-
 	}
 
 }

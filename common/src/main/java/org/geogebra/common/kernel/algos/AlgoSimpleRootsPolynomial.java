@@ -38,6 +38,10 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	protected GeoElement[] geos;
 	protected OutputHandler<GeoPoint> points;
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public AlgoSimpleRootsPolynomial(Construction c) {
 		super(c);
 		eqnSolver = cons.getKernel().getEquationSolver();
@@ -53,6 +57,12 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 		});
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param geos
+	 *            input
+	 */
 	public AlgoSimpleRootsPolynomial(Construction c, GeoElement... geos) {
 		this(c);
 		this.geos = new GeoElement[geos.length];
@@ -98,6 +108,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	 *            the roots of the polynomial are assigned to the first n
 	 *            elements of <b>roots</b>
 	 * @param eqnSolver
+	 *            solver
 	 * @return number of distinct roots
 	 */
 	public static int getRoots(double[] roots,
@@ -130,7 +141,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	}
 
 	protected void doCalc(PolynomialFunction rootsPoly) {
-		double roots[] = rootsPoly.getCoefficients();
+		double[] roots = rootsPoly.getCoefficients();
 		int nrRealRoots = 0;
 		if (roots.length > 1) {
 			nrRealRoots = getRoots(roots, eqnSolver);
@@ -140,7 +151,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 
 	protected void doCalc(PolynomialFunction rootsPoly, double min,
 			double max) {
-		double roots[] = rootsPoly.getCoefficients();
+		double[] roots = rootsPoly.getCoefficients();
 		int nrRealRoots = 0;
 		if (roots.length > 1) {
 			nrRealRoots = getRoots(roots, eqnSolver);
@@ -183,6 +194,10 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 		setPoints(valPairs);
 	}
 
+	/**
+	 * @param labels
+	 *            output labels
+	 */
 	public void setLabels(String[] labels) {
 		points.setLabels(labels);
 		update();
@@ -213,6 +228,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	 * @param t
 	 *            root of PolynomialFunction
 	 * @param idx
+	 *            index
 	 * @return Y-value corresponding to t and idx.
 	 */
 	protected double getYValue(double t, int idx) {
@@ -239,6 +255,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	 * @param t
 	 *            root of PolynomialFunction
 	 * @param idx
+	 *            index
 	 * @return X-value corresponding to t and idx.
 	 */
 	protected double getXValue(double t, int idx) {

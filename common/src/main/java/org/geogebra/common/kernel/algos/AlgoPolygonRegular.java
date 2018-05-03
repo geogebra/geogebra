@@ -143,7 +143,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 		 * The Polygon(A,B,n) command creates n-2 new points. We distinguish
 		 * between them by checking which geo was created by the command.
 		 */
-		PVariable vars[] = new PVariable[2];
+		PVariable[] vars = new PVariable[2];
 		for (int i = 0; i < outputPoints.size(); ++i) {
 			if (geo.equals(outputPoints.getElement(i))) {
 				vars[0] = botanaVars[2 * i];

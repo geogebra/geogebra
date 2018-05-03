@@ -31,6 +31,14 @@ public class AlgoRootList extends AlgoElement {
 	private GeoList outputList; // output
 	private int size;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            list of numbers (roots)
+	 */
 	public AlgoRootList(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;

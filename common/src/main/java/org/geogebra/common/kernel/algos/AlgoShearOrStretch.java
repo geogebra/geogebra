@@ -44,7 +44,8 @@ import org.geogebra.common.util.MyMath;
 public class AlgoShearOrStretch extends AlgoTransformation {
 
 	private MatrixTransformable out;
-	private GeoElement inGeo, outGeo;
+	private GeoElement inGeo;
+	private GeoElement outGeo;
 	private GeoVec3D line;
 	private GeoNumberValue num;
 	private boolean shear;

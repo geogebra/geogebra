@@ -35,17 +35,18 @@ public class AlgoRadius extends AlgoElement {
 	private GeoQuadricND c; // input
 	private GeoNumeric num; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param c
+	 *            quadric
+	 */
 	public AlgoRadius(Construction cons, GeoQuadricND c) {
 		super(cons);
 		this.c = c;
 		num = new GeoNumeric(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
-	}
-
-	public AlgoRadius(Construction cons, String label, GeoQuadricND c) {
-		this(cons, c);
-		num.setLabel(label);
 	}
 
 	@Override

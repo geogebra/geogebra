@@ -25,10 +25,27 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  */
 
 public class AlgoRandomPoint extends AlgoElement {
-
-	private GeoNumberValue a, b, c, d; // input
+	// input
+	private GeoNumberValue a;
+	private GeoNumberValue b;
+	private GeoNumberValue c;
+	private GeoNumberValue d;
 	private GeoPoint M; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param a
+	 *            x min
+	 * @param b
+	 *            x max
+	 * @param c
+	 *            y min
+	 * @param d
+	 *            y max
+	 */
 	public AlgoRandomPoint(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
 		super(cons);

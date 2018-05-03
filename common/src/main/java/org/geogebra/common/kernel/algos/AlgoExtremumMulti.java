@@ -64,8 +64,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	/** Computes "all" Extremums of f in &lt;l,r&gt; */
 	public AlgoExtremumMulti(Construction cons, String[] labels,
 			GeoFunction function, GeoNumberValue left, GeoNumberValue right, boolean labelEnabled) {
-		super(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(),
-				function);
+		super(cons, labels, labelEnabled && !cons.isSuppressLabelsActive());
 		this.f1 = function;
 		this.left = left;
 		this.right = right;
@@ -315,6 +314,16 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 			super.setOutput(points);
 		}
+	}
+
+	/**
+	 * @param x
+	 *            parameter value
+	 * @return f(x)
+	 */
+	@Override
+	protected double yAt(double x) {
+		return f1.value(x);
 	}
 
 }

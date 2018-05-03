@@ -102,7 +102,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	private GeoElement p1geo;
 	private GeoElement p2geo;
 	private GeoElement p3geo;
-	private GeoElement hasJoin;
+	private GeoBoolean hasJoin;
 	private GeoElement pointType;
 	private GeoNumeric scale;
 
@@ -796,7 +796,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		// case 1: step graphs
 		if (type == TYPE_STEPGRAPH) {
-			if ((hasJoin != null && ((GeoBoolean) hasJoin).getBoolean())) {
+			if ((hasJoin != null && hasJoin.getBoolean())) {
 				return DrawType.STEP_GRAPH_CONTINUOUS;
 			}
 			return DrawType.STEP_GRAPH_JUMP;

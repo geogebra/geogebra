@@ -1786,7 +1786,7 @@ public class Construction {
 
 		AlgoElement oldGeoAlgo = oldGeo.getParentAlgorithm();
 		AlgoElement newGeoAlgo = newGeo.getParentAlgorithm();
-		GeoElement[] newGeoInputs = null;
+		GeoElementND[] newGeoInputs = null;
 
 		// change kernel settings temporarily
 

@@ -22,8 +22,19 @@ public class AlgoIntersection extends AlgoElement {
 	private GeoList inputList; // input
 	private GeoList inputList2; // input
 	private GeoList outputList; // output
-	private int size, size2;
+	private int size;
+	private int size2;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            first list
+	 * @param inputList2
+	 *            second list
+	 */
 	public AlgoIntersection(Construction cons, String label, GeoList inputList,
 			GeoList inputList2) {
 		super(cons);

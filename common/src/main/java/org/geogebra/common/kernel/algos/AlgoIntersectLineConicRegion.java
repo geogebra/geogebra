@@ -39,9 +39,8 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	private GeoLine[] lines; // output
 	private int numberOfLineParts;
 	private int numberOfOutputLines;
-	// private SortedSet<Double> paramSet;
-	private Double tMin, tMax;
-	// private GeoPoint[] outputPoints;
+	private Double tMin;
+	private Double tMax;
 	private boolean currentPartIsInRegion;
 
 	@Override
@@ -54,6 +53,16 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 		return EuclidianConstants.MODE_INTERSECTION_CURVE;
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            labels
+	 * @param g
+	 *            line
+	 * @param c
+	 *            conic
+	 */
 	public AlgoIntersectLineConicRegion(Construction cons, String[] labels,
 			GeoLine g, GeoConic c) {
 		super(cons, g, c);
@@ -93,9 +102,11 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 		for (int i = 0; i < 4; i++) {
 			setOutputDependencies(lines[i]);
 		}
-
 	}
 
+	/**
+	 * @return copy of output array
+	 */
 	public GeoLine[] getIntersectionLines() {
 		GeoLine[] ret = new GeoLine[numberOfOutputLines];
 		for (int i = 0; i < numberOfOutputLines; i++) {

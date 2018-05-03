@@ -20,10 +20,12 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 
 	protected GeoFunction func; // input
 	protected GeoPoly poly; // input
-	protected GeoPoint startPoint, rootPoint;
+	protected GeoPoint startPoint;
+	protected GeoPoint rootPoint;
 	protected boolean polyClosed;
 
-	protected int polySegCount, polyPointLength;
+	protected int polySegCount;
+	protected int polyPointLength;
 
 	private Function diffFunction;
 

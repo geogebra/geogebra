@@ -20,12 +20,23 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
+/**
+ * Computes Q = P + v.
+ */
 public abstract class AlgoPointVectorND extends AlgoElement {
 
 	protected GeoPointND P; // input
 	protected GeoVectorND v; // input
 	protected GeoPointND Q; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param P
+	 *            initial point
+	 * @param v
+	 *            vecor
+	 */
 	public AlgoPointVectorND(Construction cons, GeoPointND P, GeoVectorND v) {
 		super(cons);
 		this.P = P;
@@ -68,6 +79,9 @@ public abstract class AlgoPointVectorND extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoPointND getQ() {
 		return Q;
 	}

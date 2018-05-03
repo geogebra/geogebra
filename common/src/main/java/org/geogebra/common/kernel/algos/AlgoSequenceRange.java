@@ -41,16 +41,14 @@ public class AlgoSequenceRange extends AlgoElement {
 		SIMPLE, RANGE, FULL
 	}
 
-	private GeoNumberValue var_from, var_to, var_step;
+	private GeoNumberValue var_from;
+	private GeoNumberValue var_to;
+	private GeoNumberValue var_step;
 	private GeoList list; // output
 
 	private SequenceType type;
 
 	private double last_to = Double.MIN_VALUE;
-
-
-
-
 
 	/**
 	 * Creates simple sequence start..upTo
@@ -126,9 +124,8 @@ public class AlgoSequenceRange extends AlgoElement {
 						var_to.toGeoElement(),
 						var_step.toGeoElement() };
 			}
-
-
 		}
+
 		list.setTypeStringForXML(StringUtil.toLowerCaseUS(var_to
 				.getGeoClassType().xmlName));
 		setOutputLength(1);
@@ -136,7 +133,6 @@ public class AlgoSequenceRange extends AlgoElement {
 
 		setDependencies(); // done by AlgoElement
 	}
-
 
 	/**
 	 * Returns list of all contained elements.
@@ -174,7 +170,7 @@ public class AlgoSequenceRange extends AlgoElement {
 		
 		list.clear();
 		double step = 1;
-		if(var_step != null){
+		if (var_step != null) {
 			step = var_step.evaluateDouble();
 			if (to < from) {
 				step = -step;
@@ -231,7 +227,6 @@ public class AlgoSequenceRange extends AlgoElement {
 			}
 		}
 		last_to = to;
-
 	}
 
 }

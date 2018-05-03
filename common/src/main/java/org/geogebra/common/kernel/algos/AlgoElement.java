@@ -720,7 +720,7 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * @return input without local variables
 	 */
-	public GeoElement[] getInputForUpdateSetPropagation() {
+	public GeoElementND[] getInputForUpdateSetPropagation() {
 		return input;
 	}
 

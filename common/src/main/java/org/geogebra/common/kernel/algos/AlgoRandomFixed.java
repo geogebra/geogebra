@@ -26,11 +26,24 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public class AlgoRandomFixed extends AlgoElement {
 
-	protected GeoNumberValue a, b; // input
+	protected GeoNumberValue a; // input
+	protected GeoNumberValue b; // input
 	protected GeoNumeric num; // output
 
-	double random, aLast = Double.NaN, bLast = Double.NaN;
+	double random;
+	double aLast = Double.NaN;
+	double bLast = Double.NaN;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            min
+	 * @param b
+	 *            max
+	 */
 	public AlgoRandomFixed(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b) {
 		this(cons, a, b);
@@ -66,16 +79,17 @@ public class AlgoRandomFixed extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return random number
+	 */
 	public GeoNumeric getResult() {
 		return num;
 	}
 
 	@Override
 	public void compute() {
-
 		if (input[0].isDefined() && input[1].isDefined()) {
 			if (a.getDouble() != aLast || b.getDouble() != bLast) {
-
 				// change random number only if a or b has changed
 				aLast = a.getDouble();
 				bLast = b.getDouble();
@@ -90,7 +104,6 @@ public class AlgoRandomFixed extends AlgoElement {
 		} else {
 			num.setUndefined();
 		}
-
 	}
 
 }

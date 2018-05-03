@@ -31,7 +31,7 @@ public class AlgoIntersectFunctions extends AlgoRoots {
 			GeoFunction f, GeoFunction g, GeoNumberValue left,
 			GeoNumberValue right) {
 		super(cons, labels, f, g, left, right);
-	}// Constructor
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -40,6 +40,6 @@ public class AlgoIntersectFunctions extends AlgoRoots {
 
 	public GeoPoint[] getIntersectionPoints() {
 		return super.getRootPoints();
-	}// getIntersectionPoints()
+	}
 
-}// class AgoIntersetFunctions
+}

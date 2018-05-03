@@ -31,6 +31,14 @@ public class AlgoPointList extends AlgoElement {
 	private GeoList outputList; // output
 	private int size;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            list of lists of numbers
+	 */
 	public AlgoPointList(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;

@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -33,8 +34,10 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoIteration extends AlgoElement {
 
 	private GeoFunction f; // input
-	private GeoNumberValue startValue, n;
-	private GeoElement startValueGeo, nGeo;
+	private GeoNumberValue startValue;
+	private GeoNumberValue n;
+	private GeoElement startValueGeo;
+	private GeoElement nGeo;
 	private GeoElement result; // output
 	private GeoFunctionNVar fNVar;
 
@@ -47,7 +50,18 @@ public class AlgoIteration extends AlgoElement {
 	AlgoIterationList.Type type;
 	boolean updateRunning = false;
 
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            function
+	 * @param startValue
+	 *            initial value
+	 * @param n
+	 *            number of iterations
+	 */
 	public AlgoIteration(Construction cons, String label, GeoFunction f,
 			GeoNumberValue startValue, GeoNumberValue n) {
 		super(cons);
@@ -64,6 +78,18 @@ public class AlgoIteration extends AlgoElement {
 		result.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            function(last, last index)
+	 * @param startValue
+	 *            initial values
+	 * @param n
+	 *            number of iterations
+	 */
 	public AlgoIteration(Construction cons, String label, GeoFunctionNVar f,
 			GeoList startValue, GeoNumberValue n) {
 		super(cons);
@@ -80,6 +106,18 @@ public class AlgoIteration extends AlgoElement {
 		result.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param expression
+	 *            expression
+	 * @param vars
+	 *            variables
+	 * @param over
+	 *            initial values
+	 * @param n
+	 *            number of iterations
+	 */
 	public AlgoIteration(Construction cons, GeoElement expression,
 			GeoElement[] vars, GeoList[] over, GeoNumberValue n) {
 		super(cons);
@@ -98,7 +136,6 @@ public class AlgoIteration extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();
-
 	}
 
 	@Override
@@ -138,11 +175,14 @@ public class AlgoIteration extends AlgoElement {
 		setDependencies();
 	}
 
+	/**
+	 * @return iteration result
+	 */
 	public GeoElement getResult() {
 		return result;
 	}
 
-	public final void computeSimple() {
+	private final void computeSimple() {
 		if (!f.isDefined() || !startValueGeo.isDefined() || !nGeo.isDefined()) {
 			result.setUndefined();
 			return;
@@ -162,7 +202,7 @@ public class AlgoIteration extends AlgoElement {
 		((GeoNumeric) result).setValue(val);
 	}
 
-	public final void computeDouble() {
+	private final void computeDouble() {
 		if (!fNVar.isDefined() || !startValueGeo.isDefined()
 				|| !nGeo.isDefined() || ((GeoList) startValueGeo).size() != 2) {
 			result.setUndefined();
@@ -231,7 +271,7 @@ public class AlgoIteration extends AlgoElement {
 	}
 
 	@Override
-	public GeoElement[] getInputForUpdateSetPropagation() {
+	public GeoElementND[] getInputForUpdateSetPropagation() {
 		if (type != Type.DEFAULT) {
 			return super.getInputForUpdateSetPropagation();
 		}
@@ -314,7 +354,6 @@ public class AlgoIteration extends AlgoElement {
 			expressionParentAlgo.update();
 			listElement.set(expression);
 		}
-
 	}
 
 }
