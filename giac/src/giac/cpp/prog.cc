@@ -1180,8 +1180,10 @@ namespace giac {
       for (int i=0;i<rs;i++){
 	// remove constant idnt and recursive def
 	if (is_constant_idnt(non_decl[i]) || non_decl[i]==d){ 
-	  non_decl.erase(non_decl.begin()+i);
-	  --i; --rs;
+	  if (strcmp(non_decl[i]._IDNTptr->id_name,"i")){
+	    non_decl.erase(non_decl.begin()+i);
+	    --i; --rs;
+	  }
 	}
       }
       if (!non_decl.empty()){

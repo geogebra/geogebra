@@ -424,11 +424,15 @@ namespace giac {
       else {
 	add_print(s,arg,contextptr);
 	if (argpar) s +=')';
+	if (python_compat(contextptr))
+	  s += "**";
+	else {
 #ifdef GIAC_HAS_STO_38
-	s += '^';
+	  s += '^';
 #else
-	s += __pow.s;
+	  s += __pow.s;
 #endif
+	}
 	return add_print(s,pui,contextptr);
       }
     }
