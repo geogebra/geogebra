@@ -403,5 +403,6 @@ public class GeoVideo extends GeoMedia {
 			return;
 		}
 		app.getVideoManager().removePlayer(this);
+		super.remove();
 	}
 }
