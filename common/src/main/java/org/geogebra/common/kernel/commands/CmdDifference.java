@@ -80,7 +80,7 @@ public class CmdDifference extends CommandProcessor {
 	 */
 	protected GeoElement[] difference(String[] labels, GeoPolygon poly1,
 			GeoPolygon poly2) {
-		return getAlgoDispatcher().Difference(labels, poly1, poly2);
+		return getAlgoDispatcher().difference(labels, poly1, poly2);
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class CmdDifference extends CommandProcessor {
 	 */
 	protected GeoElement[] difference(String[] labels, GeoPolygon poly1,
 			GeoPolygon poly2, GeoBoolean exclusive) {
-		return getAlgoDispatcher().Difference(labels, poly1, poly2, exclusive);
+		return getAlgoDispatcher().difference(labels, poly1, poly2, exclusive);
 	}
 
 	/**

@@ -83,7 +83,7 @@ public class CmdSlowPlot extends CmdScripting {
 						.apply(Operation.IF,
 								arg[0].wrap().apply(Operation.FUNCTION, x));
 				GeoFunction g = cons.getKernel().getAlgoDispatcher()
-						.DependentFunction(new Function(exp, x),
+						.dependentFunction(new Function(exp, x),
 								new EvalInfo(true));
 				String label = c.getLabel();
 				if (g.validate(label == null)) {

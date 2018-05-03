@@ -44,7 +44,7 @@ public class CmdPerimeter extends CommandProcessor {
 			} else if ((arg[0].isGeoConic())) {
 
 				GeoElement[] ret = { getAlgoDispatcher()
-						.Circumference(c.getLabel(), (GeoConicND) arg[0]) };
+						.circumference(c.getLabel(), (GeoConicND) arg[0]) };
 				return ret;
 
 			} else if ((arg[0].isGeoLocus())) {

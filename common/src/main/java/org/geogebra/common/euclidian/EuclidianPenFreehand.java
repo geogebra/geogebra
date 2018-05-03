@@ -390,7 +390,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 
 		if (list.size() >= 3) {
-			circle = this.app.getKernel().getAlgoDispatcher().Circle(null,
+			circle = this.app.getKernel().getAlgoDispatcher().circle(null,
 					list.get(0), list.get(1), list.get(2));
 		}
 		return circle;
@@ -577,7 +577,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			additionalPoint.setEuclidianVisible(false);
 
 			conic = (GeoConic) this.app.getKernel().getAlgoDispatcher()
-					.EllipseHyperbola(null, f0, f1, additionalPoint, type);
+					.ellipseHyperbola(null, f0, f1, additionalPoint, type);
 		} else {
 			conic.remove();
 			conic = null;
@@ -1233,7 +1233,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			circle.remove();
 
 			// create a new circle with midpoint and point
-			return app.getKernel().getAlgoDispatcher().Circle(null, m, p);
+			return app.getKernel().getAlgoDispatcher().circle(null, m, p);
 		}
 		return null;
 	}

@@ -61,7 +61,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 					throw new MyError(app.getLocalization(), "InvalidEquation");
 				}
 				GeoElement[] ret = { getAlgoDispatcher()
-						.ImplicitPoly(c.getLabel(), ((GeoFunctionNVar) arg[0]))
+						.implicitPoly(c.getLabel(), ((GeoFunctionNVar) arg[0]))
 						.toGeoElement() };
 				return ret;
 			} else {

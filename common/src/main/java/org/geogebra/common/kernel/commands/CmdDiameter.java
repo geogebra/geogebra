@@ -71,7 +71,7 @@ public class CmdDiameter extends CommandProcessor {
 	 * @return diameter line
 	 */
 	protected GeoElement diameter(String label, GeoLineND l, GeoConicND c) {
-		return getAlgoDispatcher().DiameterLine(label, l, c);
+		return getAlgoDispatcher().diameterLine(label, l, c);
 	}
 
 	/**
@@ -85,6 +85,6 @@ public class CmdDiameter extends CommandProcessor {
 	 * @return diameter line
 	 */
 	protected GeoElement diameter(String label, GeoVectorND v, GeoConicND c) {
-		return getAlgoDispatcher().DiameterLine(label, v, c);
+		return getAlgoDispatcher().diameterLine(label, v, c);
 	}
 }

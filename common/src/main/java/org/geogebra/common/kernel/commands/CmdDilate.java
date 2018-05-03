@@ -98,7 +98,7 @@ public class CmdDilate extends CommandProcessor {
 	protected GeoElement[] dilate(String label, GeoElement geoDil,
 			GeoNumberValue r, GeoElement point) {
 
-		return getAlgoDispatcher().Dilate(label, geoDil, r, (GeoPoint) point);
+		return getAlgoDispatcher().dilate(label, geoDil, r, (GeoPoint) point);
 	}
 
 }

@@ -246,7 +246,7 @@ public class CmdAngle extends CommandProcessor {
 	 */
 	protected GeoElement[] angle(String[] labels, GeoPointND p1, GeoPointND p2,
 			GeoNumberValue a) {
-		return getAlgoDispatcher().Angle(labels, (GeoPoint) p1, (GeoPoint) p2,
+		return getAlgoDispatcher().angle(labels, (GeoPoint) p1, (GeoPoint) p2,
 				a, true);
 	}
 
@@ -263,7 +263,7 @@ public class CmdAngle extends CommandProcessor {
 	 */
 	protected GeoElement[] angle(String label, GeoPointND p1, GeoPointND p2,
 			GeoPointND p3) {
-		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoPoint) p1,
+		GeoElement[] ret = { getAlgoDispatcher().angle(label, (GeoPoint) p1,
 				(GeoPoint) p2, (GeoPoint) p3) };
 		return ret;
 	}
@@ -279,7 +279,7 @@ public class CmdAngle extends CommandProcessor {
 	 */
 	protected GeoElement[] angle(String label, GeoLineND g, GeoLineND h) {
 		GeoElement[] ret = {
-				getAlgoDispatcher().Angle(label, (GeoLine) g, (GeoLine) h) };
+				getAlgoDispatcher().angle(label, (GeoLine) g, (GeoLine) h) };
 		return ret;
 	}
 
@@ -293,7 +293,7 @@ public class CmdAngle extends CommandProcessor {
 	 * @return angle between vectors
 	 */
 	protected GeoElement[] angle(String label, GeoVectorND v, GeoVectorND w) {
-		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoVector) v,
+		GeoElement[] ret = { getAlgoDispatcher().angle(label, (GeoVector) v,
 				(GeoVector) w) };
 		return ret;
 	}
@@ -333,7 +333,7 @@ public class CmdAngle extends CommandProcessor {
 	 * @return angles of the polygon
 	 */
 	protected GeoElement[] angle(String[] labels, GeoPolygon p) {
-		return getAlgoDispatcher().Angles(labels, p);
+		return getAlgoDispatcher().angles(labels, p);
 	}
 
 }

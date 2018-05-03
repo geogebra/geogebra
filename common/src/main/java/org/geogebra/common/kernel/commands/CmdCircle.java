@@ -92,7 +92,7 @@ public class CmdCircle extends CommandProcessor {
 	 * @return circle (center, radius)
 	 */
 	protected GeoElement circle(String label, GeoPointND a, GeoNumberValue v) {
-		return getAlgoDispatcher().Circle(label, a, v);
+		return getAlgoDispatcher().circle(label, a, v);
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class CmdCircle extends CommandProcessor {
 	 * @return circle (center, point)
 	 */
 	protected GeoElement circle(String label, GeoPointND a, GeoPointND b) {
-		return getAlgoDispatcher().Circle(label, (GeoPoint) a, (GeoPoint) b);
+		return getAlgoDispatcher().circle(label, (GeoPoint) a, (GeoPoint) b);
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class CmdCircle extends CommandProcessor {
 	 */
 	protected GeoElement circle(String label, GeoPointND a, GeoPointND b,
 			GeoPointND c) {
-		return getAlgoDispatcher().Circle(label, (GeoPoint) a, (GeoPoint) b,
+		return getAlgoDispatcher().circle(label, (GeoPoint) a, (GeoPoint) b,
 				(GeoPoint) c);
 	}
 

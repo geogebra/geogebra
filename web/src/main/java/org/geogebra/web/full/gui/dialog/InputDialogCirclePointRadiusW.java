@@ -35,7 +35,7 @@ public class InputDialogCirclePointRadiusW extends InputDialogRadiusW {
 
 	@Override
 	protected GeoElement createOutput(GeoNumberValue num) {
-		return kernel.getAlgoDispatcher().Circle(null, geoPoint1, num);
+		return kernel.getAlgoDispatcher().circle(null, geoPoint1, num);
 	}
 
 }

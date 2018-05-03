@@ -99,7 +99,7 @@ public class CmdAngularBisector extends CommandProcessor {
 	protected GeoElement[] angularBisector(String[] labels, GeoLineND g,
 			GeoLineND h) {
 
-		return getAlgoDispatcher().AngularBisector(labels, (GeoLine) g,
+		return getAlgoDispatcher().angularBisector(labels, (GeoLine) g,
 				(GeoLine) h);
 	}
 
@@ -117,7 +117,7 @@ public class CmdAngularBisector extends CommandProcessor {
 	protected GeoElement angularBisector(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
 
-		return getAlgoDispatcher().AngularBisector(label, (GeoPoint) A,
+		return getAlgoDispatcher().angularBisector(label, (GeoPoint) A,
 				(GeoPoint) B, (GeoPoint) C);
 	}
 }

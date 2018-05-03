@@ -78,7 +78,7 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 	 */
 	protected GeoElement ellipse(String label, GeoPointND a, GeoPointND b,
 			GeoPointND c) {
-		return getAlgoDispatcher().EllipseHyperbola(label, a, b, c, type);
+		return getAlgoDispatcher().ellipseHyperbola(label, a, b, c, type);
 	}
 
 	/**
@@ -114,8 +114,8 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 	protected GeoElement ellipseHyperbola(String label, GeoPointND a,
 			GeoPointND b, GeoNumberValue v) {
 		if (type == GeoConicNDConstants.CONIC_HYPERBOLA) {
-			return getAlgoDispatcher().Hyperbola(label, a, b, v);
+			return getAlgoDispatcher().hyperbola(label, a, b, v);
 		}
-		return getAlgoDispatcher().Ellipse(label, a, b, v);
+		return getAlgoDispatcher().ellipse(label, a, b, v);
 	}
 }

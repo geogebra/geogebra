@@ -77,7 +77,7 @@ public class CmdCircleArcSector extends CommandProcessor {
 	 */
 	protected GeoElement circleArcSector(String label, GeoPointND center,
 			GeoPointND startPoint, GeoPointND endPoint) {
-		return getAlgoDispatcher().CircleArcSector(label, (GeoPoint) center,
+		return getAlgoDispatcher().circleArcSector(label, (GeoPoint) center,
 				(GeoPoint) startPoint, (GeoPoint) endPoint, type);
 	}
 

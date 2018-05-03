@@ -62,7 +62,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
+	public GeoNumeric distance(String label, GeoLineND g, GeoLineND h) {
 
 		if (g.isGeoElement3D() || h.isGeoElement3D()) {
 			AlgoDistanceLines3D algo = new AlgoDistanceLines3D(cons, label, g,
@@ -70,17 +70,17 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			return algo.getDistance();
 		}
 
-		return super.Distance(label, g, h);
+		return super.distance(label, g, h);
 	}
 
 	@Override
-	public GeoPointND IntersectLines(String label, GeoLineND g, GeoLineND h) {
+	public GeoPointND intersectLines(String label, GeoLineND g, GeoLineND h) {
 
 		if (g.isGeoElement3D() || h.isGeoElement3D()) {
 			return (GeoPointND) getManager3D().intersect(label, g, h);
 		}
 
-		return super.IntersectLines(label, g, h);
+		return super.intersectLines(label, g, h);
 
 	}
 
@@ -106,14 +106,14 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public GeoPointND[] IntersectLineConic(String[] labels, GeoLineND g,
+	public GeoPointND[] intersectLineConic(String[] labels, GeoLineND g,
 			GeoConicND c) {
 
 		if (g.isGeoElement3D() || c.isGeoElement3D()) {
 			return getManager3D().intersectLineConic(null, g, c);
 		}
 
-		return super.IntersectLineConic(labels, g, c);
+		return super.intersectLineConic(labels, g, c);
 	}
 
 	private Manager3DInterface getManager3D() {
@@ -220,13 +220,13 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	final public GeoConicND Circle(String label, GeoPointND M,
+	final public GeoConicND circle(String label, GeoPointND M,
 			GeoNumberValue r) {
 		if (M.isGeoElement3D()) {
 			return getManager3D().circle3D(label, M, r);
 		}
 
-		return super.Circle(label, M, r);
+		return super.circle(label, M, r);
 
 	}
 
@@ -295,12 +295,12 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	protected GeoElement LocusNoCheck(String label, GeoPointND Q,
+	protected GeoElement locusNoCheck(String label, GeoPointND Q,
 			GeoNumeric P) {
 		if (Q.isGeoElement3D()) {
 			return getManager3D().locus3D(label, Q, P);
 		}
-		return super.LocusNoCheck(label, Q, P);
+		return super.locusNoCheck(label, Q, P);
 	}
 
 	@Override

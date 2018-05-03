@@ -359,7 +359,7 @@ public class TextDispatcher {
 		// checkZooming();
 
 		GeoNumeric circumFerence = kernel.getAlgoDispatcher()
-				.Circumference(null, conic);
+				.circumference(null, conic);
 
 		// text
 		GeoText text = createDynamicTextForMouseLoc("CircumferenceOfA",
@@ -479,7 +479,7 @@ public class TextDispatcher {
 	 * @return text describing distance between points
 	 */
 	public GeoElement createDistanceText(GeoPointND point1, GeoPointND point2) {
-		GeoNumeric length = kernel.getAlgoDispatcher().Distance(null, point1,
+		GeoNumeric length = kernel.getAlgoDispatcher().distance(null, point1,
 				point2);
 
 		// set startpoint of text to midpoint of two points
@@ -504,7 +504,7 @@ public class TextDispatcher {
 	 * @return text for distance between point and line
 	 */
 	public GeoElement createDistanceText(GeoPointND point, GeoLineND line) {
-		GeoNumeric length = kernel.getAlgoDispatcher().Distance(null, point,
+		GeoNumeric length = kernel.getAlgoDispatcher().distance(null, point,
 				line);
 
 		// set startpoint of text to midpoint between point and line

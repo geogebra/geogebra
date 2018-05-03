@@ -72,7 +72,7 @@ public class EuclidianControllerCompanion {
 	 * @return angle
 	 */
 	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C) {
-		return ec.getAlgoDispatcher().Angle(null, (GeoPoint) A, (GeoPoint) B,
+		return ec.getAlgoDispatcher().angle(null, (GeoPoint) A, (GeoPoint) B,
 				(GeoPoint) C);
 	}
 
@@ -82,7 +82,7 @@ public class EuclidianControllerCompanion {
 	 * @return angles
 	 */
 	protected GeoElement[] createAngles(GeoPolygon p) {
-		return ec.getAlgoDispatcher().Angles(null, p, true);
+		return ec.getAlgoDispatcher().angles(null, p, true);
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class EuclidianControllerCompanion {
 	 * @return angle between vectors
 	 */
 	protected GeoAngle createAngle(GeoVectorND v1, GeoVectorND v2) {
-		return ec.getAlgoDispatcher().Angle(null, (GeoVector) v1,
+		return ec.getAlgoDispatcher().angle(null, (GeoVector) v1,
 				(GeoVector) v2);
 	}
 
@@ -110,7 +110,7 @@ public class EuclidianControllerCompanion {
 	 */
 	public GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoNumberValue num,
 			boolean clockWise) {
-		return (GeoAngle) ec.getAlgoDispatcher().Angle(null, (GeoPoint) A,
+		return (GeoAngle) ec.getAlgoDispatcher().angle(null, (GeoPoint) A,
 				(GeoPoint) B, num, !clockWise)[0];
 	}
 
@@ -169,7 +169,7 @@ public class EuclidianControllerCompanion {
 	 */
 	public GeoElement[] dilateFromPoint(GeoElement geo, GeoNumberValue num,
 			GeoPointND point) {
-		return ec.kernel.getAlgoDispatcher().Dilate(null, geo, num,
+		return ec.kernel.getAlgoDispatcher().dilate(null, geo, num,
 				(GeoPoint) point);
 	}
 
@@ -191,7 +191,7 @@ public class EuclidianControllerCompanion {
 		if (a.isGeoLine()) {
 			if (b.isGeoLine()) {
 				if (!((GeoLine) a).linDep((GeoLine) b)) {
-					point = ec.getAlgoDispatcher().IntersectLines(null,
+					point = ec.getAlgoDispatcher().intersectLines(null,
 							(GeoLine) a, (GeoLine) b);
 				} else {
 					return null;
@@ -200,7 +200,7 @@ public class EuclidianControllerCompanion {
 				point = ec.getAlgoDispatcher().IntersectLineConicSingle(null,
 						(GeoLine) a, (GeoConic) b, ec.xRW, ec.yRW);
 			} else if (b.isGeoCurveCartesian()) {
-				return (GeoPointND) ec.getAlgoDispatcher().IntersectLineCurve(
+				return (GeoPointND) ec.getAlgoDispatcher().intersectLineCurve(
 						null, (GeoLine) a, (GeoCurveCartesian) b)[0];
 			} else if (b.isGeoFunctionable()) {
 				// line and function
@@ -212,7 +212,7 @@ public class EuclidianControllerCompanion {
 				}
 				GeoPoint initPoint = new GeoPoint(ec.kernel.getConstruction());
 				initPoint.setCoords(ec.xRW, ec.yRW, 1.0);
-				point = ec.getAlgoDispatcher().IntersectFunctionLine(null, f,
+				point = ec.getAlgoDispatcher().intersectFunctionLine(null, f,
 						(GeoLine) a, initPoint);
 			} else {
 				return null;
@@ -224,7 +224,7 @@ public class EuclidianControllerCompanion {
 				point = ec.getAlgoDispatcher().IntersectLineConicSingle(null,
 						(GeoLine) b, (GeoConic) a, ec.xRW, ec.yRW);
 			} else if (b.isGeoConic() && !a.isEqual(b)) {
-				point = ec.getAlgoDispatcher().IntersectConicsSingle(null,
+				point = ec.getAlgoDispatcher().intersectConicsSingle(null,
 						(GeoConic) a, (GeoConic) b, ec.xRW, ec.yRW);
 			} else {
 				return null;
@@ -243,7 +243,7 @@ public class EuclidianControllerCompanion {
 					GeoPoint initPoint = new GeoPoint(
 							ec.kernel.getConstruction());
 					initPoint.setCoords(ec.xRW, ec.yRW, 1.0);
-					point = ec.getAlgoDispatcher().IntersectFunctionLine(null,
+					point = ec.getAlgoDispatcher().intersectFunctionLine(null,
 							aFun, (GeoLine) b, initPoint);
 				}
 			} else if (b.isGeoFunctionable()) {
@@ -263,10 +263,10 @@ public class EuclidianControllerCompanion {
 		} else if (a.isGeoCurveCartesian()) {
 			if (b.isGeoCurveCartesian()) {
 				return (GeoPointND) ec.getAlgoDispatcher()
-						.IntersectCurveCurveSingle(null, (GeoCurveCartesian) a,
+						.intersectCurveCurveSingle(null, (GeoCurveCartesian) a,
 								(GeoCurveCartesian) b, ec.xRW, ec.yRW)[0];
 			} else if (b.isGeoLine()) {
-				return (GeoPointND) ec.getAlgoDispatcher().IntersectLineCurve(
+				return (GeoPointND) ec.getAlgoDispatcher().intersectLineCurve(
 						null, (GeoLine) b, (GeoCurveCartesian) a)[0];
 			}
 		}
@@ -351,7 +351,7 @@ public class EuclidianControllerCompanion {
 	 * @return center of conic
 	 */
 	protected GeoElement midpoint(GeoConicND conic) {
-		return (GeoElement) ec.getAlgoDispatcher().Center(null, conic);
+		return (GeoElement) ec.getAlgoDispatcher().center(null, conic);
 	}
 
 	/**
@@ -411,7 +411,7 @@ public class EuclidianControllerCompanion {
 	 * @return circle
 	 */
 	protected GeoElement[] createCircle2(GeoPointND p0, GeoPointND p1) {
-		return new GeoElement[] { ec.getAlgoDispatcher().Circle(null,
+		return new GeoElement[] { ec.getAlgoDispatcher().circle(null,
 				(GeoPoint) p0, (GeoPoint) p1) };
 	}
 
@@ -452,7 +452,7 @@ public class EuclidianControllerCompanion {
 	 * @return angle
 	 */
 	protected GeoElement[] angularBisector(GeoLineND g, GeoLineND h) {
-		return ec.getAlgoDispatcher().AngularBisector(null, (GeoLine) g,
+		return ec.getAlgoDispatcher().angularBisector(null, (GeoLine) g,
 				(GeoLine) h);
 	}
 
@@ -467,7 +467,7 @@ public class EuclidianControllerCompanion {
 	 */
 	protected GeoElement angularBisector(GeoPointND A, GeoPointND B,
 			GeoPointND C) {
-		return ec.getAlgoDispatcher().AngularBisector(null, (GeoPoint) A,
+		return ec.getAlgoDispatcher().angularBisector(null, (GeoPoint) A,
 				(GeoPoint) B, (GeoPoint) C);
 	}
 
@@ -484,7 +484,7 @@ public class EuclidianControllerCompanion {
 	 */
 	protected GeoElement circleArcSector(GeoPointND p1, GeoPointND p2,
 			GeoPointND p3, int type) {
-		return ec.getAlgoDispatcher().CircleArcSector(null, (GeoPoint) p1,
+		return ec.getAlgoDispatcher().circleArcSector(null, (GeoPoint) p1,
 				(GeoPoint) p2, (GeoPoint) p3, type);
 	}
 
@@ -499,7 +499,7 @@ public class EuclidianControllerCompanion {
 	 */
 	protected GeoElement circumcircleArc(GeoPointND p1, GeoPointND p2,
 			GeoPointND p3) {
-		return ec.getAlgoDispatcher().CircumcircleArc(null, (GeoPoint) p1,
+		return ec.getAlgoDispatcher().circumcircleArc(null, (GeoPoint) p1,
 				(GeoPoint) p2, (GeoPoint) p3);
 	}
 
@@ -514,7 +514,7 @@ public class EuclidianControllerCompanion {
 	 */
 	protected GeoElement circumcircleSector(GeoPointND p1, GeoPointND p2,
 			GeoPointND p3) {
-		return ec.getAlgoDispatcher().CircumcircleSector(null, (GeoPoint) p1,
+		return ec.getAlgoDispatcher().circumcircleSector(null, (GeoPoint) p1,
 				(GeoPoint) p2, (GeoPoint) p3);
 	}
 
@@ -650,7 +650,7 @@ public class EuclidianControllerCompanion {
 	 *            path for mode locking
 	 */
 	protected void processModeLock(Path path) {
-		GeoPoint p = ec.getAlgoDispatcher().Point(null, path, ec.xRW, ec.yRW,
+		GeoPoint p = ec.getAlgoDispatcher().point(null, path, ec.xRW, ec.yRW,
 				false, false, true);
 		p.update();
 		ec.xRW = p.inhomX;
@@ -728,7 +728,7 @@ public class EuclidianControllerCompanion {
 	 * @return tangent conic/conic
 	 */
 	protected GeoElement[] tangent(GeoConicND c1, GeoConicND c2) {
-		return ec.getAlgoDispatcher().CommonTangents(null, c1, c2);
+		return ec.getAlgoDispatcher().commonTangents(null, c1, c2);
 	}
 
 	/**
@@ -754,7 +754,7 @@ public class EuclidianControllerCompanion {
 	 * @return diameter line
 	 */
 	protected GeoElement diameterLine(GeoLineND l, GeoConicND c) {
-		return ec.getAlgoDispatcher().DiameterLine(null, l, c);
+		return ec.getAlgoDispatcher().diameterLine(null, l, c);
 	}
 
 	/**
@@ -765,7 +765,7 @@ public class EuclidianControllerCompanion {
 	 * @return diameter line
 	 */
 	protected GeoElement diameterLine(GeoVectorND v, GeoConicND c) {
-		return ec.getAlgoDispatcher().DiameterLine(null, v, c);
+		return ec.getAlgoDispatcher().diameterLine(null, v, c);
 	}
 
 	/**
@@ -801,7 +801,7 @@ public class EuclidianControllerCompanion {
 		for (int i = 0; i < 5; i++) {
 			p[i] = (GeoPoint) points[i];
 		}
-		return ec.getAlgoDispatcher().Conic(null, p);
+		return ec.getAlgoDispatcher().conic(null, p);
 	}
 
 	/**
@@ -818,7 +818,7 @@ public class EuclidianControllerCompanion {
 	 */
 	protected GeoConicND ellipseHyperbola(GeoPointND a, GeoPointND b,
 			GeoPointND c, int type) {
-		return ec.getAlgoDispatcher().EllipseHyperbola(null, a, b, c, type);
+		return ec.getAlgoDispatcher().ellipseHyperbola(null, a, b, c, type);
 	}
 
 	/**
@@ -844,7 +844,7 @@ public class EuclidianControllerCompanion {
 	protected GeoElement vectorPoint(GeoPointND a, GeoVectorND v) {
 		GeoPoint endPoint = (GeoPoint) ec.getAlgoDispatcher().Translate(null,
 				a, (GeoVector) v)[0];
-		return ec.getAlgoDispatcher().Vector(null, (GeoPoint) a, endPoint);
+		return ec.getAlgoDispatcher().vector(null, (GeoPoint) a, endPoint);
 	}
 
 	/**

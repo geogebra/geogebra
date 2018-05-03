@@ -187,7 +187,7 @@ public class CmdTangent extends CommandProcessor {
 	 */
 	protected GeoElement[] tangent(String[] labels, GeoConicND c1,
 			GeoConicND c2) {
-		return getAlgoDispatcher().CommonTangents(labels, c1, c2);
+		return getAlgoDispatcher().commonTangents(labels, c1, c2);
 	}
 
 }

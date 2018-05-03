@@ -35,7 +35,7 @@ public class CmdImplicitCurve extends CommandProcessor {
 			if (arg[0] instanceof GeoFunctionNVar) {
 				GeoFunctionNVar func = (GeoFunctionNVar) arg[0];
 				return new GeoElement[] {
-						getAlgoDispatcher().ImplicitCurve(c.getLabel(), func) };
+						getAlgoDispatcher().implicitCurve(c.getLabel(), func) };
 			}
 			throw argErr(app, c, arg[0]);
 		}

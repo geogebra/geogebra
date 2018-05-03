@@ -18,7 +18,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.LabelManager;
@@ -105,10 +104,8 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param f
-	 *            input function
 	 */
-	public AlgoGeoPointsFunction(Construction cons, GeoFunction f) {
+	public AlgoGeoPointsFunction(Construction cons) {
 		super(cons);
 		setLabels = false;
 		// make sure root points is not null

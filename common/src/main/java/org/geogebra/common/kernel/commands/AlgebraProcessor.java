@@ -2091,7 +2091,7 @@ public class AlgebraProcessor {
 			f = new GeoFunction(cons, fun, info.isSimplifyingIntegers());
 
 		} else {
-			f = kernel.getAlgoDispatcher().DependentFunction(fun, info);
+			f = kernel.getAlgoDispatcher().dependentFunction(fun, info);
 			if (label == null) {
 				label = AlgoDependentFunction.getDerivativeLabel(fun);
 			}
@@ -3006,7 +3006,7 @@ public class AlgebraProcessor {
 			cons.setSuppressLabelCreation(oldMacroMode);
 
 			// Create GeoList object
-			ret = kernel.getAlgoDispatcher().List(label, geoElements,
+			ret = kernel.getAlgoDispatcher().list(label, geoElements,
 					isIndependent);
 			if (!evalList.isDefined()) {
 				ret.setUndefined();
@@ -3147,7 +3147,7 @@ public class AlgebraProcessor {
 			double x = p.getX();
 			double y = p.getY();
 			if (isVector) {
-				ret[0] = kernel.getAlgoDispatcher().Vector(x, y);
+				ret[0] = kernel.getAlgoDispatcher().vector(x, y);
 			} else {
 				ret[0] = kernel.getAlgoDispatcher().Point(x, y, complex);
 			}

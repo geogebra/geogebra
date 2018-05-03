@@ -4880,7 +4880,7 @@ public class Kernel implements SpecialPointsListener {
 	 */
 	public GeoPointND rigidPolygonPointOnCircle(GeoConicND circle,
 			GeoPointND point1) {
-		return getAlgoDispatcher().Point(null, circle, point1.getInhomX(),
+		return getAlgoDispatcher().point(null, circle, point1.getInhomX(),
 				point1.getInhomY(), true, false, true);
 	}
 

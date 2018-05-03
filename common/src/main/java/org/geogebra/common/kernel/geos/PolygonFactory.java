@@ -120,10 +120,10 @@ public class PolygonFactory {
 		GeoSegment radius = kernel.getAlgoDispatcher().Segment((String) null, (GeoPoint) pts[0],
 				(GeoPoint) pts[1]);
 
-		GeoConicND circle = kernel.getAlgoDispatcher().Circle(null, p[0], radius);
+		GeoConicND circle = kernel.getAlgoDispatcher().circle(null, p[0], radius);
 		cons.setSuppressLabelCreation(oldMacroMode);
 
-		p[1] = kernel.getAlgoDispatcher().Point(null, circle, poly.getPoint(1).inhomX,
+		p[1] = kernel.getAlgoDispatcher().point(null, circle, poly.getPoint(1).inhomX,
 				poly.getPoint(1).inhomY, true, false, true);
 
 		p[1].setLabel(null);
@@ -204,7 +204,7 @@ public class PolygonFactory {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 
 		cons.setSuppressLabelCreation(true);
-		GeoConicND circle = kernel.getAlgoDispatcher().Circle(null, points[0],
+		GeoConicND circle = kernel.getAlgoDispatcher().circle(null, points[0],
 				new GeoNumeric(cons, points[0].distance(points[1])));
 		cons.setSuppressLabelCreation(oldMacroMode);
 

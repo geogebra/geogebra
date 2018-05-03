@@ -1293,7 +1293,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public GeoPointND createNewPoint2D(String label, boolean forPreviewable,
 			Path path, double x, double y, boolean complexPoint, boolean coords2D) {
-		return getAlgoDispatcher().Point(label, path, x, y, !forPreviewable,
+		return getAlgoDispatcher().point(label, path, x, y, !forPreviewable,
 				complexPoint, coords2D);
 	}
 
@@ -2368,7 +2368,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (selLines() >= 2) {
 			GeoLineND[] lines = getSelectedLinesND();
 
-			GeoPointND point = getAlgoDispatcher().IntersectLines(null,
+			GeoPointND point = getAlgoDispatcher().intersectLines(null,
 					lines[0], lines[1]);
 			checkCoordCartesian(point);
 			return new GeoElementND[] { point };
@@ -2378,7 +2378,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoConicND[] conics = getSelectedConicsND();
 			GeoElementND[] ret = { null };
 			if (singlePointWanted) {
-				ret[0] = getAlgoDispatcher().IntersectConicsSingle(null,
+				ret[0] = getAlgoDispatcher().intersectConicsSingle(null,
 						(GeoConic) conics[0], (GeoConic) conics[1], xRW, yRW);
 				checkCoordCartesian((GeoPointND) ret[0]);
 			} else {
@@ -2421,7 +2421,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				checkCoordCartesian((GeoPointND) ret[0]);
 			} else {
 				ret = getAlgoDispatcher()
-						.IntersectLineConic(null, line[0], conic[0]);
+						.intersectLineConic(null, line[0], conic[0]);
 				for (GeoElementND geo : ret) {
 					checkCoordCartesian((GeoPointND) geo);
 				}
@@ -2434,7 +2434,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoLine line = getSelectedLines()[0];
 			GeoPolyLine polyLine = getSelectedPolyLines()[0];
 
-			return getAlgoDispatcher().IntersectLinePolyLine(
+			return getAlgoDispatcher().intersectLinePolyLine(
 					new String[] { null }, line, polyLine);
 		}
 		// line and curve
@@ -2443,7 +2443,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoCurveCartesian curve = getSelectedCurves()[0];
 
 			return getAlgoDispatcher()
-					.IntersectLineCurve(new String[] { null }, line, curve);
+					.intersectLineCurve(new String[] { null }, line, curve);
 		}
 		// curve-curve
 		else if ((selCurves() >= 2)) {
@@ -2452,10 +2452,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			// multiple points disabled in ggb42, Reduce too slow
 			if (singlePointWanted) {
-				ret = getAlgoDispatcher().IntersectCurveCurveSingle(
+				ret = getAlgoDispatcher().intersectCurveCurveSingle(
 						new String[] { null }, curves[0], curves[1], xRW, yRW);
 			} else {
-				ret = getAlgoDispatcher().IntersectCurveCurve(
+				ret = getAlgoDispatcher().intersectCurveCurve(
 						new String[] { null }, curves[0], curves[1]);
 			}
 			return ret;
@@ -2465,14 +2465,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoPolygon polygon = getSelectedPolygons()[0];
 
 			return getAlgoDispatcher()
-					.IntersectLinePolygon(new String[] { null }, line, polygon);
+					.intersectLinePolygon(new String[] { null }, line, polygon);
 		}
 
 		// polyLine and polyLine
 		else if (selPolyLines() >= 2) {
 			GeoPolyLine[] polylines = getSelectedPolyLines();
 
-			return getAlgoDispatcher().IntersectPolyLines(
+			return getAlgoDispatcher().intersectPolyLines(
 					new String[] { null }, polylines[0], polylines[1]);
 		}
 
@@ -2641,7 +2641,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					ret[0] = getKernel().getManager3D()
 							.line3D(null, points[0], vectors[0]);
 				} else {
-					ret[0] = getAlgoDispatcher().Line(null,
+					ret[0] = getAlgoDispatcher().line(null,
 							(GeoPoint) points[0], (GeoVector) vectors[0]);
 				}
 				return ret;
@@ -2882,7 +2882,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				ret[0] = kernel.getManager3D().circle3D(null, points[0],
 						points[1], points[2]);
 			} else {
-				ret[0] = getAlgoDispatcher().Circle(null, (GeoPoint) points[0],
+				ret[0] = getAlgoDispatcher().circle(null, (GeoPoint) points[0],
 						(GeoPoint) points[1], (GeoPoint) points[2]);
 			}
 			break;
@@ -2964,7 +2964,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoPointND[] points = getSelectedPointsND();
 			GeoNumeric[] numbers = getSelectedNumbers();
 
-			GeoElement locus = getAlgoDispatcher().Locus(null, points[0],
+			GeoElement locus = getAlgoDispatcher().locus(null, points[0],
 					numbers[0]);
 			return new GeoElement[]{ locus };
 		}
@@ -4195,7 +4195,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GeoElement[] ret = { null };
 
 		if (!selPreview && (hits.size() > 1)) {
-			list = getAlgoDispatcher().List(null, hits, false);
+			list = getAlgoDispatcher().list(null, hits, false);
 			if (list != null) {
 				ret[0] = list;
 				return ret;
@@ -4487,7 +4487,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 			// standard case: conic
-			GeoNumeric area = getAlgoDispatcher().Area(null, conic);
+			GeoNumeric area = getAlgoDispatcher().area(null, conic);
 
 			return getTextDispatcher().getAreaText(conic, area, mouseLoc);
 		}
@@ -4671,7 +4671,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoLineND[] lines = getSelectedLinesND();
 			GeoElement[] ret = { null };
 
-			ret[0] = getAlgoDispatcher().Distance(null, lines[0], lines[1]);
+			ret[0] = getAlgoDispatcher().distance(null, lines[0], lines[1]);
 			return ret; // return this not null because the kernel has changed
 		}
 
@@ -8682,7 +8682,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoPointND p = algo.getInputPoints().get(0);
 				GeoPointND q = algo.getInputPoints().get(1);
 
-				GeoVector vec = getAlgoDispatcher().Vector(0, 0);
+				GeoVector vec = getAlgoDispatcher().vector(0, 0);
 
 				vec.setEuclidianVisible(false);
 				vec.setAuxiliaryObject(true);
@@ -8750,11 +8750,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected GeoVectorND createVectorForTranslation() {
-		return getAlgoDispatcher().Vector();
+		return getAlgoDispatcher().vector();
 	}
 
 	protected GeoVectorND createVectorForTranslation(String label) {
-		return getAlgoDispatcher().Vector(label);
+		return getAlgoDispatcher().vector(label);
 	}
 
 	/**
@@ -9886,7 +9886,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				double distance = Math.sqrt(
 						Math.pow((firstSelectedPoint.getInhomX() - x), 2) + Math
 								.pow((firstSelectedPoint.getInhomY() - y), 2));
-				kernel.getAlgoDispatcher().Circle(null, firstSelectedPoint,
+				kernel.getAlgoDispatcher().circle(null, firstSelectedPoint,
 						new GeoNumeric(kernel.getConstruction(), distance));
 				firstSelectedPoint = null;
 				storeUndoInfo();

@@ -601,7 +601,7 @@ public class SpreadsheetContextMenu {
 			geoRecordToSpreadSheet = geo;
 		} else {
 			geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher()
-					.List(null, geos, false);
+					.list(null, geos, false);
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);
 		}
 

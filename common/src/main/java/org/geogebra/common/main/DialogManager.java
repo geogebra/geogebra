@@ -727,7 +727,7 @@ public abstract class DialogManager {
 
 		@Override
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
-			return kernel.getAlgoDispatcher().Circle(null, point, num);
+			return kernel.getAlgoDispatcher().circle(null, point, num);
 		}
 	}
 

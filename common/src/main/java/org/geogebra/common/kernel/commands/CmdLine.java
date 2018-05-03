@@ -47,7 +47,7 @@ public class CmdLine extends CommandProcessor {
 			// line through point with direction vector
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoVector()))) {
-				GeoElement[] ret = { getAlgoDispatcher().Line(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().line(c.getLabel(),
 						(GeoPoint) arg[0], (GeoVector) arg[1]) };
 				return ret;
 			}

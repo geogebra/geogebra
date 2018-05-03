@@ -57,7 +57,7 @@ public class CmdCircumcircleSector extends CommandProcessor {
 	 */
 	protected GeoElement getSector(String label, GeoElement A, GeoElement B,
 			GeoElement C) {
-		return getAlgoDispatcher().CircumcircleSector(label, (GeoPoint) A,
+		return getAlgoDispatcher().circumcircleSector(label, (GeoPoint) A,
 				(GeoPoint) B, (GeoPoint) C);
 	}
 }

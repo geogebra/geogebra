@@ -57,7 +57,7 @@ public class CmdCircumcircleArc extends CommandProcessor {
 	 */
 	protected GeoElement getArc(String label, GeoElement A, GeoElement B,
 			GeoElement C) {
-		return getAlgoDispatcher().CircumcircleArc(label, (GeoPoint) A,
+		return getAlgoDispatcher().circumcircleArc(label, (GeoPoint) A,
 				(GeoPoint) B, (GeoPoint) C);
 	}
 }

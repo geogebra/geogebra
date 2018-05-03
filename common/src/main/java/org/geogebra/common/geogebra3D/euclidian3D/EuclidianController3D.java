@@ -2298,7 +2298,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		if (selLines() >= 2) {// two lines
 			GeoLineND[] lines = getSelectedLinesND();
-			GeoPointND point = getAlgoDispatcher().IntersectLines(null,
+			GeoPointND point = getAlgoDispatcher().intersectLines(null,
 					lines[0], lines[1]);
 			checkCoordCartesian3D(point);
 			return new GeoElementND[] { point };
@@ -2309,7 +2309,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoConicND conic = getSelectedConicsND()[0];
 
 				GeoPointND[] points = getAlgoDispatcher()
-						.IntersectLineConic(null, line, conic);
+						.intersectLineConic(null, line, conic);
 
 				return new GeoElementND[] {points[0], points[1]};
 			} else if (selQuadric() == 1) { // line-quadric3D

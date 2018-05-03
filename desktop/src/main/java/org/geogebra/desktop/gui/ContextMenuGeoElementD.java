@@ -850,7 +850,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			geoRecordToSpreadSheet = getGeo();
 		} else {
 			geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher()
-					.List(null, getGeos(), false);
+					.list(null, getGeos(), false);
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);
 		}
 

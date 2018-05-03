@@ -43,7 +43,7 @@ public class CmdInteriorAngles extends CommandProcessor {
 	 * @return interior angles for the polygon
 	 */
 	protected GeoElement[] process(String[] labels, GeoPolygon poly) {
-		return getAlgoDispatcher().Angles(labels, poly, true);
+		return getAlgoDispatcher().angles(labels, poly, true);
 	}
 
 }

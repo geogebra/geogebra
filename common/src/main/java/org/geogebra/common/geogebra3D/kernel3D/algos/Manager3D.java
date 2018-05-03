@@ -816,7 +816,7 @@ public class Manager3D implements Manager3DInterface {
 			GeoNumberValue radius, GeoDirectionND axis) {
 
 		if (!A.isGeoElement3D() && axis == kernel.getXOYPlane()) {
-			return kernel.getAlgoDispatcher().Circle(label, A, radius);
+			return kernel.getAlgoDispatcher().circle(label, A, radius);
 		}
 
 		AlgoCircle3DPointDirection algo = new AlgoCircle3DPointRadiusDirection(
@@ -845,7 +845,7 @@ public class Manager3D implements Manager3DInterface {
 															// default
 															// orientation for
 															// 2D objects
-			return kernel.getAlgoDispatcher().Circle(label, (GeoPoint) A,
+			return kernel.getAlgoDispatcher().circle(label, (GeoPoint) A,
 					(GeoPoint) B);
 		}
 
@@ -2187,7 +2187,7 @@ public class Manager3D implements Manager3DInterface {
 		if (orientation == kernel.getXOYPlane()) { // xOy plane is default
 													// orientation for 2D
 													// objects
-			return kernel.getAlgoDispatcher().CircleArcSector(label,
+			return kernel.getAlgoDispatcher().circleArcSector(label,
 					(GeoPoint) A, (GeoPoint) B, (GeoPoint) C, type);
 		}
 
@@ -2277,7 +2277,7 @@ public class Manager3D implements Manager3DInterface {
 			return algo.getOutput();
 		}
 
-		return kernel.getAlgoDispatcher().CommonTangents(labels, c1, c2);
+		return kernel.getAlgoDispatcher().commonTangents(labels, c1, c2);
 	}
 
 	/**
@@ -2292,7 +2292,7 @@ public class Manager3D implements Manager3DInterface {
 			return (GeoElement) algo.getDiameter();
 		}
 
-		return kernel.getAlgoDispatcher().DiameterLine(label, g, c);
+		return kernel.getAlgoDispatcher().diameterLine(label, g, c);
 	}
 
 	/**
@@ -2308,7 +2308,7 @@ public class Manager3D implements Manager3DInterface {
 			return (GeoElement) algo.getDiameter();
 		}
 
-		return kernel.getAlgoDispatcher().DiameterLine(label, v, c);
+		return kernel.getAlgoDispatcher().diameterLine(label, v, c);
 	}
 
 	@Override
@@ -2376,7 +2376,7 @@ public class Manager3D implements Manager3DInterface {
 															// default
 															// orientation for
 															// 2D objects
-			return kernel.getAlgoDispatcher().EllipseHyperbola(null, A, B, C,
+			return kernel.getAlgoDispatcher().ellipseHyperbola(null, A, B, C,
 					type);
 		}
 

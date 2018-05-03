@@ -128,7 +128,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 */
 	public AlgoRoots(Construction cons, GeoFunction function,
 			GeoNumberValue left, GeoNumberValue right) {
-		super(cons, function); // Ancestor gets first function for points!
+		super(cons);
 		this.f0 = function;
 		this.left = left;
 		this.right = right;
