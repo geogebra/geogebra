@@ -4262,7 +4262,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2366 */
 		case TIKZ_AXES:
-			return prerelease;
+			return true;
 
 		/** GGB-650 */
 		case GGB_WEB_ASSEMBLY:
