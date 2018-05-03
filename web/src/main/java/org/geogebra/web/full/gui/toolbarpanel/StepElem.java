@@ -14,6 +14,13 @@ public class StepElem extends VerticalPanel {
 
     private boolean needsRender;
 
+    /**
+     * Constructor for StepElem panel: a simple vertical panel, that
+     * displays a SolutionStep, and if it has substeps, a show button
+     * @param builder WebStepGuiBuilder used to create the step and the
+     *                button
+     * @param step SolutionStep to display
+     */
     public StepElem(WebStepGuiBuilder builder, SolutionStep step) {
         this.builder = builder;
 
@@ -30,6 +37,10 @@ public class StepElem extends VerticalPanel {
         addStyleName("stepGroupPanel");
     }
 
+    /**
+     * Switches between closed and open state. If this is the first time
+     * opening it, it renders the substeps.
+     */
     public void swapStates() {
         if (needsRender) {
             for (SolutionStep step : substeps) {

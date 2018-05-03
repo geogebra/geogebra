@@ -13,6 +13,11 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
 
     private WebStepGuiBuilder stepGuiBuilder;
 
+    /**
+     * Creates a new toolbar tab, used to displat steps
+     * @param toolbarPanel ToolbarPanel, that contains
+     *                     this tab
+     */
     public StepsTab(ToolbarPanel toolbarPanel) {
         this.toolbarPanel = toolbarPanel;
 
@@ -22,6 +27,10 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
         add(sp);
     }
 
+    /**
+     * Display the solution steps on the tab
+     * @param steps SolutionSteps to be displayed
+     */
     public void buildStepGui(SolutionStep steps) {
         VerticalPanel panel = stepGuiBuilder.buildStepGui(steps);
 

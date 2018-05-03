@@ -24,6 +24,12 @@ public class WebStepGuiBuilder {
     private ImageResource openButton = GuiResources.INSTANCE.algebra_tree_open();
     private ImageResource closeButton = GuiResources.INSTANCE.algebra_tree_closed();
 
+    /**
+     * Constructor for WebStepGuiBuilder, a factory class
+     * used to create rows of solution and buttons
+     * @param app required for Localization, GeoNumeric and
+     *            StandardButton..
+     */
     public WebStepGuiBuilder(AppW app) {
         this.app = app;
 
@@ -31,6 +37,12 @@ public class WebStepGuiBuilder {
         gn = new GeoNumeric(app.getKernel().getConstruction());
     }
 
+    /**
+     * Creates the appropriate panel for the step
+     * @param step SolutionSte to be displayed
+     * @return StepElem, StepAlternative or a simple vertical
+     * panel, depending on the type of the substep
+     */
     public VerticalPanel buildStepGui(SolutionStep step) {
         if (step instanceof SolutionLine) {
             SolutionLine line = (SolutionLine) step;
@@ -53,6 +65,14 @@ public class WebStepGuiBuilder {
         return new StepElem(this, step);
     }
 
+    /**
+     * Render a SolutionStep
+     * @param step SolutionStep to be rendered
+     * @param detailed detailed means the colored version of
+     *                 the substep
+     * @return a FlowPanel containing the elements of the step
+     * (text and LaTeX snippets)
+     */
     public FlowPanel createRow(SolutionStep step, boolean detailed) {
         FlowPanel row = new FlowPanel();
 
@@ -82,6 +102,14 @@ public class WebStepGuiBuilder {
         return row;
     }
 
+    /**
+     * Create a show or hide details button
+     * @param show wether show or hide button
+     * @param alternative the StepAlternative panel to switch
+     *                    on and off
+     * @return a StandardButton, that switches the state of
+     * alternative
+     */
     public StandardButton detailsButton(boolean show, final StepAlternative alternative) {
         StandardButton detailsButton;
         if (show) {
@@ -104,6 +132,13 @@ public class WebStepGuiBuilder {
         return detailsButton;
     }
 
+    /**
+     * Create a show or hide substeps button
+     * @param elem the StepElem panel to switch on
+     *             and off
+     * @return a StandardButton, that switches the state of
+     * elem
+     */
     public StandardButton showButton(final StepElem elem) {
         final StandardButton showButton = new StandardButton(closeButton, app);
 

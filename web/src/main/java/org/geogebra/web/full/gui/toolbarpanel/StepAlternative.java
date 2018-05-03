@@ -16,6 +16,14 @@ public class StepAlternative extends VerticalPanel {
 
     private boolean needsRender = true;
 
+    /**
+     * Constructor for a StepAlternative panel: a vertical panel, that
+     * enables switching between the default and detailed view
+     * @param builder WebStepGuiBuilder to render the LaTeX and create
+     *                the buttons
+     * @param step SubstepWrappter type SolutionLine containing the
+     *             substeps
+     */
     public StepAlternative(WebStepGuiBuilder builder, SolutionStep step) {
         this.builder = builder;
         substeps = step.getSubsteps();
@@ -30,6 +38,10 @@ public class StepAlternative extends VerticalPanel {
         addStyleName("stepGroupPanel");
     }
 
+    /**
+     * Switches between default and detailed view, renders the detailed,
+     * if this is the first time it'c called
+     */
     public void swapStates() {
         for (int i = 0; i < getWidgetCount(); i++) {
             boolean visible = !getWidget(i).isVisible();
