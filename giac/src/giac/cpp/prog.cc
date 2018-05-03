@@ -539,7 +539,7 @@ namespace giac {
     }
   }
   bool is_constant_idnt(const gen & g){
-    return g==cst_pi || g==cst_euler_gamma || is_inf(g) || is_undef(g) || (g.type==_IDNT && (strcmp(g._IDNTptr->id_name,"i")==0 || strcmp(g._IDNTptr->id_name,"None")==0 || strcmp(g._IDNTptr->id_name,"pass")==0));
+    return g==cst_pi || g==cst_euler_gamma || is_inf(g) || is_undef(g) || (g.type==_IDNT && (strcmp(g._IDNTptr->id_name,"i")==0 || strcmp(g._IDNTptr->id_name,"None")==0 || strcmp(g._IDNTptr->id_name,"cmath")==0 || strcmp(g._IDNTptr->id_name,"math")==0 || strcmp(g._IDNTptr->id_name,"pass")==0));
   }
 
   bool warn_equal_in_prog=true;
@@ -1115,8 +1115,8 @@ namespace giac {
   }
 
   // a=arguments, b=values, c=program bloc, d=program name
-  symbolic symb_program_sto(const gen & a_,const gen & b_,const gen & c,const gen & d,bool embedd,GIAC_CONTEXT){
-    gen a(a_),b(b_);
+  symbolic symb_program_sto(const gen & a_,const gen & b_,const gen & c_,const gen & d,bool embedd,GIAC_CONTEXT){
+    gen a(a_),b(b_),c(c_);
     default_args(a,b,contextptr);
     bool warn=false;
 #ifndef GIAC_HAS_STO_38
@@ -1147,6 +1147,26 @@ namespace giac {
 	 }
        }
     }
+    vecteur newcsto(lop(c,at_sto)),newc1,newc2;
+    for (size_t i=0;i<newcsto.size();++i){
+      gen var=newcsto[i]._SYMBptr->feuille[1];
+      if (var.type==_FUNC && !archive_function_index(*var._FUNCptr)){
+	newc1.push_back(var);
+	newc2.push_back(identificateur(string(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
+      }
+    }
+    newcsto=lop(c,at_struct_dot);
+    for (size_t i=0;i<newcsto.size();++i){
+      gen var=newcsto[i]._SYMBptr->feuille[0];
+      if (var.type==_FUNC && !archive_function_index(*var._FUNCptr)){
+	newc1.push_back(var);
+	newc2.push_back(identificateur(string(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
+      }
+    }
+    if (!newc1.empty()){
+      c=subst(c,newc1,newc2,true,contextptr);
+      a=subst(a,newc1,newc2,true,contextptr);
+    }
     gen newa,newc;
     replace_keywords(a,((embedd&&c.type==_VECT)?makevecteur(c):c),newa,newc,contextptr);
     if (python_compat(contextptr)){
@@ -1169,16 +1189,6 @@ namespace giac {
 	newc=symb_local(non_decl,newc,contextptr);
       }
     }
-    vecteur newcsto(lop(newc,at_sto)),newc1,newc2;
-    for (size_t i=0;i<newcsto.size();++i){
-      gen var=newcsto[i]._SYMBptr->feuille[1];
-      if (var.type==_FUNC && !archive_function_index(*var._FUNCptr)){
-	newc1.push_back(var);
-	newc2.push_back(identificateur(string(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
-      }
-    }
-    if (!newc1.empty())
-      newc=subst(newc,newc1,newc2,true,contextptr);
     symbolic g=symbolic(at_program,gen(makevecteur(newa,b,newc),_SEQ__VECT));
     g=symbolic(at_sto,gen(makevecteur(g,d),_SEQ__VECT));
     if (warn)
