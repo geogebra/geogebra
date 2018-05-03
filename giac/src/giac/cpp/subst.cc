@@ -751,7 +751,7 @@ namespace giac {
   // Multiple substitutions
   static void sort2(vecteur & i,vecteur & newi,GIAC_CONTEXT){
     for (unsigned k=0;k<i.size();++k){
-      if (i[k].type!=_IDNT && i[k].type!=_SYMB && !is_zero(i[k]-newi[k]))
+      if (i[k].type!=_IDNT && i[k].type!=_SYMB && i[k].type!=_FUNC && !is_zero(i[k]-newi[k]))
 	*logptr(contextptr) << gettext("Warning, replacing ") << i[k] << gettext(" by ") << newi[k] << gettext(", a substitution variable should perhaps be purged.") << endl;
     }
     int is=int(i.size());

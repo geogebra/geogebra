@@ -5829,7 +5829,7 @@ unsigned int ConvertUTF8toUTF16 (
   // if ...: -> if ... then [fi]
   // else: -> else [nothing in stack]
   // elif ...: -> elif ... then [nothing in stack]
-  // ? support for try except
+  // try: ... except: ...
   std::string python2xcas(const std::string & s_orig,GIAC_CONTEXT){
     if (xcas_mode(contextptr)>0)
       return s_orig;
