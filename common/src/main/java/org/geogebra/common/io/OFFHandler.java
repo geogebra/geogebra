@@ -198,7 +198,7 @@ public class OFFHandler {
 	}
 
 	private static boolean isComment1(String line) {
-		return line.startsWith(COMMENT_PREFIX);
+		return line.startsWith(COMMENT_PREFIX) || line.equals("");
 	}
 
 	private static GColor tryReadColor(String[] in, int offset) {
