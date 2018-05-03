@@ -9,7 +9,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
@@ -176,7 +175,7 @@ public class VideoManagerW implements VideoManager {
 
 			@Override
 			public void onError(ErrorEvent event) {
-				img.setUrl(MaterialDesignResources.INSTANCE.mow_video_player()
+				img.setUrl(GuiResourcesSimple.INSTANCE.mow_video_player()
 						.getSafeUri());
 			}
 		});
