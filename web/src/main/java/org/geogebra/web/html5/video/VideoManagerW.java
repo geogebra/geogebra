@@ -9,6 +9,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
@@ -19,6 +20,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.ErrorEvent;
+import com.google.gwt.event.dom.client.ErrorHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.ui.Image;
@@ -178,9 +181,18 @@ public class VideoManagerW implements VideoManager {
 
 			@Override
 			public void onLoad(LoadEvent event) {
-				final MyImage prev = new MyImageW(ImageElement.as(img.getElement()), false);
+				final MyImage prev = new MyImageW(
+						ImageElement.as(img.getElement()), false);
 				cb.callback(prev);
 				RootPanel.get().remove(img);
+			}
+		});
+		img.addErrorHandler(new ErrorHandler() {
+
+			@Override
+			public void onError(ErrorEvent event) {
+				img.setUrl(MaterialDesignResources.INSTANCE.mow_video_player()
+						.getSafeUri());
 			}
 		});
 		RootPanel.get().add(img);
