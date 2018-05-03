@@ -539,7 +539,7 @@ namespace giac {
     }
   }
   bool is_constant_idnt(const gen & g){
-    return g==cst_pi || g==cst_euler_gamma || is_inf(g) || is_undef(g) || (g.type==_IDNT && strcmp(g._IDNTptr->id_name,"i")==0);
+    return g==cst_pi || g==cst_euler_gamma || is_inf(g) || is_undef(g) || (g.type==_IDNT && (strcmp(g._IDNTptr->id_name,"i")==0 || strcmp(g._IDNTptr->id_name,"None")==0 || strcmp(g._IDNTptr->id_name,"pass")==0));
   }
 
   bool warn_equal_in_prog=true;
@@ -10734,7 +10734,10 @@ namespace giac {
       if (tmp.type==_VECT && b.type==_SYMB){
 	// check tmp size, workaround for progs with l:=[]; l.append(1);
 	// where the code would self modify itself
-	if (b._SYMBptr->sommet==at_append && tmp._VECTptr->size()>=8){
+	// disabled, sto should now do a copy of constant lists
+	if (b._SYMBptr->sommet==at_append 
+	    //&& tmp._VECTptr->size()>=8
+	    ){
 	  tmp._VECTptr->push_back(eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr));
 	  return tmp;
 	}

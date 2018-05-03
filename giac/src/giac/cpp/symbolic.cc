@@ -681,8 +681,16 @@ namespace giac {
     gen e;
     if (quotearg)
       e=feuillev.front();
-    else
-      e=feuillev.front().eval(level,contextptr);
+    else {
+      gen * feuillevfront=&feuillev.front();
+      // e=feuillev.front().eval(level,contextptr);
+      if (!feuillevfront->in_eval(level,e,contextptr)){
+	if (feuillevfront->type==_VECT) // avoid self-modifying code
+	  e=gen(*feuillevfront->_VECTptr,feuillevfront->subtype);
+	else
+	  e=*feuillevfront;
+      }
+    }
     if (b)
       showpoint=true;
     if (e.type==_SYMB && e._SYMBptr->sommet==at_pnt && e._SYMBptr->feuille.type==_VECT && e._SYMBptr->feuille._VECTptr->size()==2 && (contextptr?!contextptr->previous:!protection_level) )

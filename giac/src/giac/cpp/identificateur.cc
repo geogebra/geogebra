@@ -790,6 +790,8 @@ namespace giac {
       tmp.subtype=_GLOBAL__EVAL;
       break;
     case _VECT:
+      if (lidnt(tmp).empty())
+	return g;
       tmp=apply(tmp,globalize);
       break;
     case _SYMB:
