@@ -3328,6 +3328,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		} catch (Exception ex) {
 			status = false;
 			ex.printStackTrace();
+			showError(getLocalization().getError("LoadFileFailed") + ":\n"
+					+ file);
 		}
 
 		return status;
