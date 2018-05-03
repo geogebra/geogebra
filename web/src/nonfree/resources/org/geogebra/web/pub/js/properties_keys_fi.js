@@ -3136,7 +3136,7 @@ __GGB__keysVar["fi"].menu = {
     "exam_not_supported_ios": "Valitan, GeoGebran koetila toimii vain iOS:n 9.3.2 ja sit\xe4 uudemmissa versioissa.",
     "exam_pin": "Pin App",
     "exam_prepare_header": "Valmistele koetila",
-    "exam_protocol_saved": "Exam log successfully saved as image",
+    "exam_protocol_saved": "Koetilan login tallennus kuvana onnistui.",
     "exam_set_airplane_mode_on": "Jatka asettamalla laitteesi lentokonetilaan ja sammuttamalla Wi-Fi ja Bluetooth",
     "exam_start_button": "Aloita",
     "exam_start_date": "P\xe4iv\xe4m\xe4\xe4r\xe4",

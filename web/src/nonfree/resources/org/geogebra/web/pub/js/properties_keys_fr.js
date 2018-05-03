@@ -3009,7 +3009,7 @@ __GGB__keysVar["fr"].menu = {
     "Webcam.Edge": "Cliquer 'Oui' dans la barre surgissante",
     "Webcam.Firefox": "Cliquer  'Partager le p\xe9riph\xe9rique s\xe9lectionn\xe9' dans le 'pop-up' apparu.",
     "Webcam.Notsupported.Caption": "Cam\xe9ra non support\xe9e",
-    "Webcam.Notsupported.Message": "Cette cam\xe9ra n'est pas support\xe9e par votre navigateur. Essayer un autre navigateur.",
+    "Webcam.Notsupported.Message": "Cette cam\xe9ra n'est pas support\xe9e par votre navigateur. Essayez un autre navigateur.",
     "Webcam.Problem": "Il y a un probl\xe8me avec votre cam\xe9ra.",
     "Webcam.Problem.Message": "GeoGebra ne peut acc\xe9der \xe0 votre cam\xe9ra. Sans cam\xe9ra, l'outil Cam\xe9ra ne pourra fonctionner.",
     "Webcam.Request": "Autoriser GeoGebra \xe0 acc\xe9der \xe0 votre cam\xe9ra",
