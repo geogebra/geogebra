@@ -2198,6 +2198,7 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate(sinh(0)+cosh(0)==exp(0))", result:"true" },
 { cat:"Evaluate", cmd:"Evaluate(sinh(1)+cosh(1)==exp(1))", result:"true" },
 { cat:"Evaluate", cmd:"Evaluate(sinh(x)+cosh(x)==exp(x))", result:"true" },
+{ cat:"NSolve", cmd:"NSolve(Sum(T/2^n,n,3,10)=1500000)", result:"{T = 6023529.411765}", round:"{T = 6023529.41}" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
