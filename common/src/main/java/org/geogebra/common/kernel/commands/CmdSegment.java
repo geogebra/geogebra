@@ -45,7 +45,7 @@ public class CmdSegment extends CommandProcessor {
 			// segment from point with given length
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				return getAlgoDispatcher().Segment(c.getLabels(),
+				return getAlgoDispatcher().segment(c.getLabels(),
 						(GeoPointND) arg[0], (GeoNumberValue) arg[1]);
 			} else {
 				if (!ok[0]) {
@@ -80,6 +80,6 @@ public class CmdSegment extends CommandProcessor {
 	 * @return segment [ab]
 	 */
 	protected GeoElement segment(String label, GeoPointND a, GeoPointND b) {
-		return getAlgoDispatcher().Segment(label, (GeoPoint) a, (GeoPoint) b);
+		return getAlgoDispatcher().segment(label, (GeoPoint) a, (GeoPoint) b);
 	}
 }

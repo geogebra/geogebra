@@ -5031,11 +5031,11 @@ public class Kernel implements SpecialPointsListener {
 	}
 
 	public GeoElement[] polygonND(String[] labels, GeoPointND[] P) {
-		return getAlgoDispatcher().Polygon(labels, P);
+		return getAlgoDispatcher().polygon(labels, P);
 	}
 
 	public GeoElement[] polyLineND(String label, GeoPointND[] P) {
-		return getAlgoDispatcher().PolyLine(label, P);
+		return getAlgoDispatcher().polyLine(label, P);
 	}
 
 	/**
@@ -5067,7 +5067,7 @@ public class Kernel implements SpecialPointsListener {
 	 * @return segment
 	 */
 	public GeoSegmentND segmentND(String label, GeoPointND P, GeoPointND Q) {
-		return getAlgoDispatcher().Segment(label, (GeoPoint) P, (GeoPoint) Q);
+		return getAlgoDispatcher().segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}
 
 	/**
@@ -5093,15 +5093,15 @@ public class Kernel implements SpecialPointsListener {
 	}
 
 	public GeoSegmentND segment(String label, GeoPoint p, GeoPoint q) {
-		return getAlgoDispatcher().Segment(label, p, q);
+		return getAlgoDispatcher().segment(label, p, q);
 	}
 
 	public GeoElement[] polygon(String[] labels, GeoPointND[] p) {
-		return getAlgoDispatcher().Polygon(labels, p);
+		return getAlgoDispatcher().polygon(labels, p);
 	}
 
 	public GeoElement[] polyLine(String label, GeoPointND[] p) {
-		return getAlgoDispatcher().PolyLine(label, p);
+		return getAlgoDispatcher().polyLine(label, p);
 	}
 
 	public boolean hasAlgebraProcessor() {

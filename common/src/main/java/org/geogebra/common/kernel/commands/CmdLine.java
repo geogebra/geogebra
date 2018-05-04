@@ -55,7 +55,7 @@ public class CmdLine extends CommandProcessor {
 			// line through point parallel to another line
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { getAlgoDispatcher().Line(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().line(c.getLabel(),
 						(GeoPoint) arg[0], (GeoLine) arg[1]) };
 				return ret;
 			}

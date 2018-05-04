@@ -62,7 +62,7 @@ public class CmdMidpoint extends CommandProcessor {
 	 * @return midpoint for segment
 	 */
 	protected GeoElement[] segment(String label, GeoSegmentND segment) {
-		GeoElement mp = getAlgoDispatcher().Midpoint((GeoSegment) segment);
+		GeoElement mp = getAlgoDispatcher().midpoint((GeoSegment) segment);
 		mp.setLabel(label);
 		GeoElement[] ret = { mp };
 		return ret;
@@ -121,7 +121,7 @@ public class CmdMidpoint extends CommandProcessor {
 	 */
 	protected GeoElement[] twoPoints(String label, GeoPointND p1,
 			GeoPointND p2) {
-		GeoElement[] ret = { getAlgoDispatcher().Midpoint(label, (GeoPoint) p1,
+		GeoElement[] ret = { getAlgoDispatcher().midpoint(label, (GeoPoint) p1,
 				(GeoPoint) p2) };
 		return ret;
 	}

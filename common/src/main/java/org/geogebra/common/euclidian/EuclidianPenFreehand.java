@@ -561,7 +561,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 			int type = conic.getType();
 			GeoPoint pointOnConic = this.app.getKernel().getAlgoDispatcher()
-					.Point(null, conic, null);
+					.point(null, conic, null);
 
 			conic.remove();
 

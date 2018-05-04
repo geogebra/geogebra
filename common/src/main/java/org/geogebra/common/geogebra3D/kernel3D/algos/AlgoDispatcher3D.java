@@ -96,13 +96,13 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public GeoPointND[] IntersectConics(String[] labels, GeoConicND a,
+	public GeoPointND[] intersectConics(String[] labels, GeoConicND a,
 			GeoConicND b) {
 
 		if (a.isGeoElement3D() || b.isGeoElement3D()) {
 			return getManager3D().intersectConics(labels, a, b);
 		}
-		return super.IntersectConics(labels, a, b);
+		return super.intersectConics(labels, a, b);
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	protected GeoElement[] SegmentFixed(String pointLabel, String segmentLabel,
+	protected GeoElement[] segmentFixed(String pointLabel, String segmentLabel,
 			GeoPointND A, GeoNumberValue n) {
 
 		Kernel kernel = cons.getKernel();
@@ -177,7 +177,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			return ret;
 		}
 
-		return super.SegmentFixed(pointLabel, segmentLabel, A, n);
+		return super.segmentFixed(pointLabel, segmentLabel, A, n);
 	}
 
 	private GeoElement[] SegmentFixedSphere(String pointLabel,
@@ -208,7 +208,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	final public GeoElement[] Polygon(String[] labels, GeoPointND[] P) {
+	final public GeoElement[] polygon(String[] labels, GeoPointND[] P) {
 
 		for (int i = 0; i < P.length; i++) {
 			if (P[i].isGeoElement3D()) {
@@ -216,7 +216,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			}
 		}
 
-		return super.Polygon(labels, P);
+		return super.polygon(labels, P);
 	}
 
 	@Override
@@ -231,7 +231,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public GeoPointND PointIn(String label, Region region, Coords coords,
+	public GeoPointND pointIn(String label, Region region, Coords coords,
 			boolean addToConstruction, boolean complex, boolean coords2D) {
 
 		if (region.isRegion3D()) {
@@ -239,12 +239,12 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 					addToConstruction, coords2D);
 		}
 
-		return super.PointIn(label, region, coords, addToConstruction, complex,
+		return super.pointIn(label, region, coords, addToConstruction, complex,
 				coords2D);
 	}
 
 	@Override
-	public GeoPointND Point(String label, Path path, Coords coords,
+	public GeoPointND point(String label, Path path, Coords coords,
 			boolean addToConstruction, boolean complex, boolean coords2D) {
 
 		if (path.isGeoElement3D()) {
@@ -252,7 +252,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 					coords.getY(), coords.getZ(), addToConstruction, coords2D);
 		}
 
-		return super.Point(label, path, coords, addToConstruction, complex,
+		return super.point(label, path, coords, addToConstruction, complex,
 				coords2D);
 	}
 
@@ -289,7 +289,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public GeoElement[] TranslateND(String label, GeoElementND geoTrans,
+	public GeoElement[] translateND(String label, GeoElementND geoTrans,
 			GeoVectorND v) {
 		return getManager3D().translate3D(label, geoTrans, v);
 	}
@@ -304,7 +304,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public GeoElement[] IntersectImplicitSurfaceLine(String[] labels,
+	public GeoElement[] intersectImplicitSurfaceLine(String[] labels,
 			GeoImplicitSurfaceND surf, GeoLineND line) {
 		AlgoIntersectImplicitSurface algo = new AlgoIntersectImplicitSurface(
 				cons, labels, surf, line);
@@ -314,7 +314,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	final public GeoElement[] Polygon(String[] labels, GeoList pointList) {
+	final public GeoElement[] polygon(String[] labels, GeoList pointList) {
 		AlgoPolygon algo;
 		if (pointList.getElementType() == GeoClass.POINT3D) {
 			algo = new AlgoPolygon3D(cons, labels, null, pointList);

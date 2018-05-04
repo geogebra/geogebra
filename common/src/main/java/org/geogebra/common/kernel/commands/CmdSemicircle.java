@@ -62,7 +62,7 @@ public class CmdSemicircle extends CommandProcessor {
 	 * @return semicircle joining A and B
 	 */
 	protected GeoElement semicircle(String label, GeoPointND A, GeoPointND B) {
-		return getAlgoDispatcher().Semicircle(label, (GeoPoint) A,
+		return getAlgoDispatcher().semicircle(label, (GeoPoint) A,
 				(GeoPoint) B);
 	}
 

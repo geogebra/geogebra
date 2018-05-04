@@ -106,7 +106,7 @@ public class CmdIntersectPath extends CommandProcessor {
 			// Polygon(as region) - Polygon(as region) in 2D
 
 			if ((ok[0] = arg[0].isGeoPolygon()) && arg[1].isGeoPolygon()) {
-				GeoElement[] ret = getAlgoDispatcher().IntersectPolygons(
+				GeoElement[] ret = getAlgoDispatcher().intersectPolygons(
 						c.getLabels(), (GeoPolygon) arg[0], (GeoPolygon) arg[1],
 						true);
 				return ret;

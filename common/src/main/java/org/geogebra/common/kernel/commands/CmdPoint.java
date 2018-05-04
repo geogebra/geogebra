@@ -58,7 +58,7 @@ public class CmdPoint extends CommandProcessor {
 			}
 			// no elseif to make sure we return something
 			if (arg[0].isPath()) {
-				GeoElement[] ret = { getAlgoDispatcher().Point(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().point(c.getLabel(),
 						(Path) arg[0], null) };
 				return ret;
 			}
@@ -100,7 +100,7 @@ public class CmdPoint extends CommandProcessor {
 	 * @return point on path with parameter
 	 */
 	protected GeoElement point(String label, Path path, GeoNumberValue value) {
-		return getAlgoDispatcher().Point(label, path, value);
+		return getAlgoDispatcher().point(label, path, value);
 	}
 
 	/**

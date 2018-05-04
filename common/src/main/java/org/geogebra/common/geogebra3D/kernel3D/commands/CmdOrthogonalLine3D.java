@@ -64,7 +64,7 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 				}
 
 				// else use 2D algo
-				GeoElement[] ret = { getAlgoDispatcher().OrthogonalLine(
+				GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
 						c.getLabel(), (GeoPoint) arg[0], (GeoLine) arg[1]) };
 				return ret;
 
@@ -87,7 +87,7 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 				}
 
 				// 2D geos and xOy plane for direction : use 2D algo
-				GeoElement[] ret = { getAlgoDispatcher().OrthogonalLine(
+				GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
 						c.getLabel(), (GeoPoint) arg[0], (GeoVector) arg[1]) };
 				return ret;
 

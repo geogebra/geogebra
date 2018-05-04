@@ -116,7 +116,7 @@ public class CmdLineBisector extends CommandProcessor {
 	 * @return perpendicular bisector
 	 */
 	protected GeoElement lineBisector(String label, GeoSegmentND segment) {
-		return getAlgoDispatcher().LineBisector(label, (GeoSegment) segment);
+		return getAlgoDispatcher().lineBisector(label, (GeoSegment) segment);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class CmdLineBisector extends CommandProcessor {
 	 */
 	protected GeoElement lineBisector(String label, GeoPointND a,
 			GeoPointND b) {
-		return getAlgoDispatcher().LineBisector(label, (GeoPoint) a,
+		return getAlgoDispatcher().lineBisector(label, (GeoPoint) a,
 				(GeoPoint) b);
 	}
 }

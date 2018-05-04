@@ -2333,7 +2333,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			} else if (selImplicitSurfaces() == 1) {// line-plane
 
 				return getKernel().getAlgoDispatcher()
-						.IntersectImplicitSurfaceLine(null,
+						.intersectImplicitSurfaceLine(null,
 								getSelectedImplicitSurface()[0],
 								getSelectedLinesND()[0]);
 
@@ -2342,7 +2342,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			GeoConicND[] conics = getSelectedConicsND();
 			GeoElementND[] ret = new GeoElement[4];
 			GeoPointND[] points = getKernel().getAlgoDispatcher()
-					.IntersectConics(null, conics[0], conics[1]);
+					.intersectConics(null, conics[0], conics[1]);
 			for (int i = 0; i < points.length; i++) {
 				checkCoordCartesian3D(points[i]);
 				ret[i] = points[i];

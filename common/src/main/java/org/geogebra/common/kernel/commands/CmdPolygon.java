@@ -67,7 +67,7 @@ public class CmdPolygon extends CommandProcessor {
 				l = adl.getGeoList();
 			}
 			if (l != null) {
-				return getAlgoDispatcher().Polygon(c.getLabels(), l);
+				return getAlgoDispatcher().polygon(c.getLabels(), l);
 			}
 			throw argErr(arg[0], c);
 			// END G.Sturr
@@ -138,6 +138,6 @@ public class CmdPolygon extends CommandProcessor {
 	 */
 	protected GeoElement[] regularPolygon(String[] labels, GeoPointND A,
 			GeoPointND B, GeoNumberValue n) {
-		return getAlgoDispatcher().RegularPolygon(labels, A, B, n);
+		return getAlgoDispatcher().regularPolygon(labels, A, B, n);
 	}
 }

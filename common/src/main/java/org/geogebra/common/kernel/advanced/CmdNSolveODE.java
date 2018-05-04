@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoNSolveODE;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -63,10 +64,10 @@ public class CmdNSolveODE extends CommandProcessor {
 																			// checked
 																			// before
 					&& (ok[3] = arg[3].isGeoNumeric())) {
-				GeoElement[] ret = getAlgoDispatcher().NSolveODE(c.getLabels(),
+				AlgoNSolveODE algo = new AlgoNSolveODE(cons, c.getLabels(),
 						(GeoList) arg[0], (GeoNumeric) arg[1], (GeoList) arg[2],
 						(GeoNumeric) arg[3]);
-				return ret;
+				return algo.getResult();
 			}
 			throw argErr(app, c, getBadArg(ok, arg));
 		}

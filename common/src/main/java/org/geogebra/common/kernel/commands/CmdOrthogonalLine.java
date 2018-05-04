@@ -40,7 +40,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 			// line through point orthogonal to vector
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoVector()))) {
-				GeoElement[] ret = { getAlgoDispatcher().OrthogonalLine(
+				GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
 						c.getLabel(), (GeoPoint) arg[0], (GeoVector) arg[1]) };
 				return ret;
 			}
@@ -48,7 +48,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 			// line through point orthogonal to another line
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { getAlgoDispatcher().OrthogonalLine(
+				GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
 						c.getLabel(), (GeoPoint) arg[0], (GeoLine) arg[1]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))

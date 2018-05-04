@@ -112,7 +112,7 @@ public class CmdRotate extends CommandProcessor {
 			GeoNumberValue phi = (GeoNumberValue) arg[1];
 			GeoPointND Q = (GeoPointND) arg[2];
 
-			return getAlgoDispatcher().Rotate(c.getLabel(), arg[0], phi, Q);
+			return getAlgoDispatcher().rotate(c.getLabel(), arg[0], phi, Q);
 		}
 
 		throw argErr(app, c, getBadArg(ok, arg));

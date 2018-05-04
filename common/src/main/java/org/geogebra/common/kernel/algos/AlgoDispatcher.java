@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -117,7 +116,7 @@ public class AlgoDispatcher {
 	}
 
 	/** Point label with cartesian coordinates (x,y) */
-	final public GeoPoint Point(double x, double y,
+	final public GeoPoint point(double x, double y,
 			boolean complex) {
 		int mode = complex ? Kernel.COORD_COMPLEX : Kernel.COORD_CARTESIAN;
 		GeoPoint p = new GeoPoint(cons, mode);
@@ -164,15 +163,14 @@ public class AlgoDispatcher {
 		return p;
 	}
 
-	public GeoPointND Point(String label, Path path, Coords coords,
+	public GeoPointND point(String label, Path path, Coords coords,
 			boolean addToConstruction, boolean complex, boolean coords2D) {
-
 		return point(label, path, coords.getX(), coords.getY(),
 				addToConstruction, complex, coords2D);
 	}
 
 	/** Point anywhere on path with */
-	final public GeoPoint Point(String label, Path path, GeoNumberValue param) {
+	final public GeoPoint point(String label, Path path, GeoNumberValue param) {
 		// try (0,0)
 		AlgoPointOnPath algo = null;
 		if (param == null) {
@@ -227,7 +225,7 @@ public class AlgoDispatcher {
 	/**
 	 * Line named label through Point P parallel to Line l
 	 */
-	final public GeoLine Line(String label, GeoPoint P, GeoLine l) {
+	final public GeoLine line(String label, GeoPoint P, GeoLine l) {
 		AlgoLinePointLine algo = new AlgoLinePointLine(cons, label, P, l);
 		GeoLine g = algo.getLine();
 		return g;
@@ -236,7 +234,7 @@ public class AlgoDispatcher {
 	/**
 	 * Line named label through Point P orthogonal to vector v
 	 */
-	final public GeoLine OrthogonalLine(String label, GeoPoint P, GeoVector v) {
+	final public GeoLine orthogonalLine(String label, GeoPoint P, GeoVector v) {
 		AlgoOrthoLinePointVector algo = new AlgoOrthoLinePointVector(cons,
 				label, P, v);
 		GeoLine g = algo.getLine();
@@ -246,7 +244,7 @@ public class AlgoDispatcher {
 	/**
 	 * Line named label through Point P orthogonal to line l
 	 */
-	final public GeoLine OrthogonalLine(String label, GeoPoint P, GeoLine l) {
+	final public GeoLine orthogonalLine(String label, GeoPoint P, GeoLine l) {
 		AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLine(cons, label, P,
 				l);
 		GeoLine g = algo.getLine();
@@ -256,7 +254,7 @@ public class AlgoDispatcher {
 	/**
 	 * Line bisector of points A, B
 	 */
-	final public GeoLine LineBisector(String label, GeoPoint A, GeoPoint B) {
+	final public GeoLine lineBisector(String label, GeoPoint A, GeoPoint B) {
 		AlgoLineBisector algo = new AlgoLineBisector(cons, label, A, B);
 		GeoLine g = algo.getLine();
 		return g;
@@ -265,7 +263,7 @@ public class AlgoDispatcher {
 	/**
 	 * Line bisector of segment s
 	 */
-	final public GeoLine LineBisector(String label, GeoSegment s) {
+	final public GeoLine lineBisector(String label, GeoSegment s) {
 		AlgoLineBisectorSegment algo = new AlgoLineBisectorSegment(cons, label,
 				s);
 		GeoLine g = algo.getLine();
@@ -334,7 +332,7 @@ public class AlgoDispatcher {
 	/**
 	 * Slope of line g
 	 */
-	final public GeoNumeric Slope(String label, GeoLine g, GeoFunction f) {
+	final public GeoNumeric slope(String label, GeoLine g, GeoFunction f) {
 		AlgoSlope algo = new AlgoSlope(cons, g, f);
 		GeoNumeric slope = algo.getSlope();
 		slope.setLabel(label);
@@ -344,7 +342,7 @@ public class AlgoDispatcher {
 	/**
 	 * LineSegment named label from Point P to Point Q
 	 */
-	final public GeoSegment Segment(String label, GeoPoint P, GeoPoint Q) {
+	final public GeoSegment segment(String label, GeoPoint P, GeoPoint Q) {
 		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, label, P,
 				Q);
 		GeoSegment s = algo.getSegment();
@@ -407,7 +405,7 @@ public class AlgoDispatcher {
 	 * Creates new point B with distance n from A and new segment AB The
 	 * labels[0] is for the segment, labels[1] for the new point
 	 */
-	final public GeoElement[] Segment(String[] labels, GeoPointND A,
+	final public GeoElement[] segment(String[] labels, GeoPointND A,
 			GeoNumberValue n) {
 		// this is actually a macro
 		String pointLabel = null, segmentLabel = null;
@@ -424,12 +422,11 @@ public class AlgoDispatcher {
 			}
 		}
 
-		return SegmentFixed(pointLabel, segmentLabel, A, n);
+		return segmentFixed(pointLabel, segmentLabel, A, n);
 	}
 
-	protected GeoElement[] SegmentFixed(String pointLabel, String segmentLabel,
+	protected GeoElement[] segmentFixed(String pointLabel, String segmentLabel,
 			GeoPointND a, GeoNumberValue n) {
-
 		GeoPoint A = (GeoPoint) a;
 
 		// create a circle around A with radius n
@@ -443,7 +440,7 @@ public class AlgoDispatcher {
 
 		// return segment and new point
 		GeoElement[] ret = {
-				Segment(segmentLabel, A, (GeoPoint) algoPoint.getP()),
+				segment(segmentLabel, A, (GeoPoint) algoPoint.getP()),
 				(GeoElement) algoPoint.getP() };
 
 		return ret;
@@ -474,7 +471,7 @@ public class AlgoDispatcher {
 		}
 
 		// rotate B around A using angle alpha
-		GeoPoint C = (GeoPoint) Rotate(pointLabel, B, alpha, A)[0];
+		GeoPoint C = (GeoPoint) rotate(pointLabel, B, alpha, A)[0];
 
 		// create angle according to orientation
 		GeoAngle angle;
@@ -494,7 +491,7 @@ public class AlgoDispatcher {
 	/**
 	 * rotate geoRot by angle phi around Q
 	 */
-	public GeoElement[] Rotate(String label, GeoElement geoRot,
+	public GeoElement[] rotate(String label, GeoElement geoRot,
 			GeoNumberValue phi, GeoPointND Q) {
 		Transform t = new TransformRotate(cons, phi, Q);
 		return t.transform(geoRot, label);
@@ -651,7 +648,7 @@ public class AlgoDispatcher {
 	/**
 	 * semicircle with midpoint M through point P
 	 */
-	final public GeoConicPart Semicircle(String label, GeoPoint M, GeoPoint P) {
+	final public GeoConicPart semicircle(String label, GeoPoint M, GeoPoint P) {
 		AlgoSemicircle algo = new AlgoSemicircle(cons, label, M, P);
 		return algo.getSemicircle();
 	}
@@ -659,7 +656,7 @@ public class AlgoDispatcher {
 	/**
 	 * parabola with focus F and line l
 	 */
-	final public GeoConicND Parabola(String label, GeoPointND F, GeoLineND l) {
+	final public GeoConicND parabola(String label, GeoPointND F, GeoLineND l) {
 		AlgoParabolaPointLine algo = new AlgoParabolaPointLine(cons, label, F,
 				l);
 		return algo.getParabola();
@@ -728,7 +725,7 @@ public class AlgoDispatcher {
 	 * Regular polygon with vertices A and B and n total vertices. The labels
 	 * name the polygon itself, its segments and points
 	 */
-	final public GeoElement[] RegularPolygon(String[] labels, GeoPointND A,
+	final public GeoElement[] regularPolygon(String[] labels, GeoPointND A,
 			GeoPointND B, GeoNumberValue n) {
 		AlgoPolygonRegular algo = new AlgoPolygonRegular(cons, labels, A, B, n);
 		return algo.getOutput();
@@ -746,7 +743,7 @@ public class AlgoDispatcher {
 	/**
 	 * Perimeter named label of GeoPolygon
 	 */
-	final public GeoNumeric Perimeter(String label, GeoPolygon polygon) {
+	final public GeoNumeric perimeter(String label, GeoPolygon polygon) {
 		AlgoPerimeterPoly algo = new AlgoPerimeterPoly(cons, label, polygon);
 		return algo.getCircumference();
 	}
@@ -807,7 +804,7 @@ public class AlgoDispatcher {
 	 ********************/
 
 	/** Point in region with cartesian coordinates (x,y) */
-	final public GeoPoint PointIn(String label, Region region, double x,
+	final public GeoPoint pointIn(String label, Region region, double x,
 			double y, boolean addToConstruction, boolean complex,
 			boolean coords2D) {
 
@@ -815,7 +812,6 @@ public class AlgoDispatcher {
 		if (!addToConstruction) {
 			oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-
 		}
 		AlgoPointInRegion algo = new AlgoPointInRegion(cons, label, region, x,
 				y);
@@ -833,16 +829,16 @@ public class AlgoDispatcher {
 		return p;
 	}
 
-	public GeoPointND PointIn(String label, Region region, Coords coords,
+	public GeoPointND pointIn(String label, Region region, Coords coords,
 			boolean addToConstruction, boolean complex, boolean coords2D) {
-		return PointIn(label, region, coords.getX(), coords.getY(),
+		return pointIn(label, region, coords.getX(), coords.getY(),
 				addToConstruction, complex, coords2D);
 	}
 
 	/**
 	 * Midpoint M = (P + Q)/2
 	 */
-	final public GeoPoint Midpoint(String label, GeoPoint P, GeoPoint Q) {
+	final public GeoPoint midpoint(String label, GeoPoint P, GeoPoint Q) {
 		AlgoMidpoint algo = new AlgoMidpoint(cons, label, P, Q);
 		GeoPoint M = algo.getPoint();
 		return M;
@@ -851,7 +847,7 @@ public class AlgoDispatcher {
 	/**
 	 * Midpoint of segment
 	 */
-	final public GeoPoint Midpoint(GeoSegment s) {
+	final public GeoPoint midpoint(GeoSegment s) {
 		AlgoMidpointSegment algo = new AlgoMidpointSegment(cons, s);
 		GeoPoint M = algo.getPoint();
 		return M;
@@ -878,28 +874,25 @@ public class AlgoDispatcher {
 	 * polygon P[0], ..., P[n-1] The labels name the polygon itself and its
 	 * segments
 	 */
-	public GeoElement[] Polygon(String[] labels, GeoPointND[] P) {
+	public GeoElement[] polygon(String[] labels, GeoPointND[] P) {
 		AlgoPolygon algo = new AlgoPolygon(cons, labels, P);
 		return algo.getOutput();
 	}
 
-	// G.Sturr 2010-3-14
 	/**
 	 * Polygon with vertices from geolist Only the polygon is labeled, segments
 	 * are not labeled
 	 */
-	public GeoElement[] Polygon(String[] labels, GeoList pointList) {
+	public GeoElement[] polygon(String[] labels, GeoList pointList) {
 		AlgoPolygon algo = new AlgoPolygon(cons, labels, pointList);
 		return algo.getOutput();
 	}
-
-	// END G.Sturr
 
 	/**
 	 * polygon P[0], ..., P[n-1] The labels name the polygon itself and its
 	 * segments
 	 */
-	final public GeoElement[] PolyLine(String label, GeoPointND[] P) {
+	final public GeoElement[] polyLine(String label, GeoPointND[] P) {
 		AlgoElement algo = new AlgoPolyLine(cons, P, null);
 		algo.getOutput(0).setLabel(label);
 		return algo.getOutput();
@@ -915,7 +908,7 @@ public class AlgoDispatcher {
 	 * 
 	 * modified by thilina
 	 */
-	final public GeoElement[] IntersectPolygons(String[] labels,
+	final public GeoElement[] intersectPolygons(String[] labels,
 			GeoPolygon poly0, GeoPolygon poly1, boolean asRegion) {
 		if (asRegion) {
 			AlgoPolygonIntersection algo = new AlgoPolygonIntersection(cons,
@@ -936,7 +929,7 @@ public class AlgoDispatcher {
 	 * @author thilina
 	 */
 
-	final public GeoElement[] IntersectPolygons(String[] labels,
+	final public GeoElement[] intersectPolygons(String[] labels,
 			GeoPolygon poly0, GeoPolygon poly1, int[] outputSizes) {
 		AlgoPolygonIntersection algo = new AlgoPolygonIntersection(cons, labels,
 				poly0, poly1, outputSizes);
@@ -947,7 +940,7 @@ public class AlgoDispatcher {
 	/**
 	 * Union[polygon,polygon] G. Sturr
 	 */
-	final public GeoElement[] Union(String[] labels, GeoPolygon poly0,
+	final public GeoElement[] union(String[] labels, GeoPolygon poly0,
 			GeoPolygon poly1) {
 		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0,
 				poly1);
@@ -960,7 +953,7 @@ public class AlgoDispatcher {
 	 * 
 	 * @author thilina
 	 */
-	final public GeoElement[] Union(String[] labels, GeoPolygon poly0,
+	final public GeoElement[] union(String[] labels, GeoPolygon poly0,
 			GeoPolygon poly1, int[] outputSizes) {
 		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0, poly1,
 				outputSizes);
@@ -1011,25 +1004,24 @@ public class AlgoDispatcher {
 	/**
 	 * locus line for Q dependent on P. Note: P must be a point on a path.
 	 */
-	final public GeoElement Locus(String label, GeoPointND Q, GeoPointND P) {
-		if (!LocusCheck(P, Q)) {
+	final public GeoElement locus(String label, GeoPointND Q, GeoPointND P) {
+		if (!locusCheck(P, Q)) {
 			return null;
 		}
 		if (P.getPath() instanceof GeoList) {
 			if (((GeoList) P.getPath()).shouldUseAlgoLocusList(true)) {
-				return (new AlgoLocusList(cons, label, (GeoPoint) Q,
-						(GeoPoint) P)).getLocus();
+				return new AlgoLocusList(cons, label, (GeoPoint) Q,
+						(GeoPoint) P).getLocus();
 			}
 		}
-		return (new AlgoLocus(cons, label, Q, P)).getLocus();
+		return new AlgoLocus(cons, label, Q, P).getLocus();
 	}
 
-	final public boolean LocusCheck(GeoPointND P, GeoPointND Q) {
+	final public boolean locusCheck(GeoPointND P, GeoPointND Q) {
 		if (P.getPath() == null || Q.getPath() != null
 				|| !((GeoElement) P).isParentOf(Q)) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -1073,16 +1065,6 @@ public class AlgoDispatcher {
 				(GeoLine) g, (GeoLine) h);
 		GeoPoint S = algo.getPoint();
 		return S;
-	}
-
-	/**
-	 * Solves a system of ODEs
-	 */
-	final public GeoLocus[] NSolveODE(String[] labels, GeoList fun,
-			GeoNumeric startX, GeoList startY, GeoNumeric endX) {
-		AlgoNSolveODE algo = new AlgoNSolveODE(cons, labels, fun, startX,
-				startY, endX);
-		return algo.getResult();
 	}
 
 	/**
@@ -1173,7 +1155,7 @@ public class AlgoDispatcher {
 	/**
 	 * Intersects f and g using starting point A (with Newton's root finding)
 	 */
-	final public GeoPoint IntersectFunctions(String label, GeoFunction f,
+	final public GeoPoint intersectFunctions(String label, GeoFunction f,
 			GeoFunction g, GeoPoint A) {
 		AlgoIntersectFunctionsNewton algo = new AlgoIntersectFunctionsNewton(
 				cons, label, f, g, A);
@@ -1211,7 +1193,7 @@ public class AlgoDispatcher {
 	 * IntersectPolyLineConic yields intersection points of polyLine g and conic
 	 * c
 	 */
-	public GeoElement[] IntersectPolyLineConic(String[] labels, GeoPolyLine g,
+	public GeoElement[] intersectPolyLineConic(String[] labels, GeoPolyLine g,
 			GeoConic c) {
 		AlgoIntersectPolyLineConic algo = getIntersectionAlgorithm(
 				g, c);
@@ -1224,7 +1206,7 @@ public class AlgoDispatcher {
 	/**
 	 * IntersectPolygonConic yields intersection points of polygon g and conic c
 	 */
-	public GeoElement[] IntersectPolygonConic(String[] labels, GeoPolygon g,
+	public GeoElement[] intersectPolygonConic(String[] labels, GeoPolygon g,
 			GeoConic c, boolean asRegion) {
 		if (asRegion) {
 			// TODO
@@ -1243,7 +1225,7 @@ public class AlgoDispatcher {
 	 * IntersectConics yields intersection points named label1, label2, label3,
 	 * label4 of conics c1, c2
 	 */
-	public GeoPointND[] IntersectConics(String[] labels, GeoConicND a,
+	public GeoPointND[] intersectConics(String[] labels, GeoConicND a,
 			GeoConicND b) {
 		AlgoIntersectConics algo = getIntersectionAlgorithm((GeoConic) a,
 				(GeoConic) b);
@@ -1256,7 +1238,7 @@ public class AlgoDispatcher {
 	/**
 	 * IntersectPolynomials yields all intersection points of polynomials a, b
 	 */
-	final public GeoPoint[] IntersectPolynomials(String[] labels, GeoFunction a,
+	final public GeoPoint[] intersectPolynomials(String[] labels, GeoFunction a,
 			GeoFunction b) {
 		if (isConditionalPolynomial(a) && b.isPolynomialFunction(false)) {
 			AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
@@ -1295,7 +1277,7 @@ public class AlgoDispatcher {
 	 * get only one intersection point of two polynomials a, b that is near to
 	 * the given location (xRW, yRW)
 	 */
-	final public GeoPoint IntersectPolynomialsSingle(String label,
+	final public GeoPoint intersectPolynomialsSingle(String label,
 			GeoFunction a, GeoFunction b, double xRW, double yRW) {
 		if (!a.isPolynomialFunction(false) || !b.isPolynomialFunction(false)) {
 			return null;
@@ -1328,7 +1310,7 @@ public class AlgoDispatcher {
 	 * IntersectPolyomialLine yields all intersection points of polynomial f and
 	 * line l
 	 */
-	final public GeoPoint[] IntersectPolynomialLine(String[] labels,
+	final public GeoPoint[] intersectPolynomialLine(String[] labels,
 			GeoFunction f, GeoLine line, GeoPoint initPoint) {
 
 		// TODO decide polynomial when CAS not loaded ?
@@ -1367,7 +1349,6 @@ public class AlgoDispatcher {
 					cons, label, f, line, A);
 			GeoPoint[] ret = { algo.getIntersectionPoint() };
 			return ret;
-
 		}
 
 		AlgoIntersectPolynomialLine algo = getIntersectionAlgorithm(f, line);
@@ -1383,7 +1364,7 @@ public class AlgoDispatcher {
 	 * 
 	 * @author thilina
 	 */
-	final public GeoElement[] IntersectPolynomialPolyLine(String[] labels,
+	final public GeoElement[] intersectPolynomialPolyLine(String[] labels,
 			GeoFunction f, GeoPolyLine pl) {
 
 		AlgoIntersectPolynomialPolyLine algo = new AlgoIntersectPolynomialPolyLine(
@@ -1398,7 +1379,7 @@ public class AlgoDispatcher {
 	 * 
 	 * @author thilina
 	 */
-	final public GeoElement[] IntersectPolynomialPolygon(String[] labels,
+	final public GeoElement[] intersectPolynomialPolygon(String[] labels,
 			GeoFunction f, GeoPolygon pl) {
 
 		AlgoIntersectPolynomialPolyLine algo = new AlgoIntersectPolynomialPolyLine(
@@ -1414,7 +1395,7 @@ public class AlgoDispatcher {
 	 * 
 	 * @author thilina
 	 */
-	final public GeoElement[] IntersectNPFunctionPolyLine(String[] labels,
+	final public GeoElement[] intersectNPFunctionPolyLine(String[] labels,
 			GeoFunction f, GeoPolyLine pl, GeoPoint initPoint) {
 
 		AlgoIntersectNpFunctionPolyLine algo = new AlgoIntersectNpFunctionPolyLine(
@@ -1428,7 +1409,7 @@ public class AlgoDispatcher {
 	 * 
 	 * @author thilina
 	 */
-	final public GeoElement[] IntersectNPFunctionPolygon(String[] labels,
+	final public GeoElement[] intersectNPFunctionPolygon(String[] labels,
 			GeoFunction f, GeoPolygon pl, GeoPoint initPoint) {
 
 		AlgoIntersectNpFunctionPolyLine algo = new AlgoIntersectNpFunctionPolyLine(
@@ -1452,7 +1433,7 @@ public class AlgoDispatcher {
 	/**
 	 * get intersection points of a polynomial and a conic
 	 */
-	final public GeoPoint[] IntersectPolynomialConic(String[] labels,
+	final public GeoPoint[] intersectPolynomialConic(String[] labels,
 			GeoFunction f, GeoConic c) {
 		AlgoIntersectPolynomialConic algo = getIntersectionAlgorithm(f, c);
 		algo.setPrintedInXML(true);
@@ -1465,7 +1446,7 @@ public class AlgoDispatcher {
 	/**
 	 * get intersection points of a implicitPoly and a line
 	 */
-	final public GeoPoint[] IntersectImplicitpolyLine(String[] labels,
+	final public GeoPoint[] intersectImplicitpolyLine(String[] labels,
 			GeoImplicit p, GeoLine l) {
 		AlgoIntersectImplicitpolyParametric algo = getIntersectionAlgorithm(p,
 				l);
@@ -1478,7 +1459,7 @@ public class AlgoDispatcher {
 	/**
 	 * get intersection points of a implicitPoly and a polyline
 	 */
-	final public GeoPoint[] IntersectImplicitpolyPolyLine(String[] labels,
+	final public GeoPoint[] intersectImplicitpolyPolyLine(String[] labels,
 			GeoImplicit p, GeoPolyLine l) {
 		AlgoIntersectImplicitpolyPolyLine algo = getIntersectionAlgorithm(p, l);
 		algo.setPrintedInXML(true);
@@ -1490,7 +1471,7 @@ public class AlgoDispatcher {
 	/**
 	 * get intersection points of a implicitPoly and a polygon
 	 */
-	final public GeoPoint[] IntersectImplicitpolyPolygon(String[] labels,
+	final public GeoPoint[] intersectImplicitpolyPolygon(String[] labels,
 			GeoImplicit p, GeoPolygon l) {
 		AlgoIntersectImplicitpolyPolyLine algo = getIntersectionAlgorithm(p, l);
 		algo.setPrintedInXML(true);
@@ -1502,7 +1483,7 @@ public class AlgoDispatcher {
 	/**
 	 * get intersection points of a implicitPoly and a polynomial
 	 */
-	final public GeoPoint[] IntersectImplicitpolyPolynomial(String[] labels,
+	final public GeoPoint[] intersectImplicitpolyPolynomial(String[] labels,
 			GeoImplicit p, GeoFunction f) {
 		// if (!f.isPolynomialFunction(false))
 		// return null;
@@ -1517,7 +1498,7 @@ public class AlgoDispatcher {
 	/**
 	 * get intersection points of two implicitPolys
 	 */
-	final public GeoPoint[] IntersectImplicitpolys(String[] labels,
+	final public GeoPoint[] intersectImplicitpolys(String[] labels,
 			GeoImplicit p1, GeoImplicit p2) {
 		AlgoIntersectImplicitpolys algo = getIntersectionAlgorithm(p1, p2);
 		algo.setPrintedInXML(true);
@@ -1529,7 +1510,7 @@ public class AlgoDispatcher {
 	/**
 	 * get intersection points of implicitPoly and conic
 	 */
-	final public GeoPoint[] IntersectImplicitpolyConic(String[] labels,
+	final public GeoPoint[] intersectImplicitpolyConic(String[] labels,
 			GeoImplicit p1, GeoConic c1) {
 		AlgoIntersectImplicitpolys algo = getIntersectionAlgorithm(p1, c1);
 		algo.setPrintedInXML(true);
@@ -1538,7 +1519,7 @@ public class AlgoDispatcher {
 		return points;
 	}
 
-	final public GeoPoint[] IntersectImplicitCurveLine(String[] labels,
+	final public GeoPoint[] intersectImplicitCurveLine(String[] labels,
 			GeoImplicitCurve curve, GeoLine line) {
 		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
 				cons, curve, line);
@@ -1547,7 +1528,7 @@ public class AlgoDispatcher {
 		return points;
 	}
 
-	final public GeoPoint[] IntersectImplicitCurveConic(String[] labels,
+	final public GeoPoint[] intersectImplicitCurveConic(String[] labels,
 			GeoImplicitCurve curve, GeoConic conic) {
 		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(cons,
 				curve, conic);
@@ -1556,7 +1537,7 @@ public class AlgoDispatcher {
 		return points;
 	}
 
-	final public GeoPoint[] IntersectImplicitCurveFunction(String[] labels,
+	final public GeoPoint[] intersectImplicitCurveFunction(String[] labels,
 			GeoImplicitCurve curve, GeoFunction func) {
 		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
 				cons, curve, func);
@@ -1565,7 +1546,7 @@ public class AlgoDispatcher {
 		return points;
 	}
 
-	final public GeoPoint[] IntersectImplicitCurveImpCurve(String[] labels,
+	final public GeoPoint[] intersectImplicitCurveImpCurve(String[] labels,
 			GeoImplicit curve, GeoImplicit impCurve) {
 		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(cons,
 				curve, impCurve);
@@ -1574,13 +1555,13 @@ public class AlgoDispatcher {
 		return points;
 	}
 
-	public GeoElement[] IntersectImplicitSurfaceLine(String[] labels,
+	public GeoElement[] intersectImplicitSurfaceLine(String[] labels,
 			GeoImplicitSurfaceND surf, GeoLineND line) {
 		return new GeoPoint[0];
 	}
 
 	// intersect path with point
-	public GeoElement[] IntersectPathPoint(String label, Path path,
+	public GeoElement[] intersectPathPoint(String label, Path path,
 			GeoPointND point) {
 		AlgoIntersectPathPoint algo = new AlgoIntersectPathPoint(cons, label,
 				path, point);
@@ -1592,7 +1573,6 @@ public class AlgoDispatcher {
 	// intersect polynomial and conic
 	public AlgoIntersectPolynomialConic getIntersectionAlgorithm(GeoFunction f,
 			GeoConic c) {
-
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(f, c);
 		if (existingAlgo != null) {
 			return (AlgoIntersectPolynomialConic) existingAlgo;
@@ -1817,7 +1797,7 @@ public class AlgoDispatcher {
 	/**
 	 * tangents to c through P
 	 */
-	final public GeoElement[] Tangent(String[] labels, GeoPointND P,
+	final public GeoElement[] tangent(String[] labels, GeoPointND P,
 			GeoConicND c) {
 		AlgoTangentPoint algo = new AlgoTangentPoint(cons, labels, P, c);
 		return algo.getOutput();
@@ -1835,7 +1815,7 @@ public class AlgoDispatcher {
 	/**
 	 * tangents to c parallel to g
 	 */
-	final public GeoElement[] Tangent(String[] labels, GeoLineND g,
+	final public GeoElement[] tangent(String[] labels, GeoLineND g,
 			GeoConicND c) {
 		AlgoTangentLine algo = new AlgoTangentLine(cons, labels, g, c);
 		return algo.getOutput();
@@ -1844,15 +1824,14 @@ public class AlgoDispatcher {
 	/**
 	 * tangent to f in x = x(P)
 	 */
-	final public GeoLine Tangent(String label, GeoPointND P, GeoFunction f) {
-
+	final public GeoLine tangent(String label, GeoPointND P, GeoFunction f) {
 		return KernelCAS.tangent(cons, label, P, f);
 	}
 
 	/**
 	 * tangents to p through P
 	 */
-	final public GeoLine[] Tangent(String[] labels, GeoPointND R,
+	final public GeoLine[] tangent(String[] labels, GeoPointND R,
 			GeoImplicit p) {
 		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(cons, labels,
 				p, R);
@@ -1864,7 +1843,7 @@ public class AlgoDispatcher {
 	/**
 	 * tangents to p parallel to g
 	 **/
-	final public GeoLine[] Tangent(String[] labels, GeoLineND g, GeoImplicit p) {
+	final public GeoLine[] tangent(String[] labels, GeoLineND g, GeoImplicit p) {
 		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(cons,
 				labels, p, g);
 		algo.setLabels(labels);
@@ -1879,21 +1858,21 @@ public class AlgoDispatcher {
 	/**
 	 * translate geoTrans by vector v
 	 */
-	final public GeoElement[] Translate(String label, GeoElementND geoTrans,
+	final public GeoElement[] translate(String label, GeoElementND geoTrans,
 			GeoVec3D v) {
 		Transform t = new TransformTranslate(cons, v);
 		return t.transform(geoTrans, label);
 	}
 
-	public GeoElement[] TranslateND(String label, GeoElementND geoTrans,
+	public GeoElement[] translateND(String label, GeoElementND geoTrans,
 			GeoVectorND v) {
-		return Translate(label, geoTrans, (GeoVec3D) v);
+		return translate(label, geoTrans, (GeoVec3D) v);
 	}
 
 	/**
 	 * mirror geoMir at point Q
 	 */
-	final public GeoElement[] Mirror(String label, GeoElement geoMir,
+	final public GeoElement[] mirror(String label, GeoElement geoMir,
 			GeoPoint Q) {
 		Transform t = new TransformMirror(cons, Q);
 		return t.transform(geoMir, label);
@@ -1902,7 +1881,7 @@ public class AlgoDispatcher {
 	/**
 	 * mirror (invert) element Q in circle Michael Borcherds 2008-02-10
 	 */
-	final public GeoElement[] Mirror(String label, GeoElement Q,
+	final public GeoElement[] mirror(String label, GeoElement Q,
 			GeoConic conic) {
 		Transform t = new TransformMirror(cons, conic);
 		return t.transform(Q, label);
@@ -1911,11 +1890,10 @@ public class AlgoDispatcher {
 	/**
 	 * mirror geoMir at line g
 	 */
-	final public GeoElement[] Mirror(String label, GeoElement geoMir,
+	final public GeoElement[] mirror(String label, GeoElement geoMir,
 			GeoLine g) {
 		Transform t = new TransformMirror(cons, g);
 		return t.transform(geoMir, label);
-
 	}
 
 	public GeoPointND attach(GeoPointND point, Path path,
@@ -1935,7 +1913,7 @@ public class AlgoDispatcher {
 								.getObjectColor());
 			}
 
-			GeoPointND newPoint = Point(null, path, locRW, false, false,
+			GeoPointND newPoint = point(null, path, locRW, false, false,
 					point.getMode() != Kernel.COORD_CARTESIAN_3D);
 
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
@@ -1977,7 +1955,7 @@ public class AlgoDispatcher {
 								.getObjectColor());
 			}
 
-			GeoPointND newPoint = PointIn(null, region, locRW, false, false,
+			GeoPointND newPoint = pointIn(null, region, locRW, false, false,
 					true);
 
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
@@ -1999,7 +1977,6 @@ public class AlgoDispatcher {
 	}
 
 	public GeoPointND detach(GeoPointND p, EuclidianViewInterfaceCommon view) {
-
 		try {
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
@@ -2039,12 +2016,10 @@ public class AlgoDispatcher {
 			e1.printStackTrace();
 			return null;
 		}
-
 	}
 
 	protected GeoPointND copyFreePoint(GeoPointND point,
 			EuclidianViewInterfaceCommon view) {
-
 		double xOffset = 0, yOffset = 0;
 		if (!view.isEuclidianView3D()) {
 			xOffset = DETACH_OFFSET * view.getInvXscale();
@@ -2082,7 +2057,6 @@ public class AlgoDispatcher {
 									.getDefaultGeo(
 											ConstructionDefaults.DEFAULT_POINT_IN_REGION)
 									.getObjectColor());
-
 				}
 			}
 
@@ -2120,7 +2094,7 @@ public class AlgoDispatcher {
 		return point;
 	}
 
-	public final GeoPoint IntersectPolynomialConicSingle(String label,
+	public final GeoPoint intersectPolynomialConicSingle(String label,
 			GeoFunction f, GeoConic c, double x, double y) {
 		AlgoIntersect algo = getIntersectionAlgorithm(f, c);
 		int idx = algo.getClosestPointIndex(x, y);
@@ -2133,7 +2107,7 @@ public class AlgoDispatcher {
 	 * get only one intersection point of two conics that is near to the given
 	 * location (xRW, yRW)
 	 */
-	public final GeoPoint IntersectLineConicSingle(String label, GeoLine g,
+	public final GeoPoint intersectLineConicSingle(String label, GeoLine g,
 			GeoConic c, double xRW, double yRW) {
 		AlgoIntersectLineConic algo = getIntersectionAlgorithm(g, c);
 		int index = algo.getClosestPointIndex(xRW, yRW);
@@ -2145,7 +2119,7 @@ public class AlgoDispatcher {
 	/**
 	 * get single intersection points of a implicitPoly and a line
 	 */
-	final public GeoPoint IntersectImplicitpolyLineSingle(String label,
+	final public GeoPoint intersectImplicitpolyLineSingle(String label,
 			GeoImplicit p, GeoLine l, double x, double y) {
 		AlgoIntersect algo = getIntersectionAlgorithm(p, l);
 		int idx = algo.getClosestPointIndex(x, y);
@@ -2157,7 +2131,7 @@ public class AlgoDispatcher {
 	/**
 	 * get single intersection points of a implicitPoly and a line
 	 */
-	final public GeoPoint IntersectImplicitpolyPolynomialSingle(String label,
+	final public GeoPoint intersectImplicitpolyPolynomialSingle(String label,
 			GeoImplicit p, GeoFunction f, double x, double y) {
 		if (!f.getConstruction().isFileLoading()
 				&& !f.isPolynomialFunction(false)) {
@@ -2177,7 +2151,7 @@ public class AlgoDispatcher {
 	 * @param x
 	 * @param y
 	 */
-	final public GeoPoint IntersectImplicitpolyConicSingle(String label,
+	final public GeoPoint intersectImplicitpolyConicSingle(String label,
 			GeoImplicit p1, GeoConic c1, double x, double y) {
 		AlgoIntersectImplicitpolys algo = getIntersectionAlgorithm(p1, c1);
 		int idx = algo.getClosestPointIndex(x, y);
@@ -2193,7 +2167,7 @@ public class AlgoDispatcher {
 	 * @param x
 	 * @param y
 	 */
-	final public GeoPoint IntersectImplicitpolysSingle(String label,
+	final public GeoPoint intersectImplicitpolysSingle(String label,
 			GeoImplicit p1, GeoImplicit p2, double x, double y) {
 		AlgoIntersectImplicitpolys algo = getIntersectionAlgorithm(p1, p2);
 		int idx = algo.getClosestPointIndex(x, y);

@@ -74,13 +74,13 @@ public class CmdTangent extends CommandProcessor {
 			// tangents of function at x = x(Point P)
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
-				GeoElement[] ret = { getAlgoDispatcher().Tangent(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().tangent(c.getLabel(),
 						(GeoPointND) arg[0],
 						((GeoFunctionable) arg[1]).getGeoFunction()) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { getAlgoDispatcher().Tangent(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().tangent(c.getLabel(),
 						(GeoPointND) arg[1],
 						((GeoFunctionable) arg[0]).getGeoFunction()) };
 				return ret;
@@ -100,18 +100,18 @@ public class CmdTangent extends CommandProcessor {
 
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoImplicitCurve()))) {
-				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
+				GeoElement[] ret = getAlgoDispatcher().tangent(c.getLabels(),
 						(GeoPointND) arg[0], (GeoImplicit) arg[1]);
 				return ret;
 			} else if ((ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[0] = (arg[0].isGeoImplicitCurve()))) {
-				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
+				GeoElement[] ret = getAlgoDispatcher().tangent(c.getLabels(),
 						(GeoPointND) arg[1], (GeoImplicit) arg[0]);
 				return ret;
 
 			} else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoImplicitCurve()))) {
-				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
+				GeoElement[] ret = getAlgoDispatcher().tangent(c.getLabels(),
 						(GeoLineND) arg[0], (GeoImplicit) arg[1]);
 				return ret;
 
@@ -160,7 +160,7 @@ public class CmdTangent extends CommandProcessor {
 	 */
 	protected GeoElement[] tangent(String[] labels, GeoPointND a,
 			GeoConicND c) {
-		return getAlgoDispatcher().Tangent(labels, a, c);
+		return getAlgoDispatcher().tangent(labels, a, c);
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class CmdTangent extends CommandProcessor {
 	 * @return tangent line/conic
 	 */
 	protected GeoElement[] tangent(String[] labels, GeoLineND l, GeoConicND c) {
-		return getAlgoDispatcher().Tangent(labels, l, c);
+		return getAlgoDispatcher().tangent(labels, l, c);
 	}
 
 	/**

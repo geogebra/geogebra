@@ -3149,7 +3149,7 @@ public class AlgebraProcessor {
 			if (isVector) {
 				ret[0] = kernel.getAlgoDispatcher().vector(x, y);
 			} else {
-				ret[0] = kernel.getAlgoDispatcher().Point(x, y, complex);
+				ret[0] = kernel.getAlgoDispatcher().point(x, y, complex);
 			}
 			ret[0].setDefinition(n);
 			ret[0].setLabel(label);

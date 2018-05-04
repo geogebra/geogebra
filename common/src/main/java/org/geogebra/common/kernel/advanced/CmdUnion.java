@@ -71,7 +71,7 @@ public class CmdUnion extends CommandProcessor {
 	 */
 	protected GeoElement[] union(String[] labels, GeoPolygon poly1,
 			GeoPolygon poly2) {
-		return getAlgoDispatcher().Union(labels, poly1, poly2);
+		return getAlgoDispatcher().union(labels, poly1, poly2);
 	}
 
 	/**

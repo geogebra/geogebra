@@ -86,7 +86,7 @@ public class PolygonFactory {
 		}
 		points[0].update();
 
-		return kernel.getAlgoDispatcher().Polygon(labels, points);
+		return kernel.getAlgoDispatcher().polygon(labels, points);
 
 	}
 
@@ -117,7 +117,7 @@ public class PolygonFactory {
 		// create p1 = point on circle (so it can be dragged to rotate the whole
 		// shape)
 
-		GeoSegment radius = kernel.getAlgoDispatcher().Segment((String) null, (GeoPoint) pts[0],
+		GeoSegment radius = kernel.getAlgoDispatcher().segment((String) null, (GeoPoint) pts[0],
 				(GeoPoint) pts[1]);
 
 		GeoConicND circle = kernel.getAlgoDispatcher().circle(null, p[0], radius);
@@ -290,7 +290,7 @@ public class PolygonFactory {
 
 		points[0].update();
 
-		return kernel.getAlgoDispatcher().Polygon(labels, points);
+		return kernel.getAlgoDispatcher().polygon(labels, points);
 
 	}
 

@@ -89,7 +89,7 @@ public class CmdLocus extends CommandProcessor {
 	 * @return locus
 	 */
 	protected GeoElement locus(String label, GeoPointND p1, GeoPointND p2) {
-		return getAlgoDispatcher().Locus(label, p1, p2);
+		return getAlgoDispatcher().locus(label, p1, p2);
 	}
 
 	/**

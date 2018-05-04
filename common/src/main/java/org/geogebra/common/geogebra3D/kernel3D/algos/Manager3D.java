@@ -2229,7 +2229,7 @@ public class Manager3D implements Manager3DInterface {
 		if (orientation == kernel.getXOYPlane()) { // xOy plane is default
 													// orientation for 2D
 													// objects
-			return kernel.getAlgoDispatcher().Semicircle(label, (GeoPoint) A,
+			return kernel.getAlgoDispatcher().semicircle(label, (GeoPoint) A,
 					(GeoPoint) B);
 		}
 
@@ -2252,7 +2252,7 @@ public class Manager3D implements Manager3DInterface {
 			return algo.getOutput();
 		}
 
-		return kernel.getAlgoDispatcher().Tangent(labels, P, c);
+		return kernel.getAlgoDispatcher().tangent(labels, P, c);
 	}
 
 	@Override
@@ -2262,7 +2262,7 @@ public class Manager3D implements Manager3DInterface {
 			return algo.getOutput();
 		}
 
-		return kernel.getAlgoDispatcher().Tangent(labels, l, c);
+		return kernel.getAlgoDispatcher().tangent(labels, l, c);
 	}
 
 	/**
@@ -2320,7 +2320,7 @@ public class Manager3D implements Manager3DInterface {
 															// default
 															// orientation for
 															// 2D objects
-			return kernel.getAlgoDispatcher().LineBisector(null,
+			return kernel.getAlgoDispatcher().lineBisector(null,
 					(GeoSegment) segment);
 		}
 
@@ -2339,7 +2339,7 @@ public class Manager3D implements Manager3DInterface {
 															// default
 															// orientation for
 															// 2D objects
-			return kernel.getAlgoDispatcher().LineBisector(label, (GeoPoint) a,
+			return kernel.getAlgoDispatcher().lineBisector(label, (GeoPoint) a,
 					(GeoPoint) b);
 		}
 
@@ -2402,7 +2402,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoElement locus3D(String label, GeoPointND Q, GeoPointND P) {
-		if (!kernel.getAlgoDispatcher().LocusCheck(P, Q)) {
+		if (!kernel.getAlgoDispatcher().locusCheck(P, Q)) {
 			return null;
 		}
 

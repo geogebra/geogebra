@@ -54,7 +54,7 @@ public class CmdPointIn extends CommandProcessor {
 	 * @return output
 	 */
 	protected GeoElement[] pointIn(String label, Region region) {
-		GeoElement[] ret = { getAlgoDispatcher().PointIn(label, region, 0, 0,
+		GeoElement[] ret = { getAlgoDispatcher().pointIn(label, region, 0, 0,
 				true, false, true) };
 		return ret;
 

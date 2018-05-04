@@ -697,11 +697,11 @@ public class GeoConicPart extends GeoConic
 
 			GeoConic semCirc;
 			if (t instanceof TransformMirror && t.changesOrientation()) {
-				semCirc = kernel.getAlgoDispatcher().Semicircle(
+				semCirc = kernel.getAlgoDispatcher().semicircle(
 						transformedLabel, (GeoPoint) points[1],
 						(GeoPoint) points[0]);
 			} else if (t.isSimilar()) {
-				semCirc = kernel.getAlgoDispatcher().Semicircle(
+				semCirc = kernel.getAlgoDispatcher().semicircle(
 						transformedLabel, (GeoPoint) points[0],
 						(GeoPoint) points[1]);
 			} else {

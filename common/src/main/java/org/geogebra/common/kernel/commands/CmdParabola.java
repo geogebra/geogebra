@@ -55,6 +55,6 @@ public class CmdParabola extends CommandProcessor {
 	 * @return point-line parabola
 	 */
 	protected GeoElement parabola(String label, GeoPointND a, GeoLineND d) {
-		return getAlgoDispatcher().Parabola(label, a, d);
+		return getAlgoDispatcher().parabola(label, a, d);
 	}
 }

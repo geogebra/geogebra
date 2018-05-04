@@ -384,7 +384,7 @@ public class TextDispatcher {
 	 * @return perimeter description
 	 */
 	public GeoElement[] createPerimeterText(GeoPolygon poly, GPoint mouseLoc) {
-		GeoNumeric perimeter = kernel.getAlgoDispatcher().Perimeter(null, poly);
+		GeoNumeric perimeter = kernel.getAlgoDispatcher().perimeter(null, poly);
 
 		// text
 		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA",
@@ -457,7 +457,7 @@ public class TextDispatcher {
 
 		// checkZooming();
 
-		slope = kernel.getAlgoDispatcher().Slope(label, line, f);
+		slope = kernel.getAlgoDispatcher().slope(label, line, f);
 
 		// show value
 		if (slope.isLabelVisible()) {

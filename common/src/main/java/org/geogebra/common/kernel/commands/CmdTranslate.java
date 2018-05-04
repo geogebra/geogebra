@@ -62,7 +62,7 @@ public class CmdTranslate extends CommandProcessor {
 				// 2D Vectors, Points
 				GeoVec3D v = (GeoVec3D) arg[1];
 
-				ret = getAlgoDispatcher().Translate(label, arg[0], v);
+				ret = getAlgoDispatcher().translate(label, arg[0], v);
 				return ret;
 			}
 

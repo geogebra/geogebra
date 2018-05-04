@@ -297,7 +297,7 @@ public class EuclidianControllerFor3DCompanion
 					geoPoint2, value, ec.getView().getDirection());
 		}
 
-		return ec.kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1,
+		return ec.kernel.getAlgoDispatcher().regularPolygon(null, geoPoint1,
 				geoPoint2, value);
 	}
 
