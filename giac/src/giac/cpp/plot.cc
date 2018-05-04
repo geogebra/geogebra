@@ -2300,7 +2300,7 @@ namespace giac {
     S+=']';
   }
 
-  int pixon_size=2; // global size, used in all sessions
+  int pixon_size=1; // global size, used in all sessions
   // pixel (i,j,[color])
   gen _pixon(const gen & a,GIAC_CONTEXT){
     gen args(a);
