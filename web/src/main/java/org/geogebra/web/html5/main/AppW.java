@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -114,7 +113,6 @@ import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
-import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
@@ -128,7 +126,6 @@ import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.html5.util.NetworkW;
-import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
@@ -143,10 +140,8 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
@@ -165,7 +160,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class AppW extends App implements SetLabels {
+public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
 	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
@@ -224,7 +219,6 @@ public abstract class AppW extends App implements SetLabels {
 	private boolean headerVisible = !AppW.smallScreen();
 	private boolean toolLoadedFromStorage;
 	private Storage storage;
-	private ScriptLoadCallback scriptCallback;
 	WebsocketLogger webSocketLogger = null;
 	private boolean keyboardNeeded;
 	private String externalPath;
@@ -624,7 +618,8 @@ public abstract class AppW extends App implements SetLabels {
 		return new MyXMLioW(cons.getKernel(), cons);
 	}
 
-	void doSetLanguage(String lang) {
+	@Override
+	public void doSetLanguage(String lang, boolean asyncCall) {
 		getLocalization().setLanguage(lang);
 
 		// make sure digits are updated in all numbers
@@ -636,6 +631,9 @@ public abstract class AppW extends App implements SetLabels {
 		notifyLocalizationLoaded();
 		// importatnt for accessibility
 		getFrameElement().setLang(lang == null ? "" : lang.replace("_", "-"));
+		if (asyncCall && getGuiManager() != null) {
+			getGuiManager().updateKeyboardLanguage();
+		}
 	}
 
 	/**
@@ -649,9 +647,7 @@ public abstract class AppW extends App implements SetLabels {
 	public void setLanguage(final String browserLang) {
 		final String lang = Language
 				.getClosestGWTSupportedLanguage(browserLang).getLocaleGWT();
-		if (scriptCallback != null) {
-			scriptCallback.cancel();
-		}
+		getLocalization().cancelCallback();
 		if (lang != null && lang.equals(loc.getLocaleStr())) {
 			Log.debug("Language is already " + loc.getLocaleStr());
 			setLabels();
@@ -667,66 +663,9 @@ public abstract class AppW extends App implements SetLabels {
 		Log.debug("setting language to:" + lang + ", browser lang:"
 				+ browserLang);
 
-		if (Browser.supportsSessionStorage()
-				&& LocalizationW.loadPropertiesFromStorage(lang,
-						GeoGebraConstants.VERSION_STRING)) {
-			doSetLanguage(lang);
-		} else {
-			// load keys (into a JavaScript <script> tag)
-			ScriptElement script = Document.get().createScriptElement();
-			String url = GWT.getModuleBaseURL();
-			if (url.startsWith(GeoGebraConstants.CDN_APPS + "latest")) {
-				url = GeoGebraConstants.CDN_APPS
-						+ GeoGebraConstants.VERSION_STRING + "/web3d/";
-			}
-			script.setSrc(url + "js/properties_keys_" + lang + ".js");
-			scriptCallback = new ScriptLoadCallback() {
-				private boolean canceled = false;
-
-				@Override
-				public void onLoad() {
-					if (canceled) {
-						Log.debug("Async language file load canceled.");
-						return;
-					}
-					// force reload
-					doSetLanguage(lang);
-
-					updateKeyboardLanguage();
-
-					if (Browser.supportsSessionStorage()) {
-						LocalizationW.savePropertiesToStorage(lang,
-								GeoGebraConstants.VERSION_STRING);
-					}
-				}
-
-				@Override
-				public void onError() {
-					if (canceled) {
-						Log.debug("Async language file load canceled.");
-						return;
-					}
-					LocalizationW.loadPropertiesFromStorage(lang, "");
-					doSetLanguage(lang);
-				}
-
-				@Override
-				public void cancel() {
-					canceled = true;
-
-				}
-
-			};
-			ResourcesInjector.addLoadHandler(script, scriptCallback);
-			Document.get().getBody().appendChild(script);
-		}
+		getLocalization().loadScript(lang, this);
 	}
 
-	void updateKeyboardLanguage() {
-		if (getGuiManager() != null) {
-			getGuiManager().updateKeyboardLanguage();
-		}
-	}
 
 	/**
 	 * @param language

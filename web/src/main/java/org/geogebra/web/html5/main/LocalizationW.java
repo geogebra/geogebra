@@ -5,14 +5,22 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.MissingResourceException;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
+import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.MyDictionary;
+import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.resources.StyleInjector;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.ScriptElement;
 
 /**
  * JSON based localization for Web
@@ -24,6 +32,7 @@ public final class LocalizationW extends Localization
 	 * eg "en_GB", "es" // remains null until we're sure keys are loaded
 	 */
 	String localeStr = "en";
+	private ScriptLoadCallback scriptCallback;
 
 	private boolean commandChanged = true;
 	/**
@@ -386,5 +395,68 @@ public final class LocalizationW extends Localization
 	@Override
 	protected Locale createLocale(String language, String country) {
 		return null;
+	}
+
+	/**
+	 * Cancel script load callback.
+	 */
+	public void cancelCallback() {
+		if (scriptCallback != null) {
+			scriptCallback.cancel();
+		}
+	}
+
+	public void loadScript(final String lang, final HasLanguage app) {
+		if (Browser.supportsSessionStorage()
+				&& LocalizationW.loadPropertiesFromStorage(lang,
+						GeoGebraConstants.VERSION_STRING)) {
+			app.doSetLanguage(lang, false);
+		} else {
+			// load keys (into a JavaScript <script> tag)
+			ScriptElement script = Document.get().createScriptElement();
+			String url = GWT.getModuleBaseURL();
+			if (url.startsWith(GeoGebraConstants.CDN_APPS + "latest")) {
+				url = GeoGebraConstants.CDN_APPS
+						+ GeoGebraConstants.VERSION_STRING + "/web3d/";
+			}
+			script.setSrc(url + "js/properties_keys_" + lang + ".js");
+			scriptCallback = new ScriptLoadCallback() {
+				private boolean canceled = false;
+
+				@Override
+				public void onLoad() {
+					if (canceled) {
+						Log.debug("Async language file load canceled.");
+						return;
+					}
+					// force reload
+					app.doSetLanguage(lang, true);
+
+					if (Browser.supportsSessionStorage()) {
+						LocalizationW.savePropertiesToStorage(lang,
+								GeoGebraConstants.VERSION_STRING);
+					}
+				}
+
+				@Override
+				public void onError() {
+					if (canceled) {
+						Log.debug("Async language file load canceled.");
+						return;
+					}
+					LocalizationW.loadPropertiesFromStorage(lang, "");
+					app.doSetLanguage(lang, false);
+				}
+
+				@Override
+				public void cancel() {
+					canceled = true;
+				}
+
+			};
+			ResourcesInjector.addLoadHandler(script, scriptCallback);
+			Document.get().getBody().appendChild(script);
+		}
+
 	}
 }
