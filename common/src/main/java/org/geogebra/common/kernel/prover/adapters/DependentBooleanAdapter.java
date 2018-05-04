@@ -394,10 +394,10 @@ public class DependentBooleanAdapter extends ProverAdapter {
 		}
 		String[] splitedStr = rootStr.split(",");
 		/*
-		 * This 19 is hardcoded, it is the length of "[ggbIsZero(simplify" which
+		 * This 10 is hardcoded, it is the length of "[ggbIsZero" which
 		 * is the beginning of rootStr. FIXME
 		 */
-		rootStr = splitedStr[0].substring(19, splitedStr[0].length() - 2);
+		rootStr = splitedStr[0].substring(10, splitedStr[0].length() - 1);
 		StringBuilder strForGiac = new StringBuilder();
 		strForGiac.append("eliminate([");
 		strForGiac.append(rootStr);
@@ -463,10 +463,10 @@ public class DependentBooleanAdapter extends ProverAdapter {
 		}
 		String[] splitedStr = rootStr.split(",");
 		/*
-		 * This 19 is hardcoded, it is the length of "[ggbIsZero(simplify" which
+		 * This 10 is hardcoded, it is the length of "[ggbIsZero" which
 		 * is the beginning of rootStr. FIXME
 		 */
-		rootStr = splitedStr[0].substring(19, splitedStr[0].length() - 2);
+		rootStr = splitedStr[0].substring(10, splitedStr[0].length() - 1);
 		StringBuilder strForGiac = new StringBuilder();
 		strForGiac.append("eliminate([");
 		strForGiac.append(rootStr);
