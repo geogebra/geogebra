@@ -28,7 +28,7 @@ public class VideoPlayer extends Frame implements Persistable {
 	private JavaScriptObject ytPlayer;
 	private App app;
 	private String playerId;
-	
+	private static VideoPlayer first = null;
 	/**
 	 * Constructor.
 	 * 
@@ -39,13 +39,18 @@ public class VideoPlayer extends Frame implements Persistable {
 	 */
 	public VideoPlayer(GeoVideo video, int id) {
 		super(video.getEmbeddedUrl());
+		initYouTubeApi();
 		this.video = video;
 		addStyleName("mowVideo");
 		embedUrl = video.getEmbeddedUrl();
 		playerId = "video_player" + id;
 		getElement().setId(playerId);
-		createPlayerDeferred();
 		app = video.getKernel().getApplication();
+		if (youTubeAPI) {
+			createPlayerDeferred();
+		} else {
+			first = this;
+		}
 	}
 	
 	private void createPlayerDeferred() {
@@ -110,12 +115,16 @@ public class VideoPlayer extends Frame implements Persistable {
 	 * Initializes YouTube API.
 	 */
 	public static void initYouTubeApi() {
+		if (youTubeAPI) {
+			return;
+		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.youtube());
 		loadYouTubeApi();
 	}
 
 	private static void onAPIReady() {
 		youTubeAPI = true;
+		first.createPlayerDeferred();
 	}
 
 	/**

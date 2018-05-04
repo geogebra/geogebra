@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
@@ -58,13 +57,6 @@ public class VideoManagerW implements VideoManager {
 	private boolean previewOnly = false;
 
 	private Map<GeoVideo, VideoPlayer> players = new HashMap<>();
-
-	/**
-	 * Constructor
-	 */
-	public VideoManagerW() {
-		VideoPlayer.initYouTubeApi();
-	}
 
 	@Override
 	public void loadGeoVideo(GeoVideo geo) {
@@ -195,11 +187,6 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void addPlayer(final GeoVideo video) {
-		if (!VideoPlayer.hasYouTubeApi()) {
-			Log.warn("No YouTube API!");
-			return;
-		}
-
 		AppW app = (AppW) video.getKernel().getApplication();
 		GeoGebraFrameW appFrame = (GeoGebraFrameW) app.getAppletFrame();
 		final VideoPlayer player = new VideoPlayer(video, players.size());
