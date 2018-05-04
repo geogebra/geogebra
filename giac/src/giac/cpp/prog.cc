@@ -1176,11 +1176,24 @@ namespace giac {
 	  Newa[i]=Newa[i]._SYMBptr->feuille[0];
       }
       check_local_assign(newc,Newa,res1,non_decl,res3,res4,false,contextptr);
+      vecteur stov(lop(newc,at_sto));
+      for (size_t i=0;i<stov.size();++i){
+	stov[i]=stov[i]._SYMBptr->feuille[1];
+      }
+      stov=lidnt(stov);
       int rs=int(non_decl.size());
       for (int i=0;i<rs;i++){
-	// remove constant idnt and recursive def
-	if (is_constant_idnt(non_decl[i]) || non_decl[i]==d){ 
-	  if (strcmp(non_decl[i]._IDNTptr->id_name,"i")){
+	// remove var that are not assigned (assumed global), constant idnt and recursive def
+	gen noni=non_decl[i];
+	bool b=equalposcomp(stov,noni);
+	if (strcmp(noni._IDNTptr->id_name,"i")==0){
+	  if (!b){
+	    non_decl.erase(non_decl.begin()+i);
+	    --i; --rs;
+	  }
+	}
+	else {
+	  if (!b || is_constant_idnt(noni) || noni==d){ 
 	    non_decl.erase(non_decl.begin()+i);
 	    --i; --rs;
 	  }

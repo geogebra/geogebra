@@ -3538,7 +3538,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_minus,2); return T_QUOTED_BINARY;
 case 319:
 YY_RULE_SETUP
 #line 622 "input_lexer.ll"
-(*yylval) = gen(at_not,1); if (xcas_mode(yyextra)) return T_NOT;  index_status(yyextra)=0; return T_UNARY_OP;
+(*yylval) = gen(at_not,1); if (xcas_mode(yyextra) || python_compat(yyextra)) return T_NOT;  index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 320:
 YY_RULE_SETUP

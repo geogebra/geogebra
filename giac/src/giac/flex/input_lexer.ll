@@ -619,7 +619,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "tan"                  (*yylval) = gen(at_atan,1); index_status(yyextra)=1; return T_UNARY_OP;
 "'minus'"                  index_status(yyextra)=0; (*yylval)=gen(at_minus,2); return T_QUOTED_BINARY;
 "_minus"                  index_status(yyextra)=0; (*yylval)=gen(at_minus,2); return T_QUOTED_BINARY;
-"not"                 (*yylval) = gen(at_not,1); if (xcas_mode(yyextra)) return T_NOT;  index_status(yyextra)=0; return T_UNARY_OP;
+"not"                 (*yylval) = gen(at_not,1); if (xcas_mode(yyextra) || python_compat(yyextra)) return T_NOT;  index_status(yyextra)=0; return T_UNARY_OP;
 "NOT"                 (*yylval) = gen(at_not,1); return T_NOT;  
 "neg"		(*yylval) = gen(at_neg,1); index_status(yyextra)=0; return T_UNARY_OP;
 "'not'"                  index_status(yyextra)=0; (*yylval)=gen(at_not,1); return T_QUOTED_BINARY;
