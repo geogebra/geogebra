@@ -274,7 +274,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		if (symbolic) {
 			return ev.wrap().toString(tpl);
 		}
-		return ev.toValueString(tpl);
+
+		// GGB-2369
+		return symbolic ? ev.toString(tpl) : ev.toValueString(tpl);
 	}
 
 	@Override
