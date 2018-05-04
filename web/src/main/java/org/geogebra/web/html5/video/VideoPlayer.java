@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.video;
 
+import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -141,10 +143,15 @@ public class VideoPlayer extends Frame implements Persistable {
 	 * 
 	 */
 	public void onReady() {
-		app.getSelectionManager().addSelectedGeo(video);
 		video.setBackground(true);
-		update();
-		app.getActiveEuclidianView().repaint();
+		EuclidianView view = app.getActiveEuclidianView();
+		Drawable d = ((Drawable) view.getDrawableFor(video));
+		d.update();
+		if (d.getBoundingBox().getRectangle() != null) {
+			view.setBoundingBox(d.getBoundingBox());
+			view.repaintView();
+			app.getSelectionManager().addSelectedGeo(video);
+		}
 	}
 
 	private static void onPlayerStateChange() {
