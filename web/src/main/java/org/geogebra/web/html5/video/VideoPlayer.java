@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.video;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoVideo;
@@ -28,7 +30,7 @@ public class VideoPlayer extends Frame implements Persistable {
 	private JavaScriptObject ytPlayer;
 	private App app;
 	private String playerId;
-	private static VideoPlayer first = null;
+	private static ArrayList<VideoPlayer> waiting = new ArrayList<>();
 	/**
 	 * Constructor.
 	 * 
@@ -49,7 +51,7 @@ public class VideoPlayer extends Frame implements Persistable {
 		if (youTubeAPI) {
 			createPlayerDeferred();
 		} else {
-			first = this;
+			waiting.add(this);
 		}
 	}
 	
@@ -124,7 +126,10 @@ public class VideoPlayer extends Frame implements Persistable {
 
 	private static void onAPIReady() {
 		youTubeAPI = true;
-		first.createPlayerDeferred();
+		for (VideoPlayer player : waiting) {
+			player.createPlayerDeferred();
+		}
+		waiting.clear();
 	}
 
 	/**

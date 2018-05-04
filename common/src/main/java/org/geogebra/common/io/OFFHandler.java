@@ -42,7 +42,6 @@ public class OFFHandler {
 	 *            construction
 	 */
 	public OFFHandler(Construction construction) {
-
 		this.construction = construction;
 		this.parser = new CSVParser(' ');
 	}
@@ -198,7 +197,7 @@ public class OFFHandler {
 	}
 
 	private static boolean isComment1(String line) {
-		return line.startsWith(COMMENT_PREFIX) || line.equals("");
+		return line.startsWith(COMMENT_PREFIX) || "".equals(line);
 	}
 
 	private static GColor tryReadColor(String[] in, int offset) {
