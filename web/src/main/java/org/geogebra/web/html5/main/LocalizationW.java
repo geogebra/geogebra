@@ -11,12 +11,10 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.MyDictionary;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
-import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -304,14 +302,6 @@ public final class LocalizationW extends Localization
 		// } else {
 		// RootPanel.getBodyElement().setAttribute("dir", "ltr");
 		// }
-		StyleInjector
-				.inject(rightToLeftReadingOrder ? GuiResourcesSimple.INSTANCE
-						.generalStyleRTL() : GuiResourcesSimple.INSTANCE
-						.generalStyleLTR());
-		StyleInjector
-				.inject(rightToLeftReadingOrder ? GuiResourcesSimple.INSTANCE
-						.avStyleRTL() : GuiResourcesSimple.INSTANCE
-						.avStyleLTR());
 	}
 
 	@Override
@@ -406,6 +396,12 @@ public final class LocalizationW extends Localization
 		}
 	}
 
+	/**
+	 * @param lang
+	 *            language
+	 * @param app
+	 *            callback
+	 */
 	public void loadScript(final String lang, final HasLanguage app) {
 		if (Browser.supportsSessionStorage()
 				&& LocalizationW.loadPropertiesFromStorage(lang,

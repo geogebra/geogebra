@@ -132,6 +132,7 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.video.VideoManagerW;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -621,7 +622,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void doSetLanguage(String lang, boolean asyncCall) {
 		getLocalization().setLanguage(lang);
-
+		StyleInjector.inject(getLocalization().isRightToLeftReadingOrder()
+				? GuiResourcesSimple.INSTANCE.generalStyleRTL()
+				: GuiResourcesSimple.INSTANCE.generalStyleLTR());
+		StyleInjector.inject(getLocalization().isRightToLeftReadingOrder()
+				? GuiResourcesSimple.INSTANCE.avStyleRTL()
+				: GuiResourcesSimple.INSTANCE.avStyleLTR());
 		// make sure digits are updated in all numbers
 		getKernel().updateConstructionLanguage();
 
