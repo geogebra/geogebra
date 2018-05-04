@@ -1,7 +1,6 @@
 package org.geogebra.common.cas.view;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.kernel.geos.GeoCasCell;
 
 /**
  * Interface for CAS cell editor
@@ -49,13 +48,6 @@ public interface CASTableCellEditor extends SetLabels {
 	 *            new content of the editor
 	 */
 	void setInput(String string);
-
-	/**
-	 * @param idx
-	 *            row index
-	 * @return CAS cell
-	 */
-	GeoCasCell getCellEditorValue(int idx);
 
 	/**
 	 * Start editing if it is not active

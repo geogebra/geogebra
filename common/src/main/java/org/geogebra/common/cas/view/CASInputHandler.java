@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -426,13 +425,9 @@ public class CASInputHandler {
 				return sb.toString();
 			}
 			// use NSolve tool with list of equations
-			else if (expandValidExp.isExpressionNode()
-					&& ((ExpressionNode) expandValidExp)
-							.getLeft() instanceof MyList
-					&& ((ExpressionNode) expandValidExp).getRight() == null) {
+			else if (expandValidExp.unwrap() instanceof MyList) {
 				isEquList = true;
-				MyList equList = (MyList) (((ExpressionNode) expandValidExp)
-						.getLeft());
+				MyList equList = (MyList) expandValidExp.unwrap();
 				// handle case list with two equations
 				// TODO handle list with n equations
 				casResult = cas.getCurrentCAS()

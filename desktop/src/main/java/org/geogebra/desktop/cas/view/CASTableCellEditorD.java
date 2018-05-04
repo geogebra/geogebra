@@ -188,12 +188,6 @@ public class CASTableCellEditorD extends CASTableCell
 	}
 
 	@Override
-	public GeoCasCell getCellEditorValue(int idx) {
-		// idx is not used in Desktop
-		return cellValue;
-	}
-
-	@Override
 	public Object getCellEditorValue() {
 		return cellValue;
 	}

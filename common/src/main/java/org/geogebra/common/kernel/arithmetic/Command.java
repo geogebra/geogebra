@@ -565,6 +565,9 @@ public class Command extends ValidExpression
 			return args.get(0).getValueType();
 		}
 		Command evaluationCopy = this;
+		if ("Sum".equals(name) && args.size() == 4) {
+			return args.get(0).getValueType();
+		}
 		if ("Sum".equals(name) || "Product".equals(name)) {
 			evaluationCopy = deepCopy(kernel);
 		}

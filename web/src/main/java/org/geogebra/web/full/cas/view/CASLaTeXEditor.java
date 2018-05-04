@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
@@ -175,14 +174,6 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 			ReTeXHelper.setText(mf, text0, editAsText);
 		}
 		// updateLineHeight();
-	}
-
-	@Override
-	public GeoCasCell getCellEditorValue(int index) {
-		if (table != null) {
-			return table.getGeoCasCell(index);
-		}
-		return null;
 	}
 
 	@Override
