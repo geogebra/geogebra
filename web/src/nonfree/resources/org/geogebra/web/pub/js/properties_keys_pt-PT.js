@@ -3136,7 +3136,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "exam_not_supported_ios": "Desculpe, o GeoGebra em Modo Exame \xe9 suportado somente em vers\xf5es iOS 9.3.2 ou posteriores.",
     "exam_pin": "Pin App",
     "exam_prepare_header": "Preparar Modo Exame",
-    "exam_protocol_saved": "Exam log successfully saved as image",
+    "exam_protocol_saved": "Registro de exame gravado com sucesso como imagem",
     "exam_set_airplane_mode_on": "Por favor, ative o modo avi\xe3o agora",
     "exam_start_button": "Iniciar o Exame",
     "exam_start_date": "Data de In\xedcio do Exame",
