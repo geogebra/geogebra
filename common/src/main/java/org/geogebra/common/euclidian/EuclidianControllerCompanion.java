@@ -207,7 +207,7 @@ public class EuclidianControllerCompanion {
 				GeoFunction f = ((GeoFunctionable) b).getGeoFunction();
 				if (f.isPolynomialFunction(false)) {
 					 ec.getAlgoDispatcher()
-							.IntersectPolynomialLineSingle(null, f, (GeoLine) a,
+							.intersectPolynomialLineSingle(null, f, (GeoLine) a,
 									ec.xRW, ec.yRW);
 				}
 				GeoPoint initPoint = new GeoPoint(ec.kernel.getConstruction());
@@ -237,7 +237,7 @@ public class EuclidianControllerCompanion {
 				// line and function
 				if (aFun.isPolynomialFunction(false)) {
 					point = ec.getAlgoDispatcher()
-							.IntersectPolynomialLineSingle(null, aFun,
+							.intersectPolynomialLineSingle(null, aFun,
 									(GeoLine) b, ec.xRW, ec.yRW);
 				} else {
 					GeoPoint initPoint = new GeoPoint(

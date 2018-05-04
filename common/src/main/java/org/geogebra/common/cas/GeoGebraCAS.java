@@ -99,7 +99,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		try {
 			cas = getGiac();
 			app.getSettings().getCasSettings().addListener(cas);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -275,8 +274,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			return ev.wrap().toString(tpl);
 		}
 
-		// GGB-2369
-		return symbolic ? ev.toString(tpl) : ev.toValueString(tpl);
+		return ev.toValueString(tpl);
 	}
 
 	@Override

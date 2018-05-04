@@ -2492,7 +2492,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			if (singlePointWanted && fun[0].isPolynomialFunction(false)) {
 
-					ret[0] = getAlgoDispatcher().IntersectPolynomialLineSingle(
+					ret[0] = getAlgoDispatcher().intersectPolynomialLineSingle(
 							null, fun[0], line[0], xRW, yRW);
 			} else {
 				GeoPoint initPoint = new GeoPoint(kernel.getConstruction());

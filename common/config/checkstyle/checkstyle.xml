@@ -21,7 +21,7 @@
     <!-- Checks for whitespace                               -->
     <!-- See http://checkstyle.sf.net/config_whitespace.html -->
 <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value="org.geogebra.common.(kernel.(Matrix|algos.AlgoDispatcher|advanced|barycentric|implicit|prover|parser|stepbystep|discrete|statistics)|util.clipper|cas.(giac|singular)|export.pstricks|geogebra3D.(euclidian3|kernel3D.algos)|gui.(view|dialog.options))|org.apache|edu.uci.ics|com.google|com.github" />
+    <property name="fileNamePattern" value="org.geogebra.common.(kernel.(Matrix|advanced|barycentric|implicit|prover|parser|stepbystep|discrete|statistics)|util.clipper|cas.(giac|singular)|export.pstricks|geogebra3D.(euclidian3|kernel3D.algos)|gui.(view|dialog.options))|org.apache|edu.uci.ics|com.google|com.github" />
   </module>
 <module name="RegexpMultiline">
   <property name="format"   value="\n\s*\n\s*\n"/>
