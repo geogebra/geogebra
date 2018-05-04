@@ -25,18 +25,23 @@ public class VideoPlayer extends Frame implements Persistable {
 	private String embedUrl = null;
 	private JavaScriptObject ytPlayer;
 	private App app;
+	private String playerId;
+	
 	/**
 	 * Constructor.
 	 * 
 	 * @param video
 	 *            the video object.
+	 * @param id
+	 *            The id of the player frame.
 	 */
-	public VideoPlayer(GeoVideo video) {
+	public VideoPlayer(GeoVideo video, int id) {
 		super(video.getEmbeddedUrl());
 		this.video = video;
 		addStyleName("mowVideo");
-		getElement().setId(video.getYouTubeId());
 		embedUrl = video.getEmbeddedUrl();
+		playerId = "video_player" + id;
+		getElement().setId(playerId);
 		createPlayerDeferred();
 		app = video.getKernel().getApplication();
 	}
@@ -138,8 +143,8 @@ public class VideoPlayer extends Frame implements Persistable {
 	public void onReady() {
 		app.getSelectionManager().addSelectedGeo(video);
 		video.setBackground(true);
-		video.update();
-
+		update();
+		app.getActiveEuclidianView().repaint();
 	}
 
 	private static void onPlayerStateChange() {
@@ -149,8 +154,9 @@ public class VideoPlayer extends Frame implements Persistable {
 	private native JavaScriptObject createYouTubePlayer(String youtubeId) /*-{
 		var that = this;
 		var ytPlayer = new $wnd.YT.Player(
-				youtubeId,
+				that.@org.geogebra.web.html5.video.VideoPlayer::playerId,
 				{
+					videoId : youtubeId,
 					events : {
 						'onReady' : function(event) {
 							that.@org.geogebra.web.html5.video.VideoPlayer::onReady()();

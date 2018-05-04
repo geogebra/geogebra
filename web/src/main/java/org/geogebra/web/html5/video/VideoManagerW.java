@@ -57,7 +57,7 @@ public class VideoManagerW implements VideoManager {
 	 */
 	private boolean previewOnly = false;
 
-	private Map<String, VideoPlayer> players = new HashMap<>();
+	private Map<GeoVideo, VideoPlayer> players = new HashMap<>();
 
 	/**
 	 * Constructor
@@ -202,8 +202,8 @@ public class VideoManagerW implements VideoManager {
 
 		AppW app = (AppW) video.getKernel().getApplication();
 		GeoGebraFrameW appFrame = (GeoGebraFrameW) app.getAppletFrame();
-		final VideoPlayer player = new VideoPlayer(video);
-		players.put(video.getYouTubeId(), player);
+		final VideoPlayer player = new VideoPlayer(video, players.size());
+		players.put(video, player);
 		appFrame.add(player);
 
 	}
@@ -218,11 +218,11 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public boolean hasPlayer(GeoVideo video) {
-		return players.containsKey(video.getYouTubeId());
+		return players.containsKey(video);
 	}
 
 	private VideoPlayer playerOf(GeoVideo video) {
-		return players.get(video.getYouTubeId());
+		return players.get(video);
 	}
 
 	@Override

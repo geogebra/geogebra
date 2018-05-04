@@ -2490,7 +2490,6 @@ public class GuiManagerW extends GuiManager
 		video.setAbsoluteScreenLoc((appFrame.getOffsetWidth() - video.getWidth()) / 2,
 				(appFrame.getOffsetHeight() - video.getHeight()) / 2);
 		ev.add(video);
-		app.getActiveEuclidianView().repaint();
 	}
 
 	@Override

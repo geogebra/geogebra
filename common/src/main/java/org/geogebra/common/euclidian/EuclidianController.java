@@ -7927,13 +7927,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * Sends the video to background.
+	 * Sends the videos to background.
 	 *
 	 */
-	public void videoToBackground() {
+	public void videosToBackground() {
 		if (app.getVideoManager() != null) {
 			if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
-				app.getVideoManager().background(lastVideo);
+				app.getVideoManager().backgroundAll();
 			} else {
 				app.getVideoManager().pause(lastVideo);
 			}
@@ -9355,7 +9355,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		DrawVideo dv = getVideoHit();
 
 		if (dv == null) {
-			videoToBackground();
+			videosToBackground();
 		}
 
 		if (mode != EuclidianConstants.MODE_MOVE) {
