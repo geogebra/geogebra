@@ -583,6 +583,13 @@ namespace giac {
   static define_unary_function_eval (__clear,&_clear,_clear_s);
   define_unary_function_ptr5( at_clear ,alias_at_clear,&__clear,_QUOTE_ARGUMENTS,true);
 
+  gen _show_pixels(const gen & args,GIAC_CONTEXT){
+    return pixel_v();
+  }
+  static const char _show_pixels_s []="show_pixels";
+  static define_unary_function_eval (__show_pixels,&_show_pixels,_show_pixels_s);
+  define_unary_function_ptr5( at_show_pixels ,alias_at_show_pixels,&__show_pixels,0,true);
+
   gen _insert(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
