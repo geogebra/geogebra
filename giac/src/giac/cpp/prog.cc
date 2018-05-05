@@ -2260,10 +2260,15 @@ namespace giac {
   }
   inline bool for_test(const gen & test,gen & testf,int eval_lev,context * contextptr){
     // ck_is_one( (testf=test.eval(eval_lev,newcontextptr).evalf(1,newcontextptr)) )
-    if (!test.in_eval(eval_lev,testf,contextptr)) testf=test;
+    if (!test.in_eval(eval_lev,testf,contextptr)) 
+      testf=test;
     //testf=test.eval(eval_lev,contextptr);
     if (testf.type==_INT_) 
-      return testf.val==1;
+      return testf.val;
+    if (testf.type==_FRAC) 
+      testf=testf._FRACptr->num;
+    if (test.type<=_POLY)
+      return !is_exactly_zero(test);
     testf=testf.evalf(1,contextptr);
     return ck_is_one(testf);
   }
