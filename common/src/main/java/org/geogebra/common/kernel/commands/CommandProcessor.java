@@ -142,13 +142,13 @@ public abstract class CommandProcessor {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		GeoElement[] result;
-
+		String[] newXYZ = null;
 		try {
 			// resolve arguments to get GeoElements
 			ExpressionNode[] arg = c.getArguments();
 			// name of replace variable of "x"/"y"
 			EvalInfo argInfo = info.withLabels(false);
-			String[] newXYZ = replaceXYarguments(arg);
+			newXYZ = replaceXYarguments(arg);
 			result = new GeoElement[arg.length];
 
 			for (int i = 0; i < arg.length; ++i) {
@@ -160,13 +160,13 @@ public abstract class CommandProcessor {
 				result[i] = resArg(arg[i], argInfo)[0];
 			}
 
+		} finally {
 			// remove added variables from construction
 			if (newXYZ != null) {
 				for (int i = 0; i < 3; i++) {
 					cons.removeLocalVariable(newXYZ[i]);
 				}
 			}
-		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 		return result;
@@ -377,10 +377,13 @@ public abstract class CommandProcessor {
 
 		// resolve all command arguments including the local variable just
 		// created
-		GeoElement[] arg = resArgs(c);
-
-		// remove local variable name from kernel again
-		cmdCons.removeLocalVariable(localVarName);
+		GeoElement[] arg;
+		try {
+			arg = resArgs(c);
+		} finally {
+			// remove local variable name from kernel again
+			cmdCons.removeLocalVariable(localVarName);
+		}
 		return arg;
 	}
 
@@ -643,15 +646,17 @@ public abstract class CommandProcessor {
 
 		// resolve all command arguments including the local variable just
 		// created
-		GeoElement[] arg = resArgs(c);
-
-		// remove local variable name from kernel again
-		for (int i = 0; i < varPos.length; i++) {
-			cmdCons.removeLocalVariable(localVarName[i]);
+		GeoElement[] arg = null;
+		try {
+			arg = resArgs(c);
+		} finally {
+			// remove local variable name from kernel again
+			for (int i = 0; i < varPos.length; i++) {
+				cmdCons.removeLocalVariable(localVarName[i]);
+			}
 		}
 
 		return arg;
-
 	}
 
 	/**
