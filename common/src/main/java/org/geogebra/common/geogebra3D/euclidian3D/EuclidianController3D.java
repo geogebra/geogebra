@@ -3882,12 +3882,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected GeoVectorND createVectorForTranslation() {
-		return ((AlgoDispatcher3D) getAlgoDispatcher()).Vector3D();
+		return ((AlgoDispatcher3D) getAlgoDispatcher()).vector3D();
 	}
 
 	@Override
 	protected GeoVectorND createVectorForTranslation(String label) {
-		return ((AlgoDispatcher3D) getAlgoDispatcher()).Vector3D(label);
+		return ((AlgoDispatcher3D) getAlgoDispatcher()).vector3D(label);
 	}
 
 	@Override

@@ -51,7 +51,6 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	/** keyboard connector */
 	RetexKeyboardListener retexListener;
 	private AppWFull app;
-	private CASTableW table;
 	private CASTableControllerW controller;
 	private boolean autocomplete = true;
 	private Widget dummy;
@@ -69,7 +68,6 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	public CASLaTeXEditor(CASTableW table, final AppW app,
 			final CASTableControllerW controller) {
 		this.app = (AppWFull) app;
-		this.table = table;
 		this.controller = controller;
 		canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(new FormatConverterImpl(app.getKernel()), this,

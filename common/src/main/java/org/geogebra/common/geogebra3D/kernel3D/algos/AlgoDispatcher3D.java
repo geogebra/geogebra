@@ -275,13 +275,13 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		return super.copyFreePoint(point, view);
 	}
 
-	public GeoVectorND Vector3D(String label) {
+	public GeoVectorND vector3D(String label) {
 		GeoVectorND ret = (GeoVectorND) getManager3D().vector3D(0, 0, 0);
 		ret.setLabel(label);
 		return ret;
 	}
 
-	public GeoVectorND Vector3D() {
+	public GeoVectorND vector3D() {
 		GeoVector3D v = new GeoVector3D(cons);
 		v.setCoords(0, 0, 0, 0);
 		v.setMode(Kernel.COORD_CARTESIAN_3D);
