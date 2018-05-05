@@ -5189,7 +5189,11 @@ namespace giac {
       w.push_back(undef);
       w.push_back(undef);
     }
-    w.push_back((*debug_ptr(contextptr)->fast_debug_info_ptr));
+    gen w2=(*debug_ptr(contextptr)->fast_debug_info_ptr);
+    if (w2.type==_VECT && w2._VECTptr->size()>3)
+      w2=w2[2];
+    //*logptr(contextptr) << w2 << endl;
+    w.push_back(w2);
     w.push_back(res);
     w.push_back(debug_ptr(contextptr)->current_instruction);
     vecteur dw=debug_ptr(contextptr)->debug_watch;
