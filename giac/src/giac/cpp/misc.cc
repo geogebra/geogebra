@@ -535,13 +535,35 @@ namespace giac {
   static define_unary_function_eval (__suppress,&_suppress,_suppress_s);
   define_unary_function_ptr5( at_suppress ,alias_at_suppress,&__suppress,0,true);
 
+#ifdef GIAC_HAS_STO_38
+  const int pixel_lines=320; // calculator screen 307K
+  const int pixel_cols=240;
+#else
+  const int pixel_lines=1024;
+  const int pixel_cols=768;
+#endif
+  int pixel_buffer[pixel_lines][pixel_cols]; 
+  void clear_pixel_buffer(){
+    for (int i=0;i<pixel_lines;++i){
+      int * ptr=pixel_buffer[i];
+      int * ptrend = ptr+pixel_cols;
+      for (;ptr<ptrend;++ptr){
+	*ptr=int(FL_WHITE);
+      }
+    }
+  }
   static gen & pixel_v(){
-    static gen * ptr=new gen(makevecteur(0));
+    static gen * ptr=0;
+    if (ptr==0){
+      clear_pixel_buffer();
+      ptr=new gen(makevecteur(0));
+    }
     return *ptr;
   }
   gen _clear(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_VECT && args._VECTptr->empty()){
+      clear_pixel_buffer();
       pixel_v()._VECTptr->clear();
       return 1;
     }
@@ -8183,6 +8205,15 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       if (a.type!=_VECT || !is_integer_vecteur(*a._VECTptr))
 	return 0;
       pixel_v()._VECTptr->push_back(_pixon(a,contextptr));
+      const vecteur & v=*a._VECTptr;
+      size_t vs=v.size();
+      if (vs>=2){
+	const gen & x=v.front();
+	const gen & y=v[1];
+	if (x.type==_INT_ && x.val>=0 && x.val < pixel_cols && y.type==_INT_ && y.val>=0 && y.val<pixel_lines){
+	  pixel_buffer[y.val][x.val]=vs==2?int(FL_BLACK):v[2].val;
+	}
+      }
     }
     return pixel_v();
   }
@@ -8216,11 +8247,22 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     if (a.type!=_VECT || a._VECTptr->size()!=2)
       return gensizeerr(contextptr);
     gen x=a._VECTptr->front(),y=a._VECTptr->back();
+    if (x.type==_INT_ && x.val>=0 && x.val<pixel_cols && y.type==_INT_ && y.val>=0 && y.val<pixel_lines)
+      return pixel_buffer[y.val][x.val];
     const vecteur v= *pixel_v()._VECTptr;
     for (size_t i=0;i<v.size();++i){
-      gen vi=remove_at_pnt(v[i]);
-      if (vi.is_symb_of_sommet(at_pixon)){
-	gen f=vi._SYMBptr->feuille;
+      const gen & vi_=v[i];
+      const gen * vi=&vi_;
+      if (vi_.type==_SYMB && vi_._SYMBptr->sommet==at_pnt){
+	const gen & f=vi_._SYMBptr->feuille;
+	if (f.type==_VECT){
+	  const vecteur & w=*f._VECTptr;
+	  if (!w.empty())
+	    vi=&v.front();
+	}
+      }
+      if (vi->is_symb_of_sommet(at_pixon)){
+	const gen & f=vi->_SYMBptr->feuille;
 	if (f.type==_VECT){
 	  const vecteur & w=*f._VECTptr;
 	  int ws=w.size();

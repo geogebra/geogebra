@@ -287,19 +287,27 @@ namespace giac {
 
 
   gen remove_at_pnt(const gen & e){
-    if (e.type==_VECT && e.subtype==_GGB__VECT){
+    int t=e.type;
+    if (t==_VECT && e.subtype==_GGB__VECT){
       if (e._VECTptr->size()==2)
 	return e._VECTptr->front()+cst_i*e._VECTptr->back();
       if (e._VECTptr->size()==3)
 	return change_subtype(e,_POINT__VECT);
     }
-    if (e.type==_SYMB && e._SYMBptr->sommet==at_pnt){
-      gen & f = e._SYMBptr->feuille;
+    if (t==_SYMB && e._SYMBptr->sommet==at_pnt){
+      const gen & f = e._SYMBptr->feuille;
+#if 1
+      if (f.type==_VECT){
+	const vecteur & v = *f._VECTptr;
+	if (!v.empty())
+	  return v.front();
+      }
+#else
       if (f.type==_VECT){
 	vecteur & v = *f._VECTptr;
+	/*
 	int s=int(v.size());
 	if (s){
-	  /*
 	    if (s>1 && v[1].type==_VECT){
 	    gen & v1=v[1];
 	    if (v1.type==_VECT && v1._VECTptr->size()>1){
@@ -320,6 +328,7 @@ namespace giac {
 	  return v.front();
 	}
       }
+#endif
       return gensizeerr("Bad pnt argument");
     }
     return e;
