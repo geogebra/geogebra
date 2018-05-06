@@ -508,7 +508,7 @@ public class Ggb2giac {
 						+ "?))))),"
 						// Intersect[Point,2dLine]
 						+ "when(same((subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[1],"
-						+ "(subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[2])==true,"
+						+ "(subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[2]),"
 						+ "ggbinarg0,?)),"
 						// Intersect[Cmd3dLine,Plane]
 						+ "when(inString(string(ggbinarg0),\"X\") <> -1,"
@@ -738,7 +738,7 @@ public class Ggb2giac {
 						+ "ggbinarg1),"
 						// Intersect[2dLine,Point]
 						+ "when(same(subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[1],"
-						+ "subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[2])==true,"
+						+ "subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[2]),"
 						+ "ggbinarg1,?)),"
 						// Intersect[2dLine,Cmd3dLine]
 						// Intersect[Cmd2dLine,Cmd3dLine]
