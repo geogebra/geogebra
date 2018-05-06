@@ -5815,6 +5815,17 @@ unsigned int ConvertUTF8toUTF16 (
     }
   }
 
+  string replace_deuxpoints_egal(const string & s){
+    string res;
+    for (size_t i=0;i<s.size();++i){
+      if (s[i]==':')
+	res +="-/-";
+      else
+	res +=s[i];
+    }
+    return res;
+  }
+
   // detect Python like syntax: 
   // remove """ """ docstrings and ''' ''' comments
   // cut string in lines, remove comments at the end (search for #)
@@ -5946,8 +5957,9 @@ unsigned int ConvertUTF8toUTF16 (
 	      ++c3;
 	  }
 	  if (p<cs && c1 && c1>=c2 && c3==0){
-	    // table initialization, replace {} by table( ) 
-	    cur=cur.substr(0,pos)+"table("+cur.substr(pos+1,p-pos-1)+")"+cur.substr(p+1,cs-pos-1);
+	    // table initialization, replace {} by table( ) , 
+	    // cur=cur.substr(0,pos)+"table("+cur.substr(pos+1,p-pos-1)+")"+cur.substr(p+1,cs-pos-1);
+	    cur=cur.substr(0,pos)+"{/"+replace_deuxpoints_egal(cur.substr(pos+1,p-1-pos))+"/}"+cur.substr(p+1,cs-pos-1);
 	  }
 	}
 	if (!instring && pythoncompat &&

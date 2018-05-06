@@ -2030,6 +2030,11 @@ namespace giac {
       spread_eval(*g._VECTptr,contextptr);
       return false;
     }
+    if (g.subtype==_TABLE__VECT){
+      eval_VECT(g,evaled,g.subtype,level,contextptr);
+      evaled=_table(evaled,contextptr);
+      return true;
+    }
     if (g.subtype==_FOLDER__VECT || g.subtype==_RGBA__VECT)
       return false;
     if ( (g.subtype==_SEQ__VECT) && (!g._VECTptr->empty()) && (g._VECTptr->front().type==_SYMB) 

@@ -6783,17 +6783,17 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   }
 
   gen try_limit_undef(const gen & f,const identificateur & x,const gen & x0,int direction,GIAC_CONTEXT){
-#ifdef NO_STDEXCEPT
-    return limit(f,x,x0,direction,contextptr);
-#else
     gen res;
+#ifdef NO_STDEXCEPT
+    res=limit(f,x,x0,direction,contextptr);
+#else
     try {
       res=limit(f,x,x0,direction,contextptr);
     } catch (std::runtime_error & err){
       res=undef;
     }
-    return res;
 #endif    
+    return res;
   }
 
   int step_param_(const gen & f,const gen & g,const gen & t,gen & tmin,gen&tmax,vecteur & poi,vecteur & tvi,bool printtvi,bool exactlegende,GIAC_CONTEXT){

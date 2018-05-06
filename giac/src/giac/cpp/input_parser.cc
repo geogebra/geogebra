@@ -5877,7 +5877,7 @@ yyreduce:
 /* Line 1806 of yacc.c  */
 #line 496 "input_parser.yy"
     { 
-        // cerr << $2 << endl;
+        //cerr << $1 << " " << $2 << endl;
         (yyval) = gen(*((yyvsp[(2) - (3)])._VECTptr),(yyvsp[(1) - (3)]).val);
 	if ((yyvsp[(2) - (3)])._VECTptr->size()==1 && (yyvsp[(2) - (3)])._VECTptr->front().is_symb_of_sommet(at_ti_semi) ) {
 	  (yyval)=(yyvsp[(2) - (3)])._VECTptr->front();
@@ -6158,14 +6158,14 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 592 "input_parser.yy"
-    { (yyval)=symbolic(at_apply,makesequence(symbolic(at_program,makesequence((yyvsp[(4) - (7)]),0*(yyvsp[(4) - (7)]),vecteur(1,(yyvsp[(2) - (7)])))),(yyvsp[(6) - (7)]))); }
+    { (yyval)=symbolic(at_apply,makesequence(symbolic(at_program,makesequence((yyvsp[(4) - (7)]),0*(yyvsp[(4) - (7)]),vecteur(1,(yyvsp[(2) - (7)])))),(yyvsp[(6) - (7)]))); if ((yyvsp[(1) - (7)])==_TABLE__VECT) (yyval)=symbolic(at_table,(yyval));}
     break;
 
   case 150:
 
 /* Line 1806 of yacc.c  */
 #line 593 "input_parser.yy"
-    { (yyval)=symbolic(at_apply,symbolic(at_program,makesequence((yyvsp[(4) - (9)]),0*(yyvsp[(4) - (9)]),vecteur(1,(yyvsp[(2) - (9)])))),symbolic(at_select,makesequence(symbolic(at_program,makesequence((yyvsp[(4) - (9)]),0*(yyvsp[(4) - (9)]),(yyvsp[(8) - (9)]))),(yyvsp[(6) - (9)])))); }
+    { (yyval)=symbolic(at_apply,symbolic(at_program,makesequence((yyvsp[(4) - (9)]),0*(yyvsp[(4) - (9)]),vecteur(1,(yyvsp[(2) - (9)])))),symbolic(at_select,makesequence(symbolic(at_program,makesequence((yyvsp[(4) - (9)]),0*(yyvsp[(4) - (9)]),(yyvsp[(8) - (9)]))),(yyvsp[(6) - (9)])))); if ((yyvsp[(1) - (9)])==_TABLE__VECT) (yyval)=symbolic(at_table,(yyval));}
     break;
 
   case 151:

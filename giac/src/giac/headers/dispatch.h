@@ -256,6 +256,7 @@ namespace giac {
     _GGBVECT=27,
     _PRINT__VECT=28,
     _TUPLE__VECT=29,
+    _TABLE__VECT=30,
   } ;
 
   enum symb_subtypes {
