@@ -724,15 +724,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 									symbolic, tplToUse));
 						} else {
 
-							// GGB-2369
-							if ("Sum".equals(name) && pos <= 1) {
-								sbCASCommand
-										.append(toString(ev, true, tplToUse));
-							} else {
-								sbCASCommand.append(
-										toString(ev, symbolic, tplToUse));
-
-							}
+							sbCASCommand
+									.append(toString(ev, symbolic, tplToUse));
 
 						}
 					} else {
