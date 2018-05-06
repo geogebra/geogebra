@@ -31,6 +31,7 @@ public class VideoPlayer extends Frame implements Persistable {
 	private App app;
 	private String playerId;
 	private static ArrayList<VideoPlayer> waiting = new ArrayList<>();
+
 	/**
 	 * Constructor.
 	 * 

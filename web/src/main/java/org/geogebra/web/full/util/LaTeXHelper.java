@@ -4,7 +4,6 @@ import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.cas.view.CASTableControllerW;
-import org.geogebra.web.full.cas.view.CASTableW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.main.AppW;
 
@@ -15,15 +14,13 @@ import org.geogebra.web.html5.main.AppW;
 public interface LaTeXHelper {
 
 	/**
-	 * @param table
-	 *            CAS table
 	 * @param app
 	 *            application
 	 * @param ml
 	 *            controller
 	 * @return CAS editor
 	 */
-	CASTableCellEditor getCASEditor(CASTableW table, AppW app,
+	CASTableCellEditor getCASEditor(AppW app,
 			CASTableControllerW ml);
 
 	/**

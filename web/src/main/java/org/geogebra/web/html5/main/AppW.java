@@ -672,7 +672,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		getLocalization().loadScript(lang, this);
 	}
 
-
 	/**
 	 * @param language
 	 *            language ISO code

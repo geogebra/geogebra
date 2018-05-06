@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.cas.view.CASLaTeXEditor;
 import org.geogebra.web.full.cas.view.CASTableControllerW;
-import org.geogebra.web.full.cas.view.CASTableW;
 import org.geogebra.web.full.gui.view.algebra.CheckboxTreeItem;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.SliderTreeItemRetex;
@@ -24,9 +23,9 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class ReTeXHelper implements LaTeXHelper {
 
 	@Override
-	public CASTableCellEditor getCASEditor(CASTableW table, AppW app,
+	public CASTableCellEditor getCASEditor(AppW app,
 			CASTableControllerW ml) {
-		return new CASLaTeXEditor(table, app, ml);
+		return new CASLaTeXEditor(app, ml);
 	}
 
 	@Override

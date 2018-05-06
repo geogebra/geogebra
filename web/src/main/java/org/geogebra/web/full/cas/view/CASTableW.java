@@ -233,7 +233,7 @@ public class CASTableW extends Grid implements CASTable {
 	public CASTableCellEditor getEditor() {
 		if (editor == null) {
 			editor = new ReTeXHelper()
-					.getCASEditor(this, app, ml);
+					.getCASEditor(app, ml);
 		}
 		return editor;
 	}

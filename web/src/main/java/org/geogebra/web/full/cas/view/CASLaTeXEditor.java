@@ -58,14 +58,12 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	private boolean editAsText;
 
 	/**
-	 * @param table
-	 *            table
 	 * @param app
 	 *            application
 	 * @param controller
 	 *            controller
 	 */
-	public CASLaTeXEditor(CASTableW table, final AppW app,
+	public CASLaTeXEditor(final AppW app,
 			final CASTableControllerW controller) {
 		this.app = (AppWFull) app;
 		this.controller = controller;
