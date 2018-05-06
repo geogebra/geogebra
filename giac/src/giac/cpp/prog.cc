@@ -2369,10 +2369,21 @@ namespace giac {
       gen gforin;
       if ((test.is_symb_of_sommet(at_for) || test.is_symb_of_sommet(at_pour))&& test._SYMBptr->feuille.type==_VECT && test._SYMBptr->feuille._VECTptr->size()==2){
 	gen tmp=eval(test._SYMBptr->feuille._VECTptr->back(),eval_lev,newcontextptr);
+	bool ismap=tmp.type==_MAP;
+	if (ismap){
+	  // copy indices
+	  vecteur v;
+	  gen_map::iterator it=tmp._MAPptr->begin(),itend=tmp._MAPptr->end();
+	  for (;it!=itend;++it){
+	    v.push_back(it->first);
+	  }
+	  tmp=v;
+	}
 	if (tmp.type==_VECT){
 	  // re-store a copy of tmp because we might modify it inplace
+	  // (not for maps)
 	  gforin=gen(*tmp._VECTptr,tmp.subtype);
-	  if (test._SYMBptr->feuille._VECTptr->back().type==_IDNT)
+	  if (!ismap && test._SYMBptr->feuille._VECTptr->back().type==_IDNT)
 	    sto(gforin,test._SYMBptr->feuille._VECTptr->back(),false,contextptr);
 	  for_in_v=gforin._VECTptr;
 	  for_in=1;

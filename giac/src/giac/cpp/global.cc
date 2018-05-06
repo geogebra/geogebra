@@ -6294,7 +6294,8 @@ unsigned int ConvertUTF8toUTF16 (
       }
       else {
 	// normal line add ; at end
-	if (pythonmode && !res.empty() && pos>=0 && cur[pos]!=';' && cur[pos]!=',' && cur[pos]!='{' && cur[pos]!='(' && cur[pos]!='[' && cur[pos]!=':')
+	char curpos=cur[pos];
+	if (pythonmode && !res.empty() && pos>=0 && curpos!=';' && curpos!=',' && curpos!='{' && curpos!='(' && curpos!='[' && curpos!=':' && curpos!='+' && curpos!='-' && curpos!='*' && curpos!='/' && curpos!='%')
 	  cur = cur +';';
 	if (pythonmode)
 	  convert_python(cur,contextptr);
