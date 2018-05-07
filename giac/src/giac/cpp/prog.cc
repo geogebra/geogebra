@@ -8441,6 +8441,8 @@ namespace giac {
   // Eval everything except IDNT and symbolics with
   vecteur inputform_pre_analysis(const gen & g,GIAC_CONTEXT){
     vecteur v(gen2vecteur(g));
+    if (python_compat(contextptr) && g.type!=_VECT)
+      v=gen2vecteur(eval(g,1,contextptr));
     int s=int(v.size());
     for (int i=0;i<s;++i){
       if (v[i].type==_IDNT || v[i].type!=_SYMB)
@@ -8526,9 +8528,11 @@ namespace giac {
     const_iterateur it=v.begin(),itend=v.end();
     if (it==itend)
       return __click.op(args,contextptr);
-    gen res;
-    if (args.type==_STRNG){
-      return __click.op(args,contextptr);
+    gen res(args);
+    if (python_compat(contextptr))
+      res=eval(args,1,contextptr);
+    if (res.type==_STRNG){
+      return __click.op(res,contextptr);
     }
     for (;it!=itend;++it){
       if (it->type==_IDNT || it->is_symb_of_sommet(at_at) || it->is_symb_of_sommet(at_of)){
