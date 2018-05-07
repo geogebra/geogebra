@@ -3185,6 +3185,7 @@ __GGB__keysVar["sl"].menu = {
     "pdf": "Dokument v formatu PDF",
     "permission.photos": "Za shranjevanje slike potrebuje GeoGebra dostop do knji\u017enice fotografij.",
     "permission.photos.denied": "Ni dostopa do slik",
+    "permission.photos.exam_screenshot": "GeoGebra needs access the photo library to save a screenshot of the log at the end of the exam.",
     "permission.request": "Omogo\u010di dostop v nastavitvah.",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

@@ -3185,6 +3185,7 @@ __GGB__keysVar["is"].menu = {
     "pdf": "pdf-skjalsni\xf0",
     "permission.photos": "GeoGebra \xfearf a\xf0gang a\xf0 myndasafni til a\xf0 vista mynd.",
     "permission.photos.denied": "Get ekki n\xe1lgast myndasafn",
+    "permission.photos.exam_screenshot": "GeoGebra needs access the photo library to save a screenshot of the log at the end of the exam.",
     "permission.request": "Vinsamlega leyf\xf0u a\xf0gang \xed stillingum.",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

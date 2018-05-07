@@ -3185,6 +3185,7 @@ __GGB__keysVar["fi"].menu = {
     "pdf": "Portable Document Format",
     "permission.photos": "GeoGebran tulee p\xe4\xe4st\xe4 kuvakirjastoon jotta kuva voidaan tallentaa.",
     "permission.photos.denied": "Valokuvakansiota ei l\xf6ydy",
+    "permission.photos.exam_screenshot": "GeoGebra needs access the photo library to save a screenshot of the log at the end of the exam.",
     "permission.request": "Salli p\xe4\xe4sy Asetuksiin.",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

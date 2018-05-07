@@ -3185,6 +3185,7 @@ __GGB__keysVar["nl"].menu = {
     "pdf": "Portable Document Format",
     "permission.photos": "Om een afbeelding op te slaan moet GeoGebra toegang hebben tot de foto bibliotheek.",
     "permission.photos.denied": "Foto's zijn niet toegankelijk",
+    "permission.photos.exam_screenshot": "GeoGebra needs access the photo library to save a screenshot of the log at the end of the exam.",
     "permission.request": "Verleen toegang via je instellingen.",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
