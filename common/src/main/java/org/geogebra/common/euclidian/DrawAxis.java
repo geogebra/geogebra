@@ -1131,24 +1131,33 @@ public class DrawAxis {
 	private static String tickUnit(EuclidianView view, long labelno, int axis) {
 		double num = Math.round(100 * labelno * view.axesNumberingDistances[axis]) / 100.0;
 
-		String strNum = "";
+		String strNum0 = "";
 		if (DoubleUtil.isInteger(num)) {
-			strNum += (int) num;
+			strNum0 += (int) num;
 		} else {
-			strNum += num;
+			strNum0 += num;
 		}
+
 		StringBuilder sb = new StringBuilder();
+		String strNum = "";
+
+		if (num < 0) {
+			strNum = strNum0.substring(1);
+			sb.append(strNum0.charAt(0));
+		} else {
+			strNum = strNum0;
+		}
+
 		if (view.axesUnitLabels[axis].charAt(0) == Unicode.CURRENCY_DOLLAR
-				&& Math.abs(num) > CURRENCY_DOLLAR_BATCH) {
+				&& Math.abs(num) >= CURRENCY_DOLLAR_BATCH) {
 			int length = strNum.length();
-			if (num < 0) {
-				length--;
-			}
+
 			int mod = length % CURRENCY_DOLLAR_MOD;
 			if (mod == 0) {
 				mod = 3;
 			}
-			sb.append(strNum.substring(0, num < 0 ? mod + 1 : mod));
+
+			sb.append(strNum.substring(0, mod));
 
 			for (int i = mod; i < length; i += CURRENCY_DOLLAR_MOD) {
 				sb.append(",");
