@@ -36,7 +36,6 @@ import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawVector;
-import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
@@ -2305,9 +2304,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			int threshold = d instanceof DrawVideo ? DrawVideo.HANDLER_THRESHOLD
-					: app.getCapturingThreshold(type);
-			hitHandler = d.hitBoundingBoxHandler(p.x, p.y, threshold);
+			hitHandler = d.hitBoundingBoxHandler(p.x, p.y, getThresholdForDrawable(type, d));
 			if (hitHandler != EuclidianBoundingBoxHandler.UNDEFINED) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
@@ -2316,6 +2313,21 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * 
+	 * @param type
+	 *            The event type.
+	 * @param d
+	 *            {@link Drawable}
+	 * @return threshold for grabbing the BouingBox
+	 */
+	public int getThresholdForDrawable(PointerEventType type, Drawable d) {
+		if (d == null) {
+			return 0;
+		}
+		return app.getCapturingThreshold(type);
 	}
 
 	/**
