@@ -557,34 +557,21 @@ public class ExamEnvironment {
 		// setup CAS/3D on/off
 		wasCasEnabled = app.getSettings().getCasSettings().isEnabled();
 		wasCommands3DEnabled = app.areCommands3DEnabled();
-		if (app.has(Feature.MOB_DISABLE_3D_COMMANDS)) {
-			switch (calculatorType) {
-				case GRAPHING:
-					app.enableCAS3D(false, false);
-					break;
-				case SYMBOLIC:
-					app.enableCAS3D(true, false);
-					break;
-				case GRAPHING_3D:
-					app.enableCAS3D(false, true);
-					break;
-				case SYMBOLIC_3D:
-					app.enableCAS3D(true, true);
-					break;
-				default:
-					break;
-			}
-		} else {
-			switch (calculatorType) {
-				case GRAPHING:
-					app.enableCAS(false);
-					break;
-				case SYMBOLIC:
-					app.enableCAS(true);
-					break;
-				default:
-					break;
-			}
+		switch (calculatorType) {
+			case GRAPHING:
+				app.enableCAS3D(false, false);
+				break;
+			case SYMBOLIC:
+				app.enableCAS3D(true, false);
+				break;
+			case GRAPHING_3D:
+				app.enableCAS3D(false, true);
+				break;
+			case SYMBOLIC_3D:
+				app.enableCAS3D(true, true);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -593,11 +580,7 @@ public class ExamEnvironment {
 	 *
 	 */
 	public void closeExam() {
-		if (app.has(Feature.MOB_DISABLE_3D_COMMANDS)) {
-			app.enableCAS3D(wasCasEnabled, wasCommands3DEnabled);
-		} else {
-			app.enableCAS(wasCasEnabled);
-		}
+		app.enableCAS3D(wasCasEnabled, wasCommands3DEnabled);
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
 		app.fileNew();
 	}

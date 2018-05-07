@@ -270,9 +270,6 @@ public enum Feature {
 	/** IGR-604 */
 	MOB_TABBED_SETTINGS_PANEL,
 
-	/** MOB-1463 */
-	MOB_DISABLE_3D_COMMANDS,
-
 	/** AND-722 */
 	MOB_MATERIAL_INPUT,
 

@@ -4070,10 +4070,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_TABBED_SETTINGS_PANEL:
 			return prerelease;
 
-		// MOB-1463
-		case MOB_DISABLE_3D_COMMANDS:
-			return true;
-
 		// AND-722
 		case MOB_MATERIAL_INPUT:
 			return prerelease;
