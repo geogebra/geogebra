@@ -4058,10 +4058,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
 			return false;
 
-		// AND-875
-		case MOB_LOAD_SAVE_FOR_PRE_LOLLIPOP:
-			return true;
-
 		// MOB-1471
 		case MOB_DEFAULT_SLIDER_INCREMENT_VALUE:
 			return true;
