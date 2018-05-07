@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.CmdIntersect;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -118,7 +119,11 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		if (geo instanceof GeoFunction) {
 			getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
 		} else if (geo instanceof EquationValue) {
-            getEquationSpecialPoints((GeoElement) geo, xAxis, yAxis, retList);
+			getEquationSpecialPoints((GeoElement) geo, xAxis, yAxis, retList);
+		}
+		// Can be of function or equation
+		if (hasIntersectsBetween(geo)) {
+			getIntersectsBetween((GeoElement) geo, xAxis, yAxis, retList);
 		}
 	}
 
@@ -188,9 +193,24 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		if (yAxis) {
 			getSpecialPointsIntersect(geo, yAxisLine, intersect, cmd, retList);
 		}
+		cons.setSuppressLabelCreation(wasSuppressLabelActive);
+	}
+
+	private void getIntersectsBetween(GeoElement geo, boolean xAxis,
+			boolean yAxis, ArrayList<GeoElementND> retList) {
+		Construction cons = kernel.getConstruction();
+		GeoLine xAxisLine = kernel.getXAxis();
+		GeoLine yAxisLine = kernel.getYAxis();
+		if (geo == xAxisLine || geo == yAxisLine) {
+			return;
+		}
+		Command cmd = new Command(kernel, "Intersect", false);
+		CmdIntersect intersect = new CmdIntersect(kernel);
+		boolean wasSuppressLabelActive = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
 
 		for (GeoElement element: cons.getGeoSetConstructionOrder()) {
-			if (element instanceof EquationValue && element != geo) {
+			if (hasIntersectsBetween(element) && element != geo) {
 				getSpecialPointsIntersect(geo, element, intersect, cmd, retList);
 			}
 		}
@@ -226,6 +246,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		return (geo instanceof GeoFunction || geo instanceof EquationValue)
 				&& geo.isVisible() && geo.isDefined()
 				&& geo.isEuclidianVisible() && !geo.isGeoElement3D();
+	}
+
+	private boolean hasIntersectsBetween(GeoElementND element) {
+		return element instanceof EquationValue || element instanceof Functional;
 	}
 
 	private void processAlgo(GeoElement element, AlgoElement algoElement, ArrayList<GeoElementND>
