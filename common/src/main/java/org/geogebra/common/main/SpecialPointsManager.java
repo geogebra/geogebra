@@ -123,7 +123,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 		// Can be of function or equation
 		if (hasIntersectsBetween(geo)) {
-			getIntersectsBetween((GeoElement) geo, xAxis, yAxis, retList);
+			getIntersectsBetween((GeoElement) geo, retList);
 		}
 	}
 
@@ -196,8 +196,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		cons.setSuppressLabelCreation(wasSuppressLabelActive);
 	}
 
-	private void getIntersectsBetween(GeoElement geo, boolean xAxis,
-			boolean yAxis, ArrayList<GeoElementND> retList) {
+	private void getIntersectsBetween(GeoElement geo, ArrayList<GeoElementND> retList) {
 		Construction cons = kernel.getConstruction();
 		GeoLine xAxisLine = kernel.getXAxis();
 		GeoLine yAxisLine = kernel.getYAxis();
