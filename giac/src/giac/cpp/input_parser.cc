@@ -5146,7 +5146,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 243 "input_parser.yy"
-    {if (is_inequation((yyvsp[(1) - (3)])) || (yyvsp[(1) - (3)]).is_symb_of_sommet(at_same)){ (yyval) = symb_and((yyvsp[(1) - (3)]),symbolic(*(yyvsp[(2) - (3)])._FUNCptr,gen(makevecteur((yyvsp[(1) - (3)])._SYMBptr->feuille[1],(yyvsp[(3) - (3)])),_SEQ__VECT)));} else (yyval) = symbolic(*(yyvsp[(2) - (3)])._FUNCptr,gen(makevecteur((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])),_SEQ__VECT));}
+    {if (is_inequation((yyvsp[(1) - (3)])) || ((yyvsp[(1) - (3)]).is_symb_of_sommet(at_same) && ((yyvsp[(3) - (3)]).type!=_INT_ || (yyvsp[(3) - (3)]).subtype!=_INT_BOOLEAN))){ (yyval) = symb_and((yyvsp[(1) - (3)]),symbolic(*(yyvsp[(2) - (3)])._FUNCptr,gen(makevecteur((yyvsp[(1) - (3)])._SYMBptr->feuille[1],(yyvsp[(3) - (3)])),_SEQ__VECT)));} else (yyval) = symbolic(*(yyvsp[(2) - (3)])._FUNCptr,gen(makevecteur((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])),_SEQ__VECT));}
     break;
 
   case 38:
