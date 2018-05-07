@@ -1549,11 +1549,6 @@ public class GeoGebraCasIntegrationTest {
     s("Integral[-x^3 + x^2]", "(-1) / 4 * x^(4) + 1 / 3 * x^(3) + c_INDEX");
   }
 
-  @Test
-  public void Intersect () {
-		t("Intersect[(1,4),y=x+3]", "(1, 1)");
-  }
-
   /* LeftSide */
 
   @Test
