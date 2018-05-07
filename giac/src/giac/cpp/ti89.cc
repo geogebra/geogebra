@@ -1697,9 +1697,9 @@ namespace giac {
       return res;
     }
     if (xcas_mode(contextptr)==3 || (python_compat(contextptr) && g.type!=_VECT)){
-      gen g_=g;
-      if (g.type==_STRNG)
-	g_=gen(*g._STRNGptr,contextptr);
+      gen g_=eval(g,1,contextptr);
+      if (g_.type==_STRNG)
+	g_=gen(*g_._STRNGptr,contextptr);
       return _floor(evalf(g_,1,contextptr),contextptr);
     }
     else

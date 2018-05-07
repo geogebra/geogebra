@@ -1799,7 +1799,7 @@ namespace giac {
     if (test.type!=_INT_){
       test=equaltosame(test).eval(evallevel,contextptr);
       if (!is_integer(test)){
-	test=test.evalf_double(evallevel,contextptr);
+	test=test.type==_MAP?!test._MAPptr->empty():test.evalf_double(evallevel,contextptr);
 	if (test.type==_VECT && python_compat(contextptr)){
 	  // OR test on a list
 	  const_iterateur it=test._VECTptr->begin(),itend=test._VECTptr->end();
@@ -2269,6 +2269,8 @@ namespace giac {
       testf=testf._FRACptr->num;
     if (test.type<=_POLY)
       return !is_exactly_zero(test);
+    if (testf.type==_MAP)
+      return !testf._MAPptr->empty();
     testf=testf.evalf(1,contextptr);
     return ck_is_one(testf);
   }
@@ -10745,6 +10747,19 @@ namespace giac {
       if (tmp==a){ // try to eval at global level
 	tmp=global_eval(tmp,1);
       }
+      if (tmp.type==_MAP && b.is_symb_of_sommet(at_of)){
+	const gen & f =b._SYMBptr->feuille;
+	if (f.type==_VECT && f._VECTptr->size()==2){
+	  const vecteur & v =*f._VECTptr;
+	  if (v.size()==2 && v.front().type==_IDNT && strcmp(v.front()._IDNTptr->id_name,"update")==0){
+	    gen m=eval(v.back(),1,contextptr);
+	    if (m.type==_MAP){
+	      tmp._MAPptr->insert(m._MAPptr->begin(),m._MAPptr->end());
+	      return tmp;
+	    }
+	  }
+	}
+      }
       if (tmp.type==_IDNT && strcmp(tmp._IDNTptr->id_name,"numpy")==0){
 	if (b.type==_SYMB){
 	  tmp=eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr);
@@ -10824,7 +10839,7 @@ namespace giac {
       if (f.type==_VECT && f.subtype==_SEQ__VECT)
 	v=*f._VECTptr;
       if (v.empty())
-	f=a;
+	f=eval(a,1,contextptr);
       else {
 	if (u==at_remove)
 	  v.push_back(a);
@@ -10842,7 +10857,7 @@ namespace giac {
       f=symbolic(u,f);
     }
     f=eval(f,eval_level(contextptr),contextptr);
-    if (u==at_revlist || u==at_reverse || u==at_sort || u==at_append || u==at_prepend || u==at_concat || u==at_extend || u==at_rotate || u==at_shift || u==at_suppress || u==at_remove || u==at_insert )
+    if ((a.type==_IDNT || a.type==_SYMB) && (u==at_revlist || u==at_reverse || u==at_sort || u==at_append || u==at_prepend || u==at_concat || u==at_extend || u==at_rotate || u==at_shift || u==at_suppress || u==at_remove || u==at_insert ))
       return sto(f,a,contextptr);
     return f;
   }

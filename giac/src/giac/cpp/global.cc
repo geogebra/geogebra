@@ -5818,10 +5818,20 @@ unsigned int ConvertUTF8toUTF16 (
   string replace_deuxpoints_egal(const string & s){
     string res;
     for (size_t i=0;i<s.size();++i){
-      if (s[i]==':')
+      char ch=s[i];
+      switch (ch){
+      case ':':
 	res +="-/-";
-      else
-	res +=s[i];
+	break;
+      case '{':
+	res += "{/";
+	break;
+      case '}':
+	res += "/}";
+	break;
+      default:
+	res += ch;
+      }
     }
     return res;
   }
@@ -5928,7 +5938,31 @@ unsigned int ConvertUTF8toUTF16 (
     string s,cur; 
     if (pythoncompat) pythonmode=true;
     for (;res.size();){
-      int pos=res.find('\n');
+      int pos=-1;
+      bool cherche=true;
+      for (;cherche;){
+	pos=res.find('\n',pos+1);
+	if (pos<0 || pos>=int(res.size()))
+	  break;
+	cherche=false;
+	char ch=0;
+	// check if we should skip to next newline, look at previous non space
+	for (int pos2=0;pos2<pos;++pos2){
+	  ch=res[pos2];
+	  if (ch=='#')
+	    break;
+	}
+	if (ch=='#')
+	  break;
+	for (int pos2=pos-1;pos2>=0;--pos2){
+	  ch=res[pos2];
+	  if (ch!=' ' && ch!=9){
+	    if (ch=='{' || ch=='[' || ch==',' || ch=='-' || ch=='+' || ch=='*' || ch=='/')
+	      cherche=true;
+	    break;
+	  }
+	}
+      }
       if (pos<0 || pos>=int(res.size())){
 	cur=res; res="";
       }
@@ -5964,7 +5998,11 @@ unsigned int ConvertUTF8toUTF16 (
 	}
 	if (!instring && pythoncompat &&
 	    ch=='\'' && pos<cur.size()-2 && cur[pos+1]!='\\' && (pos==0 || (cur[pos-1]!='\\' && cur[pos-1]!='\''))){ // workaround for '' string delimiters
-	  alert("// Python compatibility, please use \"...\" for strings",contextptr);
+	  static bool alertstring=true;
+	  if (alertstring){
+	    alert("// Python compatibility, please use \"...\" for strings",contextptr);
+	    alertstring=false;
+	  }
 	  int p=pos,q,beg; // skip spaces
 	  for (p++;p<int(cur.size());++p)
 	    if (cur[p]!=' ') 
@@ -6251,7 +6289,7 @@ unsigned int ConvertUTF8toUTF16 (
 	  pythonmode=true;
 	  cur=cur.substr(0,progpos);
 	  convert_python(cur,contextptr);
-	  s += cur +"IFERR ";
+	  s += cur +"IFERR\n";
 	  stack.push_back(int_string(ws,"end"));
 	  continue;
 	}

@@ -589,6 +589,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR exp T_SEMI  {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,$9));}
 	| T_FOR T_BEGIN_PAR exp T_END_PAR	{$$ = symbolic(*$1._FUNCptr,gen2vecteur($3));}
 	| exp T_IN exp {$$=symbolic(at_member,makesequence($1,$3));}
+	| exp T_NOT T_IN exp {$$=symbolic(at_not,symbolic(at_member,makesequence($1,$3)));}
 	| T_VECT_DISPATCH exp T_FOR suite_symbol T_IN exp T_VECT_END { $$=symbolic(at_apply,makesequence(symbolic(at_program,makesequence($4,0*$4,vecteur(1,$2))),$6)); if ($1==_TABLE__VECT) $$=symbolic(at_table,$$);}
 	| T_VECT_DISPATCH exp T_FOR suite_symbol T_IN exp T_IF exp T_VECT_END { $$=symbolic(at_apply,symbolic(at_program,makesequence($4,0*$4,vecteur(1,$2))),symbolic(at_select,makesequence(symbolic(at_program,makesequence($4,0*$4,$8)),$6))); if ($1==_TABLE__VECT) $$=symbolic(at_table,$$);}
 	| T_WHILE T_BEGIN_PAR exp T_END_PAR bloc { 
