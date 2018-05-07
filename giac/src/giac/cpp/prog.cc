@@ -1163,7 +1163,7 @@ namespace giac {
 	newc2.push_back(identificateur(string(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
       }
     }
-    newcsto=lidnt(a);
+    newcsto=gen2vecteur(a);
     for (size_t i=0;i<newcsto.size();++i){
       gen var=newcsto[i];
       if (var.type==_FUNC){
