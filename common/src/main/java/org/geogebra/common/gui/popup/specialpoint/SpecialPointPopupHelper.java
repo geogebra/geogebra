@@ -3,6 +3,7 @@ package org.geogebra.common.gui.popup.specialpoint;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -40,13 +41,18 @@ public class SpecialPointPopupHelper {
         if (cmd == Commands.Intersect) {
             if (parentAlgo instanceof AlgoIntersectAbstract) {
                 AlgoIntersectAbstract intersectAbstract = (AlgoIntersectAbstract) parentAlgo;
-                for (GeoElement input: intersectAbstract.getInput()) {
-                    if (input == app.getKernel().getYAxis()) {
+                Kernel kernel = app.getKernel();
+                GeoElement xAxis = kernel.getXAxis();
+                GeoElement yAxis = kernel.getYAxis();
+                for (GeoElement input : intersectAbstract.getInput()) {
+                    if (input == yAxis) {
                         return localization.getMenu("yIntercept");
+                    } else if (input == xAxis) {
+                        return localization.getMenu("Root");
                     }
                 }
             }
-			return localization.getCommand("Root");
+			return localization.getCommand("Intersect");
         } else if (cmd == Commands.Roots) {
             return localization.getCommand("Root");
         }
