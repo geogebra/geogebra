@@ -51,49 +51,50 @@ public class ScreenReader {
 						&& app.getGuiManager().hasAlgebraView()
 						&& !geo0.isGeoInputBox()) {
 					if (geo0.isEuclidianVisible()) {
-						appendSentence(sb, "PressSlashToHide", null, null, app);
+						appendSentence(sb, "PressSlashToHide", "Press / to hide object", null, app);
 					} else {
-						appendSentence(sb, "PressSlashToShow", null, null, app);
+						appendSentence(sb, "PressSlashToShow", "Press / to show object", null, app);
 					}
 				}
 			}
 			if ((geo0.isGeoButton() && !geo0.isGeoInputBox())
 					|| geo0.isPenStroke()) {
-				appendSentence(sb, "PressEnterToOpenSettings", null, null, app);
+				appendSentence(sb, "PressEnterToOpenSettings", "Press enter to open settings", null, app);
 			} else if (!geo0.isGeoInputBox()) {
-				appendSentence(sb, "PressEnterToEdit", null, null, app);
+				appendSentence(sb, "PressEnterToEdit", "Press enter to edit", null, app);
 			}
 			if (geo0.isGeoBoolean()) {
 				if (((GeoBoolean) geo0).getBoolean()) {
-					appendSentence(sb, "PressSpaceCheckboxOff", null, null, app);
+					appendSentence(sb, "PressSpaceCheckboxOff", "Press space to uncheck checkbox", null, app);
 				} else {
-					appendSentence(sb, "PressSpaceCheckboxOn", null, null, app);
+					appendSentence(sb, "PressSpaceCheckboxOn", "Press space to check checkbox", null, app);
 				}
 			}
 			if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSliderable()) {
 				GeoNumeric geoNum = (GeoNumeric) geo0;
 				if (geoNum.isAnimating()) {
-					appendSentence(sb, "PressSpaceStopAnimation", null, null, app);
+					appendSentence(sb, "PressSpaceStopAnimation", "Press space to stop animation", null, app);
 				} else {
-					appendSentence(sb, "PressSpaceStartAnimation", null, null, app);
+					appendSentence(sb, "PressSpaceStartAnimation", "Press space to start animation", null, app);
 				}
 				if (geoNum.getIntervalMax() != geoNum.getValue()) {
-					appendSentence(sb, "PressUpToIncrease", null, null, app);
+					appendSentence(sb, "PressUpToIncrease", "Press up arrow to increase the value", null, app);
 				}
 				if (geoNum.getIntervalMin() != geoNum.getValue()) {
-					appendSentence(sb, "PressDownToDecrease", null, null, app);
+					appendSentence(sb, "PressDownToDecrease", "Press down arrow to decrease the value", null, app);
 				}
 			}
 			if (geo0.getScript(EventType.CLICK) != null
 					&& geo0.getScript(EventType.CLICK).getText().length() > 0) {
-				appendSentence(sb, "PressSpaceToRunScript", null, null, app);
+				appendSentence(sb, "PressSpaceToRunScript", "Press space to run script", null, app);
 			}
 			if (geo0.isGeoPoint() && (geo0.isIndependent()
 					|| geo0.isPointOnPath() || geo0.isPointInRegion())) {
-				appendSentence(sb, "PressArrowsToMove", null, null, app);
+				appendSentence(sb, "PressArrowsToMove", "Press the arrow keys to move the object", null, app);
 			}
 			if (geo0.isGeoList() && app.has(Feature.READ_DROPDOWNS)) {
 				String[] arg = { geo0.getNameDescription() };
+
 				appendSentence(sb, "DropDownSelected", "Drop down " + arg[0] + " menu selected",
 						arg, app);
 				appendSentence(sb, "PressSpaceToOpen", "Press space to open", null, app);
@@ -118,7 +119,7 @@ public class ScreenReader {
 				sb.append(app.getLocalization().getMenuDefault(string, stringDefault));
 			}
 		} else {
-			sb.append(app.getLocalization().getMenu(string));
+			sb.append(app.getLocalization().getMenuDefault(string, stringDefault));
 		}
 		sb.append(".");
 	}
