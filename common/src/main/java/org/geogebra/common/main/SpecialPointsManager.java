@@ -209,7 +209,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		cons.setSuppressLabelCreation(true);
 
 		for (GeoElement element: cons.getGeoSetConstructionOrder()) {
-			if (hasIntersectsBetween(element) && element != geo) {
+			if (hasIntersectsBetween(element) && element != geo && element.isEuclidianVisible()) {
 				getSpecialPointsIntersect(geo, element, intersect, cmd, retList);
 			}
 		}
