@@ -6175,7 +6175,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 592 "input_parser.yy"
-    {(yyval)=symbolic(at_not,symbolic(at_member,makesequence((yyvsp[(1) - (4)]),(yyvsp[(3) - (4)]))));}
+    {(yyval)=symbolic(at_not,symbolic(at_member,makesequence((yyvsp[(1) - (4)]),(yyvsp[(4) - (4)]))));}
     break;
 
   case 150:

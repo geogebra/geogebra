@@ -1188,7 +1188,11 @@ namespace giac {
       for (size_t i=0;i<stov.size();++i){
 	stov[i]=stov[i]._SYMBptr->feuille[1];
       }
-      stov=lidnt(stov);
+      vecteur stoprog(lop(newc,at_program));
+      for (size_t i=0;i<stoprog.size();++i){
+	stoprog[i]=stoprog[i]._SYMBptr->feuille[0];
+      }
+      stov=lidnt(mergevecteur(stov,stoprog));
       int rs=int(non_decl.size());
       for (int i=0;i<rs;i++){
 	// remove var that are not assigned (assumed global), constant idnt and recursive def
@@ -2231,9 +2235,18 @@ namespace giac {
     }
     return g;
   }
-  static bool ck_is_one(gen & g){
+  static bool ck_is_one(gen & g,GIAC_CONTEXT){
     if (is_one(g))
       return true;
+    if (g.type==_VECT && python_compat(contextptr)){
+      // OR test on a list
+      const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
+      for (;it!=itend;++it){
+	if (!is_zero(*it,contextptr))
+	  return true;
+      }
+      return false;
+    }
     if (g.type>_POLY){
       g=gensizeerr(gettext("Unable to eval test in loop : ")+g.print());
       return false; // this will stop the loop in caller
@@ -2280,7 +2293,7 @@ namespace giac {
     if (testf.type==_MAP)
       return !testf._MAPptr->empty();
     testf=testf.evalf(1,contextptr);
-    return ck_is_one(testf);
+    return ck_is_one(testf,contextptr);
   }
 
   // return false if forprog modifies index or stopg

@@ -298,8 +298,15 @@ namespace giac {
   }
   gen _not(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type==_VECT || args.type==_MAP)
+    if (args.type==_VECT || args.type==_MAP){
+      if (python_compat(contextptr)){
+	if (args.type==_VECT && args._VECTptr->empty())
+	  return 1;
+	if (args.type==_MAP && args._MAPptr->empty())
+	  return 1;
+      }
       return apply(args,_not,contextptr);
+    }
     return !equaltosame(args);
   }
   static const char _not_s []="not";
