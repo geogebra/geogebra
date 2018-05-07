@@ -912,6 +912,7 @@ public class EuclidianSettings extends AbstractSettings {
 	public boolean setShowAxes(boolean flag) {
 		boolean changed = setShowAxisNoFireSettingChanged(0, flag);
 		changed = setShowAxisNoFireSettingChanged(1, flag) || changed;
+		setShowAxisNoFireSettingChanged(2, false);
 		if (changed) {
 			settingChanged();
 			if (app.has(Feature.PREVIEW_POINTS)) {
