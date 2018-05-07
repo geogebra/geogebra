@@ -1551,7 +1551,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Intersect () {
-    t("Intersect[m_1 x + b_1 , m_2 x +b_2 ]", "{((-b_1 + b_2) / (m_1 - m_2), (-b_1 * m_2 + b_2 * m_1) / (m_1 - m_2))}");
+		t("Intersect[(1,4),y=x+3]", "(1, 1)");
   }
 
   /* LeftSide */

@@ -1810,7 +1810,7 @@ public class Ggb2giac {
 
 						// TODO: simplify this if possible
 						// unitV(ggin) should work but doesn't
-						+ ",ggbvect[xcoord(ggin)/norm(ggin),ycoord(ggin)/norm(ggin)],"
+						+ ",(ggin)/norm(ggin),"
 
 						+ "normalize(ggin)),when((ggin)[0]=='=',"
 						+ "(ggbvect[unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))]),"
