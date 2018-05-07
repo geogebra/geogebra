@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -36,7 +37,7 @@ public class ScreenReader {
 	 */
 	public static void readText(GeoElement geo0, App app) {
 		StringBuilder sb = new StringBuilder();
-		String caption = geo0.getCaptionSimple();
+		String caption = geo0.getCaption(StringTemplate.defaultTemplate);
 		if (caption == null || "".equals(caption)) {
 			sb.append(geo0.translatedTypeStringForAlgebraView());
 			sb.append(' ');
@@ -60,7 +61,7 @@ public class ScreenReader {
 			if ((geo0.isGeoButton() && !geo0.isGeoInputBox())
 					|| geo0.isPenStroke()) {
 				appendSentence(sb, "PressEnterToOpenSettings", "Press enter to open settings", null, app);
-			} else if (!geo0.isGeoInputBox()) {
+			} else if (!geo0.isGeoInputBox() && app.showToolBar()) {
 				appendSentence(sb, "PressEnterToEdit", "Press enter to edit", null, app);
 			}
 			if (geo0.isGeoBoolean()) {
