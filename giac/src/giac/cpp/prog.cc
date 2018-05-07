@@ -1163,6 +1163,14 @@ namespace giac {
 	newc2.push_back(identificateur(string(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
       }
     }
+    newcsto=lidnt(a);
+    for (size_t i=0;i<newcsto.size();++i){
+      gen var=newcsto[i];
+      if (var.type==_FUNC){
+	newc1.push_back(var);
+	newc2.push_back(identificateur(string(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
+      }
+    }
     if (!newc1.empty()){
       c=subst(c,newc1,newc2,true,contextptr);
       a=subst(a,newc1,newc2,true,contextptr);

@@ -4005,6 +4005,7 @@ namespace giac {
 	*logptr(contextptr) << errmsg << endl;
       return makevecteur(string2gen(errmsg,false),a);
     }
+    if (a==b) return a;
     return gentypeerr(gettext("sto ")+b.print(contextptr)+ gettext(" not allowed!"));
   }
   symbolic symb_sto(const gen & a,gen & b,bool in_place){
