@@ -96,7 +96,8 @@ public class Relation {
 			final String relInfo = relInfos[i].replace("\n", "<br>");
 			// First information shown (result of numerical checks):
 			rr[i].setInfo("<html>" + relInfo + "<br>"
-					+ app.getLocalization().getMenu("CheckedNumerically")
+					+ app.getLocalization().getMenuDefault("CheckedNumerically",
+							"(checked numerically)")
 					+ "</html>");
 			final RelationCommand relAlgo = relAlgos[i];
 
@@ -146,7 +147,8 @@ public class Relation {
 									// Using Prove's result (since ProveDetails
 									// couldn't find any interesting):
 									String generallyTrue = loc
-											.getMenu("GenerallyTrue");
+											.getMenuDefault("GenerallyTrue",
+													"(generally true)");
 									int gtl = generallyTrue.length();
 									// the first ) and
 									// the second ( will be removed
@@ -161,12 +163,14 @@ public class Relation {
 									// Prove==ProveDetails==undefined
 									rel.setInfo(
 											rel.getInfo() + loc
-													.getMenu(
-															"CheckedNumerically"));
+													.getMenuDefault(
+															"CheckedNumerically",
+															"(checked numerically)"));
 								}
 							} else if ("1".equals(ndgResult[0])) {
 								// ProveDetails=={true}
-								rel.setInfo(rel.getInfo() + loc.getMenu("AlwaysTrue"));
+								rel.setInfo(rel.getInfo() + loc.getMenuDefault(
+										"AlwaysTrue", "(always true)"));
 							} else if ("2".equals(ndgResult[0])) {
 								// ProveDetails=={true,"c"}
 								rel.setInfo(rel.getInfo()
@@ -187,8 +191,9 @@ public class Relation {
 										"<ul><li " + liStyle + ">" + relInfo
 												+ "</ul>",
 										"<ul><li " + liStyle + ">"
-												+ loc.getMenu(
-														"ConstructionNotDegenerate")
+												+ loc.getMenuDefault(
+														"ConstructionNotDegenerate",
+														"the construction is not degenerate")
 												+ "</ul>"));
 
 							} else {
