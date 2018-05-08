@@ -30,6 +30,14 @@ public class ScreenReader {
 		}
 	}
 
+	/**
+	 * Reads the selected item of the current geo.
+	 * 
+	 * @param app
+	 *            application
+	 * @param geo
+	 *            the current geo
+	 */
 	public static void dropDownItemSelected(App app, GeoElement geo){
 		String item = ((GeoList) geo).getSelectedElement().getAlgebraDescriptionDefault();
 		String readText = app.getLocalization().getPlainArray("DropDownItemSelected",
