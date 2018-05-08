@@ -165,6 +165,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			.getPrototype().newBasicStroke(1.0f);
 	protected GRectangle deletionRectangle;
 
+	/** label outlines from 5.0.416.0 */
+	protected static int[] LABEL_OUTLINES_FROM = new int[] { 5, 0, 416, 0 };
+
 	/**
 	 * bounding box
 	 */

@@ -1024,7 +1024,8 @@ public class EuclidianViewD extends EuclidianView
 			double y, GColor col) {
 		
 		// no outline if label color == background color
-		if (g2 instanceof GGraphics2DD && !col.equals(getBackgroundCommon())) {
+		if (g2 instanceof GGraphics2DD && !col.equals(getBackgroundCommon())
+				&& !app.fileVersionBefore(LABEL_OUTLINES_FROM)) {
 			g2.setColor(getBackgroundCommon());
 			g2.drawString(text, x + 1, y);
 			g2.drawString(text, x - 1, y);
