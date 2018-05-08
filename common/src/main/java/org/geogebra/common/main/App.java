@@ -4092,15 +4092,15 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-1515
 		case MOB_PACK_POINTS:
-			return prerelease;
+			return true;
 
 		// MOB-1537
 		case MOB_PREVIEW_WHEN_EDITING:
-			return prerelease;
+			return true;
 
 		// MOB-1516
 		case MOB_PACK_ALL_CURVES:
-			return prerelease;
+			return true;
 
 		// AND-1061 and IGR-815
 		case MOB_EXAM_MODE_EXIT_DIALOG_NEW:
