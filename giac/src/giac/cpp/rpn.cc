@@ -762,6 +762,7 @@ namespace giac {
 	sym_tab::const_iterator it=contextptr->globalcontextptr->tabptr->begin(),itend=contextptr->globalcontextptr->tabptr->end();
 	vecteur * keywordsptr=keywords_vecteur_ptr();
 	for (;it!=itend;++it){
+	  lastprog_name(it->first,contextptr);
 	  gen g=identificateur(it->first);
 	  if (!equalposcomp(*keywordsptr,g)){
 	    if (strng)

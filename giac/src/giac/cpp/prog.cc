@@ -1114,6 +1114,22 @@ namespace giac {
     }
   }
 
+  string mkvalid(const string & s){
+    string res;
+    for (size_t i=0;i<s.size();++i){
+      char ch=s[i];
+      if (ch!='.' && isalphan(ch)){
+	res += ch;
+	continue;
+      }
+      res += "char";
+      res += ('0'+(ch/100));
+      res += ('0'+((ch%100)/10));
+      res += ('0'+(ch%10));
+    }
+    return res;
+  }
+
   // a=arguments, b=values, c=program bloc, d=program name
   symbolic symb_program_sto(const gen & a_,const gen & b_,const gen & c_,const gen & d,bool embedd,GIAC_CONTEXT){
     gen a(a_),b(b_),c(c_);
@@ -1152,7 +1168,7 @@ namespace giac {
       gen var=newcsto[i]._SYMBptr->feuille[1];
       if (var.type==_FUNC && (python_compat(contextptr) || !archive_function_index(*var._FUNCptr))){
 	newc1.push_back(var);
-	newc2.push_back(identificateur(string(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
+	newc2.push_back(identificateur(mkvalid(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
       }
     }
     newcsto=lop(c,at_struct_dot);
@@ -1160,7 +1176,7 @@ namespace giac {
       gen var=newcsto[i]._SYMBptr->feuille[0];
       if (var.type==_FUNC && (python_compat(contextptr) || !archive_function_index(*var._FUNCptr))){
 	newc1.push_back(var);
-	newc2.push_back(identificateur(string(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
+	newc2.push_back(identificateur(mkvalid(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
       }
     }
     newcsto=gen2vecteur(a);
@@ -1168,7 +1184,7 @@ namespace giac {
       gen var=newcsto[i];
       if (var.type==_FUNC){
 	newc1.push_back(var);
-	newc2.push_back(identificateur(string(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
+	newc2.push_back(identificateur(mkvalid(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
       }
     }
     if (!newc1.empty()){
