@@ -64,6 +64,16 @@ public abstract class Localization {
 	}
 
 	/**
+	 * eg Function.sin
+	 */
+	public static String FUNCTION_PREFIX = "Function.";
+
+	/**
+	 * eg Symbol.And
+	 */
+	public static String SYMBOL_PREFIX = "Symbol.";
+
+	/**
 	 * For Basque and Hungarian you have to say "A point" instead of "point A"
 	 * 
 	 * @return whether current alnguage needs revverse order of type and name

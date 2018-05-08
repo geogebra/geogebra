@@ -123,25 +123,25 @@ public final class LocalizationW extends Localization
 		}
 
 		if (localeStr == null) {
-			// keys not loaded yet or webSimple
-
-			// eg Symbol.And
-			if (key.startsWith("Symbol.")) {
-				return key.replace("Symbol.", "");
-			}
-
-			// eg Function.sin
-			if (key.startsWith("Function.")) {
-				return key.replace("Function.", "");
-			}
-
+			// keys not loaded yet
 			return key;
 		}
 
 		String ret = getPropertyNative(localeStr, key, "menu");
 
+		// eg webSimple
 		if (ret == null || "".equals(ret)) {
 			// Log.debug("menu key not found: "+key);
+
+			// eg Symbol.And
+			if (key.startsWith(SYMBOL_PREFIX)) {
+				return key.substring(SYMBOL_PREFIX.length());
+			}
+
+			// eg Function.sin
+			if (key.startsWith(FUNCTION_PREFIX)) {
+				return key.substring(FUNCTION_PREFIX.length());
+			}
 			return key;
 		}
 
