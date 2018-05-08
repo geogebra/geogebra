@@ -390,9 +390,13 @@ public class Browser {
 			return;
 		}
 
-		// 
+		// Chrome limits to 2Mb so use Blob
+		// https://stackoverflow.com/questions/695151/data-protocol-url-size-limitations/41755526#41755526
+		// https://stackoverflow.com/questions/38781968/problems-downloading-big-filemax-15-mb-on-google-chrome/38845151#38845151
 
-		if ($wnd.navigator.msSaveBlob) {
+		// msSaveBlob: IE11, Edge
+		if ($wnd.navigator.msSaveBlob
+				|| $wnd.navigator.userAgent.toLowerCase().indexOf("chrome") > -1) {
 			var sliceSize = 512;
 
 			var byteCharacters = atob(url.substring(header.length));
@@ -415,11 +419,29 @@ public class Browser {
 				type : extension
 			});
 
-			//works for internet explorer
+			if ($wnd.navigator.msSaveBlob) {
+				// IE11, Edge
+				$wnd.navigator.msSaveBlob(blob, title);
+			} else {
+				// Chrome
+				var url2 = $wnd.URL.createObjectURL(blob);
+				var a = $doc.createElement("a");
+				a.download = title;
+				a.href = url2;
 
-			$wnd.navigator.msSaveBlob(blob, title);
+				a.onclick = function() {
+					requestAnimationFrame(function() {
+						$wnd.URL.revokeObjectURL(url2);
+					})
+				};
+
+				$wnd.setTimeout(function() {
+					a.click()
+				}, 10);
+			}
 		} else {
-			//works for firefox
+
+			// Firefox, Safari
 			var a = $doc.createElement("a");
 			$doc.body.appendChild(a);
 			a.style = "display: none";
@@ -427,7 +449,8 @@ public class Browser {
 			a.download = title;
 			$wnd.setTimeout(function() {
 				a.click()
-			}, 1000);
+			}, 10);
+
 		}
 
 	}-*/;
