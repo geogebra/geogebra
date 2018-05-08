@@ -30,12 +30,26 @@ import org.geogebra.common.util.StringUtil;
  */
 public class AlgoTTestPaired extends AlgoElement {
 
-	private GeoList geoList0, geoList1; // input
+	private GeoList geoList0; // input
+	private GeoList geoList1; // input
 	private GeoText tail; // input
 	private GeoList result; // output
 	private TTest tTestImpl;
-	private double[] val0, val1;
+	private double[] val0;
+	private double[] val1;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoList0
+	 *            first sample
+	 * @param geoList1
+	 *            second sample
+	 * @param tail
+	 *            one of &lt;, &gt; for one-sided test; two-sided otherwise
+	 */
 	public AlgoTTestPaired(Construction cons, String label, GeoList geoList0,
 			GeoList geoList1, GeoText tail) {
 		super(cons);

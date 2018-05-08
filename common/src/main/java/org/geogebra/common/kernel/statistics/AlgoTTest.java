@@ -32,14 +32,32 @@ import org.geogebra.common.util.StringUtil;
  */
 public class AlgoTTest extends AlgoElement {
 
-	private GeoList geoList; // input
-	private GeoNumeric hypMean, mean, sd, n; // input
-	private GeoText tail; // input
+	// input
+	private GeoList geoList;
+	private GeoNumeric hypMean;
+	private GeoNumeric mean;
+	private GeoNumeric sd;
+	private GeoNumeric n;
+	private GeoText tail;
+
 	private GeoList result; // output
 	private TTest tTestImpl;
 	private double[] val;
-	private double p, testStat;
+	private double p;
+	private double testStat;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoList
+	 *            sample
+	 * @param hypMean
+	 *            hypothesised mean
+	 * @param tail
+	 *            one of &lt;,>,=
+	 */
 	public AlgoTTest(Construction cons, String label, GeoList geoList,
 			GeoNumeric hypMean, GeoText tail) {
 		super(cons);
@@ -56,12 +74,20 @@ public class AlgoTTest extends AlgoElement {
 		result.setLabel(label);
 	}
 
-	public AlgoTTest(Construction cons, String label, GeoNumeric mean,
-			GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
-		this(cons, mean, sd, n, hypMean, tail);
-		result.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param mean
+	 *            sample mean
+	 * @param sd
+	 *            sample standard deviation
+	 * @param n
+	 *            sample size
+	 * @param hypMean
+	 *            hypothesised mean
+	 * @param tail
+	 *            one of &lt;,>,=
+	 */
 	public AlgoTTest(Construction cons, GeoNumeric mean, GeoNumeric sd,
 			GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
 		super(cons);
@@ -104,6 +130,9 @@ public class AlgoTTest extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting list
+	 */
 	public GeoList getResult() {
 		return result;
 	}

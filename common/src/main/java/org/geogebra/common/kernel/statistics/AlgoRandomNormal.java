@@ -27,6 +27,17 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 public class AlgoRandomNormal extends AlgoTwoNumFunction
 		implements SetRandomValue {
 
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            mean
+	 * @param b
+	 *            standard deviation
+	 */
 	public AlgoRandomNormal(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b) {
 		super(cons, label, a, b);

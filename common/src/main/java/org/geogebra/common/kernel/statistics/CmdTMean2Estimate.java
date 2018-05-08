@@ -65,11 +65,11 @@ public class CmdTMean2Estimate extends CommandProcessor {
 					&& (ok[7] = arg[7].isGeoBoolean())) {
 
 				AlgoTMean2Estimate algo = new AlgoTMean2Estimate(cons,
-						c.getLabel(), (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
 						(GeoNumeric) arg[6], (GeoBoolean) arg[7]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

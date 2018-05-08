@@ -20,10 +20,25 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  */
 public class AlgoRandomUniformList extends AlgoElement
 		implements SetRandomValue {
+	// input
+	private GeoNumberValue a;
+	private GeoNumberValue b;
+	private GeoNumberValue length;
+	// output
+	private GeoList list;
 
-	protected GeoNumberValue a, b, length; // input
-	protected GeoList list; // output
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            lower bound for uniform distribution
+	 * @param b
+	 *            upper bound for uniform distribution
+	 * @param length
+	 *            list length
+	 */
 	public AlgoRandomUniformList(Construction cons, String label,
 			GeoNumberValue a, GeoNumberValue b, GeoNumberValue length) {
 		super(cons);

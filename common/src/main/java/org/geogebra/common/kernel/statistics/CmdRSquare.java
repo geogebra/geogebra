@@ -46,8 +46,9 @@ public class CmdRSquare extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isGeoFunctionable())) {
 
-				AlgoRSquare algo = new AlgoRSquare(cons, c.getLabel(),
+				AlgoRSquare algo = new AlgoRSquare(cons,
 						(GeoList) arg[0], (GeoFunctionable) arg[1]);
+				algo.getRSquare().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getRSquare() };
 				return ret;
 			}

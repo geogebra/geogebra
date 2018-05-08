@@ -53,12 +53,11 @@ public class CmdZMeanEstimate extends CommandProcessor {
 					&& (ok[3] = arg[3].isGeoNumeric())) {
 
 				AlgoZMeanEstimate algo = new AlgoZMeanEstimate(cons,
-						c.getLabel(), (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-
 			}
 
 			throw argErr(app, c, getBadArg(ok, arg));

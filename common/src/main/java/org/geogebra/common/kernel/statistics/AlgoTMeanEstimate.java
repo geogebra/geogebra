@@ -29,15 +29,33 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * @author G. Sturr
  */
 public class AlgoTMeanEstimate extends AlgoElement {
+	// input
+	private GeoList geoList;
+	private GeoNumeric geoLevel;
+	private GeoNumeric geoMean;
+	private GeoNumeric geoSD;
+	private GeoNumeric geoN;
 
-	private GeoList geoList; // input
-	private GeoNumeric geoLevel, geoMean, geoSD, geoN; // input
 	private GeoList result; // output
 
 	private double[] val;
-	private double level, mean, sd, n, me;
+	private double level;
+	private double mean;
+	private double sd;
+	private double n;
+	private double me;
 	private SummaryStatistics stats;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoList
+	 *            sample
+	 * @param geoLevel
+	 *            confidence level
+	 */
 	public AlgoTMeanEstimate(Construction cons, String label, GeoList geoList,
 			GeoNumeric geoLevel) {
 		super(cons);
@@ -54,13 +72,18 @@ public class AlgoTMeanEstimate extends AlgoElement {
 		result.setLabel(label);
 	}
 
-	public AlgoTMeanEstimate(Construction cons, String label,
-			GeoNumeric geoMean, GeoNumeric geoSD, GeoNumeric geoN,
-			GeoNumeric geoLevel) {
-		this(cons, geoMean, geoSD, geoN, geoLevel);
-		result.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geoMean
+	 *            sample mean
+	 * @param geoSD
+	 *            sample standard deviation
+	 * @param geoN
+	 *            sample size
+	 * @param geoLevel
+	 *            confidence level
+	 */
 	public AlgoTMeanEstimate(Construction cons, GeoNumeric geoMean,
 			GeoNumeric geoSD, GeoNumeric geoN, GeoNumeric geoLevel) {
 		super(cons);
@@ -101,16 +124,22 @@ public class AlgoTMeanEstimate extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting list
+	 */
 	public GeoList getResult() {
 		return result;
 	}
 
+	/**
+	 * @return margin of error
+	 */
 	public double getME() {
 		return me;
 	}
 
-	private double getMarginOfError(double sd, double n, double confLevel)
-			throws ArithmeticException {
+	private static double getMarginOfError(double sd, double n,
+			double confLevel) throws ArithmeticException {
 		TDistribution tDist = new TDistribution(n - 1);
 		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 		return a * sd / Math.sqrt(n);
@@ -118,12 +147,9 @@ public class AlgoTMeanEstimate extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
 		try {
-
 			// get statistics from sample data input
 			if (input.length == 2) {
-
 				int size = geoList.size();
 				if (!geoList.isDefined() || size < 2) {
 					result.setUndefined();
@@ -135,7 +161,6 @@ public class AlgoTMeanEstimate extends AlgoElement {
 					GeoElement geo = geoList.get(i);
 					if (geo instanceof NumberValue) {
 						val[i] = geo.evaluateDouble();
-
 					} else {
 						result.setUndefined();
 						return;
@@ -152,7 +177,6 @@ public class AlgoTMeanEstimate extends AlgoElement {
 				mean = stats.getMean();
 
 			} else {
-
 				mean = geoMean.getDouble();
 				sd = geoSD.getDouble();
 				n = geoN.getDouble();
@@ -185,7 +209,6 @@ public class AlgoTMeanEstimate extends AlgoElement {
 			// ArithmeticException
 			e.printStackTrace();
 		}
-
 	}
 
 }

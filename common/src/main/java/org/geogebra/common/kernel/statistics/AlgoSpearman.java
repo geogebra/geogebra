@@ -29,9 +29,14 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  */
 public class AlgoSpearman extends AlgoElement {
 
-	private GeoList geoListPts, geoListX, geoListY; // input
-	private GeoNumeric result; // output
+	// input
+	private GeoList geoListPts;
+	private GeoList geoListX;
+	private GeoList geoListY;
+	// output
+	private GeoNumeric result;
 	private SpearmansCorrelation sp;
+
 	private double[] valX;
 	private double[] valY;
 
@@ -174,7 +179,6 @@ public class AlgoSpearman extends AlgoElement {
 		}
 
 		result.setValue(sp.correlation(valX, valY));
-
 	}
 
 }

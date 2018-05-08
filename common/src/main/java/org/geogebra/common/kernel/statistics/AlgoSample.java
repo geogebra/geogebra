@@ -38,6 +38,18 @@ public class AlgoSample extends AlgoElement {
 	private GeoNumberValue num;
 	private GeoList outputList; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            input data
+	 * @param num
+	 *            sample size
+	 * @param replacement
+	 *            use replacement?
+	 */
 	public AlgoSample(Construction cons, String label, GeoList inputList,
 			GeoNumberValue num, GeoBoolean replacement) {
 		super(cons);

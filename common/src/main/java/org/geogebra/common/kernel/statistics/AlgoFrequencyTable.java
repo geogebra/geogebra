@@ -34,11 +34,11 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
-	private enum inputType {
+	private enum InputType {
 		STANDARD, HISTOGRAM, BARCHART
 	}
 
-	private inputType type;
+	private InputType type;
 
 	private GeoList dataList; // input
 	private GeoList classList; // input
@@ -107,7 +107,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		cons.removeFromConstructionList(freq);
 		createTable();
 
-		type = inputType.STANDARD;
+		type = InputType.STANDARD;
 		setInputOutput();
 
 		compute();
@@ -128,9 +128,9 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		AlgoElement algo = chart.getParentAlgorithm();
 
 		if (algo instanceof AlgoHistogram) {
-			type = inputType.HISTOGRAM;
+			type = InputType.HISTOGRAM;
 		} else {
-			type = inputType.BARCHART;
+			type = InputType.BARCHART;
 		}
 
 		this.chart = chart;

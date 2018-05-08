@@ -28,33 +28,26 @@ import org.geogebra.common.util.StringUtil;
  * @author G. Sturr
  */
 public class AlgoZProportionTest extends AlgoElement {
+	// input
+	private GeoNumeric hypPropertion;
+	private GeoNumeric proportion;
+	private GeoNumeric n;
+	private GeoText tail;
 
-	private GeoNumeric hypPropertion, proportion, n; // input
-	private GeoText tail; // input
 	private GeoList result; // output
 	private double se;
 
 	/**
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param proportion
+	 *            sample proportion
 	 * @param n
+	 *            sample size
 	 * @param hypProportion
+	 *            hypothesised proportion
 	 * @param tail
-	 */
-	public AlgoZProportionTest(Construction cons, String label,
-			GeoNumeric proportion, GeoNumeric n, GeoNumeric hypProportion,
-			GeoText tail) {
-		this(cons, proportion, n, hypProportion, tail);
-		result.setLabel(label);
-	}
-
-	/**
-	 * @param cons
-	 * @param proportion
-	 * @param n
-	 * @param hypProportion
-	 * @param tail
+	 *            &lt; &gt; for one-sided test, default two-sided
 	 */
 	public AlgoZProportionTest(Construction cons, GeoNumeric proportion,
 			GeoNumeric n, GeoNumeric hypProportion, GeoText tail) {
@@ -67,7 +60,6 @@ public class AlgoZProportionTest extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();
-
 	}
 
 	@Override

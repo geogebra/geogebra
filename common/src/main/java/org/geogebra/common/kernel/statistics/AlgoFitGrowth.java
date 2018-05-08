@@ -43,7 +43,7 @@ public class AlgoFitGrowth extends AlgoElement implements FitAlgo {
 	public AlgoFitGrowth(Construction cons, String label, GeoList geolist) {
 		this(cons, geolist);
 		geofunction.setLabel(label);
-	}// Constructor
+	}
 
 	public AlgoFitGrowth(Construction cons, GeoList geolist) {
 		super(cons);
@@ -54,7 +54,7 @@ public class AlgoFitGrowth extends AlgoElement implements FitAlgo {
 		geofunction = new GeoFunction(cons);
 		setInputOutput();
 		compute();
-	}// Constructor
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -68,7 +68,7 @@ public class AlgoFitGrowth extends AlgoElement implements FitAlgo {
 
 		setOnlyOutput(geofunction);
 		setDependencies();
-	}// setInputOutput()
+	}
 
 	public GeoFunction getFitGrowth() {
 		return geofunction;
@@ -102,7 +102,7 @@ public class AlgoFitGrowth extends AlgoElement implements FitAlgo {
 		} else {
 			geofunction.setUndefined();
 			return;
-		} // if error in regression
+		}
 	}
 
 	@Override
@@ -111,4 +111,4 @@ public class AlgoFitGrowth extends AlgoElement implements FitAlgo {
 		return ret;
 	}
 
-}// class AlgoFitGrowth
+}

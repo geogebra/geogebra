@@ -55,9 +55,10 @@ public class CmdTriangular extends CommandProcessor {
 						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					AlgoTriangularDF algo = new AlgoTriangularDF(cons,
-							c2.getLabel(), (GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[0],
 							(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 							forceBoolean(cumulative, true));
+					algo.getResult().setLabel(c2.getLabel());
 					return algo.getResult().asArray();
 
 				} else if (arg[3] instanceof GeoNumberValue) {

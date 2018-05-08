@@ -35,18 +35,24 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  */
 public class AlgoTriangularDF extends AlgoElement {
 
-	private GeoNumberValue a, b, mode; // input
+	private GeoNumberValue a;
+	private GeoNumberValue b;
+	private GeoNumberValue mode; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
-	public AlgoTriangularDF(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue mode, BooleanValue cumulative) {
-		this(cons, a, b, mode, cumulative);
-		ret.setLabel(label);
-	}
-
-	@SuppressWarnings("javadoc")
+	/**
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            lower triangle bound
+	 * @param b
+	 *            upper triangle bound
+	 * @param mode
+	 *            mode
+	 * @param cumulative
+	 *            cumultative?
+	 */
 	public AlgoTriangularDF(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue mode, BooleanValue cumulative) {
 		super(cons);

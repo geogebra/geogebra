@@ -35,7 +35,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 	private GeoList geoList; // input
 	private GeoNumeric scaleAdjustment; // input
 	private GeoText text; // output
-	private StringBuilder low, high;
+	private StringBuilder low;
+	private StringBuilder high;
 
 	private StringBuilder sb = new StringBuilder();
 
@@ -261,7 +262,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 		// sort numbers, adjust for outliers and then set max/min
 		Arrays.sort(data);
-		int outlierIndex[] = getOutlierIndex(data);
+		int[] outlierIndex = getOutlierIndex(data);
 		double max = data[outlierIndex[1] - 1];
 		double min = data[outlierIndex[0]];
 
@@ -284,12 +285,11 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 		double factor = Math.pow(10.0, 1 - magnitude); // factor for creating
 														// the stem plot
-		double multUnit = Math.pow(10.0, magnitude - 1); // factor for building
-															// the key
 
 		// create stemLines -- a list of ArrayLists that stores the stem & leaf
 		// values for each line of the plot
-		ArrayList<ArrayList<Integer>> stemLines = createStemPlotArray(data,
+		final ArrayList<ArrayList<Integer>> stemLines = createStemPlotArray(
+				data,
 				factor, outlierIndex);
 
 		// ==========================================
@@ -313,6 +313,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		}
 		high.append("} \\\\ "); // newline in LaTeX ie \\
 
+		double multUnit = Math.pow(10.0, magnitude - 1); // factor for building
+		// the key
 		stemPlot(data, outlierIndex, multUnit, stemLines);
 
 		// ==========================================
@@ -366,8 +368,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			for (int c = 1; c < maxSize; c++) {
 				body.append(
 						currentLine.size() > c ? currentLine.get(c) + "" : " ");
-				if (c < maxSize - 1)
-				 {
+				if (c < maxSize - 1) {
 					body.append("&"); // column separator
 				}
 			}

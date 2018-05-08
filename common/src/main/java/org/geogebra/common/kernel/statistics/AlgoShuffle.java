@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
- * Sort a list. Adapted from AlgoMax and AlgoIterationList
+ * Shuffle a list. Adapted from AlgoSort
  * 
  * @author Michael Borcherds
  * @version 04-01-2008
@@ -35,6 +35,14 @@ public class AlgoShuffle extends AlgoElement implements SetRandomValue {
 	private GeoList outputList; // output
 	private int size;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            list to be shuffled
+	 */
 	public AlgoShuffle(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
@@ -62,6 +70,9 @@ public class AlgoShuffle extends AlgoElement implements SetRandomValue {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return shuffled list
+	 */
 	public GeoList getResult() {
 		return outputList;
 	}

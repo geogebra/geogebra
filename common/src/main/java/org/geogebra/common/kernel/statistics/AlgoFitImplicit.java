@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.plugin.GeoClass;
@@ -34,7 +33,7 @@ import org.geogebra.common.plugin.GeoClass;
 public class AlgoFitImplicit extends AlgoElement {
 
 	private GeoList pointlist; // input
-	private GeoElement orderGeo = new GeoNumeric(cons, 2);
+	private final GeoElement orderGeo;
 	private GeoImplicit fitfunction; // output
 
 	// variables:
@@ -176,11 +175,9 @@ public class AlgoFitImplicit extends AlgoElement {
 
 				}
 			}
-
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -228,9 +225,7 @@ public class AlgoFitImplicit extends AlgoElement {
 		// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
 		for (int i = 0; i <= order; i++) {
 			for (int j = 0; j <= i; j++) {
-
 				coeffs[j][i - j] = coeffsRV.getEntry(c++);
-
 			}
 		}
 

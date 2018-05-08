@@ -34,6 +34,14 @@ public class AlgoTiedRank extends AlgoElement {
 	private double[] inputArray;
 	private double[] outputArray;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            input data
+	 */
 	public AlgoTiedRank(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
@@ -59,6 +67,9 @@ public class AlgoTiedRank extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return list of ranks
+	 */
 	public GeoList getResult() {
 		return outputList;
 	}

@@ -31,21 +31,51 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public class AlgoTMean2Estimate extends AlgoElement {
 
-	private GeoList geoList1, geoList2; // input
-	private GeoNumeric geoLevel, geoMean1, geoSD1, geoN1, geoMean2, geoSD2,
+	private GeoList geoList1;
+	private GeoList geoList2; // input
+	private GeoNumeric geoLevel;
+	private GeoNumeric geoMean1;
+	private GeoNumeric geoSD1;
+	private GeoNumeric geoN1;
+	private GeoNumeric geoMean2;
+	private GeoNumeric geoSD2;
+	private GeoNumeric
 			geoN2; // input
 	private GeoBoolean geoPooled; // input
 
 	private GeoList result; // output
 
-	private double[] val1, val2;
-	private int size1, size2;
-	private double level, mean1, var1, n1, mean2, var2, n2, me;
-	boolean pooled;
+	private double[] val1;
+	private double[] val2;
+	private int size1;
+	private int size2;
+	private double level;
+	private double mean1;
+	private double var1;
+	private double n1;
+	private double mean2;
+	private double var2;
+	private double n2;
+	private double me;
+	private boolean pooled;
 	private SummaryStatistics stats;
 	private TDistribution tDist;
 	private double difference;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoList1
+	 *            first sample
+	 * @param geoList2
+	 *            second sample
+	 * @param geoLevel
+	 *            level of confidence
+	 * @param geoPooled
+	 *            pooled?
+	 */
 	public AlgoTMean2Estimate(Construction cons, String label, GeoList geoList1,
 			GeoList geoList2, GeoNumeric geoLevel, GeoBoolean geoPooled) {
 		super(cons);
@@ -68,15 +98,26 @@ public class AlgoTMean2Estimate extends AlgoElement {
 		result.setLabel(label);
 	}
 
-	public AlgoTMean2Estimate(Construction cons, String label,
-			GeoNumeric geoMean1, GeoNumeric geoSD1, GeoNumeric geoN1,
-			GeoNumeric geoMean2, GeoNumeric geoSD2, GeoNumeric geoN2,
-			GeoNumeric geoLevel, GeoBoolean geoPooled) {
-		this(cons, geoMean1, geoSD1, geoN1, geoMean2, geoSD2, geoN2, geoLevel,
-				geoPooled);
-		result.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geoMean1
+	 *            first sample's mean
+	 * @param geoSD1
+	 *            first sample's standard deviation
+	 * @param geoN1
+	 *            first sample size
+	 * @param geoMean2
+	 *            second sample's mean
+	 * @param geoSD2
+	 *            second sample's standard deviation
+	 * @param geoN2
+	 *            second sample size
+	 * @param geoLevel
+	 *            level of confidence
+	 * @param geoPooled
+	 *            pooled?
+	 */
 	public AlgoTMean2Estimate(Construction cons, GeoNumeric geoMean1,
 			GeoNumeric geoSD1, GeoNumeric geoN1, GeoNumeric geoMean2,
 			GeoNumeric geoSD2, GeoNumeric geoN2, GeoNumeric geoLevel,
@@ -107,14 +148,12 @@ public class AlgoTMean2Estimate extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-
 		if (geoList1 != null) {
 			input = new GeoElement[4];
 			input[0] = geoList1;
 			input[1] = geoList2;
 			input[2] = geoLevel;
 			input[3] = geoPooled;
-
 		} else {
 			input = new GeoElement[8];
 			input[0] = geoMean1;
@@ -131,6 +170,9 @@ public class AlgoTMean2Estimate extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting list
+	 */
 	public GeoList getResult() {
 		return result;
 	}
@@ -176,24 +218,23 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	 *            confidence level
 	 * @return margin of error for 2 mean interval estimate
 	 * @throws ArithmeticException
+	 *             when computation fails
 	 */
 	private double getMarginOfError(double v1, double n1, double v2, double n2,
-			double confLevel, boolean pooled) throws ArithmeticException {
-
-		if (pooled) {
-
+			double confLevel, boolean pool) throws ArithmeticException {
+		if (pool) {
 			double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
 					/ (n1 + n2 - 2);
 			double se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
 			tDist = new TDistribution(
-					getDegreeOfFreedom(v1, v2, n1, n2, pooled));
+					getDegreeOfFreedom(v1, v2, n1, n2, pool));
 			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 			return a * se;
 
 		}
 		double se = Math.sqrt((v1 / n1) + (v2 / n2));
 		tDist = new TDistribution(
-				getDegreeOfFreedom(v1, v2, n1, n2, pooled));
+				getDegreeOfFreedom(v1, v2, n1, n2, pool));
 		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 		return a * se;
 

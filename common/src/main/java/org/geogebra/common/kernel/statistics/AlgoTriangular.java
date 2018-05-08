@@ -29,8 +29,6 @@ public class AlgoTriangular extends AlgoDistribution {
 	 * 
 	 * @param cons
 	 *            cons
-	 * @param label
-	 *            label
 	 * @param a
 	 *            lower bound
 	 * @param b
@@ -39,6 +37,8 @@ public class AlgoTriangular extends AlgoDistribution {
 	 *            mode
 	 * @param x
 	 *            x
+	 * @param cumulative
+	 *            cumulative?
 	 */
 	public AlgoTriangular(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			GeoNumberValue mode, GeoNumberValue x, GeoBoolean cumulative) {

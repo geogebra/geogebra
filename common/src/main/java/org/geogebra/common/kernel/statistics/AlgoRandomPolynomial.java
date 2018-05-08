@@ -17,7 +17,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  */
 public class AlgoRandomPolynomial extends AlgoElement {
 
-	private GeoNumberValue degree, min, max;
+	private GeoNumberValue degree;
+	private GeoNumberValue min;
+	private GeoNumberValue max;
 	private GeoFunction polynomial;
 	private Function f;
 

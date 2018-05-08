@@ -20,13 +20,23 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
- * Computes RandomNormal[a, b]
+ * Computes RandomUniform[a, b]
  * 
  * @author Michael Borcherds
  */
 public class AlgoRandomUniform extends AlgoTwoNumFunction
 		implements SetRandomValue {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            lower bound for the distribution
+	 * @param b
+	 *            upper bound for the distribution
+	 */
 	public AlgoRandomUniform(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b) {
 		super(cons, label, a, b);

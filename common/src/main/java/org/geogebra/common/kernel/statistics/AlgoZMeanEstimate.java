@@ -27,31 +27,25 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public class AlgoZMeanEstimate extends AlgoElement {
 
-	private GeoNumeric mean, sd, n, level; // input
+	private GeoNumeric mean;
+	private GeoNumeric sd;
+	private GeoNumeric n;
+	private GeoNumeric level; // input
 	GeoList list;
 	private GeoList result; // output
 	private double me;
 
-	/************************************************
+	/**
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param mean
+	 *            mean
 	 * @param sd
+	 *            standard deviation
 	 * @param n
+	 *            n
 	 * @param level
-	 */
-	public AlgoZMeanEstimate(Construction cons, String label, GeoNumeric mean,
-			GeoNumeric sd, GeoNumeric n, GeoNumeric level) {
-		this(cons, mean, sd, n, level);
-		result.setLabel(label);
-	}
-
-	/************************************************
-	 * @param cons
-	 * @param mean
-	 * @param sd
-	 * @param n
-	 * @param level
+	 *            level
 	 */
 	public AlgoZMeanEstimate(Construction cons, GeoNumeric mean, GeoNumeric sd,
 			GeoNumeric n, GeoNumeric level) {
@@ -64,15 +58,19 @@ public class AlgoZMeanEstimate extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();
-
 	}
 
 	/**
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param list
+	 *            sample
 	 * @param sd
+	 *            standard deviation
 	 * @param level
+	 *            level of confidence
 	 */
 	public AlgoZMeanEstimate(Construction cons, String label, GeoList list,
 			GeoNumeric sd, GeoNumeric level) {

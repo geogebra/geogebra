@@ -51,7 +51,7 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 		regMath = new RegressionMath();
 		setInputOutput();
 		compute();
-	}// Constructor
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -64,7 +64,7 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 		input[0] = geolist;
 		setOnlyOutput(geofunction);
 		setDependencies();
-	}// setInputOutput()
+	}
 
 	public GeoFunction getFitLog() {
 		return geofunction;
@@ -97,8 +97,7 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 		} else {
 			geofunction.setUndefined();
 			return;
-		} // if error in regression
-			// if error in parameters
+		}
 	}
 
 	@Override
@@ -107,4 +106,4 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 		return ret;
 	}
 
-}// class AlgoFitLog
+}

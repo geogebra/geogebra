@@ -29,21 +29,23 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  * 
  * @author G.Sturr
  */
-
 public class AlgoResidualPlot extends AlgoElement {
 
 	private GeoList inputList; // input
 	private GeoFunctionable function;
 	private GeoList outputList; // output
 	private int size;
-	private double min, max;
+	private double min;
+	private double max;
 
-	public AlgoResidualPlot(Construction cons, String label, GeoList inputList,
-			GeoFunctionable function2) {
-		this(cons, inputList, function2);
-		outputList.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param inputList
+	 *            list of points
+	 * @param function2
+	 *            function
+	 */
 	public AlgoResidualPlot(Construction cons, GeoList inputList,
 			GeoFunctionable function2) {
 		super(cons);
@@ -71,13 +73,18 @@ public class AlgoResidualPlot extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return list of residues
+	 */
 	public GeoList getResult() {
 		return outputList;
 	}
 
+	/**
+	 * @return min and max residues
+	 */
 	public double[] getResidualBounds() {
-		double[] bounds = { min, max };
-		return bounds;
+		return new double[] { min, max };
 	}
 
 	@Override

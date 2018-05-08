@@ -24,23 +24,32 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath2;
 
 /**
- * Computes RandomNormal[a, b]
+ * Computes RandomPoisson[lambda]
  * 
  * @author Michael Borcherds
  */
 public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 
-	protected GeoNumberValue a; // input
-	protected GeoNumeric num; // output
+	private GeoNumberValue lambda; // input
+	private GeoNumeric num; // output
 
 	private static double halflog2pi = 0.5 * Math.log(2 * Math.PI);
 
-	private static double logtable[] = new double[10];
+	private static double[] logtable = new double[10];
 
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param lambda
+	 *            mean
+	 */
 	public AlgoRandomPoisson(Construction cons, String label,
-			GeoNumberValue a) {
+			GeoNumberValue lambda) {
 		super(cons);
-		this.a = a;
+		this.lambda = lambda;
 
 		// output is random number
 		num = new GeoNumeric(cons);
@@ -55,12 +64,15 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
-		input[0] = a.toGeoElement();
+		input[0] = lambda.toGeoElement();
 
 		setOnlyOutput(num);
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return random number
+	 */
 	public GeoNumeric getResult() {
 		return num;
 	}
@@ -73,9 +85,9 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 	@Override
 	public final void compute() {
 		if (input[0].isDefined()) {
-			double lambda = a.getDouble();
-			if (lambda > 0) {
-				num.setValue(randomPoissonTRS(lambda));
+			double lambdaVal = lambda.getDouble();
+			if (lambdaVal > 0) {
+				num.setValue(randomPoissonTRS(lambdaVal));
 			} else {
 				num.setUndefined();
 			}
@@ -87,8 +99,8 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 	/*
 	 * poisson random number (Knuth)
 	 */
-	private int randomPoisson(double lambda) {
-		double L = Math.exp(-lambda);
+	private int randomPoisson(double lambdaVal) {
+		double L = Math.exp(-lambdaVal);
 		double p = 1;
 		int k = 0;
 		do {

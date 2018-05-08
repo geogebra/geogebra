@@ -40,8 +40,11 @@ public class AlgoRandomElement extends AlgoElement implements SetRandomValue {
 	 * Creates new random element algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param geoList
+	 *            list to pick from
 	 */
 	public AlgoRandomElement(Construction cons, String label, GeoList geoList) {
 		super(cons);

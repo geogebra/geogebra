@@ -36,6 +36,17 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 	private GeoNumeric randomDiscrete; // output
 	private int size;
 
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param values
+	 *            discrete values
+	 * @param probabilities
+	 *            probabilities
+	 */
 	public AlgoRandomDiscrete(Construction cons, String label, GeoList values,
 			GeoList probabilities) {
 		super(cons);

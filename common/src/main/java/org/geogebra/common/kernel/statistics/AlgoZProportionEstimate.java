@@ -26,25 +26,25 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * @author G. Sturr
  */
 public class AlgoZProportionEstimate extends AlgoElement {
+	// input
+	private GeoNumeric proportion;
+	private GeoNumeric n;
+	private GeoNumeric level;
 
-	private GeoNumeric proportion, n, level; // input
 	private GeoList result; // output
 	private double se;
 	private double me;
 
 	/**
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param proportion
+	 *            sample proportion
 	 * @param n
+	 *            sample size
 	 * @param level
+	 *            confidence level
 	 */
-	public AlgoZProportionEstimate(Construction cons, String label,
-			GeoNumeric proportion, GeoNumeric n, GeoNumeric level) {
-		this(cons, proportion, n, level);
-		result.setLabel(label);
-	}
-
 	public AlgoZProportionEstimate(Construction cons, GeoNumeric proportion,
 			GeoNumeric n, GeoNumeric level) {
 		super(cons);

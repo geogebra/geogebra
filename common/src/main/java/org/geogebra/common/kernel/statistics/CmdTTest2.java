@@ -65,12 +65,12 @@ public class CmdTTest2 extends CommandProcessor {
 					&& (ok[6] = arg[6].isGeoText())
 					&& (ok[7] = arg[7].isGeoBoolean())) {
 
-				AlgoTTest2 algo = new AlgoTTest2(cons, c.getLabel(),
+				AlgoTTest2 algo = new AlgoTTest2(cons,
 						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
 						(GeoText) arg[6], (GeoBoolean) arg[7]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

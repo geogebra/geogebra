@@ -57,6 +57,18 @@ public abstract class AlgoStats2D extends AlgoElement {
 	final static int STATS_SDX = 12;
 	final static int STATS_SDY = 13;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoListx
+	 *            x datapoints
+	 * @param geoListy
+	 *            y datapoints
+	 * @param stat
+	 *            stat type
+	 */
 	public AlgoStats2D(Construction cons, String label, GeoList geoListx,
 			GeoList geoListy, int stat) {
 		super(cons);
@@ -72,12 +84,30 @@ public abstract class AlgoStats2D extends AlgoElement {
 		result.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoListx
+	 *            list of points
+	 * @param stat
+	 *            stat type
+	 */
 	public AlgoStats2D(Construction cons, String label, GeoList geoListx,
 			int stat) {
 		this(cons, geoListx, stat);
 		result.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geoListx
+	 *            list of points
+	 * @param stat
+	 *            stat type
+	 */
 	public AlgoStats2D(Construction cons, GeoList geoListx, int stat) {
 		super(cons);
 		mode = MODE_LISTOFPOINTS;
@@ -107,6 +137,9 @@ public abstract class AlgoStats2D extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return statistic
+	 */
 	public GeoNumeric getResult() {
 		return result;
 	}

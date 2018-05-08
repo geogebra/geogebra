@@ -28,35 +28,29 @@ import org.geogebra.common.util.StringUtil;
  * @author G. Sturr
  */
 public class AlgoZProportion2Test extends AlgoElement {
+	// input
+	private GeoNumeric proportion;
+	private GeoNumeric n;
+	private GeoNumeric proportion2;
+	private GeoNumeric n_2;
+	private GeoText tail;
 
-	private GeoNumeric proportion, n, proportion2, n_2; // input
-	private GeoText tail; // input
 	private GeoList result; // output
 	private double se;
 
 	/**
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param proportion
+	 *            sample proportion
 	 * @param n
+	 *            sample size
 	 * @param proportion2
+	 *            second sample proportion
 	 * @param n_2
+	 *            second sample size
 	 * @param tail
-	 */
-	public AlgoZProportion2Test(Construction cons, String label,
-			GeoNumeric proportion, GeoNumeric n, GeoNumeric proportion2,
-			GeoNumeric n_2, GeoText tail) {
-		this(cons, proportion, n, proportion2, n_2, tail);
-		result.setLabel(label);
-	}
-
-	/**
-	 * @param cons
-	 * @param proportion
-	 * @param n
-	 * @param proportion2
-	 * @param n_2
-	 * @param tail
+	 *            &lt; or &gt; for one-sided test, default two-sided
 	 */
 	public AlgoZProportion2Test(Construction cons, GeoNumeric proportion,
 			GeoNumeric n, GeoNumeric proportion2, GeoNumeric n_2,

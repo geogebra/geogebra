@@ -50,9 +50,13 @@ public class AlgoFrequency extends AlgoElement {
 
 	/**
 	 * @param cons
+	 *            construction
 	 * @param isCumulative
+	 *            cumulative?
 	 * @param classList
+	 *            class boundaries
 	 * @param dataList
+	 *            data
 	 */
 	public AlgoFrequency(Construction cons, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList) {
@@ -61,10 +65,15 @@ public class AlgoFrequency extends AlgoElement {
 
 	/**
 	 * @param cons
+	 *            construction
 	 * @param isCumulative
+	 *            cumulative
 	 * @param classList
+	 *            class boundaries
 	 * @param dataList
+	 *            data
 	 * @param scale
+	 *            scale
 	 */
 	public AlgoFrequency(Construction cons, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoNumeric scale) {
@@ -73,11 +82,17 @@ public class AlgoFrequency extends AlgoElement {
 
 	/**
 	 * @param cons
+	 *            construction
 	 * @param isCumulative
+	 *            cumulative?
 	 * @param classList
+	 *            class boundaries
 	 * @param dataList
+	 *            data
 	 * @param useDensity
+	 *            whether to use density
 	 * @param density
+	 *            density
 	 */
 	public AlgoFrequency(Construction cons,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
@@ -87,11 +102,17 @@ public class AlgoFrequency extends AlgoElement {
 
 	/**
 	 * @param cons
+	 *            construction
 	 * @param isCumulative
+	 *            cumulative?
 	 * @param classList
+	 *            class boundaries
 	 * @param dataList
+	 *            data
 	 * @param useDensity
+	 *            whether to use density
 	 * @param density
+	 *            density
 	 * @param scale
 	 *            scale factor
 	 */
@@ -117,6 +138,7 @@ public class AlgoFrequency extends AlgoElement {
 	 * Contingency table constructor
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param list1
 	 * @param list2
 	 * @param isContingencyTable

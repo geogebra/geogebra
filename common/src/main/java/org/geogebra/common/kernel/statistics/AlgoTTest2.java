@@ -31,16 +31,37 @@ import org.geogebra.common.util.StringUtil;
  * @author G. Sturr
  */
 public class AlgoTTest2 extends AlgoElement {
-
-	private GeoList geoList0, geoList1; // input
-	private GeoNumeric mean0, mean1, sd0, sd1, n0, n1; // input
-	private GeoText tail; // input
-	private GeoBoolean pooled; // input
+	// input
+	private GeoList geoList0;
+	private GeoList geoList1;
+	private GeoNumeric mean0;
+	private GeoNumeric mean1;
+	private GeoNumeric sd0;
+	private GeoNumeric sd1;
+	private GeoNumeric n0;
+	private GeoNumeric n1;
+	private GeoText tail;
+	private GeoBoolean pooled;
 
 	private GeoList result; // output
 	private TTest tTestImpl;
-	private double[] val0, val1;
+	private double[] val0;
+	private double[] val1;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoList0
+	 *            first sample
+	 * @param geoList1
+	 *            second sample
+	 * @param tail
+	 *            one of &lt;, &gt; for one-sided test; two-sided otherwise
+	 * @param pooled
+	 *            pooled?
+	 */
 	public AlgoTTest2(Construction cons, String label, GeoList geoList0,
 			GeoList geoList1, GeoText tail, GeoBoolean pooled) {
 		super(cons);
@@ -55,13 +76,27 @@ public class AlgoTTest2 extends AlgoElement {
 		result.setLabel(label);
 	}
 
-	public AlgoTTest2(Construction cons, String label, GeoNumeric mean0,
-			GeoNumeric sd0, GeoNumeric n0, GeoNumeric mean1, GeoNumeric sd1,
-			GeoNumeric n1, GeoText tail, GeoBoolean pooled) {
-		this(cons, mean0, sd0, n0, mean1, sd1, n1, tail, pooled);
-		result.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param mean0
+	 *            first sample's mean
+	 * @param sd0
+	 *            first sample's standard deviation
+	 * @param n0
+	 *            first sample size
+	 * @param mean1
+	 *            second sample's mean
+	 * @param sd1
+	 *            second sample's standard deviation
+	 * @param n1
+	 *            second sample size
+	 * 
+	 * @param tail
+	 *            one of &lt;, &gt; for one-sided test; two-sided otherwise
+	 * @param pooled
+	 *            pooled?
+	 */
 	public AlgoTTest2(Construction cons, GeoNumeric mean0, GeoNumeric sd0,
 			GeoNumeric n0, GeoNumeric mean1, GeoNumeric sd1, GeoNumeric n1,
 			GeoText tail, GeoBoolean pooled) {
@@ -78,7 +113,6 @@ public class AlgoTTest2 extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();
-
 	}
 
 	@Override
@@ -88,7 +122,6 @@ public class AlgoTTest2 extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-
 		if (geoList0 != null) {
 			input = new GeoElement[4];
 			input[0] = geoList0;
@@ -112,6 +145,9 @@ public class AlgoTTest2 extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting list
+	 */
 	public GeoList getResult() {
 		return result;
 	}

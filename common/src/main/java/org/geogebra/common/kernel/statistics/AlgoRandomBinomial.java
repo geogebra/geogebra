@@ -21,13 +21,23 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * Computes RandomNormal[a, b]
+ * Computes RandomBinomial[a, b]
  * 
  * @author Michael Borcherds
  */
 public class AlgoRandomBinomial extends AlgoTwoNumFunction
 		implements SetRandomValue {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            number of trials
+	 * @param b
+	 *            probability of success
+	 */
 	public AlgoRandomBinomial(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b) {
 		super(cons, label, a, b);

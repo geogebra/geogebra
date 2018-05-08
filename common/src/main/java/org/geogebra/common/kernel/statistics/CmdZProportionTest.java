@@ -38,9 +38,9 @@ public class CmdZProportionTest extends CommandProcessor {
 					&& (ok[3] = arg[3].isGeoText())) {
 
 				AlgoZProportionTest algo = new AlgoZProportionTest(cons,
-						c.getLabel(), (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], (GeoText) arg[3]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

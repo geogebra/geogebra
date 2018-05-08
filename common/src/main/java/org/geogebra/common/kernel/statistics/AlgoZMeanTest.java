@@ -28,34 +28,29 @@ import org.geogebra.common.util.StringUtil;
  * @author G. Sturr
  */
 public class AlgoZMeanTest extends AlgoElement {
+	// input
+	private GeoNumeric hypMean;
+	private GeoNumeric mean;
+	private GeoNumeric sd;
+	private GeoNumeric n;
+	private GeoList list;
+	private GeoText tail;
 
-	private GeoNumeric hypMean, mean, sd, n; // input
-	private GeoList list; // input
-	private GeoText tail; // input
 	private GeoList result; // output
 
 	/**
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param mean
+	 *            sample mean
 	 * @param sd
+	 *            sample standard deviation
 	 * @param n
+	 *            sample size
 	 * @param hypMean
+	 *            hypothesised mean
 	 * @param tail
-	 */
-	public AlgoZMeanTest(Construction cons, String label, GeoNumeric mean,
-			GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
-		this(cons, mean, sd, n, hypMean, tail);
-		result.setLabel(label);
-	}
-
-	/**
-	 * @param cons
-	 * @param mean
-	 * @param sd
-	 * @param n
-	 * @param hypMean
-	 * @param tail
+	 *            &lt; or &gt; for one-sided test, default two-sided
 	 */
 	public AlgoZMeanTest(Construction cons, GeoNumeric mean, GeoNumeric sd,
 			GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
@@ -73,12 +68,17 @@ public class AlgoZMeanTest extends AlgoElement {
 
 	/**
 	 * @param cons
+	 *            construction
 	 * @param label
-	 * @param mean
+	 *            output label
+	 * @param list
+	 *            sample
 	 * @param sd
-	 * @param n
+	 *            standard deviation
 	 * @param hypMean
+	 *            hypothesized mean
 	 * @param tail
+	 *            &lt; or &gt; for one-sided test, default two-sided
 	 */
 	public AlgoZMeanTest(Construction cons, String label, GeoList list,
 			GeoNumeric sd, GeoNumeric hypMean, GeoText tail) {

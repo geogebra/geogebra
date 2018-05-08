@@ -28,12 +28,12 @@ public class AlgoTDistribution extends AlgoDistribution {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            lavel
 	 * @param a
 	 *            degrees of freadom
 	 * @param b
 	 *            variable value
+	 * @param cumulative
+	 *            cumulative?
 	 */
 	public AlgoTDistribution(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoBoolean cumulative) {

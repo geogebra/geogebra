@@ -42,14 +42,14 @@ public class AlgoTDistributionDF extends AlgoElement
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
-	public AlgoTDistributionDF(Construction cons, String label,
-			GeoNumberValue mean, BooleanValue cumulative) {
-		this(cons, mean, cumulative);
-		ret.setLabel(label);
-	}
-
-	@SuppressWarnings("javadoc")
+	/**
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            variable value
+	 * @param cumulative
+	 *            cumulative?
+	 */
 	public AlgoTDistributionDF(Construction cons, GeoNumberValue a,
 			BooleanValue cumulative) {
 		super(cons);
@@ -118,11 +118,6 @@ public class AlgoTDistributionDF extends AlgoElement
 
 			en = new ExpressionNode(kernel, half);
 			en = en.plus(xEn.sgn().divide(2).multiply(beta1.subtract(beta2)));
-
-			// old hack:
-			// command =
-			// "0.5+sign(x)/2*(betaRegularized(("+v+")/2,0.5,1)-betaRegularized(("+v+")/2,0.5,("+v+")/("+v+"+x^2)))";
-
 		} else {
 
 			en = new ExpressionNode(kernel, v);
@@ -134,10 +129,6 @@ public class AlgoTDistributionDF extends AlgoElement
 			div = div.divide(2).gamma().multiply(pi.multiply(v).sqrt());
 
 			en = en.plus(1).divide(2).gamma().multiply(mult).divide(div);
-
-			// old hack:
-			// command =
-			// "gamma(("+v+"+1)/2)*(1+x^2/("+v+"))^(-(("+v+"+1)/2))/(gamma(("+v+")/2)*sqrt(pi*("+v+")))";
 		}
 
 		Function tempFun = new Function(en, x);
