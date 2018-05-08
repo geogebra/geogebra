@@ -65,6 +65,9 @@ class Characters {
 	static final char RIGHT_SQUARE_BRACKET = ']';
 	static final char COLON = ':';
 	static final char QUOTATION_MARK = '\"';
-    static final char LEFT_GUILLEMET = '\u00AB';
-    static final char RIGHT_GUILLEMET = '\u00BB';
+	// static final char LEFT_GUILLEMET = '\u00AB';
+	// static final char RIGHT_GUILLEMET = '\u00BB';
+	static final char MINUTES = '\u2032';
+	static final char SECONDS = '\u2033';
+
 }

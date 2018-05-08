@@ -1,11 +1,5 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
-import org.geogebra.keyboard.base.Action;
-import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.model.KeyboardModel;
-import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
-import org.geogebra.keyboard.base.model.impl.RowImpl;
-
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.AMPERSAND;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ANGLE;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.AT;
@@ -16,18 +10,18 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.HASHTAG;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.INFINITY;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEFT_CEILING;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEFT_FLOOR;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEFT_GUILLEMET;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEFT_SQUARE_BRACKET;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.LOGICAL_AND;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.LOGICAL_OR;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.MINUTES;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.NOT_EQUAL_TO;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.NOT_SIGN;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.PARALLEL_TO;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.QUESTIONED_EQUAL_TO;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.QUOTATION_MARK;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHTWARDS_ARROW;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHT_GUILLEMET;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHT_SQUARE_BRACKET;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.SECONDS;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUBSET_OF;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUBSET_OF_OR_EQUAL_TO;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.UP_TACK;
@@ -38,6 +32,12 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addLatexInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
+
+import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
+import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 class SpecialSymbolsKeyboardFactory {
 
@@ -76,8 +76,8 @@ class SpecialSymbolsKeyboardFactory {
         addInputButton(row, buttonFactory, COLON);
         addInputButton(row, buttonFactory, QUOTATION_MARK);
         addTranslateInputCommandButton(row, buttonFactory, "Translate.currency", "Translate.currency", 1.0f);
-        addInputButton(row, buttonFactory, LEFT_GUILLEMET);
-        addInputButton(row, buttonFactory, RIGHT_GUILLEMET);
+		addInputButton(row, buttonFactory, MINUTES);
+		addInputButton(row, buttonFactory, SECONDS);
         addButton(row, buttonFactory.createEmptySpace(0.3f));
         addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE, 1.2f);
 
