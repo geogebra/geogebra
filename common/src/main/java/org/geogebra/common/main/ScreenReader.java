@@ -113,7 +113,9 @@ public class ScreenReader {
 			if (geo0.isGeoList() && app.has(Feature.READ_DROPDOWNS)) {
 				appendSentence(sb, "DropDownSelected",
 						"Drop down %0 menu selected",
-						new String[] { geo0.getNameDescription() }, app);
+						new String[] {
+								geo0.getLabel(StringTemplate.defaultTemplate) },
+						app);
 				appendSentence(sb, "PressSpaceToOpen", "Press space to open", null, app);
 			}
 		}

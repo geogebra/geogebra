@@ -893,7 +893,8 @@ public final class DrawDropDownList extends CanvasDrawable
 			sb.append(geoList.getKernel().getApplication().getLocalization()
 					.getPlainArray("DropDownOpened",
 							"Drop down %0 opened.",
-							new String[] { geoList.getNameDescription() }));
+							new String[] { geoList.getLabel(
+									StringTemplate.defaultTemplate) }));
 			sb.append(geoList.getKernel().getApplication().getLocalization().getMenuDefault(
 					"PressArrowsToGo",
 					"Press up arrow and down arrow to go to different options."));
