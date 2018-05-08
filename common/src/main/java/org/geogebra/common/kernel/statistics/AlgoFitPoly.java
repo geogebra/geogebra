@@ -132,7 +132,7 @@ public class AlgoFitPoly extends AlgoElement {
 			} else {
 				regok = false; // 24.04.08: Only 1<=degree
 			} // if
-		}// switch
+		}
 			// System.out.println("Used: "+(System.currentTimeMillis()-ms));
 		if (!regok) {
 			geofunction.setUndefined();
@@ -142,6 +142,6 @@ public class AlgoFitPoly extends AlgoElement {
 		geofunction.setFunction(AlgoPolynomialFromCoordinates
 				.buildPolyFunctionExpression(cons.getKernel(), cof));
 		geofunction.setDefined(true);
-	}// compute()
+	}
 
-}// class AlgoFitPoly
+}

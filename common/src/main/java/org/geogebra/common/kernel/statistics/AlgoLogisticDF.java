@@ -35,7 +35,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  */
 public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 
-	private GeoNumberValue mean, scale; // input
+	private GeoNumberValue mean; // input
+	private GeoNumberValue scale; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
@@ -46,7 +47,17 @@ public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 		ret.setLabel(label);
 	}
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param mean
+	 *            mean
+	 * @param scale
+	 *            scale
+	 * @param cumulative
+	 *            cumulative?
+	 */
 	public AlgoLogisticDF(Construction cons, GeoNumberValue mean,
 			GeoNumberValue scale, BooleanValue cumulative) {
 		super(cons);

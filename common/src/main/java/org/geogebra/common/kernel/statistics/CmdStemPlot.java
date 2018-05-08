@@ -39,7 +39,7 @@ public class CmdStemPlot extends CommandProcessor {
 			if (((arg[0].isGeoList()))) {
 				GeoList list = (GeoList) arg[0];
 
-				GeoElement[] ret = { StemPlot(c.getLabel(), list, null) };
+				GeoElement[] ret = { stemPlot(c.getLabel(), list, null) };
 				return ret;
 			}
 			throw argErr(app, c, arg[0]);
@@ -52,7 +52,7 @@ public class CmdStemPlot extends CommandProcessor {
 				throw argErr(app, c, arg[1]);
 			}
 
-			GeoElement[] ret = { StemPlot(c.getLabel(), (GeoList) arg[0],
+			GeoElement[] ret = { stemPlot(c.getLabel(), (GeoList) arg[0],
 					(GeoNumeric) arg[1]) };
 			return ret;
 
@@ -64,7 +64,7 @@ public class CmdStemPlot extends CommandProcessor {
 			GeoList list = wrapInList(kernel, arg, arg.length,
 					GeoClass.DEFAULT);
 			if (list != null) {
-				GeoElement[] ret2 = { StemPlot(c.getLabel(), list, null) };
+				GeoElement[] ret2 = { stemPlot(c.getLabel(), list, null) };
 				return ret2;
 			}
 
@@ -82,7 +82,7 @@ public class CmdStemPlot extends CommandProcessor {
 	 * @param num
 	 *            scale adjustment
 	 */
-	private GeoText StemPlot(String label, GeoList list, GeoNumeric num) {
+	private GeoText stemPlot(String label, GeoList list, GeoNumeric num) {
 		AlgoStemPlot algo = new AlgoStemPlot(cons, label, list, num);
 		GeoText text = algo.getResult();
 		return text;

@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.MyError;
 
 /**
- * Row[ <GeoElement> ]
+ * Row[ &lt;GeoElement> ]
  */
 public class CmdRow extends CommandProcessor {
 	/**
@@ -28,7 +28,6 @@ public class CmdRow extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			// Name[ <GeoElement> ]
 			arg = resArgs(c);
 			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
 				AlgoRow algo = new AlgoRow(cons, c.getLabel(), arg[0]);

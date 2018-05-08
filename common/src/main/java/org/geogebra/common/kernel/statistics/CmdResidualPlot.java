@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * ResidualPlot[<List of Points>,<Funtion>]
+ * ResidualPlot[&lt;List of Points>,&lt;Funtion>]
  * 
  * @author G.Sturr
  * @version 2010-9-13
@@ -53,6 +53,6 @@ public class CmdResidualPlot extends CommandProcessor {
 
 		default:
 			throw argNumErr(c);
-		}// switch(number of arguments)
-	}// process(Command)
-}// class CmdRSquare
+		}
+	}
+}

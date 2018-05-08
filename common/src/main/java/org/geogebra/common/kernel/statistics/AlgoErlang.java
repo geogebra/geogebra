@@ -29,7 +29,9 @@ public class AlgoErlang extends AlgoDistribution {
 	 * @param cons
 	 *            construction
 	 * @param a
+	 *            distribution parameter
 	 * @param b
+	 *            distribution parameter
 	 * @param x
 	 *            variable value
 	 * @param cumulative
@@ -56,12 +58,12 @@ public class AlgoErlang extends AlgoDistribution {
 			boolean pdf = isCumulative == null || isCumulative.getBoolean();
 			if (x < 0) {
 				num.setValue(0);
-			} else if(pdf){
+			} else if (pdf) {
 				num.setValue(MyMath2.gammaIncomplete(k, l * x)
 						/ MyMath2.factorial(k - 1));
 			} else {
-				num.setValue(Math.pow(l,k)*Math.pow(x,k-1)*
-						Math.exp(-l * x) / MyMath2.factorial(k - 1));
+				num.setValue(Math.pow(l, k) * Math.pow(x, k - 1)
+						* Math.exp(-l * x) / MyMath2.factorial(k - 1));
 			}
 
 			// old hack

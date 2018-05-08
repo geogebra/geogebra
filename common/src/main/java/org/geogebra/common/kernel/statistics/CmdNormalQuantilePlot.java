@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * NormalQuantilePlot[ <List of Numeric> ] G.Sturr 2011-6-29
+ * NormalQuantilePlot[ &lt;List of Numeric> ] G.Sturr 2011-6-29
  */
 public class CmdNormalQuantilePlot extends CmdOneListFunction {
 

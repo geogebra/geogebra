@@ -31,6 +31,14 @@ public class AlgoHarmonicMean extends AlgoElement {
 	private int size;
 	private double sum;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            numbers
+	 */
 	public AlgoHarmonicMean(Construction cons, String label,
 			GeoList inputList) {
 		super(cons);
@@ -57,6 +65,9 @@ public class AlgoHarmonicMean extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return harmonic mean
+	 */
 	public GeoNumeric getResult() {
 		return result;
 	}

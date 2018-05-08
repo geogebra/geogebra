@@ -34,7 +34,8 @@ public class AlgoANOVA extends AlgoElement {
 	private GeoList result; // output
 
 	private ArrayList<double[]> categoryData;
-	private double p, testStat;
+	private double p;
+	private double testStat;
 	private OneWayAnova anovaImpl;
 
 	/**

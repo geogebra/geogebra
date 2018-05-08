@@ -27,12 +27,34 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoPascalBarChart extends AlgoBarChart {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param n
+	 *            number of successes
+	 * @param p
+	 *            probability
+	 */
 	public AlgoPascalBarChart(Construction cons, String label, GeoNumberValue n,
 			GeoNumberValue p) {
 		super(cons, label, n, p, null, null, AlgoBarChart.TYPE_BARCHART_PASCAL);
 		cons.registerEuclidianViewCE(this);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param n
+	 *            number of successes
+	 * @param p
+	 *            probability
+	 * @param isCumulative
+	 *            cumulative?
+	 */
 	public AlgoPascalBarChart(Construction cons, String label, GeoNumberValue n,
 			GeoNumberValue p, GeoBoolean isCumulative) {
 		super(cons, label, n, p, null, isCumulative,

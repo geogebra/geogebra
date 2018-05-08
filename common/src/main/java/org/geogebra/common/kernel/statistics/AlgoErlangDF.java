@@ -34,23 +34,46 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  */
 public class AlgoErlangDF extends AlgoElement {
 
-	private GeoNumberValue k, l; // input
+	private GeoNumberValue k; // input
+	private GeoNumberValue l; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param mean
+	 *            mean
+	 * @param sd
+	 *            standard deviation
+	 * @param cumulative
+	 *            cumulative?
+	 */
 	public AlgoErlangDF(Construction cons, String label, GeoNumberValue mean,
 			GeoNumberValue sd, BooleanValue cumulative) {
 		this(cons, mean, sd, cumulative);
 		ret.setLabel(label);
 	}
 
-	@SuppressWarnings("javadoc")
-	public AlgoErlangDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			BooleanValue cumulative) {
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param mean
+	 *            mean
+	 * @param sd
+	 *            standard deviation
+	 * @param cumulative
+	 *            cumulative?
+	 */
+	public AlgoErlangDF(Construction cons, GeoNumberValue mean,
+			GeoNumberValue sd, BooleanValue cumulative) {
 		super(cons);
-		this.k = a;
-		this.l = b;
+		this.k = mean;
+		this.l = sd;
 		this.cumulative = cumulative;
 		ret = DistributionFunctionFactory.zeroWhenNegative(cons);
 

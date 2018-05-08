@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * FitExp[<List of points>]
+ * FitExp[&lt;List of points>]
  * 
  * @author Hans-Petter Ulven
  * @version 12.04.08
@@ -29,4 +29,4 @@ public class CmdFitExp extends CmdOneListFunction {
 		return algo.getFitExp();
 	}
 
-}// class CmdFitExp
+}

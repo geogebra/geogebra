@@ -37,12 +37,14 @@ import org.geogebra.common.kernel.geos.GeoListForCellRange;
 public class AlgoCellRange extends AlgoElement {
 
 	private GeoListForCellRange geoList; // output list of range
-	private String startCell, endCell; // input cells
+	private String startCell; // start cell name
+	private String endCell; // end cell name
 	private String toStringOutput;
 
 	private CellRange cellRange;
 	private ArrayList<GeoElement> listItems;
-	private GPoint startCoords, endCoords;
+	private GPoint startCoords;
+	private GPoint endCoords;
 	/**
 	 * max column location for existing values
 	 */
@@ -232,7 +234,9 @@ public class AlgoCellRange extends AlgoElement {
 	 * move an object out of the range by renaming it.
 	 * 
 	 * @param startCoords
+	 *            range start point
 	 * @param endCoords
+	 *            range end point
 	 */
 	private ArrayList<GeoElement> initCellRangeList(GPoint startCoords,
 			GPoint endCoords) {
@@ -307,6 +311,9 @@ public class AlgoCellRange extends AlgoElement {
 		return toStringOutput;
 	}
 
+	/**
+	 * @return {start point, end point}
+	 */
 	public GPoint[] getRectangle() {
 		GPoint startCoords1 = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(startCell);
@@ -321,6 +328,7 @@ public class AlgoCellRange extends AlgoElement {
 	 * add algo to input items update sets
 	 * 
 	 * @param algo
+	 *            algorithm
 	 */
 	public void addToItemsAlgoUpdateSets(AlgoElement algo) {
 		for (GeoElement geo : listItems) {

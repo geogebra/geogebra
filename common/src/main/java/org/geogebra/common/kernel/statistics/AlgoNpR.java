@@ -31,7 +31,7 @@ public class AlgoNpR {
 				return 0d;
 			}
 
-			double ncr = NpRLog(n, r);
+			double ncr = nPrLog(n, r);
 			if (ncr == INFINITY) {
 				return INFINITY; // check to stop needless slow calculations
 			}
@@ -46,13 +46,13 @@ public class AlgoNpR {
 			// NpRBig is more accurate but slower
 			// (but cannot be exact if the answer has more than about 16
 			// significant digits)
-			return NpRBig(n, r);
+			return nPrBig(n, r);
 		} catch (Exception e) {
 			return INFINITY;
 		}
 	}
 
-	private static double NpRBig(double n, double r) {
+	private static double nPrBig(double n, double r) {
 		BigInteger ncr = BigInteger.ONE, nn, nr;
 		// nn=BigInteger.valueOf((long)n);
 		// rr=BigInteger.valueOf((long)r);
@@ -73,7 +73,7 @@ public class AlgoNpR {
 		return ncr.doubleValue();
 	}
 
-	private static double NpRLog(double n, double r) {
+	private static double nPrLog(double n, double r) {
 		// exact for n<=37
 		// also if r<2.8+Math.exp((250-n)/100) && n<59000
 		// eg NpR2(38,19) is wrong

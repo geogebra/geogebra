@@ -35,7 +35,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  */
 public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 
-	private GeoNumberValue mean, sd; // input
+	private GeoNumberValue mean; // input
+	private GeoNumberValue sd; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
@@ -46,8 +47,12 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 		ret.setLabel(label);
 	}
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * @param cons
+	 *            construction
+	 */
 	public AlgoGammaDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
+
 			BooleanValue cumulative) {
 		super(cons);
 		this.mean = a;

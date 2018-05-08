@@ -28,9 +28,11 @@ import org.geogebra.common.kernel.geos.GeoList;
  */
 public class AlgoChiSquaredTest extends AlgoElement {
 
-	private GeoList geoList1, geoList2; // input
+	private GeoList geoList1; // input
+	private GeoList geoList2; // input
 	private GeoList result; // output
-	private double p, testStat;
+	private double p;
+	private double testStat;
 	private ChiSquaredDistribution chisquared = null;
 
 	/**

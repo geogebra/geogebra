@@ -35,6 +35,16 @@ public class AlgoSpearman extends AlgoElement {
 	private double[] valX;
 	private double[] valY;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoListX
+	 *            list of numbers
+	 * @param geoListY
+	 *            list of numbers
+	 */
 	public AlgoSpearman(Construction cons, String label, GeoList geoListX,
 			GeoList geoListY) {
 		super(cons);
@@ -48,11 +58,25 @@ public class AlgoSpearman extends AlgoElement {
 		result.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geoList
+	 *            list of points
+	 * @param label
+	 *            output label
+	 */
 	public AlgoSpearman(Construction cons, String label, GeoList geoList) {
 		this(cons, geoList);
 		result.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geoList
+	 *            list of points
+	 */
 	public AlgoSpearman(Construction cons, GeoList geoList) {
 		super(cons);
 		this.geoListX = null;
@@ -86,13 +110,15 @@ public class AlgoSpearman extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoNumeric getResult() {
 		return result;
 	}
 
 	@Override
 	public final void compute() {
-
 		if (input.length == 1) {
 			// input is single list of points
 			int size = geoListPts.size();

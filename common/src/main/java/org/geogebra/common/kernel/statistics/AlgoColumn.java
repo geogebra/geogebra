@@ -29,6 +29,14 @@ public class AlgoColumn extends AlgoElement {
 	private GeoElement geo; // input
 	private GeoNumeric num; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geo
+	 *            spreadsheet cell
+	 */
 	public AlgoColumn(Construction cons, String label, GeoElement geo) {
 		super(cons);
 		this.geo = geo;

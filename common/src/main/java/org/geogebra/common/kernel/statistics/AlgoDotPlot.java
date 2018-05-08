@@ -43,8 +43,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 
 	private GeoList inputList; // input
-	private GeoBoolean stackAdjacentDots;// input
-	private GeoNumeric scale;// input
+	private GeoBoolean stackAdjacentDots; // input
+	private GeoNumeric scale; // input
 
 	private GeoList outputList; // output
 	private int size;
@@ -54,30 +54,24 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 	private double scaleFactor;
 
 	public AlgoDotPlot(Construction cons, String label, GeoList inputList) {
-
 		this(cons, inputList, null, null);
 		outputList.setLabel(label);
 	}
 
 	public AlgoDotPlot(Construction cons, GeoList inputList) {
-
 		this(cons, inputList, null, null);
 	}
 
 	protected AlgoDotPlot(Construction cons, String label, GeoList inputList,
 			GeoNumeric scale) {
-
 		this(cons, inputList, null, scale);
 		outputList.setLabel(label);
-
 	}
 
 	protected AlgoDotPlot(Construction cons, String label, GeoList inputList,
 			GeoBoolean stackDots) {
-
 		this(cons, inputList, stackDots, null);
 		outputList.setLabel(label);
-
 	}
 
 	protected AlgoDotPlot(Construction cons, String label, GeoList inputList,
@@ -235,10 +229,7 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 	}
 
 	public boolean stackAdjacentDots() {
-		if (stackAdjacentDots != null) {
-			return stackAdjacentDots.getBoolean();
-		}
-		return false;
+		return stackAdjacentDots != null && stackAdjacentDots.getBoolean();
 	}
 
 	public double getScaleFactor() {

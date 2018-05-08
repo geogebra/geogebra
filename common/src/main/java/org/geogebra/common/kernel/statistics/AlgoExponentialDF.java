@@ -46,7 +46,14 @@ public class AlgoExponentialDF extends AlgoElement
 		ret.setLabel(label);
 	}
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * @param cons
+	 *            construction
+	 * @param lambda
+	 *            exponential function base
+	 * @param cumulative
+	 *            cumulative?
+	 */
 	public AlgoExponentialDF(Construction cons, GeoNumberValue lambda,
 			BooleanValue cumulative) {
 		super(cons);

@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * RandomNormal[ <Number>, <Number> ]
+ * RandomNormal[ &lt;Number>, &lt;Number> ]
  */
 public class CmdRandomNormal extends CmdTwoNumFunction {
 

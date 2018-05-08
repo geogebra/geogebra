@@ -115,7 +115,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	public AlgoFitSin(Construction cons, String label, GeoList geolist) {
 		this(cons, geolist);
 		geofunction.setLabel(label);
-	}// Constructor
+	}
 
 	public AlgoFitSin(Construction cons, GeoList geolist) {
 		super(cons);
@@ -123,7 +123,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		geofunction = new GeoFunction(cons);
 		setInputOutput();
 		compute();
-	}// Constructor
+	}
 
 	/** Implements AlgoElement */
 	@Override
@@ -138,7 +138,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		input[0] = geolist;
 		setOnlyOutput(geofunction);
 		setDependencies();
-	}// setInputOutput()
+	}
 
 	/** Implements AlgoElement */
 	public GeoFunction getFitSin() {
@@ -185,7 +185,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			geofunction.setUndefined();
 			return;
 		} // if error in regression
-	}// compute()
+	}
 
 	// / ============= IMPLEMENTATION
 	// =============================================================///
@@ -193,7 +193,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	public final void doReg() {
 		findParameters(); // Find initial parameters a,b,c,d
 		sinus_Reg(); // Run LM nonlinear iteration
-	}// doReg()
+	}
 
 	/** Tries to find good initial values for a,b,c,d */
 	public final void findParameters() {
@@ -330,7 +330,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		d = bestd; // System.out.println("old routine gave d= "+d);
 					// debug("Parameters: a= "+a+" b= "+b+" c= "+c+" d "+d);
 
-	}// findParameters()
+	}
 
 	/** Doing LM iteration */
 	public final void sinus_Reg() {
@@ -492,49 +492,49 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			Log.debug("findParameters(): a,b or c undefined (NaN).");
 			return;
 		} // 20.11:if one is undefined, everything is undefined
-	}// sinus_Reg()
+	}
 
 	/* sin(Cx+D) */
 	private final static double sin(double x, double c, double d) {
 		return Math.sin(c * x + d);
-	}// sin(x,b,c,d)
+	}
 
 	/* cos(Cx+D) */
 	private final static double cos(double x, double c, double d) {
 		return Math.cos(c * x + d);
-	}// cos(x,b,c,d)
+	}
 
 	/* f(x)=A+Bsin(Cx+D) */
 	private final static double f(double x, double a, double b, double c,
 			double d) {
 		return a + b * sin(x, c, d);
-	}// f(x,a,b,c,d)
+	}
 
 	/* Partial derivative of f to a */
 	private final static double df_a() {
 		return 1.0d;
-	}// df_a()
+	}
 
 	/* Partial derivative of f to b: sin(cx+d) */
 	private final static double df_b(double x, double c, double d) {
 		return sin(x, c, d);
-	}// df_b(x,b,c,d)
+	}
 
 	/* Partial derivative of f to c: cos(cx+d)*B*x */
 	private final static double df_c(double x, double b, double c, double d) {
 		return cos(x, c, d) * b * x;
-	}// df_c(x,b,c,d)
+	}
 
 	/* Partial derivative of f to d: Bcos(cx+d) */
 	private final static double df_d(double x, double b, double c, double d) {
 		return cos(x, c, d) * b;
-	}// df_d(x,b,c,d)
+	}
 
 	/* Difference to be reduced */
 	private final static double beta(double x, double y, double a, double b,
 			double c, double d) {
 		return y - f(x, a, b, c, d);
-	}// beta(x,a,b,c,d)
+	}
 
 	/* Sum of quadratic errors */
 	public final static double beta2(double[] x, double[] y, double a, double b,
@@ -546,7 +546,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			sum += beta * beta;
 		} // for all datapoints
 		return sum;
-	}// beta(x,y,a,b,c,d)
+	}
 
 	// Sum of errors (absolute values)
 	private final static double beta(double[] x, double[] y, double a, double b,
@@ -557,7 +557,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			sum += Math.abs(beta(x[i], y[i], a, b, c, d));
 		} // for all datapoints
 		return sum;
-	}// beta(x,y,a,b,c,d)
+	}
 
 	// 3 yd's on the row: up=1, down=-1, uncertain=0
 	private final static int direction(double y1, double y2, double y3) {
@@ -568,7 +568,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		} else { // Some over, som under...
 			return 0;
 		} // if
-	}// direction()
+	}
 
 	// Get Points and sort them. (Could find abs max and min as well,
 	// that is done in findParameters() which is better for testing only
@@ -608,7 +608,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		if (error) {
 			Log.debug("getPoints(): Wrong list format, must be points.");
 		}
-	}// getPoints()
+	}
 
 	// Noisekiller
 	private final static boolean nearmaxmin(double a, double b, int state,
@@ -626,7 +626,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		} else {
 			return false; // Should not happen...
 		} // if
-	}// nearmaxmin(y,a,b)
+	}
 
 	// Is distance between abs max and abx min 1,3,5,... halfperiodes?
 	// To be used if DFT is used in finding good initial values
@@ -653,7 +653,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			} // if better
 		} // for all actual frequencies
 		return best;
-	}// findNumberOfHalfPeriods(int,double)
+	}
 
 	// / =============== To comment out when final
 	// =============================================== ///
@@ -664,4 +664,4 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		return ret;
 	}
 
-}// class AlgoFitSin
+}

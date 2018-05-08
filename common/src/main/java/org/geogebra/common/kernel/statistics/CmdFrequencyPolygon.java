@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.main.MyError;
 
 /**
- * Histogram[ <List>, <List> ]
+ * Histogram[ &lt;List>, &lt;List> ]
  */
 public class CmdFrequencyPolygon extends CommandProcessor {
 
@@ -53,7 +53,7 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))) {
 				GeoElement[] ret = {
-						FrequencyPolygon(c.getLabel(), (GeoList) arg[0],
+						frequencyPolygon(c.getLabel(), (GeoList) arg[0],
 								(GeoList) arg[1], (GeoBoolean) arg[2], null) };
 				return ret;
 			} else if (!ok[0]) {
@@ -69,7 +69,7 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
-				GeoElement[] ret = { FrequencyPolygon(c.getLabel(),
+				GeoElement[] ret = { frequencyPolygon(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2],
 						(GeoNumeric) arg[3]) };
 				return ret;
@@ -150,7 +150,7 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 	/**
 	 * FrequencyPolygon with density scale factor (no cumulative parameter)
 	 */
-	final private GeoPolyLine FrequencyPolygon(String label, GeoList list1,
+	final private GeoPolyLine frequencyPolygon(String label, GeoList list1,
 			GeoList list2, GeoBoolean useDensity, GeoNumeric density) {
 		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label, null,
 				list1, list2, null, useDensity, density);

@@ -8,8 +8,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * ZProportion2Estimate[ <Sample Proportion 1 >, <Sample Size 1>, <Sample
- * Proportion 2 >, <Sample Size 2>, <Level> ]
+ * ZProportion2Estimate[ &lt;Sample Proportion 1 >, &lt;Sample Size 1>,
+ * &lt;Sample Proportion 2 >, &lt;Sample Size 2>, &lt;Level> ]
  */
 public class CmdZProportion2Estimate extends CommandProcessor {
 	/**

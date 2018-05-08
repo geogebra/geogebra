@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * DotPlot[ <List of Numeric> ] G.Sturr 2010-8-10
+ * DotPlot[ &lt;List of Numeric> ] G.Sturr 2010-8-10
  */
 public class CmdDotPlot extends CommandProcessor {
 

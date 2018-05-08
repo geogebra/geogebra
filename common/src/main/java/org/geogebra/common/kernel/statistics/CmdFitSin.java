@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * FitSin[<List of points>]
+ * FitSin[&lt;List of points>]
  * 
  * @author Hans-Petter Ulven
  * @version 15.11.08
@@ -28,4 +28,4 @@ public class CmdFitSin extends CmdOneListFunction {
 		return algo.getFitSin();
 	}
 
-}// class CmdFitSin
+}

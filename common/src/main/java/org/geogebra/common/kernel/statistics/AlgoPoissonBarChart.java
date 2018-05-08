@@ -27,6 +27,14 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoPoissonBarChart extends AlgoBarChart {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param mean
+	 *            mean
+	 */
 	public AlgoPoissonBarChart(Construction cons, String label,
 			GeoNumberValue mean) {
 		super(cons, label, mean, null, null, null,
@@ -34,6 +42,16 @@ public class AlgoPoissonBarChart extends AlgoBarChart {
 		cons.registerEuclidianViewCE(this);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param mean
+	 *            mean
+	 * @param isCumulative
+	 *            cumulative?
+	 */
 	public AlgoPoissonBarChart(Construction cons, String label,
 			GeoNumberValue mean, GeoBoolean isCumulative) {
 		super(cons, label, mean, null, null, isCumulative,

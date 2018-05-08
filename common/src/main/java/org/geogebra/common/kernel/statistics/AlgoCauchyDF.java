@@ -35,7 +35,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  */
 public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 
-	private GeoNumberValue a, b; // input
+	private GeoNumberValue a; // input
+	private GeoNumberValue b; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
@@ -46,7 +47,17 @@ public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 		ret.setLabel(label);
 	}
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            distribution parameter
+	 * @param b
+	 *            distribution parameter
+	 * @param cumulative
+	 *            cumulative?
+	 */
 	public AlgoCauchyDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			BooleanValue cumulative) {
 		super(cons);

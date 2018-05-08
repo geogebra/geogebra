@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Histogram[ <List>, <List> ]
+ * Histogram[ &lt;List>, &lt;List> ]
  */
 public class CmdHistogram extends CommandProcessor {
 	private boolean right;
@@ -65,7 +65,7 @@ public class CmdHistogram extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))) {
-				GeoElement[] ret = { Histogram(c.getLabel(), (GeoList) arg[0],
+				GeoElement[] ret = { histogram(c.getLabel(), (GeoList) arg[0],
 						(GeoList) arg[1], (GeoBoolean) arg[2], null, right) };
 				return ret;
 			} else if (!ok[0]) {
@@ -81,7 +81,7 @@ public class CmdHistogram extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
-				GeoElement[] ret = { Histogram(c.getLabel(), (GeoList) arg[0],
+				GeoElement[] ret = { histogram(c.getLabel(), (GeoList) arg[0],
 						(GeoList) arg[1], (GeoBoolean) arg[2],
 						(GeoNumeric) arg[3], right) };
 				return ret;
@@ -117,7 +117,7 @@ public class CmdHistogram extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))
 					&& (ok[4] = (arg[4].isGeoNumeric()))) {
-				GeoElement[] ret = { Histogram(c.getLabel(),
+				GeoElement[] ret = { histogram(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
 						(GeoBoolean) arg[3], (GeoNumeric) arg[4], right) };
 				return ret;
@@ -153,7 +153,7 @@ public class CmdHistogram extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))
 					&& (ok[4] = (arg[4].isGeoNumeric()))) {
-				GeoElement[] ret = { Histogram(c.getLabel(),
+				GeoElement[] ret = { histogram(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
 						(GeoBoolean) arg[3], (GeoNumeric) arg[4], right) };
 				return ret;
@@ -195,7 +195,7 @@ public class CmdHistogram extends CommandProcessor {
 	/**
 	 * Histogram[isCumulative, classList, dataList, useDensity, density]
 	 */
-	final private GeoNumeric Histogram(String label, GeoBoolean isCumulative,
+	final private GeoNumeric histogram(String label, GeoBoolean isCumulative,
 			GeoList list1, GeoList list2, GeoBoolean useDensity,
 			GeoNumeric density, boolean rightHistogram) {
 		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative, list1,
@@ -207,7 +207,7 @@ public class CmdHistogram extends CommandProcessor {
 	/**
 	 * Histogram[classList, dataList, useDensity, density]
 	 */
-	final private GeoNumeric Histogram(String label, GeoList list1,
+	final private GeoNumeric histogram(String label, GeoList list1,
 			GeoList list2, GeoBoolean useDensity, GeoNumeric density,
 			boolean rightHistogram) {
 		AlgoHistogram algo = new AlgoHistogram(cons, label, null, list1, list2,

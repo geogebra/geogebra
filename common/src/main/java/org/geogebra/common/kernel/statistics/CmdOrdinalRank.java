@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * Rank[ <List> ]
+ * Rank[ &lt;List> ]
  */
 public class CmdOrdinalRank extends CmdOneListFunction {
 	/**

@@ -24,7 +24,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 
 /**
- * <pre>
+ * 
  * <h3>RegressionMath:</h3>
  * 
  * RegressionMath is a library of sums, determinants and parameter calculations
@@ -33,53 +33,63 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * Might be problems if callers are running in separate threads. Is this a
  * problem?
  * 
+ * <ul>
+ * <b>--- Interface: ---</b>
+ * <li>RegressionMath(GeoList)
+ * <li>det33(...), det44(...) determinants. (Faster than Gauss for n<5)
+ * <li>but det55 removed to keep code size down (web)
+ * <li>doLinReg(),doQuadReg(),doCubicReg(),doQuartRet()
+ * <li>doExpReg(),doLogReg(),doPowReg()
+ * <li>getSigmaX(),getSigmaX2(),[getSigmaX3()..getSigmaX5()
+ * <li>getSigmaY(),[getSigmaY2(),getSigmaXY(),getSigmaX2Y(),getSigmaX3Y
+ * (),getSigmaX4Y()]
+ * <li>getP1(),getP2(),getP3(),getP4(),getP5() //Parameters for regression
+ * function
+ * <li>getR() //regression coefficient. (When users get regression, they will
+ * certainly ask for this...)
+ * </ul>
  * 
  * @author Hans-Petter Ulven
- * @version 20.02.10 Start 24.04.08 Update 15.11.08: public
- *          det22(...),...,det44(...) for use in FitSin() and FitLogistic()
- *          Update 27.01.09: doPolyN():boolean getPar():double[] to serve the
- *          extending of FitPoly[...] to degree>=5 Matrix operations based on
- *          Jama. Update 20.02.2010: Changed from JaMa to Apache matrix library
- *          See doPolyN() Got rid of r=corrcoff(), not used. Exists as separate
- *          command now.
- *
- *          <ul>
- *          <b>--- Interface: ---</b>
- *          <li>RegressionMath(GeoList)
- *          <li>det33(...), det44(...) determinants. (Faster than Gauss for n<5)
- *          <li>but det55 removed to keep code size down (web)
- *          <li>doLinReg(),doQuadReg(),doCubicReg(),doQuartRet()
- *          <li>doExpReg(),doLogReg(),doPowReg()
- *          <li>getSigmaX(),getSigmaX2(),[getSigmaX3()..getSigmaX5()
- *          <li>getSigmaY(),[getSigmaY2(),getSigmaXY(),getSigmaX2Y(),getSigmaX3Y
- *          (),getSigmaX4Y()]
- *          <li>getP1(),getP2(),getP3(),getP4(),getP5() //Parameters for
- *          regression function
- *          <li>getR() //regression coefficient. (When users get regression,
- *          they will certainly ask for this...)
- *          </ul>
+ * @version 20.02.10
  */
-@SuppressWarnings("javadoc")
 public final class RegressionMath {
 
-	public final static int LINEAR = 1, QUAD = 2, CUBIC = 3, /* QUART = 4, */
-			EXP = 5, LOG = 6, POW = 7;
+	public final static int LINEAR = 1;
+	public final static int QUAD = 2;
+	public final static int CUBIC = 3;
+	public final static int EXP = 5;
+	public final static int LOG = 6;
+	public final static int POW = 7;
 
 	// / --- Properties --- ///
 	private boolean error = false;
 	// private int regtype = LINEAR; //Default
-	private double // r, //Reg-coeff
-	p1, p2, p3, p4, p5, // Parameters
-			sigmax, sigmax2, sigmax3, sigmax4, // Sums of x,x^2,...
-			sigmax5, sigmax6, sigmay, sigmay2, sigmaxy,
-			sigmax2y, sigmax3y;
+	// parameters
+	private double p1;
+	private double p2;
+	private double p3;
+	private double p4;
+	private double p5; // Parameters
+	// Sums of x,x^2,...
+	private double sigmax;
+	private double sigmax2;
+	private double sigmax3;
+	private double sigmax4;
+	private double sigmax5;
+	private double sigmax6;
+	private double sigmay;
+	private double sigmay2;
+	private double sigmaxy;
+	private double sigmax2y;
+	private double sigmax3y;
 	private GeoList geolist;
 	private double[] xlist;
 	private double[] ylist;
 	private int size;
 
-	// 27.01.09:
-	private double[][] marray, yarray; // For (M_T*M)*Par=(M_T*Y)
+	// For (M_T*M)*Par=(M_T*Y)
+	private double[][] marray;
+	private double[][] yarray;
 	private double[] pararray; // Parameter array
 
 	// / --- Interface --- ///
@@ -104,34 +114,59 @@ public final class RegressionMath {
 		return p5;
 	}
 
-	// public double getR() {return r; }
+	/**
+	 * @return sum(x)
+	 */
 	public double getSigmaX() {
 		return sigmax;
 	}
 
+	/**
+	 * @return sum(x^2)
+	 */
 	public double getSigmaX2() {
 		return sigmax2;
 	}
 
+	/**
+	 * @return sum(y)
+	 */
 	public double getSigmaY() {
 		return sigmay;
 	}
 
+	/**
+	 * @return sum(y^2)
+	 */
 	public double getSigmaY2() {
 		return sigmay2;
 	}
 
+	/**
+	 * @return sum(xy)
+	 */
 	public double getSigmaXy() {
 		return sigmaxy;
 	}
 
-	// 27.01.09:
-	/** Returns array with calculated parameters */
+	/**
+	 * Returns array with calculated parameters
+	 * 
+	 * @return coefficients of higher degree fit polynomial
+	 */
 	public double[] getPar() {
 		return pararray;
 	}
 
-	/** Does the Polynom regression for degree > 4 */
+	/**
+	 * Does the Polynom regression for degree > 4
+	 * 
+	 * @param gl
+	 *            inut data
+	 * @param degree
+	 *            polynomial degree
+	 * @return success
+	 */
 	public boolean doPolyN(GeoList gl, int degree) {
 		error = false;
 		geolist = gl;
@@ -165,8 +200,15 @@ public final class RegressionMath {
 			error = true;
 		} // try-catch. ToDo: A bit more fine-grained error-handling...
 		return !error;
-	}// doPolyN()
+	}
 
+	/**
+	 * Do linear regression, store result in p1,p2
+	 * 
+	 * @param gl
+	 *            list of points
+	 * @return whether calculating sums worked
+	 */
 	public boolean doLinear(GeoList gl) {
 		error = false;
 		geolist = gl;
@@ -188,8 +230,15 @@ public final class RegressionMath {
 		p2 = det22(size, sigmay, sigmax, sigmaxy) / n;
 		// r=corrCoeff();
 		return true;
-	}// doLinearReg(GeoList)
+	}
 
+	/**
+	 * Compute quadratic fit and store result in p1, p2, p3.
+	 * 
+	 * @param gl
+	 *            input data
+	 * @return whether sums could be calculated
+	 */
 	public boolean doQuad(GeoList gl) {
 		error = false;
 		geolist = gl;
@@ -217,8 +266,15 @@ public final class RegressionMath {
 				sigmax2, sigmax3, sigmax2y) / n;
 		// r=0.0d; // Not useful
 		return true;
-	}// doQuad(Geolist)
+	}
 
+	/**
+	 * Calculate cubic regression and stre in p1, p2, p3, p4.
+	 * 
+	 * @param gl
+	 *            input data
+	 * @return whether sums could be calculated
+	 */
 	public boolean doCubic(GeoList gl) {
 		error = false;
 		geolist = gl;
@@ -253,8 +309,15 @@ public final class RegressionMath {
 				sigmax5, sigmax3y) / n;
 		// r=0.0d; // Not useful
 		return true;
-	}// doCubic(Geolist)
+	}
 
+	/**
+	 * Compute exponential fit and store result in p1, p2.
+	 * 
+	 * @param gl
+	 *            input data
+	 * @return whether sums could be calculated
+	 */
 	public boolean doExp(GeoList gl) {
 		error = false;
 		geolist = gl;
@@ -291,8 +354,15 @@ public final class RegressionMath {
 		p1 = Math.exp(p1) * ySign;
 		// r=corrCoeff();
 		return true;
-	}// doExp(GeoList)
+	}
 
+	/**
+	 * Compute logarithmic fit and store result in p1, p2.
+	 * 
+	 * @param gl
+	 *            input data
+	 * @return whether sums could be calculated
+	 */
 	public boolean doLog(GeoList gl) {
 		error = false;
 		geolist = gl;
@@ -324,8 +394,15 @@ public final class RegressionMath {
 		// No transformation of p1 or p2 neccessary
 		// r=corrCoeff();
 		return true;
-	}// doLog(GeoList)
+	}
 
+	/**
+	 * Compute power function fit and store result in p1, p2.
+	 * 
+	 * @param gl
+	 *            input data
+	 * @return whether sums could be calculated
+	 */
 	public boolean doPow(GeoList gl) {
 		error = false;
 		geolist = gl;
@@ -364,24 +441,93 @@ public final class RegressionMath {
 		p1 = Math.exp(p1) * ySign;
 		// r=corrCoeff();
 		return true;
-	}// doPow(GeoList)
+	}
 
-	public static double det22( // 15.11.08: public for FitSin and
-										// FitLogisticc
+	/**
+	 * 
+	 * @param a11
+	 *            matrix entry
+	 * @param a12
+	 *            matrix entry
+	 * @param a21
+	 *            matrix entry
+	 * @param a22
+	 *            matrix entry
+	 * @return determinant
+	 */
+	public static double det22(
 			double a11, double a12, double a21, double a22) {
 		return a11 * a22 - a21 * a12;
-	}// det22()
+	}
 
+	/**
+	 * Determinant of 4x4 matrix
+	 * 
+	 * @param a11
+	 *            matrix entry
+	 * @param a12
+	 *            matrix entry
+	 * @param a13
+	 *            matrix entry
+	 * @param a21
+	 *            matrix entry
+	 * @param a22
+	 *            matrix entry
+	 * @param a23
+	 *            matrix entry
+	 * @param a31
+	 *            matrix entry
+	 * @param a32
+	 *            matrix entry
+	 * @param a33
+	 *            matrix entry
+	 * @return determinant
+	 */
 	public static double det33(
-			// 15.11.08: public for FitSin and FitLogisticc
 			double a11, double a12, double a13, double a21, double a22,
 			double a23, double a31, double a32, double a33) {
 		return a11 * (a22 * a33 - a32 * a23) - a12 * (a21 * a33 - a31 * a23)
 				+ a13 * (a21 * a32 - a31 * a22);
-	}// det33()
+	}
 
+	/**
+	 * Determinant of 4x4 matrix
+	 * 
+	 * @param a11
+	 *            matrix entry
+	 * @param a12
+	 *            matrix entry
+	 * @param a13
+	 *            matrix entry
+	 * @param a14
+	 *            matrix entry
+	 * @param a21
+	 *            matrix entry
+	 * @param a22
+	 *            matrix entry
+	 * @param a23
+	 *            matrix entry
+	 * @param a24
+	 *            matrix entry
+	 * @param a31
+	 *            matrix entry
+	 * @param a32
+	 *            matrix entry
+	 * @param a33
+	 *            matrix entry
+	 * @param a34
+	 *            matrix entry
+	 * @param a41
+	 *            matrix entry
+	 * @param a42
+	 *            matrix entry
+	 * @param a43
+	 *            matrix entry
+	 * @param a44
+	 *            matrix entry
+	 * @return determinant
+	 */
 	public static double det44(
-			// 15.11.08: public for FitSin and FitLogisticc
 			double a11, double a12, double a13, double a14, double a21,
 			double a22, double a23, double a24, double a31, double a32,
 			double a33, double a34, double a41, double a42, double a43,
@@ -398,7 +544,7 @@ public final class RegressionMath {
 				+ a13 * a31 * a24 * a42 - a13 * a32 * a41 * a24
 				+ a22 * a31 * a14 * a43 - a22 * a14 * a41 * a33
 				- a31 * a14 * a23 * a42 + a14 * a23 * a32 * a41;
-	}// det44()
+	}
 
 	// / --- Private --- ///
 
@@ -407,7 +553,8 @@ public final class RegressionMath {
 			"missing break is deliberate" })
 	private void doSums(int degree) { // do whatever sums neccessary
 		double x, y, xx, xy;
-		sigmax = sigmax2 = sigmax3 = sigmax4 = sigmax5 = sigmax6 = sigmaxy = sigmax2y = sigmax3y = sigmay = sigmay2 = 0.0d;
+		sigmax = sigmax2 = sigmax3 = sigmax4 = sigmax5 = sigmax6 = 0.0d;
+		sigmaxy = sigmax2y = sigmax3y = sigmay = sigmay2 = 0.0d;
 		for (int i = 0; i < size; i++) {
 			x = xlist[i];
 			y = ylist[i];
@@ -443,7 +590,7 @@ public final class RegressionMath {
 	/* Get points to local array */
 	private void getPoints() {
 		// double x,y;
-		double xy[] = new double[2];
+		double[] xy = new double[2];
 		GeoElement geoelement;
 		// GeoPoint geopoint;
 		xlist = new double[size];
@@ -458,9 +605,9 @@ public final class RegressionMath {
 				error = true;
 				xlist[i] = 0.0d;
 				ylist[i] = 0.0d;
-			} // if
-		} // for all points
-	}// getPoints()
+			}
+		}
+	}
 
 	// Make M with 1,x,x^2,... , and Y with y1,y2,.. for all datapoints
 	private void makeMatrixArrays(int degree) {
@@ -472,12 +619,8 @@ public final class RegressionMath {
 			// M:
 			for (int j = 0; j < (degree + 1); j++) {
 				marray[i][j] = Math.pow(xlist[i], j);
-			} // for j (all degrees =columns in marray)
-		} // for i (all datapoints = rows in marray, cols in yarray)
+			}
+		}
+	}
 
-	}// makeMatrixArrays()
-
-	// / --- DEBUG --- /// !!! Remember to comment out calls before distribution
-	// !!!
-
-}// class RegressionMath
+}

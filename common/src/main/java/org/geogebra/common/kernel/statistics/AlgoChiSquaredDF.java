@@ -46,7 +46,14 @@ public class AlgoChiSquaredDF extends AlgoElement
 		ret.setLabel(label);
 	}
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            distribution parameter
+	 * @param cumulative
+	 *            cumulative?
+	 */
 	public AlgoChiSquaredDF(Construction cons, GeoNumberValue a,
 			BooleanValue cumulative) {
 		super(cons);

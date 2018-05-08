@@ -23,7 +23,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * FitPoly[<List of points>,<degree>]
+ * FitPoly[&lt;List of points>,&lt;degree>]
  * 
  * @author Hans-Petter Ulven
  * @version 06.04.08
@@ -47,18 +47,13 @@ public class CmdFitPoly extends CommandProcessor {
 		case 2:
 			if (arg[1] instanceof GeoNumberValue) {
 				if (arg[0].isGeoList()) {
-					GeoElement[] ret = { FitPoly((GeoList) arg[0],
+					GeoElement[] ret = { fitPoly((GeoList) arg[0],
 							(GeoNumberValue) arg[1]) };
 					ret[0].setLabel(c.getLabel());
 					return ret;
 				} else if (arg[0].isGeoFunction()) {
-
 					// FitPoly[ <Freehand Function>, <Order> ]
-
-
-
 					return fitPolyFunction(c, arg);
-
 				}
 
 				throw argErr(app, c, arg[0]);
@@ -70,7 +65,7 @@ public class CmdFitPoly extends CommandProcessor {
 					GeoClass.POINT);
 			if (list != null) {
 				GeoElement[] ret = {
-						FitPoly(list, (GeoNumberValue) arg[arg.length - 1]) };
+						fitPoly(list, (GeoNumberValue) arg[arg.length - 1]) };
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
@@ -86,21 +81,20 @@ public class CmdFitPoly extends CommandProcessor {
 					(AlgoFunctionFreehand) fun.getParentAlgorithm());
 
 			if (list != null) {
-				GeoElement[] ret = { FitPoly(list, (GeoNumberValue) arg[1]) };
+				GeoElement[] ret = { fitPoly(list, (GeoNumberValue) arg[1]) };
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
-
 		}
 		throw argErr(app, c, arg[0]);
 	}
 
 	/**
-	 * FitPoly[list of coords,degree] Hans-Petter Ulven
+	 * FitPoly[list of coords,degree]
 	 */
-	final private GeoFunction FitPoly(GeoList list, GeoNumberValue degree) {
+	final private GeoFunction fitPoly(GeoList list, GeoNumberValue degree) {
 		AlgoFitPoly algo = new AlgoFitPoly(cons, list, degree);
 		GeoFunction function = algo.getFitPoly();
 		return function;
 	}
-}// class CmdFitPoly
+}

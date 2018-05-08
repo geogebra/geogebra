@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoText;
 
 /**
- * Returns the name of a GeoElement as a GeoText.
+ * Returns the column name of a GeoElement as a GeoText.
  * 
  * @author Markus
  */
@@ -36,6 +36,14 @@ public class AlgoColumnName extends AlgoElement {
 	private GeoElement geo; // input
 	private GeoText text; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geo
+	 *            spreadsheet cell
+	 */
 	public AlgoColumnName(Construction cons, String label, GeoElement geo) {
 		super(cons);
 		this.geo = geo;

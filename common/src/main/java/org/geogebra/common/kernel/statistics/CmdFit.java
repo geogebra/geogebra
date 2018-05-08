@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Kernel;
@@ -20,8 +21,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * Fit[<List Points>,<List of Functions>] (linear combination) Fit[<List
- * Points>, <Function>] (nonlinear with gliders as startvalues)
+ * Fit[&lt;List Points>,&lt;List of Functions>] (linear combination)
+ * 
+ * Fit[&lt;List Points>, &lt;Function>] (nonlinear with sliders as startvalues)
  * 
  * @author Hans-Petter Ulven
  * @version 2011-03-15
@@ -43,7 +45,7 @@ public class CmdFit extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
 		if (n == 2) {
-			if(!arg[0].isGeoList()){
+			if (!arg[0].isGeoList()) {
 				throw argErr(app, c, arg[0]);
 			}
 			if (arg[1].isGeoList()) {

@@ -37,7 +37,7 @@ public class CmdSample extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				GeoElement[] ret = { Sample(c.getLabel(), (GeoList) arg[0],
+				GeoElement[] ret = { sample(c.getLabel(), (GeoList) arg[0],
 						(GeoNumberValue) arg[1], null) };
 				return ret;
 
@@ -49,7 +49,7 @@ public class CmdSample extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { Sample(c.getLabel(), (GeoList) arg[0],
+				GeoElement[] ret = { sample(c.getLabel(), (GeoList) arg[0],
 						(GeoNumberValue) arg[1], (GeoBoolean) arg[2]) };
 				return ret;
 
@@ -64,7 +64,7 @@ public class CmdSample extends CommandProcessor {
 	/**
 	 * Sample[list,n, withReplacement]
 	 */
-	private GeoElement Sample(String label, GeoList list, GeoNumberValue n,
+	private GeoElement sample(String label, GeoList list, GeoNumberValue n,
 			GeoBoolean withReplacement) {
 		AlgoSample algo = new AlgoSample(cons, label, list, n, withReplacement);
 		GeoElement ret = algo.getResult();

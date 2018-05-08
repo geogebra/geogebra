@@ -29,7 +29,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 public class AlgoCell extends AlgoElement {
 
 	private GeoElement geo; // output
-	private GeoNumberValue a, b; // input
+	private GeoNumberValue a; // input
+	private GeoNumberValue b; // input
 
 	private String currentLabel;
 	private GeoElement refObject; // referenced object

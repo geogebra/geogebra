@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * SumSquaredError[<List of Points>,<Funtion>]
+ * SumSquaredError[&lt;List of Points>,&lt;Funtion>]
  * 
  * @author Hans-Petter Ulven
  * @version 2010-02-21
@@ -57,6 +57,6 @@ public class CmdSumSquaredErrors extends CommandProcessor {
 
 		default:
 			throw argNumErr(c);
-		}// switch(number of arguments)
-	}// process(Command)
-}// class CmdSumSquaredErrors
+		}
+	}
+}

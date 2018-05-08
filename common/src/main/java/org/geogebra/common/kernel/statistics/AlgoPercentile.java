@@ -35,6 +35,16 @@ public class AlgoPercentile extends AlgoElement {
 	private double[] inputArray;
 	private double val;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            data
+	 * @param value
+	 *            percentile value to compute
+	 */
 	public AlgoPercentile(Construction cons, String label, GeoList inputList,
 			GeoNumeric value) {
 		super(cons);
@@ -62,6 +72,7 @@ public class AlgoPercentile extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/** @return value oistics at given percenntile */
 	public GeoNumeric getResult() {
 		return result;
 	}

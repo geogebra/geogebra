@@ -36,10 +36,6 @@ public class AlgoPoissonDistList extends AlgoDistribution {
 	 *            number of trials
 	 * @param b
 	 *            probability of success
-	 * @param c
-	 *            value of random variable
-	 * @param isCumulative
-	 *            cumulative
 	 */
 	public AlgoPoissonDistList(Construction cons, String label,
 			GeoNumberValue a, GeoList b) {

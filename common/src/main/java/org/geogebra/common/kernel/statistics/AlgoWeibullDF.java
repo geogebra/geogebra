@@ -34,18 +34,41 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  */
 public class AlgoWeibullDF extends AlgoElement implements AlgoDistributionDF {
 
-	private GeoNumberValue k, l; // input
+	private GeoNumberValue k; // input
+	private GeoNumberValue l; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param mean
+	 *            mean
+	 * @param sd
+	 *            standard deviation
+	 * @param cumulative
+	 *            cumulative?
+	 */
 	public AlgoWeibullDF(Construction cons, String label, GeoNumberValue mean,
 			GeoNumberValue sd, BooleanValue cumulative) {
 		this(cons, mean, sd, cumulative);
 		ret.setLabel(label);
 	}
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param k
+	 *            mean
+	 * @param l
+	 *            standard deviation
+	 * @param cumulative
+	 *            cumulative?
+	 */
 	public AlgoWeibullDF(Construction cons, GeoNumberValue k, GeoNumberValue l,
 			BooleanValue cumulative) {
 		super(cons);
@@ -125,7 +148,6 @@ public class AlgoWeibullDF extends AlgoElement implements AlgoDistributionDF {
 		}
 
 		ret.getFunctionExpression().setRight(en);
-
 	}
 
 }

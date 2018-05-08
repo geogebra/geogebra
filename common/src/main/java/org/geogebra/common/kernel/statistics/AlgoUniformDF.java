@@ -35,18 +35,41 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  */
 public class AlgoUniformDF extends AlgoElement {
 
-	private GeoNumberValue a, b; // input
+	private GeoNumberValue a; // input
+	private GeoNumberValue b; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            left interval bound
+	 * @param b
+	 *            right interval bound
+	 * @param cumulative
+	 *            cumulative
+	 */
 	public AlgoUniformDF(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b, BooleanValue cumulative) {
 		this(cons, a, b, cumulative);
 		ret.setLabel(label);
 	}
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            left interval bound
+	 * @param b
+	 *            right interval bound
+	 * @param cumulative
+	 *            cumulative
+	 */
 	public AlgoUniformDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			BooleanValue cumulative) {
 		super(cons);

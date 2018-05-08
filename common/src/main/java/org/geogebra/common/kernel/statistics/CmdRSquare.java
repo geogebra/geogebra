@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * RSquare[<List of Points>,<Funtion>]
+ * RSquare[&lt;List of Points>,&lt;Funtion>]
  * 
  * @author G.Sturr
  * @version 2010-9-13
@@ -55,6 +55,6 @@ public class CmdRSquare extends CommandProcessor {
 
 		default:
 			throw argNumErr(c);
-		}// switch(number of arguments)
-	}// process(Command)
-}// class CmdRSquare
+		}
+	}
+}

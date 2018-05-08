@@ -31,6 +31,14 @@ public class AlgoRootMeanSquare extends AlgoElement {
 	private int size;
 	private double sum;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            numbers
+	 */
 	public AlgoRootMeanSquare(Construction cons, String label,
 			GeoList inputList) {
 		super(cons);
@@ -57,6 +65,9 @@ public class AlgoRootMeanSquare extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return root mean square
+	 */
 	public GeoNumeric getResult() {
 		return result;
 	}

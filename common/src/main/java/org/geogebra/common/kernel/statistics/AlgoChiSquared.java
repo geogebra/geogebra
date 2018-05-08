@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoChiSquared extends AlgoDistribution {
 
-
 	/**
 	 * @param cons
 	 *            construction

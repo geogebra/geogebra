@@ -25,7 +25,18 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoNormal extends AlgoDistribution {
 
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            mean
+	 * @param b
+	 *            sd
+	 * @param c
+	 *            variable vaue
+	 * @param cumulative
+	 *            cumulative?
+	 */
 	public AlgoNormal(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			GeoNumberValue c, GeoBoolean cumulative) {
 		super(cons, a, b, c, cumulative);

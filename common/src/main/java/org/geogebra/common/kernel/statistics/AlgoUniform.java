@@ -55,11 +55,6 @@ public class AlgoUniform extends AlgoDistribution {
 					num.setValue(cdf ? (x - A) / (B - A) : 1 / (B - A));
 				}
 
-				// old hack
-				// processAlgebraCommand(
-				// "If["+x+"<Min["+a+","+b+"],0,If["+x+">Max["+a+","+b+"],1,("+x+"-Min["+a+","+b+"])/abs("+b+"-("+a+"))]]",
-				// true );
-
 			} catch (Exception e) {
 				num.setUndefined();
 			}

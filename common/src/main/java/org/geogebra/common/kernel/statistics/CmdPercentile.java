@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Percentile[ <List>, <Value> ] G. Sturr
+ * Percentile[ &lt;List>, &lt;Value> ] G. Sturr
  */
 public class CmdPercentile extends CommandProcessor {
 

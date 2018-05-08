@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Kernel;
@@ -20,7 +21,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * FitImplicit.Syntax=[ <List of Points>, <Order> ]
+ * FitImplicit.Syntax=[ &lt;List of Points>, &lt;Order> ]
  * 
  */
 public class CmdFitImplicit extends CommandProcessor {

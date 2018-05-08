@@ -6,13 +6,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * FitLog[<List of points>]
+ * FitLog[&lt;List of points>]
  * 
  * @author Hans-Petter Ulven
  * @version 12.04.08
  */
 
 public class CmdFitLog extends CmdOneListFunction {
+
 	/**
 	 * Create new command processor
 	 * 
@@ -29,4 +30,4 @@ public class CmdFitLog extends CmdOneListFunction {
 		return algo.getFitLog();
 	}
 
-}// class CmdFitLog
+}

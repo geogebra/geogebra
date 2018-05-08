@@ -76,7 +76,6 @@ public class AlgoMode extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
 		size = inputList.size();
 		if (!inputList.isDefined() || size == 0) {
 			outputList.setUndefined();
@@ -122,8 +121,7 @@ public class AlgoMode extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		if (maxRun == 1)
-		 {
+		if (maxRun == 1) {
 			return; // no mode, return empty list
 		}
 

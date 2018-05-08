@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * FitGrowth[<List of points>]
+ * FitGrowth[&lt;List of points>]
  * 
  * @author Hans-Petter Ulven
  * @version 2010-02-25
@@ -27,4 +27,5 @@ public class CmdFitGrowth extends CmdOneListFunction {
 		AlgoFitGrowth algo = new AlgoFitGrowth(cons, a, b);
 		return algo.getFitGrowth();
 	}
-}// class CmdFitGrowth
+
+}

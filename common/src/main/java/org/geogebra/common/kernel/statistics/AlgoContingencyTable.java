@@ -33,11 +33,15 @@ import com.himamis.retex.editor.share.util.Unicode;
  * 
  */
 public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
-
-	private GeoList list1, list2, rowList, colList, freqMatrix; // input
-	private GeoText args; // input
-
-	private GeoText table; // output
+	// input
+	private GeoList list1;
+	private GeoList list2;
+	private GeoList rowList;
+	private GeoList colList;
+	private GeoList freqMatrix;
+	private GeoText args;
+	// output
+	private GeoText table;
 
 	// for compute
 	private AlgoFrequency freq;
@@ -52,22 +56,31 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	private int[] rowSum;
 	private int[] colSum;
 	private int totalSum;
-
-	// display option flags
-	private boolean showRowPercent, showColPercent, showTotalPercent, showChi,
-			showExpected, showTest;
 	private int rowCount;
 	private int colCount;
 	private int lastRow;
+
+	// display option flags
+	private boolean showRowPercent;
+	private boolean showColPercent;
+	private boolean showTotalPercent;
+	private boolean showChi;
+	private boolean showExpected;
+	private boolean showTest;
 
 	/**************************************************
 	 * Constructs a contingency table from raw data
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param list1
+	 *            list of first property of the datapoints
 	 * @param list2
+	 *            list of second property of the datapoints
 	 * @param args
+	 *            table style arguments
 	 * 
 	 */
 	public AlgoContingencyTable(Construction cons, String label, GeoList list1,
@@ -93,18 +106,23 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 
 		compute();
 		table.setLabel(label);
-
 	}
 
 	/***************************************************
 	 * Constructs a contingency table from a given frequency table
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param rowList
+	 *            row headings
 	 * @param colList
+	 *            column headings
 	 * @param freqMatrix
+	 *            frequency matrix
 	 * @param args
+	 *            table style arguments
 	 */
 	public AlgoContingencyTable(Construction cons, String label,
 			GeoList rowList, GeoList colList, GeoList freqMatrix,
@@ -450,10 +468,9 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 			test = new AlgoChiSquaredTest(cons, freqMatrix, null);
 		}
 		cons.removeFromConstructionList(test);
-		GeoList result = test.getResult();
+		final GeoList result = test.getResult();
 
 		String split = "&";
-
 
 		sb.append("\\\\ ");
 
@@ -571,11 +588,10 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		endRow(sb, lineBelow);
 	}
 
-	private void appendText(StringBuilder sb, String str) {
+	private static void appendText(StringBuilder sb, String str) {
 		sb.append("\\text{");
 		sb.append(str);
 		sb.append("}");
-
 	}
 
 	private static void startRow(StringBuilder sb, boolean lineAbove) {

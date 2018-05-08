@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * BarChart[ <Number>, <Number>, <List> ]
+ * BoxPlot command processor
  */
 public class CmdBoxPlot extends CommandProcessor {
 

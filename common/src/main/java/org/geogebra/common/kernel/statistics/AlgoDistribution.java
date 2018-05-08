@@ -198,6 +198,19 @@ public abstract class AlgoDistribution extends AlgoElement {
 		compute();
 	}
 
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            parameter
+	 * @param b
+	 *            parameter
+	 * @param list
+	 *            list of values (for binomial)
+	 */
 	public AlgoDistribution(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b, GeoList list) {
 		super(cons);
@@ -212,6 +225,17 @@ public abstract class AlgoDistribution extends AlgoElement {
 		num.setLabel(label);
 	}
 
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            parameter
+	 * @param list
+	 *            list of values (for poisson)
+	 */
 	public AlgoDistribution(Construction cons, String label, GeoNumberValue a,
 			GeoList list) {
 		super(cons);
@@ -462,6 +486,12 @@ public abstract class AlgoDistribution extends AlgoElement {
 		return zipf;
 	}
 
+	/**
+	 * @param dist
+	 *            real distribution
+	 * @param c
+	 *            variable value
+	 */
 	protected void setFromRealDist(RealDistribution dist, GeoNumberValue c) {
 		if (this.isCumulative == null || this.isCumulative.getBoolean()) {
 			num.setValue(dist.cumulativeProbability(c.getDouble()));

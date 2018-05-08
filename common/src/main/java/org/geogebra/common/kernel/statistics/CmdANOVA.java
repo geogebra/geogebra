@@ -42,7 +42,7 @@ public class CmdANOVA extends CommandProcessor {
 
 				if (list.get(0).isGeoList()) {
 					GeoElement[] ret = {
-							ANOVATest(c.getLabel(), (GeoList) arg[0]) };
+							anovaTest(c.getLabel(), (GeoList) arg[0]) };
 					return ret;
 
 				}
@@ -52,7 +52,7 @@ public class CmdANOVA extends CommandProcessor {
 		default:
 			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.LIST);
 			if (list != null) {
-				GeoElement[] ret = { ANOVATest(c.getLabel(), list) };
+				GeoElement[] ret = { anovaTest(c.getLabel(), list) };
 				return ret;
 			}
 			// null ret should mean that an arg is not a GeoList
@@ -67,7 +67,7 @@ public class CmdANOVA extends CommandProcessor {
 		}
 	}
 
-	final private GeoList ANOVATest(String label, GeoList dataArrayList) {
+	final private GeoList anovaTest(String label, GeoList dataArrayList) {
 		AlgoANOVA algo = new AlgoANOVA(cons, label, dataArrayList);
 		GeoList result = algo.getResult();
 		return result;

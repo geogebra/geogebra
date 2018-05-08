@@ -50,12 +50,26 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 	private double[] zValues;
 	private double[] sortedData;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            list of numbers
+	 */
 	public AlgoNormalQuantilePlot(Construction cons, String label,
 			GeoList inputList) {
 		this(cons, inputList);
 		outputList.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param inputList
+	 *            list of numbers
+	 */
 	public AlgoNormalQuantilePlot(Construction cons, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;

@@ -16,7 +16,7 @@ public class DistributionFunctionFactory {
 	/**
 	 * @param cons
 	 *            construction
-	 * @return function If[x<0,0,0]
+	 * @return function If[x &lt; 0,0,0]
 	 */
 	public static GeoFunction zeroWhenNegative(Construction cons) {
 		return zeroWhenLessThan(new MyDouble(cons.getKernel(), 0), cons, true);
@@ -29,7 +29,7 @@ public class DistributionFunctionFactory {
 	 *            construction
 	 * @param sharp
 	 *            whether to use &lt; or &lt;=
-	 * @return function If[x<border,0,0]
+	 * @return function If[x &lt; border, 0, 0]
 	 */
 	public static GeoFunction zeroWhenLessThan(ExpressionValue border,
 			Construction cons, boolean sharp) {

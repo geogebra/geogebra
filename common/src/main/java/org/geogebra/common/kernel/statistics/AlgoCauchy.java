@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoCauchy extends AlgoDistribution {
 
-
 	/**
 	 * @param cons
 	 *            construction

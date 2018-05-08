@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * FitLogistic[<List of points>]
+ * FitLogistic[&lt;List of points>]
  * 
  * @author Hans-Petter Ulven
  * @version 15.11.08
@@ -28,4 +28,4 @@ public class CmdFitLogistic extends CmdOneListFunction {
 		return algo.getFitLogistic();
 	}
 
-}// class CmdFitLogistic
+}
