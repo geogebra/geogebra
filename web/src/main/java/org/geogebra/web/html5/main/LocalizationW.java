@@ -123,7 +123,18 @@ public final class LocalizationW extends Localization
 		}
 
 		if (localeStr == null) {
-			// keys not loaded yet
+			// keys not loaded yet or webSimple
+
+			// eg Symbol.And
+			if (key.startsWith("Symbol.")) {
+				return key.replace("Symbol.", "");
+			}
+
+			// eg Function.sin
+			if (key.startsWith("Function.")) {
+				return key.replace("Function.", "");
+			}
+
 			return key;
 		}
 
