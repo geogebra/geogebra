@@ -246,10 +246,11 @@ public abstract class MediaDialog extends DialogBoxW
 	}
 
 	/**
-	 * Resets input style after error.
+	 * Resets input style on blur
 	 */
 	protected void resetInputField() {
-		resetError();
+		getInputPanel().removeStyleName("focusState");
+		getInputPanel().addStyleName("emptyState");
 	}
 
 	/**

@@ -125,7 +125,6 @@ public class VideoManagerW implements VideoManager {
 				startIdx = url.indexOf(ID_PARAM_1) != -1
 						? url.indexOf(ID_PARAM_1) : url.indexOf(ID_PARAM_2);
 				subString = url.substring(startIdx + ID_PARAM_1.length());
-
 			} else if (url.contains(EMBED)) {
 				startIdx = url.indexOf(EMBED);
 				subString = url.substring(startIdx + EMBED.length());
