@@ -1643,6 +1643,9 @@ public abstract class GlobalKeyDispatcher {
 			GeoElement geo = selection.getSelectedGeos().get(0);
 			if (geo.isGeoList()) {
 				DrawDropDownList.asDrawable(app, geo).selectCurrentItem();
+				if (app.has(Feature.READ_DROPDOWNS)) {
+					ScreenReader.dropDownItemSelected(app, geo);
+				}
 				return true;
 			} else if (geo.isGeoInputBox()) {
 				app.getActiveEuclidianView()

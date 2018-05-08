@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EventType;
 
@@ -27,6 +28,14 @@ public class ScreenReader {
 			}
 			readText(geo0, app);
 		}
+	}
+
+	public static void dropDownItemSelected(App app, GeoElement geo){
+		String item = ((GeoList) geo).getSelectedElement().getAlgebraDescriptionDefault();
+		String readText = app.getLocalization().getPlainArray("DropDownItemSelected",
+				"Item " + item + " selected. Drop down closed. ",
+				new String[] { item });
+		app.getActiveEuclidianView().readText(readText);
 	}
 
 	/**
