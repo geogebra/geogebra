@@ -25,7 +25,8 @@ public class CmdFitExp extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoFitExp algo = new AlgoFitExp(cons, a, b);
+		AlgoFitExp algo = new AlgoFitExp(cons, b);
+		algo.getFitExp().setLabel(a);
 		return algo.getFitExp();
 	}
 

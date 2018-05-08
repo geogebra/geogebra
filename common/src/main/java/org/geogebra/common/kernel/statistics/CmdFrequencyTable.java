@@ -200,10 +200,9 @@ public class CmdFrequencyTable extends CommandProcessor {
 	 * FrequencyTable[dataList]
 	 */
 	final private GeoText frequencyTable(String label, GeoList dataList) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, null,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, null,
 				null, dataList);
-		GeoText table = algo.getResult();
-		return table;
+		return output(algo, label);
 	}
 
 	/**
@@ -211,10 +210,9 @@ public class CmdFrequencyTable extends CommandProcessor {
 	 */
 	final private GeoText frequencyTable(String label, GeoBoolean isCumulative,
 			GeoList dataList) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons,
 				isCumulative, null, dataList);
-		GeoText table = algo.getResult();
-		return table;
+		return output(algo, label);
 	}
 
 	/**
@@ -222,10 +220,9 @@ public class CmdFrequencyTable extends CommandProcessor {
 	 */
 	final private GeoText frequencyTable(String label, GeoList dataList,
 			GeoNumeric scale) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, null,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, null,
 				null, dataList, scale);
-		GeoText table = algo.getResult();
-		return table;
+		return output(algo, label);
 	}
 
 	/**
@@ -233,10 +230,9 @@ public class CmdFrequencyTable extends CommandProcessor {
 	 */
 	final private GeoText frequencyTable(String label, GeoBoolean isCumulative,
 			GeoList dataList, GeoNumeric scale) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons,
 				isCumulative, null, dataList, scale);
-		GeoText table = algo.getResult();
-		return table;
+		return output(algo, label);
 	}
 
 	/**
@@ -244,10 +240,9 @@ public class CmdFrequencyTable extends CommandProcessor {
 	 */
 	final private GeoText frequencyTable(String label, GeoList classList,
 			GeoList dataList) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, null,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, null,
 				classList, dataList);
-		GeoText table = algo.getResult();
-		return table;
+		return output(algo, label);
 	}
 
 	/**
@@ -255,10 +250,9 @@ public class CmdFrequencyTable extends CommandProcessor {
 	 */
 	final private GeoText frequencyTable(String label, GeoList classList,
 			GeoList dataList, GeoBoolean useDensity) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, null,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, null,
 				classList, dataList, useDensity, null);
-		GeoText table = algo.getResult();
-		return table;
+		return output(algo, label);
 	}
 
 	/**
@@ -266,10 +260,9 @@ public class CmdFrequencyTable extends CommandProcessor {
 	 */
 	final private GeoText frequencyTable(String label, GeoList classList,
 			GeoList dataList, GeoBoolean useDensity, GeoNumeric scaleFactor) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, null,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, null,
 				classList, dataList, useDensity, scaleFactor);
-		GeoText table = algo.getResult();
-		return table;
+		return output(algo, label);
 	}
 
 	/**
@@ -277,10 +270,9 @@ public class CmdFrequencyTable extends CommandProcessor {
 	 */
 	final private GeoText frequencyTable(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons,
 				isCumulative, classList, dataList, null, null);
-		GeoText table = algo.getResult();
-		return table;
+		return output(algo, label);
 	}
 
 	/**
@@ -288,10 +280,9 @@ public class CmdFrequencyTable extends CommandProcessor {
 	 */
 	final private GeoText frequencyTable(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons,
 				isCumulative, classList, dataList, useDensity, null);
-		GeoText table = algo.getResult();
-		return table;
+		return output(algo, label);
 	}
 
 	/**
@@ -301,18 +292,21 @@ public class CmdFrequencyTable extends CommandProcessor {
 	final private GeoText frequencyTable(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity,
 			GeoNumeric scaleFactor) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons,
 				isCumulative, classList, dataList, useDensity, scaleFactor);
-		GeoText table = algo.getResult();
-		return table;
+		return output(algo, label);
 	}
 
 	/**
 	 * FrequencyTable[chart (Histogram or BarChart)]
 	 */
 	final private GeoText frequencyTable(String label, GeoNumeric chart) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, chart);
-		GeoText table = algo.getResult();
-		return table;
+		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, chart);
+		return output(algo, label);
+	}
+
+	private static GeoText output(AlgoFrequencyTable algo, String label) {
+		algo.getResult().setLabel(label);
+		return algo.getResult();
 	}
 }

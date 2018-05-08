@@ -65,30 +65,22 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		table.setAbsoluteScreenLocActive(true);
 	}
 
-	public AlgoFrequencyTable(Construction cons, String label,
+	public AlgoFrequencyTable(Construction cons,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
-		this(cons, label, isCumulative, classList, dataList, null, null, null);
+		this(cons, isCumulative, classList, dataList, null, null, null);
 	}
 
-	public AlgoFrequencyTable(Construction cons, String label,
+	public AlgoFrequencyTable(Construction cons,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
 			GeoNumeric scale) {
-		this(cons, label, isCumulative, classList, dataList, null, null, scale);
+		this(cons, isCumulative, classList, dataList, null, null, scale);
 	}
 
-	public AlgoFrequencyTable(Construction cons, String label,
+	public AlgoFrequencyTable(Construction cons,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
 			GeoBoolean useDensity, GeoNumeric density) {
-		this(cons, label, isCumulative, classList, dataList, useDensity,
+		this(cons, isCumulative, classList, dataList, useDensity,
 				density, null);
-	}
-
-	public AlgoFrequencyTable(Construction cons, String label,
-			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
-			GeoBoolean useDensity, GeoNumeric density, GeoNumeric scale) {
-		this(cons, isCumulative, classList, dataList, useDensity, density,
-				scale);
-		table.setLabel(label);
 	}
 
 	public AlgoFrequencyTable(Construction cons, GeoBoolean isCumulative,
@@ -116,11 +108,6 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 	}
 
-	public AlgoFrequencyTable(Construction cons, String label,
-			GeoNumeric chart) {
-		this(cons, chart);
-		table.setLabel(label);
-	}
 
 	public AlgoFrequencyTable(Construction cons, GeoNumeric chart) {
 		super(cons);
