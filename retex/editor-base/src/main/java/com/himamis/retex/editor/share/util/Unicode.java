@@ -26,7 +26,12 @@ public class Unicode {
 	final public static String RIGHT_TO_LEFT_UNARY_MINUS_SIGN = "\u200f-\u200f";
 	final public static char LEFT_TO_RIGHT_MARK = '\u200e';
 	final public static String SUPERSCRIPT_MINUS_ONE_BRACKET_STRING = "\u207b\u00b9(";
+
+	// degrees, minutes, seconds
 	final public static char DEGREE_CHAR = '\u00b0';
+	final public static char MINUTES = '\u2032';
+	final public static char SECONDS = '\u2033';
+
 	final public static String DEGREE_STRING = Character.toString(DEGREE_CHAR);
 
 	final public static char e_GRAVE = '\u00E8';
