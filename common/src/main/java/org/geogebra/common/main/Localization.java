@@ -58,11 +58,6 @@ public abstract class Localization {
 	/** zero (different in eg Arabic) */
 	private char unicodeZero = '0';
 
-	public Localization(int dimension, int maxFigures) {
-		this.dimension = dimension;
-		this.maxFigures = maxFigures;
-	}
-
 	/**
 	 * eg Function.sin
 	 */
@@ -72,6 +67,11 @@ public abstract class Localization {
 	 * eg Symbol.And
 	 */
 	public static String SYMBOL_PREFIX = "Symbol.";
+
+	public Localization(int dimension, int maxFigures) {
+		this.dimension = dimension;
+		this.maxFigures = maxFigures;
+	}
 
 	/**
 	 * For Basque and Hungarian you have to say "A point" instead of "point A"
@@ -1193,7 +1193,7 @@ public abstract class Localization {
 	 * 
 	 */
 	public String getFunction(String key) {
-		String ret = getMenu("Function." + key);
+		String ret = getMenu(FUNCTION_PREFIX + key);
 
 		// make sure we don't get strange function names if the properties
 		// aren't loaded
