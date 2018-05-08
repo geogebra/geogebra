@@ -813,6 +813,19 @@ namespace giac {
     if (python){
       int & ind=debug_ptr(contextptr)->indent_spaces;
       vecteur & v =*feuille._VECTptr;
+      if (!v[2].is_symb_of_sommet(at_bloc) && !v[2].is_symb_of_sommet(at_local)){
+	res=string(ind,' ')+"lambda ";
+	if (v[0].type==_VECT && v[0].subtype==_SEQ__VECT && v[0]._VECTptr->size()==1)
+	  res += v[0]._VECTptr->front().print(contextptr);
+	else 
+	  res += v[0].print(contextptr);
+	res +=':';
+	if (v[2].is_symb_of_sommet(at_return))
+	  res += v[2]._SYMBptr->feuille.print(contextptr);
+	else
+	  res += v[2].print(contextptr);
+	return res;
+      }
       res = string(ind,' ')+"def "+lastprog_name(contextptr)+"(";
       if (v[0].type==_VECT && v[0].subtype==_SEQ__VECT && v[0]._VECTptr->size()==1)
 	res += equaltosto(v[0]._VECTptr->front(),contextptr).print(contextptr);

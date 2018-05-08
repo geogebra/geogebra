@@ -1078,12 +1078,18 @@ namespace giac {
       if (storcl_38!=NULL && !No38Lookup && abs_calc_mode(contextptr)==38 && storcl_38(evaled,NULL,id_name,undef,false,contextptr, NULL, true)) 
 	return true;
       const context * cur=contextptr;
+      //bool pythoncompat=python_compat(contextptr);
       for (;cur->previous;cur=cur->previous){
 	sym_tab::const_iterator it=cur->tabptr->find(id_name);
 	if (it!=cur->tabptr->end()){
 	  if (!level || !it->second.in_eval(level,evaled,contextptr->globalcontextptr))
 	    evaled=it->second;
 	  return true;
+	}
+	if (0){ // if (pythoncompat) does not work because programs args are 1 level above, should globalize non local variables instead
+	  while (cur->previous) 
+	    cur=cur->previous;
+	  break;
 	}
       }
       // now at global level

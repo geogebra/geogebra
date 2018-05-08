@@ -5811,7 +5811,7 @@ unsigned int ConvertUTF8toUTF16 (
 	alertmath=false;
 	alert(gettext("Assigning log2, expm1 (imprecise), fabs, fmod, modf, radians and degrees. Not supported: copysign."),contextptr);
       }
-      cur += "log2(x):=logb(x,2):;expm1(x):=exp(x)-1:;fabs:=abs:;fmod(a,b):=a-floor(a/b)*b:;modf(x):={ local y:=floor(x); return x-y,y;}:;radians(x):=x/180*pi:;degrees(x):=x/pi*180:;";
+      cur += "log2(x):=logb(x,2):;expm1(x):=exp(x)-1:;fabs:=abs:;fmod(a,b):=a-floor(a/b)*b:;function modf(x) local y; y:=floor(x); return x-y,y; ffunction:;radians(x):=x/180*pi:;degrees(x):=x/pi*180";
       // todo copysign, isinf, isnan, isfinite, frexp, ldexp
     }
   }
@@ -5958,7 +5958,7 @@ unsigned int ConvertUTF8toUTF16 (
 	for (int pos2=pos-1;pos2>=0;--pos2){
 	  ch=res[pos2];
 	  if (ch!=' ' && ch!=9){
-	    if (ch=='{' || ch=='[' || ch==',' || ch=='-' || ch=='+' || ch=='*' || ch=='/')
+	    if (ch=='{' || ch=='[' || ch==',' || ch=='-' || ch=='+' ||  ch=='/')
 	      cherche=true;
 	    break;
 	  }

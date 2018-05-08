@@ -5421,7 +5421,7 @@ namespace giac {
 #ifdef GIAC_HAS_STO_38
       alert(gettext("Python compatibility enabled. List index will start at 0, run of:=1 to disable Python compatibility."),contextptr);
 #else
-      alert(gettext("Python compatibility enabled. List index will start at 0, run python_compat(0) to disable Python compatibility."),contextptr);
+      *logptr(contextptr) << gettext("Python compatibility enabled. List index will start at 0, run python_compat(0) to disable Python compatibility.") << endl;
 #endif
     }
     if (storcl_38){
