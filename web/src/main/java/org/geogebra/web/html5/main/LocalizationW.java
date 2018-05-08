@@ -26,17 +26,20 @@ import com.google.gwt.dom.client.ScriptElement;
  */
 public final class LocalizationW extends Localization
 		implements KeyboardLocale {
-	/**
-	 * eg "en_GB", "es" // remains null until we're sure keys are loaded
-	 */
-	String localeStr = "en";
-	private ScriptLoadCallback scriptCallback;
 
-	private boolean commandChanged = true;
 	/**
 	 * Default locale string
 	 */
 	public final static String DEFAULT_LANGUAGE = "en";
+
+	/**
+	 * eg "en_GB", "es" // remains null until we're sure keys are loaded
+	 */
+	String localeStr = DEFAULT_LANGUAGE;
+
+	private ScriptLoadCallback scriptCallback;
+
+	private boolean commandChanged = true;
 
 	/**
 	 * @param dimension
@@ -86,11 +89,6 @@ public final class LocalizationW extends Localization
 			return "";
 		}
 
-		if (localeStr == null) {
-			// keys not loaded yet
-			return key;
-		}
-
 		String ret = getPropertyNative(getCommandLocaleString(), key, "command");
 
 		if (ret == null || "".equals(ret)) {
@@ -122,11 +120,6 @@ public final class LocalizationW extends Localization
 			return "";
 		}
 
-		if (localeStr == null) {
-			// keys not loaded yet
-			return key;
-		}
-
 		String ret = getPropertyNative(localeStr, key, "menu");
 
 		// eg webSimple
@@ -156,11 +149,6 @@ public final class LocalizationW extends Localization
 			return "";
 		}
 
-		if (localeStr == null) {
-			// keys not loaded yet
-			return key;
-		}
-
 		String ret = getPropertyNative(localeStr, key, "error");
 
 		if (ret == null || "".equals(ret)) {
@@ -174,11 +162,6 @@ public final class LocalizationW extends Localization
 	@Override
 	public String getSymbol(int key) {
 
-		if (localeStr == null) {
-			// keys not loaded yet
-			return null;
-		}
-
 		String ret = getPropertyNative(localeStr, "S_" + key, "symbols");
 
 		if (ret == null || "".equals(ret)) {
@@ -191,11 +174,6 @@ public final class LocalizationW extends Localization
 
 	@Override
 	public String getSymbolTooltip(int key) {
-
-		if (localeStr == null) {
-			// keys not loaded yet
-			return null;
-		}
 
 		String ret = getPropertyNative(localeStr, "T_" + key, "symbols");
 
@@ -266,7 +244,7 @@ public final class LocalizationW extends Localization
 	 */
 	@Override
 	public String getLanguage() {
-		return localeStr == null ? null : localeStr.substring(0, 2);
+		return localeStr.substring(0, 2);
 	}
 
 	@Override
