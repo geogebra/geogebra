@@ -4110,6 +4110,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_EXAM_MODE_SCREENSHOT_SAVED_NOTIFICATION:
 			return prerelease;
 
+		// AND-887 and IGR-732
+		case MOB_PROPERTY_SORT_BY:
+			return false;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
