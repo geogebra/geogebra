@@ -890,12 +890,10 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		private void readOpenText() {
 			StringBuilder sb = new StringBuilder();
-			String[] arg = { geoList.getNameDescription() };
 			sb.append(geoList.getKernel().getApplication().getLocalization()
 					.getPlainArray("DropDownOpened",
-							"Drop down " + arg[0]
-									+ " opened. Press up arrow and down arrow to go to different options. Press enter to select",
-							arg));
+							"Drop down %0 opened.",
+							new String[] { geoList.getNameDescription() }));
 			sb.append(geoList.getKernel().getApplication().getLocalization().getMenuDefault(
 					"PressArrowsToGo",
 					"Press up arrow and down arrow to go to different options."));

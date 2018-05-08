@@ -33,7 +33,7 @@ public class ScreenReader {
 	public static void dropDownItemSelected(App app, GeoElement geo){
 		String item = ((GeoList) geo).getSelectedElement().getAlgebraDescriptionDefault();
 		String readText = app.getLocalization().getPlainArray("DropDownItemSelected",
-				"Item " + item + " selected. Drop down closed. ",
+				"Item %0 selected. Drop down closed. ",
 				new String[] { item });
 		app.getActiveEuclidianView().readText(readText);
 	}
@@ -103,10 +103,9 @@ public class ScreenReader {
 				appendSentence(sb, "PressArrowsToMove", "Press the arrow keys to move the object", null, app);
 			}
 			if (geo0.isGeoList() && app.has(Feature.READ_DROPDOWNS)) {
-				String[] arg = { geo0.getNameDescription() };
-
-				appendSentence(sb, "DropDownSelected", "Drop down " + arg[0] + " menu selected",
-						arg, app);
+				appendSentence(sb, "DropDownSelected",
+						"Drop down %0 menu selected",
+						new String[] { geo0.getNameDescription() }, app);
 				appendSentence(sb, "PressSpaceToOpen", "Press space to open", null, app);
 			}
 		}
