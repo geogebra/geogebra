@@ -669,8 +669,9 @@ public class TableSymbols {
 
 			String functionName = strs[0].trim();
 			String translatedFunctionName = loc
-					.getMenu("Function." + functionName);
-			if (translatedFunctionName.startsWith("Function.")) {
+					.getMenu(Localization.FUNCTION_PREFIX + functionName);
+			if (translatedFunctionName
+					.startsWith(Localization.FUNCTION_PREFIX)) {
 				// translation not supported for this function
 				ret[i] = functions[i];
 			} else {
@@ -707,8 +708,9 @@ public class TableSymbols {
 				String[] strs = functionsGrouped[i][j].split("\\(");
 				String functionName = strs[0].trim();
 				String translatedFunctionName = loc
-						.getMenu("Function." + functionName);
-				if (translatedFunctionName.startsWith("Function.")) {
+						.getMenu(Localization.FUNCTION_PREFIX + functionName);
+				if (translatedFunctionName
+						.startsWith(Localization.FUNCTION_PREFIX)) {
 					// translation not supported for this function
 					ret[i][j] = functionsGrouped[i][j];
 				} else {

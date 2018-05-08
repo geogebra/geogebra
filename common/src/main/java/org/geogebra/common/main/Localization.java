@@ -1197,8 +1197,8 @@ public abstract class Localization {
 
 		// make sure we don't get strange function names if the properties
 		// aren't loaded
-		if (ret.startsWith("Function.")) {
-			return ret.replace("Function.", "");
+		if (ret.startsWith(FUNCTION_PREFIX)) {
+			return ret.substring(FUNCTION_PREFIX.length());
 		}
 
 		return ret;
