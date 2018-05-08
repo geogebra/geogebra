@@ -25,7 +25,7 @@ public class KeyboardLayoutTest {
 		}
 
 		Assert.assertEquals(
-				"\u221E,\\questeq,\u2260,\u2227,\u2228,\u2192,\u00AC,\u2297,\u2225,\u22A5,EMPTY_IMAGE,\u2208,\u2282,\u2286,\u2220,FLOOR,CEIL,&,@,#,EMPTY_IMAGE,EMPTY_IMAGE,[,],:,\",Translate.currency,\u00AB,\u00BB,EMPTY_IMAGE,BACKSPACE_DELETE,ABC,,,\', ,LEFT_ARROW,RIGHT_ARROW,RETURN_ENTER,",
+				"\u221E,\\questeq,\u2260,\u2227,\u2228,\u2192,\u00AC,\u2297,\u2225,\u22A5,EMPTY_IMAGE,\u2208,\u2282,\u2286,\u2220,FLOOR,CEIL,&,@,#,EMPTY_IMAGE,EMPTY_IMAGE,[,],:,\",Translate.currency,\u2032,\u2033,EMPTY_IMAGE,BACKSPACE_DELETE,ABC,,,\', ,LEFT_ARROW,RIGHT_ARROW,RETURN_ENTER,",
 				resources.toString());
 		Assert.assertEquals(
 				"\u221E,\u225F,\u2260,\u2227,\u2228,\u2192,\u00AC,\u2297,\u2225,\u22A5,NONE,\u2208,\u2282,\u2286,\u2220,\u230A,\u2308,&,@,#,NONE,NONE,[,],:,\",Translate.currency,\u00AB,\u00BB,NONE,BACKSPACE_DELETE,SWITCH_TO_ABC,,,\', ,LEFT_CURSOR,RIGHT_CURSOR,RETURN_ENTER,",
