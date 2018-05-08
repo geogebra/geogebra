@@ -1634,7 +1634,8 @@ public class EuclidianViewW extends EuclidianView implements
 			return;
 		}
 
-		if (g2c instanceof GGraphics2DW) {
+		// no outline if label color == background color
+		if (g2c instanceof GGraphics2DW && !col.equals(getBackgroundCommon())) {
 			GGraphics2DW g2 = (GGraphics2DW) g2c;
 			g2.setColor(getBackgroundCommon());
 			String old = g2.getContext().getLineJoin();
