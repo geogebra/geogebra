@@ -3185,7 +3185,7 @@ __GGB__keysVar["de"].menu = {
     "pdf": "PDF-Format",
     "permission.photos": "GeoGebra ben\xf6tigt Zugriff auf deine Fotogalerie, um Bilder zu speichern.",
     "permission.photos.denied": "Kein Zugriff auf Fotos m\xf6glich",
-    "permission.photos.exam_screenshot": "GeoGebra needs access the photo library to save a screenshot of the log at the end of the exam.",
+    "permission.photos.exam_screenshot": "GeoGebra needs access to the photo library to save a screenshot of the log at the end of the exam.",
     "permission.request": "Aktiviere den Zugriff in deinen Einstellungen.",
     "phone_change_visibility": "Sichtbarkeit \xe4ndern",
     "phone_change_visibility_text": "Wenn Sie dieses private Material teilen, wird die Sichtbarkeit auf \"Mit Link teilen\" gesetzt.",

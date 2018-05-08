@@ -3185,7 +3185,7 @@ __GGB__keysVar["he"].menu = {
     "pdf": "pdf",
     "permission.photos": "\u05d2\u05d0\u05d5\u05d2\u05d1\u05e8\u05d4 \u05e6\u05e8\u05d9\u05db\u05d4 \u05d2\u05d9\u05e9\u05d4 \u05dc\u05e1\u05e4\u05e8\u05d9\u05d9\u05ea \u05d4\u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05e9\u05dc\u05da \u05db\u05d3\u05d9 \u05dc\u05e9\u05de\u05d5\u05e8 \u05ea\u05de\u05d5\u05e0\u05d4.",
     "permission.photos.denied": "\u05d0\u05d9\u05df \u05d0\u05e4\u05e9\u05e8\u05d5\u05ea \u05d2\u05d9\u05e9\u05d4 \u05dc\u05ea\u05de\u05d5\u05e0\u05d5\u05ea",
-    "permission.photos.exam_screenshot": "GeoGebra needs access the photo library to save a screenshot of the log at the end of the exam.",
+    "permission.photos.exam_screenshot": "GeoGebra needs access to the photo library to save a screenshot of the log at the end of the exam.",
     "permission.request": "\u05d0\u05e0\u05d0 \u05d0\u05e4\u05e9\u05e8\u05d9 \u05d2\u05d9\u05e9\u05d4 \u05dc\u05d4\u05d2\u05d3\u05e8\u05d5\u05ea \u05e9\u05dc\u05da.",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

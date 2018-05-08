@@ -3185,7 +3185,7 @@ __GGB__keysVar["hi"].menu = {
     "pdf": "\u092a\u094b\u0930\u094d\u091f\u0947\u092c\u0932 \u0921\u0949\u0915\u094d\u092f\u0942\u092e\u0947\u0902\u091f \u092b\u093c\u0949\u0930\u094d\u092e\u0947\u091f",
     "permission.photos": "GeoGebra needs access to your photo library to save an image.",
     "permission.photos.denied": "Unable to access photos",
-    "permission.photos.exam_screenshot": "GeoGebra needs access the photo library to save a screenshot of the log at the end of the exam.",
+    "permission.photos.exam_screenshot": "GeoGebra needs access to the photo library to save a screenshot of the log at the end of the exam.",
     "permission.request": "Please enable access in your Settings.",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

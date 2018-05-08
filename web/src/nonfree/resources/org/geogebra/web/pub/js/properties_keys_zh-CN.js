@@ -3185,7 +3185,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "pdf": "\u4fbf\u643a\u5f0f\u6587\u6863\u683c\u5f0f",
     "permission.photos": "GeoGebra \u9700\u8981\u8bbf\u95ee\u60a8\u7684\u7167\u7247\u5e93\u6765\u4fdd\u5b58\u56fe\u50cf.",
     "permission.photos.denied": "\u65e0\u6cd5\u8bbf\u95ee\u7167\u7247",
-    "permission.photos.exam_screenshot": "GeoGebra needs access the photo library to save a screenshot of the log at the end of the exam.",
+    "permission.photos.exam_screenshot": "GeoGebra \u9700\u8981\u8bbf\u95ee\u56fe\u7247\u5e93\uff0c\u4ee5\u4fbf\u5728\u68c0\u6d4b\u7ed3\u675f\u65f6\u4fdd\u5b58\u65e5\u5fd7\u5c4f\u5e55\u622a\u56fe.",
     "permission.request": "\u5728\u8bbe\u7f6e\u4e2d\u8bf7\u542f\u7528\u8bbf\u95ee\u8bb8\u53ef.",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",
