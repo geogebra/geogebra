@@ -536,8 +536,8 @@ namespace giac {
   define_unary_function_ptr5( at_suppress ,alias_at_suppress,&__suppress,0,true);
 
 #ifdef GIAC_HAS_STO_38
-  const int pixel_lines=320; // calculator screen 307K
-  const int pixel_cols=240;
+  const int pixel_lines=1; // 320; // calculator screen 307K
+  const int pixel_cols=1; // 240;
 #else
   const int pixel_lines=1024;
   const int pixel_cols=768;

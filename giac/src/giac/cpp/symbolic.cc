@@ -407,15 +407,14 @@ namespace giac {
       if (pui.type==_SYMB || pui.type==_FRAC || pui.type==_CPLX){
 	add_print(s,arg,contextptr);
 	if (argpar) s +=')';
+#ifdef GIAC_HAS_STO_38
+	s += '^';
+#else
 	if (python_compat(contextptr))
 	  s += "**";
-	else {
-#ifdef GIAC_HAS_STO_38
-	  s += '^';
-#else
+	else 
 	  s += __pow.s;
 #endif
-	}
 	s += '(';
 	add_print(s,pui,contextptr);
 	s += ')';
@@ -424,15 +423,14 @@ namespace giac {
       else {
 	add_print(s,arg,contextptr);
 	if (argpar) s +=')';
+#ifdef GIAC_HAS_STO_38
+	s += '^';
+#else
 	if (python_compat(contextptr))
 	  s += "**";
-	else {
-#ifdef GIAC_HAS_STO_38
-	  s += '^';
-#else
+	else
 	  s += __pow.s;
 #endif
-	}
 	return add_print(s,pui,contextptr);
       }
     }

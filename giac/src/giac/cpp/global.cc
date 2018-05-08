@@ -1445,7 +1445,8 @@ extern "C" void Sleep(unsigned int miliSecond);
 
   int array_start(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr){
-      return (!contextptr->globalptr->_python_compat_ && (contextptr->globalptr->_xcas_mode_ || absint(contextptr->globalptr->_calc_mode_)==38))?1:0;
+      bool hp38=absint(contextptr->globalptr->_calc_mode_)==38;
+      return (!contextptr->globalptr->_python_compat_ && (contextptr->globalptr->_xcas_mode_ || hp38))?1:0;
     }
     return (!_python_compat_ && (_xcas_mode_ || absint(_calc_mode_)==38))?1:0;
   }
@@ -5852,7 +5853,7 @@ unsigned int ConvertUTF8toUTF16 (
   // elif ...: -> elif ... then [nothing in stack]
   // try: ... except: ...
   std::string python2xcas(const std::string & s_orig,GIAC_CONTEXT){
-    if (xcas_mode(contextptr)>0)
+    if (xcas_mode(contextptr)>0 && abs_calc_mode(contextptr)!=38)
       return s_orig;
     // quick check for python-like syntax: search line ending with :
     int first=0,sss=s_orig.size();
@@ -6318,6 +6319,8 @@ unsigned int ConvertUTF8toUTF16 (
 	progpos=cur.find("def");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,3)){
 	  pythonmode=true;
+	  python_compat(1,contextptr); 
+	  pythoncompat=true;
 	  // should remove possible returned type, between -> ... and :
 	  string entete=cur.substr(progpos+3,pos-progpos-3);
 	  int posfleche=entete.find("->");

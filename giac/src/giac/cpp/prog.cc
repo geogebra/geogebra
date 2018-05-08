@@ -1150,7 +1150,7 @@ namespace giac {
     vecteur newcsto(lop(c,at_sto)),newc1,newc2;
     for (size_t i=0;i<newcsto.size();++i){
       gen var=newcsto[i]._SYMBptr->feuille[1];
-      if (var.type==_FUNC && !archive_function_index(*var._FUNCptr)){
+      if (var.type==_FUNC && (python_compat(contextptr) || !archive_function_index(*var._FUNCptr))){
 	newc1.push_back(var);
 	newc2.push_back(identificateur(string(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
       }
@@ -1158,7 +1158,7 @@ namespace giac {
     newcsto=lop(c,at_struct_dot);
     for (size_t i=0;i<newcsto.size();++i){
       gen var=newcsto[i]._SYMBptr->feuille[0];
-      if (var.type==_FUNC && !archive_function_index(*var._FUNCptr)){
+      if (var.type==_FUNC && (python_compat(contextptr) || !archive_function_index(*var._FUNCptr))){
 	newc1.push_back(var);
 	newc2.push_back(identificateur(string(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
       }

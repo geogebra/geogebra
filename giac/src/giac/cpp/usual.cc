@@ -4007,6 +4007,16 @@ namespace giac {
       return sto(v,destination,in_place,contextptr);
     }
     if (b.type==_FUNC){
+      if (b==at_of){ // shortcut for python_compat(0 or 1): of:=1 or 0
+	if (a==0) {// index start 0 -> enable python compat
+	  python_compat(1,contextptr);
+	  return string2gen("[] index start 0",false);
+	}
+	if (a==1) { // index start 1 -> disable python compat
+	  python_compat(0,contextptr);
+	  return string2gen("[] index start 1",false);
+	}
+      }
       string errmsg=b.print(contextptr)+ gettext(" is a reserved word, sto not allowed:");
       if (abs_calc_mode(contextptr)!=38)
 	*logptr(contextptr) << errmsg << endl;
@@ -5405,6 +5415,15 @@ namespace giac {
     vecteur & v=*args._VECTptr;
     if (v.size()!=2)
       return gensizeerr(contextptr);
+    static bool alert_array_start=true;
+    if (alert_array_start && contextptr->globalptr->_python_compat_){
+      alert_array_start=false;
+#ifdef GIAC_HAS_STO_38
+      alert(gettext("Python compatibility enabled. List index will start at 0, run of:=1 to disable Python compatibility."),contextptr);
+#else
+      alert(gettext("Python compatibility enabled. List index will start at 0, run python_compat(0) to disable Python compatibility."),contextptr);
+#endif
+    }
     if (storcl_38){
       if (v.front().type==_IDNT){
 	gen value;

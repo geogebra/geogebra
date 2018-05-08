@@ -747,7 +747,11 @@ namespace giac {
   gen::gen(const mpz_t & m) { 
     if (int(mpz_sizeinbase(m,2))>MPZ_MAXLOG2){
       type=0;
+#if 1
+      *this=undef;
+#else
       *this=mpz_sgn(m)==-1?minus_inf:plus_inf;
+#endif
       return;
     }
 #ifdef COMPILE_FOR_STABILITY
@@ -1036,7 +1040,11 @@ namespace giac {
     else {
       if (l>MPZ_MAXLOG2){
 	type=0;
+#if 1
+	*this=undef;
+#else
 	*this=(mpz_sgn(mptr->z)==-1)?minus_inf:plus_inf;
+#endif
 	delete mptr;
 	return;
       }
@@ -1070,7 +1078,11 @@ namespace giac {
     else {
       if (l>MPZ_MAXLOG2){
 	g.type=0;
+#if 1
+	g=undef;
+#else
 	g=(mpz_sgn(mptr->z)==-1)?minus_inf:plus_inf;
+#endif
 	return false;
       }
 #ifdef SMARTPTR64
@@ -1093,7 +1105,11 @@ namespace giac {
     else {
       if (l>MPZ_MAXLOG2){
 	type=0;
+#if 1
+	*this=undef;
+#else
 	*this=(mpz_sgn(z.ptr)==-1)?minus_inf:plus_inf;
+#endif
 	return;
       }
 #ifdef SMARTPTR64
