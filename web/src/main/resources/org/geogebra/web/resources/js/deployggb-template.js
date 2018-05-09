@@ -1928,16 +1928,13 @@ function web3d(){
 	  $intern_63 = '%WEB3D_PERMUTATION%', $intern_64 = ':1', $intern_65 = ':2', $intern_66 = ':3', $intern_67 = ':', $intern_68 = '.cache.js', $intern_69 = 'loadExternalRefs', $intern_70 = 'end';
 	  var $wnd = window;
 	  var $doc = document;
-	  sendStats($intern_0, $intern_1);
 	  function isHostedMode(){
 	    var query = $wnd.location.search;
 	    return query.indexOf($intern_2) != -1 || query.indexOf($intern_3) != -1;
 	  }
 
 	  function sendStats(evtGroupString, typeString){
-	    if ($wnd.__gwtStatsEvent) {
-	      $wnd.__gwtStatsEvent({moduleName:$intern_4, sessionId:$wnd.__gwtStatsSessionId, subSystem:$intern_5, evtGroup:evtGroupString, millis:(new Date).getTime(), type:typeString});
-	    }
+		  //no-op
 	  }
 
 	  web3d.__sendStats = sendStats;
@@ -2053,10 +2050,8 @@ function web3d(){
 	        ;
 	      }
 	      docbody.appendChild(script);
-	      sendStats($intern_22, $intern_23);
 	    }
 
-	    sendStats($intern_22, $intern_24);
 	    setupWaitForBodyLoad(function(){
 	      installCode(filename);
 	    }
@@ -2292,7 +2287,6 @@ function web3d(){
 	    ;
 	    web3d.__computePropValue = computePropValue;
 	    $wnd.__gwt_activeModules[$intern_4].bindings = web3d.__getPropMap;
-	    sendStats($intern_0, $intern_61);
 	    if (isHostedMode()) {
 	      return computeUrlForResource($intern_62);
 	    }
@@ -2319,8 +2313,6 @@ function web3d(){
 	    if (!$wnd.__gwt_stylesLoaded) {
 	      $wnd.__gwt_stylesLoaded = {};
 	    }
-	    sendStats($intern_69, $intern_1);
-	    sendStats($intern_69, $intern_70);
 	  }
 
 	  processMetas();
@@ -2328,7 +2320,6 @@ function web3d(){
 	  activeModules[$intern_4].moduleBase = web3d.__moduleBase;
 	  var filename = getCompiledCodeFilename();
 	  loadExternalStylesheets();
-	  sendStats($intern_0, $intern_70);
 	  installScript(filename);
 	  return true;
 	}
