@@ -68,7 +68,6 @@ public final class DrawImage extends Drawable {
 	private double[] hitCoords = new double[2];
 	private BoundingBox boundingBox;
 	private double originalRatio = Double.NaN;
-	private boolean wasCroped = false;
 	/**
 	 * ratio of the whole image and the crop box width
 	 */
@@ -98,7 +97,6 @@ public final class DrawImage extends Drawable {
 		this.view = view;
 		this.geoImage = geoImage;
 		geo = geoImage;
-
 		// temp
 		at = AwtFactory.getPrototype().newAffineTransform();
 		tempAT = AwtFactory.getPrototype().newAffineTransform();
@@ -278,7 +276,7 @@ public final class DrawImage extends Drawable {
 		}
 
 		if (geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
-			if (this.wasCroped && geoImage.getCropBoxRelative() != null) {
+			if (geoImage.isCropped() && geoImage.getCropBoxRelative() != null) {
 				getBoundingBox().setRectangle(getCropBox().getBounds());
 			} else if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
@@ -344,11 +342,11 @@ public final class DrawImage extends Drawable {
 					g3.setComposite(
 							AwtFactory.getPrototype().newAlphaComposite(0.5f));
 				}
-				if (!wasCroped || getBoundingBox().isCropBox()) {
+				if (!geoImage.isCropped() || getBoundingBox().isCropBox()) {
 					g3.drawImage(image, 0, 0);
 				}
-				if (getBoundingBox().isCropBox() || wasCroped) {
-					GRectangle2D drawRectangle = wasCroped ? getCropBox()
+				if (getBoundingBox().isCropBox() || geoImage.isCropped()) {
+					GRectangle2D drawRectangle = geoImage.isCropped() ? getCropBox()
 							: getBoundingBox().getRectangle();
 					g3.setComposite(
 							AwtFactory.getPrototype().newAlphaComposite(1.0f));
@@ -506,7 +504,7 @@ public final class DrawImage extends Drawable {
 
 	private void updateOriginalRatio() {
 		double width, height;
-		if (wasCroped) {
+		if (geoImage.isCropped()) {
 			width = getBoundingBox().getRectangle().getWidth();
 			height = getBoundingBox().getRectangle().getHeight();
 		} else {
@@ -530,7 +528,7 @@ public final class DrawImage extends Drawable {
 			if (!geo.getKernel().getApplication().has(Feature.MOW_CROP_IMAGE)) {
 				return;
 			}
-			wasCroped = true;
+			geoImage.setCropped(true);
 			if (Double.isNaN(originalRatio)) {
 				updateOriginalRatio();
 			}
@@ -743,7 +741,7 @@ public final class DrawImage extends Drawable {
 		GeoPoint A, B, D;
 		double cropMinX, cropMaxX, cropMinY, cropMaxY;
 		GRectangle2D cropBox = null;
-		if (wasCroped) {
+		if (geoImage.isCropped()) {
 			cropBox = getCropBox();
 			cropMinX = view.toRealWorldCoordX(cropBox.getMinX());
 			cropMaxX = view.toRealWorldCoordX(cropBox.getMaxX());
@@ -910,7 +908,7 @@ public final class DrawImage extends Drawable {
 			break;
 		}
 
-		if (wasCroped) {
+		if (geoImage.isCropped()) {
 			// the new screen positions of crop box and the new width/height
 			double screenAX = view.toScreenCoordXd(A.getInhomX());
 			double screenAY = view.toScreenCoordYd(A.getInhomY());
@@ -988,7 +986,7 @@ public final class DrawImage extends Drawable {
 	}
 
 	private void setCorner(GeoPoint point, int corner) {
-		if (!wasCroped) {
+		if (!geoImage.isCropped()) {
 			geoImage.setCorner(point, corner);
 		}
 	}

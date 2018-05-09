@@ -32,6 +32,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
@@ -3611,6 +3612,9 @@ public class MyXMLHandler implements DocHandler {
 				} else if ("comboBox".equals(eName)) {
 					ok = handleComboBox(attrs);
 					break;
+				} else if ("cropBox".equals(eName)) {
+					ok = handleCropBox(attrs);
+					break;
 				} else if ("curveParam".equals(eName)) {
 					ok = handleCurveParam(attrs);
 					break;
@@ -4897,6 +4901,27 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	private boolean handleCropBox(LinkedHashMap<String, String> attrs) {
+		if (!(geo.isGeoImage())) {
+			Log.error("wrong element type for <cropBox>: " + geo.getClass());
+			return false;
+		}
+
+		try {
+			GeoImage img = (GeoImage) geo;
+			double x = Double.parseDouble(attrs.get("x"));
+			double y = Double.parseDouble(attrs.get("y"));
+			double w = Double.parseDouble(attrs.get("width"));
+			double h = Double.parseDouble(attrs.get("height"));
+			GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
+			rect.setRect(x, y, w, h);
+			img.setCropBoxRelative(rect);
+			img.setCropped(true);
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
 	private boolean handleAngleStyle(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof AngleProperties)) {
 			Log.error("wrong element type for <angleStyle>: " + geo.getClass());

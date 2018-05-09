@@ -75,7 +75,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	private double scaleY = 1;
 	
 	private GRectangle2D cropBox;
-
+	private boolean cropped = false;
 	/**
 	 * Creates new image
 	 * 
@@ -644,6 +644,9 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		getAuxiliaryXML(sb);
 
+		if (cropBox != null) {
+			getCropBoxXML(sb);
+		}
 		// sb.append(getXMLvisualTags());
 		// sb.append(getBreakpointXML());
 		super.getXMLtags(sb);
@@ -655,6 +658,18 @@ public class GeoImage extends GeoElement implements Locateable,
 		sb.append(getAbsoluteScreenLocX());
 		sb.append("\" y=\"");
 		sb.append(getAbsoluteScreenLocY());
+		sb.append("\"/>");
+	}
+
+	private void getCropBoxXML(StringBuilder sb) {
+		sb.append("\t<cropBox x=\"");
+		sb.append(cropBox.getX());
+		sb.append("\" y=\"");
+		sb.append(cropBox.getY());
+		sb.append("\" width=\"");
+		sb.append(cropBox.getWidth());
+		sb.append("\" height=\"");
+		sb.append(cropBox.getHeight());
 		sb.append("\"/>");
 	}
 
@@ -1425,5 +1440,31 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	public GRectangle2D getCropBoxRelative() {
 		return cropBox;
+	}
+
+	/**
+	 * 
+	 * @return if image has crop box.
+	 */
+	public boolean hasCropBox() {
+		return cropBox != null;
+	}
+
+	/**
+	 * 
+	 * @return if the image is cropped.
+	 */
+	public boolean isCropped() {
+		return cropped;
+	}
+
+	/**
+	 * Sets the image to be cropped or not.
+	 * 
+	 * @param cropped
+	 *            to set.
+	 */
+	public void setCropped(boolean cropped) {
+		this.cropped = cropped;
 	}
 }
