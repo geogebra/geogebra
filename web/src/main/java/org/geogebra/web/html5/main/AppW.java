@@ -737,26 +737,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * This method checks if the command is stored in the command properties
-	 * file as a key or a value.
-	 * 
-	 * @param command
-	 *            : a value that should be in the command properties files (part
-	 *            of Internationalization)
-	 * @return the value "command" after verifying its existence.
-	 */
-	@Override
-	final public String getReverseCommand(String command) {
-
-		if (loc.getLanguage() == null) {
-			// keys not loaded yet
-			return command;
-		}
-
-		return super.getReverseCommand(command);
-	}
-
-	/**
 	 * @param archiveContent
 	 *            zip archive content
 	 * @param asSlide

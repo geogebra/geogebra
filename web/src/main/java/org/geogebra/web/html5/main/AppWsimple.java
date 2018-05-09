@@ -218,4 +218,12 @@ public class AppWsimple extends AppW {
 		Log.debug("unimplemented");
 	}
 
+	@Override
+	final public String getReverseCommand(String command) {
+
+		// translations not available in webSimple
+		return command;
+
+	}
+
 }
