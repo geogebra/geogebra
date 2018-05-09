@@ -891,7 +891,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		boolean setVisible(boolean visible) {
 			if (geoList.getKernel().getApplication().has(Feature.READ_DROPDOWNS) && visible) {
-				ScreenReader.readOpenText(geoList);
+				ScreenReader.readOpenDropDown(geoList);
 			}
 			boolean repaintNeeded = this.visible != visible;
 

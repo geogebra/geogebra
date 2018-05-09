@@ -149,7 +149,7 @@ public class ScreenReader {
 	 * @param geoList
 	 *            drop down
 	 */
-	public static void readOpenText(GeoList geoList) {
+	public static void readOpenDropDown(GeoList geoList) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(geoList.getKernel().getApplication().getLocalization()
 				.getPlainArray("DropDownOpened", "Drop down %0 opened.",
