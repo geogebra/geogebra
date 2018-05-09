@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.app;
 
+import java.util.Date;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.keyboard.web.KeyboardResources;
@@ -17,6 +19,7 @@ import org.geogebra.web.keyboard.OnscreenTabbedKeyboard;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -70,6 +73,9 @@ public class ShowKeyboardButton extends SimplePanel {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				Cookies.setCookie("GeoGebraKeyboardWanted", "true",
+						new Date(System.currentTimeMillis()
+								+ 1000 * 60 * 60 * 24 * 365));
 				DockPanelW panel = dm.getPanelForKeyboard();
 				final MathKeyboardListener mathKeyboardListener = app
 						.getGuiManager().getKeyboardListener(panel);

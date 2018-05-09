@@ -1,6 +1,7 @@
 package org.geogebra.keyboard.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -260,6 +262,8 @@ public class TabbedKeyboard extends FlowPanel {
 			updateKeyBoardListener.keyBoardNeeded(false, null);
 		}
 		keyboardWanted = false;
+		Cookies.setCookie("GeoGebraKeyboardWanted", "false", new Date(
+				System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365));
 	}
 
 	/**

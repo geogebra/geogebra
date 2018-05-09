@@ -50,6 +50,7 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
@@ -454,7 +455,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	@Override
 	public boolean showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {
-		if (forceShow) {
+		if (forceShow && isKeyboardWantedFromCookie()) {
 			doShowKeyBoard(show, textField);
 			return true;
 		}
@@ -576,7 +577,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				}
 			}
 		} else {
-			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()) {
+			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()
+					&& isKeyboardWantedFromCookie()) {
 				if (!app.isStartedWithFile()
 						&& !app.getArticleElement().preventFocus()) {
 					if (app.getGuiManager().isKeyboardClosedByUser()) {
@@ -711,6 +713,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	@Override
 	public double getKeyboardHeight() {
 		return isKeyboardShowing() ? keyboardHeight : 0;
+	}
+
+	private static boolean isKeyboardWantedFromCookie() {
+		String wanted = Cookies.getCookie("GeoGebraKeyboardWanted");
+		if (wanted != null && wanted.equals("false")) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
