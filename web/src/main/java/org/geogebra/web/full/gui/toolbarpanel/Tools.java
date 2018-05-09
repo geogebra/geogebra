@@ -154,8 +154,7 @@ public class Tools extends FlowPanel implements SetLabels {
 		categoryPanelList = new ArrayList<>();
 		// decide if custom toolbar or not
 		String def = app.getGuiManager().getCustomToolbarDefinition();
-
-		boolean isCustomToolbar = !ToolBar.isDefaultToolbar(def);
+		boolean isCustomToolbar = !ToolBar.isDefaultToolbar(def) && !ToolBar.isDefaultToolbar3D(def); 
 		parentTab.isCustomToolbar = isCustomToolbar;
 		// build tools panel depending on if custom or not
 		if (!isCustomToolbar) {
