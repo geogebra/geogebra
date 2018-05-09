@@ -142,4 +142,26 @@ public class ScreenReader {
 		}
 		sb.append(".");
 	}
+
+	/**
+	 * Reads some instructions at opening the drop down.
+	 * 
+	 * @param geoList
+	 *            drop down
+	 */
+	public static void readOpenText(GeoList geoList) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(geoList.getKernel().getApplication().getLocalization()
+				.getPlainArray("DropDownOpened", "Drop down %0 opened.",
+						new String[] { geoList
+								.getLabel(StringTemplate.defaultTemplate) }));
+		sb.append(geoList.getKernel().getApplication().getLocalization()
+				.getMenuDefault("PressArrowsToGo",
+						"Press up arrow and down arrow to go to different options."));
+		sb.append(geoList.getKernel().getApplication().getLocalization()
+				.getMenuDefault("PressEnterToSelect",
+						"Press enter to select."));
+		geoList.getKernel().getApplication().getActiveEuclidianView()
+				.readText(sb.toString());
+	}
 }

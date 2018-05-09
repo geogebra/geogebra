@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.ScreenReader;
 
 import com.google.j2objc.annotations.WeakOuter;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -888,24 +889,9 @@ public final class DrawDropDownList extends CanvasDrawable
 			return visible;
 		}
 
-		private void readOpenText() {
-			StringBuilder sb = new StringBuilder();
-			sb.append(geoList.getKernel().getApplication().getLocalization()
-					.getPlainArray("DropDownOpened",
-							"Drop down %0 opened.",
-							new String[] { geoList.getLabel(
-									StringTemplate.defaultTemplate) }));
-			sb.append(geoList.getKernel().getApplication().getLocalization().getMenuDefault(
-					"PressArrowsToGo",
-					"Press up arrow and down arrow to go to different options."));
-			sb.append(geoList.getKernel().getApplication().getLocalization()
-					.getMenuDefault("PressEnterToSelect", "Press enter to select."));
-			geoList.getKernel().getApplication().getActiveEuclidianView().readText(sb.toString());
-		}
-
 		boolean setVisible(boolean visible) {
 			if (geoList.getKernel().getApplication().has(Feature.READ_DROPDOWNS) && visible) {
-				readOpenText();
+				ScreenReader.readOpenText(geoList);
 			}
 			boolean repaintNeeded = this.visible != visible;
 
