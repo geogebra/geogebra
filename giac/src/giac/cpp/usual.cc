@@ -5948,7 +5948,101 @@ namespace giac {
   // symbolic symb_irem(const gen & a,const gen & b){    return symbolic(at_irem,makevecteur(a,b));  }
   gen _normalmod(const gen & g,GIAC_CONTEXT);
   gen _irem(const gen & args,GIAC_CONTEXT){
-    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args._VECTptr->size()>1 && args._VECTptr->front().type==_STRNG){
+      vecteur v=*args._VECTptr;
+      const char * fmt=v.front()._STRNGptr->c_str();
+      char buf[256];
+      size_t s=v.size();
+      if (s==2){
+	switch (v[1].type){
+	case _INT_:
+	  sprintf(buf,fmt,v[1].val);
+	  break;
+	case _DOUBLE_:
+	  sprintf(buf,fmt,v[1]._DOUBLE_val);
+	  break;
+	case _STRNG:
+	  sprintf(buf,fmt,v[1]._STRNGptr->c_str());
+	  break;
+	default:
+	  return gentypeerr(contextptr);
+	}
+	return string2gen(buf,false);
+      }
+      if (s==3){
+	unsigned t=(v[1].type<< _DECALAGE) | v[2].type;
+	switch (t){
+	case _INT___INT_:
+	  sprintf(buf,fmt,v[1].val,v[2].val);
+	  break;
+	case _INT___DOUBLE_:
+	  sprintf(buf,fmt,v[1].val,v[2]._DOUBLE_val);
+	  break;
+	case _INT___STRNG:
+	  sprintf(buf,fmt,v[1].val,v[2]._STRNGptr->c_str());
+	  break;
+	case _DOUBLE___INT_:
+	  sprintf(buf,fmt,v[1]._DOUBLE_val,v[2].val);
+	  break;
+	case _DOUBLE___DOUBLE_:
+	  sprintf(buf,fmt,v[1]._DOUBLE_val,v[2]._DOUBLE_val);
+	  break;
+	case _DOUBLE___STRNG:
+	  sprintf(buf,fmt,v[1]._DOUBLE_val,v[2]._STRNGptr->c_str());
+	  break;
+	case _STRNG__INT_:
+	  sprintf(buf,fmt,v[1]._STRNGptr->c_str(),v[2].val);
+	  break;
+	case _STRNG__DOUBLE_:
+	  sprintf(buf,fmt,v[1]._STRNGptr->c_str(),v[2]._DOUBLE_val);
+	  break;
+	case _STRNG__STRNG:
+	  sprintf(buf,fmt,v[1]._STRNGptr->c_str(),v[2]._STRNGptr->c_str());
+	  break;
+	default:
+	  return gentypeerr(contextptr);
+	}
+	return string2gen(buf,false);
+      }
+      if (s==4){
+	gen v1=evalf_double(v[1],1,contextptr);
+	if (v1.type!=_DOUBLE_ && v1.type!=_STRNG) return gentypeerr(contextptr);
+	gen v2=evalf_double(v[2],1,contextptr);
+	if (v2.type!=_DOUBLE_ && v2.type!=_STRNG) return gentypeerr(contextptr);
+	gen v3=evalf_double(v[3],1,contextptr);
+	if (v3.type!=_DOUBLE_ && v3.type!=_STRNG) return gentypeerr(contextptr);
+	if (v1.type==_DOUBLE_){
+	  if (v2.type==_DOUBLE_){
+	    if (v3.type==_DOUBLE_)
+	      sprintf(buf,fmt,v1._DOUBLE_val,v2._DOUBLE_val,v3._DOUBLE_val);
+	    else
+	      sprintf(buf,fmt,v1._DOUBLE_val,v2._DOUBLE_val,v3._STRNGptr->c_str());
+	  }
+	  else {
+	    if (v3.type==_DOUBLE_)
+	      sprintf(buf,fmt,v1._DOUBLE_val,v2._STRNGptr->c_str(),v3._DOUBLE_val);
+	    else
+	      sprintf(buf,fmt,v1._DOUBLE_val,v2._STRNGptr->c_str(),v3._STRNGptr->c_str());	    
+	  }
+	} else {
+	  if (v2.type==_DOUBLE_){
+	    if (v3.type==_DOUBLE_)
+	      sprintf(buf,fmt,v1._STRNGptr->c_str(),v2._DOUBLE_val,v3._DOUBLE_val);
+	    else
+	      sprintf(buf,fmt,v1._STRNGptr->c_str(),v2._DOUBLE_val,v3._STRNGptr->c_str());
+	  }
+	  else {
+	    if (v3.type==_DOUBLE_)
+	      sprintf(buf,fmt,v1._STRNGptr->c_str(),v2._STRNGptr->c_str(),v3._DOUBLE_val);
+	    else
+	      sprintf(buf,fmt,v1._STRNGptr->c_str(),v2._STRNGptr->c_str(),v3._STRNGptr->c_str());	    
+	  }
+	}
+	return string2gen(buf,false);	
+      }
+      return gendimerr(contextptr);
+    }
     if (!check_2d_vecteur(args)) return gensizeerr(contextptr);
     if (ckmatrix(args))
       return apply(args._VECTptr->front(),args._VECTptr->back(),irem);

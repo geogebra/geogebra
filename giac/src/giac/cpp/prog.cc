@@ -8470,8 +8470,13 @@ namespace giac {
   // Eval everything except IDNT and symbolics with
   vecteur inputform_pre_analysis(const gen & g,GIAC_CONTEXT){
     vecteur v(gen2vecteur(g));
-    if (python_compat(contextptr) && g.type!=_VECT)
-      v=gen2vecteur(eval(g,1,contextptr));
+    if (python_compat(contextptr)){
+      gen g_=eval(g,1,contextptr);
+      if (g_.type!=_STRNG)
+	g_=string2gen(g_.print(contextptr),false);
+      v=makevecteur(g_,g_,identificateur("_input_"),1);
+      // v=gen2vecteur(eval(g,1,contextptr));
+    }
     int s=int(v.size());
     for (int i=0;i<s;++i){
       if (v[i].type==_IDNT || v[i].type!=_SYMB)
@@ -8554,12 +8559,16 @@ namespace giac {
   gen _input(const gen & args,bool textinput,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     vecteur v(gen2vecteur(args));
+    gen res(args);
+    if (python_compat(contextptr)){
+      res=eval(args,1,contextptr);
+      if (res.type!=_STRNG)
+	res=string2gen(res.print(contextptr),false);
+      return __click.op(makevecteur(res,0,identificateur("_input_"),1),contextptr);
+    }
     const_iterateur it=v.begin(),itend=v.end();
     if (it==itend)
       return __click.op(args,contextptr);
-    gen res(args);
-    if (python_compat(contextptr))
-      res=eval(args,1,contextptr);
     if (res.type==_STRNG){
       return __click.op(res,contextptr);
     }
