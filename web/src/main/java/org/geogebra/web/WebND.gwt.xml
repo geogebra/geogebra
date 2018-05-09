@@ -2,10 +2,7 @@
 <module>
 
   <inherits name='org.geogebra.web.Html5'/>
-  <inherits name='org.geogebra.web.Keyboard' />
   <inherits name='org.geogebra.keyboard.KeyboardWeb'/>
-
-
 
   <!-- supported browsers (reducing the list might decrease compile time for testing) --> 
   <set-property name="user.agent" value="safari, gecko1_8, ie9, ie10" />
@@ -17,6 +14,7 @@
   <source path="plugin"/>
   <public path="pub" />
   <source path='cas'/>
+    <source path='shared'/>
   
    <replace-with class="org.geogebra.web.html5.gui.util.RichTextAreaImpl">
      <when-type-is class="com.google.gwt.user.client.ui.impl.RichTextAreaImplG"/>

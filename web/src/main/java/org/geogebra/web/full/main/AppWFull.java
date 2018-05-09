@@ -65,7 +65,6 @@ import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.LayoutW;
-import org.geogebra.web.full.gui.layout.ZoomSplitLayoutPanel;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
@@ -77,7 +76,6 @@ import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
-import org.geogebra.web.full.move.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.full.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.full.move.ggtapi.operations.LoginOperationW;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
@@ -212,7 +210,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			canvas.setCoordinateSpaceHeight(1);
 			canvas.setCoordinateSpaceWidth(1);
 		}
-		initCoreObjects(this);
+		initCoreObjects();
 		afterCoreObjectsInited();
 		resetFonts();
 		Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
@@ -623,10 +621,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			resetViewsEnabled();
 
 			new ExamDialog(this).show();
-
-			if (Location.getHost() != null) {
-				return;
-			}
 		}
 	}
 
@@ -736,7 +730,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public final void openMaterial(final String id, final Runnable onError) {
 		if (getLoginOperation() != null
-				&& ((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI())
+				&& getLoginOperation().getGeoGebraTubeAPI()
 						.isCheckDone()) {
 			doOpenMaterial(id, onError);
 		} else {
@@ -773,7 +767,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	 *            error callback
 	 */
 	public final void doOpenMaterial(String id, final Runnable onError) {
-		((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI())
+		getLoginOperation().getGeoGebraTubeAPI()
 				.getItem(id, new MaterialCallback() {
 
 					@Override
@@ -848,7 +842,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	/**
 	 * Removed element called ggbsplash
 	 */
-	protected final static void removeSplash() {
+	protected static void removeSplash() {
 		Element el = DOM.getElementById("ggbsplash");
 		if (el != null) {
 			el.removeFromParent();
@@ -857,16 +851,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void appSplashCanNowHide() {
-		String cmd = Location.getParameter("command");
+		String cmds = Location.getParameter("command");
 
-		if (cmd != null) {
+		if (cmds != null) {
+			Log.debug("exectuing commands: " + cmds);
 
-			Log.debug("exectuing commands: " + cmd);
-
-			String[] cmds = cmd.split(";");
-			for (int i = 0; i < cmds.length; i++) {
+			for (String cmd : cmds.split(";")) {
 				getKernel().getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionsOrErrors(cmds[i],
+						.processAlgebraCommandNoExceptionsOrErrors(cmd,
 								false);
 			}
 		}
@@ -1271,9 +1263,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	protected final void updateTreeUI() {
 		if (getSplitLayoutPanel() != null) {
-			((ZoomSplitLayoutPanel) getSplitLayoutPanel()).forceLayout();
+			getSplitLayoutPanel().forceLayout();
 		}
-		// updateComponentTreeUI();
 	}
 
 	/**
@@ -1290,8 +1281,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void attachSplitLayoutPanel() {
-		boolean oldSLPanelChanged = oldSplitLayoutPanel == getSplitLayoutPanel()
-				? false : true;
+		boolean oldSLPanelChanged = oldSplitLayoutPanel != getSplitLayoutPanel();
 		oldSplitLayoutPanel = getSplitLayoutPanel();
 
 		if (oldSplitLayoutPanel != null) {
@@ -1546,8 +1536,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				.setPosition(Position.RELATIVE);
 		if (!isUnbundled() && getGuiManager().hasAlgebraView()
 				&& showView(App.VIEW_ALGEBRA)) {
-			((AlgebraViewW) getAlgebraView())
-					.setShowAlgebraInput(showAlgebraInput()
+			getAlgebraView().setShowAlgebraInput(showAlgebraInput()
 							&& getInputPosition() == InputPosition.algebraView);
 		}
 	}
@@ -1787,8 +1776,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void centerAndResizePopups() {
-		for (int i = 0; i < popups.size(); i++) {
-			Widget w = popups.get(i);
+		for (Widget w : popups) {
 			if (w instanceof HasKeyboardPopup) {
 				if (w instanceof DialogBoxW) {
 					((DialogBoxW) w).centerAndResize(

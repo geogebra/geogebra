@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 
 import com.google.gwt.user.client.ui.ScrollPanel;
+import org.geogebra.web.solver.WebStepGuiBuilder;
 
 public class StepsTab extends ToolbarPanel.ToolbarTab {
 

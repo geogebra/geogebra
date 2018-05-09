@@ -1,13 +1,8 @@
-package org.geogebra.web.keyboard;
+package org.geogebra.web.full.gui.keyboard;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.keyboard.base.Accents;
-import org.geogebra.keyboard.web.ButtonHandler;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.KeyBoardButtonBase;
-import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase;
-import org.geogebra.keyboard.web.KeyboardListener;
-import org.geogebra.keyboard.web.KeyboardListener.ArrowType;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPopup;
@@ -20,7 +15,6 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 
@@ -30,9 +24,8 @@ import com.google.gwt.event.logical.shared.CloseHandler;
  * @author Zbynek, based on Balazs's cross-platform model
  */
 public class OnscreenTabbedKeyboard extends TabbedKeyboard
-		implements VirtualKeyboardGUI, ButtonHandler {
+		implements VirtualKeyboardGUI {
 
-	private KeyboardListener processField;
 	private InputBarHelpPopup helpPopup = null;
 
 	/**
@@ -40,7 +33,8 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	 *            keyboard context
 	 */
 	public OnscreenTabbedKeyboard(HasKeyboard app) {
-		buildGUI(this, app);
+		super((AppW) app, app);
+		buildGUI();
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
 			@Override
@@ -55,8 +49,8 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		if (helpPopup != null) {
 			return;
 		}
-		AlgebraViewW av = (AlgebraViewW) ((AppW) app).getAlgebraView();
-		helpPopup = new InputBarHelpPopup((AppW) app,
+		AlgebraViewW av = (AlgebraViewW) ((AppW) hasKeyboard).getAlgebraView();
+		helpPopup = new InputBarHelpPopup((AppW) hasKeyboard,
 				av != null ? av.getInputTreeItem() : null,
 				"helpPopupAV");
 		helpPopup.addAutoHidePartner(this.getElement());
@@ -88,136 +82,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 
 	@Override
-	public void endEditing() {
-		if (processField != null) {
-			processField.endEditing();
-		}
-	}
-
-	@Override
-	public void setProcessing(KeyboardListener field) {
-		if (processField != null && processField.getField() != null) {
-			if (field == null || processField.getField() != field.getField()) {
-				endEditing();
-			}
-		}
-		this.processField = field;
-	}
-
-	@Override
-	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
-		ToolTipManagerW.hideAllToolTips();
-		if (processField == null) {
-			return;
-		}
-		if (btn instanceof KeyBoardButtonFunctionalBase
-				&& ((KeyBoardButtonFunctionalBase) btn).getAction() != null) {
-			KeyBoardButtonFunctionalBase button = (KeyBoardButtonFunctionalBase) btn;
-
-			switch (button.getAction()) {
-			case CAPS_LOCK:
-				// removeAccents();
-				processShift();
-				break;
-			case BACKSPACE_DELETE:
-				processField.onBackSpace();
-				break;
-			case RETURN_ENTER:
-				// make sure enter is processed correctly
-				processField.onEnter();
-				if (processField.resetAfterEnter()) {
-					getUpdateKeyBoardListener().keyBoardNeeded(false, null);
-				}
-				break;
-			case LEFT_CURSOR:
-				processField.onArrow(ArrowType.left);
-				break;
-			case RIGHT_CURSOR:
-				processField.onArrow(ArrowType.right);
-				break;
-			case SWITCH_TO_SPECIAL_SYMBOLS:
-				selectSpecial();
-				break;
-			case SWITCH_TO_ABC:
-				selectAbc();
-				break;
-			case SWITCH_KEYBOARD:
-				// String caption = button.getCaption();
-				// if (caption.equals(GREEK)) {
-				// setToGreekLetters();
-				// } else if (caption.equals(NUMBER)) {
-				// setKeyboardMode(KeyboardMode.NUMBER);
-				// } else if (caption.equals(TEXT)) {
-				// if (greekActive) {
-				// greekActive = false;
-				// switchABCGreek.setCaption(GREEK);
-				// updateKeys("lowerCase", this.keyboardLocale);
-				// setStyleName();
-				// }
-				// if (shiftIsDown) {
-				// processShift();
-				// }
-				// if (accentDown) {
-				// removeAccents();
-				// }
-				// setKeyboardMode(KeyboardMode.TEXT);
-				// } else if (caption.equals(SPECIAL_CHARS)) {
-				// setKeyboardMode(KeyboardMode.SPECIAL_CHARS);
-				// } else if (caption.equals(PAGE_ONE_OF_TWO)) {
-				// showSecondPage();
-				// } else if (caption.equals(PAGE_TWO_OF_TWO)) {
-				// showFirstPage();
-				// }
-			}
-		} else {
-
-			String text = btn.getFeedback();
-			if (Accents.isAccent(text)) {
-				processAccent(text);
-			} else {
-				processField
-						.insertString(app.getLocalization().getCommand(text)); // TODO
-				processAccent(null);
-				disableCapsLock();
-			}
-			// if (isAccent(text)) {
-			// processAccent(text, btn);
-			// } else {
-			// processField.insertString(text);
-			// if (accentDown) {
-			// removeAccents();
-			// }
-			// }
-			//
-			// if (shiftIsDown && !isAccent(text)) {
-			// processShift();
-			// }
-
-			processField.setFocus(true);
-		}
-
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				Scheduler.get()
-						.scheduleDeferred(new Scheduler.ScheduledCommand() {
-							@Override
-							public void execute() {
-								scrollCursorIntoView();
-							}
-						});
-			}
-		});
-	}
-
-	/**
-	 * Scroll cursor of selected textfield into view
-	 */
-	protected void scrollCursorIntoView() {
-		processField.scrollCursorIntoView();
-	}
-
-	@Override
 	public void afterShown(final Runnable runnable) {
 		CSSAnimation.runOnAnimation(runnable, getElement(), "animating");
 	}
@@ -232,8 +96,14 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 
 	@Override
+	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
+		ToolTipManagerW.hideAllToolTips();
+		super.onClick(btn, type);
+	}
+
+	@Override
 	public void remove(final Runnable runnable) {
-		app.updateCenterPanelAndViews();
+		hasKeyboard.updateCenterPanelAndViews();
 		this.addStyleName("animatingOut");
 		CSSAnimation.runOnAnimation(new Runnable() {
 			@Override
@@ -245,16 +115,11 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 
 	@Override
-	public boolean hasTouchFeedback() {
-		return true;
-	}
-
-	@Override
 	protected void showHelp(int x, int y) {
 		boolean show = helpPopup != null && helpPopup.isShowing();
 		if (!show) {
 			createHelpPopup();
-			GuiManagerInterfaceW gm = ((AppW) app).getGuiManager();
+			GuiManagerInterfaceW gm = ((AppW) hasKeyboard).getGuiManager();
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) gm
 					.getInputHelpPanel();
 			updateHelpPosition(helpPanel, x, y);
@@ -269,8 +134,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
-				doUpdateHelpPosition(helpPanel, x, y, offsetWidth,
-						offsetHeight);
+				doUpdateHelpPosition(helpPanel, x, y);
 			}
 		});
 	}
@@ -282,14 +146,10 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	 *            popup x-coord
 	 * @param y
 	 *            popup y-coord
-	 * @param offsetWidth
-	 *            panel width
-	 * @param offsetHeight
-	 *            panel height
 	 */
 	protected void doUpdateHelpPosition(final InputBarHelpPanelW helpPanel,
-			final int x, final int y, int offsetWidth, int offsetHeight) {
-		AppW appw = (AppW) app;
+			final int x, final int y) {
+		AppW appw = (AppW) hasKeyboard;
 		double scale = appw.getArticleElement().getScaleX();
 		double renderScale = appw.getArticleElement().getDataParamApp() ? scale
 				: 1;

@@ -45,8 +45,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	// https://codepoints.net/search?gc=Mn
 	// these Thai characters need a placeholder added to display nicely
 	private static String checkThai(String str) {
-		if ("\u0E31\u0E33\u0E34\u0E35\u0E36\u0E37\u0E38\u0E39\u0E3A\u0E47\u0E48\u0E49\u0E4A\u0E4B\u0E4C\u0E4D"
-				.indexOf(str) > -1) {
+		if ("\u0E31\u0E33\u0E34\u0E35\u0E36\u0E37\u0E38\u0E39\u0E3A\u0E47\u0E48\u0E49\u0E4A\u0E4B\u0E4C\u0E4D".contains(str)) {
 			return "\u25CC" + str;
 		}
 		return str;
@@ -92,12 +91,10 @@ public class KeyBoardButtonBase extends SimplePanel {
 		});
 		addStyleName("KeyBoardButton");
 		this.getElement().setAttribute("role", "button");
-		if (handler.hasTouchFeedback()) {
-			this.addStyleName("waves-effect");
-			this.addStyleName("waves-keyboard");
-			this.addStyleName("btn");
-			addWave(this.getElement());
-		}
+		this.addStyleName("waves-effect");
+		this.addStyleName("waves-keyboard");
+		this.addStyleName("btn");
+		addWave(this.getElement());
 	}
 
 	/**

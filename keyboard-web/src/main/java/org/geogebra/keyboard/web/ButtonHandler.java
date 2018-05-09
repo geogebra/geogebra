@@ -17,8 +17,4 @@ public interface ButtonHandler {
 	 */
 	void onClick(KeyBoardButtonBase btn, PointerEventType type);
 
-	/**
-	 * @return true - if has touch feedback (waves-effect)
-	 */
-	boolean hasTouchFeedback();
 }

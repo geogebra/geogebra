@@ -1,0 +1,79 @@
+@import 'shared';
+
+.GeoGebraFrame{
+
+  .KeyBoard.TabbedKeyBoard {
+    position: static;
+    bottom: initial;
+  }
+
+  .solverPanel {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    border: 1px solid lightgrey;
+  }
+
+  .editorPanel {
+    width: 100%;
+    border: 1px solid blueviolet;
+
+    td:first-child {
+      width: 75%;
+    }
+  }
+
+  .solveButton {
+    margin-left: auto !important;
+    @extend %suggestionButton;
+  }
+
+  .stepTree {
+    width: 60%;
+    margin: 10px auto;
+
+    table {
+      width: 100%;
+    }
+
+    td {
+      vertical-align: middle !important;
+    }
+
+    td:first-child {
+      width: 70% !important
+    }
+
+    .stepinformation {
+      width: 100%;
+    }
+
+    .stepGroupPanel {
+      box-sizing: border-box;
+      padding: 3px 3px 3px 23px !important;
+      width: 100%;
+    }
+
+    .stepPanel {
+      width: 100%;
+    }
+
+    .stepTreeLine {
+      white-space: normal;
+      width: 100%;
+    }
+
+    .stepTreeElem {
+      vertical-align: middle;
+    }
+
+    .stepTreeButton {
+      padding: 2px;
+      display: inline;
+
+      img {
+        vertical-align: middle;
+      }
+    }
+  }
+}

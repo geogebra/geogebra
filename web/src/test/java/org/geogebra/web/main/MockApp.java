@@ -13,6 +13,7 @@ import com.google.gwtmockito.GwtMockito;
 import com.google.gwtmockito.fakes.FakeProvider;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.resources.xml.XmlResources;
+import org.geogebra.web.html5.main.TestArticleElement;
 
 public class MockApp {
 	public static AppWFull mockApplet(TestArticleElement ae) {

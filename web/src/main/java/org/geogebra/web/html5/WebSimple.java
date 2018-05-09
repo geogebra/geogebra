@@ -71,10 +71,9 @@ public class WebSimple implements EntryPoint {
 			}
 
 			public native void log(Object t) /*-{
-		console && console.log && console.log(t);
-	}-*/;
-
-				});
+				console && console.log && console.log(t);
+			}-*/;
+		});
 	}
 
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {

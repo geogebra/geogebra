@@ -1,9 +1,9 @@
 package org.geogebra.web.full.util.keyboard;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.full.gui.util.ScriptArea;
-import org.geogebra.web.html5.gui.util.KeyboardLocale;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -104,7 +104,7 @@ public class ScriptAreaProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void updateForNewLanguage(KeyboardLocale localization) {
+	public void updateForNewLanguage(Localization localization) {
 		// TODO Auto-generated method stub
 
 	}

@@ -2,8 +2,13 @@ package org.geogebra.web.editor;
 
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
+import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.keyboard.OnscreenTabbedKeyboard;
+import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.AppWsimple;
+import org.geogebra.web.html5.main.AppWsolver;
+import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -28,11 +33,19 @@ import com.himamis.retex.renderer.web.font.opentype.Opentype;
  *
  */
 public class Editor implements EntryPoint, MathFieldListener {
+
+	private AppWsolver app;
+
 	private JlmEditorLib library;
 	private Opentype opentype;
 
 	@Override
 	public void onModuleLoad() {
+		app = new AppWsolver(
+				new TestArticleElement("true", "Solver"),
+				new GeoGebraFrameSimple(false)
+		);
+
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
@@ -57,8 +70,7 @@ public class Editor implements EntryPoint, MathFieldListener {
 		MathFieldW fld = new MathFieldW(null, parentWidget,
 				canvas,
 				this, false, null);
-		final OnscreenTabbedKeyboard kb = new OnscreenTabbedKeyboard(
-				new KeyboardContext());
+		final OnscreenTabbedKeyboard kb = new OnscreenTabbedKeyboard(app);
 		kb.setListener(new UpdateKeyBoardListener() {
 
 			@Override
@@ -78,17 +90,6 @@ public class Editor implements EntryPoint, MathFieldListener {
 
 		parentWidget.add(fld.asWidget());
 		parentWidget.add(kb);
-		kb.show();
-		// Timer t = new Timer() {
-		//
-		// @Override
-		// public void run() {
-		// kb.updateSize();
-		// kb.setStyleName();
-		// }
-		// };
-		// t.schedule(0);
-		// fld.requestViewFocus();
 	}
 
 	private native void addEditorFunction(Editor lib) /*-{

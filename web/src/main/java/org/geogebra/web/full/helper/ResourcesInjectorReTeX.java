@@ -8,6 +8,7 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import org.geogebra.web.shared.SharedResources;
 
 /**
  * Resource injector that includes UI styles.
@@ -32,6 +33,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 
 		StyleInjector.inject(GuiResources.INSTANCE.avStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.toolBarStyleScss());
+		StyleInjector.inject(SharedResources.INSTANCE.solverStyleScss());
 
 		StyleInjector.inject(GuiResources.INSTANCE.menuStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.popupStyleScss());

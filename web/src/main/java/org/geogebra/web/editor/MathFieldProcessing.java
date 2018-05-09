@@ -1,8 +1,8 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
-import org.geogebra.web.html5.gui.util.KeyboardLocale;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.meta.FunctionGroup;
@@ -17,27 +17,14 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class MathFieldProcessing implements KeyboardListener {
 
 	private MathFieldW mf;
-	private boolean doubleBrakets = false;
 	
 	/**
 	 * @param mf
 	 *            math input field
-	 * @param doubleBrakets
-	 *            does keyboard send "()" for "("
 	 * 
-	 */
-	public MathFieldProcessing(MathFieldW mf, boolean doubleBrakets) {
-		this.mf = mf;
-		this.doubleBrakets = doubleBrakets;
-	}
-
-	/**
-	 * @param mf
-	 *            math input field
 	 */
 	public MathFieldProcessing(MathFieldW mf) {
 		this.mf = mf;
-		this.doubleBrakets = false;
 	}
 
 	@Override
@@ -116,8 +103,7 @@ public class MathFieldProcessing implements KeyboardListener {
 					i == text.length() - 1);
 
 		}
-		if (doubleBrakets && ("()".equals(text) || "{}".equals(text)
-				|| "[]".equals(text))) {
+		if ("()".equals(text) || "{}".equals(text) || "[]".equals(text)) {
 			onArrow(ArrowType.left);
 		}
 	}
@@ -134,7 +120,7 @@ public class MathFieldProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void updateForNewLanguage(KeyboardLocale localization) {
+	public void updateForNewLanguage(Localization localization) {
 		// TODO Auto-generated method stub
 	}
 

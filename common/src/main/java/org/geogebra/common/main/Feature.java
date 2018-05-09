@@ -123,9 +123,6 @@ public enum Feature {
 
 	EXPORT_OBJ_IN_MENU,
 
-	/** GGB-1876 */
-	DOUBLE_ROUND_BRACKETS,
-
 	/** GGB-1708 */
 	INPUT_BAR_ADD_SLIDER,
 

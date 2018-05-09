@@ -17,12 +17,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/ic_get_app_black_24px.svg")
 	SVGResource get_app();
 
-	@Source("org/geogebra/common/icons/png/web/algebra-view-tree-open.png")
-	ImageResource algebra_tree_open();
-
-	@Source("org/geogebra/common/icons/png/web/algebra-view-tree-closed.png")
-	ImageResource algebra_tree_closed();
-
 	@Source("org/geogebra/common/icons/png/web/ggb_logo_back.png")
 	ImageResource header_back();
 

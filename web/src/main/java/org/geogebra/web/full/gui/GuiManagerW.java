@@ -123,7 +123,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.keyboard.OnscreenTabbedKeyboard;
+import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -2160,7 +2160,7 @@ public class GuiManagerW extends GuiManager
 
 		if (textField != null) {
 			onScreenKeyboard
-			.setProcessing(makeKeyboardListener(textField, getApp()));
+			.setProcessing(makeKeyboardListener(textField));
 		}
 
 		onScreenKeyboard.setListener(listener);
@@ -2179,21 +2179,17 @@ public class GuiManagerW extends GuiManager
 	 * 
 	 * @param textField
 	 *            text / math editor
-	 * @param app
-	 *            application
 	 * @return keyboard adapter
 	 */
 	public static KeyboardListener makeKeyboardListener(
-			MathKeyboardListener textField, App app) {
+			MathKeyboardListener textField) {
 		if (textField instanceof RetexKeyboardListener) {
 			return new MathFieldProcessing(
-					((RetexKeyboardListener) textField).getMathField(),
-					app.has(Feature.DOUBLE_ROUND_BRACKETS));
+					((RetexKeyboardListener) textField).getMathField());
 		}
 		if (textField instanceof RadioTreeItem) {
 			return new MathFieldProcessing(
-					((RadioTreeItem) textField).getMathField(),
-					app.has(Feature.DOUBLE_ROUND_BRACKETS));
+					((RadioTreeItem) textField).getMathField());
 		}
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;
@@ -2217,7 +2213,7 @@ public class GuiManagerW extends GuiManager
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
 		if (onScreenKeyboard != null) {
 			onScreenKeyboard
-			.setProcessing(makeKeyboardListener(textField, getApp()));
+			.setProcessing(makeKeyboardListener(textField));
 		}
 	}
 

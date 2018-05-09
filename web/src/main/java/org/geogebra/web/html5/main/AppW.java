@@ -188,7 +188,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private long syncStamp;
 	protected GoogleDriveOperation googleDriveOperation;
 
-	private FontManagerW fontManager;
+	protected FontManagerW fontManager;
 	private SpreadsheetTableModelW tableModel;
 	private SoundManagerW soundManager;
 	private VideoManagerW videoManager;
@@ -222,7 +222,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private Storage storage;
 	WebsocketLogger webSocketLogger = null;
 	private boolean keyboardNeeded;
-	private String externalPath;
 	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
 	private NetworkOperation networkOperation;
@@ -822,7 +821,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			kernel.setLibraryJavaScript(libraryJS);
 		}
 
-		if (archive.entrySet() != null && !asSlide) {
+		if (!asSlide) {
 			for (Entry<String, String> entry : archive.entrySet()) {
 				maybeProcessImage(entry.getKey(), entry.getValue());
 			}
@@ -1151,21 +1150,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		storage.setItem(STORAGE_MACRO_ARCHIVE, b64);
 
 		storage.setItem(STORAGE_MACRO_KEY, macro.getToolName());
-
-		if (writeBack) {
-			return;
-		}
-
-		// Storage.addStorageEventHandler(new StorageEvent.Handler() {
-		//
-		// public void onStorageChange(StorageEvent event) {
-		// if (STORAGE_MACRO_KEY.equals(event.getKey())) {
-		// Log.debug("[STORAGE] '" + STORAGE_MACRO_KEY
-		// + "' has changed.");
-		// }
-		// }
-		// });
-
 	}
 
 	protected void createStorage() {
@@ -1206,18 +1190,17 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (map.containsKey(STORAGE_MACRO_KEY)) {
 				String macroName = storage.getItem(STORAGE_MACRO_KEY);
 				try {
-					// Log.debug("[STORAGE] restoring macro " + macroName);
 					openMacro(macroName);
 					Window.setTitle(macroName);
 					setToolLoadedFromStorage(true);
 					return true;
-
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -1773,18 +1756,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Initializes Kernel, EuclidianView, EuclidianSettings, etc..
-	 * 
-	 * @param this_app
-	 *            app for creating kernel
+	 *
 	 */
-	protected void initCoreObjects(final App this_app) {
-		kernel = newKernel(this_app);
+	protected void initCoreObjects() {
+		kernel = newKernel(this);
 
 		// init settings
 		settings = companion.newSettings();
-		// if (has(Feature.AV_EXTENSIONS)) {
-		// settings.getAlgebra().setTreeMode(SortMode.ORDER.ordinal());
-		// }
+
 		fontManager = new FontManagerW();
 		setFontSize(16, false);
 		initEuclidianViews();
@@ -1792,7 +1771,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		initImageManager();
 
 		setFontSize(16, true);
-		// setLabelDragsEnabled(false);
 
 		getScriptManager(); // gbOnInit() is only called after file loads
 							// completely
@@ -2463,9 +2441,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            element that can be cliked without closingpopups
 	 */
 	public void addAsAutoHidePartnerForPopups(Element el) {
-		for (int i = 0; i < popups.size(); i++) {
-
-			Widget popup = popups.get(i);
+		for (Widget popup : popups) {
 			if (popup instanceof GPopupPanel
 					&& ((GPopupPanel) popup).isModal()) {
 				((GPopupPanel) popup).addAutoHidePartner(el);
@@ -2844,7 +2820,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 		if (this.getErrorHandler() != null) {
 			this.getErrorHandler().showError(msg);
-			return;
 		}
 	}
 
@@ -3227,14 +3202,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            path for external saving
 	 */
 	public void setExternalPath(String path) {
-		this.externalPath = path;
-		String title = "";
 		if (getKernel() != null && getKernel().getConstruction() != null
 				&& getKernel().getConstruction().getTitle() == null
 				|| "".equals(getKernel().getConstruction().getTitle())) {
 			int lastSlash = Math.max(path.lastIndexOf('/'),
 					path.lastIndexOf('\\'));
-			title = path.substring(lastSlash + 1).replace(".ggb", "");
+			String title = path.substring(lastSlash + 1).replace(".ggb", "");
 			getKernel().getConstruction().setTitle(title);
 		}
 		getFileManager().setFileProvider(Provider.LOCAL);

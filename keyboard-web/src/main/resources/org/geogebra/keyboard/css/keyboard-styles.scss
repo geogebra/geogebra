@@ -79,16 +79,10 @@ $purple-default: #6557D2;
 		float: right;
 		width: 24px;
 		height: 24px;
-   		padding-top: 4px;
-    	padding-bottom: 4px;
-    	padding-left: 4px;
-    	padding-right: 4px;
-    	margin-top: 4px;
-    	margin-bottom: 4px;
-    	top: 0px;
-    	margin-right: 4px;
-    	margin-left: 5px;
-    	right: 0px;
+		padding: 4px;
+		top: 0px;
+		margin: 4px 4px 4px 5px;
+		right: 0px;
     	cursor: pointer !important;
 	}
 
@@ -328,8 +322,8 @@ $purple-default: #6557D2;
 	}
 
 	.scale .KeyBoardButton {
-		padding-left: 0%;
-		padding-right: 0%;
+		padding-left: 0;
+		padding-right: 0;
 	}
 
 	.scale .KeyPanelControl {
@@ -424,10 +418,7 @@ $purple-default: #6557D2;
 		border: 0;
 	    padding-left: 10px;
  	   	padding-right: 10px;
- 	   	margin-top: 7px;
-   	 	margin-bottom: 6px;
-  	 	margin-left: 4px;
-  		margin-right: 4px;
+		margin: 7px 4px 6px;
 		box-shadow: none;
 	}
 	.KeyboardSwitcher .gwt-Button:active {
@@ -443,15 +434,9 @@ $purple-default: #6557D2;
 		float: right;
 		width: 24px;
     	height: 24px;
-    	padding-top: 4px;
-   	 	padding-bottom: 4px;
-   		padding-left: 4px;
-    	padding-right: 4px;
-    	margin-top: 4px;
-    	margin-bottom: 4px;
-    	margin-right: 0px;
-    	margin-left: 4px;
-    	cursor: pointer !important;
+		padding: 4px;
+		margin: 4px 0px 4px 4px;
+		cursor: pointer !important;
 	}
 
 	.scale .KeyboardSwitcher .switcherContents .moreKeyboardButton {
@@ -476,7 +461,6 @@ $purple-default: #6557D2;
 		z-index: 200;
 		position: absolute;
 		bottom: 0;
-		position: absolute;
 		width: 100%;
 	}
 

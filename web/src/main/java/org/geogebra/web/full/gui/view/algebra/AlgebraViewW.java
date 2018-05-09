@@ -64,6 +64,7 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import org.geogebra.web.shared.SharedResources;
 
 /**
  * HTML5 version of AV
@@ -987,8 +988,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		ti.setUserObject(ob);
 		GroupHeader group = new GroupHeader(this.app.getSelectionManager(), ti,
 				ob, key,
-				GuiResources.INSTANCE.algebra_tree_open().getSafeUri(),
-				GuiResources.INSTANCE.algebra_tree_closed().getSafeUri());
+				SharedResources.INSTANCE.algebra_tree_open().getSafeUri(),
+				SharedResources.INSTANCE.algebra_tree_closed().getSafeUri());
 		group.getElement().getStyle().setFontSize(app.getFontSizeWeb(),
 				Unit.PX);
 		ti.setWidget(group);

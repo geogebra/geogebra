@@ -1,4 +1,4 @@
-package org.geogebra.web.main;
+package org.geogebra.web.html5.main;
 
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.html5.util.ArticleElementInterface;
@@ -182,7 +182,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamShowLogging() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -202,22 +202,22 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public double getParentScaleX() {
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public double getScaleX() {
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public double readScaleX() {
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public double getScaleY() {
-		return 0;
+		return 1;
 	}
 
 	@Override

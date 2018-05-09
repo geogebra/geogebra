@@ -1,6 +1,6 @@
 package org.geogebra.keyboard.web;
 
-import org.geogebra.web.html5.gui.util.KeyboardLocale;
+import org.geogebra.common.main.Localization;
 
 /**
  * interface for classes that can receive input from the {@link TabbedKeyboard}
@@ -75,7 +75,7 @@ public interface KeyboardListener {
 	 * @param localization
 	 *            localization
 	 */
-	void updateForNewLanguage(KeyboardLocale localization);
+	void updateForNewLanguage(Localization localization);
 
 	/**
 	 * @param text

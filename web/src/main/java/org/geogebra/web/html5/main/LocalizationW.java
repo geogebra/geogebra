@@ -11,7 +11,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.util.KeyboardLocale;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.MyDictionary;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
@@ -24,8 +23,7 @@ import com.google.gwt.dom.client.ScriptElement;
  * JSON based localization for Web
  *
  */
-public final class LocalizationW extends Localization
-		implements KeyboardLocale {
+public final class LocalizationW extends Localization {
 
 	/**
 	 * Default locale string

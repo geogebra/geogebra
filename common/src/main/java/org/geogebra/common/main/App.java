@@ -827,7 +827,6 @@ public abstract class App implements UpdateSelection {
 		initTranslatedCommands();
 
 		return getLocalization().getReverseCommand(command);
-
 	}
 
 	/**
@@ -1416,9 +1415,6 @@ public abstract class App implements UpdateSelection {
 	 *            name of the app that saved current file
 	 */
 	public void setFileVersion(String version, String appName) {
-
-		// AbstractApplication.debug("file version: " + version);
-
 		if (version == null) {
 			this.versionArray = null;
 			return;
@@ -1750,7 +1746,6 @@ public abstract class App implements UpdateSelection {
 	 * @return view with given ID
 	 */
 	public View getView(int viewID) {
-
 		// check for PlotPanel ID family first
 		if ((getGuiManager() != null)
 				&& (getGuiManager().getPlotPanelView(viewID) != null)) {
@@ -2048,7 +2043,6 @@ public abstract class App implements UpdateSelection {
 	 * @return EV2
 	 */
 	public EuclidianView getEuclidianView2(int idx) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -2495,13 +2489,10 @@ public abstract class App implements UpdateSelection {
 	 */
 	@Override
 	public void updateSelection(boolean updatePropertiesView) {
-
 		if (isIniting()) {
 			return;
 		}
 
-		// put in to check possible bottleneck
-		// Application.debug("Update Selection");
 		if (isUsingFullGui()) {
 			if (getGuiManager() != null && showMenuBar) {
 				getGuiManager().updateMenubarSelection();
@@ -3796,7 +3787,6 @@ public abstract class App implements UpdateSelection {
 
 	public void doRepaintViews() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -4320,17 +4310,10 @@ public abstract class App implements UpdateSelection {
 			return canary;
 		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
-			if (isDesktop()) {
-				return false;
-			}
-			return true;
+			return !isDesktop();
 
 		case DATA_COLLECTION:
-			if (version != null && version != Versions.WEB_FOR_DESKTOP) {
-				return true;
-			}
-
-			return false;
+			return version != null && version != Versions.WEB_FOR_DESKTOP;
 
 		// in web (not tablet apps yet)
 		// File -> Enter Exam Mode
@@ -4343,8 +4326,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
-			return false; // &&
-							// Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
+			return false;
 
 		// GGB-944
 		case EXPORT_ANIMATED_PDF:
@@ -4376,10 +4358,6 @@ public abstract class App implements UpdateSelection {
 
 		case INPUT_BAR_ADD_SLIDER:
 			return relaunch && isHTML5Applet();
-
-		/** GGB-1876 */
-		case DOUBLE_ROUND_BRACKETS:
-			return true;
 
 		case DEFAULT_OBJECT_STYLES:
 			return relaunch || isNativeMobileAppWithNewUI();
@@ -4949,7 +4927,7 @@ public abstract class App implements UpdateSelection {
 				maxY);
 	}
 
-	final static protected GBufferedImage getEuclidianViewExportImage(
+	protected static GBufferedImage getEuclidianViewExportImage(
 			EuclidianView ev, double maxX, double maxY) {
 
 		double scale = Math.min(maxX / ev.getSelectedWidthInPixels(),
@@ -5064,7 +5042,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void ensureEvSizeSet(EuclidianSettings evSet) {
 		// only for applets
-
 	}
 
 	/**

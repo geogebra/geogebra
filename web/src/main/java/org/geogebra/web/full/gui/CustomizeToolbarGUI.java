@@ -39,6 +39,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import org.geogebra.web.shared.SharedResources;
 
 /**
  * A GUI to customize the toolbar
@@ -88,17 +89,17 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		@Override
 		public ImageResource treeClosed() {
-			return GuiResources.INSTANCE.algebra_tree_closed();
+			return SharedResources.INSTANCE.algebra_tree_closed();
 		}
 
 		@Override
 		public ImageResource treeLeaf() {
-			return GuiResources.INSTANCE.algebra_tree_closed();
+			return SharedResources.INSTANCE.algebra_tree_closed();
 		}
 
 		@Override
 		public ImageResource treeOpen() {
-			return GuiResources.INSTANCE.algebra_tree_open();
+			return SharedResources.INSTANCE.algebra_tree_open();
 		}
 
 	}

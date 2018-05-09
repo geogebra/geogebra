@@ -1,0 +1,204 @@
+package org.geogebra.web.html5.main;
+
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
+import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.View;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.GeoGebraProfiler;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.keyboard.web.HasKeyboard;
+import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
+
+public class AppWsolver extends AppW implements HasKeyboard {
+    private GeoGebraFrameW frame;
+
+    /******************************************************
+     * Constructs AppW for applets
+     *
+     * @param ae
+     *            article element
+     * @param gf
+     *            frame
+
+     */
+    public AppWsolver(ArticleElementInterface ae, GeoGebraFrameW gf) {
+        super(ae, 2, null);
+        this.frame = gf;
+        setAppletHeight(frame.getComputedHeight());
+        setAppletWidth(frame.getComputedWidth());
+
+        this.useFullGui = false;
+
+        Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
+                + GeoGebraConstants.BUILD_DATE + " "
+                + Window.Navigator.getUserAgent());
+        initCommonObjects();
+        initing = true;
+
+        initCoreObjects();
+
+        resetFonts();
+        Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
+        if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
+            new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
+                    .checkAvailable(null);
+        }
+    }
+
+    @Override
+    protected void initCoreObjects() {
+        kernel = newKernel(this);
+        settings = companion.newSettings();
+        fontManager = new FontManagerW();
+    }
+
+    @Override
+    public void buildApplicationPanel() {
+        if (frame != null) {
+            frame.clear();
+            frame.add((Widget) getEuclidianViewpanel());
+            getEuclidianViewpanel()
+                    .setPixelSize(
+                            getSettings().getEuclidian(1).getPreferredSize()
+                                    .getWidth(),
+                            getSettings().getEuclidian(1).getPreferredSize()
+                                    .getHeight());
+        }
+    }
+
+    @Override
+    public void afterLoadFileAppOrNot(boolean asSlide) {
+
+        buildApplicationPanel();
+
+        getScriptManager().ggbOnInit(); // put this here from Application
+        // constructor because we have to delay
+        // scripts until the EuclidianView is
+        // shown
+
+        initUndoInfoSilent();
+
+        getEuclidianView1().synCanvasSize();
+        getEuclidianView1().createImage();
+        getAppletFrame().resetAutoSize();
+
+        getEuclidianView1().doRepaint2();
+        stopCollectingRepaints();
+        frame.hideSplash();
+
+        setDefaultCursor();
+        checkScaleContainer();
+        GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
+        GeoGebraProfiler.getInstance().profileEnd();
+        setAltText();
+    }
+
+    @Override
+    public void focusLost(View v, Element el) {
+        super.focusLost(v, el);
+        GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
+        this.getGlobalKeyDispatcher().setFocused(false);
+    }
+
+    @Override
+    public void focusGained(View v, Element el) {
+        super.focusGained(v, el);
+        GeoGebraFrameW.useFocusedBorder(getArticleElement(),
+                frame);
+        Log.debug("AppWsimple_focusGained");
+
+        // if focusLost sets this to false, it is probably
+        // right to set this to true again here! Otherwise
+        // it would only be set to true in case of key ENTER,
+        // but of course, we also want to be able to focus by mouse
+        // Graphics views and Algebra views register GlobalKeyDispatcher,
+        // so in those cases, this is good, otherwise (?)
+        switch (v.getViewID()) {
+            case App.VIEW_ALGEBRA:
+            case App.VIEW_EUCLIDIAN:
+            case App.VIEW_EUCLIDIAN2:
+                this.getGlobalKeyDispatcher().setFocusedIfNotTab();
+                break;
+            default:
+                if (App.isView3D(v.getViewID())
+                        || ((v.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START) && (v
+                        .getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
+                    this.getGlobalKeyDispatcher().setFocusedIfNotTab();
+                }
+        }
+    }
+
+    @Override
+    public Element getFrameElement() {
+        return frame.getElement();
+    }
+
+    @Override
+    public HasAppletProperties getAppletFrame() {
+        return frame;
+    }
+
+    @Override
+    public void openSearch(String query) {
+        // no browser
+    }
+
+    @Override
+    public void uploadToGeoGebraTube() {
+        // no upload
+
+    }
+
+    @Override
+    public void set1rstMode() {
+        setMoveMode();
+    }
+
+    @Override
+    protected void updateTreeUI() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public boolean isSelectionRectangleAllowed() {
+        return getToolbar() != null;
+    }
+
+    @Override
+    public void setLanguage(final String browserLang) {
+        // no localization support needed in webSimple
+    }
+
+    @Override
+    public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
+        return false;
+    }
+
+    @Override
+    public Panel getPanel() {
+        return frame;
+    }
+
+    @Override
+    public void copyGraphicsViewToClipboard() {
+        Log.debug("unimplemented");
+    }
+
+    @Override
+    public void updateKeyboardHeight() {
+
+    }
+
+    @Override
+    public double getInnerWidth() {
+        return 798;
+    }
+}

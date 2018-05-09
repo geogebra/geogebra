@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'shared';
 $duration: 0.2s;
 
 .GeoGebraFrame {
@@ -60,7 +61,7 @@ $duration: 0.2s;
 		}
 		
 		.gwt-MenuItem.no-hover,
-		 gwt-MenuItem.no-hover:hover{
+		.gwt-MenuItem.no-hover:hover{
 		 	background-color: transparent !important;
 			color: $black;
 			font-size: 120%;
@@ -182,35 +183,9 @@ $duration: 0.2s;
 			animation-duration:$duration;
 		}
 	}
-	
 
-	.suggestionButton {	
-		margin: 8px !important;
-		background-color: $purple-default;
-    	border: 1px solid $purple-default;
-    	border-radius: 2px;
-		color: $white;
-		box-shadow: 0px 3px 1px -2px $black-2, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
-		min-width: 44px;
-    	height: 28px;
-    	vertical-align: middle;
-    	padding-bottom: 0px;
-   		padding-top: 0px;
-    	line-height: 200%;
-    	text-align: center;
-   		padding-left: 16px;
-    	padding-right: 16px;
-    	text-transform: uppercase;
-    	font-size: 90%;
-    	text-align: center;
-    	cursor: pointer;
-    	transition: background-color 150ms ease 0ms;
-    	
-    	&:hover {
-    		background-color: $purple-dark;
-    		border: 1px solid $purple-dark;
-    		/*border: 1px solid $toolbar-header-dark10;*/
-    	}
+	.suggestionButton {
+		@extend %suggestionButton;
 	}
 	
 	.algebraView .panelRow .withSuggestions{
