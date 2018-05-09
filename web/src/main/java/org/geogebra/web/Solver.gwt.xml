@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='solver'>
     <inherits name='org.geogebra.keyboard.KeyboardWeb'/>
-    <inherits name='org.geogebra.web.HTML5' />
+    <inherits name='org.geogebra.web.Html5' />
     <inherits name="com.himamis.retex.editor.JLMEditorDev" />
 
     <!-- Specify the paths for translatable code                    -->
