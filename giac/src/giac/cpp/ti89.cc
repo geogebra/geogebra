@@ -1074,7 +1074,38 @@ namespace giac {
   gen _format(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
-    if (v.size()!=2 || v[1].type!=_STRNG)
+    size_t vs=v.size();
+    if (vs>=2 && v[0].type==_STRNG){
+      const string & fmt=*v[0]._STRNGptr;
+      size_t fs=fmt.size(),count=1;
+      string res;
+      for (size_t i=0;i<fs;++i){
+	if (i==fs-1 || fmt[i]!='{' ||  (i!=0 && fmt[i-1]=='\\')){
+	  res += fmt[i];
+	  continue;
+	}
+	if (fmt[i+1]=='}'){
+	  ++i;
+	  if (count<vs)
+	    res += v[count].type==_STRNG? *v[count]._STRNGptr: v[count].print(contextptr);
+	  else
+	    return gendimerr(contextptr);
+	  ++count;
+	  continue;
+	}
+	int c=0;
+	for (++i;i<fs && fmt[i]>='0' && fmt[i]<='9';++i){
+	  c=c*10+int(fmt[i]-'0');	  
+	}
+	if (i==fs || fmt[i]!='}')
+	  return gendimerr(contextptr);
+	c++;
+	res += v[c].type==_STRNG? *v[c]._STRNGptr: v[c].print(contextptr);
+	++count;
+      }
+      return string2gen(res,false);
+    }
+    if (vs!=2 || v[1].type!=_STRNG)
       return gensizeerr(contextptr);
     return string2gen(format(v.front(),*v[1]._STRNGptr,contextptr),false);
   }
