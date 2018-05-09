@@ -6492,32 +6492,43 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   gen _find(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     vecteur v = gen2vecteur(args);
-    if (v.size()!=2)
+    if (v.size()!=2 && v.size()!=3)
       return gensizeerr(contextptr);
     const gen a=v.front();
-    int shift=array_start(contextptr); //xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38;
-    if (a.type==_STRNG){
-      if (v.back().type!=_STRNG)
+    int pos=0;
+    if (v.size()==3){
+      if (v[2].type!=_INT_)
 	return gensizeerr(contextptr);
-      const string s=*v.back()._STRNGptr;
+      pos=v[2].val;
+    }
+    int shift=array_start(contextptr); //xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38;
+    bool py=python_compat(contextptr);
+    if (a.type==_STRNG){
+      if (v[1].type!=_STRNG)
+	return gensizeerr(contextptr);
+      const string s=*v[1]._STRNGptr;
       vecteur res;
-      int pos=0;
       for (;;++pos){
-	pos=int(s.find(*a._STRNGptr,pos));
+	pos=int(a._STRNGptr->find(s,pos));
+	if (py)
+	  return pos;
 	if (pos<0 || pos>=int(s.size()))
 	  break;
 	res.push_back(pos+shift);
       }
       return res;
     }
-    if (v.back().type!=_VECT)
+    if (v[1].type!=_VECT)
       return gensizeerr(contextptr);
-    const vecteur & w =*v.back()._VECTptr;
+    const vecteur & w =*v[1]._VECTptr;
     int s=int(w.size());
     vecteur res;
-    for (int i=0;i<s;++i){
-      if (a==w[i])
+    for (int i=pos;i<s;++i){
+      if (a==w[i]){
+	if (py)
+	  return pos;
 	res.push_back(i+shift);
+      }
     }
     return res;
   }

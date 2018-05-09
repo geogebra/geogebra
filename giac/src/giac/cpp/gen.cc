@@ -8966,6 +8966,8 @@ namespace giac {
 	  int S=1;
 	  if (type==_STRNG) S=int(_STRNGptr->size());
 	  if (type==_VECT) S=int(_VECTptr->size());
+	  if (debut>=S)
+	    return (type==_STRNG)?string2gen("",false):gen(vecteur(0),subtype);
 	  if (debut<0) debut+=S;
 	  if (fin<0) fin+=S;
 	  fin=giacmin(fin,S-1);

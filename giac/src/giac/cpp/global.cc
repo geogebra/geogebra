@@ -6160,7 +6160,7 @@ unsigned int ConvertUTF8toUTF16 (
 	  progpos=cur.find("else");
 	  if (p && progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
 	    pythonmode=true;
-	    cur=cur.substr(0,p)+cur.substr(p+1,pos-p)+" fi";
+	    cur=cur.substr(0,p)+' '+cur.substr(p+1,pos-p)+" fi";
 	    convert_python(cur,contextptr);
 	    p=0;
 	  }

@@ -157,7 +157,7 @@ gen polynome_or_sparse_poly1(const gen & coeff, const gen & index){
 
 
 /* Line 268 of yacc.c  */
-#line 161 "input_parser.cc"
+#line 161 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -469,7 +469,7 @@ typedef int YYSTYPE;
 
 
 /* Line 343 of yacc.c  */
-#line 473 "input_parser.cc"
+#line 473 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -6186,7 +6186,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 591 "input_parser.yy"
-    {(yyval)=symbolic(at_member,makesequence((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])));}
+    {(yyval)=symbolic(at_member,makesequence((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)]))); if ((yyvsp[(2) - (3)])==at_not) (yyval)=symbolic(at_not,(yyval));}
     break;
 
   case 149:
@@ -7022,7 +7022,7 @@ yyreduce:
 
 
 /* Line 1806 of yacc.c  */
-#line 7026 "input_parser.cc"
+#line 7026 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
