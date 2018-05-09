@@ -17,6 +17,7 @@ import com.himamis.retex.renderer.web.font.opentype.Opentype;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.keyboard.web.KeyboardResources;
+import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;

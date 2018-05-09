@@ -1,13 +1,10 @@
 package org.geogebra.web.editor;
 
 import org.geogebra.keyboard.web.KeyboardResources;
+import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
-import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.AppWsimple;
-import org.geogebra.web.html5.main.AppWsolver;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.resources.StyleInjector;
 
@@ -70,7 +67,7 @@ public class Editor implements EntryPoint, MathFieldListener {
 		MathFieldW fld = new MathFieldW(null, parentWidget,
 				canvas,
 				this, false, null);
-		final OnscreenTabbedKeyboard kb = new OnscreenTabbedKeyboard(app);
+		final TabbedKeyboard kb = new TabbedKeyboard(app, app);
 		kb.setListener(new UpdateKeyBoardListener() {
 
 			@Override

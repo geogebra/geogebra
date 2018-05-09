@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.main;
+package org.geogebra.web.editor;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
@@ -13,6 +13,10 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.FontManagerW;
+import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
+import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 
