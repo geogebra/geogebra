@@ -27,7 +27,6 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
@@ -72,7 +71,7 @@ import org.geogebra.web.shared.SharedResources;
  */
 public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
-	/**
+	/*
 	 * Flag for LaTeX rendering
 	 */
 	/** app */
@@ -585,8 +584,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			this.collapsedNodes.clear();
 		}
 
-		for (int i = 0; i < collapsedNodes.length; i++) {
-			this.collapsedNodes.add(collapsedNodes[i]);
+		for (int collapsedNode : collapsedNodes) {
+			this.collapsedNodes.add(collapsedNode);
 		}
 	}
 
@@ -1298,7 +1297,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * 
 	 * @return -1 when not found
 	 */
-	final public static int binarySearchGeo(TreeItem parent, String geoLabel) {
+	public static int binarySearchGeo(TreeItem parent, String geoLabel) {
 		int left = 0;
 		int right = parent.getChildCount() - 1;
 		if (right == -1 || geoLabel == null) {
@@ -1334,7 +1333,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            label of geo
 	 * @return -1 when not found
 	 */
-	final public static int linearSearchGeo(TreeItem parent, String geoLabel) {
+	public static int linearSearchGeo(TreeItem parent, String geoLabel) {
 		if (geoLabel == null) {
 			return -1;
 		}
@@ -1806,11 +1805,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 		int editedWidth = ri.getWidthForEdit();
 		Log.debug("EDIT:" + editedWidth);
+
 		int expanded = editedWidth;
 		if (editedWidth < userWidth) {
 			expanded = userWidth;
-		} else {
-			expanded = editedWidth;
 		}
 
 		expandWidth(expanded);
@@ -1960,7 +1958,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 	}
 
-	/**
+	/*
 	 * AV DockPanel resizing rules:
 	 * 
 	 * maxItemWith: the longest item width.
@@ -2212,9 +2210,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
-		final int w = width;
-
-		splitPane.setWidgetSize(avDockPanel.asWidget(), w);
+		splitPane.setWidgetSize(avDockPanel.asWidget(), width);
 		avDockPanel.deferredOnResize();
 	}
 

@@ -198,7 +198,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
     @Override
     public void updateKeyboardHeight() {
-
+        // do nothing yet
     }
 
     @Override

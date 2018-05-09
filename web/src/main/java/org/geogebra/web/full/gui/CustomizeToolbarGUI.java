@@ -9,7 +9,6 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.CustomizeToolbarHeaderPanel.CustomizeToolbarListener;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -146,7 +145,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		 *            tells if a leaf of the same tool should be created
 		 */
 		public void addTool(DraggableTool tool, boolean defaultLeaf) {
-			TreeItem item = null;
+			TreeItem item;
 
 			if (tool.isInTree()) {
 				// reordering the tree
@@ -183,7 +182,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		}
 
 		public void insertTool(int idxBefore, DraggableTool tool) {
-			TreeItem item = null;
+			TreeItem item;
 			if (tool.isInTree()) {
 				// reordering the tree
 				if (tool.isLeaf()) {
@@ -195,7 +194,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				} else {
 					// branch move
 					insertItem(idxBefore, tool.treeItem);
-					return;
 				}
 
 			} else {
@@ -502,11 +500,9 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			}
 
 			TreeItem branch = treeItem.getParentItem();
-			if (branch == null) {
-				return false;
-			}
-
-			return (branch.getChildIndex(treeItem) == branch.getChildCount() - 1 && !isTopHit(y));
+			return branch != null
+					&& branch.getChildIndex(treeItem) == branch.getChildCount() - 1
+					&& !isTopHit(y);
 		}
 
 		void removeHighligts() {
@@ -828,7 +824,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		oldToolbarString = dockPanel.getToolbarString();
 		// oldToolbarString = dockPanel.getDefaultToolbarString();
 		if (oldToolbarString == null) {
-			oldToolbarString = ((GuiManagerW) app.getGuiManager())
+			oldToolbarString = app.getGuiManager()
 					.getToolbarDefinition();
 
 		}
@@ -838,7 +834,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		oldToolbarString = null;
 		if (id == -1) {
-			oldToolbarString = ((GuiManagerW) app.getGuiManager())
+			oldToolbarString = app.getGuiManager()
 			        .getToolbarDefinition();
 			dockPanel = null;
 		} else {
@@ -896,11 +892,10 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		usedTools.clear();
 
 		// get default toolbar as nested vectors
-		Vector<ToolbarItem> defTools = null;
+		Vector<ToolbarItem> defTools;
 
 		defTools = ToolBar.parseToolbarString(toolbarDefinition);
-		for (int i = 0; i < defTools.size(); i++) {
-			ToolbarItem element = defTools.get(i);
+		for (ToolbarItem element : defTools) {
 			Integer m = element.getMode();
 
 			if (!ToolBar.SEPARATOR.equals(m) && element.getMenu() != null) {
@@ -908,15 +903,14 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				final DraggableTool tool = new DraggableTool(menu.get(0));
 
 				if (app.isModeValid(tool.getMode())) {
-				toolTree.addTool(tool, false);
+					toolTree.addTool(tool, false);
 
-				for (int j = 0; j < menu.size(); j++) {
-					Integer modeInt = menu.get(j);
+					for (Integer modeInt : menu) {
 						if (!ToolBar.SEPARATOR.equals(modeInt)) {
-						usedTools.add(modeInt);
-						tool.addTool(new DraggableTool(modeInt));
+							usedTools.add(modeInt);
+							tool.addTool(new DraggableTool(modeInt));
+						}
 					}
-				}
 				}
 			}
 		}
