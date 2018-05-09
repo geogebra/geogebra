@@ -74,8 +74,7 @@ gwt {
         modules = [project.getProperty("gmodule")]
     } else {
         modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
-         'org.geogebra.web.Tablet', 'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin',
-        'org.geogebra.web.Solver']
+          'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin', 'org.geogebra.web.Solver']
     }
     
     devModules devModule
@@ -123,7 +122,7 @@ configurations.all {
 
 def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
-def outputs = ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d','tabletWin']
+def outputs = ['web', 'web3d', 'webSimple', 'solver', 'tablet3d','tabletWin']
 
 task cleanWar(type: Delete) {
     doLast {
