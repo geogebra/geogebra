@@ -90,6 +90,9 @@ gwt {
         if (project.hasProperty("gdraft")) {
             draftCompile = true
         }
+        if (project.hasProperty("gworkers")) {
+            localWorkers = 1
+        }
         if (project.hasProperty("gdetailed")){
             style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
         } else {
