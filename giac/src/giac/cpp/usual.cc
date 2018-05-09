@@ -7181,6 +7181,11 @@ namespace giac {
 
   gen _eval(const gen & a,GIAC_CONTEXT){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if (python_compat(contextptr)){
+      gen b=eval(a,1,contextptr);
+      if (b.type==_STRNG)
+	return _expr(b,contextptr);
+    }
     if (is_equal(a) &&a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2){
       vecteur & v(*a._SYMBptr->feuille._VECTptr);
       return symbolic(at_equal,gen(makevecteur(eval(v.front(),eval_level(contextptr),contextptr),eval(v.back(),eval_level(contextptr),contextptr)),_SEQ__VECT));

@@ -5703,8 +5703,15 @@ unsigned int ConvertUTF8toUTF16 (
 	continue;
       }
       if (curch==':' && pos<int(cur.size())-1 && cur[pos+1]!='=' && cur[pos+1]!=';'){
-	int posif=cur.find("if ");
-	if (posif>=0 && posif<pos){
+	int posif=cur.find("if "),curpos,cursize=int(cur.size()),count=0;
+	// check is : for slicing?
+	for (curpos=pos+1;curpos<cursize;++curpos){
+	  if (cur[curpos]=='[')
+	    ++count;
+	  if (cur[curpos]==']')
+	    --count;
+	}
+	if (count==0 && posif>=0 && posif<pos){
 	  cur[pos]=')';
 	  cur.insert(cur.begin()+posif+3,'(');
 	  continue;

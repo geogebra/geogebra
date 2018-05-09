@@ -145,7 +145,6 @@ gen polynome_or_sparse_poly1(const gen & coeff, const gen & index){
 %nonassoc TI_STO
 %nonassoc T_PIPE
 %nonassoc T_AFFECT
-%left T_AND_OP 
 %nonassoc T_IN
 %nonassoc T_FOR 
 %left TI_SEMI
@@ -155,6 +154,7 @@ gen polynome_or_sparse_poly1(const gen & coeff, const gen & index){
 %nonassoc T_BIDON
 %right T_DEUXPOINTS
 %nonassoc T_MAPSTO
+%left T_AND_OP 
 %left T_DOLLAR_MAPLE // not the same precedence than for spreadsheet
 %right T_EQUAL 
 %left T_TEST_EQUAL
