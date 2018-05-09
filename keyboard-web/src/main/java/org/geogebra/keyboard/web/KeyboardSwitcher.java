@@ -13,7 +13,6 @@ public class KeyboardSwitcher extends FlowPanel {
 
     private FlowPanel contents;
     private List<Button> switches;
-    private CustomButton closeButton;
     private ToggleButton moreButton;
     boolean isSpecialActive = false;
 
@@ -76,7 +75,7 @@ public class KeyboardSwitcher extends FlowPanel {
         Image hoverImg = new Image(KeyboardResources.INSTANCE
                 .keyboard_close_purple().getSafeUri().asString());
         hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Close"));
-        closeButton = new CustomButton() {
+        CustomButton closeButton = new CustomButton() {
             // it's abstract for some reason
         };
         closeButton.getElement().setAttribute("aria-label",

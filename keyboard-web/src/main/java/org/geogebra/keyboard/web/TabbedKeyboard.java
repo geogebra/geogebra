@@ -22,8 +22,6 @@ import org.geogebra.keyboard.base.model.WeightedButton;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
