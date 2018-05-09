@@ -61,12 +61,12 @@ public abstract class Localization {
 	/**
 	 * eg Function.sin
 	 */
-	public static String FUNCTION_PREFIX = "Function.";
+	public final static String FUNCTION_PREFIX = "Function.";
 
 	/**
 	 * eg Symbol.And
 	 */
-	public static String SYMBOL_PREFIX = "Symbol.";
+	public final static String SYMBOL_PREFIX = "Symbol.";
 
 	public Localization(int dimension, int maxFigures) {
 		this.dimension = dimension;
