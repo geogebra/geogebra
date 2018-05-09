@@ -33,7 +33,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 
 		StyleInjector.inject(GuiResources.INSTANCE.avStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.toolBarStyleScss());
-		StyleInjector.inject(SharedResources.INSTANCE.solverStyleScss());
+		StyleInjector.inject(SharedResources.INSTANCE.stepTreeStyleScss());
 
 		StyleInjector.inject(GuiResources.INSTANCE.menuStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.popupStyleScss());

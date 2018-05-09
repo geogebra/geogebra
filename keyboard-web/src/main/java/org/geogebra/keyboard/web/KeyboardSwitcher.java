@@ -18,8 +18,11 @@ public class KeyboardSwitcher extends FlowPanel {
 
     public KeyboardSwitcher(TabbedKeyboard tabbedkeyboard) {
         this.tabbedkeyboard = tabbedkeyboard;
-
         addStyleName("KeyboardSwitcher");
+        setup();
+    }
+
+    public void setup() {
         add(makeCloseButton());
         contents = new FlowPanel();
         contents.addStyleName("switcherContents");

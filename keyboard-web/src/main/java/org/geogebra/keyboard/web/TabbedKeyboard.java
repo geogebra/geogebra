@@ -555,6 +555,9 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				&& newKeyboardLocale.equals(keyboardLocale)) {
 			return;
 		}
+
+		switcher.clear();
+		switcher.setup();
 		if (newKeyboardLocale != null) {
 			this.keyboardLocale = newKeyboardLocale;
 		} else {

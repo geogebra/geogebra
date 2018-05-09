@@ -17,4 +17,7 @@ public interface SharedResources extends ClientBundle {
 
     @Source("org/geogebra/web/resources/scss/solver.scss")
     SassResource solverStyleScss();
+
+    @Source("org/geogebra/web/resources/scss/step-tree.scss")
+    SassResource stepTreeStyleScss();
 }
