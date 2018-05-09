@@ -4048,10 +4048,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
 			return false;
 
-		// MOB-1471
-		case MOB_DEFAULT_SLIDER_INCREMENT_VALUE:
-			return true;
-
 		// IGR-605
 		case MOB_TABBED_SETTINGS_PANEL:
 			return prerelease;

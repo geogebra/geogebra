@@ -18,12 +18,6 @@
 
 package org.geogebra.common.kernel.geos;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -58,6 +52,12 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
 
 /**
  * 
@@ -502,12 +502,9 @@ public class GeoNumeric extends GeoElement
 		}
 
 		if (isAutoStep()) {
-			if (kernel.getApplication().has(Feature.MOB_DEFAULT_SLIDER_INCREMENT_VALUE)) {
-				return isAnimating()
-						|| getAutoStepValue() >= DEFAULT_SLIDER_INCREMENT
-								? getAutoStepValue() : DEFAULT_SLIDER_INCREMENT;
-			}
-			return getAutoStepValue();
+			return isAnimating() || getAutoStepValue() >= DEFAULT_SLIDER_INCREMENT
+					? getAutoStepValue()
+					: DEFAULT_SLIDER_INCREMENT;
 		}
 
 		return super.getAnimationStep();
