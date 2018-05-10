@@ -691,10 +691,12 @@ namespace giac {
 	e =gen(*feuillevfront->_VECTptr,feuillevfront->subtype);
 	iterateur it=e._VECTptr->begin(),itend=e._VECTptr->end();
 	for (;it!=itend;++it){
-	  if (it->in_eval(level,tmp,contextptr) || it->type!=_VECT)
+	  if (it->in_eval(level,tmp,contextptr))
 	    *it=tmp;
-	  else
-	    *it=gen(*it->_VECTptr,tmp.subtype);
+	  else {
+	    if (it->type==_VECT)
+	      *it=gen(*it->_VECTptr,tmp.subtype);
+	  }
 	}
       }
       else {

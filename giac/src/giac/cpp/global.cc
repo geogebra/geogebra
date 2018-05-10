@@ -5832,8 +5832,28 @@ unsigned int ConvertUTF8toUTF16 (
 
   string replace_deuxpoints_egal(const string & s){
     string res;
+    bool instring=false;
     for (size_t i=0;i<s.size();++i){
       char ch=s[i];
+      if (i==0 || s[i-1]!='\\'){
+	if (ch=='\''){
+	  res +='"';
+	  instring=!instring;
+	  continue;
+	}
+	if (instring){
+	  if (ch=='"')
+	    res +="\"\"";
+	  else
+	    res += ch;
+	  continue;
+	}
+	if (ch=='"'){
+	  res +='"';
+	  instring=!instring;
+	  continue;
+	}
+      }
       switch (ch){
       case ':':
 	res +="-/-";
@@ -6026,13 +6046,13 @@ unsigned int ConvertUTF8toUTF16 (
 	    alert("// Python compatibility, please use \"...\" for strings",contextptr);
 	    alertstring=false;
 	  }
-	  int p=pos,q,beg; // skip spaces
+	  int p=pos,q=pos+1,beg; // skip spaces
 	  for (p++;p<int(cur.size());++p)
 	    if (cur[p]!=' ') 
 	      break;
 	  if (p!=cur.size()){
 	    // find matching ' 
-	    beg=q=p;
+	    beg=q;
 	    for (;p<int(cur.size());++p)
 	      if (cur[p]=='\'') 
 		break;
