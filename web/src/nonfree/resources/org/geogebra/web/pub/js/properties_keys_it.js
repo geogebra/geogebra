@@ -2390,7 +2390,7 @@ __GGB__keysVar["it"].menu = {
     "PressSpaceCheckboxOn": "Premi la barra spaziatrice per attivare la casella di controllo",
     "PressSpaceStartAnimation": "Premi la barra spaziatrice per avviare l'animazione",
     "PressSpaceStopAnimation": "Premi la barra spaziatrice per arrestare l'animazione",
-    "PressSpaceToOpen": "Press space to open.",
+    "PressSpaceToOpen": "Premi la barra spaziatrice per aprire",
     "PressSpaceToRunScript": "Premi la barra spaziatrice per eseguire lo script",
     "PressUpToIncrease": "Premi freccia su per aumentare il valore",
     "Preview": "Anteprima",

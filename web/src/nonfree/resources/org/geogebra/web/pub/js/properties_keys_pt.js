@@ -3118,7 +3118,7 @@ __GGB__keysVar["pt"].menu = {
     "exam_ended": "Exame terminado",
     "exam_exit_confirmation": "Tem certeza que quer deixar o Modo Exame?",
     "exam_exit_header": "Sair do Exame?",
-    "exam_instructions_before_start": "The status bar shows timer information during the exam.",
+    "exam_instructions_before_start": "A barra de status mostra informa\xe7\xf5es do temporizador durante o exame.",
     "exam_lock_button": "Lock app",
     "exam_log_airplane_mode_off": "Modo avi\xe3o desativado",
     "exam_log_airplane_mode_on": "Modo avi\xe3o ativado",

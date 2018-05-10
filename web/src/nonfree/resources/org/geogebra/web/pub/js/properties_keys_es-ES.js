@@ -2383,7 +2383,7 @@ __GGB__keysVar["es-ES"].menu = {
     "PressDownToDecrease": "Pulsa la flecha hacia abajo para disminuir el valor",
     "PressEnterToEdit": "Pulsa Intro para editar",
     "PressEnterToOpenSettings": "Pulsa Intro para configurar",
-    "PressEnterToSelect": "Presiona intro para seleccionad.",
+    "PressEnterToSelect": "Presiona intro para seleccionar.",
     "PressSlashToHide": "Pulsa barra para ocultar el objeto",
     "PressSlashToShow": "Pulsa / para mostrar el objeto",
     "PressSpaceCheckboxOff": "Pulsa espacio para desmarcar la casilla",
