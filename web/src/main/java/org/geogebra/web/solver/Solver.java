@@ -16,6 +16,7 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
@@ -176,11 +177,16 @@ public class Solver implements EntryPoint, MathFieldListener {
                         factored, sb.getSteps()));
             }
         } else if (sn instanceof StepEquation) {
+            double startTime = app.getMillisecondTime();
             List<StepSolution> solutions =
                     ((StepEquation) sn).solve(new StepVariable("x"), sb);
-
+            double solveTime = app.getMillisecondTime();
             stepsPanel.add(new StepInformation(app, guiBuilder,
                     solutions, sb.getSteps()));
+            double endTime = app.getMillisecondTime();
+            Log.debug("Total execution time: " + (endTime - startTime) + " ms");
+            Log.debug("Solve time: " + (solveTime - startTime) + " ms");
+            Log.debug("Render time: " + (endTime - solveTime) + " ms");
         }
 
         stepsPanel.addStyleName("stepTree");

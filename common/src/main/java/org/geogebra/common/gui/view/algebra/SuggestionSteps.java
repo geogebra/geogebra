@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 
 public class SuggestionSteps extends Suggestion {
 	
@@ -20,14 +19,8 @@ public class SuggestionSteps extends Suggestion {
 
 	@Override
 	public void execute(GeoElementND geo) {
-		double startTime = geo.getKernel().getApplication().getMillisecondTime();
 		SolutionStep steps = ((HasSteps) geo.getParentAlgorithm()).getSteps();
-		double solveTime = geo.getKernel().getApplication().getMillisecondTime();
 		geo.getKernel().getApplication().getGuiManager().buildStepGui(steps);
-		double endTime = geo.getKernel().getApplication().getMillisecondTime();
-		Log.debug("Total execution time: " + (endTime - startTime) + " ms");
-		Log.debug("Solve time: " + (solveTime - startTime) + " ms");
-		Log.debug("Render time: " + (endTime - solveTime) + " ms");
 	}
 
 	public static Suggestion get(GeoElement geo) {
