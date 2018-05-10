@@ -366,6 +366,9 @@ public class Browser {
 			$wnd.ggbExportFile(url, title);
 			return;
 		}
+
+		var base64encoded = true;
+
 		if (startsWith(url, @org.geogebra.common.util.StringUtil::pngMarker)) {
 			extension = "image/png";
 			header = @org.geogebra.common.util.StringUtil::pngMarker;
@@ -385,6 +388,7 @@ public class Browser {
 				@org.geogebra.common.util.StringUtil::txtMarker)) {
 			extension = "text/plain";
 			header = @org.geogebra.common.util.StringUtil::txtMarker;
+			base64encoded = false;
 		} else {
 			$wnd.console.log("unknown extension " + url.substring(0, 20));
 			return;
@@ -399,7 +403,12 @@ public class Browser {
 				|| $wnd.navigator.userAgent.toLowerCase().indexOf("chrome") > -1) {
 			var sliceSize = 512;
 
-			var byteCharacters = atob(url.substring(header.length));
+			var byteCharacters = url.substring(header.length);
+
+			if (base64encoded) {
+				byteCharacters = $wnd.atob(byteCharacters);
+			}
+
 			var byteArrays = [];
 
 			for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
