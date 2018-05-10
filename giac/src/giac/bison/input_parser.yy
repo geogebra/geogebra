@@ -354,7 +354,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	/* | T_RETURN T_SEMI {$$ = gen(*$1._FUNCptr,0);}  */
 	| T_BREAK	{$$ = symbolic(at_break,zero);}
 	| T_CONTINUE	{$$ = symbolic(at_continue,zero);}
-	| T_FOR symbol T_IN exp T_DO prg_suite T_BLOC_END { 
+	| T_FOR symbol_for T_IN exp T_DO prg_suite T_BLOC_END { 
 	/*
 	  gen kk(identificateur("index"));
 	  vecteur v(*$6._VECTptr);
@@ -378,6 +378,11 @@ exp	: T_NUMBER		{$$ = $1;}
             $$=symbolic(*$1._FUNCptr,makevecteur(symb_sto(f._VECTptr->front(),$2),inc.val>0?symb_inferieur_egal($2,f._VECTptr->back()):symb_superieur_egal($2,f._VECTptr->back()),symb_sto(symb_plus($2,inc),$2),symb_bloc($6)));
           else 
             $$=symbolic(*$1._FUNCptr,makevecteur(1,symbolic(*$1._FUNCptr,makevecteur($2,$4)),1,symb_bloc($6)));
+	  }
+	| T_FOR symbol_for T_IN exp T_DO prg_suite T_ELSE prg_suite T_BLOC_END { 
+          if ($9.type==_INT_ && $9.val && $9.val!=2 && $9.val!=9)
+	    giac_yyerror(scanner,"missing loop end delimiter");
+	  $$=symbolic(*$1._FUNCptr,makevecteur(1,symbolic(*$1._FUNCptr,makevecteur($2,$4,symb_bloc($8))),1,symb_bloc($6)));
 	  }
 	| T_FOR symbol from T_TO exp step loop38_do prg_suite T_BLOC_END { 
           if ($9.type==_INT_ && $9.val && $9.val!=2 && $9.val!=9) giac_yyerror(scanner,"missing loop end delimiter");
@@ -676,6 +681,11 @@ exp	: T_NUMBER		{$$ = $1;}
 	| HP38_4ARGS exp T_SEMI exp T_SEMI exp T_SEMI exp { $$=symbolic(*$1._FUNCptr,gen(makevecteur($2,$4,$6,$8),_SEQ__VECT)); }
 	| T_BLOC_BEGIN exp T_BLOC_END { $$=gen(gen2vecteur($2),_LIST__VECT); } 
 	*/
+	;
+
+symbol_for : T_SYMBOL { $$=$1; }
+	| T_UNARY_OP { $$=$1; } 
+	| T_UNARY_OP_38 { $$=$1; } 
 	;
 
 symbol	: T_SYMBOL { $$=$1; }

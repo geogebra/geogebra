@@ -1184,7 +1184,7 @@ namespace giac {
 	newc2.push_back(identificateur(mkvalid(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
       }
     }
-    newcsto=lop(c,at_struct_dot);
+    newcsto=mergevecteur(lop(c,at_struct_dot),lop(c,at_for));
     for (size_t i=0;i<newcsto.size();++i){
       gen var=newcsto[i]._SYMBptr->feuille[0];
       if (var.type==_FUNC && (python_compat(contextptr) || !archive_function_index(*var._FUNCptr))){
@@ -2366,7 +2366,7 @@ namespace giac {
     if (argsv.size()!=4)
       return gensizeerr(gettext("For must have 4 args"));
     // Initialization
-    gen initialisation=argsv.front();
+    gen initialisation=argsv.front(),forelse;
     // add assigned variables to be local
     bool bound=false;
     vecteur loop_var;
@@ -2418,9 +2418,12 @@ namespace giac {
       vecteur * for_in_v=0;
       string * for_in_s=0;
       gen index_name;
-      gen gforin;
-      if ((test.is_symb_of_sommet(at_for) || test.is_symb_of_sommet(at_pour))&& test._SYMBptr->feuille.type==_VECT && test._SYMBptr->feuille._VECTptr->size()==2){
-	gen tmp=eval(test._SYMBptr->feuille._VECTptr->back(),eval_lev,newcontextptr);
+      gen gforin; 
+      size_t testsize=0;
+      if ((test.is_symb_of_sommet(at_for) || test.is_symb_of_sommet(at_pour))&& test._SYMBptr->feuille.type==_VECT && (testsize=test._SYMBptr->feuille._VECTptr->size())>=2){
+	gen tmp=eval((*test._SYMBptr->feuille._VECTptr)[1],eval_lev,newcontextptr);
+	if (testsize==3)
+	  forelse=(*test._SYMBptr->feuille._VECTptr)[2];
 	bool ismap=tmp.type==_MAP;
 	if (ismap){
 	  // copy indices
@@ -2665,6 +2668,8 @@ namespace giac {
       leave(protect,loop_var,newcontextptr);
     if (is_undef(testf))
       return testf;
+    if (res!=at_break && forelse!=0)
+      forelse.in_eval(eval_lev,res,contextptr);
     return res==at_break?string2gen("breaked",false):res;
   }
 

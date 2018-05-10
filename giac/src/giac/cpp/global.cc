@@ -5694,6 +5694,13 @@ unsigned int ConvertUTF8toUTF16 (
 	instring=!instring;
       if (instring)
 	continue;
+      if (curch==',' && pos<int(cur.size()-1)){
+	char nextch=cur[pos+1];
+	if (nextch=='}' || nextch==']' || nextch==')'){
+	  cur.erase(cur.begin()+pos);
+	  continue;
+	}
+      }
       if (curch=='}' && prevch=='{'){
 	cur=cur.substr(0,pos-1)+"table()"+cur.substr(pos+1,cur.size()-pos-1);
 	continue;
@@ -5970,6 +5977,14 @@ unsigned int ConvertUTF8toUTF16 (
 	    break;
 	  }
 	}
+	for (size_t pos2=pos+1;pos2<res.size();++pos2){
+	  ch=res[pos2];
+	  if (ch!=' ' && ch!=9){
+	    if (ch==']' || ch=='}' || ch==')')
+	      cherche=true;
+	    break;
+	  }
+	}
       }
       if (pos<0 || pos>=int(res.size())){
 	cur=res; res="";
@@ -5998,7 +6013,7 @@ unsigned int ConvertUTF8toUTF16 (
 	    if (ch==';')
 	      ++c3;
 	  }
-	  if (p<cs && c1 && c1>=c2 && c3==0){
+	  if (p<cs && c1 && c3==0){
 	    // table initialization, replace {} by table( ) , 
 	    // cur=cur.substr(0,pos)+"table("+cur.substr(pos+1,p-pos-1)+")"+cur.substr(p+1,cs-pos-1);
 	    cur=cur.substr(0,pos)+"{/"+replace_deuxpoints_egal(cur.substr(pos+1,p-1-pos))+"/}"+cur.substr(p+1,cs-pos-1);
