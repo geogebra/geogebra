@@ -71,11 +71,11 @@ public final class DrawImage extends Drawable {
 	/**
 	 * ratio of the whole image and the crop box width
 	 */
-	private double imagecropRatioX;
+	private double imagecropRatioX = Double.NaN;
 	/**
 	 * ratio of the whole image and the crop box width
 	 */
-	private double imagecropRatioY;
+	private double imagecropRatioY = Double.NaN;
 	/**
 	 * the image should have at least 100px width
 	 */
@@ -678,12 +678,19 @@ public final class DrawImage extends Drawable {
 		boundingBox.setRectangle(rect);
 		// remember last crop box position
 		setCropBox(rect);
+		updateImageCropRatio();
+	}
+
+	private void updateImageCropRatio() {
 		imagecropRatioX = geoImage.getFillImage().getWidth()
 				/ geoImage.getCropBoxRelative().getWidth();
 		imagecropRatioY = geoImage.getFillImage().getHeight()
 				/ geoImage.getCropBoxRelative().getHeight();
 	}
 
+	private boolean hasImageCropRatio() {
+		return !Double.isNaN(imagecropRatioX) && !Double.isNaN(imagecropRatioY);
+	}
 	/**
 	 * Gets the ratio the current width of the image drawn on canvas and the
 	 * original width of image.
@@ -734,6 +741,7 @@ public final class DrawImage extends Drawable {
 		return cb;
 	}
 
+
 	private void updateImageResize(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
 		int eventX = event.getX();
@@ -742,6 +750,9 @@ public final class DrawImage extends Drawable {
 		double cropMinX, cropMaxX, cropMinY, cropMaxY;
 		GRectangle2D cropBox = null;
 		if (geoImage.isCropped()) {
+			if (!hasImageCropRatio()) {
+				updateImageCropRatio();
+			}
 			cropBox = getCropBox();
 			cropMinX = view.toRealWorldCoordX(cropBox.getMinX());
 			cropMaxX = view.toRealWorldCoordX(cropBox.getMaxX());

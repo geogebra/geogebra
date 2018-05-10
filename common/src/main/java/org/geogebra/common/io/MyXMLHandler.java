@@ -4913,10 +4913,11 @@ public class MyXMLHandler implements DocHandler {
 			double y = Double.parseDouble(attrs.get("y"));
 			double w = Double.parseDouble(attrs.get("width"));
 			double h = Double.parseDouble(attrs.get("height"));
+			boolean cropped = Boolean.parseBoolean(attrs.get("cropped"));
 			GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 			rect.setRect(x, y, w, h);
 			img.setCropBoxRelative(rect);
-			img.setCropped(true);
+			img.setCropped(cropped);
 			return true;
 		} catch (RuntimeException e) {
 			return false;
