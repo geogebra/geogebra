@@ -5785,7 +5785,7 @@ namespace giac {
 #endif
 	 res.front().dim<=GROEBNER_VARS+1-(order!=_PLEX_ORDER)){
       vectpoly tmp;
-      order_t order_={order,lexvars};
+      order_t order_={static_cast<short>(order),lexvars};
       if (!gbasis8(res,order_,tmp,env,modularcheck!=0,modularcheck>=2,rur,contextptr,eliminate_flag))
 	return false;
       int i;
@@ -6996,7 +6996,7 @@ namespace giac {
     if (!vecteur2vector_polynome(red_in_,l,red_in))
       return gensizeerr("Bad first argument, expecting polynomial or list of polynomials");
     change_monomial_order(red_in,order);
-    order_t order_={order.val,0};
+    order_t order_={static_cast<short>(order.val),0};
     environment env;
     env.moduloon=false;
     if (!quoptr && greduce8(red_in,eqp,order_,red_out,&env,contextptr)){

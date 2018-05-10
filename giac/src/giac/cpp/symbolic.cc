@@ -685,12 +685,26 @@ namespace giac {
       e=feuillev.front();
     else {
       gen * feuillevfront=&feuillev.front();
-      // e=feuillev.front().eval(level,contextptr);
-      if (!feuillevfront->in_eval(level,e,contextptr)){
-	if (feuillevfront->type==_VECT) // avoid self-modifying code
-	  e=gen(*feuillevfront->_VECTptr,feuillevfront->subtype);
-	else
-	  e=*feuillevfront;
+      // avoid self-modifying code in multi-assign
+      if (feuilleback.type==_VECT && feuillevfront->type==_VECT &&feuilleback._VECTptr->size()==feuillevfront->_VECTptr->size()){
+	gen tmp;
+	e =gen(*feuillevfront->_VECTptr,feuillevfront->subtype);
+	iterateur it=e._VECTptr->begin(),itend=e._VECTptr->end();
+	for (;it!=itend;++it){
+	  if (it->in_eval(level,tmp,contextptr) || it->type!=_VECT)
+	    *it=tmp;
+	  else
+	    *it=gen(*it->_VECTptr,tmp.subtype);
+	}
+      }
+      else {
+	// e=feuillev.front().eval(level,contextptr);
+	if (!feuillevfront->in_eval(level,e,contextptr)){
+	  if (feuillevfront->type==_VECT) // avoid self-modifying code
+	    e=gen(*feuillevfront->_VECTptr,feuillevfront->subtype);
+	  else
+	    e=*feuillevfront;
+	}
       }
     }
     if (b)

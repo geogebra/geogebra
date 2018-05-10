@@ -1015,7 +1015,7 @@ namespace giac {
 
   inline void swapgen(gen & a,gen &b){
 #ifdef SMARTPTR64
-    std::swap<ulonglong>(* (ulonglong *)&a,* (ulonglong *)&b);
+    std::swap(* (ulonglong *)&a,* (ulonglong *)&b);
 #else
     gen tmp=a; a=b; b=tmp;
 #endif

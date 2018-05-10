@@ -6131,9 +6131,17 @@ unsigned int ConvertUTF8toUTF16 (
 	  s = s+cur+'\n';
 	  continue;
 	}
+	bool instr=false;
 	for (p=pos;p>0;--p){
+	  if (instr){
+	    if (cur[p]=='"' && cur[p-1]!='\\')
+	      instr=false;
+	    continue;
+	  }
 	  if (cur[p]==':' && cur[p+1]!=';')
 	    break;
+	  if (cur[p]=='"' && cur[p-1]!='\\')
+	    instr=true;	  
 	}
 	if (p>0){
 	  int cs=int(cur.size()),q=4;
