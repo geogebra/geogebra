@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.stepbystep.StepsCache;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
@@ -104,7 +105,7 @@ public abstract class StepSolvable extends StepNode {
 		if (tracker != null && tracker.isApproximate()) {
 			temp = (StepSolvable) StepStrategies.decimalRegroup(temp, sb);
 		} else {
-			temp = (StepSolvable) StepStrategies.defaultRegroup(temp, sb);
+			temp = (StepSolvable) StepsCache.getInstance().regroup(temp, sb);
 		}
 
 		LHS = temp.LHS;
@@ -130,7 +131,7 @@ public abstract class StepSolvable extends StepNode {
 		if (tracker != null && tracker.isApproximate()) {
 			temp = (StepSolvable) StepStrategies.decimalExpand(temp, sb);
 		} else {
-			temp = (StepSolvable) StepStrategies.defaultExpand(temp, sb);
+			temp = (StepSolvable) StepsCache.getInstance().expand(temp, sb);
 		}
 
 		LHS = temp.LHS;

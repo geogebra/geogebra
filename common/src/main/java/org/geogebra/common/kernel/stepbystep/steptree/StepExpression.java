@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 import java.util.List;
 
 import org.geogebra.common.kernel.stepbystep.StepHelper;
+import org.geogebra.common.kernel.stepbystep.StepsCache;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupSteps;
@@ -801,7 +802,7 @@ public abstract class StepExpression extends StepNode {
 	 */
 	public StepExpression regroup(SolutionBuilder sb) {
 		if (this instanceof StepOperation) {
-			return (StepExpression) StepStrategies.defaultRegroup(this, sb);
+			return (StepExpression) StepsCache.getInstance().regroup(this, sb);
 		}
 
 		return this;
@@ -846,7 +847,7 @@ public abstract class StepExpression extends StepNode {
 	 * @return the expression, regrouped and expanded
 	 */
 	public StepExpression expand() {
-		return expand(null);
+		return expand(new SolutionBuilder());
 	}
 
 	/**
@@ -856,7 +857,7 @@ public abstract class StepExpression extends StepNode {
 	 */
 	public StepExpression expand(SolutionBuilder sb) {
 		if (this instanceof StepOperation) {
-			return (StepExpression) StepStrategies.defaultExpand(this, sb);
+			return (StepExpression) StepsCache.getInstance().expand(this, sb);
 		}
 
 		return this;
@@ -881,7 +882,7 @@ public abstract class StepExpression extends StepNode {
 	 */
 	public StepExpression factor(SolutionBuilder sb) {
 		if (this instanceof StepOperation) {
-			return (StepExpression) StepStrategies.defaultFactor(this, sb, new RegroupTracker());
+			return (StepExpression) StepsCache.getInstance().factor(this, sb);
 		}
 
 		return this;
