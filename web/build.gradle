@@ -91,14 +91,16 @@ gwt {
             draftCompile = true
         }
         if (project.hasProperty("gworkers")) {
-            localWorkers = 1
+            localWorkers = project.getProperty("gworkers")
         }
         if (project.hasProperty("gdetailed")){
             style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
         } else {
             disableClassMetadata = true;
         }
-       // soycDetailed = true;
+        if (project.hasProperty("gsoyc")) {
+            soycDetailed = true;
+        }
         // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
     }
 }
@@ -279,6 +281,7 @@ task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml']) {
     args '-logLevel', 'TRACE',
         '-codeServerPort', '9997',
         '-port', '8888',
+        '-style', 'PRETTY',
         '-bindAddress', project.findProperty("gbind") ?: 'localhost',
         '-superDevMode',
         '-war', file(warDirRel),
