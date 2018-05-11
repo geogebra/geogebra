@@ -2608,10 +2608,10 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				tickStepY) - tickStepY;
 
 		if (euclidianView.getShowGrid()) {
-		// horizontal grid
-		codeBeginDoc.append("ymajorgrids=true,\n");
-		// vertical grid
-		codeBeginDoc.append("xmajorgrids=true,\n");
+			// horizontal grid
+			codeBeginDoc.append("ymajorgrids=true,\n");
+			// vertical grid
+			codeBeginDoc.append("xmajorgrids=true,\n");
 		}
 
 		codeBeginDoc.append("xmin=");
