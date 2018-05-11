@@ -1245,13 +1245,8 @@ public class AlgebraProcessor {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			GeoElementND[] temp = processValidExpression(ve);
 			// CAS in GeoGebraWeb dies badly if we don't handle this case
-			// (Simon's hack):
-			// list = (GeoList) temp[0];
 			if (temp[0] instanceof GeoList) {
 				list = (GeoList) temp[0];
-			} else {
-				// eg when CAS not loaded
-				Log.error("return value was not a list");
 			}
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
@@ -1265,13 +1260,17 @@ public class AlgebraProcessor {
 		} catch (Error e) {
 			e.printStackTrace();
 			// app.showError("InvalidInput", str);
+		} finally {
+			if (list == null) {
+				// eg when CAS not loaded
+				list = new GeoList(cons);
+				Log.error("problem with return value (should be a list):" + str);
+			}
+
+			cons.setSuppressLabelCreation(oldMacroMode);
+			
 		}
 
-		if (list == null) {
-			list = new GeoList(cons);
-		}
-
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return list;
 	}
 
