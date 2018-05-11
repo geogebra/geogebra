@@ -1252,7 +1252,6 @@ public class AlgebraProcessor {
 			} else {
 				// eg when CAS not loaded
 				Log.error("return value was not a list");
-				list = new GeoList(cons);
 			}
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
@@ -1266,6 +1265,10 @@ public class AlgebraProcessor {
 		} catch (Error e) {
 			e.printStackTrace();
 			// app.showError("InvalidInput", str);
+		}
+
+		if (list == null) {
+			list = new GeoList(cons);
 		}
 
 		cons.setSuppressLabelCreation(oldMacroMode);
