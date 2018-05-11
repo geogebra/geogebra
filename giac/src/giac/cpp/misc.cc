@@ -6503,7 +6503,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     }
     int shift=array_start(contextptr); //xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38;
     bool py=python_compat(contextptr);
-    if (a.type==_STRNG){
+    if (a.type==_STRNG && v[1].type!=_VECT){
       if (v[1].type!=_STRNG)
 	return gensizeerr(contextptr);
       const string s=*v[1]._STRNGptr;
@@ -6526,7 +6526,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     for (int i=pos;i<s;++i){
       if (a==w[i]){
 	if (py)
-	  return pos;
+	  return i;
 	res.push_back(i+shift);
       }
     }

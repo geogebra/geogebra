@@ -5646,7 +5646,9 @@ namespace giac {
     gen a,b,c;
     if (!check_binary(args,a,b))
       return a;
-    if (b==at_revlist || b==at_reverse || b==at_sort || b==at_sorted || b==at_append || b==at_prepend || b==at_concat || b==at_extend || b==at_rotate || b==at_shift || b==at_suppress || b==at_clear || b==at_index){
+    if (b==at_index)
+      return _struct_dot(eval(args,1,contextptr),contextptr);
+    if (b==at_revlist || b==at_reverse || b==at_sort || b==at_sorted || b==at_append || b==at_prepend || b==at_concat || b==at_extend || b==at_rotate || b==at_shift || b==at_suppress || b==at_clear ){	
 #if 1
 	return _struct_dot(args,contextptr);
 #else
@@ -5655,7 +5657,9 @@ namespace giac {
     }
     if (b.type==_SYMB){
       unary_function_ptr c=b._SYMBptr->sommet;
-      if (c==at_revlist || c==at_reverse || c==at_sort || c==at_sorted || c==at_append || c==at_prepend || c==at_concat || c==at_extend || c==at_rotate || c==at_shift || c==at_suppress || c==at_clear || c==at_index){
+      if (c==at_index)
+	return _struct_dot(eval(args,1,contextptr),contextptr);
+      if (c==at_revlist || c==at_reverse || c==at_sort || c==at_sorted || c==at_append || c==at_prepend || c==at_concat || c==at_extend || c==at_rotate || c==at_shift || c==at_suppress || c==at_clear ){
 #if 1
 	return _struct_dot(args,contextptr);
 #else
@@ -7195,7 +7199,7 @@ namespace giac {
     }
     if (s==2 && f==at_interval)
       return convert_interval(g,int(decimal_digits(contextptr)*3.2),contextptr);
-    if (s==2 && f==at_real)
+    if (s==2 && f==at_real && f.type==_FUNC)
       return convert_real(g,contextptr);
     if (s>=2 && f==at_series){
       if (g.type==_VECT){
@@ -10958,7 +10962,9 @@ namespace giac {
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return gensizeerr(contextptr);
     gen l=_find(makesequence(args._VECTptr->back(),args._VECTptr->front()),contextptr);
-    if (l.type!=_VECT || l._VECTptr->empty())
+    if (l.type!=_VECT)
+      return l;
+    if (l._VECTptr->empty())
       return gensizeerr(contextptr);
     return l._VECTptr->front();
   }
