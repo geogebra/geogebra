@@ -357,6 +357,22 @@ public class Derivative {
 		case DIFF:
 			break;
 		case ELEMENT_OF:
+
+			if (left.evaluatesToList()) {
+				int index = (int) Math.round(right.evaluateDouble());
+				MyList list = ((ListValue) left).getMyList();
+
+				if (index >= 0 && index < list.getLength()) {
+
+					ExpressionValue element = list.getListElement(index);
+
+					ExpressionValue deriv = element.derivative(fv, kernel0);
+
+					return deriv.wrap();
+				}
+
+			}
+
 			break;
 		case EQUAL_BOOLEAN:
 			break;
@@ -410,7 +426,6 @@ public class Derivative {
 			break;
 		default:
 			break;
-
 		}
 
 		Log.error("unhandled operation in derivative() (no CAS version): "
