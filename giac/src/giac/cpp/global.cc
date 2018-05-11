@@ -6062,6 +6062,8 @@ unsigned int ConvertUTF8toUTF16 (
 	      bool str=!isalpha(cur[q]) || !isalphan(cur[p]);
 	      if (p && cur[p]=='.' && cur[p-1]>'9')
 		str=true;
+	      if (p-q>=2)
+		str=true;
 	      for (;!str && q<p;++q){
 		char ch=cur[q];
 		if (ch=='"' || ch==' ')

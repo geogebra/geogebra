@@ -144,7 +144,7 @@ gen polynome_or_sparse_poly1(const gen & coeff, const gen & index){
 %nonassoc T_FUNCTION
 %nonassoc TI_STO
 %nonassoc T_PIPE
-%nonassoc T_AFFECT
+%right T_AFFECT
 %nonassoc T_FOR 
 %left TI_SEMI
 %left T_VIRGULE
@@ -976,7 +976,7 @@ int giac_yyerror(yyscan_t scanner,const char *s) {
  }
  giac::lexer_column_number(contextptr)=col;
  string sy("syntax error ");
- if (strlen(s)){
+ if (0 && strlen(s)){
    sy += ": ";
    sy += s;
    sy +=", ";
