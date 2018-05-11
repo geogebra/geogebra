@@ -8,8 +8,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Payment[ <Rate>, <Number of Periods>, <Present Value>, <Future Value
- * (optional)>, <Type (optional)> ] Like the Excel Pmt function
+ * Payment[ &lt;Rate>, &lt;Number of Periods>, &lt;Present Value>, &lt;Future
+ * Value (optional)>, &lt;Type (optional)> ] Like the Excel Pmt function
  */
 public class CmdFinancialPmt extends CommandProcessor {
 

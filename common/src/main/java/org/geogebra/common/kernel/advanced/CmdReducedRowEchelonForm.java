@@ -6,7 +6,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * ReducedRowEchelonForm[ <List> ] Michael Borcherds
+ * ReducedRowEchelonForm[ &lt;List> ]
+ * 
+ * @author Michael Borcherds
  */
 public class CmdReducedRowEchelonForm extends CmdOneListFunction {
 	/**

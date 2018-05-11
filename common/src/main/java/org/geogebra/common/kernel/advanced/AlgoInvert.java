@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.util.GgbMat;
 
 /**
- * Reverse a list. Adapted from AlgoSort
+ * Invert a matrix.
  * 
  * @author Michael Borcherds
  * @version 16-02-2008
@@ -31,6 +31,14 @@ public class AlgoInvert extends AlgoElement {
 	private GeoList inputList; // input
 	private GeoList outputList; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            input matrix
+	 */
 	public AlgoInvert(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;

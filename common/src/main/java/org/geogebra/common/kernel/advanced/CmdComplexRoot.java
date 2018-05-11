@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.main.MyError;
 
 /**
- * ComplexRoot[ <GeoFunction> ]
+ * ComplexRoot[ &lt;GeoFunction> ]
  */
 public class CmdComplexRoot extends CommandProcessor {
 

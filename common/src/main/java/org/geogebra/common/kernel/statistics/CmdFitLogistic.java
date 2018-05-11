@@ -24,7 +24,8 @@ public class CmdFitLogistic extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoFitLogistic algo = new AlgoFitLogistic(cons, a, b);
+		AlgoFitLogistic algo = new AlgoFitLogistic(cons, b);
+		algo.getFitLogistic().setLabel(a);
 		return algo.getFitLogistic();
 	}
 

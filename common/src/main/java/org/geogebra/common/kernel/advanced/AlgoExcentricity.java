@@ -37,6 +37,14 @@ public class AlgoExcentricity extends AlgoElement {
 	private GeoConicND c; // input
 	private GeoNumeric num; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param arg
+	 *            conic
+	 */
 	public AlgoExcentricity(Construction cons, String label, GeoConicND arg) {
 		super(cons);
 		this.c = arg;

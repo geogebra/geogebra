@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.main.MyError;
 
 /**
- * AreEqual[<Object>, <Object>]
+ * AreEqual[&lt;Object>, &lt;Object>]
  * 
  * @author Simon Weitzhofer 17th of may 2012
  *

@@ -42,8 +42,6 @@ public class AlgoTaylorSeries extends AlgoElement {
 	private GeoNumberValue n; // order of series
 	private GeoFunction g; // output g = f'
 
-	private GeoElement ageo, ngeo;
-
 	/**
 	 * Creates new Taylor series for function f about the point x=a of order n.
 	 * 
@@ -65,9 +63,6 @@ public class AlgoTaylorSeries extends AlgoElement {
 		this.a = a;
 		this.n = n;
 
-		ageo = a.toGeoElement();
-		ngeo = n.toGeoElement();
-
 		g = new GeoFunction(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -84,8 +79,8 @@ public class AlgoTaylorSeries extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[3];
 		input[0] = f;
-		input[1] = ageo;
-		input[2] = ngeo;
+		input[1] = a.toGeoElement();
+		input[2] = n.toGeoElement();
 
 		super.setOutputLength(1);
 		super.setOutput(0, g);
@@ -102,7 +97,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 	// ON CHANGE: similiar code is in AlgoPolynomialForFunction
 	@Override
 	public final void compute() {
-		if (!f.isDefined() || !ageo.isDefined() || !ngeo.isDefined()) {
+		if (!f.isDefined() || !a.isDefined() || !n.isDefined()) {
 			g.setUndefined();
 			return;
 		}
@@ -175,8 +170,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 				if (Double.isNaN(coeff) || Double.isInfinite(coeff)) {
 					g.setUndefined();
 					return;
-				} else if (DoubleUtil.isZero(coeff))
-				 {
+				} else if (DoubleUtil.isZero(coeff)) {
 					continue; // this part vanished
 				}
 
@@ -214,8 +208,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 					series = new ExpressionNode(kernel, partExp);
 				} else {
 					if (negativeCoeff) {
-						if (coeffMyDouble != null)
-						 {
+						if (coeffMyDouble != null) {
 							coeffMyDouble.set(-coeff); // change sign
 						}
 						series = new ExpressionNode(kernel, series,

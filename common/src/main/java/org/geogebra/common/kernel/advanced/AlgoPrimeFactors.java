@@ -32,6 +32,14 @@ public class AlgoPrimeFactors extends AlgoElement {
 
 	private static double LARGEST_INTEGER = 9007199254740992d;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param num
+	 *            number
+	 */
 	public AlgoPrimeFactors(Construction cons, String label,
 			GeoNumberValue num) {
 		super(cons);

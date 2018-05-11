@@ -4185,8 +4185,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return line
 	 */
 	final public GeoLine fitLineY(String label, GeoList list) {
-		AlgoFitLineY algo = new AlgoFitLineY(kernel.getConstruction(), label,
+		AlgoFitLineY algo = new AlgoFitLineY(kernel.getConstruction(),
 				list);
+		algo.getFitLineY().setLabel(label);
 		return algo.getFitLineY();
 	}
 

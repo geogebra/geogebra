@@ -9,7 +9,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * Invert[ <Function> ] Invert[ <Matrix> ]
+ * Invert[ &lt;Function> ]
+ * 
+ * Invert[ &lt;Matrix> ]
  */
 public class CmdInvert extends CommandProcessor {
 

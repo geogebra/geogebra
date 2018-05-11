@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Incircle[ <GeoPoint>, <GeoPoint>, <GeoPoint> ]
+ * Incircle[ &lt;GeoPoint>, &lt;GeoPoint>, &lt;GeoPoint> ]
  * 
  * @author dsun
  * @version 2011-6-26

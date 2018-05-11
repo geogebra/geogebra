@@ -30,11 +30,24 @@ import org.geogebra.common.util.MyMath;
 
 public class AlgoIncircle extends AlgoElement {
 
-	private GeoPointND A, B, C; // input
-	protected GeoConicND circle; // output
-	protected GeoPointND incenter;
+	// input
+	private GeoPointND A;
+	private GeoPointND B;
+	private GeoPointND C;
 
-	// angle bisector calculations
+	private GeoConicND circle; // output
+	private GeoPointND incenter;
+
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            vertex
+	 * @param B
+	 *            vertex
+	 * @param C
+	 *            vertex
+	 */
 
 	public AlgoIncircle(Construction cons, GeoPointND A, GeoPointND B,
 			GeoPointND C) {

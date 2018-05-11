@@ -25,17 +25,23 @@ import org.geogebra.common.util.DoubleUtil;
  *
  */
 public class AlgoSlopeField extends AlgoElement {
+	// input
+	private Evaluate2Var func;
+	private GeoNumeric n;
+	private GeoNumeric lengthRatio;
+	private GeoNumeric minX;
+	private GeoNumeric minY;
+	private GeoNumeric maxX;
+	private GeoNumeric maxY;
 
-	private Evaluate2Var func; // input
-	private GeoNumeric n, lengthRatio, minX, minY, maxX, maxY;
-	// private GeoList g; // output
 	private GeoLocus locus; // output
-	@SuppressWarnings("javadoc")
+	/** locus points */
 	ArrayList<MyPoint> al;
 
 	private AlgoNumeratorDenominatorFun numAlgo;
 	private AlgoNumeratorDenominatorFun denAlgo;
-	private FunctionalNVar num, den;
+	private FunctionalNVar num;
+	private FunctionalNVar den;
 	private boolean quotient;
 	private EuclidianView mainView;
 

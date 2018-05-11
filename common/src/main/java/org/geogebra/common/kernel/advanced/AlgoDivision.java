@@ -11,10 +11,22 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoDivision extends AlgoElement {
 
-	private GeoNumberValue a, b;
-	private GeoNumeric num, mod;
+	private GeoNumberValue a;
+	private GeoNumberValue b;
+	private GeoNumeric num;
+	private GeoNumeric mod;
 	private GeoList result;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param dividend
+	 *            dividend
+	 * @param divisor
+	 *            divisor
+	 */
 	public AlgoDivision(Construction cons, String label,
 			GeoNumberValue dividend, GeoNumberValue divisor) {
 		super(cons);

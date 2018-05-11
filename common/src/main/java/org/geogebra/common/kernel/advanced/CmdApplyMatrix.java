@@ -9,7 +9,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * ApplyMatrix[<Matrix>,<Object>]
+ * ApplyMatrix[&lt;Matrix>, &lt;Object>]
+ * 
+ * @author Michael Borcherds
  */
 public class CmdApplyMatrix extends CommandProcessor {
 
@@ -40,7 +42,7 @@ public class CmdApplyMatrix extends CommandProcessor {
 				if (arg[1].isMatrixTransformable() || arg[1].isGeoFunction()
 						|| arg[1].isGeoPolygon() || arg[1].isGeoPolyLine()
 						|| arg[1].isGeoList()) {
-					ret = ApplyMatrix(label, arg[1], (GeoList) arg[0]);
+					ret = applyMatrix(label, arg[1], (GeoList) arg[0]);
 					return ret;
 				}
 				throw argErr(app, c, arg[1]);
@@ -52,10 +54,7 @@ public class CmdApplyMatrix extends CommandProcessor {
 		}
 	}
 
-	/**
-	 * apply matrix Michael Borcherds 2010-05-27
-	 */
-	final private GeoElement[] ApplyMatrix(String label, GeoElement Q,
+	final private GeoElement[] applyMatrix(String label, GeoElement Q,
 			GeoList matrix) {
 		Transform t = new TransformApplyMatrix(cons, matrix);
 		return t.transform(Q, label);

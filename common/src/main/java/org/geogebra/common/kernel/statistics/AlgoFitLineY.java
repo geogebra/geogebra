@@ -36,11 +36,12 @@ public class AlgoFitLineY extends AlgoElement {
 	private GeoList geoList; // input
 	private GeoLine g; // output
 
-	public AlgoFitLineY(Construction cons, String label, GeoList geoList) {
-		this(cons, geoList);
-		g.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geoList
+	 *            list of points
+	 */
 	public AlgoFitLineY(Construction cons, GeoList geoList) {
 		super(cons);
 		this.geoList = geoList;
@@ -74,6 +75,9 @@ public class AlgoFitLineY extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return best fit line
+	 */
 	public GeoLine getFitLineY() {
 		return g;
 	}
@@ -106,7 +110,7 @@ public class AlgoFitLineY extends AlgoElement {
 					x = coords.getX();
 					y = coords.getY();
 				} else {
-					double xy[] = new double[2];
+					double[] xy = new double[2];
 					((GeoPoint) geo).getInhomCoords(xy);
 					x = xy[0];
 					y = xy[1];

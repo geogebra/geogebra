@@ -19,8 +19,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * AlgoMinimize Command Minimize[ <dependent variable>, <independent variable> ]
- * (and Minimize[] ) which searches for the independent variable which gives the
+ * AlgoMinimize Command Minimize[ &lt;dependent variable>, &lt;independent
+ * variable> ] which searches for the independent variable which gives the
  * smallest result for the dependent variable.
  * 
  * Extends abstract class AlgoOptimize
@@ -51,6 +51,16 @@ public class AlgoMinimize extends AlgoOptimize {
 		// cons.registerEuclididanViewAlgo(this);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param dep
+	 *            dependent number
+	 * @param indep
+	 *            moving point
+	 */
 	public AlgoMinimize(Construction cons, String label, GeoNumberValue dep,
 			GeoPointND indep) {
 		super(cons, label, dep, new OptimizerPoint(dep, indep),
@@ -63,6 +73,6 @@ public class AlgoMinimize extends AlgoOptimize {
 	@Override
 	public Commands getClassName() {
 		return Commands.Minimize;
-	}// getClassName()
+	}
 
-}// class AlgoMinimize
+}

@@ -24,7 +24,8 @@ public class CmdFitGrowth extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoFitGrowth algo = new AlgoFitGrowth(cons, a, b);
+		AlgoFitGrowth algo = new AlgoFitGrowth(cons, b);
+		algo.getFitGrowth().setLabel(a);
 		return algo.getFitGrowth();
 	}
 

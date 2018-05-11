@@ -22,7 +22,8 @@ public class CmdFitLineX extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoFitLineX algo = new AlgoFitLineX(cons, a, b);
+		AlgoFitLineX algo = new AlgoFitLineX(cons, b);
+		algo.getFitLineX().setLabel(a);
 		return algo.getFitLineX();
 	}
 

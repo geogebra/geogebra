@@ -24,7 +24,8 @@ public class CmdFitSin extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoFitSin algo = new AlgoFitSin(cons, a, b);
+		AlgoFitSin algo = new AlgoFitSin(cons, b);
+		algo.getFitSin().setLabel(a);
 		return algo.getFitSin();
 	}
 

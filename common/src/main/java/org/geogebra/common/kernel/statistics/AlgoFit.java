@@ -26,9 +26,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * AlgoFit A general linear curvefit: Fit[<List of Points>,<List of Functions>]
- * Example: f(x)=1, g(x)=x, h(x)=e^x L={A,B,...} c(x)=Fit[L,{f,g,h}] will give a
- * least square curvefit: c(x)= a+b*x+c*e^x
+ * AlgoFit A general linear curvefit: Fit[&lt;List of Points>,&lt;List of
+ * Functions>] Example: f(x)=1, g(x)=x, h(x)=e^x L={A,B,...} c(x)=Fit[L,{f,g,h}]
+ * will give a least square curvefit: c(x)= a+b*x+c*e^x
  * 
  * Simple test procedure: Make points A,B, ... L={A,B,...} f(x)=1, g(x)=x,
  * h(x)=x^2,... =x^n F={f,g,h,...} right(x)=Regpoly[L,n] fit(x)=Fit[L,F]
@@ -103,7 +103,6 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 	@Override
 	public final void compute() {
-		GeoElement geo2 = null;
 		datasize = pointlist.size(); // rows in M and Y
 		functionsize = functionlist.size(); // cols in M
 		functionarray.setSize(functionsize);
@@ -116,16 +115,15 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		matP = new Array2DRowRealMatrix(functionsize, 1); // Solution parameters
 
 		if (!pointlist.isDefined() || // Lot of things can go wrong...
-				!functionlist.isDefined() || (functionsize > datasize)
-		// Perhaps a max restriction of functions and data?
-		) // Even if noone would try 500 datapoints and 100 functions...
-		{
+				!functionlist.isDefined() || (functionsize > datasize)) {
+			// Perhaps a max restriction of functions and data?
+			// Even if noone would try 500 datapoints and 100 functions...
 			fitfunction.setUndefined();
 			return;
 		}
 		// We are in business...
 		// Best to also check:
-		geo2 = pointlist.get(0);
+		GeoElement geo2 = pointlist.get(0);
 		if (!geo2.isGeoPoint()) {
 			fitfunction.setUndefined();
 			return;
@@ -160,8 +158,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 			fitfunction.setUndefined();
 			t.printStackTrace();
 		}
-
-	}// compute()
+	}
 
 	// Get info from lists into matrixes and functionarray
 	private final boolean makeMatrixes() {
@@ -194,7 +191,6 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 			// mprint(Y:",Y);
 
 		return true;
-
 	}
 
 	@Override
@@ -207,6 +203,5 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 		return ret;
 	}
-
 
 }

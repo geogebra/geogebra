@@ -38,10 +38,9 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoList()))) {
 
 				AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons,
-						c.getLabel(), (GeoList) arg[0], (GeoList) arg[1]);
+						(GeoList) arg[0], (GeoList) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				return output(algo, c);
 			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
 			} else {
@@ -81,11 +80,10 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
 
 				AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons,
-						c.getLabel(), (GeoBoolean) arg[0], (GeoList) arg[1],
+						(GeoBoolean) arg[0], (GeoList) arg[1],
 						(GeoList) arg[2], null, (GeoBoolean) arg[3], null);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				return output(algo, c);
 			}
 
 			else if (!ok[0]) {
@@ -107,12 +105,11 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 					&& (ok[4] = (arg[4].isGeoNumeric()))) {
 
 				AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons,
-						c.getLabel(), (GeoBoolean) arg[0], (GeoList) arg[1],
+						(GeoBoolean) arg[0], (GeoList) arg[1],
 						(GeoList) arg[2], null, (GeoBoolean) arg[3],
 						(GeoNumeric) arg[4]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				return output(algo, c);
 			}
 
 			else if ((ok[0] = (arg[0].isGeoBoolean()))
@@ -122,12 +119,10 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 					&& (ok[4] = (arg[4].isGeoBoolean()))) {
 
 				AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons,
-						c.getLabel(), (GeoBoolean) arg[0], (GeoList) arg[1],
+						(GeoBoolean) arg[0], (GeoList) arg[1],
 						(GeoList) arg[2], (GeoList) arg[3], (GeoBoolean) arg[4],
 						null);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				return output(algo, c);
 
 			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
@@ -147,14 +142,20 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 
 	}
 
+	private static GeoElement[] output(AlgoFrequencyPolygon algo, Command c) {
+		algo.getResult().setLabel(c.getLabel());
+		return new GeoElement[] { algo.getResult() };
+	}
+
 	/**
 	 * FrequencyPolygon with density scale factor (no cumulative parameter)
 	 */
 	final private GeoPolyLine frequencyPolygon(String label, GeoList list1,
 			GeoList list2, GeoBoolean useDensity, GeoNumeric density) {
-		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, label, null,
+		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(cons, null,
 				list1, list2, null, useDensity, density);
 		GeoPolyLine result = algo.getResult();
+		result.setLabel(label);
 		return result;
 	}
 }

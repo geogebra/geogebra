@@ -9,11 +9,22 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GgbMat;
 
+/**
+ * Computes rank of a matrix.
+ */
 public class AlgoMatrixRank extends AlgoElement {
 
 	private GeoList inputList;
 	private GeoNumeric rank;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param matrix
+	 *            matrix
+	 */
 	public AlgoMatrixRank(Construction cons, String label, GeoList matrix) {
 		super(cons);
 		this.inputList = matrix;
@@ -66,6 +77,9 @@ public class AlgoMatrixRank extends AlgoElement {
 		return Commands.MatrixRank;
 	}
 
+	/**
+	 * @return matrix rank
+	 */
 	public GeoNumeric getResult() {
 		return rank;
 	}

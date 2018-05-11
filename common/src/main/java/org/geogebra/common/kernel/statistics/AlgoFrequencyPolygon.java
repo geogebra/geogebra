@@ -37,10 +37,14 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 
 public class AlgoFrequencyPolygon extends AlgoElement {
-
-	private GeoList list1, list2, list3; // input
-	private GeoBoolean isCumulative, useDensity; // input
+	// input
+	private GeoList list1;
+	private GeoList list2;
+	private GeoList list3;
+	private GeoBoolean isCumulative;
+	private GeoBoolean useDensity;
 	private GeoNumeric density;
+
 	private GeoPolyLine outputPolyLine; // output
 
 	private GeoPointND[] points = null;
@@ -53,16 +57,14 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for the histogram
 	 * @param list1
 	 *            list of boundaries
 	 * @param list2
 	 *            list of heights or raw data
 	 */
-	public AlgoFrequencyPolygon(Construction cons, String label, GeoList list1,
+	public AlgoFrequencyPolygon(Construction cons, GeoList list1,
 			GeoList list2) {
-		this(cons, label, null, list1, list2, null, null, null);
+		this(cons, null, list1, list2, null, null, null);
 	}
 
 	/**
@@ -70,21 +72,20 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 	 * specifications.
 	 * 
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param isCumulative
+	 *            cumulative?
 	 * @param list1
+	 *            class boundaries
 	 * @param list2
+	 *            data
+	 * @param list3
+	 *            frequencies
 	 * @param useDensity
+	 *            whether to use density
 	 * @param density
+	 *            density
 	 */
-	public AlgoFrequencyPolygon(Construction cons, String label,
-			GeoBoolean isCumulative, GeoList list1, GeoList list2,
-			GeoList list3, GeoBoolean useDensity, GeoNumeric density) {
-
-		this(cons, isCumulative, list1, list2, list3, useDensity, density);
-		outputPolyLine.setLabel(label);
-	}
-
 	public AlgoFrequencyPolygon(Construction cons, GeoBoolean isCumulative,
 			GeoList list1, GeoList list2, GeoList list3, GeoBoolean useDensity,
 			GeoNumeric density) {
@@ -151,6 +152,9 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		super.setOutput(0, outputPolyLine);
 	}
 
+	/**
+	 * @return frequency polyline
+	 */
 	public GeoPolyLine getResult() {
 		return outputPolyLine;
 	}
@@ -216,7 +220,6 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		if (oldPointsLength != points.length) {
 			setOutput();
 		}
-
 	}
 
 }

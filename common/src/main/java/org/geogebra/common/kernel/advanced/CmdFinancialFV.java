@@ -8,8 +8,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * FutureValue[ <Rate>, <Number of Periods>, <Payment>, <Present Value>, <Type
- * (optional)> ] Like the Excel FV function
+ * FutureValue[ &lt;Rate>, &lt;Number of Periods>, &lt;Payment>, &lt;Present
+ * Value>, &lt;Type (optional)> ] Like the Excel FV function
  */
 public class CmdFinancialFV extends CommandProcessor {
 

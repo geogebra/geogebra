@@ -19,14 +19,25 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 
+/**
+ * Converts a number to ordinal as text.
+ */
 public class AlgoOrdinal extends AlgoElement {
 
-	protected GeoNumeric n; // input
-	protected GeoText text; // output
+	private GeoNumeric n; // input
+	private GeoText text; // output
 
-	public AlgoOrdinal(Construction cons, String label, GeoNumeric list) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param n
+	 *            number
+	 */
+	public AlgoOrdinal(Construction cons, String label, GeoNumeric n) {
 		super(cons);
-		this.n = list;
+		this.n = n;
 
 		text = new GeoText(cons);
 		text.setIsTextCommand(true); // stop editing as text
@@ -43,7 +54,6 @@ public class AlgoOrdinal extends AlgoElement {
 		return Commands.Ordinal;
 	}
 
-	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
@@ -54,6 +64,9 @@ public class AlgoOrdinal extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting text
+	 */
 	public GeoText getResult() {
 		return text;
 	}

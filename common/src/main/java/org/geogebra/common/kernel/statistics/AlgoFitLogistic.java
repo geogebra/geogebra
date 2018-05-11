@@ -31,48 +31,36 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 /*******************
- * AlgoFitLogistic * *****************
+ * Fits c/(1+aexp(-bx)) to a list of points. Adapted from: Nonlinear regression
+ * algorithms are well known, see:
+ * mathworld.wolfram.com/NonlinearLeastSquaresFitting.html
+ * ics.forth.gr/~lourakis/levmar Damping Parameter in Marquardt's Method, Hans
+ * Bruun Nielsen, IMM-Rep 1999-05
+ * 
+ * The problem is to find the best initial values for the parameters, little
+ * information available on this problem...
+ * 
+ * Bjorn Ove Thue, the norwegian translator and programmer of the norwegian
+ * version of WxMaxima, was kind enough to give me his idea: Make the assumption
+ * that the first and last point are close to the solution curve. Calculate c
+ * and a from those points, with b as parameter, iterate to a good value for b,
+ * and do the final nonlinear regression iteration with all three parameters.
+ * 
+ * Constraints: &lt;List of points> should have at least 3 points. The first and
+ * last datapoint should not be too far from the solution curve. Negative a,b
+ * and c: Asymptotes: Quality of points get even more important, should not be
+ * too close to either vertical or horisontal asymptotes, should have several
+ * "good" points on each branch of the curve. (Positive a, b and c is quite
+ * robust though. :-) ) Problems: Non-linear regression is difficult, and the
+ * choice of initial values for the parameters are highly critical. The
+ * algorithm here might converge to a local minimum. The algoritm might diverge,
+ * so after MAXITERATIONS the result will be unusable
+ * 
+ * Possible future solution: Make more commands where you give both a list and
+ * suggestions for the parameters?
  * 
  * @author Hans-Petter Ulven
- * @version 22.11.08 20.11: got rid off undefined parts of functions errorMsg()
- *          to call Application.debug() 22.11: Got rid of all testcode except
- *          final outcommented hook: runTest(x[],y[] 08.12: Handling negative
- *          a,b or c...(see findParameters()) Some cleaning up editing. ToDo:
- *          -Better handling of negative a,b and c. (Not sure if anyone needs
- *          that, but still...) -factor out:
- *          error=SortPointList(GeoList,GeoList) (and other GeoList/array
- *          processing) -nice to have:
- *          error=sortPointList2Array(Geolist,x[],y[]);
- * 
- *          Fits c/(1+aexp(-bx)) to a list of points. Adapted from: Nonlinear
- *          regression algorithms are well known, see:
- *          mathworld.wolfram.com/NonlinearLeastSquaresFitting.html
- *          ics.forth.gr/~lourakis/levmar Damping Parameter in Marquardt's
- *          Method, Hans Bruun Nielsen, IMM-Rep 1999-05
- * 
- *          The problem is to find the best initial values for the parameters,
- *          little information available on this problem...
- * 
- *          Bjorn Ove Thue, the norwegian translator and programmer of the
- *          norwegian version of WxMaxima, was kind enough to give me his idea:
- *          Make the assumption that the first and last point are close to the
- *          solution curve. Calculate c and a from those points, with b as
- *          parameter, iterate to a good value for b, and do the final nonlinear
- *          regression iteration with all three parameters.
- * 
- *          Constraints: <List of points> should have at least 3 points. The
- *          first and last datapoint should not be too far from the solution
- *          curve. Negative a,b and c: Asymptotes: Quality of points get even
- *          more important, should not be too close to either vertical or
- *          horisontal asymptotes, should have several "good" points on each
- *          branch of the curve. (Positive a, b and c is quite robust though.
- *          :-) ) Problems: Non-linear regression is difficult, and the choice
- *          of initial values for the parameters are highly critical. The
- *          algorithm here might converge to a local minimum. The algoritm might
- *          diverge, so after MAXITERATIONS the result will be unusable
- * 
- *          Possible future solution: Make more commands where you give both a
- *          list and suggestions for the parameters?
+ * @version 22.11.08
  */
 
 public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
@@ -89,34 +77,33 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	private final static double EPSSING = 1E-20d;
 
 	// Properties
-	private double a, b, c; // c/(1+a*exp(-bx))
-	private double[] xd, yd; // datapoints
+	private double a;
+	private double b;
+	private double c; // c/(1+a*exp(-bx))
+	// datapoints
+	private double[] xd;
+	private double[] yd;
 	private int size; // of xd and yd
 	private int iterations; // LM iterations
 	private boolean error = false; // general error flag
 
-	// Flags:
-	private boolean allplus, allneg; // flags for y-values, set by
-										// getPoints();
+	// Flags for y-values, set by getPoints();
+	private boolean allplus;
+	private boolean allneg;
 
 	// GeoGebra obligatory:
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
 	// Variables in calcultions that tries to prevent rounding off errors:
-	private double x1, y1, x2, y2, ymult, e1, e2, emult, ydiff;
-
-	/**
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label for output
-	 * @param geolist
-	 *            input points
-	 */
-	public AlgoFitLogistic(Construction cons, String label, GeoList geolist) {
-		this(cons, geolist);
-		geofunction.setLabel(label);
-	}
+	private double x1;
+	private double y1;
+	private double x2;
+	private double y2;
+	private double ymult;
+	private double e1;
+	private double e2;
+	private double emult;
+	private double ydiff;
 
 	/**
 	 * @param cons
@@ -159,8 +146,6 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		if (!geolist.isDefined() || (size < 3)) { // Need three points, at the
 													// very least...
 			geofunction.setUndefined();
-			Log.debug(
-					"List not properly defined or too small. (3 points needed, but the more points, the better result!)");
 			return;
 		}
 
@@ -197,12 +182,10 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	// =============================================================///
 	private void doReg() {
 		findParameters(); // Find initial parameters a,b,c,d
-		Logistic_Reg(); // Run LM nonlinear iteration
+		logisticReg(); // Run LM nonlinear iteration
 	}
 
 	private void findParameters() {
-		double err, err_old;
-		double lambda = 0.01d; //
 		int sign = 1;
 		double k = 0.001d; // debug("findParameters():\n================");
 		// Remember some values to speed up later calculations:
@@ -246,9 +229,10 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			// "+allneg);
 
 		// / Iterate for best k: ///
-		err_old = beta2(k);
+		double err_old = beta2(k);
+		double lambda = 0.01d;
 		k = k + sign * lambda;
-		err = err_old + 1; // to start off the while:
+		double err = err_old + 1; // to start off the while:
 		while (Math.abs(err - err_old) > EPSILONFIND) {
 			err = beta2(k);
 			// negerr=beta2(xd,yd,-k);
@@ -279,7 +263,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		} // 20.11:if one is undefined, everything is undefined
 	}
 
-	private void Logistic_Reg() {
+	private void logisticReg() {
 
 		double lambda = 0.0d; // LM-damping coefficient
 		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
@@ -320,12 +304,10 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 		double startfaktor = Math.max(Math.max(m11, m22), m33);
 		lambda = startfaktor * 0.001; // heuristic... (Set to zero if no LM)
-										// debug("Startlambda: "+lambda);
 
-		while (Math.abs(da) + Math.abs(db) + Math.abs(dc) > EPSILONREG) {// or
-																			// while(Math.abs(diff)>EPSILON)
-																			// ?
-			iterations++; // debug(""+iterations+" : \n---------------");
+		while (Math.abs(da) + Math.abs(db) + Math.abs(dc) > EPSILONREG) {
+			// or while(Math.abs(diff)>EPSILON) ?
+			iterations++;
 			if ((iterations > MAXITERATIONS) || (error)) { // From experience:
 															// >200 gives
 															// nothing more...
@@ -500,7 +482,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		// problem bothering the gui: GeoList
 		// newlist=k.Sort("tmp_{FitLogistic}",geolist);
 		double[] xlist = null, ylist = null;
-		double xy[] = new double[2];
+		double[] xy = new double[2];
 		GeoPoint geoelement;
 		// This is code duplication of AlgoSort, but for the time being:
 		TreeSet<GeoPoint> sortedSet;

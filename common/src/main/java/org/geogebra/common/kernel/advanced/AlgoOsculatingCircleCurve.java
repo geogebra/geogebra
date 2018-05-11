@@ -8,67 +8,79 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.util.MyMath;
 
 /**
+ * Osculating Circle of a curve f in point A: center = A + (radius)^2 * v radius
+ * = 1/abs(k(x)), k(x)=curvature of f v = curvature vector of f in point A
+ * 
  * @author Victor Franco Espino
  * @version 11-02-2007
- * 
- *          Osculating Circle of a curve f in point A: center = A + (radius)^2 *
- *          v radius = 1/abs(k(x)), k(x)=curvature of f v = curvature vector of
- *          f in point A
  */
 
 public class AlgoOsculatingCircleCurve extends AlgoElement {
 
-	private GeoPoint A, R;// input A
-	private GeoCurveCartesian f;// input
-	private GeoVector v;// curvature vector of f in point A
-	private GeoNumeric curv;// curvature of f in point A
+	private GeoPoint A; // input
+	private GeoPoint R;
+	private GeoCurveCartesian f; // input
+	private GeoVector v; // curvature vector of f in point A
 	private GeoConic circle; // output
 	private GeoConic gc = null;
-	AlgoCurvatureCurve algo;
-	AlgoCurvatureVectorCurve cv;
+	private AlgoCurvatureVectorCurve cv;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            point on curve
+	 * @param f
+	 *            curve
+	 */
 	public AlgoOsculatingCircleCurve(Construction cons, String label,
 			GeoPoint A, GeoCurveCartesian f) {
 		super(cons);
 		this.A = A;
 		this.f = f;
 
-		R = new GeoPoint(cons);// R is the center of the circle
+		R = new GeoPoint(cons); // R is the center of the circle
 		circle = new GeoConic(cons);
 
 		// Catch curvature and curvature vector
-		algo = new AlgoCurvatureCurve(cons, A, f);
 		cv = new AlgoCurvatureVectorCurve(cons, A, f);
-		curv = algo.getResult();
 		v = cv.getVector();
 
-		cons.removeFromConstructionList(algo);
 		cons.removeFromConstructionList(cv);
 		setInputOutput();
 		compute();
 		circle.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            point on conic
+	 * @param geoConic
+	 *            conic
+	 */
 	public AlgoOsculatingCircleCurve(Construction cons, String label,
 			GeoPoint A, GeoConic geoConic) {
 		super(cons);
 		this.A = A;
 		gc = geoConic;
-		R = new GeoPoint(cons);// R is the center of the circle
+		R = new GeoPoint(cons); // R is the center of the circle
 		circle = new GeoConic(cons);
 
 		// Catch curvature and curvature vector
-		algo = new AlgoCurvatureCurve(cons, A, gc);
 		cv = new AlgoCurvatureVectorCurve(cons, A, gc);
-		curv = algo.getResult();
 		v = cv.getVector();
 
-		cons.removeFromConstructionList(algo);
 		cons.removeFromConstructionList(cv);
 		setInputOutput();
 		compute();
@@ -96,7 +108,7 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	// Return the resultant circle
+	/** @return the resultant circle */
 	public GeoConic getCircle() {
 		return circle;
 	}
@@ -114,14 +126,12 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 				return;
 			}
 			// Catch curvature and curvature vector
-			algo.compute();
 			cv.compute();
-			curv = algo.getResult();
 			v = cv.getVector();
 		}
 		// bugfix Michael Borcherds
 
-		double radius = 1 / Math.abs(curv.getValue());
+		double radius = 1 / MyMath.length(v.x, v.y);
 		double r2 = radius * radius;
 		double x = r2 * v.x;
 		double y = r2 * v.y;
@@ -139,9 +149,7 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 			return;
 		}
 		super.remove();
-		f.removeAlgorithm(algo);
 		f.removeAlgorithm(cv);
-		A.removeAlgorithm(algo);
 		A.removeAlgorithm(cv);
 
 		// make sure all AlgoCASDerivatives get removed

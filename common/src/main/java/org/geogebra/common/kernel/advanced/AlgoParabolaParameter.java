@@ -37,6 +37,14 @@ public class AlgoParabolaParameter extends AlgoElement {
 	private GeoConic c; // input
 	private GeoNumeric num; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            parabola
+	 */
 	public AlgoParabolaParameter(Construction cons, String label, GeoConic c) {
 		super(cons);
 		this.c = c;

@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.prover.AlgoEnvelope;
 import org.geogebra.common.main.MyError;
 
 /**
- * Envelope [< Object >, <Mover point>]
+ * Envelope [&lt; Object >, &lt;Mover point>]
  */
 public class CmdEnvelope extends CommandProcessor {
 	/**

@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
 import org.geogebra.common.main.MyError;
 
 /**
- * ArePerpendicular[<Line>, <Line>]
+ * ArePerpendicular[&lt;Line>, &lt;Line>]
  * 
  * @author Simon Weitzhofer 17th of may 2012
  *

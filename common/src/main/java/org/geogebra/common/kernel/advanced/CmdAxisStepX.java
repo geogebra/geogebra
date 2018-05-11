@@ -11,14 +11,17 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdAxisStepX extends CommandProcessor {
 
+	private int axis;
+
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdAxisStepX(Kernel kernel) {
+	public CmdAxisStepX(Kernel kernel, int axis) {
 		super(kernel);
+		this.axis = axis;
 	}
 
 	@Override
@@ -28,7 +31,7 @@ public class CmdAxisStepX extends CommandProcessor {
 		switch (n) {
 		case 0:
 
-			AlgoAxisStepX algo = new AlgoAxisStepX(cons, c.getLabel());
+			AlgoAxisStepX algo = new AlgoAxisStepX(cons, c.getLabel(), axis);
 
 			GeoElement[] ret = { algo.getResult() };
 			return ret;

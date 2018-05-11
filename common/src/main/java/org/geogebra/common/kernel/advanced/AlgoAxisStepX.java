@@ -19,16 +19,22 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * 
- * @author
+ * Computes x-axis step
  */
 public class AlgoAxisStepX extends AlgoElement {
 
 	protected GeoNumeric num; // output
+	private int axis;
 
-	public AlgoAxisStepX(Construction cons, String label) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 */
+	public AlgoAxisStepX(Construction cons, String label, int axis) {
 		super(cons);
-
+		this.axis = axis;
 		num = new GeoNumeric(cons);
 		setInputOutput(); // for AlgoElement
 
@@ -43,7 +49,7 @@ public class AlgoAxisStepX extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.AxisStepX;
+		return axis == 0 ? Commands.AxisStepX : Commands.AxisStepY;
 	}
 
 	// for AlgoElement
@@ -62,13 +68,10 @@ public class AlgoAxisStepX extends AlgoElement {
 
 	@Override
 	public boolean euclidianViewUpdate() {
-
 		compute();
-
 		// update num and all dependent elements
 		num.updateCascade();
 		return false;
-
 	}
 
 	// calc the current value of the arithmetic tree
@@ -76,7 +79,7 @@ public class AlgoAxisStepX extends AlgoElement {
 	public final void compute() {
 		double axisSteps[] = (kernel.getApplication()).getEuclidianView1()
 				.getGridDistances();
-		num.setValue(axisSteps[0]);
+		num.setValue(axisSteps[axis]);
 	}
 
 }

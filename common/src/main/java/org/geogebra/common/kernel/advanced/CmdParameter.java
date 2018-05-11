@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * Parameter[ <GeoConic> ]
+ * Parameter[ &lt;GeoConic> ]
  */
 public class CmdParameter extends CommandProcessor {
 

@@ -19,6 +19,16 @@ public class AlgoDivisorsSum extends AlgoElement {
 	private GeoList factorList;
 	private boolean sum;
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param number
+	 *            number
+	 * @param sum
+	 *            true to compute divisor sum, otherwise count divisors
+	 */
 	public AlgoDivisorsSum(Construction c, String label, GeoNumberValue number,
 			boolean sum) {
 		super(c);

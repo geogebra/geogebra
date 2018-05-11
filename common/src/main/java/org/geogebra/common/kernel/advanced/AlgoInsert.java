@@ -25,8 +25,20 @@ public class AlgoInsert extends AlgoElement {
 	private GeoList inputList; // input
 	private GeoNumeric n; // input
 	private GeoList outputList; // output
-	private int size, insertPoint;
+	private int size;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputGeo
+	 *            geo to insert
+	 * @param inputList
+	 *            list
+	 * @param n
+	 *            insert position
+	 */
 	public AlgoInsert(Construction cons, String label, GeoElement inputGeo,
 			GeoList inputList, GeoNumeric n) {
 		super(cons);
@@ -75,7 +87,7 @@ public class AlgoInsert extends AlgoElement {
 		// size = inputGeo.size();
 		size = inputList.size();
 
-		insertPoint = (int) n.getDouble();
+		int insertPoint = (int) n.getDouble();
 
 		// -1 means insert in last place, -2 means penultimate etc
 		if (insertPoint < 0) {

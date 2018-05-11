@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * Roots[ <GeoFunction>, <Number> , <Number> ] (Numerical version, more than one
- * root.)
+ * Roots[ &lt;GeoFunction>, &lt;Number> , &lt;Number> ] (Numerical version, more
+ * than one root.)
  */
 public class CmdRoots extends CommandProcessor {
 
@@ -24,7 +24,7 @@ public class CmdRoots extends CommandProcessor {
 	 */
 	public CmdRoots(Kernel kernel) {
 		super(kernel);
-	}// Constructor
+	}
 
 	@Override
 	final public GeoElement[] process(Command c) throws MyError {
@@ -58,6 +58,6 @@ public class CmdRoots extends CommandProcessor {
 
 		default:
 			throw argNumErr(c);
-		}// switch
-	}// process(command)
-}// class CmdRoots
+		}
+	}
+}

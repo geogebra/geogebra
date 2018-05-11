@@ -9,8 +9,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * Sequence[ <expression>, <number-var>, <from>, <to> ] Sequence[ <expression>,
- * <number-var>, <from>, <to>, <step> ] Sequence[ <number-var>]
+ * Zip[expression, variable1, list1, variable2, list2, ...]
  */
 public class CmdZip extends CommandProcessor {
 	/**

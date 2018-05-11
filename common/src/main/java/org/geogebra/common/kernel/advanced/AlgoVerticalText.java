@@ -29,7 +29,8 @@ public class AlgoVerticalText extends AlgoElement {
 
 	private GeoText text; // output
 	private GeoText args; // input
-	private GeoPointND startPoint, startPointCopy; // optional input
+	private GeoPointND startPoint; // optional input
+	private GeoPointND startPointCopy;
 
 	private StringBuilder sb = new StringBuilder();
 

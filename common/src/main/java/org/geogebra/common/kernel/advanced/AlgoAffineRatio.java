@@ -9,17 +9,22 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
+ * This class calculate affine ratio of 3 points: (A,B,C) = (t(C)-t(A)) :
+ * (t(C)-t(B))
+ * 
  * @author Victor Franco Espino
  * @version 11-02-2007
  * 
- *          This class calculate affine ratio of 3 points: (A,B,C) = (t(C)-t(A))
- *          : (t(C)-t(B))
+ * 
  */
 
 public class AlgoAffineRatio extends AlgoElement {
-
-	private GeoPointND A, B, C; // input
-	private GeoNumeric M; // output
+	// input
+	private GeoPointND A;
+	private GeoPointND B;
+	private GeoPointND C;
+	// output
+	private GeoNumeric M;
 
 	/**
 	 * @param cons

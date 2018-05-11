@@ -26,13 +26,16 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 public class AlgoCurvatureVectorCurve extends AlgoElement {
 
 	private GeoPoint A; // input
-	private GeoCurveCartesian f, f1, f2; // f = f(x), f1 is f'(x), f2 is f''(x)
+	private GeoCurveCartesian f; // input
+	private GeoCurveCartesian f1; // f1 = f'
+	private GeoCurveCartesian f2; // f2 = f''
 	private GeoVector v; // output
 
 	private double f1eval[] = new double[2];
 	private double f2eval[] = new double[2];
 
-	AlgoDerivative algoCAS, algoCAS2;
+	AlgoDerivative algoCAS;
+	AlgoDerivative algoCAS2;
 	private GeoConic gc;
 
 	public AlgoCurvatureVectorCurve(Construction cons, String label, GeoPoint A,

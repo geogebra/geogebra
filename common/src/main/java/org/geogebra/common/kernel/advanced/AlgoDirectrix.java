@@ -36,12 +36,22 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 public class AlgoDirectrix extends AlgoElement {
 
 	private GeoConic c; // input
-	private GeoLine directrix, directrix2; // output
+	private GeoLine directrix; // output
+	private GeoLine directrix2; // output
 
 	private GeoVec2D[] eigenvec;
 	private GeoVec2D b;
-	private GeoPoint P, P2;
+	private GeoPoint P;
+	private GeoPoint P2;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            conic
+	 */
 	public AlgoDirectrix(Construction cons, String label, GeoConic c) {
 		super(cons);
 		this.c = c;

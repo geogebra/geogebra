@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * ReducedRowEchelonForm[ <List> ] Michael Borcherds
+ * MatrixPlot[ &lt;List> ]
  */
 public class CmdMatrixPlot extends CmdOneListFunction {
 	/**

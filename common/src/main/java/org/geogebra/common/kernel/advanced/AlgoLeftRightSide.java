@@ -10,6 +10,9 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 
+/**
+ * Extracts left / right side from equation.
+ */
 public class AlgoLeftRightSide extends AlgoElement {
 
 	private GeoElement equation;
@@ -17,6 +20,16 @@ public class AlgoLeftRightSide extends AlgoElement {
 	private boolean left;
 	private FunctionVariable[] fv;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param equation
+	 *            equation
+	 * @param left
+	 *            whether to get left side (or right)
+	 */
 	public AlgoLeftRightSide(Construction cons, String label,
 			GeoElement equation, boolean left) {
 		super(cons);
@@ -66,6 +79,9 @@ public class AlgoLeftRightSide extends AlgoElement {
 		return left ? Commands.LeftSide : Commands.RightSide;
 	}
 
+	/**
+	 * @return one side of the equation
+	 */
 	public GeoFunctionNVar getResult() {
 		return side;
 	}

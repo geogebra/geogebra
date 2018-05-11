@@ -9,19 +9,38 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
+ * This class calculate cross ratio of 4 points like the division of 2 affine
+ * ratio's: CrossRatio(A,B,C,D) = affineRatio(B, C, D) / affineRatio(A, C, D)
+ * 
  * @author Victor Franco Espino
  * @version 11-02-2007
  * 
- *          This class calculate cross ratio of 4 points like the division of 2
- *          affine ratio's: CrossRatio(A,B,C,D) = affineRatio(B, C, D) /
- *          affineRatio(A, C, D)
+ * 
  */
 
 public class AlgoCrossRatio extends AlgoElement {
+	// input
+	private GeoPointND A;
+	private GeoPointND B;
+	private GeoPointND C;
+	private GeoPointND D;
+	// output
+	private GeoNumeric M;
 
-	private GeoPointND A, B, C, D; // input
-	private GeoNumeric M; // output
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            point
+	 * @param B
+	 *            point
+	 * @param C
+	 *            point
+	 * @param D
+	 *            point
+	 */
 	public AlgoCrossRatio(Construction cons, String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoPointND D) {
 		super(cons);
@@ -53,6 +72,9 @@ public class AlgoCrossRatio extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return cross-ratio
+	 */
 	public GeoNumeric getResult() {
 		return M;
 	}
@@ -60,7 +82,7 @@ public class AlgoCrossRatio extends AlgoElement {
 	@Override
 	public final void compute() {
 		// Check if the points are aligned
-		if (!(A.isEqualPointND(D)) && !(B.isEqualPointND(C))
+		if (!A.isEqualPointND(D) && !B.isEqualPointND(C)
 				&& GeoPoint.collinearND(B, C, D)
 				&& GeoPoint.collinearND(A, C, D)) {
 			M.setValue(GeoPoint.affineRatio(B, C, D)

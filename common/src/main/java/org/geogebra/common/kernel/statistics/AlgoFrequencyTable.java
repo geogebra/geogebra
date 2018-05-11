@@ -53,9 +53,9 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	// for compute
 	private AlgoFrequency freq;
 
-	String[] strHeader = null;
-	String[] strValue = null;
-	String[] strFrequency = null;
+	private String[] strHeader = null;
+	private String[] strValue = null;
+	private String[] strFrequency = null;
 
 	private StringBuilder sb = new StringBuilder();
 
@@ -65,17 +65,53 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		table.setAbsoluteScreenLocActive(true);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param isCumulative
+	 *            cumulative?
+	 * @param classList
+	 *            class boundaries
+	 * @param dataList
+	 *            data
+	 */
 	public AlgoFrequencyTable(Construction cons,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
 		this(cons, isCumulative, classList, dataList, null, null, null);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param isCumulative
+	 *            cumulative?
+	 * @param classList
+	 *            class boundaries
+	 * @param dataList
+	 *            data
+	 * @param scale
+	 *            scale factor
+	 */
 	public AlgoFrequencyTable(Construction cons,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
 			GeoNumeric scale) {
 		this(cons, isCumulative, classList, dataList, null, null, scale);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param isCumulative
+	 *            cumulative?
+	 * @param classList
+	 *            class boundaries
+	 * @param dataList
+	 *            data
+	 * @param useDensity
+	 *            use density?
+	 * @param density
+	 *            density
+	 */
 	public AlgoFrequencyTable(Construction cons,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
 			GeoBoolean useDensity, GeoNumeric density) {
@@ -83,6 +119,22 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				density, null);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param isCumulative
+	 *            cumulative?
+	 * @param classList
+	 *            class boundaries
+	 * @param dataList
+	 *            data
+	 * @param useDensity
+	 *            use density?
+	 * @param density
+	 *            density
+	 * @param scale
+	 *            scale factor
+	 */
 	public AlgoFrequencyTable(Construction cons, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity,
 			GeoNumeric density, GeoNumeric scale) {
@@ -105,10 +157,14 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		compute();
 		table.isTextCommand = true;
 		table.setLaTeX(true, false);
-
 	}
 
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param chart
+	 *            barchart or histogram
+	 */
 	public AlgoFrequencyTable(Construction cons, GeoNumeric chart) {
 		super(cons);
 
@@ -180,10 +236,16 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return frequency table
+	 */
 	public GeoText getResult() {
 		return table;
 	}
 
+	/**
+	 * @return LaTeX encoded table
+	 */
 	public String[] getValueString() {
 		if (!table.isDefined()) {
 			return null;
@@ -191,6 +253,9 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		return strValue;
 	}
 
+	/**
+	 * @return frequency
+	 */
 	public String[] getFrequencyString() {
 		if (!table.isDefined()) {
 			return null;
@@ -198,6 +263,9 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		return strFrequency;
 	}
 
+	/**
+	 * @return header
+	 */
 	public String[] getHeaderString() {
 		if (!table.isDefined()) {
 			return null;

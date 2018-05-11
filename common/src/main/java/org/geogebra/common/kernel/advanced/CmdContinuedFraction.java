@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * FractionText
+ * ContinuedFraction[number], based on FractionText[]
  */
 public class CmdContinuedFraction extends CommandProcessor {
 
@@ -34,7 +34,7 @@ public class CmdContinuedFraction extends CommandProcessor {
 		case 1:
 
 			if (arg[0] instanceof GeoNumberValue) {
-				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
+				GeoElement[] ret = { continuedFraction(c.getLabel(),
 						(GeoNumberValue) arg[0], null, null) };
 				return ret;
 			}
@@ -42,14 +42,14 @@ public class CmdContinuedFraction extends CommandProcessor {
 		case 2:
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1].isGeoBoolean())) {
-				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
+				GeoElement[] ret = { continuedFraction(c.getLabel(),
 						(GeoNumberValue) arg[0], null, (GeoBoolean) arg[1]) };
 				return ret;
 			}
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = {
-						ContinuedFraction(c.getLabel(), (GeoNumberValue) arg[0],
+						continuedFraction(c.getLabel(), (GeoNumberValue) arg[0],
 								(GeoNumberValue) arg[1], null) };
 				return ret;
 			}
@@ -61,7 +61,7 @@ public class CmdContinuedFraction extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
 				GeoElement[] ret = {
-						ContinuedFraction(c.getLabel(), (GeoNumberValue) arg[0],
+						continuedFraction(c.getLabel(), (GeoNumberValue) arg[0],
 								(GeoNumberValue) arg[1], (GeoBoolean) arg[2]) };
 				return ret;
 			}
@@ -72,7 +72,7 @@ public class CmdContinuedFraction extends CommandProcessor {
 		}
 	}
 
-	final private GeoText ContinuedFraction(String label, GeoNumberValue num,
+	final private GeoText continuedFraction(String label, GeoNumberValue num,
 			GeoNumberValue level, GeoBoolean shortHand) {
 		AlgoContinuedFraction algo = new AlgoContinuedFraction(cons, label, num,
 				level, shortHand);

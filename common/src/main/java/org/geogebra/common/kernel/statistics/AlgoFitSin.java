@@ -31,56 +31,45 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 /**************
- * AlgoFitSin * ************
+ * 
+ * Fits a+b*sin(c*x+d) to a list of points. Adapted from: Nonlinear regression
+ * algorithms are well known, see:
+ * mathworld.wolfram.com/NonlinearLeastSquaresFitting.html
+ * ics.forth.gr/~lourakis/levmar Damping Parameter in Marquardt's Method, Hans
+ * Bruun Nielsen, IMM-Rep 1999-05 The problem is more to find best initial
+ * values for parameters, and here I was on my own, little information available
+ * on this problem... Experiments showed me: c and d are most critical If a,b
+ * and c are good, d is not that critical If c and d are good, a and b are not
+ * that critical The Levenberg-Marquardt method makes c and d significantly less
+ * critical. This led me to this algorithm: I a=average of y-data
+ * b=(maxy-miny)/2 II period=2*|x_first_max - x_first_min| c=2pi/period The
+ * first two extremums are found by my "direction-changing-algorithm" (Ulven
+ * nov-08), using a flank of three points as an indicator of monotonous
+ * increasing or decreasing function. (Same effort as finding a local max as
+ * y1&lt;y2>y3, but effectively equivalent to using 5 points:
+ * y1&lt;y2&lt;y3>y4>y5) III simple iteration of d in &lt;-pi,pi> to find a good
+ * d (Critical if c is a bit off, so better than pi/2-c*xmax) IV Simplified
+ * Levenberg-Marquardt method. (Could be optimized if/when I am able to
+ * understand the mathematics behind it and be able to check if this is of any
+ * value.) (Perhaps Donald Knuth could have done all this in 50 lines, but this
+ * is the best I can do...) Constraints: &lt;List of points> should have at
+ * least 5 points. There should also be three points on the row steadily
+ * increasing or decreasing(y1&lt;=y2&lt;=y3 or y1>=y2>=y3)on each side/flank of
+ * the first extremums. The points should cover at least two extremums of the
+ * function. The two first extremums should not be too far from the extremums of
+ * the solution curve. If more than one period, there should, at the very least,
+ * be more than 6 points in each period. If any of these demands are not
+ * satisfied, the solution curve might be unusable. Problems: Non-linear
+ * regression is difficult, and the choice of initial values for the parameters
+ * are highly critical. The algorithm here might converge to a local minimum. It
+ * might also diverge, so MAX_ITERATIONS is set to 200. (Experience suggests
+ * that more than 100 iterations give useless results.) ToDo: Use Discrete
+ * Fourier Transform instead of step II and III. Experiments show that this adds
+ * surprisingly little to the robustness of my simple algorithm, so this will
+ * not be done unless user feedback indicates a need for more sophistication.
  * 
  * @author Hans-Petter Ulven
- * @version 22.11.08 (november) 17.11: sorting list, noisekiller (nearmaxmin()
- *          ), 19.11: some more testing, small fixes 20.11:
- *          errorMsg->Application.debug 22.11: got rid of all testcode, except
- *          out-commented hook; runTest(x[],y[]) ?.12: Step II and III in
- *          algorithm changed, using Discrete Fourier Transform instead 17.01:
- *          Changed to minimum 4 datapoints to give fewer undefined, even if
- *          this might not be very useful 14.02.09: Small bug in linje 256.
- *          Undefined if many iterations 04.05.11: Bug/weakness in handling more
- *          than one period Fits a+b*sin(c*x+d) to a list of points. Adapted
- *          from: Nonlinear regression algorithms are well known, see:
- *          mathworld.wolfram.com/NonlinearLeastSquaresFitting.html
- *          ics.forth.gr/~lourakis/levmar Damping Parameter in Marquardt's
- *          Method, Hans Bruun Nielsen, IMM-Rep 1999-05 The problem is more to
- *          find best initial values for parameters, and here I was on my own,
- *          little information available on this problem... Experiments showed
- *          me: c and d are most critical If a,b and c are good, d is not that
- *          critical If c and d are good, a and b are not that critical The
- *          Levenberg-Marquardt method makes c and d significantly less
- *          critical. This led me to this algorithm: I a=average of y-data
- *          b=(maxy-miny)/2 II period=2*|x_first_max - x_first_min| c=2pi/period
- *          The first two extremums are found by my
- *          "direction-changing-algorithm" (Ulven nov-08), using a flank of
- *          three points as an indicator of monotonous increasing or decreasing
- *          function. (Same effort as finding a local max as y1<y2>y3, but
- *          effectively equivalent to using 5 points: y1<y2<y3>y4>y5) III simple
- *          iteration of d in <-pi,pi> to find a good d (Critical if c is a bit
- *          off, so better than pi/2-c*xmax) IV Simplified Levenberg-Marquardt
- *          method. (Could be optimized if/when I am able to understand the
- *          mathematics behind it and be able to check if this is of any value.)
- *          (Perhaps Donald Knuth could have done all this in 50 lines, but this
- *          is the best I can do...) Constraints: <List of points> should have
- *          at least 5 points. There should also be three points on the row
- *          steadily increasing or decreasing(y1<=y2<=y3 or y1>=y2>=y3)on each
- *          side/flank of the first extremums. The points should cover at least
- *          two extremums of the function. The two first extremums should not be
- *          too far from the extremums of the solution curve. If more than one
- *          period, there should, at the very least, be more than 6 points in
- *          each period. If any of these demands are not satisfied, the solution
- *          curve might be unusable. Problems: Non-linear regression is
- *          difficult, and the choice of initial values for the parameters are
- *          highly critical. The algorithm here might converge to a local
- *          minimum. It might also diverge, so MAX_ITERATIONS is set to 200.
- *          (Experience suggests that more than 100 iterations give useless
- *          results.) ToDo: Use Discrete Fourier Transform instead of step II
- *          and III. Experiments show that this adds surprisingly little to the
- *          robustness of my simple algorithm, so this will not be done unless
- *          user feedback indicates a need for more sophistication.
+ * @version 22.11.08 (november)
  */
 
 public class AlgoFitSin extends AlgoElement implements FitAlgo {
@@ -99,10 +88,16 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	private final static double PI = Math.PI;
 	private final static double TWO_PI = PI * 2;
 
-	// Properties
-	private double a, b, c, d; // a+bsin(cx+d)
-	private double[] xd, yd; // datapoints
-	private int size; // data arrays
+	// a+bsin(cx+d)
+	private double a;
+	private double b;
+	private double c;
+	private double d;
+	// datapoints
+	private double[] xd;
+	private double[] yd;
+	private int size;
+
 	private int iterations; // LM iterations
 	private boolean error = false; // General catch-all
 
@@ -111,12 +106,14 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
 
-	/** Implements AlgoElement */
-	public AlgoFitSin(Construction cons, String label, GeoList geolist) {
-		this(cons, geolist);
-		geofunction.setLabel(label);
-	}
-
+	/**
+	 * Implements AlgoElement
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param geolist
+	 *            list of points
+	 */
 	public AlgoFitSin(Construction cons, GeoList geolist) {
 		super(cons);
 		this.geolist = geolist;
@@ -125,13 +122,11 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		compute();
 	}
 
-	/** Implements AlgoElement */
 	@Override
 	public Commands getClassName() {
 		return Commands.FitSin;
 	}
 
-	/** Implements AlgoElement */
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
@@ -140,12 +135,11 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		setDependencies();
 	}
 
-	/** Implements AlgoElement */
+	/** @return resulting function */
 	public GeoFunction getFitSin() {
 		return geofunction;
 	}
 
-	/** Implements AlgoElement */
 	@Override
 	public final void compute() {
 		size = geolist.size();
@@ -244,7 +238,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 					if (current != state) { // Update
 											// eventual
 											// change
-						if (nearmaxmin(a, b, state, current, max, min)) {// Kill
+						if (nearmaxmin(a, b, state, current, max, min)) { // Kill
 																			// noise
 							changes++;
 							state = current;
@@ -266,16 +260,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 						xmin = i; // Last is min so far
 					} // update extremums
 				} // if changes<2
-			} else { // Not steady, nothing to do...
+			} // else: Not steady, nothing to do...
+		}
 
-			} // if steady up or down
-				// debug("i: "+i);
-				// debug("state: "+state+" current: "+current+" changes:
-				// "+changes+" max: "+max+" min: "+min+" xmax: "+xmax+" xmin:
-				// "+xmin);
-		} // for all data
-
-		// 09.12: Checking half-period:
+		// Checking half-period:
 		min_max_distance = Math.abs(xd[xmax] - xd[xmin]);
 		if (changes <= 1) { // Did not succeed, abs extrema probably best
 			xmin = xmin_abs;
@@ -301,8 +289,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		double c2 = 2 * Math.PI / ((xd[size - 1] - xd[0]) * 2 / changes);
 		// System.out.println("or..."+c2);
 		// System.out.println("changes: "+changes);
-		if (changes > 2)
-		 {
+		if (changes > 2) {
 			c = (c + c2) / 2; // compromise?
 		// System.out.println("final c: "+c);
 		}
@@ -391,7 +378,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				break;
 			} // if diverging
 			b1 = b2 = b3 = b4 = 0.0d;
-			m11 = m12 = m13 = m14 = m21 = m22 = m23 = m24 = m31 = m32 = m33 = m34 = m41 = m42 = m43 = m44 = 0.0d;
+			m11 = m12 = m13 = m14 = m21 = m22 = m23 = m24 = 0.0d;
+			m31 = m32 = m33 = m34 = m41 = m42 = m43 = m44 = 0.0d;
 			for (int i = 0; i < size; i++) { // for all datapoints
 				x = xd[i];
 				y = yd[i];
@@ -537,8 +525,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	/* Sum of quadratic errors */
-	public final static double beta2(double[] x, double[] y, double a, double b,
-			double c, double d) {
+	private final static double beta2(double[] x, double[] y, double a,
+			double b, double c, double d) {
 		double sum = 0.0d, beta;
 		int n = x.length;
 		for (int i = 0; i < n; i++) {
@@ -577,7 +565,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		// Problem bothering the gui: GeoList
 		// newlist=k.Sort("tmp_{FitSin}",geolist);
 		double[] xlist = null, ylist = null;
-		double xy[] = new double[2];
+		double[] xy = new double[2];
 		GeoElement geoelement;
 		// GeoList newlist;
 		// This is code duplication of AlgoSort, but for the time being:

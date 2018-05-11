@@ -38,7 +38,8 @@ public class AlgoFitImplicit extends AlgoElement {
 
 	// variables:
 	private int datasize = 0; // rows in M and Y
-	private RealMatrix M = null, V;
+	private RealMatrix M = null;
+	private RealMatrix V;
 
 	/**
 	 * @param cons
@@ -137,8 +138,7 @@ public class AlgoFitImplicit extends AlgoElement {
 			fitfunction.setUndefined();
 			t.printStackTrace();
 		}
-
-	}// compute()
+	}
 
 	// Get info from lists into matrixes and functionarray
 	private final boolean makeMatrixes() {

@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Minimize[ <dependent variable>, <independent variable> ]
+ * Minimize[ &lt;dependent variable>, &lt;independent variable> ]
  */
 public class CmdMinimize extends CommandProcessor {
 	/**
@@ -56,6 +56,6 @@ public class CmdMinimize extends CommandProcessor {
 		default:
 			throw argNumErr(c);
 		}
-	}// process(command)
+	}
 
-}// CmdMinimze(kernel)
+}

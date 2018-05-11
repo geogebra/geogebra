@@ -35,18 +35,21 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 public class AlgoFDistributionDF extends AlgoElement
 		implements AlgoDistributionDF {
 
-	private GeoNumberValue d1, d2; // input
+	private GeoNumberValue d1; // input
+	private GeoNumberValue d2; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
-	public AlgoFDistributionDF(Construction cons, String label,
-			GeoNumberValue mean, GeoNumberValue sd, BooleanValue cumulative) {
-		this(cons, mean, sd, cumulative);
-		ret.setLabel(label);
-	}
-
-	@SuppressWarnings("javadoc")
+	/**
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            distribution parameter
+	 * @param b
+	 *            distribution parameter
+	 * @param cumulative
+	 *            cmulative?
+	 */
 	public AlgoFDistributionDF(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, BooleanValue cumulative) {
 		super(cons);
@@ -114,11 +117,6 @@ public class AlgoFDistributionDF extends AlgoElement
 
 			en = d1En.divide(2).betaRegularized(halfd2,
 					fvEn.multiply(d1).divide(fvEn.multiply(d1).plus(d2)));
-
-			// old hack:
-			// command =
-			// "If[x<0,0,betaRegularized(("+d1+")/2,("+d2+")/2,("+d1+")*x/(("+d1+")*x+"+d2+"))]";
-
 		} else {
 
 			ExpressionNode beta = halfd1.beta(halfd2);
@@ -131,14 +129,9 @@ public class AlgoFDistributionDF extends AlgoElement
 					.power(halfd1.plus(halfd2)).multiply(fv).multiply(beta);
 
 			en = mult.divide(div);
-
-			// old hack:
-			// command =
-			// "If[x<0,0,((("+d1+")*x)^(("+d1+")/2)*("+d2+")^(("+d2+")/2))/(x*(("+d1+")*x+"+d2+")^(("+d1+"+"+d2+")/2)*beta(("+d1+")/2,("+d2+")/2))]";
 		}
 
 		ret.getFunctionExpression().setRight(en);
-
 	}
 
 }

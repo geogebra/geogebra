@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
 
 /**
- * OsculatingCircle[<Point>,<Function>],OsculatingCircle[<Point>,<Curve>]
+ * OsculatingCircle[&lt;Point>,&lt;Function>],OsculatingCircle[&lt;Point>,&lt;Curve>]
  * 
  * @author Victor Franco Espino
  */
@@ -40,8 +40,8 @@ public class CmdOsculatingCircle extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
 
 				AlgoOsculatingCircle algo = new AlgoOsculatingCircle(cons,
-						c.getLabel(), (GeoPoint) arg[0], (GeoFunction) arg[1]);
-
+						(GeoPoint) arg[0], (GeoFunction) arg[1]);
+				algo.getCircle().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getCircle() };
 				return ret;
 			} else if ((ok[0] = (arg[0] instanceof GeoPoint))

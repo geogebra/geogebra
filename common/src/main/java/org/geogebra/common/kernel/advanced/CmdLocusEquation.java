@@ -15,9 +15,12 @@ import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.main.MyError;
 
 /**
- * LocusEquation[ <GeoLocus> ] LocusEquation[ <GeoPoint>, <GeoPoint> ]
- * LocusEquation[ <Boolean Expression>, <Free Point> ] TODO: add this syntax to
- * command.properties
+ * LocusEquation[ &lt;GeoLocus> ]
+ * 
+ * LocusEquation[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * 
+ * LocusEquation[ &lt;Boolean Expression>, &lt;Free Point> ] TODO: add this
+ * syntax to command.properties
  */
 public class CmdLocusEquation extends CommandProcessor {
 	/**

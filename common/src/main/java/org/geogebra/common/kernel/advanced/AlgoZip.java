@@ -38,7 +38,8 @@ public class AlgoZip extends AlgoElement {
 	private GeoList list; // output
 
 	private int last_length = 0;
-	private boolean expIsFunctionOrCurve, isEmpty;
+	private boolean expIsFunctionOrCurve;
+	private boolean isEmpty;
 	private AlgoElement expressionParentAlgo;
 
 	// we need to check that some Object[] reference didn't cause infinite

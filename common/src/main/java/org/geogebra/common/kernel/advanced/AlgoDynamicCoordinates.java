@@ -35,11 +35,24 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		implements AlgoDynamicCoordinatesInterface,
 		SymbolicParametersBotanaAlgo {
 
-	protected GeoNumberValue x, y; // input
+	protected GeoNumberValue x; // input
+	protected GeoNumberValue y; // input
 	protected GeoPointND P; // input
 	protected GeoPointND M; // output
 	private PVariable[] botanaVars;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param P
+	 *            moving point
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 */
 	public AlgoDynamicCoordinates(Construction cons, String label, GeoPoint P,
 			GeoNumberValue x, GeoNumberValue y) {
 		super(cons);
@@ -102,8 +115,6 @@ public class AlgoDynamicCoordinates extends AlgoElement
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		// Michael Borcherds 2008-03-30
-		// simplified to allow better Chinese translation
 		return getLoc().getPlainDefault("DynamicCoordinatesOfA",
 				"Dynamic coordinates of %0", P.getLabel(tpl));
 	}

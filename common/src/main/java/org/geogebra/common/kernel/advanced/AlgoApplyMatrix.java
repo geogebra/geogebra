@@ -41,7 +41,6 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 	private GeoElement inGeo, outGeo;
 	private final GeoList matrix;
 
-
 	/**
 	 * Creates new apply matrix algorithm
 	 * 
@@ -83,7 +82,6 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		return Commands.ApplyMatrix;
 	}
 
-	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
@@ -152,7 +150,6 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
 		}
-
 	}
 
 	@Override

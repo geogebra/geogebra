@@ -21,11 +21,9 @@ import org.geogebra.common.kernel.prover.AlgoAreCongruent;
 import org.geogebra.common.main.MyError;
 
 /**
- * AreCongruent[<Object>, <Object>]
+ * AreCongruent[&lt;Object>, &lt;Object>] based on CmdAreEqual
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
- * 
- *         based on CmdAreEqual
+ * @author Zoltan Kovacs &lt;zoltan@geogebra.org>
  *
  */
 public class CmdAreCongruent extends CommandProcessor {

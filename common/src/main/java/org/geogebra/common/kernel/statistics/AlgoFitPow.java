@@ -38,11 +38,12 @@ public class AlgoFitPow extends AlgoElement implements FitAlgo {
 	private GeoFunction geofunction; // output
 	private final RegressionMath regMath;
 
-	public AlgoFitPow(Construction cons, String label, GeoList geolist) {
-		this(cons, geolist);
-		geofunction.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geolist
+	 *            list of points
+	 */
 	public AlgoFitPow(Construction cons, GeoList geolist) {
 		super(cons);
 		regMath = new RegressionMath();
@@ -50,7 +51,7 @@ public class AlgoFitPow extends AlgoElement implements FitAlgo {
 		geofunction = new GeoFunction(cons);
 		setInputOutput();
 		compute();
-	}// Constructor
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -63,8 +64,11 @@ public class AlgoFitPow extends AlgoElement implements FitAlgo {
 		input[0] = geolist;
 		setOnlyOutput(geofunction);
 		setDependencies();
-	}// setInputOutput()
+	}
 
+	/**
+	 * @return fit power function
+	 */
 	public GeoFunction getFitPow() {
 		return geofunction;
 	}
@@ -105,4 +109,4 @@ public class AlgoFitPow extends AlgoElement implements FitAlgo {
 		return ret;
 	}
 
-}// class AlgoFitPow
+}

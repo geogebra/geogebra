@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.MyError;
 
 /**
- * Centroid[ <Polygon> ]
+ * Centroid[ &lt;Polygon> ]
  */
 public class CmdCentroid extends CommandProcessor {
 

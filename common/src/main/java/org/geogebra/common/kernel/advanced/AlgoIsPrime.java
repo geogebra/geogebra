@@ -12,6 +12,14 @@ public class AlgoIsPrime extends AlgoElement {
 	private GeoBoolean result;
 	private GeoNumberValue number;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param number
+	 *            number
+	 */
 	public AlgoIsPrime(Construction cons, String label, GeoNumberValue number) {
 		super(cons);
 		result = new GeoBoolean(cons);

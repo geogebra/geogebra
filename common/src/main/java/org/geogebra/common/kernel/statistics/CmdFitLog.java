@@ -26,7 +26,8 @@ public class CmdFitLog extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoFitLog algo = new AlgoFitLog(cons, a, b);
+		AlgoFitLog algo = new AlgoFitLog(cons, b);
+		algo.getFitLog().setLabel(a);
 		return algo.getFitLog();
 	}
 

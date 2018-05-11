@@ -26,7 +26,8 @@ public class AlgoUnion extends AlgoElement {
 	private GeoList inputList; // input
 	private GeoList inputList2; // input
 	private GeoList outputList; // output
-	private int size, size2;
+	private int size;
+	private int size2;
 
 	/**
 	 * @param cons

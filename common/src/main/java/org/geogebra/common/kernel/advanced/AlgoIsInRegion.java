@@ -1,6 +1,15 @@
-/**
- * 
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
  */
+
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
@@ -27,9 +36,13 @@ public class AlgoIsInRegion extends AlgoElement {
 	 * Creates new algo
 	 * 
 	 * @param c
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param pi
+	 *            point
 	 * @param region
+	 *            region
 	 */
 	public AlgoIsInRegion(Construction c, String label, GeoPointND pi,
 			Region region) {

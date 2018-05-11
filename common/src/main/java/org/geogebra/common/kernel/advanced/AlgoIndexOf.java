@@ -37,11 +37,13 @@ public class AlgoIndexOf extends AlgoElement {
 	 * Creates new index of algorithm
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param needle
 	 *            what we want to find
 	 * @param hayStack
-	 *            GeoList of GeoText in which we want to search
+	 *            GeoList or GeoText in which we want to search
 	 */
 	public AlgoIndexOf(Construction cons, String label, GeoElement needle,
 			GeoElement hayStack) {
@@ -61,7 +63,9 @@ public class AlgoIndexOf extends AlgoElement {
 	 * Creates new index of algorithm
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param needle
 	 *            what we want to find
 	 * @param hayStack

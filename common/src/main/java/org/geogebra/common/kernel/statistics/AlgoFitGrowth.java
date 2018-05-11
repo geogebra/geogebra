@@ -40,11 +40,12 @@ public class AlgoFitGrowth extends AlgoElement implements FitAlgo {
 	private GeoFunction geofunction; // output
 	private RegressionMath regMath;
 
-	public AlgoFitGrowth(Construction cons, String label, GeoList geolist) {
-		this(cons, geolist);
-		geofunction.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geolist
+	 *            list of points
+	 */
 	public AlgoFitGrowth(Construction cons, GeoList geolist) {
 		super(cons);
 
@@ -70,6 +71,9 @@ public class AlgoFitGrowth extends AlgoElement implements FitAlgo {
 		setDependencies();
 	}
 
+	/**
+	 * @return best fit growth function
+	 */
 	public GeoFunction getFitGrowth() {
 		return geofunction;
 	}

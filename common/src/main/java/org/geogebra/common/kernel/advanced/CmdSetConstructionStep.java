@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * SetConstructionStep[ <Number> ]
+ * SetConstructionStep[ &lt;Number> ]
  * 
  * @author Michael Borcherds
  */

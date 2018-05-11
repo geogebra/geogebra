@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * SolveODE
+ * SlopeField[function]
  */
 public class CmdSlopeField extends CommandProcessor {
 
@@ -36,7 +36,7 @@ public class CmdSlopeField extends CommandProcessor {
 		case 1:
 			if (arg[0] instanceof Evaluate2Var) {
 				GeoElement[] ret = {
-						SlopeField(c.getLabel(), (Evaluate2Var) arg[0], null,
+						slopeField(c.getLabel(), (Evaluate2Var) arg[0], null,
 								null, null, null, null, null) };
 				return ret;
 			}
@@ -45,7 +45,7 @@ public class CmdSlopeField extends CommandProcessor {
 		case 2:
 			if ((ok[0] = arg[0] instanceof Evaluate2Var)
 					&& (ok[1] = arg[1].isGeoNumeric())) {
-				GeoElement[] ret = { SlopeField(c.getLabel(),
+				GeoElement[] ret = { slopeField(c.getLabel(),
 						(Evaluate2Var) arg[0], (GeoNumeric) arg[1], null, null,
 						null, null, null) };
 				return ret;
@@ -56,7 +56,7 @@ public class CmdSlopeField extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof Evaluate2Var)
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
-				GeoElement[] ret = { SlopeField(c.getLabel(),
+				GeoElement[] ret = { slopeField(c.getLabel(),
 						(Evaluate2Var) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], null, null, null, null) };
 				return ret;
@@ -72,7 +72,7 @@ public class CmdSlopeField extends CommandProcessor {
 					&& (ok[5] = arg[5].isGeoNumeric())
 					&& (ok[6] = arg[6].isGeoNumeric())) {
 				GeoElement[] ret = {
-						SlopeField(c.getLabel(), (FunctionalNVar) arg[0],
+						slopeField(c.getLabel(), (FunctionalNVar) arg[0],
 								(GeoNumeric) arg[1], (GeoNumeric) arg[2],
 								(GeoNumeric) arg[3], (GeoNumeric) arg[4],
 								(GeoNumeric) arg[5], (GeoNumeric) arg[6]) };
@@ -85,7 +85,7 @@ public class CmdSlopeField extends CommandProcessor {
 		}
 	}
 
-	final private GeoLocus SlopeField(String label, Evaluate2Var func,
+	final private GeoLocus slopeField(String label, Evaluate2Var func,
 			GeoNumeric n, GeoNumeric lengthRatio, GeoNumeric minX,
 			GeoNumeric minY, GeoNumeric maxX, GeoNumeric maxY) {
 

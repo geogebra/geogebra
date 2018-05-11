@@ -15,8 +15,11 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.main.MyError;
 
 /**
- * IntersectPath[ <GeoLine>, <GeoPolygon> ] IntersectPath[ <GeoLine>,
- * <GeoConic> ] // removed IntersectPath[<GeoSegment>, <GeoConic>]
+ * IntersectPath[ &lt;GeoLine>, &lt;GeoPolygon> ]
+ * 
+ * IntersectPath[ &lt;GeoLine>, * &lt;GeoConic> ]
+ * 
+ * // removed IntersectPath[&lt;GeoSegment>, &lt;GeoConic>]
  */
 public class CmdIntersectPath extends CommandProcessor {
 	/**

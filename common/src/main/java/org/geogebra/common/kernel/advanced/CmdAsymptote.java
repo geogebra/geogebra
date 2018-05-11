@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.main.MyError;
 
 /**
- * Asymptote[ <GeoConic> ]
+ * Asymptote[ &lt;GeoConic> ]
  */
 public class CmdAsymptote extends CommandProcessor {
 

@@ -32,6 +32,14 @@ public class AlgoDeterminant extends AlgoElement {
 	private GeoList inputList; // input
 	private GeoNumeric num; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            input matrix
+	 */
 	public AlgoDeterminant(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;

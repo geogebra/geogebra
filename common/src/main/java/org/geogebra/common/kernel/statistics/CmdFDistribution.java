@@ -54,9 +54,10 @@ public class CmdFDistribution extends CommandProcessor {
 						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					AlgoFDistributionDF algo = new AlgoFDistributionDF(cons,
-							c.getLabel(), (GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[0],
 							(GeoNumberValue) arg[1],
 							forceBoolean(cumulative, true));
+					algo.getResult().setLabel(c.getLabel());
 					return algo.getResult().asArray();
 
 				} else if (arg[2] instanceof GeoNumberValue) {

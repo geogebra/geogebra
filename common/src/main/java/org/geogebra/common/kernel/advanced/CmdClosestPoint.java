@@ -39,7 +39,7 @@ public class CmdClosestPoint extends CommandProcessor {
 			// distance between two points
 			if ((ok[0] = (arg[0] instanceof Path))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { ClosestPoint(c.getLabel(), (Path) arg[0],
+				GeoElement[] ret = { closestPoint(c.getLabel(), (Path) arg[0],
 						(GeoPointND) arg[1]) };
 				return ret;
 			}
@@ -47,7 +47,7 @@ public class CmdClosestPoint extends CommandProcessor {
 			// distance between point and line
 			else if ((ok[1] = (arg[1] instanceof Path))
 					&& (ok[0] = (arg[0].isGeoPoint()))) {
-				GeoElement[] ret = { ClosestPoint(c.getLabel(), (Path) arg[1],
+				GeoElement[] ret = { closestPoint(c.getLabel(), (Path) arg[1],
 						(GeoPointND) arg[0]) };
 				return ret;
 			}
@@ -75,7 +75,7 @@ public class CmdClosestPoint extends CommandProcessor {
 	}
 
 	/** Point anywhere on path with */
-	final private GeoPoint ClosestPoint(String label, Path path, GeoPointND p) {
+	final private GeoPoint closestPoint(String label, Path path, GeoPointND p) {
 		AlgoClosestPoint algo = new AlgoClosestPoint(cons, path, p);
 		algo.getP().setLabel(label);
 		return (GeoPoint) algo.getP();

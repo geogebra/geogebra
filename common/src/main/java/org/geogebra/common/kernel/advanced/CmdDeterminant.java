@@ -6,7 +6,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * Determinant[ <List> ] Michael Borcherds
+ * Determinant[ &lt;List> ]
+ * 
+ * @author Michael Borcherds
  */
 public class CmdDeterminant extends CmdOneListFunction {
 	/**

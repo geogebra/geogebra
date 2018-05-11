@@ -9,14 +9,24 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 
+/** Computes dimension of a matrix, list, point or vector. */
 public class AlgoDimension extends AlgoElement {
 
 	private GeoList matrixDimension;
-	private GeoNumeric firstDimension, secondDimension;
+	private GeoNumeric firstDimension;
+	private GeoNumeric secondDimension;
 	private boolean matrix;
 	private GeoList list;
 	private GeoElement point;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param geoList
+	 *            list
+	 */
 	public AlgoDimension(Construction cons, String label, GeoList geoList) {
 		super(cons);
 		list = geoList;
@@ -36,9 +46,17 @@ public class AlgoDimension extends AlgoElement {
 
 	}
 
-	public AlgoDimension(Construction cons, String label, GeoElement geoList) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param point
+	 *            vector or point
+	 */
+	public AlgoDimension(Construction cons, String label, GeoElement point) {
 		super(cons);
-		point = geoList;
+		this.point = point;
 
 		firstDimension = new GeoNumeric(cons);
 		matrix = false;
@@ -51,7 +69,7 @@ public class AlgoDimension extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
-		input[0] = point == null ? list : point.toGeoElement();
+		input[0] = point == null ? list : point;
 
 		if (matrix) {
 			setOnlyOutput(matrixDimension);
@@ -100,6 +118,9 @@ public class AlgoDimension extends AlgoElement {
 
 	}
 
+	/**
+	 * @return dimension
+	 */
 	public GeoElement getResult() {
 		return matrix ? matrixDimension : firstDimension;
 	}

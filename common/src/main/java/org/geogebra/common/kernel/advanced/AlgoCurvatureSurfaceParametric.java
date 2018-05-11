@@ -2,10 +2,11 @@ package org.geogebra.common.kernel.advanced;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.LUDecomposition;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
@@ -15,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 
 /**
  * @author michael Brioschi formula
@@ -29,33 +31,47 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 
 	private GeoNumberValue param1, param2; // input
-	private GeoSurfaceCartesian3D surface;
+	private GeoSurfaceCartesianND surface;
 
-	private GeoFunctionNVar e, f, g;
-	private GeoFunctionNVar eu, ev, fu, fv, gu, gv, evv, fuv, guu; // partial
-																	// derivatives
+	private GeoFunctionNVar e;
+	private GeoFunctionNVar f;
+	private GeoFunctionNVar g;
+	// partial derivatives
+	private GeoFunctionNVar eu;
+	private GeoFunctionNVar ev;
+	private GeoFunctionNVar fu;
+	private GeoFunctionNVar fv;
+	private GeoFunctionNVar gu;
+	private GeoFunctionNVar gv;
+	private GeoFunctionNVar evv;
+	private GeoFunctionNVar fuv;
+	private GeoFunctionNVar guu;
 	private GeoNumeric n; // output
 
 	private Array2DRowRealMatrix matrix1 = new Array2DRowRealMatrix(3, 3);
 	private Array2DRowRealMatrix matrix2 = new Array2DRowRealMatrix(3, 3);
 
-	private AlgoDerivative algoCASeu, algoCASev, algoCASevv, algoCASfu,
-			algoCASfv, algoCASfuv, algoCASgu, algoCASgv, algoCASguu;
+	private AlgoDerivative algoCASeu;
+	private AlgoDerivative algoCASev;
+	private AlgoDerivative algoCASevv;
+	private AlgoDerivative algoCASfu;
+	private AlgoDerivative algoCASfv;
+	private AlgoDerivative algoCASfuv;
+	private AlgoDerivative algoCASgu;
+	private AlgoDerivative algoCASgv;
+	private AlgoDerivative algoCASguu;
 
 	@SuppressWarnings("javadoc")
 	public AlgoCurvatureSurfaceParametric(Construction cons, String label,
 			GeoNumberValue param1, GeoNumberValue param2,
-			GeoSurfaceCartesian3D f) {
+			GeoSurfaceCartesianND f) {
 		this(cons, param1, param2, f);
-
-		if (label != null) {
-			n.setLabel(label);
-		}
+		n.setLabel(label);
 	}
 
 	@SuppressWarnings("javadoc")
 	AlgoCurvatureSurfaceParametric(Construction cons, GeoNumberValue param1,
-			GeoNumberValue param2, GeoSurfaceCartesian3D surface) {
+			GeoNumberValue param2, GeoSurfaceCartesianND surface) {
 		super(cons);
 		this.param1 = param1;
 		this.param2 = param2;
@@ -66,7 +82,8 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		FunctionNVar[] functions = surface.getFunctions();
 		e = new GeoFunctionNVar(cons, functions[0]);
 		f = new GeoFunctionNVar(cons, functions[1]);
-		g = new GeoFunctionNVar(cons, functions[2]);
+		g = new GeoFunctionNVar(cons, functions.length > 2 ? functions[2]
+				: new Function(new ExpressionNode(kernel, 0)));
 
 		FunctionVariable[] vars = f.getFunctionVariables();
 

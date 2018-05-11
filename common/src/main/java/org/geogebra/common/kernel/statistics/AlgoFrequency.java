@@ -43,7 +43,8 @@ public class AlgoFrequency extends AlgoElement {
 
 	// for compute
 	private GeoList value = new GeoList(cons);
-	private String[] contingencyRowValues, contingencyColumnValues;
+	private String[] contingencyRowValues;
+	private String[] contingencyColumnValues;
 	private Boolean isContingencyTable = false;
 	private double scaleFactor;
 	private GeoNumeric scale;
@@ -133,14 +134,15 @@ public class AlgoFrequency extends AlgoElement {
 		compute();
 	}
 
-
 	/***************************************************
 	 * Contingency table constructor
 	 * 
 	 * @param cons
 	 *            construction
 	 * @param list1
+	 *            first property of datapoints
 	 * @param list2
+	 *            second property of datapoints
 	 * @param isContingencyTable
 	 *            (dummy variable)
 	 */

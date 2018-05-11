@@ -23,6 +23,14 @@ public class AlgoDivisorsList extends AlgoElement {
 	private GeoList factorList;
 	List<Long> factList = new ArrayList<>();
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param number
+	 *            number
+	 */
 	public AlgoDivisorsList(Construction cons, String label,
 			GeoNumberValue number) {
 		super(cons);

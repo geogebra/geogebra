@@ -19,8 +19,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * AlgoMaximize Command Minimize[ <dependent variable>, <independent variable> ]
- * (and Minimize[] ) which searches for the independent variable which gives the
+ * AlgoMaximize Command Maximize[ &lt;dependent variable>, &lt;independent
+ * variable> ] which searches for the independent variable which gives the
  * largest result for the dependent variable.
  * 
  * Extends abstract class AlgoOptimize
@@ -49,8 +49,18 @@ public class AlgoMaximize extends AlgoOptimize {
 		super(cons, label, dep, new OptimizerNumeric(dep, indep),
 				OptimizationType.MAXIMIZE);
 		// cons.registerEuclididanViewAlgo(this);
-	}// Constructor for Maximize
+	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param dep
+	 *            dependent number
+	 * @param indep
+	 *            moving point
+	 */
 	public AlgoMaximize(Construction cons, String label, GeoNumberValue dep,
 			GeoPointND indep) {
 		super(cons, label, dep, new OptimizerPoint(dep, indep),
@@ -61,6 +71,6 @@ public class AlgoMaximize extends AlgoOptimize {
 	@Override
 	public Commands getClassName() {
 		return Commands.Maximize;
-	}// getClassName()
+	}
 
-}// class AlgoMaximize
+}

@@ -27,14 +27,16 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 
 	private GeoPointND A; // input
-	private GeoCurveCartesian3D f, f1, f2; // f = f(x), f1 is f'(x), f2 is
-											// f''(x)
+	private GeoCurveCartesian3D f; // input
+	private GeoCurveCartesian3D f1; // f1 = f'
+	private GeoCurveCartesian3D f2; // f2 = f''
 	private GeoVector3D v; // output
 
 	private double f1eval[] = new double[3];
 	private double f2eval[] = new double[3];
 
-	private AlgoDerivative algoCAS, algoCAS2;
+	private AlgoDerivative algoCAS;
+	private AlgoDerivative algoCAS2;
 	private GeoConic3D gc;
 
 	public AlgoCurvatureVectorCurve3D(Construction cons, String label,

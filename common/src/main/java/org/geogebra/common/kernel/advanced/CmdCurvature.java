@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.advanced;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -11,10 +10,11 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Curvature[<Point>,<Curve>], Curvature[<Point>,<Function>]
+ * Curvature[&lt;Point>,&lt;Curve>], Curvature[&lt;Point>,&lt;Function>]
  * 
  * @author Victor Franco Espino
  */
@@ -83,13 +83,13 @@ public class CmdCurvature extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isNumberValue()))
 					&& (ok[1] = (arg[1].isNumberValue()))
-					&& (ok[2] = (arg[2] instanceof GeoSurfaceCartesian3D))) {
+					&& (ok[2] = (arg[2] instanceof GeoSurfaceCartesianND))) {
 
 				// Gaussian Curvature
 				AlgoCurvatureSurfaceParametric algo = new AlgoCurvatureSurfaceParametric(
 						cons, c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1],
-						(GeoSurfaceCartesian3D) arg[2]);
+						(GeoSurfaceCartesianND) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

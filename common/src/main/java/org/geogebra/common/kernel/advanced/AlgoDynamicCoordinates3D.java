@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.advanced;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -28,6 +27,20 @@ public class AlgoDynamicCoordinates3D extends AlgoDynamicCoordinates
 
 	private GeoNumberValue z; // input
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param arg
+	 *            moveable point
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param z
+	 *            z-coord
+	 */
 	public AlgoDynamicCoordinates3D(Construction cons, String label,
 			GeoPointND arg, GeoNumberValue x, GeoNumberValue y,
 			GeoNumberValue z) {
@@ -37,7 +50,7 @@ public class AlgoDynamicCoordinates3D extends AlgoDynamicCoordinates
 		this.y = y;
 		this.z = z;
 		// create new Point
-		M = new GeoPoint3D(cons);
+		M = kernel.getManager3D().point3D(0, 0, 0, false);
 		setInputOutput();
 
 		compute();
@@ -79,6 +92,5 @@ public class AlgoDynamicCoordinates3D extends AlgoDynamicCoordinates
 
 		M.setCoords(xCoord, yCoord, zCoord, 1.0);
 	}
-
 
 }

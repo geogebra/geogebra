@@ -6,7 +6,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * Transpose[ <List> ] Michael Borcherds
+ * Transpose[ &lt;List> ]
+ * 
+ * @atuthor Michael Borcherds
  */
 public class CmdTranspose extends CmdOneListFunction {
 	/**

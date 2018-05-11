@@ -26,30 +26,23 @@ import org.geogebra.common.kernel.optimization.FitRealFunction;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * <pre>
- * AlgoFitNL:			(NL=NonLinear Curvefit)
- * A general curvefit:
- * 		Fit[<List of Points>,<Function>]
- * Example:
- *     f(x)=a+b/(x-c)
- *     L={A,B,...}
- *     g(x)=Fit[L,f]
- *     will give a function
- *     g(x)=p1+p2/(x-p3)
- *     where p1, p2 and p3 are calculated to give the least sum of squared errors.
- *     
- * The nonlinear curve-fitting is done with an iteration algortithm, which is not
- * guaranteed to work.
- * The values of a, b and c are taken as starting points for the iteration algorithm.
- * If the iteration does not converge or the number of iterations is getting to large,
- * the result is undefined, a signal for the user to try to adjust the starting
- * point with the gliders a, b and c.
+ * 
+ * AlgoFitNL: (NL=NonLinear Curvefit) A general curvefit: Fit[&lt;List of
+ * Points>,&lt;Function>] Example: f(x)=a+b/(x-c) L={A,B,...} g(x)=Fit[L,f] will
+ * give a function g(x)=p1+p2/(x-p3) where p1, p2 and p3 are calculated to give
+ * the least sum of squared errors.
+ * 
+ * The nonlinear curve-fitting is done with an iteration algortithm, which is
+ * not guaranteed to work. The values of a, b and c are taken as starting points
+ * for the iteration algorithm. If the iteration does not converge or the number
+ * of iterations is getting to large, the result is undefined, a signal for the
+ * user to try to adjust the starting point with the gliders a, b and c.
  * 
  * Uses Levenberg-Marquardt algorithm in org.apache.commons library
  * 
- * ToDo:		The gradient in FitRealFunction could be more sophisticated, but the Apache lib is quite robust :-)
- *   				Some tuning of numerical precision both here and in the setup of LM-optimizer
- * </pre>
+ * ToDo: The gradient in FitRealFunction could be more sophisticated, but the
+ * Apache lib is quite robust :-) Some tuning of numerical precision both here
+ * and in the setup of LM-optimizer
  * 
  * @author Hans-Petter Ulven
  * @version 2011-03-15
@@ -117,10 +110,9 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 		this.datasize = pointlist.size(); // Points in dataset
 
 		if (!pointlist.isDefined() || !inputfunction.isDefined()
-				|| (datasize < 1) // Perhaps a max restriction of functions and
-									// data?
-		) // Even if noone would try 500 datapoints and 100 functions...
-		{
+				|| (datasize < 1)) {
+			// Perhaps a max restriction of functions and data?
+			// Even if noone would try 500 datapoints and 100 functions...
 			outputfunction.setUndefined();
 			return;
 		}
@@ -131,7 +123,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 		if (!geo2.isGeoFunction() || !geo1.isGeoPoint()) {
 			outputfunction.setUndefined();
 			return;
-		} // if wrong contents in lists
+		}
 
 		try {
 			// Get points as x[] and y[] from lists

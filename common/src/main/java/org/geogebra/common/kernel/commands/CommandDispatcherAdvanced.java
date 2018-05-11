@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.advanced.CmdAsymptote;
 import org.geogebra.common.kernel.advanced.CmdAttachCopyToView;
 import org.geogebra.common.kernel.advanced.CmdAxes;
 import org.geogebra.common.kernel.advanced.CmdAxisStepX;
-import org.geogebra.common.kernel.advanced.CmdAxisStepY;
 import org.geogebra.common.kernel.advanced.CmdCentroid;
 import org.geogebra.common.kernel.advanced.CmdClosestPoint;
 import org.geogebra.common.kernel.advanced.CmdCommonDenominator;
@@ -226,9 +225,9 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdFirstAxisLength(kernel);
 
 		case AxisStepX:
-			return new CmdAxisStepX(kernel);
+			return new CmdAxisStepX(kernel, 0);
 		case AxisStepY:
-			return new CmdAxisStepY(kernel);
+			return new CmdAxisStepX(kernel, 1);
 		case ConstructionStep:
 			return new CmdConstructionStep(kernel);
 		case SetConstructionStep:

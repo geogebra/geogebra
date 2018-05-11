@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * SelectedElement[ <list>, <n> ] SelectedElement[ <point>, <n> ]
+ * SelectedIndex[ &lt;list> ]
  */
 public class CmdSelectedIndex extends CommandProcessor {
 	/**
@@ -30,10 +30,7 @@ public class CmdSelectedIndex extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			// list
-			if (arg[0].isGeoList())
-
-			{
-
+			if (arg[0].isGeoList()) {
 				AlgoSelectedIndex algo = new AlgoSelectedIndex(cons,
 						c.getLabel(), (GeoList) arg[0]);
 
