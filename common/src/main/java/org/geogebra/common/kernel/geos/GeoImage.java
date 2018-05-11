@@ -699,8 +699,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void setAbsoluteScreenLoc(int x, int y) {
 		if (kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
 			setAbsoluteScreenLoc(x, y, 0);
-			screenX = x;
 		}
+		screenX = x;
 		screenY = y;
 		if (!hasScreenLocation() && (x != 0 && y != 0)) {
 			setScreenLocation(x, y);
