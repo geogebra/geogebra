@@ -778,19 +778,26 @@ public class SelectionManager {
 
 	private void filterInvisible(TreeSet<GeoElement> tree,
 			EuclidianViewInterfaceCommon ev) {
-		if (this.kernel.getApplication().getGuiManager() != null && !this.kernel
-				.getApplication().getGuiManager().hasAlgebraViewShowing()) {
-			return;
-		}
+		boolean avShowing = kernel.getApplication().getGuiManager() != null
+				&& this.kernel.getApplication().getGuiManager()
+						.hasAlgebraViewShowing();
+
 		TreeSet<GeoElement> copy = new TreeSet<>(tree);
 
 		Iterator<GeoElement> it = copy.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			boolean evVisible = !geo.isSelectionAllowed(ev)
-					|| !geo.isEuclidianVisible()
-					|| !geo.isVisibleInView(ev.getViewID());
-			if (evVisible) {
+
+			boolean remove = false;
+
+			if (!geo.isSelectionAllowed(ev)) {
+				remove = true;
+			} else {
+				remove = !avShowing && (!geo.isEuclidianVisible()
+						|| !geo.isVisibleInView(ev.getViewID()));
+			}
+
+			if (remove) {
 				tree.remove(geo);
 			}
 		}
