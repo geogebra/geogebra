@@ -55,6 +55,9 @@ public class ScreenReader {
 	public static void readText(GeoElement geo0, App app) {
 		StringBuilder sb = new StringBuilder();
 		String caption = geo0.getCaption(StringTemplate.defaultTemplate);
+		if ("".equals(caption)) {
+			caption = geo0.getCaptionSimple();
+		}
 		if (caption == null || "".equals(caption)) {
 			sb.append(geo0.translatedTypeStringForAlgebraView());
 			sb.append(' ');
