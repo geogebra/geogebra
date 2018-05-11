@@ -3547,186 +3547,184 @@ public class MyXMLHandler implements DocHandler {
 			return;
 		}
 
-		boolean ok = true;
 		ScriptType scriptType = ScriptType.getTypeWithXMLName(eName);
 		if (scriptType != null) {
-			ok = handleScript(attrs, scriptType);
+			handleScript(attrs, scriptType);
 		} else {
 			switch (firstChar(eName)) {
 			case 'a':
 				if ("auxiliary".equals(eName)) {
-					ok = handleAuxiliary(attrs);
+					handleAuxiliary(attrs);
 					break;
 				}
 				if ("autocolor".equals(eName)) {
-					ok = handleAutocolor(attrs);
+					handleAutocolor(attrs);
 					break;
 				} else if ("animation".equals(eName)) {
-					ok = handleAnimation(attrs);
+					handleAnimation(attrs);
 					break;
 				} else if ("arcSize".equals(eName)) {
-					ok = handleArcSize(attrs);
+					handleArcSize(attrs);
 					break;
 				} else if ("allowReflexAngle".equals(eName)) {
-					ok = handleAllowReflexAngle(attrs);
+					handleAllowReflexAngle(attrs);
 					break;
 				} else if ("absoluteScreenLocation".equals(eName)) {
-					ok = handleAbsoluteScreenLocation(attrs, true);
+					handleAbsoluteScreenLocation(attrs, true);
 					break;
 				} else if ("angleStyle".equals(eName)) {
-					ok = handleAngleStyle(attrs);
+					handleAngleStyle(attrs);
 					break;
 				} else if ("audio".equals(eName)) {
-					ok = handleAudio(attrs);
+					handleAudio(attrs);
 					break;
 				}
 
 			case 'b':
 				if ("breakpoint".equals(eName)) {
-					ok = handleBreakpoint(attrs);
+					handleBreakpoint(attrs);
 					break;
 				} else if ("bgColor".equals(eName)) {
-					ok = handleBgColor(attrs);
+					handleBgColor(attrs);
 					break;
 				}
 
 			case 'c':
 				if ("coords".equals(eName)) {
-					ok = handleCoords(attrs);
+					handleCoords(attrs);
 					break;
 				} else if ("coordStyle".equals(eName)) {
-					ok = handleCoordStyle(attrs);
+					handleCoordStyle(attrs);
 					break;
 				} else if ("caption".equals(eName)) {
-					ok = handleCaption(attrs);
+					handleCaption(attrs);
 					break;
 				} else if ("condition".equals(eName)) {
-					ok = handleCondition(attrs);
+					handleCondition(attrs);
 					break;
 				} else if ("checkbox".equals(eName)) {
-					ok = handleCheckbox(attrs);
+					handleCheckbox(attrs);
 					break;
 				} else if ("coefficients".equals(eName)) {
-					ok = handleCoefficients(attrs);
+					handleCoefficients(attrs);
 					break;
 				} else if ("comboBox".equals(eName)) {
-					ok = handleComboBox(attrs);
+					handleComboBox(attrs);
 					break;
 				} else if ("cropBox".equals(eName)) {
-					ok = handleCropBox(attrs);
+					handleCropBox(attrs);
 					break;
 				} else if ("curveParam".equals(eName)) {
-					ok = handleCurveParam(attrs);
+					handleCurveParam(attrs);
 					break;
 				} else if ("casMap".equals(eName)) {
 					casMap = new TreeMap<>();
 					constMode = MODE_CAS_MAP;
 					casMapParent = MODE_CONST_GEO_ELEMENT;
-					ok = true;
 					break;
 				}
 
 			case 'd':
 				if ("decoration".equals(eName)) {
-					ok = handleDecoration(attrs);
+					handleDecoration(attrs);
 					break;
 				} else if ("decimals".equals(eName)) {
-					ok = handleTextDecimals(attrs);
+					handleTextDecimals(attrs);
 					break;
 				} else if ("dimensions".equals(eName)) {
-					ok = handleDimensions(attrs);
+					handleDimensions(attrs);
 					break;
 				}
 
 			case 'e':
 				if ("eqnStyle".equals(eName)) {
-					ok = handleEqnStyle(attrs);
+					handleEqnStyle(attrs);
 					break;
 				} else if ("eigenvectors".equals(eName)) {
-					ok = handleEigenvectors(attrs);
+					handleEigenvectors(attrs);
 					break;
 				} else if ("emphasizeRightAngle".equals(eName)) {
-					ok = handleEmphasizeRightAngle(attrs);
+					handleEmphasizeRightAngle(attrs);
 					break;
 				}
 
 			case 'f':
 				if ("fixed".equals(eName)) {
-					ok = handleFixed(attrs);
+					handleFixed(attrs);
 					break;
 				} else if ("file".equals(eName)) {
-					ok = handleFile(attrs);
+					handleFile(attrs);
 					break;
 				} else if ("font".equals(eName)) {
-					ok = handleTextFont(attrs);
+					handleTextFont(attrs);
 					break;
 				} else if ("forceReflexAngle".equals(eName)) {
-					ok = handleForceReflexAngle(attrs);
+					handleForceReflexAngle(attrs);
 					break;
 				}
 			case 'i':
 				if ("isLaTeX".equals(eName)) {
-					ok = handleIsLaTeX(attrs);
+					handleIsLaTeX(attrs);
 					break;
 				} else if ("inBackground".equals(eName)) {
-					ok = handleInBackground(attrs);
+					handleInBackground(attrs);
 					break;
 				} else if ("interpolate".equals(eName)) {
-					ok = handleInterpolate(attrs);
+					handleInterpolate(attrs);
 					break;
 				} else if ("isShape".equals(eName)) {
-					ok = handleIsShape(attrs);
+					handleIsShape(attrs);
 					break;
 				} else if ("centered".equals(eName)) {
-					ok = handleCentered(attrs);
+					handleCentered(attrs);
 					break;
 				}
 
 			case 'k':
 				if ("keepTypeOnTransform".equals(eName)) {
-					ok = handleKeepTypeOnTransform(attrs);
+					handleKeepTypeOnTransform(attrs);
 					break;
 				}
 
 			case 'l':
 				if ("lineStyle".equals(eName)) {
-					ok = handleLineStyle(attrs);
+					handleLineStyle(attrs);
 					break;
 				} else if ("labelOffset".equals(eName)) {
-					ok = handleLabelOffset(attrs);
+					handleLabelOffset(attrs);
 					break;
 				} else if ("labelMode".equals(eName)) {
-					ok = handleLabelMode(attrs);
+					handleLabelMode(attrs);
 					break;
 				} else if ("layer".equals(eName)) {
-					ok = handleLayer(attrs);
+					handleLayer(attrs);
 					break;
 				} else if ("linkedGeo".equals(eName)) {
-					ok = handleLinkedGeo(attrs);
+					handleLinkedGeo(attrs);
 					break;
 				} else if ("length".equals(eName)) {
-					ok = handleLength(attrs);
+					handleLength(attrs);
 					break;
 				} else if ("listType".equals(eName)) {
-					ok = handleListType(attrs);
+					handleListType(attrs);
 					break;
 				} else if ("listener".equals(eName)) {
-					ok = handleListeners(attrs);
+					handleListeners(attrs);
 					break;
 				}
 
 			case 'm':
 				if ("matrix".equals(eName)) {
-					ok = handleMatrix(attrs);
+					handleMatrix(attrs);
 					break;
 				}
 
 			case 'o':
 				if ("objColor".equals(eName)) {
-					ok = handleObjColor(attrs);
+					handleObjColor(attrs);
 					break;
 				} else if ("outlyingIntersections".equals(eName)) {
-					ok = handleOutlyingIntersections(attrs);
+					handleOutlyingIntersections(attrs);
 					break;
 				} /*
 					 * else if ("objCoords".equals(eName)) { ok =
@@ -3735,12 +3733,12 @@ public class MyXMLHandler implements DocHandler {
 
 			case 'p':
 				if ("pointSize".equals(eName)) {
-					ok = handlePointSize(attrs);
+					handlePointSize(attrs);
 					break;
 				}
 
 				else if ("pointStyle".equals(eName)) {
-					ok = handlePointStyle(attrs);
+					handlePointStyle(attrs);
 					break;
 				}
 				/*
@@ -3749,67 +3747,67 @@ public class MyXMLHandler implements DocHandler {
 				 */
 			case 's':
 				if ("show".equals(eName)) {
-					ok = handleShow(attrs);
+					handleShow(attrs);
 					break;
 				} else if ("showOnAxis".equals(eName)) {
-					ok = handleShowOnAxis(attrs);
+					handleShowOnAxis(attrs);
 					break;
 				} else if ("startPoint".equals(eName)) {
-					ok = handleStartPoint(attrs);
+					handleStartPoint(attrs);
 					break;
 				} else if ("slider".equals(eName)) {
-					ok = handleSlider(attrs);
+					handleSlider(attrs);
 					break;
 				} else if ("symbolic".equals(eName)) {
-					ok = handleSymbolic(attrs);
+					handleSymbolic(attrs);
 					break;
 				} else if ("slopeTriangleSize".equals(eName)) {
-					ok = handleSlopeTriangleSize(attrs);
+					handleSlopeTriangleSize(attrs);
 					break;
 				} else if ("significantfigures".equals(eName)) {
-					ok = handleTextFigures(attrs);
+					handleTextFigures(attrs);
 					break;
 				} else if ("spreadsheetTrace".equals(eName)) {
-					ok = handleSpreadsheetTrace(attrs);
+					handleSpreadsheetTrace(attrs);
 					break;
 				} else if ("showTrimmed".equals(eName)) {
-					ok = handleShowTrimmed(attrs);
+					handleShowTrimmed(attrs);
 					break;
 				} else if ("selectionAllowed".equals(eName)) {
-					ok = handleSelectionAllowed(attrs);
+					handleSelectionAllowed(attrs);
 					break;
 				} else if ("selectedIndex".equals(eName)) {
-					ok = handleSelectedIndex(attrs);
+					handleSelectedIndex(attrs);
 					break;
 				}
 
 			case 't':
 				if ("trace".equals(eName)) {
-					ok = handleTrace(attrs);
+					handleTrace(attrs);
 					break;
 				} else if ("tooltipMode".equals(eName)) {
-					ok = handleTooltipMode(attrs);
+					handleTooltipMode(attrs);
 					break;
 				} else if ("tag".equals(eName)) {
-					ok = handleExtraTag(attrs);
+					handleExtraTag(attrs);
 					break;
 				} else if ("tags".equals(eName)) {
-					ok = true;
+					// ignore
 					break;
 				}
 
 			case 'u':
 				if ("userinput".equals(eName)) {
-					ok = handleUserInput(attrs);
+					handleUserInput(attrs);
 					break;
 				}
 
 			case 'v':
 				if ("value".equals(eName)) {
-					ok = handleValue(attrs);
+					handleValue(attrs);
 					break;
 				} else if ("video".equals(eName)) {
-					ok = handleVideo(attrs);
+					handleVideo(attrs);
 					break;
 				}
 
@@ -3818,9 +3816,6 @@ public class MyXMLHandler implements DocHandler {
 			}
 		}
 
-		if (!ok) {
-			Log.error("error in <element>: " + eName);
-		}
 	}
 
 	private boolean handleDimensions(LinkedHashMap<String, String> attrs) {
@@ -4940,7 +4935,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleAudio(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoAudio) || geo instanceof GeoVideo) {
+		if (!(geo instanceof GeoAudio)) {
 			Log.error("wrong element type for <audio>: " + geo.getClass());
 			return false;
 		}
