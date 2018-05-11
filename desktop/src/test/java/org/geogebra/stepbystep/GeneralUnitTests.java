@@ -101,6 +101,13 @@ public class GeneralUnitTests {
         weakGCD("((4)(x)-1)(6)((x)^(2))", "-(((4)(x)-1))(13)(x)", "(((4)(x)-1))(x)");
     }
 
+    @Test
+    public void getVariableTest() {
+        findVariable("x+3", "x", "x");
+        findVariable("(x+3)/2", "x", "(x)/(2)");
+        findVariable("7*x+4*x+5", "x", "((7)(x) + (4)(x))");
+    }
+
     public void weakGCD(String a, String b, String c) {
         Assert.assertEquals(c, StepHelper.weakGCD(convert(a), convert(b)).toString());
     }
@@ -136,6 +143,10 @@ public class GeneralUnitTests {
 
     public void GCD(String a, String b, String c) {
         Assert.assertEquals(c, StepHelper.GCD(convert(a), convert(b)).toString());
+    }
+
+    public void findVariable(String a, String b, String c) {
+        Assert.assertEquals(c, convert(a).findVariableIn(new StepVariable(b)).toString());
     }
 
     private StepExpression convert(String s) {

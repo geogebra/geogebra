@@ -194,7 +194,8 @@ public enum EquationSteps implements SolveStepGenerator {
 	SOLVE_LINEAR {
 		@Override
 		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
-			if (!(se.degree(variable) == 0 || se.degree(variable) == 1)) {
+			int degree = se.degree(variable);
+			if (degree != 0 && degree != 1) {
 				return null;
 			}
 
@@ -274,14 +275,7 @@ public enum EquationSteps implements SolveStepGenerator {
 	SOLVE_QUADRATIC {
 		@Override
 		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
-			StepExpression difference = subtract(se.getLHS(), se.getRHS()).regroup();
-
-			if (difference.degree(variable) == 2) {
-				if (!isZero(se.getRHS())) {
-					se.subtract(se.getRHS(), steps, tracker);
-					return null;
-				}
-			} else {
+			if (se.degree(variable) != 2) {
 				return null;
 			}
 
@@ -556,13 +550,13 @@ public enum EquationSteps implements SolveStepGenerator {
 		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			int sqrtNum = se.countNonConstOperation(Operation.NROOT, variable);
 
+			if (sqrtNum > 3 || sqrtNum == 0) {
+				return null;
+			}
+
 			if (se.getRHS().countNonConstOperation(Operation.NROOT, variable) >
 					se.getLHS().countNonConstOperation(Operation.NROOT, variable)) {
 				se.swapSides();
-			}
-
-			if (sqrtNum > 3 || sqrtNum == 0) {
-				return null;
 			}
 
 			if (sqrtNum == 1) {
@@ -614,7 +608,9 @@ public enum EquationSteps implements SolveStepGenerator {
 	SOLVE_ABSOLUTE_VALUE {
 		@Override
 		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
-			if (se.countOperation(Operation.ABS) == 0) {
+			int absNum = se.countNonConstOperation(Operation.ABS, variable);
+
+			if (absNum == 0) {
 				return null;
 			}
 
@@ -634,8 +630,6 @@ public enum EquationSteps implements SolveStepGenerator {
 				se.expand(steps, tracker);
 				return null;
 			}
-
-			int absNum = se.countNonConstOperation(Operation.ABS, variable);
 
 			StepExpression nonAbsDiff = StepHelper.getNon(subtract(se.getLHS(), se.getRHS()).regroup(), Operation.ABS);
 			if (absNum == 2 && (isZero(nonAbsDiff))) {
@@ -725,13 +719,15 @@ public enum EquationSteps implements SolveStepGenerator {
 		@Override
 		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps,
 										SolveTracker tracker) {
-			if (se.countOperation(Operation.PLUSMINUS) == 0) {
+			int plusminusNum = se.countOperation(Operation.PLUSMINUS);
+
+			if (plusminusNum == 0) {
 				return null;
 			}
 
 			List<StepSolution> solutions = new ArrayList<>();
 
-			if (se.countOperation(Operation.PLUSMINUS) == 1) {
+			if (plusminusNum == 1) {
 				StepExpression argument = null;
 
 				if (se.getLHS().equals(variable)
@@ -799,12 +795,10 @@ public enum EquationSteps implements SolveStepGenerator {
 		@Override
 		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepExpression diff = subtract(se.getLHS(), se.getRHS()).regroup();
-			StepExpression constant = diff.findConstantIn(variable);
-			StepExpression noConstDiff = subtract(diff, constant).regroup();
+			StepExpression noConstDiff = diff.findVariableIn(variable);
 
 			if (noConstDiff.isPower()) {
-				StepExpression RHSConstant = se.getRHS().findConstantIn(variable);
-				StepExpression RHSNonConst = subtract(se.getRHS(), RHSConstant).regroup();
+				StepExpression RHSNonConst = se.getRHS().findVariableIn(variable);
 
 				se.addOrSubtract(RHSNonConst, steps, tracker);
 				se.addOrSubtract(se.getLHS().findConstantIn(variable), steps, tracker);

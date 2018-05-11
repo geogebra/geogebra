@@ -135,15 +135,15 @@ public class StepStrategies {
 				EquationSteps.MULTIPLY_THROUGH,
 				EquationSteps.EXPAND,
                 EquationSteps.COMPLETE_THE_SQUARE,
-				EquationSteps.SOLVE_QUADRATIC,
 				EquationSteps.COMPLETE_CUBE,
-				EquationSteps.REDUCE_TO_QUADRATIC,
 				EquationSteps.SOLVE_ABSOLUTE_VALUE,
 				EquationSteps.SOLVE_IRRATIONAL,
 				EquationSteps.SIMPLIFY_TRIGONOMETRIC,
 				EquationSteps.SOLVE_QUADRATIC_IN_EXPRESSION,
 				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC,
-				EquationSteps.DIFF
+				EquationSteps.DIFF,
+				EquationSteps.SOLVE_QUADRATIC,
+				EquationSteps.REDUCE_TO_QUADRATIC,
 		};
 
 		return implementSolveStrategy(se, sv, sb, strategy, tracker);

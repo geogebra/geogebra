@@ -6,11 +6,8 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.geogebra.common.util.debug.Log;
+import org.junit.*;
 
 @SuppressWarnings("javadoc")
 public class RegroupStepTest {
@@ -87,6 +84,8 @@ public class RegroupStepTest {
 
 	@Test
 	public void regroupTest() {
+		r("nroot((4)((x)^(2))(y), 2)", "(2)(|x|)(nroot(y, 2))");
+		r("nroot((4)((x)^(2)), 2)", "(2)(|x|)");
 		r("2 - 2", "0");
 		r("(-(nroot(7, 2))^(3) + (7)(nroot(7, 2)))", "0");
 		r("((nroot(2, 2))^(3))/(8)", "(nroot(2, 2))/(4)");

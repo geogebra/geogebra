@@ -280,6 +280,34 @@ public abstract class StepExpression extends StepNode {
 		return null;
 	}
 
+	public StepExpression findVariableIn(StepVariable sv) {
+		if (isConstantIn(sv)) {
+			return null;
+		}
+
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
+
+			if (so.isOperation(Operation.MINUS)) {
+				return minus(so.getOperand(0).findVariableIn(sv));
+			} else if (so.isOperation(Operation.PLUS)) {
+				StepExpression found = null;
+				for (StepExpression operand : so) {
+					found = add(found, operand.findVariableIn(sv));
+				}
+				return found;
+			} else if (so.isOperation(Operation.DIVIDE) && so.getOperand(1).isConstant()) {
+				StepExpression nominator = so.getOperand(0).findVariableIn(sv);
+
+				if (nominator != null) {
+					return divide(nominator, so.getOperand(1));
+				}
+			}
+		}
+
+		return this;
+	}
+
 	public int countNonConstOperation(Operation operation, StepVariable variable) {
 		if (this instanceof StepOperation) {
 			StepOperation so = (StepOperation) this;

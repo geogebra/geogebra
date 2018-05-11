@@ -705,6 +705,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 
 				StepExpression newRoot = null;
 				StepExpression separateRoots = null;
+				int separatedRoots = 0;
 
 				for (StepExpression irrational : irrationals) {
 					if (irrational.isOperation(Operation.POWER)) {
@@ -712,6 +713,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 
 						if (isZero(remainder)) {
 							separateRoots = multiply(separateRoots, root(irrational, root));
+							separatedRoots++;
 							continue;
 						}
 					}
@@ -719,7 +721,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					newRoot = multiply(newRoot, irrational);
 				}
 
-				if (newRoot != null & separateRoots != null) {
+				if (separatedRoots > 1 || newRoot != null && separateRoots != null) {
 					StepExpression result = multiply(separateRoots, root(newRoot, root));
 
 					so.setColor(tracker.getColorTracker());
