@@ -1403,6 +1403,15 @@ public class CommandsTest extends Assert{
 		runSolveTests();
 	}
 
+	/** Test for MOB-1667 */
+	@Test
+	public void cmdSolveSystem() {
+		t("a:abs(x)/9+abs(y)/4=1", "abs(x) / 9 + abs(y) / 4 = 1");
+		t("f:y=2x", "y = 2x");
+		t("Solve[ {a,f} ]",
+				"{{x = 18 / 11, y = 36 / 11}, {x = -18 / 11, y = -36 / 11}}");
+	}
+
 	private static void runSolveTests() {
 		t("ss=Solve[ x^2=3 ]", "{x = (-sqrt(3)), x = sqrt(3)}");
 		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("ss")));
