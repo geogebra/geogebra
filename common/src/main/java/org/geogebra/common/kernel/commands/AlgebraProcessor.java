@@ -1250,7 +1250,9 @@ public class AlgebraProcessor {
 			if (temp[0] instanceof GeoList) {
 				list = (GeoList) temp[0];
 			} else {
+				// eg when CAS not loaded
 				Log.error("return value was not a list");
+				list = new GeoList(cons);
 			}
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
