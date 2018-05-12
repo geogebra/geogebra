@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.advanced;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -9,9 +8,11 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.MyError;
 
 /**
- * SecondAxis[ &lt;GeoConic> ]
+ * FirstAxisLength[ &lt;GeoConic> ]
  */
-public class CmdSecondAxis extends CommandProcessor {
+public class CmdAxisLength extends CommandProcessor {
+
+	private int axisId;
 
 	/**
 	 * Create new command processor
@@ -19,12 +20,13 @@ public class CmdSecondAxis extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSecondAxis(Kernel kernel) {
+	public CmdAxisLength(Kernel kernel, int axisId) {
 		super(kernel);
+		this.axisId = axisId;
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
@@ -35,10 +37,10 @@ public class CmdSecondAxis extends CommandProcessor {
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
 
-				AlgoAxisSecond algo = getAlgoAxisSecond(cons, c.getLabel(),
-						(GeoConicND) arg[0]);
+				AlgoAxisLength algo = new AlgoAxisLength(cons,
+						c.getLabel(), (GeoConicND) arg[0], axisId);
 
-				GeoElement[] ret = { algo.getAxis().toGeoElement() };
+				GeoElement[] ret = { algo.getLength() };
 				return ret;
 			}
 			throw argErr(app, c, arg[0]);
@@ -46,20 +48,5 @@ public class CmdSecondAxis extends CommandProcessor {
 		default:
 			throw argNumErr(c);
 		}
-	}
-
-	/**
-	 * @param cons1
-	 *            construction
-	 * @param label
-	 *            label
-	 * @param geoConicND
-	 *            conic
-	 * @return algo for axis (overridden in 3D)
-	 */
-	protected AlgoAxisSecond getAlgoAxisSecond(Construction cons1, String label,
-			GeoConicND geoConicND) {
-
-		return new AlgoAxisSecond(cons1, label, geoConicND);
 	}
 }

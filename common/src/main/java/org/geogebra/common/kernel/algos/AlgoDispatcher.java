@@ -44,7 +44,6 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.LabelManager;
-import org.geogebra.common.kernel.implicit.AlgoImplicitCurveFunction;
 import org.geogebra.common.kernel.implicit.AlgoImplicitPolyFunction;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyParametric;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyPolyLine;
@@ -903,20 +902,6 @@ public class AlgoDispatcher {
 				label, func);
 		GeoImplicit implicitPoly = algo.getImplicitPoly();
 		return implicitPoly;
-	}
-
-	/**
-	 * @param label
-	 *            output label
-	 * @param func
-	 *            funtion in x,y
-	 * @return curve func(x,y)=0
-	 */
-	final public GeoImplicitCurve implicitCurve(String label,
-			GeoFunctionNVar func) {
-		AlgoImplicitCurveFunction algo = new AlgoImplicitCurveFunction(cons,
-				label, func);
-		return algo.getImplicitCurve();
 	}
 
 	/********************

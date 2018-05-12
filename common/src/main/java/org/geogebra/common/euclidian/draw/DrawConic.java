@@ -2007,9 +2007,11 @@ public class DrawConic extends Drawable implements Previewable {
 				GeoLineND lND = prevLines.get(0);
 				Coords equation = lND
 						.getCartesianEquationVector(view.getMatrix());
-				((GeoLine) previewTempLine).setCoords(equation.getX(),
+				if (equation != null) {
+					((GeoLine) previewTempLine).setCoords(equation.getX(),
 						equation.getY(),
 						equation.getZ());
+				}
 			}
 
 			if (prevPoints.size() > 0) {

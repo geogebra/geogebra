@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.advanced.CmdArePerpendicular;
 import org.geogebra.common.kernel.advanced.CmdAsymptote;
 import org.geogebra.common.kernel.advanced.CmdAttachCopyToView;
 import org.geogebra.common.kernel.advanced.CmdAxes;
+import org.geogebra.common.kernel.advanced.CmdAxis;
 import org.geogebra.common.kernel.advanced.CmdAxisStepX;
 import org.geogebra.common.kernel.advanced.CmdCentroid;
 import org.geogebra.common.kernel.advanced.CmdClosestPoint;
@@ -39,8 +40,7 @@ import org.geogebra.common.kernel.advanced.CmdFinancialNper;
 import org.geogebra.common.kernel.advanced.CmdFinancialPV;
 import org.geogebra.common.kernel.advanced.CmdFinancialPmt;
 import org.geogebra.common.kernel.advanced.CmdFinancialRate;
-import org.geogebra.common.kernel.advanced.CmdFirstAxis;
-import org.geogebra.common.kernel.advanced.CmdFirstAxisLength;
+import org.geogebra.common.kernel.advanced.CmdAxisLength;
 import org.geogebra.common.kernel.advanced.CmdFlatten;
 import org.geogebra.common.kernel.advanced.CmdFromBase;
 import org.geogebra.common.kernel.advanced.CmdIdentity;
@@ -76,8 +76,6 @@ import org.geogebra.common.kernel.advanced.CmdRootList;
 import org.geogebra.common.kernel.advanced.CmdRoots;
 import org.geogebra.common.kernel.advanced.CmdRotateText;
 import org.geogebra.common.kernel.advanced.CmdScientificText;
-import org.geogebra.common.kernel.advanced.CmdSecondAxis;
-import org.geogebra.common.kernel.advanced.CmdSecondAxisLength;
 import org.geogebra.common.kernel.advanced.CmdSelectedElement;
 import org.geogebra.common.kernel.advanced.CmdSelectedIndex;
 import org.geogebra.common.kernel.advanced.CmdSetConstructionStep;
@@ -117,13 +115,13 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdTaylorSeries(kernel);
 		case SecondAxis:
 		case MinorAxis:
-			return new CmdSecondAxis(kernel);
+			return new CmdAxis(kernel, 1);
 		case ContourPlot:
 			return !kernel.getApplication().has(Feature.CONTOUR_PLOT_COMMAND)
 					? null : new CmdContourPlot(kernel);
 		case SemiMinorAxisLength:
 		case SecondAxisLength:
-			return new CmdSecondAxisLength(kernel);
+			return new CmdAxisLength(kernel, 1);
 
 		case Directrix:
 			return new CmdDirectrix(kernel);
@@ -218,11 +216,11 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 
 		case MajorAxis:
 		case FirstAxis:
-			return new CmdFirstAxis(kernel);
+			return new CmdAxis(kernel, 0);
 
 		case SemiMajorAxisLength:
 		case FirstAxisLength:
-			return new CmdFirstAxisLength(kernel);
+			return new CmdAxisLength(kernel, 0);
 
 		case AxisStepX:
 			return new CmdAxisStepX(kernel, 0);

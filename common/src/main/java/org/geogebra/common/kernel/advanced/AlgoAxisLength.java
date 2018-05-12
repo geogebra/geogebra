@@ -31,15 +31,27 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
  *
  * @author Markus
  */
-public class AlgoAxisFirstLength extends AlgoElement {
+public class AlgoAxisLength extends AlgoElement {
 
 	private GeoConicND c; // input
 	private GeoNumeric num; // output
+	private int axisId;
 
-	public AlgoAxisFirstLength(Construction cons, String label,
-			GeoConicND arg) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param arg
+	 *            conic
+	 * @param axisId
+	 *            0 for major, 1 for minor
+	 */
+	public AlgoAxisLength(Construction cons, String label,
+			GeoConicND arg, int axisId) {
 		super(cons);
 		this.c = arg;
+		this.axisId = axisId;
 		num = new GeoNumeric(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -48,7 +60,8 @@ public class AlgoAxisFirstLength extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.FirstAxisLength;
+		return axisId == 0 ? Commands.FirstAxisLength
+				: Commands.SecondAxisLength;
 	}
 
 	// for AlgoElement
@@ -77,7 +90,7 @@ public class AlgoAxisFirstLength extends AlgoElement {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			num.setValue(c.getHalfAxis(0));
+			num.setValue(c.getHalfAxis(axisId));
 			break;
 
 		default:
@@ -87,8 +100,10 @@ public class AlgoAxisFirstLength extends AlgoElement {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		// Michael Borcherds 2008-03-30
-		// simplified to allow better Chinese translation
+		if (axisId == 1) {
+			return getLoc().getPlainDefault("SecondAxisLengthOfA",
+					"Length of %0's semi-minor axis", c.getLabel(tpl));
+		}
 		return getLoc().getPlainDefault("FirstAxisLengthOfA",
 				"Length of %0's semi-major axis", c.getLabel(tpl));
 

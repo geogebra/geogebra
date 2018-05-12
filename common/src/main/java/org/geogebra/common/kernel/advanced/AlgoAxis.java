@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  * @author Markus
  */
-public class AlgoAxisSecond extends AlgoElement {
+public class AlgoAxis extends AlgoElement {
 
 	private GeoConicND c; // input
 	private GeoLine axis; // output
@@ -42,15 +42,28 @@ public class AlgoAxisSecond extends AlgoElement {
 	private GeoVec2D[] eigenvec;
 	private GeoVec2D b;
 	protected GeoPointND P;
+	/** 0 for major, 1 for minor */
+	protected int axisId;
 
-	protected AlgoAxisSecond(Construction cons, GeoConicND c) {
+	protected AlgoAxis(Construction cons, GeoConicND c, int axisId) {
 		super(cons);
 		this.c = c;
-
+		this.axisId = axisId;
 	}
 
-	public AlgoAxisSecond(Construction cons, String label, GeoConicND c) {
-		this(cons, c);
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            conic
+	 * @param axisId
+	 *            0 for major, 1 for minor
+	 */
+	public AlgoAxis(Construction cons, String label, GeoConicND c,
+			int axisId) {
+		this(cons, c, axisId);
 
 		eigenvec = c.eigenvec;
 		b = c.b;
@@ -71,7 +84,7 @@ public class AlgoAxisSecond extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.SecondAxis;
+		return axisId == 0 ? Commands.FirstAxis : Commands.SecondAxis;
 	}
 
 	// for AlgoElement
@@ -85,6 +98,9 @@ public class AlgoAxisSecond extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting axis
+	 */
 	public GeoLineND getAxis() {
 		return axis;
 	}
@@ -99,8 +115,8 @@ public class AlgoAxisSecond extends AlgoElement {
 		// axes are lines with directions of eigenvectors
 		// through midpoint b
 
-		axis.x = -eigenvec[1].getY();
-		axis.y = eigenvec[1].getX();
+		axis.x = -eigenvec[axisId].getY();
+		axis.y = eigenvec[axisId].getX();
 		axis.z = -(axis.x * b.getX() + axis.y * b.getY());
 
 		P.setCoords(b.getX(), b.getY(), 1.0);
@@ -108,9 +124,11 @@ public class AlgoAxisSecond extends AlgoElement {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		// Michael Borcherds 2008-03-30
-		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("SecondAxisOfA", "Minor axis of %0",
+		if (axisId == 1) {
+			return getLoc().getPlainDefault("SecondAxisOfA", "Minor axis of %0",
+					c.getLabel(tpl));
+		}
+		return getLoc().getPlainDefault("FirstAxisOfA", "Major axis of %0",
 				c.getLabel(tpl));
 	}
 

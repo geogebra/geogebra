@@ -122,9 +122,9 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Vertex:
 				return new CmdVertex3D(kernel);
 			case FirstAxis:
-				return new CmdFirstAxis3D(kernel);
+				return new CmdAxis3D(kernel, 0);
 			case SecondAxis:
-				return new CmdSecondAxis3D(kernel);
+				return new CmdAxis3D(kernel, 1);
 			case Focus:
 				return new CmdFocus3D(kernel);
 

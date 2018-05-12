@@ -11,7 +11,10 @@ import org.geogebra.common.main.MyError;
 /**
  * FirstAxis[ &lt;GeoConic> ]
  */
-public class CmdFirstAxis extends CommandProcessor {
+public class CmdAxis extends CommandProcessor {
+
+	/** 0 for major, 1 for minor */
+	protected int axisId;
 
 	/**
 	 * Create new command processor
@@ -19,8 +22,9 @@ public class CmdFirstAxis extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFirstAxis(Kernel kernel) {
+	public CmdAxis(Kernel kernel, int axisId) {
 		super(kernel);
+		this.axisId = axisId;
 	}
 
 	@Override
@@ -35,7 +39,7 @@ public class CmdFirstAxis extends CommandProcessor {
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
 
-				AlgoAxisFirst algo = getAlgoAxisFirst(cons, c.getLabel(),
+				AlgoAxis algo = getAlgoAxisFirst(cons, c.getLabel(),
 						(GeoConicND) arg[0]);
 
 				GeoElement[] ret = { algo.getAxis().toGeoElement() };
@@ -57,9 +61,9 @@ public class CmdFirstAxis extends CommandProcessor {
 	 *            conic
 	 * @return axis algo
 	 */
-	protected AlgoAxisFirst getAlgoAxisFirst(Construction cons1, String label,
+	protected AlgoAxis getAlgoAxisFirst(Construction cons1, String label,
 			GeoConicND geoConicND) {
 
-		return new AlgoAxisFirst(cons1, label, geoConicND);
+		return new AlgoAxis(cons1, label, geoConicND, axisId);
 	}
 }
