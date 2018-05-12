@@ -110,9 +110,7 @@ public class DrawLocus3D extends Drawable3DCurves {
 
 	@Override
 	protected void setGeometriesVisibility(boolean visible) {
-		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
-				getGeometryIndex());
-		geometriesSetVisible = visible;
+		setGeometriesVisibilityNoSurface(visible);
 	}
 
 }

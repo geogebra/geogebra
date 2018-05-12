@@ -508,11 +508,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 	@Override
 	protected void setGeometriesVisibility(boolean visible) {
-		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
-				getGeometryIndex());
-		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
-				getSurfaceIndex());
-		geometriesSetVisible = visible;
+		setGeometriesVisibilityWithSurface(visible);
 	}
 
 }

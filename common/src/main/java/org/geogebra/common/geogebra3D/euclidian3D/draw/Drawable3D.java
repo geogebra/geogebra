@@ -537,6 +537,32 @@ public abstract class Drawable3D extends DrawableND {
 		// not implemented here
 	}
 
+	/**
+	 * set geometry visibility with surface
+	 * 
+	 * @param visible
+	 *            geometry visibility flag
+	 */
+	protected void setGeometriesVisibilityWithSurface(boolean visible) {
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getGeometryIndex());
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getSurfaceIndex());
+		geometriesSetVisible = visible;
+	}
+
+	/**
+	 * set geometry visibility with no surface
+	 * 
+	 * @param visible
+	 *            geometry visibility flag
+	 */
+	protected void setGeometriesVisibilityNoSurface(boolean visible) {
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getGeometryIndex());
+		geometriesSetVisible = visible;
+	}
+
 	protected void removeGeometryIndex(int index) {
 		if (!waitForReset) {
 			if (!hasTrace()) {
@@ -655,7 +681,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return geo layer
 	 */
-	final protected int getLayer() {
+	final public int getLayer() {
 
 		if (createdByDrawList()) {
 			return ((Drawable3D) getDrawListCreator()).getLayer();

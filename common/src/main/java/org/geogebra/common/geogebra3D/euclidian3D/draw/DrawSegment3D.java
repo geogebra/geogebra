@@ -128,8 +128,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	@Override
 	protected void setGeometriesVisibility(boolean visible) {
-		getView3D().getRenderer().getGeometryManager().updateVisibility(visible, getGeometryIndex());
-		geometriesSetVisible = visible;
+		setGeometriesVisibilityNoSurface(visible);
 	}
 
 	@Override

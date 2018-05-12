@@ -189,9 +189,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 	@Override
 	protected void setGeometriesVisibility(boolean visible) {
-		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
-				getGeometryIndex());
-		geometriesSetVisible = visible;
+		setGeometriesVisibilityNoSurface(visible);
 	}
 
 }

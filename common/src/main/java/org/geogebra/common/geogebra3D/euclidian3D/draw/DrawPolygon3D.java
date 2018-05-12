@@ -759,9 +759,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	protected void setGeometriesVisibility(boolean visible) {
-		getView3D().getRenderer().getGeometryManager().updateVisibility(visible, getGeometryIndex());
-		getView3D().getRenderer().getGeometryManager().updateVisibility(visible, getSurfaceIndex());
-		geometriesSetVisible = visible;
+		setGeometriesVisibilityWithSurface(visible);
 	}
 
 	@Override
