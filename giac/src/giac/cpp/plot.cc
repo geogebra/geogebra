@@ -8485,10 +8485,18 @@ namespace giac {
     }
     int jstep,kstep;
     read_option(v,xmin,xmax,ymin,ymax,zmin,zmax,attributs,nstep,jstep,kstep,contextptr);
-    if (v[0].type==_VECT && !v[0]._VECTptr->empty() && v[0]._VECTptr->front().type==_VECT)
-      return plotpoints(*v[0]._VECTptr,attributs,contextptr);
-    else
-      return plotfunc(v[0],xvar,attributs,false,xmin,xmax,ymin,ymax,zmin,zmax,nstep,0,showeq,contextptr);
+    gen v0=eval(v[0],1,contextptr);
+    bool v0cst=lidnt(evalf(v0,1,contextptr)).empty(),v1cst=lidnt(evalf(v1,1,contextptr)).empty();
+    if (v0cst && v1cst){
+      if (s==2 || v[2].is_symb_of_sommet(at_equal))
+	return pnt_attrib(v0+cst_i*v1,attributs,contextptr);
+      gen v2=eval(v[2],1,contextptr);
+      if (lidnt(evalf(v2,1,contextptr)).empty())
+	return pnt_attrib(gen(makevecteur(v0,v1,v2),_POINT__VECT),attributs,contextptr);
+    }
+    if (v0cst && v0.type==_VECT && !v0._VECTptr->empty() && v0._VECTptr->front().type==_VECT)
+      return plotpoints(*v0._VECTptr,attributs,contextptr);
+    return plotfunc(v[0],xvar,attributs,false,xmin,xmax,ymin,ymax,zmin,zmax,nstep,0,showeq,contextptr);
   }
   static const char _plot_s []="plot"; // FIXME use maple arguments
   static define_unary_function_eval_quoted (__plot,&giac::_plot,_plot_s);

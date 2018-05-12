@@ -2843,6 +2843,8 @@ namespace giac {
     if (g.type==_VECT){
       const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
       for (;it!=itend;++it){
+	if (it->type==_STRNG)
+	  return 0;
 	int res=is_program(*it);
 	if (res)
 	  return res;

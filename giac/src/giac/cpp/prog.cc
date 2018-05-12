@@ -7103,6 +7103,31 @@ namespace giac {
     return gensizeerr("Interval arithmetic support not compiled. Please install MPFI and recompile");
   }
 
+  gen denest_sto(const gen & g){
+    if (g.is_symb_of_sommet(at_sto) && g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2){
+      gen b=g._SYMBptr->feuille._VECTptr->front();
+      gen a=g._SYMBptr->feuille._VECTptr->back();
+      // a:=b, should be a0,..,an-2,an-1=b
+      if (b.is_symb_of_sommet(at_sto)){
+	// if b is a sto a0,...an-2,a1=c[0],c1,..,cn-1
+	gen c=denest_sto(b);
+	if (a.type==_VECT && c.type==_VECT){
+	  vecteur av=*a._VECTptr;
+	  vecteur cv=*c._VECTptr;
+	  av.back()=symbolic(at_equal,makesequence(av.back(),cv.front()));
+	  cv.erase(cv.begin());
+	  return gen(mergevecteur(av,cv),_SEQ__VECT);
+	}
+      }
+      if (a.type==_VECT){
+	vecteur av=*a._VECTptr;
+	av.back()=symbolic(at_equal,makesequence(av.back(),b));
+	return gen(av,_SEQ__VECT);
+      }
+    }
+    return g;
+  }
+  
   gen _convert(const gen & args,const context * contextptr){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     if (args.type!=_VECT){

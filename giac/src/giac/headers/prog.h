@@ -1003,6 +1003,8 @@ namespace giac {
   gen _autosimplify(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_struct_dot ;
   gen _struct_dot(const gen & g,GIAC_CONTEXT);
+  // replace := by = in builtin commands (for Python compatible mode)
+  gen denest_sto(const gen & g);
 
   extern const unary_function_ptr * const  at_index ;
   gen _index(const gen & args,GIAC_CONTEXT);
