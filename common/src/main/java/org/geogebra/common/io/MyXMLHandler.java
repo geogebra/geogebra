@@ -4918,6 +4918,7 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
+
 	private boolean handleAngleStyle(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof AngleProperties)) {
 			Log.error("wrong element type for <angleStyle>: " + geo.getClass());

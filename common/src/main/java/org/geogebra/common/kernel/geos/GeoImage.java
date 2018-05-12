@@ -76,6 +76,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	
 	private GRectangle2D cropBox;
 	private boolean cropped = false;
+
 	/**
 	 * Creates new image
 	 * 

@@ -691,6 +691,7 @@ public final class DrawImage extends Drawable {
 	private boolean hasImageCropRatio() {
 		return !Double.isNaN(imagecropRatioX) && !Double.isNaN(imagecropRatioY);
 	}
+
 	/**
 	 * Gets the ratio the current width of the image drawn on canvas and the
 	 * original width of image.
@@ -740,7 +741,6 @@ public final class DrawImage extends Drawable {
 				rect.getHeight() * getOriginalRatioY());
 		return cb;
 	}
-
 
 	private void updateImageResize(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {

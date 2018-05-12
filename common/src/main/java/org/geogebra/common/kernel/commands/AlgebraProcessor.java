@@ -1237,6 +1237,9 @@ public class AlgebraProcessor {
 	 * @return resulting list
 	 */
 	public GeoList evaluateToList(String str) {
+		if ("?".equals(str)) {
+			return null;
+		}
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
@@ -1245,8 +1248,12 @@ public class AlgebraProcessor {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			GeoElementND[] temp = processValidExpression(ve);
 			// CAS in GeoGebraWeb dies badly if we don't handle this case
+			// (Simon's hack):
+			// list = (GeoList) temp[0];
 			if (temp[0] instanceof GeoList) {
 				list = (GeoList) temp[0];
+			} else {
+				Log.error("return value was not a list");
 			}
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
@@ -1260,17 +1267,9 @@ public class AlgebraProcessor {
 		} catch (Error e) {
 			e.printStackTrace();
 			// app.showError("InvalidInput", str);
-		} finally {
-			if (list == null) {
-				// eg when CAS not loaded
-				list = new GeoList(cons);
-				Log.error("problem with return value (should be a list):" + str);
-			}
-
-			cons.setSuppressLabelCreation(oldMacroMode);
-			
 		}
 
+		cons.setSuppressLabelCreation(oldMacroMode);
 		return list;
 	}
 
