@@ -467,6 +467,21 @@ extern "C" void Sleep(unsigned int miliSecond);
       _decimal_digits_=b;
   }
 
+  static int _minchar_for_quote_as_string_=1; 
+
+  int & minchar_for_quote_as_string(GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      return contextptr->globalptr->_minchar_for_quote_as_string_;
+    else
+      return _minchar_for_quote_as_string_;
+  }
+  void minchar_for_quote_as_string(int b,GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      contextptr->globalptr->_minchar_for_quote_as_string_=b;
+    else
+      _minchar_for_quote_as_string_=b;
+  }
+
   static int _xcas_mode_=0; 
   int & xcas_mode(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -3410,6 +3425,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_calc_mode_=_calc_mode_;
 #endif
      ptr->globalptr->_decimal_digits_=_decimal_digits_;
+     ptr->globalptr->_minchar_for_quote_as_string_=_minchar_for_quote_as_string_;
      ptr->globalptr->_scientific_format_=_scientific_format_;
      ptr->globalptr->_integer_format_=_integer_format_;
      ptr->globalptr->_integer_mode_=_integer_mode_;
@@ -3850,7 +3866,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 
 
   global::global() : _xcas_mode_(0), 
-		     _calc_mode_(0),_decimal_digits_(12),
+		     _calc_mode_(0),_decimal_digits_(12),_minchar_for_quote_as_string_(1),
 		     _scientific_format_(0), _integer_format_(0), _latex_format_(0), 
 #ifdef BCD
 		     _bcd_decpoint_('.'|('E'<<16)|(' '<<24)),_bcd_mantissa_(12+(15<<8)), _bcd_flags_(0),_bcd_printdouble_(false),
@@ -3910,6 +3926,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      _xcas_mode_=g._xcas_mode_;
      _calc_mode_=g._calc_mode_;
      _decimal_digits_=g._decimal_digits_;
+     _minchar_for_quote_as_string_=g._minchar_for_quote_as_string_;
      _scientific_format_=g._scientific_format_;
      _integer_format_=g._integer_format_;
      _integer_mode_=g._integer_mode_;
@@ -6062,7 +6079,7 @@ unsigned int ConvertUTF8toUTF16 (
 	      bool str=!isalpha(cur[q]) || !isalphan(cur[p]);
 	      if (p && cur[p]=='.' && cur[p-1]>'9')
 		str=true;
-	      if (p-q>=2)
+	      if (p-q>=minchar_for_quote_as_string(contextptr))
 		str=true;
 	      for (;!str && q<p;++q){
 		char ch=cur[q];

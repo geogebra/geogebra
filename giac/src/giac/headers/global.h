@@ -514,6 +514,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     int _xcas_mode_;
     int _calc_mode_;
     int _decimal_digits_;
+    int _minchar_for_quote_as_string_;
     int _scientific_format_;
     int _integer_format_;
     int _latex_format_;
@@ -682,6 +683,9 @@ throw(std::runtime_error("Stopped by user interruption.")); \
 
   int & decimal_digits(GIAC_CONTEXT);
   void decimal_digits(int b,GIAC_CONTEXT);
+
+  int & minchar_for_quote_as_string(GIAC_CONTEXT);
+  void minchar_for_quote_as_string(int b,GIAC_CONTEXT);
 
   int & integer_format(GIAC_CONTEXT);
   void integer_format(int b,GIAC_CONTEXT);
