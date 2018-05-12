@@ -36,6 +36,12 @@ public class AlgoConstructionStep extends AlgoElement {
 
 	// private Construction cons;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 */
 	public AlgoConstructionStep(Construction cons, String label) {
 		super(cons);
 		// this.cons=cons;

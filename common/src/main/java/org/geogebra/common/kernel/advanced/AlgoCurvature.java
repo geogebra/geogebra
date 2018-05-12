@@ -22,6 +22,16 @@ public class AlgoCurvature extends AlgoElement {
 	private GeoFunction f;
 	private GeoNumeric K; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            point on function
+	 * @param f
+	 *            function
+	 */
 	public AlgoCurvature(Construction cons, String label, GeoPointND A,
 			GeoFunction f) {
 		this(cons, A, f);
@@ -34,6 +44,14 @@ public class AlgoCurvature extends AlgoElement {
 		}
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            point on function
+	 * @param f
+	 *            function
+	 */
 	public AlgoCurvature(Construction cons, GeoPointND A, GeoFunction f) {
 		super(cons);
 		this.f = f;
@@ -61,6 +79,9 @@ public class AlgoCurvature extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return curvature
+	 */
 	public GeoNumeric getResult() {
 		return K;
 	}

@@ -31,13 +31,23 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	private GeoCurveCartesian f2; // f2 = f''
 	private GeoVector v; // output
 
-	private double f1eval[] = new double[2];
-	private double f2eval[] = new double[2];
+	private double[] f1eval = new double[2];
+	private double[] f2eval = new double[2];
 
 	AlgoDerivative algoCAS;
 	AlgoDerivative algoCAS2;
 	private GeoConic gc;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            point
+	 * @param f
+	 *            curve
+	 */
 	public AlgoCurvatureVectorCurve(Construction cons, String label, GeoPoint A,
 			GeoCurveCartesian f) {
 		this(cons, A, f);
@@ -61,6 +71,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		try {
 			v.setStartPoint(A);
 		} catch (CircularDefinitionException e) {
+			// can't happen with new vectors
 		}
 
 		cas();
@@ -92,6 +103,14 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		}
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            point
+	 * @param geoConic
+	 *            conic
+	 */
 	public AlgoCurvatureVectorCurve(Construction cons, GeoPoint A,
 			GeoConic geoConic) {
 		super(cons);
@@ -104,6 +123,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		try {
 			v.setStartPoint(A);
 		} catch (CircularDefinitionException e) {
+			// can't happen with new vectors
 		}
 
 		cas();
@@ -133,7 +153,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	// Return the resultant vector
+	/** @return the resultant vector */
 	public GeoVector getVector() {
 		return v;
 	}

@@ -54,26 +54,46 @@ public class AlgoFinancial extends AlgoElement {
 	}
 
 	// input
-	private GeoNumeric geoRate, geoNper, geoPmt, geoPV, geoFV, geoPmtType,
-			geoGuess;
+	private GeoNumeric geoRate;
+	private GeoNumeric geoNper;
+	private GeoNumeric geoPmt;
+	private GeoNumeric geoPV;
+	private GeoNumeric geoFV;
+	private GeoNumeric geoPmtType;
+	private GeoNumeric geoGuess;
 
 	// output
 	private GeoNumeric result;
 
 	// compute
 	private CalculationType calcType;
-	private double rate, nper, pmt, pv, fv, pmtType, guess;
+	private double rate;
+	private double nper;
+	private double pmt;
+	private double pv;
+	private double fv;
+	private double pmtType;
+	private double guess;
 
 	/**
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            label
 	 * @param rate
+	 *            rate
 	 * @param nper
+	 *            number of values
 	 * @param pmt
+	 *            payment
 	 * @param pv
+	 *            present value
 	 * @param fv
+	 *            future value
 	 * @param pmtType
+	 *            payment type
 	 * @param calcType
+	 *            type
 	 */
 	public AlgoFinancial(Construction cons, String label, GeoNumeric rate,
 			GeoNumeric nper, GeoNumeric pmt, GeoNumeric pv, GeoNumeric fv,
@@ -83,15 +103,25 @@ public class AlgoFinancial extends AlgoElement {
 
 	/**
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            label
 	 * @param rate
+	 *            rate
 	 * @param nper
+	 *            number of values
 	 * @param pmt
+	 *            payment
 	 * @param pv
+	 *            present value
 	 * @param fv
+	 *            future value
 	 * @param pmtType
+	 *            payment type
 	 * @param guess
+	 *            guess
 	 * @param calcType
+	 *            type
 	 */
 	public AlgoFinancial(Construction cons, String label, GeoNumeric rate,
 			GeoNumeric nper, GeoNumeric pmt, GeoNumeric pv, GeoNumeric fv,

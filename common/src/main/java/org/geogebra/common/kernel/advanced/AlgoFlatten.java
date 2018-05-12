@@ -30,6 +30,14 @@ public class AlgoFlatten extends AlgoElement {
 	private GeoList inputList; // input
 	private GeoList outputList; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param inputList
+	 *            list
+	 */
 	public AlgoFlatten(Construction cons, String label, GeoList inputList) {
 		super(cons);
 

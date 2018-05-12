@@ -19,12 +19,23 @@ import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoCompleteSquare extends AlgoElement {
 
-	private GeoFunction f, square;
+	private GeoFunction f;
+	private GeoFunction square;
 	private FunctionVariable fv;
-	private MyDouble a, h, k; // a(x-h)^2+k
+	private MyDouble a;
+	private MyDouble h;
+	private MyDouble k; // a(x-h)^2+k
 	private int lastDeg;
 	private AlgoCoefficients algoCoef;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            function
+	 */
 	public AlgoCompleteSquare(Construction cons, String label, GeoFunction f) {
 		super(cons);
 		this.f = f;
@@ -122,7 +133,6 @@ public class AlgoCompleteSquare extends AlgoElement {
 		a.set(p);
 		h.set(-q / (2 * p));
 		k.set(r - q * q / (p * 4));
-
 	}
 
 	@Override

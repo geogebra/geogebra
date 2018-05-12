@@ -45,7 +45,14 @@ public class AlgoFunctionInvert extends AlgoElement {
 	private GeoFunction g; // output
 	private boolean numeric;
 
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            function
+	 * @param numeric
+	 *            whether to keep result secret (NInvert)
+	 */
 	public AlgoFunctionInvert(Construction cons, GeoFunction f, boolean numeric) {
 		super(cons);
 		this.f = f;
@@ -71,6 +78,9 @@ public class AlgoFunctionInvert extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return inverted function
+	 */
 	public GeoFunction getResult() {
 		return g;
 	}
@@ -98,7 +108,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 				oldFV.getSetVarString());
 		ExpressionNode newRoot = invert(root, oldFV, x, kernel);
 
-		if (newRoot == null) {// root not invertible
+		if (newRoot == null) { // root not invertible
 			g.setUndefined();
 			return;
 		}

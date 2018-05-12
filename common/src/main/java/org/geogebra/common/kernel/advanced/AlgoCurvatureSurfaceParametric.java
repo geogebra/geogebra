@@ -29,10 +29,11 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
  */
 
 public class AlgoCurvatureSurfaceParametric extends AlgoElement {
-
-	private GeoNumberValue param1, param2; // input
+	// input
+	private GeoNumberValue param1;
+	private GeoNumberValue param2;
 	private GeoSurfaceCartesianND surface;
-
+	// functions
 	private GeoFunctionNVar e;
 	private GeoFunctionNVar f;
 	private GeoFunctionNVar g;
@@ -61,7 +62,18 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 	private AlgoDerivative algoCASgv;
 	private AlgoDerivative algoCASguu;
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param param1
+	 *            first parameter
+	 * @param param2
+	 *            second parameter
+	 * @param f
+	 *            2var function
+	 */
 	public AlgoCurvatureSurfaceParametric(Construction cons, String label,
 			GeoNumberValue param1, GeoNumberValue param2,
 			GeoSurfaceCartesianND f) {
@@ -69,7 +81,6 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		n.setLabel(label);
 	}
 
-	@SuppressWarnings("javadoc")
 	AlgoCurvatureSurfaceParametric(Construction cons, GeoNumberValue param1,
 			GeoNumberValue param2, GeoSurfaceCartesianND surface) {
 		super(cons);

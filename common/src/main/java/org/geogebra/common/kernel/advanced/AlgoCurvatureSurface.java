@@ -24,16 +24,33 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 
 public class AlgoCurvatureSurface extends AlgoElement {
-
-	private GeoPointND A; // input
+	// input
+	private GeoPointND A;
 	private GeoFunctionNVar f;
-	private GeoFunctionNVar fx, fxx, fy, fyy, fxy; // partial derivatives
+	// partial derivatives
+	private GeoFunctionNVar fx;
+	private GeoFunctionNVar fxx;
+	private GeoFunctionNVar fy;
+	private GeoFunctionNVar fyy;
+	private GeoFunctionNVar fxy;
 	private GeoNumeric n; // output
 
-	private AlgoDerivative algoCASfx, algoCASfxx, algoCASfy, algoCASfyy,
-			algoCASfxy;
+	private AlgoDerivative algoCASfx;
+	private AlgoDerivative algoCASfxx;
+	private AlgoDerivative algoCASfy;
+	private AlgoDerivative algoCASfyy;
+	private AlgoDerivative algoCASfxy;
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            point
+	 * @param f
+	 *            2var function
+	 */
 	public AlgoCurvatureSurface(Construction cons, String label, GeoPointND A,
 			GeoFunctionNVar f) {
 		this(cons, A, f);
@@ -43,8 +60,16 @@ public class AlgoCurvatureSurface extends AlgoElement {
 		}
 	}
 
-	@SuppressWarnings("javadoc")
-	AlgoCurvatureSurface(Construction cons, GeoPointND A, GeoFunctionNVar f) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            point
+	 * @param f
+	 *            2var function
+	 */
+	public AlgoCurvatureSurface(Construction cons, GeoPointND A,
+			GeoFunctionNVar f) {
 		super(cons);
 		this.A = A;
 		this.f = f;

@@ -31,7 +31,7 @@ public class CmdAxisStepX extends CommandProcessor {
 		switch (n) {
 		case 0:
 
-			AlgoAxisStepX algo = new AlgoAxisStepX(cons, c.getLabel(), axis);
+			AlgoAxisStep algo = new AlgoAxisStep(cons, c.getLabel(), axis);
 
 			GeoElement[] ret = { algo.getResult() };
 			return ret;

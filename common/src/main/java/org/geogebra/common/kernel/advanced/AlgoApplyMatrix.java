@@ -38,7 +38,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 public class AlgoApplyMatrix extends AlgoTransformation {
 
 	private MatrixTransformable out;
-	private GeoElement inGeo, outGeo;
+	private GeoElement inGeo;
+	private GeoElement outGeo;
 	private final GeoList matrix;
 
 	/**

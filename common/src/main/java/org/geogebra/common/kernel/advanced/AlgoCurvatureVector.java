@@ -22,11 +22,24 @@ import org.geogebra.common.kernel.geos.GeoVector;
 public class AlgoCurvatureVector extends AlgoElement {
 
 	private GeoPoint A; // input
-	private GeoFunction f, f1, f2; // f = f(x), f1 is f'(x), f2 is f''(x)
+	private GeoFunction f; // input
+	private GeoFunction f1; // f1 = f'
+	private GeoFunction f2; // f2 = f''
 	private GeoVector v; // output
 
-	AlgoDerivative algoCAS, algoCAS2;
+	AlgoDerivative algoCAS;
+	AlgoDerivative algoCAS2;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            point
+	 * @param f
+	 *            function
+	 */
 	public AlgoCurvatureVector(Construction cons, String label, GeoPoint A,
 			GeoFunction f) {
 		this(cons, A, f);
@@ -49,6 +62,7 @@ public class AlgoCurvatureVector extends AlgoElement {
 		try {
 			v.setStartPoint(A);
 		} catch (CircularDefinitionException e) {
+			// can't happen with new vecors
 		}
 		EvalInfo info = new EvalInfo(false);
 		// First derivative of function f
@@ -82,7 +96,7 @@ public class AlgoCurvatureVector extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	// Return the resultant vector
+	/** @return the resultant vector */
 	public GeoVector getVector() {
 		return v;
 	}

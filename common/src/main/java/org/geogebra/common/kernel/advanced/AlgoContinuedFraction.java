@@ -30,18 +30,22 @@ public class AlgoContinuedFraction extends AlgoElement {
 	private GeoText text; // output
 	private GeoBoolean shorthand;
 	private static final int MAX_QUOTIENTS = 15;
-	private long denominators[] = new long[MAX_QUOTIENTS];
+	private long[] denominators = new long[MAX_QUOTIENTS];
 
 	private StringBuilder sb = new StringBuilder();
 	private boolean dotsNeeded;
 
-	public AlgoContinuedFraction(Construction cons, String label,
-			GeoNumberValue num, GeoNumberValue level, GeoBoolean shorthand) {
-		this(cons, num, level, shorthand);
-		text.setLabel(label);
-	}
-
-	AlgoContinuedFraction(Construction cons, GeoNumberValue num,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param num
+	 *            aproximated number
+	 * @param level
+	 *            number of denominators
+	 * @param shorthand
+	 *            whether to use shorthand syntax
+	 */
+	public AlgoContinuedFraction(Construction cons, GeoNumberValue num,
 			GeoNumberValue level, GeoBoolean shorthand) {
 		super(cons);
 		this.num = num;
@@ -82,6 +86,9 @@ public class AlgoContinuedFraction extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return continued fraction
+	 */
 	public GeoText getResult() {
 		return text;
 	}
@@ -169,9 +176,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 	 */
 	private int decimalToFraction(double dec, double AccuracyFactor,
 			long[] denom, int maxSteps) {
-		double FractionNumerator, FractionDenominator;
 		double Z;
-		double PreviousDenominator;
 		double ScratchValue;
 
 		if (Double.isNaN(dec)) {
@@ -202,8 +207,9 @@ public class AlgoContinuedFraction extends AlgoElement {
 		}
 
 		Z = decimal;
-		PreviousDenominator = 0.0;
-		FractionDenominator = 1.0;
+		double PreviousDenominator = 0.0;
+		double FractionDenominator = 1.0;
+		double FractionNumerator;
 		int steps = 0;
 		dotsNeeded = true;
 		do {

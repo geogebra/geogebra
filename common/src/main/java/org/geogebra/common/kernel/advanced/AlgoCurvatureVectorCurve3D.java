@@ -32,16 +32,26 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 	private GeoCurveCartesian3D f2; // f2 = f''
 	private GeoVector3D v; // output
 
-	private double f1eval[] = new double[3];
-	private double f2eval[] = new double[3];
+	private double[] f1eval = new double[3];
+	private double[] f2eval = new double[3];
 
 	private AlgoDerivative algoCAS;
 	private AlgoDerivative algoCAS2;
 	private GeoConic3D gc;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param pt
+	 *            point
+	 * @param f
+	 *            curve
+	 */
 	public AlgoCurvatureVectorCurve3D(Construction cons, String label,
-			GeoPointND arg, GeoCurveCartesian3D arg2) {
-		this(cons, arg, arg2);
+			GeoPointND pt, GeoCurveCartesian3D f) {
+		this(cons, pt, f);
 
 		if (label != null) {
 			v.setLabel(label);
@@ -62,6 +72,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		try {
 			v.setStartPoint(A);
 		} catch (CircularDefinitionException e) {
+			// can't happen with new vector
 		}
 
 		cas();
@@ -70,6 +81,14 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		compute();
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param arg
+	 *            point
+	 * @param geoConic3D
+	 *            conic
+	 */
 	public AlgoCurvatureVectorCurve3D(Construction cons,
 			GeoPoint3D arg, GeoConic3D geoConic3D) {
 		super(cons);
@@ -80,6 +99,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		try {
 			v.setStartPoint(A);
 		} catch (CircularDefinitionException e) {
+			// can't happen with new vectors
 		}
 		f = new GeoCurveCartesian3D(cons);
 		gc.toGeoCurveCartesian(f);
@@ -141,7 +161,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	// Return the resultant vector
+	/** @return the resultant vector */
 	public GeoVector3D getVector() {
 		return v;
 	}

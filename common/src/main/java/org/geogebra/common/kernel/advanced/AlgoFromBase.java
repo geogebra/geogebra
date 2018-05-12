@@ -15,6 +15,16 @@ public class AlgoFromBase extends AlgoElement {
 	private GeoText number;
 	private GeoNumeric result;
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param number
+	 *            number in given base
+	 * @param base
+	 *            base
+	 */
 	public AlgoFromBase(Construction c, String label, GeoText number,
 			GeoNumberValue base) {
 		super(c);
