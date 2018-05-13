@@ -28,3 +28,9 @@ You may want to remove the line "include giac-android" from the file
 settings.gradle in order to avoid installing the whole Android SDK.
 Also remove the tasks "androidCopyCrystaxSo" and "androidAar" from
 the file build.gradle.
+
+Debugging in an IDE
+-------------------
+
+Use CLion to import the file CMakeLists.txt. Then put breakpoints to
+various points you like (you may start with minigiac.cc).
