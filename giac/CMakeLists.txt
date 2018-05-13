@@ -5,6 +5,9 @@ project(minigiac)
 
 # TODO: Add gmp/mpfr detection
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS "-fpermissive -std=c++0x")
+
 include_directories(src/giac/headers)
 
 add_definitions(-DHAVE_NO_HOME_DIRECTORY -DHAVE_SYSCONF -DGIAC_GGB -DIN_GIAC -DHAVE_LIB_PTHREAD
