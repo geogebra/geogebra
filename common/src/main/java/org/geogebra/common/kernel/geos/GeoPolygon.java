@@ -480,7 +480,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			String lowerCaseLabel = ((GeoElement) p).getFreeLabel(
 					p.getLabel(StringTemplate.get(StringType.GEOGEBRA))
 							.toLowerCase());
-			s.setLabel(lowerCaseLabel);
+
+			if (LabelManager.checkName(s, lowerCaseLabel)) {
+				s.setLabel(lowerCaseLabel);
+			} else if (LabelManager.checkName(s, lowerCaseLabel + "_1")) {
+				// eg pi -> pi_1
+				s.setLabel(lowerCaseLabel + "_1");
+			} else {
+				// fallback: just use next available label
+				s.setLabel(null);
+			}
 		}
 	}
 

@@ -307,6 +307,11 @@ public class ParserFunctions {
 		put(2, "nPr", Operation.NPR, "( <n>, <r> )");
 
 		RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY + "");
+		RESERVED_FUNCTION_NAMES.add(Unicode.EULER_STRING);
+		RESERVED_FUNCTION_NAMES.add(Unicode.EULER_GAMMA_STRING);
+		// need to check for pi as GeoPolygon.setLabel() uses
+		// pointLabel.toLowercase()
+		RESERVED_FUNCTION_NAMES.add(Unicode.pi + "");
 		RESERVED_FUNCTION_NAMES.add("freehand");
 		RESERVED_FUNCTION_NAMES.add("deg");
 
