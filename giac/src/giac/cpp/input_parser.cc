@@ -157,7 +157,7 @@ gen polynome_or_sparse_poly1(const gen & coeff, const gen & index){
 
 
 /* Line 268 of yacc.c  */
-#line 161 "input_parser.cc"
+#line 161 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -469,7 +469,7 @@ typedef int YYSTYPE;
 
 
 /* Line 343 of yacc.c  */
-#line 473 "input_parser.cc"
+#line 473 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -5140,7 +5140,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 234 "input_parser.yy"
-    {(yyval) = check_symb_of((yyvsp[(1) - (4)]),(yyvsp[(3) - (4)]),giac_yyget_extra(scanner));}
+    {(yyval) = check_symb_of((yyvsp[(1) - (4)]),python_compat(giac_yyget_extra(scanner))?denest_sto((yyvsp[(3) - (4)])):3,giac_yyget_extra(scanner));}
     break;
 
   case 29:
@@ -7078,7 +7078,7 @@ yyreduce:
 
 
 /* Line 1806 of yacc.c  */
-#line 7082 "input_parser.cc"
+#line 7082 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

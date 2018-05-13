@@ -1734,17 +1734,83 @@ namespace giac {
 	  s=int(it-v.begin());
 	continue;
       }
-      if (!is_equal(*it))
-	continue;
-      gen opt=it->_SYMBptr->feuille;
+      gen opt;
+      if (it->is_symb_of_sommet(at_label)){
+	opt=it->_SYMBptr->feuille;
+	if (opt.is_symb_of_sommet(at_nop))
+	  opt=makevecteur(at_legende,opt._SYMBptr->feuille);
+      }
+      else {
+	if (!is_equal(*it))
+	  continue;
+	opt=it->_SYMBptr->feuille;
+      }
       opt=eval(opt,1,contextptr);
       if (opt.type!=_VECT || opt._VECTptr->size()!=2)
 	continue;
       gen opt1=opt._VECTptr->front(),opt2=opt._VECTptr->back().eval(1,0);
-      if (opt2.type==_STRNG)
-	opt2=gen(*opt2._STRNGptr,contextptr);
       unsigned colormask=0xffff0000;
+      if (opt1.type==_IDNT){
+	const char * s1 =opt1._IDNTptr->id_name;
+	if (strcmp(s1,"marker")==0){
+	  if (opt2.type==_STRNG){
+	    const string s2 =*opt2._STRNGptr;
+	    opt2=0;
+	    opt1=_COLOR; opt1.subtype=_INT_COLOR;
+	    if (s2.size()==1){
+	      switch (s2[0]){
+	      case 'o':
+		opt2=_POINT_CARRE;
+		break;
+	      case 'x':
+		opt2=0;
+		break;
+	      case '+':
+		opt2=_POINT_PLUS;
+		break;
+	      case ',':
+		opt2=_POINT_TRIANGLE;
+		break;
+	      case '.':
+		opt2=_POINT_POINT;
+		break;
+	      }
+	    }
+	  }
+	}
+	if (strcmp(s1,"linewidth")==0){
+	  opt2=_round(opt2,contextptr);
+	  if (opt2.type==_INT_ && opt2.val>0 && opt2.val<8){
+	    opt1=_THICKNESS;
+	    opt1.subtype=_INT_COLOR;
+	  }
+	}
+      }
+      if (opt2.type==_STRNG && opt2._STRNGptr->size()>1){
+	const string & s=*opt2._STRNGptr;
+	if (s.size()==2){
+	  if (s=="--")
+	    opt2=_DASHDOT_LINE;
+	  if (s=="-.")
+	    opt2=_DASHDOTDOT_LINE;
+	}
+	else
+	  opt2=gen(s,contextptr);
+      }
       if (opt1==at_couleur || opt1==at_display){
+	if (opt2.type==_STRNG && opt2._STRNGptr->size()==1){
+	  switch ((*opt2._STRNGptr)[0]){
+	  case 'r':
+	    opt2=_RED;
+	    break;
+	  case 'b':
+	    opt2=_BLUE;
+	    break;
+	  case 'g':
+	    opt2=_GREEN;
+	    break;
+	  }
+	}
 	opt1=_COLOR; opt1.subtype=_INT_COLOR;
 	colormask=0xffffffff;
       }
@@ -1769,9 +1835,13 @@ namespace giac {
 	if (opt2.type==_VECT)
 	  attributs[0]=bit_orv(bit_and(attributs[0],0xcfff0000),*opt2._VECTptr);
 	break;
-      case _STYLE:
+      case _STYLE: case _LINESTYLE:
 	if (opt2==at_point)
-	  attributs[0]=bit_ori(bit_and(attributs[0],0xfe3fffff),_DASHDOT_LINE);
+	  opt2=_DOT_LINE;
+	if (opt2==at_neg)
+	  opt2=0;
+	if (opt2.type==_INT_)
+	  attributs[0]=bit_ori(bit_and(attributs[0],0xfe3fffff),opt2.val);
 	break;
       case _THICKNESS:
 	attributs[0]=bit_and(attributs[0], 0xfff8ffff);
@@ -8489,10 +8559,10 @@ namespace giac {
     bool v0cst=lidnt(evalf(v0,1,contextptr)).empty(),v1cst=lidnt(evalf(v1,1,contextptr)).empty();
     if (v0cst && v1cst){
       if (s==2 || v[2].is_symb_of_sommet(at_equal))
-	return pnt_attrib(v0+cst_i*v1,attributs,contextptr);
+	return _point(eval(g,1,contextptr),contextptr);
       gen v2=eval(v[2],1,contextptr);
       if (lidnt(evalf(v2,1,contextptr)).empty())
-	return pnt_attrib(gen(makevecteur(v0,v1,v2),_POINT__VECT),attributs,contextptr);
+	return _point(eval(g,1,contextptr),contextptr);
     }
     if (v0cst && v0.type==_VECT && !v0._VECTptr->empty() && v0._VECTptr->front().type==_VECT)
       return plotpoints(*v0._VECTptr,attributs,contextptr);
