@@ -37,6 +37,7 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.util.ReportBuilder;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -80,6 +81,14 @@ public class CAStestJSON {
 			}
 		}
 		return noComments.toString();
+	}
+
+	/**
+	 * Kill all CAS cells.
+	 */
+	@Before
+	public void clearConstruction() {
+		app.getKernel().clearConstruction(true);
 	}
 
 	@BeforeClass

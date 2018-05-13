@@ -137,6 +137,7 @@ public class CommandsTest extends Assert{
 		app.getKernel().clearConstruction(true);
 		app.setActiveView(App.VIEW_EUCLIDIAN);
 	}
+
 	@After
 	public void checkSyntaxes(){
 		Assert.assertTrue("unchecked syntaxes: " + syntaxes + syntax,
@@ -1964,6 +1965,7 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdDotPlot() {
+		t("ZoomIn(0,0,16,12)", new String[0]);
 		t("DotPlot[ {1,1,1,2} ]", "{(1, 1), (1, 2), (1, 3), (2, 1)}");
 		t("DotPlot[ {1,1,1,2},2 ]", "{(1, 2), (1, 4), (1, 6), (2, 2)}");
 		t("DotPlot[ {1,1,1,2}, true]",
