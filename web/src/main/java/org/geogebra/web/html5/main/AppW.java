@@ -3731,7 +3731,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void exportSbToFile(String ext, StringBuilder sb) {
-		String url = "data:text/plain;charset=utf-8,"
+		String url = StringUtil.txtMarker
 				+ URL.encodePathSegment(sb.toString());
 		dispatchEvent(new org.geogebra.common.plugin.Event(
 				EventType.OPEN_DIALOG, null, "export3D"));

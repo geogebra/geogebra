@@ -4,6 +4,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -205,7 +206,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 			@Override
 			public void callback(String obj) {
-				String url = "data:text/plain;charset=utf-8," + obj;
+				String url = StringUtil.txtMarker + obj;
 				app.getFileManager().showExportAsPictureDialog(url,
 						app.getExportTitle(), "txt", "Export", app);
 				dialogEvent(app, "export" + string);
