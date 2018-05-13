@@ -5804,7 +5804,11 @@ unsigned int ConvertUTF8toUTF16 (
     return res+line;
   }
 
-  static void python_import(string & cur,int cs,int posturtle,int poscmath,int posmath,int posnumpy,GIAC_CONTEXT){
+  static void python_import(string & cur,int cs,int posturtle,int poscmath,int posmath,int posnumpy,int posmatplotlib,GIAC_CONTEXT){
+    if (posmatplotlib){
+      cur += "np:=numpy:;xlim(a,b):=gl_x=a..b:;ylim(a,b):=gl_y=a..b:;";
+      posnumpy=posmatplotlib;
+    }
     if (posnumpy>=0 && posnumpy<cs){
       static bool alertnum=true;
       // add python numpy shortcuts
@@ -6130,9 +6134,12 @@ unsigned int ConvertUTF8toUTF16 (
 	    int poscmath=cur.find("cmath");
 	    int posmath=cur.find("math");
 	    int posnumpy=cur.find("numpy");
+	    int posmatplotlib=cur.find("matplotlib");
+	    if (posmatplotlib<0 || posmatplotlib>=cur.size())
+	      posmatplotlib=cur.find("pylab");
 	    int cs=int(cur.size());
 	    cur=cur.substr(0,pos);
-	    python_import(cur,cs,posturtle,poscmath,posmath,posnumpy,contextptr);
+	    python_import(cur,cs,posturtle,poscmath,posmath,posnumpy,posmatplotlib,contextptr);
 	    pythonmode=true;
 	    break;
 	  }
@@ -6144,13 +6151,16 @@ unsigned int ConvertUTF8toUTF16 (
 	  int poscmath=cur.find("cmath");
 	  int posmath=cur.find("math");
 	  int posnumpy=cur.find("numpy");
+	  int posmatplotlib=cur.find("matplotlib");
+	  if (posmatplotlib<0 || posmatplotlib>=cur.size())
+	    posmatplotlib=cur.find("pylab");
 	  int cs=int(cur.size());
 	  int posi=cur.find(" as ");
 	  if (posi>pos+5 && posi<int(cur.size()))
 	    cur=cur.substr(posi+4,cur.size()-posi-4)+":="+cur.substr(7,posi-7)+';';
 	  else
 	    cur=cur.substr(pos+7,cur.size()-pos-7);
-	  python_import(cur,cs,posturtle,poscmath,posmath,posnumpy,contextptr);
+	  python_import(cur,cs,posturtle,poscmath,posmath,posnumpy,posmatplotlib,contextptr);
 	  pythonmode=true;
 	  break;	    
 	}

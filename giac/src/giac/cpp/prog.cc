@@ -10860,11 +10860,14 @@ namespace giac {
       if (tmp.type==_IDNT && strcmp(tmp._IDNTptr->id_name,"numpy")==0){
 	if (b.type==_SYMB){
 	  tmp=eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr);
+	  tmp=evalf_double(tmp,1,contextptr);
 	  if (b.is_symb_of_sommet(at_dot))
 	    return _prod(tmp,contextptr);
 	  return b._SYMBptr->sommet(tmp,contextptr);
 	}
-	return eval(b,1,contextptr);
+	gen tmp=eval(b,1,contextptr);
+	tmp=evalf_double(tmp,1,contextptr);
+	return tmp;
       }
       if (tmp.type==_IDNT && 
 	  (strcmp(tmp._IDNTptr->id_name,"math")==0 ||
