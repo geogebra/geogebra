@@ -5805,14 +5805,14 @@ unsigned int ConvertUTF8toUTF16 (
   }
 
   static void python_import(string & cur,int cs,int posturtle,int poscmath,int posmath,int posnumpy,int posmatplotlib,GIAC_CONTEXT){
-    if (posmatplotlib){
-      cur += "np:=numpy:;xlim(a,b):=gl_x=a..b:;ylim(a,b):=gl_y=a..b:;";
+    if (posmatplotlib>=0 && posmatplotlib<cs){
+      cur += "np:=numpy:;xlim(a,b):=gl_x=a..b:;ylim(a,b):=gl_y=a..b:;show:=DispG:;";
       posnumpy=posmatplotlib;
     }
     if (posnumpy>=0 && posnumpy<cs){
       static bool alertnum=true;
       // add python numpy shortcuts
-      cur += "mat:=matrix:;arange:=range:;resize:=redim:;shape:=dim:;conjugate:=conj:;full:=matrix:;eye:=idn:;ones(n,c):=matrix(n,c,1):;reshape(m,n,c):=matrix(n,c,flatten(m)):;";
+      cur += "mat:=matrix:;arange:=range:;resize:=redim:;shape:=dim:;conjugate:=conj:;full:=matrix:;eye:=idn:;ones(n,c):=matrix(n,c,1):;reshape(m,n,c):=matrix(n,c,flatten(m));";
       if (alertnum){
 	alertnum=false;
 	alert("mat:=matrix;arange:=range;resize:=redim;shape:=dim;conjugate:=conj;full:=matrix;eye:=idn;ones(n,c):=matrix(n,c,1);reshape(m,n,c):=matrix(n,c,flatten(m));",contextptr);
@@ -5837,7 +5837,7 @@ unsigned int ConvertUTF8toUTF16 (
 	alert(gettext("Assigning phase, j, J and rect."),contextptr);
       }
       cur += "phase:=arg:;j:=i:;J:=i:;rect(r,theta):=r*exp(i*theta):;";
-      return;
+      posmath=poscmath;
     }
     if (posmath>=0 && posmath<cs){
       // add python math shortcuts
