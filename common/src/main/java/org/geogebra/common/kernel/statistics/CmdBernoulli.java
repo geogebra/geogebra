@@ -29,9 +29,7 @@ public class CmdBernoulli extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
-		switch (n) {
-
-		case 2:
+		if (n == 2) {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1].isGeoBoolean())) {
@@ -48,53 +46,7 @@ public class CmdBernoulli extends CommandProcessor {
 			} else {
 				throw argErr(app, c, arg[1]);
 			}
-
-		case 3:
-			arg = resArgs(c);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2].isGeoBoolean())) {
-
-				AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(
-						cons, c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoBoolean) arg[2]);
-
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-
-			} else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
-			} else {
-				throw argErr(app, c, arg[2]);
-			}
-
-		case 4:
-			arg = resArgs(c);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[2] = arg[3].isGeoBoolean())) {
-				AlgoBinomialDist algo = new AlgoBinomialDist(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2], (GeoBoolean) arg[3]);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-
-			} else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(app, c, arg[2]);
-			} else {
-				throw argErr(app, c, arg[3]);
-			}
-
-		default:
-			throw argNumErr(c);
 		}
+		throw argNumErr(c);
 	}
 }

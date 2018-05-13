@@ -1923,6 +1923,55 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdContingencyTable() {
+		String column = "\\text{\\text{Column \\%}}&\\;&\\;&\\;\\\\";
+		String pct = "\\;&100&50&66.67\\\\";
+		String pctM = "\\;&0&50&33.33\\\\";
+		String table = "\\begin{array}{|l|r|r||r|}\\hline \\text{\\text{Frequency}}&\\text{L}&\\text{R}&\\text{Total}\\\\"
+				+ column + "\\hline \\text{F}&1&1&2\\\\" + pct
+				+ "\\hline \\text{M}&0&1&1\\\\" + pctM
+				+ "\\hline \\hline \\text{Total}&1&2&3\\\\\\hline \\end{array}";
+		t("ContingencyTable[ {\"M\",\"F\",\"F\"},{\"R\",\"R\",\"L\"}]",
+				table.replace(column, "").replace(pct, "").replace(pctM, ""));
+		t("ContingencyTable[ {\"M\",\"F\",\"F\"},{\"R\",\"R\",\"L\"} ,\"|\"]",
+				table);
+		t("ContingencyTable[ {\"F\",\"M\"},{\"L\",\"R\"},{{1,1},{0,1}} ]",
+				table.replace(column, "").replace(pct, "").replace(pctM, ""));
+		t("ContingencyTable[ {\"F\",\"M\"},{\"L\",\"R\"},{{1,1},{0,1}},\"|\"]",
+				table);
+	}
+
+	@Test
+	public void cmdFitPoly() {
+		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 0 ]", "6");
+		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 1 ]", "(4 * x) - 2");
+		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 2 ]", "x^(2)");
+		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 3 ]", "x^(2)");
+		// this one falls back to Polynomial()
+		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 4 ]",
+				unicode("0x^3 + x^2 + 0x"), StringTemplate.editTemplate);
+		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16),(5,25)}, 4 ]",
+				unicode("0x^4 + 0x^3 + x^2 + 0x + 0"),
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void cmdFitImplicit() {
+		t("FitImplicit[{(0,0),(0,1),(0,2),(0,3)},2]", "?");
+		t("FitImplicit[{(0,0),(0,1),(0,2),(0,3),(3,0),(4,0),(5,0)},2]",
+				"-x y = 0");
+	}
+
+	@Test
+	public void cmdDotPlot() {
+		t("DotPlot[ {1,1,1,2} ]", "{(1, 1), (1, 2), (1, 3), (2, 1)}");
+		t("DotPlot[ {1,1,1,2},2 ]", "{(1, 2), (1, 4), (1, 6), (2, 2)}");
+		t("DotPlot[ {1,1,1,2}, true]",
+				"{(1, 0.1), (1, 0.3), (1, 0.5), (2, 0.1)}");
+		t("DotPlot[ {1,1,1,2}, true, 5 ]",
+				"{(1, 0.1), (1, 1.1), (1, 2.1), (2, 0.1)}");
+	}
+	@Test
 	public void testPointsFromList() {
 		t("Sequence(Segment(Point({0, n}), Point({1, n+0})), n, 0, 9, 1)",
 				"{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}");
@@ -1931,6 +1980,7 @@ public class CommandsTest extends Assert{
 	public static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.SUPERSCRIPT_2 + "")
 				.replace("^3", Unicode.SUPERSCRIPT_3 + "")
+				.replace("^4", Unicode.SUPERSCRIPT_4 + "")
 				.replace("^-1",
 						Unicode.SUPERSCRIPT_MINUS + "" + Unicode.SUPERSCRIPT_1)
 				.replace("deg", Unicode.DEGREE_STRING);

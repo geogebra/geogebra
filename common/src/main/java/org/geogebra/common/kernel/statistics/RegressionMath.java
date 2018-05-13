@@ -67,9 +67,7 @@ public final class RegressionMath {
 	// parameters
 	private double p1;
 	private double p2;
-	private double p3;
-	private double p4;
-	private double p5; // Parameters
+
 	// Sums of x,x^2,...
 	private double sigmax;
 	private double sigmax2;
@@ -90,7 +88,6 @@ public final class RegressionMath {
 	// For (M_T*M)*Par=(M_T*Y)
 	private double[][] marray;
 	private double[][] yarray;
-	private double[] pararray; // Parameter array
 
 	// / --- Interface --- ///
 
@@ -100,18 +97,6 @@ public final class RegressionMath {
 
 	public double getP2() {
 		return p2;
-	}
-
-	public double getP3() {
-		return p3;
-	}
-
-	public double getP4() {
-		return p4;
-	}
-
-	public double getP5() {
-		return p5;
 	}
 
 	/**
@@ -150,24 +135,17 @@ public final class RegressionMath {
 	}
 
 	/**
-	 * Returns array with calculated parameters
-	 * 
-	 * @return coefficients of higher degree fit polynomial
-	 */
-	public double[] getPar() {
-		return pararray;
-	}
-
-	/**
 	 * Does the Polynom regression for degree > 4
 	 * 
 	 * @param gl
 	 *            inut data
 	 * @param degree
 	 *            polynomial degree
+	 * @param cof
+	 *            output coefficients
 	 * @return success
 	 */
-	public boolean doPolyN(GeoList gl, int degree) {
+	public boolean doPolyN(GeoList gl, int degree, double[] cof) {
 		error = false;
 		geolist = gl;
 		size = geolist.size();
@@ -190,8 +168,9 @@ public final class RegressionMath {
 			// time=System.currentTimeMillis();
 			RealMatrix Y = new Array2DRowRealMatrix(yarray, false);
 			RealMatrix P = solver.solve(Y);
-
-			pararray = P.getColumn(0);
+			for (int i = 0; i <= degree; i++) {
+				cof[i] = P.getEntry(i, 0);
+			}
 
 			// System.out.println(System.currentTimeMillis()-time);
 			// diff(pararray,par);
@@ -207,9 +186,11 @@ public final class RegressionMath {
 	 * 
 	 * @param gl
 	 *            list of points
+	 * @param cof
+	 *            output coefficients
 	 * @return whether calculating sums worked
 	 */
-	public boolean doLinear(GeoList gl) {
+	public boolean doLinear(GeoList gl, double[] cof) {
 		error = false;
 		geolist = gl;
 		size = geolist.size();
@@ -226,8 +207,8 @@ public final class RegressionMath {
 		if (Math.abs(n - 0.0d) < 1.0E-15d) {
 			return false;
 		}
-		p1 = det22(sigmay, sigmax, sigmaxy, sigmax2) / n;
-		p2 = det22(size, sigmay, sigmax, sigmaxy) / n;
+		cof[0] = det22(sigmay, sigmax, sigmaxy, sigmax2) / n;
+		cof[1] = det22(size, sigmay, sigmax, sigmaxy) / n;
 		// r=corrCoeff();
 		return true;
 	}
@@ -237,9 +218,11 @@ public final class RegressionMath {
 	 * 
 	 * @param gl
 	 *            input data
+	 * @param cof
+	 *            output coefficients
 	 * @return whether sums could be calculated
 	 */
-	public boolean doQuad(GeoList gl) {
+	public boolean doQuad(GeoList gl, double[] cof) {
 		error = false;
 		geolist = gl;
 		size = geolist.size();
@@ -258,11 +241,12 @@ public final class RegressionMath {
 		if (Math.abs(n - 0.0d) < 1.0E-15d) {
 			return false;
 		}
-		p1 = det33(sigmay, sigmax, sigmax2, sigmaxy, sigmax2, sigmax3, sigmax2y,
+		cof[0] = det33(sigmay, sigmax, sigmax2, sigmaxy, sigmax2, sigmax3,
+				sigmax2y,
 				sigmax3, sigmax4) / n;
-		p2 = det33(1.0d * size, sigmay, sigmax2, sigmax, sigmaxy, sigmax3,
+		cof[1] = det33(1.0d * size, sigmay, sigmax2, sigmax, sigmaxy, sigmax3,
 				sigmax2, sigmax2y, sigmax4) / n;
-		p3 = det33(1.0d * size, sigmax, sigmay, sigmax, sigmax2, sigmaxy,
+		cof[2] = det33(1.0d * size, sigmax, sigmay, sigmax, sigmax2, sigmaxy,
 				sigmax2, sigmax3, sigmax2y) / n;
 		// r=0.0d; // Not useful
 		return true;
@@ -273,9 +257,11 @@ public final class RegressionMath {
 	 * 
 	 * @param gl
 	 *            input data
+	 * @param cof
+	 *            output coefficients
 	 * @return whether sums could be calculated
 	 */
-	public boolean doCubic(GeoList gl) {
+	public boolean doCubic(GeoList gl, double[] cof) {
 		error = false;
 		geolist = gl;
 		size = geolist.size();
@@ -295,16 +281,17 @@ public final class RegressionMath {
 		if (Math.abs(n - 0.0d) < 1.0E-15d) {
 			return false;
 		}
-		p1 = det44(sigmay, sigmax, sigmax2, sigmax3, sigmaxy, sigmax2, sigmax3,
+		cof[0] = det44(sigmay, sigmax, sigmax2, sigmax3, sigmaxy, sigmax2,
+				sigmax3,
 				sigmax4, sigmax2y, sigmax3, sigmax4, sigmax5, sigmax3y, sigmax4,
 				sigmax5, sigmax6) / n;
-		p2 = det44(size, sigmay, sigmax2, sigmax3, sigmax, sigmaxy, sigmax3,
+		cof[1] = det44(size, sigmay, sigmax2, sigmax3, sigmax, sigmaxy, sigmax3,
 				sigmax4, sigmax2, sigmax2y, sigmax4, sigmax5, sigmax3, sigmax3y,
 				sigmax5, sigmax6) / n;
-		p3 = det44(size, sigmax, sigmay, sigmax3, sigmax, sigmax2, sigmaxy,
+		cof[2] = det44(size, sigmax, sigmay, sigmax3, sigmax, sigmax2, sigmaxy,
 				sigmax4, sigmax2, sigmax3, sigmax2y, sigmax5, sigmax3, sigmax4,
 				sigmax3y, sigmax6) / n;
-		p4 = det44(size, sigmax, sigmax2, sigmay, sigmax, sigmax2, sigmax3,
+		cof[3] = det44(size, sigmax, sigmax2, sigmay, sigmax, sigmax2, sigmax3,
 				sigmaxy, sigmax2, sigmax3, sigmax4, sigmax2y, sigmax3, sigmax4,
 				sigmax5, sigmax3y) / n;
 		// r=0.0d; // Not useful

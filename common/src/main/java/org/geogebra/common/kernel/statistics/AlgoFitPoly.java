@@ -96,39 +96,22 @@ public class AlgoFitPoly extends AlgoElement {
 		// if error in parameters :
 		switch (par) {
 		case RegressionMath.LINEAR: // moved up linear case from default
-			regok = regMath.doLinear(geolist);
-			if (regok) {
-				cof = new double[2];
-				cof[0] = regMath.getP1();
-				cof[1] = regMath.getP2();
-			} // else: ->
+			cof = new double[2];
+			regok = regMath.doLinear(geolist, cof);
 			break;
 		case RegressionMath.QUAD:
-			regok = regMath.doQuad(geolist);
-			if (regok) {
-				cof = new double[3];
-				cof[0] = regMath.getP1();
-				cof[1] = regMath.getP2();
-				cof[2] = regMath.getP3();
-			} // else: ->
+			cof = new double[3];
+			regok = regMath.doQuad(geolist, cof);
 			break;
 		case RegressionMath.CUBIC:
-			regok = regMath.doCubic(geolist);
-			if (regok) {
-				cof = new double[4];
-				cof[0] = regMath.getP1();
-				cof[1] = regMath.getP2();
-				cof[2] = regMath.getP3();
-				cof[3] = regMath.getP4();
-			} // else: ->
+			cof = new double[4];
+			regok = regMath.doCubic(geolist, cof);
 			break;
 		default:
 			if (par < 300) { // ToDo: test speed for max limit!
-				regok = regMath.doPolyN(geolist, par);
-				if (regok) {
-					cof = new double[par + 1];
-					cof = regMath.getPar();
-				} // else: ->
+				cof = new double[par + 1];
+				regok = regMath.doPolyN(geolist, par, cof);
+				// else: ->
 			} else {
 				regok = false; // 24.04.08: Only 1<=degree
 			} // if

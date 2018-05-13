@@ -564,14 +564,8 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdDiv() {
-
 		t("Div[ n2, n2 ]");
 		t("Div[ polynom2, polynom1 ] ");
-	}
-
-	@Test
-	public void cmdDotPlot() {
-		t("DotPlot[ list2 ]");
 	}
 
 	@Test
@@ -2221,14 +2215,6 @@ public class NoExceptionsTest {
 		t("ZMean2Estimate[ n1, n1, n2, n3,n4,n1,n2 ]");
 	}
 	
-	@Test
-	public void cmdContingencyTable(){
-		t("ContingencyTable[ {\"one\",\"two\"},{\"three\"} ]");
-		t("ContingencyTable[ {\"one\",\"two\"},{\"three\"} ,\"|\"]");
-		t("ContingencyTable[ {\"one\",\"two\"},{\"three\"},{{1,2}} ]");
-		t("ContingencyTable[ {\"one\",\"two\"},{\"three\"} ,{{1,2}},\"|\"]");
-	}
-	
 	@AfterClass
 	public static void testSaving(){
 		//System.out.println(app.getXML());
@@ -2310,10 +2296,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdRemove(){
 		t("Remove[{1,2,2},{2}]");
-	}
-	@Test
-	public void cmdFitImplicit(){
-		t("FitImplicit[{Pt1,Pt2,Pt3},2]");
 	}
 	
 	@Test
