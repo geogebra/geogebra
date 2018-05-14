@@ -34,12 +34,12 @@ public class RedefineTest extends Assert {
 				.setTimeoutMilliseconds(11000);
 	}
 	private static void t(String input, String expected) {
-		CommandsTest.testSyntax(input, new String[] { expected }, app, ap,
+		CommandsTest.testSyntaxSingle(input, new String[] { expected }, app, ap,
 				StringTemplate.xmlTemplate);
 	}
 
 	public static void t(String s, String[] expected) {
-		CommandsTest.testSyntax(s, expected, app, ap,
+		CommandsTest.testSyntaxSingle(s, expected, app, ap,
 				StringTemplate.xmlTemplate);
 	}
 

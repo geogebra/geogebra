@@ -17,7 +17,7 @@ public class IntersectConicsAdapter {
 	private HashMap<GeoElementND, PPolynomial[]> botanaPolynomials;
 	private HashMap<GeoElementND, PVariable[]> botanaVars;
 
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo, GeoConic A, GeoConic B,
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo, GeoConic a, GeoConic b,
 			AlgoIntersectConics algo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			PPolynomial[] ret = botanaPolynomials.get(geo);
@@ -25,10 +25,10 @@ public class IntersectConicsAdapter {
 				return ret;
 			}
 		}
-		Kernel kernel = A.getKernel();
+		Kernel kernel = a.getKernel();
 		// Special cases first.
 
-		if (B != null && A.isCircle() && B.isCircle()) {
+		if (a.isCircle() && b.isCircle()) {
 			PVariable[] botanaVarsThis = new PVariable[2];
 			if (botanaVars == null) {
 				botanaVars = new HashMap<>();
@@ -92,9 +92,9 @@ public class IntersectConicsAdapter {
 				botanaPolynomialsThis = new PPolynomial[2 + excludePoint];
 			}
 
-			PVariable[] vA = A.getBotanaVars(A); // 4 variables from the first
+			PVariable[] vA = a.getBotanaVars(a); // 4 variables from the first
 													// circle
-			PVariable[] vB = B.getBotanaVars(B); // 4 variables from the first
+			PVariable[] vB = b.getBotanaVars(b); // 4 variables from the first
 													// circle
 
 			botanaPolynomialsThis[0] = PPolynomial.equidistant(vA[2], vA[3], vA[0], vA[1],
@@ -145,39 +145,34 @@ public class IntersectConicsAdapter {
 			botanaVars.put(geo, botanaVarsThis);
 		}
 		if (botanaPolynomials == null) {
+			PPolynomial[] conic1Polys = a.getBotanaPolynomials(a);
+			PVariable[] conic1Vars = a.getBotanaVars(a);
+			PPolynomial[] conic2Polys = b.getBotanaPolynomials(b);
+			PVariable[] conic2Vars = b.getBotanaVars(b);
 
-			if (A != null && B != null) {
+			int conic1PolysNo = conic1Polys.length;
+			int conic2PolysNo = conic2Polys.length;
 
-				PPolynomial[] conic1Polys = A.getBotanaPolynomials(A);
-				PVariable[] conic1Vars = A.getBotanaVars(A);
-				PPolynomial[] conic2Polys = B.getBotanaPolynomials(B);
-				PVariable[] conic2Vars = B.getBotanaVars(B);
+			PPolynomial[] botanaPolynomialsThis = new PPolynomial[conic1PolysNo
+					+ conic2PolysNo];
 
-				int conic1PolysNo = conic1Polys.length;
-				int conic2PolysNo = conic2Polys.length;
-
-				PPolynomial[] botanaPolynomialsThis = new PPolynomial[conic1PolysNo
-						+ conic2PolysNo];
-
-				for (int i = 0; i < conic1PolysNo; i++) {
-					botanaPolynomialsThis[i] = conic1Polys[i]
-							.substitute(conic1Vars[0], botanaVarsThis[0])
-							.substitute(conic1Vars[1], botanaVarsThis[1]);
-				}
-				for (int i = 0; i < conic2PolysNo; i++) {
-					botanaPolynomialsThis[conic1PolysNo + i] = conic2Polys[i]
-							.substitute(conic2Vars[0], botanaVarsThis[0])
-							.substitute(conic2Vars[1], botanaVarsThis[1]);
-				}
-
-				if (botanaPolynomials == null) {
-					botanaPolynomials = new HashMap<>();
-				}
-				botanaPolynomials.put(geo, botanaPolynomialsThis);
-
-				return botanaPolynomialsThis;
+			for (int i = 0; i < conic1PolysNo; i++) {
+				botanaPolynomialsThis[i] = conic1Polys[i]
+						.substitute(conic1Vars[0], botanaVarsThis[0])
+						.substitute(conic1Vars[1], botanaVarsThis[1]);
 			}
-			throw new NoSymbolicParametersException();
+			for (int i = 0; i < conic2PolysNo; i++) {
+				botanaPolynomialsThis[conic1PolysNo + i] = conic2Polys[i]
+						.substitute(conic2Vars[0], botanaVarsThis[0])
+						.substitute(conic2Vars[1], botanaVarsThis[1]);
+			}
+
+			if (botanaPolynomials == null) {
+				botanaPolynomials = new HashMap<>();
+			}
+			botanaPolynomials.put(geo, botanaPolynomialsThis);
+
+			return botanaPolynomialsThis;
 		}
 		throw new NoSymbolicParametersException();
 	}

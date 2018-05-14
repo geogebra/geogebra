@@ -30,7 +30,8 @@ public class CmdANOVA extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-
+		case 0:
+			throw argNumErr(c);
 		case 1: // list of lists, result of XML conversion
 			ok[0] = (arg[0].isGeoList());
 			if (ok[0]) {

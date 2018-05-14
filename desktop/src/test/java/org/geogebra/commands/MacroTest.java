@@ -21,7 +21,7 @@ public class MacroTest {
 	}
 
 	private static void t(String input, String expected) {
-		CommandsTest.testSyntax(input, new String[] { expected }, app, ap,
+		CommandsTest.testSyntaxSingle(input, new String[] { expected }, app, ap,
 				StringTemplate.xmlTemplate);
 	}
 

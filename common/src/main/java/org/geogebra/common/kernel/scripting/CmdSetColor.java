@@ -41,6 +41,9 @@ public class CmdSetColor extends CmdScripting {
 	protected GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		EvalInfo argInfo = new EvalInfo(false);
+		if (n == 0) {
+			throw argNumErr(c);
+		}
 
 		GeoElement target;
 

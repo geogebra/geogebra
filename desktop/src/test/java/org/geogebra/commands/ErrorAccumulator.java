@@ -37,7 +37,7 @@ public class ErrorAccumulator implements ErrorHandler {
 
 	}
 
-	public Object getErrors() {
+	public String getErrors() {
 		return errors;
 	}
 

@@ -921,36 +921,33 @@ public interface Traversing {
 			} else if (ev instanceof Command) { // Iteration[a+1, a, {1},4]
 
 				Command com = (Command) ev;
-				if (("Sequence".equals(com.getName())
-						&& com.getArgumentNumber() > 2)
+				if ("Sequence".equals(com.getName())
 						|| "KeepIf".equals(com.getName())
 						|| "CountIf".equals(com.getName())) {
-					localTree.add(com.getArgument(1)
-							.toString(StringTemplate.defaultTemplate));
+					if (com.getArgumentNumber() > 2) {
+						addLocalVar(com, 1);
+					}
 				} else if ("Surface".equals(com.getName())) {
 					int len = com.getArgumentNumber();
 					if (len > 6) {
-						localTree.add(com.getArgument(len - 3)
-								.toString(StringTemplate.defaultTemplate));
-						localTree.add(com.getArgument(len - 6)
-								.toString(StringTemplate.defaultTemplate));
+						addLocalVar(com, len - 3);
+						addLocalVar(com, len - 6);
 					}
 				} else if ("CurveCartesian".equals(com.getName())) {
 					int len = com.getArgumentNumber();
-					localTree.add(com.getArgument(len - 3)
-							.toString(StringTemplate.defaultTemplate));
+					if (len > 3) {
+						addLocalVar(com, len - 3);
+					}
 				} else if (("IterationList".equals(com.getName())
 						|| "Iteration".equals(com.getName()))
 						&& com.getArgumentNumber() > 3) {
 
 					for (int i = 1; i < com.getArgumentNumber() - 2; i++) {
-						localTree.add(com.getArgument(i)
-								.toString(StringTemplate.defaultTemplate));
+						addLocalVar(com, i);
 					}
 				} else if ("Zip".equals(com.getName())) {
 					for (int i = 1; i < com.getArgumentNumber(); i += 2) {
-						localTree.add(com.getArgument(i)
-								.toString(StringTemplate.defaultTemplate));
+						addLocalVar(com, i);
 					}
 				} else if ("TriangleCurve".equals(com.getName())) {
 					localTree.add("A");
@@ -959,6 +956,11 @@ public interface Traversing {
 				}
 			}
 			return ev;
+		}
+
+		private void addLocalVar(Command com, int i) {
+			localTree.add(com.getArgument(i)
+					.toString(StringTemplate.defaultTemplate));
 		}
 	}
 

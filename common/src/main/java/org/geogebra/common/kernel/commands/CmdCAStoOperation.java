@@ -37,11 +37,17 @@ public class CmdCAStoOperation extends CommandProcessor {
 		switch (op) {
 		case YCOORD:
 		case XCOORD:
+			if (args.length != 1) {
+				throw argNumErr(c);
+			}
 			en = new ExpressionNode(kernel, args[0], op, null);
 			break;
 		case MULTIPLY:
 		case VECTORPRODUCT:
 		case NPR:
+			if (args.length != 2) {
+				throw argNumErr(c);
+			}
 			en = new ExpressionNode(kernel, args[0], op, args[1]);
 			break;
 		default:

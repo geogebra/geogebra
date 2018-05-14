@@ -139,6 +139,14 @@ public class NoExceptionsTest {
 					syntaxes++;
 				}
 			}
+			if (syntaxes > 0 && !CommandsTest.mayHaveZeroArgs(cmdName)) {
+				ErrorAccumulator errorStore = new ErrorAccumulator();
+				app.getKernel().getAlgebraProcessor()
+						.processAlgebraCommandNoExceptionHandling(
+								cmdName + "()", false, errorStore, false, null);
+				Assert.assertTrue(errorStore.getErrors()
+						.contains("Illegal number of arguments: 0"));
+			}
 			System.out.println();
 			System.out.print(cmdName + " ");
 
@@ -606,11 +614,8 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdExpand() {
-
 		t("Expand[ x^2 ]");
 	}
-
-
 
 	@Test
 	public void cmdFactor() {

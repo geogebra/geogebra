@@ -29,7 +29,7 @@ public class CmdExecute extends CmdScripting {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		if (n > 10) {
+		if (n > 10 || n == 0) {
 			throw argNumErr(c);
 		}
 		if (arg[0].isGeoList() && ((GeoList) arg[0]).size() == 0

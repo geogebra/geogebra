@@ -1,5 +1,6 @@
 package org.geogebra.commands;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import org.geogebra.common.awt.GColor;
@@ -23,6 +24,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -58,7 +60,7 @@ public class CommandsTest extends Assert{
 		testSyntax(s, expected, app, ap, StringTemplate.xmlTemplate);
 	}
 
-	public static void testSyntax(String s, String[] expected, App app1,
+	private static void testSyntax(String s, String[] expected, App app1,
 			AlgebraProcessor proc, StringTemplate tpl) {
 		if(syntaxes==-1000){
 			Throwable t = new Throwable();
@@ -89,7 +91,16 @@ public class CommandsTest extends Assert{
 			}
 			System.out.println();
 			System.out.print(cmdName);
-			
+
+			if (syntaxes > 0 && !mayHaveZeroArgs(cmdName)) {
+				ErrorAccumulator errorStore = new ErrorAccumulator();
+				app.getKernel().getAlgebraProcessor()
+						.processAlgebraCommandNoExceptionHandling(
+								cmdName + "()", false, errorStore, false, null);
+				Log.error(errorStore.getErrors());
+				assertTrue(errorStore.getErrors()
+						.contains("Illegal number of arguments: 0"));
+			}
 			/*
 			// This code helps to force timeout for each syntax. Not used at the moment.
 			GeoGebraCAS cas = (GeoGebraCAS) app.getKernel()
@@ -100,20 +111,35 @@ public class CommandsTest extends Assert{
 				App.error("CAS error " + e);
 			} 
 			*/
-			
-			
 		}
+		testSyntaxSingle(s, expected, app1, proc, tpl);
+	}
+
+	static boolean mayHaveZeroArgs(String cmdName) {
+		return Arrays.asList(new String[] { "DataFunction", "AxisStepX",
+				"AxisStepY", "Button", "StartLogging", "StopLogging",
+				"StartRecord", "ConstructionStep", "StartAnimation", "ShowAxes",
+				"ShowGrid", "SetActiveView", "ZoomIn", "SetViewDirection",
+				"ExportImage", "Random", "Textfield", "GetTime",
+				"UpdateConstruction", "SelectObjects", "Turtle", "Function",
+				"Checkbox" })
+				.contains(cmdName);
+	}
+
+	public static void testSyntaxSingle(String s, String[] expected, App app1,
+			AlgebraProcessor proc, StringTemplate tpl) {
 		Throwable t = null;
 		GeoElementND[] result = null;
 		try {
 			result = proc.processAlgebraCommandNoExceptionHandling(s,
 					false, TestErrorHandler.INSTANCE, false, null);
-		}catch (Throwable e) {
+		} catch (Throwable e) {
 			t = e;
 		}
 		syntaxes--;
-		if (t != null)
+		if (t != null) {
 			t.printStackTrace();
+		}
 		assertNull(t);
 		Assert.assertNotNull(s,result);
 		// for (int i = 0; i < result.length; i++) {
@@ -127,6 +153,7 @@ public class CommandsTest extends Assert{
 			Assert.assertEquals(s + ":" + actual, expected[i], actual);
 		}
 		System.out.print("+");
+
 	}
 
 	private static int syntaxes = -1000;
@@ -387,8 +414,8 @@ public class CommandsTest extends Assert{
 	public void cmdIntegralInfinite() {
 		t("f=Normal(50,3,x,false)",
 				"exp(((-(x - 50)^(2))) / ((3^(2) * 2))) / ((abs(3) * sqrt((3.141592653589793 * 2))))");
-		t("norm:=Integral[f,-inf,50 ]", "0.5");
-		t("nnorm:=Integral[f,50,inf ]", "0.5");
+		t("norm:=Integral[f,-inf,50 ]", "0.5", StringTemplate.editTemplate);
+		t("nnorm:=Integral[f,50,inf ]", "0.5", StringTemplate.editTemplate);
 	}
 
 	@Test

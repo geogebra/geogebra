@@ -33,6 +33,9 @@ public class CmdNSolveODE extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 		arg = resArgs(c);
+		if (n < 3) {
+			throw argNumErr(c);
+		}
 		if (!arg[0].isGeoList()) {
 			throw argErr(c, arg[0]);
 		}
