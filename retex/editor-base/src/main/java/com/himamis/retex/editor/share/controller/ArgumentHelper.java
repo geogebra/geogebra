@@ -49,12 +49,13 @@ public class ArgumentHelper {
                 currentOffset--;
                 if (field.size() == 0) {
                     // here we already have sequence, just set it
-					if (array.size() > 1) {
+					if (array.size() > 1 || array.getOpenKey() != '(') {
 						MathSequence wrap = new MathSequence();
 						wrap.addArgument(array);
 						container.setArgument(container.getInsertIndex(), wrap);
 					} else {
-                    container.setArgument(container.getInsertIndex(), array.getArgument(0));
+						container.setArgument(container.getInsertIndex(),
+								array.getArgument(0));
 					}
                 } else {
                     field.addArgument(0, array);
