@@ -92,7 +92,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 		renderer.setLayer(getLayer()); // +0f for z-fighting with planes
 		renderer.getGeometryManager().draw(getGeometryIndex());
-		renderer.setLayer(0);
+		renderer.setLayer(Renderer.LAYER_DEFAULT);
 
 	}
 
@@ -139,7 +139,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 		renderer.setLayer(getLayer()); // +0f to avoid z-fighting with planes
 		renderer.getGeometryManager().draw(getSurfaceIndex());
-		renderer.setLayer(0);
+		renderer.setLayer(Renderer.LAYER_DEFAULT);
 
 	}
 
@@ -568,12 +568,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	@Override
 	protected void updateGeometriesColor() {
-		updateColors();
-		getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
-		getView3D().getRenderer().getGeometryManager().updateColor(getSurfaceColor(), getSurfaceIndex());
-		if (!isVisible()) {
-			setGeometriesVisibility(false);
-		}
+		updateGeometriesColor(true);
 	}
 
 	@Override

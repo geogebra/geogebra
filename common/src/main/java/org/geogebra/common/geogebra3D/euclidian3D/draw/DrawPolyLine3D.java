@@ -179,12 +179,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 	@Override
 	protected void updateGeometriesColor() {
-		updateColors();
-		getView3D().getRenderer().getGeometryManager().updateColor(getColor(),
-				getGeometryIndex());
-		if (!isVisible()) {
-			setGeometriesVisibility(false);
-		}
+		updateGeometriesColor(false);
 	}
 
 	@Override

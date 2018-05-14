@@ -91,7 +91,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		default:
 			renderer.setLayer(getLayer());
 			renderer.getGeometryManager().draw(getSurfaceIndex());
-			renderer.setLayer(0);
+			renderer.setLayer(Renderer.LAYER_DEFAULT);
 			break;
 		}
 	}

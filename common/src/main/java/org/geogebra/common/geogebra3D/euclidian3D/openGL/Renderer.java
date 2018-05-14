@@ -65,6 +65,19 @@ public abstract class Renderer {
 			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA * Math.PI
 					/ 360.0);
 
+	// layers
+	/** shift for planes layer to avoid z-fighting */
+	public static final int LAYER_PLANE_SHIFT = -1;
+	/** shift for angles layer to avoid z-fighting */
+	public static final int LAYER_ANGLE_SHIFT = 1;
+	/** min value for layers */
+	public static final int LAYER_MIN = LAYER_PLANE_SHIFT;
+	/** min value for layers (string for shaders) */
+	public static final String LAYER_MIN_STRING_WITH_OP = "" + LAYER_MIN;
+	/** factor for coding layers (for shaders) */
+	public static final int LAYER_FACTOR_FOR_CODING = 2;
+	/** default layer */
+	public static final int LAYER_DEFAULT = 0;
 
 	// other
 	public Drawable3DListsForView drawable3DLists;

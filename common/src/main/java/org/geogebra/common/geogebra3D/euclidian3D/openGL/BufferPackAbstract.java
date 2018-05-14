@@ -63,19 +63,24 @@ abstract class BufferPackAbstract {
 	 * 
 	 * @param color
 	 *            color
+	 * @param layer
+	 *            layer
 	 * @param offset
 	 *            offset where to write
 	 * @param length
 	 *            length to write
 	 */
-	abstract void setColor(GColor color, int offset, int length);
+	abstract void setColorAndLayer(GColor color, int layer, int offset, int length);
 
 	/**
 	 * set alpha to current buffer segment
 	 * 
 	 * @param alpha
+	 *            alpha value
+	 * @param layer
+	 *            layer
 	 */
-	abstract void setAlpha(int alpha);
+	abstract void setAlphaAndLayer(int alpha, int layer);
 
 	/**
 	 * draw this pack

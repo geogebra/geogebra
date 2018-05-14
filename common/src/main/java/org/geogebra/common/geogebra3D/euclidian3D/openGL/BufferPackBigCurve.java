@@ -108,22 +108,22 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	}
 
 	@Override
-	public void setColor(GColor color, int offset, int length) {
+	public void setColorAndLayer(GColor color, int layer, int offset, int length) {
 		for (BufferPack bufferPack : bufferPacks) {
-			bufferPack.setColor(color, 0, ELEMENT_SIZE_MAX);
+			bufferPack.setColorAndLayer(color, layer, 0, ELEMENT_SIZE_MAX);
 		}
 		if (lastBufferElementsLength > 0) {
-			lastBuffer.setColor(color, 0, lastBufferElementsLength);
+			lastBuffer.setColorAndLayer(color, layer, 0, lastBufferElementsLength);
 		}
 	}
 
 	@Override
-	public void setAlpha(int alpha) {
+	public void setAlphaAndLayer(int alpha, int layer) {
 		for (BufferPack bufferPack : bufferPacks) {
-			bufferPack.setAlpha(alpha, ELEMENT_SIZE_MAX);
+			bufferPack.setAlphaAndLayer(alpha, layer, ELEMENT_SIZE_MAX);
 		}
 		if (lastBufferElementsLength > 0) {
-			lastBuffer.setAlpha(alpha, lastBufferElementsLength);
+			lastBuffer.setAlphaAndLayer(alpha, layer, lastBufferElementsLength);
 		}
 	}
 

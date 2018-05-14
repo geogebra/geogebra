@@ -4100,6 +4100,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_PROPERTY_SORT_BY:
 			return false;
 
+		// MOB-1668
+		case MOB_LAYER_FOR_PACKING:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************

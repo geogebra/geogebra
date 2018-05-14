@@ -358,8 +358,10 @@ public class ManagerShaders extends Manager {
 		 *            index
 		 * @param color
 		 *            color
+		 * @param layer
+		 *            layer
 		 */
-		public void setIndex(int index, GColor color) {
+		public void setIndex(int index, GColor color, int layer) {
 			// no need here
 		}
 

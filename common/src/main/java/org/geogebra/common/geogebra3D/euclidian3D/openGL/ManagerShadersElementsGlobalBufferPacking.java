@@ -8,6 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.Feature;
 
 /**
  * manager packing geometries
@@ -27,6 +28,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	private GLBufferManagerTemplatesForPoints bufferTemplates;
 	private GLBufferManager currentBufferManager;
 	private GColor currentColor;
+	private int currentLayer;
 	private int currentTextureType;
 	private ReusableArrayList<Short> indices;
 	private float[] translate;
@@ -37,6 +39,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		private GLBufferManager bufferManager;
 		private static final long serialVersionUID = 1L;
 		private GColor color;
+		private int layer;
 		private int index;
 		private int oldGeometriesLength;
 
@@ -48,9 +51,13 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		 * 
 		 * @param color
 		 *            color
+		 * @param layer
+		 *            layer
 		 */
-		public GeometriesSetElementsGlobalBufferPacking(GLBufferManager bufferManager, GColor color) {
+		public GeometriesSetElementsGlobalBufferPacking(
+				GLBufferManager bufferManager, GColor color, int layer) {
 			this.color = color;
+			this.layer = layer;
 			this.bufferManager = bufferManager;
 		}
 
@@ -61,9 +68,10 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		}
 
 		@Override
-		public void setIndex(int index, GColor color) {
+		public void setIndex(int index, GColor color, int layer) {
 			this.index = index;
 			this.color = color;
+			this.layer = layer;
 		}
 
 		/**
@@ -89,10 +97,14 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		 * 
 		 * @param color
 		 *            color
+		 * @param layer
+		 *            layer
 		 */
-		public void updateColor(GColor color) {
+		public void updateColorAndLayer(GColor color, int layer) {
 			this.color = color;
-			bufferManager.updateColor(index, getGeometriesLength(), color);
+			this.layer = layer;
+			bufferManager.updateColorAndLayer(index, getGeometriesLength(),
+					color, layer);
 		}
 
 		/**
@@ -100,18 +112,28 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		 * 
 		 * @param visible
 		 *            if visible
+		 * @param alpha
+		 *            object alpha
+		 * @param layer
+		 *            object layer
 		 */
-		public void updateVisibility(boolean visible) {
-			bufferManager.updateVisibility(index, 0, getGeometriesLength(), visible);
+		public void updateVisibility(boolean visible, int alpha, int layer) {
+			bufferManager.updateVisibility(index, 0, getGeometriesLength(),
+					visible, alpha, layer);
 		}
 
 		@Override
 		public void hideLastGeometries() {
-			bufferManager.updateVisibility(index, currentGeometryIndex, oldGeometriesLength, false);
+			bufferManager.updateVisibility(index, currentGeometryIndex,
+					oldGeometriesLength, false, 0, 0);
 		}
 
 		public GColor getColor() {
 			return color;
+		}
+
+		public int getLayer() {
+			return layer;
 		}
 
 		/**
@@ -188,6 +210,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			@Override
 			public void setColorsEmpty() {
 				geometrySet.getBufferManager().setColorBuffer(geometrySet.getColor());
+				geometrySet.getBufferManager().setLayer(geometrySet.getLayer());
 			}
 
 			@Override
@@ -258,7 +281,8 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	protected GeometriesSet newGeometriesSet() {
 		if (currentBufferManager != null) {
-			return new GeometriesSetElementsGlobalBufferPacking(currentBufferManager, currentColor);
+			return new GeometriesSetElementsGlobalBufferPacking(
+					currentBufferManager, currentColor, currentLayer);
 		}
 		return super.newGeometriesSet();
 	}
@@ -323,22 +347,29 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		currentBufferManager = clipped ? bufferManagerCurvesClipped
 				: bufferManagerCurves;
 		this.currentColor = color;
+		if (getView3D().getApplication().has(Feature.MOB_LAYER_FOR_PACKING)) {
+			this.currentLayer = Renderer.LAYER_DEFAULT;
+		} else {
+			this.currentLayer = Renderer.LAYER_MIN;
+		}
 		this.currentTextureType = Textures.getDashIdFromLineType(lineType, lineTypeHidden);
 	}
 
 	@Override
-	public void updateColor(GColor color, int index) {
+	public void updateColorAndLayer(GColor color, int layer, int index) {
 		GeometriesSet geometrySet = getGeometrySet(index);
 		if (geometrySet != null) {
-			((GeometriesSetElementsGlobalBufferPacking) geometrySet).updateColor(color);
+			((GeometriesSetElementsGlobalBufferPacking) geometrySet)
+					.updateColorAndLayer(color, layer);
 		}
 	}
 
 	@Override
-	public void updateVisibility(boolean visible, int index) {
+	public void updateVisibility(boolean visible, int index, int alpha, int layer) {
 		GeometriesSet geometrySet = getGeometrySet(index);
 		if (geometrySet != null) {
-			((GeometriesSetElementsGlobalBufferPacking) geometrySet).updateVisibility(visible);
+			((GeometriesSetElementsGlobalBufferPacking) geometrySet)
+					.updateVisibility(visible, alpha, layer);
 		}
 	}
 
@@ -350,7 +381,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	public int startNewList(int old) {
 		int index = super.startNewList(old);
-		currentGeometriesSet.setIndex(index, currentColor);
+		currentGeometriesSet.setIndex(index, currentColor, currentLayer);
 		return index;
 	}
 
@@ -382,6 +413,11 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 				? bufferManagerSurfacesClosed
 				: bufferManagerSurfaces;
 		this.currentColor = d.getSurfaceColor();
+		if (getView3D().getApplication().has(Feature.MOB_LAYER_FOR_PACKING)) {
+			this.currentLayer = d.getLayer();
+		} else {
+			this.currentLayer = Renderer.LAYER_MIN;
+		}
 	}
 
 	@Override
@@ -438,6 +474,12 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			// draw in points manager
 			setCurrentBufferManager(bufferManagerPoints);
 			this.currentColor = d.getColor();
+			if (getView3D().getApplication()
+					.has(Feature.MOB_LAYER_FOR_PACKING)) {
+				this.currentLayer = Renderer.LAYER_DEFAULT;
+			} else {
+				this.currentLayer = Renderer.LAYER_MIN;
+			}
 			setPointValues(size, DrawPoint3D.DRAW_POINT_FACTOR, center);
 			int ret = bufferManagerPoints.drawPoint(index);
 			setCurrentBufferManager(null);
@@ -453,6 +495,12 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			bufferTemplates.selectSphere((int) size);
 			// draw point in current curve
 			this.currentColor = d.getColor();
+			if (getView3D().getApplication()
+					.has(Feature.MOB_LAYER_FOR_PACKING)) {
+				this.currentLayer = Renderer.LAYER_DEFAULT;
+			} else {
+				this.currentLayer = Renderer.LAYER_MIN;
+			}
 			setPointValues(size, 2.5f, center);
 			bufferManagerCurves.drawPoint();
 		} else {

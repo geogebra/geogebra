@@ -12,6 +12,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
@@ -92,7 +93,8 @@ public class RendererImplShadersW extends RendererImplShaders {
 				ShaderProvider.getFragmentShader(true, true));
 		vertShader = getShader(
 				WebGLRenderingContext.VERTEX_SHADER,
-				ShaderProvider.getVertexShader(true));
+				ShaderProvider.getVertexShader(true, view3D.getApplication()
+						.has(Feature.MOB_LAYER_FOR_PACKING)));
 	}
 
 	@Override

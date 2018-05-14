@@ -367,11 +367,10 @@ public class DrawAngle3D extends Drawable3DCurves {
 	}
 
 	private void drawSurfaceGeometry(Renderer renderer) {
-
-		renderer.setLayer(getLayer() + 1); // +1f to avoid z-fighting with
-											// planes and polygons
+		// +1 shift to avoid z-fighting with planes and polygons
+		renderer.setLayer(getLayer() + Renderer.LAYER_ANGLE_SHIFT);
 		renderer.getGeometryManager().draw(getSurfaceIndex());
-		renderer.setLayer(0);
+		renderer.setLayer(Renderer.LAYER_DEFAULT);
 
 	}
 
@@ -496,14 +495,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 	@Override
 	protected void updateGeometriesColor() {
-		updateColors();
-		getView3D().getRenderer().getGeometryManager().updateColor(getColor(),
-				getGeometryIndex());
-		getView3D().getRenderer().getGeometryManager()
-				.updateColor(getSurfaceColor(), getSurfaceIndex());
-		if (!isVisible()) {
-			setGeometriesVisibility(false);
-		}
+		updateGeometriesColor(true);
 	}
 
 	@Override

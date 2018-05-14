@@ -398,11 +398,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	@Override
 	protected void updateGeometriesColor() {
-		updateColors();
-		getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
-		if (!isVisible()) {
-			setGeometriesVisibility(false);
-		}
+		updateGeometriesColor(false);
 	}
 
 	@Override

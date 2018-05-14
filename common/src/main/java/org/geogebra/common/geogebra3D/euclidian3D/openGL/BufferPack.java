@@ -134,7 +134,7 @@ class BufferPack extends BufferPackAbstract {
 		} else {
 			textureBuffer.set(manager.textureArray, offset * 2, length * 2);
 		}
-		setColor(manager.color, offset, length);
+		setColorAndLayer(manager.color, manager.layer, offset, length);
 	}
 
 	/**
@@ -151,7 +151,7 @@ class BufferPack extends BufferPackAbstract {
 		vertexBuffer.set(manager.vertexArray, arrayOffset * 3, 0, length * 3);
 		normalBuffer.set(manager.normalArray, arrayOffset * 3, 0, length * 3);
 		textureBuffer.set(manager.textureArray, arrayOffset * 2, 0, length * 2);
-		setColor(manager.color, 0, length);
+		setColorAndLayer(manager.color, manager.layer, 0, length);
 	}
 
 	/* (non-Javadoc)
@@ -168,14 +168,14 @@ class BufferPack extends BufferPackAbstract {
 			normalBuffer.set(manager.normalArray, offset * 3, length * 3);
 			textureBuffer.set(0, offset * 2, length * 2, 1);
 		}
-		setColor(manager.color, offset, length);
+		setColorAndLayer(manager.color, manager.layer, offset, length);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#setColor(org.geogebra.common.awt.GColor, int, int)
 	 */
 	@Override
-	public void setColor(GColor color, int offset, int length) {
+	public void setColorAndLayer(GColor color, int layer, int offset, int length) {
 		int colorOffset = offset * 4;
 		colorBuffer.set((float) color.getRed() / 255, colorOffset, length, 4);
 		colorOffset++;
@@ -183,15 +183,13 @@ class BufferPack extends BufferPackAbstract {
 		colorOffset++;
 		colorBuffer.set((float) color.getBlue() / 255, colorOffset, length, 4);
 		colorOffset++;
-		setAlpha(color.getAlpha(), colorOffset, length);
+		setAlpha(color.getAlpha(), layer, colorOffset, length);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#setAlpha(int)
-	 */
 	@Override
-	public void setAlpha(int alpha) {
-		setAlpha(alpha, manager.currentBufferSegment.elementsOffset * 4 + 3,
+	public void setAlphaAndLayer(int alpha, int layer) {
+		setAlpha(alpha, layer,
+				manager.currentBufferSegment.elementsOffset * 4 + 3,
 				manager.currentBufferSegment.getElementsLength());
 	}
 
@@ -203,12 +201,16 @@ class BufferPack extends BufferPackAbstract {
 	 * @param length
 	 *            length
 	 */
-	protected void setAlpha(int alpha, int length) {
-		setAlpha(alpha, 3, length);
+	protected void setAlphaAndLayer(int alpha, int layer, int length) {
+		setAlpha(alpha, layer, 3, length);
 	}
 
-	private void setAlpha(int alpha, int offset, int length) {
-		colorBuffer.set(alpha <= 0 ? GLBufferManager.ALPHA_INVISIBLE : ((float) alpha / 255), offset, length, 4);
+	private void setAlpha(int alpha, int layer, int offset, int length) {
+		colorBuffer.set(alpha <= 0 ? GLBufferManager.ALPHA_INVISIBLE
+				: (alpha >= 255 ? 1f : ((float) alpha / 255))
+						+ Renderer.LAYER_FACTOR_FOR_CODING
+								* (layer - Renderer.LAYER_MIN),
+				offset, length, 4);
 	}
 
 	/* (non-Javadoc)

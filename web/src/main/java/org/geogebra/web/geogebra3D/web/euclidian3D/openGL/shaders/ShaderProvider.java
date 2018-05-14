@@ -30,11 +30,13 @@ public class ShaderProvider {
 	/**
 	 * @param shiny
 	 *            says if we use specular light to get it shiny
+	 * @param isPacked
+	 *            if using packed buffers
 	 * @return Vertex shader
 	 */
-	public static String getVertexShader(boolean shiny) {
+	public static String getVertexShader(boolean shiny, boolean isPacked) {
 		if (shiny) {
-			return VertexShader.getVertexShaderShiny(true);
+			return VertexShader.getVertexShaderShiny(true, isPacked);
 		}
 		return VertexShader.getVertexShader(true);
 	}

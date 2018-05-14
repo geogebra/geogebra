@@ -40,6 +40,8 @@ abstract class GLBufferManager {
 	protected int elementsLength;
 	/** color for current geometry */
 	GColor color;
+	/** layer for current geometry */
+	int layer;
 
 	/**
 	 * 
@@ -139,6 +141,16 @@ abstract class GLBufferManager {
 	}
 
 	/**
+	 * set layer
+	 * 
+	 * @param layer
+	 *            layer
+	 */
+	public void setLayer(int layer) {
+		this.layer = layer;
+	}
+
+	/**
 	 * set current buffer segment alpha to transparent
 	 */
 	protected void setAlphaToTransparent() {
@@ -156,13 +168,15 @@ abstract class GLBufferManager {
 	 *            geometries length for this set
 	 * @param color
 	 *            new color
+	 * @param layer
+	 *            layer
 	 */
-	public void updateColor(int index, int geometriesLength, GColor color) {
+	public void updateColorAndLayer(int index, int geometriesLength, GColor color, int layer) {
 		for (int i = 0; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.get(currentIndex);
 			currentBufferPack = currentBufferSegment.bufferPack;
-			currentBufferPack.setColor(color,
+			currentBufferPack.setColorAndLayer(color, layer,
 					currentBufferSegment.elementsOffset,
 					currentBufferSegment.getElementsLength());
 		}
@@ -179,15 +193,19 @@ abstract class GLBufferManager {
 	 *            geometries length for this set
 	 * @param visible
 	 *            if visible
+	 * @param alpha
+	 *            object alpha
+	 * @param layer
+	 *            object layer
 	 */
-	public void updateVisibility(int index, int start, int geometriesLength, boolean visible) {
-		int alpha = visible ? color.getAlpha() : ALPHA_INVISIBLE;
+	public void updateVisibility(int index, int start, int geometriesLength, boolean visible, int alpha, int layer) {
+		int alphaOrInvisible = visible ? alpha : ALPHA_INVISIBLE;
 		for (int i = start; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.get(currentIndex);
 			if (currentBufferSegment != null) { // this may happen after undo from DrawIntersectionCurve3D
 				currentBufferPack = currentBufferSegment.bufferPack;
-				currentBufferPack.setAlpha(alpha);
+				currentBufferPack.setAlphaAndLayer(alphaOrInvisible, layer);
 			}
 		}
 	}

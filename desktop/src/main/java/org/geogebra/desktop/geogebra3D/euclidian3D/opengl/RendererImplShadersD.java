@@ -22,6 +22,7 @@ import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJre;
 import org.geogebra.common.jre.openGL.GLBufferJre;
 import org.geogebra.common.jre.openGL.GPUBufferJre;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
@@ -70,7 +71,8 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 		String vertexShaderString, fragmentShaderString;
 
-		vertexShaderString = VertexShader.getVertexShaderShiny(false);
+		vertexShaderString = VertexShader.getVertexShaderShiny(false,
+				view3D.getApplication().has(Feature.MOB_LAYER_FOR_PACKING));
 		fragmentShaderString = FragmentShader.getFragmentShaderShinyForPacking(0.2f, false);
 
 		if (jogl.getGL2ES2().isGL3core()) {

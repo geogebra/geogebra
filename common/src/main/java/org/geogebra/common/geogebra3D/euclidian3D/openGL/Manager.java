@@ -903,10 +903,12 @@ abstract public class Manager {
 	 * 
 	 * @param color
 	 *            new color
+	 * @param layer
+	 *            layer
 	 * @param index
 	 *            geometry index (for set)
 	 */
-	public void updateColor(GColor color, int index) {
+	public void updateColorAndLayer(GColor color, int layer, int index) {
 		// not needed here
 	}
 
@@ -917,8 +919,12 @@ abstract public class Manager {
 	 *            if visible
 	 * @param index
 	 *            geometry index (for set)
+	 * @param alpha
+	 *            geometry alpha
+	 * @param layer
+	 *            geometry layer
 	 */
-	public void updateVisibility(boolean visible, int index) {
+	public void updateVisibility(boolean visible, int index, int alpha, int layer) {
 		// not needed here
 	}
 

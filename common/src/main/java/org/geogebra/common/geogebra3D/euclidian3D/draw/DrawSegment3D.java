@@ -119,11 +119,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	@Override
 	protected void updateGeometriesColor() {
-		updateColors();
-		getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
-		if (!isVisible()) {
-			setGeometriesVisibility(false);
-		}
+		updateGeometriesColor(false);
 	}
 
 	@Override
