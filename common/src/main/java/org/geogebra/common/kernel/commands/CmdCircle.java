@@ -74,9 +74,9 @@ public class CmdCircle extends CommandProcessor {
 			return ret;
 		} else {
 			if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
-			throw argErr(app, c, arg[1]);
+			throw argErr(c, arg[1]);
 		}
 
 	}
@@ -131,7 +131,7 @@ public class CmdCircle extends CommandProcessor {
 					(GeoPointND) arg[1], (GeoPointND) arg[2]) };
 			return ret;
 		}
-		throw argErr(app, c, getBadArg(ok, arg));
+		throw argErr(c, getBadArg(ok, arg));
 
 	}
 

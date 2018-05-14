@@ -47,9 +47,9 @@ public class CmdStretch extends CommandProcessor {
 					return ret;
 
 				}
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
-			throw argErr(app, c, arg[1]);
+			throw argErr(c, arg[1]);
 		case 3:
 			arg = resArgs(c);
 
@@ -63,12 +63,12 @@ public class CmdStretch extends CommandProcessor {
 					return ret;
 
 				}
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 			if (!(arg[1] instanceof GeoVec3D)) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
-			throw argErr(app, c, arg[2]);
+			throw argErr(c, arg[2]);
 
 		default:
 			throw argNumErr(c);

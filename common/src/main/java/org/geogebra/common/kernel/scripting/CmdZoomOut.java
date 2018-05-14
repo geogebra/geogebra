@@ -41,7 +41,7 @@ public class CmdZoomOut extends CmdScripting {
 				double factor = numGeo.getDouble();
 
 				if (DoubleUtil.isZero(factor)) {
-					throw argErr(app, c, arg[0]);
+					throw argErr(c, arg[0]);
 				}
 
 				ev.zoom(px, py, 1 / factor, 4, true);
@@ -51,7 +51,7 @@ public class CmdZoomOut extends CmdScripting {
 				return arg;
 
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		case 2:
 			arg = resArgs(c);

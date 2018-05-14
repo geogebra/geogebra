@@ -57,7 +57,7 @@ public class CmdIsTangent extends CommandProcessor {
 
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 		}
 		throw argNumErr(c);
 	}

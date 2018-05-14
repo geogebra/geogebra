@@ -50,7 +50,7 @@ public class CmdPolar extends CommandProcessor {
 						(GeoLineND) arg[0], (GeoConicND) arg[1]) };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

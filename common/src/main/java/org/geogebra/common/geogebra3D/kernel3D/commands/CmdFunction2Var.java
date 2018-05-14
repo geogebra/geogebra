@@ -85,7 +85,7 @@ public class CmdFunction2Var extends CmdFunction {
 				 * return ret; }
 				 */
 
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		case 5:
 			arg = resArgs(c);
@@ -103,7 +103,7 @@ public class CmdFunction2Var extends CmdFunction {
 				return ret;
 			}
 
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 		}
 
 		return super.process(c, info);

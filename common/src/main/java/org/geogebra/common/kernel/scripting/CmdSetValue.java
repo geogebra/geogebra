@@ -50,11 +50,11 @@ public class CmdSetValue extends CmdScripting {
 						(int) arg[1].evaluateDouble(), arg[2]);
 
 				if (!success) {
-					throw argErr(app, c, arg[1]);
+					throw argErr(c, arg[1]);
 				}
 
 			} else {
-				throw argErr(app, c, ok ? arg[1] : arg[0]);
+				throw argErr(c, ok ? arg[1] : arg[0]);
 			}
 
 			return arg;

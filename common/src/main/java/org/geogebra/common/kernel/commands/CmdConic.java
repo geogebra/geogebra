@@ -39,7 +39,7 @@ public class CmdConic extends CommandProcessor {
 		case 5:
 			for (int i = 0; i < 5; i++) {
 				if (!arg[i].isGeoPoint()) {
-					throw argErr(app, c, arg[i]);
+					throw argErr(c, arg[i]);
 				}
 			}
 			GeoElement[] ret = { conic(c.getLabel(), arg) };

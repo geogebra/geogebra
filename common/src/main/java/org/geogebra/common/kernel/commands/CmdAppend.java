@@ -46,7 +46,7 @@ public class CmdAppend extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 
 		default:

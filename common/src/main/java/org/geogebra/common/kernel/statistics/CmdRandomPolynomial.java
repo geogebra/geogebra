@@ -30,7 +30,7 @@ public class CmdRandomPolynomial extends CommandProcessor {
 		}
 		for (int i = 1; i < 3; i++) {
 			if (!(args[i] instanceof GeoNumberValue)) {
-				throw argErr(app, c, args[i]);
+				throw argErr(c, args[i]);
 			}
 		}
 		AlgoRandomPolynomial algo = new AlgoRandomPolynomial(cons, c.getLabel(),

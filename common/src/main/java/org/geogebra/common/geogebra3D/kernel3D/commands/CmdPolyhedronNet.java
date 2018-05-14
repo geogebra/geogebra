@@ -42,9 +42,9 @@ public class CmdPolyhedronNet extends CommandProcessor {
 			}
 
 			if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
-			throw argErr(app, c, arg[1]);
+			throw argErr(c, arg[1]);
 
 			/*
 			 * case 3 : arg = resArgs(c); if ( (ok[0] = (arg[0]
@@ -76,7 +76,7 @@ public class CmdPolyhedronNet extends CommandProcessor {
 					if (arg[i].isGeoSegment()) {
 						segments[i - 3] = (GeoSegmentND) arg[i];
 					} else {
-						throw argErr(app, c, arg[i]);
+						throw argErr(c, arg[i]);
 					}
 
 				}
@@ -86,12 +86,12 @@ public class CmdPolyhedronNet extends CommandProcessor {
 			}
 
 			if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 			if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
-			throw argErr(app, c, arg[2]);
+			throw argErr(c, arg[2]);
 
 		}
 

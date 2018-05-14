@@ -52,7 +52,7 @@ public class CmdToolImage extends CommandProcessor {
 						.toLowerCaseUS(EuclidianConstants.getModeText(mode));
 
 				if ("".equals(modeStr)) {
-					throw argErr(app, c, arg[0]);
+					throw argErr(c, arg[0]);
 				}
 
 				// TODO Fix me
@@ -91,7 +91,7 @@ public class CmdToolImage extends CommandProcessor {
 				return ret;
 
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		default:
 			throw argNumErr(c);
@@ -105,6 +105,6 @@ public class CmdToolImage extends CommandProcessor {
 		if (arg[i] instanceof GeoPoint) {
 			return (GeoPoint) arg[i];
 		}
-		throw argErr(app, c, arg[i]);
+		throw argErr(c, arg[i]);
 	}
 }

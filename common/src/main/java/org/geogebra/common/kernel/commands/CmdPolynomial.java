@@ -50,7 +50,7 @@ public class CmdPolynomial extends CommandProcessor {
 						polynomialFunction(c.getLabel(), ((GeoList) arg[0])) };
 				return ret;
 			} else {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 
 			// more than one argument

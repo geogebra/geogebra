@@ -52,7 +52,7 @@ public class CmdStartAnimation extends CmdScripting {
 				}
 				return arg;
 			} else {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 		default:
 			arg = resArgs(c);
@@ -64,7 +64,7 @@ public class CmdStartAnimation extends CmdScripting {
 			}
 			for (int i = 0; i < sliderCount; i++) {
 				if (!arg[i].isAnimatable()) {
-					throw argErr(app, c, arg[i]);
+					throw argErr(c, arg[i]);
 				}
 			}
 

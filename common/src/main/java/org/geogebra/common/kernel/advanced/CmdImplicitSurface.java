@@ -42,7 +42,7 @@ public class CmdImplicitSurface extends CommandProcessor {
 				surf.setLabel(c.getLabel());
 				return new GeoElement[] { surf };
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		}
 		throw argNumErr(c);
 	}

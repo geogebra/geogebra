@@ -43,7 +43,7 @@ public class CmdLogNormal extends CommandProcessor {
 			if (arg[3].isGeoBoolean()) {
 				cumulative = (GeoBoolean) arg[3];
 			} else {
-				throw argErr(app, c, arg[3]);
+				throw argErr(c, arg[3]);
 			}
 
 			// fall through
@@ -67,10 +67,10 @@ public class CmdLogNormal extends CommandProcessor {
 					return algo.getResult().asArray();
 
 				} else {
-					throw argErr(app, c, arg[2]);
+					throw argErr(c, arg[2]);
 				}
 			}
-			throw argErr(app, c, ok ? arg[1] : arg[0]);
+			throw argErr(c, ok ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(c);

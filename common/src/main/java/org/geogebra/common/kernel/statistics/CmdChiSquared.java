@@ -43,7 +43,7 @@ public class CmdChiSquared extends CommandProcessor {
 			if (arg[2].isGeoBoolean()) {
 				cumulative = (GeoBoolean) arg[2];
 			} else {
-				throw argErr(app, c, arg[2]);
+				throw argErr(c, arg[2]);
 			}
 
 			// fall through
@@ -66,11 +66,11 @@ public class CmdChiSquared extends CommandProcessor {
 					ret[0].setLabel(c.getLabel());
 					return ret;
 				} else {
-					throw argErr(app, c, arg[1]);
+					throw argErr(c, arg[1]);
 				}
 
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		default:
 			throw argNumErr(c);

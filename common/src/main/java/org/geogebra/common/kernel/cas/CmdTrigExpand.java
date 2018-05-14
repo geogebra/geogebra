@@ -51,7 +51,7 @@ public class CmdTrigExpand extends CommandProcessor {
 						info);
 				return new GeoElement[] { algo.getResult() };
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 			// more than one argument
 		default:

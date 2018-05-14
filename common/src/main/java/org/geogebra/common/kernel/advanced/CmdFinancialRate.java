@@ -47,11 +47,11 @@ public class CmdFinancialRate extends CommandProcessor {
 			}
 
 			else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			} else {
-				throw argErr(app, c, arg[3]);
+				throw argErr(c, arg[3]);
 			}
 
 		case 4:
@@ -72,13 +72,13 @@ public class CmdFinancialRate extends CommandProcessor {
 			}
 
 			else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			} else if (!ok[2]) {
-				throw argErr(app, c, arg[2]);
+				throw argErr(c, arg[2]);
 			} else {
-				throw argErr(app, c, arg[3]);
+				throw argErr(c, arg[3]);
 			}
 
 		case 5:
@@ -101,15 +101,15 @@ public class CmdFinancialRate extends CommandProcessor {
 			}
 
 			else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			} else if (!ok[2]) {
-				throw argErr(app, c, arg[2]);
+				throw argErr(c, arg[2]);
 			} else if (!ok[3]) {
-				throw argErr(app, c, arg[3]);
+				throw argErr(c, arg[3]);
 			} else {
-				throw argErr(app, c, arg[4]);
+				throw argErr(c, arg[4]);
 			}
 
 		case 6: // include guess
@@ -133,17 +133,17 @@ public class CmdFinancialRate extends CommandProcessor {
 			}
 
 			else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			} else if (!ok[2]) {
-				throw argErr(app, c, arg[2]);
+				throw argErr(c, arg[2]);
 			} else if (!ok[3]) {
-				throw argErr(app, c, arg[3]);
+				throw argErr(c, arg[3]);
 			} else if (!ok[4]) {
-				throw argErr(app, c, arg[4]);
+				throw argErr(c, arg[4]);
 			} else {
-				throw argErr(app, c, arg[5]);
+				throw argErr(c, arg[5]);
 			}
 
 		default:

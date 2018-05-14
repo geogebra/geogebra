@@ -48,7 +48,7 @@ public class CmdZoomIn extends CmdScripting {
 
 				double factor = numGeo.getDouble();
 				if (DoubleUtil.isZero(factor)) {
-					throw argErr(app, c, arg[0]);
+					throw argErr(c, arg[0]);
 				}
 
 				ev.zoom(px, py, factor, 4, true);
@@ -58,7 +58,7 @@ public class CmdZoomIn extends CmdScripting {
 				return arg;
 
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		case 2:
 			arg = resArgs(c);
 			return zoomIn2(arg, c, arg[0].evaluateDouble(), this);
@@ -66,7 +66,7 @@ public class CmdZoomIn extends CmdScripting {
 			arg = resArgs(c);
 			for (int i = 0; i < 3; i++) {
 				if (!(arg[i] instanceof NumberValue)) {
-					throw argErr(app, c, arg[i]);
+					throw argErr(c, arg[i]);
 				}
 			}
 
@@ -128,6 +128,6 @@ public class CmdZoomIn extends CmdScripting {
 			return arg;
 
 		}
-		throw proc.argErr(proc.getApp(), c, ok0 ? arg[1] : arg[0]);
+		throw proc.argErr(c, ok0 ? arg[1] : arg[0]);
 	}
 }

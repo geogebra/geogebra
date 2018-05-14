@@ -59,7 +59,7 @@ public class CmdVector extends CommandProcessor {
 				GeoElement[] ret = { arg[0] };
 				return ret;
 			} else {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 
 		case 2:
@@ -71,7 +71,7 @@ public class CmdVector extends CommandProcessor {
 				return ret;
 			}
 
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

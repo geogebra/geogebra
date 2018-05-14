@@ -31,7 +31,7 @@ public class CmdIdentity extends CommandProcessor {
 			throw argNumErr(c);
 		}
 		if (!(arg[0] instanceof GeoNumberValue)) {
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		}
 
 		AlgoIdentity algo = new AlgoIdentity(kernel.getConstruction(),

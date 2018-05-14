@@ -45,7 +45,7 @@ public class CmdUpdateConstruction extends CmdScripting {
 				}
 			}
 
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		default:
 			throw argNumErr(c);

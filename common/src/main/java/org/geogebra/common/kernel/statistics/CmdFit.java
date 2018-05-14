@@ -46,7 +46,7 @@ public class CmdFit extends CommandProcessor {
 		GeoElement[] arg = resArgs(c);
 		if (n == 2) {
 			if (!arg[0].isGeoList()) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 			if (arg[1].isGeoList()) {
 
@@ -63,7 +63,7 @@ public class CmdFit extends CommandProcessor {
 				GeoElement[] ret = { algo.getFitNL() };
 				return ret;
 			} 
-			throw argErr(app, c, arg[1]);
+			throw argErr(c, arg[1]);
 		}
 
 		throw argNumErr(c);

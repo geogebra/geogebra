@@ -56,7 +56,7 @@ public class CmdFitPoly extends CommandProcessor {
 					return fitPolyFunction(c, arg);
 				}
 
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 
 		default:
@@ -86,7 +86,7 @@ public class CmdFitPoly extends CommandProcessor {
 				return ret;
 			}
 		}
-		throw argErr(app, c, arg[0]);
+		throw argErr(c, arg[0]);
 	}
 
 	/**

@@ -45,9 +45,9 @@ public class CmdApplyMatrix extends CommandProcessor {
 					ret = applyMatrix(label, arg[1], (GeoList) arg[0]);
 					return ret;
 				}
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		default:
 			throw argNumErr(c);

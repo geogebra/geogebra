@@ -50,7 +50,7 @@ public class CmdSetAxesRatio extends CmdScripting {
 				return arg;
 
 			}
-			throw argErr(app, c, ok0 ? arg[1] : arg[0]);
+			throw argErr(c, ok0 ? arg[1] : arg[0]);
 		case 3:
 			arg = resArgs(c);
 			boolean ok1 = false;
@@ -73,7 +73,7 @@ public class CmdSetAxesRatio extends CmdScripting {
 				return arg;
 
 			}
-			throw argErr(app, c, ok0 ? (ok1 ? arg[2] : arg[1]) : arg[0]);
+			throw argErr(c, ok0 ? (ok1 ? arg[2] : arg[1]) : arg[0]);
 		default:
 			throw argNumErr(c);
 		}

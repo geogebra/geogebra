@@ -43,7 +43,7 @@ public class CmdFrequency extends CommandProcessor {
 			if (arg[0].isGeoList()) {
 				return frequency((GeoList) arg[0]);
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		case 2:
 
@@ -61,9 +61,9 @@ public class CmdFrequency extends CommandProcessor {
 				}
 
 			} else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
 
 		case 3:
@@ -81,11 +81,11 @@ public class CmdFrequency extends CommandProcessor {
 				return frequency((GeoList) arg[0],
 						(GeoList) arg[1], (GeoBoolean) arg[2]);
 			} else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			} else {
-				throw argErr(app, c, arg[2]);
+				throw argErr(c, arg[2]);
 			}
 
 		case 4:
@@ -112,13 +112,13 @@ public class CmdFrequency extends CommandProcessor {
 			}
 
 			else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			} else if (!ok[2]) {
-				throw argErr(app, c, arg[2]);
+				throw argErr(c, arg[2]);
 			} else {
-				throw argErr(app, c, arg[3]);
+				throw argErr(c, arg[3]);
 			}
 
 		case 5:
@@ -134,15 +134,15 @@ public class CmdFrequency extends CommandProcessor {
 			}
 
 			else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			} else if (!ok[2]) {
-				throw argErr(app, c, arg[2]);
+				throw argErr(c, arg[2]);
 			} else if (!ok[3]) {
-				throw argErr(app, c, arg[3]);
+				throw argErr(c, arg[3]);
 			} else {
-				throw argErr(app, c, arg[4]);
+				throw argErr(c, arg[4]);
 			}
 
 		default:

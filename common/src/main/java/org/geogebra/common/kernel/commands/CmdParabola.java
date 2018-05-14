@@ -37,7 +37,7 @@ public class CmdParabola extends CommandProcessor {
 						(GeoLineND) arg[1]) };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

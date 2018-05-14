@@ -117,7 +117,7 @@ public class CmdDataFunction extends CommandProcessor {
 			return (ListValue) res[0];
 		}
 
-		throw argErr(app, c, ev);
+		throw argErr(c, ev);
 	}
 
 	/**

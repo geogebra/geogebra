@@ -38,7 +38,7 @@ public class CmdChiSquaredTest extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		case 2:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
@@ -50,9 +50,9 @@ public class CmdChiSquaredTest extends CommandProcessor {
 				return ret;
 
 			} else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
 
 		default:

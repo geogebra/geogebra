@@ -43,7 +43,7 @@ public class CmdTriangular extends CommandProcessor {
 			if (arg[4].isGeoBoolean()) {
 				cumulative = (GeoBoolean) arg[4];
 			} else {
-				throw argErr(app, c2, arg[4]);
+				throw argErr(c2, arg[4]);
 			}
 
 			// fall through
@@ -70,10 +70,10 @@ public class CmdTriangular extends CommandProcessor {
 					return algo.getResult().asArray();
 
 				} else {
-					throw argErr(app, c2, arg[2]);
+					throw argErr(c2, arg[2]);
 				}
 			}
-			throw argErr(app, c2,
+			throw argErr(c2,
 					!ok ? arg[0] : (ok2 ? arg[2] : arg[0]));
 
 		default:

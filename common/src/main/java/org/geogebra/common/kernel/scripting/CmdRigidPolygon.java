@@ -72,7 +72,7 @@ public class CmdRigidPolygon extends CommandProcessor {
 			// check arguments
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint())) {
-					throw argErr(app, c, arg[i]);
+					throw argErr(c, arg[i]);
 				}
 				points[i] = (GeoPoint) arg[i];
 			}

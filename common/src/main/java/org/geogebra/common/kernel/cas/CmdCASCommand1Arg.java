@@ -47,7 +47,7 @@ public class CmdCASCommand1Arg extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 			// more than one argument
 		default:

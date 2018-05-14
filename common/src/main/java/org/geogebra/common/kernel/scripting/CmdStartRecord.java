@@ -47,7 +47,7 @@ public class CmdStartRecord extends CmdScripting {
 				}
 				return arg;
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		default:
 			throw argNumErr(c);
 		}

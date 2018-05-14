@@ -61,7 +61,7 @@ public class CmdIntegral extends CommandProcessor {
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		case 2:
 			// Integral[ f(x,y), x]
@@ -73,7 +73,7 @@ public class CmdIntegral extends CommandProcessor {
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		case 3:
 			arg = resArgs(c);
@@ -90,7 +90,7 @@ public class CmdIntegral extends CommandProcessor {
 				GeoElement[] ret = { algo.getIntegral() };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		case 4:
 			arg = resArgs(c);
@@ -127,7 +127,7 @@ public class CmdIntegral extends CommandProcessor {
 				return ret;
 
 			} else {
-				throw argErr(app, c, getBadArg(ok, arg));
+				throw argErr(c, getBadArg(ok, arg));
 			}
 
 		case 5:
@@ -149,7 +149,7 @@ public class CmdIntegral extends CommandProcessor {
 				GeoElement[] ret = { algo.getIntegral() };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 		default:
 			throw argNumErr(c);
 		}

@@ -63,7 +63,7 @@ public class CmdIterationList extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 		default:
 			GeoElement arg1 = null;
 			GeoElement[] vars = new GeoElement[n - 3];

@@ -40,14 +40,14 @@ public class CmdPolyLine extends CommandProcessor {
 			if (arg[0].isGeoList()) {
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		case 2:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 
 				if (!arg[1].isGeoBoolean()) {
-					throw argErr(app, c, arg[1]);
+					throw argErr(c, arg[1]);
 				}
 
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
@@ -56,12 +56,12 @@ public class CmdPolyLine extends CommandProcessor {
 
 				if (!arg[1].isGeoPoint() && !(arg[1].isGeoBoolean()
 						&& arg[1].evaluateDouble() > 0)) {
-					throw argErr(app, c, arg[1]);
+					throw argErr(c, arg[1]);
 				}
 
 				return genericPolyline(arg[1], arg, c);
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		default:
 			GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
 			return genericPolyline(lastArg, null, c);
@@ -99,7 +99,7 @@ public class CmdPolyLine extends CommandProcessor {
 		boolean is3D = false;
 		for (int i = 0; i < size; i++) {
 			if (!(arg[i].isGeoPoint())) {
-				throw argErr(app, c, arg[i]);
+				throw argErr(c, arg[i]);
 			}
 			points[i] = (GeoPointND) arg[i];
 			is3D = checkIs3D(is3D, arg[i]);

@@ -38,7 +38,7 @@ public class CmdDotPlot extends CommandProcessor {
 						doCommand(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		case 2:
 			if ((ok[0] = arg[0].isGeoList())
@@ -55,9 +55,9 @@ public class CmdDotPlot extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
 
 		case 3:
@@ -69,11 +69,11 @@ public class CmdDotPlot extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			} else {
-				throw argErr(app, c, arg[2]);
+				throw argErr(c, arg[2]);
 			}
 
 		default:

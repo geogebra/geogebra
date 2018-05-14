@@ -70,7 +70,7 @@ public class CmdLocus extends CommandProcessor {
 				GeoElement[] ret = { locus(c.getLabel(), p1, p2) };
 				return ret;
 			} else {
-				throw argErr(app, c, getBadArg(ok, arg));
+				throw argErr(c, getBadArg(ok, arg));
 
 			}
 

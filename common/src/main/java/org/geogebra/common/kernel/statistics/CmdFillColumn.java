@@ -42,7 +42,7 @@ public class CmdFillColumn extends CommandProcessor {
 				int col = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
 
 				if (col < 0 || col > Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP) {
-					throw argErr(app, c, arg[0]);
+					throw argErr(c, arg[0]);
 				}
 
 				GeoList list = (GeoList) arg[1];
@@ -60,7 +60,7 @@ public class CmdFillColumn extends CommandProcessor {
 								.setSpreadsheetCell(app, row, col, cellGeo);
 					} catch (Exception e) {
 						e.printStackTrace();
-						throw argErr(app, c, arg[1]);
+						throw argErr(c, arg[1]);
 					}
 				}
 
@@ -68,9 +68,9 @@ public class CmdFillColumn extends CommandProcessor {
 				return ret;
 
 			} else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
 
 		default:

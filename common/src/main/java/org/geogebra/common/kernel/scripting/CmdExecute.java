@@ -38,7 +38,7 @@ public class CmdExecute extends CmdScripting {
 		}
 		if ((!arg[0].isGeoList()) || (!((GeoList) arg[0])
 				.getGeoElementForPropertiesDialog().isGeoText())) {
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		}
 		GeoList list = (GeoList) arg[0];
 

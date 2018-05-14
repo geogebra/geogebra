@@ -29,7 +29,7 @@ public class CmdImplicitDerivative extends CommandProcessor {
 			throw argNumErr(c);
 		}
 		if (!(args[0] instanceof FunctionalNVar)) {
-			throw argErr(app, c, args[0]);
+			throw argErr(c, args[0]);
 		}
 
 		AlgoImplicitDerivative algo = new AlgoImplicitDerivative(cons,

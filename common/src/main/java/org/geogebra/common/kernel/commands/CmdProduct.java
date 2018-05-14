@@ -49,7 +49,7 @@ public class CmdProduct extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (!arg[0].isGeoList()) {
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		}
 		GeoList list = (GeoList) arg[0];
 		switch (n) {
@@ -79,9 +79,9 @@ public class CmdProduct extends CommandProcessor {
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				}
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
-			throw argErr(app, c, arg[1]);
+			throw argErr(c, arg[1]);
 
 		default:
 			throw argNumErr(c);
@@ -100,7 +100,7 @@ public class CmdProduct extends CommandProcessor {
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
-		throw argErr(app, c, geoElement);
+		throw argErr(c, geoElement);
 	}
 
 }

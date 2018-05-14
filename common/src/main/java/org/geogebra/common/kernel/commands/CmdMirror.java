@@ -56,9 +56,9 @@ public class CmdMirror extends CommandProcessor {
 			// syntax error
 
 			if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
-			throw argErr(app, c, arg[1]);
+			throw argErr(c, arg[1]);
 
 		default:
 			throw argNumErr(c);

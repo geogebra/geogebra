@@ -50,7 +50,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 			throw argNumErr(c);
 		}
 		if (!(args[1] instanceof NumberValue)) {
-			throw argErr(app, c, args[1]);
+			throw argErr(c, args[1]);
 		}
 		return args[1].evaluateDouble();
 	}
@@ -76,7 +76,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 		}
 		GeoElement[] args = resArgs(c);
 		if (!args[0].isGeoTurtle()) {
-			throw argErr(app, c, args[0]);
+			throw argErr(c, args[0]);
 		}
 		performTurtleCommand(c, args);
 		return args;

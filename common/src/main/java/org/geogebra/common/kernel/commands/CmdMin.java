@@ -49,7 +49,7 @@ public class CmdMin extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 
 		case 2:
@@ -74,7 +74,7 @@ public class CmdMin extends CommandProcessor {
 				return ret;
 			}
 
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		case 3: // Min[f,a,b]
 			arg = resArgs(c);
@@ -89,7 +89,7 @@ public class CmdMin extends CommandProcessor {
 				GeoElement[] ret = { algo.getPoint() };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

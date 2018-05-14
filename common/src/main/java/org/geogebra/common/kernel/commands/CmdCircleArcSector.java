@@ -49,7 +49,7 @@ public class CmdCircleArcSector extends CommandProcessor {
 								(GeoPointND) arg[1], (GeoPointND) arg[2]) };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		case 4:
 			arg = resArgs(c);

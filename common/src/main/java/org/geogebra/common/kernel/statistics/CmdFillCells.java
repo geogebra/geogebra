@@ -54,7 +54,7 @@ public class CmdFillCells extends CommandProcessor {
 				if (!(cellRange
 						.getParentAlgorithm() instanceof AlgoCellRange)) {
 					Log.debug("not cell range");
-					throw argErr(app, c, arg[0]);
+					throw argErr(c, arg[0]);
 
 				}
 
@@ -79,11 +79,11 @@ public class CmdFillCells extends CommandProcessor {
 				if (geo.isGeoLocus()) {
 
 					if (!geo.isDefined()) {
-						throw argErr(app, c, arg[1]);
+						throw argErr(c, arg[1]);
 					}
 
 					if (minCol + 1 != maxCol) {
-						throw argErr(app, c, arg[0]);
+						throw argErr(c, arg[0]);
 					}
 
 					GeoLocus locus = (GeoLocus) geo;
@@ -114,7 +114,7 @@ public class CmdFillCells extends CommandProcessor {
 						} catch (Exception e) {
 							e.printStackTrace();
 							app.setScrollToShow(true);
-							throw argErr(app, c, arg[1]);
+							throw argErr(c, arg[1]);
 						}
 
 					}
@@ -148,7 +148,7 @@ public class CmdFillCells extends CommandProcessor {
 							} catch (Exception e) {
 								app.setScrollToShow(true);
 								e.printStackTrace();
-								throw argErr(app, c, arg[1]);
+								throw argErr(c, arg[1]);
 							}
 						}
 					}
@@ -182,7 +182,7 @@ public class CmdFillCells extends CommandProcessor {
 							} catch (Exception e) {
 								app.setScrollToShow(true);
 								e.printStackTrace();
-								throw argErr(app, c, arg[1]);
+								throw argErr(c, arg[1]);
 							}
 						}
 					}
@@ -207,7 +207,7 @@ public class CmdFillCells extends CommandProcessor {
 							} catch (Exception e) {
 								app.setScrollToShow(true);
 								e.printStackTrace();
-								throw argErr(app, c, arg[1]);
+								throw argErr(c, arg[1]);
 							}
 						}
 					}
@@ -227,7 +227,7 @@ public class CmdFillCells extends CommandProcessor {
 
 				if (!arg[1].isGeoList()) {
 					app.setScrollToShow(true);
-					throw argErr(app, c, arg[1]);
+					throw argErr(c, arg[1]);
 				}
 
 				GeoList list = (GeoList) arg[1];
@@ -240,7 +240,7 @@ public class CmdFillCells extends CommandProcessor {
 
 				if (row == -1 || column == -1) {
 					app.setScrollToShow(true);
-					throw argErr(app, c, arg[0]);
+					throw argErr(c, arg[0]);
 				}
 
 				if (list.isMatrix()) {
@@ -265,7 +265,7 @@ public class CmdFillCells extends CommandProcessor {
 						}
 					} catch (Exception e) {
 						app.setScrollToShow(true);
-						throw argErr(app, c, list);
+						throw argErr(c, list);
 					}
 
 				} else {
@@ -286,14 +286,14 @@ public class CmdFillCells extends CommandProcessor {
 						} catch (Exception e) {
 							e.printStackTrace();
 							app.setScrollToShow(true);
-							throw argErr(app, c, arg[1]);
+							throw argErr(c, arg[1]);
 						}
 					}
 				}
 
 			} else {
 				app.setScrollToShow(true);
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 		}
 

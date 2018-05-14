@@ -72,7 +72,7 @@ public class CmdRotate3D extends CmdRotate {
 						(GeoDirectionND) arg[3]);
 			}
 
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		}
 

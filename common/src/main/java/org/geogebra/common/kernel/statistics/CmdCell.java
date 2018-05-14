@@ -39,7 +39,7 @@ public class CmdCell extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c, ok ? arg[1] : arg[0]);
+			throw argErr(c, ok ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(c);

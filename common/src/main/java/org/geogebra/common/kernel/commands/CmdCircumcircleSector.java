@@ -37,7 +37,7 @@ public class CmdCircumcircleSector extends CommandProcessor {
 						getSector(c.getLabel(), arg[0], arg[1], arg[2]) };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

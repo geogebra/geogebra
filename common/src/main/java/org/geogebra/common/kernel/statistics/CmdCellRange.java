@@ -54,13 +54,13 @@ public class CmdCellRange extends CommandProcessor {
 	private String spreadsheetLabel(ExpressionNode expressionNode, Command c) {
 		if (expressionNode.getOperation() != Operation.NO_OPERATION
 				|| !expressionNode.getLeft().isVariable()) {
-			throw argErr(app, c, expressionNode);
+			throw argErr(c, expressionNode);
 		}
 		String cell = ((Variable) expressionNode.getLeft()).getName();
 		if (GeoElementSpreadsheet.isSpreadsheetLabel(cell)) {
 			return cell;
 		}
-		throw argErr(app, c, expressionNode);
+		throw argErr(c, expressionNode);
 	}
 
 }

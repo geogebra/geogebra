@@ -100,7 +100,7 @@ public class CmdLength extends CommandProcessor {
 				return ret;
 
 			} else {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 
 			// Victor Franco 18-04-2007
@@ -157,7 +157,7 @@ public class CmdLength extends CommandProcessor {
 
 			else {
 
-				throw argErr(app, c, getBadArg(ok, arg));
+				throw argErr(c, getBadArg(ok, arg));
 			}
 
 			// Victor Franco 18-04-2007 (end)

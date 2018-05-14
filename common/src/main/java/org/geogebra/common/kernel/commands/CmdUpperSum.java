@@ -44,7 +44,7 @@ public class CmdUpperSum extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}
-			throw argErr(app, c, null);
+			throw argErr(c, null);
 
 		default:
 			throw argNumErr(c);

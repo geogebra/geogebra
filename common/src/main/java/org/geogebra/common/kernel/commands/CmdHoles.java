@@ -35,7 +35,7 @@ public class CmdHoles extends CommandProcessor {
 				return new GeoElement[] {
 						holes(c, (GeoFunction) arg[0]).toGeoElement() };
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		default:
 			throw argNumErr(c);
 		}

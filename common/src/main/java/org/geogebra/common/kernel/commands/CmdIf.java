@@ -121,7 +121,7 @@ public class CmdIf extends CommandProcessor {
 				if (arg[i] instanceof GeoBoolean) {
 					cond.add((GeoBoolean) arg[i]);
 				} else {
-					throw argErr(app, c, arg[i]);
+					throw argErr(c, arg[i]);
 				}
 				alternatives.add(arg[i + 1]);
 			}
@@ -152,7 +152,7 @@ public class CmdIf extends CommandProcessor {
 					vars = Math.max(vars, 2);
 				}
 			} else {
-				throw argErr(app, c, arg[i]);
+				throw argErr(c, arg[i]);
 			}
 			vars = checkAdd(c, functions, arg[i + 1], vars);
 		}
@@ -183,7 +183,7 @@ public class CmdIf extends CommandProcessor {
 			functions.add((GeoFunctionNVar) fn);
 			return 2;
 		} else {
-			throw argErr(app, c, fn);
+			throw argErr(c, fn);
 		}
 
 	}
@@ -205,7 +205,7 @@ public class CmdIf extends CommandProcessor {
 			if (current.isBooleanFunction()) {
 				conditions.add(current);
 			} else {
-				throw argErr(app, c, current);
+				throw argErr(c, current);
 			}
 			kernel.getAlgebraProcessor().replaceVariables(c.getArgument(i + 1),
 					varName, fv);

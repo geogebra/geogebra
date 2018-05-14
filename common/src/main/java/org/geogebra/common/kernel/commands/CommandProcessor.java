@@ -1,4 +1,4 @@
-/**
+/*
  * GeoGebra - Dynamic Mathematics for Everyone 
  * http://www.geogebra.org
  * 
@@ -251,7 +251,6 @@ public abstract class CommandProcessor {
 				// resolve i-th argument and get GeoElements
 				// use only first resolved argument object for result
 				result[i] = resArg(arg[i], argInfo)[0];
-
 			}
 		}
 
@@ -330,7 +329,7 @@ public abstract class CommandProcessor {
 		// check if there is a local variable in arguments
 		String localVarName = c.getVariableName(varPos);
 		if (localVarName == null) {
-			throw argErr(app, c, c.getArgument(varPos));
+			throw argErr(c, c.getArgument(varPos));
 		}
 		// imaginary unit as local variable name
 		else if (localVarName.equals(Unicode.IMAGINARY + "")) {
@@ -360,7 +359,7 @@ public abstract class CommandProcessor {
 		if (initPos != varPos) {
 			boolean oldval = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			NumberValue initValue = null;
+			NumberValue initValue;
 			try {
 				initValue = (NumberValue) resArg(c.getArgument(initPos),
 					new EvalInfo(false))[0];
@@ -434,12 +433,12 @@ public abstract class CommandProcessor {
 			}
 
 			if (localVarName == null) {
-				throw argErr(app, c, c.getArgument(varPos));
+				throw argErr(c, c.getArgument(varPos));
 			}
 
 			// add local variable name to construction
 
-			GeoElement num = null;
+			GeoElement num;
 
 			// initialize first value of local numeric variable from initPos
 
@@ -497,10 +496,10 @@ public abstract class CommandProcessor {
 		EvalInfo argInfo = new EvalInfo(false);
 		GeoElement geo = resArg(c.getArgument(numArgs - 2), argInfo)[0];
 		if (geo != null && !(geo instanceof GeoList)) {
-			throw argErr(app, c, c.getArgument(numArgs - 2));
+			throw argErr(c, c.getArgument(numArgs - 2));
 		}
 		GeoList gl = (GeoList) geo;
-		GeoElement num = null;
+		GeoElement num;
 		if (gl == null) {
 			num = new GeoNumeric(cons);
 		} else if (gl.size() == 0) {
@@ -525,7 +524,7 @@ public abstract class CommandProcessor {
 			}
 
 			if (localVarName == null) {
-				throw argErr(app, c, c.getArgument(varPos));
+				throw argErr(c, c.getArgument(varPos));
 			}
 
 			// add local variable name to construction
@@ -596,7 +595,7 @@ public abstract class CommandProcessor {
 			// check if there is a local variable in arguments
 			localVarName[i] = c.getVariableName(varPos[i]);
 			if (localVarName[i] == null) {
-				throw argErr(app, c, c.getArgument(varPos[i]));
+				throw argErr(c, c.getArgument(varPos[i]));
 			}
 			// imaginary unit as local variable name
 			else if (localVarName[i].equals(Unicode.IMAGINARY + "")) {
@@ -646,7 +645,7 @@ public abstract class CommandProcessor {
 
 		// resolve all command arguments including the local variable just
 		// created
-		GeoElement[] arg = null;
+		GeoElement[] arg;
 		try {
 			arg = resArgs(c);
 		} finally {
@@ -662,53 +661,48 @@ public abstract class CommandProcessor {
 	/**
 	 * Creates wrong argument error
 	 * 
-	 * @param app1
-	 *            application
 	 * @param cmd
 	 *            command name
 	 * @param arg
 	 *            faulty argument
 	 * @return wrong argument error
 	 */
-	public final MyError argErr(App app1, Command cmd, ExpressionValue arg) {
-		return argErr(app1.getLocalization(), cmd.getName(), arg);
+	public final MyError argErr(Command cmd, ExpressionValue arg) {
+		return argErr(cmd.getName(), arg);
 	}
 
 	/**
 	 * Creates wrong argument error
 	 * 
-	 * @param app1
-	 *            application
 	 * @param cmd
 	 *            command name
 	 * @param arg
 	 *            faulty argument
 	 * @return wrong argument error
 	 */
-	protected final MyError argErr(Localization app1, String cmd,
-			ExpressionValue arg) {
-		String localName = app1.getCommand(cmd);
+	protected final MyError argErr(String cmd, ExpressionValue arg) {
+		String localName = loc.getCommand(cmd);
 		if (errorSb == null) {
 			errorSb = new StringBuilder();
 		} else {
 			errorSb.setLength(0);
 		}
 
-		final boolean reverseOrder = app1.isReverseNameDescriptionLanguage();
+		final boolean reverseOrder = loc.isReverseNameDescriptionLanguage();
 		if (!reverseOrder) {
 			// standard order: "Command ..."
-			errorSb.append(app1.getCommand("Command"));
+			errorSb.append(loc.getCommand("Command"));
 			errorSb.append(' ');
 			errorSb.append(localName);
 		} else {
 			// reverse order: "... command"
 			errorSb.append(localName);
 			errorSb.append(' ');
-			errorSb.append(app1.getCommand("Command").toLowerCase());
+			errorSb.append(loc.getCommand("Command").toLowerCase());
 		}
 
 		errorSb.append(":\n");
-		errorSb.append(app1.getError("IllegalArgument"));
+		errorSb.append(loc.getError("IllegalArgument"));
 		errorSb.append(": ");
 		if (arg instanceof GeoElement) {
 			errorSb.append(((GeoElement) arg).getNameDescription());
@@ -716,17 +710,15 @@ public abstract class CommandProcessor {
 			errorSb.append(arg.toString(StringTemplate.defaultTemplate));
 		}
 		errorSb.append("\n\n");
-		errorSb.append(app1.getMenu("Syntax"));
+		errorSb.append(loc.getMenu("Syntax"));
 		errorSb.append(":\n");
-		errorSb.append(app1.getCommandSyntax(cmd));
-		return new MyError(app1, errorSb.toString(), cmd, null);
+		errorSb.append(loc.getCommandSyntax(cmd));
+		return new MyError(loc, errorSb.toString(), cmd, null);
 	}
 
 	/**
 	 * Creates wrong parameter count error
 	 * 
-	 * @param app1
-	 *            application
 	 * @param cmd
 	 *            command name
 	 * @param argNumber
@@ -734,17 +726,15 @@ public abstract class CommandProcessor {
 	 * @return wrong parameter count error
 	 */
 
-	private final MyError argNumErr(App app1, Command cmd, int argNumber) {
+	private MyError argNumErr(Command cmd, int argNumber) {
 		if (errorSb == null) {
 			errorSb = new StringBuilder();
 		} else {
 			errorSb.setLength(0);
 		}
-		getCommandSyntax(errorSb, app1.getLocalization(), cmd.getName(),
-				argNumber);
-		return new MyError(app1.getLocalization(), errorSb.toString(),
-				cmd.getName(),
-				null);
+
+		getCommandSyntax(errorSb, loc, cmd.getName(), argNumber);
+		return new MyError(loc, errorSb.toString(), cmd.getName(), null);
 	}
 
 	/**
@@ -785,7 +775,6 @@ public abstract class CommandProcessor {
 		sb.append(app.getMenu("Syntax"));
 		sb.append(":\n");
 		sb.append(app.getCommandSyntax(cmd));
-
 	}
 
 	/**
@@ -797,7 +786,7 @@ public abstract class CommandProcessor {
 	 *            dependent geo
 	 * @return change dependent error
 	 */
-	final static MyError chDepErr(App app1, GeoElement geo) {
+	static MyError chDepErr(App app1, GeoElement geo) {
 		String[] strs = { "ChangeDependent", geo.getLongDescription() };
 		return new MyError(app1.getLocalization(), strs);
 	}
@@ -928,10 +917,9 @@ public abstract class CommandProcessor {
 				// make sure old files can be loaded (and fixed)
 				Log.warn("wrong dependency in " + c.getName());
 			} else {
-				throw argErr(app, c, arg[i]);
+				throw argErr(c, arg[i]);
 			}
 		}
-
 	}
 
 	/**
@@ -960,7 +948,7 @@ public abstract class CommandProcessor {
 	 * @return throws error
 	 */
 	protected final MyError argErr(GeoElement geo, Command c) {
-		return argErr(app, c, geo);
+		return argErr(c, geo);
 	}
 
 	/**
@@ -969,7 +957,7 @@ public abstract class CommandProcessor {
 	 * @return throws error
 	 */
 	protected final MyError argNumErr(Command c) {
-		return argNumErr(app, c, c.getArgumentNumber());
+		return argNumErr(c, c.getArgumentNumber());
 	}
 
 	/**

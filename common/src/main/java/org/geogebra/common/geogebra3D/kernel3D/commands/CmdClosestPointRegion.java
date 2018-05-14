@@ -44,9 +44,9 @@ public class CmdClosestPointRegion extends CommandProcessor {
 			}
 
 			if (ok[0] && !ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		default:
 			// return super.process(c);

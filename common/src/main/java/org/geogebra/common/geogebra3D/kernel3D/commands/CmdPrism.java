@@ -43,9 +43,9 @@ public class CmdPrism extends CommandProcessor {
 				return ret;
 			} else {
 				if (!ok[0]) {
-					throw argErr(app, c, arg[0]);
+					throw argErr(c, arg[0]);
 				}
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
 
 		} else if (n > 2) {
@@ -55,7 +55,7 @@ public class CmdPrism extends CommandProcessor {
 			// check arguments
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint())) {
-					throw argErr(app, c, arg[i]);
+					throw argErr(c, arg[i]);
 				}
 				points[i] = (GeoPointND) arg[i];
 			}

@@ -40,7 +40,7 @@ public class CmdExcentricity extends CommandProcessor {
 				GeoElement[] ret = { algo.getLinearEccentricity() };
 				return ret;
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		default:
 			throw argNumErr(c);

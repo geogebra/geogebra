@@ -39,7 +39,7 @@ public class CmdRoots extends CommandProcessor {
 				return CmdRoot.nonPolyRoots(c, kernel,
 						(GeoFunctionable) arg[0]);
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		case 3:
 			arg = resArgs(c);
@@ -54,7 +54,7 @@ public class CmdRoots extends CommandProcessor {
 				GeoElement[] ret = algo.getRootPoints();
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

@@ -47,7 +47,7 @@ public class CmdIndexOf extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
 		case 3:
 			boolean[] ok = new boolean[2];
@@ -69,9 +69,9 @@ public class CmdIndexOf extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (!ok[0]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
-			throw argErr(app, c, arg[2]);
+			throw argErr(c, arg[2]);
 
 		default:
 			throw argNumErr(c);

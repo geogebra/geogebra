@@ -96,7 +96,7 @@ public class CmdSetColor extends CmdScripting {
 				return target.asArray();
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw argErr(app, c, target);
+				throw argErr(c, target);
 			}
 
 		case 4:
@@ -146,17 +146,17 @@ public class CmdSetColor extends CmdScripting {
 		if (r.isNumberValue()) {
 			red = MyDouble.normalize0to255(r.evaluateDouble());
 		} else {
-			throw argErr(app, c, r);
+			throw argErr(c, r);
 		}
 		if (g.isNumberValue()) {
 			green = MyDouble.normalize0to255(g.evaluateDouble());
 		} else {
-			throw argErr(app, c, g);
+			throw argErr(c, g);
 		}
 		if (b.isNumberValue()) {
 			blue = MyDouble.normalize0to255(b.evaluateDouble());
 		} else {
-			throw argErr(app, c, b);
+			throw argErr(c, b);
 		}
 		return GColor.newColor(red, green, blue);
 	}
@@ -180,7 +180,7 @@ public class CmdSetColor extends CmdScripting {
 					args[offset].toString(StringTemplate.defaultTemplate));
 		}
 		if (!color.isGeoText()) {
-			throw argErr(app, c, color);
+			throw argErr(c, color);
 		}
 
 		GColor ret;
@@ -191,7 +191,7 @@ public class CmdSetColor extends CmdScripting {
 		if (colorText.startsWith("#")) {
 
 			if (colorText.length() != 7 && colorText.length() != 9) {
-				throw argErr(app, c, color);
+				throw argErr(c, color);
 			}
 
 			int red;
@@ -222,7 +222,7 @@ public class CmdSetColor extends CmdScripting {
 			ret = GeoGebraColorConstants.getGeogebraColor(app, colorText);
 		}
 		if (ret == null && !background) {
-			throw argErr(app, c, color);
+			throw argErr(c, color);
 		}
 		return ret;
 	}

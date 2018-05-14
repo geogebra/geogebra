@@ -59,7 +59,7 @@ public class CmdShowHideLayer extends CmdScripting {
 				kernel.notifyRepaint();
 				return arg;
 			}
-			throw argErr(app, c, null);
+			throw argErr(c, null);
 
 		default:
 			throw argNumErr(c);

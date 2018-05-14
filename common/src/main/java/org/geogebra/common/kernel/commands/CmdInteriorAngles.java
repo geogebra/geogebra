@@ -29,7 +29,7 @@ public class CmdInteriorAngles extends CommandProcessor {
 			if (arg[0].isGeoPolygon()) {
 				return process(c.getLabels(), (GeoPolygon) arg[0]);
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		}
 		throw argNumErr(c);
 	}

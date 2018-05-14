@@ -31,12 +31,12 @@ public class CmdRoundedPolygon extends CommandProcessor {
 		// check arguments
 		for (int i = 0; i < n - 1; i++) {
 			if (!(arg[i].isGeoPoint())) {
-				throw argErr(app, c, arg[i]);
+				throw argErr(c, arg[i]);
 			}
 			points[i] = (GeoPointND) arg[i];
 		}
 		if (!(arg[n - 1].isNumberValue())) {
-			throw argErr(app, c, arg[n - 1]);
+			throw argErr(c, arg[n - 1]);
 		}
 		AlgoRoundedPolygon algo = new AlgoRoundedPolygon(cons, points,
 				(GeoNumberValue) arg[n - 1]);

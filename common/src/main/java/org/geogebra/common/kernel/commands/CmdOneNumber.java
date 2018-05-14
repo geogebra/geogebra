@@ -30,7 +30,7 @@ public abstract class CmdOneNumber extends CommandProcessor {
 			throw argNumErr(c);
 		}
 		if (!(args[0] instanceof GeoNumberValue)) {
-			throw argErr(app, c, args[0]);
+			throw argErr(c, args[0]);
 		}
 		return new GeoElement[] {
 				getResult((GeoNumberValue) args[0], c.getLabel()) };

@@ -66,7 +66,7 @@ public class CmdRandom extends CommandProcessor {
 				// else fall through to case 2:
 
 			} else {
-				throw argErr(app, c, arg[2]);
+				throw argErr(c, arg[2]);
 			}
 
 			// fall through if arg[2] == false
@@ -83,7 +83,7 @@ public class CmdRandom extends CommandProcessor {
 				return ret;
 
 			}
-			throw argErr(app, c,
+			throw argErr(c,
 					arg[0] instanceof GeoNumberValue ? arg[1] : arg[0]);
 
 		default:

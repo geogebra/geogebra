@@ -52,9 +52,9 @@ public class CmdTableText extends CommandProcessor {
 					GeoElement[] ret = { tableText(c.getLabel(), list, null) };
 					return ret;
 				}
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		case 2:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoText())) {
@@ -75,7 +75,7 @@ public class CmdTableText extends CommandProcessor {
 							tableText(c.getLabel(), list, (GeoText) arg[1]) };
 					return ret;
 				}
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
 				// two lists, no alignment
@@ -87,7 +87,7 @@ public class CmdTableText extends CommandProcessor {
 				}
 
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		case 0:
 			throw argNumErr(c);
@@ -110,7 +110,7 @@ public class CmdTableText extends CommandProcessor {
 					return ret;
 				}
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		}
 	}
 

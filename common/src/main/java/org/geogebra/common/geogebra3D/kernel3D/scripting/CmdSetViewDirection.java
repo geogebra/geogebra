@@ -55,7 +55,7 @@ public class CmdSetViewDirection extends CmdScripting {
 			if (arg[1].isGeoBoolean()) {
 				animated = ((GeoBoolean) arg[1]).getBoolean();
 			} else {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
 		}
 
@@ -110,7 +110,7 @@ public class CmdSetViewDirection extends CmdScripting {
 
 		}
 
-		throw argErr(app, c, arg[0]);
+		throw argErr(c, arg[0]);
 
 	}
 }

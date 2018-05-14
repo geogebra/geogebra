@@ -62,7 +62,7 @@ public class CmdLine extends CommandProcessor {
 
 			// syntax error
 			else {
-				throw argErr(app, c, getBadArg(ok, arg));
+				throw argErr(c, getBadArg(ok, arg));
 			}
 
 		default:

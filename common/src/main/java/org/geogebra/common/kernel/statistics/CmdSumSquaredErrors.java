@@ -53,7 +53,7 @@ public class CmdSumSquaredErrors extends CommandProcessor {
 				GeoElement[] ret = { algo.getsse() };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

@@ -35,7 +35,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 		case 3:
 			GeoElement[] arg = resArgs(c);
 			if (!(arg[1] instanceof NumberValue)) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
 
 			if (arg[2].isGeoBoolean()) {
@@ -95,7 +95,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 
 				return arg;
 			}
-			throw argErr(app, c, arg[2]);
+			throw argErr(c, arg[2]);
 
 		default:
 			throw argNumErr(c);

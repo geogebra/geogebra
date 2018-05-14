@@ -37,7 +37,7 @@ public class CmdHeight extends CommandProcessor {
 						.orientedHeight(c.getLabel(), (HasHeight) arg[0]) };
 			}
 
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		default:
 			throw argNumErr(c);

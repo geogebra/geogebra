@@ -40,7 +40,7 @@ public class CmdCentroid extends CommandProcessor {
 				GeoElement[] ret = { (GeoElement) algo.getPoint() };
 				return ret;
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		default:
 			throw argNumErr(c);

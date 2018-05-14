@@ -77,7 +77,7 @@ public class CmdExportImage extends CmdScripting {
 			GeoElement value = arg[i + 1];
 
 			if (!key.isGeoText()) {
-				throw argErr(app, c, key);
+				throw argErr(c, key);
 			}
 
 			switch (StringUtil.toLowerCaseUS(((TextProperties) key)
@@ -160,7 +160,7 @@ public class CmdExportImage extends CmdScripting {
 				filename = value.toValueString(StringTemplate.defaultTemplate);
 				break;
 			default:
-				throw argErr(app, c, key);
+				throw argErr(c, key);
 
 			}
 

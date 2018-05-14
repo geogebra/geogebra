@@ -39,7 +39,7 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 				return ret;
 
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		case 3: // return list of results
 			arg = resArgs(c);
@@ -51,7 +51,7 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 				return ret;
 
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		default:
 			throw argNumErr(c);

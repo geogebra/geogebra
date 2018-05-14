@@ -42,7 +42,7 @@ public class CmdInverseTDistribution extends CommandProcessor {
 				return ret;
 
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

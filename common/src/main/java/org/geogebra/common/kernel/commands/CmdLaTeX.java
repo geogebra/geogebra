@@ -45,7 +45,7 @@ public class CmdLaTeX extends CommandProcessor {
 						(GeoBoolean) arg[1], null) };
 				return ret2;
 			}
-			throw argErr(app, c, arg[1]);
+			throw argErr(c, arg[1]);
 
 		case 3:
 
@@ -57,9 +57,9 @@ public class CmdLaTeX extends CommandProcessor {
 			}
 
 			else if (!arg[1].isGeoBoolean()) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			} else {
-				throw argErr(app, c, arg[2]);
+				throw argErr(c, arg[2]);
 			}
 
 		default:

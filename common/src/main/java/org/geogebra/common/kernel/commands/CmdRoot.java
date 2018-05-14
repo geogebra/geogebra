@@ -47,7 +47,7 @@ public class CmdRoot extends CommandProcessor {
 				GeoFunctionable gf = (GeoFunctionable) arg[0];
 				return root(c, gf);
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 			// root with start value
 		case 2:
@@ -67,7 +67,7 @@ public class CmdRoot extends CommandProcessor {
 										// Intersect(f,g) as Root(f,g)
 				return kernel.getAlgebraProcessor().processCommand(c, info);
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 			// root in interval
 		case 3:
@@ -83,7 +83,7 @@ public class CmdRoot extends CommandProcessor {
 				GeoElement[] ret = { algo.getRootPoint() };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

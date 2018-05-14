@@ -48,7 +48,7 @@ public class CmdZProportion2Estimate extends CommandProcessor {
 
 			}
 
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

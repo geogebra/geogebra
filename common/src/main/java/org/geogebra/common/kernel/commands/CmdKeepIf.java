@@ -45,11 +45,11 @@ public class CmdKeepIf extends CommandProcessor {
 			arg1Str = c.getArgument(1).toString(StringTemplate.defaultTemplate);
 			try {
 				if (!arg1Str.equals(kernel.getParser().parseLabel(arg1Str))) {
-					throw argErr(app, c,
+					throw argErr(c,
 							new MyStringBuffer(kernel, arg1Str));
 				}
 			} catch (ParseException e) {
-				throw argErr(app, c,
+				throw argErr(c,
 						new MyStringBuffer(kernel, arg1Str));
 			}
 
@@ -75,7 +75,7 @@ public class CmdKeepIf extends CommandProcessor {
 				return ret;
 			}
 
-			throw argErr(app, c, arg);
+			throw argErr(c, arg);
 
 		case 2:
 			args = resArgs(c);
@@ -91,7 +91,7 @@ public class CmdKeepIf extends CommandProcessor {
 				}
 			}
 
-			throw argErr(app, c, getBadArg(ok, args));
+			throw argErr(c, getBadArg(ok, args));
 
 		default:
 			throw argNumErr(c);

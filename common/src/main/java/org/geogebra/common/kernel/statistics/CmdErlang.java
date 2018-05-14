@@ -44,7 +44,7 @@ public class CmdErlang extends CommandProcessor {
 			if (arg[3].isGeoBoolean()) {
 				cumulative = (GeoBoolean) arg[3];
 			} else {
-				throw argErr(app, c, arg[3]);
+				throw argErr(c, arg[3]);
 			}
 
 			// fall through
@@ -68,13 +68,13 @@ public class CmdErlang extends CommandProcessor {
 					return algo.getResult().asArray();
 
 				} else {
-					throw argErr(app, c, arg[2]);
+					throw argErr(c, arg[2]);
 				}
 
 			} else if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
 
 		default:

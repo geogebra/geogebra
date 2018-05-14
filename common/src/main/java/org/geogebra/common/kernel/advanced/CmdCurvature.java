@@ -75,9 +75,9 @@ public class CmdCurvature extends CommandProcessor {
 			}
 
 			if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
-			throw argErr(app, c, arg[1]);
+			throw argErr(c, arg[1]);
 
 		case 3:
 			arg = resArgs(c);
@@ -96,12 +96,12 @@ public class CmdCurvature extends CommandProcessor {
 			}
 
 			if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 			if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
-			throw argErr(app, c, arg[2]);
+			throw argErr(c, arg[2]);
 
 		default:
 			throw argNumErr(c);

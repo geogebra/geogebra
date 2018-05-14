@@ -56,7 +56,7 @@ public class CmdSequence extends CommandProcessor {
 						(GeoNumberValue) arg[0]);
 				return algo.getOutput();
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		case 2:
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
@@ -66,7 +66,7 @@ public class CmdSequence extends CommandProcessor {
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1], null);
 				return algo.getOutput();
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 		case 3:
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -77,7 +77,7 @@ public class CmdSequence extends CommandProcessor {
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 				return algo.getOutput();
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 		case 4:
 
 			// make sure Sequence[i,i,i,i] gives an error
@@ -95,7 +95,7 @@ public class CmdSequence extends CommandProcessor {
 
 				return algo.getOutput();
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		case 5:
 			// make sure Sequence[i,i,i,i,i] gives an error
@@ -115,7 +115,7 @@ public class CmdSequence extends CommandProcessor {
 				return algo.getOutput();
 
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

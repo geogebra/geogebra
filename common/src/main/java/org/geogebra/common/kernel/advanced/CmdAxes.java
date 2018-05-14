@@ -43,7 +43,7 @@ public class CmdAxes extends CommandProcessor {
 				return (GeoElement[]) algo.getAxes();
 
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		default:
 			throw argNumErr(c);

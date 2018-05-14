@@ -41,7 +41,7 @@ public class CmdLimit extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 		case 3:
 			if ((ok[0] = arg[0].isGeoFunction())
 					&& (ok[1] = arg[0].isGeoFunction())
@@ -53,7 +53,7 @@ public class CmdLimit extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 			// more than one argument
 		default:
 			throw argNumErr(c);

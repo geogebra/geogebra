@@ -113,7 +113,7 @@ public class CmdIntersect extends CommandProcessor {
 						(GeoNumberValue) arg[3]);
 				return algo.getOutput();
 			}
-			throw argErr(app, c, getBadArg(ok, arg));
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);
@@ -436,9 +436,9 @@ public class CmdIntersect extends CommandProcessor {
 
 		else {
 			if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
-			throw argErr(app, c, arg[1]);
+			throw argErr(c, arg[1]);
 		}
 	}
 
@@ -501,7 +501,7 @@ public class CmdIntersect extends CommandProcessor {
 							(GeoLine) arg[1], (GeoNumberValue) arg[2]);
 
 			if (ret == null) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 
 			return new GeoElement[] { ret };
@@ -518,7 +518,7 @@ public class CmdIntersect extends CommandProcessor {
 							(GeoLine) arg[0], (GeoNumberValue) arg[2]);
 
 			if (ret == null) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 
 			return new GeoElement[] { ret };
@@ -574,7 +574,7 @@ public class CmdIntersect extends CommandProcessor {
 					(GeoNumberValue) arg[2]);
 
 			if (ret == null) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			}
 
 			return new GeoElement[] { ret };
@@ -591,7 +591,7 @@ public class CmdIntersect extends CommandProcessor {
 					(GeoNumberValue) arg[2]);
 
 			if (ret == null) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			}
 
 			return new GeoElement[] { ret };
@@ -681,11 +681,11 @@ public class CmdIntersect extends CommandProcessor {
 		// Syntax Error
 		else {
 			if (!ok[0]) {
-				throw argErr(app, c, arg[0]);
+				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
+				throw argErr(c, arg[1]);
 			} else {
-				throw argErr(app, c, arg[2]);
+				throw argErr(c, arg[2]);
 			}
 		}
 	}
@@ -849,11 +849,11 @@ public class CmdIntersect extends CommandProcessor {
 
 		if (!a.getConstruction().isFileLoading()
 				&& !a.isPolynomialFunction(false)) {
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 		}
 		if (!b.getConstruction().isFileLoading()
 				&& !b.isPolynomialFunction(false)) {
-			throw argErr(app, c, arg[1]);
+			throw argErr(c, arg[1]);
 		}
 
 		AlgoIntersectPolynomials algo = getAlgoDispatcher()

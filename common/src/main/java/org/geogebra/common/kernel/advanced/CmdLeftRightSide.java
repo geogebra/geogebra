@@ -38,7 +38,7 @@ public class CmdLeftRightSide extends CommandProcessor {
 		}
 		if (!(args[0] instanceof EquationValue)
 				|| (args[0].isGeoImplicitCurve() && args[0].isGeoElement3D())) {
-			throw argErr(app, c, args[0]);
+			throw argErr(c, args[0]);
 		}
 
 		AlgoLeftRightSide algo = new AlgoLeftRightSide(cons, c.getLabel(),

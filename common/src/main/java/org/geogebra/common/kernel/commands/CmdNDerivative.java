@@ -45,7 +45,7 @@ public class CmdNDerivative extends CommandProcessor {
 				GeoElement[] ret = { nDerivative(label, f, null, null) };
 				return ret;
 			}
-			throw argErr(app, c, arg[0]);
+			throw argErr(c, arg[0]);
 
 		default:
 			throw argNumErr(c);
