@@ -91,12 +91,14 @@ public class ScreenReader {
 					}
 				}
 			}
-			if ((geo0.isGeoButton() && !geo0.isGeoInputBox())
-					|| geo0.isPenStroke()) {
-				appendSentence(sb, "PressEnterToOpenSettings", "Press enter to open settings", null, app);
-			} else if (!geo0.isGeoInputBox() && app.showToolBar()) {
-				appendSentence(sb, "PressEnterToEdit", "Press enter to edit", null, app);
+			if (app.showToolBar() && !geo0.isGeoInputBox()) {
+				if (geo0.isGeoButton() || geo0.isPenStroke()) {
+					appendSentence(sb, "PressEnterToOpenSettings", "Press enter to open settings", null, app);
+				} else if (!geo0.isGeoButton()) {
+					appendSentence(sb, "PressEnterToEdit", "Press enter to edit", null, app);
+				}
 			}
+
 			if (geo0.isGeoBoolean()) {
 				if (((GeoBoolean) geo0).getBoolean()) {
 					appendSentence(sb, "PressSpaceCheckboxOff", "Press space to uncheck checkbox", null, app);
