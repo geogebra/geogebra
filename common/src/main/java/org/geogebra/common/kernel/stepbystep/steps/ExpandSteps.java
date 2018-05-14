@@ -35,17 +35,17 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 					first.getOperand(1).setColor(tracker.getColorTracker());
 					second.getOperand(1).setColor(tracker.incColorTracker());
 
-					StepOperation sum = new StepOperation(Operation.PLUS);
+					StepExpression[] sum = new StepExpression[2];
 
-					sum.addOperand(power(first.getOperand(0), 2));
+					sum[0] = power(first.getOperand(0), 2);
 					if (first.getOperand(1).isNegative()) {
-						sum.addOperand(minus(power(first.getOperand(1).negate(), 2)));
+						sum[1] = minus(power(first.getOperand(1).negate(), 2));
 					} else {
-						sum.addOperand(minus(power(first.getOperand(1), 2)));
+						sum[1] = minus(power(first.getOperand(1), 2));
 					}
 
 					sb.add(SolutionStepType.DIFFERENCE_OF_SQUARES);
-					return sum;
+					return new StepOperation(Operation.PLUS, sum);
 				}
 
 				if (first.getOperand(1).equals(second.getOperand(1))
@@ -80,11 +80,11 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 
 				for (StepExpression operand : so) {
 					if (first == null || second == null && !first.isSum() && !operand.isSum()) {
-						first = multiplyNoCopy(first, operand);
+						first = multiply(first, operand);
 					} else if (second == null || !second.isSum() && !operand.isSum()) {
-						second = multiplyNoCopy(second, operand);
+						second = multiply(second, operand);
 					} else {
-						remaining = multiplyNoCopy(remaining, operand);
+						remaining = multiply(remaining, operand);
 					}
 				}
 
@@ -93,8 +93,6 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 							tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND))) {
 						return sn;
 					}
-
-					StepOperation product = new StepOperation(Operation.PLUS);
 
 					if (first.isSum()) {
 						for (StepExpression operand : (StepOperation) first) {
@@ -112,25 +110,42 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 						second.setColor(tracker.incColorTracker());
 					}
 
+					StepOperation product = null;
+
 					if (first.isSum() && second.isSum()) {
-						for (StepExpression operand1 : (StepOperation) first) {
-							for (StepExpression operand2 : (StepOperation) second) {
-								product.addOperand(multiply(operand1, operand2));
+						StepOperation soFirst = (StepOperation) first;
+						StepOperation soSecond = (StepOperation) second;
+
+						StepExpression[] terms = new StepExpression[
+								soFirst.noOfOperands() * soSecond.noOfOperands()];
+						for (int i = 0; i < soFirst.noOfOperands(); i++) {
+							for (int j = 0; j < soSecond.noOfOperands(); j++) {
+								terms[i * soSecond.noOfOperands() + j] =
+										multiply(soFirst.getOperand(i), soSecond.getOperand(j));
 							}
 						}
 
+						product = new StepOperation(Operation.PLUS, terms);
 						sb.add(SolutionStepType.EXPAND_SUM_TIMES_SUM);
 					} else if (first.isSum()) {
-						for (StepExpression operand : (StepOperation) first) {
-							product.addOperand(multiply(operand, second));
+						StepOperation soFirst = (StepOperation) first;
+						StepExpression[] terms = new StepExpression[soFirst.noOfOperands()];
+
+						for (int i = 0; i < soFirst.noOfOperands(); i++) {
+							terms[i] = multiply(soFirst.getOperand(i), second);
 						}
 
+						product = new StepOperation(Operation.PLUS, terms);
 						sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, second);
 					} else if (second.isSum()) {
-						for (StepExpression operand : (StepOperation) second) {
-							product.addOperand(multiply(first, operand));
+						StepOperation soSecond = (StepOperation) second;
+						StepExpression[] terms = new StepExpression[soSecond.noOfOperands()];
+
+						for (int i = 0; i < soSecond.noOfOperands(); i++) {
+							terms[i] = multiply(first, soSecond.getOperand(i));
 						}
 
+						product = new StepOperation(Operation.PLUS, terms);
 						sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, first);
 					}
 
@@ -156,11 +171,12 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 						return expandUsingFormula(so, sb, tracker);
 					}
 
-					StepOperation asMultiplication = new StepOperation(Operation.MULTIPLY);
-					for (int i = 0; i < Math.round(so.getOperand(1).getValue()); i++) {
-						asMultiplication.addOperand(sum.deepCopy());
+					int exponent = (int) Math.round(so.getOperand(1).getValue());
+					StepExpression[] asMultiplication = new StepExpression[exponent];
+					for (int i = 0; i < exponent; i++) {
+						asMultiplication[i] = sum.deepCopy();
 					}
-					return asMultiplication;
+					return new StepOperation(Operation.MULTIPLY, asMultiplication);
 				}
 			}
 

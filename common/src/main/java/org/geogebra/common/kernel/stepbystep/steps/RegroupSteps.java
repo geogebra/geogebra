@@ -132,8 +132,6 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
-				StepOperation newSum = new StepOperation(Operation.PLUS);
-
 				boolean[] found = new boolean[so.noOfOperands()];
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					if (so.getOperand(i).isOperation(Operation.MINUS)
@@ -174,22 +172,19 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					}
 				}
 
+				List<StepExpression> newSum = new ArrayList<>();
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					if (!found[i]) {
-						newSum.addOperand(so.getOperand(i));
+						newSum.add(so.getOperand(i));
 					}
 				}
 
-				if (newSum.noOfOperands() == 0) {
+				if (newSum.size() == 0) {
 					return StepConstant.create(0);
 				}
 
-				if (newSum.noOfOperands() == 1) {
-					return newSum.getOperand(0);
-				}
-
 				if (tracker.wasChanged()) {
-					return newSum;
+					return add(newSum);
 				}
 			}
 
@@ -808,11 +803,11 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			StepOperation newSum = new StepOperation(Operation.PLUS);
+			List<StepExpression> newSum = new ArrayList<>();
 
 			for (int i = 0; i < so.noOfOperands(); i++) {
 				if (!isZero(coefficients[i]) && !isZero(variables[i])) {
-					newSum.addOperand(simplifiedProduct(coefficients[i], variables[i]));
+					newSum.add(simplifiedProduct(coefficients[i], variables[i]));
 				}
 			}
 
@@ -831,19 +826,15 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				sb.add(SolutionStepType.ZERO_IN_ADDITION, tracker.incColorTracker());
 			}
 
-			if (newSum.noOfOperands() == 0) {
+			if (newSum.size() == 0) {
 				return newConstants;
 			}
 
 			if (!isEqual(constantSum, 0)) {
-				newSum.addOperand(newConstants);
+				newSum.add(newConstants);
 			}
 
-			if (newSum.noOfOperands() == 1) {
-				return newSum.getOperand(0);
-			}
-
-			return newSum;
+			return add(newSum);
 		}
 	},
 
@@ -893,13 +884,13 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				if (isEqual(so.getOperand(1), 1)) {
 					so.getOperand(1).setColor(tracker.getColorTracker());
 					sb.add(SolutionStepType.DIVIDE_BY_ONE, tracker.incColorTracker());
-					return so.getOperand(0).deepCopy();
+					return so.getOperand(0);
 				}
 
 				if (isEqual(so.getOperand(1), -1)) {
 					so.getOperand(1).setColor(tracker.getColorTracker());
 					sb.add(SolutionStepType.DIVIDE_BY_NEGATVE_ONE, tracker.incColorTracker());
-					return minus(so.getOperand(0).deepCopy());
+					return minus(so.getOperand(0));
 				}
 			}
 
@@ -925,13 +916,15 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 						continue;
 					}
 
+					StepOperation sum = (StepOperation) basesNumerator.get(i);
+					StepExpression[] operands = new StepExpression[sum.noOfOperands()];
+					for (int k = 0; k < sum.noOfOperands(); k++) {
+						operands[k] = sum.getOperand(k).negate();
+					}
+					StepOperation negated = new StepOperation(Operation.PLUS, operands);
+
 					for (int j = 0; j < basesDenominator.size(); j++) {
 						if (basesDenominator.get(j).isSum()) {
-							StepOperation negated = new StepOperation(Operation.PLUS);
-							for (StepExpression operand : (StepOperation) basesNumerator.get(i)) {
-								negated.addOperand(operand.negate());
-							}
-
 							if (negated.equals(basesDenominator.get(j))) {
 								basesNumerator.get(i).setColor(tracker.getColorTracker());
 								basesDenominator.get(j).setColor(tracker.getColorTracker());
@@ -967,7 +960,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				SolutionBuilder temp = new SolutionBuilder();
 
 				StepOperation factored = (StepOperation)
-						FactorSteps.SIMPLE_FACTOR.apply(so.deepCopy(), temp, new RegroupTracker());
+						FactorSteps.SIMPLE_FACTOR.apply(so, temp, new RegroupTracker());
 
 				if (!isOne(StepHelper.weakGCD(factored.getOperand(0), factored.getOperand(1)))
 						&& !so.equals(factored)) {
@@ -1454,17 +1447,18 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				StepOperation so = (StepOperation) sn;
 
 				if (so.getOperand(0).isOperation(Operation.MULTIPLY)) {
-					StepOperation result = new StepOperation(Operation.MULTIPLY);
-
+					StepOperation product = (StepOperation) so.getOperand(0);
 					so.getOperand(1).setColor(tracker.incColorTracker());
-					for (StepExpression operand : (StepOperation) so.getOperand(0)) {
-						operand.setColor(tracker.incColorTracker());
-						result.addOperand(power(operand, so.getOperand(1)));
+
+					StepExpression[] result = new StepExpression[product.noOfOperands()];
+					for (int i = 0; i < product.noOfOperands(); i++) {
+						result[i] = power(product.getOperand(i), so.getOperand(1));
+						result[i].setColor(tracker.incColorTracker());
 					}
 
 					sb.add(SolutionStepType.DISTRIBUTE_POWER_OVER_PRODUCT);
 
-					return result;
+					return new StepOperation(Operation.MULTIPLY, result);
 				}
 			}
 
@@ -1724,7 +1718,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					so.setColor(tracker.getColorTracker());
 
 					sb.add(SolutionStepType.POSITIVE_UNDER_ABSOLUTE_VALUE, tracker.incColorTracker());
-					return so.getOperand(0).deepCopy();
+					return so.getOperand(0);
 				}
 			}
 

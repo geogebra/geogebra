@@ -20,8 +20,8 @@ public class StepEquation extends StepSolvable {
 	private boolean isInequation;
 
 	public StepEquation(StepExpression LHS, StepExpression RHS) {
-		this.LHS = LHS.deepCopy();
-		this.RHS = RHS.deepCopy();
+		this.LHS = LHS;
+		this.RHS = RHS;
 	}
 
 	public StepEquation(String str, Parser parser) {

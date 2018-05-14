@@ -584,7 +584,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 			RegroupTracker tempTracker = new RegroupTracker();
 
 			StepExpression common = null;
-			StepExpression current = deepCopy();
+			StepExpression current = this;
 			for (StepExpression operand : (StepOperation) expr) {
 				if (current.containsExpression(operand)) {
 					common = add(common, operand);
@@ -959,7 +959,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 			}
 			return new StepOperation(so.getOperation(), operands);
 		}
-		return deepCopy();
+		return this;
 	}
 
 	/**
@@ -1122,7 +1122,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	public static StepExpression nonTrivialPower(StepExpression a, StepExpression b) {
 		if (a != null && b != null) {
 			if (isEqual(b, 1)) {
-				return a.deepCopy();
+				return a;
 			} else if (isEqual(b, 0)) {
 				return StepConstant.create(1);
 			}
@@ -1138,7 +1138,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	public static StepExpression nonTrivialRoot(StepExpression a, StepExpression b) {
 		if (a != null && b != null) {
 			if (isEqual(b, 1)) {
-				return a.deepCopy();
+				return a;
 			}
 		}
 
@@ -1148,9 +1148,9 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	public static StepExpression nonTrivialSum(StepExpression a, StepExpression b) {
 		if (a != null && b != null) {
 			if (isEqual(a, 0)) {
-				return b.deepCopy();
+				return b;
 			} else if (isEqual(b, 0)) {
-				return a.deepCopy();
+				return a;
 			}
 		}
 
@@ -1163,9 +1163,9 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	public static StepExpression nonTrivialProduct(StepExpression a, StepExpression b) {
 		if (a != null && b != null) {
 			if (isEqual(a, 1)) {
-				return b.deepCopy();
+				return b;
 			} else if (isEqual(b, 1)) {
-				return a.deepCopy();
+				return a;
 			} else if (a.isNegative()) {
 				return minus(nonTrivialProduct(a.negate(), b));
 			} else if (b.isNegative()) {
@@ -1187,7 +1187,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 */
 	public StepExpression negate() {
 		if (isOperation(Operation.MINUS)) {
-			return ((StepOperation) this).getOperand(0).deepCopy();
+			return ((StepOperation) this).getOperand(0);
 		}
 
 		return minus(this);

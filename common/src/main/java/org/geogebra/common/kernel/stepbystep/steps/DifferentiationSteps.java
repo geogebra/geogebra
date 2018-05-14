@@ -24,15 +24,15 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					StepOperation sum = (StepOperation) so.getOperand(0);
 					StepVariable variable = (StepVariable) so.getOperand(1);
 
-					StepOperation result = new StepOperation(Operation.PLUS);
-					for(StepExpression operand : sum) {
-						operand.setColor(tracker.incColorTracker());
-						result.addOperand(differentiate(operand, variable));
+					StepExpression[] result = new StepExpression[sum.noOfOperands()];
+					for(int i = 0; i < sum.noOfOperands(); i++) {
+						result[i] = differentiate(sum.getOperand(i), variable);
+						result[i].setColor(tracker.incColorTracker());
 					}
 
 					sb.add(SolutionStepType.DIFF_SUM);
 
-					return result;
+					return new StepOperation(Operation.PLUS, result);
 				}
 			}
 			
@@ -105,11 +105,13 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					StepVariable variable = (StepVariable) so.getOperand(1);
 
 					StepExpression firstPart = product.getOperand(0);
-					StepExpression secondPart = new StepOperation(Operation.MULTIPLY);
 
+					StepExpression[] operands = new StepExpression[product.noOfOperands() - 1];
 					for (int i = 1; i < product.noOfOperands(); i++) {
-						((StepOperation) secondPart).addOperand(product.getOperand(i));
+						operands[i - 1] = product.getOperand(i);
 					}
+					StepExpression secondPart = new StepOperation(Operation.MULTIPLY,
+							operands);
 
 					if (((StepOperation) secondPart).noOfOperands() == 1) {
 						secondPart = ((StepOperation) secondPart).getOperand(0);

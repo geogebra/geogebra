@@ -40,22 +40,6 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		return operation;
 	}
 
-	public void addOperand(StepExpression sn) {
-		if (sn != null) {
-			if (isOperation(Operation.PLUS) && sn.isOperation(Operation.PLUS)
-					|| isOperation(Operation.MULTIPLY) && sn.isOperation(Operation.MULTIPLY)) {
-				for (StepExpression operand : (StepOperation) sn) {
-					addOperand(operand);
-				}
-			} else {
-				StepExpression[] temp = new StepExpression[operands.length + 1];
-				System.arraycopy(operands, 0, temp, 0, operands.length);
-				temp[operands.length] = sn;
-				operands = temp;
-			}
-		}
-	}
-
 	@Override
 	public Iterator<StepExpression> iterator() {
 		return new Iterator<StepExpression>() {
@@ -520,17 +504,11 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		}
 
 		if (isOperation(Operation.MULTIPLY)) {
-			StepOperation coefficient = new StepOperation(Operation.MULTIPLY);
-			for (StepExpression operand : operands) {
-				coefficient.addOperand(operand.getCoefficientIn(sv));
+			StepExpression[] coefficient = new StepExpression[noOfOperands()];
+			for (int i = 0; i < noOfOperands(); i++) {
+				coefficient[i] = operands[i].getCoefficientIn(sv);
 			}
-			if (coefficient.noOfOperands() == 0) {
-				return null;
-			}
-			if (coefficient.noOfOperands() == 1) {
-				return coefficient.getOperand(0);
-			}
-			return coefficient;
+			return multiply(coefficient);
 		} else if (isOperation(Operation.MINUS)) {
 			StepExpression coefficient = getOperand(0).getCoefficientIn(sv);
 			if (coefficient == null) {
@@ -549,17 +527,11 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		}
 
 		if (isOperation(Operation.MULTIPLY)) {
-			StepOperation variable = new StepOperation(Operation.MULTIPLY);
-			for (StepExpression operand : operands) {
-				variable.addOperand(operand.getVariableIn(sv));
+			StepExpression[] variable = new StepExpression[noOfOperands()];
+			for (int i = 0; i < noOfOperands(); i++) {
+				variable[i] = operands[i].getVariableIn(sv);
 			}
-			if (variable.noOfOperands() == 0) {
-				return null;
-			}
-			if (variable.noOfOperands() == 1) {
-				return variable.getOperand(0);
-			}
-			return variable;
+			return multiply(variable);
 		} else if (isOperation(Operation.MINUS)) {
 			return getOperand(0).getVariableIn(sv);
 		}
@@ -577,17 +549,11 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			}
 			return new StepOperation(Operation.MINUS, sm);
 		case MULTIPLY:
-			StepOperation coefficient = new StepOperation(Operation.MULTIPLY);
-			for (StepExpression operand : operands) {
-				coefficient.addOperand(operand.getIntegerCoefficient());
+			StepExpression[] coefficient = new StepExpression[noOfOperands()];
+			for (int i = 0; i < noOfOperands(); i++) {
+				coefficient[i] = operands[i].getIntegerCoefficient();
 			}
-			if (coefficient.noOfOperands() == 0) {
-				return null;
-			}
-			if (coefficient.noOfOperands() == 1) {
-				return coefficient.getOperand(0);
-			}
-			return coefficient;
+			return multiply(coefficient);
 		case DIVIDE:
 			return divide(getOperand(0).getIntegerCoefficient(), getOperand(1).getIntegerCoefficient());
 		}
@@ -600,17 +566,11 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		case MINUS:
 			return getOperand(0).getNonInteger();
 		case MULTIPLY:
-			StepOperation variable = new StepOperation(Operation.MULTIPLY);
-			for (StepExpression operand : operands) {
-				variable.addOperand(operand.getNonInteger());
+			StepExpression[] nonInteger = new StepExpression[noOfOperands()];
+			for (int i = 0; i < noOfOperands(); i++) {
+				nonInteger[i] = operands[i].getNonInteger();
 			}
-			if (variable.noOfOperands() == 0) {
-				return null;
-			}
-			if (variable.noOfOperands() == 1) {
-				return variable.getOperand(0);
-			}
-			return variable;
+			return multiply(nonInteger);
 		case DIVIDE:
 			return divide(getOperand(0).getNonInteger(), getOperand(1).getNonInteger());
 		}

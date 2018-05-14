@@ -122,22 +122,22 @@ public class StepHelper {
 
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
-			StepOperation result = new StepOperation(so.getOperation());
+			StepExpression[] result = new StepExpression[so.noOfOperands()];
 
 			boolean found = false;
-			for (StepExpression operand : (StepOperation) sn) {
+			for (int i = 0; i < so.noOfOperands(); i++) {
 				if (!found) {
-					StepExpression replaced = (StepExpression) replaceFirst(operand, c);
+					StepExpression replaced = (StepExpression) replaceFirst(so.getOperand(i), c);
 					if (replaced != null) {
-						result.addOperand(replaced);
+						result[i] = replaced;
 						found = true;
 						continue;
 					}
 				}
-				result.addOperand(operand.deepCopy());
+				result[i] = so.getOperand(i);
 			}
 
-			return found ? result : null;
+			return found ? new StepOperation(so.getOperation(), result) : null;
 		}
 
 		if (sn instanceof StepSolvable) {
@@ -213,8 +213,8 @@ public class StepHelper {
 			replacementVar = new StepVariable("x");
 		}
 
-		StepExpression withVariable = diff.deepCopy().replace(expr, replacementVar);
-		StepExpression withConstant = diff.deepCopy().replace(expr, StepConstant.create(1));
+		StepExpression withVariable = diff.replace(expr, replacementVar);
+		StepExpression withConstant = diff.replace(expr, StepConstant.create(1));
 
 		if (withVariable.degree(new StepVariable("a")) == n && withConstant.degree(var) == 0) {
 			return expr;
@@ -337,11 +337,11 @@ public class StepHelper {
 				return underAbs.deepCopy();
 			}
 
-			StepOperation newSo = new StepOperation(so.getOperation());
-			for (StepExpression operand : so) {
-				newSo.addOperand(swapAbsInTree(operand, si, variable, steps, colorTracker));
+			StepExpression[] result = new StepExpression[so.noOfOperands()];
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				result[i] = swapAbsInTree(so.getOperand(i), si, variable, steps, colorTracker);
 			}
-			return newSo;
+			return new StepOperation(so.getOperation(), result);
 		}
 
 		return se;

@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.kernel.StringTemplate;
@@ -198,13 +199,13 @@ public abstract class StepNode implements TableElement {
 			StepOperation so = (StepOperation) sn;
 
 			if (so.getOperand(0).isNegative()) {
-				StepOperation result = new StepOperation(Operation.MULTIPLY);
-				result.addOperand((StepExpression) cleanupExpression(so.getOperand(0).negate()));
+				StepExpression[] result = new StepExpression[so.noOfOperands()];
+				result[0] = (StepExpression) cleanupExpression(so.getOperand(0).negate());
 				for (int i = 1; i < so.noOfOperands(); i++) {
-					result.addOperand((StepExpression) cleanupExpression(so.getOperand(i)));
+					result[i] = (StepExpression) cleanupExpression(so.getOperand(i));
 				}
 
-				return result.negate();
+				return new StepOperation(Operation.MULTIPLY, result).negate();
 			}
 		}
 
@@ -214,12 +215,12 @@ public abstract class StepNode implements TableElement {
 
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
-			StepOperation result = new StepOperation(so.getOperation());
-			for (StepExpression operand : so) {
-				result.addOperand((StepExpression) cleanupExpression(operand));
+			StepExpression[] result = new StepExpression[so.noOfOperands()];
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				result[i] = (StepExpression) cleanupExpression(so.getOperand(i));
 			}
 
-			return result;
+			return new StepOperation(so.getOperation(), result);
 		}
 
 		return sn;
@@ -346,7 +347,7 @@ public abstract class StepNode implements TableElement {
 			return b;
 		}
 		if (b == null) {
-			return a.deepCopy();
+			return a;
 		}
 
 		return new StepOperation(op, a, b);
@@ -406,28 +407,28 @@ public abstract class StepNode implements TableElement {
 		return applyBinaryOp(Operation.MULTIPLY, a, b);
 	}
 
+	public static StepExpression add(List<StepExpression> terms) {
+		return add(terms.toArray(new StepExpression[0]));
+	}
+
+	public static StepExpression add(StepExpression... terms) {
+		StepExpression sum = null;
+		for (StepExpression term : terms) {
+			sum = add(sum, term);
+		}
+		return sum;
+	}
+
+	public static StepExpression multiply(List<StepExpression> multiplicands) {
+		return multiply(multiplicands.toArray(new StepExpression[0]));
+	}
+
 	public static StepExpression multiply(StepExpression... multiplicands) {
 		StepExpression product = null;
 		for (StepExpression multiplicand : multiplicands) {
-			// Each term will be copied exactly once
-			product = multiplyNoCopy(product, multiplicand.deepCopy());
+			product = multiply(product, multiplicand);
 		}
 		return product;
-	}
-
-	/**
-	 * Only use if you are sure you do not want a copy
-	 * @return a * b
-	 */
-	public static StepExpression multiplyNoCopy(StepExpression a, StepExpression b) {
-		if (a == null) {
-			return b;
-		}
-		if (b == null) {
-			return a;
-		}
-
-		return new StepOperation(Operation.MULTIPLY, a, b);
 	}
 
 	public static StepExpression multiply(double a, StepExpression b) {
@@ -439,10 +440,10 @@ public abstract class StepNode implements TableElement {
 			return b == null ? null : divide(StepConstant.create(1), b);
 		}
 		if (b == null) {
-			return a.deepCopy();
+			return a;
 		}
 
-		return new StepOperation(Operation.DIVIDE, a.deepCopy(), b.deepCopy());
+		return new StepOperation(Operation.DIVIDE, a, b);
 	}
 
 	public static StepExpression divide(StepExpression a, double b) {

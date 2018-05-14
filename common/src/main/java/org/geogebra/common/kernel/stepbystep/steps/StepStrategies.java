@@ -70,7 +70,7 @@ public class StepStrategies {
 		SolutionBuilder substeps = new SolutionBuilder();
 		sn.cleanColors();
 
-		StepNode current = null, old = sn.deepCopy();
+		StepNode current = null, old = sn;
 		do {
 			tracker.resetTracker();
 			for (SimplificationStepGenerator simplificationStep : strategy) {
@@ -248,7 +248,7 @@ public class StepStrategies {
 
 			int colorsAtStart = tracker.getColorTracker();
 
-			StepOperation toReturn = null;
+			StepExpression[] toReturn = null;
 			for (int i = 0; i < so.noOfOperands(); i++) {
 				StepExpression a = (StepExpression) step.apply(so.getOperand(i), sb, tracker);
 				if (a.isUndefined()) {
@@ -256,14 +256,14 @@ public class StepStrategies {
 				}
 
 				if (toReturn == null && tracker.getColorTracker() > colorsAtStart) {
-					toReturn = new StepOperation(so.getOperation());
+					toReturn = new StepExpression[so.noOfOperands()];
 
 					for (int j = 0; j < i; j++) {
-						toReturn.addOperand(so.getOperand(j));
+						toReturn[j] = so.getOperand(j);
 					}
 				}
 				if (toReturn != null) {
-					toReturn.addOperand(a);
+					toReturn[i] = a;
 				}
 			}
 
@@ -271,7 +271,7 @@ public class StepStrategies {
 				return so;
 			}
 
-			return toReturn;
+			return new StepOperation(so.getOperation(), toReturn);
 		} else if (sn instanceof StepSolvable) {
 			StepSolvable se = (StepSolvable) sn;
 

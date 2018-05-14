@@ -246,9 +246,9 @@ public abstract class StepSolvable extends StepNode {
 		}
 
 		if (se.isNegative()) {
-			add(se.negate().deepCopy(), steps, tracker, eqNum);
+			add(se.negate(), steps, tracker, eqNum);
 		} else {
-			subtract(se.deepCopy(), steps, tracker, eqNum);
+			subtract(se, steps, tracker, eqNum);
 		}
 	}
 
@@ -331,12 +331,12 @@ public abstract class StepSolvable extends StepNode {
 		}
 
 		if (se.canBeEvaluated() && isEqual(se.getValue(), -1)) {
-			multiply(se.deepCopy(), steps, tracker, eqNum);
+			multiply(se, steps, tracker, eqNum);
 		} else if (se.isOperation(Operation.DIVIDE)) {
 			StepOperation so = (StepOperation) se;
 			multiply(StepNode.divide(so.getOperand(1), so.getOperand(0)), steps, tracker, eqNum);
 		} else {
-			divide(se.deepCopy(), steps, tracker, eqNum);
+			divide(se, steps, tracker, eqNum);
 		}
 	}
 

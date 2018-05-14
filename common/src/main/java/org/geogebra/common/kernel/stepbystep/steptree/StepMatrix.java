@@ -72,9 +72,7 @@ public class StepMatrix extends StepNode {
     public StepMatrix(StepExpression[][] data) {
         this.data = new StepExpression[data.length][data[0].length];
         for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[i].length; j++) {
-                this.data[i][j] = data[i][j].deepCopy();
-            }
+            System.arraycopy(data[i], 0, this.data[i], 0, data[i].length);
         }
     }
 

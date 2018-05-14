@@ -41,14 +41,14 @@ public enum FractionSteps implements SimplificationStepGenerator {
                     return StepStrategies.iterateThrough(this, sn, sb, tracker);
                 }
 
-                StepOperation newSum = new StepOperation(Operation.PLUS);
-
                 int tempTracker = tracker.getColorTracker();
                 newDenominator.setColor(tempTracker++);
 
+                StepExpression[] newSum = new StepExpression[so.noOfOperands()];
+
                 boolean wasChanged = false;
-                for (StepExpression operand : so) {
-                    StepExpression currentDenominator = operand.getDenominator();
+                for (int i = 0; i < so.noOfOperands(); i++) {
+                    StepExpression currentDenominator = so.getOperand(i).getDenominator();
                     if (!newDenominator.equals(currentDenominator)) {
                         wasChanged = true;
 
@@ -56,10 +56,10 @@ public enum FractionSteps implements SimplificationStepGenerator {
                         toExpand.setColor(tempTracker++);
 
                         StepExpression oldNumerator;
-                        if (operand.isNegative()) {
-                            oldNumerator = operand.negate().getNumerator();
+                        if (so.getOperand(i).isNegative()) {
+                            oldNumerator = so.getOperand(i).negate().getNumerator();
                         } else {
-                            oldNumerator = operand.getNumerator();
+                            oldNumerator = so.getOperand(i).getNumerator();
                         }
 
                         StepExpression numerator = nonTrivialProduct(toExpand, oldNumerator);
@@ -67,13 +67,13 @@ public enum FractionSteps implements SimplificationStepGenerator {
 
                         StepExpression newFraction = divide(numerator, newDenominator);
 
-                        if (operand.isNegative()) {
-                            newSum.addOperand(newFraction.negate());
+                        if (so.getOperand(i).isNegative()) {
+                            newSum[i] = newFraction.negate();
                         } else {
-                            newSum.addOperand(newFraction);
+                            newSum[i] = newFraction;
                         }
                     } else {
-                        newSum.addOperand(operand);
+                        newSum[i] = so.getOperand(i);
                     }
                 }
 
@@ -81,7 +81,7 @@ public enum FractionSteps implements SimplificationStepGenerator {
                     tracker.setColorTracker(tempTracker);
                     sb.add(SolutionStepType.EXPAND_FRACTIONS, newDenominator);
 
-                    return newSum;
+                    return new StepOperation(Operation.PLUS, newSum);
                 }
             }
 
