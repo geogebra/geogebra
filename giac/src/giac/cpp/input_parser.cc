@@ -5140,7 +5140,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 234 "input_parser.yy"
-    {(yyval) = check_symb_of((yyvsp[(1) - (4)]),python_compat(giac_yyget_extra(scanner))?denest_sto((yyvsp[(3) - (4)])):3,giac_yyget_extra(scanner));}
+    {(yyval) = check_symb_of((yyvsp[(1) - (4)]),python_compat(giac_yyget_extra(scanner))?denest_sto((yyvsp[(3) - (4)])):(yyvsp[(3) - (4)]),giac_yyget_extra(scanner));}
     break;
 
   case 29:

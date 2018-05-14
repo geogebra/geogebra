@@ -231,7 +231,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| exp TI_STO T_VIRGULE { $$=symbolic(at_time,$1);}
 	| exp TI_STO TI_STO { $$=symbolic(at_POLYFORM,gen(makevecteur($1,at_eval),_SEQ__VECT));}
 	| exp TI_STO T_UNIT exp { $$=symbolic(at_convert,gen(makevecteur($1,symb_unit(plus_one,$4,giac_yyget_extra(scanner))),_SEQ__VECT)); opened_quote(giac_yyget_extra(scanner)) &= 0x7ffffffd;}	
-	| symbol T_BEGIN_PAR suite T_END_PAR {$$ = check_symb_of($1,python_compat(giac_yyget_extra(scanner))?denest_sto($3):3,giac_yyget_extra(scanner));}
+	| symbol T_BEGIN_PAR suite T_END_PAR {$$ = check_symb_of($1,python_compat(giac_yyget_extra(scanner))?denest_sto($3):$3,giac_yyget_extra(scanner));}
 	| exp T_BEGIN_PAR suite T_END_PAR {$$ = check_symb_of($1,$3,giac_yyget_extra(scanner));}
 	| symbol 		{$$ = $1;}  
 	| T_LITERAL		{$$ = $1;}

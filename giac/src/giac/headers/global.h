@@ -620,7 +620,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     global * globalptr; 
     const context * parent;
     vecteur * quoted_global_vars, * rootofs;
-    vecteur * history_in_ptr, * history_out_ptr;
+    vecteur * history_in_ptr, * history_out_ptr,*history_plot_ptr;
     context();
     context(const context & c);
 #ifndef RTOS_THREADX
@@ -749,6 +749,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
 
   vecteur & history_in(GIAC_CONTEXT);
   vecteur & history_out(GIAC_CONTEXT);
+  vecteur & history_plot(GIAC_CONTEXT);
 
   // True if we factor 2nd order polynomials using sqrt
   bool & withsqrt(GIAC_CONTEXT);

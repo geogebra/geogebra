@@ -846,6 +846,17 @@ extern "C" void Sleep(unsigned int miliSecond);
       return _history_out_();
   }
 
+  static vecteur & _history_plot_(){
+    static vecteur * ans = new vecteur;
+    return *ans;
+  }
+  vecteur & history_plot(GIAC_CONTEXT){
+    if (contextptr)
+      return *contextptr->history_plot_ptr;
+    else
+      return _history_plot_();
+  }
+
   static bool _approx_mode_=false;
   bool & approx_mode(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -3368,6 +3379,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     rootofs=new vecteur;
     history_in_ptr=new vecteur;
     history_out_ptr=new vecteur;
+    history_plot_ptr=new vecteur;
 #ifdef HAVE_LIBPTHREAD
     pthread_mutex_lock(&context_list_mutex);
 #endif
@@ -3390,6 +3402,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     rootofs=new vecteur;
     history_in_ptr=new vecteur;
     history_out_ptr=new vecteur;
+    history_plot_ptr=new vecteur;
 #ifdef HAVE_LIBPTHREAD
     pthread_mutex_lock(&context_list_mutex);
 #endif
@@ -3507,6 +3520,8 @@ extern "C" void Sleep(unsigned int miliSecond);
 	delete history_in_ptr;
       if (history_out_ptr)
 	delete history_out_ptr;
+      if (history_plot_ptr)
+	delete history_plot_ptr;
       if (quoted_global_vars)
 	delete quoted_global_vars;
       if (rootofs)
@@ -5806,7 +5821,7 @@ unsigned int ConvertUTF8toUTF16 (
 
   static void python_import(string & cur,int cs,int posturtle,int poscmath,int posmath,int posnumpy,int posmatplotlib,GIAC_CONTEXT){
     if (posmatplotlib>=0 && posmatplotlib<cs){
-      cur += "np:=numpy:;xlim(a,b):=gl_x=a..b:;ylim(a,b):=gl_y=a..b:;show:=DispG:;";
+      cur += "np:=numpy:;xlim(a,b):=gl_x=a..b:;ylim(a,b):=gl_y=a..b:;scatter:=scatterplot:;";
       posnumpy=posmatplotlib;
     }
     if (posnumpy>=0 && posnumpy<cs){

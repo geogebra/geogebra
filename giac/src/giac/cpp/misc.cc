@@ -565,6 +565,7 @@ namespace giac {
     if (args.type==_VECT && args._VECTptr->empty()){
       clear_pixel_buffer();
       pixel_v()._VECTptr->clear();
+      history_plot(contextptr).clear();
       return 1;
     }
     gen g=eval(args,1,contextptr);
@@ -589,6 +590,13 @@ namespace giac {
   static const char _show_pixels_s []="show_pixels";
   static define_unary_function_eval (__show_pixels,&_show_pixels,_show_pixels_s);
   define_unary_function_ptr5( at_show_pixels ,alias_at_show_pixels,&__show_pixels,0,true);
+
+  gen _show(const gen & args,GIAC_CONTEXT){
+    return history_plot(contextptr);
+  }
+  static const char _show_s []="show";
+  static define_unary_function_eval (__show,&_show,_show_s);
+  define_unary_function_ptr5( at_show ,alias_at_show,&__show,0,true);
 
   gen _insert(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;

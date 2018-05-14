@@ -2147,6 +2147,7 @@ namespace giac {
 #ifdef WITH_GNUPLOT
     plot_instructions.clear();
 #endif
+    history_plot(contextptr).clear();
     __interactive.op(symbolic(at_erase,0),contextptr);
     return symb_erase(args);
   }
@@ -3115,6 +3116,7 @@ namespace giac {
     symbolic e=symbolic(at_pnt,gen(makevecteur(x,c,nom),_PNT__VECT));
     gen ee(e);
     ee.subtype=gnuplot_show_pnt(e,contextptr);
+    history_plot(contextptr).push_back(ee);
     if (io_graph(contextptr))
       __interactive.op(ee,contextptr);
     return ee;
@@ -3129,6 +3131,7 @@ namespace giac {
       e=symbolic(at_pnt,gen(makevecteur(gen(makevecteur(x,y),type),c[0],c[1]),_PNT__VECT));
     gen ee(e);
     ee.subtype=gnuplot_show_pnt(*e._SYMBptr,contextptr);
+    history_plot(contextptr).push_back(ee);
     if (io_graph(contextptr))
       __interactive.op(ee,contextptr);
     return ee;
@@ -3141,6 +3144,7 @@ namespace giac {
 #else
     ee.subtype=-1;
 #endif
+    history_plot(contextptr).push_back(ee);
     if (io_graph(contextptr))
       __interactive.op(ee,contextptr);
     return ee;
@@ -5102,7 +5106,7 @@ namespace giac {
       identificateur tt=*v[1]._IDNTptr;
       gen vparameq(v[0]);
 #if 1
-      bool numereq=false,approxafter=false;
+      bool numereq=false,approxafter=false,conique=false;
       if (v.size()>6 && !is_undef(v[6])){
 	if (is_constant_wrt(vparameq,v[1],contextptr))
 	  v[1]=t__IDNT_e;
@@ -5110,7 +5114,9 @@ namespace giac {
 	v[3]=plus_inf;
 	if (has_num_coeff(v[6]))
 	  approxafter=true;
-	v[0]=vparameq=exact(v[6],contextptr);
+	if (v.size()>7 && v[7].type==_VECT && !v[7]._VECTptr->empty())
+	  conique=v[7]._VECTptr->front()==at_ellipse;
+	v[0]=vparameq=conique?v[6]:exact(v[6],contextptr);
 	tt=*v[1]._IDNTptr;
 	numereq=true;
 	if (has_num_coeff(p))
@@ -5135,7 +5141,9 @@ namespace giac {
 	      reim(exact(p,contextptr),mx,my,contextptr);
 	      x1=derive(x,tt,contextptr);
 	      y1=derive(y,tt,contextptr);
-	      eq=_numer(d*((x1*d-d1*x)*mx+(y1*d-d1*y)*my)+(x*x+y*y)*d1-d*(x1*x+y1*y),contextptr);
+	      eq=d*((x1*d-d1*x)*mx+(y1*d-d1*y)*my)+(x*x+y*y)*d1-d*(x1*x+y1*y);
+	      if (!conique)
+		eq=_numer(eq,contextptr);
 	    }
 	    else numereq=false;
 	  }
@@ -5152,7 +5160,7 @@ namespace giac {
 	  rewrite_with_t_real(eq,v[1],contextptr);
 	}
 	vecteur sol;
-	if (has_num_coeff(eq)){
+	if (has_num_coeff(eq) && !conique){
 	  gen rep=re(p,contextptr);
 	  // first try bisection near re(p) if re(v[0])==v[1]
 	  if (re(v[0],contextptr)==v[1]){
@@ -5187,7 +5195,10 @@ namespace giac {
 	distance2_found=distance2pp(limit(v[0],*v[1]._IDNTptr,v[2],0,contextptr),p,contextptr);
 #else
 	try {
-	  distance2_found=distance2pp(limit(v[0],*v[1]._IDNTptr,v[2],0,contextptr),p,contextptr),cur_distance2;
+	  if (conique)
+	    distance2_found=distance2pp(subst(v[0],*v[1]._IDNTptr,v[2],false,contextptr),p,contextptr);
+	  else
+	    distance2_found=distance2pp(limit(v[0],*v[1]._IDNTptr,v[2],0,contextptr),p,contextptr);
 	} catch (std::runtime_error) {
 	  last_evaled_argptr(contextptr)=NULL;
 	}
@@ -5197,7 +5208,10 @@ namespace giac {
 	for (;it!=itend;++it){
 	  if (!is_zero(it->im(contextptr),contextptr))
 	    continue;
-	  cur_distance2=distance2pp(limit(v[0],*v[1]._IDNTptr,*it,0,contextptr),p,contextptr);
+	  if (conique)
+	    cur_distance2=distance2pp(subst(v[0],*v[1]._IDNTptr,*it,false,contextptr),p,contextptr);
+	  else
+	    cur_distance2=distance2pp(limit(v[0],*v[1]._IDNTptr,*it,0,contextptr),p,contextptr);
 	  if (is_undef(cur_distance2)) continue;
 	  if (ck_is_greater(distance2_found,cur_distance2,contextptr)){
 	    t_found=*it;
@@ -8475,7 +8489,7 @@ namespace giac {
       // gen pos=v[0]+cst_i*v1; s=read_attributs(v,attributs,contextptr); return put_attributs(_point(pos,contextptr),attributs,contextptr);
     }
     if (s>1 && v[0].type==_VECT && v1.type==_VECT && v[0]._VECTptr->size()==v1._VECTptr->size()){
-      *logptr(contextptr) << gettext("Assuming you want to run polygonscatterplot") << endl;
+      *logptr(contextptr) << gettext("Assuming you want to run polygonplot") << endl;
       vecteur w0=*v[0]._VECTptr,w1=*v1._VECTptr;
       int ss=w0.size(),i;
       for (i=0;i<ss;++i){
@@ -8483,9 +8497,9 @@ namespace giac {
 	  break;
       }
       if (i==ss){
-	// polygonscatterplot
+	// polygonplot
 	s=read_attributs(v,attributs,contextptr);
-	return put_attributs(_polygonscatterplot(makesequence(v[0],v1),contextptr),attributs,contextptr);
+	return put_attributs(_polygonplot(makesequence(v[0],v1),contextptr),attributs,contextptr);
       }
     }
     if (g.subtype!=_SEQ__VECT && s==3 ){
@@ -10567,6 +10581,7 @@ namespace giac {
     vecteur v(*b._SYMBptr->feuille._VECTptr);
     v[1]=c;
     gen e=symbolic(at_pnt,gen(v,_PNT__VECT));
+    history_plot(contextptr).push_back(e);
     if (io_graph(contextptr))
       __interactive.op(e,contextptr);    
     return e;
