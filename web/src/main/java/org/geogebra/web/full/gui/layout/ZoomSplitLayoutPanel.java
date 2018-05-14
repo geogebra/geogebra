@@ -578,6 +578,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 		LayoutData layoutData = (LayoutData) splitter.getLayoutData();
 		splitter.impl.splitterInsertedIntoLayer(layoutData.layer);
 		Element parentDiv = splitter.getElement().getParentElement();
+		parentDiv.addClassName("draggerParent");
 		parentDiv.setAttribute("style", parentDiv.getAttribute("style")
 				+ ";overflow-" + cssdir + ":hidden !important");
 	}

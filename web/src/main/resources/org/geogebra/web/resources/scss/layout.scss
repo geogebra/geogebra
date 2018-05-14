@@ -31,21 +31,28 @@
 	.gwt-SplitLayoutPanel>div {
 		/*overflow: hidden !important;*/
 	}
+	
 	.hide-Dragger {
 		
+		.draggerParent {
+			bottom: -18px !important;
+		}
+		
 		.gwt-SplitLayoutPanel-HDragger {
-			cursor: default;
 			border-left: 1px solid #ccc;
 			z-index: 1;
-    		box-shadow: 2px 0px 6px rgba(0,0,0,0.4);
     		/* display: none; */
     		width: 0px !important;
     		cursor: e-resize;
+   			border-right: none;
+    		box-shadow: inset 5px 3px 8px rgba(0,0,0,0.2);
+    		background-color: transparent;
+    		padding-right: 8px;
 		}
 	
 		.gwt-SplitLayoutPanel-VDragger {
 			border: none;
-    		box-shadow: 2px -1px 8px 4px rgba(0,0,0,0.4);
+    		box-shadow: 2px -1px 8px 4px rgba(0,0,0,0.2);
     		height: 0px !important;
     		top: 9px !important;
 		}
