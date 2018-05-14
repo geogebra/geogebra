@@ -169,10 +169,9 @@ public abstract class StepNode implements TableElement {
 					return minus((StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
 				}
 			default:
-				StepOperation so = new StepOperation(((ExpressionNode) ev).getOperation());
-				so.addOperand((StepExpression) convertExpression(((ExpressionNode) ev).getLeft()));
-				so.addOperand((StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
-				return so;
+				return new StepOperation(((ExpressionNode) ev).getOperation(),
+						(StepExpression) convertExpression(((ExpressionNode) ev).getLeft()),
+						(StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
 			}
 		}
 		if (ev instanceof Equation) {
@@ -339,23 +338,18 @@ public abstract class StepNode implements TableElement {
 			return null;
 		}
 
-		StepOperation so = new StepOperation(op);
-		so.addOperand(a.deepCopy());
-		return so;
+		return new StepOperation(op, a);
 	}
 
 	private static StepExpression applyBinaryOp(Operation op, StepExpression a, StepExpression b) {
 		if (a == null) {
-			return b == null ? null : b.deepCopy();
+			return b;
 		}
 		if (b == null) {
 			return a.deepCopy();
 		}
 
-		StepOperation so = new StepOperation(op);
-		so.addOperand(a.deepCopy());
-		so.addOperand(b.deepCopy());
-		return so;
+		return new StepOperation(op, a, b);
 	}
 
 	private static StepExpression applyNullableBinaryOp(Operation op, StepExpression a, StepExpression b) {
@@ -363,13 +357,10 @@ public abstract class StepNode implements TableElement {
 			return null;
 		}
 		if (b == null) {
-			return a.deepCopy();
+			return a;
 		}
 
-		StepOperation so = new StepOperation(op);
-		so.addOperand(a.deepCopy());
-		so.addOperand(b.deepCopy());
-		return so;
+		return new StepOperation(op, a, b);
 	}
 
 	private static StepLogical doSetOperation(SetOperation op, StepLogical a, StepLogical b) {
@@ -436,10 +427,7 @@ public abstract class StepNode implements TableElement {
 			return a;
 		}
 
-		StepOperation so = new StepOperation(Operation.MULTIPLY);
-		so.addOperand(a);
-		so.addOperand(b);
-		return so;
+		return new StepOperation(Operation.MULTIPLY, a, b);
 	}
 
 	public static StepExpression multiply(double a, StepExpression b) {
@@ -454,10 +442,7 @@ public abstract class StepNode implements TableElement {
 			return a.deepCopy();
 		}
 
-		StepOperation so = new StepOperation(Operation.DIVIDE);
-		so.addOperand(a.deepCopy());
-		so.addOperand(b.deepCopy());
-		return so;
+		return new StepOperation(Operation.DIVIDE, a.deepCopy(), b.deepCopy());
 	}
 
 	public static StepExpression divide(StepExpression a, double b) {

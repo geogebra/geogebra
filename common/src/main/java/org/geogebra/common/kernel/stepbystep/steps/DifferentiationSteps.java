@@ -70,12 +70,13 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 				
-				if (so.getOperand(0).isOperation(Operation.MULTIPLY)) {
+				if (so.getOperand(0).isOperation(Operation.MULTIPLY)
+						|| so.getOperand(0).isOperation(Operation.MINUS)) {
 					StepOperation product = (StepOperation) so.getOperand(0);
 					StepVariable variable = (StepVariable) so.getOperand(1);
 
 					StepExpression constantCoefficient = product.getCoefficientIn(variable);
-					
+
 					if (constantCoefficient != null) {
 						constantCoefficient.setColor(tracker.incColorTracker());
 						StepExpression nonConstant = product.getVariableIn(variable);
@@ -117,9 +118,10 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					firstPart.setColor(tracker.incColorTracker());
 					secondPart.setColor(tracker.incColorTracker());
 
-					StepOperation result = new StepOperation(Operation.PLUS);
-					result.addOperand(multiply(firstPart, differentiate(secondPart, variable)));
-					result.addOperand(multiply(differentiate(firstPart, variable), secondPart));
+					StepOperation result = new StepOperation(Operation.PLUS,
+							multiply(firstPart, differentiate(secondPart, variable)),
+							multiply(differentiate(firstPart, variable), secondPart)
+					);
 
 					sb.add(SolutionStepType.DIFF_PRODUCT);
 

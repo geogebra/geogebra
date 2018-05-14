@@ -44,8 +44,8 @@ public class StepEquation extends StepSolvable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((LHS == null) ? 0 : LHS.hashCode());
-		result = prime * result + ((RHS == null) ? 0 : RHS.hashCode());
+		result = prime * result + LHS.hashCode();
+		result = prime * result + RHS.hashCode();
 		return result;
 	}
 

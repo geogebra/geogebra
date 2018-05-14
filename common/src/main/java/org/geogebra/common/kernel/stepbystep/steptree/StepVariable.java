@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 import org.geogebra.common.main.Localization;
 
 public class StepVariable extends StepExpression {
+
 	private String label;
 
 	public StepVariable(String label) {

@@ -35,8 +35,8 @@ public class StepArbitraryConstant extends StepExpression {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + index;
-		result = prime * result + ((label == null) ? 0 : label.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + label.hashCode();
+		result = prime * result + type.hashCode();
 		return result;
 	}
 

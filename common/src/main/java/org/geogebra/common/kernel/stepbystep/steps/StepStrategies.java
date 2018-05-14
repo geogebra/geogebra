@@ -164,6 +164,7 @@ public class StepStrategies {
 				EquationSteps.DIFF,
                 EquationSteps.COMPLETE_THE_SQUARE,
 				InequalitySteps.SOLVE_QUADRATIC,
+				EquationSteps.TAKE_ROOT,
 				EquationSteps.EXPAND,
 		};
 

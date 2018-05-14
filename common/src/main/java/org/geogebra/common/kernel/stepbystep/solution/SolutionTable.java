@@ -156,7 +156,7 @@ public class SolutionTable extends SolutionStep {
     public List<String> getDefault(Localization loc) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("\\begin{tabular}{r | *{");
+        sb.append("$\\begin{tabular}{r | *{");
         sb.append(header.length * 2 - 3);
         sb.append("}{c}}");
 
@@ -182,7 +182,7 @@ public class SolutionTable extends SolutionStep {
             sb.append(" \\\\ ");
         }
 
-        sb.append("\\end{tabular}");
+        sb.append("\\end{tabular}$");
 
         List<String> result = new ArrayList<>();
         result.add(sb.toString());

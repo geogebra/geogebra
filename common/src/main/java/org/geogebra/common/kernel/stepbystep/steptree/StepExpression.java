@@ -12,10 +12,15 @@ import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
-public abstract class StepExpression extends StepNode {
+public abstract class StepExpression extends StepNode implements Comparable<StepExpression> {
 
 	@Override
 	public abstract StepExpression deepCopy();
+
+	@Override
+	public int compareTo(StepExpression se) {
+		return hashCode() - se.hashCode();
+	}
 
 	/**
 	 * !This does not mean that getValue() will not return NaN.
@@ -380,16 +385,16 @@ public abstract class StepExpression extends StepNode {
 		}
 
 		if (isOperation(Operation.PLUS) && expr.isOperation(Operation.PLUS)) {
-			StepOperation sortedA = ((StepOperation) deepCopy()).sort();
-			StepOperation sortedB = ((StepOperation) expr.deepCopy()).sort();
+			StepExpression[] sortedA = ((StepOperation) this).getSortedOperandList();
+			StepExpression[] sortedB = ((StepOperation) expr).getSortedOperandList();
 
 			int j = 0;
 			for (StepExpression operand : sortedA) {
-				if (j < sortedB.noOfOperands() && operand.equals(sortedB.getOperand(j))) {
+				if (j < sortedB.length && operand.equals(sortedB[j])) {
 					j++;
 				}
 			}
-			return j == sortedB.noOfOperands();
+			return j == sortedB.length;
 		}
 
 		if (isOperation(Operation.MULTIPLY) && expr.isOperation(Operation.MULTIPLY)) {
@@ -402,16 +407,16 @@ public abstract class StepExpression extends StepNode {
 				}
 			}
 
-			StepOperation sortedA = ((StepOperation) deepCopy()).sort();
-			StepOperation sortedB = ((StepOperation) expr.deepCopy()).sort();
+			StepExpression[] sortedA = ((StepOperation) this).getSortedOperandList();
+			StepExpression[] sortedB = ((StepOperation) expr).getSortedOperandList();
 
 			int j = 0;
 			for (StepExpression operand : sortedA) {
-				if (j < sortedB.noOfOperands() && operand.equals(sortedB.getOperand(j))) {
+				if (j < sortedB.length && operand.equals(sortedB[j])) {
 					j++;
 				}
 			}
-			return j == sortedB.noOfOperands();
+			return j == sortedB.length;
 		}
 
 		if (isOperation(Operation.PLUS) || isOperation(Operation.MULTIPLY)) {
@@ -423,11 +428,8 @@ public abstract class StepExpression extends StepNode {
 			return false;
 		}
 
-		if (isOperation(Operation.MINUS)) {
-			return ((StepOperation) this).getOperand(0).containsExpression(expr);
-		}
-
-		return false;
+		return isOperation(Operation.MINUS)
+				&& ((StepOperation) this).getOperand(0).containsExpression(expr);
 	}
 
 	/**
@@ -500,20 +502,20 @@ public abstract class StepExpression extends StepNode {
 				}
 			}
 
-			StepOperation sortedA = ((StepOperation) deepCopy()).sort();
-			StepOperation sortedB = ((StepOperation) expr.deepCopy()).sort();
+			StepExpression[] sortedA = ((StepOperation) this).getSortedOperandList();
+			StepExpression[] sortedB = ((StepOperation) expr).getSortedOperandList();
 
 			StepExpression quotient = null;
 
 			int j = 0;
 			for (StepExpression operand : sortedA) {
-				if (j < sortedB.noOfOperands() && operand.equals(sortedB.getOperand(j))) {
+				if (j < sortedB.length && operand.equals(sortedB[j])) {
 					j++;
 				} else {
 					quotient = multiply(quotient, operand);
 				}
 			}
-			if (j == sortedB.noOfOperands()) {
+			if (j == sortedB.length) {
 				return quotient;
 			}
 		}
@@ -950,11 +952,12 @@ public abstract class StepExpression extends StepNode {
 			return to.deepCopy();
 		}
 		if (this instanceof StepOperation) {
-			StepOperation so = new StepOperation(((StepOperation) this).getOperation());
-			for (StepExpression operand : (StepOperation) this) {
-				so.addOperand(operand.replace(from, to));
+			StepOperation so = (StepOperation) this;
+			StepExpression[] operands = new StepExpression[so.noOfOperands()];
+			for (int i = 0; i < operands.length; i++) {
+				operands[i] = so.getOperand(i).replace(from, to);
 			}
-			return so;
+			return new StepOperation(so.getOperation(), operands);
 		}
 		return deepCopy();
 	}

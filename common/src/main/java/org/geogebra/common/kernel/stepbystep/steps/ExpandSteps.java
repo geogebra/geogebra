@@ -55,13 +55,12 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 					first.getOperand(0).setColor(tracker.getColorTracker());
 					second.getOperand(0).setColor(tracker.incColorTracker());
 
-					StepOperation product = new StepOperation(Operation.MULTIPLY);
-
-					product.addOperand(add(first.getOperand(1), first.getOperand(0)));
-					product.addOperand(add(second.getOperand(1), second.getOperand(0)));
-
 					sb.add(SolutionStepType.REORGANIZE_EXPRESSION);
-					return product;
+
+					return new StepOperation(Operation.MULTIPLY,
+							add(first.getOperand(1), first.getOperand(0)),
+							add(second.getOperand(1), second.getOperand(0))
+					);
 				}
 			}
 
@@ -175,39 +174,41 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 				operand.setColor(tracker.incColorTracker());
 			}
 
-			StepOperation newSum = new StepOperation(Operation.PLUS);
-
 			if (isEqual(so.getOperand(1), 2) && sum.noOfOperands() == 2 && sum.getOperand(1).isNegative()) {
-				newSum.addOperand(power(sum.getOperand(0), 2));
-				newSum.addOperand(multiply(-2, multiply(sum.getOperand(0), sum.getOperand(1).negate())));
-				newSum.addOperand(power(sum.getOperand(1).negate(), 2));
-
 				sb.add(SolutionStepType.BINOM_SQUARED_DIFF);
+
+				return new StepOperation(Operation.PLUS,
+						power(sum.getOperand(0), 2),
+						multiply(-2, multiply(sum.getOperand(0), sum.getOperand(1).negate())),
+						power(sum.getOperand(1).negate(), 2));
 			} else if (isEqual(so.getOperand(1), 2) && sum.noOfOperands() == 2) {
-				newSum.addOperand(power(sum.getOperand(0), 2));
-				newSum.addOperand(multiply(2, multiply(sum.getOperand(0), sum.getOperand(1))));
-				newSum.addOperand(power(sum.getOperand(1), 2));
-
 				sb.add(SolutionStepType.BINOM_SQUARED_SUM);
+
+				return new StepOperation(Operation.PLUS,
+						power(sum.getOperand(0), 2),
+						multiply(2, multiply(sum.getOperand(0), sum.getOperand(1))),
+						power(sum.getOperand(1), 2));
 			} else if (isEqual(so.getOperand(1), 2) && sum.noOfOperands() == 3) {
-				newSum.addOperand(power(sum.getOperand(0), 2));
-				newSum.addOperand(power(sum.getOperand(1), 2));
-				newSum.addOperand(power(sum.getOperand(2), 2));
-				newSum.addOperand(multiply(2, multiply(sum.getOperand(0), sum.getOperand(1))));
-				newSum.addOperand(multiply(2, multiply(sum.getOperand(1), sum.getOperand(2))));
-				newSum.addOperand(multiply(2, multiply(sum.getOperand(0), sum.getOperand(2))));
-
 				sb.add(SolutionStepType.TRINOM_SQUARED);
-			} else if (isEqual(so.getOperand(1), 3) && sum.noOfOperands() == 2) {
-				newSum.addOperand(power(sum.getOperand(0), 3));
-				newSum.addOperand(multiply(3, multiply(power(sum.getOperand(0), 2), sum.getOperand(1))));
-				newSum.addOperand(multiply(3, multiply(sum.getOperand(0), power(sum.getOperand(1), 2))));
-				newSum.addOperand(power(sum.getOperand(1), 3));
 
+				return new StepOperation(Operation.PLUS,
+						power(sum.getOperand(0), 2),
+						power(sum.getOperand(1), 2),
+						power(sum.getOperand(2), 2),
+						multiply(2, multiply(sum.getOperand(0), sum.getOperand(1))),
+						multiply(2, multiply(sum.getOperand(1), sum.getOperand(2))),
+						multiply(2, multiply(sum.getOperand(0), sum.getOperand(2))));
+			} else if (isEqual(so.getOperand(1), 3) && sum.noOfOperands() == 2) {
 				sb.add(SolutionStepType.BINOM_CUBED);
+
+				return new StepOperation(Operation.PLUS,
+						power(sum.getOperand(0), 3),
+						multiply(3, multiply(power(sum.getOperand(0), 2), sum.getOperand(1))),
+						multiply(3, multiply(sum.getOperand(0), power(sum.getOperand(1), 2))),
+						power(sum.getOperand(1), 3));
 			}
 
-			return newSum;
+			return null;
 		}
 	},
 
