@@ -5,7 +5,6 @@
 
 /*global renderGGBElement, XDomainRequest, ggbApplets, console */
 
-var latestVersion="5.0.458.0";
 var isRenderGGBElementEnabled = false;
 var scriptLoadStarted = false;
 var html5AppletsToProcess = null;
@@ -18,7 +17,7 @@ var ggbCompiledResourcesLoadInProgress = false;
 var ggbCompiledAppletsLoaded = false;
 
 /**
- * @param ggbVersion The version of the GeoGebraFile as string in the format x.x (e.g. '4.4'). If the version is not specified, the latest stable GeoGebraVersion is used (currently 4.4).
+ * @param ggbVersion GeoGebra version; deprecated
  * @param parameters An object containing parameters that are passed to the applet.
  * @param views An object containing information about which views are used in the GeoGebra worksheet. Each variable is boolean.
  *              E.g.: {"is3D":false,"AV":false,"SV":false,"CV":false,"EV2":false,"CP":false,"PC":false,"DA":false,"FI":false,"PV":false,"macro":false};
@@ -134,7 +133,7 @@ var GGBApplet = function() {
     applet.setHTML5CodebaseVersion = function(version, offline) {
         var numVersion = parseFloat(version);
         if (numVersion !== NaN && numVersion < 5.0) {
-            console.log("The GeoGebra HTML5 codebase version "+numVersion+" is deprecated. Using version "+latestVersion+" instead.");
+            console.log("The GeoGebra HTML5 codebase version "+numVersion+" is deprecated. Using version latest instead.");
             return;
         } // Version 4.2 is not working properly
         html5OverwrittenCodebaseVersion = version;
@@ -1494,7 +1493,7 @@ var GGBApplet = function() {
         } else if(index === 0) {
             codebase = protocol + html5CodebaseVersion;
         } else {
-            codebase = "https://cdn.geogebra.org/apps/"+latestVersion+"/";
+            codebase = "https://cdn.geogebra.org/apps/latest/";
         }
         
         for(var key in modules){
@@ -1556,7 +1555,7 @@ var GGBApplet = function() {
         // Check if the codebase version is deprecated
         var numVersion = parseFloat(html5CodebaseVersion);
         if (numVersion !== NaN && numVersion < 5.0) {
-            console.log("The GeoGebra HTML5 codebase version "+numVersion+" is deprecated. Using version "+latestVersion+" instead.");
+            console.log("The GeoGebra HTML5 codebase version "+numVersion+" is deprecated. Using version latest instead.");
             setDefaultHTML5CodebaseForVersion("5.0", offline);
         }
     };
