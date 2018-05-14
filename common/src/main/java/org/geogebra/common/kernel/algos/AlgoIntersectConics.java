@@ -1411,6 +1411,11 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		return 0;
 	}
 
+	/**
+	 * @param i
+	 *            index
+	 * @return esisting intersection
+	 */
 	public GeoPointND getPreexistPoint(int i) {
 		if (preexistPoints != null) {
 			return preexistPoints.get(i);

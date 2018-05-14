@@ -115,6 +115,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/** list of points on this line */
 	protected ArrayList<GeoPoint> pointsOnLine;
 
+	private GeoFunction asFunction;
+
 	/**
 	 * Creates new line
 	 * 
@@ -1453,6 +1455,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	@Override
 	public GeoFunction getGeoFunction() {
+		if (asFunction != null) {
+			return asFunction;
+		}
 		GeoFunction ret;
 
 		FunctionVariable fv = new FunctionVariable(kernel);
@@ -1491,11 +1496,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		Function fun = new Function(temp, fv);
 
 		// we get a dependent function if this line has a label or is dependent
-
 		if (isLabelSet() || !isIndependent()) {
 			ret = new AlgoDependentFunction(cons, fun, false).getFunction();
-
+			// cache the dependent function to avoid infinite loop
+			asFunction = ret;
 		} else {
+			// independent case: no caching so that setCoords works
 			ret = new GeoFunction(cons);
 			ret.setFunction(fun);
 		}
