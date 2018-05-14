@@ -9,6 +9,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	private Operation operation;
 	private StepExpression[] operands;
+	private StepExpression[] sortedOperandList;
 
 	public StepOperation(Operation operation, StepExpression... operands) {
 		this.operation = operation;
@@ -72,9 +73,12 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	}
 
 	public StepExpression[] getSortedOperandList() {
-		StepOperation simpleCopy = simpleCopy();
-		simpleCopy.sort();
-		return simpleCopy.operands;
+		if (sortedOperandList == null) {
+			StepOperation simpleCopy = simpleCopy();
+			simpleCopy.sort();
+			sortedOperandList = simpleCopy.operands;
+		}
+		return sortedOperandList;
 	}
 
 	private StepOperation simpleCopy() {
