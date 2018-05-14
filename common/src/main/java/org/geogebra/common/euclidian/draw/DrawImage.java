@@ -355,13 +355,23 @@ public final class DrawImage extends Drawable {
 							drawRectangle.getX(), drawRectangle.getY());
 					atInverse.transform(ptScr, ptDst);
 					GShape shape = atInverse.createTransformedShape(drawRectangle);
-					g3.drawImage(image,
-							(int) ptDst.getX(), (int) ptDst.getY(),
-							(int) shape.getBounds().getWidth(),
-							(int) shape.getBounds().getHeight(),
-							(int) ptDst.getX(), (int) ptDst.getY());
-				}
 
+					int cropWidth = (image.getWidth() < (int) shape.getBounds().getWidth()) ? image.getWidth()
+							: (int) shape.getBounds().getWidth();
+
+					int cropHeight = (image.getWidth() < (int) shape.getBounds().getHeight()) ? image.getWidth()
+							: (int) shape.getBounds().getHeight();
+					if (ptDst.getX() < 0)
+						ptDst.setX(0);
+					if (ptDst.getY() < 0)
+						ptDst.setY(0);
+
+	                g3.drawImage(image,
+	                        (int) ptDst.getX(), (int) ptDst.getY(),
+	                        cropWidth, cropHeight,
+	                        (int) ptDst.getX(), (int) ptDst.getY());		
+				}			
+				
 				g3.restoreTransform();
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
