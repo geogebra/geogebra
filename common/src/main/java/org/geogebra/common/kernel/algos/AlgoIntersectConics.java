@@ -20,9 +20,6 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
@@ -40,6 +37,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.adapters.IntersectConicsAdapter;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.DoubleUtil;
@@ -75,9 +73,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 **/
 	ArrayList<GeoPoint> newPoints;
 
-	private HashMap<GeoElementND, PPolynomial[]> botanaPolynomials;
-	private HashMap<GeoElementND, PVariable[]> botanaVars;
-
 	private GeoConic degConic;
 	private GeoLine tempLine;
 	private int[] age; // for points in D
@@ -97,6 +92,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	private PointPairList pointList = new PointPairList();
 
 	private SystemOfEquationsSolver sysSolver;
+
+	private IntersectConicsAdapter proverAdapter;
 
 	@Override
 	public Commands getClassName() {
@@ -318,8 +315,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	}
 
 	private void matchExistingIntersections() {
-		// TODO Auto-generated method stub
-
 		if (preexistPoints.size() == 0) {
 			return;
 		}
@@ -368,7 +363,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 							preexistPoints.get(closestPointIndex));
 				}
 			}
-
 		}
 	}
 
@@ -1389,176 +1383,20 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 */
 	@Override
 	public PVariable[] getBotanaVars(GeoElementND geo) {
-		return botanaVars.get(geo);
+		return getProverAdapter().getBotanaVars(geo);
 	}
 
 	@Override
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		if (botanaPolynomials != null) {
-			PPolynomial[] ret = botanaPolynomials.get(geo);
-			if (ret != null) {
-				return ret;
-			}
+		return getProverAdapter().getBotanaPolynomials(geo, A, B, this);
+	}
+
+	private IntersectConicsAdapter getProverAdapter() {
+		if (proverAdapter == null) {
+			proverAdapter = new IntersectConicsAdapter();
 		}
-
-		// Special cases first.
-
-		if (A != null && B != null && A.isCircle() && B.isCircle()) {
-			PVariable[] botanaVarsThis = new PVariable[2];
-			if (botanaVars == null) {
-				botanaVars = new HashMap<>();
-			}
-			if (botanaVars.containsKey(geo)) {
-				botanaVarsThis = botanaVars.get(geo);
-			} else {
-				// Intersection point (we create only one):
-				botanaVarsThis = new PVariable[2];
-				botanaVarsThis[0] = new PVariable(kernel);
-				botanaVarsThis[1] = new PVariable(kernel);
-				botanaVars.put(geo, botanaVarsThis);
-			}
-
-			/*
-			 * If this point is not shown, then force a criterion that the
-			 * symbolic intersection must differ from that point. See below.
-			 */
-			int excludePoint = 0;
-			if (!this.isInConstructionList() && existingIntersections() == 1) {
-				/*
-				 * This case is present if we explicitly point to one
-				 * intersection point of a line and a circle. If the circles
-				 * already have a common point, then the user may point to the
-				 * other intersection point. In this case we explicitly claim
-				 * that the intersection point differs from the common point.
-				 */
-				excludePoint = 1;
-			}
-
-			PPolynomial[] botanaPolynomialsThis = null;
-			/*
-			 * Force a criterion that the two intersection points must differ:
-			 * See page 150 in Zoltan's diss, 1st paragraph. TODO: This is very
-			 * ugly.
-			 */
-			PVariable[] botanaVarsOther = new PVariable[2];
-			Iterator<Entry<GeoElementND, PVariable[]>> it = botanaVars.entrySet()
-					.iterator();
-			boolean found = false;
-			while (it.hasNext()) {
-				Entry<GeoElementND, PVariable[]> entry = it.next();
-				GeoElementND otherGeo = entry.getKey();
-				/*
-				 * This should be at most one element. There is one element if
-				 * we found the second intersection point, otherwise (for the
-				 * first intersection point) there is no otherGeo yet, so we
-				 * will not create any polynomials here (yet).
-				 */
-				if (!otherGeo.equals(geo)) {
-					botanaPolynomialsThis = new PPolynomial[3 + excludePoint];
-					botanaVarsOther = entry.getValue();
-					botanaPolynomialsThis[2 + excludePoint] = (PPolynomial
-							.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
-									botanaVarsOther[0], botanaVarsOther[1])
-							.multiply(new PPolynomial(new PVariable(kernel))))
-									.subtract(new PPolynomial(1));
-					found = true;
-				}
-			}
-			if (!found) {
-				botanaPolynomialsThis = new PPolynomial[2 + excludePoint];
-			}
-
-			PVariable[] vA = A.getBotanaVars(A); // 4 variables from the first
-												// circle
-			PVariable[] vB = B.getBotanaVars(B); // 4 variables from the first
-												// circle
-
-			botanaPolynomialsThis[0] = PPolynomial.equidistant(vA[2], vA[3],
-					vA[0], vA[1], botanaVarsThis[0], botanaVarsThis[1]);
-			botanaPolynomialsThis[1] = PPolynomial.equidistant(vB[2], vB[3],
-					vB[0], vB[1], botanaVarsThis[0], botanaVarsThis[1]);
-
-			if (botanaPolynomials == null) {
-				botanaPolynomials = new HashMap<>();
-			}
-
-			/*
-			 * If this point is not shown, then force a criterion that the
-			 * symbolic intersection must differ from that point. See above.
-			 */
-			if (excludePoint > 0) {
-				botanaVarsOther = ((GeoPoint) (preexistPoints.get(0)))
-						.getBotanaVars((preexistPoints.get(0)));
-				botanaPolynomialsThis[botanaPolynomialsThis.length
-						- 1] = (PPolynomial
-								.sqrDistance(botanaVarsThis[0],
-										botanaVarsThis[1], botanaVarsOther[0],
-										botanaVarsOther[1])
-								.multiply(new PPolynomial(new PVariable(kernel))))
-										.subtract(new PPolynomial(1));
-			}
-
-			botanaPolynomials.put(geo, botanaPolynomialsThis);
-
-			/*
-			 * TODO: We created the botanaPolynomials by building up an array
-			 * here from at most three parts. It would be nicer to do it in a
-			 * more sophisticated way.
-			 */
-			return botanaPolynomialsThis;
-		}
-
-		/* General case */
-		PVariable[] botanaVarsThis = new PVariable[2];
-		if (botanaVars == null) {
-			botanaVars = new HashMap<>();
-		}
-		if (botanaVars.containsKey(geo)) {
-			botanaVarsThis = botanaVars.get(geo);
-		} else {
-			// Intersection point (we create only one):
-			botanaVarsThis = new PVariable[2];
-			botanaVarsThis[0] = new PVariable(kernel);
-			botanaVarsThis[1] = new PVariable(kernel);
-			botanaVars.put(geo, botanaVarsThis);
-		}
-		if (botanaPolynomials == null) {
-
-			if (A != null && B != null) {
-
-				PPolynomial[] conic1Polys = A.getBotanaPolynomials(A);
-				PVariable[] conic1Vars = A.getBotanaVars(A);
-				PPolynomial[] conic2Polys = B.getBotanaPolynomials(B);
-				PVariable[] conic2Vars = B.getBotanaVars(B);
-
-				int conic1PolysNo = conic1Polys.length;
-				int conic2PolysNo = conic2Polys.length;
-
-				PPolynomial[] botanaPolynomialsThis = new PPolynomial[conic1PolysNo
-						+ conic2PolysNo];
-
-				for (int i = 0; i < conic1PolysNo; i++) {
-					botanaPolynomialsThis[i] = conic1Polys[i]
-							.substitute(conic1Vars[0], botanaVarsThis[0])
-							.substitute(conic1Vars[1], botanaVarsThis[1]);
-				}
-				for (int i = 0; i < conic2PolysNo; i++) {
-					botanaPolynomialsThis[conic1PolysNo + i] = conic2Polys[i]
-							.substitute(conic2Vars[0], botanaVarsThis[0])
-							.substitute(conic2Vars[1], botanaVarsThis[1]);
-				}
-
-				if (botanaPolynomials == null) {
-					botanaPolynomials = new HashMap<>();
-				}
-				botanaPolynomials.put(geo, botanaPolynomialsThis);
-
-				return botanaPolynomialsThis;
-			}
-			throw new NoSymbolicParametersException();
-		}
-		throw new NoSymbolicParametersException();
+		return proverAdapter;
 	}
 
 	/**
@@ -1571,6 +1409,13 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			return preexistPoints.size();
 		}
 		return 0;
+	}
+
+	public GeoPointND getPreexistPoint(int i) {
+		if (preexistPoints != null) {
+			return preexistPoints.get(i);
+		}
+		return null;
 	}
 
 }
