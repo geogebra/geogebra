@@ -47,6 +47,19 @@ public class ScreenReader {
 	}
 
 	/**
+	 * Reads the item when the selector moved on it.
+	 * 
+	 * @param app
+	 *            application
+	 * @param text
+	 *            selected item text to read
+	 */
+	public static void dropDowmSelectorMovedOn(App app,
+			String text) {
+		app.getActiveEuclidianView().readText(text);
+	}
+
+	/**
 	 * @param geo0
 	 *            selected element
 	 * @param app

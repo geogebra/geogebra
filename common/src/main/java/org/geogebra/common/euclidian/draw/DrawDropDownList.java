@@ -972,6 +972,12 @@ public final class DrawDropDownList extends CanvasDrawable
 
 				getView().repaintView();
 			}
+
+			if (geoList.getKernel().getApplication()
+					.has(Feature.READ_DROPDOWNS)) {
+				ScreenReader.dropDowmSelectorMovedOn(
+						geoList.getKernel().getApplication(), hovered.text);
+			}
 		}
 
 		private void cancelDrag() {
