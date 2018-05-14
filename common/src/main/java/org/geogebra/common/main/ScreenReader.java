@@ -38,10 +38,11 @@ public class ScreenReader {
 	 * @param geo
 	 *            the current geo
 	 */
-	public static void dropDownItemSelected(App app, GeoElement geo){
-		String item = ((GeoList) geo).getSelectedElement().getAlgebraDescriptionDefault();
-		String readText = app.getLocalization().getPlainArray("DropDownItemSelected",
-				"Item %0 selected. Drop down closed. ",
+	public static void dropDownItemSelected(App app, GeoElement geo) {
+		String item = ((GeoList) geo).getSelectedElement()
+				.getAlgebraDescriptionDefault();
+		String readText = app.getLocalization().getPlainArray(
+				"DropDownItemSelected", "Item %0 selected. Drop down closed. ",
 				new String[] { item });
 		app.getActiveEuclidianView().readText(readText);
 	}
@@ -54,8 +55,7 @@ public class ScreenReader {
 	 * @param text
 	 *            selected item text to read
 	 */
-	public static void dropDowmSelectorMovedOn(App app,
-			String text) {
+	public static void dropDowmSelectorMovedOn(App app, String text) {
 		app.getActiveEuclidianView().readText(text);
 	}
 
@@ -85,48 +85,61 @@ public class ScreenReader {
 						&& app.getGuiManager().hasAlgebraView()
 						&& !geo0.isGeoInputBox()) {
 					if (geo0.isEuclidianVisible()) {
-						appendSentence(sb, "PressSlashToHide", "Press / to hide object", null, app);
+						appendSentence(sb, "PressSlashToHide",
+								"Press / to hide object", null, app);
 					} else {
-						appendSentence(sb, "PressSlashToShow", "Press / to show object", null, app);
+						appendSentence(sb, "PressSlashToShow",
+								"Press / to show object", null, app);
 					}
 				}
 			}
 			if (app.showToolBar() && !geo0.isGeoInputBox()) {
 				if (geo0.isGeoButton() || geo0.isPenStroke()) {
-					appendSentence(sb, "PressEnterToOpenSettings", "Press enter to open settings", null, app);
+					appendSentence(sb, "PressEnterToOpenSettings",
+							"Press enter to open settings", null, app);
 				} else if (!geo0.isGeoButton()) {
-					appendSentence(sb, "PressEnterToEdit", "Press enter to edit", null, app);
+					appendSentence(sb, "PressEnterToEdit",
+							"Press enter to edit", null, app);
 				}
 			}
 
 			if (geo0.isGeoBoolean()) {
 				if (((GeoBoolean) geo0).getBoolean()) {
-					appendSentence(sb, "PressSpaceCheckboxOff", "Press space to uncheck checkbox", null, app);
+					appendSentence(sb, "PressSpaceCheckboxOff",
+							"Press space to uncheck checkbox", null, app);
 				} else {
-					appendSentence(sb, "PressSpaceCheckboxOn", "Press space to check checkbox", null, app);
+					appendSentence(sb, "PressSpaceCheckboxOn",
+							"Press space to check checkbox", null, app);
 				}
 			}
 			if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSliderable()) {
 				GeoNumeric geoNum = (GeoNumeric) geo0;
 				if (geoNum.isAnimating()) {
-					appendSentence(sb, "PressSpaceStopAnimation", "Press space to stop animation", null, app);
+					appendSentence(sb, "PressSpaceStopAnimation",
+							"Press space to stop animation", null, app);
 				} else {
-					appendSentence(sb, "PressSpaceStartAnimation", "Press space to start animation", null, app);
+					appendSentence(sb, "PressSpaceStartAnimation",
+							"Press space to start animation", null, app);
 				}
 				if (geoNum.getIntervalMax() != geoNum.getValue()) {
-					appendSentence(sb, "PressUpToIncrease", "Press up arrow to increase the value", null, app);
+					appendSentence(sb, "PressUpToIncrease",
+							"Press up arrow to increase the value", null, app);
 				}
 				if (geoNum.getIntervalMin() != geoNum.getValue()) {
-					appendSentence(sb, "PressDownToDecrease", "Press down arrow to decrease the value", null, app);
+					appendSentence(sb, "PressDownToDecrease",
+							"Press down arrow to decrease the value", null,
+							app);
 				}
 			}
 			if (geo0.getScript(EventType.CLICK) != null
 					&& geo0.getScript(EventType.CLICK).getText().length() > 0) {
-				appendSentence(sb, "PressSpaceToRunScript", "Press space to run script", null, app);
+				appendSentence(sb, "PressSpaceToRunScript",
+						"Press space to run script", null, app);
 			}
 			if (geo0.isGeoPoint() && (geo0.isIndependent()
 					|| geo0.isPointOnPath() || geo0.isPointInRegion())) {
-				appendSentence(sb, "PressArrowsToMove", "Press the arrow keys to move the object", null, app);
+				appendSentence(sb, "PressArrowsToMove",
+						"Press the arrow keys to move the object", null, app);
 			}
 			if (geo0.isGeoList() && app.has(Feature.READ_DROPDOWNS)) {
 				appendSentence(sb, "DropDownSelected",
@@ -134,7 +147,8 @@ public class ScreenReader {
 						new String[] {
 								geo0.getLabel(StringTemplate.defaultTemplate) },
 						app);
-				appendSentence(sb, "PressSpaceToOpen", "Press space to open", null, app);
+				appendSentence(sb, "PressSpaceToOpen", "Press space to open",
+						null, app);
 			}
 		}
 		// MOW-137 if selection originated in AV we don't want to move
@@ -151,12 +165,15 @@ public class ScreenReader {
 		sb.append(" ");
 		if (app.has(Feature.READ_DROPDOWNS)) {
 			if (args != null) {
-				sb.append(app.getLocalization().getPlainArray(string, stringDefault, args));
+				sb.append(app.getLocalization().getPlainArray(string,
+						stringDefault, args));
 			} else {
-				sb.append(app.getLocalization().getMenuDefault(string, stringDefault));
+				sb.append(app.getLocalization().getMenuDefault(string,
+						stringDefault));
 			}
 		} else {
-			sb.append(app.getLocalization().getMenuDefault(string, stringDefault));
+			sb.append(app.getLocalization().getMenuDefault(string,
+					stringDefault));
 		}
 		sb.append(".");
 	}
