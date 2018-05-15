@@ -455,7 +455,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| exp T_DOLLAR_MAPLE exp { $$ = symb_dollar(gen(makevecteur($1,$3) ,_SEQ__VECT)); } 
 	| exp T_DOLLAR exp { $$ = symb_dollar(gen(makevecteur($1,$3) ,_SEQ__VECT)); } 
 	| T_DOLLAR T_SYMBOL { $$=symb_dollar($2); }
-	| exp T_COMPOSE exp { $$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
+	| exp T_COMPOSE exp {  $$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| T_COMPOSE {$$=symbolic(at_ans,-1);}
 	| exp T_UNION exp { $$ = symbolic(($2.type==_FUNC?*$2._FUNCptr:*at_union),gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| exp T_INTERSECT exp { $$ = symb_intersect(gen(makevecteur($1,$3) ,_SEQ__VECT)); }

@@ -8265,7 +8265,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 
   gen _set_pixel(const gen & a_,GIAC_CONTEXT){
 #ifdef GIAC_HAS_STO_38
-    static gen PIXEL(identificateur("PIXEL_P"));
+    static gen PIXEL(identificateur("PIXON_P"));
     return _of(makesequence(PIXEL,a_),contextptr);
 #else
     gen a(a_);

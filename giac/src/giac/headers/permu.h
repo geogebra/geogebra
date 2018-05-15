@@ -113,6 +113,8 @@ namespace giac {
   gen _curl(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_curl;
   extern const unary_function_ptr * const  at_trn;
+  extern const unary_function_ptr * const  at_join ;
+  extern const unary_function_ptr * const  at_split ;
 
   gen _permu2mat(const gen & args,GIAC_CONTEXT); // permutation vector -> matrix
 

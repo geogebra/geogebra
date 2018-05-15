@@ -525,7 +525,7 @@ namespace giac {
       return;
     }
     if (g.type!=_VECT){
-      vecteur l(*_lname(g,contextptr)._VECTptr);
+      vecteur l(gen2vecteur(_lname(g,contextptr)));
       const_iterateur it=l.begin(),itend=l.end();
       for (;it!=itend;++it){
 	if (!equalposcomp(res2,*it) && !equalposcomp(prog_args,*it))
@@ -1226,6 +1226,11 @@ namespace giac {
       for (int i=0;i<rs;i++){
 	// remove var that are not assigned (assumed global), constant idnt and recursive def
 	gen noni=non_decl[i];
+	if (noni.type!=_IDNT){
+	  non_decl.erase(non_decl.begin()+i);
+	  --i; --rs;
+	  continue;
+	}
 	bool b=equalposcomp(stov,noni);
 	if (strcmp(noni._IDNTptr->id_name,"i")==0){
 	  if (!b){
@@ -3261,7 +3266,7 @@ namespace giac {
     return res;
   }
   static const char _try_catch_s []="try_catch";
-  static define_unary_function_eval2_quoted (__try_catch,&_try_catch,_try_catch_s,&printastry_catch);
+  static define_unary_function_eval2_index (177,__try_catch,&_try_catch,_try_catch_s,&printastry_catch);
   define_unary_function_ptr5( at_try_catch ,alias_at_try_catch,&__try_catch,_QUOTE_ARGUMENTS,0);
 
   static gen feuille_(const gen & g,const gen & interval,GIAC_CONTEXT){
@@ -10980,7 +10985,7 @@ namespace giac {
     return f;
   }
   static const char _struct_dot_s []=".";
-  static define_unary_function_eval4 (__struct_dot,&_struct_dot,_struct_dot_s,&printsommetasoperator,&texprintsommetasoperator);
+  static define_unary_function_eval4_index (175,__struct_dot,&_struct_dot,_struct_dot_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr5( at_struct_dot ,alias_at_struct_dot,&__struct_dot,_QUOTE_ARGUMENTS,true);
 
   gen _giac_assert(const gen & args,GIAC_CONTEXT){

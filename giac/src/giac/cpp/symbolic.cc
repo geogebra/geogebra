@@ -37,11 +37,13 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
   // unary_function_ptr quoted_op[]={at_of,at_for,at_bloc,at_local,at_program,at_rpn_prog,at_ifte,at_try_catch,at_print,at_signal,at_as_function_of,at_lieu,at_legende,at_debug,at_sst,at_sst_in,at_cont,at_kill,at_halt,at_watch,at_rmwatch,at_breakpoint,at_maple2mupad,at_mupad2maple,at_maple2xcas,at_mupad2xcas,at_purge,0};
+  // functions here must be declared with define_unary_function_eval?_index
+  // index is even for on quoted, odd for quoted (1+)
 #if defined(GIAC_GENERIC_CONSTANTS) || defined(VISUALC) || defined(x86_64)
   const unary_function_ptr * archive_function_tab(){
     static const unary_function_ptr archive_function_tab_ptr[]={*at_plus,*at_neg,*at_binary_minus,*at_prod,*at_division,*at_inv,*at_pow,*at_exp,*at_ln,*at_abs,*at_arg,*at_pnt,*at_point,*at_segment,*at_sto,*at_sin,
 								*at_cos,*at_tan,*at_asin,*at_acos,*at_atan,*at_sinh,*at_cosh,*at_tanh,*at_asinh,*at_acosh,*at_atanh,*at_interval,*at_union,*at_minus,*at_intersect,*at_not,
-								*at_and,*at_ou,*at_inferieur_strict,*at_inferieur_egal,*at_superieur_strict,*at_superieur_egal,*at_different,*at_equal,*at_rpn_prog,*at_local,*at_return,*at_Dialog,*at_double_deux_points,*at_pointprod,*at_pointdivision,*at_pointpow,*at_hash,*at_pourcent,*at_tilocal,*at_break,*at_continue,*at_ampersand_times,*at_maple_lib,*at_unit,*at_plot_style,*at_xor,*at_check_type,*at_quote_pow,*at_case,*at_dollar,*at_IFTE,*at_RPN_CASE,*at_RPN_LOCAL,*at_RPN_FOR,*at_RPN_WHILE,*at_NOP,*at_unit,*at_ifte,*at_for,*at_bloc,*at_program,*at_same,*at_increment,*at_decrement,*at_multcrement,*at_divcrement,*at_sq,*at_display,*at_of,*at_at,*at_normalmod,*at_equal2,*at_pointplus,*at_pointminus,0};
+								*at_and,*at_ou,*at_inferieur_strict,*at_inferieur_egal,*at_superieur_strict,*at_superieur_egal,*at_different,*at_equal,*at_rpn_prog,*at_local,*at_return,*at_Dialog,*at_double_deux_points,*at_pointprod,*at_pointdivision,*at_pointpow,*at_hash,*at_pourcent,*at_tilocal,*at_break,*at_continue,*at_ampersand_times,*at_maple_lib,*at_unit,*at_plot_style,*at_xor,*at_check_type,*at_quote_pow,*at_case,*at_dollar,*at_IFTE,*at_RPN_CASE,*at_RPN_LOCAL,*at_RPN_FOR,*at_RPN_WHILE,*at_NOP,*at_unit,*at_ifte,*at_for,*at_bloc,*at_program,*at_same,*at_increment,*at_decrement,*at_multcrement,*at_divcrement,*at_sq,*at_display,*at_of,*at_at,*at_normalmod,*at_equal2,*at_pointplus,*at_pointminus,*at_struct_dot,*at_try_catch,0};
     archive_function_tab_length=sizeof(archive_function_tab_ptr)/sizeof(const unary_function_ptr *);
     return archive_function_tab_ptr;
   }
@@ -84,7 +86,7 @@ namespace giac {
     // 162
     alias_at_of,alias_at_at,alias_at_normalmod,alias_at_equal2,alias_at_pointplus,
     // 172
-    alias_at_pointminus,
+    alias_at_pointminus,alias_at_struct_dot,alias_at_try_catch,
     0
   };
   const unary_function_ptr * _archive_function_tab = (const unary_function_ptr *) &archive_function_tab_alias;

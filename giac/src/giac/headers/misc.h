@@ -267,6 +267,17 @@ namespace giac {
   extern const unary_function_ptr * const  at_python_list;
   extern const unary_function_ptr * const  at_show;
   extern const unary_function_ptr * const  at_diagrammebatons ;
+  extern const unary_function_ptr * const  at_coth ;
+  extern const unary_function_ptr * const  at_atan2 ;
+  extern const unary_function_ptr * const  at_get_pixel ;
+  extern const unary_function_ptr * const  at_set_pixel ;
+  extern const unary_function_ptr * const  at_strip ;
+  extern const unary_function_ptr * const  at_lower ;
+  extern const unary_function_ptr * const  at_upper ;
+  extern const unary_function_ptr * const  at_isinf ;
+  extern const unary_function_ptr * const  at_isfinite ;
+  extern const unary_function_ptr * const  at_isnan ;
+  extern const unary_function_ptr * const  at_draw_string ;
 
   std::string fetch(const std::string & url);
 #ifndef NO_NAMESPACE_GIAC
