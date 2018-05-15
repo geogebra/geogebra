@@ -4102,7 +4102,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-1668
 		case MOB_LAYER_FOR_PACKING:
-			return prerelease;
+			return true;
 
 		// **********************************************************************
 		// MOBILE END
