@@ -7104,6 +7104,13 @@ namespace giac {
   }
 
   gen denest_sto(const gen & g){
+    if (g.type==_VECT){
+      vecteur v(*g._VECTptr);
+      iterateur it=v.begin(),itend=v.end();
+      for (;it!=itend;++it)
+	*it=denest_sto(*it);
+      return gen(v,g.subtype);
+    }
     if (g.is_symb_of_sommet(at_sto) && g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2){
       gen b=g._SYMBptr->feuille._VECTptr->front();
       gen a=g._SYMBptr->feuille._VECTptr->back();
@@ -10837,6 +10844,17 @@ namespace giac {
     gen a=w[0],b=w[1],m;
     if (b.type==_IDNT)
       b=eval(b,1,contextptr);
+    if (b.type==_SYMB){
+      unary_function_ptr u=b._SYMBptr->sommet;
+      const gen & f=b._SYMBptr->feuille;
+      if (u==at_of && f.type==_VECT && f._VECTptr->size()==2){
+	gen s=eval(f._VECTptr->front(),1,contextptr);
+	if (s.type==_FUNC)
+	  u=*s._FUNCptr;
+      }
+      if (equalposcomp(plot_sommets,u) || u==at_show || u==at_clear || u==at_scatterplot || u==at_diagrammebatons)
+	return eval(b,1,contextptr);
+    }
     if (b.type==_FUNC)
       b=symbolic(*b._FUNCptr,gen(vecteur(0),_SEQ__VECT));
     if (a.type==_IDNT){

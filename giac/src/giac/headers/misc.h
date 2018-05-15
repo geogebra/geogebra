@@ -265,6 +265,8 @@ namespace giac {
   gen _find(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_add_autosimplify;
   extern const unary_function_ptr * const  at_python_list;
+  extern const unary_function_ptr * const  at_show;
+  extern const unary_function_ptr * const  at_diagrammebatons ;
 
   std::string fetch(const std::string & url);
 #ifndef NO_NAMESPACE_GIAC

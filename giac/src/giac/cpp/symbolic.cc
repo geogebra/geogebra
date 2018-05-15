@@ -613,7 +613,8 @@ namespace giac {
   /* EVAL without system stack */
 
   static void eval_sto_pnt_symb(const gen & feuille,gen & e,GIAC_CONTEXT){
-    if (e.type==_SYMB && e.ref_count()==1 && e._SYMBptr->feuille.type==_VECT && e._SYMBptr->feuille.ref_count()==1){
+    // e is also in history_plot(), ref_count==2
+    if (e.type==_SYMB && e.ref_count()<=2 && e._SYMBptr->feuille.type==_VECT && e._SYMBptr->feuille.ref_count()==1){
       vecteur & v=*e._SYMBptr->feuille._VECTptr;
       // legende not converted to string to avoid malloc ->faster
       v.push_back(feuille._VECTptr->back());

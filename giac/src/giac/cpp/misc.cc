@@ -563,7 +563,12 @@ namespace giac {
   gen _clear(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_VECT && args._VECTptr->empty()){
+#ifdef GIAC_HAS_STO_38
+      static gen RECT_P(identificateur("RECT_P"));
+      _of(makesequence(RECT_P,args),contextptr);
+#else
       clear_pixel_buffer();
+#endif
       pixel_v()._VECTptr->clear();
       history_plot(contextptr).clear();
       return 1;
@@ -585,7 +590,12 @@ namespace giac {
   define_unary_function_ptr5( at_clear ,alias_at_clear,&__clear,_QUOTE_ARGUMENTS,true);
 
   gen _show_pixels(const gen & args,GIAC_CONTEXT){
+#ifdef GIAC_HAS_STO_38
+    static gen FREEZE(identificateur("FREEZE"));
+    return _of(makesequence(FREEZE,args),contextptr);
+#else
     return pixel_v();
+#endif
   }
   static const char _show_pixels_s []="show_pixels";
   static define_unary_function_eval (__show_pixels,&_show_pixels,_show_pixels_s);
@@ -4476,6 +4486,11 @@ static define_unary_function_eval (__plotlist,&_listplot,_plotlist_s);
       v=*v.front()._VECTptr;
     else
       v=vecteur(v.begin(),v.begin()+s);
+    if (s>2 && v.back().type==_INT_){
+      // discard size
+      --s;
+      v.pop_back();
+    }
     if (g.type==_VECT && s==2 && g.subtype==_SEQ__VECT){
       if (!ckmatrix(v))
 	return gensizeerr(contextptr); 
@@ -4602,7 +4617,7 @@ static define_unary_function_eval (__batons,&_batons,_batons_s);
       return gensizeerr(contextptr);
     attributs=vecteur(1,default_color(contextptr) | _FILL_POLYGON);
     int s=read_attributs(*g._VECTptr,attributs,contextptr);
-    gen args=(s==1)?g._VECTptr->front():g;
+    gen args=(s==1)?g._VECTptr->front():gen(vecteur(g._VECTptr->begin(),g._VECTptr->begin()+s),g.subtype);
     if (ckmatrix(args)){
       matrice tmp(*args._VECTptr);
       if (tmp.empty())
@@ -4644,18 +4659,21 @@ static define_unary_function_eval (__batons,&_batons,_batons_s);
     gen g(g_);
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur vals,names,attributs,res;
-    double largeur=.4;
+    double largeur=.8;
     if (g.type==_VECT && g.subtype==_SEQ__VECT){
       vecteur v=*g._VECTptr;
       for (unsigned i=0;i<v.size();++i){
-	if (v[i].is_symb_of_sommet(at_equal) && v[i]._SYMBptr->feuille.type==_VECT && v[i]._SYMBptr->feuille._VECTptr->front()==at_size){
-	  gen tmp=v[i]._SYMBptr->feuille._VECTptr->back();
-	  tmp=evalf_double(tmp,1,contextptr);
-	  if (tmp.type!=_DOUBLE_ || tmp._DOUBLE_val<=0 || tmp._DOUBLE_val>1)
-	    return gensizeerr(contextptr);
-	  largeur=tmp._DOUBLE_val;
-	  v.erase(v.begin()+i);
-	  break;
+	if (v[i].is_symb_of_sommet(at_equal) && v[i]._SYMBptr->feuille.type==_VECT){
+	  gen f=v[i]._SYMBptr->feuille._VECTptr->front();
+	  if (f==at_size || (f.type==_IDNT && strcmp(f._IDNTptr->id_name,"width")==0)){
+	    gen tmp=v[i]._SYMBptr->feuille._VECTptr->back();
+	    tmp=evalf_double(tmp,1,contextptr);
+	    if (tmp.type!=_DOUBLE_ || tmp._DOUBLE_val<=0 || tmp._DOUBLE_val>1)
+	      return gensizeerr(contextptr);
+	    largeur=tmp._DOUBLE_val;
+	    v.erase(v.begin()+i);
+	    --i;
+	  }
 	}
       }
       if (v.size()==1)
@@ -4668,9 +4686,11 @@ static define_unary_function_eval (__batons,&_batons,_batons_s);
     if (is_undef(errcode)) return errcode;
     vecteur attr(gen2vecteur(attributs[0]));
     int ncamemberts=int(vals.size()),s=int(vals.front()._VECTptr->size()),t=int(attr.size());
-    if (t==1)
-      t=0;
     int c=default_color(contextptr) & 0xffff;
+    if (t==1){
+      t=0;
+      c=attr[0].val;
+    }
     for (int j=0;j<ncamemberts;j++){
       vecteur & Vals = *vals[j]._VECTptr;
       int i=0;
@@ -8244,6 +8264,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   define_unary_function_ptr5( at_python_list ,alias_at_python_list,&__python_list,0,true);
 
   gen _set_pixel(const gen & a_,GIAC_CONTEXT){
+#ifdef GIAC_HAS_STO_38
+    static gen PIXEL(identificateur("PIXEL_P"));
+    return _of(makesequence(PIXEL,a_),contextptr);
+#else
     gen a(a_);
     if (a.type==_STRNG && a.subtype==-1) return  a;
     if (a.type==_VECT && a._VECTptr->empty())
@@ -8268,12 +8292,17 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
     }
     return pixel_v();
+#endif
   }
   static const char _set_pixel_s []="set_pixel";
   static define_unary_function_eval (__set_pixel,&_set_pixel,_set_pixel_s);
   define_unary_function_ptr5( at_set_pixel ,alias_at_set_pixel,&__set_pixel,0,true);
 
   gen _draw_string(const gen & a_,GIAC_CONTEXT){
+#ifdef GIAC_HAS_STO_38
+    static gen PIXEL(identificateur("TEXTOUT_P"));
+    return _of(makesequence(PIXEL,a_),contextptr);
+#else
     gen a(a_);
     if (a.type==_STRNG && a.subtype==-1) return  a;
     if (a.type!=_VECT)
@@ -8288,12 +8317,17 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     v.push_back(s);
     pixel_v()._VECTptr->push_back(_pixon(gen(v,_SEQ__VECT),contextptr));
     return pixel_v();
+#endif
   }
   static const char _draw_string_s []="draw_string";
   static define_unary_function_eval (__draw_string,&_draw_string,_draw_string_s);
   define_unary_function_ptr5( at_draw_string ,alias_at_draw_string,&__draw_string,0,true);
 
   gen _get_pixel(const gen & a_,GIAC_CONTEXT){
+#ifdef GIAC_HAS_STO_38
+    static gen PIXEL(identificateur("GETPIX_P"));
+    return _of(makesequence(PIXEL,a_),contextptr);
+#else
     gen a(a_);
     if (a.type==_STRNG && a.subtype==-1) return  a;
     if (a.type!=_VECT || a._VECTptr->size()!=2)
@@ -8326,6 +8360,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
     }
     return int(FL_WHITE);
+#endif
   }
   static const char _get_pixel_s []="get_pixel";
   static define_unary_function_eval (__get_pixel,&_get_pixel,_get_pixel_s);

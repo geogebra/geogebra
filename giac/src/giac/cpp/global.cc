@@ -5821,7 +5821,7 @@ unsigned int ConvertUTF8toUTF16 (
 
   static void python_import(string & cur,int cs,int posturtle,int poscmath,int posmath,int posnumpy,int posmatplotlib,GIAC_CONTEXT){
     if (posmatplotlib>=0 && posmatplotlib<cs){
-      cur += "np:=numpy:;xlim(a,b):=gl_x=a..b:;ylim(a,b):=gl_y=a..b:;scatter:=scatterplot:;";
+      cur += "np:=numpy:;xlim(a,b):=gl_x=a..b:;ylim(a,b):=gl_y=a..b:;scatter:=scatterplot:;bar:=bar_plot:;";
       posnumpy=posmatplotlib;
     }
     if (posnumpy>=0 && posnumpy<cs){

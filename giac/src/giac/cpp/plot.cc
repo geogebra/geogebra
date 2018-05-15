@@ -1752,23 +1752,35 @@ namespace giac {
       unsigned colormask=0xffff0000;
       if (opt1.type==_IDNT){
 	const char * s1 =opt1._IDNTptr->id_name;
+	if (strlen(s1)==1){
+	  if (s1[0]=='c')
+	    opt1=at_couleur;
+	  if (s1[0]=='s')
+	    opt1=at_size;
+	}
 	if (strcmp(s1,"marker")==0){
 	  if (opt2.type==_STRNG){
 	    const string s2 =*opt2._STRNGptr;
 	    opt2=0;
-	    opt1=_COLOR; opt1.subtype=_INT_COLOR;
+	    opt1=_STYLE; opt1.subtype=_INT_COLOR;
 	    if (s2.size()==1){
 	      switch (s2[0]){
-	      case 'o':
+	      case 's': case 'o':
 		opt2=_POINT_CARRE;
 		break;
 	      case 'x':
 		opt2=0;
 		break;
+	      case '*':
+		opt2=_POINT_ETOILE;
+		break;
 	      case '+':
 		opt2=_POINT_PLUS;
 		break;
-	      case ',':
+	      case 'D':
+		opt2=_POINT_LOSANGE;
+		break;
+	      case 'v': case '^':
 		opt2=_POINT_TRIANGLE;
 		break;
 	      case '.':
@@ -1794,8 +1806,31 @@ namespace giac {
 	  if (s=="-.")
 	    opt2=_DASHDOTDOT_LINE;
 	}
-	else
-	  opt2=gen(s,contextptr);
+	else {
+	  if (opt1!=at_label && opt1!=at_legende)
+	    opt2=gen(s,contextptr);
+	}
+      }
+      if (opt1==at_size && opt2.type==_INT_){
+	int s=opt2.val;
+	if (s<4)
+	  opt2=_POINT_WIDTH_1;
+	if (s>=4 && s<9)
+	  opt2=_POINT_WIDTH_2;
+	if (s>=9 && s<16)
+	  opt2=_POINT_WIDTH_3;
+	if (s>=16 && s<25)
+	  opt2=_POINT_WIDTH_4;
+	if (s>=25 && s<36)
+	  opt2=_POINT_WIDTH_5;
+	if (s>=36 && s<49)
+	  opt2=_POINT_WIDTH_6;
+	if (s>=49 && s<64)
+	  opt2=_POINT_WIDTH_7;
+	if (s>=64)
+	  opt2=_POINT_WIDTH_8;
+	opt1=_STYLE; opt1.subtype=_INT_COLOR;
+	colormask=0xffffffff;
       }
       if (opt1==at_couleur || opt1==at_display){
 	if (opt2.type==_STRNG && opt2._STRNGptr->size()==1){
@@ -1809,10 +1844,24 @@ namespace giac {
 	  case 'g':
 	    opt2=_GREEN;
 	    break;
+	  case 'c':
+	    opt2=_CYAN;
+	    break;
+	  case 'm':
+	    opt2=_MAGENTA;
+	    break;
+	  case 'y':
+	    opt2=_YELLOW;
+	    break;
+	  case 'k':
+	    opt2=_BLACK;
+	    break;
+	  case 'w':
+	    opt2=_WHITE;
+	    break;
 	  }
 	}
 	opt1=_COLOR; opt1.subtype=_INT_COLOR;
-	colormask=0xffffffff;
       }
       if (opt1==at_legende){
 	opt1=_LEGEND;
@@ -1835,7 +1884,11 @@ namespace giac {
 	if (opt2.type==_VECT)
 	  attributs[0]=bit_orv(bit_and(attributs[0],0xcfff0000),*opt2._VECTptr);
 	break;
-      case _STYLE: case _LINESTYLE:
+      case _STYLE:
+	if (opt2.type==_INT_)
+	  attributs[0]=bit_ori(attributs[0],opt2.val);
+	break;
+      case _LINESTYLE:
 	if (opt2==at_point)
 	  opt2=_DOT_LINE;
 	if (opt2==at_neg)
@@ -1857,6 +1910,7 @@ namespace giac {
 	if (attributs.size()==1)
 	  attributs.push_back(string2gen("",false));
 	attributs.push_back(opt2);
+	break;
       case _GL_MATERIAL: case _GL_TEXTURE:
 	if (attributs.size()==1)
 	  attributs.push_back(string2gen("",false));
@@ -8483,14 +8537,15 @@ namespace giac {
     int s=int(v.size());
     gen attribut=default_color(contextptr);
     vecteur attributs(1,attribut);
+    gen v0=eval(v[0],1,contextptr);
     gen v1=eval(v[1],1,contextptr);
-    if (s>1 && v[0].type<=_REAL && v1.type<=_REAL){
-      *logptr(contextptr) << gettext("To get a point, run point(")<<v[0]<<","<<v1<<")" << endl;
+    if (s>1 && v0.type<=_REAL && v1.type<=_REAL){
+      *logptr(contextptr) << gettext("To get a point, run point(")<<v0<<","<<v1<<")" << endl;
       // gen pos=v[0]+cst_i*v1; s=read_attributs(v,attributs,contextptr); return put_attributs(_point(pos,contextptr),attributs,contextptr);
     }
-    if (s>1 && v[0].type==_VECT && v1.type==_VECT && v[0]._VECTptr->size()==v1._VECTptr->size()){
+    if (s>1 && v0.type==_VECT && v1.type==_VECT && v0._VECTptr->size()==v1._VECTptr->size()){
       *logptr(contextptr) << gettext("Assuming you want to run polygonplot") << endl;
-      vecteur w0=*v[0]._VECTptr,w1=*v1._VECTptr;
+      vecteur w0=*v0._VECTptr,w1=*v1._VECTptr;
       int ss=w0.size(),i;
       for (i=0;i<ss;++i){
 	if (w0[i].type>_REAL || w1[i].type>_REAL)
@@ -8499,7 +8554,7 @@ namespace giac {
       if (i==ss){
 	// polygonplot
 	s=read_attributs(v,attributs,contextptr);
-	return put_attributs(_polygonplot(makesequence(v[0],v1),contextptr),attributs,contextptr);
+	return put_attributs(_polygonplot(makesequence(v0,v1),contextptr),attributs,contextptr);
       }
     }
     if (g.subtype!=_SEQ__VECT && s==3 ){
@@ -8569,7 +8624,6 @@ namespace giac {
     }
     int jstep,kstep;
     read_option(v,xmin,xmax,ymin,ymax,zmin,zmax,attributs,nstep,jstep,kstep,contextptr);
-    gen v0=eval(v[0],1,contextptr);
     bool v0cst=lidnt(evalf(v0,1,contextptr)).empty(),v1cst=lidnt(evalf(v1,1,contextptr)).empty();
     if (v0cst && v1cst){
       if (s==2 || v[2].is_symb_of_sommet(at_equal))
