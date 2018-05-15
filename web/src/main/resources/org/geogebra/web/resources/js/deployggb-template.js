@@ -484,6 +484,7 @@ var GGBApplet = function() {
         var xhr = createCORSRequest('POST', url);
 
         var onError = function() {
+            parameters.onError && parameters.onError();
             log("Error: The request for fetching material_id " + parameters.material_id + " from tube was not successful.");
         };
 
@@ -1921,7 +1922,7 @@ if(typeof define === "function" && define.amd){
     define([], function(){ return GGBApplet; })
 }
 
-GGBAppletUtils.makeModule(name, permutation){
+GGBAppletUtils.makeModule = function(name, permutation){
 	function webModule() {
 		var I = 'bootstrap', J = 'begin', K = 'gwt.codesvr.'+name+'=', L = 'gwt.codesvr=', M = name, N = 'startup', 
 		O = 'DUMMY', P = 0, Q = 1, R = 'iframe', S = 'position:absolute; width:0; height:0; border:none; left: -1000px;', 
