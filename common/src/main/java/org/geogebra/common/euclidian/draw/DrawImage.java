@@ -356,19 +356,14 @@ public final class DrawImage extends Drawable {
 					atInverse.transform(ptScr, ptDst);
 					GShape shape = atInverse.createTransformedShape(drawRectangle);
 
-					int cropWidth = (image
-							.getWidth() < (int) shape.getBounds().getWidth())
-									? image.getWidth()
-									: (int) shape.getBounds().getWidth();
-
-					int cropHeight = (image
-							.getWidth() < (int) shape.getBounds().getHeight())
-									? image.getWidth()
-									: (int) shape.getBounds().getHeight();
-					if (ptDst.getX() < 0)
+					int cropWidth = Math.min(image.getWidth(), (int) shape.getBounds().getWidth());
+					int cropHeight = Math.min(image.getHeight(), (int) shape.getBounds().getHeight());
+					if (ptDst.getX() < 0) {
 						ptDst.setX(0);
-					if (ptDst.getY() < 0)
+					}
+					if (ptDst.getY() < 0) {
 						ptDst.setY(0);
+					}
 
 					g3.drawImage(image, (int) ptDst.getX(), (int) ptDst.getY(),
 							cropWidth, cropHeight, (int) ptDst.getX(),
