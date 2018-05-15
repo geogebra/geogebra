@@ -64,7 +64,8 @@ public class ZoomPanel extends FlowPanel
 	 * @param view
 	 *            The Euclidian View to put zoom buttons onto.
 	 */
-	public ZoomPanel(EuclidianView view) {
+	public ZoomPanel(EuclidianView view, boolean rightBottom,
+			boolean zoomable) {
 		this.view = view;
 		this.app = (AppW) view.getApplication();
 		view.getEuclidianController().addZoomerListener(this);
@@ -81,7 +82,7 @@ public class ZoomPanel extends FlowPanel
 		if (ZoomPanel.needsZoomButtons(app)) {
 			addZoomButtons();
 		}
-		if (ZoomPanel.needsFullscreenButton(app) && view.isPrimaryEV()) {
+		if (ZoomPanel.needsFullscreenButton(app) && rightBottom) {
 			addFullscreenButton();
 		}
 		setLabels();

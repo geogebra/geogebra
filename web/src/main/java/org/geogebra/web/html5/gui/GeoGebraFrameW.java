@@ -429,7 +429,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// useDataParamBorder(articleElement, inst);
 		// inst.add(inst.app.buildApplicationPanel());
 		boolean showAppPicker = app.isPerspectivesPopupVisible();
-		inst.app.buildApplicationPanel();
+		// inst.app.buildApplicationPanel();
 		if (showAppPicker) {
 			app.showPerspectivesPopup();
 		}

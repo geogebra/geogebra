@@ -753,4 +753,19 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	public int getEstimateHeight() {
 		return getOffsetHeight() > 0 ? getOffsetHeight() : preferredHeight;
 	}
+
+	/**
+	 * @param needle
+	 *            subpanel
+	 * @return whether subpanel is rightmost bottom panel
+	 */
+	public boolean isBottomRight(DockComponent needle) {
+		if (rightComponent == needle) {
+			return true;
+		}
+		if (rightComponent instanceof DockSplitPaneW) {
+			return ((DockSplitPaneW) rightComponent).isBottomRight(needle);
+		}
+		return false;
+	}
 }

@@ -1510,19 +1510,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 			return true;
 		}
 
-		boolean justEuclidianVisible = false;
-
 		for (DockPanelData panel : docPerspective.getDockPanelData()) {
-			if ((panel.getViewId() == App.VIEW_EUCLIDIAN)
+			if ((panel.getViewId() != App.VIEW_EUCLIDIAN)
 					&& panel.isVisible()) {
-				justEuclidianVisible = true;
-			} else if (panel.isVisible()) {
-				justEuclidianVisible = false;
-				break;
+				return false;
 			}
 		}
 
-		return justEuclidianVisible;
+		return true;
 	}
 
 	@Override

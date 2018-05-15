@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
+import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;
@@ -27,7 +28,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		implements GetViewId {
 	private ConstructionProtocolNavigationW consProtNav;
 	private boolean hasEuclidianFocus;
-	private boolean isViewForZoomPanel = false;
+	private boolean mayHaveZoomButtons = false;
 	/**
 	 * panel with home,+,-,fullscreen btns
 	 */
@@ -57,7 +58,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			char shortcut) {
 		super(id, title, toolbar, hasStyleBar, menuOrder,
 				shortcut);
-		this.isViewForZoomPanel = hasZoomPanel;
+		this.mayHaveZoomButtons = hasZoomPanel;
 	}
 
 	/**
@@ -264,7 +265,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	private boolean allowZoomPanel() {
-		return isViewForZoomPanel && ZoomPanel.neededFor(app);
+		return ZoomPanel.neededFor(app);
 	}
 
 	@Override
@@ -290,8 +291,13 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	@Override
 	protected void tryBuildZoomPanel() {
+		DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
+				.getDockManager());
 		if (allowZoomPanel()) {
-			zoomPanel = new ZoomPanel(getEuclidianView());
+			zoomPanel = new ZoomPanel(getEuclidianView(),
+					dm.getRoot() == null || dm.getRoot()
+							.isBottomRight(this),
+					this.mayHaveZoomButtons);
 			app.setZoomPanel(zoomPanel);
 		}
 	}
