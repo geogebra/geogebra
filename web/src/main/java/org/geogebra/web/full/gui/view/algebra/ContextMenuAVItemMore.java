@@ -55,7 +55,9 @@ public class ContextMenuAVItemMore implements SetLabels {
 		addDuplicateItem();
 		addDeleteItem();
 		// wrappedPopup.addSeparator();
-		addPropertiesItem();
+		if (app.getConfig().showObjectSettingsFromAV()) {
+			addPropertiesItem();
+		}
 	}
 
 	/**

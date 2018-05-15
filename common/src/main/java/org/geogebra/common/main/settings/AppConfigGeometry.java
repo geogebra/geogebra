@@ -46,4 +46,14 @@ public class AppConfigGeometry implements AppConfig {
 		return "TutorialGeometry";
 	}
 
+	@Override
+	public boolean showKeyboardHelpButton() {
+		return true;
+	}
+
+	@Override
+	public boolean showObjectSettingsFromAV() {
+		return true;
+	}
+
 }

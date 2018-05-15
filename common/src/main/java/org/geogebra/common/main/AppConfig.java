@@ -14,4 +14,8 @@ public interface AppConfig {
 
 	public String getTutorialKey();
 
+	public boolean showKeyboardHelpButton();
+
+	public boolean showObjectSettingsFromAV();
+
 }

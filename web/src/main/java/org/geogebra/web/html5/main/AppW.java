@@ -59,6 +59,7 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.geogebra.common.main.settings.AppConfigGraphing3D;
+import org.geogebra.common.main.settings.AppConfigMixedReality;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -3688,6 +3689,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 		if ("3d".equals(articleElement.getDataParamAppName())) {
 			return new AppConfigGraphing3D();
+		}
+		if ("mr".equals(articleElement.getDataParamAppName())) {
+			return new AppConfigMixedReality();
 		}
 		return new AppConfigDefault();
 	}

@@ -134,7 +134,9 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				this);
 		tabs.add(keyboard);
 		// more button must be first because of float (Firefox)
-		switcher.addMoreButton();
+		if (app.getConfig().showKeyboardHelpButton()) {
+			switcher.addMoreButton();
+		}
 		switcher.addSwitch(keyboard, "123");
 		keyboard = buildPanel(kbf.createFunctionsKeyboard(), this);
 		tabs.add(keyboard);

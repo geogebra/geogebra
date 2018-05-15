@@ -40,4 +40,14 @@ public class AppConfigGraphing implements AppConfig {
 		return "TutorialGraphing";
 	}
 
+	@Override
+	public boolean showKeyboardHelpButton() {
+		return true;
+	}
+
+	@Override
+	public boolean showObjectSettingsFromAV() {
+		return true;
+	}
+
 }

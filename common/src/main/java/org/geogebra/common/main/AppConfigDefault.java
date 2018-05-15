@@ -34,4 +34,14 @@ public class AppConfigDefault implements AppConfig {
 		return "TutorialClassic";
 	}
 
+	@Override
+	public boolean showKeyboardHelpButton() {
+		return true;
+	}
+
+	@Override
+	public boolean showObjectSettingsFromAV() {
+		return true;
+	}
+
 }
