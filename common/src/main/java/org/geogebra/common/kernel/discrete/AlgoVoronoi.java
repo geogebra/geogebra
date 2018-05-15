@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.discrete.delaunay.Delaunay_Triangulation;
-import org.geogebra.common.kernel.discrete.delaunay.Point_dt;
-import org.geogebra.common.kernel.discrete.delaunay.Triangle_dt;
+import org.geogebra.common.kernel.discrete.delaunay.PointDt;
+import org.geogebra.common.kernel.discrete.delaunay.TriangleDt;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -72,7 +72,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 			}
 		}
 
-		Point_dt[] points = new Point_dt[pointTree.size()];
+		PointDt[] points = new PointDt[pointTree.size()];
 		int indx = 0;
 
 		Iterator<GPoint2D> it3 = pointTree.iterator();
@@ -94,7 +94,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 			xcoords.add(x);
 			ycoords.add(y);
 
-			points[indx++] = new Point_dt(x, y);
+			points[indx++] = new PointDt(x, y);
 
 		}
 
@@ -105,7 +105,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 			return;
 		}
 
-		Iterator<Triangle_dt> it = dt.trianglesIterator();
+		Iterator<TriangleDt> it = dt.trianglesIterator();
 
 		if (al == null) {
 			al = new ArrayList<>();
@@ -118,15 +118,15 @@ public class AlgoVoronoi extends AlgoDiscrete {
 				AlgoDelauneyTriangulation.getComparator());
 
 		while (it.hasNext()) {
-			Triangle_dt triangle = it.next();
+			TriangleDt triangle = it.next();
 
 			for (int index = 0; index < 3; index++) {
 
-				Point_dt corner = triangle.getCorner(index);
+				PointDt corner = triangle.getCorner(index);
 
 				if (corner != null) {
 
-					Point_dt[] voronoiCell = dt.calcVoronoiCell(triangle,
+					PointDt[] voronoiCell = dt.calcVoronoiCell(triangle,
 							corner);
 
 					if (voronoiCell != null) {

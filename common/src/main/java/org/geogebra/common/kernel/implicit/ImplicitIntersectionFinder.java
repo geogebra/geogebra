@@ -128,12 +128,10 @@ public final class ImplicitIntersectionFinder {
 	 */
 	static void intersections(FunctionNVar[] f, double[] params,
 			List<Coords> guess, int outputs, List<double[]> vals) {
-
-		// double[][] out = new double[outputs][2];
-
 		double f1, f2, jx1, jx2, jy1, jy2, det, x, y;
-		double delta1, delta2, lambda = 1.0, dx = 0.0, dy = 0.0, evals[],
-				moment;
+		double delta1, delta2, lambda = 1.0, dx = 0.0, dy = 0.0;
+		double[] evals;
+		double moment;
 		boolean add = true;
 
 		// papers suggest that Newton's method converges in at most 2n
@@ -209,7 +207,6 @@ public final class ImplicitIntersectionFinder {
 				insert(new double[] { evals[0], evals[1] }, vals);
 			}
 		}
-
 	}
 
 	/**
@@ -232,8 +229,7 @@ public final class ImplicitIntersectionFinder {
 					it.previous();
 					break;
 				}
-				if (DoubleUtil.isEqual(p[1], pair[1], eps))
-				 {
+				if (DoubleUtil.isEqual(p[1], pair[1], eps)) {
 					return; // do not add
 				}
 			}

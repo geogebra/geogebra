@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+
 package org.geogebra.common.kernel.implicit;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -85,11 +86,9 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 		}
 		this.algoTangentPoly = new AlgoImplicitPolyTangentCurve(c, p, R,
 				pointOnPath);
+
 		if (!pointOnPath) {
-
-
 			GeoImplicit tangentCurve = algoTangentPoly.getTangentCurve();
-
 			algoIntersect = new AlgoIntersectImplicitpolys(cons, p,
 					tangentCurve);
 
@@ -164,17 +163,10 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 			return;
 		}
 
-
-
-
 		tangents.adjustOutputSize(0);
-
-
-
 		ip = algoIntersect == null ? null : algoIntersect
 				.getIntersectionPoints();
 		this.algoTangentPoly.getTangents(ip, tangents);
-
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import org.geogebra.common.util.debug.Log;
  * This class represents a 3D point, with some simple geometric methods
  * (pointLineTest).
  */
-public class Point_dt {
+public class PointDt {
 	public final static int ONSEGMENT = 0;
 
 	/**
@@ -40,7 +40,7 @@ public class Point_dt {
 	 * Default Constructor. <br>
 	 * constructs a 3D point at (0,0,0).
 	 */
-	public Point_dt() {
+	public PointDt() {
 		this(0, 0);
 	}
 
@@ -54,7 +54,7 @@ public class Point_dt {
 	 * @param z
 	 *            z-coord
 	 */
-	public Point_dt(double x, double y, double z) {
+	public PointDt(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -68,7 +68,7 @@ public class Point_dt {
 	 * @param y
 	 *            y-coord
 	 */
-	public Point_dt(double x, double y) {
+	public PointDt(double x, double y) {
 		this(x, y, 0);
 	}
 
@@ -78,7 +78,7 @@ public class Point_dt {
 	 * @param p
 	 *            point
 	 */
-	public Point_dt(Point_dt p) {
+	public PointDt(PointDt p) {
 		x = p.x;
 		y = p.y;
 		z = p.z;
@@ -134,7 +134,7 @@ public class Point_dt {
 	 *            point
 	 * @return distance
 	 */
-	double distance2(Point_dt p) {
+	double distance2(PointDt p) {
 		return (p.x - x) * (p.x - x) + (p.y - y) * (p.y - y);
 	}
 
@@ -154,7 +154,7 @@ public class Point_dt {
 	 *            point
 	 * @return true if less than this
 	 */
-	boolean isLess(Point_dt p) {
+	boolean isLess(PointDt p) {
 		return Compare.lessThan(x, p.x)
 				|| (Compare.equals(x, p.x) && Compare.lessThan(y, p.y));
 	}
@@ -164,7 +164,7 @@ public class Point_dt {
 	 *            point
 	 * @return true if greater than this
 	 */
-	boolean isGreater(Point_dt p) {
+	boolean isGreater(PointDt p) {
 		return Compare.greaterThan(x, p.x)
 				|| (Compare.equals(x, p.x) && Compare.greaterThan(y, p.y));
 	}
@@ -176,12 +176,12 @@ public class Point_dt {
 	@Override
 	public boolean equals(Object p) {
 
-		if (!(p instanceof Point_dt)) {
+		if (!(p instanceof PointDt)) {
 			return false;
 		}
 
-		return Compare.equals(x, ((Point_dt) p).x)
-				&& Compare.equals(y, ((Point_dt) p).y);
+		return Compare.equals(x, ((PointDt) p).x)
+				&& Compare.equals(y, ((PointDt) p).y);
 	}
 
 	/** @return a String in the [x,y,z] format */
@@ -195,7 +195,7 @@ public class Point_dt {
 	 *            point
 	 * @return the L2 distance NOTE: 2D only!!!
 	 */
-	public double distance(Point_dt p) {
+	public double distance(PointDt p) {
 		return MyMath.length(p.x() - x, p.y() - y);
 		//double temp = Math.pow(p.x() - x, 2) + Math.pow(p.y() - y, 2);
 		//return Math.sqrt(temp);
@@ -206,7 +206,7 @@ public class Point_dt {
 	 *            point
 	 * @return the L2 distance NOTE: 3D only!!!
 	 */
-	public double distance3D(Point_dt p) {
+	public double distance3D(PointDt p) {
 		return MyMath.length(p.x() - x, p.y() - y, p.z() - z);
 		// double temp = Math.pow(p.x() - x, 2) + Math.pow(p.y() - y, 2)
 		// + Math.pow(p.z() - z, 2);
@@ -240,7 +240,7 @@ public class Point_dt {
 	 * @return the value (flag) of the relation between this point and the a,b
 	 *         line-segment.
 	 */
-	public int pointLineTest(Point_dt a, Point_dt b) {
+	public int pointLineTest(PointDt a, PointDt b) {
 
 		double dx = b.x - a.x;
 		double dy = b.y - a.y;
@@ -293,7 +293,7 @@ public class Point_dt {
 		return ERROR;
 	}
 
-	boolean areCollinear(Point_dt a, Point_dt b) {
+	boolean areCollinear(PointDt a, PointDt b) {
 		double dx = b.x - a.x;
 		double dy = b.y - a.y;
 		double res = dy * (x - a.x) - dx * (y - a.y);
@@ -307,7 +307,7 @@ public class Point_dt {
 	 * ajSegment( p1,p2 ); }
 	 */
 
-	Point_dt circumcenter(Point_dt a, Point_dt b) {
+	PointDt circumcenter(PointDt a, PointDt b) {
 
 		double u = ((a.x - b.x) * (a.x + b.x) + (a.y - b.y) * (a.y + b.y))
 				/ 2.0f;
@@ -316,20 +316,20 @@ public class Point_dt {
 		if (den == 0) {
 			Log.debug("circumcenter, degenerate case");
 		}
-		return new Point_dt((u * (b.y - y) - v * (a.y - b.y)) / den,
+		return new PointDt((u * (b.y - y) - v * (a.y - b.y)) / den,
 				(v * (a.x - b.x) - u * (b.x - x)) / den);
 	}
 
-	public static Comparator<Point_dt> getComparator(int flag) {
+	public static Comparator<PointDt> getComparator(int flag) {
 		return new Compare(flag);
 	}
 
-	public static Comparator<Point_dt> getComparator() {
+	public static Comparator<PointDt> getComparator() {
 		return new Compare(0);
 	}
 }
 
-class Compare implements Comparator<Point_dt> {
+class Compare implements Comparator<PointDt> {
 	private int _flag;
 
 	public Compare(int i) {
@@ -338,7 +338,7 @@ class Compare implements Comparator<Point_dt> {
 
 	/** compare between two points. */
 	@Override
-	public int compare(Point_dt d1, Point_dt d2) {
+	public int compare(PointDt d1, PointDt d2) {
 		int ans = 0;
 		if (d1 != null && d2 != null) {
 			if (_flag == 0) {

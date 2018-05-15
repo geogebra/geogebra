@@ -357,7 +357,8 @@ public final class DrawImage extends Drawable {
 					GShape shape = atInverse.createTransformedShape(drawRectangle);
 
 					int cropWidth = Math.min(image.getWidth(), (int) shape.getBounds().getWidth());
-					int cropHeight = Math.min(image.getHeight(), (int) shape.getBounds().getHeight());
+					int cropHeight = Math.min(image.getHeight(),
+							(int) shape.getBounds().getHeight());
 					if (ptDst.getX() < 0) {
 						ptDst.setX(0);
 					}

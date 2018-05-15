@@ -7,10 +7,14 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 
-public class Triangle_dt {
-	Point_dt a, b, c;
-	Triangle_dt abnext, bcnext, canext;
-	Circle_dt circum;
+public class TriangleDt {
+	PointDt a;
+	PointDt b;
+	PointDt c;
+	TriangleDt abnext;
+	TriangleDt bcnext;
+	TriangleDt canext;
+	CircleDt circum;
 	int _mc = 0; // modcounter for triangulation fast update.
 
 	boolean halfplane = false; // true iff it is an infinite face.
@@ -30,12 +34,12 @@ public class Triangle_dt {
 	 * @param C
 	 *            third point
 	 */
-	public Triangle_dt(Point_dt A, Point_dt B, Point_dt C) {
+	public TriangleDt(PointDt A, PointDt B, PointDt C) {
 		// visitflag=visitValue;
 		a = A;
 		int res = C.pointLineTest(A, B);
-		if ((res <= Point_dt.LEFT) || (res == Point_dt.INFRONTOFA)
-				|| (res == Point_dt.BEHINDB)) {
+		if ((res <= PointDt.LEFT) || (res == PointDt.INFRONTOFA)
+				|| (res == PointDt.BEHINDB)) {
 			b = B;
 			c = C;
 		} else { // RIGHT
@@ -58,7 +62,7 @@ public class Triangle_dt {
 	 * @param B
 	 *            point B
 	 */
-	public Triangle_dt(Point_dt A, Point_dt B) {
+	public TriangleDt(PointDt A, PointDt B) {
 		// visitflag=visitValue;
 		a = A;
 		b = B;
@@ -86,42 +90,42 @@ public class Triangle_dt {
 	/**
 	 * @return the first vertex of this triangle.
 	 */
-	public Point_dt p1() {
+	public PointDt p1() {
 		return a;
 	}
 
 	/**
 	 * @return the second vertex of this triangle.
 	 */
-	public Point_dt p2() {
+	public PointDt p2() {
 		return b;
 	}
 
 	/**
 	 * @return the 3th vertex of this triangle.
 	 */
-	public Point_dt p3() {
+	public PointDt p3() {
 		return c;
 	}
 
 	/**
 	 * @return the consecutive triangle which shares this triangle p1,p2 edge.
 	 */
-	public Triangle_dt next_12() {
+	public TriangleDt next_12() {
 		return this.abnext;
 	}
 
 	/**
 	 * @return the consecutive triangle which shares this triangle p2,p3 edge.
 	 */
-	public Triangle_dt next_23() {
+	public TriangleDt next_23() {
 		return this.bcnext;
 	}
 
 	/**
 	 * @return the consecutive triangle which shares this triangle p3,p1 edge.
 	 */
-	public Triangle_dt next_31() {
+	public TriangleDt next_31() {
 		return this.canext;
 	}
 
@@ -130,15 +134,15 @@ public class Triangle_dt {
 	 *         of the triangle
 	 */
 	public BoundingBox getBoundingBox() {
-		Point_dt lowerLeft, upperRight;
-		lowerLeft = new Point_dt(Math.min(a.x(), Math.min(b.x(), c.x())),
+		PointDt lowerLeft, upperRight;
+		lowerLeft = new PointDt(Math.min(a.x(), Math.min(b.x(), c.x())),
 				Math.min(a.y(), Math.min(b.y(), c.y())));
-		upperRight = new Point_dt(Math.max(a.x(), Math.max(b.x(), c.x())),
+		upperRight = new PointDt(Math.max(a.x(), Math.max(b.x(), c.x())),
 				Math.max(a.y(), Math.max(b.y(), c.y())));
 		return new BoundingBox(lowerLeft, upperRight);
 	}
 
-	void switchneighbors(Triangle_dt Old, Triangle_dt New) {
+	void switchneighbors(TriangleDt Old, TriangleDt New) {
 		if (abnext == Old) {
 			abnext = New;
 		} else if (bcnext == Old) {
@@ -150,7 +154,7 @@ public class Triangle_dt {
 		}
 	}
 
-	Triangle_dt neighbor(Point_dt p) {
+	TriangleDt neighbor(PointDt p) {
 		if (a == p) {
 			return canext;
 		}
@@ -177,8 +181,8 @@ public class Triangle_dt {
 	 * 
 	 *         By: Eyal Roth & Doron Ganel.
 	 */
-	Triangle_dt nextNeighbor(Point_dt p, Triangle_dt prevTriangle) {
-		Triangle_dt neighbor = null;
+	TriangleDt nextNeighbor(PointDt p, TriangleDt prevTriangle) {
+		TriangleDt neighbor = null;
 
 		if (a.equals(p)) {
 			neighbor = canext;
@@ -208,7 +212,7 @@ public class Triangle_dt {
 		return neighbor;
 	}
 
-	Circle_dt circumcircle() {
+	CircleDt circumcircle() {
 
 		double u = ((a.x - b.x) * (a.x + b.x) + (a.y - b.y) * (a.y + b.y))
 				/ 2.0f;
@@ -216,17 +220,17 @@ public class Triangle_dt {
 				/ 2.0f;
 		double den = (a.x - b.x) * (b.y - c.y) - (b.x - c.x) * (a.y - b.y);
 		if (den == 0) {
-			circum = new Circle_dt(a, Double.POSITIVE_INFINITY);
+			circum = new CircleDt(a, Double.POSITIVE_INFINITY);
 		} else {
-			Point_dt cen = new Point_dt(
+			PointDt cen = new PointDt(
 					(u * (b.y - c.y) - v * (a.y - b.y)) / den,
 					(v * (a.x - b.x) - u * (b.x - c.x)) / den);
-			circum = new Circle_dt(cen, cen.distance2(a));
+			circum = new CircleDt(cen, cen.distance2(a));
 		}
 		return circum;
 	}
 
-	boolean circumcircle_contains(Point_dt p) {
+	boolean circumcircle_contains(PointDt p) {
 
 		return circum.radius() > circum.center().distance2(p);
 	}
@@ -250,7 +254,7 @@ public class Triangle_dt {
 	 * @return true iff p is not null and is inside this triangle (Note: on
 	 *         boundary is considered inside!!).
 	 */
-	public boolean contains(Point_dt p) {
+	public boolean contains(PointDt p) {
 		boolean ans = false;
 		if (this.halfplane | p == null) {
 			return false;
@@ -264,12 +268,12 @@ public class Triangle_dt {
 		int a23 = p.pointLineTest(b, c);
 		int a31 = p.pointLineTest(c, a);
 
-		if ((a12 == Point_dt.LEFT && a23 == Point_dt.LEFT
-				&& a31 == Point_dt.LEFT)
-				|| (a12 == Point_dt.RIGHT && a23 == Point_dt.RIGHT
-						&& a31 == Point_dt.RIGHT)
-				|| (a12 == Point_dt.ONSEGMENT || a23 == Point_dt.ONSEGMENT
-						|| a31 == Point_dt.ONSEGMENT)) {
+		if ((a12 == PointDt.LEFT && a23 == PointDt.LEFT
+				&& a31 == PointDt.LEFT)
+				|| (a12 == PointDt.RIGHT && a23 == PointDt.RIGHT
+						&& a31 == PointDt.RIGHT)
+				|| (a12 == PointDt.ONSEGMENT || a23 == PointDt.ONSEGMENT
+						|| a31 == PointDt.ONSEGMENT)) {
 			ans = true;
 		}
 
@@ -284,7 +288,7 @@ public class Triangle_dt {
 	 * @return true iff p is not null and is inside this triangle (Note: on
 	 *         boundary is considered outside!!).
 	 */
-	public boolean contains_BoundaryIsOutside(Point_dt p) {
+	public boolean contains_BoundaryIsOutside(PointDt p) {
 		boolean ans = false;
 		if (this.halfplane | p == null) {
 			return false;
@@ -298,10 +302,10 @@ public class Triangle_dt {
 		int a23 = p.pointLineTest(b, c);
 		int a31 = p.pointLineTest(c, a);
 
-		if ((a12 == Point_dt.LEFT && a23 == Point_dt.LEFT
-				&& a31 == Point_dt.LEFT)
-				|| (a12 == Point_dt.RIGHT && a23 == Point_dt.RIGHT
-						&& a31 == Point_dt.RIGHT)) {
+		if ((a12 == PointDt.LEFT && a23 == PointDt.LEFT
+				&& a31 == PointDt.LEFT)
+				|| (a12 == PointDt.RIGHT && a23 == PointDt.RIGHT
+						&& a31 == PointDt.RIGHT)) {
 			ans = true;
 		}
 
@@ -317,20 +321,20 @@ public class Triangle_dt {
 	 * 
 	 *         By Eyal Roth &amp; Doron Ganel.
 	 */
-	public boolean isCorner(Point_dt p) {
+	public boolean isCorner(PointDt p) {
 		return (p.x == a.x & p.y == a.y) | (p.x == b.x & p.y == b.y)
 				| (p.x == c.x & p.y == c.y);
 	}
 
 	// Doron
-	public boolean fallInsideCircumcircle(Point_dt[] arrayPoints) {
+	public boolean fallInsideCircumcircle(PointDt[] arrayPoints) {
 		boolean isInside = false;
-		Point_dt p1 = this.p1();
-		Point_dt p2 = this.p2();
-		Point_dt p3 = this.p3();
+		PointDt p1 = this.p1();
+		PointDt p2 = this.p2();
+		PointDt p3 = this.p3();
 		int i = 0;
 		while (!isInside && i < arrayPoints.length) {
-			Point_dt p = arrayPoints[i];
+			PointDt p = arrayPoints[i];
 			if (!p.equals(p1) && !p.equals(p2) && !p.equals(p3)) {
 				isInside = this.circumcircle_contains(p);
 			}
@@ -349,7 +353,7 @@ public class Triangle_dt {
 	 *            query point (its Z value is ignored).
 	 * @return the Z value of this plane implies by this triangle 3 points.
 	 */
-	public double z_value(Point_dt q) {
+	public double z_value(PointDt q) {
 		if (q == null || this.halfplane) {
 			throw new RuntimeException(
 					"*** ERR wrong parameters, can't approximate the z value ..***: "
@@ -438,7 +442,7 @@ public class Triangle_dt {
 	 * 
 	 */
 	public double z(double x, double y) {
-		return z_value(new Point_dt(x, y));
+		return z_value(new PointDt(x, y));
 	}
 
 	/**
@@ -451,12 +455,12 @@ public class Triangle_dt {
 	 * @return q with updated Z value.
 	 * 
 	 */
-	public Point_dt z(Point_dt q) {
+	public PointDt z(PointDt q) {
 		double z = z_value(q);
-		return new Point_dt(q.x, q.y, z);
+		return new PointDt(q.x, q.y, z);
 	}
 
-	public Point_dt getCorner(int index) {
+	public PointDt getCorner(int index) {
 		switch (index) {
 		case 0:
 			return p1();

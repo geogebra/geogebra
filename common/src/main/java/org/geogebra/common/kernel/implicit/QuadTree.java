@@ -82,9 +82,11 @@ abstract class QuadTree {
 	protected ArrayList<MyPoint> locusPoints;
 	private LinkedList<PointList> openList = new LinkedList<>();
 	private MyPoint[] pts = new MyPoint[2];
-	private PointList p1, p2;
+	private PointList p1;
+	private PointList p2;
 	private MyPoint temp;
-	private ListIterator<PointList> itr1, itr2;
+	private ListIterator<PointList> itr1;
+	private ListIterator<PointList> itr2;
 
 	public QuadTree(GeoImplicitCurve geoImplicitCurve) {
 		this.geoImplicitCurve = geoImplicitCurve;

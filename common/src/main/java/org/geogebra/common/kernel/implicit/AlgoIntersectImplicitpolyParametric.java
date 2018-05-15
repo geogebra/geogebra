@@ -10,11 +10,6 @@ the Free Software Foundation.
 
 */
 
-/*
- * AlgoSimpleRootsPolynomial.java
- *
- * Created on 28.07.2010, 13:20
- */
 package org.geogebra.common.kernel.implicit;
 
 import java.util.ArrayList;
@@ -45,7 +40,6 @@ public class AlgoIntersectImplicitpolyParametric
 	private GeoLine l;
 	private GeoFunction f;
 	private GeoPoint[] tangentPoints;
-
 
 	/**
 	 * To compute intersection of polynomial and line
@@ -128,7 +122,7 @@ public class AlgoIntersectImplicitpolyParametric
 				return;
 			}
 			// get parametrisation of line
-			double startP[] = new double[2];
+			double[] startP = new double[2];
 			l.getInhomPointOnLine(startP);
 			tx = new PolynomialFunction(new double[] { startP[0], l.getY() }); // x=p1+t*r1
 			ty = new PolynomialFunction(new double[] { startP[1], -l.getX() }); // y=p2+t*r2
@@ -152,12 +146,12 @@ public class AlgoIntersectImplicitpolyParametric
 						new double[] { coeff[i][coeff[i].length - 1] });
 				for (int j = coeff[i].length - 2; j >= 0; j--) {
 					zs = zs.multiply(ty).add(new PolynomialFunction(
-							new double[] { coeff[i][j] }));// y*zs+coeff[i][j];
+							new double[] { coeff[i][j] })); // y*zs+coeff[i][j];
 				}
 				if (sum == null) {
 					sum = zs;
 				} else {
-					sum = sum.multiply(tx).add(zs);// sum*x+zs;
+					sum = sum.multiply(tx).add(zs); // sum*x+zs;
 				}
 			}
 		}
@@ -192,14 +186,13 @@ public class AlgoIntersectImplicitpolyParametric
 	}
 
 	private void mergeWithTangentPoints() {
-
 		if (tangentPoints == null || tangentPoints.length == 0) {
 			return;
 		}
 
 		// assumption: tangent points are far apart from each other such that
 		// dist(tangent1,tangent2) > epsilon.
-		boolean addTangent[] = new boolean[tangentPoints.length];
+		boolean[] addTangent = new boolean[tangentPoints.length];
 		int orgSize = points.size();
 		while (!points.getElement(orgSize - 1).isDefined()) {
 			--orgSize;

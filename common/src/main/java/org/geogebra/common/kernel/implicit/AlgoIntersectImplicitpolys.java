@@ -74,8 +74,6 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		compute();
 	}
 
-
-
 	/**
 	 * To compute intersection of two polynomials
 	 * 
@@ -342,19 +340,17 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			}
 			c = mat[k][k];
 		}
-		if (det == null)
-		 {
+		if (det == null) {
 			det = mat[n - 1][n - 1];
 		// Application.debug("resultante = "+det);
 		}
 
 		univarType = PolyY;
-		double roots[] = det.getCoefficients();
+		double[] roots = det.getCoefficients();
 		// roots[0]-=0.001;
 		int nrRealRoots = 0;
-		if (roots.length > 1)
-		 {
-			nrRealRoots = getNearRoots(roots, eqnSolver, 1E-1);// getRoots(roots,eqnSolver);
+		if (roots.length > 1) {
+			nrRealRoots = getNearRoots(roots, eqnSolver, 1E-1); // getRoots(roots,eqnSolver);
 		}
 
 		double[][] coeff;
@@ -400,7 +396,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 					}
 				}
 			}
-			int nr = getNearRoots(newCoeff, eqnSolver, 1E-1);// getRoots(newCoeff,eqnSolver);
+			int nr = getNearRoots(newCoeff, eqnSolver, 1E-1); // getRoots(newCoeff,eqnSolver);
 			for (int i = 0; i < nr; i++) {
 				double[] pair = new double[2];
 				if (univarType == PolyX) {
@@ -434,9 +430,8 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			valPairs.add(new double[] { Double.NaN, Double.NaN });
 			setPoints(valPairs);
 			return;
-
 		}
-		double roots[] = Cloner.clone(b.getCoeff()[0]);
+		double[] roots = Cloner.clone(b.getCoeff()[0]);
 		// roots[0]-=0.001;
 		int nrRealRoots = 0;
 		if (roots.length > 1) {
@@ -455,7 +450,6 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			}
 		}
 		setPoints(valPairs);
-
 	}
 
 	private static int getNearRoots(double[] roots,
@@ -511,143 +505,6 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		Arrays.sort(roots, 0, nrRoots);
 		return nrRoots;
 	}
-
-	// public static int getNearRoots2(double[] roots,EquationSolver
-	// solver,double epsilon){
-	// int degree=PolynomialUtils.getDegree(roots);
-	// double lc=roots[degree];
-	// int status=(((degree&1)==1)^(lc>0)?0:5); //
-	//
-	// double[] minusEps=roots.clone();
-	// double[] plusEps=roots.clone();
-	// plusEps[0]+=epsilon;
-	// minusEps[0]-=epsilon;
-	// int nrMRoots=getRoots(minusEps,solver);
-	// int nrPRoots=getRoots(plusEps,solver);
-	// int nrRoots=getRoots(roots,solver);
-	//
-	//// if (nrMRoots>1){
-	//// Arrays.sort(minusEps, 0, nrMRoots);
-	//// }
-	//// if (nrRoots>1){
-	//// Arrays.sort(minusEps, 0, nrRoots);
-	//// }
-	//// if (nrPRoots>1){
-	//// Arrays.sort(plusEps, 0, nrPRoots);
-	//// }
-	//
-	// // we use here, that a polynomial of degree n has n+1 coefficients but at
-	// most n roots.
-	// minusEps[nrMRoots]=Double.POSITIVE_INFINITY;
-	// plusEps[nrPRoots]=Double.POSITIVE_INFINITY;
-	// roots[nrRoots]=Double.POSITIVE_INFINITY;
-	//
-	// int mI=0;
-	// int pI=0;
-	// int i=0;
-	// int nrNearRoots=0;
-	// while(mI<nrMRoots||pI<nrPRoots||i<nrRoots){
-	// if (status==0){
-	// if (minusEps[mI]<roots[i]&&minusEps[mI]<plusEps[pI]){
-	// mI++;
-	// status=1;
-	// }else{
-	// Application.debug(String.format("problem in status %d,
-	// plusEps=%f,roots=%f,minEps=%f",
-	// status,minusEps[mI],roots[i],plusEps[pI]));
-	// return nrRoots;
-	// }
-	// }else if (status==1){
-	// if (minusEps[mI]<plusEps[pI]||roots[i]<plusEps[pI]){
-	// if (minusEps[mI]<roots[i]){
-	// //nearRoot
-	// roots[nrRoots+1+nrNearRoots]=(minusEps[mI]-minusEps[mI-1])/2; //assume
-	// "near Root" is in the middle
-	// nrNearRoots++;
-	// mI++;
-	// status=0;
-	// }else{
-	// //real Root
-	// i++;
-	// status=3;
-	// }
-	// }else{
-	// Application.debug(String.format("problem in status %d,
-	// plusEps=%f,roots=%f,minEps=%f",
-	// status,minusEps[mI],roots[i],plusEps[pI]));
-	// return nrRoots;
-	// }
-	// }else if (status==2){
-	// if (minusEps[mI]<plusEps[pI]||roots[i]<plusEps[pI]){
-	// if (minusEps[mI]<roots[i]){
-	// mI++;
-	// status=0;
-	// }else{
-	// //real Root
-	// i++;
-	// status=3;
-	// }
-	// }
-	// else{
-	// Application.debug(String.format("problem in status %d,
-	// plusEps=%f,roots=%f,minEps=%f",
-	// status,minusEps[mI],roots[i],plusEps[pI]));
-	// return nrRoots;
-	// }
-	// }else if (status==3){
-	// if (plusEps[pI]<minusEps[mI]||roots[i]<minusEps[mI]){
-	// if (plusEps[pI]<roots[i]){
-	// pI++;
-	// status=5;
-	// }else{
-	// //real Root
-	// i++;
-	// status=2;
-	// }
-	// }
-	// else{
-	// Application.debug(String.format("problem in status %d,
-	// plusEps=%f,roots=%f,minEps=%f",
-	// status,minusEps[mI],roots[i],plusEps[pI]));
-	// return nrRoots;
-	// }
-	// }else if (status==4){
-	// if (plusEps[pI]<minusEps[mI]||roots[i]<minusEps[mI]){
-	// if (plusEps[pI]<roots[i]){
-	// //nearRoot
-	// roots[nrRoots+nrNearRoots]=(plusEps[pI]-plusEps[pI-1])/2; //assume "near
-	// Root" is in the middle
-	// nrNearRoots++;
-	// pI++;
-	// status=5;
-	// }else{
-	// //real Root
-	// i++;
-	// status=2;
-	// }
-	// }else{
-	// Application.debug(String.format("problem in status %d,
-	// plusEps=%f,roots=%f,minEps=%f",
-	// status,minusEps[mI],roots[i],plusEps[pI]));
-	// return nrRoots;
-	// }
-	// }else if (status==5){
-	// if (plusEps[pI]<roots[i]&&plusEps[pI]<minusEps[mI]){
-	// pI++;
-	// status=4;
-	// }else{
-	// Application.debug(String.format("problem in status %d,
-	// plusEps=%f,roots=%f,minEps=%f",
-	// status,minusEps[mI],roots[i],plusEps[pI]));
-	// return nrRoots;
-	// }
-	// }
-	// }
-	// Arrays.sort(roots,0,nrRoots+nrNearRoots+1);
-	// return nrRoots+nrNearRoots;
-	// }
-
-
 
 	@Override
 	public Commands getClassName() {

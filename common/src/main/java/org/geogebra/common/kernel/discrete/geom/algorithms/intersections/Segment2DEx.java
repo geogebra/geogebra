@@ -19,6 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package org.geogebra.common.kernel.discrete.geom.algorithms.intersections;
 
 import org.geogebra.common.kernel.discrete.geom.Point2D;
@@ -34,6 +35,9 @@ public class Segment2DEx extends Segment2D {
 		super(p0, p1);
 	}
 
+	/**
+	 * @return left end point
+	 */
 	public Point2D getLeftEndPoint() {
 		Point2D p0 = getStart();
 		Point2D p1 = getEnd();
@@ -45,6 +49,9 @@ public class Segment2DEx extends Segment2D {
 		return new LeftEndPoint(p1.getX(), p1.getY(), this);
 	}
 
+	/**
+	 * @return right end point
+	 */
 	public Point2D getRightEndPoint() {
 		Point2D p0 = getStart();
 		Point2D p1 = getEnd();

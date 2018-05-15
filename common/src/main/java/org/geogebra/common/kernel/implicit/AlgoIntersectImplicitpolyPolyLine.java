@@ -188,7 +188,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 */
 	private void computePolyLineIntersection(GeoSegment tempSeg2,
 			ArrayList<Coords> intersectCoords2) {
-		double startP[] = new double[2];
+		double[] startP = new double[2];
 		tempSeg2.getInhomPointOnLine(startP);
 		tx = new PolynomialFunction(
 				new double[] { startP[0], tempSeg2.getY() }); // x=p1+t*r1
@@ -231,13 +231,13 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 					new double[] { coeff[i][coeff[i].length - 1] });
 			for (int j = coeff[i].length - 2; j >= 0; j--) {
 				zs = zs.multiply(ty).add(
-						new PolynomialFunction(new double[] { coeff[i][j] }));// y*zs+coeff[i][j];
+						new PolynomialFunction(new double[] { coeff[i][j] })); // y*zs+coeff[i][j];
 			}
 			if (sum == null) {
 				sum = zs;
 			}
 			else {
-				sum = sum.multiply(tx).add(zs);// sum*x+zs;
+				sum = sum.multiply(tx).add(zs); // sum*x+zs;
 			}
 		}
 		return sum;
@@ -246,7 +246,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	private void setRootsPolynomialWithinRange(
 			ArrayList<Coords> intersectCoords2, PolynomialFunction rootsPoly,
 			double min, double max) {
-		double roots[] = rootsPoly.getCoefficients();
+		double[] roots = rootsPoly.getCoefficients();
 		int nrRealRoots = 0;
 		if (roots.length > 1) {
 			nrRealRoots = AlgoSimpleRootsPolynomial.getRoots(roots, eqnSolver);

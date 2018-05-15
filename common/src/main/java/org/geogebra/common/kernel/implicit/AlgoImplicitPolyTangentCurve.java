@@ -82,7 +82,6 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 			x1 = x1.multiply(inputCurve.getDerivativeX().getExpression());
 			y1 = y1.multiply(inputCurve.getDerivativeY().getExpression());
 
-
 			tangentPoly.fromEquation(new Equation(kernel, x1.plus(y1),
 					new MyDouble(kernel, 0)), null);
 			((GeoImplicitCurve) tangentPoly).updatePath();

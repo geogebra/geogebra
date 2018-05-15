@@ -8,9 +8,9 @@ package org.geogebra.common.kernel.discrete.delaunay;
  * 
  * @see Delaunay_Triangulation
  */
-public class Circle_dt {
+public class CircleDt {
 
-	private Point_dt c;
+	private PointDt c;
 	private double r;
 
 	/**
@@ -22,7 +22,7 @@ public class Circle_dt {
 	 * @param r
 	 *            Radius of the circle.
 	 */
-	public Circle_dt(Point_dt c, double r) {
+	public CircleDt(PointDt c, double r) {
 		this.c = c;
 		this.r = r;
 	}
@@ -34,7 +34,7 @@ public class Circle_dt {
 	 * @param circ
 	 *            Circle to clone.
 	 */
-	public Circle_dt(Circle_dt circ) {
+	public CircleDt(CircleDt circ) {
 		this.c = circ.c;
 		this.r = circ.r;
 	}
@@ -50,7 +50,7 @@ public class Circle_dt {
 	 * 
 	 * @return the center of the circle.
 	 */
-	public Point_dt center() {
+	public PointDt center() {
 		return this.c;
 	}
 

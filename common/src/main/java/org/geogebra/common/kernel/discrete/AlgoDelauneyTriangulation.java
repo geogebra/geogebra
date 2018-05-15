@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.discrete.delaunay.Delaunay_Triangulation;
-import org.geogebra.common.kernel.discrete.delaunay.Point_dt;
-import org.geogebra.common.kernel.discrete.delaunay.Triangle_dt;
+import org.geogebra.common.kernel.discrete.delaunay.PointDt;
+import org.geogebra.common.kernel.discrete.delaunay.TriangleDt;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -54,7 +54,7 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 
 			double inhom[] = new double[2];
 
-			Point_dt[] points = new Point_dt[size];
+			PointDt[] points = new PointDt[size];
 
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = inputList.get(i);
@@ -62,7 +62,7 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 					GeoPointND p = (GeoPointND) geo;
 					p.getInhomCoords(inhom);
 
-					points[i] = new Point_dt(inhom[0], inhom[1]);
+					points[i] = new PointDt(inhom[0], inhom[1]);
 
 				}
 			}
@@ -74,7 +74,7 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 				return;
 			}
 
-			Iterator<Triangle_dt> it = dt.trianglesIterator();
+			Iterator<TriangleDt> it = dt.trianglesIterator();
 
 			if (al == null) {
 				al = new ArrayList<>();
@@ -86,7 +86,7 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 			TreeSet<MyLine> tree = new TreeSet<>(getComparator());
 
 			while (it.hasNext()) {
-				Triangle_dt triangle = it.next();
+				TriangleDt triangle = it.next();
 
 				tree.add(new MyLine(
 						new GPoint2D.Double(triangle.p1().x(),

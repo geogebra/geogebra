@@ -1819,8 +1819,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			}
 		}
 
-
-
 		public void createTree(Rect r, int depth, int factor) {
 			Rect[] n = r.split(GeoImplicitCurve.this, factor);
 			plot(n[0], depth, factor);

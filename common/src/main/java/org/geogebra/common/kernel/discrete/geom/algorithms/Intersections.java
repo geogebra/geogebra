@@ -19,6 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package org.geogebra.common.kernel.discrete.geom.algorithms;
 
 import java.util.Comparator;
@@ -32,8 +33,6 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.intersections.Segment
  * @author cyberpython
  */
 public class Intersections {
-
-
 
 	public static class SegmentComparator implements Comparator<Segment2DEx> {
 
@@ -87,8 +86,5 @@ public class Intersections {
 			return Double.compare(y1, y2);
 		}
 	}
-
-
-
 
 }

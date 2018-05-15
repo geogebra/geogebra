@@ -72,7 +72,7 @@ public class BoundingBox {
 	 * @param upperRight
 	 *            upper left point of the box
 	 */
-	public BoundingBox(Point_dt lowerLeft, Point_dt upperRight) {
+	public BoundingBox(PointDt lowerLeft, PointDt upperRight) {
 		init(lowerLeft.x, upperRight.x, lowerLeft.y, upperRight.y);
 	}
 
@@ -204,14 +204,14 @@ public class BoundingBox {
 	/**
 	 * @return Maximum coordinate of bounding box
 	 */
-	public Point_dt getMinPoint() {
-		return new Point_dt(minx, miny);
+	public PointDt getMinPoint() {
+		return new PointDt(minx, miny);
 	}
 
 	/**
 	 * @return Minimum coordinate of bounding box
 	 */
-	public Point_dt getMaxPoint() {
-		return new Point_dt(maxx, maxy);
+	public PointDt getMaxPoint() {
+		return new PointDt(maxx, maxy);
 	}
 }

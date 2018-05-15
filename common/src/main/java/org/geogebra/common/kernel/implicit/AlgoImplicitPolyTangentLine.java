@@ -64,14 +64,12 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 				&& poly.getCoeff() == null) {
 			GeoImplicitCurve inputCurve = ((GeoImplicitCurve) poly);
 
-
 			// build expression Fx*(x-x0)+Fy*(y-y0)
 			ExpressionNode y1 = new ExpressionNode(kernel, -line2D.getX());
 			ExpressionNode x1 = new ExpressionNode(kernel, line2D.getY());
 
 			x1 = x1.multiply(inputCurve.getDerivativeX().getExpression());
 			y1 = y1.multiply(inputCurve.getDerivativeY().getExpression());
-
 
 			tangentPoly.fromEquation(new Equation(kernel, x1.plus(y1),
 					new MyDouble(kernel, 0)), null);
@@ -83,7 +81,6 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 		double[][] coeff = poly.getCoeff();
 
 		double[][] newCoeff = new double[coeff.length][];
-
 
 		for (int i = 0; i < coeff.length; i++) {
 			newCoeff[i] = new double[coeff[i].length];
