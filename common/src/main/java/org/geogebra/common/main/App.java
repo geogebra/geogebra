@@ -4104,6 +4104,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_LAYER_FOR_PACKING:
 			return true;
 
+		// IGR-898
+		case MOB_REACT_SEARCH_VIEW:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
