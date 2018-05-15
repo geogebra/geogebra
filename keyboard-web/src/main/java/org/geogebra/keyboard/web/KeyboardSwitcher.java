@@ -12,9 +12,33 @@ public class KeyboardSwitcher extends FlowPanel {
     private TabbedKeyboard tabbedkeyboard;
 
     private FlowPanel contents;
-    private List<Button> switches;
+    private List<SwitcherButton> switches;
     private ToggleButton moreButton;
-    boolean isSpecialActive = false;
+
+    private class SwitcherButton extends Button {
+
+        private KeyPanelBase keyboard;
+
+        public SwitcherButton(String label, KeyPanelBase keyboard) {
+            super(label);
+            this.keyboard = keyboard;
+
+            ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+
+                @Override
+                public void onClickStart(int x, int y, PointerEventType type) {
+                    select();
+                }
+            });
+        }
+
+        public void select() {
+            tabbedkeyboard.hideTabs();
+            unselectAll();
+            keyboard.setVisible(true);
+            setSelected(this, true);
+        }
+    }
 
     public KeyboardSwitcher(TabbedKeyboard tabbedkeyboard) {
         this.tabbedkeyboard = tabbedkeyboard;
@@ -35,26 +59,9 @@ public class KeyboardSwitcher extends FlowPanel {
     }
 
     public void addSwitch(final KeyPanelBase keyboard, String string) {
-        Button btn = makeSwitcherButton(keyboard, string);
+        SwitcherButton btn = new SwitcherButton(string, keyboard);
         switches.add(btn);
         contents.add(btn);
-    }
-
-    private Button makeSwitcherButton(final KeyPanelBase keyboard,
-                                      String string) {
-        final Button ret = new Button(string);
-        ClickStartHandler.init(ret, new ClickStartHandler(true, true) {
-
-            @Override
-            public void onClickStart(int x, int y, PointerEventType type) {
-                tabbedkeyboard.hideTabs();
-                unselectAll();
-                tabbedkeyboard.currentKeyboard = keyboard;
-                keyboard.setVisible(true);
-                setSelected(ret, true);
-            }
-        });
-        return ret;
     }
 
     public void setSelected(Button btn, boolean value) {
@@ -134,16 +141,11 @@ public class KeyboardSwitcher extends FlowPanel {
     }
 
     public void select(int idx) {
-        isSpecialActive = idx == TabbedKeyboard.TAB_SPECIAL;
-
         if (idx == TabbedKeyboard.TAB_SPECIAL) {
-            setSelected(switches.get(TabbedKeyboard.TAB_ABC), true);
-        }
-
-        FlowPanel tabs = tabbedkeyboard.getTabs();
-        for (int i = 0; i < tabs.getWidgetCount(); i++) {
-            tabs.getWidget(i).setVisible(i == idx);
-            setSelected(switches.get(i), i == idx);
+            tabbedkeyboard.hideTabs();
+            tabbedkeyboard.getTabs().getWidget(idx).setVisible(true);
+        } else {
+            switches.get(idx).select();
         }
     }
 

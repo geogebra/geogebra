@@ -74,10 +74,6 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	protected FlowPanel tabs;
 	protected KeyboardSwitcher switcher;
 	/**
-	 * keyboard
-	 */
-	protected KeyPanelBase currentKeyboard = null;
-	/**
 	 * true if keyboard wanted
 	 */
 	protected boolean keyboardWanted = false;
