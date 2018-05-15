@@ -63,6 +63,10 @@ public class ZoomPanel extends FlowPanel
 	 *
 	 * @param view
 	 *            The Euclidian View to put zoom buttons onto.
+	 * @param rightBottom
+	 *            whether this is placed in the right bottom
+	 * @param zoomable
+	 *            whether zoom buttons are allowed in this view
 	 */
 	public ZoomPanel(EuclidianView view, boolean rightBottom,
 			boolean zoomable) {
@@ -79,7 +83,7 @@ public class ZoomPanel extends FlowPanel
 		} else {
 			addStyleName("zoomPanelPosition");
 		}
-		if (ZoomPanel.needsZoomButtons(app)) {
+		if (ZoomPanel.needsZoomButtons(app) && zoomable) {
 			addZoomButtons();
 		}
 		if (ZoomPanel.needsFullscreenButton(app) && rightBottom) {
