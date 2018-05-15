@@ -10,11 +10,13 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 
 //TODO does not extend Drawable3DCurves
 
@@ -62,6 +64,15 @@ public class DrawPoint3D extends Drawable3DCurves
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible()) {
 			exportToPrinter3D.export(this, Type.POINT);
+		}
+	}
+
+	@Override
+	public void export(Geometry3DGetterManager manager, boolean exportSurface) {
+		if (isVisible()) {
+			GeoElement geo = getGeoElement();
+			manager.export(geo, getGeometryIndex(), geo.getObjectColor(), 1,
+					GeometryType.CURVE);
 		}
 	}
 

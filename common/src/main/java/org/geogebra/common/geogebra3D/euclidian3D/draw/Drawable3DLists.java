@@ -332,8 +332,33 @@ public class Drawable3DLists {
 	 * 
 	 */
 	public void export(Geometry3DGetterManager manager) {
+
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_POINTS]) {
+			d.export(manager, false);
+		}
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
+			d.export(manager, false);
+		}
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
+			d.export(manager, false);
+		}
+
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
+			d.export(manager, true);
+		}
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
+			d.export(manager, true);
+		}
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
+			d.export(manager, true);
+		}
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
-			d.export(manager);
+			d.export(manager, true);
+		}
+
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			d.export(manager, false);
+			d.export(manager, true);
 		}
 	}
 

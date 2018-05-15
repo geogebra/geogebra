@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DForExport;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3DForExport;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
@@ -340,8 +341,30 @@ public abstract class App3DCompanion extends AppCompanion {
 		EuclidianSettings3D settings = new EuclidianSettings3D(app);
 		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
 				new EuclidianController3DForExport(app), settings);
-		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale,
-				xzScale, xTickDistance, yTickDistance, zTickDistance);
+
+		if (app.isEuclidianView3Dinited()) {
+			EuclidianView3D view3D = (EuclidianView3D) app.getEuclidianView3D();
+			EuclidianSettings3D viewSettings = view3D.getSettings();
+			settings.setShowAxes(viewSettings.axisShown());
+			if (xmin > xmax) { // use original view settings
+				exportView3D.updateSettings(view3D.getXmin(), view3D.getXmax(),
+						view3D.getYmin(), view3D.getYmax(), view3D.getZmin(),
+						view3D.getZmax(),
+						view3D.getYscale() / view3D.getXscale(),
+						view3D.getZscale() / view3D.getXscale(),
+						view3D.getAxisNumberingDistance(0),
+						view3D.getAxisNumberingDistance(1),
+						view3D.getAxisNumberingDistance(2));
+			} else {
+				exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax,
+						xyScale, xzScale, xTickDistance, yTickDistance,
+						zTickDistance);
+			}
+		} else {
+			exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax,
+					xyScale, xzScale, xTickDistance, yTickDistance,
+					zTickDistance);
+		}
 		exportView3D.export3D(getter);
 		app.getKernel().detach(exportView3D);
 	}

@@ -131,13 +131,16 @@ public class DrawSurface3DElements extends DrawSurface3D {
 	}
 
 	@Override
-	public void export(Geometry3DGetterManager manager) {
+	public void export(Geometry3DGetterManager manager, boolean exportSurface) {
 		if (isVisible()) {
 			GeoElement geo = getGeoElement();
-			manager.export(geo, getSurfaceIndex(), geo.getObjectColor(),
-					geo.getAlphaValue(), GeometryType.SURFACE);
-			manager.export(geo, getGeometryIndex(), GColor.BLACK, 1,
-					GeometryType.CURVE);
+			if (exportSurface) {
+				manager.export(geo, getSurfaceIndex(), geo.getObjectColor(),
+						geo.getAlphaValue(), GeometryType.SURFACE);
+			} else {
+				manager.export(geo, getGeometryIndex(), GColor.BLACK, 1,
+						GeometryType.CURVE);
+			}
 		}
 	}
 

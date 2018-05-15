@@ -806,8 +806,10 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @param manager
 	 *            geometry getter manager
+	 * @param exportSurface
+	 *            true if it is the surface that it is exported
 	 */
-	public void export(Geometry3DGetterManager manager) {
+	public void export(Geometry3DGetterManager manager, boolean exportSurface) {
 		// default : do nothing
 	}
 

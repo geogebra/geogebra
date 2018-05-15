@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -12,6 +13,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
@@ -24,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -707,6 +710,19 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 					exportToPrinter3D.export(getGeometryIndex(), Type.CURVE,
 							geo.getGeoClassType().toString(), geo);
 				}
+			}
+		}
+	}
+
+	@Override
+	public void export(Geometry3DGetterManager manager, boolean exportSurface) {
+		if (isVisible()) {
+			GeoPolygon geo = (GeoPolygon) getGeoElement();
+			manager.export(geo, getSurfaceIndex(), geo.getObjectColor(),
+					geo.getAlphaValue(), GeometryType.SURFACE);
+			if (!geo.wasInitLabelsCalled()) {
+				manager.export(geo, getGeometryIndex(), GColor.BLACK, 1,
+						GeometryType.CURVE);
 			}
 		}
 	}

@@ -9,11 +9,13 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 
 /**
  * Class for drawing 1D coord sys (lines, segments, ...)
@@ -80,6 +82,15 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible()) {
 			exportToPrinter3D.export(this, Type.CURVE);
+		}
+	}
+
+	@Override
+	public void export(Geometry3DGetterManager manager, boolean exportSurface) {
+		if (isVisible()) {
+			GeoElement geo = getGeoElement();
+			manager.export(geo, getGeometryIndex(), geo.getObjectColor(), 1,
+					GeometryType.CURVE);
 		}
 	}
 
