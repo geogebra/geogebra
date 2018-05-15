@@ -31,7 +31,7 @@ public class ScreenReader {
 	}
 
 	/**
-	 * Reads the selected item of the current geo.
+	 * Reads the selected item of the current drop down.
 	 * 
 	 * @param app
 	 *            application
@@ -41,9 +41,17 @@ public class ScreenReader {
 	public static void dropDownItemSelected(App app, GeoElement geo) {
 		String item = ((GeoList) geo).getSelectedElement()
 				.getAlgebraDescriptionDefault();
-		String readText = app.getLocalization().getPlainArray(
-				"DropDownItemSelected", "Item %0 selected. Drop down closed. ",
-				new String[] { item });
+		String readText;
+		if ("".equals(item)) {
+			readText = app.getLocalization().getMenuDefault(
+					"DropDownEmptyItemSelected",
+					"Empty item selected. Drop down closed. ");
+		} else {
+			readText = app.getLocalization().getPlainArray(
+					"DropDownItemSelected",
+					"Item %0 selected. Drop down closed. ",
+					new String[] { item });
+		}
 		app.getActiveEuclidianView().readText(readText);
 	}
 
@@ -56,7 +64,12 @@ public class ScreenReader {
 	 *            selected item text to read
 	 */
 	public static void dropDowmSelectorMovedOn(App app, String text) {
-		app.getActiveEuclidianView().readText(text);
+		String readText = text;
+		if ("".equals(text)) {
+			readText = app.getLocalization().getMenuDefault("EmptyItem",
+					"Empty item");
+		}
+		app.getActiveEuclidianView().readText(readText);
 	}
 
 	/**
@@ -68,10 +81,8 @@ public class ScreenReader {
 	public static void readText(GeoElement geo0, App app) {
 		StringBuilder sb = new StringBuilder();
 		String caption = geo0.getCaption(StringTemplate.defaultTemplate);
-		if ("".equals(caption)) {
-			caption = geo0.getCaptionSimple();
-		}
-		if (caption == null || "".equals(caption)) {
+		if (caption == null || "".equals(caption)
+				|| geo0.getCaptionSimple() == null) {
 			sb.append(geo0.translatedTypeStringForAlgebraView());
 			sb.append(' ');
 			sb.append(geo0.getAlgebraDescriptionDefault());
