@@ -978,4 +978,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	public PageListPanel getPageControlPanel() {
 		return pageListPanel;
 	}
+
+	/**
+	 * Reopen header after app was initialized
+	 */
+	public void reopenHeaderPanel() {
+		if (lastBG != null) {
+			showBrowser(lastBG);
+		}
+	}
 }

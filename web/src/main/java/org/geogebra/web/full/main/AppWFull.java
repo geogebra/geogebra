@@ -702,6 +702,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void showBrowser(HeaderPanel bg) {
+		getAppletFrame().setApplication(this);
 		getAppletFrame().showBrowser(bg);
 	}
 
@@ -1229,6 +1230,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			frame.attachKeyboardButton();
 		}
 		frame.attachGlass();
+		frame.reopenHeaderPanel();
 	}
 
 	private void refreshSplitLayoutPanel() {
