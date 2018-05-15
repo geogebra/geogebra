@@ -159,13 +159,10 @@ public class Tools extends FlowPanel implements SetLabels {
 		parentTab.isCustomToolbar = isCustomToolbar;
 		// build tools panel depending on if custom or not
 		if (!isCustomToolbar) {
-			mToolCategorization = new ToolCategorization(app,
-				app.getSettings().getToolbarSettings().getType(),
-				app.getSettings().getToolbarSettings().getToolsetLevel(),
-				false);
+			mToolCategorization = app.createToolCategorization();
 			if (app.isUnbundled3D()) {
 				def = app.getGuiManager().getLayout().getDockManager()
-					.getPanel(App.VIEW_EUCLIDIAN3D).getToolbarString();
+						.getPanel(App.VIEW_EUCLIDIAN3D).getToolbarString();
 			}
 			mToolCategorization.resetTools(def);
 			categories = mToolCategorization.getCategories();

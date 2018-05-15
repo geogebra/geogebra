@@ -5212,7 +5212,7 @@ public abstract class App implements UpdateSelection {
 	 */
 	public ToolCategorization createToolCategorization() {
 		ToolCategorization.AppType type;
-		boolean isPhoneApp;
+		boolean isPhoneApp = false;
 		switch (getVersion()) {
 		case ANDROID_NATIVE_GRAPHING:
 		case IOS_NATIVE:
@@ -5228,9 +5228,19 @@ public abstract class App implements UpdateSelection {
 			type = ToolCategorization.AppType.GRAPHER_3D;
 			isPhoneApp = true;
 			break;
+		case WEB_GRAPHING:
+		case WEB_GRAPHING_OFFLINE:
+			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
+			break;
+		case WEB_GEOMETRY:
+		case WEB_GEOMETRY_OFFLINE:
+			type = ToolCategorization.AppType.GEOMETRY_CALC;
+			break;
+		case WEB_3D_GRAPHING:
+			type = ToolCategorization.AppType.GRAPHER_3D;
+			break;
 		default:
 			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
-			isPhoneApp = false;
 			break;
 		}
 
