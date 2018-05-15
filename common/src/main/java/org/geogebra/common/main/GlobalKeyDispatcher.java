@@ -145,7 +145,7 @@ public abstract class GlobalKeyDispatcher {
 			toggleSelectionVisibility();
 		}
 
-		if (ch == '\n') {
+		if (ch == '\n' || ch == '\r') {
 			startEdit(geo);
 		} else if (ch == '.') {
 			openSettingsInAV(geo);
