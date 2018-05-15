@@ -1,11 +1,13 @@
 package org.geogebra.common.properties;
 
 import org.geogebra.commands.CommandsTest;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,6 +22,13 @@ public class AlgebraPropertiesTest {
 
 	private static void t(String s) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(s, true);
+	}
+
+	@Before
+	public void clean() {
+		app.getKernel().clearConstruction(true);
+		app.setRounding("2");
+		app.getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
 	}
 
 	@Test
