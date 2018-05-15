@@ -1799,7 +1799,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void setFileVersion(String version, String appName) {
 		super.setFileVersion(version, appName);
-		if (has(Feature.WEB_SWITCH_APP_FOR_FILE)
+		if (!"auto".equals(appName)
 				&& "auto".equals(getArticleElement().getDataParamAppName())) {
 			getArticleElement().setAttribute("data-param-appName",
 					appName == null ? "" : appName);
@@ -1814,7 +1814,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 				v = Versions.WEB_FOR_BROWSER_3D;
 				removeHeader();
 			}
-			Log.debug(getVersion() + " change to " + v);
 			if (v != getVersion()) {
 				setVersion(v);
 				((GuiManagerW) getGuiManager()).resetPanels();

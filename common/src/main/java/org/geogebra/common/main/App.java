@@ -4465,9 +4465,6 @@ public abstract class App implements UpdateSelection {
 		case VOICEOVER_CURSOR:
 			return true;
 
-		case WEB_SWITCH_APP_FOR_FILE:
-			return true;
-
 		/** GGB-1717 */
 		case IMAGE_EXPORT:
 			return true;

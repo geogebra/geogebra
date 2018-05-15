@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.util;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.layout.Perspective;
@@ -247,7 +248,7 @@ public class LoadFilePresenter {
 		app.setPreferredSize(
 				new GDimensionW(app.getAppletWidth(), app.getAppletHeight()));
 		app.loadPreferences(p);
-
+		app.setFileVersion(GeoGebraConstants.VERSION_STRING, "auto");
 		if (app.has(Feature.CENTER_STANDARD_VIEW)) {
 
 			app.ensureStandardView();

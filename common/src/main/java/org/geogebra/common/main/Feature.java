@@ -170,8 +170,6 @@ public enum Feature {
 	/** GGB-2015 */
 	GEO_AV_DESCRIPTION,
 
-	WEB_SWITCH_APP_FOR_FILE,
-
 	/** GGB-1717 */
 	IMAGE_EXPORT,
 

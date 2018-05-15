@@ -1,6 +1,5 @@
 package org.geogebra.web.full.move.googledrive.operations;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -297,10 +296,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private void checkIfFileMustbeOpenedFromGoogleDrive() {
 		if ("open".equals(getAction())) {
 			app.resetPerspectiveParam();
-			if (app.has(Feature.WEB_SWITCH_APP_FOR_FILE)) {
-				app.getArticleElement().setAttribute("data-param-appName",
-						"auto");
-			}
+			app.getArticleElement().setAttribute("data-param-appName", "auto");
 			openFileFromGoogleDrive(googleDriveURL);
 		}
 	}
