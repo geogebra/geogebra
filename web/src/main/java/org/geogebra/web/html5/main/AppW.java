@@ -898,8 +898,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			Macro macro = kernel.getMacro(i);
 			if (macro.getViewId() == null) {
 				int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET + i;
-				Log.debug("[MM] " + macro);
-				if (toolbar3D.contains(String.valueOf(macroMode))) {
+				if (toolbar3D != null
+						&& toolbar3D.contains(String.valueOf(macroMode))) {
 					macro.setViewId(VIEW_EUCLIDIAN3D);
 				} else {
 					macro.setViewId(VIEW_EUCLIDIAN);
