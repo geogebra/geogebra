@@ -1244,8 +1244,8 @@ public class Construction {
 				if (algo instanceof AlgoLocusEquation) {
 					((AlgoLocusEquation) algo).resetFingerprint(kernel, true);
 				}
-				if (randomize || (algo instanceof SetRandomValue
-						&& !((SetRandomValue) algo).setRandomValue(algo.getOutput(0)))) {
+				if (randomize || !(algo instanceof SetRandomValue)
+						|| !((SetRandomValue) algo).setRandomValue(algo.getOutput(0))) {
 					algo.update();
 				}
 			}
