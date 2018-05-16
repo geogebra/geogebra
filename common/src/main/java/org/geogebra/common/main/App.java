@@ -4073,7 +4073,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-1537
 		case MOB_PREVIEW_WHEN_EDITING:
-			return true;
+			return false;
 
 		// MOB-1516
 		case MOB_PACK_ALL_CURVES:
