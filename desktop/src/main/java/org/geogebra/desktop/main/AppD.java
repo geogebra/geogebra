@@ -4545,11 +4545,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return WINDOWS;
 	}
 
-	@Override
-	public boolean isWindowsVistaOrLater() {
-		return WINDOWS_VISTA_OR_LATER;
-	}
-
 	/**
 	 * Whether we are using Java 7 (can't use clipboard on OSX)
 	 * 

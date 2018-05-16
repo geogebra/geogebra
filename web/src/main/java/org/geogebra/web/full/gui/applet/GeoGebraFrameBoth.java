@@ -730,7 +730,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            application
 	 */
 	public void attachMenubar(AppW app1) {
-		if (app1.isUnbundled()) {
+		if (app1.isUnbundled() || app1.isWhiteboardActive()) {
 			return;
 		}
 		if (ggwToolBar == null) {
