@@ -46,12 +46,12 @@ public class StepMatrix extends StepNode {
                 sum = multiply(data[0][0], data[1][1]);
                 sum = subtract(sum, multiply(data[0][1], data[1][0]));
             } else if (data.length == 3) {
-                sum = multiply(data[0][0], data[1][1], data[2][2]);
-                sum = add(sum, multiply(data[0][1], data[1][2], data[2][0]));
-                sum = add(sum, multiply(data[0][2], data[1][0], data[2][1]));
-                sum = subtract(sum, multiply(data[0][2], data[1][1], data[2][0]));
-                sum = subtract(sum, multiply(data[0][1], data[1][0], data[2][2]));
-                sum = subtract(sum, multiply(data[0][0], data[1][2], data[2][1]));
+                sum = StepOperation.multiply(data[0][0], data[1][1], data[2][2]);
+                sum = add(sum, StepOperation.multiply(data[0][1], data[1][2], data[2][0]));
+                sum = add(sum, StepOperation.multiply(data[0][2], data[1][0], data[2][1]));
+                sum = subtract(sum, StepOperation.multiply(data[0][2], data[1][1], data[2][0]));
+                sum = subtract(sum, StepOperation.multiply(data[0][1], data[1][0], data[2][2]));
+                sum = subtract(sum, StepOperation.multiply(data[0][0], data[1][2], data[2][1]));
             } else {
                 throw new SolveFailedException("determinant size not supported");
             }

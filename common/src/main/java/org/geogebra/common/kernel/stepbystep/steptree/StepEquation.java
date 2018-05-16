@@ -69,6 +69,15 @@ public class StepEquation extends StepSolvable {
 	}
 
 	@Override
+	public StepEquation cloneWith(StepExpression newLHS, StepExpression newRHS) {
+		StepEquation newEq = new StepEquation(newLHS, newRHS);
+		newEq.swapped = swapped;
+		newEq.isInequation = isInequation;
+
+		return newEq;
+	}
+
+	@Override
 	public String toString() {
 		if (isInequation) {
 			return LHS + " != " + RHS;

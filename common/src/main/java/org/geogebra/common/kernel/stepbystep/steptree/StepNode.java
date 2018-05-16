@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -405,30 +407,6 @@ public abstract class StepNode implements TableElement {
 
 	public static StepExpression multiply(StepExpression a, StepExpression b) {
 		return applyBinaryOp(Operation.MULTIPLY, a, b);
-	}
-
-	public static StepExpression add(List<StepExpression> terms) {
-		return add(terms.toArray(new StepExpression[0]));
-	}
-
-	public static StepExpression add(StepExpression... terms) {
-		StepExpression sum = null;
-		for (StepExpression term : terms) {
-			sum = add(sum, term);
-		}
-		return sum;
-	}
-
-	public static StepExpression multiply(List<StepExpression> multiplicands) {
-		return multiply(multiplicands.toArray(new StepExpression[0]));
-	}
-
-	public static StepExpression multiply(StepExpression... multiplicands) {
-		StepExpression product = null;
-		for (StepExpression multiplicand : multiplicands) {
-			product = multiply(product, multiplicand);
-		}
-		return product;
 	}
 
 	public static StepExpression multiply(double a, StepExpression b) {

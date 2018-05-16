@@ -68,6 +68,11 @@ public class StepInequality extends StepSolvable {
 	}
 
 	@Override
+	public StepInequality cloneWith(StepExpression newLHS, StepExpression newRHS) {
+		return new StepInequality(newLHS, newRHS, lessThan, strong);
+	}
+
+	@Override
 	public String toString() {
 		return LHS.toString() +
 				(lessThan ? " <" : " >") +

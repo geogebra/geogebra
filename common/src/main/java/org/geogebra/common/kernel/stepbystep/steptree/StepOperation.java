@@ -11,6 +11,10 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	private StepExpression[] operands;
 	private StepExpression[] sortedOperandList;
 
+	private StepOperation(Operation operation) {
+		this.operation = operation;
+	}
+
 	public StepOperation(Operation operation, StepExpression... operands) {
 		this.operation = operation;
 
@@ -27,6 +31,64 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		} else {
 			this.operands = operands;
 		}
+	}
+
+	public static StepExpression add(List<StepExpression> terms) {
+		return add(terms.toArray(new StepExpression[0]));
+	}
+
+	public static StepExpression add(StepExpression... terms) {
+		List<StepExpression> operands = new ArrayList<>();
+		for (StepExpression term : terms) {
+			if (term != null) {
+				if (term.isOperation(Operation.PLUS)) {
+					Collections.addAll(operands, ((StepOperation) term).operands);
+				} else {
+					operands.add(term);
+				}
+			}
+		}
+
+		if (operands.size() == 0) {
+			return null;
+		}
+
+		if (operands.size() == 1) {
+			return operands.get(0);
+		}
+
+		StepOperation ret = new StepOperation(Operation.PLUS);
+		ret.operands = operands.toArray(new StepExpression[0]);
+		return ret;
+	}
+
+	public static StepExpression multiply(List<StepExpression> multiplicands) {
+		return multiply(multiplicands.toArray(new StepExpression[0]));
+	}
+
+	public static StepExpression multiply(StepExpression... multiplicands) {
+		List<StepExpression> operands = new ArrayList<>();
+		for (StepExpression term : multiplicands) {
+			if (term != null) {
+				if (term.isOperation(Operation.MULTIPLY)) {
+					Collections.addAll(operands, ((StepOperation) term).operands);
+				} else {
+					operands.add(term);
+				}
+			}
+		}
+
+		if (operands.size() == 0) {
+			return null;
+		}
+
+		if (operands.size() == 1) {
+			return operands.get(0);
+		}
+
+		StepOperation ret = new StepOperation(Operation.MULTIPLY);
+		ret.operands = operands.toArray(new StepExpression[0]);
+		return ret;
 	}
 
 	public int noOfOperands() {
@@ -52,7 +114,11 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			}
 
 			@Override
-			public StepExpression next() {
+			public StepExpression next() throws NoSuchElementException {
+				if (!hasNext()) {
+					throw new NoSuchElementException();
+				}
+
 				return operands[it++];
 			}
 

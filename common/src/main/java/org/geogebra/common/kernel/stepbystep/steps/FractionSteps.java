@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.add;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepOperation.add;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOne;
 

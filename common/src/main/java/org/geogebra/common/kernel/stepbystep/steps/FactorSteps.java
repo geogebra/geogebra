@@ -548,7 +548,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 								integerForm[k - 1] += i * integerForm[k] / j;
 							}
 
-							StepExpression reorganized = add(terms);
+							StepExpression reorganized = StepOperation.add(terms);
 
 							tracker.addMark(reorganized, RegroupTracker.MarkType.EXPAND);
 							if (!so.equals(reorganized)) {
@@ -616,7 +616,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 							}
 
 							sb.add(SolutionStepType.FACTOR_FROM_PAIR, innerSum);
-							return add(factored);
+							return StepOperation.add(factored);
 						}
 					}
 				}

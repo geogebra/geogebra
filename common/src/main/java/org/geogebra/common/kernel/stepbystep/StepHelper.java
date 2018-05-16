@@ -117,7 +117,7 @@ public class StepHelper {
 	public static StepNode replaceFirst(StepNode sn, Condition c) {
 		StepNode value = c.isTrueFor(sn);
 		if (value != null) {
-			return value.deepCopy();
+			return value;
 		}
 
 		if (sn instanceof StepOperation) {
@@ -334,7 +334,7 @@ public class StepHelper {
 				}
 
 				steps.add(SolutionStepType.IS_POSITIVE_IN, underAbs, sl);
-				return underAbs.deepCopy();
+				return underAbs;
 			}
 
 			StepExpression[] result = new StepExpression[so.noOfOperands()];

@@ -278,10 +278,7 @@ public class StepStrategies {
 			StepExpression newLHS = (StepExpression) step.apply(se.getLHS(), sb, tracker);
 			StepExpression newRHS = (StepExpression) step.apply(se.getRHS(), sb, tracker);
 
-			StepSolvable result = se.deepCopy();
-			result.modify(newLHS, newRHS);
-
-			return result;
+			return se.cloneWith(newLHS, newRHS);
 		} else if (sn instanceof StepMatrix) {
 			StepMatrix sm = (StepMatrix) sn;
 

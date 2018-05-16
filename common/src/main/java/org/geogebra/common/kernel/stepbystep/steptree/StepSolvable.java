@@ -61,6 +61,8 @@ public abstract class StepSolvable extends StepNode {
 
 	public abstract StepSolvable deepCopy();
 
+	public abstract StepSolvable cloneWith(StepExpression newLHS, StepExpression newRHS);
+
 	public int degree(StepVariable var) {
 		int degreeLHS = LHS.degree(var);
 		int degreeRHS = RHS.degree(var);
