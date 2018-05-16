@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.prover.adapters.DependentNumberAdapter;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.ProverSettings;
@@ -909,11 +910,12 @@ public class ProverBotanasMethod {
 					AlgoDependentNumber adn = new AlgoDependentNumber(
 							geoStatement.getConstruction(), en, false, null,
 							false);
-					adn.setBotanaVars(vars);
-					adn.buildPolynomialTree(en, polyNode);
-					adn.expressionNodeToPolynomial(en, polyNode);
+					DependentNumberAdapter proverAdapter = adn.getProverAdapter();
+					proverAdapter.setBotanaVars(vars);
+					proverAdapter.buildPolynomialTree(en, polyNode);
+					proverAdapter.expressionNodeToPolynomial(en, polyNode);
 					while (polyNode.getPoly() == null) {
-						adn.expressionNodeToPolynomial(en, polyNode);
+						proverAdapter.expressionNodeToPolynomial(en, polyNode);
 					}
 					/* Finally we obtain the Botana polynomial. */
 					PPolynomial botanaPolynomial = polyNode.getPoly();
