@@ -38,9 +38,13 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 	/**
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param g
+	 *            line
 	 * @param c
+	 *            conic
 	 */
 	AlgoIntersectLineConic3D(Construction cons, String label, GeoLineND g,
 			GeoConicND c) {
@@ -51,9 +55,13 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 	/**
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param g
+	 *            line
 	 * @param c
+	 *            conic
 	 */
 	AlgoIntersectLineConic3D(Construction cons, String[] labels, GeoLineND g,
 			GeoConicND c) {
@@ -74,12 +82,14 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 	/**
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param g
+	 *            line
 	 * @param c
+	 *            conic
 	 */
 	AlgoIntersectLineConic3D(Construction cons, GeoLineND g, GeoConicND c) {
 		super(cons, (GeoElement) g, c);
-
 	}
 
 	/**

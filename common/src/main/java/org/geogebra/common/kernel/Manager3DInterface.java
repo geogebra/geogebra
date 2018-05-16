@@ -732,8 +732,6 @@ public interface Manager3DInterface {
 
 	public GeoPointND closestPoint(String label, Region r, GeoPointND P);
 
-	public GeoNumeric distance(String label, GeoLineND g, GeoLineND h);
-
 	public GeoNumeric distance(String label, GeoPointND point,
 			GeoPlaneND plane);
 

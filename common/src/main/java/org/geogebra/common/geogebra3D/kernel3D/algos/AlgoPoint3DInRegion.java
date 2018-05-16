@@ -25,6 +25,14 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 	private Region region; // input
 	private GeoPoint3D P; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param region
+	 *            region
+	 * @param coords
+	 *            close coords
+	 */
 	public AlgoPoint3DInRegion(Construction cons, Region region,
 			Coords coords) {
 		super(cons);
@@ -44,9 +52,18 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param region
+	 *            region
+	 * @param coords
+	 *            close coords
+	 */
 	public AlgoPoint3DInRegion(Construction cons, String label, Region region,
 			Coords coords) {
-
 		this(cons, region, coords);
 		P.setLabel(label);
 	}
@@ -59,15 +76,16 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-
 		input = new GeoElement[1];
 		input[0] = region.toGeoElement();
 
 		setOnlyOutput(P);
 		setDependencies(); // done by AlgoElement
-
 	}
 
+	/**
+	 * @return resulting point
+	 */
 	public GeoPoint3D getP() {
 		return P;
 	}
@@ -82,22 +100,15 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 		if (input[0].isDefined()) {
 			// Application.debug("coords=\n"+P.getCoordsInD3());
 			region.regionChanged(P);
-			// Application.debug("coords=\n"+P.getCoordsInD3()+"\nrp=\n"+P.getRegionParameters().getT1()+"\n"+P.getRegionParameters().getT2());
 			// P.updateCoords();
 		} else {
 			P.setUndefined();
 		}
-
 	}
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		StringBuilder sb = new StringBuilder();
-		// Michael Borcherds 2008-03-30
-		// simplified to allow better Chinese translation
-		sb.append(getLoc().getPlain("PointInA", input[0].getLabel(tpl)));
-
-		return sb.toString();
+		return getLoc().getPlainDefault("PointInA", "Point in %0", input[0].getLabel(tpl));
 	}
 
 }

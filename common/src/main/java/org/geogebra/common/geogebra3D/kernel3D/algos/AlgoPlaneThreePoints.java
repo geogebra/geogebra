@@ -20,7 +20,9 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 	protected GeoCoordSys2D cs;
 
 	/** 3D points */
-	private GeoPointND A, B, C;
+	private GeoPointND A;
+	private GeoPointND B;
+	private GeoPointND C;
 
 	/**
 	 * create a plane joining points, with label.

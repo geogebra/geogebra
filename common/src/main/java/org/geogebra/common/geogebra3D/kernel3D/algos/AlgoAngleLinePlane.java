@@ -42,7 +42,11 @@ public class AlgoAngleLinePlane extends AlgoAngle
 	private GeoPlane3D p; // input
 	private GeoAngle angle; // output
 
-	private Coords vn, o, v1, v2, tmpCoords;
+	private Coords vn;
+	private Coords o;
+	private Coords v1;
+	private Coords v2;
+	private Coords tmpCoords;
 
 	/**
 	 * Creates new unlabeled angle between line and plane

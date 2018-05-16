@@ -155,15 +155,13 @@ public class Manager3D implements Manager3DInterface {
 	@Override
 	final public GeoVector3D dependentVector3D(ExpressionNode root) {
 		AlgoDependentVector3D algo = new AlgoDependentVector3D(cons, root);
-		GeoVector3D P = algo.getVector3D();
-		return P;
+		return algo.getVector3D();
 	}
 
 	@Override
 	final public GeoVector3D vector3D(double x, double y,
 			double z) {
-		GeoVector3D v = new GeoVector3D(cons, x, y, z);
-		return v;
+		return new GeoVector3D(cons, x, y, z);
 	}
 
 	/**
@@ -1928,20 +1926,11 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoNumeric distance(String label, GeoLineND g, GeoLineND h) {
-
-		AlgoDistanceLines3D algo = new AlgoDistanceLines3D(cons, label, g, h);
-
-		return algo.getDistance();
-	}
-
-	@Override
 	public GeoNumeric distance(String label, GeoPointND point,
 			GeoPlaneND plane) {
-
 		AlgoDistancePointPlane3D algo = new AlgoDistancePointPlane3D(cons,
-				label, point, plane);
-
+				point, plane);
+		algo.getDistance().setLabel(label);
 		return algo.getDistance();
 	}
 
@@ -2470,8 +2459,8 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	public GeoNumeric distance(String label, GeoPlaneND a, GeoPlaneND b) {
-		AlgoDistancePlanes algo = new AlgoDistancePlanes(cons, label, a, b);
-
+		AlgoDistancePlanes algo = new AlgoDistancePlanes(cons, a, b);
+		algo.getDistance().setLabel(label);
 		return algo.getDistance();
 	}
 

@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.HasShortSyntax;
-import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -51,7 +50,10 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 	public static final int RESULTCATEGORY_CONTAINED = 3;
 
 	private boolean shortSyntax = false;
-	private Coords o, vn, vn1, vn2;
+	private Coords o;
+	private Coords vn;
+	private Coords vn1;
+	private Coords vn2;
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
@@ -71,16 +73,22 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		super(cons, label, cs1, cs2, false);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param cs1
+	 *            first plane
+	 * @param cs2
+	 *            second plane
+	 */
 	public AlgoIntersectPlanes(Construction cons, GeoPlaneND cs1,
 			GeoPlaneND cs2) {
-
 		super(cons, cs1, cs2, false);
 	}
 
 	@Override
-	protected GeoElement3D createIntersection(Construction cons) {
-
-		GeoLine3D ret = new GeoLine3D(cons, true);
+	protected GeoElement3D createIntersection(Construction cons1) {
+		GeoLine3D ret = new GeoLine3D(cons1, true);
 		o = new Coords(0, 0, 0, 1);
 		vn = new Coords(0, 0, 0, 0);
 
@@ -121,25 +129,15 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		l.setCoord(o, vn);
 	}
 
-	// TODO optimize it, using the coefficients of planes directly
-	public static int getConfigPlanePlane(GeoCoordSys2D plane1,
-			GeoCoordSys2D plane2) {
-		// normal vectors of plane1,2 are parallel
-		if (plane1.getDirectionInD3().crossProduct(plane2.getDirectionInD3())
-				.isZero()) {
-			// one normal vector is perpendicular to the difference of the two
-			// two origins
-			if (DoubleUtil.isZero(plane2.getCoordSys().getOrigin()
-					.sub(plane1.getCoordSys().getOrigin())
-					.dotproduct(plane1.getDirectionInD3()))) {
-				return RESULTCATEGORY_CONTAINED;
-			}
-			return RESULTCATEGORY_PARALLEL;
-		}
-		return RESULTCATEGORY_GENERAL;
-	}
-
-	// TODO optimize it, using the coefficients of planes directly
+	/**
+	 * TODO optimize it, using the coefficients of planes directly
+	 * 
+	 * @param cs1
+	 *            first plane
+	 * @param cs2
+	 *            second plane
+	 * @return configuration type, RESULTCATEGORY_*
+	 */
 	public static int getConfigPlanePlane(CoordSys cs1, CoordSys cs2) {
 
 		if (cs1.getDimension() != 2 || cs2.getDimension() != 2) {
@@ -192,6 +190,5 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 	final public String toExpString(StringTemplate tpl) {
 		return getDefinition(tpl);
 	}
-
 
 }

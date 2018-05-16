@@ -72,7 +72,7 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 		this.cs1 = cs1;
 		this.cs2 = cs2;
 
-		intersection = createIntersection(cons);// new GeoPoint3D(cons);
+		intersection = createIntersection(cons);
 
 		setInputOutput(
 				swapInputs
@@ -87,13 +87,12 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 	/**
 	 * return new intersection (default is 3D point)
 	 * 
-	 * @param cons
+	 * @param cons1
+	 *            construction
 	 * @return new intersection
 	 */
-	protected GeoElement3D createIntersection(Construction cons) {
-
-		return new GeoPoint3D(cons);
-
+	protected GeoElement3D createIntersection(Construction cons1) {
+		return new GeoPoint3D(cons1);
 	}
 
 	/**
@@ -143,10 +142,8 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-
 		return getLoc().getPlain(getIntersectionTypeString(),
 				getCS1().getLabel(tpl), getCS2().getLabel(tpl));
-
 	}
 
 	abstract protected String getIntersectionTypeString();

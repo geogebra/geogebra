@@ -37,7 +37,7 @@ public class CmdDistance3D extends CmdDistance {
 				if (arg[0].isGeoLine() && arg[1].isGeoLine()) {
 
 					return new GeoElement[] {
-							kernel.getManager3D().distance(c.getLabel(),
+							kernel.getAlgoDispatcher().distance(c.getLabel(),
 									(GeoLineND) arg[0], (GeoLineND) arg[1]) };
 				}
 

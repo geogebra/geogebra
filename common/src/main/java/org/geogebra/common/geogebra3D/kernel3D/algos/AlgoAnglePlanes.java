@@ -35,11 +35,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 
-	private GeoPlane3D p, q; // input
+	private GeoPlane3D p; // input
+	private GeoPlane3D q; // input
 	private GeoAngle angle; // output
 
-	private Coords vn, o, v1, v2;
-
+	private Coords vn;
+	private Coords o;
+	private Coords v1;
+	private Coords v2;
 
 	/**
 	 * Creates new unlabeled angle between line and plane

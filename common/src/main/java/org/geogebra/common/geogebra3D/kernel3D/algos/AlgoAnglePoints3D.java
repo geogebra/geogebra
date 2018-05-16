@@ -111,7 +111,6 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 
 		// normal vector
 		setForceNormalVector();
-
 	}
 
 	/**
@@ -156,8 +155,8 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 		}
 
 		return Math.acos(c);
-
 	}
+
 	/**
 	 * @param v1
 	 *            first vector

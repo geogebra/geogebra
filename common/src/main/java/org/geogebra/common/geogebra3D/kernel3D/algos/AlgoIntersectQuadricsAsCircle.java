@@ -37,13 +37,16 @@ import org.geogebra.common.util.DoubleUtil;
 public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 
 	// inputs
-	private GeoQuadricND quadric1, quadric2;
+	private GeoQuadricND quadric1;
+	private GeoQuadricND quadric2;
 
 	// output
 	/** intersection */
 	protected GeoConic3D circle;
-	private Coords o = new Coords(3), v = new Coords(3), vn1 = new Coords(3),
-			vn2 = new Coords(3);
+	private Coords o = new Coords(3);
+	private Coords v = new Coords(3);
+	private Coords vn1 = new Coords(3);
+	private Coords vn2 = new Coords(3);
 
 	/**
 	 * Creates new AlgoIntersectLinePlane

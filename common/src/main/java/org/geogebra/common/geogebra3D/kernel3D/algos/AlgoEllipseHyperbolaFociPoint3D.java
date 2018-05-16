@@ -13,7 +13,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoEllipseHyperbolaFociPoint3D
 		extends AlgoEllipseHyperbolaFociPointND {
-	private GeoPoint A2d, B2d, C2d;
+	private GeoPoint A2d;
+	private GeoPoint B2d;
+	private GeoPoint C2d;
 	private Coords project;
 
 	public AlgoEllipseHyperbolaFociPoint3D(Construction cons, String label,

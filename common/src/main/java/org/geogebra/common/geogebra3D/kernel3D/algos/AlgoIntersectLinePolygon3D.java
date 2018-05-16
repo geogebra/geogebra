@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -24,15 +25,21 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	protected OutputHandler<GeoElement> outputPoints; // output
 
 	private TreeMap<Double, Coords> newCoords;
-	protected Coords o1, d1;
+	protected Coords o1;
+	protected Coords d1;
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param g
+	 *            line or plane
+	 * @param p
+	 *            polygon or polyhedron
+	 */
 	public AlgoIntersectLinePolygon3D(Construction c, String[] labels,
-			GeoLineND g, GeoPolygon p) {
-		this(c, labels, (GeoElement) g, p);
-	}
-
-	public AlgoIntersectLinePolygon3D(Construction c, String[] labels,
-			GeoElement g, HasSegments p) {
+			GeoElementND g, HasSegments p) {
 		super(c);
 
 		outputPoints = createOutputPoints();
@@ -57,7 +64,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	 * @param geo
 	 *            geo
 	 */
-	protected void setFirstInput(GeoElement geo) {
+	protected void setFirstInput(GeoElementND geo) {
 		this.g = (GeoLineND) geo;
 	}
 

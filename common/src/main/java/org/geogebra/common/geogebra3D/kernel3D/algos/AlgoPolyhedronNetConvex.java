@@ -529,7 +529,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			polygonInfo.get(faceNumber).segShift = linkSegIndex;
 			// link segment found //warning: the seg is seen in the reverse
 			// order of the parent polygon
-			if (linkSegIndex == 0) {// seg is the first of the list
+			if (linkSegIndex == 0) { // seg is the first of the list
 				segmentInfoList.get(currentPolygonSegList
 						.get(1)).pointIndex1 = segmentInfoList
 								.get(currentPolygonSegList.get(0)).pointIndex1;

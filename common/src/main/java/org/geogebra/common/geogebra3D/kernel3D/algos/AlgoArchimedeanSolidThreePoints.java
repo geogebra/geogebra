@@ -25,7 +25,9 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 	private OutputHandler<GeoPolygon3D> outputPolygons;
 	private OutputHandler<GeoSegment3D> outputSegments;
 
-	private GeoPointND A, B, C;
+	private GeoPointND A;
+	private GeoPointND B;
+	private GeoPointND C;
 
 	private CoordMatrix4x4 matrix;
 
@@ -35,8 +37,10 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
 	private PlatonicSolid solidDescription;
 
-	private Coords v1l = new Coords(4), v2l = new Coords(4),
-			vnl = new Coords(4), tmpCoords = new Coords(4);
+	private Coords v1l = new Coords(4);
+	private Coords v2l = new Coords(4);
+	private Coords vnl = new Coords(4);
+	private Coords tmpCoords = new Coords(4);
 
 	/**
 	 * factor to calculate the volume

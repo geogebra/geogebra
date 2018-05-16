@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  */
 public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 	private Coords p1;
+
 	/**
 	 * @param c
 	 *            construction

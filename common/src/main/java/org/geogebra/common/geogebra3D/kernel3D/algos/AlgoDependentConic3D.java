@@ -35,7 +35,9 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 
 	private GeoConic3D conic; // output
 
-	private ExpressionValue[] coeffX, coeffY, coeffZ;
+	private ExpressionValue[] coeffX;
+	private ExpressionValue[] coeffY;
+	private ExpressionValue[] coeffZ;
 
 	private boolean trig;
 

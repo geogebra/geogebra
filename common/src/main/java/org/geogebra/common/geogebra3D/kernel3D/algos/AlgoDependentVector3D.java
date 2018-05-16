@@ -72,6 +72,9 @@ public class AlgoDependentVector3D extends AlgoElement3D
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting vector
+	 */
 	public GeoVector3D getVector3D() {
 		return vec;
 	}

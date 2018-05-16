@@ -19,18 +19,24 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 
+/**
+ * Computes distance between lines in 3D.
+ */
 public class AlgoDistanceLines3D extends AlgoElement3D {
 
-	private GeoLineND g3D, h3D;
+	private GeoLineND g3D;
+	private GeoLineND h3D;
 
 	private GeoNumeric dist;
 
-	public AlgoDistanceLines3D(Construction c, String label, GeoLineND g3D,
-			GeoLineND h3D) {
-		this(c, g3D, h3D);
-		dist.setLabel(label);
-	}
-
+	/**
+	 * @param c
+	 *            construction
+	 * @param g3D
+	 *            first line
+	 * @param h3D
+	 *            second line
+	 */
 	public AlgoDistanceLines3D(Construction c, GeoLineND g3D, GeoLineND h3D) {
 		super(c);
 		this.g3D = g3D;
@@ -68,6 +74,9 @@ public class AlgoDistanceLines3D extends AlgoElement3D {
 		return h3D;
 	}
 
+	/**
+	 * @return distance
+	 */
 	public GeoNumeric getDistance() {
 		return dist;
 	}

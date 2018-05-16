@@ -224,8 +224,8 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 				+ p3 * (m[5] * p1 + m[6] * p2 + m[2] * p3 + m[9]) + m[7] * p1
 				+ m[8] * p2 + m[9] * p3 + m[3];
 
-		if (DoubleUtil.isZero(u)) {// no quadratic term
-			if (DoubleUtil.isZero(b)) {// no linear term: 0 t = -w
+		if (DoubleUtil.isZero(u)) { // no quadratic term
+			if (DoubleUtil.isZero(b)) { // no linear term: 0 t = -w
 				if (DoubleUtil.isZero(w)) { // whole line is contained in q
 					Q[0].setUndefined();
 					Q[1].setUndefined();
@@ -248,7 +248,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 			}
 		} else { // u != 0
 			double dis = b * b - u * w;
-			if (DoubleUtil.isZero(dis)) {// Tangent
+			if (DoubleUtil.isZero(dis)) { // Tangent
 				double t1 = -b / u;
 				Q[0].setCoords(g.getPointInD(3, t1));
 				Q[1].setCoords(Q[0].getCoords());

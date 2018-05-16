@@ -55,7 +55,8 @@ public class AlgoAnglePolygon3D extends AlgoAnglePolygonND {
 	 * @param internalAngle
 	 *            whether to return internal angles
 	 */
-	public AlgoAnglePolygon3D(Construction cons, String[] labels, GeoPolygon poly, boolean internalAngle) {
+	public AlgoAnglePolygon3D(Construction cons, String[] labels, GeoPolygon poly,
+			boolean internalAngle) {
 		this(cons, labels, poly, null, internalAngle);
 	}
 

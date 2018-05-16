@@ -22,39 +22,48 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  */
 public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 	private Coords uptranslation;
+	
 	/**
 	 * @param c
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param polygon
+	 *            base polygon
 	 * @param point
+	 *            point on top
 	 */
 	public AlgoPolyhedronPointsPrism(Construction c, String[] labels,
 			GeoPolygon polygon, GeoPointND point) {
 		super(c, labels, polygon, point);
-
 	}
 
 	/**
 	 * @param c
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param points
+	 *            points (base + last one on top)
 	 */
 	public AlgoPolyhedronPointsPrism(Construction c, String[] labels,
 			GeoPointND[] points) {
 		super(c, labels, points);
-
 	}
 
 	/**
 	 * @param c
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param polygon
+	 *            base
 	 * @param height
+	 *            height
 	 */
 	public AlgoPolyhedronPointsPrism(Construction c, String[] labels,
 			GeoPolygon polygon, NumberValue height) {
 		super(c, labels, polygon, height);
-
 	}
 
 	@Override
@@ -340,7 +349,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 		for (GeoPolygon polygon : faces) {
 
 			GeoSegmentND[] segments = polygon.getSegments();
-			if (step == 1 && !bottomAsInput) {// bottom
+			if (step == 1 && !bottomAsInput) { // bottom
 				outputPolygonsBottom.addOutput((GeoPolygon3D) polygon, false);
 				for (int i = 0; i < segments.length; i++) {
 					outputSegmentsBottom.addOutput((GeoSegment3D) segments[i],
@@ -348,7 +357,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 				}
 				step++;
 				continue;
-			} else if (step == top) {// top
+			} else if (step == top) { // top
 				outputPolygonsTop.addOutput((GeoPolygon3D) polygon, false);
 				for (int i = 0; i < segments.length; i++) {
 					outputSegmentsTop.addOutput((GeoSegment3D) segments[i],
@@ -381,9 +390,9 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 	}
 
 	@Override
-	protected void updateVolume(double height) {
-		super.updateVolume(height);
-		getPolyhedron().setVolume(getBottom().getArea() * height);
+	protected void updateVolume(double heightVal) {
+		super.updateVolume(heightVal);
+		getPolyhedron().setVolume(getBottom().getArea() * heightVal);
 	}
 
 	@Override

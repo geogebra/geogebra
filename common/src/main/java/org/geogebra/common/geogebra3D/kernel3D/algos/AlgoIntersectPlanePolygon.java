@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 
 public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
@@ -22,7 +23,7 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 	}
 
 	@Override
-	protected void setFirstInput(GeoElement geo) {
+	protected void setFirstInput(GeoElementND geo) {
 		this.plane = (GeoPlane3D) geo;
 
 	}

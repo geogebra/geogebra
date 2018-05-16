@@ -39,7 +39,8 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 
 	private double[] diameterCoords;
 
-	private Coords diameterOrigin, diameterDirection;
+	private Coords diameterOrigin;
+	private Coords diameterDirection;
 
 	/**
 	 * Creates new 3D algo for Diameter

@@ -37,16 +37,25 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	protected int bottomPointsLength;
 
 	/** points generated as output */
-	protected OutputHandler<GeoPoint3D> outputPointsBottom, outputPointsSide,
-			outputPointsTop;
-	protected OutputHandler<GeoSegment3D> outputSegmentsBottom,
-			outputSegmentsSide, outputSegmentsTop;
-	protected OutputHandler<GeoPolygon3D> outputPolygonsBottom,
-			outputPolygonsSide, outputPolygonsTop;
+	protected OutputHandler<GeoPoint3D> outputPointsBottom;
+	protected OutputHandler<GeoPoint3D> outputPointsSide;
+	protected OutputHandler<GeoPoint3D> outputPointsTop;
+	protected OutputHandler<GeoSegment3D> outputSegmentsBottom;
+	protected OutputHandler<GeoSegment3D> outputSegmentsSide;
+	protected OutputHandler<GeoSegment3D> outputSegmentsTop;
+	protected OutputHandler<GeoPolygon3D> outputPolygonsBottom;
+	protected OutputHandler<GeoPolygon3D> outputPolygonsSide;
+	protected OutputHandler<GeoPolygon3D> outputPolygonsTop;
 
 	/**
 	 * @param c
 	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param p
+	 *            polyhedron
+	 * @param v
+	 *            index
 	 */
 	public AlgoPolyhedronNet(Construction c, String[] labels, GeoPolyhedron p,
 			NumberValue v) {
@@ -139,7 +148,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 							false);
 				}
 
-			} else {// sides and top
+			} else { // sides and top
 				setOutputSideTop(n, (GeoPolygon3D) polygon, step, segments);
 
 			}
@@ -180,10 +189,10 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 				new ElementFactory<GeoPolygon3D>() {
 					@Override
 					public GeoPolygon3D newElement() {
-						GeoPolygon3D p = new GeoPolygon3D(cons);
-						// p.setParentAlgorithm(AlgoPolyhedron.this);
-						setChangeableCoordParent(p);
-						return p;
+						GeoPolygon3D poly = new GeoPolygon3D(cons);
+						// poly.setParentAlgorithm(AlgoPolyhedron.this);
+						setChangeableCoordParent(poly);
+						return poly;
 					}
 				}) {
 			@Override

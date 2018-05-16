@@ -39,14 +39,17 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
  */
 public class AlgoAngularBisectorLines3D extends AlgoElement {
 
-	private GeoLineND g, h; // input
+	private GeoLineND g; // input
+	private GeoLineND h; // input
 	private GeoLine3D[] bisector; // output
 
 	private GeoVector[] wv; // direction of bisector line bisector
 	private GeoPoint3D B; // intersection point of g, h
 
-	private Coords vn = new Coords(3), tmpCoords = new Coords(3),
-			d1 = new Coords(3), d2 = new Coords(3);
+	private Coords vn = new Coords(3);
+	private Coords tmpCoords = new Coords(3);
+	private Coords d1 = new Coords(3);
+	private Coords d2 = new Coords(3);
 
 	/**
 	 * @param cons
@@ -136,8 +139,6 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 	/*
 	 * @Override public boolean isNearToAlgorithm() { return true; }
 	 */
-
-
 	@Override
 	public final void compute() {
 

@@ -56,7 +56,6 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 			GeoCoordSys2D cs2, boolean swapInputs) {
 
 		super(cons, label, cs1, cs2, swapInputs);
-
 	}
 
 	// /////////////////////////////////////////////
@@ -90,7 +89,6 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 		} else {
 			p.setUndefined();
 		}
-
 	}
 
 	/**
@@ -130,11 +128,17 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 	}
 
 	/**
-	 * almost a clone of compute(), just for debugging
+	 * almost a clone of #compute()
 	 * 
 	 * @param line
+	 *            line
 	 * @param cs2D
-	 * @return
+	 *            plane
+	 * @param globalCoords
+	 *            global coords
+	 * @param inPlaneCoords
+	 *            plane coords of intersection
+	 * @return global intersection coordinates or null
 	 */
 	public static Coords getIntersectLinePlane(GeoLineND line,
 			GeoCoordSys2D cs2D, Coords globalCoords, Coords inPlaneCoords) {

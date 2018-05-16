@@ -28,12 +28,11 @@ public class AlgoFocus3D extends AlgoFocus {
 	}
 
 	@Override
-	protected void createFocus(Construction cons) {
+	protected void createFocus(Construction cons1) {
 		focus = new GeoPoint3D[2];
 		for (int i = 0; i < focus.length; i++) {
-			focus[i] = new GeoPoint3D(cons);
+			focus[i] = new GeoPoint3D(cons1);
 		}
-
 	}
 
 	@Override

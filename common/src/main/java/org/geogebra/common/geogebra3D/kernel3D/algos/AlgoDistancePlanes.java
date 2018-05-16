@@ -20,16 +20,19 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 
 public class AlgoDistancePlanes extends AlgoElement3D {
 
-	private GeoPlaneND g3D, h3D;
+	private GeoPlaneND g3D;
+	private GeoPlaneND h3D;
 
 	private GeoNumeric dist;
 
-	public AlgoDistancePlanes(Construction c, String label, GeoPlaneND g3D,
-			GeoPlaneND h3D) {
-		this(c, g3D, h3D);
-		dist.setLabel(label);
-	}
-
+	/**
+	 * @param c
+	 *            construction
+	 * @param g3D
+	 *            plane
+	 * @param h3D
+	 *            plane
+	 */
 	public AlgoDistancePlanes(Construction c, GeoPlaneND g3D, GeoPlaneND h3D) {
 		super(c);
 		this.g3D = g3D;

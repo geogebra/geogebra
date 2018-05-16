@@ -22,7 +22,10 @@ import org.geogebra.common.util.DoubleUtil;
 public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 
 	private GeoDirectionND direction;
-	private Coords coordsA, coordsB, vAB, vDirection;
+	private Coords coordsA;
+	private Coords coordsB;
+	private Coords vAB;
+	private Coords vDirection;
 
 	/**
 	 * constructor

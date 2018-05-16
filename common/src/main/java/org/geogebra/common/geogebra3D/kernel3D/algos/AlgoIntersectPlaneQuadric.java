@@ -72,9 +72,6 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 
 		// end
 		end();
-
-		// compute();
-
 	}
 
 	/**
@@ -104,12 +101,12 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return new conic for intersection
 	 */
-	protected GeoConic3D newConic(Construction cons) {
-		return new GeoConic3D(cons, true);
+	protected GeoConic3D newConic(Construction cons1) {
+		return new GeoConic3D(cons1, true);
 	}
 
 	/**
@@ -136,7 +133,7 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 
 	}
 
-	public void intersectPlaneQuadric(GeoCoordSys2D inputPlane,
+	private void intersectPlaneQuadric(GeoCoordSys2D inputPlane,
 			GeoQuadricND inputQuad, GeoConic3D outputConic) {
 		if (parametricMatrix == null) {
 			parametricMatrix = new CoordMatrix(4, 3);

@@ -27,12 +27,14 @@ public class AlgoDistancePointPlane3D extends AlgoElement3D {
 
 	private GeoNumeric dist;
 
-	public AlgoDistancePointPlane3D(Construction c, String label,
-			GeoPointND point, GeoPlaneND plane) {
-		this(c, point, plane);
-		dist.setLabel(label);
-	}
-
+	/**
+	 * @param c
+	 *            construction
+	 * @param point
+	 *            point
+	 * @param plane
+	 *            plane
+	 */
 	public AlgoDistancePointPlane3D(Construction c, GeoPointND point,
 			GeoPlaneND plane) {
 		super(c);

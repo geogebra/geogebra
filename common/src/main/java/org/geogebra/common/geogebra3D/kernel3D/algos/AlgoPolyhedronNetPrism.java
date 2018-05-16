@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  */
 public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 	private Coords pp1;
+
 	/**
 	 * @param c
 	 *            construction
@@ -350,7 +351,6 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 				.getElement((2 * index + 1) % (2 * newBottomPointsLength));
 
 		// update segments
-		GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(index);
 		GeoSegmentND segmentSide3 = outputSegmentsSide.getElement(3 * index);
 		GeoSegmentND segmentSide2 = outputSegmentsSide
 				.getElement(3 * index + 1);
@@ -368,14 +368,15 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		points[2] = pointSide1;
 		points[3] = pointSide2;
 		polygon.modifyInputPoints(points);
+
 		GeoSegmentND[] s = new GeoSegmentND[4];
+		GeoSegmentND segmentBottom = outputSegmentsBottom.getElement(index);
 		s[0] = segmentBottom;
 		s[1] = segmentSide1;
 		s[2] = segmentSide2;
 		s[2] = segmentSide3;
 		polygon.setSegments(s);
 		polygon.calcArea();
-
 	}
 
 	private void createSideFace(GeoPolyhedronNet net, int index,

@@ -138,10 +138,8 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	 * Alias for updateOutput TODO only use one
 	 */
 	protected final void setOutput() {
-
 		updateOutput();
 		// cons.addToAlgorithmList(this);
-
 	}
 
 	/**
@@ -263,21 +261,21 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 			return p;
 		}
 	}
-	
+
 	@Override
-	protected void getOutputXML(StringBuilder sb){
+	protected void getOutputXML(StringBuilder sb) {
 		super.getOutputXML(sb);
 		
-		//append XML for polygon and segments linked once more, to avoid override of specific properties		
+		// append XML for polygon and segments linked once more, to avoid
+		// override of specific properties
 		for (GeoPolygon polygon : polyhedron.getPolygonsLinked()) {
 			polygon.getXML(false, sb);
 		}
-		for (GeoSegmentND segment : polyhedron.getSegmentsLinked()){
-			if (segment.isLabelSet()){
+		for (GeoSegmentND segment : polyhedron.getSegmentsLinked()) {
+			if (segment.isLabelSet()) {
 				((GeoElement) segment).getXML(false, sb);
 			}
 		}
-		
 	}
 
 }

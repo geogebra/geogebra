@@ -32,7 +32,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public abstract class AlgoAngleElement3D extends AlgoAngleVectorND {
 
-	private Coords vn, v2;
+	private Coords vn;
+	private Coords v2;
 
 	/**
 	 * @param cons

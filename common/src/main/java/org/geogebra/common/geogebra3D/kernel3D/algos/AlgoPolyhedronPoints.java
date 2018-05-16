@@ -30,10 +30,12 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	protected boolean bottomAsInput = false;
 	protected int bottomPointsLength = -1;
 
-	protected OutputHandler<GeoSegment3D> outputSegmentsBottom,
-			outputSegmentsSide, outputSegmentsTop;
-	protected OutputHandler<GeoPolygon3D> outputPolygonsBottom,
-			outputPolygonsSide, outputPolygonsTop;
+	protected OutputHandler<GeoSegment3D> outputSegmentsBottom;
+	protected OutputHandler<GeoSegment3D> outputSegmentsSide;
+	protected OutputHandler<GeoSegment3D> outputSegmentsTop;
+	protected OutputHandler<GeoPolygon3D> outputPolygonsBottom;
+	protected OutputHandler<GeoPolygon3D> outputPolygonsSide;
+	protected OutputHandler<GeoPolygon3D> outputPolygonsTop;
 	ChangeableCoordParent heightChangeableCoordParent = null;
 	private int shift;
 
@@ -140,7 +142,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 * @param c
 	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param points
+	 *            points (base + one from top)
 	 */
 	public AlgoPolyhedronPoints(Construction c, String[] labels,
 			GeoPointND[] points) {
@@ -184,8 +188,11 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 * @param c
 	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param polygon
+	 *            base
 	 * @param point
+	 *            first vertex on top
 	 */
 	public AlgoPolyhedronPoints(Construction c, String[] labels,
 			GeoPolygon polygon, GeoPointND point) {
@@ -217,7 +224,67 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		// force update segments and polygons
 		updateOutputSegmentsAndPolygonsParentAlgorithms();
+	}
 
+	/**
+	 * creates a polyhedron regarding bottom face and top vertex
+	 * 
+	 * @param c
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param polygon
+	 *            base
+	 * @param height
+	 *            height
+	 */
+	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPolygon polygon,
+			NumberValue height) {
+		super(c);
+
+		// create ChangeableCoordParent if possible
+		GeoNumeric changeableHeight = ChangeableCoordParent.getGeoNumeric(height);
+		if (changeableHeight != null) {
+			heightChangeableCoordParent = new ChangeableCoordParent(changeableHeight, polygon);
+		}
+
+		initCoords();
+
+		bottom = polygon;
+		bottomAsInput = true;
+		this.height = height;
+		shift = 0; // output points correspond to input points
+
+		outputPoints.augmentOutputSize(1, false);
+		setTopPoint(outputPoints.getElement(0));
+		createPolyhedron();
+
+		// input : inputPoints or list of faces
+		input = new GeoElement[2];
+		input[0] = bottom;
+		input[1] = (GeoElement) height;
+		addAlgoToInput();
+
+		updateOutputPoints();
+		createFaces();
+		setOutput();
+
+		// GeoNumeric changeableHeight = ChangeableCoordParent
+		// .getGeoNumeric(height);
+		// if (changeableHeight != null) {
+		// heightChangeableCoordParent = new ChangeableCoordParent(
+		// changeableHeight, bottom);
+		// for (GeoPolygon p : polyhedron.getPolygons()) {
+		// p.setChangeableCoordParent(heightChangeableCoordParent);
+		// }
+		// }
+
+		setLabels(labels);
+
+		update();
+
+		// force update segments and polygons
+		updateOutputSegmentsAndPolygonsParentAlgorithms();
 	}
 
 	@Override
@@ -304,66 +371,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	abstract protected int getSideLengthFromLabelsLength(int length);
 
 	/**
-	 * creates a polyhedron regarding bottom face and top vertex
-	 * 
-	 * @param c
-	 *            construction
-	 * @param labels
-	 * @param polygon
-	 * @param height
-	 */
-	public AlgoPolyhedronPoints(Construction c, String[] labels,
-			GeoPolygon polygon, NumberValue height) {
-		super(c);
-
-		// create ChangeableCoordParent if possible
-		GeoNumeric changeableHeight = ChangeableCoordParent
-				.getGeoNumeric(height);
-		if (changeableHeight != null) {
-			heightChangeableCoordParent = new ChangeableCoordParent(
-					changeableHeight, polygon);
-		}
-
-		initCoords();
-
-		bottom = polygon;
-		bottomAsInput = true;
-		this.height = height;
-		shift = 0; // output points correspond to input points
-
-		outputPoints.augmentOutputSize(1, false);
-		setTopPoint(outputPoints.getElement(0));
-		createPolyhedron();
-
-		// input : inputPoints or list of faces
-		input = new GeoElement[2];
-		input[0] = bottom;
-		input[1] = (GeoElement) height;
-		addAlgoToInput();
-
-		updateOutputPoints();
-		createFaces();
-		setOutput();
-
-		// GeoNumeric changeableHeight = ChangeableCoordParent
-		// .getGeoNumeric(height);
-		// if (changeableHeight != null) {
-		// heightChangeableCoordParent = new ChangeableCoordParent(
-		// changeableHeight, bottom);
-		// for (GeoPolygon p : polyhedron.getPolygons()) {
-		// p.setChangeableCoordParent(heightChangeableCoordParent);
-		// }
-		// }
-
-		setLabels(labels);
-
-		update();
-
-		// force update segments and polygons
-		updateOutputSegmentsAndPolygonsParentAlgorithms();
-	}
-
-	/**
 	 * init Coords values
 	 */
 	protected void initCoords() {
@@ -423,7 +430,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 * sets the bottom of the polyhedron
 	 * 
 	 * @param polyhedron
-	 * @return bottom key (if one)
+	 *            polyhedron
 	 */
 	protected void setBottom(GeoPolyhedron polyhedron) {
 		if (bottom != null) {
@@ -502,10 +509,10 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	/**
 	 * updates the polyhedron's volume
 	 * 
-	 * @param height
+	 * @param heightVal
 	 *            height
 	 */
-	protected void updateVolume(double height) {
+	protected void updateVolume(double heightVal) {
 		// calc bottom area if needed
 		if (!bottomAsInput) {
 			((GeoPolygon3D) getBottom()).updateCoordSys();
@@ -633,6 +640,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		return outputPolygonsSide.getElement(i);
 	}
 
+	/**
+	 * @return height
+	 */
 	public NumberValue getHeight() {
 		return height;
 	}

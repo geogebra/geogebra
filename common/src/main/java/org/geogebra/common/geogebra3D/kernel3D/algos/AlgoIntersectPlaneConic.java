@@ -12,22 +12,40 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
 	private Coords[] intersection;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param plane
+	 *            plane
+	 * @param c
+	 *            conic
+	 */
 	public AlgoIntersectPlaneConic(Construction cons, GeoCoordSys2D plane,
 			GeoConicND c) {
 		super(cons, (GeoElement) plane, c);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 */
 	public AlgoIntersectPlaneConic(Construction cons) {
 		super(cons);
 	}
 
 	@Override
 	public void compute() {
-
 		intersect((GeoCoordSys2D) getFirtGeo(), c, P);
-
 	}
 
+	/**
+	 * @param plane
+	 *            plane
+	 * @param c
+	 *            conic
+	 * @param P
+	 *            output point
+	 */
 	public final void intersect(GeoCoordSys2D plane, GeoConicND c,
 			GeoPoint3D[] P) {
 		// calc intersection line of the plane and the plane including the conic

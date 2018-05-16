@@ -22,22 +22,28 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  */
 public class AlgoIntersectPolygons3D extends AlgoElement3D {
 	// input
-	protected GeoPolygon polyA, polyB;
+	protected GeoPolygon polyA;
+	protected GeoPolygon polyB;
 	// output
 	protected OutputHandler<GeoElement> outputPoints;
 	// intersections
 	protected ArrayList<Coords> intersectingCoords;
 
 	// temporary lines
-	private GeoSegmentND[] segA, segB;
+	private GeoSegmentND[] segA;
+	private GeoSegmentND[] segB;
 
 	/**
 	 * constructor with labels
 	 * 
 	 * @param c
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param polyA
+	 *            first polygon
 	 * @param polyB
+	 *            second polygon
 	 */
 	public AlgoIntersectPolygons3D(Construction c, String[] labels,
 			GeoPolygon polyA, GeoPolygon polyB) {
@@ -67,7 +73,7 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 	}
 
 	/**
-	 * @return
+	 * @return output point handler
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
 
@@ -87,13 +93,12 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 	 * A_1, A_2, ...
 	 * 
 	 * @param labels
+	 *            point labels
 	 */
 	protected void setLabels(String[] labels) {
 		// if only one label (e.g. "A") for more than one output, new labels
 		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 &&
-		// outputPoints.size() > 1 &&
-				labels[0] != null && !labels[0].equals("")) {
+		if (labels != null && labels.length == 1 && labels[0] != null && !labels[0].equals("")) {
 			this.outputPoints.setIndexLabels(labels[0]);
 		} else {
 

@@ -27,7 +27,8 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	private OutputHandler<GeoPolygon3D> outputPolygons;
 	private OutputHandler<GeoSegment3D> outputSegments;
 
-	private GeoPointND A, B;
+	private GeoPointND A;
+	private GeoPointND B;
 	private GeoDirectionND v;
 
 	private CoordMatrix4x4 matrix;

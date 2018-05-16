@@ -20,9 +20,15 @@ import org.geogebra.common.kernel.kernelND.AlgoIntersectND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.DoubleUtil;
 
+/**
+ * Common class for 3D intersect algos.
+ */
 public abstract class AlgoIntersect3D extends AlgoIntersectND {
 
-
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public AlgoIntersect3D(Construction c) {
 		super(c);
 	}

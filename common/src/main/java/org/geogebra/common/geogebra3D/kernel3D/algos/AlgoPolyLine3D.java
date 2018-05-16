@@ -28,10 +28,26 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class AlgoPolyLine3D extends AlgoPolyLine {
 
+	/**
+	 * @param cons
+	 *            the construction
+	 * @param label
+	 *            name of the polyline
+	 * @param geoList
+	 *            list of vertices of the polygon (alternative to points)
+	 */
 	public AlgoPolyLine3D(Construction cons, String label, GeoList geoList) {
 		this(cons, label, null, geoList);
 	}
 
+	/**
+	 * @param cons
+	 *            the construction
+	 * @param label
+	 *            name of the polyline
+	 * @param points
+	 *            vertices of the polygon
+	 */
 	public AlgoPolyLine3D(Construction cons, String label,
 			GeoPointND[] points) {
 		this(cons, label, points, null);
@@ -40,39 +56,21 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 	/**
 	 * @param cons
 	 *            the construction
-	 * @param labels
-	 *            names of the polygon and the segments
+	 * @param label
+	 *            name of the polyline
 	 * @param points
 	 *            vertices of the polygon
 	 * @param geoList
 	 *            list of vertices of the polygon (alternative to points)
-	 * @param createSegments
-	 *            says if the polygon has to creates its edges (3D only)
 	 */
 	protected AlgoPolyLine3D(Construction cons, String label,
 			GeoPointND[] points, GeoList geoList) {
 		super(cons, points, geoList);
 		poly.setLabel(label);
-		// poly = new GeoPolygon(cons, points);
-		// createPolyLine(createSegments);
-
-		// compute polygon points
-		// compute();
-
-		// setInputOutput(); // for AlgoElement
-
-		// if (labels != null)
-		// poly.setLabel(labels[0]);
-		// else
-		// poly.setLabel(null);
-
 	}
 
 	/**
-	 * create the polygon
-	 * 
-	 * @param createSegments
-	 *            says if the polygon has to creates its edges (3D only)
+	 * create the polyline
 	 */
 	@Override
 	protected void createPolyLine() {
@@ -88,6 +86,7 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 	 * Update point array of polygon using the given array list
 	 * 
 	 * @param pointList
+	 *            new point list
 	 */
 	private void updatePointArray(GeoList pointList) {
 		// check if we have a point list
@@ -122,10 +121,8 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 
 		// compute area
 		poly.calcLength();
-
 	}
 
-	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
 
@@ -145,7 +142,6 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 		setOutputLength(1);
 		setOutput(0, poly);
 		setDependencies();
-
 	}
 
 	protected GeoElement[] createEfficientInput() {

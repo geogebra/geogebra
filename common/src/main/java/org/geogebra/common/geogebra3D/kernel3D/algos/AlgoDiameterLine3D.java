@@ -33,13 +33,15 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class AlgoDiameterLine3D extends AlgoDiameterLineND {
 
-	private Coords direction, direction3D;
+	private Coords direction;
+	private Coords direction3D;
 
 	private GeoLine diameter2D;
 
 	private double[] diameterCoords;
 
-	private Coords diameterOrigin, diameterDirection;
+	private Coords diameterOrigin;
+	private Coords diameterDirection;
 
 	/**
 	 * Creates new 3D algo for Diameter

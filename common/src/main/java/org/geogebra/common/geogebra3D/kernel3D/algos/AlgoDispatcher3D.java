@@ -39,6 +39,7 @@ import org.geogebra.common.plugin.GeoClass;
 public class AlgoDispatcher3D extends AlgoDispatcher {
 
 	private Coords tmpCoords;
+
 	/**
 	 * Constructor
 	 * 
@@ -65,8 +66,9 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	public GeoNumeric distance(String label, GeoLineND g, GeoLineND h) {
 
 		if (g.isGeoElement3D() || h.isGeoElement3D()) {
-			AlgoDistanceLines3D algo = new AlgoDistanceLines3D(cons, label, g,
+			AlgoDistanceLines3D algo = new AlgoDistanceLines3D(cons, g,
 					h);
+			algo.getDistance().setLabel(label);
 			return algo.getDistance();
 		}
 
@@ -81,7 +83,6 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		}
 
 		return super.intersectLines(label, g, h);
-
 	}
 
 	@Override
@@ -140,13 +141,13 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 				.getCurrentViewOrientation(kernel, cons.getApplication());
 
 		if (orientation == kernel.getSpace()) { // create a sphere
-			return SegmentFixedSphere(pointLabel, segmentLabel, A, n);
+			return segmentFixedSphere(pointLabel, segmentLabel, A, n);
 		}
 
 		if (A.isGeoElement3D()) {
 
 			if (orientation == null) { // create a sphere
-				return SegmentFixedSphere(pointLabel, segmentLabel, A, n);
+				return segmentFixedSphere(pointLabel, segmentLabel, A, n);
 			}
 
 			// create a circle around A with radius n
@@ -180,7 +181,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		return super.segmentFixed(pointLabel, segmentLabel, A, n);
 	}
 
-	private GeoElement[] SegmentFixedSphere(String pointLabel,
+	private GeoElement[] segmentFixedSphere(String pointLabel,
 			String segmentLabel, GeoPointND A, GeoNumberValue n) {
 		// create a sphere around A with radius n
 		AlgoSpherePointRadius algoSphere = new AlgoSpherePointRadius(cons, A,
@@ -275,12 +276,20 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		return super.copyFreePoint(point, view);
 	}
 
+	/**
+	 * @param label
+	 *            label
+	 * @return 3D vector (0,0,0)
+	 */
 	public GeoVectorND vector3D(String label) {
 		GeoVectorND ret = (GeoVectorND) getManager3D().vector3D(0, 0, 0);
 		ret.setLabel(label);
 		return ret;
 	}
 
+	/**
+	 * @return 3D vector (0,0,0)
+	 */
 	public GeoVectorND vector3D() {
 		GeoVector3D v = new GeoVector3D(cons);
 		v.setCoords(0, 0, 0, 0);

@@ -15,10 +15,23 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
+/**
+ * Computes intersection between plane and curve.
+ */
 public class AlgoIntersectPlaneCurve extends AlgoIntersectCoordSysCurve {
 	protected OutputHandler<GeoElement> outputPoints;
 	private GeoCoordSys2D plane;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param plane
+	 *            plane
+	 * @param c
+	 *            curve
+	 * @param labels
+	 *            output labels
+	 */
 	public AlgoIntersectPlaneCurve(Construction cons, GeoCoordSys2D plane,
 			GeoCurveCartesianND c, String[] labels) {
 		super(cons);
@@ -68,7 +81,6 @@ public class AlgoIntersectPlaneCurve extends AlgoIntersectCoordSysCurve {
 		}
 
 		findIntersections(enx, fv);
-
 	}
 
 	@Override
@@ -83,7 +95,6 @@ public class AlgoIntersectPlaneCurve extends AlgoIntersectCoordSysCurve {
 		input[1] = curve;
 
 		setDependencies();
-
 	}
 
 	/**

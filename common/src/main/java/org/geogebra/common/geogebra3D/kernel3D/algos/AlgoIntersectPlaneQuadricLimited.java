@@ -43,9 +43,11 @@ import org.geogebra.common.util.DoubleUtil;
 public class AlgoIntersectPlaneQuadricLimited
 		extends AlgoIntersectPlaneQuadric {
 
-	private AlgoIntersectPlaneConic algoBottom, algoTop;
+	private AlgoIntersectPlaneConic algoBottom;
+	private AlgoIntersectPlaneConic algoTop;
 
-	private GeoPoint3D[] bottomP, topP;
+	private GeoPoint3D[] bottomP;
+	private GeoPoint3D[] topP;
 
 	private Coords tmpCoords;
 

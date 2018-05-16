@@ -40,7 +40,8 @@ public class AlgoPolarLine3D extends AlgoPolarLineND {
 
 	private double[] polarCoords;
 
-	private Coords polarOrigin, polarDirection;
+	private Coords polarOrigin;
+	private Coords polarDirection;
 
 	/**
 	 * Creates new AlgoPolarLine

@@ -38,10 +38,12 @@ public class AlgoIntersectLineIncludedConic3D extends AlgoIntersectConic3D {
 	}
 
 	/**
-	 * 
 	 * @param cons
+	 *            construction
 	 * @param g
+	 *            line
 	 * @param c
+	 *            conic
 	 */
 	AlgoIntersectLineIncludedConic3D(Construction cons, GeoLine g,
 			GeoConicND c) {
@@ -51,9 +53,7 @@ public class AlgoIntersectLineIncludedConic3D extends AlgoIntersectConic3D {
 
 	@Override
 	public void compute() {
-
 		intersectLineIncluded(c, P, c.getCoordSys(), getLine());
-
 	}
 
 	/**

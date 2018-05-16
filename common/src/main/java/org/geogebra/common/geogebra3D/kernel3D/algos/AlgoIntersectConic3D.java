@@ -53,9 +53,8 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 	private Coords tmpCoords;
 
 	/**
-	 * 
 	 * @param cons
-	 * @param c
+	 *            construction
 	 */
 	AlgoIntersectConic3D(Construction cons) {
 
@@ -150,10 +149,8 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 
 	@Override
 	public void compute() {
-
 		intersect(c, P);
 	}
-
 
 	/**
 	 * calc intersection points with the conic
@@ -186,17 +183,16 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 			} else {
 				setPointsUndefined();
 			}
-		} else {// line parallel to conic coord sys
+		} else { // line parallel to conic coord sys
 			Coords op = cs.getNormalProjection(o)[1];
-			if (!DoubleUtil.isZero(op.getZ())) {// line not included
+			if (!DoubleUtil.isZero(op.getZ())) { // line not included
 				setPointsUndefined(); // TODO infinite points ?
-			} else {// line included
+			} else { // line included
 				g2d.setCoords(dp.getY(), -dp.getX(),
 						-dp.getY() * op.getX() + dp.getX() * op.getY());
 				intersectLineIncluded(conic, pts, cs, g2d);
 			}
 		}
-
 	}
 
 	/**

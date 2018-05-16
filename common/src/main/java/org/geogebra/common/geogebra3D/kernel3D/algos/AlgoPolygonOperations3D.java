@@ -88,7 +88,8 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	protected String[] labels;
 	private boolean silent;
 
-	private Coords o1, d1;
+	private Coords o1;
+	private Coords d1;
 
 	/**
 	 * special constructor without operation type for CmdDifference. after this
@@ -631,7 +632,6 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 * polygons are on two different not-parallel planes
 	 */
 	private void setIntersectionLine(GeoLineND line) {
-
 		o1 = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
 		d1 = line.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o1);
 	}
@@ -639,15 +639,9 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	/**
 	 * calc intersection coords
 	 * 
-	 * @param hasSegments
-	 * @param line
-	 * @param newCoords1
-	 * 
 	 */
 	private void intersectionsCoords(GeoPolygon poly, GeoLineND line,
 			TreeMap<Double, Coords> newCoords1) {
-
-
 		// check if the line is contained by the polygon plane
 		switch (AlgoIntersectCS1D2D.getConfigLinePlane(line, poly)) {
 		case GENERAL: // intersect line/interior of polygon
@@ -658,16 +652,11 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 			break;
 		case PARALLEL: // no intersection
 			break;
-
 		}
 	}
 
 	/**
 	 * calc intersection coords when line is contained in polygon's plane
-	 * 
-	 * @param p
-	 * @param line
-	 * @param newCoords1
 	 */
 	private void intersectionsCoordsContained(HasSegments p, GeoLineND line,
 			TreeMap<Double, Coords> newCoords1) {
@@ -697,20 +686,14 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 				}
 			}
 		}
-
 	}
 
 	/**
 	 * calc intersection coords when line is not contained in polygon's plane
 	 * 
-	 * @param p
-	 * @param line
-	 * @param newCoords
-	 * 
 	 */
 	private static void intersectionsCoordsGeneral(GeoPolygon p,
-			GeoLineND line,
-			TreeMap<Double, Coords> newCoords) {
+			GeoLineND line, TreeMap<Double, Coords> newCoords) {
 
 		Coords globalCoords = new Coords(4);
 		Coords inPlaneCoords = new Coords(4);

@@ -110,7 +110,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 			// if same parameter, compare parents
 			return compareParentTo(o);
-
 		}
 
 		@Override
@@ -148,7 +147,8 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 *
 	 */
 	private static class Segment {
-		protected CoordsWithParent p1, p2;
+		protected CoordsWithParent p1;
+		protected CoordsWithParent p2;
 
 		public Segment(CoordsWithParent p1, CoordsWithParent p2) {
 			this.p1 = p1;
@@ -281,6 +281,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 * common constructor
 	 * 
 	 * @param c
+	 *            construction
 	 * @param plane
 	 *            plane
 	 * @param p
@@ -288,7 +289,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 */
 	public AlgoIntersectRegionPlanePolyhedron(Construction c, GeoPlane3D plane,
 			GeoPolyhedron p) {
-
 		this(c, plane, p, false);
 	}
 
@@ -311,7 +311,9 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 * common constructor
 	 * 
 	 * @param c
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param plane
 	 *            plane
 	 * @param p
@@ -453,9 +455,8 @@ public class AlgoIntersectRegionPlanePolyhedron
 		setIntersectionLine();
 
 		// check if polygon is included in the plane
-		if (d1.isZero() && !(DoubleUtil.isZero(o1.getW()))) {// then include all
-															// edges of the
-															// polygon
+		if (d1.isZero() && !(DoubleUtil.isZero(o1.getW()))) {
+			// then include all edges of the polygon
 
 			GeoPointND[] points = p.getPointsND();
 			Vertices vertices = new Vertices();
@@ -489,7 +490,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 			 * +p+"\nsegmentCoords.size():"+segmentCoords.size()); }
 			 */
 
-		} else {// regular case: polygon not included in plane
+		} else { // regular case: polygon not included in plane
 
 			// fill a new points map
 			if (newCoords == null) {
@@ -509,7 +510,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 				// add (polygon,segments) to newCoordsList
 				if (segmentCoords.size() > 0) {
 					newCoordsList.put(p, segmentCoords);
-					// Log.debug("\npoly:"+p+"\nnewCoords.size():"+newCoords.size()+"\nsegmentCoords.size():"+segmentCoords.size());
 				}
 			}
 		}
@@ -535,13 +535,12 @@ public class AlgoIntersectRegionPlanePolyhedron
 			// check if the segment is included in the polygon: check the
 			// midpoint
 			if (checkMidpoint(p, a, b)) {
-				if (startSegment == null)
-				 {
+				if (startSegment == null) {
 					startSegment = a; // new start segment
 				}
 				endSegment = b; // extend segment to b
 			} else {
-				if (startSegment != null) {// add last correct segment
+				if (startSegment != null) { // add last correct segment
 					addSegment(startSegment, endSegment, ret);
 					startSegment = null;
 				}
@@ -603,7 +602,9 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 * intersection segment
 	 * 
 	 * @param p2
+	 *            polygon
 	 * @param startPoint
+	 *            start point
 	 * @param oldPoint
 	 *            vertex before startPoint
 	 * @return next vertex

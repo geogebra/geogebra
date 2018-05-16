@@ -23,8 +23,9 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 	/** the 2D coord sys created */
 	protected GeoCoordSys2D cs;
 
-	/** 3D points */
-	private GeoLineND a, b;
+	/** 3D lines */
+	private GeoLineND a;
+	private GeoLineND b;
 
 	/**
 	 * create a plane joining lines, with label.
@@ -54,7 +55,6 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 		compute();
 
 		((GeoElement) cs).setLabel(label);
-
 	}
 
 	@Override

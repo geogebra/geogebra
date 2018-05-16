@@ -33,11 +33,16 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * @author Markus
  */
 public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
+	// input
+	private GeoPointND A;
+	private GeoPointND B;
+	private GeoPointND C;
+	// output
+	private GeoLine3D bisector;
 
-	private GeoPointND A, B, C; // input
-	private GeoLine3D bisector; // output
-
-	private Coords o = new Coords(3), d = new Coords(3), v1 = new Coords(3);
+	private Coords o = new Coords(3);
+	private Coords d = new Coords(3);
+	private Coords v1 = new Coords(3);
 
 	/**
 	 * Creates new AlgoLineBisector

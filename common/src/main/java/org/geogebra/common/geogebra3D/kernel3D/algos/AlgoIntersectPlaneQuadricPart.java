@@ -10,7 +10,8 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 public class AlgoIntersectPlaneQuadricPart
 		extends AlgoIntersectPlaneQuadricLimited {
 
-	private GeoConicND bottom, top;
+	private GeoConicND bottom;
+	private GeoConicND top;
 
 	private AlgoQuadricEnds algoEnds = null;
 
