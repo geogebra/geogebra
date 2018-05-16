@@ -723,13 +723,21 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	/**
+	 * 
+	 * @return view bounds for this
+	 */
+	protected double[] getViewBounds() {
+		return kernel.getViewBoundsForGeo(this);
+	}
+
+	/**
 	 * Updates the path of the curve.
 	 */
 	synchronized public void updatePath() {
 		if (!calcPath) {
 			return;
 		}
-		double[] viewBounds = kernel.getViewBoundsForGeo(this);
+		double[] viewBounds = getViewBounds();
 		if (viewBounds[0] == Double.POSITIVE_INFINITY) {
 			viewBounds = new double[] { -10, 10, -10, 10, 10, 10 };
 		}

@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
@@ -22,6 +23,10 @@ import org.geogebra.common.util.DoubleUtil;
 public class GeoImplicitCurve3D extends GeoImplicitCurve
 		implements MirrorableAtPlane {
 
+	public enum Type {
+		DEFAULT, PLANE_XY, PLANE_X
+	}
+
 	private CoordSys transformCoordSys;
 	private FunctionNVar functionExpression;
 	private double[] planeEquationNumbers;
@@ -30,6 +35,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	private Coords tmpCoords3d = new Coords(4);
 	private double translateZ = 0;
 	private Coords planeEquation = new Coords(4);
+	private Type type;
 
 	/**
 	 * @param c
@@ -56,6 +62,16 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	@Override
 	public CoordSys getTransformedCoordSys() {
 		return transformCoordSys;
+	}
+
+	/**
+	 * set type for intersect function / plane
+	 * 
+	 * @param type
+	 *            type
+	 */
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	/**
@@ -215,6 +231,37 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 		setUndefined();
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected double[] getViewBounds() {
+		if (isVisibleInView3D()
+				&& kernel.getApplication().isEuclidianView3Dinited()) {
+			// see AlgoIntersectFunctionNVarPlane.compute() where type is set
+			switch (type) {
+			case PLANE_X:
+				EuclidianView3D view = (EuclidianView3D) kernel.getApplication()
+						.getEuclidianView3D();
+				return new double[] {
+						view.getYmin(),
+						view.getYmax(),
+						view.getZmin(),
+						view.getZmax(),
+						view.getYscale(), 
+						view.getZscale()
+				};
+			case PLANE_XY:
+				view = (EuclidianView3D) kernel.getApplication()
+						.getEuclidianView3D();
+				return new double[] { view.getXmin(), view.getXmax(),
+						view.getZmin(), view.getZmax(), view.getXscale(),
+						view.getZscale() };
+			case DEFAULT:
+			default:
+				return super.getViewBounds();
+			}
+		}
+		return super.getViewBounds();
 	}
 
 }
