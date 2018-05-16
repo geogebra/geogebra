@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,13 +20,12 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 	 * default width of this panel
 	 */
 	public static final int DEFAULT_WIDTH = 480;
-	private App app;
 
 	/**
 	 * @param app App
 	 * Creates panel
 	 */
-	public FunctionInspectorDockPanelW(App app) {
+	public FunctionInspectorDockPanelW(AppW app) {
 		super(App.VIEW_FUNCTION_INSPECTOR, // view id
 				"FunctionInspector", // view title phrase
 				null, // toolbar string
@@ -33,13 +33,10 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 				-1, // menu order
 				'F' // menu shortcut
 		);
-
 		this.app = app;
 		this.setOpenInFrame(true);
 		this.setEmbeddedSize(DEFAULT_WIDTH);
-		
-	    this.app = app;
-    }
+	}
 
 	@Override
 	protected Widget loadComponent() {
