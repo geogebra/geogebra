@@ -326,4 +326,14 @@ public class GGraphics2DE implements GGraphics2DWI {
 		// not needed
 	}
 
+	public void clearAll() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void fillWith(GColor backgroundCommon) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

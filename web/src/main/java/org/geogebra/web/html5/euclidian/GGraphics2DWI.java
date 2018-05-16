@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.web.html5.awt.GFontW;
@@ -43,5 +44,9 @@ public interface GGraphics2DWI extends GGraphics2D {
 	JLMContext2d getContext();
 
 	void setCoordinateSpaceSizeNoTransformNoColor(int width, int height);
+
+	void clearAll();
+
+	void fillWith(GColor backgroundCommon);
 
 }

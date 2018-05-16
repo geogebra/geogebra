@@ -1338,15 +1338,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * Whether we are running on Windows Vista or later
-	 *
-	 * @return whether we are running on Windows Vista or later
-	 */
-	public boolean isWindowsVistaOrLater() {
-		return false;
-	}
-
-	/**
 	 * @return the scriptingLanguage
 	 */
 	public String getScriptingLanguage() {

@@ -254,12 +254,12 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public final void paintBackground(GGraphics2D g2) {
-		GGraphics2DW g2w = null;
+		GGraphics2DWI g2w = null;
 		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
-			g2w = (GGraphics2DW) g2bg;
+			g2w = g2bg;
 			g2w.clearAll();
 		} else {
-			g2w = (GGraphics2DW) g2;
+			g2w = (GGraphics2DWI) g2;
 		}
 		if (isGridOrAxesShown() || hasBackgroundImages() || isTraceDrawn()
 				|| appW.showResetIcon()
