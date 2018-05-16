@@ -1100,7 +1100,7 @@ namespace giac {
 	string s=gen2string(*it);
 	int ss=int(s.size());
 	if (ss==1)
-	  s += '___';
+	  s += "___";
 	if (ss>2 && s[0]=='\'' && s[ss-1]=='\'')
 	  s=s.substr(1,ss-2);
 	for (unsigned i=0;i<s.size();++i){
@@ -4036,13 +4036,13 @@ namespace giac {
 
   gen _randint(const gen & args,GIAC_CONTEXT){
     if (args.type==_INT_)
-      return 1+_rand(args,contextptr);
+      return (abs_calc_mode(contextptr)==38?0:1)+_rand(args,contextptr);
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return gensizeerr(contextptr);
     gen a=args._VECTptr->front(),b=args._VECTptr->back();
     if (!is_integral(a) || !is_integral(b))
       return gentypeerr(contextptr);
-    return a+_rand(b-a+1,contextptr);
+    return (abs_calc_mode(contextptr)==38?a-1:a)+_rand(b-a+1,contextptr);
   }
   static const char _randint_s []="randint";
   static define_unary_function_eval (__randint,&_randint,_randint_s);
@@ -4050,13 +4050,13 @@ namespace giac {
 
   gen _randrange(const gen & args,GIAC_CONTEXT){
     if (args.type==_INT_)
-      return _rand(args,contextptr);
+      return (abs_calc_mode(contextptr)==38?-1:0)+_rand(args,contextptr);
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return gensizeerr(contextptr);
     gen a=args._VECTptr->front(),b=args._VECTptr->back();
     if (!is_integral(a) || !is_integral(b))
       return gentypeerr(contextptr);
-    return a+_rand(b-a,contextptr);
+    return (abs_calc_mode(contextptr)==38?a-1:a)+_rand(b-a,contextptr);
   }
   static const char _randrange_s []="randrange";
   static define_unary_function_eval (__randrange,&_randrange,_randrange_s);
@@ -4066,7 +4066,7 @@ namespace giac {
     if (args.type!=_VECT || args.subtype==_SEQ__VECT || args._VECTptr->empty())
       return gensizeerr(contextptr);
     int n=int(args._VECTptr->size());
-    gen g=_rand(n,contextptr);
+    gen g=_rand(n,contextptr)+(abs_calc_mode(contextptr)==38?-1:0);
     if (g.type!=_INT_ || g.val<0 || g.val>=n)
       return gendimerr(contextptr);
     return args[g.val];

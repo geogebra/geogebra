@@ -2687,6 +2687,13 @@ namespace giac {
     return do_mult_i(g._EXTptr->_VECTptr->front());
   }
 
+  static void purgeassumelist(const vecteur & L,GIAC_CONTEXT){
+    for (unsigned k=0;k<L.size();++k){
+      gen Lk=ggb_var(L[k]);
+      purgenoassume(Lk,contextptr);
+    }
+  }
+
   gen normal(const gen & e,bool distribute_div,GIAC_CONTEXT){
     if (has_num_coeff(e))
       return ratnormal(e,contextptr);
@@ -2743,10 +2750,10 @@ namespace giac {
     gen ee,tmp;
     matrice l;
     fraction f(0);
+    vecteur L;
 #ifndef NO_STDEXCEPT
     try {
 #endif
-      vecteur L;
       ee=in_normalize_sqrt(e,L,contextptr);
       l=alg_lvar(ee);
       sort0(l);
@@ -2757,11 +2764,8 @@ namespace giac {
       for (unsigned k=0;k<L.size();++k)
 	giac_assume(L[k],contextptr);
       tmp=e2r(ee,l,contextptr);
-      for (unsigned k=0;k<L.size();++k){
-	gen Lk=ggb_var(L[k]);
-	purgenoassume(Lk,contextptr);
-      }
       if (is_undef(tmp)){
+	purgeassumelist(L,contextptr);
 #ifdef GIAC_GGB
 	return undef;
 #endif
@@ -2779,6 +2783,7 @@ namespace giac {
     catch (std::runtime_error & err){
       last_evaled_argptr(contextptr)=NULL;
       CERR << err.what() << endl;
+      purgeassumelist(L,contextptr);
       return e;
     }
 #endif
@@ -2801,10 +2806,16 @@ namespace giac {
       f.den = cst_i*f.den;
     }
     // search for embedded fractions
-    if (has_embedded_fractions(f.num) || has_embedded_fractions(f.den))
-      return normal(r2sym(f,l,contextptr),distribute_div,contextptr);
-    if (distribute_div && f.num.type==_POLY && f.num._POLYptr->dim && f.den.type<_POLY)
-      return r2sym(gen(*f.num._POLYptr/f.den),l,contextptr);
+    if (has_embedded_fractions(f.num) || has_embedded_fractions(f.den)){
+      gen res=r2sym(f,l,contextptr);
+      purgeassumelist(L,contextptr);
+      return normal(res,distribute_div,contextptr);
+    }
+    if (distribute_div && f.num.type==_POLY && f.num._POLYptr->dim && f.den.type<_POLY){
+      gen res=r2sym(gen(*f.num._POLYptr/f.den),l,contextptr);
+      purgeassumelist(L,contextptr);
+      return res;
+    }
     if (!distribute_div){
       if (f.den.type==_POLY && is_positive(-f.den._POLYptr->coord.front())){
 	f.num=-f.num;
@@ -2812,10 +2823,13 @@ namespace giac {
       }
       if (f.num.type==_POLY && !f.num._POLYptr->coord.empty() && is_positive(-f.num._POLYptr->coord.front())){
 	f.num=-f.num;
-	return symbolic(at_neg,r2sym(f,l,contextptr));
+	gen res=r2sym(f,l,contextptr);
+	purgeassumelist(L,contextptr);	
+	return symbolic(at_neg,res);
       }
     }
     ee=r2sym(f,l,contextptr);
+    purgeassumelist(L,contextptr);
     if (!is_one(f.den) && is_integer(f.den)){
       ee=ratnormal(ratnormal(ee,contextptr),contextptr); // first ratnormal will expand sqrt()^
       // second will remove them
