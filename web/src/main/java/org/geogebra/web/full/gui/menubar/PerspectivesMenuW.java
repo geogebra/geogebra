@@ -58,7 +58,7 @@ public class PerspectivesMenuW extends GMenuBar {
 				addItem(MainMenu.getMenuBarHtml(
 						GuiResources.INSTANCE.menu_icon_exam24().getSafeUri()
 								.asString(),
-						app.getLocalization().getMenu("exam_menu_entry"), true), // "Exam
+						app.getLocalization().getMenu("exam_menu_entry")), // "Exam
 																					// Mode"
 						true, new MenuCommand(app) {
 
@@ -79,8 +79,8 @@ public class PerspectivesMenuW extends GMenuBar {
 		final int defID = Layout.getDefaultPerspectives(index).getDefaultID();
 		addItem(MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(icon),
 				app.getLocalization()
-						.getMenu(Layout.getDefaultPerspectives(index).getId()),
-				true), true,
+						.getMenu(Layout.getDefaultPerspectives(index).getId())),
+				true,
 				new MenuCommand(app) {
 
 					@Override
