@@ -19,9 +19,11 @@ public class AlgoVector3D extends AlgoVector {
 	 * constructor
 	 * 
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param P
+	 *            start point
 	 * @param Q
+	 *            end point
 	 */
 	public AlgoVector3D(Construction cons, GeoPointND P,
 			GeoPointND Q) {

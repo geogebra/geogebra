@@ -37,11 +37,11 @@ import org.geogebra.common.util.debug.Log;
  *
  * @author Boaz Ben Moshe 5/11/05 <br>
  *         The project uses some ideas presented in the VoroGuide project,
- *         written by Klasse f?r Kreise (1996-1997), For the original applet
+ *         written by Klasse fuer Kreise (1996-1997), For the original applet
  *         see: http://www.pi6.fernuni-hagen.de/GeomLab/VoroGlide/ . <br>
  */
 
-public class Delaunay_Triangulation {
+public class DelaunayTriangulation {
 
 	// the first and last points (used only for first step construction)
 	private PointDt firstP;
@@ -51,7 +51,9 @@ public class Delaunay_Triangulation {
 	public boolean allCollinear;
 
 	// the first and last triangles (used only for first step construction)
-	private TriangleDt firstT, lastT, currT;
+	private TriangleDt firstT;
+	private TriangleDt lastT;
+	private TriangleDt currT;
 
 	// the triangle the fond (search start from
 	private TriangleDt startTriangle;
@@ -69,15 +71,17 @@ public class Delaunay_Triangulation {
 	// The triangles that were added in the last deletePoint iteration.
 	private Vector<TriangleDt> addedTriangles;
 
-	private int _modCount = 0, _modCount2 = 0;
+	private int _modCount = 0;
+	private int _modCount2 = 0;
 
 	// the Bounding Box, {{x0,y0,z0} , {x1,y1,z1}}
-	private PointDt _bb_min, _bb_max;
+	private PointDt _bb_min;
+	private PointDt _bb_max;
 
 	/**
 	 * creates an empty Delaunay Triangulation.
 	 */
-	public Delaunay_Triangulation() {
+	public DelaunayTriangulation() {
 		this(new PointDt[] {});
 	}
 
@@ -88,7 +92,7 @@ public class Delaunay_Triangulation {
 	 * @param ps
 	 *            input
 	 */
-	public Delaunay_Triangulation(PointDt[] ps) {
+	public DelaunayTriangulation(PointDt[] ps) {
 		_modCount = 0;
 		_modCount2 = 0;
 		_bb_min = null;
@@ -1010,7 +1014,7 @@ public class Delaunay_Triangulation {
 
 		TriangleDt u = t.abnext, v;
 		t._mc = mc;
-		if (u.halfplane || !u.circumcircle_contains(t.c)) {
+		if (u.halfplane || !u.circumcircleContains(t.c)) {
 			return;
 		}
 		if (t.a == t.b) {
@@ -1061,9 +1065,9 @@ public class Delaunay_Triangulation {
 	 *
 	 * @return the number of vertices in the convex hull.
 	 */
-	public int CH_size() {
+	public int chSize() {
 		int ans = 0;
-		Iterator<PointDt> it = this.CH_vertices_Iterator();
+		Iterator<PointDt> it = this.chVerticesIterator();
 		while (it.hasNext()) {
 			ans++;
 			it.next();
@@ -1200,8 +1204,8 @@ public class Delaunay_Triangulation {
 		// Validating find result.
 		if (!triangle.isCorner(point)) {
 			Log.error(
-					"findConnectedVertices: Could not find connected vertices since the first found triangle doesn't"
-							+ " share the given point.");
+					"findConnectedVertices: Could not find connected vertices since"
+							+ " the first found triangle doesn't share the given point.");
 			return null;
 		}
 
@@ -1452,7 +1456,7 @@ public class Delaunay_Triangulation {
 	 * 
 	 * @return iterator to the set of all the points on the XY-convex hull.
 	 */
-	public Iterator<PointDt> CH_vertices_Iterator() {
+	public Iterator<PointDt> chVerticesIterator() {
 		Vector<PointDt> ans = new Vector<>();
 		TriangleDt curr = this.startTriangleHull;
 		boolean cont = true;

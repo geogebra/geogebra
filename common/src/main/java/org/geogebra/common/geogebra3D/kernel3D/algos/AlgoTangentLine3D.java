@@ -34,7 +34,8 @@ import org.geogebra.common.util.DoubleUtil;
  * @author mathieu
  */
 public class AlgoTangentLine3D extends AlgoTangentLineND {
-	private Coords direction, direction3D;
+	private Coords direction;
+	private Coords direction3D;
 
 	public AlgoTangentLine3D(Construction cons, String[] labels, GeoLineND g,
 			GeoConicND c) {

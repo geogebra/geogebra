@@ -55,7 +55,8 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	private GeoLineND line;
 	private FunctionVariable[] funVar;
 	private Path path;
-	private double[] min, max;
+	private double[] min;
+	private double[] max;
 
 	/**
 	 * 
@@ -164,13 +165,15 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	/**
 	 * creates a surface
 	 * 
-	 * @param cons
+	 * @param cons1
+	 *            construction
 	 * @param fun
+	 *            functions
 	 * @return a curve
 	 */
-	protected GeoSurfaceCartesian3D createSurface(Construction cons,
+	protected GeoSurfaceCartesian3D createSurface(Construction cons1,
 			FunctionNVar[] fun) {
-		return new GeoSurfaceCartesian3D(cons, null, fun);
+		return new GeoSurfaceCartesian3D(cons1, null, fun);
 	}
 
 	@Override
@@ -193,6 +196,9 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting surface
+	 */
 	public GeoSurfaceCartesianND getSurface() {
 		return surface;
 	}
@@ -243,7 +249,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 	}
 
-	public void transform(ParametricCurve curve, ExpressionValue[][] m,
+	private void transform(ParametricCurve curve, ExpressionValue[][] m,
 			FunctionNVar[] fun1, Coords startPoint) {
 
 		// current expressions
@@ -266,7 +272,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 	}
 
-	public static final void rotation4x4(Coords u, ExpressionValue angle,
+	private static final void rotation4x4(Coords u, ExpressionValue angle,
 			ExpressionValue[][] m) {
 
 		double ux = u.getX();

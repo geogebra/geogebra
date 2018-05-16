@@ -37,6 +37,14 @@ public class AlgoLengthPoint3D extends AlgoElement {
 	private GeoPointND p; // input
 	private GeoNumeric num; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param p
+	 *            point
+	 */
 	public AlgoLengthPoint3D(Construction cons, String label, GeoPointND p) {
 		super(cons);
 		this.p = p;

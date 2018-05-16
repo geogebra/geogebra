@@ -26,7 +26,8 @@ import org.geogebra.common.kernel.Matrix.Coords;
 public abstract class AlgoOrthoPlane extends AlgoElement3D {
 
 	private GeoPlane3D plane; // output
-	private Coords vn1 = new Coords(3), vn2 = new Coords(3);
+	private Coords vn1 = new Coords(3);
+	private Coords vn2 = new Coords(3);
 
 	/**
 	 * 

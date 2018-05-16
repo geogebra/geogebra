@@ -33,23 +33,12 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 	private Coords tmpCoords;
 
 	/**
-	 * 
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param P
+	 *            point
 	 * @param Q
-	 */
-	AlgoMidpoint3D(Construction cons, String label, GeoPointND P,
-			GeoPointND Q) {
-		this(cons, P, Q);
-		getPoint().setLabel(label);
-	}
-
-	/**
-	 * 
-	 * @param cons
-	 * @param P
-	 * @param Q
+	 *            point
 	 */
 	public AlgoMidpoint3D(Construction cons, GeoPointND P, GeoPointND Q) {
 		super(cons, P, Q);

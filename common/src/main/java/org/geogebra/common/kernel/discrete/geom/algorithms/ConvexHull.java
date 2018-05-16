@@ -30,12 +30,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.discrete.geom.LineAndPointUtils;
 import org.geogebra.common.kernel.discrete.geom.Point2D;
-import org.geogebra.common.kernel.discrete.geom.Segment2D;
 import org.geogebra.common.kernel.discrete.geom.algorithms.logging.LogEvent;
-import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.grahams_scan.GrahamsScanCompleteEvent;
-import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.grahams_scan.GrahamsScanSegmentAddEvent;
-import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.grahams_scan.GrahamsScanSegmentCheckEvent;
-import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.grahams_scan.GrahamsScanSegmentRemoveEvent;
 import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.jarvis_march.JarvisAddSegmentEvent;
 import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.jarvis_march.JarvisChainsDetectedEvent;
 import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.jarvis_march.JarvisPointSelectedEvent;
@@ -216,6 +211,13 @@ public class ConvexHull {
 		return index;
 	}
 
+	/**
+	 * @param points
+	 *            points
+	 * @param events
+	 *            events
+	 * @return list of convex hull points
+	 */
 	public static List<Point2D> jarvisMarch(List<Point2D> points,
 			List<LogEvent> events) {
 
@@ -258,16 +260,6 @@ public class ConvexHull {
 
 		return result;
 
-	}
-
-	private static double ccw(Point2D p1, Point2D p2, Point2D p3) {
-		/*
-		 * Three points are a counter-clockwise turn if ccw > 0, clockwise if
-		 * ccw < 0, and collinear if ccw = 0 because ccw is a determinant that
-		 * gives the signed area of the triangle formed by p1, p2, and p3.
-		 */
-		return (p2.getX() - p1.getX()) * (p3.getY() - p1.getY())
-				- (p2.getY() - p1.getY()) * (p3.getX() - p1.getX());
 	}
 
 	// public static List<Point2D> grahamsScan(List<Point2D> points,
@@ -362,107 +354,6 @@ public class ConvexHull {
 	// return result;
 	//
 	// }
-
-	public static List<Point2D> grahamsScan2(List<Point2D> points,
-			List<LogEvent> events) {
-
-		events.clear();
-
-		List<Point2D> result = new ArrayList<>();
-
-		if (points.size() > 2) {
-
-			// ----------------- Start of Graham's Scan
-
-			Collections.sort(points, new PointComparator());
-			Point2D startingPoint = points.get(0);
-
-			for (int i = 0; i < 30; i++) {
-				System.out.println();
-			}
-
-			int j = 0;
-			boolean stop = false;
-			while (j < points.size() && !stop) {
-				Point2D p = points.get(j);
-				if (p.getY() > startingPoint.getY()) {
-					break;
-				}
-				System.out.println(p.toString());
-				j++;
-			}
-
-			Collections.sort(points, new PolarAngleComparator(startingPoint));
-
-			Point2D endPoint = points.get(points.size() - 1);
-
-			// System.out.println("PUSH: "+points.get(0));
-			// System.out.println("PUSH: "+points.get(1));
-			// System.out.println("ADD :"+points.get(0)+" -> "+points.get(1));
-			events.add(new GrahamsScanSegmentAddEvent(
-					new Segment2D(points.get(0), points.get(1))));
-			int n = points.size();
-			int m = 1;
-			for (int i = 2; i < n; i++) {
-				// System.out.println("CHECK :"+points.get(m - 1)+",
-				// "+points.get(m)+" , "+points.get(i));
-				events.add(new GrahamsScanSegmentCheckEvent(
-						new Segment2D(points.get(m - 1), points.get(m)),
-						new Segment2D(points.get(m), points.get(i))));
-				while ((m > 0) && ccw(points.get(m - 1), points.get(m),
-						points.get(i)) <= 0) {
-
-					// System.out.println("POP: "+points.get(m));
-					// System.out.println("REMOVE :"+points.get(m-1)+" ->
-					// "+points.get(m));
-					events.add(new GrahamsScanSegmentRemoveEvent(
-							new Segment2D(points.get(m - 1), points.get(m))));
-					m--;
-					// System.out.println("CHECK :"+points.get(m - 1)+",
-					// "+points.get(m)+" , "+points.get(i));
-					if (m > 0) {
-						events.add(new GrahamsScanSegmentCheckEvent(
-								new Segment2D(points.get(m - 1), points.get(m)),
-								new Segment2D(points.get(m), points.get(i))));
-					}
-				}
-
-				m++;
-
-				// swap(points, m, i);
-				Collections.swap(points, m, i);
-
-				// System.out.println("PUSH: "+points.get(m));
-				// System.out.println("ADD :"+points.get(m-1)+" ->
-				// "+points.get(m));
-				events.add(new GrahamsScanSegmentAddEvent(
-						new Segment2D(points.get(m - 1), points.get(m))));
-
-			}
-
-			// System.out.println("PUSH: "+points.get(0));
-			// System.out.println("ADD :"+points.get(m)+" -> "+points.get(0));
-			events.add(new GrahamsScanSegmentAddEvent(
-					new Segment2D(points.get(m), points.get(0))));
-			events.add(new GrahamsScanCompleteEvent());
-
-			// ----------------- End of Graham's Scan
-
-			int i = 0;
-			Point2D p = null;
-			int max = points.size();
-			while ((i < max) && (p != endPoint)) {
-				p = points.get(i);
-				result.add(p);
-				i++;
-			}
-
-			result.add(startingPoint);
-
-		}
-		return result;
-
-	}
 
 	/*
 	 * public static void main(String[] args) { List<Point2D> points = new

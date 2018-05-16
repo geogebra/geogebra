@@ -19,6 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.jarvis_march;
 
 import org.geogebra.common.kernel.discrete.geom.Point2D;
@@ -35,6 +36,16 @@ public class JarvisPointsCheckEvent extends TemporaryLogEvent {
 	Double polarAngle;
 	boolean rightChain;
 
+	/**
+	 * @param p0
+	 *            point
+	 * @param p1
+	 *            point
+	 * @param polarAngle
+	 *            angle
+	 * @param rightChain
+	 *            right chain
+	 */
 	public JarvisPointsCheckEvent(Point2D p0, Point2D p1, Double polarAngle,
 			boolean rightChain) {
 

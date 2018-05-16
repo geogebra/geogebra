@@ -95,7 +95,9 @@ public class Manager3D implements Manager3DInterface {
 
 	private Kernel kernel;
 	private Construction cons;
-	private Coords tmpCoords, tmpCoords2, tmpCoords3;
+	private Coords tmpCoords;
+	private Coords tmpCoords2;
+	private Coords tmpCoords3;
 
 	/**
 	 * @param kernel
@@ -305,26 +307,24 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	@Override
 	final public GeoPoint3D midpoint(String label, GeoPointND P, GeoPointND Q) {
-		AlgoMidpoint3D algo = new AlgoMidpoint3D(cons, label, P, Q);
+		AlgoMidpoint3D algo = new AlgoMidpoint3D(cons, P, Q);
 		GeoPoint3D M = algo.getPoint();
+		M.setLabel(label);
 		return M;
 	}
 
 	@Override
 	public GeoPointND midpoint(String label, GeoSegmentND segment) {
-
-		AlgoMidpoint3D algo = new AlgoMidpointSegment3D(cons, label, segment);
+		AlgoMidpoint3D algo = new AlgoMidpointSegment3D(cons, segment);
 		GeoPoint3D M = algo.getPoint();
+		M.setLabel(label);
 		return M;
-
 	}
 
 	@Override
 	public GeoPointND center(String label, GeoConicND conic) {
-
 		AlgoCenterConic3D algo = new AlgoCenterConic3D(cons, label, conic);
 		return algo.getPoint();
-
 	}
 
 	@Override
@@ -332,7 +332,6 @@ public class Manager3D implements Manager3DInterface {
 		AlgoCenterQuadric algo = new AlgoCenterQuadric(cons, label,
 				(GeoQuadric3D) quadric);
 		return algo.getPoint();
-
 	}
 
 	/** Segment3D label linking points v1 and v2 */
@@ -474,7 +473,6 @@ public class Manager3D implements Manager3DInterface {
 		AlgoPolygon3D algo = new AlgoPolygon3D(cons, label, points, null);
 
 		return algo.getOutput();
-
 	}
 
 	@Override
@@ -484,7 +482,6 @@ public class Manager3D implements Manager3DInterface {
 				direction);
 
 		return algo.getOutput();
-
 	}
 
 	@Override
@@ -510,29 +507,24 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	@Override
 	final public GeoElement[] prism(String[] labels, GeoPointND[] points) {
-
 		AlgoPolyhedronPointsPrism algo = new AlgoPolyhedronPointsPrism(cons,
 				labels, points);
 
 		return algo.getOutput();
-
 	}
 
 	@Override
 	final public GeoElement[] prism(String[] labels, GeoPolygon polygon,
 			GeoPointND point) {
-
 		AlgoPolyhedronPointsPrism algo = new AlgoPolyhedronPointsPrism(cons,
 				labels, polygon, point);
 
 		return algo.getOutput();
-
 	}
 
 	@Override
 	final public GeoElement[] prism(String[] labels, GeoPolygon polygon,
 			GeoNumberValue height) {
-
 		AlgoPolyhedronPointsPrism algo = new AlgoPolyhedronPointsPrism(cons,
 				labels, polygon, height);
 
@@ -550,23 +542,19 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	@Override
 	final public GeoElement[] pyramid(String[] labels, GeoPointND[] points) {
-
 		AlgoPolyhedronPointsPyramid algo = new AlgoPolyhedronPointsPyramid(cons,
 				labels, points);
 
 		return algo.getOutput();
-
 	}
 
 	@Override
 	final public GeoElement[] pyramid(String[] labels, GeoPolygon polygon,
 			GeoPointND point) {
-
 		AlgoPolyhedronPointsPyramid algo = new AlgoPolyhedronPointsPyramid(cons,
 				labels, polygon, point);
 
 		return algo.getOutput();
-
 	}
 
 	@Override
@@ -714,7 +702,7 @@ public class Manager3D implements Manager3DInterface {
 			GeoNumberValue height) {
 		AlgoQuadricLimitedConicHeightCone algo = new AlgoQuadricLimitedConicHeightCone(
 				cons, labels, bottom, height);
-		algo.update();// ensure volume is correctly computed
+		algo.update(); // ensure volume is correctly computed
 		return algo.getOutput();
 	}
 
@@ -749,7 +737,7 @@ public class Manager3D implements Manager3DInterface {
 			GeoPointND origin, GeoPointND secondPoint, GeoNumberValue r) {
 		AlgoQuadricLimitedPointPointRadius algo = new AlgoQuadricLimitedPointPointRadiusCylinder(
 				cons, labels, origin, secondPoint, r);
-		algo.update();// ensure volume is correctly computed
+		algo.update(); // ensure volume is correctly computed
 		return algo.getOutput();
 	}
 
@@ -758,7 +746,7 @@ public class Manager3D implements Manager3DInterface {
 			GeoConicND bottom, GeoNumberValue height) {
 		AlgoQuadricLimitedConicHeightCylinder algo = new AlgoQuadricLimitedConicHeightCylinder(
 				cons, labels, bottom, height);
-		algo.update();// ensure volume is correctly computed
+		algo.update(); // ensure volume is correctly computed
 		return algo.getOutput();
 	}
 
@@ -826,7 +814,6 @@ public class Manager3D implements Manager3DInterface {
 		circle.update();
 		kernel.notifyUpdate(circle);
 		return circle;
-
 	}
 
 	@Override
@@ -857,7 +844,6 @@ public class Manager3D implements Manager3DInterface {
 		circle.update();
 		kernel.notifyUpdate(circle);
 		return circle;
-
 	}
 
 	/**
@@ -960,7 +946,6 @@ public class Manager3D implements Manager3DInterface {
 			return algo.getOutput();
 		}
 		return null;
-
 	}
 
 	@Override
@@ -974,7 +959,6 @@ public class Manager3D implements Manager3DInterface {
 		}
 
 		return null;
-
 	}
 
 	@Override
@@ -1000,7 +984,6 @@ public class Manager3D implements Manager3DInterface {
 				cons, (GeoPlane3D) plane, p);
 		algo.update();
 		return algo.getOutput();
-
 	}
 
 	@Override
@@ -1015,7 +998,6 @@ public class Manager3D implements Manager3DInterface {
 		}
 
 		return null;
-
 	}
 
 	@Override
@@ -1029,7 +1011,6 @@ public class Manager3D implements Manager3DInterface {
 		}
 
 		return null;
-
 	}
 
 	@Override
@@ -1114,7 +1095,6 @@ public class Manager3D implements Manager3DInterface {
 				new GeoNumberValue[] { Uto, Vto });
 
 		return algo.getFunction();
-
 	}
 
 	@Override
@@ -1127,15 +1107,15 @@ public class Manager3D implements Manager3DInterface {
 				new GeoNumberValue[] { xTo, yTo });
 
 		return algo.getFunction();
-
 	}
 
 	// //////////////////////////////////////////////
 	// 3D CURVE (1 VAR)
 
 	/**
-	 * 3D Cartesian curve command: Curve[ <expression x-coord>, <expression
-	 * y-coord>, <expression z-coord>, <number-var>, <from>, <to> ]
+	 * 3D Cartesian curve command: Curve[ &lt;expression x-coord>,
+	 * &lt;expression y-coord>, &lt;expression z-coord>, &lt;number-var>,
+	 * &lt;from>, &lt;to> ]
 	 */
 	@Override
 	final public GeoCurveCartesian3D curveCartesian3D(GeoNumberValue xcoord,
@@ -1162,7 +1142,6 @@ public class Manager3D implements Manager3DInterface {
 				new GeoNumberValue[] { uFrom, vFrom },
 				new GeoNumberValue[] { uTo, vTo });
 		return algo.getSurface();
-
 	}
 
 	@Override
@@ -1938,7 +1917,6 @@ public class Manager3D implements Manager3DInterface {
 				cons, labels, A, B, algoPoint.getP(), name);
 
 		return algo.getOutput();
-
 	}
 
 	final private void createTmpCoords() {
@@ -2024,7 +2002,6 @@ public class Manager3D implements Manager3DInterface {
 
 		Transform t = new TransformDilate3D(cons, r, S);
 		return t.transform(geoDil, label);
-
 	}
 
 	@Override
@@ -2035,8 +2012,8 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoNumeric orientedHeight(String label, HasHeight hasHeight) {
-		AlgoOrientedHeight algo = new AlgoOrientedHeight(cons, label,
-				hasHeight);
+		AlgoOrientedHeight algo = new AlgoOrientedHeight(cons, hasHeight);
+		algo.getOrientedHeight().setLabel(label);
 		return algo.getOrientedHeight();
 	}
 
@@ -2099,7 +2076,6 @@ public class Manager3D implements Manager3DInterface {
 		 * algo = new AlgoPolyhedronNetConvex(cons, labels, (GeoPolyhedron) p,
 		 * v, bottomFace, pivotSegments); return algo.getOutput();
 		 */
-
 	}
 
 	@Override
@@ -2237,7 +2213,6 @@ public class Manager3D implements Manager3DInterface {
 		AlgoSemicircle3D algo = new AlgoSemicircle3D(cons, label, A, B,
 				orientation);
 		return algo.getSemicircle();
-
 	}
 
 	/**
@@ -2327,7 +2302,6 @@ public class Manager3D implements Manager3DInterface {
 		AlgoLineBisectorSegmentDirection3D algo = new AlgoLineBisectorSegmentDirection3D(
 				cons, label, segment, orientation);
 		return algo.getLine();
-
 	}
 
 	@Override
@@ -2346,7 +2320,6 @@ public class Manager3D implements Manager3DInterface {
 		AlgoLineBisectorTwoPointsDirection3D algo = new AlgoLineBisectorTwoPointsDirection3D(
 				cons, label, a, b, orientation);
 		return algo.getLine();
-
 	}
 
 	@Override
@@ -2389,7 +2362,6 @@ public class Manager3D implements Manager3DInterface {
 				cons, label, A, B, C, orientation, type);
 
 		return algo.getConic();
-
 	}
 
 	@Override
@@ -2421,7 +2393,6 @@ public class Manager3D implements Manager3DInterface {
 		}
 
 		return kernel.tangent(label, point, (GeoCurveCartesian) curve);
-
 	}
 
 	@Override

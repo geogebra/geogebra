@@ -28,15 +28,29 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * @author mathieu
  */
 public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
-
-	private GeoPointND a, b; // input
-	private GeoDirectionND direction; // input
+	// input
+	private GeoPointND a;
+	private GeoPointND b;
+	private GeoDirectionND direction;
 
 	private GeoLine3D line; // output
 
-	private Coords d = new Coords(3), d1 = new Coords(3),
-			midpoint = new Coords(3);
+	private Coords d = new Coords(3);
+	private Coords d1 = new Coords(3);
+	private Coords midpoint = new Coords(3);
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            first point
+	 * @param b
+	 *            second point
+	 * @param direction
+	 *            direction
+	 */
 	public AlgoLineBisectorTwoPointsDirection3D(Construction cons, String label,
 			GeoPointND a, GeoPointND b, GeoDirectionND direction) {
 		super(cons);

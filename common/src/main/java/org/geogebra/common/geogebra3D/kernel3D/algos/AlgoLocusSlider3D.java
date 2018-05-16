@@ -28,7 +28,9 @@ import org.geogebra.common.util.MyMath;
  */
 public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 
-	private double[] maxZdist, farZmin, farZmax;
+	private double[] maxZdist;
+	private double[] farZmin;
+	private double[] farZmax;
 	private double lastZ;
 
 	private static int MAX_Z_PIXEL_DIST = MAX_X_PIXEL_DIST;

@@ -44,7 +44,7 @@ public class AlgoTravelingSalesman extends AlgoDiscrete {
 			return;
 		}
 
-		double inhom[] = new double[2];
+		double[] inhom = new double[2];
 
 		// Opt3 opt3 = new Opt3();
 		// final BranchBound construction = new BranchBound(500, opt3);

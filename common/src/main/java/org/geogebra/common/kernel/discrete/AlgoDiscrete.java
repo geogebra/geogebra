@@ -61,7 +61,6 @@ public abstract class AlgoDiscrete extends AlgoElement implements GraphAlgo {
 		input = new GeoElement[1];
 		input[0] = inputList;
 
-
 		setOnlyOutput(locus);
 		setDependencies(); // done by AlgoElement
 	}

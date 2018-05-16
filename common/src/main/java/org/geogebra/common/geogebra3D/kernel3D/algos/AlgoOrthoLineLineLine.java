@@ -29,6 +29,16 @@ public class AlgoOrthoLineLineLine extends AlgoOrthoLineLine {
 
 	private GeoLineND line2; // input
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param line1
+	 *            first line
+	 * @param line2
+	 *            second line
+	 */
 	public AlgoOrthoLineLineLine(Construction cons, String label,
 			GeoLineND line1, GeoLineND line2) {
 		super(cons, line1);

@@ -17,18 +17,21 @@ public class AlgoVertexConic3D extends AlgoVertexConic {
 	 * constructor
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param c
+	 *            conic
 	 */
 	public AlgoVertexConic3D(Construction cons, String[] labels, GeoConicND c) {
 		super(cons, labels, c);
 	}
 
 	@Override
-	protected void createVertex(Construction cons) {
+	protected void createVertex(Construction cons1) {
 		vertex = new GeoPoint3D[4];
 		for (int i = 0; i < vertex.length; i++) {
-			vertex[i] = new GeoPoint3D(cons);
+			vertex[i] = new GeoPoint3D(cons1);
 		}
 	}
 

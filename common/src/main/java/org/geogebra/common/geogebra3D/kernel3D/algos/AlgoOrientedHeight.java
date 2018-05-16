@@ -35,17 +35,18 @@ public class AlgoOrientedHeight extends AlgoElement {
 	private HasHeight c; // input
 	private GeoNumeric num; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param c
+	 *            solid
+	 */
 	public AlgoOrientedHeight(Construction cons, HasHeight c) {
 		super(cons);
 		this.c = c;
 		num = new GeoNumeric(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
-	}
-
-	public AlgoOrientedHeight(Construction cons, String label, HasHeight c) {
-		this(cons, c);
-		num.setLabel(label);
 	}
 
 	@Override

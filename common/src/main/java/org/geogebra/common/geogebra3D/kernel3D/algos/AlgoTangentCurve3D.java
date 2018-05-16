@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -39,7 +40,8 @@ import org.geogebra.common.plugin.Operation;
 public class AlgoTangentCurve3D extends AlgoLinePoint {
 
 	private GeoPointND P; // input
-	private GeoCurveCartesian3D f, df; // input f
+	private GeoCurveCartesian3D f; // input f
+	private GeoCurveCartesian3D df;
 	private GeoLine3D tangent; // output
 	private GeoPointND T;
 	private boolean pointOnCurve;
@@ -47,8 +49,8 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 	private ExpressionValue pointOnCurveSpecialParam;
 	private AlgoDerivative algo;
 
-	private double feval[] = new double[3];
-	private double dfeval[] = new double[3];
+	private double[] feval = new double[3];
+	private double[] dfeval = new double[3];
 	private Coords direction = new Coords(0, 0, 0, 1);
 
 	/**

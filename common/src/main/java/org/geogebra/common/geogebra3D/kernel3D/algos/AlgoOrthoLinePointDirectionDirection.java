@@ -28,12 +28,25 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * @author matthieu
  */
 public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
-
-	private GeoPointND point; // input
-	private GeoDirectionND direction1, direction2; // input
+	// input
+	private GeoPointND point;
+	private GeoDirectionND direction1;
+	private GeoDirectionND direction2;
 
 	private GeoLine3D line; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param point
+	 *            point
+	 * @param direction1
+	 *            orthogonal direction
+	 * @param direction2
+	 *            orthogonal direction
+	 */
 	public AlgoOrthoLinePointDirectionDirection(Construction cons, String label,
 			GeoPointND point, GeoDirectionND direction1,
 			GeoDirectionND direction2) {
@@ -93,7 +106,6 @@ public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 		return getLoc().getPlain("LineThroughAPerpendicularToBAndC",
 				point.getLabel(tpl), direction1.getLabel(tpl),
 				direction2.getLabel(tpl));
-
 	}
 
 }

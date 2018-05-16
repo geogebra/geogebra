@@ -48,6 +48,17 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 
 	/**
 	 * Creates new unlabeled point rotation algo
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param in
+	 *            rotated geo
+	 * @param angle
+	 *            angle
+	 * @param center
+	 *            center
+	 * @param orientation
+	 *            (axis) orientation
 	 */
 	public AlgoRotate3DPointOrientation(Construction cons, GeoElement in,
 			GeoNumberValue angle, GeoPointND center,

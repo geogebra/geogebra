@@ -28,7 +28,9 @@ import org.geogebra.common.util.MyMath;
  */
 public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 
-	private double[] maxZdist, farZmin, farZmax;
+	private double[] maxZdist;
+	private double[] farZmin;
+	private double[] farZmax;
 	private double lastZ;
 
 	private static int MAX_Z_PIXEL_DIST = MAX_X_PIXEL_DIST;
@@ -49,6 +51,7 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 			int min_steps, boolean registerCE) {
 		super(cons, Q, P, min_steps, registerCE);
 	}
+
 	/**
 	 * @param cons
 	 *            construction
@@ -63,7 +66,6 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 			GeoPointND P) {
 		super(cons, label, Q, P);
 	}
-
 
 	@Override
 	protected void createMaxDistances() {
@@ -94,7 +96,6 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 			farZmin[i] = Double.NEGATIVE_INFINITY;
 			farZmax[i] = Double.POSITIVE_INFINITY;
 		}
-
 	}
 
 	@Override
@@ -112,8 +113,6 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	protected GeoLocus3D newGeoLocus(Construction cons1) {
 		return new GeoLocus3D(cons1);
 	}
-
-
 
 	@Override
 	protected boolean isFarAway(GeoPointND point, int i) {

@@ -34,12 +34,20 @@ import org.geogebra.common.kernel.kernelND.RotateableND;
  */
 public abstract class AlgoRotate3D extends AlgoTransformation {
 
-	protected GeoElement inGeo, outGeo;
+	protected GeoElement inGeo;
+	protected GeoElement outGeo;
 	protected RotateableND out;
 	protected GeoNumberValue angle;
 
 	/**
-	 * Creates new unlabeled point rotation algo
+	 * Creates new unlabeled rotation algo
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param in
+	 *            rotated geo
+	 * @param angle
+	 *            angle
 	 */
 	public AlgoRotate3D(Construction cons, GeoElement in,
 			GeoNumberValue angle) {
@@ -53,11 +61,10 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 		if (!(outGeo instanceof GeoList)) {
 			out = (RotateableND) outGeo;
 		}
-
 	}
 
 	/**
-	 * 
+	 * Set output.
 	 */
 	protected void setOutput() {
 

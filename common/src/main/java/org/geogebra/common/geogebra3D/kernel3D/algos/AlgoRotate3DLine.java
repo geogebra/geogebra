@@ -47,6 +47,15 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
 
 	/**
 	 * Creates new unlabeled point rotation algo
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param in
+	 *            rotated geo
+	 * @param angle
+	 *            angle
+	 * @param line
+	 *            axis
 	 */
 	public AlgoRotate3DLine(Construction cons, GeoElement in,
 			GeoNumberValue angle, GeoLineND line) {

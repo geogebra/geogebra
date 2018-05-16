@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.discrete.delaunay.Delaunay_Triangulation;
+import org.geogebra.common.kernel.discrete.delaunay.DelaunayTriangulation;
 import org.geogebra.common.kernel.discrete.delaunay.PointDt;
 import org.geogebra.common.kernel.discrete.delaunay.TriangleDt;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -50,7 +50,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 			return;
 		}
 
-		double inhom[] = new double[2];
+		double[] inhom = new double[2];
 
 		ArrayList<Double> xcoords = new ArrayList<>();
 		ArrayList<Double> ycoords = new ArrayList<>();
@@ -98,7 +98,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 
 		}
 
-		Delaunay_Triangulation dt = new Delaunay_Triangulation(points);
+		DelaunayTriangulation dt = new DelaunayTriangulation(points);
 
 		if (dt.allCollinear) {
 			locus.setUndefined();

@@ -35,7 +35,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoSemicircle3D extends AlgoElement {
 
-	private GeoPointND A, B; // input
+	private GeoPointND A; // input
+	private GeoPointND B; // input
 	private GeoDirectionND orientation; // input
 	private GeoConicPart3D conicPart; // output
 
@@ -72,6 +73,8 @@ public class AlgoSemicircle3D extends AlgoElement {
 	 *            first endpoint
 	 * @param B
 	 *            second endpoint
+	 * @param orientation
+	 *            orientation
 	 */
 	public AlgoSemicircle3D(Construction cons, GeoPointND A, GeoPointND B,
 			GeoDirectionND orientation) {

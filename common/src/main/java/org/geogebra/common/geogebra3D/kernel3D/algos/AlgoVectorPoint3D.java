@@ -19,13 +19,22 @@ public class AlgoVectorPoint3D extends AlgoVectorPoint {
 	 * constructor
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param P
+	 *            point
 	 */
 	public AlgoVectorPoint3D(Construction cons, String label, GeoPointND P) {
 		super(cons, label, P);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param P
+	 *            point
+	 */
 	public AlgoVectorPoint3D(Construction cons, GeoPointND P) {
 		super(cons, P);
 	}

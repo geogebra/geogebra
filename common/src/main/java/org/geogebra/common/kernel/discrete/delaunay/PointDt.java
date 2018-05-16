@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.discrete.delaunay;
 
 import java.util.Comparator;
 
-import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -26,12 +25,14 @@ public class PointDt {
 	public final static int BEHINDB = 4;
 	public final static int ERROR = 5;
 
-	double x, y, z;
+	double x;
+	double y;
+	double z;
 
 	@Override
 	public int hashCode() {
 
-		double tempArray[] = { x, y, z };
+		double[] tempArray = { x, y, z };
 
 		return java.util.Arrays.hashCode(tempArray);
 	}
@@ -155,8 +156,8 @@ public class PointDt {
 	 * @return true if less than this
 	 */
 	boolean isLess(PointDt p) {
-		return Compare.lessThan(x, p.x)
-				|| (Compare.equals(x, p.x) && Compare.lessThan(y, p.y));
+		return ComparePoint.lessThan(x, p.x)
+				|| (ComparePoint.equals(x, p.x) && ComparePoint.lessThan(y, p.y));
 	}
 
 	/**
@@ -165,8 +166,8 @@ public class PointDt {
 	 * @return true if greater than this
 	 */
 	boolean isGreater(PointDt p) {
-		return Compare.greaterThan(x, p.x)
-				|| (Compare.equals(x, p.x) && Compare.greaterThan(y, p.y));
+		return ComparePoint.greaterThan(x, p.x)
+				|| (ComparePoint.equals(x, p.x) && ComparePoint.greaterThan(y, p.y));
 	}
 
 	/**
@@ -180,8 +181,8 @@ public class PointDt {
 			return false;
 		}
 
-		return Compare.equals(x, ((PointDt) p).x)
-				&& Compare.equals(y, ((PointDt) p).y);
+		return ComparePoint.equals(x, ((PointDt) p).x)
+				&& ComparePoint.equals(y, ((PointDt) p).y);
 	}
 
 	/** @return a String in the [x,y,z] format */
@@ -321,108 +322,10 @@ public class PointDt {
 	}
 
 	public static Comparator<PointDt> getComparator(int flag) {
-		return new Compare(flag);
+		return new ComparePoint(flag);
 	}
 
 	public static Comparator<PointDt> getComparator() {
-		return new Compare(0);
+		return new ComparePoint(0);
 	}
-}
-
-class Compare implements Comparator<PointDt> {
-	private int _flag;
-
-	public Compare(int i) {
-		_flag = i;
-	}
-
-	/** compare between two points. */
-	@Override
-	public int compare(PointDt d1, PointDt d2) {
-		int ans = 0;
-		if (d1 != null && d2 != null) {
-			if (_flag == 0) {
-				if (greaterThan(d1.x, d2.x)) {
-					return 1;
-				}
-				if (lessThan(d1.x, d2.x)) {
-					return -1;
-				}
-				// x1 == x2
-				if (greaterThan(d1.y, d2.y)) {
-					return 1;
-				}
-				if (lessThan(d1.y, d2.y)) {
-					return -1;
-				}
-			} else if (_flag == 1) {
-				if (greaterThan(d1.x, d2.x)) {
-					return -1;
-				}
-				if (lessThan(d1.x, d2.x)) {
-					return 1;
-				}
-				// x1 == x2
-				if (greaterThan(d1.y, d2.y)) {
-					return -1;
-				}
-				if (lessThan(d1.y, d2.y)) {
-					return 1;
-				}
-			} else if (_flag == 2) {
-				if (greaterThan(d1.y, d2.y)) {
-					return 1;
-				}
-				if (lessThan(d1.y, d2.y)) {
-					return -1;
-				}
-				// y1 == y2
-				if (greaterThan(d1.x, d2.x)) {
-					return 1;
-				}
-				if (d1.x < d2.x) {
-					return -1;
-				}
-
-			} else if (_flag == 3) {
-				if (greaterThan(d1.y, d2.y)) {
-					return -1;
-				}
-				if (d1.y < d2.y) {
-					return 1;
-				}
-				// y1 == y2
-				if (greaterThan(d1.x, d2.x)) {
-					return -1;
-				}
-				if (lessThan(d1.x, d2.x)) {
-					return 1;
-				}
-			}
-		} else {
-			if (d1 == null && d2 == null) {
-				return 0;
-			}
-			if (d1 == null && d2 != null) {
-				return 1;
-			}
-			if (d1 != null && d2 == null) {
-				return -1;
-			}
-		}
-		return ans;
-	}
-
-	public static boolean greaterThan(double x, double y) {
-		return DoubleUtil.isGreater(x, y);
-	}
-
-	public static boolean lessThan(double x, double y) {
-		return DoubleUtil.isGreater(y, x);
-	}
-
-	public static boolean equals(double x, double y) {
-		return DoubleUtil.isEqual(x, y);
-	}
-
 }

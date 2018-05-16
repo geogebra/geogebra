@@ -33,15 +33,22 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
  */
 public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param M
+	 *            center
+	 * @param r
+	 *            radius
+	 */
 	public AlgoSpherePointRadius(Construction cons, GeoPointND M,
 			GeoNumberValue r) {
 		super(cons, M, r);
 	}
 
 	@Override
-	protected GeoQuadricND createSphereND(Construction cons) {
-		return new GeoQuadric3D(cons);
+	protected GeoQuadricND createSphereND(Construction cons1) {
+		return new GeoQuadric3D(cons1);
 	}
 
 	@Override
@@ -49,6 +56,9 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 		return Commands.Sphere;
 	}
 
+	/**
+	 * @return resulting sphere
+	 */
 	public GeoQuadric3D getSphere() {
 		return (GeoQuadric3D) getSphereND();
 	}

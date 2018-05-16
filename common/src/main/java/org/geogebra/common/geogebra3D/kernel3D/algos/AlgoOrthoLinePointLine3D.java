@@ -29,6 +29,16 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param point
+	 *            point
+	 * @param line
+	 *            orthogonal line
+	 */
 	public AlgoOrthoLinePointLine3D(Construction cons, String label,
 			GeoPointND point, GeoLineND line) {
 		super(cons, label, point, (GeoElement) line);

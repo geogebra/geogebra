@@ -13,15 +13,22 @@ import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoUnitVector3D extends AlgoUnitVector {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param line
+	 *            line
+	 * @param normalize
+	 *            whether to return unit vector
+	 */
 	public AlgoUnitVector3D(Construction cons, GeoDirectionND line,
 			boolean normalize) {
 		super(cons, (GeoElement) line, normalize);
 	}
 
 	@Override
-	protected GeoVectorND createVector(Construction cons) {
-		GeoVector3D ret = new GeoVector3D(cons);
-		return ret;
+	protected GeoVectorND createVector(Construction cons1) {
+		return new GeoVector3D(cons1);
 	}
 
 	@Override

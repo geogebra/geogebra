@@ -152,7 +152,7 @@ public class PolygonTriangulation {
 		}
 	}
 
-	final private Comparator<Point> nonSelfIntersectingPolygonPointComparator = new Comparator<Point>() {
+	final private Comparator<Point> simplePolygonPointComparator = new Comparator<Point>() {
 
 		@Override
 		public int compare(Point p1, Point p2) {
@@ -204,13 +204,16 @@ public class PolygonTriangulation {
 	};
 
 	private class Point implements Comparable<Point> {
-		public double x, y;
+		public double x;
+		public double y;
 		public int id;
 		public String name;
 		public double orientationToNext;
-		Point prev, next; // previous and next point
+		Point prev; // previous point
+		Point next; // next point
 
-		MyTreeSet<Segment> toRight, toLeft;
+		MyTreeSet<Segment> toRight;
+		MyTreeSet<Segment> toLeft;
 
 		boolean needsDiagonal = false;
 
@@ -242,10 +245,9 @@ public class PolygonTriangulation {
 				}
 			}
 			if (toRight != null) {
-
 				s.append("/ to right : ");
 				for (Segment segment : toRight) {
-					s.append( ((int) (segment.orientation * 180 / Math.PI)));
+					s.append(((int) (segment.orientation * 180 / Math.PI)));
 					s.append(Unicode.DEGREE_CHAR);
 					s.append(':');
 					s.append(segment.rightPoint.name);
@@ -415,15 +417,19 @@ public class PolygonTriangulation {
 
 	private class Segment implements Comparable<Segment> {
 		double orientation;
-		Point leftPoint, rightPoint;
-		Segment above, below;
+		Point leftPoint;
+		Point rightPoint;
+		Segment above;
+		Segment below;
 		Segment next;
 		int usable = 1;
 
 		Running running = Running.STOP;
 
 		// equation vector
-		double x, y, z;
+		double x;
+		double y;
+		double z;
 		private boolean equationNeedsUpdate = true;
 
 		public Segment() {
@@ -660,8 +666,6 @@ public class PolygonTriangulation {
 	/**
 	 * set point id
 	 * 
-	 * @param point
-	 * @param i
 	 */
 	private void setName(Point point, int i) {
 		if (DEBUG) {
@@ -674,6 +678,7 @@ public class PolygonTriangulation {
 	 * set point id
 	 * 
 	 * @param point
+	 *            point
 	 * @param s
 	 *            name
 	 */
@@ -767,7 +772,6 @@ public class PolygonTriangulation {
 			// re-add first corner
 			point = addPointToChain(point, corners[0].getX(), corners[0].getY(),
 					"c", 0);
-
 		}
 
 		int n = point.id + 1;
@@ -837,7 +841,8 @@ public class PolygonTriangulation {
 					// index is going back
 					i--;
 					// set correct orientation
-					// error(prevPoint.orientationToNext*180/Math.PI+"/"+nextPoint.orientationToNext*180/Math.PI);
+					// error(prevPoint.orientationToNext*180/Math.PI+
+					// "/"+nextPoint.orientationToNext*180/Math.PI);
 					prevPoint.orientationToNext = nextPoint.orientationToNext;
 					// go back
 					point = prevPoint;
@@ -876,7 +881,6 @@ public class PolygonTriangulation {
 				prevPoint = point;
 				point = nextPoint;
 			}
-
 		}
 
 		firstPoint = point; // in case old firstPoint has been removed
@@ -967,7 +971,6 @@ public class PolygonTriangulation {
 		}
 
 		return Convexity.NOT;
-
 	}
 
 	// ////////////////////////////////////
@@ -1328,7 +1331,7 @@ public class PolygonTriangulation {
 
 		while (!pointSet.isEmpty()) {
 			PolygonPoints polygonPoints = new PolygonPoints(
-					nonSelfIntersectingPolygonPointComparator);
+					simplePolygonPointComparator);
 			Point start = pointSet.first();
 			Segment segStart = start.toRight.first();
 
@@ -1533,9 +1536,6 @@ public class PolygonTriangulation {
 
 	/**
 	 * 
-	 * @param a
-	 * @param b
-	 * @param pointSet
 	 * @throws TriangulationException
 	 *             exception if an intersection is a segment left point (should
 	 *             not occur, unless due to numerical precision)
@@ -1716,6 +1716,7 @@ public class PolygonTriangulation {
 	 * list
 	 * 
 	 * @param polygonPoints
+	 *            points
 	 */
 	private void triangulate(PolygonPoints polygonPoints) {
 

@@ -19,11 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.geogebra.common.kernel.discrete.geom;
 
-import java.io.PrintStream;
-import java.util.Iterator;
-import java.util.List;
+package org.geogebra.common.kernel.discrete.geom;
 
 /**
  *
@@ -41,6 +38,13 @@ public class LineAndPointUtils {
 		LineAndPointUtils.errorTolerance = errorTolerance;
 	}
 
+	/**
+	 * @param s1
+	 *            segment
+	 * @param s2
+	 *            segment
+	 * @return intersection
+	 */
 	public static Point2D computeIntersectionPoint(Segment2D s1, Segment2D s2) {
 
 		if ((s1 == null) || (s2 == null)) {
@@ -64,6 +68,15 @@ public class LineAndPointUtils {
 
 	}
 
+	/**
+	 * @param p
+	 *            point
+	 * @param segmentPoint1
+	 *            segment start point
+	 * @param segmentPoint2
+	 *            segment end point
+	 * @return whether point is on segment
+	 */
 	public static boolean isOnSegment(Point2D p, Point2D segmentPoint1,
 			Point2D segmentPoint2) {
 
@@ -93,6 +106,17 @@ public class LineAndPointUtils {
 
 	}
 
+	/**
+	 * @param line1Point1
+	 *            first line point
+	 * @param line1Point2
+	 *            first line point
+	 * @param line2Point1
+	 *            second line point
+	 * @param line2Point2
+	 *            second line point
+	 * @return intersection of lines
+	 */
 	public static Point2D findIntersectionPointOfLines(Point2D line1Point1,
 			Point2D line1Point2, Point2D line2Point1, Point2D line2Point2) {
 
@@ -160,32 +184,24 @@ public class LineAndPointUtils {
 
 	}
 
+	/**
+	 * @param p1
+	 *            point
+	 * @param p2
+	 *            point
+	 * @return whether points are equal
+	 */
 	public static boolean pointsAreEqual(Point2D p1, Point2D p2) {
-		Double x1 = p1.getX();
-		Double y1 = p1.getY();
-		Double x2 = p2.getX();
-		Double y2 = p2.getY();
+		double x1 = p1.getX();
+		double y1 = p1.getY();
+		double x2 = p2.getX();
+		double y2 = p2.getY();
 
 		if ((Math.abs(y2 - y1) <= errorTolerance)
 				&& (Math.abs(x2 - x1) <= errorTolerance)) {
 			return true;
 		}
 		return false;
-	}
-
-	public static void printPointsList(List<Point2D> points, PrintStream out) {
-		boolean first = true;
-		for (Iterator<Point2D> it = points.iterator(); it.hasNext();) {
-			Point2D point2D = it.next();
-			if (first) {
-				first = false;
-			} else {
-				out.print(" -> ");
-			}
-			out.print(point2D.toString());
-		}
-
-		out.println();
 	}
 
 }

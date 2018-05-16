@@ -32,6 +32,14 @@ public class SegmentsIntersection extends Intersection {
 	private Segment2DEx s1;
 	private Segment2DEx s2;
 
+	/**
+	 * @param p0
+	 *            intersection point
+	 * @param s1
+	 *            segment
+	 * @param s2
+	 *            segment
+	 */
 	public SegmentsIntersection(Point2D p0, Segment2DEx s1, Segment2DEx s2) {
 		super(p0);
 		this.s1 = s1;

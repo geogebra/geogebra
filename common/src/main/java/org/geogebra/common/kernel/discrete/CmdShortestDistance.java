@@ -10,8 +10,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * ShortestDistance[ <List of Segments>, <Start Point>, <End Point>, <Boolean
- * Weighted> ] Michael Borcherds 2008-03-04
+ * ShortestDistance[ &lt;List of Segments>, &lt;Start Point>, &lt;End Point>,
+ * &lt;Boolean Weighted> ]
+ * 
+ * @author Michael Borcherds
  */
 public class CmdShortestDistance extends CommandProcessor {
 

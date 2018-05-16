@@ -29,6 +29,16 @@ public abstract class AlgoOrtho extends AlgoElement3D {
 	protected GeoElement inputOrtho; // input
 	protected GeoLine3D line; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param point
+	 *            point
+	 * @param ortho
+	 *            orthogonal object (line or plane)
+	 */
 	public AlgoOrtho(Construction cons, String label, GeoPointND point,
 			GeoElement ortho) {
 		super(cons);

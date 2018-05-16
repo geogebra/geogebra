@@ -31,7 +31,8 @@ import org.geogebra.common.util.DoubleUtil;
 public class AlgoTangentPoint3D extends AlgoTangentPointND {
 	private double[] polarCoords;
 
-	private Coords polarOrigin, polarDirection;
+	private Coords polarOrigin;
+	private Coords polarDirection;
 	private Coords coords2D;
 
 	public AlgoTangentPoint3D(Construction cons, String[] labels, GeoPointND P,

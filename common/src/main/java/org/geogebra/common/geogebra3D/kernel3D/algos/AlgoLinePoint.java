@@ -31,6 +31,16 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 	private GeoElement inputParallel; // input
 	private GeoLine3D line; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param point
+	 *            point
+	 * @param inputParallel
+	 *            parallel line or vector
+	 */
 	public AlgoLinePoint(Construction cons, String label, GeoPointND point,
 			GeoElement inputParallel) {
 		super(cons);

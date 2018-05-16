@@ -178,9 +178,9 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 		List<MyLink> list = alg.getPath(startNode, endNode);
 
-		double inhom1[] = new double[2];
-		double inhom2[] = new double[2];
-		double inhomLast[] = new double[2];
+		double[] inhom1 = new double[2];
+		double[] inhom2 = new double[2];
+		double[] inhomLast = new double[2];
 
 		MyNode n1, n2;
 		MyLink link = list.get(0);

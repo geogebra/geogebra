@@ -21,7 +21,8 @@ public class TriangleDt {
 	// public boolean visitflag;
 	boolean _mark = false; // tag - for bfs algorithms
 	// private static boolean visitValue=false;
-	public static int _counter = 0, _c2 = 0;
+	// public static int _counter = 0;
+	// public static int _c2 = 0;
 
 	// public int _id;
 	/**
@@ -230,7 +231,7 @@ public class TriangleDt {
 		return circum;
 	}
 
-	boolean circumcircle_contains(PointDt p) {
+	boolean circumcircleContains(PointDt p) {
 
 		return circum.radius() > circum.center().distance2(p);
 	}
@@ -327,6 +328,11 @@ public class TriangleDt {
 	}
 
 	// Doron
+	/**
+	 * @param arrayPoints
+	 *            array of points
+	 * @return whether all points are inside circumcircle around the first three
+	 */
 	public boolean fallInsideCircumcircle(PointDt[] arrayPoints) {
 		boolean isInside = false;
 		PointDt p1 = this.p1();
@@ -336,7 +342,7 @@ public class TriangleDt {
 		while (!isInside && i < arrayPoints.length) {
 			PointDt p = arrayPoints[i];
 			if (!p.equals(p1) && !p.equals(p2) && !p.equals(p3)) {
-				isInside = this.circumcircle_contains(p);
+				isInside = this.circumcircleContains(p);
 			}
 			i++;
 		}
@@ -387,7 +393,7 @@ public class TriangleDt {
 				flag01 = 1;
 			}
 		} else { // 2-vertical.
-			flag01 = 2;// x01 = x0
+			flag01 = 2; // x01 = x0
 		}
 		int flag23 = 0;
 		if (x2 != x3) {
@@ -397,7 +403,7 @@ public class TriangleDt {
 				flag23 = 1;
 			}
 		} else { // 2-vertical.
-			flag23 = 2;// x01 = x0
+			flag23 = 2; // x01 = x0
 		}
 
 		if (flag01 == 2) {
@@ -460,6 +466,11 @@ public class TriangleDt {
 		return new PointDt(q.x, q.y, z);
 	}
 
+	/**
+	 * @param index
+	 *            index 0 to 2
+	 * @return triangle vertex
+	 */
 	public PointDt getCorner(int index) {
 		switch (index) {
 		case 0:

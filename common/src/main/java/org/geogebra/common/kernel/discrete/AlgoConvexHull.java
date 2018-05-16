@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * Mode of a list. Adapted from AlgoMode
+ * Convex hull of a set of points
  * 
  * @author Michael Borcherds
  * 
@@ -99,7 +99,7 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 			vl.clear();
 		}
 
-		double inhom[] = new double[2];
+		double[] inhom = new double[2];
 
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);

@@ -45,7 +45,8 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 public class AlgoSurfaceCartesian3D extends AlgoElement {
 
 	private GeoNumberValue[] coords; // input
-	private GeoNumberValue[] from, to; // input
+	private GeoNumberValue[] from;
+	private GeoNumberValue[] to; // input
 	private GeoNumeric[] localVar; // input
 	private GeoSurfaceCartesianND surface; // output
 	private boolean vectorFunctions;
@@ -112,18 +113,20 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	}
 
 	/**
-	 * creates a curve
+	 * creates the surface
 	 * 
-	 * @param cons
+	 * @param cons1
+	 *            construction
 	 * @param fun
-	 * @return a curve
+	 *            functions
+	 * @return a surface
 	 */
-	protected GeoSurfaceCartesianND createCurve(Construction cons,
+	protected GeoSurfaceCartesianND createCurve(Construction cons1,
 			ExpressionNode point, FunctionNVar[] fun) {
 		if (fun.length == 2) {
-			return new GeoSurfaceCartesian2D(cons, point, fun);
+			return new GeoSurfaceCartesian2D(cons1, point, fun);
 		}
-		return new GeoSurfaceCartesian3D(cons, point, fun);
+		return new GeoSurfaceCartesian3D(cons1, point, fun);
 	}
 
 	@Override

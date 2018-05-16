@@ -6,7 +6,7 @@ package org.geogebra.common.kernel.discrete.delaunay;
  * <br>
  * note that this class is immutable.
  * 
- * @see Delaunay_Triangulation
+ * @see DelaunayTriangulation
  */
 public class CircleDt {
 
