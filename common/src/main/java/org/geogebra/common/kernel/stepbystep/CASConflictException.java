@@ -13,7 +13,8 @@ public class CASConflictException extends RuntimeException {
 	private List<StepSolution> solutions;
 	private List<StepNode> CASSolutions;
 
-	public CASConflictException(SolutionStep steps, List<StepSolution> solutions, List<StepNode> CASSolutions) {
+	public CASConflictException(SolutionStep steps, List<StepSolution> solutions,
+			List<StepNode> CASSolutions) {
 		this.steps = steps;
 		this.solutions = solutions;
 		this.CASSolutions = CASSolutions;

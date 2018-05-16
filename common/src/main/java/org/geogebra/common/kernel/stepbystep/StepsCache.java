@@ -10,85 +10,85 @@ import java.util.Map;
 
 public class StepsCache {
 
-    private static StepsCache instance;
+	private static StepsCache instance;
 
-    private Map<StepNode, CacheEntry> regroupCache;
-    private Map<StepNode, CacheEntry> expandCache;
-    private Map<StepNode, CacheEntry> factorCache;
+	private Map<StepNode, CacheEntry> regroupCache;
+	private Map<StepNode, CacheEntry> expandCache;
+	private Map<StepNode, CacheEntry> factorCache;
 
-    private static class CacheEntry {
-        private StepNode result;
-        private SolutionStep steps;
-    }
+	private static class CacheEntry {
+		private StepNode result;
+		private SolutionStep steps;
+	}
 
-    private StepsCache() {
-        regroupCache = new HashMap<>();
-        expandCache = new HashMap<>();
-        factorCache = new HashMap<>();
-    }
+	private StepsCache() {
+		regroupCache = new HashMap<>();
+		expandCache = new HashMap<>();
+		factorCache = new HashMap<>();
+	}
 
-    public StepNode regroup(StepNode sn, SolutionBuilder sb) {
-        CacheEntry entry = regroupCache.get(sn);
+	public static StepsCache getInstance() {
+		if (instance == null) {
+			instance = new StepsCache();
+		}
 
-        if (entry == null) {
-            SolutionBuilder tempSteps = new SolutionBuilder();
-            entry = new CacheEntry();
+		return instance;
+	}
 
-            entry.result = StepStrategies.defaultRegroup(sn, tempSteps);
-            entry.steps = tempSteps.getSteps();
+	public StepNode regroup(StepNode sn, SolutionBuilder sb) {
+		CacheEntry entry = regroupCache.get(sn);
 
-            regroupCache.put(sn, entry);
-        }
+		if (entry == null) {
+			SolutionBuilder tempSteps = new SolutionBuilder();
+			entry = new CacheEntry();
 
-        if (sb != null) {
-            sb.addAll(entry.steps);
-        }
-        return entry.result;
-    }
+			entry.result = StepStrategies.defaultRegroup(sn, tempSteps);
+			entry.steps = tempSteps.getSteps();
 
-    public StepNode expand(StepNode sn, SolutionBuilder sb) {
-        CacheEntry entry = expandCache.get(sn);
+			regroupCache.put(sn, entry);
+		}
 
-        if (entry == null) {
-            SolutionBuilder tempSteps = new SolutionBuilder();
-            entry = new CacheEntry();
+		if (sb != null) {
+			sb.addAll(entry.steps);
+		}
+		return entry.result;
+	}
 
-            entry.result = StepStrategies.defaultExpand(sn, tempSteps);
-            entry.steps = tempSteps.getSteps();
+	public StepNode expand(StepNode sn, SolutionBuilder sb) {
+		CacheEntry entry = expandCache.get(sn);
 
-            expandCache.put(sn, entry);
-        }
+		if (entry == null) {
+			SolutionBuilder tempSteps = new SolutionBuilder();
+			entry = new CacheEntry();
 
-        if (sb != null) {
-            sb.addAll(entry.steps);
-        }
-        return entry.result;
-    }
+			entry.result = StepStrategies.defaultExpand(sn, tempSteps);
+			entry.steps = tempSteps.getSteps();
 
-    public StepNode factor(StepNode sn, SolutionBuilder sb) {
-        CacheEntry entry = factorCache.get(sn);
+			expandCache.put(sn, entry);
+		}
 
-        if (entry == null) {
-            SolutionBuilder tempSteps = new SolutionBuilder();
-            entry = new CacheEntry();
+		if (sb != null) {
+			sb.addAll(entry.steps);
+		}
+		return entry.result;
+	}
 
-            entry.result = StepStrategies.defaultFactor(sn, tempSteps);
-            entry.steps = tempSteps.getSteps();
+	public StepNode factor(StepNode sn, SolutionBuilder sb) {
+		CacheEntry entry = factorCache.get(sn);
 
-            factorCache.put(sn, entry);
-        }
+		if (entry == null) {
+			SolutionBuilder tempSteps = new SolutionBuilder();
+			entry = new CacheEntry();
 
-        if (sb != null) {
-            sb.addAll(entry.steps);
-        }
-        return entry.result;
-    }
+			entry.result = StepStrategies.defaultFactor(sn, tempSteps);
+			entry.steps = tempSteps.getSteps();
 
-    public static StepsCache getInstance() {
-        if (instance == null) {
-            instance = new StepsCache();
-        }
+			factorCache.put(sn, entry);
+		}
 
-        return instance;
-    }
+		if (sb != null) {
+			sb.addAll(entry.steps);
+		}
+		return entry.result;
+	}
 }

@@ -15,7 +15,7 @@ public class SolveFailedException extends RuntimeException {
 	public SolveFailedException(SolutionStep steps) {
 		this.steps = steps;
 	}
-	
+
 	public SolutionStep getSteps() {
 		return steps;
 	}

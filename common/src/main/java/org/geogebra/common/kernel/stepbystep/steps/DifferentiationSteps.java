@@ -1,31 +1,27 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
+import org.geogebra.common.plugin.Operation;
+
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
-import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
-import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
-import org.geogebra.common.plugin.Operation;
-
 public enum DifferentiationSteps implements SimplificationStepGenerator {
-	
+
 	DIFFERENTIATE_SUM {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
-				
+
 				if (so.getOperand(0).isOperation(Operation.PLUS)) {
 					StepOperation sum = (StepOperation) so.getOperand(0);
 					StepVariable variable = (StepVariable) so.getOperand(1);
 
 					StepExpression[] result = new StepExpression[sum.noOfOperands()];
-					for(int i = 0; i < sum.noOfOperands(); i++) {
+					for (int i = 0; i < sum.noOfOperands(); i++) {
 						result[i] = differentiate(sum.getOperand(i), variable);
 						result[i].setColor(tracker.incColorTracker());
 					}
@@ -35,11 +31,11 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					return new StepOperation(Operation.PLUS, result);
 				}
 			}
-			
+
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
-	
+
 	DIFFERENTIATE_CONSTANT {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
@@ -69,9 +65,9 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
-				
-				if (so.getOperand(0).isOperation(Operation.MULTIPLY)
-						|| so.getOperand(0).isOperation(Operation.MINUS)) {
+
+				if (so.getOperand(0).isOperation(Operation.MULTIPLY) ||
+						so.getOperand(0).isOperation(Operation.MINUS)) {
 					StepOperation product = (StepOperation) so.getOperand(0);
 					StepVariable variable = (StepVariable) so.getOperand(1);
 
@@ -81,7 +77,8 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 						constantCoefficient.setColor(tracker.incColorTracker());
 						StepExpression nonConstant = product.getVariableIn(variable);
 
-						StepExpression result = multiply(constantCoefficient, differentiate(nonConstant, variable));
+						StepExpression result =
+								multiply(constantCoefficient, differentiate(nonConstant, variable));
 
 						sb.add(SolutionStepType.DIFF_CONSTANT_COEFFICIENT);
 
@@ -110,8 +107,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					for (int i = 1; i < product.noOfOperands(); i++) {
 						operands[i - 1] = product.getOperand(i);
 					}
-					StepExpression secondPart = new StepOperation(Operation.MULTIPLY,
-							operands);
+					StepExpression secondPart = new StepOperation(Operation.MULTIPLY, operands);
 
 					if (((StepOperation) secondPart).noOfOperands() == 1) {
 						secondPart = ((StepOperation) secondPart).getOperand(0);
@@ -122,15 +118,14 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 					StepOperation result = new StepOperation(Operation.PLUS,
 							multiply(firstPart, differentiate(secondPart, variable)),
-							multiply(differentiate(firstPart, variable), secondPart)
-					);
+							multiply(differentiate(firstPart, variable), secondPart));
 
 					sb.add(SolutionStepType.DIFF_PRODUCT);
 
 					return result;
 				}
 			}
-			
+
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
@@ -147,13 +142,13 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 					StepExpression numerator = fraction.getOperand(0);
 					StepExpression denominator = fraction.getOperand(1);
-					
+
 					numerator.setColor(tracker.incColorTracker());
 					denominator.setColor(tracker.incColorTracker());
-					
-					StepExpression resultNumerator = subtract(
-							multiply(differentiate(numerator, variable), denominator),
-							multiply(numerator, differentiate(denominator, variable)));
+
+					StepExpression resultNumerator =
+							subtract(multiply(differentiate(numerator, variable), denominator),
+									multiply(numerator, differentiate(denominator, variable)));
 
 					StepExpression result = divide(resultNumerator, power(denominator, 2));
 
@@ -195,7 +190,8 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 						base.setColor(tracker.incColorTracker());
 						exponent.setColor(tracker.incColorTracker());
 
-						StepExpression result = multiply(exponent, nonTrivialPower(base, exponent.getValue() - 1));
+						StepExpression result =
+								multiply(exponent, nonTrivialPower(base, exponent.getValue() - 1));
 
 						if (base.equals(variable)) {
 							sb.add(SolutionStepType.DIFF_POWER);
@@ -228,14 +224,15 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 					if (base.equals(StepConstant.E)) {
 						power.setColor(tracker.getColorTracker());
-						
+
 						StepExpression result = power;
 
 						if (exponent.equals(variable)) {
 							sb.add(SolutionStepType.DIFF_EXPONENTIAL_E, tracker.incColorTracker());
 						} else {
 							result = multiply(result, differentiate(exponent, variable));
-							sb.add(SolutionStepType.DIFF_EXPONENTIAL_E_CHAIN, tracker.incColorTracker());
+							sb.add(SolutionStepType.DIFF_EXPONENTIAL_E_CHAIN,
+									tracker.incColorTracker());
 						}
 
 						return result;
@@ -253,7 +250,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 							result = multiply(result, differentiate(exponent, variable));
 							sb.add(SolutionStepType.DIFF_EXPONENTIAL_CHAIN);
 						}
-						
+
 						return result;
 					} else if (!exponent.isConstantIn(variable)) {
 						StepExpression result = power(StepConstant.E,
@@ -281,12 +278,12 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 					StepExpression base = root.getOperand(0);
 					StepExpression exponent = root.getOperand(1);
-					
+
 					base.setColor(tracker.incColorTracker());
 					exponent.setColor(tracker.incColorTracker());
 
-					StepExpression result = divide(1,
-							multiply(exponent, root(nonTrivialPower(base, exponent.getValue() - 1), exponent)));
+					StepExpression result = divide(1, multiply(exponent,
+							root(nonTrivialPower(base, exponent.getValue() - 1), exponent)));
 
 					if (base.equals(variable)) {
 						sb.add(SolutionStepType.DIFF_ROOT);
@@ -312,7 +309,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				if (so.getOperand(0).isOperation(Operation.LOG)) {
 					StepOperation logarithm = (StepOperation) so.getOperand(0);
 					StepVariable variable = (StepVariable) so.getOperand(1);
-					
+
 					StepExpression base = logarithm.getOperand(0);
 					StepExpression argument = logarithm.getOperand(1);
 
@@ -326,7 +323,8 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 							sb.add(SolutionStepType.DIFF_NATURAL_LOG, tracker.incColorTracker());
 						} else {
 							result = multiply(result, differentiate(argument, variable));
-							sb.add(SolutionStepType.DIFF_NATURAL_LOG_CHAIN, tracker.incColorTracker());
+							sb.add(SolutionStepType.DIFF_NATURAL_LOG_CHAIN,
+									tracker.incColorTracker());
 						}
 
 						return result;
@@ -334,8 +332,9 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 					base.setColor(tracker.incColorTracker());
 					argument.setColor(tracker.incColorTracker());
-					
-					StepExpression result = divide(1, multiply(logarithm(StepConstant.E, base), argument));
+
+					StepExpression result =
+							divide(1, multiply(logarithm(StepConstant.E, base), argument));
 
 					if (argument.equals(variable)) {
 						sb.add(SolutionStepType.DIFF_LOG);
@@ -381,7 +380,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 						} else {
 							sb.add(SolutionStepType.DIFF_COS_CHAIN, tracker.getColorTracker());
 						}
-					} else if(trigo.isOperation(Operation.TAN)) {
+					} else if (trigo.isOperation(Operation.TAN)) {
 						result = divide(1, power(cos(argument), 2));
 
 						if (argument.equals(variable)) {
@@ -446,7 +445,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 							sb.add(SolutionStepType.DIFF_ARCTAN_CHAIN, tracker.getColorTracker());
 						}
 					}
-					
+
 
 					if (!argument.equals(variable)) {
 						result = multiply(result, differentiate(argument, variable));
@@ -470,22 +469,23 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
-					RegroupSteps.DEFAULT_REGROUP,
-					DifferentiationSteps.DIFFERENTIATE_CONSTANT,
-					DifferentiationSteps.CONSTANT_COEFFICIENT,
-					DifferentiationSteps.DIFFERENTIATE_SUM,
-					DifferentiationSteps.CONSTANT_COEFFICIENT,
-					DifferentiationSteps.DIFFERENTIATE_FRACTION,
-					DifferentiationSteps.DIFFERENTIATE_POLYNOMIAL,
-					DifferentiationSteps.DIFFERENTIATE_EXPONENTIAL,
-					DifferentiationSteps.DIFFERENTIATE_PRODUCT,
-					DifferentiationSteps.DIFFERENTIATE_ROOT,
-					DifferentiationSteps.DIFFERENTIATE_TRIGO,
-					DifferentiationSteps.DIFFERENTIATE_LOG,
-					DifferentiationSteps.DIFFERENTIATE_INVERSE_TRIGO
+							RegroupSteps.DEFAULT_REGROUP,
+							DifferentiationSteps.DIFFERENTIATE_CONSTANT,
+							DifferentiationSteps.CONSTANT_COEFFICIENT,
+							DifferentiationSteps.DIFFERENTIATE_SUM,
+							DifferentiationSteps.CONSTANT_COEFFICIENT,
+							DifferentiationSteps.DIFFERENTIATE_FRACTION,
+							DifferentiationSteps.DIFFERENTIATE_POLYNOMIAL,
+							DifferentiationSteps.DIFFERENTIATE_EXPONENTIAL,
+							DifferentiationSteps.DIFFERENTIATE_PRODUCT,
+							DifferentiationSteps.DIFFERENTIATE_ROOT,
+							DifferentiationSteps.DIFFERENTIATE_TRIGO,
+							DifferentiationSteps.DIFFERENTIATE_LOG,
+							DifferentiationSteps.DIFFERENTIATE_INVERSE_TRIGO
 			};
 
-			return StepStrategies.implementGroup(sn, null, defaultStrategy, sb, new RegroupTracker());
+			return StepStrategies
+					.implementGroup(sn, null, defaultStrategy, sb, new RegroupTracker());
 		}
 	};
 

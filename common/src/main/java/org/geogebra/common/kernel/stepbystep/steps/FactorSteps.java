@@ -1,26 +1,25 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
-
-import java.util.*;
-
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
-import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
-import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
 public enum FactorSteps implements SimplificationStepGenerator {
 
 	SPLIT_PRODUCTS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn.isOperation(Operation.PLUS)
-					&& !tracker.isMarked(sn, RegroupTracker.MarkType.FACTOR)) {
+			if (sn.isOperation(Operation.PLUS) &&
+					!tracker.isMarked(sn, RegroupTracker.MarkType.FACTOR)) {
 				StepOperation so = (StepOperation) sn;
 
 				List<StepExpression> commonBases = new ArrayList<>();
@@ -46,16 +45,18 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					currentBases.add(new ArrayList<StepExpression>());
 					currentExponents.add(new ArrayList<StepExpression>());
-					so.getOperand(i).getBasesAndExponents(currentBases.get(i), currentExponents.get(i));
+					so.getOperand(i)
+							.getBasesAndExponents(currentBases.get(i), currentExponents.get(i));
 
 					StepExpression current = null;
 					for (int j = 0; j < currentBases.get(i).size(); j++) {
 						int index = commonBases.indexOf(currentBases.get(i).get(j));
 						if (index != -1 && !isZero(commonExponents.get(index))) {
-							StepExpression differenceOfPowers = subtract(
-									currentExponents.get(i).get(j), commonExponents.get(index));
-							differenceOfPowers = (StepExpression) RegroupSteps.WEAK_REGROUP.apply(
-									differenceOfPowers, null, new RegroupTracker());
+							StepExpression differenceOfPowers =
+									subtract(currentExponents.get(i).get(j),
+											commonExponents.get(index));
+							differenceOfPowers = (StepExpression) RegroupSteps.WEAK_REGROUP
+									.apply(differenceOfPowers, null, new RegroupTracker());
 							if (!isZero(differenceOfPowers)) {
 								currentExponents.get(i).get(j).setColor(tracker.getColorTracker());
 								currentBases.get(i).get(j).setColor(tracker.getColorTracker());
@@ -66,14 +67,16 @@ public enum FactorSteps implements SimplificationStepGenerator {
 								commonBases.get(index).setColor(tracker.getColorTracker());
 								commonExponents.get(index).setColor(tracker.incColorTracker());
 								current = nonTrivialProduct(current,
-										nonTrivialPower(commonBases.get(index), commonExponents.get(index)));
+										nonTrivialPower(commonBases.get(index),
+												commonExponents.get(index)));
 								commonBases.get(index).cleanColors();
 								commonExponents.get(index).cleanColors();
 							}
 						}
 
 						current = nonTrivialProduct(current,
-								nonTrivialPower(currentBases.get(i).get(j), currentExponents.get(i).get(j)));
+								nonTrivialPower(currentBases.get(i).get(j),
+										currentExponents.get(i).get(j)));
 					}
 
 					if (common.equals(current)) {
@@ -131,12 +134,13 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					currentBases.add(new ArrayList<StepExpression>());
 					currentExponents.add(new ArrayList<StepExpression>());
-					so.getOperand(i).getBasesAndExponents(currentBases.get(i), currentExponents.get(i));
+					so.getOperand(i)
+							.getBasesAndExponents(currentBases.get(i), currentExponents.get(i));
 
 					for (int j = 0; j < commonBases.size(); j++) {
 						for (int k = 0; k < currentBases.get(i).size(); k++) {
-							if (currentBases.get(i).get(k).equals(commonBases.get(j))
-									&& currentExponents.get(i).get(k).equals(commonExponents.get(j))) {
+							if (currentBases.get(i).get(k).equals(commonBases.get(j)) &&
+									currentExponents.get(i).get(k).equals(commonExponents.get(j))) {
 								currentBases.get(i).get(k).setColor(commonColor);
 								currentExponents.get(i).get(k).setColor(commonColor);
 								currentExponents.get(i).set(k, null);
@@ -201,7 +205,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 				StepExpression[] operands = new StepExpression[so.noOfOperands()];
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					StepExpression remainder = StepConstant.create(integerParts[i].getValue() / common);
+					StepExpression remainder =
+							StepConstant.create(integerParts[i].getValue() / common);
 					integerParts[i].setColor(tracker.getColorTracker());
 					remainder.setColor(tracker.incColorTracker());
 
@@ -254,13 +259,14 @@ public enum FactorSteps implements SimplificationStepGenerator {
 						double toComplete = third.getValue() - b.getValue() * b.getValue() / 4;
 
 						if (toComplete < 0) {
-							StepExpression asSum = add(StepConstant.create(b.getValue() * b.getValue() / 4),
-									StepConstant.create(toComplete));
+							StepExpression asSum =
+									add(StepConstant.create(b.getValue() * b.getValue() / 4),
+											StepConstant.create(toComplete));
 							third.setColor(tracker.getColorTracker());
 							asSum.setColor(tracker.incColorTracker());
 
-							StepOperation newSum = new StepOperation(Operation.PLUS,
-									first, second, asSum);
+							StepOperation newSum =
+									new StepOperation(Operation.PLUS, first, second, asSum);
 
 							sb.add(SolutionStepType.REPLACE_WITH, third, asSum);
 							return newSum;
@@ -315,12 +321,15 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 							first.setColor(tracker.getColorTracker());
 							a.setColor(tracker.getColorTracker());
-							((StepOperation) second).getOperand(1).setColor(tracker.incColorTracker());
+							((StepOperation) second).getOperand(1)
+									.setColor(tracker.incColorTracker());
 							third.setColor(tracker.getColorTracker());
 							b.setColor(tracker.getColorTracker());
-							((StepOperation) second).getOperand(2).setColor(tracker.incColorTracker());
+							((StepOperation) second).getOperand(2)
+									.setColor(tracker.incColorTracker());
 
-							StepExpression result = negative ? power(subtract(a, b), 2) : power(add(a, b), 2);
+							StepExpression result =
+									negative ? power(subtract(a, b), 2) : power(add(a, b), 2);
 
 							if (negative) {
 								sb.add(SolutionStepType.BINOM_SQUARED_DIFF_FACTOR);
@@ -400,9 +409,11 @@ public enum FactorSteps implements SimplificationStepGenerator {
 						result.setColor(tracker.getColorTracker());
 
 						if (b.isNegative()) {
-							sb.add(SolutionStepType.BINOM_CUBED_DIFF_FACTOR, tracker.incColorTracker());
+							sb.add(SolutionStepType.BINOM_CUBED_DIFF_FACTOR,
+									tracker.incColorTracker());
 						} else {
-							sb.add(SolutionStepType.BINOM_CUBED_SUM_FACTOR, tracker.incColorTracker());
+							sb.add(SolutionStepType.BINOM_CUBED_SUM_FACTOR,
+									tracker.incColorTracker());
 						}
 
 						return result;
@@ -433,8 +444,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					so.getOperand(1).setColor(tracker.getColorTracker());
 					b.setColor(tracker.incColorTracker());
 
-					StepOperation newProduct = new StepOperation(Operation.MULTIPLY,
-							add(a, b), subtract(a, b));
+					StepOperation newProduct =
+							new StepOperation(Operation.MULTIPLY, add(a, b), subtract(a, b));
 
 					sb.add(SolutionStepType.DIFFERENCE_OF_SQUARES_FACTOR);
 					return newProduct;
@@ -448,7 +459,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					return add(so.getOperand(1), so.getOperand(0));
 				}
 
-				if (so.getOperand(0).isCube() && so.getOperand(1).isCube() && !tracker.isWeakFactor()) {
+				if (so.getOperand(0).isCube() && so.getOperand(1).isCube() &&
+						!tracker.isWeakFactor()) {
 					StepExpression a = so.getOperand(0).getCubeRoot();
 					StepExpression b = so.getOperand(1).getCubeRoot();
 
@@ -535,14 +547,15 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 				for (long i = -constant; i <= constant; i++) {
 					for (long j = 1; j <= highestOrder; j++) {
-						if (i != 0 && constant % i == 0 && highestOrder % j == 0
-								&& isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
+						if (i != 0 && constant % i == 0 && highestOrder % j == 0 &&
+								isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
 
 							List<StepExpression> terms = new ArrayList<>();
 							for (int k = polynomialForm.length - 1; k > 0; k--) {
 								long coeff = i * integerForm[k] / j;
 
-								terms.add(nonTrivialProduct(integerForm[k], nonTrivialPower(var, k)));
+								terms.add(
+										nonTrivialProduct(integerForm[k], nonTrivialPower(var, k)));
 								terms.add(nonTrivialProduct(-coeff, nonTrivialPower(var, k - 1)));
 
 								integerForm[k - 1] += i * integerForm[k] / j;
@@ -569,7 +582,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 	FACTOR_POLYNOMIAL {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn.isOperation(Operation.PLUS) && tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND)) {
+			if (sn.isOperation(Operation.PLUS) &&
+					tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND)) {
 				StepOperation so = (StepOperation) sn;
 
 				Set<StepVariable> variableSet = new HashSet<>();
@@ -592,8 +606,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 				for (long i = -constant; i <= constant; i++) {
 					for (long j = 1; j <= highestOrder; j++) {
-						if (i != 0 && constant % i == 0 && highestOrder % j == 0
-								&& isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
+						if (i != 0 && constant % i == 0 && highestOrder % j == 0 &&
+								isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
 
 							StepExpression[] factored = new StepExpression[polynomialForm.length];
 
@@ -602,12 +616,12 @@ public enum FactorSteps implements SimplificationStepGenerator {
 							for (int k = polynomialForm.length - 1; k > 0; k--) {
 								long coeff = integerForm[k] / j;
 								if (coeff < 0) {
-									factored[polynomialForm.length - k] =
-											multiply(nonTrivialProduct(-coeff, nonTrivialPower
-													(var, k - 1)), innerSum).negate();
+									factored[polynomialForm.length - k] = multiply(
+											nonTrivialProduct(-coeff, nonTrivialPower(var, k - 1)),
+											innerSum).negate();
 								} else {
-									factored[polynomialForm.length - k] =
-											multiply(nonTrivialProduct(coeff, nonTrivialPower(var, k - 1)),
+									factored[polynomialForm.length - k] = multiply(
+											nonTrivialProduct(coeff, nonTrivialPower(var, k - 1)),
 											innerSum);
 								}
 
@@ -646,7 +660,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					FACTOR_POLYNOMIAL,
 			};
 
-			return StepStrategies.implementGroup(sn, SolutionStepType.FACTOR_POLYNOMIAL, strategy, sb, tracker);
+			return StepStrategies
+					.implementGroup(sn, SolutionStepType.FACTOR_POLYNOMIAL, strategy, sb, tracker);
 		}
 	},
 
@@ -658,7 +673,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					FACTOR_COMMON,
 			};
 
-			return StepStrategies.implementGroup(sn, SolutionStepType.FACTOR_COMMON, strategy, sb, tracker);
+			return StepStrategies
+					.implementGroup(sn, SolutionStepType.FACTOR_COMMON, strategy, sb, tracker);
 		}
 	},
 

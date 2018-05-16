@@ -7,37 +7,38 @@ import java.util.List;
 
 public abstract class SolutionStep {
 
-    protected List<SolutionStep> substeps;
+	protected List<SolutionStep> substeps;
 
-    public abstract List<String> getDefault(Localization loc);
+	public abstract List<String> getDefault(Localization loc);
 
-    public abstract List<String> getDetailed(Localization loc);
+	public abstract List<String> getDetailed(Localization loc);
 
-    public void addSubStep(SolutionStep substep) {
-        if (substeps == null) {
-            substeps = new ArrayList<>();
-        }
+	public void addSubStep(SolutionStep substep) {
+		if (substeps == null) {
+			substeps = new ArrayList<>();
+		}
 
-        substeps.add(substep);
-    }
+		substeps.add(substep);
+	}
 
-    public List<SolutionStep> getSubsteps() {
-        return substeps;
-    }
+	public List<SolutionStep> getSubsteps() {
+		return substeps;
+	}
 
-    /**
-     * the complexity of a solution is simply the total number of steps
-     * @return complexity of solution
-     */
-    public int getComplexity() {
-        int complexity = 1;
+	/**
+	 * the complexity of a solution is simply the total number of steps
+	 *
+	 * @return complexity of solution
+	 */
+	public int getComplexity() {
+		int complexity = 1;
 
-        if (substeps != null) {
-            for(SolutionStep step : substeps) {
-                complexity += step.getComplexity();
-            }
-        }
+		if (substeps != null) {
+			for (SolutionStep step : substeps) {
+				complexity += step.getComplexity();
+			}
+		}
 
-        return complexity;
-    }
+		return complexity;
+	}
 }

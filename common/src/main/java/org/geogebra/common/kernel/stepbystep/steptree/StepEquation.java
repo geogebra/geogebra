@@ -118,8 +118,8 @@ public class StepEquation extends StepSolvable {
 	}
 
 	@Override
-	public List<StepSolution> solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb)
-			throws CASException {
+	public List<StepSolution> solveAndCompareToCAS(Kernel kernel, StepVariable sv,
+			SolutionBuilder sb) throws CASException {
 		SolveTracker tracker = new SolveTracker();
 		List<StepSolution> solutions = solve(sv, sb, tracker);
 
@@ -128,13 +128,16 @@ public class StepEquation extends StepSolvable {
 				String casCommand;
 				if (tracker.isApproximate() != null && tracker.isApproximate()) {
 					Log.error("approximating");
-					casCommand = "ApproximateSolution(" + LHS + ", " + RHS + ", " + sv + " = " + solution + ")";
+					casCommand = "ApproximateSolution(" + LHS + ", " + RHS + ", " + sv + " = " +
+							solution + ")";
 				} else {
-					casCommand = "CorrectSolution(" + LHS + ", " + RHS + ", " + sv + " = " + solution + ")";
+					casCommand =
+							"CorrectSolution(" + LHS + ", " + RHS + ", " + sv + " = " + solution +
+									")";
 				}
 
-				String withAssumptions = StepHelper.getAssumptions(add((StepExpression) solution, add(LHS, RHS)),
-						casCommand);
+				String withAssumptions = StepHelper
+						.getAssumptions(add((StepExpression) solution, add(LHS, RHS)), casCommand);
 
 				String result = kernel.evaluateCachedGeoGebraCAS(withAssumptions, null);
 
@@ -149,8 +152,8 @@ public class StepEquation extends StepSolvable {
 	}
 
 	@Override
-	public boolean checkSolution(StepVariable variable, StepExpression value,
-								 SolutionBuilder steps, SolveTracker tracker) {
+	public boolean checkSolution(StepVariable variable, StepExpression value, SolutionBuilder steps,
+			SolveTracker tracker) {
 
 		StepEquation copy = deepCopy();
 
@@ -159,7 +162,8 @@ public class StepEquation extends StepSolvable {
 		copy.replace(variable, value, tempSteps);
 		copy.expand(tempSteps, new SolveTracker());
 
-		steps.addGroup(new SolutionLine(SolutionStepType.PLUG_IN_AND_CHECK, value), tempSteps, copy);
+		steps.addGroup(new SolutionLine(SolutionStepType.PLUG_IN_AND_CHECK, value), tempSteps,
+				copy);
 
 		if (!copy.getLHS().equals(copy.getRHS())) {
 			if (isEqual(copy.LHS.getValue(), copy.RHS.getValue())) {

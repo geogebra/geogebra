@@ -54,7 +54,8 @@ public class StepStrategies {
 		return defaultFactor(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb,
+			RegroupTracker tracker) {
 		return DifferentiationSteps.DEFAULT_DIFFERENTIATE.apply(sn, sb, tracker);
 	}
 
@@ -62,8 +63,8 @@ public class StepStrategies {
 		return defaultDifferentiate(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode implementGroup(StepNode sn, SolutionStepType groupHeader, SimplificationStepGenerator[]
-			strategy, SolutionBuilder sb, RegroupTracker tracker) {
+	public static StepNode implementGroup(StepNode sn, SolutionStepType groupHeader,
+			SimplificationStepGenerator[] strategy, SolutionBuilder sb, RegroupTracker tracker) {
 		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
@@ -81,8 +82,6 @@ public class StepStrategies {
 						System.out.println("changed at " + simplificationStep);
 						System.out.println("from: " + old);
 						System.out.println("to: " + current);
-					} else {
-						//System.out.println("unchanged at " + simplificationStep);
 					}
 				}
 
@@ -115,8 +114,8 @@ public class StepStrategies {
 		return sn;
 	}
 
-	public static List<StepSolution> defaultSolve(StepEquation se, StepVariable sv, SolutionBuilder sb, SolveTracker
-			tracker) {
+	public static List<StepSolution> defaultSolve(StepEquation se, StepVariable sv,
+			SolutionBuilder sb, SolveTracker tracker) {
 		SolveStepGenerator[] strategy = {
 				EquationSteps.FIND_DEFINED_RANGE,
 				EquationSteps.SOLVE_PRODUCT,
@@ -149,8 +148,8 @@ public class StepStrategies {
 		return implementSolveStrategy(se, sv, sb, strategy, tracker);
 	}
 
-	public static List<StepSolution> defaultInequalitySolve(StepInequality se, StepVariable sv, SolutionBuilder sb,
-												  SolveTracker tracker) {
+	public static List<StepSolution> defaultInequalitySolve(StepInequality se, StepVariable sv,
+			SolutionBuilder sb, SolveTracker tracker) {
 		SolveStepGenerator[] strategy = {
 				InequalitySteps.DIVIDE_BY_COEFFICIENT,
 				EquationSteps.SOLVE_LINEAR,
@@ -171,8 +170,8 @@ public class StepStrategies {
 		return implementSolveStrategy(se, sv, sb, strategy, tracker);
 	}
 
-	public static List<StepSolution> implementSolveStrategy(StepSolvable se, StepVariable variable, SolutionBuilder sb,
-			SolveStepGenerator[] strategy, SolveTracker tracker) {
+	public static List<StepSolution> implementSolveStrategy(StepSolvable se, StepVariable variable,
+			SolutionBuilder sb, SolveStepGenerator[] strategy, SolveTracker tracker) {
 		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
@@ -218,7 +217,8 @@ public class StepStrategies {
 		} while (result == null && changed);
 
 		if (result != null) {
-			List<StepSolution> finalSolutions = EquationSteps.checkSolutions(se, result, changes, tracker);
+			List<StepSolution> finalSolutions =
+					EquationSteps.checkSolutions(se, result, changes, tracker);
 
 			if (sb != null) {
 				sb.addAll(changes.getSteps());
@@ -228,9 +228,10 @@ public class StepStrategies {
 					sb.add(SolutionStepType.NO_REAL_SOLUTION);
 					return new ArrayList<>();
 				} else if (finalSolutions.size() == 1) {
-					sb.add(SolutionStepType.SOLUTION, finalSolutions.toArray(new StepSolution[] {}));
+					sb.add(SolutionStepType.SOLUTION, finalSolutions.toArray(new StepSolution[]{}));
 				} else {
-					sb.add(SolutionStepType.SOLUTIONS, finalSolutions.toArray(new StepSolution[] {}));
+					sb.add(SolutionStepType.SOLUTIONS,
+							finalSolutions.toArray(new StepSolution[]{}));
 				}
 				sb.levelUp();
 			}
@@ -241,8 +242,8 @@ public class StepStrategies {
 		throw new SolveFailedException(sb.getSteps());
 	}
 
-	public static StepNode iterateThrough(SimplificationStepGenerator step, StepNode sn, SolutionBuilder sb,
-			RegroupTracker tracker) {
+	public static StepNode iterateThrough(SimplificationStepGenerator step, StepNode sn,
+			SolutionBuilder sb, RegroupTracker tracker) {
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
 

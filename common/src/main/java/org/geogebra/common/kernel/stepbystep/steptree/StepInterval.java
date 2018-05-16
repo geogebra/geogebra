@@ -5,15 +5,15 @@ import org.geogebra.common.main.Localization;
 
 public class StepInterval extends StepLogical {
 
+	public final static StepInterval R =
+			new StepInterval(StepConstant.NEG_INF, StepConstant.POS_INF, false, false);
 	private StepExpression leftBound;
 	private StepExpression rightBound;
 	private boolean leftClosed;
 	private boolean rightClosed;
 
-	public final static StepInterval R = new StepInterval(StepConstant.NEG_INF, StepConstant.POS_INF,
-			false, false);
-
-	public StepInterval(StepExpression leftBound, StepExpression rightBound, boolean leftClosed, boolean rightClosed) {
+	public StepInterval(StepExpression leftBound, StepExpression rightBound, boolean leftClosed,
+			boolean rightClosed) {
 		this.leftBound = leftBound;
 		this.rightBound = rightBound;
 		this.leftClosed = leftClosed;
@@ -71,8 +71,8 @@ public class StepInterval extends StepLogical {
 	public boolean equals(Object obj) {
 		if (obj instanceof StepInterval) {
 			StepInterval si = (StepInterval) obj;
-			return si.leftClosed == leftClosed && si.rightClosed == rightClosed && si.leftBound.equals(leftBound)
-					&& si.rightBound.equals(rightBound);
+			return si.leftClosed == leftClosed && si.rightClosed == rightClosed &&
+					si.leftBound.equals(leftBound) && si.rightBound.equals(rightBound);
 		}
 		return false;
 	}
@@ -116,8 +116,7 @@ public class StepInterval extends StepLogical {
 			return "\\mathbb{R}";
 		}
 		return loc.intervalStartBracket(leftClosed, StringTemplate.latexTemplate) +
-				leftBound.toLaTeXString(loc, colored) +
-				"," +
+				leftBound.toLaTeXString(loc, colored) + "," +
 				rightBound.toLaTeXString(loc, colored) +
 				loc.intervalEndBracket(rightClosed, StringTemplate.latexTemplate);
 	}

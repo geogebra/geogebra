@@ -4,10 +4,6 @@ import org.geogebra.common.main.Localization;
 
 public class StepArbitraryConstant extends StepExpression {
 
-	public enum ConstantType {
-		INTEGER, REAL
-	}
-
 	private String label;
 	private int index;
 	private ConstantType type;
@@ -43,7 +39,8 @@ public class StepArbitraryConstant extends StepExpression {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof StepArbitraryConstant) {
-			return ((StepArbitraryConstant) obj).label.equals(label) && ((StepArbitraryConstant) obj).index == index;
+			return ((StepArbitraryConstant) obj).label.equals(label) &&
+					((StepArbitraryConstant) obj).index == index;
 		}
 
 		return false;
@@ -112,5 +109,9 @@ public class StepArbitraryConstant extends StepExpression {
 			return "\\fgcolor{" + getColorHex() + "}{" + toLaTeXString(loc, false) + "}";
 		}
 		return label + (index != 0 ? "_{" + index + "}" : "");
+	}
+
+	public enum ConstantType {
+		INTEGER, REAL
 	}
 }

@@ -1,20 +1,17 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import java.text.DecimalFormat;
-
 import org.geogebra.common.main.Localization;
+
+import java.text.DecimalFormat;
 
 public final class StepConstant extends StepExpression {
 
-	private double value;
-
 	public static final StepConstant PI = new StepConstant(Math.PI);
 	public static final StepConstant E = new StepConstant(Math.E);
-
 	public static final StepConstant UNDEFINED = new StepConstant(Double.NaN);
-
 	public static final StepExpression NEG_INF = StepConstant.create(Double.NEGATIVE_INFINITY);
 	public static final StepExpression POS_INF = StepConstant.create(Double.POSITIVE_INFINITY);
+	private double value;
 
 	private StepConstant(double value) {
 		this.value = value;
@@ -38,7 +35,7 @@ public final class StepConstant extends StepExpression {
 		if (obj instanceof StepConstant) {
 			StepConstant se = (StepConstant) obj;
 
-			return  Double.isNaN(se.value) && Double.isNaN(value) ||
+			return Double.isNaN(se.value) && Double.isNaN(value) ||
 					Double.isInfinite(se.value) && Double.isInfinite(value) ||
 					isEqual(se.value, value);
 		}
@@ -117,8 +114,7 @@ public final class StepConstant extends StepExpression {
 		} else if (Double.isInfinite(value)) {
 			return "inf";
 		}
-		return new DecimalFormat("#0.#########").format(value).replace(',',
-				'.');
+		return new DecimalFormat("#0.#########").format(value).replace(',', '.');
 	}
 
 	@Override

@@ -1,9 +1,5 @@
 package org.geogebra.common.kernel.stepbystep;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyList;
@@ -13,34 +9,34 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
 public class StepHelper {
 
 	public static abstract class Condition {
-		public abstract StepNode isTrueFor(StepNode sn);
-
 		public static final Condition underAbs = new Condition() {
 			@Override
 			public StepNode isTrueFor(StepNode sn) {
-				if(sn.isOperation(Operation.ABS)) {
+				if (sn.isOperation(Operation.ABS)) {
 					return ((StepOperation) sn).getOperand(0);
 				}
 				return null;
 			}
 		};
-
 		public static final Condition underEvenRoot = new Condition() {
 			@Override
 			public StepNode isTrueFor(StepNode sn) {
-				if (sn.isOperation(Operation.NROOT)
-						&& ((StepOperation) sn).getOperand(1).isEven()) {
+				if (sn.isOperation(Operation.NROOT) && ((StepOperation) sn).getOperand(1)
+						.isEven()) {
 					return ((StepOperation) sn).getOperand(0);
 				}
 				return null;
 			}
 		};
-
 		public static final Condition plusminusToPlus = new Condition() {
 			@Override
 			public StepNode isTrueFor(StepNode sn) {
@@ -50,7 +46,6 @@ public class StepHelper {
 				return null;
 			}
 		};
-
 		public static final Condition plusminusToMinus = new Condition() {
 			@Override
 			public StepNode isTrueFor(StepNode sn) {
@@ -60,22 +55,24 @@ public class StepHelper {
 				return null;
 			}
 		};
-
 		public static final Condition isDenominator = new Condition() {
 			@Override
 			public StepNode isTrueFor(StepNode sn) {
-				if(sn.isOperation(Operation.DIVIDE)) {
+				if (sn.isOperation(Operation.DIVIDE)) {
 					return ((StepOperation) sn).getOperand(1);
 				}
 				return null;
 			}
 		};
+
+		public abstract StepNode isTrueFor(StepNode sn);
 	}
 
 	/**
 	 * Finds the first expression which adheres to the condition
+	 *
 	 * @param sn expression to search
-	 * @param c condition
+	 * @param c  condition
 	 * @return the first expression which adheres to the condition
 	 */
 	public static StepExpression findExpression(StepExpression sn, Condition c) {
@@ -170,7 +167,8 @@ public class StepHelper {
 		getAll(sn, roots, Condition.underEvenRoot);
 	}
 
-	public static StepOperation findTrigonometricExpression(StepExpression se, final StepVariable sv) {
+	public static StepOperation findTrigonometricExpression(StepExpression se,
+			final StepVariable sv) {
 		return (StepOperation) findExpression(se, new Condition() {
 			@Override
 			public StepNode isTrueFor(StepNode sn) {
@@ -185,7 +183,8 @@ public class StepHelper {
 		});
 	}
 
-	public static StepExpression nthDegreeInExpression(StepSolvable ss, final StepVariable var, int n) {
+	public static StepExpression nthDegreeInExpression(StepSolvable ss, final StepVariable var,
+			int n) {
 		StepExpression diff = StepNode.subtract(ss.getLHS(), ss.getRHS()).regroup();
 
 		StepExpression expr = findExpression(diff, new Condition() {
@@ -195,8 +194,8 @@ public class StepHelper {
 					StepOperation so = (StepOperation) sn;
 
 					if (so.isOperation(Operation.ABS) || so.isOperation(Operation.NROOT)
-							|| so.isOperation(Operation.DIVIDE) && so.getOperand(0).isConstantIn(var)
-							|| so.isTrigonometric() && !so.isConstantIn(var)) {
+							|| so.isOperation(Operation.DIVIDE) && so.getOperand(0)
+							.isConstantIn(var) || so.isTrigonometric() && !so.isConstantIn(var)) {
 						return so;
 					}
 				}
@@ -240,8 +239,7 @@ public class StepHelper {
 	}
 
 	/**
-	 * @param sn
-	 *            expression tree to traverse
+	 * @param sn expression tree to traverse
 	 * @return sum of all the subexpressions containing op
 	 */
 	public static StepExpression getAll(StepExpression sn, Operation op) {
@@ -250,8 +248,8 @@ public class StepHelper {
 
 			if (so.isOperation(op)) {
 				return so;
-			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)
-					|| so.isOperation(Operation.MINUS)) {
+			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE) || so
+					.isOperation(Operation.MINUS)) {
 				if (so.countOperation(op) > 0) {
 
 					return so;
@@ -268,8 +266,7 @@ public class StepHelper {
 	}
 
 	/**
-	 * @param sn
-	 *            expression tree to traverse
+	 * @param sn expression tree to traverse
 	 * @return part of the expression tree, which doesn't contain roots
 	 */
 	public static StepExpression getNon(StepExpression sn, Operation op) {
@@ -277,8 +274,7 @@ public class StepHelper {
 	}
 
 	/**
-	 * @param sn
-	 *            expression tree to traverse
+	 * @param sn expression tree to traverse
 	 * @return first subexpression containing square roots
 	 */
 	public static StepExpression getOne(StepExpression sn, Operation op) {
@@ -316,8 +312,8 @@ public class StepHelper {
 		return sn.isConstant();
 	}
 
-	public static StepExpression swapAbsInTree(StepExpression se, StepLogical sl, StepVariable variable,
-											   SolutionBuilder steps, int colorTracker[]) {
+	public static StepExpression swapAbsInTree(StepExpression se, StepLogical sl,
+			StepVariable variable, SolutionBuilder steps, int colorTracker[]) {
 		if (se instanceof StepOperation && sl instanceof StepInterval) {
 			StepOperation so = (StepOperation) se;
 			StepInterval si = (StepInterval) sl;
@@ -347,7 +343,8 @@ public class StepHelper {
 		return se;
 	}
 
-	public static boolean isNegative(StepExpression x, StepExpression a, StepExpression b, StepVariable variable) {
+	public static boolean isNegative(StepExpression x, StepExpression a, StepExpression b,
+			StepVariable variable) {
 		StepExpression evaluateAt;
 
 		if (Double.isInfinite(a.getValue()) && a.getValue() < 0) {
@@ -380,10 +377,11 @@ public class StepHelper {
 		return coeff == null ? 0 : coeff.getValue();
 	}
 
-	public static List<StepNode> getCASSolutions(StepEquation se, StepVariable variable, Kernel kernel)
-			throws CASException {
+	public static List<StepNode> getCASSolutions(StepEquation se, StepVariable variable,
+			Kernel kernel) throws CASException {
 		try {
-			String s = kernel.evaluateCachedGeoGebraCAS("Solutions(" + se + ", " + variable + ")", null);
+			String s = kernel.evaluateCachedGeoGebraCAS("Solutions(" + se + ", " + variable + ")",
+					null);
 			MyList solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
 
 			List<StepNode> solutions = new ArrayList<>();
@@ -464,7 +462,8 @@ public class StepHelper {
 		StepExpression result = null;
 		for (int i = 0; i < aBases.size(); i++) {
 			if (found[i]) {
-				result = nonTrivialProduct(result, nonTrivialPower(aBases.get(i), aExponents.get(i)));
+				result = nonTrivialProduct(result,
+						nonTrivialPower(aBases.get(i), aExponents.get(i)));
 			}
 		}
 

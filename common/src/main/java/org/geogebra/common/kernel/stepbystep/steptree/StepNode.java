@@ -1,17 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.Variable;
+import org.geogebra.common.kernel.arithmetic.*;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.stepbystep.solution.TableElement;
@@ -20,91 +10,32 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 
+import java.util.Set;
+
 public abstract class StepNode implements TableElement {
 
 	protected int color;
 
-	/**
-	 * @return deep copy of the tree. Use this, if you want to preserve the tree
-	 *         after a regroup
-	 */
-	public abstract StepNode deepCopy();
-
 	public static String getColorHex(int color) {
 		switch (color % 5) {
-		case 1:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
-		case 2:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE);
-		case 3:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN);
-		case 4:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE);
-		case 0:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE);
-		default:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
-		}
-	}
-
-	protected String getColorHex() {
-		return getColorHex(color);
-	}
-
-	/**
-	 * Recursively sets a color for the tree (i.e. for the root and all of the nodes
-	 * under it)
-	 * 
-	 * @param color
-	 *            the color to set
-	 */
-	public void setColor(int color) {
-		this.color = color;
-		if (this instanceof StepOperation) {
-			for (StepExpression operand : (StepOperation) this) {
-				operand.setColor(color);
-			}
-		} else if (this instanceof StepSolvable) {
-			((StepSolvable) this).getLHS().setColor(color);
-			((StepSolvable) this).getRHS().setColor(color);
-		} else if (this instanceof StepMatrix) {
-			StepMatrix sm = (StepMatrix) this;
-			for (int i = 0; i < sm.getHeight(); i++) {
-				for (int j = 0; j < sm.getWidth(); j++) {
-					sm.get(i, j).setColor(color);
-				}
-			}
+			case 1:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
+			case 2:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE);
+			case 3:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN);
+			case 4:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE);
+			case 0:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE);
+			default:
+				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
 		}
 	}
 
 	/**
-	 * Sets 0 as the color of the tree
-	 */
-	public void cleanColors() {
-		setColor(0);
-	}
-
-	/**
-	 * @return the tree, formatted in LaTeX
-	 */
-	public String toLaTeXString(Localization loc) {
-		return toLaTeXString(loc, false);
-	}
-
-	public boolean isOperation(Operation op) {
-		return this instanceof StepOperation && ((StepOperation) this).getOperation() == op;
-	}
-
-	/**
-	 * @return the tree, formatted in LaTeX, with colors, if colored is set
-	 */
-	public abstract String toLaTeXString(Localization loc, boolean colored);
-
-	/**
-	 * @param s
-	 *            string to be parsed
-	 * @param parser
-	 *            GeoGebra parser
+	 * @param s      string to be parsed
+	 * @param parser GeoGebra parser
 	 * @return the string s, parsed as a StepTree
 	 */
 	public static StepNode getStepTree(String s, Parser parser) {
@@ -123,58 +54,62 @@ public abstract class StepNode implements TableElement {
 	}
 
 	/**
-	 * @param ev
-	 *            ExpressionValue to be converted
+	 * @param ev ExpressionValue to be converted
 	 * @return ev converted to StepTree
 	 */
 	public static StepNode convertExpression(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
 			switch (((ExpressionNode) ev).getOperation()) {
-			case NO_OPERATION:
-			case SIN:
-			case COS:
-			case TAN:
-			case CSC:
-			case SEC:
-			case COT:
-			case ARCSIN:
-			case ARCCOS:
-			case ARCTAN:
-				StepExpression arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-				return applyOp(((ExpressionNode) ev).getOperation(), arg);
-			case SQRT:
-				return root((StepExpression) convertExpression(((ExpressionNode) ev).getLeft()), 2);
-			case MINUS:
-				StepExpression left = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-				StepExpression right = (StepExpression) convertExpression(((ExpressionNode) ev).getRight());
-				return add(left, StepNode.minus(right));
-			case ABS:
-				return abs((StepExpression) convertExpression(((ExpressionNode) ev).getLeft()));
-			case LOGB:
-				left = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-				right = (StepExpression) convertExpression(((ExpressionNode) ev).getRight());
-				return logarithm(left, right);
-			case LOG:
-				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-				return logarithm(StepConstant.E, arg);
-			case LOG10:
-				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-				return logarithm(StepConstant.create(10), arg);
-			case LOG2:
-				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-				return logarithm(StepConstant.create(2), arg);
-			case EXP:
-				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-				return power(StepConstant.E, arg);
-			case MULTIPLY:
-				if (((ExpressionNode) ev).getLeft() instanceof MyDouble
-						&& ((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
-					return minus((StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
-				}
-			default:
-				return new StepOperation(((ExpressionNode) ev).getOperation(),
-						(StepExpression) convertExpression(((ExpressionNode) ev).getLeft()),
-						(StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
+				case NO_OPERATION:
+				case SIN:
+				case COS:
+				case TAN:
+				case CSC:
+				case SEC:
+				case COT:
+				case ARCSIN:
+				case ARCCOS:
+				case ARCTAN:
+					StepExpression arg =
+							(StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+					return applyOp(((ExpressionNode) ev).getOperation(), arg);
+				case SQRT:
+					return root((StepExpression) convertExpression(((ExpressionNode) ev).getLeft()),
+							2);
+				case MINUS:
+					StepExpression left =
+							(StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+					StepExpression right =
+							(StepExpression) convertExpression(((ExpressionNode) ev).getRight());
+					return add(left, StepNode.minus(right));
+				case ABS:
+					return abs((StepExpression) convertExpression(((ExpressionNode) ev).getLeft()));
+				case LOGB:
+					left = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+					right = (StepExpression) convertExpression(((ExpressionNode) ev).getRight());
+					return logarithm(left, right);
+				case LOG:
+					arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+					return logarithm(StepConstant.E, arg);
+				case LOG10:
+					arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+					return logarithm(StepConstant.create(10), arg);
+				case LOG2:
+					arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+					return logarithm(StepConstant.create(2), arg);
+				case EXP:
+					arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+					return power(StepConstant.E, arg);
+				case MULTIPLY:
+					if (((ExpressionNode) ev).getLeft() instanceof MyDouble &&
+							((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
+						return minus((StepExpression) convertExpression(
+								((ExpressionNode) ev).getRight()));
+					}
+				default:
+					return new StepOperation(((ExpressionNode) ev).getOperation(),
+							(StepExpression) convertExpression(((ExpressionNode) ev).getLeft()),
+							(StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
 			}
 		}
 		if (ev instanceof Equation) {
@@ -193,7 +128,8 @@ public abstract class StepNode implements TableElement {
 
 	public static StepNode cleanupExpression(StepNode sn) {
 		if (sn instanceof StepEquation) {
-			return new StepEquation((StepExpression) cleanupExpression(((StepEquation) sn).getLHS()),
+			return new StepEquation(
+					(StepExpression) cleanupExpression(((StepEquation) sn).getLHS()),
 					(StepExpression) cleanupExpression(((StepEquation) sn).getRHS()));
 		}
 
@@ -229,45 +165,11 @@ public abstract class StepNode implements TableElement {
 	}
 
 	/**
-	 * Iterates through the tree searching for StepVariables
-	 *
-	 * @param variableList
-	 *            set of variables found in the tree
-	 */
-	public void getListOfVariables(Set<StepVariable> variableList) {
-		if (this instanceof StepEquationSystem) {
-			for (StepEquation se : ((StepEquationSystem) this).getEquations()) {
-				se.getListOfVariables(variableList);
-			}
-		}
-
-		if (this instanceof StepSolvable) {
-			StepSolvable ss = (StepSolvable) this;
-
-			ss.getLHS().getListOfVariables(variableList);
-			ss.getRHS().getListOfVariables(variableList);
-		}
-
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
-			for (StepExpression operand : so) {
-				operand.getListOfVariables(variableList);
-			}
-		}
-
-		if (this instanceof StepVariable) {
-			variableList.add((StepVariable) this);
-		}
-	}
-
-	/**
 	 * returns the largest b-th power that divides a (for example (8, 2) -> 4, (8,
 	 * 3) -> 8, (108, 2) -> 36)
-	 * 
-	 * @param se
-	 *            base
-	 * @param b
-	 *            exponent
+	 *
+	 * @param se base
+	 * @param b  exponent
 	 * @return largest b-th power that divides a
 	 */
 	public static long largestNthPower(StepExpression se, double b) {
@@ -355,7 +257,8 @@ public abstract class StepNode implements TableElement {
 		return new StepOperation(op, a, b);
 	}
 
-	private static StepExpression applyNullableBinaryOp(Operation op, StepExpression a, StepExpression b) {
+	private static StepExpression applyNullableBinaryOp(Operation op, StepExpression a,
+			StepExpression b) {
 		if (a == null) {
 			return null;
 		}
@@ -523,6 +426,7 @@ public abstract class StepNode implements TableElement {
 	/**
 	 * Provides an easy way to compare constants. Instead of
 	 * a.equals(StepConstant.create(b)), just use isEqual(a, b)
+	 *
 	 * @return wether a is a nonSpecialConstant, with value equal to b
 	 */
 	public static boolean isEqual(StepExpression a, double b) {
@@ -566,5 +470,94 @@ public abstract class StepNode implements TableElement {
 
 	public static boolean closeToAnInteger(double d) {
 		return Math.abs(Math.round(d) - d) < 0.0000001;
+	}
+
+	/**
+	 * @return deep copy of the tree. Use this, if you want to preserve the tree
+	 * after a regroup
+	 */
+	public abstract StepNode deepCopy();
+
+	protected String getColorHex() {
+		return getColorHex(color);
+	}
+
+	/**
+	 * Recursively sets a color for the tree (i.e. for the root and all of the nodes
+	 * under it)
+	 *
+	 * @param color the color to set
+	 */
+	public void setColor(int color) {
+		this.color = color;
+		if (this instanceof StepOperation) {
+			for (StepExpression operand : (StepOperation) this) {
+				operand.setColor(color);
+			}
+		} else if (this instanceof StepSolvable) {
+			((StepSolvable) this).getLHS().setColor(color);
+			((StepSolvable) this).getRHS().setColor(color);
+		} else if (this instanceof StepMatrix) {
+			StepMatrix sm = (StepMatrix) this;
+			for (int i = 0; i < sm.getHeight(); i++) {
+				for (int j = 0; j < sm.getWidth(); j++) {
+					sm.get(i, j).setColor(color);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Sets 0 as the color of the tree
+	 */
+	public void cleanColors() {
+		setColor(0);
+	}
+
+	/**
+	 * @return the tree, formatted in LaTeX
+	 */
+	public String toLaTeXString(Localization loc) {
+		return toLaTeXString(loc, false);
+	}
+
+	public boolean isOperation(Operation op) {
+		return this instanceof StepOperation && ((StepOperation) this).getOperation() == op;
+	}
+
+	/**
+	 * @return the tree, formatted in LaTeX, with colors, if colored is set
+	 */
+	public abstract String toLaTeXString(Localization loc, boolean colored);
+
+	/**
+	 * Iterates through the tree searching for StepVariables
+	 *
+	 * @param variableList set of variables found in the tree
+	 */
+	public void getListOfVariables(Set<StepVariable> variableList) {
+		if (this instanceof StepEquationSystem) {
+			for (StepEquation se : ((StepEquationSystem) this).getEquations()) {
+				se.getListOfVariables(variableList);
+			}
+		}
+
+		if (this instanceof StepSolvable) {
+			StepSolvable ss = (StepSolvable) this;
+
+			ss.getLHS().getListOfVariables(variableList);
+			ss.getRHS().getListOfVariables(variableList);
+		}
+
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
+			for (StepExpression operand : so) {
+				operand.getListOfVariables(variableList);
+			}
+		}
+
+		if (this instanceof StepVariable) {
+			variableList.add((StepVariable) this);
+		}
 	}
 }

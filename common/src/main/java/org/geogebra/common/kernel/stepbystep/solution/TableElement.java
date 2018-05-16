@@ -4,6 +4,6 @@ import org.geogebra.common.main.Localization;
 
 public interface TableElement {
 
-    String toLaTeXString(Localization loc);
+	String toLaTeXString(Localization loc);
 
 }

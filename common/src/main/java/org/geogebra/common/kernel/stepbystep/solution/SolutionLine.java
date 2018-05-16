@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.Localization;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SolutionLine extends SolutionStep {
 	/**
@@ -35,7 +35,7 @@ public class SolutionLine extends SolutionStep {
 
 	/**
 	 * Get the simple (no colors) text of the step
-	 * 
+	 *
 	 * @return default text, formatted using LaTeX
 	 */
 	@Override
@@ -45,7 +45,7 @@ public class SolutionLine extends SolutionStep {
 
 	/**
 	 * Get the detailed (colored) text of the step
-	 * 
+	 *
 	 * @return colored text, formatted using LaTeX
 	 */
 	@Override
@@ -56,8 +56,7 @@ public class SolutionLine extends SolutionStep {
 	/**
 	 * Adds a substep
 	 *
-	 * @param s
-	 *            substep to add
+	 * @param s substep to add
 	 */
 	@Override
 	public void addSubStep(SolutionStep s) {
@@ -65,13 +64,13 @@ public class SolutionLine extends SolutionStep {
 			substeps = new ArrayList<>();
 		}
 
-		if (type == SolutionStepType.SUBSTEP_WRAPPER && s instanceof SolutionLine
-				&& ((SolutionLine) s).parameters == null) {
+		if (type == SolutionStepType.SUBSTEP_WRAPPER && s instanceof SolutionLine &&
+				((SolutionLine) s).parameters == null) {
 			SolutionLine line = (SolutionLine) s;
 
 			for (int i = 1; i < substeps.size(); i++) {
-				if (substeps.get(i) instanceof SolutionLine
-						&& line.type == ((SolutionLine) substeps.get(i)).type) {
+				if (substeps.get(i) instanceof SolutionLine &&
+						line.type == ((SolutionLine) substeps.get(i)).type) {
 					if (line.colors != null) {
 						((SolutionLine) substeps.get(i)).colors.addAll(line.colors);
 					}

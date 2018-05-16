@@ -7,84 +7,85 @@ import java.util.List;
 
 public class SolveTracker {
 
-    private StepLogical restriction;
-    private StepSet undefinedPoints;
-    private List<StepSolvable> conditions;
+	private StepLogical restriction;
+	private StepSet undefinedPoints;
+	private List<StepSolvable> conditions;
 
-    private int arbConstTracker;
+	private int arbConstTracker;
 
-    private boolean shouldCheckSolutions;
-    private Boolean approximate;
+	private boolean shouldCheckSolutions;
+	private Boolean approximate;
 
-    public Boolean isApproximate() {
-        return approximate;
-    }
+	public Boolean isApproximate() {
+		return approximate;
+	}
 
-    public void setApproximate(Boolean approximate) {
-        this.approximate = approximate;
-    }
+	public void setApproximate(Boolean approximate) {
+		this.approximate = approximate;
+	}
 
-    public void setShouldCheckSolutions() {
-        shouldCheckSolutions = true;
-    }
+	public void setShouldCheckSolutions() {
+		shouldCheckSolutions = true;
+	}
 
-    public boolean shouldCheckSolutions() {
-        return shouldCheckSolutions;
-    }
+	public boolean shouldCheckSolutions() {
+		return shouldCheckSolutions;
+	}
 
-    public void addRestriction(StepLogical restriction) {
-        this.restriction = StepNode.intersect(this.restriction, restriction);
-    }
+	public void addRestriction(StepLogical restriction) {
+		this.restriction = StepNode.intersect(this.restriction, restriction);
+	}
 
-    public void addCondition(StepSolvable condition) {
-        if (conditions == null) {
-            conditions = new ArrayList<>();
-        }
+	public void addCondition(StepSolvable condition) {
+		if (conditions == null) {
+			conditions = new ArrayList<>();
+		}
 
-        conditions.add(condition);
-    }
+		conditions.add(condition);
+	}
 
-    public List<StepSolvable> getConditions() {
-        return conditions;
-    }
+	public List<StepSolvable> getConditions() {
+		return conditions;
+	}
 
-    public void addUndefinedPoint(StepExpression point) {
-        if (undefinedPoints == null) {
-            undefinedPoints = new StepSet(point);
-        } else {
-            undefinedPoints.addElement(point);
-        }
-    }
+	public void addUndefinedPoint(StepExpression point) {
+		if (undefinedPoints == null) {
+			undefinedPoints = new StepSet(point);
+		} else {
+			undefinedPoints.addElement(point);
+		}
+	}
 
-    public void addUndefinedPoints(StepSet points) {
-        if (undefinedPoints == null) {
-            undefinedPoints = points.deepCopy();
-        } else {
-            undefinedPoints.addAll(points);
-        }
-    }
+	public void addUndefinedPoints(StepSet points) {
+		if (undefinedPoints == null) {
+			undefinedPoints = points.deepCopy();
+		} else {
+			undefinedPoints.addAll(points);
+		}
+	}
 
-    public StepLogical getRestriction() {
-        if (restriction == null) {
-            return StepInterval.R;
-        }
+	public StepLogical getRestriction() {
+		if (restriction == null) {
+			return StepInterval.R;
+		}
 
-        return restriction;
-    }
+		return restriction;
+	}
 
-    public StepSet getUndefinedPoints() {
-        if (undefinedPoints == null) {
-            return new StepSet();
-        }
+	public StepSet getUndefinedPoints() {
+		if (undefinedPoints == null) {
+			return new StepSet();
+		}
 
-        return undefinedPoints;
-    }
+		return undefinedPoints;
+	}
 
-    public boolean shouldCheck() {
-        return shouldCheckSolutions;
-    }
+	public boolean shouldCheck() {
+		return shouldCheckSolutions;
+	}
 
-    public StepArbitraryConstant getNextArbInt() {
-        return new StepArbitraryConstant("k", ++arbConstTracker, StepArbitraryConstant.ConstantType.INTEGER);
-    }
+	public StepArbitraryConstant getNextArbInt() {
+		return new StepArbitraryConstant("k", ++arbConstTracker,
+				StepArbitraryConstant.ConstantType.INTEGER);
+	}
 }

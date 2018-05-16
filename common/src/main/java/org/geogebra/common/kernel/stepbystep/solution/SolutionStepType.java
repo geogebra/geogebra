@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
-import java.util.List;
-
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.Localization;
+
+import java.util.List;
 
 public enum SolutionStepType {
 
@@ -36,8 +36,8 @@ public enum SolutionStepType {
 
 	NO_REAL_SOLUTION("NoRealSolutions", "No Real Solutions"),
 
-	INVALID_NOT_IN_RANGE("InvalidNotInRange", "%0 is not a valid solution, " +
-			"because $%0 \\notin %1$"),
+	INVALID_NOT_IN_RANGE("InvalidNotInRange",
+			"%0 is not a valid solution, " + "because $%0 \\notin %1$"),
 
 	SOLUTION("SolutionA", "Solution: %0"),
 
@@ -55,8 +55,8 @@ public enum SolutionStepType {
 		}
 
 		@Override
-		public List<String> getDetailedText(Localization loc, List<Integer> color, StepNode[]
-				parameters) {
+		public List<String> getDetailedText(Localization loc, List<Integer> color,
+				StepNode[] parameters) {
 			StringBuilder serializedColored = new StringBuilder();
 			for (int i = 0; i < parameters.length; i++) {
 				if (i != 0) {
@@ -88,18 +88,18 @@ public enum SolutionStepType {
 
 	ZERO_LT_POSITIVE("PositiveLTZero", "The statement is true, except when %0"),
 
-    POSITIVE_L_NEGATIVE("PositiveLNegative", "The statement is false for all values of %0"),
+	POSITIVE_L_NEGATIVE("PositiveLNegative", "The statement is false for all values of %0"),
 
-    POSTIVE_G_NEGATIVE("PositiveGNegative", "The statement is true for all values of %0"),
+	POSTIVE_G_NEGATIVE("PositiveGNegative", "The statement is true for all values of %0"),
 
-    NEGATIVE_L_POSITIVE("NegativeLPositive", "The statement is true for all values of %0"),
+	NEGATIVE_L_POSITIVE("NegativeLPositive", "The statement is true for all values of %0"),
 
-    NEGATIVE_G_POSITIVE("NegativeGPositive", "The statement is false for all values of %0"),
+	NEGATIVE_G_POSITIVE("NegativeGPositive", "The statement is false for all values of %0"),
 
-    LEADING_COEFFICIENT_POSITIVE("LeadingCoefficientPositive",
+	LEADING_COEFFICIENT_POSITIVE("LeadingCoefficientPositive",
 			"$a = %0 > 0$ therefore $%1 > 0$ for all %2"),
 
-    LEADING_COEFFICIENT_NEGATIVE("LeadingCoefficientNegative",
+	LEADING_COEFFICIENT_NEGATIVE("LeadingCoefficientNegative",
 			"$a = %0 < 0$ therefore $%1 < 0$ for all %2"),
 
 	LEFT_POSITIVE_RIGHT_NEGATIVE("LeftPositiveRightNegative",
@@ -143,14 +143,16 @@ public enum SolutionStepType {
 	NTH_ROOT("TakeNthRoot", "Take %0 root of both sides") {
 		@Override
 		public List<String> getDefaultText(Localization loc, StepNode[] parameters) {
-			String ordinal = loc.getOrdinalNumber((int) ((StepExpression) parameters[0]).getValue());
+			String ordinal =
+					loc.getOrdinalNumber((int) ((StepExpression) parameters[0]).getValue());
 			return loc.getMenuLaTeX(getKey(), getDefault(), ordinal);
 		}
 
 		@Override
-		public List<String> getDetailedText(Localization loc, List<Integer> color, StepNode[]
-				parameters) {
-			String ordinal = loc.getOrdinalNumber((int) ((StepExpression) parameters[0]).getValue());
+		public List<String> getDetailedText(Localization loc, List<Integer> color,
+				StepNode[] parameters) {
+			String ordinal =
+					loc.getOrdinalNumber((int) ((StepExpression) parameters[0]).getValue());
 			return loc.getMenuLaTeX(getKey(), getDetailed(), ordinal);
 		}
 	},
@@ -280,7 +282,8 @@ public enum SolutionStepType {
 
 	ROOT_OF_ONE("RootOfOne", "Any root of 1 is 1"),
 
-	EVEN_ROOT_OF_NEGATIVE("EvenRootOfNegative", "The expression is undefined in the set of the real numbers",
+	EVEN_ROOT_OF_NEGATIVE("EvenRootOfNegative",
+			"The expression is undefined in the set of the real numbers",
 			"The square root of a negative number is undefined in the set of the real numbers"),
 
 	ODD_ROOT_OF_NEGATIVE("OddRootOfNegative",
@@ -318,7 +321,7 @@ public enum SolutionStepType {
 
 	DIVIDE_BY_ONE("DividedByOne", "Evaluate Fractions",
 			"Any expression divided by one remains the same"),
-	
+
 	DIVIDE_BY_NEGATVE_ONE("DividedByNegativeOne", "Evaluate Fractions",
 			"Any expression divided by negative one negates the expression"),
 
@@ -358,7 +361,7 @@ public enum SolutionStepType {
 
 	DIFFERENCE_OF_CUBES_FACTOR("DifferenceOfCubes",
 			"Use $a^3 - b^3 = (a - b)(a^2 + ab + b^2)$ to factor"),
-	
+
 	DIFFERENCE_OF_SQUARES_FACTOR("DifferenceOfSquaresFactor",
 			"Use $a^2-b^2 \\equiv (a+b)(a-b)$ to factor"),
 
@@ -379,7 +382,8 @@ public enum SolutionStepType {
 	IS_INVALID_IN("IsInvalidIn", "%0 is invalid in %1, because there is a zero in the denominator"),
 
 	FACTOR_QUADRATIC("FactorQuadratic", "Factor the expression using $x_{1}, x_{2}$",
-			"Use $ax^2+bx+c = a\\left(x - x_{1}\\right)\\left(x - x_{2}\\right)$ to factor the expression"),
+			"Use $ax^2+bx+c = a\\left(x - x_{1}\\right)\\left(x - x_{2}\\right)$ " +
+					"to factor the expression"),
 
 	FACTOR_OUT("FactorOutA", "Factor common", "Factor out %0"),
 
@@ -408,8 +412,8 @@ public enum SolutionStepType {
 		}
 
 		@Override
-		public List<String> getDetailedText(Localization loc, List<Integer> color, StepNode[]
-				parameters) {
+		public List<String> getDetailedText(Localization loc, List<Integer> color,
+				StepNode[] parameters) {
 			StringBuilder serializedDefault = new StringBuilder();
 			for (int i = 0; i < parameters.length - 2; i++) {
 				if (i != 0) {
@@ -431,9 +435,11 @@ public enum SolutionStepType {
 	DISTRIBUTE_POWER_OVER_PRODUCT("DistributePowerOverProduct", "Distribute power over product"),
 
 	SQUARE_ROOT_MULTIPLIED_BY_ITSELF("SquareRootMultipliedByItself",
-			"When the square root of an expression in multiplied by itself, the result is that expression"),
+			"When the square root of an expression in multiplied by itself, " +
+					"the result is that expression"),
 
-	EXPAND_ROOT("ExpandRoot", "Using $\\sqrt[n]{a} \\equiv \\sqrt[mn]{a^m}$, expand the expression"),
+	EXPAND_ROOT("ExpandRoot",
+			"Using $\\sqrt[n]{a} \\equiv \\sqrt[mn]{a^m}$, expand the expression"),
 
 	PRODUCT_OF_ROOTS("ProductOfRoots",
 			"The product of roots with the same index is equal to the root of the product"),
@@ -473,8 +479,7 @@ public enum SolutionStepType {
 
 	DIFF_POWER("PowerRule", "Use the power rule", "$\\frac{d}{dx} x^n = n x^{n-1}$"),
 
-	DIFF_EXPONENTIAL_E("ExponentialRuleE", "Use the exponential rule",
-			"$\\frac{d}{dx} e^x = e^x$"),
+	DIFF_EXPONENTIAL_E("ExponentialRuleE", "Use the exponential rule", "$\\frac{d}{dx} e^x = e^x$"),
 
 	DIFF_EXPONENTIAL("ExponentialRule", "Use the exponential rule",
 			"$\\frac{d}{dx} a^x = \\ln(a) a^x$"),
@@ -519,9 +524,8 @@ public enum SolutionStepType {
 			"$\\frac{d}{dx} \\sqrt[n]{u(x)} = \\frac{1}{n \\sqrt[n]{(u(x))^{n-1}}} \\cdot " +
 					"\\frac{d}{dx} u(x)$"),
 
-	DIFF_LOG_CHAIN("LogRuleChain", "Use the log rule",
-			"$\\frac{d}{dx} \\log_{a}(u(x)) " +
-					"= \\frac{1}{\\ln(a) \\cdot u(x)} \\cdot \\frac{d}{dx} u(x)$"),
+	DIFF_LOG_CHAIN("LogRuleChain", "Use the log rule", "$\\frac{d}{dx} \\log_{a}(u(x)) " +
+			"= \\frac{1}{\\ln(a) \\cdot u(x)} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_NATURAL_LOG_CHAIN("NaturalLogRuleChain", "Use the log rule",
 			"$\\frac{d}{dx} \\ln(u(x)) = \\frac{1}{u(x)} \\cdot \\frac{d}{dx} u(x)$"),
@@ -540,7 +544,8 @@ public enum SolutionStepType {
 					"= \\frac{1}{\\sqrt{1-(u(x))^2}} \\cdot \\frac{d}{dx} u(x)$"),
 
 	DIFF_ARCCOS_CHAIN("ArccosRuleChain", "Use the rules of inverse trigonometric funtions",
-			"\\frac{d}{dx} arccos(u(x)) = -\\frac{1}{\\sqrt{1-(u(x))^2}} \\cdot \\frac{d}{dx} u(x)"),
+			"\\frac{d}{dx} arccos(u(x)) = -\\frac{1}{\\sqrt{1-(u(x))^2}} " +
+					"\\cdot \\frac{d}{dx} u(x)"),
 
 	DIFF_ARCTAN_CHAIN("ArctanRuleChain", "Use the rules of inverse trigonometric funtions",
 			"\\frac{d}{dx} arctan(u(x)) = \\frac{1}{(u(x))^2+1} \\cdot \\frac{d}{dx} u(x)"),
@@ -585,6 +590,22 @@ public enum SolutionStepType {
 		this(keyText, defaultText, defaultText);
 	}
 
+	public static String colorText(List<Integer> colors) {
+		if (colors == null) {
+			return "";
+		}
+
+		StringBuilder sb = new StringBuilder("\\;");
+		for (Integer color : colors) {
+			if (color != 0) {
+				sb.append("\\fgcolor{");
+				sb.append(StepNode.getColorHex(color));
+				sb.append("}{\\,\\bullet}");
+			}
+		}
+		return sb.toString();
+	}
+
 	public String getKey() {
 		return keyText;
 	}
@@ -609,8 +630,8 @@ public enum SolutionStepType {
 		return loc.getMenuLaTeX(keyText, defaultText, serializedDefault);
 	}
 
-	public List<String> getDetailedText(Localization loc, List<Integer> color, StepNode[]
-			parameters) {
+	public List<String> getDetailedText(Localization loc, List<Integer> color,
+			StepNode[] parameters) {
 
 		List<String> result;
 		if (parameters == null) {
@@ -630,21 +651,5 @@ public enum SolutionStepType {
 		}
 
 		return result;
-	}
-
-	public static String colorText(List<Integer> colors) {
-		if (colors == null) {
-			return "";
-		}
-
-		StringBuilder sb = new StringBuilder("\\;");
-		for (Integer color : colors) {
-			if (color != 0) {
-				sb.append("\\fgcolor{");
-				sb.append(StepNode.getColorHex(color));
-				sb.append("}{\\,\\bullet}");
-			}
-		}
-		return sb.toString();
 	}
 }

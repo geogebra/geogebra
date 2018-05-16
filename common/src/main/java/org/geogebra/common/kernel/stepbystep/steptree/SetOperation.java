@@ -2,9 +2,9 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 public enum SetOperation {
 
-    UNION,
+	UNION,
 
-    INTERSECT,
+	INTERSECT,
 
-    DIFFERENCE
+	DIFFERENCE
 }

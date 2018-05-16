@@ -4,40 +4,40 @@ import org.geogebra.common.main.Localization;
 
 public enum TableElementType implements TableElement {
 
-    POSITIVE("+"),
+	POSITIVE("+"),
 
-    NEGATIVE("-"),
+	NEGATIVE("-"),
 
-    INCREASING("\\nearrow"),
+	INCREASING("\\nearrow"),
 
-    DECREASING("\\searrow"),
+	DECREASING("\\searrow"),
 
-    CONVEX("\\smile"),
+	CONVEX("\\smile"),
 
-    CONCAVE("\\frown"),
+	CONCAVE("\\frown"),
 
-    CONVEX_INCREASING("\u2934"),
+	CONVEX_INCREASING("\u2934"),
 
-    CONVEX_DECREASING("\u2937"),
+	CONVEX_DECREASING("\u2937"),
 
-    CONCAVE_INCREASING("\\rotatebox{90}{\u2935}"),
+	CONCAVE_INCREASING("\\rotatebox{90}{\u2935}"),
 
-    CONCAVE_DECREASING("\u2935"),
+	CONCAVE_DECREASING("\u2935"),
 
-    INVALID("|"),
+	INVALID("|"),
 
-    ZERO("0"),
+	ZERO("0"),
 
-    VSPACE(" \\; ");
+	VSPACE(" \\; ");
 
-    private final String latex;
+	private final String latex;
 
-    TableElementType(String latex) {
-        this.latex = latex;
-    }
+	TableElementType(String latex) {
+		this.latex = latex;
+	}
 
-    public String toLaTeXString(Localization loc) {
-        return latex;
-    }
+	public String toLaTeXString(Localization loc) {
+		return latex;
+	}
 
 }

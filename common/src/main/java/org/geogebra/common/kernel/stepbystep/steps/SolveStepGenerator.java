@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface SolveStepGenerator {
 
-	List<StepSolution> apply(StepSolvable se, StepVariable sv, SolutionBuilder sb, SolveTracker tracker);
+	List<StepSolution> apply(StepSolvable se, StepVariable sv, SolutionBuilder sb,
+			SolveTracker tracker);
 }

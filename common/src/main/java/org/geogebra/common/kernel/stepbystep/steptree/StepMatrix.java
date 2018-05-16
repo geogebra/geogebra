@@ -10,237 +10,236 @@ import java.util.Arrays;
 
 public class StepMatrix extends StepNode {
 
-    private StepExpression[][] data;
-    private Determinant determinant = new Determinant();
+	private StepExpression[][] data;
+	private Determinant determinant = new Determinant();
 
-    private boolean isAugmented;
+	private boolean isAugmented;
 
-    public class Determinant extends StepNode {
+	public StepMatrix(StepExpression[][] data) {
+		this.data = new StepExpression[data.length][data[0].length];
+		for (int i = 0; i < data.length; i++) {
+			System.arraycopy(data[i], 0, this.data[i], 0, data[i].length);
+		}
+	}
 
-        @Override
-        public StepNode deepCopy() {
-            return StepMatrix.this.deepCopy().getDeterminant();
-        }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof StepMatrix) {
+			StepMatrix sm = (StepMatrix) obj;
 
-        @Override
-        public String toLaTeXString(Localization loc, boolean colored) {
-            if (colored && color != 0) {
-                return "\\fgcolor{" + getColorHex() + "}{\\begin{vmatrix}"
-                        + convertToString(loc, false) + "\\end{vmatrix}}";
-            }
+			return isAugmented == sm.isAugmented && Arrays.deepEquals(data, sm.data);
+		}
 
-            return "\\begin{vmatrix}" + convertToString(loc, colored) + "\\end{vmatrix}";
-        }
+		return false;
+	}
 
-        public StepExpression calculateDeterminant(SolutionBuilder steps) {
-            int color = 1;
-            for (StepExpression[] row : data) {
-                for (StepExpression element : row) {
-                    element.setColor(color++);
-                }
-            }
+	@Override
+	public int hashCode() {
+		int result = Arrays.deepHashCode(data);
+		result = 31 * result + (isAugmented ? 1 : 0);
+		return result;
+	}
 
-            StepExpression sum = null;
+	public int getHeight() {
+		return data.length;
+	}
 
-            if (data.length == 2) {
-                sum = multiply(data[0][0], data[1][1]);
-                sum = subtract(sum, multiply(data[0][1], data[1][0]));
-            } else if (data.length == 3) {
-                sum = StepOperation.multiply(data[0][0], data[1][1], data[2][2]);
-                sum = add(sum, StepOperation.multiply(data[0][1], data[1][2], data[2][0]));
-                sum = add(sum, StepOperation.multiply(data[0][2], data[1][0], data[2][1]));
-                sum = subtract(sum, StepOperation.multiply(data[0][2], data[1][1], data[2][0]));
-                sum = subtract(sum, StepOperation.multiply(data[0][1], data[1][0], data[2][2]));
-                sum = subtract(sum, StepOperation.multiply(data[0][0], data[1][2], data[2][1]));
-            } else {
-                throw new SolveFailedException("determinant size not supported");
-            }
+	public int getWidth() {
+		return data[0].length;
+	}
 
-            steps.addSubstep(this, sum, SolutionStepType.USE_LEIBNIZ_FORMULA);
-            sum = sum.regroup(steps);
+	public StepExpression get(int i, int j) {
+		return data[i][j];
+	}
 
-            for (StepExpression[] row : data) {
-                for (StepExpression element : row) {
-                    element.cleanColors();
-                }
-            }
+	public void set(int i, int j, StepExpression value) {
+		data[i][j] = value;
+	}
 
-            return sum;
-        }
-    }
+	public Determinant getDeterminant() {
+		if (getWidth() != getHeight()) {
+			return null;
+		}
 
-    public StepMatrix(StepExpression[][] data) {
-        this.data = new StepExpression[data.length][data[0].length];
-        for (int i = 0; i < data.length; i++) {
-            System.arraycopy(data[i], 0, this.data[i], 0, data[i].length);
-        }
-    }
+		return determinant;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof StepMatrix) {
-            StepMatrix sm = (StepMatrix) obj;
+	public void setAugmented() {
+		isAugmented = true;
+	}
 
-            return isAugmented == sm.isAugmented
-                    && Arrays.deepEquals(data, sm.data);
-        }
+	public StepMatrix regroup() {
+		return regroup(null);
+	}
 
-        return false;
-    }
+	public StepMatrix regroup(SolutionBuilder steps) {
+		return (StepMatrix) StepStrategies.defaultRegroup(this, steps);
+	}
 
-    @Override
-    public int hashCode() {
-        int result = Arrays.deepHashCode(data);
-        result = 31 * result + (isAugmented ? 1 : 0);
-        return result;
-    }
+	public StepMatrix addRow(int i, int j, StepExpression coefficient, SolutionBuilder steps) {
+		SolutionBuilder tempSteps = new SolutionBuilder();
 
-    public int getHeight() {
-        return data.length;
-    }
+		StepMatrix result = deepCopy();
 
-    public int getWidth() {
-        return data[0].length;
-    }
+		coefficient.setColor(1);
+		for (int k = 0; k < getWidth(); k++) {
+			data[i][k].setColor(2);
+			result.data[i][k].setColor(2);
+			result.data[j][k] = add(data[j][k], multiply(coefficient, data[i][k]));
+		}
 
-    public StepExpression get(int i, int j) {
-        return data[i][j];
-    }
+		tempSteps.addSubstep(this, result, SolutionStepType.MULTIPLY_EACH_ELEMENT_AND_ADD,
+				StepConstant.create(i + 1), coefficient, StepConstant.create(j + 1));
 
-    public void set(int i, int j, StepExpression value) {
-        data[i][j] = value;
-    }
+		result = result.regroup(tempSteps);
 
-    public Determinant getDeterminant() {
-        if (getWidth() != getHeight()) {
-            return null;
-        }
+		steps.addGroup(SolutionStepType.MULTIPLY_ROW_AND_ADD, tempSteps, result,
+				StepConstant.create(i + 1), coefficient, StepConstant.create(j + 1));
 
-        return determinant;
-    }
+		cleanColors();
+		return result;
+	}
 
-    public void setAugmented() {
-        isAugmented = true;
-    }
+	public StepMatrix divideRow(int i, StepExpression coefficient, SolutionBuilder steps) {
+		SolutionBuilder tempSteps = new SolutionBuilder();
 
-    public StepMatrix regroup() {
-        return regroup(null);
-    }
+		StepMatrix result = deepCopy();
 
-    public StepMatrix regroup(SolutionBuilder steps) {
-        return (StepMatrix) StepStrategies.defaultRegroup(this, steps);
-    }
+		coefficient.setColor(1);
+		for (int j = 0; j < getWidth(); j++) {
+			result.data[i][j] = divide(data[i][j], coefficient);
+		}
 
-    public StepMatrix addRow(int i, int j, StepExpression coefficient, SolutionBuilder steps) {
-        SolutionBuilder tempSteps = new SolutionBuilder();
+		tempSteps.addSubstep(this, result, SolutionStepType.DIVIDE_EACH_ELEMENT,
+				StepConstant.create(i + 1), coefficient);
 
-        StepMatrix result = deepCopy();
+		result = result.regroup(tempSteps);
 
-        coefficient.setColor(1);
-        for (int k = 0; k < getWidth(); k++) {
-            data[i][k].setColor(2);
-            result.data[i][k].setColor(2);
-            result.data[j][k] = add(data[j][k], multiply(coefficient, data[i][k]));
-        }
+		steps.addGroup(SolutionStepType.DIVIDE_ROW, tempSteps, result, StepConstant.create(i + 1),
+				coefficient);
 
-        tempSteps.addSubstep(this, result, SolutionStepType.MULTIPLY_EACH_ELEMENT_AND_ADD,
-                StepConstant.create(i + 1), coefficient, StepConstant.create(j + 1));
+		return result;
+	}
 
-        result = result.regroup(tempSteps);
+	@Override
+	public StepMatrix deepCopy() {
+		StepMatrix sm = new StepMatrix(data);
+		sm.color = color;
+		if (isAugmented) {
+			sm.setAugmented();
+		}
+		return sm;
+	}
 
-        steps.addGroup(SolutionStepType.MULTIPLY_ROW_AND_ADD, tempSteps, result,
-                StepConstant.create(i + 1), coefficient, StepConstant.create(j + 1));
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (StepExpression[] row : data) {
+			sb.append("\n");
+			for (StepExpression element : row) {
+				sb.append(element);
+				sb.append(" ");
+			}
+		}
 
-        cleanColors();
-        return result;
-    }
+		return sb.toString();
+	}
 
-    public StepMatrix divideRow(int i, StepExpression coefficient, SolutionBuilder steps) {
-        SolutionBuilder tempSteps = new SolutionBuilder();
+	@Override
+	public String toLaTeXString(Localization loc, boolean colored) {
+		String output = "";
 
-        StepMatrix result = deepCopy();
+		if (colored && color != 0) {
+			output += "\\fgcolor{" + getColorHex() + "}";
+		}
 
-        coefficient.setColor(1);
-        for (int j = 0; j < getWidth(); j++) {
-            result.data[i][j] = divide(data[i][j], coefficient);
-        }
+		output += "\\left(";
+		output += "\\begin{array}";
 
-        tempSteps.addSubstep(this, result, SolutionStepType.DIVIDE_EACH_ELEMENT,
-                StepConstant.create(i + 1), coefficient);
+		if (isAugmented) {
+			output += "{*{" + (data[0].length - 1) + "}{c} | {c}}";
+		}
 
-        result = result.regroup(tempSteps);
+		if (colored && color != 0) {
+			output += convertToString(loc, false);
+		} else {
+			output += convertToString(loc, colored);
+		}
 
-        steps.addGroup(SolutionStepType.DIVIDE_ROW, tempSteps, result,
-                StepConstant.create(i + 1), coefficient);
+		output += "\\end{array}";
+		output += "\\right)";
 
-        return result;
-    }
+		return output;
+	}
 
-    @Override
-    public StepMatrix deepCopy() {
-        StepMatrix sm = new StepMatrix(data);
-        sm.color = color;
-        if (isAugmented) {
-            sm.setAugmented();
-        }
-        return sm;
-    }
+	private String convertToString(Localization loc, boolean colored) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < data.length; i++) {
+			if (i != 0) {
+				sb.append(" \\\\ ");
+			}
+			for (int j = 0; j < data[i].length; j++) {
+				if (j != 0) {
+					sb.append(" & ");
+				}
+				sb.append(data[i][j].toLaTeXString(loc, colored));
+			}
+		}
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (StepExpression[] row : data) {
-            sb.append("\n");
-            for (StepExpression element : row) {
-                sb.append(element);
-                sb.append(" ");
-            }
-        }
+		return sb.toString();
+	}
 
-        return sb.toString();
-    }
+	public class Determinant extends StepNode {
 
-    @Override
-    public String toLaTeXString(Localization loc, boolean colored) {
-        String output = "";
+		@Override
+		public StepNode deepCopy() {
+			return StepMatrix.this.deepCopy().getDeterminant();
+		}
 
-        if (colored && color != 0) {
-            output += "\\fgcolor{" + getColorHex() + "}";
-        }
+		@Override
+		public String toLaTeXString(Localization loc, boolean colored) {
+			if (colored && color != 0) {
+				return "\\fgcolor{" + getColorHex() + "}{\\begin{vmatrix}" +
+						convertToString(loc, false) + "\\end{vmatrix}}";
+			}
 
-        output += "\\left(";
-        output += "\\begin{array}";
+			return "\\begin{vmatrix}" + convertToString(loc, colored) + "\\end{vmatrix}";
+		}
 
-        if (isAugmented) {
-            output += "{*{" + (data[0].length - 1) + "}{c} | {c}}";
-        }
+		public StepExpression calculateDeterminant(SolutionBuilder steps) {
+			int color = 1;
+			for (StepExpression[] row : data) {
+				for (StepExpression element : row) {
+					element.setColor(color++);
+				}
+			}
 
-        if (colored && color != 0) {
-            output += convertToString(loc, false);
-        }else {
-            output += convertToString(loc, colored);
-        }
+			StepExpression sum = null;
 
-        output += "\\end{array}";
-        output += "\\right)";
+			if (data.length == 2) {
+				sum = multiply(data[0][0], data[1][1]);
+				sum = subtract(sum, multiply(data[0][1], data[1][0]));
+			} else if (data.length == 3) {
+				sum = StepOperation.multiply(data[0][0], data[1][1], data[2][2]);
+				sum = add(sum, StepOperation.multiply(data[0][1], data[1][2], data[2][0]));
+				sum = add(sum, StepOperation.multiply(data[0][2], data[1][0], data[2][1]));
+				sum = subtract(sum, StepOperation.multiply(data[0][2], data[1][1], data[2][0]));
+				sum = subtract(sum, StepOperation.multiply(data[0][1], data[1][0], data[2][2]));
+				sum = subtract(sum, StepOperation.multiply(data[0][0], data[1][2], data[2][1]));
+			} else {
+				throw new SolveFailedException("determinant size not supported");
+			}
 
-        return output;
-    }
+			steps.addSubstep(this, sum, SolutionStepType.USE_LEIBNIZ_FORMULA);
+			sum = sum.regroup(steps);
 
-    private String convertToString(Localization loc, boolean colored) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < data.length; i++) {
-            if (i != 0) {
-                sb.append(" \\\\ ");
-            }
-            for (int j = 0; j < data[i].length; j++) {
-                if (j != 0) {
-                    sb.append(" & ");
-                }
-                sb.append(data[i][j].toLaTeXString(loc, colored));
-            }
-        }
+			for (StepExpression[] row : data) {
+				for (StepExpression element : row) {
+					element.cleanColors();
+				}
+			}
 
-        return sb.toString();
-    }
+			return sum;
+		}
+	}
 }

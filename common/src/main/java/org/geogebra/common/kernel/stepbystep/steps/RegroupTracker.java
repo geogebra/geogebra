@@ -34,19 +34,19 @@ public class RegroupTracker {
 		}
 
 		@Override
+		public int hashCode() {
+			int result = marked != null ? marked.hashCode() : 0;
+			result = 31 * result + (type != null ? type.hashCode() : 0);
+			return result;
+		}
+
+		@Override
 		public boolean equals(Object o) {
 			if (o instanceof Mark) {
 				return type == ((Mark) o).type && marked.equals(((Mark) o).marked);
 			}
 
 			return false;
-		}
-
-		@Override
-		public int hashCode() {
-			int result = marked != null ? marked.hashCode() : 0;
-			result = 31 * result + (type != null ? type.hashCode() : 0);
-			return result;
 		}
 	}
 

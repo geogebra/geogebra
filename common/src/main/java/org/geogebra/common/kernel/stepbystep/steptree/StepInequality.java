@@ -15,11 +15,21 @@ public class StepInequality extends StepSolvable {
 	private boolean lessThan;
 	private boolean strong;
 
-	public StepInequality(StepExpression LHS, StepExpression RHS, boolean lessThan, boolean strong) {
+	public StepInequality(StepExpression LHS, StepExpression RHS, boolean lessThan,
+			boolean strong) {
 		this.LHS = LHS;
 		this.RHS = RHS;
 		this.lessThan = lessThan;
 		this.strong = strong;
+	}
+
+	public static StepInequality from(String LHS, String op, String RHS, Parser parser) {
+		StepExpression _LHS = (StepExpression) StepNode.getStepTree(LHS, parser);
+		StepExpression _RHS = (StepExpression) StepNode.getStepTree(RHS, parser);
+
+		boolean lessThan = op.contains("<");
+		boolean strong = !op.contains("=");
+		return new StepInequality(_LHS, _RHS, lessThan, strong);
 	}
 
 	public boolean isLessThan() {
@@ -45,7 +55,8 @@ public class StepInequality extends StepSolvable {
 	public boolean equals(Object sn) {
 		if (sn instanceof StepInequality) {
 			StepInequality si = (StepInequality) sn;
-			return LHS.equals(si.LHS) && RHS.equals(si.RHS) && lessThan == si.lessThan && strong == si.strong;
+			return LHS.equals(si.LHS) && RHS.equals(si.RHS) && lessThan == si.lessThan &&
+					strong == si.strong;
 		}
 
 		return false;
@@ -57,8 +68,8 @@ public class StepInequality extends StepSolvable {
 	}
 
 	@Override
-	public List<StepSolution> solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb)
-			throws CASException {
+	public List<StepSolution> solveAndCompareToCAS(Kernel kernel, StepVariable sv,
+			SolutionBuilder sb) throws CASException {
 		return solve(sv, sb, new SolveTracker());
 	}
 
@@ -74,39 +85,22 @@ public class StepInequality extends StepSolvable {
 
 	@Override
 	public String toString() {
-		return LHS.toString() +
-				(lessThan ? " <" : " >") +
-				(strong ? " " : "= ") +
-				RHS.toString();
+		return LHS.toString() + (lessThan ? " <" : " >") + (strong ? " " : "= ") + RHS.toString();
 	}
 
 	@Override
 	public String toLaTeXString(Localization loc, boolean colored) {
-		return LHS.toLaTeXString(loc, colored) +
-				(lessThan ? " \\l" : " \\g") +
-				(strong ? "t " : "e ") +
-				RHS.toLaTeXString(loc, colored);
+		return LHS.toLaTeXString(loc, colored) + (lessThan ? " \\l" : " \\g") +
+				(strong ? "t " : "e ") + RHS.toLaTeXString(loc, colored);
 	}
 
 	@Override
-	public boolean checkSolution(StepVariable variable, StepExpression value,
-								 SolutionBuilder sb, SolveTracker tracker) {
+	public boolean checkSolution(StepVariable variable, StepExpression value, SolutionBuilder sb,
+			SolveTracker tracker) {
 		return true;
 	}
 
 	public void flip() {
 		lessThan = !lessThan;
-	}
-
-	public static StepInequality from(String LHS, String op, String RHS,
-			Parser parser) {
-		StepExpression _LHS = (StepExpression) StepNode.getStepTree(LHS,
-				parser);
-		StepExpression _RHS = (StepExpression) StepNode.getStepTree(RHS,
-				parser);
-
-		boolean lessThan = op.contains("<");
-		boolean strong = !op.contains("=");
-		return new StepInequality(_LHS, _RHS, lessThan, strong);
 	}
 }

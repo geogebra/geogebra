@@ -13,124 +13,125 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepOperation.add;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOne;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepOperation.add;
 
 public enum FractionSteps implements SimplificationStepGenerator {
 
-    EXPAND_FRACTIONS {
-        @Override
-        public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-            StepNode temp = StepStrategies.iterateThrough(this, sn, sb, tracker);
-            if (!temp.equals(sn)) {
-                return temp;
-            }
+	EXPAND_FRACTIONS {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			StepNode temp = StepStrategies.iterateThrough(this, sn, sb, tracker);
+			if (!temp.equals(sn)) {
+				return temp;
+			}
 
-            if (sn.isOperation(Operation.PLUS)) {
-                StepOperation so = (StepOperation) sn;
+			if (sn.isOperation(Operation.PLUS)) {
+				StepOperation so = (StepOperation) sn;
 
-                StepExpression newDenominator = StepConstant.create(1);
-                for (StepExpression operand : so) {
-                    if (operand.getDenominator() != null) {
-                        newDenominator = StepHelper.LCM(newDenominator, operand.getDenominator());
-                    }
-                }
+				StepExpression newDenominator = StepConstant.create(1);
+				for (StepExpression operand : so) {
+					if (operand.getDenominator() != null) {
+						newDenominator = StepHelper.LCM(newDenominator, operand.getDenominator());
+					}
+				}
 
-                if (isOne(newDenominator) || tracker.isIntegerFractions() && !newDenominator.isInteger()) {
-                    return StepStrategies.iterateThrough(this, sn, sb, tracker);
-                }
+				if (isOne(newDenominator) ||
+						tracker.isIntegerFractions() && !newDenominator.isInteger()) {
+					return StepStrategies.iterateThrough(this, sn, sb, tracker);
+				}
 
-                int tempTracker = tracker.getColorTracker();
-                newDenominator.setColor(tempTracker++);
+				int tempTracker = tracker.getColorTracker();
+				newDenominator.setColor(tempTracker++);
 
-                StepExpression[] newSum = new StepExpression[so.noOfOperands()];
+				StepExpression[] newSum = new StepExpression[so.noOfOperands()];
 
-                boolean wasChanged = false;
-                for (int i = 0; i < so.noOfOperands(); i++) {
-                    StepExpression currentDenominator = so.getOperand(i).getDenominator();
-                    if (!newDenominator.equals(currentDenominator)) {
-                        wasChanged = true;
+				boolean wasChanged = false;
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					StepExpression currentDenominator = so.getOperand(i).getDenominator();
+					if (!newDenominator.equals(currentDenominator)) {
+						wasChanged = true;
 
-                        StepExpression toExpand = newDenominator.quotient(currentDenominator);
-                        toExpand.setColor(tempTracker++);
+						StepExpression toExpand = newDenominator.quotient(currentDenominator);
+						toExpand.setColor(tempTracker++);
 
-                        StepExpression oldNumerator;
-                        if (so.getOperand(i).isNegative()) {
-                            oldNumerator = so.getOperand(i).negate().getNumerator();
-                        } else {
-                            oldNumerator = so.getOperand(i).getNumerator();
-                        }
+						StepExpression oldNumerator;
+						if (so.getOperand(i).isNegative()) {
+							oldNumerator = so.getOperand(i).negate().getNumerator();
+						} else {
+							oldNumerator = so.getOperand(i).getNumerator();
+						}
 
-                        StepExpression numerator = nonTrivialProduct(toExpand, oldNumerator);
-                        tracker.addMark(numerator, RegroupTracker.MarkType.EXPAND);
+						StepExpression numerator = nonTrivialProduct(toExpand, oldNumerator);
+						tracker.addMark(numerator, RegroupTracker.MarkType.EXPAND);
 
-                        StepExpression newFraction = divide(numerator, newDenominator);
+						StepExpression newFraction = divide(numerator, newDenominator);
 
-                        if (so.getOperand(i).isNegative()) {
-                            newSum[i] = newFraction.negate();
-                        } else {
-                            newSum[i] = newFraction;
-                        }
-                    } else {
-                        newSum[i] = so.getOperand(i);
-                    }
-                }
+						if (so.getOperand(i).isNegative()) {
+							newSum[i] = newFraction.negate();
+						} else {
+							newSum[i] = newFraction;
+						}
+					} else {
+						newSum[i] = so.getOperand(i);
+					}
+				}
 
-                if (wasChanged) {
-                    tracker.setColorTracker(tempTracker);
-                    sb.add(SolutionStepType.EXPAND_FRACTIONS, newDenominator);
+				if (wasChanged) {
+					tracker.setColorTracker(tempTracker);
+					sb.add(SolutionStepType.EXPAND_FRACTIONS, newDenominator);
 
-                    return new StepOperation(Operation.PLUS, newSum);
-                }
-            }
+					return new StepOperation(Operation.PLUS, newSum);
+				}
+			}
 
-            return sn;
-        }
-    },
+			return sn;
+		}
+	},
 
-    ADD_NUMERATORS {
-        @Override
-        public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-            if (sn.isOperation(Operation.PLUS)) {
-                StepOperation so = (StepOperation) sn;
+	ADD_NUMERATORS {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.PLUS)) {
+				StepOperation so = (StepOperation) sn;
 
-                StepExpression remainder = null;
-                StepExpression newNumerator = null;
-                StepExpression newDenominator = null;
+				StepExpression remainder = null;
+				StepExpression newNumerator = null;
+				StepExpression newDenominator = null;
 
-                List<StepExpression> fractions = new ArrayList<>();
-                for (StepExpression operand : so) {
-                    StepExpression currentNumerator = operand.getNumerator();
-                    StepExpression currentDenominator = operand.getDenominator();
+				List<StepExpression> fractions = new ArrayList<>();
+				for (StepExpression operand : so) {
+					StepExpression currentNumerator = operand.getNumerator();
+					StepExpression currentDenominator = operand.getDenominator();
 
-                    if (newDenominator == null && currentDenominator != null) {
-                        newDenominator = currentDenominator;
-                    }
+					if (newDenominator == null && currentDenominator != null) {
+						newDenominator = currentDenominator;
+					}
 
-                    if (currentDenominator != null && currentDenominator.equals(newDenominator)) {
-                        newNumerator = add(newNumerator, currentNumerator);
-                        fractions.add(operand);
-                    } else {
-                        remainder = add(remainder, operand);
-                    }
-                }
+					if (currentDenominator != null && currentDenominator.equals(newDenominator)) {
+						newNumerator = add(newNumerator, currentNumerator);
+						fractions.add(operand);
+					} else {
+						remainder = add(remainder, operand);
+					}
+				}
 
-                if (fractions.size() > 1) {
-                    for (StepExpression fraction : fractions) {
-                        fraction.setColor(tracker.getColorTracker());
-                    }
+				if (fractions.size() > 1) {
+					for (StepExpression fraction : fractions) {
+						fraction.setColor(tracker.getColorTracker());
+					}
 
-                    StepExpression result = divide(newNumerator, newDenominator);
-                    result.setColor(tracker.getColorTracker());
-                    sb.add(SolutionStepType.ADD_NUMERATORS, tracker.incColorTracker());
-                    return add(remainder, result);
-                }
-            }
+					StepExpression result = divide(newNumerator, newDenominator);
+					result.setColor(tracker.getColorTracker());
+					sb.add(SolutionStepType.ADD_NUMERATORS, tracker.incColorTracker());
+					return add(remainder, result);
+				}
+			}
 
-            return StepStrategies.iterateThrough(this, sn, sb, tracker);
-        }
-    },
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
 
     ADD_FRACTIONS {
         @Override
@@ -146,17 +147,18 @@ public enum FractionSteps implements SimplificationStepGenerator {
                     RegroupSteps.SIMPLIFY_FRACTIONS
             };
 
-            if (RegroupSteps.contains(sn, Operation.DIVIDE)) {
-                return StepStrategies.implementGroup(sn, SolutionStepType.ADD_FRACTIONS, fractionAddition,
-                        sb, tracker);
-            }
+			if (RegroupSteps.contains(sn, Operation.DIVIDE)) {
+				return StepStrategies
+						.implementGroup(sn, SolutionStepType.ADD_FRACTIONS, fractionAddition, sb,
+								tracker);
+			}
 
-            return sn;
-        }
-    };
+			return sn;
+		}
+	};
 
-    @Override
-    public boolean isGroupType() {
-        return this == ADD_FRACTIONS;
-    }
+	@Override
+	public boolean isGroupType() {
+		return this == ADD_FRACTIONS;
+	}
 }

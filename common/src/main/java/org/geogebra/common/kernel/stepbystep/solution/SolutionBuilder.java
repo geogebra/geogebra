@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+
 import java.util.List;
 import java.util.Stack;
-
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 
 public class SolutionBuilder {
 	private Stack<SolutionStep> previousSteps;
@@ -17,7 +17,7 @@ public class SolutionBuilder {
 
 	/**
 	 * Get the step tree
-	 * 
+	 *
 	 * @return root of the StepTree (always of the type WRAPPER)
 	 */
 	public SolutionStep getSteps() {
@@ -30,11 +30,9 @@ public class SolutionBuilder {
 
 	/**
 	 * Creates a new solution line and adds it to the tree
-	 * 
-	 * @param type
-	 *            SolutionStepType of the SolutionLine
-	 * @param color
-	 *            color assigned to the SolutionLine
+	 *
+	 * @param type  SolutionStepType of the SolutionLine
+	 * @param color color assigned to the SolutionLine
 	 */
 	public void add(SolutionStepType type, int color) {
 		add(new SolutionLine(type, color));
@@ -42,11 +40,9 @@ public class SolutionBuilder {
 
 	/**
 	 * Creates a new solutions line and adds it to the tree
-	 * 
-	 * @param type
-	 *            SolutionStepType of the SolutionLine
-	 * @param arguments
-	 *            StepNode arguments of the SolutionLine
+	 *
+	 * @param type      SolutionStepType of the SolutionLine
+	 * @param arguments StepNode arguments of the SolutionLine
 	 */
 	public void add(SolutionStepType type, StepNode... arguments) {
 		add(new SolutionLine(type, arguments));
@@ -54,9 +50,8 @@ public class SolutionBuilder {
 
 	/**
 	 * Adds a SolutionStep to the solution tree
-	 * 
-	 * @param newStep
-	 *            SolutionStep to add
+	 *
+	 * @param newStep SolutionStep to add
 	 */
 	public void add(SolutionStep newStep) {
 		if (currentStep == null) {
@@ -74,9 +69,8 @@ public class SolutionBuilder {
 
 	/**
 	 * Add all the substeps of s to the solution that is being built
-	 * 
-	 * @param s
-	 *            wrapper of substeps to add
+	 *
+	 * @param s wrapper of substeps to add
 	 */
 	public void addAll(SolutionStep s) {
 		List<SolutionStep> substeps = s.getSubsteps();
@@ -94,8 +88,8 @@ public class SolutionBuilder {
 		group.reset();
 	}
 
-	public void addGroup(SolutionStepType groupHeader, SolutionBuilder group,
-						 StepNode result, StepNode... parameters) {
+	public void addGroup(SolutionStepType groupHeader, SolutionBuilder group, StepNode result,
+			StepNode... parameters) {
 		addGroup(new SolutionLine(groupHeader, parameters), group, result);
 	}
 
@@ -115,7 +109,8 @@ public class SolutionBuilder {
 		group.reset();
 	}
 
-	public void addSubstep(StepNode original, StepNode result, SolutionStepType substep, StepNode... parameters) {
+	public void addSubstep(StepNode original, StepNode result, SolutionStepType substep,
+			StepNode... parameters) {
 		add(SolutionStepType.SUBSTEP_WRAPPER);
 		levelDown();
 		add(original);

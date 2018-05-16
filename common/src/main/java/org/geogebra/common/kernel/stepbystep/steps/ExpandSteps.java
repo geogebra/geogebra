@@ -1,13 +1,13 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
-
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.plugin.Operation;
+
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
 public enum ExpandSteps implements SimplificationStepGenerator {
 
@@ -17,7 +17,8 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.noOfOperands() != 2 || !so.getOperand(0).isSum() || !so.getOperand(1).isSum()) {
+				if (so.noOfOperands() != 2 || !so.getOperand(0).isSum() ||
+						!so.getOperand(1).isSum()) {
 					return StepStrategies.iterateThrough(this, sn, sb, tracker);
 				}
 
@@ -28,8 +29,8 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 					return StepStrategies.iterateThrough(this, sn, sb, tracker);
 				}
 
-				if (first.getOperand(0).equals(second.getOperand(0))
-						&& first.getOperand(1).equals(second.getOperand(1).negate())) {
+				if (first.getOperand(0).equals(second.getOperand(0)) &&
+						first.getOperand(1).equals(second.getOperand(1).negate())) {
 					first.getOperand(0).setColor(tracker.getColorTracker());
 					second.getOperand(0).setColor(tracker.incColorTracker());
 					first.getOperand(1).setColor(tracker.getColorTracker());
@@ -48,8 +49,8 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 					return new StepOperation(Operation.PLUS, sum);
 				}
 
-				if (first.getOperand(1).equals(second.getOperand(1))
-						&& first.getOperand(0).equals(second.getOperand(0).negate())) {
+				if (first.getOperand(1).equals(second.getOperand(1)) &&
+						first.getOperand(0).equals(second.getOperand(0).negate())) {
 					first.getOperand(1).setColor(tracker.getColorTracker());
 					second.getOperand(1).setColor(tracker.incColorTracker());
 					first.getOperand(0).setColor(tracker.getColorTracker());
@@ -59,8 +60,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 
 					return new StepOperation(Operation.MULTIPLY,
 							add(first.getOperand(1), first.getOperand(0)),
-							add(second.getOperand(1), second.getOperand(0))
-					);
+							add(second.getOperand(1), second.getOperand(0)));
 				}
 			}
 
@@ -69,7 +69,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 	},
 
 	EXPAND_PRODUCTS {
-		@Override 
+		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
@@ -116,8 +116,8 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 						StepOperation soFirst = (StepOperation) first;
 						StepOperation soSecond = (StepOperation) second;
 
-						StepExpression[] terms = new StepExpression[
-								soFirst.noOfOperands() * soSecond.noOfOperands()];
+						StepExpression[] terms = new StepExpression[soFirst.noOfOperands() *
+								soSecond.noOfOperands()];
 						for (int i = 0; i < soFirst.noOfOperands(); i++) {
 							for (int j = 0; j < soSecond.noOfOperands(); j++) {
 								terms[i * soSecond.noOfOperands() + j] =
@@ -152,7 +152,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 					return multiply(product, remaining);
 				}
 			}
-			
+
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
@@ -163,8 +163,8 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 			if (sn instanceof StepOperation && !sn.isOperation(Operation.ABS)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.POWER) && so.getOperand(0).isSum()
-						&& so.getOperand(1).getValue() > 0 && so.getOperand(1).isInteger()) {
+				if (so.isOperation(Operation.POWER) && so.getOperand(0).isSum() &&
+						so.getOperand(1).getValue() > 0 && so.getOperand(1).isInteger()) {
 					StepOperation sum = (StepOperation) so.getOperand(0);
 
 					if (so.getOperand(1).getValue() + sum.noOfOperands() < 6) {
@@ -180,45 +180,42 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this,sn,sb,tracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 
-		private StepExpression expandUsingFormula(StepOperation so, SolutionBuilder sb, RegroupTracker tracker) {
+		private StepExpression expandUsingFormula(StepOperation so, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			StepOperation sum = (StepOperation) so.getOperand(0);
 
 			for (StepExpression operand : sum) {
 				operand.setColor(tracker.incColorTracker());
 			}
 
-			if (isEqual(so.getOperand(1), 2) && sum.noOfOperands() == 2 && sum.getOperand(1).isNegative()) {
+			if (isEqual(so.getOperand(1), 2) && sum.noOfOperands() == 2 &&
+					sum.getOperand(1).isNegative()) {
 				sb.add(SolutionStepType.BINOM_SQUARED_DIFF);
 
-				return new StepOperation(Operation.PLUS,
-						power(sum.getOperand(0), 2),
+				return new StepOperation(Operation.PLUS, power(sum.getOperand(0), 2),
 						multiply(-2, multiply(sum.getOperand(0), sum.getOperand(1).negate())),
 						power(sum.getOperand(1).negate(), 2));
 			} else if (isEqual(so.getOperand(1), 2) && sum.noOfOperands() == 2) {
 				sb.add(SolutionStepType.BINOM_SQUARED_SUM);
 
-				return new StepOperation(Operation.PLUS,
-						power(sum.getOperand(0), 2),
+				return new StepOperation(Operation.PLUS, power(sum.getOperand(0), 2),
 						multiply(2, multiply(sum.getOperand(0), sum.getOperand(1))),
 						power(sum.getOperand(1), 2));
 			} else if (isEqual(so.getOperand(1), 2) && sum.noOfOperands() == 3) {
 				sb.add(SolutionStepType.TRINOM_SQUARED);
 
-				return new StepOperation(Operation.PLUS,
-						power(sum.getOperand(0), 2),
-						power(sum.getOperand(1), 2),
-						power(sum.getOperand(2), 2),
+				return new StepOperation(Operation.PLUS, power(sum.getOperand(0), 2),
+						power(sum.getOperand(1), 2), power(sum.getOperand(2), 2),
 						multiply(2, multiply(sum.getOperand(0), sum.getOperand(1))),
 						multiply(2, multiply(sum.getOperand(1), sum.getOperand(2))),
 						multiply(2, multiply(sum.getOperand(0), sum.getOperand(2))));
 			} else if (isEqual(so.getOperand(1), 3) && sum.noOfOperands() == 2) {
 				sb.add(SolutionStepType.BINOM_CUBED);
 
-				return new StepOperation(Operation.PLUS,
-						power(sum.getOperand(0), 3),
+				return new StepOperation(Operation.PLUS, power(sum.getOperand(0), 3),
 						multiply(3, multiply(power(sum.getOperand(0), 2), sum.getOperand(1))),
 						multiply(3, multiply(sum.getOperand(0), power(sum.getOperand(1), 2))),
 						power(sum.getOperand(1), 3));
@@ -231,28 +228,26 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 	DECIMAL_EXPAND {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] {
-					RegroupSteps.DECIMAL_REGROUP,
-					ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
-					ExpandSteps.EXPAND_POWERS,
-					ExpandSteps.EXPAND_PRODUCTS
-			};
+			SimplificationStepGenerator[] expandStrategy =
+					new SimplificationStepGenerator[]{RegroupSteps.DECIMAL_REGROUP,
+							ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES, ExpandSteps.EXPAND_POWERS,
+							ExpandSteps.EXPAND_PRODUCTS};
 
-			return StepStrategies.implementGroup(sn, null, expandStrategy, sb, tracker.setStrongExpand(true));
+			return StepStrategies
+					.implementGroup(sn, null, expandStrategy, sb, tracker.setStrongExpand(true));
 		}
 	},
 
 	DEFAULT_EXPAND {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] {
-					RegroupSteps.DEFAULT_REGROUP,
-					ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
-					ExpandSteps.EXPAND_POWERS,
-					ExpandSteps.EXPAND_PRODUCTS
-			};
+			SimplificationStepGenerator[] expandStrategy =
+					new SimplificationStepGenerator[]{RegroupSteps.DEFAULT_REGROUP,
+							ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES, ExpandSteps.EXPAND_POWERS,
+							ExpandSteps.EXPAND_PRODUCTS};
 
-			return StepStrategies.implementGroup(sn, null, expandStrategy, sb, tracker.setStrongExpand(true));
+			return StepStrategies
+					.implementGroup(sn, null, expandStrategy, sb, tracker.setStrongExpand(true));
 		}
 	};
 
