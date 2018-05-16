@@ -55,6 +55,7 @@ $slider-diameter:15px;
 		position: initial;
 		left: initial;
 		opacity: initial;
+		pointer-events: initial;
 	}
 	input[type="checkbox"] + label {
 		&:after, &:before {
