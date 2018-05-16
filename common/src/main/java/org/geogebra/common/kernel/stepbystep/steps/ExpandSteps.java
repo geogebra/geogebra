@@ -120,8 +120,8 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 								soSecond.noOfOperands()];
 						for (int i = 0; i < soFirst.noOfOperands(); i++) {
 							for (int j = 0; j < soSecond.noOfOperands(); j++) {
-								terms[i * soSecond.noOfOperands() + j] =
-										multiply(soFirst.getOperand(i), soSecond.getOperand(j));
+								terms[i * soSecond.noOfOperands() + j] = multiply(
+										soFirst.getOperand(i), soSecond.getOperand(j)).deepCopy();
 							}
 						}
 
@@ -132,7 +132,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 						StepExpression[] terms = new StepExpression[soFirst.noOfOperands()];
 
 						for (int i = 0; i < soFirst.noOfOperands(); i++) {
-							terms[i] = multiply(soFirst.getOperand(i), second);
+							terms[i] = multiply(soFirst.getOperand(i), second.deepCopy());
 						}
 
 						product = new StepOperation(Operation.PLUS, terms);
@@ -142,7 +142,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 						StepExpression[] terms = new StepExpression[soSecond.noOfOperands()];
 
 						for (int i = 0; i < soSecond.noOfOperands(); i++) {
-							terms[i] = multiply(first, soSecond.getOperand(i));
+							terms[i] = multiply(first.deepCopy(), soSecond.getOperand(i));
 						}
 
 						product = new StepOperation(Operation.PLUS, terms);

@@ -34,6 +34,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					return so;
 				}
 
+				common = common.deepCopy();
+
 				int colorsAtStart = tracker.getColorTracker();
 
 				common.getBasesAndExponents(commonBases, commonExponents);
@@ -52,9 +54,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					for (int j = 0; j < currentBases.get(i).size(); j++) {
 						int index = commonBases.indexOf(currentBases.get(i).get(j));
 						if (index != -1 && !isZero(commonExponents.get(index))) {
-							StepExpression differenceOfPowers =
-									subtract(currentExponents.get(i).get(j),
-											commonExponents.get(index));
+							StepExpression differenceOfPowers = subtract(
+									currentExponents.get(i).get(j), commonExponents.get(index));
 							differenceOfPowers = (StepExpression) RegroupSteps.WEAK_REGROUP
 									.apply(differenceOfPowers, null, new RegroupTracker());
 							if (!isZero(differenceOfPowers)) {

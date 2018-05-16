@@ -492,15 +492,18 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 						StepExpression toMultiply;
 
 						if (sum.getOperand(0).isNegative()) {
-							toMultiply = add(sum.getOperand(0).negate(), sum.getOperand(1));
+							toMultiply = add(sum.getOperand(0).negate(), sum.getOperand(1))
+									.deepCopy();
 						} else {
-							toMultiply = add(sum.getOperand(0), sum.getOperand(1).negate());
+							toMultiply = add(sum.getOperand(0), sum.getOperand(1).negate())
+									.deepCopy();
 						}
 
 						toMultiply.setColor(tracker.incColorTracker());
 
 						StepExpression numerator = nonTrivialProduct(so.getOperand(0), toMultiply);
-						StepExpression denominator = multiply(so.getOperand(1), toMultiply);
+						StepExpression denominator = multiply(so.getOperand(1), toMultiply)
+								.deepCopy();
 
 						StepExpression result = divide(numerator, denominator);
 						sb.add(SolutionStepType.MULTIPLY_NUM_DENOM, toMultiply);
@@ -1089,15 +1092,15 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 						if (basesNumerator.get(i).equals(basesDenominator.get(j)) &&
 								!isZero(common)) {
 							basesNumerator.get(i).setColor(tracker.getColorTracker());
+							exponentsNumerator.get(i).setColor(tracker.getColorTracker());
 
 							basesDenominator.get(j).setColor(tracker.getColorTracker());
-
-							exponentsNumerator.get(i).setColor(tracker.getColorTracker());
 							exponentsDenominator.get(j).setColor(tracker.getColorTracker());
 
-							exponentsNumerator.set(i, subtract(exponentsNumerator.get(i), common));
-							exponentsDenominator
-									.set(j, subtract(exponentsDenominator.get(j), common));
+							exponentsNumerator.set(i,
+									subtract(exponentsNumerator.get(i), common).deepCopy());
+							exponentsDenominator.set(j,
+									subtract(exponentsDenominator.get(j), common).deepCopy());
 							exponentsNumerator.set(i, (StepExpression) WEAK_REGROUP
 									.apply(exponentsNumerator.get(i), new SolutionBuilder(),
 											new RegroupTracker()));

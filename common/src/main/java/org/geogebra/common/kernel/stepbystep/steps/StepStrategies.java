@@ -69,12 +69,12 @@ public class StepStrategies {
 
 		SolutionBuilder changes = new SolutionBuilder();
 		SolutionBuilder substeps = new SolutionBuilder();
-		sn.cleanColors();
 
 		StepNode current = null, old = sn;
 		do {
 			tracker.resetTracker();
 			for (SimplificationStepGenerator simplificationStep : strategy) {
+				old.cleanColors();
 				current = simplificationStep.apply(old, changes, tracker);
 
 				if (printDebug) {
@@ -100,7 +100,10 @@ public class StepStrategies {
 			}
 		} while (tracker.wasChanged2());
 
+		sn.cleanColors();
 		if (!sn.equals(current)) {
+			current.cleanColors();
+
 			if (sb != null && groupHeader != null) {
 				sb.addGroup(groupHeader, substeps, current);
 			} else if (sb != null) {
