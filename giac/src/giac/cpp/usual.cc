@@ -4007,7 +4007,7 @@ namespace giac {
       return sto(v,destination,in_place,contextptr);
     }
     if (b.type==_FUNC){
-      if (b==at_of){ // shortcut for python_compat(0 or 1): of:=1 or 0
+      if (b==at_of || b==at_index){ // shortcut for python_compat(0 or 1): of:=1 or 0
 	if (a==0) {// index start 0 -> enable python compat
 	  python_compat(1,contextptr);
 	  return string2gen("[] index start 0",false);
@@ -5419,9 +5419,9 @@ namespace giac {
     if (alert_array_start && contextptr->globalptr->_python_compat_){
       alert_array_start=false;
 #ifdef GIAC_HAS_STO_38
-      alert(gettext("Python compatibility enabled. List index will start at 0, run of:=1 to disable Python compatibility."),contextptr);
+      alert(gettext("Python compatibility enabled. List index will start at 0, run index:=1 or of:=1 to disable Python compatibility."),contextptr);
 #else
-      *logptr(contextptr) << gettext("Python compatibility enabled. List index will start at 0, run python_compat(0) to disable Python compatibility.") << endl;
+      *logptr(contextptr) << gettext("Python compatibility enabled. List index will start at 0, run index:=1 or python_compat(0) to disable Python compatibility.") << endl;
 #endif
     }
     if (storcl_38){

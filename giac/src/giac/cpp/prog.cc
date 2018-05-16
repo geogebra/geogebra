@@ -1099,6 +1099,8 @@ namespace giac {
 	v1.push_back(*it);
 	string s=gen2string(*it);
 	int ss=int(s.size());
+	if (ss==1)
+	  s += '___';
 	if (ss>2 && s[0]=='\'' && s[ss-1]=='\'')
 	  s=s.substr(1,ss-2);
 	for (unsigned i=0;i<s.size();++i){
