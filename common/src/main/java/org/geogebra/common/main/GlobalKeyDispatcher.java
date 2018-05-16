@@ -1197,7 +1197,11 @@ public abstract class GlobalKeyDispatcher {
 		// Alt : base = 100
 		double base = 1;
 		if (isShiftDown) {
-			base = 0.1;
+			// shift-equals -> plus
+			// don't want multiplier so that + and - do the same
+			if (!KeyCodes.EQUALS.equals(key)) {
+				base = 0.1;
+			}
 		}
 		if (isControlDown) {
 			base = 10;
