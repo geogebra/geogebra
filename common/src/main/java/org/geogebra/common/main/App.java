@@ -4228,6 +4228,9 @@ public abstract class App implements UpdateSelection {
 		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
 			return true;
 
+		/** GGB-2336 */
+		case KEYBOARD_ATTACHED_TO_TABLET:
+			return false;
 		// **********************************************************************
 		// KEYBOARD END
 		// *********************************************************

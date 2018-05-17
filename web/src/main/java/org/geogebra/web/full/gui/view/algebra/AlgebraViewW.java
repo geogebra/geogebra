@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -33,12 +34,14 @@ import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
+import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -63,7 +66,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import org.geogebra.web.shared.SharedResources;
+import com.himamis.retex.editor.share.event.KeyEvent;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 /**
  * HTML5 version of AV
@@ -293,7 +297,56 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				app.getGuiManager().focusScheduled(true, true, true);
 				app.hideKeyboard();
 			}
-			super.onBrowserEvent(event);
+			if (Browser.isTabletBrowser()
+					&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+				handleTabletKeyboard(event);
+			} else {
+				super.onBrowserEvent(event);
+			}
+		}
+	}
+
+	/**
+	 * handles input of keyboard attached to tablet
+	 * 
+	 * @param event
+	 *            keyboard events
+	 */
+	private void handleTabletKeyboard(Event event) {
+		int keyCode = event.getKeyCode();
+		char ch = (char) event.getCharCode();
+		KeyEvent keyEvent = new KeyEvent(keyCode, 0, ch);
+
+		switch (DOM.eventGetType(event)) {
+		case Event.ONKEYPRESS:
+			switch (keyCode) {
+			case JavaKeyCodes.VK_ENTER:
+			case 13: // enter
+			case JavaKeyCodes.VK_ESCAPE:
+			case JavaKeyCodes.VK_BACK_SPACE:
+				getActiveTreeItem().getMathField().getKeyListener()
+						.onKeyPressed(keyEvent);
+				break;
+			default:
+				getActiveTreeItem().getMathField().getKeyListener()
+						.onKeyTyped(keyEvent);
+				break;
+			}
+		case Event.ONKEYDOWN:
+			switch (keyCode) {
+			case JavaKeyCodes.VK_BACK_SPACE:
+				if (Browser.isAndroid()) {
+					getActiveTreeItem().getMathField().getKeyListener()
+						.onKeyPressed(keyEvent);
+				}
+				break;
+			case JavaKeyCodes.VK_TAB:
+				getActiveTreeItem().getMathField().getKeyListener()
+						.onKeyPressed(keyEvent);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
