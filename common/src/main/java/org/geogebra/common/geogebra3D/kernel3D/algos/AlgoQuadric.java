@@ -3,8 +3,8 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * @author ggb3D
@@ -13,22 +13,40 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public abstract class AlgoQuadric extends AlgoElement3D {
 
 	private GeoQuadric3D quadric;
-	private GeoElement secondInput;
-	private NumberValue number;
+	private GeoElementND secondInput;
+	private GeoNumberValue number;
 
 	private AlgoQuadricComputer computer;
 
 	/**
 	 * @param c
 	 *            construction
+	 * @param secondInput
+	 *            second input
+	 * @param number
+	 *            radius or angle
+	 * @param computer
+	 *            quadric computer
 	 */
-	public AlgoQuadric(Construction c, GeoElement secondInput,
-			NumberValue number, AlgoQuadricComputer computer) {
+	public AlgoQuadric(Construction c, GeoElementND secondInput,
+			GeoNumberValue number, AlgoQuadricComputer computer) {
 		this(c, secondInput, number, computer, true);
 	}
 
-	public AlgoQuadric(Construction c, GeoElement secondInput,
-			NumberValue number, AlgoQuadricComputer computer,
+	/**
+	 * @param c
+	 *            construction
+	 * @param secondInput
+	 *            second input
+	 * @param number
+	 *            radius or angle
+	 * @param computer
+	 *            quadric computer
+	 * @param addToConstructionList
+	 *            whether to add this to construction
+	 */
+	public AlgoQuadric(Construction c, GeoElementND secondInput,
+			GeoNumberValue number, AlgoQuadricComputer computer,
 			boolean addToConstructionList) {
 		super(c, addToConstructionList);
 		quadric = computer.newQuadric(c);
@@ -48,7 +66,7 @@ public abstract class AlgoQuadric extends AlgoElement3D {
 	 * 
 	 * @return second input
 	 */
-	protected GeoElement getSecondInput() {
+	protected GeoElementND getSecondInput() {
 		return secondInput;
 	}
 
@@ -56,8 +74,8 @@ public abstract class AlgoQuadric extends AlgoElement3D {
 	 * 
 	 * @return radius or angle
 	 */
-	protected GeoElement getNumber() {
-		return (GeoElement) number;
+	protected GeoNumberValue getNumber() {
+		return number;
 	}
 
 	/**

@@ -15,27 +15,30 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * Compute a circle with point and radius (missing direction)
+ * Compute a circle with point and radius (missing direction). Never goes to
+ * XML, just helper algo.
  *
- * @author matthieu
+ * @author Mathieu
  */
 public class AlgoCircle3DCenterPointPoint extends AlgoCircle3DPointDirection {
 
 	/**
 	 * 
 	 * @param cons
-	 * @param label
-	 * @param point
+	 *            construction
+	 * @param center
+	 *            center
 	 * @param pointThrough
+	 *            point on circle
 	 * @param forAxis
+	 *            point in plane
 	 */
 	public AlgoCircle3DCenterPointPoint(Construction cons, GeoPointND center,
 			GeoPointND pointThrough, GeoPointND forAxis) {
-		super(cons, center, (GeoElement) pointThrough, (GeoElement) forAxis);
+		super(cons, center, pointThrough, forAxis);
 
 	}
 

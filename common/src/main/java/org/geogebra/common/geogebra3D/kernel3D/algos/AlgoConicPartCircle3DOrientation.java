@@ -19,12 +19,19 @@ public class AlgoConicPartCircle3DOrientation extends AlgoConicPartCircle3D {
 	 * constructor
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param center
+	 *            center
 	 * @param startPoint
+	 *            arc start point
 	 * @param endPoint
+	 *            arc endpoint
 	 * @param orientation
+	 *            orientation
 	 * @param type
+	 *            sector or arc
 	 */
 	public AlgoConicPartCircle3DOrientation(Construction cons, String label,
 			GeoPointND center, GeoPointND startPoint, GeoPointND endPoint,

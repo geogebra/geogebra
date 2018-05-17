@@ -24,7 +24,12 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 
 	final static private double DEFAULT_SCALE = 500;
 
-	private double xmin, xmax, ymin, ymax, zmin, zmax;
+	private double mXmin;
+	private double mXmax;
+	private double mYmin;
+	private double mYmax;
+	private double mZmin;
+	private double mZmax;
 	private boolean boundsSet;
 	private boolean needsNewUpdate;
 
@@ -45,25 +50,37 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	/**
 	 * 
 	 * @param xmin
+	 *            x-coord min
 	 * @param xmax
+	 *            x-coord max
 	 * @param ymin
+	 *            y-coord min
 	 * @param ymax
+	 *            y-coord max
 	 * @param zmin
+	 *            z-coord min
 	 * @param zmax
+	 *            z-coord max
 	 * @param xyScale
+	 *            x:y scale
 	 * @param xzScale
+	 *            x:z scale
 	 * @param xTickDistance
+	 *            x axis tick
 	 * @param yTickDistance
+	 *            y axis tick
 	 * @param zTickDistance
+	 *            z axis tick
 	 */
-	public void updateSettings(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
-		this.xmin = xmin;
-		this.xmax = xmax;
-		this.ymin = ymin;
-		this.ymax = ymax;
-		this.zmin = zmin;
-		this.zmax = zmax;
+	public void updateSettings(double xmin, double xmax, double ymin, double ymax, double zmin,
+			double zmax, double xyScale, double xzScale, double xTickDistance, double yTickDistance,
+			double zTickDistance) {
+		this.mXmin = xmin;
+		this.mXmax = xmax;
+		this.mYmin = ymin;
+		this.mYmax = ymax;
+		this.mZmin = zmin;
+		this.mZmax = zmax;
 		boundsSet = true;
 
 		EuclidianSettings3D settings = getSettings();
@@ -77,7 +94,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		setNumberingDistance(settings, 2, zTickDistance);
 		settingsChanged(settings);
 
-		((RendererForExport) renderer).setXYMinMax(xmin * getXscale(), xmax * getXscale(), ymin * getYscale(),
+		((RendererForExport) renderer).setXYMinMax(xmin * getXscale(), xmax * getXscale(),
+				ymin * getYscale(),
 				ymax * getYscale());
 
 		setWaitForUpdate();
@@ -85,7 +103,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 
 	private void setNumberingDistance(EuclidianSettings3D settings, int axis, double distance) {
 		if (distance > 0) {
-			settings.setAxisNumberingDistance(axis, new GeoNumeric(app.getKernel().getConstruction(), distance));
+			settings.setAxisNumberingDistance(axis,
+					new GeoNumeric(app.getKernel().getConstruction(), distance));
 		} else {
 			settings.setAutomaticAxesNumberingDistance(true, axis, false);
 		}
@@ -123,7 +142,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 */
 	public StringBuilder export3D(Format format) {
 		updateScene();
-		ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this, renderer.getGeometryManager());
+		ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this,
+				renderer.getGeometryManager());
 		return exportToPrinter.export(format);
 	}
 
@@ -135,7 +155,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	@Override
 	protected double[][] updateClippingCubeMinMax() {
 		if (boundsSet) {
-			return clippingCubeDrawable.updateMinMax(xmin, xmax, ymin, ymax, zmin, zmax);
+			return clippingCubeDrawable.updateMinMax(mXmin, mXmax, mYmin, mYmax, mZmin, mZmax);
 		}
 		return clippingCubeDrawable.updateMinMax();
 	}

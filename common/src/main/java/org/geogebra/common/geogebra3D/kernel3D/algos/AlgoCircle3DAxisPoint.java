@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Compute a circle with axis and through a point
  *
- * @author matthieu
+ * @author Mathieu
  */
 public class AlgoCircle3DAxisPoint extends AlgoElement3D {
 
@@ -39,6 +39,16 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
 
 	static final private Coords O = new Coords(0, 0);
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param axis
+	 *            axis
+	 * @param point
+	 *            center
+	 */
 	public AlgoCircle3DAxisPoint(Construction cons, String label,
 			GeoLineND axis, GeoPointND point) {
 		super(cons);

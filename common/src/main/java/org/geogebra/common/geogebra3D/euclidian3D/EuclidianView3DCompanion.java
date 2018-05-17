@@ -215,7 +215,7 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 				EuclidianView3D.ANGLE_ROT_XOY, false);
 	}
 
-	public void getXMLForStereo(StringBuilder sb, int eyeDistance, int sep) {
+	protected void getXMLForStereo(StringBuilder sb, int eyeDistance, int sep) {
 		if (eyeDistance != EuclidianSettings3D.PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT) {
 			sb.append("\" distance=\"");
 			sb.append(eyeDistance);
@@ -226,11 +226,10 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		}
 	}
 
-	public void setBackground(GColor color) {
+	protected void setBackground(GColor color) {
 		if (color != null) {
 			getView().setBackground(color, color);
 		}
-
 	}
 
 	/**
@@ -301,7 +300,7 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		return false;
 	}
 
-	public Coords getHittingOrigin(GPoint mouse) {
+	protected Coords getHittingOrigin(GPoint mouse) {
 		Coords origin = getView().getPickPoint(mouse);
 		if (getView().getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE
 				|| getView()

@@ -2,8 +2,8 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -22,7 +22,7 @@ public class CmdConeInfinite extends CmdCone {
 
 	@Override
 	protected GeoElement[] conePointPointRadius(Command c, GeoPointND p1,
-			GeoPointND p2, NumberValue r) {
+			GeoPointND p2, GeoNumberValue r) {
 		return new GeoElement[] {
 				kernel.getManager3D().cone(c.getLabel(), p1, p2, r) };
 	}

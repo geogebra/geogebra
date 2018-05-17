@@ -3,9 +3,9 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
@@ -22,14 +22,19 @@ public class AlgoQuadricLimitedPointPointRadiusCone
 	/**
 	 * 
 	 * @param c
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param origin
+	 *            bottom center
 	 * @param secondPoint
+	 *            vertex
 	 * @param r
+	 *            radius
 	 */
 	public AlgoQuadricLimitedPointPointRadiusCone(Construction c,
 			String[] labels, GeoPointND origin, GeoPointND secondPoint,
-			NumberValue r) {
+			GeoNumberValue r) {
 		super(c, labels, origin, secondPoint, r,
 				GeoQuadricNDConstants.QUADRIC_CONE);
 	}

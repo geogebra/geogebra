@@ -32,7 +32,8 @@ public class EuclidianController3DCompanion
 		extends EuclidianControllerFor3DCompanion {
 
 	private EuclidianController3D ec3D;
-	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
+	private Coords tmpCoords1 = new Coords(4);
+	private Coords tmpCoords2 = new Coords(4);
 	private Coords captureCoords = Coords.createInhomCoorsInD3();
 
 	/**
@@ -45,13 +46,11 @@ public class EuclidianController3DCompanion
 		super(ec);
 	}
 
-
 	@Override
 	protected void setEuclidianController(EuclidianController ec) {
 		super.setEuclidianController(ec);
 		ec3D = (EuclidianController3D) ec;
 	}
-
 
 	@Override
 	public void movePoint(boolean repaint, AbstractEvent event) {
@@ -124,10 +123,10 @@ public class EuclidianController3DCompanion
 			ec3D.view3D.updateMatrixForCursor3D();
 
 			if (repaint) {
-				movedGeoPoint3D.updateRepaint();// for highlighting in
+				movedGeoPoint3D.updateRepaint(); // for highlighting in
 												// algebraView
 			} else {
-				movedGeoPoint3D.updateCascade();// TODO modify
+				movedGeoPoint3D.updateCascade(); // TODO modify
 												// movedGeoPoint3D.updateCascade()
 			}
 
@@ -184,9 +183,6 @@ public class EuclidianController3DCompanion
 				.getPickPoint(ec.mouseLoc);
 		ec3D.view3D.toSceneCoords3D(o);
 		ec3D.addOffsetForTranslation(o);
-		// GgbVector o =
-		// view3D.getPickFromScenePoint(positionOld,mouseLoc.x-mouseLocOld.x,mouseLoc.y-mouseLocOld.y);
-		// view3D.toSceneCoords3D(o);
 
 		// getting new position of the point
 		movedGeoPoint3D.getCoords().projectNearLine(o,

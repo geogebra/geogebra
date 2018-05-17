@@ -39,12 +39,12 @@ import org.geogebra.common.util.DoubleUtil;
 public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 
 	protected GeoDirectionND orientation;
-	private GeoPoint A2d, B2d;
+	private GeoPoint A2d;
+	private GeoPoint B2d;
 	private Coords project;
 
-	public AlgoConicFociLength3D(
-			// package private
-			Construction cons, String label, GeoPointND A, GeoPointND B,
+	protected AlgoConicFociLength3D(Construction cons, String label,
+			GeoPointND A, GeoPointND B,
 			GeoNumberValue a, GeoDirectionND orientation) {
 		super(cons, label, A, B, a, orientation);
 	}
@@ -72,7 +72,6 @@ public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 
 	@Override
 	protected void setInputOutput() {
-
 		super.setInputOutput();
 
 		A2d = new GeoPoint(cons);

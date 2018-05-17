@@ -27,10 +27,23 @@ public class AlgoConicPartCircumcircle3D extends AlgoConicPartCircumcircleND {
 
 	private AlgoCircle3DThreePoints algo;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            start point
+	 * @param B
+	 *            point on arc
+	 * @param C
+	 *            end point
+	 * @param type
+	 *            arc or sector
+	 */
 	public AlgoConicPartCircumcircle3D(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C, int type) {
 		super(cons, label, A, B, C, type);
-
 	}
 
 	@Override

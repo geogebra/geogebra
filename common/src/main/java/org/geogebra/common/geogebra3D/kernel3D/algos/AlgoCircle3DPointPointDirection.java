@@ -15,7 +15,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -32,20 +31,17 @@ public class AlgoCircle3DPointPointDirection
 	/**
 	 * 
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param point
+	 *            center
 	 * @param pointThrough
+	 *            point on circle
 	 * @param forAxis
+	 *            axis direction
 	 */
-	public AlgoCircle3DPointPointDirection(Construction cons, String label,
-			GeoPointND point, GeoPointND pointThrough, GeoDirectionND forAxis) {
-		super(cons, label, point, (GeoElement) pointThrough, forAxis);
-
-	}
-
 	public AlgoCircle3DPointPointDirection(Construction cons, GeoPointND point,
 			GeoPointND pointThrough, GeoDirectionND forAxis) {
-		super(cons, point, (GeoElement) pointThrough, (GeoElement) forAxis);
+		super(cons, point, pointThrough, forAxis);
 
 	}
 

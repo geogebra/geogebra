@@ -56,7 +56,10 @@ public class Hitting {
 	public double y1;
 	/** end point z */
 	public double z1;
-	private double vx, vy, vz, squareNorm;
+	private double vx;
+	private double vy;
+	private double vz;
+	private double squareNorm;
 
 	private double[] minmax;
 

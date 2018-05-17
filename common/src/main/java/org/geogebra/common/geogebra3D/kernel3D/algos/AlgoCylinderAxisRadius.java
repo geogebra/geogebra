@@ -4,9 +4,9 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 
 /**
@@ -22,8 +22,8 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 	 *            construction
 	 */
 	public AlgoCylinderAxisRadius(Construction c, String label, GeoLineND axis,
-			NumberValue r) {
-		super(c, (GeoElement) axis, r, new AlgoQuadricComputerCylinder());
+			GeoNumberValue r) {
+		super(c, axis, r, new AlgoQuadricComputerCylinder());
 
 		this.axis = axis;
 
@@ -51,8 +51,7 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 		}
 
 		// check number
-		double r = getComputer()
-				.getNumber(((NumberValue) getNumber()).getDouble());
+		double r = getComputer().getNumber(getNumber().getDouble());
 		if (Double.isNaN(r)) {
 			getQuadric().setUndefined();
 			return;
@@ -76,8 +75,7 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return getLoc().getPlain("CylinderWithAxisARadiusB",
-				((GeoElement) axis).getLabel(tpl), getNumber().getLabel(tpl));
-
+				axis.getLabel(tpl), getNumber().getLabel(tpl));
 	}
 
 	@Override

@@ -142,6 +142,9 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	abstract protected void setQuadric(Coords o1, Coords o2, Coords d,
 			Coords eigen, double r, double r2, double min, double max);
 
+	/**
+	 * @return resulting limited quadric
+	 */
 	public GeoQuadric3DLimited getQuadric() {
 		return quadric;
 	}
@@ -173,7 +176,6 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		if (bottom.isLabelSet()) {
 			bottom.getXML(false, sb);
 		}
-
 	}
 
 	// /////////////////////////////////////////////////////
@@ -199,12 +201,11 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	public void setOutputOtherEuclidianVisible(boolean b) {
 		side.setEuclidianVisible(b);
 		top.setEuclidianVisible(b);
-
 	}
 
 	public void notifyUpdateOutputOther() {
 		getKernel().notifyUpdate(side);
 		getKernel().notifyUpdate(top);
-
 	}
+
 }

@@ -1,8 +1,8 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -27,7 +27,7 @@ public class AlgoCylinderInfinitePointPointNumber
 	 *            radius
 	 */
 	public AlgoCylinderInfinitePointPointNumber(Construction c, String label,
-			GeoPointND origin, GeoPointND secondPoint, NumberValue radius) {
+			GeoPointND origin, GeoPointND secondPoint, GeoNumberValue radius) {
 		super(c, label, origin, secondPoint, radius,
 				new AlgoQuadricComputerCylinder());
 	}

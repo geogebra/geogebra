@@ -16,6 +16,14 @@ public class AlgoCornerConicSection extends AlgoElement3D {
 
 	private AlgoIntersectPlaneQuadricLimited algoParent;
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param conic
+	 *            conic section
+	 */
 	public AlgoCornerConicSection(Construction c, String[] labels,
 			GeoConicSection conic) {
 		super(c);

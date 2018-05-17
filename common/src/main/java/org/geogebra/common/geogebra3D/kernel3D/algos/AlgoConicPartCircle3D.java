@@ -34,9 +34,12 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class AlgoConicPartCircle3D extends AlgoConicPart {
 
-	private GeoPointND center, startPoint, endPoint;
+	private GeoPointND center;
+	private GeoPointND startPoint;
+	private GeoPointND endPoint;
 
-	private PathParameter paramP, paramQ;
+	private PathParameter paramP;
+	private PathParameter paramQ;
 	private Coords p2d;
 
 	/**

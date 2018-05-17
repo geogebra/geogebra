@@ -14,7 +14,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -31,36 +30,23 @@ public class AlgoCircle3DPointRadiusDirection
 	/**
 	 * 
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param point
+	 *            center
 	 * @param forAxis
+	 *            axis direction
 	 * @param radius
-	 */
-	public AlgoCircle3DPointRadiusDirection(Construction cons, String label,
-			GeoPointND point, GeoNumberValue radius, GeoDirectionND forAxis) {
-		super(cons, label, point, radius.toGeoElement(), forAxis);
-
-	}
-
-	/**
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param point
-	 * @param forAxis
-	 * @param radius
+	 *            radius
 	 */
 	public AlgoCircle3DPointRadiusDirection(Construction cons, GeoPointND point,
 			GeoNumberValue radius, GeoDirectionND forAxis) {
-		super(cons, point, radius.toGeoElement(), (GeoElement) forAxis);
+		super(cons, point, radius, forAxis);
 
 	}
 
 	@Override
 	protected final double getRadius() {
-
 		return getSecondInput().evaluateDouble();
-
 	}
 
 	@Override

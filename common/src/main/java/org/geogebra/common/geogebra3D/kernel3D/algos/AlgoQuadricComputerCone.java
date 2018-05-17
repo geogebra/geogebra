@@ -26,9 +26,9 @@ public class AlgoQuadricComputerCone extends AlgoQuadricComputer {
 
 		if (c < 0 || s < 0) {
 			return Double.NaN;
-		} else if (DoubleUtil.isZero(c)) {// TODO if c=0 then draws a plane
+		} else if (DoubleUtil.isZero(c)) { // TODO if c=0 then draws a plane
 			return Double.NaN;
-		} else if (DoubleUtil.isZero(s)) {// TODO if s=0 then draws a line
+		} else if (DoubleUtil.isZero(s)) { // TODO if s=0 then draws a line
 			return Double.NaN;
 		}
 

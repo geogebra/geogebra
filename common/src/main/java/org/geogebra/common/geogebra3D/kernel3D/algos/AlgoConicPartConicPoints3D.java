@@ -27,7 +27,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoConicPartConicPoints3D extends AlgoConicPartConicPointsND {
 
 	// temp parameters
-	private PathParameter paramP, paramQ;
+	private PathParameter paramP;
+	private PathParameter paramQ;
 	private Coords p2d;
 
 	/**

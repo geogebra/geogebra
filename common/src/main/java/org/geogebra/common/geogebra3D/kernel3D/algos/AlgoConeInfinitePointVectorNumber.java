@@ -1,8 +1,8 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
@@ -28,7 +28,7 @@ public class AlgoConeInfinitePointVectorNumber
 	 *            angle
 	 */
 	public AlgoConeInfinitePointVectorNumber(Construction c, String label,
-			GeoPointND origin, GeoVectorND direction, NumberValue angle) {
+			GeoPointND origin, GeoVectorND direction, GeoNumberValue angle) {
 		super(c, label, origin, direction, angle,
 				new AlgoQuadricComputerCone());
 	}

@@ -21,6 +21,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Finds a point in given region closest to a given point.
+ *
+ */
 public class AlgoClosestPointToRegion3D extends AlgoElement3D
 		implements FixedPathRegionAlgo {
 
@@ -29,6 +33,16 @@ public class AlgoClosestPointToRegion3D extends AlgoElement3D
 
 	private GeoPointND geoPointOnRegion;
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param r
+	 *            region
+	 * @param P
+	 *            source point
+	 */
 	public AlgoClosestPointToRegion3D(Construction c, String label, Region r,
 			GeoPointND P) {
 		super(c);

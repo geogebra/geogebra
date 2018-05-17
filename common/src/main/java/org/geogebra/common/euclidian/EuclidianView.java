@@ -282,7 +282,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected boolean[] piAxisUnit;
 
-	protected int[] axesTickStyles;
+	private int[] axesTickStyles;
 
 	// for axes labeling with numbers
 	protected boolean[] automaticAxesNumberingDistances = { true, true };
@@ -3305,6 +3305,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public int[] getAxesTickStyles() {
 		return axesTickStyles;
+	}
+
+	/**
+	 * @param i
+	 *            axis index
+	 * @return tick style, EuclidianStyleConstants.AXES_TICK_STYLE_*
+	 */
+	public int getAxisTickStyle(int i) {
+		return axesTickStyles[i];
 	}
 
 	@Override

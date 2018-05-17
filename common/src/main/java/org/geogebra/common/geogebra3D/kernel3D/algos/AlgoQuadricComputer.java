@@ -15,6 +15,7 @@ public abstract class AlgoQuadricComputer {
 	/**
 	 * 
 	 * @param c
+	 *            construction
 	 * @return a new quadric
 	 */
 	public GeoQuadric3D newQuadric(Construction c) {
@@ -25,9 +26,17 @@ public abstract class AlgoQuadricComputer {
 	 * sets the quadric
 	 * 
 	 * @param quadric
+	 *            quadric
 	 * @param origin
+	 *            origin
 	 * @param direction
-	 * @param number
+	 *            direction
+	 * @param eigen
+	 *            eigenvector
+	 * @param r
+	 *            radius
+	 * @param r2
+	 *            second radius
 	 */
 	abstract public void setQuadric(GeoQuadric3D quadric, Coords origin,
 			Coords direction, Coords eigen, double r, double r2);
@@ -36,6 +45,7 @@ public abstract class AlgoQuadricComputer {
 	 * return Double.NaN if no usable number
 	 * 
 	 * @param v
+	 *            angle or radius
 	 * @return usable number for the quadric
 	 */
 	abstract public double getNumber(double v);

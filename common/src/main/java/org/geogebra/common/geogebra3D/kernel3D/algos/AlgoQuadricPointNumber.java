@@ -3,8 +3,9 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -20,14 +21,16 @@ public abstract class AlgoQuadricPointNumber extends AlgoQuadric {
 	 *            construction
 	 */
 	public AlgoQuadricPointNumber(Construction c, String label,
-			GeoPointND origin, GeoElement secondInput, NumberValue r,
+			GeoPointND origin, GeoElementND secondInput, GeoNumberValue r,
 			AlgoQuadricComputer computer) {
 		super(c, secondInput, r, computer);
 
 		this.origin = origin;
 
-		setInputOutput(new GeoElement[] { (GeoElement) origin, secondInput,
-				(GeoElement) r }, new GeoElement[] { getQuadric() });
+		setInputOutput(
+				new GeoElement[] { (GeoElement) origin,
+						(GeoElement) secondInput, (GeoElement) r },
+				new GeoElement[] { getQuadric() });
 
 		compute();
 
@@ -38,7 +41,7 @@ public abstract class AlgoQuadricPointNumber extends AlgoQuadric {
 	public void compute() {
 
 		// check origin
-		if (!((GeoElement) origin).isDefined() || origin.isInfinite()) {
+		if (!origin.isDefined() || origin.isInfinite()) {
 			getQuadric().setUndefined();
 			return;
 		}
@@ -52,8 +55,7 @@ public abstract class AlgoQuadricPointNumber extends AlgoQuadric {
 		}
 
 		// check number
-		double r = getComputer()
-				.getNumber(((NumberValue) getNumber()).getDouble());
+		double r = getComputer().getNumber(getNumber().getDouble());
 		if (Double.isNaN(r)) {
 			getQuadric().setUndefined();
 			return;

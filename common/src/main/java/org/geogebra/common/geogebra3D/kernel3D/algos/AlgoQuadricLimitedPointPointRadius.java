@@ -11,21 +11,22 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoRadius;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * Algo for cylinder between two end points and given radius.
+ * Algo for cylinder between two end points and given radius. TODO implements
+ * AlgoTransformable ?
  * 
  * @author mathieu
  *
  */
-public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {// implements
-																				// AlgoTransformable
-																				// {
+public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 
 	// input
-	private GeoPointND origin, secondPoint;
+	private GeoPointND origin;
+	private GeoPointND secondPoint;
 	private NumberValue radius;
 
 	// output
@@ -37,8 +38,23 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	private AlgoQuadricSide algoSide;
 	private AlgoQuadricEnds algoEnds;
 
+	/**
+	 * 
+	 * @param c
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param origin
+	 *            center of bottom
+	 * @param secondPoint
+	 *            second point
+	 * @param r
+	 *            radius
+	 * @param type
+	 *            quadric type
+	 */
 	public AlgoQuadricLimitedPointPointRadius(Construction c, String[] labels,
-			GeoPointND origin, GeoPointND secondPoint, NumberValue r,
+			GeoPointND origin, GeoPointND secondPoint, GeoNumberValue r,
 			int type) {
 		super(c);
 
@@ -46,15 +62,15 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		this.secondPoint = secondPoint;
 		this.radius = r;
 
-		quadric = new GeoQuadric3DLimited(c);// ,origin,secondPoint);
+		quadric = new GeoQuadric3DLimited(c); // ,origin,secondPoint);
 		quadric.setType(type);
 
 		input = new GeoElement[] { (GeoElement) origin,
 				(GeoElement) secondPoint, (GeoElement) r };
 
-		((GeoElement) origin).addAlgorithm(this);
-		((GeoElement) secondPoint).addAlgorithm(this);
-		((GeoElement) r).addAlgorithm(this);
+		origin.addAlgorithm(this);
+		secondPoint.addAlgorithm(this);
+		r.addAlgorithm(this);
 
 		// parent of output
 		quadric.setParentAlgorithm(this);
@@ -167,6 +183,11 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	protected abstract AlgoElement getTransformedAlgo(String[] labels,
 			GeoPointND p1, GeoPointND p2, GeoNumeric r);
 
+	/**
+	 * @param t
+	 *            transform
+	 * @return transformed output
+	 */
 	public GeoElement[] getTransformedOutput(Transform t) {
 
 		GeoPointND p1 = (GeoPointND) t.transform(origin,

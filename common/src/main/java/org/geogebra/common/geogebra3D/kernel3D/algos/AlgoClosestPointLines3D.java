@@ -20,12 +20,27 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 
+/**
+ * Finds point on one line close to another line.
+ *
+ */
 public class AlgoClosestPointLines3D extends AlgoElement3D {
 
-	private GeoLineND g3D, h3D;
+	private GeoLineND g3D;
+	private GeoLineND h3D;
 
 	private GeoPoint3D geoPointOnG;
 
+	/**
+	 * @param c
+	 *            xonstruction
+	 * @param label
+	 *            output label
+	 * @param g3D
+	 *            line where the point should be
+	 * @param h3D
+	 *            other line
+	 */
 	public AlgoClosestPointLines3D(Construction c, String label, GeoLineND g3D,
 			GeoLineND h3D) {
 		super(c);
@@ -65,6 +80,9 @@ public class AlgoClosestPointLines3D extends AlgoElement3D {
 		return h3D;
 	}
 
+	/**
+	 * @return resulting point
+	 */
 	public GeoPoint3D getPoint() {
 		return geoPointOnG;
 	}

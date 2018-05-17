@@ -3,8 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -18,15 +17,20 @@ public abstract class AlgoQuadricPointPointNumber
 	 * @param c
 	 *            construction
 	 * @param label
+	 *            output label
 	 * @param origin
+	 *            base center
 	 * @param secondPoint
+	 *            second point
 	 * @param r
+	 *            radius
 	 * @param computer
+	 *            conic computer
 	 */
 	public AlgoQuadricPointPointNumber(Construction c, String label,
-			GeoPointND origin, GeoPointND secondPoint, NumberValue r,
+			GeoPointND origin, GeoPointND secondPoint, GeoNumberValue r,
 			AlgoQuadricComputer computer) {
-		super(c, label, origin, (GeoElement) secondPoint, r, computer);
+		super(c, label, origin, secondPoint, r, computer);
 	}
 
 	@Override

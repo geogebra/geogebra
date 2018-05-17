@@ -266,6 +266,7 @@ public abstract class Renderer {
 	 * set runnable to do a 3D export on next frame
 	 * 
 	 * @param runnable
+	 *            export handler
 	 */
 	public void setExport3D(Runnable runnable) {
 		export3DRunnable = runnable;

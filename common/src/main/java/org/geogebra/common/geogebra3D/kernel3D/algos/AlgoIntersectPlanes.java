@@ -136,9 +136,14 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 	 *            first plane
 	 * @param cs2
 	 *            second plane
-	 * @return configuration type, RESULTCATEGORY_*
+	 * @return whether one plane is contained in the other
 	 */
-	public static int getConfigPlanePlane(CoordSys cs1, CoordSys cs2) {
+	public static boolean isIntersectionContained(CoordSys cs1, CoordSys cs2) {
+
+		return getConfigPlanePlane(cs1, cs2) == RESULTCATEGORY_CONTAINED;
+	}
+
+	private static int getConfigPlanePlane(CoordSys cs1, CoordSys cs2) {
 
 		if (cs1.getDimension() != 2 || cs2.getDimension() != 2) {
 			return RESULTCATEGORY_NA;

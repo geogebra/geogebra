@@ -48,6 +48,14 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		this(cons, quadric, false);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param quadric
+	 *            quadric
+	 * @param helper
+	 *            whether this is helper (don't add to construction)
+	 */
 	public AlgoQuadricEnd(Construction cons, GeoQuadric3DLimited quadric,
 			boolean helper) {
 		super(cons, !helper);
@@ -63,7 +71,6 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		}
 
 		compute();
-
 	}
 
 	/**
@@ -100,7 +107,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		section.setDefined();
 		if (quadric
 				.getType() == GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER) {
-			CoordMatrix qm = quadric.getSymetricMatrix();
+
 			Coords d = quadric.getEigenvec3D(1).normalize();
 
 			Coords o1 = quadric.getMidpoint3D().copy().addInsideMul(d,
@@ -108,7 +115,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			Coords o2 = quadric.getMidpoint3D().copy().addInsideMul(d,
 					quadric.getTopParameter());
 			pm.setOrigin(getOrigin(o1, o2));
-			Coords[] v = new Coords[3];// d.completeOrthonormal();
+			Coords[] v = new Coords[3]; // d.completeOrthonormal();
 			v[2] = quadric.getEigenvec3D(2).normalize();
 			v[0] = quadric.getEigenvec3D(0).normalize();
 			v[1] = d;
@@ -121,7 +128,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			pm.transposeCopy(pmt);
 
 			// sets the conic matrix from plane and quadric matrix
-
+			CoordMatrix qm = quadric.getSymetricMatrix();
 			CoordMatrix cm = pmt.mul(qm).mul(pm);
 
 			// Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
@@ -133,7 +140,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			coordsys.makeOrthoMatrix(false, false);
 			section.setMatrix(cm);
 		} else {
-			CoordMatrix qm = quadric.getSymetricMatrix();
+
 			Coords d = quadric.getEigenvec3D(2);
 			Coords o1 = quadric.getMidpoint3D().copy().addInsideMul(d,
 					quadric.getBottomParameter());
@@ -153,7 +160,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			}
 
 			pm.setOrigin(getOrigin(o1, o2));
-			Coords[] v = new Coords[3];// d.completeOrthonormal();
+			Coords[] v = new Coords[3]; // d.completeOrthonormal();
 			v[2] = d;
 			v[0] = quadric.getEigenvec3D(0).normalize();
 			v[1] = quadric.getEigenvec3D(1).normalize();
@@ -165,6 +172,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			pm.transposeCopy(pmt);
 
 			// sets the conic matrix from plane and quadric matrix
+			CoordMatrix qm = quadric.getSymetricMatrix();
 			CoordMatrix cm = pmt.mul(qm).mul(pm);
 
 			// Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);

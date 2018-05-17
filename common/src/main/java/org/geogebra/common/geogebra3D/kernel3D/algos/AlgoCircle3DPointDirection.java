@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -30,21 +31,24 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 
 	protected GeoPointND point; // input
-	protected GeoElement secondInput; // input
-	protected GeoElement forAxis; // input
+	protected GeoElementND secondInput; // input
+	protected GeoElementND forAxis; // input
 	private GeoConic3D circle; // output
 	protected CoordSys coordsys;
 
 	/**
 	 * 
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param point
+	 *            center
 	 * @param secondInput
+	 *            point, radius or direction
 	 * @param forAxis
+	 *            point in plane
 	 */
 	protected AlgoCircle3DPointDirection(Construction cons, GeoPointND point,
-			GeoElement secondInput, GeoElement forAxis) {
+			GeoElementND secondInput, GeoElementND forAxis) {
 		super(cons);
 
 		this.point = point;
@@ -54,19 +58,12 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 		coordsys = new CoordSys(2);
 		circle.setCoordSys(coordsys);
 
-		setInputOutput(new GeoElement[] { (GeoElement) point, secondInput,
-				forAxis }, new GeoElement[] { circle });
+		setInputOutput(new GeoElement[] { (GeoElement) point,
+				(GeoElement) secondInput, (GeoElement) forAxis },
+				new GeoElement[] { circle });
 
 		// compute line
 		compute();
-	}
-
-	public AlgoCircle3DPointDirection(Construction cons, String label,
-			GeoPointND point, GeoElement secondInput, GeoDirectionND forAxis) {
-
-		this(cons, point, secondInput, (GeoElement) forAxis);
-
-		circle.setLabel(label);
 	}
 
 	/**
@@ -136,7 +133,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	 * 
 	 * @return second input (radius or point)
 	 */
-	protected GeoElement getSecondInput() {
+	protected GeoElementND getSecondInput() {
 		return secondInput;
 	}
 
@@ -144,7 +141,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	 * 
 	 * @return direction of the axis
 	 */
-	protected GeoElement getForAxis() {
+	protected GeoElementND getForAxis() {
 		return forAxis;
 	}
 

@@ -393,11 +393,11 @@ public class DrawAxis {
 													// tick distances differ
 		
 		boolean[] drawMajorTicks = {
-				view.axesTickStyles[0] <= 1 && enableTicks,
-				view.axesTickStyles[1] <= 1 && enableTicks };
+				view.getAxisTickStyle(0) <= 1 && enableTicks,
+				view.getAxisTickStyle(1) <= 1 && enableTicks };
 		boolean[] drawMinorTicks = {
-				view.axesTickStyles[0] == 0 && enableTicks,
-				view.axesTickStyles[1] == 0 && enableTicks };
+				view.getAxisTickStyle(0) == 0 && enableTicks,
+				view.getAxisTickStyle(1) == 0 && enableTicks };
 
 		double xSmall1 = xCrossPix - 0;
 		double xSmall2 = xCrossPix - 2;
@@ -722,10 +722,8 @@ public class DrawAxis {
 			double yAxisEnd) {
 		double xoffset = -4 - (fontsize / 4);
 		double yoffset = (fontsize / 2) - 1;
-		boolean[] drawMajorTicks = { view.axesTickStyles[0] <= 1,
-				view.axesTickStyles[1] <= 1 };
-		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0,
-				view.axesTickStyles[1] == 0 };
+		boolean[] drawMajorTicks = { view.getAxisTickStyle(0) <= 1, view.getAxisTickStyle(1) <= 1 };
+		boolean[] drawMinorTicks = { view.getAxisTickStyle(0) == 0, view.getAxisTickStyle(1) == 0 };
 		double xSmall1 = xCrossPix - 0;
 		double xSmall2 = xCrossPix - 2;
 		double xBig = xCrossPix - 3;
@@ -886,10 +884,10 @@ public class DrawAxis {
 
 		boolean enableTicks = !view.getShowGrid(); // TODO what if grid and axes
 													// tick distances differ?
-		boolean[] drawMajorTicks = { view.axesTickStyles[0] <= 1 && enableTicks,
-				view.axesTickStyles[1] <= 1 && enableTicks };
-		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0 && enableTicks,
-				view.axesTickStyles[1] == 0 && enableTicks };
+		boolean[] drawMajorTicks = { view.getAxisTickStyle(0) <= 1 && enableTicks,
+				view.getAxisTickStyle(1) <= 1 && enableTicks };
+		boolean[] drawMinorTicks = { view.getAxisTickStyle(0) == 0 && enableTicks,
+				view.getAxisTickStyle(1) == 0 && enableTicks };
 
 		double rw = view.getXmin()
 				- (view.getXmin() % view.axesNumberingDistances[0]);
@@ -1030,10 +1028,8 @@ public class DrawAxis {
 	private void drawXTicksLog(GGraphics2D g2, double yCrossPix, char minusSign,
 			boolean drawRightArrow, int fontsize, double xAxisStart) {
 		double yoffset = view.getYOffsetForXAxis(fontsize);
-		boolean[] drawMajorTicks = { view.axesTickStyles[0] <= 1,
-				view.axesTickStyles[1] <= 1 };
-		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0,
-				view.axesTickStyles[1] == 0 };
+		boolean[] drawMajorTicks = { view.getAxisTickStyle(0) <= 1, view.getAxisTickStyle(1) <= 1 };
+		boolean[] drawMinorTicks = { view.getAxisTickStyle(0) == 0, view.getAxisTickStyle(1) == 0 };
 		// by default we start with minor tick to the left of first major
 		// tick, exception is for positive only
 		double smallTickOffset = 0;

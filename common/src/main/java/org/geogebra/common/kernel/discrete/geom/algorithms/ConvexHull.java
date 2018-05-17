@@ -195,7 +195,6 @@ public class ConvexHull {
 			i++;
 		}
 
-
 		return index;
 	}
 

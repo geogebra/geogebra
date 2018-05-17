@@ -665,7 +665,7 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	@Override
 	final public GeoQuadric3D cone(String label, GeoPointND origin,
-			GeoVectorND direction, NumberValue angle) {
+			GeoVectorND direction, GeoNumberValue angle) {
 		AlgoQuadric algo = new AlgoConeInfinitePointVectorNumber(cons, label,
 				origin, direction, angle);
 		return algo.getQuadric();
@@ -673,7 +673,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoQuadric3D cone(String label, GeoPointND origin,
-			GeoPointND secondPoint, NumberValue angle) {
+			GeoPointND secondPoint, GeoNumberValue angle) {
 		AlgoQuadric algo = new AlgoConeInfinitePointPointNumber(cons, label,
 				origin, secondPoint, angle);
 		return algo.getQuadric();
@@ -681,7 +681,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoQuadric3D cone(String label, GeoPointND origin,
-			GeoLineND axis, NumberValue angle) {
+			GeoLineND axis, GeoNumberValue angle) {
 		AlgoConePointLineAngle algo = new AlgoConePointLineAngle(cons, label,
 				origin, axis, angle);
 		return algo.getQuadric();
@@ -689,7 +689,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoElement[] coneLimited(String[] labels, GeoPointND origin,
-			GeoPointND secondPoint, NumberValue r) {
+			GeoPointND secondPoint, GeoNumberValue r) {
 		AlgoQuadricLimitedPointPointRadius algo = new AlgoQuadricLimitedPointPointRadiusCone(
 				cons, labels, origin, secondPoint, r);
 		return algo.getOutput();
@@ -709,7 +709,7 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	@Override
 	final public GeoQuadric3D cylinder(String label, GeoPointND origin,
-			GeoVectorND direction, NumberValue r) {
+			GeoVectorND direction, GeoNumberValue r) {
 		AlgoQuadric algo = new AlgoCylinderInfinitePointVectorNumber(cons,
 				label, origin, direction, r);
 		return algo.getQuadric();
@@ -717,7 +717,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoQuadric3D cylinder(String label, GeoPointND origin,
-			GeoPointND secondPoint, NumberValue r) {
+			GeoPointND secondPoint, GeoNumberValue r) {
 		AlgoQuadric algo = new AlgoCylinderInfinitePointPointNumber(cons, label,
 				origin, secondPoint, r);
 		return algo.getQuadric();
@@ -725,7 +725,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoQuadric3D cylinder(String label, GeoLineND axis,
-			NumberValue r) {
+			GeoNumberValue r) {
 		AlgoQuadric algo = new AlgoCylinderAxisRadius(cons, label, axis, r);
 		return algo.getQuadric();
 	}
@@ -806,10 +806,10 @@ public class Manager3D implements Manager3DInterface {
 		}
 
 		AlgoCircle3DPointDirection algo = new AlgoCircle3DPointRadiusDirection(
-				cons, label, A, radius, axis);
+				cons, A, radius, axis);
 		GeoConic3D circle = algo.getCircle();
 		// circle.setToSpecific();
-		circle.update();
+		circle.setLabel(label);
 		kernel.notifyUpdate(circle);
 		return circle;
 	}
@@ -836,10 +836,10 @@ public class Manager3D implements Manager3DInterface {
 
 		// at least one 3D geo or specific orientation
 		AlgoCircle3DPointDirection algo = new AlgoCircle3DPointPointDirection(
-				cons, label, A, B, orientation);
+				cons, A, B, orientation);
 		GeoConic3D circle = algo.getCircle();
 		// circle.setToSpecific();
-		circle.update();
+		circle.setLabel(label);
 		kernel.notifyUpdate(circle);
 		return circle;
 	}

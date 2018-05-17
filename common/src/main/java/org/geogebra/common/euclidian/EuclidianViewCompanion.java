@@ -274,7 +274,7 @@ public class EuclidianViewCompanion {
 		}
 
 		for (int i = 0; i < viewDim; i++) {
-			view.axesTickStyles[i] = evs.getAxesTickStyles()[i];
+			view.setAxisTickStyle(i, evs.getAxesTickStyles()[i]);
 		}
 
 		view.setDrawBorderAxes(evs.getDrawBorderAxes());

@@ -523,14 +523,14 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	}
 
 	@Override
-	public void getXMLForStereo(StringBuilder sb, int eyeDistance, int sep) {
+	protected void getXMLForStereo(StringBuilder sb, int eyeDistance, int sep) {
 		if (input3D.shouldStoreStereoToXML()) {
 			super.getXMLForStereo(sb, eyeDistance, sep);
 		}
 	}
 
 	@Override
-	public void setBackground(GColor color) {
+	protected void setBackground(GColor color) {
 
 		if (input3D.needsGrayBackground()) {
 			double grayScale = color.getGrayScale();
@@ -914,7 +914,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	}
 
 	@Override
-	public Coords getHittingOrigin(GPoint mouse) {
+	protected Coords getHittingOrigin(GPoint mouse) {
 		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
 			return input3D.getMouse3DScenePosition();
 		}

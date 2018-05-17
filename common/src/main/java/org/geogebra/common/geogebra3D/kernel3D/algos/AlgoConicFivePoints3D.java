@@ -10,14 +10,23 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * 3D version of conic through 5 points.
+ *
+ */
 public class AlgoConicFivePoints3D extends AlgoConicFivePoints {
 
 	private GeoPointND[] inputP;
 	private double[] tmpCoords;
 
-	public AlgoConicFivePoints3D(Construction cons,
-			GeoPointND[] P) {
-		super(cons, P);
+	/**
+	 * @param cons
+	 *            construction
+	 * @param pts
+	 *            points
+	 */
+	public AlgoConicFivePoints3D(Construction cons, GeoPointND[] pts) {
+		super(cons, pts);
 	}
 
 	@Override
@@ -29,9 +38,9 @@ public class AlgoConicFivePoints3D extends AlgoConicFivePoints {
 	}
 
 	@Override
-	protected GeoPoint[] createPoints2D(GeoPointND[] inputP) {
+	protected GeoPoint[] createPoints2D(GeoPointND[] inputPoints) {
 
-		this.inputP = inputP;
+		this.inputP = inputPoints;
 
 		GeoPoint[] ret = new GeoPoint[5];
 		for (int i = 0; i < 5; i++) {
