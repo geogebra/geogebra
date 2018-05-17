@@ -28,4 +28,9 @@ public class AppConfigMixedReality extends AppConfigDefault {
 		return false;
 	}
 
+	@Override
+	public boolean isSimpleMaterialPicker() {
+		return true;
+	}
+
 }

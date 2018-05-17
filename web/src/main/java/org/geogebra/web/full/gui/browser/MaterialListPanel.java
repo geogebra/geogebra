@@ -55,9 +55,13 @@ public class MaterialListPanel extends FlowPanel
 		this.app = app;
 		this.userMaterialsCB = getUserMaterialsCB();
 		this.ggtMaterialsCB = getGgtMaterialsCB();
-		this.setPixelSize(
-				(int) app.getWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH,
-				(int) app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		if (app.getConfig().isSimpleMaterialPicker()) {
+			this.setPixelSize((int) app.getWidth(), (int) app.getHeight());
+		} else {
+			this.setPixelSize(
+					(int) app.getWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH,
+					(int) app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		}
 		this.setStyleName("materialListPanel");
 		this.addDomHandler(new ClickHandler() {
 
@@ -397,8 +401,12 @@ public class MaterialListPanel extends FlowPanel
 
 	@Override
 	public void onResize(int appWidth, int appHeight) {
-		this.setPixelSize(appWidth - GLookAndFeel.PROVIDER_PANEL_WIDTH,
-				appHeight - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		if (app.getConfig().isSimpleMaterialPicker()) {
+			this.setPixelSize(appWidth, appHeight);
+		} else {
+			this.setPixelSize(appWidth - GLookAndFeel.PROVIDER_PANEL_WIDTH,
+					appHeight - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		}
 	}
 
 	/**

@@ -17,14 +17,23 @@ public class TabletMaterialListPanel extends MaterialListPanel {
 	 */
 	public TabletMaterialListPanel(final AppW app) {
 		super(app);
-		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight()
-		        - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		if (app.getConfig().isSimpleMaterialPicker()) {
+			this.setPixelSize(Window.getClientWidth(),
+					Window.getClientHeight());
+		} else {
+			this.setPixelSize(Window.getClientWidth(), Window.getClientHeight()
+					- GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		}
 	}
 
 	@Override
 	public void onResize(int appWidth, int appHeight) {
-		this.setPixelSize(appWidth,
-				appHeight - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		if (app.getConfig().isSimpleMaterialPicker()) {
+			this.setPixelSize(appWidth, appHeight);
+		} else {
+			this.setPixelSize(appWidth,
+					appHeight - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		}
 	}
 
 }

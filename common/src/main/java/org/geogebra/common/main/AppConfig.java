@@ -18,4 +18,6 @@ public interface AppConfig {
 
 	public boolean showObjectSettingsFromAV();
 
+	public boolean isSimpleMaterialPicker();
+
 }

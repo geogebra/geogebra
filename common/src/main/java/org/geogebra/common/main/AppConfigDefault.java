@@ -44,4 +44,9 @@ public class AppConfigDefault implements AppConfig {
 		return true;
 	}
 
+	@Override
+	public boolean isSimpleMaterialPicker() {
+		return false;
+	}
+
 }

@@ -133,7 +133,11 @@ public class MaterialListElement extends FlowPanel
 				if (state == State.Disabled) {
 					return;
 				} else if (state == State.Default) {
-					markSelected();
+					if (app.getConfig().isSimpleMaterialPicker()) {
+						onEdit();
+					} else {
+						markSelected();
+					}
 					event.stopPropagation();
 				} else {
 					event.stopPropagation();
@@ -311,7 +315,11 @@ public class MaterialListElement extends FlowPanel
 				} else if (state == State.Disabled) {
 					return;
 				} else {
-					markSelected();
+					if (app.getConfig().isSimpleMaterialPicker()) {
+						onEdit();
+					} else {
+						markSelected();
+					}
 					event.stopPropagation();
 				}
 			}

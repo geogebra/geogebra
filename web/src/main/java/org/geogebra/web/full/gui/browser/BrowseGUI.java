@@ -76,13 +76,20 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		}
 		this.app.getLoginOperation().getView().add(this);
 		this.container = new HorizontalPanel();
-		this.container.setPixelSize((int) app.getWidth(),
-				(int) app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		if (app.getConfig().isSimpleMaterialPicker()) {
+			this.container.setPixelSize((int) app.getWidth(),
+					(int) app.getHeight());
+		} else {
+			this.container.setPixelSize((int) app.getWidth(),
+					(int) app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		}
 		this.container.setStyleName("content");
 
 		initMaterialListPanel();
 
-		addHeader();
+		if (!app.getConfig().isSimpleMaterialPicker()) {
+			addHeader();
+		}
 		addContent();
 
 		// Window.addResizeHandler(new ResizeHandler() {
@@ -211,9 +218,11 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		initMaterialListPanel();
 		this.container.add(this.materialListPanel);
 
-		initProviders();
-		this.providerPanel.setStyleName("providers");
-		this.container.add(providerPanel);
+		if (!app.getConfig().isSimpleMaterialPicker()) {
+			initProviders();
+			this.providerPanel.setStyleName("providers");
+			this.container.add(providerPanel);
+		}
 
 		this.setContentWidget(this.container);
 	}
@@ -358,8 +367,12 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 	@Override
 	public void resizeTo(int width, int height) {
-		this.container.setPixelSize(width, height
-		        - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		if (app.getConfig().isSimpleMaterialPicker()) {
+			this.container.setPixelSize(width, height);
+		} else {
+			this.container.setPixelSize(width,
+					height - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		}
 		for (final ResizeListener res : this.resizeListeners) {
 			res.onResize(width, height);
 		}
