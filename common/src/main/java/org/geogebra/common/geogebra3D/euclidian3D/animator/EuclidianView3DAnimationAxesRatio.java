@@ -9,7 +9,8 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class EuclidianView3DAnimationAxesRatio extends EuclidianView3DAnimationScaleAbstract {
 	
-	private double zoomFactorY, zoomFactorZ;
+	private double zoomFactorY;
+	private double zoomFactorZ;
 
 	/**
 	 * 

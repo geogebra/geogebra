@@ -10,9 +10,12 @@ import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimat
  */
 public class EuclidianView3DAnimationAxisScale extends EuclidianView3DAnimation {
 
-	private double axisScaleFactor, axisScaleOld;
+	private double axisScaleFactor;
+	private double axisScaleOld;
 	private int axisScaleMode;
-	private double xZeroOld, yZeroOld, zZeroOld;
+	private double xZeroOld;
+	private double yZeroOld;
+	private double zZeroOld;
 
 	/**
 	 * 
@@ -77,13 +80,13 @@ public class EuclidianView3DAnimationAxisScale extends EuclidianView3DAnimation 
 				break;
 		}
 
-		view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(), view3D.getZZero());
+		view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(),
+				view3D.getZZero());
 
 		view3D.updateMatrix();
 		view3D.setViewChangedByTranslate();
 		view3D.setViewChangedByZoom();
 		end();
 	}
-
 
 }

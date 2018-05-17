@@ -10,7 +10,9 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public class EuclidianView3DAnimationCenter extends EuclidianView3DAnimation {
 
-	private double xEnd, yEnd, zEnd;
+	private double xEnd;
+	private double yEnd;
+	private double zEnd;
 
 	/**
 	 * 
@@ -19,7 +21,8 @@ public class EuclidianView3DAnimationCenter extends EuclidianView3DAnimation {
 	 * @param p
 	 *            point to center about
 	 */
-	EuclidianView3DAnimationCenter(EuclidianView3D view3D, EuclidianView3DAnimator animator, Coords p) {
+	EuclidianView3DAnimationCenter(EuclidianView3D view3D, EuclidianView3DAnimator animator,
+			Coords p) {
 
 		super(view3D, animator);
 		xEnd = -p.getX();
@@ -52,6 +55,5 @@ public class EuclidianView3DAnimationCenter extends EuclidianView3DAnimation {
 		view3D.setViewChangedByTranslate();
 		end();
 	}
-
 
 }

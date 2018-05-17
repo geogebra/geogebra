@@ -13,10 +13,20 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 	private static final double Z_MIN_FOR_TRANSLATE_Z = 0.85;
 	private static final double Z_MAX_FOR_TRANSLATE_XY = 0.45;
 
-	private double xZeroOld, yZeroOld, zZeroOld;
-	private double xScaleStart, yScaleStart, zScaleStart;
-	private double xScaleEnd, yScaleEnd, zScaleEnd;
-	private double screenTranslateAndScaleDX, screenTranslateAndScaleDY, screenTranslateAndScaleDZ;
+	private double xZeroOld;
+	private double yZeroOld;
+	private double zZeroOld;
+
+	private double xScaleStart;
+	private double yScaleStart;
+	private double zScaleStart;
+	private double xScaleEnd;
+	private double yScaleEnd;
+	private double zScaleEnd;
+
+	private double screenTranslateAndScaleDX;
+	private double screenTranslateAndScaleDY;
+	private double screenTranslateAndScaleDZ;
 	private Coords tmpCoords1 = new Coords(4);
 
 	/**
@@ -93,7 +103,8 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 		view3D.setXZero(xZeroOld + screenTranslateAndScaleDX);
 		view3D.setYZero(yZeroOld + screenTranslateAndScaleDY);
 		view3D.setZZero(zZeroOld + screenTranslateAndScaleDZ);
-		view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(), view3D.getZZero());
+		view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(),
+				view3D.getZZero());
 		view3D.setScale(xScaleEnd, yScaleEnd, zScaleEnd);
 		view3D.updateMatrix();
 		view3D.setViewChangedByZoom();

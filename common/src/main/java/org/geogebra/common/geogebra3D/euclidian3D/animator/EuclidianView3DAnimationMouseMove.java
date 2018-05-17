@@ -13,9 +13,14 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation {
 
-	private int mouseMoveDX, mouseMoveDY, mouseMoveMode;
-	private double aOld, bOld;
-	private double xZeroOld, yZeroOld, zZeroOld;
+	private int mouseMoveDX;
+	private int mouseMoveDY;
+	private int mouseMoveMode;
+	private double aOld;
+	private double bOld;
+	private double xZeroOld;
+	private double yZeroOld;
+	private double zZeroOld;
 	private Coords tmpCoords1 = new Coords(4);
 
 	/**
@@ -77,14 +82,16 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 				view3D.toSceneCoords3D(v);
 
 				if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
-					v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection(), tmpCoords1);
+				v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection(),
+						tmpCoords1);
 					view3D.setXZero(xZeroOld + tmpCoords1.getX());
 					view3D.setYZero(yZeroOld + tmpCoords1.getY());
 				} else {
 					v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
 					view3D.setZZero(zZeroOld + tmpCoords1.getZ());
 				}
-				view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(), view3D.getZZero());
+			view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(),
+					view3D.getZZero());
 				view3D.updateMatrix();
 				view3D.setViewChangedByTranslate();
 				break;
@@ -94,6 +101,5 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 		}
 		end();
 	}
-
 
 }

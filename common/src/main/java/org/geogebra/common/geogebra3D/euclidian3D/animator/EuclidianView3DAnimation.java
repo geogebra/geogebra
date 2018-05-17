@@ -47,7 +47,8 @@ public abstract class EuclidianView3DAnimation {
 	 * @param storeUndo
 	 *            if undo point will be stored at the end
 	 */
-	EuclidianView3DAnimation(EuclidianView3D view3D, EuclidianView3DAnimator animator, boolean storeUndo) {
+	EuclidianView3DAnimation(EuclidianView3D view3D, EuclidianView3DAnimator animator,
+			boolean storeUndo) {
 		this.view3D = view3D;
 		this.animator = animator;
 		this.storeUndo = storeUndo;

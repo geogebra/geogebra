@@ -14,7 +14,9 @@ public class EuclidianView3DAnimator {
 
 	@SuppressWarnings("javadoc")
 	public enum AnimationType {
-		OFF, ANIMATED_SCALE, CONTINUE_ROTATION, ROTATION, ROTATION_NO_ANIMATION, TRANSLATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE, AXIS_SCALE
+		OFF, ANIMATED_SCALE, CONTINUE_ROTATION, ROTATION, ROTATION_NO_ANIMATION,
+
+		TRANSLATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE, AXIS_SCALE
 	}
 
 	static final private double ROTATION_CONTINUE_MAX_DELAY = 200;
@@ -61,7 +63,8 @@ public class EuclidianView3DAnimator {
 	 * @param steps animation steps
 	 */
 	public void setAnimatedCoordSystem(double x, double y, double z, double newScale, int steps) {
-		addAnimation(new EuclidianView3DAnimationScaleTranslate(view3D, this, x, y, z, newScale, steps));
+		addAnimation(
+				new EuclidianView3DAnimationScaleTranslate(view3D, this, x, y, z, newScale, steps));
 	}
 
 	/**
@@ -127,11 +130,11 @@ public class EuclidianView3DAnimator {
 	 * @param mode
 	 *            scale mode
 	 */
-	synchronized final public void setCoordSystemFromAxisScale(double factor, double scaleOld, int mode) {
+	synchronized final public void setCoordSystemFromAxisScale(double factor, double scaleOld,
+			int mode) {
 		animation = animationAxis;
 		animationAxis.set(factor, scaleOld, mode);
 	}
-
 
 	/**
 	 * rotate to new angles
@@ -147,7 +150,8 @@ public class EuclidianView3DAnimator {
 	 * @param storeUndo
 	 *            if undo will be stored at the end
 	 */
-	public void setRotAnimation(double aN, double bN, boolean checkSameValues, boolean animated, boolean storeUndo) {
+	public void setRotAnimation(double aN, double bN, boolean checkSameValues, boolean animated,
+			boolean storeUndo) {
 
 		if (Double.isNaN(aN) || Double.isNaN(bN)) {
 			Log.error("NaN values for setRotAnimation");
@@ -155,9 +159,11 @@ public class EuclidianView3DAnimator {
 		}
 
 		if (animated) {
-			addAnimation(new EuclidianView3DAnimationRotation(view3D, this, aN, bN, checkSameValues, storeUndo));
+			addAnimation(new EuclidianView3DAnimationRotation(view3D, this, aN, bN, checkSameValues,
+					storeUndo));
 		} else {
-			addAnimation(new EuclidianView3DAnimationRotationOneStep(view3D, this, aN, bN, checkSameValues, storeUndo));
+			addAnimation(new EuclidianView3DAnimationRotationOneStep(view3D, this, aN, bN,
+					checkSameValues, storeUndo));
 		}
 
 	}
@@ -196,8 +202,8 @@ public class EuclidianView3DAnimator {
 	 */
 	synchronized public void animate() {
 		if (animation != null) {
-            animation.animate();
-        }
+			animation.animate();
+		}
 	}
 
 	/**

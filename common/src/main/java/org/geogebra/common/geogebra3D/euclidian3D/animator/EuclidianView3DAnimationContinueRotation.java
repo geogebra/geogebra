@@ -11,7 +11,10 @@ public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAni
 
 	private static final double MAX_ROT_SPEED = 0.1;
 
-	private double animatedRotSpeed, animatedRotTimeStart, aOld, bOld;
+	private double animatedRotSpeed;
+	private double animatedRotTimeStart;
+	private double aOld;
+	private double bOld;
 
 	/**
 	 * 
@@ -20,8 +23,8 @@ public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAni
 	 * @param delay delay occurring between user interaction and animation start
 	 * @param rotSpeed rotation speed
 	 */
-	EuclidianView3DAnimationContinueRotation(EuclidianView3D view3D, EuclidianView3DAnimator animator,
-			double delay, double rotSpeed) {
+	EuclidianView3DAnimationContinueRotation(EuclidianView3D view3D,
+			EuclidianView3DAnimator animator, double delay, double rotSpeed) {
 
 		super(view3D, animator);
 		double rotSpeed2 = rotSpeed;
@@ -50,7 +53,8 @@ public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAni
 
 	@Override
 	public void animate() {
-		double da = (view3D.getApplication().getMillisecondTime() - animatedRotTimeStart) * animatedRotSpeed;
+		double da = (view3D.getApplication().getMillisecondTime() - animatedRotTimeStart)
+				* animatedRotSpeed;
 		view3D.setRotXYinDegrees(aOld + da, bOld);
 		view3D.updateRotationAndScaleMatrices();
 		view3D.setGlobalMatrices();

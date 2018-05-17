@@ -37,8 +37,8 @@ public class EuclidianView3DAnimationScale extends EuclidianView3DAnimationScale
 		animatedScaleStartZ = view3D.getZZero();
 
 		Coords v;
-		if (view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_NONE) { // use cursor only if on
-			// point/path/region or xOy plane
+		if (view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_NONE) {
+			// use cursor only if on point/path/region or xOy plane
 			v = new Coords(-animatedScaleStartX, -animatedScaleStartY, -animatedScaleStartZ, 1);
 			// takes center of the scene for fixed point
 		} else {
@@ -61,6 +61,6 @@ public class EuclidianView3DAnimationScale extends EuclidianView3DAnimationScale
 		zScaleEnd = zScaleStart / factor;
 
 		animatedScaleTimeFactor = ANIMATION_DURATION;
-
 	}
+
 }

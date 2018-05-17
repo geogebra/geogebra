@@ -12,9 +12,11 @@ import org.geogebra.common.util.DoubleUtil;
 public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 
 	private double animatedRotTimeStart;
-	private double aOld, bOld;
+	private double aOld;
+	private double bOld;
 	private boolean checkSameValues;
-	private double aNew, bNew;
+	private double aNew;
+	private double bNew;
 
 	/**
 	 * 
@@ -25,8 +27,8 @@ public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 	 * @param checkSameValues if we want to check when new values are equal to current
 	 * @param storeUndo if undo should be stored at the end of animation
 	 */
-	EuclidianView3DAnimationRotation(EuclidianView3D view3D, EuclidianView3DAnimator animator, double aN,
-			double bN, boolean checkSameValues, boolean storeUndo) {
+	EuclidianView3DAnimationRotation(EuclidianView3D view3D, EuclidianView3DAnimator animator,
+			double aN, double bN, boolean checkSameValues, boolean storeUndo) {
 
 		super(view3D, animator, storeUndo);
 		this.checkSameValues = checkSameValues;
@@ -39,7 +41,6 @@ public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 	public void setupForStart() {
 		aOld = view3D.getAngleA() % 360;
 		bOld = view3D.getAngleB() % 360;
-
 
 		// if (aNew,bNew)=(0degrees,90degrees), then change it to
 		// (90degrees,90degrees) to have correct
@@ -95,6 +96,5 @@ public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 			end();
 		}
 	}
-
 
 }

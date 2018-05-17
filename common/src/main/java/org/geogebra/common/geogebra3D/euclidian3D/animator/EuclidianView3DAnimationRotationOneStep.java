@@ -12,7 +12,8 @@ import org.geogebra.common.util.DoubleUtil;
 public class EuclidianView3DAnimationRotationOneStep extends EuclidianView3DAnimation {
 
 	private boolean checkSameValues;
-	private double aNew, bNew;
+	private double aNew;
+	private double bNew;
 
 	/**
 	 * @param view3D 3D view
@@ -22,8 +23,9 @@ public class EuclidianView3DAnimationRotationOneStep extends EuclidianView3DAnim
 	 * @param checkSameValues if we want to check when new values are equal to current
 	 * @param storeUndo if undo should be stored at the end of animation
 	 */
-	EuclidianView3DAnimationRotationOneStep(EuclidianView3D view3D, EuclidianView3DAnimator animator, double aN,
-			double bN, boolean checkSameValues, boolean storeUndo) {
+	EuclidianView3DAnimationRotationOneStep(EuclidianView3D view3D,
+			EuclidianView3DAnimator animator, double aN, double bN, boolean checkSameValues,
+			boolean storeUndo) {
 
 		super(view3D, animator, storeUndo);
 		this.checkSameValues = checkSameValues;
