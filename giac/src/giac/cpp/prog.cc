@@ -7139,6 +7139,10 @@ namespace giac {
 	return gen(av,_SEQ__VECT);
       }
     }
+    if (g.type==_SYMB){
+      gen f=denest_sto(g._SYMBptr->feuille);
+      return symbolic(g._SYMBptr->sommet,f);
+    }
     return g;
   }
   
@@ -8612,6 +8616,11 @@ namespace giac {
       res=eval(args,1,contextptr);
       if (res.type!=_STRNG)
 	res=string2gen(res.print(contextptr),false);
+#ifdef GIAC_HAS_STO_38
+      if (res.type==_STRNG)
+	res=string2gen(aspen_input(res._STRNGptr->c_str()),false);
+      return res;
+#endif
       return __click.op(makevecteur(res,0,identificateur("_input_"),1),contextptr);
     }
     const_iterateur it=v.begin(),itend=v.end();
@@ -10884,6 +10893,9 @@ namespace giac {
       }
       if (tmp.type==_IDNT && strcmp(tmp._IDNTptr->id_name,"numpy")==0){
 	if (b.type==_SYMB){
+	  gen w1=eval(w[1],1,contextptr);
+	  if (w1==at_float || w1==at_real)
+	    return w1;
 	  tmp=eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr);
 	  tmp=evalf_double(tmp,1,contextptr);
 	  if (b.is_symb_of_sommet(at_dot))
@@ -10974,8 +10986,19 @@ namespace giac {
 	    v.front()=m;
 	    v=makevecteur(b,gen(v,_SEQ__VECT));
 	  }
-	  else
-	    v.insert(v.begin(),a);
+	  else {
+	    if (u==at_of && v.size()==2){
+	      if (v.back().type==_VECT){
+		vecteur w=*v.back()._VECTptr;
+		w.insert(w.begin(),a);
+		v=makevecteur(v.front(),gen(w,_SEQ__VECT));
+	      }
+	      else
+		v=makevecteur(v.front(),makesequence(a,v.back()));
+	    }
+	    else
+	      v.insert(v.begin(),a);
+	  }
 	}
 	f=gen(v,f.type==_VECT?f.subtype:_SEQ__VECT);
       }

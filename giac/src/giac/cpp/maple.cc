@@ -343,6 +343,9 @@ namespace giac {
 #ifdef GIAC_HAS_STO_38
       return PrimeGetNow()/1000.;
 #endif
+#if defined(EMCC) && !defined(PNACL)
+      return emcctime()/1e6;
+#endif
       return total_time(contextptr);
     }
     double delta;
@@ -368,7 +371,7 @@ namespace giac {
     // return difftime(t2,t1);
     double t1=emcctime();
     eval(a,level,contextptr);
-    return (emcctime()-t1)/1000;
+    return (emcctime()-t1)/1e6;
 #endif
 #if defined(__APPLE__) || defined(PNACL)
     unsigned u1=CLOCK();
@@ -2994,8 +2997,16 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     // create a table with specified index, may be initialized
     vecteur args;
-    if (g.type==_VECT && g.subtype==_SEQ__VECT)
+    if (g.type==_VECT && g.subtype==_SEQ__VECT){
       args=*g._VECTptr;
+      if (!args.empty()){
+	gen f=args.back();
+	if (f.is_symb_of_sommet(at_equal) && f._SYMBptr->feuille[0]==at_dtype){
+	  args.pop_back();
+	  return _convert(makesequence(_array(args.size()==1?args.front():gen(args,_SEQ__VECT),contextptr),f._SYMBptr->feuille[1]),contextptr);
+	}
+      }
+    }
     else
       args=gen2vecteur(g);
 #if 1 // def NSPIRE

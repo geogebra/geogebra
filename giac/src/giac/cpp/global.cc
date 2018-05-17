@@ -5827,7 +5827,7 @@ unsigned int ConvertUTF8toUTF16 (
     if (posnumpy>=0 && posnumpy<cs){
       static bool alertnum=true;
       // add python numpy shortcuts
-      cur += "mat:=matrix:;arange:=range:;resize:=redim:;shape:=dim:;conjugate:=conj:;full:=matrix:;eye:=idn:;ones(n,c):=matrix(n,c,1):;reshape(m,n,c):=matrix(n,c,flatten(m));";
+      cur += "mat:=matrix:;arange:=range:;resize:=redim:;shape:=dim:;conjugate:=conj:;full:=matrix:;eye:=idn:;ones(n,c):=matrix(n,c,1):; astype:=convert:;float64:=float:;reshape(m,n,c):=matrix(n,c,flatten(m));";
       if (alertnum){
 	alertnum=false;
 	alert("mat:=matrix;arange:=range;resize:=redim;shape:=dim;conjugate:=conj;full:=matrix;eye:=idn;ones(n,c):=matrix(n,c,1);reshape(m,n,c):=matrix(n,c,flatten(m));",contextptr);

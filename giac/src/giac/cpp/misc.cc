@@ -8366,6 +8366,16 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__get_pixel,&_get_pixel,_get_pixel_s);
   define_unary_function_ptr5( at_get_pixel ,alias_at_get_pixel,&__get_pixel,0,true);
 
+  gen _dtype(const gen & args,GIAC_CONTEXT){
+    gen g(args);
+    while (g.type==_VECT && !g._VECTptr->empty())
+      g=g._VECTptr->front();
+    return change_subtype(g.type,_INT_TYPE);
+  }
+  static const char _dtype_s []="dtype";
+  static define_unary_function_eval (__dtype,&_dtype,_dtype_s);
+  define_unary_function_ptr5( at_dtype ,alias_at_dtype,&__dtype,0,true);
+
 #ifdef EMCC_FETCH
   // with emscripten 1.37.28, it does not work
 #include <emscripten/fetch.h>
