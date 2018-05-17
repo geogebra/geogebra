@@ -1492,9 +1492,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void reset() {
+		resetAllDrawables();
 		setViewChanged();
 		viewChangedOwnDrawables();
-		resetAllDrawables();
 		setWaitForUpdate();
 	}
 
