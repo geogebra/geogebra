@@ -27,11 +27,14 @@ public class Geometry3DGetterManager {
 	 * constructor
 	 * 
 	 * @param view
+	 *            view
 	 * @param getter
+	 *            geometry getter
 	 */
 	public Geometry3DGetterManager(EuclidianView3DForExport view, Geometry3DGetter getter) {
 		this.getter = getter;
-		geometriesManager = (ManagerShadersElementsGlobalBuffer) view.getRenderer().getGeometryManager();
+		geometriesManager = (ManagerShadersElementsGlobalBuffer) view.getRenderer()
+				.getGeometryManager();
 		xInvScale = 1 / view.getXscale();
 	}
 
@@ -42,9 +45,13 @@ public class Geometry3DGetterManager {
 	 *            geo to export
 	 * 
 	 * @param geometryIndex
+	 *            geometry index
 	 * @param color
+	 *            color
 	 * @param alpha
+	 *            opacity
 	 * @param type
+	 *            geometry type
 	 */
 	public void export(GeoElement geo, int geometryIndex, GColor color,
 			double alpha, GeometryType type) {
@@ -79,8 +86,8 @@ public class Geometry3DGetterManager {
 					elementsOffset = geometry.getElementsOffset();
 					switch (geometry.getType()) {
 					case TRIANGLE_FAN:
-						// for openGL we use replace triangle fans by triangle strips, repeating apex
-						// every time
+						// for openGL we use replace triangle fans by triangle
+						// strips, repeating apex every time
 						int length = geometry.getIndicesLength() / 2;
 						int v3 = bi.get();
 						int v4 = bi.get();

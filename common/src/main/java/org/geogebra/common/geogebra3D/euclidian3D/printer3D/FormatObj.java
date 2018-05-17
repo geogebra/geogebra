@@ -9,7 +9,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class FormatObj implements Format {
 
-	private int index, nextShift;
+	private int index;
+	private int nextShift;
 
 	@Override
 	public String getExtension() {
@@ -29,8 +30,8 @@ public class FormatObj implements Format {
 	}
 
 	@Override
-	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color,
-			double alpha) {
+	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency,
+			GColor color, double alpha) {
 		sb.append("\n#########################\n### ");
 		sb.append(geo.getLabelSimple());
 		sb.append("\n");

@@ -22,10 +22,23 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.Feature;
 
+/**
+ * Export to 3D printer
+ */
 public class ExportToPrinter3D {
 
+	/**
+	 * 3D export type
+	 */
 	static public enum Type {
-		CURVE, CURVE_CLOSED, SURFACE_CLOSED, POINT
+		/** curve */
+		CURVE,
+		/** closed curve */
+		CURVE_CLOSED,
+		/** closed surface */
+		SURFACE_CLOSED,
+		/** point */
+		POINT
 	}
 
 	private Format format;
@@ -91,7 +104,6 @@ public class ExportToPrinter3D {
 		 */
 		int getElementsOffset();
 
-
 		/**
 		 * 
 		 * @return geometry GL type
@@ -116,6 +128,12 @@ public class ExportToPrinter3D {
 		sb = new StringBuilder();
 	}
 
+	/**
+	 * @param d
+	 *            drawable
+	 * @param type
+	 *            export object type
+	 */
 	public void export(Drawable3D d, Type type) {
 		if (type == Type.POINT) {
 			if (view.getApplication().has(Feature.MOB_PACK_POINTS)
@@ -131,13 +149,22 @@ public class ExportToPrinter3D {
 		export(d.getGeometryIndex(), type, geo.getGeoClassType().toString(), geo);
 	}
 
+	/**
+	 * @param geometryIndex
+	 *            geometry index
+	 * @param type
+	 *            export object type
+	 * @param geoType
+	 *            geo type
+	 * @param geo
+	 *            construction element
+	 */
 	public void export(int geometryIndex, Type type, String geoType,
 			GeoElement geo) {
 
 		reverse = false;
 		GeometriesSet currentGeometriesSet = manager
 				.getGeometrySet(geometryIndex);
-
 
 		if (currentGeometriesSet != null) {
 			for (Geometry g : currentGeometriesSet) {
@@ -240,6 +267,10 @@ public class ExportToPrinter3D {
 		}
 	}
 
+	/**
+	 * @param d
+	 *            drawable
+	 */
 	public void exportSurface(Drawable3D d) {
 		exportSurface(d.getGeoElement(), d.getSurfaceIndex());
 	}
@@ -260,8 +291,8 @@ public class ExportToPrinter3D {
 		export(geo, index, "SURFACE", true, null, alpha);
 	}
 
-	private void export(GeoElement geo, int geometryIndex, String group, boolean transparency, GColor color,
-			double alpha) {
+	private void export(GeoElement geo, int geometryIndex, String group, boolean transparency,
+			GColor color, double alpha) {
 
 		if (alpha < 0.001) {
 			return;
@@ -377,6 +408,16 @@ public class ExportToPrinter3D {
 		}
 	}
 
+	/**
+	 * @param polygon
+	 *            polygon
+	 * @param vertices
+	 *            vertex coordinates
+	 * @param color
+	 *            color
+	 * @param alpha
+	 *            opacity
+	 */
 	public void export(GeoPolygon polygon, Coords[] vertices, GColor color, double alpha) {
 
 		if (alpha < 0.001) {
@@ -411,7 +452,8 @@ public class ExportToPrinter3D {
 					reverse = !reverse; // TODO fix that
 				}
 
-				format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true, color, alpha);
+				format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true,
+						color, alpha);
 
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
@@ -447,7 +489,9 @@ public class ExportToPrinter3D {
 				}
 
 				// faces
-				format.getFacesStart(sb, format.needsClosedObjects() ? (length - 2) * 2 + 2 : (length - 2) * 2, true);
+				format.getFacesStart(sb,
+						format.needsClosedObjects() ? (length - 2) * 2 + 2 : (length - 2) * 2,
+						true);
 				notFirst = false;
 
 				for (int i = 1; i < length - 1; i++) {
@@ -478,7 +522,8 @@ public class ExportToPrinter3D {
 					int completeLength = pt.getMaxPointIndex();
 					reverse = false;
 
-					format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true, color, alpha);
+					format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true,
+							color, alpha);
 
 					// object is a polyhedron
 					format.getPolyhedronStart(sb);
@@ -531,12 +576,9 @@ public class ExportToPrinter3D {
 					// end of polyhedron
 					format.getPolyhedronEnd(sb);
 				}
-
 			}
 		}
-
 	}
-
 
 	/**
 	 * 
@@ -598,18 +640,18 @@ public class ExportToPrinter3D {
 
 	/**
 	 * 
-	 * @param format
+	 * @param format1
 	 *            export format
 	 * @return export
 	 */
-	public StringBuilder export(Format format) {
-		this.format = format;
+	public StringBuilder export(Format format1) {
+		this.format = format1;
 		xInvScale = 1 / view.getXscale();
 
 		sb.setLength(0);
-		format.getScriptStart(sb);
+		format1.getScriptStart(sb);
 		view.exportToPrinter3D(this);
-		format.getScriptEnd(sb);
+		format1.getScriptEnd(sb);
 		return sb;
 	}
 

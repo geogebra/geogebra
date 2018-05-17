@@ -101,13 +101,13 @@ public class FormatCollada implements Format {
 			sb.append("\n            </ambient>");
 			sb.append("\n            <diffuse>");
 			sb.append("\n              <color sid=\"diffuse\">");
-			sb.append(color.getRed()/255.0);
+			sb.append(color.getRed() / 255.0);
 			sb.append(" ");
-			sb.append(color.getGreen()/255.0);
+			sb.append(color.getGreen() / 255.0);
 			sb.append(" ");
-			sb.append(color.getBlue()/255.0);
+			sb.append(color.getBlue() / 255.0);
 			sb.append(" ");
-			sb.append(color.getAlpha()/255.0);
+			sb.append(color.getAlpha() / 255.0);
 			sb.append("</color>");
 			sb.append("\n            </diffuse>");
 			sb.append("\n            <specular>");
@@ -146,7 +146,8 @@ public class FormatCollada implements Format {
 		sb.append("\n    <visual_scene id=\"Scene\" name=\"Scene\">");
 		// light
 		sb.append("\n      <node id=\"L_Dir\" name=\"Directional\" type=\"NODE\">");
-		sb.append("\n        <matrix sid=\"transform\">-0.70711 0 0.70711 0  0 1 0 0  0.70711 0 0.70711 0  0 0 0 1</matrix>");
+		sb.append("\n        <matrix sid=\"transform\">");
+		sb.append("-0.70711 0 0.70711 0  0 1 0 0  0.70711 0 0.70711 0  0 0 0 1</matrix>");
 		sb.append("\n        <instance_light url=\"#L_dir\"/>");
 		sb.append("\n      </node>");
 		sb.append("\n      <node id=\"L_Amb\" name=\"Ambient\" type=\"NODE\">");
@@ -204,12 +205,13 @@ public class FormatCollada implements Format {
 	}
 
 	@Override
-	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color, double alpha) {
+	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency,
+			GColor color, double alpha) {
 		currentLabel = geo.getLabelSimple();
 		Integer n = labels.get(currentLabel);
 		if (n != null) {
 			// we need a new label
-			labels.put(currentLabel, n+1);
+			labels.put(currentLabel, n + 1);
 			currentLabel = currentLabel + "_" + n;
 		} else {
 			// if needed, second time we'll use label_2 instead of label
@@ -338,8 +340,7 @@ public class FormatCollada implements Format {
 		appendIndex(sb, v3, normal);
 	}
 
-
-	private void appendIndex(StringBuilder sb, int index, int normal) {
+	private static void appendIndex(StringBuilder sb, int index, int normal) {
 		sb.append(index);
 		if (normal != -1) {
 			sb.append(" ");
@@ -357,7 +358,6 @@ public class FormatCollada implements Format {
 		sb.append("</p>");
 		sb.append("\n        </triangles>");
 	}
-
 
 	@Override
 	public void getNormalsStart(StringBuilder sb, int count) {
