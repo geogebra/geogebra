@@ -2328,6 +2328,9 @@ GGBAppletUtils.makeModule = function(name, permutation){
 	}
 	return webModule;
 }
-
-web3d = GGBAppletUtils.makeModule("web3d",'%WEB3D_PERMUTATION%');
-webSimple = GGBAppletUtils.makeModule("webSimple",'%WEBSIMPLE_PERMUTATION%');
+if (typeof window.web3d !== "function") {
+	web3d = GGBAppletUtils.makeModule("web3d",'%WEB3D_PERMUTATION%');
+}
+if (typeof window.webSimple !== "function") {
+	webSimple = GGBAppletUtils.makeModule("webSimple",'%WEBSIMPLE_PERMUTATION%');
+}
