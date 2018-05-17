@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -54,6 +55,7 @@ public class ZoomPanel extends FlowPanel
 	private EuclidianView view;
 	/** after we leave fullscreen, we must reset container position */
 	private HashMap<String, String> containerProps = new HashMap<>();
+	private GDimension oldSize;
 
 	private double cssScale = 0;
 	private List<StandardButton> buttons = null;
@@ -198,6 +200,9 @@ public class ZoomPanel extends FlowPanel
 					container.getStyle().setProperty(e.getKey(), e.getValue());
 				}
 			}
+		}
+		if (oldSize != null && app.isUnbundled()) {
+			app.getGgbApi().setSize(oldSize.getWidth(), oldSize.getHeight());
 		}
 	}
 
@@ -372,7 +377,7 @@ public class ZoomPanel extends FlowPanel
 				setContainerProp(container, "maxHeight", "100%");
 				setContainerProp(container, "marginLeft", "0");
 				setContainerProp(container, "marginTop", "0");
-
+				oldSize = app.getPreferredSize();
 				scaler.addClassName("fullscreen");
 				cssScale = ae.getParentScaleX();
 				if (ipad) {
@@ -422,22 +427,29 @@ public class ZoomPanel extends FlowPanel
 	 *            content to scale.
 	 */
 	protected void scaleApplet(Element scaler, Element container) {
-		double xscale = Window.getClientWidth() / app.getWidth();
-		double yscale = Window.getClientHeight() / app.getHeight();
-		double scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
-		Browser.scale(scaler, scale, 0, 0);
-		Browser.scale(getElement(), 1 / scale, 120, 100);
-		container.getStyle().setPosition(Position.ABSOLUTE);
-		double marginLeft = 0;
-		double marginTop = 0;
-		if (xscale > yscale) {
-			marginLeft = (Window.getClientWidth() - app.getWidth() * scale) / 2;
+		if (app.isUnbundled()) {
+			app.getGgbApi().setSize(Window.getClientWidth(),
+					Window.getClientHeight());
+			Browser.scale(scaler, 1, 0, 0);
 		} else {
-			marginTop = (Window.getClientHeight() - app.getHeight() * scale)
-					/ 2;
+			double xscale = Window.getClientWidth() / app.getWidth();
+			double yscale = Window.getClientHeight() / app.getHeight();
+			double scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
+			Browser.scale(scaler, scale, 0, 0);
+			Browser.scale(getElement(), 1 / scale, 120, 100);
+			container.getStyle().setPosition(Position.ABSOLUTE);
+			double marginLeft = 0;
+			double marginTop = 0;
+			if (xscale > yscale) {
+				marginLeft = (Window.getClientWidth() - app.getWidth() * scale)
+						/ 2;
+			} else {
+				marginTop = (Window.getClientHeight() - app.getHeight() * scale)
+						/ 2;
+			}
+			scaler.getStyle().setMarginLeft(marginLeft, Unit.PX);
+			scaler.getStyle().setMarginTop(marginTop, Unit.PX);
 		}
-		scaler.getStyle().setMarginLeft(marginLeft, Unit.PX);
-		scaler.getStyle().setMarginTop(marginTop, Unit.PX);
 		app.getArticleElement().resetScale();
 		app.recalculateEnvironments();
 	}
