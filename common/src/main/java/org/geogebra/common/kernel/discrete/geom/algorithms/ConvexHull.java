@@ -30,11 +30,6 @@ import java.util.List;
 
 import org.geogebra.common.kernel.discrete.geom.LineAndPointUtils;
 import org.geogebra.common.kernel.discrete.geom.Point2D;
-import org.geogebra.common.kernel.discrete.geom.algorithms.logging.LogEvent;
-import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.jarvis_march.JarvisAddSegmentEvent;
-import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.jarvis_march.JarvisChainsDetectedEvent;
-import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.jarvis_march.JarvisPointSelectedEvent;
-import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.jarvis_march.JarvisPointsCheckEvent;
 
 /**
  *
@@ -173,7 +168,7 @@ public class ConvexHull {
 	}
 
 	private static int jarvisFindSmallestPolarAngle(List<Point2D> points,
-			Point2D p0, boolean rightChain, List<LogEvent> events) {
+			Point2D p0, boolean rightChain) {
 		/*
 		 * Returns the index of the point with the smallest polar angle relative
 		 * to p0 The rightChain parameter defines whether we are looking for the
@@ -193,11 +188,6 @@ public class ConvexHull {
 				polarAngle = polarAngleNegAxis(p0, point);
 			}
 
-			if (polarAngle != null) {
-				events.add(new JarvisPointsCheckEvent(p0, point, polarAngle,
-						rightChain));
-			}
-
 			if ((polarAngle != null) && (polarAngle < minAngle)) {
 				index = i;
 				minAngle = polarAngle;
@@ -205,8 +195,6 @@ public class ConvexHull {
 			i++;
 		}
 
-		events.add(new JarvisPointSelectedEvent(p0, points.get(index), minAngle,
-				rightChain));
 
 		return index;
 	}
@@ -214,14 +202,9 @@ public class ConvexHull {
 	/**
 	 * @param points
 	 *            points
-	 * @param events
-	 *            events
 	 * @return list of convex hull points
 	 */
-	public static List<Point2D> jarvisMarch(List<Point2D> points,
-			List<LogEvent> events) {
-
-		events.clear();
+	public static List<Point2D> jarvisMarch(List<Point2D> points) {
 
 		List<Point2D> result = new ArrayList<>();
 
@@ -232,28 +215,22 @@ public class ConvexHull {
 			Point2D lowestPoint = points.get(0);
 			Point2D highestPoint = points.get(points.size() - 1);
 
-			events.add(
-					new JarvisChainsDetectedEvent(lowestPoint, highestPoint));
-
 			result.add(lowestPoint);
-			events.add(new JarvisAddSegmentEvent(lowestPoint, lowestPoint));
 
 			Point2D p = lowestPoint;
 			Point2D p1;
 			int index = 1;
 			while (!p.equals(highestPoint)) {
-				index = jarvisFindSmallestPolarAngle(points, p, true, events);
+				index = jarvisFindSmallestPolarAngle(points, p, true);
 				result.add(points.get(index));
 				p1 = points.get(index);
-				events.add(new JarvisAddSegmentEvent(p, p1));
 				p = p1;
 			}
 
 			while (!p.equals(lowestPoint)) {
-				index = jarvisFindSmallestPolarAngle(points, p, false, events);
+				index = jarvisFindSmallestPolarAngle(points, p, false);
 				result.add(points.get(index));
 				p1 = points.get(index);
-				events.add(new JarvisAddSegmentEvent(p, p1));
 				p = p1;
 			}
 		}

@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.discrete.geom.Point2D;
 import org.geogebra.common.kernel.discrete.geom.algorithms.ConvexHull;
-import org.geogebra.common.kernel.discrete.geom.algorithms.logging.LogEvent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
@@ -139,8 +138,7 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 			return;
 		}
 
-		List<Point2D> jarvisResult = ConvexHull.jarvisMarch(vl,
-				new ArrayList<LogEvent>());
+		List<Point2D> jarvisResult = ConvexHull.jarvisMarch(vl);
 
 		for (int i = 0; i < jarvisResult.size(); i++) {
 			Point2D p = jarvisResult.get(i);
