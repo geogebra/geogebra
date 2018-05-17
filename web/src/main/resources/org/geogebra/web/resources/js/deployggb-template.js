@@ -767,7 +767,7 @@ var GGBApplet = function() {
             };
         }
 
-	var oriAppletOnload = (typeof parameters.appletOnLoad === "function") ?
+    var oriAppletOnload = (typeof parameters.appletOnLoad === "function") ?
                       parameters.appletOnLoad : function(){};
 
         // Add the tag for the preview image
@@ -847,10 +847,10 @@ var GGBApplet = function() {
             appletElem.appendChild(appletScaler);
 
             // Apply scaling
-	    parameters.appletOnLoad = function(api){
-		applet.resize();
-		oriAppletOnload(api);
-	    }
+            parameters.appletOnLoad = function(api){
+                applet.resize();
+                oriAppletOnload(api);
+            }
         }
 
 
@@ -938,7 +938,11 @@ var GGBApplet = function() {
             ggbHTML5LoadedScript = script.src;
             log("GeoGebra HTML5 codebase loaded: '"+html5Codebase+"'.", parameters);
             if (!html5OverwrittenCodebase) {
-                web3d.succeeded=web3d();
+                if(html5CodebaseIsWebSimple){
+                    webSimple.succeeded = webSimple.succeeded || webSimple();
+                }else {
+                    web3d.succeeded = web3d.succeeded || web3d();
+                }
                 scriptLoaded();
             } else if (html5Codebase.requirejs) {
                 require(['geogebra/runtime/js/web3d/web3d.nocache'], scriptLoaded);
