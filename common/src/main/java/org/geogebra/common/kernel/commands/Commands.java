@@ -478,6 +478,8 @@ public enum Commands implements CommandsConstants,
 
 	SD(TABLE_STATISTICS),
 
+	MAD(TABLE_STATISTICS),
+
 	SampleVariance(TABLE_STATISTICS),
 
 	SampleSD(TABLE_STATISTICS),

@@ -720,6 +720,7 @@ public abstract class CommandDispatcher {
 			case RootMeanSquare:
 			case Row:
 			case SD:
+			case MAD:
 			case SDX:
 			case SDY:
 			case Sxx:

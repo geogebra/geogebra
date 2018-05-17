@@ -48,6 +48,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 	protected final static int STATS_SXX = 6;
 	protected final static int STATS_SAMPLE_VARIANCE = 7;
 	protected final static int STATS_SAMPLE_SD = 8;
+	protected final static int STATS_MEAN_ABSOLUTE_DEVIATION = 9;
 
 	public AlgoStats1D(Construction cons, String label, GeoList geoList,
 			int stat) {
@@ -195,6 +196,8 @@ public abstract class AlgoStats1D extends AlgoElement {
 		double frequency = 1;
 		double var, mu;
 		GeoElement geo, geoFreq, geo2;
+		boolean useMidpoint = false;
+		double n = 0;
 
 		// list of numbers only, no frequencies
 		if (geoList2 == null) {
@@ -211,13 +214,15 @@ public abstract class AlgoStats1D extends AlgoElement {
 					return;
 				}
 			}
+
+			n = size;
 		}
 
 		// list of numbers with list of frequencies
 		else {
 			// if the number list is a list of classes, then we must use a
 			// midpoint
-			boolean useMidpoint = geoList.size() == geoList2.size() + 1;
+			useMidpoint = geoList.size() == geoList2.size() + 1;
 			size = useMidpoint ? size - 1 : size;
 
 			double val;
@@ -259,36 +264,78 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 			}
 
-			size = sumFreq;
+			n = sumFreq;
 		}
 
-		mu = sumVal / size;
+		mu = sumVal / n;
 
 		switch (stat) {
 		default:
 			result.setValue(Double.NaN);
 			break;
+		case STATS_MEAN_ABSOLUTE_DEVIATION:
+
+			double sumAbsoluteDeviation = 0;
+			if (geoList2 == null) {
+				double val;
+				for (int i = 0; i < size; i++) {
+					geo = geoList.get(i);
+					val = geo.evaluateDouble();
+					sumAbsoluteDeviation += Math.abs(mu - val);
+				}
+			}
+			// list of numbers with list of frequencies
+			else {
+
+				double val;
+				for (int i = 0; i < size; i++) {
+					geo = geoList.get(i);
+					geoFreq = geoList2.get(i);
+
+					val = geo.evaluateDouble();
+
+					// compute midpoint value if needed
+					if (useMidpoint) {
+						geo2 = geoList.get(i + 1);
+						val = (val + (geo2.evaluateDouble())) / 2;
+					}
+
+					frequency = geoFreq.evaluateDouble();
+
+					// handle bad frequency
+					if (frequency < 0) {
+						result.setUndefined();
+						return;
+					}
+
+					sumAbsoluteDeviation += Math.abs(mu - val) * frequency;
+
+				}
+			}
+
+			result.setValue(sumAbsoluteDeviation / n);
+			break;
 		case STATS_MEAN:
 			result.setValue(mu);
 			break;
 		case STATS_SD:
-			var = sumSquares / size - mu * mu;
+			var = sumSquares / n - mu * mu;
 			result.setValue(Math.sqrt(var));
 			break;
 		case STATS_SAMPLE_SD:
-			var = (sumSquares - sumVal * sumVal / size) / (size - 1);
+			var = (sumSquares - sumVal * sumVal / n) / (n - 1);
 			result.setValue(Math.sqrt(var));
 			break;
 		case STATS_VARIANCE:
-			var = sumSquares / size - mu * mu;
+			var = sumSquares / n - mu * mu;
 			result.setValue(var);
 			break;
 		case STATS_SAMPLE_VARIANCE:
-			var = (sumSquares - sumVal * sumVal / size) / (size - 1);
+			var = (sumSquares - sumVal * sumVal / n) / (n - 1);
 			result.setValue(var);
 			break;
 		case STATS_SXX:
-			var = sumSquares - (sumVal * sumVal) / size;
+			var = sumSquares - (sumVal * sumVal) / n;
 			result.setValue(var);
 			break;
 		case STATS_SIGMAX:

@@ -1467,6 +1467,12 @@ public class NoExceptionsTest {
 	}
 
 	@Test
+	public void cmdMAD() {
+		t("MAD[ list1 ]");
+		t("MAD[ list1, list1 ]");
+	}
+
+	@Test
 	public void cmdSDX() {
 		t("SDX[ ptlist1 ]");
 	}
