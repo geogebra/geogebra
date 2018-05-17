@@ -88,4 +88,11 @@ public abstract class HttpRequest {
 		this.responseText = responseText;
 	}
 
+	/**
+	 * @param processed
+	 * 			set processed
+	 */
+	protected void setProcessed(boolean processed) {
+		this.processed = processed;
+	}
 }
