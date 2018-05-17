@@ -540,6 +540,8 @@ __GGB__keysVar["tr"].command = {
     "Logistic.Syntax": "[ <Ortalama>, <\xd6l\xe7ek>, <De\u011fi\u015fken De\u011feri> ]\n[ <Ortalama>, <\xd6l\xe7ek>, x, <Mant\u0131ksal Y\u0131\u011f\u0131lma> ]",
     "LowerSum": "AltToplam",
     "LowerSum.Syntax": "[ <Fonksiyon>, <Ba\u015flang\u0131\xe7 x-De\u011feri>, <Biti\u015f x-De\u011feri>, <Dikd\xf6rtgen Say\u0131s\u0131> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Ham Veri Listesi> ]\n[ <Say\u0131 Listesi>, <Frekans Listesi> ]",
     "MatrixPlot": "Matris\xc7izim",
     "MatrixRank": "MatrisRank",
     "MatrixRank.Syntax": "[ <Matris> ]",

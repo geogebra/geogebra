@@ -540,6 +540,8 @@ __GGB__keysVar["ja"].command = {
     "Logistic.Syntax": "[ <\u5e73\u5747>, <\u30b9\u30b1\u30fc\u30eb>, <\u5909\u6570\u5024> ]\n[ <\u5e73\u5747>, <\u30b9\u30b1\u30fc\u30eb>, x, <Boolean Cumulative> ]",
     "LowerSum": "LowerSum",
     "LowerSum.Syntax": "[ <\u95a2\u6570>, <x\u306e\u958b\u59cb\u5024>, <x\u306e\u7d42\u4e86\u5024>, <\u9577\u65b9\u5f62\u306e\u6570> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <\u751f\u30c7\u30fc\u30bf\u306e\u30ea\u30b9\u30c8> ]\n[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8>, <\u5ea6\u6570\u306e\u30ea\u30b9\u30c8> ]",
     "MatrixPlot": "MatrixPlot",
     "MatrixRank": "MatrixRank",
     "MatrixRank.Syntax": "[ <\u884c\u5217> ]",

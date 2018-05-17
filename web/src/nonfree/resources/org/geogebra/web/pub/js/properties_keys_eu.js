@@ -540,6 +540,8 @@ __GGB__keysVar["eu"].command = {
     "Logistic.Syntax": "[ <Batezbestekoa>, <Eskala>, <Balio Aldakorra> ]\n[ <Batezbestekoa>, <Eskala>, x, <Metatu Boolearra> ]",
     "LowerSum": "BeheBatura",
     "LowerSum.Syntax": "[ <Funtzioa>, <x-ren Hasierako Balioa>, <x-ren Amaierako Balioa>, <Zenbat Laukizuzen> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Datu Gordinen Zerrenda> ]\n[ <Zenbakien Zerrenda>, <Maiztasunen Zerrenda> ]",
     "MatrixPlot": "MatrizearenTraza",
     "MatrixRank": "MatrizearenHeina",
     "MatrixRank.Syntax": "[ <Matrizea> ]",

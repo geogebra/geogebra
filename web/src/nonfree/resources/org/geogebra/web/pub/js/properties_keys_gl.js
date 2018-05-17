@@ -540,6 +540,8 @@ __GGB__keysVar["gl"].command = {
     "Logistic.Syntax": "[ <Media>, <Escala>, x, <Acumula (booleana)> ]\n[ <Media>, <Escala>, <Valor da variable> ]",
     "LowerSum": "SumaInferior",
     "LowerSum.Syntax": "[ <Funci\xf3n>, <Valor inicial x>, <Valor final x>, <N\xfamero de rect\xe1ngulos> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Lista de datos en bruto> ]\n[ <Lista de n\xfameros>, <Lista de frecuencias> ]",
     "MatrixPlot": "Gr\xe1ficoMatricial",
     "MatrixRank": "RangoMatriz",
     "MatrixRank.Syntax": "[ <Matriz> ]",

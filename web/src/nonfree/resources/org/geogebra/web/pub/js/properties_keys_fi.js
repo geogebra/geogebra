@@ -540,6 +540,8 @@ __GGB__keysVar["fi"].command = {
     "Logistic.Syntax": "[ <Keskiarvo>, <Skaalauskerroin>, <Muttujan arvo> ]\n[ <Keskiarvo>, <Skaalauskerroin>, x, <Totuusarvo: kertym\xe4/ei> ]",
     "LowerSum": "Alasumma",
     "LowerSum.Syntax": "[ <Funktio>, <X:n alkuarvo>, <X:n loppuarvo>, <Suorakulmioiden lukum\xe4\xe4r\xe4> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Datalista> ]\n[ <Lukulista>, <Lukum\xe4\xe4rien lista> ]",
     "MatrixPlot": "MatriisiKuvaaja",
     "MatrixRank": "MatriisinAste",
     "MatrixRank.Syntax": "[ <Matriisi> ]",

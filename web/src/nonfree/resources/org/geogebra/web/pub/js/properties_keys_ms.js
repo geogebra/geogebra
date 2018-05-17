@@ -540,6 +540,8 @@ __GGB__keysVar["ms"].command = {
     "Logistic.Syntax": "[ <Min>, <Skala>, <Nilai Pembolehubah> ]\n[ <Min>, <Skala>, x, <Longgokan Boolean> ]",
     "LowerSum": "HasilTambahBawah",
     "LowerSum.Syntax": "[ <Fungsi>, <Mula Nilai-x>, <Tamat Nilai-x>, <Bilangan Segiempat tepat> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Senarai Data Mentah> ]\n[ <Senarai Nombor>, <Senarai Kekerapan> ]",
     "MatrixPlot": "PlotMatrik",
     "MatrixRank": "PangkatMatriks",
     "MatrixRank.Syntax": "[ <Matriks> ]",

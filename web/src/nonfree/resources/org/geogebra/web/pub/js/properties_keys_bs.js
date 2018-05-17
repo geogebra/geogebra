@@ -540,6 +540,8 @@ __GGB__keysVar["bs"].command = {
     "Logistic.Syntax": "[ <Aritmeti\u010dka sredina-srednja vrijednost>, <Skala>, <Vrijednost promjenljive> ]\n[ <Aritmeti\u010dka sredina--srednja vrijednost>, <Skala>, x, <Kumulativna Boolean-logi\u010dka vrijednost> ]",
     "LowerSum": "DonjaSuma",
     "LowerSum.Syntax": "[ <Funkcija>, <Po\u010detna x-vrijednost>, <Krajnja x-vrijednost>, <Broj pravougaonika> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Lista ulaznih podataka> ]\n[ <Lista brojeva>, <Lista frekvencija> ]",
     "MatrixPlot": "GrafMatrice",
     "MatrixRank": "RangMatrice",
     "MatrixRank.Syntax": "[ <Matrica> ]",

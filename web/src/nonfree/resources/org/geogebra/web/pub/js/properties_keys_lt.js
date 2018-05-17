@@ -540,6 +540,8 @@ __GGB__keysVar["lt"].command = {
     "Logistic.Syntax": "[ <Vidurkis>, <Skal\u0117>, <Kintamojo vert\u0117> ]\n[ <Vidurkis>, <Skal\u0117>, x, <Login\u0117 vert\u0117> ]",
     "LowerSum": "Apatin\u0117Suma",
     "LowerSum.Syntax": "[ <Funkcija>, <Prad\u017eios x reik\u0161m\u0117>, <Galo x reik\u0161m\u0117>, <Sta\u010diakampi\u0173 skai\u010dius> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Neapdorot\u0173 duomen\u0173 s\u0105ra\u0161as> ]\n[ <Skai\u010di\u0173 s\u0105ra\u0161as>, <Da\u017eni\u0173 s\u0105ra\u0161as> ]",
     "MatrixPlot": "MatricosVaizdas",
     "MatrixRank": "MatricosRangas",
     "MatrixRank.Syntax": "[ <Matrica> ]",

@@ -540,6 +540,8 @@ __GGB__keysVar["hu"].command = {
     "Logistic.Syntax": "[ <K\xf6z\xe9p\xe9rt\xe9k>, <Param\xe9ter s>, <Eloszl\xe1sf\xfcggv\xe9ny logikai \xe9rt\xe9ke> ]\n[ <K\xf6z\xe9p\xe9rt\xe9k>, <Param\xe9ter s>, x, <V\xe1ltoz\xf3 \xe9rt\xe9ke> ]",
     "LowerSum": "Als\xf3\xf6sszeg",
     "LowerSum.Syntax": "[ <F\xfcggv\xe9ny>, <Kezd\u0151 x-\xe9rt\xe9k>, <Lez\xe1r\xf3 x-\xe9rt\xe9k>, <T\xe9glalapok sz\xe1ma> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Nyers adatok list\xe1ja> ]\n[ <Sz\xe1mok list\xe1ja>, <Gyakoris\xe1gok list\xe1ja> ]",
     "MatrixPlot": "M\xe1trix",
     "MatrixRank": "M\xe1trixRangja",
     "MatrixRank.Syntax": "[ <M\xe1trix> ]",

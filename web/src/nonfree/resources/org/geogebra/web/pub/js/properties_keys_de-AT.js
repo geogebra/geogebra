@@ -540,6 +540,8 @@ __GGB__keysVar["de-AT"].command = {
     "Logistic.Syntax": "[ <Mittelwert>, <Parameter>, <Wert der Variable> ]\n[ <Mittelwert>, <Parameter>, x, <Wahrheitswert Verteilungsfunktion> ]",
     "LowerSum": "Untersumme",
     "LowerSum.Syntax": "[ <Funktion>, <Startwert>, <Endwert>, <Anzahl der Rechtecke> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Liste von Rohdaten> ]\n[ <Liste von Zahlen>, <Liste von H\xe4ufigkeiten> ]",
     "MatrixPlot": "Matrixplot",
     "MatrixRank": "Rang",
     "MatrixRank.Syntax": "[ <Matrix> ]",

@@ -540,6 +540,8 @@ __GGB__keysVar["is"].command = {
     "Logistic.Syntax": "[ <Me\xf0altal>, <Kvar\xf0i>, <Gildi breytu> ]\n[ <Me\xf0altal>, <Kvar\xf0i>, x, <Dreififall> ]",
     "LowerSum": "Undirsumma",
     "LowerSum.Syntax": "[ <Fall>, <Byrjunar-x-gildi>, <Loka-x-gildi>, <Fj\xf6ldi r\xe9tthyrninga> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Listi \xf3flokka\xf0ra gagna> ]\n[ <Listi af t\xf6lum>, <Listi af t\xed\xf0nit\xf6lum> ]",
     "MatrixPlot": "MatrixPlot",
     "MatrixRank": "Myndv\xeddd",
     "MatrixRank.Syntax": "[ <Fylki> ]",

@@ -540,6 +540,8 @@ __GGB__keysVar["ca"].command = {
     "Logistic.Syntax": "[ <Mitjana>, <Escala>, x, <Acumulada true/false> ]\n[ <Mitjana>, <Escala>, x, <Valor de la variable> ]",
     "LowerSum": "SumaInferior",
     "LowerSum.Syntax": "[ <Funci\xf3>, <Valor inicial de x>, <Valor final de x>, <Nombre de rectangles> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Llista de totes les dades> ]\n[ <Llista de dades>, <Llista de freq\xfc\xe8ncies> ]",
     "MatrixPlot": "DiagramaMatricial",
     "MatrixRank": "RangMatriu",
     "MatrixRank.Syntax": "[ <Matriu> ]",

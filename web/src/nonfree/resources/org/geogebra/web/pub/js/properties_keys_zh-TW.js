@@ -540,6 +540,8 @@ __GGB__keysVar["zh-TW"].command = {
     "Logistic.Syntax": "[ <Mean>, <Scale>, <Variable Value> ]\n[ <Mean>, <Scale>, x, <Boolean Cumulative> ]",
     "LowerSum": "LowerSum",
     "LowerSum.Syntax": "[ <\u51fd\u6578>, <x \u521d\u503c>, <x \u672b\u503c>, <\u9577\u689d\u6578> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "MatrixPlot": "MatrixPlot",
     "MatrixRank": "MatrixRank",
     "MatrixRank.Syntax": "[ <Matrix> ]",

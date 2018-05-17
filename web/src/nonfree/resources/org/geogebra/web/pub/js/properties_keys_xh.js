@@ -540,6 +540,8 @@ __GGB__keysVar["xh"].command = {
     "Logistic.Syntax": "[ <iMean>, <iScale>, <Ixabiso leSimeliNani> ]\n[ <iMean>, <iScale>, x, <iBoolean Cumulative> ]",
     "LowerSum": "UmdibanisoWangezantsi",
     "LowerSum.Syntax": "[ <iFunction>, <Isiqalo x-Value>, <Isiphelo --Value>, <Inani leengxande> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <uluhlu lweData engahlelwanga> ]\n[ <uluhlu lwamanani>, <uluhlulweefrequensi> ]",
     "MatrixPlot": "MatrixPlot",
     "MatrixRank": "MatrixRank",
     "MatrixRank.Syntax": "[ <Matrix> ]",

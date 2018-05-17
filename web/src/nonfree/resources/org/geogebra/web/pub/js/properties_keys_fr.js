@@ -540,6 +540,8 @@ __GGB__keysVar["fr"].command = {
     "Logistic.Syntax": "[ <Moyenne>, <Param\xe8tre>, <Valeur Variable> ]\n[ <Moyenne>, <Param\xe8tre>, <Valeur Variable>, <Bool\xe9en Cumul> ]\n[ <Moyenne>, <Param\xe8tre>, x, <Bool\xe9en Cumul> ]",
     "LowerSum": "SommeInf\xe9rieure",
     "LowerSum.Syntax": "[ <Fonction>, <x min>, <x max>, <Nombre Rectangles> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Liste de donn\xe9es brutes> ]\n[ <Liste des valeurs>, <Liste des effectifs> ]",
     "MatrixPlot": "ImageMatrice",
     "MatrixRank": "Rang",
     "MatrixRank.Syntax": "[ <Matrice> ]",

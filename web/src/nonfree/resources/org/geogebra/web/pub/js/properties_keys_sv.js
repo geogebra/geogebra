@@ -540,6 +540,8 @@ __GGB__keysVar["sv"].command = {
     "Logistic.Syntax": "[ <Medel>, <Skala>, <Variabelv\xe4rde> ]\n[ <Medel>, <Skala>, x, <true | false (kumulativ eller ej)> ]",
     "LowerSum": "Undersumma",
     "LowerSum.Syntax": "[ <Funktion>, <Tal>, <Tal>, <Tal> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Lista med tal (r\xe5data)> ]\n[ <Lista med tal>, <Lista med Frekvenser> ]",
     "MatrixPlot": "MatrisDiagram",
     "MatrixRank": "MatrisRang",
     "MatrixRank.Syntax": "[ <Matris> ]",

@@ -540,6 +540,8 @@ __GGB__keysVar["cs"].command = {
     "Logistic.Syntax": "[ <Pr\u016fm\u011br>, <Stupnice, <Hodnota prom\u011bnn\xe9> ]\n[ <Pr\u016fm\u011br>, <Stupnice>, x, <Kumulativn\xed (logick\xe1 hodnota)> ]",
     "LowerSum": "DolniSoucet",
     "LowerSum.Syntax": "[ <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnota x>, <Koncov\xe1 hodnota x>, <Po\u010det obd\xe9ln\xedk\u016f> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Seznam zdrojov\xfdch dat> ]\n[ <Seznam \u010d\xedsel>, <Seznam frekvenc\xed> ]",
     "MatrixPlot": "MaticovyGraf",
     "MatrixRank": "Hodnost",
     "MatrixRank.Syntax": "[ <Matice> ]",

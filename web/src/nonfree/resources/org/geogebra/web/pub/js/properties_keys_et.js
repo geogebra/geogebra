@@ -540,6 +540,8 @@ __GGB__keysVar["et"].command = {
     "Logistic.Syntax": "[ <Keskv\xe4\xe4rtus>, <Skaala>, <Muutuja v\xe4\xe4rtus> ]\n[ <Keskv\xe4\xe4rtus>, <Skaala>, x, <Kumulatiivsuse t\xf5ev\xe4\xe4rtus> ]",
     "LowerSum": "Alamsumma",
     "LowerSum.Syntax": "[ <Funktsioon>, <x-algv\xe4\xe4rtus>, <x-l\xf5ppv\xe4\xe4rtus>, <Ristk\xfclikute arv> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Algandmete loend> ]\n[ <Arvude loend>, <Sageduste loend> ]",
     "MatrixPlot": "MaatriksGraafikavaatesse",
     "MatrixRank": "MaatriksiAstak",
     "MatrixRank.Syntax": "[ <Maatriks> ]",

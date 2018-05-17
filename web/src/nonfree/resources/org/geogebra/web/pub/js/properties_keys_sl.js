@@ -540,6 +540,8 @@ __GGB__keysVar["sl"].command = {
     "Logistic.Syntax": "[ <srednja vrednost>, <faktor>, <vrednost spremenljivke> ]\n[ <srednja vrednost>, <faktor>, x, <logi\u010dna vrednost zbirno> ]",
     "LowerSum": "SpodnjaVsota",
     "LowerSum.Syntax": "[ <funkcija>, <za\u010detna vrednost za x>, <kon\u010dna vrednost za x>, <\u0161tevilo pravokotnikov> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <seznam vrstic s podatki> ]\n[ <seznam \u0161tevil>, <seznam frekvenc> ]",
     "MatrixPlot": "GrafMatrike",
     "MatrixRank": "RangMatrike",
     "MatrixRank.Syntax": "[ <matrika> ]",

@@ -540,6 +540,8 @@ __GGB__keysVar["nb"].command = {
     "Logistic.Syntax": "[ <Gjennomsnitt>, <Standardavvik>, <Variabelverdi> ]\n[ <Gjennomsnitt>, <Standardavvik>, x, <Boolsk kumulativ> ]",
     "LowerSum": "SumUnder",
     "LowerSum.Syntax": "[ <Funksjon>, <Start>, <Slutt>, <Antall rektangler> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Liste med r\xe5data> ]\n[ <Liste med tall>, <Liste med frekvenser> ]",
     "MatrixPlot": "Matriseplott",
     "MatrixRank": "MatriseRang",
     "MatrixRank.Syntax": "[ <Matrise> ]",

@@ -540,6 +540,8 @@ __GGB__keysVar["pt-PT"].command = {
     "Logistic.Syntax": "[ <M\xe9dia>, <Escala>, <Valor da Vari\xe1vel> ]\n[ <M\xe9dia>, <Escala>, x, <Acumulada (true | false)> ]",
     "LowerSum": "SomaInferior",
     "LowerSum.Syntax": "[ <Fun\xe7\xe3o>, <Valor Inicial-x>, <Valor Final-x>, <N\xfamero de Ret\xe2ngulos> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Lista de Dados n\xe3o Classificados> ]\n[ <Lista de N\xfameros>, <Lista de Frequ\xeancias> ]",
     "MatrixPlot": "DesenharMatriz",
     "MatrixRank": "Intervalo",
     "MatrixRank.Syntax": "[ <Matriz> ]",

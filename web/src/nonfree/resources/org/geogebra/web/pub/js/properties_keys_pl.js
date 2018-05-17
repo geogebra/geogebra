@@ -540,6 +540,8 @@ __GGB__keysVar["pl"].command = {
     "Logistic.Syntax": "[ <\u015arednia>, <Skala>, <Warto\u015b\u0107 Zmiennej> ]\n[ <\u015arednia>, <Skala>, x, <Czy Skumulowany> ]",
     "LowerSum": "SumaDolna",
     "LowerSum.Syntax": "[ <Funkcja>, <Warto\u015b\u0107 Pocz\u0105tkowa x>, <Warto\u015b\u0107 Ko\u0144cowa x>, <Liczba Prostok\u0105t\xf3w> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <Lista Liczb> ]\n[ <Lista Liczb>, <Lista Cz\u0119sto\u015bci> ]",
     "MatrixPlot": "MatrixPlot",
     "MatrixRank": "Rz\u0105dMacierzy",
     "MatrixRank.Syntax": "[ <Macierz> ]",

@@ -540,6 +540,8 @@ __GGB__keysVar["he"].command = {
     "Logistic.Syntax": "[ <Mean>, <Scale>, <Variable Value> ]\n[ <Mean>, <Scale>, x, <Boolean Cumulative> ]",
     "LowerSum": "LowerSum",
     "LowerSum.Syntax": "[ <Function>, <Start x-Value>, <End x-Value>, <Number of Rectangles> ]",
+    "MAD": "MAD",
+    "MAD.Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "MatrixPlot": "MatrixPlot",
     "MatrixRank": "MatrixRank",
     "MatrixRank.Syntax": "[ <Matrix> ]",
