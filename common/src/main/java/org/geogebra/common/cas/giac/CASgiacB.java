@@ -77,7 +77,7 @@ public abstract class CASgiacB extends CASgiac {
             ret = ret.substring(1, ret.length() - 1);
         }
 
-        return ret;
+		return ret;
     }
 
 	/**

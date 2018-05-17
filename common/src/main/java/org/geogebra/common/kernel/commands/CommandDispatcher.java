@@ -647,6 +647,7 @@ public abstract class CommandDispatcher {
 			case Column:
 			case ColumnName:
 			case CorrelationCoefficient:
+			case cov:
 			case Covariance:
 			case ContingencyTable:
 			case DotPlot:
@@ -730,6 +731,8 @@ public abstract class CommandDispatcher {
 			case SXY:
 			case SYY:
 			case Sample:
+			case stdevp:
+			case stdev:
 			case SampleSD:
 			case SampleSDX:
 			case SampleSDY:
@@ -752,6 +755,7 @@ public abstract class CommandDispatcher {
 			case TiedRank:
 			case Triangular:
 			case Uniform:
+			case var:
 			case Variance:
 			case Weibull:
 			case ZMean2Estimate:

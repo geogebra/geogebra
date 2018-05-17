@@ -981,6 +981,18 @@ public enum Commands implements CommandsConstants,
 
 	InflectionPoint(TABLE_ENGLISH),
 
+	/* alias for SD */
+	stdev(TABLE_ENGLISH),
+
+	/* alias for SampleSD */
+	stdevp(TABLE_ENGLISH),
+
+	/* alias for Variance */
+	var(TABLE_ENGLISH),
+
+	/* alias for Covariance */
+	cov(TABLE_ENGLISH),
+
 	// =================================================================
 	// 3D
 	// =============================================================

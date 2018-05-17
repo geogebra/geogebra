@@ -48,14 +48,17 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdContingencyTable(kernel);
 		case Mean:
 			return new CmdMean(kernel);
+		case var:
 		case Variance:
 			return new CmdVariance(kernel);
+		case stdev:
 		case SD:
 			return new CmdSD(kernel);
 		case MAD:
 			return new CmdMAD(kernel);
 		case SampleVariance:
 			return new CmdSampleVariance(kernel);
+		case stdevp:
 		case SampleSD:
 			return new CmdSampleSD(kernel);
 		case Median:
@@ -72,6 +75,7 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdSigmaXY(kernel);
 		case SigmaYY:
 			return new CmdSigmaYY(kernel);
+		case cov:
 		case Covariance:
 			return new CmdCovariance(kernel);
 		case SXY:
