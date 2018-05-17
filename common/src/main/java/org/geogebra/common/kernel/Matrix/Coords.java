@@ -78,6 +78,8 @@ public class Coords {
 
 	private int rows;
 
+	private double[][] matrixForSolve;
+
 	/**
 	 * 
 	 * @return (x,y,z,1) coords
@@ -1212,7 +1214,11 @@ public class Coords {
 			Coords vz, Coords o, double[] inPlaneCoords) {
 
 		// m*inPlaneCoords=this
-		CoordMatrix.solve(inPlaneCoords, this, vx, vy, vz, o);
+		int size = getLength();
+		if (matrixForSolve == null) {
+			matrixForSolve = new double[size][size];
+		}
+		CoordMatrix.solve(matrixForSolve, inPlaneCoords, this, vx, vy, vz, o);
 
 	}
 

@@ -40,8 +40,6 @@ public class CoordMatrix {
 	protected int columns;
 	private CoordMatrix inverse;
 
-	private static double[][] matrixForSolve;
-
 	private PivotSolRes pivotSolRes;
 
 	private PivotSolResDegenerate pivotSolResDegenerate;
@@ -941,6 +939,8 @@ public class CoordMatrix {
 	}
 
 	/**
+	 * @param matrixForSolve
+	 *            matrix used for solving
 	 * @param sol
 	 *            solution vector
 	 * @param res
@@ -948,14 +948,11 @@ public class CoordMatrix {
 	 * @param columns
 	 *            matrix columns
 	 */
-	static synchronized final public void solve(double[] sol, Coords res,
+	static synchronized final public void solve(double[][] matrixForSolve,
+			double[] sol, Coords res,
 			Coords... columns) {
 
 		int size = res.getLength();
-		if (matrixForSolve == null || matrixForSolve.length != size
-				|| matrixForSolve[0].length != size) {
-			matrixForSolve = new double[size][size];
-		}
 
 		for (int i = 0; i < size; i++) {
 			columns[i].copy(matrixForSolve[i]);

@@ -434,7 +434,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			vn = vz;
 		}
 
-		v[0].projectPlaneThruVInPlaneCoords(m, vn, tmpCoords1);
+		tmpCoords2.set(v[0]);
+		tmpCoords2.projectPlaneThruVInPlaneCoords(m, vn, tmpCoords1);
 
 		minmaxXFinal[0] = tmpCoords1.getX();
 		minmaxYFinal[0] = tmpCoords1.getY();
@@ -447,7 +448,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 
 	private void enlargeMinMax(Coords v, CoordMatrix m, Coords vn) {
-		v.projectPlaneThruVInPlaneCoords(m, vn, tmpCoords1);
+		tmpCoords2.set(v);
+		tmpCoords2.projectPlaneThruVInPlaneCoords(m, vn, tmpCoords1);
 		double x = tmpCoords1.getX();
 		if (x < minmaxXFinal[0]) {
 			minmaxXFinal[0] = x;
