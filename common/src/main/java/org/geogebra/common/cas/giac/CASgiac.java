@@ -894,9 +894,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				.toString();
 
 		// We return text from the CAS here.
-
 	}
-
 
 	/**
 	 * Create a script which eliminates variables from a set of polynomials.
@@ -1158,7 +1156,6 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		return result;
 	}
-
 
 	/**
 	 * convert x>3 && x<7 into 3<x<7 convert 3>x into x<3 convert {3>x} into

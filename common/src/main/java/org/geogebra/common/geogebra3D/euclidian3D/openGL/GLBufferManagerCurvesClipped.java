@@ -14,7 +14,8 @@ public class GLBufferManagerCurvesClipped extends GLBufferManager {
 	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 6;
 	static final private int SPLIT_AVAILABLE_LIMIT = 2;
 
-	private Index startIndex, endIndex;
+	private Index startIndex;
+	private Index endIndex;
 
 	/**
 	 * constructor

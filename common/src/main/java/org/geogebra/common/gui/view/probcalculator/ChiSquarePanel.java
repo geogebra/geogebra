@@ -133,7 +133,6 @@ public abstract class ChiSquarePanel {
 		return statCalc;
 	}
 
-
 	public StatisticsCalculatorProcessor getStatProcessor() {
 		return statProcessor;
 	}
@@ -152,7 +151,5 @@ public abstract class ChiSquarePanel {
 	protected String getMenu(String s) {
 		return loc.getMenu(s);
 	}
-
-
 
 }

@@ -21,7 +21,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 	private double[] drawMinMax = new double[2];
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
 	private ArrayList<GeoPointND> selectedPoints;
 
 	/**
@@ -33,7 +34,6 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	 *            polyline
 	 */
 	public DrawPolyLine3D(EuclidianView3D a_view3D, GeoElement p) {
-
 		super(a_view3D, p);
 	}
 
@@ -76,12 +76,6 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 	@Override
 	protected boolean updateForItSelf() {
-
-		// updateColors();
-
-		GeoPolyLine p = (GeoPolyLine) getGeoElement();
-		int num = p.getNumPoints();
-
 		double[] minmax = getDrawMinMax();
 
 		if (Math.abs(minmax[0]) > 1E10) {
@@ -106,7 +100,8 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 		// brush.setColor(getGeoElement().getObjectColor());
 		brush.setAffineTexture(
 				(float) ((0.5 - minmax[0]) / (minmax[1] - minmax[0])), 0.25f);
-
+		GeoPolyLine p = (GeoPolyLine) getGeoElement();
+		int num = p.getNumPoints();
 		if (num > 0) {
 			Coords previous = p.getPointND(0).getInhomCoordsInD3();
 			boundsMin.setValues(previous, 3);

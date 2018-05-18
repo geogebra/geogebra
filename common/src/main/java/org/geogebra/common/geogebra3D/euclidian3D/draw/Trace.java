@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 import org.geogebra.common.awt.GColor;
 
-public class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
+public final class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 
 	/** Serialization version */
 	private static final long serialVersionUID = -7107935777385040694L;
@@ -18,13 +18,21 @@ public class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 		traceSettingsCurrent = new TraceSettings();
 	}
 
+	/**
+	 * Add last trace index to list.
+	 */
 	public void addLastTraceIndex() {
 		if (lastTraceIndices != null) {
 			lastTraceIndices.add(lastTraceIndex);
 		}
-
 	}
 
+	/**
+	 * @param indices
+	 *            list of indices
+	 * @param d
+	 *            drawable for last index
+	 */
 	public void setNext(ArrayList<TraceIndex> indices, Drawable3D d) {
 		lastTraceIndices = indices;
 		lastTraceIndex = d.newTraceIndex();
@@ -36,11 +44,17 @@ public class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 		lastTraceIndices = null;
 	}
 
+	/**
+	 * @param color
+	 *            color
+	 * @param alpha
+	 *            opacity
+	 */
 	public void setSettings(GColor color, int alpha) {
 		traceSettingsCurrent.setColor(color, alpha);
 	}
 
-	public ArrayList<TraceIndex> getTracesIndicesCurrent() {
+	private ArrayList<TraceIndex> getTracesIndicesCurrent() {
 		ArrayList<TraceIndex> indices = get(traceSettingsCurrent);
 		if (indices == null) {
 			indices = new ArrayList<>();
@@ -49,6 +63,10 @@ public class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 		return indices;
 	}
 
+	/**
+	 * @param d
+	 *            drawable to record
+	 */
 	public void record(Drawable3D d) {
 		setSettings(d.color[0], d.getAlpha());
 

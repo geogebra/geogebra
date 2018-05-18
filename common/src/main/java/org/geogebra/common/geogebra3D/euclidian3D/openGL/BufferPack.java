@@ -19,8 +19,8 @@ class BufferPack extends BufferPackAbstract {
 	/** buffer for indices */
 	public GLBufferIndices indicesBuffer;
 
-
-	private int elementsSize, indicesSize;
+	private int elementsSize;
+	private int indicesSize;
 
 	/**
 	 * creates a new buffer pack, using approx. 2MB (4 bytes per float * 32768 * 15)
@@ -86,22 +86,27 @@ class BufferPack extends BufferPackAbstract {
 		return ret;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#canAdd(int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeBufferPackInterface#canAdd(int, int)
 	 */
 	@Override
-	public boolean canAdd(int elementsLength, int indicesLength) {
-		return this.elementsLength + elementsLength < ELEMENT_SIZE_MAX;
+	public boolean canAdd(int elementsLengthOther, int indicesLengthOther) {
+		return this.elementsLength + elementsLengthOther < ELEMENT_SIZE_MAX;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#addToLength(int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see BufferPackInterface#addToLength(int, int)
 	 */
 	@Override
 	public void addToLength(int elementsLengthToAdd, int indicesLengthToAdd) {
 		elementsLength += elementsLengthToAdd;
 		if (elementsLength > elementsSize) {
-			reallocateElements(multiplyByPowerOfTwoToMakeItGreaterThan(elementsSize, elementsLength));
+			reallocateElements(
+					multiplyByPowerOfTwoToMakeItGreaterThan(elementsSize, elementsLength));
 		}
 		vertexBuffer.setLimit(this.elementsLength * 3);
 		normalBuffer.setLimit(this.elementsLength * 3);
@@ -124,7 +129,8 @@ class BufferPack extends BufferPackAbstract {
 		vertexBuffer.set(manager.vertexArray, offset * 3, length * 3);
 		if (manager.oneNormal) {
 			for (int i = 0; i < 3; i++) {
-				normalBuffer.set(manager.normalArray.get(i).floatValue(), offset * 3 + i, length, 3);
+				normalBuffer.set(manager.normalArray.get(i).floatValue(), offset * 3 + i, length,
+						3);
 			}
 		} else {
 			normalBuffer.set(manager.normalArray, offset * 3, length * 3);

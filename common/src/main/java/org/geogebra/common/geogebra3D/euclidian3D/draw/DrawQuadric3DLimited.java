@@ -16,7 +16,8 @@ import org.geogebra.common.kernel.geos.GProperty;
  */
 public class DrawQuadric3DLimited extends Drawable3D {
 
-	private DrawConic3D drawBottom, drawTop;
+	private DrawConic3D drawBottom;
+	private DrawConic3D drawTop;
 	private DrawQuadric3DPart drawSide;
 
 	/**
@@ -98,15 +99,12 @@ public class DrawQuadric3DLimited extends Drawable3D {
 
 		removeFromDrawable3DLists(lists, DRAW_TYPE_SURFACES);
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CURVES);
-
 	}
 
 	@Override
 	protected boolean updateForItSelf() {
-
 		// no need
 		return true;
-
 	}
 
 	@Override
@@ -170,7 +168,6 @@ public class DrawQuadric3DLimited extends Drawable3D {
 		drawBottom.drawHiding(renderer);
 		drawTop.drawHiding(renderer);
 		drawSide.drawHiding(renderer);
-
 	}
 
 	@Override
@@ -178,7 +175,6 @@ public class DrawQuadric3DLimited extends Drawable3D {
 		if (getPickingType() == PickingType.SURFACE) {
 			return getAlpha() <= EuclidianController.MAX_TRANSPARENT_ALPHA_VALUE_INT;
 		}
-
 		return false;
 	}
 

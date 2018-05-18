@@ -103,7 +103,6 @@ public class Drawable3DLists {
 			// Log.debug(drawable.getGeoElement()+"");
 			drawable.removeFromDrawable3DLists(this);
 		}
-
 	}
 
 	/**
@@ -371,14 +370,16 @@ public class Drawable3DLists {
 	public void drawNotTransparentSurfaces(Renderer renderer) {
 
 		if (renderer.getGeometryManager().packBuffers()) {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d
+					.hasNext();) {
 				Drawable3D d3d = d.next();
 				if (!d3d.shouldBePacked()) {
 					d3d.drawNotTransparentSurface(renderer);
 				}
 			}
 		} else {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d
+					.hasNext();) {
 				d.next().drawNotTransparentSurface(renderer);
 			}
 		}
@@ -401,7 +402,8 @@ public class Drawable3DLists {
 	public void drawNotTransparentSurfacesClosed(Renderer renderer) {
 
 		if (renderer.getGeometryManager().packBuffers()) {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]
+					.iterator(); d
 					.hasNext();) {
 				Drawable3D d3d = d.next();
 				if (!d3d.shouldBePacked()) {
@@ -409,7 +411,8 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]
+					.iterator(); d
 					.hasNext();) {
 				d.next().drawNotTransparentSurface(renderer);
 			}
@@ -461,14 +464,16 @@ public class Drawable3DLists {
 		// TODO if there's no surfaces, no hidden part has to be drawn
 		// if(!lists[Drawable3D.DRAW_TYPE_SURFACES].isEmpty())
 		if (renderer.getGeometryManager().packBuffers()) {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d
+					.hasNext();) {
 				Drawable3D d3d = d.next();
 				if (!d3d.shouldBePacked()) {
 					d3d.drawHidden(renderer);
 				}
 			}
 		} else {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d
+					.hasNext();) {
 				d.next().drawHidden(renderer);
 			}
 		}
@@ -510,14 +515,16 @@ public class Drawable3DLists {
 	public void drawTransp(Renderer renderer) {
 
 		if (renderer.getGeometryManager().packBuffers()) {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d
+					.hasNext();) {
 				Drawable3D d3d = d.next();
 				if (!d3d.shouldBePacked()) {
 					d3d.drawTransp(renderer);
 				}
 			}
 		} else {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d
+					.hasNext();) {
 				d.next().drawTransp(renderer);
 			}
 		}
@@ -539,7 +546,8 @@ public class Drawable3DLists {
 	public void drawTranspClosedNotCurved(Renderer renderer) {
 
 		if (renderer.getGeometryManager().packBuffers()) {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]
+					.iterator(); d
 					.hasNext();) {
 				Drawable3D d3d = d.next();
 				if (!d3d.shouldBePacked()) {
@@ -547,7 +555,8 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]
+					.iterator(); d
 					.hasNext();) {
 				d.next().drawTransp(renderer);
 			}
@@ -611,14 +620,16 @@ public class Drawable3DLists {
 
 		// curves
 		if (renderer.getGeometryManager().packBuffers()) {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d
+					.hasNext();) {
 				Drawable3D d3d = d.next();
 				if (!d3d.shouldBePacked()) {
 					d3d.drawOutline(renderer);
 				}
 			}
 		} else {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d
+					.hasNext();) {
 				d.next().drawOutline(renderer);
 			}
 		}
@@ -663,7 +674,6 @@ public class Drawable3DLists {
 				d.next().drawLabel(renderer);
 			}
 		}
-
 	}
 
 	/**
@@ -672,33 +682,15 @@ public class Drawable3DLists {
 	 * @param renderer
 	 *            opengl context
 	 */
-	public void drawNotAbsoluteText(Renderer renderer) {
+	public void drawForAbsoluteText(Renderer renderer, boolean absolute) {
 		// texts
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_TEXTS]) {
-			((DrawText3D) d).drawNotAbsolutePosition(renderer);
+			((DrawText3D) d).drawForAbsolutePosition(renderer, absolute);
 		}
 
 		// lists
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-			((DrawList3D) d).getDrawable3DLists().drawNotAbsoluteText(renderer);
-		}
-	}
-
-	/**
-	 * draw texts (in absolute position)
-	 * 
-	 * @param renderer
-	 *            opengl context
-	 */
-	public void drawAbsoluteText(Renderer renderer) {
-		// texts
-		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_TEXTS]) {
-			((DrawText3D) d).drawAbsolutePosition(renderer);
-		}
-
-		// lists
-		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-			((DrawList3D) d).getDrawable3DLists().drawAbsoluteText(renderer);
+			((DrawList3D) d).getDrawable3DLists().drawForAbsoluteText(renderer, absolute);
 		}
 	}
 
@@ -711,14 +703,16 @@ public class Drawable3DLists {
 	public void drawSurfacesForHiding(Renderer renderer) {
 
 		if (renderer.getGeometryManager().packBuffers()) {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d
+					.hasNext();) {
 				Drawable3D d3d = d.next();
 				if (!d3d.shouldBePacked()) {
 					d3d.drawHiding(renderer);
 				}
 			}
 		} else {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d
+					.hasNext();) {
 				d.next().drawHiding(renderer);
 			}
 		}
@@ -740,14 +734,16 @@ public class Drawable3DLists {
 	public void drawClosedSurfacesForHiding(Renderer renderer) {
 
 		if (renderer.getGeometryManager().packBuffers()) {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]
+					.iterator(); d.hasNext();) {
 				Drawable3D d3d = d.next();
 				if (!d3d.shouldBePacked()) {
 					d3d.drawHiding(renderer);
 				}
 			}
 		} else {
-			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d.hasNext();) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]
+					.iterator(); d.hasNext();) {
 				d.next().drawHiding(renderer);
 			}
 		}

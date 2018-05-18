@@ -22,8 +22,9 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	private BufferPack[] bufferPacks;
 	private BufferPack lastBuffer;
 	private int bufferCount;
-	private int lastBufferSize, lastBufferElementsLength,
-			lastBufferIndicesLength;
+	private int lastBufferSize;
+	private int lastBufferElementsLength;
+	private int lastBufferIndicesLength;
 
 	/**
 	 * creates a new buffer pack for big geometries
@@ -81,7 +82,6 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 					lastBufferElementsLength);
 		}
 	}
-
 
 	@Override
 	public void putToIndices(int indicesIndex, short value) {

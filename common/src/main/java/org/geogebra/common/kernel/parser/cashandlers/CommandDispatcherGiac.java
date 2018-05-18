@@ -300,7 +300,6 @@ public class CommandDispatcherGiac {
 				}
 				break;
 
-
 			case ggbText:
 				if (args.getLength() == 1) {
 					return args.getItem(0).wrap();

@@ -35,7 +35,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/** The function being rendered */
 	SurfaceEvaluable surfaceGeo;
 
-	private double uDelta, vDelta;
+	private double uDelta;
+	private double vDelta;
 
 	// number of intervals in root mesh (for each parameters, if parameters
 	// delta are equals)
@@ -77,7 +78,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 */
 	private int maxSplitsInOneUpdate;
 
-	private DrawSurface3D.Corner[] currentSplit, nextSplit;
+	private DrawSurface3D.Corner[] currentSplit;
+	private DrawSurface3D.Corner[] nextSplit;
 	protected DrawSurface3D.Corner[] cornerList;
 
 	/**
@@ -85,7 +87,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 */
 	protected CornerAndCenter[] drawList;
 
-	private int currentSplitIndex, nextSplitIndex;
+	private int currentSplitIndex;
+	private int nextSplitIndex;
 	protected int cornerListIndex;
 	private int currentSplitStoppedIndex;
 	protected int loopSplitIndex;
@@ -100,24 +103,30 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/** Current culling box - set to view3d.(x|y|z)(max|min) */
 	private double[] cullingBox = new double[6];
 	// corners for drawing wireframe (bottom and right sides)
-	private Corner[] wireframeBottomCorners, wireframeRightCorners;
-	private int wireframeBottomCornersLength, wireframeRightCornersLength;
+	private Corner[] wireframeBottomCorners;
+	private Corner[] wireframeRightCorners;
+	private int wireframeBottomCornersLength;
+	private int wireframeRightCornersLength;
 
 	// says if we draw borders for wireframe
 	// (we use short for array index shifting)
-	private short wireframeBorderU, wireframeBorderV;
+	private short wireframeBorderU;
+	private short wireframeBorderV;
 
 	// says if only one wireframe line is drawn
-	private boolean wireframeUniqueU, wireframeUniqueV;
+	private boolean wireframeUniqueU;
+	private boolean wireframeUniqueV;
 
 	// steps to draw wireframe
-	private int wireFrameStepU, wireFrameStepV;
+	private int wireFrameStepU;
+	private int wireFrameStepV;
 	private Coords3 evaluatedPoint = newCoords3();
 	private Coords3 evaluatedNormal = newCoords3();
 	/**
 	 * used to draw "still to split" corners
 	 */
-	protected Corner[] cornerForStillToSplit, cornerToDrawStillToSplit;
+	protected Corner[] cornerForStillToSplit;
+	protected Corner[] cornerToDrawStillToSplit;
 
 	/**
 	 * max distance in real world from view
@@ -134,9 +143,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	protected double maxBend;
 	protected int notDrawn;
 
-	private boolean splitsStartedNotFinished, stillRoomLeft;
+	private boolean splitsStartedNotFinished;
+	private boolean stillRoomLeft;
 
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
 	/**
 	 * first corner from root mesh
 	 */
@@ -146,7 +157,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * common constructor
 	 * 
 	 * @param a_view3d
-	 * @param function
+	 *            view
+	 * @param surface
+	 *            surface
 	 */
 	public DrawSurface3D(EuclidianView3D a_view3d, SurfaceEvaluable surface) {
 		super(a_view3d, (GeoElement) surface);
@@ -289,7 +302,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			renderer.getGeometryManager().draw(getGeometryIndex());
 		}
 	}
-
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -1190,9 +1202,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	class Corner {
 		Coords3 p;
 		Coords3 normal;
-		double u, v;
+		double u;
+		double v;
 		boolean isNotEnd;
-		Corner a, l; // above, left
+		Corner a; // above
+		Corner l; // left
 		int id;
 
 		public Corner(int id) {
@@ -2728,104 +2742,73 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/**
 	 * 
 	 * @param bend
+	 *            tan of max angle
 	 * @param c1
+	 *            first corner
 	 * @param c2
-	 * @param c3
-	 * @param c4
+	 *            second corner
 	 * @return true if angle is ok between c1-c2
 	 */
 	protected static boolean isAngleOK(double bend, Corner c1, Corner c2) {
-
-		if (!isAngleOK(c1.normal, c2.normal, bend)) {
-			return false;
-		}
-
-		return true;
+		return isAngleOK(c1.normal, c2.normal, bend);
 	}
 
 	/**
 	 * 
 	 * @param bend
+	 *            tan of max angle
 	 * @param c1
+	 *            first corner
 	 * @param c2
+	 *            second corner
 	 * @param c3
-	 * @param c4
+	 *            third corner
 	 * @return true if angle is ok between c1-c2 and c2-c3 and c3-c1
 	 */
 	protected static boolean isAngleOK(double bend, Corner c1, Corner c2,
 			Corner c3) {
-
-		if (!isAngleOK(c1.normal, c2.normal, bend)) {
-			return false;
-		}
-
-		if (!isAngleOK(c2.normal, c3.normal, bend)) {
-			return false;
-		}
-
-		if (!isAngleOK(c3.normal, c1.normal, bend)) {
-			return false;
-		}
-
-		return true;
+		return isAngleOK(c1.normal, c2.normal, bend) && isAngleOK(c2.normal, c3.normal, bend)
+				&& isAngleOK(c3.normal, c1.normal, bend);
 	}
 
 	/**
 	 * 
 	 * @param bend
+	 *            tan of max angle
 	 * @param c1
+	 *            first corner
 	 * @param c2
+	 *            second corner
 	 * @param c3
+	 *            third corner
 	 * @param c4
+	 *            fourth corner
 	 * @return true if angle is ok between c1-c2 and c2-c3 and c3-c4 and c4-c1
 	 */
 	protected static boolean isAngleOK(double bend, Corner c1, Corner c2,
 			Corner c3, Corner c4) {
-
-		if (!isAngleOK(c1.normal, c2.normal, bend)) {
-			return false;
-		}
-
-		if (!isAngleOK(c2.normal, c3.normal, bend)) {
-			return false;
-		}
-
-		if (!isAngleOK(c3.normal, c4.normal, bend)) {
-			return false;
-		}
-
-		if (!isAngleOK(c4.normal, c1.normal, bend)) {
-			return false;
-		}
-
-		return true;
+		return isAngleOK(c1.normal, c2.normal, bend) && isAngleOK(c2.normal, c3.normal, bend)
+				&& isAngleOK(c3.normal, c4.normal, bend) && isAngleOK(c4.normal, c1.normal, bend);
 	}
 
 	/**
 	 * 
 	 * @param bend
+	 *            tan of max angle
 	 * @param c1
+	 *            first corner
 	 * @param c2
+	 *            second corner
 	 * @param c3
+	 *            third corner
 	 * @param c4
+	 *            fourth corner
 	 * @return true if angle is ok between c1-c2 and c2-c3 and c3-c4
 	 */
 	protected static boolean isAngleOKNoLoop(double bend, Corner c1, Corner c2,
 			Corner c3, Corner c4) {
-
-		if (!isAngleOK(c1.normal, c2.normal, bend)) {
-			return false;
-		}
-
-		if (!isAngleOK(c2.normal, c3.normal, bend)) {
-			return false;
-		}
-
-		if (!isAngleOK(c3.normal, c4.normal, bend)) {
-			return false;
-		}
-
-		return true;
+		return isAngleOK(c1.normal, c2.normal, bend) && isAngleOK(c2.normal, c3.normal, bend)
+				&& isAngleOK(c3.normal, c4.normal, bend);
 	}
 
 	class CornerAndCenter {
@@ -2888,13 +2871,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		public void draw(PlotterSurface surface) {
-
-			Corner current, sw, ne;
-
 			Corner p1, p2;
 
 			// go left
-			current = corner;
+			Corner current = corner;
 			// get first defined point on south (if exists)
 			Corner sw1 = current;
 			Corner sw2 = sw1;
@@ -2915,7 +2895,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				current = current.l;
 			} while (current.a == null);
 
-			sw = current;
+			Corner sw = current;
 
 			// go above
 			current = corner;
@@ -2938,7 +2918,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				}
 				current = current.a;
 			} while (current.l == null);
-			ne = current;
+			Corner ne = current;
 
 			// west side
 			current = sw;
@@ -3243,7 +3223,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		return false;
-
 	}
 
 	private static void setLastHitParameters(GeoFunctionNVar geoF,
@@ -3254,6 +3233,5 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static void resetLastHitParameters(GeoFunctionNVar geoF) {
 		geoF.resetLastHitParameters();
 	}
-
 
 }

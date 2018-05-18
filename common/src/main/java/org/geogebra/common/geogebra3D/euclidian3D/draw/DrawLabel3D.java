@@ -30,15 +30,18 @@ public class DrawLabel3D {
 	/** text of the label */
 	protected String text;
 	/** font of the label */
-	protected GFont font, fontOriginal;
+	protected GFont font;
+	protected GFont fontOriginal;
 	/** text wants serif */
 	private boolean serif;
 	/** color of the label */
-	private Coords backgroundColor, color;
+	private Coords backgroundColor;
+	private Coords color;
 	/** origin of the label (left-bottom corner) */
 	protected Coords origin;
 	/** x and y offset */
-	private float xOffset, yOffset;
+	private float xOffset;
+	private float yOffset;
 	protected float xOffset2;
 	protected float yOffset2;
 	/** says if there's an anchor to do */
@@ -47,9 +50,11 @@ public class DrawLabel3D {
 	private boolean isVisible;
 
 	/** width and height of the text */
-	protected int height, width;
+	protected int height;
+	protected int width;
 	/** width and height of the texture */
-	private int height2, width2;
+	private int height2;
+	private int width2;
 
 	/** index of the texture used for this label */
 	private int textureIndex = -1;
@@ -62,13 +67,18 @@ public class DrawLabel3D {
 
 	private Runnable callBack = null;
 
-	protected double drawX, drawY, drawZ;
+	protected double drawX;
+	protected double drawY;
+	protected double drawZ;
 
-	private Coords v = new Coords(3);
+	private Coords vScreen = new Coords(3);
 
 	private float[] labelOrigin = new float[3];
 
-	private int pickingX, pickingY, pickingW, pickingH;
+	private int pickingX;
+	private int pickingY;
+	private int pickingW;
+	private int pickingH;
 
 	/** temp graphics used for calculate bounds */
 	protected GGraphics2D tempGraphics;
@@ -99,17 +109,23 @@ public class DrawLabel3D {
 	 * update the label
 	 * 
 	 * @param text0
-	 * @param fontsize
-	 * @param color
+	 *            text
+	 * @param font0
+	 *            font
+	 * @param fgColor
+	 *            color
 	 * @param v
+	 *            coordinates
 	 * @param xOffset0
+	 *            abs offset in x
 	 * @param yOffset0
+	 *            abs offset in y
 	 */
-	public void update(String text0, GFont font, GColor color, Coords v,
+	public void update(String text0, GFont font0, GColor fgColor, Coords v,
 			float xOffset0, float yOffset0) {
 
 		if (view.drawsLabels()) {
-			update(text0, font, null, color, v, xOffset0, yOffset0);
+			update(text0, font0, null, fgColor, v, xOffset0, yOffset0);
 		}
 	}
 
@@ -125,11 +141,19 @@ public class DrawLabel3D {
 	 * update the label
 	 * 
 	 * @param text0
-	 * @param fontsize
+	 *            text
+	 * @param font0
+	 *            font
+	 * @param bgColor
+	 *            background color
 	 * @param fgColor
+	 *            foreground color
 	 * @param v
-	 * @param xOffset
+	 *            coordinates
+	 * @param xOffset0
+	 *            abs offset in x
 	 * @param yOffset0
+	 *            abs offset in y
 	 */
 	public void update(String text0, GFont font0, GColor bgColor,
 			GColor fgColor, Coords v, float xOffset0, float yOffset0) {
@@ -200,8 +224,8 @@ public class DrawLabel3D {
 			// Application.debug("textureIndex = "+textureIndex);
 		}
 
-		this.xOffset = xOffset0;// + xOffset2;
-		this.yOffset = yOffset0;// + yOffset2;
+		this.xOffset = xOffset0; // + xOffset2;
+		this.yOffset = yOffset0; // + yOffset2;
 	}
 
 	/**
@@ -216,7 +240,7 @@ public class DrawLabel3D {
 
 		GAffineTransform gt = AwtFactory.getPrototype().newAffineTransform();
 		gt.scale(1, -1d);
-		gt.translate(-xOffset2, yOffset2);// put the baseline on the label
+		gt.translate(-xOffset2, yOffset2); // put the baseline on the label
 											// anchor
 		g2d.transform(gt);
 
@@ -353,6 +377,7 @@ public class DrawLabel3D {
 	 * sets the anchor
 	 * 
 	 * @param flag
+	 *            anchor
 	 */
 	public void setAnchor(boolean flag) {
 		anchor = flag;
@@ -386,28 +411,28 @@ public class DrawLabel3D {
 			return;
 		}
 
-		v.setMul(view.getToScreenMatrix(), origin);
+		vScreen.setMul(view.getToScreenMatrix(), origin);
 
 		origin.get3ForGL(labelOrigin);
 		labelOrigin[0] *= view.getXscale();
 		labelOrigin[1] *= view.getYscale();
 		labelOrigin[2] *= view.getZscale();
 
-		drawX = (int) (v.getX() + xOffset);
+		drawX = (int) (vScreen.getX() + xOffset);
 		if (anchor && xOffset < 0) {
 			drawX -= width / getFontScale();
 		} else {
 			drawX += xOffset2 / getFontScale();
 		}
 
-		drawY = (int) (v.getY() + yOffset);
+		drawY = (int) (vScreen.getY() + yOffset);
 		if (anchor && yOffset < 0) {
 			drawY -= height / getFontScale();
 		} else {
 			drawY += yOffset2 / getFontScale();
 		}
 
-		drawZ = (int) v.getZ();
+		drawZ = (int) vScreen.getZ();
 
 	}
 
@@ -528,6 +553,7 @@ public class DrawLabel3D {
 	 * sets the visibility of the label
 	 * 
 	 * @param flag
+	 *            label visibility
 	 */
 	public void setIsVisible(boolean flag) {
 		isVisible = flag;
@@ -597,6 +623,10 @@ public class DrawLabel3D {
 		height2 = h;
 	}
 
+	/**
+	 * @param scale
+	 *            scale
+	 */
 	public void scaleRenderingDimensions(float scale) {
 		width2 *= scale;
 		height2 *= scale;
@@ -606,6 +636,9 @@ public class DrawLabel3D {
 		pickingH *= scale;
 	}
 
+	/**
+	 * @return whether the drawable can be picked
+	 */
 	public boolean isPickable() {
 		return drawable.hasPickableLable();
 	}

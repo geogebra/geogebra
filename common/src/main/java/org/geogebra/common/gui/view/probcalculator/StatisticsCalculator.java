@@ -41,10 +41,6 @@ public abstract class StatisticsCalculator {
 	// Procedures
 	// =========================================
 
-
-
-
-
 	protected HashMap<String, Procedure> mapNameToProcedure;
 	protected HashMap<Procedure, String> mapProcedureToName;
 

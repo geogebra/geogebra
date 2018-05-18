@@ -115,8 +115,10 @@ public interface GLBuffer {
 	public int capacity();
 
 	/**
-	 * 
 	 * set float array
+	 * 
+	 * @param ret
+	 *            float array
 	 */
 	public void array(float[] ret);
 

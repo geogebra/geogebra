@@ -1138,8 +1138,6 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		}
 	}
 
-
-
 	@Override
 	protected void drawGeoConicPart(GeoConicPart geo) {
 		StringBuilder tempsb = new StringBuilder();
@@ -3762,10 +3760,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			renameFunc(sb, greek.unicode + "", latexNameNoBackslash);
 
 			renameFunc(sb, latexName, latexNameNoBackslash);
-
-
 		}
-
 
 		return sb.toString();
 	}

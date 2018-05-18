@@ -24,7 +24,6 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		super(view3D);
 	}
 
-
 	@Override
 	protected void remove(Drawable3D drawable) {
 
@@ -40,13 +39,13 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		}
 	}
 
-
 	@Override
 	public void drawHiddenTextured(Renderer renderer) {
 		super.drawHiddenTextured(renderer);
 		view3D.drawHidden(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer, true);
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager())
+					.drawCurves(renderer, true);
 			((ManagerShadersElementsGlobalBufferPacking) renderer
 					.getGeometryManager()).drawCurvesClipped(renderer, true);
 		}
@@ -57,7 +56,8 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		super.drawTransp(renderer);
 		view3D.drawTransp(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfaces(renderer);
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager())
+					.drawSurfaces(renderer);
 		}
 	}
 
@@ -66,7 +66,8 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		super.draw(renderer);
 		view3D.draw(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer, false);
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager())
+					.drawCurves(renderer, false);
 			((ManagerShadersElementsGlobalBufferPacking) renderer
 					.getGeometryManager()).drawCurvesClipped(renderer, false);
 		}
@@ -85,10 +86,10 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		super.drawSurfacesForHiding(renderer);
 		view3D.drawHiding(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfaces(renderer);
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager())
+					.drawSurfaces(renderer);
 		}
 	}
-
 
 	/**
 	 * enlarge min and max values to enclose all objects
@@ -112,7 +113,8 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	public void drawClosedSurfacesForHiding(Renderer renderer) {
 		super.drawClosedSurfacesForHiding(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfacesClosed(renderer);
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager())
+					.drawSurfacesClosed(renderer);
 		}
 	}
 
@@ -120,7 +122,8 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	public void drawTranspClosedNotCurved(Renderer renderer) {
 		super.drawTranspClosedNotCurved(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfacesClosed(renderer);
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager())
+					.drawSurfacesClosed(renderer);
 		}
 	}
 

@@ -62,7 +62,6 @@ public class CreateObjectModel {
 		void updatePreview(String latexStr, boolean isLatexDrawable);
 	}
 
-
 	public CreateObjectModel(App app, int objectType,
 			ICreateObjectListener listener) {
 		this.app = app;

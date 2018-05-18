@@ -17,7 +17,8 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  *
  */
 public class DrawSegment3D extends DrawCoordSys1D {
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
 
 	/**
 	 * Common constructor
@@ -70,9 +71,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 		super(a_view3D, selectedPoints,
 				new GeoSegment3D(a_view3D.getKernel().getConstruction()));
-
 		setDrawMinMax(0, 1);
-
 	}
 
 	@Override
@@ -108,8 +107,8 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	@Override
 	protected void updateForItSelf(Coords p1, Coords p2) {
 		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getGeoElement().getLineType(),
-					getGeoElement().getLineTypeHidden(), false);
+			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(),
+					getGeoElement().getLineType(), getGeoElement().getLineTypeHidden(), false);
 		}
 		super.updateForItSelf(p1, p2);
 		if (shouldBePacked()) {

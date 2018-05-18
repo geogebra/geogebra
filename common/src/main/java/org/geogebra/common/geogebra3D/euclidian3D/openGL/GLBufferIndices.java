@@ -60,8 +60,10 @@ public interface GLBufferIndices {
 	public int capacity();
 
 	/**
-	 * 
 	 * set float array
+	 * 
+	 * @param ret
+	 *            float array
 	 */
 	public void array(short[] ret);
 

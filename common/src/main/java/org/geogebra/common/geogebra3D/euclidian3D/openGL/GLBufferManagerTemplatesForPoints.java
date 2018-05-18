@@ -17,10 +17,12 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 
 	private GLBufferIndicesArray bufferIndicesArray;
 
-	private ArrayList<Double>[] vertexTemplates, normalTemplates;
+	private ArrayList<Double>[] vertexTemplates;
+	private ArrayList<Double>[] normalTemplates;
 	private ArrayList<Short>[] indicesTemplates;
 
-	private ArrayList<Double> currentVertexArray, currentNormalArray;
+	private ArrayList<Double> currentVertexArray;
+	private ArrayList<Double> currentNormalArray;
 	private ArrayList<Short> currentIndicesArray;
 
 	// private ArrayList<Short>

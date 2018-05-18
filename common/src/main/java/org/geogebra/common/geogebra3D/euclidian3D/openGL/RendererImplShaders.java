@@ -804,7 +804,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	}
 
-
 	@Override
 	public void updateGlassesValues() {
 		for (int i = 0; i < 2; i++) {

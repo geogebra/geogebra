@@ -19,6 +19,7 @@ import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
  */
 public class DrawSurface3DElements extends DrawSurface3D {
 	private int lastIndex;
+
 	/**
 	 * constructor
 	 * 

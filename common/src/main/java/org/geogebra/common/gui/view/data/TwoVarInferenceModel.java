@@ -56,7 +56,6 @@ public class TwoVarInferenceModel {
 		void updatePanel();
 	}
 
-
 	/**
 	 * Construct a TwoVarInference panel
 	 */

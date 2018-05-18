@@ -169,7 +169,6 @@ public class OneVarModel {
 		return lower;
 	}
 
-
 	public double getUpper() {
 		return upper;
 	}
@@ -201,7 +200,5 @@ public class OneVarModel {
 	public double getN() {
 		return N;
 	}
-
-
 
 }

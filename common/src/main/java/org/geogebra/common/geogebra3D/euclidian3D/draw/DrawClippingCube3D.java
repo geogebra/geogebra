@@ -15,7 +15,8 @@ import org.geogebra.common.main.Feature;
  */
 public class DrawClippingCube3D extends Drawable3DCurves {
 
-	private double[][] minMax, minMaxLarge;
+	private double[][] minMax;
+	private double[][] minMaxLarge;
 
 	private Coords[] vertices;
 
@@ -44,8 +45,11 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 */
 	private double frustumInteriorRadius;
 
-	private int nearestCornerX = -1, nearestCornerY = -1, nearestCornerZ = -1;
-	private Coords tmpCoords1 = new Coords(3), tmpCoords2 = new Coords(3);
+	private int nearestCornerX = -1;
+	private int nearestCornerY = -1;
+	private int nearestCornerZ = -1;
+	private Coords tmpCoords1 = new Coords(3);
+	private Coords tmpCoords2 = new Coords(3);
 	private double border;
 
 	/**
@@ -84,7 +88,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 * double xmax(){ return minMax[0][1]; } public double ymax(){ return
 	 * minMax[1][1]; } public double zmax(){ return minMax[2][1]; }
 	 */
-
 
 	/**
 	 * 
@@ -179,7 +182,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 		// minMaxLarge to cut lines
 
-		rv = REDUCTION_ENLARGE * rv + (1 - REDUCTION_ENLARGE) / 2;// (1-(1-rv*2)*REDUCTION_ENLARGE)/2;
+		rv = REDUCTION_ENLARGE * rv + (1 - REDUCTION_ENLARGE) / 2;
 		xr = (xmax - xmin) * rv;
 		yr = (ymax - ymin) * rv;
 		zr = (zmax - zmin) * rv;
@@ -197,13 +200,23 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return minMax;
 	}
 
-	public double[][] updateMinMax(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax) {
-
-		EuclidianView3D view = getView3D();
-
-		double xscale = view.getXscale();
-
-		int reductionIndex = ((GeoClippingCube3D) getGeoElement()).getReduction();
+	/**
+	 * @param xmin
+	 *            xmin
+	 * @param xmax
+	 *            xmax
+	 * @param ymin
+	 *            ymin
+	 * @param ymax
+	 *            ymax
+	 * @param zmin
+	 *            zmin
+	 * @param zmax
+	 *            zmax
+	 * @return updated min/max matrix
+	 */
+	public double[][] updateMinMax(double xmin, double xmax, double ymin, double ymax, double zmin,
+			double zmax) {
 
 		minMax[0][0] = xmin;
 		minMax[0][1] = xmax;
@@ -217,6 +230,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double w = xmax - xmin;
 		double h = ymax - ymin;
 		double d = zmax - zmin;
+
+		EuclidianView3D view = getView3D();
+		double xscale = view.getXscale();
+		int reductionIndex = ((GeoClippingCube3D) getGeoElement()).getReduction();
 		horizontalDiagonal = w / xscale * Math.sqrt(2);
 
 		frustumRadius = Math.sqrt(w * w + h * h + d * d) / 2;
@@ -337,7 +354,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 * @Override protected boolean isVisible(){ return
 	 * getView3D().useClippingCube(); }
 	 */
-
 
 	@Override
 	protected boolean updateForItSelf() {

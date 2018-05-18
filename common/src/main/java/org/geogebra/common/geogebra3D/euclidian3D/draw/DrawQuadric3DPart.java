@@ -15,6 +15,12 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
  */
 public class DrawQuadric3DPart extends DrawQuadric3D {
 
+	/**
+	 * @param view
+	 *            view
+	 * @param quadric
+	 *            quadric part
+	 */
 	public DrawQuadric3DPart(EuclidianView3D view, GeoQuadric3DPart quadric) {
 		super(view, quadric);
 	}

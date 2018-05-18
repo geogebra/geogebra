@@ -228,7 +228,6 @@ abstract public class Manager {
 	 */
 	abstract public int startPolygons(Drawable3D d);
 
-
 	/**
 	 * draw a convex polygon
 	 * 
@@ -558,7 +557,6 @@ abstract public class Manager {
 	// ///////////////////////////////////////////
 	// COLOR METHODS
 	// ///////////////////////////////////////////
-
 
 	/**
 	 * draws a rectangle

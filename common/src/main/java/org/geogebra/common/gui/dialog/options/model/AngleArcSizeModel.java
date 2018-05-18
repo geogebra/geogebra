@@ -70,9 +70,7 @@ public class AngleArcSizeModel extends OptionsModel {
 		}
 
 		return true;
-
 	}
-
 
 	@Override
 	public PropertyListener getListener() {

@@ -10,11 +10,13 @@ class BufferSegment {
 	/** offset for elements in BufferPack */
 	int elementsOffset;
 	/** length for elements in BufferPack */
-	private int elementsLength, elementsAvailableLength;
+	private int elementsLength;
+	private int elementsAvailableLength;
 	/** offset for indices in BufferPack */
 	int indicesOffset;
 	/** length for indices in BufferPack */
-	private int indicesLength, indicesAvailableLength;
+	private int indicesLength;
+	private int indicesAvailableLength;
 	/** BufferPack */
 	BufferPackAbstract bufferPack;
 	/** element type */

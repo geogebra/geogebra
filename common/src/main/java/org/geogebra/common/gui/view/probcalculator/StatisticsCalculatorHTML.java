@@ -70,7 +70,6 @@ public class StatisticsCalculatorHTML {
 		strPooled = loc.getMenu("Pooled");
 
 		strChiSq = Unicode.Chi + "" + Unicode.SUPERSCRIPT_2;
-
 	}
 
 	/**
@@ -253,8 +252,6 @@ public class StatisticsCalculatorHTML {
 			sb.append(htmlTable(chiSqTestTable, true));
 
 		}
-
-
 	}
 
 	private String isPooled() {

@@ -808,8 +808,6 @@ public abstract class GeoGebraExport {
 
 	}
 
-
-
 	// Create the appropriate instance of MyGraphics of various implementations
 	// (pstricks,pgf,asymptote)
 	abstract protected GGraphics2D createGraphics(FunctionalNVar ef,
@@ -1459,7 +1457,6 @@ public abstract class GeoGebraExport {
 			angle = geo.getHatchingAngle();
 			fillType = geo.getFillType();
 			linecolor = geo.getObjectColor();
-
 
 			if (geo.getParentAlgorithm() instanceof AlgoBarChart) {
 

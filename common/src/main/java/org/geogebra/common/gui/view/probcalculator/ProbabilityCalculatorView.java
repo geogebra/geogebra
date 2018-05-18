@@ -493,8 +493,6 @@ public abstract class ProbabilityCalculatorView
 			}
 			cons.removeFromConstructionList(xLow);
 
-
-
 			AlgoTake take = new AlgoTake(cons, discreteValueList,
 					(GeoNumeric) xMin.getOutput(0),
 					(GeoNumeric) xMax.getOutput(0));

@@ -34,7 +34,8 @@ public class DrawPoint3D extends Drawable3DCurves
 	public static final float DRAW_POINT_FACTOR = 1.5f;
 
 	private Coords center = new Coords(4);
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
 	private Coords project = Coords.createInhomCoorsInD3();
 
 	private double[] parameters = new double[2];

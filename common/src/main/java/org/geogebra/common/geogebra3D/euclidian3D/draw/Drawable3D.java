@@ -112,11 +112,6 @@ import org.geogebra.common.util.DoubleUtil;
  * 
  * 
  * @author ggb3D
- * 
- *
- * 
- * 
- *
  */
 public abstract class Drawable3D extends DrawableND {
 
@@ -141,7 +136,7 @@ public abstract class Drawable3D extends DrawableND {
 	private static final int LIGHT_COLOR = 3 * 127;
 	protected final static double COLOR_SHIFT_SURFACE = 0.75; // 0.2
 	protected final static double COLOR_SHIFT_CURVES = 0.75; // 0.2
-	protected final static double COLOR_SHIFT_POINTS = 0.86;// mostly sqrt(3)/2
+	protected final static double COLOR_SHIFT_POINTS = 0.86; // mostly sqrt(3)/2
 	protected final static double COLOR_SHIFT_NONE = 0;
 
 	/** view3D */
@@ -196,7 +191,6 @@ public abstract class Drawable3D extends DrawableND {
 
 	/** simple traces stack used for packed buffers */
 	protected LinkedList<Integer> tracesPackingBuffer;
-
 
 	// constants for picking : have to be from 0 to DRAW_PICK_ORDER_MAX-1,
 	// regarding to picking order
@@ -325,7 +319,7 @@ public abstract class Drawable3D extends DrawableND {
 					// drawable (used DrawSurface3DOld)
 					getView3D().waitForNewRepaint();
 				}
-				setLabelWaitForUpdate();// TODO remove that
+				setLabelWaitForUpdate(); // TODO remove that
 			}
 
 			if (waitForUpdateColor) {
@@ -624,6 +618,9 @@ public abstract class Drawable3D extends DrawableND {
 		geomIndex = index;
 	}
 
+	/**
+	 * @return geometry index
+	 */
 	final public int getGeometryIndex() {
 		return geomIndex;
 	}
@@ -645,6 +642,9 @@ public abstract class Drawable3D extends DrawableND {
 		surfaceIndex = index;
 	}
 
+	/**
+	 * @return surface index
+	 */
 	public final int getSurfaceIndex() {
 		return surfaceIndex;
 	}
@@ -851,9 +851,12 @@ public abstract class Drawable3D extends DrawableND {
 	 * draw for picking, and verify (or not) if pickable
 	 * 
 	 * @param renderer
+	 *            renderer
 	 * @param intersection
 	 *            says if it's for intersection (in this case, no check for
 	 *            pickable/visible)
+	 * @param type
+	 *            picking type
 	 * @return this, or the DrawList that created it, or null if not
 	 *         pickable/visible
 	 */
@@ -899,7 +902,7 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	protected Drawable3D getDrawablePicked(Drawable3D drawableSource) {
 
-		if (createdByDrawList()) {// if it is part of a DrawList3D, the list is
+		if (createdByDrawList()) { // if it is part of a DrawList3D, the list is
 									// picked
 			return ((Drawable3D) getDrawListCreator())
 					.getDrawablePicked(drawableSource);
@@ -946,6 +949,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @param renderer
 	 *            3D renderer
+	 * @return if picking occured
 	 */
 	public boolean drawLabelForPicking(Renderer renderer) {
 		return drawLabel(renderer, true);
@@ -1274,7 +1278,6 @@ public abstract class Drawable3D extends DrawableND {
 		return surfaceColor[0];
 	}
 
-
 	/**
 	 * update drawable colors
 	 */
@@ -1283,11 +1286,9 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	protected void setColorsOutlined() {
-		setColors(255, color);// for outline
+		setColors(255, color); // for outline
 		setColors(alpha, surfaceColor);
 	}
-
-
 
 	protected void setColors(int alpha, GColor[] color) {
 
@@ -1308,11 +1309,11 @@ public abstract class Drawable3D extends DrawableND {
 
 		double distance;
 
-		if (d > LIGHT_COLOR) {// color is closer to white : darken it
+		if (d > LIGHT_COLOR) { // color is closer to white : darken it
 			distance = Math.sqrt(r * r + g * g + b * b); // euclidian distance
 															// to black
 			tmpColor2 = GColor.BLACK;
-		} else {// color is closer to black : lighten it
+		} else { // color is closer to black : lighten it
 			r = 255 - r;
 			g = 255 - g;
 			b = 255 - b;
@@ -1397,6 +1398,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * add this to the correct lists
 	 * 
 	 * @param lists
+	 *            lists
 	 */
 	abstract public void addToDrawable3DLists(Drawable3DLists lists);
 
@@ -1408,6 +1410,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * remove this from the correct lists
 	 * 
 	 * @param lists
+	 *            lists
 	 */
 	abstract public void removeFromDrawable3DLists(Drawable3DLists lists);
 
@@ -1450,6 +1453,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * unused for 3D
 	 * 
 	 * @param g2
+	 *            graphics
 	 */
 	public void drawPreview(GGraphics2D g2) {
 		// overrides 2D, needed for subclasses that implement previewable
@@ -1494,7 +1498,6 @@ public abstract class Drawable3D extends DrawableND {
 		}
 
 		getTrace().record(this);
-
 	}
 
 	/**

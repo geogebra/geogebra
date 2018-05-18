@@ -78,7 +78,6 @@ public class Textures {
 
 	};
 
-
 	// /////////////////
 	// fading
 	/** fading texture for surfaces */
@@ -91,14 +90,16 @@ public class Textures {
 	/**
 	 * default constructor
 	 * 
-	 * @param gl
+	 * @param renderer
+	 *            renderer
 	 */
 	public Textures(Renderer renderer) {
-
 		this.renderer = renderer;
-
 	}
 
+	/**
+	 * Initialize textures.
+	 */
 	public void init() {
 
 		renderer.enableTextures2D();
@@ -115,30 +116,27 @@ public class Textures {
 		initFadingTexture(texturesIndex[FADING]);
 
 		renderer.disableTextures2D();
-
 	}
 
 	/**
 	 * load a template texture (linear type)
 	 * 
 	 * @param index
+	 *            index
 	 */
 	public void loadTextureLinear(int index) {
-
 		setTextureLinear(texturesIndex[index]);
-
 	}
 
 	/**
 	 * sets a computed texture (linear type)
 	 * 
 	 * @param index
+	 *            index
 	 */
 	public void setTextureLinear(int index) {
-
 		renderer.bindTexture(index);
 		setTextureLinear();
-
 	}
 
 	// ///////////////////////////////////////
@@ -161,6 +159,7 @@ public class Textures {
 	 * call the correct texture for the line type specified
 	 * 
 	 * @param lineType
+	 *            line type (EuclidianStyleConstants.LINE_TYPE_*)
 	 */
 	public void setDashFromLineType(int lineType) {
 		renderer.setDashTexture(getDashFromLineType(lineType));
@@ -192,6 +191,7 @@ public class Textures {
 	 * call the correct texture for the line type specified for hidden parts
 	 * 
 	 * @param lineType
+	 *            line type
 	 */
 	public void setDashFromLineTypeHidden(int lineType) {
 		renderer.setDashTexture(getDashFromLineTypeHidden(lineType));

@@ -185,7 +185,6 @@ public class MirrorAdapter extends ProverAdapter {
 				GeoConic circle = (GeoConic) inGeo;
 				GeoLine l = (GeoLine) mirrorLine;
 
-
 					PVariable[] vCircle = circle.getBotanaVars(circle);
 					PVariable[] vl = l.getBotanaVars(l);
 
@@ -1093,7 +1092,6 @@ public class MirrorAdapter extends ProverAdapter {
 							.add((o2.subtract(b_2)).multiply(denominator2));
 
 					return botanaPolynomials;
-
 
 			} else {
 				// invalid object to mirror about circle

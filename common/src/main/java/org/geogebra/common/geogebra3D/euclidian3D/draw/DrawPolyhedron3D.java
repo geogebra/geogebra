@@ -40,7 +40,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	private boolean previewBasisIsFinished = false;
 	private AlgoPolyhedronPoints previewAlgo;
 
-	private Coords globalCoords, inPlaneCoords;
+	private Coords globalCoords;
+	private Coords inPlaneCoords;
 
 	/**
 	 * Common constructor
@@ -200,8 +201,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	private void updateOutline(Renderer renderer) {
 
 		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getGeoElement().getLineType(),
-					getGeoElement().getLineTypeHidden(), false);
+			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(),
+					getGeoElement().getLineType(), getGeoElement().getLineTypeHidden(), false);
 		}
 		GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
 
@@ -417,8 +418,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		// ensure correct drawing of visible parts of the previewable
 		previewAlgo.setOutputOtherEuclidianVisible(true);
 		previewAlgo.notifyUpdateOutputOther();
-
-
 	}
 
 	@Override
@@ -468,12 +467,9 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 		// check if hitting projection hits the polygon
 		if (polygon.isInRegion(inPlaneCoords.getX(), inPlaneCoords.getY())) {
-			double parameterOnHitting = inPlaneCoords.getZ();// TODO use
-																// other for
-																// non-parallel
-																// projection
-																// :
-																// -hitting.origin.distance(project[0]);
+			// TODO use other for non-parallel projection // :
+			// -hitting.origin.distance(project[0]);
+			double parameterOnHitting = inPlaneCoords.getZ();
 			if (parameterOnHitting < currentDistance) { // currentDistance may
 														// be NaN
 				return currentDistance;
@@ -529,8 +525,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			vertices[i].setValues(polygon.getPoint3D(i), 3);
 		}
 
-		exportToPrinter3D.export(polygon, vertices, getGeoElement().getObjectColor(), getGeoElement().getAlphaValue());
-
+		exportToPrinter3D.export(polygon, vertices, getGeoElement().getObjectColor(),
+				getGeoElement().getAlphaValue());
 	}
 
 	@Override

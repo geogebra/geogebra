@@ -20,13 +20,16 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 public class DrawVector3D extends DrawJoinPoints {
 	private Coords[] points = { Coords.createInhomCoorsInD3(),
 			Coords.createInhomCoorsInD3() };
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
 
 	/**
 	 * Common constructor
 	 * 
 	 * @param view3D
+	 *            view
 	 * @param vector
+	 *            vector
 	 */
 	public DrawVector3D(EuclidianView3D view3D, GeoVectorND vector) {
 
@@ -59,14 +62,15 @@ public class DrawVector3D extends DrawJoinPoints {
 	 * constructor for previewable
 	 * 
 	 * @param view3D
+	 *            view
 	 * @param selectedPoints
+	 *            endpoints
 	 */
 	public DrawVector3D(EuclidianView3D view3D,
 			ArrayList<GeoPointND> selectedPoints) {
 
 		super(view3D, selectedPoints,
 				new GeoVector3D(view3D.getKernel().getConstruction()));
-
 	}
 
 	@Override

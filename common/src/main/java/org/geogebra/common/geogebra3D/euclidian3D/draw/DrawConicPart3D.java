@@ -11,7 +11,9 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 
 public class DrawConicPart3D extends DrawConic3D {
-	private Coords tmpCoords1, tmpCoords2, tmpCoords3;
+	private Coords tmpCoords1;
+	private Coords tmpCoords2;
+	private Coords tmpCoords3;
 
 	public DrawConicPart3D(EuclidianView3D view3d, GeoConicPartND conic) {
 		super(view3d, (GeoConicND) conic);
@@ -88,7 +90,8 @@ public class DrawConicPart3D extends DrawConic3D {
 			minmax = getLineMinMax(0); // get min/max with current (m,d)
 			
 			brush.segment(m, tmpCoords1.setAdd3(m, tmpCoords1.setMul3(d, minmax[0])));
-			brush.segment(((GeoConicPartND) conic).getSegmentEnd3D(), tmpCoords1.setAdd3(m, tmpCoords1.setMul3(d, minmax[1])));
+			brush.segment(((GeoConicPartND) conic).getSegmentEnd3D(),
+					tmpCoords1.setAdd3(m, tmpCoords1.setMul3(d, minmax[1])));
 		}
 	}
 

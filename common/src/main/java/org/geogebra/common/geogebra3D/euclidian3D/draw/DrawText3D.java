@@ -10,17 +10,22 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class DrawText3D extends Drawable3DCurves {
+public final class DrawText3D extends Drawable3DCurves {
 
 	private boolean wasLaTeX;
 
+	/**
+	 * @param a_view3d
+	 *            view
+	 * @param text
+	 *            text
+	 */
 	public DrawText3D(EuclidianView3D a_view3d, GeoText text) {
 		super(a_view3d, text);
 		wasLaTeX = text.isLaTeX();
 		((DrawLabel3DForText) label).setGeo(text);
 
 		setPickingType(PickingType.POINT_OR_CURVE);
-
 	}
 
 	@Override
@@ -96,7 +101,7 @@ public class DrawText3D extends Drawable3DCurves {
 
 	@Override
 	protected boolean isLabelVisible() {
-		return isVisible();// && isLocationDefined;
+		return isVisible(); // && isLocationDefined;
 	}
 
 	@Override
@@ -126,7 +131,6 @@ public class DrawText3D extends Drawable3DCurves {
 		}
 
 		return loc.getInhomCoordsInD3();
-
 	}
 
 	@Override
@@ -161,20 +165,19 @@ public class DrawText3D extends Drawable3DCurves {
 		removeFromDrawable3DLists(lists, DRAW_TYPE_TEXTS);
 	}
 
-	public void drawNotAbsolutePosition(Renderer renderer) {
+	/**
+	 * Draw this or not, depending on abs flag.
+	 * 
+	 * @param renderer
+	 *            renderer
+	 * @param absolute
+	 *            whetther only absolute or only relative text should be painted
+	 */
+	public void drawForAbsolutePosition(Renderer renderer, boolean absolute) {
 		GeoText text = (GeoText) getGeoElement();
-		if (!text.isAbsoluteScreenLocActive()) {
+		if (absolute == text.isAbsoluteScreenLocActive()) {
 			drawLabel(renderer);
 		}
-
-	}
-
-	public void drawAbsolutePosition(Renderer renderer) {
-		GeoText text = (GeoText) getGeoElement();
-		if (text.isAbsoluteScreenLocActive()) {
-			drawLabel(renderer);
-		}
-
 	}
 
 }

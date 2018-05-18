@@ -47,7 +47,6 @@ public abstract class CopyPasteCut {
 	private Record[] constructionIndexes;
 	private static Comparator comparator;
 
-
 	/***************************************
 	 * Constructor
 	 */

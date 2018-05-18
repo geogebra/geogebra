@@ -5,7 +5,8 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
  *
  */
 class Index implements Comparable<Index> {
-	public int v1, v2;
+	public int v1;
+	public int v2;
 
 	/**
 	 * simple constructor

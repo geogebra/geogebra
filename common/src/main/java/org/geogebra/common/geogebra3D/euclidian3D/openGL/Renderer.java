@@ -169,7 +169,6 @@ public abstract class Renderer {
 	public boolean waitForSetStencilLines = false;
 	private Runnable export3DRunnable;
 
-
 	/**
 	 * creates a renderer linked to an {@link EuclidianView3D}
 	 * 
@@ -184,7 +183,6 @@ public abstract class Renderer {
 
 		// type
 		this.type = type;
-
 	}
 
 	/**
@@ -860,7 +858,7 @@ public abstract class Renderer {
 
 		enableTexturesForText();
 		drawable3DLists.drawLabel(this);
-		drawable3DLists.drawNotAbsoluteText(this);
+		drawable3DLists.drawForAbsoluteText(this, false);
 
 		disableTextures();
 
@@ -889,7 +887,7 @@ public abstract class Renderer {
 
 		enableTexturesForText();
 
-		drawable3DLists.drawAbsoluteText(this);
+		drawable3DLists.drawForAbsoluteText(this, true);
 
 		disableTextures();
 
@@ -1332,7 +1330,6 @@ public abstract class Renderer {
 		resetMatrix();
 	}
 
-
 	/*
 	 * draws the text s
 	 * 
@@ -1426,10 +1423,6 @@ public abstract class Renderer {
 	 * 
 	 * getGL().glPopMatrix(); }
 	 */
-
-
-
-
 
 	/**
 	 * set hits for mouse location

@@ -28,21 +28,25 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	private int gridIndex = -1;
 	private int gridOutlineIndex = -1;
 
-	double[] minmaxXFinal = new double[2], minmaxYFinal = new double[2];
+	double[] minmaxXFinal = new double[2];
+	private double[] minmaxYFinal = new double[2];
 
 	/** says if the view direction is parallel to the plane */
 	private boolean viewDirectionIsParallel;
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
 
-	private Coords tmpCoords1 = Coords.createInhomCoorsInD3(),
-			tmpCoords2 = Coords.createInhomCoorsInD3();
+	private Coords tmpCoords1 = Coords.createInhomCoorsInD3();
+	private Coords tmpCoords2 = Coords.createInhomCoorsInD3();
 	private Coords vn = new Coords(3);
 
 	/**
 	 * Common constructor
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param a_plane3D
+	 *            plane
 	 */
 	public DrawPlane3D(EuclidianView3D a_view3D, GeoPlane3D a_plane3D) {
 		this(a_view3D, a_plane3D, null);
@@ -59,8 +63,11 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 * Constructor for helpers
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param a_plane3D
+	 *            plane
 	 * @param geo2
+	 *            parent geo
 	 */
 	public DrawPlane3D(EuclidianView3D a_view3D, GeoPlane3D a_plane3D,
 			GeoElement geo2) {
@@ -257,7 +264,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 				brush.start(gridIndex);
 			}
 			removeGeometryIndex(gridIndex);
-			float thickness = brush.setThickness(getGridThickness(),
+			final float thickness = brush.setThickness(getGridThickness(),
 					(float) getView3D().getScale());
 
 			brush.setColor(getGeoElement().getObjectColor());
@@ -375,12 +382,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 				boolean oldViewDirectionIsParallel = viewDirectionIsParallel;
 				checkViewDirectionIsParallel(); // done in setWaitForUpdate()
 												// too
-				if (oldViewDirectionIsParallel != viewDirectionIsParallel) { // maybe
-																				// have
-																				// to
-																				// update
-																				// the
-																				// outline
+				if (oldViewDirectionIsParallel != viewDirectionIsParallel) {
+					// maybe have to update the outline
 					setWaitForUpdate();
 				}
 				return;
@@ -424,7 +427,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		return (GeoPlane3D) getGeoElement();
 	}
 
-
 	private void setMinMax(Coords[] v) {
 		GeoPlane3D geo = getPlane();
 
@@ -447,9 +449,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		}
 	}
 
-	private void enlargeMinMax(Coords v, CoordMatrix m, Coords vn) {
+	private void enlargeMinMax(Coords v, CoordMatrix m, Coords vnCoords) {
 		tmpCoords2.set(v);
-		tmpCoords2.projectPlaneThruVInPlaneCoords(m, vn, tmpCoords1);
+		tmpCoords2.projectPlaneThruVInPlaneCoords(m, vnCoords, tmpCoords1);
 		double x = tmpCoords1.getX();
 		if (x < minmaxXFinal[0]) {
 			minmaxXFinal[0] = x;
@@ -517,7 +519,16 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		return hit(hitting, tmpCoords1, tmpCoords2);
 	}
 
-	public boolean hit(Hitting hitting, Coords tmpCoords1, Coords tmpCoords2) {
+	/**
+	 * @param hitting
+	 *            hitting
+	 * @param globalCoords
+	 *            set to global coords of hit
+	 * @param inPlaneCoords
+	 *            set to inplane coords of hit
+	 * @return whether plane was hit
+	 */
+	public boolean hit(Hitting hitting, Coords globalCoords, Coords inPlaneCoords) {
 
 		if (waitForReset) { // prevent NPE
 			return false;
@@ -533,18 +544,18 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		// project hitting origin on plane
 		if (hitting.isSphere()) {
 			hitting.origin.projectPlane(plane.getCoordSys().getDrawingMatrix(),
-					tmpCoords1, tmpCoords2);
+					globalCoords, inPlaneCoords);
 		} else {
 			hitting.origin.projectPlaneThruVIfPossible(
 					plane.getCoordSys().getDrawingMatrix(), hitting.direction,
-					tmpCoords1, tmpCoords2);
+					globalCoords, inPlaneCoords);
 		}
 
-		if (!hitting.isInsideClipping(tmpCoords1)) {
+		if (!hitting.isInsideClipping(globalCoords)) {
 			return false;
 		}
 
-		double x = tmpCoords2.getX();
+		double x = inPlaneCoords.getX();
 		if (x < plane.getXmin()) {
 			return false;
 		}
@@ -552,7 +563,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return false;
 		}
 
-		double y = tmpCoords2.getY();
+		double y = inPlaneCoords.getY();
 		if (y < plane.getYmin()) {
 			return false;
 		}
@@ -561,7 +572,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		}
 
 		if (hitting.isSphere()) {
-			double d = getView3D().getScaledDistance(tmpCoords1,
+			double d = getView3D().getScaledDistance(globalCoords,
 					hitting.origin);
 			if (d <= hitting.getThreshold()) {
 				setZPick(-d, -d);
@@ -569,10 +580,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			}
 
 		} else {
-			double parameterOnHitting = tmpCoords2.getZ();// TODO use other for
-															// non-parallel
-															// projection :
-															// -hitting.origin.distance(project[0]);
+			// TODO use other for non-parallel projection :
+			// -hitting.origin.distance(project[0]);
+			double parameterOnHitting = inPlaneCoords.getZ();
 			setZPick(parameterOnHitting, parameterOnHitting);
 			return true;
 		}

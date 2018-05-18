@@ -16,7 +16,6 @@ public class SuggestionSteps extends Suggestion {
 		return "Show Steps";
 	}
 
-
 	@Override
 	public void execute(GeoElementND geo) {
 		SolutionStep steps = ((HasSteps) geo.getParentAlgorithm()).getSteps();
@@ -27,7 +26,6 @@ public class SuggestionSteps extends Suggestion {
 		if (geo.getParentAlgorithm() instanceof HasSteps &&
 				((HasSteps) geo.getParentAlgorithm()).canShowSteps()) {
 				return INSTANCE;
-
 		}
 		return null;
 	}

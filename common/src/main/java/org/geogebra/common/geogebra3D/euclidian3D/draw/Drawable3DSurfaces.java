@@ -18,7 +18,9 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	 * common constructor
 	 * 
 	 * @param a_view3d
+	 *            view
 	 * @param a_geo
+	 *            surface
 	 */
 	public Drawable3DSurfaces(EuclidianView3D a_view3d, GeoElement a_geo) {
 		super(a_view3d);
@@ -36,6 +38,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	 * common constructor for previewable
 	 * 
 	 * @param a_view3d
+	 *            view
 	 */
 	public Drawable3DSurfaces(EuclidianView3D a_view3d) {
 		super(a_view3d);
@@ -47,6 +50,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	 * draws the geometry that hides other drawables (for dashed curves)
 	 * 
 	 * @param renderer
+	 *            renderer
 	 */
 	abstract void drawGeometryHiding(Renderer renderer);
 
@@ -58,7 +62,6 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 		}
 
 		drawTracesHidingSurface(renderer);
-
 	}
 
 	protected abstract void drawSurfaceGeometry(Renderer renderer);
@@ -72,7 +75,6 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 		}
 
 		drawTracesTranspSurface(renderer);
-
 	}
 
 	@Override
@@ -90,7 +92,6 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 		}
 
 		drawTracesNotTranspSurface(renderer);
-
 	}
 
 	@Override

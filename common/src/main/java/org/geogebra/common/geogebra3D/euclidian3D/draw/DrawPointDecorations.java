@@ -20,7 +20,8 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	// private GgbMatrix4x4 segmentMatrix;
 	private CoordMatrix4x4 planeMatrix;
 
-	private Coords p1, p2;
+	private Coords p1;
+	private Coords p2;
 	private boolean hasBeenUpdated = false;
 	private GeoPointND point;
 
@@ -28,6 +29,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	 * common constructor
 	 * 
 	 * @param aView3d
+	 *            view
 	 */
 	public DrawPointDecorations(EuclidianView3D aView3d) {
 		super(aView3d);
@@ -92,7 +94,8 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 		if (!getView3D().getApplication().has(Feature.MOB_PACK_JOIN_POINTS)
 				|| !getView3D().getRenderer().getGeometryManager()
 						.packBuffers()) {
-			renderer.getTextures().setDashFromLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
+			renderer.getTextures()
+					.setDashFromLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 			drawOutline(renderer);
 		}
 
@@ -104,10 +107,9 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 		if (!getView3D().getApplication().has(Feature.MOB_PACK_JOIN_POINTS)
 				|| !getView3D().getRenderer().getGeometryManager()
 						.packBuffers()) {
-			renderer.setColor(new Coords(0, 0, 0, 1));// black
+			renderer.setColor(new Coords(0, 0, 0, 1)); // black
 			drawGeometry(renderer);
 		}
-
 	}
 
 	@Override

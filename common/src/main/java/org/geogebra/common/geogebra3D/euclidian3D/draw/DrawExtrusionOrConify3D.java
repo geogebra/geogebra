@@ -90,8 +90,6 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 	// //////////////////////////////
 	// Previewable interface
 
-
-
 	/**
 	 * Constructor for previewable
 	 * 
@@ -112,13 +110,11 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 		this.selectedConics = selectedConics;
 
 		updatePreview();
-
 	}
 
 	@Override
 	public void updateMousePos(double xRW, double yRW) {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -216,9 +212,8 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 			// EuclidianView3D::rightPrism() call)
 			Hits hits = new Hits();
 
-			if (extrusionComputer.getComputed() == 0) {// if height has not been
-														// set by dragging, ask
-														// one
+			if (extrusionComputer.getComputed() == 0) {
+				// if height has not been set by dragging, ask for one
 				App app = getView3D().getApplication();
 				if (callback == null) {
 					callback = new CreatePolyhedronCallback();
@@ -226,7 +221,6 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 				callback.set(basis, getView3D(), extrusionComputer);
 
 				app.getDialogManager().showNumberInputDialog(
-						// app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
 						extrusionComputer.getAlgo().getOutput(0)
 								.translatedTypeString(),
 						app.getLocalization().getMenu("Altitude"), "",

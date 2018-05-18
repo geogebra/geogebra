@@ -24,7 +24,8 @@ import org.geogebra.common.util.debug.Log;
 public class DrawAxis3D extends DrawLine3D {
 
 	private TreeMap<String, DrawLabel3D> labels;
-	private int numbersXOffset, numbersYOffset;
+	private int numbersXOffset;
+	private int numbersYOffset;
 	private boolean outsideBox = false;
 
 	/**
@@ -42,7 +43,6 @@ public class DrawAxis3D extends DrawLine3D {
 		super.setDrawMinMax(-2, 2);
 
 		labels = new TreeMap<>();
-
 	}
 
 	/**
@@ -184,9 +184,7 @@ public class DrawAxis3D extends DrawLine3D {
 
 	@Override
 	protected void updateLabelPosition() {
-
 		// nothing to do here
-
 	}
 
 	@Override
@@ -275,7 +273,7 @@ public class DrawAxis3D extends DrawLine3D {
 	 * @return distance between two ticks
 	 */
 	public double getNumbersDistance() {
-		return 1;// ((GeoAxisND) getGeoElement()).getNumbersDistance();
+		return 1; // ((GeoAxisND) getGeoElement()).getNumbersDistance();
 	}
 
 	@Override

@@ -24,14 +24,11 @@ public abstract class ProbabilityCalculatorStyleBar {
 		return app;
 	}
 
-
-
 	/**
 	 * @return probability calculator
 	 */
 	public ProbabilityCalculatorView getProbCalc() {
 		return probCalc;
 	}
-
 
 }

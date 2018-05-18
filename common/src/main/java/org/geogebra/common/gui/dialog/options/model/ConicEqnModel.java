@@ -50,7 +50,6 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		return (GeoQuadricND) getObjectAt(index);
 	}
 
-
 	@Override
 	public void updateProperties() {
 		// check if all conics have same type and mode

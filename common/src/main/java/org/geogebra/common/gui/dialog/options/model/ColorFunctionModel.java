@@ -150,8 +150,6 @@ public class ColorFunctionModel extends OptionsModel {
 					+ "," + strGreen + "," + strBlue + "," + strAlpha + "}");
 		}
 
-
-
 		// set condition
 		// try {
 		if (list != null) { //

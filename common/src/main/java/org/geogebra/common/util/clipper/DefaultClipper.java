@@ -621,7 +621,6 @@ public class DefaultClipper extends ClipperBase {
 		return result;
 	}
 
-
 	public DefaultClipper() {
 		this(0);
 	}

@@ -14,6 +14,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class DrawLine3DForQuadrics extends DrawLine3D {
 	private GeoQuadric3D quadric;
 
+	/**
+	 * @param a_view3D
+	 *            view
+	 * @param line
+	 *            line
+	 * @param quadric
+	 *            quadric
+	 */
 	public DrawLine3DForQuadrics(EuclidianView3D a_view3D, GeoLine3D line,
 			GeoQuadric3D quadric) {
 		super(a_view3D, line, quadric);

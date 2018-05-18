@@ -25,7 +25,6 @@ public class PlotterSurface {
 	/** 2-var function */
 	private Functional2Var functional2Var;
 
-
 	/** domain for plotting */
 	private float uMin, uMax, vMin, vMax;
 

@@ -29,11 +29,16 @@ public class DrawAngle3D extends Drawable3DCurves {
 	private Coords vn2 = new Coords(4);
 	private Coords[] drawCoords = null;
 
-	private Coords tmpCoords = new Coords(4), tmpCoords2, vn = new Coords(4),
-			v1 = new Coords(4), v2 = new Coords(4),
-			center = Coords.createInhomCoorsInD3();
+	private Coords tmpCoords = new Coords(4);
+	private Coords tmpCoords2;
+	private Coords vn = new Coords(4);
+	private Coords v1 = new Coords(4);
+	private Coords v2 = new Coords(4);
+	private Coords center = Coords.createInhomCoorsInD3();
 
-	private double size, angleValue, offset;
+	private double size;
+	private double angleValue;
+	private double offset;
 
 	private boolean show90degrees;
 	private boolean angleVisible;
@@ -410,7 +415,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 	}
 
 	@Override
-	protected void updateLabel() {// TODO remove this and implement all angle
+	protected void updateLabel() { // TODO remove this and implement all angle
 									// cases
 		if (labelCenter != null) {
 			super.updateLabel();

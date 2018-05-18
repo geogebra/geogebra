@@ -352,8 +352,6 @@ public class ConstructionProtocolView {
 
 	public class ConstructionTableData implements View, SetLabels {
 
-
-
 		public final ColumnData columns[] = {
 				new ColumnData("No.", 35, 35, SwingConstants.RIGHT, true),
 				new ColumnData("Name", 80, 50, SwingConstants.LEFT, true),

@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -16,14 +15,17 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * @author mathieu
  *
  */
-public class DrawLine3D extends DrawCoordSys1D implements Previewable {
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+public class DrawLine3D extends DrawCoordSys1D {
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
 
 	/**
 	 * common constructor
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param line
+	 *            line
 	 */
 	public DrawLine3D(EuclidianView3D a_view3D, GeoLineND line) {
 		this(a_view3D, line, null);
@@ -33,13 +35,28 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 	 * Constructor for helpers
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param line
+	 *            line
 	 * @param geo2
+	 *            parent geo
 	 */
 	public DrawLine3D(EuclidianView3D a_view3D, GeoLineND line,
 			GeoElement geo2) {
 		super(a_view3D);
 		init((GeoElement) line, geo2);
+	}
+
+	/**
+	 * constructor for previewable
+	 * 
+	 * @param a_view3D
+	 *            view
+	 * @param selectedPoints
+	 *            endpoints
+	 */
+	public DrawLine3D(EuclidianView3D a_view3D, ArrayList<GeoPointND> selectedPoints) {
+		super(a_view3D, selectedPoints, new GeoLine3D(a_view3D.getKernel().getConstruction()));
 	}
 
 	/**
@@ -49,9 +66,7 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 	 *            geo caller
 	 */
 	protected void init(GeoElement line, GeoElement geo2) {
-
 		super.init(line);
-
 	}
 
 	@Override
@@ -126,23 +141,6 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 		if (!Double.isNaN(boundsMin.getX())) {
 			enlargeBounds(min, max, boundsMin, boundsMax);
 		}
-	}
-
-	// //////////////////////////////
-	// Previewable interface
-
-	/**
-	 * constructor for previewable
-	 * 
-	 * @param a_view3D
-	 * @param selectedPoints
-	 */
-	public DrawLine3D(EuclidianView3D a_view3D,
-			ArrayList<GeoPointND> selectedPoints) {
-
-		super(a_view3D, selectedPoints,
-				new GeoLine3D(a_view3D.getKernel().getConstruction()));
-
 	}
 
 }

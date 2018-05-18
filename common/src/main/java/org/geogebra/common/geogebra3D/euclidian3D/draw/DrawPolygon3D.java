@@ -45,17 +45,22 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	private ArrayList<DrawSegment3D> segments;
 	private ArrayList<ArrayList<GeoPointND>> segmentsPoints;
 	private boolean isPreview = false;
-	private Coords project, globalCoords, inPlaneCoords;
+	private Coords project;
+	private Coords globalCoords;
+	private Coords inPlaneCoords;
 
 	private double[] parameters = new double[2];
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
 	private GeoPoint3D hittingPointForOutline;
 
 	/**
 	 * Common constructor
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param polygon
+	 *            polygon
 	 */
 	public DrawPolygon3D(EuclidianView3D a_view3D, GeoPolygon polygon) {
 
@@ -236,7 +241,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		setSurfaceIndex(index);
 
 		return true;
-
 	}
 
 	/**
@@ -245,8 +249,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	 *            GL renderer
 	 * @param polygon
 	 *            polygon
-	 * @param pt
-	 *            polygon triangulation
 	 * @param vertices
 	 *            vertices of the polygon
 	 * @param verticesLength
@@ -316,12 +318,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				pt.getTriangleFans());
 	}
 
-	private void updateOutline(Renderer renderer, Coords[] vertices,
-			int length) {
+	private void updateOutline(Renderer renderer, Coords[] vertices, int length) {
 
 		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getGeoElement().getLineType(),
-					getGeoElement().getLineTypeHidden(), false);
+			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(),
+					getGeoElement().getLineType(), getGeoElement().getLineTypeHidden(), false);
 		}
 		int thickness = getGeoElement().getLineThickness();
 		if (thickness == 0) {
@@ -341,7 +342,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		if (shouldBePacked()) {
 			getView3D().getRenderer().getGeometryManager().endPacking();
 		}
-
 	}
 
 	@Override
@@ -360,13 +360,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			GeoPolygon polygon = (GeoPolygon) getGeoElement();
 			int verticesLength = polygon.getPointsLength();
 
-			// no labels for segments
+			// no labels for segments: draw outline
 			if (!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()) {
-				if (vertices != null && vertices.length >= verticesLength) { // TODO
-																				// remove
-																				// this
-																				// test
-					// outline
+				// TODO remove this test for vertices
+				if (vertices != null && vertices.length >= verticesLength) {
 					updateOutline(renderer, vertices, verticesLength);
 				}
 			}
@@ -416,7 +413,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	 * Constructor for previewable
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param selectedPoints
+	 *            vertices
 	 */
 	public DrawPolygon3D(EuclidianView3D a_view3D,
 			ArrayList<GeoPointND> selectedPoints) {
@@ -466,8 +465,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		// set points to existing segments points
 		while (i.hasNext() && spi.hasNext()) {
 			point = i.next();
-			if (sp != null)
-			 {
+			if (sp != null) {
 				sp.add(point); // add second point to precedent segment
 			}
 
@@ -650,12 +648,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 			// check if hitting projection hits the polygon
 			if (poly.isInRegion(inPlaneCoords.getX(), inPlaneCoords.getY())) {
-				double parameterOnHitting = inPlaneCoords.getZ();// TODO use
-																	// other for
-																	// non-parallel
-																	// projection
-																	// :
-																	// -hitting.origin.distance(project[0]);
+				// TODO use other for non-parallel projection :
+				// -hitting.origin.distance(project[0]);
+				double parameterOnHitting = inPlaneCoords.getZ();
 				setZPick(parameterOnHitting, parameterOnHitting);
 				setPickingType(PickingType.SURFACE);
 				ret = true;

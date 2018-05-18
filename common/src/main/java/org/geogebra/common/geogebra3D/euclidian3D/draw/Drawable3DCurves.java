@@ -8,12 +8,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 
 /**
+ * for "solid" drawables, like lines, segments, etc. these are drawable that are
+ * not to become transparent
  * 
  * @author ggb3D
- *
- *         for "solid" drawables, like lines, segments, etc. these are drawable
- *         that are not to become transparent
- *
  */
 
 public abstract class Drawable3DCurves extends Drawable3D {
@@ -22,7 +20,9 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	 * common constructor
 	 * 
 	 * @param a_view3d
+	 *            view
 	 * @param a_geo
+	 *            curve
 	 */
 	public Drawable3DCurves(EuclidianView3D a_view3d, GeoElement a_geo) {
 		super(a_view3d, a_geo);
@@ -70,9 +70,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 		super.drawHidden(renderer);
 
 		drawTracesOutline(renderer, true);
-
 	}
-
 
 	@Override
 	public void drawHiding(Renderer renderer) {

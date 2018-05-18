@@ -26,9 +26,9 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
  *
  */
 public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
-	private Coords project = Coords.createInhomCoorsInD3(),
-			p1 = Coords.createInhomCoorsInD3(),
-			p2 = Coords.createInhomCoorsInD3();
+	private Coords project = Coords.createInhomCoorsInD3();
+	private Coords p1 = Coords.createInhomCoorsInD3();
+	private Coords p2 = Coords.createInhomCoorsInD3();
 
 	private double[] parameters = new double[2];
 	private double[] parameters1 = new double[2];
@@ -40,10 +40,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	private double scale;
 
-	private double alpha, beta;
+	private double alpha;
+	private double beta;
 	private Visible visible = Visible.TOTALLY_OUTSIDE;
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
-	private double[] uMinMax, vMinMax;
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
+	private double[] uMinMax;
+	private double[] vMinMax;
 
 	private DrawLine3D drawLine;
 	private DrawPlane3D[] drawPlanes;
@@ -486,13 +489,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	private void updateHyperbolicParaboloid(GeoQuadric3D quadric,
 			Renderer renderer) {
 		Coords center = quadric.getMidpoint3D();
-		double r0 = quadric.getHalfAxis(0);
-		double r1 = quadric.getHalfAxis(1);
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		surface.start(getReusableSurfaceIndex());
 		Coords ev0 = quadric.getEigenvec3D(0);
-		Coords ev1 = quadric.getEigenvec3D(1);
-		Coords ev2 = quadric.getEigenvec3D(2);
+
 		if (uMinMax == null) {
 			uMinMax = new double[2];
 		}
@@ -504,12 +504,15 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 		vMinMax[0] = Double.POSITIVE_INFINITY;
 		vMinMax[1] = Double.NEGATIVE_INFINITY;
+		Coords ev1 = quadric.getEigenvec3D(1);
+		Coords ev2 = quadric.getEigenvec3D(2);
+		double r0 = quadric.getHalfAxis(0);
+		double r1 = quadric.getHalfAxis(1);
 		getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev1);
 		surface.drawHyperbolicParaboloid(center, ev0, ev1, ev2, r0, r1,
 				uMinMax[0], uMinMax[1], vMinMax[0], vMinMax[1],
 				!getView3D().useClippingCube());
 		setSurfaceIndex(surface.end());
-
 	}
 
 	private void updateHyperboloidTwoSheets(GeoQuadric3D quadric,
@@ -521,8 +524,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		double r2 = quadric.getHalfAxis(2);
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		surface.start(getReusableSurfaceIndex());
-		Coords ev0 = quadric.getEigenvec3D(0);
-		Coords ev1 = quadric.getEigenvec3D(1);
 		Coords ev2 = quadric.getEigenvec3D(2);
 		if (vMinMax == null) {
 			vMinMax = new double[2];
@@ -549,10 +550,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		} else { // bottom pole is cut
 			max = -DrawConic3D.acosh(-vMinMax[1]);
 		}
+		Coords ev0 = quadric.getEigenvec3D(0);
+		Coords ev1 = quadric.getEigenvec3D(1);
 		surface.drawHyperboloidTwoSheets(center, ev0, ev1, ev2, r0, r1, r2,
 				longitude, min, max, !getView3D().useClippingCube());
 		setSurfaceIndex(surface.end());
-
 	}
 
 	private void updateParaboloid(GeoQuadric3D quadric, Renderer renderer) {

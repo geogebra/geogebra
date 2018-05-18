@@ -96,7 +96,6 @@ public class DataAnalysisModel {
 		GColor createColor(int idx);
 	}
 
-
 	/**
 	 * @author mrb
 	 * 

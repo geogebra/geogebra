@@ -34,16 +34,23 @@ public class DrawConic3D extends Drawable3DCurves
 	protected Coords[] points = new Coords[4];
 	protected double[] minmax;
 	protected GeoConicND conic;
-	protected Coords ev1, ev2;
-	protected double e1, e2;
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	protected Coords ev1;
+	protected Coords ev2;
+	protected double e1;
+	protected double e2;
+	private Coords boundsMin = new Coords(3);
+	protected Coords boundsMax = new Coords(3);
 
-	private Coords tmpCoords1, tmpCoords2;
+	private Coords tmpCoords1;
+	private Coords tmpCoords2;
 	private PathParameter hittingPathParameter = new PathParameter();
-	private double alpha, beta;
+	private double alpha;
+	private double beta;
 
 	protected int longitude = 60;
-	private Coords project, globalCoords, inPlaneCoords;
+	private Coords project;
+	protected Coords globalCoords;
+	protected Coords inPlaneCoords;
 
 	private double[] parameters = new double[2];
 	private int drawTypeAdded;

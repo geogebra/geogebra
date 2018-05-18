@@ -116,7 +116,6 @@ public class PlotterBrush implements PathPlotter {
 
 	private Coords tmpCopyCoords;
 
-
 	// level of detail
 	/** number of rules */
 	protected final static int LATITUDES = 8;
@@ -135,7 +134,6 @@ public class PlotterBrush implements PathPlotter {
 			COSINUS[i] = Math.cos(2 * i * Math.PI / LATITUDES);
 			SINUS[i] = Math.sin(2 * i * Math.PI / LATITUDES);
 		}
-
 	}
 
 	/**
@@ -950,9 +948,7 @@ public class PlotterBrush implements PathPlotter {
 		t *= LINE3D_THICKNESS;
 		setThickness(t);
 		return t;
-
 	}
-
 
 	/**
 	 * set the current thickness of the brush

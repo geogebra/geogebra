@@ -14,7 +14,8 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public class DrawPlaneConstant3D extends DrawPlane3D {
 
-	private DrawAxis3D xAxis, yAxis;
+	private DrawAxis3D xAxis;
+	private DrawAxis3D yAxis;
 
 	/**
 	 * Common constructor

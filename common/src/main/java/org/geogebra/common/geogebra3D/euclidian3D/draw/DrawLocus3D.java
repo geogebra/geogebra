@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
@@ -16,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoLocusND;
  */
 public class DrawLocus3D extends Drawable3DCurves {
 
-	private GeoLocusND locus;
+	private GeoLocusND<? extends MyPoint> locus;
 	private CoordSys transformCoordSys;
 
 	/**
@@ -26,20 +27,19 @@ public class DrawLocus3D extends Drawable3DCurves {
 	 *            the locus to draw
 	 * @param geo
 	 *            locus itself or parent geo
+	 * @param transformSys
+	 *            transformation coord sys for implicit curves
 	 */
-	public DrawLocus3D(EuclidianView3D a_view3d, GeoLocusND locus,
+	public DrawLocus3D(EuclidianView3D a_view3d, GeoLocusND<? extends MyPoint> locus,
 			GeoElement geo, CoordSys transformSys) {
 		super(a_view3d, geo);
 		this.locus = locus;
 		this.transformCoordSys = transformSys;
-
 	}
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
-
 		renderer.getGeometryManager().draw(getGeometryIndex());
-
 	}
 
 	@Override
@@ -63,7 +63,6 @@ public class DrawLocus3D extends Drawable3DCurves {
 		endPacking();
 
 		return true;
-
 	}
 
 	private GeoLocusND getLocus() {

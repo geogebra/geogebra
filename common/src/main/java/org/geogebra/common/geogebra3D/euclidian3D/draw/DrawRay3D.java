@@ -17,7 +17,8 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
  *
  */
 public class DrawRay3D extends DrawCoordSys1D {
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
 
 	/**
 	 * common constructor
@@ -33,11 +34,8 @@ public class DrawRay3D extends DrawCoordSys1D {
 
 	@Override
 	protected boolean updateForItSelf() {
-
 		updateForItSelf(true);
-
 		return true;
-
 	}
 
 	/**
@@ -47,13 +45,11 @@ public class DrawRay3D extends DrawCoordSys1D {
 	 *            update min and max values
 	 */
 	protected void updateForItSelf(boolean updateDrawMinMax) {
-
 		if (updateDrawMinMax) {
 			updateDrawMinMax();
 		}
 
 		super.updateForItSelf();
-
 	}
 
 	/**
@@ -71,7 +67,6 @@ public class DrawRay3D extends DrawCoordSys1D {
 				new double[] { 0, Double.POSITIVE_INFINITY }, o, v);
 
 		setDrawMinMax(minmax[0], minmax[1]);
-
 	}
 
 	@Override
@@ -127,7 +122,6 @@ public class DrawRay3D extends DrawCoordSys1D {
 
 		super(a_view3D, selectedPoints,
 				new GeoRay3D(a_view3D.getKernel().getConstruction()));
-
 	}
 
 }

@@ -439,7 +439,6 @@ public class Ggb2giac {
 						.replace("REPLACEME1", "%2").replace("REPLACEME2", "%3")
 						.replace("REPLACEME3", "%4"));
 
-
 		// need to wrap in coordinates() for
 		// Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10]]
 		// but not for Intersect[x^2,x^3]
@@ -1267,8 +1266,6 @@ public class Ggb2giac {
 
 		p("IndexOf.2", "indexOf(%0,%1)+1");
 
-
-
 		p("ToComplex.1",
 				"[[ggbtcans:=?],[ggbtcans:=%0],[ggbtype:=type(evalf(ggbtcans))],"
 						+
@@ -1681,11 +1678,9 @@ public class Ggb2giac {
 		p("OrthogonalLine.2",
 				"equation(perpendicular(%0,when(subtype(%1)==" + GGBVECT_TYPE
 						+ ",%1,line(%1))))");
-
 		
 		// TODO: return Segment() not equation
 		p("Segment.2", line2def);
-
 
 		p("Point.1",
 				"when(length(%0)==3,point(xcoord(%0),ycoord(%0),zcoord(%0)),point(xcoord(%0),ycoord(%0)))");

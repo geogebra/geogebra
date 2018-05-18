@@ -626,7 +626,6 @@ abstract public class ObjectSettingsModel {
         return true;
     }
 
-
     /**
      * @return true if all the selected geoElement is a GeoFunction
      */
@@ -662,7 +661,6 @@ abstract public class ObjectSettingsModel {
     public GeoElement getGeoElement() {
         return geoElement;
     }
-
 
     /**
      * @param geo

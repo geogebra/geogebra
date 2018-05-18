@@ -16,7 +16,6 @@ public class SuggestionSolve extends Suggestion {
 	private static final Suggestion SINGLE_SOLVE = new SuggestionSolve();
 	private String[] labels;
 
-
 	public SuggestionSolve(String... labels) {
 		this.labels = labels;
 	}
@@ -68,15 +67,11 @@ public class SuggestionSolve extends Suggestion {
 					}
 				});
 
-
-
 		if (prev != null) {
 			return new SuggestionSolve(prev.getLabelSimple());
 		}
 		return null;
 	}
-
-
 
 	public static boolean subset(String[] testSet, String[] superset) {
 		if (testSet.length < 1) {

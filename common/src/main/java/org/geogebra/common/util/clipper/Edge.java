@@ -89,7 +89,6 @@ class Edge {
 				+ edge.deltaX * (currentY - edge.getBot().getY());
 	}
 
-
 	/**
 	 * modified to be compatible with double
 	 */

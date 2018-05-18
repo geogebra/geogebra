@@ -27,16 +27,21 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 		implements Previewable {
 
 	private double[] drawMinMax = new double[2];
-	private Coords startPoint, endPoint;
+	private Coords startPoint;
+	private Coords endPoint;
 	private ArrayList<GeoPointND> selectedPoints;
-	private Coords project1, project2;
-	private double[] lineCoords, tmp;
+	private Coords project1;
+	private Coords project2;
+	private double[] lineCoords;
+	private double[] tmp;
 
 	/**
 	 * common constructor
 	 * 
 	 * @param a_view3D
-	 * @param cs1D
+	 *            view
+	 * @param geo
+	 *            line
 	 */
 	public DrawJoinPoints(EuclidianView3D a_view3D, GeoElement geo) {
 
@@ -47,6 +52,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	 * common constructor for previewable
 	 * 
 	 * @param a_view3d
+	 *            view
 	 */
 	public DrawJoinPoints(EuclidianView3D a_view3d) {
 		super(a_view3d);
@@ -56,7 +62,9 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	 * sets the values of drawable extremities
 	 * 
 	 * @param drawMin
+	 *            drawable min
 	 * @param drawMax
+	 *            drawable max
 	 */
 	public void setDrawMinMax(double drawMin, double drawMax) {
 		this.drawMinMax[0] = drawMin;
@@ -141,12 +149,15 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	 * update the drawable as a segment from p1 to p2
 	 * 
 	 * @param p1
+	 *            start point
 	 * @param p2
+	 *            end point
 	 */
 	protected void updateForItSelf(Coords p1, Coords p2) {
 
 		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getLineType(), getLineTypeHidden(), false);
+			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getLineType(),
+					getLineTypeHidden(), false);
 		}
 
 		// TODO prevent too large values
@@ -207,7 +218,9 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	 * set affine texture
 	 * 
 	 * @param brush
+	 *            brush
 	 * @param minmax
+	 *            {min,max}
 	 */
 	protected void setAffineTexture(PlotterBrush brush, double[] minmax) {
 		brush.setAffineTexture(
@@ -421,7 +434,8 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	public boolean shouldBePacked() {
 		// remove DrawSegments3D methods using shouldBePacked() when feature released as
 		// those methods just duplicate those from this class
-		return getView3D().getApplication().has(Feature.MOB_PACK_JOIN_POINTS) && !createdByDrawList();
+		return getView3D().getApplication().has(Feature.MOB_PACK_JOIN_POINTS)
+				&& !createdByDrawList();
 	}
 
 }

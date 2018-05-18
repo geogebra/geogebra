@@ -15,10 +15,17 @@ public abstract class GLFactory {
 
 	private static final Object lock = new Object();
 
+	/**
+	 * @return factory singleton instance
+	 */
 	public static GLFactory getPrototype() {
 		return prototype;
 	}
 
+	/**
+	 * @param p
+	 *            factory prototype
+	 */
 	public static void setPrototypeIfNull(GLFactory p) {
 		synchronized (lock) {
 			if (prototype == null) {

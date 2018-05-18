@@ -198,12 +198,14 @@ abstract class GLBufferManager {
 	 * @param layer
 	 *            object layer
 	 */
-	public void updateVisibility(int index, int start, int geometriesLength, boolean visible, int alpha, int layer) {
+	public void updateVisibility(int index, int start, int geometriesLength, boolean visible,
+			int alpha, int layer) {
 		int alphaOrInvisible = visible ? alpha : ALPHA_INVISIBLE;
 		for (int i = start; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.get(currentIndex);
-			if (currentBufferSegment != null) { // this may happen after undo from DrawIntersectionCurve3D
+			if (currentBufferSegment != null) {
+				// this may happen after undo from DrawIntersectionCurve3D
 				currentBufferPack = currentBufferSegment.bufferPack;
 				currentBufferPack.setAlphaAndLayer(alphaOrInvisible, layer);
 			}
@@ -299,7 +301,6 @@ abstract class GLBufferManager {
 	abstract protected void putIndices(int size, TypeElement type,
 			boolean reuseSegment);
 
-
 	private boolean currentBufferSegmentDoesNotFit(int indicesLength,
 			TypeElement type) {
 		if (checkCurrentBufferSegmentDoesNotFit(indicesLength, type)) {
@@ -346,7 +347,8 @@ abstract class GLBufferManager {
 					currentBufferPack = createBufferPack();
 					bufferPackList.add(currentBufferPack);
 				}
-				currentBufferSegment = new BufferSegment(currentBufferPack, elementsLength, indicesLength);
+				currentBufferSegment = new BufferSegment(currentBufferPack, elementsLength,
+						indicesLength);
 				currentBufferPack.addToLength(elementsLength, indicesLength);
 			} else {
 				reuseSegment = true;

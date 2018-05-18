@@ -21,5 +21,4 @@ public class Drawable3DListsForDrawList3D extends Drawable3DLists {
 		super(view3D);
 	}
 
-
 }

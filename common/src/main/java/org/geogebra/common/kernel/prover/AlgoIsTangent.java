@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
-
 /**
  * Decides if the first object is tangent to the second one. Can be embedded into the Prove command to
  * work symbolically.
