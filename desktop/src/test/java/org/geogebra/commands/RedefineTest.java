@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
@@ -151,4 +152,30 @@ public class RedefineTest extends Assert {
 		checkError("Rename[ 6*7, \"$7\" ]",
 				"Command Rename:\nIllegal argument: Text \"$7\"\n\nSyntax:\nRename( <Object>, <Name> )");
 	}
+
+	@Test
+	public void functionLHSShouldRemainConic() {
+		t("f(x,y)=xx+y", "x^(2) + y");
+		t("a:f(x,y)=0", CommandsTest.unicode("x^2 + y = 0"));
+		Assert.assertEquals(app.getKernel().lookupLabel("a").getGeoClassType(),
+				GeoClass.CONIC);
+		app.setXML(app.getXML(), true);
+		Assert.assertEquals(app.getKernel().lookupLabel("a").getGeoClassType(),
+				GeoClass.CONIC);
+	}
+
+	@Test
+	public void copyOfConicShouldNotBeCellRange() {
+
+		t("B20:x^2+y=0", CommandsTest.unicode("x^2 + y = 0"));
+		t("D20=B20", CommandsTest.unicode("x^2 + y = 0"));
+		Assert.assertEquals(
+				app.getKernel().lookupLabel("D20").getGeoClassType(),
+				GeoClass.CONIC);
+		app.setXML(app.getXML(), true);
+		Assert.assertEquals(
+				app.getKernel().lookupLabel("D20").getGeoClassType(),
+				GeoClass.CONIC);
+	}
 }
+

@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
@@ -56,7 +57,6 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 		setInputOutput(); // for AlgoElement
 
 		compute(true);
-
 	}
 
 	@Override
@@ -132,9 +132,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 					((GeoImplicitSurface) geoElem).fromEquation(equation);
 				}
 			}
-
 		}
-
 	}
 
 	private void setQuadric() {
@@ -209,7 +207,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 
 	@Override
 	protected String toExpString(StringTemplate tpl) {
-		return geoElem.getLabel(tpl) + ": " + equation.toString(tpl);
+		return AlgoDependentImplicitPoly.equationWithLabel(geoElem, tpl);
 	}
 
 }

@@ -32,7 +32,9 @@ public class GeoListForCellRange extends GeoList {
 		final boolean added = super.addToUpdateSets(algorithm);
 
 		// propagate to algo parent input items
-		algo.addToItemsAlgoUpdateSets(algorithm);
+		if (algo != algorithm) {
+			algo.addToItemsAlgoUpdateSets(algorithm);
+		}
 
 		return added;
 	}

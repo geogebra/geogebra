@@ -362,7 +362,24 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 
 	@Override
 	protected String toExpString(StringTemplate tpl) {
-		return geoElement.getDefinition().toString(tpl);
+		return equationWithLabel(geoElement, tpl);
+	}
+
+	/**
+	 * Definition for XML, needs to be prepended with label for c:f(x,y)=0
+	 * 
+	 * @param geo
+	 *            element
+	 * @param tpl
+	 *            string template
+	 * @return definition of the element, prepended with label when needed
+	 */
+	public static String equationWithLabel(GeoElementND geo, StringTemplate tpl) {
+		String rhs = geo.getDefinition().toString(tpl);
+		if (rhs.contains("=")) {
+			return geo.getLabel(tpl) + ": " + rhs;
+		}
+		return rhs;
 	}
 
 }
