@@ -4041,11 +4041,11 @@ public abstract class App implements UpdateSelection {
 
 		// IGR-605
 		case MOB_TABBED_SETTINGS_PANEL:
-			return prerelease;
+			return true;
 
 		// AND-722
 		case MOB_MATERIAL_INPUT:
-			return prerelease;
+			return true;
 
 		// AND-679
 		case MOB_AND_QUEUE_ON_GL_THREAD:
@@ -4081,7 +4081,7 @@ public abstract class App implements UpdateSelection {
 
 		// AND-1061 and IGR-815
 		case MOB_EXAM_MODE_EXIT_DIALOG_NEW:
-			return prerelease;
+			return true;
 
 		// AND-1071 and IGR-819
 		case MOB_EXAM_MODE_SCREENSHOT_SAVED_NOTIFICATION:
