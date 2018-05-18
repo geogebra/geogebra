@@ -150,50 +150,52 @@ public class DataAnalysisViewD extends JPanel
 	}
 
 	@Override
-	public void setPlotPanelOVNotNumeric(int mode) {
-		dataDisplayPanel1.setPanel(PlotType.BARCHART, mode);
-		dataDisplayPanel2.setPanel(PlotType.BARCHART, mode);
+	public void setPlotPanelOVNotNumeric(int mode, PlotType plotType1,
+			PlotType plotType2) {
+		dataDisplayPanel1.setPanel(plotType1, mode);
+		dataDisplayPanel2.setPanel(plotType2, mode);
 
 	}
 
 	@Override
-	public void setPlotPanelOVRawData(int mode) {
-		dataDisplayPanel1.setPanel(PlotType.HISTOGRAM, mode);
-		dataDisplayPanel2.setPanel(PlotType.BOXPLOT, mode);
+	public void setPlotPanelOVRawData(int mode, PlotType plotType1,
+			PlotType plotType2) {
+		dataDisplayPanel1.setPanel(plotType1, mode);
+		dataDisplayPanel2.setPanel(plotType2, mode);
 
 	}
 
 	@Override
-	public void setPlotPanelOVFrequency(int mode) {
-		dataDisplayPanel1.setPanel(PlotType.BARCHART, mode);
-		dataDisplayPanel2.setPanel(PlotType.BOXPLOT, mode);
+	public void setPlotPanelOVFrequency(int mode, PlotType pt1, PlotType pt2) {
+		dataDisplayPanel1.setPanel(pt1, mode);
+		dataDisplayPanel2.setPanel(pt2, mode);
 
 	}
 
 	@Override
-	public void setPlotPanelOVClass(int mode) {
-		dataDisplayPanel1.setPanel(PlotType.HISTOGRAM, mode);
-		dataDisplayPanel2.setPanel(PlotType.HISTOGRAM, mode);
+	public void setPlotPanelOVClass(int mode, PlotType pt1, PlotType pt2) {
+		dataDisplayPanel1.setPanel(pt1, mode);
+		dataDisplayPanel2.setPanel(pt2, mode);
 
 	}
 
 	@Override
-	public void setPlotPanelRegression(int mode) {
-		dataDisplayPanel1.setPanel(PlotType.SCATTERPLOT, mode);
-		dataDisplayPanel2.setPanel(PlotType.RESIDUAL, mode);
+	public void setPlotPanelRegression(int mode, PlotType pt1, PlotType pt2) {
+		dataDisplayPanel1.setPanel(pt1, mode);
+		dataDisplayPanel2.setPanel(pt2, mode);
 	}
 
 	@Override
-	public void setPlotPanelMultiVar(int mode) {
-		dataDisplayPanel1.setPanel(PlotType.MULTIBOXPLOT, mode);
+	public void setPlotPanelMultiVar(int mode, PlotType pt1) {
+		dataDisplayPanel1.setPanel(pt1, mode);
 
 	}
 
 	/**
 	 * set the data plot panels with default plots
 	 */
-	public void setDataPlotPanels() {
-		model.setDataPlotPanels();
+	public void setDataPlotPanels(PlotType plotType1, PlotType plotType2) {
+		model.setDataPlotPanels(plotType1, plotType2);
 	}
 
 	// Create DataPanel to display the current data set(s) and allow
@@ -782,11 +784,11 @@ public class DataAnalysisViewD extends JPanel
 	}
 
 	@Override
-	public void onModeChange() {
+	public void onModeChange(PlotType plotType1, PlotType plotType2) {
 		dataPanel = null;
 		buildStatisticsPanel();
 
-		setDataPlotPanels();
+		setDataPlotPanels(plotType1, plotType2);
 		updateLayout();
 
 	}

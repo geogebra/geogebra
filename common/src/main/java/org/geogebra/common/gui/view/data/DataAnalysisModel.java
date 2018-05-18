@@ -64,19 +64,23 @@ public class DataAnalysisModel {
 	public static final int thicknessBarChart = 3;
 
 	public interface IDataAnalysisListener extends ICreateColor {
-		void onModeChange();
+		void onModeChange(PlotType polyType1, PlotType polyType2);
 
-		void setPlotPanelOVNotNumeric(int mode);
+		void setPlotPanelOVNotNumeric(int mode, PlotType plotType,
+				PlotType plotType2);
 
-		void setPlotPanelOVRawData(int mode);
+		void setPlotPanelOVRawData(int mode, PlotType pt1, PlotType pt2);
 
-		void setPlotPanelOVFrequency(int mode);
+		void setPlotPanelOVFrequency(int mode, PlotType plotType,
+				PlotType plotType2);
 
-		void setPlotPanelOVClass(int mode);
+		void setPlotPanelOVClass(int mode, PlotType plotType,
+				PlotType plotType2);
 
-		void setPlotPanelRegression(int mode);
+		void setPlotPanelRegression(int mode, PlotType plotType,
+				PlotType plotType2);
 
-		void setPlotPanelMultiVar(int mode);
+		void setPlotPanelMultiVar(int mode, PlotType plotType);
 
 		void loadDataTable(ArrayList<GeoElement> dataArray);
 
@@ -144,7 +148,7 @@ public class DataAnalysisModel {
 	 * END constructor
 	 */
 
-	public void setView(DataSource dataSource, int mode, PlotType polyType1,
+	public void setView(DataSource dataSource, int mode, PlotType plotType1,
 			PlotType plotType2, boolean forceModeUpdate) {
 
 		ctrl.setDataSource(dataSource);
@@ -169,17 +173,9 @@ public class DataAnalysisModel {
 			// first update the lists to make sure onModeChange
 			// does not fail on one var -> two var mode change
 			ctrl.updateDataLists();
-			getListener().onModeChange();
 
-			// ctrl.get
-			// dataAnalysisView
-			//
-			// getListener().getController().get
-			//
-			// getListener().getDisplayModel(0).
-			//
-			// dataDisplayPanel1.setPanel(polyType1, mode);
-			// dataDisplayPanel2.setPanel(polyType2, mode);
+			// GGB-2385 need to pass plotType1, plotType2 here
+			getListener().onModeChange(plotType1, plotType2);
 
 			// TODO: why do this here?
 			ctrl.updateDataAnalysisView();
@@ -197,31 +193,37 @@ public class DataAnalysisModel {
 	/**
 	 * set the data plot panels with default plots
 	 */
-	public void setDataPlotPanels() {
+	public void setDataPlotPanels(PlotType plotType1, PlotType plotType2) {
 
 		switch (getMode()) {
 
 		default:
 		case MODE_ONEVAR:
 			if (!isNumericData()) {
-				getListener().setPlotPanelOVNotNumeric(getMode());
+				getListener().setPlotPanelOVNotNumeric(getMode(),
+						barchart(plotType1), barchart(plotType2));
 
 			} else if (groupType() == GroupType.RAWDATA) {
-				getListener().setPlotPanelOVRawData(getMode());
+				getListener().setPlotPanelOVRawData(getMode(),
+						histogram(plotType1), boxplot(plotType2));
 			} else if (groupType() == GroupType.FREQUENCY) {
-				getListener().setPlotPanelOVFrequency(getMode());
+				getListener().setPlotPanelOVFrequency(getMode(),
+						barchart(plotType1), boxplot(plotType2));
 
 			} else if (groupType() == GroupType.CLASS) {
-				getListener().setPlotPanelOVClass(getMode());
+				getListener().setPlotPanelOVClass(getMode(),
+						histogram(plotType1), histogram(plotType2));
 			}
 			break;
 
 		case MODE_REGRESSION:
-			getListener().setPlotPanelRegression(getMode());
+			getListener().setPlotPanelRegression(getMode(),
+					scatterplot(plotType1), residual(plotType2));
 			break;
 
 		case MODE_MULTIVAR:
-			getListener().setPlotPanelMultiVar(getMode());
+			getListener().setPlotPanelMultiVar(getMode(),
+					multiboxplot(plotType1));
 			showDataDisplayPanel2 = false;
 			break;
 		}
@@ -230,6 +232,54 @@ public class DataAnalysisModel {
 	// ======================================
 	// Getters/setters
 	// ======================================
+
+	private PlotType residual(PlotType pt) {
+		if (pt == null) {
+			return PlotType.RESIDUAL;
+		}
+
+		return pt;
+	}
+
+	private PlotType scatterplot(PlotType pt) {
+		if (pt == null) {
+			return PlotType.SCATTERPLOT;
+		}
+
+		return pt;
+	}
+
+	private PlotType multiboxplot(PlotType pt) {
+		if (pt == null) {
+			return PlotType.MULTIBOXPLOT;
+		}
+
+		return pt;
+	}
+
+	private PlotType histogram(PlotType pt) {
+		if (pt == null) {
+			return PlotType.HISTOGRAM;
+		}
+
+		return pt;
+	}
+
+	private PlotType boxplot(PlotType pt) {
+		if (pt == null) {
+			return PlotType.BOXPLOT;
+		}
+
+		return pt;
+	}
+
+	private PlotType barchart(PlotType pt) {
+		if (pt == null) {
+			return PlotType.BARCHART;
+		}
+
+		return pt;
+	}
 
 	public DataAnalysisController getDaCtrl() {
 		return ctrl;
