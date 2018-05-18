@@ -540,7 +540,7 @@ __GGB__keysVar["nl-NL"].command = {
     "Logistic.Syntax": "[ <Mean>, <Scale>, <Variable Value> ]\n[ <Mean>, <Scale>, x, <Boolean Cumulative> ]",
     "LowerSum": "Ondersom",
     "LowerSum.Syntax": "[ <Functie>, <Getal>, <Getal>, <Getal> ]",
-    "MAD": "MAD",
+    "MAD": "GAA",
     "MAD.Syntax": "[ <Lijst met waarnemingsgetallen> ]\n[ <Lijst met getallen>, <Lijst met Frequencies> ]",
     "MatrixPlot": "MatrixPlot",
     "MatrixRank": "Rang",

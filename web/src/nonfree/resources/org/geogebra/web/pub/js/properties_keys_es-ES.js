@@ -540,7 +540,7 @@ __GGB__keysVar["es-ES"].command = {
     "Logistic.Syntax": "[ <Media>, <Escala>, <Valor> ]\n[ <Media>, <Escala>, x, <Acumulada o no (true/false)> ]",
     "LowerSum": "SumaInferior",
     "LowerSum.Syntax": "[ <Funci\xf3n>, <Extremo inferior del intervalo>, <Extremo superior del intervalo>, <N\xfamero de rect\xe1ngulos> ]",
-    "MAD": "MAD",
+    "MAD": "DM",
     "MAD.Syntax": "[ <Lista de datos brutos> ]\n[ <Lista de n\xfameros>, <Lista de frecuencias> ]",
     "MatrixPlot": "DiagramaMatriz",
     "MatrixRank": "RangoMatriz",
