@@ -135,11 +135,11 @@ public class DataDisplayPanelW extends FlowPanel implements
 	 * @param daView
 	 *            daView
 	 */
-	public DataDisplayPanelW(DataAnalysisViewW daView) {
+	public DataDisplayPanelW(DataAnalysisViewW daView, int id) {
 		this.app = daView.getApp();
 		this.loc = app.getLocalization();
 		daModel = daView.getModel();
-		setModel(new DataDisplayModel(daModel, this));
+		setModel(new DataDisplayModel(daModel, this, id));
 		this.daView = daView;
 		this.sample = new GeoNumeric(app.getKernel().getConstruction());
 

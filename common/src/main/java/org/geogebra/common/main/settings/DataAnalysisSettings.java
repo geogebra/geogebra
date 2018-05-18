@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
+import org.geogebra.common.util.debug.Log;
 
 public class DataAnalysisSettings {
 	private ArrayList<String> items = new ArrayList<>();
 	private int mode = DataAnalysisModel.MODE_ONEVAR;
 	private Regression regression = Regression.NONE;
+	private PlotType plotType1 = PlotType.BARCHART;
+	private PlotType plotType2 = PlotType.BOXPLOT;
 
 	public void addItem(String ranges) {
 		items.add(ranges);
@@ -28,8 +31,14 @@ public class DataAnalysisSettings {
 		return mode;
 	}
 
-	public void setPlotType(int i, PlotType valueOf) {
-		// TODO Auto-generated method stub
+	public void setPlotType(int i, PlotType plotType) {
+
+		if (i == 0) {
+			this.plotType1 = plotType;
+		} else {
+			this.plotType2 = plotType;
+
+		}
 
 	}
 
@@ -40,6 +49,11 @@ public class DataAnalysisSettings {
 
 	public Regression getRegression() {
 		return regression;
+	}
+
+	public PlotType getPlotType(int i) {
+		Log.error("get i = " + i + "  " + plotType1 + " " + plotType2);
+		return i == 0 ? plotType1 : plotType2;
 	}
 
 }

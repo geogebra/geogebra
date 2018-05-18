@@ -127,12 +127,12 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	 * @param daView
 	 *            daView
 	 */
-	public DataDisplayPanelD(DataAnalysisViewD daView) {
+	public DataDisplayPanelD(DataAnalysisViewD daView, int id) {
 
 		this.app = daView.getApp();
 		this.loc = app.getLocalization();
 		daModel = daView.getModel();
-		setModel(new DataDisplayModel(daModel, this));
+		setModel(new DataDisplayModel(daModel, this, id));
 		// create the GUI
 		this.daView = daView;
 		createGUI();

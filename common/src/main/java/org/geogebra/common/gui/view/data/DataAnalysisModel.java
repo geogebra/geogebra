@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -143,8 +144,8 @@ public class DataAnalysisModel {
 	 * END constructor
 	 */
 
-	public void setView(DataSource dataSource, int mode,
-			boolean forceModeUpdate) {
+	public void setView(DataSource dataSource, int mode, PlotType polyType1,
+			PlotType plotType2, boolean forceModeUpdate) {
 
 		ctrl.setDataSource(dataSource);
 
@@ -169,6 +170,16 @@ public class DataAnalysisModel {
 			// does not fail on one var -> two var mode change
 			ctrl.updateDataLists();
 			getListener().onModeChange();
+
+			// ctrl.get
+			// dataAnalysisView
+			//
+			// getListener().getController().get
+			//
+			// getListener().getDisplayModel(0).
+			//
+			// dataDisplayPanel1.setPanel(polyType1, mode);
+			// dataDisplayPanel2.setPanel(polyType2, mode);
 
 			// TODO: why do this here?
 			ctrl.updateDataAnalysisView();
@@ -471,7 +482,8 @@ public class DataAnalysisModel {
 			DataSource source = new DataSource(app);
 			source.setDataListFromSettings(settings.getItems(),
 					settings.getMode());
-			this.setView(source, settings.getMode(), true);
+			this.setView(source, settings.getMode(), settings.getPlotType(0),
+					settings.getPlotType(1), true);
 			settings.getItems().clear();
 		}
 

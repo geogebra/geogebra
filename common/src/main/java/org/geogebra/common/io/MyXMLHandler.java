@@ -2183,10 +2183,11 @@ public class MyXMLHandler implements DocHandler {
 					.setMode(Integer.parseInt(attrs.get("mode")));
 			app.getSettings().getDataAnalysis()
 					.setRegression(Regression.valueOf(attrs.get("regression")));
+			
 			app.getSettings().getDataAnalysis().setPlotType(0,
 					PlotType.valueOf(attrs.get("plot1")));
 			app.getSettings().getDataAnalysis().setPlotType(1,
-					PlotType.valueOf(attrs.get("plot1")));
+					PlotType.valueOf(attrs.get("plot2")));
 		} catch (RuntimeException e) {
 			return false;
 		}

@@ -30,7 +30,7 @@ public class DataDisplayModel {
 	private DataAnalysisModel daModel;
 	private StatGeo statGeo;
 	// currently selected plot type
-	private PlotType selectedPlot;
+	//private PlotType selectedPlot;
 
 	private StatPanelSettings settings;
 
@@ -43,6 +43,10 @@ public class DataDisplayModel {
 
 	private boolean hasControlPanel = true;
 	private IDataDisplayListener listener;
+
+	// 0 or 1
+	// can have two open at once
+	private int id;
 
 	public interface IDataDisplayListener {
 
@@ -146,12 +150,13 @@ public class DataDisplayModel {
 	 *            daModel
 	 */
 	public DataDisplayModel(DataAnalysisModel daModel,
-			IDataDisplayListener listener) {
+			IDataDisplayListener listener, int id) {
 
 		this.daModel = daModel;
 		this.app = daModel.getApp();
 		this.statGeo = daModel.getStatGeo();
 		this.listener = listener;
+		this.id = id;
 		plotGeoList = new ArrayList<>();
 
 		// create settings
@@ -266,7 +271,7 @@ public class DataDisplayModel {
 		}
 
 		try {
-			switch (selectedPlot) {
+			switch (getSelectedPlot()) {
 
 			case HISTOGRAM:
 
@@ -302,7 +307,7 @@ public class DataDisplayModel {
 					}
 					if (settings.isShowFrequencyTable()) {
 						freqTableGeo = statGeo.createFrequencyTableGeo(
-								(GeoNumeric) histogram, selectedPlot);
+								(GeoNumeric) histogram, getSelectedPlot());
 						plotGeoList.add(freqTableGeo);
 					}
 				}
@@ -369,7 +374,7 @@ public class DataDisplayModel {
 					}
 					if (settings.isShowFrequencyTable()) {
 						freqTableGeo = statGeo.createFrequencyTableGeo(
-								(GeoNumeric) barChart, selectedPlot);
+								(GeoNumeric) barChart, getSelectedPlot());
 						plotGeoList.add(freqTableGeo);
 					}
 					listener.resize();
@@ -513,7 +518,7 @@ public class DataDisplayModel {
 
 			if (histogram != null) {
 				histogram.setEuclidianVisible(settings.isShowHistogram()
-						&& selectedPlot == PlotType.HISTOGRAM);
+						&& getSelectedPlot() == PlotType.HISTOGRAM);
 				histogram.updateRepaint();
 			}
 
@@ -695,11 +700,11 @@ public class DataDisplayModel {
 	}
 
 	public PlotType getSelectedPlot() {
-		return selectedPlot;
+		return app.getSettings().getDataAnalysis().getPlotType(id);
 	}
 
 	public void setSelectedPlot(PlotType selectedPlot) {
-		this.selectedPlot = selectedPlot;
+		app.getSettings().getDataAnalysis().setPlotType(id, selectedPlot);
 	}
 
 }

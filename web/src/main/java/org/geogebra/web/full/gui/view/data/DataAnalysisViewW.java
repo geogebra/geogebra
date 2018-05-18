@@ -153,8 +153,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		dataSource.setFrequencyFromColumn(true);
 
 		dataSource.setDataListFromSelection(mode);
-		dataDisplayPanel1 = new DataDisplayPanelW(this);
-		dataDisplayPanel2 = new DataDisplayPanelW(this);
+		dataDisplayPanel1 = new DataDisplayPanelW(this, 0);
+		dataDisplayPanel2 = new DataDisplayPanelW(this, 1);
 
 		comboPanelSplit = new SplitLayoutPanel();
 		comboPanelSplit.setStyleName("comboSplitLayout");
@@ -165,7 +165,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		mainSplit.setWidgetMinSize(comboPanelSplit, 500);
 		mainSplit.setStyleName("daMainSplit");
 		add(mainSplit);
-		model.setView(dataSource, mode, forceModeUpdate);
+		model.setView(dataSource, mode, null, null, forceModeUpdate);
 		//		updateFonts();
 		setLabels();
 		updateGUI();

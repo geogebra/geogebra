@@ -110,10 +110,10 @@ public class DataAnalysisViewD extends JPanel
 		daCtrl = new DataAnalysisControllerD(app, this);
 		model = new DataAnalysisModel(app, this, daCtrl);
 
-		dataDisplayPanel1 = new DataDisplayPanelD(this);
-		dataDisplayPanel2 = new DataDisplayPanelD(this);
+		dataDisplayPanel1 = new DataDisplayPanelD(this, 0);
+		dataDisplayPanel2 = new DataDisplayPanelD(this, 1);
 
-		setView(null, mode, true);
+		setView(null, mode, false);
 		model.setIniting(false);
 
 	}
@@ -125,7 +125,7 @@ public class DataAnalysisViewD extends JPanel
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 
-		model.setView(dataSource, mode, forceModeUpdate);
+		model.setView(dataSource, mode, null, null, forceModeUpdate);
 		updateFonts();
 		updateGUI();
 		revalidate();
