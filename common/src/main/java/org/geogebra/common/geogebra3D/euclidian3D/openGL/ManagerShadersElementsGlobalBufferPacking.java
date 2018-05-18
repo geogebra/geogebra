@@ -435,20 +435,30 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 	@Override
 	protected void setIndicesForDrawTriangleFans(int size) {
-		if (indices == null) {
-			indices = new ReusableArrayList<>(size);
+		if (currentBufferManager == null) {
+			super.setIndicesForDrawTriangleFans(size);
+		} else {
+			if (indices == null) {
+				indices = new ReusableArrayList<>(size);
+			}
+			indices.setLength(0);
 		}
-		indices.setLength(0);
 	}
 
 	@Override
 	protected void putToIndicesForDrawTriangleFans(short index) {
-		indices.addValue(index);
+		if (currentBufferManager == null) {
+			super.putToIndicesForDrawTriangleFans(index);
+		} else {
+			indices.addValue(index);
+		}
 	}
 
 	@Override
 	protected void rewindIndicesForDrawTriangleFans() {
-		// nothing to do
+		if (currentBufferManager == null) {
+			super.rewindIndicesForDrawTriangleFans();
+		}
 	}
 
 	/**
