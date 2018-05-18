@@ -1505,7 +1505,9 @@ public abstract class GlobalKeyDispatcher {
 			return true;
 		}
 
-		boolean vertical = true;
+		// when 2 or 3 sliders selected they can be controlled separately with
+		// plus/minus/up/down/left/right
+		int index = -1;
 
 		double changeVal = 0;
 		// F2, PLUS, MINUS keys
@@ -1524,24 +1526,30 @@ public abstract class GlobalKeyDispatcher {
 		case PLUS:
 		case ADD: // can be own key on some keyboard
 		case EQUALS: // same key as plus (on most keyboards)
+			changeVal = base;
+			index = 2;
+			break;
 		case UP:
 			changeVal = base;
-			vertical = true;
+			index = 0;
 			break;
 		case RIGHT:
 			changeVal = base;
-			vertical = false;
+			index = 1;
 			break;
 
 		case MINUS:
 		case SUBTRACT:
+			changeVal = -base;
+			index = 2;
+			break;
 		case DOWN:
 			changeVal = -base;
-			vertical = true;
+			index = 0;
 			break;
 		case LEFT:
 			changeVal = -base;
-			vertical = false;
+			index = 1;
 			break;
 		// case ESCAPE:
 		// if (!fromSpreadsheet) {
@@ -1556,8 +1564,13 @@ public abstract class GlobalKeyDispatcher {
 		 */
 		// change all geoelements
 		if (changeVal != 0) {
-			boolean twoSliders = geos.size() == 2 && geos.get(0).isGeoNumeric()
-					&& geos.get(1).isGeoNumeric();
+
+			// exactly 2 or 3 sliders selected
+			boolean multipleSliders = geos.size() > 1
+					&& geos.get(0).isGeoNumeric()
+					&& geos.get(1).isGeoNumeric()
+					&& (geos.size() == 2 || (geos.size() == 3
+							&& geos.get(2).isGeoNumeric()));
 
 			for (int i = geos.size() - 1; i >= 0; i--) {
 
@@ -1567,8 +1580,7 @@ public abstract class GlobalKeyDispatcher {
 
 					// update number
 					if (geo.isGeoNumeric()
-							&& (!twoSliders || ((vertical && i == 0)
-									|| (!vertical && i == 1)))) {
+							&& (!multipleSliders || index == i)) {
 						GeoNumeric num = (GeoNumeric) geo;
 						double numStep = getAnimationStep(num);
 						double newValue = num.getValue()
