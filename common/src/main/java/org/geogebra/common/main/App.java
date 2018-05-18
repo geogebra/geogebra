@@ -3202,7 +3202,7 @@ public abstract class App implements UpdateSelection {
 	 *            axes scale ratio
 	 */
 	public final void zoomAxesRatio(double axesratio) {
-		getActiveEuclidianView().zoomAxesRatio(axesratio, true);
+		getActiveEuclidianView().zoomAxesRatio(axesratio, 1, true);
 	}
 
 	/**

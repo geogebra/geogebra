@@ -5445,7 +5445,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            true to store undo step after
 	 */
 	@Override
-	public final void zoomAxesRatio(double newRatio, boolean storeUndo) {
+	public final void zoomAxesRatio(double newRatioX, double newRatioY,
+			boolean storeUndo) {
 		if (!isZoomable()) {
 			return;
 		}
@@ -5455,7 +5456,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (axesRatioZoomer == null) {
 			axesRatioZoomer = newZoomer();
 		}
-		axesRatioZoomer.init(newRatio, storeUndo);
+		axesRatioZoomer.initAxes(newRatioX, newRatioY, storeUndo);
 		axesRatioZoomer.startAnimation();
 	}
 
@@ -5519,7 +5520,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			if (axesRatioZoomer == null) {
 				axesRatioZoomer = newZoomer();
 			}
-			axesRatioZoomer.init(1, false);
+			axesRatioZoomer.initAxes(2, 2, false);
 			axesRatioZoomer.setStandardViewAfter(xzero, yzero);
 			axesRatioZoomer.startAnimation();
 		} else {

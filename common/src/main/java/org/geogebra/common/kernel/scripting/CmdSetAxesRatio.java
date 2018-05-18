@@ -40,7 +40,7 @@ public class CmdSetAxesRatio extends CmdScripting {
 				GeoNumeric numGeo2 = (GeoNumeric) arg[1];
 				EuclidianView ev = app.getActiveEuclidianView();
 				if (ev.isDefault2D()) {
-					ev.zoomAxesRatio(numGeo.getDouble() / numGeo2.getDouble(),
+					ev.zoomAxesRatio(numGeo.getDouble(), numGeo2.getDouble(),
 							true);
 				} else if (ev.isEuclidianView3D()) {
 					((EuclidianView3DInterface) ev).zoomAxesRatio(
@@ -62,7 +62,7 @@ public class CmdSetAxesRatio extends CmdScripting {
 				GeoNumeric numGeo3 = (GeoNumeric) arg[2];
 				EuclidianView ev = app.getActiveEuclidianView();
 				if (ev.isDefault2D()) {
-					ev.zoomAxesRatio(numGeo.getDouble() / numGeo2.getDouble(),
+					ev.zoomAxesRatio(numGeo.getDouble(), numGeo2.getDouble(),
 							true);
 				} else if (ev.isEuclidianView3D()) {
 					((EuclidianView3DInterface) ev).zoomAxesRatio(

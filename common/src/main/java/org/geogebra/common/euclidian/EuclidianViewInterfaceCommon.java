@@ -993,14 +993,17 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * Zooms towards the given axes scale ratio. Note: Only the y-axis is
-	 * changed here. ratio = yscale / xscale;
+	 * changed here unless newRatioY == 1 and then the x-axis is changed.
 	 * 
-	 * @param newRatio
-	 *            new yscale / xscale ratio
+	 * @param newRatioX
+	 *            x:y ratio is newRatioX / newRatioY
+	 * @param newRatioY
+	 *            x:y ratio is newRatioX / newRatioY
 	 * @param storeUndo
 	 *            true to store undo step after
 	 */
-	public void zoomAxesRatio(double newRatio, boolean storeUndo);
+	public void zoomAxesRatio(double newRatioX, double newRatioY,
+			boolean storeUndo);
 
 	@Override
 	public EuclidianSettings getSettings();

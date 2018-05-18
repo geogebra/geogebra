@@ -9,7 +9,7 @@ import org.geogebra.common.util.DoubleUtil;
 public abstract class CoordSystemAnimation {
 
 	private enum AnimationMode {
-		ZOOM, ZOOM_RW, AXES, MOVE
+		ZOOM, ZOOM_RW, AXES_X, AXES_Y, MOVE
 	}
 
 	private static final int MAX_STEPS = 15; // frames
@@ -73,15 +73,23 @@ public abstract class CoordSystemAnimation {
 	 * @param doStoreUndo
 	 *            true to store undo
 	 */
-	public void init(double ratio, boolean doStoreUndo) {
+	public void initAxes(double ratioX, double ratioY, boolean doStoreUndo) {
 		// this.ratio = ratio;
 		this.storeUndo = doStoreUndo;
-
-		// zoomFactor = ratio / scaleRatio;
-		oldScale = view.getYscale();
-		newScale = view.getXscale() * ratio; // new yscale
 		this.steps = MAX_STEPS;
-		mode = AnimationMode.AXES;
+
+		// check ratioY so that SetAxesRatio(1,1) keeps old behaviour
+		if (ratioY == 1 && ratioY != 1) {
+
+			oldScale = view.getXscale();
+			newScale = view.getYscale() / ratioX; // new xscale
+			mode = AnimationMode.AXES_X;
+		} else {
+
+			oldScale = view.getYscale();
+			newScale = view.getXscale() * ratioX / ratioY; // new yscale
+			mode = AnimationMode.AXES_Y;
+		}
 	}
 
 	/**
@@ -170,7 +178,12 @@ public abstract class CoordSystemAnimation {
 			stopAnimation();
 		} else {
 			switch (mode) {
-			case AXES:
+			case AXES_X:
+				factor = 1.0 + ((counter * add) / oldScale);
+				view.setCoordSystem(view.getXZero(), view.getYZero(),
+						oldScale * factor, view.getYscale());
+				break;
+			case AXES_Y:
 				factor = 1.0 + ((counter * add) / oldScale);
 				view.setCoordSystem(view.getXZero(), view.getYZero(),
 						view.getXscale(), oldScale * factor);
@@ -201,7 +214,11 @@ public abstract class CoordSystemAnimation {
 		stopTimer();
 		// setDrawMode(DRAW_MODE_BACKGROUND_IMAGE);
 		switch (mode) {
-		case AXES:
+		case AXES_X:
+			view.setCoordSystem(view.getXZero(), view.getYZero(), newScale,
+					view.getYscale());
+			break;
+		case AXES_Y:
 			view.setCoordSystem(view.getXZero(), view.getYZero(),
 					view.getXscale(), newScale);
 			break;
@@ -251,7 +268,8 @@ public abstract class CoordSystemAnimation {
 			return;
 		}
 		switch (mode) {
-		case AXES:
+		case AXES_X:
+		case AXES_Y:
 			add = (newScale - oldScale) / steps;
 			break;
 		case ZOOM:
