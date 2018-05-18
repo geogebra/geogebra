@@ -79,7 +79,7 @@ public abstract class CoordSystemAnimation {
 		this.steps = MAX_STEPS;
 
 		// check ratioY so that SetAxesRatio(1,1) keeps old behaviour
-		if (ratioY == 1 && ratioY != 1) {
+		if (ratioY == 1 && ratioX != 1) {
 
 			oldScale = view.getXscale();
 			newScale = view.getYscale() / ratioX; // new xscale
