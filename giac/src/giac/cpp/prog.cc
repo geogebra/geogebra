@@ -10962,11 +10962,13 @@ namespace giac {
       return _prod(eval(g,eval_level(contextptr),contextptr),contextptr);
     gen f=b;
     unary_function_ptr u=b._SYMBptr->sommet;
+    bool cmd=false;
     if (a!=at_random){
       f=b._SYMBptr->feuille;
       if (u==at_of && f.type==_VECT && f._VECTptr->size()==2){
 	gen fn=eval(f._VECTptr->front(),1,contextptr);
 	if (fn.type==_FUNC){
+	  cmd=true;
 	  f=f._VECTptr->back();
 	  u=*fn._FUNCptr;
 	  b=symbolic(u,f);
@@ -10981,7 +10983,7 @@ namespace giac {
 	if (u==at_remove)
 	  v.push_back(a);
 	else {
-	  if (ckmatrix(m) && v.front().type==_IDNT){ // ex: m.reshape(2,4)
+	  if (!cmd && ckmatrix(m) && v.front().type==_IDNT){ // ex: m.reshape(2,4)
 	    b=v.front();
 	    v.front()=m;
 	    v=makevecteur(b,gen(v,_SEQ__VECT));
