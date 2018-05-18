@@ -1762,7 +1762,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	@Override
 	public boolean isInRegion(double x0, double y0) {
-		return isInRegion(x0, y0, points);
+		return isInRegion(x0, y0, getPoints());
 	}
 
 	/**
