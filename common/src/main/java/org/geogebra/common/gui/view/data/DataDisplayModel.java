@@ -94,12 +94,23 @@ public class DataDisplayModel {
 	@SuppressWarnings("javadoc")
 	// keys for these need to be in "menu" category of ggbtrans
 	public enum PlotType {
-		HISTOGRAM("Histogram"), BOXPLOT("Boxplot"), DOTPLOT(
-				"DotPlot"), NORMALQUANTILE("NormalQuantilePlot"), STEMPLOT(
-						"StemPlot"), BARCHART("BarChart"), SCATTERPLOT(
-								"Scatterplot"), RESIDUAL(
-										"ResidualPlot"), MULTIBOXPLOT(
-												"StackedBoxPlots");
+		HISTOGRAM("Histogram"),
+
+		BOXPLOT("Boxplot"),
+
+		DOTPLOT("DotPlot"),
+
+		NORMALQUANTILE("NormalQuantilePlot"),
+
+		STEMPLOT("StemPlot"),
+
+		BARCHART("BarChart"),
+
+		SCATTERPLOT("Scatterplot"),
+
+		RESIDUAL("ResidualPlot"),
+
+		MULTIBOXPLOT("StackedBoxPlots");
 
 		/**
 		 * the associated key from menu.properties app.getMenu(key) gives the
