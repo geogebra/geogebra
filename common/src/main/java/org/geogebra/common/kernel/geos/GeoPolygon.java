@@ -1762,16 +1762,30 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	@Override
 	public boolean isInRegion(double x0, double y0) {
+		return isInRegion(x0, y0, points);
+	}
 
+	/**
+	 * says if the point (x0,y0) is in the region defined by vertices
+	 * 
+	 * @param x0
+	 *            x-coord of the point
+	 * @param y0
+	 *            y-coord of the point
+	 * @param pts
+	 *            vertices
+	 * @return true if the point (x0,y0) is in the region
+	 */
+	public static boolean isInRegion(double x0, double y0, GeoPointND[] pts) {
 		double x1, y1, x2, y2;
-		int numPoints = getPointsLength();
-		x1 = getPointX(numPoints - 1) - x0;
-		y1 = getPointY(numPoints - 1) - y0;
+		int numPoints = pts.length;
+		x1 = pts[numPoints - 1].getInhomX() - x0;
+		y1 = pts[numPoints - 1].getInhomY() - y0;
 
 		boolean ret = false;
 		for (int i = 0; i < numPoints; i++) {
-			x2 = getPointX(i) - x0;
-			y2 = getPointY(i) - y0;
+			x2 = pts[i].getInhomX() - x0;
+			y2 = pts[i].getInhomY() - y0;
 			int inter = intersectOx(x1, y1, x2, y2);
 			if (inter == 2) {
 				return true; // point on an edge
@@ -2746,9 +2760,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		for (GeoSegmentND segment : segments) {
 			segment.setObjColor(geo.getObjectColor());
 			segment.updateVisualStyle(GProperty.COLOR);
-
 		}
-
 	}
 
 	@Override

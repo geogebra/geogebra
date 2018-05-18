@@ -20,24 +20,28 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.plugin.GeoClass;
 
 public class AlgoRandomPointInPoints extends AlgoElement {
 
 	protected GeoPointND[] points; // input
 	protected GeoPoint randomPoint; // output
+	private GeoList list;
 
 	public AlgoRandomPointInPoints(Construction cons, String label,
-			GeoPointND[] points) {
-		this(cons, points);
+			GeoPointND[] points, GeoList list) {
+		this(cons, points, list);
 		randomPoint.setLabel(label);
 	}
 
-	AlgoRandomPointInPoints(Construction cons, GeoPointND[] points) {
+	AlgoRandomPointInPoints(Construction cons, GeoPointND[] points, GeoList list) {
 		super(cons);
 		this.points = points;
+		this.list = list;
 		createOutput(cons);
 		setInputOutput(); // for AlgoElement
 
@@ -53,8 +57,8 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 		// none here
 	}
 
-	protected void createOutput(Construction cons) {
-		randomPoint = new GeoPoint(cons);
+	protected void createOutput(Construction cons1) {
+		randomPoint = new GeoPoint(cons1);
 	}
 
 	@Override
@@ -65,11 +69,14 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[points.length];
-		for (int i = 0; i < points.length; i++) {
-			input[i] = (GeoElement) points[i];
+		if (list != null) {
+			input = new GeoElement[] { list };
+		}else {
+			input = new GeoElement[points.length];
+			for (int i = 0; i < points.length; i++) {
+				input[i] = (GeoElement) points[i];
+			}
 		}
-
 		setOnlyOutput(randomPoint);
 		setDependencies(); // done by AlgoElement
 	}
@@ -85,9 +92,14 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 	// find random point in the polygon P[0], ..., P[n]
 	@Override
 	public void compute() {
-
+		if (list != null) {
+			updatePointArray();
+		}
 		int size = points.length;
-
+		if (size == 0) {
+			randomPoint.setUndefined();
+			return;
+		}
 		GeoPointND p = points[0];
 		double xMax = p.getInhomX();
 		double xMin = p.getInhomX();
@@ -124,7 +136,6 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 			}
 		}
 
-		GeoPolygon polygon = new GeoPolygon(cons, points);
 		boolean foundRandom = false;
 		double xRandom, yRandom;
 
@@ -134,11 +145,28 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 			yRandom = yMin
 					+ (yMax - yMin) * cons.getApplication().getRandomNumber();
 
-			if (polygon.isInRegion(xRandom, yRandom)) {
+			if (GeoPolygon.isInRegion(xRandom, yRandom, points)) {
 				randomPoint.setCoords(xRandom, yRandom, 1);
 				foundRandom = true;
 			}
 		}
+	}
+
+	protected void updatePointArray() {
+		// check if we have a point list
+		if (!list.getElementType().equals(GeoClass.POINT)
+				&& !list.getElementType().equals(GeoClass.POINT3D)) {
+			points = new GeoPointND[0];
+			return;
+		}
+
+		// create new points array
+		int size = list.size();
+		points = new GeoPointND[size];
+		for (int i = 0; i < size; i++) {
+			points[i] = (GeoPointND) list.get(i);
+		}
+
 	}
 
 }

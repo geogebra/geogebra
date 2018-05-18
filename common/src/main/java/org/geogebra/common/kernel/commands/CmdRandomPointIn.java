@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.algos.AlgoRandomPointInPoints;
 import org.geogebra.common.kernel.algos.AlgoRandomPointInPolygon;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -46,6 +47,11 @@ public class CmdRandomPointIn extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getRandomPoint() };
 				return ret;
+			} else if (arg[0] instanceof GeoList) {
+				AlgoRandomPointInPoints algo = new AlgoRandomPointInPoints(cons, c.getLabel(), null,
+						(GeoList) arg[0]);
+				GeoElement[] ret = { algo.getRandomPoint() };
+				return ret;
 			} else {
 				throw argErr(c, arg[0]);
 			}
@@ -70,7 +76,7 @@ public class CmdRandomPointIn extends CommandProcessor {
 			// everything ok
 
 			AlgoRandomPointInPoints algo = new AlgoRandomPointInPoints(cons,
-					c.getLabel(), points);
+					c.getLabel(), points, null);
 
 			GeoElement[] ret = { algo.getRandomPoint() };
 			return ret;
