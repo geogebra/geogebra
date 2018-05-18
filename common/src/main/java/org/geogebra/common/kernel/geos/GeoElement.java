@@ -8478,7 +8478,6 @@ public abstract class GeoElement extends ConstructionElement
 				|| geo.getDefinition().isConstant()) {
 			this.definition = geo.getDefinition();
 		} else {
-			Log.printStacktrace("NULL for" + getLabelSimple());
 			this.definition = null;
 		}
 	}
