@@ -6171,8 +6171,12 @@ unsigned int ConvertUTF8toUTF16 (
 	    posmatplotlib=cur.find("pylab");
 	  int cs=int(cur.size());
 	  int posi=cur.find(" as ");
-	  if (posi>pos+5 && posi<int(cur.size()))
-	    cur=cur.substr(posi+4,cur.size()-posi-4)+":="+cur.substr(7,posi-7)+';';
+	  int posp=cur.find('.');
+	  if (posp>=posi || posp<0)
+	    posp=posi;
+	  if (posi>pos+5 && posi<int(cur.size())){
+	    cur=cur.substr(posi+4,cur.size()-posi-4)+":="+cur.substr(7,posp-7)+';';
+	  }
 	  else
 	    cur=cur.substr(pos+7,cur.size()-pos-7);
 	  python_import(cur,cs,posturtle,poscmath,posmath,posnumpy,posmatplotlib,contextptr);
