@@ -1438,7 +1438,7 @@ __GGB__keysVar["hr"].menu = {
     "ColumnHeader": "Zaglavlje stupca",
     "ColumnOrder": "Poredak stupca",
     "ColumnPercent": "Stupac %",
-    "ColumnReset": "Vrati po\u010detno stanje stupca",
+    "ColumnReset": "Novi stupac pri povla\u010denju",
     "Columns": "Stupci",
     "Comma": "Zarez",
     "Command": "Naredba",
