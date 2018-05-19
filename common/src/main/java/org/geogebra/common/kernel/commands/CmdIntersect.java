@@ -546,13 +546,13 @@ public class CmdIntersect extends CommandProcessor {
 			return new GeoElement[] { intersectPolynomialConicSingle(
 					c.getLabel(), (GeoFunction) arg[1], (GeoConic) arg[0],
 					(GeoNumberValue) arg[2]) };
-		} else if ((ok[0] = (arg[0].isGeoImplicitPoly()))
+		} else if ((ok[0] = (arg[0].isGeoImplicitCurve()))
 				&& (ok[1] = (arg[1].isGeoLine()))
 				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 			return new GeoElement[] { intersectImplicitpolyLineSingle(
 					c.getLabel(), (GeoImplicit) arg[0], (GeoLine) arg[1],
 					(GeoNumberValue) arg[2]) };
-		} else if ((ok[1] = (arg[1].isGeoImplicitPoly()))
+		} else if ((ok[1] = (arg[1].isGeoImplicitCurve()))
 				&& (ok[0] = (arg[0].isGeoLine()))
 				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 			return new GeoElement[] { intersectImplicitpolyLineSingle(
