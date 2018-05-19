@@ -108,6 +108,7 @@ public class MOWToolbar extends FlowPanel {
 				updateToolbarPosition();
 			}
 		});
+		setMode(app.getMode());
 	}
 
 	private void createSubmenus() {

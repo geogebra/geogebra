@@ -757,7 +757,7 @@ public class GeoFunctionNVar extends GeoElement
 	@Override
 	public void update(boolean drag) {
 		if (fun != null && fun.isBooleanFunction()) {
-			if (isInequality() && fun.getIneqs() == null) {
+			if (fun.getIneqs() == null) {
 				fun.initIneqs(fun.getFunctionExpression(), fun);
 			}
 			isInequality = fun.updateIneqs();
