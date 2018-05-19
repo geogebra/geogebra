@@ -894,6 +894,11 @@ public class FunctionNVar extends ValidExpression
 		} else {
 			expression = new ExpressionNode(expression);
 		}
+		invalidateIneqs();
+	}
+
+	private void invalidateIneqs() {
+		this.ineqs = null;
 	}
 
 	/**
@@ -1209,7 +1214,7 @@ public class FunctionNVar extends ValidExpression
 				.wrap();
 		expression = expression
 				.traverse(CopyReplacer.getReplacer(dummy, newX, kernel)).wrap();
-		this.initIneqs(expression, this);
+		invalidateIneqs();
 	}
 
 	/**
