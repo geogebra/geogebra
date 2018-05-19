@@ -13,17 +13,24 @@ public class PlotterCompletingCursor {
 	public static final float START_DRAW = 0.5f;
 	public static final float END_DRAW = 2f;
 
-	static private float coeff = 30f, coeffCircle = 1.25f,
-			coeffCompleting = 1.25f;
-	private static float r = 0.25f, g = 0.25f, b = 0.25f, a = 0.5f;
-
+	private static float coeff = 30f;
+	private static float coeffCircle = 1.25f;
+	private static float coeffCompleting = 1.25f;
+	private static float r = 0.25f;
+	private static float g = 0.25f;
+	private static float b = 0.25f;
+	private static float a = 0.5f;
+	/** line width */
 	public static final double WIDTH = 10;
 
-	private int index, indexCircle, indexCircleOut;
+	private int index;
+	private int indexCircle;
+	private int indexCircleOut;
 
 	private Manager manager;
 
-	static private float[] u, v;
+	private static float[] u;
+	private static float[] v;
 
 	static int longitude = 32;
 	private Coords p = new Coords(3);
@@ -132,6 +139,10 @@ public class PlotterCompletingCursor {
 		manager.endGeometry();
 	}
 
+	/**
+	 * @param out
+	 *            whether to draw circle out or circle
+	 */
 	public void drawCircle(boolean out) {
 		manager.color(0.5f, 0.5f, 0.5f, 0.5f);
 		if (out) {
@@ -141,6 +152,12 @@ public class PlotterCompletingCursor {
 		}
 	}
 
+	/**
+	 * @param value
+	 *            value
+	 * @param out
+	 *            out
+	 */
 	public void drawCompleting(double value, boolean out) {
 
 		if (value <= 0f) {

@@ -1238,6 +1238,10 @@ public class Coords {
 	 *            plane, and v3
 	 * @param v
 	 *            the direction used for projection
+	 * @param globalCoords
+	 *            output: global coords
+	 * @param inPlaneCoords
+	 *            output: coords in plane
 	 */
 	public void projectPlaneThruV(CoordMatrix m, Coords v, Coords globalCoords,
 			Coords inPlaneCoords) {
@@ -1274,6 +1278,10 @@ public class Coords {
 	 * @param v
 	 *            the direction used for projection (v3 is used instead if v is
 	 *            parallel to the plane)
+	 * @param globalCoords
+	 *            output: global coords
+	 * @param inPlaneCoords
+	 *            output: coords in plane
 	 */
 	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords v,
 			Coords globalCoords, Coords inPlaneCoords) {
@@ -1290,6 +1298,25 @@ public class Coords {
 				inPlaneCoords);
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix, with
+	 * vector v used for direction.
+	 * <p>
+	 * If v is parallel to plane, then plane third vector is used instead
+	 * 
+	 * 
+	 * set two vectors {globalCoords,inPlaneCoords}: the point projected, and
+	 * the original point in plane coords
+	 * 
+	 * @param m
+	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
+	 *            plane, and v3
+	 * @param v
+	 *            the direction used for projection (v3 is used instead if v is
+	 *            parallel to the plane)
+	 * @param globalCoords
+	 *            output: global coords
+	 */
 	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords v,
 			Coords globalCoords) {
 		// check if v is parallel to plane
@@ -1313,6 +1340,25 @@ public class Coords {
 		projectPlane(vx, vy, v, o, globalCoords);
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix, with
+	 * vector v used for direction.
+	 * <p>
+	 * If v is parallel to plane, then plane third vector is used instead
+	 * 
+	 * 
+	 * set two vectors {globalCoords,inPlaneCoords}: the point projected, and
+	 * the original point in plane coords
+	 * 
+	 * @param m
+	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
+	 *            plane, and v3
+	 * @param v
+	 *            the direction used for projection (v3 is used instead if v is
+	 *            parallel to the plane)
+	 * @param inPlaneCoords
+	 *            output: coords in plane
+	 */
 	public void projectPlaneThruVIfPossibleInPlaneCoords(CoordMatrix m,
 			Coords v, Coords inPlaneCoords) {
 
@@ -1371,28 +1417,28 @@ public class Coords {
 	 * calculates projection of this on the 3D-line represented by the matrix {V
 	 * O}.
 	 * 
-	 * @param O
+	 * @param o
 	 *            origin of the line
-	 * @param V
+	 * @param v
 	 *            direction of the line
-	 * @param H
+	 * @param h
 	 *            point projected
 	 * @param parameters
 	 *            {parameter on the line, normalized parameter}
 	 */
-	public void projectLine(Coords O, Coords V, Coords H, double[] parameters) {
+	public void projectLine(Coords o, Coords v, Coords h, double[] parameters) {
 
-		this.sub(O, H); // OM
-		Coords N = V.normalized();
-		double parameter = H.dotproduct(N); // OM.N
-		N.mul(parameter, H); // OH
-		O.add(H, H);
+		this.sub(o, h); // OM
+		Coords N = v.normalized();
+		double parameter = h.dotproduct(N); // OM.N
+		N.mul(parameter, h); // OH
+		o.add(h, h);
 
 		if (parameters == null) {
 			return;
 		}
 
-		parameters[0] = parameter / V.norm();
+		parameters[0] = parameter / v.norm();
 		parameters[1] = parameter;
 
 	}
@@ -1401,7 +1447,7 @@ public class Coords {
 	 * calculates projection of this on the 3D-line represented by the matrix {V
 	 * O}.
 	 * 
-	 * @param O
+	 * @param o
 	 *            origin of the line
 	 * @param P
 	 *            point on the line
@@ -1410,15 +1456,15 @@ public class Coords {
 	 * @param parameters
 	 *            {parameter on the line, normalized parameter}
 	 */
-	public void projectLineSub(Coords O, Coords P, Coords H,
+	public void projectLineSub(Coords o, Coords P, Coords H,
 			double[] parameters) {
-		this.sub(O, H); // OM
-		Coords V = P.sub(O);
+		this.sub(o, H); // OM
+		Coords V = P.sub(o);
 		double vn = V.norm();
 		Coords N = V.normalize();
 		double parameter = H.dotproduct(N); // OM.N
 		N.mul(parameter, H); // OH
-		O.add(H, H);
+		o.add(H, H);
 
 		if (parameters == null) {
 			return;
@@ -1433,20 +1479,20 @@ public class Coords {
 	 * calculates projection of this on the 3D-line represented by the matrix {V
 	 * O}.
 	 * 
-	 * @param O
+	 * @param o
 	 *            origin of the line
 	 * @param V
 	 *            direction of the line
 	 * @param H
 	 *            point projected
 	 */
-	public void projectLine(Coords O, Coords V, Coords H) {
+	public void projectLine(Coords o, Coords V, Coords H) {
 
-		this.sub(O, H); // OM
+		this.sub(o, H); // OM
 		Coords N = V.normalized();
 		double parameter = H.dotproduct(N); // OM.N
 		N.mul(parameter, H); // OH
-		O.add(H, H);
+		o.add(H, H);
 
 	}
 
@@ -1454,7 +1500,7 @@ public class Coords {
 	 * calculates projection of this as far as possible to the 3D-line
 	 * represented by the matrix {V O} regarding V2 direction.
 	 * 
-	 * @param O
+	 * @param o
 	 *            origin of the line
 	 * @param V
 	 *            direction of the line
@@ -1463,7 +1509,7 @@ public class Coords {
 	 * @param project
 	 *            output point projected
 	 */
-	public void projectNearLine(Coords O, Coords V, Coords V2, Coords project) {
+	public void projectNearLine(Coords o, Coords V, Coords V2, Coords project) {
 
 		Coords V3 = V.crossProduct(V2);
 
@@ -1472,7 +1518,7 @@ public class Coords {
 			return;
 		}
 
-		projectPlane(V, V3, V2, O, project);
+		projectPlane(V, V3, V2, o, project);
 	}
 
 	/**
@@ -1481,7 +1527,7 @@ public class Coords {
 	 * 
 	 * If V and V2 are parallel, return O.
 	 * 
-	 * @param O
+	 * @param o
 	 *            origin of the line where this is projected
 	 * @param V
 	 *            direction of the line where this is projected
@@ -1491,7 +1537,7 @@ public class Coords {
 	 *            temp coords
 	 * @return parameter of the proj. point on the line
 	 */
-	public double projectedParameterOnLineWithDirection(Coords O, Coords V,
+	public double projectedParameterOnLineWithDirection(Coords o, Coords V,
 			Coords V2, Coords tmp) {
 
 		Coords V3 = V.crossProduct4(V2);
@@ -1500,7 +1546,7 @@ public class Coords {
 			return 0;
 		}
 
-		O.projectPlaneInPlaneCoords(V2, V3, V, this, tmp);
+		o.projectPlaneInPlaneCoords(V2, V3, V, this, tmp);
 		return -tmp.getZ();
 
 	}

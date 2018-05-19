@@ -362,6 +362,7 @@ abstract public class Manager {
 	 * creates a vertex at coordinates v
 	 * 
 	 * @param v
+	 *            vertex
 	 */
 	final protected void vertex(Coords v) {
 		vertex(v.getX(), v.getY(), v.getZ());
@@ -396,6 +397,7 @@ abstract public class Manager {
 	 * creates a vertex at coordinates v (direct buffer mode)
 	 * 
 	 * @param v
+	 *            vertex
 	 */
 	protected void vertexDirect(Coords3 v) {
 		vertexDirect(v.getXf(), v.getYf(), v.getZf());
@@ -460,6 +462,7 @@ abstract public class Manager {
 	 * creates a normal at coordinates n
 	 * 
 	 * @param n
+	 *            normal
 	 */
 	protected void normal(Coords n) {
 		normal(n.getX(), n.getY(), n.getZ());
@@ -483,6 +486,7 @@ abstract public class Manager {
 	 * creates a normal at coordinates n (direct buffer mode)
 	 * 
 	 * @param n
+	 *            normal
 	 */
 	protected void normalDirect(Coords3 n) {
 		normalDirect(n.getXf(), n.getYf(), n.getZf());
@@ -562,10 +566,18 @@ abstract public class Manager {
 	 * draws a rectangle
 	 * 
 	 * @param x
+	 *            vertex x-coord
 	 * @param y
+	 *            vertex y-coord
 	 * @param z
+	 *            vertex z-coord
 	 * @param width
+	 *            width
 	 * @param height
+	 *            height
+	 * @param old
+	 *            index
+	 * @return new index
 	 */
 	final public int rectangle(double x, double y, double z, double width,
 			double height, int old) {
@@ -578,6 +590,21 @@ abstract public class Manager {
 	abstract protected void rectangleGeometry(double x, double y, double z,
 			double width, double height);
 
+	/**
+	 * @param x
+	 *            vertex x-coord
+	 * @param y
+	 *            vertex y-coord
+	 * @param z
+	 *            vertex z-coord
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 * @param old
+	 *            index
+	 * @return new index
+	 */
 	public int rectangleBounds(double x, double y, double z, double width,
 			double height, int old) {
 		int index = startNewList(old);
@@ -614,15 +641,11 @@ abstract public class Manager {
 		int longitude = 8;
 		double size = radius * viewScale;
 		// App.error(""+size);
-		while (longitude < 2 * size && longitude < getLongitudeDefault()) {// find
-																			// the
-																			// correct
-																			// longitude
-																			// size
+		while (longitude < 2 * size && longitude < getLongitudeDefault()) {
+			// find the correct longitude size
 			longitude *= 2;
 		}
 
-		// Log.debug("getLongitude="+longitude);
 		return longitude;
 	}
 
@@ -747,7 +770,6 @@ abstract public class Manager {
 		 *            coords
 		 */
 		public void scaleXYZ(Coords coords);
-		
 		
 		/**
 		 * scale and normalize x, y, z values

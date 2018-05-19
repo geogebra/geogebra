@@ -23,7 +23,8 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 	private GLBufferManagerCurves bufferManagerCurves;
 	private GLBufferManagerCurvesClipped bufferManagerCurvesClipped;
-	private GLBufferManagerSurfaces bufferManagerSurfaces, bufferManagerSurfacesClosed;
+	private GLBufferManagerSurfaces bufferManagerSurfaces;
+	private GLBufferManagerSurfaces bufferManagerSurfacesClosed;
 	private GLBufferManagerPoints bufferManagerPoints;
 	private GLBufferManagerTemplatesForPoints bufferTemplates;
 	private GLBufferManager currentBufferManager;
@@ -34,7 +35,8 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	private float[] translate;
 	private float scale;
 
-	private class GeometriesSetElementsGlobalBufferPacking extends GeometriesSetElementsGlobalBuffer {
+	private class GeometriesSetElementsGlobalBufferPacking
+			extends GeometriesSetElementsGlobalBuffer {
 
 		private GLBufferManager bufferManager;
 		private static final long serialVersionUID = 1L;
@@ -153,12 +155,14 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		 * geometry handler for buffer packing
 		 *
 		 */
-		public class GeometryElementsGlobalBufferPacking extends Geometry implements GeometryForExport {
+		public class GeometryElementsGlobalBufferPacking extends Geometry
+				implements GeometryForExport {
 
 			private int geometryIndex;
 			private GeometriesSetElementsGlobalBufferPacking geometrySet;
 
-			public GeometryElementsGlobalBufferPacking(GeometriesSetElementsGlobalBufferPacking geometrySet, Type type,
+			public GeometryElementsGlobalBufferPacking(
+					GeometriesSetElementsGlobalBufferPacking geometrySet, Type type,
 					int geometryIndex) {
 				super(type);
 				this.geometrySet = geometrySet;
@@ -244,7 +248,8 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			}
 
 			private void setBufferCurrentIndex() {
-				geometrySet.getBufferManager().setCurrentIndex(geometrySet.getIndex(), geometryIndex);
+				geometrySet.getBufferManager().setCurrentIndex(geometrySet.getIndex(),
+						geometryIndex);
 			}
 
 			@Override

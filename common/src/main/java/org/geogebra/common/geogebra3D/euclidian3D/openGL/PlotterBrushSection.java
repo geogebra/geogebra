@@ -89,6 +89,12 @@ public class PlotterBrushSection {
 		return point.equalsForKernel(center, Kernel.STANDARD_PRECISION);
 	}
 
+	/**
+	 * @param point
+	 *            coordinates
+	 * @param thickness
+	 *            thickness
+	 */
 	public void set(Coords point, float thickness, Coords clockU,
 			Coords clockV) {
 		setCenter(point);
@@ -101,6 +107,12 @@ public class PlotterBrushSection {
 		normalDevD = 0;
 	}
 
+	/**
+	 * @param point
+	 *            coordinates
+	 * @param thickness
+	 *            thickness
+	 */
 	public void set(Coords point, float thickness) {
 		setCenter(point);
 		this.thickness = thickness;
@@ -112,6 +124,12 @@ public class PlotterBrushSection {
 		normalDevD = 0;
 	}
 
+	/**
+	 * @param point
+	 *            coordinates
+	 * @param thickness
+	 *            thickness
+	 */
 	public void set(PlotterBrushSection s, Coords point, float thickness,
 			boolean updateClock, TickStep tick) {
 		setCenter(point);
@@ -225,7 +243,14 @@ public class PlotterBrushSection {
 	// //////////////////////////////////
 	// FOR 3D CURVE
 	// //////////////////////////////////
-
+	/**
+	 * @param s
+	 *            brush section
+	 * @param point
+	 *            coordinates
+	 * @param thickness
+	 *            thickness
+	 */
 	public void set(PlotterBrushSection s, Coords point, float thickness) {
 		setCenter(point);
 		this.thickness = thickness;

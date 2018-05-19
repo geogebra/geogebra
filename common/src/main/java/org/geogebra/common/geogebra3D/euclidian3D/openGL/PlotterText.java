@@ -27,10 +27,15 @@ public class PlotterText {
 	 * draws a rectangle
 	 * 
 	 * @param x
+	 *            vertex x-coord
 	 * @param y
+	 *            vertex y-coord
 	 * @param z
+	 *            vertex z-coord
 	 * @param width
+	 *            width
 	 * @param height
+	 *            height
 	 */
 	public void rectangle(double x, double y, double z, double width,
 			double height) {
@@ -55,6 +60,20 @@ public class PlotterText {
 
 	}
 
+	/**
+	 * Draw rectangle outline
+	 * 
+	 * @param x
+	 *            vertex x-coord
+	 * @param y
+	 *            vertex y-coord
+	 * @param z
+	 *            vertex z-coord
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 */
 	public void rectangleBounds(double x, double y, double z, double width,
 			double height) {
 

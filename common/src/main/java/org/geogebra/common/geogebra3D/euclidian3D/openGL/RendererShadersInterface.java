@@ -59,11 +59,11 @@ public interface RendererShadersInterface {
 	 * @param buffers
 	 *            gpu buffers
 	 */
-	public void storeElementBuffer(short fb[], int length, GPUBuffer buffers);
+	public void storeElementBuffer(short[] fb, int length, GPUBuffer buffers);
 
 	/**
 	 * 
-	 * @param buffers
+	 * @param buffer
 	 *            gpu buffers
 	 */
 	public void bindBufferForIndices(GPUBuffer buffer);

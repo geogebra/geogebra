@@ -18,10 +18,19 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 public class ManagerShaders extends Manager {
 
 	protected Renderer renderer;
-	private ArrayList<Double> vertices, normals, textures, colors;
+	private ArrayList<Double> vertices;
+	private ArrayList<Double> normals;
+	private ArrayList<Double> textures;
+	private ArrayList<Double> colors;
 
-	private int verticesLength, verticesSize, normalsLength, normalsSize,
-			texturesLength, texturesSize, colorsLength, colorsSize;
+	private int verticesLength;
+	private int verticesSize;
+	private int normalsLength;
+	private int normalsSize;
+	private int texturesLength;
+	private int texturesSize;
+	private int colorsLength;
+	private int colorsSize;
 	protected TreeMap<Integer, GeometriesSet> geometriesSetList;
 
 	private int geometriesSetMaxIndex;
@@ -36,16 +45,18 @@ public class ManagerShaders extends Manager {
 	 * common constructor
 	 * 
 	 * @param renderer
+	 *            rendereer
 	 * @param view3D
 	 *            3D view
 	 */
 	public ManagerShaders(Renderer renderer, EuclidianView3D view3D) {
 		super(renderer, view3D);
-
 	}
 
 	public enum TypeElement {
-		NONE, CURVE, SURFACE, FAN_DIRECT, FAN_INDIRECT, TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES, TEMPLATE
+		NONE, CURVE, SURFACE, FAN_DIRECT, FAN_INDIRECT, TRIANGLE_FAN,
+
+		TRIANGLE_STRIP, TRIANGLES, TEMPLATE
 	}
 
 	@Override
@@ -62,7 +73,6 @@ public class ManagerShaders extends Manager {
 		texturesSize = 0;
 		colors = new ArrayList<>();
 		colorsSize = 0;
-
 	}
 
 	@Override
@@ -91,8 +101,10 @@ public class ManagerShaders extends Manager {
 		 */
 		protected Type type;
 
-		@SuppressWarnings("javadoc")
-		protected GLBuffer v, n, t, c;
+		protected GLBuffer v;
+		protected GLBuffer n;
+		protected GLBuffer t;
+		protected GLBuffer c;
 
 		private int length;
 
@@ -148,8 +160,11 @@ public class ManagerShaders extends Manager {
 		 * put vertex values into buffer
 		 * 
 		 * @param x
+		 *            x-coord
 		 * @param y
+		 *            y-coord
 		 * @param z
+		 *            z-coord
 		 */
 		public void vertexDirect(double x, double y, double z) {
 			v.put(x);
@@ -162,8 +177,11 @@ public class ManagerShaders extends Manager {
 		 * put normal values into buffer
 		 * 
 		 * @param x
+		 *            x-coord
 		 * @param y
+		 *            y-coord
 		 * @param z
+		 *            z-coord
 		 */
 		public void normalDirect(double x, double y, double z) {
 			n.put(x);
@@ -347,6 +365,9 @@ public class ManagerShaders extends Manager {
 
 		private int geometriesLength;
 
+		/**
+		 * Creates geometry set.
+		 */
 		public GeometriesSet() {
 			reset();
 		}
@@ -430,9 +451,12 @@ public class ManagerShaders extends Manager {
 		/**
 		 * put vertex values into buffer
 		 * 
-		 * @param x
+		  * @param x
+		 *            x-coord
 		 * @param y
+		 *            y-coord
 		 * @param z
+		 *            z-coord
 		 */
 		public void vertexDirect(double x, double y, double z) {
 			currentGeometry.vertexDirect(x, y, z);
@@ -442,8 +466,11 @@ public class ManagerShaders extends Manager {
 		 * put normal values into buffer
 		 * 
 		 * @param x
+		 *            x-coord
 		 * @param y
+		 *            y-coord
 		 * @param z
+		 *            z-coord
 		 */
 		public void normalDirect(double x, double y, double z) {
 			currentGeometry.normalDirect(x, y, z);
@@ -481,6 +508,14 @@ public class ManagerShaders extends Manager {
 			currentGeometry.setLength(length / 3);
 		}
 
+		/**
+		 * Set normals of current geometry.
+		 * 
+		 * @param normals
+		 *            normals
+		 * @param length
+		 *            length to copy
+		 */
 		public void setNormals(ArrayList<Double> normals, int length) {
 			if (length == 3) { // only one normal for all vertices
 				currentGeometry.setNormals(normals, length);
@@ -489,6 +524,14 @@ public class ManagerShaders extends Manager {
 			}
 		}
 
+		/**
+		 * Set colors of current geometry.
+		 * 
+		 * @param textures
+		 *            textures
+		 * @param length
+		 *            length to copy
+		 */
 		public void setTextures(ArrayList<Double> textures, int length) {
 			if (length == 2 * currentGeometry.getLength()) {
 				currentGeometry.setTextures(textures, length);
@@ -497,6 +540,14 @@ public class ManagerShaders extends Manager {
 			}
 		}
 
+		/**
+		 * Set colors of current geometry.
+		 * 
+		 * @param colors
+		 *            colors
+		 * @param length
+		 *            length to copy
+		 */
 		public void setColors(ArrayList<Double> colors, int length) {
 			if (length == 4 * currentGeometry.getLength()) {
 				currentGeometry.setColors(colors, length);
@@ -639,10 +690,20 @@ public class ManagerShaders extends Manager {
 		}
 	}
 
+	/**
+	 * @param index
+	 *            index
+	 * @return geometry
+	 */
 	public Geometry getGeometry(int index) {
 		return geometriesSetList.get(index).get(0);
 	}
 
+	/**
+	 * @param index
+	 *            index
+	 * @return geometry set
+	 */
 	public GeometriesSet getGeometrySet(int index) {
 		return geometriesSetList.get(index);
 	}

@@ -26,6 +26,12 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 	protected Renderer renderer;
 
+	/**
+	 * @param renderer
+	 *            renderer
+	 * @param view
+	 *            view
+	 */
 	public RendererImpl(Renderer renderer, EuclidianView3D view) {
 		this.renderer = renderer;
 		this.view3D = view;
@@ -209,6 +215,14 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 	abstract public void disableMultisample();
 
+	/**
+	 * @param scale
+	 *            image scale
+	 * @param w
+	 *            pixel width
+	 * @param h
+	 *            pixel height
+	 */
 	final public void needExportImage(double scale, int w, int h) {
 
 		view3D.setFontScale(scale);
@@ -219,12 +233,20 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 	}
 
+	/**
+	 * @param w
+	 *            pixel width
+	 * @param h
+	 *            pixel height
+	 */
 	final public void setExportImageDimension(int w, int h) {
 		fboWidth = w;
 		fboHeight = h;
-
 	}
 
+	/**
+	 * Finish image export.
+	 */
 	public void endNeedExportImage() {
 		renderer.setNeedExportImage(false);
 
@@ -232,6 +254,9 @@ public abstract class RendererImpl implements RendererShadersInterface {
 		view3D.setFontScale(1);
 	}
 
+	/**
+	 * Select frame buffer object.
+	 */
 	public final void selectFBO() {
 
 		if (fboID == null) {
@@ -252,9 +277,11 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 		// set view values for buffer
 		renderer.setView(0, 0, fboWidth, fboHeight);
-
 	}
 
+	/**
+	 * Unselect frame buffer object.
+	 */
 	public final void unselectFBO() {
 
 		if (fboID == null) {
@@ -268,6 +295,9 @@ public abstract class RendererImpl implements RendererShadersInterface {
 		unbindFramebuffer();
 	}
 
+	/**
+	 * Update frame buffer object.
+	 */
 	public void updateFBOBuffers() {
 
 		// image texture
@@ -282,7 +312,6 @@ public abstract class RendererImpl implements RendererShadersInterface {
 		renderbufferStorage(fboWidth, fboHeight);
 
 		unbindRenderbuffer();
-
 	}
 
 	/**

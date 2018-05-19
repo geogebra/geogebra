@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public class PlotterBrushElements extends PlotterBrush {
 	private int sectionSize = -1;
+
 	/**
 	 * constructor
 	 * 

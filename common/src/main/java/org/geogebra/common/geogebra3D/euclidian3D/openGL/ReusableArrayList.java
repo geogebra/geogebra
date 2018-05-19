@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public class ReusableArrayList<T> extends ArrayList<T> {
 
 	private static final long serialVersionUID = 1L;
-	private int length, size;
+	private int length;
+	private int size;
 
 	/**
 	 * constructor

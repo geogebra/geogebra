@@ -15,11 +15,26 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
 public class ManagerElementForGLList extends Manager {
 
 	private Manager managerOriginal;
-	private ArrayList<Double> vx, vy, vz, nx, ny, nz, tx, ty;
+	private ArrayList<Double> vx;
+	private ArrayList<Double> vy;
+	private ArrayList<Double> vz;
+	private ArrayList<Double> nx;
+	private ArrayList<Double> ny;
+	private ArrayList<Double> nz;
+	private ArrayList<Double> tx;
+	private ArrayList<Double> ty;
 
 	private boolean hasTexture = false;
 	private GLBufferIndicesForGLList arrayI = null;
 
+	/**
+	 * @param renderer
+	 *            renderer
+	 * @param view3d
+	 *            view
+	 * @param managerOriginal
+	 *            wrapped manager
+	 */
 	public ManagerElementForGLList(Renderer renderer, EuclidianView3D view3d,
 			Manager managerOriginal) {
 		super(view3d);
@@ -30,7 +45,6 @@ public class ManagerElementForGLList extends Manager {
 	@Override
 	protected void setRenderer(Renderer renderer) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -74,7 +88,6 @@ public class ManagerElementForGLList extends Manager {
 
 		hasTexture = false;
 		managerOriginal.startGeometry(type);
-
 	}
 
 	@Override
@@ -107,19 +120,16 @@ public class ManagerElementForGLList extends Manager {
 	@Override
 	public void draw(int index) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void drawLabel(int index) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void remove(int index) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -132,13 +142,11 @@ public class ManagerElementForGLList extends Manager {
 	@Override
 	protected void vertexInt(double x, double y, double z) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void vertices(double[] vertices) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -158,26 +166,22 @@ public class ManagerElementForGLList extends Manager {
 	@Override
 	protected void color(double r, double g, double b) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void color(double r, double g, double b, double a) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void pointSize(double size) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void rectangleGeometry(double x, double y, double z, double width,
 			double height) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -228,7 +232,6 @@ public class ManagerElementForGLList extends Manager {
 		@Override
 		public void rewind() {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
@@ -240,7 +243,6 @@ public class ManagerElementForGLList extends Manager {
 		@Override
 		public void array(short[] ret) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
@@ -267,6 +269,12 @@ public class ManagerElementForGLList extends Manager {
 
 	}
 
+	/**
+	 * Put normal, texture and vertex for given index to the original manager
+	 * 
+	 * @param value
+	 *            index
+	 */
 	public void put(short value) {
 		// Log.debug("" + value);
 		managerOriginal.normal(nx.get(value), ny.get(value), nz.get(value));

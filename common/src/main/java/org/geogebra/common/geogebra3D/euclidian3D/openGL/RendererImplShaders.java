@@ -29,15 +29,24 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	// location values for shader fields
 	protected Object matrixLocation; // matrix
-	protected Object lightPositionLocation, ambiantDiffuseLocation,
-			enableLightLocation, enableShineLocation; // light
-	protected Object eyePositionLocation; // eye position
-	protected Object cullingLocation; // culling type
+	// light
+	protected Object lightPositionLocation;
+	protected Object ambiantDiffuseLocation;
+	protected Object enableLightLocation;
+	protected Object enableShineLocation;
+	/** eye position */
+	protected Object eyePositionLocation;
+	/** culling type */
+	protected Object cullingLocation;
 	protected Object colorLocation; // color
 	protected Object centerLocation; // center
-	protected Object enableClipPlanesLocation, clipPlanesMinLocation,
-			clipPlanesMaxLocation; // enable / disable clip planes
-	protected Object labelRenderingLocation, labelOriginLocation;
+	// enable / disable clip planes
+	protected Object enableClipPlanesLocation;
+	protected Object clipPlanesMinLocation;
+	protected Object clipPlanesMaxLocation;
+
+	protected Object labelRenderingLocation;
+	protected Object labelOriginLocation;
 	protected Object normalLocation; // one normal for all vertices
 	protected Object textureTypeLocation; // textures
 	protected Object dashValuesLocation; // values for dash
@@ -53,8 +62,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	protected CoordMatrix4x4 projectionMatrix = new CoordMatrix4x4();
 
-	protected CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4(),
-			tmpMatrix2 = new CoordMatrix4x4();
+	protected CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
+	protected CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
 
 	protected float[] tmpFloat16 = new float[16];
 
@@ -73,8 +82,10 @@ public abstract class RendererImplShaders extends RendererImpl {
 	private int currentTextureType = TEXTURE_TYPE_NONE;
 	private int oldTextureType = TEXTURE_TYPE_NONE;
 
-	private double perspXZ, perspYZ;
-	private double[] glassesXZ = new double[2], glassesYZ = new double[2];
+	private double perspXZ;
+	private double perspYZ;
+	private double[] glassesXZ = new double[2];
+	private double[] glassesYZ = new double[2];
 
 	private float[] clipPlanesMin = new float[3];
 	private float[] clipPlanesMax = new float[3];

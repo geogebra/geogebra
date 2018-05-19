@@ -418,12 +418,11 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 	@Override
 	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg) {
 
-		byte[] buffer = ARGBtoAlpha(label, ((GBufferedImageD) bimg).getData());
+		byte[] buffer = argbToAlpha(label, ((GBufferedImageD) bimg).getData());
 
 		label.setTextureIndex(createAlphaTexture(label.getTextureIndex(),
 				label.waitForReset(), label.getWidthPowerOfTwo(),
 				label.getHeightPowerOfTwo(), buffer));
-
 	}
 
 	/**
@@ -548,27 +547,27 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 	private void setRGBFromTile(int i, int x, int y, int xTile, int yTile) {
 		bi.setRGB(x, y, equirectangularTilesLeft[i].getRGB(xTile, yTile));
-		bi.setRGB(x, y + EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT,
+		bi.setRGB(x, y + EXPORT_IMAGE_EQUIRECT_HEIGHT,
 				equirectangularTilesRight[i].getRGB(xTile, yTile));
 	}
 
 	private void setWhite(int x, int y) {
 		bi.setRGB(x, y, INT_RGB_WHITE);
-		bi.setRGB(x, y + EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT, INT_RGB_WHITE);
+		bi.setRGB(x, y + EXPORT_IMAGE_EQUIRECT_HEIGHT, INT_RGB_WHITE);
 	}
 
 	@Override
 	protected void setExportImageEquirectangularFromTiles() {
-		bi = new BufferedImage(EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH,
-				EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT * 2,
+		bi = new BufferedImage(EXPORT_IMAGE_EQUIRECT_WIDTH,
+				EXPORT_IMAGE_EQUIRECT_HEIGHT * 2,
 				BufferedImage.TYPE_INT_RGB);
 
-		int shiftY = (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT
-				- EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT) / 2;
-		int shiftAlpha = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT / 2;
+		int shiftY = (EXPORT_IMAGE_EQUIRECT_HEIGHT
+				- EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT) / 2;
+		int shiftAlpha = EXPORT_IMAGE_EQUIRECT_HEIGHT / 2;
 		for (int i = 0; i < EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS; i++) {
-			int shiftX = i * EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT;
-			for (int x = 0; x < EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT; x++) {
+			int shiftX = i * EXPORT_IMAGE_EQUIRECT_WIDTH_ELEMENT;
+			for (int x = 0; x < EXPORT_IMAGE_EQUIRECT_WIDTH_ELEMENT; x++) {
 				// top white
 				for (int y = 0; y < shiftY; y++) {
 					setWhite(x + shiftX, y);
@@ -579,28 +578,28 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 				// middle line
 				setRGBFromTile(i, x + shiftX, shiftAlpha, x,
-						EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2);
+						EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT / 2);
 
 				// angle - tangent match
-				for (int yAlpha = 1; yAlpha < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
+				for (int yAlpha = 1; yAlpha < EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT
 						/ 2; yAlpha++) {
 					double alpha = ((double) (2 * yAlpha
 							* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX))
-							/ EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT;
-					int y = (int) (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
+							/ EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT;
+					int y = (int) (EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT
 							* Math.tan(alpha * Math.PI / 180)
 							/ (2 * EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN));
 					setRGBFromTile(i, x + shiftX, shiftAlpha + yAlpha, x,
-							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2
+							EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT / 2
 									+ y);
 					setRGBFromTile(i, x + shiftX, shiftAlpha - yAlpha, x,
-							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2
+							EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT / 2
 									- y);
 				}
 
 				// bottom white
-				for (int y = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
-						+ shiftY; y < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT; y++) {
+				for (int y = EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT
+						+ shiftY; y < EXPORT_IMAGE_EQUIRECT_HEIGHT; y++) {
 					setWhite(x + shiftX, y);
 				}
 

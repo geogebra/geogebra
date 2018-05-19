@@ -71,7 +71,7 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 	protected void setInputOutput() {
 		if (list != null) {
 			input = new GeoElement[] { list };
-		}else {
+		} else {
 			input = new GeoElement[points.length];
 			for (int i = 0; i < points.length; i++) {
 				input[i] = (GeoElement) points[i];

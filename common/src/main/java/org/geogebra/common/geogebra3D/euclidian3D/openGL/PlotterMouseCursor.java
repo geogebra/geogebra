@@ -21,9 +21,6 @@ public class PlotterMouseCursor {
 	 *            geometry manager
 	 */
 	public PlotterMouseCursor(Manager manager) {
-
-		Coords n = new Coords(0, 0, 1);
-
 		// vertices
 		Coords[] a = new Coords[7];
 		a[0] = new Coords(0, 0, 0);
@@ -53,6 +50,7 @@ public class PlotterMouseCursor {
 
 		// lines
 		index = manager.startNewList(-1);
+		Coords n = new Coords(0, 0, 1);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		manager.normalToScale(n);
 		vertexBlack(manager, a[0]);

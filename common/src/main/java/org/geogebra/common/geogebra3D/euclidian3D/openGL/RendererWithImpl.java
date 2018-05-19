@@ -647,8 +647,8 @@ public abstract class RendererWithImpl extends Renderer
 	 *            bitmap
 	 * @return the alpha channel of the array ARGB description
 	 */
-	protected static byte[] ARGBtoAlpha(DrawLabel3D label, int[] pix) {
-		return ARGBtoAlpha(label, label.getWidth(), label.getHeight(), pix);
+	protected static byte[] argbToAlpha(DrawLabel3D label, int[] pix) {
+		return argbToAlpha(label, label.getWidth(), label.getHeight(), pix);
 	}
 
 	/**
@@ -664,7 +664,7 @@ public abstract class RendererWithImpl extends Renderer
 	 *            bitmap
 	 * @return the alpha channel of the array ARGB description
 	 */
-	protected static byte[] ARGBtoAlpha(DrawLabel3D label, int labelWidthRes,
+	protected static byte[] argbToAlpha(DrawLabel3D label, int labelWidthRes,
 			int labelHeightRes, int[] pix) {
 
 		// calculates 2^n dimensions

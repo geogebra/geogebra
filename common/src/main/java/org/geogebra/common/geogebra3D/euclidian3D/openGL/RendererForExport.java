@@ -46,9 +46,13 @@ public class RendererForExport extends RendererWithImpl {
 	 * set x/y min/max
 	 * 
 	 * @param xmin
+	 *            min for x
 	 * @param xmax
+	 *            max for x
 	 * @param ymin
+	 *            min for y
 	 * @param ymax
+	 *            max for y
 	 */
 	public void setXYMinMax(double xmin, double xmax, double ymin, double ymax) {
 		left = (int) xmin;

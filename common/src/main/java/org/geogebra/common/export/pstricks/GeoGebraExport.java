@@ -68,21 +68,33 @@ import org.geogebra.common.util.debug.Log;
 public abstract class GeoGebraExport {
 	protected int beamerSlideNumber = 1;
 	protected final static double PRECISION_XRANGE_FUNCTION = 0.00001;
-	protected StringBuilder code, codePoint, codePreamble, codeFilledObject,
-			codeBeginDoc;
+	protected StringBuilder code;
+	protected StringBuilder codePoint;
+	protected StringBuilder codePreamble;
+	protected StringBuilder codeFilledObject;
+	protected StringBuilder codeBeginDoc;
 	private App app;
 	protected Kernel kernel;
 	protected Construction construction;
 	protected EuclidianView euclidianView;
 	protected ExportSettings frame;
 	protected HashMap<GColor, String> customColor;
-	protected double xunit, yunit, xmin, xmax, ymin, ymax;
+	protected double xunit;
+	protected double yunit;
+	protected double xmin;
+	protected double xmax;
+	protected double ymin;
+	protected double ymax;
 	// The exported format: Latex, tex, ConTexT, Beamer
 	protected int format = 0;
 	protected boolean isBeamer = false;
 	protected int barNumber;
 	private StringTemplate tpl;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public GeoGebraExport(App app) {
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -115,6 +127,9 @@ public abstract class GeoGebraExport {
 	// when the selection is modified by the mouse, this is reported
 	// to the values xmin, xmax, ymin and ymax of instances of this class.
 	// refresh the selection rectangle when values change in TextField
+	/**
+	 * Change selection rectanlge to fit user input.
+	 */
 	public void refreshSelectionRectangle() {
 		int x1 = euclidianView.toScreenCoordX(xmin);
 		int x2 = euclidianView.toScreenCoordX(xmax);
@@ -187,7 +202,8 @@ public abstract class GeoGebraExport {
 	}
 
 	/**
-	 * When The Button "generate Code" has been clicked
+	 * @param beamer
+	 *            beamer flag
 	 */
 	public void setBeamer(boolean beamer) {
 		isBeamer = beamer;
@@ -272,6 +288,7 @@ public abstract class GeoGebraExport {
 	 * @param fromGeoList
 	 *            if GeoElement comes from a GeoList object
 	 * @param trimmedInter
+	 *            whether to trim around intersection
 	 */
 	protected void drawGeoElement(GeoElement g, boolean fromGeoList,
 			boolean trimmedInter) {
@@ -712,6 +729,7 @@ public abstract class GeoGebraExport {
 	 * @param geo
 	 *            geo Object
 	 * @param vertex
+	 *            angle vertex coords
 	 * @param angleTick
 	 *            angle
 	 */
@@ -730,6 +748,9 @@ public abstract class GeoGebraExport {
 		frame = settingsFrame;
 	}
 
+	/**
+	 * When The Button "generate Code" has been clicked
+	 */
 	public abstract void generateAllCode();
 
 	/**
@@ -757,6 +778,7 @@ public abstract class GeoGebraExport {
 	 * @param values
 	 *            Values of Histogram or BarChart
 	 * @param leftBorder
+	 *            class boundaries
 	 * @param length
 	 *            Length of data. Along with leftBorder length allows you to
 	 *            choose between Histogram or BarChart
@@ -1156,7 +1178,7 @@ public abstract class GeoGebraExport {
 		case GeoElement.DECORATION_ANGLE_TWO_TICKS:
 			drawArc(geo, vertex, angSt, angEnd, r);
 			euclidianView.toScreenCoords(vertex);
-			double angleTick[] = new double[2];
+			double[] angleTick = new double[2];
 			angleTick[0] = (2 * angSt + 3 * angEnd) / 5;
 			angleTick[1] = (3 * angSt + 2 * angEnd) / 5;
 			if (Math.abs(angleTick[1]
@@ -1635,6 +1657,11 @@ public abstract class GeoGebraExport {
 			}
 		}
 		return width;
+	}
+
+	protected boolean drawAngleAs(GeoAngle geo, int rightAngleStyleDot) {
+		return DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF) && geo.isEmphasizeRightAngle()
+				&& euclidianView.getRightAngleStyle() == rightAngleStyleDot;
 	}
 
 }

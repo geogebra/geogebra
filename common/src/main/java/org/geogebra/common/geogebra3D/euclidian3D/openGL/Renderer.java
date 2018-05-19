@@ -47,15 +47,15 @@ public abstract class Renderer {
 	public static final double EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN = Math
 			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX * Math.PI / 180);
 
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT = 2000;
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT
+	public static final int EXPORT_IMAGE_EQUIRECT_HEIGHT = 2000;
+	public static final int EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT = EXPORT_IMAGE_EQUIRECT_HEIGHT
 			* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX / 90;
 
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH = 2
-			* EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT;
+	public static final int EXPORT_IMAGE_EQUIRECT_WIDTH = 2
+			* EXPORT_IMAGE_EQUIRECT_HEIGHT;
 	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS = 200;
 
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH
+	public static final int EXPORT_IMAGE_EQUIRECT_WIDTH_ELEMENT = EXPORT_IMAGE_EQUIRECT_WIDTH
 			/ EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
 
 	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA = 360.0
@@ -175,6 +175,7 @@ public abstract class Renderer {
 	 * @param view
 	 *            the {@link EuclidianView3D} linked to
 	 * @param type
+	 *            renderer type
 	 */
 	public Renderer(EuclidianView3D view, RendererType type) {
 
@@ -332,8 +333,8 @@ public abstract class Renderer {
 
 		if (exportImageEquirectangular) {
 
-			setExportImageDimension(EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT,
-					EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT);
+			setExportImageDimension(EXPORT_IMAGE_EQUIRECT_WIDTH_ELEMENT,
+					EXPORT_IMAGE_EQUIRECT_HEIGHT_ELEMENT);
 			selectFBO();
 			initExportImageEquirectangularTiles();
 
@@ -470,8 +471,8 @@ public abstract class Renderer {
 
 	/**
 	 * 
-	 * @param maxX
-	 * @param maxY
+	 * @param scale
+	 *            scale
 	 * @return export image immediately
 	 */
 	public GBufferedImage getExportImage(double scale) {
@@ -482,7 +483,6 @@ public abstract class Renderer {
 				(int) (getHeight() * scale));
 
 		return getExportImage();
-
 	}
 
 	private void setExportImageForThumbnail(boolean flag) {
@@ -501,6 +501,8 @@ public abstract class Renderer {
 	 * 
 	 * @param scale
 	 *            scale for export image
+	 * @param forThumbnail
+	 *            whether output is thumbnail
 	 */
 	public void needExportImage(double scale, boolean forThumbnail) {
 
@@ -716,7 +718,7 @@ public abstract class Renderer {
 		drawTranspNotCurved();
 
 		setCullFaceFront();
-		drawable3DLists.drawTranspClosedCurved(this);// draws inside parts
+		drawable3DLists.drawTranspClosedCurved(this); // draws inside parts
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawTranspClipped(this); // clipped surfaces
@@ -724,7 +726,7 @@ public abstract class Renderer {
 			disableClipPlanesIfNeeded();
 		}
 		setCullFaceBack();
-		drawable3DLists.drawTranspClosedCurved(this);// draws outside parts
+		drawable3DLists.drawTranspClosedCurved(this); // draws outside parts
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawTranspClipped(this); // clipped surfaces
@@ -754,7 +756,7 @@ public abstract class Renderer {
 		enableCulling();
 		setCullFaceFront();
 		drawable3DLists.drawNotTransparentSurfaces(this);
-		drawable3DLists.drawNotTransparentSurfacesClosed(this);// draws inside
+		drawable3DLists.drawNotTransparentSurfacesClosed(this); // draws inside
 																// parts
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
@@ -765,7 +767,7 @@ public abstract class Renderer {
 		}
 		setCullFaceBack();
 		drawable3DLists.drawNotTransparentSurfaces(this);
-		drawable3DLists.drawNotTransparentSurfacesClosed(this);// draws outside
+		drawable3DLists.drawNotTransparentSurfacesClosed(this); // draws outside
 																// parts
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
@@ -935,7 +937,7 @@ public abstract class Renderer {
 	/**
 	 * sets the clip planes
 	 * 
-	 * @param minmax
+	 * @param minMax
 	 *            min/max for x/y/z
 	 */
 	abstract public void setClipPlanes(double[][] minMax);
@@ -1275,6 +1277,7 @@ public abstract class Renderer {
 	 * draws a 3D cross cursor
 	 * 
 	 * @param cursorType
+	 *            cursor type
 	 */
 	final public void drawCursor(int cursorType) {
 
@@ -1289,9 +1292,16 @@ public abstract class Renderer {
 		if (!PlotterCursor.isTypeAlready(cursorType)) {
 			enableLighting();
 		}
-
 	}
 
+	/**
+	 * Draw completing cursor for 3D input.
+	 * 
+	 * @param value
+	 *            value
+	 * @param out
+	 *            out
+	 */
 	final public void drawCompletingCursor(double value, boolean out) {
 
 		initMatrix();
@@ -1717,6 +1727,9 @@ public abstract class Renderer {
 
 	}
 
+	/**
+	 * Update projection matrix for view's projection.
+	 */
 	public final void setProjectionMatrix() {
 
 		switch (view3D.getProjection()) {
@@ -1735,7 +1748,6 @@ public abstract class Renderer {
 			viewOblique();
 			break;
 		}
-
 	}
 
 	/**
@@ -1749,6 +1761,14 @@ public abstract class Renderer {
 	 */
 	abstract protected void viewOrtho();
 
+	/**
+	 * Update perspective for eye position.
+	 * 
+	 * @param left
+	 *            left eye distance
+	 * @param right
+	 *            right eye distance
+	 */
 	final public void setNear(double left, double right) {
 		eyeToScreenDistance[EYE_LEFT] = left;
 		eyeToScreenDistance[EYE_RIGHT] = right;
@@ -1795,7 +1815,6 @@ public abstract class Renderer {
 			// distance camera-far plane
 			perspFar[i] = perspNear[i] + getVisibleDepth();
 		}
-
 	}
 
 	private void updatePerspEye() {
@@ -1821,6 +1840,9 @@ public abstract class Renderer {
 
 	abstract protected void viewPersp();
 
+	/**
+	 * Update glasses coordinates.
+	 */
 	public void updateGlassesValues() {
 		for (int i = 0; i < 2; i++) {
 			// eye values
@@ -1859,6 +1881,9 @@ public abstract class Renderer {
 		NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD, UPLOAD_TO_GEOGEBRATUBE
 	}
 
+	/**
+	 * Update oblique projection attributes.
+	 */
 	public void updateProjectionObliqueValues() {
 		double angle = Math.toRadians(view3D.getProjectionObliqueAngle());
 		obliqueX = -view3D.getProjectionObliqueFactor() * Math.cos(angle);
@@ -1939,16 +1964,21 @@ public abstract class Renderer {
 		view3D.setWaitForUpdate();
 	}
 
+	/**
+	 * Export image to clipboardd (async)
+	 */
 	public void exportToClipboard() {
 		exportType = ExportType.CLIPBOARD;
 		needExportImage(App.getMaxScaleForClipBoard(view3D), true);
 
 	}
 
+	/**
+	 * Export image (async), start Tube upload after that.
+	 */
 	public void uploadToGeoGebraTube() {
 		exportType = ExportType.UPLOAD_TO_GEOGEBRATUBE;
 		needExportImage();
-
 	}
 
 	/**
@@ -2011,8 +2041,11 @@ public abstract class Renderer {
 	/**
 	 * 
 	 * @param sizeX
+	 *            width
 	 * @param sizeY
+	 *            height
 	 * @param buf
+	 *            image data
 	 * @return a texture for alpha channel
 	 */
 	abstract public int createAlphaTexture(int sizeX, int sizeY, byte[] buf);
@@ -2020,6 +2053,7 @@ public abstract class Renderer {
 	/**
 	 * 
 	 * @param val
+	 *            value
 	 * @return first power of 2 greater than val
 	 */
 	public static final int firstPowerOfTwoGreaterThan(int val) {
@@ -2034,8 +2068,11 @@ public abstract class Renderer {
 
 	/**
 	 * @param sizeX
+	 *            width
 	 * @param sizeY
+	 *            height
 	 * @param buf
+	 *            image data
 	 */
 	abstract public void textureImage2D(int sizeX, int sizeY, byte[] buf);
 

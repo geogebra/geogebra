@@ -37,7 +37,7 @@ public class PlotterViewInFrontOf {
 
 		brush.start(-1);
 		brush.setColor(GColor.GRAY, 0.5f);
-		// brush.setThickness(thickness);//re sets the thickness
+		// brush.setThickness(thickness); //re sets the thickness
 		brush.segment(new Coords(0, 0, start, 1), new Coords(0, 0, end, 1));
 		index[0] = brush.end();
 

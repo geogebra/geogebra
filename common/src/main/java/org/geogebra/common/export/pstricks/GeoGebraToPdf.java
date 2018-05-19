@@ -79,9 +79,14 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	private boolean gnuplotWarning = false;
 	private boolean hatchWarning = false;
 	private int j;
-	private double i, min, max, step, val;
+	private double i;
+	private double min;
+	private double max;
+	private double step;
+	private double val;
 	private GeoNumeric num;
-	private int n, it;
+	private int n;
+	private int it;
 
 	/**
 	 * @param app
@@ -163,7 +168,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		if (format == GeoGebraToPdf.FORMAT_LATEX) {
 			codePreamble.append("\\documentclass[" + frame.getFontSize()
 					+ "pt]{article}\n"
-					+ "\\usepackage{animate}\n\\usepackage{graphicx}\n\\usepackage{pgf,tikz}\n\\usepackage{mathrsfs}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
+					+ "\\usepackage{animate}\n\\usepackage{graphicx}\n\\usepackage{pgf,tikz}\n"
+					+ "\\usepackage{mathrsfs}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
 			codeBeginDoc.append("\\begin{filecontents}{timeline.txt}\n");
 			// if new frames would be >100, then we generate a new step
 
@@ -335,10 +341,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		double height = algo.getB().getDouble();
 		double[] lf = algo.getLeftBorders();
 		double min1 = lf[0];
-		double q1 = lf[1];
-		double med = lf[2];
-		double q3 = lf[3];
-		double max1 = lf[4];
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\draw ");
 		String s = lineOptionCode(geo, true);
@@ -352,11 +354,14 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		writePoint(min1, y + height, codeFilledObject);
 		codeFilledObject.append(" ");
 		// Max vertical bar
+		double max1 = lf[4];
 		writePoint(max1, y - height, codeFilledObject);
 		codeFilledObject.append("-- ");
 		writePoint(max1, y + height, codeFilledObject);
 		codeFilledObject.append(" ");
 		// Med vertical bar
+		double q1 = lf[1];
+		double med = lf[2];
 		writePoint(med, y - height, codeFilledObject);
 		codeFilledObject.append("-- ");
 		writePoint(med, y + height, codeFilledObject);
@@ -367,6 +372,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		writePoint(q1, y, codeFilledObject);
 		// q3-max
 		codeFilledObject.append(" ");
+		double q3 = lf[3];
 		writePoint(q3, y, codeFilledObject);
 		codeFilledObject.append("-- ");
 		writePoint(max1, y, codeFilledObject);
@@ -447,20 +453,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	protected void drawIntegralFunctions(GeoNumeric geo) {
 		AlgoIntegralFunctions algo = (AlgoIntegralFunctions) geo
 				.getParentAlgorithm();
-
 		// function f
 		GeoFunction f = algo.getF();
-		// function g
-		GeoFunction g = algo.getG();
-
-		// between a and b
-		double a = algo.getA().getDouble();
-		double b = algo.getB().getDouble();
-
-		// values for f(a) and g(b)
-		double fa = f.value(a);
-		double gb = g.value(b);
-
 		String value = f.toValueString(getStringTemplate());
 		value = killSpace(StringUtil.toLaTeXString(value, true));
 		boolean plotWithGnuplot = warningFunc(value, "tan(")
@@ -474,6 +468,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			codeFilledObject.append("[" + s + "] ");
 		}
 		codeFilledObject.append("{");
+		// between a and b
+		double a = algo.getA().getDouble();
+		double b = algo.getB().getDouble();
 		if (plotWithGnuplot) {
 			codeFilledObject.append(" plot[raw gnuplot, id=func");
 			codeFilledObject.append(functionIdentifier);
@@ -499,7 +496,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			codeFilledObject.append("})");
 		}
 		codeFilledObject.append("} -- ");
-		writePoint(b, gb, codeFilledObject);
+		// function g
+		GeoFunction g = algo.getG();
+		writePoint(b, g.value(b), codeFilledObject);
 		codeFilledObject.append(" {");
 		value = g.toValueString(getStringTemplate());
 		value = killSpace(StringUtil.toLaTeXString(value, true));
@@ -539,7 +538,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			codeFilledObject.append("})");
 		}
 		codeFilledObject.append("} -- ");
-		writePoint(a, fa, codeFilledObject);
+		writePoint(a, f.value(a), codeFilledObject);
 		codeFilledObject.append(" -- cycle;\n");
 		endBeamer(codeFilledObject);
 	}
@@ -674,7 +673,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 
 	@Override
 	protected void drawAngle(GeoAngle geo) {
-		int arcSize = geo.getArcSize();
 		AlgoElement algo = geo.getParentAlgorithm();
 		GeoPointND vertex, point;
 		GeoVectorND v;
@@ -759,11 +757,10 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		}
 
 		angExt += angSt;
+		int arcSize = geo.getArcSize();
 		double r = arcSize / euclidianView.getXscale();
 		// if angle=90 and decoration=little square
-		if (DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF)
-				&& geo.isEmphasizeRightAngle() && euclidianView
-						.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE) {
+		if (drawAngleAs(geo, EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE)) {
 			r = r / Math.sqrt(2);
 			double[] x = new double[8];
 			x[0] = m[0] + r * Math.cos(angSt);
@@ -821,9 +818,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			endBeamer(codeFilledObject);
 
 			// draw the dot if angle= 90 and decoration=dot
-			if (DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF)
-					&& geo.isEmphasizeRightAngle() && euclidianView
-							.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT) {
+			if (drawAngleAs(geo, EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT)) {
 				double diameter = geo.getLineThickness()
 						/ euclidianView.getXscale();
 				double radius = arcSize / euclidianView.getXscale() / 1.7;
@@ -1431,9 +1426,10 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 
 	/**
 	 * @param en
-	 * @return
+	 *            expression
+	 * @return {fractional, trig}
 	 */
-	private boolean[] hasFractionalOrTrigoExponent(ExpressionNode en) {
+	protected static boolean[] hasFractionalOrTrigoExponent(ExpressionNode en) {
 		boolean[] v = { false, false };
 		if (en == null || en.getOperation() == Operation.NO_OPERATION) {
 			return v;
@@ -1442,9 +1438,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		if (op == Operation.POWER) {
 			ExpressionNode le = en.getRightTree();
 			if (le.isNumberValue()) {
-				if (le.toValueString(getStringTemplate()).contains("sin")
-						|| le.toValueString(getStringTemplate()).contains("cos")
-						|| le.toValueString(getStringTemplate())
+				if (le.toValueString(StringTemplate.xmlTemplate).contains("sin")
+						|| le.toValueString(StringTemplate.xmlTemplate).contains("cos")
+						|| le.toValueString(StringTemplate.xmlTemplate)
 								.contains("tan")) {
 					v[1] = true;
 				}
@@ -1542,8 +1538,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	}
 
 	private void drawSingleCurve(GeoCurveCartesian geo, StringBuilder sb) {
-		double start = geo.getMinParameter();
-		double end = geo.getMaxParameter();
 		// boolean isClosed=geo.isClosedPath();
 		String fx = geo.getFunX(getStringTemplate());
 		fx = killSpace(StringUtil.toLaTeXString(fx, true));
@@ -1572,6 +1566,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		} else {
 			sb.append("[");
 		}
+		double start = geo.getMinParameter();
+		double end = geo.getMaxParameter();
 		sb.append("smooth,samples=100,domain=");
 		sb.append(start);
 		sb.append(":");
@@ -1698,8 +1694,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		codePreamble.append("% x^r with r not integer\n\n");
 		codePreamble.append("% Plotting will be done using GNUPLOT\n");
 		codePreamble.append(
-				"% GNUPLOT must be installed and you must allow Latex to call external programs by\n");
-		codePreamble.append("% Adding the following option to your compiler\n");
+				"% GNUPLOT must be installed and you must allow Latex to call external\n");
+		codePreamble.append("% programs by adding the following option to your compiler\n");
 		codePreamble.append("% shell-escape    OR    enable-write18 \n");
 		codePreamble.append("% Example: pdflatex --shell-escape file.tex \n\n");
 	}
@@ -1775,8 +1771,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		} else {
 			double x1 = geo.getTranslationVector().getX();
 			double y1 = geo.getTranslationVector().getY();
-			double r1 = geo.getHalfAxes()[0];
-			double r2 = geo.getHalfAxes()[1];
 			startBeamer(build);
 			build.append("\\draw");
 			String s = lineOptionCode(geo, true);
@@ -1785,6 +1779,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			}
 			build.append(s);
 			writePoint(x1, y1, build);
+			double r1 = geo.getHalfAxes()[0];
+			double r2 = geo.getHalfAxes()[1];
 			build.append(" ellipse (");
 			build.append(format(r1 * xunit));
 			build.append("cm and ");
@@ -1816,8 +1812,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			double eigenvecY = at.getShearY();
 			double x1 = geo.getTranslationVector().getX();
 			double y1 = geo.getTranslationVector().getY();
-			double r1 = geo.getHalfAxes()[0];
-			double r2 = geo.getHalfAxes()[1];
 			double angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
 			startBeamer(code);
 			code.append("\\draw [rotate around={");
@@ -1832,6 +1826,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			}
 			code.append("] ");
 			writePoint(x1, y1, code);
+			double r1 = geo.getHalfAxes()[0];
+			double r2 = geo.getHalfAxes()[1];
 			code.append(" ellipse (");
 			code.append(format(r1 * xunit));
 			code.append("cm and ");
@@ -1843,7 +1839,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		// if conic is a parabola
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			// parameter of the parabola
-			double p = geo.p;
 			at = geo.getAffineTransform();
 			// first eigenvec
 			eigenvecX = at.getScaleX();
@@ -1860,6 +1855,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			// avoid sqrt by choosing x = k*p with
 			// i = 2*k is quadratic number
 			// make parabola big enough: k*p >= 2*x0 -> 2*k >= 4*x0/p
+			double p = geo.p;
 			x0 = 4 * x0 / p;
 			int i1 = 4;
 			int k2 = 16;
@@ -2185,8 +2181,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			AlgoElement algo = gp.getParentAlgorithm();
 
 			if (algo instanceof AlgoIntersectAbstract) {
-				GeoElement[] geos = algo.getInput();
-
 				double x1 = euclidianView.toScreenCoordXd(gp.getInhomX());
 				double y1 = euclidianView.toScreenCoordYd(gp.getInhomY());
 				double x2 = euclidianView.toScreenCoordXd(gp.getInhomX()) + 30;
@@ -2195,8 +2189,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				x2 = euclidianView.toRealWorldCoordX(x2);
 				y1 = euclidianView.toRealWorldCoordY(y1);
 				y2 = euclidianView.toRealWorldCoordY(y2);
-				double r1 = Math.abs(x2 - x1);
-				double r2 = Math.abs(y2 - y1);
+
 				StringBuilder s = new StringBuilder();
 				if (format == GeoGebraToPdf.FORMAT_LATEX) {
 					s.append("\\begin{scope}\n");
@@ -2205,6 +2198,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				s.append(format(x1));
 				s.append(",");
 				s.append(format(y1));
+				double r1 = Math.abs(x2 - x1);
+				double r2 = Math.abs(y2 - y1);
 				s.append(") ellipse (");
 				s.append(format(r1));
 				s.append("cm and ");
@@ -2212,6 +2207,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				s.append("cm);\n");
 				// Latex format
 				String end = "\\end{scope}\n";
+				GeoElement[] geos = algo.getInput();
 				boolean fill1 = false;
 				boolean draw = !geos[0].isEuclidianVisible();
 				if (draw) {
@@ -2505,7 +2501,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 								.estimateHeight(StringUtil.toLaTeXString(
 										geo.getLabelDescription(), true),
 										euclidianView.getFont()));
-				double translation[] = new double[2];
+				double[] translation = new double[2];
 				translation[0] = euclidianView.getXZero() + width / 2.0;
 				translation[1] = euclidianView.getYZero() - height / 2.0;
 				translation[0] = euclidianView
@@ -2522,9 +2518,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				codePoint.append("};\n");
 				endBeamer(codePoint);
 			}
-		}
-
-		catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			// For GeoElement that don't have a Label
 			// For example (created with geoList)
 		}
@@ -2543,7 +2537,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		codeBeginDoc.append("\\draw [color=");
 		colorCode(gridCol, codeBeginDoc);
 		codeBeginDoc.append(",");
-		LinestyleCode(gridLine, codeBeginDoc);
+		linestyleCode(gridLine, codeBeginDoc);
 		codeBeginDoc.append(", xstep=");
 		codeBeginDoc.append(sci2dec(GridDist[0] * xunit));
 		codeBeginDoc.append("cm,ystep=");
@@ -2987,7 +2981,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			} else {
 				coma = true;
 			}
-			LinestyleCode(linestyle, sb);
+			linestyleCode(linestyle, sb);
 		}
 		if (!info.getLinecolor().equals(GColor.BLACK)) {
 			if (coma) {
@@ -3066,7 +3060,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	/**
 	 * Append the line style parameters to the StringBuilder sb
 	 */
-	private void LinestyleCode(int linestyle, StringBuilder sb) {
+	private void linestyleCode(int linestyle, StringBuilder sb) {
 		switch (linestyle) {
 		default:
 			// do nothing
@@ -3237,16 +3231,13 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 
 	private String handleAxesStyle() {
 		String styleAx = "";
-		if ((euclidianView.getAxesLineStyle()
-				& EuclidianStyleConstants.AXES_RIGHT_ARROW) == EuclidianStyleConstants.AXES_RIGHT_ARROW) {
+		if ((euclidianView.getAxesLineStyle() & EuclidianStyleConstants.AXES_RIGHT_ARROW) > 0) {
 			styleAx = "->,";
 		}
-		if ((euclidianView.getAxesLineStyle()
-				& EuclidianStyleConstants.AXES_LEFT_ARROW) == EuclidianStyleConstants.AXES_LEFT_ARROW) {
+		if ((euclidianView.getAxesLineStyle() & EuclidianStyleConstants.AXES_LEFT_ARROW) > 0) {
 			styleAx = "<" + styleAx;
 		}
-		if ((euclidianView.getAxesLineStyle()
-				& EuclidianStyleConstants.AXES_BOLD) == EuclidianStyleConstants.AXES_BOLD) {
+		if ((euclidianView.getAxesLineStyle() & EuclidianStyleConstants.AXES_BOLD) > 0) {
 			styleAx += "ultra thick,";
 		}
 		return styleAx;

@@ -17,8 +17,12 @@ import org.geogebra.common.util.debug.Log;
 public class ManagerShadersElementsGlobalBuffer
 		extends ManagerShadersNoTriangleFan {
 
-	private GLBufferIndices curvesIndices, fanDirectIndices, fanIndirectIndices;
-	private int curvesIndicesSize, fanDirectIndicesSize, fanIndirectIndicesSize;
+	private GLBufferIndices curvesIndices;
+	private GLBufferIndices fanDirectIndices;
+	private GLBufferIndices fanIndirectIndices;
+	private int curvesIndicesSize;
+	private int fanDirectIndicesSize;
+	private int fanIndirectIndicesSize;
 	private GLBufferIndices bufferIndicesForDrawTriangleFans;
 
 	private boolean indicesDone = false;

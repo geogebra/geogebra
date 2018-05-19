@@ -40,12 +40,16 @@ public class PlotterCursor {
 
 	private Manager manager;
 
-	private float r, g, b, a;
+	private float r;
+	private float g;
+	private float b;
+	private float a;
 
 	/**
 	 * common constructor
 	 * 
-	 * @param geometryRenderer
+	 * @param manager
+	 *            geometry manager
 	 */
 	public PlotterCursor(Manager manager) {
 
@@ -77,16 +81,16 @@ public class PlotterCursor {
 		// xy
 		brush.start(-1);
 		brush.setColor(GColor.GRAY);
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(size_start_move, 0, 0, 1),
 				new Coords(size_move, 0, 0, 1));
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(-size_start_move, 0, 0, 1),
 				new Coords(-size_move, 0, 0, 1));
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, size_start_move, 0, 1),
 				new Coords(0, size_move, 0, 1));
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, -size_start_move, 0, 1),
 				new Coords(0, -size_move, 0, 1));
 		index[TYPE_ALREADY_XY] = brush.end();
@@ -94,10 +98,10 @@ public class PlotterCursor {
 		// z
 		brush.start(-1);
 		brush.setColor(GColor.GRAY);
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, 0, size_start_move, 1),
 				new Coords(0, 0, size_move, 1));
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, 0, -size_start_move, 1),
 				new Coords(0, 0, -size_move, 1));
 		index[TYPE_ALREADY_Z] = brush.end();
@@ -105,22 +109,22 @@ public class PlotterCursor {
 		// xyz
 		brush.start(-1);
 		brush.setColor(GColor.GRAY);
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(size_start_move, 0, 0, 1),
 				new Coords(size_move, 0, 0, 1));
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(-size_start_move, 0, 0, 1),
 				new Coords(-size_move, 0, 0, 1));
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, size_start_move, 0, 1),
 				new Coords(0, size_move, 0, 1));
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, -size_start_move, 0, 1),
 				new Coords(0, -size_move, 0, 1));
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, 0, size_start_move, 1),
 				new Coords(0, 0, size_move, 1));
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, 0, -size_start_move, 1),
 				new Coords(0, 0, -size_move, 1));
 		index[TYPE_ALREADY_XYZ] = brush.end();
@@ -182,7 +186,7 @@ public class PlotterCursor {
 		// rotation
 		brush.start(-1);
 		brush.setColor(GColor.GRAY);
-		brush.setThickness(thickness3);// re sets the thickness
+		brush.setThickness(thickness3); // re sets the thickness
 		brush.arcExtendedWithArrows(new Coords(0, 0, 0, 1),
 				new Coords(1, 0, 0, 0), new Coords(0, 1, 0, 0), size_move / 2,
 				-Math.PI * 0.6, Math.PI * 1.2, 64);
@@ -224,6 +228,7 @@ public class PlotterCursor {
 	 * used to say if light is on or not
 	 * 
 	 * @param type
+	 *            type
 	 * @return true it type is of "already" (xy or z)
 	 */
 	public static final boolean isTypeAlready(int type) {
@@ -240,6 +245,7 @@ public class PlotterCursor {
 	 * return geometry index for each type of cursor
 	 * 
 	 * @param i
+	 *            type
 	 * @return geometry index for each type of cursor
 	 */
 	public int getIndex(int i) {

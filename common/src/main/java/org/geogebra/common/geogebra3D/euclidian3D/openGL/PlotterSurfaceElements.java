@@ -23,8 +23,11 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	private DrawHyperboloidTwoSheets drawHyperboloidTwoSheets;
 	private DrawParaboloid drawParaboloid;
 
-	private double maxFadingStartTop, maxFadingEndTop, middleFading,
-			maxFadingStartBottom, maxFadingEndBottom;
+	private double maxFadingStartTop;
+	private double maxFadingEndTop;
+	private double middleFading;
+	private double maxFadingStartBottom;
+	private double maxFadingEndBottom;
 	private int arrayIndex = 0;
 	private GLBufferIndices arrayI;
 
@@ -172,8 +175,12 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		private PlotterSurface surface;
 		private Coords center;
-		private Coords ev0, ev1, ev2;
-		private double r0, r1, r2;
+		private Coords ev0;
+		private Coords ev1;
+		private Coords ev2;
+		private double r0;
+		private double r1;
+		private double r2;
 
 		private Coords c = Coords.createInhomCoorsInD3();
 		private Coords n = new Coords(4);
@@ -280,8 +287,12 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		protected PlotterSurface surface;
 		protected Coords center;
-		protected Coords ev0, ev1, ev2;
-		protected double r0, r1, r2;
+		protected Coords ev0;
+		protected Coords ev1;
+		protected Coords ev2;
+		protected double r0;
+		protected double r1;
+		protected double r2;
 
 		protected double min;
 		protected double max;
@@ -295,8 +306,11 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		protected Coords c = Coords.createInhomCoorsInD3();
 		protected Coords n = new Coords(4);
 		protected Coords tmpCoords = new Coords(4);
-		protected double maxFadingStartTop, maxFadingEndTop, middleFading,
-				maxFadingStartBottom, maxFadingEndBottom;
+		protected double maxFadingStartTop;
+		protected double maxFadingEndTop;
+		protected double middleFading;
+		protected double maxFadingStartBottom;
+		protected double maxFadingEndBottom;
 
 		protected DrawHyperboloidOneSheet() {
 		}
@@ -314,7 +328,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			this.r2 = r2;
 
 			this.fading = fading;
-
 		}
 
 		public void setMinMax(double min, double max) {
@@ -345,7 +358,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 			// use asymptotic behavior of cosh() for (un)refine radius
 			jump = Math.log(2) / max;
-
 		}
 
 		@Override
@@ -752,7 +764,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		if (min < 0) {
 			if (max > 0) {
-				if (-min > max) {// more bottom than top
+				if (-min > max) { // more bottom than top
 					latitudeMaxTop = (int) (latitude * (1 - max / (-min)));
 					if (latitudeMaxTop == 1) {
 						latitudeMaxTop = 2; // ensure at least a strip is drawn
@@ -819,9 +831,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				+ longitudeLength);
 
 		short lastLength, currentLength;
-		boolean drawTop, drawBottom;
-		int vi, nextJump, next;
-		short shift;
 
 		// ///////////////
 		// draw vertices
@@ -841,15 +850,15 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		currentLength = (short) longitudeLength;
 
 		// both = 1 if only drawing up or down, both = 2 if drawing both
-		drawTop = true;
-		drawBottom = true;
+		boolean drawTop = true;
+		boolean drawBottom = true;
 
-		vi = latitudeMin + 1;
-		nextJump = dse.initNextJump(latitude, longitude);
+		int vi = latitudeMin + 1;
+		int nextJump = dse.initNextJump(latitude, longitude);
 		debug("latitude : " + latitude + " , latitude-nextJump : "
 				+ (latitude - nextJump));
-		next = 0;
-		shift = 1;
+		int next = 0;
+		int shift = 1;
 
 		while (next < latitudeMax) {
 
@@ -871,10 +880,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				dse.computeRadiusAndZ(vi, latitude, rz);
 				for (int ui = 0; ui < longitudeLength; ui += shift) {
 					sphericalCoords(ui, longitude, longitudeStart, rz, n);
-					if (drawTop) {// top vertices
+					if (drawTop) { // top vertices
 						dse.drawNCr(n);
 					}
-					if (drawBottom) {// bottom vertices
+					if (drawBottom) { // bottom vertices
 						dse.drawNCrm(n);
 					}
 				}
@@ -883,7 +892,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				lastLength = currentLength;
 
-				if (drawTop) {// top triangles
+				if (drawTop) { // top triangles
 					if (longitudeLength == longitude) {
 						arrayIndex += 6 * lastLength;
 					} else {
@@ -892,7 +901,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				}
 
-				if (drawBottom) {// bottom triangles
+				if (drawBottom) { // bottom triangles
 					if (longitudeLength == longitude) {
 						arrayIndex += 6 * lastLength;
 					} else {
@@ -910,19 +919,18 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				dse.computeRadiusAndZ(vi, latitude, rz);
 				for (int ui = 0; ui < longitudeLength; ui += shift) {
 					sphericalCoords(ui, longitude, longitudeStart, rz, n);
-					if (drawTop) {// top vertices
+					if (drawTop) { // top vertices
 						dse.drawNCr(n);
 					}
-					if (drawBottom) {// bottom vertices
+					if (drawBottom) { // bottom vertices
 						dse.drawNCrm(n);
 					}
-
 				}
 
 				lastLength = currentLength;
 				currentLength /= 2;
 
-				if (drawTop) {// top triangles
+				if (drawTop) { // top triangles
 					if (longitudeLength == longitude) {
 						arrayIndex += 9 * currentLength;
 					} else {
@@ -930,7 +938,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 					}
 				}
 
-				if (drawBottom) {// bottom triangles
+				if (drawBottom) { // bottom triangles
 					if (longitudeLength == longitude) {
 						arrayIndex += 9 * currentLength;
 					} else {
@@ -973,7 +981,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 					} else {
 						arrayIndex += 3 * (lastLength - 1);
 					}
-
 				}
 			}
 		}
@@ -1042,10 +1049,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				lastBoth = both;
 				both = 0;
-				if (drawTop) {// top vertices
+				if (drawTop) { // top vertices
 					both++;
 				}
-				if (drawBottom) {// bottom vertices
+				if (drawBottom) { // bottom vertices
 					both++;
 				}
 
@@ -1055,7 +1062,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				lastLength = currentLength;
 				currentStartIndex += lastLength * lastBoth;
 
-				if (lastDrawTop && drawTop) {// top triangles
+				if (lastDrawTop && drawTop) { // top triangles
 					short currentIndex = currentStartIndex;
 					short lastIndex;
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
@@ -1104,7 +1111,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 					currentStartIndex += 1;
 				}
 
-				if (lastDrawBottom && drawBottom) {// bottom triangles
+				if (lastDrawBottom && drawBottom) { // bottom triangles
 					short currentIndex = currentStartIndex;
 					short lastIndex;
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
@@ -1163,7 +1170,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				currentStartIndex += lastLength * lastBoth;
 				currentLength /= 2;
 
-				if (lastDrawTop && drawTop) {// top triangles
+				if (lastDrawTop && drawTop) { // top triangles
 					short currentIndex = currentStartIndex;
 					short lastIndex;
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
@@ -1224,7 +1231,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				}
 
-				if (lastDrawBottom && drawBottom) {// bottom triangles
+				if (lastDrawBottom && drawBottom) { // bottom triangles
 					short currentIndex = currentStartIndex;
 					short lastIndex;
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex

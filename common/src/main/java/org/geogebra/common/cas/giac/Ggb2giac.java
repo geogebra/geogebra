@@ -1520,7 +1520,7 @@ public class Ggb2giac {
 		p("Circle.2",
 				"[[[ggbcirarg0:=%0],[ggbcirarg1:=%1]],regroup(equation(when(ggbcirarg1[0]=='pnt',circle(2*(ggbcirarg0)-(ggbcirarg1),ggbcirarg1),circle(ggbcirarg0,ggbcirarg1))))][1]");
 
-		p("Area.1", "normal(regroup(re(area([circle(%0)]))))");// re needed for
+		p("Area.1", "normal(regroup(re(area([circle(%0)]))))"); // re needed for
 																// x^2+y^2=r^2
 		p("Circumference.1", "normal(regroup(perimeter(%0)))");
 
