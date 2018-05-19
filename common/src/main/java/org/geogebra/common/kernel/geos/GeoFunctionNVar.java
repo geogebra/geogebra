@@ -757,6 +757,9 @@ public class GeoFunctionNVar extends GeoElement
 	@Override
 	public void update(boolean drag) {
 		if (fun != null && fun.isBooleanFunction()) {
+			if (isInequality() && fun.getIneqs() == null) {
+				fun.initIneqs(fun.getFunctionExpression(), fun);
+			}
 			isInequality = fun.updateIneqs();
 		}
 		super.update(drag);
@@ -1070,6 +1073,7 @@ public class GeoFunctionNVar extends GeoElement
 	@Override
 	public void translate(Coords v) {
 		fun.translate(v.getX(), v.getY());
+		this.getIneqs();
 	}
 
 	/**
@@ -1101,6 +1105,7 @@ public class GeoFunctionNVar extends GeoElement
 		} else {
 			fun.matrixTransform(a11 / d, -a01 / d, -a10 / d, a00 / d);
 		}
+		isInequality = null;
 	}
 
 	@Override
@@ -1121,18 +1126,20 @@ public class GeoFunctionNVar extends GeoElement
 	@Override
 	public void rotate(NumberValue phi) {
 		fun.rotate(phi);
+		isInequality = null;
 	}
 
 	@Override
 	public void rotate(NumberValue phi, GeoPointND point) {
 		Coords P = point.getInhomCoords();
 		fun.rotate(phi, P);
-
+		isInequality = null;
 	}
 
 	@Override
 	public void mirror(Coords Q) {
 		fun.dilate(new MyDouble(kernel, -1.0), Q);
+		isInequality = null;
 	}
 
 	/**
@@ -1163,14 +1170,14 @@ public class GeoFunctionNVar extends GeoElement
 	@Override
 	public void mirror(GeoLineND g1) {
 		fun.mirror((GeoLine) g1);
-
+		isInequality = null;
 	}
 
 	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		fun.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
-
+		isInequality = null;
 	}
 
 	@Override
