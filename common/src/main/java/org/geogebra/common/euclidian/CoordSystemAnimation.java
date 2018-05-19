@@ -66,14 +66,18 @@ public abstract class CoordSystemAnimation {
 	}
 
 	/**
-	 * Init this for axis ratio zooming
+	 * Init this for axis ratio zooming. After zoom the axis ratio will be
+	 * ratioX:ratioY, zooming is done along x-axis if ratioY is 1 and ratioX !=
+	 * 1
 	 * 
-	 * @param ratio
-	 *            y-zoom
+	 * @param ratioX
+	 *            axis ratio numerator
+	 * @param ratioY
+	 *            axis ratio denominator
 	 * @param doStoreUndo
 	 *            true to store undo
 	 */
-	public void initAxes(double ratioX, double ratioY, boolean doStoreUndo) {
+	public synchronized void initAxes(double ratioX, double ratioY, boolean doStoreUndo) {
 		// this.ratio = ratio;
 		this.storeUndo = doStoreUndo;
 		this.steps = MAX_STEPS;
@@ -106,7 +110,7 @@ public abstract class CoordSystemAnimation {
 	 * @param doStoreUndo
 	 *            true to store undo info
 	 */
-	public void init(double ptx, double pty, double zoomFactor, int noOfSteps,
+	public synchronized void init(double ptx, double pty, double zoomFactor, int noOfSteps,
 			boolean doStoreUndo) {
 		this.px = ptx;
 		this.py = pty;

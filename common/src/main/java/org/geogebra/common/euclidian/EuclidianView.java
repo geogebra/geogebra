@@ -5437,10 +5437,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Zooms towards the given axes scale ratio. Note: Only the y-axis is
-	 * changed here. ratio = yscale / xscale;
+	 * changed here. newRatioX / newRatioY = yscale / xscale;
 	 * 
-	 * @param newRatio
-	 *            new yscale / xscale ratio
+	 * @param newRatioX
+	 *            axis ratio numerator
+	 * @param newRatioY
+	 *            axis ratio denominator
 	 * @param storeUndo
 	 *            true to store undo step after
 	 */
