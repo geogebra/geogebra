@@ -1019,6 +1019,8 @@ namespace giac {
   extern const unary_function_ptr * const  at_heappush ;
   extern const unary_function_ptr * const  at_giac_bool ;
   extern const unary_function_ptr * const  at_shuffle ;
+  extern const unary_function_ptr * const  at_giac_bin ;
+  extern const unary_function_ptr * const  at_giac_hex ;
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

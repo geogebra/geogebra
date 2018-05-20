@@ -11065,7 +11065,7 @@ namespace giac {
     gen a_(a);
     if (!is_integral(a_) || a_.type==_ZINT)
       return gentypeerr(contextptr);
-    int i=a.val;
+    int i=a_.val;
     string s;
     while (i){
       s = char('0'+(i%2))+s;
@@ -11076,6 +11076,18 @@ namespace giac {
   static const char _giac_bin_s []="bin";
   static define_unary_function_eval (__giac_bin,&_giac_bin,_giac_bin_s);
   define_unary_function_ptr5( at_giac_bin ,alias_at_giac_bin,&__giac_bin,0,true);
+
+  gen _giac_hex(const gen & a,GIAC_CONTEXT){
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    gen a_(a);
+    if (!is_integral(a_))
+      return gentypeerr(contextptr);
+    string s=a_.type==_INT_?hexa_print_INT_(a_.val):hexa_print_ZINT(*a._ZINTptr);
+    return string2gen(s,false);
+  }
+  static const char _giac_hex_s []="hex";
+  static define_unary_function_eval (__giac_hex,&_giac_hex,_giac_hex_s);
+  define_unary_function_ptr5( at_giac_hex ,alias_at_giac_hex,&__giac_hex,0,true);
 
   gen _heapify(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT)
