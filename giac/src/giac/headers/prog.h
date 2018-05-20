@@ -1013,6 +1013,12 @@ namespace giac {
   extern const unary_function_ptr * const  at_randint ;
   extern const unary_function_ptr * const  at_choice ;
   extern const unary_function_ptr * const  at_randrange ;
+  extern const unary_function_ptr * const  at_giac_assert ;
+  extern const unary_function_ptr * const  at_heapify ;
+  extern const unary_function_ptr * const  at_heappop ;
+  extern const unary_function_ptr * const  at_heappush ;
+  extern const unary_function_ptr * const  at_giac_bool ;
+  extern const unary_function_ptr * const  at_shuffle ;
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

@@ -1663,6 +1663,8 @@ namespace giac {
   extern const alias_type alias_at_normalmod;  
   extern const alias_type alias_at_pointplus;
   extern const alias_type alias_at_pointminus;
+  extern const alias_type alias_at_struct_dot;
+  extern const alias_type alias_at_try_catch;
 
 #ifdef BCD
   inline bool ck_gentobcd(const gen & g,accurate_bcd_float * bcdptr){

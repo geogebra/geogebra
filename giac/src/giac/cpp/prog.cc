@@ -11050,6 +11050,16 @@ namespace giac {
   static define_unary_function_eval (__index,&_index,_index_s);
   define_unary_function_ptr5( at_index ,alias_at_index,&__index,0,true);
 
+  gen _giac_bool(const gen & args,GIAC_CONTEXT){
+    bool b=is_exactly_zero(args);
+    gen r=b?0:1;
+    r.subtype=_INT_BOOLEAN;
+    return r;
+  }
+  static const char _giac_bool_s []="bool";
+  static define_unary_function_eval (__giac_bool,&_giac_bool,_giac_bool_s);
+  define_unary_function_ptr5( at_giac_bool ,alias_at_giac_bool,&__giac_bool,0,true);
+
   gen _heapify(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT)
       return gensizeerr(contextptr);

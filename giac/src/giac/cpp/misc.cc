@@ -8264,12 +8264,29 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   define_unary_function_ptr5( at_python_list ,alias_at_python_list,&__python_list,0,true);
 
   gen _set_pixel(const gen & a_,GIAC_CONTEXT){
-#ifdef GIAC_HAS_STO_38
-    static gen PIXEL(identificateur("PIXON_P"));
-    return _of(makesequence(PIXEL,a_),contextptr);
-#else
     gen a(a_);
     if (a.type==_STRNG && a.subtype==-1) return  a;
+#ifdef GIAC_HAS_STO_38
+    if (a.type!=_VECT || a._VECTptr->size()<2)
+      return gentypeerr(contextptr);
+    const vecteur & v=*a._VECTptr;
+    size_t vs=v.size();
+    if (vs>=2){
+      gen x=v.front();
+      gen y=v[1];
+      if (x.type==_DOUBLE_)
+	x=int(x._DOUBLE_val+.5);
+      if (y.type==_DOUBLE_)
+	y=int(y._DOUBLE_val+.5);
+      if (x.type==_INT_ &&  y.type==_INT_ ){
+	aspen_set_pixel(x.val,y.val,vs==2?0:v[2].val);
+	return 1;
+      }
+    }
+    return gensizeerr(contextptr);
+    //static gen PIXEL(identificateur("PIXON_P"));
+    //return _of(makesequence(PIXEL,a_),contextptr);
+#else
     if (a.type==_VECT && a._VECTptr->empty())
       return pixel_v();
     if (is_integral(a)){

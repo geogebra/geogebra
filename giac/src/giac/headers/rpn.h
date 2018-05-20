@@ -186,6 +186,7 @@ namespace giac {
   gen _SUB(const gen & args,GIAC_CONTEXT);
   gen _RANDMAT(const gen & args,GIAC_CONTEXT);
   gen _REDIM(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_redim;
   gen _REPLACE(const gen & args,GIAC_CONTEXT);
   gen _EIGENVAL(const gen & args,GIAC_CONTEXT);
   gen _EIGENVV(const gen & args,GIAC_CONTEXT);
