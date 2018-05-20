@@ -1,8 +1,11 @@
 package org.geogebra.web.html5.js;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
@@ -56,17 +59,30 @@ public class ResourcesInjector {
 				&& Browser.checkWorkerSupport(GWT
 						.getModuleBaseURL()));
 		if (!Browser.webWorkerSupported()) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.inflateJs());
+			loadCodecs();
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.arrayBufferJs());
 		// strange, but iPad can blow it away again...
 		if (Browser.checkIfFallbackSetExplicitlyInArrayBufferJs()
 				&& Browser.webWorkerSupported()) {
+			loadCodecs();
+		}
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
+	}
+
+	public static void loadCodecs() {
+		if (AppW.USE_PAKO) {
+			Log.debug("loading zipjs/pako");
+			if (AppW.USE_PAKO && !PDFEncoderW.pakoLoaded()) {
+				JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
+			}
+			JavaScriptInjector
+					.inject(GuiResourcesSimple.INSTANCE.pakoCodecJs());
+		} else {
+			Log.debug("loading zipjs/inflate+deflate.js");
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.inflateJs());
 		}
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
 	}
 
 	/** Works around https://bugzilla.mozilla.org/show_bug.cgi?id=548397 */

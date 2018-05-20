@@ -83,7 +83,7 @@ public class ViewW {
 
 	private void populateArchiveContent(JavaScriptObject ggbReader) {
 		String workerUrls = prepareFileReading();
-		GgbAPIW.setWorkerURL(workerUrls, false);
+		GgbAPIW.setWorkerURL(workerUrls, false, AppW.USE_PAKO);
 		populateArchiveContent(workerUrls, this, ggbReader);
 	}
 
