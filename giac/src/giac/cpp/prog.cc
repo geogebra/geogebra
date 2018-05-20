@@ -1189,7 +1189,7 @@ namespace giac {
     newcsto=mergevecteur(lop(c,at_struct_dot),lop(c,at_for));
     for (size_t i=0;i<newcsto.size();++i){
       gen var=newcsto[i]._SYMBptr->feuille[0];
-      if (var.type==_FUNC && (python_compat(contextptr) || !archive_function_index(*var._FUNCptr))){
+      if (var.type==_FUNC && var!=at_random && (python_compat(contextptr) || !archive_function_index(*var._FUNCptr))){
 	newc1.push_back(var);
 	newc2.push_back(identificateur(mkvalid(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
       }
@@ -11051,7 +11051,7 @@ namespace giac {
   define_unary_function_ptr5( at_index ,alias_at_index,&__index,0,true);
 
   gen _giac_bool(const gen & args,GIAC_CONTEXT){
-    bool b=is_exactly_zero(args);
+    bool b=args.type==_VECT?args._VECTptr->empty():is_exactly_zero(args);
     gen r=b?0:1;
     r.subtype=_INT_BOOLEAN;
     return r;
@@ -11059,6 +11059,23 @@ namespace giac {
   static const char _giac_bool_s []="bool";
   static define_unary_function_eval (__giac_bool,&_giac_bool,_giac_bool_s);
   define_unary_function_ptr5( at_giac_bool ,alias_at_giac_bool,&__giac_bool,0,true);
+
+  gen _giac_bin(const gen & a,GIAC_CONTEXT){
+    if (a.type==_STRNG && a.subtype==-1) return  a;
+    gen a_(a);
+    if (!is_integral(a_) || a_.type==_ZINT)
+      return gentypeerr(contextptr);
+    int i=a.val;
+    string s;
+    while (i){
+      s = char('0'+(i%2))+s;
+      i /= 2;
+    }
+    return string2gen("0b"+s,false);
+  }
+  static const char _giac_bin_s []="bin";
+  static define_unary_function_eval (__giac_bin,&_giac_bin,_giac_bin_s);
+  define_unary_function_ptr5( at_giac_bin ,alias_at_giac_bin,&__giac_bin,0,true);
 
   gen _heapify(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT)
