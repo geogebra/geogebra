@@ -54,7 +54,8 @@ public class ErrorHelper {
 			handleCommandError(loc, handler.getCurrentCommand(), handler);
 		} else {
 			handler.showError(
-					loc.getErrorDefault("InvalidInput", "Invalid Input"));
+					loc.getErrorDefault("InvalidInput",
+							"Please check your input"));
 		}
 
 	}
@@ -71,7 +72,8 @@ public class ErrorHelper {
 			ErrorHandler handler) {
 		String cmd = loc.getReverseCommand(localCommand);
 		handler.showCommandError(cmd,
-				loc.getErrorDefault("InvalidInput", "Invalid Input") + ":\n"
+				loc.getErrorDefault("InvalidInput", "Please check your input")
+						+ ":\n"
 						+ localCommand + "\n\n"
 						+ loc.getMenu("Syntax") + ":\n"
 						+ loc.getCommandSyntax(cmd));
@@ -116,7 +118,8 @@ public class ErrorHelper {
 			ErrorHandler handler) {
 		if (loc != null) {
 			handler.showError(
-					loc.getErrorDefault("InvalidInput", "Invalid Input") + ":\n"
+					loc.getErrorDefault("InvalidInput",
+							"Please check your input") + ":\n"
 							+ str);
 		} else {
 			handler.showError("Invalid Input:\n" + str);

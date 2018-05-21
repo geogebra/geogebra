@@ -2776,7 +2776,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// in case translations not available
 		// eg webSimple
 		if ("InvalidInput".equals(translatedError)) {
-			translatedError = "Invalid Input";
+			translatedError = "Please check your input";
 		}
 
 		showErrorDialog(translatedError + ":\n" + error);

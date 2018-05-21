@@ -331,7 +331,8 @@ public class GeoInputBox extends GeoButton {
 			Log.error(e1.getMessage());
 			kernel.getApplication()
 					.showError(kernel.getApplication().getLocalization()
-							.getErrorDefault("InvalidInput", "Invalid Input"));
+							.getErrorDefault("InvalidInput",
+									"Please check your input"));
 			return;
 		}
 		this.setLinkedGeo(linkedGeo);

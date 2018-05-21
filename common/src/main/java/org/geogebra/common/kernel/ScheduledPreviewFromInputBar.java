@@ -116,7 +116,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				// timeout -- assume OK as we don't know if it's wrong
 				validation.showError(maxLength != DEFAULT_MAX_LENGTH ? null
 						: kernel.getLocalization().getErrorDefault(
-								"InvalidInput", "Invalid Input"));
+								"InvalidInput", "Please check your input"));
 			}
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
 			return;

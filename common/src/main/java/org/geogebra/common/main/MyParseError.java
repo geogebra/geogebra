@@ -52,7 +52,8 @@ public class MyParseError extends MyError {
 
 	@Override
 	public String getLocalizedMessage() {
-		return getErrorDefault("InvalidInput", "Invalid Input") + " :\n"
+		return getErrorDefault("InvalidInput", "Please check your input")
+				+ " :\n"
 				+ super.getLocalizedMessage();
 	}
 }
