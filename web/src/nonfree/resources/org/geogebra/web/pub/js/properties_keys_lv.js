@@ -213,7 +213,7 @@ __GGB__keysVar["lv"].command = {
     "Covariance": "Kovariance",
     "Covariance.Syntax": "[ <Punktu saraksts> ]\n[ <Skait\u013cu saraksts>, <Skait\u013cu saraksts> ]",
     "Cross": "Vektori\u0101laisReizin\u0101jums",
-    "Cross.SyntaxCAS": "[ <Vektors>, <Vektors> ]",
+    "Cross.Syntax": "[ <Vektors>, <Vektors> ]",
     "CrossRatio": "CrossKoefcients",
     "CrossRatio.Syntax": "[ <Punkts>, <Punkts>, <Punkts>, <Punkts> ]",
     "Cube": "Kubs",

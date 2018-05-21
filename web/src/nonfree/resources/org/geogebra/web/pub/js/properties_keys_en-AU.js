@@ -213,7 +213,7 @@ __GGB__keysVar["en-AU"].command = {
     "Covariance": "Covariance",
     "Covariance.Syntax": "[ <List of Points> ]\n[ <List of Numbers>, <List of Numbers> ]",
     "Cross": "Cross",
-    "Cross.SyntaxCAS": "[ <Vector>, <Vector> ]",
+    "Cross.Syntax": "[ <Vector>, <Vector> ]",
     "CrossRatio": "CrossRatio",
     "CrossRatio.Syntax": "[ <Point>, <Point>, <Point>, <Point> ]",
     "Cube": "Cube",

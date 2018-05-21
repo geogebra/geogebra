@@ -213,7 +213,7 @@ __GGB__keysVar["ta"].command = {
     "Covariance": "\u0b87\u0ba3\u0bc8\u0bae\u0bbe\u0bb1\u0bb2\u0bcd",
     "Covariance.Syntax": "[ <List of Points> ]\n[ <List of Numbers>, <List of Numbers> ]",
     "Cross": "Cross",
-    "Cross.SyntaxCAS": "[ <\u0ba4\u0bbf\u0b9a\u0bc8\u0baf\u0ba9\u0bcd>, <\u0ba4\u0bbf\u0b9a\u0bc8\u0baf\u0ba9\u0bcd> ]",
+    "Cross.Syntax": "[ <\u0ba4\u0bbf\u0b9a\u0bc8\u0baf\u0ba9\u0bcd>, <\u0ba4\u0bbf\u0b9a\u0bc8\u0baf\u0ba9\u0bcd> ]",
     "CrossRatio": "\u0b95\u0bc1\u0bb1\u0bc1\u0b95\u0bcd\u0b95\u0bc1\u0bb5\u0bbf\u0b95\u0bbf\u0ba4\u0bae\u0bcd",
     "CrossRatio.Syntax": "[ <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf> ]",
     "Cube": "Cube",

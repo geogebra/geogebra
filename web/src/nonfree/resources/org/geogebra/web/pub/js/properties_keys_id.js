@@ -213,7 +213,7 @@ __GGB__keysVar["id"].command = {
     "Covariance": "Kovarians",
     "Covariance.Syntax": "[ <Daftar Titik> ]\n[ <Daftar Angka>, <Daftar Angka> ]",
     "Cross": "ProdukSilang",
-    "Cross.SyntaxCAS": "[ <Vektor>, <Vektor> ]",
+    "Cross.Syntax": "[ <Vektor>, <Vektor> ]",
     "CrossRatio": "RasioSilang",
     "CrossRatio.Syntax": "[ <Titik>, <Titik>, <Titik>, <Titik> ]",
     "Cube": "Kubus",

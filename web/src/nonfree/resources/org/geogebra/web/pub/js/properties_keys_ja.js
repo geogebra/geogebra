@@ -213,7 +213,7 @@ __GGB__keysVar["ja"].command = {
     "Covariance": "Covariance",
     "Covariance.Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]\n[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8>, <\u6570\u5024\u306e\u30ea\u30b9\u30c8> ]",
     "Cross": "Cross",
-    "Cross.SyntaxCAS": "[ <\u30d9\u30af\u30c8\u30eb>, <\u30d9\u30af\u30c8\u30eb> ]",
+    "Cross.Syntax": "[ <\u30d9\u30af\u30c8\u30eb>, <\u30d9\u30af\u30c8\u30eb> ]",
     "CrossRatio": "CrossRatio",
     "CrossRatio.Syntax": "[ <\u70b9>, <\u70b9>, <\u70b9>, <\u70b9> ]",
     "Cube": "Cube",

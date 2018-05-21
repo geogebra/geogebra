@@ -213,7 +213,7 @@ __GGB__keysVar["eo"].command = {
     "Covariance": "Kunvarianco",
     "Covariance.Syntax": "[ <Listo de Punktoj> ]\n[ <Listo de Nombroj>, <Listo de Nombroj> ]",
     "Cross": "VektoraProduto",
-    "Cross.SyntaxCAS": "[ <Vektoro>, <Vektoro> ]",
+    "Cross.Syntax": "[ <Vektoro>, <Vektoro> ]",
     "CrossRatio": "CrossRatio",
     "CrossRatio.Syntax": "[ <Punkto>, <Punkto>, <Punkto>, <Punkto> ]",
     "Cube": "Kubo",

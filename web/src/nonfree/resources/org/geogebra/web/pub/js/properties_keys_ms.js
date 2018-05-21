@@ -213,7 +213,7 @@ __GGB__keysVar["ms"].command = {
     "Covariance": "Kovarians",
     "Covariance.Syntax": "[ <Senarai Titik> ]\n[ <Senarai Nombor>, <Senarai Nombor> ]",
     "Cross": "Pangkah",
-    "Cross.SyntaxCAS": "[ <Vektor>, <Vektor> ]",
+    "Cross.Syntax": "[ <Vektor>, <Vektor> ]",
     "CrossRatio": "NisbahPangkah",
     "CrossRatio.Syntax": "[ <Titik>, <Titik>, <Titik>, <Titik> ]",
     "Cube": "Kubus",

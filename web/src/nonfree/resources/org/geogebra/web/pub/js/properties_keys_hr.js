@@ -213,7 +213,7 @@ __GGB__keysVar["hr"].command = {
     "Covariance": "Kovarijanca",
     "Covariance.Syntax": "[ <lista to\u010daka> ]\n[ <lista brojeva>, <lista brojeva> ]",
     "Cross": "VektorskiUmno\u017eak",
-    "Cross.SyntaxCAS": "[ <vektor>, <vektor> ]",
+    "Cross.Syntax": "[ <vektor>, <vektor> ]",
     "CrossRatio": "DvostrukiOmjer",
     "CrossRatio.Syntax": "[ <to\u010dka>, <to\u010dka>, <to\u010dka>, <to\u010dka> ]",
     "Cube": "Kocka",

@@ -213,7 +213,7 @@ __GGB__keysVar["zh-TW"].command = {
     "Covariance": "Covariance",
     "Covariance.Syntax": "[ <\u9ede\u96c6\u5408> ]\n[ <\u6578\u5217\u4e00>, <\u6578\u5217\u4e8c> ]",
     "Cross": "Cross",
-    "Cross.SyntaxCAS": "[ <Vector>, <Vector> ]",
+    "Cross.Syntax": "[ <Vector>, <Vector> ]",
     "CrossRatio": "CrossRatio",
     "CrossRatio.Syntax": "[ <\u9ede>, <\u9ede>, <\u9ede>, <\u9ede> ]",
     "Cube": "Cube",

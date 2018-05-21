@@ -213,7 +213,7 @@ __GGB__keysVar["et"].command = {
     "Covariance": "Kovariatsioon",
     "Covariance.Syntax": "[ <Punktide loend> ]\n[ <Arvude loend>, <Arvude loend> ]",
     "Cross": "Vektorkorrutis",
-    "Cross.SyntaxCAS": "[ <Vektor>, <Vektor> ]",
+    "Cross.Syntax": "[ <Vektor>, <Vektor> ]",
     "CrossRatio": "Liitsuhe",
     "CrossRatio.Syntax": "[ <Punkt>, <Punkt>, <Punkt>, <Punkt> ]",
     "Cube": "Kuup",

@@ -213,7 +213,7 @@ __GGB__keysVar["eu"].command = {
     "Covariance": "Kobariantza",
     "Covariance.Syntax": "[ <Puntuen Zerrenda> ]\n[ <Zenbakien Zerrenda>, <Zenbakien Zerrenda> ]",
     "Cross": "BiderkaduraBektoriala",
-    "Cross.SyntaxCAS": "[ <Bektorea>, <Bektorea> ]",
+    "Cross.Syntax": "[ <Bektorea>, <Bektorea> ]",
     "CrossRatio": "ArrazoiBikoitza",
     "CrossRatio.Syntax": "[ <Puntua>, <Puntua>, <Puntua>, <Puntua> ]",
     "Cube": "Kuboa",

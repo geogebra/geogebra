@@ -213,7 +213,7 @@ __GGB__keysVar["sl"].command = {
     "Covariance": "Kovarianca",
     "Covariance.Syntax": "[ <Seznam to\u010dk> ]\n[ <Seznam>, <seznam> ]",
     "Cross": "VektorskiProdukt",
-    "Cross.SyntaxCAS": "[ <vektor>, <vektor> ]",
+    "Cross.Syntax": "[ <vektor>, <vektor> ]",
     "CrossRatio": "Kri\u017enoRazmerje",
     "CrossRatio.Syntax": "[ <to\u010dka>, <to\u010dka>, <to\u010dka>, <to\u010dka> ]",
     "Cube": "Kocka",

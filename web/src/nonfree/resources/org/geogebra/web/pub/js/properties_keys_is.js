@@ -213,7 +213,7 @@ __GGB__keysVar["is"].command = {
     "Covariance": "Samdreifni",
     "Covariance.Syntax": "[ <Listi af punktum> ]\n[ <Listi af t\xf6lum>, <Listi af t\xf6lum> ]",
     "Cross": "Krossmargfeldi",
-    "Cross.SyntaxCAS": "[ <Vigur>, <Vigur> ]",
+    "Cross.Syntax": "[ <Vigur>, <Vigur> ]",
     "CrossRatio": "KrossHlutfall",
     "CrossRatio.Syntax": "[ <Punktur>, <Punktur>, <Punktur>, <Punktur> ]",
     "Cube": "Teningur",

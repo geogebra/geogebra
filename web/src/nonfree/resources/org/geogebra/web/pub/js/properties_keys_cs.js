@@ -213,7 +213,7 @@ __GGB__keysVar["cs"].command = {
     "Covariance": "Kovariance",
     "Covariance.Syntax": "[ <Seznam bod\u016f> ]\n[ <Seznam \u010d\xedsel>, <Seznam \u010d\xedsel> ]",
     "Cross": "VektorovySoucin",
-    "Cross.SyntaxCAS": "[ <Vektor>, <Vektor> ]",
+    "Cross.Syntax": "[ <Vektor>, <Vektor> ]",
     "CrossRatio": "Dvojpomer",
     "CrossRatio.Syntax": "[ <Bod>, <Bod>, <Bod>, <Bod> ]",
     "Cube": "Krychle",

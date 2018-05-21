@@ -213,7 +213,7 @@ __GGB__keysVar["fi"].command = {
     "Covariance": "Kovarianssi",
     "Covariance.Syntax": "[ <Pistelista> ]\n[ <Lukulista>, <Lukulista> ]",
     "Cross": "Ristitulo",
-    "Cross.SyntaxCAS": "[ <Vektori>, <Vektori> ]",
+    "Cross.Syntax": "[ <Vektori>, <Vektori> ]",
     "CrossRatio": "Kaksoissuhde",
     "CrossRatio.Syntax": "[ <Piste>, <Piste>, <Piste>, <Piste> ]",
     "Cube": "Kuutio",

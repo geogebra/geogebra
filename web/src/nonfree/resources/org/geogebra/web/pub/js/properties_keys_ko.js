@@ -213,7 +213,7 @@ __GGB__keysVar["ko"].command = {
     "Covariance": "\uacf5\ubd84\uc0b0",
     "Covariance.Syntax": "[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8> ]\n[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8>, <\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "Cross": "\uc678\uc801",
-    "Cross.SyntaxCAS": "[ <\ubca1\ud130>, <\ubca1\ud130> ]",
+    "Cross.Syntax": "[ <\ubca1\ud130>, <\ubca1\ud130> ]",
     "CrossRatio": "\uad50\ucc28\ube44",
     "CrossRatio.Syntax": "[ <\uc810>, <\uc810>, <\uc810>, <\uc810> ]",
     "Cube": "\uc8156\uba74\uccb4",

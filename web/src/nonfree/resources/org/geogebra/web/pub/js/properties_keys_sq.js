@@ -213,7 +213,7 @@ __GGB__keysVar["sq"].command = {
     "Covariance": "Kovariance",
     "Covariance.Syntax": "[ <Liste Pikash> ]\n[ <Liste Numrash>, <Liste Numrash> ]",
     "Cross": "Kryq",
-    "Cross.SyntaxCAS": "[ <Vektor>, <Vektor> ]",
+    "Cross.Syntax": "[ <Vektor>, <Vektor> ]",
     "CrossRatio": "RaportKryq",
     "CrossRatio.Syntax": "[ <Pike>, <Pike>, <Pike>, <Pike> ]",
     "Cube": "Kub",

@@ -213,7 +213,7 @@ __GGB__keysVar["cy"].command = {
     "Covariance": "Cydamrywiant",
     "Covariance.Syntax": "[ <Rhestr y rhifau>, <Rhestr y rhifau> ]\n[ <Rhestr y pwyntiau> ]",
     "Cross": "Croes",
-    "Cross.SyntaxCAS": "[ <Fector> , <Fector> ]",
+    "Cross.Syntax": "[ <Fector> , <Fector> ]",
     "CrossRatio": "CymharebGroes",
     "CrossRatio.Syntax": "[ <Pwynt>, <Pwynt>, <Pwynt>, <Pwynt> ]",
     "Cube": "Ciwb",

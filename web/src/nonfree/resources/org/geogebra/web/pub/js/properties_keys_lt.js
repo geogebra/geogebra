@@ -213,7 +213,7 @@ __GGB__keysVar["lt"].command = {
     "Covariance": "Kovariacija",
     "Covariance.Syntax": "[ <Ta\u0161k\u0173 s\u0105ra\u0161as> ]\n[ <Skai\u010di\u0173 s\u0105ra\u0161as>, <Skai\u010di\u0173 s\u0105ra\u0161as> ]",
     "Cross": "Vektori\u0173Daugyba",
-    "Cross.SyntaxCAS": "[ <Vektorius>, <Vektorius> ]",
+    "Cross.Syntax": "[ <Vektorius>, <Vektorius> ]",
     "CrossRatio": "Vektori\u0173DaugybosSantykis",
     "CrossRatio.Syntax": "[ <Ta\u0161kas>, <Ta\u0161kas>, <Ta\u0161kas>, <Ta\u0161kas> ]",
     "Cube": "Kubas",

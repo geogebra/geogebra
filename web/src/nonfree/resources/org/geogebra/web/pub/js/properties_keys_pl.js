@@ -213,7 +213,7 @@ __GGB__keysVar["pl"].command = {
     "Covariance": "Kowariancja",
     "Covariance.Syntax": "[ <Lista Punkt\xf3w> ]\n[ <Lista Liczb>, <Lista Liczb> ]",
     "Cross": "IloczynWektorowy",
-    "Cross.SyntaxCAS": "[ <Wektor>, <Wektor> ]",
+    "Cross.Syntax": "[ <Wektor>, <Wektor> ]",
     "CrossRatio": "StosunekAnharmoniczny",
     "CrossRatio.Syntax": "[ <Punkt>, <Punkt>, <Punkt>, <Punkt> ]",
     "Cube": "Sze\u015bcian",

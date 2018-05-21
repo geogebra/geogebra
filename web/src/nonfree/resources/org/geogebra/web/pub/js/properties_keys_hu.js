@@ -213,7 +213,7 @@ __GGB__keysVar["hu"].command = {
     "Covariance": "Kovariancia",
     "Covariance.Syntax": "[ <Pontok list\xe1ja> ]\n[ <Sz\xe1mok list\xe1ja>, <Sz\xe1mok list\xe1ja> ]",
     "Cross": "Vektori\xe1lisSzorzat",
-    "Cross.SyntaxCAS": "[ <Vektor>, <Vektor> ]",
+    "Cross.Syntax": "[ <Vektor>, <Vektor> ]",
     "CrossRatio": "Kett\u0151sviszony",
     "CrossRatio.Syntax": "[ <Pont>, <Pont>, <Pont>, <Pont> ]",
     "Cube": "Kocka",

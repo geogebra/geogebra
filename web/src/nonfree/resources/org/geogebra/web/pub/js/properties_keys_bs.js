@@ -213,7 +213,7 @@ __GGB__keysVar["bs"].command = {
     "Covariance": "Kovarijanca",
     "Covariance.Syntax": "[ <Lista ta\u010daka> ]\n[ <Lista brojeva>, <Lista brojeva> ]",
     "Cross": "VektorskiProizvod",
-    "Cross.SyntaxCAS": "[ <Vektor>, <Vektor> ]",
+    "Cross.Syntax": "[ <Vektor>, <Vektor> ]",
     "CrossRatio": "BiOmjer",
     "CrossRatio.Syntax": "[ <Ta\u010dka>, <Ta\u010dka>, <Ta\u010dka>, <Ta\u010dka> ]",
     "Cube": "Kocka",

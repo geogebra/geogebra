@@ -213,7 +213,7 @@ __GGB__keysVar["ro"].command = {
     "Covariance": "Covarian\u0163\u0103",
     "Covariance.Syntax": "[ <List\u0103 de puncte> ]\n[ <List\u0103 de numere>, <List\u0103 de numere> ]",
     "Cross": "Produs Vectorial",
-    "Cross.SyntaxCAS": "[ <Vector>, <Vector> ]",
+    "Cross.Syntax": "[ <Vector>, <Vector> ]",
     "CrossRatio": "RaportAnarmonic",
     "CrossRatio.Syntax": "[ <Punct>, <Punct>, <Punct>, <Punct> ]",
     "Cube": "Cub",

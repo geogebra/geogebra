@@ -213,7 +213,7 @@ __GGB__keysVar["gl"].command = {
     "Covariance": "Covarianza",
     "Covariance.Syntax": "[ <Lista de Puntos> ]\n[ <Lista de N\xfameros>, <Lista de N\xfameros> ]",
     "Cross": "ProdutoVectorial",
-    "Cross.SyntaxCAS": "[ <Vector>, <Vector> ]",
+    "Cross.Syntax": "[ <Vector>, <Vector> ]",
     "CrossRatio": "Raz\xf3nDobre",
     "CrossRatio.Syntax": "[ <Punto>, <Punto>, <Punto>, <Punto> ]",
     "Cube": "Cubo",

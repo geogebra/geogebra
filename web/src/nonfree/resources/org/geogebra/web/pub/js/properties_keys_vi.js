@@ -213,7 +213,7 @@ __GGB__keysVar["vi"].command = {
     "Covariance": "Hi\u1ec7pPh\u01b0\u01a1ngSai",
     "Covariance.Syntax": "[ <Danh s\xe1ch \u0111i\u1ec3m> ]\n[ <Danh s\xe1ch s\u1ed1>, <Danh s\xe1ch s\u1ed1> ]",
     "Cross": "T\xedchVecToC\xf3H\u01b0\u1edbng",
-    "Cross.SyntaxCAS": "[ <V\xe9c t\u01a1>, <V\xe9c t\u01a1> ]",
+    "Cross.Syntax": "[ <V\xe9c t\u01a1>, <V\xe9c t\u01a1> ]",
     "CrossRatio": "T\u1ec9S\u1ed1K\xe9p",
     "CrossRatio.Syntax": "[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <\u0110i\u1ec3m> ]",
     "Cube": "HinhL\u1eadpPh\u01b0\u01a1ng",

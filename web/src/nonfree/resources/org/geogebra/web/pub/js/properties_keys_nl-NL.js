@@ -213,7 +213,7 @@ __GGB__keysVar["nl-NL"].command = {
     "Covariance": "Covariantie",
     "Covariance.Syntax": "[ <Puntenlijst> ]\n[ <Lijst getallen>, <Lijst getallen> ]",
     "Cross": "Vectorieel_Product",
-    "Cross.SyntaxCAS": "[ <Vector>, <Vector> ]",
+    "Cross.Syntax": "[ <Vector>, <Vector> ]",
     "CrossRatio": "Dubbelverhouding",
     "CrossRatio.Syntax": "[ <Punt>, <Punt>, <Punt>, <Punt> ]",
     "Cube": "Kubus",

@@ -213,7 +213,7 @@ __GGB__keysVar["nb"].command = {
     "Covariance": "Kovarians",
     "Covariance.Syntax": "[ <Liste med punkt> ]\n[ <Liste med tall>, <Liste med tall> ]",
     "Cross": "Vektorprodukt",
-    "Cross.SyntaxCAS": "[ <Vektor>, <Vektor> ]",
+    "Cross.Syntax": "[ <Vektor>, <Vektor> ]",
     "CrossRatio": "Kryssforhold",
     "CrossRatio.Syntax": "[ <Punkt>, <Punkt>, <Punkt>, <Punkt> ]",
     "Cube": "Terning",

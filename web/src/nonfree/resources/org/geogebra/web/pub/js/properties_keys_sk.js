@@ -213,7 +213,7 @@ __GGB__keysVar["sk"].command = {
     "Covariance": "Kovariancia",
     "Covariance.Syntax": "[ <Zoznam bodov> ]\n[ <Zoznam \u010disel>, <Zoznam \u010d\xedsel> ]",
     "Cross": "Vektorov\xfdS\xfa\u010din",
-    "Cross.SyntaxCAS": "[ <Vektor>, <Vektor> ]",
+    "Cross.Syntax": "[ <Vektor>, <Vektor> ]",
     "CrossRatio": "Dvojpomer",
     "CrossRatio.Syntax": "[ <Bod>, <Bod>, <Bod>, <Bod> ]",
     "Cube": "Kocka",
