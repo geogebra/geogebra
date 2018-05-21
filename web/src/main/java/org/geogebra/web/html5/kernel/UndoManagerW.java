@@ -80,11 +80,6 @@ public class UndoManagerW extends UndoManager {
 	}
 
 	@Override
-	public void processXML(String xml) throws Exception {
-		construction.getXMLio().processXMLString(xml, true, false, true, false);
-	}
-
-	@Override
 	public void storeUndoInfoAfterPasteOrAdd() {
 		// this can cause a java.lang.OutOfMemoryError for very large
 		// constructions

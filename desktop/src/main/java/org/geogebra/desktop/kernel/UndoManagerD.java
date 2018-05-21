@@ -284,17 +284,4 @@ public class UndoManagerD extends UndoManager {
 
 	}
 
-	/**
-	 * Processes xml string. Note: this will change the construction.
-	 */
-	@Override
-	public synchronized void processXML(String strXML) throws Exception {
-		construction.setFileLoading(true);
-		construction.setCasCellUpdate(true);
-		((MyXMLioD) construction.getXMLio()).processXMLString(strXML, true,
-				false, true, true);
-		construction.setFileLoading(false);
-		construction.setCasCellUpdate(false);
-	}
-
 }

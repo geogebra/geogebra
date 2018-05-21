@@ -122,12 +122,19 @@ public abstract class UndoManager {
 	/**
 	 * Processes XML
 	 * 
-	 * @param string
+	 * @param strXML
 	 *            XML string
 	 * @throws Exception
 	 *             on trouble with parsing or running commands
 	 */
-	public abstract void processXML(String string) throws Exception;
+	final public synchronized void processXML(String strXML) throws Exception {
+		construction.setFileLoading(true);
+		construction.setCasCellUpdate(true);
+		construction.getXMLio().processXMLString(strXML, true, false, true,
+				true);
+		construction.setFileLoading(false);
+		construction.setCasCellUpdate(false);
+	}
 
 	/**
 	 * Loads previous construction state from undo info list.

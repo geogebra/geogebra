@@ -51,11 +51,6 @@ public class DefaultUndoManager extends UndoManager {
     }
 
     @Override
-    public void processXML(String string) throws Exception {
-        construction.getXMLio().processXMLString(string, true, false);
-    }
-
-    @Override
     public void storeUndoInfoAfterPasteOrAdd() {
 		// overridden in subclases
     }
