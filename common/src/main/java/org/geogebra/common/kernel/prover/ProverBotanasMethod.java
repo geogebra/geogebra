@@ -891,7 +891,9 @@ public class ProverBotanasMethod {
 						giacOutput4 = cas.getCurrentCAS()
 								.evaluateRaw(strForGiac4);
 					} catch (Throwable t) {
-						Log.debug("Unhandled case (Giac)");
+						Log.debug("Problem on running Giac (maybe uninitialized?)");
+						result = ProofResult.UNKNOWN;
+						return;
 					}
 					String outputSubst = giacOutput4
 							.replaceAll("x", vars[0].toString())
