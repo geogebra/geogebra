@@ -121,9 +121,21 @@ public class MyError extends java.lang.Error {
 	 */
 	protected String getError(String s) {
 		if (loc == null) {
+
+			if ("UndefinedVariable".equals(s)) {
+				return "Undefined variable";
+			}
 			return s;
 		}
-		return loc.getError(s);
+
+		String ret = loc.getError(s);
+
+		if ("UndefinedVariable".equals(ret)) {
+			return "Undefined variable";
+		}
+
+		return ret;
+
 	}
 
 	/**
