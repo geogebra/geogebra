@@ -150,7 +150,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		long kernelPrecision = k.precision();
 		double precisionRatio = (double) myPrecision / kernelPrecision;
 		if (precisionRatio > 5 || precisionRatio < 0.2 || force) {
-			Log.debug("myPrecision=" + myPrecision + " kernelPrecision="
+			Log.debug("resetFingerprint: myPrecision=" + myPrecision + " kernelPrecision="
 					+ kernelPrecision + " precisionRatio=" + precisionRatio);
 			efficientInputFingerprint = null;
 			myPrecision = kernelPrecision;
@@ -197,6 +197,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	@Override
 	public void compute() {
 		if (!kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
+			Log.debug("CAS is not yet loaded => fingerprint set to null");
 			efficientInputFingerprint = null;
 			myPrecision = 0;
 			return;
@@ -206,7 +207,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		if (efficientInputFingerprintPrev == null
 				|| !efficientInputFingerprintPrev
 						.equals(efficientInputFingerprint)) {
-			Log.trace(efficientInputFingerprintPrev + " -> "
+			Log.debug(efficientInputFingerprintPrev + " -> "
 					+ efficientInputFingerprint);
 			initialCompute();
 		}
@@ -233,6 +234,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 						implicit, this);
 		if (as == null) {
 			Log.debug("Cannot compute locus equation (yet?)");
+			resetFingerprint(kernel, true);
 			return null;
 		}
 
