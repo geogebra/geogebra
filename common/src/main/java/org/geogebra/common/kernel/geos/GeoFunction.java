@@ -1688,6 +1688,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public static FunctionNVar applyNumberSymb(Operation op, Evaluate2Var fun1,
 			ExpressionValue ev, boolean right) {
 		ExpressionValue nv = ev;
+
+		if (fun1.getFunction() == null) {
+			return null;
+		}
+
 		Kernel kernel = fun1.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<>();
 		for (int i = 0; i < fun1.getFunction().getVarNumber(); i++) {
