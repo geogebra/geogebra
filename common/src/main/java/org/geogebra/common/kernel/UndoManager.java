@@ -127,10 +127,12 @@ public abstract class UndoManager {
 	 * @throws Exception
 	 *             on trouble with parsing or running commands
 	 */
-	final public synchronized void processXML(String strXML) throws Exception {
+	final public synchronized void processXML(String strXML,
+			boolean isGGTOrDefaults) throws Exception {
 		construction.setFileLoading(true);
 		construction.setCasCellUpdate(true);
-		construction.getXMLio().processXMLString(strXML, true, false, true,
+		construction.getXMLio().processXMLString(strXML, true, isGGTOrDefaults,
+				true,
 				true);
 		construction.setFileLoading(false);
 		construction.setCasCellUpdate(false);

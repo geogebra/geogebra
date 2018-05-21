@@ -161,7 +161,7 @@ public class UndoManagerW extends UndoManager {
 
 			// load undo info
 			app.getScriptManager().disableListeners();
-			processXML(tempXML);
+			processXML(tempXML, false);
 			app.getScriptManager().enableListeners();
 			// If there are Exercises we also have to update the Exercises
 			if (app.getKernel().hasExercise()) {

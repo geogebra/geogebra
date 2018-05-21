@@ -3093,7 +3093,7 @@ public class Construction {
 		// try to process the new construction
 		try {
 			ensureUndoManagerExists();
-			undoManager.processXML(consXML.toString());
+			undoManager.processXML(consXML.toString(), false);
 			kernel.notifyReset();
 			// Update construction is done during parsing XML
 			// kernel.updateConstruction();
@@ -3119,7 +3119,7 @@ public class Construction {
 	 */
 	public void processXML(StringBuilder xml) {
 		try {
-			undoManager.processXML(xml.toString());
+			undoManager.processXML(xml.toString(), false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

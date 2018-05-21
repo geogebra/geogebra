@@ -55,7 +55,7 @@ public class MacroConstruction extends Construction {
 			undoManager = kernel.getApplication().getUndoManager(this);
 		}
 		this.setFileLoading(true);
-		undoManager.processXML(xmlString);
+		undoManager.processXML(xmlString, true);
 		this.setFileLoading(false);
 	}
 
