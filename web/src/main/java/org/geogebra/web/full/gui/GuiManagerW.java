@@ -64,6 +64,7 @@ import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
+import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
@@ -123,7 +124,6 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -1817,11 +1817,12 @@ public class GuiManagerW extends GuiManager
 			return mode;
 		}
 
-		if (toolbarPanel == null) {
-			return mode;
-		}
 		if (getApp().has(Feature.MOW_TOOLBAR)) {
 			(getApp().getAppletFrame()).setMOWToorbarMode(mode);
+			return mode;
+		}
+
+		if (toolbarPanel == null) {
 			return mode;
 		}
 
