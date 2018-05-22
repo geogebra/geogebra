@@ -130,8 +130,14 @@ public class MyError extends java.lang.Error {
 
 		String ret = loc.getError(s);
 
+		// webSimple
 		if ("UndefinedVariable".equals(ret)) {
 			return "Undefined variable";
+		}
+
+		// webSimple
+		if ("ReplaceFailed".equals(ret)) {
+			return "Redefinition failed";
 		}
 
 		return ret;
