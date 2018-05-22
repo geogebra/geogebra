@@ -9,6 +9,10 @@
     user-select: none;
     height: 24px;
 }
+
+.GeoGebraHeader.beta {
+	 height: 64px;
+}
 .GeoGebraHeader .appName{
 	padding-left: 12px;
 	font-size: 16px;

@@ -162,7 +162,7 @@ task copyHtml {
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};useCompatibilityCookie=${!prerelease};appOnline=${!offline};</script>" + platformSpecific);
         }
         def appHtml = { appID, prerelease, offline = false ->
-            def header = offline || appID == "whiteboard" ? "" : file(templateDir+"app-header.html").text; 
+            def header = offline || appID == "whiteboard" ? "" : prerelease? file(templateDir+"app-header-beta.html").text : file(templateDir+"app-header.html").text; 
             def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->";
             def stylesheet = prerelease ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :"";
             def startscreenStyle = "startscreen" + (offline ? " offline" : "");
