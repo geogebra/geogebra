@@ -177,7 +177,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private static final int SMALL_SCREEN_MARGIN = 10;
 
 	/** GGB-2383 */
-	public static final boolean USE_PAKO = false;
+	public static final boolean USE_PAKO = true;
 
 	private DrawEquationW drawEquation;
 
