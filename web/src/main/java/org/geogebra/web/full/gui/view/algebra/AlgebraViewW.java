@@ -265,7 +265,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			case KeyCodes.KEY_RIGHT:
 				// this may be enough for Safari too, because it is not
 				// onkeypress
-				if (!editItem) {
+				if (!(editItem || (Browser.isTabletBrowser()
+						&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)))) {
 					app.getGlobalKeyDispatcher().handleSelectedGeosKeysNative(
 							event);
 					event.stopPropagation();
@@ -333,6 +334,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				break;
 			}
 		case Event.ONKEYDOWN:
+			if (keyCode == 0 && Browser.isIPad()) {
+				int arrowType = getIOSArrowKeys(event);
+				if (arrowType != -1) {
+					keyCode = arrowType;
+					keyEvent = new KeyEvent(keyCode, 0, '0');
+				}
+			}
 			switch (keyCode) {
 			case JavaKeyCodes.VK_BACK_SPACE:
 				if (Browser.isAndroid()) {
@@ -340,15 +348,43 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 						.onKeyPressed(keyEvent);
 				}
 				break;
+			case JavaKeyCodes.VK_LEFT:
+			case JavaKeyCodes.VK_RIGHT:
+			case JavaKeyCodes.VK_UP:
+			case JavaKeyCodes.VK_DOWN:
 			case JavaKeyCodes.VK_TAB:
 				getActiveTreeItem().getMathField().getKeyListener()
 						.onKeyPressed(keyEvent);
+				event.stopPropagation();
 				break;
 			default:
 				break;
 			}
 		}
 	}
+
+	/**
+	 * gets keycodes of iOS arrow keys iOS arrows have a different identifier
+	 * than win and android
+	 * 
+	 * @param event
+	 * @return JavaKeyCodes of arrow keys, -1 if pressed key was not an arrow
+	 */
+	private native int getIOSArrowKeys(Event event) /*-{
+		var key = event.key;
+		switch (key) {
+		case "UIKeyInputUpArrow":
+			return 38;
+		case "UIKeyInputDownArrow":
+			return 40;
+		case "UIKeyInputLeftArrow":
+			return 37;
+		case "UIKeyInputRightArrow":
+			return 39;
+		default:
+			return -1;
+		}
+	}-*/;
 
 	/**
 	 * schedule a repaint
