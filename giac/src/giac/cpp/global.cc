@@ -6190,6 +6190,16 @@ unsigned int ConvertUTF8toUTF16 (
 	    cur=cur.substr(0,pos)+"("+cur.substr(pos+6,posdot-pos-6)+")->"+cur.substr(posdot+1,cur.size()-posdot-1);
 	  }
 	}
+	if (ch=='e' && pos+4<int(cur.size()) && cur.substr(pos,3)=="end" && instruction_at(cur,pos,3)){
+	  // if next char after end is =, replace by endl
+	  for (size_t tmp=pos+3;tmp<cur.size();++tmp){
+	    if (cur[tmp]!=' '){
+	      if (cur[tmp]=='=')
+		cur.insert(cur.begin()+pos+3,'l');
+	      break;
+	    }
+	  }
+	}
       }
       if (instring){
 	*logptr(contextptr) << "Warning: multi-line strings can not be converted from Python like syntax"<<endl;
@@ -6578,7 +6588,7 @@ unsigned int ConvertUTF8toUTF16 (
     charptr_gen * builtin_lexer_functions(){
       static charptr_gen * ans=0;
       if (!ans){
-	ans = new charptr_gen[1600];
+	ans = new charptr_gen[1800];
 	builtin_lexer_functions_number=0;
       }
       return ans;

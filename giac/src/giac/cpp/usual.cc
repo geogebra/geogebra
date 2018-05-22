@@ -6631,11 +6631,49 @@ namespace giac {
       return "Disp "+feuille.print(contextptr);
   }
   // static symbolic symb_print(const gen & a){    return symbolic(at_print,a);  }
+  bool nl_sep(gen & tmp,string & nl,string & sep){
+    if (tmp.type!=_VECT || tmp.subtype!=_SEQ__VECT)
+      return false;
+    vecteur v=*tmp._VECTptr;
+    bool hasnl=false;
+    for (size_t i=0;i<v.size();++i){
+      if (v[i].is_symb_of_sommet(at_equal)){
+	gen f=v[i]._SYMBptr->feuille;
+	if (f.type==_VECT && f._VECTptr->size()==2){
+	  gen a=f._VECTptr->front();
+	  gen b=f._VECTptr->back();
+	  if (b.type==_STRNG && a.type==_IDNT){
+	    if (strcmp("sep",a._IDNTptr->id_name)==0){
+	      sep=*b._STRNGptr;
+	      hasnl=true;
+	      v.erase(v.begin()+i);
+	      --i;
+	    }
+	    if (strcmp("endl",a._IDNTptr->id_name)==0){
+	      nl=*b._STRNGptr;
+	      hasnl=true;
+	      v.erase(v.begin()+i);
+	      --i;
+	    }
+	  }
+	}
+      }
+    }
+    if (hasnl){
+      if (v.size()==1)
+	tmp=v.front();
+      else
+	tmp=gen(v,tmp.subtype);
+    }
+    return hasnl;
+  }
   gen _print(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if ( debug_infolevel && (args.type==_IDNT) && args._IDNTptr->localvalue && (!args._IDNTptr->localvalue->empty()))
       *logptr(contextptr) << gettext("Local var protected ") << (*args._IDNTptr->localvalue)[args._IDNTptr->localvalue->size()-2].val << endl;
     gen tmp=args.eval(eval_level(contextptr),contextptr);
+    string nl("\n"),sep(",");
+    bool nlsep=nl_sep(tmp,nl,sep);
     // If giac used inside a console don't add to messages, since we print
 #ifdef HAVE_SIGNAL_H_OLD
     if (!child_id){
@@ -6652,12 +6690,25 @@ namespace giac {
 	*logptr(contextptr) << (v[i].type==_STRNG?(*v[i]._STRNGptr):unquote(v[i].print(contextptr)));
     }
     else {
-      if (args.type==_IDNT)
+      if (!nlsep && !python_compat(contextptr) && args.type==_IDNT)
 	*logptr(contextptr) << args << ":";
       if (tmp.type==_STRNG)
-	*logptr(contextptr) << tmp._STRNGptr->c_str() << endl;
-      else
-	*logptr(contextptr) << tmp << endl;
+	*logptr(contextptr) << tmp._STRNGptr->c_str() << nl;
+      else {
+	if (tmp.type==_VECT && tmp.subtype==_SEQ__VECT){
+	  const vecteur & v=*tmp._VECTptr;
+	  size_t s=v.size();
+	  for (size_t i=0;i<s;){
+	    *logptr(contextptr) << (v[i].type==_STRNG?(*v[i]._STRNGptr):unquote(v[i].print(contextptr)));
+	    ++i;
+	    if (i==s) break;
+	    *logptr(contextptr) << sep;
+	  }
+	}
+	else
+	  *logptr(contextptr) << tmp;
+	*logptr(contextptr) << nl;
+      }
     }
     return __interactive.op(symbolic(at_print,tmp),contextptr);
   }
