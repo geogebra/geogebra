@@ -47,15 +47,11 @@ public class KeyboardSwitcher extends FlowPanel {
     }
 
     public void setup() {
-        add(makeCloseButton());
+        addCloseButton();
         contents = new FlowPanel();
         contents.addStyleName("switcherContents");
         add(contents);
         switches = new ArrayList<>();
-    }
-
-    public void addMoreButton() {
-        contents.add(makeMoreButton());
     }
 
     public void addSwitch(final KeyPanelBase keyboard, String string) {
@@ -78,7 +74,7 @@ public class KeyboardSwitcher extends FlowPanel {
         }
     }
 
-    private Widget makeCloseButton() {
+    protected void addCloseButton() {
         Image img = new Image(KeyboardResources.INSTANCE
                 .keyboard_close_black().getSafeUri().asString());
         img.setAltText(tabbedkeyboard.locale.getMenu("Close"));
@@ -101,10 +97,10 @@ public class KeyboardSwitcher extends FlowPanel {
                 tabbedkeyboard.closeButtonClicked();
             }
         });
-        return closeButton;
+        add(closeButton);
     }
 
-    private Widget makeMoreButton() {
+    public void addMoreButton() {
         Image img = new Image(KeyboardResources.INSTANCE.keyboard_more()
                 .getSafeUri().asString());
         img.setAltText(tabbedkeyboard.locale.getMenu("Commands"));
@@ -127,7 +123,7 @@ public class KeyboardSwitcher extends FlowPanel {
                         getMoreButton().getAbsoluteTop());
             }
         });
-        return moreButton;
+        contents.add(moreButton);
     }
 
     public ToggleButton getMoreButton() {

@@ -1,5 +1,6 @@
 package org.geogebra.web.solver;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -14,11 +15,13 @@ import org.geogebra.web.html5.main.AppW;
 
 import java.util.List;
 
-public class StepInformation extends VerticalPanel {
+public class StepInformation extends HorizontalPanel {
 
     private WebStepGuiBuilder builder;
 
     private SolutionStep steps;
+    private VerticalPanel container;
+    private FlowPanel renderedResult;
     private VerticalPanel renderedSteps;
     private StandardButton stepsButton;
 
@@ -50,10 +53,14 @@ public class StepInformation extends VerticalPanel {
         this.builder = builder;
 
         if (steps != null) {
-            HorizontalPanel hp = new HorizontalPanel();
-            hp.setStyleName("stepInformation");
+            setStyleName("stepInformation");
 
-            hp.add(builder.createRow(display, false));
+            container = new VerticalPanel();
+
+            renderedResult = builder.createRow(display, false);
+            container.add(renderedResult);
+
+            add(container);
 
             stepsButton = new StandardButton("Show Steps", app);
             stepsButton.setStyleName("solveButton");
@@ -63,9 +70,7 @@ public class StepInformation extends VerticalPanel {
                     showSteps();
                 }
             });
-            hp.add(stepsButton);
-
-            add(hp);
+            add(stepsButton);
         } else {
             add(builder.createRow(display, false));
         }
@@ -75,14 +80,17 @@ public class StepInformation extends VerticalPanel {
         if (!rendered) {
             rendered = true;
             renderedSteps = builder.buildStepGui(steps);
-            add(renderedSteps);
+            container.add(renderedSteps);
             stepsButton.setLabel("Hide Steps");
+            renderedResult.setVisible(false);
         } else if (renderedSteps.isVisible()) {
             stepsButton.setLabel("Show Steps");
             renderedSteps.setVisible(false);
+            renderedResult.setVisible(true);
         } else {
             stepsButton.setLabel("Hide Steps");
             renderedSteps.setVisible(true);
+            renderedResult.setVisible(false);
         }
     }
 }

@@ -59,6 +59,11 @@ public abstract class StepNode implements TableElement {
 	 */
 	public static StepNode convertExpression(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
+			StepExpression left =
+					(StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+			StepExpression right =
+					(StepExpression) convertExpression(((ExpressionNode) ev).getRight());
+
 			switch (((ExpressionNode) ev).getOperation()) {
 				case NO_OPERATION:
 				case SIN:
@@ -70,46 +75,38 @@ public abstract class StepNode implements TableElement {
 				case ARCSIN:
 				case ARCCOS:
 				case ARCTAN:
-					StepExpression arg =
-							(StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-					return applyOp(((ExpressionNode) ev).getOperation(), arg);
+					return applyOp(((ExpressionNode) ev).getOperation(), left);
 				case SQRT:
-					return root((StepExpression) convertExpression(((ExpressionNode) ev).getLeft()),
-							2);
+					return root(left, 2);
 				case MINUS:
-					StepExpression left =
-							(StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-					StepExpression right =
-							(StepExpression) convertExpression(((ExpressionNode) ev).getRight());
 					return add(left, StepNode.minus(right));
 				case ABS:
-					return abs((StepExpression) convertExpression(((ExpressionNode) ev).getLeft()));
+					return abs(left);
 				case LOGB:
-					left = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-					right = (StepExpression) convertExpression(((ExpressionNode) ev).getRight());
 					return logarithm(left, right);
 				case LOG:
-					arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-					return logarithm(StepConstant.E, arg);
+					return logarithm(StepConstant.E, left);
 				case LOG10:
-					arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-					return logarithm(StepConstant.create(10), arg);
+					return logarithm(StepConstant.create(10), left);
 				case LOG2:
-					arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-					return logarithm(StepConstant.create(2), arg);
+					return logarithm(StepConstant.create(2), left);
 				case EXP:
-					arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-					return power(StepConstant.E, arg);
+					return power(StepConstant.E, left);
+				case LESS:
+					return new StepInequality(left, right, true, true);
+				case LESS_EQUAL:
+					return new StepInequality(left, right, true, false);
+				case GREATER:
+					return new StepInequality(left, right, false, true);
+				case GREATER_EQUAL:
+					return new StepInequality(left, right, false, false);
 				case MULTIPLY:
 					if (((ExpressionNode) ev).getLeft() instanceof MyDouble &&
 							((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
-						return minus((StepExpression) convertExpression(
-								((ExpressionNode) ev).getRight()));
+						return minus(right);
 					}
 				default:
-					return new StepOperation(((ExpressionNode) ev).getOperation(),
-							(StepExpression) convertExpression(((ExpressionNode) ev).getLeft()),
-							(StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
+					return new StepOperation(((ExpressionNode) ev).getOperation(), left, right);
 			}
 		}
 		if (ev instanceof Equation) {
@@ -162,6 +159,16 @@ public abstract class StepNode implements TableElement {
 		}
 
 		return sn;
+	}
+
+	public StepSolvable toSolvable() {
+		if (this instanceof StepSolvable) {
+			return (StepSolvable) this;
+		} else if (this instanceof StepExpression) {
+			return new StepEquation((StepExpression) this, StepConstant.create(0));
+		}
+
+		return null;
 	}
 
 	/**

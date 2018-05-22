@@ -105,12 +105,12 @@ public class StepEquation extends StepSolvable {
 	}
 
 	public StepEquation regroup() {
-		return regroup(null, new SolveTracker());
+		return regroup(null);
 	}
 
 	@Override
-	public StepEquation regroup(SolutionBuilder sb, SolveTracker tracker) {
-		return (StepEquation) super.regroup(sb, tracker);
+	public StepEquation regroup(SolutionBuilder sb) {
+		return (StepEquation) super.regroup(sb);
 	}
 
 	public List<StepSolution> solve(StepVariable sv, SolutionBuilder sb, SolveTracker tracker) {
@@ -154,22 +154,19 @@ public class StepEquation extends StepSolvable {
 	@Override
 	public boolean checkSolution(StepVariable variable, StepExpression value, SolutionBuilder steps,
 			SolveTracker tracker) {
-
-		StepEquation copy = deepCopy();
-
 		SolutionBuilder tempSteps = new SolutionBuilder();
 
-		copy.replace(variable, value, tempSteps);
-		copy.expand(tempSteps, new SolveTracker());
+		StepSolvable replaced = replace(variable, value, tempSteps);
+		replaced = replaced.expand(tempSteps);
 
 		steps.addGroup(new SolutionLine(SolutionStepType.PLUG_IN_AND_CHECK, value), tempSteps,
-				copy);
+				replaced);
 
-		if (!copy.getLHS().equals(copy.getRHS())) {
-			if (isEqual(copy.LHS.getValue(), copy.RHS.getValue())) {
+		if (!replaced.getLHS().equals(replaced.getRHS())) {
+			if (isEqual(replaced.LHS.getValue(), replaced.RHS.getValue())) {
 				Log.error("Regroup failed at: " + this);
 				Log.error("For solution: " + variable + " = " + value);
-				Log.error("Result: " + copy);
+				Log.error("Result: " + replaced);
 				Log.error("Whereas numeric evaluation gives equality");
 
 				return true;

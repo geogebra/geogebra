@@ -4,6 +4,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.KeyboardSwitcher;
 import org.geogebra.keyboard.web.TabbedKeyboard;
+import org.geogebra.web.html5.util.CSSAnimation;
 
 public class SolverKeyboard extends TabbedKeyboard {
 
@@ -14,11 +15,32 @@ public class SolverKeyboard extends TabbedKeyboard {
             public void addMoreButton() {
                 //don't!
             }
+
+            @Override
+            public void addCloseButton() {
+                //don't
+            }
         };
     }
 
     @Override
-    protected void closeButtonClicked() {
-        tabs.setVisible(!tabs.isVisible());
+    public void closeButtonClicked() {
+        setVisible(false);
+    }
+
+    public void hide() {
+        addStyleName("animatingOut");
+        CSSAnimation.runOnAnimation(new Runnable() {
+            @Override
+            public void run() {
+                setVisible(false);
+            }
+        }, getElement(), "animatingOut");
+    }
+
+    @Override
+    public void show() {
+        setVisible(true);
+        addStyleName("animating");
     }
 }

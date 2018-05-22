@@ -8,7 +8,7 @@ import org.geogebra.common.main.Localization;
 
 import java.util.Arrays;
 
-public class StepMatrix extends StepNode {
+public class StepMatrix extends StepTransformable {
 
 	private StepExpression[][] data;
 	private Determinant determinant = new Determinant();
@@ -74,6 +74,16 @@ public class StepMatrix extends StepNode {
 
 	public StepMatrix regroup(SolutionBuilder steps) {
 		return (StepMatrix) StepStrategies.defaultRegroup(this, steps);
+	}
+
+	@Override
+	public int maxDecimal() {
+		return 0;
+	}
+
+	@Override
+	public boolean containsFractions() {
+		return false;
 	}
 
 	public StepMatrix addRow(int i, int j, StepExpression coefficient, SolutionBuilder steps) {
@@ -214,7 +224,7 @@ public class StepMatrix extends StepNode {
 				}
 			}
 
-			StepExpression sum = null;
+			StepExpression sum;
 
 			if (data.length == 2) {
 				sum = multiply(data[0][0], data[1][1]);

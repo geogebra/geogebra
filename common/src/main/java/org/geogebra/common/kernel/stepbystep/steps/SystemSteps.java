@@ -77,9 +77,9 @@ public class SystemSteps {
 			StepEquation[] newEquations = new StepEquation[ses.size() - 1];
 			for (int j = 0; j < ses.size(); j++) {
 				if (j > eqIndex) {
-					newEquations[j - 1] = tempSystem.getEquation(j).deepCopy();
+					newEquations[j - 1] = tempSystem.getEquation(j);
 				} else if (j < eqIndex) {
-					newEquations[j] = tempSystem.getEquation(j).deepCopy();
+					newEquations[j] = tempSystem.getEquation(j);
 				}
 			}
 
@@ -93,8 +93,8 @@ public class SystemSteps {
 				SolutionLine header =
 						new SolutionLine(SolutionStepType.REPLACE_AND_REGROUP, solution1, equation);
 
-				StepSolvable tempEquation = replaceAll(equation.deepCopy(), solution1, tempSteps)
-						.expand(tempSteps, null);
+				StepSolvable tempEquation = replaceAll(equation, solution1, tempSteps)
+						.expand(tempSteps);
 
 				solution1.addVariableSolutionPair((StepVariable) tempEquation.getLHS(),
 						tempEquation.getRHS());
@@ -112,15 +112,16 @@ public class SystemSteps {
 	private static List<StepSolution> substituteAndSolve(StepEquation[] equations,
 			List<StepVariable> variables, StepSolution solution, SolutionBuilder steps) {
 		steps.levelDown();
-		for (StepEquation equation : equations) {
-			if (!contains(equation, solution)) {
+		for (int i = 0; i < equations.length; i++) {
+			if (!contains(equations[i], solution)) {
 				continue;
 			}
 
-			steps.add(SolutionStepType.REPLACE_AND_REGROUP, solution, equation);
+			steps.add(SolutionStepType.REPLACE_AND_REGROUP, solution, equations[i]);
 			steps.levelDown();
-			equation.replace(solution.getVariable(), (StepExpression) solution.getValue(), steps);
-			equation.regroup(steps, new SolveTracker());
+			equations[i] = equations[i]
+					.replace(solution.getVariable(), (StepExpression) solution.getValue(), steps);
+			equations[i] = equations[i].regroup(steps);
 			steps.levelUp();
 		}
 		steps.levelUp();
@@ -142,11 +143,12 @@ public class SystemSteps {
 
 	private static StepEquation replaceAll(StepEquation equation, StepSolution solution,
 			SolutionBuilder steps) {
+		StepEquation result = equation;
 		for (Map.Entry<StepVariable, StepNode> pair : solution.getVariableSolutionPairs()) {
-			equation.replace(pair.getKey(), (StepExpression) pair.getValue(), steps);
+			result = result.replace(pair.getKey(), (StepExpression) pair.getValue(), steps);
 		}
 
-		return equation;
+		return result;
 	}
 
 	public static List<StepSolution> solveByElimination(StepEquationSystem ses,
@@ -167,20 +169,22 @@ public class SystemSteps {
 		StepVariable x = variables.get(0);
 		StepVariable y = variables.get(1);
 
+		StepEquation[] equations = new StepEquation[2];
 		for (int i = 0; i < 2; i++) {
-			ses.getEquation(i).reorganize(tempSteps, null, i);
+			equations[i] = (StepEquation) ses.getEquation(i).reorganize(tempSteps, i);
 
-			if (ses.getEquation(i).degree(x) != 1 || ses.getEquation(i).degree(y) != 1) {
+			if (equations[i].degree(x) != 1 || equations[i].degree(y) != 1) {
 				throw new SolveFailedException("nonlinear equation in elimination");
 			}
 		}
 
-		steps.addGroup(SolutionStepType.REORGANIZE_EXPRESSION, tempSteps, ses);
+		steps.addGroup(SolutionStepType.REORGANIZE_EXPRESSION, tempSteps,
+				new StepEquationSystem(equations));
 
-		StepExpression x0 = ses.getEquation(0).getLHS().findCoefficient(x);
-		StepExpression y0 = ses.getEquation(0).getLHS().findCoefficient(y);
-		StepExpression x1 = ses.getEquation(1).getLHS().findCoefficient(x);
-		StepExpression y1 = ses.getEquation(1).getLHS().findCoefficient(y);
+		StepExpression x0 = equations[0].getLHS().findCoefficient(x);
+		StepExpression y0 = equations[0].getLHS().findCoefficient(y);
+		StepExpression x1 = equations[1].getLHS().findCoefficient(x);
+		StepExpression y1 = equations[1].getLHS().findCoefficient(y);
 
 		boolean eliminateY = false;
 
@@ -217,15 +221,15 @@ public class SystemSteps {
 			coefficientTwo = coefficientTwo.negate();
 		}
 
-		ses.getEquation(0).multiply(coefficientOne, steps, null, 0);
-		ses.getEquation(1).multiply(coefficientTwo, steps, null, 1);
+		equations[0] = (StepEquation) equations[0].multiply(coefficientOne, steps, 0);
+		equations[1] = (StepEquation) equations[1].multiply(coefficientTwo, steps, 1);
 
 		StepEquation added =
-				new StepEquation(add(ses.getEquation(0).getLHS(), ses.getEquation(1).getLHS()),
-						add(ses.getEquation(0).getRHS(), ses.getEquation(1).getRHS()));
+				new StepEquation(add(equations[0].getLHS(), equations[1].getLHS()),
+						add(equations[0].getRHS(), equations[1].getRHS()));
 
 		tempSteps.add(added);
-		added.regroup(tempSteps, null);
+		added = added.regroup(tempSteps);
 
 		steps.addGroup(SolutionStepType.ADD_EQUATIONS, tempSteps, added, eliminate);
 
@@ -233,7 +237,7 @@ public class SystemSteps {
 		if (solutionsAdded.size() == 0) {
 			return new ArrayList<>();
 		} else if (solutionsAdded.get(0).getValue() instanceof StepLogical) {
-			StepSolution solution = ses.getEquation(0).solve(eliminate, steps).get(0);
+			StepSolution solution = equations[0].solve(eliminate, steps).get(0);
 			solutionsAdded.get(0).addVariableSolutionPair(eliminate, solution.getValue());
 
 			steps.add(SolutionStepType.SOLUTION, solutionsAdded.get(0));
@@ -247,10 +251,10 @@ public class SystemSteps {
 		for (int i = 0; i < 2; i++) {
 			options[i] = new SolutionBuilder();
 			headers[i] = new SolutionLine(SolutionStepType.REPLACE_AND_SOLVE, substitute,
-					substituteValue, ses.getEquation(0));
+					substituteValue, equations[0]);
 
 			StepEquation equation =
-					ses.getEquation(i).deepCopy().replace(substitute, substituteValue, options[i]);
+					equations[i].replace(substitute, substituteValue, options[i]);
 			eliminateValue =
 					(StepExpression) equation.solve(eliminate, options[i]).get(0).getValue();
 		}
@@ -292,17 +296,17 @@ public class SystemSteps {
 		StepExpression[][] matrix = new StepExpression[3][4];
 
 		for (int i = 0; i < 3; i++) {
-			ses.getEquation(i).reorganize(tempSteps, null, i);
+			StepSolvable eq = ses.getEquation(i).reorganize(tempSteps, i);
 
 			for (int j = 0; j < 3; j++) {
-				int degree = ses.getEquation(i).degree(variables.get(j));
+				int degree = eq.degree(variables.get(j));
 				if (degree != 0 && degree != 1) {
 					throw new SolveFailedException("nonlinear equation in elimination");
 				}
 
-				matrix[i][j] = ses.getEquation(i).getLHS().findCoefficient(variables.get(j));
+				matrix[i][j] = eq.getLHS().findCoefficient(variables.get(j));
 			}
-			matrix[i][3] = ses.getEquation(i).getRHS();
+			matrix[i][3] = eq.getRHS();
 		}
 
 		steps.addGroup(SolutionStepType.REORGANIZE_EXPRESSION, tempSteps, ses);
@@ -341,7 +345,7 @@ public class SystemSteps {
 		for (int i = 1; i < 4; i++) {
 			StepEquation equation =
 					new StepEquation(variables.get(i - 1), divide(values[i], values[0]))
-							.regroup(tempSteps, null);
+							.regroup(tempSteps);
 			steps.addGroup(SolutionStepType.CRAMER_VARIABLE, tempSteps, equation,
 					variables.get(i - 1), StepConstant.create(i), values[i], values[0]);
 			solutions.get(0).addVariableSolutionPair(variables.get(i - 1), equation.getRHS());
@@ -363,17 +367,17 @@ public class SystemSteps {
 		StepExpression[][] matrixData = new StepExpression[ses.size()][variables.size() + 1];
 
 		for (int i = 0; i < ses.size(); i++) {
-			ses.getEquation(i).reorganize(tempSteps, null, i);
+			StepSolvable eq = ses.getEquation(i).reorganize(tempSteps, i);
 
 			for (int j = 0; j < variables.size(); j++) {
-				int degree = ses.getEquation(i).degree(variables.get(j));
+				int degree = eq.degree(variables.get(j));
 				if (degree != 0 && degree != 1) {
 					throw new SolveFailedException("nonlinear equation in elimination");
 				}
 
-				matrixData[i][j] = ses.getEquation(i).getLHS().findCoefficient(variables.get(j));
+				matrixData[i][j] = eq.getLHS().findCoefficient(variables.get(j));
 			}
-			matrixData[i][variables.size()] = ses.getEquation(i).getRHS();
+			matrixData[i][variables.size()] = eq.getRHS();
 		}
 
 		steps.addGroup(SolutionStepType.REORGANIZE_EXPRESSION, tempSteps, ses);

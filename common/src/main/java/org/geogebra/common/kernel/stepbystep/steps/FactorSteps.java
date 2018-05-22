@@ -17,7 +17,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	SPLIT_PRODUCTS {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS) &&
 					!tracker.isMarked(sn, RegroupTracker.MarkType.FACTOR)) {
 				StepOperation so = (StepOperation) sn;
@@ -107,7 +107,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_COMMON {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -174,7 +174,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_INTEGER {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -233,7 +233,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	COMPLETING_THE_SQUARE {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS) && !tracker.isWeakFactor()) {
 				StepOperation so = (StepOperation) sn;
 
@@ -286,7 +286,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_BINOM_SQUARED {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn instanceof StepOperation) {
 				StepOperation so = (StepOperation) sn;
 
@@ -379,7 +379,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_BINOM_CUBED {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -428,7 +428,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_USING_FORMULA {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -508,7 +508,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	REORGANIZE_POLYNOMIAL {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -582,7 +582,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_POLYNOMIAL {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS) &&
 					tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND)) {
 				StepOperation so = (StepOperation) sn;
@@ -643,7 +643,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_BINOM_STRATEGY {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					COMPLETING_THE_SQUARE,
 					FACTOR_BINOM_SQUARED,
@@ -655,7 +655,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_POLYNOMIALS {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					REORGANIZE_POLYNOMIAL,
 					FACTOR_POLYNOMIAL,
@@ -668,7 +668,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	FACTOR_COMMON_SUBSTEP {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					SPLIT_PRODUCTS,
 					FACTOR_COMMON,
@@ -681,7 +681,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	SIMPLE_FACTOR {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
 					FactorSteps.FACTOR_COMMON_SUBSTEP,
 					RegroupSteps.REGROUP_SUMS,
@@ -698,7 +698,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 	DEFAULT_FACTOR {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
 					RegroupSteps.WEAK_REGROUP,
 					FactorSteps.SIMPLE_FACTOR

@@ -10,67 +10,67 @@ import java.util.List;
 
 public class StepStrategies {
 
-	public static StepNode convertToFraction(StepNode sn, SolutionBuilder sb) {
+	public static StepTransformable convertToFraction(StepTransformable sn, SolutionBuilder sb) {
 		return RegroupSteps.CONVERT_DECIMAL_TO_FRACTION.apply(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode decimalRegroup(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+	public static StepTransformable decimalRegroup(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 		return RegroupSteps.DECIMAL_REGROUP.apply(sn, sb, tracker);
 	}
 
-	public static StepNode decimalRegroup(StepNode sn, SolutionBuilder sb) {
+	public static StepTransformable decimalRegroup(StepTransformable sn, SolutionBuilder sb) {
 		return decimalRegroup(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode defaultRegroup(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+	public static StepTransformable defaultRegroup(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 		return RegroupSteps.DEFAULT_REGROUP.apply(sn, sb, tracker);
 	}
 
-	public static StepNode defaultRegroup(StepNode sn, SolutionBuilder sb) {
+	public static StepTransformable defaultRegroup(StepTransformable sn, SolutionBuilder sb) {
 		return defaultRegroup(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode decimalExpand(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+	public static StepTransformable decimalExpand(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 		return ExpandSteps.DECIMAL_EXPAND.apply(sn, sb, tracker);
 	}
 
-	public static StepNode decimalExpand(StepNode sn, SolutionBuilder sb) {
+	public static StepTransformable decimalExpand(StepTransformable sn, SolutionBuilder sb) {
 		return decimalExpand(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode defaultExpand(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+	public static StepTransformable defaultExpand(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 		return ExpandSteps.DEFAULT_EXPAND.apply(sn, sb, tracker);
 	}
 
-	public static StepNode defaultExpand(StepNode sn, SolutionBuilder sb) {
+	public static StepTransformable defaultExpand(StepTransformable sn, SolutionBuilder sb) {
 		return defaultExpand(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+	public static StepTransformable defaultFactor(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 		return FactorSteps.DEFAULT_FACTOR.apply(sn, sb, tracker);
 	}
 
-	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb) {
+	public static StepTransformable defaultFactor(StepTransformable sn, SolutionBuilder sb) {
 		return defaultFactor(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb,
+	public static StepTransformable defaultDifferentiate(StepTransformable sn, SolutionBuilder sb,
 			RegroupTracker tracker) {
 		return DifferentiationSteps.DEFAULT_DIFFERENTIATE.apply(sn, sb, tracker);
 	}
 
-	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb) {
+	public static StepTransformable defaultDifferentiate(StepTransformable sn, SolutionBuilder sb) {
 		return defaultDifferentiate(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode implementGroup(StepNode sn, SolutionStepType groupHeader,
+	public static StepTransformable implementGroup(StepTransformable sn, SolutionStepType groupHeader,
 			SimplificationStepGenerator[] strategy, SolutionBuilder sb, RegroupTracker tracker) {
 		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
 		SolutionBuilder substeps = new SolutionBuilder();
 
-		StepNode current = null, old = sn;
+		StepTransformable current = null, old = sn;
 		do {
 			tracker.resetTracker();
 			for (SimplificationStepGenerator simplificationStep : strategy) {
@@ -161,7 +161,7 @@ public class StepStrategies {
 				InequalitySteps.POSITIVE_AND_ZERO,
                 InequalitySteps.POSITIVE_AND_NEGATIVE,
 				EquationSteps.SUBTRACT_COMMON,
-				InequalitySteps.FACTOR,
+				EquationSteps.FACTOR,
 				InequalitySteps.RATIONAL_INEQUALITY,
 				EquationSteps.DIFF,
                 EquationSteps.COMPLETE_THE_SQUARE,
@@ -194,34 +194,38 @@ public class StepStrategies {
 
 		StepSolvable equation = se.deepCopy();
 
-		List<StepSolution> result = null;
+		List<StepSolution> solutions = null;
 		boolean changed;
 		do {
 			changed = false;
 			for (int i = 0; i < strategy.length && !changed; i++) {
-				result = strategy[i].apply(equation, variable, changes, tracker);
+				Result result = strategy[i].apply(equation, variable, changes, tracker);
 
-				if (printDebug) {
-					if (changes.getSteps() != null) {
+				if (result != null) {
+					if (printDebug) {
 						System.out.println("changed at " + strategy[i]);
-						System.out.println("to: " + equation);
-					}
-				}
-
-				if (changes.getSteps().getSubsteps() != null || result != null) {
-					if (sb != null) {
-						sb.addAll(changes.getSteps());
+						System.out.println("to: " + result);
 					}
 
-					changes.reset();
-					changed = true;
+					if (result.getSolutions() != null) {
+						if (sb != null) {
+							sb.addAll(changes.getSteps());
+						}
+
+						changes.reset();
+						solutions = result.getSolutions();
+						changed = true;
+					} else {
+						changed = !equation.equals(result.getSolvable());
+						equation = result.getSolvable();
+					}
 				}
 			}
-		} while (result == null && changed);
+		} while (solutions == null && changed);
 
-		if (result != null) {
+		if (solutions != null) {
 			List<StepSolution> finalSolutions =
-					EquationSteps.checkSolutions(se, result, changes, tracker);
+					EquationSteps.checkSolutions(se, solutions, changes, tracker);
 
 			if (sb != null) {
 				sb.addAll(changes.getSteps());
@@ -245,7 +249,7 @@ public class StepStrategies {
 		throw new SolveFailedException(sb.getSteps());
 	}
 
-	public static StepNode iterateThrough(SimplificationStepGenerator step, StepNode sn,
+	public static StepTransformable iterateThrough(SimplificationStepGenerator step, StepTransformable sn,
 			SolutionBuilder sb, RegroupTracker tracker) {
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;

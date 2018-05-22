@@ -1,18 +1,16 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.kernel.stepbystep.StepHelper;
-import org.geogebra.common.kernel.stepbystep.StepsCache;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupSteps;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
-import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 import java.util.List;
 
-public abstract class StepExpression extends StepNode implements Comparable<StepExpression> {
+public abstract class StepExpression extends StepTransformable
+		implements Comparable<StepExpression> {
 
 	/**
 	 * Returns the value of arcsin(a), arccos(a) and arctg(a) for simple a-s
@@ -431,6 +429,10 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		}
 
 		return null;
+	}
+
+	public StepExpression findVariable() {
+		return findVariableIn(null);
 	}
 
 	public StepExpression findVariableIn(StepVariable sv) {
@@ -904,7 +906,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 */
 	public boolean isTrigonometric() {
 		return isOperation(Operation.SIN) || isOperation(Operation.COS) ||
-				isOperation(Operation.TAN) || isOperation(Operation.CSC) ||
+				isOperation(Operation.TAN) || isOperation(Operation.COT) ||
 				isOperation(Operation.SEC) || isOperation(Operation.CSC);
 	}
 
@@ -925,6 +927,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		return isOperation(Operation.DIVIDE) ||
 				isOperation(Operation.MINUS) && ((StepOperation) this).getOperand(0).isFraction();
 	}
+
 
 	public int maxDecimal() {
 		if (nonSpecialConstant() && !isInteger()) {
@@ -961,139 +964,29 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		return false;
 	}
 
-	public StepExpression convertToFractions(SolutionBuilder sb) {
-		return (StepExpression) StepStrategies.convertToFraction(this, sb);
-	}
-
-	public StepExpression weakRegroup() {
-		if (this instanceof StepOperation) {
-			return (StepExpression) RegroupSteps.WEAK_REGROUP
-					.apply(this, null, new RegroupTracker());
-		}
-
-		return this;
-	}
-
-	/**
-	 * @return the expression, regrouped
-	 */
+	@Override
 	public StepExpression regroup() {
-		return regroup(null);
+		return (StepExpression) super.regroup();
 	}
 
-	/**
-	 * This is the default regroup. Assumes every nonSpecialConstant is an integer.
-	 *
-	 * @param sb SolutionBuilder for the regroup steps
-	 * @return the expression, regrouped
-	 */
+	@Override
 	public StepExpression regroup(SolutionBuilder sb) {
-		if (this instanceof StepOperation) {
-			return (StepExpression) StepsCache.getInstance().regroup(this, sb);
-		}
-
-		return this;
+		return (StepExpression) super.regroup(sb);
 	}
 
-	/**
-	 * Numeric regroup. Evaluates expressions like 1/3 and sqrt(2)..
-	 *
-	 * @param sb SolutionBuilder for the regroup steps
-	 * @return the expression, regrouped
-	 */
-	public StepExpression numericRegroup(SolutionBuilder sb) {
-		if (this instanceof StepOperation) {
-			return (StepExpression) StepStrategies.decimalRegroup(this, sb);
-		}
-
-		return this;
+	@Override
+	public StepExpression weakRegroup() {
+		return (StepExpression) super.weakRegroup();
 	}
 
-	public StepExpression adaptiveRegroup() {
-		return adaptiveRegroup(null);
-	}
-
-	public StepExpression adaptiveRegroup(SolutionBuilder sb) {
-		if (0 < maxDecimal() && maxDecimal() < 5 && containsFractions()) {
-			StepExpression temp = convertToFractions(sb);
-			return temp.regroup(sb);
-		}
-
-		if (maxDecimal() > 0) {
-			return numericRegroup(sb);
-		}
-
-		return regroup(sb);
-	}
-
-	public StepExpression regroupOutput(SolutionBuilder sb) {
-		sb.add(SolutionStepType.SIMPLIFY, this);
-		return adaptiveRegroup(sb);
-	}
-
-	/**
-	 * @return the expression, regrouped and expanded
-	 */
+	@Override
 	public StepExpression expand() {
-		return expand(new SolutionBuilder());
+		return (StepExpression) super.expand();
 	}
 
-	/**
-	 * @param sb SolutionBuilder for the expansion steps
-	 * @return the expression, regrouped and expanded
-	 */
-	public StepExpression expand(SolutionBuilder sb) {
-		if (this instanceof StepOperation) {
-			return (StepExpression) StepsCache.getInstance().expand(this, sb);
-		}
-
-		return this;
-	}
-
-	public StepExpression expandOutput(SolutionBuilder sb) {
-		sb.add(SolutionStepType.EXPAND, this);
-		return expand(sb);
-	}
-
-	/**
-	 * @return the expression, factored
-	 */
+	@Override
 	public StepExpression factor() {
-		return factor(null);
-	}
-
-	/**
-	 * @param sb SolutionBuilder for the factoring steps
-	 * @return the expression, factored
-	 */
-	public StepExpression factor(SolutionBuilder sb) {
-		if (this instanceof StepOperation) {
-			return (StepExpression) StepsCache.getInstance().factor(this, sb);
-		}
-
-		return this;
-	}
-
-	public StepExpression factorOutput(SolutionBuilder sb) {
-		sb.add(SolutionStepType.FACTOR, this);
-		return factor(sb);
-	}
-
-	public StepExpression differentiate() {
-		return differentiate(null);
-	}
-
-	public StepExpression differentiate(SolutionBuilder sb) {
-		if (this instanceof StepOperation) {
-			return (StepExpression) StepStrategies.defaultDifferentiate(this, sb);
-		}
-
-		return this;
-	}
-
-	public StepExpression differentiateOutput(SolutionBuilder sb) {
-		sb.add(SolutionStepType.DIFFERENTIATE, this);
-		return differentiate(sb);
+		return (StepExpression) super.factor();
 	}
 
 	/**

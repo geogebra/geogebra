@@ -3,10 +3,7 @@ package org.geogebra.common.kernel.stepbystep.steps;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
-import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
@@ -21,8 +18,8 @@ public enum FractionSteps implements SimplificationStepGenerator {
 
 	EXPAND_FRACTIONS {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			StepNode temp = StepStrategies.iterateThrough(this, sn, sb, tracker);
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+			StepTransformable temp = StepStrategies.iterateThrough(this, sn, sb, tracker);
 			if (!temp.equals(sn)) {
 				return temp;
 			}
@@ -92,7 +89,7 @@ public enum FractionSteps implements SimplificationStepGenerator {
 
 	ADD_NUMERATORS {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -135,7 +132,7 @@ public enum FractionSteps implements SimplificationStepGenerator {
 
     ADD_FRACTIONS {
         @Override
-        public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+        public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
             SimplificationStepGenerator[] fractionAddition = new SimplificationStepGenerator[]{
                     RegroupSteps.REGROUP_SUMS,
                     RegroupSteps.REGROUP_PRODUCTS,

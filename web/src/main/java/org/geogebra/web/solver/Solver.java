@@ -3,7 +3,10 @@ package org.geogebra.web.solver;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -14,15 +17,18 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.CreateLibrary;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.*;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -30,6 +36,7 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.solver.keyboard.SolverKeyboard;
+import org.geogebra.web.solver.keyboard.SolverKeyboardButton;
 
 import java.util.List;
 
@@ -39,6 +46,7 @@ public class Solver implements EntryPoint, MathFieldListener {
     private JlmEditorLib library;
     private Opentype opentype;
     private MathFieldW mathField;
+    private SolverKeyboard keyboard;
 
     private HorizontalPanel editorPanel;
 
@@ -92,16 +100,39 @@ public class Solver implements EntryPoint, MathFieldListener {
 
         Element el = DOM.createDiv();
         el.appendChild(canvas.getCanvasElement());
-        mathField = new MathFieldW(null, rootPanel,
-                canvas,
-                this, false, null);
 
         editorPanel = new HorizontalPanel();
         editorPanel.setStyleName("editorPanel");
 
-        editorPanel.add(mathField.asWidget());
+        mathField = new MathFieldW(null, rootPanel,
+                canvas, this, false, null);
+        mathField.setPixelRatio(Browser.getPixelRatio());
 
-        StandardButton solveButton = new StandardButton("Solve", app);
+        Window.addResizeHandler(new ResizeHandler() {
+                @Override
+                public void onResize(ResizeEvent event) {
+                    mathField.setPixelRatio(Browser.getPixelRatio());
+                    mathField.repaint();
+                }
+        });
+
+        keyboard = new SolverKeyboard(app, app);
+
+        FlowPanel editorFocusPanel = new FlowPanel();
+        editorFocusPanel.setStyleName("editorFocusPanel");
+        editorFocusPanel.add(mathField.asWidget());
+        ClickStartHandler.init(editorFocusPanel, new ClickStartHandler() {
+            @Override
+            public void onClickStart(int x, int y, PointerEventType type) {
+                mathField.setFocus(true);
+            }
+        });
+
+        mathField.setFocus(true);
+
+        editorPanel.add(editorFocusPanel);
+
+        StandardButton solveButton = new StandardButton("Compute", app);
         solveButton.setStyleName("solveButton");
         solveButton.addFastClickHandler(new FastClickHandler() {
             @Override
@@ -112,8 +143,8 @@ public class Solver implements EntryPoint, MathFieldListener {
         editorPanel.add(solveButton);
 
         solverPanel.add(editorPanel);
-
-        final SolverKeyboard kb = new SolverKeyboard(app, app);
+        solverPanel.add(keyboard);
+        solverPanel.add(new SolverKeyboardButton(keyboard));
 
         app.getLocalization().loadScript("en",
                 new HasLanguage() {
@@ -121,12 +152,10 @@ public class Solver implements EntryPoint, MathFieldListener {
                     public void doSetLanguage(String lang, boolean asyncCall) {
                         app.getLocalization().setLanguage(lang);
 
-                        kb.setProcessing(new MathFieldProcessing(mathField));
+                        keyboard.setProcessing(new MathFieldProcessing(mathField));
 
-                        solverPanel.add(kb);
-
-                        kb.buildGUI();
-                        kb.show();
+                        keyboard.buildGUI();
+                        keyboard.show();
                     }
                 });
     }
@@ -138,11 +167,12 @@ public class Solver implements EntryPoint, MathFieldListener {
 
     @Override
     public void onEnter() {
+        keyboard.hide();
+
         String text = new GeoGebraSerializer()
                 .serialize(mathField.getFormula());
 
         StepNode sn = StepNode.getStepTree(text, app.getKernel().getParser());
-
 
         if (stepsPanel != null) {
             solverPanel.remove(stepsPanel);
@@ -150,44 +180,44 @@ public class Solver implements EntryPoint, MathFieldListener {
         stepsPanel = new VerticalPanel();
         solverPanel.add(stepsPanel);
 
+        mathField.setFocus(false);
+
         WebStepGuiBuilder guiBuilder = new WebStepGuiBuilder(app);
 
         SolutionBuilder sb = new SolutionBuilder();
-        if (sn instanceof StepExpression) {
-            StepExpression expr = (StepExpression) sn;
+        if (sn instanceof StepTransformable) {
+            StepTransformable expr = (StepTransformable) sn;
 
-            StepExpression regrouped = (expr).regroupOutput(sb);
+            StepTransformable regrouped = expr.regroupOutput(sb);
             if (!regrouped.equals(expr)) {
-                stepsPanel.add(new StepInformation(app, guiBuilder,
-                        regrouped, sb.getSteps()));
+                stepsPanel.add(new StepInformation(app, guiBuilder, regrouped, sb.getSteps()));
             }
             sb.reset();
 
-            StepExpression expanded = (expr).expandOutput(sb);
+            StepTransformable expanded = expr.expandOutput(sb);
             if (!expanded.equals(expr) && !expanded.equals(regrouped)) {
-                stepsPanel.add(new StepInformation(app, guiBuilder,
-                        expanded, sb.getSteps()));
+                stepsPanel.add(new StepInformation(app, guiBuilder, expanded, sb.getSteps()));
             }
             sb.reset();
 
-            StepExpression factored = (expr).factorOutput(sb);
-            if (!factored.equals(expr) && !factored.equals(regrouped)
-                    && !factored.equals(expanded)) {
-                stepsPanel.add(new StepInformation(app, guiBuilder,
-                        factored, sb.getSteps()));
+            StepTransformable factored = expr.factorOutput(sb);
+            if (!factored.equals(expr) && !factored.equals(regrouped) && !factored.equals(expanded)) {
+                stepsPanel.add(new StepInformation(app, guiBuilder, factored, sb.getSteps()));
             }
-        } else if (sn instanceof StepEquation) {
-            double startTime = app.getMillisecondTime();
-            List<StepSolution> solutions =
-                    ((StepEquation) sn).solve(new StepVariable("x"), sb);
-            double solveTime = app.getMillisecondTime();
-            stepsPanel.add(new StepInformation(app, guiBuilder,
-                    solutions, sb.getSteps()));
-            double endTime = app.getMillisecondTime();
-            Log.debug("Total execution time: " + (endTime - startTime) + " ms");
-            Log.debug("Solve time: " + (solveTime - startTime) + " ms");
-            Log.debug("Render time: " + (endTime - solveTime) + " ms");
+            sb.reset();
         }
+
+        double startTime = app.getMillisecondTime();
+        List<StepSolution> solutions =
+                sn.toSolvable().solve(new StepVariable("x"), sb);
+        double solveTime = app.getMillisecondTime();
+        stepsPanel.add(new StepInformation(app, guiBuilder,
+                solutions, sb.getSteps()));
+        double endTime = app.getMillisecondTime();
+        Log.debug("Total execution time: " + (endTime - startTime) + " ms");
+        Log.debug("Solve time: " + (solveTime - startTime) + " ms");
+        Log.debug("Render time: " + (endTime - solveTime) + " ms");
+
 
         stepsPanel.addStyleName("stepTree");
     }

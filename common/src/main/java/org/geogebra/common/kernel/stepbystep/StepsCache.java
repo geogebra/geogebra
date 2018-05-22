@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.stepbystep;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,12 +12,12 @@ public class StepsCache {
 
 	private static StepsCache instance;
 
-	private Map<StepNode, CacheEntry> regroupCache;
-	private Map<StepNode, CacheEntry> expandCache;
-	private Map<StepNode, CacheEntry> factorCache;
+	private Map<StepTransformable, CacheEntry> regroupCache;
+	private Map<StepTransformable, CacheEntry> expandCache;
+	private Map<StepTransformable, CacheEntry> factorCache;
 
 	private static class CacheEntry {
-		private StepNode result;
+		private StepTransformable result;
 		private SolutionStep steps;
 	}
 
@@ -35,7 +35,7 @@ public class StepsCache {
 		return instance;
 	}
 
-	public StepNode regroup(StepNode sn, SolutionBuilder sb) {
+	public StepTransformable regroup(StepTransformable sn, SolutionBuilder sb) {
 		CacheEntry entry = regroupCache.get(sn);
 
 		if (entry == null) {
@@ -54,7 +54,7 @@ public class StepsCache {
 		return entry.result;
 	}
 
-	public StepNode expand(StepNode sn, SolutionBuilder sb) {
+	public StepTransformable expand(StepTransformable sn, SolutionBuilder sb) {
 		CacheEntry entry = expandCache.get(sn);
 
 		if (entry == null) {
@@ -73,7 +73,7 @@ public class StepsCache {
 		return entry.result;
 	}
 
-	public StepNode factor(StepNode sn, SolutionBuilder sb) {
+	public StepTransformable factor(StepTransformable sn, SolutionBuilder sb) {
 		CacheEntry entry = factorCache.get(sn);
 
 		if (entry == null) {

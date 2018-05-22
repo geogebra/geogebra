@@ -2,17 +2,14 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.stepbystep.StepsCache;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
-import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 
 import java.util.List;
 
-public abstract class StepSolvable extends StepNode {
+public abstract class StepSolvable extends StepTransformable {
 
 	protected StepExpression LHS;
 	protected StepExpression RHS;
@@ -83,111 +80,62 @@ public abstract class StepSolvable extends StepNode {
 		return RHS;
 	}
 
-	public StepSolvable regroup() {
-		return regroup(null, null);
-	}
-
-	private int maxDecimal() {
+	public int maxDecimal() {
 		return Math.max(LHS.maxDecimal(), RHS.maxDecimal());
 	}
 
-	private boolean containsFractions() {
+	public boolean containsFractions() {
 		return LHS.containsFractions() || RHS.containsFractions();
 	}
 
-	public StepSolvable regroup(SolutionBuilder sb, SolveTracker tracker) {
-		StepSolvable temp = this;
+	public StepSolvable regroup() {
+		return (StepSolvable) super.regroup();
+	}
 
-		if (tracker != null && tracker.isApproximate() == null) {
-			tracker.setApproximate(maxDecimal() >= 5 || maxDecimal() > 0 && !containsFractions());
-			if (!tracker.isApproximate()) {
-				temp = (StepSolvable) StepStrategies.convertToFraction(this, sb);
-			}
-		}
+	public StepSolvable regroup(SolutionBuilder sb) {
+		return (StepSolvable) super.regroup(sb);
+	}
 
-		if (tracker != null && tracker.isApproximate()) {
-			temp = (StepSolvable) StepStrategies.decimalRegroup(temp, sb);
-		} else {
-			temp = (StepSolvable) StepsCache.getInstance().regroup(temp, sb);
-		}
-
-		LHS = temp.LHS;
-		RHS = temp.RHS;
-
-		return temp;
+	public StepSolvable adaptiveRegroup(SolutionBuilder sb) {
+		return (StepSolvable) super.adaptiveRegroup(sb);
 	}
 
 	public StepSolvable expand() {
-		return expand(null, null);
+		return (StepSolvable) super.expand();
 	}
 
-	public StepSolvable expand(SolutionBuilder sb, SolveTracker tracker) {
-		StepSolvable temp = this;
-
-		if (tracker != null && tracker.isApproximate() == null) {
-			tracker.setApproximate(maxDecimal() >= 5 || maxDecimal() > 0 && !containsFractions());
-			if (!tracker.isApproximate()) {
-				temp = (StepSolvable) StepStrategies.convertToFraction(this, sb);
-			}
-		}
-
-		if (tracker != null && tracker.isApproximate()) {
-			temp = (StepSolvable) StepStrategies.decimalExpand(temp, sb);
-		} else {
-			temp = (StepSolvable) StepsCache.getInstance().expand(temp, sb);
-		}
-
-		LHS = temp.LHS;
-		RHS = temp.RHS;
-
-		return temp;
+	public StepSolvable expand(SolutionBuilder sb) {
+		return (StepSolvable) super.expand(sb);
 	}
-
 	public StepSolvable factor() {
-		return factor(null, false);
+		return (StepSolvable) super.factor();
 	}
 
-	public StepSolvable factor(SolutionBuilder sb, boolean weak) {
-		cleanColors();
-
-		RegroupTracker tracker = new RegroupTracker();
-		if (weak) {
-			tracker.setWeakFactor();
-		}
-
-		StepSolvable temp = (StepSolvable) StepStrategies.defaultFactor(this, sb, tracker);
-
-		LHS = temp.getLHS();
-		RHS = temp.getRHS();
-
-		return temp;
+	public StepSolvable factor(SolutionBuilder sb) {
+		return (StepSolvable) super.factor(sb);
 	}
 
-	public void modify(StepExpression newLHS, StepExpression newRHS) {
-		LHS = newLHS;
-		RHS = newRHS;
+	public StepSolvable weakFactor(SolutionBuilder sb) {
+		return (StepSolvable) super.weakFactor(sb);
 	}
 
-	public void reorganize(SolutionBuilder steps, SolveTracker tracker, int eqNum) {
+	public StepSolvable reorganize(SolutionBuilder steps, int eqNum) {
 		//move constants to the right
-		StepExpression constantOne = getLHS().findConstant();
-		addOrSubtract(constantOne, steps, tracker, eqNum);
+		StepSolvable result = addOrSubtract(getLHS().findConstant(), steps, eqNum);
 
 		//move variables to the left
-		StepExpression variableOne = subtract(getRHS(), getRHS().findConstant()).regroup();
-		addOrSubtract(variableOne, steps, tracker, eqNum);
+		return result.addOrSubtract(result.getRHS().findVariable(), steps, eqNum);
 	}
 
-	public void add(StepExpression toAdd, SolutionBuilder steps, SolveTracker tracker) {
-		add(toAdd, steps, tracker, -1);
+	public StepSolvable add(StepExpression toAdd, SolutionBuilder steps) {
+		return add(toAdd, steps, -1);
 	}
 
-	public void add(StepExpression toAdd, SolutionBuilder steps, SolveTracker tracker, int eqNum) {
+	public StepSolvable add(StepExpression toAdd, SolutionBuilder steps, int eqNum) {
 		if (!isZero(toAdd)) {
 			toAdd.setColor(1);
-
-			LHS = add(LHS, toAdd);
-			RHS = add(RHS, toAdd);
+			StepSolvable result = cloneWith(add(LHS, toAdd), add(RHS, toAdd));
+			toAdd.cleanColors();
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
@@ -198,28 +146,28 @@ public abstract class StepSolvable extends StepNode {
 						StepConstant.create(eqNum + 1));
 			}
 			steps.levelDown();
-			steps.add(this);
+			steps.add(result);
 
-			regroup(steps, tracker);
+			result = result.regroup(steps);
 			steps.levelUp();
-			steps.add(this);
+			steps.add(result);
 			steps.levelUp();
 
-			toAdd.cleanColors();
+			return result;
 		}
+
+		return this;
 	}
 
-	public void subtract(StepExpression toSubtract, SolutionBuilder steps, SolveTracker tracker) {
-		subtract(toSubtract, steps, tracker, -1);
+	public StepSolvable subtract(StepExpression toSubtract, SolutionBuilder steps) {
+		return subtract(toSubtract, steps, -1);
 	}
 
-	public void subtract(StepExpression toSubtract, SolutionBuilder steps, SolveTracker tracker,
-			int eqNum) {
+	public StepSolvable subtract(StepExpression toSubtract, SolutionBuilder steps, int eqNum) {
 		if (!isZero(toSubtract)) {
 			toSubtract.setColor(1);
-
-			LHS = subtract(LHS, toSubtract);
-			RHS = subtract(RHS, toSubtract);
+			StepSolvable result = cloneWith(subtract(LHS, toSubtract), subtract(RHS, toSubtract));
+			toSubtract.cleanColors();
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
@@ -230,50 +178,50 @@ public abstract class StepSolvable extends StepNode {
 						StepConstant.create(eqNum + 1));
 			}
 			steps.levelDown();
-			steps.add(this);
+			steps.add(result);
 
-			regroup(steps, tracker);
+			result = result.regroup(steps);
 			steps.levelUp();
-			steps.add(this);
+			steps.add(result);
 			steps.levelUp();
 
-			toSubtract.cleanColors();
+			return result;
 		}
+
+		return this;
 	}
 
-	public void addOrSubtract(StepExpression se, SolutionBuilder steps, SolveTracker tracker) {
-		addOrSubtract(se, steps, tracker, -1);
+	public StepSolvable addOrSubtract(StepExpression se, SolutionBuilder steps) {
+		return addOrSubtract(se, steps, -1);
 	}
 
-	public void addOrSubtract(StepExpression se, SolutionBuilder steps, SolveTracker tracker,
-			int eqNum) {
+	public StepSolvable addOrSubtract(StepExpression se, SolutionBuilder steps, int eqNum) {
 		if (se == null) {
-			return;
+			return this;
 		}
 
 		if (se.isNegative()) {
-			add(se.negate(), steps, tracker, eqNum);
+			return add(se.negate(), steps, eqNum);
 		} else {
-			subtract(se, steps, tracker, eqNum);
+			return subtract(se, steps, eqNum);
 		}
 	}
 
-	public void multiply(StepExpression toMultiply, SolutionBuilder steps, SolveTracker tracker) {
-		multiply(toMultiply, steps, tracker, -1);
+	public StepSolvable multiply(StepExpression toMultiply, SolutionBuilder steps) {
+		return multiply(toMultiply, steps, -1);
 	}
 
-	public void multiply(StepExpression toMultiply, SolutionBuilder steps, SolveTracker tracker,
-			int eqNum) {
+	public StepSolvable multiply(StepExpression toMultiply, SolutionBuilder steps, int eqNum) {
 		if (!isOne(toMultiply) && !isZero(toMultiply)) {
 			toMultiply.setColor(1);
 
+			StepSolvable result;
 			if (toMultiply.isConstant()) {
-				LHS = multiply(toMultiply, LHS);
-				RHS = multiply(toMultiply, RHS);
+				result = cloneWith(multiply(toMultiply, LHS), multiply(toMultiply, RHS));
 			} else {
-				LHS = multiply(LHS, toMultiply);
-				RHS = multiply(RHS, toMultiply);
+				result = cloneWith(multiply(LHS, toMultiply), multiply(RHS, toMultiply));
 			}
+			toMultiply.cleanColors();
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
@@ -283,29 +231,30 @@ public abstract class StepSolvable extends StepNode {
 				steps.add(SolutionStepType.MULTIPLY_BOTH_SIDES_NUM, toMultiply,
 						StepConstant.create(eqNum + 1));
 			}
+
 			steps.levelDown();
-			steps.add(this);
+			steps.add(result);
 
-			regroup(steps, tracker);
+			result = result.regroup(steps);
 			steps.levelUp();
-			steps.add(this);
+			steps.add(result);
 			steps.levelUp();
 
-			toMultiply.cleanColors();
+			return result;
 		}
+
+		return this;
 	}
 
-	public void divide(StepExpression toDivide, SolutionBuilder steps, SolveTracker tracker) {
-		divide(toDivide, steps, tracker, -1);
+	public StepSolvable divide(StepExpression toDivide, SolutionBuilder steps) {
+		return divide(toDivide, steps, -1);
 	}
 
-	public void divide(StepExpression toDivide, SolutionBuilder steps, SolveTracker tracker,
-			int eqNum) {
+	public StepSolvable divide(StepExpression toDivide, SolutionBuilder steps, int eqNum) {
 		if (!isOne(toDivide) && !isZero(toDivide)) {
 			toDivide.setColor(1);
-
-			LHS = divide(LHS, toDivide);
-			RHS = divide(RHS, toDivide);
+			StepSolvable result  = cloneWith(divide(LHS, toDivide), divide(RHS, toDivide));
+			toDivide.cleanColors();
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
@@ -316,25 +265,26 @@ public abstract class StepSolvable extends StepNode {
 						StepConstant.create(eqNum + 1));
 			}
 			steps.levelDown();
-			steps.add(this);
+			steps.add(result);
 
-			regroup(steps, tracker);
+			result = result.regroup(steps);
 			steps.levelUp();
-			steps.add(this);
+			steps.add(result);
 			steps.levelUp();
 
-			toDivide.cleanColors();
+			return result;
 		}
+
+		return this;
 	}
 
-	public void multiplyOrDivide(StepExpression se, SolutionBuilder steps, SolveTracker tracker) {
-		multiplyOrDivide(se, steps, tracker, -1);
+	public StepSolvable multiplyOrDivide(StepExpression se, SolutionBuilder steps) {
+		return multiplyOrDivide(se, steps, -1);
 	}
 
-	public void multiplyOrDivide(StepExpression se, SolutionBuilder steps, SolveTracker tracker,
-			int eqNum) {
+	public StepSolvable multiplyOrDivide(StepExpression se, SolutionBuilder steps, int eqNum) {
 		if (se == null) {
-			return;
+			return this;
 		}
 
 		if (this instanceof StepInequality && se.canBeEvaluated() && se.getValue() < 0) {
@@ -342,47 +292,48 @@ public abstract class StepSolvable extends StepNode {
 		}
 
 		if (se.canBeEvaluated() && isEqual(se.getValue(), -1)) {
-			multiply(se, steps, tracker, eqNum);
+			return multiply(se, steps, eqNum);
 		} else if (se.isOperation(Operation.DIVIDE)) {
-			StepOperation so = (StepOperation) se;
-			multiply(StepNode.divide(so.getOperand(1), so.getOperand(0)), steps, tracker, eqNum);
+			return multiply(se.reciprocate(), steps, eqNum);
 		} else {
-			divide(se, steps, tracker, eqNum);
+			return divide(se, steps, eqNum);
 		}
 	}
 
-	public void reciprocate(SolutionBuilder steps) {
-		LHS = LHS.reciprocate();
-		RHS = RHS.reciprocate();
+	public StepSolvable reciprocate(SolutionBuilder steps) {
+		StepSolvable result = cloneWith(LHS.reciprocate(), RHS.reciprocate());
 
 		steps.add(SolutionStepType.GROUP_WRAPPER);
 		steps.levelDown();
 		steps.add(SolutionStepType.RECIPROCATE_BOTH_SIDES);
-		steps.add(this);
+		steps.add(result);
 		steps.levelUp();
+
+		return result;
 	}
 
-	public void square(SolutionBuilder steps, SolveTracker tracker) {
-		LHS = power(LHS, 2);
-		RHS = power(RHS, 2);
+	public StepSolvable square(SolutionBuilder steps, SolveTracker tracker) {
+		StepSolvable result = cloneWith(power(LHS, 2), power(RHS, 2));
 
 		steps.add(SolutionStepType.GROUP_WRAPPER);
 		steps.levelDown();
 		steps.add(SolutionStepType.SQUARE_BOTH_SIDES);
 		steps.levelDown();
-		steps.add(this);
+		steps.add(result);
 
-		expand(steps, tracker);
+		result = result.expand(steps);
 		steps.levelUp();
-		steps.add(this);
+		steps.add(result);
 		steps.levelUp();
 
 		tracker.setShouldCheckSolutions();
+
+		return result;
 	}
 
-	public void nthroot(long root, SolutionBuilder steps) {
+	public StepSolvable nthroot(long root, SolutionBuilder steps) {
 		if (root == 0 || root == 1) {
-			return;
+			return this;
 		} else if (root == 2) {
 			steps.add(SolutionStepType.SQUARE_ROOT);
 		} else if (root == 3) {
@@ -391,33 +342,31 @@ public abstract class StepSolvable extends StepNode {
 			steps.add(SolutionStepType.NTH_ROOT, StepConstant.create(root));
 		}
 
-		LHS = StepNode.root(LHS, root);
 		if (!isZero(RHS)) {
-			RHS = StepNode.root(RHS, root);
+			return cloneWith(root(LHS, root), root(RHS, root));
+		} else {
+			return cloneWith(root(LHS, root), RHS);
 		}
 	}
 
 	public StepSolvable replace(StepExpression from, StepExpression to) {
-		LHS = LHS.replace(from, to);
-		RHS = RHS.replace(from, to);
-
-		return this;
+		return cloneWith(LHS.replace(from, to), RHS.replace(from, to));
 	}
 
 	public StepSolvable replace(StepExpression from, StepExpression to, SolutionBuilder steps) {
 		from.setColor(1);
 		to.setColor(1);
 
-		replace(from, from);
-		StepSolvable original = deepCopy();
-		replace(from, to);
+		// to color
+		StepSolvable original = replace(from, from);
+		StepSolvable result = replace(from, to);
 
-		steps.addSubstep(original, this, SolutionStepType.REPLACE_WITH, from, to);
+		steps.addSubstep(original, result, SolutionStepType.REPLACE_WITH, from, to);
 
 		from.cleanColors();
 		to.cleanColors();
-		cleanColors();
 
-		return this;
+		result.cleanColors();
+		return result;
 	}
 }

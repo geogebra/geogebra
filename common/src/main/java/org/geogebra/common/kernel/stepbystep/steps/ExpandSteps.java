@@ -3,8 +3,8 @@ package org.geogebra.common.kernel.stepbystep.steps;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.plugin.Operation;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
@@ -13,7 +13,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 
 	EXPAND_DIFFERENCE_OF_SQUARES {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -70,7 +70,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 
 	EXPAND_PRODUCTS {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -159,7 +159,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 
 	EXPAND_POWERS {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn instanceof StepOperation && !sn.isOperation(Operation.ABS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -227,7 +227,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 
 	DECIMAL_EXPAND {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] expandStrategy =
 					new SimplificationStepGenerator[]{RegroupSteps.DECIMAL_REGROUP,
 							ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES, ExpandSteps.EXPAND_POWERS,
@@ -240,7 +240,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 
 	DEFAULT_EXPAND {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] expandStrategy =
 					new SimplificationStepGenerator[]{RegroupSteps.DEFAULT_REGROUP,
 							ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES, ExpandSteps.EXPAND_POWERS,

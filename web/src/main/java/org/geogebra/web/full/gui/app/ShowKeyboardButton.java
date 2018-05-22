@@ -66,7 +66,7 @@ public class ShowKeyboardButton extends SimplePanel {
 		} else {
 			if (parent instanceof DockPanelW) {
 				((DockPanelW) parent).addSouth(this);
-			}				
+			}
 		}
 		ClickStartHandler.init(this, new ClickStartHandler(
 				true, true) {

@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
-import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -27,10 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
-import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
-import org.geogebra.common.kernel.stepbystep.steptree.StepInequality;
-import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
-import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
@@ -311,50 +307,14 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	}
 
 	private SolutionStep getStepsSingle(GeoElement geo) {
-		StepSolvable se;
-		if (geo instanceof FunctionalNVar
-				&& ((FunctionalNVar) geo).isBooleanFunction()) {
-			ExpressionNode expr = ((FunctionalNVar) geo)
-					.getFunctionExpression();
-			String operator = asString(expr.getOperation());
-			if (operator.isEmpty()) {
-				return null;
-			}
-			String lhs = expr.getLeft().wrap()
-					.toString(StringTemplate.maxDecimals);
-			String rhs = expr.getRight().wrap()
-					.toString(StringTemplate.maxDecimals);
-			se = StepInequality.from(
-					lhs,
-					operator,
-					rhs,
-					getKernel().getParser());
-		} else {
-			se = new StepEquation(
-					geo.getDefinitionNoLabel(StringTemplate.defaultTemplate),
-					kernel.getParser());
-		}
+		StepSolvable se = StepNode.getStepTree(
+				geo.getDefinitionNoLabel(StringTemplate.defaultTemplate), kernel.getParser())
+				.toSolvable();
 
 		SolutionBuilder sb = new SolutionBuilder();
 		se.solve(new StepVariable("x"), sb);
 
 		return sb.getSteps();
-	}
-
-	private static String asString(Operation operation) {
-		switch (operation) {
-		case LESS:
-			return "<";
-		case LESS_EQUAL:
-			return "<=";
-		case GREATER:
-			return ">";
-		case GREATER_EQUAL:
-			return ">=";
-		default:
-			return "";
-		}
-
 	}
 
 	@Override

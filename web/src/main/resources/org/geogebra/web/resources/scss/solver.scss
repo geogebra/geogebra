@@ -3,8 +3,10 @@
 .GeoGebraFrame{
 
   .stepTree {
-    width: 60%;
+    width: 100%;
     margin: 10px auto;
+    padding-left: 20px;
+    border: 1px solid lightgrey;
   }
 
   .KeyBoard.TabbedKeyBoard {
@@ -16,20 +18,30 @@
     margin-left: auto;
     margin-right: auto;
     width: 50%;
-    border: 1px solid lightgrey;
   }
 
   .editorPanel {
     width: 100%;
     border: 1px solid blueviolet;
 
+    .editorFocusPanel {
+      width: 100%;
+      min-height: 45px;
+    }
+
     td:first-child {
       width: 75%;
     }
   }
 
+  .solverKeyboardBtn {
+    height: 26px;
+    width: 26px;
+    user-select: none;
+    -moz-user-select: none;
+  }
+
   .solveButton {
-    margin-left: auto !important;
     @extend %suggestionButton;
   }
 }

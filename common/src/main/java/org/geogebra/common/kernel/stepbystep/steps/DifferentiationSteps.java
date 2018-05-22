@@ -12,7 +12,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_SUM {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -38,7 +38,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_CONSTANT {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -62,7 +62,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	CONSTANT_COEFFICIENT {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -93,7 +93,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_PRODUCT {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -132,7 +132,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_FRACTION {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -164,7 +164,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_POLYNOMIAL {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -211,7 +211,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_EXPONENTIAL {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -268,7 +268,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_ROOT {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -302,7 +302,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_LOG {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -353,7 +353,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_TRIGO {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -409,7 +409,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_INVERSE_TRIGO {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -467,7 +467,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DEFAULT_DIFFERENTIATE {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
 							RegroupSteps.DEFAULT_REGROUP,
 							DifferentiationSteps.DIFFERENTIATE_CONSTANT,

@@ -138,18 +138,17 @@ public class StepHelper {
 		}
 
 		if (sn instanceof StepSolvable) {
-			StepSolvable replaced = (StepSolvable) sn.deepCopy();
+			StepSolvable ss = (StepSolvable) sn;
 
-			StepExpression lhs = (StepExpression) replaceFirst(replaced.getLHS(), c);
-			StepExpression rhs = (StepExpression) replaceFirst(replaced.getRHS(), c);
-
+			StepExpression lhs = (StepExpression) replaceFirst(ss.getLHS(), c);
 			if (lhs != null) {
-				replaced.modify(lhs, replaced.getRHS());
-			} else if (rhs != null) {
-				replaced.modify(replaced.getLHS(), rhs);
+				return ss.cloneWith(lhs, ss.getRHS());
 			}
 
-			return replaced;
+			StepExpression rhs = (StepExpression) replaceFirst(ss.getRHS(), c);
+			if (rhs != null) {
+				return ss.cloneWith(ss.getLHS(), rhs);
+			}
 		}
 
 		return null;
