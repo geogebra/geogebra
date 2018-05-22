@@ -2004,6 +2004,7 @@ public class CommandsTest extends Assert{
 	@Test
 	public void cmdMAD() {
 		t("MAD( {1,2,3,4,5} )", "1.2"); // (2+1+1+2)/5 =1.2
+		t("MAD( 1, 3 )", "1"); // (1+1)/2 =1
 		t("MAD({20, 40, 41, 42, 40, 54}, {20, 6, 4, 5, 2})", "5.78524",
 				StringTemplate.editTemplate);
 	}
