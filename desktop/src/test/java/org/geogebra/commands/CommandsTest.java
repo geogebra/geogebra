@@ -2000,6 +2000,14 @@ public class CommandsTest extends Assert{
 		t("DotPlot[ {1,1,1,2}, true, 5 ]",
 				"{(1, 0.1), (1, 1.1), (1, 2.1), (2, 0.1)}");
 	}
+
+	@Test
+	public void cmdMAD() {
+		t("MAD( {1,2,3,4,5} )", "1.2"); // (2+1+1+2)/5 =1.2
+		t("MAD({20, 40, 41, 42, 40, 54}, {20, 6, 4, 5, 2})", "5.78524",
+				StringTemplate.editTemplate);
+	}
+
 	@Test
 	public void testPointsFromList() {
 		t("Sequence(Segment(Point({0, n}), Point({1, n+0})), n, 0, 9, 1)",
