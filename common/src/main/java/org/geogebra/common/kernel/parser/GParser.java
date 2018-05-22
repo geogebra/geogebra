@@ -28,7 +28,7 @@ public class GParser extends Parser {
 		} else {
 			Log.error("Generic parse error");
 		}
-		return new ParseException(kernel.getApplication().getLocalization()
+		return new ParseException(getKernel().getLocalization()
 				.getErrorDefault("InvalidInput", "Please check your input"));
 
 	}

@@ -661,7 +661,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	/**
 	 * Opens steps tab and returns stepGuiBuilder
-	 * @param fade decides if tab should fade during animation
+	 * 
+	 * @param fade
+	 *            decides if tab should fade during animation
+	 * @param steps
+	 *            computation steps
 	 */
 	public void openSteps(boolean fade, SolutionStep steps) {
 		ToolTipManagerW.hideAllToolTips();

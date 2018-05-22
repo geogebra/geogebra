@@ -1,14 +1,19 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
-
-import com.google.gwt.user.client.ui.ScrollPanel;
 import org.geogebra.web.solver.WebStepGuiBuilder;
 
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+/**
+ * Panel for steps in sidebar
+ * 
+ * @author Agoston
+ */
 public class StepsTab extends ToolbarPanel.ToolbarTab {
 
-    final ToolbarPanel toolbarPanel;
+	final private ToolbarPanel toolbarPanel;
 
     private ScrollPanel sp;
 

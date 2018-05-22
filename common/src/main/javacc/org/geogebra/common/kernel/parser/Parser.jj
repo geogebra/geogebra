@@ -70,7 +70,7 @@ import java.util.Vector;
 @SuppressWarnings("javadoc")
 public class Parser implements ParserInterface{
 
-    protected Kernel kernel;
+    private Kernel kernel;
     private App app;
     private Localization loc;
     private boolean GeoGebraCASParsing = false;
