@@ -79,7 +79,7 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.awt.GColorD;
-import org.geogebra.desktop.export.ConstructionProtocolExportDialog;
+import org.geogebra.desktop.export.ConstructionProtocolExportDialogD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
@@ -371,7 +371,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				Thread runner = new Thread() {
 					@Override
 					public void run() {
-						JDialog d = new ConstructionProtocolExportDialog(view);
+						JDialog d = new ConstructionProtocolExportDialogD(view);
 						d.setVisible(true);
 					}
 				};

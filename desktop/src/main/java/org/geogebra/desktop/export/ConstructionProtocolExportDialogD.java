@@ -48,7 +48,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.UtilD;
 
-public class ConstructionProtocolExportDialog extends JDialog
+public class ConstructionProtocolExportDialogD extends JDialog
 		implements KeyListener {
 
 	private static final long serialVersionUID = -2626950140196416416L;
@@ -61,7 +61,7 @@ public class ConstructionProtocolExportDialog extends JDialog
 	private ConstructionProtocolViewD prot;
 	private AppD app;
 
-	public ConstructionProtocolExportDialog(ConstructionProtocolViewD prot) {
+	public ConstructionProtocolExportDialogD(ConstructionProtocolViewD prot) {
 		super(prot.getApplication().getFrame(), true);
 		this.prot = prot;
 		app = prot.getApplication();

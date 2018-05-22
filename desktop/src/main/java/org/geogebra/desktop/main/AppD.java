@@ -5377,7 +5377,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public void exportSbToFile(String ext, StringBuilder sb) {
+	public void exportStringToFile(String ext, String content) {
 		try {
 			StringBuilder fileName = new StringBuilder();
 			fileName.append("test.");
@@ -5385,7 +5385,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			BufferedWriter objBufferedWriter = new BufferedWriter(
 					new OutputStreamWriter(new FileOutputStream(fileName.toString()), "UTF-8"));
 			Log.debug("Export to " + fileName);
-			objBufferedWriter.write(sb.toString());
+			objBufferedWriter.write(content);
 			objBufferedWriter.close();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

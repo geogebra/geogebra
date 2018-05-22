@@ -389,8 +389,13 @@ public class Browser {
 			extension = "text/plain";
 			header = @org.geogebra.common.util.StringUtil::txtMarker;
 			base64encoded = false;
+		} else if (startsWith(url,
+				@org.geogebra.common.util.StringUtil::htmlMarker)) {
+			extension = "text/html";
+			header = @org.geogebra.common.util.StringUtil::htmlMarker;
+			base64encoded = false;
 		} else {
-			$wnd.console.log("unknown extension " + url.substring(0, 20));
+			$wnd.console.log("unknown extension " + url.substring(0, 30));
 			return;
 		}
 

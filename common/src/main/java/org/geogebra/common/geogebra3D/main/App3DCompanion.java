@@ -296,7 +296,7 @@ public abstract class App3DCompanion extends AppCompanion {
 				app.getSettings().getEuclidian(3));
 		StringBuilder export = exportView3D.export3D(format);
 		app.getKernel().detach(exportView3D);
-		app.exportSbToFile(format.getExtension(), export);
+		app.exportStringToFile(format.getExtension(), export.toString());
 	}
 
 	@Override

@@ -30,6 +30,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	final static public String ggbMarker = "data:application/vnd.geogebra.file;base64,";
 	final static public String gifMarker = "data:image/gif;base64,";
 	final static public String webmMarker = "data:video/webm;base64,";
+	final static public String htmlMarker = "data:text/html;charset=utf-8,";
 
 	// table to convert a nibble to a hex char.
 	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',

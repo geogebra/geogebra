@@ -3737,13 +3737,23 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public void exportSbToFile(String ext, StringBuilder sb) {
-		String url = StringUtil.txtMarker
-				+ URL.encodePathSegment(sb.toString());
+	public void exportStringToFile(String extension, String content) {
+
+		String marker = "html".equals(extension) ? StringUtil.htmlMarker
+				: StringUtil.txtMarker;
+
+		String url;
+
+		if ("html".equals(extension)) {
+			url = StringUtil.htmlMarker + content;
+		} else {
+			url = StringUtil.txtMarker + URL.encodePathSegment(content);
+		}
+
 		dispatchEvent(new org.geogebra.common.plugin.Event(
 				EventType.OPEN_DIALOG, null, "export3D"));
-		getFileManager().showExportAsPictureDialog(url, getExportTitle(), ext,
-				"Export", this);
+		getFileManager().showExportAsPictureDialog(url, getExportTitle(),
+				extension, "Export", this);
 	}
 
 	/**
@@ -3868,6 +3878,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void setZoomPanel(ZoomPanel zoomPanel) {
 		this.zoomPanel = zoomPanel;
+	}
+
+	public void exportConstructionProtocol() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

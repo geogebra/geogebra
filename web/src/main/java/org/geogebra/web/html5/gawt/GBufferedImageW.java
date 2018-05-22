@@ -261,6 +261,10 @@ public class GBufferedImageW implements GBufferedImage {
 
 	@Override
 	public String getBase64() {
+		if (img == null) {
+			Log.error("img null");
+			return null;
+		}
 		return img.getSrc();
 	}
 

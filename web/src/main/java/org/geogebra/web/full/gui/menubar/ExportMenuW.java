@@ -2,8 +2,10 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.HTML5Export;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.Browser;
@@ -144,6 +146,20 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				menu.hide();
 
 				app.getGgbApi().exportPGF(exportCallback("PGF", app));
+			}
+		});
+
+
+		menu.addItem(
+				menuText(app.getLocalization()
+						.getMenu("DynamicWorksheetAsWebpage") + " ("
+						+ FileExtensions.HTML + ")"),
+				true, new MenuCommand(app) {
+			@Override
+			public void doExecute() {
+				menu.hide();
+						app.exportStringToFile("html",
+								HTML5Export.getFullString(app));
 			}
 		});
 

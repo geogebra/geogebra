@@ -5403,10 +5403,11 @@ public abstract class App implements UpdateSelection {
 	 * 
 	 * @param ext
 	 *            extension
-	 * @param sb
-	 *            builder
+	 * @param content
+	 *            contents of file
+	 * 
 	 */
-	public void exportSbToFile(String ext, StringBuilder sb) {
+	public void exportStringToFile(String ext, String content) {
 		// needs to be implemented in subclasses
 	}
 
