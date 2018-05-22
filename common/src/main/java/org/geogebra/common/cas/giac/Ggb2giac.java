@@ -55,6 +55,10 @@ public class Ggb2giac {
 
 		p("Append.2", "append(%0,%1)");
 		// simplify() to make sure Binomial[n,1] gives n
+
+		// TRAC-3348
+		p("Assume.2", "[[assume(%0)],%1][1]");
+
 		p("Binomial.2", "simplify(binomial(%0,%1))");
 
 		p("BinomialDist.3",

@@ -1103,6 +1103,8 @@ public enum Commands implements CommandsConstants,
 
 	Reflect(TABLE_ENGLISH),
 
+	Assume(TABLE_CAS),
+
 	CFactor(TABLE_CAS),
 
 	CIFactor(TABLE_CAS),
