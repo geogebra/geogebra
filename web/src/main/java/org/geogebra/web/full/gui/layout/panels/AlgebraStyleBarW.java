@@ -36,6 +36,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 
 	/** button to open the popup with the supported tree-modes */
 	PopupMenuButtonW treeModeButton;
+	/** button for description mode */
 	PopupMenuButtonW descriptionButton;
 	/** list of all supported {@link SortMode modes} */
 	ArrayList<SortMode> supportedModes = new ArrayList<>();

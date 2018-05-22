@@ -70,6 +70,9 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
 	}
 
+	/**
+	 * Load PAKO or Deflate
+	 */
 	public static void loadCodecs() {
 		if (AppW.USE_PAKO) {
 			Log.debug("loading zipjs/pako");

@@ -2317,7 +2317,7 @@ public class GuiManagerW extends GuiManager
 			public void setResource(ResourcePrototype mode_tool_32) {
 				String url = NoDragImage.safeURI(mode_tool_32);
 				String fn = "geogebra_tool_" + mode;
-				String zipDirectory = app.md5Encrypt(fn);
+				String zipDirectory = getApp().md5Encrypt(fn);
 				fn = zipDirectory + "/" + fn;
 				getApp().getImageManager().addExternalImage(fn, url);
 				getApp().getImageManager().triggerSingleImageLoading(fn,

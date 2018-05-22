@@ -63,6 +63,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 
 	/*********************************************
 	 * Constructs a DockSplitPaneW with default horizontal orientation
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public DockSplitPaneW(AppW app) {
 		this(SwingConstants.HORIZONTAL_SPLIT, app);
@@ -197,11 +200,23 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		return Math.max(size, size2);
 	}
 
+	/**
+	 * Set divider position and update UI.
+	 * 
+	 * @param location
+	 *            divider location in pixels
+	 */
 	public void setDividerLocation(int location) {
 		setDividerLocationSilent(location);
 		setComponents();
 	}
 
+	/**
+	 * Set divider position, no UI update.
+	 * 
+	 * @param location
+	 *            divider location in pixels
+	 */
 	public void setDividerLocationSilent(int location) {
 		dividerLocation = location;
 	}

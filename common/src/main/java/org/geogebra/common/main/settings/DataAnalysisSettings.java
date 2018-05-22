@@ -20,7 +20,6 @@ public class DataAnalysisSettings {
 
 	public void setMode(int mode) {
 		this.mode = mode;
-
 	}
 
 	public ArrayList<String> getItems() {
@@ -31,16 +30,17 @@ public class DataAnalysisSettings {
 		return mode;
 	}
 
+	/**
+	 * @param i
+	 *            plot panel
+	 * @param plotType
+	 *            plot type
+	 */
 	public void setPlotType(int i, PlotType plotType) {
-
-		if (PlotType.BARCHART == plotType || PlotType.HISTOGRAM == plotType) {
-			Log.printStacktrace("");
-		}
 		if (i == 0) {
 			this.plotType1 = plotType;
 		} else {
 			this.plotType2 = plotType;
-
 		}
 
 		Log.error("set i = " + i + "  " + plotType1 + " " + plotType2);
