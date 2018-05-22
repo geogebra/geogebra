@@ -259,6 +259,7 @@ namespace giac {
     _PRINT__VECT=28,
     _TUPLE__VECT=29,
     _TABLE__VECT=30,
+    _GRAPH__VECT =31,
   } ;
 
   enum symb_subtypes {
@@ -635,6 +636,17 @@ namespace giac {
     step_integrate_header=33,
     step_derive_header=34,
   };
+
+  enum move_to_dispatch_h {
+    _GT_CONNECTED = 137, // connected
+    _GT_SPRING = 138, // spring
+    _GT_TREE = 139, // tree
+    _GT_PLANAR = 140, // planar
+    _GT_DIRECTED = 141, // directed
+    _GT_WEIGHTED = 142, // weighted
+    _GT_WEIGHTS = 143 // weights
+  };
+
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

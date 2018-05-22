@@ -208,6 +208,10 @@ namespace giac {
   }
 
   void Opengl::update_infos(const gen & g){
+    if (g.type==_VECT && g.subtype==_GRAPH__VECT){
+      show_axes=false;
+      orthonormalize();
+    }
     if (g.is_symb_of_sommet(at_equal)){
       // detect a title or a x/y-axis name
       gen & f = g._SYMBptr->feuille;

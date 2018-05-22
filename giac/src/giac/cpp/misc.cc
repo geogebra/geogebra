@@ -594,7 +594,11 @@ namespace giac {
     static gen FREEZE(identificateur("FREEZE"));
     return _of(makesequence(FREEZE,args),contextptr);
 #else
+#ifdef EMCC
     return pixel_v();
+#else
+    return makesequence(symb_equal(change_subtype(_AXES,_INT_PLOT),0),pixel_v());
+#endif
 #endif
   }
   static const char _show_pixels_s []="show_pixels";

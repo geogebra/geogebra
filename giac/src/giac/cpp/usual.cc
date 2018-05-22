@@ -8398,6 +8398,11 @@ namespace giac {
 #endif
   define_unary_function_ptr5( at_Psi ,alias_at_Psi,&__Psi,0,true);
 
+  string printsommetasnormalmod(const gen & feuille,const char * sommetstr_orig,GIAC_CONTEXT){
+    if (python_compat(contextptr))
+      return printsommetasoperator(feuille,"mod",contextptr);
+    return printsommetasoperator(feuille,sommetstr_orig,contextptr);    
+  }
   gen _normalmod(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->size()!=2)
@@ -8444,7 +8449,7 @@ namespace giac {
 #else
   static const char _normalmod_s []="%";
 #endif
-  static define_unary_function_eval4_index (166,__normalmod,&_normalmod,_normalmod_s,&printsommetasoperator,&texprintsommetasoperator);
+  static define_unary_function_eval4_index (166,__normalmod,&_normalmod,_normalmod_s,&printsommetasnormalmod,&texprintsommetasoperator);
   define_unary_function_ptr( at_normalmod ,alias_at_normalmod ,&__normalmod);
 
   // a=expression, x variable, n=number of terms, 

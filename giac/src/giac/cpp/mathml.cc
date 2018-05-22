@@ -892,19 +892,23 @@ namespace giac {
     double fontscale=x_scale*.6; // (x_scale<y_scale?y_scale:x_scale)*.3;
     char buffer[16384];
     char * pos=buffer;
+#if 0
     sprintf(pos,"<rect x=\"%.5g\" y=\"%.5g\" height=\"%.5g\" width=\"%.5g\" stroke=\"none\" fill=\"white\"/\n>\n",xmin-x_scale,ymax,y_scale,svg_width+2*x_scale);
     // sortie<<"<rect x=\""<<xmin-x_scale<<"\" y=\""<<ymax<<"\" height=\""<<y_scale<<"\" width=\""<<svg_width+2*x_scale<< "\" stroke=\"none\" fill=\"white\"/>"<<endl;
     pos = buffer+strlen(buffer);
-    sprintf(pos,"<rect x=\"%.5g\" y=\"%.5g\" height=\"%.5g\" width=\"%.5g\" stroke=\"none\" fill=\"white\"/\n>\n",xmin-x_scale,ymin,x_scale,svg_height);
+    sprintf(pos,"<rect x=\"%.5g\" y=\"%.5g\" width=\"%.5g\" height=\"%.5g\" stroke=\"none\" fill=\"white\"/\n>\n",xmin-x_scale,ymin,x_scale,svg_height);
     // sortie<<"<rect x=\""<<xmin-x_scale<<"\" y=\""<<ymin<<"\" width=\""<<x_scale <<"\" height=\""<<svg_height<< "\" stroke=\"none\" fill=\"white\"/>"<<endl;
     pos = buffer+strlen(buffer);
-    sprintf(pos,"<rect x=\"%.5g\" y=\"%.5g\" height=\"%.5g\" width=\"%.5g\" stroke=\"none\" fill=\"white\"/\n>\n",xmax,ymin,x_scale*2,svg_height);
+    sprintf(pos,"<rect x=\"%.5g\" y=\"%.5g\" width=\"%.5g\" height=\"%.5g\" stroke=\"none\" fill=\"white\"/\n>\n",xmax,ymin,x_scale*2,svg_height);
     // sortie<<"<rect x=\""<<xmax<<"\" y=\""<<ymin<<"\" width=\""<<x_scale*2 <<"\" height=\""<<svg_height<<"\" stroke=\"none\" fill=\"white\"/>"<<endl;
     pos = buffer+strlen(buffer);
-    sprintf(pos,"<rect x=\"%.5g\" y=\"%.5g\" height=\"%.5g\" width=\"%.5g\" stroke=\"none\" fill=\"white\"/\n></g>\n",xmin-x_scale,ymin-y_scale,svg_width+2*x_scale,y_scale);
+    sprintf(pos,"<rect x=\"%.5g\" y=\"%.5g\" width=\"%.5g\" height=\"%.5g\" stroke=\"none\" fill=\"white\"/\n></g>\n",xmin-x_scale,ymin-y_scale,svg_width+2*x_scale,y_scale);
     pos = buffer+strlen(buffer);
     // sortie<<"<rect x=\""<<xmin-x_scale<<"\" y=\""<<ymin-y_scale<<"\" width=\""<<svg_width+2*x_scale <<"\" height=\""<<y_scale <<"\" stroke=\"none\" fill=\"white\"/>\n</g>"<<endl;
-
+#else
+    sprintf(pos,"</g>\n");
+    pos = buffer+strlen(buffer);
+#endif
     // calibrage des graduations
     double dx,dy;
     svg_dx_dy(svg_width, svg_height, dx, dy);
