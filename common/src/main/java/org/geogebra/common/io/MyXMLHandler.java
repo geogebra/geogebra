@@ -2123,7 +2123,9 @@ public class MyXMLHandler implements DocHandler {
 				ok = handleFont(app, attrs);
 			}
 			break;
-
+		case 'g':
+			// assume old graphicsSettings tag for JLM font (unused, ignore)
+			ok = true;
 		case 'm':
 			if ("menuFont".equals(eName)) {
 				ok = handleMenuFont(app, attrs);
@@ -4091,8 +4093,10 @@ public class MyXMLHandler implements DocHandler {
 				&& "parametric".equals(style)) {
 			((GeoLineND) geo).setToParametric(parameter);
 		}
-		else if (geo instanceof GeoConicND && "parametric".equals(style)) {
-			((GeoConicND) geo).setToParametric(parameter);
+		else if (geo instanceof GeoConicND) {
+			if ("parametric".equals(style)) {
+				((GeoConicND) geo).setToParametric(parameter);
+			}
 		}
 		else {
 			Log.error("wrong element type for <eqnStyle>: " + geo.getClass());
