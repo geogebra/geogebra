@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -256,7 +257,7 @@ public class GeoInputBox extends GeoButton {
 						.parseExpression(inputText);
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 		// for a simple number, round it to the textfield setting (if set)
@@ -294,6 +295,31 @@ public class GeoInputBox extends GeoButton {
 				EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
 						linkedGeo.isIndependent()).withSliders(false);
 
+				// TRAC-5294 make sure user input gives the correct type
+				// so that eg construction isn't killed by entering "y"
+				// in a box linked to a number
+
+				kernel.setSilentMode(true);
+				try {
+					ValidExpression exp = kernel.getParser()
+							.parseGeoGebraExpression(defineText);
+					GeoElementND[] geos = kernel.getAlgebraProcessor()
+							.processValidExpression(exp);
+
+					if (!(geos[0].getGeoClassType()
+							.equals(linkedGeo.getGeoClassType()))) {
+						showError();
+						return;
+
+					}
+
+				} catch (Throwable t) {
+					showError();
+					return;
+				} finally {
+					kernel.setSilentMode(false);
+				}
+
 				kernel.getAlgebraProcessor()
 						.changeGeoElementNoExceptionHandling(linkedGeo,
 								defineText, info, true,
@@ -329,14 +355,18 @@ public class GeoInputBox extends GeoButton {
 			return;
 		} catch (Exception e1) {
 			Log.error(e1.getMessage());
-			kernel.getApplication()
-					.showError(kernel.getApplication().getLocalization()
-							.getErrorDefault("InvalidInput",
-									"Please check your input"));
+			showError();
 			return;
 		}
 		this.setLinkedGeo(linkedGeo);
 
+	}
+
+	private void showError() {
+		kernel.getApplication()
+				.showError(kernel.getApplication().getLocalization()
+						.getErrorDefault("InvalidInput",
+								"Please check your input"));
 	}
 
 	/**
