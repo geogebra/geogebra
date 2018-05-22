@@ -212,7 +212,7 @@ public class ExportToPrinter3D {
 				if (type == Type.CURVE && format.needsClosedObjects()) {
 					// face for start
 					for (int i = 1; i < 7; i++) {
-						getFaceWithOffset(notFirst, offset, 0, i, i + 1);
+						getFaceWithOffset(notFirst, 0, 0, i, i + 1);
 					}
 
 					// update index
@@ -220,7 +220,7 @@ public class ExportToPrinter3D {
 
 					// face for end
 					for (int i = 2; i < 8; i++) {
-						getFaceWithOffset(notFirst, offset, l - 1, l - i,
+						getFaceWithOffset(notFirst, 0, l - 1, l - i,
 								l - i - 1);
 					}
 				}
