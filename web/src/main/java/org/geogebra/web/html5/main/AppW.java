@@ -3739,9 +3739,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void exportStringToFile(String extension, String content) {
 
-		String marker = "html".equals(extension) ? StringUtil.htmlMarker
-				: StringUtil.txtMarker;
-
 		String url;
 
 		if ("html".equals(extension)) {

@@ -2126,6 +2126,7 @@ public class MyXMLHandler implements DocHandler {
 		case 'g':
 			// assume old graphicsSettings tag for JLM font (unused, ignore)
 			ok = true;
+			break;
 		case 'm':
 			if ("menuFont".equals(eName)) {
 				ok = handleMenuFont(app, attrs);

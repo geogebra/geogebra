@@ -349,6 +349,11 @@ public class CAStestJSON {
 	}
 
 	@Test
+	public void testAssume() {
+		testCat("Assume.2");
+	}
+
+	@Test
 	public void testIntegral() {
 		testCat("Integral");
 	}
