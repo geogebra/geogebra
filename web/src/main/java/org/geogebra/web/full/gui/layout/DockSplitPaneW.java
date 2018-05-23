@@ -87,6 +87,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		// this.addPropertyChangeListener(paneResizeListener);
 
 		dividerLocation = 100;
+		if (hasSplittersFrozen()) {
+			addStyleName("splitterFixed");
+		}
 	}
 
 	// ========================================

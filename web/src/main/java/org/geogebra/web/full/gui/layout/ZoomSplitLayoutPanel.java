@@ -174,8 +174,6 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			case Event.ONTOUCHMOVE:
 				if (splitPanel.hasSplittersFrozen()) {
 					event.preventDefault();
-					splitter = impl.getSplitterElement();
-					splitter.addClassName("disabled");
 					break;
 				}
 				if (mouseDown) {
