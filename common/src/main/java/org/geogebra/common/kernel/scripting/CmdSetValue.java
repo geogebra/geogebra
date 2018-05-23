@@ -12,8 +12,10 @@ import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
 
@@ -195,6 +197,14 @@ public class CmdSetValue extends CmdScripting {
 			SetRandomValue algo = (SetRandomValue) arg0.getParentAlgorithm();
 			if (algo.setRandomValue(arg1)) {
 				arg0.updateRepaint();
+			}
+		} else if (arg0.isGeoInputBox() && arg1.isGeoText()) {
+			String textString = ((GeoText) arg1).getTextString();
+			GeoInputBox geoInputBox = (GeoInputBox) arg0;
+			if (geoInputBox.getLinkedGeo() != null) {
+				geoInputBox.updateLinkedGeo(textString);
+			} else {
+				geoInputBox.setText(textString);
 			}
 		}
 	}
