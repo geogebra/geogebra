@@ -298,7 +298,7 @@ public class GeoInputBox extends GeoButton {
 				// so that eg construction isn't killed by entering "y"
 				// in a box linked to a number
 
-				kernel.setSilentMode(true);
+				// kernel.setSilentMode(true);
 				// try {
 				// ValidExpression exp = kernel.getParser()
 				// .parseGeoGebraExpression(defineText);
