@@ -32,6 +32,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
@@ -389,8 +390,10 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			setResource(imgClose,
 					MaterialDesignResources.INSTANCE
 							.toolbar_close_portrait_white());
-			setResource(imgMenu,
+			if (!app.has(Feature.MAT_DESIGN_HEADER)) {
+				setResource(imgMenu,
 					MaterialDesignResources.INSTANCE.menu_black_border());
+			}
 		} else {
 			setResource(imgOpen,
 					MaterialDesignResources.INSTANCE
@@ -398,8 +401,14 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			setResource(imgClose,
 					MaterialDesignResources.INSTANCE
 							.toolbar_close_landscape_white());
-			setResource(imgMenu,
+			if (!app.has(Feature.MAT_DESIGN_HEADER)) {
+				setResource(imgMenu,
 					MaterialDesignResources.INSTANCE.toolbar_menu_white());
+			}
+		}
+		if (app.has(Feature.MAT_DESIGN_HEADER)) {
+			setResource(imgMenu,
+					MaterialDesignResources.INSTANCE.menu_black_border());
 		}
 
 		imgOpen.setAltText(app.getLocalization().getMenu("Open"));
@@ -433,9 +442,14 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				0, 0, 24, 24, false, false);
 		btnMenu = new PersistableToggleButton(new Image(menuImgRec));
 		btnMenu.addStyleName("flatButton");
-		btnMenu.addStyleName("menu");
 
-		toolbarPanel.getFrame().add(btnMenu);
+		if (app.has(Feature.MAT_DESIGN_HEADER)) {
+			btnMenu.addStyleName("menuBtn");
+			RootPanel.get("headerID").add(btnMenu);
+		} else {
+			btnMenu.addStyleName("menu");
+			toolbarPanel.getFrame().add(btnMenu);
+		}
 		markMenuAsExpanded(false);
 		ClickStartHandler.init(btnMenu, new ClickStartHandler(true, true) {
 

@@ -229,6 +229,9 @@ public enum Feature {
 
 	/** GGB-2346 */
 	CURRENCY_UNIT,
+	
+	/** GBB-2374 */
+	MAT_DESIGN_HEADER,
 
 	/** MOW-360, MOW-381, MOW-382 */
 	MOW_CROP_IMAGE,

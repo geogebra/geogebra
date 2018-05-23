@@ -12,7 +12,25 @@
 
 .GeoGebraHeader.beta {
 	 height: 64px;
+	 padding: 0px;
+     border: 0px;
 }
+
+.appName.beta {
+	display: none;
+}
+
+.flatButton.menuBtn {
+	padding: 12px;
+	margin: 8px 20px 8px 12px;
+	opacity: 0.54;
+	cursor: pointer;
+}
+
+.flatButton.menu:hover {
+	opacity: 0.84;
+}
+
 .GeoGebraHeader .appName{
 	padding-left: 12px;
 	font-size: 16px;
