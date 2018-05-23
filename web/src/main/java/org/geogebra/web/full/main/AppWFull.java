@@ -138,7 +138,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	private int activePerspective;
 
-	private AccessibilityManagerInterface accessibilityManager;
 	private boolean menuShowing = false;
 	private final GeoGebraFrameBoth frame;
 	private View focusedView;

@@ -410,6 +410,7 @@ public abstract class App implements UpdateSelection {
 	private SpecialPointsManager specialPointsManager;
 
 	private boolean areCommands3DEnabled = true;
+	protected AccessibilityManagerInterface accessibilityManager;
 	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 
 	public static String[] getStrDecimalSpacesAC() {
@@ -5273,7 +5274,12 @@ public abstract class App implements UpdateSelection {
 	 * @return the AccessibilityManager.
 	 */
 	public AccessibilityManagerInterface getAccessibilityManager() {
-		return new AccessibilityManagerNoGui();
+
+		if (accessibilityManager == null) {
+			accessibilityManager = new AccessibilityManagerNoGui();
+		}
+
+		return accessibilityManager;
 	}
 
 	/**
