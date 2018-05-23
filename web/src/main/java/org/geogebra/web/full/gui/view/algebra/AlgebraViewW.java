@@ -285,6 +285,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// see this.setFocus(true) and this.addKeyDownHandler...
 			app.focusGained(this, this.getElement());
 		}
+
+		if (Browser.isTabletBrowser()
+				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+			handleTabletKeyboard(event);
+			return;
+		}
 		if (!editItem) {
 			// background click
 			if (event.getTypeInt() == Event.ONCLICK
@@ -296,12 +302,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				app.getGuiManager().focusScheduled(true, true, true);
 				app.hideKeyboard();
 			}
-			if (Browser.isTabletBrowser()
-					&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
-				handleTabletKeyboard(event);
-			} else {
-				super.onBrowserEvent(event);
-			}
+			super.onBrowserEvent(event);
 		}
 	}
 
@@ -312,51 +313,64 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            keyboard events
 	 */
 	private void handleTabletKeyboard(Event event) {
-		int keyCode = event.getKeyCode();
-		char ch = (char) event.getCharCode();
-		KeyEvent keyEvent = new KeyEvent(keyCode, 0, ch);
-
 		switch (DOM.eventGetType(event)) {
 		case Event.ONKEYPRESS:
-			switch (keyCode) {
-			case GWTKeycodes.KEY_ENTER:
-			case GWTKeycodes.KEY_ESCAPE:
-			case GWTKeycodes.KEY_BACKSPACE:
-				getActiveTreeItem().getMathField().getKeyListener()
-						.onKeyPressed(keyEvent);
-				break;
-			default:
-				getActiveTreeItem().getMathField().getKeyListener()
-						.onKeyTyped(keyEvent);
-				break;
-			}
+			handleKeyPressed(event);
+			break;
 		case Event.ONKEYDOWN:
-			if (keyCode == 0 && Browser.isIPad()) {
-				int arrowType = getIOSArrowKeys(event);
-				if (arrowType != -1) {
-					keyCode = arrowType;
-					keyEvent = new KeyEvent(keyCode, 0, '0');
-				}
+			handleKeyDown(event);
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void handleKeyPressed(Event event) {
+		int keyCode = event.getKeyCode();
+
+		switch (keyCode) {
+		case GWTKeycodes.KEY_ENTER:
+		case GWTKeycodes.KEY_ESCAPE:
+		case GWTKeycodes.KEY_BACKSPACE:
+			getActiveTreeItem().getMathField().getKeyListener().onKeyPressed(
+					new KeyEvent(keyCode, 0, (char) event.getCharCode()));
+			break;
+		default:
+			getActiveTreeItem().getMathField().getKeyListener().onKeyTyped(
+					new KeyEvent(keyCode, 0, (char) event.getCharCode()));
+			break;
+		}
+	}
+
+	private void handleKeyDown(Event event) {
+		int keyCode = event.getKeyCode();
+
+		if (keyCode == 0 && Browser.isIPad()) {
+			int arrowType = getIOSArrowKeys(event);
+			if (arrowType != -1) {
+				keyCode = arrowType;
 			}
-			switch (keyCode) {
-			case GWTKeycodes.KEY_BACKSPACE:
-				if (Browser.isAndroid()) {
-					getActiveTreeItem().getMathField().getKeyListener()
-							.onKeyPressed(keyEvent);
-				}
-				break;
-			case GWTKeycodes.KEY_LEFT:
-			case GWTKeycodes.KEY_RIGHT:
-			case GWTKeycodes.KEY_UP:
-			case GWTKeycodes.KEY_DOWN:
-			case GWTKeycodes.KEY_TAB:
+		}
+		switch (keyCode) {
+		case GWTKeycodes.KEY_BACKSPACE:
+			if (Browser.isAndroid()) {
 				getActiveTreeItem().getMathField().getKeyListener()
-						.onKeyPressed(keyEvent);
-				event.stopPropagation();
-				break;
-			default:
-				break;
+						.onKeyPressed(new KeyEvent(keyCode, 0,
+								(char) event.getCharCode()));
 			}
+			break;
+		case GWTKeycodes.KEY_LEFT:
+		case GWTKeycodes.KEY_RIGHT:
+		case GWTKeycodes.KEY_UP:
+		case GWTKeycodes.KEY_DOWN:
+		case GWTKeycodes.KEY_TAB:
+			getActiveTreeItem().getMathField().getKeyListener()
+					.onKeyPressed(new KeyEvent(keyCode, 0,
+							(char) event.getCharCode()));
+			event.stopPropagation();
+			break;
+		default:
+			break;
 		}
 	}
 
