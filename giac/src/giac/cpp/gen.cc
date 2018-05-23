@@ -13499,7 +13499,7 @@ namespace giac {
       if (subtype==_GRAPH__VECT){
 	string s;
 	if (is_graphe(*this,s,contextptr))
-	  return s;
+	  return '"'+s+'"';
       }
       return print_VECT(*_VECTptr,subtype,contextptr);
     case _POLY:

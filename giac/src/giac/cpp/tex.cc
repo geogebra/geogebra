@@ -1189,6 +1189,13 @@ namespace giac {
     const gen &feu=mys.feuille;
     if (mys.sommet==at_pnt && feu.type==_VECT && !is3d(mys))
       return vectpnt2tex(mys,contextptr);
+    if (mys.sommet==at_program && feu.type==_VECT && feu._VECTptr->size()>=3){
+      const vecteur & v=*feu._VECTptr;
+      gen f=v[2];
+      if (!f.is_symb_of_sommet(at_local)){
+	return gen2tex(v[0],contextptr)+" \\rightarrow "+gen2tex(f,contextptr);
+      }
+    }
     if (mys.sommet.ptr()->texprint)
       return mys.sommet.ptr()->texprint(feu,mys.sommet.ptr()->s,contextptr);
     if (mys.sommet==at_abs)

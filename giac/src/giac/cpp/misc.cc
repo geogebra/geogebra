@@ -7410,6 +7410,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     gen xmin0=ratnormal(xmin,contextptr),xmax0=ratnormal(xmax,contextptr);
     vecteur lv=lidnt(evalf(f,1,contextptr));
     if (lv.empty())
+      lv=lidnt(f);
+    if (lv.empty())
       return 1;
     if (lv.size()!=1 || lv.front()!=x)
       return 0;

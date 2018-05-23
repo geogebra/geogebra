@@ -1525,6 +1525,13 @@ namespace giac {
       g+=array_start(contextptr);
       return "<msub><mrow>"+gen2mathml(myfeuille[0],svg,contextptr)+"</mrow><mrow>"+gen2mathml(g,svg,contextptr)+"</mrow></msub>";
     }
+    if (mysommet==at_program && myfeuille.type==_VECT && myfeuille._VECTptr->size()>=3){
+      const vecteur & v=*myfeuille._VECTptr;
+      gen f=v[2];
+      if (!f.is_symb_of_sommet(at_local)){
+	return gen2mathml(v[0],contextptr)+string("<mo>→</mo>")+gen2mathml(f,contextptr);
+      }
+    }
     if (opstring!="/" && (mysommet.ptr()->texprint || mysommet==at_different))  
       return mathml_print(mys,contextptr);
     if (mysommet==at_pnt) { 
@@ -1628,7 +1635,6 @@ namespace giac {
       return s+"<mfrac><mrow>"+prod_vect2mathml_no_bra(num,contextptr)+"</mrow><mrow>"
 	+prod_vect2mathml_no_bra(den,contextptr)+"</mrow></mfrac>";
     } // end if sommet_is_prod
-
     if (mysommet==at_pow){
       if ( (myfeuille._VECTptr->back()==plus_one_half)  ){
     return "<msqrt><mrow>"+gen2mathml(myfeuille._VECTptr->front(),contextptr)+"</mrow></msqrt>";
