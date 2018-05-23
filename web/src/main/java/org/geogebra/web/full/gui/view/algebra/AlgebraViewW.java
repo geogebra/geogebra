@@ -67,7 +67,7 @@ import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * HTML5 version of AV
@@ -319,10 +319,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		switch (DOM.eventGetType(event)) {
 		case Event.ONKEYPRESS:
 			switch (keyCode) {
-			case JavaKeyCodes.VK_ENTER:
-			case 13: // enter
-			case JavaKeyCodes.VK_ESCAPE:
-			case JavaKeyCodes.VK_BACK_SPACE:
+			case GWTKeycodes.KEY_ENTER:
+			case GWTKeycodes.KEY_ESCAPE:
+			case GWTKeycodes.KEY_BACKSPACE:
 				getActiveTreeItem().getMathField().getKeyListener()
 						.onKeyPressed(keyEvent);
 				break;
@@ -340,17 +339,17 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 			}
 			switch (keyCode) {
-			case JavaKeyCodes.VK_BACK_SPACE:
+			case GWTKeycodes.KEY_BACKSPACE:
 				if (Browser.isAndroid()) {
 					getActiveTreeItem().getMathField().getKeyListener()
 							.onKeyPressed(keyEvent);
 				}
 				break;
-			case JavaKeyCodes.VK_LEFT:
-			case JavaKeyCodes.VK_RIGHT:
-			case JavaKeyCodes.VK_UP:
-			case JavaKeyCodes.VK_DOWN:
-			case JavaKeyCodes.VK_TAB:
+			case GWTKeycodes.KEY_LEFT:
+			case GWTKeycodes.KEY_RIGHT:
+			case GWTKeycodes.KEY_UP:
+			case GWTKeycodes.KEY_DOWN:
+			case GWTKeycodes.KEY_TAB:
 				getActiveTreeItem().getMathField().getKeyListener()
 						.onKeyPressed(keyEvent);
 				event.stopPropagation();
