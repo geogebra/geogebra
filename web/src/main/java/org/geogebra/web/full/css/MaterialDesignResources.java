@@ -16,6 +16,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/header/ggb-logo-name.svg")
 	SVGResource ggb_logo_name();
 
+	@Source("org/geogebra/common/icons/svg/web/header/baseline-apps-24px.svg")
+	SVGResource apps_black();
+
 	// settings panel
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/ic_arrow_drop_up_black_24px.svg")
 	SVGResource arrow_drop_up();

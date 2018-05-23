@@ -471,6 +471,47 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 						.asString());
 		logoImg.addStyleName("logo");
 		RootPanel.get("headerID").add(logoImg);
+		addShareButton();
+		addAppsButton();
+	}
+
+	private void addShareButton() {
+		ImageResource shareImg = new ImageResourcePrototype(null,
+				MaterialDesignResources.INSTANCE.share_black()
+						.getSafeUri(),
+				0, 0, 24, 24, false, false);
+		MyToggleButton shareButton = new MyToggleButton(new Image(shareImg),
+				app);
+		shareButton.addStyleName("flatButton");
+		shareButton.addStyleName("shareBtn");
+		RootPanel.get("headerID").add(shareButton);
+		// add click handler
+		ClickStartHandler.init(shareButton, new ClickStartHandler(true, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				// TODO add here backend of share btn
+			}
+		});
+	}
+
+	private void addAppsButton() {
+		ImageResource appsImg = new ImageResourcePrototype(null,
+				MaterialDesignResources.INSTANCE.apps_black().getSafeUri(), 0,
+				0, 24, 24, false, false);
+		MyToggleButton appsButton = new MyToggleButton(new Image(appsImg),
+				app);
+		appsButton.addStyleName("flatButton");
+		appsButton.addStyleName("appsBtn");
+		RootPanel.get("headerID").add(appsButton);
+		// add click handler
+		ClickStartHandler.init(appsButton, new ClickStartHandler(true, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				// TODO add here backend of apps btn
+			}
+		});
 	}
 
 	private void addUndoRedoButtons() {
