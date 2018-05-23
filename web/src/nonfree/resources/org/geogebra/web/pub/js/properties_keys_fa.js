@@ -96,6 +96,8 @@ __GGB__keysVar["fa"].command = {
     "ArePerpendicular.Syntax": "[ <Line>, <Line> ]",
     "Area": "\u0646\u0627\u062d\u06cc\u0647",
     "Area.Syntax": "[ <\u0645\u062e\u0631\u0648\u0637> ]\n[ <\u0686\u0646\u062f \u0648\u062c\u0647\u06cc> ]\n[ <\u0646\u0642\u0637\u0647>, ..., <\u0646\u0642\u0637\u0647> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptote",
     "Asymptote.Syntax": "[ <\u0645\u062e\u0631\u0648\u0637> ]\n[ <\u062a\u0627\u0628\u0639> ]\n[ <Implicit Curve> ]",
     "AttachCopyToView": "AttachCopyToView",

@@ -96,6 +96,8 @@ __GGB__keysVar["es-ES"].command = {
     "ArePerpendicular.Syntax": "[ <Recta>, <Recta> ]",
     "Area": "\xc1rea",
     "Area.Syntax": "[ <C\xf3nica> ]\n[ <Pol\xedgono> ]\n[ <Punto inicial (v\xe9rtice)>, ..., <Punto final (v\xe9rtice)> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "As\xedntota",
     "Asymptote.Syntax": "[ <C\xf3nica> ]\n[ <Funci\xf3n> ]\n[ <Curva impl\xedcita> ]",
     "AttachCopyToView": "CopiaObjetoEn",

@@ -96,6 +96,8 @@ __GGB__keysVar["hr"].command = {
     "ArePerpendicular.Syntax": "[ <pravac>, <pravac> ]",
     "Area": "Povr\u0161ina",
     "Area.Syntax": "[ <konika> ]\n[ <mnogokut> ]\n[ <to\u010dka>, ..., <to\u010dka> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asimptota",
     "Asymptote.Syntax": "[ <konika> ]\n[ <funkcija> ]\n[ <implicitno zadana krivulja> ]",
     "AttachCopyToView": "Prive\u017eiKopijuZaPrikaz",

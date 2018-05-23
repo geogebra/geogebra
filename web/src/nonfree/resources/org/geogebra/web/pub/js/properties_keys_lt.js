@@ -96,6 +96,8 @@ __GGB__keysVar["lt"].command = {
     "ArePerpendicular.Syntax": "[ <Ties\u0117>, <Ties\u0117> ]",
     "Area": "Plotas",
     "Area.Syntax": "[ <Antros eil\u0117s kreiv\u0117> ]\n[ <Daugiakampis> ]\n[ <Ta\u0161kas>, ..., <Ta\u0161kas> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asimptot\u0117",
     "Asymptote.Syntax": "[ <Antros eil\u0117s kreiv\u0117> ]\n[ <Funkcija> ]\n[ <Nei\u0161reik\u0161tin\u0117 kreiv\u0117> ]",
     "AttachCopyToView": "Prid\u0117tiKopij\u0105Per\u017ei\u016brai",

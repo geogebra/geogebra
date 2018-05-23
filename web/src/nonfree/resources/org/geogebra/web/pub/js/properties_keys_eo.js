@@ -96,6 +96,8 @@ __GGB__keysVar["eo"].command = {
     "ArePerpendicular.Syntax": "[ <Rekto>, <Rekto> ]",
     "Area": "Areo",
     "Area.Syntax": "[ <Koniko> ]\n[ <Plurlatero> ]\n[ <Punkto>, ..., <Punkto> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asimptoto",
     "Asymptote.Syntax": "[ <Koniko> ]\n[ <Funkcio> ]\n[ <Implica Kurbo> ]",
     "AttachCopyToView": "AttachCopyToView",

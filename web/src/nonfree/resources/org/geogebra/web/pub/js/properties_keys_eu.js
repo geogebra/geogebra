@@ -96,6 +96,8 @@ __GGB__keysVar["eu"].command = {
     "ArePerpendicular.Syntax": "[ <Lerroa>, <Lerroa> ]",
     "Area": "Azalera",
     "Area.Syntax": "[ <Konika> ]\n[ <Poligonoa> ]\n[ <Puntua>, ..., <Puntua> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asintota",
     "Asymptote.Syntax": "[ <Konika> ]\n[ <Funtzioa> ]\n[ <Kurba Inplizitua> ]",
     "AttachCopyToView": "ErantsiKopiaIkuspegian",

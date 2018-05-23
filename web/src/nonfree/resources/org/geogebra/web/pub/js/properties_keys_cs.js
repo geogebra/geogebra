@@ -96,6 +96,8 @@ __GGB__keysVar["cs"].command = {
     "ArePerpendicular.Syntax": "[ <P\u0159\xedmka>, <P\u0159\xedmka> ]",
     "Area": "Obsah",
     "Area.Syntax": "[ <Ku\u017eelose\u010dka> ]\n[ <Mnoho\xfaheln\xedk> ]\n[ <Bod>, ..., <Bod> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptota",
     "Asymptote.Syntax": "[ <Ku\u017eelose\u010dka> ]\n[ <Funkce> ]\n[ <Implicitn\xed k\u0159ivka> ]",
     "AttachCopyToView": "PripojitKopiiKPohledu",

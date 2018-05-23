@@ -96,6 +96,8 @@ __GGB__keysVar["tr"].command = {
     "ArePerpendicular.Syntax": "[ <Do\u011fru>, <Do\u011fru> ]",
     "Area": "Alan",
     "Area.Syntax": "[ <Konik> ]\n[ <\xc7okgen> ]\n[ <Nokta>, ..., <Nokta> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asimptot",
     "Asymptote.Syntax": "[ <Konik> ]\n[ <Fonksiyon> ]\n[ <Kapal\u0131 E\u011fri> ]",
     "AttachCopyToView": "KopyaEkle",

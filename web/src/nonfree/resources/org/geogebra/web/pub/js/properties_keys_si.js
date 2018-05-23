@@ -96,6 +96,8 @@ __GGB__keysVar["si"].command = {
     "ArePerpendicular.Syntax": "[ <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0>, <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0> ]",
     "Area": "\u0dc0\u0dbb\u0dca\u0d9c\u0db5\u0dbd\u0dba",
     "Area.Syntax": "[ <\u0d9a\u0dda\u0dad\u0dd4\u0dc0> ]\n[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, ___, <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "\u0dc3\u0dca\u0db4\u0dbb\u0dca\u200d\u0dc1\u0ddd\u0db1\u0dca\u0db8\u0dd4\u0d9b\u0dba",
     "Asymptote.Syntax": "[ <\u0d9a\u0dda\u0dad\u0dd4\u0dc0> ]",
     "AttachCopyToView": "AttachCopyToView",

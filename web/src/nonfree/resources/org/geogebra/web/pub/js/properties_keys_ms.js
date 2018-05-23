@@ -96,6 +96,8 @@ __GGB__keysVar["ms"].command = {
     "ArePerpendicular.Syntax": "[ <Garis>, <Garis> ]",
     "Area": "Luas",
     "Area.Syntax": "[ <Keratan Kon> ]\n[ <Titik>, ..., <Titik> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asimptot",
     "Asymptote.Syntax": "[ <Keratan Kon> ]\n[ <Fungsi> ]\n[ <LengkungTersirat> ]",
     "AttachCopyToView": "LampirSalinanPadaPaparan",

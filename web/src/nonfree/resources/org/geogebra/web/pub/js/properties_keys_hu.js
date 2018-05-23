@@ -96,6 +96,8 @@ __GGB__keysVar["hu"].command = {
     "ArePerpendicular.Syntax": "[ <Egyenes>, <Egyenes> ]",
     "Area": "Ter\xfclet",
     "Area.Syntax": "[ <K\xfapszelet> ]\n[ <Soksz\xf6g> ]\n[ <Pont>, ..., <Pont> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Aszimptota",
     "Asymptote.Syntax": "[ <K\xfapszelet> ]\n[ <F\xfcggv\xe9ny> ]\n[ <Implicit g\xf6rbe> ]",
     "AttachCopyToView": "M\xe1solatCsatol\xe1saN\xe9zethez",

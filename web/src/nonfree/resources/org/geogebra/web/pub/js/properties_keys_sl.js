@@ -96,6 +96,8 @@ __GGB__keysVar["sl"].command = {
     "ArePerpendicular.Syntax": "[ <premica>, <premica> ]",
     "Area": "Plo\u0161\u010dina",
     "Area.Syntax": "[ <sto\u017enica> ]\n[ <to\u010dka>, ..., <to\u010dka> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asimptota",
     "Asymptote.Syntax": "[ <sto\u017enica> ]\n[ <funkcija> ]",
     "AttachCopyToView": "Prilo\u017eiKopirano",

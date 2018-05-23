@@ -96,6 +96,8 @@ __GGB__keysVar["vi"].command = {
     "ArePerpendicular.Syntax": "[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <\u0110\u01b0\u1eddng th\u1eb3ng> ]",
     "Area": "DienTich",
     "Area.Syntax": "[ <\u0110\u01b0\u1eddng c\xf4n\xedc> ]\n[ <\u0110a gi\xe1c> ]\n[ <\u0110i\u1ec3m>, ..., <\u0110i\u1ec3m> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "TiemCan",
     "Asymptote.Syntax": "[ <\u0110\u01b0\u1eddng c\xf4n\xedc> ]\n[ <H\xe0m s\u1ed1> ]\n[ <\u0110\u01b0\u1eddng cong \u1ea9n> ]",
     "AttachCopyToView": "DinhKemTapTin",

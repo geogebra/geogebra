@@ -96,6 +96,8 @@ __GGB__keysVar["de"].command = {
     "ArePerpendicular.Syntax": "[ <Gerade>, <Gerade> ]",
     "Area": "Fl\xe4che",
     "Area.Syntax": "[ <Kegelschnitt> ]\n[ <Vieleck> ]\n[ <Punkt>, ..., <Punkt> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptote",
     "Asymptote.Syntax": "[ <Kegelschnitt> ]\n[ <Funktion> ]\n[ <Implizite Kurve> ]",
     "AttachCopyToView": "KopieAnAnsichtHeften",

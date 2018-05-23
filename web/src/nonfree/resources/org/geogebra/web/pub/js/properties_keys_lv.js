@@ -96,6 +96,8 @@ __GGB__keysVar["lv"].command = {
     "ArePerpendicular.Syntax": "[ <Taisne>, <Taisne> ]",
     "Area": "Laukums",
     "Area.Syntax": "[ <Ri\u0146\u0137a l\u012bnija vai elipse> ]\n[ <Daudzst\u016bris> ]\n[ <Punkts>, ..., <Punkts> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asimptote",
     "Asymptote.Syntax": "[ <Elipse> ]\n[ <Funkcija> ]\n[ <Implicit Curve> ]",
     "AttachCopyToView": "AttachCopyToView",

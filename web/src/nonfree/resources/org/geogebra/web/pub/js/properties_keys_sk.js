@@ -96,6 +96,8 @@ __GGB__keysVar["sk"].command = {
     "ArePerpendicular.Syntax": "[ <Priamka>, <Priamka> ]",
     "Area": "Obsah",
     "Area.Syntax": "[ <Ku\u017ee\u013eose\u010dka> ]\n[ <Bod>, ..., <Bod> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptota",
     "Asymptote.Syntax": "[ <Ku\u017ee\u013eose\u010dka> ]\n[ <Funkcia> ]\n[ <Implicitn\xe1 krivka> ]",
     "AttachCopyToView": "Prilo\u017eK\xf3piuKVzh\u013eadu",

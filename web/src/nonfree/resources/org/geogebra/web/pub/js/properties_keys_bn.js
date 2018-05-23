@@ -96,6 +96,8 @@ __GGB__keysVar["bn"].command = {
     "ArePerpendicular.Syntax": "[ <Line>, <Line> ]",
     "Area": "\u0995\u09cd\u09b7\u09c7\u09a4\u09cd\u09b0\u09ab\u09b2",
     "Area.Syntax": "[ <Conic> ]\n[ <Polygon> ]\n[ <Point>, ..., <Point> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptote",
     "Asymptote.Syntax": "[ <Conic> ]\n[ <Function> ]\n[ <Implicit Curve> ]",
     "AttachCopyToView": "AttachCopyToView",

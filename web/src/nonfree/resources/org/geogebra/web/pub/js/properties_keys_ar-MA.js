@@ -96,6 +96,8 @@ __GGB__keysVar["ar-MA"].command = {
     "ArePerpendicular.Syntax": "[ <\u0645\u0633\u062a\u0642\u064a\u0645>, <\u0645\u0633\u062a\u0642\u064a\u0645> ]",
     "Area": "\u0645\u0633\u0627\u062d\u0629",
     "Area.Syntax": "[ <\u0645\u062e\u0631\u0648\u0637\u064a> ]\n[ <\u0645\u0636\u0644\u0639> ]\n[ <\u0646\u0642\u0637\u0629>, ..., <\u0646\u0642\u0637\u0629> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "\u0645\u0642\u0627\u0631\u0628",
     "Asymptote.Syntax": "[ <\u0645\u062e\u0631\u0648\u0637\u064a> ]\n[ <\u062f\u0627\u0644\u0629> ]\n[ <\u0645\u0646\u062d\u0646\u0649 \u0636\u0645\u0646\u064a> ]",
     "AttachCopyToView": "\u0625\u0644\u0635\u0642_\u0627\u0644\u0646\u0633\u062e\u0629_\u0644\u0644\u0646\u0638\u0631",

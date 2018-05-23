@@ -96,6 +96,8 @@ __GGB__keysVar["xh"].command = {
     "ArePerpendicular.Syntax": "[ <Umgca>, <Umgca> ]",
     "Area": "Umthamo",
     "Area.Syntax": "[ <Conic> ]\n[ <UmacalaManinzi> ]\n[ <Point>, ..., <Point> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "uMgcaOsondelaKwiGophe",
     "Asymptote.Syntax": "[ <iConic> ]\n[ <iFankshini> ]\n[ <Igophe leImplicit> ]",
     "AttachCopyToView": "AttachCopyToView",

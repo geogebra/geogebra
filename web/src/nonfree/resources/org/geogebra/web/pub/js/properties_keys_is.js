@@ -96,6 +96,8 @@ __GGB__keysVar["is"].command = {
     "ArePerpendicular.Syntax": "[ <L\xedna>, <L\xedna> ]",
     "Area": "Flatarm\xe1l",
     "Area.Syntax": "[ <Keilusni\xf0> ]\n[ <Punktur>, .., <Punktur> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "A\xf0fella",
     "Asymptote.Syntax": "[ <Keilusni\xf0> ]\n[ <Fall> ]\n[ <F\xf3lginn ferill> ]",
     "AttachCopyToView": "FestaAfritVi\xf0S\xfdn",

@@ -96,6 +96,8 @@ __GGB__keysVar["nn"].command = {
     "ArePerpendicular.Syntax": "[ <Linje>, <Linje> ]",
     "Area": "Areal",
     "Area.Syntax": "[ <Kjeglesnitt> ]\n[ <Mangekant> ]\n[ <Punkt>, ..., <Punkt> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptote",
     "Asymptote.Syntax": "[ <Kjeglesnitt> ]\n[ <Funksjon> ]\n[ <Implisitt kurve> ]",
     "AttachCopyToView": "FestKopiTilFelt",

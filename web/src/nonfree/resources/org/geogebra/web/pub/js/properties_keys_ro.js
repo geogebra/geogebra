@@ -96,6 +96,8 @@ __GGB__keysVar["ro"].command = {
     "ArePerpendicular.Syntax": "[ <Dreapt\u0103>, <Dreapt\u0103> ]",
     "Area": "Arie",
     "Area.Syntax": "[ <Conic\u0103> ]\n[ <Poligon> ]\n[ <Punct>, ..., <Punct> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asimptot\u0103",
     "Asymptote.Syntax": "[ <Conic\u0103> ]\n[ <Func\u0163ie> ]\n[ <Curb\u0103 implicit\u0103> ]",
     "AttachCopyToView": "Ata\u0219areCopieSpreVizualizare",

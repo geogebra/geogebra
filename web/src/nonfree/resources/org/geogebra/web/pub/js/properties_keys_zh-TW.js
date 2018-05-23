@@ -96,6 +96,8 @@ __GGB__keysVar["zh-TW"].command = {
     "ArePerpendicular.Syntax": "[ <Line>, <Line> ]",
     "Area": "Area",
     "Area.Syntax": "[ <\u5713\u9310\u66f2\u7dda> ]\n[ <\u591a\u908a\u5f62> ]\n[ <\u9ede>, ..., <\u9ede> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptote",
     "Asymptote.Syntax": "[ <\u5713\u9310\u66f2\u7dda> ]\n[ <\u51fd\u6578> ]\n[ <\u66f2\u7dda\u65b9\u7a0b\u5f0f> ]",
     "AttachCopyToView": "AttachCopyToView",

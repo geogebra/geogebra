@@ -96,6 +96,8 @@ __GGB__keysVar["af"].command = {
     "ArePerpendicular.Syntax": "[ <Lyn>, <Lyn> ]",
     "Area": "Oppervlakte",
     "Area.Syntax": "[ <Ke\xebl> ]\n[ <Poligoon> ]\n[ <Punt>, ..., <Punt> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asimptoot",
     "Asymptote.Syntax": "[ <Ke\xebl> ]\n[ <Funksie> ]\n[ <Implisiete Kurwe> ]",
     "AttachCopyToView": "HegAfskrifOmTeKyk",

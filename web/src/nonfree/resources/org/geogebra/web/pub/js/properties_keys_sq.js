@@ -96,6 +96,8 @@ __GGB__keysVar["sq"].command = {
     "ArePerpendicular.Syntax": "[ <Vije>, <Vije> ]",
     "Area": "Syprine",
     "Area.Syntax": "[ <konike> ]\n[ <Pike>, ..., <Pike> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asimptote",
     "Asymptote.Syntax": "[ <Konike> ]\n[ <Pike>, ..., <Pike> ]",
     "AttachCopyToView": "LidhKopjePamore",

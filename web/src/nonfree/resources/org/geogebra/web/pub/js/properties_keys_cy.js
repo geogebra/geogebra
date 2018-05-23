@@ -96,6 +96,8 @@ __GGB__keysVar["cy"].command = {
     "ArePerpendicular.Syntax": "[ <Line>, <Line> ]",
     "Area": "Arwynebedd",
     "Area.Syntax": "[ <Conig> ]\n[ <Polygon> ]\n[ <Pwynt>, ..., <Pwynt> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptot",
     "Asymptote.Syntax": "[ <Conig> ]\n[ <Ffwythiant> ]\n[ <Cromlin Ymhlyg> ]",
     "AttachCopyToView": "AttachCopyToView",

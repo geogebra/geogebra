@@ -96,6 +96,8 @@ __GGB__keysVar["et"].command = {
     "ArePerpendicular.Syntax": "[ <Sirge>, <Sirge> ]",
     "Area": "Pindala",
     "Area.Syntax": "[ <Koonusel\xf5ige> ]\n[ <Hulknurk> ]\n[ <Punkt>, ..., <Punkt> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "As\xfcmptoot",
     "Asymptote.Syntax": "[ <Koonusel\xf5ige> ]\n[ <Funktsioon> ]\n[ <Ilmutamata k\xf5ver> ]",
     "AttachCopyToView": "LisaKoopiaVaatesse",

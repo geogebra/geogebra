@@ -96,6 +96,8 @@ __GGB__keysVar["fr"].command = {
     "ArePerpendicular.Syntax": "[ <Ligne>, <Ligne> ]",
     "Area": "Aire",
     "Area.Syntax": "[ <Conique> ]\n[ <Polygone> ]\n[ <Point>, ..., <Point> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptote",
     "Asymptote.Syntax": "[ <Conique> ]\n[ <Fonction> ]\n[ <Courbe implicite> ]",
     "AttachCopyToView": "AttacherCopieAVue",

@@ -96,6 +96,8 @@ __GGB__keysVar["gl"].command = {
     "ArePerpendicular.Syntax": "[ <Li\xf1a>, <Li\xf1a> ]",
     "Area": "\xc1rea",
     "Area.Syntax": "[ <Circunferencia ou elipse> ]\n[ <Punto>, ..., <Punto> ]\n[ <Pol\xedgono> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "As\xedntota",
     "Asymptote.Syntax": "[ <C\xf3nica> ]\n[ <Funci\xf3n> ]\n[ <Curva impl\xedcita> ]",
     "AttachCopyToView": "EnganchaCopiaAVista",

@@ -96,6 +96,8 @@ __GGB__keysVar["nl-NL"].command = {
     "ArePerpendicular.Syntax": "[ <Rechte>, <Rechte> ]",
     "Area": "Oppervlakte",
     "Area.Syntax": "[ <Kegelsnede> ]\n[ <Veelhoek> ]\n[ <Punt>, ..., <Punt> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptoten",
     "Asymptote.Syntax": "[ <Kegelsnede> ]\n[ <Functie> ]\n[ <Impliciete kromme> ]",
     "AttachCopyToView": "Aanhechtenkopie",

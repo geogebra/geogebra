@@ -96,6 +96,8 @@ __GGB__keysVar["pl"].command = {
     "ArePerpendicular.Syntax": "[ <Prosta>, <Prosta> ]",
     "Area": "Pole",
     "Area.Syntax": "[ <Sto\u017ckowa> ]\n[ <wielok\u0105t> ]\n[ <Punkt>, ..., <Punkt> ]",
+    "Assume": "Assume",
+    "Assume.SyntaxCAS": "[ <Condition>, <Expression> ]",
     "Asymptote": "Asymptota",
     "Asymptote.Syntax": "[ <Sto\u017ckowa> ]\n[ <Funkcja> ]\n[ <Krzywa uwik\u0142ana> ]",
     "AttachCopyToView": "Do\u0142\u0105czKopi\u0119DoWidoku",
