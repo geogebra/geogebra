@@ -440,11 +440,6 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testAssume() {
-		testCat("Assume");
-	}
-
-	@Test
 	public void testDegree() {
 		testCat("Degree");
 	}
