@@ -22,9 +22,15 @@
 
 .flatButton.menuBtn {
 	padding: 12px;
-	margin: 8px 20px 8px 12px;
+	margin: 8px 2px 8px 12px;
 	opacity: 0.54;
 	cursor: pointer;
+}
+
+.logo {
+    height: 48px;
+    margin: 8px 0px;
+    float: left;
 }
 
 .flatButton.menu:hover {

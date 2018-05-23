@@ -444,8 +444,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		btnMenu.addStyleName("flatButton");
 
 		if (app.has(Feature.MAT_DESIGN_HEADER)) {
-			btnMenu.addStyleName("menuBtn");
-			RootPanel.get("headerID").add(btnMenu);
+			buildHeader();
 		} else {
 			btnMenu.addStyleName("menu");
 			toolbarPanel.getFrame().add(btnMenu);
@@ -462,6 +461,16 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			btnMenu.addTabHandler(this);
 			btnMenu.addKeyDownHandler(this);
 		}
+	}
+
+	private void buildHeader() {
+		btnMenu.addStyleName("menuBtn");
+		RootPanel.get("headerID").add(btnMenu);
+		NoDragImage logoImg = new NoDragImage(
+				MaterialDesignResources.INSTANCE.ggb_logo_name().getSafeUri()
+						.asString());
+		logoImg.addStyleName("logo");
+		RootPanel.get("headerID").add(logoImg);
 	}
 
 	private void addUndoRedoButtons() {
