@@ -28,7 +28,6 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.keyboard.web.KeyboardListener.ArrowType;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
@@ -273,11 +272,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					// app.hideKeyboard();
 					// prevent handling in AutoCompleteTextField
 					event.stopPropagation();
-				}
-				if (Browser.isTabletBrowser()
-						&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
-						&& event.getKeyCode() == KeyCodes.KEY_ENTER) {
-					endOnscreenKeyboardEditing();
+					if (app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+						endOnscreenKeyboardEditing();
+					}
 				}
 			}
 		};
@@ -1192,10 +1189,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				onBackSpace();
 				break;
 			case GWTKeycodes.KEY_LEFT:
-				onArrow(ArrowType.left);
+			onArrowLeft();
 				break;
 			case GWTKeycodes.KEY_RIGHT:
-				onArrow(ArrowType.right);
+			onArrowRight();
 				break;
 			case GWTKeycodes.KEY_UP:
 				handleUpArrow();
@@ -1410,17 +1407,21 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	/**
-	 * moves the caret left or right
-	 * 
-	 * @param type
-	 *            type of arrow
+	 * moves the caret left
 	 */
-	public void onArrow(ArrowType type) {
+	public void onArrowLeft() {
 		int caretPos = getCaretPosition();
-		if (type == ArrowType.left && caretPos > 0) {
+		if (caretPos > 0) {
 			setCaretPosition(caretPos - 1);
-		} else if (type == ArrowType.right
-				&& caretPos < getText(true).length()) {
+		}
+	}
+
+	/**
+	 * moves the caret right
+	 */
+	public void onArrowRight() {
+		int caretPos = getCaretPosition();
+		if (caretPos < getText(true).length()) {
 			setCaretPosition(caretPos + 1);
 		}
 	}
