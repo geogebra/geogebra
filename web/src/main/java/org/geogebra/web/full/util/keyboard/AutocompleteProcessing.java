@@ -81,14 +81,7 @@ public class AutocompleteProcessing implements KeyboardListener {
 
 	@Override
 	public void onArrow(ArrowType type) {
-
-		int caretPos = field.getCaretPosition();
-		if (type == ArrowType.left && caretPos > 0) {
-				field.setCaretPosition(caretPos - 1);
-		} else if (type == ArrowType.right
-				&& caretPos < field.getText(true).length()) {
-				field.setCaretPosition(caretPos + 1);
-		}
+		field.onArrow(type);
 	}
 
 	@Override

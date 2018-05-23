@@ -28,6 +28,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.keyboard.web.KeyboardListener.ArrowType;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
@@ -46,6 +47,7 @@ import org.geogebra.web.html5.util.Dom;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -271,6 +273,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					// app.hideKeyboard();
 					// prevent handling in AutoCompleteTextField
 					event.stopPropagation();
+				}
+				if (Browser.isTabletBrowser()
+						&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
+						&& event.getKeyCode() == KeyCodes.KEY_ENTER) {
+					endOnscreenKeyboardEditing();
 				}
 			}
 		};
@@ -1049,9 +1056,14 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				|| ch == ']')) {
 			// super.keyTyped(e);
 			Log.debug("super.keyTyped needed in AutocompleteTextField");
+			if (Browser.isTabletBrowser()
+					&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
+					&& e.getNativeEvent()
+							.getKeyCode() != GWTKeycodes.KEY_BACKSPACE) {
+				insertString(Character.toString(ch));
+			}
 			return;
 		}
-
 		clearSelection();
 		caretPos = getCaretPosition();
 
@@ -1160,7 +1172,66 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				app.getActiveEuclidianView().requestFocus();
 			}
 		}
+		handleTabletKeyboard(e);
 	}
+
+	private void handleTabletKeyboard(KeyDownEvent e){
+		if (!(Browser.isTabletBrowser()
+				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))){
+			return;
+		} 
+		int keyCode = e.getNativeKeyCode();
+			if (keyCode == 0 && Browser.isIPad()) {
+				int arrowType = getIOSArrowKeys(e.getNativeEvent());
+				if (arrowType != -1) {
+					keyCode = arrowType;
+				}
+			}
+			switch(keyCode){
+			case GWTKeycodes.KEY_BACKSPACE:
+				onBackSpace();
+				break;
+			case GWTKeycodes.KEY_LEFT:
+				onArrow(ArrowType.left);
+				break;
+			case GWTKeycodes.KEY_RIGHT:
+				onArrow(ArrowType.right);
+				break;
+			case GWTKeycodes.KEY_UP:
+				handleUpArrow();
+				break;
+			case GWTKeycodes.KEY_DOWN:
+				handleDownArrow();
+				break;
+			default:
+				break;
+			}
+	}
+
+	/**
+	 * gets keycodes of iOS arrow keys iOS arrows have a different identifier
+	 * than win and android
+	 * 
+	 * @param event
+	 * @return JavaKeyCodes of arrow keys, -1 if pressed key was not an arrow
+	 */
+	private native int getIOSArrowKeys(NativeEvent event) /*-{
+
+		var key = event.key;
+		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("KeyDownEvent: " + key);
+		switch (key) {
+		case "UIKeyInputUpArrow":
+			return 38;
+		case "UIKeyInputDownArrow":
+			return 40;
+		case "UIKeyInputLeftArrow":
+			return 37;
+		case "UIKeyInputRightArrow":
+			return 39;
+		default:
+			return -1;
+		}
+	}-*/;
 
 	@Override
 	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
@@ -1335,6 +1406,22 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			if (getNextInput() != null) {
 				setText(getNextInput());
 			}
+		}
+	}
+
+	/**
+	 * moves the caret left or right
+	 * 
+	 * @param type
+	 *            type of arrow
+	 */
+	public void onArrow(ArrowType type) {
+		int caretPos = getCaretPosition();
+		if (type == ArrowType.left && caretPos > 0) {
+			setCaretPosition(caretPos - 1);
+		} else if (type == ArrowType.right
+				&& caretPos < getText(true).length()) {
+			setCaretPosition(caretPos + 1);
 		}
 	}
 
