@@ -160,8 +160,12 @@ public class RedefineTest extends Assert {
 		Assert.assertEquals(app.getKernel().lookupLabel("a").getGeoClassType(),
 				GeoClass.CONIC);
 		app.setXML(app.getXML(), true);
-		Assert.assertEquals(app.getKernel().lookupLabel("a").getGeoClassType(),
-				GeoClass.CONIC);
+		hasType("a", GeoClass.CONIC);
+	}
+
+	private static void hasType(String label, GeoClass geoClass) {
+		Assert.assertEquals(
+				app.getKernel().lookupLabel(label).getGeoClassType(), geoClass);
 	}
 
 	@Test
@@ -176,6 +180,27 @@ public class RedefineTest extends Assert {
 		Assert.assertEquals(
 				app.getKernel().lookupLabel("D20").getGeoClassType(),
 				GeoClass.CONIC);
+	}
+
+	@Test
+	public void redefinitionInInputBoxShouldKeepType() {
+		t("v=(1, 3)", "(1, 3)");
+		t("ib=InputBox(v)", "(1, 3)");
+		t("SetValue(ib,\"(1, 5)\")", new String[0]);
+		t("v", "(1, 5)");
+		hasType("v", GeoClass.VECTOR);
+
+		t("v3=(1, 3, 0)", "(1, 3, 0)");
+		t("ib3=InputBox(v3)", "(1, 3, 0)");
+		t("SetValue(ib3,\"(1, 5)\")", new String[0]);
+		t("v3", "(1, 5)");
+		hasType("v3", GeoClass.VECTOR);
+
+		t("p:x+y=z", "x + y - z = 0");
+		t("ibP=InputBox(p)", "x + y - z = 0");
+		t("SetValue(ibP,\"x = y\")", new String[0]);
+		t("p", "y = x");
+		hasType("p", GeoClass.LINE); // TODO should be plane?
 	}
 }
 

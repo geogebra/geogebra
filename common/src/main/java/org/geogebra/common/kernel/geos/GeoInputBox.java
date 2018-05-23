@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -300,25 +299,25 @@ public class GeoInputBox extends GeoButton {
 				// in a box linked to a number
 
 				kernel.setSilentMode(true);
-				try {
-					ValidExpression exp = kernel.getParser()
-							.parseGeoGebraExpression(defineText);
-					GeoElementND[] geos = kernel.getAlgebraProcessor()
-							.processValidExpression(exp);
-
-					if (!(geos[0].getGeoClassType()
-							.equals(linkedGeo.getGeoClassType()))) {
-						showError();
-						return;
-
-					}
-
-				} catch (Throwable t) {
-					showError();
-					return;
-				} finally {
-					kernel.setSilentMode(false);
-				}
+				// try {
+				// ValidExpression exp = kernel.getParser()
+				// .parseGeoGebraExpression(defineText);
+				// GeoElementND[] geos = kernel.getAlgebraProcessor()
+				// .processValidExpression(exp);
+				//
+				// if (!(geos[0].getGeoClassType()
+				// .equals(linkedGeo.getGeoClassType()))) {
+				// showError();
+				// return;
+				//
+				// }
+				//
+				// } catch (Throwable t) {
+				// showError();
+				// return;
+				// } finally {
+				// kernel.setSilentMode(false);
+				// }
 
 				kernel.getAlgebraProcessor()
 						.changeGeoElementNoExceptionHandling(linkedGeo,
