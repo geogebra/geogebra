@@ -50,13 +50,13 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 		menu.addItem(menuText(app.getFileExtension().substring(1)), true,
 				new MenuCommand(app) {
 
-			@Override
-			public void doExecute() {
-				menu.hide();
-				dialogEvent(app, "exportGGB");
-				app.getFileManager().export(app);
-			}
-		});
+					@Override
+					public void doExecute() {
+						menu.hide();
+						dialogEvent(app, "exportGGB");
+						app.getFileManager().export(app);
+					}
+				});
 
 		menu.addItem(menuText("png"), true, new MenuCommand(app) {
 
@@ -149,19 +149,18 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 			}
 		});
 
-
 		menu.addItem(
 				menuText(app.getLocalization()
 						.getMenu("DynamicWorksheetAsWebpage") + " ("
 						+ FileExtensions.HTML + ")"),
 				true, new MenuCommand(app) {
-			@Override
-			public void doExecute() {
-				menu.hide();
+					@Override
+					public void doExecute() {
+						menu.hide();
 						app.exportStringToFile("html",
 								HTML5Export.getFullString(app));
-			}
-		});
+					}
+				});
 
 		menu.addItem(menuText("Asymptote"), true, new MenuCommand(app) {
 
@@ -171,8 +170,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						.clearSelectionAndRectangle();
 				menu.hide();
 				app.getGgbApi()
-						.exportAsymptote(
-								exportCallback("Asymptote", app));
+						.exportAsymptote(exportCallback("Asymptote", app));
 
 			}
 		});
