@@ -4450,7 +4450,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2347 */
 		case READ_DROPDOWNS:
-			return prerelease;
+			return true;
 
 		/** GGB-2204 */
 		case TAB_ON_MENU:
