@@ -150,8 +150,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private TreeItem rootLayer;
 	private HashMap<Integer, TreeItem> layerNodesMap;
 
-	private HashMap<GeoElement, TreeItem> nodeTable = new HashMap<>(
-			500);
+	private HashMap<GeoElement, TreeItem> nodeTable = new HashMap<>(500);
 
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private StringBuilder sbXML;
@@ -217,8 +216,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// add listener
 		addDomHandler(algCtrl, MouseDownEvent.getType());
 		addDomHandler(algCtrl, MouseMoveEvent.getType());
-		addDomHandler(algCtrl,
-				TouchStartEvent.getType());
+		addDomHandler(algCtrl, TouchStartEvent.getType());
 		addDomHandler(algCtrl, TouchEndEvent.getType());
 		addDomHandler(algCtrl, TouchMoveEvent.getType());
 
@@ -267,14 +265,14 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				// onkeypress
 				if (!(editItem || (Browser.isTabletBrowser()
 						&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)))) {
-					app.getGlobalKeyDispatcher().handleSelectedGeosKeysNative(
-							event);
+					app.getGlobalKeyDispatcher()
+							.handleSelectedGeosKeysNative(event);
 					event.stopPropagation();
 					event.preventDefault();
 					return;
 				}
-				
-				//TODO: check this ----
+
+				// TODO: check this ----
 				break;
 			case KeyCodes.KEY_TAB:
 				event.preventDefault();
@@ -291,7 +289,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// background click
 			if (event.getTypeInt() == Event.ONCLICK
 					&& !CancelEventTimer.cancelKeyboardHide()
-						&& !CancelEventTimer.cancelMouseEvent()) {
+					&& !CancelEventTimer.cancelMouseEvent()) {
 				// maybe another focusScheduled is called, but
 				// that should not be a problem, the problem should
 				// collect blur events all along the way
@@ -345,7 +343,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			case JavaKeyCodes.VK_BACK_SPACE:
 				if (Browser.isAndroid()) {
 					getActiveTreeItem().getMathField().getKeyListener()
-						.onKeyPressed(keyEvent);
+							.onKeyPressed(keyEvent);
 				}
 				break;
 			case JavaKeyCodes.VK_LEFT:
@@ -368,6 +366,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * than win and android
 	 * 
 	 * @param event
+	 *            keyboard event
 	 * @return JavaKeyCodes of arrow keys, -1 if pressed key was not an arrow
 	 */
 	private native int getIOSArrowKeys(Event event) /*-{
@@ -389,7 +388,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * schedule a repaint
 	 */
-	public void deferredRepaint() {		
+	public void deferredRepaint() {
 		repaintScheduler.requestAnimationFrame(repaintCallback);
 	}
 
@@ -417,8 +416,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		if (waitForRepaint == TimerSystemW.REPAINT_FLAG) {
 			if (isShowing()) {
-				deferredRepaint();	
-				waitForRepaint = TimerSystemW.SLEEPING_FLAG;	
+				deferredRepaint();
+				waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 			}
 			return true;
 		}
@@ -436,7 +435,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	/**
-	 * Make sure we repaint all updated objects in nodes that were collapsed before
+	 * Make sure we repaint all updated objects in nodes that were collapsed
+	 * before
 	 */
 	@Override
 	public void onOpen(OpenEvent<TreeItem> event) {
@@ -470,7 +470,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			 * won't work then (ticket #151).
 			 */
 			if (isEditItem() && item.getController().isEditing()) {
-					item.cancelEditing();
+				item.cancelEditing();
 			}
 
 		}
@@ -962,7 +962,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			break;
 		}
 		// if (lastLang == null || !lastLang.equals(loc.getLocaleStr())) {
-			rebuildItems();
+		rebuildItems();
 		// }
 	}
 
@@ -1006,11 +1006,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 					TreeItem child = getItem(i);
 					String groupName = getGroupName(child);
 					if (typeString.compareTo(groupName) < 0
-							||
-							(child.getWidget() != null
-							&& this.inputPanelTreeItem != null
-							&& this.inputPanelTreeItem.getWidget() != null
-							&& child.getWidget().equals(this.inputPanelTreeItem.getWidget()))) {
+							|| (child.getWidget() != null
+									&& this.inputPanelTreeItem != null
+									&& this.inputPanelTreeItem
+											.getWidget() != null
+									&& child.getWidget()
+											.equals(this.inputPanelTreeItem
+													.getWidget()))) {
 						pos = i;
 						break;
 					}
@@ -1101,7 +1103,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			break;
 		case TYPE:
 			String typeString = ((GeoElement) node.getUserObject())
-			.getTypeStringForAlgebraView();
+					.getTypeStringForAlgebraView();
 			TreeItem parent = typeNodesMap.get(typeString);
 
 			// this has been the last node
@@ -1330,8 +1332,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            sort mode
 	 * @return position
 	 */
-	final public int getInsertPosition(TreeItem parent,
-			GeoElement newGeo, SortMode mode) {
+	final public int getInsertPosition(TreeItem parent, GeoElement newGeo,
+			SortMode mode) {
 
 		// standard case: binary search
 		int left = 0;
@@ -1494,8 +1496,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (inputPanelLatex != null && inputPanelLatex.hasHelpPopup()) {
 			app.getGuiManager().getInputHelpPanel().setLabels();
 		}
-		AriaHelper.setLabel(this,
-				app.getLocalization().getMenu("Algebra"));
+		AriaHelper.setLabel(this, app.getLocalization().getMenu("Algebra"));
 	}
 
 	@Override
@@ -1555,8 +1556,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		this.inputPanelTreeItem = new TreeItem(inputPanelLatex.getWidget());
 		inputPanelTreeItem.addStyleName("avInputItem");
 		inputPanelLatex.getWidget().getElement().getParentElement()
-		.addClassName("NewRadioButtonTreeItemParent");
-		
+				.addClassName("NewRadioButtonTreeItemParent");
+
 		unselect(getSelectionCtrl().getLastSelectedGeo());
 
 		if (inputJustCreated) {
@@ -1589,7 +1590,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private void showAlgebraInput(boolean forceKeyboard0) {
-		if (!app.showAlgebraInput() || app.getInputPosition() != InputPosition.algebraView) {
+		if (!app.showAlgebraInput()
+				|| app.getInputPosition() != InputPosition.algebraView) {
 			hideAlgebraInput();
 			return;
 		}
@@ -1601,7 +1603,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// ... or? still preferring to be safe
 			if (inputPanelLatex != null) {
 				inputWidth = inputPanelLatex.getWidget().getElement()
-					.getParentElement().getClientWidth();
+						.getParentElement().getClientWidth();
 			}
 			super.removeItem(inputPanelTreeItem);
 
@@ -1649,8 +1651,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private boolean isToolMode() {
-		return app.isUnbundled()
-				&& getAlgebraDockPanel().isToolMode();
+		return app.isUnbundled() && getAlgebraDockPanel().isToolMode();
 	}
 
 	private void doShowKeyboard() {
@@ -1718,8 +1719,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		stopCurrentEditor();
 
-		if (activeItem != null 
-				&& !selectionCtrl.isMultiSelect()) {
+		if (activeItem != null && !selectionCtrl.isMultiSelect()) {
 			selectRow(activeItem.getGeo(), false);
 		}
 
@@ -1845,7 +1845,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
 			// check for attached needed for F2 when Algebra View closed
-			if ((!geo.isIndependent() && !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian))
+			if ((!geo.isIndependent() && !(geo
+					.getParentAlgorithm() instanceof AlgoCurveCartesian))
 					|| !attached) {
 				if (geo.isRedefineable()) {
 					redefine(geo);
@@ -1857,11 +1858,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				if (geo.isProtected(EventType.UPDATE)) {
 					app.showError(loc.getError("AssignmentToFixed"));
 					return;
-				} else if (geo.isRedefineable()
-						&& !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
+				} else if (geo.isRedefineable() && !(geo
+						.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
 					redefine(geo);
 					return;
-				} else if (!(geo.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
+				} else if (!(geo
+						.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
 					return;
 				}
 			}
@@ -2103,8 +2105,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 				for (int j = 0; j < ti.getChildCount(); j++) {
 					if (ti.getChild(j) instanceof RadioTreeItem) {
-						RadioTreeItem.as(ti.getChild(j))
-								.setItemWidth(width);
+						RadioTreeItem.as(ti.getChild(j)).setItemWidth(width);
 
 					}
 				}
@@ -2293,8 +2294,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		AlgebraPanelInterface avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
-		if (splitPane == null || splitPane
-				.getOrientation() == SwingConstants.VERTICAL_SPLIT
+		if (splitPane == null
+				|| splitPane.getOrientation() == SwingConstants.VERTICAL_SPLIT
 				|| splitPane.isCenter(avDockPanel)) {
 			return;
 		}
@@ -2320,8 +2321,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		int w = userWidth;
 		AlgebraPanelInterface avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW avParent = getAlgebraDockPanel().getParentSplitPane();
-		if (avParent == null || userWidth == 0 || avParent
-						.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
+		if (avParent == null || userWidth == 0
+				|| avParent.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 			return;
 		}
 
