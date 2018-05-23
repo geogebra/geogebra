@@ -1229,7 +1229,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			frame.attachKeyboardButton();
 		}
 		frame.attachGlass();
-		frame.reopenHeaderPanel();
 	}
 
 	private void refreshSplitLayoutPanel() {
