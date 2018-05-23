@@ -617,7 +617,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			return true;
 		}
 
-		if (((AppW) app).isUsingFullGui()
+		if (app.getGuiManager() != null
 		        && ((GuiManagerInterfaceW) app.getGuiManager()).noMenusOpen()) {
 			if (app.showAlgebraInput()) {
 				// && !((GuiManagerW) app.getGuiManager()).getAlgebraInput()
