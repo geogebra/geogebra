@@ -499,7 +499,7 @@ public class ZoomPanel extends FlowPanel
 	 * @return the minimum height that is needed to display zoomPanel.
 	 */
 	public int getMinHeight() {
-		return needsZoomButtons(app) ? 200 : 100;
+		return needsZoomButtons(app) ? 200 : 60;
 	}
 
 	/**
