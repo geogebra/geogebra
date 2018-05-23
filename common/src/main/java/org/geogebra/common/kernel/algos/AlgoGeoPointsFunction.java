@@ -273,7 +273,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		left = ev.getXminObject();
 		right = ev.getXmaxObject();
 
-		setInputOutput();
 	}
 
 	@Override
