@@ -445,7 +445,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		btnMenu.addStyleName("flatButton");
 
 		if (app.has(Feature.MAT_DESIGN_HEADER)
-				&& RootPanel.get("headerID") != null) {
+				&& RootPanel.get("headerID") != null
+				&& RootPanel.get("buttonsID") != null) {
 			buildHeader();
 		} else {
 			btnMenu.addStyleName("menu");
@@ -487,7 +488,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				app);
 		shareButton.addStyleName("flatButton");
 		shareButton.addStyleName("shareBtn");
-		RootPanel.get("headerID").add(shareButton);
+		RootPanel.get("buttonsID").add(shareButton);
 		// add click handler
 		ClickStartHandler.init(shareButton, new ClickStartHandler(true, true) {
 
@@ -506,7 +507,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				app);
 		appsButton.addStyleName("flatButton");
 		appsButton.addStyleName("appsBtn");
-		RootPanel.get("headerID").add(appsButton);
+		RootPanel.get("buttonsID").add(appsButton);
 		// add click handler
 		ClickStartHandler.init(appsButton, new ClickStartHandler(true, true) {
 
@@ -520,7 +521,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private void addSignIn() {
 		Label signInLabel = new Label(app.getLocalization().getMenu("SignIn"));
 		signInLabel.addStyleName("signIn");
-		RootPanel.get("headerID").add(signInLabel);
+		RootPanel.get("buttonsID").add(signInLabel);
 		// add click handler
 		ClickStartHandler.init(signInLabel, new ClickStartHandler(true, true) {
 
