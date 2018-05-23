@@ -32,6 +32,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -443,7 +444,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		btnMenu = new PersistableToggleButton(new Image(menuImgRec));
 		btnMenu.addStyleName("flatButton");
 
-		if (app.has(Feature.MAT_DESIGN_HEADER)) {
+		if (app.has(Feature.MAT_DESIGN_HEADER)
+				&& RootPanel.get("headerID") != null) {
 			buildHeader();
 		} else {
 			btnMenu.addStyleName("menu");
@@ -473,6 +475,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		RootPanel.get("headerID").add(logoImg);
 		addShareButton();
 		addAppsButton();
+		addSignIn();
 	}
 
 	private void addShareButton() {
@@ -510,6 +513,20 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				// TODO add here backend of apps btn
+			}
+		});
+	}
+
+	private void addSignIn() {
+		Label signInLabel = new Label(app.getLocalization().getMenu("SignIn"));
+		signInLabel.addStyleName("signIn");
+		RootPanel.get("headerID").add(signInLabel);
+		// add click handler
+		ClickStartHandler.init(signInLabel, new ClickStartHandler(true, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				// TODO add here backend of signin
 			}
 		});
 	}

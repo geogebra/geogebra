@@ -4470,7 +4470,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GBB-2374 */
 		case MAT_DESIGN_HEADER:
-			return false;
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
