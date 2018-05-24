@@ -1,17 +1,13 @@
 package org.geogebra.common.kernel.stepbystep;
 
-import java.util.Arrays;
-
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.main.App;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+
+import java.util.Arrays;
 
 @SuppressWarnings("javadoc")
 public class SolveStepTest {
@@ -23,7 +19,7 @@ public class SolveStepTest {
 		htmlBuilder = new HtmlStepBuilder(app.getLocalization());
 		// just to load CAS
 		try {
-		//	app.getKernel().evaluateGeoGebraCAS("Regroup(1)", null);
+			app.getKernel().evaluateGeoGebraCAS("Regroup(1)", null);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -250,7 +246,7 @@ public class SolveStepTest {
 		StepNode[] solutions = new StepNode[0];
 
 		try {
-			solutions = new StepEquation(_LHS, _RHS).solve(var, steps)
+			solutions = new StepEquation(_LHS, _RHS).solveAndCompareToCAS(app.getKernel(), var, steps)
 					.toArray(new StepSolution[0]);
 		} catch (SolveFailedException e) {
 			htmlBuilder.addHeading("Failed: ", 4);
