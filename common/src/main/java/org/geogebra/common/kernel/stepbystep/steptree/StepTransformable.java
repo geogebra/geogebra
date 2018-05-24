@@ -3,11 +3,11 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 import org.geogebra.common.kernel.stepbystep.StepsCache;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steps.RegroupSteps;
-import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 
 public abstract class StepTransformable extends StepNode {
+
+	public abstract StepSolvable toSolvable();
 
 	StepTransformable regroup() {
 		return regroup(null);
@@ -24,7 +24,7 @@ public abstract class StepTransformable extends StepNode {
 	}
 
 	public StepTransformable weakRegroup() {
-		return RegroupSteps.WEAK_REGROUP.apply(this, null, new RegroupTracker());
+		return StepStrategies.weakRegroup(this, null);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public abstract class StepTransformable extends StepNode {
 	}
 
 	public StepTransformable weakFactor(SolutionBuilder sb) {
-		return StepStrategies.defaultFactor(this, sb, new RegroupTracker().setWeakFactor());
+		return StepStrategies.weakFactor(this, sb);
 	}
 
 	public StepTransformable factorOutput(SolutionBuilder sb) {

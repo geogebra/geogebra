@@ -49,7 +49,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -2197,7 +2198,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * @return JSON with steps
 	 */
 	public String stepByStep(String eq) {
-		StepEquation se = new StepEquation(eq, kernel.getParser());
+		StepSolvable se = StepNode.getStepTree(eq, kernel.getParser()).toSolvable();
 		StepGuiBuilderJson builder = new StepGuiBuilderJson(kernel.getLocalization());
 		
 		SolutionBuilder sb = new SolutionBuilder();

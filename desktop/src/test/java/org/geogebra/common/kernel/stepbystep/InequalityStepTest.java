@@ -1,11 +1,9 @@
-package org.geogebra.stepbystep;
+package org.geogebra.common.kernel.stepbystep;
 
 import java.util.Arrays;
 
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.CASException;
-import org.geogebra.common.kernel.stepbystep.CASConflictException;
-import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepInequality;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
@@ -42,8 +40,8 @@ public class InequalityStepTest {
     public void linearInequality() {
         i("3x + 2", "<=", "5", "x", "x in (-inf, 1]");
         i("3x + 2", "<", "5", "x", "x in (-inf, 1)");
-        i("2x + 1", ">", "9x+7", "x", "x in (-(6)/(7), inf)");
-        i("2x + 1", ">=", "9x+7", "x", "x in [-(6)/(7), inf)");
+        i("2x + 1", ">", "9x+7", "x", "x in (-inf, -(6)/(7))");
+        i("2x + 1", ">=", "9x+7", "x", "x in (-inf, -(6)/(7)]");
     }
 
     @Test

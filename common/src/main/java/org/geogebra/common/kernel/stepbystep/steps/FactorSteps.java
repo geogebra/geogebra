@@ -13,7 +13,7 @@ import java.util.Set;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
-public enum FactorSteps implements SimplificationStepGenerator {
+enum FactorSteps implements SimplificationStepGenerator {
 
 	SPLIT_PRODUCTS {
 		@Override
@@ -87,7 +87,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					operands[i] = current;
 				}
 
-				StepOperation result = new StepOperation(Operation.PLUS, operands);
+				StepExpression result = StepOperation.add(operands);
 
 				if (colorsAtStart != tracker.getColorTracker()) {
 					sb.add(SolutionStepType.SPLIT_PRODUCTS);
@@ -162,7 +162,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					operands[i] = makeProduct(currentBases.get(i), currentExponents.get(i));
 				}
 
-				StepOperation result = new StepOperation(Operation.PLUS, operands);
+				StepExpression result = StepOperation.add(operands);
 
 				sb.add(SolutionStepType.FACTOR_OUT, common);
 				return multiply(common, result);
@@ -214,7 +214,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					operands[i] = nonTrivialProduct(remainder, so.getOperand(i).getNonInteger());
 				}
 
-				StepOperation factored = new StepOperation(Operation.PLUS, operands);
+				StepExpression factored = StepOperation.add(operands);
 				if (isEqual(common, -1)) {
 					sb.add(SolutionStepType.FACTOR_MINUS);
 					return minus(factored);
@@ -234,7 +234,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 	COMPLETING_THE_SQUARE {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn.isOperation(Operation.PLUS) && !tracker.isWeakFactor()) {
+			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
 				if (so.noOfOperands() == 3) {
@@ -266,8 +266,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 							third.setColor(tracker.getColorTracker());
 							asSum.setColor(tracker.incColorTracker());
 
-							StepOperation newSum =
-									new StepOperation(Operation.PLUS, first, second, asSum);
+							StepExpression newSum =
+									StepOperation.add(first, second, asSum);
 
 							sb.add(SolutionStepType.REPLACE_WITH, third, asSum);
 							return newSum;
@@ -426,7 +426,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		}
 	},
 
-	FACTOR_USING_FORMULA {
+	FACTOR_DIFFERENCE_OF_SQUARES {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
@@ -460,8 +460,25 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					return add(so.getOperand(1), so.getOperand(0));
 				}
 
-				if (so.getOperand(0).isCube() && so.getOperand(1).isCube() &&
-						!tracker.isWeakFactor()) {
+				// DON'T go further in! factor only the outermost sum
+				return so;
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
+	FACTOR_DIFFERENCE_AND_SUM_OF_CUBES {
+		@Override
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.PLUS)) {
+				StepOperation so = (StepOperation) sn;
+
+				if (so.noOfOperands() != 2) {
+					return so;
+				}
+
+				if (so.getOperand(0).isCube() && so.getOperand(1).isCube()) {
 					StepExpression a = so.getOperand(0).getCubeRoot();
 					StepExpression b = so.getOperand(1).getCubeRoot();
 
@@ -679,7 +696,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		}
 	},
 
-	SIMPLE_FACTOR {
+	FACTOR_STRATEGY {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
@@ -688,7 +705,26 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					FactorSteps.FACTOR_INTEGER,
 					FactorSteps.FACTOR_BINOM_STRATEGY,
 					FactorSteps.FACTOR_BINOM_CUBED,
-					FactorSteps.FACTOR_USING_FORMULA,
+					FactorSteps.FACTOR_DIFFERENCE_OF_SQUARES,
+					FactorSteps.FACTOR_DIFFERENCE_AND_SUM_OF_CUBES,
+					FactorSteps.FACTOR_POLYNOMIALS
+			};
+
+			return StepStrategies.implementGroup(sn, null, defaultStrategy, sb, tracker);
+		}
+	},
+
+	WEAK_FACTOR_STRATEGY {
+		@Override
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
+			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
+					FactorSteps.FACTOR_COMMON_SUBSTEP,
+					RegroupSteps.REGROUP_SUMS,
+					FactorSteps.FACTOR_INTEGER,
+					FactorSteps.FACTOR_BINOM_SQUARED,
+					FactorSteps.FACTOR_BINOM_CUBED,
+					FactorSteps.FACTOR_DIFFERENCE_OF_SQUARES,
 					FactorSteps.FACTOR_POLYNOMIALS
 			};
 
@@ -701,10 +737,23 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
 					RegroupSteps.WEAK_REGROUP,
-					FactorSteps.SIMPLE_FACTOR
+					FactorSteps.FACTOR_STRATEGY
 			};
 
 			return StepStrategies.implementGroup(sn, null, defaultStrategy, sb, tracker);
+		}
+	},
+
+	WEAK_FACTOR {
+		@Override
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
+			SimplificationStepGenerator[] weakStrategy = new SimplificationStepGenerator[] {
+					RegroupSteps.WEAK_REGROUP,
+					FactorSteps.WEAK_FACTOR_STRATEGY
+			};
+
+			return StepStrategies.implementGroup(sn, null, weakStrategy, sb, tracker);
 		}
 	};
 
@@ -712,7 +761,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 	public boolean isGroupType() {
 		return this == FACTOR_BINOM_STRATEGY
 				|| this == DEFAULT_FACTOR
-				|| this == SIMPLE_FACTOR
+				|| this == FACTOR_STRATEGY
 				|| this == FACTOR_POLYNOMIALS
 				|| this == FACTOR_COMMON_SUBSTEP;
 	}

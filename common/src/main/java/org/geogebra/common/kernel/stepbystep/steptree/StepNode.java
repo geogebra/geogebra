@@ -38,14 +38,14 @@ public abstract class StepNode implements TableElement {
 	 * @param parser GeoGebra parser
 	 * @return the string s, parsed as a StepTree
 	 */
-	public static StepNode getStepTree(String s, Parser parser) {
+	public static StepTransformable getStepTree(String s, Parser parser) {
 		if (s.isEmpty()) {
 			return null;
 		}
 
 		try {
 			ExpressionValue ev = parser.parseGeoGebraExpression(s);
-			StepNode sn = convertExpression(ev);
+			StepTransformable sn = convertExpression(ev);
 			return cleanupExpression(sn);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -57,7 +57,7 @@ public abstract class StepNode implements TableElement {
 	 * @param ev ExpressionValue to be converted
 	 * @return ev converted to StepTree
 	 */
-	public static StepNode convertExpression(ExpressionValue ev) {
+	public static StepTransformable convertExpression(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
 			StepExpression left =
 					(StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
@@ -106,7 +106,7 @@ public abstract class StepNode implements TableElement {
 						return minus(right);
 					}
 				default:
-					return new StepOperation(((ExpressionNode) ev).getOperation(), left, right);
+					return StepOperation.create(((ExpressionNode) ev).getOperation(), left, right);
 			}
 		}
 		if (ev instanceof Equation) {
@@ -123,11 +123,11 @@ public abstract class StepNode implements TableElement {
 		return null;
 	}
 
-	public static StepNode cleanupExpression(StepNode sn) {
+	public static StepTransformable cleanupExpression(StepTransformable sn) {
 		if (sn instanceof StepEquation) {
 			return new StepEquation(
-					(StepExpression) cleanupExpression(((StepEquation) sn).getLHS()),
-					(StepExpression) cleanupExpression(((StepEquation) sn).getRHS()));
+					(StepExpression) cleanupExpression(((StepEquation) sn).LHS),
+					(StepExpression) cleanupExpression(((StepEquation) sn).RHS));
 		}
 
 		if (sn.isOperation(Operation.MULTIPLY)) {
@@ -140,7 +140,7 @@ public abstract class StepNode implements TableElement {
 					result[i] = (StepExpression) cleanupExpression(so.getOperand(i));
 				}
 
-				return new StepOperation(Operation.MULTIPLY, result).negate();
+				return StepOperation.multiply(result).negate();
 			}
 		}
 
@@ -155,20 +155,10 @@ public abstract class StepNode implements TableElement {
 				result[i] = (StepExpression) cleanupExpression(so.getOperand(i));
 			}
 
-			return new StepOperation(so.getOperation(), result);
+			return StepOperation.create(so.getOperation(), result);
 		}
 
 		return sn;
-	}
-
-	public StepSolvable toSolvable() {
-		if (this instanceof StepSolvable) {
-			return (StepSolvable) this;
-		} else if (this instanceof StepExpression) {
-			return new StepEquation((StepExpression) this, StepConstant.create(0));
-		}
-
-		return null;
 	}
 
 	/**
@@ -250,7 +240,7 @@ public abstract class StepNode implements TableElement {
 			return null;
 		}
 
-		return new StepOperation(op, a);
+		return StepOperation.create(op, a);
 	}
 
 	private static StepExpression applyBinaryOp(Operation op, StepExpression a, StepExpression b) {
@@ -261,7 +251,7 @@ public abstract class StepNode implements TableElement {
 			return a;
 		}
 
-		return new StepOperation(op, a, b);
+		return StepOperation.create(op, a, b);
 	}
 
 	private static StepExpression applyNullableBinaryOp(Operation op, StepExpression a,
@@ -273,7 +263,7 @@ public abstract class StepNode implements TableElement {
 			return a;
 		}
 
-		return new StepOperation(op, a, b);
+		return StepOperation.create(op, a, b);
 	}
 
 	private static StepLogical doSetOperation(SetOperation op, StepLogical a, StepLogical b) {
@@ -502,8 +492,8 @@ public abstract class StepNode implements TableElement {
 				operand.setColor(color);
 			}
 		} else if (this instanceof StepSolvable) {
-			((StepSolvable) this).getLHS().setColor(color);
-			((StepSolvable) this).getRHS().setColor(color);
+			((StepSolvable) this).LHS.setColor(color);
+			((StepSolvable) this).RHS.setColor(color);
 		} else if (this instanceof StepMatrix) {
 			StepMatrix sm = (StepMatrix) this;
 			for (int i = 0; i < sm.getHeight(); i++) {
@@ -552,8 +542,8 @@ public abstract class StepNode implements TableElement {
 		if (this instanceof StepSolvable) {
 			StepSolvable ss = (StepSolvable) this;
 
-			ss.getLHS().getListOfVariables(variableList);
-			ss.getRHS().getListOfVariables(variableList);
+			ss.LHS.getListOfVariables(variableList);
+			ss.RHS.getListOfVariables(variableList);
 		}
 
 		if (this instanceof StepOperation) {

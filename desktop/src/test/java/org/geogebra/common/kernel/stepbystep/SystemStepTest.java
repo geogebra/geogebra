@@ -1,18 +1,12 @@
-package org.geogebra.stepbystep;
+package org.geogebra.common.kernel.stepbystep;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.CASException;
-import org.geogebra.common.kernel.stepbystep.CASConflictException;
-import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steps.SystemSteps;
-import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
-import org.geogebra.common.kernel.stepbystep.steptree.StepEquationSystem;
-import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
-import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.main.App;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -111,7 +105,7 @@ public class SystemStepTest {
 
         List<StepEquation> stepEquations = new ArrayList<>();
         for (String eq : equations) {
-            stepEquations.add(new StepEquation(eq, app.getKernel().getParser()));
+            stepEquations.add((StepEquation) StepNode.getStepTree(eq, app.getKernel().getParser()));
         }
 
         SolutionBuilder steps = new SolutionBuilder();

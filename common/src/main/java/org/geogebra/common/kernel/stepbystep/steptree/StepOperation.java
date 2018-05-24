@@ -7,88 +7,79 @@ import java.util.*;
 
 public class StepOperation extends StepExpression implements Iterable<StepExpression> {
 
-	private Operation operation;
-	private StepExpression[] operands;
+	private final Operation operation;
+	private final StepExpression[] operands;
 	private StepExpression[] sortedOperandList;
 
-	private StepOperation(Operation operation) {
+	private StepOperation(Operation operation, List<StepExpression> operands) {
 		this.operation = operation;
+		this.operands = operands.toArray(new StepExpression[0]);
 	}
 
+	/**
+	 * Use it when you are sure you do not require collapsing of the operands
+	 * @param operation Operation of the node
+	 * @param operands operands of the node
+	 */
 	public StepOperation(Operation operation, StepExpression... operands) {
 		this.operation = operation;
+		this.operands = operands;
+	}
 
+	/**
+	 * Use this, when you are doing an operation-agnostic change in the
+	 * structure, that might or might not require collapsing, such as
+	 * replacing
+	 * @param operation Operation of the node
+	 * @param operands of the node (nullable)
+	 * @return StepExpression after collapsing
+	 */
+	public static StepExpression create(Operation operation, StepExpression... operands) {
 		if (operation == Operation.PLUS || operation == Operation.MULTIPLY) {
 			List<StepExpression> operandsList = new ArrayList<>();
 			for (StepExpression operand : operands) {
-				if (operand.isOperation(operation)) {
-					Collections.addAll(operandsList, ((StepOperation) operand).operands);
-				} else {
-					operandsList.add(operand);
+				if (operand != null) {
+					if (operand.isOperation(operation)) {
+						Collections.addAll(operandsList, ((StepOperation) operand).operands);
+					} else {
+						operandsList.add(operand);
+					}
 				}
 			}
-			this.operands = operandsList.toArray(new StepExpression[0]);
+
+			if (operandsList.size() == 0) {
+				return null;
+			}
+
+			if (operandsList.size() == 1) {
+				return operandsList.get(0);
+			}
+
+			return new StepOperation(operation, operandsList);
 		} else {
-			this.operands = operands;
+			return new StepOperation(operation, operands);
 		}
 	}
 
 	public static StepExpression add(List<StepExpression> terms) {
-		return add(terms.toArray(new StepExpression[0]));
+		return create(Operation.PLUS, terms.toArray(new StepExpression[0]));
 	}
 
+	/**
+	 * The safe way to add up multiple terms
+	 * @param terms StepExpressions to add, nullable, can contain other sums
+	 * @return collapsed result
+	 */
 	public static StepExpression add(StepExpression... terms) {
-		List<StepExpression> operands = new ArrayList<>();
-		for (StepExpression term : terms) {
-			if (term != null) {
-				if (term.isOperation(Operation.PLUS)) {
-					Collections.addAll(operands, ((StepOperation) term).operands);
-				} else {
-					operands.add(term);
-				}
-			}
-		}
-
-		if (operands.size() == 0) {
-			return null;
-		}
-
-		if (operands.size() == 1) {
-			return operands.get(0);
-		}
-
-		StepOperation ret = new StepOperation(Operation.PLUS);
-		ret.operands = operands.toArray(new StepExpression[0]);
-		return ret;
+		return create(Operation.PLUS, terms);
 	}
 
 	public static StepExpression multiply(List<StepExpression> multiplicands) {
-		return multiply(multiplicands.toArray(new StepExpression[0]));
+		return create(Operation.MULTIPLY, multiplicands.toArray(new StepExpression[0]));
 	}
 
 	public static StepExpression multiply(StepExpression... multiplicands) {
-		List<StepExpression> operands = new ArrayList<>();
-		for (StepExpression term : multiplicands) {
-			if (term != null) {
-				if (term.isOperation(Operation.MULTIPLY)) {
-					Collections.addAll(operands, ((StepOperation) term).operands);
-				} else {
-					operands.add(term);
-				}
-			}
-		}
-
-		if (operands.size() == 0) {
-			return null;
-		}
-
-		if (operands.size() == 1) {
-			return operands.get(0);
-		}
-
-		StepOperation ret = new StepOperation(Operation.MULTIPLY);
-		ret.operands = operands.toArray(new StepExpression[0]);
-		return ret;
+		return create(Operation.MULTIPLY, multiplicands);
 	}
 
 	private static boolean requiresPlus(StepExpression a) {
@@ -556,12 +547,14 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	@Override
 	public StepOperation deepCopy() {
-		StepOperation so = new StepOperation(operation);
-		so.color = color;
-		so.operands = new StepExpression[operands.length];
+		StepExpression[] newOperands = new StepExpression[operands.length];
 		for (int i = 0; i < operands.length; i++) {
-			so.operands[i] = operands[i].deepCopy();
+			newOperands[i] = operands[i].deepCopy();
 		}
+
+		StepOperation so = new StepOperation(operation, newOperands);
+		so.color = color;
+
 		return so;
 	}
 

@@ -1,4 +1,4 @@
-package org.geogebra.stepbystep;
+package org.geogebra.common.kernel.stepbystep;
 
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.junit.*;
 
 @SuppressWarnings("javadoc")

@@ -11,7 +11,7 @@ import java.util.List;
  * Class used as the result of a SolveStepGenerator. It contains eiter
  * the solutions, or the (un)changed equation/inequality.
  */
-public class Result {
+class Result {
 
 	private List<StepSolution> solutions;
 	private StepSolvable solvable;

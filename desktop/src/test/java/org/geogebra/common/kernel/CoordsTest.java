@@ -1,4 +1,4 @@
-package org.geogebra.kernel;
+package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.junit.Assert;

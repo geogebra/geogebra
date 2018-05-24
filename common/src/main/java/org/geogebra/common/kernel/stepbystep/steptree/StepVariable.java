@@ -4,7 +4,7 @@ import org.geogebra.common.main.Localization;
 
 public class StepVariable extends StepExpression {
 
-	private String label;
+	private final String label;
 
 	public StepVariable(String label) {
 		this.label = label;

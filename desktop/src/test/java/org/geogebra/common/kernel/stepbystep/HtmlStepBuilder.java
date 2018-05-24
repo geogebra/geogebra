@@ -1,4 +1,4 @@
-package org.geogebra.stepbystep;
+package org.geogebra.common.kernel.stepbystep;
 
 import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;

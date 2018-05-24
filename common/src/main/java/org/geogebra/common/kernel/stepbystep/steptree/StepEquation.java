@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.stepbystep.CASConflictException;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -17,18 +16,20 @@ import java.util.List;
 
 public class StepEquation extends StepSolvable {
 
+	protected final boolean swapped;
 	private boolean isInequation;
 
-	public StepEquation(StepExpression LHS, StepExpression RHS) {
-		this.LHS = LHS;
-		this.RHS = RHS;
+	public StepEquation(StepExpression LHS, StepExpression RHS, boolean swapped) {
+		super(LHS, RHS);
+		this.swapped = swapped;
 	}
 
-	public StepEquation(String str, Parser parser) {
-		String[] sides = str.split("=");
+	public StepEquation(StepExpression LHS, StepExpression RHS) {
+		this(LHS, RHS, false);
+	}
 
-		this.LHS = (StepExpression) getStepTree(sides[0], parser);
-		this.RHS = (StepExpression) getStepTree(sides[1], parser);
+	public StepSolvable swapSides() {
+		return new StepEquation(RHS, LHS, !swapped);
 	}
 
 	public StepEquation setInequation() {
@@ -61,8 +62,7 @@ public class StepEquation extends StepSolvable {
 
 	@Override
 	public StepEquation deepCopy() {
-		StepEquation newEq = new StepEquation(LHS.deepCopy(), RHS.deepCopy());
-		newEq.swapped = swapped;
+		StepEquation newEq = new StepEquation(LHS.deepCopy(), RHS.deepCopy(), swapped);
 		newEq.isInequation = isInequation;
 
 		return newEq;
@@ -70,8 +70,7 @@ public class StepEquation extends StepSolvable {
 
 	@Override
 	public StepEquation cloneWith(StepExpression newLHS, StepExpression newRHS) {
-		StepEquation newEq = new StepEquation(newLHS, newRHS);
-		newEq.swapped = swapped;
+		StepEquation newEq = new StepEquation(newLHS, newRHS, swapped);
 		newEq.isInequation = isInequation;
 
 		return newEq;
@@ -91,10 +90,9 @@ public class StepEquation extends StepSolvable {
 			return "\\fgcolor{" + getColorHex() + "}{" + toLaTeXString(loc, false) + "}";
 		}
 
-		if (swapped) {
-			return RHS.toLaTeXString(loc, colored) + sign() + LHS.toLaTeXString(loc, colored);
-		}
-		return LHS.toLaTeXString(loc, colored) + sign() + RHS.toLaTeXString(loc, colored);
+		return (swapped ? RHS : LHS).toLaTeXString(loc, colored)
+				+ sign()
+				+ (swapped ? LHS : RHS).toLaTeXString(loc, colored);
 	}
 
 	private String sign() {
@@ -162,7 +160,7 @@ public class StepEquation extends StepSolvable {
 		steps.addGroup(new SolutionLine(SolutionStepType.PLUG_IN_AND_CHECK, value), tempSteps,
 				replaced);
 
-		if (!replaced.getLHS().equals(replaced.getRHS())) {
+		if (!replaced.LHS.equals(replaced.RHS)) {
 			if (isEqual(replaced.LHS.getValue(), replaced.RHS.getValue())) {
 				Log.error("Regroup failed at: " + this);
 				Log.error("For solution: " + variable + " = " + value);

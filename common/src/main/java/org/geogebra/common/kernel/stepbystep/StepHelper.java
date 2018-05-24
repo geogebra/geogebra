@@ -106,8 +106,8 @@ public class StepHelper {
 		}
 
 		if (sn instanceof StepSolvable) {
-			getAll(((StepSolvable) sn).getLHS(), values, c);
-			getAll(((StepSolvable) sn).getRHS(), values, c);
+			getAll(((StepSolvable) sn).LHS, values, c);
+			getAll(((StepSolvable) sn).RHS, values, c);
 		}
 	}
 
@@ -134,20 +134,20 @@ public class StepHelper {
 				result[i] = so.getOperand(i);
 			}
 
-			return found ? new StepOperation(so.getOperation(), result) : null;
+			return found ? StepOperation.create(so.getOperation(), result) : null;
 		}
 
 		if (sn instanceof StepSolvable) {
 			StepSolvable ss = (StepSolvable) sn;
 
-			StepExpression lhs = (StepExpression) replaceFirst(ss.getLHS(), c);
+			StepExpression lhs = (StepExpression) replaceFirst(ss.LHS, c);
 			if (lhs != null) {
-				return ss.cloneWith(lhs, ss.getRHS());
+				return ss.cloneWith(lhs, ss.RHS);
 			}
 
-			StepExpression rhs = (StepExpression) replaceFirst(ss.getRHS(), c);
+			StepExpression rhs = (StepExpression) replaceFirst(ss.RHS, c);
 			if (rhs != null) {
-				return ss.cloneWith(ss.getLHS(), rhs);
+				return ss.cloneWith(ss.LHS, rhs);
 			}
 		}
 
@@ -184,7 +184,7 @@ public class StepHelper {
 
 	public static StepExpression nthDegreeInExpression(StepSolvable ss, final StepVariable var,
 			int n) {
-		StepExpression diff = StepNode.subtract(ss.getLHS(), ss.getRHS()).regroup();
+		StepExpression diff = StepNode.subtract(ss.LHS, ss.RHS).regroup();
 
 		StepExpression expr = findExpression(diff, new Condition() {
 			@Override
@@ -336,7 +336,7 @@ public class StepHelper {
 			for (int i = 0; i < so.noOfOperands(); i++) {
 				result[i] = swapAbsInTree(so.getOperand(i), si, variable, steps, colorTracker);
 			}
-			return new StepOperation(so.getOperation(), result);
+			return StepOperation.create(so.getOperation(), result);
 		}
 
 		return se;

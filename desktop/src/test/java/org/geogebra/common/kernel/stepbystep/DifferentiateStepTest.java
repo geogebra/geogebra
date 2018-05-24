@@ -1,4 +1,4 @@
-package org.geogebra.stepbystep;
+package org.geogebra.common.kernel.stepbystep;
 
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;

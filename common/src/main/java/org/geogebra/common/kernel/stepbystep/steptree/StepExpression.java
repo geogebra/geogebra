@@ -2,8 +2,7 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.steps.RegroupSteps;
-import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
+import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -26,7 +25,7 @@ public abstract class StepExpression extends StepTransformable
 				new String[]{"", "-nroot(3, 2)", "-1", "-nroot(3, 2)/3", "0", "nroot(3, 2)/3", "1",
 						"nroot(3, 2)", ""};
 
-		StepExpression pi = StepConstant.create(Math.PI);
+		StepExpression pi = StepConstant.PI;
 		StepExpression[] valuesSinTan =
 				new StepExpression[]{minus(divide(pi, 2)), minus(divide(pi, 3)),
 						minus(divide(pi, 4)), minus(divide(pi, 6)), StepConstant.create(0),
@@ -734,17 +733,13 @@ public abstract class StepExpression extends StepTransformable
 		}
 
 		if (expr.isOperation(Operation.PLUS)) {
-			SolutionBuilder tempSteps = new SolutionBuilder();
-			RegroupTracker tempTracker = new RegroupTracker();
-
 			StepExpression common = null;
 			StepExpression current = this;
 			for (StepExpression operand : (StepOperation) expr) {
 				if (current.containsExpression(operand)) {
 					common = add(common, operand);
-					current = (StepExpression) RegroupSteps.REGROUP_SUMS
-							.apply(subtract(current, operand), tempSteps, tempTracker);
-					tempTracker.resetTracker();
+					current = (StepExpression) StepStrategies.regroupSums(
+							subtract(current, operand), new SolutionBuilder());
 				}
 			}
 
@@ -928,7 +923,12 @@ public abstract class StepExpression extends StepTransformable
 				isOperation(Operation.MINUS) && ((StepOperation) this).getOperand(0).isFraction();
 	}
 
+	@Override
+	public StepSolvable toSolvable() {
+		return new StepEquation(this, StepConstant.create(0));
+	}
 
+	@Override
 	public int maxDecimal() {
 		if (nonSpecialConstant() && !isInteger()) {
 			if (Double.toString(getValue()).split("\\.").length < 2) {
@@ -948,6 +948,7 @@ public abstract class StepExpression extends StepTransformable
 		return 0;
 	}
 
+	@Override
 	public boolean containsFractions() {
 		if (isOperation(Operation.DIVIDE)) {
 			return maxDecimal() == 0;
@@ -1004,7 +1005,7 @@ public abstract class StepExpression extends StepTransformable
 			for (int i = 0; i < operands.length; i++) {
 				operands[i] = so.getOperand(i).replace(from, to);
 			}
-			return new StepOperation(so.getOperation(), operands);
+			return StepOperation.create(so.getOperation(), operands);
 		}
 		return this;
 	}
@@ -1082,7 +1083,9 @@ public abstract class StepExpression extends StepTransformable
 	}
 
 	public StepExpression reciprocate() {
-		if (isOperation(Operation.DIVIDE)) {
+		if (isOperation(Operation.MINUS)) {
+			return negate().reciprocate().negate();
+		} else if (isOperation(Operation.DIVIDE)) {
 			if (isEqual(((StepOperation) this).getOperand(0), 1)) {
 				return ((StepOperation) this).getOperand(1);
 			}

@@ -8,7 +8,7 @@ import org.geogebra.common.plugin.Operation;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
-public enum DifferentiationSteps implements SimplificationStepGenerator {
+enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	DIFFERENTIATE_SUM {
 		@Override

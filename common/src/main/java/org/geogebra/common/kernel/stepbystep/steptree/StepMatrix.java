@@ -77,6 +77,11 @@ public class StepMatrix extends StepTransformable {
 	}
 
 	@Override
+	public StepSolvable toSolvable() {
+		return null;
+	}
+
+	@Override
 	public int maxDecimal() {
 		return 0;
 	}

@@ -12,13 +12,12 @@ import java.util.List;
 
 public class StepInequality extends StepSolvable {
 
-	private boolean lessThan;
-	private boolean strong;
+	private final boolean lessThan;
+	private final boolean strong;
 
 	public StepInequality(StepExpression LHS, StepExpression RHS, boolean lessThan,
 			boolean strong) {
-		this.LHS = LHS;
-		this.RHS = RHS;
+		super(LHS, RHS);
 		this.lessThan = lessThan;
 		this.strong = strong;
 	}
@@ -100,7 +99,7 @@ public class StepInequality extends StepSolvable {
 		return true;
 	}
 
-	public void flip() {
-		lessThan = !lessThan;
+	public StepInequality flip() {
+		return new StepInequality(LHS, RHS, !lessThan, strong);
 	}
 }

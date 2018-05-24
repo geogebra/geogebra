@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
-public enum RegroupSteps implements SimplificationStepGenerator {
+enum RegroupSteps implements SimplificationStepGenerator {
 
 	DECIMAL_SIMPLIFY_ROOTS {
 		@Override
@@ -834,11 +834,10 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			List<StepExpression> newSum = new ArrayList<>();
-
+			StepExpression[] newSum = new StepExpression[so.noOfOperands() + 1];
 			for (int i = 0; i < so.noOfOperands(); i++) {
 				if (!isZero(coefficients[i]) && !isZero(variables[i])) {
-					newSum.add(simplifiedProduct(coefficients[i], variables[i]));
+					newSum[i] = simplifiedProduct(coefficients[i], variables[i]);
 				}
 			}
 
@@ -857,15 +856,12 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				sb.add(SolutionStepType.ZERO_IN_ADDITION, tracker.incColorTracker());
 			}
 
-			if (newSum.size() == 0) {
-				return newConstants;
-			}
-
 			if (!isEqual(constantSum, 0)) {
-				newSum.add(newConstants);
+				newSum[so.noOfOperands()] = newConstants;
 			}
 
-			return StepOperation.add(newSum);
+			StepExpression result = StepOperation.add(newSum);
+			return result == null ? StepConstant.create(0) : result;
 		}
 	},
 
@@ -990,7 +986,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 
 				SolutionBuilder temp = new SolutionBuilder();
 
-				StepOperation factored = (StepOperation) FactorSteps.SIMPLE_FACTOR
+				StepOperation factored = (StepOperation) FactorSteps.FACTOR_STRATEGY
 						.apply(so, temp, new RegroupTracker());
 
 				if (!isOne(StepHelper.weakGCD(factored.getOperand(0), factored.getOperand(1))) &&
@@ -1410,17 +1406,21 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				StepOperation so = (StepOperation) sn;
 
 				List<StepExpression> constantList = new ArrayList<>();
-				StepExpression nonConstant = null;
 
 				double constantValue = 1;
-				for (StepExpression operand : so) {
+				StepExpression[] nonConstants = new StepExpression[so.noOfOperands()];
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					StepExpression operand = so.getOperand(i);
 					if (operand.nonSpecialConstant()) {
 						constantList.add(operand);
 						constantValue *= operand.getValue();
 					} else {
-						nonConstant = multiply(nonConstant, operand);
+						nonConstants[i] = operand;
 					}
 				}
+
+				StepExpression nonConstant = StepOperation.multiply(nonConstants);
+
 
 				if (constantList.size() == 1 && isEqual(constantValue, 1)) {
 					constantList.get(0).setColor(tracker.getColorTracker());
@@ -1948,7 +1948,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					SIMPLIFY_ROOTS,
 					SIMPLE_POWERS,
 					ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
-					ExpandSteps.EXPAND_PRODUCTS,
+					ExpandSteps.EXPAND_MARKED_PRODUCTS,
 					RATIONALIZE_SIMPLE_DENOMINATOR,
 					RATIONALIZE_COMPLEX_DENOMINATOR
 			};
@@ -2009,18 +2009,12 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					RegroupSteps.REWRITE_AS_EXPONENTIAL,
 					RegroupSteps.REGROUP_PRODUCTS,
 					RegroupSteps.FACTOR_FRACTIONS,
-					ExpandSteps.EXPAND_PRODUCTS,
+					ExpandSteps.EXPAND_MARKED_PRODUCTS,
 					RegroupSteps.RATIONALIZE_DENOMINATORS,
-					FractionSteps.ADD_FRACTIONS
+					FractionSteps.ADD_INTEGER_FRACTIONS
 			};
 
-			// temporary hack. find some nicer solution..
-			boolean expandSettings = tracker.getExpandSettings();
-			tracker.setStrongExpand(false);
-			StepTransformable temp =
-					StepStrategies.implementGroup(sn, null, defaultStrategy, sb, tracker);
-			tracker.setStrongExpand(expandSettings);
-			return temp;
+			return StepStrategies.implementGroup(sn, null, defaultStrategy, sb, tracker);
 		}
 	};
 
@@ -2028,8 +2022,8 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		if (sn instanceof StepExpression) {
 			return ((StepExpression) sn).countOperation(op) > 0;
 		} else if (sn instanceof StepSolvable) {
-			return contains(((StepSolvable) sn).getLHS(), op) ||
-					contains(((StepSolvable) sn).getRHS(), op);
+			return contains(((StepSolvable) sn).LHS, op) ||
+					contains(((StepSolvable) sn).RHS, op);
 		} else if (sn instanceof StepMatrix) {
 			StepMatrix sm = (StepMatrix) sn;
 			for (int i = 0; i < sm.getHeight(); i++) {

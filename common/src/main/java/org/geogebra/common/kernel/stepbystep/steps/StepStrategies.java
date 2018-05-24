@@ -14,53 +14,44 @@ public class StepStrategies {
 		return RegroupSteps.CONVERT_DECIMAL_TO_FRACTION.apply(sn, sb, new RegroupTracker());
 	}
 
-	public static StepTransformable decimalRegroup(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-		return RegroupSteps.DECIMAL_REGROUP.apply(sn, sb, tracker);
+	public static StepTransformable regroupSums(StepTransformable sn, SolutionBuilder sb) {
+		return RegroupSteps.REGROUP_SUMS.apply(sn, sb, new RegroupTracker());
+	}
+
+	public static StepTransformable weakRegroup(StepTransformable sn, SolutionBuilder sb) {
+		return RegroupSteps.WEAK_REGROUP.apply(sn, sb, new RegroupTracker());
 	}
 
 	public static StepTransformable decimalRegroup(StepTransformable sn, SolutionBuilder sb) {
-		return decimalRegroup(sn, sb, new RegroupTracker());
-	}
-
-	public static StepTransformable defaultRegroup(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-		return RegroupSteps.DEFAULT_REGROUP.apply(sn, sb, tracker);
+		return RegroupSteps.DECIMAL_REGROUP.apply(sn, sb, new RegroupTracker());
 	}
 
 	public static StepTransformable defaultRegroup(StepTransformable sn, SolutionBuilder sb) {
-		return defaultRegroup(sn, sb, new RegroupTracker());
+		return RegroupSteps.DEFAULT_REGROUP.apply(sn, sb, new RegroupTracker());
 	}
 
-	public static StepTransformable decimalExpand(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-		return ExpandSteps.DECIMAL_EXPAND.apply(sn, sb, tracker);
+	public static StepTransformable addFractions(StepTransformable sn, SolutionBuilder sb) {
+		return FractionSteps.ADD_FRACTIONS.apply(sn, sb, new RegroupTracker());
 	}
 
 	public static StepTransformable decimalExpand(StepTransformable sn, SolutionBuilder sb) {
-		return decimalExpand(sn, sb, new RegroupTracker());
-	}
-
-	public static StepTransformable defaultExpand(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-		return ExpandSteps.DEFAULT_EXPAND.apply(sn, sb, tracker);
+		return ExpandSteps.DECIMAL_EXPAND.apply(sn, sb, new RegroupTracker());
 	}
 
 	public static StepTransformable defaultExpand(StepTransformable sn, SolutionBuilder sb) {
-		return defaultExpand(sn, sb, new RegroupTracker());
-	}
-
-	public static StepTransformable defaultFactor(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-		return FactorSteps.DEFAULT_FACTOR.apply(sn, sb, tracker);
+		return ExpandSteps.DEFAULT_EXPAND.apply(sn, sb, new RegroupTracker());
 	}
 
 	public static StepTransformable defaultFactor(StepTransformable sn, SolutionBuilder sb) {
-		return defaultFactor(sn, sb, new RegroupTracker());
+		return FactorSteps.DEFAULT_FACTOR.apply(sn, sb, new RegroupTracker());
 	}
 
-	public static StepTransformable defaultDifferentiate(StepTransformable sn, SolutionBuilder sb,
-			RegroupTracker tracker) {
-		return DifferentiationSteps.DEFAULT_DIFFERENTIATE.apply(sn, sb, tracker);
+	public static StepTransformable weakFactor(StepTransformable sn, SolutionBuilder sb) {
+		return FactorSteps.WEAK_FACTOR.apply(sn, sb, new RegroupTracker());
 	}
 
 	public static StepTransformable defaultDifferentiate(StepTransformable sn, SolutionBuilder sb) {
-		return defaultDifferentiate(sn, sb, new RegroupTracker());
+		return DifferentiationSteps.DEFAULT_DIFFERENTIATE.apply(sn, sb, new RegroupTracker());
 	}
 
 	public static StepTransformable implementGroup(StepTransformable sn, SolutionStepType groupHeader,
@@ -123,27 +114,27 @@ public class StepStrategies {
 				EquationSteps.FIND_DEFINED_RANGE,
 				EquationSteps.SOLVE_PRODUCT,
 				EquationSteps.NEGATE_BOTH_SIDES,
-				EquationSteps.REGROUP,
+				SolveSteps.REGROUP,
 				EquationSteps.TRIVIAL_EQUATIONS,
 				EquationSteps.SEPARATE_PLUSMINUS,
-				EquationSteps.FACTOR,
-				EquationSteps.SUBTRACT_COMMON,
+				SolveSteps.FACTOR,
+				SolveSteps.SUBTRACT_COMMON,
 				EquationSteps.SOLVE_SIMPLE_ABSOLUTE_VALUE,
-				EquationSteps.SOLVE_LINEAR,
-				EquationSteps.TAKE_ROOT,
+				SolveSteps.SOLVE_LINEAR,
+				SolveSteps.TAKE_ROOT,
 				EquationSteps.RECIPROCATE_EQUATION,
-				EquationSteps.SOLVE_LINEAR_IN_EXPRESSION,
+				SolveSteps.SOLVE_LINEAR_IN_EXPRESSION,
 				EquationSteps.COMMON_DENOMINATOR,
 				EquationSteps.MULTIPLY_THROUGH,
-				EquationSteps.EXPAND,
-                EquationSteps.COMPLETE_THE_SQUARE,
+				SolveSteps.EXPAND,
+				SolveSteps.COMPLETE_THE_SQUARE,
 				EquationSteps.COMPLETE_CUBE,
 				EquationSteps.SOLVE_ABSOLUTE_VALUE,
 				EquationSteps.SOLVE_IRRATIONAL,
 				EquationSteps.SIMPLIFY_TRIGONOMETRIC,
 				EquationSteps.SOLVE_QUADRATIC_IN_EXPRESSION,
 				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC,
-				EquationSteps.DIFF,
+				SolveSteps.DIFF,
 				EquationSteps.SOLVE_QUADRATIC,
 				EquationSteps.REDUCE_TO_QUADRATIC,
 		};
@@ -155,20 +146,21 @@ public class StepStrategies {
 			SolutionBuilder sb, SolveTracker tracker) {
 		SolveStepGenerator[] strategy = {
 				InequalitySteps.DIVIDE_BY_COEFFICIENT,
-				EquationSteps.SOLVE_LINEAR,
-				EquationSteps.REGROUP,
+				SolveSteps.SOLVE_LINEAR,
+				SolveSteps.REGROUP,
 				InequalitySteps.TRIVIAL_INEQUALITY,
 				InequalitySteps.POSITIVE_AND_ZERO,
-                InequalitySteps.POSITIVE_AND_NEGATIVE,
-				EquationSteps.SUBTRACT_COMMON,
-				EquationSteps.FACTOR,
+				InequalitySteps.POSITIVE_AND_NEGATIVE,
+				SolveSteps.SUBTRACT_COMMON,
+				SolveSteps.FACTOR,
 				InequalitySteps.RATIONAL_INEQUALITY,
-				EquationSteps.DIFF,
-                EquationSteps.COMPLETE_THE_SQUARE,
+				SolveSteps.DIFF,
+				SolveSteps.COMPLETE_THE_SQUARE,
 				InequalitySteps.SOLVE_QUADRATIC,
-				EquationSteps.TAKE_ROOT,
-				EquationSteps.EXPAND,
+				SolveSteps.TAKE_ROOT,
+				SolveSteps.EXPAND,
 		};
+
 
 		return implementSolveStrategy(se, sv, sb, strategy, tracker);
 	}
@@ -192,7 +184,7 @@ public class StepStrategies {
 			sb.levelDown();
 		}
 
-		StepSolvable equation = se.deepCopy();
+		StepSolvable equation = se;
 
 		List<StepSolution> solutions = null;
 		boolean changed;
@@ -279,12 +271,12 @@ public class StepStrategies {
 				return so;
 			}
 
-			return new StepOperation(so.getOperation(), toReturn);
+			return StepOperation.create(so.getOperation(), toReturn);
 		} else if (sn instanceof StepSolvable) {
 			StepSolvable se = (StepSolvable) sn;
 
-			StepExpression newLHS = (StepExpression) step.apply(se.getLHS(), sb, tracker);
-			StepExpression newRHS = (StepExpression) step.apply(se.getRHS(), sb, tracker);
+			StepExpression newLHS = (StepExpression) step.apply(se.LHS, sb, tracker);
+			StepExpression newRHS = (StepExpression) step.apply(se.RHS, sb, tracker);
 
 			return se.cloneWith(newLHS, newRHS);
 		} else if (sn instanceof StepMatrix) {

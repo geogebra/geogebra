@@ -9,11 +9,12 @@ import org.geogebra.common.plugin.Operation;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
-public enum ExpandSteps implements SimplificationStepGenerator {
+enum ExpandSteps implements SimplificationStepGenerator {
 
 	EXPAND_DIFFERENCE_OF_SQUARES {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -68,98 +69,26 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 		}
 	},
 
+	EXPAND_MARKED_PRODUCTS {
+		@Override
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
+			return expandProducts(sn, sb, tracker, false);
+		}
+	},
+
 	EXPAND_PRODUCTS {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn.isOperation(Operation.MULTIPLY)) {
-				StepOperation so = (StepOperation) sn;
-
-				StepExpression first = null;
-				StepExpression second = null;
-				StepExpression remaining = null;
-
-				for (StepExpression operand : so) {
-					if (first == null || second == null && !first.isSum() && !operand.isSum()) {
-						first = multiply(first, operand);
-					} else if (second == null || !second.isSum() && !operand.isSum()) {
-						second = multiply(second, operand);
-					} else {
-						remaining = multiply(remaining, operand);
-					}
-				}
-
-				if (first != null && second != null && (first.isSum() || second.isSum())) {
-					if (!(first.isInteger() || tracker.getExpandSettings() ||
-							tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND))) {
-						return sn;
-					}
-
-					if (first.isSum()) {
-						for (StepExpression operand : (StepOperation) first) {
-							operand.setColor(tracker.incColorTracker());
-						}
-					} else {
-						first.setColor(tracker.incColorTracker());
-					}
-
-					if (second.isSum()) {
-						for (StepExpression operand : (StepOperation) second) {
-							operand.setColor(tracker.incColorTracker());
-						}
-					} else {
-						second.setColor(tracker.incColorTracker());
-					}
-
-					StepOperation product = null;
-
-					if (first.isSum() && second.isSum()) {
-						StepOperation soFirst = (StepOperation) first;
-						StepOperation soSecond = (StepOperation) second;
-
-						StepExpression[] terms = new StepExpression[soFirst.noOfOperands() *
-								soSecond.noOfOperands()];
-						for (int i = 0; i < soFirst.noOfOperands(); i++) {
-							for (int j = 0; j < soSecond.noOfOperands(); j++) {
-								terms[i * soSecond.noOfOperands() + j] = multiply(
-										soFirst.getOperand(i), soSecond.getOperand(j)).deepCopy();
-							}
-						}
-
-						product = new StepOperation(Operation.PLUS, terms);
-						sb.add(SolutionStepType.EXPAND_SUM_TIMES_SUM);
-					} else if (first.isSum()) {
-						StepOperation soFirst = (StepOperation) first;
-						StepExpression[] terms = new StepExpression[soFirst.noOfOperands()];
-
-						for (int i = 0; i < soFirst.noOfOperands(); i++) {
-							terms[i] = multiply(soFirst.getOperand(i), second.deepCopy());
-						}
-
-						product = new StepOperation(Operation.PLUS, terms);
-						sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, second);
-					} else if (second.isSum()) {
-						StepOperation soSecond = (StepOperation) second;
-						StepExpression[] terms = new StepExpression[soSecond.noOfOperands()];
-
-						for (int i = 0; i < soSecond.noOfOperands(); i++) {
-							terms[i] = multiply(first.deepCopy(), soSecond.getOperand(i));
-						}
-
-						product = new StepOperation(Operation.PLUS, terms);
-						sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, first);
-					}
-
-					return multiply(product, remaining);
-				}
-			}
-
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
+			return expandProducts(sn, sb, tracker, true);
 		}
 	},
 
 	EXPAND_POWERS {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
 			if (sn instanceof StepOperation && !sn.isOperation(Operation.ABS)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -227,32 +156,122 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 
 	DECIMAL_EXPAND {
 		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-			SimplificationStepGenerator[] expandStrategy =
-					new SimplificationStepGenerator[]{RegroupSteps.DECIMAL_REGROUP,
-							ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES, ExpandSteps.EXPAND_POWERS,
-							ExpandSteps.EXPAND_PRODUCTS};
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
+			SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] {
+					RegroupSteps.DECIMAL_REGROUP,
+					ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
+					ExpandSteps.EXPAND_POWERS,
+					ExpandSteps.EXPAND_PRODUCTS
+			};
 
-			return StepStrategies
-					.implementGroup(sn, null, expandStrategy, sb, tracker.setStrongExpand(true));
+			return StepStrategies.implementGroup(sn, null, expandStrategy, sb, tracker);
 		}
 	},
 
 	DEFAULT_EXPAND {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-			SimplificationStepGenerator[] expandStrategy =
-					new SimplificationStepGenerator[]{RegroupSteps.DEFAULT_REGROUP,
-							ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES, ExpandSteps.EXPAND_POWERS,
-							ExpandSteps.EXPAND_PRODUCTS};
+			SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] {
+					RegroupSteps.DEFAULT_REGROUP,
+					ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
+					ExpandSteps.EXPAND_POWERS,
+					ExpandSteps.EXPAND_PRODUCTS
+			};
 
-			return StepStrategies
-					.implementGroup(sn, null, expandStrategy, sb, tracker.setStrongExpand(true));
+			return StepStrategies.implementGroup(sn, null, expandStrategy, sb, tracker);
 		}
 	};
 
 	@Override
 	public boolean isGroupType() {
 		return this == DEFAULT_EXPAND || this == DECIMAL_EXPAND;
+	}
+
+	public StepTransformable expandProducts(StepTransformable sn, SolutionBuilder sb,
+			RegroupTracker tracker, boolean strongExpand) {
+		if (sn.isOperation(Operation.MULTIPLY)) {
+			StepOperation so = (StepOperation) sn;
+
+			StepExpression first = null;
+			StepExpression second = null;
+			StepExpression remaining = null;
+
+			for (StepExpression operand : so) {
+				if (first == null || second == null && !first.isSum() && !operand.isSum()) {
+					first = multiply(first, operand);
+				} else if (second == null || !second.isSum() && !operand.isSum()) {
+					second = multiply(second, operand);
+				} else {
+					remaining = multiply(remaining, operand);
+				}
+			}
+
+			if (first != null && second != null && (first.isSum() || second.isSum())) {
+				if (!(strongExpand || first.isInteger() ||
+						tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND))) {
+					return sn;
+				}
+
+				if (first.isSum()) {
+					for (StepExpression operand : (StepOperation) first) {
+						operand.setColor(tracker.incColorTracker());
+					}
+				} else {
+					first.setColor(tracker.incColorTracker());
+				}
+
+				if (second.isSum()) {
+					for (StepExpression operand : (StepOperation) second) {
+						operand.setColor(tracker.incColorTracker());
+					}
+				} else {
+					second.setColor(tracker.incColorTracker());
+				}
+
+				StepOperation product = null;
+
+				if (first.isSum() && second.isSum()) {
+					StepOperation soFirst = (StepOperation) first;
+					StepOperation soSecond = (StepOperation) second;
+
+					StepExpression[] terms = new StepExpression[soFirst.noOfOperands() *
+							soSecond.noOfOperands()];
+					for (int i = 0; i < soFirst.noOfOperands(); i++) {
+						for (int j = 0; j < soSecond.noOfOperands(); j++) {
+							terms[i * soSecond.noOfOperands() + j] = multiply(
+									soFirst.getOperand(i), soSecond.getOperand(j)).deepCopy();
+						}
+					}
+
+					product = new StepOperation(Operation.PLUS, terms);
+					sb.add(SolutionStepType.EXPAND_SUM_TIMES_SUM);
+				} else if (first.isSum()) {
+					StepOperation soFirst = (StepOperation) first;
+					StepExpression[] terms = new StepExpression[soFirst.noOfOperands()];
+
+					for (int i = 0; i < soFirst.noOfOperands(); i++) {
+						terms[i] = multiply(soFirst.getOperand(i), second.deepCopy());
+					}
+
+					product = new StepOperation(Operation.PLUS, terms);
+					sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, second);
+				} else if (second.isSum()) {
+					StepOperation soSecond = (StepOperation) second;
+					StepExpression[] terms = new StepExpression[soSecond.noOfOperands()];
+
+					for (int i = 0; i < soSecond.noOfOperands(); i++) {
+						terms[i] = multiply(first.deepCopy(), soSecond.getOperand(i));
+					}
+
+					product = new StepOperation(Operation.PLUS, terms);
+					sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, first);
+				}
+
+				return multiply(product, remaining);
+			}
+		}
+
+		return StepStrategies.iterateThrough(this, sn, sb, tracker);
 	}
 }

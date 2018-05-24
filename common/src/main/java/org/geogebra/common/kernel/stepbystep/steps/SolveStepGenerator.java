@@ -4,7 +4,8 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 
-public interface SolveStepGenerator {
+interface SolveStepGenerator<T extends StepSolvable> {
 
-	Result apply(StepSolvable se, StepVariable sv, SolutionBuilder sb, SolveTracker tracker);
+	Result apply(T se, StepVariable sv, SolutionBuilder sb, SolveTracker
+			tracker);
 }

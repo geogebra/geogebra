@@ -1,8 +1,6 @@
-package org.geogebra.stepbystep;
+package org.geogebra.common.kernel.stepbystep;
 
 import org.geogebra.commands.CommandsTest;
-import org.geogebra.common.kernel.stepbystep.StepHelper;
-import org.geogebra.common.kernel.stepbystep.solution.*;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;

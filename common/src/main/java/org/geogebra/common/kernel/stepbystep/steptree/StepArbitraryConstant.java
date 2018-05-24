@@ -4,9 +4,9 @@ import org.geogebra.common.main.Localization;
 
 public class StepArbitraryConstant extends StepExpression {
 
-	private String label;
-	private int index;
-	private ConstantType type;
+	private final String label;
+	private final int index;
+	private final ConstantType type;
 
 	public StepArbitraryConstant(String label, int index, ConstantType type) {
 		this.label = label;

@@ -11,20 +11,12 @@ import java.util.List;
 
 public abstract class StepSolvable extends StepTransformable {
 
-	protected StepExpression LHS;
-	protected StepExpression RHS;
-	protected boolean swapped;
+	public final StepExpression LHS;
+	public final StepExpression RHS;
 
-	public void swapSides() {
-		swapped = !swapped;
-
-		StepExpression temp = RHS;
-		RHS = LHS;
-		LHS = temp;
-	}
-
-	public boolean isSwapped() {
-		return swapped;
+	protected StepSolvable(StepExpression LHS, StepExpression RHS) {
+		this.LHS = LHS;
+		this.RHS = RHS;
 	}
 
 	public int countNonConstOperation(Operation operation, StepVariable variable) {
@@ -72,12 +64,8 @@ public abstract class StepSolvable extends StepTransformable {
 		return Math.max(degreeLHS, degreeRHS);
 	}
 
-	public StepExpression getLHS() {
-		return LHS;
-	}
-
-	public StepExpression getRHS() {
-		return RHS;
+	public StepSolvable toSolvable() {
+		return this;
 	}
 
 	public int maxDecimal() {
@@ -107,6 +95,7 @@ public abstract class StepSolvable extends StepTransformable {
 	public StepSolvable expand(SolutionBuilder sb) {
 		return (StepSolvable) super.expand(sb);
 	}
+
 	public StepSolvable factor() {
 		return (StepSolvable) super.factor();
 	}
@@ -121,10 +110,10 @@ public abstract class StepSolvable extends StepTransformable {
 
 	public StepSolvable reorganize(SolutionBuilder steps, int eqNum) {
 		//move constants to the right
-		StepSolvable result = addOrSubtract(getLHS().findConstant(), steps, eqNum);
+		StepSolvable result = addOrSubtract(LHS.findConstant(), steps, eqNum);
 
 		//move variables to the left
-		return result.addOrSubtract(result.getRHS().findVariable(), steps, eqNum);
+		return result.addOrSubtract(result.RHS.findVariable(), steps, eqNum);
 	}
 
 	public StepSolvable add(StepExpression toAdd, SolutionBuilder steps) {
@@ -166,7 +155,8 @@ public abstract class StepSolvable extends StepTransformable {
 	public StepSolvable subtract(StepExpression toSubtract, SolutionBuilder steps, int eqNum) {
 		if (!isZero(toSubtract)) {
 			toSubtract.setColor(1);
-			StepSolvable result = cloneWith(subtract(LHS, toSubtract), subtract(RHS, toSubtract));
+			StepSolvable result = cloneWith(subtract(LHS, toSubtract),
+					subtract(RHS, toSubtract));
 			toSubtract.cleanColors();
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
@@ -287,16 +277,17 @@ public abstract class StepSolvable extends StepTransformable {
 			return this;
 		}
 
+		StepSolvable temp = this;
 		if (this instanceof StepInequality && se.canBeEvaluated() && se.getValue() < 0) {
-			((StepInequality) this).flip();
+			temp = ((StepInequality) this).flip();
 		}
 
 		if (se.canBeEvaluated() && isEqual(se.getValue(), -1)) {
-			return multiply(se, steps, eqNum);
+			return temp.multiply(se, steps, eqNum);
 		} else if (se.isOperation(Operation.DIVIDE)) {
-			return multiply(se.reciprocate(), steps, eqNum);
+			return temp.multiply(se.reciprocate(), steps, eqNum);
 		} else {
-			return divide(se, steps, eqNum);
+			return temp.divide(se, steps, eqNum);
 		}
 	}
 

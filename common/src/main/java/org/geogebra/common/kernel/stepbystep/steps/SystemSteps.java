@@ -24,8 +24,8 @@ public class SystemSteps {
 		StepVariable minVariable = null;
 		for (int i = 0; i < ses.size(); i++) {
 			for (StepVariable variable : variables) {
-				if (ses.getEquation(i).getLHS().isConstantIn(variable) &&
-						ses.getEquation(i).getRHS().isConstantIn(variable)) {
+				if (ses.getEquation(i).LHS.isConstantIn(variable) &&
+						ses.getEquation(i).RHS.isConstantIn(variable)) {
 					continue;
 				}
 
@@ -96,8 +96,7 @@ public class SystemSteps {
 				StepSolvable tempEquation = replaceAll(equation, solution1, tempSteps)
 						.expand(tempSteps);
 
-				solution1.addVariableSolutionPair((StepVariable) tempEquation.getLHS(),
-						tempEquation.getRHS());
+				solution1.addVariableSolutionPair((StepVariable) tempEquation.LHS, tempEquation.RHS);
 				finalSolutions.add(solution1);
 
 				steps.addGroup(header, tempSteps, solution1);
@@ -132,8 +131,8 @@ public class SystemSteps {
 
 	private static boolean contains(StepEquation se, StepSolution ss) {
 		for (Map.Entry<StepVariable, StepNode> pair : ss.getVariableSolutionPairs()) {
-			if (se.getLHS().isConstantIn(pair.getKey()) ||
-					se.getRHS().isConstantIn(pair.getKey())) {
+			if (se.LHS.isConstantIn(pair.getKey()) ||
+					se.RHS.isConstantIn(pair.getKey())) {
 				return true;
 			}
 		}
@@ -181,10 +180,10 @@ public class SystemSteps {
 		steps.addGroup(SolutionStepType.REORGANIZE_EXPRESSION, tempSteps,
 				new StepEquationSystem(equations));
 
-		StepExpression x0 = equations[0].getLHS().findCoefficient(x);
-		StepExpression y0 = equations[0].getLHS().findCoefficient(y);
-		StepExpression x1 = equations[1].getLHS().findCoefficient(x);
-		StepExpression y1 = equations[1].getLHS().findCoefficient(y);
+		StepExpression x0 = equations[0].LHS.findCoefficient(x);
+		StepExpression y0 = equations[0].LHS.findCoefficient(y);
+		StepExpression x1 = equations[1].LHS.findCoefficient(x);
+		StepExpression y1 = equations[1].LHS.findCoefficient(y);
 
 		boolean eliminateY = false;
 
@@ -225,8 +224,8 @@ public class SystemSteps {
 		equations[1] = (StepEquation) equations[1].multiply(coefficientTwo, steps, 1);
 
 		StepEquation added =
-				new StepEquation(add(equations[0].getLHS(), equations[1].getLHS()),
-						add(equations[0].getRHS(), equations[1].getRHS()));
+				new StepEquation(add(equations[0].LHS, equations[1].LHS),
+						add(equations[0].RHS, equations[1].RHS));
 
 		tempSteps.add(added);
 		added = added.regroup(tempSteps);
@@ -304,9 +303,9 @@ public class SystemSteps {
 					throw new SolveFailedException("nonlinear equation in elimination");
 				}
 
-				matrix[i][j] = eq.getLHS().findCoefficient(variables.get(j));
+				matrix[i][j] = eq.LHS.findCoefficient(variables.get(j));
 			}
-			matrix[i][3] = eq.getRHS();
+			matrix[i][3] = eq.RHS;
 		}
 
 		steps.addGroup(SolutionStepType.REORGANIZE_EXPRESSION, tempSteps, ses);
@@ -348,7 +347,7 @@ public class SystemSteps {
 							.regroup(tempSteps);
 			steps.addGroup(SolutionStepType.CRAMER_VARIABLE, tempSteps, equation,
 					variables.get(i - 1), StepConstant.create(i), values[i], values[0]);
-			solutions.get(0).addVariableSolutionPair(variables.get(i - 1), equation.getRHS());
+			solutions.get(0).addVariableSolutionPair(variables.get(i - 1), equation.RHS);
 		}
 
 		steps.levelUp();
@@ -375,9 +374,9 @@ public class SystemSteps {
 					throw new SolveFailedException("nonlinear equation in elimination");
 				}
 
-				matrixData[i][j] = eq.getLHS().findCoefficient(variables.get(j));
+				matrixData[i][j] = eq.LHS.findCoefficient(variables.get(j));
 			}
-			matrixData[i][variables.size()] = eq.getRHS();
+			matrixData[i][variables.size()] = eq.RHS;
 		}
 
 		steps.addGroup(SolutionStepType.REORGANIZE_EXPRESSION, tempSteps, ses);

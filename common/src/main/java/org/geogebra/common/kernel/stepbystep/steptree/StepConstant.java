@@ -11,7 +11,7 @@ public final class StepConstant extends StepExpression {
 	public static final StepConstant UNDEFINED = new StepConstant(Double.NaN);
 	public static final StepExpression NEG_INF = StepConstant.create(Double.NEGATIVE_INFINITY);
 	public static final StepExpression POS_INF = StepConstant.create(Double.POSITIVE_INFINITY);
-	private double value;
+	private final double value;
 
 	private StepConstant(double value) {
 		this.value = value;

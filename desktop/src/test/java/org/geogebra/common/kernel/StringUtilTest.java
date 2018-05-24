@@ -1,4 +1,4 @@
-package org.geogebra.kernel;
+package org.geogebra.common.kernel;
 
 import org.geogebra.common.util.StringUtil;
 import org.junit.Assert;

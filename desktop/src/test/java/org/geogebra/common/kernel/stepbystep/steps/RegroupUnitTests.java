@@ -1,11 +1,7 @@
-package org.geogebra.stepbystep;
+package org.geogebra.common.kernel.stepbystep.steps;
 
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.steps.FactorSteps;
-import org.geogebra.common.kernel.stepbystep.steps.RegroupSteps;
-import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
-import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
