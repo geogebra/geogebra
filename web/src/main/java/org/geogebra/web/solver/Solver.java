@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
-import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
-import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
@@ -176,7 +173,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 		String text = new GeoGebraSerializer()
 				.serialize(mathField.getFormula());
 
-		StepNode sn = StepNode.getStepTree(text, app.getKernel().getParser());
+		StepTransformable input = StepNode.getStepTree(text, app.getKernel().getParser());
 
 		if (stepsPanel != null) {
 			solverPanel.remove(stepsPanel);
@@ -189,34 +186,31 @@ public class Solver implements EntryPoint, MathFieldListener {
 		WebStepGuiBuilder guiBuilder = new WebStepGuiBuilder(app);
 
 		SolutionBuilder sb = new SolutionBuilder();
-		if (sn instanceof StepTransformable) {
-			StepTransformable expr = (StepTransformable) sn;
 
-			StepTransformable regrouped = expr.regroupOutput(sb);
-			if (!regrouped.equals(expr)) {
-				stepsPanel.add(new StepInformation(app, guiBuilder, regrouped,
-						sb.getSteps()));
-			}
-			sb.reset();
-
-			StepTransformable expanded = expr.expandOutput(sb);
-			if (!expanded.equals(expr) && !expanded.equals(regrouped)) {
-				stepsPanel.add(new StepInformation(app, guiBuilder, expanded,
-						sb.getSteps()));
-			}
-			sb.reset();
-
-			StepTransformable factored = expr.factorOutput(sb);
-			if (!factored.equals(expr) && !factored.equals(regrouped)
-					&& !factored.equals(expanded)) {
-				stepsPanel.add(new StepInformation(app, guiBuilder, factored,
-						sb.getSteps()));
-			}
-			sb.reset();
+		StepTransformable regrouped = input.regroupOutput(sb);
+		if (!regrouped.equals(input)) {
+			stepsPanel.add(new StepInformation(app, guiBuilder, regrouped,
+					sb.getSteps()));
 		}
+		sb.reset();
+
+		StepTransformable expanded = input.expandOutput(sb);
+		if (!expanded.equals(input) && !expanded.equals(regrouped)) {
+			stepsPanel.add(new StepInformation(app, guiBuilder, expanded,
+					sb.getSteps()));
+		}
+		sb.reset();
+
+		StepTransformable factored = input.factorOutput(sb);
+		if (!factored.equals(input) && !factored.equals(regrouped)
+				&& !factored.equals(expanded)) {
+			stepsPanel.add(new StepInformation(app, guiBuilder, factored,
+					sb.getSteps()));
+		}
+		sb.reset();
 
 		double startTime = app.getMillisecondTime();
-		List<StepSolution> solutions = sn.toSolvable()
+		List<StepSolution> solutions = input.toSolvable()
 				.solve(new StepVariable("x"), sb);
 		double solveTime = app.getMillisecondTime();
 		stepsPanel.add(
