@@ -452,15 +452,7 @@ public class EuclidianViewW extends EuclidianView implements
 					Math.floor(view2.getExportHeight() * scale));
 		}
 
-		if (AppW.USE_PAKO && !PDFEncoderW.pakoLoaded()) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
-		}
-
-		if (!PDFEncoderW.canvas2PdfLoaded()) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
-		}
-
-		Context2d ctx = PDFEncoderW.getCanvas2PDF(width, height).cast();
+		Context2d ctx = PDFEncoderW.getContext(width, height);
 
 		if (ctx == null) {
 			Log.debug("canvas2PDF not found");

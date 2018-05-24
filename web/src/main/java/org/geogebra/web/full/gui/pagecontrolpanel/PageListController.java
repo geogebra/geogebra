@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import org.geogebra.common.kernel.UndoManager.AppState;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -17,11 +18,15 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
+import org.geogebra.web.html5.util.PDFEncoderW;
 
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -116,6 +121,62 @@ public class PageListController implements PageListControllerInterface,
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String exportPDF() {
+
+		// export scale
+		double scale = 1;
+
+		EuclidianViewW ev = app.getEuclidianView1();
+
+		// assume height/width same for all slides
+		int width = (int) Math.floor(ev.getExportWidth() * scale);
+		int height = (int) Math.floor(ev.getExportHeight() * scale);
+
+		Context2d ctx = PDFEncoderW.getContext(width, height);
+
+		if (ctx == null) {
+			Log.debug("canvas2PDF not found");
+			return "";
+		}
+
+		if (app.has(Feature.MOW_VIDEO_TOOL)) {
+			app.getVideoManager().setPreviewOnly(true);
+		}
+		app.setExporting(ExportType.PDF_HTML5, scale);
+
+		GGraphics2DW g4copy = new GGraphics2DW(ctx);
+
+		int n = slides.size();
+
+		for (int i = 0; i < n; i++) {
+
+			try {
+				app.resetPerspectiveParam();
+				app.loadGgbFile(slides.get(i).getFile(), true);
+
+				ev = app.getEuclidianView1();
+
+				if (i > 0) {
+					PDFEncoderW.addPagePDF(ctx);
+				}
+				ev.exportPaintPre(g4copy, scale, false);
+				ev.drawObjects(g4copy);
+
+			} catch (Exception e) {
+				Log.error(
+						"problem exporting slide " + i + " " + e.getMessage());
+			}
+		}
+
+		if (app.has(Feature.MOW_VIDEO_TOOL)) {
+			app.getVideoManager().setPreviewOnly(false);
+		}
+
+		app.setExporting(ExportType.NONE, 1);
+		return PDFEncoderW.getPDF(ctx);
+
 	}
 
 	/**

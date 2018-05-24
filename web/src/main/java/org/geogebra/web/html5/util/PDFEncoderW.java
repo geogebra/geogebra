@@ -140,4 +140,24 @@ public class PDFEncoderW implements Encoder {
 		ctx.addPage();
 	}-*/;
 
+	/**
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 * @return context if available (or null)
+	 */
+	public static Context2d getContext(int width, int height) {
+
+		if (AppW.USE_PAKO && !PDFEncoderW.pakoLoaded()) {
+			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
+		}
+
+		if (!PDFEncoderW.canvas2PdfLoaded()) {
+			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
+		}
+
+		return PDFEncoderW.getCanvas2PDF(width, height).cast();
+	}
+
 }

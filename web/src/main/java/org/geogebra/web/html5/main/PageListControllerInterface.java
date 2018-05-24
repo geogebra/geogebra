@@ -91,4 +91,7 @@ public interface PageListControllerInterface {
 	 * Update preview of selected card
 	 */
 	void updatePreviewImage();
+
+	/** export all sliders as PDF */
+	String exportPDF();
 }
