@@ -95,6 +95,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
@@ -453,7 +454,9 @@ public class AlgebraProcessor {
 				n.setForceFunction();
 			}
 		}
-
+		if (geo instanceof GeoPlaneND && newValue.unwrap() instanceof Equation) {
+			((Equation) newValue).setForcePlane();
+		}
 		if (sameLabel(newLabel, oldLabel)) {
 			// try to overwrite
 			final boolean listeners = app.getScriptManager().hasListeners();

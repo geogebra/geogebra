@@ -186,9 +186,10 @@ public class RedefineTest extends Assert {
 	public void redefinitionInInputBoxShouldKeepType() {
 		t("v=(1, 3)", "(1, 3)");
 		t("ib=InputBox(v)", "(1, 3)");
+		t("Rename(v,\"V\")", new String[0]);
 		t("SetValue(ib,\"(1, 5)\")", new String[0]);
-		t("v", "(1, 5)");
-		hasType("v", GeoClass.VECTOR);
+		t("V", "(1, 5)");
+		hasType("V", GeoClass.VECTOR);
 
 		t("v3=(1, 3, 0)", "(1, 3, 0)");
 		t("ib3=InputBox(v3)", "(1, 3, 0)");
@@ -199,8 +200,8 @@ public class RedefineTest extends Assert {
 		t("p:x+y=z", "x + y - z = 0");
 		t("ibP=InputBox(p)", "x + y - z = 0");
 		t("SetValue(ibP,\"x = y\")", new String[0]);
-		t("p", "y = x");
-		hasType("p", GeoClass.LINE); // TODO should be plane?
+		t("p", "x - y = 0");
+		hasType("p", GeoClass.PLANE3D);
 	}
 }
 
