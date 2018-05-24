@@ -306,6 +306,10 @@ public class ExamDialog {
 	// ANDROID TABLETS
 	////////////////////////////////////
 
+	/**
+	 * In electron this is done by kiosk mode, but on Chromebook it still
+	 * matters.
+	 */
 	private static native void blockEscTab() /*-{
 		$doc.body.addEventListener("keyup", function(e) {
 			if (e && e.keyCode == 27 && $doc.querySelector(".examToolbar")) {
@@ -313,7 +317,8 @@ public class ExamDialog {
 			}
 		});
 		$doc.body.addEventListener("keydown", function(e) {
-			if (e && e.keyCode == 9 && $doc.querySelector(".examToolbar")) {
+			if (e && (e.keyCode == 9 || e.keyCode == 27)
+					&& $doc.querySelector(".examToolbar")) {
 				e.preventDefault()
 			}
 		});
