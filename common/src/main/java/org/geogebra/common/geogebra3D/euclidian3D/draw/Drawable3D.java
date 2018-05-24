@@ -1969,9 +1969,25 @@ public abstract class Drawable3D extends DrawableND {
 	protected void setPackCurve(boolean clipped) {
 		if (shouldBePacked()) {
 			getView3D().getRenderer().getGeometryManager().setPackCurve(
-					getColor(), getGeoElement().getLineType(),
-					getGeoElement().getLineTypeHidden(), clipped);
+					getColor(), getLineType(),
+					getLineTypeHidden(), clipped);
 		}
+	}
+
+	/**
+	 * 
+	 * @return line type (visible)
+	 */
+	protected int getLineType() {
+		return getGeoElement().getLineType();
+	}
+
+	/**
+	 * 
+	 * @return line type (hidden)
+	 */
+	protected int getLineTypeHidden() {
+		return getGeoElement().getLineTypeHidden();
 	}
 
 	/**

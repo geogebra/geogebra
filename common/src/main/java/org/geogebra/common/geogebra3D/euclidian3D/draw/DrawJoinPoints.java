@@ -130,22 +130,6 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	}
 
 	/**
-	 * 
-	 * @return line type (visible)
-	 */
-	protected int getLineType() {
-		return getGeoElement().getLineType();
-	}
-
-	/**
-	 * 
-	 * @return line type (hidden)
-	 */
-	protected int getLineTypeHidden() {
-		return getGeoElement().getLineTypeHidden();
-	}
-
-	/**
 	 * update the drawable as a segment from p1 to p2
 	 * 
 	 * @param p1
