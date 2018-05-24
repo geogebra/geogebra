@@ -72,18 +72,13 @@ public class PDFEncoderW implements Encoder {
 	 * Load JS and set up
 	 */
 	public void initialize() {
-		if (AppW.USE_PAKO && !pakoLoaded()) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
-		}
-		if (!canvas2PdfLoaded()) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
-		}
 
 		double scale = 1;
 		int width = (int) Math.floor(ev.getExportWidth() * scale);
 		int height = (int) Math.floor(ev.getExportHeight() * scale);
 
-		ctx = getCanvas2PDF(width, height).cast();
+		ctx = getContext(width, height);
+
 		g4copy = new GGraphics2DW(ctx);
 		ev.getApplication().setExporting(ExportType.PDF_HTML5, scale);
 
