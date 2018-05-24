@@ -284,12 +284,12 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	}
 
 	@Override
-	protected GeometriesSet newGeometriesSet() {
-		if (currentBufferManager != null) {
+	protected GeometriesSet newGeometriesSet(boolean mayBePacked) {
+		if (mayBePacked && currentBufferManager != null) {
 			return new GeometriesSetElementsGlobalBufferPacking(
 					currentBufferManager, currentColor, currentLayer);
 		}
-		return super.newGeometriesSet();
+		return super.newGeometriesSet(mayBePacked);
 	}
 
 	/**
@@ -384,8 +384,8 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	}
 
 	@Override
-	public int startNewList(int old) {
-		int index = super.startNewList(old);
+	public int startNewList(int old, boolean mayBePacked) {
+		int index = super.startNewList(old, mayBePacked);
 		currentGeometriesSet.setIndex(index, currentColor, currentLayer);
 		return index;
 	}

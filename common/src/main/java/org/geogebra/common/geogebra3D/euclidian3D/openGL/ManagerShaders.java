@@ -559,7 +559,7 @@ public class ManagerShaders extends Manager {
 	}
 
 	@Override
-	public int startNewList(int old) {
+	public int startNewList(int old, boolean mayBePacked) {
 
 		currentOld = old;
 		if (currentOld >= 0) {
@@ -580,7 +580,7 @@ public class ManagerShaders extends Manager {
 				index = indicesRemoved.pop();
 			}
 
-			currentGeometriesSet = newGeometriesSet();
+			currentGeometriesSet = newGeometriesSet(mayBePacked);
 			geometriesSetList.put(index, currentGeometriesSet);
 			// Log.debug("newGeometriesSet : " + index);
 		} else {
@@ -593,9 +593,11 @@ public class ManagerShaders extends Manager {
 
 	/**
 	 * 
+	 * @param mayBePacked
+	 *            true if this set may be in packed buffer
 	 * @return new geometries set
 	 */
-	protected GeometriesSet newGeometriesSet() {
+	protected GeometriesSet newGeometriesSet(boolean mayBePacked) {
 		return new GeometriesSet();
 	}
 
@@ -642,7 +644,7 @@ public class ManagerShaders extends Manager {
 
 	@Override
 	public int startPolygons(Drawable3D d) {
-		int index = startNewList(d.getReusableSurfaceIndex());
+		int index = startNewList(d.getReusableSurfaceIndex(), true);
 		return index;
 	}
 

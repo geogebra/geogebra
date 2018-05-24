@@ -98,7 +98,7 @@ public class PlotterSurface {
 	 *            old index
 	 */
 	public void start(int old) {
-		index = manager.startNewList(old);
+		index = manager.startNewList(old, true);
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class PlotterSurface {
 	 *            old index
 	 */
 	public void start(Functional2Var fun, int old) {
-		index = manager.startNewList(old);
+		index = manager.startNewList(old, true);
 		this.functional2Var = fun;
 		uMinFade = 0;
 		vMinFade = 0;

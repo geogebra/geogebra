@@ -61,7 +61,7 @@ public class PlotterCompletingCursor {
 		index = -1;
 
 		// circle
-		indexCircle = manager.startNewList(-1);
+		indexCircle = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		manager.setDummyTexture();
 		for (int i = 0; i < longitude; i++) {
@@ -80,7 +80,7 @@ public class PlotterCompletingCursor {
 		manager.endList();
 
 		// circle out
-		indexCircleOut = manager.startNewList(-1);
+		indexCircleOut = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		manager.setDummyTexture();
 		for (int i = 0; i < longitude; i++) {
@@ -166,7 +166,7 @@ public class PlotterCompletingCursor {
 
 		int l = value > 1f ? longitude : (int) (longitude * value);
 
-		index = manager.startNewList(index);
+		index = manager.startNewList(index, true);
 
 		// right up
 		startGeometry();

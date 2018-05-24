@@ -65,7 +65,7 @@ public class ManagerGLList extends ManagerD {
 	// ///////////////////////////////////////////
 
 	@Override
-	public int startNewList(int old) {
+	public int startNewList(int old, boolean mayBePacked) {
 		// generates a new list
 		int ret = genLists(1);
 

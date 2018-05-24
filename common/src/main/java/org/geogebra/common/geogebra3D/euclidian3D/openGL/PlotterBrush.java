@@ -166,7 +166,7 @@ public class PlotterBrush implements PathPlotter {
 	 *            old index
 	 */
 	public void start(int old) {
-		index = manager.startNewList(old);
+		index = manager.startNewList(old, true);
 		hasColor = false;
 		notStarted = true;
 	}

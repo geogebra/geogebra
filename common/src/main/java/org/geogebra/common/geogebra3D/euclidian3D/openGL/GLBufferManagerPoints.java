@@ -79,7 +79,7 @@ public class GLBufferManagerPoints extends GLBufferManager {
 	 * @return point geometry index
 	 */
 	public int drawPoint(int index) {
-		int ret = manager.startNewList(index);
+		int ret = manager.startNewList(index, true);
 		manager.getBufferTemplates().drawSphere(manager);
 		manager.endList();
 		return ret;

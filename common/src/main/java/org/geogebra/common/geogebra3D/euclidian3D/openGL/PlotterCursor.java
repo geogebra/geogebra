@@ -61,7 +61,7 @@ public class PlotterCursor {
 
 		// crosses
 		for (int i = 0; i < 4; i++) {
-			index[i] = manager.startNewList(-1);
+			index[i] = manager.startNewList(-1, true);
 			manager.startGeometry(Manager.Type.TRIANGLES);
 			cursor(i);
 			manager.endGeometry();
@@ -132,7 +132,7 @@ public class PlotterCursor {
 		brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
 
 		// cube
-		index[TYPE_CUBE] = manager.startNewList(-1);
+		index[TYPE_CUBE] = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		color(0.5f, 0.5f, 0.5f);
 		// up
@@ -170,14 +170,14 @@ public class PlotterCursor {
 		manager.endList();
 
 		// sphere
-		index[TYPE_SPHERE] = manager.startNewList(-1);
+		index[TYPE_SPHERE] = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		cursorSphere(0.25f, 0.25f);
 		manager.endGeometry();
 		manager.endList();
 
 		// sphere
-		index[TYPE_SPHERE_HIGHLIGHTED] = manager.startNewList(-1);
+		index[TYPE_SPHERE_HIGHLIGHTED] = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		cursorSphere(0.75f, 0.25f);
 		manager.endGeometry();

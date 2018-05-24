@@ -179,7 +179,7 @@ abstract public class Manager {
 	// LIST METHODS
 	// ///////////////////////////////////////////
 
-	abstract public int startNewList(int old);
+	abstract public int startNewList(int old, boolean mayBePacked);
 
 	abstract public void endList();
 
@@ -581,7 +581,7 @@ abstract public class Manager {
 	 */
 	final public int rectangle(double x, double y, double z, double width,
 			double height, int old) {
-		int index = startNewList(old);
+		int index = startNewList(old, false);
 		rectangleGeometry(x, y, z, width, height);
 		endList();
 		return index;
@@ -607,7 +607,7 @@ abstract public class Manager {
 	 */
 	public int rectangleBounds(double x, double y, double z, double width,
 			double height, int old) {
-		int index = startNewList(old);
+		int index = startNewList(old, false);
 		getText().rectangleBounds(x, y, z, width, height);
 		endList();
 		return index;

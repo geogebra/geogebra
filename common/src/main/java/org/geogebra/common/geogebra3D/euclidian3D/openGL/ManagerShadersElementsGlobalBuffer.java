@@ -414,7 +414,7 @@ public class ManagerShadersElementsGlobalBuffer
 	}
 
 	@Override
-	protected GeometriesSet newGeometriesSet() {
+	protected GeometriesSet newGeometriesSet(boolean mayBePacked) {
 		return new GeometriesSetElementsGlobalBuffer();
 	}
 

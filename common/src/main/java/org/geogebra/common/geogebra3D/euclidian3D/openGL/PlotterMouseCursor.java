@@ -49,7 +49,7 @@ public class PlotterMouseCursor {
 		// create geometry with color
 
 		// lines
-		index = manager.startNewList(-1);
+		index = manager.startNewList(-1, true);
 		Coords n = new Coords(0, 0, 1);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		manager.normalToScale(n);

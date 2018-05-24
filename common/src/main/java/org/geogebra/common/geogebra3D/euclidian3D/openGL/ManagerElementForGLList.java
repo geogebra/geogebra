@@ -54,7 +54,7 @@ public class ManagerElementForGLList extends Manager {
 	}
 
 	@Override
-	public int startNewList(int old) {
+	public int startNewList(int old, boolean mayBePacked) {
 		// not used here
 		return -1;
 	}
