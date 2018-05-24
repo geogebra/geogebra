@@ -1327,7 +1327,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	final public void rotate(NumberValue phiValue) {
 		double phi = phiValue.getDouble();
-		double cos = Math.cos(phi);
+		double cos = MyMath.cos(phi);
 		double sin = Math.sin(phi);
 
 		setCoords(x * cos - y * sin, x * sin + y * cos, z);
@@ -1340,7 +1340,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	final public void rotate(NumberValue phiValue, Coords point) {
 		Coords Q = point;
 		double phi = phiValue.getDouble();
-		double cos = Math.cos(phi);
+		double cos = MyMath.cos(phi);
 		double sin = Math.sin(phi);
 		double qx = z * Q.getX();
 		double qy = z * Q.getY();

@@ -112,6 +112,26 @@ public final class MyMath {
 	}
 
 	/**
+	 * need some leeway to make sure cos(90deg) gives 0 not
+	 * 6.123233995736766E-17
+	 * 
+	 * eg Rotate((0,1),90deg,(0,0))
+	 * 
+	 * @param a
+	 *            real number
+	 * @return cos(a)
+	 */
+	public static double cos(double a) {
+		double cos = Math.cos(a);
+
+		if (Math.abs(cos) < 1E-16) {
+			return 0;
+		}
+
+		return cos;
+	}
+
+	/**
 	 * need some leeway to make sure asin(0.8^2 / sqrt(0.8^4)) works
 	 * 
 	 * @param a
