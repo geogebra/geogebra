@@ -320,10 +320,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	private void updateOutline(Renderer renderer, Coords[] vertices, int length) {
 
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(),
-					getGeoElement().getLineType(), getGeoElement().getLineTypeHidden(), false);
-		}
+		setPackCurve(false);
 		int thickness = getGeoElement().getLineThickness();
 		if (thickness == 0) {
 			setGeometryIndex(-1);
@@ -339,9 +336,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			brush.segment(vertices[length - 1], vertices[0]);
 			setGeometryIndex(brush.end());
 		}
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().endPacking();
-		}
+		endPacking();
 	}
 
 	@Override

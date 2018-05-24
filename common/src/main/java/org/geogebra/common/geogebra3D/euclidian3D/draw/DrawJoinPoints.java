@@ -155,10 +155,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	 */
 	protected void updateForItSelf(Coords p1, Coords p2) {
 
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getLineType(),
-					getLineTypeHidden(), false);
-		}
+		setPackCurve(false);
 
 		// TODO prevent too large values
 		setStartEndPoints(p1, p2);
@@ -186,9 +183,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 		setArrowTypeAfter(brush);
 		setGeometryIndex(brush.end());
 
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().endPacking();
-		}
+		endPacking();
 
 	}
 

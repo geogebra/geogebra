@@ -200,10 +200,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	private void updateOutline(Renderer renderer) {
 
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(),
-					getGeoElement().getLineType(), getGeoElement().getLineTypeHidden(), false);
-		}
+		setPackCurve(false);
 		GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
 
 		int thickness = poly.getLineThickness();
@@ -229,9 +226,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			setGeometryIndex(brush.end());
 		}
 
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().endPacking();
-		}
+		endPacking();
 
 	}
 
