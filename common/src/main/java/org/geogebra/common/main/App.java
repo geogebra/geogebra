@@ -4440,14 +4440,6 @@ public abstract class App implements UpdateSelection {
 		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
 			return prerelease;
 
-		/** GGB-2203 */
-		case HELP_AND_SHORTCUTS:
-			return true;
-
-		/** GGB-2203 */
-		case HELP_AND_SHORTCUTS_IMPROVEMENTS:
-			return true;
-
 		/** GGB-2347 */
 		case READ_DROPDOWNS:
 			return true;

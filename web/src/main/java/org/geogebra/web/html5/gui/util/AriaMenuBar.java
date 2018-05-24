@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui.util;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -260,35 +259,32 @@ public class AriaMenuBar extends Widget {
 			item = submenu.findItem(DOM.eventGetTarget(event));
 		}
 		switch (DOM.eventGetType(event)) {
-		case Event.ONCLICK: {
+		case Event.ONCLICK:
 			// TODOFocusPanel.impl.focus(getElement());
 			// Fire an item's command when the user clicks on it.
 			if (item != null) {
 				doItemAction(item);
 			}
 			break;
-		}
 
-		case Event.ONMOUSEOVER: {
+		case Event.ONMOUSEOVER:
 			if (item != null) {
 				itemOver(item);
 			}
 			break;
-		}
 
-		case Event.ONMOUSEOUT: {
+		case Event.ONMOUSEOUT:
 			if (item != null) {
 				itemOver(null);
 			}
 			break;
-		}
 
 		case Event.ONFOCUS: {
 			// selectFirstItemIfNoneSelected();
 			break;
 		}
 
-		case Event.ONKEYDOWN: {
+		case Event.ONKEYDOWN:
 			int keyCode = event.getKeyCode();
 			if (keyCode == KeyCodes.KEY_ENTER
 					|| keyCode == KeyCodes.KEY_SPACE) {
@@ -308,16 +304,8 @@ public class AriaMenuBar extends Widget {
 				return;
 			}
 			break;
-		} // end case Event.ONKEYDOWN
 		} // end switch (DOM.eventGetType(event))
 
-		if (getApp() != null && getApp().has(Feature.HELP_AND_SHORTCUTS)
-				&& !getApp().has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)
-				&& getApp().getGlobalKeyDispatcher().handleCommonKeys(
-						event.getKeyCode(), event.getCtrlKey(),
-						event.getAltKey())) {
-			eatEvent(event);
-		}
 		super.onBrowserEvent(event);
 	}
 

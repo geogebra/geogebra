@@ -187,9 +187,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			toolbarPanel.setFadeTabs(false);
 		}
 		toolbarPanel.openAlgebra(open);
-		if (!app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
-			toolbarPanel.setMoveMode();
-		}
 		app.setKeyboardNeeded(true);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(true);
@@ -237,9 +234,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		toolbarPanel.setMoveMode();
 		toolbarPanel.setClosedByUser(true);
 		setOpen(false);
-		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
-			app.getAccessibilityManager().focusAnchorOrMenu();
-		}
+		app.getAccessibilityManager().focusAnchorOrMenu();
 	}
 
 	private void onOpen() {
@@ -279,13 +274,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			app.toggleMenu();
 		}
 
-		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
-			app.getAccessibilityManager().setAnchor(btnMenu);
-		}
+		app.getAccessibilityManager().setAnchor(btnMenu);
 		toolbarPanel.app.getGuiManager().redo();
-		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
-			app.getAccessibilityManager().cancelAnchor();
-		}
+		app.getAccessibilityManager().cancelAnchor();
 	}
 
 	/**
@@ -620,8 +611,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		if (toolbarPanel.app.getKernel().redoPossible()) {
 			btnRedo.removeStyleName("hideButton");
 		} else {
-			if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)
-					&& !btnRedo.getElement().hasClassName("hideButton")) {
+			if (!btnRedo.getElement().hasClassName("hideButton")) {
 				app.getAccessibilityManager().focusAnchor();
 			}
 			btnRedo.addStyleName("hideButton");

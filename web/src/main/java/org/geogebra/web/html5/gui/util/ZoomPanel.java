@@ -338,9 +338,7 @@ public class ZoomPanel extends FlowPanel
 	/** Home button handler. */
 	protected void onHomePressed() {
 		app.getActiveEuclidianView().setStandardView(true);
-		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
-			app.getAccessibilityManager().focusMenu();
-		}
+		app.getAccessibilityManager().focusMenu();
 	}
 
 	/** Zoom In button handler. */

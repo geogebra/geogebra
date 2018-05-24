@@ -326,9 +326,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			updateHeaderVisible();
 			getGgbApi().setSize(Window.getClientWidth(),
 					getArticleElement().computeHeight());
-			if (has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
-				getAccessibilityManager().focusMenu();
-			}
+			getAccessibilityManager().focusMenu();
 		}
 		checkScaleContainer();
 	}

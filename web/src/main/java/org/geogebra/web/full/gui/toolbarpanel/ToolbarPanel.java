@@ -629,9 +629,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 		setFadeTabs(fade);
 		hideMoveFloatingButton();
-		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
-			setMoveMode();
-		}
+		setMoveMode();
 	}
 
 	/**
