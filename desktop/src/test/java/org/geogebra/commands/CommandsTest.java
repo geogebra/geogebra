@@ -140,6 +140,9 @@ public class CommandsTest extends Assert{
 		if (t != null) {
 			t.printStackTrace();
 		}
+		if (t instanceof AssertionError) {
+			throw (AssertionError) t;
+		}
 		assertNull(t);
 		Assert.assertNotNull(s,result);
 		// for (int i = 0; i < result.length; i++) {

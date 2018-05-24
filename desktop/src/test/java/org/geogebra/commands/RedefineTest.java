@@ -205,6 +205,7 @@ public class RedefineTest extends Assert {
 
 		t("n:4", "4");
 		t("ibN=InputBox(n)", "4");
+		app.storeUndoInfo();
 		t("SetValue(ibP,\"y\")", new String[0]);
 		t("n", "4");
 		hasType("n", GeoClass.NUMERIC);

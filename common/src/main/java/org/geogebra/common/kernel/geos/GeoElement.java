@@ -8633,7 +8633,6 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	public void resetDefinition() {
-		Log.printStacktrace("NULL for" + getLabelSimple());
 		definition = null;
 	}
 
