@@ -916,7 +916,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 						this.getOffsetHeight());
 			}
 		} catch (Exception e) {
-			Log.error("error in context.drawImage.4 method");
+			Log.error("error in drawImage(): " + e.getMessage());
 		}
 	}
 
