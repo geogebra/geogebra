@@ -105,28 +105,6 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	}
 
 	@Override
-	protected void updateForItSelf(Coords p1, Coords p2) {
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(),
-					getGeoElement().getLineType(), getGeoElement().getLineTypeHidden(), false);
-		}
-		super.updateForItSelf(p1, p2);
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().endPacking();
-		}
-	}
-
-	@Override
-	protected void updateGeometriesColor() {
-		updateGeometriesColor(false);
-	}
-
-	@Override
-	protected void setGeometriesVisibility(boolean visible) {
-		setGeometriesVisibilityNoSurface(visible);
-	}
-
-	@Override
 	public boolean shouldBePacked() {
 		return !createdByDrawList();
 	}
