@@ -802,7 +802,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	/**
 	 * @return MOW toolbar
 	 */
-	public MOWToolbar getMOWToorbar() {
+	public MOWToolbar getMOWToolbar() {
 		return mowToolbar;
 	}
 
