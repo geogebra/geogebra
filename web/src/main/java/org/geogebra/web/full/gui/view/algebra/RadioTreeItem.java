@@ -54,7 +54,6 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.full.util.ReTeXHelper;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -1950,7 +1949,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (!"".equals(text0)) {
 			removeDummy();
 		}
-		ReTeXHelper.setText(mf, text0, this.isTextItem());
+		if (mf != null) {
+			mf.setText(text0, this.isTextItem());
+		}
 		updateEditorAriaLabel(text0);
 		updatePreview();
 	}

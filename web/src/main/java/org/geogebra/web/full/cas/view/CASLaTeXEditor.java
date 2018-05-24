@@ -14,7 +14,6 @@ import org.geogebra.web.full.gui.inputfield.InputSuggestions;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.full.util.ReTeXHelper;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -167,7 +166,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	public void setText(String text0) {
 		// removeDummy();
 		if (mf != null) {
-			ReTeXHelper.setText(mf, text0, editAsText);
+			mf.setText(text0, editAsText);
 		}
 		// updateLineHeight();
 	}

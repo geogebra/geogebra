@@ -64,6 +64,8 @@ import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
+import com.himamis.retex.editor.share.io.latex.ParseException;
+import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -982,6 +984,36 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 */
 	protected void setLeftAltDown(boolean leftAltDown) {
 		this.leftAltDown = leftAltDown;
+	}
+
+	private static void parseText(String text0, MathFieldW mf) {
+		Parser parser = new Parser(mf.getMetaModel());
+		MathFormula formula;
+		try {
+			formula = parser.parse(text0);
+			mf.setFormula(formula);
+		} catch (ParseException e) {
+			FactoryProvider.getInstance().debug("Problem parsing: " + text0);
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @param mf
+	 *            editor
+	 * @param text0
+	 *            text
+	 * @param asPlainText
+	 *            whether to use it as plain text
+	 */
+	public void setText(String text0, boolean asPlainText) {
+		if (asPlainText) {
+			parseText("", this);
+			setPlainTextMode(true);
+			insertString(text0);
+		} else {
+			parseText(text0, this);
+		}
 	}
 
 }
