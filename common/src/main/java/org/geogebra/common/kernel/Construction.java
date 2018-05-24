@@ -2947,7 +2947,7 @@ public class Construction {
 		// if (getApplication().isApplet()) return;
 		collectRedefineCalls = false;
 
-		if (undoManager != null) {
+		if (undoManager != null && undoManager.getHistorySize() >= 0) {
 			undoManager.restoreCurrentUndoInfo();
 			return true;
 		}
