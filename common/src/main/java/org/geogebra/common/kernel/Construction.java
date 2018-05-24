@@ -1671,11 +1671,12 @@ public class Construction {
 		isGettingXMLForReplace = false;
 
 		// 3) replace oldGeo by newGeo in XML
+		String oldXML = consXML.toString();
 		doReplaceInXML(consXML, oldGeo, newGeo);
 		// moveDependencies(oldGeo,newGeo);
 
 		// 4) build new construction
-		buildConstruction(consXML);
+		buildConstruction(consXML, oldXML);
 		if (moveMode) {
 			GeoElement selGeo = kernel.lookupLabel(oldSelection);
 			selection.addSelectedGeo(selGeo, false, true);
@@ -1721,7 +1722,7 @@ public class Construction {
 
 		// get current construction XML
 		StringBuilder consXML = getCurrentUndoXML(false);
-
+		String oldXML = consXML.toString();
 		// replace all oldGeo -> newGeo pairs in XML
 		Iterator<Entry<GeoElement, GeoElement>> it = redefineMap.entrySet().iterator();
 		while (it.hasNext()) {
@@ -1735,7 +1736,7 @@ public class Construction {
 
 		try {
 			// 4) build new construction for all changes at once
-			buildConstruction(consXML);
+			buildConstruction(consXML, oldXML);
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -1766,7 +1767,7 @@ public class Construction {
 
 		// build new construction to make sure all ceIDs are correct after the
 		// redefine
-		buildConstruction(consXML);
+		buildConstruction(consXML, null);
 		setUpdateConstructionRunning(false);
 	}
 
@@ -2937,16 +2938,20 @@ public class Construction {
 	/**
 	 * Restores undo info
 	 * 
+	 * @return success
+	 * 
 	 * @see UndoManager#restoreCurrentUndoInfo()
 	 */
-	public void restoreCurrentUndoInfo() {
+	public boolean restoreCurrentUndoInfo() {
 		// undo unavailable in applets
 		// if (getApplication().isApplet()) return;
 		collectRedefineCalls = false;
 
 		if (undoManager != null) {
 			undoManager.restoreCurrentUndoInfo();
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -3089,7 +3094,7 @@ public class Construction {
 	/**
 	 * Tries to build the new construction from the given XML string.
 	 */
-	private void buildConstruction(StringBuilder consXML) throws Exception {
+	private void buildConstruction(StringBuilder consXML, String oldXML) throws Exception {
 		// try to process the new construction
 		try {
 			ensureUndoManagerExists();
@@ -3098,16 +3103,25 @@ public class Construction {
 			// Update construction is done during parsing XML
 			// kernel.updateConstruction();
 		} catch (Exception e) {
-			restoreCurrentUndoInfo();
+			restoreAfterRedefine(oldXML);
 			throw e;
 		} catch (MyError err) {
-			restoreCurrentUndoInfo();
+			restoreAfterRedefine(oldXML);
 			throw err;
 		}
 		if (kernel.getConstruction().getXMLio().hasErrors()) {
-			restoreCurrentUndoInfo();
+			restoreAfterRedefine(oldXML);
 			throw new MyError(getApplication().getLocalization(),
 					"ReplaceFailed");
+		}
+	}
+
+	private void restoreAfterRedefine(String oldXML) throws Exception {
+		if (restoreCurrentUndoInfo()) {
+			return;
+		}
+		if (oldXML != null) {
+			buildConstruction(new StringBuilder(oldXML), null);
 		}
 	}
 

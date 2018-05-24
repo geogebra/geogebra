@@ -202,6 +202,12 @@ public class RedefineTest extends Assert {
 		t("SetValue(ibP,\"x = y\")", new String[0]);
 		t("p", "x - y = 0");
 		hasType("p", GeoClass.PLANE3D);
+
+		t("n:4", "4");
+		t("ibN=InputBox(n)", "4");
+		t("SetValue(ibP,\"y\")", new String[0]);
+		t("n", "4");
+		hasType("n", GeoClass.NUMERIC);
 	}
 }
 
