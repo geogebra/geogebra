@@ -4102,7 +4102,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-1517
 		case MOB_PACK_PLANES:
-			return false;
+			return prerelease;
 
 		// **********************************************************************
 		// MOBILE END
