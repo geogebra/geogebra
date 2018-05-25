@@ -108,8 +108,6 @@ class MetaModelFunctions {
                 createParameter("x", 3)
         }));
 
-
-
 		functions.add(
 				createFunctionInsert(Tag.INT, "\\int", 2,
 						new MetaParameter[] {
@@ -126,8 +124,6 @@ class MetaModelFunctions {
                 createParameter("to", 1),
                 createParameter("x", 2)
         }));
-
-
 
 		functions.add(createFunction(Tag.ABS));
 		functions.add(createFunction(Tag.FLOOR));

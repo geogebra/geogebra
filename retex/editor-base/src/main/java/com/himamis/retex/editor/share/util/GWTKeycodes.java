@@ -25,15 +25,6 @@ public interface GWTKeycodes {
 	 *         -char-codes-key-codes
 	 */
 
-
-
-
-
-
-	/**
-	 * Key code for Windows key on Firefox Linux ???
-	 */
-	// public static final int KEY_WIN_KEY_FF_LINUX = 0;
 	/**
 	 * Undefined key code.
 	 */
@@ -443,6 +434,5 @@ public interface GWTKeycodes {
 	public static final int KEY_MAC_FF_META = 224; // Firefox (Gecko) fires this
 													// for the meta key instead
 													// of 91
-
 
 }

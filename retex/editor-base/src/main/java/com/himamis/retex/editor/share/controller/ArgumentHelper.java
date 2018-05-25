@@ -20,35 +20,40 @@ public class ArgumentHelper {
 	 * @param container
 	 *            function
 	 */
-    public static void passArgument(EditorState editorState, MathContainer container) {
-        MathSequence currentField = editorState.getCurrentField();
-        int currentOffset = editorState.getCurrentOffset();
-        // get pass to argument
-        MathSequence field = (MathSequence) container.getArgument(container.getInsertIndex());
+	public static void passArgument(EditorState editorState,
+			MathContainer container) {
+		MathSequence currentField = editorState.getCurrentField();
+		int currentOffset = editorState.getCurrentOffset();
+		// get pass to argument
+		MathSequence field = (MathSequence) container
+				.getArgument(container.getInsertIndex());
 		if (currentField.getArgument(currentOffset - 1) instanceof MathCharacter
 				&& (Unicode.ZERO_WIDTH_SPACE + "").equals(currentField
 						.getArgument(currentOffset - 1).toString())) {
 			currentField.delArgument(currentOffset - 1);
 			currentOffset--;
 		}
-        // pass scripts first
-        while (currentOffset > 0 && currentField.isScript(currentOffset - 1)) {
-            MathFunction character = (MathFunction) currentField.getArgument(currentOffset - 1);
-            currentField.delArgument(currentOffset - 1);
-            currentOffset--;
-            field.addArgument(0, character);
-        }
-        editorState.setCurrentOffset(currentOffset);
+		// pass scripts first
+		while (currentOffset > 0 && currentField.isScript(currentOffset - 1)) {
+			MathFunction character = (MathFunction) currentField
+					.getArgument(currentOffset - 1);
+			currentField.delArgument(currentOffset - 1);
+			currentOffset--;
+			field.addArgument(0, character);
+		}
+		editorState.setCurrentOffset(currentOffset);
 
-        if (currentOffset > 0) {
-            // if previous sequence argument are braces pass their content
-            if (currentField.getArgument(currentOffset - 1) instanceof MathArray) {
+		if (currentOffset > 0) {
+			// if previous sequence argument are braces pass their content
+			if (currentField
+					.getArgument(currentOffset - 1) instanceof MathArray) {
 
-                MathArray array = (MathArray) currentField.getArgument(currentOffset - 1);
-                currentField.delArgument(currentOffset - 1);
-                currentOffset--;
-                if (field.size() == 0) {
-                    // here we already have sequence, just set it
+				MathArray array = (MathArray) currentField
+						.getArgument(currentOffset - 1);
+				currentField.delArgument(currentOffset - 1);
+				currentOffset--;
+				if (field.size() == 0) {
+					// here we already have sequence, just set it
 					if (array.size() > 1 || array.getOpenKey() != '(') {
 						MathSequence wrap = new MathSequence();
 						wrap.addArgument(array);
@@ -57,46 +62,52 @@ public class ArgumentHelper {
 						container.setArgument(container.getInsertIndex(),
 								array.getArgument(0));
 					}
-                } else {
-                    field.addArgument(0, array);
-                }
+				} else {
+					field.addArgument(0, array);
+				}
 
-                // if previous sequence argument is, function pass it
-            } else if (currentField.getArgument(currentOffset - 1) instanceof MathFunction) {
+				// if previous sequence argument is, function pass it
+			} else if (currentField
+					.getArgument(currentOffset - 1) instanceof MathFunction) {
 
-                MathFunction function = (MathFunction) currentField.getArgument(currentOffset - 1);
-                currentField.delArgument(currentOffset - 1);
-                currentOffset--;
-                field.addArgument(0, function);
+				MathFunction function = (MathFunction) currentField
+						.getArgument(currentOffset - 1);
+				currentField.delArgument(currentOffset - 1);
+				currentOffset--;
+				field.addArgument(0, function);
 
-                // otherwise pass character sequence
-            } else {
+				// otherwise pass character sequence
+			} else {
 
-                passCharacters(editorState, container);
-                currentOffset = editorState.getCurrentOffset();
-            }
-        }
-        editorState.setCurrentOffset(currentOffset);
-    }
+				passCharacters(editorState, container);
+				currentOffset = editorState.getCurrentOffset();
+			}
+		}
+		editorState.setCurrentOffset(currentOffset);
+	}
 
-    private static void passCharacters(EditorState editorState, MathContainer container) {
-        int currentOffset = editorState.getCurrentOffset();
-        MathSequence currentField = editorState.getCurrentField();
-        // get pass to argument
-        MathSequence field = (MathSequence) container.getArgument(container.getInsertIndex());
+	private static void passCharacters(EditorState editorState,
+			MathContainer container) {
+		int currentOffset = editorState.getCurrentOffset();
+		MathSequence currentField = editorState.getCurrentField();
+		// get pass to argument
+		MathSequence field = (MathSequence) container
+				.getArgument(container.getInsertIndex());
 
-        while (currentOffset > 0 && currentField.getArgument(currentOffset - 1) instanceof MathCharacter) {
+		while (currentOffset > 0 && currentField
+				.getArgument(currentOffset - 1) instanceof MathCharacter) {
 
-            MathCharacter character = (MathCharacter) currentField.getArgument(currentOffset - 1);
+			MathCharacter character = (MathCharacter) currentField
+					.getArgument(currentOffset - 1);
 			if (character.isOperator() || character.isSeparator()) {
-                break;
-            }
-            currentField.delArgument(currentOffset - 1);
-            currentOffset--;
-            field.addArgument(0, character);
-        }
-        editorState.setCurrentOffset(currentOffset);
-    }
+				break;
+			}
+			currentField.delArgument(currentOffset - 1);
+			currentOffset--;
+			field.addArgument(0, character);
+		}
+		editorState.setCurrentOffset(currentOffset);
+	}
 
 	/**
 	 * Reads all characters to the right of the cursor until it encounters a
@@ -106,25 +117,26 @@ public class ArgumentHelper {
 	 *            current editor state
 	 * @return last string of characters
 	 */
-    public static String readCharacters(EditorState editorState) {
-        StringBuilder stringBuilder = new StringBuilder();
-        int offset = editorState.getCurrentOffset();
-        MathSequence currentField = editorState.getCurrentField();
+	public static String readCharacters(EditorState editorState) {
+		StringBuilder stringBuilder = new StringBuilder();
+		int offset = editorState.getCurrentOffset();
+		MathSequence currentField = editorState.getCurrentField();
 		if (currentField.getArgument(offset) instanceof MathCharacter
 				&& ((MathCharacter) currentField.getArgument(offset))
 						.isOperator()) {
 			return "";
 		}
-        while (offset > 0 && currentField.getArgument(offset - 1) instanceof MathCharacter) {
+		while (offset > 0 && currentField
+				.getArgument(offset - 1) instanceof MathCharacter) {
 
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(offset - 1);
-            if (character.isOperator() || character.isSymbol()) {
-                break;
-            }
-            offset--;
-            stringBuilder.insert(0, character.getName());
-        }
-        return stringBuilder.toString();
-    }
+			if (character.isOperator() || character.isSymbol()) {
+				break;
+			}
+			offset--;
+			stringBuilder.insert(0, character.getName());
+		}
+		return stringBuilder.toString();
+	}
 }

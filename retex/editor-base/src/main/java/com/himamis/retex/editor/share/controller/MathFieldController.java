@@ -21,12 +21,12 @@ import com.himamis.retex.renderer.share.platform.graphics.stubs.GraphicsStub;
 public class MathFieldController {
 
 	@Weak
-    private MathField mathField;
+	private MathField mathField;
 
 	private TeXSerializer texSerializer;
 
-    private double size = 16;
-    private int type = TeXFormula.SERIF;
+	private double size = 16;
+	private int type = TeXFormula.SERIF;
 
 	private GraphicsStub graphics;
 	private TeXBuilder texBuilder;
@@ -41,35 +41,36 @@ public class MathFieldController {
 		graphics = new GraphicsStub();
 	}
 
-    public void setSize(double size) {
-        this.size = size;
-    }
+	public void setSize(double size) {
+		this.size = size;
+	}
 
-    public void setType(int type) {
-        this.type = type;
-    }
+	public void setType(int type) {
+		this.type = type;
+	}
 
-    public void update(MathFormula mathFormula, EditorState editorState, boolean focusEvent) {
-        if (mathField.hasFocus()) {
+	public void update(MathFormula mathFormula, EditorState editorState,
+			boolean focusEvent) {
+		if (mathField.hasFocus()) {
 			updateFormula(mathFormula, editorState.getCurrentField(),
 					editorState.getCurrentOffset(),
 					editorState.getSelectionStart(),
 					editorState.getSelectionEnd());
-        } else {
+		} else {
 			updateFormula(mathFormula, null, 0, null, null);
-        }
+		}
 		updateMathField(focusEvent);
-    }
+	}
 
 	private void updateMathField(boolean focusEvent) {
-        if (mathField.hasParent()) {
-            if (!focusEvent) {
-                // prevent infinite focusChanged <-> requestLayout event cycle
-                mathField.requestLayout();
-            }
-            mathField.repaint();
-        }
-    }
+		if (mathField.hasParent()) {
+			if (!focusEvent) {
+				// prevent infinite focusChanged <-> requestLayout event cycle
+				mathField.requestLayout();
+			}
+			mathField.repaint();
+		}
+	}
 
 	private void updateFormula(MathFormula mathFormula,
 			MathSequence currentField, int currentOffset,
@@ -80,7 +81,7 @@ public class MathFieldController {
 		if (texBuilder != null) {
 			texFormula = new TeXFormula();
 			Atom root = texBuilder.build(mathFormula.getRootComponent(),
-					currentField, currentOffset, selectionStart, selectionEnd);			
+					currentField, currentOffset, selectionStart, selectionEnd);
 			texFormula.root = root;
 		}
 
@@ -102,7 +103,7 @@ public class MathFieldController {
 			System.err.println(e.getCause() != null ? e.getCause() : e);
 		}
 
-    }
+	}
 
 	public EditorState getPath(MathFormula mathFormula, int x, int y,
 			ArrayList<Integer> list) {
@@ -167,16 +168,12 @@ public class MathFieldController {
 		if (path.size() <= depth) {
 			return;
 		}
-		int idx = path.get(depth) <= 0
-				? path.get(depth) + rootComponent.size()
+		int idx = path.get(depth) <= 0 ? path.get(depth) + rootComponent.size()
 				: path.get(depth);
-		if (rootComponent
-				.getArgument(idx) instanceof MathContainer
+		if (rootComponent.getArgument(idx) instanceof MathContainer
 				&& path.size() > depth) {
-			setSelectedPath(
-					(MathContainer) rootComponent.getArgument(idx),
-					path,
-					state, depth + 1);
+			setSelectedPath((MathContainer) rootComponent.getArgument(idx),
+					path, state, depth + 1);
 		} else if (rootComponent instanceof MathSequence) {
 			state.setCurrentOffset(idx);
 			state.setCurrentField((MathSequence) rootComponent);

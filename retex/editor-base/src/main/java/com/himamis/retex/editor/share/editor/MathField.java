@@ -23,6 +23,7 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  */
+
 package com.himamis.retex.editor.share.editor;
 
 import com.himamis.retex.editor.share.event.ClickListener;
@@ -33,51 +34,53 @@ import com.himamis.retex.renderer.share.TeXIcon;
 
 public interface MathField {
 
-    void setTeXIcon(TeXIcon icon);
+	void setTeXIcon(TeXIcon icon);
 
-    /**
-     * show keyboard
-     *
-     * @return true if keyboard was hidden previously
-     */
-    boolean showKeyboard();
+	/**
+	 * show keyboard
+	 *
+	 * @return true if keyboard was hidden previously
+	 */
+	boolean showKeyboard();
 
-    void showCopyPasteButtons();
+	void showCopyPasteButtons();
 
-    void requestViewFocus();
+	void requestViewFocus();
 
-    void setFocusListener(FocusListener focusListener);
+	void setFocusListener(FocusListener focusListener);
 
-    void setClickListener(ClickListener clickListener);
+	void setClickListener(ClickListener clickListener);
 
-    void setKeyListener(KeyListener keyListener);
+	void setKeyListener(KeyListener keyListener);
 
-    void repaint();
+	void repaint();
 
-    void requestLayout();
+	void requestLayout();
 
-    boolean hasParent();
+	boolean hasParent();
 
-    boolean hasFocus();
+	boolean hasFocus();
 
-    MetaModel getMetaModel();
+	MetaModel getMetaModel();
 
-    void hideCopyPasteButtons();
+	void hideCopyPasteButtons();
 
-    /**
-     * scroll the view
-     *
-     * @param dx x distance from current call to last call
-     * @param dy y distance from current call to last call
-     */
-    void scroll(int dx, int dy);
+	/**
+	 * scroll the view
+	 *
+	 * @param dx
+	 *            x distance from current call to last call
+	 * @param dy
+	 *            y distance from current call to last call
+	 */
+	void scroll(int dx, int dy);
 
-    void fireInputChangedEvent();
+	void fireInputChangedEvent();
 
 	void paste();
 
 	void copy();
-	
+
 	void tab(boolean shiftDown);
 
 	boolean useCustomPaste();

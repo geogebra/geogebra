@@ -25,6 +25,7 @@
  * 02110-1301, USA.
  *
  */
+
 package com.himamis.retex.editor.share.editor;
 
 import java.util.ArrayList;
@@ -57,19 +58,20 @@ import com.himamis.retex.renderer.share.SelectionBox;
  *
  * @author Bea Petrovicova, Bencze Balazs
  */
-public class MathFieldInternal implements KeyListener, FocusListener, ClickListener {
+public class MathFieldInternal
+		implements KeyListener, FocusListener, ClickListener {
 
 	@Weak
-    private MathField mathField;
+	private MathField mathField;
 
-    private CursorController cursorController;
-    private InputController inputController;
-    private MathFieldController mathFieldController;
+	private CursorController cursorController;
+	private InputController inputController;
+	private MathFieldController mathFieldController;
 
-    private KeyListenerImpl keyListener;
-    private EditorState editorState;
+	private KeyListenerImpl keyListener;
+	private EditorState editorState;
 
-    private MathFormula mathFormula;
+	private MathFormula mathFormula;
 
 	private int[] mouseDownPos;
 
@@ -94,92 +96,92 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	public MathFieldInternal(MathField mathField,
 			boolean directFormulaBuilder) {
-        this.mathField = mathField;
+		this.mathField = mathField;
 		this.directFormulaBuilder = directFormulaBuilder;
-        cursorController = new CursorController();
+		cursorController = new CursorController();
 		inputController = new InputController(mathField.getMetaModel());
-        keyListener = new KeyListenerImpl(cursorController, inputController);
-        mathFormula = MathFormula.newFormula(mathField.getMetaModel());
+		keyListener = new KeyListenerImpl(cursorController, inputController);
+		mathFormula = MathFormula.newFormula(mathField.getMetaModel());
 		mathFieldController = new MathFieldController(mathField,
 				directFormulaBuilder);
 		inputController.setMathField(mathField);
-        setupMathField();
-    }
+		setupMathField();
+	}
 
-    private void setupMathField() {
-        mathField.setFocusListener(this);
-        mathField.setClickListener(this);
-        mathField.setKeyListener(this);
-    }
+	private void setupMathField() {
+		mathField.setFocusListener(this);
+		mathField.setClickListener(this);
+		mathField.setKeyListener(this);
+	}
 
-    public void setSize(double size) {
-        mathFieldController.setSize(size);
-    }
+	public void setSize(double size) {
+		mathFieldController.setSize(size);
+	}
 
-    public void setType(int type) {
-        mathFieldController.setType(type);
-    }
+	public void setType(int type) {
+		mathFieldController.setType(type);
+	}
 
-    public MathFormula getFormula() {
-        return mathFormula;
-    }
+	public MathFormula getFormula() {
+		return mathFormula;
+	}
 
-    public void setFormula(MathFormula formula) {
-        mathFormula = formula;
-        editorState = new EditorState(mathField.getMetaModel());
-        editorState.setRootComponent(formula.getRootComponent());
-        editorState.setCurrentField(formula.getRootComponent());
-        editorState.setCurrentOffset(editorState.getCurrentField().size());
-        mathFieldController.update(formula, editorState, false);
-    }
+	public void setFormula(MathFormula formula) {
+		mathFormula = formula;
+		editorState = new EditorState(mathField.getMetaModel());
+		editorState.setRootComponent(formula.getRootComponent());
+		editorState.setCurrentField(formula.getRootComponent());
+		editorState.setCurrentOffset(editorState.getCurrentField().size());
+		mathFieldController.update(formula, editorState, false);
+	}
 
-    public void setFormula(MathFormula formula, ArrayList<Integer> path) {
-        mathFormula = formula;
-        editorState = new EditorState(mathField.getMetaModel());
-        editorState.setRootComponent(formula.getRootComponent());
-        CursorController.setPath(path, getEditorState());
-        mathFieldController.update(formula, editorState, false);
-    }
+	public void setFormula(MathFormula formula, ArrayList<Integer> path) {
+		mathFormula = formula;
+		editorState = new EditorState(mathField.getMetaModel());
+		editorState.setRootComponent(formula.getRootComponent());
+		CursorController.setPath(path, getEditorState());
+		mathFieldController.update(formula, editorState, false);
+	}
 
-    public InputController getInputController() {
-        return inputController;
-    }
+	public InputController getInputController() {
+		return inputController;
+	}
 
-    public CursorController getCursorController() {
-        return cursorController;
-    }
+	public CursorController getCursorController() {
+		return cursorController;
+	}
 
-    public MathFieldController getMathFieldController() {
-        return mathFieldController;
-    }
+	public MathFieldController getMathFieldController() {
+		return mathFieldController;
+	}
 
-    public EditorState getEditorState() {
-        return editorState;
-    }
+	public EditorState getEditorState() {
+		return editorState;
+	}
 
-    public KeyListenerImpl getKeyListener() {
-        return keyListener;
-    }
+	public KeyListenerImpl getKeyListener() {
+		return keyListener;
+	}
 
-    public void update() {
-        update(false);
-    }
+	public void update() {
+		update(false);
+	}
 
-    private void update(boolean focusEvent) {
-        mathFieldController.update(mathFormula, editorState, focusEvent);
-    }
+	private void update(boolean focusEvent) {
+		mathFieldController.update(mathFormula, editorState, focusEvent);
+	}
 
-    @Override
-    public void onFocusGained() {
-        update(true);
-    }
+	@Override
+	public void onFocusGained() {
+		update(true);
+	}
 
-    @Override
-    public void onFocusLost() {
-        update(true);
-    }
+	@Override
+	public void onFocusLost() {
+		update(true);
+	}
 
-    @Override
+	@Override
 	public boolean onKeyPressed(KeyEvent keyEvent) {
 		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
 			if (listener != null) {
@@ -211,18 +213,18 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		}
 		boolean tab = keyEvent.getKeyCode() == JavaKeyCodes.VK_TAB;
 		boolean handled = keyListener.onKeyPressed(keyEvent, editorState);
-        if (handled && !tab) {
-            update();
+		if (handled && !tab) {
+			update();
 			if (!arrow && listener != null) {
 				listener.onKeyTyped();
 			}
-        }
+		}
 
-        return handled;
-    }
+		return handled;
+	}
 
-    @Override
-    public boolean onKeyReleased(KeyEvent keyEvent) {
+	@Override
+	public boolean onKeyReleased(KeyEvent keyEvent) {
 		enterPressed = false;
 		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
 			if (enterCallback != null) {
@@ -253,32 +255,32 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			notifyAndUpdate();
 		}
 		return false;
-    }
+	}
 
 	@Override
 	public boolean onKeyTyped(KeyEvent keyEvent) {
 		return onKeyTyped(keyEvent, true);
 	}
-    @Override
+
+	@Override
 	public boolean onKeyTyped(KeyEvent keyEvent, boolean fire) {
 		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0;
 		boolean enter = keyEvent.getUnicodeKeyChar() == (char) 13
 				|| keyEvent.getUnicodeKeyChar() == (char) 10;
 
 		boolean handled = alt || enter
-				|| ((keyEvent.getKeyModifiers()
-				& KeyEvent.CTRL_MASK) > 0)
+				|| ((keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) > 0)
 				|| keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar(),
 						editorState);
 		if (handled && fire) {
 			notifyAndUpdate();
-        }
-        return handled;
-    }
+		}
+		return handled;
+	}
 
 	public void setPlainTextMode(boolean plainText) {
 		this.inputController.setCreateFrac(!plainText);
-    }
+	}
 
 	private void notifyAndUpdate() {
 		if (listener != null) {
@@ -290,7 +292,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	@Override
 	public void onPointerDown(int x, int y) {
-        if (selectionMode) {
+		if (selectionMode) {
 			ArrayList<Integer> list = new ArrayList<>();
 			if (SelectionBox.touchSelection) {
 				if (length(SelectionBox.startX - x,
@@ -307,16 +309,16 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				}
 			}
 			mathFieldController.getPath(mathFormula, x, y, list);
-            editorState.resetSelection();
+			editorState.resetSelection();
 
-            this.mouseDownPos = new int[]{x, y};
+			this.mouseDownPos = new int[] { x, y };
 
 			moveToSelection(x, y);
 
-            mathFieldController.update(mathFormula, editorState, false);
-        }
+			mathFieldController.update(mathFormula, editorState, false);
+		}
 
-    }
+	}
 
 	private static double length(double d, double e) {
 		return Math.sqrt(d * d + e * e);
@@ -325,39 +327,37 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	@Override
 	public void onPointerUp(int x, int y) {
 
-        if (scrollOccured) {
-            scrollOccured = false;
-        } else if (longPressOccured) {
-            longPressOccured = false;
-        } else {
+		if (scrollOccured) {
+			scrollOccured = false;
+		} else if (longPressOccured) {
+			longPressOccured = false;
+		} else {
 			if (this.selectionDrag) {
 				selectionDrag = false;
 				return;
 			}
 			ArrayList<Integer> list = new ArrayList<>();
-            mathFieldController.getPath(mathFormula, x, y, list);
+			mathFieldController.getPath(mathFormula, x, y, list);
 			MathComponent cursor = editorState.getCursorField(
 					editorState.getSelectionEnd() != null && selectionLeft(x));
 
 			moveToSelection(x, y);
 
-            editorState.resetSelection();
+			editorState.resetSelection();
 
-            if (selectionMode && mousePositionChanged(x, y)) {
+			if (selectionMode && mousePositionChanged(x, y)) {
 				editorState.extendSelection(selectionLeft(x));
-                editorState.extendSelection(cursor);
-            }
+				editorState.extendSelection(cursor);
+			}
 
-            // TODO only hide copy button only when no selection
-            // (see commented below, MOB-567 and MOB-568)
-            mathField.hideCopyPasteButtons();
-            /*
-            if (!editorState.hasSelection()){
-                mathField.hideCopyButton();
-            }
-            */
+			// TODO only hide copy button only when no selection
+			// (see commented below, MOB-567 and MOB-568)
+			mathField.hideCopyPasteButtons();
+			/*
+			 * if (!editorState.hasSelection()){ mathField.hideCopyButton(); }
+			 */
 
-            mathFieldController.update(mathFormula, editorState, false);
+			mathFieldController.update(mathFormula, editorState, false);
 
 			mathField.showKeyboard();
 			mathField.requestViewFocus();
@@ -365,7 +365,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 		mouseDownPos = null;
 
-    }
+	}
 
 	private boolean selectionLeft(int x) {
 		return x > SelectionBox.startX;
@@ -373,22 +373,22 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	@Override
 	public void onLongPress(int x, int y) {
-        longPressOccured = true;
-        if (!mathFormula.isEmpty()) {
-            editorState.selectAll();
-        }
-        mathFieldController.update(mathFormula, editorState, false);
+		longPressOccured = true;
+		if (!mathFormula.isEmpty()) {
+			editorState.selectAll();
+		}
+		mathFieldController.update(mathFormula, editorState, false);
 		mathField.showCopyPasteButtons();
 		mathField.showKeyboard();
 		mathField.requestViewFocus();
 	}
 
-    @Override
+	@Override
 	public void onScroll(int dx, int dy) {
-        if (!selectionMode) {
-            mathField.scroll(dx, dy);
-            scrollOccured = true;
-        }
+		if (!selectionMode) {
+			mathField.scroll(dx, dy);
+			scrollOccured = true;
+		}
 		mathField.requestViewFocus();
 	}
 
@@ -398,24 +398,24 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	 * @param flag
 	 *            flag
 	 */
-    public void setSelectionMode(boolean flag) {
-        selectionMode = flag;
-    }
+	public void setSelectionMode(boolean flag) {
+		selectionMode = flag;
+	}
 
 	private boolean mousePositionChanged(int x, int y) {
 		return mouseDownPos != null && (Math.abs(x - mouseDownPos[0]) > 10
 				|| Math.abs(y - mouseDownPos[1]) > 10);
 	}
-	
+
 	private void moveToSelectionDirect(int x, int y) {
 		ArrayList<Integer> list2 = new ArrayList<>();
-		EditorState mc = mathFieldController.getPath(mathFormula, x, y,
-				list2);
+		EditorState mc = mathFieldController.getPath(mathFormula, x, y, list2);
 		if (mc != null && mc.getCurrentField() != null) {
 			editorState.setCurrentField(mc.getCurrentField());
 			editorState.setCurrentOffset(mc.getCurrentOffset());
 		}
 	}
+
 	private void moveToSelection(int x, int y) {
 		if (this.directFormulaBuilder) {
 			this.moveToSelectionDirect(x, y);
@@ -429,7 +429,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		double dist = Integer.MAX_VALUE;
 		MathSequence closestComponent = null;
 		int closestOffset = -1;
-		do  {
+		do {
 			ArrayList<Integer> list2 = new ArrayList<>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
@@ -480,14 +480,13 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		editorState.setCurrentOffset(offset);
 		editorState.extendSelection(cursor);
 
-
 		mathFieldController.update(mathFormula, editorState, false);
 
 	}
 
 	public boolean isEmpty() {
-        return mathFormula.isEmpty();
-    }
+		return mathFormula.isEmpty();
+	}
 
 	/**
 	 * @param listener
@@ -565,7 +564,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	}
 
 	public String copy() {
-		if(listener!=null){
+		if (listener != null) {
 			getInputController();
 			return (listener.serialize(
 					InputController.getSelectionText(getEditorState())));
@@ -617,19 +616,19 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			}
 		}
 	}
-	
+
 	/**
 	 * Trigger the listener
 	 */
-	protected void onKeyTyped(){
+	protected void onKeyTyped() {
 		if (listener != null) {
 			listener.onKeyTyped();
 		}
 	}
-	
+
 	public void insertFunction(String text) {
-		inputController.newFunction(editorState, text, "frac".equals(text) ? 1
-				: 0, false);
+		inputController.newFunction(editorState, text,
+				"frac".equals(text) ? 1 : 0, false);
 		if (listener != null) {
 			listener.onKeyTyped();
 		}
@@ -641,9 +640,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		} else {
 			r.run();
 		}
-
 	}
-	
+
 	public void onTab(boolean shiftDown) {
 		if (listener != null) {
 			listener.onTab(shiftDown);

@@ -13,5 +13,4 @@ public interface Inspectable {
      */
     boolean inspect(Inspecting inspecting);
 
-
 }

@@ -9,66 +9,67 @@ import com.himamis.retex.editor.share.model.MathSequence;
 
 public class EditorState {
 
-    private MetaModel metaModel;
-    private MathSequence rootComponent;
+	private MetaModel metaModel;
+	private MathSequence rootComponent;
 
-    private MathSequence currentField;
-    private int currentOffset;
+	private MathSequence currentField;
+	private int currentOffset;
 
-	private MathComponent currentSelStart, currentSelEnd;
+	private MathComponent currentSelStart;
+	private MathComponent currentSelEnd;
 	private MathComponent selectionAnchor;
 
-    public EditorState(MetaModel metaModel) {
-        this.metaModel = metaModel;
-    }
+	public EditorState(MetaModel metaModel) {
+		this.metaModel = metaModel;
+	}
 
-    public MathSequence getRootComponent() {
-        return rootComponent;
-    }
+	public MathSequence getRootComponent() {
+		return rootComponent;
+	}
 
-    public void setRootComponent(MathSequence rootComponent) {
-        this.rootComponent = rootComponent;
-    }
+	public void setRootComponent(MathSequence rootComponent) {
+		this.rootComponent = rootComponent;
+	}
 
-    public MathSequence getCurrentField() {
-        return currentField;
-    }
+	public MathSequence getCurrentField() {
+		return currentField;
+	}
 
-    public void setCurrentField(MathSequence currentField) {
-        this.currentField = currentField;
-    }
+	public void setCurrentField(MathSequence currentField) {
+		this.currentField = currentField;
+	}
 
-    public int getCurrentOffset() {
-        return currentOffset;
-    }
+	public int getCurrentOffset() {
+		return currentOffset;
+	}
 
-    public void setCurrentOffset(int currentOffset) {
-        this.currentOffset = currentOffset >= 0 ? currentOffset : 0;
-    }
+	public void setCurrentOffset(int currentOffset) {
+		this.currentOffset = currentOffset >= 0 ? currentOffset : 0;
+	}
 
-    public void incCurrentOffset() {
-        currentOffset++;
-    }
+	public void incCurrentOffset() {
+		currentOffset++;
+	}
 
-    public void addCurrentOffset(int size) {
-        currentOffset += size;
-    }
+	public void addCurrentOffset(int size) {
+		currentOffset += size;
+	}
 
-    public void decCurrentOffset() {
-    	if (currentOffset > 0) {
+	public void decCurrentOffset() {
+		if (currentOffset > 0) {
 			currentOffset--;
 		}
-    }
+	}
 
-    public void addArgument(MathComponent mathComponent) {
+	public void addArgument(MathComponent mathComponent) {
 		if (currentField.addArgument(currentOffset, mathComponent)) {
 			incCurrentOffset();
 		}
-    }
+	}
 
-    public MetaModel getMetaModel() {
-        return metaModel;
-    }
+	public MetaModel getMetaModel() {
+		return metaModel;
+	}
 
 	public MathComponent getSelectionStart() {
 		return currentSelStart;
@@ -126,8 +127,8 @@ public class EditorState {
 		currentSelEnd = cursorField;
 		// special case: start is inside end -> select single component
 		if (currentSelEnd == commonParent
-				|| commonParent instanceof MathFunction
-				&& "\\frac".equals(((MathFunction) commonParent).getTexName())) {
+				|| commonParent instanceof MathFunction && "\\frac"
+						.equals(((MathFunction) commonParent).getTexName())) {
 			currentSelStart = commonParent;
 			currentSelEnd = commonParent;
 			return;

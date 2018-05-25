@@ -61,6 +61,11 @@ public enum Tag {
 		return key.length() == 1 ? key.charAt(0) : 0;
 	}
 
+	/**
+	 * @param casName
+	 *            name
+	 * @return tag with given name
+	 */
 	public static Tag lookup(String casName) {
 		if (casName == null || casName.length() == 0) {
 			return null;

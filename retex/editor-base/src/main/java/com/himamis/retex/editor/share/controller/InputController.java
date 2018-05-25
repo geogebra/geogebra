@@ -84,8 +84,8 @@ public class InputController {
 		ArrayList<MathComponent> removed = reverse
 				? cut(currentField, 0, currentOffset - 1, editorState, array,
 						true)
-				: cut(currentField, currentOffset, -1,
-				editorState, array, true);
+				: cut(currentField, currentOffset, -1, editorState, array,
+						true);
 
 		// add sequence
 		MathSequence field = new MathSequence();
@@ -922,8 +922,11 @@ public class InputController {
 	 * remove characters before and after cursor
 	 *
 	 * @param editorState
+	 *            editor state
 	 * @param lengthBeforeCursor
+	 *            number of characters before cursor to delete
 	 * @param lengthAfterCursor
+	 *            number of characters after cursor to delete
 	 */
 	public void removeCharacters(EditorState editorState,
 			int lengthBeforeCursor, int lengthAfterCursor) {
@@ -949,6 +952,7 @@ public class InputController {
 	 * set ret to characters (no digit) around cursor
 	 *
 	 * @param ret
+	 *            builder for the word
 	 * @return word length before cursor
 	 */
 	public static int getWordAroundCursor(EditorState editorState,

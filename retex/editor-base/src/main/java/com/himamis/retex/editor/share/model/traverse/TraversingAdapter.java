@@ -23,6 +23,11 @@ public abstract class TraversingAdapter implements Traversing {
         }
     }
 
+	/**
+	 * @param mathContainer
+	 *            part of formula
+	 * @return processed container
+	 */
     public MathComponent processMathContainer(MathContainer mathContainer) {
         if (mathContainer instanceof MathFunction) {
             return processMathFunction((MathFunction) mathContainer);

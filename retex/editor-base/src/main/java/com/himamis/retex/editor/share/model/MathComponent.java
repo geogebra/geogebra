@@ -25,13 +25,14 @@
  * 02110-1301, USA.
  *
  */
+
 package com.himamis.retex.editor.share.model;
+
+import java.io.Serializable;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.model.inspect.Inspectable;
 import com.himamis.retex.editor.share.model.traverse.Traversable;
-
-import java.io.Serializable;
 
 /**
  * This class represents abstract model element.
@@ -85,6 +86,9 @@ abstract public class MathComponent implements Traversable, Inspectable, Seriali
      */
     abstract public MathComponent copy();
 
+	/**
+	 * @return this wrapped in MathSequence TODO unused?
+	 */
 	public MathComponent wrap() {
 		MathSequence seq = new MathSequence();
 		seq.addArgument(this);

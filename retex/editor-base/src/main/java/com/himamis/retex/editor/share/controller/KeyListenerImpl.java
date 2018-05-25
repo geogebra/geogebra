@@ -8,8 +8,8 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
  */
 public class KeyListenerImpl {
 
-    private CursorController cursorController;
-    private InputController inputController;
+	private CursorController cursorController;
+	private InputController inputController;
 
 	/**
 	 * @param cursorController
@@ -17,10 +17,11 @@ public class KeyListenerImpl {
 	 * @param inputController
 	 *            input controller
 	 */
-    public KeyListenerImpl(CursorController cursorController, InputController inputController) {
-        this.cursorController = cursorController;
-        this.inputController = inputController;
-    }
+	public KeyListenerImpl(CursorController cursorController,
+			InputController inputController) {
+		this.cursorController = cursorController;
+		this.inputController = inputController;
+	}
 
 	/**
 	 * @param keyEvent
@@ -108,15 +109,16 @@ public class KeyListenerImpl {
 		case JavaKeyCodes.VK_TAB:
 			if (!InputController.trySelectNext(editorState)) {
 				if (!InputController.trySelectFirst(editorState)) {
-					onTab((keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0);
+					onTab((keyEvent.getKeyModifiers()
+							& KeyEvent.SHIFT_MASK) > 0);
 				}
 			}
 			return true;
 		default:
 			// InputController.deleteSelection(editorState);
 			return false;
-        }
-    }
+		}
+	}
 
 	/**
 	 * @param shiftDown

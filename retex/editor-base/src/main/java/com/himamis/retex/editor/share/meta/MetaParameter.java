@@ -25,11 +25,12 @@
  * 02110-1301, USA.
  *
  */
+
 package com.himamis.retex.editor.share.meta;
 
 import java.io.Serializable;
 
-public class MetaParameter implements Serializable{
+public class MetaParameter implements Serializable {
 
     /**
 	 * MetaParameter needs to implement Serializable to be parcelable (android)

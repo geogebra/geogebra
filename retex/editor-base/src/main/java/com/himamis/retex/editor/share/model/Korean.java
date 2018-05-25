@@ -71,7 +71,7 @@ public class Korean {
 	}
 
 	public static Character tailToLead(char ch) {
-		
+
 		if (Korean.isKoreanLeadChar(ch, false)) {
 			return ch;
 		}
@@ -122,7 +122,6 @@ public class Korean {
 		}
 
 		return koreanTailToLead;
-
 
 	}
 
@@ -187,16 +186,15 @@ public class Korean {
 	 * characters not 3
 	 * 
 	 * @param c
-	 * @return
+	 *            character
+	 * @return whether the char is combination of three simple chars
 	 */
 	public static boolean isKoreanLeadPlusVowelChar(char c) {
 		if (c >= 0xac00 && c <= 0xd7af) {
-
 			int ch = c - 0xac00;
 			if ((ch % 28) == 0) {
 				return true;
 			}
-
 		}
 
 		return false;
@@ -519,173 +517,173 @@ public class Korean {
 		switch (ch) {
 		case '\u1100':
 		case '\u11a8':
-		return '\u3131';
+			return '\u3131';
 
 		case '\u1101':
 		case '\u11a9':
-		return '\u3132';
+			return '\u3132';
 
 		case '\u11aa':
-		return '\u3133';
+			return '\u3133';
 
 		case '\u1102':
 		case '\u11ab':
-		return '\u3134';
+			return '\u3134';
 
 		case '\u11ac':
-		return '\u3135';
+			return '\u3135';
 
 		case '\u11ad':
-		return '\u3136';
+			return '\u3136';
 
 		case '\u1103':
 		case '\u11ae':
-		return '\u3137';
+			return '\u3137';
 
 		case '\u1104':
-		return '\u3138';
+			return '\u3138';
 
 		case '\u1105':
 		case '\u11af':
-		return '\u3139';
+			return '\u3139';
 
 		case '\u11b0':
-		return '\u313a';
+			return '\u313a';
 
 		case '\u11b1':
-		return '\u313b';
+			return '\u313b';
 
 		case '\u11b2':
-		return '\u313c';
+			return '\u313c';
 
 		case '\u11b3':
-		return '\u313d';
+			return '\u313d';
 
 		case '\u11b4':
-		return '\u313e';
+			return '\u313e';
 
 		case '\u11b5':
-		return '\u313f';
+			return '\u313f';
 
 		case '\u11b6':
-		return '\u3140';
+			return '\u3140';
 
 		case '\u1106':
 		case '\u11b7':
-		return '\u3141';
+			return '\u3141';
 
 		case '\u1107':
 		case '\u11b8':
-		return '\u3142';
+			return '\u3142';
 
 		case '\u1108':
-		return '\u3143';
+			return '\u3143';
 
 		case '\u1121':
 		case '\u11b9':
-		return '\u3144';
+			return '\u3144';
 
 		case '\u1109':
 		case '\u11ba':
-		return '\u3145';
+			return '\u3145';
 
 		case '\u110a':
 		case '\u11bb':
-		return '\u3146';
+			return '\u3146';
 
 		case '\u110b':
 		case '\u11bc':
-		return '\u3147';
+			return '\u3147';
 
 		case '\u110c':
 		case '\u11bd':
-		return '\u3148';
+			return '\u3148';
 
 		case '\u110d':
-		return '\u3149';
+			return '\u3149';
 
 		case '\u110e':
 		case '\u11be':
-		return '\u314a';
+			return '\u314a';
 
 		case '\u110f':
 		case '\u11bf':
-		return '\u314b';
+			return '\u314b';
 
 		case '\u1110':
 		case '\u11c0':
-		return '\u314c';
+			return '\u314c';
 
 		case '\u1111':
 		case '\u11c1':
-		return '\u314d';
+			return '\u314d';
 
 		case '\u1112':
 		case '\u11c2':
-		return '\u314e';
+			return '\u314e';
 
 		case '\u1161':
-		return '\u314f';
+			return '\u314f';
 
 		case '\u1162':
-		return '\u3150';
+			return '\u3150';
 
 		case '\u1163':
-		return '\u3151';
+			return '\u3151';
 
 		case '\u1164':
-		return '\u3152';
+			return '\u3152';
 
 		case '\u1165':
-		return '\u3153';
+			return '\u3153';
 
 		case '\u1166':
-		return '\u3154';
+			return '\u3154';
 
 		case '\u1167':
-		return '\u3155';
+			return '\u3155';
 
 		case '\u1168':
-		return '\u3156';
+			return '\u3156';
 
 		case '\u1169':
-		return '\u3157';
+			return '\u3157';
 
 		case '\u116a':
-		return '\u3158';
+			return '\u3158';
 
 		case '\u116b':
-		return '\u3159';
+			return '\u3159';
 
 		case '\u116c':
-		return '\u315a';
+			return '\u315a';
 
 		case '\u116d':
-		return '\u315b';
+			return '\u315b';
 
 		case '\u116e':
-		return '\u315c';
+			return '\u315c';
 
 		case '\u116f':
-		return '\u315d';
+			return '\u315d';
 
 		case '\u1170':
-		return '\u315e';
+			return '\u315e';
 
 		case '\u1171':
-		return '\u315f';
+			return '\u315f';
 
 		case '\u1172':
-		return '\u3160';
+			return '\u3160';
 
 		case '\u1173':
-		return '\u3161';
+			return '\u3161';
 
 		case '\u1174':
-		return '\u3162';
+			return '\u3162';
 
 		case '\u1175':
-		return '\u3163';
+			return '\u3163';
 
 		}
 
@@ -783,7 +781,6 @@ public class Korean {
 		return c + "";
 	}
 
-
 	// static {
 	// String s = "\ub450";
 	// s = flattenKorean(s);
@@ -796,7 +793,7 @@ public class Korean {
 	// s = unflattenKorean(s).toString();
 	// Log.debug("\u1103\u116E goes to " + StringUtil.toHexString(s));
 	// }
-	
+
 	public static String mergeDoubleCharacters(String str) {
 		return mergeDoubleCharacters(str, true);
 	}
@@ -1105,8 +1102,7 @@ public class Korean {
 
 		if (Korean.isKoreanLeadChar(lastChar, true)
 				&& Korean.isKoreanVowelChar(newChar, true)) {
-			String replaceChar = Korean
-					.unflattenKorean(lastChar + "" + newChar)
+			String replaceChar = Korean.unflattenKorean(lastChar + "" + newChar)
 					.toString();
 			// System.err.println("need to replace " + lastChar + " "
 			// + toHexString(lastChar) + " with " + replaceChar + " "
@@ -1131,7 +1127,6 @@ public class Korean {
 		// ie "\u3134" needs to change from tail (\u11ab) to lead (\u1102)
 
 		String lastCharFlat = Korean.flattenKorean(lastChar + "");
-
 
 		if (lastCharFlat.length() == 3
 				&& Korean.isKoreanVowelChar(newChar, true)) {
@@ -1180,7 +1175,6 @@ public class Korean {
 			ret[0] = newLastChar;
 			ret[1] = newNewChar;
 			return ret;
-
 
 		}
 
@@ -1351,11 +1345,10 @@ public class Korean {
 	 * @return if ch is a single char (ie not a compound one)
 	 */
 	public static boolean isSingleKoreanChar(char ch) {
-		
+
 		return isKoreanLeadChar(ch, true) || isKoreanVowelChar(ch, true)
 				|| isKoreanTailChar(ch, true);
-		
-		
+
 	}
 
 }

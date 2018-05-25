@@ -130,8 +130,8 @@ public enum Greek {
 	}
 
 	/**
-	 * 
 	 * @param ch
+	 *            unicode char
 	 * @return LaTeX form WITHOUT leading \ eg "alpha" (or null if it's not a
 	 *         Greek char)
 	 */
@@ -145,6 +145,9 @@ public enum Greek {
 		return null;
 	}
 
+	/**
+	 * @return greek lowercase characters excluding pi
+	 */
 	public static char[] getGreekLowerCaseNoPi() {
 
 		if (greekLowerCaseNoPi == null) {
@@ -168,6 +171,9 @@ public enum Greek {
 
 	}
 
+	/**
+	 * @return uppercase greek characters
+	 */
 	public static char[] getGreekUpperCase() {
 
 		if (greekUpperCase == null) {

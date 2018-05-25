@@ -25,6 +25,7 @@
  * 02110-1301, USA.
  *
  */
+
 package com.himamis.retex.editor.share.model;
 
 import java.util.ArrayList;
@@ -40,19 +41,21 @@ import com.himamis.retex.editor.share.model.traverse.Traversing;
  */
 abstract public class MathContainer extends MathComponent {
 
-    protected ArrayList<MathComponent> arguments = null;
+	protected ArrayList<MathComponent> arguments = null;
 
-    MathContainer(int size) {
-        if (size > 0) {
-            ensureArguments(size);
-        }
-    }
+	MathContainer(int size) {
+		if (size > 0) {
+			ensureArguments(size);
+		}
+	}
 
 	/**
 	 * checks previous character to see if it combines with ch
 	 * 
 	 * @param i
+	 *            index
 	 * @param comp
+	 *            new character
 	 * @return true if it's been combined (so ch doesn't need adding)
 	 */
 	protected boolean checkKorean(int i, MathComponent comp) {
@@ -104,11 +107,11 @@ abstract public class MathContainer extends MathComponent {
 			if (newNewChar == 0) {
 				return true;
 			}
-			
+
 			MathCharacter mathChar = (MathCharacter) comp;
 			mathChar.setChar(new MetaCharacter(newNewChar + "", newNewChar + "",
 					newNewChar, newNewChar, MetaCharacter.CHARACTER));
-			
+
 			// make sure comp is still inserted
 			return false;
 
@@ -129,43 +132,41 @@ abstract public class MathContainer extends MathComponent {
 	// return sb.toString();
 	// }
 
-
-
 	protected void ensureArguments(int size) {
-        if (arguments == null) {
+		if (arguments == null) {
 			arguments = new ArrayList<>(size);
-        } else {
-            arguments.ensureCapacity(size);
-        }
-        while (arguments.size() < size) {
-            arguments.add(null);
-        }
-    }
+		} else {
+			arguments.ensureCapacity(size);
+		}
+		while (arguments.size() < size) {
+			arguments.add(null);
+		}
+	}
 
-    /**
+	/**
 	 * Returns i-th argument.
 	 * 
 	 * @param i
 	 *            index
 	 * @return argument
 	 */
-    public MathComponent getArgument(int i) {
+	public MathComponent getArgument(int i) {
 		return (arguments != null && arguments.size() > i && i >= 0
 				? arguments.get(i) : null);
-    }
+	}
 
-    /**
+	/**
 	 * Sets i-th argument.
 	 */
-    public void setArgument(int i, MathComponent argument) {
-        if (arguments == null) {
+	public void setArgument(int i, MathComponent argument) {
+		if (arguments == null) {
 			arguments = new ArrayList<>(i + 1);
-        }
-        if (argument != null) {
-            argument.setParent(this);
-        }
-        arguments.set(i, argument);
-    }
+		}
+		if (argument != null) {
+			argument.setParent(this);
+		}
+		arguments.set(i, argument);
+	}
 
 	public void removeArgument(int i) {
 		if (arguments == null) {
@@ -177,157 +178,157 @@ abstract public class MathContainer extends MathComponent {
 		arguments.remove(i);
 	}
 
-    public void clearArguments() {
-        if (arguments == null) {
+	public void clearArguments() {
+		if (arguments == null) {
 			arguments = new ArrayList<>();
-        }
-        for (int i = arguments.size() - 1; i > -1; i--) {
-            removeArgument(i);
-        }
-    }
+		}
+		for (int i = arguments.size() - 1; i > -1; i--) {
+			removeArgument(i);
+		}
+	}
 
-    public void addArgument(MathComponent argument) {
-        if (arguments == null) {
+	public void addArgument(MathComponent argument) {
+		if (arguments == null) {
 			arguments = new ArrayList<>(1);
-        }
-        if (argument != null) {
-            argument.setParent(this);
-        }
-        arguments.add(argument);
-    }
+		}
+		if (argument != null) {
+			argument.setParent(this);
+		}
+		arguments.add(argument);
+	}
 
 	public boolean addArgument(int index, MathComponent argument) {
-        if (arguments == null) {
+		if (arguments == null) {
 			arguments = new ArrayList<>(index + 1);
-        }
-        if (argument != null) {
-            argument.setParent(this);
-        }
-        arguments.add(index, argument);
+		}
+		if (argument != null) {
+			argument.setParent(this);
+		}
+		arguments.add(index, argument);
 
 		return true;
-    }
+	}
 
-    /**
-     * Returns number of arguments.
-     */
-    public int size() {
-        return arguments != null ? arguments.size() : 0;
-    }
+	/**
+	 * Returns number of arguments.
+	 */
+	public int size() {
+		return arguments != null ? arguments.size() : 0;
+	}
 
-    /**
-     * Get index of first argument.
-     */
-    public int first() {
-        // strange but correct
-        return next(-1);
-    }
+	/**
+	 * Get index of first argument.
+	 */
+	public int first() {
+		// strange but correct
+		return next(-1);
+	}
 
-    /**
-     * Get index of last argument.
-     */
-    public int last() {
-        return prev(arguments != null ? arguments.size() : 0);
-    }
+	/**
+	 * Get index of last argument.
+	 */
+	public int last() {
+		return prev(arguments != null ? arguments.size() : 0);
+	}
 
-    /**
-     * Is there a next argument?
-     */
-    public boolean hasNext(int current) {
-        for (int i = current + 1; i < (arguments != null ? arguments.size() : 0); i++) {
-            if (getArgument(i) instanceof MathContainer) {
-                return true;
-            }
-        }
-        return false;
-    }
+	/**
+	 * Is there a next argument?
+	 */
+	public boolean hasNext(int current) {
+		for (int i = current + 1; i < (arguments != null ? arguments.size()
+				: 0); i++) {
+			if (getArgument(i) instanceof MathContainer) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    /**
-     * Get index of next argument.
-     */
-    public int next(int current) {
-        for (int i = current + 1; i < (arguments != null ? arguments.size() : 0); i++) {
-            if (getArgument(i) instanceof MathContainer) {
-                return i;
-            }
-        }
-        throw new ArrayIndexOutOfBoundsException(
-                "Index out of array bounds.");
-    }
+	/**
+	 * Get index of next argument.
+	 */
+	public int next(int current) {
+		for (int i = current + 1; i < (arguments != null ? arguments.size()
+				: 0); i++) {
+			if (getArgument(i) instanceof MathContainer) {
+				return i;
+			}
+		}
+		throw new ArrayIndexOutOfBoundsException("Index out of array bounds.");
+	}
 
-    /**
-     * Is there previous argument?
-     */
-    public boolean hasPrev(int current) {
-        for (int i = current - 1; i >= 0; i--) {
-            if (getArgument(i) instanceof MathContainer) {
-                return true;
-            }
-        }
-        return false;
-    }
+	/**
+	 * Is there previous argument?
+	 */
+	public boolean hasPrev(int current) {
+		for (int i = current - 1; i >= 0; i--) {
+			if (getArgument(i) instanceof MathContainer) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    /**
-     * Get index of previous argument.
-     */
-    public int prev(int current) {
-        for (int i = current - 1; i >= 0; i--) {
-            if (getArgument(i) instanceof MathContainer) {
-                return i;
-            }
-        }
-        throw new ArrayIndexOutOfBoundsException(
-                "Index out of array bounds.");
-    }
+	/**
+	 * Get index of previous argument.
+	 */
+	public int prev(int current) {
+		for (int i = current - 1; i >= 0; i--) {
+			if (getArgument(i) instanceof MathContainer) {
+				return i;
+			}
+		}
+		throw new ArrayIndexOutOfBoundsException("Index out of array bounds.");
+	}
 
-    /**
-     * Are there any arguments?
-     */
-    public boolean hasChildren() {
-        for (int i = 0; i < (arguments != null ? arguments.size() : 0); i++) {
-            if (getArgument(i) instanceof MathContainer) {
-                return true;
-            }
-        }
-        return false;
-    }
+	/**
+	 * Are there any arguments?
+	 */
+	public boolean hasChildren() {
+		for (int i = 0; i < (arguments != null ? arguments.size() : 0); i++) {
+			if (getArgument(i) instanceof MathContainer) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public int getInsertIndex() {
-        return 0;
-    }
+	public int getInsertIndex() {
+		return 0;
+	}
 
-    public int getInitialIndex() {
-        return 0;
-    }
+	public int getInitialIndex() {
+		return 0;
+	}
 
-    @Override
+	@Override
 	public MathComponent traverse(Traversing traversing) {
-        MathComponent component = traversing.process(this);
-        if (component != this) {
-            return component;
-        }
-        for (int i = 0; i < size(); i++) {
-            MathComponent argument = getArgument(i);
-            setArgument(i, argument.traverse(traversing));
-        }
-        return this;
-    }
+		MathComponent component = traversing.process(this);
+		if (component != this) {
+			return component;
+		}
+		for (int i = 0; i < size(); i++) {
+			MathComponent argument = getArgument(i);
+			setArgument(i, argument.traverse(traversing));
+		}
+		return this;
+	}
 
-    @Override
-    public boolean inspect(Inspecting inspecting) {
-        if (inspecting.check(this)) {
-            return true;
-        }
-        for (int i = 0; i < size(); i++) {
-            MathComponent argument = getArgument(i);
-            if (inspecting.check(argument)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean inspect(Inspecting inspecting) {
+		if (inspecting.check(this)) {
+			return true;
+		}
+		for (int i = 0; i < size(); i++) {
+			MathComponent argument = getArgument(i);
+			if (inspecting.check(argument)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    @Override
+	@Override
 	public abstract MathContainer copy();
 
 	public int indexOf(MathComponent argument) {

@@ -25,6 +25,7 @@
  * 02110-1301, USA.
  *
  */
+
 package com.himamis.retex.editor.share.model;
 
 import com.himamis.retex.editor.share.meta.MetaFunction;

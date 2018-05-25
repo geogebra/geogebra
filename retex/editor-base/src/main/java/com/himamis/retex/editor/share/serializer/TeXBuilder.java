@@ -44,9 +44,10 @@ public class TeXBuilder {
 	private Atom buildSequence(MathSequence mathFormula) {
 		return buildSequence(mathFormula, 0, mathFormula.size() - 1);
 	}
+
 	private Atom buildSequence(MathSequence mathFormula, int from, int to) {
 		RowAtom ra = new RowAtom(null);
-		int i= from;
+		int i = from;
 		if (mathFormula == currentField && to < from) {
 			addCursor(ra);
 		}
@@ -63,21 +64,19 @@ public class TeXBuilder {
 					continue;
 				}
 			}
-			
 
 			if (mathFormula.getArgument(i) == selectionStart) {
 				selectionStart = null;
 				SelectionAtom sa = new SelectionAtom(
 						buildSequence(mathFormula, i,
 								selectionEnd.getParentIndex()),
-						ColorAtom.getColor("#CCCCFF"),
-						null);
+						ColorAtom.getColor("#CCCCFF"), null);
 				ra.add(sa);
 				i = selectionEnd.getParentIndex();
 			} else {
 				addArg(ra, mathFormula.getArgument(i));
 			}
-			
+
 			if (mathFormula == currentField && i == currentOffset - 1
 					&& selectionEnd == null) {
 				addCursor(ra);
@@ -103,6 +102,7 @@ public class TeXBuilder {
 		}
 
 	}
+
 	private static void addCursor(RowAtom ra) {
 		ra.add(new CursorAtom(FactoryProvider.getInstance().getGraphicsFactory()
 				.createColor(0, 80, 0), 0.9));
@@ -113,14 +113,11 @@ public class TeXBuilder {
 		Atom ret = null;
 		if (argument instanceof MathCharacter) {
 			ret = newCharAtom(((MathCharacter) argument).getUnicode());
-		}
-		else if (argument instanceof MathFunction) {
+		} else if (argument instanceof MathFunction) {
 			ret = buildFunction((MathFunction) argument);
-		}
-		else if (argument instanceof MathArray) {
+		} else if (argument instanceof MathArray) {
 			ret = buildArray((MathArray) argument);
-		}
-		else if (argument instanceof MathSequence) {
+		} else if (argument instanceof MathSequence) {
 			ret = buildSequence((MathSequence) argument);
 		} else {
 			ret = new EmptyAtom();
@@ -177,6 +174,7 @@ public class TeXBuilder {
 				new SymbolAtom(leftKey, TeXConstants.TYPE_OPENING, true),
 				new SymbolAtom(rightKey, TeXConstants.TYPE_CLOSING, true));
 	}
+
 	private Atom buildFunction(MathFunction argument) {
 		switch (argument.getName()) {
 		case SUPERSCRIPT:
@@ -190,12 +188,11 @@ public class TeXBuilder {
 			return new ScriptsAtom(build(parent.getArgument(idx - 1)),
 					build(argument.getArgument(0)), null);
 		case FRAC:
-			return new FractionAtom(
-					build(argument.getArgument(0)),
+			return new FractionAtom(build(argument.getArgument(0)),
 					build(argument.getArgument(1)));
 		case SQRT:
 			return new NthRoot(build(argument.getArgument(0)), new EmptyAtom());
-		case  NROOT:
+		case NROOT:
 
 			return new NthRoot(build(argument.getArgument(1)),
 					build(argument.getArgument(0)));

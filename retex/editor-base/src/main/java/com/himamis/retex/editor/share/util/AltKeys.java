@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public class AltKeys {
 
-	private static HashMap<Character, String> lookupLower = null,
-			lookupUpper = null;
+	private static HashMap<Character, String> lookupLower = null;
+	private static HashMap<Character, String> lookupUpper = null;
 
 	private static void init(boolean chromeApp) {
 		lookupLower = new HashMap<>();

@@ -8,6 +8,7 @@ apply plugin: 'ca.coglinc.javacc'
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'pmd'
+apply plugin: 'checkstyle'
 
 group 'com.himamis.retex'
 version '0.1'
@@ -42,4 +43,8 @@ pmd {
      ignoreFailures = true
      ruleSets = []
      ruleSetFiles = files("config/pmd.xml")
+}
+
+checkstyle {
+    toolVersion = "8.8"
 }

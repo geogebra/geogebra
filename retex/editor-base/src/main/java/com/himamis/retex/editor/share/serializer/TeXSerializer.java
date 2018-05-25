@@ -17,21 +17,21 @@ public class TeXSerializer extends SerializerAdapter {
 	private static final String selection_start = "\\jlmselection{";
 	private static final String selection_end = "}";
 
-
-    private static final String characterMissing = "\\nbsp ";
+	private static final String characterMissing = "\\nbsp ";
 
 	/**
 	 * Creates new TeX serializer
 	 */
 	public TeXSerializer() {
-    }
+	}
 
-    @Override
-    public void serialize(MathCharacter mathCharacter, StringBuilder stringBuilder) {
+	@Override
+	public void serialize(MathCharacter mathCharacter,
+			StringBuilder stringBuilder) {
 		if (mathCharacter.getUnicode() == Unicode.ZERO_WIDTH_SPACE) {
 			return;
 		}
-        // jmathtex v0.7: incompatibility
+		// jmathtex v0.7: incompatibility
 		if (mathCharacter == currentSelStart) {
 			stringBuilder.append(selection_start);
 		}
@@ -41,113 +41,114 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\@ ");
 		} else if (" ".equals(mathCharacter.getName())) {
 			stringBuilder.append("\\nbsp ");
-        } else {
-            String texName = mathCharacter.getTexName();
-            if (LaTeXUtil.isSymbolEscapeable(texName)) {
-                // escape special symbols
-                stringBuilder.append('\\');
-                stringBuilder.append(texName);
-            } else if (LaTeXUtil.isReplaceableSymbol(texName)) {
-                stringBuilder.append(LaTeXUtil.replaceSymbol(texName));
-            } else {
-                stringBuilder.append(texName);
-            }
-        }
+		} else {
+			String texName = mathCharacter.getTexName();
+			if (LaTeXUtil.isSymbolEscapeable(texName)) {
+				// escape special symbols
+				stringBuilder.append('\\');
+				stringBuilder.append(texName);
+			} else if (LaTeXUtil.isReplaceableSymbol(texName)) {
+				stringBuilder.append(LaTeXUtil.replaceSymbol(texName));
+			} else {
+				stringBuilder.append(texName);
+			}
+		}
 		if (mathCharacter == currentSelEnd) {
 			stringBuilder.append(selection_end);
 		}
 
-        // safety space after operator / symbol
-        if (mathCharacter.isOperator() || mathCharacter.isSymbol()) {
-            stringBuilder.append(' ');
-        }
-    }
+		// safety space after operator / symbol
+		if (mathCharacter.isOperator() || mathCharacter.isSymbol()) {
+			stringBuilder.append(' ');
+		}
+	}
 
-    @Override
-    public void serialize(MathSequence sequence, StringBuilder stringBuilder) {
+	@Override
+	public void serialize(MathSequence sequence, StringBuilder stringBuilder) {
 		if (sequence == null) {
 			stringBuilder.append("?");
 			return;
 		}
 		int lengthBefore = stringBuilder.length();
-        boolean addBraces = (sequence.hasChildren() || // {a^b_c}
-                sequence.size() > 1 || // {aa}
-                (sequence.size() == 1 && letterLength(sequence, 0) > 1) || // {\pi}
-                (sequence.size() == 0 && sequence != currentField) || // {\triangleright}
-                (sequence.size() == 1 && sequence == currentField))
-                && // {a|}
-                (stringBuilder.length() > 0 && stringBuilder.charAt(stringBuilder.length() - 1) != '{');
+		boolean addBraces = (sequence.hasChildren() || // {a^b_c}
+				sequence.size() > 1 || // {aa}
+				(sequence.size() == 1 && letterLength(sequence, 0) > 1) || // {\pi}
+				(sequence.size() == 0 && sequence != mCurrentField) || // {\triangleright}
+				(sequence.size() == 1 && sequence == mCurrentField)) && // {a|}
+				(stringBuilder.length() > 0 && stringBuilder
+						.charAt(stringBuilder.length() - 1) != '{');
 		if (sequence == currentSelStart) {
 			stringBuilder.append(selection_start);
 		}
-        if (addBraces) {
-            // when necessary add curly braces
-            stringBuilder.append('{');
-        }
+		if (addBraces) {
+			// when necessary add curly braces
+			stringBuilder.append('{');
+		}
 
-        if (sequence.size() == 0) {
-			if (sequence == currentField) {
+		if (sequence.size() == 0) {
+			if (sequence == mCurrentField) {
 				if (currentSelStart == null) {
 					stringBuilder.append(cursorBig);
 				}
-            } else {
-                if (sequence.getParent() == null
-                        || /* symbol.getParent() instanceof MathOperator || */
-                        (sequence.getParent() instanceof MathFunction && sequence
-                                .getParentIndex() == sequence.getParent()
-                                .getInsertIndex())) {
-                    stringBuilder.append(characterMissing);
-                } else {
-                    stringBuilder.append(characterMissing);
-                }
-            }
-        } else {
-            if (sequence == currentField) {
+			} else {
+				if (sequence.getParent() == null
+						|| /* symbol.getParent() instanceof MathOperator || */
+						(sequence.getParent() instanceof MathFunction
+								&& sequence.getParentIndex() == sequence
+										.getParent().getInsertIndex())) {
+					stringBuilder.append(characterMissing);
+				} else {
+					stringBuilder.append(characterMissing);
+				}
+			}
+		} else {
+			if (sequence == mCurrentField) {
 
-				if (currentOffset > 0) {
-					serialize(sequence, stringBuilder, 0, currentOffset);
+				if (mCurrentOffset > 0) {
+					serialize(sequence, stringBuilder, 0, mCurrentOffset);
 				}
 				if (currentSelStart == null) {
-					
+
 					stringBuilder.append(cursor);
 
 				}
-				if (currentOffset < sequence.size()) {
-					serialize(sequence, stringBuilder, currentOffset,
+				if (mCurrentOffset < sequence.size()) {
+					serialize(sequence, stringBuilder, mCurrentOffset,
 							sequence.size());
 				}
 				boolean emptyFormula = stringBuilder
-						.substring(lengthBefore, stringBuilder.length())
-						.trim().replace("\\nbsp", "").replace(cursor, "")
-						.isEmpty();
-				if(emptyFormula){
-					String cursorFix = stringBuilder.toString().replace(cursor,cursorBig);
+						.substring(lengthBefore, stringBuilder.length()).trim()
+						.replace("\\nbsp", "").replace(cursor, "").isEmpty();
+				if (emptyFormula) {
+					String cursorFix = stringBuilder.toString().replace(cursor,
+							cursorBig);
 					stringBuilder.setLength(0);
 					stringBuilder.append(cursorFix);
 				}
-            } else {
-                serialize(sequence, stringBuilder, 0, sequence.size());
-            }
-        }
+			} else {
+				serialize(sequence, stringBuilder, 0, sequence.size());
+			}
+		}
 
-        if (addBraces) {
-            // when necessary add curly braces
-            stringBuilder.append('}');
-        }
+		if (addBraces) {
+			// when necessary add curly braces
+			stringBuilder.append('}');
+		}
 		if (sequence == currentSelEnd) {
 			stringBuilder.append(selection_end);
 		}
-    }
+	}
 
-    @Override
-    public void serialize(MathSequence sequence, StringBuilder stringBuilder, int from, int to) {
-        for (int i = from; i < to; i++) {
-            serialize(sequence.getArgument(i), stringBuilder);
-        }
-    }
+	@Override
+	public void serialize(MathSequence sequence, StringBuilder stringBuilder,
+			int from, int to) {
+		for (int i = from; i < to; i++) {
+			serialize(sequence.getArgument(i), stringBuilder);
+		}
+	}
 
-    @Override
-    public void serialize(MathFunction function, StringBuilder stringBuilder) {
+	@Override
+	public void serialize(MathFunction function, StringBuilder stringBuilder) {
 		if (function == currentSelStart) {
 			stringBuilder.append(selection_start);
 		}
@@ -285,10 +286,12 @@ public class TeXSerializer extends SerializerAdapter {
 			String idxType) {
 		MathSequence parent = function.getParent();
 		int index = function.getParentIndex();
-		if (index == 0 || (index > 0
-				&& parent.getArgument(index - 1) instanceof MathCharacter
-				&& ((MathCharacter) parent.getArgument(index - 1))
-						.isOperator())) {
+		if (index == 0
+				|| (index > 0
+						&& parent
+								.getArgument(index - 1) instanceof MathCharacter
+						&& ((MathCharacter) parent.getArgument(index - 1))
+								.isOperator())) {
 			stringBuilder.append(characterMissing);
 		}
 		stringBuilder.append(idxType);
@@ -329,15 +332,15 @@ public class TeXSerializer extends SerializerAdapter {
 		if (this.currentSelEnd == array) {
 			stringBuilder.append(TeXSerializer.selection_end);
 		}
-    }
+	}
 
-    private static int letterLength(MathSequence symbol, int i) {
-        if (symbol.getArgument(i) instanceof MathCharacter) {
-            return ((MathCharacter) symbol.getArgument(i)).getTexName()
-                    .length();
-        }
+	private static int letterLength(MathSequence symbol, int i) {
+		if (symbol.getArgument(i) instanceof MathCharacter) {
+			return ((MathCharacter) symbol.getArgument(i)).getTexName()
+					.length();
+		}
 		return 2;
-    }
+	}
 
 	/**
 	 * @param ms

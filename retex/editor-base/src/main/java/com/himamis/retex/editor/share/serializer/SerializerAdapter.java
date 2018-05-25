@@ -10,25 +10,48 @@ import com.himamis.retex.editor.share.model.MathSequence;
 
 public abstract class SerializerAdapter implements Serializer {
 
-	protected MathContainer currentField = null;
+	protected MathContainer mCurrentField = null;
 	protected MathComponent currentSelStart = null;
 	protected MathComponent currentSelEnd = null;
-    protected int currentOffset = 0;
+    protected int mCurrentOffset = 0;
     protected boolean currentBraces = true;
 
     @Override
 	public String serialize(MathFormula formula) {
 		return serialize(formula, null, 0, null, null);
     }
+
+	/**
+	 * @param formula
+	 *            formula
+	 * @param currentField
+	 *            field with cursor
+	 * @param currentOffset
+	 *            cursor offset
+	 * @return serialized formula
+	 */
     public String serialize(MathFormula formula, MathSequence currentField,
 			int currentOffset) {
 		return serialize(formula, currentField, currentOffset, null, null);
 	}
 
+	/**
+	 * @param formula
+	 *            formula
+	 * @param currentField
+	 *            field with cursor
+	 * @param currentOffset
+	 *            cursor offset
+	 * @param selStart
+	 *            selected area start
+	 * @param selEnd
+	 *            selected area end
+	 * @return serialized formula
+	 */
 	public String serialize(MathFormula formula, MathSequence currentField,
 			int currentOffset, MathComponent selStart, MathComponent selEnd) {
-        this.currentField = currentField;
-        this.currentOffset = currentOffset;
+        this.mCurrentField = currentField;
+        this.mCurrentOffset = currentOffset;
 		this.currentSelEnd = selEnd;
 		this.currentSelStart = selStart;
         currentBraces = currentField != null;
@@ -37,16 +60,31 @@ public abstract class SerializerAdapter implements Serializer {
         return buffer.toString();
     }
 
+	/**
+	 * @param container
+	 *            part of formula
+	 * @param currentField
+	 *            field with cursor
+	 * @param currentOffset
+	 *            cursor offset
+	 * @return serialized formula
+	 */
     public String serialize(MathContainer container, MathSequence currentField,
                             int currentOffset) {
-        this.currentField = currentField;
-        this.currentOffset = currentOffset;
+        this.mCurrentField = currentField;
+        this.mCurrentOffset = currentOffset;
         currentBraces = currentField != null;
         StringBuilder stringBuilder = new StringBuilder();
         serialize(container, stringBuilder);
         return stringBuilder.toString();
     }
 
+	/**
+	 * @param container
+	 *            part of formula
+	 * @param stringBuilder
+	 *            output string builder
+	 */
     public void serialize(MathComponent container, StringBuilder stringBuilder) {
         if (container instanceof MathCharacter) {
             serialize((MathCharacter) container, stringBuilder);

@@ -19,22 +19,24 @@ public class CursorController {
 	 * @return whether we moved right
 	 */
 	public static boolean nextCharacter(EditorState editorState) {
-        int currentOffset = editorState.getCurrentOffset();
-        MathSequence currentField = editorState.getCurrentField();
-        if (currentOffset < currentField.size() &&
-                currentField.getArgument(currentOffset) != null &&
-                currentField.getArgument(currentOffset) instanceof MathContainer &&
-                ((MathContainer) currentField.getArgument(currentOffset)).hasChildren()) {
-            MathComponent component = currentField.getArgument(currentOffset);
-            firstField(editorState, (MathContainer) component);
+		int currentOffset = editorState.getCurrentOffset();
+		MathSequence currentField = editorState.getCurrentField();
+		if (currentOffset < currentField.size()
+				&& currentField.getArgument(currentOffset) != null
+				&& currentField
+						.getArgument(currentOffset) instanceof MathContainer
+				&& ((MathContainer) currentField.getArgument(currentOffset))
+						.hasChildren()) {
+			MathComponent component = currentField.getArgument(currentOffset);
+			firstField(editorState, (MathContainer) component);
 			return true;
-        } else if (currentOffset < currentField.size()) {
-            editorState.incCurrentOffset();
+		} else if (currentOffset < currentField.size()) {
+			editorState.incCurrentOffset();
 			return true;
-        } else {
+		} else {
 			return nextField(editorState);
-        }
-    }
+		}
+	}
 
 	/**
 	 * Previous character &larr; key.
@@ -42,22 +44,25 @@ public class CursorController {
 	 * @param editorState
 	 *            current state
 	 */
-    public void prevCharacter(EditorState editorState) {
-        int currentOffset = editorState.getCurrentOffset();
-        MathSequence currentField = editorState.getCurrentField();
-        if (currentOffset - 1 >= 0 &&
-                currentField.getArgument(currentOffset - 1) != null &&
-                currentField.getArgument(currentOffset - 1) instanceof MathContainer &&
-                ((MathContainer) currentField.getArgument(currentOffset - 1)).hasChildren()) {
-            MathComponent component = currentField.getArgument(currentOffset - 1);
-            lastField(editorState, (MathContainer) component);
+	public void prevCharacter(EditorState editorState) {
+		int currentOffset = editorState.getCurrentOffset();
+		MathSequence currentField = editorState.getCurrentField();
+		if (currentOffset - 1 >= 0
+				&& currentField.getArgument(currentOffset - 1) != null
+				&& currentField
+						.getArgument(currentOffset - 1) instanceof MathContainer
+				&& ((MathContainer) currentField.getArgument(currentOffset - 1))
+						.hasChildren()) {
+			MathComponent component = currentField
+					.getArgument(currentOffset - 1);
+			lastField(editorState, (MathContainer) component);
 
-        } else if (currentOffset > 0) {
-            editorState.decCurrentOffset();
-        } else {
-            prevField(editorState);
-        }
-    }
+		} else if (currentOffset > 0) {
+			editorState.decCurrentOffset();
+		} else {
+			prevField(editorState);
+		}
+	}
 
 	/**
 	 * Move to the beginning of the whole expression
@@ -65,9 +70,9 @@ public class CursorController {
 	 * @param editorState
 	 *            current state
 	 */
-    public static void firstField(EditorState editorState) {
-        firstField(editorState, editorState.getRootComponent());
-    }
+	public static void firstField(EditorState editorState) {
+		firstField(editorState, editorState.getRootComponent());
+	}
 
 	/**
 	 * Move to the beginning of a subexpression
@@ -80,14 +85,14 @@ public class CursorController {
 	public static void firstField(EditorState editorState,
 			MathContainer component0) {
 		MathContainer component = component0;
-        // surface to first symbol
-        while (!(component instanceof MathSequence)) {
-            int current = component.first();
-            component = (MathContainer) component.getArgument(current);
-        }
-        editorState.setCurrentField((MathSequence) component);
-        editorState.setCurrentOffset(0);
-    }
+		// surface to first symbol
+		while (!(component instanceof MathSequence)) {
+			int current = component.first();
+			component = (MathContainer) component.getArgument(current);
+		}
+		editorState.setCurrentField((MathSequence) component);
+		editorState.setCurrentOffset(0);
+	}
 
 	/**
 	 * Move to the end of the whole expression
@@ -95,9 +100,9 @@ public class CursorController {
 	 * @param editorState
 	 *            current state
 	 */
-    public static void lastField(EditorState editorState) {
-        lastField(editorState, editorState.getRootComponent());
-    }
+	public static void lastField(EditorState editorState) {
+		lastField(editorState, editorState.getRootComponent());
+	}
 
 	/**
 	 * @param editorState
@@ -108,126 +113,128 @@ public class CursorController {
 	public static void lastField(EditorState editorState,
 			MathContainer component0) {
 		MathContainer component = component0;
-        // surface to last symbol
-        while (!(component instanceof MathSequence)) {
-            int current = component.last();
-            component = (MathContainer) component.getArgument(current);
-        }
-        editorState.setCurrentField((MathSequence) component);
-        editorState.setCurrentOffset(component.size());
-    }
+		// surface to last symbol
+		while (!(component instanceof MathSequence)) {
+			int current = component.last();
+			component = (MathContainer) component.getArgument(current);
+		}
+		editorState.setCurrentField((MathSequence) component);
+		editorState.setCurrentOffset(component.size());
+	}
 
 	public static boolean nextField(EditorState editorState) {
 		return nextField(editorState, editorState.getCurrentField());
-    }
+	}
 
 	public static boolean nextField(EditorState editorState,
 			MathContainer component) {
-        // retrieve parent
-        MathContainer container = component.getParent();
-        int current = component.getParentIndex();
+		// retrieve parent
+		MathContainer container = component.getParent();
+		int current = component.getParentIndex();
 
-        if (container == null) {
-            // this component has no parent
-            // previous component doesn't exist
-            // no-op
+		if (container == null) {
+			// this component has no parent
+			// previous component doesn't exist
+			// no-op
 			return false;
-        } else if (container instanceof MathSequence) {
-            editorState.setCurrentField((MathSequence) container);
+		} else if (container instanceof MathSequence) {
+			editorState.setCurrentField((MathSequence) container);
 			editorState.setCurrentOffset(component.getParentIndex() + 1);
 			return container.size() > component.getParentIndex();
-            // try to find next sibling
-        } else if (container.hasNext(current)) {
-            current = container.next(current);
+			// try to find next sibling
+		} else if (container.hasNext(current)) {
+			current = container.next(current);
 			MathContainer component1 = (MathContainer) container
 					.getArgument(current);
 			firstField(editorState, component1);
 			return true;
-            // try to delve down the tree
-        } else {
+			// try to delve down the tree
+		} else {
 			return nextField(editorState, container);
-        }
-    }
+		}
+	}
 
+	/** Find previous field. */
+	public void prevField(EditorState editorState) {
+		prevField(editorState, editorState.getCurrentField());
+	}
 
-    /** Find previous field. */
-    public void prevField(EditorState editorState) {
-        prevField(editorState, editorState.getCurrentField());
-    }
+	/* Search for previous component */
+	private void prevField(EditorState editorState, MathContainer component) {
+		// retrieve parent
+		MathContainer container = component.getParent();
+		int current = component.getParentIndex();
 
-    /* Search for previous component */
-    private void prevField(EditorState editorState, MathContainer component) {
-        // retrieve parent
-        MathContainer container = component.getParent();
-        int current = component.getParentIndex();
-
-        if (container == null) {
-            // this component has no parent
-            // previous component doesn't exist
-            // no-op
+		if (container == null) {
+			// this component has no parent
+			// previous component doesn't exist
+			// no-op
 			return;
 		}
 		if (container instanceof MathSequence) {
-            editorState.setCurrentField((MathSequence) container);
-            editorState.setCurrentOffset(component.getParentIndex());
+			editorState.setCurrentField((MathSequence) container);
+			editorState.setCurrentOffset(component.getParentIndex());
 
-            // try to find previous sibling
-        } else if (container.hasPrev(current)) {
-            current = container.prev(current);
+			// try to find previous sibling
+		} else if (container.hasPrev(current)) {
+			current = container.prev(current);
 			MathContainer component1 = (MathContainer) container
 					.getArgument(current);
 			lastField(editorState, component1);
 
-            // delve down the tree
-        } else {
-            prevField(editorState, container);
-        }
-    }
+			// delve down the tree
+		} else {
+			prevField(editorState, container);
+		}
+	}
 
-    /** Up field. */
-    public boolean upField(EditorState editorState) {
-        return upField(editorState, editorState.getCurrentField());
-    }
+	/** Up field. */
+	public boolean upField(EditorState editorState) {
+		return upField(editorState, editorState.getCurrentField());
+	}
 
-    /** Down field. */
-    public boolean downField(EditorState editorState) {
-        return downField(editorState, editorState.getCurrentField());
-    }
+	/** Down field. */
+	public boolean downField(EditorState editorState) {
+		return downField(editorState, editorState.getCurrentField());
+	}
 
-    /** Up field. */
-    private boolean upField(EditorState editorState, MathContainer component) {
-        if (component instanceof MathSequence) {
-            if (component.getParent() instanceof MathFunction) {
-                MathFunction function = (MathFunction) component.getParent();
-                int upIndex = function.getUpIndex(component.getParentIndex());
-                if (upIndex >= 0) {
-                    editorState.setCurrentField(function.getArgument(upIndex));
-                    editorState.setCurrentOffset(0);
-                    return true;
-                }
-            }
-        }
+	/** Up field. */
+	private boolean upField(EditorState editorState, MathContainer component) {
+		if (component instanceof MathSequence) {
+			if (component.getParent() instanceof MathFunction) {
+				MathFunction function = (MathFunction) component.getParent();
+				int upIndex = function.getUpIndex(component.getParentIndex());
+				if (upIndex >= 0) {
+					editorState.setCurrentField(function.getArgument(upIndex));
+					editorState.setCurrentOffset(0);
+					return true;
+				}
+			}
+		}
 		if (checkMoveArray(component, editorState, -1)) {
 			return true;
 		}
-        if (component.getParent() != null) {
-            return upField(editorState, component.getParent());
-        }
-        return false;
-    }
+		if (component.getParent() != null) {
+			return upField(editorState, component.getParent());
+		}
+		return false;
+	}
 
-    /** Down field. */
-    private boolean downField(EditorState editorState, MathContainer component) {
-        if (component instanceof MathSequence) {
-            if (component.getParent() instanceof MathFunction) {
-                MathFunction function = (MathFunction) component.getParent();
-                int downIndex = function.getDownIndex(component.getParentIndex());
-                if (downIndex >= 0) {
-                    editorState.setCurrentField(function.getArgument(downIndex));
-                    editorState.setCurrentOffset(0);
-                    return true;
-                }
-            }
+	/** Down field. */
+	private boolean downField(EditorState editorState,
+			MathContainer component) {
+		if (component instanceof MathSequence) {
+			if (component.getParent() instanceof MathFunction) {
+				MathFunction function = (MathFunction) component.getParent();
+				int downIndex = function
+						.getDownIndex(component.getParentIndex());
+				if (downIndex >= 0) {
+					editorState
+							.setCurrentField(function.getArgument(downIndex));
+					editorState.setCurrentOffset(0);
+					return true;
+				}
+			}
 
 			// matrix goes here
 		}
@@ -267,31 +274,33 @@ public class CursorController {
 	 * @param ct
 	 *            starting container
 	 * @param editorState
+	 *            editor state
 	 */
 	public static void setPath(ArrayList<Integer> list, MathContainer ct,
 			EditorState editorState) {
 		MathContainer current = ct;
-        int i = list.size() - 1;
-		while (i >=0) {
-            int index = list.get(i);
+		int i = list.size() - 1;
+		while (i >= 0) {
+			int index = list.get(i);
 			if (index < current.size()) {
-                MathComponent child = current.getArgument(index);
-                if (child instanceof MathCharacter){
-                    editorState.setCurrentField((MathSequence) current);
-                    editorState.setCurrentOffset(index);
-                    return;
-                }else if (child instanceof MathSequence) {
+				MathComponent child = current.getArgument(index);
+				if (child instanceof MathCharacter) {
+					editorState.setCurrentField((MathSequence) current);
+					editorState.setCurrentOffset(index);
+					return;
+				} else if (child instanceof MathSequence) {
 					current = (MathSequence) child;
-                    i--;
-				} else  {
-                    i--;
-                    current = (MathSequence) ((MathContainer) child).getArgument(list.get(i));
-                    i--;
-                }
-            } else if (index == current.size()){
-                editorState.setCurrentField((MathSequence) current);
-                editorState.setCurrentOffset(index);
-                return;
+					i--;
+				} else {
+					i--;
+					current = (MathSequence) ((MathContainer) child)
+							.getArgument(list.get(i));
+					i--;
+				}
+			} else if (index == current.size()) {
+				editorState.setCurrentField((MathSequence) current);
+				editorState.setCurrentOffset(index);
+				return;
 			} else {
 				return;
 			}
@@ -299,32 +308,35 @@ public class CursorController {
 
 	}
 
-    /**
-     * set position in editor state from tree path, starting at root component
-     * @param list tree path
-     * @param editorState
-     */
-    public static void setPath(ArrayList<Integer> list, EditorState editorState) {
-        editorState.setCurrentOffset(0);
-        setPath(list, editorState.getRootComponent(), editorState);
-    }
+	/**
+	 * set position in editor state from tree path, starting at root component
+	 * 
+	 * @param list
+	 *            tree path
+	 * @param editorState
+	 *            editor state
+	 */
+	public static void setPath(ArrayList<Integer> list,
+			EditorState editorState) {
+		editorState.setCurrentOffset(0);
+		setPath(list, editorState.getRootComponent(), editorState);
+	}
 
-
-    public static ArrayList<Integer> getPath(EditorState editorState){
+	public static ArrayList<Integer> getPath(EditorState editorState) {
 
 		ArrayList<Integer> path = new ArrayList<>();
 
-        path.add(editorState.getCurrentOffset());
-        MathContainer field = editorState.getCurrentField();
-        MathContainer parent = field.getParent();
-        while (parent != null){
-            path.add(field.getParentIndex());
-            field = parent;
-            parent = field.getParent();
-        }
+		path.add(editorState.getCurrentOffset());
+		MathContainer field = editorState.getCurrentField();
+		MathContainer parent = field.getParent();
+		while (parent != null) {
+			path.add(field.getParentIndex());
+			field = parent;
+			parent = field.getParent();
+		}
 
-        return path;
-    }
+		return path;
+	}
 
 	public void update() {
 		// TODO Auto-generated method stub

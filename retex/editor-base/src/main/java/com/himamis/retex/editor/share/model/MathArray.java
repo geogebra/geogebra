@@ -25,6 +25,7 @@
  * 02110-1301, USA.
  *
  */
+
 package com.himamis.retex.editor.share.model;
 
 import java.util.ArrayList;
@@ -37,64 +38,75 @@ import com.himamis.retex.editor.share.meta.Tag;
 /**
  * Array/array. This class is part of model.
  * <p>
- * array(i)
- * array(i*j)
- * vector(i)
- * array(i*j)
+ * array(i) array(i*j) vector(i) array(i*j)
  *
  * @author Bea Petrovicova
  */
 public class MathArray extends MathContainer {
 
-    private int columns, rows;
-    private MetaArray meta;
+	private int columns;
+	private int rows;
+	private MetaArray meta;
 
-    public MathArray(MetaArray meta, int columns) {
-        super(columns);
-        this.meta = meta;
-        this.columns = columns;
-        this.rows = 1;
-    }
+	/**
+	 * @param meta
+	 *            meta model
+	 * @param columns
+	 *            number of columns
+	 */
+	public MathArray(MetaArray meta, int columns) {
+		super(columns);
+		this.meta = meta;
+		this.columns = columns;
+		this.rows = 1;
+	}
 
-    public MathArray(MetaArray meta, int columns, int rows) {
-        super(columns * rows);
-        this.meta = meta;
-        this.columns = columns;
-        this.rows = rows;
-    }
+	/**
+	 * @param meta
+	 *            meta model
+	 * @param columns
+	 *            number of columns
+	 * @param rows
+	 *            number of rows
+	 */
+	public MathArray(MetaArray meta, int columns, int rows) {
+		super(columns * rows);
+		this.meta = meta;
+		this.columns = columns;
+		this.rows = rows;
+	}
 
-    public void addRow() {
-        for (int i = 0; i < columns; i++) {
-            MathSequence argument = new MathSequence();
-            argument.setParent(this);
-            arguments.add(argument);
-        }
-        rows += 1;
-    }
+	public void addRow() {
+		for (int i = 0; i < columns; i++) {
+			MathSequence argument = new MathSequence();
+			argument.setParent(this);
+			arguments.add(argument);
+		}
+		rows += 1;
+	}
 
-    @Override
+	@Override
 	public MathSequence getArgument(int i) {
-        return (MathSequence) super.getArgument(i);
-    }
+		return (MathSequence) super.getArgument(i);
+	}
 
-    public void setArgument(int i, MathSequence argument) {
-        super.setArgument(i, argument);
-    }
+	public void setArgument(int i, MathSequence argument) {
+		super.setArgument(i, argument);
+	}
 
-    public void addArgument() {
-        MathSequence argument = new MathSequence();
-        super.addArgument(argument);
-        columns += 1;
-    }
+	public void addArgument() {
+		MathSequence argument = new MathSequence();
+		super.addArgument(argument);
+		columns += 1;
+	}
 
+	@Override
+	public void addArgument(MathComponent argument) {
+		super.addArgument(argument);
+		columns += 1;
+	}
 
-    @Override
-    public void addArgument(MathComponent argument) {
-        super.addArgument(argument);
-        columns += 1;
-    }
-
-    @Override
+	@Override
 	public boolean addArgument(int i, MathComponent argument) {
 		if (super.addArgument(i, argument)) {
 			columns += 1;
@@ -102,159 +114,161 @@ public class MathArray extends MathContainer {
 		}
 
 		return false;
+	}
 
-    }
-
-    @Override
+	@Override
 	public void delArgument(int i) {
-        super.removeArgument(i);
-        columns -= 1;
-    }
+		super.removeArgument(i);
+		columns -= 1;
+	}
 
-    /**
-     * Sets i-th row, j-th column cell.
-     */
-    public void setArgument(int i, int j, MathSequence argument) {
-        setArgument(i * columns + j, argument);
-    }
+	/**
+	 * Sets i-th row, j-th column cell.
+	 */
+	public void setArgument(int i, int j, MathSequence argument) {
+		setArgument(i * columns + j, argument);
+	}
 
-    /**
-     * Returns i-th row, j-th column cell.
-     */
-    public MathSequence getArgument(int i, int j) {
-        return getArgument(i * columns + j);
-    }
+	/**
+	 * Returns i-th row, j-th column cell.
+	 */
+	public MathSequence getArgument(int i, int j) {
+		return getArgument(i * columns + j);
+	}
 
-    public MetaComponent getOpen() {
-        return meta.getOpen();
-    }
+	public MetaComponent getOpen() {
+		return meta.getOpen();
+	}
 
-    public char getOpenKey() {
-        return meta.getOpenKey();
-    }
+	public char getOpenKey() {
+		return meta.getOpenKey();
+	}
 
-    public MetaComponent getClose() {
-        return meta.getClose();
-    }
+	public MetaComponent getClose() {
+		return meta.getClose();
+	}
 
-    public char getCloseKey() {
-        return meta.getCloseKey();
-    }
+	public char getCloseKey() {
+		return meta.getCloseKey();
+	}
 
-    public MetaComponent getField() {
-        return meta.getField();
-    }
+	public MetaComponent getField() {
+		return meta.getField();
+	}
 
-    public char getFieldKey() {
-        return meta.getFieldKey();
-    }
+	public char getFieldKey() {
+		return meta.getFieldKey();
+	}
 
-    public MetaComponent getRow() {
-        return meta.getRow();
-    }
+	public MetaComponent getRow() {
+		return meta.getRow();
+	}
 
-    public char getRowKey() {
-        return meta.getRowKey();
-    }
+	public char getRowKey() {
+		return meta.getRowKey();
+	}
 
-    public boolean is1DArray() {
-        return rows() == 1 && meta.isArray();
-    }
+	public boolean is1DArray() {
+		return rows() == 1 && meta.isArray();
+	}
 
-    public boolean isArray() {
-        return meta.isArray();
-    }
+	public boolean isArray() {
+		return meta.isArray();
+	}
 
-    public boolean isVector() {
-        return rows() == 1 && meta.isMatrix();
-    }
+	public boolean isVector() {
+		return rows() == 1 && meta.isMatrix();
+	}
 
-    public boolean isMatrix() {
-        return meta.isMatrix();
-    }
+	public boolean isMatrix() {
+		return meta.isMatrix();
+	}
 
-    @Override
+	@Override
 	public MathArray copy() {
-        MathArray array = new MathArray(meta, columns, rows);
-        array.copy(0, 0, this);
-        return array;
-    }
+		MathArray array = new MathArray(meta, columns, rows);
+		array.copy(0, 0, this);
+		return array;
+	}
 
-    /**
-     * Copy array into this object (with silent clipping).
-     *
-     * @param ioffset leading empty rows
-     * @param joffset leading empty columns.
-     */
-    public void copy(int ioffset, int joffset, MathArray array) {
-        for (int i = 0; (i < (rows + joffset) || i < array.rows); i++) {
-            for (int j = 0; (j < (columns + ioffset) || j < array.columns); j++) {
-                MathSequence component = array.getArgument(i, j);
-                component = component.copy();
-                setArgument(i + ioffset, j + joffset, component);
-            }
-        }
-    }
+	/**
+	 * Copy array into this object (with silent clipping).
+	 *
+	 * @param ioffset
+	 *            leading empty rows
+	 * @param joffset
+	 *            leading empty columns.
+	 */
+	public void copy(int ioffset, int joffset, MathArray array) {
+		for (int i = 0; (i < (rows + joffset) || i < array.rows); i++) {
+			for (int j = 0; (j < (columns + ioffset)
+					|| j < array.columns); j++) {
+				MathSequence component = array.getArgument(i, j);
+				component = component.copy();
+				setArgument(i + ioffset, j + joffset, component);
+			}
+		}
+	}
 
-    /**
-     * Number of columns.
-     */
-    public int columns() {
-        return columns;
-    }
+	/**
+	 * Number of columns.
+	 */
+	public int columns() {
+		return columns;
+	}
 
-    /**
-     * Number of rows.
-     */
-    public int rows() {
-        return rows;
-    }
+	/**
+	 * Number of rows.
+	 */
+	public int rows() {
+		return rows;
+	}
 
 	public void checkMatrix(MetaModel metaModel) {
 		int matrixWidth = numberOfColumns(metaModel);
 		if (matrixWidth >= 0) {
-            rows = size();
-            flattenMatrix();
-            columns = matrixWidth;
-            meta = metaModel.getMatrix();
+			rows = size();
+			flattenMatrix();
+			columns = matrixWidth;
+			meta = metaModel.getMatrix();
 		}
 	}
 
 	// Returns the number of columns or -1 if it's not a matrix
 	private int numberOfColumns(MetaModel metaModel) {
-        int matrixWidth = -1;
-        for (int i = 0; i < size(); i++) {
-            if (getArgument(i).size() == 1
-                    && getArgument(i).getArgument(0) instanceof MathArray) {
-                MathArray row = (MathArray) getArgument(i).getArgument(0);
+		int matrixWidth = -1;
+		for (int i = 0; i < size(); i++) {
+			if (getArgument(i).size() == 1
+					&& getArgument(i).getArgument(0) instanceof MathArray) {
+				MathArray row = (MathArray) getArgument(i).getArgument(0);
 
 				if (row.meta != metaModel.getArray(Tag.CURLY)) {
-                    return -1;
-                } else if (matrixWidth == -1) {
-                    matrixWidth = row.size();
-                } else if (matrixWidth != row.size()) {
-                    return -1;
-                }
+					return -1;
+				} else if (matrixWidth == -1) {
+					matrixWidth = row.size();
+				} else if (matrixWidth != row.size()) {
+					return -1;
+				}
 			} else {
 				return -1;
-            }
-        }
-        return matrixWidth;
-    }
+			}
+		}
+		return matrixWidth;
+	}
 
-    private void flattenMatrix() {
+	private void flattenMatrix() {
 		ArrayList<MathComponent> entries = new ArrayList<>();
-        for (int i = 0; i < size(); i++) {
-            for (int j = 0; j < ((MathContainer) getArgument(i)
-                    .getArgument(0)).size(); j++) {
-                MathComponent arg = ((MathContainer) getArgument(i)
-                        .getArgument(0)).getArgument(j);
-                entries.add(arg);
-            }
-        }
-        clearArguments();
-        for (MathComponent entry : entries) {
-            addArgument(entry);
-        }
-    }
+		for (int i = 0; i < size(); i++) {
+			for (int j = 0; j < ((MathContainer) getArgument(i).getArgument(0))
+					.size(); j++) {
+				MathComponent arg = ((MathContainer) getArgument(i)
+						.getArgument(0)).getArgument(j);
+				entries.add(arg);
+			}
+		}
+		clearArguments();
+		for (MathComponent entry : entries) {
+			addArgument(entry);
+		}
+	}
 }

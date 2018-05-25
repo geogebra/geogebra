@@ -25,27 +25,28 @@
  * 02110-1301, USA.
  *
  */
+
 package com.himamis.retex.editor.share.model;
 
 import com.himamis.retex.editor.share.meta.Tag;
 
 public class MathSequence extends MathContainer {
 
-    /**
-     * Use MathFormula.newSequence(...)
-     */
-    public MathSequence() {
-        super(0);
-        ensureArguments(0);
-    }
+	/**
+	 * Use MathFormula.newSequence(...)
+	 */
+	public MathSequence() {
+		super(0);
+		ensureArguments(0);
+	}
 
 	@Override
 	public void addArgument(MathComponent argument) {
-        if (argument != null) {
-            argument.setParent(this);
-        }
-        arguments.add(argument);
-    }
+		if (argument != null) {
+			argument.setParent(this);
+		}
+		arguments.add(argument);
+	}
 
 	@Override
 	public boolean addArgument(int i, MathComponent argument) {
@@ -63,73 +64,74 @@ public class MathSequence extends MathContainer {
 		}
 
 		return true;
-    }
+	}
 
 	@Override
 	public MathSequence copy() {
-        MathSequence sequence = new MathSequence();
-        for (int i = 0; i < arguments.size(); i++) {
-            MathComponent component = getArgument(i);
-            MathComponent newComponent = component.copy();
-            sequence.addArgument(i, newComponent);
-        }
-        return sequence;
-    }
+		MathSequence sequence = new MathSequence();
+		for (int i = 0; i < arguments.size(); i++) {
+			MathComponent component = getArgument(i);
+			MathComponent newComponent = component.copy();
+			sequence.addArgument(i, newComponent);
+		}
+		return sequence;
+	}
 
-    /**
-     * has operator (including power).
-     */
-    public boolean hasOperator() {
-        for (int i = 0; i < size(); i++) {
-            if (isOperator(i)) {
-                return true;
-            } else if (getArgument(i) instanceof MathFunction &&
-					(Tag.SUPERSCRIPT.equals(
+	/**
+	 * has operator (including power).
+	 */
+	public boolean hasOperator() {
+		for (int i = 0; i < size(); i++) {
+			if (isOperator(i)) {
+				return true;
+			} else if (getArgument(i) instanceof MathFunction
+					&& (Tag.SUPERSCRIPT.equals(
 							((MathFunction) getArgument(i)).getName()))) {
-                return true;
-            }
-        }
-        return false;
-    }
+				return true;
+			}
+		}
+		return false;
+	}
 
-    /**
-     * Is i'th argument script.
-     */
-    public boolean isScript(int i) {
-        return i >= 0 && i < size() && getArgument(i) instanceof MathFunction &&
-				(Tag.SUPERSCRIPT
+	/**
+	 * Is i'th argument script.
+	 */
+	public boolean isScript(int i) {
+		return i >= 0 && i < size() && getArgument(i) instanceof MathFunction
+				&& (Tag.SUPERSCRIPT
 						.equals(((MathFunction) getArgument(i)).getName())
 						|| Tag.SUBSCRIPT.equals(
 								((MathFunction) getArgument(i)).getName()));
-    }
+	}
 
-    /**
-     * Is i'th argument character.
-     */
-    public boolean isCharacter(int i) {
-        return i >= 0 && i < size() &&
-                getArgument(i) instanceof MathCharacter &&
-                ((MathCharacter) getArgument(i)).isCharacter();
-    }
+	/**
+	 * Is i'th argument character.
+	 */
+	public boolean isCharacter(int i) {
+		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
+				&& ((MathCharacter) getArgument(i)).isCharacter();
+	}
 
-    /**
-     * Is i'th argument operator.
-     */
-    public boolean isOperator(int i) {
-        return i >= 0 && i < size() &&
-                getArgument(i) instanceof MathCharacter &&
-                ((MathCharacter) getArgument(i)).isOperator();
-    }
+	/**
+	 * Is i'th argument operator.
+	 */
+	public boolean isOperator(int i) {
+		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
+				&& ((MathCharacter) getArgument(i)).isOperator();
+	}
 
-    /**
-     * Is i'th argument symbol.
-     */
-    public boolean isSymbol(int i) {
-        return i >= 0 && i < size() &&
-                getArgument(i) instanceof MathCharacter &&
-                ((MathCharacter) getArgument(i)).isSymbol();
-    }
+	/**
+	 * Is i'th argument symbol.
+	 */
+	public boolean isSymbol(int i) {
+		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
+				&& ((MathCharacter) getArgument(i)).isSymbol();
+	}
 
+	/**
+	 * If this has a single element (x), replace it with just x. Flatten nested
+	 * sequences.
+	 */
 	public void removeBrackets() {
 		if (size() == 1 && getArgument(0) instanceof MathArray) {
 			MathArray arg0 = ((MathArray) getArgument(0));
