@@ -330,7 +330,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getAccessibilityManager().focusMenu();
 		}
 		checkScaleContainer();
-		updateContentPane();
 	}
 
 
