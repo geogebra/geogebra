@@ -7,6 +7,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -98,12 +99,14 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 			@Override
 			public void execute() {
+
+				Log.debug(app.getPageController().exportPDF());
+
 				menu.hide();
 				app.toggleMenu();
 				app.getActiveEuclidianView().getEuclidianController()
 						.clearSelections();
-				String pdf = ((EuclidianViewWInterface) app
-						.getActiveEuclidianView()).getExportPDF(1.0);
+				String pdf = app.getGgbApi().exportPDF(1, null, null);
 
 				app.getFileManager().showExportAsPictureDialog(pdf,
 						app.getExportTitle(), "pdf", "ExportAsPicture", app);
