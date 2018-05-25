@@ -264,32 +264,33 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 			if (viewDirectionIsParallel) {
 				int t = getGridThickness();
-				final float thickness = brush.setThickness(t == 0 ? 1 : t,
+				float scale = (float) getView3D().getScale();
+				float thickness = brush.setThickness(t == 0 ? 1 : t,
 						(float) getView3D().getScale());
-				boolean showClippingCube = getView3D().showClippingCube();
+				thickness = thickness / scale;
 
 				// draws the rectangle outline
-				if (showClippingCube) {
-					brush.setAffineTexture((0f - xmin1) / ydelta1, 0.25f);
-				} else {
-					brush.setPlainTexture();
-				}
-				brush.segment(
-						coordsys.getPointForDrawing(xmin1, ymax1 - thickness),
-						coordsys.getPointForDrawing(xmax1, ymax1 - thickness));
-				brush.segment(
-						coordsys.getPointForDrawing(xmin1, ymin1 + thickness),
-						coordsys.getPointForDrawing(xmax1, ymin1 + thickness));
-
-				if (showClippingCube) {
-					brush.setAffineTexture((0f - ymin1) / xdelta1, 0.25f);
-				}
-				brush.segment(
-						coordsys.getPointForDrawing(xmin1 + thickness, ymin1),
-						coordsys.getPointForDrawing(xmin1 + thickness, ymax1));
-				brush.segment(
-						coordsys.getPointForDrawing(xmax1 - thickness, ymin1),
-						coordsys.getPointForDrawing(xmax1 - thickness, ymax1));
+				brush.setPlainTexture();
+				coordsys.getPointForDrawing(xmin1, ymax1 - thickness,
+						tmpCoords1);
+				coordsys.getPointForDrawing(xmax1, ymax1 - thickness,
+						tmpCoords2);
+				brush.segment(tmpCoords1, tmpCoords2);
+				coordsys.getPointForDrawing(xmin1, ymin1 + thickness,
+						tmpCoords1);
+				coordsys.getPointForDrawing(xmax1, ymin1 + thickness,
+						tmpCoords2);
+				brush.segment(tmpCoords1, tmpCoords2);
+				coordsys.getPointForDrawing(xmin1 + thickness, ymin1,
+						tmpCoords1);
+				coordsys.getPointForDrawing(xmin1 + thickness, ymax1,
+						tmpCoords2);
+				brush.segment(tmpCoords1, tmpCoords2);
+				coordsys.getPointForDrawing(xmax1 - thickness, ymin1,
+						tmpCoords1);
+				coordsys.getPointForDrawing(xmax1 - thickness, ymax1,
+						tmpCoords2);
+				brush.segment(tmpCoords1, tmpCoords2);
 			} else {
 				brush.setThickness(getGridThickness(),
 						(float) getView3D().getScale());
