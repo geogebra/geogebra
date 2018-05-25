@@ -4272,6 +4272,7 @@ public class Kernel implements SpecialPointsListener {
 			app.getCompanion().storeViewCreators();
 			notifyReset();
 			clearJustCreatedGeosInViews();
+			getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
 			cons.redo();
 			notifyReset();
 			app.getCompanion().recallViewCreators();
