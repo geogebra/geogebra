@@ -153,9 +153,7 @@ public class PageListController implements PageListControllerInterface,
 		for (int i = 0; i < n; i++) {
 
 			try {
-				app.resetPerspectiveParam();
-				app.loadGgbFile(slides.get(i).getFile(), true);
-				setCardSelected(i);
+				loadPage(i);
 
 				ev = app.getEuclidianView1();
 
