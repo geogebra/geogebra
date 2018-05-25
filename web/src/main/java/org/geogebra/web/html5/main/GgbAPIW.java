@@ -1405,29 +1405,39 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	final public String exportPDF(double scale, String filename,
 			String sliderLabel) {
-		EuclidianView ev = app.getActiveEuclidianView();
 
-		if (ev instanceof EuclidianViewW) {
+		String pdf;
 
-			EuclidianViewW evw = (EuclidianViewW) ev;
-			String pdf;
+		if (app.isWhiteboardActive()) {
 
-			if (sliderLabel == null) {
-				pdf = evw.getExportPDF(scale);
+			// export each slide as separate page
+			pdf = ((AppW) app).getPageController().exportPDF();
+
+		} else {
+
+			EuclidianView ev = app.getActiveEuclidianView();
+
+			if (ev instanceof EuclidianViewW) {
+
+				EuclidianViewW evw = (EuclidianViewW) ev;
+
+				if (sliderLabel == null) {
+					pdf = evw.getExportPDF(scale);
+				} else {
+					pdf = AnimationExporter.export(kernel.getApplication(), 0,
+							(GeoNumeric) kernel.lookupLabel(sliderLabel), false,
+							filename, scale, Double.NaN, ExportType.PDF_HTML5);
+				}
+
 			} else {
-				pdf = AnimationExporter.export(kernel.getApplication(), 0,
-						(GeoNumeric) kernel.lookupLabel(sliderLabel), false,
-						filename, scale, Double.NaN, ExportType.PDF_HTML5);
+				return null;
 			}
-
-			if (filename != null) {
-				Browser.exportImage(pdf, filename);
-			}
-
-			return pdf;
-
 		}
-		return null;
+
+		if (filename != null) {
+			Browser.exportImage(pdf, filename);
+		}
+		return pdf;
 	}
 
 	@Override
