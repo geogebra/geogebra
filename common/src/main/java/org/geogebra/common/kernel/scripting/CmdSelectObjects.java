@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.ScreenReader;
 
 /**
  * SelectObjects
@@ -40,6 +41,7 @@ public class CmdSelectObjects extends CmdScripting {
 					} else {
 						app.getSelectionManager().addSelectedGeo(geo, false,
 								false);
+						ScreenReader.readText(geo, app);
 					}
 				}
 			}
