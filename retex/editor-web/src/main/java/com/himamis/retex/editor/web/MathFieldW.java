@@ -23,8 +23,8 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  */
-package com.himamis.retex.editor.web;
 
+package com.himamis.retex.editor.web;
 
 import java.util.ArrayList;
 
@@ -117,12 +117,19 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	/**
 	 * 
+	 * @param converter
+	 *            latex/mathml-&lt; ascii math converter (optional)
 	 * @param parent
 	 *            parent element
 	 * @param canvas
 	 *            drawing context
 	 * @param listener
 	 *            listener for special events
+	 * @param directFormulaBuilder
+	 *            whether to convert content into JLM atoms directly without
+	 *            reparsing
+	 * @param fh
+	 *            focus handler
 	 */
 	public MathFieldW(FormatConverter converter, Panel parent, Canvas canvas,
 			MathFieldListener listener, boolean directFormulaBuilder,
@@ -256,11 +263,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	public void setPixelRatio(double ratio) {
 		this.ratio = ratio;
 	}
+
 	@Override
 	public void setKeyListener(final KeyListener keyListener) {
 		this.keyListener = keyListener;
-
-
 	}
 
 	private void setKeyListener(final Widget html2,
@@ -336,9 +342,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 			}
 		}, KeyDownEvent.getType());
-		
-
-
 	}
 
 	/**
@@ -460,18 +463,22 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	public KeyListener getKeyListener() {
 		return mathFieldInternal;
-
 	}
 
 	@Override
 	public MetaModel getMetaModel() {
 		return sMetaModel;
 	}
+
 	@Override
 	public void repaint() {
 		// called to often, use repaintWeb for actual repaint
 	}
 
+	/**
+	 * Actually repaint the content (repaint() is ignored in Web
+	 * implementation).
+	 */
 	public void repaintWeb() {
 		if (lastIcon == null) {
 			return;
@@ -487,8 +494,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		ctx.setFillStyle("rgb(255,255,255)");
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
 
-		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(0,0,0), "#FFFFFF",
-				null, ratio);
+		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(0, 0, 0),
+				"#FFFFFF", null, ratio);
 	}
 
 	private double computeHeight(TeXIcon lastIcon2) {
@@ -664,7 +671,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	}-*/;
 
-	public void startEditing() {
+	private void startEditing() {
 		if (mathFieldInternal.getEditorState().getCurrentField() == null) {
 			mathFieldInternal.getCursorController();
 			CursorController
@@ -672,7 +679,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		}
 		// update even when cursor didn't change here
 		mathFieldInternal.update();
-
 	}
 
 	public String deleteCurrentWord() {
@@ -685,10 +691,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	public void selectNextArgument() {
 		this.mathFieldInternal.selectNextArgument();
-
 	}
 
-	public void startBlink() {
+	/**
+	 * Make the cursor blink in this editor.
+	 */
+	protected void startBlink() {
 		if (!instances.contains(this)) {
 			instances.add(this);
 		}
@@ -697,14 +705,16 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	@Override
 	public void paste() {
 		// insertString(getSystemClipboardChromeWebapp(html.getElement()));
-
 	}
 
-	public String convert(String exp) {
+	/**
+	 * @param exp
+	 *            inserted string (latex/mathml/...)
+	 * @return ASCII math syntax
+	 */
+	protected String convert(String exp) {
 		if (converter != null) {
-
 			return converter.convert(exp);
-
 		}
 
 		return exp;
@@ -723,9 +733,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		// mathFieldInternal.update();
 
 	}
-
-
-
 
 	private Element getHiddenTextArea() {
 		if (clip == null) {
@@ -843,12 +850,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return hiddenTextArea;
 	}-*/;
 
-
-
 	@Override
 	public void copy() {
 		nativeCopy(mathFieldInternal.copy());
-
 	}
 
 	private native void nativeCopy(String value) /*-{
@@ -856,22 +860,26 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		copyFrom.value = value;
 		copyFrom.select();
 		$doc.execCommand('copy');
-
 	}-*/;
-
 
 	@Override
 	public native boolean useCustomPaste() /*-{
 		return false;
 	}-*/;
 
-
-
 	public void setFontSize(double size) {
 		this.mathFieldInternal.setSize(size);
 		this.mathFieldInternal.update();
 	}
 
+	/**
+	 * Move caret after pointer event; event may be outside the editor.
+	 * 
+	 * @param absX
+	 *            abs x-coord of the event
+	 * @param absY
+	 *            abs y-coord of the event
+	 */
 	public void adjustCaret(int absX, int absY) {
 		if (SelectionBox.touchSelection) {
 			return;
@@ -879,17 +887,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		int x = mouseX(absX - asWidget().getAbsoluteLeft());
 		int y = mouseY(absY - asWidget().getAbsoluteTop());
 		if (x > asWidget().getOffsetWidth()) {
-
 			CursorController.lastField(mathFieldInternal.getEditorState());
 			mathFieldInternal.update();
 		} else if (x < 0) {
-
 			CursorController.firstField(mathFieldInternal.getEditorState());
 			mathFieldInternal.update();
-		}else {
+		} else {
 			mathFieldInternal.onPointerUp(x, y);
 		}
-
 	}
 
 	public void insertFunction(String text) {
@@ -899,19 +904,20 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	public void checkEnterReleased(Runnable r) {
 		mathFieldInternal.checkEnterReleased(r);
-
 	}
 
 	public void setPlainTextMode(boolean plainText) {
 		this.mathFieldInternal.setPlainTextMode(plainText);
 	}
 
+	/**
+	 * Remove focus and call blur handler.
+	 */
 	public void blur() {
 		this.wrap.setFocus(false);
 		if (this.onTextfieldBlur != null) {
 			this.onTextfieldBlur.onBlur(null);
 		}
-
 	}
 
 	public int mouseX(int x) {
@@ -999,8 +1005,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	/**
-	 * @param mf
-	 *            editor
+	 * In plain mode just fill with text (linear), otherwise parse math (ASCII
+	 * math syntax) into the editor.
+	 * 
 	 * @param text0
 	 *            text
 	 * @param asPlainText

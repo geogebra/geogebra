@@ -41,6 +41,7 @@
  * version.
  * 
  */
+
 package com.himamis.retex.editor.web;
 
 import com.google.gwt.core.client.EntryPoint;

@@ -74,11 +74,17 @@ public class ClickAdapterW
 		return touch == null ? 0 : touch.getClientY();
 	}
 
+	/**
+	 * @param event
+	 *            touch event
+	 * @return first changed / added touch
+	 */
 	public static Touch getRelevantTouch(TouchEvent<?> event) {
 		JsArray<?> touches = event.getTouches().length() == 0
 				? event.getChangedTouches() : event.getTouches();
 		return (Touch) touches.get(0);
 	}
+
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		if (!field.isEnabled() || SelectionBox.touchSelection) {
@@ -88,8 +94,8 @@ public class ClickAdapterW
 		this.pointerIsDown = false;
 		handler.onPointerUp(field.mouseX(event.getX()),
 				field.mouseY(event.getY()));
-
 	}
+
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		if (!field.isEnabled()) {
@@ -112,11 +118,14 @@ public class ClickAdapterW
 		if (this.pointerIsDown) {
 			handler.onPointerMove(event.getX(), event.getY());
 		}
-
 	}
 
-
-
+	/**
+	 * Register this as pointer event handler for a widget.
+	 * 
+	 * @param html
+	 *            widget
+	 */
 	public void listenTo(Widget html) {
 		if (html == null) {
 			return;

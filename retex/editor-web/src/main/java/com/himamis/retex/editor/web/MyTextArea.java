@@ -8,10 +8,21 @@ import com.google.gwt.user.client.ui.TextArea;
 
 public class MyTextArea extends TextArea {
 
+	/**
+	 * @param element
+	 *            wrapped element
+	 */
 	public MyTextArea(Element element) {
 		super(element);
 	}
 
+	/**
+	 * Factory method
+	 * 
+	 * @param element
+	 *            textarea element
+	 * @return textarea widget
+	 */
 	public static MyTextArea wrap(Element element) {
 		// Assert that the element is attached.
 		assert Document.get().getBody().isOrHasChild(element);
@@ -25,6 +36,11 @@ public class MyTextArea extends TextArea {
 		return textArea;
 	}
 
+	/**
+	 * @param handler
+	 *            composition event handler
+	 * @return handler registration
+	 */
 	public HandlerRegistration addCompositionUpdateHandler(
 			CompositionHandler handler) {
 		return addDomHandler(handler, CompositionEvent.getType());
