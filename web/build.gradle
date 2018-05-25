@@ -71,7 +71,7 @@ gwt {
     gwtVersion = gwtCompilerVersion
 
     if (project.hasProperty("gmodule")) {
-        modules = [project.getProperty("gmodule")]
+        modules = project.getProperty("gmodule").split(",")
     } else {
         modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
           'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin', 'org.geogebra.web.Solver']
@@ -223,6 +223,7 @@ task mergeDeploy(){
       def templateJs = "src/main/resources/org/geogebra/web/resources/js/deployggb-template.js"
       def deployText = file(templateJs).text.replace('%WEB3D_PERMUTATION%', web3dPermutation)
                           .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation);
+      deployText += file("./build/gwt/out/web3d/js/webfont.js").text;
       file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','');
       file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://cdn.geogebra.org/apps/latest/');	
    }

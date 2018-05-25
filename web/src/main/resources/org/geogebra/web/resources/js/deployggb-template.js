@@ -12,10 +12,6 @@ var ggbHTML5LoadedCodebaseIsWebSimple = false;
 var ggbHTML5LoadedCodebaseVersion = null;
 var ggbHTML5LoadedScript = null;
 
-var ggbCompiledResourcesLoadFinished = false;
-var ggbCompiledResourcesLoadInProgress = false;
-var ggbCompiledAppletsLoaded = false;
-
 /**
  * @param ggbVersion GeoGebra version; deprecated
  * @param parameters An object containing parameters that are passed to the applet.
@@ -94,9 +90,6 @@ var GGBApplet = function() {
     var previewPlayPath = null;
     var fonts_css_url = null;
     var jnlpBaseDir = null;
-    var preCompiledScriptPath = null;
-    var preCompiledResourcePath = null;
-    var preCompiledScriptVersion = null;
 
     if (parameters.height !== undefined) {
         parameters.height = Math.round(parameters.height);
@@ -118,12 +111,10 @@ var GGBApplet = function() {
     };
 
     /**
-     * Overrides the codebase version for Java.
-     * @param version The version of the codebase that shoudl be used for java applets.
+     * Java / Compiled codebase settings: not supported, empty implementation for compatibility
      */
-    applet.setJavaCodebaseVersion = function(version) {
-        // for compatibility only
-    };
+    applet.setJavaCodebase = applet.setJavaCodebaseVersion = applet.isCompiledInstalled 
+        = applet.setPreCompiledScriptPath = applet.setPreCompiledResourcePath = function() {};
 
     /**
      * Overrides the codebase version for HTML5.
@@ -146,16 +137,6 @@ var GGBApplet = function() {
 
     applet.getParameters = function() {
         return parameters;
-    };
-
-
-    /**
-     * Overrides the codebase for Java.
-     * @param codebase Can be an URL or a local file path.
-     * @param offline Set to true, if the codebase is a local URL and no web URL
-     */
-    applet.setJavaCodebase = function(codebase, offline) {
-        //not needed, for API compatibility only
     };
 
     applet.setFontsCSSURL = function(url) {
@@ -207,7 +188,7 @@ var GGBApplet = function() {
             var p = arguments[i];
             if (typeof(p) === "string") {
                 p = p.toLowerCase();
-                if (p === 'preferjava' || p === 'preferhtml5' || p === 'java' || p === 'html5' || p === 'auto' || p === 'screenshot' || p === 'prefercompiled' || p === 'compiled') {
+                if (p.match(/^(prefer)?(java|html5|compiled|auto|screenshot)$/)) {
                     type = p;
                 } else {
                     container_ID = arguments[i];
@@ -260,8 +241,6 @@ var GGBApplet = function() {
             loadedAppletType = type;
             if (type === "screenshot") {
                 injectScreenshot(appletElem, parameters);
-            } else if (type === "compiled") {
-                injectCompiledApplet(appletElem, parameters, true);
             } else {
                 // Check if applets should be loaded instantly or with a play button
                 var playButton = false;
@@ -537,20 +516,6 @@ var GGBApplet = function() {
     };
 
     /**
-     * @returns boolean Whether the system is capable of showing precompiled HTML5 applets
-     */
-    applet.isCompiledInstalled = function() {
-        if (isInternetExplorer()) {
-            if (views.is3D && getIEVersion() < 11) { // WebGL is supported since IE 11
-                return false;
-            } else if (getIEVersion() < 9) {
-                return false;
-            }
-        }
-        return true;
-    };
-
-    /**
      * @returns The type of the loaded applet or null if no applet was loaded yet.
      */
     applet.getLoadedAppletType = function() {
@@ -568,25 +533,6 @@ var GGBApplet = function() {
         if (typeof appletParent === 'string') {
             appletParent = document.getElementById(appletParent);
         }
-        if (loadedAppletType === 'compiled' && window[parameters.id] !== undefined) {
-            // Stop/remove the applet
-            if (typeof window[parameters.id].stopAnimation === "function") {
-                window[parameters.id].stopAnimation();
-            }
-            if (typeof window[parameters.id].remove === "function") {
-                window[parameters.id].remove();
-            }
-
-            // Set the applet objects to undefined
-            if (ggbApplets !== undefined) {
-                for (i=0; i<ggbApplets.length;i++) {
-                    if (ggbApplets[i] === window[parameters.id]) {
-                        ggbApplets.splice(i, 1);
-                    }
-                }
-            }
-            window[parameters.id] = undefined;
-        }
 
         loadedAppletType = null;
         for (i=0; i<appletParent.childNodes.length;i++) {
@@ -601,8 +547,7 @@ var GGBApplet = function() {
                     // Hide the screenshot
                     appletParent.childNodes[i].style.display = "none";
                 }
-            } else if ((tag === "APPLET" || tag === "ARTICLE" || tag === "DIV" || (loadedAppletType === 'compiled' && (tag === "SCRIPT" || tag === "STYLE"))
-              ) && className !== "applet_scaler prerender") {
+            } else if ((tag === "APPLET" || tag === "ARTICLE" || tag === "DIV") && className !== "applet_scaler prerender") {
                 // Remove the applet
                 appletParent.removeChild(appletParent.childNodes[i]);
                 i--;
@@ -653,18 +598,6 @@ var GGBApplet = function() {
             }
         }
         return false;
-    };
-
-    applet.setPreCompiledScriptPath = function(path, version) {
-        preCompiledScriptPath = path;
-        if (preCompiledResourcePath === null) {
-            preCompiledResourcePath = preCompiledScriptPath;
-        }
-        preCompiledScriptVersion = version;
-    };
-
-    applet.setPreCompiledResourcePath = function(path) {
-        preCompiledResourcePath = path;
     };
 
     applet.getAppletObject = function() {
@@ -899,14 +832,6 @@ var GGBApplet = function() {
         // Load the web script
         if (loadScript) {
             scriptLoadStarted = true;
-            if (parseVersion(html5CodebaseVersion)>=4.4) {
-                if(!html5Codebase.requirejs){
-                    var fontscript2 = document.createElement("script");
-                    fontscript2.type = 'text/javascript';
-                    fontscript2.src = html5Codebase+'js/webfont.js';
-                    appletElem.appendChild(fontscript2);
-                }
-            }
 
             // Remove all table tags within an article tag if there are any
             for (var i=0; i<article.childNodes.length;i++) {
@@ -956,216 +881,6 @@ var GGBApplet = function() {
 
         parameters.height = oriHeight;
         parameters.width = oriWidth;
-    };
-
-    var injectCompiledApplet = function(appletElem, parameters, noPreview) {
-        var appletObjectName = parameters.id;
-        //if (scale !== 1) {
-        //    parameters.scale = scale;
-        //    appletElem.style.minWidth = parameters.width * scale+"px";
-        //    appletElem.style.minHeight = parameters.height * scale+"px";
-        //}
-
-        var viewContainer = document.createElement("div");
-        viewContainer.id = "view-container-"+appletObjectName;
-        viewContainer.setAttribute("width", parameters.width);
-        viewContainer.setAttribute("height", parameters.height);
-        viewContainer.style.width = parameters.width+"px";
-        viewContainer.style.height = parameters.height+"px";
-//        viewContainer.style.border = "1px solid black";
-
-        if (parameters.showSplash === undefined) {
-            parameters.showSplash = true;
-        }
-
-        // Resize the applet when the window is resized
-        var oldOnResize = null;
-        if (window.onresize !== undefined && typeof window.onresize === "function") {
-            oldOnResize = window.onresize;
-        }
-        window.onresize = function() {
-            var scale = GGBAppletUtils.getScale(parameters, appletElem);
-            var scaleElem = null;
-            for (var i=0; i<appletElem.childNodes.length;i++) {
-                if (appletElem.childNodes[i].className.match(/^applet_scaler/)) {
-                    scaleElem = appletElem.childNodes[i];
-                    break;
-                }
-            }
-
-            if (scaleElem !== null) {                
-                scaleElem.parentNode.style.transform = "";
-                if (!isNaN(scale) && scale !== 1) {
-                    // Set the scale factor for the applet
-                    GGBAppletUtils.scaleElement(scaleElem, scale);
-                    scaleElem.parentNode.style.width = ((parameters.width+2)*scale)+'px';
-                    scaleElem.parentNode.style.height = ((parameters.height+2)*scale)+'px';
-
-                } else {
-                    // Remove scaling
-                    GGBAppletUtils.scaleElement(scaleElem, 1);
-                    scaleElem.parentNode.style.width = (parameters.width+2)+'px';
-                    scaleElem.parentNode.style.height = (parameters.height+2)+'px';
-                }
-            }
-
-            var appName = (parameters.id !== undefined ? parameters.id : "ggbApplet");
-            var app = window[appName];
-            if (app !== undefined && app !== null && typeof app.recalculateEnvironments === "function") {
-                app.recalculateEnvironments();
-            }
-
-            if (oldOnResize !== null) {
-                oldOnResize();
-            }
-        };
-
-
-        var viewImages = document.createElement("div");
-        viewImages.id = '__ggb__images';
-
-        // Add the tag for the preview image
-        var appletScaler;
-        if (!noPreview && previewImagePath !== null && parseVersion(html5CodebaseVersion)>=4.4 && parameters.width !== undefined) {
-            var previewContainer = createScreenShotDiv(parameters.width, parameters.height, parameters.borderColor, false);
-
-            // This div is needed to have an element with position relative as origin for the absolute positioned image
-            var previewPositioner = document.createElement("div");
-            previewPositioner.style.position = "relative";
-            previewPositioner.className = "applet_scaler";
-            previewPositioner.style.display = 'block';
-            previewPositioner.style.width = parameters.width+'px';
-            previewPositioner.style.height = parameters.height+'px';
-            previewPositioner.appendChild(previewContainer);
-            appletElem.appendChild(previewPositioner);
-            appletScaler = previewPositioner;
-
-            // Redo resizing when screenshot is loaded to recalculate it after scrollbars are gone
-            setTimeout(function() {
-                window.onresize();
-            }, 1);
-
-            if (typeof window.GGBT_ws_header_footer === "object") {
-                window.GGBT_ws_header_footer.setWsScrollerHeight();
-            }
-        } else {
-            appletScaler = document.createElement("div");
-            appletScaler.className = "applet_scaler";
-            appletScaler.style.position = "relative";
-            appletScaler.style.display = 'block';
-
-            appletElem.appendChild(appletScaler);
-            window.onresize();
-        }
-
-        // Load the web fonts
-        if (!ggbCompiledResourcesLoadFinished && !ggbCompiledResourcesLoadInProgress) {
-//            var resource1 = document.createElement("link");
-//            resource1.type = 'text/css';
-//            resource1.rel = 'stylesheet';
-//            resource1.href = preCompiledResourcePath+'/mathquillggb.css';
-//
-//            var resource2 = document.createElement("script");
-//            resource2.type = 'text/javascript';
-//            resource2.src = preCompiledResourcePath+'/jquery-1.7.2.min.js';
-//
-//            var resource3 = document.createElement("script");
-//            resource3.type = 'text/javascript';
-//            resource3.src = preCompiledResourcePath+'/mathquillggb.js';
-
-            var resource4 = document.createElement("script");
-            resource4.type = 'text/javascript';
-            resource4.innerHTML = '\n' +
-                'WebFontConfig = {\n' +
-                '   loading: function() {},\n' +
-                '   active: function() {},\n' +
-                '   inactive: function() {},\n' +
-                '   fontloading: function(familyName, fvd) {},\n' +
-                '   fontactive: function(familyName, fvd) {' +
-                '       if (!ggbCompiledAppletsLoaded) {' +
-                '           ggbCompiledAppletsLoaded = true;' +
-                '           ' +
-                '           setTimeout(function() {' +
-                '               ggbCompiledResourcesLoadFinished = true;' +
-                '               ggbCompiledResourcesLoadInProgress = false;' +
-                '               if (window.ggbApplets != undefined) {' +
-                '                   for (var i = 0 ; i < window.ggbApplets.length ; i++) {' +
-                '                       window.ggbApplets[i].init({scale:window.ggbApplets[i].scaleParameter, url:window.ggbApplets[i].preCompiledScriptPath+"/", ss:'+(parameters.showSplash?'true':'false')+', sdz:'+(parameters.enableShiftDragZoom?'true':'false')+', rc:'+(parameters.enableRightClick?'true':'false')+', sri:'+(parameters.showResetIcon?'true':'false')+'});' +
-                '                   }' +
-                '               }' +
-                '               if (typeof window.ggbCompiledAppletsOnLoad == "function") {' +
-                '                   window.ggbCompiledAppletsOnLoad();' +
-                '               }' +
-                '           },1);' +
-                '       }' +
-                '   },\n' +
-                '   fontinactive: function(familyName, fvd) {},\n' +
-                '   custom: {\n' +
-                '       families: ["geogebra-sans-serif", "geogebra-serif"],\n' +
-                '           urls: [ "'+preCompiledResourcePath+"/fonts/fonts.css"+'" ]\n' +
-                '   }\n' +
-                '};\n' +
-                '\n';
-
-            var resource5 = document.createElement("script");
-            resource5.type = 'text/javascript';
-            resource5.src = preCompiledResourcePath+'/fonts/webfont.js';
-
-            ggbCompiledResourcesLoadInProgress = true;
-//            appletScaler.appendChild(resource1);
-//            appletScaler.appendChild(resource2);
-//            appletScaler.appendChild(resource3);
-            appletScaler.appendChild(resource4);
-            appletScaler.appendChild(resource5);
-        }
-
-        // Load the applet script
-        var appletStyle = document.createElement("style");
-        appletStyle.innerHTML = '\n' +
-            '.view-frame {\n' +
-            '    border: 1px solid black;\n' +
-            '    display: inline-block;\n' +
-            '}\n' +
-            '#tip {\n' +
-            '    background-color: yellow;\n' +
-            '    border: 1px solid blue;\n' +
-            '    position: absolute;\n' +
-            '    left: -200px;\n' +
-            '    top: 100px;\n' +
-            '};\n';
-
-        appletScaler.appendChild(appletStyle);
-
-        var script = document.createElement("script");
-
-        var scriptLoaded = function() {
-            window[appletObjectName].preCompiledScriptPath = preCompiledScriptPath;
-            window[appletObjectName].scaleParameter = parameters.scale;
-
-            if (!noPreview) {
-                appletScaler.querySelector(".ggb_preview").remove();
-            }
-            appletScaler.appendChild(viewContainer);
-            appletScaler.appendChild(viewImages);
-
-            if (ggbCompiledResourcesLoadFinished) {
-                window[appletObjectName].init({scale:parameters.scale, url:preCompiledScriptPath+'/', ss:parameters.showSplash, sdz:parameters.enableShiftDragZoom, rc:parameters.enableRightClick, sri:parameters.showResetIcon});
-                if (typeof window.ggbAppletOnLoad === 'function') {
-                    window.ggbAppletOnLoad(appletElem.id);
-                }
-                if (typeof parameters.appletOnLoad === 'function') {
-                    parameters.appletOnLoad(appletElem.id);
-                }
-
-            }
-        };
-
-        var scriptFile = preCompiledScriptPath + "/applet.js" + (preCompiledScriptVersion !== null && preCompiledScriptVersion !== null ? "?v="+preCompiledScriptVersion : "");
-        script.src=scriptFile;
-        script.onload = scriptLoaded;
-
-        log("GeoGebra precompiled applet injected. Script="+scriptFile+".");
-        appletScaler.appendChild(script);
     };
 
     var injectScreenshot = function(appletElem, parameters, showPlayButton) {
@@ -1438,16 +1153,10 @@ var GGBApplet = function() {
      */
     var detectAppletType = function(preferredType) {
         preferredType = preferredType.toLowerCase();
-        if ((preferredType === "html5") || (preferredType === "screenshot") || (preferredType === "compiled")) {
+        if ((preferredType === "html5") || (preferredType === "screenshot")) {
             return preferredType;
         }
 
-        if ((preferredType === "prefercompiled") && (preCompiledScriptPath !== null)) {
-            if (applet.isCompiledInstalled()) {
-                return "compiled";
-            } 
-        }
-        
         return "html5";
     };
 
