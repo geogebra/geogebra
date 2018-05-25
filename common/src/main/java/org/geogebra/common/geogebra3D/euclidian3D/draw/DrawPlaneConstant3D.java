@@ -8,6 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Class for drawing 3D constant planes.
@@ -58,12 +59,23 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 			super.updateGeometry();
 		}
 
+		updateGeometriesVisibility();
+
 		return true;
 	}
 
 	@Override
 	protected void updateForView() {
-		// follow the view
+		if (shouldBePackedForManager()) {
+			if (getView3D().viewChangedByRotate()) {
+				boolean oldViewDirectionIsParallel = viewDirectionIsParallel;
+				checkViewDirectionIsParallel();
+				if (oldViewDirectionIsParallel != viewDirectionIsParallel) {
+					// maybe have to update the outline
+					setWaitForUpdate();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -78,6 +90,9 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 
 	@Override
 	protected int getGridThickness() {
+		if (shouldBePackedForManager()) {
+			return isGridVisible() ? 1 : 0;
+		}
 		return 1;
 	}
 
@@ -91,6 +106,11 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	@Override
 	protected void setLineTextureHidden(Renderer renderer) {
 		renderer.setDashTexture(Textures.DASH_SHORT);
+	}
+
+	@Override
+	protected int getLineType() {
+		return EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT;
 	}
 
 	@Override

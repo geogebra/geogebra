@@ -21,8 +21,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	static final public float ALPHA_INVISIBLE_VALUE = -1f;
 	/** color value for invisible parts */
-	public static final GColor COLOR_INVISIBLE = GColor.newColor(0, 0, 0,
-			GLBufferManager.ALPHA_INVISIBLE);
+	public static final GColor COLOR_INVISIBLE = GColor.newColor(0, 0, 0, 0);
 
 	private GLBufferManagerCurves bufferManagerCurves;
 	private GLBufferManagerCurvesClipped bufferManagerCurvesClipped;

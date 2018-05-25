@@ -33,7 +33,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	private double[] minmaxYFinal = new double[2];
 
 	/** says if the view direction is parallel to the plane */
-	private boolean viewDirectionIsParallel;
+	protected boolean viewDirectionIsParallel;
 	private Coords boundsMin = new Coords(3);
 	private Coords boundsMax = new Coords(3);
 
@@ -257,7 +257,76 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		endPacking();
 
 		// grid
-		if (isGridVisible()) {
+		if (shouldBePackedForManager()) {
+			setPackCurve();
+			PlotterBrush brush = renderer.getGeometryManager().getBrush();
+			brush.start(getReusableGeometryIndex());
+
+			if (viewDirectionIsParallel) {
+				int t = getGridThickness();
+				final float thickness = brush.setThickness(t == 0 ? 1 : t,
+						(float) getView3D().getScale());
+				boolean showClippingCube = getView3D().showClippingCube();
+
+				// draws the rectangle outline
+				if (showClippingCube) {
+					brush.setAffineTexture((0f - xmin1) / ydelta1, 0.25f);
+				} else {
+					brush.setPlainTexture();
+				}
+				brush.segment(
+						coordsys.getPointForDrawing(xmin1, ymax1 - thickness),
+						coordsys.getPointForDrawing(xmax1, ymax1 - thickness));
+				brush.segment(
+						coordsys.getPointForDrawing(xmin1, ymin1 + thickness),
+						coordsys.getPointForDrawing(xmax1, ymin1 + thickness));
+
+				if (showClippingCube) {
+					brush.setAffineTexture((0f - ymin1) / xdelta1, 0.25f);
+				}
+				brush.segment(
+						coordsys.getPointForDrawing(xmin1 + thickness, ymin1),
+						coordsys.getPointForDrawing(xmin1 + thickness, ymax1));
+				brush.segment(
+						coordsys.getPointForDrawing(xmax1 - thickness, ymin1),
+						coordsys.getPointForDrawing(xmax1 - thickness, ymax1));
+			} else {
+				brush.setThickness(getGridThickness(),
+						(float) getView3D().getScale());
+				double dx = geo.getGridXd();
+				double dy;
+				if (Double.isNaN(dx)) {
+					dx = getView3D().getNumbersDistance();
+					dy = dx;
+				} else {
+					dy = geo.getGridYd();
+				}
+
+				brush.setAffineTexture((0f - xmin1) / ydelta1, 0.25f);
+				int i0 = (int) (ymin1 / dy);
+				if (ymin1 > 0) {
+					i0++;
+				}
+				for (int i = i0; i <= ymax1 / dy; i++) {
+					brush.segment(coordsys.getPointForDrawing(xmin1, i * dy),
+							coordsys.getPointForDrawing(xmax1, i * dy));
+				}
+				// along y axis
+				brush.setAffineTexture((0f - ymin1) / xdelta1, 0.25f);
+				i0 = (int) (xmin1 / dx);
+				if (xmin1 > 0) {
+					i0++;
+				}
+				for (int i = i0; i <= xmax1 / dx; i++) {
+					brush.segment(coordsys.getPointForDrawing(i * dx, ymin1),
+							coordsys.getPointForDrawing(i * dx, ymax1));
+				}
+			}
+
+			setGeometryIndex(brush.end());
+			endPacking();
+
+		} else if (isGridVisible()) {
 
 			PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
@@ -500,7 +569,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		super.removeFromDrawable3DLists(lists);
 	}
 
-	private void checkViewDirectionIsParallel() {
+	protected void checkViewDirectionIsParallel() {
 		if (DoubleUtil.isZero(getPlane().getCoordSys().getEquationVector()
 				.dotproduct(getView3D().getEyePosition()))) {
 			viewDirectionIsParallel = true;
@@ -647,6 +716,14 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 
 	@Override
+	protected int getReusableGeometryIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getGeometryIndex());
+		}
+		return super.getReusableGeometryIndex();
+	}
+
+	@Override
 	protected void recordTrace() {
 		if (!shouldBePackedForManager()) {
 			super.recordTrace();
@@ -669,7 +746,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	@Override
 	protected void updateForViewNotVisible() {
 		if (shouldBePacked()) {
-			if (getView3D().viewChangedByZoom()) {
+			if (getView3D().viewChanged()) {
 				// will be updated if visible again
 				setWaitForUpdate();
 			}
