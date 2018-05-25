@@ -29,7 +29,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
@@ -50,8 +49,6 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -73,7 +70,7 @@ import com.google.gwt.user.client.ui.Widget;
 @SuppressWarnings("javadoc")
 public class RadioTreeItemController implements ClickHandler,
 		DoubleClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
-		MouseOutHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler {
+		TouchStartHandler, TouchMoveHandler, TouchEndHandler {
 
 	private static final int VERTICAL_PADDING = 20;
 	protected AppWFull app;
@@ -163,11 +160,6 @@ public class RadioTreeItemController implements ClickHandler,
 
 	protected void setEditing(boolean value) {
 		editing = value;
-	}
-
-	@Override
-	public void onMouseOut(MouseOutEvent event) {
-		ToolTipManagerW.sharedInstance().showToolTip(null);
 	}
 
 	@Override
@@ -450,7 +442,6 @@ public class RadioTreeItemController implements ClickHandler,
 	protected void addDomHandlers(FlowPanel panel) {
 		panel.addDomHandler(this, DoubleClickEvent.getType());
 		panel.addDomHandler(this, ClickEvent.getType());
-		panel.addDomHandler(this, MouseOutEvent.getType());
 		panel.addDomHandler(this, MouseMoveEvent.getType());
 		panel.addDomHandler(this, MouseDownEvent.getType());
 		panel.addDomHandler(this, MouseUpEvent.getType());

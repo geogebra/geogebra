@@ -34,7 +34,6 @@ import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
@@ -1212,10 +1211,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void setToolTipText(String plainTooltip) {
-		if (!appW.isUnbundled()
-				|| (appW.isUnbundled() && !isDynStyleBarVisible())) {
-			ToolTipManagerW.sharedInstance().showToolTip(plainTooltip);
-		}
+		// no tooltips
 	}
 
 	private void setResizeXAxisCursor() {

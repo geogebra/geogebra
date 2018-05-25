@@ -527,18 +527,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// cancel repaint to avoid closing newly opened tooltips
 		repaintTimer.cancel();
 		// hide dialogs if they are open
-		int x = event.getClientX() + Window.getScrollLeft();
-		int y = event.getClientY() + Window.getScrollTop(); // why scrollLeft &
-		                                                    // scrollTop; see
-		                                                    // ticket #4049
-
-		int ex = ((EuclidianViewWInterface) ec.getView()).getAbsoluteLeft();
-		int ey = ((EuclidianViewWInterface) ec.getView()).getAbsoluteTop();
-		int eWidth = ((EuclidianViewWInterface) ec.getView()).getWidth();
-		int eHeight = ((EuclidianViewWInterface) ec.getView()).getHeight();
-		if ((x < ex || x > ex + eWidth) || (y < ey || y > ey + eHeight)) {
-			ToolTipManagerW.sharedInstance().hideToolTip();
-		}
 		((EuclidianViewWInterface) ec.getView()).resetPointerEventHandler();
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		ec.wrapMouseExited(e);

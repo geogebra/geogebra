@@ -631,14 +631,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			// get GeoElement at mouse location
 			int row = point.getY();
 			int col = point.getX();
-			GeoElement geo = (GeoElement) model.getValueAt(row, col);
-
-			// set tooltip with geo's description
-			if (geo != null & view.getAllowToolTips()) {
-				table.setToolTipText(geo.getLongDescriptionHTML(true, true));
-			} else {
-				table.setToolTipText(null);
-			}
 
 			updateTableIsOverDot(event);
 		}

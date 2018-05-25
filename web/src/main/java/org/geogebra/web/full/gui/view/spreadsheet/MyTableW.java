@@ -32,7 +32,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -2872,16 +2871,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
 		editor.setEnableAutoComplete(enableAutoComplete);
-	}
-
-	/**
-	 * 
-	 * @param toolTipText
-	 *            the string to display in a tool tip; if the text is null, the
-	 *            tool tip is turned off
-	 */
-	public void setToolTipText(String toolTipText) {
-		ToolTipManagerW.sharedInstance().showToolTip(toolTipText);
 	}
 
 	/**
