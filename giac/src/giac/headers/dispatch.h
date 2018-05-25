@@ -584,6 +584,13 @@ namespace giac {
     _NLP_NONNEGATIVE = 139,     //nlp_nonnegative
     _NLP_PRECISION = 140,       //nlp_precision
     _NLP_MAXIMIZE = 141,         //nlp_maximize
+    _GT_CONNECTED = 142, // connected
+    _GT_SPRING = 143, // spring
+    _GT_TREE = 144, // tree
+    _GT_PLANAR = 145, // planar
+    _GT_DIRECTED = 146, // directed
+    _GT_WEIGHTED = 147, // weighted
+    _GT_WEIGHTS = 148, // weights
   };
 
   enum mupad_operator {
@@ -637,15 +644,6 @@ namespace giac {
     step_derive_header=34,
   };
 
-  enum move_to_dispatch_h {
-    _GT_CONNECTED = 137, // connected
-    _GT_SPRING = 138, // spring
-    _GT_TREE = 139, // tree
-    _GT_PLANAR = 140, // planar
-    _GT_DIRECTED = 141, // directed
-    _GT_WEIGHTED = 142, // weighted
-    _GT_WEIGHTS = 143 // weights
-  };
 
 
 #ifndef NO_NAMESPACE_GIAC
