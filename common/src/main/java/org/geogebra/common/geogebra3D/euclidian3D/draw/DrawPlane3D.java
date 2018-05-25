@@ -109,11 +109,16 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 */
 	protected void drawPlate(Renderer renderer) {
 		if (getPlane().isPlateVisible()) {
-			// -1 shift for z-fighting with planes
-			renderer.setLayer(getLayer() + Renderer.LAYER_PLANE_SHIFT);
+			renderer.setLayer(getLayer());
 			renderer.getGeometryManager().draw(getSurfaceIndex());
 			renderer.setLayer(Renderer.LAYER_DEFAULT);
 		}
+	}
+
+	@Override
+	public int getLayer() {
+		// -1 shift for z-fighting with planes
+		return super.getLayer() + Renderer.LAYER_PLANE_SHIFT;
 	}
 
 	@Override

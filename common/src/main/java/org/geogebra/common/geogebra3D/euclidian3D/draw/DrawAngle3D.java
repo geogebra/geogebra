@@ -372,11 +372,16 @@ public class DrawAngle3D extends Drawable3DCurves {
 	}
 
 	private void drawSurfaceGeometry(Renderer renderer) {
-		// +1 shift to avoid z-fighting with planes and polygons
-		renderer.setLayer(getLayer() + Renderer.LAYER_ANGLE_SHIFT);
+		renderer.setLayer(getLayer());
 		renderer.getGeometryManager().draw(getSurfaceIndex());
 		renderer.setLayer(Renderer.LAYER_DEFAULT);
 
+	}
+
+	@Override
+	public int getLayer() {
+		// +1 shift to avoid z-fighting with planes and polygons
+		return super.getLayer() + Renderer.LAYER_ANGLE_SHIFT;
 	}
 
 	@Override

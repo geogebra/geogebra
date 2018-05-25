@@ -90,11 +90,9 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
-
-		renderer.setLayer(getLayer()); // +0f for z-fighting with planes
+		renderer.setLayer(getLayer());
 		renderer.getGeometryManager().draw(getGeometryIndex());
 		renderer.setLayer(Renderer.LAYER_DEFAULT);
-
 	}
 
 	@Override
@@ -137,11 +135,9 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	@Override
 	protected void drawSurfaceGeometry(Renderer renderer) {
-
-		renderer.setLayer(getLayer()); // +0f to avoid z-fighting with planes
+		renderer.setLayer(getLayer());
 		renderer.getGeometryManager().draw(getSurfaceIndex());
 		renderer.setLayer(Renderer.LAYER_DEFAULT);
-
 	}
 
 	@Override

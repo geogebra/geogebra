@@ -724,7 +724,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return geo layer
 	 */
-	final public int getLayer() {
+	public int getLayer() {
 
 		if (createdByDrawList()) {
 			return ((Drawable3D) getDrawListCreator()).getLayer();

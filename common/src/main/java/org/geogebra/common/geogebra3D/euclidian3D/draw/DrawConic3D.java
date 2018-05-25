@@ -609,9 +609,7 @@ public class DrawConic3D extends Drawable3DCurves
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 		case GeoConicNDConstants.CONIC_PARABOLA:
-			// Application.debug(getGeoElement().getLayer());
-			renderer.setLayer(getLayer()); // +0f to avoid z-fighting with
-											// planes
+			renderer.setLayer(getLayer());
 			renderer.getGeometryManager().draw(getSurfaceIndex());
 			renderer.setLayer(Renderer.LAYER_DEFAULT);
 			break;
