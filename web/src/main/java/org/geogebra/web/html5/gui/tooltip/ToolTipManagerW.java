@@ -10,7 +10,6 @@ import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
 
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
@@ -72,11 +71,6 @@ public final class ToolTipManagerW {
 	private HTML bottomInfoTipHTML;
 	private Label helpLabel;
 
-	/** last mouse x coord */
-	int mouseX = 0;
-	/** last mouse y coord */
-	int mouseY = 0;
-
 	private Timer timer;
 	private boolean blockToolTip = true;
 	private boolean keyboardVisible;
@@ -98,20 +92,6 @@ public final class ToolTipManagerW {
 	 * Java default = 4000.
 	 */
 	private int dismissDelay = 4000;
-
-	/**
-	 * Time, in milliseconds, to allow showing a new toolTip immediately, with
-	 * no delay. After this delay has expired, toolTips are shown with an
-	 * initial delay.
-	 * 
-	 * Java default = 500;
-	 */
-	private int reshowDelay = 500;
-
-	/**
-	 * Flag to enable/disable a delay time before showing a toolTip.
-	 * */
-	boolean enableDelay = true;
 
 	/**
 	 * HTML element associated with the toolTip. The toolTip will be positioned
@@ -482,17 +462,6 @@ public final class ToolTipManagerW {
 		this.dismissDelay = dismissDelay;
 	}
 
-	/**
-	 * Set flag to enable/disable delay timers
-	 * 
-	 * @param enableDelay
-	 *            If true, timers manage toolTip visibility. If false, the
-	 *            toolTip is shown immediately without automatic hiding.
-	 */
-	public void setEnableDelay(boolean enableDelay) {
-		this.enableDelay = enableDelay;
-	}
-
 	// =====================================
 	// Mouse Listeners
 	// =====================================
@@ -501,7 +470,7 @@ public final class ToolTipManagerW {
 	 * Register mouse listeners to keep track of the mouse position and hide the
 	 * toolTip on a mouseDown event.
 	 */
-	private void registerMouseListeners() {
+	private static void registerMouseListeners() {
 		if (!enabled) {
 			return;
 		}
@@ -510,15 +479,9 @@ public final class ToolTipManagerW {
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
 			@Override
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
-				NativeEvent e = event.getNativeEvent();
-
 				if (event.getTypeInt() == Event.ONTOUCHSTART) {
 					CancelEventTimer.touchEventOccured();
 				}
-
-				mouseX = e.getClientX();
-				mouseY = e.getClientY();
-
 			}
 		});
 	}

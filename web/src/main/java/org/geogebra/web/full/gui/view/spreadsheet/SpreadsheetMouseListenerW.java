@@ -623,18 +623,11 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			}
 		} else {
 			// MOVE, NO DRAG
-
 			if (table.isEditing() || point == null) {
 				return;
 			}
-
-			// get GeoElement at mouse location
-			int row = point.getY();
-			int col = point.getX();
-
 			updateTableIsOverDot(event);
 		}
-
 	}
 
 	private int getColOffset(int mouseX, GRectangle selRect) {
