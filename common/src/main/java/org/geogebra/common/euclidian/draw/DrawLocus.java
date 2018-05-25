@@ -170,7 +170,8 @@ public class DrawLocus extends Drawable {
 	private void drawLocus(GGraphics2D g2) {
 		if (isVisible) {
 
-			if (geo.isPenStroke()) {
+			if (geo.isPenStroke()
+					&& !geo.getKernel().getApplication().isExporting()) {
 				if (bitmap == null) {
 					this.bitmap = makeImage(g2);
 					GGraphics2D g2bmp = bitmap.createGraphics();
