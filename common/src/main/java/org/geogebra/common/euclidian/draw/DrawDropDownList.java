@@ -142,8 +142,7 @@ public final class DrawDropDownList extends CanvasDrawable
 							StringTemplate.latexTemplate);
 					latex = true;
 				} else {
-					text = geoItem
-							.toValueString(StringTemplate.defaultTemplate);
+					text = getDisplayString(geoItem);
 					latex = isLatexString(text);
 				}
 
@@ -1271,14 +1270,28 @@ public final class DrawDropDownList extends CanvasDrawable
 					StringTemplate.latexTemplate);
 			seLatex = true;
 		} else {
-			selectedText = geoItem
-					.toValueString(StringTemplate.defaultTemplate);
+			selectedText = getDisplayString(geoItem);
 			seLatex = isLatexString(selectedText);
 		}
 
 		selectedDimension = drawSelectedText(g2, 0, 0, false);
 		latexLabel = measureLabel(g2, geoList, getLabelText());
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth, boxHeight);
+	}
+
+	private String getDisplayString(GeoElement geoItem) {
+		if (!"".equals(geoItem.getRawCaption())) {
+
+			return geoItem.getCaption(StringTemplate.defaultTemplate);
+
+		} else if (geoItem.isGeoPoint() || geoItem.isGeoVector()
+				|| geoItem.isGeoList()) {
+
+			return geoItem.getLabel(StringTemplate.defaultTemplate);
+		}
+
+		return geoItem.toValueString(StringTemplate.defaultTemplate);
+
 	}
 
 	/**
