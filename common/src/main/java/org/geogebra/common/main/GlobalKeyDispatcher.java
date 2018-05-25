@@ -145,10 +145,12 @@ public abstract class GlobalKeyDispatcher {
 			toggleSelectionVisibility();
 		}
 
-		if (ch == '\n' || ch == '\r') {
-			startEdit(geo);
-		} else if (ch == '.') {
-			openSettingsInAV(geo);
+		if (app.getGuiManager() != null) {
+			if (ch == '\n' || ch == '\r') {
+				startEdit(geo);
+			} else if (ch == '.') {
+				openSettingsInAV(geo);
+			}
 		}
 
 		// don't instantiate: could steal focus
