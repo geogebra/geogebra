@@ -124,6 +124,8 @@ public abstract class UndoManager {
 	 * 
 	 * @param strXML
 	 *            XML string
+	 * @param isGGTOrDefaults
+	 *            whether to treat the XML as defaults
 	 * @throws Exception
 	 *             on trouble with parsing or running commands
 	 */
@@ -350,7 +352,7 @@ public abstract class UndoManager {
 	 * @return number of available undo points
 	 */
 	public int getHistorySize() {
-		return this.iterator.previousIndex();
+		return this.iterator == null ? -1 : this.iterator.previousIndex();
 	}
 
 	/**
