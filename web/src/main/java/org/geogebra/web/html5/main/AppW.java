@@ -318,7 +318,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-
 	/**
 	 * Resize to fill browser
 	 */
@@ -331,7 +330,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 		checkScaleContainer();
 	}
-
 
 	/**
 	 * Scale to container if needed.
