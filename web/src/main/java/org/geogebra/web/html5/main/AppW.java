@@ -3741,6 +3741,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		if ("html".equals(extension)) {
 			url = StringUtil.htmlMarker + content;
+		} else if ("jscad".equals(extension)) {
+			url = StringUtil.txtMarker + content;
 		} else {
 			url = StringUtil.txtMarker + URL.encodePathSegment(content);
 		}
