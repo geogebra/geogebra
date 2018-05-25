@@ -91,6 +91,7 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 				putToIndices(i + 1 + (i % 2));
 				putToIndices(i + 2 - (i % 2));
 			}
+			break;
 		case TRIANGLES:
 			for (int i = 0; i < 3 * size; i++) {
 				putToIndices(i);
