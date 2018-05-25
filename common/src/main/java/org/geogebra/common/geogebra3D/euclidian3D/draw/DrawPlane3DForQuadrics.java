@@ -38,4 +38,9 @@ public class DrawPlane3DForQuadrics extends DrawPlane3D {
 		return (GeoPlane3D) super.getGeoElement();
 	}
 
+	@Override
+	public boolean shouldBePacked() {
+		return false;
+	}
+
 }

@@ -3068,8 +3068,11 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void drawTransp(Renderer renderer1) {
 
-		if (xOyPlane.isPlateVisible()) {
-			xOyPlaneDrawable.drawTransp(renderer1);
+		if (!app.has(Feature.MOB_PACK_PLANES)
+				|| !getRenderer().getGeometryManager().packBuffers()) {
+			if (xOyPlane.isPlateVisible()) {
+				xOyPlaneDrawable.drawTransp(renderer1);
+			}
 		}
 
 		getCompanion().drawTransp(renderer1);
@@ -3082,7 +3085,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawHiding(Renderer renderer1) {
-		xOyPlaneDrawable.drawHiding(renderer1);
+		if (!app.has(Feature.MOB_PACK_PLANES)
+				|| !getRenderer().getGeometryManager().packBuffers()) {
+			xOyPlaneDrawable.drawHiding(renderer1);
+		}
 		getCompanion().drawHiding(renderer1);
 	}
 
@@ -3132,7 +3138,10 @@ public abstract class EuclidianView3D extends EuclidianView
 			}
 		}
 
-		xOyPlaneDrawable.drawHidden(renderer1);
+		if (!app.has(Feature.MOB_PACK_PLANES)
+				|| !getRenderer().getGeometryManager().packBuffers()) {
+			xOyPlaneDrawable.drawHidden(renderer1);
+		}
 
 		if (!app.has(Feature.MOB_PACK_ALL_CURVES)
 				|| !getRenderer().getGeometryManager().packBuffers()) {

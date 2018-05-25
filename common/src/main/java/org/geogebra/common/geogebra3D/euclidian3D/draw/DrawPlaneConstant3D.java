@@ -1,10 +1,13 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing 3D constant planes.
@@ -104,6 +107,25 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
 		// no bounds update
+	}
+
+	@Override
+	public GColor getSurfaceColor() {
+		if (getView3D().getApplication().has(Feature.MOB_PACK_PLANES)) {
+			if (getPlane().isPlateVisible()) {
+				return super.getSurfaceColor();
+			}
+			return ManagerShadersElementsGlobalBufferPacking.COLOR_INVISIBLE;
+		}
+		return super.getSurfaceColor();
+	}
+
+	@Override
+	protected boolean isVisible() {
+		if (getView3D().getApplication().has(Feature.MOB_PACK_PLANES)) {
+			return isGridVisible() || getPlane().isPlateVisible();
+		}
+		return super.isVisible();
 	}
 
 }

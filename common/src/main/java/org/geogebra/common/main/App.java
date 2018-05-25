@@ -4100,6 +4100,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_REACT_SEARCH_VIEW:
 			return prerelease;
 
+		// MOB-1517
+		case MOB_PACK_PLANES:
+			return false;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************

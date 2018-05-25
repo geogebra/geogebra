@@ -306,6 +306,9 @@ public enum Feature {
 	MOB_LAYER_FOR_PACKING,
 
 	/** IGR-898 */
-	MOB_REACT_SEARCH_VIEW
+	MOB_REACT_SEARCH_VIEW,
+
+	/** MOB-1517 */
+	MOB_PACK_PLANES
 }
 

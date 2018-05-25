@@ -36,6 +36,8 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 			return 3 * size;
 		case TRIANGLE_STRIP:
 			return 3 * size;
+		case TRIANGLES:
+			return 3 * size;
 		default:
 			// should not happen
 			return 0;
@@ -89,6 +91,11 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 				putToIndices(i + 1 + (i % 2));
 				putToIndices(i + 2 - (i % 2));
 			}
+		case TRIANGLES:
+			for (int i = 0; i < 3 * size; i++) {
+				putToIndices(i);
+			}
+			break;
 		default:
 			// should not happen
 			break;

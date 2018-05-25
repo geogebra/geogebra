@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -234,6 +235,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		updateBounds(xmin1, xmax1, ymin1, ymax1);
 
 		// plane
+		setPackSurface();
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 
 		surface.start(geo, getReusableSurfaceIndex());
@@ -250,8 +252,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			fading = ydelta1 * geo.getFading();
 			surface.setVFading(fading, fading);
 		}
-		surface.draw();
+		surface.draw(shouldBePackedForManager());
 		setSurfaceIndex(surface.end());
+		endPacking();
 
 		// grid
 		if (isGridVisible()) {
@@ -509,9 +512,19 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	@Override
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
 		super.setWaitForUpdateVisualStyle(prop);
-
-		// also update for plane clip
-		setWaitForUpdate();
+		if (shouldBePacked()) {
+			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
+				setWaitForUpdateColor();
+			} else if (prop == GProperty.VISIBLE) {
+				setWaitForUpdateVisibility();
+			} else {
+				// also update for plane clip
+				setWaitForUpdate();
+			}
+		} else {
+			// also update for plane clip
+			setWaitForUpdate();
+		}
 	}
 
 	@Override
@@ -589,6 +602,85 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 		return false;
 
+	}
+
+	@Override
+	protected void updateForViewVisible() {
+		updateGeometriesVisibility();
+		if (!waitForUpdate()) {
+			updateForView();
+		}
+	}
+
+	@Override
+	public void disposePreview() {
+		if (shouldBePacked()) {
+			removePreviewFromGL();
+		}
+		super.disposePreview();
+	}
+
+	@Override
+	protected void updateGeometriesVisibility() {
+		boolean isVisible = isVisible();
+		if (geometriesSetVisible != isVisible) {
+			setGeometriesVisibility(isVisible);
+		}
+	}
+
+	@Override
+	protected void setGeometriesVisibility(boolean visible) {
+		setGeometriesVisibilityWithSurface(visible);
+	}
+
+	@Override
+	protected void updateGeometriesColor() {
+		updateGeometriesColor(true);
+	}
+
+	@Override
+	public int getReusableSurfaceIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getSurfaceIndex());
+		}
+		return super.getReusableSurfaceIndex();
+	}
+
+	@Override
+	protected void recordTrace() {
+		if (!shouldBePackedForManager()) {
+			super.recordTrace();
+		}
+	}
+
+	@Override
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
+		if (shouldBePackedForManager()) {
+			if (tracesPackingBuffer != null) {
+				while (!tracesPackingBuffer.isEmpty()) {
+					doRemoveGeometryIndex(tracesPackingBuffer.pop());
+				}
+			}
+		} else {
+			super.clearTraceForViewChangedByZoomOrTranslate();
+		}
+	}
+
+	@Override
+	protected void updateForViewNotVisible() {
+		if (shouldBePacked()) {
+			if (getView3D().viewChangedByZoom()) {
+				// will be updated if visible again
+				setWaitForUpdate();
+			}
+			updateGeometriesVisibility();
+		}
+	}
+
+	@Override
+	public boolean shouldBePacked() {
+		return getView3D().getApplication().has(Feature.MOB_PACK_PLANES)
+				&& !createdByDrawList();
 	}
 
 }
