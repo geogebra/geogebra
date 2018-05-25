@@ -1,6 +1,6 @@
-ext.getGeogebraVersion = { ->
+ext.getGeogebraVersion = { root = ".."->
 	    def version = "undef"
-	    file('../common/src/main/java/org/geogebra/common/GeoGebraConstants.java').eachLine { line ->
+	    file("$root/common/src/main/java/org/geogebra/common/GeoGebraConstants.java").eachLine { line ->
 	        def pattern = ~/ VERSION_STRING = "(.*)"/
 	        def matcher = (line =~ pattern)
 	        if (matcher) {
