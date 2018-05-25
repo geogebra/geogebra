@@ -479,7 +479,7 @@ public class Browser {
 		if ((Location.getHost() != null
 				&& Location.getHost().contains("geogebra.org")
 				&& !Location.getHost().contains("autotest"))
-				|| string.startsWith("#")) {
+				|| string.startsWith("#") || string.startsWith("?")) {
 			nativeChangeUrl(string);
 		}
 	}

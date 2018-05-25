@@ -46,6 +46,7 @@ public class InequalityStepTest {
 
     @Test
     public void positiveVsZeroInequality() {
+    	i("(x+2)^2", ">", "0", "x", "x in R \\ {-2}");
         i("x^2+2x+1", ">=", "0", "x", "x in R");
         i("x^2+2x+1", ">", "0", "x", "x in R \\ {-1}");
         i("x^2+2x+1", "<", "0", "x");

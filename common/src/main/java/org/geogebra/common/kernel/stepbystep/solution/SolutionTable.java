@@ -153,7 +153,7 @@ public class SolutionTable extends SolutionStep {
 	}
 
 	@Override
-	public List<String> getDefault(Localization loc) {
+	public List<TextElement> getDefault(Localization loc) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("$\\begin{tabular}{r | *{");
@@ -184,13 +184,13 @@ public class SolutionTable extends SolutionStep {
 
 		sb.append("\\end{tabular}$");
 
-		List<String> result = new ArrayList<>();
-		result.add(sb.toString());
+		List<TextElement> result = new ArrayList<>();
+		result.add(new TextElement(sb.toString(), sb.toString()));
 		return result;
 	}
 
 	@Override
-	public List<String> getDetailed(Localization loc) {
+	public List<TextElement> getDetailed(Localization loc) {
 		return getDefault(loc);
 	}
 }

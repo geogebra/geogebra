@@ -761,6 +761,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 	public boolean isGroupType() {
 		return this == FACTOR_BINOM_STRATEGY
 				|| this == DEFAULT_FACTOR
+				|| this == WEAK_FACTOR_STRATEGY
 				|| this == FACTOR_STRATEGY
 				|| this == FACTOR_POLYNOMIALS
 				|| this == FACTOR_COMMON_SUBSTEP;

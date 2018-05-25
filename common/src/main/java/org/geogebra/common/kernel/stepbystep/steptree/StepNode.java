@@ -123,33 +123,32 @@ public abstract class StepNode implements TableElement {
 		return null;
 	}
 
-	public static StepTransformable cleanupExpression(StepTransformable sn) {
-		if (sn instanceof StepEquation) {
-			return new StepEquation(
-					(StepExpression) cleanupExpression(((StepEquation) sn).LHS),
-					(StepExpression) cleanupExpression(((StepEquation) sn).RHS));
-		}
-
-		if (sn.isOperation(Operation.MULTIPLY)) {
-			StepOperation so = (StepOperation) sn;
-
-			if (so.getOperand(0).isNegative()) {
-				StepExpression[] result = new StepExpression[so.noOfOperands()];
-				result[0] = (StepExpression) cleanupExpression(so.getOperand(0).negate());
-				for (int i = 1; i < so.noOfOperands(); i++) {
-					result[i] = (StepExpression) cleanupExpression(so.getOperand(i));
-				}
-
-				return StepOperation.multiply(result).negate();
-			}
-		}
-
-		if (sn.isOperation(Operation.NO_OPERATION)) {
-			return cleanupExpression(((StepOperation) sn).getOperand(0));
+	private static StepTransformable cleanupExpression(StepTransformable sn) {
+		if (sn instanceof StepSolvable) {
+			return ((StepSolvable) sn).cloneWith(
+					(StepExpression) cleanupExpression(((StepSolvable) sn).LHS),
+					(StepExpression) cleanupExpression(((StepSolvable) sn).RHS));
 		}
 
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
+
+			if (so.getOperation() == Operation.MULTIPLY) {
+				if (so.getOperand(0).isNegative()) {
+					StepExpression[] result = new StepExpression[so.noOfOperands()];
+					result[0] = (StepExpression) cleanupExpression(so.getOperand(0).negate());
+					for (int i = 1; i < so.noOfOperands(); i++) {
+						result[i] = (StepExpression) cleanupExpression(so.getOperand(i));
+					}
+
+					return StepOperation.multiply(result).negate();
+				}
+			}
+
+			if (so.getOperation() == Operation.NO_OPERATION) {
+				return cleanupExpression(((StepOperation) sn).getOperand(0));
+			}
+
 			StepExpression[] result = new StepExpression[so.noOfOperands()];
 			for (int i = 0; i < so.noOfOperands(); i++) {
 				result[i] = (StepExpression) cleanupExpression(so.getOperand(i));

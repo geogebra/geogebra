@@ -1,14 +1,23 @@
 package org.geogebra.web.solver;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.google.gwt.http.client.Header;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.user.cellview.client.TextHeader;
+import com.google.gwt.user.client.ui.*;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
+import org.geogebra.web.full.util.ReTeXHelper;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -31,11 +40,6 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
@@ -154,9 +158,14 @@ public class Solver implements EntryPoint, MathFieldListener {
 				app.getLocalization().setLanguage(lang);
 
 				keyboard.setProcessing(new MathFieldProcessing(mathField));
-
 				keyboard.buildGUI();
-				keyboard.show();
+
+				String parameter = Window.Location.getParameter("i");
+				if (parameter != null && !"".equals(parameter)) {
+					compute(parameter);
+				} else {
+					keyboard.show();
+				}
 			}
 		});
 	}
@@ -166,12 +175,9 @@ public class Solver implements EntryPoint, MathFieldListener {
 		    ($wnd.getEditorElement());
 	}-*/;
 
-	@Override
-	public void onEnter() {
-		keyboard.hide();
-
-		String text = new GeoGebraSerializer()
-				.serialize(mathField.getFormula());
+	public void compute(String text) {
+		Browser.changeUrl("?i=" + URL.encodePathSegment(text));
+		mathField.setText(text, false);
 
 		StepTransformable input = StepNode.getStepTree(text, app.getKernel().getParser());
 
@@ -179,24 +185,34 @@ public class Solver implements EntryPoint, MathFieldListener {
 			solverPanel.remove(stepsPanel);
 		}
 		stepsPanel = new VerticalPanel();
+		stepsPanel.addStyleName("stepTree");
 		solverPanel.add(stepsPanel);
+
+		if (input == null) {
+			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with " +
+					"your input</h3>"));
+
+			return;
+		}
 
 		mathField.setFocus(false);
 
-		WebStepGuiBuilder guiBuilder = new WebStepGuiBuilder(app);
+		WebStepGuiBuilder guiBuilder = new WebStepGuiBuilder(this, app);
 
 		SolutionBuilder sb = new SolutionBuilder();
 
+		List<StepInformation> alternativeForms = new ArrayList<>();
+
 		StepTransformable regrouped = input.regroupOutput(sb);
 		if (!regrouped.equals(input)) {
-			stepsPanel.add(new StepInformation(app, guiBuilder, regrouped,
+			alternativeForms.add(new StepInformation(app, guiBuilder, regrouped,
 					sb.getSteps()));
 		}
 		sb.reset();
 
 		StepTransformable expanded = input.expandOutput(sb);
 		if (!expanded.equals(input) && !expanded.equals(regrouped)) {
-			stepsPanel.add(new StepInformation(app, guiBuilder, expanded,
+			alternativeForms.add(new StepInformation(app, guiBuilder, expanded,
 					sb.getSteps()));
 		}
 		sb.reset();
@@ -204,23 +220,81 @@ public class Solver implements EntryPoint, MathFieldListener {
 		StepTransformable factored = input.factorOutput(sb);
 		if (!factored.equals(input) && !factored.equals(regrouped)
 				&& !factored.equals(expanded)) {
-			stepsPanel.add(new StepInformation(app, guiBuilder, factored,
+			alternativeForms.add(new StepInformation(app, guiBuilder, factored,
 					sb.getSteps()));
 		}
 		sb.reset();
 
-		double startTime = app.getMillisecondTime();
-		List<StepSolution> solutions = input.toSolvable()
-				.solve(new StepVariable("x"), sb);
-		double solveTime = app.getMillisecondTime();
-		stepsPanel.add(
-				new StepInformation(app, guiBuilder, solutions, sb.getSteps()));
-		double endTime = app.getMillisecondTime();
-		Log.debug("Total execution time: " + (endTime - startTime) + " ms");
-		Log.debug("Solve time: " + (solveTime - startTime) + " ms");
-		Log.debug("Render time: " + (endTime - solveTime) + " ms");
+		if (alternativeForms.size() > 0) {
+			stepsPanel.add(new HTML("<h2>Alternative forms</h2>"));
 
-		stepsPanel.addStyleName("stepTree");
+			for (StepInformation alternativeForm : alternativeForms) {
+				stepsPanel.add(alternativeForm);
+			}
+		}
+
+		Set<StepVariable> variableSet = new HashSet<>();
+		input.getListOfVariables(variableSet);
+
+		List<StepInformation> solutions = new ArrayList<>();
+
+		StepSolvable solvable = input.toSolvable();
+
+		for (StepVariable variable : variableSet) {
+			try {
+				double startTime = app.getMillisecondTime();
+				List<StepSolution> solutionList = solvable.solve(variable, sb);
+				double solveTime = app.getMillisecondTime();
+				solutions.add(
+						new StepInformation(app, guiBuilder, solutionList, sb.getSteps()));
+				double endTime = app.getMillisecondTime();
+
+				Log.debug("Total execution time: " + (endTime - startTime) + " ms");
+				Log.debug("Solve time: " + (solveTime - startTime) + " ms");
+				Log.debug("Render time: " + (endTime - solveTime) + " ms");
+			} catch (SolveFailedException e) {
+				Log.debug("Solve failed for " + solvable + " for variable " + variable);
+			} finally {
+				sb.reset();
+			}
+		}
+
+		if (solutions.size() > 0) {
+			stepsPanel.add(new HTML("<h2>Solutions</h2>"));
+
+			for (StepInformation solution : solutions) {
+				stepsPanel.add(solution);
+			}
+		}
+
+		if (input instanceof StepExpression) {
+			stepsPanel.add(new HTML("<h2>Derivatives</h2>"));
+
+			for (StepVariable variable : variableSet) {
+				StepExpression derivative =
+						StepNode.differentiate((StepExpression) input, variable);
+				StepExpression result = (StepExpression) derivative.differentiate(sb);
+				stepsPanel.add(new StepInformation(app, guiBuilder,
+						new StepEquation(derivative, result), sb.getSteps()));
+
+				sb.reset();
+			}
+		}
+
+		if (stepsPanel.getWidgetCount() == 0) {
+			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with " +
+					"your input</h3>"));
+		}
+	}
+
+	@Override
+	public void onEnter() {
+		keyboard.hide();
+
+		String text = new GeoGebraSerializer()
+				.serialize(mathField.getFormula());
+
+		compute(text);
 	}
 
 	@Override

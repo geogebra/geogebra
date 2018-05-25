@@ -9,9 +9,9 @@ public abstract class SolutionStep {
 
 	protected List<SolutionStep> substeps;
 
-	public abstract List<String> getDefault(Localization loc);
+	public abstract List<TextElement> getDefault(Localization loc);
 
-	public abstract List<String> getDetailed(Localization loc);
+	public abstract List<TextElement> getDetailed(Localization loc);
 
 	public void addSubStep(SolutionStep substep) {
 		if (substeps == null) {

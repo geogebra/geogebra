@@ -17,8 +17,8 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
 public class StepHelper {
 
-	public static abstract class Condition {
-		public static final Condition underAbs = new Condition() {
+	private static abstract class Condition {
+		private static final Condition underAbs = new Condition() {
 			@Override
 			public StepNode isTrueFor(StepNode sn) {
 				if (sn.isOperation(Operation.ABS)) {
@@ -27,7 +27,7 @@ public class StepHelper {
 				return null;
 			}
 		};
-		public static final Condition underEvenRoot = new Condition() {
+		private static final Condition underEvenRoot = new Condition() {
 			@Override
 			public StepNode isTrueFor(StepNode sn) {
 				if (sn.isOperation(Operation.NROOT) && ((StepOperation) sn).getOperand(1)
@@ -37,7 +37,7 @@ public class StepHelper {
 				return null;
 			}
 		};
-		public static final Condition plusminusToPlus = new Condition() {
+		private static final Condition plusminusToPlus = new Condition() {
 			@Override
 			public StepNode isTrueFor(StepNode sn) {
 				if (sn.isOperation(Operation.PLUSMINUS)) {
@@ -46,7 +46,7 @@ public class StepHelper {
 				return null;
 			}
 		};
-		public static final Condition plusminusToMinus = new Condition() {
+		private static final Condition plusminusToMinus = new Condition() {
 			@Override
 			public StepNode isTrueFor(StepNode sn) {
 				if (sn.isOperation(Operation.PLUSMINUS)) {
@@ -55,7 +55,7 @@ public class StepHelper {
 				return null;
 			}
 		};
-		public static final Condition isDenominator = new Condition() {
+		private static final Condition isDenominator = new Condition() {
 			@Override
 			public StepNode isTrueFor(StepNode sn) {
 				if (sn.isOperation(Operation.DIVIDE)) {
@@ -75,7 +75,7 @@ public class StepHelper {
 	 * @param c  condition
 	 * @return the first expression which adheres to the condition
 	 */
-	public static StepExpression findExpression(StepExpression sn, Condition c) {
+	private static StepExpression findExpression(StepExpression sn, Condition c) {
 		StepNode value = c.isTrueFor(sn);
 		if (value != null) {
 			return (StepExpression) value;
@@ -93,7 +93,7 @@ public class StepHelper {
 		return null;
 	}
 
-	public static void getAll(StepNode sn, Set<StepExpression> values, Condition c) {
+	private static void getAll(StepNode sn, Set<StepExpression> values, Condition c) {
 		StepNode value = c.isTrueFor(sn);
 		if (value != null) {
 			values.add((StepExpression) value);
@@ -182,7 +182,7 @@ public class StepHelper {
 		});
 	}
 
-	public static StepExpression nthDegreeInExpression(StepSolvable ss, final StepVariable var,
+	private static StepExpression nthDegreeInExpression(StepSolvable ss, final StepVariable var,
 			int n) {
 		StepExpression diff = StepNode.subtract(ss.LHS, ss.RHS).regroup();
 

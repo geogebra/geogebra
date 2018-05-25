@@ -32,6 +32,11 @@
       vertical-align: middle;
     }
 
+    canvas.stepTreeElem {
+      user-select: all;
+      -moz-user-select: all;
+    }
+
     .stepTreeButton {
       padding: 2px;
       display: inline;

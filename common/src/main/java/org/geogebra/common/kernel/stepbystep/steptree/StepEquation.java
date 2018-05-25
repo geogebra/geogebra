@@ -16,10 +16,10 @@ import java.util.List;
 
 public class StepEquation extends StepSolvable {
 
-	protected final boolean swapped;
+	private final boolean swapped;
 	private boolean isInequation;
 
-	public StepEquation(StepExpression LHS, StepExpression RHS, boolean swapped) {
+	private StepEquation(StepExpression LHS, StepExpression RHS, boolean swapped) {
 		super(LHS, RHS);
 		this.swapped = swapped;
 	}

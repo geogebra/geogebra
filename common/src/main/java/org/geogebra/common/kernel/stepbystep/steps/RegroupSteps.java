@@ -2043,6 +2043,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 		return this == FACTOR_FRACTIONS
 				|| this == SIMPLIFY_ROOTS
 				|| this == SIMPLIFY_FRACTIONS
+				|| this == SIMPLIFY_POWERS
 				|| this == DEFAULT_REGROUP
 				|| this == WEAK_REGROUP
 				|| this == RATIONALIZE_DENOMINATORS

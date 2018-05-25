@@ -24,7 +24,7 @@ class RegroupTracker {
 		private StepNode marked;
 		private MarkType type;
 
-		public Mark(StepNode marked, MarkType type) {
+		Mark(StepNode marked, MarkType type) {
 			this.marked = marked;
 			this.type = type;
 
@@ -47,11 +47,11 @@ class RegroupTracker {
 		}
 	}
 
-	public RegroupTracker() {
+	RegroupTracker() {
 		this.colorTracker = 1;
 	}
 
-	public void addMark(StepNode toMark, MarkType type) {
+	void addMark(StepNode toMark, MarkType type) {
 		if (marks == null) {
 			marks = new HashSet<>();
 		}
@@ -59,40 +59,40 @@ class RegroupTracker {
 		changed |= marks.add(new Mark(toMark, type));
 	}
 
-	public boolean isMarked(StepNode toCheck, MarkType type) {
+	boolean isMarked(StepNode toCheck, MarkType type) {
 		return marks != null && marks.remove(new Mark(toCheck, type));
 	}
 
-	public RegroupTracker setDecimalSimplify() {
+	RegroupTracker setDecimalSimplify() {
 		this.decimalSimplify = true;
 		return this;
 	}
 
-	public boolean isDecimalSimplify() {
+	boolean isDecimalSimplify() {
 		return decimalSimplify;
 	}
 
-	public boolean wasChanged() {
+	boolean wasChanged() {
 		return colorTracker > 1;
 	}
 
-	public boolean wasChanged2() {
+	boolean wasChanged2() {
 		return changed || colorTracker > 1;
 	}
 
-	public int incColorTracker() {
+	int incColorTracker() {
 		return colorTracker++;
 	}
 
-	public int getColorTracker() {
+	int getColorTracker() {
 		return colorTracker;
 	}
 
-	public void setColorTracker(int colorTracker) {
+	void setColorTracker(int colorTracker) {
 		this.colorTracker = colorTracker;
 	}
 
-	public void resetTracker() {
+	void resetTracker() {
 		changed = false;
 		this.colorTracker = 1;
 	}

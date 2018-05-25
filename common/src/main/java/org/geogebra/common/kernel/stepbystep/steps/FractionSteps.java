@@ -123,7 +123,8 @@ enum FractionSteps implements SimplificationStepGenerator {
 
 	@Override
 	public boolean isGroupType() {
-		return this == ADD_FRACTIONS;
+		return this == ADD_FRACTIONS
+				|| this == ADD_INTEGER_FRACTIONS;
 	}
 
 	StepTransformable expandFractions(StepTransformable sn, SolutionBuilder sb,

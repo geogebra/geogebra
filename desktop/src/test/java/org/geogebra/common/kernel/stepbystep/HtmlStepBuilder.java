@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.stepbystep;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+import org.geogebra.common.kernel.stepbystep.solution.TextElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.test.util.ReportBuilder;
 
@@ -150,22 +151,22 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 		}
 	}
 
-	private void addRow(List<String> equations, int indent) {
+	private void addRow(List<TextElement> equations, int indent) {
 		sb.append("<br>");
 		sb.append("<span style=\"margin-left:")
 				.append(indent)
 				.append("em\">");
 
-		for (String str : equations) {
-			if (str.startsWith("$") && !"$".equals(str)) {
+		for (TextElement str : equations) {
+			if (str.latex != null) {
 				sb.append("<canvas class=\"latex\" data-content=\"")
-						.append(str.substring(1))
+						.append(str.latex)
 						.append("\">")
-						.append(str.substring(1))
+						.append(str.latex)
 						.append("</canvas>");
 			} else {
 				sb.append("<span>")
-				.append(str)
+				.append(str.plain)
 				.append("</span>");
 			}
 		}

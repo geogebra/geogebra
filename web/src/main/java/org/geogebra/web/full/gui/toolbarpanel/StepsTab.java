@@ -27,7 +27,7 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
     public StepsTab(ToolbarPanel toolbarPanel) {
         this.toolbarPanel = toolbarPanel;
 
-        stepGuiBuilder = new WebStepGuiBuilder(toolbarPanel.app);
+        stepGuiBuilder = new WebStepGuiBuilder(null, toolbarPanel.app);
 
         sp = new ScrollPanel();
         add(sp);

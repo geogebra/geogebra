@@ -2,12 +2,16 @@ package org.geogebra.web.solver;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.*;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.solution.TextElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -20,6 +24,7 @@ public class WebStepGuiBuilder {
     private AppW app;
     private Localization loc;
     private GeoNumeric gn;
+    private Solver solver;
 
     private ImageResource openButton = SharedResources.INSTANCE.algebra_tree_open();
     private ImageResource closeButton = SharedResources.INSTANCE.algebra_tree_closed();
@@ -30,7 +35,8 @@ public class WebStepGuiBuilder {
      * @param app required for Localization, GeoNumeric and
      *            StandardButton..
      */
-    public WebStepGuiBuilder(AppW app) {
+    public WebStepGuiBuilder(Solver solver, AppW app) {
+    	this.solver = solver;
         this.app = app;
 
         loc = app.getLocalization();
@@ -76,20 +82,27 @@ public class WebStepGuiBuilder {
     public FlowPanel createRow(SolutionStep step, boolean detailed) {
         FlowPanel row = new FlowPanel();
 
-        List<String> equations;
+        List<TextElement> equations;
         if (detailed) {
             equations = step.getDetailed(loc);
         } else {
             equations = step.getDefault(loc);
         }
 
-        for (String s : equations) {
+        for (TextElement s : equations) {
             Widget toAdd;
-            if (s.startsWith("$")) {
-                toAdd = DrawEquationW.paintOnCanvas(gn, s.substring(1), null,
+            if (s.latex != null) {
+                toAdd = DrawEquationW.paintOnCanvas(gn, s.latex, null,
                         app.getFontSizeWeb());
+                toAdd.getElement().setInnerText(s.plain);
+				ClickStartHandler.init(toAdd, new ClickStartHandler() {
+					@Override
+					public void onClickStart(int x, int y, PointerEventType type) {
+
+					}
+				});
             } else {
-                toAdd = new InlineLabel(s);
+                toAdd = new InlineLabel(s.plain);
             }
 
             toAdd.addStyleName("stepTreeElem");

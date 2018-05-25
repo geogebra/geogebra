@@ -35,16 +35,9 @@ public class StepInformation extends HorizontalPanel {
 
     public StepInformation(AppW app, WebStepGuiBuilder builder,
                            List<StepSolution> result, SolutionStep steps) {
-        SolutionLine display;
-        if (result.size() == 0) {
-            display = new SolutionLine(SolutionStepType.NO_REAL_SOLUTION);
-        } else if (result.size() == 1) {
-            display = new SolutionLine(SolutionStepType.SOLUTION, result.get(0));
-        } else {
-            display = new SolutionLine(SolutionStepType.SOLUTIONS, result.toArray(new StepNode[0]));
-        }
-
-        setupInformation(app, builder, display, steps);
+		setupInformation(app, builder,
+				new SolutionLine(SolutionStepType.LIST, result.toArray(new StepNode[0])),
+				steps);
     }
 
     private void setupInformation(AppW app, WebStepGuiBuilder builder,

@@ -39,8 +39,8 @@ public class SolutionLine extends SolutionStep {
 	 * @return default text, formatted using LaTeX
 	 */
 	@Override
-	public List<String> getDefault(Localization loc) {
-		return type.getDefaultText(loc, parameters);
+	public List<TextElement> getDefault(Localization loc) {
+		return SolutionUtils.getDefaultText(type, loc, parameters);
 	}
 
 	/**
@@ -49,8 +49,8 @@ public class SolutionLine extends SolutionStep {
 	 * @return colored text, formatted using LaTeX
 	 */
 	@Override
-	public List<String> getDetailed(Localization loc) {
-		return type.getDetailedText(loc, colors, parameters);
+	public List<TextElement> getDetailed(Localization loc) {
+		return SolutionUtils.getDetailedText(type, loc, parameters, colors);
 	}
 
 	/**

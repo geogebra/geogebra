@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+import org.geogebra.common.kernel.stepbystep.solution.TextElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 
@@ -31,19 +32,19 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 		}
 	}
 
-	public void addRow(List<String> s) {
-		for (String ss : s) {
+	public void addRow(List<TextElement> list) {
+		for (TextElement te : list) {
 			if (sb.length() > 0) {
 				sb.append(',');
 			}
 
 			sb.append("{ 'text':'");
 
-			if (ss.startsWith("$")) {
-				sb.append(StringUtil.toJavaString(ss.substring(1)));
+			if (te.latex != null) {
+				sb.append(StringUtil.toJavaString(te.latex));
 				sb.append("', latex':true }");
 			} else {
-				sb.append(StringUtil.toJavaString(ss));
+				sb.append(StringUtil.toJavaString(te.plain));
 				sb.append("', 'plain':true }");
 			}
 		}
