@@ -24,7 +24,6 @@ public class WebStepGuiBuilder {
     private AppW app;
     private Localization loc;
     private GeoNumeric gn;
-    private Solver solver;
 
     private ImageResource openButton = SharedResources.INSTANCE.algebra_tree_open();
     private ImageResource closeButton = SharedResources.INSTANCE.algebra_tree_closed();
@@ -35,8 +34,7 @@ public class WebStepGuiBuilder {
      * @param app required for Localization, GeoNumeric and
      *            StandardButton..
      */
-    public WebStepGuiBuilder(Solver solver, AppW app) {
-    	this.solver = solver;
+    public WebStepGuiBuilder(AppW app) {
         this.app = app;
 
         loc = app.getLocalization();
@@ -98,7 +96,7 @@ public class WebStepGuiBuilder {
 				ClickStartHandler.init(toAdd, new ClickStartHandler() {
 					@Override
 					public void onClickStart(int x, int y, PointerEventType type) {
-
+                        // to be decided
 					}
 				});
             } else {

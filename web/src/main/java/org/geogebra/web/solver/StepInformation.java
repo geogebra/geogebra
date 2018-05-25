@@ -27,12 +27,26 @@ public class StepInformation extends HorizontalPanel {
 
     private boolean rendered;
 
+    /**
+     * Constructs a StepInformation given a single StepNode
+     * @param app AppW for StandardButton
+     * @param builder WebStepGuiBuilder for rendering step tree
+     * @param result StepNode result
+     * @param steps SolutionSteps tree to be rendered
+     */
     public StepInformation(AppW app, WebStepGuiBuilder builder,
                            StepNode result, SolutionStep steps) {
         setupInformation(app, builder,
                 new SolutionLine(SolutionStepType.EQUATION, result), steps);
     }
 
+    /**
+     * Constructs a StepInformation given a list of StepSolutions
+     * @param app AppW for StandardButton
+     * @param builder WebStepGuiBuilder for rendering step tree
+     * @param result list of StepSolutions, to be rendered as the result
+     * @param steps SolutionSteps tree to be rendered
+     */
     public StepInformation(AppW app, WebStepGuiBuilder builder,
                            List<StepSolution> result, SolutionStep steps) {
 		setupInformation(app, builder,

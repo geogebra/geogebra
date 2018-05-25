@@ -5,9 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.http.client.Header;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.*;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
@@ -17,7 +15,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
-import org.geogebra.web.full.util.ReTeXHelper;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -175,7 +172,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 		    ($wnd.getEditorElement());
 	}-*/;
 
-	public void compute(String text) {
+	private void compute(String text) {
 		Browser.changeUrl("?i=" + URL.encodePathSegment(text));
 		mathField.setText(text, false);
 
@@ -189,15 +186,15 @@ public class Solver implements EntryPoint, MathFieldListener {
 		solverPanel.add(stepsPanel);
 
 		if (input == null) {
-			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with " +
-					"your input</h3>"));
+			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with "
+					+ "your input</h3>"));
 
 			return;
 		}
 
 		mathField.setFocus(false);
 
-		WebStepGuiBuilder guiBuilder = new WebStepGuiBuilder(this, app);
+		WebStepGuiBuilder guiBuilder = new WebStepGuiBuilder(app);
 
 		SolutionBuilder sb = new SolutionBuilder();
 
@@ -282,8 +279,8 @@ public class Solver implements EntryPoint, MathFieldListener {
 		}
 
 		if (stepsPanel.getWidgetCount() == 0) {
-			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with " +
-					"your input</h3>"));
+			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with "
+					+ "your input</h3>"));
 		}
 	}
 
