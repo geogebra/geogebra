@@ -57,7 +57,6 @@ import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
-import org.geogebra.common.gui.dialog.options.model.TooltipModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
@@ -1015,16 +1014,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		}
 	}
 
-	private class TooltipPanel extends ListBoxPanel {
-
-		public TooltipPanel() {
-			super(loc, "Tooltip");
-			TooltipModel model = new TooltipModel(app);
-			model.setListener(this);
-			setModel(model);
-		}
-	}
-
 	private class LayerPanel extends ListBoxPanel {
 
 		public LayerPanel() {
@@ -1367,7 +1356,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		ShowConditionPanel showConditionPanel = new ShowConditionPanel();
 		ColorFunctionPanel colorFunctionPanel = new ColorFunctionPanel();
 		LayerPanel layerPanel = new LayerPanel();
-		TooltipPanel tooltipPanel = new TooltipPanel();
 		CheckboxPanel selectionAllowedPanel = new CheckboxPanel(
 				"SelectionAllowed", loc, new SelectionAllowedModel(null, app));
 
@@ -1375,12 +1363,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		tab.add(colorFunctionPanel);
 		GroupModel group = new GroupModel(app);
 		group.add(layerPanel.getModel());
-		group.add(tooltipPanel.getModel());
 		group.add(selectionAllowedPanel.getModel());
 		GroupOptionsPanel misc = new GroupOptionsPanel("Miscellaneous", loc,
 				group);
 		misc.add(layerPanel);
-		misc.add(tooltipPanel);
 		misc.add(selectionAllowedPanel);
 		tab.add(misc);
 		ViewLocationPanel graphicsViewLocationPanel = new ViewLocationPanel();
