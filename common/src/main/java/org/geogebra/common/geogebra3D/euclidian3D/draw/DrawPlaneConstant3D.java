@@ -66,14 +66,12 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 
 	@Override
 	protected void updateForView() {
-		if (shouldBePackedForManager()) {
-			if (getView3D().viewChangedByRotate()) {
-				boolean oldViewDirectionIsParallel = viewDirectionIsParallel;
-				checkViewDirectionIsParallel();
-				if (oldViewDirectionIsParallel != viewDirectionIsParallel) {
-					// maybe have to update the outline
-					setWaitForUpdate();
-				}
+		if (getView3D().viewChangedByRotate()) {
+			boolean oldViewDirectionIsParallel = viewDirectionIsParallel;
+			checkViewDirectionIsParallel();
+			if (oldViewDirectionIsParallel != viewDirectionIsParallel) {
+				// maybe have to update the outline
+				setWaitForUpdate();
 			}
 		}
 	}
