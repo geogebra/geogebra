@@ -448,6 +448,8 @@ public class DrawConic3D extends Drawable3DCurves
 		surface.draw(shouldBePackedForManager());
 		setGeometryIndex(surface.end());
 		endPacking();
+
+		setSurfaceIndex(-1);
 	}
 
 	/**
