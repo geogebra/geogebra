@@ -348,8 +348,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				scaleTo(parent.getOffsetWidth(), parent.getOffsetHeight());
 			}
 		} else if (!getArticleElement().getParamDisableAutoScale()) {
-			int border = Window.getClientWidth() > SCREEN_WIDTH_THRESHOLD
+			int border = 0;
+			// only apply right border if left border is nonzero: important for
+			// iframes
+			if (this.getAbsLeft() > 0) {
+				border = Window.getClientWidth() > SCREEN_WIDTH_THRESHOLD
 					? BIG_SCREEN_MARGIN : SMALL_SCREEN_MARGIN;
+			}
 			int width = Window.getClientWidth() - (int) getAbsLeft() - border;
 			scaleTo(width, Window.getClientHeight());
 			if (articleElement.getParentElement() != null && articleElement
