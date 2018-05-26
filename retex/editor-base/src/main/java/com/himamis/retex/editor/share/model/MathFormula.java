@@ -40,12 +40,26 @@ public class MathFormula {
         this.metaModel = metaModel;
     }
 
+	/**
+	 * @param metaModel
+	 *            meta model
+	 * @return empty formula
+	 */
     public static MathFormula newFormula(MetaModel metaModel) {
         MathFormula newFormula = new MathFormula(metaModel);
         newFormula.setRootComponent(new MathSequence());
         return newFormula;
     }
 
+	/**
+	 * @param metaModel
+	 *            meta model
+	 * @param parser
+	 *            parser
+	 * @param text
+	 *            content
+	 * @return parsed formula (or empty if no parser)
+	 */
     public static MathFormula newFormula(MetaModel metaModel, Parser parser, String text) {
         if (text == null || parser == null) {
             return newFormula(metaModel);
@@ -64,6 +78,10 @@ public class MathFormula {
         return rootContainer;
     }
 
+	/**
+	 * @param rootContainer
+	 *            root component
+	 */
     public void setRootComponent(MathSequence rootContainer) {
         this.rootContainer = rootContainer;
         rootContainer.setParent(null);

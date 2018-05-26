@@ -31,6 +31,12 @@ public class MathFieldController {
 	private GraphicsStub graphics;
 	private TeXBuilder texBuilder;
 
+	/**
+	 * @param mathField
+	 *            editor
+	 * @param directFormulaBuilder
+	 *            whether to create JLM atoms without reparsing (experimental)
+	 */
 	public MathFieldController(MathField mathField,
 			boolean directFormulaBuilder) {
 		this.mathField = mathField;
@@ -49,6 +55,15 @@ public class MathFieldController {
 		this.type = type;
 	}
 
+	/**
+	 * @param mathFormula
+	 *            formula
+	 * @param editorState
+	 *            editor state
+	 * @param focusEvent
+	 *            whether this came from focus event (to avoid infinite focus
+	 *            recursion)
+	 */
 	public void update(MathFormula mathFormula, EditorState editorState,
 			boolean focusEvent) {
 		if (mathField.hasFocus()) {

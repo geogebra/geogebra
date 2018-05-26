@@ -1172,37 +1172,37 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		handleTabletKeyboard(e);
 	}
 
-	private void handleTabletKeyboard(KeyDownEvent e){
+	private void handleTabletKeyboard(KeyDownEvent e) {
 		if (!(Browser.isTabletBrowser()
 				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))){
 			return;
 		} 
 		int keyCode = e.getNativeKeyCode();
-			if (keyCode == 0 && Browser.isIPad()) {
-				int arrowType = getIOSArrowKeys(e.getNativeEvent());
-				if (arrowType != -1) {
-					keyCode = arrowType;
-				}
+		if (keyCode == 0 && Browser.isIPad()) {
+			int arrowType = getIOSArrowKeys(e.getNativeEvent());
+			if (arrowType != -1) {
+				keyCode = arrowType;
 			}
-			switch(keyCode){
-			case GWTKeycodes.KEY_BACKSPACE:
-				onBackSpace();
-				break;
-			case GWTKeycodes.KEY_LEFT:
+		}
+		switch (keyCode) {
+		case GWTKeycodes.KEY_BACKSPACE:
+			onBackSpace();
+			break;
+		case GWTKeycodes.KEY_LEFT:
 			onArrowLeft();
-				break;
-			case GWTKeycodes.KEY_RIGHT:
+			break;
+		case GWTKeycodes.KEY_RIGHT:
 			onArrowRight();
-				break;
-			case GWTKeycodes.KEY_UP:
-				handleUpArrow();
-				break;
-			case GWTKeycodes.KEY_DOWN:
-				handleDownArrow();
-				break;
-			default:
-				break;
-			}
+			break;
+		case GWTKeycodes.KEY_UP:
+			handleUpArrow();
+			break;
+		case GWTKeycodes.KEY_DOWN:
+			handleDownArrow();
+			break;
+		default:
+			break;
+		}
 	}
 
 	/**
@@ -1210,6 +1210,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * than win and android
 	 * 
 	 * @param event
+	 *            native key event
 	 * @return JavaKeyCodes of arrow keys, -1 if pressed key was not an arrow
 	 */
 	private native int getIOSArrowKeys(NativeEvent event) /*-{
@@ -1241,11 +1242,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (e.isAltKeyDown() && e.isControlKeyDown()) {
 			return;
 		}
-
-		// swallow eg ctrl-a ctrl-b ctrl-p on Mac
-		/*
-		 * AG if (Application.MAC_OS && e.isControlKeyDown()) { e.consume(); }
-		 */
 
 		ctrlC = false;
 

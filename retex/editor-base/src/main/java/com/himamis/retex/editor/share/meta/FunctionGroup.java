@@ -28,6 +28,12 @@ public class FunctionGroup implements MetaGroup {
 		return square ? applySquare : apply;
 	}
 
+	/**
+	 * @param functionName
+	 *            potential function name
+	 * @return whether the name could be user defined function (has just letters
+	 *         + digits, contains letter)
+	 */
 	public static boolean isAcceptable(String functionName) {
         // Accept only functions that consist of no special characters
 		return !"".equals(functionName)

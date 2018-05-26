@@ -47,6 +47,9 @@ public class EditorState {
 		this.currentOffset = currentOffset >= 0 ? currentOffset : 0;
 	}
 
+	/**
+	 * Increase current offset.
+	 */
 	public void incCurrentOffset() {
 		currentOffset++;
 	}
@@ -55,12 +58,19 @@ public class EditorState {
 		currentOffset += size;
 	}
 
+	/**
+	 * Decrease current offset.
+	 */
 	public void decCurrentOffset() {
 		if (currentOffset > 0) {
 			currentOffset--;
 		}
 	}
 
+	/**
+	 * @param mathComponent
+	 *            new argument
+	 */
 	public void addArgument(MathComponent mathComponent) {
 		if (currentField.addArgument(currentOffset, mathComponent)) {
 			incCurrentOffset();
@@ -171,6 +181,9 @@ public class EditorState {
 						getCurrentField().size() - 1)));
 	}
 
+	/**
+	 * @return content of selection as text
+	 */
 	public String getSelectedText() {
 		StringBuilder sb = new StringBuilder();
 		if (currentSelStart != null && currentSelEnd != null
@@ -214,12 +227,20 @@ public class EditorState {
 		return currentSelStart != null;
 	}
 
+	/**
+	 * Update selection anchor (starting point of selection by drag)
+	 * 
+	 * @param start
+	 *            whether to anchor the start or the end of selection
+	 */
 	public void anchor(boolean start) {
 		this.selectionAnchor = start ? this.currentSelStart
 				: this.currentSelEnd;
-
 	}
 
+	/**
+	 * Move cursor to the start of the selection.
+	 */
 	public void cursorToSelectionStart() {
 		if (this.currentSelStart != null) {
 			if (this.currentSelStart.getParent() != null) {
@@ -231,6 +252,9 @@ public class EditorState {
 		}
 	}
 
+	/**
+	 * Move cursor to the end of the selection.
+	 */
 	public void cursorToSelectionEnd() {
 		if (currentSelEnd != null) {
 			if (this.currentSelEnd.getParent() != null) {
@@ -247,6 +271,9 @@ public class EditorState {
 		return selectionAnchor;
 	}
 
+	/**
+	 * @return whether cursor is between quotes
+	 */
 	public boolean isInsideQuotes() {
 		MathContainer fieldParent = currentField;
 		while (fieldParent != null) {

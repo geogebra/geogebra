@@ -75,12 +75,30 @@ public class KeyEvent {
 		this(keyCode, keyModifiers, '\0');
 	}
 
+	/**
+	 * @param keyCode
+	 *            key code
+	 * @param keyModifiers
+	 *            modifiers (ALT_MASK | SHIFT_MASK)
+	 * @param unicodeKeyChar
+	 *            unicode key
+	 */
 	public KeyEvent(int keyCode, int keyModifiers, char unicodeKeyChar) {
 		this.keyCode = keyCode;
 		this.keyModifiers = keyModifiers;
 		this.unicodeKeyChar = unicodeKeyChar;
 	}
 
+	/**
+	 * @param keyCode
+	 *            key code
+	 * @param keyModifiers
+	 *            modifiers (ALT_MASK | SHIFT_MASK)
+	 * @param unicodeKeyChar
+	 *            unicode key
+	 * @param action
+	 *            for Android, one of the ACTION_* constants
+	 */
 	public KeyEvent(int keyCode, int keyModifiers, char unicodeKeyChar,
 			int action) {
 		this(keyCode, keyModifiers, unicodeKeyChar);

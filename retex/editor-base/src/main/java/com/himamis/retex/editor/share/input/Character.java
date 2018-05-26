@@ -58,6 +58,11 @@ public class Character {
         return java.lang.Character.isDigit(c) || isLetter(c);
     }
 
+	/**
+	 * @param string
+	 *            character sequence
+	 * @return whether all characters are letters
+	 */
     public static boolean areLetters(String string) {
         for (int i = 0; i < string.length(); i++) {
             if (!isLetter(string.charAt(i))) {
@@ -67,6 +72,11 @@ public class Character {
         return true;
     }
 
+	/**
+	 * @param string
+	 *            character sequence
+	 * @return whether all characters are alphanumeric
+	 */
     public static boolean areLettersOrDigits(String string) {
         for (int i = 0; i < string.length(); i++) {
             if (!isLetterOrDigit(string.charAt(i))) {

@@ -1,7 +1,7 @@
 package org.geogebra.web.solver;
 
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.*;
+import java.util.List;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.solution.TextElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -17,7 +16,11 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.shared.SharedResources;
 
-import java.util.List;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class WebStepGuiBuilder {
 

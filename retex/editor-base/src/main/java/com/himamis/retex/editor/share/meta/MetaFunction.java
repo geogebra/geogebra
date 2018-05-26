@@ -41,6 +41,16 @@ public class MetaFunction extends MetaComponent {
 	private MetaParameter[] arguments;
 	private String desc;
 
+	/**
+	 * @param name
+	 *            function trype
+	 * @param texName
+	 *            tex name
+	 * @param key
+	 *            keyboar dshortcut
+	 * @param parameters
+	 *            parameters
+	 */
 	public MetaFunction(Tag name, String texName, char key,
 			MetaParameter[] parameters) {
 		super(name, texName, key, key);

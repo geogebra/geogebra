@@ -76,6 +76,9 @@ public class MathArray extends MathContainer {
 		this.rows = rows;
 	}
 
+	/**
+	 * Add empty cell to each column.
+	 */
 	public void addRow() {
 		for (int i = 0; i < columns; i++) {
 			MathSequence argument = new MathSequence();
@@ -94,6 +97,9 @@ public class MathArray extends MathContainer {
 		super.setArgument(i, argument);
 	}
 
+	/**
+	 * Add a column.
+	 */
 	public void addArgument() {
 		MathSequence argument = new MathSequence();
 		super.addArgument(argument);
@@ -124,6 +130,13 @@ public class MathArray extends MathContainer {
 
 	/**
 	 * Sets i-th row, j-th column cell.
+	 * 
+	 * @param i
+	 *            row
+	 * @param j
+	 *            column
+	 * @param argument
+	 *            cell value
 	 */
 	public void setArgument(int i, int j, MathSequence argument) {
 		setArgument(i * columns + j, argument);
@@ -224,6 +237,12 @@ public class MathArray extends MathContainer {
 		return rows;
 	}
 
+	/**
+	 * Check whether this is a matrix, update row/column values.
+	 * 
+	 * @param metaModel
+	 *            new model
+	 */
 	public void checkMatrix(MetaModel metaModel) {
 		int matrixWidth = numberOfColumns(metaModel);
 		if (matrixWidth >= 0) {

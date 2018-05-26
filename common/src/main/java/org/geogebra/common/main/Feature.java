@@ -200,7 +200,6 @@ public enum Feature {
 	/** MOB-1319 */
 	MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11,
 
-
 	/** GGB-2347 */
 	READ_DROPDOWNS,
 

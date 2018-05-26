@@ -37,6 +37,18 @@ public class MetaCharacter extends MetaComponent {
     private int type;
 	private String name;
 
+	/**
+	 * @param name
+	 *            ASCII name
+	 * @param texName
+	 *            tex name
+	 * @param key
+	 *            keyboard shortcut
+	 * @param unicode
+	 *            unicode
+	 * @param type
+	 *            CHARACTER / OPERATOR / SYMBOL
+	 */
 	public MetaCharacter(String name, String texName, char key, char unicode,
 			int type) {
 		super(Tag.CHAR, texName, key, unicode);
@@ -44,8 +56,11 @@ public class MetaCharacter extends MetaComponent {
 		this.name = name;
     }
 
-    public int getType() {
-        return type;
+    /**
+	 * @return CHARACTER / OPERATOR / SYMBOL
+	 */
+	public int getType() {
+		return type;
     }
 
 	public String getCharName() {

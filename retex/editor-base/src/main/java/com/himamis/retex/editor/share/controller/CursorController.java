@@ -9,6 +9,9 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 
+/**
+ * Cursor movement in the expression tree.
+ */
 public class CursorController {
 
 	/**
@@ -122,10 +125,26 @@ public class CursorController {
 		editorState.setCurrentOffset(component.size());
 	}
 
+	/**
+	 * Move cursor to the right..
+	 * 
+	 * @param editorState
+	 *            current state
+	 * @return whether current component has next field
+	 */
 	public static boolean nextField(EditorState editorState) {
 		return nextField(editorState, editorState.getCurrentField());
 	}
 
+	/**
+	 * Move cursor to the right of a component.
+	 * 
+	 * @param editorState
+	 *            current state
+	 * @param component
+	 *            component where we want the cursor
+	 * @return whether component has next field
+	 */
 	public static boolean nextField(EditorState editorState,
 			MathContainer component) {
 		// retrieve parent
@@ -154,7 +173,12 @@ public class CursorController {
 		}
 	}
 
-	/** Find previous field. */
+	/**
+	 * Find previous field.
+	 * 
+	 * @param editorState
+	 *            current state
+	 */
 	public void prevField(EditorState editorState) {
 		prevField(editorState, editorState.getCurrentField());
 	}
@@ -188,12 +212,24 @@ public class CursorController {
 		}
 	}
 
-	/** Up field. */
+	/**
+	 * Up field.
+	 * 
+	 * @param editorState
+	 *            current state
+	 * @return whether move up is possible
+	 */
 	public boolean upField(EditorState editorState) {
 		return upField(editorState, editorState.getCurrentField());
 	}
 
-	/** Down field. */
+	/**
+	 * Down field.
+	 * 
+	 * @param editorState
+	 *            current state
+	 * @return whether move down is possible
+	 */
 	public boolean downField(EditorState editorState) {
 		return downField(editorState, editorState.getCurrentField());
 	}
@@ -322,6 +358,11 @@ public class CursorController {
 		setPath(list, editorState.getRootComponent(), editorState);
 	}
 
+	/**
+	 * @param editorState
+	 *            editor state
+	 * @return indices of subtrees that contain the cursor (in reversed order)
+	 */
 	public static ArrayList<Integer> getPath(EditorState editorState) {
 
 		ArrayList<Integer> path = new ArrayList<>();
@@ -336,11 +377,6 @@ public class CursorController {
 		}
 
 		return path;
-	}
-
-	public void update() {
-		// TODO Auto-generated method stub
-
 	}
 
 }
