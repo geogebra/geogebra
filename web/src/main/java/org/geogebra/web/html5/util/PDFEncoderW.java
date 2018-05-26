@@ -111,7 +111,7 @@ public class PDFEncoderW implements Encoder {
 
 	/**
 	 * 
-	 * @return true if canvas2pdf is already loaded
+	 * @return true if pako is already loaded
 	 */
 	public static native boolean pakoLoaded() /*-{
 		return !!$wnd.pako;
