@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.algos.AlgoOrthoVectorVector;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -41,9 +41,9 @@ public class CmdOrthogonalVector extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getVector() };
 				return ret;
-			} else if (arg[0].isGeoVector()) {
+			} else if (arg[0] instanceof GeoVec3D) {
 				AlgoOrthoVectorVector algo = new AlgoOrthoVectorVector(cons,
-						c.getLabel(), (GeoVector) arg[0]);
+						c.getLabel(), (GeoVec3D) arg[0]);
 
 				GeoElement[] ret = { algo.getVector() };
 				return ret;

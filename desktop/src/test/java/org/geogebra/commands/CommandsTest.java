@@ -2013,6 +2013,47 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdDirection() {
+		t("Direction[ x = y ]", "(-1, -1)");
+		t("Direction[ Line((0,0,0),(2,2,1)) ]", "(2, 2, 1)");
+		t("Direction[ Vector((2,2,1)) ]", "(2, 2, 1)");
+		t("Direction[ Vector((3,4)) ]", "(3, 4)");
+		t("Direction[ 2x+2y+z=1 ]*3", "(-2, -2, -1)");
+	}
+
+	@Test
+	public void cmdUnitOrthogonalVector() {
+
+		t("UnitPerpendicularVector[ 3x = 4y ]", "(0.6, -0.8)");
+		t("UnitPerpendicularVector[ Segment((0,0),(3,4)) ]", "(-0.8, 0.6)");
+		t("UnitPerpendicularVector[ Vector((3,4)) ]", "(-0.8, 0.6)");
+		t("UnitPerpendicularVector[ (3,4) ]", "(-0.8, 0.6)");
+		t("UnitPerpendicularVector[ 2x+2y+z=1 ]*3", "(2, 2, 1)");
+		syntaxes -= 2;
+	}
+
+	@Test
+	public void cmdUnitVector() {
+		t("UnitVector[ 3x = 4y ]", "(-0.8, -0.6)");
+		t("UnitVector[ Segment((0,0),(3,4)) ]", "(0.6, 0.8)");
+		t("UnitVector[ Vector((3,4)) ]", "(0.6, 0.8)");
+		t("UnitVector[ (3,4) ]", "(0.6, 0.8)");
+		t("UnitVector[ Vector((2,2,1)) ]*3", "(2, 2, 1)");
+		t("UnitVector[ (2,2,1) ]*3", "(2, 2, 1)");
+		t("UnitVector[ Line((0,0,0),(2,2,1)) ]*3", "(2, 2, 1)");
+	}
+
+	@Test
+	public void cmdOrthogonalVector() {
+		t("PerpendicularVector[ 3x = 4y ]", "(3, -4)");
+		t("PerpendicularVector[ Segment((0,0),(3,4)) ]", "(-4, 3)");
+		t("PerpendicularVector[Vector((3,4))  ]", "(-4, 3)");
+		t("PerpendicularVector[(3,4)  ]", "(-4, 3)");
+		t("PerpendicularVector[ 2x+2y+z=1 ]", "(2, 2, 1)");
+		syntaxes -= 2;
+	}
+
+	@Test
 	public void testPointsFromList() {
 		t("Sequence(Segment(Point({0, n}), Point({1, n+0})), n, 0, 9, 1)",
 				"{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}");

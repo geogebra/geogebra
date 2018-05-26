@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.MyMath;
@@ -33,23 +34,24 @@ import org.geogebra.common.util.MyMath;
  */
 public class AlgoUnitOrthoVectorVector extends AlgoElement {
 
-	private GeoVector v; // input
+	private GeoVec3D v; // input
 	private GeoVector n; // output
 
 	private double length;
 
 	/** Creates new AlgoUnitOrthoVectorVector */
 	public AlgoUnitOrthoVectorVector(Construction cons, String label,
-			GeoVector v) {
+			GeoVec3D v) {
 		super(cons);
 		this.v = v;
 		n = new GeoVector(cons);
-
-		GeoPointND possStartPoint = v.getStartPoint();
-		if (possStartPoint != null && possStartPoint.isLabelSet()) {
-			try {
-				n.setStartPoint(possStartPoint);
-			} catch (CircularDefinitionException e) {
+		if (v instanceof GeoVector) {
+			GeoPointND possStartPoint = ((GeoVector) v).getStartPoint();
+			if (possStartPoint != null && possStartPoint.isLabelSet()) {
+				try {
+					n.setStartPoint(possStartPoint);
+				} catch (CircularDefinitionException e) {
+				}
 			}
 		}
 
@@ -81,7 +83,7 @@ public class AlgoUnitOrthoVectorVector extends AlgoElement {
 		return n;
 	}
 
-	GeoVector getv() {
+	GeoVec3D getv() {
 		return v;
 	}
 

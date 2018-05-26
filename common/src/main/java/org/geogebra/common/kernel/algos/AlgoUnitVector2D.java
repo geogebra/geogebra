@@ -20,6 +20,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.util.MyMath;
@@ -51,8 +52,8 @@ public abstract class AlgoUnitVector2D extends AlgoUnitVector {
 	final public void compute() {
 		setXY();
 		length = normalize ? MyMath.length(x, y) : 1;
-		((GeoVector) u).x = x / length;
-		((GeoVector) u).y = y / length;
+		((GeoVec3D) u).x = x / length;
+		((GeoVec3D) u).y = y / length;
 	}
 
 	/**

@@ -1,14 +1,16 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoUnitVector3D;
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoUnitVectorPoint3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoUnitVector;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.CmdUnitVector;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
-import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -52,10 +54,12 @@ public class CmdUnitVector3D extends CmdUnitVector {
 	}
 
 	@Override
-	protected AlgoUnitVector algo(GeoVectorND v) {
-
-		if (v.isGeoElement3D()) {
-			return new AlgoUnitVector3D(cons, v, normalize);
+	protected AlgoUnitVector algo(VectorNDValue v) {
+		if (v instanceof GeoPoint3D) {
+			return new AlgoUnitVectorPoint3D(cons, (GeoPoint3D) v, normalize);
+		}
+		if (v.getDimension() == 3) {
+			return new AlgoUnitVector3D(cons, (GeoDirectionND) v, normalize);
 		}
 
 		return super.algo(v);

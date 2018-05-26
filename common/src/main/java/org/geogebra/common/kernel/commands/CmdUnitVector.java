@@ -5,9 +5,9 @@ import org.geogebra.common.kernel.algos.AlgoUnitVector;
 import org.geogebra.common.kernel.algos.AlgoUnitVectorLine;
 import org.geogebra.common.kernel.algos.AlgoUnitVectorVector;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
-import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -48,9 +48,9 @@ public class CmdUnitVector extends CommandProcessor {
 				algo.getVector().setLabel(c.getLabel());
 				GeoElement[] ret = { (GeoElement) algo.getVector() };
 				return ret;
-			} else if (arg[0].isGeoVector()) {
+			} else if (arg[0] instanceof VectorNDValue) {
 
-				AlgoUnitVector algo = algo((GeoVectorND) arg[0]);
+				AlgoUnitVector algo = algo((VectorNDValue) arg[0]);
 				algo.getVector().setLabel(c.getLabel());
 				GeoElement[] ret = { (GeoElement) algo.getVector() };
 				return ret;
@@ -95,7 +95,7 @@ public class CmdUnitVector extends CommandProcessor {
 	 *            vector
 	 * @return algo for this vector
 	 */
-	protected AlgoUnitVector algo(GeoVectorND v) {
+	protected AlgoUnitVector algo(VectorNDValue v) {
 		return new AlgoUnitVectorVector(cons, v, normalize);
 	}
 }

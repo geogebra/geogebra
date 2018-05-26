@@ -19,10 +19,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 /**
  *
@@ -31,20 +32,23 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 public class AlgoUnitVectorVector extends AlgoUnitVector2D {
 
 	/** Creates new AlgoOrthoVectorVector */
-	public AlgoUnitVectorVector(Construction cons, GeoVectorND v,
+	public AlgoUnitVectorVector(Construction cons, VectorNDValue v,
 			boolean normalize) {
 		super(cons, (GeoElement) v, normalize);
 	}
 
 	@Override
 	final protected void setXY() {
-		x = ((GeoVector) inputGeo).x;
-		y = ((GeoVector) inputGeo).y;
+		x = ((GeoVec3D) inputGeo).x;
+		y = ((GeoVec3D) inputGeo).y;
 	}
 
 	@Override
 	final protected GeoPointND getInputStartPoint() {
-		return ((GeoVector) inputGeo).getStartPoint();
+		if (inputGeo instanceof GeoVector) {
+			return ((GeoVector) inputGeo).getStartPoint();
+		}
+		return null;
 	}
 
 }

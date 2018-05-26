@@ -340,8 +340,6 @@ public class NoExceptionsTest {
 		t("Button[ txt ]");
 	}
 
-
-
 	@Test
 	public void cmdCell() {
 		t("Cell[ n1, n2 ]");
@@ -547,11 +545,6 @@ public class NoExceptionsTest {
 	public void cmdDilate() {
 		t("Dilate[ Pt1, n1, Pt3 ]");
 		t("Dilate[ Pt4, n2 ]");
-	}
-
-	@Test
-	public void cmdDirection() {
-		t("Direction[ l1 ]");
 	}
 
 	@Test
@@ -1219,13 +1212,6 @@ public class NoExceptionsTest {
 	public void cmdLineBisector() {
 		t("PerpendicularBisector[ Pt1,Pt2 ]");
 		t("PerpendicularBisector[ seg1 ]");
-	}
-
-	@Test
-	public void cmdOrthogonalVector() {
-		t("PerpendicularVector[ l1 ]");
-		t("PerpendicularVector[ seg1 ]");
-		t("PerpendicularVector[v1  ]");
 	}
 
 	@Test
@@ -1900,21 +1886,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdUnique() {
 		t("Unique[ list1]");
-	}
-
-	@Test
-	public void cmdUnitOrthogonalVector() {
-
-		t("UnitPerpendicularVector[ l1 ]");
-		t("UnitPerpendicularVector[ seg1 ]");
-		t("UnitPerpendicularVector[ v1 ]");
-	}
-
-	@Test
-	public void cmdUnitVector() {
-		t("UnitVector[ l1 ]");
-		t("UnitVector[ seg1 ]");
-		t("UnitVector[ v1 ]");
 	}
 
 	@Test
