@@ -8,6 +8,8 @@ package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
  */
 public class FormatColladaHTML extends FormatCollada {
 
+	private double xmin, ymin, zmin, xmax, ymax, zmax;
+
 	@Override
 	public String getExtension() {
 		return "html";
@@ -15,6 +17,13 @@ public class FormatColladaHTML extends FormatCollada {
 
 	@Override
 	public void getScriptStart(StringBuilder sb) {
+		xmin = Double.POSITIVE_INFINITY;
+		ymin = Double.POSITIVE_INFINITY;
+		zmin = Double.POSITIVE_INFINITY;
+		xmax = Double.NEGATIVE_INFINITY;
+		ymax = Double.NEGATIVE_INFINITY;
+		zmax = Double.NEGATIVE_INFINITY;
+
 		sb.append("<!DOCTYPE html>\n");
 		sb.append("<html>\n");
 		sb.append("<head>\n");
@@ -27,15 +36,11 @@ public class FormatColladaHTML extends FormatCollada {
 				"<script src='https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/loaders/ColladaLoader.js'></script>\n");
 		sb.append("<script>\n");
 		sb.append("var container, clock;\n");
-		sb.append("var camera, scene, renderer, ggbExport;\n");
+		sb.append("var camera, scene, renderer, ggbExport, group;\n");
 		sb.append("init();\n");
 		sb.append("animate();\n");
 		sb.append("function init() {\n");
 		sb.append("container = document.getElementById( 'container' );\n");
-		sb.append(
-				"camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 2000 );\n");
-		sb.append("camera.position.set( .5,.5,.5);\n");
-		sb.append("camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );\n");
 		sb.append("scene = new THREE.Scene();\n");
 		sb.append("clock = new THREE.Clock();\n");
 
@@ -48,9 +53,40 @@ public class FormatColladaHTML extends FormatCollada {
 		super.getScriptEnd(sb);
 
 		sb.append("';\n");
+		double xd = xmax - xmin;
+		double yd = ymax - ymin;
+		double zd = zmax - zmin;
+		double radius = Math.sqrt(xd * xd + yd * yd + zd * zd) / 200; // meters
+		double cameraPosition = radius * 1.5;
+		double cameraDistance = cameraPosition * Math.sqrt(3);
+		sb.append(
+				"camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight,");
+		sb.append((cameraDistance - radius) * 0.99);
+		sb.append(",");
+		sb.append((cameraDistance + radius) * 1.01);
+		sb.append(");\n");
+		sb.append("camera.position.set(");
+		sb.append(cameraPosition);
+		sb.append(",");
+		sb.append(cameraPosition);
+		sb.append(",");
+		sb.append(cameraPosition);
+		sb.append(");\n");
+		sb.append("camera.lookAt( new THREE.Vector3(0,0,0) );\n");
+		sb.append("group = new THREE.Group();\n");
 		sb.append(
 				"var loadingManager = new THREE.LoadingManager( function() {\n");
-		sb.append("scene.add( ggbExport );\n");
+		sb.append("scene.add( group );\n");
+		sb.append("group.add( ggbExport );\n");
+		sb.append("ggbExport.translateX(");
+		sb.append(-(xmin + xmax) / 200); // meters
+		sb.append(");\n");
+		sb.append("ggbExport.translateY(");
+		sb.append(-(ymin + ymax) / 200); // meters
+		sb.append(");\n");
+		sb.append("ggbExport.translateZ(");
+		sb.append(-(zmin + zmax) / 200); // meters
+		sb.append(");\n");
 		sb.append("} );\n");
 
 		sb.append("var loader = new THREE.ColladaLoader( loadingManager );\n");
@@ -79,15 +115,37 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("}\n");
 		sb.append("function render() {\n");
 		sb.append("var delta = clock.getDelta();\n");
-		sb.append("if ( ggbExport !== undefined ) {\n");
-		sb.append("ggbExport.rotation.z += delta * 0.5;\n");
-		sb.append("}\n");
+		sb.append("group.rotation.y += delta * 0.5;\n");
 		sb.append("renderer.render( scene, camera );\n");
 		sb.append("}\n");
 		sb.append("</script>\n");
 		sb.append("</body>\n");
 		sb.append("</html>\n");
 
+	}
+
+	@Override
+	public void getVertices(StringBuilder sb, double x, double y, double z) {
+		super.getVertices(sb, x, y, z);
+
+		if (xmin > x) {
+			xmin = x;
+		}
+		if (ymin > y) {
+			ymin = y;
+		}
+		if (zmin > z) {
+			zmin = z;
+		}
+		if (xmax < x) {
+			xmax = x;
+		}
+		if (ymax < y) {
+			ymax = y;
+		}
+		if (zmax < z) {
+			zmax = z;
+		}
 	}
 
 }
