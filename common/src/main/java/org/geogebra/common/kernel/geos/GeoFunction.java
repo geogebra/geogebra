@@ -2144,10 +2144,40 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		sbCasCommand.append(funVarStr[1]); // function variable "ggbtmpvarx"
 		sbCasCommand.append(")");
 
+		// Log.debug("sbCasCommand = " + sbCasCommand);
+
 		try {
 			String verticalAsymptotes = kernel
 					.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null);
 			// Application.debug(sb.toString()+" = "+verticalAsymptotes,1);
+
+			// Log.debug("verticalAsymptotes = " + verticalAsymptotes);
+
+			// eg f(x):=2^x / (2^x - 3^x) gives "{?}"
+			if (GeoFunction.isCASError(verticalAsymptotes, false)) {
+
+				sbCasCommand.setLength(0);
+
+				sbCasCommand.append("Solve(");
+				sbCasCommand.append("Denominator(");
+				sbCasCommand.append("(");
+
+				// function expression with "ggbtmpvarx" as variable
+				sbCasCommand.append(funVarStr[0]);
+
+				sbCasCommand.append(')');
+				sbCasCommand.append(")=0");
+				sbCasCommand.append(",");
+
+				// function variable eg "ggbtmpvarx"
+				sbCasCommand.append(funVarStr[1]);
+
+				sbCasCommand.append(")");
+				verticalAsymptotes = kernel.evaluateCachedGeoGebraCAS(
+						sbCasCommand.toString(), null);
+				// Log.debug("verticalAsymptotes 2 = " + verticalAsymptotes);
+
+			}
 
 			if (!GeoFunction.isCASError(verticalAsymptotes, false)
 					&& verticalAsymptotes.length() > 2) {
@@ -2213,10 +2243,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 						sbCasCommand.append(verticalAsymptotesArray[i]);
 						sbCasCommand.append("))");
 
+						// Log.debug("sbCasCommand 2 = " + sbCasCommand);
+
 						try {
 							String limit = kernel.evaluateCachedGeoGebraCAS(
 									sbCasCommand.toString(), null);
-							// Application.debug("checking for vertical
+
+							// Log.debug("checking for vertical
 							// asymptote: "+sb.toString()+" = "+limit,1);
 							if ("?".equals(limit)
 									|| !GeoFunction.isCASError(limit, true)) {
@@ -2264,7 +2297,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (str1 == null || str1.length() == 0) {
 			return true;
 		}
-		if ("?".equals(str1)) {
+		if ("?".equals(str1) || "{?}".equals(str1)) {
 			return true; // undefined/NaN
 		}
 		// if (str.indexOf("%i") > -1 ) return true; // complex answer
