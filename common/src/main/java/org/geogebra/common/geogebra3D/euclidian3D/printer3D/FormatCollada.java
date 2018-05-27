@@ -120,6 +120,9 @@ public class FormatCollada implements Format {
 			sb.append("<index_of_refraction>");
 			sb.append(" <float sid=\"index_of_refraction\">1</float>");
 			sb.append("</index_of_refraction>");
+			sb.append("<transparency><float>");
+			sb.append(color.getAlpha() / 255.0);
+			sb.append("</float></transparency>");
 			sb.append("</phong>");
 			sb.append("</technique>");
 			sb.append("</profile_COMMON>");
