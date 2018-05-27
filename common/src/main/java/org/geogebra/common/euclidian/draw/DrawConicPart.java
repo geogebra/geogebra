@@ -383,6 +383,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			// do nothing
 			break;
 		case DRAW_TYPE_ELLIPSE:
+			// shape may be null in view from plane
 			if (shape != null) {
 				fill(g2, shape); // fill using default/hatching/image as
 									// appropriate
@@ -613,11 +614,11 @@ public class DrawConicPart extends Drawable implements Previewable {
 			return false;
 		}
 		if (pathHit) {
-			((GeoConicND) this.conicPart).setLastHitType(HitType.ON_BOUNDARY);
+			this.conicPart.setLastHitType(HitType.ON_BOUNDARY);
 		} else if (regionHit) {
-			((GeoConicND) this.conicPart).setLastHitType(HitType.ON_FILLING);
+			this.conicPart.setLastHitType(HitType.ON_FILLING);
 		} else {
-			((GeoConicND) this.conicPart).setLastHitType(HitType.NONE);
+			this.conicPart.setLastHitType(HitType.NONE);
 		}
 		return pathHit || regionHit;
 	}
@@ -626,7 +627,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 	final public boolean isInside(GRectangle rect) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
-			return rect.contains(shape.getBounds());
+			// hsape can be null in view from plane
+			return shape != null && rect.contains(shape.getBounds());
 
 		case DRAW_TYPE_SEGMENT:
 			return drawSegment.isInside(rect);

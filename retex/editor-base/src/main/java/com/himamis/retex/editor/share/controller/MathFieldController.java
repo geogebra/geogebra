@@ -120,6 +120,17 @@ public class MathFieldController {
 
 	}
 
+	/**
+	 * @param mathFormula
+	 *            formula
+	 * @param x
+	 *            pointer x-coord
+	 * @param y
+	 *            pointer y-coord
+	 * @param list
+	 *            output list for path
+	 * @return editor state after selection
+	 */
 	public EditorState getPath(MathFormula mathFormula, int x, int y,
 			ArrayList<Integer> list) {
 		if (texBuilder == null) {
@@ -156,9 +167,19 @@ public class MathFieldController {
 		es.setCurrentField((MathSequence) comp.getParent());
 		es.setCurrentOffset(comp.getParentIndex());
 		return es;
-
 	}
 
+	/**
+	 * 
+	 * @param mathFormula
+	 *            formula
+	 * @param list
+	 *            output list for subtree indices
+	 * @param currentField
+	 *            current field
+	 * @param currentOffset
+	 *            current offset
+	 */
 	public void getSelectedPath(MathFormula mathFormula,
 			ArrayList<Integer> list, MathSequence currentField,
 			int currentOffset) {

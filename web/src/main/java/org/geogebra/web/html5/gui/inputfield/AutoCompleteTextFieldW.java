@@ -1174,7 +1174,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	private void handleTabletKeyboard(KeyDownEvent e) {
 		if (!(Browser.isTabletBrowser()
-				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))){
+				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))) {
 			return;
 		} 
 		int keyCode = e.getNativeKeyCode();

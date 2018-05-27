@@ -125,7 +125,7 @@ public class Korean {
 
 	}
 
-	/*
+	/**
 	 * same as Normalizer.normalize(s, Normalizer.Form.NFD) but GWT compatible
 	 * 
 	 * convert eg \uB458 to \u1103\u116e\u11af

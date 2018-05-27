@@ -69,6 +69,9 @@ public class MetaModel {
 	private HashMap<String, MetaCharacter> mergeLookup = new HashMap<>();
 	private MetaGroupCollection symbolGroup;
 
+	/**
+	 * Create new meta model.
+	 */
     public MetaModel() {
 		characterGroup = new CharacterGroup(); // characters/characters
 		customFunctionGroup = new FunctionGroup(); // functions/functions
@@ -98,6 +101,12 @@ public class MetaModel {
 		return (MetaArray) getComponent(name, arrayGroup);
     }
 
+	/**
+	 * 
+	 * @param arrayOpenKey
+	 *            open parenthesis
+	 * @return array with given parentheses
+	 */
     public MetaArray getArray(char arrayOpenKey) {
 		for (MetaComponent component : arrayGroup.getComponents()) {
             MetaArray metaArray = (MetaArray) component;
@@ -221,33 +230,6 @@ public class MetaModel {
 				"Component Not found:" + name);
 	}
 
-    /**
-     * get group
-     */
-	// public MetaGroup getGroup(Tag groupName) {
-	// for (int i = 0; i < groups.size(); i++) {
-	// if (groups.get(i).getName().equals(groupName)) {
-	// return groups.get(i);
-	// }
-	// }
-	//
-	// throw new ArrayIndexOutOfBoundsException("ListMetaGroup Not found "
-	// + groupName);
-	// }
-
-    /**
-     * get groups
-     */
-	// public MetaGroup[] getGroups(Tag tab) {
-	// ArrayList<MetaGroup> arrayList = new ArrayList<MetaGroup>();
-	// for (int i = 0; i < groups.size(); i++) {
-	// if (groups.get(i).getGroup().equals(tab)) {
-	// arrayList.add(groups.get(i));
-	// }
-	// }
-	// return arrayList.toArray(new MetaGroup[arrayList.size()]);
-	// }
-
     public int getDefaultArraySize() {
         return defaultArraySize;
     }
@@ -280,6 +262,11 @@ public class MetaModel {
         this.defaultMatrixRows = defaultMatrixRows;
     }
 
+	/**
+	 * @param key
+	 *            open parenthesis
+	 * @return whether array with given open key exists
+	 */
     public boolean isArrayOpenKey(char key) {
 		ListMetaGroup metaGroup = arrayGroup;
         for (MetaComponent metaComponent : metaGroup.getComponents()) {
@@ -291,20 +278,28 @@ public class MetaModel {
         return false;
     }
 
+	/**
+	 * @param key
+	 *            key
+	 * @return whether key is one of (, [
+	 */
     public boolean isFunctionOpenKey(char key) {
 		ListMetaGroup metaGroup = arrayGroup;
-        boolean isFunctionOpenKey = false;
-		isFunctionOpenKey |= getMetaArray(metaGroup, Tag.REGULAR)
+		boolean isFunctionOpenKey = getMetaArray(metaGroup, Tag.REGULAR)
 				.getOpenKey() == key;
 		isFunctionOpenKey |= getMetaArray(metaGroup, Tag.SQUARE)
 				.getOpenKey() == key;
         return isFunctionOpenKey;
     }
 
+	/**
+	 * @param key
+	 *            key
+	 * @return whether key is closing parenthesis of an array
+	 */
     public boolean isArrayCloseKey(char key) {
 		ListMetaGroup metaGroup = arrayGroup;
-        boolean isArrayCloseKey = false;
-		isArrayCloseKey |= getMetaArray(metaGroup, Tag.REGULAR)
+		boolean isArrayCloseKey = getMetaArray(metaGroup, Tag.REGULAR)
 				.getCloseKey() == key;
 		isArrayCloseKey |= getMetaArray(metaGroup, Tag.SQUARE)
 				.getCloseKey() == key;

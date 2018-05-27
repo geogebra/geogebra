@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GeoElement.HitType;
 
 /**
  * interface for 2D/3D arcs/sectors
@@ -102,4 +103,10 @@ public interface GeoConicPartND {
 	 * @return the origin of lines in case of parallel lines
 	 */
 	public Coords getOrigin3D(int i);
+
+	/**
+	 * @param type
+	 *            hit type
+	 */
+	public void setLastHitType(HitType type);
 }

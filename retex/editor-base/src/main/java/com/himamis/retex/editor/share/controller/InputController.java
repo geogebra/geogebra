@@ -18,7 +18,6 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.Unicode;
 
-@SuppressWarnings("javadoc")
 public class InputController {
 
 	public static final char FUNCTION_OPEN_KEY = '('; // probably universal
@@ -291,6 +290,12 @@ public class InputController {
 		}
 	}
 
+	/**
+	 * @param editorState
+	 *            current state
+	 * @param script
+	 *            _ or ^
+	 */
 	public void newScript(EditorState editorState, String script) {
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentField.size() == 0
@@ -653,30 +658,15 @@ public class InputController {
 
 	/**
 	 * Insert symbol.
+	 * 
+	 * @param editorState
+	 *            current state
 	 */
 	public void escSymbol(EditorState editorState) {
 		editorState.getRootComponent().clearArguments();
 		editorState.setCurrentField(editorState.getRootComponent());
 		editorState.setCurrentOffset(0);
 		editorState.resetSelection();
-		// String name = ArgumentHelper.readCharacters(editorState);
-		// while (name.length() > 0) {
-		// if (metaModel.isSymbol(name)) {
-		// delCharacters(editorState, name.length());
-		// MetaCharacter meta = metaModel.getSymbol(name);
-		// newCharacter(editorState, meta);
-		// break;
-		//
-		// } else if (metaModel.isOperator(name)) {
-		// delCharacters(editorState, name.length());
-		// MetaCharacter meta = metaModel.getOperator(name);
-		// newCharacter(editorState, meta);
-		// break;
-		//
-		// } else {
-		// name = name.substring(1, name.length());
-		// }
-		// }
 	}
 
 	/**
@@ -764,6 +754,12 @@ public class InputController {
 		// we stop here for now
 	}
 
+	/**
+	 * Delete container, move its content to the parent.
+	 * 
+	 * @param editorState
+	 *            current state
+	 */
 	public static void delContainer(EditorState editorState) {
 		MathSequence currentField = editorState.getCurrentField();
 
@@ -772,7 +768,7 @@ public class InputController {
 			MathFunction parent = (MathFunction) currentField.getParent();
 
 			// fraction has operator like behavior
-			if ("frac".equals(parent.getName())) {
+			if (Tag.FRAC.equals(parent.getName())) {
 
 				// first operand is current, second operand is empty sequence
 				if (currentField.getParentIndex() == 0
@@ -826,6 +822,12 @@ public class InputController {
 		// we stop here for now
 	}
 
+	/**
+	 * Remove character left to the cursor
+	 * 
+	 * @param editorState
+	 *            current state
+	 */
 	public void bkspCharacter(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffset();
 		if (currentOffset > 0) {
@@ -862,6 +864,12 @@ public class InputController {
 
 	}
 
+	/**
+	 * Delete a character to the right of the cursor
+	 * 
+	 * @param editorState
+	 *            current state
+	 */
 	public void delCharacter(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
@@ -950,7 +958,9 @@ public class InputController {
 
 	/**
 	 * set ret to characters (no digit) around cursor
-	 *
+	 * 
+	 * @param editorState
+	 *            current state
 	 * @param ret
 	 *            builder for the word
 	 * @return word length before cursor
@@ -987,6 +997,13 @@ public class InputController {
 
 	}
 
+	/**
+	 * Delete selection.
+	 * 
+	 * @param editorState
+	 *            current state
+	 * @return success
+	 */
 	public static boolean deleteSelection(EditorState editorState) {
 		boolean nonempty = false;
 		if (editorState.getSelectionStart() != null) {
@@ -1136,6 +1153,13 @@ public class InputController {
 
 	}
 
+	/**
+	 * Select next argument in suggested command.
+	 * 
+	 * @param editorState
+	 *            current state
+	 * @return success
+	 */
 	public static boolean trySelectNext(EditorState editorState) {
 		int idx = editorState.getCurrentOffset();
 		if (editorState.getSelectionEnd() != null) {
@@ -1150,6 +1174,13 @@ public class InputController {
 		return false;
 	}
 
+	/**
+	 * Select first argument in suggested command.
+	 * 
+	 * @param editorState
+	 *            current state
+	 * @return success
+	 */
 	public static boolean trySelectFirst(EditorState editorState) {
 		int idx = editorState.getCurrentOffset();
 		if (editorState.getSelectionEnd() != null) {
@@ -1198,24 +1229,41 @@ public class InputController {
 		return false;
 	}
 
+	/**
+	 * Get content from clipboard and paste it to the field (desktop only).
+	 */
 	public void paste() {
 		if (mathField != null) {
 			mathField.paste();
 		}
 	}
 
+	/**
+	 * Copy selection from editor to clipboard.
+	 */
 	public void copy() {
 		if (mathField != null) {
 			mathField.copy();
 		}
 	}
 
+	/**
+	 * Handle tab key.
+	 * 
+	 * @param shiftDown
+	 *            whether shift is pressed
+	 */
 	public void handleTab(boolean shiftDown) {
 		if (mathField != null) {
 			mathField.tab(shiftDown);
 		}
 	}
 
+	/**
+	 * @param editorState
+	 *            current state
+	 * @return selection as text
+	 */
 	public static MathSequence getSelectionText(EditorState editorState) {
 		if (editorState.getSelectionStart() != null) {
 			MathContainer parent = editorState.getSelectionStart().getParent();

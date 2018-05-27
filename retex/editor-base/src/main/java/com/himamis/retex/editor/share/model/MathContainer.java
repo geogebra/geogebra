@@ -43,6 +43,10 @@ abstract public class MathContainer extends MathComponent {
 
 	protected ArrayList<MathComponent> arguments = null;
 
+	/**
+	 * @param size
+	 *            number of children
+	 */
 	MathContainer(int size) {
 		if (size > 0) {
 			ensureArguments(size);
@@ -132,6 +136,12 @@ abstract public class MathContainer extends MathComponent {
 	// return sb.toString();
 	// }
 
+	/**
+	 * Extend arguments array to given size
+	 * 
+	 * @param size
+	 *            number of children
+	 */
 	protected void ensureArguments(int size) {
 		if (arguments == null) {
 			arguments = new ArrayList<>(size);
@@ -168,6 +178,12 @@ abstract public class MathContainer extends MathComponent {
 		arguments.set(i, argument);
 	}
 
+	/**
+	 * Remove given argument
+	 * 
+	 * @param i
+	 *            index
+	 */
 	public void removeArgument(int i) {
 		if (arguments == null) {
 			arguments = new ArrayList<>(i + 1);
@@ -178,6 +194,9 @@ abstract public class MathContainer extends MathComponent {
 		arguments.remove(i);
 	}
 
+	/**
+	 * Remove all arguments.
+	 */
 	public void clearArguments() {
 		if (arguments == null) {
 			arguments = new ArrayList<>();
@@ -187,6 +206,12 @@ abstract public class MathContainer extends MathComponent {
 		}
 	}
 
+	/**
+	 * Add argument to the end.
+	 * 
+	 * @param argument
+	 *            new argument
+	 */
 	public void addArgument(MathComponent argument) {
 		if (arguments == null) {
 			arguments = new ArrayList<>(1);
@@ -197,6 +222,16 @@ abstract public class MathContainer extends MathComponent {
 		arguments.add(argument);
 	}
 
+	/**
+	 * Add argument to the end.
+	 * 
+	 * @param index
+	 *            index
+	 * 
+	 * @param argument
+	 *            new argument
+	 * @return true
+	 */
 	public boolean addArgument(int index, MathComponent argument) {
 		if (arguments == null) {
 			arguments = new ArrayList<>(index + 1);
@@ -335,6 +370,12 @@ abstract public class MathContainer extends MathComponent {
 		return arguments.indexOf(argument);
 	}
 
+	/**
+	 * Remove an argument without reseting parent
+	 * 
+	 * @param i
+	 *            index
+	 */
 	public void delArgument(int i) {
 		if (i >= 0 && i < arguments.size()) {
 			arguments.remove(i);

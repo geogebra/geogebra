@@ -22,21 +22,6 @@ public class KeyboardInputAdapter {
 	private static final char minus = Unicode.MINUS;
     private static final List<KeyboardAdapter> adapters;
     private static final KeyboardAdapter commandAdapter;
-    /*private static final String[] allowedCharacterCategories = {
-            Character.DECIMAL_DIGIT_NUMBER,
-            Character.OTHER_NUMBER,
-            Character.LOWERCASE_LETTER,
-            Character.UPPERCASE_LETTER,
-            Character.OTHER_LETTER,
-            Character.OTHER_PUNCTUATION,
-            Character.START_PUNCTUATION,
-            Character.END_PUNCTUATION,
-            Character.MATH_SYMBOL,
-            Character.CONNECTOR_PUNCTUATION,
-            Character.SPACE_SEPARATOR,
-            Character.LETTER_NUMBER,
-            Character.DASH_PUNCTUATION
-    };*/
 
     static {
 		adapters = new ArrayList<>();
@@ -136,6 +121,12 @@ public class KeyboardInputAdapter {
         adapters.add(commandAdapter);
     }
 
+	/**
+	 * @param mMathFieldInternal
+	 *            editor
+	 * @param text
+	 *            text to be inserted
+	 */
 	public static void insertString(final MathFieldInternal mMathFieldInternal,
 			String text) {
 		boolean oldCreateFrac = mMathFieldInternal.getInputController()
@@ -149,6 +140,12 @@ public class KeyboardInputAdapter {
 		mMathFieldInternal.onInsertString();
 	}
 
+	/**
+	 * @param mathFieldInternal
+	 *            editor
+	 * @param input
+	 *            input
+	 */
     public static void onKeyboardInput(MathFieldInternal mathFieldInternal, String input) {
         if (input == null) {
             return;
@@ -166,6 +163,12 @@ public class KeyboardInputAdapter {
 		}
     }
 
+	/**
+	 * @param mathFieldInternal
+	 *            editor
+	 * @param commandName
+	 *            command name
+	 */
     public static void onCommandInput(MathFieldInternal mathFieldInternal, String commandName) {
         commandAdapter.commit(mathFieldInternal, commandName);
         mathFieldInternal.update();

@@ -90,10 +90,20 @@ public class MathFieldInternal
 
 	private boolean selectionMode = false;
 
+	/**
+	 * @param mathField
+	 *            editor component
+	 */
 	public MathFieldInternal(MathField mathField) {
 		this(mathField, false);
 	}
 
+	/**
+	 * @param mathField
+	 *            editor component
+	 * @param directFormulaBuilder
+	 *            whether to create JLM atoms directly (experimental)
+	 */
 	public MathFieldInternal(MathField mathField,
 			boolean directFormulaBuilder) {
 		this.mathField = mathField;
@@ -126,6 +136,10 @@ public class MathFieldInternal
 		return mathFormula;
 	}
 
+	/**
+	 * @param formula
+	 *            formula
+	 */
 	public void setFormula(MathFormula formula) {
 		mathFormula = formula;
 		editorState = new EditorState(mathField.getMetaModel());
@@ -135,6 +149,12 @@ public class MathFieldInternal
 		mathFieldController.update(formula, editorState, false);
 	}
 
+	/**
+	 * @param formula
+	 *            formula
+	 * @param path
+	 *            indices of subtrees that contain the cursor
+	 */
 	public void setFormula(MathFormula formula, ArrayList<Integer> path) {
 		mathFormula = formula;
 		editorState = new EditorState(mathField.getMetaModel());
@@ -278,6 +298,10 @@ public class MathFieldInternal
 		return handled;
 	}
 
+	/**
+	 * @param plainText
+	 *            whether to use this as plain text input
+	 */
 	public void setPlainTextMode(boolean plainText) {
 		this.inputController.setCreateFrac(!plainText);
 	}
@@ -364,10 +388,9 @@ public class MathFieldInternal
 		}
 
 		mouseDownPos = null;
-
 	}
 
-	private boolean selectionLeft(int x) {
+	private static boolean selectionLeft(int x) {
 		return x > SelectionBox.startX;
 	}
 
@@ -452,7 +475,6 @@ public class MathFieldInternal
 					editorState.getCurrentField(),
 					editorState.getCurrentOffset());
 		}
-
 	}
 
 	private static void reverse(ArrayList<Integer> list2) {
@@ -484,6 +506,9 @@ public class MathFieldInternal
 
 	}
 
+	/**
+	 * @return whwther current formula is empty
+	 */
 	public boolean isEmpty() {
 		return mathFormula.isEmpty();
 	}
@@ -497,28 +522,29 @@ public class MathFieldInternal
 
 	}
 
-	public String deleteCurrentWord() {
-		StringBuilder str = new StringBuilder(" ");
+	/**
+	 * Delete the letters left from the cursor.
+	 * 
+	 */
+	public void deleteCurrentWord() {
 		MathSequence sel = editorState.getCurrentField();
 		if (sel != null) {
 			for (int i = Math.min(editorState.getCurrentOffset() - 1,
 					sel.size() - 1); i >= 0; i--) {
 				if (sel.getArgument(i) instanceof MathCharacter) {
 					if (!((MathCharacter) sel.getArgument(i)).isCharacter()) {
-						return str.reverse().toString().trim() + ";"
-								+ (sel.getArgument(i));
+						return;
 					}
-					str.append(
-							((MathCharacter) sel.getArgument(i)).getUnicode());
 					sel.removeArgument(i);
 					editorState.decCurrentOffset();
-
 				}
 			}
 		}
-		return str.reverse().toString().trim();
 	}
 
+	/**
+	 * @return sequence of letters left from the cursor (or selection end).
+	 */
 	public String getCurrentWord() {
 		StringBuilder str = new StringBuilder(" ");
 		MathSequence sel = editorState.getCurrentField();
@@ -544,6 +570,9 @@ public class MathFieldInternal
 		return str.reverse().toString().trim();
 	}
 
+	/**
+	 * Select next argument of a function.
+	 */
 	public void selectNextArgument() {
 		EditorState state = getEditorState();
 		MathSequence seq = state.getCurrentField();
@@ -560,19 +589,22 @@ public class MathFieldInternal
 				}
 			}
 		}
-
 	}
 
+	/**
+	 * @return serialized selection
+	 */
 	public String copy() {
 		if (listener != null) {
-			getInputController();
-			return (listener.serialize(
-					InputController.getSelectionText(getEditorState())));
+			return listener.serialize(
+					InputController.getSelectionText(getEditorState()));
 		}
 		return "";
-
 	}
 
+	/**
+	 * Insert string callback.
+	 */
 	public void onInsertString() {
 		if (!this.getInputController().getCreateFrac()) {
 			insertStringFinished();
@@ -603,7 +635,7 @@ public class MathFieldInternal
 	private void insertStringFinished() {
 		if (mathField instanceof MathFieldAsync) {
 			((MathFieldAsync) mathField).requestViewFocus(new Runnable() {
-
+				@Override
 				public void run() {
 					onKeyTyped();
 				}
@@ -626,6 +658,12 @@ public class MathFieldInternal
 		}
 	}
 
+	/**
+	 * Insert a function
+	 * 
+	 * @param text
+	 *            function name
+	 */
 	public void insertFunction(String text) {
 		inputController.newFunction(editorState, text,
 				"frac".equals(text) ? 1 : 0, false);
@@ -634,6 +672,12 @@ public class MathFieldInternal
 		}
 	}
 
+	/**
+	 * Run callback after enter is released.
+	 * 
+	 * @param r
+	 *            callback
+	 */
 	public void checkEnterReleased(Runnable r) {
 		if (this.enterPressed) {
 			this.enterCallback = r;
@@ -642,6 +686,12 @@ public class MathFieldInternal
 		}
 	}
 
+	/**
+	 * Handle the tab key.
+	 * 
+	 * @param shiftDown
+	 *            whether shift is pressed
+	 */
 	public void onTab(boolean shiftDown) {
 		if (listener != null) {
 			listener.onTab(shiftDown);

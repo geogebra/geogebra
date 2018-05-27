@@ -681,8 +681,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		mathFieldInternal.update();
 	}
 
-	public String deleteCurrentWord() {
-		return this.mathFieldInternal.deleteCurrentWord();
+	public void deleteCurrentWord() {
+		this.mathFieldInternal.deleteCurrentWord();
 	}
 
 	public String getCurrentWord() {
