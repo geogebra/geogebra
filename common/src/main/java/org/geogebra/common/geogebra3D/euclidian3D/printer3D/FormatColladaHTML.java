@@ -148,4 +148,9 @@ public class FormatColladaHTML extends FormatCollada {
 		}
 	}
 
+	@Override
+	protected void appendLightInCollada(StringBuilder sb) {
+		// ligth added in three.js
+	}
+
 }

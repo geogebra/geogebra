@@ -149,15 +149,7 @@ public class FormatCollada implements Format {
 		sb.append("<library_visual_scenes>");
 		sb.append("<visual_scene id=\"Scene\" name=\"Scene\">");
 		// light
-		sb.append("<node id=\"L_Dir\" name=\"Directional\" type=\"NODE\">");
-		sb.append("<matrix sid=\"transform\">");
-		sb.append(
-				"-0.70711 0 0.70711 00 1 0 00.70711 0 0.70711 00 0 0 1</matrix>");
-		sb.append("<instance_light url=\"#L_dir\"/>");
-		sb.append("</node>");
-		sb.append("<node id=\"L_Amb\" name=\"Ambient\" type=\"NODE\">");
-		sb.append("<instance_light url=\"#L_amb\"/>");
-		sb.append("</node>");
+		appendLightInCollada(sb);
 		// geometries
 		for (IdColor idColor : idColors) {
 			String label = idColor.id;
@@ -196,6 +188,24 @@ public class FormatCollada implements Format {
 		idColors.clear();
 		materials.clear();
 		labels.clear();
+	}
+
+	/**
+	 * append default light in collada export
+	 * 
+	 * @param sb
+	 *            string builder
+	 */
+	protected void appendLightInCollada(StringBuilder sb) {
+		sb.append("<node id=\"L_Dir\" name=\"Directional\" type=\"NODE\">");
+		sb.append("<matrix sid=\"transform\">");
+		sb.append(
+				"-0.70711 0 0.70711 00 1 0 00.70711 0 0.70711 00 0 0 1</matrix>");
+		sb.append("<instance_light url=\"#L_dir\"/>");
+		sb.append("</node>");
+		sb.append("<node id=\"L_Amb\" name=\"Ambient\" type=\"NODE\">");
+		sb.append("<instance_light url=\"#L_amb\"/>");
+		sb.append("</node>");
 	}
 		
 	static private void getMaterial(StringBuilder sb, GColor color) {
