@@ -383,11 +383,13 @@ public class DrawConicPart extends Drawable implements Previewable {
 			// do nothing
 			break;
 		case DRAW_TYPE_ELLIPSE:
-			fill(g2, shape); // fill using default/hatching/image as
-								// appropriate
-			g2.setPaint(getObjectColor());
-			g2.setStroke(objStroke);
-			g2.draw(shape);
+			if (shape != null) {
+				fill(g2, shape); // fill using default/hatching/image as
+									// appropriate
+				g2.setPaint(getObjectColor());
+				g2.setStroke(objStroke);
+				g2.draw(shape);
+			}
 			break;
 
 		case DRAW_TYPE_SEGMENT:
