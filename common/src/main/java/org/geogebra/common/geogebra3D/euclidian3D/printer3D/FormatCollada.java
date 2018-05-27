@@ -51,56 +51,57 @@ public class FormatCollada implements Format {
 			labels = new HashMap<>();
 		}
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-		sb.append("\n<COLLADA xmlns=\"http://www.collada.org/2005/11/COLLADASchema\" version=\"1.5\">");
-		sb.append("\n  <asset>");
-		sb.append("\n    <contributor>");
-		sb.append("\n      <authoring_tool>GeoGebra</authoring_tool>");
-		sb.append("\n    </contributor>");
-		sb.append("\n    <unit name=\"centimeter\" meter=\"0.01\"/>");
-		sb.append("\n    <up_axis>Z_UP</up_axis>");
-		sb.append("\n  </asset>");
-		sb.append("\n  <library_lights>");
-		sb.append("\n    <light id=\"L_dir\" name=\"Directional\">");
-		sb.append("\n      <technique_common>");
-		sb.append("\n        <directional>");
-		sb.append("\n          <color sid=\"color\">1 1 1</color>");
-		sb.append("\n        </directional>");
-		sb.append("\n      </technique_common>");
-		sb.append("\n    </light>");
-		sb.append("\n    <light id=\"L_amb\" name=\"Ambient\">");
-		sb.append("\n      <technique_common>");
-		sb.append("\n        <ambient>");
-		sb.append("\n          <color sid=\"color\">");
+		sb.append(
+				"<COLLADA xmlns=\"http://www.collada.org/2005/11/COLLADASchema\" version=\"1.5\">");
+		sb.append("<asset>");
+		sb.append("<contributor>");
+		sb.append("<authoring_tool>GeoGebra</authoring_tool>");
+		sb.append("</contributor>");
+		sb.append("<unit name=\"centimeter\" meter=\"0.01\"/>");
+		sb.append("<up_axis>Z_UP</up_axis>");
+		sb.append("</asset>");
+		sb.append("<library_lights>");
+		sb.append("<light id=\"L_dir\" name=\"Directional\">");
+		sb.append("<technique_common>");
+		sb.append("<directional>");
+		sb.append("<color sid=\"color\">1 1 1</color>");
+		sb.append("</directional>");
+		sb.append("</technique_common>");
+		sb.append("</light>");
+		sb.append("<light id=\"L_amb\" name=\"Ambient\">");
+		sb.append("<technique_common>");
+		sb.append("<ambient>");
+		sb.append("<color sid=\"color\">");
 		sb.append(AMBIENT);
 		sb.append(" ");
 		sb.append(AMBIENT);
 		sb.append(" ");
 		sb.append(AMBIENT);
 		sb.append("</color>");
-		sb.append("\n        </ambient>");
-		sb.append("\n      </technique_common>");
-		sb.append("\n    </light>");
-		sb.append("\n  </library_lights>");
-		sb.append("\n  <library_geometries>");
+		sb.append("</ambient>");
+		sb.append("</technique_common>");
+		sb.append("</light>");
+		sb.append("</library_lights>");
+		sb.append("<library_geometries>");
 	}
 
 	@Override
 	public void getScriptEnd(StringBuilder sb) {
-		sb.append("\n  </library_geometries>");
+		sb.append("</library_geometries>");
 		// materials
-		sb.append("\n  <library_effects>");
+		sb.append("<library_effects>");
 		for (GColor color : materials.values()) {
-			sb.append("\n    <effect id=\"");
+			sb.append("<effect id=\"");
 			getMaterial(sb, color);
 			sb.append("-effect\">");
-			sb.append("\n      <profile_COMMON>");
-			sb.append("\n        <technique sid=\"common\">");
-			sb.append("\n          <phong>");
-			sb.append("\n            <ambient>");
-			sb.append("\n              <color sid=\"ambient\">0 0 0 1.0</color>");
-			sb.append("\n            </ambient>");
-			sb.append("\n            <diffuse>");
-			sb.append("\n              <color sid=\"diffuse\">");
+			sb.append("<profile_COMMON>");
+			sb.append("<technique sid=\"common\">");
+			sb.append("<phong>");
+			sb.append("<ambient>");
+			sb.append("<color sid=\"ambient\">0 0 0 1.0</color>");
+			sb.append("</ambient>");
+			sb.append("<diffuse>");
+			sb.append("<color sid=\"diffuse\">");
 			sb.append(color.getRed() / 255.0);
 			sb.append(" ");
 			sb.append(color.getGreen() / 255.0);
@@ -109,84 +110,85 @@ public class FormatCollada implements Format {
 			sb.append(" ");
 			sb.append(color.getAlpha() / 255.0);
 			sb.append("</color>");
-			sb.append("\n            </diffuse>");
-			sb.append("\n            <specular>");
-			sb.append("\n              <color sid=\"specular\">0.5 0.5 0.5 1</color>");
-			sb.append("\n            </specular>");
-			sb.append("\n            <shininess>");
-			sb.append("\n              <float sid=\"shininess\">50</float>");
-			sb.append("\n            </shininess>");
-			sb.append("\n            <index_of_refraction>");
-			sb.append("\n             <float sid=\"index_of_refraction\">1</float>");
-			sb.append("\n            </index_of_refraction>");
-			sb.append("\n          </phong>");
-			sb.append("\n        </technique>");
-			sb.append("\n      </profile_COMMON>");
-			sb.append("\n    </effect>");
+			sb.append("</diffuse>");
+			sb.append("<specular>");
+			sb.append("<color sid=\"specular\">0.5 0.5 0.5 1</color>");
+			sb.append("</specular>");
+			sb.append("<shininess>");
+			sb.append("<float sid=\"shininess\">50</float>");
+			sb.append("</shininess>");
+			sb.append("<index_of_refraction>");
+			sb.append(" <float sid=\"index_of_refraction\">1</float>");
+			sb.append("</index_of_refraction>");
+			sb.append("</phong>");
+			sb.append("</technique>");
+			sb.append("</profile_COMMON>");
+			sb.append("</effect>");
 		}
-		sb.append("\n  </library_effects>");
-		sb.append("\n  <library_materials>");
+		sb.append("</library_effects>");
+		sb.append("<library_materials>");
 		for (GColor color : materials.values()) {
 			sb2.setLength(0);
 			getMaterial(sb2, color);
-			sb.append("\n    <material id=\"");
+			sb.append("<material id=\"");
 			sb.append(sb2);
 			sb.append("-material\" name=\"");
 			sb.append(sb2);
 			sb.append("\">");
-			sb.append("\n      <instance_effect url=\"#");
+			sb.append("<instance_effect url=\"#");
 			sb.append(sb2);
 			sb.append("-effect\"/>");
-			sb.append("\n    </material>");
+			sb.append("</material>");
 		}
-		sb.append("\n  </library_materials>");
+		sb.append("</library_materials>");
 		// scene
-		sb.append("\n  <library_controllers/>");
-		sb.append("\n  <library_visual_scenes>");
-		sb.append("\n    <visual_scene id=\"Scene\" name=\"Scene\">");
+		sb.append("<library_controllers/>");
+		sb.append("<library_visual_scenes>");
+		sb.append("<visual_scene id=\"Scene\" name=\"Scene\">");
 		// light
-		sb.append("\n      <node id=\"L_Dir\" name=\"Directional\" type=\"NODE\">");
-		sb.append("\n        <matrix sid=\"transform\">");
-		sb.append("-0.70711 0 0.70711 0  0 1 0 0  0.70711 0 0.70711 0  0 0 0 1</matrix>");
-		sb.append("\n        <instance_light url=\"#L_dir\"/>");
-		sb.append("\n      </node>");
-		sb.append("\n      <node id=\"L_Amb\" name=\"Ambient\" type=\"NODE\">");
-		sb.append("\n        <instance_light url=\"#L_amb\"/>");
-		sb.append("\n      </node>");
+		sb.append("<node id=\"L_Dir\" name=\"Directional\" type=\"NODE\">");
+		sb.append("<matrix sid=\"transform\">");
+		sb.append(
+				"-0.70711 0 0.70711 00 1 0 00.70711 0 0.70711 00 0 0 1</matrix>");
+		sb.append("<instance_light url=\"#L_dir\"/>");
+		sb.append("</node>");
+		sb.append("<node id=\"L_Amb\" name=\"Ambient\" type=\"NODE\">");
+		sb.append("<instance_light url=\"#L_amb\"/>");
+		sb.append("</node>");
 		// geometries
 		for (IdColor idColor : idColors) {
 			String label = idColor.id;
-			sb.append("\n      <node id=\"");
+			sb.append("<node id=\"");
 			sb.append(label);
 			sb.append("\" name=\"");
 			sb.append(label);
 			sb.append("\" type=\"NODE\">");
-			sb.append("\n        <instance_geometry url=\"#");
+			sb.append("<instance_geometry url=\"#");
 			sb.append(label);
 			sb.append("-mesh\" name=\"");
 			sb.append(label);
 			sb.append("\">");
-			sb.append("\n          <bind_material>");
-			sb.append("\n            <technique_common>");
+			sb.append("<bind_material>");
+			sb.append("<technique_common>");
 			sb2.setLength(0);
 			getMaterial(sb2, idColor.color);
-			sb.append("\n              <instance_material symbol=\"");
+			sb.append("<instance_material symbol=\"");
 			sb.append(sb2);
 			sb.append("-material\" target=\"#");
 			sb.append(sb2);
 			sb.append("-material\"/>");
-			sb.append("\n            </technique_common>");
-			sb.append("\n          </bind_material>");
-			sb.append("\n        </instance_geometry>");
-			sb.append("\n      </node>");
+			sb.append("</technique_common>");
+			sb.append("</bind_material>");
+			sb.append("</instance_geometry>");
+			sb.append("</node>");
 		}
 
-		sb.append("\n    </visual_scene>");
-		sb.append("\n  </library_visual_scenes>");
-		sb.append("\n  <scene>");
-		sb.append("\n    <instance_visual_scene url=\"#Scene\"/>");
-		sb.append("\n  </scene>");
-		sb.append("\n</COLLADA>");
+		sb.append("</visual_scene>");
+		sb.append("</library_visual_scenes>");
+		sb.append("<scene>");
+		sb.append("<instance_visual_scene url=\"#Scene\"/>");
+		sb.append("</scene>");
+		sb.append("</COLLADA>");
 		
 		idColors.clear();
 		materials.clear();
@@ -229,29 +231,29 @@ public class FormatCollada implements Format {
 
 	@Override
 	public void getPolyhedronStart(StringBuilder sb) {
-		sb.append("\n    <geometry id=\"");
+		sb.append("<geometry id=\"");
 		sb.append(currentLabel);
 		sb.append("-mesh\" name=\"");
 		sb.append(currentLabel);
 		sb.append("\">");
-		sb.append("\n      <mesh>");
+		sb.append("<mesh>");
 	}
 
 	@Override
 	public void getPolyhedronEnd(StringBuilder sb) {
-		sb.append("\n      </mesh>");
-		sb.append("\n    </geometry>");
+		sb.append("</mesh>");
+		sb.append("</geometry>");
 	}
 
 	private void getArrayStart(StringBuilder sb, int count, String type) {
 		currentCount = count;
-		sb.append("\n        <source id=\"");
+		sb.append("<source id=\"");
 		sb.append(currentLabel);
 		sb.append("-mesh-");
 		sb.append(type);
 		sb.append("\">");
 
-		sb.append("\n          <float_array id=\"");
+		sb.append("<float_array id=\"");
 		sb.append(currentLabel);
 		sb.append("-mesh-");
 		sb.append(type);
@@ -281,8 +283,8 @@ public class FormatCollada implements Format {
 
 	private void getArrayEnd(StringBuilder sb, String type) {
 		sb.append("</float_array>");
-		sb.append("\n          <technique_common>");
-		sb.append("\n            <accessor source=\"#");
+		sb.append("<technique_common>");
+		sb.append("<accessor source=\"#");
 		sb.append(currentLabel);
 		sb.append("-mesh-");
 		sb.append(type);
@@ -290,12 +292,12 @@ public class FormatCollada implements Format {
 
 		sb.append(currentCount);
 		sb.append("\" stride=\"3\">");
-		sb.append("\n              <param name=\"X\" type=\"float\"/>");
-		sb.append("\n              <param name=\"Y\" type=\"float\"/>");
-		sb.append("\n              <param name=\"Z\" type=\"float\"/>");
-		sb.append("\n            </accessor>");
-		sb.append("\n          </technique_common>");
-		sb.append("\n        </source>");
+		sb.append("<param name=\"X\" type=\"float\"/>");
+		sb.append("<param name=\"Y\" type=\"float\"/>");
+		sb.append("<param name=\"Z\" type=\"float\"/>");
+		sb.append("</accessor>");
+		sb.append("</technique_common>");
+		sb.append("</source>");
 
 	}
 
@@ -306,29 +308,29 @@ public class FormatCollada implements Format {
 
 	@Override
 	public void getFacesStart(StringBuilder sb, int count, boolean hasSpecificNormals) {
-		sb.append("\n        <vertices id=\"");
+		sb.append("<vertices id=\"");
 		sb.append(currentLabel);
 		sb.append("-mesh-vertices\">");
-		sb.append("\n          <input semantic=\"POSITION\" source=\"#");
+		sb.append("<input semantic=\"POSITION\" source=\"#");
 		sb.append(currentLabel);
 		sb.append("-mesh-positions\"/>");
-		sb.append("\n        </vertices>");
-		sb.append("\n        <triangles material=\"");
+		sb.append("</vertices>");
+		sb.append("<triangles material=\"");
 		getMaterial(sb, currentColor);
 		sb.append("-material\" count=\"");
 		sb.append(count);
 		sb.append("\">");
-		sb.append("\n          <input semantic=\"VERTEX\" source=\"#");
+		sb.append("<input semantic=\"VERTEX\" source=\"#");
 		sb.append(currentLabel);
 		sb.append("-mesh-vertices\" offset=\"0\"/>");
-		sb.append("\n          <input semantic=\"NORMAL\" source=\"#");
+		sb.append("<input semantic=\"NORMAL\" source=\"#");
 		sb.append(currentLabel);
 		if (hasSpecificNormals) {
 			sb.append("-mesh-normals\" offset=\"1\"/>");
 		} else {
 			sb.append("-mesh-normals\" offset=\"0\"/>");
 		}
-		sb.append("\n          <p>");
+		sb.append("<p>");
 	}
 
 	@Override
@@ -356,7 +358,7 @@ public class FormatCollada implements Format {
 	@Override
 	public void getFacesEnd(StringBuilder sb) {
 		sb.append("</p>");
-		sb.append("\n        </triangles>");
+		sb.append("</triangles>");
 	}
 
 	@Override
