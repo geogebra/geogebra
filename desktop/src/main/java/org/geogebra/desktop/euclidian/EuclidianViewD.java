@@ -453,8 +453,7 @@ public class EuclidianViewD extends EuclidianView
 	protected void drawResetIcon(GGraphics2D g) {
 		// need to use getApplet().width rather than width so that
 		// it works with applet rescaling
-		int w = getApplication().onlyGraphicsViewShowing()
-				? getApplication().getApplet().width : getWidth() + 2;
+		int w = getWidth() + 2;
 		GGraphics2DD.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2,
 				null);
 	}

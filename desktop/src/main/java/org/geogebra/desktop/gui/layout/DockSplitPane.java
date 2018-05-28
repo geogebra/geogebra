@@ -211,17 +211,9 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 		public DockSplitPaneData[] getInfo(DockSplitPane rootPane) {
 			splitPaneInfo.clear();
 
-			if (app.isApplet()) {
-				windowWidth = app.getApplet().width;
-			} else {
-				windowWidth = app.getFrame().getWidth();
-			}
+			windowWidth = app.getFrame().getWidth();
 
-			if (app.isApplet()) {
-				windowHeight = app.getApplet().height;
-			} else {
-				windowHeight = app.getFrame().getHeight();
-			}
+			windowHeight = app.getFrame().getHeight();
 
 			saveSplitPane("", rootPane);
 

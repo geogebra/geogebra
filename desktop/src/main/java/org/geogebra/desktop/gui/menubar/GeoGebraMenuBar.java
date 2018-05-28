@@ -637,10 +637,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append(GeoGebraConstants.APPLICATION_NAME);
 		sb.append(" Classic ");
 		sb.append(app.getVersionString());
-
-		if (app.getApplet() != null) {
-			sb.append(" Applet");
-		}
 	}
 
 	public static void copyDebugInfoToClipboard(AppD app) {

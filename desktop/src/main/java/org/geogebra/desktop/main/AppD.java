@@ -291,8 +291,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	// APPLET fields
 	// ==============================================================
 
-	private static volatile AppletImplementation appletImpl;
-	private static Object lock = new Object();
 	private boolean isApplet = false;
 
 	// ==============================================================
@@ -372,7 +370,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param undoActive
 	 */
 	public AppD(CommandLineArguments args, JFrame frame, boolean undoActive) {
-		this(args, frame, null, null, undoActive, new LocalizationD(2));
+		this(args, frame, null, undoActive, new LocalizationD(2));
 	}
 
 	/*************************************************************
@@ -382,9 +380,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param appletImpl
 	 * @param undoActive
 	 */
-	public AppD(CommandLineArguments args, AppletImplementation appletImpl,
-			boolean undoActive) {
-		this(args, null, appletImpl, null, undoActive, new LocalizationD(2));
+	public AppD(CommandLineArguments args, boolean undoActive) {
+		this(args, null, null, undoActive, new LocalizationD(2));
 	}
 
 	/*************************************************************
@@ -395,7 +392,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param undoActive
 	 */
 	public AppD(CommandLineArguments args, Container comp, boolean undoActive) {
-		this(args, null, null, comp, undoActive, new LocalizationD(2));
+		this(args, null, comp, undoActive, new LocalizationD(2));
 	}
 
 	/*************************************************************
@@ -407,8 +404,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param comp
 	 * @param undoActive
 	 */
-	public AppD(CommandLineArguments args, JFrame frame,
-			AppletImplementation appletImpl, Container comp, boolean undoActive,
+	public AppD(CommandLineArguments args, JFrame frame, Container comp,
+			boolean undoActive,
 			LocalizationD loc) {
 
 		super(Versions.DESKTOP);
@@ -458,28 +455,22 @@ public class AppD extends App implements KeyEventDispatcher {
 			handleHelpVersionArgs(args);
 		}
 
-		isApplet = appletImpl != null;
+		isApplet = false;
 
-		JApplet applet = null;
 		if (frame != null) {
 			mainComp = frame;
-		} else if (isApplet) {
-			applet = appletImpl.getJApplet();
-			mainComp = applet;
-			setApplet(appletImpl);
 		} else {
 			mainComp = comp;
 		}
 
-		useFullGui = !isApplet || appletImpl.needsGui();
+		useFullGui = !isApplet;
 
 		// don't want to redirect System.out and System.err when running as
 		// Applet
 		// or eg from Eclipse
 		getCodeBase(); // initialize runningFromJar
 
-		Log.debug("isApplet=" + isApplet + " runningFromJar=" + runningFromJar
-				+ " appletImpl=" + appletImpl);
+		Log.debug("isApplet=" + isApplet + " runningFromJar=" + runningFromJar);
 		if (!isApplet && runningFromJar) {
 			setUpLogging();
 		} else {
@@ -488,14 +479,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// needed for JavaScript getCommandName(), getValueString() to work
 		// (security problem running non-locally)
-		if (isApplet) {
-			preferredSize = appletImpl.getJApplet().getSize();
-			// needs command.properties in main.jar
-			// causes problems when not in English
-			// initCommandBundle();
-		} else {
-			preferredSize = new Dimension(800, 600);
-		}
+
+		preferredSize = new Dimension(800, 600);
 
 		fontManager = new FontManagerD();
 		initImageManager(mainComp);
@@ -633,23 +618,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	// INIT
 	// **************************************************************************
 
-	public void setApplet(AppletImplementation appletImpl0) {
-		isApplet = true;
-		synchronized (lock) {
-			AppD.appletImpl = appletImpl0;
-		}
-		mainComp = appletImpl.getJApplet();
-	}
-
-	public AppletImplementation getApplet() {
-		return appletImpl;
-	}
-
 	@Override
 	public void reset() {
-		if (appletImpl != null) {
-			appletImpl.reset();
-		} else if (currentFile != null) {
+		if (currentFile != null) {
 			loadFile(this, currentFile);
 		} else {
 			clearConstruction();
@@ -2519,9 +2490,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		Container cp;
-		if (isApplet) {
-			cp = appletImpl.getJApplet().getContentPane();
-		} else if ((frame != null) && (frame == mainComp)) {
+		if ((frame != null) && (frame == mainComp)) {
 			cp = frame.getContentPane();
 		} else {
 			cp = (Container) mainComp;
@@ -2554,9 +2523,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void updateUI() {
 		if (!initing) {
-			if (appletImpl != null) {
-				SwingUtilities.updateComponentTreeUI(appletImpl.getJApplet());
-			}
+
 			if (frame != null) {
 				SwingUtilities.updateComponentTreeUI(frame);
 			}
@@ -2591,9 +2558,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	protected void updateComponentTreeUI() {
-		if (isApplet()) {
-			SwingUtilities.updateComponentTreeUI(appletImpl.getJApplet());
-		} else if ((frame != null) && (frame == mainComp)) {
+		if ((frame != null) && (frame == mainComp)) {
 			SwingUtilities.updateComponentTreeUI(frame);
 		} else if (mainComp != null) {
 			SwingUtilities.updateComponentTreeUI(mainComp);
@@ -2795,9 +2760,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public void validateComponent() {
-		if (isApplet) {
-			appletImpl.getJApplet().validate();
-		} else {
+		if (frame != null) {
 			frame.validate();
 		}
 	}
@@ -2810,9 +2773,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		getGuiManager().updateToolbar();
 
 		if (!initing) {
-			if (appletImpl != null) {
-				SwingUtilities.updateComponentTreeUI(appletImpl.getJApplet());
-			}
 			if (frame != null) {
 				SwingUtilities.updateComponentTreeUI(frame);
 			}
@@ -2893,10 +2853,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	final public static JApplet getJApplet() {
-		if (appletImpl == null) {
-			return null;
-		}
-		return appletImpl.getJApplet();
+		return null;
 	}
 
 	public synchronized JFrame getFrame() {
@@ -2923,12 +2880,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	public Container getContentPane() {
 		if (mainComp == frame) {
 			return frame.getContentPane();
-		} else if ((appletImpl != null)
-				&& (mainComp == appletImpl.getJApplet())) {
-			return appletImpl.getJApplet().getContentPane();
-		} else {
-			return null;
 		}
+		return null;
+
 	}
 
 	public JPanel getCenterPanel() {
@@ -3260,13 +3214,8 @@ public class AppD extends App implements KeyEventDispatcher {
 			getSoundManager().stopCurrentSound();
 		}
 
-		if (isSaved() || (appletImpl != null) || saveCurrentFile()) {
-			if (appletImpl != null) {
-				setApplet(appletImpl);
-				appletImpl.showApplet();
-			} else {
-				exitFrame();
-			}
+		if (isSaved() || saveCurrentFile()) {
+			exitFrame();
 		}
 	}
 
@@ -3788,11 +3737,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			// make sure temporary files not used
 			// eg ggbApi.getPNGBase64()
 			ImageIO.setUseCache(false);
-
-			if (appletImpl != null) {
-				// applet codebase
-				codebase = appletImpl.getJApplet().getCodeBase();
-			}
 		}
 
 	}
@@ -3844,18 +3788,12 @@ public class AppD extends App implements KeyEventDispatcher {
 	public Component getGlassPane() {
 		if (mainComp == frame) {
 			return frame.getGlassPane();
-		} else if ((appletImpl != null)
-				&& (mainComp == appletImpl.getJApplet())) {
-			return appletImpl.getJApplet().getGlassPane();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	public void setGlassPane(Component component) {
-		if ((appletImpl != null) && (mainComp == appletImpl.getJApplet())) {
-			appletImpl.getJApplet().setGlassPane(component);
-		} else if (mainComp == frame) {
+		if (mainComp == frame) {
 			frame.setGlassPane(component);
 		}
 	}
@@ -4415,7 +4353,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public void callAppletJavaScript(String string, Object[] args) {
-		getApplet().callJavaScript(string, args);
+		// not needed in desktop
 	}
 
 	@Override
@@ -4452,20 +4390,12 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public double getWidth() {
-		if (isApplet()) {
-			AppletImplementation applet = getApplet();
-			return applet.width;
-		}
 		JPanel appCP = getCenterPanel();
 		return appCP != null ? appCP.getWidth() : 0;
 	}
 
 	@Override
 	public double getHeight() {
-		if (isApplet()) {
-			AppletImplementation applet = getApplet();
-			return applet.height;
-		}
 		JPanel appCP = getCenterPanel();
 		return appCP != null ? appCP.getHeight() : 0;
 	}

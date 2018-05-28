@@ -238,21 +238,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		Dimension oldCenterSize = getApp().getCenterPanel().getSize();
 		Dimension newCenterSize;
 
-		// frame -> applet
-		if (getApp().isApplet()) {
-			newCenterSize = getApp().getApplet().getJApplet().getSize();
-		}
-
-		// applet -> frame
-		else {
-			// TODO redo this, guessing dimensions is bad
-			if (getApp().getFrame().getPreferredSize().width <= 0) {
-				newCenterSize = new Dimension(700, 500);
-			} else {
-				newCenterSize = getApp().getFrame().getPreferredSize();
-				newCenterSize.width -= 10;
-				newCenterSize.height -= 100;
-			}
+		// TODO redo this, guessing dimensions is bad
+		if (getApp().getFrame().getPreferredSize().width <= 0) {
+			newCenterSize = new Dimension(700, 500);
+		} else {
+			newCenterSize = getApp().getFrame().getPreferredSize();
+			newCenterSize.width -= 10;
+			newCenterSize.height -= 100;
 		}
 
 		layout.getDockManager().scale(

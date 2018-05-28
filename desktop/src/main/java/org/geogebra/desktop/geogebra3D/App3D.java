@@ -78,7 +78,6 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.main.AppletImplementation;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.FrameCollector;
@@ -88,26 +87,21 @@ public class App3D extends AppD {
 	private EuclidianView3D euclidianView3D;
 	private EuclidianController3D euclidianController3D;
 
-	public App3D(CommandLineArguments args, JFrame frame, boolean undoActive) {
-		this(args, frame, null, undoActive);
-	}
-
-	public App3D(CommandLineArguments args, AppletImplementation applet,
+	public App3D(CommandLineArguments args,
 			boolean undoActive) {
-		this(args, null, applet, undoActive);
+		this(args, null, undoActive);
 	}
 
-	private App3D(CommandLineArguments args, JFrame frame,
-			AppletImplementation applet, boolean undoActive) {
+	private App3D(CommandLineArguments args, JFrame frame, boolean undoActive) {
 
-		super(args, frame, applet, null, undoActive, new LocalizationD(3));
+		super(args, frame, null, undoActive, new LocalizationD(3));
 
 		runThreadForCheckInput3D();
 	}
 
 	public App3D(CommandLineArguments args, Container comp,
 			boolean undoActive) {
-		super(args, null, null, comp, undoActive, new LocalizationD(3));
+		super(args, null, comp, undoActive, new LocalizationD(3));
 
 		runThreadForCheckInput3D();
 	}

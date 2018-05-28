@@ -62,37 +62,27 @@ public class ScriptManagerD extends ScriptManager {
 
 	@Override
 	public synchronized void initJavaScript() {
-
-		if (app.isApplet()) {
-			((AppD) app).getApplet().initJavaScript();
-		}
+		// not needed in desktop
 	}
 
 	@Override
 	public void callJavaScript(String jsFunction, Object[] args) {
-
-		if (app.isApplet() && app.useBrowserForJavaScript()) {
-			((AppD) app).getApplet().callJavaScript(jsFunction, args);
-		} else {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(jsFunction);
-			sb.append("(");
-			for (int i = 0; i < args.length; i++) {
-				sb.append('"');
-				sb.append(args[i].toString());
-				sb.append('"');
-				if (i < args.length - 1) {
-					sb.append(",");
-				}
+		StringBuilder sb = new StringBuilder();
+		sb.append(jsFunction);
+		sb.append("(");
+		for (int i = 0; i < args.length; i++) {
+			sb.append('"');
+			sb.append(args[i].toString());
+			sb.append('"');
+			if (i < args.length - 1) {
+				sb.append(",");
 			}
-			sb.append(");");
-			try {
-				evalJavaScript(app, sb.toString(), null);
-			} catch (Exception e) {
-				Log.debug("error calling script " + e.getMessage());
-			}
-
+		}
+		sb.append(");");
+		try {
+			evalJavaScript(app, sb.toString(), null);
+		} catch (Exception e) {
+			Log.debug("error calling script " + e.getMessage());
 		}
 	}
 

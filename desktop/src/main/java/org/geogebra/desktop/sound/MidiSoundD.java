@@ -265,21 +265,6 @@ public class MidiSoundD implements MetaEventListener {
 				ext = "mid";
 			} else if (filePath.startsWith("http://")) {
 				url = new URL(filePath);
-			} else if (app.isApplet()) {
-
-				URL base = app.getApplet().applet.getDocumentBase();
-				String documentBase = base.toString();
-				if (filePath.startsWith("/")) {
-					filePath = base.getProtocol() + "://" + base.getHost()
-							+ filePath;
-				} else {
-					String path = documentBase.substring(0,
-							documentBase.lastIndexOf('/') + 1);
-					filePath = path + filePath;
-				}
-
-				url = new URL(filePath);
-
 			} else {
 
 				f = new File(filePath);
