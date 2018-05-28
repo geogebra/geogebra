@@ -4104,6 +4104,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_PACK_PLANES:
 			return prerelease;
 
+		// MOB-1518
+		case MOB_PACK_QUADRICS:
+			return false;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************

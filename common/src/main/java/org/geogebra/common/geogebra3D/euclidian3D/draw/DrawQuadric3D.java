@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-
+import org.geogebra.common.main.Feature;
 /**
  * Class for drawing quadrics.
  * 
@@ -350,12 +350,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			boundsMax.addInside(radius);
 			checkSphereVisible(center, radius);
 			if (visible != Visible.TOTALLY_OUTSIDE) {
+				setPackSurface();
 				surface = renderer.getGeometryManager().getSurface();
 				surface.start(getReusableSurfaceIndex());
 				scale = getView3D().getMaxScale();
 				longitude = surface.calcSphereLongitudesNeeded(radius, scale);
 				drawSphere(surface, center, radius);
 				setSurfaceIndex(surface.end());
+				endPacking();
 			} else {
 				setSurfaceIndex(-1);
 			}
@@ -941,9 +943,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				checkSphereVisible(center, radius);
 				if (visible != Visible.TOTALLY_OUTSIDE) {
 					longitude = l;
+					setPackSurface();
 					surface.start(getReusableSurfaceIndex());
 					drawSphere(surface, center, radius);
 					setSurfaceIndex(surface.end());
+					endPacking();
 					recordTrace();
 				} else {
 					setSurfaceIndex(-1);
@@ -958,9 +962,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				double radius = quadric.getHalfAxis(0);
 				checkSphereVisible(center, radius);
 				if (visible != Visible.TOTALLY_OUTSIDE) {
+					setPackSurface();
 					surface.start(getReusableSurfaceIndex());
 					drawSphere(surface, center, radius);
 					setSurfaceIndex(surface.end());
+					endPacking();
 					recordTrace();
 				} else {
 					setSurfaceIndex(-1);
@@ -1017,42 +1023,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	}
 
-	@Override
-	public void setWaitForUpdateVisualStyle(GProperty prop) {
-
-		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
-		switch (quadric.getType()) {
-		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
-			super.setWaitForUpdate();
-			break;
-		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
-		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
-			initDrawPlanes(quadric);
-			drawPlanes[0].setWaitForUpdateVisualStyle(prop);
-			drawPlanes[1].setWaitForUpdateVisualStyle(prop);
-			super.setWaitForUpdate();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_PLANE:
-			initDrawPlanes(quadric);
-			drawPlanes[0].setWaitForUpdateVisualStyle(prop);
-			super.setWaitForUpdate();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_LINE:
-			initDrawLine(quadric);
-			drawLine.setWaitForUpdateVisualStyle(prop);
-			super.setWaitForUpdate();
-			break;
-
-		default:
-			// do nothing
-			break;
-		}
-
-		super.setWaitForUpdateVisualStyle(prop);
-
-	}
 
 	@Override
 	protected void recordTrace() {
@@ -1076,7 +1046,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			break;
 
 		default:
-			super.recordTrace();
+			if (!shouldBePackedForManager()) {
+				super.recordTrace();
+			}
 			break;
 		}
 	}
@@ -1095,7 +1067,15 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			drawLine.clearTraceForViewChanged();
 		}
 
-		super.clearTraceForViewChangedByZoomOrTranslate();
+		if (shouldBePackedForManager()) {
+			if (tracesPackingBuffer != null) {
+				while (!tracesPackingBuffer.isEmpty()) {
+					doRemoveGeometryIndex(tracesPackingBuffer.pop());
+				}
+			}
+		} else {
+			super.clearTraceForViewChangedByZoomOrTranslate();
+		}
 	}
 
 	@Override
@@ -1462,6 +1442,126 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				// TODO
 			}
 		}
+	}
+
+	@Override
+	protected void updateForViewVisible() {
+		updateGeometriesVisibility();
+		if (!waitForUpdate()) {
+			updateForView();
+		}
+	}
+
+	@Override
+	public void disposePreview() {
+		if (shouldBePacked()) {
+			removePreviewFromGL();
+		}
+		super.disposePreview();
+	}
+
+	@Override
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
+
+		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
+		switch (quadric.getType()) {
+		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
+			super.setWaitForUpdate();
+			break;
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
+			initDrawPlanes(quadric);
+			drawPlanes[0].setWaitForUpdateVisualStyle(prop);
+			drawPlanes[1].setWaitForUpdateVisualStyle(prop);
+			super.setWaitForUpdate();
+			break;
+
+		case GeoQuadricNDConstants.QUADRIC_PLANE:
+			initDrawPlanes(quadric);
+			drawPlanes[0].setWaitForUpdateVisualStyle(prop);
+			super.setWaitForUpdate();
+			break;
+
+		case GeoQuadricNDConstants.QUADRIC_LINE:
+			initDrawLine(quadric);
+			drawLine.setWaitForUpdateVisualStyle(prop);
+			super.setWaitForUpdate();
+			break;
+
+		default:
+			// do nothing
+			break;
+		}
+
+		super.setWaitForUpdateVisualStyle(prop);
+		if (shouldBePacked()) {
+			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
+				setWaitForUpdateColor();
+			} else if (prop == GProperty.VISIBLE) {
+				setWaitForUpdateVisibility();
+			}
+		}
+	}
+
+	@Override
+	protected void updateGeometriesVisibility() {
+		boolean isVisible = isVisible();
+		if (geometriesSetVisible != isVisible) {
+			setGeometriesVisibility(isVisible);
+		}
+	}
+
+	@Override
+	protected void setGeometriesVisibility(boolean visible) {
+		setGeometriesVisibilityWithSurface(visible);
+	}
+
+	@Override
+	protected void updateGeometriesColor() {
+		updateGeometriesColor(true);
+	}
+
+	@Override
+	public int getReusableSurfaceIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getSurfaceIndex());
+		}
+		return super.getReusableSurfaceIndex();
+	}
+
+	@Override
+	protected int getReusableGeometryIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getGeometryIndex());
+		}
+		return super.getReusableGeometryIndex();
+	}
+
+	@Override
+	protected void updateForViewNotVisible() {
+		if (shouldBePacked()) {
+			if (getView3D().viewChanged()) {
+				// will be updated if visible again
+				setWaitForUpdate();
+			}
+			updateGeometriesVisibility();
+		}
+	}
+
+	@Override
+	public boolean shouldBePacked() {
+		return getView3D().getApplication().has(Feature.MOB_PACK_QUADRICS)
+				&& !createdByDrawList();
+	}
+
+	@Override
+	public boolean addedFromClosedSurface() {
+		return true;
+	}
+
+	protected void setPackSurface() {
+		Log.debug(getGeoElement() + ": " + shouldBePacked());
+		super.setPackSurface();
 	}
 
 }

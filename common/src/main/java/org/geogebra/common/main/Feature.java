@@ -308,6 +308,9 @@ public enum Feature {
 	MOB_REACT_SEARCH_VIEW,
 
 	/** MOB-1517 */
-	MOB_PACK_PLANES
+	MOB_PACK_PLANES,
+
+	/** MOB-1518 */
+	MOB_PACK_QUADRICS
 }
 

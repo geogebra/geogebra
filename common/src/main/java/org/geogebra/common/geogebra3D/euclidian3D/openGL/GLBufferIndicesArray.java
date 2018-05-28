@@ -1,14 +1,16 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
-import java.util.ArrayList;
-
 /**
  * ArrayList that implements GLBufferIndices to be able to get indices values
  * (see points templates)
  *
  */
-public class GLBufferIndicesArray extends ArrayList<Short>
+public class GLBufferIndicesArray extends ReusableArrayList<Short>
 		implements GLBufferIndices {
+
+	public GLBufferIndicesArray(int size) {
+		super(size);
+	}
 
 	public void allocate(int length) {
 		// not needed
@@ -19,7 +21,7 @@ public class GLBufferIndicesArray extends ArrayList<Short>
 	}
 
 	public void put(short value) {
-		add(value);
+		addValue(value);
 	}
 
 	public void put(int index, short value) {

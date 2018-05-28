@@ -33,7 +33,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	private GColor currentColor;
 	private int currentLayer;
 	private int currentTextureType;
-	private ReusableArrayList<Short> indices;
+	private GLBufferIndicesArray indices;
 	private float[] translate;
 	private float scale;
 
@@ -445,11 +445,15 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		if (currentBufferManager == null) {
 			super.setIndicesForDrawTriangleFans(size);
 		} else {
-			if (indices == null) {
-				indices = new ReusableArrayList<>(size);
-			}
-			indices.setLength(0);
+			initIndices(size);
 		}
+	}
+
+	private void initIndices(int size) {
+		if (indices == null) {
+			indices = new GLBufferIndicesArray(size);
+		}
+		indices.setLength(0);
 	}
 
 	@Override
@@ -556,9 +560,14 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 	@Override
 	public GLBufferIndices getCurrentGeometryIndices(int size) {
-		if (currentBufferManager != null
-				&& currentBufferManager.isTemplateForPoints()) {
-			return bufferTemplates.getBufferIndicesArray();
+		if (currentBufferManager != null) {
+			if (currentBufferManager.isTemplateForPoints()) {
+				return bufferTemplates.getBufferIndicesArray();
+			}
+			if (currentBufferManager == bufferManagerSurfacesClosed) {
+				initIndices(size);
+				return indices;
+			}
 		}
 		return super.getCurrentGeometryIndices(size);
 

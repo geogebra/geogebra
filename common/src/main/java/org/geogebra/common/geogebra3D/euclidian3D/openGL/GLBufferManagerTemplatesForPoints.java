@@ -74,7 +74,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 * @return new indices array
 	 */
 	public GLBufferIndicesArray getBufferIndicesArray() {
-		bufferIndicesArray = new GLBufferIndicesArray();
+		bufferIndicesArray = new GLBufferIndicesArray(0);
 		return bufferIndicesArray;
 	}
 
