@@ -1049,16 +1049,17 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			insertString(".");
 			return;
 		}
+		if (Browser.isTabletBrowser()
+				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
+				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
+				&& e.getNativeEvent().getKeyCode() != 0) {
+			insertString(Character.toString(ch));
+			text = getText();
+		}
 		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')'
 				|| ch == ']')) {
 			// super.keyTyped(e);
 			Log.debug("super.keyTyped needed in AutocompleteTextField");
-			if (Browser.isTabletBrowser()
-					&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
-					&& e.getNativeEvent()
-							.getKeyCode() != GWTKeycodes.KEY_BACKSPACE) {
-				insertString(Character.toString(ch));
-			}
 			return;
 		}
 		clearSelection();
@@ -1758,6 +1759,17 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		// #5371
 		if (hasDeferredFocus()) {
 			Scheduler.get().scheduleDeferred(cmdDeferredFocus);
+		}
+		app.getGlobalKeyDispatcher().setFocused(true);
+		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			if (Browser.isTabletBrowser()) {
+				// avoid native keyboard opening
+				getTextField().getValueBox().setReadOnly(true);
+			}
+			if (app.showKeyboard(this, false)
+					|| app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+				startOnscreenKeyboardEditing();
+			}
 		}
 		textField.setFocus(true);
 
