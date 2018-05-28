@@ -841,7 +841,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 * Update all elements in the title bar.
 	 */
 	public void updateTitleBar() {
-
 		if (componentPanel == null) {
 			return;
 		}

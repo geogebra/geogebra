@@ -1209,7 +1209,8 @@ public class GGWToolBar extends Composite
 
 	@Override
 	public void onResize() {
-		setToolbarWidth(app.getWidth());
+		setToolbarWidth(
+				app.getWidth() <= 0 ? app.getAppletWidth() : app.getWidth());
 	}
 
 	/**
