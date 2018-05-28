@@ -3870,7 +3870,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return viewW;
 	}
 
-	public void exportCollada() {
+	public void exportCollada(boolean html) {
 		// empty for webSimple
 	}
 

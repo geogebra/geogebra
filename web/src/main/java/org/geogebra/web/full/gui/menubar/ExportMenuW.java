@@ -193,9 +193,19 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				@Override
 				public void doExecute() {
 					menu.hide();
-					app.exportCollada();
+					app.exportCollada(false);
 				}
 			});
+
+			menu.addItem(menuText("Collada (html)"), true,
+					new MenuCommand(app) {
+						@Override
+						public void doExecute() {
+							menu.hide();
+							app.exportCollada(true);
+				}
+			});
+
 		}
 
 		if (app.has(Feature.EXPORT_OBJ_IN_MENU) && app.is3D()) {
