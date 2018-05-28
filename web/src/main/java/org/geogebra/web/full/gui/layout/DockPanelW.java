@@ -948,7 +948,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/** loads the styleBar and puts it into the styleBarPanel */
 	private void setStyleBar() {
-		if (styleBar == null) {
+		if (styleBar == null && !app.isUnbundled()) {
 			buildGUIIfNecessary(false);
 			styleBar = loadStyleBar();
 			styleBarPanel.add(styleBar);
@@ -974,8 +974,10 @@ public abstract class DockPanelW extends ResizeComposite
 		styleBarPanel.setVisible(isStyleBarVisible());
 		if (isStyleBarVisible()) {
 			setStyleBar();
-			styleBar.setVisible(
+			if (styleBar != null) {
+				styleBar.setVisible(
 					showStyleBar && !app.getGuiManager().isDraggingViews());
+			}
 		}
 		if (styleBar instanceof SpreadsheetStyleBarW
 				|| styleBar instanceof CASStylebarW
