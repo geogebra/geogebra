@@ -1559,9 +1559,4 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		return true;
 	}
 
-	protected void setPackSurface() {
-		Log.debug(getGeoElement() + ": " + shouldBePacked());
-		super.setPackSurface();
-	}
-
 }
