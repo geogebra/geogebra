@@ -503,6 +503,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void setCoordinateSpaceSize(int width, int height) {
+		Log.debug("SET SIZE:" + width + ":" + physicalPX(width));
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
 
@@ -1008,7 +1009,9 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void setDevicePixelRatio(double devicePixelRatio) {
-		this.devicePixelRatio = devicePixelRatio;
+		if (devicePixelRatio != 0) { // GGB-2355
+			this.devicePixelRatio = devicePixelRatio;
+		}
 	}
 
 }
