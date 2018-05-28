@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
@@ -59,9 +60,10 @@ public class ImageManagerW extends ImageManager {
 		return externalImageSrcs.get(StringUtil.removeLeadingSlash(fileName));
 	}
 
-	protected void checkIfAllLoaded(AppW app1, Runnable run) {
+	protected void checkIfAllLoaded(AppW app1, Runnable run,
+			Map<String, String> toLoad) {
 		imagesLoaded++;
-		if (imagesLoaded == externalImageSrcs.size()) {
+		if (imagesLoaded == toLoad.size()) {
 			run.run();
 			imagesLoaded = 0;
 		}
@@ -165,19 +167,21 @@ public class ImageManagerW extends ImageManager {
 	 *            app
 	 * @param run
 	 *            image load callback
+	 * @param toLoad
+	 *            map of images to be loaded
 	 */
 	public void triggerImageLoading(final AppW app,
-			final Runnable run) {
-
-		if (externalImageSrcs.entrySet() != null) {
-			for (Entry<String, String> imgSrc : externalImageSrcs.entrySet()) {
-				ImageWrapper img = new ImageWrapper(
-						getExternalImage(imgSrc.getKey(), app));
+			final Runnable run, final Map<String, String> toLoad) {
+		this.imagesLoaded = 0;
+		if (toLoad.entrySet() != null) {
+			for (Entry<String, String> imgSrc : toLoad.entrySet()) {
+				ImageElement el = getExternalImage(imgSrc.getKey(), app);
+				ImageWrapper img = new ImageWrapper(el);
 				img.attachNativeLoadHandler(this, new ImageLoadCallback() {
 
 					@Override
 					public void onLoad() {
-						checkIfAllLoaded(app, run);
+						checkIfAllLoaded(app, run, toLoad);
 					}
 				});
 				img.getElement().setSrc(imgSrc.getValue());

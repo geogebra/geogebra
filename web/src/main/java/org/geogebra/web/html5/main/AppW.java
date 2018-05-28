@@ -827,10 +827,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		} else {
 			kernel.setLibraryJavaScript(libraryJS);
 		}
-
-		if (!asSlide) {
-			for (Entry<String, String> entry : archive.entrySet()) {
-				maybeProcessImage(entry.getKey(), entry.getValue());
+		HashMap<String, String> toLoad = new HashMap<>();
+		for (Entry<String, String> entry : archive.entrySet()) {
+			if (getImageManager().getExternalImage(entry.getKey(),
+			 this) == null) {
+			if (maybeProcessImage(entry.getKey(), entry.getValue())) {
+				toLoad.put(entry.getKey(), entry.getValue());
+			}
 			}
 		}
 
@@ -881,13 +884,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 
 		};
-		if (!getImageManager().hasImages() || asSlide) {
+		if (toLoad.isEmpty()) {
 			afterImages.run();
 			setCurrentFile(archiveContent);
 			// getKernel().setNotifyViewsActive(true);
 		} else {
 			// on images do nothing here: wait for callback when images loaded.
-			getImageManager().triggerImageLoading(this, afterImages);
+			getImageManager().triggerImageLoading(this, afterImages, toLoad);
 			setCurrentFile(archiveContent);
 		}
 	}
@@ -982,17 +985,17 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	private void maybeProcessImage(String filename0, String content) {
+	private boolean maybeProcessImage(String filename0, String content) {
 		String fn = filename0.toLowerCase();
 		if (fn.equals(MyXMLio.XML_FILE_THUMBNAIL)) {
-			return; // Ignore thumbnail
+			return false; // Ignore thumbnail
 		}
 
 		FileExtensions ext = StringUtil.getFileExtension(fn);
 
 		// Ignore non image files
 		if (!ext.isImage()) {
-			return;
+			return false;
 		}
 		String filename = filename0;
 		// bug in old versions (PNG saved with wrong extension)
@@ -1014,6 +1017,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		} else {
 			getImageManager().addExternalImage(filename, content);
 		}
+		return true;
 	}
 
 	@Override
