@@ -35,18 +35,18 @@
     right: 0px;
 }
 
-.flatButton {
+.flatButtonHeader {
 	padding: 12px;
 	opacity: 0.54;
 	cursor: pointer;
 	height: 48px;
 }
 
-.flatButton:hover {
+.flatButtonHeader:hover {
 	opacity: 0.84;
 }
 
-.flatButton img {
+.flatButtonHeader img {
 	width: 24px;
 	height: 24px;
 }

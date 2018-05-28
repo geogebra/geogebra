@@ -433,13 +433,13 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 						.getSafeUri(),
 				0, 0, 24, 24, false, false);
 		btnMenu = new PersistableToggleButton(new Image(menuImgRec));
-		btnMenu.addStyleName("flatButton");
 
 		if (app.has(Feature.MAT_DESIGN_HEADER)
 				&& RootPanel.get("headerID") != null
 				&& RootPanel.get("buttonsID") != null) {
 			buildHeader();
 		} else {
+			btnMenu.addStyleName("flatButton");
 			btnMenu.addStyleName("menu");
 			toolbarPanel.getFrame().add(btnMenu);
 		}
@@ -458,6 +458,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private void buildHeader() {
+		btnMenu.addStyleName("flatButtonHeader");
 		btnMenu.addStyleName("menuBtn");
 		RootPanel.get("headerID").add(btnMenu);
 		NoDragImage logoImg = new NoDragImage(
@@ -477,7 +478,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				0, 0, 24, 24, false, false);
 		MyToggleButton shareButton = new MyToggleButton(new Image(shareImg),
 				app);
-		shareButton.addStyleName("flatButton");
+		shareButton.addStyleName("flatButtonHeader");
 		shareButton.addStyleName("shareBtn");
 		RootPanel.get("buttonsID").add(shareButton);
 		// add click handler
@@ -496,7 +497,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				0, 24, 24, false, false);
 		MyToggleButton appsButton = new MyToggleButton(new Image(appsImg),
 				app);
-		appsButton.addStyleName("flatButton");
+		appsButton.addStyleName("flatButtonHeader");
 		appsButton.addStyleName("appsBtn");
 		RootPanel.get("buttonsID").add(appsButton);
 		// add click handler
