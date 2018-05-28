@@ -55,6 +55,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	/** Closed width of header in landscape mode */
 	public static final int CLOSED_WIDTH_LANDSCAPE = 56;
 
+	/** Min width of open header in landscape mode */
+	public static final int OPEN_MIN_WIDTH_LANDSCAPE = 160;
+
 	/** Closed height of header in portrait mode */
 	public static final int CLOSED_HEIGHT_PORTRAIT = 56;
 
@@ -388,7 +391,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		DockSplitPaneW dockParent = dockPanel != null
 				? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null) {
-			dockParent.setWidgetMinSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
+			dockParent.setWidgetMinSize(dockPanel,
+					header.isOpen() ? OPEN_MIN_WIDTH_LANDSCAPE
+							: CLOSED_WIDTH_LANDSCAPE);
 		}
 	}
 
