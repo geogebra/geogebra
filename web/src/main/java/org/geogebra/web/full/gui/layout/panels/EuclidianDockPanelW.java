@@ -89,8 +89,10 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 			eview1 = Canvas.createIfSupported();
 			if (doubleCanvas) {
 				eviewBg = Canvas.createIfSupported();
-				eviewBg.addStyleName("mowBackground");
-				eview1.addStyleName("mowForeground");
+				if (eviewBg != null) {
+					eviewBg.addStyleName("mowBackground");
+					eview1.addStyleName("mowForeground");
+				}
 				addCanvas(eviewBg);
 				addCanvas(eview1);
 				euclidianpanel.addStyleName("mowDoubleCanvas");
