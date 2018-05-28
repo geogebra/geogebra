@@ -9,16 +9,34 @@ import org.geogebra.keyboard.base.model.WeightedButton;
 
 public class WeightedButtonImpl extends ButtonImpl implements WeightedButton {
 
-    private float weight;
+	private float weight;
 
-    public WeightedButtonImpl(String resourceName, ResourceType resourceType, String actionName,
-                              ActionType actionType, Background background, KeyModifier[] modifiers, float weight) {
-        super(resourceName, resourceType, actionName, actionType, background, modifiers);
-        this.weight = weight;
-    }
+	/**
+	 * @param resourceName
+	 *            resource name
+	 * @param resourceType
+	 *            resource type
+	 * @param actionName
+	 *            action name
+	 * @param actionType
+	 *            action type
+	 * @param background
+	 *            background
+	 * @param modifiers
+	 *            modifiers
+	 * @param weight
+	 *            relative width
+	 */
+	public WeightedButtonImpl(String resourceName, ResourceType resourceType,
+			String actionName, ActionType actionType, Background background,
+			KeyModifier[] modifiers, float weight) {
+		super(resourceName, resourceType, actionName, actionType, background,
+				modifiers);
+		this.weight = weight;
+	}
 
-    @Override
-    public float getWeight() {
-        return weight;
-    }
+	@Override
+	public float getWeight() {
+		return weight;
+	}
 }

@@ -1,11 +1,5 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
-import org.geogebra.keyboard.base.Action;
-import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.model.KeyboardModel;
-import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
-import org.geogebra.keyboard.base.model.impl.RowImpl;
-
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.DIVISION;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
@@ -18,6 +12,12 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
+
+import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
+import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 class MathKeyboardFactory {
 
@@ -58,7 +58,8 @@ class MathKeyboardFactory {
         addInputButton(row, buttonFactory, "2");
         addInputButton(row, buttonFactory, "3");
         addInputButton(row, buttonFactory, "=");
-        addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE);
+		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
+				Action.BACKSPACE_DELETE);
 
         row = mathKeyboard.nextRow(9.2f);
         addInputButton(row, buttonFactory, "(");

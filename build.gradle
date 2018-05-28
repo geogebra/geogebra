@@ -47,6 +47,12 @@ task checkPmd(dependsOn: [':common:pmdMain', ':common-jre:pmdMain', ':web:pmdMai
 	description "run PMD for all subprojects with pmd conf"
 }
 
+task checkAllStyles(dependsOn: [':common:checkstyleMain', ':common-jre:checkstyleMain', ':web:checkstyleMain',
+        ':editor-base:checkstyleMain', ':editor-web:checkstyleMain',
+        ':keyboard-web:checkstyleMain', ':keyboard-base:checkstyleMain']){
+        description "run checkstyle for all subprojects with checkstyle conf"
+}
+
 // eclipse related tasks
 project(':editor-base') {
 	
@@ -54,7 +60,7 @@ project(':editor-base') {
 	eclipseClasspath.dependsOn('compileJavacc')
 
 	eclipse.project {
- 		natures 'sf.eclipse.javacc.javaccnature'
+		natures 'sf.eclipse.javacc.javaccnature'
 	}
 }
 

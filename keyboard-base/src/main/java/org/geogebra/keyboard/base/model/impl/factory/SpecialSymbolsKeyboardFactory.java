@@ -41,56 +41,64 @@ import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 class SpecialSymbolsKeyboardFactory {
 
-    KeyboardModel createSpecialSymbolsKeyboard(ButtonFactory buttonFactory) {
-        KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
+	KeyboardModel createSpecialSymbolsKeyboard(ButtonFactory buttonFactory) {
+		KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
-        RowImpl row = mathKeyboard.nextRow(10.0f);
-        addInputButton(row, buttonFactory, INFINITY);
-        addLatexInputButton(row, buttonFactory, "\\questeq", String.valueOf(QUESTIONED_EQUAL_TO));
-        addInputButton(row, buttonFactory, NOT_EQUAL_TO);
-        addInputButton(row, buttonFactory, LOGICAL_AND);
-        addInputButton(row, buttonFactory, LOGICAL_OR);
-        addInputButton(row, buttonFactory, RIGHTWARDS_ARROW);
-        addInputButton(row, buttonFactory, NOT_SIGN);
-        addInputButton(row, buttonFactory, CIRCLED_TIMES);
-        addInputButton(row, buttonFactory, PARALLEL_TO);
-        addInputButton(row, buttonFactory, UP_TACK);
+		RowImpl row = mathKeyboard.nextRow(10.0f);
+		addInputButton(row, buttonFactory, INFINITY);
+		addLatexInputButton(row, buttonFactory, "\\questeq",
+				String.valueOf(QUESTIONED_EQUAL_TO));
+		addInputButton(row, buttonFactory, NOT_EQUAL_TO);
+		addInputButton(row, buttonFactory, LOGICAL_AND);
+		addInputButton(row, buttonFactory, LOGICAL_OR);
+		addInputButton(row, buttonFactory, RIGHTWARDS_ARROW);
+		addInputButton(row, buttonFactory, NOT_SIGN);
+		addInputButton(row, buttonFactory, CIRCLED_TIMES);
+		addInputButton(row, buttonFactory, PARALLEL_TO);
+		addInputButton(row, buttonFactory, UP_TACK);
 
-        row = mathKeyboard.nextRow(10.0f);
-        addButton(row, buttonFactory.createEmptySpace(0.5f));
-        addInputButton(row, buttonFactory, ELEMENT_OF);
-        addInputButton(row, buttonFactory, SUBSET_OF);
-        addInputButton(row, buttonFactory, SUBSET_OF_OR_EQUAL_TO);
-        addInputButton(row, buttonFactory, ANGLE);
-        addConstantInputCommandButton(row, buttonFactory, Resource.FLOOR, LEFT_FLOOR + "", 1.0f);
-        addConstantInputCommandButton(row, buttonFactory, Resource.CEIL, LEFT_CEILING + "", 1.0f);
-        addInputButton(row, buttonFactory, AMPERSAND);
-        addInputButton(row, buttonFactory, AT);
-        addInputButton(row, buttonFactory, HASHTAG);
-        addButton(row, buttonFactory.createEmptySpace(0.5f));
+		row = mathKeyboard.nextRow(10.0f);
+		addButton(row, buttonFactory.createEmptySpace(0.5f));
+		addInputButton(row, buttonFactory, ELEMENT_OF);
+		addInputButton(row, buttonFactory, SUBSET_OF);
+		addInputButton(row, buttonFactory, SUBSET_OF_OR_EQUAL_TO);
+		addInputButton(row, buttonFactory, ANGLE);
+		addConstantInputCommandButton(row, buttonFactory, Resource.FLOOR,
+				LEFT_FLOOR + "", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.CEIL,
+				LEFT_CEILING + "", 1.0f);
+		addInputButton(row, buttonFactory, AMPERSAND);
+		addInputButton(row, buttonFactory, AT);
+		addInputButton(row, buttonFactory, HASHTAG);
+		addButton(row, buttonFactory.createEmptySpace(0.5f));
 
-        row = mathKeyboard.nextRow(10.0f);
-        addButton(row, buttonFactory.createEmptySpace(1.5f));
-        addInputButton(row, buttonFactory, LEFT_SQUARE_BRACKET);
-        addInputButton(row, buttonFactory, RIGHT_SQUARE_BRACKET);
-        addInputButton(row, buttonFactory, COLON);
-        addInputButton(row, buttonFactory, QUOTATION_MARK);
-        addTranslateInputCommandButton(row, buttonFactory, "Translate.currency", "Translate.currency", 1.0f);
+		row = mathKeyboard.nextRow(10.0f);
+		addButton(row, buttonFactory.createEmptySpace(1.5f));
+		addInputButton(row, buttonFactory, LEFT_SQUARE_BRACKET);
+		addInputButton(row, buttonFactory, RIGHT_SQUARE_BRACKET);
+		addInputButton(row, buttonFactory, COLON);
+		addInputButton(row, buttonFactory, QUOTATION_MARK);
+		addTranslateInputCommandButton(row, buttonFactory, "Translate.currency",
+				"Translate.currency", 1.0f);
 		addInputButton(row, buttonFactory, MINUTES);
 		addInputButton(row, buttonFactory, SECONDS);
-        addButton(row, buttonFactory.createEmptySpace(0.3f));
-        addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE, 1.2f);
+		addButton(row, buttonFactory.createEmptySpace(0.3f));
+		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
+				Action.BACKSPACE_DELETE, 1.2f);
 
-        row = mathKeyboard.nextRow(10.0f);
+		row = mathKeyboard.nextRow(10.0f);
 
-        addCustomButton(row, buttonFactory, "ABC", Action.SWITCH_TO_ABC);
-        addInputButton(row, buttonFactory, ",");
-        addInputButton(row, buttonFactory, "'");
-        addInputButton(row, buttonFactory, " ", 4.0f);
-        addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
-        addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
-        addConstantCustomButton(row, buttonFactory, Resource.RETURN_ENTER, Action.RETURN_ENTER);
+		addCustomButton(row, buttonFactory, "ABC", Action.SWITCH_TO_ABC);
+		addInputButton(row, buttonFactory, ",");
+		addInputButton(row, buttonFactory, "'");
+		addInputButton(row, buttonFactory, " ", 4.0f);
+		addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW,
+				Action.LEFT_CURSOR);
+		addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW,
+				Action.RIGHT_CURSOR);
+		addConstantCustomButton(row, buttonFactory, Resource.RETURN_ENTER,
+				Action.RETURN_ENTER);
 
-        return mathKeyboard;
-    }
+		return mathKeyboard;
+	}
 }

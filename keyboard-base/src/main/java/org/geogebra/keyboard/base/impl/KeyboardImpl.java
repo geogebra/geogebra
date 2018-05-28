@@ -17,7 +17,16 @@ public class KeyboardImpl implements Keyboard {
 
     private List<KeyboardObserver> observers = new ArrayList<>();
 
-    public KeyboardImpl(KeyboardModel model, CapsLockModifier capsLockModifier, AccentModifier accentModifier) {
+	/**
+	 * @param model
+	 *            model
+	 * @param capsLockModifier
+	 *            caps lock modifier
+	 * @param accentModifier
+	 *            accent modifier
+	 */
+	public KeyboardImpl(KeyboardModel model, CapsLockModifier capsLockModifier,
+			AccentModifier accentModifier) {
         this.model = model;
         this.capsLockModifier = capsLockModifier;
         this.accentModifier = accentModifier;
