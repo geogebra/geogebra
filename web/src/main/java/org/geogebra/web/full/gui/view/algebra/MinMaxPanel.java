@@ -8,7 +8,9 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.view.algebra.SliderTreeItemInterface.CancelListener;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -115,11 +117,19 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 		@Override
 		public void onKeyPress(KeyPressEvent e) {
+			if (Browser.isTabletBrowser()
+					&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+				super.onKeyPress(e);
+			}
 			e.stopPropagation();
 		}
 
 		@Override
 		public void onKeyDown(KeyDownEvent e) {
+			if (Browser.isTabletBrowser()
+					&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+				super.onKeyDown(e);
+			}
 			e.stopPropagation();
 			if (e.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
 				listener.cancel();
