@@ -8,6 +8,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -29,10 +30,12 @@ public class ScriptArea extends TextArea
 
 	private boolean dummyCursor = false;
 
+	private AppW app;
 	/**
 	 * Creates new script area
 	 */
-	public ScriptArea() {
+	public ScriptArea(AppW app) {
+		this.app = app;
 		setStyleName("scriptArea");
 		addKeyPressHandler(this);
 		addKeyDownHandler(this);
@@ -128,7 +131,7 @@ public class ScriptArea extends TextArea
 				|| e.getNativeKeyCode() == GWTKeycodes.KEY_F1) {
 			e.preventDefault();
 		}
-
+		handleTabletKeyboard(e);
 	}
 
 	@Override
@@ -137,6 +140,12 @@ public class ScriptArea extends TextArea
 			e.preventDefault();
 			e.stopPropagation();
 			return;
+		}
+		if (Browser.isTabletBrowser()
+				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
+				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
+				&& e.getNativeEvent().getKeyCode() != 0) {
+			insertString(Character.toString(e.getCharCode()));
 		}
 	}
 
@@ -224,7 +233,7 @@ public class ScriptArea extends TextArea
 	 * @param app
 	 *            application
 	 */
-	public void enableGGBKeyboard(final AppW app) {
+	public void enableGGBKeyboard() {
 		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			return;
 		}
@@ -249,4 +258,83 @@ public class ScriptArea extends TextArea
 		});
 	}
 
+	private void handleTabletKeyboard(KeyDownEvent e) {
+		if (!(Browser.isTabletBrowser()
+				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))) {
+			return;
+		}
+		int keyCode = e.getNativeKeyCode();
+		if (keyCode == 0 && Browser.isIPad()) {
+			int arrowType = getIOSArrowKeys(e.getNativeEvent());
+			if (arrowType != -1) {
+				keyCode = arrowType;
+			}
+		}
+		switch (keyCode) {
+		case GWTKeycodes.KEY_BACKSPACE:
+			onBackSpace();
+			break;
+		case GWTKeycodes.KEY_LEFT:
+			onArrowLeft();
+			break;
+		case GWTKeycodes.KEY_RIGHT:
+			onArrowRight();
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void onArrowLeft() {
+		int caretPos = getCursorPos();
+		if (caretPos > 0) {
+			setCursorPos(caretPos - 1);
+		}
+	}
+
+	private void onArrowRight() {
+		int caretPos = getCursorPos();
+		if (caretPos < getText().length()) {
+			setCursorPos(caretPos + 1);
+		}
+	}
+
+	private void onBackSpace() {
+		int start = getSelectionStart();
+		int end = getSelectionEnd();
+
+		if (end - start < 1) {
+			end = getCursorPos();
+			start = end - 1;
+		}
+		if (start >= 0) {
+			setText(start, end, "");
+		}
+	}
+
+	/**
+	 * gets keycodes of iOS arrow keys iOS arrows have a different identifier
+	 * than win and android
+	 * 
+	 * @param event
+	 *            native key event
+	 * @return JavaKeyCodes of arrow keys, -1 if pressed key was not an arrow
+	 */
+	private native int getIOSArrowKeys(NativeEvent event) /*-{
+
+		var key = event.key;
+		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("KeyDownEvent: " + key);
+		switch (key) {
+		case "UIKeyInputUpArrow":
+			return 38;
+		case "UIKeyInputDownArrow":
+			return 40;
+		case "UIKeyInputLeftArrow":
+			return 37;
+		case "UIKeyInputRightArrow":
+			return 39;
+		default:
+			return -1;
+		}
+	}-*/;
 }

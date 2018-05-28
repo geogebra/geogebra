@@ -136,9 +136,9 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		if (app.has(Feature.DIALOG_DESIGN)) {
 			scriptLabel.addStyleName("coloredLabel");
 		}
-		tfScript = new ScriptArea();
+		tfScript = new ScriptArea((AppW) app);
 		
-		tfScript.enableGGBKeyboard((AppW) app);
+		tfScript.enableGGBKeyboard();
 
 		FlowPanel scriptPanel = new FlowPanel();
 		scriptPanel.add(scriptLabel);

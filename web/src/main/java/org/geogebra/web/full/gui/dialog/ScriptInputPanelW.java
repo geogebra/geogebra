@@ -67,7 +67,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 		model = new ScriptInputModel(app, this, updateScript);
 
 		inputPanel = new FlowPanel();
-		textArea = new ScriptArea();
+		textArea = new ScriptArea(app);
 
 		textArea.addKeyUpHandler(new KeyUpHandler() {
 				@Override
