@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import com.google.gwt.core.client.Scheduler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.App;
@@ -20,6 +19,7 @@ import org.geogebra.keyboard.base.listener.KeyboardObserver;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -122,7 +122,9 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365));
 	}
 
-
+	/**
+	 * (Re)build the UI.
+	 */
 	public void buildGUI() {
 		KeyboardFactory kbf = new KeyboardFactory();
 		this.tabs = new FlowPanel();
@@ -667,12 +669,19 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		return first < 0 || first > 0x00FF;
 	}
 
+	/**
+	 * Stop editing.
+	 */
 	public void endEditing() {
 		if (processField != null) {
 			processField.endEditing();
 		}
 	}
 
+	/**
+	 * @param field
+	 *            editor listening to KB events
+	 */
 	public void setProcessing(KeyboardListener field) {
 		if (processField != null && processField.getField() != null) {
 			if (field == null || processField.getField() != field.getField()) {
@@ -754,6 +763,9 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		processField.scrollCursorIntoView();
 	}
 
+	/**
+	 * Make the keyboard visible.
+	 */
 	public void show() {
 		setVisible(true);
 	}

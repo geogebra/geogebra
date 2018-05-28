@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'gwt-compiler'
 apply plugin: 'pmd'
+apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7

@@ -1,11 +1,17 @@
 package org.geogebra.keyboard.web;
 
-import com.google.gwt.user.client.ui.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CustomButton;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Widget;
 
 public class KeyboardSwitcher extends FlowPanel {
 
@@ -40,13 +46,17 @@ public class KeyboardSwitcher extends FlowPanel {
         }
     }
 
+	/**
+	 * @param tabbedkeyboard
+	 *            keyboard
+	 */
     public KeyboardSwitcher(TabbedKeyboard tabbedkeyboard) {
         this.tabbedkeyboard = tabbedkeyboard;
         addStyleName("KeyboardSwitcher");
         setup();
     }
 
-    public void setup() {
+	protected void setup() {
         addCloseButton();
         contents = new FlowPanel();
         contents.addStyleName("switcherContents");
@@ -54,13 +64,13 @@ public class KeyboardSwitcher extends FlowPanel {
         switches = new ArrayList<>();
     }
 
-    public void addSwitch(final KeyPanelBase keyboard, String string) {
+	protected void addSwitch(final KeyPanelBase keyboard, String string) {
         SwitcherButton btn = new SwitcherButton(string, keyboard);
         switches.add(btn);
         contents.add(btn);
     }
 
-    public void setSelected(Button btn, boolean value) {
+	protected void setSelected(Button btn, boolean value) {
         if (value) {
             btn.addStyleName("selected");
         } else {
@@ -68,7 +78,7 @@ public class KeyboardSwitcher extends FlowPanel {
         }
     }
 
-    public void unselectAll() {
+	protected void unselectAll() {
         for (Widget btn : switches) {
             btn.removeStyleName("selected");
         }
@@ -100,7 +110,7 @@ public class KeyboardSwitcher extends FlowPanel {
         add(closeButton);
     }
 
-    public void addMoreButton() {
+	protected void addMoreButton() {
         Image img = new Image(KeyboardResources.INSTANCE.keyboard_more()
                 .getSafeUri().asString());
         img.setAltText(tabbedkeyboard.locale.getMenu("Commands"));
@@ -130,13 +140,13 @@ public class KeyboardSwitcher extends FlowPanel {
         return moreButton;
     }
 
-    public void reset() {
+	protected void reset() {
         if (moreButton != null) {
             moreButton.setValue(false);
         }
     }
 
-    public void select(int idx) {
+	protected void select(int idx) {
         if (idx == TabbedKeyboard.TAB_SPECIAL) {
             tabbedkeyboard.hideTabs();
             tabbedkeyboard.getTabs().getWidget(idx).setVisible(true);

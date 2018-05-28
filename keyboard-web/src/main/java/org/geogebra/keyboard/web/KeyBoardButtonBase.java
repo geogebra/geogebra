@@ -11,6 +11,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
+
 /**
  * A button of the {@link TabbedKeyboard}.
  */
@@ -25,6 +26,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 * the label that is displayed on the button
 	 */
 	protected Label label;
+
 	/**
 	 * @param caption
 	 *            text of the button
@@ -45,7 +47,8 @@ public class KeyBoardButtonBase extends SimplePanel {
 	// https://codepoints.net/search?gc=Mn
 	// these Thai characters need a placeholder added to display nicely
 	private static String checkThai(String str) {
-		if ("\u0E31\u0E33\u0E34\u0E35\u0E36\u0E37\u0E38\u0E39\u0E3A\u0E47\u0E48\u0E49\u0E4A\u0E4B\u0E4C\u0E4D".contains(str)) {
+		if (("\u0E31\u0E33\u0E34\u0E35\u0E36\u0E37\u0E38\u0E39\u0E3A\u0E47"
+				+ "\u0E48\u0E49\u0E4A\u0E4B\u0E4C\u0E4D").contains(str)) {
 			return "\u25CC" + str;
 		}
 		return str;
