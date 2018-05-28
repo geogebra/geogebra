@@ -236,18 +236,33 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		}
 	}
 
+	/**
+	 * @return right (or bottom) component
+	 */
 	public Widget getRightComponent() {
 		return rightComponent;
 	}
 
+	/**
+	 * @return left (or top) component
+	 */
 	public Widget getLeftComponent() {
 		return leftComponent;
 	}
 
+	/**
+	 * @return orientation: SwingConstants.HORIZONTAL_SPLIT or
+	 *         SwingConstants.VERTICAL_SPLIT
+	 */
 	public int getOrientation() {
 		return orientation;
 	}
 
+	/**
+	 * @param newOrientation
+	 *            SwingConstants.HORIZONTAL_SPLIT or
+	 *            SwingConstants.VERTICAL_SPLIT
+	 */
 	public void setOrientation(int newOrientation) {
 		orientation = newOrientation;
 	}
@@ -516,7 +531,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 				+ ((DockComponent) getLeftComponent()).toString(prefix2) + "\n"
 				+ prefix + "right"
 				+ ((DockComponent) getRightComponent()).toString(prefix2);
-
 	}
 
 	@Override
@@ -547,7 +561,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 
 		setResizeWeight(0);
 		return false;
-
 	}
 
 	@Override
@@ -732,7 +745,8 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	 *         and split location)
 	 */
 	public int getPreferredHeight(DockPanelW dockPanelW) {
-		if (this.orientation == SwingConstants.HORIZONTAL_SPLIT) {
+		if (this.orientation == SwingConstants.HORIZONTAL_SPLIT
+				|| getLeftComponent() == null || getRightComponent() == null) {
 			return preferredHeight;
 		}
 		return dockPanelW == getLeftComponent() ? this.dividerLocation
@@ -746,7 +760,8 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	 *         split location)
 	 */
 	public int getPreferredWidth(DockPanelW dockPanelW) {
-		if (this.orientation == SwingConstants.VERTICAL_SPLIT) {
+		if (this.orientation == SwingConstants.VERTICAL_SPLIT
+				|| getLeftComponent() == null || getRightComponent() == null) {
 			return preferredWidth;
 		}
 		return dockPanelW == getLeftComponent() ? this.dividerLocation
