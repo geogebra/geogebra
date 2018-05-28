@@ -308,7 +308,9 @@ public class ScriptArea extends TextArea
 			start = end - 1;
 		}
 		if (start >= 0) {
+			int cpos = removeDummyCursor();
 			setText(start, end, "");
+			addDummyCursor(cpos - 1);
 		}
 	}
 
@@ -323,7 +325,6 @@ public class ScriptArea extends TextArea
 	private native int getIOSArrowKeys(NativeEvent event) /*-{
 
 		var key = event.key;
-		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("KeyDownEvent: " + key);
 		switch (key) {
 		case "UIKeyInputUpArrow":
 			return 38;
