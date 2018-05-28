@@ -550,7 +550,7 @@ public class DockManagerW extends DockManager {
 				}
 			}
 		}
-		setPreferredSizes(rootPane, windowHeight, windowWidth);
+		setPreferredSizes(rootPane, theRealWindowHeight, theRealWindowWidth);
 		rootPane.setComponentsSilentRecursive();
 
 	}
