@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
@@ -32,13 +33,16 @@ public class CmdSetCaption extends CmdScripting {
 			if (arg[1].isGeoText()) {
 
 				GeoElement geo = arg[0];
-
-				geo.setCaption(((GeoText) arg[1]).getTextString());
-
-				geo.setLabelMode(GeoElement.LABEL_CAPTION);
-
-				geo.updateRepaint();
-
+				String txt = ((GeoText) arg[1]).getTextString();
+				if (geo instanceof GeoAxis) {
+					app.getActiveEuclidianView().getSettings()
+							.setAxisLabel(((GeoAxis) geo).getType(), txt);
+					app.getActiveEuclidianView().repaintView();
+				} else {
+					geo.setCaption(txt);
+					geo.setLabelMode(GeoElement.LABEL_CAPTION);
+					geo.updateRepaint();
+				}
 				return arg;
 			}
 			throw argErr(c, arg[1]);
