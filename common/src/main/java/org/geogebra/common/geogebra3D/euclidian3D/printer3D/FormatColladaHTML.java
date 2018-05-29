@@ -38,8 +38,8 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("<body>\n");
 		sb.append("<div id='container'></div>\n");
 		sb.append("<button onclick='svgSnapshot()'>Export SVG</button>\n");
-		sb.append("<div id='svg'></div>\n");
-		sb.append("<textarea id='source' cols=80 rows=20></textarea>\n");
+		sb.append("<div style='display: none;' id='svg'></div>\n");
+		sb.append("<img id='svg2'></img>\n");
 		sb.append(
 				"<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.min.js'></script>\n");
 		sb.append(
@@ -148,10 +148,12 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("renderer.render( scene, camera );\n");
 		sb.append("}\n");
 
-		/* The following discussion on StackOverflow shows discusses how to remove all
-		 * elements from a DOM
+		/*
+		 * The following discussion on StackOverflow shows discusses how to
+		 * remove all elements from a DOM
 		 *
-		 *  http://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+		 * http://stackoverflow.com/questions/3955229/remove-all-child-elements-
+		 * of-a-dom-node-in-javascript
 		 */
 
 		sb.append("function removeChildrenFromNode(node) {\n");
@@ -166,43 +168,44 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("function svgSnapshot() {\n");
 		sb.append("var svgContainer = document.getElementById('svg');\n");
 		sb.append("removeChildrenFromNode(svgContainer);\n");
-			
+
 		// TODO: use width and height of 3D View
 		sb.append("var width = 800;\n");
 		sb.append("var height = 600;\n");
-			
+
 		sb.append("svgRenderer = new THREE.SVGRenderer();\n");
 		sb.append("svgRenderer.setClearColor( 0xffffff );\n");
 		sb.append("svgRenderer.setSize(width,height );\n");
 		sb.append("svgRenderer.setQuality( 'high' );\n");
 		sb.append("svgContainer.appendChild( svgRenderer.domElement );\n");
 		sb.append("svgRenderer.render( scene, camera );\n");
-			
-			/* The following discussion shows how to scale an SVG to fit its contained
-			 *
-			 *  http://stackoverflow.com/questions/4737243/fit-svg-to-the-size-of-object-container
-			 *
-			 * Another useful primer is here
-			 *  https://sarasoueidan.com/blog/svg-coordinate-systems/
-			 */
-			//svgRenderer.domElement.removeAttribute("width");
-			//svgRenderer.domElement.removeAttribute("height");
-			
+
+		/*
+		 * The following discussion shows how to scale an SVG to fit its
+		 * contained
+		 *
+		 * http://stackoverflow.com/questions/4737243/fit-svg-to-the-size-of-
+		 * object-container
+		 *
+		 * Another useful primer is here
+		 * https://sarasoueidan.com/blog/svg-coordinate-systems/
+		 */
+		// svgRenderer.domElement.removeAttribute("width");
+		// svgRenderer.domElement.removeAttribute("height");
+
 		sb.append("var svg = svgContainer.innerHTML;\n");
-			
+
 		sb.append(
 				"svg = svg.replace('<svg ', '<svg id=\"svg2\" xmlns=\"http://www.w3.org/2000/svg\" ');\n");
-			
-		sb.append("svg = svg.replace(/<path/g,'\\n<path');\n");
-			
-		sb.append("document.getElementById('source').value = svg;\n");
-		
+
+		// sb.append("svg = svg.replace(/<path/g,'\\n<path');\n");
+
 		sb.append("var svgDataURI = '");
 		sb.append(StringUtil.svgMarker);
 		sb.append("' + btoa(unescape(encodeURIComponent(svg)));\n");
-		
+
+		sb.append("document.getElementById('svg2').src = svgDataURI;\n");
 		sb.append("console.log(svgDataURI);\n");
-		// sb.append("window.open(svgDataURI, '_blank');\n");
 
 		sb.append("}\n");
 
