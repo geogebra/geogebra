@@ -1512,10 +1512,19 @@ public class Ggb2giac {
 					",ggbsqans][13][10][0]");
 		}
 
-		// Experimental Geometry commands. Giac only
 		p("Radius.1", "normal(regroup(radius(%0)))");
-		p("Center.1", "coordinates(center(%0))");
-		p("Midpoint.2", "normal(regroup(coordinates(midpoint(%0,%1))))");
+
+		// have both to avoid problems saving in eg German
+		// <expression value="Midpoint(L(1), L(2))" eval="Center(L(1),L(2))"
+		// evalCmd=""/>
+		String centerMidpoint1 = "coordinates(center(%0))";
+		String centerMidpoint2 = "normal(regroup(coordinates(midpoint(%0,%1))))";
+
+		p("Center.1", centerMidpoint1);
+		p("Midpoint.1", centerMidpoint1);
+
+		p("Center.2", centerMidpoint2);
+		p("Midpoint.2", centerMidpoint2);
 
 		// center-point: point(%0),point(%1)
 		// or center-radius: point(%0),%1
