@@ -169,9 +169,8 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("var svgContainer = document.getElementById('svg');\n");
 		sb.append("removeChildrenFromNode(svgContainer);\n");
 
-		// TODO: use width and height of 3D View
-		sb.append("var width = 800;\n");
-		sb.append("var height = 600;\n");
+		sb.append("var width = window.innerWidth;\n");
+		sb.append("var height = window.innerHeight;\n");
 
 		sb.append("svgRenderer = new THREE.SVGRenderer();\n");
 		sb.append("svgRenderer.setClearColor( 0xffffff );\n");
@@ -205,7 +204,7 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("' + btoa(unescape(encodeURIComponent(svg)));\n");
 
 		sb.append("document.getElementById('svg2').src = svgDataURI;\n");
-		sb.append("console.log(svgDataURI);\n");
+		// sb.append("console.log(svgDataURI);\n");
 
 		sb.append("}\n");
 
