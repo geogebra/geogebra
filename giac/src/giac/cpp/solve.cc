@@ -1011,7 +1011,8 @@ namespace giac {
       if (!complexmode && is_positive(-delta_prime,contextptr))
 	return;
 #endif
-      delta_prime=normalize_sqrt(sqrt(delta_prime,contextptr),contextptr);
+      delta_prime=sqrt(delta_prime,contextptr);
+      delta_prime=normalize_sqrt(delta_prime,contextptr,false); // no abs in sqrt
       newv.push_back(rdiv(minus_b_over_2+delta_prime,a,contextptr));
       if (!is_zero(delta_prime,contextptr))
 	newv.push_back(rdiv(minus_b_over_2-delta_prime,a,contextptr));
@@ -2678,7 +2679,7 @@ namespace giac {
     return w;
   }
   static const char _realproot_s []="realproot";
-  static define_unary_function_eval (__realproot,&giac::_realproot,_realproot_s);
+  static define_unary_function_eval (__realproot,&_realproot,_realproot_s);
   define_unary_function_ptr5( at_realproot ,alias_at_realproot,&__realproot,0,true);
 
   // bisection solver on a0,b0 with a sign reversal inside
@@ -4650,7 +4651,7 @@ namespace giac {
 
   struct sort_vectpoly_t {
     sort_vectpoly_t() {}
-    bool operator () (const giac::tensor<gen> & p,const giac::tensor<gen> & q){
+    bool operator () (const tensor<gen> & p,const tensor<gen> & q){
 #if 1
       if (p.coord.empty())
 	return false;
@@ -4659,7 +4660,7 @@ namespace giac {
       return p.is_strictly_greater(p.coord.front().index,q.coord.front().index);
       // return p.is_strictly_greater(q.coord.front().index,p.coord.front().index);
 #else
-      return giac::tensor_is_strictly_greater<gen>(p,q);
+      return tensor_is_strictly_greater<gen>(p,q);
 #endif
     }
   };

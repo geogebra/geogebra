@@ -50,7 +50,7 @@ namespace giac {
   // gen normal(const gen & e); // rational simplifications
   gen normal(const gen & e,GIAC_CONTEXT); // rational simplifications
   gen normal(const gen & e,bool distribute_div,GIAC_CONTEXT);
-  gen normalize_sqrt(const gen & e,GIAC_CONTEXT);
+  gen normalize_sqrt(const gen & e,GIAC_CONTEXT,bool keep_abs=true);
 
   extern const unary_function_ptr * const  at_normal ;
   symbolic symb_normal(const gen & args);

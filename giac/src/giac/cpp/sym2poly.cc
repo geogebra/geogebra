@@ -2535,7 +2535,7 @@ namespace giac {
     return res;
   }
 
-  static gen in_normalize_sqrt(const gen & e,vecteur & L,GIAC_CONTEXT){
+  static gen in_normalize_sqrt(const gen & e,vecteur & L,bool keep_abs,GIAC_CONTEXT){
     if (complex_mode(contextptr) || has_i(e)) 
       return e;
     // remove multiple factors inside sqrt
@@ -2595,7 +2595,10 @@ namespace giac {
 	zint2simpldoublpos(nd,simpl,doubl,pos,2,contextptr);
 	if (!pos) simpl=-simpl;
 	lin.push_back(*it);
-	lout.push_back(pow(doubl/abs(r2e(den,lv,contextptr),contextptr),expnum,contextptr)*pow(simpl*out,nover2,contextptr));
+	gen tmparg=r2e(den,lv,contextptr);
+	if (keep_abs)
+	  tmparg=abs(tmparg,contextptr);
+	lout.push_back(pow(doubl/tmparg,expnum,contextptr)*pow(simpl*out,nover2,contextptr));
 	continue;
       }
       if (nd.type!=_POLY)
@@ -2616,14 +2619,19 @@ namespace giac {
       if (!pos) simpl=-simpl;
       simpl=r2e(polynome(simpl,nd._POLYptr->dim),lv,contextptr); // if simpl is not an integer
       doubl=r2e(polynome(doubl,nd._POLYptr->dim),lv,contextptr); // if doubl is not an integer
-      lout.push_back(pow(simpl*out,nover2,contextptr)*pow(doubl,expnum,contextptr)*pow(recursive_normal(r2e(s,lv,contextptr),contextptr),nover2,contextptr)*pow(abs(r2e(d,lv,contextptr),contextptr),expnum,contextptr)*pow(abs(r2e(den,lv,contextptr),contextptr),-expnum,contextptr));
+      gen tmparg=r2e(den,lv,contextptr),tmpd=r2e(d,lv,contextptr);
+      if (keep_abs){
+	tmparg=abs(tmparg,contextptr);
+	tmpd=abs(tmpd,contextptr);
+      }
+      lout.push_back(pow(simpl*out,nover2,contextptr)*pow(doubl,expnum,contextptr)*pow(recursive_normal(r2e(s,lv,contextptr),contextptr),nover2,contextptr)*pow(tmpd,expnum,contextptr)*pow(tmparg,-expnum,contextptr));
     }
     return subst(e,lin,lout,false,contextptr);
   }
 
-  gen normalize_sqrt(const gen & e,GIAC_CONTEXT){
+  gen normalize_sqrt(const gen & e,GIAC_CONTEXT,bool keep_abs){
     vecteur L;
-    return in_normalize_sqrt(e,L,contextptr);
+    return in_normalize_sqrt(e,L,keep_abs,contextptr);
   }
 
   static bool has_embedded_fractions(const gen & g){
@@ -2754,7 +2762,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     try {
 #endif
-      ee=in_normalize_sqrt(e,L,contextptr);
+      ee=in_normalize_sqrt(e,L,true,contextptr);
       l=alg_lvar(ee);
       sort0(l);
       if (!L.empty() && debug_infolevel)
