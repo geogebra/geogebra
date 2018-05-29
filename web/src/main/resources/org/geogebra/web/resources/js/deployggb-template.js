@@ -862,7 +862,7 @@ var GGBApplet = function() {
             ggbHTML5LoadedCodebaseVersion = html5CodebaseVersion;
             ggbHTML5LoadedScript = script.src;
             log("GeoGebra HTML5 codebase loaded: '"+html5Codebase+"'.", parameters);
-            if (!html5OverwrittenCodebase) {
+            if (!html5OverwrittenCodebase && !html5OverwrittenCodebaseVersion) {
                 if(html5CodebaseIsWebSimple){
                     webSimple.succeeded = webSimple.succeeded || webSimple();
                 }else {
