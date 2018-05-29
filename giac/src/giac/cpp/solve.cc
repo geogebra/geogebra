@@ -2310,7 +2310,10 @@ namespace giac {
     res.reserve(itend-it);
     for (;it!=itend;++it,++jt){
       // if (*it!=*jt)
-      res.push_back(symbolic(at_equal,makesequence(*it,*jt)));
+      if (jt->is_symb_of_sommet(at_equal) && jt->_SYMBptr->feuille[0]==*it)
+	res.push_back(*jt);
+      else
+	res.push_back(symbolic(at_equal,makesequence(*it,*jt)));
     }
     if (xcas_mode(contextptr)==3)
       return symbolic(at_and,res);
@@ -3391,6 +3394,7 @@ namespace giac {
   }
 
   // same as lidnt but removes mute variable in int/sum/fsolve
+  // FIXME: Home functions names should be removed from the list
   vecteur true_lidnt(const gen & g){
     vecteur v=lvar(g);
     vecteur w;

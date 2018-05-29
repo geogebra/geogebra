@@ -3097,12 +3097,12 @@ index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_DIV;
 case 230:
 YY_RULE_SETUP
 #line 530 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_iquo,2); return T_UNION;
+index_status(yyextra)=0; (*yylval)=gen(at_iquo,2); return T_DIV;
 	YY_BREAK
 case 231:
 YY_RULE_SETUP
 #line 531 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_UNION;
+index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_DIV;
 	YY_BREAK
 case 232:
 YY_RULE_SETUP

@@ -12739,7 +12739,7 @@ namespace giac {
 	}
       }
       v=N[k];
-      int akk1=v[k+1];
+      int akk1=v[k+1] % modulo;
       if (akk1==0){
 	// degenerate case, split N in two parts
 	vector<int> part1(k+2),part2;

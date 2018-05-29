@@ -5834,6 +5834,8 @@ namespace giac {
       return equal(a,gen(vecteur(0),_SEQ__VECT),contextptr);
     if (a._VECTptr->size()==2)
       return equal( (*(a._VECTptr))[0],(*(a._VECTptr))[1],contextptr );
+    if (a.subtype==_SEQ__VECT && calc_mode(contextptr)==1)
+      return symb_equal(a._VECTptr->front(),gen(vecteur(a._VECTptr->begin()+1,a._VECTptr->end()),a.subtype));
     return equal(gen(vecteur(a._VECTptr->begin(),a._VECTptr->end()-1),a.subtype),a._VECTptr->back(),contextptr);
   }
   static const char _equal_s []="=";
