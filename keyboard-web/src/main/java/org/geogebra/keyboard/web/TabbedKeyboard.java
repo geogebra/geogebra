@@ -306,8 +306,9 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 						Language.getCurrency(keyboardLocale.toString()),
 						Language.getCurrency(keyboardLocale.toString()), b);
 			}
-			return new KeyBoardButtonBase(locale.getMenu(wb.getActionName()),
-					wb.getActionName().replace("Function.", ""), b);
+			return new KeyBoardButtonBase(
+					locale.getFunction(wb.getActionName()), wb.getActionName(),
+					b);
 		case TRANSLATION_COMMAND_KEY:
 			return new KeyBoardButtonBase(locale.getCommand(wb.getActionName()),
 					wb.getActionName(), b);
