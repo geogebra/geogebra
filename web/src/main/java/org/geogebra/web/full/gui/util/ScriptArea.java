@@ -31,8 +31,12 @@ public class ScriptArea extends TextArea
 	private boolean dummyCursor = false;
 
 	private AppW app;
+
 	/**
 	 * Creates new script area
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public ScriptArea(AppW app) {
 		this.app = app;
@@ -220,7 +224,6 @@ public class ScriptArea extends TextArea
 	@Override
 	public void onEnter(boolean b) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -230,8 +233,7 @@ public class ScriptArea extends TextArea
 	}
 
 	/**
-	 * @param app
-	 *            application
+	 * Enable keyboard.
 	 */
 	public void enableGGBKeyboard() {
 		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {

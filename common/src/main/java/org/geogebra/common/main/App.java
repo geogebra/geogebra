@@ -5210,8 +5210,6 @@ public abstract class App implements UpdateSelection {
 	 * @return tool categorization for this app
 	 */
 	public ToolCategorization createToolCategorization() {
-
-
 		// Needed temporary, until the toolset levels are not implemented on iOS
 		// too
 		getSettings().getToolbarSettings().setFrom(getVersion());

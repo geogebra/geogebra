@@ -87,6 +87,12 @@ public class ToolbarSettings extends AbstractSettings {
 		return phoneApp;
 	}
 
+	/**
+	 * Update toolbar type for app version.
+	 * 
+	 * @param version
+	 *            app version
+	 */
 	public void setFrom(Versions version) {
 		switch (version) {
 		case ANDROID_NATIVE_GRAPHING:

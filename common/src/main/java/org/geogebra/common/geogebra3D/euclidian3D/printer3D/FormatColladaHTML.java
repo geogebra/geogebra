@@ -10,7 +10,12 @@ import org.geogebra.common.util.StringUtil;
  */
 public class FormatColladaHTML extends FormatCollada {
 
-	private double xmin, ymin, zmin, xmax, ymax, zmax;
+	private double xmin;
+	private double ymin;
+	private double zmin;
+	private double xmax;
+	private double ymax;
+	private double zmax;
 
 	@Override
 	public String getExtension() {
@@ -70,8 +75,8 @@ public class FormatColladaHTML extends FormatCollada {
 		double radius = Math.sqrt(xd * xd + yd * yd + zd * zd) / 200; // meters
 		double cameraPosition = radius * 1.5;
 		double cameraDistance = cameraPosition * Math.sqrt(3);
-		sb.append(
-				"camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight,");
+		sb.append("camera = new THREE.PerspectiveCamera( 45,");
+		sb.append(" window.innerWidth / window.innerHeight,");
 		sb.append((cameraDistance - radius) * 0.99);
 		sb.append(",");
 		sb.append((cameraDistance + radius) * 1.01);
@@ -123,8 +128,9 @@ public class FormatColladaHTML extends FormatCollada {
 				"controls = new THREE.OrbitControls( camera, renderer.domElement );\n");
 		// controls.addEventListener( 'change', render ); // call this only in
 		// static scenes (i.e., if there is no animation loop)
-		sb.append(
-				"controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled\n");
+		// an animation loop is required when either damping or auto-rotation
+		// are enabled
+		sb.append("controls.enableDamping = true;\n");
 		sb.append("controls.dampingFactor = 0.25;\n");
 		sb.append("controls.screenSpacePanning = false;\n");
 		sb.append("controls.minDistance = 0.0001;\n");
@@ -141,14 +147,13 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("group.rotation.y += delta * 0.5;\n");
 		sb.append("renderer.render( scene, camera );\n");
 		sb.append("}\n");
-		
-		
+
 		/* The following discussion on StackOverflow shows discusses how to remove all
 		 * elements from a DOM
 		 *
 		 *  http://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
 		 */
-				
+
 		sb.append("function removeChildrenFromNode(node) {\n");
 		sb.append("var fc = node.firstChild;\n");
 
@@ -200,12 +205,10 @@ public class FormatColladaHTML extends FormatCollada {
 		// sb.append("window.open(svgDataURI, '_blank');\n");
 
 		sb.append("}\n");
-		
-		
+
 		sb.append("</script>\n");
 		sb.append("</body>\n");
 		sb.append("</html>\n");
-
 	}
 
 	@Override

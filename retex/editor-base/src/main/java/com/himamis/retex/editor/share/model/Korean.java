@@ -70,7 +70,7 @@ public class Korean {
 
 	}
 
-	public static Character tailToLead(char ch) {
+	private static Character tailToLead(char ch) {
 
 		if (Korean.isKoreanLeadChar(ch, false)) {
 			return ch;
@@ -200,7 +200,7 @@ public class Korean {
 		return false;
 	}
 
-	public static boolean isKoreanMultiChar(char c) {
+	private static boolean isKoreanMultiChar(char c) {
 
 		if (c >= 0xac00 && c <= 0xd7af) {
 			return true;
@@ -209,7 +209,7 @@ public class Korean {
 		return false;
 	}
 
-	public static boolean isKoreanLeadChar(char c0, boolean convertJamo) {
+	private static boolean isKoreanLeadChar(char c0, boolean convertJamo) {
 		char c = c0;
 		if (convertJamo) {
 			c = convertFromCompatibilityJamo(c, true);
@@ -222,7 +222,7 @@ public class Korean {
 		return false;
 	}
 
-	public static boolean isKoreanVowelChar(char c0, boolean convertJamo) {
+	private static boolean isKoreanVowelChar(char c0, boolean convertJamo) {
 		char c = c0;
 		if (convertJamo) {
 			c = convertFromCompatibilityJamo(c, true);
@@ -235,7 +235,7 @@ public class Korean {
 		return false;
 	}
 
-	public static boolean isKoreanTailChar(char c0, boolean convertJamo) {
+	private static boolean isKoreanTailChar(char c0, boolean convertJamo) {
 		char c = c0;
 		if (convertJamo) {
 			c = convertFromCompatibilityJamo(c, false);
@@ -708,7 +708,7 @@ public class Korean {
 		}
 	}
 
-	public static String unmergeDoubleCharacterToLeadTail(char c) {
+	private static String unmergeDoubleCharacterToLeadTail(char c) {
 
 		switch (c) {
 
@@ -794,7 +794,7 @@ public class Korean {
 	// Log.debug("\u1103\u116E goes to " + StringUtil.toHexString(s));
 	// }
 
-	public static String mergeDoubleCharacters(String str) {
+	private static String mergeDoubleCharacters(String str) {
 		return mergeDoubleCharacters(str, true);
 	}
 
