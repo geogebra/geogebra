@@ -2988,7 +2988,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		appCanvasHeight = height;
 		appCanvasWidth = width;
 		// Log.debug("syn size");
-		getEuclidianView1().synCanvasSize();
+		getEuclidianView1().setCoordinateSpaceSize(width, height);
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
 	}
@@ -2998,7 +2998,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * (splitlayoutpanel center)
 	 *
 	 * @param width
-	 *            , height
+	 *            new view width
+	 * @param height
+	 *            new view height
 	 */
 	public void ggwGraphicsView2DimChanged(int width, int height) {
 		if (width > 0 && height > 0) {
@@ -3009,7 +3011,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// appCanvasHeight = height;
 		// appCanvasWidth = width;
 
-		getEuclidianView2(1).synCanvasSize();
+		getEuclidianView2(1).setCoordinateSpaceSize(width, height);
 		getEuclidianView2(1).doRepaint2();
 		stopCollectingRepaints();
 	}

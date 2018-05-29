@@ -192,6 +192,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 				int h = dockPanel.getComponentInteriorHeight()
 						- dockPanel.navHeightIfShown();
 				int w = dockPanel.getComponentInteriorWidth();
+
 				// TODO handle this better?
 				// exit if new size cannot be determined
 				// one dimension may be intentionally 0, resize to avoid DOM

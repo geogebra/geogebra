@@ -529,25 +529,16 @@ public class DockManagerW extends DockManager {
 				// sdl should be x that 0 <= x <= 1
 				sdl = splitPanes[i].computeDividerLocationRecursive();
 			}
-
+			int split = splitPanes[i].getSplitterSize();
 			if (spData[i].getOrientation() == SwingConstants.VERTICAL_SPLIT) {
-				divLoc = (int) (sdl * windowHeight);
-				if (divLoc <= theRealWindowHeight
-						- splitPanes[i].getSplitterSize()) {
-					splitPanes[i].setDividerLocationSilent(divLoc);
-				} else {
-					splitPanes[i].setDividerLocationSilent(theRealWindowHeight
-							- splitPanes[i].getSplitterSize());
-				}
+				divLoc = Math.max(Math.min((int) (sdl * windowHeight),
+						theRealWindowHeight - split), 0);
+				splitPanes[i].setDividerLocationSilent(divLoc);
+
 			} else {
-				divLoc = (int) (sdl * windowWidth);
-				if (divLoc <= theRealWindowWidth
-						- splitPanes[i].getSplitterSize()) {
-					splitPanes[i].setDividerLocationSilent(divLoc);
-				} else {
-					splitPanes[i].setDividerLocationSilent(theRealWindowWidth
-							- splitPanes[i].getSplitterSize());
-				}
+				divLoc = Math.max(Math.min((int) (sdl * windowWidth),
+						theRealWindowWidth - split), 0);
+				splitPanes[i].setDividerLocationSilent(divLoc);
 			}
 		}
 		setPreferredSizes(rootPane, theRealWindowHeight, theRealWindowWidth);

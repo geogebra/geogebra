@@ -220,6 +220,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	 * @param location
 	 *            divider location in pixels
 	 */
+	@Override
 	public void setDividerLocationSilent(int location) {
 		dividerLocation = location;
 	}

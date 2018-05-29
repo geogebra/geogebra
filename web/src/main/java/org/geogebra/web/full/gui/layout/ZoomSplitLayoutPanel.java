@@ -177,16 +177,15 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 					break;
 				}
 				if (mouseDown) {
-					int size;
-					if (reverse) {
-						size = getTargetPosition() + getTargetSize()
-								- getSplitterSize() - getEventPosition(event)
-								+ offset;
-					} else {
-						size = getEventPosition(event) - getTargetPosition()
-								- offset;
-					}
+					int sizeLeft = getEventPosition(event) - getTargetPosition()
+							- offset;
+					int size = reverse
+							? getTargetSize() - getSplitterSize() - sizeLeft
+							: sizeLeft;
+
 					((LayoutData) target.getLayoutData()).hidden = false;
+					// needed for prediction of panel size
+					setDividerLocationSilent((int) normalize(sizeLeft));
 					setAssociatedWidgetSize(size);
 					event.preventDefault();
 					}
@@ -304,6 +303,32 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 		}
 
 		private void setAssociatedWidgetSize(double size0) {
+			double size = normalize(size0);
+
+			LayoutData layout = (LayoutData) target.getLayoutData();
+			if (size == layout.size) {
+				return;
+			}
+
+			// Adjust our view until the deferred layout gets scheduled.
+			centerSize += layout.size - size;
+			layout.size = size;
+			// Defer actually updating the layout, so that if we receive many
+			// mouse events before layout/paint occurs, we'll only update once.
+			if (layoutCommand == null) {
+				layoutCommand = new ScheduledCommand() {
+					@Override
+					public void execute() {
+						layoutCommand = null;
+
+						forceLayout();
+					}
+				};
+				Scheduler.get().scheduleDeferred(layoutCommand);
+			}
+		}
+
+		private double normalize(double size0) {
 			double maxSize = getMaxSize();
 			double size = size0;
 			if (size > maxSize) {
@@ -315,28 +340,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			} else if (size < minSize) {
 				size = minSize;
 			}
-
-			LayoutData layout = (LayoutData) target.getLayoutData();
-			if (size == layout.size) {
-				return;
-			}
-
-			// Adjust our view until the deferred layout gets scheduled.
-			centerSize += layout.size - size;
-			layout.size = size;
-
-			// Defer actually updating the layout, so that if we receive many
-			// mouse events before layout/paint occurs, we'll only update once.
-			if (layoutCommand == null) {
-				layoutCommand = new ScheduledCommand() {
-					@Override
-					public void execute() {
-						layoutCommand = null;
-						forceLayout();
-					}
-				};
-				Scheduler.get().scheduleDeferred(layoutCommand);
-			}
+			return size;
 		}
   }
 
@@ -584,5 +588,9 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 	void assertIsChild(Widget widget) {
 		assert (widget == null) || (widget
 				.getParent() == this) : "The specified widget is not a child of this panel";
+	}
+
+	protected void setDividerLocationSilent(int size) {
+		// implement in subclass
 	}
 }
