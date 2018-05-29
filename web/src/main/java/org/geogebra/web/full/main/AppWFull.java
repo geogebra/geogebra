@@ -255,7 +255,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	public final boolean showKeyboard(MathKeyboardListener textField,
 			boolean forceShow) {
 		boolean ret = getAppletFrame().showKeyBoard(true, textField, forceShow);
-		if (textField != null) {
+		if (textField != null && ret) {
 			CancelEventTimer.keyboardSetVisible();
 		}
 		return ret;

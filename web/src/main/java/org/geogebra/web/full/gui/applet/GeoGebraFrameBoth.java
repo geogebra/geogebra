@@ -342,6 +342,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            whether to animate the keyboard in
 	 */
 	void addKeyboard(final MathKeyboardListener textField, boolean animated) {
+		Log.debug("addKeyboard");
 		final VirtualKeyboardW keyBoard = getOnScreenKeyboard(textField);
 		this.setKeyboardShowing(true);
 
@@ -498,6 +499,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	private void showKeyboardButton(MathKeyboardListener textField) {
+		Log.debug("showKeyboardButton");
 		if (!appNeedsKeyboard()) {
 			return;
 		}
@@ -519,7 +521,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				this.setKeyboardButton();
 			}
 			// showKeyboardButton.show(app.isKeyboardNeeded(), textField);
-			showKeyboardButton.show(app.isKeyboardNeeded(), textField);
+			showKeyboardButton.show(
+					app.isKeyboardNeeded(), textField);
 			if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 				showKeyboardButton.addStyleName("openKeyboardButton2");
 			}
@@ -717,7 +720,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	private static boolean isKeyboardWantedFromCookie() {
 		String wanted = Cookies.getCookie("GeoGebraKeyboardWanted");
-		if (wanted != null && wanted.equals("false")) {
+		Log.debug("isKeyboardWantedFromCookie: " + !"false".equals(wanted));
+		if ("false".equals(wanted)) {
 			return false;
 		}
 		return true;
