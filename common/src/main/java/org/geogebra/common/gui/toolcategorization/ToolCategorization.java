@@ -183,6 +183,7 @@ public class ToolCategorization {
 	 */
 	public ToolCategorization(App app, ToolbarSettings settings) {
         this.app = app;
+		this.level = settings.getToolsetLevel();
 		toolsLists = new ArrayList<>();
 		customizedCategories = new ArrayList<>();
 		this.settings = settings;
