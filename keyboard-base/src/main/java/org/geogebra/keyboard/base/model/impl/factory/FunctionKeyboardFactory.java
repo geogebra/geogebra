@@ -21,9 +21,9 @@ class FunctionKeyboardFactory {
         KeyboardModelImpl functionKeyboard = new KeyboardModelImpl();
         float width = 5.0f / 3;
         RowImpl row = functionKeyboard.nextRow(9.2f);
-        addTranslateInputCommandButton(row, buttonFactory, "Function.sin", "Function.sin", width);
-        addTranslateInputCommandButton(row, buttonFactory, "Function.cos", "Function.cos", width);
-        addTranslateInputCommandButton(row, buttonFactory, "Function.tan", "Function.tan", width);
+        addTranslateInputCommandButton(row, buttonFactory, "sin", "sin", width);
+        addTranslateInputCommandButton(row, buttonFactory, "cos", "cos", width);
+        addTranslateInputCommandButton(row, buttonFactory, "tan", "tan", width);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "%");
         addInputButton(row, buttonFactory, "!");
@@ -31,9 +31,9 @@ class FunctionKeyboardFactory {
         addInputButton(row, buttonFactory, DEGREE);
 
         row = functionKeyboard.nextRow(9.2f);
-        addTranslateInputCommandButton(row, buttonFactory, "Function.asin", "Function.asin", width);
-        addTranslateInputCommandButton(row, buttonFactory, "Function.acos", "Function.acos", width);
-        addTranslateInputCommandButton(row, buttonFactory, "Function.atan", "Function.atan", width);
+        addTranslateInputCommandButton(row, buttonFactory, "asin", "asin", width);
+        addTranslateInputCommandButton(row, buttonFactory, "acos", "acos", width);
+        addTranslateInputCommandButton(row, buttonFactory, "atan", "atan", width);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "{");
         addInputButton(row, buttonFactory, "}");
