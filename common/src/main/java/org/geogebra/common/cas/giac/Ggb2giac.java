@@ -1518,7 +1518,9 @@ public class Ggb2giac {
 		// <expression value="Midpoint(L(1), L(2))" eval="Center(L(1),L(2))"
 		// evalCmd=""/>
 		String centerMidpoint1 = "coordinates(center(%0))";
-		String centerMidpoint2 = "normal(regroup(coordinates(midpoint(%0,%1))))";
+		// normal: nice form for Midpoint[(1/2,pi),(1,1)]
+		// factor: nice form for Midpoint[(a,b),(c,d)]
+		String centerMidpoint2 = "convert(factor((normal(coordinates(midpoint(%0,%1))))),25)";
 
 		p("Center.1", centerMidpoint1);
 		p("Midpoint.1", centerMidpoint1);
@@ -1700,18 +1702,6 @@ public class Ggb2giac {
 		p("Point.2",
 				"when(length(%0)==3,{point(xcoord(%0),ycoord(%0),zcoord(%0)),point(xcoord(%1),ycoord(%1),zcoord(%1))},{point(xcoord(%0),ycoord(%0)),point(xcoord(%1),ycoord(%1))})");
 
-		// p("Midpoint.2",
-		// "[[ggbans:=factor((normal(convert(coordinates(midpoint(%0,%1)),25))))],"
-		// +
-		// "(ggbans[0],ggbans[1])][1]");
-
-		// make sure Midpoint(Segment((a,b), (c,d))) gives an error
-		p("Midpoint.1", "?");
-
-		// normal: nice form for Midpoint[(1/2,pi),(1,1)]
-		// factor: nice form for Midpoint[(a,b),(c,d)]
-		p("Midpoint.2",
-				"convert(factor((normal(coordinates(midpoint(%0,%1))))),25)");
 
 		// TODO: needs to get back from Giac into GeoGebra as a parametric eqn
 		// p("Curve.5","equation(plotparam([%0,%1],%2,%3,%4))");
