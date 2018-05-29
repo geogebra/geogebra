@@ -611,7 +611,7 @@ namespace giac {
 	add_rem.coord.push_back(it->trunc1());
       }
       else {      // different power do an Horner *
-#ifndef NSPIRE // GIAC_VECTOR
+#if !defined NSPIRE && !defined(FXCG)// GIAC_VECTOR
 	rem.TAdd(add_rem,rem); rem *= pow(x0,pui.front()-it->index.front()); 
 #else
 	rem =(add_rem+rem)*pow(x0,pui.front()-it->index.front());
@@ -623,7 +623,7 @@ namespace giac {
     }
     rem.TAdd(add_rem,rem); // rem=(add_rem+rem);
     if (pui.front()){
-#ifndef NSPIRE // GIAC_VECTOR
+#if !defined (NSPIRE) && !defined(FXCG) // GIAC_VECTOR
       rem *= pow(x0,pui.front());
 #else
       rem = rem*pow(x0,pui.front());
@@ -1250,7 +1250,7 @@ namespace giac {
     index_m ishift(dim);
     tensor<T> b0(Tfirstcoeff(other));
     for (int i=m;i>=n;--i){
-#ifdef NSPIRE
+#if defined NSPIRE || defined(FXCG)
       a=a*b0;
       quo=quo*b0;
 #else
@@ -1264,7 +1264,7 @@ namespace giac {
 #endif // NSPIRE
       typename std::vector< monomial<T> >::const_iterator it=rem.coord.begin(),itend=rem.coord.end();
       if (it==itend || it->index.front()!=i){
-#ifdef NSPIRE
+#if defined NSPIRE || defined(FXCG)
 	rem=rem*b0;
 #else
 #ifdef GIAC_VECTOR

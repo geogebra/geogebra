@@ -858,7 +858,7 @@ namespace giac {
     vectpoly():std::vector<polynome>::vector() {};
     vectpoly(size_t i,const polynome & p):std::vector<polynome>::vector(i,p) {};
     const char * dbgprint(){  
-#ifndef NSPIRE
+#if !defined(NSPIRE) && !defined(FXCG)
       CERR << *this << std::endl; 
 #endif
       return "Done";
@@ -982,13 +982,13 @@ namespace giac {
   gen operator + (const gen & a,const gen & b);
   gen & operator_plus_eq (gen & a,const gen & b,GIAC_CONTEXT);
   inline gen & operator += (gen & a,const gen & b){ 
-    return operator_plus_eq(a,b,giac::context0);
+    return operator_plus_eq(a,b,context0);
   }
   Tfraction<gen> operator + (const Tfraction<gen> & a,const Tfraction<gen> & b); // specialization
   gen sym_add (const gen & a,const gen & b,GIAC_CONTEXT);
   gen & operator_minus_eq (gen & a,const gen & b,GIAC_CONTEXT);
   inline gen & operator -= (gen & a,const gen & b){ 
-    return operator_minus_eq(a,b,giac::context0);
+    return operator_minus_eq(a,b,context0);
   }
   gen operator_minus (const gen & a,const gen & b,GIAC_CONTEXT);
   gen operator - (const gen & a,const gen & b);
@@ -1072,10 +1072,10 @@ namespace giac {
   bool is_greater(const gen & a,const gen &b,GIAC_CONTEXT);
   bool is_strictly_greater(const gen & a,const gen &b,GIAC_CONTEXT);
   inline bool operator > (const gen & a,const gen & b){
-    return is_strictly_greater(a,b,giac::context0);
+    return is_strictly_greater(a,b,context0);
   }
   inline bool operator < (const gen & a, const gen & b) {
-    return is_strictly_greater (b, a, giac::context0);
+    return is_strictly_greater (b, a, context0);
   }
   bool is_positive(const gen & a,GIAC_CONTEXT);
   bool is_strictly_positive(const gen & a,GIAC_CONTEXT);
@@ -1244,7 +1244,7 @@ namespace giac {
     const char * dbgprint () const { 
       static std::string s;
       s=this->print(0);
-#ifndef NSPIRE
+#if !defined( NSPIRE) && !defined(FXCG)
       CERR << s << std::endl;
 #endif
       return s.c_str();
@@ -1372,7 +1372,7 @@ namespace giac {
     eqwdata(int dxx,int dyy,int xx, int yy,const attributs & a,const gen& gg):g(gg),eqw_attributs(a),x(xx),y(yy),dx(dxx),dy(dyy),selected(false),active(false),hasbaseline(false),modifiable(true),baseline(0) {};
     eqwdata(int dxx,int dyy,int xx, int yy,const attributs & a,const gen& gg,int mybaseline):g(gg),eqw_attributs(a),x(xx),y(yy),dx(dxx),dy(dyy),selected(false),active(false),hasbaseline(true),modifiable(true),baseline(mybaseline) {};
     const char * dbgprint(){ 
-#ifndef NSPIRE
+#if !defined( NSPIRE) && !defined(FXCG)
       CERR << g << ":" << dx<< ","<< dy<< "+"<<x <<","<< y<< "," << baseline << "," << eqw_attributs.fontsize << "," << eqw_attributs.background << "," << eqw_attributs.text_color << std::endl; 
 #endif
       return "Done";

@@ -229,12 +229,12 @@ namespace giac {
     return vecteur(0);
   }
 
-  static bool check(const gen & id,const gen & value,GIAC_CONTEXT){
+  static bool check(const gen & id,const gen & value,const gen & ids,const gen & vals,GIAC_CONTEXT){
     if (is_inequation(value))
       return true; // FIXME!!
     if (id.type==_VECT && value.type==_VECT && id._VECTptr->size()==value._VECTptr->size()){
       for (unsigned i=0;i<id._VECTptr->size();++i){
-	if (!check((*id._VECTptr)[i],(*value._VECTptr)[i],contextptr))
+	if (!check((*id._VECTptr)[i],(*value._VECTptr)[i],ids,vals,contextptr))
 	  return false;
       }
       return true;
@@ -242,6 +242,7 @@ namespace giac {
     if (id.type!=_IDNT)
       return true;
     gen g,g2=id._IDNTptr->eval(1,g,contextptr);
+    g2=subst(g2,ids,vals,false,contextptr);
     if ((g2.type==_VECT) && (g2.subtype==_ASSUME__VECT)){
       vecteur v=*g2._VECTptr;
       if (!v.empty() && v[0].type==_INT_ && (v[0].val==_INT_ || v[0].val==_ZINT) && value.type!=_IDNT && value.type!=_SYMB && !is_integer(value))
@@ -2627,7 +2628,7 @@ namespace giac {
 	res.push_back(*it);
 	continue;
       }
-      if (!check(v.back(),*it,contextptr))
+      if (!check(v.back(),*it,v.back(),*it,contextptr))
 	continue;
       gen tmp=subst(arg1,v.back(),*it,false,contextptr);
       tmp=eval(tmp,1,contextptr);

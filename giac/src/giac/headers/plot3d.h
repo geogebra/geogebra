@@ -38,7 +38,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_plan ;
   gen hypersurface(const gen & args,const gen & equation,const gen & vars);
   gen do_point3d(const gen & g);
-  bool is3d(const giac::gen & g);
+  bool is3d(const gen & g);
   bool perpendiculaire_commune(const gen & d1,const gen & d2,gen & M, gen & N,vecteur & n,GIAC_CONTEXT);
   gen similitude3d(const vecteur & centrev,const gen & angle,const gen & rapport,const gen & b,int symrot,GIAC_CONTEXT);
   gen hypersphere_equation(const gen & g,const vecteur & xyz);

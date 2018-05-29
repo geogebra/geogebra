@@ -55,7 +55,24 @@
 #define NO_STDEXCEPT 1
 #endif
 
-
+#ifdef FXCG
+#define clock() 0
+#define CLOCK() 0
+#define CLOCK_T int
+#undef HAVE_LIBDL
+#undef HAVE_LIBPTHREAD
+struct Bidon {
+  int i;
+ Bidon(int i_=0):i(i_){}
+};
+template<class T> Bidon operator << (Bidon ,const T&){ return Bidon(); }
+inline Bidon operator << (Bidon,const char *){return Bidon();}
+// #define CIN 0 //std::cin
+#define COUT Bidon(0) //std::cout
+#define CERR Bidon(0) //std::cout
+typedef unsigned pid_t;
+double lgamma(double);
+#else // FXCG
 
 #ifdef NSPIRE
 #define clock() 0
@@ -65,7 +82,7 @@
 #define CIN (*std::console_cin_ptr)
 #define COUT (*std::console_cin_ptr)
 #define CERR (*std::console_cin_ptr)
-#else
+#else // NSPIRE
 #define CIN std::cin
 #define COUT std::cout
 #ifdef EMCC
@@ -75,7 +92,7 @@ extern "C" int glinit(int,int,int,int,int);
 extern "C" void glcontext(int);
 #define CLOCK emcctime
 #define CLOCK_T clock_t
-#else
+#else // EMCC
 #define CERR std::cerr
 #if defined(MS_SMART) || defined(NO_CLOCK)
 #define CLOCK() 0
@@ -84,8 +101,9 @@ extern "C" void glcontext(int);
 #define CLOCK clock
 #define CLOCK_T clock_t
 #endif // MS_SMART
-#endif
-#endif
+#endif // EMCC
+#endif // NSPIRE
+#endif // FXCG
 
 #ifdef __sparc__
 #define DOUBLEVAL
@@ -328,7 +346,9 @@ typedef int ref_count_t;
 #include "gmp.h"
 #endif // USE_GMP_REPLACEMENTS
 
+#ifndef FXCG
 #include <cassert>
+#endif
 
 class init_gmp_memory 
 {
@@ -500,13 +520,17 @@ inline float finv(float f1){ return 1/f1; }
 #if defined __APPLE__ || defined EMCC || defined NO_BSD 
 inline float fgamma(float f1){ return tgammaf(f1); }
 #else
-#if defined(__MINGW_H) || defined(VISUALC) // FIXME gamma, not used
+#if defined(__MINGW_H) || defined(VISUALC) || defined(FXCG)// FIXME gamma, not used
 inline float fgamma(float f1){ return f1; }
 #else
 inline float fgamma(float f1){ return gammaf(f1); } // or tgammaf(f1) on some versions of emscripten
 #endif
 #endif
+#ifdef FXCG
+inline float atan2f(float f1,float f2,int rad){ if (rad) return std::atan2(f1,f2); else return std::atan2(f1,f2)*180/std::M_PI;}
+#else
 inline float atan2f(float f1,float f2,int rad){ if (rad) return atan2f(f1,f2); else return atan2f(f1,f2)*180/M_PI;}
+#endif
 #define fis_nan my_isnan
 #define fis_inf my_isinf
 #endif // BCD

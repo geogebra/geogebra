@@ -443,7 +443,7 @@ namespace giac {
   gen _inputform(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_inputform;
   class unary_function_eval;
-#if !defined RTOS_THREADX && !defined NSPIRE
+#if !defined RTOS_THREADX && !defined NSPIRE && !defined FXCG
   extern unary_function_eval __inputform;
 #endif
 
@@ -491,13 +491,13 @@ namespace giac {
 
   gen _Row(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_Row;
-#if !defined RTOS_THREADX && !defined NSPIRE
+#if !defined RTOS_THREADX && !defined NSPIRE && !defined FXCG
   extern unary_function_eval __Row;
 #endif
 
   gen _Col(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_Col;
-#if !defined RTOS_THREADX && !defined NSPIRE
+#if !defined RTOS_THREADX && !defined NSPIRE && !defined FXCG
   extern unary_function_eval __Col;
 #endif
 
@@ -524,7 +524,7 @@ namespace giac {
   // used to update IO screen and graph inside progs
   gen _interactive(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_interactive;
-#if defined RTOS_THREADX || defined NSPIRE
+#if defined RTOS_THREADX || defined NSPIRE || defined FXCG
   extern const alias_unary_function_eval __interactive;
   // extern const unary_function_eval __interactive;
 #else
@@ -549,7 +549,7 @@ namespace giac {
   gen _ti_semi(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_ti_semi;
 
-#if defined RTOS_THREADX || defined NSPIRE
+#if defined RTOS_THREADX || defined NSPIRE || defined FXCG
   // extern const unary_function_eval __keyboard;
 #else
   extern unary_function_eval __keyboard;
@@ -557,20 +557,20 @@ namespace giac {
   extern const unary_function_ptr * const  at_keyboard;
   gen widget_size(const gen & g,GIAC_CONTEXT);
   gen keyboard(const gen & g,GIAC_CONTEXT);
-#if !defined RTOS_THREADX && !defined NSPIRE
+#if !defined RTOS_THREADX && !defined NSPIRE && !defined FXCG
   extern unary_function_eval __widget_size;
 #endif
   extern const unary_function_ptr * const  at_widget_size;
 
   gen current_sheet(const gen & g,GIAC_CONTEXT);
-#if !defined RTOS_THREADX && !defined NSPIRE
+#if !defined RTOS_THREADX && !defined NSPIRE && !defined FXCG
   extern unary_function_eval __current_sheet;
 #endif
   extern const unary_function_ptr * const  at_current_sheet;
 
   gen window_switch(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_window_switch;
-#if !defined RTOS_THREADX && !defined NSPIRE
+#if !defined RTOS_THREADX && !defined NSPIRE && !defined FXCG
   extern const unary_function_eval __window_switch;
   extern const unary_function_eval __maple_lib;
 #endif

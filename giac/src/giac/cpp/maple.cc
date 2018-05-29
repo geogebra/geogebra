@@ -949,7 +949,7 @@ namespace giac {
   // open a file, returns a FD
   gen _open(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if defined(VISUALC) || defined(__MINGW_H) || defined (FIR) || defined(NSPIRE) || defined(__ANDROID__) || defined(NSPIRE_NEWLIB) || defined(EMCC) || defined(GIAC_GGB)
+#if defined(VISUALC) || defined(__MINGW_H) || defined (FIR) || defined(FXCG) || defined(NSPIRE) || defined(__ANDROID__) || defined(NSPIRE_NEWLIB) || defined(EMCC) || defined(GIAC_GGB)
     return gensizeerr(gettext("not implemented"));
 #else
     gen tmp=check_secure();
@@ -1000,7 +1000,7 @@ namespace giac {
     vecteur & v=*g._VECTptr;
     int s=int(v.size());
     FILE * f=0;
-#if !defined(BESTA_OS) && !defined(NSPIRE)
+#if !defined(BESTA_OS) && !defined(NSPIRE) && !defined(FXCG)
     if (v[0].type==_INT_ && v[0].subtype==_INT_FD)
       f= fdopen(v[0].val,"a");
 #endif    
@@ -1027,7 +1027,7 @@ namespace giac {
   gen _close(const gen & g0,GIAC_CONTEXT){
     gen g=eval(g0,1,contextptr);
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if !defined(VISUALC) && !defined(BESTA_OS) && !defined(__MINGW_H) && !defined(NSPIRE)
+#if !defined(VISUALC) && !defined(BESTA_OS) && !defined(__MINGW_H) && !defined(NSPIRE) && !defined(FXCG)
     if (g.type==_INT_ && g.subtype==_INT_FD){
       purgenoassume(g0,contextptr);
       close(g.val);
@@ -3684,7 +3684,7 @@ namespace giac {
   static define_unary_function_eval (__cprint,&_cprint,_cprint_s);
   define_unary_function_ptr5( at_cprint ,alias_at_cprint,&__cprint,_QUOTE_ARGUMENTS,true);
 
-#ifndef GIAC_HAS_STO_38
+#if !defined GIAC_HAS_STO_38 && !defined NSPIRE && !defined FXCG
   // make a cpp translation file
   gen _cpp(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;

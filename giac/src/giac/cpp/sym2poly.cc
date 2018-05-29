@@ -170,7 +170,7 @@ namespace giac {
     return l;
   }
   static const char _lvar_s []="lvar";
-  static define_unary_function_eval (__lvar,&giac::cklvar,_lvar_s);
+  static define_unary_function_eval (__lvar,&cklvar,_lvar_s);
   define_unary_function_ptr5( at_lvar ,alias_at_lvar,&__lvar,0,true);
 
   static bool is_algebraic_EXTension(const gen & e){
@@ -365,7 +365,7 @@ namespace giac {
     return l;
   }
   static const char _algvar_s []="algvar";
-  static define_unary_function_eval (__algvar,&giac::ckalgvar,_algvar_s);
+  static define_unary_function_eval (__algvar,&ckalgvar,_algvar_s);
   define_unary_function_ptr5( at_algvar ,alias_at_algvar,&__algvar,0,true);
 
   
@@ -3608,7 +3608,7 @@ namespace giac {
   symbolic symb_e2r(const gen & arg1,const gen & arg2){
     return symbolic(at_e2r,makesequence(arg1,arg2));
   }
-  static define_unary_function_eval (__e2r,&giac::_e2r,_e2r_s);
+  static define_unary_function_eval (__e2r,&_e2r,_e2r_s);
   define_unary_function_ptr5( at_e2r ,alias_at_e2r,&__e2r,0,true);
 
   gen _r2e(const gen & args,GIAC_CONTEXT){
@@ -3635,21 +3635,21 @@ namespace giac {
   symbolic symb_r2e(const gen & arg1,const gen & arg2){
     return symbolic(at_r2e,makesequence(arg1,arg2));
   }
-  static define_unary_function_eval (__r2e,&giac::_r2e,_r2e_s);
+  static define_unary_function_eval (__r2e,&_r2e,_r2e_s);
   define_unary_function_ptr5( at_r2e ,alias_at_r2e,&__r2e,0,true);
 
   static const char _normal_s []="normal";
   symbolic symb_normal(const gen & args){
     return symbolic(at_normal,args);
   }
-  static define_unary_function_eval (__normal,(const gen_op_context)giac::_recursive_normal,_normal_s);
+  static define_unary_function_eval (__normal,(const gen_op_context)_recursive_normal,_normal_s);
   define_unary_function_ptr5( at_normal ,alias_at_normal,&__normal,0,true);
 
   static const char _non_recursive_normal_s []="non_recursive_normal";
   symbolic symb_non_recursive_normal(const gen & args){
     return symbolic(at_non_recursive_normal,args);
   }
-  static define_unary_function_eval (__non_recursive_normal,(const gen_op_context)giac::normal,_non_recursive_normal_s);
+  static define_unary_function_eval (__non_recursive_normal,(const gen_op_context)normal,_non_recursive_normal_s);
   define_unary_function_ptr5( at_non_recursive_normal ,alias_at_non_recursive_normal,&__non_recursive_normal,0,true);
 
 
@@ -3678,7 +3678,7 @@ namespace giac {
       res=factorcollect(args,withsqrt(contextptr),contextptr);
     return res;
   }
-  static define_unary_function_eval (__factor,&giac::_factor,_factor_s);
+  static define_unary_function_eval (__factor,&_factor,_factor_s);
   define_unary_function_ptr5( at_factor ,alias_at_factor,&__factor,0,true);
 
   static const char _collect_s []="collect";
@@ -3700,7 +3700,7 @@ namespace giac {
     res=factorcollect(args,false,contextptr);
     return res;
   }
-  static define_unary_function_eval (__collect,&giac::_collect,_collect_s);
+  static define_unary_function_eval (__collect,&_collect,_collect_s);
   define_unary_function_ptr5( at_collect ,alias_at_collect,&__collect,0,true);
 
   static const char _partfrac_s []="partfrac";
@@ -3721,7 +3721,7 @@ namespace giac {
       return gentoomanyargs(_partfrac_s);
     return partfrac(args._VECTptr->front(),args._VECTptr->back(),withsqrt(contextptr),contextptr);
   }
-  static define_unary_function_eval (__partfrac,&giac::_partfrac,_partfrac_s);
+  static define_unary_function_eval (__partfrac,&_partfrac,_partfrac_s);
   define_unary_function_ptr5( at_partfrac ,alias_at_partfrac,&__partfrac,0,true);
 
   static const char _resultant_s []="resultant";
@@ -3965,7 +3965,7 @@ namespace giac {
       return f2;
     return 1;
   }
-  static define_unary_function_eval (__resultant,&giac::_resultant,_resultant_s);
+  static define_unary_function_eval (__resultant,&_resultant,_resultant_s);
   define_unary_function_ptr5( at_resultant ,alias_at_resultant,&__resultant,0,true);
 
   /* I/O on stream */
@@ -4025,6 +4025,9 @@ namespace giac {
     // first initialize random generator for factorizations
     srand(0);
     //srand(time(NULL));
+#ifdef FXCG
+    return;
+#else
     string s;
 #ifdef NSPIRE
     if (ARGC==0){ // fake, just to instantiate for file
@@ -4064,6 +4067,7 @@ namespace giac {
     }
     if (args.empty())
       args.push_back(gentypeerr(contextptr));
+#endif
   }
 
 #if 0

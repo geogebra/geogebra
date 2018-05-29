@@ -247,7 +247,7 @@ namespace giac {
 
   gen _print(const gen & args,GIAC_CONTEXT);  
   extern const unary_function_ptr * const  at_print;
-#if !defined RTOS_THREADX && !defined NSPIRE
+#if !defined RTOS_THREADX && !defined NSPIRE && !defined FXCG
   extern const unary_function_eval __print;
 #endif
 
@@ -428,7 +428,7 @@ namespace giac {
   symbolic symb_pow(const gen & a,const gen & b);
   std::string cprintaspow(const gen & feuille,const char * sommetstr_orig,GIAC_CONTEXT);
 #ifndef GIAC_HAS_STO_38
-#ifdef NSPIRE
+#if defined NSPIRE || defined FXCG
   extern const alias_unary_function_eval __pow;
 #else
   extern unary_function_eval __pow;

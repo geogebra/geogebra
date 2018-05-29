@@ -28,13 +28,13 @@
 #define GIAC_CONTEXT const context * contextptr
 #define GIAC_CONTEXT0 const context * contextptr=0
 
-#if !defined(HAVE_NO_SYS_TIMES_H) && !defined(BESTA_OS) && !defined(__MINGW_H) && !defined(NSPIRE)
+#if !defined(HAVE_NO_SYS_TIMES_H) && !defined(BESTA_OS) && !defined(__MINGW_H) && !defined(NSPIRE) && !defined(FXCG)
 #include <sys/times.h>
 #else
 #if defined VISUALC || defined BESTA_OS || defined FREERTOS
 typedef long pid_t;
 #else // VISUALC
-#if !defined(__MINGW_H) && !defined(NSPIRE) && !defined(__ANDROID__) && !defined(NSPIRE_NEWLIB) && !defined(OSX) && !defined(IOS) && !defined(OSXIOS) && !defined(FIR_LINUX)
+#if !defined(__MINGW_H) && !defined(NSPIRE) && !defined(FXCG) && !defined(__ANDROID__) && !defined(NSPIRE_NEWLIB) && !defined(OSX) && !defined(IOS) && !defined(OSXIOS) && !defined(FIR_LINUX)
 #include "wince_replacements.h"
 #endif
 #ifdef __MINGW_H
@@ -80,7 +80,7 @@ inline double giac_log(double d){
 
 #include "vector.h"
 #include <string>
-#ifndef NSPIRE
+#if !defined( NSPIRE) && !defined(FXCG)
 #include <cstring>
 #endif
 #include <iostream>
@@ -97,7 +97,7 @@ inline double giac_log(double d){
 
 #include <stdexcept>
 #include "help.h"
-#if 1 // !defined(GIAC_HAS_STO_38) // && !defined(ConnectivityKit) && !defined(BESTA_OS)
+#if !defined(FXCG) // !defined(GIAC_HAS_STO_38) // && !defined(ConnectivityKit) && !defined(BESTA_OS)
 #include "tinymt32.h"
 #endif
 
@@ -202,7 +202,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   std::vector<aide> * & vector_aide_ptr();
   std::vector<std::string> * & vector_completions_ptr();
   extern void (*fl_widget_delete_function)(void *);
-#ifndef NSPIRE
+#if !defined( NSPIRE) && !defined(FXCG)
   extern std::ostream & (*fl_widget_archive_function)(std::ostream &,void *);
 #endif
   extern bool secure_run; // true if used in a non-trusted environment
@@ -290,7 +290,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
 
   // void control_c();
   // note that ctrl_c=false was removed, should be done before calling eval
-#if defined NSPIRE
+#if defined (NSPIRE) || defined(FXCG)
   void control_c();
 #elif defined FIR
 #define control_c()
@@ -447,7 +447,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     thread_param();
   };
 
-#ifndef NSPIRE
+#if !defined( NSPIRE) && !defined(FXCG)
   extern gen (*fl_widget_unarchive_function)(std::istream &);
 #endif
   extern std::string (*fl_widget_texprint_function)(void * ptr);
@@ -574,7 +574,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     parser_lexer _pl;
     int _prog_eval_level_val ;
     int _eval_level;
-#if 0 // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
+#if defined(FXCG) // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
     unsigned int _rand_seed;
 #else
     tinymt32_t _rand_seed;
@@ -641,7 +641,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   extern pthread_mutex_t context_list_mutex;
 #endif
   
-#if !defined(RTOS_THREADX) && !defined(BESTA_OS) && !defined(NSPIRE)
+#if !defined(RTOS_THREADX) && !defined(BESTA_OS) && !defined(NSPIRE) && !defined(FXCG)
   extern std::map<std::string,context *> * context_names ;
 #endif
 
@@ -837,7 +837,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   // void eval_level(int b,GIAC_CONTEXT);
   thread_param * thread_param_ptr(const context * contextptr);
 
-#if 0 // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
+#if defined(FXCG) // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
   unsigned int & rand_seed(GIAC_CONTEXT);
 #else
   tinymt32_t * rand_seed(GIAC_CONTEXT);

@@ -53,7 +53,7 @@ extern int giac_yylex(YYSTYPE * yylval_param ,void * yyscanner);
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
   std::vector<int> & lexer_localization_vector();
-#ifdef NSPIRE
+#if defined NSPIRE || defined FXCG
   ustl::map<std::string,std::string> & lexer_localization_map();
   ustl::multimap<std::string,localized_string> & back_lexer_localization_map();
   // lexer_localization_map translates keywords from the locale to giac 
@@ -68,7 +68,7 @@ namespace giac {
 #endif
   
 
-#ifdef NSPIRE
+#if defined NSPIRE || defined FXCG
   ustl::map<std::string,std::vector<std::string> > & lexer_translator();
   ustl::map<std::string,std::vector<std::string> > & library_functions();
 #else
@@ -115,7 +115,7 @@ namespace giac {
   charptr_gen * builtin_lexer_functions_begin();
   charptr_gen * builtin_lexer_functions_end();
 #ifdef STATIC_BUILTIN_LEXER_FUNCTIONS
-#ifdef NSPIRE
+#if defined NSPIRE || defined FXCG
   std::vector<size_t> * builtin_lexer_functions_();
 #else
   extern const size_t builtin_lexer_functions_[];

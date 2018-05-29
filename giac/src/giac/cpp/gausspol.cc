@@ -1077,8 +1077,12 @@ namespace giac {
     }
 #endif
 #ifdef NO_TEMPLATE_MULTGCD
+#ifdef FXCG
+    Mul_gen(ita,ita_end,itb,itb_end,res.coord,th.is_strictly_greater,th.m_is_strictly_greater);
+#else
     Mul<gen>(ita,ita_end,itb,itb_end,res.coord,th.is_strictly_greater,th.m_is_strictly_greater);
     // Mul_gen(ita,ita_end,itb,itb_end,res.coord,th.is_strictly_greater,th.m_is_strictly_greater);
+#endif
     return;
 #else
     if ( 
@@ -1507,10 +1511,14 @@ namespace giac {
     } // end if c1>7 && c2>7
     if (debug_infolevel>1)
       CERR << CLOCK() << "Mul<gen> begin " << CLOCK() << endl;
+#ifdef FXCG
+    Mul_gen(ita,ita_end,itb,itb_end,res.coord,th.is_strictly_greater,th.m_is_strictly_greater);
+#else
     if (c1*c2<100)
       Mul_gen(ita,ita_end,itb,itb_end,res.coord,th.is_strictly_greater,th.m_is_strictly_greater);
     else
       Mul<gen>(ita,ita_end,itb,itb_end,res.coord,th.is_strictly_greater,th.m_is_strictly_greater);
+#endif
     if (debug_infolevel>1)
       CERR << CLOCK() << "Mul<gen> end " << CLOCK() << endl;
     // if (th.dim==12)
@@ -2013,15 +2021,15 @@ namespace giac {
   }
 
   polynome re(const polynome & th){
-    return Tapply(th,giac::no_context_re);
+    return Tapply(th,no_context_re);
   }
 
   polynome im(const polynome & th){
-    return Tapply(th,giac::no_context_im);
+    return Tapply(th,no_context_im);
   }
 
   polynome conj(const polynome & th){
-    return Tapply(th,giac::no_context_conj);
+    return Tapply(th,no_context_conj);
   }
 
   void smod(const polynome & th, const gen & modulo,polynome & res){

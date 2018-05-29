@@ -760,7 +760,7 @@ namespace giac {
   gen _enveloppe(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_enveloppe;
 
-  int graph_output_type(const giac::gen & g);
+  int graph_output_type(const gen & g);
   gen put_attributs(const gen & lieu_geo,const vecteur & attributs,GIAC_CONTEXT);
   vecteur seq2vecteur(const gen & g);
 
