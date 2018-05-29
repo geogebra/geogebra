@@ -2,6 +2,8 @@ package org.geogebra.common.main;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -208,7 +210,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		boolean wasSuppressLabelActive = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		for (GeoElement element: cons.getGeoSetConstructionOrder()) {
+		Set<GeoElement> elements = new TreeSet<>(cons.getGeoSetConstructionOrder());
+		for (GeoElement element: elements) {
 			if (hasIntersectsBetween(element) && element != geo && element.isEuclidianVisible()) {
 				getSpecialPointsIntersect(geo, element, intersect, cmd, retList);
 			}
