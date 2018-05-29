@@ -215,7 +215,7 @@ abstract public class Manager {
 	 *            geometry type
 	 */
 	public void endGeometry(int size, TypeElement type) {
-		// not used for all managers
+		endGeometry();
 	}
 
 	/**

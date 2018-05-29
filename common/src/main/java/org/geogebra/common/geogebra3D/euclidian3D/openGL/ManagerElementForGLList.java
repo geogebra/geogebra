@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
 /**
  * Manager to create GLLists using GL elements methods
@@ -93,11 +92,6 @@ public class ManagerElementForGLList extends Manager {
 	@Override
 	public void endGeometry() {
 		managerOriginal.endGeometry();
-	}
-
-	@Override
-	public void endGeometry(int size, TypeElement type) {
-		endGeometry();
 	}
 
 	@Override

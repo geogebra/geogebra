@@ -619,6 +619,13 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	/**
+	 * set geometry index to make it not visible
+	 */
+	protected void setGeometryIndexNotVisible() {
+		setGeometryIndex(NOT_REUSABLE_INDEX);
+	}
+
+	/**
 	 * @return geometry index
 	 */
 	final public int getGeometryIndex() {
@@ -640,6 +647,13 @@ public abstract class Drawable3D extends DrawableND {
 	final protected void setSurfaceIndex(int index) {
 		removeGeometryIndex(surfaceIndex);
 		surfaceIndex = index;
+	}
+
+	/**
+	 * set surface index to make it not visible
+	 */
+	protected void setSurfaceIndexNotVisible() {
+		setSurfaceIndex(NOT_REUSABLE_INDEX);
 	}
 
 	/**
