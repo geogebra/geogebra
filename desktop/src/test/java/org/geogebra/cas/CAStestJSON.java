@@ -162,7 +162,6 @@ public class CAStestJSON {
 					&& !"AssumeInteger.2".equals(key)
 					&& !"Binomial.2".equals(key)
 					&& !"CorrectSolution.3".equals(key)
-					&& !"CountIf.2".equals(key) && !"CountIf.3".equals(key)
 					&& !"Eliminate.2".equals(key)
 					&& !"ExpandOnly.1".equals(key)
 					&& !"GroebnerDegRevLex.1".equals(key)
@@ -172,7 +171,6 @@ public class CAStestJSON {
 					&& !"GroebnerLexDeg.1".equals(key)
 					&& !"GroebnerLexDeg.2".equals(key)
 					&& !"InverseBinomial.3".equals(key)
-					&& !"Plane.1".equals(key)
 					&& !"Radius.1".equals(key) && !"Random.2".equals(key)
 					&& !"Regroup.1".equals(key)
 					&& !"SolveODEPoint.2".equals(key)
@@ -1200,6 +1198,7 @@ public class CAStestJSON {
 	@Test
 	public void testCenter() {
 		testCat("Center.1");
+		testCat("Center.2");
 	}
 
 	@Test
@@ -1325,6 +1324,17 @@ public class CAStestJSON {
 	@Test
 	public void testIndexOf() {
 		testCat("IndexOf");
+	}
+
+	@Test
+	public void testPlane() {
+		testCat("Plane.1");
+	}
+
+	@Test
+	public void testCountIf() {
+		testCat("CountIf.2");
+		testCat("CountIf.3");
 	}
 
 	@Test
