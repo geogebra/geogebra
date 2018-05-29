@@ -831,9 +831,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		for (Entry<String, String> entry : archive.entrySet()) {
 			if (getImageManager().getExternalImage(entry.getKey(),
 			 this) == null) {
-			if (maybeProcessImage(entry.getKey(), entry.getValue())) {
-				toLoad.put(entry.getKey(), entry.getValue());
-			}
+				maybeProcessImage(entry.getKey(), entry.getValue(), toLoad);
 			}
 		}
 
@@ -985,7 +983,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	private boolean maybeProcessImage(String filename0, String content) {
+	private boolean maybeProcessImage(String filename0, String content, HashMap<String, String> toLoad) {
 		String fn = filename0.toLowerCase();
 		if (fn.equals(MyXMLio.XML_FILE_THUMBNAIL)) {
 			return false; // Ignore thumbnail
@@ -1011,11 +1009,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		if (ext.equals(FileExtensions.SVG)) {
 			// IE11/Edge needs SVG to be base64 encoded
-			getImageManager().addExternalImage(filename,
+			String fixedContent =
 					StringUtil.svgMarker + Browser
-							.encodeBase64(ImageManager.fixSVG(content)));
+							.encodeBase64(ImageManager.fixSVG(content));
+			getImageManager().addExternalImage(filename, fixedContent);
+			toLoad.put(filename, fixedContent);
 		} else {
 			getImageManager().addExternalImage(filename, content);
+			toLoad.put(filename, content);
 		}
 		return true;
 	}
