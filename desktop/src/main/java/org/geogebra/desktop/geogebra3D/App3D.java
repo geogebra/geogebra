@@ -92,7 +92,7 @@ public class App3D extends AppD {
 		this(args, null, undoActive);
 	}
 
-	private App3D(CommandLineArguments args, JFrame frame, boolean undoActive) {
+	public App3D(CommandLineArguments args, JFrame frame, boolean undoActive) {
 
 		super(args, frame, null, undoActive, new LocalizationD(3));
 
