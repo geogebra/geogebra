@@ -79,6 +79,8 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		super.onResize();
 		setWidth(this.toolbarPanel.getTabWidth() + "px");
 		if (aview != null) {
+			int w = this.toolbarPanel.getTabWidth();
+			aview.setUserWidth(w);
 			aview.resize(this.toolbarPanel.getTabWidth());
 		}
 	}
