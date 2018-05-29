@@ -3638,9 +3638,9 @@ namespace giac {
 
   // kind=0: BesselI, =1 BesselJ, =2 BesselK, =3 BesselY
   gen Bessel(const gen & g,int kind,GIAC_CONTEXT){
-#ifdef BESTA_OS
+#if defined BESTA_OS || defined FXCG
     return gensizeerr(gettext("Bessel not implemented"));
-#endif
+#else
     int n;
     gen a,x;
     if (!find_n_x(g,n,x,a))
@@ -3670,6 +3670,7 @@ namespace giac {
       return symbolic(at_BesselY,gn);
     }
     return gensizeerr(gettext("Bessel"));
+#endif
   }
   gen bessel(const gen & g,int kind,GIAC_CONTEXT){
     if (g.type==_VECT && g._VECTptr->size()>=2)

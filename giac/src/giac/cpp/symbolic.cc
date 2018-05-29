@@ -337,7 +337,8 @@ namespace giac {
     if (g.feuille.type!=_VECT || g.feuille._VECTptr->size()!=2){
       s += "pow(";
       add_print(s,g.feuille,contextptr);
-      return s+=')';
+      s+=')';
+      return s;
     }
     gen pui=g.feuille._VECTptr->back();
     gen arg=g.feuille._VECTptr->front();
@@ -1015,7 +1016,7 @@ namespace giac {
 		}
 	      }
 	      prog=prog._VECTptr->back();
-	      protect=giac::bind(*values._VECTptr,*vars._VECTptr,contextptr);
+	      protect=bind(*values._VECTptr,*vars._VECTptr,contextptr);
 	      if (protect==-RAND_MAX){
 		gensizeerr(res,contextptr);
 		return res;
@@ -1303,7 +1304,7 @@ namespace giac {
 	    (*dbgptr->fast_debug_info_ptr)=prog;
 	    (*dbgptr->debug_info_ptr)=prog;
 	    if (!vars._VECTptr->empty())
-	      protect=giac::bind(*values._VECTptr,*vars._VECTptr,contextptr);
+	      protect=bind(*values._VECTptr,*vars._VECTptr,contextptr);
 	    if (protect==-RAND_MAX){
 	      program_leave(*dbgptr->debug_info_ptr,save_sst_mode,dbgptr);
 	      gensizeerr(res,contextptr);

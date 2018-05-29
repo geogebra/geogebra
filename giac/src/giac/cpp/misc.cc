@@ -1496,7 +1496,7 @@ namespace giac {
     return exp2rootof(args,contextptr);
   }
   static const char _exp2rootof_s []="exp2rootof";
-  static define_unary_function_eval (__exp2rootof,&giac::_exp2rootof,_exp2rootof_s);
+  static define_unary_function_eval (__exp2rootof,&_exp2rootof,_exp2rootof_s);
   define_unary_function_ptr5( at_exp2rootof ,alias_at_exp2rootof,&__exp2rootof,0,true);
   */
 
@@ -1917,7 +1917,7 @@ namespace giac {
   define_unary_function_ptr5( at_eigenvalues ,alias_at_eigenvalues,&__eigenvalues,0,true);
 
   static const char _charpoly_s []="charpoly";
-  static define_unary_function_eval (__charpoly,&giac::_pcar,_charpoly_s);
+  static define_unary_function_eval (__charpoly,&_pcar,_charpoly_s);
   define_unary_function_ptr5( at_charpoly ,alias_at_charpoly,&__charpoly,0,true);
 
   static const char _eigenvectors_s []="eigenvectors";
@@ -2831,8 +2831,8 @@ namespace giac {
 	res.push_back(symb_segment(current[3]+y_middle*cst_i,current[4]+y_middle*cst_i,attr,_GROUP__VECT,contextptr));
       }
     } else { // vertical picture
-      giac::swapdouble(xmin,ymin);
-      giac::swapdouble(xmax,ymax);
+      swapdouble(xmin,ymin);
+      swapdouble(xmax,ymax);
       double x_scale=(xmax-xmin)/(4*s);
       for (int i=0;i<s;++i){
 	attr[0]=(i<as?affichages[i]:affichages[0]);

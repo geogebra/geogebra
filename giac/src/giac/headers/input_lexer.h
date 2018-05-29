@@ -160,7 +160,7 @@ namespace giac {
   void set_lexer_symbols(const vecteur & l,GIAC_CONTEXT);
   
   /** Set the input string to be parsed by giac_yyparse() (used internally). */
-  YY_BUFFER_STATE set_lexer_string(const std::string &s,void * & scanner,const giac::context * contextptr);
+  YY_BUFFER_STATE set_lexer_string(const std::string &s,void * & scanner,const context * contextptr);
   int delete_lexer_string(YY_BUFFER_STATE &state,void * & scanner);
   
   /** Get error message from the parser. */

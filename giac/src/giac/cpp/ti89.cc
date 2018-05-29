@@ -50,6 +50,9 @@ using namespace std;
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#ifdef FXCG
+#include <keyboard.h>
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -2016,7 +2019,7 @@ namespace giac {
     return res;
   }
   static const char _ref_s[]="ref";
-  static define_unary_function_eval (__ref,&giac::_ref,_ref_s);
+  static define_unary_function_eval (__ref,&_ref,_ref_s);
   define_unary_function_ptr5( at_ref ,alias_at_ref,&__ref,0,true);
 
   vecteur gen2vecteur(const gen & g,int exclude){
@@ -2080,11 +2083,11 @@ namespace giac {
     return matrice_extract(*v[0]._VECTptr,lignedeb-1,colonnedeb-1,lignefin-lignedeb+1,colonnefin-colonnedeb+1);
   }
   static const char _subMat_s[]="subMat";
-  static define_unary_function_eval (__subMat,&giac::_subMat,_subMat_s);
+  static define_unary_function_eval (__subMat,&_subMat,_subMat_s);
   define_unary_function_ptr5( at_subMat ,alias_at_subMat,&__subMat,0,true);
 
   static const char _submatrix_s[]="submatrix";
-  static define_unary_function_eval (__submatrix,&giac::_subMat,_submatrix_s);
+  static define_unary_function_eval (__submatrix,&_subMat,_submatrix_s);
   define_unary_function_ptr5( at_submatrix ,alias_at_submatrix,&__submatrix,0,true);
 
   gen _unitV(const gen & g,GIAC_CONTEXT) {
@@ -2092,7 +2095,7 @@ namespace giac {
     return rdiv(g,_l2norm(g,contextptr),contextptr);
   }
   static const char _unitV_s[]="unitV";
-  static define_unary_function_eval (__unitV,&giac::_unitV,_unitV_s);
+  static define_unary_function_eval (__unitV,&_unitV,_unitV_s);
   define_unary_function_ptr5( at_unitV ,alias_at_unitV,&__unitV,0,true);
 
   gen L1norm(const gen & g,GIAC_CONTEXT){
@@ -2118,11 +2121,11 @@ namespace giac {
     return res;
   }
   static const char _rowNorm_s[]="rowNorm";
-  static define_unary_function_eval (__rowNorm,&giac::_rowNorm,_rowNorm_s);
+  static define_unary_function_eval (__rowNorm,&_rowNorm,_rowNorm_s);
   define_unary_function_ptr5( at_rowNorm ,alias_at_rowNorm,&__rowNorm,0,true);
 
   static const char _rownorm_s[]="rownorm";
-  static define_unary_function_eval (__rownorm,&giac::_rowNorm,_rownorm_s);
+  static define_unary_function_eval (__rownorm,&_rowNorm,_rownorm_s);
   define_unary_function_ptr5( at_rownorm ,alias_at_rownorm,&__rownorm,0,true);
 
   gen _colNorm(const gen & g,GIAC_CONTEXT) {
@@ -2132,11 +2135,11 @@ namespace giac {
     return _rowNorm(mtran(*g._VECTptr),contextptr);
   }
   static const char _colNorm_s[]="colNorm";
-  static define_unary_function_eval (__colNorm,&giac::_colNorm,_colNorm_s);
+  static define_unary_function_eval (__colNorm,&_colNorm,_colNorm_s);
   define_unary_function_ptr5( at_colNorm ,alias_at_colNorm,&__colNorm,0,true);
 
   static const char _colnorm_s[]="colnorm";
-  static define_unary_function_eval (__colnorm,&giac::_colNorm,_colnorm_s);
+  static define_unary_function_eval (__colnorm,&_colNorm,_colnorm_s);
   define_unary_function_ptr5( at_colnorm ,alias_at_colnorm,&__colnorm,0,true);
 
   gen _ClrIO(const gen & g,GIAC_CONTEXT){
@@ -2165,10 +2168,14 @@ namespace giac {
     if (interactive_op_tab && interactive_op_tab[4])
       return interactive_op_tab[4](g,contextptr);
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+#ifdef FXCG
+    return PRGM_GetKey();
+#else
     char ch;
     CERR << "Waiting for a keystroke in konsole screen" << endl;
     CIN >> ch;
     return int(ch);
+#endif
   }
   static const char _getKey_s[]="getKey";
 #if defined RTOS_THREADX || defined BESTA_OS
@@ -2561,11 +2568,7 @@ namespace giac {
 	  gen g(name,contextptr);
 	  if (g.type==_IDNT)
 	    _RplcPic(g,contextptr);
-#ifdef NSPIRE
-	  sleep(d);
-#else
-	  usleep(d*1000);
-#endif
+	  wait_1ms(d);
 	  /*
 	    #ifdef WIN32
 	    sleep(ds);
@@ -2585,11 +2588,7 @@ namespace giac {
 	  gen g(name,contextptr);
 	  if (g.type==_IDNT)
 	    _RplcPic(g,contextptr);
-#ifdef NSPIRE
-	  sleep(d);
-#else
-	  usleep(d*1000);
-#endif
+	  wait_1ms(d);
 	  /*
 	    #ifdef WIN32
 	    sleep(ds);
@@ -2612,7 +2611,7 @@ namespace giac {
 
   gen _RandSeed(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if defined(NSPIRE_NEWLIB) || defined(VISUALC) || defined(__MINGW_H) || defined BESTA_OS || defined EMCC || defined NSPIRE
+#if defined(NSPIRE_NEWLIB) || defined(VISUALC) || defined(__MINGW_H) || defined BESTA_OS || defined EMCC || defined NSPIRE || defined FXCG
     srand(g.val);
 #else
 #ifndef GNUWINCE
@@ -2746,7 +2745,7 @@ namespace giac {
   static define_unary_function_eval (__simult,&simult,_simult_s);
   define_unary_function_ptr5( at_simult ,alias_at_simult,&__simult,0,true);
 
-#ifdef NSPIRE // (almost) inert function system for keyboard template
+#if defined NSPIRE || defined FXCG // (almost) inert function system for keyboard template
   gen system(const gen & g,GIAC_CONTEXT){
     if (g.type==_VECT)
       return *g._VECTptr;
@@ -2793,7 +2792,7 @@ namespace giac {
   // archive is made of couples name/value
   static sym_string_tab read_ti_archive(const string & s,GIAC_CONTEXT){
     vecteur v;
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
     ifstream inf(s.c_str());
     readargs_from_stream(inf,v,contextptr);
 #endif
@@ -2813,7 +2812,7 @@ namespace giac {
   }
   
   static void print_ti_archive(const string & s,const sym_string_tab & m){
-#ifdef NSPIRE
+#if defined NSPIRE || defined FXCG
     return;
 #else
     if (is_undef(check_secure()))
@@ -4802,7 +4801,7 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_STRNG)
       return gensizeerr(contextptr);
-#ifdef NSPIRE
+#if defined NSPIRE || defined FXCG
       return gensizeerr(contextptr);
 #else
     if (access(g._STRNGptr->c_str(),R_OK))

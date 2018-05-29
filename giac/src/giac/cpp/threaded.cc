@@ -155,15 +155,15 @@ mpz_class smod(const mpz_class & a,int reduce){
 
 
 #ifdef FXCG
-  void wait_1ms(context * contextptr){
-    OS_InnerWait_ms(1);
+  void wait_1ms(int ms){
+    OS_InnerWait_ms(ms);
   }
 #else
-  void wait_1ms(context * contextptr){
+  void wait_1ms(int ms){
 #ifdef NSPIRE
-    sleep(1);
+    sleep(ms);
 #else
-    usleep(1000);
+    usleep(ms*1000);
 #endif
   }
 #endif

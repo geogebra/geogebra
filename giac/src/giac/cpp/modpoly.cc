@@ -5130,7 +5130,7 @@ namespace giac {
     return r2e(horner(a,ba),lv,contextptr)/r2e(aad,lv,contextptr);
   }
   static const char _horner_s []="horner";
-  static define_unary_function_eval (__horner,&giac::_horner,_horner_s);
+  static define_unary_function_eval (__horner,&_horner,_horner_s);
   define_unary_function_ptr5( at_horner ,alias_at_horner,&__horner,0,true);
 
   gen symb_horner(const modpoly & p,const gen & x,int d){

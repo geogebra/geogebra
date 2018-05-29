@@ -1904,7 +1904,7 @@ namespace giac {
     return x*atan(x,contextptr)-rdiv(ln(abs(pow(x,2)-1,contextptr),contextptr),plus_two,contextptr);
   }
 
-  static const gen_op_context primitive_tab_primitive[]={giac::int_sin,giac::int_cos,giac::int_tan,giac::int_exp,giac::int_sinh,giac::int_cosh,giac::int_tanh,giac::int_asin,giac::int_acos,giac::int_atan,giac::xln_x,giac::int_asinh,giac::int_acosh,giac::int_atanh};
+  static const gen_op_context primitive_tab_primitive[]={int_sin,int_cos,int_tan,int_exp,int_sinh,int_cosh,int_tanh,int_asin,int_acos,int_atan,xln_x,int_asinh,int_acosh,int_atanh};
 
 #if 0
   static void insure_real_deno(gen & n,gen & d,GIAC_CONTEXT){
@@ -4959,7 +4959,7 @@ namespace giac {
       int level=eval_level(contextptr);
       context * newcontextptr= (context *) contextptr;
       vecteur localvar(1,x);
-      int protect=giac::bind(vecteur(1,debut),localvar,newcontextptr);
+      int protect=bind(vecteur(1,debut),localvar,newcontextptr);
       if (is_strictly_greater(debut,fin,newcontextptr)){
 	if (is_positive(step,newcontextptr)) // correct pos step to -
 	  step=-step;

@@ -1570,7 +1570,7 @@ namespace giac {
     return heugcd_psrgcd_ezgcd_modgcd(args,2,contextptr);
   }
   static const char _ezgcd_s []="ezgcd";
-  static define_unary_function_eval (__ezgcd,&giac::_ezgcd,_ezgcd_s);
+  static define_unary_function_eval (__ezgcd,&_ezgcd,_ezgcd_s);
   define_unary_function_ptr5( at_ezgcd ,alias_at_ezgcd,&__ezgcd,0,true);
   
   gen _modgcd(const gen & args,GIAC_CONTEXT){
@@ -1580,7 +1580,7 @@ namespace giac {
     return heugcd_psrgcd_ezgcd_modgcd(args,3,contextptr);
   }
   static const char _modgcd_s []="modgcd";
-  static define_unary_function_eval (__modgcd,&giac::_modgcd,_modgcd_s);
+  static define_unary_function_eval (__modgcd,&_modgcd,_modgcd_s);
   define_unary_function_ptr5( at_modgcd ,alias_at_modgcd,&__modgcd,0,true);
   
   gen _heugcd(const gen & args,GIAC_CONTEXT){
@@ -1590,7 +1590,7 @@ namespace giac {
     return heugcd_psrgcd_ezgcd_modgcd(args,0,contextptr);
   }
   static const char _heugcd_s []="heugcd";
-  static define_unary_function_eval (__heugcd,&giac::_heugcd,_heugcd_s);
+  static define_unary_function_eval (__heugcd,&_heugcd,_heugcd_s);
   define_unary_function_ptr5( at_heugcd ,alias_at_heugcd,&__heugcd,0,true);
 
   gen _psrgcd(const gen & args,GIAC_CONTEXT){
@@ -1600,7 +1600,7 @@ namespace giac {
     return heugcd_psrgcd_ezgcd_modgcd(args,1,contextptr);
   }
   static const char _psrgcd_s []="psrgcd";
-  static define_unary_function_eval (__psrgcd,&giac::_psrgcd,_psrgcd_s);
+  static define_unary_function_eval (__psrgcd,&_psrgcd,_psrgcd_s);
   define_unary_function_ptr5( at_psrgcd ,alias_at_psrgcd,&__psrgcd,0,true);
 
 

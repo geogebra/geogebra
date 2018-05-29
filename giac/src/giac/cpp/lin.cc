@@ -969,7 +969,7 @@ namespace giac {
   symbolic symb_expand(const gen & args){
     return symbolic(at_expand,args);
   }
-  static define_unary_function_eval (__expand,&giac::expand,_expand_s);
+  static define_unary_function_eval (__expand,&expand,_expand_s);
   define_unary_function_ptr( at_expand ,alias_at_expand ,&__expand);
 
   gen expexpand(const gen & e,GIAC_CONTEXT){
@@ -983,7 +983,7 @@ namespace giac {
     return subst(e,v,w,false,contextptr);
   }
   static const char _expexpand_s []="expexpand";
-  static define_unary_function_eval (__expexpand,&giac::expexpand,_expexpand_s);
+  static define_unary_function_eval (__expexpand,&expexpand,_expexpand_s);
   define_unary_function_ptr5( at_expexpand ,alias_at_expexpand,&__expexpand,0,true);
 
   gen lnexpand(const gen & e,GIAC_CONTEXT){
@@ -997,7 +997,7 @@ namespace giac {
     return subst(e,v,w,false,contextptr);
   }
   static const char _lnexpand_s []="lnexpand";
-  static define_unary_function_eval (__lnexpand,&giac::lnexpand,_lnexpand_s);
+  static define_unary_function_eval (__lnexpand,&lnexpand,_lnexpand_s);
   define_unary_function_ptr5( at_lnexpand ,alias_at_lnexpand,&__lnexpand,0,true);
 
   gen trigexpand(const gen & e,GIAC_CONTEXT){
@@ -1019,7 +1019,7 @@ namespace giac {
     return subst(e,v,w,false,contextptr);
   }
   static const char _trigexpand_s []="trigexpand";
-  static define_unary_function_eval (__trigexpand,&giac::trigexpand,_trigexpand_s);
+  static define_unary_function_eval (__trigexpand,&trigexpand,_trigexpand_s);
   define_unary_function_ptr5( at_trigexpand ,alias_at_trigexpand,&__trigexpand,0,true);
 
 #ifndef NO_NAMESPACE_GIAC

@@ -16,7 +16,7 @@
 
 //#include <fcntl.h>
 #include <cstdlib>
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
 #include <cstdio>
 #if defined VISUALC13 && !defined BESTA_OS
 #undef clock
@@ -29,7 +29,7 @@
 #ifdef HAVE_SSTREAM
 #include <sstream>
 #else
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
 #include <strstream>
 #endif
 #endif
@@ -39,7 +39,7 @@ using namespace std;
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-#if defined GIAC_HAS_STO_38 || defined NSPIRE
+#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined FXCG
   gen _mathml_error(const gen & g,GIAC_CONTEXT){
     return gensizeerr(gettext("No mathml support"));
   }

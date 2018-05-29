@@ -72,6 +72,7 @@
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
+  void wait_1ms(int ms=1);
   template<class U>
   inline unsigned sizeinbase2(U n){
     unsigned i=0;
