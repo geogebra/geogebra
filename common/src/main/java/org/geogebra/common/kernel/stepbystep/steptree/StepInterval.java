@@ -79,9 +79,7 @@ public class StepInterval extends StepLogical {
 
 	@Override
 	public StepInterval deepCopy() {
-		StepInterval si = new StepInterval(leftBound, rightBound, leftClosed, rightClosed);
-		si.setColor(color);
-		return si;
+		return new StepInterval(leftBound, rightBound, leftClosed, rightClosed);
 	}
 
 	@Override
@@ -108,10 +106,6 @@ public class StepInterval extends StepLogical {
 
 	@Override
 	public String toLaTeXString(Localization loc, boolean colored) {
-		if (colored && color != 0) {
-			return "\\fgcolor{" + getColorHex() + "}{" + toLaTeXString(loc, false) + "}";
-		}
-
 		if (Double.isInfinite(leftBound.getValue()) && Double.isInfinite(rightBound.getValue())) {
 			return "\\mathbb{R}";
 		}

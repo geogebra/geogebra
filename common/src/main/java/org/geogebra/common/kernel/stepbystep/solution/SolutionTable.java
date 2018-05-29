@@ -20,6 +20,11 @@ public class SolutionTable extends SolutionStep {
 		rows = new ArrayList<>();
 	}
 
+	@Override
+	public SolutionStepType getType() {
+		return SolutionStepType.TABLE;
+	}
+
 	public static SolutionTable createSignTable(StepVariable variable, List<StepExpression> roots,
 			List<StepExpression> expressions) {
 		StepExpression[] header = new StepExpression[1 + roots.size()];

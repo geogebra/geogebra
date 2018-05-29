@@ -120,7 +120,6 @@ public class StepSetOperation extends StepLogical implements Iterable<StepLogica
 	@Override
 	public StepSetOperation deepCopy() {
 		StepSetOperation so = new StepSetOperation(operation);
-		so.color = color;
 		for (StepLogical operand : operands) {
 			so.addOperand(operand.deepCopy());
 		}
@@ -156,14 +155,11 @@ public class StepSetOperation extends StepLogical implements Iterable<StepLogica
 
 	@Override
 	public String toLaTeXString(Localization loc) {
-		return toLaTeXString(loc, false);
+		return convertToString(loc, false);
 	}
 
 	@Override
 	public String toLaTeXString(Localization loc, boolean colored) {
-		if (colored && color != 0) {
-			return "\\fgcolor{" + getColorHex() + "}{" + convertToString(loc, false) + "}";
-		}
 		return convertToString(loc, colored);
 	}
 

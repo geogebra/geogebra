@@ -1,6 +1,10 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
+import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.Operation;
 
 import java.text.DecimalFormat;
 
@@ -48,6 +52,11 @@ public final class StepConstant extends StepExpression {
 		StepConstant sc = new StepConstant(value);
 		sc.setColor(color);
 		return sc;
+	}
+
+	@Override
+	public boolean isOperation(Operation operation) {
+		return false;
 	}
 
 	@Override
@@ -134,5 +143,27 @@ public final class StepConstant extends StepExpression {
 			return "\\infty";
 		}
 		return new DecimalFormat("#0.#########").format(value);
+	}
+
+	@Override
+	public StepTransformable iterateThrough(SimplificationStepGenerator step, SolutionBuilder sb,
+			RegroupTracker tracker) {
+		return this;
+	}
+
+	@Override
+	public boolean nonSpecialConstant() {
+		return !specialConstant();
+	}
+
+	@Override
+	public boolean specialConstant() {
+		return isEqual(getValue(), Math.PI) || isEqual(getValue(), Math.E) ||
+						Double.isInfinite(getValue()) || Double.isNaN(getValue());
+	}
+
+	@Override
+	public void setColor(int color) {
+		this.color = color;
 	}
 }

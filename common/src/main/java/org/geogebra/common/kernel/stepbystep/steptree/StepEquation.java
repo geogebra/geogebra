@@ -16,20 +16,14 @@ import java.util.List;
 
 public class StepEquation extends StepSolvable {
 
-	private final boolean swapped;
 	private boolean isInequation;
 
 	private StepEquation(StepExpression LHS, StepExpression RHS, boolean swapped) {
-		super(LHS, RHS);
-		this.swapped = swapped;
+		super(LHS, RHS, swapped);
 	}
 
 	public StepEquation(StepExpression LHS, StepExpression RHS) {
-		this(LHS, RHS, false);
-	}
-
-	public StepSolvable swapSides() {
-		return new StepEquation(RHS, LHS, !swapped);
+		super(LHS, RHS, false);
 	}
 
 	public StepEquation setInequation() {
@@ -74,6 +68,11 @@ public class StepEquation extends StepSolvable {
 		newEq.isInequation = isInequation;
 
 		return newEq;
+	}
+
+	@Override
+	public StepSolvable swapSides() {
+		return new StepEquation(RHS, LHS, !swapped);
 	}
 
 	@Override

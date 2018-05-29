@@ -20,14 +20,14 @@ enum ExpandSteps implements SimplificationStepGenerator {
 
 				if (so.noOfOperands() != 2 || !so.getOperand(0).isSum() ||
 						!so.getOperand(1).isSum()) {
-					return StepStrategies.iterateThrough(this, sn, sb, tracker);
+					return sn.iterateThrough(this, sb, tracker);
 				}
 
 				StepOperation first = (StepOperation) so.getOperand(0);
 				StepOperation second = (StepOperation) so.getOperand(1);
 
 				if (first.noOfOperands() != 2 || second.noOfOperands() != 2) {
-					return StepStrategies.iterateThrough(this, sn, sb, tracker);
+					return sn.iterateThrough(this, sb, tracker);
 				}
 
 				if (first.getOperand(0).equals(second.getOperand(0)) &&
@@ -65,7 +65,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -109,7 +109,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 
 		private StepExpression expandUsingFormula(StepOperation so, SolutionBuilder sb,
@@ -199,11 +199,11 @@ enum ExpandSteps implements SimplificationStepGenerator {
 
 			for (StepExpression operand : so) {
 				if (first == null || second == null && !first.isSum() && !operand.isSum()) {
-					first = multiply(first, operand);
+					first = StepOperation.create(Operation.MULTIPLY, first, operand);
 				} else if (second == null || !second.isSum() && !operand.isSum()) {
-					second = multiply(second, operand);
+					second = StepOperation.create(Operation.MULTIPLY, second, operand);
 				} else {
-					remaining = multiply(remaining, operand);
+					remaining = StepOperation.create(Operation.MULTIPLY, remaining, operand);
 				}
 			}
 
@@ -240,7 +240,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 					for (int i = 0; i < soFirst.noOfOperands(); i++) {
 						for (int j = 0; j < soSecond.noOfOperands(); j++) {
 							terms[i * soSecond.noOfOperands() + j] = multiply(
-									soFirst.getOperand(i), soSecond.getOperand(j)).deepCopy();
+									soFirst.getOperand(i), soSecond.getOperand(j));
 						}
 					}
 
@@ -251,7 +251,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 					StepExpression[] terms = new StepExpression[soFirst.noOfOperands()];
 
 					for (int i = 0; i < soFirst.noOfOperands(); i++) {
-						terms[i] = multiply(soFirst.getOperand(i), second.deepCopy());
+						terms[i] = multiply(soFirst.getOperand(i), second);
 					}
 
 					product = new StepOperation(Operation.PLUS, terms);
@@ -261,7 +261,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 					StepExpression[] terms = new StepExpression[soSecond.noOfOperands()];
 
 					for (int i = 0; i < soSecond.noOfOperands(); i++) {
-						terms[i] = multiply(first.deepCopy(), soSecond.getOperand(i));
+						terms[i] = multiply(first, soSecond.getOperand(i));
 					}
 
 					product = new StepOperation(Operation.PLUS, terms);
@@ -272,6 +272,6 @@ enum ExpandSteps implements SimplificationStepGenerator {
 			}
 		}
 
-		return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		return sn.iterateThrough(this, sb, tracker);
 	}
 }

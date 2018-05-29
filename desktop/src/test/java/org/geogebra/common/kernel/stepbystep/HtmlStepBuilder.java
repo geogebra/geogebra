@@ -87,7 +87,7 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 
 	@Override
 	public void buildStepGui(SolutionStep step) {
-		buildStepGui(step, true, 0);
+		buildStepGui(step.cleanupSteps(), true, 0);
 	}
 
 	public void buildStepGui(SolutionStep step, boolean detailed, int indent) {

@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.stepbystep.steps;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 
-interface SimplificationStepGenerator {
+public interface SimplificationStepGenerator {
 
 	StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker);
 

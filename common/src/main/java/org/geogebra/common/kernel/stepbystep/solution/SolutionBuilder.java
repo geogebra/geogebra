@@ -38,6 +38,10 @@ public class SolutionBuilder {
 		add(new SolutionLine(type, color));
 	}
 
+	public void add(SolutionStepType type) {
+		add(new SolutionLine(type));
+	}
+
 	/**
 	 * Creates a new solutions line and adds it to the tree
 	 *
@@ -148,7 +152,7 @@ public class SolutionBuilder {
 	 * many are needed
 	 */
 	public void reset() {
-		previousSteps = new Stack<>();
+		previousSteps.clear();
 		currentStep = lastStep = null;
 		add(SolutionStepType.WRAPPER);
 	}

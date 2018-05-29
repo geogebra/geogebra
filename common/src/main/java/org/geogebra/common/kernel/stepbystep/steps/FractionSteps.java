@@ -3,7 +3,10 @@ package org.geogebra.common.kernel.stepbystep.steps;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
+import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
@@ -37,12 +40,13 @@ enum FractionSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
-				StepExpression remainder = null;
-				StepExpression newNumerator = null;
+				StepExpression[] remainder = new StepExpression[so.noOfOperands()];
+				StepExpression[] newNumerator = new StepExpression[so.noOfOperands()];
 				StepExpression newDenominator = null;
 
 				List<StepExpression> fractions = new ArrayList<>();
-				for (StepExpression operand : so) {
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					StepExpression operand = so.getOperand(i);
 					StepExpression currentNumerator = operand.getNumerator();
 					StepExpression currentDenominator = operand.getDenominator();
 
@@ -51,26 +55,27 @@ enum FractionSteps implements SimplificationStepGenerator {
 					}
 
 					if (currentDenominator != null && currentDenominator.equals(newDenominator)) {
-						newNumerator = add(newNumerator, currentNumerator);
+						newNumerator[i] = currentNumerator;
 						fractions.add(operand);
 					} else {
-						remainder = add(remainder, operand);
+						remainder[i] = operand;
 					}
 				}
 
 				if (fractions.size() > 1) {
+					int denominatorColor = tracker.incColorTracker();
 					for (StepExpression fraction : fractions) {
-						fraction.setColor(tracker.getColorTracker());
+						fraction.getNumerator().setColor(tracker.incColorTracker());
+						fraction.getDenominator().setColor(denominatorColor);
 					}
 
-					StepExpression result = divide(newNumerator, newDenominator);
-					result.setColor(tracker.getColorTracker());
-					sb.add(SolutionStepType.ADD_NUMERATORS, tracker.incColorTracker());
-					return add(remainder, result);
+					StepExpression result = divide(add(newNumerator), newDenominator);
+					sb.add(SolutionStepType.ADD_NUMERATORS);
+					return add(add(remainder), result);
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -88,7 +93,7 @@ enum FractionSteps implements SimplificationStepGenerator {
                     RegroupSteps.SIMPLIFY_FRACTIONS
             };
 
-			if (RegroupSteps.contains(sn, Operation.DIVIDE)) {
+			if (sn.contains(Operation.DIVIDE)) {
 				return StepStrategies.implementGroup(sn, SolutionStepType.ADD_FRACTIONS,
 						fractionAddition, sb, tracker);
 			}
@@ -112,7 +117,7 @@ enum FractionSteps implements SimplificationStepGenerator {
 					RegroupSteps.SIMPLIFY_FRACTIONS
 			};
 
-			if (RegroupSteps.contains(sn, Operation.DIVIDE)) {
+			if (sn.contains(Operation.DIVIDE)) {
 				return StepStrategies.implementGroup(sn, SolutionStepType.ADD_FRACTIONS,
 						fractionAddition, sb, tracker);
 			}
@@ -129,7 +134,7 @@ enum FractionSteps implements SimplificationStepGenerator {
 
 	StepTransformable expandFractions(StepTransformable sn, SolutionBuilder sb,
 			RegroupTracker tracker, boolean integer) {
-		StepTransformable temp = StepStrategies.iterateThrough(this, sn, sb, tracker);
+		StepTransformable temp = sn.iterateThrough(this, sb, tracker);
 		if (!temp.equals(sn)) {
 			return temp;
 		}
@@ -145,7 +150,7 @@ enum FractionSteps implements SimplificationStepGenerator {
 			}
 
 			if (isOne(newDenominator) || integer && !newDenominator.isInteger()) {
-				return StepStrategies.iterateThrough(this, sn, sb, tracker);
+				return sn.iterateThrough(this, sb, tracker);
 			}
 
 			int tempTracker = tracker.getColorTracker();

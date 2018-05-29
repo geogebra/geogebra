@@ -119,9 +119,6 @@ public class StepSolution extends StepNode {
 
 	@Override
 	public String toLaTeXString(Localization loc, boolean colored) {
-		if (colored && color != 0) {
-			return "\\fgcolor{" + getColorHex() + "}{" + convertToString(loc, false) + "}";
-		}
 		return convertToString(loc, colored);
 	}
 

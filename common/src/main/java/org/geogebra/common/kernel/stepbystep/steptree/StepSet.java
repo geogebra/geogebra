@@ -84,14 +84,11 @@ public class StepSet extends StepLogical implements Iterable<StepExpression> {
 
 	@Override
 	public String toLaTeXString(Localization loc) {
-		return toLaTeXString(loc, false);
+		return convertToString(loc, false);
 	}
 
 	@Override
 	public String toLaTeXString(Localization loc, boolean colored) {
-		if (colored && color != 0) {
-			return "\\fgcolor{" + getColorHex() + "}{" + convertToString(loc, false) + "}";
-		}
 		return convertToString(loc, colored);
 	}
 

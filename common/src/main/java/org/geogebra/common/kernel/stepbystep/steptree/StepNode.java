@@ -14,8 +14,6 @@ import java.util.Set;
 
 public abstract class StepNode implements TableElement {
 
-	protected int color;
-
 	public static String getColorHex(int color) {
 		switch (color % 5) {
 			case 1:
@@ -244,13 +242,13 @@ public abstract class StepNode implements TableElement {
 
 	private static StepExpression applyBinaryOp(Operation op, StepExpression a, StepExpression b) {
 		if (a == null) {
-			return b;
+			return b == null ? null : b.deepCopy();
 		}
 		if (b == null) {
-			return a;
+			return a.deepCopy();
 		}
 
-		return StepOperation.create(op, a, b);
+		return StepOperation.create(op, a.deepCopy(), b.deepCopy());
 	}
 
 	private static StepExpression applyNullableBinaryOp(Operation op, StepExpression a,
@@ -259,10 +257,10 @@ public abstract class StepNode implements TableElement {
 			return null;
 		}
 		if (b == null) {
-			return a;
+			return a.deepCopy();
 		}
 
-		return StepOperation.create(op, a, b);
+		return StepOperation.create(op, a.deepCopy(), b.deepCopy());
 	}
 
 	private static StepLogical doSetOperation(SetOperation op, StepLogical a, StepLogical b) {
@@ -474,51 +472,11 @@ public abstract class StepNode implements TableElement {
 	 */
 	public abstract StepNode deepCopy();
 
-	protected String getColorHex() {
-		return getColorHex(color);
-	}
-
-	/**
-	 * Recursively sets a color for the tree (i.e. for the root and all of the nodes
-	 * under it)
-	 *
-	 * @param color the color to set
-	 */
-	public void setColor(int color) {
-		this.color = color;
-		if (this instanceof StepOperation) {
-			for (StepExpression operand : (StepOperation) this) {
-				operand.setColor(color);
-			}
-		} else if (this instanceof StepSolvable) {
-			((StepSolvable) this).LHS.setColor(color);
-			((StepSolvable) this).RHS.setColor(color);
-		} else if (this instanceof StepMatrix) {
-			StepMatrix sm = (StepMatrix) this;
-			for (int i = 0; i < sm.getHeight(); i++) {
-				for (int j = 0; j < sm.getWidth(); j++) {
-					sm.get(i, j).setColor(color);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Sets 0 as the color of the tree
-	 */
-	public void cleanColors() {
-		setColor(0);
-	}
-
 	/**
 	 * @return the tree, formatted in LaTeX
 	 */
 	public String toLaTeXString(Localization loc) {
 		return toLaTeXString(loc, false);
-	}
-
-	public boolean isOperation(Operation op) {
-		return this instanceof StepOperation && ((StepOperation) this).getOperation() == op;
 	}
 
 	/**

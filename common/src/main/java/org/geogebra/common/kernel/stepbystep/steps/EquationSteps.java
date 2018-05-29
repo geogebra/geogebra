@@ -448,7 +448,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 			StepSolvable result = se;
 			if (se.RHS.countNonConstOperation(Operation.NROOT, variable) >
 					se.LHS.countNonConstOperation(Operation.NROOT, variable)) {
-				result = ((StepEquation) result).swapSides();
+				result = result.swapSides();
 			}
 
 			if (sqrtNum == 1) {
@@ -535,7 +535,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 
 				if (result.RHS.countNonConstOperation(Operation.ABS, variable) >
 						result.LHS.countNonConstOperation(Operation.ABS, variable)) {
-					result = ((StepEquation) result).swapSides();
+					result = result.swapSides();
 				}
 
 				if (result.LHS.countNonConstOperation(Operation.ABS, variable) == 2) {

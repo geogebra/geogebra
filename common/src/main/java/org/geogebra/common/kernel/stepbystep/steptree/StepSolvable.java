@@ -4,6 +4,8 @@ import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
+import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.plugin.Operation;
 
@@ -14,10 +16,24 @@ public abstract class StepSolvable extends StepTransformable {
 	public final StepExpression LHS;
 	public final StepExpression RHS;
 
-	protected StepSolvable(StepExpression LHS, StepExpression RHS) {
+	protected final boolean swapped;
+
+	protected StepSolvable(StepExpression LHS, StepExpression RHS, boolean swapped) {
 		this.LHS = LHS;
 		this.RHS = RHS;
+		this.swapped = swapped;
 	}
+
+	protected StepSolvable(StepExpression LHS, StepExpression RHS) {
+		this(LHS, RHS, false);
+	}
+
+	@Override
+	public abstract StepSolvable deepCopy();
+
+	public abstract StepSolvable cloneWith(StepExpression newLHS, StepExpression newRHS);
+
+	public abstract StepSolvable swapSides();
 
 	public int countNonConstOperation(Operation operation, StepVariable variable) {
 		return LHS.countNonConstOperation(operation, variable) +
@@ -40,6 +56,23 @@ public abstract class StepSolvable extends StepTransformable {
 		return solve(sv, sb, new SolveTracker());
 	}
 
+	@Override
+	public void setColor(int color) {
+		this.color = color;
+		LHS.setColor(color);
+		RHS.setColor(color);
+	}
+
+	@Override
+	public boolean isOperation(Operation operation) {
+		return false;
+	}
+
+	@Override
+	public boolean contains(Operation op) {
+		return LHS.contains(op) || RHS.contains(op);
+	}
+
 	public abstract List<StepSolution> solve(StepVariable sv, SolutionBuilder sb,
 			SolveTracker tracker);
 
@@ -48,10 +81,6 @@ public abstract class StepSolvable extends StepTransformable {
 
 	public abstract boolean checkSolution(StepVariable variable, StepExpression value,
 			SolutionBuilder steps, SolveTracker tracker);
-
-	public abstract StepSolvable deepCopy();
-
-	public abstract StepSolvable cloneWith(StepExpression newLHS, StepExpression newRHS);
 
 	public int degree(StepVariable var) {
 		int degreeLHS = LHS.degree(var);
@@ -124,7 +153,6 @@ public abstract class StepSolvable extends StepTransformable {
 		if (!isZero(toAdd)) {
 			toAdd.setColor(1);
 			StepSolvable result = cloneWith(add(LHS, toAdd), add(RHS, toAdd));
-			toAdd.cleanColors();
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
@@ -136,6 +164,9 @@ public abstract class StepSolvable extends StepTransformable {
 			}
 			steps.levelDown();
 			steps.add(result);
+
+			toAdd.cleanColors();
+			result.cleanColors();
 
 			result = result.regroup(steps);
 			steps.levelUp();
@@ -157,7 +188,6 @@ public abstract class StepSolvable extends StepTransformable {
 			toSubtract.setColor(1);
 			StepSolvable result = cloneWith(subtract(LHS, toSubtract),
 					subtract(RHS, toSubtract));
-			toSubtract.cleanColors();
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
@@ -169,6 +199,9 @@ public abstract class StepSolvable extends StepTransformable {
 			}
 			steps.levelDown();
 			steps.add(result);
+
+			toSubtract.cleanColors();
+			result.cleanColors();
 
 			result = result.regroup(steps);
 			steps.levelUp();
@@ -359,5 +392,14 @@ public abstract class StepSolvable extends StepTransformable {
 
 		result.cleanColors();
 		return result;
+	}
+
+	@Override
+	public StepTransformable iterateThrough(SimplificationStepGenerator step, SolutionBuilder sb,
+			RegroupTracker tracker) {
+		StepExpression newLHS = (StepExpression) step.apply(LHS, sb, tracker);
+		StepExpression newRHS = (StepExpression) step.apply(RHS, sb, tracker);
+
+		return cloneWith(newLHS, newRHS);
 	}
 }

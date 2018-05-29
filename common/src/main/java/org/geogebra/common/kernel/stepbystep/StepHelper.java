@@ -20,7 +20,7 @@ public class StepHelper {
 	private static abstract class Condition {
 		private static final Condition underAbs = new Condition() {
 			@Override
-			public StepNode isTrueFor(StepNode sn) {
+			public StepTransformable isTrueFor(StepTransformable sn) {
 				if (sn.isOperation(Operation.ABS)) {
 					return ((StepOperation) sn).getOperand(0);
 				}
@@ -29,7 +29,7 @@ public class StepHelper {
 		};
 		private static final Condition underEvenRoot = new Condition() {
 			@Override
-			public StepNode isTrueFor(StepNode sn) {
+			public StepTransformable isTrueFor(StepTransformable sn) {
 				if (sn.isOperation(Operation.NROOT) && ((StepOperation) sn).getOperand(1)
 						.isEven()) {
 					return ((StepOperation) sn).getOperand(0);
@@ -39,7 +39,7 @@ public class StepHelper {
 		};
 		private static final Condition plusminusToPlus = new Condition() {
 			@Override
-			public StepNode isTrueFor(StepNode sn) {
+			public StepTransformable isTrueFor(StepTransformable sn) {
 				if (sn.isOperation(Operation.PLUSMINUS)) {
 					return ((StepOperation) sn).getOperand(0);
 				}
@@ -48,7 +48,7 @@ public class StepHelper {
 		};
 		private static final Condition plusminusToMinus = new Condition() {
 			@Override
-			public StepNode isTrueFor(StepNode sn) {
+			public StepTransformable isTrueFor(StepTransformable sn) {
 				if (sn.isOperation(Operation.PLUSMINUS)) {
 					return minus(((StepOperation) sn).getOperand(0));
 				}
@@ -57,7 +57,7 @@ public class StepHelper {
 		};
 		private static final Condition isDenominator = new Condition() {
 			@Override
-			public StepNode isTrueFor(StepNode sn) {
+			public StepTransformable isTrueFor(StepTransformable sn) {
 				if (sn.isOperation(Operation.DIVIDE)) {
 					return ((StepOperation) sn).getOperand(1);
 				}
@@ -65,7 +65,7 @@ public class StepHelper {
 			}
 		};
 
-		public abstract StepNode isTrueFor(StepNode sn);
+		public abstract StepTransformable isTrueFor(StepTransformable sn);
 	}
 
 	/**
@@ -93,8 +93,8 @@ public class StepHelper {
 		return null;
 	}
 
-	private static void getAll(StepNode sn, Set<StepExpression> values, Condition c) {
-		StepNode value = c.isTrueFor(sn);
+	private static void getAll(StepTransformable sn, Set<StepExpression> values, Condition c) {
+		StepTransformable value = c.isTrueFor(sn);
 		if (value != null) {
 			values.add((StepExpression) value);
 		}
@@ -111,8 +111,8 @@ public class StepHelper {
 		}
 	}
 
-	public static StepNode replaceFirst(StepNode sn, Condition c) {
-		StepNode value = c.isTrueFor(sn);
+	public static StepNode replaceFirst(StepTransformable sn, Condition c) {
+		StepTransformable value = c.isTrueFor(sn);
 		if (value != null) {
 			return value;
 		}
@@ -154,15 +154,15 @@ public class StepHelper {
 		return null;
 	}
 
-	public static void getAbsoluteValues(StepNode sn, Set<StepExpression> absoluteValues) {
+	public static void getAbsoluteValues(StepTransformable sn, Set<StepExpression> absoluteValues) {
 		getAll(sn, absoluteValues, Condition.underAbs);
 	}
 
-	public static void getDenominators(StepNode sn, Set<StepExpression> denominators) {
+	public static void getDenominators(StepTransformable sn, Set<StepExpression> denominators) {
 		getAll(sn, denominators, Condition.isDenominator);
 	}
 
-	public static void getRoots(StepNode sn, Set<StepExpression> roots) {
+	public static void getRoots(StepTransformable sn, Set<StepExpression> roots) {
 		getAll(sn, roots, Condition.underEvenRoot);
 	}
 
@@ -170,7 +170,7 @@ public class StepHelper {
 			final StepVariable sv) {
 		return (StepOperation) findExpression(se, new Condition() {
 			@Override
-			public StepNode isTrueFor(StepNode sn) {
+			public StepTransformable isTrueFor(StepTransformable sn) {
 				if (sn instanceof StepOperation) {
 					StepOperation so = (StepOperation) sn;
 					if (so.isTrigonometric() && !so.isConstantIn(sv)) {
@@ -188,7 +188,7 @@ public class StepHelper {
 
 		StepExpression expr = findExpression(diff, new Condition() {
 			@Override
-			public StepNode isTrueFor(StepNode sn) {
+			public StepTransformable isTrueFor(StepTransformable sn) {
 				if (sn instanceof StepOperation) {
 					StepOperation so = (StepOperation) sn;
 

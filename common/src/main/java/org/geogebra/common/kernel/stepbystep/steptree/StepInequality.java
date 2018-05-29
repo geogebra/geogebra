@@ -15,11 +15,16 @@ public class StepInequality extends StepSolvable {
 	private final boolean lessThan;
 	private final boolean strong;
 
-	public StepInequality(StepExpression LHS, StepExpression RHS, boolean lessThan,
-			boolean strong) {
-		super(LHS, RHS);
+	private StepInequality(StepExpression LHS, StepExpression RHS, boolean lessThan,
+			boolean strong, boolean swapped) {
+		super(LHS, RHS, swapped);
 		this.lessThan = lessThan;
 		this.strong = strong;
+	}
+
+	public StepInequality(StepExpression LHS, StepExpression RHS, boolean lessThan,
+			boolean strong) {
+		this(LHS, RHS, lessThan, strong, false);
 	}
 
 	public static StepInequality from(String LHS, String op, String RHS, Parser parser) {
@@ -80,6 +85,11 @@ public class StepInequality extends StepSolvable {
 	@Override
 	public StepInequality cloneWith(StepExpression newLHS, StepExpression newRHS) {
 		return new StepInequality(newLHS, newRHS, lessThan, strong);
+	}
+
+	@Override
+	public StepInequality swapSides() {
+		return new StepInequality(RHS, LHS, !lessThan, strong, swapped);
 	}
 
 	@Override

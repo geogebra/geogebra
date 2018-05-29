@@ -32,7 +32,7 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -56,7 +56,7 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -87,7 +87,7 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -126,7 +126,7 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -158,7 +158,7 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -205,7 +205,7 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -262,7 +262,7 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -296,7 +296,7 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -347,7 +347,7 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -403,7 +403,7 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -461,7 +461,7 @@ enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 

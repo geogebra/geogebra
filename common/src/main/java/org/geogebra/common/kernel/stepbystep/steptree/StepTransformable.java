@@ -1,13 +1,24 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import org.geogebra.common.kernel.stepbystep.StepsCache;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
+import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
+import org.geogebra.common.plugin.Operation;
 
 public abstract class StepTransformable extends StepNode {
 
+	protected int color;
+
+	public abstract boolean contains(Operation op);
+
+	public abstract StepTransformable iterateThrough(SimplificationStepGenerator step,
+			SolutionBuilder sb, RegroupTracker tracker);
+
 	public abstract StepSolvable toSolvable();
+
+	public abstract boolean isOperation(Operation op);
 
 	StepTransformable regroup() {
 		return regroup(null);
@@ -20,7 +31,7 @@ public abstract class StepTransformable extends StepNode {
 	 * @return the expression, regrouped
 	 */
 	public StepTransformable regroup(SolutionBuilder sb) {
-		return StepsCache.getInstance().regroup(this, sb);
+		return StepStrategies.defaultRegroup(this, sb);
 	}
 
 	public StepTransformable weakRegroup() {
@@ -75,7 +86,7 @@ public abstract class StepTransformable extends StepNode {
 	 * @return the expression, regrouped and expanded
 	 */
 	public StepTransformable expand(SolutionBuilder sb) {
-		return StepsCache.getInstance().expand(this, sb);
+		return StepStrategies.defaultExpand(this, sb);
 	}
 
 	public StepTransformable expandOutput(SolutionBuilder sb) {
@@ -95,7 +106,7 @@ public abstract class StepTransformable extends StepNode {
 	 * @return the expression, factored
 	 */
 	public StepTransformable factor(SolutionBuilder sb) {
-		return StepsCache.getInstance().factor(this, sb);
+		return StepStrategies.defaultFactor(this, sb);
 	}
 
 	public StepTransformable weakFactor(SolutionBuilder sb) {
@@ -124,4 +135,22 @@ public abstract class StepTransformable extends StepNode {
 
 	public abstract boolean containsFractions();
 
+	protected String getColorHex() {
+		return getColorHex(color);
+	}
+
+	/**
+	 * Recursively sets a color for the tree (i.e. for the root and all of the nodes
+	 * under it)
+	 *
+	 * @param color the color to set
+	 */
+	public abstract void setColor(int color);
+
+	/**
+	 * Sets 0 as the color of the tree
+	 */
+	public void cleanColors() {
+		setColor(0);
+	}
 }

@@ -42,7 +42,14 @@ enum SolveSteps implements SolveStepGenerator {
 		@Override
 		public Result apply(StepSolvable se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			return new Result(se.subtract(se.RHS, steps));
+			StepSolvable result = se;
+			int degreeL = se.LHS.degree(variable);
+			int degreeR = se.RHS.degree(variable);
+			if (degreeL != -1 && degreeR != -1 && degreeR > degreeL) {
+				result = result.swapSides();
+			}
+
+			return new Result(result.subtract(result.RHS, steps));
 		}
 	},
 
@@ -71,10 +78,9 @@ enum SolveSteps implements SolveStepGenerator {
 
 			StepSolvable result = se;
 
-			if (se instanceof StepEquation
-				&& StepHelper.getCoefficientValue(se.RHS, variable)
+			if (StepHelper.getCoefficientValue(se.RHS, variable)
 					> StepHelper.getCoefficientValue(se.LHS, variable)) {
-				result = ((StepEquation) result).swapSides();
+				result = result.swapSides();
 			}
 
 			StepExpression RHSlinear = result.RHS.findExpression(variable);

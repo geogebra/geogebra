@@ -245,21 +245,14 @@ public abstract class StepExpression extends StepTransformable
 	 *
 	 * @return whether the current node is a nonSpecialConstant
 	 */
-	public boolean nonSpecialConstant() {
-		return this instanceof StepConstant && !specialConstant() ||
-				isNegative() && negate() instanceof StepConstant && !negate().specialConstant();
-	}
+	public abstract boolean nonSpecialConstant();
 
 	/**
 	 * Special constants are pi and e, and infinity
 	 *
 	 * @return whether the current node is a specialConstant
 	 */
-	public boolean specialConstant() {
-		return this instanceof StepConstant &&
-				(isEqual(getValue(), Math.PI) || isEqual(getValue(), Math.E) ||
-						Double.isInfinite(getValue()) || Double.isNaN(getValue()));
-	}
+	public abstract boolean specialConstant();
 
 	public boolean isUndefined() {
 		return this instanceof StepConstant && Double.isNaN(getValue());
@@ -478,6 +471,11 @@ public abstract class StepExpression extends StepTransformable
 		}
 
 		return 0;
+	}
+
+	@Override
+	public boolean contains(Operation op) {
+		return countOperation(op) > 0;
 	}
 
 	public int countOperation(Operation operation) {

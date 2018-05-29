@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
+import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
@@ -139,6 +142,14 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		return result;
 	}
 
+	@Override
+	public void setColor(int color) {
+		this.color = color;
+		for (StepExpression operand : operands) {
+			operand.setColor(color);
+		}
+	}
+
 	public StepExpression[] getSortedOperandList() {
 		if (sortedOperandList == null) {
 			StepOperation simpleCopy = simpleCopy();
@@ -182,6 +193,21 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 					Arrays.equals(getSortedOperandList(), so.getSortedOperandList());
 		}
 
+		return false;
+	}
+
+	@Override
+	public boolean isOperation(Operation operation) {
+		return this.operation == operation;
+	}
+
+	@Override
+	public boolean nonSpecialConstant() {
+		return operation == Operation.MINUS && operands[0].nonSpecialConstant();
+	}
+
+	@Override
+	public boolean specialConstant() {
 		return false;
 	}
 
@@ -637,5 +663,34 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 				return divide(getOperand(0).getNonInteger(), getOperand(1).getNonInteger());
 		}
 		return this;
+	}
+
+	@Override
+	public StepTransformable iterateThrough(SimplificationStepGenerator step, SolutionBuilder sb,
+			RegroupTracker tracker) {
+		int colorsAtStart = tracker.getColorTracker();
+
+		StepExpression[] toReturn = null;
+		for (int i = 0; i < operands.length; i++) {
+			StepExpression a = (StepExpression) step.apply(operands[i], sb, tracker);
+			if (a.isUndefined()) {
+				return a;
+			}
+
+			if (toReturn == null && tracker.getColorTracker() > colorsAtStart) {
+				toReturn = new StepExpression[operands.length];
+
+				System.arraycopy(operands, 0, toReturn, 0, i);
+			}
+			if (toReturn != null) {
+				toReturn[i] = a;
+			}
+		}
+
+		if (toReturn == null) {
+			return this;
+		}
+
+		return create(operation, toReturn);
 	}
 }

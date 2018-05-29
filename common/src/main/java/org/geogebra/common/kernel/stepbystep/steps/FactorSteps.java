@@ -30,7 +30,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 					common = StepHelper.simpleGCD(common, so.getOperand(i));
 				}
 
-				if (isOne(common)) {
+				if (common == null || isEqual(common, 1) || isEqual(common, -1)) {
 					return so;
 				}
 
@@ -56,8 +56,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 						if (index != -1 && !isZero(commonExponents.get(index))) {
 							StepExpression differenceOfPowers = subtract(
 									currentExponents.get(i).get(j), commonExponents.get(index));
-							differenceOfPowers = (StepExpression) RegroupSteps.WEAK_REGROUP
-									.apply(differenceOfPowers, null, new RegroupTracker());
+							differenceOfPowers = differenceOfPowers.weakRegroup();
 							if (!isZero(differenceOfPowers)) {
 								currentExponents.get(i).get(j).setColor(tracker.getColorTracker());
 								currentBases.get(i).get(j).setColor(tracker.getColorTracker());
@@ -81,7 +80,9 @@ enum FactorSteps implements SimplificationStepGenerator {
 					}
 
 					if (common.equals(current)) {
+						current.setColor(tracker.getColorTracker());
 						current = multiply(current, StepConstant.create(1));
+						current.setColor(tracker.incColorTracker());
 					}
 
 					operands[i] = current;
@@ -101,7 +102,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				return result;
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -116,7 +117,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 					common = StepHelper.simpleGCD(common, so.getOperand(i));
 				}
 
-				if (isOne(common)) {
+				if (common == null || isEqual(common, 1) || isEqual(common, -1)) {
 					return sn;
 				}
 
@@ -168,7 +169,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				return multiply(common, result);
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -227,7 +228,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				return multiply(integerParts[integerParts.length - 1], factored);
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -251,7 +252,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 					}
 
 					if (first == null || second == null || third == null) {
-						return StepStrategies.iterateThrough(this, sn, sb, tracker);
+						return sn.iterateThrough(this, sb, tracker);
 					}
 
 					StepExpression b = second.findCoefficient(first.getSquareRoot());
@@ -280,7 +281,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				return so;
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -304,7 +305,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 					}
 
 					if (first == null || second == null || third == null) {
-						return StepStrategies.iterateThrough(this, sn, sb, tracker);
+						return sn.iterateThrough(this, sb, tracker);
 					}
 
 					StepExpression a = first.getSquareRoot();
@@ -373,7 +374,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -395,7 +396,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 					}
 
 					if (aCube == null || bCube == null) {
-						return StepStrategies.iterateThrough(this, sn, sb, tracker);
+						return sn.iterateThrough(this, sb, tracker);
 					}
 
 					StepExpression a = aCube.getCubeRoot();
@@ -422,7 +423,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -464,7 +465,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				return so;
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -519,7 +520,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				return so;
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -538,13 +539,13 @@ enum FactorSteps implements SimplificationStepGenerator {
 				}
 
 				if (var == null || !so.integerCoefficients(var)) {
-					return StepStrategies.iterateThrough(this, sn, sb, tracker);
+					return sn.iterateThrough(this, sb, tracker);
 				}
 
 				StepExpression[] polynomialForm = so.convertToPolynomial(var);
 
 				if (polynomialForm.length < 3) {
-					return StepStrategies.iterateThrough(this, sn, sb, tracker);
+					return sn.iterateThrough(this, sb, tracker);
 				}
 
 				long[] integerForm = new long[polynomialForm.length];
@@ -560,7 +561,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				long highestOrder = Math.abs(integerForm[integerForm.length - 1]);
 
 				if (constant > 100 || highestOrder > 100) {
-					return StepStrategies.iterateThrough(this, sn, sb, tracker);
+					return sn.iterateThrough(this, sb, tracker);
 				}
 
 				for (long i = -constant; i <= constant; i++) {
@@ -593,7 +594,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 
@@ -654,7 +655,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+			return sn.iterateThrough(this, sb, tracker);
 		}
 	},
 

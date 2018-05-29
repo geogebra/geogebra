@@ -21,8 +21,35 @@ public abstract class SolutionStep {
 		substeps.add(substep);
 	}
 
+	public abstract SolutionStepType getType();
+
 	public List<SolutionStep> getSubsteps() {
 		return substeps;
+	}
+
+	private boolean shouldCollapse() {
+		return getType() != SolutionStepType.FACTOR
+				&& getType() != SolutionStepType.DETERMINE_THE_DEFINED_RANGE;
+	}
+
+	public SolutionStep cleanupSteps() {
+		if (substeps == null) {
+			return this;
+		}
+
+		for (int i = 0; i < substeps.size(); i++) {
+			substeps.set(i, substeps.get(i).cleanupSteps());
+		}
+
+		if (getType() == SolutionStepType.GROUP_WRAPPER) {
+			if (substeps.get(0).substeps != null && substeps.get(0).substeps.size() == 1) {
+				if (substeps.get(0).shouldCollapse()) {
+					return substeps.get(0).substeps.get(0);
+				}
+			}
+		}
+
+		return this;
 	}
 
 	/**

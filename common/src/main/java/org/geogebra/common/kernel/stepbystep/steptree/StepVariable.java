@@ -1,6 +1,10 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
+import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.Operation;
 
 public class StepVariable extends StepExpression {
 
@@ -22,6 +26,26 @@ public class StepVariable extends StepExpression {
 		}
 
 		return false;
+	}
+
+	@Override
+	public boolean isOperation(Operation operation) {
+		return false;
+	}
+
+	@Override
+	public boolean nonSpecialConstant() {
+		return false;
+	}
+
+	@Override
+	public boolean specialConstant() {
+		return false;
+	}
+
+	@Override
+	public void setColor(int color) {
+		this.color = color;
 	}
 
 	@Override
@@ -103,5 +127,11 @@ public class StepVariable extends StepExpression {
 			return "\\fgcolor{" + getColorHex() + "}{" + label + "}";
 		}
 		return label;
+	}
+
+	@Override
+	public StepTransformable iterateThrough(SimplificationStepGenerator step, SolutionBuilder sb,
+			RegroupTracker tracker) {
+		return this;
 	}
 }

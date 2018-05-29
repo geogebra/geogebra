@@ -2,11 +2,13 @@ package org.geogebra.common.kernel.stepbystep.steps;
 
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class StepStrategies {
 
@@ -56,7 +58,7 @@ public class StepStrategies {
 
 	public static StepTransformable implementGroup(StepTransformable sn, SolutionStepType groupHeader,
 			SimplificationStepGenerator[] strategy, SolutionBuilder sb, RegroupTracker tracker) {
-		final boolean printDebug = false;
+		final boolean printDebug = true;
 
 		SolutionBuilder changes = new SolutionBuilder();
 		SolutionBuilder substeps = new SolutionBuilder();
@@ -65,7 +67,6 @@ public class StepStrategies {
 		do {
 			tracker.resetTracker();
 			for (SimplificationStepGenerator simplificationStep : strategy) {
-				old.cleanColors();
 				current = simplificationStep.apply(old, changes, tracker);
 
 				if (printDebug) {
@@ -85,6 +86,7 @@ public class StepStrategies {
 
 					old = current;
 
+					old.cleanColors();
 					changes.reset();
 					break;
 				}
@@ -106,6 +108,32 @@ public class StepStrategies {
 		}
 
 		return sn;
+	}
+
+	static class CacheEntry {
+		private StepTransformable result;
+		private SolutionStep steps;
+	}
+
+	public static StepTransformable implementCachedGroup(Map<StepTransformable, CacheEntry> cache,
+			StepTransformable sn, SolutionStepType groupHeader,
+			SimplificationStepGenerator[] strategy, SolutionBuilder sb, RegroupTracker tracker) {
+		CacheEntry entry = cache.get(sn);
+
+		if (entry == null) {
+			SolutionBuilder tempSteps = new SolutionBuilder();
+			entry = new CacheEntry();
+
+			entry.result = implementGroup(sn, groupHeader, strategy, tempSteps, tracker);
+			entry.steps = tempSteps.getSteps();
+
+			cache.put(sn, entry);
+		}
+
+		if (sb != null) {
+			sb.addAll(entry.steps);
+		}
+		return entry.result;
 	}
 
 	public static List<StepSolution> defaultSolve(StepEquation se, StepVariable sv,
@@ -167,7 +195,7 @@ public class StepStrategies {
 
 	public static List<StepSolution> implementSolveStrategy(StepSolvable se, StepVariable variable,
 			SolutionBuilder sb, SolveStepGenerator[] strategy, SolveTracker tracker) {
-		final boolean printDebug = false;
+		final boolean printDebug = true;
 
 		SolutionBuilder changes = new SolutionBuilder();
 
@@ -241,58 +269,4 @@ public class StepStrategies {
 		throw new SolveFailedException(sb.getSteps());
 	}
 
-	public static StepTransformable iterateThrough(SimplificationStepGenerator step, StepTransformable sn,
-			SolutionBuilder sb, RegroupTracker tracker) {
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
-
-			int colorsAtStart = tracker.getColorTracker();
-
-			StepExpression[] toReturn = null;
-			for (int i = 0; i < so.noOfOperands(); i++) {
-				StepExpression a = (StepExpression) step.apply(so.getOperand(i), sb, tracker);
-				if (a.isUndefined()) {
-					return a;
-				}
-
-				if (toReturn == null && tracker.getColorTracker() > colorsAtStart) {
-					toReturn = new StepExpression[so.noOfOperands()];
-
-					for (int j = 0; j < i; j++) {
-						toReturn[j] = so.getOperand(j);
-					}
-				}
-				if (toReturn != null) {
-					toReturn[i] = a;
-				}
-			}
-
-			if (toReturn == null) {
-				return so;
-			}
-
-			return StepOperation.create(so.getOperation(), toReturn);
-		} else if (sn instanceof StepSolvable) {
-			StepSolvable se = (StepSolvable) sn;
-
-			StepExpression newLHS = (StepExpression) step.apply(se.LHS, sb, tracker);
-			StepExpression newRHS = (StepExpression) step.apply(se.RHS, sb, tracker);
-
-			return se.cloneWith(newLHS, newRHS);
-		} else if (sn instanceof StepMatrix) {
-			StepMatrix sm = (StepMatrix) sn;
-
-			StepMatrix result = sm.deepCopy();
-			for (int i = 0; i < sm.getHeight(); i++) {
-				for (int j = 0; j < sm.getWidth(); j++) {
-					StepExpression elem = (StepExpression) step.apply(sm.get(i, j), sb, tracker);
-					result.set(i, j, elem);
-				}
-			}
-
-			return result;
-		}
-
-		return sn;
-	}
 }

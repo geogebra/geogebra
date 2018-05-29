@@ -1,12 +1,20 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
+import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.Operation;
 
 public class StepArbitraryConstant extends StepExpression {
 
 	private final String label;
 	private final int index;
 	private final ConstantType type;
+
+	public enum ConstantType {
+		INTEGER, REAL
+	}
 
 	public StepArbitraryConstant(String label, int index, ConstantType type) {
 		this.label = label;
@@ -51,6 +59,26 @@ public class StepArbitraryConstant extends StepExpression {
 		StepArbitraryConstant sac = new StepArbitraryConstant(label, index, type);
 		sac.setColor(color);
 		return sac;
+	}
+
+	@Override
+	public void setColor(int color) {
+		this.color = color;
+	}
+
+	@Override
+	public boolean isOperation(Operation operation) {
+		return false;
+	}
+
+	@Override
+	public boolean nonSpecialConstant() {
+		return false;
+	}
+
+	@Override
+	public boolean specialConstant() {
+		return false;
 	}
 
 	@Override
@@ -111,7 +139,9 @@ public class StepArbitraryConstant extends StepExpression {
 		return label + (index != 0 ? "_{" + index + "}" : "");
 	}
 
-	public enum ConstantType {
-		INTEGER, REAL
+	@Override
+	public StepTransformable iterateThrough(SimplificationStepGenerator step, SolutionBuilder sb,
+			RegroupTracker tracker) {
+		return this;
 	}
 }

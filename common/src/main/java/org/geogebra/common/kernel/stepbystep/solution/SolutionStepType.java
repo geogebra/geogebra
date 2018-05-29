@@ -8,6 +8,8 @@ public enum SolutionStepType {
 
 	SUBSTEP_WRAPPER("", ""),
 
+	TABLE("", ""),
+
 	EQUATION("", "%0"),
 
 	LIST("", "%0"),
@@ -280,6 +282,9 @@ public enum SolutionStepType {
 	REWRITE_COMPLEX_FRACTION("RewriteComplexFraction", "Rewrite complex fraction"),
 
 	POWER_OF_POWER("MultiplyExponents", "Simplify the expression by multiplying the exponents"),
+
+	NEGATIVE_POWER("NegativePower", "Express with a positive exponent",
+			"Express with a positive exponent using $a^{-n} \\equiv \\frac{1}{a^n}$"),
 
 	FACTOR_SQUARE("FactorSquare", "Factor out the perfect square"),
 

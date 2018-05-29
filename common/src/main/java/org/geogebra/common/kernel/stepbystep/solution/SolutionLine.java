@@ -18,6 +18,10 @@ public class SolutionLine extends SolutionStep {
 	private StepNode[] parameters;
 	private List<Integer> colors;
 
+	public SolutionLine(SolutionStepType type) {
+		this.type = type;
+	}
+
 	public SolutionLine(SolutionStepType type, StepNode... parameters) {
 		this.type = type;
 		this.parameters = new StepNode[parameters.length];
@@ -31,6 +35,11 @@ public class SolutionLine extends SolutionStep {
 		this.colors = new ArrayList<>();
 
 		colors.add(color);
+	}
+
+	@Override
+	public SolutionStepType getType() {
+		return type;
 	}
 
 	/**
@@ -81,9 +90,5 @@ public class SolutionLine extends SolutionStep {
 		}
 
 		substeps.add(s);
-	}
-
-	public SolutionStepType getType() {
-		return type;
 	}
 }

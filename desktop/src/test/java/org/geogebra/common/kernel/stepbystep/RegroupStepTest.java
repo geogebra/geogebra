@@ -23,7 +23,9 @@ public class RegroupStepTest {
 	private static int caseCounter = 0;
 
 	@Test
-	public void testsByRein() {
+	public void trickyTests() {
+		r("nroot(2^9, 6)/4", "(nroot(2, 2))/(2)");
+		r("3^(-2)", "(1)/(9)");
 		r("x/(2y-y-y) + 3", "undefined");
 		r("nroot(-2, 2)", "undefined");
 		r("nroot(-4, 2)", "undefined");
@@ -43,6 +45,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void factorTest() {
+		f("y^2*x + y*x", "(y)(x)((y + 1))");
 		f("x^2+x", "(x)((x + 1))");
 		f("2^(k+1)+2^k", "((2)^(k))(3)");
 		f("x^3 + 6 x^2 + 11 x + 6", "((x + 3))((x + 2))((x + 1))");

@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import java.util.HashSet;
 import java.util.Set;
 
-class RegroupTracker {
+public class RegroupTracker {
 
 	private int colorTracker;
 
@@ -84,7 +84,7 @@ class RegroupTracker {
 		return colorTracker++;
 	}
 
-	int getColorTracker() {
+	public int getColorTracker() {
 		return colorTracker;
 	}
 
