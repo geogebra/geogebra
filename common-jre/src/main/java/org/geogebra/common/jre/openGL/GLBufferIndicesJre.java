@@ -15,6 +15,7 @@ public class GLBufferIndicesJre implements GLBufferIndices {
 	private boolean isEmpty;
 
 	private int currentLength;
+
 	/**
 	 * constructor from float array
 	 */

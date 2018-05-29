@@ -38,8 +38,6 @@ public class ScientificFormat extends Format
 	private DecimalFormat decimalFormat;
 	private static final long serialVersionUID = -1182686857248711235L;
 
-
-
 	/**
 	 * Sets the significant digits, maximum allowable width and number
 	 * formatting style (SciNote == true for Pure formatting).

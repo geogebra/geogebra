@@ -73,7 +73,6 @@ public abstract class GgbAPIJre extends GgbAPI {
 		return base64encodePNG(transparent, DPI, exportScale, ev);
 	}
 
-
 	/**
 	 * Opens construction given in XML format. May be used for loading
 	 * constructions.

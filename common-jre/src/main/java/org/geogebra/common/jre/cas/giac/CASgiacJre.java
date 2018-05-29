@@ -14,7 +14,6 @@ public abstract class CASgiacJre extends CASgiacB {
 
     /**
      * @param casParser casParser
-     * @param k         Kernel
      */
 	public CASgiacJre(CASparser casParser) {
         super(casParser);

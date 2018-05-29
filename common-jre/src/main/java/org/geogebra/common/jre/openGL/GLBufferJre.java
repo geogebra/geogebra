@@ -14,7 +14,6 @@ public class GLBufferJre implements GLBuffer {
 	private boolean isEmpty;
 	private int currentLength;
 
-
 	/**
 	 * constructor from float array
 	 */

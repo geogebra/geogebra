@@ -15,8 +15,13 @@ import org.geogebra.common.util.StringUtil;
  */
 public abstract class LocalizationJre extends Localization {
 
-	private ResourceBundle rbmenu, rbmenuTT, rbcommand, rbcommandOld, rberror,
-			rbcolors, rbsymbol;
+	private ResourceBundle rbmenu;
+	private ResourceBundle rbmenuTT;
+	private ResourceBundle rbcommand;
+	private ResourceBundle rbcommandOld;
+	private ResourceBundle rberror;
+	private ResourceBundle rbcolors;
+	private ResourceBundle rbsymbol;
 
 	private Locale tooltipLocale = null;
 	/** application */
