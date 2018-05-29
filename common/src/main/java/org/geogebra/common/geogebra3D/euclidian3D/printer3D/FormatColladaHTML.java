@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
+import org.geogebra.common.util.StringUtil;
+
 /**
  * adapted from three.js loading collada example (MIT licence)
  * 
@@ -30,10 +32,19 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("</head>\n");
 		sb.append("<body>\n");
 		sb.append("<div id='container'></div>\n");
+		sb.append("<button onclick='svgSnapshot()'>Export SVG</button>\n");
+		sb.append("<div id='svg'></div>\n");
+		sb.append("<textarea id='source' cols=80 rows=20></textarea>\n");
 		sb.append(
 				"<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.min.js'></script>\n");
 		sb.append(
 				"<script src='https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/loaders/ColladaLoader.js'></script>\n");
+		sb.append(
+				"<script src='https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js'></script>\n");
+		sb.append(
+				"<script src='https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/renderers/SVGRenderer.js'></script>\n");
+		sb.append(
+				"<script src='https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/renderers/Projector.js'></script>\n");
 		sb.append("<script>\n");
 		sb.append("var container, clock;\n");
 		sb.append("var camera, scene, renderer, ggbExport, group;\n");
@@ -108,6 +119,18 @@ public class FormatColladaHTML extends FormatCollada {
 				"renderer.setSize( window.innerWidth, window.innerHeight );\n");
 		sb.append("container.appendChild( renderer.domElement );\n");
 
+		sb.append(
+				"controls = new THREE.OrbitControls( camera, renderer.domElement );\n");
+		// controls.addEventListener( 'change', render ); // call this only in
+		// static scenes (i.e., if there is no animation loop)
+		sb.append(
+				"controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled\n");
+		sb.append("controls.dampingFactor = 0.25;\n");
+		sb.append("controls.screenSpacePanning = false;\n");
+		sb.append("controls.minDistance = 0.0001;\n");
+		sb.append("controls.maxDistance = 500\n");
+		sb.append("controls.maxPolarAngle = Math.PI / 2;\n");
+
 		sb.append("}\n");
 		sb.append("function animate() {\n");
 		sb.append("requestAnimationFrame( animate );\n");
@@ -118,6 +141,67 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("group.rotation.y += delta * 0.5;\n");
 		sb.append("renderer.render( scene, camera );\n");
 		sb.append("}\n");
+		
+		
+		/* The following discussion on StackOverflow shows discusses how to remove all
+		 * elements from a DOM
+		 *
+		 *  http://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+		 */
+				
+		sb.append("function removeChildrenFromNode(node) {\n");
+		sb.append("var fc = node.firstChild;\n");
+
+		sb.append("while( fc ) {\n");
+		sb.append("node.removeChild( fc );\n");
+		sb.append("fc = node.firstChild;\n");
+		sb.append("}\n");
+		sb.append("}\n");
+
+		sb.append("function svgSnapshot() {\n");
+		sb.append("var svgContainer = document.getElementById('svg');\n");
+		sb.append("removeChildrenFromNode(svgContainer);\n");
+			
+		// TODO: use width and height of 3D View
+		sb.append("var width = 800;\n");
+		sb.append("var height = 600;\n");
+			
+		sb.append("svgRenderer = new THREE.SVGRenderer();\n");
+		sb.append("svgRenderer.setClearColor( 0xffffff );\n");
+		sb.append("svgRenderer.setSize(width,height );\n");
+		sb.append("svgRenderer.setQuality( 'high' );\n");
+		sb.append("svgContainer.appendChild( svgRenderer.domElement );\n");
+		sb.append("svgRenderer.render( scene, camera );\n");
+			
+			/* The following discussion shows how to scale an SVG to fit its contained
+			 *
+			 *  http://stackoverflow.com/questions/4737243/fit-svg-to-the-size-of-object-container
+			 *
+			 * Another useful primer is here
+			 *  https://sarasoueidan.com/blog/svg-coordinate-systems/
+			 */
+			//svgRenderer.domElement.removeAttribute("width");
+			//svgRenderer.domElement.removeAttribute("height");
+			
+		sb.append("var svg = svgContainer.innerHTML;\n");
+			
+		sb.append(
+				"svg = svg.replace('<svg ', '<svg id=\"svg2\" xmlns=\"http://www.w3.org/2000/svg\" ');\n");
+			
+		sb.append("svg = svg.replace(/<path/g,'\\n<path');\n");
+			
+		sb.append("document.getElementById('source').value = svg;\n");
+		
+		sb.append("var svgDataURI = '");
+		sb.append(StringUtil.svgMarker);
+		sb.append("' + btoa(unescape(encodeURIComponent(svg)));\n");
+		
+		sb.append("console.log(svgDataURI);\n");
+		// sb.append("window.open(svgDataURI, '_blank');\n");
+
+		sb.append("}\n");
+		
+		
 		sb.append("</script>\n");
 		sb.append("</body>\n");
 		sb.append("</html>\n");
@@ -150,7 +234,7 @@ public class FormatColladaHTML extends FormatCollada {
 
 	@Override
 	protected void appendLightInCollada(StringBuilder sb) {
-		// ligth added in three.js
+		// light added in three.js
 	}
 
 }
