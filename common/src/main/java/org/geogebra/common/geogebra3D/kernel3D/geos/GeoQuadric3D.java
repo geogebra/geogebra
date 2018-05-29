@@ -722,6 +722,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		tmpCoords3.setAdd(tmpCoords, tmpCoords2);
 		cs.addVectorWithoutCheckMadeCoordSys(tmpCoords3);
 		cs.makeOrthoMatrix(false, false);
+		if (getKernel().getApplication().has(Feature.MOB_PACK_QUADRICS)) {
+			cs.makeEquationVector();
+		}
 
 		cs = planes[1].getCoordSys();
 		cs.resetCoordSys();
@@ -730,6 +733,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		tmpCoords3.setSub(tmpCoords, tmpCoords2);
 		cs.addVectorWithoutCheckMadeCoordSys(tmpCoords3);
 		cs.makeOrthoMatrix(false, false);
+		if (getKernel().getApplication().has(Feature.MOB_PACK_QUADRICS)) {
+			cs.makeEquationVector();
+		}
 
 		type = GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES;
 
