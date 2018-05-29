@@ -8,7 +8,9 @@
 	}
 	
 	.MatTitleBarPanelContent {
-		box-shadow:none;	
+		min-width: 48px;
+		min-height: 48px;
+		box-shadow:none;
 		padding: 0px;
 		background-color: transparent;
 	}
