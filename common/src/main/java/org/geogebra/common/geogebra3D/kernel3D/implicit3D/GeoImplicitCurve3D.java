@@ -35,7 +35,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	private Coords tmpCoords3d = new Coords(4);
 	private double translateZ = 0;
 	private Coords planeEquation = new Coords(4);
-	private Type type;
+	private Type type = Type.DEFAULT;
 
 	/**
 	 * @param c
