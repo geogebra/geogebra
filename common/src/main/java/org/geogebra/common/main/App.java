@@ -5210,45 +5210,12 @@ public abstract class App implements UpdateSelection {
 	 * @return tool categorization for this app
 	 */
 	public ToolCategorization createToolCategorization() {
-		ToolCategorization.AppType type;
-		boolean isPhoneApp = false;
-		switch (getVersion()) {
-		case ANDROID_NATIVE_GRAPHING:
-		case IOS_NATIVE:
-			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
-			isPhoneApp = true;
-			break;
-		case ANDROID_GEOMETRY:
-		case IOS_GEOMETRY:
-			type = ToolCategorization.AppType.GEOMETRY_CALC;
-			isPhoneApp = true;
-			break;
-		case ANDROID_NATIVE_3D:
-			type = ToolCategorization.AppType.GRAPHER_3D;
-			isPhoneApp = true;
-			break;
-		case WEB_GRAPHING:
-		case WEB_GRAPHING_OFFLINE:
-			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
-			break;
-		case WEB_GEOMETRY:
-		case WEB_GEOMETRY_OFFLINE:
-			type = ToolCategorization.AppType.GEOMETRY_CALC;
-			break;
-		case WEB_3D_GRAPHING:
-			type = ToolCategorization.AppType.GRAPHER_3D;
-			break;
-		default:
-			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
-			break;
-		}
+
 
 		// Needed temporary, until the toolset levels are not implemented on iOS
 		// too
-		getSettings().getToolbarSettings().setType(type);
-		return new ToolCategorization(this, type,
-				getSettings().getToolbarSettings().getToolsetLevel(),
-				isPhoneApp);
+		getSettings().getToolbarSettings().setFrom(getVersion());
+		return new ToolCategorization(this, getSettings().getToolbarSettings());
 	}
 
 	/**

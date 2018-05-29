@@ -2,6 +2,8 @@ package org.geogebra.common.main.settings;
 
 import java.util.LinkedList;
 
+import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
 
@@ -15,6 +17,7 @@ public class ToolbarSettings extends AbstractSettings {
 
 	private ToolsetLevel toolsetLevel = ToolsetLevel.STANDARD;
 	private AppType type = AppType.GRAPHING_CALCULATOR;
+	private boolean phoneApp = false;
 
 	/**
 	 * @param listeners
@@ -78,5 +81,43 @@ public class ToolbarSettings extends AbstractSettings {
 	 */
 	public boolean is3D() {
 		return this.type == AppType.GRAPHER_3D;
+	}
+
+	public boolean isPhoneApp() {
+		return phoneApp;
+	}
+
+	public void setFrom(Versions version) {
+		switch (version) {
+		case ANDROID_NATIVE_GRAPHING:
+		case IOS_NATIVE:
+			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
+			phoneApp = true;
+			break;
+		case ANDROID_GEOMETRY:
+		case IOS_GEOMETRY:
+			type = ToolCategorization.AppType.GEOMETRY_CALC;
+			phoneApp = true;
+			break;
+		case ANDROID_NATIVE_3D:
+			type = ToolCategorization.AppType.GRAPHER_3D;
+			phoneApp = true;
+			break;
+		case WEB_GRAPHING:
+		case WEB_GRAPHING_OFFLINE:
+			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
+			break;
+		case WEB_GEOMETRY:
+		case WEB_GEOMETRY_OFFLINE:
+			type = ToolCategorization.AppType.GEOMETRY_CALC;
+			break;
+		case WEB_3D_GRAPHING:
+			type = ToolCategorization.AppType.GRAPHER_3D;
+			break;
+		default:
+			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
+			break;
+		}
+
 	}
 }

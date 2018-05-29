@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.ToolbarSettings;
 
 /**
  * categorization of tools
@@ -162,13 +163,13 @@ public class ToolCategorization {
         }
     }
 
-	private AppType type;
 	private ToolsetLevel level;
-    private boolean isPhoneApp;
     private ArrayList<Category> customizedCategories;
     private ArrayList<ArrayList<Integer>> toolsLists;
     private TreeSet<Integer> availableTools;
     private App app;
+	private ToolbarSettings settings;
+	private boolean isPhoneApp;
 
     /**
 	 * Creates a tool categorization for the give type
@@ -176,21 +177,16 @@ public class ToolCategorization {
 	 * @param app
 	 *            App (for localization)
 	 * 
-	 * @param type
-	 *            categorization type
-	 * @param level
-	 *            - filter toolset advanced or standard
-	 * @param isPhoneApp
-	 *            app calling is phone app (some tools are not supported yet)
+	 * @param settings
+	 *            defines which set of tools to use, depending on app type and
+	 *            phone flag
 	 */
-	public ToolCategorization(App app, AppType type, ToolsetLevel level,
-			boolean isPhoneApp) {
+	public ToolCategorization(App app, ToolbarSettings settings) {
         this.app = app;
 		toolsLists = new ArrayList<>();
 		customizedCategories = new ArrayList<>();
-        this.type = type;
-		this.level = level;
-        this.isPhoneApp = isPhoneApp;
+		this.settings = settings;
+		isPhoneApp = settings.isPhoneApp();
     }
 
     /**
@@ -251,6 +247,7 @@ public class ToolCategorization {
     private void buildTools() {
         Category category;
         ArrayList<Integer> tools;
+		AppType type = settings.getType();
         switch (type) {
             case GEOMETRY_CALC:
 			category = Category.BASIC;
