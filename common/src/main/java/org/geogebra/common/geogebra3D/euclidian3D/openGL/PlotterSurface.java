@@ -1220,34 +1220,8 @@ public class PlotterSurface {
 	}
 
 	/**
-	 * @param center
-	 *            center
-	 * @param vx
-	 *            first eigrnvector
-	 * @param vy
-	 *            second eigenvector
-	 * @param vz
-	 *            third eigenvector
-	 * @param radius
-	 *            circle radius
-	 * @param start
-	 *            start angle
-	 * @param extent
-	 *            extent
-	 * @param height
-	 *            height
-	 * @param fading
-	 *            fading
-	 * @return center of the bottom
-	 */
-	public Coords cone(Coords center, Coords vx, Coords vy, Coords vz,
-			double radius, double start, double extent, double height,
-			float fading) {
-		return cone(center, vx, vy, vz, radius, radius, start, extent, height,
-				fading);
-	}
-
-	/**
+	 * @param drawable
+	 *            drawable
 	 * @param center
 	 *            center
 	 * @param vx
@@ -1270,9 +1244,9 @@ public class PlotterSurface {
 	 *            fading
 	 * @return center of the bottom
 	 */
-	public Coords cone(Coords center, Coords vx, Coords vy, Coords vz,
-			double r1, double r2, double start, double extent, double height,
-			float fading) {
+	public Coords cone(Drawable3D drawable, Coords center, Coords vx, Coords vy,
+			Coords vz, double r1, double r2, double start, double extent,
+			double height, float fading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		int longitude = manager.getLongitudeDefault();
@@ -1326,18 +1300,19 @@ public class PlotterSurface {
 			manager.vertexToScale(tmpCoords2.setAdd(center2, m));
 		}
 
-		manager.endGeometry();
+		if (drawable.shouldBePacked()) {
+			manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
+		} else {
+			manager.endGeometry();
+		}
 
 		return center2;
 
 	}
 
-	public void cone(Coords center, Coords vx, Coords vy, Coords vz, double radius, double start,
-			double extent, double min, double max, boolean minFading, boolean maxFading) {
-		cone(center, vx, vy, vz, radius, radius, start, extent, min, max, minFading, maxFading);
-	}
-
 	/**
+	 * @param drawable
+	 *            drawable
 	 * @param center
 	 *            center
 	 * @param vx
@@ -1363,9 +1338,9 @@ public class PlotterSurface {
 	 * @param maxFading
 	 *            use fading for max
 	 */
-	public void cone(Coords center, Coords vx, Coords vy, Coords vz, double r1,
-			double r2, double start, double extent, double min, double max,
-			boolean minFading, boolean maxFading) {
+	public void cone(Drawable3D drawable, Coords center, Coords vx, Coords vy, Coords vz,
+			double r1, double r2, double start, double extent, double min,
+			double max, boolean minFading, boolean maxFading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		int longitude = manager.getLongitudeDefault();
@@ -1443,46 +1418,16 @@ public class PlotterSurface {
 
 		}
 
-		manager.endGeometry();
+		if (drawable.shouldBePacked()) {
+			manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
+		} else {
+			manager.endGeometry();
+		}
 
 	}
 
 	/**
-	 * @param center
-	 *            center
-	 * @param vx
-	 *            first eigrnvector
-	 * @param vy
-	 *            second eigenvector
-	 * @param vz
-	 *            third eigenvector
-	 * @param radius
-	 *            circle radius
-	 * @param start
-	 *            start angle
-	 * @param extent
-	 *            extent
-	 * @param min
-	 *            min height
-	 * @param max
-	 *            max height
-	 * @param minFading
-	 *            use fading for min
-	 * @param maxFading
-	 *            use fading for max
-	 * @param longitude
-	 *            longitude
-	 * @return center at max height
-	 */
-	public Coords cylinder(Coords center, Coords vx, Coords vy, Coords vz,
-			double radius, double start, double extent, double min, double max,
-			boolean minFading, boolean maxFading, int longitude) {
-
-		return cylinder(center, vx, vy, vz, radius, radius, start, extent, min,
-				max, minFading, maxFading, longitude);
-	}
-
-	/**
+	 * @param drawable TODO
 	 * @param center
 	 *            center
 	 * @param vx
@@ -1511,9 +1456,9 @@ public class PlotterSurface {
 	 *            longitude
 	 * @return center at max height
 	 */
-	public Coords cylinder(Coords center, Coords vx, Coords vy, Coords vz,
-			double r1, double r2, double start, double extent, double min,
-			double max, boolean minFading, boolean maxFading, int longitude) {
+	public Coords cylinder(Drawable3D drawable, Coords center, Coords vx, Coords vy,
+			Coords vz, double r1, double r2, double start, double extent,
+			double min, double max, boolean minFading, boolean maxFading, int longitude) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		float c, s;
@@ -1569,7 +1514,11 @@ public class PlotterSurface {
 
 		}
 
-		manager.endGeometry();
+		if (drawable.shouldBePacked()) {
+			manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
+		} else {
+			manager.endGeometry();
+		}
 
 		return center2;
 

@@ -400,12 +400,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
 			surface = renderer.getGeometryManager().getSurface();
+			setPackSurface();
 			surface.start(getReusableSurfaceIndex());
 			Coords m = quadric.getMidpoint3D();
 			double thickness = quadric.getLineThickness()
 					/ getView3D().getScale() * DrawPoint3D.DRAW_POINT_FACTOR;
 			surface.drawSphere(quadric.getLineThickness(), m, thickness);
 			setSurfaceIndex(surface.end());
+			endPacking();
 
 			boundsMin.setValues(m, 3);
 			boundsMax.setValues(m, 3);
@@ -438,6 +440,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	private void updateEllipsoid(GeoQuadric3D quadric, Renderer renderer) {
+		setPackSurface();
 		Coords center = quadric.getMidpoint3D();
 		double r0 = quadric.getHalfAxis(0);
 		double r1 = quadric.getHalfAxis(1);
@@ -452,6 +455,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		Coords ev2 = quadric.getEigenvec3D(2);
 		surface.drawEllipsoid(center, ev0, ev1, ev2, r0, r1, r2, longitude);
 		setSurfaceIndex(surface.end());
+		endPacking();
 	}
 
 	private void updateHyperboloidOneSheet(GeoQuadric3D quadric,
@@ -465,6 +469,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		double r0 = quadric.getHalfAxis(0);
 		double r1 = quadric.getHalfAxis(1);
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		setPackSurface();
 		surface.start(getReusableSurfaceIndex());
 		Coords ev0 = quadric.getEigenvec3D(0);
 		Coords ev1 = quadric.getEigenvec3D(1);
@@ -485,6 +490,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		surface.drawHyperboloidOneSheet(center, ev0, ev1, ev2, r0, r1, r2,
 				longitude, min, max, !getView3D().useClippingCube());
 		setSurfaceIndex(surface.end());
+		endPacking();
 
 	}
 
@@ -492,6 +498,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			Renderer renderer) {
 		Coords center = quadric.getMidpoint3D();
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		setPackSurface();
 		surface.start(getReusableSurfaceIndex());
 		Coords ev0 = quadric.getEigenvec3D(0);
 
@@ -515,6 +522,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				uMinMax[0], uMinMax[1], vMinMax[0], vMinMax[1],
 				!getView3D().useClippingCube());
 		setSurfaceIndex(surface.end());
+		endPacking();
 	}
 
 	private void updateHyperboloidTwoSheets(GeoQuadric3D quadric,
@@ -524,6 +532,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		double r0 = quadric.getHalfAxis(0);
 		double r1 = quadric.getHalfAxis(1);
 		double r2 = quadric.getHalfAxis(2);
+		setPackSurface();
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		surface.start(getReusableSurfaceIndex());
 		Coords ev2 = quadric.getEigenvec3D(2);
@@ -557,6 +566,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		surface.drawHyperboloidTwoSheets(center, ev0, ev1, ev2, r0, r1, r2,
 				longitude, min, max, !getView3D().useClippingCube());
 		setSurfaceIndex(surface.end());
+		endPacking();
 	}
 
 	private void updateParaboloid(GeoQuadric3D quadric, Renderer renderer) {
@@ -564,6 +574,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		double r0 = quadric.getHalfAxis(0);
 		double r1 = quadric.getHalfAxis(1);
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		setPackSurface();
 		surface.start(getReusableSurfaceIndex());
 		Coords ev0 = quadric.getEigenvec3D(0);
 		Coords ev1 = quadric.getEigenvec3D(1);
@@ -596,6 +607,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 					vMinMax[0], vMinMax[1], !getView3D().useClippingCube());
 			setSurfaceIndex(surface.end());
 		}
+		endPacking();
 
 	}
 
@@ -604,6 +616,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		Coords center = quadric.getMidpoint3D();
 		double r2 = quadric.getHalfAxis(2);
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		setPackSurface();
 		surface.start(getReusableSurfaceIndex());
 		Coords ev0 = quadric.getEigenvec3D(0);
 		Coords ev1 = quadric.getEigenvec3D(1);
@@ -659,10 +672,12 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			}
 		}
 		setSurfaceIndex(surface.end());
+		endPacking();
 	}
 
 	private void updateCone(GeoQuadric3D quadric, Renderer renderer) {
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		setPackSurface();
 		surface.start(getReusableSurfaceIndex());
 		if (quadric instanceof GeoQuadric3DPart) { // simple cone
 			double height = ((GeoQuadric3DPart) quadric).getBottomParameter()
@@ -672,9 +687,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			Coords ev2 = quadric.getEigenvec3D(1);
 			double radius = quadric.getHalfAxis(0);
 			double radius2 = quadric.getHalfAxis(1);
-			Coords bottomCenter = surface.cone(top, ev1, ev2,
-					quadric.getEigenvec3D(2), radius, radius2, 0, 2 * Math.PI,
-					height, 1f);
+			Coords bottomCenter = surface.cone(this, top, ev1,
+					ev2, quadric.getEigenvec3D(2), radius, radius2, 0,
+					2 * Math.PI, height, 1f);
 
 			boundsMin.setValues(top, 3);
 			boundsMax.setValues(top, 3);
@@ -703,33 +718,34 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 			if (min * max < 0) {
 				if (getView3D().useClippingCube()) {
-					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-							min, 1f);
-					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-							max, 1f);
+					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
+							2 * Math.PI, min, 1f);
+					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
+							2 * Math.PI, max, 1f);
 				} else {
-					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-							min, (float) ((-9 * min - max) / (min - max)));
-					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-							max, (float) ((-9 * max - min) / (max - min)));
+					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
+							2 * Math.PI, min, (float) ((-9 * min - max) / (min - max)));
+					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
+							2 * Math.PI, max, (float) ((-9 * max - min) / (max - min)));
 				}
 			} else {
 				if (getView3D().useClippingCube()) {
-					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-							min, max, false, false);
+					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
+							2 * Math.PI, min, max, false, false);
 				} else {
 					double delta = (max - min) / 10;
-					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-							min + delta, max - delta, false, false);
-					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-							min, min + delta, true, false);
-					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-							max - delta, max, false, true);
+					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
+							2 * Math.PI, min + delta, max - delta, false, false);
+					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
+							2 * Math.PI, min, min + delta, true, false);
+					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
+							2 * Math.PI, max - delta, max, false, true);
 				}
 			}
 		}
 
 		setSurfaceIndex(surface.end());
+		endPacking();
 	}
 
 	private void updateHyperbolicCylinder(GeoQuadric3D quadric,
@@ -744,6 +760,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		Coords ev1 = quadric.getEigenvec3D(1);
 		Coords ev2 = quadric.getEigenvec3D(2);
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		setPackSurface();
 		surface.start(getReusableSurfaceIndex());
 		if (uMinMax == null) {
 			uMinMax = new double[2];
@@ -809,6 +826,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			uMinMax[1] = Math.sinh(max);
 		}
 		setSurfaceIndex(surface.end());
+		endPacking();
 	}
 
 	private void updateCylinder(GeoQuadric3D quadric, Renderer renderer) {
@@ -820,6 +838,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		Coords ev3 = quadric.getEigenvec3D(2);
 
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		setPackSurface();
 		surface.start(getReusableSurfaceIndex());
 
 		if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
@@ -827,9 +846,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			double radius2 = quadric.getHalfAxis(1);
 			longitude = renderer.getGeometryManager().getLongitude(radius,
 					getView3D().getMaxScale());
-			Coords bottomCenter = surface.cylinder(center, ev1, ev2, ev3,
-					radius, radius2, 0, 2 * Math.PI, quadric.getMinParameter(1),
-					quadric.getMaxParameter(1), false, false, longitude);
+			Coords bottomCenter = surface.cylinder(this, center, ev1, ev2,
+					ev3, radius, radius2, 0, 2 * Math.PI,
+					quadric.getMinParameter(1), quadric.getMaxParameter(1), false, false, longitude);
 
 			boundsMin.set(Double.POSITIVE_INFINITY);
 			boundsMax.set(Double.NEGATIVE_INFINITY);
@@ -854,21 +873,22 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			longitude = renderer.getGeometryManager().getLongitude(radius,
 					getView3D().getMaxScale());
 			if (getView3D().useClippingCube()) {
-				surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-						min, max, false, false, longitude);
+				surface.cylinder(this, center, ev1, ev2, ev3, r1, r2, 0,
+						2 * Math.PI, min, max, false, false, longitude);
 			} else {
 				double delta = (max - min) / 10;
-				surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-						min + delta, max - delta, false, false, longitude);
-				surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-						min, min + delta, true, false, longitude);
-				surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
-						max - delta, max, false, true, longitude);
+				surface.cylinder(this, center, ev1, ev2, ev3, r1, r2, 0,
+						2 * Math.PI, min + delta, max - delta, false, false, longitude);
+				surface.cylinder(this, center, ev1, ev2, ev3, r1, r2, 0,
+						2 * Math.PI, min, min + delta, true, false, longitude);
+				surface.cylinder(this, center, ev1, ev2, ev3, r1, r2, 0,
+						2 * Math.PI, max - delta, max, false, true, longitude);
 			}
 
 		}
 
 		setSurfaceIndex(surface.end());
+		endPacking();
 
 	}
 

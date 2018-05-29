@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
@@ -606,14 +605,6 @@ public class Drawable3DLists {
 				.iterator(); d.hasNext();) {
 			((DrawList3D) d.next()).getDrawable3DLists()
 					.drawTranspClosedCurved(renderer);
-		}
-
-		// packed buffers
-		if (view3D.getApplication().has(Feature.MOB_PACK_QUADRICS)) {
-			if (renderer.getGeometryManager().packBuffers()) {
-				((ManagerShadersElementsGlobalBufferPacking) renderer
-						.getGeometryManager()).drawSurfacesClosed(renderer);
-			}
 		}
 	}
 
