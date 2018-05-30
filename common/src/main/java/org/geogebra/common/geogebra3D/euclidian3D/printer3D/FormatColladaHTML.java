@@ -119,6 +119,7 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("scene.add( directionalLight );\n");
 
 		sb.append("renderer = new THREE.WebGLRenderer();\n");
+		sb.append("renderer.setClearColor( 0xffffff, 1);\n");
 		sb.append("renderer.setPixelRatio( window.devicePixelRatio );\n");
 		sb.append(
 				"renderer.setSize( window.innerWidth, window.innerHeight );\n");
