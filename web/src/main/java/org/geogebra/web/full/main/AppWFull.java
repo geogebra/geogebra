@@ -1149,11 +1149,11 @@ public class AppWFull extends AppW implements HasKeyboard {
 			((DockPanelW) getEuclidianViewpanel()).setVisible(true);
 			((DockPanelW) getEuclidianViewpanel()).setEmbeddedSize(getSettings()
 					.getEuclidian(1).getPreferredSize().getWidth());
-			((DockPanelW) getEuclidianViewpanel()).updatePanel(false);
 			getEuclidianViewpanel().setPixelSize(
 					getSettings().getEuclidian(1).getPreferredSize().getWidth(),
 					getSettings().getEuclidian(1).getPreferredSize()
 							.getHeight());
+			((DockPanelW) getEuclidianViewpanel()).updatePanel(false);
 
 			// FIXME: temporary hack until it is found what causes
 			// the 1px difference

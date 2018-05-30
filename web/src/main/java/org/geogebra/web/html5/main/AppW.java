@@ -2989,7 +2989,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		appCanvasHeight = height;
 		appCanvasWidth = width;
 		// Log.debug("syn size");
-		getEuclidianView1().synCanvasSize();
+		getEuclidianView1().setCoordinateSpaceSize(width, height);
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
 	}
@@ -3012,7 +3012,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// appCanvasHeight = height;
 		// appCanvasWidth = width;
 
-		getEuclidianView2(1).synCanvasSize();
+		getEuclidianView2(1).setCoordinateSpaceSize(width, height);
 		getEuclidianView2(1).doRepaint2();
 		stopCollectingRepaints();
 	}
