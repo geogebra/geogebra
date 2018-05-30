@@ -1826,7 +1826,7 @@ public class DockManagerW extends DockManager {
 	}
 
 	@Override
-	public void adjustViews(boolean force) {
+	public void adjustViews(boolean force, final double exactDivider) {
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel != null) {
 			avPanel.onResize();
@@ -1849,17 +1849,19 @@ public class DockManagerW extends DockManager {
 
 				@Override
 				public void execute() {
-					adjustViews(landscape);
+					adjustViews(exactDivider, landscape);
 				}
 			});
 		}
 	}
 
 	/**
+	 * @param exactDivider
+	 *            Specific divider location. -1 means none used.
 	 * @param landscapeRatio
 	 *            preferred landscape ratio
 	 */
-	protected void adjustViews(double landscapeRatio) {
+	protected void adjustViews(double exactDivider, double landscapeRatio) {
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel == null) {
 			return;
@@ -1899,8 +1901,10 @@ public class DockManagerW extends DockManager {
 				setDividerLocation(split, 1 - portraitDivider);
 			}
 		} else {
-			double ratio = landscapeRatio;
-			if (split.getLeftComponent() == avPanel && split
+			double ratio = exactDivider == -1 ? landscapeRatio : exactDivider;
+
+			if (split.getLeftComponent() == avPanel
+					&& split
 					.getDividerLocation() <= ToolbarPanel.CLOSED_WIDTH_LANDSCAPE) {
 				toolbar.close();
 			}

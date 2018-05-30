@@ -1358,8 +1358,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 						&& getGuiManager() instanceof GuiManagerW
 						&& ((GuiManagerW) getGuiManager())
 								.getToolbarPanelV2() != null) {
+					double divider = current.getSplitPaneData()[0].getDividerLocation();
+					Log.debug("WWW: divider: " + divider);
+
 					((GuiManagerW) getGuiManager()).getToolbarPanelV2()
 							.getTabTools().updateContent();
+					((DockManagerW) getGuiManager().getLayout().getDockManager()).adjustViews(true, divider);
 				}
 			}
 		}
