@@ -237,7 +237,8 @@ public class StatGeo {
 		if (settings.isUseManualClasses()
 				|| settings.groupType() == GroupType.CLASS) {
 			// generate class borders using given start and width
-			al = new AlgoClasses(cons, dataList,
+			GeoList valueList = (GeoList) (settings.groupType() == GroupType.FREQUENCY ? dataList.get(0) : dataList);
+			al = new AlgoClasses(cons, valueList,
 					new GeoNumeric(cons, settings.getClassStart()),
 					new GeoNumeric(cons, settings.getClassWidth()), null);
 		} else {
