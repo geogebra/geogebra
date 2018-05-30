@@ -47,6 +47,7 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -223,6 +224,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			((MyHeaderPanel) bg).setFrame(this);
 		}
 		this.lastBG = bg;
+		// in Graphing Menu > OPen sets overflow to hidden-> breaks resizing of
+		// BrowseGUI
+		getElement().getStyle().setOverflow(Overflow.VISIBLE);
 		// frameLayout.forceLayout();
 	}
 
