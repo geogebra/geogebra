@@ -1411,7 +1411,7 @@ __GGB__keysVar["nl"].menu = {
     "ClassRule": "Begrenzing",
     "ClassWithFrequency": "Klasse met frequentie",
     "Classes": "Klassengrenzen",
-    "Clear": "Clear",
+    "Clear": "Wissen",
     "ClearColumn": "Verwijder kolom",
     "ClearColumns": "Verwijder kolommen",
     "ClearRow": "Verwijder rij",
