@@ -215,6 +215,9 @@ public enum Feature {
 	/** GGB-650 */
 	GGB_WEB_ASSEMBLY,
 
+	/** GGB-2394 */
+	SPLITTER_LOADING,
+
 	/** MOW-285 */
 	MOW_BOUNDING_BOX_FOR_PEN_TOOL,
 

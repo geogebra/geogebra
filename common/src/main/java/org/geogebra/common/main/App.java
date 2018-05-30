@@ -4472,6 +4472,8 @@ public abstract class App implements UpdateSelection {
 		case MAT_DESIGN_HEADER:
 			return prerelease;
 
+		case SPLITTER_LOADING:
+			return prerelease;
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
