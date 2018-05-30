@@ -18,7 +18,7 @@
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 using namespace std;
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
 #include <cstdlib>
 #include <iomanip>
 #endif
@@ -51,7 +51,7 @@ using namespace std;
 #include "solve.h"
 #include "csturm.h"
 #include "sparse.h"
-#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined GIAC_GGB
+#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined FXCG || defined GIAC_GGB
 inline bool is_graphe(const giac::gen &g,std::string &disp_out,const giac::context *){ return false; }
 #else
 #include "graphtheory.h"
@@ -263,6 +263,9 @@ namespace giac {
 #endif
 
   void sprintfdouble(char * ch,const char * format,double d){
+#ifdef FXCG
+    sprint_double(ch,d); // no format
+#else
 #ifdef NSPIRE
     dtostr(d,8,ch); // FIXME!
 #else
@@ -270,6 +273,7 @@ namespace giac {
     sprintf(ch,format,d);
 #else
     my_sprintf(ch,format,d);
+#endif
 #endif
 #endif
   }
@@ -440,8 +444,8 @@ namespace giac {
 #ifdef EMCC
     CERR << s << endl;
 #endif
-#ifdef NSPIRE
-    sleep(1);
+#if defined NSPIRE || defined FXCG
+    wait_1ms(1);
 #else
 #ifdef GIAC_HAS_STO_38
     usleep(10);
@@ -2550,7 +2554,7 @@ namespace giac {
       evaled=alg_evalf(_EXTptr->eval(level,contextptr),(_EXTptr+1)->eval(level,contextptr),contextptr);
       return true;
     case _POLY:
-      evaled=apply(*_POLYptr,giac::no_context_evalf);
+      evaled=apply(*_POLYptr,no_context_evalf);
       return true;
     default: 
       evaled=gentypeerr(gettext("Evalf")) ;
@@ -2957,6 +2961,18 @@ namespace giac {
     return e.type<_POLY || e.type==_FLOAT_ || e.type==_USER;
   }
 
+  static gen giac_conj(const gen & g,GIAC_CONTEXT){
+    return conj(g,contextptr);
+  }
+  
+  static gen giac_re(const gen & g,GIAC_CONTEXT){
+    return re(g,contextptr);
+  }
+
+  static gen giac_im(const gen & g,GIAC_CONTEXT){
+    return im(g,contextptr);
+  }
+    
   static vecteur _VECTconj(const vecteur & a,GIAC_CONTEXT){
     vecteur res;
     vecteur::const_iterator it=a.begin(),itend=a.end();
@@ -3029,7 +3045,7 @@ namespace giac {
     case _VECT:
       return gen(_VECTconj(*_VECTptr,contextptr),subtype);
     case _MAP:
-      return apply(*this,giac::conj,contextptr);
+      return apply(*this,giac_conj,contextptr);
     case _USER:
       return _USERptr->conj(contextptr);
     case _IDNT: 
@@ -3610,7 +3626,7 @@ namespace giac {
     case _VECT:
       return gen(subtype==_POLY1__VECT?trim(_VECTre(*_VECTptr,contextptr),0):_VECTre(*_VECTptr,contextptr),subtype);
     case _MAP:
-      return apply(*this,giac::re,contextptr);
+      return apply(*this,giac_re,contextptr);
     case _IDNT: 
       if (is_assumed_real(*this,contextptr))
 	return *this;
@@ -3633,7 +3649,7 @@ namespace giac {
     case _EXT:
       return algebraic_EXTension(_EXTptr->re(contextptr),*(_EXTptr+1));
     case _POLY:
-      return apply(*_POLYptr,contextptr,giac::re);
+      return apply(*_POLYptr,contextptr,giac_re);
     default: 
       return gentypeerr(gettext("Re"));
     }
@@ -3723,7 +3739,7 @@ namespace giac {
     case _VECT:
       return gen(subtype==_POLY1__VECT?trim(_VECTim(*_VECTptr,contextptr),0):_VECTim(*_VECTptr,contextptr),subtype);
     case _MAP:
-      return apply(*this,giac::im,contextptr);
+      return apply(*this,giac_im,contextptr);
     case _IDNT: 
       if (is_inf(*this) || is_undef(*this))
 	return undef;
@@ -3748,7 +3764,7 @@ namespace giac {
     case _EXT:
       return algebraic_EXTension(_EXTptr->im(contextptr),*(_EXTptr+1));
     case _POLY:
-      return apply(*_POLYptr,contextptr,giac::im);
+      return apply(*_POLYptr,contextptr,giac_im);
     default: 
       return gentypeerr(gettext("Im"));
     }
@@ -3861,7 +3877,7 @@ namespace giac {
     if (u==at_inv)
       return inv(abs(f,contextptr),contextptr);
     if (u==at_prod)
-      return new_ref_symbolic(symbolic(u,apply(f,contextptr,giac::abs)));
+      return new_ref_symbolic(symbolic(u,apply(f,contextptr,abs)));
     return idnt_abs(s,contextptr);
   }
 
@@ -6415,13 +6431,13 @@ namespace giac {
     if (base.type==_VECT && base.subtype!=_POLY1__VECT && !is_squarematrix(base)){
       *logptr(contextptr) << gettext("Warning, ^ is ambiguous on non square matrices. Use .^ to apply ^ element by element.") << endl;
       if (exponent.type==_VECT)
-	return apply(base,exponent,contextptr,giac::giac_pow);
+	return apply(base,exponent,contextptr,giac_pow);
       if (base.subtype!=_LIST__VECT && (exponent.type==_INT_ && exponent.val %2==0) )
 	return pow(dotvecteur(*base._VECTptr,*base._VECTptr,contextptr),exponent.val/2,contextptr);
-      return apply1st(base,exponent,contextptr,&giac::giac_pow); 
+      return apply1st(base,exponent,contextptr,&giac_pow); 
     }
     if (exponent.type==_VECT)
-      return apply2nd(base,exponent,contextptr,&giac::giac_pow);
+      return apply2nd(base,exponent,contextptr,&giac_pow);
     if (exponent.type==_FRAC){
       if (base.type<_POLY || base.type==_FLOAT_){
 	if (exponent==plus_one_half)
@@ -8253,7 +8269,7 @@ namespace giac {
 	return true;
       if (my_isnan(a._DOUBLE_val) && my_isnan(b._DOUBLE_val))
 	return true; // avoid infinite loop in evalf
-      return  absdouble(a._DOUBLE_val-b._DOUBLE_val)<std::abs(a._DOUBLE_val)*epsilon(contextptr);
+      return  absdouble(a._DOUBLE_val-b._DOUBLE_val)<absdouble(a._DOUBLE_val)*epsilon(contextptr);
     case _FLOAT___FLOAT_:
       if (a._FLOAT_val==b._FLOAT_val)
 	return true;
@@ -9835,9 +9851,9 @@ namespace giac {
   }
 
   struct tri_context {
-    const giac::context * contextptr;
+    const context * contextptr;
     bool operator()(const gen & a,const gen &b){ return islesscomplexthanf2(a,b,contextptr); }
-    tri_context(const giac::context * ptr):contextptr(ptr){};
+    tri_context(const context * ptr):contextptr(ptr){};
     tri_context():contextptr(0){};
   };
 
@@ -11438,9 +11454,13 @@ namespace giac {
       } // end if (digits>14)
 #endif // GIAC_HAS_STO_38
       double d;
+#if defined NSPIRE || defined FXCG
 #ifdef NSPIRE
       d=Strtod(s,&endchar);
-#else // NSPIRE
+#else
+      d=strtod(s,&endchar);
+#endif // NSPIRE
+#else // NSPIRE || FXCG
 #ifdef HAVE_LIBPTHREAD
       int locked=pthread_mutex_trylock(&locale_mutex);
       if (!locked){
@@ -11648,8 +11668,8 @@ namespace giac {
     }
     catch (std::runtime_error & error){
       i_sqrt_minus1(isqrt,contextptr);
-     if (!giac::first_error_line(contextptr))
-	giac::first_error_line(giac::lexer_line_number(contextptr),contextptr);
+     if (!first_error_line(contextptr))
+	first_error_line(lexer_line_number(contextptr),contextptr);
       parser_error(error.what(),contextptr);
 #ifdef HAVE_SIGNAL_H_OLD
       messages_to_print += string(error.what()) + '\n';
@@ -12076,7 +12096,7 @@ namespace giac {
     else
       return res;
 #else // USE_GMP_REPLACEMENTS
-#ifdef NSPIRE
+#if defined NSPIRE || defined FXCG
     return "mpf_t not implemented";
 #else
     std::ostringstream out;
@@ -12546,8 +12566,11 @@ namespace giac {
     for(;;){
       s += it->print(contextptr);
       ++it;
-      if (it==itend)
-	return paren?s+')':s;
+      if (it==itend){
+	if (paren)
+	  return s+')';
+	return s;
+      }
       s += '+';
     }
   }
@@ -15559,8 +15582,8 @@ namespace giac {
 #ifdef HAVE_LIBPTHREAD
   struct caseval_param{
     const char * s;
-    giac::gen ans;
-    giac::context * contextptr;
+    gen ans;
+    context * contextptr;
     pthread_mutex_t mutex;
   };
   void * thread_caseval(void * ptr_){

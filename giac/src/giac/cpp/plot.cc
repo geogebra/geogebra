@@ -34,7 +34,7 @@
 #include "giacPCH.h"
 
 using namespace std;
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
 #ifdef VISUALC13
 #undef clock
 #undef clock_t
@@ -49,10 +49,13 @@ using namespace std;
 // C headers
 #include <stdio.h>
 #ifndef __VISUALC__ 
-#if !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS
+#if !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS && !defined FXCG
 #include <fcntl.h>
 #endif
 #endif // __VISUALC__
+#ifdef FXCG
+#include <keyboard.h>
+#endif
 
 // Giac headers
 #include "gen.h"
@@ -506,7 +509,7 @@ namespace giac {
     fclose(source);
   }
 
-#if !defined VISUALC && ! defined __MINGW_H && !defined BESTA_OS
+#if !defined VISUALC && ! defined __MINGW_H && !defined BESTA_OS && !defined FXCG
   int set_nonblock_flag (int desc, int value){
     int oldflags = fcntl (desc, F_GETFL, 0);
     /* If reading the flags failed, return error indication now. */
@@ -2111,7 +2114,7 @@ namespace giac {
     return funcplotfunc(args,false,contextptr);
   }
   static const char _plotfunc_s []="plotfunc";
-  static define_unary_function_eval_quoted (__plotfunc,&giac::_plotfunc,_plotfunc_s);
+  static define_unary_function_eval_quoted (__plotfunc,&_plotfunc,_plotfunc_s);
   define_unary_function_ptr5( at_plotfunc ,alias_at_plotfunc,&__plotfunc,_QUOTE_ARGUMENTS,true);
 
   gen _funcplot(const gen & args,const context * contextptr){
@@ -2119,7 +2122,7 @@ namespace giac {
     return funcplotfunc(args,false,contextptr);
   }
   static const char _funcplot_s []="funcplot"; // Same as plotfunc but with tex print
-  static define_unary_function_eval_quoted (__funcplot,&giac::_funcplot,_funcplot_s);
+  static define_unary_function_eval_quoted (__funcplot,&_funcplot,_funcplot_s);
   define_unary_function_ptr5( at_funcplot ,alias_at_funcplot,&__funcplot,_QUOTE_ARGUMENTS,true);
 
   gen _plotdensity(const gen & args,const context * contextptr){
@@ -2127,7 +2130,7 @@ namespace giac {
     return funcplotfunc(args,true,contextptr);
   }
   static const char _plotdensity_s []="plotdensity"; 
-  static define_unary_function_eval_quoted (__plotdensity,&giac::_plotdensity,_plotdensity_s);
+  static define_unary_function_eval_quoted (__plotdensity,&_plotdensity,_plotdensity_s);
   define_unary_function_ptr5( at_plotdensity ,alias_at_plotdensity,&__plotdensity,_QUOTE_ARGUMENTS,true);
 
   gen _plotmatrix(const gen & args,const context * contextptr){
@@ -2137,11 +2140,11 @@ namespace giac {
     return funcplotfunc(args,true,contextptr);
   }
   static const char _plotmatrix_s []="plotmatrix"; 
-  static define_unary_function_eval_quoted (__plotmatrix,&giac::_plotmatrix,_plotmatrix_s);
+  static define_unary_function_eval_quoted (__plotmatrix,&_plotmatrix,_plotmatrix_s);
   define_unary_function_ptr5( at_plotmatrix ,alias_at_plotmatrix,&__plotmatrix,_QUOTE_ARGUMENTS,true);
 
   static const char _densityplot_s []="densityplot"; 
-  static define_unary_function_eval_quoted (__densityplot,&giac::_plotdensity,_densityplot_s);
+  static define_unary_function_eval_quoted (__densityplot,&_plotdensity,_densityplot_s);
   define_unary_function_ptr5( at_densityplot ,alias_at_densityplot,&__densityplot,_QUOTE_ARGUMENTS,true);
 
   bool chk_double_interval(const gen & g,double & inf,double & sup,GIAC_CONTEXT){
@@ -2206,7 +2209,7 @@ namespace giac {
     return symb_erase(args);
   }
   static const char _erase_s []="erase";
-  static define_unary_function_eval2 (__erase,&giac::_erase,_erase_s,&printasconstant);
+  static define_unary_function_eval2 (__erase,&_erase,_erase_s,&printasconstant);
   define_unary_function_ptr( at_erase ,alias_at_erase ,&__erase);
 
   int erase3d(){
@@ -2243,7 +2246,7 @@ namespace giac {
     return erase3d();
   }
   static const char _erase3d_s []="erase3d";
-  static define_unary_function_eval (__erase3d,&giac::_erase3d,_erase3d_s);
+  static define_unary_function_eval (__erase3d,&_erase3d,_erase3d_s);
   define_unary_function_ptr5( at_erase3d ,alias_at_erase3d,&__erase3d,0,true);
 
   // arg=real/complex or (real/complex,label) or same+color
@@ -2464,7 +2467,7 @@ namespace giac {
     return symb_pnt(symbolic(at_pixon,gen(v,_SEQ__VECT)),0,contextptr);
   }
   static const char _pixon_s []="pixon";
-  static define_unary_function_eval (__pixon,&giac::_pixon,_pixon_s);
+  static define_unary_function_eval (__pixon,&_pixon,_pixon_s);
   define_unary_function_ptr5( at_pixon ,alias_at_pixon,&__pixon,0,true);
 
   gen _pixoff(const gen & args,GIAC_CONTEXT){
@@ -2476,7 +2479,7 @@ namespace giac {
     return _pixon(gen(v,_SEQ__VECT),contextptr);
   }
   static const char _pixoff_s []="pixoff";
-  static define_unary_function_eval (__pixoff,&giac::_pixoff,_pixoff_s);
+  static define_unary_function_eval (__pixoff,&_pixoff,_pixoff_s);
   define_unary_function_ptr5( at_pixoff ,alias_at_pixoff,&__pixoff,0,true);
 
   static gen _droite_segment(const gen & args,int subtype,const vecteur & attributs,GIAC_CONTEXT){
@@ -2694,7 +2697,7 @@ namespace giac {
     return normal(im(g,contextptr)/re(g,contextptr),contextptr);
   }
   static const char _slope_s []="slope";
-  static define_unary_function_eval (__slope,&giac::_slope,_slope_s);
+  static define_unary_function_eval (__slope,&_slope,_slope_s);
   define_unary_function_ptr5( at_slope ,alias_at_slope,&__slope,0,true);
 
   vecteur eval_with_xy_quoted(const gen & args0,GIAC_CONTEXT){
@@ -2763,7 +2766,7 @@ namespace giac {
     return _droite_segment(gen(makevecteur(v0,v1),_SEQ__VECT),_LINE__VECT,attributs,contextptr);
   }
   static const char _droite_s []="line";
-  static define_unary_function_eval_quoted (__droite,&giac::_droite,_droite_s);
+  static define_unary_function_eval_quoted (__droite,&_droite,_droite_s);
   define_unary_function_ptr5( at_droite ,alias_at_droite,&__droite,_QUOTE_ARGUMENTS,true);
 
   gen _demi_droite(const gen & args,GIAC_CONTEXT){
@@ -2789,7 +2792,7 @@ namespace giac {
     return _droite_segment(seg,_HALFLINE__VECT,attributs,contextptr);
   }
   static const char _demi_droite_s []="half_line";
-  static define_unary_function_eval (__demi_droite,&giac::_demi_droite,_demi_droite_s);
+  static define_unary_function_eval (__demi_droite,&_demi_droite,_demi_droite_s);
   define_unary_function_ptr5( at_demi_droite ,alias_at_demi_droite,&__demi_droite,0,true);
 
   gen _vector(const gen & args,GIAC_CONTEXT){
@@ -2834,7 +2837,7 @@ namespace giac {
     return _droite_segment(seg,_VECTOR__VECT,attributs,contextptr);
   }
   static const char _vector_s []="vector";
-  static define_unary_function_eval (_pb_vector,(const gen_op_context &)&giac::_vector,_vector_s);
+  static define_unary_function_eval (_pb_vector,(const gen_op_context &)&_vector,_vector_s);
   define_unary_function_ptr5( at_vector ,alias_at_vector,&_pb_vector,0,true);
 
   gen _segment(const gen & args,GIAC_CONTEXT){
@@ -2879,7 +2882,7 @@ namespace giac {
     return _droite_segment(seg,_GROUP__VECT,attributs,contextptr);
   }
   static const char _segment_s []="segment";
-  static define_unary_function_eval_index (28,__segment,&giac::_segment,_segment_s);
+  static define_unary_function_eval_index (28,__segment,&_segment,_segment_s);
   define_unary_function_ptr5( at_segment ,alias_at_segment,&__segment,0,true);
 
 #ifdef WITH_GNUPLOT
@@ -3250,7 +3253,7 @@ namespace giac {
     return symbolic(at_pnt,args);
   }
   static const char _pnt_s []="pnt";
-  static define_unary_function_eval2_index (24,__pnt,&giac::_pnt,_pnt_s,&printaspnt);
+  static define_unary_function_eval2_index (24,__pnt,&_pnt,_pnt_s,&printaspnt);
   define_unary_function_ptr5( at_pnt ,alias_at_pnt,&__pnt,0,true);
 
   bool centre_rayon(const gen & cercle,gen & centre,gen & rayon,bool absrayon,GIAC_CONTEXT){
@@ -3366,7 +3369,7 @@ namespace giac {
     return pnt_attrib(args,attributs,contextptr);
   }
   static const char _point_s []="point";
-  static define_unary_function_eval_index (26,__point,&giac::_point,_point_s);
+  static define_unary_function_eval_index (26,__point,&_point,_point_s);
   define_unary_function_ptr5( at_point ,alias_at_point,&__point,0,true);
 
   static gen rand_2d3d(bool espace){
@@ -3397,7 +3400,7 @@ namespace giac {
     return point2d3d(args,true,contextptr);
   }
   static const char _point3d_s []="point3d";
-  static define_unary_function_eval_quoted (__point3d,&giac::_point3d,_point3d_s);
+  static define_unary_function_eval_quoted (__point3d,&_point3d,_point3d_s);
   define_unary_function_ptr5( at_point3d ,alias_at_point3d,&__point3d,_QUOTE_ARGUMENTS,true);
 
   gen _point2d(const gen & args,GIAC_CONTEXT){
@@ -3405,7 +3408,7 @@ namespace giac {
     return point2d3d(args,false,contextptr);
   }
   static const char _point2d_s []="point2d";
-  static define_unary_function_eval_quoted (__point2d,&giac::_point2d,_point2d_s);
+  static define_unary_function_eval_quoted (__point2d,&_point2d,_point2d_s);
   define_unary_function_ptr5( at_point2d ,alias_at_point2d,&__point2d,_QUOTE_ARGUMENTS,true);
 
   gen _affixe(const gen & args,GIAC_CONTEXT){
@@ -3420,7 +3423,7 @@ namespace giac {
     return g;
   }
   static const char _affixe_s []="affix";
-  static define_unary_function_eval (__affixe,&giac::_affixe,_affixe_s);
+  static define_unary_function_eval (__affixe,&_affixe,_affixe_s);
   define_unary_function_ptr5( at_affixe ,alias_at_affixe,&__affixe,0,true);
 
   gen _abscisse(const gen & args,GIAC_CONTEXT){
@@ -3446,7 +3449,7 @@ namespace giac {
     return re(g,contextptr);
   }
   static const char _abscisse_s []="abscissa";
-  static define_unary_function_eval (__abscisse,&giac::_abscisse,_abscisse_s);
+  static define_unary_function_eval (__abscisse,&_abscisse,_abscisse_s);
   define_unary_function_ptr5( at_abscisse ,alias_at_abscisse,&__abscisse,0,true);
 
   gen _ordonnee(const gen & args,GIAC_CONTEXT){
@@ -3472,7 +3475,7 @@ namespace giac {
     return im(g,contextptr);
   }
   static const char _ordonnee_s []="ordinate";
-  static define_unary_function_eval (__ordonnee,&giac::_ordonnee,_ordonnee_s);
+  static define_unary_function_eval (__ordonnee,&_ordonnee,_ordonnee_s);
   define_unary_function_ptr5( at_ordonnee ,alias_at_ordonnee,&__ordonnee,0,true);
 
   gen _cote(const gen & args,GIAC_CONTEXT){
@@ -3493,7 +3496,7 @@ namespace giac {
     return gensizeerr(gettext("3-d instruction"));
   }
   static const char _cote_s []="cote";
-  static define_unary_function_eval (__cote,&giac::_cote,_cote_s);
+  static define_unary_function_eval (__cote,&_cote,_cote_s);
   define_unary_function_ptr5( at_cote ,alias_at_cote,&__cote,0,true);
 
   gen coordonnees(const gen & args,bool in,GIAC_CONTEXT){  
@@ -3578,7 +3581,7 @@ namespace giac {
     return coordonnees(args,false,contextptr);
   }
   static const char _coordonnees_s []="coordinates";
-  static define_unary_function_eval (__coordonnees,&giac::_coordonnees,_coordonnees_s);
+  static define_unary_function_eval (__coordonnees,&_coordonnees,_coordonnees_s);
   define_unary_function_ptr5( at_coordonnees ,alias_at_coordonnees,&__coordonnees,0,true);
 
   gen _coordonnees_polaires(const gen & args,GIAC_CONTEXT){
@@ -3603,7 +3606,7 @@ namespace giac {
     return makevecteur(a,b);
   }
   static const char _coordonnees_polaires_s []="polar_coordinates";
-  static define_unary_function_eval (__coordonnees_polaires,&giac::_coordonnees_polaires,_coordonnees_polaires_s);
+  static define_unary_function_eval (__coordonnees_polaires,&_coordonnees_polaires,_coordonnees_polaires_s);
   define_unary_function_ptr5( at_coordonnees_polaires ,alias_at_coordonnees_polaires,&__coordonnees_polaires,0,true);
 
   gen _coordonnees_rectangulaires(const gen & args,GIAC_CONTEXT){
@@ -3619,7 +3622,7 @@ namespace giac {
     return makevecteur(a*cos(b,contextptr),a*sin(b,contextptr));
   }
   static const char _coordonnees_rectangulaires_s []="rectangular_coordinates";
-  static define_unary_function_eval (__coordonnees_rectangulaires,&giac::_coordonnees_rectangulaires,_coordonnees_rectangulaires_s);
+  static define_unary_function_eval (__coordonnees_rectangulaires,&_coordonnees_rectangulaires,_coordonnees_rectangulaires_s);
   define_unary_function_ptr5( at_coordonnees_rectangulaires ,alias_at_coordonnees_rectangulaires,&__coordonnees_rectangulaires,0,true);
 
   gen _point_polaire(const gen & args,GIAC_CONTEXT){
@@ -3631,7 +3634,7 @@ namespace giac {
     return _point(a*exp(cst_i*b,contextptr),contextptr);
   }
   static const char _point_polaire_s []="polar_point";
-  static define_unary_function_eval (__point_polaire,&giac::_point_polaire,_point_polaire_s);
+  static define_unary_function_eval (__point_polaire,&_point_polaire,_point_polaire_s);
   define_unary_function_ptr5( at_point_polaire ,alias_at_point_polaire,&__point_polaire,0,true);
 
   static inline gen divide_by_2(const gen & ra,GIAC_CONTEXT){
@@ -3773,7 +3776,7 @@ namespace giac {
     return  gen(w,_GROUP__VECT);
   }
   static const char _cercle_s []="circle";
-  static define_unary_function_eval_quoted (__cercle,&giac::_cercle,_cercle_s);
+  static define_unary_function_eval_quoted (__cercle,&_cercle,_cercle_s);
   define_unary_function_ptr5( at_cercle ,alias_at_cercle,&__cercle,_QUOTE_ARGUMENTS,true);
 
   gen _centre(const gen & args,GIAC_CONTEXT){
@@ -3795,7 +3798,7 @@ namespace giac {
     return pnt_attrib(centre,attributs,contextptr);
   }
   static const char _centre_s []="center";
-  static define_unary_function_eval (__centre,&giac::_centre,_centre_s);
+  static define_unary_function_eval (__centre,&_centre,_centre_s);
   define_unary_function_ptr5( at_centre ,alias_at_centre,&__centre,0,true);
 
   gen _rayon(const gen & args,GIAC_CONTEXT){
@@ -3813,7 +3816,7 @@ namespace giac {
     return rayon;
   }
   static const char _rayon_s []="radius";
-  static define_unary_function_eval (__rayon,&giac::_rayon,_rayon_s);
+  static define_unary_function_eval (__rayon,&_rayon,_rayon_s);
   define_unary_function_ptr5( at_rayon ,alias_at_rayon,&__rayon,0,true);
 
   gen _milieu(const gen & args,GIAC_CONTEXT){
@@ -3856,7 +3859,7 @@ namespace giac {
     return pnt_attrib(e+(f-e)/2,attributs,contextptr);
   }
   static const char _milieu_s []="midpoint";
-  static define_unary_function_eval (__milieu,&giac::_milieu,_milieu_s);
+  static define_unary_function_eval (__milieu,&_milieu,_milieu_s);
   define_unary_function_ptr5( at_milieu ,alias_at_milieu,&__milieu,0,true);
 
   // if suppl is true return in 3-d an object of dim'=3-dim, else dim'=dim
@@ -3980,7 +3983,7 @@ namespace giac {
     */
   }
   static const char _mediatrice_s []="perpen_bisector";
-  static define_unary_function_eval (__mediatrice,&giac::_mediatrice,_mediatrice_s);
+  static define_unary_function_eval (__mediatrice,&_mediatrice,_mediatrice_s);
   define_unary_function_ptr5( at_mediatrice ,alias_at_mediatrice,&__mediatrice,0,true);
 
   gen _perpendiculaire(const gen & args,GIAC_CONTEXT){
@@ -3988,7 +3991,7 @@ namespace giac {
     return perpendiculaire(args,false,contextptr);
   }
   static const char _perpendiculaire_s []="perpendicular";
-  static define_unary_function_eval (__perpendiculaire,&giac::_perpendiculaire,_perpendiculaire_s);
+  static define_unary_function_eval (__perpendiculaire,&_perpendiculaire,_perpendiculaire_s);
   define_unary_function_ptr5( at_perpendiculaire ,alias_at_perpendiculaire,&__perpendiculaire,0,true);
 
   gen _orthogonal(const gen & args,GIAC_CONTEXT){
@@ -3996,7 +3999,7 @@ namespace giac {
     return perpendiculaire(args,true,contextptr);
   }
   static const char _orthogonal_s []="orthogonal";
-  static define_unary_function_eval (__orthogonal,&giac::_orthogonal,_orthogonal_s);
+  static define_unary_function_eval (__orthogonal,&_orthogonal,_orthogonal_s);
   define_unary_function_ptr5( at_orthogonal ,alias_at_orthogonal,&__orthogonal,0,true);
 
   bool check3dpoint(const gen & g){
@@ -4069,7 +4072,7 @@ namespace giac {
     return pnt_attrib(d+(b-d._VECTptr->front()),attributs,contextptr);
   }
   static const char _parallele_s []="parallel";
-  static define_unary_function_eval (__parallele,&giac::_parallele,_parallele_s);
+  static define_unary_function_eval (__parallele,&_parallele,_parallele_s);
   define_unary_function_ptr5( at_parallele ,alias_at_parallele,&__parallele,0,true);
 
   gen _triangle(const gen & args,GIAC_CONTEXT){
@@ -4089,7 +4092,7 @@ namespace giac {
     return pnt_attrib(gen(v,_GROUP__VECT),attributs,contextptr);
   }
   static const char _triangle_s []="triangle";
-  static define_unary_function_eval (__triangle,&giac::_triangle,_triangle_s);
+  static define_unary_function_eval (__triangle,&_triangle,_triangle_s);
   define_unary_function_ptr5( at_triangle ,alias_at_triangle,&__triangle,0,true);
 
   gen _quadrilatere(const gen & args,GIAC_CONTEXT){
@@ -4109,7 +4112,7 @@ namespace giac {
     return pnt_attrib(gen(makevecteur(a,b,c,d,a),_GROUP__VECT),attributs,contextptr);
   }
   static const char _quadrilatere_s []="quadrilateral";
-  static define_unary_function_eval (__quadrilatere,&giac::_quadrilatere,_quadrilatere_s);
+  static define_unary_function_eval (__quadrilatere,&_quadrilatere,_quadrilatere_s);
   define_unary_function_ptr5( at_quadrilatere ,alias_at_quadrilatere,&__quadrilatere,0,true);
 
   static void get_rectangle_args(const vecteur & v,gen & e,gen & f,gen & g,gen & tmp,GIAC_CONTEXT){
@@ -4165,7 +4168,7 @@ namespace giac {
     return gen(w,_GROUP__VECT);
   }
   static const char _triangle_rectangle_s []="right_triangle";
-  static define_unary_function_eval_quoted (__triangle_rectangle,&giac::_triangle_rectangle,_triangle_rectangle_s);
+  static define_unary_function_eval_quoted (__triangle_rectangle,&_triangle_rectangle,_triangle_rectangle_s);
   define_unary_function_ptr5( at_triangle_rectangle ,alias_at_triangle_rectangle,&__triangle_rectangle,_QUOTE_ARGUMENTS,true);
 
   gen _rectangle(const gen & args, GIAC_CONTEXT){
@@ -4192,7 +4195,7 @@ namespace giac {
     return gen(w,_GROUP__VECT);
   }
   static const char _rectangle_s []="rectangle";
-  static define_unary_function_eval_quoted (__rectangle,&giac::_rectangle,_rectangle_s);
+  static define_unary_function_eval_quoted (__rectangle,&_rectangle,_rectangle_s);
   define_unary_function_ptr5( at_rectangle ,alias_at_rectangle,&__rectangle,_QUOTE_ARGUMENTS,true);
 
   gen _parallelogramme(const gen & args0,GIAC_CONTEXT){
@@ -4248,7 +4251,7 @@ namespace giac {
     return gen(w,_GROUP__VECT);
   }
   static const char _parallelogramme_s []="parallelogram";
-  static define_unary_function_eval_quoted (__parallelogramme,&giac::_parallelogramme,_parallelogramme_s);
+  static define_unary_function_eval_quoted (__parallelogramme,&_parallelogramme,_parallelogramme_s);
   define_unary_function_ptr5( at_parallelogramme ,alias_at_parallelogramme,&__parallelogramme,_QUOTE_ARGUMENTS,true);
 
   static void get_losange_args(const vecteur &v,gen &e,gen &f,gen & g,GIAC_CONTEXT){
@@ -4296,7 +4299,7 @@ namespace giac {
     return gen(w,_GROUP__VECT);
   }
   static const char _triangle_isocele_s []="isosceles_triangle";
-  static define_unary_function_eval_quoted (__triangle_isocele,&giac::_triangle_isocele,_triangle_isocele_s);
+  static define_unary_function_eval_quoted (__triangle_isocele,&_triangle_isocele,_triangle_isocele_s);
   define_unary_function_ptr5( at_triangle_isocele ,alias_at_triangle_isocele,&__triangle_isocele,_QUOTE_ARGUMENTS,true);
 
   gen _losange(const gen & args,GIAC_CONTEXT){
@@ -4324,7 +4327,7 @@ namespace giac {
     return gen(w,_GROUP__VECT);
   }
   static const char _losange_s []="rhombus";
-  static define_unary_function_eval_quoted (__losange,&giac::_losange,_losange_s);
+  static define_unary_function_eval_quoted (__losange,&_losange,_losange_s);
   define_unary_function_ptr5( at_losange ,alias_at_losange,&__losange,_QUOTE_ARGUMENTS,true);
 
   gen _triangle_equilateral(const gen & args,GIAC_CONTEXT){
@@ -4360,7 +4363,7 @@ namespace giac {
     return gen(w,_GROUP__VECT);
   }
   static const char _triangle_equilateral_s []="equilateral_triangle";
-  static define_unary_function_eval_quoted (__triangle_equilateral,&giac::_triangle_equilateral,_triangle_equilateral_s);
+  static define_unary_function_eval_quoted (__triangle_equilateral,&_triangle_equilateral,_triangle_equilateral_s);
   define_unary_function_ptr5( at_triangle_equilateral ,alias_at_triangle_equilateral,&__triangle_equilateral,_QUOTE_ARGUMENTS,true);
 
   // Args= Center A, point B, number of vertices
@@ -4424,7 +4427,7 @@ namespace giac {
     return res;
   }
   static const char _isopolygone_s []="isopolygon";
-  static define_unary_function_eval (__isopolygone,&giac::_isopolygone,_isopolygone_s);
+  static define_unary_function_eval (__isopolygone,&_isopolygone,_isopolygone_s);
   define_unary_function_ptr5( at_isopolygone ,alias_at_isopolygone,&__isopolygone,0,true);
 
   gen _carre(const gen & args,GIAC_CONTEXT){
@@ -4465,7 +4468,7 @@ namespace giac {
     return gen(w,_GROUP__VECT);
   }
   static const char _carre_s []="square";
-  static define_unary_function_eval_quoted (__carre,&giac::_carre,_carre_s);
+  static define_unary_function_eval_quoted (__carre,&_carre,_carre_s);
   define_unary_function_ptr5( at_carre ,alias_at_carre,&__carre,_QUOTE_ARGUMENTS,true);
 
   gen _hexagone(const gen & args,GIAC_CONTEXT){
@@ -4513,7 +4516,7 @@ namespace giac {
     return gen(w,_GROUP__VECT);
   }
   static const char _hexagone_s []="hexagon";
-  static define_unary_function_eval_quoted (__hexagone,&giac::_hexagone,_hexagone_s);
+  static define_unary_function_eval_quoted (__hexagone,&_hexagone,_hexagone_s);
   define_unary_function_ptr5( at_hexagone ,alias_at_hexagone,&__hexagone,_QUOTE_ARGUMENTS,true);
 
   static void polygonify(vecteur & v,GIAC_CONTEXT){
@@ -4540,7 +4543,7 @@ namespace giac {
     return pnt_attrib(gen(v,_GROUP__VECT),attributs,contextptr);
   }
   static const char _polygone_s []="polygon";
-  static define_unary_function_eval (__polygone,&giac::_polygone,_polygone_s);
+  static define_unary_function_eval (__polygone,&_polygone,_polygone_s);
   define_unary_function_ptr5( at_polygone ,alias_at_polygone,&__polygone,0,true);
 
   gen _polygone_ouvert(const gen & args,GIAC_CONTEXT){
@@ -4557,7 +4560,7 @@ namespace giac {
     return pnt_attrib(gen(v,_GROUP__VECT),attributs,contextptr);
   }
   static const char _polygone_ouvert_s []="open_polygon";
-  static define_unary_function_eval (__polygone_ouvert,&giac::_polygone_ouvert,_polygone_ouvert_s);
+  static define_unary_function_eval (__polygone_ouvert,&_polygone_ouvert,_polygone_ouvert_s);
   define_unary_function_ptr5( at_polygone_ouvert ,alias_at_polygone_ouvert,&__polygone_ouvert,0,true);
 
   static bool gen23points(const gen & args,gen &e,gen &f,gen &g,vecteur & attributs,GIAC_CONTEXT){
@@ -4604,7 +4607,7 @@ namespace giac {
     return symb_segment(e,e+f,attributs,_LINE__VECT,contextptr);
   }
   static const char _hauteur_s []="altitude";
-  static define_unary_function_eval (__hauteur,&giac::_hauteur,_hauteur_s);
+  static define_unary_function_eval (__hauteur,&_hauteur,_hauteur_s);
   define_unary_function_ptr5( at_hauteur ,alias_at_hauteur,&__hauteur,0,true);
 
   gen bissectrice(const gen & args,bool interieur,GIAC_CONTEXT){
@@ -4636,7 +4639,7 @@ namespace giac {
     return bissectrice(args,true,contextptr);
   }
   static const char _bissectrice_s []="bisector";
-  static define_unary_function_eval (__bissectrice,&giac::_bissectrice,_bissectrice_s);
+  static define_unary_function_eval (__bissectrice,&_bissectrice,_bissectrice_s);
   define_unary_function_ptr5( at_bissectrice ,alias_at_bissectrice,&__bissectrice,0,true);
 
   gen _exbissectrice(const gen & args,GIAC_CONTEXT){
@@ -4646,7 +4649,7 @@ namespace giac {
     return bissectrice(args,false,contextptr);
   }
   static const char _exbissectrice_s []="exbisector";
-  static define_unary_function_eval (__exbissectrice,&giac::_exbissectrice,_exbissectrice_s);
+  static define_unary_function_eval (__exbissectrice,&_exbissectrice,_exbissectrice_s);
   define_unary_function_ptr5( at_exbissectrice ,alias_at_exbissectrice,&__exbissectrice,0,true);
 
   gen _mediane(const gen & args,GIAC_CONTEXT){
@@ -4664,7 +4667,7 @@ namespace giac {
     return symb_segment(e,rdiv(f+g,plus_two,contextptr),attributs,_LINE__VECT,contextptr);
   }
   static const char _mediane_s []="median_line";
-  static define_unary_function_eval (__mediane,&giac::_mediane,_mediane_s);
+  static define_unary_function_eval (__mediane,&_mediane,_mediane_s);
   define_unary_function_ptr5( at_mediane ,alias_at_mediane,&__mediane,0,true);
 
   // chk if g is a pnt with 3 pnts as first argument
@@ -4788,7 +4791,7 @@ namespace giac {
     // was return _cercle(makevecteur(h,e-remove_at_pnt(h)),contextptr);
   }
   static const char _circonscrit_s []="circumcircle";
-  static define_unary_function_eval (__circonscrit,&giac::_circonscrit,_circonscrit_s);
+  static define_unary_function_eval (__circonscrit,&_circonscrit,_circonscrit_s);
   define_unary_function_ptr5( at_circonscrit ,alias_at_circonscrit,&__circonscrit,0,true);
 
   gen _orthocentre(const gen & arg_orig,GIAC_CONTEXT){
@@ -4819,7 +4822,7 @@ namespace giac {
     // was return _cercle(makevecteur(h,e-remove_at_pnt(h)),contextptr);
   }
   static const char _orthocentre_s []="orthocenter";
-  static define_unary_function_eval (__orthocentre,&giac::_orthocentre,_orthocentre_s);
+  static define_unary_function_eval (__orthocentre,&_orthocentre,_orthocentre_s);
   define_unary_function_ptr5( at_orthocentre ,alias_at_orthocentre,&__orthocentre,0,true);
 
   // given 2 points e and f return equation of line e,f as coeffs a,b,c
@@ -4934,7 +4937,7 @@ namespace giac {
     return inscrit(args,attributs,false,contextptr);
   }
   static const char _inscrit_s []="incircle";
-  static define_unary_function_eval (__inscrit,&giac::_inscrit,_inscrit_s);
+  static define_unary_function_eval (__inscrit,&_inscrit,_inscrit_s);
   define_unary_function_ptr5( at_inscrit ,alias_at_inscrit,&__inscrit,0,true);
 
   gen _exinscrit(const gen & arg_orig,GIAC_CONTEXT){
@@ -4946,7 +4949,7 @@ namespace giac {
     return inscrit(args,attributs,true,contextptr);
   }
   static const char _exinscrit_s []="excircle";
-  static define_unary_function_eval (__exinscrit,&giac::_exinscrit,_exinscrit_s);
+  static define_unary_function_eval (__exinscrit,&_exinscrit,_exinscrit_s);
   define_unary_function_ptr5( at_exinscrit ,alias_at_exinscrit,&__exinscrit,0,true);
 
   gen _isobarycentre(const gen & args,GIAC_CONTEXT){
@@ -4986,7 +4989,7 @@ namespace giac {
     return pnt_attrib(rdiv(sum,i,contextptr),attributs,contextptr);
   }
   static const char _isobarycentre_s []="isobarycenter";
-  static define_unary_function_eval (__isobarycentre,&giac::_isobarycentre,_isobarycentre_s);
+  static define_unary_function_eval (__isobarycentre,&_isobarycentre,_isobarycentre_s);
   define_unary_function_ptr5( at_isobarycentre ,alias_at_isobarycentre,&__isobarycentre,0,true);
 
   static gen inbarycentre(const gen & args,GIAC_CONTEXT){
@@ -5033,7 +5036,7 @@ namespace giac {
   }
 
   static const char _barycentre_s []="barycenter";
-  static define_unary_function_eval (__barycentre,&giac::_barycentre,_barycentre_s);
+  static define_unary_function_eval (__barycentre,&_barycentre,_barycentre_s);
   define_unary_function_ptr5( at_barycentre ,alias_at_barycentre,&__barycentre,0,true);
 
   gen scalar_product(const gen & a0,const gen & b0,GIAC_CONTEXT){
@@ -5592,7 +5595,7 @@ namespace giac {
     return distance2(e1,e2,contextptr);
   }
   static const char _longueur2_s []="distance2";
-  static define_unary_function_eval (__longueur2,&giac::_longueur2,_longueur2_s);
+  static define_unary_function_eval (__longueur2,&_longueur2,_longueur2_s);
   define_unary_function_ptr5( at_longueur2 ,alias_at_longueur2,&__longueur2,0,true);
 
   gen _longueur(const gen & args,GIAC_CONTEXT){
@@ -5609,7 +5612,7 @@ namespace giac {
     return sqrt(_longueur2(args,contextptr),contextptr);
   }
   static const char _longueur_s []="distance";
-  static define_unary_function_eval (__longueur,&giac::_longueur,_longueur_s);
+  static define_unary_function_eval (__longueur,&_longueur,_longueur_s);
   define_unary_function_ptr5( at_longueur ,alias_at_longueur,&__longueur,0,true);
 
   gen approx_area(const gen & f,const gen & x,const gen & a_,const gen &b_,int n,int method,GIAC_CONTEXT){
@@ -5791,7 +5794,7 @@ namespace giac {
     return recursive_normal(res/2,contextptr);
   }
   static const char _aire_s []="area";
-  static define_unary_function_eval (__aire,&giac::_aire,_aire_s);
+  static define_unary_function_eval (__aire,&_aire,_aire_s);
   define_unary_function_ptr5( at_aire ,alias_at_aire,&__aire,0,true);
 
   gen _perimetre(const gen & args,GIAC_CONTEXT){
@@ -5841,7 +5844,7 @@ namespace giac {
     return recursive_normal(res,contextptr);
   }
   static const char _perimetre_s []="perimeter";
-  static define_unary_function_eval (__perimetre,&giac::_perimetre,_perimetre_s);
+  static define_unary_function_eval (__perimetre,&_perimetre,_perimetre_s);
   define_unary_function_ptr5( at_perimetre ,alias_at_perimetre,&__perimetre,0,true);
 
   // angle accepts an optionnal last argument as a string
@@ -6015,7 +6018,7 @@ namespace giac {
     return res;
   }
   static const char _angle_s []="angle";
-  static define_unary_function_eval (__angle,&giac::_angle,_angle_s);
+  static define_unary_function_eval (__angle,&_angle,_angle_s);
   define_unary_function_ptr5( at_angle ,alias_at_angle,&__angle,0,true);
 
   static bool is_near(const gen & a,const gen & b0,double eps,GIAC_CONTEXT){
@@ -6151,7 +6154,7 @@ namespace giac {
 #endif // WIN32
   }
   static const char _signal_s []="signal";
-  static define_unary_function_eval_quoted (__signal,&giac::_signal,_signal_s);
+  static define_unary_function_eval_quoted (__signal,&_signal,_signal_s);
   define_unary_function_ptr5( at_signal ,alias_at_signal,&__signal,_QUOTE_ARGUMENTS,true);
 #endif // HAVE_SIGNAL_H_OLD
 
@@ -6200,6 +6203,9 @@ namespace giac {
       res=gen(s,contextptr);
 #else
 #if 1 // def WIN32
+#ifdef FXCG // FIXME!
+    res=PRGM_GetKey();
+#else
     COUT << "// " << args ;
     string s;
     CIN >> s;
@@ -6207,6 +6213,7 @@ namespace giac {
       res=string2gen(s,false);
     else
       res=gen(s,contextptr);
+#endif // FXCG
 #else
 #ifdef HAVE_SIGNAL_H_OLD
     if (child_id){ 
@@ -6263,10 +6270,10 @@ namespace giac {
   }
   static const char _click_s []="click";
 #ifdef RTOS_THREADX
-  define_unary_function_eval_index(1,__click,&giac::_click,_click_s);
-  // const unary_function_eval __click(1,&giac::_click,_click_s);
+  define_unary_function_eval_index(1,__click,&_click,_click_s);
+  // const unary_function_eval __click(1,&_click,_click_s);
 #else
-  unary_function_eval __click(1,&giac::_click,_click_s);
+  unary_function_eval __click(1,&_click,_click_s);
 #endif
   define_unary_function_ptr5( at_click ,alias_at_click,&__click,_QUOTE_ARGUMENTS,true);
 
@@ -6400,7 +6407,7 @@ namespace giac {
     return element(g,attributs,contextptr);
   }
   static const char _element_s []="element";
-  static define_unary_function_eval (__element,&giac::_element,_element_s);
+  static define_unary_function_eval (__element,&_element,_element_s);
   define_unary_function_ptr5( at_element ,alias_at_element,&__element,0,true);
 
   // returns res as a local bloc
@@ -6455,7 +6462,7 @@ namespace giac {
     return symb_program(x,zero,res,contextptr);
   }
   static const char _as_function_of_s []="as_function_of";
-  static define_unary_function_eval_quoted (__as_function_of,&giac::_as_function_of,_as_function_of_s);
+  static define_unary_function_eval_quoted (__as_function_of,&_as_function_of,_as_function_of_s);
   define_unary_function_ptr5( at_as_function_of ,alias_at_as_function_of,&__as_function_of,_QUOTE_ARGUMENTS,true);
 
   // equation f -> geometric object g
@@ -6990,7 +6997,7 @@ namespace giac {
 #endif
   }
   static const char _lieu_s []="locus";
-  static define_unary_function_eval_quoted (__lieu,&giac::_lieu,_lieu_s);
+  static define_unary_function_eval_quoted (__lieu,&_lieu,_lieu_s);
   define_unary_function_ptr5( at_lieu ,alias_at_lieu,&__lieu,_QUOTE_ARGUMENTS,true);
 
   gen _head(const gen & args,GIAC_CONTEXT){
@@ -7010,7 +7017,7 @@ namespace giac {
       return args;
   }
   static const char _head_s []="head";
-  static define_unary_function_eval (__head,&giac::_head,_head_s);
+  static define_unary_function_eval (__head,&_head,_head_s);
   define_unary_function_ptr5( at_head ,alias_at_head,&__head,0,true);
 
   gen _tail(const gen & args,GIAC_CONTEXT){
@@ -7032,7 +7039,7 @@ namespace giac {
       return args;
   }
   static const char _tail_s []="tail";
-  static define_unary_function_eval (__tail,&giac::_tail,_tail_s);
+  static define_unary_function_eval (__tail,&_tail,_tail_s);
   define_unary_function_ptr5( at_tail ,alias_at_tail,&__tail,0,true);
 
   gen _back(const gen & args,GIAC_CONTEXT){
@@ -7052,7 +7059,7 @@ namespace giac {
       return args;
   }
   static const char _back_s []="back";
-  static define_unary_function_eval (__back,&giac::_back,_back_s);
+  static define_unary_function_eval (__back,&_back,_back_s);
   define_unary_function_ptr5( at_back ,alias_at_back,&__back,0,true);
 
 
@@ -7124,7 +7131,7 @@ namespace giac {
     return g;
   }
   static const char _sommets_s []="vertices";
-  static define_unary_function_eval (__sommets,&giac::_sommets,_sommets_s);
+  static define_unary_function_eval (__sommets,&_sommets,_sommets_s);
   define_unary_function_ptr5( at_sommets ,alias_at_sommets,&__sommets,0,true);
 
   gen _sommets_abca(const gen & args,GIAC_CONTEXT){
@@ -7139,11 +7146,11 @@ namespace giac {
     return g;
   }
   static const char _sommets_abca_s []="vertices_abca";
-  static define_unary_function_eval (__sommets_abca,&giac::_sommets_abca,_sommets_abca_s);
+  static define_unary_function_eval (__sommets_abca,&_sommets_abca,_sommets_abca_s);
   define_unary_function_ptr5( at_sommets_abca ,alias_at_sommets_abca,&__sommets_abca,0,true);
 
   static const char _sommets_abc_s []="vertices_abc";
-  static define_unary_function_eval (__sommets_abc,&giac::_sommets,_sommets_abc_s);
+  static define_unary_function_eval (__sommets_abc,&_sommets,_sommets_abc_s);
   define_unary_function_ptr5( at_sommets_abc ,alias_at_sommets_abc,&__sommets_abc,0,true);
 
   static gen symetriepoint(const gen & a,const gen & b,GIAC_CONTEXT){
@@ -7440,7 +7447,7 @@ namespace giac {
     return put_attributs(symetrie(v,s,contextptr),attributs,contextptr);
   }
   static const char _symetrie_s []="reflection";
-  static define_unary_function_eval (__symetrie,&giac::_symetrie,_symetrie_s);
+  static define_unary_function_eval (__symetrie,&_symetrie,_symetrie_s);
   define_unary_function_ptr5( at_symetrie ,alias_at_symetrie,&__symetrie,0,true);
 
   gen _rotation(const gen & args,GIAC_CONTEXT){
@@ -7453,7 +7460,7 @@ namespace giac {
     return put_attributs(rotation(v,s,contextptr),attributs,contextptr);
   }
   static const char _rotation_s []="rotation";
-  static define_unary_function_eval (__rotation,&giac::_rotation,_rotation_s);
+  static define_unary_function_eval (__rotation,&_rotation,_rotation_s);
   define_unary_function_ptr5( at_rotation ,alias_at_rotation,&__rotation,0,true);
 
   static gen projectionpoint(const gen & aa,const gen & bb,GIAC_CONTEXT){
@@ -7530,7 +7537,7 @@ namespace giac {
     return put_attributs(projection(v,s,contextptr),attributs,contextptr);
   }
   static const char _projection_s []="projection";
-  static define_unary_function_eval (__projection,&giac::_projection,_projection_s);
+  static define_unary_function_eval (__projection,&_projection,_projection_s);
   define_unary_function_ptr5( at_projection ,alias_at_projection,&__projection,0,true);
 
   // h(centre,rapport,M)
@@ -7582,7 +7589,7 @@ namespace giac {
     return put_attributs(homothetie(v,s,contextptr),attributs,contextptr);
   }
   static const char _homothetie_s []="homothety";
-  static define_unary_function_eval (__homothetie,&giac::_homothetie,_homothetie_s);
+  static define_unary_function_eval (__homothetie,&_homothetie,_homothetie_s);
   define_unary_function_ptr5( at_homothetie ,alias_at_homothetie,&__homothetie,0,true);
 
   // renvoie 2 si tous les points sont confondus
@@ -7628,7 +7635,7 @@ namespace giac {
     return symbolic(at_est_aligne,args);
   }
   static const char _est_aligne_s []="is_collinear";
-  static define_unary_function_eval (__est_aligne,&giac::_est_aligne,_est_aligne_s);
+  static define_unary_function_eval (__est_aligne,&_est_aligne,_est_aligne_s);
   define_unary_function_ptr5( at_est_aligne ,alias_at_est_aligne,&__est_aligne,0,true);
 
   bool est_coplanaire(const gen & a,const gen & b,const gen & c,const gen & d,GIAC_CONTEXT){
@@ -7674,7 +7681,7 @@ namespace giac {
     return true;
   }
   static const char _est_coplanaire_s []="is_coplanar";
-  static define_unary_function_eval (__est_coplanaire,&giac::_est_coplanaire,_est_coplanaire_s);
+  static define_unary_function_eval (__est_coplanaire,&_est_coplanaire,_est_coplanaire_s);
   define_unary_function_ptr5( at_est_coplanaire ,alias_at_est_coplanaire,&__est_coplanaire,0,true);
 
   static gen gen2complex(const gen & a){
@@ -7727,7 +7734,7 @@ namespace giac {
     return 1;
   }
   static const char _est_cocyclique_s []="is_concyclic";
-  static define_unary_function_eval (__est_cocyclique,&giac::_est_cocyclique,_est_cocyclique_s);
+  static define_unary_function_eval (__est_cocyclique,&_est_cocyclique,_est_cocyclique_s);
   define_unary_function_ptr5( at_est_cocyclique ,alias_at_est_cocyclique,&__est_cocyclique,0,true);
 
   gen _est_parallele(const gen & args,GIAC_CONTEXT){
@@ -7753,7 +7760,7 @@ namespace giac {
     return symbolic(at_est_parallele,args);
   }
   static const char _est_parallele_s []="is_parallel";
-  static define_unary_function_eval (__est_parallele,&giac::_est_parallele,_est_parallele_s);
+  static define_unary_function_eval (__est_parallele,&_est_parallele,_est_parallele_s);
   define_unary_function_ptr5( at_est_parallele ,alias_at_est_parallele,&__est_parallele,0,true);
 
   bool est_perpendiculaire(const gen & a,const gen & b,GIAC_CONTEXT){
@@ -7837,7 +7844,7 @@ namespace giac {
     return symbolic(at_est_element,args);
   }
   static const char _est_element_s []="is_element";
-  static define_unary_function_eval (__est_element,&giac::_est_element,_est_element_s);
+  static define_unary_function_eval (__est_element,&_est_element,_est_element_s);
   define_unary_function_ptr5( at_est_element ,alias_at_est_element,&__est_element,0,true);
 
   gen est_dans(const gen & a_,const gen &b_,GIAC_CONTEXT){
@@ -7888,7 +7895,7 @@ namespace giac {
     return gensizeerr(contextptr);
   }
   static const char _est_dans_s []="is_inside";
-  static define_unary_function_eval (__est_dans,&giac::_est_dans,_est_dans_s);
+  static define_unary_function_eval (__est_dans,&_est_dans,_est_dans_s);
   define_unary_function_ptr5( at_est_dans ,alias_at_est_dans,&__est_dans,0,true);
 
   // adjust arguments and return true if b is an angle between a and c
@@ -8020,7 +8027,7 @@ namespace giac {
     return put_attributs(inversion(v,s,contextptr),attributs,contextptr);
   }
   static const char _inversion_s []="inversion";
-  static define_unary_function_eval (__inversion,&giac::_inversion,_inversion_s);
+  static define_unary_function_eval (__inversion,&_inversion,_inversion_s);
   define_unary_function_ptr5( at_inversion ,alias_at_inversion,&__inversion,0,true);
 
   // s(centre,rapport,angle,M)
@@ -8070,7 +8077,7 @@ namespace giac {
     return put_attributs(similitude(v,s,contextptr),attributs,contextptr);
   }
   static const char _similitude_s []="similarity";
-  static define_unary_function_eval (__similitude,&giac::_similitude,_similitude_s);
+  static define_unary_function_eval (__similitude,&_similitude,_similitude_s);
   define_unary_function_ptr5( at_similitude ,alias_at_similitude,&__similitude,0,true);
 
   static gen translationpoint(const gen & a,const gen & b,GIAC_CONTEXT){
@@ -8144,7 +8151,7 @@ namespace giac {
     return put_attributs(translation(v,s,contextptr),attributs,contextptr);
   }
   static const char _translation_s []="translation";
-  static define_unary_function_eval (__translation,&giac::_translation,_translation_s);
+  static define_unary_function_eval (__translation,&_translation,_translation_s);
   define_unary_function_ptr5( at_translation ,alias_at_translation,&__translation,0,true);
 
   // curve is the innert form of a parametric curve
@@ -8176,7 +8183,7 @@ namespace giac {
     return symbolic(at_curve,args);
   }
   static const char _curve_s []="curve";
-  static define_unary_function_eval2 (__curve,&giac::_curve,_curve_s,&printascurve);
+  static define_unary_function_eval2 (__curve,&_curve,_curve_s,&printascurve);
   define_unary_function_ptr5( at_curve ,alias_at_curve,&__curve,0,true);
 
   gen plotparam(const gen & f,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_tmin, double function_tmax,double function_tstep,const gen & equation,const gen & parameq,const gen & vparam,const context * contextptr){
@@ -8469,11 +8476,11 @@ namespace giac {
     return paramplotparam(args,true,contextptr);
   }
   static const char _plotparam_s []="plotparam";
-  static define_unary_function_eval_quoted (__plotparam,&giac::_plotparam,_plotparam_s);
+  static define_unary_function_eval_quoted (__plotparam,&_plotparam,_plotparam_s);
   define_unary_function_ptr5( at_plotparam ,alias_at_plotparam,&__plotparam,_QUOTE_ARGUMENTS,true);
 
   static const char _courbe_parametrique_s []="courbe_parametrique";
-  static define_unary_function_eval_quoted (__courbe_parametrique,&giac::_plotparam,_courbe_parametrique_s);
+  static define_unary_function_eval_quoted (__courbe_parametrique,&_plotparam,_courbe_parametrique_s);
   define_unary_function_ptr5( at_courbe_parametrique ,alias_at_courbe_parametrique,&__courbe_parametrique,_QUOTE_ARGUMENTS,true);
 
   gen _paramplot(const gen & args,const context * contextptr){
@@ -8481,7 +8488,7 @@ namespace giac {
     return paramplotparam(args,false,contextptr);
   }
   static const char _paramplot_s []="paramplot";
-  static define_unary_function_eval_quoted (__paramplot,&giac::_paramplot,_paramplot_s);
+  static define_unary_function_eval_quoted (__paramplot,&_paramplot,_paramplot_s);
   define_unary_function_ptr5( at_paramplot ,alias_at_paramplot,&__paramplot,_QUOTE_ARGUMENTS,true);
 
   static gen plotpoints(const vecteur & v,const vecteur & attributs,GIAC_CONTEXT){
@@ -8637,11 +8644,11 @@ namespace giac {
     return plotfunc(v[0],xvar,attributs,false,xmin,xmax,ymin,ymax,zmin,zmax,nstep,0,showeq,contextptr);
   }
   static const char _plot_s []="plot"; // FIXME use maple arguments
-  static define_unary_function_eval_quoted (__plot,&giac::_plot,_plot_s);
+  static define_unary_function_eval_quoted (__plot,&_plot,_plot_s);
   define_unary_function_ptr5( at_plot ,alias_at_plot,&__plot,_QUOTE_ARGUMENTS,true);
 
   static const char _graphe_s []="graphe";
-  static define_unary_function_eval_quoted (__graphe,&giac::_plot,_graphe_s);
+  static define_unary_function_eval_quoted (__graphe,&_plot,_graphe_s);
   define_unary_function_ptr5( at_graphe ,alias_at_graphe,&__graphe,_QUOTE_ARGUMENTS,true);
 
   gen _plotpolar(const gen & args,const context * contextptr){
@@ -8661,15 +8668,15 @@ namespace giac {
     return _plotparam(gen(vargs,_SEQ__VECT),contextptr);
   }
   static const char _plotpolar_s []="plotpolar";
-  static define_unary_function_eval_quoted (__plotpolar,&giac::_plotpolar,_plotpolar_s);
+  static define_unary_function_eval_quoted (__plotpolar,&_plotpolar,_plotpolar_s);
   define_unary_function_ptr5( at_plotpolar ,alias_at_plotpolar,&__plotpolar,_QUOTE_ARGUMENTS,true);
 
   static const char _polarplot_s []="polarplot";
-  static define_unary_function_eval_quoted (__polarplot,&giac::_plotpolar,_polarplot_s);
+  static define_unary_function_eval_quoted (__polarplot,&_plotpolar,_polarplot_s);
   define_unary_function_ptr5( at_polarplot ,alias_at_polarplot,&__polarplot,_QUOTE_ARGUMENTS,true);
 
   static const char _courbe_polaire_s []="courbe_polaire";
-  static define_unary_function_eval_quoted (__courbe_polaire,&giac::_plotpolar,_courbe_polaire_s);
+  static define_unary_function_eval_quoted (__courbe_polaire,&_plotpolar,_courbe_polaire_s);
   define_unary_function_ptr5( at_courbe_polaire ,alias_at_courbe_polaire,&__courbe_polaire,_QUOTE_ARGUMENTS,true);
 
   void ck_parameter_x(GIAC_CONTEXT){
@@ -8827,7 +8834,7 @@ namespace giac {
       return e;
   }
   static const char _parameq_s []="parameq";
-  static define_unary_function_eval (__parameq,&giac::_parameq,_parameq_s);
+  static define_unary_function_eval (__parameq,&_parameq,_parameq_s);
   define_unary_function_ptr5( at_parameq ,alias_at_parameq,&__parameq,0,true);
 
   gen rationalparam2equation(const gen & at_orig,const gen & t_orig,const gen &x,const gen & y,GIAC_CONTEXT){
@@ -9031,7 +9038,7 @@ namespace giac {
     return equation(v.front(),x,y,z,contextptr);
   }
   static const char _equation_s []="equation";
-  static define_unary_function_eval (__equation,&giac::_equation,_equation_s);
+  static define_unary_function_eval (__equation,&_equation,_equation_s);
   define_unary_function_ptr5( at_equation ,alias_at_equation,&__equation,0,true);
 
   // If subtype is segment/vector or halfline remove
@@ -9895,7 +9902,7 @@ namespace giac {
     return put_attributs(res,attributs,contextptr);
   }
   static const char _tangent_s []="tangent";
-  static define_unary_function_eval (__tangent,&giac::_tangent,_tangent_s);
+  static define_unary_function_eval (__tangent,&_tangent,_tangent_s);
   define_unary_function_ptr5( at_tangent ,alias_at_tangent,&__tangent,0,true);
 
   static bool is_valid_point(const gen & g){
@@ -10034,7 +10041,7 @@ namespace giac {
 #endif
   }
   static const char _ellipse_s []="ellipse";
-  static define_unary_function_eval (__ellipse,&giac::_ellipse,_ellipse_s);
+  static define_unary_function_eval (__ellipse,&_ellipse,_ellipse_s);
   define_unary_function_ptr5( at_ellipse ,alias_at_ellipse,&__ellipse,0,true);
 
   gen _hyperbole(const gen & args,GIAC_CONTEXT){
@@ -10108,7 +10115,7 @@ namespace giac {
 #endif
   }
   static const char _hyperbole_s []="hyperbola";
-  static define_unary_function_eval (__hyperbole,&giac::_hyperbole,_hyperbole_s);
+  static define_unary_function_eval (__hyperbole,&_hyperbole,_hyperbole_s);
   define_unary_function_ptr5( at_hyperbole ,alias_at_hyperbole,&__hyperbole,0,true);
 
   gen _parabole(const gen & args,GIAC_CONTEXT){
@@ -10177,7 +10184,7 @@ namespace giac {
     return res;
   }
   static const char _parabole_s []="parabola";
-  static define_unary_function_eval (__parabole,&giac::_parabole,_parabole_s);
+  static define_unary_function_eval (__parabole,&_parabole,_parabole_s);
   define_unary_function_ptr5( at_parabole ,alias_at_parabole,&__parabole,0,true);
 
   gen put_attributs(const gen & lieu_g,const vecteur & attributs,GIAC_CONTEXT){
@@ -10244,7 +10251,7 @@ namespace giac {
     return gendimerr(contextptr);
   }
   static const char _conique_s []="conic";
-  static define_unary_function_eval (__conique,&giac::_conique,_conique_s);
+  static define_unary_function_eval (__conique,&_conique,_conique_s);
   define_unary_function_ptr5( at_conique ,alias_at_conique,&__conique,0,true);
 
   gen _legende(const gen & a,GIAC_CONTEXT){
@@ -10320,7 +10327,7 @@ namespace giac {
       return symb_pnt_name(position+decal,makevecteur(couleur+_POINT_POINT,v[1],sg),sg,contextptr);
   }
   static const char _legende_s []="legend";
-  static define_unary_function_eval_quoted (__legende,&giac::_legende,_legende_s);
+  static define_unary_function_eval_quoted (__legende,&_legende,_legende_s);
   define_unary_function_ptr5( at_legende ,alias_at_legende,&__legende,_QUOTE_ARGUMENTS,true);
 
   static void add_names(std::string & ss,const gen & v0,const gen & v1,GIAC_CONTEXT){
@@ -10641,11 +10648,11 @@ namespace giac {
     return e;
   }
   static const char _display_s []="display";
-  static define_unary_function_eval_index (160,__display,&giac::_couleur,_display_s);
+  static define_unary_function_eval_index (160,__display,&_couleur,_display_s);
   define_unary_function_ptr5( at_display ,alias_at_display,&__display,0,true);
 
   static const char _couleur_s []="color";
-  static define_unary_function_eval (__couleur,&giac::_couleur,_couleur_s);
+  static define_unary_function_eval (__couleur,&_couleur,_couleur_s);
   define_unary_function_ptr5( at_couleur ,alias_at_couleur,&__couleur,0,true);
 
   // innert instruction, used e.g. for a:=element(3..5)
@@ -10657,7 +10664,7 @@ namespace giac {
     return symbolic(at_parameter,args);
   }
   static const char _parameter_s []="parameter";
-  static define_unary_function_eval (__parameter,&giac::_parameter,_parameter_s);
+  static define_unary_function_eval (__parameter,&_parameter,_parameter_s);
   define_unary_function_ptr5( at_parameter ,alias_at_parameter,&__parameter,0,true);
 
   // plot solution of y'=f(x,y) [x0,y0] in current plot range
@@ -10785,11 +10792,11 @@ namespace giac {
     return put_attributs(plotode(v,contextptr),attributs,contextptr);
   }
   static const char _plotode_s []="plotode";
-  static define_unary_function_eval (__plotode,&giac::_plotode,_plotode_s);
+  static define_unary_function_eval (__plotode,&_plotode,_plotode_s);
   define_unary_function_ptr5( at_plotode ,alias_at_plotode,&__plotode,0,true);
 
   static const char _odeplot_s []="odeplot";
-  static define_unary_function_eval (__odeplot,&giac::_plotode,_odeplot_s);
+  static define_unary_function_eval (__odeplot,&_plotode,_odeplot_s);
   define_unary_function_ptr5( at_odeplot ,alias_at_odeplot,&__odeplot,0,true);
 
   gen plotfield(const gen & xp,const gen & yp,const gen & x,const gen & y,double xmin,double xmax,double xstep,double ymin,double ymax,double ystep,double scaling,vecteur & attributs,bool normalize,const context * contextptr){
@@ -10967,11 +10974,11 @@ namespace giac {
     return plotfield(xp,yp,x,y,xmin,xmax,xstep/scaling,ymin,ymax,ystep/scaling,scaling,attributs,normalize,contextptr);
   }
   static const char _plotfield_s []="plotfield";
-  static define_unary_function_eval (__plotfield,&giac::_plotfield,_plotfield_s);
+  static define_unary_function_eval (__plotfield,&_plotfield,_plotfield_s);
   define_unary_function_ptr5( at_plotfield ,alias_at_plotfield,&__plotfield,0,true);
 
   static const char _fieldplot_s []="fieldplot";
-  static define_unary_function_eval (__fieldplot,&giac::_plotfield,_fieldplot_s);
+  static define_unary_function_eval (__fieldplot,&_plotfield,_fieldplot_s);
   define_unary_function_ptr5( at_fieldplot ,alias_at_fieldplot,&__fieldplot,0,true);
 
 
@@ -11034,14 +11041,14 @@ namespace giac {
     return res;
   }
   static const char _interactive_plotode_s []="interactive_plotode";
-  static define_unary_function_eval (__interactive_plotode,&giac::_interactive_plotode,_interactive_plotode_s);
+  static define_unary_function_eval (__interactive_plotode,&_interactive_plotode,_interactive_plotode_s);
   define_unary_function_ptr5( at_interactive_plotode ,alias_at_interactive_plotode,&__interactive_plotode,0,true);
 
   static const char _interactive_odeplot_s []="interactive_odeplot";
-  static define_unary_function_eval (__interactive_odeplot,&giac::_interactive_plotode,_interactive_odeplot_s);
+  static define_unary_function_eval (__interactive_odeplot,&_interactive_plotode,_interactive_odeplot_s);
   define_unary_function_ptr5( at_interactive_odeplot ,alias_at_interactive_odeplot,&__interactive_odeplot,0,true);
 
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
   static vecteur unarchive_VECT(istream & is,GIAC_CONTEXT){
     vecteur v;
     int taille;
@@ -11550,7 +11557,7 @@ namespace giac {
 #endif
   }
   static const char _archive_s []="archive";
-  static define_unary_function_eval (__archive,(const gen_op_context)giac::_archive,_archive_s);
+  static define_unary_function_eval (__archive,(const gen_op_context)_archive,_archive_s);
   define_unary_function_ptr5( at_archive ,alias_at_archive,&__archive,0,true);
 
   gen _unarchive(const gen & args,GIAC_CONTEXT){
@@ -11583,7 +11590,7 @@ namespace giac {
 #endif
   }
   static const char _unarchive_s []="unarchive";
-  static define_unary_function_eval (__unarchive,&giac::_unarchive,_unarchive_s);
+  static define_unary_function_eval (__unarchive,&_unarchive,_unarchive_s);
   define_unary_function_ptr5( at_unarchive ,alias_at_unarchive,&__unarchive,0,true);
 #endif // NSPIRE
 
@@ -11707,7 +11714,7 @@ namespace giac {
 #ifdef RTOS_THREADX
   static define_unary_function_eval(__xyztrange,&_xyztrange,_xyztrange_s);
 #else
-  unary_function_eval __xyztrange(0,&giac::_xyztrange,_xyztrange_s);
+  unary_function_eval __xyztrange(0,&_xyztrange,_xyztrange_s);
 #endif
   //unary_function_ptr at_xyztrange_ (&__xyztrange,0,true);
   //const unary_function_ptr * at_xyztrange=&at_xyztrange_;
@@ -11732,12 +11739,12 @@ namespace giac {
 			  ),contextptr);
   }
   static const char _switch_axes_s []="switch_axes";
-  static define_unary_function_eval (__switch_axes,&giac::_switch_axes,_switch_axes_s);
+  static define_unary_function_eval (__switch_axes,&_switch_axes,_switch_axes_s);
   define_unary_function_ptr5( at_switch_axes ,alias_at_switch_axes,&__switch_axes,0,true);
 
   gen plotseq(const gen& f,const gen&x,double x0,double xmin,double xmax,int niter,const vecteur & attributs,const context * contextptr){
     if (xmin>xmax)
-      giac::swapdouble(xmin,xmax);
+      swapdouble(xmin,xmax);
     vecteur res(2*niter+1);
     res[0]=gen(x0,xmin);
     int j=1;
@@ -11833,15 +11840,15 @@ namespace giac {
     return plotseq(expr,var,x0d,xmin,xmax,niter,attributs,contextptr);
   }
   static const char _plotseq_s []="plotseq";
-  static define_unary_function_eval (__plotseq,&giac::_plotseq,_plotseq_s);
+  static define_unary_function_eval (__plotseq,&_plotseq,_plotseq_s);
   define_unary_function_ptr5( at_plotseq ,alias_at_plotseq,&__plotseq,0,true);
 
   static const char _graphe_suite_s []="graphe_suite";
-  static define_unary_function_eval (__graphe_suite,&giac::_plotseq,_graphe_suite_s);
+  static define_unary_function_eval (__graphe_suite,&_plotseq,_graphe_suite_s);
   define_unary_function_ptr5( at_graphe_suite ,alias_at_graphe_suite,&__graphe_suite,0,true);
 
   static const char _seqplot_s []="seqplot";
-  static define_unary_function_eval (__seqplot,&giac::_plotseq,_seqplot_s);
+  static define_unary_function_eval (__seqplot,&_plotseq,_seqplot_s);
   define_unary_function_ptr5( at_seqplot ,alias_at_seqplot,&__seqplot,0,true);
 
   static double l2norm(double x,double y){
@@ -12565,11 +12572,11 @@ namespace giac {
       return plotimplicit(remove_equal(v[0]),x,y,xmin,xmax,ymin,ymax,nstep,jstep,epsilon(contextptr),attributs,unfactored,contextptr,3);
   }
   static const char _plotimplicit_s []="plotimplicit";
-  static define_unary_function_eval (__plotimplicit,&giac::_plotimplicit,_plotimplicit_s);
+  static define_unary_function_eval (__plotimplicit,&_plotimplicit,_plotimplicit_s);
   define_unary_function_ptr5( at_plotimplicit ,alias_at_plotimplicit,&__plotimplicit,0,true);
 
   static const char _implicitplot_s []="implicitplot";
-  static define_unary_function_eval (__implicitplot,&giac::_plotimplicit,_implicitplot_s);
+  static define_unary_function_eval (__implicitplot,&_plotimplicit,_implicitplot_s);
   define_unary_function_ptr5( at_implicitplot ,alias_at_implicitplot,&__implicitplot,0,true);
 
   static bool is_approx0(const gen & a,double dx,double dy){
@@ -12921,8 +12928,8 @@ namespace giac {
 	      }
 	      if (fabs(e1x-e2x)<=1.1*dx && fabs(e1y-e2y)<=1.1*dy){
 		reverse(composante2._VECTptr->begin(),composante2._VECTptr->end());
-		giac::swapdouble(b2x,e2x); 
-		giac::swapdouble(b2y,e2y);
+		swapdouble(b2x,e2x); 
+		swapdouble(b2y,e2y);
 	      }
 	      if (fabs(e1x-b2x)<=1.1*dx && fabs(e1y-b2y)<=1.1*dy){
 		// found! glue res[k][n] with coins and res[k][m]
@@ -13011,11 +13018,11 @@ namespace giac {
     return plotcontour(f0,true,contextptr);
   }
   static const char _plotcontour_s []="plotcontour";
-  static define_unary_function_eval_quoted (__plotcontour,&giac::_plotcontour,_plotcontour_s);
+  static define_unary_function_eval_quoted (__plotcontour,&_plotcontour,_plotcontour_s);
   define_unary_function_ptr5( at_plotcontour ,alias_at_plotcontour,&__plotcontour,_QUOTE_ARGUMENTS,true);
 
   static const char _contourplot_s []="contourplot";
-  static define_unary_function_eval_quoted (__contourplot,&giac::_plotcontour,_contourplot_s);
+  static define_unary_function_eval_quoted (__contourplot,&_plotcontour,_contourplot_s);
   define_unary_function_ptr5( at_contourplot ,alias_at_contourplot,&__contourplot,_QUOTE_ARGUMENTS,true);
 
   static gen inequation2equation(const gen & g){
@@ -13052,11 +13059,11 @@ namespace giac {
     return plotcontour(v,false,contextptr);
   }
   static const char _plotinequation_s []="plotinequation";
-  static define_unary_function_eval_quoted (__plotinequation,&giac::_plotinequation,_plotinequation_s);
+  static define_unary_function_eval_quoted (__plotinequation,&_plotinequation,_plotinequation_s);
   define_unary_function_ptr5( at_plotinequation ,alias_at_plotinequation,&__plotinequation,_QUOTE_ARGUMENTS,true);
 
   static const char _inequationplot_s []="inequationplot";
-  static define_unary_function_eval_quoted (__inequationplot,&giac::_plotinequation,_inequationplot_s);
+  static define_unary_function_eval_quoted (__inequationplot,&_plotinequation,_inequationplot_s);
   define_unary_function_ptr5( at_inequationplot ,alias_at_inequationplot,&__inequationplot,_QUOTE_ARGUMENTS,true);
 
   gen _inter_droite(const gen & args,GIAC_CONTEXT){
@@ -13125,7 +13132,7 @@ namespace giac {
     return symb_pnt(symbolic(at_bitmap,args),0,contextptr);
   }
   static const char _bitmap_s []="bitmap";
-  static define_unary_function_eval (__bitmap,&giac::_bitmap,_bitmap_s);
+  static define_unary_function_eval (__bitmap,&_bitmap,_bitmap_s);
   define_unary_function_ptr5( at_bitmap ,alias_at_bitmap,&__bitmap,0,true);
 
   /*
@@ -13231,7 +13238,7 @@ namespace giac {
     return papier_pointe_quadrillage(args,false,contextptr);
     }
     static const char _papier_pointe_s []="dot_paper";
-    static define_unary_function_eval (__papier_pointe,&giac::_papier_pointe,_papier_pointe_s);
+    static define_unary_function_eval (__papier_pointe,&_papier_pointe,_papier_pointe_s);
     define_unary_function_ptr5( at_papier_pointe ,alias_at_papier_pointe,&__papier_pointe,0,true);
 
     gen _papier_quadrille(const gen & args,GIAC_CONTEXT){
@@ -13239,7 +13246,7 @@ namespace giac {
     return papier_pointe_quadrillage(args,true,contextptr);
     }
     static const char _papier_quadrille_s []="grid_paper";
-    static define_unary_function_eval (__papier_quadrille,&giac::_papier_quadrille,_papier_quadrille_s);
+    static define_unary_function_eval (__papier_quadrille,&_papier_quadrille,_papier_quadrille_s);
     define_unary_function_ptr5( at_papier_quadrille ,alias_at_papier_quadrille,&__papier_quadrille,0,true);
   */
   // code slice written by R. De Graeve (2010)
@@ -13407,7 +13414,7 @@ namespace giac {
   }
   //static const char _dot_paper_s []="papierp";
   static const char _dot_paper_s[]="dot_paper";
-  static define_unary_function_eval (__dot_paper,&giac::_dot_paper,_dot_paper_s);
+  static define_unary_function_eval (__dot_paper,&_dot_paper,_dot_paper_s);
   define_unary_function_ptr5( at_dot_paper ,alias_at_dot_paper,&__dot_paper,0,true);
 	
   gen _grid_paper(const gen & args,GIAC_CONTEXT){
@@ -13416,7 +13423,7 @@ namespace giac {
   }
   // static const char _grid_paper_s []="papierq";
   static const char _grid_paper_s[]= "grid_paper";
-  static define_unary_function_eval (__grid_paper,&giac::_grid_paper,_grid_paper_s);
+  static define_unary_function_eval (__grid_paper,&_grid_paper,_grid_paper_s);
   define_unary_function_ptr5( at_grid_paper ,alias_at_grid_paper,&__grid_paper,0,true);
 	
   gen _triangle_paper(const gen & args,GIAC_CONTEXT){
@@ -13425,7 +13432,7 @@ namespace giac {
   }
   // static const char _triangle_paper_s []="papiert";
   const char _triangle_paper_s[] ="triangle_paper";
-  static define_unary_function_eval (__triangle_paper,&giac::_triangle_paper,_triangle_paper_s);
+  static define_unary_function_eval (__triangle_paper,&_triangle_paper,_triangle_paper_s);
   define_unary_function_ptr5( at_triangle_paper ,alias_at_triangle_paper,&__triangle_paper,0,true);
 	
   gen _line_paper(const gen & args,GIAC_CONTEXT){
@@ -13434,7 +13441,7 @@ namespace giac {
   }
   // static const char _line_paper_s []="papierl";
   static const char _line_paper_s[]="line_paper";
-  static define_unary_function_eval (__line_paper,&giac::_line_paper,_line_paper_s);
+  static define_unary_function_eval (__line_paper,&_line_paper,_line_paper_s);
   define_unary_function_ptr5( at_line_paper ,alias_at_line_paper,&__line_paper,0,true);
   // end of code slice written by R. De Graeve
 
@@ -13444,7 +13451,7 @@ namespace giac {
     return symbolic(at_plot_style,args);
   }
   static const char _plot_style_s []="plot_style";
-  static define_unary_function_eval_index (114,__plot_style,&giac::_plot_style,_plot_style_s);
+  static define_unary_function_eval_index (114,__plot_style,&_plot_style,_plot_style_s);
   define_unary_function_ptr5( at_plot_style ,alias_at_plot_style,&__plot_style,0,true);
 
   // Returns the current dimensions of the picture 
@@ -13461,7 +13468,7 @@ namespace giac {
     return res;
   }
   static const char _Pictsize_s []="Pictsize";
-  static define_unary_function_eval (__Pictsize,&giac::_Pictsize,_Pictsize_s);
+  static define_unary_function_eval (__Pictsize,&_Pictsize,_Pictsize_s);
   define_unary_function_ptr5( at_Pictsize ,alias_at_Pictsize,&__Pictsize,0,true);
 
 
@@ -13523,7 +13530,7 @@ namespace giac {
       return g.print(context0);
   }
 
-#if defined RTOS_THREADX || defined NSPIRE
+#if defined RTOS_THREADX || defined NSPIRE || defined FXCG
   logo_turtle vecteur2turtle(const vecteur & v){
     return logo_turtle();
   }
@@ -14488,7 +14495,7 @@ namespace giac {
 
 
   static const char _hasard_s []="hasard";
-  static define_unary_function_eval2 (__hasard,&giac::_RANDOM,_hasard_s,&printasRANDOM);
+  static define_unary_function_eval2 (__hasard,&_RANDOM,_hasard_s,&printasRANDOM);
   define_unary_function_ptr5( at_hasard ,alias_at_hasard,&__hasard,0,T_RETURN);
 
   /* A FAIRE:
@@ -14563,7 +14570,7 @@ namespace giac {
     return gen(w,_GROUP__VECT);
   }
   static const char _arc_s []="arc";
-  static define_unary_function_eval_quoted (__arc,&giac::_arc,_arc_s);
+  static define_unary_function_eval_quoted (__arc,&_arc,_arc_s);
   define_unary_function_ptr5( at_arc ,alias_at_arc,&__arc,_QUOTE_ARGUMENTS,true);
 
   gen _est(const gen & args,const propriete & f,GIAC_CONTEXT){
@@ -14683,7 +14690,7 @@ namespace giac {
     return symbolic(at_est_isocele,args);
   }
   static const char _est_isocele_s []="is_isosceles";
-  static define_unary_function_eval (__est_isocele,&giac::_est_isocele,_est_isocele_s);
+  static define_unary_function_eval (__est_isocele,&_est_isocele,_est_isocele_s);
   define_unary_function_ptr5( at_est_isocele ,alias_at_est_isocele,&__est_isocele,0,true);
   
   gen _est_equilateral(const gen & args,GIAC_CONTEXT){
@@ -14697,7 +14704,7 @@ namespace giac {
     return symbolic(at_est_equilateral,args);
   }
   static const char _est_equilateral_s []="is_equilateral";
-  static define_unary_function_eval (__est_equilateral,&giac::_est_equilateral,_est_equilateral_s);
+  static define_unary_function_eval (__est_equilateral,&_est_equilateral,_est_equilateral_s);
   define_unary_function_ptr5( at_est_equilateral ,alias_at_est_equilateral,&__est_equilateral,0,true);
   
   gen _est_parallelogramme(const gen & args,GIAC_CONTEXT){
@@ -14711,7 +14718,7 @@ namespace giac {
     return symbolic(at_est_parallelogramme,args);
   }
   static const char _est_parallelogramme_s []="is_parallelogram";
-  static define_unary_function_eval (__est_parallelogramme,&giac::_est_parallelogramme,_est_parallelogramme_s);
+  static define_unary_function_eval (__est_parallelogramme,&_est_parallelogramme,_est_parallelogramme_s);
   define_unary_function_ptr5( at_est_parallelogramme ,alias_at_est_parallelogramme,&__est_parallelogramme,0,true);
 
   gen _est_carre(const gen & args,GIAC_CONTEXT){
@@ -14725,7 +14732,7 @@ namespace giac {
     return symbolic(at_est_carre,args);
   }
   static const char _est_carre_s []="is_square";
-  static define_unary_function_eval (__est_carre,&giac::_est_carre,_est_carre_s);
+  static define_unary_function_eval (__est_carre,&_est_carre,_est_carre_s);
   define_unary_function_ptr5( at_est_carre ,alias_at_est_carre,&__est_carre,0,true);
 
   gen _est_losange(const gen & args,GIAC_CONTEXT){
@@ -14741,7 +14748,7 @@ namespace giac {
     return symbolic(at_est_losange,args);
   }
   static const char _est_losange_s []="is_rhombus";
-  static define_unary_function_eval (__est_losange,&giac::_est_losange,_est_losange_s);
+  static define_unary_function_eval (__est_losange,&_est_losange,_est_losange_s);
   define_unary_function_ptr5( at_est_losange ,alias_at_est_losange,&__est_losange,0,true);
 
   gen _est_rectangle(const gen & args,GIAC_CONTEXT){
@@ -14760,7 +14767,7 @@ namespace giac {
     return symbolic(at_est_rectangle,args);
   }
   static const char _est_rectangle_s []="is_rectangle";
-  static define_unary_function_eval (__est_rectangle,&giac::_est_rectangle,_est_rectangle_s);
+  static define_unary_function_eval (__est_rectangle,&_est_rectangle,_est_rectangle_s);
   define_unary_function_ptr5( at_est_rectangle ,alias_at_est_rectangle,&__est_rectangle,0,true);
   
   bool is_pnt_or_pixon(const gen & g){
@@ -14776,7 +14783,7 @@ namespace giac {
     return g;
   }
   static const char _is_3dpoint_s []="is_3dpoint";
-  static define_unary_function_eval (__is_3dpoint,&giac::_is_3dpoint,_is_3dpoint_s);
+  static define_unary_function_eval (__is_3dpoint,&_is_3dpoint,_is_3dpoint_s);
   define_unary_function_ptr5( at_is_3dpoint ,alias_at_is_3dpoint,&__is_3dpoint,0,true);
 
   //=(c-a)*(d-b)/((c-b)*(d-a))= birapport de 4 complexes ou points a,b,c,d
@@ -14791,7 +14798,7 @@ namespace giac {
     return symbolic(at_birapport,args);
   }
   static const char _birapport_s []="cross_ratio";
-  static define_unary_function_eval (__birapport,&giac::_birapport,_birapport_s);
+  static define_unary_function_eval (__birapport,&_birapport,_birapport_s);
   define_unary_function_ptr5( at_birapport ,alias_at_birapport,&__birapport,0,true);
   //puissance d'1 point A/ cercle C=d2-R2 (d=distance de A au centre(C))
   //parametre C,point ou para du cercle et point
@@ -14823,7 +14830,7 @@ namespace giac {
     //return gensizeerr(contextptr);
   }
   static const char _puissance_s []="powerpc";
-  static define_unary_function_eval (__puissance,&giac::_puissance,_puissance_s);
+  static define_unary_function_eval (__puissance,&_puissance,_puissance_s);
   define_unary_function_ptr5( at_puissance ,alias_at_puissance,&__puissance,0,true);
 
   //axe radical de 2 cercles
@@ -14862,7 +14869,7 @@ namespace giac {
     //return gensizeerr(contextptr);
   }
   static const char _axe_radical_s []="radical_axis";
-  static define_unary_function_eval (__axe_radical,&giac::_axe_radical,_axe_radical_s);
+  static define_unary_function_eval (__axe_radical,&_axe_radical,_axe_radical_s);
   define_unary_function_ptr5( at_axe_radical ,alias_at_axe_radical,&__axe_radical,0,true);
 
   gen equation_homogene(const gen & eq,GIAC_CONTEXT){
@@ -14961,7 +14968,7 @@ namespace giac {
   }
 
   static const char _polaire_s []="polar";
-  static define_unary_function_eval (__polaire,&giac::_polaire,_polaire_s);
+  static define_unary_function_eval (__polaire,&_polaire,_polaire_s);
   define_unary_function_ptr5( at_polaire ,alias_at_polaire,&__polaire,0,true);
 
   //renvoie un point= le pole d'une droite D par rapport a un cercle C
@@ -15016,7 +15023,7 @@ namespace giac {
     //return gensizeerr(contextptr);
   }
   static const char _pole_s []="pole";
-  static define_unary_function_eval (__pole,&giac::_pole,_pole_s);
+  static define_unary_function_eval (__pole,&_pole,_pole_s);
   define_unary_function_ptr5( at_pole ,alias_at_pole,&__pole,0,true);
 
   //renvoie un point (resp une droite) pole (resp polaire) de D/ cercle C
@@ -15050,7 +15057,7 @@ namespace giac {
     return put_attributs(_polaire(gen(makevecteur(c,a),_SEQ__VECT),contextptr),attributs,contextptr);
   }
   static const char _polaire_reciproque_s []="reciprocation";
-  static define_unary_function_eval (__polaire_reciproque,&giac::_polaire_reciproque,_polaire_reciproque_s);
+  static define_unary_function_eval (__polaire_reciproque,&_polaire_reciproque,_polaire_reciproque_s);
   define_unary_function_ptr5( at_polaire_reciproque ,alias_at_polaire_reciproque,&__polaire_reciproque,0,true);
 
   //teste si deux cercles C1 centre c1 rayon R1 et C2  centre c2 rayon R2
@@ -15101,7 +15108,7 @@ namespace giac {
   }
 
   static const char _est_orthogonal_s []="is_orthogonal";
-  static define_unary_function_eval (__est_orthogonal,&giac::_est_orthogonal,_est_orthogonal_s);
+  static define_unary_function_eval (__est_orthogonal,&_est_orthogonal,_est_orthogonal_s);
   define_unary_function_ptr5( at_est_orthogonal ,alias_at_est_orthogonal,&__est_orthogonal,0,true);
   
   gen _est_perpendiculaire(const gen & args,GIAC_CONTEXT){
@@ -15109,7 +15116,7 @@ namespace giac {
     return est_orthogonal(args,true,contextptr);
   }
   static const char _est_perpendiculaire_s []="is_perpendicular";
-  static define_unary_function_eval (__est_perpendiculaire,&giac::_est_perpendiculaire,_est_perpendiculaire_s);
+  static define_unary_function_eval (__est_perpendiculaire,&_est_perpendiculaire,_est_perpendiculaire_s);
   define_unary_function_ptr5( at_est_perpendiculaire ,alias_at_est_perpendiculaire,&__est_perpendiculaire,0,true);
 
 
@@ -15168,7 +15175,7 @@ namespace giac {
   }
 
   static const char _est_conjugue_s []="is_conjugate";
-  static define_unary_function_eval (__est_conjugue,&giac::_est_conjugue,_est_conjugue_s);
+  static define_unary_function_eval (__est_conjugue,&_est_conjugue,_est_conjugue_s);
   define_unary_function_ptr5( at_est_conjugue ,alias_at_est_conjugue,&__est_conjugue,0,true);
 
   //teste si 4 points forment une division harmonique
@@ -15188,7 +15195,7 @@ namespace giac {
     return symbolic(at_est_harmonique,args);
   }
   static const char _est_harmonique_s []="is_harmonic";
-  static define_unary_function_eval (__est_harmonique,&giac::_est_harmonique,_est_harmonique_s);
+  static define_unary_function_eval (__est_harmonique,&_est_harmonique,_est_harmonique_s);
   define_unary_function_ptr5( at_est_harmonique ,alias_at_est_harmonique,&__est_harmonique,0,true);
 
   //conj_harmonique(D1,D2,A)= la droite des conjugues de A par rapport a D1,D2
@@ -15272,7 +15279,7 @@ namespace giac {
     return 0;
   }
   static const char _conj_harmonique_s []="harmonic_conjugate";
-  static define_unary_function_eval (__conj_harmonique,&giac::_conj_harmonique,_conj_harmonique_s);
+  static define_unary_function_eval (__conj_harmonique,&_conj_harmonique,_conj_harmonique_s);
   define_unary_function_ptr5( at_conj_harmonique ,alias_at_conj_harmonique,&__conj_harmonique,0,true);
 
   //renvoie M point qui divise AB ds un rapport k(reel ou complexe)
@@ -15293,7 +15300,7 @@ namespace giac {
     return symb_pnt(c,contextptr);
   }
   static const char _point_div_s []="division_point";
-  static define_unary_function_eval (__point_div,&giac::_point_div,_point_div_s);
+  static define_unary_function_eval (__point_div,&_point_div,_point_div_s);
   define_unary_function_ptr5( at_point_div ,alias_at_point_div,&__point_div,0,true);
 
   //=1 si 3 cercles ont meme axe radical,2 si concentriques et 0 sinon
@@ -15364,7 +15371,7 @@ namespace giac {
     return symbolic(at_est_faisceau_cercle,args);
   }
   static const char _est_faisceau_cercle_s []="is_harmonic_circle_bundle";
-  static define_unary_function_eval (__est_faisceau_cercle,&giac::_est_faisceau_cercle,_est_faisceau_cercle_s);
+  static define_unary_function_eval (__est_faisceau_cercle,&_est_faisceau_cercle,_est_faisceau_cercle_s);
   define_unary_function_ptr5( at_est_faisceau_cercle ,alias_at_est_faisceau_cercle,&__est_faisceau_cercle,0,true);
   
   //renvoie 1 si les 2 droites sont confondues,2 si elles sont// 
@@ -15451,7 +15458,7 @@ namespace giac {
     return symbolic(at_est_faisceau_droite,args);
   }
   static const char _est_faisceau_droite_s []="is_harmonic_line_bundle";
-  static define_unary_function_eval (__est_faisceau_droite,&giac::_est_faisceau_droite,_est_faisceau_droite_s);
+  static define_unary_function_eval (__est_faisceau_droite,&_est_faisceau_droite,_est_faisceau_droite_s);
   define_unary_function_ptr5( at_est_faisceau_droite ,alias_at_est_faisceau_droite,&__est_faisceau_droite,0,true);
 
   //div_harmonique(A,B,C,D) remplit D tel que (A,B,C,D)=-1 
@@ -15480,7 +15487,7 @@ namespace giac {
     // return gensizeerr(gettext("div_harmonique)"));
   }
   static const char _div_harmonique_s []="harmonic_division";
-  static define_unary_function_eval_quoted (__div_harmonique,&giac::_div_harmonique,_div_harmonique_s);
+  static define_unary_function_eval_quoted (__div_harmonique,&_div_harmonique,_div_harmonique_s);
   define_unary_function_ptr5( at_div_harmonique ,alias_at_div_harmonique,&__div_harmonique,_QUOTE_ARGUMENTS,true);
 
   //enveloppe(y+x*tan(t)-2*sin(t),t)
@@ -15550,7 +15557,7 @@ namespace giac {
   }
     
   static const char _enveloppe_s []="envelope";
-  static define_unary_function_eval (__enveloppe,&giac::_enveloppe,_enveloppe_s);
+  static define_unary_function_eval (__enveloppe,&_enveloppe,_enveloppe_s);
   define_unary_function_ptr5( at_enveloppe ,alias_at_enveloppe,&__enveloppe,0,true);
 
 #ifdef WITH_GNUPLOT
@@ -15569,7 +15576,7 @@ namespace giac {
     return 1;
   }
   static const char _gnuplot_s []="gnuplot";
-  static define_unary_function_eval (__gnuplot,&giac::_gnuplot,_gnuplot_s);
+  static define_unary_function_eval (__gnuplot,&_gnuplot,_gnuplot_s);
   define_unary_function_ptr5( at_gnuplot ,alias_at_gnuplot,&__gnuplot,0,true);
 #endif
 
@@ -15583,7 +15590,7 @@ namespace giac {
     return symbolic(at_hyperplan,args);
   }
   static const char _hyperplan_s []="hyperplan";
-  static define_unary_function_eval (__hyperplan,&giac::_hyperplan,_hyperplan_s);
+  static define_unary_function_eval (__hyperplan,&_hyperplan,_hyperplan_s);
   define_unary_function_ptr5( at_hyperplan ,alias_at_hyperplan,&__hyperplan,0,true);
 
   // args=center,radius
@@ -15594,7 +15601,7 @@ namespace giac {
     return symbolic(at_hypersphere,args);
   }
   static const char _hypersphere_s []="hypersphere";
-  static define_unary_function_eval (__hypersphere,&giac::_hypersphere,_hypersphere_s);
+  static define_unary_function_eval (__hypersphere,&_hypersphere,_hypersphere_s);
   define_unary_function_ptr5( at_hypersphere ,alias_at_hypersphere,&__hypersphere,0,true);
 
   gen hypersurface(const gen & args,const gen & equation,const gen & vars){
@@ -15610,17 +15617,17 @@ namespace giac {
     return symbolic(at_hypersurface,args);
   }
   static const char _hypersurface_s []="hypersurface";
-  static define_unary_function_eval (__hypersurface,&giac::_hypersurface,_hypersurface_s);
+  static define_unary_function_eval (__hypersurface,&_hypersurface,_hypersurface_s);
   define_unary_function_ptr5( at_hypersurface ,alias_at_hypersurface,&__hypersurface,0,true);
 
   // 0 text, 2 2d, 3 3d
-  int graph_output_type(const giac::gen & g){
-    if (g.type==giac::_VECT && !g._VECTptr->empty())
+  int graph_output_type(const gen & g){
+    if (g.type==_VECT && !g._VECTptr->empty())
       return graph_output_type(g._VECTptr->back());
     if (g.is_symb_of_sommet(at_animation))
       return graph_output_type(g._SYMBptr->feuille);
-    if (g.is_symb_of_sommet(giac::at_pnt)){
-      return giac::is3d(g)?3:2;
+    if (g.is_symb_of_sommet(at_pnt)){
+      return is3d(g)?3:2;
     }
     return 0;
   }
@@ -15630,7 +15637,7 @@ namespace giac {
     return symbolic(at_animation,args);
   }
   static const char _animation_s []="animation";
-  static define_unary_function_eval (__animation,&giac::_animation,_animation_s);
+  static define_unary_function_eval (__animation,&_animation,_animation_s);
   define_unary_function_ptr5( at_animation ,alias_at_animation,&__animation,0,true);
 
   gen get_animation_pnt(const gen & g,int pos){
@@ -15695,7 +15702,7 @@ namespace giac {
     return _vector(gen(v,_SEQ__VECT),contextptr);
   }
   static const char _Ox_2d_unit_vector_s []="Ox_2d_unit_vector";
-  static define_unary_function_eval (__Ox_2d_unit_vector,&giac::_Ox_2d_unit_vector,_Ox_2d_unit_vector_s);
+  static define_unary_function_eval (__Ox_2d_unit_vector,&_Ox_2d_unit_vector,_Ox_2d_unit_vector_s);
   define_unary_function_ptr5( at_Ox_2d_unit_vector ,alias_at_Ox_2d_unit_vector,&__Ox_2d_unit_vector,0,true);
 
   // 2-d unit_vector
@@ -15709,7 +15716,7 @@ namespace giac {
     return _vector(gen(v,_SEQ__VECT),contextptr);
   }
   static const char _Oy_2d_unit_vector_s []="Oy_2d_unit_vector";
-  static define_unary_function_eval (__Oy_2d_unit_vector,&giac::_Oy_2d_unit_vector,_Oy_2d_unit_vector_s);
+  static define_unary_function_eval (__Oy_2d_unit_vector,&_Oy_2d_unit_vector,_Oy_2d_unit_vector_s);
   define_unary_function_ptr5( at_Oy_2d_unit_vector ,alias_at_Oy_2d_unit_vector,&__Oy_2d_unit_vector,0,true);
 
   // 2-d frame
@@ -15731,7 +15738,7 @@ namespace giac {
     return gen(res,_SEQ__VECT);
   }
   static const char _frame_2d_s []="frame_2d";
-  static define_unary_function_eval (__frame_2d,&giac::_frame_2d,_frame_2d_s);
+  static define_unary_function_eval (__frame_2d,&_frame_2d,_frame_2d_s);
   define_unary_function_ptr5( at_frame_2d ,alias_at_frame_2d,&__frame_2d,0,true);
 
   // 3-d unit_vector
@@ -15745,7 +15752,7 @@ namespace giac {
     return _vector(gen(v,_SEQ__VECT),contextptr);
   }
   static const char _Ox_3d_unit_vector_s []="Ox_3d_unit_vector";
-  static define_unary_function_eval (__Ox_3d_unit_vector,&giac::_Ox_3d_unit_vector,_Ox_3d_unit_vector_s);
+  static define_unary_function_eval (__Ox_3d_unit_vector,&_Ox_3d_unit_vector,_Ox_3d_unit_vector_s);
   define_unary_function_ptr5( at_Ox_3d_unit_vector ,alias_at_Ox_3d_unit_vector,&__Ox_3d_unit_vector,0,true);
 
   // 3-d unit_vector
@@ -15759,7 +15766,7 @@ namespace giac {
     return _vector(gen(v,_SEQ__VECT),contextptr);
   }
   static const char _Oy_3d_unit_vector_s []="Oy_3d_unit_vector";
-  static define_unary_function_eval (__Oy_3d_unit_vector,&giac::_Oy_3d_unit_vector,_Oy_3d_unit_vector_s);
+  static define_unary_function_eval (__Oy_3d_unit_vector,&_Oy_3d_unit_vector,_Oy_3d_unit_vector_s);
   define_unary_function_ptr5( at_Oy_3d_unit_vector ,alias_at_Oy_3d_unit_vector,&__Oy_3d_unit_vector,0,true);
 
   // 3-d unit_vector
@@ -15773,7 +15780,7 @@ namespace giac {
     return _vector(gen(v,_SEQ__VECT),contextptr);
   }
   static const char _Oz_3d_unit_vector_s []="Oz_3d_unit_vector";
-  static define_unary_function_eval (__Oz_3d_unit_vector,&giac::_Oz_3d_unit_vector,_Oz_3d_unit_vector_s);
+  static define_unary_function_eval (__Oz_3d_unit_vector,&_Oz_3d_unit_vector,_Oz_3d_unit_vector_s);
   define_unary_function_ptr5( at_Oz_3d_unit_vector ,alias_at_Oz_3d_unit_vector,&__Oz_3d_unit_vector,0,true);
 
   // 3-d frame
@@ -15797,7 +15804,7 @@ namespace giac {
     return gen(res,_SEQ__VECT);
   }
   static const char _frame_3d_s []="frame_3d";
-  static define_unary_function_eval (__frame_3d,&giac::_frame_3d,_frame_3d_s);
+  static define_unary_function_eval (__frame_3d,&_frame_3d,_frame_3d_s);
   define_unary_function_ptr5( at_frame_3d ,alias_at_frame_3d,&__frame_3d,0,true);
 
   // moved from plot3d.cc for implicittex_plot_sommets_alias

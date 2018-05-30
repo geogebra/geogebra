@@ -947,7 +947,6 @@ namespace giac {
 	  int j=0;
 	  int bi=recheck[k];
 #ifdef USE_GMP_REPLACEMENTS
-	  div_t qr;
 	  if (!small_){
 	    small_=mpz_sizeinbase(z1,2)<32;
 	    if (small_)
@@ -955,10 +954,17 @@ namespace giac {
 	  }
 	  if (small_){
 	    for (++j;;++j){
+#if 0 // def FXCG
+	      if (Z1 % bi)
+		break;
+	      Z1 /= bi;
+#else	      
+	      div_t qr;
 	      qr=div(Z1,bi);
 	      if (qr.rem)
 		break;
 	      Z1=qr.quot;
+#endif
 	    }
 	  }
 	  else {
@@ -1237,7 +1243,7 @@ namespace giac {
     // r0=b=ab*a+1*b
     // r1=a=aa*a+0*b
     int aa(1),ab(0),ar(0);
-#if 0
+#if 0 // def FXCG
     ushort_t q,r;
     while (a){
       q=b/a;
@@ -3357,7 +3363,7 @@ namespace giac {
       return apply(args,_ithprime,contextptr);
     return ithprime(args,contextptr);
   }
-  static define_unary_function_eval (__ithprime,&giac::_ithprime,_ithprime_s);
+  static define_unary_function_eval (__ithprime,&_ithprime,_ithprime_s);
   define_unary_function_ptr5( at_ithprime ,alias_at_ithprime,&__ithprime,0,true);
 
   static const char _nprimes_s []="nprimes";
@@ -3389,7 +3395,7 @@ namespace giac {
       return apply(args,_nprimes,contextptr);
     return nprimes(args,contextptr);
   }
-  static define_unary_function_eval (__nprimes,&giac::_nprimes,_nprimes_s);
+  static define_unary_function_eval (__nprimes,&_nprimes,_nprimes_s);
   define_unary_function_ptr5( at_nprimes ,alias_at_nprimes,&__nprimes,0,true);
 
   bool is_divisible_by(const gen & n,unsigned long a){
@@ -3883,11 +3889,11 @@ namespace giac {
     return ifactors(g,0,contextptr);
   }
   static const char _ifactors_s []="ifactors";
-  static define_unary_function_eval (__ifactors,&giac::_ifactors,_ifactors_s);
+  static define_unary_function_eval (__ifactors,&_ifactors,_ifactors_s);
   define_unary_function_ptr5( at_ifactors ,alias_at_ifactors,&__ifactors,0,true);
 
   static const char _facteurs_premiers_s []="facteurs_premiers";
-  static define_unary_function_eval (__facteurs_premiers,&giac::_ifactors,_facteurs_premiers_s);
+  static define_unary_function_eval (__facteurs_premiers,&_ifactors,_facteurs_premiers_s);
   define_unary_function_ptr5( at_facteurs_premiers ,alias_at_facteurs_premiers,&__facteurs_premiers,0,true);
 
   static const char _maple_ifactors_s []="maple_ifactors";
@@ -3897,7 +3903,7 @@ namespace giac {
       return apply(args,_maple_ifactors,contextptr);
     return ifactors(args,1,contextptr);
   }
-  static define_unary_function_eval (__maple_ifactors,&giac::_maple_ifactors,_maple_ifactors_s);
+  static define_unary_function_eval (__maple_ifactors,&_maple_ifactors,_maple_ifactors_s);
   define_unary_function_ptr5( at_maple_ifactors ,alias_at_maple_ifactors,&__maple_ifactors,0,true);
 
   static vecteur in_factors(const gen & gf,GIAC_CONTEXT){
@@ -3983,7 +3989,7 @@ namespace giac {
       return apply(args,_factors,contextptr);
     return factors(args,vx_var,contextptr);
   }
-  static define_unary_function_eval (__factors,&giac::_factors,_factors_s);
+  static define_unary_function_eval (__factors,&_factors,_factors_s);
   define_unary_function_ptr5( at_factors ,alias_at_factors,&__factors,0,true);
 
   static gen ifactors2ifactor(const vecteur & l,bool quote){
@@ -4179,7 +4185,7 @@ namespace giac {
       return euler(args,contextptr);
     return gentypeerr(contextptr);
   }
-  static define_unary_function_eval (__euler,&giac::_euler,_euler_s);
+  static define_unary_function_eval (__euler,&_euler,_euler_s);
   define_unary_function_ptr5( at_euler ,alias_at_euler,&__euler,0,true);
 
   gen pa2b2(const gen & p,GIAC_CONTEXT){

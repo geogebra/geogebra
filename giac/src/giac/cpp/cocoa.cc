@@ -48,7 +48,9 @@
 using namespace std;
 
 #include <iostream>
+#ifndef FXCG
 #include <iomanip>
+#endif
 #include "cocoa.h"
 #include "gausspol.h"
 #include "identificateur.h"
@@ -430,7 +432,7 @@ namespace giac {
     return a.first==b.first && a.second==b.second;
   }
   
-#ifndef CAS38_DISABLED
+#if !defined CAS38_DISABLED && !defined FXCG
   //#define GBASIS_SELECT_TOTAL_DEGREE
 #if GROEBNER_VARS!=15 // double revlex ordering is not compatible with indices swapping
 #define GBASIS_SWAP 

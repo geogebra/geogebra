@@ -58,7 +58,7 @@ namespace giac {
       return gensizeerr(gettext("Quaternion has 1 or 4 arguments"));
     return quaternion(v[0],v[1],v[2],v[3]);
   }
-  static define_unary_function_eval (__quaternion,&giac::_quaternion,_quaternion_s);
+  static define_unary_function_eval (__quaternion,&_quaternion,_quaternion_s);
   define_unary_function_ptr5( at_quaternion ,alias_at_quaternion,&__quaternion,0,true); // auto-register
   
   string quaternion::print(GIAC_CONTEXT) const {
@@ -385,7 +385,7 @@ namespace giac {
     }
     return galois_field(v[0],v[1],v[2],v[3]);
   }
-  static define_unary_function_eval (__galois_field,&giac::_galois_field,_galois_field_s);
+  static define_unary_function_eval (__galois_field,&_galois_field,_galois_field_s);
   define_unary_function_ptr5( at_galois_field ,alias_at_galois_field,&__galois_field,0,true); // auto-register
   
   string galois_field::print(GIAC_CONTEXT) const {
@@ -639,7 +639,7 @@ namespace giac {
   gen galois_field::operator - (const gen & g) const { 
     if (is_integer(g)){
       gen tmp=a-g;
-      if (giac::is_zero(tmp))
+      if (is_exactly_zero(tmp))
 	return tmp;
       return galois_field(p,P,x,tmp);
     }
@@ -684,7 +684,7 @@ namespace giac {
   gen galois_field::operator * (const gen & g) const { 
     if (is_integer(g)){
       gen tmp=smod(g,p);
-      if (giac::is_zero(tmp))
+      if (is_exactly_zero(tmp))
 	return zero;
       return galois_field(p,P,x,g*a);
     }
@@ -769,7 +769,7 @@ namespace giac {
 
   bool galois_field::operator == (const gen & g) const {
     if (is_zero())
-      return giac::is_zero(g);
+      return is_exactly_zero(g);
     if (g.type!=_USER)
       return a==vecteur(1,g);
     if (galois_field * gptr=dynamic_cast<galois_field *>(g._USERptr)){
@@ -951,7 +951,7 @@ namespace giac {
       gen g=it->value;
       if (is_integer(g)){
 	gen tmp=smod(g,p);
-	if (giac::is_zero(tmp))
+	if (is_exactly_zero(tmp))
 	  continue;
 	g=galois_field(p,P,x,vecteur(1,g));
       }
@@ -1013,11 +1013,11 @@ namespace giac {
     env.coeff=*this;
     env.modulo=this->p.to_int();
     int exposant=int(this->P._VECTptr->size())-1;
-    env.pn=giac::pow(this->p,exposant);
+    env.pn=pow(this->p,exposant);
     factorization sqff_f(squarefree_fp(p,env.modulo.val,exposant));
     if (!sqff_ffield_factor(sqff_f,env.modulo.val,&env,f))
       return gensizeerr(gettext("GF polyfactor"));
-    if (!giac::is_one(lcoeff))
+    if (!is_exactly_one(lcoeff))
       f.push_back(facteur<polynome>(
 				    polynome(
 					     monomial<gen>(lcoeff,0,p.dim)

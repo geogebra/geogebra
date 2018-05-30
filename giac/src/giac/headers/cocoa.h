@@ -36,7 +36,7 @@ namespace giac {
   vecteur cocoa_in_ideal(const vectpoly & g,const vectpoly & v,const gen & ordre);
   bool cocoa_greduce(const vectpoly & r,const vectpoly & v,const gen & order,vectpoly & res);
 
-#ifndef CAS38_DISABLED
+#if !defined CAS38_DISABLED && !defined FXCG
   // giac code for poly (fast up to 15 variables)
   struct order_t {
     short o;

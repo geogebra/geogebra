@@ -13183,6 +13183,7 @@ namespace giac {
   dense_POLY1 mpcar(const matrice & a,vecteur & Bv,bool compute_Bv,bool convert_internal,GIAC_CONTEXT){
     int n=int(a.size());
     gen modulo,fieldpmin;
+#ifndef NO_RTTI
     if (n && has_gf_coeff(a,modulo,fieldpmin)){
       gen tmp=_pcar(a,contextptr);
       if (tmp.type!=_VECT)
@@ -13195,6 +13196,7 @@ namespace giac {
       }
       return P;      
     }
+#endif
     if (n && a[0]._VECTptr->front().type==_MOD){
       vecteur P(mpcar_hessenberg(a,0,contextptr));
       // do Horner to compute Bv
@@ -13949,6 +13951,7 @@ namespace giac {
 	for (int j=0;j<int(vpc.size());++j){
 	  extdeg=lcm(extdeg,vpc[j].mult).val;
 	}
+#ifndef NO_RTTI
 	if (extdeg>1){
 	  *logptr(contextptr) << "Creating splitting field extension GF(" << modulo << "," << extdeg << ")" << endl;
 	  gen tmp=_galois_field(makesequence(modulo,extdeg),contextptr);
@@ -13956,10 +13959,12 @@ namespace giac {
 	  tmp=eval(tmp[2],1,contextptr); // field generator
 	  p_car=tmp*p_car;
 	}
+#endif
       }
       else
 	*logptr(contextptr) << "Warning! Automatic extension not implemented. You can try to diagonalize the matrix * a non trivial element of GF(" << modulo << ",lcm of degrees of factor(" << symb_horner(p_car,vx_var) << "))" <<  endl;
     }
+#ifndef NO_RTTI
     if (has_gf_coeff(p_car,modulo,fieldpmin)){
       factorization f;
       gen res=gf_list()[pow(modulo,gfsize(fieldpmin),contextptr)].g;
@@ -13981,6 +13986,7 @@ namespace giac {
 	}
       }
     }
+#endif
     // factorizes p_car
     factorization f;
     polynome ppcar(poly1_2_polynome(p_car,1));

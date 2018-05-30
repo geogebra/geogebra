@@ -28,7 +28,7 @@ using namespace std;
 #include <stdio.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#if !defined(NSPIRE) && !defined(__VISUALC__) && !defined(NUMWORKS)// #ifndef NSPIRE
+#if !defined(NSPIRE) && !defined FXCG && !defined(__VISUALC__) && !defined(NUMWORKS)// #ifndef NSPIRE
 #include <dirent.h>
 #ifndef __MINGW_H
 #include <pwd.h>
@@ -897,7 +897,7 @@ namespace giac {
       return gen(*args._VECTptr,_RPN_STACK__VECT);
     }
     if (args.type==_VECT)
-      return apply(args,contextptr,giac::_purge);
+      return apply(args,contextptr,_purge);
     if (args.is_symb_of_sommet(at_at)){
       gen & f = args._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==2){
@@ -970,7 +970,7 @@ namespace giac {
       }
     }
     if (args._IDNTptr->value){
-#if !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS
+#if !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS && !defined FXCG
       if (variables_are_files(contextptr))
 	unlink((args._IDNTptr->name()+string(cas_suffixe)).c_str());
 #endif
@@ -1098,7 +1098,7 @@ namespace giac {
     if (args.type!=_VECT)
       return abs(args,contextptr);
     if (args.subtype)
-      return apply(args,giac::_abs,contextptr);
+      return apply(args,_abs,contextptr);
     vecteur v;
     aplatir(*args._VECTptr,v);
     return _l2norm(v,contextptr);
@@ -1116,23 +1116,23 @@ namespace giac {
   define_unary_function_ptr5( at_ARG38 ,alias_at_ARG38,&__ARG38,0,T_UNARY_OP_38);
 
   static const char _CONJ_s[]="CONJ";
-  static define_unary_function_eval (__CONJ,(const gen_op_context)giac::conj,_CONJ_s);
+  static define_unary_function_eval (__CONJ,(const gen_op_context)conj,_CONJ_s);
   define_unary_function_ptr5( at_CONJ ,alias_at_CONJ,&__CONJ,0,T_UNARY_OP_38);
 
   static const char _RE_s[]="RE";
-  static define_unary_function_eval (__RE,(const gen_op_context)giac::re,_RE_s);
+  static define_unary_function_eval (__RE,(const gen_op_context)re,_RE_s);
   define_unary_function_ptr5( at_RE ,alias_at_RE,&__RE,0,T_UNARY_OP_38);
 
   static const char _IM_s[]="IM";
-  static define_unary_function_eval (___IM,(const gen_op_context)giac::im,_IM_s);
+  static define_unary_function_eval (___IM,(const gen_op_context)im,_IM_s);
   define_unary_function_ptr5( at_IM ,alias_at_IM,&___IM,0,T_UNARY_OP_38);
 
   static const char _FLOOR_s[]="FLOOR";
-  static define_unary_function_eval (__FLOOR,(const gen_op_context)giac::_floor,_FLOOR_s);
+  static define_unary_function_eval (__FLOOR,(const gen_op_context)_floor,_FLOOR_s);
   define_unary_function_ptr5( at_FLOOR ,alias_at_FLOOR,&__FLOOR,0,T_UNARY_OP_38);
 
   static const char _CEILING_s[]="CEILING";
-  static define_unary_function_eval (__CEILING,(const gen_op_context)giac::_ceil,_CEILING_s);
+  static define_unary_function_eval (__CEILING,(const gen_op_context)_ceil,_CEILING_s);
   define_unary_function_ptr5( at_CEILING ,alias_at_CEILING,&__CEILING,0,T_UNARY_OP_38);
 
   gen FP(const gen & g,GIAC_CONTEXT){
@@ -1143,15 +1143,15 @@ namespace giac {
     return g-_INT(g,contextptr);
   }
   static const char _FRAC_s[]="FP";
-  static define_unary_function_eval (__FRAC,&giac::FP,_FRAC_s);
+  static define_unary_function_eval (__FRAC,&FP,_FRAC_s);
   define_unary_function_ptr5( at_FRAC ,alias_at_FRAC,&__FRAC,0,T_UNARY_OP_38);
 
   static const char _MAX_s[]="MAX";
-  static define_unary_function_eval (__MAX,&giac::_max,_MAX_s);
+  static define_unary_function_eval (__MAX,&_max,_MAX_s);
   define_unary_function_ptr5( at_MAX ,alias_at_MAX,&__MAX,0,T_UNARY_OP_38);
 
   static const char _MIN_s[]="MIN";
-  static define_unary_function_eval (__MIN,&giac::_min,_MIN_s);
+  static define_unary_function_eval (__MIN,&_min,_MIN_s);
   define_unary_function_ptr5( at_MIN ,alias_at_MIN,&__MIN,0,T_UNARY_OP_38);
 
   gen _MODULO(const gen & args,GIAC_CONTEXT){
@@ -1173,56 +1173,56 @@ namespace giac {
     return gentypeerr(contextptr);
   }
   static const char _MOD_s[]="MOD";
-  static define_unary_function_eval4 (__MOD,&giac::_MODULO,_MOD_s,&printsommetasoperator,&texprintsommetasoperator);
+  static define_unary_function_eval4 (__MOD,&_MODULO,_MOD_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr5( at_MOD ,alias_at_MOD,&__MOD,0,T_DIV);
 
   static const char _ROUND_s[]="ROUND";
-  static define_unary_function_eval (__ROUND,&giac::_round,_ROUND_s); 
+  static define_unary_function_eval (__ROUND,&_round,_ROUND_s); 
   define_unary_function_ptr5( at_ROUND ,alias_at_ROUND,&__ROUND,0,T_UNARY_OP_38);
 
   gen _INTERSECT(const gen & g,GIAC_CONTEXT){
     return _intersect(g,contextptr);
   }
   static const char _INTERSECT_s[]="INTERSECT";
-  static define_unary_function_eval (__INTERSECT,&giac::_INTERSECT,_INTERSECT_s); 
+  static define_unary_function_eval (__INTERSECT,&_INTERSECT,_INTERSECT_s); 
   define_unary_function_ptr5( at_INTERSECT ,alias_at_INTERSECT,&__INTERSECT,0,T_UNARY_OP_38);
 
   gen _UNION(const gen & g,GIAC_CONTEXT){
     return _union(g,contextptr);
   }
   static const char _UNION_s[]="UNION";
-  static define_unary_function_eval (__UNION,&giac::_UNION,_UNION_s); 
+  static define_unary_function_eval (__UNION,&_UNION,_UNION_s); 
   define_unary_function_ptr5( at_UNION ,alias_at_UNION,&__UNION,0,T_UNARY_OP_38);
 
   gen _MINUS(const gen & g,GIAC_CONTEXT){
     return _minus(g,contextptr);
   }
   static const char _MINUS_s[]="MINUS";
-  static define_unary_function_eval (__MINUS,&giac::_MINUS,_MINUS_s); 
+  static define_unary_function_eval (__MINUS,&_MINUS,_MINUS_s); 
   define_unary_function_ptr5( at_MINUS ,alias_at_MINUS,&__MINUS,0,T_UNARY_OP_38);
 
   gen _trunc(const gen & args,GIAC_CONTEXT);
 
   static const char _TRUNCATE_s[]="TRUNCATE";
-  static define_unary_function_eval (__TRUNCATE,&giac::_trunc,_TRUNCATE_s); 
+  static define_unary_function_eval (__TRUNCATE,&_trunc,_TRUNCATE_s); 
   define_unary_function_ptr5( at_TRUNCATE ,alias_at_TRUNCATE,&__TRUNCATE,0,T_UNARY_OP_38);
 
   static const char _QUOTE_s[]="QUOTE";
-  static define_unary_function_eval_quoted (__QUOTE,&giac::quote,_QUOTE_s); 
+  static define_unary_function_eval_quoted (__QUOTE,&quote,_QUOTE_s); 
   define_unary_function_ptr5( at_QUOTE ,alias_at_QUOTE,&__QUOTE,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   // Note that 0 is necessary otherwise conflict on freeBSD
   static const char _SIGN_s[]="SIGN";
-  static define_unary_function_eval (__SIGN0,&giac::sign,_SIGN_s);
+  static define_unary_function_eval (__SIGN0,&sign,_SIGN_s);
   define_unary_function_ptr5( at_SIGN ,alias_at_SIGN,&__SIGN0,0,T_UNARY_OP_38);
   
   // proba
   static const char _COMB_s[]="COMB";
-  static define_unary_function_eval (__COMB,&giac::_comb,_COMB_s); 
+  static define_unary_function_eval (__COMB,&_comb,_COMB_s); 
   define_unary_function_ptr5( at_COMB ,alias_at_COMB,&__COMB,0,T_UNARY_OP_38);  
 
   static const char _PERM_s[]="PERM";
-  static define_unary_function_eval (__PERM,&giac::_perm,_PERM_s); 
+  static define_unary_function_eval (__PERM,&_perm,_PERM_s); 
   define_unary_function_ptr5( at_PERM ,alias_at_PERM,&__PERM,0,T_UNARY_OP_38);  
 
   string printasRANDOM(const gen & feuille,const char * s,GIAC_CONTEXT){
@@ -1241,11 +1241,11 @@ namespace giac {
     return double(giac_rand(contextptr))/rand_max2;
   }
   static const char _RANDOM_s[]="RANDOM";
-  static define_unary_function_eval2 (__RANDOM,&giac::_RANDOM,_RANDOM_s,&printasRANDOM); 
+  static define_unary_function_eval2 (__RANDOM,&_RANDOM,_RANDOM_s,&printasRANDOM); 
   define_unary_function_ptr5( at_RANDOM ,alias_at_RANDOM,&__RANDOM,0,T_RETURN);  
 
   static const char _RANDSEED_s[]="RANDSEED";
-  static define_unary_function_eval (__RANDSEED,&giac::_srand,_RANDSEED_s); 
+  static define_unary_function_eval (__RANDSEED,&_srand,_RANDSEED_s); 
   define_unary_function_ptr5( at_RANDSEED ,alias_at_RANDSEED,&__RANDSEED,0,T_RETURN);  
 
   gen _MAXREAL(const gen & g,GIAC_CONTEXT){
@@ -1257,7 +1257,7 @@ namespace giac {
 #endif
   }
   static const char _MAXREAL_s[]="MAXREAL";
-  static define_unary_function_eval (__MAXREAL,&giac::_MAXREAL,_MAXREAL_s); 
+  static define_unary_function_eval (__MAXREAL,&_MAXREAL,_MAXREAL_s); 
   define_unary_function_ptr5( at_MAXREAL ,alias_at_MAXREAL,&__MAXREAL,0,T_NUMBER);  
 
   gen _MINREAL(const gen & g,GIAC_CONTEXT){
@@ -1271,23 +1271,23 @@ namespace giac {
 #endif
   }
   static const char _MINREAL_s[]="MINREAL";
-  static define_unary_function_eval (__MINREAL,&giac::_MINREAL,_MINREAL_s); 
+  static define_unary_function_eval (__MINREAL,&_MINREAL,_MINREAL_s); 
   define_unary_function_ptr5( at_MINREAL ,alias_at_MINREAL,&__MINREAL,0,T_NUMBER);  
 
   // transcendent
   static const char _EXP_s[]="EXP";
-  static define_unary_function_eval (__EXP,&giac::exp,_EXP_s);
+  static define_unary_function_eval (__EXP,&exp,_EXP_s);
   define_unary_function_ptr5( at_EXP ,alias_at_EXP,&__EXP,0,T_UNARY_OP_38);
 
 #if 0
-  define_partial_derivative_onearg_genop( D_at_expm1,"D_at_expm1",&giac::exp);
+  define_partial_derivative_onearg_genop( D_at_expm1,"D_at_expm1",&exp);
 #endif
   gen _EXPM1(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     return exp(g,contextptr)-1;
   }
   static const char _EXPM1_s[]="EXPM1";
-  static define_unary_function_eval (__EXPM1,&giac::_EXPM1,_EXPM1_s);
+  static define_unary_function_eval (__EXPM1,&_EXPM1,_EXPM1_s);
   define_unary_function_ptr5( at_EXPM1 ,alias_at_EXPM1,&__EXPM1,0,T_UNARY_OP_38);
 
 #if 0
@@ -1301,72 +1301,72 @@ namespace giac {
     return ln(g+1,contextptr);
   }
   static const char _LNP1_s[]="LNP1";
-  static define_unary_function_eval (__LNP1,&giac::_LNP1,_LNP1_s);
+  static define_unary_function_eval (__LNP1,&_LNP1,_LNP1_s);
   define_unary_function_ptr5( at_LNP1 ,alias_at_LNP1,&__LNP1,0,T_UNARY_OP_38);
 
   static const char _LN_s[]="LN";
-  static define_unary_function_eval (__LN,&giac::ln,_LN_s);
+  static define_unary_function_eval (__LN,&ln,_LN_s);
   define_unary_function_ptr5( at_LN ,alias_at_LN,&__LN,0,T_UNARY_OP_38);
 
   gen _LOG(const gen & g,GIAC_CONTEXT){
     if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()==2)
       return _logb(g,contextptr);
-    return giac::log10(g,contextptr);
+    return log10(g,contextptr);
   }
   static const char _LOG_s[]="LOG";
   static define_unary_function_eval (__LOG,&_LOG,_LOG_s);
   define_unary_function_ptr5( at_LOG ,alias_at_LOG,&__LOG,0,T_UNARY_OP_38);
 
   static const char _ALOG_s[]="ALOG";
-  static define_unary_function_eval (__ALOG,&giac::alog10,_ALOG_s);
+  static define_unary_function_eval (__ALOG,&alog10,_ALOG_s);
   define_unary_function_ptr5( at_ALOG ,alias_at_ALOG,&__ALOG,0,T_UNARY_OP_38);
 
   static const char _SIN_s[]="SIN";
-  static define_unary_function_eval (__SIN,&giac::sin,_SIN_s);
+  static define_unary_function_eval (__SIN,&sin,_SIN_s);
   define_unary_function_ptr5( at_SIN ,alias_at_SIN,&__SIN,0,T_UNARY_OP_38);
 
   static const char _COS_s[]="COS";
-  static define_unary_function_eval (__COS,&giac::cos,_COS_s);
+  static define_unary_function_eval (__COS,&cos,_COS_s);
   define_unary_function_ptr5( at_COS ,alias_at_COS,&__COS,0,T_UNARY_OP_38);
 
   static const char _TAN_s[]="TAN";
-  static define_unary_function_eval (__TAN,&giac::tan,_TAN_s);
+  static define_unary_function_eval (__TAN,&tan,_TAN_s);
   define_unary_function_ptr5( at_TAN ,alias_at_TAN,&__TAN,0,T_UNARY_OP_38);
 
   static const char _ASIN_s[]="ASIN";
-  static define_unary_function_eval (__ASIN,&giac::asin,_ASIN_s);
+  static define_unary_function_eval (__ASIN,&asin,_ASIN_s);
   define_unary_function_ptr5( at_ASIN ,alias_at_ASIN,&__ASIN,0,T_UNARY_OP_38);
 
   static const char _ACOS_s[]="ACOS";
-  static define_unary_function_eval (__ACOS,&giac::acos,_ACOS_s);
+  static define_unary_function_eval (__ACOS,&acos,_ACOS_s);
   define_unary_function_ptr5( at_ACOS ,alias_at_ACOS,&__ACOS,0,T_UNARY_OP_38);
 
   static const char _ATAN_s[]="ATAN";
-  static define_unary_function_eval (__ATAN,&giac::atan,_ATAN_s);
+  static define_unary_function_eval (__ATAN,&atan,_ATAN_s);
   define_unary_function_ptr5( at_ATAN ,alias_at_ATAN,&__ATAN,0,T_UNARY_OP_38);
 
   static const char _SINH_s[]="SINH";
-  static define_unary_function_eval (__SINH,&giac::sinh,_SINH_s);
+  static define_unary_function_eval (__SINH,&sinh,_SINH_s);
   define_unary_function_ptr5( at_SINH ,alias_at_SINH,&__SINH,0,T_UNARY_OP_38);
 
   static const char _COSH_s[]="COSH";
-  static define_unary_function_eval (__COSH,&giac::cosh,_COSH_s);
+  static define_unary_function_eval (__COSH,&cosh,_COSH_s);
   define_unary_function_ptr5( at_COSH ,alias_at_COSH,&__COSH,0,T_UNARY_OP_38);
 
   static const char _TANH_s[]="TANH";
-  static define_unary_function_eval (__TANH,&giac::tanh,_TANH_s);
+  static define_unary_function_eval (__TANH,&tanh,_TANH_s);
   define_unary_function_ptr5( at_TANH ,alias_at_TANH,&__TANH,0,T_UNARY_OP_38);
 
   static const char _ASINH_s[]="ASINH";
-  static define_unary_function_eval (__ASINH,&giac::asinh,_ASINH_s);
+  static define_unary_function_eval (__ASINH,&asinh,_ASINH_s);
   define_unary_function_ptr5( at_ASINH ,alias_at_ASINH,&__ASINH,0,T_UNARY_OP_38);
 
   static const char _ACOSH_s[]="ACOSH";
-  static define_unary_function_eval (__ACOSH,&giac::acosh,_ACOSH_s);
+  static define_unary_function_eval (__ACOSH,&acosh,_ACOSH_s);
   define_unary_function_ptr5( at_ACOSH ,alias_at_ACOSH,&__ACOSH,0,T_UNARY_OP_38);
 
   static const char _ATANH_s[]="ATANH";
-  static define_unary_function_eval (__ATANH,&giac::atanh,_ATANH_s);
+  static define_unary_function_eval (__ATANH,&atanh,_ATANH_s);
   define_unary_function_ptr5( at_ATANH ,alias_at_ATANH,&__ATANH,0,T_UNARY_OP_38);
 
   bool is_Ans(const gen & g){
@@ -1412,7 +1412,7 @@ namespace giac {
     return res;
   }
   static const char _ADDROW_s[]="ADDROW";
-  static define_unary_function_eval_quoted (__ADDROW,&giac::_ADDROW,_ADDROW_s);
+  static define_unary_function_eval_quoted (__ADDROW,&_ADDROW,_ADDROW_s);
   define_unary_function_ptr5( at_ADDROW ,alias_at_ADDROW,&__ADDROW,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _ADDCOL(const gen & args,GIAC_CONTEXT){
@@ -1440,7 +1440,7 @@ namespace giac {
     return res;
   }
   static const char _ADDCOL_s[]="ADDCOL";
-  static define_unary_function_eval_quoted (__ADDCOL,&giac::_ADDCOL,_ADDCOL_s);
+  static define_unary_function_eval_quoted (__ADDCOL,&_ADDCOL,_ADDCOL_s);
   define_unary_function_ptr5( at_ADDCOL ,alias_at_ADDCOL,&__ADDCOL,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _SCALE(const gen & g,GIAC_CONTEXT){
@@ -1454,11 +1454,11 @@ namespace giac {
     return _mRow(gen(v,_SEQ__VECT),contextptr);
   }
   static const char _SCALE_s[]="SCALE";
-  static define_unary_function_eval_quoted (__SCALE,&giac::_SCALE,_SCALE_s);
+  static define_unary_function_eval_quoted (__SCALE,&_SCALE,_SCALE_s);
   define_unary_function_ptr5( at_SCALE ,alias_at_SCALE,&__SCALE,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   static const char _scale_s[]="scale";
-  static define_unary_function_eval_quoted (__scale,&giac::_SCALE,_scale_s);
+  static define_unary_function_eval_quoted (__scale,&_SCALE,_scale_s);
   define_unary_function_ptr5( at_scale ,alias_at_scale,&__scale,_QUOTE_ARGUMENTS,T_UNARY_OP);
 
   gen _SCALEADD(const gen & g,GIAC_CONTEXT){
@@ -1473,11 +1473,11 @@ namespace giac {
     return _mRowAdd(gen(v,_SEQ__VECT),contextptr);
   }
   static const char _SCALEADD_s[]="SCALEADD";
-  static define_unary_function_eval_quoted (__SCALEADD,&giac::_SCALEADD,_SCALEADD_s);
+  static define_unary_function_eval_quoted (__SCALEADD,&_SCALEADD,_SCALEADD_s);
   define_unary_function_ptr5( at_SCALEADD ,alias_at_SCALEADD,&__SCALEADD,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   static const char _scaleadd_s[]="scaleadd";
-  static define_unary_function_eval_quoted (__scaleadd,&giac::_SCALEADD,_scaleadd_s);
+  static define_unary_function_eval_quoted (__scaleadd,&_SCALEADD,_scaleadd_s);
   define_unary_function_ptr5( at_scaleadd ,alias_at_scaleadd,&__scaleadd,_QUOTE_ARGUMENTS,T_UNARY_OP);
 
   gen _SWAPCOL(const gen & args,GIAC_CONTEXT){
@@ -1505,7 +1505,7 @@ namespace giac {
     return res;
   }
   static const char _SWAPCOL_s[]="SWAPCOL";
-  static define_unary_function_eval_quoted (__SWAPCOL,&giac::_SWAPCOL,_SWAPCOL_s);
+  static define_unary_function_eval_quoted (__SWAPCOL,&_SWAPCOL,_SWAPCOL_s);
   define_unary_function_ptr5( at_SWAPCOL ,alias_at_SWAPCOL,&__SWAPCOL,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   static const char _colswap_s[]="colswap";
@@ -1521,15 +1521,15 @@ namespace giac {
   define_unary_function_ptr5( at_colSwap ,alias_at_colSwap,&__colSwap,0,true);
 
   static const char _DELCOL_s[]="DELCOL";
-  static define_unary_function_eval_quoted (__DELCOL,&giac::_delcols,_DELCOL_s);
+  static define_unary_function_eval_quoted (__DELCOL,&_delcols,_DELCOL_s);
   define_unary_function_ptr5( at_DELCOL ,alias_at_DELCOL,&__DELCOL,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   static const char _DELROW_s[]="DELROW";
-  static define_unary_function_eval_quoted (__DELROW,&giac::_delrows,_DELROW_s);
+  static define_unary_function_eval_quoted (__DELROW,&_delrows,_DELROW_s);
   define_unary_function_ptr5( at_DELROW ,alias_at_DELROW,&__DELROW,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   static const char _SWAPROW_s[]="SWAPROW";
-  static define_unary_function_eval_quoted (__SWAPROW,&giac::_rowSwap,_SWAPROW_s);
+  static define_unary_function_eval_quoted (__SWAPROW,&_rowSwap,_SWAPROW_s);
   define_unary_function_ptr5( at_SWAPROW ,alias_at_SWAPROW,&__SWAPROW,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _SUB(const gen & args,GIAC_CONTEXT){
@@ -1568,7 +1568,7 @@ namespace giac {
     return undef;
   }
   static const char _SUB_s[]="SUB";
-  static define_unary_function_eval_quoted (__SUB,&giac::_SUB,_SUB_s);
+  static define_unary_function_eval_quoted (__SUB,&_SUB,_SUB_s);
   define_unary_function_ptr5( at_SUB ,alias_at_SUB,&__SUB,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _RANDMAT(const gen & args,GIAC_CONTEXT){
@@ -1598,7 +1598,7 @@ namespace giac {
     return sto(mranm(v[1].val,v[2].val,0,contextptr),name,contextptr);    
   }
   static const char _RANDMAT_s[]="RANDMAT";
-  static define_unary_function_eval_quoted (__RANDMAT,&giac::_RANDMAT,_RANDMAT_s);
+  static define_unary_function_eval_quoted (__RANDMAT,&_RANDMAT,_RANDMAT_s);
   define_unary_function_ptr5( at_RANDMAT ,alias_at_RANDMAT,&__RANDMAT,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _REDIM(const gen & args,GIAC_CONTEXT){
@@ -1648,11 +1648,11 @@ namespace giac {
     return sto(_matrix(gen(argv,_SEQ__VECT),contextptr),name,contextptr);
   }
   static const char _REDIM_s[]="REDIM";
-  static define_unary_function_eval_quoted (__REDIM,&giac::_REDIM,_REDIM_s);
+  static define_unary_function_eval_quoted (__REDIM,&_REDIM,_REDIM_s);
   define_unary_function_ptr5( at_REDIM ,alias_at_REDIM,&__REDIM,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   static const char _redim_s[]="redim";
-  static define_unary_function_eval_quoted (__redim,&giac::_REDIM,_redim_s);
+  static define_unary_function_eval_quoted (__redim,&_REDIM,_redim_s);
   define_unary_function_ptr5( at_redim ,alias_at_redim,&__redim,_QUOTE_ARGUMENTS,T_UNARY_OP);
 
   gen _REPLACE(const gen & args,GIAC_CONTEXT){
@@ -1746,31 +1746,31 @@ namespace giac {
     return sto(_matrix(gen(makevecteur(l,c,w0),_SEQ__VECT),contextptr),name,contextptr);
   }
   static const char _REPLACE_s[]="REPLACE";
-  static define_unary_function_eval_quoted (__REPLACE,&giac::_REPLACE,_REPLACE_s);
+  static define_unary_function_eval_quoted (__REPLACE,&_REPLACE,_REPLACE_s);
   define_unary_function_ptr5( at_REPLACE ,alias_at_REPLACE,&__REPLACE,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   static const char _replace_s[]="replace";
-  static define_unary_function_eval_quoted (__replace,&giac::_REPLACE,_replace_s);
+  static define_unary_function_eval_quoted (__replace,&_REPLACE,_replace_s);
   define_unary_function_ptr5( at_replace ,alias_at_replace,&__replace,_QUOTE_ARGUMENTS,T_UNARY_OP);
 
   static const char _COLNORM_s[]="COLNORM";
-  static define_unary_function_eval (__COLNORM,&giac::_colNorm,_COLNORM_s);
+  static define_unary_function_eval (__COLNORM,&_colNorm,_COLNORM_s);
   define_unary_function_ptr5( at_COLNORM ,alias_at_COLNORM,&__COLNORM,0,T_UNARY_OP_38);
 
   static const char _ROWNORM_s[]="ROWNORM";
-  static define_unary_function_eval (__ROWNORM,&giac::_rowNorm,_ROWNORM_s);
+  static define_unary_function_eval (__ROWNORM,&_rowNorm,_ROWNORM_s);
   define_unary_function_ptr5( at_ROWNORM ,alias_at_ROWNORM,&__ROWNORM,0,T_UNARY_OP_38);
 
   static const char _CROSS_s[]="CROSS";
-  static define_unary_function_eval (__CROSS,&giac::_cross,_CROSS_s);
+  static define_unary_function_eval (__CROSS,&_cross,_CROSS_s);
   define_unary_function_ptr5( at_CROSS ,alias_at_CROSS,&__CROSS,0,T_UNARY_OP_38);
 
   static const char _DET_s[]="DET";
-  static define_unary_function_eval (__DET,&giac::_det,_DET_s);
+  static define_unary_function_eval (__DET,&_det,_DET_s);
   define_unary_function_ptr5( at_DET ,alias_at_DET,&__DET,0,T_UNARY_OP_38);
 
   static const char _DOT_s[]="DOT";
-  static define_unary_function_eval (__DOT,&giac::_dotprod,_DOT_s);
+  static define_unary_function_eval (__DOT,&_dotprod,_DOT_s);
   define_unary_function_ptr5( at_DOT ,alias_at_DOT,&__DOT,0,T_UNARY_OP_38);
 
   gen _EIGENVAL(const gen & args,GIAC_CONTEXT){
@@ -1785,7 +1785,7 @@ namespace giac {
     return res;
   }
   static const char _EIGENVAL_s[]="EIGENVAL";
-  static define_unary_function_eval (__EIGENVAL,&giac::_EIGENVAL,_EIGENVAL_s);
+  static define_unary_function_eval (__EIGENVAL,&_EIGENVAL,_EIGENVAL_s);
   define_unary_function_ptr5( at_EIGENVAL ,alias_at_EIGENVAL,&__EIGENVAL,0,T_UNARY_OP_38);
 
   gen _EIGENVV(const gen & args,GIAC_CONTEXT){
@@ -1801,15 +1801,15 @@ namespace giac {
     return res;
   }
   static const char _EIGENVV_s[]="EIGENVV";
-  static define_unary_function_eval (__EIGENVV,&giac::_EIGENVV,_EIGENVV_s);
+  static define_unary_function_eval (__EIGENVV,&_EIGENVV,_EIGENVV_s);
   define_unary_function_ptr5( at_EIGENVV ,alias_at_EIGENVV,&__EIGENVV,0,T_UNARY_OP_38);
 
   static const char _IDENMAT_s[]="IDENMAT";
-  static define_unary_function_eval (__IDENMAT,&giac::_idn,_IDENMAT_s);
+  static define_unary_function_eval (__IDENMAT,&_idn,_IDENMAT_s);
   define_unary_function_ptr5( at_IDENMAT ,alias_at_IDENMAT,&__IDENMAT,0,T_UNARY_OP_38);
 
   static const char _INVERSE_s[]="INVERSE";
-  static define_unary_function_eval (__INVERSE,&giac::inv,_INVERSE_s);
+  static define_unary_function_eval (__INVERSE,&inv,_INVERSE_s);
   define_unary_function_ptr5( at_INVERSE ,alias_at_INVERSE,&__INVERSE,0,T_UNARY_OP_38);
 
   gen _TRACE(const gen & g,GIAC_CONTEXT){
@@ -1818,15 +1818,15 @@ namespace giac {
     return mtrace(*g._VECTptr);
   }
   static const char _TRACE_s[]="TRACE";
-  static define_unary_function_eval (__TRACE,&giac::_TRACE,_TRACE_s);
+  static define_unary_function_eval (__TRACE,&_TRACE,_TRACE_s);
   define_unary_function_ptr5( at_TRACE ,alias_at_TRACE,&__TRACE,0,T_UNARY_OP_38);
 
   static const char _TRN_s[]="TRN";
-  static define_unary_function_eval (__TRN,&giac::_trn,_TRN_s);
+  static define_unary_function_eval (__TRN,&_trn,_TRN_s);
   define_unary_function_ptr5( at_TRN ,alias_at_TRN,&__TRN,0,T_UNARY_OP_38);
 
   static const char _RANK_s[]="RANK";
-  static define_unary_function_eval (__RANK,&giac::_rank,_RANK_s);
+  static define_unary_function_eval (__RANK,&_rank,_RANK_s);
   define_unary_function_ptr5( at_RANK ,alias_at_RANK,&__RANK,0,T_UNARY_OP_38);
 
   gen _SIZE(const gen& args,GIAC_CONTEXT){
@@ -1836,19 +1836,19 @@ namespace giac {
       return _size(args,contextptr);
   }
   static const char _SIZE_s[]="SIZE";
-  static define_unary_function_eval (__SIZE,&giac::_SIZE,_SIZE_s);
+  static define_unary_function_eval (__SIZE,&_SIZE,_SIZE_s);
   define_unary_function_ptr5( at_SIZE ,alias_at_SIZE,&__SIZE,0,T_UNARY_OP_38);
 
   static const char _SORT_s[]="SORT";
-  static define_unary_function_eval (__SORT,&giac::_sort,_SORT_s);
+  static define_unary_function_eval (__SORT,&_sort,_SORT_s);
   define_unary_function_ptr5( at_SORT ,alias_at_SORT,&__SORT,0,T_UNARY_OP_38);
 
   static const char _DELTALIST_s[]="ΔLIST";
-  static define_unary_function_eval (__DELTALIST,&giac::_deltalist,_DELTALIST_s);
+  static define_unary_function_eval (__DELTALIST,&_deltalist,_DELTALIST_s);
   define_unary_function_ptr5( at_DELTALIST ,alias_at_DELTALIST,&__DELTALIST,0,T_UNARY_OP_38);
 
   static const char _CONCAT_s[]="CONCAT";
-  static define_unary_function_eval (__CCONCAT,&giac::_concat,_CONCAT_s);
+  static define_unary_function_eval (__CCONCAT,&_concat,_CONCAT_s);
   define_unary_function_ptr5( at_CONCAT ,alias_at_CONCAT,&__CCONCAT,0,T_UNARY_OP_38);
 
   gen _PILIST(const gen & args,GIAC_CONTEXT){
@@ -1857,7 +1857,7 @@ namespace giac {
     return _product(args,contextptr);
   }
   static const char _PILIST_s[]="ΠLIST";
-  static define_unary_function_eval (__PILIST,&giac::_PILIST,_PILIST_s);
+  static define_unary_function_eval (__PILIST,&_PILIST,_PILIST_s);
   define_unary_function_ptr5( at_PILIST ,alias_at_PILIST,&__PILIST,0,T_UNARY_OP_38);
 
   gen _SIGMALIST(const gen & args,GIAC_CONTEXT){
@@ -1866,11 +1866,11 @@ namespace giac {
     return _sum(args,contextptr);
   }
   static const char _SIGMALIST_s[]="ΣLIST";
-  static define_unary_function_eval (__SIGMALIST,&giac::_SIGMALIST,_SIGMALIST_s);
+  static define_unary_function_eval (__SIGMALIST,&_SIGMALIST,_SIGMALIST_s);
   define_unary_function_ptr5( at_SIGMALIST ,alias_at_SIGMALIST,&__SIGMALIST,0,T_UNARY_OP_38);
 
   static const char _REVERSE_s[]="REVERSE";
-  static define_unary_function_eval (__REVERSE,&giac::_revlist,_REVERSE_s);
+  static define_unary_function_eval (__REVERSE,&_revlist,_REVERSE_s);
   define_unary_function_ptr5( at_REVERSE ,alias_at_REVERSE,&__REVERSE,0,T_UNARY_OP_38);
 
   gen _POS(const gen & args,GIAC_CONTEXT){
@@ -1880,7 +1880,7 @@ namespace giac {
     return equalposcomp(*args._VECTptr->front()._VECTptr,evalf2bcd(args._VECTptr->back(),1,contextptr));    
   }
   static const char _POS_s[]="POS";
-  static define_unary_function_eval (__POS,&giac::_POS,_POS_s);
+  static define_unary_function_eval (__POS,&_POS,_POS_s);
   define_unary_function_ptr5( at_POS ,alias_at_POS,&__POS,0,T_UNARY_OP_38);
 
   gen _MAKELIST(const gen & args,GIAC_CONTEXT){
@@ -1889,13 +1889,13 @@ namespace giac {
     vecteur & v = *args._VECTptr;
     if (v.size()==5 && is_positive(-v[4]*(v[3]-v[2]),contextptr))
       return gensizeerr(gettext("Invalid step value"));
-    gen res=giac::_seq(args,contextptr);
+    gen res=_seq(args,contextptr);
     if (res.type==_VECT)
       res.subtype=_LIST__VECT;
     return res;
   }
   static const char _MAKELIST_s[]="MAKELIST";
-  static define_unary_function_eval (__MAKELIST,&giac::_MAKELIST,_MAKELIST_s);
+  static define_unary_function_eval (__MAKELIST,&_MAKELIST,_MAKELIST_s);
   define_unary_function_ptr5( at_MAKELIST ,alias_at_MAKELIST,&__MAKELIST,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _INT(const gen & g,GIAC_CONTEXT){
@@ -1914,7 +1914,7 @@ namespace giac {
     }
   }
   static const char _INT_s[]="IP";
-  static define_unary_function_eval (__INT,&giac::_INT,_INT_s);
+  static define_unary_function_eval (__INT,&_INT,_INT_s);
   define_unary_function_ptr5( at_INT ,alias_at_INT,&__INT,0,T_UNARY_OP_38);
 
   static int taylorxn=0;
@@ -1988,7 +1988,7 @@ namespace giac {
     }
   }
   static const char _HPDIFF_s[]="∂";
-  static define_unary_function_eval_quoted (__HPDIFF,&giac::_HPDIFF,_HPDIFF_s);
+  static define_unary_function_eval_quoted (__HPDIFF,&_HPDIFF,_HPDIFF_s);
   define_unary_function_ptr5( at_HPDIFF ,alias_at_HPDIFF,&__HPDIFF,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _HPINT(const gen & args,GIAC_CONTEXT){
@@ -2032,7 +2032,7 @@ namespace giac {
 #endif
   }
   static const char _HPINT_s[]="∫";
-  static define_unary_function_eval_quoted (__HPINT,&giac::_HPINT,_HPINT_s);
+  static define_unary_function_eval_quoted (__HPINT,&_HPINT,_HPINT_s);
   define_unary_function_ptr5( at_HPINT ,alias_at_HPINT,&__HPINT,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _HPSUM(const gen & args,GIAC_CONTEXT){
@@ -2078,7 +2078,7 @@ namespace giac {
   }
   static const char _HPSUM_s[]="Σ"; // "∑";
   // static const char _HPSUM_s[]="∑"; // "Σ";
-  static define_unary_function_eval_quoted (__HPSUM,&giac::_HPSUM,_HPSUM_s);
+  static define_unary_function_eval_quoted (__HPSUM,&_HPSUM,_HPSUM_s);
   define_unary_function_ptr5( at_HPSUM ,alias_at_HPSUM,&__HPSUM,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _TAYLOR(const gen & args,GIAC_CONTEXT){
@@ -2109,7 +2109,7 @@ namespace giac {
     return _symb2poly(args0,contextptr);
   }
   static const char _POLYCOEF_s[]="POLYCOEF";
-  static define_unary_function_eval (__POLYCOEF,&giac::_POLYCOEFF,_POLYCOEF_s);
+  static define_unary_function_eval (__POLYCOEF,&_POLYCOEFF,_POLYCOEF_s);
   define_unary_function_ptr5( at_POLYCOEF ,alias_at_POLYCOEF,&__POLYCOEF,_QUOTE_ARGUMENTS,T_UNARY_OP);
 
   gen _horner(const gen & args,GIAC_CONTEXT);
@@ -2121,7 +2121,7 @@ namespace giac {
     return _horner(args,contextptr);
   }
   static const char _POLYEVAL_s[]="POLYEVAL";
-  static define_unary_function_eval (__POLYEVAL,&giac::_POLYEVAL,_POLYEVAL_s);
+  static define_unary_function_eval (__POLYEVAL,&_POLYEVAL,_POLYEVAL_s);
   define_unary_function_ptr5( at_POLYEVAL ,alias_at_POLYEVAL,&__POLYEVAL,0,T_UNARY_OP_38);
 
   gen evalfunc(const gen & args,GIAC_CONTEXT){
@@ -2187,7 +2187,7 @@ namespace giac {
     return _recursive_normal(tmp,context0); // return symb_quote(_partfrac(args,contextptr)); // return symb_quote(recursive_normal(args,1,contextptr)); // symb_quote(simplify(eval(args,1,context0),context0));
   }
   static const char _POLYFORM_s[]="POLYFORM";
-  static define_unary_function_eval2_quoted (__POLYFORM,&giac::_POLYFORM,_POLYFORM_s,&printasPOLYFORM);
+  static define_unary_function_eval2_quoted (__POLYFORM,&_POLYFORM,_POLYFORM_s,&printasPOLYFORM);
   define_unary_function_ptr5( at_POLYFORM ,alias_at_POLYFORM,&__POLYFORM,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _POLYROOT(const gen & args0,GIAC_CONTEXT){
@@ -2217,7 +2217,7 @@ namespace giac {
     return res;
   }
   static const char _POLYROOT_s[]="POLYROOT";
-  static define_unary_function_eval (__POLYROOT,&giac::_POLYROOT,_POLYROOT_s);
+  static define_unary_function_eval (__POLYROOT,&_POLYROOT,_POLYROOT_s);
   define_unary_function_ptr5( at_POLYROOT ,alias_at_POLYROOT,&__POLYROOT,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _ISOLATE(const gen & args0,GIAC_CONTEXT){
@@ -2227,11 +2227,11 @@ namespace giac {
     return symb_quote(_solve(args0,contextptr));
   }
   static const char _ISOLATE_s[]="ISOLATE";
-  static define_unary_function_eval_quoted (__ISOLATE,&giac::_ISOLATE,_ISOLATE_s);
+  static define_unary_function_eval_quoted (__ISOLATE,&_ISOLATE,_ISOLATE_s);
   define_unary_function_ptr5( at_ISOLATE ,alias_at_ISOLATE,&__ISOLATE,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   static const char _QUAD_s[]="QUAD";
-  static define_unary_function_eval_quoted (__QUAD,&giac::_ISOLATE,_QUAD_s);
+  static define_unary_function_eval_quoted (__QUAD,&_ISOLATE,_QUAD_s);
   define_unary_function_ptr5( at_QUAD ,alias_at_QUAD,&__QUAD,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _IS_LINEAR(const gen & args,GIAC_CONTEXT){
@@ -2248,11 +2248,11 @@ namespace giac {
     // return 0;
   }
   static const char _IS_LINEAR_s[]="LINEAR?";
-  static define_unary_function_eval_quoted (__IS_LINEAR,&giac::_IS_LINEAR,_IS_LINEAR_s);
+  static define_unary_function_eval_quoted (__IS_LINEAR,&_IS_LINEAR,_IS_LINEAR_s);
   define_unary_function_ptr5( at_IS_LINEAR ,alias_at_IS_LINEAR,&__IS_LINEAR,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   static const char _FNROOT_s[]="FNROOT";
-  static define_unary_function_eval (__FNROOT,&giac::_fsolve,_FNROOT_s);
+  static define_unary_function_eval (__FNROOT,&_fsolve,_FNROOT_s);
   define_unary_function_ptr5( at_FNROOT ,alias_at_FNROOT,&__FNROOT,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
   gen _SVD(const gen & args0,GIAC_CONTEXT){
@@ -2267,7 +2267,7 @@ namespace giac {
     return res;    
   }
   static const char _SVD_s[]="SVD";
-  static define_unary_function_eval (__SVD,&giac::_SVD,_SVD_s); // FIXME
+  static define_unary_function_eval (__SVD,&_SVD,_SVD_s); // FIXME
   define_unary_function_ptr5( at_SVD ,alias_at_SVD,&__SVD,0,T_UNARY_OP_38);
 
   gen _SVL(const gen & args0,GIAC_CONTEXT){
@@ -2278,11 +2278,11 @@ namespace giac {
     return _svd(gen(makevecteur(args,-2),_SEQ__VECT),contextptr);
   }
   static const char _SVL_s[]="SVL";
-  static define_unary_function_eval (__SVL,&giac::_SVL,_SVL_s); 
+  static define_unary_function_eval (__SVL,&_SVL,_SVL_s); 
   define_unary_function_ptr5( at_SVL ,alias_at_SVL,&__SVL,0,T_UNARY_OP_38);
 
   static const char _svl_s[]="svl";
-  static define_unary_function_eval (__svl,&giac::_SVL,_svl_s); 
+  static define_unary_function_eval (__svl,&_SVL,_svl_s); 
   define_unary_function_ptr5( at_svl ,alias_at_svl,&__svl,0,T_UNARY_OP);
 
   gen _SPECRAD(const gen & args0,GIAC_CONTEXT){
@@ -2302,7 +2302,7 @@ namespace giac {
     return res;
   }
   static const char _SPECRAD_s[]="SPECRAD";
-  static define_unary_function_eval (__SPECRAD,&giac::_SPECRAD,_SPECRAD_s); // FIXME
+  static define_unary_function_eval (__SPECRAD,&_SPECRAD,_SPECRAD_s); // FIXME
   define_unary_function_ptr5( at_SPECRAD ,alias_at_SPECRAD,&__SPECRAD,0,T_UNARY_OP_38);
 
   gen _SPECNORM(const gen & args0,GIAC_CONTEXT){
@@ -2316,7 +2316,7 @@ namespace giac {
     return _max(_SVL(*args._VECTptr,contextptr),contextptr);
   }
   static const char _SPECNORM_s[]="SPECNORM";
-  static define_unary_function_eval (__SPECNORM,&giac::_SPECNORM,_SPECNORM_s); // FIXME
+  static define_unary_function_eval (__SPECNORM,&_SPECNORM,_SPECNORM_s); // FIXME
   define_unary_function_ptr5( at_SPECNORM ,alias_at_SPECNORM,&__SPECNORM,0,T_UNARY_OP_38);
 
   gen _COND(const gen & args0,GIAC_CONTEXT){
@@ -2369,11 +2369,11 @@ namespace giac {
     // return _colNorm(args,contextptr)*_rowNorm(args,contextptr)/abs(_det(args,contextptr),contextptr);
   }
   static const char _COND_s[]="COND";
-  static define_unary_function_eval (__COND,&giac::_COND,_COND_s); // FIXME
+  static define_unary_function_eval (__COND,&_COND,_COND_s); // FIXME
   define_unary_function_ptr5( at_COND ,alias_at_COND,&__COND,0,T_UNARY_OP_38);
 
   static const char _cond_s[]="cond";
-  static define_unary_function_eval (__cond,&giac::_COND,_cond_s); // FIXME
+  static define_unary_function_eval (__cond,&_COND,_cond_s); // FIXME
   define_unary_function_ptr5( at_cond ,alias_at_cond,&__cond,0,T_UNARY_OP);
 
   gen _SCHUR(const gen & args,GIAC_CONTEXT){
@@ -2394,11 +2394,11 @@ namespace giac {
     return res;
   }
   static const char _SCHUR_s[]="SCHUR";
-  static define_unary_function_eval (__SCHUR,&giac::_SCHUR,_SCHUR_s); // FIXME
+  static define_unary_function_eval (__SCHUR,&_SCHUR,_SCHUR_s); // FIXME
   define_unary_function_ptr5( at_SCHUR ,alias_at_SCHUR,&__SCHUR,0,T_UNARY_OP_38);
 
   static const char _schur_s[]="schur";
-  static define_unary_function_eval (__schur,&giac::_SCHUR,_schur_s); // FIXME
+  static define_unary_function_eval (__schur,&_SCHUR,_schur_s); // FIXME
   define_unary_function_ptr5( at_schur ,alias_at_schur,&__schur,0,T_UNARY_OP);
 
   gen _LQ(const gen & args0,GIAC_CONTEXT){
@@ -2417,11 +2417,11 @@ namespace giac {
     return gen(v,_LIST__VECT);
   }
   static const char _LQ_s[]="LQ";
-  static define_unary_function_eval (__LQ,&giac::_LQ,_LQ_s); 
+  static define_unary_function_eval (__LQ,&_LQ,_LQ_s); 
   define_unary_function_ptr5( at_LQ ,alias_at_LQ,&__LQ,0,T_UNARY_OP_38);
 
   static const char _RREF_s[]="RREF";
-  static define_unary_function_eval (__RREF,&giac::_rref,_RREF_s); // FIXME
+  static define_unary_function_eval (__RREF,&_rref,_RREF_s); // FIXME
   define_unary_function_ptr5( at_RREF ,alias_at_RREF,&__RREF,0,T_UNARY_OP_38);
 
   gen _XPON(const gen & g0,GIAC_CONTEXT){
@@ -2443,7 +2443,7 @@ namespace giac {
     return gf;
   }
   static const char _XPON_s[]="XPON";
-  static define_unary_function_eval (__XPON,&giac::_XPON,_XPON_s); // FIXME
+  static define_unary_function_eval (__XPON,&_XPON,_XPON_s); // FIXME
   define_unary_function_ptr5( at_XPON ,alias_at_XPON,&__XPON,0,T_UNARY_OP_38);
 
   gen mantissa(const gen & g0,bool includesign,int base,gen & expo,GIAC_CONTEXT){
@@ -2476,7 +2476,7 @@ namespace giac {
     return mantissa(g0,true,contextptr);
   }
   static const char _MANT_s[]="MANT";
-  static define_unary_function_eval (__MANT,&giac::_MANT,_MANT_s); 
+  static define_unary_function_eval (__MANT,&_MANT,_MANT_s); 
   define_unary_function_ptr5( at_MANT ,alias_at_MANT,&__MANT,0,T_UNARY_OP_38);
 
   gen _mantissa(const gen & g0,GIAC_CONTEXT){
@@ -2488,7 +2488,7 @@ namespace giac {
     return mantissa(g0,false,contextptr);
   }
   static const char _mantissa_s[]="mantissa";
-  static define_unary_function_eval (__mantissa,&giac::_mantissa,_mantissa_s); 
+  static define_unary_function_eval (__mantissa,&_mantissa,_mantissa_s); 
   define_unary_function_ptr5( at_mantissa ,alias_at_mantissa,&__mantissa,0,T_UNARY_OP);
 
   gen _frexp(const gen & g0,GIAC_CONTEXT){
@@ -2502,7 +2502,7 @@ namespace giac {
     return makesequence(m/2,expo+1);
   }
   static const char _frexp_s[]="frexp";
-  static define_unary_function_eval (__frexp,&giac::_frexp,_frexp_s); 
+  static define_unary_function_eval (__frexp,&_frexp,_frexp_s); 
   define_unary_function_ptr5( at_frexp ,alias_at_frexp,&__frexp,0,T_UNARY_OP);
 
   gen _ldexp(const gen & g0,GIAC_CONTEXT){
@@ -2512,7 +2512,7 @@ namespace giac {
     return g0._VECTptr->front()*pow(2,g0._VECTptr->back(),contextptr);
   }
   static const char _ldexp_s[]="ldexp";
-  static define_unary_function_eval (__ldexp,&giac::_ldexp,_ldexp_s); 
+  static define_unary_function_eval (__ldexp,&_ldexp,_ldexp_s); 
   define_unary_function_ptr5( at_ldexp ,alias_at_ldexp,&__ldexp,0,T_UNARY_OP);
 
   gen _HMSX(const gen & g0,GIAC_CONTEXT){
@@ -2532,7 +2532,7 @@ namespace giac {
     return h+m/giac_float(60.)+s/giac_float(3600.);
   }
   static const char _HMSX_s[]="HMSX";
-  static define_unary_function_eval (__HMSX,&giac::_HMSX,_HMSX_s); 
+  static define_unary_function_eval (__HMSX,&_HMSX,_HMSX_s); 
   define_unary_function_ptr5( at_HMSX ,alias_at_HMSX,&__HMSX,0,T_UNARY_OP_38);
 
   gen _XHMS(const gen & g0,GIAC_CONTEXT){
@@ -2552,7 +2552,7 @@ namespace giac {
     return h+m/giac_float(100.)+s/giac_float(10000.);
   }
   static const char _XHMS_s[]="XHMS";
-  static define_unary_function_eval (__XHMS,&giac::_XHMS,_XHMS_s); 
+  static define_unary_function_eval (__XHMS,&_XHMS,_XHMS_s); 
   define_unary_function_ptr5( at_XHMS ,alias_at_XHMS,&__XHMS,0,T_UNARY_OP_38);
 
   gen _DEGXRAD(const gen & g,GIAC_CONTEXT){
@@ -2562,7 +2562,7 @@ namespace giac {
     return deg2rad_d*g;
   }
   static const char _DEGXRAD_s[]="DEGXRAD";
-  static define_unary_function_eval (__DEGXRAD,&giac::_DEGXRAD,_DEGXRAD_s); 
+  static define_unary_function_eval (__DEGXRAD,&_DEGXRAD,_DEGXRAD_s); 
   define_unary_function_ptr5( at_DEGXRAD ,alias_at_DEGXRAD,&__DEGXRAD,0,T_UNARY_OP_38);
 
   gen _RADXDEG(const gen & g,GIAC_CONTEXT){
@@ -2572,7 +2572,7 @@ namespace giac {
     return rad2deg_d*g;
   }
   static const char _RADXDEG_s[]="RADXDEG";
-  static define_unary_function_eval (__RADXDEG,&giac::_RADXDEG,_RADXDEG_s); 
+  static define_unary_function_eval (__RADXDEG,&_RADXDEG,_RADXDEG_s); 
   define_unary_function_ptr5( at_RADXDEG ,alias_at_RADXDEG,&__RADXDEG,0,T_UNARY_OP_38);
 
   gen _PERCENT(const gen & g,GIAC_CONTEXT){
@@ -2582,7 +2582,7 @@ namespace giac {
     return g._VECTptr->front()*g._VECTptr->back()/giac_float(100.);
   }
   static const char _PERCENT_s[]="%"; // FIXE
-  static define_unary_function_eval (__PERCENT,&giac::_PERCENT,_PERCENT_s); 
+  static define_unary_function_eval (__PERCENT,&_PERCENT,_PERCENT_s); 
   define_unary_function_ptr5( at_PERCENT ,alias_at_PERCENT,&__PERCENT,0,T_UNARY_OP_38);
 
   gen _PERCENTCHANGE(const gen & g,GIAC_CONTEXT){
@@ -2592,7 +2592,7 @@ namespace giac {
     return giac_float(100.)*(g._VECTptr->back()-g._VECTptr->front())/g._VECTptr->front();
   }
   static const char _PERCENTCHANGE_s[]="%CHANGE"; 
-  static define_unary_function_eval (__PERCENTCHANGE,&giac::_PERCENTCHANGE,_PERCENTCHANGE_s); 
+  static define_unary_function_eval (__PERCENTCHANGE,&_PERCENTCHANGE,_PERCENTCHANGE_s); 
   define_unary_function_ptr5( at_PERCENTCHANGE ,alias_at_PERCENTCHANGE,&__PERCENTCHANGE,0,T_UNARY_OP_38);
 
   gen _PERCENTTOTAL(const gen & g,GIAC_CONTEXT){
@@ -2602,7 +2602,7 @@ namespace giac {
     return giac_float(100.)*g._VECTptr->back()/g._VECTptr->front();
   }
   static const char _PERCENTTOTAL_s[]="%TOTAL";
-  static define_unary_function_eval (__PERCENTTOTAL,&giac::_PERCENTTOTAL,_PERCENTTOTAL_s); 
+  static define_unary_function_eval (__PERCENTTOTAL,&_PERCENTTOTAL,_PERCENTTOTAL_s); 
   define_unary_function_ptr5( at_PERCENTTOTAL ,alias_at_PERCENTTOTAL,&__PERCENTTOTAL,0,T_UNARY_OP_38);
 
   gen _DISP(const gen & g,GIAC_CONTEXT){
@@ -2615,11 +2615,11 @@ namespace giac {
     return _legende(gen(makevecteur(makevecteur(0,a*gen(12)),b),_SEQ__VECT),contextptr);
   }
   static const char _DISP_s []="DISP";
-  static define_unary_function_eval_quoted (__DISP,&giac::_DISP,_DISP_s);
+  static define_unary_function_eval_quoted (__DISP,&_DISP,_DISP_s);
   define_unary_function_ptr5( at_DISP ,alias_at_DISP,&__DISP,0,T_UNARY_OP_38);
 
   static const char _WAIT_s []="WAIT";
-  static define_unary_function_eval (__WAIT,&giac::_Pause,_WAIT_s);
+  static define_unary_function_eval (__WAIT,&_Pause,_WAIT_s);
   define_unary_function_ptr5( at_WAIT ,alias_at_WAIT,&__WAIT,0,T_UNARY_OP_38);
 
 #if 0 // def GIAC_HAS_STO_38
@@ -2669,7 +2669,7 @@ namespace giac {
 #endif
   }
   static const char _INPUT_s []="INPUT";
-  static define_unary_function_eval_quoted (__INPUT,giac::_INPUT,_INPUT_s);
+  static define_unary_function_eval_quoted (__INPUT,_INPUT,_INPUT_s);
   define_unary_function_ptr5( at_INPUT ,alias_at_INPUT,&__INPUT,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
 #if 0 // def GIAC_HAS_STO_38
@@ -2686,7 +2686,7 @@ namespace giac {
   }
 #endif
   static const char _MSGBOX_s []="MSGBOX";
-  static define_unary_function_eval (__MSGBOX,giac::_MSGBOX,_MSGBOX_s);
+  static define_unary_function_eval (__MSGBOX,_MSGBOX,_MSGBOX_s);
   define_unary_function_ptr5( at_MSGBOX ,alias_at_MSGBOX,&__MSGBOX,0,T_UNARY_OP_38);
 
   static const char _GETKEY_s[]="GETKEY";
@@ -3328,7 +3328,7 @@ namespace giac {
     qualify(parsed,unexported,prog,contextptr);
     qualify(parsed,unexported_declared_global_vars,prog,contextptr);
     qualify(parsed,exported_variable_names,prog,contextptr);
-#if !defined RTOS_THREADX && !defined NSPIRE
+#if !defined RTOS_THREADX && !defined NSPIRE && !defined FXCG
     ofstream of("c:\\log"); of << "=" << assignation_by_equal << endl << "undecl vars:" << undeclared_global_vars << endl << "decl vars:" << declared_global_vars << endl << "decl func.:" << declared_functions << endl << "exported func:" << exported_function_names << endl << "exported vars:"<<exported_variable_names << endl << "unknown exported:"<<unknown_exported << endl << "unexported:" << unexported << endl << "unexported declared global vars:"<<unexported_declared_global_vars << endl << "views:" << views << endl << "errors:" << errors << endl << "prog:"<<prog << endl << "parsed:" << parsed; of.close();   
 #endif
     return int(errors.size());
@@ -3939,7 +3939,7 @@ namespace giac {
     for (int i=1; i<=1; i++) { if (v[i].type!=_STRNG) v[i]= eval(v[i], 1, contextptr); if (v[i].type!=_STRNG) v[i]=  string2gen(v[i].print(contextptr)); }
     if (v.front().type!=_IDNT || v[1].type!=_STRNG)
       return gentypeerr(contextptr);
-#ifdef NSPIRE
+#if defined NSPIRE || defined FXCG
     return undef;
 #else
 #ifndef GIAC_HAS_STO_38
@@ -3956,7 +3956,7 @@ namespace giac {
     return undef;
   }
   static const char _CHOOSE_s []="CHOOSE";
-  static define_unary_function_eval_quoted (__CHOOSE,&giac::_CHOOSE,_CHOOSE_s);
+  static define_unary_function_eval_quoted (__CHOOSE,&_CHOOSE,_CHOOSE_s);
   define_unary_function_ptr5( at_CHOOSE ,alias_at_CHOOSE,&__CHOOSE,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
 
@@ -4246,7 +4246,7 @@ namespace giac {
     return _droite(gen(makevecteur(v[0]+cst_i*v[1],v[2]+cst_i*v[3]),_SEQ__VECT),contextptr);
   }
   static const char _LINE_s []="LINE";
-  static define_unary_function_eval (__LINE,&giac::_LINE,_LINE_s);
+  static define_unary_function_eval (__LINE,&_LINE,_LINE_s);
   define_unary_function_ptr5( at_LINE ,alias_at_LINE,&__LINE,0,T_UNARY_OP_38);
 
   gen _RECT(const gen & args,GIAC_CONTEXT){
@@ -4263,46 +4263,46 @@ namespace giac {
     return res;
   }
   static const char _RECT_s []="RECT";
-  static define_unary_function_eval (__RECT,&giac::_RECT,_RECT_s);
+  static define_unary_function_eval (__RECT,&_RECT,_RECT_s);
   define_unary_function_ptr5( at_RECT ,alias_at_RECT,&__RECT,0,T_UNARY_OP_38);
 
 #endif
   static const char _PIXON_s []="PIXON";
-  static define_unary_function_eval (__PIXON,&giac::_PIXON,_PIXON_s);
+  static define_unary_function_eval (__PIXON,&_PIXON,_PIXON_s);
   define_unary_function_ptr5( at_PIXON ,alias_at_PIXON,&__PIXON,0,T_UNARY_OP_38);
   static const char _PIXOFF_s []="PIXOFF";
-  static define_unary_function_eval (__PIXOFF,&giac::_PIXOFF,_PIXOFF_s);
+  static define_unary_function_eval (__PIXOFF,&_PIXOFF,_PIXOFF_s);
   define_unary_function_ptr5( at_PIXOFF ,alias_at_PIXOFF,&__PIXOFF,0,T_UNARY_OP_38);
   static const char _ARC_s []="ARC";
-  static define_unary_function_eval (__ARC,&giac::_ARC,_ARC_s);
+  static define_unary_function_eval (__ARC,&_ARC,_ARC_s);
   define_unary_function_ptr5( at_ARC ,alias_at_ARC,&__ARC,0,T_UNARY_OP_38);
 
   static const char _PRINT_s []="PRINT";
-  static define_unary_function_eval_quoted (__PRINT,&giac::_print,_PRINT_s);
+  static define_unary_function_eval_quoted (__PRINT,&_print,_PRINT_s);
   define_unary_function_ptr5( at_PRINT ,alias_at_PRINT,&__PRINT,0,T_UNARY_OP_38);
 
   static const char _SEC_s []="SEC";
-  static define_unary_function_eval (__SEC,&giac::_sec,_SEC_s);
+  static define_unary_function_eval (__SEC,&_sec,_SEC_s);
   define_unary_function_ptr5( at_SEC ,alias_at_SEC,&__SEC,0,T_UNARY_OP_38);
 
   static const char _CSC_s []="CSC";
-  static define_unary_function_eval (__CSC,&giac::_csc,_CSC_s);
+  static define_unary_function_eval (__CSC,&_csc,_CSC_s);
   define_unary_function_ptr5( at_CSC ,alias_at_CSC,&__CSC,0,T_UNARY_OP_38);
 
   static const char _COT_s []="COT";
-  static define_unary_function_eval (__COT,&giac::_cot,_COT_s);
+  static define_unary_function_eval (__COT,&_cot,_COT_s);
   define_unary_function_ptr5( at_COT ,alias_at_COT,&__COT,0,T_UNARY_OP_38);
 
   static const char _ASEC_s []="ASEC";
-  static define_unary_function_eval (__ASEC,&giac::_asec,_ASEC_s);
+  static define_unary_function_eval (__ASEC,&_asec,_ASEC_s);
   define_unary_function_ptr5( at_ASEC ,alias_at_ASEC,&__ASEC,0,T_UNARY_OP_38);
 
   static const char _ACSC_s []="ACSC";
-  static define_unary_function_eval (__ACSC,&giac::_acsc,_ACSC_s);
+  static define_unary_function_eval (__ACSC,&_acsc,_ACSC_s);
   define_unary_function_ptr5( at_ACSC ,alias_at_ACSC,&__ACSC,0,T_UNARY_OP_38);
 
   static const char _ACOT_s []="ACOT";
-  static define_unary_function_eval (__ACOT,&giac::_acot,_ACOT_s);
+  static define_unary_function_eval (__ACOT,&_acot,_ACOT_s);
   define_unary_function_ptr5( at_ACOT ,alias_at_ACOT,&__ACOT,0,T_UNARY_OP_38);
 
   gen _Celsius2Fahrenheit(const gen & g,GIAC_CONTEXT){
@@ -4311,7 +4311,7 @@ namespace giac {
     return (g*gen(9))/5+32;
   }
   static const char _Celsius2Fahrenheit_s []="Celsius2Fahrenheit";
-  static define_unary_function_eval (__Celsius2Fahrenheit,&giac::_Celsius2Fahrenheit,_Celsius2Fahrenheit_s);
+  static define_unary_function_eval (__Celsius2Fahrenheit,&_Celsius2Fahrenheit,_Celsius2Fahrenheit_s);
   define_unary_function_ptr5( at_Celsius2Fahrenheit ,alias_at_Celsius2Fahrenheit,&__Celsius2Fahrenheit,0,T_UNARY_OP);
 
   gen _Fahrenheit2Celsius(const gen & g,GIAC_CONTEXT){
@@ -4320,7 +4320,7 @@ namespace giac {
     return (g-32)*gen(5)/9;
   }
   static const char _Fahrenheit2Celsius_s []="Fahrenheit2Celsius";
-  static define_unary_function_eval (__Fahrenheit2Celsius,&giac::_Fahrenheit2Celsius,_Fahrenheit2Celsius_s);
+  static define_unary_function_eval (__Fahrenheit2Celsius,&_Fahrenheit2Celsius,_Fahrenheit2Celsius_s);
   define_unary_function_ptr5( at_Fahrenheit2Celsius ,alias_at_Fahrenheit2Celsius,&__Fahrenheit2Celsius,0,T_UNARY_OP);
 
   // put here function names that are in lowercase in giac and should be printed uppercase
@@ -4586,7 +4586,7 @@ namespace giac {
 #else
   static const char _polar_complex_s[]="∡"; // " polar_complex ";
 #endif
-  static define_unary_function_eval4 (__polar_complex,&giac::_polar_complex,_polar_complex_s,&printsommetasoperator,&texprintsommetasoperator); 
+  static define_unary_function_eval4 (__polar_complex,&_polar_complex,_polar_complex_s,&printsommetasoperator,&texprintsommetasoperator); 
   define_unary_function_ptr5( at_polar_complex ,alias_at_polar_complex,&__polar_complex,0,T_MOD);  
 
   static const char _ggb_ang_s []="ggb_ang"; // prefixed version of polar complex
@@ -4743,7 +4743,7 @@ namespace giac {
     return eval(args,1,contextptr);
   }
   static const char _EDITMAT_s []="EDITMAT";
-  static define_unary_function_eval_quoted (__EDITMAT,&giac::_EDITMAT,_EDITMAT_s);
+  static define_unary_function_eval_quoted (__EDITMAT,&_EDITMAT,_EDITMAT_s);
   define_unary_function_ptr5( at_EDITMAT ,alias_at_EDITMAT,&__EDITMAT,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 
 #ifndef NO_NAMESPACE_GIAC

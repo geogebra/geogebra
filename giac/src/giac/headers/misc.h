@@ -175,6 +175,8 @@ namespace giac {
   extern const unary_function_ptr * const  at_ggbalt;
   extern const unary_function_ptr * const  at_preval;
   extern const unary_function_ptr * const  at_dotprod;
+  extern const unary_function_ptr * const  at_dot;
+  extern const unary_function_ptr * const  at_scatterplot;
   extern const unary_function_ptr * const  at_mean;
   extern const unary_function_ptr * const  at_median;
   extern const unary_function_ptr * const  at_stddev;

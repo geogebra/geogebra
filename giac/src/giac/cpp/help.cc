@@ -44,7 +44,7 @@ using namespace std;
 #include <sys/param.h>
 #endif
 
-#if !defined BESTA_OS && !defined NSPIRE && !defined NUMWORKS // test should always return true
+#if !defined BESTA_OS && !defined NSPIRE && !defined FXCG && !defined NUMWORKS // test should always return true
 #include <dirent.h>
 #endif
 
@@ -189,7 +189,7 @@ namespace giac {
   // Run ./icas with export GIAC_DEBUG=-2 to print static_help.h and static_help_w.h, then sort in emacs
   // cascmd_fr -> longhelp.js: 
   static bool output_static_help(vector<aide> & v,const vector<int> & langv){
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
     add_language(5,context0); // add german help de/aide_cas
     cout << "Generating xcascmds, for UI.xcascmds in xcas.js, sort and esc-x replace-string ctrl-Q ctrl-j ret ret" << endl;
     cout << "Generating static_help.h (sort it in emacs)" << endl;
@@ -455,7 +455,7 @@ namespace giac {
   // FIXME: aide_cas may end with synonyms (# cmd synonym1 ...)
   void readhelp(vector<aide> & v,const char * f_name,int & count,bool warn){
     count=0;
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
     if (access(f_name,R_OK)){
       if (warn)
 	std::cerr << "Help file " << f_name << " not found" << endl;
@@ -681,7 +681,7 @@ namespace giac {
     return result;
   }
 
-#if !defined(NSPIRE_NEWLIB) || !defined(RTOS_THREADX) && !defined(EMCC) &&!defined(NSPIRE)
+#if !defined(NSPIRE_NEWLIB) && !defined(RTOS_THREADX) && !defined(EMCC) &&!defined(NSPIRE) && !defined FXCG
   multimap<string,string> html_mtt,html_mall;
   std::vector<std::string> html_vtt,html_vall;
 
@@ -915,7 +915,7 @@ namespace giac {
     return 0;
   }
 
-#if ! (defined VISUALC || defined BESTA_OS || defined FREERTOS || defined NSPIRE || defined NSPIRE_NEWLIB)
+#if ! (defined VISUALC || defined BESTA_OS || defined FREERTOS || defined NSPIRE || defined FXCG || defined NSPIRE_NEWLIB)
 #if defined WIN32 || !defined DT_DIR
   static int dir_select (const struct dirent *d){
     string s(d->d_name);
@@ -961,7 +961,7 @@ namespace giac {
 #endif // visualc
 
   void find_all_index(const std::string & subdir,multimap<std::string,std::string> & mtt,multimap<std::string,std::string> & mall){
-#if defined GNUWINCE || defined __MINGW_H || defined __ANDROID__ || defined EMCC || defined NSPIRE_NEWLIB
+#if defined GNUWINCE || defined __MINGW_H || defined __ANDROID__ || defined EMCC || defined NSPIRE_NEWLIB || defined FXCG
     return;
 #else
     // cerr << "HTML help Scanning " << subdir << endl;

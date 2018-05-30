@@ -5784,7 +5784,7 @@ namespace giac {
     reverse(res.begin(),res.end());
     if (debug_infolevel>6)
       res.dbgprint();
-#ifndef GIAC_HAS_STO_38 // CAS38_DISABLED
+#if !defined GIAC_HAS_STO_38 && !defined FXCG // CAS38_DISABLED
     if (
 #ifdef GIAC_64VARS
 	1 || 
@@ -6986,7 +6986,7 @@ namespace giac {
       return gensizeerr("Bad second argument, expecting a Groebner basis");
     change_monomial_order(eqp,order);
     reverse(eqp.begin(),eqp.end());
-#ifndef CAS38_DISABLED
+#if !defined CAS38_DISABLED && !defined FXCG
     vecteur red_in_(gen2vecteur(v[0])),deno(red_in_.size());
     for (int i=0;i<int(red_in_.size());++i){
       gen eq(e2r(red_in_[i],l,contextptr));

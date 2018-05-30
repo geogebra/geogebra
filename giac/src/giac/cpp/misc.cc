@@ -105,7 +105,8 @@ namespace giac {
     if (coeff.type==_MOD){
     }
     if (coeff.type!=_USER)
-      return j; 
+      return j;
+#ifndef NO_RTTI
     if (galois_field * gf=dynamic_cast<galois_field *>(coeff._USERptr)){
       if (j<gf->p.val)
 	return j;
@@ -113,6 +114,7 @@ namespace giac {
       g.a=_revlist(_convert(makesequence(j,change_subtype(_BASE,_INT_MAPLECONVERSION),gf->p),context0),context0);
       return g;
     }
+#endif
     return j;
   }
   // characteristic must be large enough to interpolate the resultant
@@ -130,6 +132,7 @@ namespace giac {
   bool interpolable(int d1,gen & coefft,bool extend,GIAC_CONTEXT){
     int tt=coefft.type;
     if (tt==_USER){
+#ifndef NO_RTTI
       if (galois_field * gf=dynamic_cast<galois_field *>(coefft._USERptr)){
 	gen m=gf->p;
 	if (!is_integer(m))
@@ -137,6 +140,7 @@ namespace giac {
 	return is_greater(pow(m,gf->P._VECTptr->size()-1,contextptr),d1+20,contextptr);
       }
       return true;
+#endif
     }
     if (tt==_MOD){
       gen m=*(coefft._MODptr+1);
@@ -148,8 +152,12 @@ namespace giac {
 	return false;
       // build a suitable field extension...
       int n=int(std::ceil(std::log(d1+20.0)/std::log(evalf_double(m,1,contextptr)._DOUBLE_val)));
+#ifdef NO_RTTI
+      return false;
+#else
       coefft=_galois_field(makesequence(m,n),contextptr);
       return true;
+#endif
     }
     return true;
   }
@@ -535,7 +543,7 @@ namespace giac {
   static define_unary_function_eval (__suppress,&_suppress,_suppress_s);
   define_unary_function_ptr5( at_suppress ,alias_at_suppress,&__suppress,0,true);
 
-#ifdef GIAC_HAS_STO_38
+#if defined GIAC_HAS_STO_38 || defined FXCG || defined NSPIRE || defined NSPIRE_NEWLIB
   const int pixel_lines=1; // 320; // calculator screen 307K
   const int pixel_cols=1; // 240;
 #else
@@ -2485,8 +2493,10 @@ namespace giac {
   gen _coeff(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type==_USER){
+#ifndef NO_RTTI
       if (galois_field * gptr=dynamic_cast<galois_field *>(g._USERptr))
 	return gptr->a;
+#endif
     }
     if (g.type==_VECT && !g._VECTptr->empty() && 
 	(g._VECTptr->back().type==_INT_ || g._VECTptr->back().type==_DOUBLE_)){
@@ -2497,6 +2507,7 @@ namespace giac {
       int n=absint(v.back().val);
       v.pop_back();
       if (v.size()==1 && v.front().type==_USER){
+#ifndef NO_RTTI
 	if (galois_field * gptr=dynamic_cast<galois_field *>(v.front()._USERptr)){
 	  gen ga=gptr->a;
 	  if (ga.type==_VECT){
@@ -2509,6 +2520,7 @@ namespace giac {
 	  }
 	  return gendimerr(contextptr);
 	}
+#endif
       }
       return primpartcontent(gen(v,g.subtype),n,contextptr);
     }

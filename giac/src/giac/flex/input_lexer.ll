@@ -151,8 +151,8 @@
       static ustl::map<std::string,std::string> * ans = new ustl::map<std::string,std::string>;
       return * ans;
     }
-    ustl::multimap<std::string,giac::localized_string> & back_lexer_localization_map(){
-      static ustl::multimap<std::string,giac::localized_string> * ans= new ustl::multimap<std::string,giac::localized_string>;
+    ustl::multimap<std::string,localized_string> & back_lexer_localization_map(){
+      static ustl::multimap<std::string,localized_string> * ans= new ustl::multimap<std::string,localized_string>;
       return * ans;
     }
 
@@ -180,8 +180,8 @@
       static std::map<std::string,std::string> * ans = new std::map<std::string,std::string>;
       return * ans;
     }
-    std::multimap<std::string,giac::localized_string> & back_lexer_localization_map(){
-      static std::multimap<std::string,giac::localized_string> * ans= new std::multimap<std::string,giac::localized_string>;
+    std::multimap<std::string,localized_string> & back_lexer_localization_map(){
+      static std::multimap<std::string,localized_string> * ans= new std::multimap<std::string,localized_string>;
       return * ans;
     }
     // lexer_localization_vector() is the list of languages currently translated
@@ -276,8 +276,8 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 <str>\n        increment_comment_s('\n',yyextra); increment_lexer_line_number_setcol(yyscanner,yyextra);
 <str>\\[0-7]{1,3} {
                    /* octal escape sequence */
-                   int result;
-                   (void) sscanf( yytext + 1, "%o", &result );
+                   int result=0;
+                   (void) sscanf( yytext + 1, "%o", &result ); // not supported on FXCG
                    increment_comment_s(char(result & 0xff),yyextra);
                    }
 <str>\\[0-9]+      {
@@ -834,7 +834,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
     double d=evalf_double(*yylval,1,context0)._DOUBLE_val;
     if (d<0 && interv>1)
       --interv;
-    double tmp=std::floor(std::log(std::abs(d))/std::log(10.0));
+    double tmp=std::floor(std::log(absdouble(d))/std::log(10.0));
     tmp=(std::pow(10.,1+tmp-interv));
     *yylval=eval(gen(makevecteur(d-tmp,d+tmp),_INTERVAL__VECT),1,context0);
   }
@@ -896,7 +896,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 #endif
       if (abs_calc_mode(contextptr)==38 && s_orig==string(s_orig.size(),' '))
 	giac_yyerror(scanner,"Void string");
-#if !defined RTOS_THREADX && !defined NSPIRE
+#if !defined RTOS_THREADX && !defined NSPIRE && !defined FXCG
       if (!builtin_lexer_functions_sorted){
 #ifndef STATIC_BUILTIN_LEXER_FUNCTIONS
 	sort(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),tri);
@@ -966,7 +966,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
       }
 #endif // RTOS_THREADX
       string s(s_orig),lexer_string;
-#ifdef NSPIRE
+#if defined NSPIRE || defined FXCG
       for (unsigned i=0;i<s.size()-1;++i){
 	if (s[i]==']' && s[i+1]=='['){
 	  string tmp=s.substr(0,i+1)+string(",");
@@ -1233,7 +1233,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
         if (cmp>0) i= mid; else j=mid;
       }
     found:
-#ifdef NSPIRE
+#if defined NSPIRE 
       g= gen(int((*builtin_lexer_functions_())[i]+builtin_lexer_functions[i]._FUNC_));
 #else
       g= gen(int(builtin_lexer_functions_[i]+builtin_lexer_functions[i]._FUNC_));

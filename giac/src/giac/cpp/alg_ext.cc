@@ -147,7 +147,7 @@ namespace giac {
     return galoisconj(*g._VECTptr,contextptr);
   }
   static const char _galoisconj_s []="galoisconj";
-  static define_unary_function_eval (__galoisconj,&giac::_galoisconj,_galoisconj_s);
+  static define_unary_function_eval (__galoisconj,&_galoisconj,_galoisconj_s);
   define_unary_function_ptr5( at_galoisconj ,alias_at_galoisconj,&__galoisconj,0,true);
 
   // if true, g is a rootof such that conj(rootof(w))=g
@@ -1192,7 +1192,7 @@ namespace giac {
   partial_derivative_multiargs D_rootof(&d_rootof);
   */
   static const char _rootof_s []="rootof";
-  static define_unary_function_eval2 (__rootof,&giac::rootof,_rootof_s,&printasrootof);
+  static define_unary_function_eval2 (__rootof,&rootof,_rootof_s,&printasrootof);
   define_unary_function_ptr5( at_rootof ,alias_at_rootof,&__rootof,0,true);
 
   gen max_algext(const gen & args,GIAC_CONTEXT){
@@ -1202,7 +1202,7 @@ namespace giac {
     return MAX_ALG_EXT_ORDER_SIZE=MAX_COMMON_ALG_EXT_ORDER_SIZE=g.val;
   }
   static const char _max_algext_s []="max_algext";
-  static define_unary_function_eval (__max_algext,&giac::max_algext,_max_algext_s);
+  static define_unary_function_eval (__max_algext,&max_algext,_max_algext_s);
   define_unary_function_ptr5( at_max_algext ,alias_at_max_algext,&__max_algext,0,true);
 
   static vecteur sturm(const gen & g){
@@ -1383,7 +1383,7 @@ namespace giac {
     return sturmab(P,x,a,b,contextptr);
   }
   static const char _sturmab_s []="sturmab";
-  static define_unary_function_eval (__sturmab,&giac::_sturmab,_sturmab_s);
+  static define_unary_function_eval (__sturmab,&_sturmab,_sturmab_s);
   define_unary_function_ptr5( at_sturmab ,alias_at_sturmab,&__sturmab,0,true);
 
   gen _sturm(const gen & g,GIAC_CONTEXT){
@@ -1415,7 +1415,7 @@ namespace giac {
     return gendimerr(contextptr);
   }
   static const char _sturm_s []="sturm";
-  static define_unary_function_eval (__sturm,&giac::_sturm,_sturm_s);
+  static define_unary_function_eval (__sturm,&_sturm,_sturm_s);
   define_unary_function_ptr5( at_sturm ,alias_at_sturm,&__sturm,0,true);
 
   gen _sturmseq(const gen & g,GIAC_CONTEXT){
@@ -1424,7 +1424,7 @@ namespace giac {
     return _sturm(g,contextptr);
   }
   static const char _sturmseq_s []="sturmseq";
-  static define_unary_function_eval (__sturmseq,&giac::_sturmseq,_sturmseq_s);
+  static define_unary_function_eval (__sturmseq,&_sturmseq,_sturmseq_s);
   define_unary_function_ptr5( at_sturmseq ,alias_at_sturmseq,&__sturmseq,0,true);
 
   void recompute_minmax(const vecteur & w,const vecteur & range,const gen & expr,const gen & var,gen & resmin,gen & resmax,vecteur & xmin,vecteur & xmax,int direction,GIAC_CONTEXT){

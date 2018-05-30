@@ -23,6 +23,9 @@ using namespace std;
 #include <pwd.h>
 #endif
 #endif
+#ifdef FXCG
+#include <fxcg/rtc.h>
+#endif
 #include <stdexcept>
 #include <cmath>
 #include <cstdlib>
@@ -76,7 +79,7 @@ using namespace std;
 u32 PrimeGetNow();
 extern "C" uint32_t mainThreadStack[];
 #else
-#ifndef BESTA_OS
+#if !defined BESTA_OS && !defined FXCG
 #include <time.h>
 #endif
 #endif
@@ -616,7 +619,7 @@ namespace giac {
       res +=gettext(" declared as global variable(s). If symbolic variables are required, declare them as local and run purge\n");
     }
     if (res.empty())
-      return giac::first_error_line(contextptr)?gettext("// Error(s)\n"):gettext("// Success\n");
+      return first_error_line(contextptr)?gettext("// Error(s)\n"):gettext("// Success\n");
     else
       return res;
   }
@@ -1138,9 +1141,9 @@ namespace giac {
 	continue;
       }
       res += "char";
-      res += ('0'+(ch/100));
-      res += ('0'+((ch%100)/10));
-      res += ('0'+(ch%10));
+      res += char('0'+(ch/100));
+      res += char('0'+((ch%100)/10));
+      res += char('0'+(ch%10));
     }
     return res;
   }
@@ -1719,13 +1722,13 @@ namespace giac {
     bool python=python_compat(contextptr) && !debug_ptr(contextptr)->debug_mode;
     if (python){
       int & ind=debug_ptr(contextptr)->indent_spaces;
-      res = '\n'+string(ind,' ')+"if "+it->print(contextptr)+" :\n";
+      res = '\n'+string(ind,' ')+string("if ")+it->print(contextptr)+" :\n";
       ind += 4;
       ++it;
       res += string(ind,' ')+it->print(contextptr);
       ++it;
       if (it->type!=_INT_)
-	res += '\n'+string(ind-4,' ')+"else :\n"+string(ind,' ')+it->print(contextptr);
+	res += '\n'+string(ind-4,' ')+string("else :\n")+string(ind,' ')+it->print(contextptr);
       ind -= 4;
       return res;
     }
@@ -2039,7 +2042,7 @@ namespace giac {
 	  if ((it+1)->type==_SYMB && ((it+1)->_SYMBptr->sommet==at_inferieur_egal || (it+1)->_SYMBptr->sommet==at_inferieur_strict) && (it+1)->_SYMBptr->feuille[0]==index){
 	    int large=(it+1)->_SYMBptr->sommet==at_inferieur_egal?1:0;
 	    gen stop=(it+1)->_SYMBptr->feuille[1];
-	    res +=  '\n'+string(ind,' ')+"for "+index.print(contextptr)+" in range(";
+	    res +=  '\n'+string(ind,' ')+string("for ")+index.print(contextptr)+" in range(";
 	    if (start!=0)
 	      res +=start.print(contextptr)+",";
 	    res +=(stop+large).print(contextptr)+"):"+'\n';
@@ -2051,7 +2054,7 @@ namespace giac {
 	}
       }
       if (it->type!=_INT_) res += '\n'+string(ind,' ')+it->print(contextptr)+'\n';
-      res += '\n'+string(ind,' ')+"while " + (it+1)->print(contextptr)+" :";
+      res += '\n'+string(ind,' ')+string("while ") + (it+1)->print(contextptr)+" :";
       if (!(it+3)->is_symb_of_sommet(at_bloc))
 	res += '\n';
       ind += 4;
@@ -3917,6 +3920,7 @@ namespace giac {
   gen _rand(const gen & args,GIAC_CONTEXT){
     int argsval;
     if (args.type==_INT_ && (argsval=args.val)){
+#ifndef FXCG
       global * ptr; int c;
       if (argsval>0 && contextptr && (ptr=contextptr->globalptr) && ptr->_xcas_mode_!=3 && (c=ptr->_calc_mode_)!=-38 && c!=38) {
 	tinymt32_t * rs=&ptr->_rand_seed;
@@ -3928,6 +3932,7 @@ namespace giac {
 	}
 	return int(argsval*(r*inv_rand_max2_p1));
       }
+#endif
       if (argsval<0)
 	return -(xcas_mode(contextptr)==3)+int(argsval*(giac_rand(contextptr)/(rand_max2+1.0)));
       else
@@ -4121,8 +4126,12 @@ namespace giac {
 #if defined RTOS_THREADX || defined BESTA_OS
       int t=PrimeGetNow();
 #else
+#ifdef FXCG
+      int t=RTC_GetTicks();
+#else
       int t=int(time(NULL));
-#endif
+#endif // FXCG
+#endif // RTOS/BESTA
       t = (1000000000*ulonglong(t))% 2147483647;
 #ifdef VISUALC
       // srand48(t);
@@ -5484,11 +5493,7 @@ namespace giac {
       thread_eval_status(2,contextptr);
       for (;;){
 	// Wait until status is put back by main to level 1
-#ifdef NSPIRE
-	sleep(10);
-#else
-	usleep(10000);
-#endif
+	wait_1ms(10);
 	if (thread_eval_status(contextptr)==1){
 	  // the wait function of the main thread should put in debug_info_ptr
 	  // the next instruction, here we check for sst/sst_in/cont/kill
@@ -5687,7 +5692,7 @@ namespace giac {
       }
     }
 #ifndef RTOS_THREADX
-#if !defined BESTA_OS && !defined NSPIRE
+#if !defined BESTA_OS && !defined NSPIRE && !defined FXCG
 #ifdef HAVE_LIBPTHREAD
     pthread_mutex_lock(&context_list_mutex);
 #endif
@@ -5772,7 +5777,7 @@ namespace giac {
   }
 
   static bool maple2mupad(const gen & args,int in_maple_mode,int out_maple_mode,GIAC_CONTEXT){
-#ifdef NSPIRE
+#if defined NSPIRE || defined FXCG
     return false;
 #else
     if (is_undef(check_secure()))
@@ -6483,7 +6488,7 @@ namespace giac {
     return args;
   }
   static const char _cas_setup_s []="cas_setup";
-  static define_unary_function_eval (__cas_setup,&giac::_cas_setup,_cas_setup_s);
+  static define_unary_function_eval (__cas_setup,&_cas_setup,_cas_setup_s);
   define_unary_function_ptr5( at_cas_setup ,alias_at_cas_setup,&__cas_setup,0,true);
 
   void parent_cas_setup(GIAC_CONTEXT){
@@ -6511,7 +6516,7 @@ namespace giac {
     return decimal_digits(contextptr);
   }
   static const char _Digits_s []="Digits";
-  static define_unary_function_eval2 (__Digits,&giac::_Digits,_Digits_s,&printasDigits);
+  static define_unary_function_eval2 (__Digits,&_Digits,_Digits_s,&printasDigits);
   define_unary_function_ptr( at_Digits ,alias_at_Digits ,&__Digits);
 
   gen _xport(const gen & args,GIAC_CONTEXT){
@@ -6643,7 +6648,7 @@ namespace giac {
     if (args.type==_VECT)
       apply(args;
     if (args.type==_VECT)
-      apply(args,giac::rmmod);
+      apply(args,rmmod);
     rmmod(args);    
   }
   */
@@ -7490,7 +7495,8 @@ namespace giac {
   static define_unary_function_eval4 (__deuxpoints,&_deuxpoints,_deuxpoints_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr( at_deuxpoints ,alias_at_deuxpoints ,&__deuxpoints);
 
-
+#ifndef FXCG
+  
 #ifdef NSPIRE
   template<class T> void in_mws_translate(ios_base<T> &  inf,ios_base<T> &  of)
 #else
@@ -7609,7 +7615,7 @@ namespace giac {
       if (lu=="\\STOP92\\\r"){
         break;
       }
-      lu = giac::tiasc_translate(lu);
+      lu = tiasc_translate(lu);
       if (lu.size())
         of << ":" << lu << endl;
     }
@@ -7769,6 +7775,8 @@ namespace giac {
   static const char _save_history_s []="save_history";
   static define_unary_function_eval (__save_history,&_save_history,_save_history_s);
   define_unary_function_ptr5( at_save_history ,alias_at_save_history,&__save_history,0,true);
+
+#endif // FXCG
   /*
   gen _matrix(const gen & args){
   if ( args){
@@ -8588,7 +8596,7 @@ namespace giac {
 #if defined RTOS_THREADX || defined NSPIRE
   static define_unary_function_eval(__inputform,&_inputform,_inputform_s);
 #else
-  unary_function_eval __inputform(1,&giac::_inputform,_inputform_s,&printasinputform);
+  unary_function_eval __inputform(1,&_inputform,_inputform_s,&printasinputform);
 #endif
   define_unary_function_ptr5( at_inputform ,alias_at_inputform,&__inputform,_QUOTE_ARGUMENTS,true);
 
@@ -8597,7 +8605,7 @@ namespace giac {
     return __inputform.op(symbolic(at_choosebox,args),contextptr);
   }
   static const char _choosebox_s []="choosebox";
-  static define_unary_function_eval_quoted (__choosebox,&giac::_choosebox,_choosebox_s);
+  static define_unary_function_eval_quoted (__choosebox,&_choosebox,_choosebox_s);
   define_unary_function_ptr5( at_choosebox ,alias_at_choosebox,&__choosebox,_QUOTE_ARGUMENTS,true);
 
   gen _output(const gen & args,GIAC_CONTEXT){
@@ -8605,7 +8613,7 @@ namespace giac {
     return __inputform.op(symbolic(at_output,args),contextptr);
   }
   static const char _output_s []="output";
-  static define_unary_function_eval_quoted (__output,&giac::_output,_output_s);
+  static define_unary_function_eval_quoted (__output,&_output,_output_s);
   define_unary_function_ptr5( at_output ,alias_at_output,&__output,_QUOTE_ARGUMENTS,true);
 
   gen _input(const gen & args,bool textinput,GIAC_CONTEXT){
@@ -8661,7 +8669,7 @@ namespace giac {
     return __inputform.op(symbolic(at_Text,args),contextptr);
   }
   static const char _Text_s []="Text";
-  static define_unary_function_eval2_quoted (__Text,&giac::_Text,_Text_s,&printastifunction);
+  static define_unary_function_eval2_quoted (__Text,&_Text,_Text_s,&printastifunction);
   define_unary_function_ptr5( at_Text ,alias_at_Text,&__Text,_QUOTE_ARGUMENTS,0);
 
   gen _Title(const gen & args,GIAC_CONTEXT){
@@ -8669,7 +8677,7 @@ namespace giac {
     return __inputform.op(symbolic(at_Title,args),contextptr);
   }
   static const char _Title_s []="Title";
-  static define_unary_function_eval2_quoted (__Title,&giac::_Title,_Title_s,&printastifunction);
+  static define_unary_function_eval2_quoted (__Title,&_Title,_Title_s,&printastifunction);
   define_unary_function_ptr5( at_Title ,alias_at_Title,&__Title,_QUOTE_ARGUMENTS,0);
 
   gen _Request(const gen & args,GIAC_CONTEXT){
@@ -8677,7 +8685,7 @@ namespace giac {
     return __inputform.op(symbolic(at_Request,args),contextptr);
   }
   static const char _Request_s []="Request";
-  static define_unary_function_eval2_quoted (__Request,&giac::_Request,_Request_s,&printastifunction);
+  static define_unary_function_eval2_quoted (__Request,&_Request,_Request_s,&printastifunction);
   define_unary_function_ptr5( at_Request ,alias_at_Request,&__Request,_QUOTE_ARGUMENTS,0);
 
   gen _DropDown(const gen & args,GIAC_CONTEXT){
@@ -8685,7 +8693,7 @@ namespace giac {
     return __inputform.op(symbolic(at_DropDown,args),contextptr);
   }
   static const char _DropDown_s []="DropDown";
-  static define_unary_function_eval2_quoted (__DropDown,&giac::_DropDown,_DropDown_s,&printastifunction);
+  static define_unary_function_eval2_quoted (__DropDown,&_DropDown,_DropDown_s,&printastifunction);
   define_unary_function_ptr5( at_DropDown ,alias_at_DropDown,&__DropDown,_QUOTE_ARGUMENTS,0);
 
   gen _Popup(const gen & args,GIAC_CONTEXT){
@@ -8693,7 +8701,7 @@ namespace giac {
     return __inputform.op(symbolic(at_Popup,args),contextptr);
   }
   static const char _Popup_s []="Popup";
-  static define_unary_function_eval2_quoted (__Popup,&giac::_Popup,_Popup_s,&printastifunction);
+  static define_unary_function_eval2_quoted (__Popup,&_Popup,_Popup_s,&printastifunction);
   define_unary_function_ptr5( at_Popup ,alias_at_Popup,&__Popup,_QUOTE_ARGUMENTS,0);
 
   gen _Dialog(const gen & args,GIAC_CONTEXT){
@@ -8701,7 +8709,7 @@ namespace giac {
     return __inputform.op(args,contextptr);
   }
   static const char _Dialog_s []="Dialog";
-  static define_unary_function_eval2_index (89,__Dialog,&giac::_Dialog,_Dialog_s,&printasdialog);
+  static define_unary_function_eval2_index (89,__Dialog,&_Dialog,_Dialog_s,&printasdialog);
   define_unary_function_ptr5( at_Dialog ,alias_at_Dialog,&__Dialog,_QUOTE_ARGUMENTS,0);
 
   gen _expr(const gen & args,GIAC_CONTEXT){
@@ -8732,11 +8740,11 @@ namespace giac {
     return eval(gen(*args._STRNGptr,contextptr),eval_level(contextptr),contextptr);
   }
   static const char _expr_s []="expr";
-  static define_unary_function_eval (__expr,&giac::_expr,_expr_s);
+  static define_unary_function_eval (__expr,&_expr,_expr_s);
   define_unary_function_ptr5( at_expr ,alias_at_expr,&__expr,0,true);
 
   static const char _execute_s []="execute";
-  static define_unary_function_eval (__execute,&giac::_expr,_execute_s);
+  static define_unary_function_eval (__execute,&_expr,_execute_s);
   define_unary_function_ptr5( at_execute ,alias_at_execute,&__execute,0,true);
 
   gen _string(const gen & args,GIAC_CONTEXT){
@@ -8768,11 +8776,11 @@ namespace giac {
     return string2gen(res,false);
   }
   static const char _string_s []="string";
-  static define_unary_function_eval (__string,&giac::_string,_string_s);
+  static define_unary_function_eval (__string,&_string,_string_s);
   define_unary_function_ptr5( at_string ,alias_at_string,&__string,0,true);
 
   static const char _str_s []="str";
-  static define_unary_function_eval (__str,&giac::_string,_str_s);
+  static define_unary_function_eval (__str,&_string,_str_s);
   define_unary_function_ptr5( at_str ,alias_at_str,&__str,0,true);
 
   gen _part(const gen & args,GIAC_CONTEXT){
@@ -8805,7 +8813,7 @@ namespace giac {
     return 0;
   }
   static const char _part_s []="part";
-  static define_unary_function_eval (__part,&giac::_part,_part_s);
+  static define_unary_function_eval (__part,&_part,_part_s);
   define_unary_function_ptr5( at_part ,alias_at_part,&__part,0,true);
 
   string tiasc_translate(const string & s){
@@ -8867,11 +8875,7 @@ namespace giac {
     if (is_integer(g1) || g1.type==_REAL)
       g1=evalf_double(g,1,contextptr);
     if (g1.type==_DOUBLE_){
-#ifdef NSPIRE
-      sleep(int(g1._DOUBLE_val*1000));
-#else
-      usleep(int(g1._DOUBLE_val*1000000));
-#endif
+      wait_1ms(g1._DOUBLE_val*1000);
     }
     else
       __interactive.op(symbolic(at_Pause,g),contextptr);
@@ -9041,7 +9045,7 @@ namespace giac {
 #endif
   }
   static const char _interactive_s []="interactive";
-#if defined RTOS_THREADX || defined NSPIRE
+#if defined RTOS_THREADX || defined NSPIRE || defined FXCG
   define_unary_function_eval_index(1,__interactive,&_interactive,_interactive_s);
   // const unary_function_eval __interactive(1,&_interactive,_interactive_s);
 #else

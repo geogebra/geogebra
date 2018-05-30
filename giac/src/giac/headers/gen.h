@@ -963,6 +963,7 @@ namespace giac {
   bool is_zero(const gen & a,GIAC_CONTEXT0);
   bool is_exactly_zero(const gen & a);
   bool is_one(const gen & a);
+  inline bool is_exactly_one(const gen & a){ return is_one(a); }
   bool is_minus_one(const gen & a);
   bool is_sq_minus_one(const gen & a);
   bool is_inf(const gen & e);

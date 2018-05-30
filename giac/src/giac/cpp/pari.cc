@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef NSPIRE
+#if !defined NSPIRE 
 using namespace std;
 #endif
 #ifdef HAVE_CONFIG_H
@@ -1004,7 +1004,7 @@ namespace giac {
     return res;
   }
   static const char _pari_s []="pari";
-  static define_unary_function_eval (__pari,&giac::_pari,_pari_s);
+  static define_unary_function_eval (__pari,&_pari,_pari_s);
   define_unary_function_ptr5( at_pari ,alias_at_pari,&__pari,_QUOTE_ARGUMENTS,true);
 
   gen _pari_unlock(const gen & args,GIAC_CONTEXT){
@@ -1019,7 +1019,7 @@ namespace giac {
     return 1;
   }
   static const char _pari_unlock_s []="pari_unlock";
-  static define_unary_function_eval (__pari_unlock,&giac::_pari_unlock,_pari_unlock_s);
+  static define_unary_function_eval (__pari_unlock,&_pari_unlock,_pari_unlock_s);
   define_unary_function_ptr5( at_pari_unlock ,alias_at_pari_unlock,&__pari_unlock,_QUOTE_ARGUMENTS,true);
 
   static std::string cutstring(const std::string & s,int ncol){
@@ -1248,11 +1248,11 @@ namespace giac {
     return false;
   }
   static const char _pari_s []="pari";
-  static define_unary_function_eval (__pari,&giac::_pari,_pari_s);
+  static define_unary_function_eval (__pari,&_pari,_pari_s);
   define_unary_function_ptr5( at_pari ,alias_at_pari,&__pari,_QUOTE_ARGUMENTS,true);
 
   static const char _pari_unlock_s []="pari_unlock";
-  static define_unary_function_eval (__pari_unlock,&giac::_pari,_pari_unlock_s);
+  static define_unary_function_eval (__pari_unlock,&_pari,_pari_unlock_s);
   define_unary_function_ptr5( at_pari_unlock ,alias_at_pari_unlock,&__pari_unlock,_QUOTE_ARGUMENTS,true);
 
 

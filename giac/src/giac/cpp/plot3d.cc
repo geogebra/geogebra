@@ -34,7 +34,7 @@ diff plot.c plot.c~
 #include "giacPCH.h"
 
 using namespace std;
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
 #if defined VISUALC13 && !defined BESTA_OS
 #undef clock
 #undef clock_t
@@ -171,7 +171,7 @@ namespace giac {
     return gensizeerr(contextptr);
   }
   static const char _plan_s []="plane";
-  static define_unary_function_eval (__plan,&giac::_plan,_plan_s);
+  static define_unary_function_eval (__plan,&_plan,_plan_s);
   define_unary_function_ptr5( at_plan ,alias_at_plan,&__plan,0,true);
 
   // args=center,radius
@@ -212,7 +212,7 @@ namespace giac {
     return pnt_attrib(symbolic(at_hypersphere,gen(v,args.subtype)),attributs,contextptr);
   }
   static const char _sphere_s []="sphere";
-  static define_unary_function_eval (__sphere,&giac::_sphere,_sphere_s);
+  static define_unary_function_eval (__sphere,&_sphere,_sphere_s);
   define_unary_function_ptr5( at_sphere ,alias_at_sphere,&__sphere,0,true);
 
   static void option_adjust(int & nstep,int & jstep,int & kstep){
@@ -293,7 +293,7 @@ namespace giac {
     return cone(args,true,contextptr);
   }
   static const char _cone_s []="cone";
-  static define_unary_function_eval (__cone,&giac::_cone,_cone_s);
+  static define_unary_function_eval (__cone,&_cone,_cone_s);
   define_unary_function_ptr5( at_cone ,alias_at_cone,&__cone,0,true);
 
   // args=point, direction, angle 
@@ -302,7 +302,7 @@ namespace giac {
     return cone(args,false,contextptr);
   }
   static const char _demi_cone_s []="half_cone";
-  static define_unary_function_eval (__demi_cone,&giac::_demi_cone,_demi_cone_s);
+  static define_unary_function_eval (__demi_cone,&_demi_cone,_demi_cone_s);
   define_unary_function_ptr5( at_demi_cone ,alias_at_demi_cone,&__demi_cone,0,true);
 
   // args=point, direction, radius 
@@ -367,7 +367,7 @@ namespace giac {
     return vres; // gen(vres,_SEQ__VECT);
   }
   static const char _cylindre_s []="cylinder";
-  static define_unary_function_eval (__cylindre,&giac::_cylindre,_cylindre_s);
+  static define_unary_function_eval (__cylindre,&_cylindre,_cylindre_s);
   define_unary_function_ptr5( at_cylindre ,alias_at_cylindre,&__cylindre,0,true);
 
   // find the 2 points of d1 and d2 and a common normal vector to d1 d2
@@ -424,7 +424,7 @@ namespace giac {
     return pnt_attrib(gen(makevecteur(M,N),_LINE__VECT),attributs,contextptr);
   }
   static const char _perpendiculaire_commune_s []="common_perpendicular";
-  static define_unary_function_eval (__perpendiculaire_commune,&giac::_perpendiculaire_commune,_perpendiculaire_commune_s);
+  static define_unary_function_eval (__perpendiculaire_commune,&_perpendiculaire_commune,_perpendiculaire_commune_s);
   define_unary_function_ptr5( at_perpendiculaire_commune ,alias_at_perpendiculaire_commune,&__perpendiculaire_commune,0,true);
 
   gen _polyedre(const gen & args,GIAC_CONTEXT);
@@ -540,7 +540,7 @@ namespace giac {
     return polyedre_face(v,attributs,contextptr);
   }
   static const char _polyedre_s []="polyhedron";
-  static define_unary_function_eval (__polyedre,&giac::_polyedre,_polyedre_s);
+  static define_unary_function_eval (__polyedre,&_polyedre,_polyedre_s);
   define_unary_function_ptr5( at_polyedre ,alias_at_polyedre,&__polyedre,0,true);
 
   gen _prisme(const gen & args,GIAC_CONTEXT){
@@ -569,7 +569,7 @@ namespace giac {
     return polyedre_face(faces,attributs,contextptr);
   }
   static const char _prisme_s []="prism";
-  static define_unary_function_eval (__prisme,&giac::_prisme,_prisme_s);
+  static define_unary_function_eval (__prisme,&_prisme,_prisme_s);
   define_unary_function_ptr5( at_prisme ,alias_at_prisme,&__prisme,0,true);
 
   static gen parallelepipede4(const gen & A0,const gen & B0,const gen & C0,const gen & D0,const vecteur & attributs,GIAC_CONTEXT){
@@ -625,7 +625,7 @@ namespace giac {
     return parallelepipede4(A,B,C,D,attributs,contextptr);
   }
   static const char _parallelepipede_s []="parallelepiped";
-  static define_unary_function_eval (__parallelepipede,&giac::_parallelepipede,_parallelepipede_s);
+  static define_unary_function_eval (__parallelepipede,&_parallelepipede,_parallelepipede_s);
   define_unary_function_ptr5( at_parallelepipede ,alias_at_parallelepipede,&__parallelepipede,0,true);
 
   static gen pyramide4(const gen & A0,const gen & B0,const gen & C0,const gen & D0,const vecteur & attributs,GIAC_CONTEXT){
@@ -684,11 +684,11 @@ namespace giac {
     return pyramide4(A,B,C,D,attributs,contextptr);
   }
   static const char _pyramide_s []="pyramid";
-  static define_unary_function_eval (__pyramide,&giac::_pyramide,_pyramide_s);
+  static define_unary_function_eval (__pyramide,&_pyramide,_pyramide_s);
   define_unary_function_ptr5( at_pyramide ,alias_at_pyramide,&__pyramide,0,true);
 
   static const char _tetraedre_s []="tetrahedron";
-  static define_unary_function_eval (__tetraedre,&giac::_pyramide,_tetraedre_s);
+  static define_unary_function_eval (__tetraedre,&_pyramide,_tetraedre_s);
   define_unary_function_ptr5( at_tetraedre ,alias_at_tetraedre,&__tetraedre,0,true);
   
   // Find A,B,C,D such that AB=AC=AD and all are orthogonal
@@ -741,7 +741,7 @@ namespace giac {
     return pyramide4(A,B,C,D,attributs,contextptr);
   }
   static const char _tetraedre_centre_s []="centered_tetrahedron";
-  static define_unary_function_eval (__tetraedre_centre,&giac::_tetraedre_centre,_tetraedre_centre_s);
+  static define_unary_function_eval (__tetraedre_centre,&_tetraedre_centre,_tetraedre_centre_s);
   define_unary_function_ptr5( at_tetraedre_centre ,alias_at_tetraedre_centre,&__tetraedre_centre,0,true);
   
   // args= 3 points A, B, C
@@ -754,7 +754,7 @@ namespace giac {
     return parallelepipede4(A,B,C,D,attributs,contextptr);
   }
   static const char _cube_s []="cube";
-  static define_unary_function_eval (__cube,&giac::_cube,_cube_s);
+  static define_unary_function_eval (__cube,&_cube,_cube_s);
   define_unary_function_ptr5( at_cube ,alias_at_cube,&__cube,0,true);
 
   // args= center A, vertex B, point C such that ABC is a symmetry plan
@@ -775,7 +775,7 @@ namespace giac {
     return parallelepipede4(A,B,C,D,attributs,contextptr);
   }
   static const char _cube_centre_s []="centered_cube";
-  static define_unary_function_eval (__cube_centre,&giac::_cube_centre,_cube_centre_s);
+  static define_unary_function_eval (__cube_centre,&_cube_centre,_cube_centre_s);
   define_unary_function_ptr5( at_cube_centre ,alias_at_cube_centre,&__cube_centre,0,true);
 
   // args= center A, point B, C such that ABC = symmetry plan with 4 vertices
@@ -802,7 +802,7 @@ namespace giac {
     return polyedre_face(faces,attributs,contextptr);
   }
   static const char _octaedre_s []="octahedron";
-  static define_unary_function_eval (__octaedre,&giac::_octaedre,_octaedre_s);
+  static define_unary_function_eval (__octaedre,&_octaedre,_octaedre_s);
   define_unary_function_ptr5( at_octaedre ,alias_at_octaedre,&__octaedre,0,true);
 
   static void res_push(vecteur & res,gen * s, int i,int j,int k){
@@ -861,7 +861,7 @@ namespace giac {
     return polyedre_face(res,attributs,contextptr);
   }
   static const char _icosaedre_s []="icosahedron";
-  static define_unary_function_eval (__icosaedre,&giac::_icosaedre,_icosaedre_s);
+  static define_unary_function_eval (__icosaedre,&_icosaedre,_icosaedre_s);
   define_unary_function_ptr5( at_icosaedre ,alias_at_icosaedre,&__icosaedre,0,true);
 
   static void res_push(vecteur & res,gen * s, int i,int j,int k,int l,int m){
@@ -916,7 +916,7 @@ namespace giac {
     return polyedre_face(res,attributs,contextptr);
   }
   static const char _dodecaedre_s []="dodecahedron";
-  static define_unary_function_eval (__dodecaedre,&giac::_dodecaedre,_dodecaedre_s);
+  static define_unary_function_eval (__dodecaedre,&_dodecaedre,_dodecaedre_s);
   define_unary_function_ptr5( at_dodecaedre ,alias_at_dodecaedre,&__dodecaedre,0,true);
 
   gen _aretes(const gen & args,GIAC_CONTEXT){
@@ -940,7 +940,7 @@ namespace giac {
     return res;
   }
   static const char _aretes_s []="line_segments";
-  static define_unary_function_eval (__aretes,&giac::_aretes,_aretes_s);
+  static define_unary_function_eval (__aretes,&_aretes,_aretes_s);
   define_unary_function_ptr5( at_aretes ,alias_at_aretes,&__aretes,0,true);
 
   gen _faces(const gen & args,GIAC_CONTEXT){
@@ -948,7 +948,7 @@ namespace giac {
     return remove_at_pnt(args);
   }
   static const char _faces_s []="faces";
-  static define_unary_function_eval (__faces,&giac::_faces,_faces_s);
+  static define_unary_function_eval (__faces,&_faces,_faces_s);
   define_unary_function_ptr5( at_faces ,alias_at_faces,&__faces,0,true);
 
   static gen rotation3d(const gen & elem,const gen & b,GIAC_CONTEXT){
@@ -2254,7 +2254,7 @@ namespace giac {
     return gendimerr(contextptr);
   }
   static const char _quadrique_s []="quadric";
-  static define_unary_function_eval (__quadrique,&giac::_quadrique,_quadrique_s);
+  static define_unary_function_eval (__quadrique,&_quadrique,_quadrique_s);
   define_unary_function_ptr5( at_quadrique ,alias_at_quadrique,&__quadrique,0,true);
 
   bool est_cospherique(const gen & a,const gen & b,const gen & c,const gen & d,const gen & f,GIAC_CONTEXT){
@@ -2295,7 +2295,7 @@ namespace giac {
     return 1;
   }
   static const char _est_cospherique_s []="is_cospherical";
-  static define_unary_function_eval (__est_cospherique,&giac::_est_cospherique,_est_cospherique_s);
+  static define_unary_function_eval (__est_cospherique,&_est_cospherique,_est_cospherique_s);
   define_unary_function_ptr5( at_est_cospherique ,alias_at_est_cospherique,&__est_cospherique,0,true);
 
   gen in_convert3d(const gen & h0,GIAC_CONTEXT){
@@ -2381,7 +2381,7 @@ namespace giac {
     return symbolic(at_pnt,h);    
   }
   static const char _convert3d_s []="convert3d";
-  static define_unary_function_eval (__convert3d,&giac::convert3d,_convert3d_s);
+  static define_unary_function_eval (__convert3d,&convert3d,_convert3d_s);
   define_unary_function_ptr5( at_convert3d ,alias_at_convert3d,&__convert3d,0,true);
 
 
