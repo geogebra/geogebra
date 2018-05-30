@@ -40,7 +40,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
-import org.geogebra.web.full.gui.color.MOWColorButton;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.util.ButtonPopupMenu;
@@ -640,16 +639,20 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				if (getBtncrop() != null) {
-					Drawable dr = ((Drawable) app.getActiveEuclidianView()
-							.getDrawableFor(activeGeoList.get(0)));
-					dr.getBoundingBox().setCropBox(!getBtncrop().isDown());
-					app.getActiveEuclidianView().repaintView();
-				}
+				toggleCrop(!getBtncrop().isDown());
 			}
 		});
 		btnCrop.setTitle(loc.getMenu("stylebar.Crop"));
 		add(btnCrop);
+	}
+
+	protected void toggleCrop(boolean val) {
+		if (getBtncrop() != null) {
+			Drawable dr = ((Drawable) app.getActiveEuclidianView()
+					.getDrawableFor(activeGeoList.get(0)));
+			dr.getBoundingBox().setCropBox(val);
+			app.getActiveEuclidianView().repaintView();
+		}
 	}
 
 	public MyToggleButtonW getBtncrop() {
@@ -856,8 +859,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			createColorBtn();
 			createFillingBtn();
-		} else if (app.isWhiteboardActive()) {
-			createMOWColorBtn();
 		} else {
 			createColorBtn();
 		}
@@ -1200,116 +1201,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 					}
 				}
 			}
-		};
-		btnColor.addPopupHandler(this);
-	}
-
-	private void createMOWColorBtn() {
-		btnColor = new MOWColorButton(app) {
 
 			@Override
-			public void update(Object[] geos) {
-
-				if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
-					Log.debug(
-							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
-				} else {
-					boolean geosOK = (geos.length > 0 || (EuclidianView
-							.isPenMode(mode)
-							&& !app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)));
-					for (int i = 0; i < geos.length; i++) {
-						GeoElement geo = ((GeoElement) geos[i])
-								.getGeoElementForPropertiesDialog();
-						if (geo instanceof GeoText
-								|| geo instanceof GeoButton) {
-							geosOK = false;
-							break;
-						}
-					}
-
-					super.setVisible(geosOK);
-
-					if (geosOK) {
-						// get color from first geo
-						GColor geoColor;
-						if (EuclidianView.isPenMode(mode)) {
-							geoColor = app.getActiveEuclidianView()
-									.getEuclidianController()
-									.getPen().defaultPenLine.getObjectColor();
-						} else {
-							geoColor = ((GeoElement) geos[0]).getObjectColor();
-						}
-
-						// check if selection contains a fillable geo
-						// if true, then set slider to first fillable's alpha
-						// value
-						double alpha = 1.0;
-						boolean hasFillable = false;
-						boolean alphaOnly = false;
-						FillType fillType = null;
-						for (int i = 0; i < geos.length; i++) {
-							GeoElement geo = (GeoElement) geos[i];
-							if (geo.isFillable()) {
-								alphaOnly = geo.isAngle() || geo.isGeoImage();
-								hasFillable = true;
-								alpha = geo.getAlphaValue();
-								fillType = geo.getFillType();
-								break;
-							}
-							if (geos[i] instanceof GeoPolyLine
-									&& EuclidianView.isPenMode(mode)) {
-								hasFillable = true;
-								alpha = ((GeoElement) geos[i]).getLineOpacity();
-
-								break;
-							}
-						}
-
-						if (!app.isUnbundled()) {
-							if (hasFillable) {
-								if (app.isWhiteboardActive()
-										&& geos[0] instanceof GeoImage) {
-									setTitle(loc.getMenu("Opacity"));
-								} else {
-									setTitle(loc.getMenu(
-											"stylebar.ColorTransparency"));
-								}
-							} else {
-								setTitle(loc.getMenu("stylebar.Color"));
-							}
-						}
-
-						setSliderVisible(hasFillable);
-						boolean enableFill = hasFillable && !alphaOnly;
-						setFillEnabled(enableFill);
-						if (enableFill) {
-							setFillType(fillType);
-						}
-
-						if (EuclidianView.isPenMode(mode)) {
-							setSliderValue(
-									(int) Math.round((alpha * 100) / 255));
-						} else {
-							setSliderValue((int) Math.round(alpha * 100));
-						}
-
-						updateColorTable();
-						setEnableTable(!(geos[0] instanceof GeoImage));
-						// find the geoColor in the table and select it
-						int index = this.getColorIndex(geoColor);
-						setSelectedIndex(index);
-						if (EuclidianView.isPenMode(mode)) {
-							setDefaultColor(alpha / 255, geoColor);
-						} else {
-							setDefaultColor(alpha, geoColor);
-						}
-
-						this.setKeepVisible(
-								EuclidianConstants.isMoveOrSelectionMode(mode));
-					}
+			public void onClickAction() {
+				if (getBtncrop() != null) {
+					getBtncrop().setDown(false);
+					toggleCrop(false);
 				}
 			}
-
 		};
 		btnColor.addPopupHandler(this);
 	}
@@ -1377,6 +1276,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 						this.setKeepVisible(
 								EuclidianConstants.isMoveOrSelectionMode(mode));
 					}
+				}
+			}
+
+			@Override
+			public void onClickAction() {
+				if (getBtncrop() != null) {
+					getBtncrop().setDown(false);
+					toggleCrop(false);
 				}
 			}
 		};
