@@ -45,6 +45,8 @@ namespace giac {
   typedef double long_double;
 #endif
   typedef std::complex<long_double> complex_long_double;
+  double complex_abs(const complex_double & c);
+  double complex_long_abs(const complex_long_double & c);
 
   // make a matrix with free rows 
   // (i.e. it is possible to modify the answer in place)

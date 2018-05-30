@@ -55,7 +55,7 @@ namespace giac {
   gen equaltosame(const gen & a);
   gen sametoequal(const gen & a);    
   gen equaltosto(const gen & g,GIAC_CONTEXT);
-  int bind(const vecteur & vals,const vecteur & vars,context * & contextptr);
+  int giac_bind(const vecteur & vals,const vecteur & vars,context * & contextptr);
   bool leave(int protect,vecteur & vars,context * & contextptr);
 
   void increment_instruction(const vecteur & v,debug_struct * dbgptr);

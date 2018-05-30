@@ -1023,7 +1023,7 @@ namespace giac {
 	  vecteur & precv=*prec._VECTptr;
 	  double oldx=precv[0]._DOUBLE_val,oldy=precv[1]._DOUBLE_val,oldz=precv[2]._DOUBLE_val;
 	  double curx=curt[0]._DOUBLE_val,cury=curt[1]._DOUBLE_val,curz=curt[2]._DOUBLE_val;
-	  if (std::abs(curx-oldx)>Dx/10 || std::abs(cury-oldy)>Dy/10 || std::abs(curz-oldz)>Dz/10 ){
+	  if (absdouble(curx-oldx)>Dx/10 || absdouble(cury-oldy)>Dy/10 || absdouble(curz-oldz)>Dz/10 ){
 	    tmp=evalf_double(subst(f,vars[0],x+dx/2,false,contextptr),1,contextptr);
 	    if (tmp.type!=_VECT || tmp._VECTptr->size()!=3)
 	      continue;
@@ -1951,11 +1951,11 @@ namespace giac {
   static vecteur VertexInterp(double isolevel,const vecteur & p1,const vecteur & p2,double valp1,double valp2){
     double mu;
 
-    if (std::abs(isolevel-valp1) < 0.00001)
+    if (absdouble(isolevel-valp1) < 0.00001)
       return(p1);
-    if (std::abs(isolevel-valp2) < 0.00001)
+    if (absdouble(isolevel-valp2) < 0.00001)
       return(p2);
-    if (std::abs(valp1-valp2) < 0.00001)
+    if (absdouble(valp1-valp2) < 0.00001)
       return(p1);
     mu = (isolevel - valp1) / (valp2 - valp1);
     
@@ -2005,7 +2005,7 @@ namespace giac {
     gen f=quotesubst(f_orig,xyz,locvar,contextptr).evalf(1,contextptr);
     vecteur localvar(makevecteur(xloc,yloc,zloc));
     context * newcontextptr=(context *) contextptr;
-    int protect=giac::bind(makevecteur(xmin,ymin,zmin),localvar,newcontextptr);
+    int protect=giac_bind(makevecteur(xmin,ymin,zmin),localvar,newcontextptr);
     vector< vector< vector<double> > > fxyz(nxstep+1,vector< vector<double> >(nystep+1,vector<double>(nzstep+1)));
     gen gtmp;
     // initialize each cell value of f
@@ -2146,7 +2146,7 @@ namespace giac {
     if ( x.type!=_IDNT || y.type!=_IDNT || z.type!=_IDNT )
       return gensizeerr(gettext("Variables must be free"));
     if (!nystep || !nzstep){
-      nxstep=int(std::sqrt(double(std::abs(nxstep))));
+      nxstep=int(std::sqrt(double(absdouble(nxstep))));
       nystep=nxstep;
       nzstep=nxstep;
     }

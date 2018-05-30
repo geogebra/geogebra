@@ -2224,7 +2224,7 @@ namespace giac {
     gen tmp=evalf_double(g,1,context0);
     gen G=g;
     if (tmp.type==_DOUBLE_ && tmp._DOUBLE_val!=0)
-      round2(G,int(nbits-std::log(std::abs(tmp._DOUBLE_val))/std::log(2.0)));
+      round2(G,int(nbits-std::log(absdouble(tmp._DOUBLE_val))/std::log(2.0)));
     return evalf_double(G,1,context0);
 #endif
   }
@@ -8253,7 +8253,7 @@ namespace giac {
 	return true;
       if (my_isnan(a._DOUBLE_val) && my_isnan(b._DOUBLE_val))
 	return true; // avoid infinite loop in evalf
-      return  std::abs(a._DOUBLE_val-b._DOUBLE_val)<std::abs(a._DOUBLE_val)*epsilon(contextptr);
+      return  absdouble(a._DOUBLE_val-b._DOUBLE_val)<std::abs(a._DOUBLE_val)*epsilon(contextptr);
     case _FLOAT___FLOAT_:
       if (a._FLOAT_val==b._FLOAT_val)
 	return true;
@@ -9945,6 +9945,13 @@ namespace giac {
   }
 
   int absint(int a){
+    if (a<0)
+      return -a;
+    else
+      return a;
+  }
+
+  double absdouble(double a){
     if (a<0)
       return -a;
     else

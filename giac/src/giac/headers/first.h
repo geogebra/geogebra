@@ -63,7 +63,8 @@
 #undef HAVE_LIBPTHREAD
 struct Bidon {
   int i;
- Bidon(int i_=0):i(i_){}
+Bidon(int i_=0):i(i_){}
+  flush(){}
 };
 template<class T> Bidon operator << (Bidon ,const T&){ return Bidon(); }
 inline Bidon operator << (Bidon,const char *){return Bidon();}

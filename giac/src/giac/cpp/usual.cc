@@ -689,26 +689,26 @@ namespace giac {
       double ed=tmp._DOUBLE_val;
       // detect if atan is a multiples of pi/10
       gen edh=horner(makevecteur(-5,60,-126,60,-5),tmp*tmp);
-      if (std::abs(edh._DOUBLE_val)<1e-7 &&
+      if (absdouble(edh._DOUBLE_val)<1e-7 &&
 	  normal(horner(makevecteur(-5,60,-126,60,-5),e*e),contextptr)==0){
-	int res=int(std::floor(std::atan(std::abs(ed))*10/M_PI+.5));
+	int res=int(std::floor(std::atan(absdouble(ed))*10/M_PI+.5));
 	if (res%2)
 	  return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/10:(angle_degree(contextptr)?gen(18):gen(20))); //grad
 	else
 	  return (ed>0?res/2:-res/2)*(angle_radian(contextptr)?cst_pi/5:(angle_degree(contextptr)?gen(36):gen(40))); //grad
       }
       edh=horner(makevecteur(-3,55,-198,198,-55,3),tmp*tmp);
-      if (std::abs(edh._DOUBLE_val)<1e-7){      
-	int res=int(std::floor(std::atan(std::abs(ed))*12/M_PI+.5));
+      if (absdouble(edh._DOUBLE_val)<1e-7){      
+	int res=int(std::floor(std::atan(absdouble(ed))*12/M_PI+.5));
 	int den=12;
 	int g=gcd(res,den);
 	res /=g; den /=g;
 	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:(angle_degree(contextptr)?gen(15*g):rdiv(50,3)*gen(g))); //grad   50/3*g grads
       }
       edh=horner(makevecteur(1,-6,1),ed*ed);
-      if (std::abs(edh._DOUBLE_val)<1e-7 &&
+      if (absdouble(edh._DOUBLE_val)<1e-7 &&
 	  normal(horner(makevecteur(1,-6,1),e*e),contextptr)==0){
-	int res=int(std::floor(std::atan(std::abs(ed))*8/M_PI+.5));
+	int res=int(std::floor(std::atan(absdouble(ed))*8/M_PI+.5));
 	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/8:(angle_degree(contextptr)?gen(45)/2:gen(25))); //grad 
       }
     }
@@ -2205,27 +2205,27 @@ namespace giac {
       double ed=edg._DOUBLE_val;
       // detect if asin is a multiples of pi/10
       gen edh=horner(makevecteur(256,-512,336,-80,5),edg*edg);
-      if (std::abs(edh._DOUBLE_val)<1e-9 &&
+      if (absdouble(edh._DOUBLE_val)<1e-9 &&
 	  normal(horner(makevecteur(256,-512,336,-80,5),e*e),contextptr)==0){
-	int res=int(std::floor(std::asin(std::abs(ed))*10/M_PI+.5));
+	int res=int(std::floor(std::asin(absdouble(ed))*10/M_PI+.5));
 	if (res%2)
 	  return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/10:(angle_degree(contextptr)?gen(18):gen(20))); //grad
 	else
 	  return (ed>0?res/2:-res/2)*(angle_radian(contextptr)?cst_pi/5:(angle_degree(contextptr)?gen(36):gen(40))); //grad
       }
       edh=horner(makevecteur(512,-1280,1152,-448,70,-3),edg*edg);
-      if (std::abs(edh._DOUBLE_val)<1e-9 &&
+      if (absdouble(edh._DOUBLE_val)<1e-9 &&
 	  normal(horner(makevecteur(512,-1280,1152,-448,70,-3),e*e),contextptr)==0){
-	int res=int(std::floor(std::asin(std::abs(ed))*12/M_PI+.5));
+	int res=int(std::floor(std::asin(absdouble(ed))*12/M_PI+.5));
 	int den=12;
 	int g=gcd(res,den);
 	res /=g; den /=g;
 	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:(angle_degree(contextptr)?gen(15*g):rdiv(50,3)*gen(g))); //grad   50/3*g grads
       }
       edh=horner(makevecteur(64,-128,80,-16,1),edg*edg);
-      if (std::abs(edh._DOUBLE_val)<1e-9 &&
+      if (absdouble(edh._DOUBLE_val)<1e-9 &&
 	  normal(horner(makevecteur(64,-128,80,-16,1),e*e),contextptr)==0){
-	int res=int(std::floor(std::asin(std::abs(ed))*8/M_PI+.5));
+	int res=int(std::floor(std::asin(absdouble(ed))*8/M_PI+.5));
 	int den=8;
 	int g=gcd(res,den);
 	res /=g; den /=g;
@@ -7877,7 +7877,7 @@ namespace giac {
       return regularize?poisson_cdf(z,int(s-1)):poisson_cdf(z,int(s-1))*std::exp(lngamma(s));
 #if 0 // not tested
     // if z large Gamma(s,z) = z^(s-1)*exp(z)*[1 + (s-1)/z + (s-1)*(s-2)/z^2 +...
-    if (s>100 && std::abs(z)>1.1*s){
+    if (s>100 && absdouble(z)>1.1*s){
       long_double res=1,pi=1,S=s-1,Z=z;
       for (;pi>1e-17;--S){
 	pi *= S/Z;
@@ -7913,14 +7913,14 @@ namespace giac {
       Qm2=Qm1; Qm1=Qm;
       a2m1++;
       pmqm=Pm/Qm;
-      if (std::abs(Pm2/Qm2-pmqm)<1e-16){
+      if (absdouble(Pm2/Qm2-pmqm)<1e-16){
 	long_double coeff=s*std::log(z)-z;
 	if (regularize)
 	  coeff -= lngamma(s);
 	return pmqm*std::exp(coeff);
       }
       // avoid overflow
-      if (std::abs(Pm)>deux){
+      if (absdouble(Pm)>deux){
 	Pm2 *= invdeux;
 	Qm2 *= invdeux;
 	Pm1 *= invdeux;
@@ -7995,7 +7995,7 @@ namespace giac {
       Pm=bm*Pm1+a2m1*Pm2;
       Qm=bm*Qm1+a2m1*Qm2;
       // cerr << Pm/Qm << " " << Pm2/Qm2 << endl;
-      if (std::abs(Pm/Qm-Pm2/Qm2)<1e-16){
+      if (absdouble(Pm/Qm-Pm2/Qm2)<1e-16){
 	double res=Pm/Qm;
 	if (regularize)
 	  res *= std::exp(-z+s*std::log(z)-lngamma(s));
@@ -8007,7 +8007,7 @@ namespace giac {
       Qm2=Qm1; Qm1=Qm;
       // normalize
 #if 1
-      if (std::abs(Pm)>deux){
+      if (absdouble(Pm)>deux){
 	Pm2 *= invdeux; Qm2 *= invdeux; Pm1 *= invdeux; Qm1 *= invdeux;
       }
 #else
@@ -8546,7 +8546,7 @@ namespace giac {
       gen ix=im(s,contextptr).evalf_double(1,contextptr);
       if (ix.type!=_DOUBLE_)
 	return gentypeerr(contextptr);
-      double y=std::abs(ix._DOUBLE_val);
+      double y=absdouble(ix._DOUBLE_val);
       int ndigits=16; // FIXME? use decimal_digits;
       double n=(std::log10(3*(1+2*y)*std::exp(y*M_PI/2))+ndigits)/std::log10(3.+std::sqrt(8.));
       identificateur idx(" ");
@@ -8782,7 +8782,7 @@ namespace giac {
     if (x.type==_REAL && is_strictly_positive(-x,contextptr))
       return -erf0(-x,erfc,contextptr);
     if (x.type==_DOUBLE_){ 
-      double absx=std::abs(x._DOUBLE_val);
+      double absx=absdouble(x._DOUBLE_val);
       if (absx<=3){
 	// numerical computation of int(exp(-t^2),t=0..x) 
 	// by series expansion at x=0
@@ -8806,7 +8806,7 @@ namespace giac {
 	for (int n=0;;++n){
 	  res += pi;
 	  pi = -pi*(2*n+1)*z2;
-	  if (std::abs(pi)<1e-16)
+	  if (absdouble(pi)<1e-16)
 	    break;
 	}
 	erfc=2/std::sqrt(M_PI)*double(std::exp(-1/z/z)*z*res);
@@ -8874,7 +8874,7 @@ namespace giac {
 	  res += pi/(2*n+1);
 	  ++n;
 	  pi = -pi*z2/n;
-	  if (std::abs(pi)<1e-17)
+	  if (complex_long_abs(pi)<1e-17)
 	    break;
 	}
 #if !defined(HAVE_LONG_DOUBLE) || defined(PNACL)
@@ -8903,7 +8903,7 @@ namespace giac {
 	for (long_double n=0;;++n){
 	  res += pi;
 	  pi = -pi*(2*n+1)*z2;
-	  if (std::abs(pi)<1e-16)
+	  if (complex_long_abs(pi)<1e-16)
 	    break;
 	}
 #if !defined(HAVE_LONG_DOUBLE) || defined(PNACL)
@@ -9197,7 +9197,7 @@ namespace giac {
 	long_double si=1,ci=0,z2=Z*Z,pi=1;
 	for (long_double n=1;;n++){
 	  pi = -pi*z2/2/n;
-	  if (std::abs(pi)<1e-15)
+	  if (absdouble(pi)<1e-15)
 	    break;
 	  ci += pi/(2*n);
 	  pi /= (2*n+1);
@@ -9807,7 +9807,7 @@ namespace giac {
 	    break;
 	  ei += pi/n;
 	}
-	ei=ei+std::log(std::abs(z))+0.577215664901532860610;
+	ei=ei+std::log(absdouble(z))+0.577215664901532860610;
 	return double(ei);
       }
       // continued fraction: http://people.math.sfu.ca/~cbm/aands/page_229.htm
@@ -9929,7 +9929,7 @@ namespace giac {
       complex_long_double x(evalf_double(re(args,contextptr),1,contextptr)._DOUBLE_val,
 			evalf_double(im(args,contextptr),1,contextptr)._DOUBLE_val);
       x=-x;
-      if (x.real()>0 || std::abs(x.imag()/x.real())>=1){
+      if (x.real()>0 || absdouble(x.imag()/x.real())>=1){
 	complex_long_double result(1);
 	long_double un(1);
 	for (long_double n=40;n>=1;--n){

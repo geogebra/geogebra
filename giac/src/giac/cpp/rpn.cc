@@ -424,7 +424,7 @@ namespace giac {
     }
     // Initialization
     context * newcontextptr = (context *) contextptr;
-    int protect=giac::bind(values,names,newcontextptr);
+    int protect=giac_bind(values,names,newcontextptr);
     vecteur res;
     if ((prog.type==_SYMB) && (prog._SYMBptr->sommet==at_quote)){
       args._VECTptr->push_back(prog._SYMBptr->feuille.eval(eval_level(contextptr),newcontextptr));
@@ -483,7 +483,7 @@ namespace giac {
     vecteur names(1,controle[0]);
     gen test=inferieur_egal(controle[0],fin,contextptr);
     context * newcontextptr = (context *) contextptr;
-    int protect=giac::bind(vecteur(1,debut),names,newcontextptr);
+    int protect=giac_bind(vecteur(1,debut),names,newcontextptr);
     vecteur res;
     for (;!is_zero(test.eval(eval_level(newcontextptr),newcontextptr).evalf(eval_level(contextptr),newcontextptr));sto(eval(controle[0]+controle[1],eval_level(newcontextptr),newcontextptr),controle[0],newcontextptr)){
       res=rpn_eval(prog,*args._VECTptr,newcontextptr);

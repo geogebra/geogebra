@@ -49,14 +49,14 @@ namespace giac {
     double x,y;
     // test whether a or b is too small
     double theta=std::atan2(b,a);
-    if (std::abs(M_PI/2-std::abs(theta))<1e-3){
+    if (absdouble(M_PI/2-absdouble(theta))<1e-3){
       // line y=cst
       x0=xmin;
       x1=xmax;
       y0=y1=c/b;
       return y0>=ymin && y0<=ymax;
     }
-    if (std::abs(theta)<1e-3 || (M_PI-std::abs(theta))<1e-3){
+    if (absdouble(theta)<1e-3 || (M_PI-absdouble(theta))<1e-3){
       // line x=cst
       y0=ymin;
       y1=ymax;
@@ -1127,7 +1127,7 @@ namespace giac {
   static void zoom(double &m,double & M,double d){
     double x_center=(M+m)/2;
     double dx=(M-m);
-    double s=std::abs(m)+std::abs(M);
+    double s=absdouble(m)+absdouble(M);
     if (dx<=1e-5*s){
       dx=s;
       if (dx<=1e-5)
@@ -1169,7 +1169,7 @@ namespace giac {
     autoscaleg(g,vx,vy,vz,contextptr);
     autoscaleminmax(vx,X1,X2,false);
     autoscaleminmax(vy,Y1,Y2,false);
-    double xunit=giac::horiz_latex/(X2-X1);
+    double xunit=horiz_latex/(X2-X1);
     double yunit=(X2-X1)/(Y2-Y1)*xunit;
     res="\\begin{pspicture}("+double2tex(X1*xunit)+","+double2tex(Y1*xunit)+
       ")("+double2tex(X2*xunit)+","+double2tex(Y2*xunit)+
@@ -1349,7 +1349,7 @@ namespace giac {
   }
   gen _latex(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
     if (!secure_run && g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()==2 && (*g._VECTptr)[1].type==_STRNG){
       ofstream of((*g._VECTptr)[1]._STRNGptr->c_str());
       of << gen2tex(g._VECTptr->front(),contextptr) << endl;

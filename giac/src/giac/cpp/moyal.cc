@@ -99,7 +99,7 @@ namespace giac {
       Pm=Pm1+am*Pm2;
       Qm=Qm1+am*Qm2;
       // cerr << Pm/Qm << " " << Pm2/Qm2 << endl;
-      if (std::abs(Pm/Qm-Pm2/Qm2)<1e-16*std::abs(Pm/Qm)){
+      if (absdouble(Pm/Qm-Pm2/Qm2)<1e-16*absdouble(Pm/Qm)){
 	double res=Pm/Qm;
 #if 0 // def VISUALC // no lgamma available
 	gen r=res/a*std::pow(p,a)*std::pow(1-p,b-1);
@@ -114,10 +114,10 @@ namespace giac {
       }	
       Pm2=Pm1; Pm1=Pm;
       Qm2=Qm1; Qm1=Qm;
-      if (std::abs(Pm)>deux){
+      if (absdouble(Pm)>deux){
 	Pm2 *= invdeux; Qm2 *= invdeux; Pm1 *= invdeux; Qm1 *= invdeux;
       }
-      if (std::abs(Pm)<invdeux){
+      if (absdouble(Pm)<invdeux){
 	Pm2 *= deux; Qm2 *= deux; Pm1 *= deux; Qm1 *= deux;
       }
     }
@@ -2453,7 +2453,7 @@ namespace giac {
 	for (vector<giac_double>::const_iterator it=X.begin();it!=X.end();){
 	  fback=double(*it)-1;
 	  gen prevtmp=evalf_double(f,1,contextptr);
-	  dcur=std::abs(prevtmp._DOUBLE_val-cumulx);
+	  dcur=absdouble(prevtmp._DOUBLE_val-cumulx);
 	  if (dcur>d)
 	    d=dcur;
 	  fback=double(*it);
@@ -2462,7 +2462,7 @@ namespace giac {
 	  for (++it;it!=X.end() && double(*it)==fback;++it)
 	    ++i;
 	  cumulx += i*invn;
-	  dcur=std::abs(tmp._DOUBLE_val-cumulx);
+	  dcur=absdouble(tmp._DOUBLE_val-cumulx);
 	  if (dcur>d)
 	    d=dcur;
 	}
@@ -2474,11 +2474,11 @@ namespace giac {
 	gen tmp=evalf_double(f,1,contextptr);
 	if (tmp.type!=_DOUBLE_)
 	  return gensizeerr(contextptr);
-	dcur=std::abs(tmp._DOUBLE_val-cumulx);
+	dcur=absdouble(tmp._DOUBLE_val-cumulx);
 	if (dcur>d)
 	  d=dcur;
 	cumulx += invn;
-	dcur=std::abs(tmp._DOUBLE_val-cumulx);
+	dcur=absdouble(tmp._DOUBLE_val-cumulx);
 	if (dcur>d)
 	  d=dcur;
       }
@@ -2510,7 +2510,7 @@ namespace giac {
 	  ++i;
 	}
       }
-      dcur=std::abs(cumulx-cumuly);
+      dcur=absdouble(cumulx-cumuly);
       if (dcur>d)
 	d=dcur;
     }

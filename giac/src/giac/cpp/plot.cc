@@ -1084,7 +1084,7 @@ namespace giac {
     double x1=std::floor(xmin/d)*d;
     double x2=(bounds?std::ceil(xmax/d):std::floor(xmax/d))*d;
     for (double x=x1+(bounds?0:d);x<=x2;x+=d){
-      if ( std::abs(x-int(x+.5))<1e-6*d)
+      if ( absdouble(x-int(x+.5))<1e-6*d)
 	res.push_back(int(x+.5));
       else
 	res.push_back(x);
@@ -1362,7 +1362,7 @@ namespace giac {
       bool joindre;
       vecteur localvar(1,vars);
       context * newcontextptr= (context *) contextptr;
-      int protect=giac::bind(vecteur(1,xmin),localvar,newcontextptr);
+      int protect=giac_bind(vecteur(1,xmin),localvar,newcontextptr);
       vecteur chemin;
       double i=xmin;
       for (;i<xmax;i+= step){
@@ -6674,7 +6674,7 @@ namespace giac {
 	gen n=vargs[i]._SYMBptr->feuille._VECTptr->back();
 	if (vargs[i]._SYMBptr->feuille._VECTptr->front().val==_TSTEP){
 	  n=evalf_double(n,1,contextptr);
-	  tstep=std::abs(n._DOUBLE_val);
+	  tstep=absdouble(n._DOUBLE_val);
 	  tstep_defined=true;
 	  vargs.erase(vargs.begin()+i);
 	  --vs;
@@ -8194,7 +8194,7 @@ namespace giac {
     bool joindre;
     vecteur localvar(1,vars),res;
     context * newcontextptr=(context *) contextptr;
-    int protect=giac::bind(vecteur(1,function_tmin),localvar,newcontextptr);
+    int protect=giac_bind(vecteur(1,function_tmin),localvar,newcontextptr);
     vecteur chemin;
     double i,j,oldi=0,oldj=0,entrei,entrej;
     double t=function_tmin;
@@ -8409,23 +8409,23 @@ namespace giac {
 	switch (vargs[i]._SYMBptr->feuille._VECTptr->front().val){
 	case _NSTEP:
 	  if (n.type!=_INT_) return gensizeerr(contextptr);
-	  tstep=std::abs((tmax-tmin)/n.val);
+	  tstep=absdouble((tmax-tmin)/n.val);
 	  ustep=(umax-umin)/int(std::sqrt(double(n.val)));
 	  vstep=(vmax-vmin)/int(std::sqrt(double(n.val)));
 	  break;
 	case _TSTEP:
 	  n=evalf_double(n,1,contextptr);
-	  tstep=std::abs(n._DOUBLE_val);
-	  ustep=std::abs(n._DOUBLE_val);
-	  vstep=std::abs(n._DOUBLE_val);
+	  tstep=absdouble(n._DOUBLE_val);
+	  ustep=absdouble(n._DOUBLE_val);
+	  vstep=absdouble(n._DOUBLE_val);
 	  break;
 	case _USTEP:
 	  n=evalf_double(n,1,contextptr);
-	  ustep=std::abs(n._DOUBLE_val);
+	  ustep=absdouble(n._DOUBLE_val);
 	  break;
 	case _VSTEP:
 	  n=evalf_double(n,1,contextptr);
-	  vstep=std::abs(n._DOUBLE_val);
+	  vstep=absdouble(n._DOUBLE_val);
 	  break;
 	}
       }
@@ -8437,7 +8437,7 @@ namespace giac {
       if (s==4){
 	if (vargs[2].is_symb_of_sommet(at_interval)){
 	  vars=symbolic(at_equal,makesequence(vars,vargs[2]));
-	  tstep=std::abs(evalf_double(vargs[3],1,contextptr)._DOUBLE_val);
+	  tstep=absdouble(evalf_double(vargs[3],1,contextptr)._DOUBLE_val);
 	}
 	else
 	  vars=symbolic(at_equal,makesequence(vars,symbolic(at_interval,makesequence(vargs[2],vargs[3]))));
@@ -11917,7 +11917,7 @@ namespace giac {
     gsl_set_error_handler_off();
 #endif //
     if (!nystep){
-      nxstep=int(std::sqrt(double(std::abs(nxstep))));
+      nxstep=int(std::sqrt(double(absdouble(nxstep))));
       nystep=nxstep;
     }
     if (ulonglong(nxstep)*nystep>100*100){
@@ -11934,7 +11934,7 @@ namespace giac {
       return dfx+dfy;
     vecteur localvar(makevecteur(xloc,yloc));
     context * newcontextptr=(context *) contextptr;
-    int protect=giac::bind(makevecteur(xmin,ymin),localvar,newcontextptr);
+    int protect=giac_bind(makevecteur(xmin,ymin),localvar,newcontextptr);
     vector< vector<bool> > visited(nxstep+2,vector<bool>(nystep+2));
     // vector< vector<bool> > visited(nxstep+2,vector<bool>(nystep+2) );
     vector< vector<double> > 

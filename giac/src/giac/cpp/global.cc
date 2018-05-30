@@ -27,7 +27,7 @@ using namespace std;
 #endif
 #include "global.h"
 // #include <time.h>
-#ifndef BESTA_OS
+#if !defined BESTA_OS && !defined FXCG
 #include <signal.h>
 #endif
 #include <math.h>
@@ -46,7 +46,7 @@ using namespace std;
 #include <string.h>
 #include <stdexcept>
 #include <algorithm>
-#ifndef BESTA_OS
+#if !defined BESTA_OS && !defined FXCG
 #include <cerrno>
 #endif
 #include "gen.h"
@@ -121,7 +121,7 @@ namespace giac {
 
   // FIXME: make the replacement call for APPLE
   int system_no_deprecation(const char *command) {
-#ifdef _IOS_FIX_
+#if defined _IOS_FIX_ || defined FXCG
     return 0;
 #else
     return system(command);
@@ -1113,7 +1113,11 @@ extern "C" void Sleep(unsigned int miliSecond);
     return &CERR;
   }
 #else
+#ifdef FXCG
+  static ostream * _logptr_=0;
+#else
   static ostream * _logptr_=&CERR;
+#endif
   ostream * logptr(GIAC_CONTEXT){
     ostream * res;
     if (contextptr && contextptr->globalptr )
@@ -1123,7 +1127,11 @@ extern "C" void Sleep(unsigned int miliSecond);
 #ifdef EMCC
     return res?res:&COUT;
 #else
+#ifdef FXCG
+    return 0;
+#else
     return res?res:&CERR;
+#endif
 #endif
   }
 #endif
@@ -1251,13 +1259,13 @@ extern "C" void Sleep(unsigned int miliSecond);
       _eval_level=b;
   }
 
-#if 0 // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
+#ifdef FXCG // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
   static unsigned int _rand_seed=123457;
 #else
   static tinymt32_t _rand_seed;
 #endif
 
-#if 0 // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
+#ifdef FXCG // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
   unsigned int & rand_seed(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_rand_seed;
@@ -1291,7 +1299,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   int giac_rand(GIAC_CONTEXT){
-#if 0 // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
+#ifdef FXCG // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
     unsigned int & r = rand_seed(contextptr);
     // r = (2147483629*ulonglong(r)+ 2147483587)% 2147483647;
     r = unsigned ((1664525*ulonglong(r)+1013904223)%(ulonglong(1)<<31));
@@ -1601,7 +1609,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
   void parser_error(const std::string & b,GIAC_CONTEXT){
 #ifndef GIAC_HAS_STO_38
-    if (!giac::first_error_line(contextptr))
+    if (!first_error_line(contextptr))
       alert(b,contextptr);
     else
       *logptr(contextptr) << b << endl;
@@ -1715,7 +1723,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int debug_infolevel=0;
 #endif
   int printprog=0;
-#if defined __APPLE__ || defined VISUALC || defined __MINGW_H || defined BESTA_OS || defined NSPIRE || defined NSPIRE_NEWLIB
+#if defined __APPLE__ || defined VISUALC || defined __MINGW_H || defined BESTA_OS || defined NSPIRE || defined FXCG || defined NSPIRE_NEWLIB
   int threads=1;
 #else
   int threads=sysconf (_SC_NPROCESSORS_ONLN);
@@ -1834,7 +1842,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 
   void ctrl_c_signal_handler(int signum){
     ctrl_c=true;
-#if !defined NSPIRE_NEWLIB && !defined WIN32 && !defined BESTA_OS && !defined NSPIRE
+#if !defined NSPIRE_NEWLIB && !defined WIN32 && !defined BESTA_OS && !defined NSPIRE && !defined FXCG
     if (child_id)
       kill(child_id,SIGINT);
 #endif
@@ -1842,7 +1850,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     cerr << "Ctrl-C pressed (pid " << getpid() << ")" << endl;
 #endif
   }
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
   gen catch_err(const std::runtime_error & error){
     cerr << error.what() << endl;
     debug_ptr(0)->sst_at_stack.clear();
@@ -1866,7 +1874,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 #endif
 
-#ifdef HAVE_SIGNAL_H_OLD
+#if defined HAVE_SIGNAL_H_OLD 
   static bool running_file=false;
   static int run_modif_pos;
   bool synchronize_history=true;
@@ -2546,6 +2554,9 @@ extern "C" void Sleep(unsigned int miliSecond);
 
   string home_directory(){
     string s("/");
+#ifdef FXCG
+    return s;
+#else
     if (getenv("GIAC_HOME"))
       s=getenv("GIAC_HOME");
     else {
@@ -2566,8 +2577,10 @@ extern "C" void Sleep(unsigned int miliSecond);
     s=p->pw_dir;
     return s+"/";
 #endif
+#endif
   }
 
+#ifndef FXCG
   string cas_entree_name(){
     if (getenv("XCAS_TMP"))
       return getenv("XCAS_TMP")+("/#cas_entree#"+print_INT_(parent_id));
@@ -2587,9 +2600,10 @@ extern "C" void Sleep(unsigned int miliSecond);
     return home_directory()+"#cas_sortie#"+print_INT_(parent_id);
 #endif
   }
-
+#endif
+  
   void read_config(const string & name,GIAC_CONTEXT,bool verbose){
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
 #if !defined __MINGW_H 
     if (access(name.c_str(),R_OK)) {
       if (verbose)
@@ -2633,7 +2647,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #endif
       string s;
 #ifdef WIN32
-      s=giac::home_directory();
+      s=home_directory();
 #ifdef GNUWINCE
 	  s = xcasroot();
 #else
@@ -2648,11 +2662,11 @@ extern "C" void Sleep(unsigned int miliSecond);
       s=s.substr(0,s.size()-8);
 #endif
       if (s.size())
-	giac::read_config(s+"/xcas.rc",contextptr,verbose);
-      s=giac::home_directory();
+	read_config(s+"/xcas.rc",contextptr,verbose);
+      s=home_directory();
       if (s.size()<2)
 	s="";
-      giac::read_config(s+xcasrc(),contextptr,verbose);
+      read_config(s+xcasrc(),contextptr,verbose);
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & e){
@@ -2663,7 +2677,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   string giac_aide_dir(){
-#if defined __MINGW_H || defined NSPIRE
+#if defined __MINGW_H || defined NSPIRE || defined FXCG
     return xcasroot();
 #else
     if (!access((xcasroot()+"aide_cas").c_str(),R_OK)){
@@ -2777,7 +2791,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   bool is_file_available(const char * ch){
     if (!ch)
       return false;
-#if !defined __MINGW_H && !defined NSPIRE
+#if !defined __MINGW_H && !defined NSPIRE && !defined FXCG
     if (access(ch,R_OK))
       return false;
 #endif
@@ -2792,6 +2806,11 @@ extern "C" void Sleep(unsigned int miliSecond);
     if (!path.empty() && path[path.size()-1]!='/')
       path += '/';
   }
+#ifdef FXCG
+  const char * getenv(const char *){
+    return "";
+  }
+#endif
 
   bool check_file_path(const string & s){
     int ss=int(s.size()),i;
@@ -2800,7 +2819,11 @@ extern "C" void Sleep(unsigned int miliSecond);
 	break;
     }
     string name=s.substr(0,i);
+#ifdef FXCG
+    const char ch[]="/";
+#else
     const char * ch=getenv("PATH");
+#endif
     if (!ch || name[0]=='/')
       return is_file_available(name.c_str());
     string path;
@@ -2822,7 +2845,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   string browser_command(const string & orig_file){
-#if defined __MINGW_H || defined NSPIRE
+#if defined __MINGW_H || defined NSPIRE || defined FXCG
     return "";
 #else
     string file=orig_file;
@@ -2976,7 +2999,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       if (ss && res[ss]!='.')
 	res=res.substr(0,ss);
       CERR << res << endl;
-#if !defined VISUALC && !defined __MINGW_H && !defined NSPIRE
+#if !defined VISUALC && !defined __MINGW_H && !defined NSPIRE && !defined FXCG
       /* If we have a POSIX path list, convert to win32 path list */
       const char *_epath;
       _epath = res.c_str()  ;
@@ -2996,7 +3019,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #endif
     }
     CERR << res << endl;
-#if !defined VISUALC && !defined __MINGW_H && !defined NSPIRE
+#if !defined VISUALC && !defined __MINGW_H && !defined NSPIRE && !defined FXCG
     // FIXME: works under visualc but not using /UNICODE flag
     // find correct flag
     ShellExecute(NULL,NULL,res.c_str(),NULL,NULL,1);
@@ -3130,6 +3153,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   void add_language(int i,GIAC_CONTEXT){
+#ifdef FXCG
+    return;
+#else
     if (!equalposcomp(lexer_localization_vector(),i)){
       lexer_localization_vector().push_back(i);
       update_lexer_localization(lexer_localization_vector(),lexer_localization_map(),back_lexer_localization_map(),contextptr);
@@ -3173,9 +3199,13 @@ extern "C" void Sleep(unsigned int miliSecond);
       }
 #endif
     }
+#endif // FXCG
   }
 
   void remove_language(int i,GIAC_CONTEXT){
+#ifdef FXCG
+    return;
+#else
     if (int pos=equalposcomp(lexer_localization_vector(),i)){
       if (vector_aide_ptr()){
 	vector<aide> nv;
@@ -3201,6 +3231,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       lexer_localization_vector().erase(lexer_localization_vector().begin()+pos);
       update_lexer_localization(lexer_localization_vector(), lexer_localization_map(), back_lexer_localization_map(), contextptr);
 	}
+#endif
   }
 
   int string2lang(const string & s){
@@ -3242,71 +3273,71 @@ extern "C" void Sleep(unsigned int miliSecond);
 #ifndef RTOS_THREADX
 #ifndef BESTA_OS
     if (getenv("GIAC_LAPACK")){
-      giac::CALL_LAPACK=atoi(getenv("GIAC_LAPACK"));
+      CALL_LAPACK=atoi(getenv("GIAC_LAPACK"));
       if (verbose)
 	CERR << "// Will call lapack if dimension is >=" << CALL_LAPACK << endl;
     }
     if (getenv("GIAC_PADIC")){
-      giac::GIAC_PADIC=atoi(getenv("GIAC_PADIC"));
+      GIAC_PADIC=atoi(getenv("GIAC_PADIC"));
       if (verbose)
-	CERR << "// Will use p-adic algorithm if dimension is >=" << giac::GIAC_PADIC << endl;
+	CERR << "// Will use p-adic algorithm if dimension is >=" << GIAC_PADIC << endl;
     }
 #endif
 #endif
     if (getenv("XCAS_RPN")){
       if (verbose)
 	CERR << "// Setting RPN mode" << endl;
-      giac::rpn_mode(contextptr)=true;
+      rpn_mode(contextptr)=true;
     }
     if (getenv("GIAC_XCAS_MODE")){
-      giac::xcas_mode(contextptr)=atoi(getenv("GIAC_XCAS_MODE"));
+      xcas_mode(contextptr)=atoi(getenv("GIAC_XCAS_MODE"));
       if (verbose)
-	CERR << "// Setting maple mode " << giac::xcas_mode(contextptr) << endl;
+	CERR << "// Setting maple mode " << xcas_mode(contextptr) << endl;
     }
     if (getenv("GIAC_C")){
-      giac::xcas_mode(contextptr)=0;
+      xcas_mode(contextptr)=0;
       if (verbose)
 	CERR << "// Setting giac C mode" << endl;
     }
     if (getenv("GIAC_MAPLE")){
-      giac::xcas_mode(contextptr)=1;
+      xcas_mode(contextptr)=1;
       if (verbose)
 	CERR << "// Setting giac maple mode" << endl;
     }
     if (getenv("GIAC_MUPAD")){
-      giac::xcas_mode(contextptr)=2;
+      xcas_mode(contextptr)=2;
       if (verbose)
 	CERR << "// Setting giac mupad mode" << endl;
     }
     if (getenv("GIAC_TI")){
-      giac::xcas_mode(contextptr)=3;
+      xcas_mode(contextptr)=3;
       if (verbose)
 	CERR << "// Setting giac TI mode" << endl;
     }
     if (getenv("GIAC_MONO")){
       if (verbose)
 	CERR << "// Threads polynomial * disabled" << endl;
-      giac::threads_allowed=false;
+      threads_allowed=false;
     }
     if (getenv("GIAC_MPZCLASS")){
       if (verbose)
 	CERR << "// mpz_class enabled" << endl;
-      giac::mpzclass_allowed=true;
+      mpzclass_allowed=true;
     }
     if (getenv("GIAC_DEBUG")){
-      giac::debug_infolevel=atoi(getenv("GIAC_DEBUG"));
-      CERR << "// Setting debug_infolevel to " << giac::debug_infolevel << endl;
+      debug_infolevel=atoi(getenv("GIAC_DEBUG"));
+      CERR << "// Setting debug_infolevel to " << debug_infolevel << endl;
     }
     if (getenv("GIAC_PRINTPROG")){ 
       // force print of prog at parse, 256 for python compat mode print
-      giac::printprog=atoi(getenv("GIAC_PRINTPROG"));
-      CERR << "// Setting printprog to " << giac::printprog << endl;
+      printprog=atoi(getenv("GIAC_PRINTPROG"));
+      CERR << "// Setting printprog to " << printprog << endl;
     }
     string s;
     if (getenv("LANG"))
       s=getenv("LANG");
     else { // __APPLE__ workaround
-#if !defined VISUALC && !defined __MINGW_H && !defined NSPIRE
+#if !defined VISUALC && !defined __MINGW_H && !defined NSPIRE && !defined FXCG
       if (!strcmp(gettext("File"),"Fich")){
 	setenv("LANG","fr_FR.UTF8",1);
 	s="fr_FR.UTF8";
@@ -3390,7 +3421,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 #ifndef RTOS_THREADX
-#if !defined BESTA_OS && !defined NSPIRE
+#if !defined BESTA_OS && !defined NSPIRE && !defined FXCG
   std::map<std::string,context *> * context_names = new std::map<std::string,context *> ;
 
   context::context(const string & name) { 
@@ -3541,7 +3572,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	}
       }
 #ifndef RTOS_THREADX
-#if !defined BESTA_OS && !defined NSPIRE
+#if !defined BESTA_OS && !defined NSPIRE && !defined FXCG
       if (context_names){
 	map<string,context *>::iterator it=context_names->begin(),itend=context_names->end();
 	for (;it!=itend;++it){
@@ -3598,7 +3629,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     int beg=CLOCK();
 #endif
     gen g = (*v)[0];
-    g = giac::protecteval(g,(*v)[1].val,contextptr);
+    g = protecteval(g,(*v)[1].val,contextptr);
 #ifndef NO_STDEXCEPT
     try {
 #endif
@@ -3624,7 +3655,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   // create a new thread for evaluation of g at level level in context
-  bool make_thread(const giac::gen & g,int level,const giac_callback & f,void * f_param,const context * contextptr){
+  bool make_thread(const gen & g,int level,const giac_callback & f,void * f_param,const context * contextptr){
     if (is_context_busy(contextptr))
       return false;
     thread_param * ptr =thread_param_ptr(contextptr);
@@ -3737,7 +3768,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     return ans;
   }
 
-  giac::gen thread_eval(const giac::gen & g_,int level,context * contextptr,void (* wait_0001)(context *) ){
+  gen thread_eval(const gen & g_,int level,context * contextptr,void (* wait_0001)(context *) ){
     gen g=equaltosto(g_,contextptr);
     /* launch a new thread for evaluation only,
        no more readqueue, readqueue is done by the "parent" thread
@@ -3747,7 +3778,7 @@ extern "C" void Sleep(unsigned int miliSecond);
        then call the wait function of the GUI and readd callbacks
     */
     pthread_t eval_thread;
-    giac::vecteur v(6);
+    vecteur v(6);
     v[0]=g;
     v[1]=level;
     v[2]=gen(contextptr,_CONTEXT_POINTER);
@@ -3791,11 +3822,11 @@ extern "C" void Sleep(unsigned int miliSecond);
       return v[5];
     }
     pthread_mutex_unlock(mutexptr(contextptr));
-    return giac::protecteval(g,level,contextptr);
+    return protecteval(g,level,contextptr);
   }
 #else
 
-  bool make_thread(const giac::gen & g,int level,const giac_callback & f,void * f_param,context * contextptr){
+  bool make_thread(const gen & g,int level,const giac_callback & f,void * f_param,context * contextptr){
     return false;
   }
 
@@ -3807,8 +3838,8 @@ extern "C" void Sleep(unsigned int miliSecond);
     return -1;
   }
 
-  giac::gen thread_eval(const giac::gen & g,int level,context * contextptr,void (* wait_001)(context * )){
-    return giac::protecteval(g,level,contextptr);
+  gen thread_eval(const gen & g,int level,context * contextptr,void (* wait_001)(context * )){
+    return protecteval(g,level,contextptr);
   }
 #endif // HAVE_LIBPTHREAD
 
@@ -3905,7 +3936,11 @@ extern "C" void Sleep(unsigned int miliSecond);
 #ifdef EMCC
 		     _logptr_(&COUT), 
 #else
-		     _logptr_(&CERR), 
+#ifdef FXCG
+		     _logptr_(0),
+#else
+		     _logptr_(&CERR),
+#endif
 #endif
 		     _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_last_evaled_function_name_(0),_currently_scanned_(""),_last_evaled_argptr_(0),_max_sum_sqrt_(3),
 #ifdef GIAC_HAS_STO_38 // Prime sum(x^2,x,0,100000) crash on hardware	
@@ -4015,6 +4050,14 @@ extern "C" void Sleep(unsigned int miliSecond);
 #endif
   }
 
+#ifdef FXCG
+  bool my_isinf(double d){
+    return 1/d==0.0;
+  }
+  bool my_isnan(double d){
+    return d==d+1 && !my_isinf(d);
+  }
+#else // FXCG
 #ifdef __APPLE__
   bool my_isnan(double d){
 #if 1 // TARGET_OS_IPHONE
@@ -4063,7 +4106,8 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 #endif // __APPLE__
-
+#endif // FXCG
+  
   double giac_floor(double d){
     double maxdouble=longlong(1)<<30;
     if (d>=maxdouble || d<=-maxdouble)
@@ -4476,7 +4520,7 @@ unsigned int ConvertUTF8toUTF16 (
     return wname;
   }
 
-#ifdef NSPIRE
+#if defined NSPIRE || defined FXCG
   unsigned wcslen(const wchar_t * c){
     unsigned i=0;
     for (;*c;++i)
@@ -4815,7 +4859,7 @@ unsigned int ConvertUTF8toUTF16 (
 	    delete [] ch;
 	    return undef;
 	  }
-#ifdef NSPIRE
+#if defined NSPIRE
 	  if (builtin_lexer_functions_()){
 	    std::pair<charptr_gen *,charptr_gen *> p=equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),std::pair<const char *,gen>(ch,0),tri);
 	    if (p.first!=p.second && p.first!=builtin_lexer_functions_end()){
@@ -5253,14 +5297,14 @@ unsigned int ConvertUTF8toUTF16 (
   const char invalid_name[]="Invalid name";
 
 #ifdef USTL    
-  // void update_lexer_localization(const std::vector<int> & v,ustl::map<std::string,std::string> &lexer_map,ustl::multimap<std::string,giac::localized_string> &back_lexer_map){}
+  // void update_lexer_localization(const std::vector<int> & v,ustl::map<std::string,std::string> &lexer_map,ustl::multimap<std::string,localized_string> &back_lexer_map){}
 #else
   vecteur * keywords_vecteur_ptr(){
     static vecteur v;
     return &v;
   }
 
-  static void in_update_lexer_localization(istream & f,int lang,const std::vector<int> & v,std::map<std::string,std::string> &lexer_map,std::multimap<std::string,giac::localized_string> &back_lexer_map,GIAC_CONTEXT){
+  static void in_update_lexer_localization(istream & f,int lang,const std::vector<int> & v,std::map<std::string,std::string> &lexer_map,std::multimap<std::string,localized_string> &back_lexer_map,GIAC_CONTEXT){
     char * line = (char *)malloc(1024);
     std::string giac_kw,local_kw;
     size_t l;
@@ -5316,7 +5360,7 @@ unsigned int ConvertUTF8toUTF16 (
     free(line);
   }
 	    
-  void update_lexer_localization(const std::vector<int> & v,std::map<std::string,std::string> &lexer_map,std::multimap<std::string,giac::localized_string> &back_lexer_map,GIAC_CONTEXT){
+  void update_lexer_localization(const std::vector<int> & v,std::map<std::string,std::string> &lexer_map,std::multimap<std::string,localized_string> &back_lexer_map,GIAC_CONTEXT){
     lexer_map.clear();
     back_lexer_map.clear();
     int s=int(v.size());
@@ -5324,7 +5368,7 @@ unsigned int ConvertUTF8toUTF16 (
       int lang=v[i];
       if (lang>=1 && lang<=4){
 	std::string doc=find_doc_prefix(lang);
-	std::string file=giac::giac_aide_dir()+doc+"keywords";
+	std::string file=giac_aide_dir()+doc+"keywords";
 	//COUT << "keywords " << file << endl;
 	ifstream f(file.c_str());
 	if (f.good()){
@@ -5349,7 +5393,7 @@ unsigned int ConvertUTF8toUTF16 (
   }
 #endif
 
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
 
 #include "input_parser.h" 
 

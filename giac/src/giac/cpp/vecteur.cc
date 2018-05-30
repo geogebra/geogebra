@@ -21,7 +21,7 @@ using namespace std;
 #include <stdexcept>
 #include <map>
 #include <iostream>
-#ifdef HAVE_SSTREAM
+#if defined HAVE_SSTREAM || defined FXCG
 #include <sstream>
 #else
 #include <strstream>
@@ -1394,7 +1394,7 @@ namespace giac {
     // take the largest ratio (a_[n-d]/a_n)^(1/d) for lambda
     double ratio=0.0,tmpratio;
     for (int d=1;d<=deg;++d){
-      tmpratio=std::pow(abs(v_d[d]/v_d[0]),1.0/d);
+      tmpratio=std::pow(complex_abs(v_d[d]/v_d[0]),1.0/d);
       if (tmpratio>ratio)
 	ratio=tmpratio;
     }
@@ -1428,11 +1428,11 @@ namespace giac {
 	if (fprimec==complex_double(0,0))
 	  break;
 	rapport=fc/fprimec;
-	if (abs(rapport)>1/eps) // denominator not invertible -> start elsewhere
+	if (complex_abs(rapport)>1/eps) // denominator not invertible -> start elsewhere
 	  break;
 	newc=c-prefact*rapport;
 	if (newc==c){
-	  if (abs(fc)<eps)
+	  if (complex_abs(fc)<eps)
 	    return gen(real(newc)*ratio,imag(newc)*ratio);
 	  break;
 	}
@@ -1441,9 +1441,9 @@ namespace giac {
 	if (debug_infolevel>2)
 	  CERR << "proot (j=" << j << "i=" << i << "), z'=" << newc << " f(z')=" << newfc << " f(z)=" << fc << " " << prefact << endl;
 #endif
-	if (abs(rapport)<eps)
+	if (complex_abs(rapport)<eps)
 	  return gen(real(newc)*ratio,imag(newc)*ratio);
-	if (abs(newfc)>abs(fc)){
+	if (complex_abs(newfc)>complex_abs(fc)){
 	  prefact=prefact*prefactmult;
 	  // prefactmult = std::max(0.1,prefactmult*prefactmult);
 	}
@@ -1588,7 +1588,7 @@ namespace giac {
     giac_double res=0;
     vector<giac_double>::const_iterator it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
-      giac_double tmp=std::abs(*it);
+      giac_double tmp=absdouble(*it);
       if (tmp>res) res=tmp;
     }
     return res;
@@ -1667,8 +1667,8 @@ namespace giac {
       multmatvecteur(Htran,z1,z2);
       diagonal_mult(d,true,z2,r);
       for (int i=0;i<n;++i){
-	if (std::abs(p[i])>cutoff*Hinf && r[i]!=0)
-	  d[i]=d[i]*std::sqrt(std::abs(r[i]/p[i]));
+	if (absdouble(p[i])>cutoff*Hinf && r[i]!=0)
+	  d[i]=d[i]*std::sqrt(absdouble(r[i]/p[i]));
       }
     }
     return true;
@@ -1691,8 +1691,8 @@ namespace giac {
     bool ans=true;
     // read eigenvalues on diagonal of H, using subdiagonal for complex pairs
     for (int i=0;i<dim;++i){
-      if (i<dim-1 && std::sqrt(eps)>std::abs(H1[i+1][i])){
-	if (dim*eps<std::abs(H1[i+1][i]) && (i==0 || dim*eps<std::abs(H1[i][i-1]))){
+      if (i<dim-1 && std::sqrt(eps)>absdouble(H1[i+1][i])){
+	if (dim*eps<absdouble(H1[i+1][i]) && (i==0 || dim*eps<absdouble(H1[i][i-1]))){
 #ifndef GIAC_HAS_STO_38
 	  *logptr(contextptr) << gettext("schur row ") << i+1 << " " << H1[i+1][i] << endl;
 #endif
@@ -1702,8 +1702,8 @@ namespace giac {
 	res.push_back(double(H1[i][i]));
 	continue;
       }
-      if (i==dim-1 && std::sqrt(eps)>std::abs(H1[i][i-1])){
-	if (dim*eps<std::abs(H1[i][i-1])){
+      if (i==dim-1 && std::sqrt(eps)>absdouble(H1[i][i-1])){
+	if (dim*eps<absdouble(H1[i][i-1])){
 #ifndef GIAC_HAS_STO_38
 	  *logptr(contextptr) << gettext("schur row ") << i << " " << H1[i][i-1] << endl;
 #endif
@@ -1718,7 +1718,7 @@ namespace giac {
       // non-0, next one must be 0
       double test=0;
       if (i<dim-2)
-	test=std::abs(H1[i+2][i+1])/(std::abs(H1[i+1][i+1])+std::abs(H1[i][i])+std::abs(H1[i+1][i])+std::abs(H1[i][i+1]));
+	test=absdouble(H1[i+2][i+1])/(absdouble(H1[i+1][i+1])+absdouble(H1[i][i])+absdouble(H1[i+1][i])+absdouble(H1[i][i+1]));
       if (i<dim-2 && dim*eps<test){
 #ifndef GIAC_HAS_STO_38
 	*logptr(contextptr) << gettext("schur row ") << i+2 << " " << H1[i+2][i+1] << endl;
@@ -1819,16 +1819,16 @@ namespace giac {
       res.clear();
       for (unsigned i=0;i<H2.size();++i){
 	if (i+1<H2.size()){
-	  double d1=abs(H2[i+1][i]);
-	  double d2=dim*eps*(abs(H2[i][i])+abs(H2[i+1][i+1]));
+	  double d1=complex_abs(H2[i+1][i]);
+	  double d2=dim*eps*(complex_abs(H2[i][i])+complex_abs(H2[i+1][i+1]));
 	  if (d1>d2)
 	    ans=false;
 	}
 	complex_double c=H2[i][i];
 	// 3e-14 is approx 2^(-45) the number of bits of double in a gen
-	if (std::abs(real(c))<3e-14*std::abs(imag(c)))
+	if (absdouble(real(c))<3e-14*absdouble(imag(c)))
 	  c=complex_double(0,imag(c));
-	if (std::abs(imag(c))<3e-14*std::abs(real(c)))
+	if (absdouble(imag(c))<3e-14*absdouble(real(c)))
 	  res.push_back(real(c));
 	else
 	  res.push_back(c);
@@ -2035,7 +2035,7 @@ namespace giac {
     vecteur cur_v(v);
     double ratiod=0.0,tmpratio;
     for (int d=1;d<=deg;++d){
-      tmpratio=std::pow(evalf_double(abs(cur_v[d]/cur_v[0]),1,context0)._DOUBLE_val,1.0/d);
+      tmpratio=std::pow(evalf_double(abs(cur_v[d]/cur_v[0],context0),1,context0)._DOUBLE_val,1.0/d);
       if (tmpratio>ratiod)
 	ratiod=tmpratio;
     }
@@ -2071,7 +2071,7 @@ namespace giac {
       fprimer=horner(dcur_v,r);
       dr=oldval/fprimer;
       newr=r-prefact*dr;
-      if (is_positive(-rprec-ln(abs(dr)/abs(r),context0)/std::log(2.0),context0)){
+      if (is_positive(-rprec-ln(abs(dr,context0)/abs(r,context0),context0)/std::log(2.0),context0)){
 	r=ratio*newr;
 	return true;
       }
@@ -2661,7 +2661,7 @@ namespace giac {
 	fprimer=horner(dcur_v,r);
 	dr=oldval/fprimer;
 	newr=r-prefact*dr;
-	if (is_zero(dr) || is_positive(-rprec-ln(abs(dr)/abs(r),contextptr)/std::log(2.0),contextptr)){
+	if (is_zero(dr) || is_positive(-rprec-ln(abs(dr,contextptr)/abs(r,contextptr),contextptr)/std::log(2.0),contextptr)){
 	  r=newr;
 	  break;
 	}
@@ -2680,7 +2680,7 @@ namespace giac {
       for (j=0;j<vsize;j++){
 	dr=horner(v_accurate,r)/horner(dv_accurate,r);
 	r=r-dr;
-	if (is_zero(dr) || is_positive(-rprec-ln(abs(dr)/abs(r),contextptr)/std::log(2.0),contextptr))
+	if (is_zero(dr) || is_positive(-rprec-ln(abs(dr,contextptr)/abs(r,contextptr),contextptr)/std::log(2.0),contextptr))
 	  break;
       }
       if (j==vsize)
@@ -2798,7 +2798,7 @@ namespace giac {
     return symbolic(at_proot,e);
   }
   static const char _proot_s []="proot";
-  static define_unary_function_eval (__proot,&giac::_proot,_proot_s);
+  static define_unary_function_eval (__proot,&_proot,_proot_s);
   define_unary_function_ptr5( at_proot ,alias_at_proot,&__proot,0,true);
 
   vecteur pcoeff(const vecteur & v){
@@ -2833,7 +2833,7 @@ namespace giac {
     return symbolic(at_pcoeff,e);
   }
   static const char _pcoeff_s []="pcoeff";
-  static define_unary_function_eval (__pcoeff,&giac::_pcoeff,_pcoeff_s);
+  static define_unary_function_eval (__pcoeff,&_pcoeff,_pcoeff_s);
   define_unary_function_ptr5( at_pcoeff ,alias_at_pcoeff,&__pcoeff,0,true);
 
   gen _peval(const gen & e,GIAC_CONTEXT){
@@ -2880,7 +2880,7 @@ namespace giac {
     return symbolic(at_peval,makesequence(arg1,arg2));
   }
   static const char _peval_s []="peval";
-  static define_unary_function_eval (__peval,&giac::_peval,_peval_s);
+  static define_unary_function_eval (__peval,&_peval,_peval_s);
   define_unary_function_ptr5( at_peval ,alias_at_peval,&__peval,0,true);
   
   int vrows(const vecteur & a){
@@ -3401,7 +3401,7 @@ namespace giac {
     return gen(res,_MATRIX__VECT);
   }
   static const char _tran_s []="tran";
-  static define_unary_function_eval (__tran,&giac::_tran,_tran_s);
+  static define_unary_function_eval (__tran,&_tran,_tran_s);
   define_unary_function_ptr5( at_tran ,alias_at_tran,&__tran,0,true);
   
   bool matrice2std_matrix_double(const matrice & m,matrix_double & M,bool nomulti=false){
@@ -4844,7 +4844,7 @@ namespace giac {
     return mtrace(*a._VECTptr);
   }
   static const char _trace_s []="trace";
-  static define_unary_function_eval (__trace,&giac::ckmtrace,_trace_s);
+  static define_unary_function_eval (__trace,&ckmtrace,_trace_s);
   define_unary_function_ptr5( at_trace ,alias_at_trace,&__trace,0,true);
 
   gen common_deno(const vecteur & v){
@@ -8921,7 +8921,7 @@ namespace giac {
 #endif // GIAC_HAS_STO_38
     for (;(l<lmax) && (c<cmax);){
       pivot=N[l][c];
-      if (std::abs(pivot)<epspivot)
+      if (absdouble(pivot)<epspivot)
 	pivot=N[l][c]=0;
       if (rref_or_det_or_lu==3 && !pivot){
 	idet=0;
@@ -8937,9 +8937,9 @@ namespace giac {
       if (l<dont_swap_below){ 
 	for (int ctemp=c+1;ctemp<cmax;++ctemp){
 	  temp=N[l][ctemp];
-	  if (std::abs(temp)<epspivot)
+	  if (absdouble(temp)<epspivot)
 	    temp=N[l][ctemp]=0;
-	  if (std::abs(temp)>std::abs(pivot)){
+	  if (absdouble(temp)>absdouble(pivot)){
 	    pivot=temp;
 	    pivotcol=ctemp;
 	  }
@@ -8948,18 +8948,18 @@ namespace giac {
       else {      // scan N current column for the best pivot available
 	for (int ltemp=l+1;ltemp<lmax;++ltemp){
 	  temp=N[ltemp][c];
-	  if (std::abs(temp)<epspivot)
+	  if (absdouble(temp)<epspivot)
 	    temp=N[ltemp][c]=0;
 	  if (debug_infolevel>3)
 	    print_debug_info(temp);
-	  if (std::abs(temp)>std::abs(pivot)){
+	  if (absdouble(temp)>absdouble(pivot)){
 	    pivot=temp;
 	    pivotline=ltemp;
 	  }
 	}
       }
       if (pivot){
-	epspivot=std::abs(eps*pivot);
+	epspivot=absdouble(eps*pivot);
 	maxrankcols.push_back(c);
 	if (l!=pivotline){
 	  swap(N[l],N[pivotline]);
@@ -10080,7 +10080,7 @@ namespace giac {
     return gensizeerr(contextptr);
   }
   static const char _padic_linsolve_s []="padic_linsolve";
-  static define_unary_function_eval (__padic_linsolve,&giac::_padic_linsolve,_padic_linsolve_s);
+  static define_unary_function_eval (__padic_linsolve,&_padic_linsolve,_padic_linsolve_s);
   define_unary_function_ptr5( at_padic_linsolve ,alias_at_padic_linsolve,&__padic_linsolve,0,true);
 
   // solve A*x=b where a and b have integer coeffs using a p-adic algorithm 
@@ -10269,7 +10269,7 @@ namespace giac {
     return ratnormal(res,contextptr);
   }
   static const char _rref_s []="rref";
-  static define_unary_function_eval (__rref,&giac::_rref,_rref_s);
+  static define_unary_function_eval (__rref,&_rref,_rref_s);
   define_unary_function_ptr5( at_rref ,alias_at_rref,&__rref,0,true);
 
   // returns 0 if all elements are 0
@@ -10360,7 +10360,7 @@ namespace giac {
     return gen(res,_MATRIX__VECT);
   }
   static const char _idn_s []="idn";
-  static define_unary_function_eval (__idn,&giac::_idn,_idn_s);
+  static define_unary_function_eval (__idn,&_idn,_idn_s);
   define_unary_function_ptr5( at_idn ,alias_at_idn,&__idn,0,true);
 
   // find index i of x in v that is i such that v[i] <= x < v[i+1]
@@ -10812,7 +10812,7 @@ namespace giac {
     return undef;
   }
   static const char _ranm_s []="ranm";
-  static define_unary_function_eval (__ranm,&giac::_ranm,_ranm_s);
+  static define_unary_function_eval (__ranm,&_ranm,_ranm_s);
   define_unary_function_ptr5( at_ranm ,alias_at_ranm,&__ranm,0,true);
 
   gen _randvector(const gen & e,GIAC_CONTEXT){
@@ -10875,11 +10875,11 @@ namespace giac {
     return undef;
   }
   static const char _randvector_s []="randvector";
-  static define_unary_function_eval (__randvector,&giac::_randvector,_randvector_s);
+  static define_unary_function_eval (__randvector,&_randvector,_randvector_s);
   define_unary_function_ptr5( at_randvector ,alias_at_randvector,&__randvector,0,true);
 
   static const char _ranv_s []="ranv";
-  static define_unary_function_eval (__ranv,&giac::_randvector,_ranv_s);
+  static define_unary_function_eval (__ranv,&_randvector,_ranv_s);
   define_unary_function_ptr5( at_ranv ,alias_at_ranv,&__ranv,0,true);
 
 #ifdef HAVE_LIBLAPACK
@@ -11139,7 +11139,7 @@ namespace giac {
     return det_minor(*a._VECTptr,true,contextptr);
   }
   static const char _det_minor_s []="det_minor";
-  static define_unary_function_eval (__det_minor,(const gen_op_context)giac::_det_minor,_det_minor_s);
+  static define_unary_function_eval (__det_minor,(const gen_op_context)_det_minor,_det_minor_s);
   define_unary_function_ptr5( at_det_minor ,alias_at_det_minor,&__det_minor,0,true);
 
   gen mdet(const matrice & a,GIAC_CONTEXT){
@@ -11180,7 +11180,7 @@ namespace giac {
     return determinant;
   }
   static const char _det_s []="det";
-  static define_unary_function_eval (__det,&giac::_det,_det_s);
+  static define_unary_function_eval (__det,&_det,_det_s);
   define_unary_function_ptr5( at_det ,alias_at_det,&__det,0,true);
 
   // Find minimal poly by trying with 3 random vectors
@@ -11572,6 +11572,11 @@ namespace giac {
     return ptr;
   }
 
+#ifdef FXCG // FIXME chk largest in x/y to avoid overflow
+  double hypot(double x,double y){
+    return std::sqrt(x*x+y*y);
+  }
+#endif	
   // QR reduction, Q=P is orthogonal and should be initialized to identity
   // P*H=original if tranpose is false, H=P*original otherwise, Givens method
   // H[rstart..n+rstart-1] n rows, c cols -> Q=nxn matrix and R n rows, c cols
@@ -12609,7 +12614,7 @@ namespace giac {
       return makesequence(inv(p,contextptr),h); // p,h such that p*h*p^-1=orig
   }
   static const char _hessenberg_s []="hessenberg";
-  static define_unary_function_eval (__hessenberg,&giac::_hessenberg,_hessenberg_s);
+  static define_unary_function_eval (__hessenberg,&_hessenberg,_hessenberg_s);
   define_unary_function_ptr5( at_hessenberg ,alias_at_hessenberg,&__hessenberg,0,true);
 
   int trace(const vector< vector<int> > & N,int modulo){
@@ -13167,7 +13172,7 @@ namespace giac {
     return mpcar_hessenberg(m,0,contextptr);
   }
   static const char _pcar_hessenberg_s []="pcar_hessenberg";
-  static define_unary_function_eval (__pcar_hessenberg,&giac::_pcar_hessenberg,_pcar_hessenberg_s);
+  static define_unary_function_eval (__pcar_hessenberg,&_pcar_hessenberg,_pcar_hessenberg_s);
   define_unary_function_ptr5( at_pcar_hessenberg ,alias_at_pcar_hessenberg,&__pcar_hessenberg,0,true);
 
 
@@ -13327,7 +13332,7 @@ namespace giac {
     return symb_horner(res,b);
   }
   static const char _pcar_s []="pcar";
-  static define_unary_function_eval (__pcar,&giac::_pcar,_pcar_s);
+  static define_unary_function_eval (__pcar,&_pcar,_pcar_s);
   define_unary_function_ptr5( at_pcar ,alias_at_pcar,&__pcar,0,true);
 
 #if 0
@@ -13451,7 +13456,7 @@ namespace giac {
     return gensizeerr(contextptr);
   }
   static const char _rat_jordan_block_s []="rat_jordan_block";
-  static define_unary_function_eval (__rat_jordan_block,&giac::_rat_jordan_block,_rat_jordan_block_s);
+  static define_unary_function_eval (__rat_jordan_block,&_rat_jordan_block,_rat_jordan_block_s);
   define_unary_function_ptr5( at_rat_jordan_block ,alias_at_rat_jordan_block,&__rat_jordan_block,0,true);
 
   matrice pseudo_rat_to_rat(const vecteur & v,int n){
@@ -14287,7 +14292,7 @@ namespace giac {
     return megv(*a._VECTptr,contextptr);
   }
   static const char _egv_s []="egv";
-  static define_unary_function_eval (__egv,&giac::_egv,_egv_s);
+  static define_unary_function_eval (__egv,&_egv,_egv_s);
   define_unary_function_ptr5( at_egv ,alias_at_egv,&__egv,0,true);
 
 
@@ -14311,7 +14316,7 @@ namespace giac {
     return megvl(*a._VECTptr,contextptr);
   }
   static const char _egvl_s []="egvl";
-  static define_unary_function_eval (__egvl,&giac::_egvl,_egvl_s);
+  static define_unary_function_eval (__egvl,&_egvl,_egvl_s);
   define_unary_function_ptr5( at_egvl ,alias_at_egvl,&__egvl,0,true);
 
   vecteur mjordan(const matrice & e,bool rational_jordan,GIAC_CONTEXT){
@@ -14353,7 +14358,7 @@ namespace giac {
     return res;
   }
   static const char _jordan_s []="jordan";
-  static define_unary_function_eval (__jordan,&giac::_jordan,_jordan_s);
+  static define_unary_function_eval (__jordan,&_jordan,_jordan_s);
   define_unary_function_ptr5( at_jordan ,alias_at_jordan,&__jordan,0,true);
 
   gen _rat_jordan(const gen & a,GIAC_CONTEXT){
@@ -14361,7 +14366,7 @@ namespace giac {
     return jordan(a,true,contextptr);
   }
   static const char _rat_jordan_s []="rat_jordan";
-  static define_unary_function_eval (__rat_jordan,&giac::_rat_jordan,_rat_jordan_s);
+  static define_unary_function_eval (__rat_jordan,&_rat_jordan,_rat_jordan_s);
   define_unary_function_ptr5( at_rat_jordan ,alias_at_rat_jordan,&__rat_jordan,0,true);
 
   matrice diagonal_apply(const gen & g,const gen & x,const matrice & m,GIAC_CONTEXT){
@@ -14506,7 +14511,7 @@ namespace giac {
     return v;    
   }
   static const char _ker_s []="ker";
-  static define_unary_function_eval (__ker,&giac::_ker,_ker_s);
+  static define_unary_function_eval (__ker,&_ker,_ker_s);
   define_unary_function_ptr5( at_ker ,alias_at_ker,&__ker,0,true);
 
   bool mimage(const matrice & a, vecteur & v,GIAC_CONTEXT){
@@ -14545,7 +14550,7 @@ namespace giac {
     return v;    
   }
   static const char _image_s []="image";
-  static define_unary_function_eval (__image,&giac::_image,_image_s);
+  static define_unary_function_eval (__image,&_image,_image_s);
   define_unary_function_ptr5( at_image ,alias_at_image,&__image,0,true);
 
   vecteur cross(const vecteur & v_orig,const vecteur & w_orig,GIAC_CONTEXT){
@@ -14651,7 +14656,7 @@ namespace giac {
   string texprintascross(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     return texprintsommetasoperator(feuille," \\wedge ",contextptr);
   }
-  static define_unary_function_eval4 (__cross,&giac::_cross,_cross_s,0,texprintascross);
+  static define_unary_function_eval4 (__cross,&_cross,_cross_s,0,texprintascross);
   define_unary_function_ptr5( at_cross ,alias_at_cross,&__cross,0,true);
 
   static string printassize(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
@@ -14680,7 +14685,7 @@ namespace giac {
     return (int) args._VECTptr->size();
   }
   static const char _size_s []="size";
-  static define_unary_function_eval2 (__size,&giac::_size,_size_s,&printassize);
+  static define_unary_function_eval2 (__size,&_size,_size_s,&printassize);
   define_unary_function_ptr5( at_size ,alias_at_size,&__size,0,true);
 
 #ifdef HAVE_LIBGSL  
@@ -15009,7 +15014,7 @@ namespace giac {
     return gen(makevecteur(P,L,U),_SEQ__VECT);
   }
   static const char _lu_s []="lu";
-  static define_unary_function_eval (__lu,&giac::lu,_lu_s);
+  static define_unary_function_eval (__lu,&lu,_lu_s);
   define_unary_function_ptr5( at_lu ,alias_at_lu,&__lu,0,true);
 
   bool matrice2lapack(const matrice & m,double * A,GIAC_CONTEXT){
@@ -15192,7 +15197,7 @@ namespace giac {
     return symbolic(at_qr,args);
   }
   static const char _qr_s []="qr";
-  static define_unary_function_eval (__qr,&giac::qr,_qr_s);
+  static define_unary_function_eval (__qr,&qr,_qr_s);
   define_unary_function_ptr5( at_qr ,alias_at_qr,&__qr,0,true);
 
   matrice thrownulllines(const matrice & res){
@@ -15211,7 +15216,7 @@ namespace giac {
     return gen(thrownulllines(res),_SET__VECT);
   }
   static const char _basis_s []="basis";
-  static define_unary_function_eval (__basis,&giac::_basis,_basis_s);
+  static define_unary_function_eval (__basis,&_basis,_basis_s);
   define_unary_function_ptr5( at_basis ,alias_at_basis,&__basis,0,true);
 
   void sylvester(const vecteur & v1,const vecteur & v2,matrice & res){
@@ -15263,7 +15268,7 @@ namespace giac {
     return sylvester(v1,v2);
   }
   static const char _sylvester_s []="sylvester";
-  static define_unary_function_eval (__sylvester,&giac::_sylvester,_sylvester_s);
+  static define_unary_function_eval (__sylvester,&_sylvester,_sylvester_s);
   define_unary_function_ptr5( at_sylvester ,alias_at_sylvester,&__sylvester,0,true);
 
   gen _ibasis(const gen &args,GIAC_CONTEXT){
@@ -15294,7 +15299,7 @@ namespace giac {
     return gen(thrownulllines(mrref(res,contextptr)),_SET__VECT);
   }
   static const char _ibasis_s []="ibasis";
-  static define_unary_function_eval (__ibasis,&giac::_ibasis,_ibasis_s);
+  static define_unary_function_eval (__ibasis,&_ibasis,_ibasis_s);
   define_unary_function_ptr5( at_ibasis ,alias_at_ibasis,&__ibasis,0,true);
 
   void sort_eigenvals(matrice & p,matrice & d,bool ascend,GIAC_CONTEXT){
@@ -15581,7 +15586,7 @@ namespace giac {
     return gen(makevecteur(u,svl,p),_SEQ__VECT); 
   }
   static const char _svd_s []="svd";
-  static define_unary_function_eval (__svd,&giac::_svd,_svd_s);
+  static define_unary_function_eval (__svd,&_svd,_svd_s);
   define_unary_function_ptr5( at_svd ,alias_at_svd,&__svd,0,true);
 
   gen _cholesky(const gen &_args,GIAC_CONTEXT){
@@ -15681,7 +15686,7 @@ namespace giac {
     */
   }
   static const char _cholesky_s []="cholesky";
-  static define_unary_function_eval (__cholesky,&giac::_cholesky,_cholesky_s);
+  static define_unary_function_eval (__cholesky,&_cholesky,_cholesky_s);
   define_unary_function_ptr5( at_cholesky ,alias_at_cholesky,&__cholesky,0,true);
 
   gen l2norm(const vecteur & v,GIAC_CONTEXT){
@@ -16287,7 +16292,7 @@ namespace giac {
 
   // Read a CSV file (comma separated) with separator, newline, end of file
   // decsep = decimal separator (, -> .)
-#ifndef NSPIRE
+#if !defined NSPIRE && !defined FXCG
   matrice csv2gen(istream & i,char sep,char nl,char decsep,char eof,GIAC_CONTEXT){
     // return vecteur(1,gensizeerr(contextptr));
     vecteur res,line;
@@ -16480,7 +16485,7 @@ namespace giac {
     return gensizeerr(contextptr);
   }
   static const char _matpow_s []="matpow";
-  static define_unary_function_eval (__matpow,&giac::_matpow,_matpow_s);
+  static define_unary_function_eval (__matpow,&_matpow,_matpow_s);
   define_unary_function_ptr5( at_matpow ,alias_at_matpow,&__matpow,0,true);
 
   // EIGENVALUES for double coeff
@@ -16503,7 +16508,7 @@ namespace giac {
   }
 
   static inline giac_double trim(giac_double a,giac_double b,giac_double eps){
-    if (eps && std::abs(a)<eps*std::abs(b)) 
+    if (eps && absdouble(a)<eps*absdouble(b)) 
       return 0;
     else
       return a;
@@ -17071,7 +17076,7 @@ namespace giac {
       }
       alpha=std::sqrt(alpha);
       giac_double Hmm=H[m-cstart+rstart][m];
-      if (alpha<=1e-15*std::abs(Hmm)){
+      if (alpha<=1e-15*absdouble(Hmm)){
 	Pwptr += n-m;
 	continue;
       }
@@ -17267,7 +17272,7 @@ namespace giac {
 	alpha += Hjm*Hjm;
       }
       alpha=std::sqrt(alpha);
-      if (alpha<=1e-15*std::abs(H[m][m])){
+      if (alpha<=1e-15*absdouble(H[m][m])){
 	Pwptr += n-m-1;
 	continue;
       }
@@ -17747,7 +17752,7 @@ namespace giac {
       t2=1; u2=0;
       // line operation
       norme=std::sqrt(u*u+t*t);
-      if (norme==0){//<=1e-16*std::abs(H[m][m])){
+      if (norme==0){//<=1e-16*absdouble(H[m][m])){
 	CERR << m << " " << n-3 << endl;
 	u=0; t=1; norme=0;
 	if (m==n-3) {
@@ -18057,7 +18062,7 @@ namespace giac {
       // [[a,b],[c,d]] -> [b,l1-a] or [l1-d,c] as first eigenvector
       giac_double a=H[n2-2][n2-2],b=H[n2-2][n2-1],c=H[n2-1][n2-2],d=H[n2-1][n2-1];
       giac_double l1a=l1-a,l1d=l1-d;
-      if (std::abs(l1a)>std::abs(l1d)){
+      if (absdouble(l1a)>absdouble(l1d)){
 	x=b; y=l1a;
       }
       else {
@@ -18176,7 +18181,7 @@ namespace giac {
     if (debug_infolevel>2)
       CERR << CLOCK() << " iterate2 " << n1 << " " << n2 << endl;
     giac_double s,p; // s=sum of shifts, p=product
-    giac_double ok=std::abs(H[n2-1][n2-2]/H[n2-1][n2-1]);
+    giac_double ok=absdouble(H[n2-1][n2-2]/H[n2-1][n2-1]);
     if (
 #ifdef GIAC_HAS_STO_38 // otherwise p:=48*x*(1+x)^60 -(1+x)^60 +1; proot(p) crashes
 	0 &&
@@ -18192,7 +18197,7 @@ namespace giac {
       for (int k0=n2-2;k0>n2-200 && k0>(0.2*n1+0.8*n2)
 	     ;--k0
 	   ){
-	giac_double test0=std::abs(H[k0][k0-1]/H[k0-1][k0-1]);
+	giac_double test0=absdouble(H[k0][k0-1]/H[k0-1][k0-1]);
 	if (smallest<0 || test0<smallest){	
 	  smallest=test0;
 	  ksmallest=k0;
@@ -18210,7 +18215,7 @@ namespace giac {
 	// testing from n1 to k-1 is slower...
 	int k1=n1+n2-k0;
 	if (0 && k1<k0 && k1>n1){
-	  giac_double test1=std::abs(H[k1][k1-1]/H[k1-1][k1-1]);
+	  giac_double test1=absdouble(H[k1][k1-1]/H[k1-1][k1-1]);
 	  if (test1<ok){
 	    k=k1;
 	    ok=test1;
@@ -18286,20 +18291,20 @@ namespace giac {
 	  }
 #ifdef GIAC_SCHUR_RECURSE_ALL
 	  for (int k=d-1;k>=2;){
-	    if (std::abs(T[k-1][k-2])>1e-5){
+	    if (absdouble(T[k-1][k-2])>1e-5){
 	      francis_iterate1(H,n1,n2,P,eps,compute_P,T[k][k],false,oper);
-	      // if (std::abs(H[n2-2][n2-1])>1e-5) break;
+	      // if (absdouble(H[n2-2][n2-1])>1e-5) break;
 	      k--; 
 	      continue;
 	    }
 	    s=T[k-1][k-1]+T[k][k];
 	    p=T[k-1][k-1]*T[k][k]-T[k][k-1]*T[k-1][k];
 	    do_francis_iterate2(H,n1,n2,s,p,P,compute_P,oper);
-	    // if (std::abs(H[n2-3][n2-2])>1e-5) break;
+	    // if (absdouble(H[n2-3][n2-2])>1e-5) break;
 	    k-=2;
 	  }
 #else
-	  if (std::abs(T[d-2][d-3])>1e-5){
+	  if (absdouble(T[d-2][d-3])>1e-5){
 	    francis_iterate1(H,n1,n2,P,eps,compute_P,T[d-1][d-1],false,oper);
 	    for (unsigned i=0;i<T.size();++i){
 	      Haux[i].swap(T[i]);
@@ -18342,10 +18347,10 @@ namespace giac {
     p=H[n2-2][n2-2]*H[n2-1][n2-1]-H[n2-1][n2-2]*H[n2-2][n2-1];
     if (s==int(s) && p==int(p))
       s=s*(1+(100*eps*giac_rand(context0)/rand_max2));
-    // CERR << p << " " << s << " " << eps << endl << std::abs(H[n2-2][n2-2]) << " " << std::abs(H[n2-1][n2-1]) << endl;
-    if (p==s*s/4 || (std::abs(H[n2-2][n2-2])<eps &&std::abs(H[n2-1][n2-1])<eps) ){
+    // CERR << p << " " << s << " " << eps << endl << absdouble(H[n2-2][n2-2]) << " " << absdouble(H[n2-1][n2-1]) << endl;
+    if (p==s*s/4 || (absdouble(H[n2-2][n2-2])<eps &&absdouble(H[n2-1][n2-1])<eps) ){
       // multiple root 
-      s += giac_rand(context0)*(H[n2-1][n2-2]+std::sqrt(std::abs(p)))/rand_max2;
+      s += giac_rand(context0)*(H[n2-1][n2-2]+std::sqrt(absdouble(p)))/rand_max2;
       // CERR << "new s " << s << endl;
     }
     do_francis_iterate2(H,n1,n2,s,p,P,compute_P,oper);
@@ -18375,7 +18380,7 @@ namespace giac {
 	CERR << CLOCK() << " first ratios ";
       for (int i=n2-2;i>=n1;--i){
       // for (int i=n1;i<=n2-2;++i){
-	ratio=std::abs(H[i+1][i])/(std::abs(H[i][i])+(i<n2-2?std::abs(H[i+2][i+1]):0));
+	ratio=absdouble(H[i+1][i])/(absdouble(H[i][i])+(i<n2-2?absdouble(H[i+2][i+1]):0));
 	if (debug_infolevel>2 && i>n2-25)
 	  CERR << ratio << " ";
 	if (ratio<coeff*eps){ 
@@ -18510,7 +18515,7 @@ namespace giac {
 	double pivot=0;
 	int pivotline=0;
 	for (;i<nend;++i){
-	  double t=abs(H[i][m]);
+	  double t=complex_abs(H[i][m]);
 	  if (t>pivot){
 	    pivotline=i;
 	    pivot=t;
@@ -18582,8 +18587,18 @@ namespace giac {
   }
 
   double complex_abs(const complex_double & c){
-#ifdef EMCC
+#if defined EMCC || defined FXCG
     double r=c.real(),i=c.imag();
+    r=std::sqrt(r*r+i*i);
+    return r;
+#else
+    return std::abs(c);
+#endif
+  }
+
+  double complex_long_abs(const complex_long_double & c){
+#if defined EMCC || defined FXCG
+    long_double r=c.real(),i=c.imag();
     r=std::sqrt(r*r+i*i);
     return r;
 #else
@@ -18609,7 +18624,7 @@ namespace giac {
     }
     else {
       x=H[n1][n1]-l1,y=H[n1+1][n1];
-      if (std::abs(x)<eps && std::abs(y-1.0)<eps){
+      if (complex_abs(x)<eps && complex_abs(y-1.0)<eps){
 	x = double(giac_rand(context0))/rand_max2;
       }
     }

@@ -2546,7 +2546,7 @@ namespace giac {
     double delay=1.0;
     if (s>2 && v[2].type==_DOUBLE_)
       delay=v[2]._DOUBLE_val;
-    delay=std::abs(delay*1e3);
+    delay=absdouble(delay*1e3);
     int d=int(delay);
     int ds=d/1000,ns=(d%1000)*1000000;
 #ifndef HAVE_NO_SYS_TIMES_H

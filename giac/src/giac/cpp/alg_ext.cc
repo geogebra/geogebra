@@ -254,7 +254,7 @@ namespace giac {
 	max_im=cur_im;
       }
       else { // same argument
-	if ( std::abs(cur_re-max_re)<eps*max_re && (cur_im>max_im) ){
+	if ( absdouble(cur_re-max_re)<eps*max_re && (cur_im>max_im) ){
 	  current=*it;
 	  max_im=cur_im;
 	}

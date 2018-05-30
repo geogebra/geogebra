@@ -3771,7 +3771,7 @@ static define_unary_function_eval (__logistic_regression_plot,&_logistic_regress
       Xstep=evalf_double(v[3],1,contextptr);
     if (!ckmatrix(m) || m._VECTptr->size()!=2 || Xmin.type!=_DOUBLE_ || Xmax.type!=_DOUBLE_ || Xstep.type!=_DOUBLE_)
       return gensizeerr(contextptr);
-    double xmin=Xmin._DOUBLE_val,xmax=Xmax._DOUBLE_val,xstep=std::abs(Xstep._DOUBLE_val);
+    double xmin=Xmin._DOUBLE_val,xmax=Xmax._DOUBLE_val,xstep=absdouble(Xstep._DOUBLE_val);
     // sort x in m
     matrice M(mtran(*m._VECTptr)); // 2 cols
     islesscomplexthanf_sort(M.begin(),M.end());
@@ -7195,7 +7195,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	    gen nextxd=evalf_double(nextt,1,contextptr);
 	    if (curxd.type==_DOUBLE_ && nextxd.type==_DOUBLE_){
 	      double cd=curxd._DOUBLE_val,nd=nextxd._DOUBLE_val;
-	      if (nd-cd>1e-6*(std::abs(cd)+std::abs(nd))){
+	      if (nd-cd>1e-6*(absdouble(cd)+absdouble(nd))){
 		milieut=exact((cd+nd)/2,contextptr);
 	      }
 	    }
@@ -7676,7 +7676,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	    gen nextxd=evalf_double(nextx,1,contextptr);
 	    if (curxd.type==_DOUBLE_ && nextxd.type==_DOUBLE_){
 	      double cd=curxd._DOUBLE_val,nd=nextxd._DOUBLE_val;
-	      if (nd-cd>1e-6*(std::abs(cd)+std::abs(nd))){
+	      if (nd-cd>1e-6*(absdouble(cd)+absdouble(nd))){
 		m=exact((cd+nd)/2,contextptr);
 	      }
 	    }

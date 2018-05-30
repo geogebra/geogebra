@@ -3661,7 +3661,7 @@ namespace giac {
     // First find if |n-k^d|<=1 for d = 2, 3, 5 or 7
     double nd=evalf_double(n,1,contextptr)._DOUBLE_val;
     double nd2=std::floor(std::sqrt(nd)+.5);
-    if (std::abs(1-nd2*nd2/nd)<1e-10){
+    if (absdouble(1-nd2*nd2/nd)<1e-10){
       gen n2=isqrt(n+1);
       if (n==n2*n2){
 	f=ifactors(n2,contextptr);
@@ -3681,7 +3681,7 @@ namespace giac {
     }
     for (int k=3;;){
       nd2=std::floor(std::pow(nd,1./k)+.5);
-      if (std::abs(1-std::pow(nd2,k)/nd)<1e-10){
+      if (absdouble(1-std::pow(nd2,k)/nd)<1e-10){
 	gen n2=_floor(nd2,contextptr),nf=n2*n2;
 	for (int j=2;j<k;j++)
 	  nf=nf*n2;

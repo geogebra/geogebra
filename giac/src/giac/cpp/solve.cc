@@ -7579,7 +7579,7 @@ namespace giac {
     if (eps0d.type==_DOUBLE_)
       eps=eps0d._DOUBLE_val;
     else {
-      eps=(x[0]>1e-10?std::abs(x[0]):1)*epsilon(contextptr);
+      eps=(x[0]>1e-10?absdouble(x[0]):1)*epsilon(contextptr);
       if (eps<1e-13)
 	eps=1e-13;
     }

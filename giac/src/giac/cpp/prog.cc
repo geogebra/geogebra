@@ -1493,7 +1493,7 @@ namespace giac {
     (*dbgptr->debug_info_ptr)=prog;
     (*dbgptr->fast_debug_info_ptr)=prog;
     if (!vars._VECTptr->empty())
-      protect=giac::bind(*values._VECTptr,*vars._VECTptr,newcontextptr);
+      protect=giac_bind(*values._VECTptr,*vars._VECTptr,newcontextptr);
     if (protect==-RAND_MAX){
       program_leave(save_debug_info,save_sst_mode,dbgptr);
       if (calc_save) 
@@ -2385,7 +2385,7 @@ namespace giac {
 	if (contextptr==context0 && (xcas_mode(contextptr)!=1 && (!variable._IDNTptr->localvalue || variable._IDNTptr->localvalue->empty() || (*variable._IDNTptr->localvalue)[variable._IDNTptr->localvalue->size()-2].val<protection_level-1) ) ){
 	  bound=true;
 	  loop_var=makevecteur(variable);
-	  protect=giac::bind(makevecteur(zero),loop_var,newcontextptr);
+	  protect=giac_bind(makevecteur(zero),loop_var,newcontextptr);
 	}
       }
       else {
@@ -2685,7 +2685,7 @@ namespace giac {
   define_unary_function_ptr5( at_for ,alias_at_for,&__for,_QUOTE_ARGUMENTS,0);
 
   // returns level or -RAND_MAX on error
-  int bind(const vecteur & vals_,const vecteur & vars_,context * & contextptr){
+  int giac_bind(const vecteur & vals_,const vecteur & vars_,context * & contextptr){
     vecteur vals(vals_),vars(vars_);
 #if 1
     int ins=int(vals.size());
@@ -3047,7 +3047,7 @@ namespace giac {
       values.push_back(val);
     }
     context * newcontextptr = (context *) contextptr;
-    int protect=giac::bind(values,names,newcontextptr);
+    int protect=giac_bind(values,names,newcontextptr);
     gen prog=args._VECTptr->back(),res,newres;
     if (protect!=-RAND_MAX){
       if (prog.type!=_VECT){
@@ -10194,7 +10194,7 @@ namespace giac {
     gen exponent=evalf_double(exponent_,1,context0);
     if (exponent.type!=_DOUBLE_)
       return gensizeerr(gettext("Invalid unit exponent")+exponent.print());
-    if (std::abs(exponent._DOUBLE_val)<1e-6)
+    if (absdouble(exponent._DOUBLE_val)<1e-6)
       return plus_one;
     if (is_one(exponent))
       return g;

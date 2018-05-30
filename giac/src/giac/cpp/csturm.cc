@@ -1123,7 +1123,7 @@ namespace giac {
   vecteur complex_roots(const modpoly & P,const gen & a0,const gen & b0,const gen & a1,const gen & b1,bool complexe,double eps,bool use_proot){
     if (P.empty())
       return P;
-    eps=std::abs(eps);
+    eps=absdouble(eps);
     if (eps>1e-6)
       eps=1e-6;
     if (use_proot){
@@ -1341,7 +1341,7 @@ namespace giac {
     // return _sorta(complexroot(g,true,contextptr),contextptr);
   }
   static const char _complexroot_s []="complexroot";
-  static define_unary_function_eval (__complexroot,&giac::_complexroot,_complexroot_s);
+  static define_unary_function_eval (__complexroot,&_complexroot,_complexroot_s);
   define_unary_function_ptr5( at_complexroot ,alias_at_complexroot,&__complexroot,0,true);
 
   gen _realroot(const gen & g,GIAC_CONTEXT){
@@ -1376,7 +1376,7 @@ namespace giac {
     return v;
   }
   static const char _realroot_s []="realroot";
-  static define_unary_function_eval (__realroot,&giac::_realroot,_realroot_s);
+  static define_unary_function_eval (__realroot,&_realroot,_realroot_s);
   define_unary_function_ptr5( at_realroot ,alias_at_realroot,&__realroot,0,true);
 
   static vecteur crationalroot(const gen & g0,bool complexe){
@@ -1424,7 +1424,7 @@ namespace giac {
     return crationalroot(g,true);
   }
   static const char _crationalroot_s []="crationalroot";
-  static define_unary_function_eval (__crationalroot,&giac::_crationalroot,_crationalroot_s);
+  static define_unary_function_eval (__crationalroot,&_crationalroot,_crationalroot_s);
   define_unary_function_ptr5( at_crationalroot ,alias_at_crationalroot,&__crationalroot,0,true);
 
   gen _rationalroot(const gen & g,GIAC_CONTEXT){
@@ -1432,7 +1432,7 @@ namespace giac {
     return crationalroot(g,false);
   }
   static const char _rationalroot_s []="rationalroot";
-  static define_unary_function_eval (__rationalroot,&giac::_rationalroot,_rationalroot_s);
+  static define_unary_function_eval (__rationalroot,&_rationalroot,_rationalroot_s);
   define_unary_function_ptr5( at_rationalroot ,alias_at_rationalroot,&__rationalroot,0,true);
 
   // convert numerator of g to a list
@@ -1527,7 +1527,7 @@ namespace giac {
 	  mant=evalf_double(cl[i],1,contextptr)._DOUBLE_val;
 	}
       }
-      mant=std::log(std::abs(mant));
+      mant=std::log(absdouble(mant));
       cllnabsmant[i]=mant;
       clexpo[i]=expo;
     }
@@ -1588,7 +1588,7 @@ namespace giac {
     return posubLMQ(v,contextptr);
   }
   static const char _posubLMQ_s []="posubLMQ";
-  static define_unary_function_eval (__posubLMQ,&giac::_posubLMQ,_posubLMQ_s);
+  static define_unary_function_eval (__posubLMQ,&_posubLMQ,_posubLMQ_s);
   define_unary_function_ptr5( at_posubLMQ ,alias_at_posubLMQ,&__posubLMQ,0,true);
 
   gen poslbdLMQ(const modpoly & P,GIAC_CONTEXT){
@@ -1645,7 +1645,7 @@ namespace giac {
     return poslbdLMQ(v,contextptr);
   }
   static const char _poslbdLMQ_s []="poslbdLMQ";
-  static define_unary_function_eval (__poslbdLMQ,&giac::_poslbdLMQ,_poslbdLMQ_s);
+  static define_unary_function_eval (__poslbdLMQ,&_poslbdLMQ,_poslbdLMQ_s);
   define_unary_function_ptr5( at_poslbdLMQ ,alias_at_poslbdLMQ,&__poslbdLMQ,0,true);
 
   vecteur makeinterval(const gen & a,const gen & b){
@@ -1797,7 +1797,7 @@ namespace giac {
     return VAS_positive_roots(v,1,0,0,1,contextptr);
   }
   static const char _VAS_positive_s []="VAS_positive";
-  static define_unary_function_eval (__VAS_positive,&giac::_VAS_positive,_VAS_positive_s);
+  static define_unary_function_eval (__VAS_positive,&_VAS_positive,_VAS_positive_s);
   define_unary_function_ptr5( at_VAS_positive ,alias_at_VAS_positive,&__VAS_positive,0,true);
 
   // square-free factorization of p, then remove all exponents
@@ -1863,7 +1863,7 @@ namespace giac {
     return vas(v,contextptr);
   }
   static const char _VAS_s []="VAS";
-  static define_unary_function_eval (__VAS,&giac::_VAS,_VAS_s);
+  static define_unary_function_eval (__VAS,&_VAS,_VAS_s);
   define_unary_function_ptr5( at_VAS ,alias_at_VAS,&__VAS,0,true);
 
   static const double bisection_newton_eps=1e-3;

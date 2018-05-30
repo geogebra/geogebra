@@ -4926,7 +4926,7 @@ namespace giac {
     gen nstep=evalf_double((fin-debut)/step,1,contextptr);
     if (nstep.type!=_DOUBLE_)
       return gensizeerr(gettext("Bad step"));
-    res.reserve(int(std::abs(nstep._DOUBLE_val))+1);
+    res.reserve(int(absdouble(nstep._DOUBLE_val))+1);
     identificateur x=independant_identificateur(v[0]);
     tmp=quotesubst(v[0],v[1],x,contextptr);
     gen tmpev=eval(tmp,eval_level(contextptr),contextptr);

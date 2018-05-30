@@ -120,6 +120,7 @@ namespace giac {
 
   // short integer arithmetic
   int absint(int a);
+  double absdouble(double a);
   int giacmin(int a,int b);
   int giacmax(int a,int b);
   int invmod(int n,int modulo);
