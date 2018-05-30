@@ -1,6 +1,7 @@
 package org.geogebra.common.plugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -2066,7 +2067,16 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		evs.endBatch();
 		kernel.notifyRepaint();
+	}
 
+	@Override
+	public String[] getAxisLabels(int view) {
+		int index = view < 0 ? 3 : view;
+		if (index < 1 || index > 3) {
+			return new String[0];
+		}
+		EuclidianSettings evs = app.getSettings().getEuclidian(index);
+		return Arrays.copyOf(evs.getAxesLabels(), evs.getAxesLabels().length);
 	}
 
 	@Override
@@ -2082,7 +2092,16 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 		evs.endBatch();
 		kernel.notifyRepaint();
+	}
 
+	@Override
+	public String[] getAxisUnits(int view) {
+		int index = view < 0 ? 3 : view;
+		if (index < 1 || index > 3) {
+			return new String[0];
+		}
+		EuclidianSettings evs = app.getSettings().getEuclidian(index);
+		return Arrays.copyOf(evs.getAxesUnitLabels(), evs.getAxesUnitLabels().length);
 	}
 
 	@Override
@@ -2261,6 +2280,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return getter.get().toString();
 		}
 		return "";
+	}
+
+	@Override
+	final public String translate(String key) {
+		return app.getLocalization().getMenu(key);
 	}
 
 	public String exportSVG(String filename) {

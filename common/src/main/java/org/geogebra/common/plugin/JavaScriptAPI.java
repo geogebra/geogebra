@@ -904,4 +904,10 @@ public interface JavaScriptAPI {
 			double ymin, double ymax, double zmin, double zmax, double xyScale,
 			double xzScale, double xTickDistance, double yTickDistance,
 			double zTickDistance);
+
+	String translate(String key);
+
+	String[] getAxisLabels(int view);
+
+	String[] getAxisUnits(int view);
 }

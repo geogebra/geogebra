@@ -617,19 +617,27 @@ public class ScriptManagerW extends ScriptManager {
 				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxesVisible(IZZZ)(arg1, !!arg2, !!arg3, !!arg4);
 			}
 		};
-		
+
 		api.setAxisUnits = function(arg1, arg2, arg3, arg4) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisUnits(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, arg2 + "", arg3 + "", arg4 + "");
 		};
-		
+
 		api.setAxisLabels = function(arg1, arg2, arg3, arg4) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisLabels(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, arg2 + "", arg3 + "", arg4 + "");
 		};
-		
+
 		api.setAxisSteps = function(arg1, arg2, arg3, arg4) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisSteps(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, arg2 + "",arg3 + "", arg4 + "");
 		};
-		
+
+		api.getAxisUnits = $entry(function(arg1) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAxisUnits(I)(1 * arg1 || 1);
+		});
+
+		api.getAxisLabels = $entry(function(arg1, arg2, arg3, arg4) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAxisLabels(I)(1 * arg1 || 1);
+		});
+
 		api.setPointCapture = function(view, capture) {
 			if(typeof capture == "undefined"){
 				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPointCapture(II)(1, view);
@@ -982,6 +990,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportSimple3d(Ljava/lang/String;DDDDDDDDDDD)(
 			    name + "", xmin, xmax, ymin, ymax, zmin, zmax, xyScale, 
 			    xzScale, xTickDistance, yTickDistance, zTickDistance);
+		};
+
+		api.translate = function(arg1) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::translate(Ljava/lang/String;)(arg1 + "");
 		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
