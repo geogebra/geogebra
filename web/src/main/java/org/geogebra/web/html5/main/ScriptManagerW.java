@@ -631,11 +631,11 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.getAxisUnits = $entry(function(arg1) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAxisUnits(I)(1 * arg1 || 1);
+			return [].concat(ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAxisUnits(I)(1 * arg1 || 1));
 		});
 
 		api.getAxisLabels = $entry(function(arg1, arg2, arg3, arg4) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAxisLabels(I)(1 * arg1 || 1);
+			return [].concat(ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAxisLabels(I)(1 * arg1 || 1));
 		});
 
 		api.setPointCapture = function(view, capture) {
@@ -660,9 +660,9 @@ public class ScriptManagerW extends ScriptManager {
 
 		api.getAllObjectNames = function(objectType) {
 			if(typeof objectType === "undefined"){
-				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAllObjectNames()();
+				return [].concat(ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAllObjectNames()());
 			}else{
-				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAllObjectNames(Ljava/lang/String;)(objectType + "");
+				return [].concat(ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAllObjectNames(Ljava/lang/String;)(objectType + ""));
 			}
 			
 		};
