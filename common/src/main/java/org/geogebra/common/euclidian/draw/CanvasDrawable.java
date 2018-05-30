@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -12,6 +13,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 public abstract class CanvasDrawable extends Drawable {
 	private static final int HIGHLIGHT_MARGIN = 2;
@@ -110,6 +112,9 @@ public abstract class CanvasDrawable extends Drawable {
 
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
 		if (geo.isLabelVisible() && geo.doHighlighting()) {
+			if(geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)){
+				g2.setPaint(GColor.LIGHT_GRAY);
+			}
 			if (latex) {
 				g2.fillRect(xLabel, yLabel, labelSize.x, labelSize.y);
 			} else {

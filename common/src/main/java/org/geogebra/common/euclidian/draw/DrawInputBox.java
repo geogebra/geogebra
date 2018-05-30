@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.SliderPosition;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -388,8 +389,13 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor() : view.getBackgroundCommon();
-		getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
-				boxHeight);
+
+		boolean drawoncanvas = !geo.getKernel().getApplication().getSelectionManager().getSelectedGeos().contains(geo);
+		if (drawoncanvas
+				|| !geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
+					boxHeight);			
+		}
 
 		highlightLabel(g2, latexLabel);
 

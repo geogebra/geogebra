@@ -4468,6 +4468,10 @@ public abstract class App implements UpdateSelection {
 		case CURRENCY_UNIT:
 			return true;
 
+		/** GGB-2375 */
+		case INPUT_BOX_LINE_UP_BETTER:
+			return prerelease;
+
 		/** GBB-2374 */
 		case MAT_DESIGN_HEADER:
 			return prerelease;

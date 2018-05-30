@@ -310,6 +310,9 @@ public enum Feature {
 	/** IGR-898 */
 	MOB_REACT_SEARCH_VIEW,
 
+	/** GGB-2375 */
+	INPUT_BOX_LINE_UP_BETTER,
+
 	/** MOB-1517 */
 	MOB_PACK_PLANES,
 
