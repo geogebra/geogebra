@@ -1411,6 +1411,7 @@ __GGB__keysVar["vi"].menu = {
     "ClassRule": "Th\u01b0\u1edbc k\u1ebb",
     "ClassWithFrequency": "L\u1edbp t\u1ea7n s\u1ed1",
     "Classes": "C\xe1c l\u1edbp",
+    "Clear": "Clear",
     "ClearColumn": "Xo\xe1 c\u1ed9t",
     "ClearColumns": "Xo\xe1 c\xe1c c\u1ed9t",
     "ClearRow": "Xo\xe1 d\xf2ng",

@@ -1411,6 +1411,7 @@ __GGB__keysVar["lt"].menu = {
     "ClassRule": "Klasi\u0173 taisykl\u0117s",
     "ClassWithFrequency": "Klas\u0117 su da\u017eniu",
     "Classes": "Klas\u0117s",
+    "Clear": "Clear",
     "ClearColumn": "Valyti stulpel\u012f",
     "ClearColumns": "Valyti stulpelius",
     "ClearRow": "Valyti eilut\u0119",

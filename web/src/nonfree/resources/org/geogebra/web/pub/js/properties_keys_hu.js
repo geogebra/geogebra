@@ -1411,6 +1411,7 @@ __GGB__keysVar["hu"].menu = {
     "ClassRule": "Oszt\xe1ly hat\xe1rok",
     "ClassWithFrequency": "Oszt\xe1lyok gyakoris\xe1gokkal",
     "Classes": "Oszt\xe1lyok",
+    "Clear": "Clear",
     "ClearColumn": "Oszlop t\xf6rl\xe9se",
     "ClearColumns": "Oszlopok t\xf6rl\xe9se",
     "ClearRow": "Sor t\xf6rl\xe9se",

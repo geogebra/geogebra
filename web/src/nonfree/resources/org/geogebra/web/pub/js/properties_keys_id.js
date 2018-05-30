@@ -1411,6 +1411,7 @@ __GGB__keysVar["id"].menu = {
     "ClassRule": "Aturan Kelas",
     "ClassWithFrequency": "Kelas dengan Frekuensi",
     "Classes": "Kelas-kelas",
+    "Clear": "Clear",
     "ClearColumn": "Kosongkan Kolom",
     "ClearColumns": "Kosongkan Kolom-kolom",
     "ClearRow": "Kosongkan Baris",

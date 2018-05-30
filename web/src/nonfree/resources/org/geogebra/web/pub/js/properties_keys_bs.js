@@ -1411,6 +1411,7 @@ __GGB__keysVar["bs"].menu = {
     "ClassRule": "Klasa-Pravila",
     "ClassWithFrequency": "Klasa frekvencija",
     "Classes": "Klase",
+    "Clear": "Clear",
     "ClearColumn": "Obri\u0161i kolonu",
     "ClearColumns": "Obri\u0161i kolone",
     "ClearRow": "O\u010disti red",

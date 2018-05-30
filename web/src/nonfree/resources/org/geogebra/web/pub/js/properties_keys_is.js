@@ -1411,6 +1411,7 @@ __GGB__keysVar["is"].menu = {
     "ClassRule": "FlokkarRegla",
     "ClassWithFrequency": "Flokkar og t\xed\xf0ni",
     "Classes": "Flokkar",
+    "Clear": "Clear",
     "ClearColumn": "Hreinsa d\xe1lk",
     "ClearColumns": "Hreinsa d\xe1lka",
     "ClearRow": "Hreinsa r\xf6\xf0",

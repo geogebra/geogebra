@@ -1411,6 +1411,7 @@ __GGB__keysVar["sl"].menu = {
     "ClassRule": "Pravilo razreda",
     "ClassWithFrequency": "Frekven\u010dni razred",
     "Classes": "Razredi",
+    "Clear": "Clear",
     "ClearColumn": "Brisanje stolpca",
     "ClearColumns": "Brisanje stolpcev",
     "ClearRow": "Brisanje vrstice",

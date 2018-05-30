@@ -1411,6 +1411,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "ClassRule": "\u5206\u7ec4\u89c4\u5219",
     "ClassWithFrequency": "\u5206\u7ec4\u4e0e\u9891\u6570",
     "Classes": "\u5206\u7ec4",
+    "Clear": "\u6e05\u9664",
     "ClearColumn": "\u6e05\u7a7a\u5217",
     "ClearColumns": "\u6e05\u7a7a\u5217",
     "ClearRow": "\u6e05\u7a7a\u884c",

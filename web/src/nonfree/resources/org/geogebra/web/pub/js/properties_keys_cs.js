@@ -1411,6 +1411,7 @@ __GGB__keysVar["cs"].menu = {
     "ClassRule": "Pravidlo t\u0159\xeddy",
     "ClassWithFrequency": "T\u0159\xedda \u010detnosti",
     "Classes": "T\u0159\xeddy",
+    "Clear": "Odstranit v\u0161e",
     "ClearColumn": "Vy\u010distit sloupec",
     "ClearColumns": "Vy\u010distit sloupce",
     "ClearRow": "Vy\u010distit \u0159\xe1dek",

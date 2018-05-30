@@ -1411,6 +1411,7 @@ __GGB__keysVar["si"].menu = {
     "ClassRule": "Class Rule",
     "ClassWithFrequency": "Class with Frequency",
     "Classes": "Classes",
+    "Clear": "Clear",
     "ClearColumn": "\u0dad\u0dd3\u0dbb\u0dba \u0dc4\u0dd2\u0dc3\u0dca \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "ClearColumns": "\u0dad\u0dd3\u0dbb\u0dd0 \u0dc4\u0dd2\u0dc3\u0dca \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "ClearRow": "\u0db4\u0dda\u0dc5\u0dd2\u0dba \u0dc4\u0dd2\u0dc3\u0dca \u0d9a\u0dbb\u0db1\u0dca\u0db1",

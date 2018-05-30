@@ -1411,6 +1411,7 @@ __GGB__keysVar["eo"].menu = {
     "ClassRule": "Class Rule",
     "ClassWithFrequency": "Class with Frequency",
     "Classes": "Classes",
+    "Clear": "Clear",
     "ClearColumn": "Forvi\u015di kolumnon",
     "ClearColumns": "Forvi\u015di kolumnojn",
     "ClearRow": "Forvi\u015di linion",

@@ -1411,6 +1411,7 @@ __GGB__keysVar["gl"].menu = {
     "ClassRule": "Tipo de intervalo",
     "ClassWithFrequency": "Clases e frecuencias",
     "Classes": "Clases",
+    "Clear": "Clear",
     "ClearColumn": "Eliminar columna",
     "ClearColumns": "Eliminar columnas",
     "ClearRow": "Eliminar fila",

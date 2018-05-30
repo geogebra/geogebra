@@ -1411,6 +1411,7 @@ __GGB__keysVar["cy"].menu = {
     "ClassRule": "Rheol Dosbarth",
     "ClassWithFrequency": "Class with Frequency",
     "Classes": "Dosbarth",
+    "Clear": "Clear",
     "ClearColumn": "Clirio colofn",
     "ClearColumns": "Clirio colofnau",
     "ClearRow": "Clirio rhes",

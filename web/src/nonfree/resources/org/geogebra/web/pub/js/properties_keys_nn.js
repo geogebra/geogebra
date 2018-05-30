@@ -1411,6 +1411,7 @@ __GGB__keysVar["nn"].menu = {
     "ClassRule": "Regel for klassegrenser",
     "ClassWithFrequency": "Klasse og frekvens",
     "Classes": "Klasser",
+    "Clear": "Clear",
     "ClearColumn": "T\xf8m kolonne",
     "ClearColumns": "T\xf8m kolonner",
     "ClearRow": "T\xf8m rad",

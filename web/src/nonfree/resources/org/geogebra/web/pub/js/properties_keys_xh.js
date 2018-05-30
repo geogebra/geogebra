@@ -1411,6 +1411,7 @@ __GGB__keysVar["xh"].menu = {
     "ClassRule": "Umthetho weKlasi",
     "ClassWithFrequency": "Iklasi enokuPhindaphindeka",
     "Classes": "Iiklasi",
+    "Clear": "Clear",
     "ClearColumn": "Cima iColumn",
     "ClearColumns": "Cima iiColumn",
     "ClearRow": "Cima iRow",

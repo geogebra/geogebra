@@ -1411,6 +1411,7 @@ __GGB__keysVar["fi"].menu = {
     "ClassRule": "Luokkas\xe4\xe4nt\xf6",
     "ClassWithFrequency": "Luokat ja frekvenssi",
     "Classes": "Luokat",
+    "Clear": "Clear",
     "ClearColumn": "Tyhjenn\xe4 sarake",
     "ClearColumns": "Tyhjenn\xe4 sarakkeet",
     "ClearRow": "Tyhjenn\xe4 rivi",

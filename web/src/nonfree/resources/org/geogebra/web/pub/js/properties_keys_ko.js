@@ -1411,6 +1411,7 @@ __GGB__keysVar["ko"].menu = {
     "ClassRule": "\uacc4\uae09 \uc124\uc815",
     "ClassWithFrequency": "\uacc4\uae09\uacfc \ube48\ub3c4 \ubcf4\uae30",
     "Classes": "\uacc4\uae09",
+    "Clear": "Clear",
     "ClearColumn": "\uc5f4 \uc9c0\uc6b0\uae30",
     "ClearColumns": "\uc5ec\ub7ec \uc5f4 \uc9c0\uc6b0\uae30",
     "ClearRow": "\ud589 \uc9c0\uc6b0\uae30",

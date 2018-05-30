@@ -1411,6 +1411,7 @@ __GGB__keysVar["ja"].menu = {
     "ClassRule": "\u968e\u7d1a\u306e\u898f\u5247",
     "ClassWithFrequency": "\u5ea6\u6570\u3064\u304d\u968e\u7d1a",
     "Classes": "Classes",
+    "Clear": "Clear",
     "ClearColumn": "\u5217\u3092\u6d88\u53bb",
     "ClearColumns": "\u8907\u6570\u306e\u5217\u3092\u6d88\u53bb",
     "ClearRow": "\u884c\u3092\u6d88\u53bb",

@@ -1411,6 +1411,7 @@ __GGB__keysVar["sq"].menu = {
     "ClassRule": "rregulli Klases",
     "ClassWithFrequency": "Klase me Frekuence",
     "Classes": "Klasa",
+    "Clear": "Clear",
     "ClearColumn": "Fshih te dhenat ne Kolone",
     "ClearColumns": "Pastro Kolonat",
     "ClearRow": "Liro(fshih te dhenat) Rreshtin",

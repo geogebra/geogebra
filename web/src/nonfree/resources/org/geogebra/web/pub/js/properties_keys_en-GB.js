@@ -1411,6 +1411,7 @@ __GGB__keysVar["en-GB"].menu = {
     "ClassRule": "Class Rule",
     "ClassWithFrequency": "Class with Frequency",
     "Classes": "Classes",
+    "Clear": "Clear",
     "ClearColumn": "Clear Column",
     "ClearColumns": "Clear Columns",
     "ClearRow": "Clear Row",

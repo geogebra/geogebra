@@ -1411,6 +1411,7 @@ __GGB__keysVar["lv"].menu = {
     "ClassRule": "Kategorijas noteikumi",
     "ClassWithFrequency": "Kategorija ar bie\u017eumiem",
     "Classes": "Kategorija",
+    "Clear": "Clear",
     "ClearColumn": "Nodz\u0113st kolonnu",
     "ClearColumns": "Nodz\u0113st kolonnas",
     "ClearRow": "Nodz\u0113st rindu",
