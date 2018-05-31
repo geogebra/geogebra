@@ -18,7 +18,7 @@ abstract class BufferPackAbstract {
 	/** indices length */
 	int indicesLength;
 
-	private TreeMap<Index, BufferSegment> segmentEnds;
+	private TreeMap<Index, BufferSegment> segmentEnds, segmentStarts;
 
 	/**
 	 * 
@@ -161,6 +161,17 @@ abstract class BufferPackAbstract {
 			segmentEnds = new TreeMap<>();
 		}
 		return segmentEnds;
+	}
+
+	/**
+	 * 
+	 * @return segments starts
+	 */
+	public TreeMap<Index, BufferSegment> getSegmentStarts() {
+		if (segmentStarts == null) {
+			segmentStarts = new TreeMap<>();
+		}
+		return segmentStarts;
 	}
 
 }

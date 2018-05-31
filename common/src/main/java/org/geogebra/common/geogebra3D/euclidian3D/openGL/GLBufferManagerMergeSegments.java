@@ -36,11 +36,11 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 	final protected void addCurrentToAvailableSegmentsMayMerge() {
 		setAlphaToTransparent();
 		setIndicesDegenerated();
+
+		// merge with previous available segment
 		currentBufferSegment.getStart(startIndex);
-		currentBufferSegment.getEnd(endIndex);
 		BufferSegment previous = currentBufferPack.getSegmentEnds()
 				.get(startIndex);
-
 		if (previous != null) {
 			currentLengths.setAvailableLengths(previous);
 			LinkedList<BufferSegment> list = availableSegments
@@ -50,10 +50,33 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 				availableSegments.remove(currentLengths);
 			}
 			currentBufferPack.getSegmentEnds().remove(startIndex);
+			previous.getStart(endIndex);
+			currentBufferPack.getSegmentStarts().remove(endIndex);
 			currentBufferSegment.elementsOffset = previous.elementsOffset;
 			currentBufferSegment.indicesOffset = previous.indicesOffset;
 			currentBufferSegment.addToAvailableLengths(previous);
 		}
+
+		// merge with following available segment
+		currentBufferSegment.getEnd(endIndex);
+		BufferSegment following = currentBufferPack.getSegmentStarts()
+				.get(endIndex);
+		if (following != null) {
+			currentLengths.setAvailableLengths(following);
+			LinkedList<BufferSegment> list = availableSegments
+					.get(currentLengths);
+			list.remove(following);
+			if (list.isEmpty()) {
+				availableSegments.remove(currentLengths);
+			}
+			currentBufferPack.getSegmentStarts().remove(endIndex);
+			following.getEnd(startIndex);
+			currentBufferPack.getSegmentEnds().remove(startIndex);
+			currentBufferSegment.addToAvailableLengths(following);
+		}
+
+		currentBufferSegment.getStart(startIndex);
+		currentBufferSegment.getEnd(endIndex);
 		currentLengths.setAvailableLengths(currentBufferSegment);
 		addToAvailableSegments(currentBufferSegment);
 	}
@@ -62,6 +85,8 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 	final protected void addToAvailableSegments(BufferSegment bufferSegment) {
 		super.addToAvailableSegments(bufferSegment);
 		currentBufferPack.getSegmentEnds().put(new Index(endIndex),
+				bufferSegment);
+		currentBufferPack.getSegmentStarts().put(new Index(startIndex),
 				bufferSegment);
 
 	}
@@ -83,6 +108,8 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 			availableSegments.remove(entry.getKey());
 		}
 		currentBufferPack = ret.bufferPack;
+		ret.getStart(endIndex);
+		currentBufferPack.getSegmentStarts().remove(endIndex);
 		ret.getEnd(endIndex);
 		currentBufferPack.getSegmentEnds().remove(endIndex);
 		ret.setLengths(currentLengths);
@@ -101,6 +128,7 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 					ret.indicesOffset + iLength,
 					ret.getIndicesAvailableLength() - iLength);
 			currentLengths.setAvailableLengths(remainSegment);
+			remainSegment.getStart(startIndex);
 			remainSegment.getEnd(endIndex);
 			addToAvailableSegments(remainSegment);
 			ret.setAvailableLengths(eLength, iLength);
