@@ -315,8 +315,10 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 *            if hidden
 	 */
 	public void drawCurvesClipped(Renderer renderer, boolean hidden) {
+		renderer.enableClipPlanesIfNeeded();
 		bufferManagerCurvesClipped.draw((RendererShadersInterface) renderer,
 				hidden);
+		renderer.disableClipPlanesIfNeeded();
 	}
 
 	/**
