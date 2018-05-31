@@ -2925,7 +2925,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "Tutorial": "Initiatiehandleiding",
     "Tutorial3D": "jQmdP6ee",
     "TutorialClassic": "jaQ4NQ3U",
-    "TutorialGeometry": "jQmdP6ee",
+    "TutorialGeometry": "pZjCXAbs",
     "TutorialGraphing": "TQK5Y7Ws",
     "Tutorials": "Initiatiehandleidingen",
     "TwoVarStats": "Regressieanalyse",

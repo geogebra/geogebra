@@ -1956,7 +1956,7 @@ __GGB__keysVar["sq"].menu = {
     "InflectionPointofA": "Pike Infleksioni e %0",
     "InputField": "Zona e Inputit",
     "InputField.Help": "Zgjidh objekt per te kopjuar emrin e tij ne zonen e futjes",
-    "InputFieldHelp": "",
+    "InputFieldHelp": "<html><body><p><b>Using the Input Bar</b></p><table border=\"1\"><tr><td>Enter </td><td>Execute input</td></tr><tr><td>Escape</td><td>Clear input bar</td></tr><tr><td>\u2191</td><td>Previous input</td></tr><tr><td>\u2193</td><td>Next input</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first three letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",
     "InputForm": "Forme e Inputit",
     "InputHelp": "Ndihme per Inputin",
     "InputLabel": "Inputi(objekti qe futet)",

@@ -1411,7 +1411,7 @@ __GGB__keysVar["it"].menu = {
     "ClassRule": "Regola per la classe",
     "ClassWithFrequency": "Classe con frequenza",
     "Classes": "Classi",
-    "Clear": "Clear",
+    "Clear": "Cancella tutto",
     "ClearColumn": "Cancella colonna",
     "ClearColumns": "Svuota colonne",
     "ClearRow": "Cancella riga",

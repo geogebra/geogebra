@@ -1732,7 +1732,7 @@ __GGB__keysVar["fil"].menu = {
     "ExportAsWebpage": "I-export bilang Webpage",
     "ExportTextAsShapes": "I-export ang teksto bilang mga hugis",
     "Expression": "Expression",
-    "ExtraLarge": "",
+    "ExtraLarge": "Extra Large",
     "ExtraSmall": "Sobrang Liit",
     "ExtraViews": "Extra Views",
     "Extremum": "Extremum",
