@@ -333,7 +333,7 @@ public class DockManagerW extends DockManager {
 			// old AppWApplication needs the other way
 			if (app instanceof AppWFull) {
 
-				// Emulate the way split panes in Java applets are sized:
+				// Emulate the way split panes i n Java applets are sized:
 				// 2) Use the ggb xml window size to set dividers
 				// 1) Resize the applet to the data-param dimensions
 
@@ -1826,7 +1826,7 @@ public class DockManagerW extends DockManager {
 	}
 
 	@Override
-	public void adjustViews(boolean force, final double exactDivider) {
+	public void adjustViews(boolean force) {
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel != null) {
 			avPanel.onResize();
@@ -1849,7 +1849,7 @@ public class DockManagerW extends DockManager {
 
 				@Override
 				public void execute() {
-					adjustViews(exactDivider, landscape);
+					adjustViews(landscape);
 				}
 			});
 		}
@@ -1861,7 +1861,7 @@ public class DockManagerW extends DockManager {
 	 * @param landscapeRatio
 	 *            preferred landscape ratio
 	 */
-	protected void adjustViews(double exactDivider, double landscapeRatio) {
+	protected void adjustViews(double landscapeRatio) {
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel == null) {
 			return;
@@ -1901,7 +1901,7 @@ public class DockManagerW extends DockManager {
 				setDividerLocation(split, 1 - portraitDivider);
 			}
 		} else {
-			double ratio = exactDivider == -1 ? landscapeRatio : exactDivider;
+			double ratio = landscapeRatio;
 
 			if (split.getLeftComponent() == avPanel
 					&& split
@@ -2017,5 +2017,4 @@ public class DockManagerW extends DockManager {
 			}
 		}
 	}
-
 }

@@ -1358,12 +1358,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 						&& getGuiManager() instanceof GuiManagerW
 						&& ((GuiManagerW) getGuiManager())
 								.getToolbarPanelV2() != null) {
-					((GuiManagerW) getGuiManager()).getToolbarPanelV2()
-							.getTabTools().updateContent();
 					if (has(Feature.SPLITTER_LOADING)) {
-						double divider = current.getSplitPaneData()[0].getDividerLocation();
-						((DockManagerW) getGuiManager().getLayout().getDockManager()).adjustViews(true, divider);
+						updatePerspectiveForUnbundled(current);
 					}
+					((GuiManagerW) getGuiManager()).getToolbarPanelV2().getTabTools().updateContent();
 				}
 			}
 		}
@@ -1461,6 +1459,21 @@ public class AppWFull extends AppW implements HasKeyboard {
 				getGuiManager().getLayout().getDockManager().adjustViews(true);
 			}
 		}
+	}
+
+	private void updatePerspectiveForUnbundled(Perspective perspective) {
+		DockManagerW dm = ((DockManagerW) getGuiManager().getLayout().getDockManager());
+		DockPanelData[] dpData = perspective.getDockPanelData();
+		for (int i = 0; i < dpData.length; ++i) {
+			DockPanelW panel = dm.getPanel(dpData[i].getViewId());
+			if (!dpData[i].isVisible() || dpData[i].isOpenInFrame() || panel == null) {
+				continue;
+			}
+
+			int divLoc = dpData[i].getEmbeddedSize();
+			dm.getRoot().setDividerLocation(divLoc);
+		}
+		updateContentPane();
 	}
 
 	private static boolean algebraVisible(Perspective p2) {

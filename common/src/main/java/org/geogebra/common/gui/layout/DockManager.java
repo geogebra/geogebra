@@ -32,21 +32,8 @@ public abstract class DockManager implements SetLabels {
 	 * 
 	 * @param force
 	 *            TODO
-	 * @param divider
-	 *            the exact divider location.
-	 * 
-	 */
-	public void adjustViews(boolean force, double divider) {
-		// overridden in Web
-	}
-
-	/**
-	 * Calls adjustViews with no divider location.
-	 * 
-	 * @param force
-	 *            TODO
 	 */
 	public void adjustViews(boolean force) {
-		adjustViews(force, -1);
+		// overridden in Web
 	}
 }
