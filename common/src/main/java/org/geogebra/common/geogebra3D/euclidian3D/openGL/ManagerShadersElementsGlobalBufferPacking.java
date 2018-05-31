@@ -27,6 +27,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	private GLBufferManagerCurvesClipped bufferManagerCurvesClipped;
 	private GLBufferManagerSurfaces bufferManagerSurfaces;
 	private GLBufferManagerSurfaces bufferManagerSurfacesClosed;
+	private GLBufferManagerSurfacesClipped bufferManagerSurfacesClipped;
 	private GLBufferManagerPoints bufferManagerPoints;
 	private GLBufferManagerTemplatesForPoints bufferTemplates;
 	private GLBufferManager currentBufferManager;
@@ -280,6 +281,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		bufferManagerCurvesClipped = new GLBufferManagerCurvesClipped();
 		bufferManagerSurfaces = new GLBufferManagerSurfaces(this);
 		bufferManagerSurfacesClosed = new GLBufferManagerSurfaces(this);
+		bufferManagerSurfacesClipped = new GLBufferManagerSurfacesClipped(this);
 		bufferManagerPoints = new GLBufferManagerPoints(this);
 		currentBufferManager = null;
 		translate = new float[3];
@@ -351,6 +353,18 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		bufferManagerSurfacesClosed.draw((RendererShadersInterface) renderer);
 	}
 
+	/**
+	 * draw closed surfaces
+	 * 
+	 * @param renderer
+	 *            renderer
+	 */
+	public void drawSurfacesClipped(Renderer renderer) {
+		renderer.enableClipPlanesIfNeeded();
+		bufferManagerSurfacesClipped.draw((RendererShadersInterface) renderer);
+		renderer.disableClipPlanesIfNeeded();
+	}
+
 	@Override
 	public void setPackCurve(GColor color, int lineType, int lineTypeHidden, boolean clipped) {
 		currentBufferManager = clipped ? bufferManagerCurvesClipped
@@ -405,22 +419,24 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		bufferManagerCurvesClipped.reset();
 		bufferManagerSurfaces.reset();
 		bufferManagerSurfacesClosed.reset();
+		bufferManagerSurfacesClipped.reset();
 		bufferManagerPoints.reset();
 	}
 
 	@Override
 	public int startPolygons(Drawable3D d) {
 		if (d.shouldBePacked()) {
-			setPackSurface(d);
+			setPackSurface(d, false);
 		}
 		return super.startPolygons(d);
 	}
 
 	@Override
-	public void setPackSurface(Drawable3D d) {
-		currentBufferManager = d.addedFromClosedSurface()
-				? bufferManagerSurfacesClosed
-				: bufferManagerSurfaces;
+	public void setPackSurface(Drawable3D d, boolean clipped) {
+		currentBufferManager = clipped ? bufferManagerSurfacesClipped
+				: (d.addedFromClosedSurface()
+						? bufferManagerSurfacesClosed
+						: bufferManagerSurfaces);
 		this.currentColor = d.getSurfaceColor();
 		if (getView3D().getApplication().has(Feature.MOB_LAYER_FOR_PACKING)) {
 			this.currentLayer = d.getLayer();
@@ -566,7 +582,8 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			if (currentBufferManager.isTemplateForPoints()) {
 				return bufferTemplates.getBufferIndicesArray();
 			}
-			if (currentBufferManager == bufferManagerSurfacesClosed) {
+			if (currentBufferManager == bufferManagerSurfacesClosed
+					|| currentBufferManager == bufferManagerSurfacesClipped) {
 				initIndices(size);
 				return indices;
 			}

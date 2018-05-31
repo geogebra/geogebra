@@ -889,8 +889,9 @@ abstract public class Manager {
 	 * 
 	 * @param d
 	 *            drawable
+	 * @param clipped TODO
 	 */
-	public void setPackSurface(Drawable3D d) {
+	public void setPackSurface(Drawable3D d, boolean clipped) {
 		// not needed here
 	}
 

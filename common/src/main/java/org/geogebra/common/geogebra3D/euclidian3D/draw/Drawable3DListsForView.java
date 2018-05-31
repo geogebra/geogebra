@@ -150,4 +150,22 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		}
 	}
 
+	@Override
+	public void drawClippedSurfacesForHiding(Renderer renderer) {
+		super.drawClippedSurfacesForHiding(renderer);
+		if (renderer.getGeometryManager().packBuffers()) {
+			((ManagerShadersElementsGlobalBufferPacking) renderer
+					.getGeometryManager()).drawSurfacesClipped(renderer);
+		}
+	}
+
+	@Override
+	public void drawTranspClipped(Renderer renderer) {
+		super.drawTranspClipped(renderer);
+		if (renderer.getGeometryManager().packBuffers()) {
+			((ManagerShadersElementsGlobalBufferPacking) renderer
+					.getGeometryManager()).drawSurfacesClipped(renderer);
+		}
+	}
+
 }

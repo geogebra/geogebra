@@ -154,4 +154,13 @@ class BufferSegment {
 		indicesLength = index.v2;
 	}
 
+	@Override
+	public String toString() {
+		return elementsOffset + ">" + (elementsOffset + elementsLength) + "/"
+				+ (elementsOffset + elementsAvailableLength) + "  "
+				+ indicesOffset + ">" + (indicesOffset + indicesLength) + "/"
+				+ (indicesOffset + indicesAvailableLength) + "  "
+				+ bufferPack;
+	}
+
 }

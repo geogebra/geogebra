@@ -75,16 +75,19 @@ class Index implements Comparable<Index> {
 
 	@Override
 	public int compareTo(Index o) {
-		if (v1 < o.v1) {
-			return -1;
-		}
-		if (v1 > o.v1) {
-			return 1;
-		}
+		// we compare second value first because for BufferSegment,
+		// indices size is more likely to be much greater than elements size
+		// (especially for graphs)
 		if (v2 < o.v2) {
 			return -1;
 		}
 		if (v2 > o.v2) {
+			return 1;
+		}
+		if (v1 < o.v1) {
+			return -1;
+		}
+		if (v1 > o.v1) {
 			return 1;
 		}
 		return 0;
@@ -107,5 +110,14 @@ class Index implements Comparable<Index> {
 	@Override
 	public String toString() {
 		return v1 + ", " + v2;
+	}
+
+	/**
+	 * @param index
+	 *            index
+	 * @return true if second value is greater or equal index second value
+	 */
+	public boolean hasFirstValueGreaterThan(Index index) {
+		return v1 > index.v1;
 	}
 }

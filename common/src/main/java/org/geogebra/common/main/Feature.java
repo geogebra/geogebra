@@ -317,6 +317,9 @@ public enum Feature {
 	MOB_PACK_PLANES,
 
 	/** MOB-1518 */
-	MOB_PACK_QUADRICS
+	MOB_PACK_QUADRICS,
+
+	/** MOB-1519 */
+	MOB_PACK_SURFACES_GRAPHS
 }
 

@@ -445,9 +445,19 @@ public class Drawable3DLists {
 	 */
 	public void drawNotTransparentSurfacesClipped(Renderer renderer) {
 
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
-				.iterator(); d.hasNext();) {
-			d.next().drawNotTransparentSurface(renderer);
+		if (renderer.getGeometryManager().packBuffers()) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
+					.iterator(); d.hasNext();) {
+				Drawable3D d3d = d.next();
+				if (!d3d.shouldBePacked()) {
+					d3d.drawNotTransparentSurface(renderer);
+				}
+			}
+		} else {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
+					.iterator(); d.hasNext();) {
+				d.next().drawNotTransparentSurface(renderer);
+			}
 		}
 
 		// lists
@@ -615,10 +625,22 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawTranspClipped(Renderer renderer) {
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
-				.iterator(); d.hasNext();) {
-			d.next().drawTransp(renderer);
+
+		if (renderer.getGeometryManager().packBuffers()) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
+					.iterator(); d.hasNext();) {
+				Drawable3D d3d = d.next();
+				if (!d3d.shouldBePacked()) {
+					d3d.drawTransp(renderer);
+				}
+			}
+		} else {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
+					.iterator(); d.hasNext();) {
+				d.next().drawTransp(renderer);
+			}
 		}
+
 		// lists
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_LISTS]
 				.iterator(); d.hasNext();) {
@@ -792,9 +814,19 @@ public class Drawable3DLists {
 	 */
 	public void drawClippedSurfacesForHiding(Renderer renderer) {
 
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
-				.iterator(); d.hasNext();) {
-			d.next().drawHiding(renderer);
+		if (renderer.getGeometryManager().packBuffers()) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
+					.iterator(); d.hasNext();) {
+				Drawable3D d3d = d.next();
+				if (!d3d.shouldBePacked()) {
+					d3d.drawHiding(renderer);
+				}
+			}
+		} else {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
+					.iterator(); d.hasNext();) {
+				d.next().drawHiding(renderer);
+			}
 		}
 
 		// lists

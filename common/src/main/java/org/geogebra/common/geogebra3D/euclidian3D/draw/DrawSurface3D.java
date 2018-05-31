@@ -607,20 +607,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	@Override
-	public void setWaitForUpdateVisualStyle(GProperty prop) {
-		super.setWaitForUpdateVisualStyle(prop);
-
-		if (prop == GProperty.LINE_STYLE) {
-			// also update for line width
-			super.setWaitForUpdate();
-		} else if (prop == GProperty.VISIBLE) {
-			if (isVisible()) {
-				setWaitForUpdate();
-			}
-		}
-	}
-
 	/**
 	 * ends geometry
 	 * 
@@ -643,7 +629,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// used with GL.drawElements()
 	}
 
-	final private void startTriangles(PlotterSurface surface) {
+	protected void startTriangles(PlotterSurface surface) {
 		surface.startTriangles(cornerListIndex * 16);
 	}
 
@@ -656,6 +642,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		// draw splitted, still to split, and next to split
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		setPackSurface(true);
 		surface.start(getReusableSurfaceIndex());
 
 		if (!stillRoomLeft) {
@@ -698,7 +685,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		setSurfaceIndex(surface.end());
-
+		endPacking();
 		renderer.getGeometryManager().setScalerView();
 
 		drawWireframe(renderer);
@@ -714,6 +701,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private void setWireframeInvisible() {
 		wireframeVisible = false;
+		if (shouldBePackedForManager()) {
+			setGeometryIndexNotVisible();
+		}
 	}
 
 	private void drawWireframe(Renderer renderer) {
@@ -743,6 +733,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// point were already scaled
 		renderer.getGeometryManager().setScalerIdentity();
 
+		setPackCurve(true);
 		brush.start(getReusableGeometryIndex());
 		brush.setThickness(thickness, (float) getView3D().getScale());
 		brush.setAffineTexture(0f, 0f);
@@ -799,6 +790,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		setGeometryIndex(brush.end());
+		endPacking();
 
 		// point were already scaled
 		renderer.getGeometryManager().setScalerView();
@@ -3232,6 +3224,99 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private static void resetLastHitParameters(GeoFunctionNVar geoF) {
 		geoF.resetLastHitParameters();
+	}
+
+	@Override
+	protected void updateForViewVisible() {
+		updateGeometriesVisibility();
+		if (!waitForUpdate()) {
+			updateForView();
+		}
+	}
+
+	@Override
+	public void disposePreview() {
+		if (shouldBePacked()) {
+			removePreviewFromGL();
+		}
+		super.disposePreview();
+	}
+
+	@Override
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
+		super.setWaitForUpdateVisualStyle(prop);
+		if (prop == GProperty.LINE_STYLE) {
+			// also update for line width (e.g when translated)
+			setWaitForUpdate();
+		} else {
+			if (shouldBePacked()) {
+				if (prop == GProperty.COLOR) {
+					setWaitForUpdateColor();
+				} else if (prop == GProperty.HIGHLIGHT) {
+					setWaitForUpdateColor();
+				} else if (prop == GProperty.VISIBLE) {
+					setWaitForUpdateVisibility();
+				}
+			} else {
+				if (prop == GProperty.VISIBLE) {
+					if (isVisible()) {
+						setWaitForUpdate();
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	protected void updateGeometriesVisibility() {
+		boolean isVisible = isVisible();
+		if (geometriesSetVisible != isVisible) {
+			setGeometriesVisibility(isVisible);
+		}
+	}
+
+	@Override
+	protected void setGeometriesVisibility(boolean visible) {
+		setGeometriesVisibilityWithSurface(visible);
+	}
+
+	@Override
+	protected void updateGeometriesColor() {
+		updateGeometriesColor(true);
+	}
+
+	@Override
+	public int getReusableSurfaceIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getSurfaceIndex());
+		}
+		return super.getReusableSurfaceIndex();
+	}
+
+	@Override
+	protected int getReusableGeometryIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getGeometryIndex());
+		}
+		return super.getReusableGeometryIndex();
+	}
+
+	@Override
+	protected void updateForViewNotVisible() {
+		if (shouldBePacked()) {
+			if (getView3D().viewChanged()) {
+				// will be updated if visible again
+				setWaitForUpdate();
+			}
+			updateGeometriesVisibility();
+		}
+	}
+
+	@Override
+	public boolean shouldBePacked() {
+		return getView3D().getApplication()
+				.has(Feature.MOB_PACK_SURFACES_GRAPHS)
+				&& !createdByDrawList();
 	}
 
 }

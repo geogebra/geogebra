@@ -2006,11 +2006,22 @@ public abstract class Drawable3D extends DrawableND {
 
 	/**
 	 * setup manager start packing surfaces (if possible)
+	 * 
+	 * @param clipped
+	 *            true if surface needs clipping
+	 */
+	protected void setPackSurface(boolean clipped) {
+		if (shouldBePacked()) {
+			getView3D().getRenderer().getGeometryManager().setPackSurface(this,
+					clipped);
+		}
+	}
+
+	/**
+	 * setup manager start packing surfaces (if possible)
 	 */
 	protected void setPackSurface() {
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackSurface(this);
-		}
+		setPackSurface(false);
 	}
 
 	/**
