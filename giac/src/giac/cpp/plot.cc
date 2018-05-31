@@ -54,7 +54,9 @@ using namespace std;
 #endif
 #endif // __VISUALC__
 #ifdef FXCG
+extern "C" {
 #include <keyboard.h>
+}
 #endif
 
 // Giac headers
@@ -13639,12 +13641,56 @@ namespace giac {
   static define_unary_function_eval2 (__saute,&_saute,_saute_s,&printastifunction);
   define_unary_function_ptr5( at_saute ,alias_at_saute,&__saute,0,T_LOGO);
 
+  static const char _jump_s []="jump";
+  static define_unary_function_eval2 (__jump,&_saute,_jump_s,&printastifunction);
+  define_unary_function_ptr5( at_jump ,alias_at_jump,&__jump,0,T_LOGO);
+
+  static const char _hideturtle_s []="hideturtle";
+  static define_unary_function_eval (__hideturtle,&_cache_tortue,_hideturtle_s);
+  define_unary_function_ptr5( at_hideturtle ,alias_at_hideturtle,&__hideturtle,0,true);
+
+  static const char _forward_s []="forward";
+  static define_unary_function_eval (__forward,&_avance,_forward_s);
+  define_unary_function_ptr5( at_forward ,alias_at_forward,&__forward,0,true);
+
+  static const char _heading_s []="heading";
+  static define_unary_function_eval (__heading,&_cap,_heading_s);
+  define_unary_function_ptr5( at_heading ,alias_at_heading,&__heading,0,true);
+
+  static const char _pencolor_s []="pencolor";
+  static define_unary_function_eval (__pencolor,&_crayon,_pencolor_s);
+  define_unary_function_ptr5( at_pencolor ,alias_at_pencolor,&__pencolor,0,T_LOGO);
+
+  static const char _showturtle_s []="showturtle";
+  static define_unary_function_eval (__showturtle,&_montre_tortue,_showturtle_s);
+  define_unary_function_ptr5( at_showturtle ,alias_at_showturtle,&__showturtle,0,true);
+
+  static const char _turtle_stack_s []="turtle_stack";
+  static define_unary_function_eval2 (__turtle_stack,&_cap,_turtle_stack_s,&printastifunction);
+  define_unary_function_ptr5( at_turtle_stack ,alias_at_turtle_stack,&__turtle_stack,0,T_LOGO);
+
+static const char _pendown_s []="pendown";
+  static define_unary_function_eval (__pendown,&_baisse_crayon,_pendown_s);
+  define_unary_function_ptr5( at_pendown ,alias_at_pendown,&__pendown,0,T_LOGO);
+
+  static const char _penup_s []="penup";
+  static define_unary_function_eval (__penup,&_leve_crayon,_penup_s);
+  define_unary_function_ptr5( at_penup ,alias_at_penup,&__penup,0,T_LOGO);
+
   gen _pas_de_cote(const gen & g,GIAC_CONTEXT){
     return undef;
   }
   static const char _pas_de_cote_s []="pas_de_cote";
   static define_unary_function_eval2 (__pas_de_cote,&_pas_de_cote,_pas_de_cote_s,&printastifunction);
   define_unary_function_ptr5( at_pas_de_cote ,alias_at_pas_de_cote,&__pas_de_cote,0,T_LOGO);
+  static const char _skip_s []="skip";
+  static define_unary_function_eval2 (__skip,&_pas_de_cote,_skip_s,&printastifunction);
+  define_unary_function_ptr5( at_skip ,alias_at_skip,&__skip,0,T_LOGO);
+
+  static const char _backward_s []="backward";
+  static define_unary_function_eval2 (__backward,&_pas_de_cote,_backward_s,&printastifunction);
+  define_unary_function_ptr5( at_backward ,alias_at_backward,&__backward,0,T_LOGO);
+
   gen _cache_tortue(const gen & g,GIAC_CONTEXT){
     return undef;
   }
@@ -13694,7 +13740,11 @@ namespace giac {
   static define_unary_function_eval2 (__efface,&_efface,_efface_s,&printastifunction);
   define_unary_function_ptr5( at_efface ,alias_at_efface,&__efface,0,T_LOGO);
 
-  gen _vers(const gen & g,GIAC_CONTEXT){
+  static const char _clearscreen_s []="clearscreen";
+  static define_unary_function_eval2 (__clearscreen,&_efface,_clearscreen_s,&printastifunction);
+  define_unary_function_ptr5( at_clearscreen ,alias_at_clearscreen,&__clearscreen,0,T_LOGO);
+
+gen _vers(const gen & g,GIAC_CONTEXT){
     return undef;
   }
   static const char _vers_s []="vers";

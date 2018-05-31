@@ -8359,10 +8359,18 @@ namespace giac {
       // Re(x)>0
       complex<double> z(d,i),res=0;
       for (;d<10+n;++d,z+=1){
+#ifdef FXCG
+	res += std::pow(z,-n-1.0);
+#else
 	res += std::pow(z,-n-1);
+#endif
       }
       res = double(n)*res;
-      complex<double> zn=std::pow(z,-n); // (n-1)!/z^n
+#ifdef FXCG
+      complex<double> zn=std::pow(z,double(-n)); // (n-1)!/z^n
+#else
+     complex<double> zn=std::pow(z,-n); // (n-1)!/z^n
+#endif
       complex<double> tmp=zn;
       zn=double(n)*zn/(2.0*z);
       tmp=zn+tmp;

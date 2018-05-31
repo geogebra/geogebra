@@ -760,17 +760,21 @@ namespace giac {
     if (contextptr){
       if (contextptr->globalcontextptr && contextptr->globalcontextptr->tabptr){
 	sym_tab::const_iterator it=contextptr->globalcontextptr->tabptr->begin(),itend=contextptr->globalcontextptr->tabptr->end();
+#ifdef FXCG
+	vecteur * keywordsptr=0;
+#else
 	vecteur * keywordsptr=keywords_vecteur_ptr();
+#endif
 	for (;it!=itend;++it){
 	  lastprog_name(it->first,contextptr);
 	  gen g=identificateur(it->first);
-	  if (!equalposcomp(*keywordsptr,g)){
+	  if (keywordsptr==0 || !equalposcomp(*keywordsptr,g)){
 	    if (strng)
 	      g=string2gen(it->first,false);
 	    if (strngeq){
 	      res.push_back(string2gen(it->first,false));
 	      int t=it->second.type;
-#ifndef GIAC_HAS_STO_38
+#if !defined GIAC_HAS_STO_38 && !defined FXCG
 	      if ( (t==_SYMB && it->second._SYMBptr->sommet!=at_program) || t==_FRAC || t<=_REAL || t==_VECT)
 		g=_mathml(makesequence(it->second,1),contextptr);
 	      else

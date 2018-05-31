@@ -51,7 +51,9 @@ using namespace std;
 #include <unistd.h>
 #endif
 #ifdef FXCG
+extern "C" {
 #include <keyboard.h>
+}
 #endif
 
 #ifndef NO_NAMESPACE_GIAC
@@ -2609,9 +2611,10 @@ namespace giac {
   static define_unary_function_eval2 (__CyclePic,&_CyclePic,_CyclePic_s,&printastifunction);
   define_unary_function_ptr5( at_CyclePic ,alias_at_CyclePic,&__CyclePic,0,T_RETURN);
 
+#ifndef FXCG
   gen _RandSeed(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if defined(NSPIRE_NEWLIB) || defined(VISUALC) || defined(__MINGW_H) || defined BESTA_OS || defined EMCC || defined NSPIRE || defined FXCG
+#if defined(NSPIRE_NEWLIB) || defined(VISUALC) || defined(__MINGW_H) || defined BESTA_OS || defined EMCC || defined NSPIRE 
     srand(g.val);
 #else
 #ifndef GNUWINCE
@@ -2623,6 +2626,7 @@ namespace giac {
   static const char _RandSeed_s[]="RandSeed";
   static define_unary_function_eval2 (__RandSeed,&_RandSeed,_RandSeed_s,&printastifunction);
   define_unary_function_ptr5( at_RandSeed ,alias_at_RandSeed,&__RandSeed,0,T_RETURN);
+#endif
 
   gen _Store(const gen & g,const context * contextptr){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -3971,7 +3975,7 @@ namespace giac {
       --ptr;
       return ti_decode_while(ptr,contextptr);
     case RANDSEED_ITAG:
-      return ti_decode_unary(ptr,at_RandSeed,contextptr);
+      return ti_decode_unary(ptr,at_srand,contextptr);
     case COPYVAR_ITAG:
       return ti_decode_binary(ptr,at_CopyVar,true,contextptr);
     case RENAME_ITAG:

@@ -4118,7 +4118,9 @@ namespace giac {
 #ifdef GIAC_HAS_STO_38
       n = (1000000000*ulonglong(n))% 2147483647;
 #endif
+#ifndef FXCG
       srand(n);
+#endif
       rand_seed(n,contextptr);
       return args;
     }
@@ -4137,7 +4139,9 @@ namespace giac {
       // srand48(t);
 #endif
       rand_seed(t,contextptr);
+#ifndef FXCG
       srand(t);
+#endif
       return t;
     }
   }
@@ -6712,7 +6716,11 @@ namespace giac {
 #if 0 // def NSPIRE
     return g;
 #endif
-    if (g.type!=_SYMB || g._SYMBptr->sommet==at_program || g._SYMBptr->sommet==at_pnt || g._SYMBptr->sommet==at_animation || g._SYMBptr->sommet==at_unit || g._SYMBptr->sommet==at_integrate || g._SYMBptr->sommet==at_superieur_strict || g._SYMBptr->sommet==at_superieur_egal || g._SYMBptr->sommet==at_inferieur_strict || g._SYMBptr->sommet==at_inferieur_egal || g._SYMBptr->sommet==at_and || g._SYMBptr->sommet==at_ou || g._SYMBptr->sommet==at_et || g._SYMBptr->sommet==at_not || g._SYMBptr->sommet==at_xor || g._SYMBptr->sommet==at_piecewise || g._SYMBptr->sommet==at_archive)
+    if (g.type!=_SYMB || g._SYMBptr->sommet==at_program || g._SYMBptr->sommet==at_pnt || g._SYMBptr->sommet==at_animation || g._SYMBptr->sommet==at_unit || g._SYMBptr->sommet==at_integrate || g._SYMBptr->sommet==at_superieur_strict || g._SYMBptr->sommet==at_superieur_egal || g._SYMBptr->sommet==at_inferieur_strict || g._SYMBptr->sommet==at_inferieur_egal || g._SYMBptr->sommet==at_and || g._SYMBptr->sommet==at_ou || g._SYMBptr->sommet==at_et || g._SYMBptr->sommet==at_not || g._SYMBptr->sommet==at_xor || g._SYMBptr->sommet==at_piecewise
+#ifndef FXCG
+	|| g._SYMBptr->sommet==at_archive
+#endif
+	)
       return g;
     if (is_equal(g))
       return apply_to_equal(g,simplifier,contextptr);
@@ -7495,7 +7503,18 @@ namespace giac {
   static define_unary_function_eval4 (__deuxpoints,&_deuxpoints,_deuxpoints_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr( at_deuxpoints ,alias_at_deuxpoints ,&__deuxpoints);
 
-#ifndef FXCG
+#ifdef FXCG
+  gen _read(const gen & args,GIAC_CONTEXT){ return 0;}   
+  gen _write(const gen & args,GIAC_CONTEXT){ return 0;}    
+  static const char _read_s []="read";
+  static define_unary_function_eval (__read,&_read,_read_s);
+  define_unary_function_ptr5( at_read ,alias_at_read ,&__read,0,T_RETURN);
+
+  static const char _write_s []="write";
+  static define_unary_function_eval_quoted (__write,&_write,_write_s);
+  define_unary_function_ptr5( at_write ,alias_at_write,&__write,_QUOTE_ARGUMENTS,true);
+
+#else
   
 #ifdef NSPIRE
   template<class T> void in_mws_translate(ios_base<T> &  inf,ios_base<T> &  of)

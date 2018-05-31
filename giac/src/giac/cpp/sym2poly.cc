@@ -4030,12 +4030,12 @@ namespace giac {
   }
 
   void readargs(int ARGC, char *ARGV[],vecteur & args,GIAC_CONTEXT){
-    // first initialize random generator for factorizations
-    srand(0);
-    //srand(time(NULL));
 #ifdef FXCG
     return;
 #else
+    // first initialize random generator for factorizations
+    srand(0);
+    //srand(time(NULL));
     string s;
 #ifdef NSPIRE
     if (ARGC==0){ // fake, just to instantiate for file

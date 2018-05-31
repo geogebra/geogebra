@@ -93,6 +93,10 @@ using namespace std;
 extern "C" int firvsprintf(char*,const char*, va_list);
 #endif
 
+#ifdef FXCG
+extern "C" int KeyPressed( void );
+#endif
+
 int my_sprintf(char * s, const char * format, ...){
     int z;
     va_list ap;
@@ -129,6 +133,13 @@ namespace giac {
   }
 
   double min_proba_time=10; // in seconds
+
+#ifdef FXCG
+  void control_c(){
+    int i=0 ; // KeyPressed(); // check for EXIT key pressed?
+    if (i==1){ ctrl_c=true; interrupted=true; }
+  }
+#endif
 
 #ifdef TIMEOUT
 #ifndef EMCC
@@ -4959,7 +4970,9 @@ unsigned int ConvertUTF8toUTF16 (
   }
 
   void init_geogebra(bool on,GIAC_CONTEXT){
+#ifndef FXCG
     setlocale(LC_NUMERIC,"POSIX");
+#endif
     _decimal_digits_=on?13:12;
     _all_trig_sol_=on;
     _withsqrt_=!on;
@@ -5393,7 +5406,7 @@ unsigned int ConvertUTF8toUTF16 (
   }
 #endif
 
-#if !defined NSPIRE && !defined FXCG
+#if !defined NSPIRE 
 
 #include "input_parser.h" 
 

@@ -3272,7 +3272,7 @@ namespace giac {
     return apply(args,Heavisidetopiecewise,contextptr);
   }
 
-#ifndef USE_GMP_REPLACEMENTS
+#if defined FXCG || !defined USE_GMP_REPLACEMENTS
   // find simplest between some trig simplifications, by Luka Marohnić
   gen _trigsimplify(const gen & g,GIAC_CONTEXT) {
     if (g.type==_STRNG && g.subtype==-1) return g;

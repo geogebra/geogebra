@@ -6014,7 +6014,7 @@ namespace giac {
   static define_unary_function_eval (__fourier_cn,&_fourier_cn,_fourier_cn_s);
   define_unary_function_ptr5( at_fourier_cn ,alias_at_fourier_cn,&__fourier_cn,0,true);
 
-#ifndef USE_GMP_REPLACEMENTS
+#if defined FXCG || !defined USE_GMP_REPLACEMENTS
   // periodic by Luka Marohnić
   // example f:=periodic(x^2,x,-1,1); plot(f,x=-5..5)
   gen _periodic(const gen & g,GIAC_CONTEXT) {
