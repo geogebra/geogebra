@@ -1087,7 +1087,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	@Override
-	public void hideDeferred(final GBox box) {
+	public void hideDeferred(final GBox box, DrawInputBox drawInputBox) {
 		setVisible(false);
 		box.setVisible(false);
 	}

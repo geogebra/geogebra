@@ -71,6 +71,11 @@ public class GBoxD extends GBox {
 		g.translate(-impl.getBounds().getX(), -impl.getBounds().getY());
 	}
 
+	@Override
+	public boolean isVisible() {
+		return impl.isVisible();
+	}
+
 	// @Override
 	// public geogebra.common.javax.swing.Box createHorizontalBox() {
 	// return new Box(javax.swing.Box.createHorizontalBox());

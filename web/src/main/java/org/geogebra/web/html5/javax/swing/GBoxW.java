@@ -92,4 +92,9 @@ public class GBoxW extends GBox {
 
 	}
 
+	@Override
+	public boolean isVisible() {
+		return impl.isVisible();
+	}
+
 }

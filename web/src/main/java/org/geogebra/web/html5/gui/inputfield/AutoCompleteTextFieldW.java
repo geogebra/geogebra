@@ -2033,7 +2033,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void hideDeferred(final GBox box) {
+	public void hideDeferred(final GBox box, final DrawInputBox drawInputBox) {
 		CancelEventTimer.blurEventOccured();
 		Scheduler.get().scheduleEntry(new RepeatingCommand() {
 
@@ -2046,6 +2046,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				setVisible(false);
 				box.setVisible(false);
 				// app.getActiveEuclidianView().remove(box);
+				if (drawInputBox != null) {
+					drawInputBox.drawBoundsOnCanvas();
+				}
 				return false;
 			}
 		});

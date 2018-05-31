@@ -10,6 +10,8 @@ public abstract class GBox {
 
 	public abstract void setVisible(boolean isVisible);
 
+	public abstract boolean isVisible();
+
 	public abstract void setBounds(GRectangle labelRectangle);
 
 	public abstract GRectangle getBounds();

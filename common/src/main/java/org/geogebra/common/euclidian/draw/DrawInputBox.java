@@ -373,6 +373,14 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
+	public void drawBoundsOnCanvas() {
+		GGraphics2D g2 = view.getGraphicsForPen();
+		GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor() : view.getBackgroundCommon();
+		if (!(isSelectedForInput() && getBox().isVisible())) {
+			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth, boxHeight);
+		}
+	}
+
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
 		final GFont font = g2.getFont();
@@ -387,14 +395,12 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			getBox().setBounds(labelRectangle);
 
 		}
-		GColor bgColor = geo.getBackgroundColor() != null
-				? geo.getBackgroundColor() : view.getBackgroundCommon();
 
-		boolean drawoncanvas = !geo.getKernel().getApplication().getSelectionManager().getSelectedGeos().contains(geo);
-		if (drawoncanvas
-				|| !geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
-			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
-					boxHeight);			
+		if (geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+			drawBoundsOnCanvas();
+		} else {
+			GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor() : view.getBackgroundCommon();
+			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth, boxHeight);
 		}
 
 		highlightLabel(g2, latexLabel);
@@ -516,7 +522,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			return;
 		}
 
-		getTextField().hideDeferred(getBox());
+		getTextField().hideDeferred(getBox(), this);
 
 	}
 
