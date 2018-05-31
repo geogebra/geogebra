@@ -402,6 +402,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	@Override
 	public void updateStatDataPanelVisibility() {
 		updateLayout();
+		dataDisplayPanel1.update();
 	}
 
 	// =================================================
