@@ -74,13 +74,9 @@ public class ScreenReader {
 	 */
 	public static void readText(GeoElement geo0, App app) {
 		StringBuilder sb = new StringBuilder();
-		String caption = geo0.getCaption(StringTemplate.defaultTemplate);
-		if (caption == null || "".equals(caption) || geo0.getCaptionSimple() == null) {
-			sb.append(geo0.translatedTypeStringForAlgebraView());
-			sb.append(' ');
-			sb.append(geo0.getAlgebraDescriptionDefault());
-		} else {
-			sb.append(caption);
+		String readerText = geo0.getScreenReaderText();
+		if (readerText != null) {
+			sb.append(readerText);
 		}
 
 		if (geo0.isEuclidianShowable()) {
@@ -139,9 +135,9 @@ public class ScreenReader {
 					app);
 		}
 		if (geo0.isGeoList() && app.has(Feature.READ_DROPDOWNS)) {
-			appendSentence(sb, "DropDownSelected", "Drop down %0 menu selected",
-					new String[] { geo0.getLabel(StringTemplate.defaultTemplate) }, app);
-			appendSentence(sb, "PressSpaceToOpen", "Press space to open", null, app);
+			// appendSentence(sb, "DropDownSelected", "Drop down %0 menu selected",
+			// new String[] { geo0.getLabel(StringTemplate.defaultTemplate) }, app);
+			// appendSentence(sb, "PressSpaceToOpen", "Press space to open", null, app);
 		}
 		// MOW-137 if selection originated in AV we don't want to move
 		// focus to EV

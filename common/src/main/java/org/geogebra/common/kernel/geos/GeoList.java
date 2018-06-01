@@ -50,6 +50,8 @@ import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -3233,4 +3235,61 @@ public class GeoList extends GeoElement
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param geoItem
+	 *            an item of the list
+	 * @return The displayed string of item.
+	 */
+	public static String getItemDisplayString(GeoElement geoItem) {
+		if (!"".equals(geoItem.getRawCaption())) {
+
+			return geoItem.getCaption(StringTemplate.defaultTemplate);
+
+		} else if (geoItem.isGeoPoint() || geoItem.isGeoVector() || geoItem.isGeoList()) {
+
+			return geoItem.getLabel(StringTemplate.defaultTemplate);
+		}
+
+		return geoItem.toValueString(StringTemplate.defaultTemplate);
+
+	}
+
+	/**
+	 * 
+	 * @param idx
+	 *            Item index.
+	 * @return the display string of the item at idx.
+	 */
+	public String getItemDisplayString(int idx) {
+		return getItemDisplayString(get(idx));
+	}
+
+	@Override
+	public String getScreenReaderText() {
+		if (!getKernel().getApplication().has(Feature.READ_DROPDOWNS)) {
+			return null;
+		}
+		StringBuilder sb = new StringBuilder();
+		Localization loc = getKernel().getApplication().getLocalization();
+		sb.append(loc.getMenuDefault("DropDown", "Drop down"));
+		sb.append(" ");
+		sb.append(getCaptionSimpleForScreenReader());
+		sb.append(" ");
+		sb.append(loc.getMenuDefault("Selected", "selected"));
+		sb.append(" ");
+		if (size() != 0) {
+			sb.append(loc.getMenuDefault("WithItems", "with items"));
+			for (int idx = 0; idx < size(); idx++) {
+				String item = getItemDisplayString(idx);
+				if ("".equals(item)) {
+					item = loc.getMenuDefault("EmptyItem", "empty item");
+				}
+				sb.append(item);
+				sb.append(", ");
+			}
+		}
+		sb.append(loc.getMenuDefault("PressSpaceToOpen", "Press space to open"));
+		return sb.toString();
+	}
 }

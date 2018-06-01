@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -512,4 +513,13 @@ public class GeoButton extends GeoElement
 		return bgColor;
 	}
 
+	@Override
+	public String getScreenReaderText() {
+		StringBuilder sb = new StringBuilder();
+		Localization loc = getKernel().getApplication().getLocalization();
+		sb.append(loc.getMenuDefault("Button", "button"));
+		sb.append(getCaptionForScreenReader());
+		sb.append(loc.getMenuDefault("Selected", "selected"));
+		return sb.toString();
+	}
 }

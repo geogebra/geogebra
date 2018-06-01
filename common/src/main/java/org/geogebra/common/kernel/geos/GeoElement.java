@@ -8745,4 +8745,43 @@ public abstract class GeoElement extends ConstructionElement
 		return true;
 	}
 
+	/**
+	 * 
+	 * @return text constructed from caption for screen reader.
+	 */
+	protected String getCaptionForScreenReader() {
+		StringBuilder sb = new StringBuilder();
+		String caption0 = getCaption(StringTemplate.defaultTemplate);
+		if (caption0 == null || "".equals(caption) || getCaptionSimple() == null) {
+			sb.append(translatedTypeStringForAlgebraView());
+			sb.append(' ');
+			sb.append(getAlgebraDescriptionDefault());
+		} else {
+			sb.append(caption0);
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 
+	 * @return text constructed from caption simple for screen reader.
+	 */
+	protected String getCaptionSimpleForScreenReader() {
+		StringBuilder sb = new StringBuilder();
+		String caption0 = getCaptionSimple();
+		if (caption0 == null || "".equals(caption) || getCaptionSimple() == null) {
+			sb.append(translatedTypeStringForAlgebraView());
+		} else {
+			sb.append(caption0);
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 
+	 * @return text that screen readers should read.
+	 */
+	public String getScreenReaderText() {
+		return getCaptionForScreenReader();
+	}
 }
