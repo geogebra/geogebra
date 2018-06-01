@@ -175,4 +175,11 @@ abstract class BufferPackAbstract {
 		return segmentStarts;
 	}
 
+	/**
+	 * 
+	 * @return true if used as a big buffer
+	 */
+	public boolean isBigBuffer() {
+		return false;
+	}
 }

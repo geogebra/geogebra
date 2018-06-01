@@ -27,6 +27,7 @@ abstract class GLBufferManager {
 	protected TreeMap<Index, LinkedList<BufferSegment>> availableSegments;
 	/** current buffer pack */
 	protected BufferPackAbstract currentBufferPack;
+	/** list of buffer packs */
 	protected ArrayList<BufferPackAbstract> bufferPackList;
 	/** vertex array for current geometry */
 	ArrayList<Double> vertexArray;
@@ -344,12 +345,11 @@ abstract class GLBufferManager {
 			if (currentBufferSegment == null) {
 				if (currentBufferPack == null || !currentBufferPack
 						.canAdd(elementsLength, indicesLength)) {
-					currentBufferPack = createBufferPack();
-					bufferPackList.add(currentBufferPack);
+					useAnotherBufferPack();
 				}
 				currentBufferSegment = new BufferSegment(currentBufferPack, elementsLength,
 						indicesLength);
-				currentBufferPack.addToLength(elementsLength, indicesLength);
+				addToLengthToCurrentBufferPack(elementsLength, indicesLength);
 			} else {
 				reuseSegment = true;
 			}
@@ -372,6 +372,11 @@ abstract class GLBufferManager {
 		vertexArray = null;
 		normalArray = null;
 		textureArray = null;
+	}
+
+	protected void addToLengthToCurrentBufferPack(int elementsLengthToAdd,
+			int indicesLengthToAdd) {
+		currentBufferPack.addToLength(elementsLengthToAdd, indicesLengthToAdd);
 	}
 
 	/**
@@ -511,10 +516,11 @@ abstract class GLBufferManager {
 
 	/**
 	 * 
-	 * @return a new buffer pack
+	 * use another buffer pack
 	 */
-	protected BufferPackAbstract createBufferPack() {
-		return new BufferPack(this);
+	protected void useAnotherBufferPack() {
+		currentBufferPack = new BufferPack(this);
+		bufferPackList.add(currentBufferPack);
 	}
 
 	/**

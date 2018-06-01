@@ -422,6 +422,9 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			bufferManagerSurfacesClosed.reset();
 			bufferManagerSurfacesClipped.reset();
 			bufferManagerPoints.reset();
+		} else {
+			bufferManagerCurvesClipped.update();
+			bufferManagerSurfacesClipped.update();
 		}
 	}
 

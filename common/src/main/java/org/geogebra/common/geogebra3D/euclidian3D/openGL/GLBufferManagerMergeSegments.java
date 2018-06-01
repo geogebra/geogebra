@@ -2,6 +2,8 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /**
  * manager for packing buffers with merging segments
@@ -12,6 +14,8 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 
 	private Index startIndex;
 	private Index endIndex;
+	private TreeMap<Integer, LinkedList<BufferPackAbstract>> availableBufferPacks = new TreeMap<>();
+	private boolean mayNeedToRemoveBuffers = false;
 
 	/**
 	 * constructor
@@ -91,7 +95,7 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 				bufferSegment);
 		currentBufferPack.getSegmentStarts().put(new Index(startIndex),
 				bufferSegment);
-
+		mayNeedToRemoveBuffers = true;
 	}
 
 	@Override
@@ -138,6 +142,84 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 			currentLengths.setLengths(ret);
 		}
 		return ret;
+	}
+
+	@Override
+	protected void useAnotherBufferPack() {
+		Entry<Integer, LinkedList<BufferPackAbstract>> entry = availableBufferPacks
+				.ceilingEntry(elementsLength);
+		if (entry != null) {
+			BufferPackAbstract buffer = entry.getValue().getFirst();
+			currentBufferPack = buffer;
+		} else {
+			super.useAnotherBufferPack();
+		}
+	}
+
+	@Override
+	protected void addToLengthToCurrentBufferPack(int elementsLengthToAdd,
+			int indicesLengthToAdd) {
+		if (!currentBufferPack.isBigBuffer()) {
+			removeFromAvailableBufferPacks(currentBufferPack);
+		}
+		currentBufferPack.addToLength(elementsLengthToAdd, indicesLengthToAdd);
+		if (!currentBufferPack.isBigBuffer()) {
+			addToAvailableBufferPacks(currentBufferPack);
+		}
+	}
+
+	private void addToAvailableBufferPacks(BufferPackAbstract buffer) {
+		int length = BufferPackAbstract.ELEMENT_SIZE_MAX
+				- buffer.elementsLength;
+		LinkedList<BufferPackAbstract> list = availableBufferPacks.get(length);
+		if (list == null) {
+			list = new LinkedList<>();
+			availableBufferPacks.put(length, list);
+		}
+		list.add(buffer);
+	}
+
+	private void removeFromAvailableBufferPacks(BufferPackAbstract buffer) {
+		int length = BufferPackAbstract.ELEMENT_SIZE_MAX
+				- buffer.elementsLength;
+		LinkedList<BufferPackAbstract> list = availableBufferPacks.get(length);
+		if (list != null) {
+			list.remove(buffer);
+			if (list.isEmpty()) {
+				availableBufferPacks.remove(length);
+			}
+		}
+	}
+
+	@Override
+	public void reset() {
+		availableBufferPacks.clear();
+		mayNeedToRemoveBuffers = false;
+		super.reset();
+	}
+
+	/**
+	 * update buffer pack list and remove empty buffers
+	 */
+	public void update() {
+		if (mayNeedToRemoveBuffers) {
+			for (int i = bufferPackList.size() - 1; i >= 0; i--) {
+				BufferPackAbstract bufferPack = bufferPackList.get(i);
+				if (bufferPack.elementsLength > 0) {
+					if (bufferPack.getSegmentEnds().size() == 1) {
+						BufferSegment segment = bufferPack.getSegmentEnds()
+								.firstEntry().getValue();
+						if (segment.elementsOffset == 0 && segment
+								.getElementsAvailableLength() == bufferPack.elementsLength) {
+							bufferPackList.remove(i);
+							removeFromAvailableSegments(segment);
+							removeFromAvailableBufferPacks(bufferPack);
+						}
+					}
+				}
+			}
+		}
+		mayNeedToRemoveBuffers = false;
 	}
 
 }

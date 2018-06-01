@@ -52,11 +52,13 @@ public class GLBufferManagerCurvesClipped extends GLBufferManagerMergeSegments {
 	}
 
 	@Override
-	protected BufferPackAbstract createBufferPack() {
+	protected void useAnotherBufferPack() {
 		if (elementsLength > BufferPackAbstract.ELEMENT_SIZE_MAX) {
-			return new BufferPackBigCurve(this);
+			currentBufferPack = new BufferPackBigCurve(this);
+			bufferPackList.add(currentBufferPack);
+		} else {
+			super.useAnotherBufferPack();
 		}
-		return super.createBufferPack();
 	}
 
 }

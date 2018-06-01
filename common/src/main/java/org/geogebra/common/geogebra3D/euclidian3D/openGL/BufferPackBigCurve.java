@@ -175,4 +175,9 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 		return false;
 	}
 
+	@Override
+	public boolean isBigBuffer() {
+		return true;
+	}
+
 }
