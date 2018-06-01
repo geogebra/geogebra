@@ -1547,10 +1547,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void focusDeferred() {
-		if (!app.has(Feature.TAB_ON_GUI)) {
-			return;
-		}
-
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {

@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -147,9 +146,7 @@ public class MarblePanel extends FlowPanel
 		}
 		
 		btn.setTitle(tooltip);
-		if (item.app.has(Feature.TAB_ON_GUI)) {
-			btn.setAltText(tooltip);
-		}
+		btn.setAltText(tooltip);
 		if (warning && !textInput) {
 			remove(marble);
 			add(btn);
@@ -276,11 +273,9 @@ public class MarblePanel extends FlowPanel
 		
 		btnPlus.getUpHoveringFace().setImage(hoverImg);
 		btnPlus.getDownHoveringFace().setImage(hoverImg);
-		if (item.getApplication().has(Feature.TAB_ON_GUI)) {
-			btnPlus.setIgnoreTab();
-			btnPlus.addKeyDownHandler(this);
-			btnPlus.setAltText(btnPlus.getTitle());
-		}
+		btnPlus.setIgnoreTab();
+		btnPlus.addKeyDownHandler(this);
+		btnPlus.setAltText(btnPlus.getTitle());
 		AriaHelper.setHidden(btnPlus, true);
 	}
 

@@ -92,11 +92,9 @@ public class ZoomPanel extends FlowPanel
 			addFullscreenButton();
 		}
 		setLabels();
-		if (app.has(Feature.TAB_ON_GUI)) {
-			buttons = Arrays.asList(homeBtn, zoomInBtn, zoomOutBtn,
+		buttons = Arrays.asList(homeBtn, zoomInBtn, zoomOutBtn,
 					fullscreenBtn);
-			setTabIndexes();
-		}
+		setTabIndexes();
 	}
 
 	/**
@@ -135,9 +133,7 @@ public class ZoomPanel extends FlowPanel
 			}
 		};
 
-		if (app.has(Feature.TAB_ON_GUI)) {
-			fullscreenBtn.addTabHandler(this);
-		}
+		fullscreenBtn.addTabHandler(this);
 
 		fullscreenBtn.addFastClickHandler(handlerFullscreen);
 		Browser.addFullscreenListener(new AsyncOperation<String>() {
@@ -225,9 +221,7 @@ public class ZoomPanel extends FlowPanel
 		};
 		homeBtn.addFastClickHandler(handlerHome);
 
-		if (app.has(Feature.TAB_ON_GUI)) {
-			homeBtn.addTabHandler(this);
-		}
+		homeBtn.addTabHandler(this);
 
 		add(homeBtn);
 		if (!Browser.isMobile()) {
@@ -273,9 +267,7 @@ public class ZoomPanel extends FlowPanel
 			}
 		};
 		zoomInBtn.addFastClickHandler(handlerZoomIn);
-		if (app.has(Feature.TAB_ON_GUI)) {
-			zoomInBtn.addTabHandler(this);
-		}
+		zoomInBtn.addTabHandler(this);
 		add(zoomInBtn);
 	}
 

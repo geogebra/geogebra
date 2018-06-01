@@ -8,7 +8,6 @@ import java.util.List;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -476,7 +475,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				+ KeyCodes.translateGWTcode(event.getNativeKeyCode()) + " in "
 				+ getActive());
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
-		if (app.has(Feature.TAB_ON_GUI) && !app.getAccessibilityManager().isTabOverGeos()
+		if (!app.getAccessibilityManager().isTabOverGeos()
 				&& kc == KeyCodes.TAB) {
 			event.stopPropagation();
 			if (app.getKernel().getConstruction().isEmpty()) {
@@ -568,11 +567,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	@Override
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
-		if (!app.has(Feature.TAB_ON_GUI)) {
-			super.handleTab(isControlDown, isShiftDown, cycle);
-			return true;
-		}
-
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
 
 		if (am == null) {

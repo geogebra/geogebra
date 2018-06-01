@@ -170,9 +170,6 @@ public enum Feature {
 	/** GGB-1717 */
 	IMAGE_EXPORT,
 
-	/** GGB-2053 */
-	TAB_ON_GUI,
-
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 

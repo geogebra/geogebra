@@ -598,10 +598,8 @@ public abstract class DockPanelW extends ResizeComposite
 			graphicsContextMenuBtn.addStyleName("flatButton");
 			graphicsContextMenuBtn.addStyleName("graphicsContextMenuBtn");
 			titleBarPanelContent.add(graphicsContextMenuBtn);
-			if (app.has(Feature.TAB_ON_GUI)) {
-				graphicsContextMenuBtn.setTabIndex(GUITabs.SETTINGS);
-				graphicsContextMenuBtn.addTabHandler(this);
-			}
+			graphicsContextMenuBtn.setTabIndex(GUITabs.SETTINGS);
+			graphicsContextMenuBtn.addTabHandler(this);
 			if (toggleStyleBarButton != null) {
 				toggleStyleBarButton.removeFromParent();
 				toggleStyleBarButton = null;

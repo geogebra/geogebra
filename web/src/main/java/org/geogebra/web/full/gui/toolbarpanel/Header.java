@@ -300,10 +300,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private void setAltTexts() {
-		if (!app.has(Feature.TAB_ON_GUI)) {
-			return;
-		}
-
 		imgMenu.setAltText(app.getLocalization().getMenu("Menu"));
 		setAltText(btnAlgebra, app.getConfig().getAVTitle());
 		setAltText(btnTools, "Tools");
@@ -364,9 +360,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			}
 		});
 		
-		if (app.has(Feature.TAB_ON_GUI)) {
-			btnClose.addKeyDownHandler(this);
-		}
+		btnClose.addKeyDownHandler(this);
 
 		rightSide = new FlowPanel();
 		rightSide.add(btnClose);
@@ -451,10 +445,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				toolbarPanel.toggleMenu();
 			}
 		});
-		if (app.has(Feature.TAB_ON_GUI)) {
-			btnMenu.addTabHandler(this);
-			btnMenu.addKeyDownHandler(this);
-		}
+		btnMenu.addTabHandler(this);
+		btnMenu.addKeyDownHandler(this);
 	}
 
 	private void buildHeader() {
@@ -636,9 +628,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			}
 		});
 
-		if (app.has(Feature.TAB_ON_GUI)) {
-			btnUndo.addKeyDownHandler(this);
-		}
+		btnUndo.addKeyDownHandler(this);
 
 		panel.add(btnUndo);
 	}
@@ -661,10 +651,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			}
 		});
 
-		if (app.has(Feature.TAB_ON_GUI)) {
-			btnRedo.addKeyDownHandler(this);
-		}
-
+		btnRedo.addKeyDownHandler(this);
 		panel.add(btnRedo);
 	}
 	

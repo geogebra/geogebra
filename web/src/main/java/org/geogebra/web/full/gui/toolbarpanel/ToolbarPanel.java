@@ -475,9 +475,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 		moveBtn.addStyleName("showMoveBtn");
 		moveBtn.removeStyleName("hideMoveBtn");
-		if (app.has(Feature.TAB_ON_GUI)) {
-			moveBtn.setTabIndex(GUITabs.NO_TAB);
-		}
+		moveBtn.setTabIndex(GUITabs.NO_TAB);
 	}
 
 	/**
@@ -489,9 +487,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 		moveBtn.addStyleName("hideMoveBtn");
 		moveBtn.removeStyleName("showMoveBtn");
-		if (app.has(Feature.TAB_ON_GUI)) {
-			moveBtn.setTabIndex(GUITabs.NO_TAB);
-		}
+		moveBtn.setTabIndex(GUITabs.NO_TAB);
 	}
 
 	/**

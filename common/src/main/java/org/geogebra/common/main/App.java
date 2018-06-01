@@ -4411,10 +4411,6 @@ public abstract class App implements UpdateSelection {
 		case WHOLE_PAGE_DRAG:
 			return true;
 
-		/** GGB-2053 */
-		case TAB_ON_GUI:
-			return true;
-
 		/** MOB-1293 */
 		case SELECT_TOOL_NEW_BEHAVIOUR:
 			return prerelease;

@@ -1696,7 +1696,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		final GGWMenuBar menubar = getAppletFrame().getMenuBar(this);
 		floatingMenuPanel.add(menubar);
 		floatingMenuPanel.setVisible(menuShowing);
-		if (has(Feature.TAB_ON_GUI) && menuShowing) {
+		if (menuShowing) {
 			menubar.focusDeferred();
 		}
 		// this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
