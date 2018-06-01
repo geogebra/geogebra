@@ -7275,6 +7275,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.setShowMouseCoords(false);
 			setDragCursor();
 
+			// make sure when a circle is dragged it stays in
+			// (x+2)^2+(y-3)^2=25 form
+			if (movedGeoConic.getType() == GeoConicNDConstants.CONIC_CIRCLE
+					&& movedGeoConic.toStringMode == GeoConicND.EQUATION_USER) {
+				movedGeoConic.setToStringMode(GeoConicND.EQUATION_SPECIFIC);
+			}
+
 			// make sure vertex snaps to grid for parabolas
 			if (movedGeoConic.getType() == GeoConicNDConstants.CONIC_PARABOLA) {
 				double vX = movedGeoConic.b.getX();
