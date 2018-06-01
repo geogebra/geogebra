@@ -70,11 +70,13 @@ public class ZoomPanel extends FlowPanel
 	 * @param zoomable
 	 *            whether zoom buttons are allowed in this view
 	 */
-	public ZoomPanel(EuclidianView view, boolean rightBottom,
+	public ZoomPanel(EuclidianView view, AppW app, boolean rightBottom,
 			boolean zoomable) {
 		this.view = view;
-		this.app = (AppW) view.getApplication();
-		view.getEuclidianController().addZoomerListener(this);
+		this.app = app;
+		if (view != null) {
+			view.getEuclidianController().addZoomerListener(this);
+		}
 		setStyleName("zoomPanel");
 		if (app.isWhiteboardActive()) {
 			if (app.has(Feature.MOW_MULTI_PAGE)) {

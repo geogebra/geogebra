@@ -297,7 +297,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (allowZoomPanel()) {
 			boolean bottomRight = dm.getRoot() == null
 					|| dm.getRoot().isBottomRight(this);
-			zoomPanel = new ZoomPanel(getEuclidianView(),
+			zoomPanel = new ZoomPanel(getEuclidianView(), app,
 					bottomRight,
 					this.mayHaveZoomButtons);
 			if (bottomRight) {

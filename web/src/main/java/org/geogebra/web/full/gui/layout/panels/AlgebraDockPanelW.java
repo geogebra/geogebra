@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
@@ -15,6 +14,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Classic (no toolbar) dock panel for algebra
  */
-public class AlgebraDockPanelW extends DockPanelW
+public class AlgebraDockPanelW extends NavigableDockPanelW
 		implements AlgebraPanelInterface {
 
 	private ScrollPanel algebrap;
@@ -45,7 +45,7 @@ public class AlgebraDockPanelW extends DockPanelW
 	}
 
 	@Override
-	protected Widget loadComponent() {
+	protected Panel getViewPanel() {
 		if (algebrap == null) {
 			algebrap = new ScrollPanel();
 			algebrap.setSize("100%", "100%");

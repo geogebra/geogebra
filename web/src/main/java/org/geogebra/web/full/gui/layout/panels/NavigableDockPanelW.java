@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.layout.panels;
 
+import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
+import org.geogebra.web.html5.gui.util.ZoomPanel;
 
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -11,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class NavigableDockPanelW extends DockPanelW {
 	private ConstructionProtocolNavigationW consProtNav;
 	private InnerPanel innerPanel;
+	private ZoomPanel zoomPanel;
 
 	public NavigableDockPanelW(int id, String title, String toolbar,
 			boolean hasStyleBar, int menuOrder, char menuShortcut) {
@@ -83,6 +86,32 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 			widget.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		}
 		super.initWidget(widget);
+	}
+
+	@Override
+	protected void tryBuildZoomPanel() {
+		DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
+				.getDockManager());
+
+		boolean bottomRight = dm.getRoot() == null
+				|| dm.getRoot().isBottomRight(this);
+		if (bottomRight) {
+			zoomPanel = new ZoomPanel(null, app, bottomRight, false);
+			if (bottomRight) {
+				app.setZoomPanel(zoomPanel);
+			}
+		}
+	}
+
+	@Override
+	protected void addZoomPanel(MyDockLayoutPanel dockPanel) {
+		if (zoomPanel != null) {
+			// This causes EV overlap toolbar
+			// dockPanel.getElement().getStyle().setProperty("minHeight",
+			// zoomPanel.getMinHeight());
+			dockPanel.addSouth(zoomPanel, 0);
+
+		}
 	}
 
 }

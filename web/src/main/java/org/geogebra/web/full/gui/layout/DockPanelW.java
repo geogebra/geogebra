@@ -433,7 +433,6 @@ public abstract class DockPanelW extends ResizeComposite
 		if (componentPanel != null) {
 			return;
 		}
-
 		// This also acts as a boolean to show whether this
 		// method has already been called
 		componentPanel = new VerticalPanel();
@@ -483,7 +482,6 @@ public abstract class DockPanelW extends ResizeComposite
 		if (this.isStyleBarEmpty()) {
 			titleBarPanel.add(closeButtonPanel);
 		}
-
 		tryBuildZoomPanel();
 
 		if (app.getGuiManager().isDraggingViews()) {
