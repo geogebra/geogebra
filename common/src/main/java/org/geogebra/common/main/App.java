@@ -4054,10 +4054,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_EXPORT_IMAGE:
 			return true;
 
-		// IGR-601
-		case MOB_HELP_FEEDBACK:
-			return true;
-
 		// MOB-1513
 		case MOB_PACK_JOIN_POINTS:
 			return true;
