@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoTurtle;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.GUITabs;
@@ -63,9 +62,7 @@ public class ItemControls extends FlowPanel
 		this.radioTreeItem = radioTreeItem;
 		addStyleName("AlgebraViewObjectStylebar");
 		addStyleName("smallStylebar");
-		if (radioTreeItem.getApplication().has(Feature.AV_ITEM_DESIGN)) {
-			addStyleName("withContextMenu");
-		}
+		addStyleName("withContextMenu");
 		buildGUI();
 		if (hasMoreMenu() && radioTreeItem.geo != null) {
 			add(getMoreButton());
@@ -194,8 +191,7 @@ public class ItemControls extends FlowPanel
 	}
 
 	private boolean hasMoreMenu() {
-		return radioTreeItem.app.has(Feature.AV_ITEM_DESIGN)
-				&& radioTreeItem.app.showAlgebraInput();
+		return radioTreeItem.app.showAlgebraInput();
 	}
 
 	/**
@@ -388,22 +384,7 @@ public class ItemControls extends FlowPanel
 	 *            whether this is the only selected item
 	 */
 	public void show(boolean value) {
-		if (radioTreeItem.app.has(Feature.AV_ITEM_DESIGN)) {
-			super.setVisible(true);
-			return;
-		}
-
-		boolean b = value || getController().isEditing();
-
-		if (value && isVisible()) {
-			return;
-		}
-
-		setVisible(b);
-
-		if (value) {
-			buildGUI();
-		}
+		super.setVisible(true); // radioTreeItem.app.has(Feature.AV_ITEM_DESIGN)
 	}
 
 	/**

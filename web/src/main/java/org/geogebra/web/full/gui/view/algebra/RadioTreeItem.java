@@ -382,8 +382,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected boolean updateValuePanel(String text) {
 		boolean ret = outputPanel.updateValuePanel(geo, text, latex,
 				getFontSize());
-		if (app.has(Feature.AV_ITEM_DESIGN) && geo != null
-				&& AlgebraItem.shouldShowSymbolicOutputButton(geo)) {
+		if (geo != null && AlgebraItem.shouldShowSymbolicOutputButton(geo)) {
 			addControls();
 			AlgebraOutputPanel.createSymbolicButton(controls, geo, true);
 		}
@@ -535,16 +534,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 *            preview from input bar
 	 */
 	public void buildSuggestions(GeoElement previewGeo) {
-		if (app.has(Feature.AV_ITEM_DESIGN)) {
-			if (needsSuggestions(previewGeo) != null) {
-				addControls();
-				controls.reposition();
-				controls.updateSuggestions(geo == null ? previewGeo : geo);
-			} else if (controls != null) {
-				controls.updateSuggestions(geo == null ? previewGeo : geo);
-			}
-			clearUndefinedVariables();
+		if (needsSuggestions(previewGeo) != null) {
+			addControls();
+			controls.reposition();
+			controls.updateSuggestions(geo == null ? previewGeo : geo);
+		} else if (controls != null) {
+			controls.updateSuggestions(geo == null ? previewGeo : geo);
 		}
+		clearUndefinedVariables();
 	}
 
 	protected void buildItemWithSingleRow() {
@@ -1575,11 +1572,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 
 		if (isInputTreeItem()) {
-			boolean hasMoreMenu = app.has(Feature.AV_ITEM_DESIGN);
 			content.insert(getClearInputButton(), 0);
 
 			if (controls != null) {
-				controls.setVisible(hasMoreMenu);
+				controls.setVisible(true);
 			}
 			adjustStyleBar();
 		}

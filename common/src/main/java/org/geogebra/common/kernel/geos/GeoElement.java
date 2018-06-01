@@ -8574,8 +8574,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *         for packed items
 	 */
 	public int getPackedIndex() {
-		if (kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
-				&& getParentAlgorithm() != null
+		if (getParentAlgorithm() != null
 				&& getParentAlgorithm().getOutputLength() > 1
 				&& getParentAlgorithm().hasSingleOutputType()
 				&& kernel.getApplication().getSettings().getAlgebra()

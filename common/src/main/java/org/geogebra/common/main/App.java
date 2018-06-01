@@ -4353,9 +4353,6 @@ public abstract class App implements UpdateSelection {
 		case DYNAMIC_STYLEBAR:
 			return isUnbundledOrWhiteboard();
 
-		case AV_ITEM_DESIGN:
-			return true;
-
 		case EXPORT_SCAD_IN_MENU:
 			return prerelease;
 

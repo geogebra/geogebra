@@ -2,11 +2,9 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
@@ -140,18 +138,13 @@ public class AlgebraOutputPanel extends FlowPanel {
 				.needToShowBothRowsInAV() != DescriptionMode.DEFINITION_VALUE) {
 			return false;
 		}
-		Kernel kernel = geo1.getKernel();
 		clear();
 		if (AlgebraItem.shouldShowSymbolicOutputButton(geo1)) {
-			if (!kernel.getApplication().has(Feature.AV_ITEM_DESIGN)) {
-				createSymbolicButton(this, geo1, false);
+			if (AlgebraItem.getOutputPrefix(geo1)
+					.startsWith(Unicode.CAS_OUTPUT_NUMERIC + "")) {
+				addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
 			} else {
-				if (AlgebraItem.getOutputPrefix(geo1)
-						.startsWith(Unicode.CAS_OUTPUT_NUMERIC + "")) {
-					addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
-				} else {
-					addArrowPrefix();
-				}
+				addArrowPrefix();
 			}
 		} else {
 			addArrowPrefix();
