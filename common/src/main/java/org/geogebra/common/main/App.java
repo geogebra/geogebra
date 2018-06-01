@@ -4050,10 +4050,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_AND_QUEUE_ON_GL_THREAD:
 			return true;
 
-		// IGR-748
-		case MOB_EXPORT_IMAGE:
-			return true;
-
 		// MOB-1513
 		case MOB_PACK_JOIN_POINTS:
 			return true;

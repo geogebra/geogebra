@@ -256,9 +256,6 @@ public enum Feature {
 	/** AND-679 */
 	MOB_AND_QUEUE_ON_GL_THREAD,
 
-	/** IGR-748 */
-	MOB_EXPORT_IMAGE,
-
 	/** MOB-1513 */
 	MOB_PACK_JOIN_POINTS,
 
