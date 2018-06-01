@@ -79,7 +79,7 @@ public class AppWsimple extends AppW {
 		GeoGebraFrameW.handleLoadFile(articleElement, this);
 		initing = false;
 		if (ZoomPanel.neededFor(this)) {
-			ZoomPanel zp = new ZoomPanel(getEuclidianView1(), true, true);
+			ZoomPanel zp = new ZoomPanel(getEuclidianView1(), this, true, true);
 			setZoomPanel(zp);
 			euclidianViewPanel.getAbsolutePanel().add(zp);
 		}
