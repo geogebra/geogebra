@@ -50,9 +50,10 @@ public class ControllerTest {
 	public void repeatWithDrag() {
 		if (!events.isEmpty()) {
 			reset();
-			app.initDialogManager(false);
 			for (TestEvent evt : events) {
-				if (evt.command != null) {
+				if (evt.inputs != null) {
+					app.initDialogManager(false, evt.inputs);
+				} else if (evt.command != null) {
 					app.getKernel().getAlgebraProcessor()
 							.processAlgebraCommand(evt.command, false);
 				} else {
@@ -481,7 +482,10 @@ public class ControllerTest {
 
 	@Test
 	public void segmentFixedTool() {
-		app.setMode(EuclidianConstants.MODE_SEGMENT_FIXED); // TODO 45
+		app.setMode(EuclidianConstants.MODE_SEGMENT_FIXED);
+		prepareInput("2");
+		click(100, 100);
+		checkContent("A = (2, -2)", "B = (4, -2)", "f = 2");
 	}
 
 	@Test
@@ -516,13 +520,18 @@ public class ControllerTest {
 
 	@Test
 	public void regularPolygonTool() {
-		app.setMode(EuclidianConstants.MODE_REGULAR_POLYGON); // TODO 51
-		app.initDialogManager(false);
+		app.setMode(EuclidianConstants.MODE_REGULAR_POLYGON);
+		prepareInput("4");
 		click(100, 100);
 		click(0, 0);
 		checkContent("A = (2, -2)", "B = (0, 0)", "poly1 = 8",
 				"f = 2.82843", "g = 2.82843", "C = (-2, -2)", "D = (0, -4)",
 				"h = 2.82843", "i = 2.82843");
+	}
+
+	private void prepareInput(String... string) {
+		app.initDialogManager(false, string);
+		events.add(new TestEvent(0, 0).withInput(string));
 	}
 
 	@Test

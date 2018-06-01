@@ -2,10 +2,9 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.SegmentHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
@@ -16,8 +15,6 @@ import com.google.gwt.event.dom.client.DomEvent;
  */
 public class InputDialogSegmentFixedW extends InputDialogW {
 	private GeoPointND geoPoint1;
-
-	private Kernel kernel;
 
 	/**
 	 * @param app
@@ -37,7 +34,6 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 				handler);
 
 		geoPoint1 = point1;
-		this.kernel = kernel;
 	}
 
 	@Override
@@ -59,32 +55,14 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 	}
 
 	private void processInput() {
-
-		// avoid labeling of num
-		final Construction cons = kernel.getConstruction();
-		final boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
-		getInputHandler().processInput(inputPanel.getText(), this,
+		new SegmentHandler(geoPoint1).doSegmentFixedAsync(inputPanel.getText(),
+				(NumberInputHandler) getInputHandler(), this,
 				new AsyncOperation<Boolean>() {
 
-					@Override
 					public void callback(Boolean ok) {
-						cons.setSuppressLabelCreation(oldVal);
-						if (ok) {
-							makeSegment();
-						}
 						setVisible(!ok);
 					}
 				});
-	}
-
-	/**
-	 * Create the segment.
-	 */
-	protected void makeSegment() {
-		DialogManager.doSegmentFixed(kernel, geoPoint1,
-				((NumberInputHandler) getInputHandler()).getNum());
 	}
 
 }

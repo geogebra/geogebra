@@ -9,6 +9,7 @@ public class TestEvent extends AbstractEvent {
 	private int x;
 	private int y;
 	public String command;
+	public String[] inputs;
 
 	public TestEvent(int i, int j) {
 		x = i;
@@ -86,6 +87,11 @@ public class TestEvent extends AbstractEvent {
 	public PointerEventType getType() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public TestEvent withInput(String[] string) {
+		this.inputs = string;
+		return this;
 	}
 
 }

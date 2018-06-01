@@ -843,8 +843,8 @@ public class AppDNoGui extends App {
 		return null;
 	}
 
-	public void initDialogManager(boolean clear) {
-		dialogManager = clear ? null : new DialogManagerNoGui(this);
+	public void initDialogManager(boolean clear, String... inputs) {
+		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
 	}
 
 }

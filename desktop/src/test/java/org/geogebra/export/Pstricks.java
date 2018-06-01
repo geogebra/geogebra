@@ -16,6 +16,7 @@ import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.euclidian.TestEvent;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,11 +24,25 @@ public class Pstricks {
 	private static AppDNoGui app;
 	private static EuclidianController ec;
 	private static ArrayList<TestEvent> events = new ArrayList<>();
+	private static ArrayList<String> inputs;
+
+	@Before
+	public void clear() {
+		app.getKernel().clearConstruction(true);
+		t("ShowAxes(false)");
+		t("ShowGrid(false)");
+	}
 
 	@BeforeClass
 	public static void setup() {
 		app = CommandsTest.createApp();
 		ec = app.getActiveEuclidianView().getEuclidianController();
+		inputs = new ArrayList<>();
+		createObjects();
+	}
+
+	private static void add(String cmd) {
+		inputs.add(cmd);
 	}
 
 	private static void t(String cmd) {
@@ -36,85 +51,101 @@ public class Pstricks {
 
 	@Test
 	public void exportPstricks() {
-		createObjects();
 		GeoGebraExport ps = new GeoGebraToPstricksD(app);
-		String out = generate(ps);
-		Assert.assertEquals("\\end{document}",
-				out.substring(out.length() - 14));
+		testInputs(ps, "\\end{document}");
 	}
 
 	@Test
 	public void exportPgf() {
-		createObjects();
 		GeoGebraExport ps = new GeoGebraToPgfD(app);
-		String out = generate(ps);
-		Assert.assertEquals("\\end{document}",
-				out.substring(out.length() - 14));
+		testInputs(ps, "\\end{document}");
 
 	}
 
 	@Test
 	public void exportAsymptote() {
-		createObjects();
 		GeoGebraExport ps = new GeoGebraToAsymptoteD(app);
-		String out = generate(ps);
-		Assert.assertEquals("/* end of picture */",
-				out.substring(out.length() - 20));
+		testInputs(ps, "/* end of picture */");
 	}
 
 	@Test
 	public void exportPdf() {
-		createObjects();
+		t("anim=Slider(0,1)");
 		GeoGebraExport ps = new GeoGebraToPdfD(app);
-		String out = generate(ps);
-		Assert.assertEquals("\\end{document}",
-				out.substring(out.length() - 14));
+		testInputs(ps, "\\end{document}");
 	}
 
-	private static void createObjects() {
-		t("A=(1,1)");
-		t("f:x=y");
-		t("g:x>y");
-		t("h(x)=sin(x)");
-		t("c:4xx+9yy=16");
-		t("c1:4xx-9yy=16");
-		t("c2:4xx-9yy=0");
-		t("c3:4xx+9y=16");
-		t("c4:4xx=0");
-		t("c5:xx+yy=16");
-		t("v:Vector((0,0),(1,1))");
-		t("cx:4xx+9yy<16");
-		t("s:Segment((1,1),(1,2))");
-		t("slider:Slider(0,1)");
-		t("Polyline((0,0),(1,1),(2,3))");
-		t("Polygon((3,1),(1,1),(2,3))");
-		t("\"GeoGebra Rocks\"");
-		t("FormulaText(sqrt(x/(x+1)))");
-		t("Histogram({1,2,3,4,5,6},{1,2,3,4,3,3,5})");
-		t("ShowAxes(true)");
-		t("ShowGrid(true)");
-		t("SetColor(A,\"BLUE\")");
-		t("SetColor(f,\"YELLOW\")");
-		t("SetColor(g,\"RED\")");
-		t("SetColor(h,\"GREEN\")");
-		t("SetColor(c,\"BLACK\")");
-		t("Angle(A)");
-		t("Angle(xAxis, yAxis)");
-		for (int i = 0; i < 9; i++) {
-			t("Pt"+i+"=(0,"+i+")");
-			t("SetPointStyle(Pt" + i + "," + i + ")");
-		}
-	}
-
-	private static String generate(GeoGebraExport ps) {
+	private void testInputs(GeoGebraExport ps, String string) {
+		String last = "";
 		EuclidianView ev = app.getActiveEuclidianView();
+
 		ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
 				ev.getYmax());
-		GeoElement slider = app.getKernel().lookupLabel("slider");
+		GeoElement slider = app.getKernel().lookupLabel("anim");
 		if (slider instanceof GeoNumeric) {
 			frame.setSlider((GeoNumeric) slider);
 		}
 		ps.setFrame(frame);
+		for (String cmd : inputs) {
+			t(cmd);
+			String out = generate(ps, frame);
+			if (out.equals(last)) {
+				Assert.fail(cmd);
+			}
+			last = out;
+			Assert.assertEquals(string,
+					out.substring(out.length() - string.length()));
+		}
+	}
+
+
+	private static void createObjects() {
+		add("A=(1,1)");
+		add("f:x=y");
+		add("g:x>y");
+		add("h(x)=sin(x)");
+		add("c:4xx+9yy=16");
+		add("c1:4xx-9yy=16");
+		add("c2:4xx-9yy=0");
+		add("c3:4xx+9y=16");
+		add("c4:4xx=0");
+		add("c5:xx+yy=16");
+		add("v:Vector((0,0),(1,1))");
+		add("cx:4xx+9yy<16");
+		add("s:Segment((1,1),(1,2))");
+		add("slider:Slider(0,1)");
+		add("Polyline((0,0),(1,1),(2,3))");
+		add("Polygon((3,1),(1,1),(2,3))");
+		add("\"GeoGebra Rocks\"");
+		add("FormulaText(sqrt(x/(x+1)))");
+		add("hg:Histogram({1,2,3,4,5,6},{1,2,3,4,3,3,5})");
+		add("ShowAxes(true)");
+		add("ShowGrid(true)");
+		add("SetColor(A,\"BLUE\")");
+		add("SetColor(f,\"YELLOW\")");
+		add("SetColor(g,\"RED\")");
+		add("SetColor(h,\"GREEN\")");
+		add("SetColor(hg,\"BLACK\")");
+		add("Ray((0,0),(1,1))");
+		add("Integral(2x,0,1)");
+		add("Integral(-x,2x,0,1)");
+		add("BoxPlot(1,1,{-1,1,2,3,4,9,9})");
+		add("LowerSum(x^2,0,1,10)");
+		add("UpperSum(x^2,0,1,10)");
+		add("TrapezoidalSum(x^2,0,1,10)");
+		add("RectangleSum(x^2,0,1,10,0.1)");
+		add("Slope(x)");
+		add("Angle(A)");
+		add("Angle(Vector(A))");
+		add("Angle(xAxis, yAxis)");
+		for (int i = 1; i < 9; i++) {
+			add("Pt"+i+"=(0,"+i+")");
+			add("SetPointStyle(Pt" + i + "," + i + ")");
+		}
+	}
+
+	private static String generate(GeoGebraExport ps,
+			ExportFrameMinimal frame) {
 		ps.generateAllCode();
 		return frame.getCode();
 

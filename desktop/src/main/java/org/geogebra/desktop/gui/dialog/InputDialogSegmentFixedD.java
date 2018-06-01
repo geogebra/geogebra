@@ -5,10 +5,9 @@ import java.awt.event.WindowEvent;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.SegmentHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
@@ -52,22 +51,11 @@ public class InputDialogSegmentFixedD extends InputDialogD {
 
 	private void processInput() {
 
-		// avoid labeling of num
-		final Construction cons = kernel.getConstruction();
-		final boolean oldVal = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
-		getInputHandler().processInput(inputPanel.getText(), this,
+		new SegmentHandler(geoPoint1).doSegmentFixedAsync(inputPanel.getText(),
+				(NumberInputHandler) getInputHandler(), this,
 				new AsyncOperation<Boolean>() {
 
-					@Override
 					public void callback(Boolean ok) {
-						cons.setSuppressLabelCreation(oldVal);
-						if (ok) {
-							DialogManager.doSegmentFixed(kernel, geoPoint1,
-									((NumberInputHandler) getInputHandler())
-											.getNum());
-						}
 						setVisibleForTools(!ok);
 					}
 				});
