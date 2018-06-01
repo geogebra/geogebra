@@ -518,8 +518,11 @@ public class GeoButton extends GeoElement
 		StringBuilder sb = new StringBuilder();
 		Localization loc = getKernel().getApplication().getLocalization();
 		sb.append(loc.getMenuDefault("Button", "button"));
+		sb.append(" ");
 		sb.append(getCaptionForScreenReader());
+		sb.append(" ");
 		sb.append(loc.getMenuDefault("Selected", "selected"));
+		sb.append(".");
 		return sb.toString();
 	}
 }

@@ -1020,7 +1020,11 @@ public abstract class GeoElement extends ConstructionElement
 		return '=';
 	}
 
-	private String getLabelDelimiterWithSpace() {
+	/**
+	 * 
+	 * @return label and delimiter.
+	 */
+	protected String getLabelDelimiterWithSpace() {
 		return getLabelDelimiter() == '=' ? " = " : getLabelDelimiter() + " ";
 	}
 

@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EventType;
 
 /**
@@ -107,24 +106,7 @@ public class ScreenReader {
 						app);
 			}
 		}
-		if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSliderable()) {
-			GeoNumeric geoNum = (GeoNumeric) geo0;
-			if (geoNum.isAnimating()) {
-				appendSentence(sb, "PressSpaceStopAnimation", "Press space to stop animation", null,
-						app);
-			} else {
-				appendSentence(sb, "PressSpaceStartAnimation", "Press space to start animation",
-						null, app);
-			}
-			if (geoNum.getIntervalMax() != geoNum.getValue()) {
-				appendSentence(sb, "PressUpToIncrease", "Press up arrow to increase the value",
-						null, app);
-			}
-			if (geoNum.getIntervalMin() != geoNum.getValue()) {
-				appendSentence(sb, "PressDownToDecrease", "Press down arrow to decrease the value",
-						null, app);
-			}
-		}
+
 		if (geo0.getScript(EventType.CLICK) != null
 				&& geo0.getScript(EventType.CLICK).getText().length() > 0) {
 			appendSentence(sb, "PressSpaceToRunScript", "Press space to run script", null, app);
@@ -134,11 +116,7 @@ public class ScreenReader {
 			appendSentence(sb, "PressArrowsToMove", "Press the arrow keys to move the object", null,
 					app);
 		}
-		if (geo0.isGeoList() && app.has(Feature.READ_DROPDOWNS)) {
-			// appendSentence(sb, "DropDownSelected", "Drop down %0 menu selected",
-			// new String[] { geo0.getLabel(StringTemplate.defaultTemplate) }, app);
-			// appendSentence(sb, "PressSpaceToOpen", "Press space to open", null, app);
-		}
+
 		// MOW-137 if selection originated in AV we don't want to move
 		// focus to EV
 		if (app.getGuiManager() == null || app.getGuiManager().getLayout().getDockManager()

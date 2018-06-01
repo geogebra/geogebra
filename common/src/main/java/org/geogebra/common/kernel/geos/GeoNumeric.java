@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -2016,4 +2017,37 @@ public class GeoNumeric extends GeoElement
 	protected boolean mayShowDescriptionInsteadOfDefinitionNoAlgoParent() {
 		return false;
 	}
+
+	@Override
+	public String getScreenReaderText() {
+		if (!isSliderable()) {
+			return null;
+		}
+		StringBuilder sb = new StringBuilder();
+		Localization loc = getKernel().getApplication().getLocalization();
+		sb.append(loc.getMenuDefault("Slider", "slider"));
+		sb.append(" ");
+		sb.append(getLabelSimple());
+		sb.append(getLabelDelimiterWithSpace());
+		sb.append(toValueString(StringTemplate.defaultTemplate));
+		sb.append(" ");
+
+		if (isAnimating()) {
+			sb.append(loc.getMenuDefault("PressSpaceStopAnimation", "Press space to stop animation"));
+		} else {
+			sb.append(loc.getMenuDefault("PressSpaceStartAnimation", "Press space to start animation"));
+		}
+		sb.append(" ");
+		if (getIntervalMax() != getValue()) {
+			sb.append(loc.getMenuDefault("PressUpToIncrease", "Press up arrow to increase the value"));
+		}
+		sb.append(" ");
+		if (getIntervalMin() != getValue()) {
+			sb.append(loc.getMenuDefault("PressDownToDecrease", "Press down arrow to decrease the value"));
+		}
+		sb.append(".");
+
+		return sb.toString();
+	}
+
 }
