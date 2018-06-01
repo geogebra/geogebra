@@ -387,8 +387,14 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		boolean latexLabel = measureLabel(g2, geoInputBox, labelDesc);
 
 		// TF Bounds
-		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
-				boxHeight);
+		if (geo.getKernel().getApplication()
+				.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+			labelRectangle.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
+
+		} else {
+			labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
+					boxHeight);
+		}
 		if (isSelectedForInput()) {
 			getBox().setBounds(labelRectangle);
 		}
