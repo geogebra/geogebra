@@ -101,4 +101,11 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	public boolean isHeaderPanelOpen() {
 		return false;
 	}
+
+	@Override
+	public void runAsyncAfterSplash() {
+		super.runAsyncAfterSplash();
+		app.buildApplicationPanel(); // in webSimple we need to init the size
+										// before we load file
+	}
 }
