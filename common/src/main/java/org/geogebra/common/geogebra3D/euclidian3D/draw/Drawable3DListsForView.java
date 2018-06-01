@@ -15,6 +15,8 @@ import org.geogebra.common.main.Feature;
  */
 public class Drawable3DListsForView extends Drawable3DLists {
 
+	private boolean waitForResetManagerBuffers = false;
+
 	/**
 	 * constructor
 	 * 
@@ -166,6 +168,27 @@ public class Drawable3DListsForView extends Drawable3DLists {
 			((ManagerShadersElementsGlobalBufferPacking) renderer
 					.getGeometryManager()).drawSurfacesClipped(renderer);
 		}
+	}
+
+	/**
+	 * update (reset) manager buffers if needed
+	 * 
+	 * @param renderer
+	 *            openGL renderer
+	 */
+	public void updateManagerBuffers(Renderer renderer) {
+		renderer.getGeometryManager().update(waitForResetManagerBuffers);
+		if (waitForResetManagerBuffers) {
+			waitForResetManagerBuffers = false;
+		}
+	}
+
+	/**
+	 * says all buffers have to be reset
+	 * 
+	 */
+	public void setWaitForResetManagerBuffers() {
+		waitForResetManagerBuffers = true;
 	}
 
 }

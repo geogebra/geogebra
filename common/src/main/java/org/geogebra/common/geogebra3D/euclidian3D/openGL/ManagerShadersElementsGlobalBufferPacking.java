@@ -414,13 +414,15 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	}
 
 	@Override
-	public void reset() {
-		bufferManagerCurves.reset();
-		bufferManagerCurvesClipped.reset();
-		bufferManagerSurfaces.reset();
-		bufferManagerSurfacesClosed.reset();
-		bufferManagerSurfacesClipped.reset();
-		bufferManagerPoints.reset();
+	public void update(boolean reset) {
+		if (reset) {
+			bufferManagerCurves.reset();
+			bufferManagerCurvesClipped.reset();
+			bufferManagerSurfaces.reset();
+			bufferManagerSurfacesClosed.reset();
+			bufferManagerSurfacesClipped.reset();
+			bufferManagerPoints.reset();
+		}
 	}
 
 	@Override

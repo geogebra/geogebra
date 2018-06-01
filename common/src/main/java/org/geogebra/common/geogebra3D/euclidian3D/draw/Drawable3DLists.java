@@ -30,7 +30,6 @@ public class Drawable3DLists {
 	protected Drawable3DList[] lists;
 
 	private boolean waitForReset = false;
-	private boolean waitForResetManagerBuffers = false;
 
 	/**
 	 * Array list with debugging toString
@@ -168,27 +167,6 @@ public class Drawable3DLists {
 	}
 
 	/**
-	 * says all buffers have to be reset
-	 * 
-	 */
-	public void setWaitForResetManagerBuffers() {
-		waitForResetManagerBuffers = true;
-	}
-
-	/**
-	 * update (reset) manager buffers if needed
-	 * 
-	 * @param renderer
-	 *            openGL renderer
-	 */
-	public void updateManagerBuffers(Renderer renderer) {
-		if (waitForResetManagerBuffers) {
-			waitForResetManagerBuffers = false;
-			renderer.getGeometryManager().reset();
-		}
-	}
-
-	/**
 	 * update all 3D objects
 	 * 
 	 * @param renderer
@@ -199,7 +177,7 @@ public class Drawable3DLists {
 		if (!view3D.getApplication().has(Feature.MOB_PACK_JOIN_POINTS)) {
 			if (waitForReset) {
 				waitForReset = false;
-				renderer.getGeometryManager().reset();
+				renderer.getGeometryManager().update(true);
 			}
 		}
 

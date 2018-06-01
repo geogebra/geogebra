@@ -950,9 +950,12 @@ abstract public class Manager {
 	}
 
 	/**
-	 * reset geometries
+	 * update
+	 * 
+	 * @param reset
+	 *            if needs reset
 	 */
-	public void reset() {
+	public void update(boolean reset) {
 		// not needed here
 	}
 
