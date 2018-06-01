@@ -4451,7 +4451,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2375 */
 		case INPUT_BOX_LINE_UP_BETTER:
-			return prerelease;
+			return true;
 
 		/** GBB-2374 */
 		case MAT_DESIGN_HEADER:
