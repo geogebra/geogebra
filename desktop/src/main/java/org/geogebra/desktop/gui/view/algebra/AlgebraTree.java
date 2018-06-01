@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -266,6 +267,11 @@ public class AlgebraTree extends JTree {
 
 	protected void add(GeoElement geo, int forceLayer) {
 		cancelEditing();
+
+		if (nodeTable.get(geo) != null) {
+			Log.error(geo.getLabelSimple() + "is already in the AV");
+			return;
+		}
 
 		if (show(geo)) {
 			// don't add auxiliary objects if the tree is categorized by type
