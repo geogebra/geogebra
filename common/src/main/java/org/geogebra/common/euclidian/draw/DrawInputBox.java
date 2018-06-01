@@ -376,9 +376,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	public void drawBoundsOnCanvas() {
 		GGraphics2D g2 = view.getGraphicsForPen();
 		GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor() : view.getBackgroundCommon();
-		if (!(isSelectedForInput() && getBox().isVisible())) {
-			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth, boxHeight);
-		}
+		getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth, boxHeight);
 	}
 
 	@Override
@@ -393,11 +391,16 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				boxHeight - 3);
 		if (isSelectedForInput()) {
 			getBox().setBounds(labelRectangle);
-
+			if (!getGeoElement().isSelected()
+					&& geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+				drawBoundsOnCanvas();
+			}
 		}
 
 		if (geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
-			drawBoundsOnCanvas();
+			if (!(isSelectedForInput() && getBox().isVisible())) {
+				drawBoundsOnCanvas();
+			}
 		} else {
 			GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor() : view.getBackgroundCommon();
 			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth, boxHeight);
