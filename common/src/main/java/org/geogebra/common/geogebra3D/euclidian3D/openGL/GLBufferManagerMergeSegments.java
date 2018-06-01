@@ -140,34 +140,4 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 		return ret;
 	}
 
-	@Override
-	final protected void drawBufferPacks(RendererShadersInterface r) {
-		int size = bufferPackList.size();
-		if (size == 1) {
-			BufferPackAbstract bufferPack = bufferPackList.get(0);
-			if (bufferPack.elementsLength > 0) {
-				bufferPack.draw(r);
-			}
-		} else {
-			for (int i = size - 1; i >= 0; i--) {
-				BufferPackAbstract bufferPack = bufferPackList.get(i);
-				if (bufferPack.elementsLength > 0) {
-					if (bufferPack.getSegmentEnds().size() == 1) {
-						BufferSegment segment = bufferPack.getSegmentEnds()
-								.firstEntry().getValue();
-						if (segment.elementsOffset == 0 && segment
-								.getElementsAvailableLength() == bufferPack.elementsLength) {
-							bufferPackList.remove(i);
-							removeFromAvailableSegments(segment);
-						} else {
-							bufferPack.draw(r);
-						}
-					} else {
-						bufferPack.draw(r);
-					}
-				}
-			}
-		}
-	}
-
 }
