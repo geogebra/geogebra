@@ -391,14 +391,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				boxHeight - 3);
 		if (isSelectedForInput()) {
 			getBox().setBounds(labelRectangle);
-			if (!getGeoElement().isSelected()
-					&& geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
-				drawBoundsOnCanvas();
-			}
 		}
 
 		if (geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
-			if (!(isSelectedForInput() && getBox().isVisible())) {
+			if (!isSelectedForInput() || !getBox().isVisible() || !getGeoElement().isSelected()) {
 				drawBoundsOnCanvas();
 			}
 		} else {
