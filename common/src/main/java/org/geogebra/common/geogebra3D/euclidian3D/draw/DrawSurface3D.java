@@ -3324,4 +3324,24 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return GColor.DARK_GRAY;
 	}
 
+	@Override
+	protected void recordTrace() {
+		if (!shouldBePackedForManager()) {
+			super.recordTrace();
+		}
+	}
+
+	@Override
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
+		if (shouldBePackedForManager()) {
+			if (tracesPackingBuffer != null) {
+				while (!tracesPackingBuffer.isEmpty()) {
+					doRemoveGeometryIndex(tracesPackingBuffer.pop());
+				}
+			}
+		} else {
+			super.clearTraceForViewChangedByZoomOrTranslate();
+		}
+	}
+
 }
