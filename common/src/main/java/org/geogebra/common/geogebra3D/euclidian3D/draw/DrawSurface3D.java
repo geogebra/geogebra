@@ -3321,7 +3321,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	protected GColor getObjectColorForOutline() {
-		return GColor.BLACK;
+		return GColor.DARK_GRAY;
 	}
 
 }
