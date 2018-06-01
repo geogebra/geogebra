@@ -339,17 +339,16 @@ public final class DrawImage extends Drawable {
 				Object oldInterpolationHint = g3
 						.setInterpolationHint(needsInterpolationRenderingHint);
 				if (getBoundingBox().isCropBox()) {
-					g3.setComposite(
-							AwtFactory.getPrototype().newAlphaComposite(0.5f));
-				}
-				if (!geoImage.isCropped() || getBoundingBox().isCropBox()) {
+					g3.setComposite(AwtFactory.getPrototype().newAlphaComposite(0.5f));
 					g3.drawImage(image, 0, 0);
+					g3.setComposite(AwtFactory.getPrototype().newAlphaComposite(1.0f));
 				}
-				if (getBoundingBox().isCropBox() || geoImage.isCropped()) {
+				if (!geoImage.isCropped()) {
+					g3.drawImage(image, 0, 0);
+				} else {
 					GRectangle2D drawRectangle = geoImage.isCropped() ? getCropBox()
 							: getBoundingBox().getRectangle();
-					g3.setComposite(
-							AwtFactory.getPrototype().newAlphaComposite(1.0f));
+
 					GPoint2D ptDst = AwtFactory.getPrototype().newPoint2D();
 					GPoint2D ptScr = AwtFactory.getPrototype().newPoint2D(
 							drawRectangle.getX(), drawRectangle.getY());
