@@ -223,12 +223,12 @@ public class StatGeo {
 		AlgoElement al = null, algoHistogram = null;
 		histogramRight = !settings.isLeftRule();
 		GeoElementND geo;
-
+		GeoList valueList = (GeoList) (settings.groupType() == GroupType.RAWDATA ? dataList
+				: dataList.get(0));
 		// determine min/max X values
-		if (settings.groupType() == GroupType.RAWDATA) {
-			getDataBounds(dataList);
-		} else if (settings.groupType() == GroupType.FREQUENCY) {
-			getDataBounds((GeoList) dataList.get(0));
+		if (settings.groupType() == GroupType.RAWDATA
+				|| settings.groupType() == GroupType.FREQUENCY) {
+			getDataBounds(valueList);
 		} else if (settings.groupType() == GroupType.CLASS) {
 			// settings.numClasses = ((GeoList) dataList.get(0)).size();
 		}
@@ -237,7 +237,6 @@ public class StatGeo {
 		if (settings.isUseManualClasses()
 				|| settings.groupType() == GroupType.CLASS) {
 			// generate class borders using given start and width
-			GeoList valueList = (GeoList) (settings.groupType() == GroupType.FREQUENCY ? dataList.get(0) : dataList);
 			al = new AlgoClasses(cons, valueList,
 					new GeoNumeric(cons, settings.getClassStart()),
 					new GeoNumeric(cons, settings.getClassWidth()), null);
@@ -246,14 +245,10 @@ public class StatGeo {
 			// generate class borders from data using given number of classes
 			settings.setClassWidth(
 					(xMaxData - xMinData) / (settings.getNumClasses()));
-			if (settings.groupType() == GroupType.RAWDATA) {
-				al = new AlgoClasses(cons, dataList, null, null,
-						new GeoNumeric(cons, settings.getNumClasses()));
 
-			} else if (settings.groupType() == GroupType.FREQUENCY) {
-				al = new AlgoClasses(cons, (GeoList) dataList.get(0), null,
-						null, new GeoNumeric(cons, settings.getNumClasses()));
-			}
+			al = new AlgoClasses(cons, valueList, null, null,
+					new GeoNumeric(cons, settings.getNumClasses()));
+
 		}
 		removeFromConstructionList(al);
 
@@ -283,13 +278,13 @@ public class StatGeo {
 			// histogram constructed from frequencies
 			algoHistogram = new AlgoHistogram(cons,
 					new GeoBoolean(cons, settings.isCumulative()),
-					(GeoList) al.getOutput(0), (GeoList) dataList.get(0),
+					(GeoList) al.getOutput(0), valueList,
 					(GeoList) dataList.get(1), new GeoBoolean(cons, true),
 					new GeoNumeric(cons, density), histogramRight);
 		} else if (settings.groupType() == GroupType.CLASS) {
 
 			// histogram constructed from classes and frequencies
-			algoHistogram = new AlgoHistogram(cons, (GeoList) dataList.get(0),
+			algoHistogram = new AlgoHistogram(cons, valueList,
 					(GeoList) dataList.get(1), histogramRight);
 		} else {
 			throw new Exception(
