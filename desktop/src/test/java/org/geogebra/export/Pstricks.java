@@ -81,6 +81,7 @@ public class Pstricks {
 
 		ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
 				ev.getYmax());
+		frame.setKeepColor();
 		GeoElement slider = app.getKernel().lookupLabel("anim");
 		if (slider instanceof GeoNumeric) {
 			frame.setSlider((GeoNumeric) slider);

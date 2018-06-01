@@ -129,4 +129,8 @@ public class ExportFrameMinimal implements ExportSettings {
 	public void setSlider(GeoNumeric slider) {
 		cbitem = slider;
 	}
+
+	public void setKeepColor() {
+		this.keepDotColors = true;
+	}
 }
