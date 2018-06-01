@@ -82,4 +82,6 @@ public interface AutoCompleteTextField
 
 	public String getCommand();
 
+	void setPrefSize(int width, int height);
+
 }

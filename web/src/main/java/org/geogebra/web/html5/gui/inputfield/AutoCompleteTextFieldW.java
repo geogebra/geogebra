@@ -207,6 +207,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			boolean handleEscapeKey, KeyEventsHandler keyHandler,
 			boolean forCAS) {
 		this.forCAS = forCAS;
+		this.app = app;
 		// AG not MathTextField and Mytextfield exists yet super(app);
 		// allow dynamic width with columns = -1
 		CompletionsPopup completionsPopup = new CompletionsPopup();
@@ -358,7 +359,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		add(textField);
 		add(showSymbolButton);
 
-		this.app = app;
 		this.loc = app.getLocalization();
 		setAutoComplete(true);
 		this.handleEscapeKey = handleEscapeKey;
@@ -634,8 +634,17 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.setEnabled(b);
 	}
 
+	public void setPrefSize(int width, int height) {
+		getTextBox().setWidth(width + "px");
+		getTextBox().setHeight(height + "px");
+	}
+
 	@Override
 	public void setColumns(int columns) {
+		if (app.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+			return;
+		}
+
 		this.columns = columns;
 		if (showSymbolButton != null
 				&& (this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
@@ -2022,12 +2031,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
 		g2.setPaint(bgColor);
-		g2.fillRoundRect(left, top, width, height - 3, BOX_ROUND,
+		g2.fillRoundRect(left, top, width, height, BOX_ROUND,
 				BOX_ROUND);
 
 		// TF Rectangle
 		g2.setPaint(GColor.LIGHT_GRAY);
-		g2.drawRoundRect(left, top, width, height - 3, BOX_ROUND,
+		g2.drawRoundRect(left, top, width, height, BOX_ROUND,
 				BOX_ROUND);
 
 	}

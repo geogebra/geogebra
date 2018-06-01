@@ -388,7 +388,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		// TF Bounds
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
-				boxHeight - 3);
+				boxHeight);
 		if (isSelectedForInput()) {
 			getBox().setBounds(labelRectangle);
 		}
@@ -494,6 +494,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		tf.setDrawTextField(this);
 		tf.setUsedForInputBox(geoInputBox);
 		tf.setVisible(true);
+		tf.setPrefSize(this.getPreferredSize().getWidth(),
+				this.getPreferredSize().getHeight());
 		tf.setColumns(geoInputBox.getLength());
 		tf.setText(geoInputBox.getText());
 
