@@ -156,11 +156,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				@Override
 				public void onChange(ChangeEvent event) {
 					int index = getPointCapturingStyleList().getSelectedIndex();
-					app.getEuclidianView1().setPointCapturing(
-							getPointCapturingModeList(index));
-					if (app.hasEuclidianView2EitherShowingOrNot(1)) {
-						app.getEuclidianView2(1).setPointCapturing(index);
-					}
+					view.setPointCapturing(getPointCapturingModeList(index));
 					app.setUnsaved();
 					app.storeUndoInfo();
 				}
@@ -207,7 +203,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		private int getPointCapturingModeEV() {
-			int mode = app.getActiveEuclidianView().getPointCapturingMode();
+			int mode = view.getPointCapturingMode();
 			switch (mode) {
 			case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
 				return 0;
