@@ -2806,7 +2806,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * @return whether reset icon is visible
 	 */
-	final public boolean showResetIcon() {
+	public boolean showResetIcon() {
 		return showResetIcon && !runningInFrame;
 	}
 

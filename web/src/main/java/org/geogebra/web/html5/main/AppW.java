@@ -3331,6 +3331,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				&& enableGraphing();
 	}
 
+	@Override
+	public boolean showResetIcon() {
+		return super.showResetIcon() && !allowStylebar();
+	}
+
 	/**
 	 * @return whether graphics view and commands are allowed
 	 */
