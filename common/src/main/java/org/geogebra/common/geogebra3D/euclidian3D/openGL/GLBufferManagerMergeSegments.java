@@ -45,9 +45,11 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 	final protected void removeFromAvailableSegments(BufferSegment segment) {
 		currentLengths.setAvailableLengths(segment);
 		LinkedList<BufferSegment> list = availableSegments.get(currentLengths);
-		list.remove(segment);
-		if (list.isEmpty()) {
-			availableSegments.remove(currentLengths);
+		if (list != null) {
+			list.remove(segment);
+			if (list.isEmpty()) {
+				availableSegments.remove(currentLengths);
+			}
 		}
 	}
 
