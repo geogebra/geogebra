@@ -32,6 +32,21 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 		}
 	}
 
+	/**
+	 * remove the segment from available segments list
+	 * 
+	 * @param segment
+	 *            segment
+	 */
+	final protected void removeFromAvailableSegments(BufferSegment segment) {
+		currentLengths.setAvailableLengths(segment);
+		LinkedList<BufferSegment> list = availableSegments.get(currentLengths);
+		list.remove(segment);
+		if (list.isEmpty()) {
+			availableSegments.remove(currentLengths);
+		}
+	}
+
 	@Override
 	final protected void addCurrentToAvailableSegmentsMayMerge() {
 		setAlphaToTransparent();
@@ -42,13 +57,7 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 		BufferSegment previous = currentBufferPack.getSegmentEnds()
 				.get(startIndex);
 		if (previous != null) {
-			currentLengths.setAvailableLengths(previous);
-			LinkedList<BufferSegment> list = availableSegments
-					.get(currentLengths);
-			list.remove(previous);
-			if (list.isEmpty()) {
-				availableSegments.remove(currentLengths);
-			}
+			removeFromAvailableSegments(previous);
 			currentBufferPack.getSegmentEnds().remove(startIndex);
 			previous.getStart(endIndex);
 			currentBufferPack.getSegmentStarts().remove(endIndex);
@@ -62,13 +71,7 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 		BufferSegment following = currentBufferPack.getSegmentStarts()
 				.get(endIndex);
 		if (following != null) {
-			currentLengths.setAvailableLengths(following);
-			LinkedList<BufferSegment> list = availableSegments
-					.get(currentLengths);
-			list.remove(following);
-			if (list.isEmpty()) {
-				availableSegments.remove(currentLengths);
-			}
+			removeFromAvailableSegments(following);
 			currentBufferPack.getSegmentStarts().remove(endIndex);
 			following.getEnd(startIndex);
 			currentBufferPack.getSegmentEnds().remove(startIndex);
@@ -136,5 +139,39 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 		}
 		return ret;
 	}
+
+	// protected void drawBufferPacks(RendererShadersInterface r) {
+	//
+	// String s = "\nbufferPackList: " + bufferPackList.size();
+	// // Log.debug("bufferPackList: " + bufferPackList.size());
+	// for (int i = bufferPackList.size() - 1; i >= 0; i--) {
+	// // for (BufferPackAbstract bufferPack : bufferPackList) {
+	// BufferPackAbstract bufferPack = bufferPackList.get(i);
+	// s += "\nbufferPack.elementsLength = " + bufferPack.elementsLength;
+	// for (Index index : bufferPack.getSegmentEnds().keySet()) {
+	// // s+="\n"+index.toString();
+	// BufferSegment seg = bufferPack.getSegmentEnds().get(index);
+	// s += "\n" + seg;
+	// }
+	// // Log.debug(
+	// // "bufferPack.elementsLength: " + bufferPack.elementsLength);
+	// if (bufferPack.elementsLength > 0) {
+	// if (bufferPack.getSegmentEnds().size() == 1) {
+	// BufferSegment segment = bufferPack.getSegmentEnds()
+	// .firstEntry().getValue();
+	// if (segment.elementsOffset == 0 && segment
+	// .getElementsAvailableLength() == bufferPack.elementsLength) {
+	// Log.debug("ICI");
+	// // bufferPackList.remove(i);
+	// } else {
+	// bufferPack.draw(r);
+	// }
+	// } else {
+	// bufferPack.draw(r);
+	// }
+	// }
+	// }
+	// Log.debug(s);
+	// }
 
 }

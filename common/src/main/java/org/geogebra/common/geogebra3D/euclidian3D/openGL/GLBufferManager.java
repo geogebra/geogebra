@@ -27,7 +27,7 @@ abstract class GLBufferManager {
 	protected TreeMap<Index, LinkedList<BufferSegment>> availableSegments;
 	/** current buffer pack */
 	protected BufferPackAbstract currentBufferPack;
-	private ArrayList<BufferPackAbstract> bufferPackList;
+	protected ArrayList<BufferPackAbstract> bufferPackList;
 	/** vertex array for current geometry */
 	ArrayList<Double> vertexArray;
 	/** normal array for current geometry */
