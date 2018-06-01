@@ -1296,17 +1296,36 @@ public abstract class Drawable3D extends DrawableND {
 	 * update drawable colors
 	 */
 	public void updateColors() {
-		setColors(alpha, color);
+		setColors(getObjectColorForOutline(), alpha, color);
 	}
 
+	/**
+	 * set colors when outlined object
+	 */
 	protected void setColorsOutlined() {
-		setColors(255, color); // for outline
-		setColors(alpha, surfaceColor);
+		setColors(getObjectColorForOutline(), 255, color); // for outline
+		setColors(getObjectColorForSurface(), alpha, surfaceColor);
 	}
 
-	protected void setColors(int alpha, GColor[] color) {
+	/**
+	 * 
+	 * @return object color for outline
+	 */
+	protected GColor getObjectColorForOutline() {
+		return getGeoElement().getObjectColor();
+	}
 
-		GColor c = getGeoElement().getObjectColor().deriveWithAlpha(alpha);
+	/**
+	 * 
+	 * @return object color for surface
+	 */
+	private GColor getObjectColorForSurface() {
+		return getGeoElement().getObjectColor();
+	}
+
+	private void setColors(GColor sourceColor, int alpha, GColor[] color) {
+
+		GColor c = sourceColor.deriveWithAlpha(alpha);
 
 		if (getView3D().isGrayScaled()) {
 			color[0] = c.createGrayScale();

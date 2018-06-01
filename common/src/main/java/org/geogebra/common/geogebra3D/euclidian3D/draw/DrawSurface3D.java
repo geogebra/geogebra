@@ -3319,4 +3319,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				&& !createdByDrawList();
 	}
 
+	@Override
+	protected GColor getObjectColorForOutline() {
+		return GColor.BLACK;
+	}
+
 }
