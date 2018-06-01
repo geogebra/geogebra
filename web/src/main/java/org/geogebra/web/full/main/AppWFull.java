@@ -1358,7 +1358,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 					if (has(Feature.SPLITTER_LOADING)) {
 						updatePerspectiveForUnbundled(current);
 					}
-					((GuiManagerW) getGuiManager()).getToolbarPanelV2().getTabTools().updateContent();
+					((GuiManagerW) getGuiManager()).getToolbarPanelV2()
+							.getTabTools().updateContent();
 				}
 			}
 		}

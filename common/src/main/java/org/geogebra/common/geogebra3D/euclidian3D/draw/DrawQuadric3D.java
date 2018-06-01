@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.main.Feature;
+
 /**
  * Class for drawing quadrics.
  * 
@@ -1095,9 +1096,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			break;
 
 		}
-
 	}
-
 
 	@Override
 	protected void recordTrace() {

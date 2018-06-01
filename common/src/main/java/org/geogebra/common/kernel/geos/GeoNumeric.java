@@ -2033,17 +2033,21 @@ public class GeoNumeric extends GeoElement
 		sb.append(" ");
 
 		if (isAnimating()) {
-			sb.append(loc.getMenuDefault("PressSpaceStopAnimation", "Press space to stop animation"));
+			sb.append(loc.getMenuDefault("PressSpaceStopAnimation",
+					"Press space to stop animation"));
 		} else {
-			sb.append(loc.getMenuDefault("PressSpaceStartAnimation", "Press space to start animation"));
+			sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
+					"Press space to start animation"));
 		}
 		sb.append(" ");
 		if (getIntervalMax() != getValue()) {
-			sb.append(loc.getMenuDefault("PressUpToIncrease", "Press up arrow to increase the value"));
+			sb.append(loc.getMenuDefault("PressUpToIncrease",
+					"Press up arrow to increase the value"));
 		}
 		sb.append(" ");
 		if (getIntervalMin() != getValue()) {
-			sb.append(loc.getMenuDefault("PressDownToDecrease", "Press down arrow to decrease the value"));
+			sb.append(loc.getMenuDefault("PressDownToDecrease",
+					"Press down arrow to decrease the value"));
 		}
 		sb.append(".");
 

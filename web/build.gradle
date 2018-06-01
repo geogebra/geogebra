@@ -105,6 +105,10 @@ gwt {
     }
 }
 
+tasks.withType(de.richsource.gradle.plugins.gwt.AbstractGwtActionTask) {
+    jvmArgs '-Xss512M'
+}
+
 configurations.all {
    resolutionStrategy {
        failOnVersionConflict()

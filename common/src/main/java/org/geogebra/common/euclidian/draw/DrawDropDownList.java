@@ -1279,7 +1279,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth, boxHeight);
 	}
 
-
 	/**
 	 * @param geoItem
 	 *            geo
