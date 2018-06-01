@@ -393,7 +393,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		} else {
 			labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
-					boxHeight);
+					boxHeight - 3);
 		}
 		if (isSelectedForInput()) {
 			getBox().setBounds(labelRectangle);
@@ -500,8 +500,12 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		tf.setDrawTextField(this);
 		tf.setUsedForInputBox(geoInputBox);
 		tf.setVisible(true);
-		tf.setPrefSize(this.getPreferredSize().getWidth(),
-				this.getPreferredSize().getHeight());
+		
+		if (geo.getKernel().getApplication()
+				.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+			tf.setPrefSize(this.getPreferredSize().getWidth(),
+					this.getPreferredSize().getHeight());
+		}
 		tf.setColumns(geoInputBox.getLength());
 		tf.setText(geoInputBox.getText());
 
