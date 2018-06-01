@@ -349,10 +349,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		waitingForLocalization.clear();
 	}
 
-	/**
-	 * @param run
-	 *            localization callback
-	 */
+	@Override
 	public final void afterLocalizationLoaded(Runnable run) {
 		if (localizationLoaded) {
 			run.run();

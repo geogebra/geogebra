@@ -992,8 +992,8 @@ public class ScriptManagerW extends ScriptManager {
 			    xzScale, xTickDistance, yTickDistance, zTickDistance);
 		};
 
-		api.translate = function(arg1) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::translate(Ljava/lang/String;)(arg1 + "");
+		api.translate = function(arg1, callback) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::translate(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(arg1 + "", callback);
 		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;

@@ -905,9 +905,17 @@ public interface JavaScriptAPI {
 			double xzScale, double xTickDistance, double yTickDistance,
 			double zTickDistance);
 
-	String translate(String key);
-
+	/**
+	 * @param view
+	 *            view ID
+	 * @return axis labels
+	 */
 	String[] getAxisLabels(int view);
 
+	/**
+	 * @param view
+	 *            view ID
+	 * @return axis units
+	 */
 	String[] getAxisUnits(int view);
 }

@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.Assignment;
@@ -1484,6 +1485,27 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void exportAsymptote(JavaScriptObject callback) {
 		this.exportAsymptote(asyncOperation(callback));
+	}
+
+	/**
+	 * @param key
+	 *            menu key
+	 * @param callback
+	 *            callback to run when properties loaded
+	 * @return return value
+	 */
+	final public String translate(final String key,
+			final JavaScriptObject callback) {
+		final Localization loc = app.getLocalization();
+		if (callback != null) {
+			((AppW) app).afterLocalizationLoaded(new Runnable() {
+				@Override
+				public void run() {
+					JsEval.runCallback(callback, loc.getMenu(key));
+				}
+			});
+		}
+		return loc.getMenu(key);
 	}
 
 	private AsyncOperation<String> asyncOperation(

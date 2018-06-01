@@ -2282,11 +2282,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return "";
 	}
 
-	@Override
-	final public String translate(String key) {
-		return app.getLocalization().getMenu(key);
-	}
-
 	public String exportSVG(String filename) {
 		// not implemented in Android, iOS
 		return null;

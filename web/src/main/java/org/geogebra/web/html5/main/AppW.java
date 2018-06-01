@@ -3890,9 +3890,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		this.zoomPanel = zoomPanel;
 	}
 
-	public void exportConstructionProtocol() {
-		// TODO Auto-generated method stub
-
+	/**
+	 * @param run
+	 *            localization callback
+	 */
+	public void afterLocalizationLoaded(Runnable run) {
+		// overridden in Full
 	}
 
 }
