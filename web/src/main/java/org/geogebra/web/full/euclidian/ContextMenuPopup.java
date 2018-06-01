@@ -40,7 +40,7 @@ public class ContextMenuPopup extends MyCJButton
 	 *            - application
 	 */
 	public ContextMenuPopup(AppW app) {
-		super(app);
+		super();
 		this.app = app;
 		ImgResourceHelper.setIcon(app.isUnbundledOrWhiteboard()
 				? MaterialDesignResources.INSTANCE.more_vert_black()

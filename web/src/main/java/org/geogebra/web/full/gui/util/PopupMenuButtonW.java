@@ -147,7 +147,7 @@ public class PopupMenuButtonW extends MyCJButton
 			boolean hasSlider, boolean[] selected,
 			HashMap<Integer, Integer> lineStyleMap0,
 			final boolean isBorderTeal) {
-		super(app);
+		super();
 		this.app = (AppW) app;
 		this.hasTable = hasTable;
 		this.lineStyleMap = lineStyleMap0;

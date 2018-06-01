@@ -4015,8 +4015,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public final boolean has(Feature f) {
 		boolean whiteboard = isWhiteboardActive();
-		boolean relaunch = true;
-		// boolean keyboard = true;
 		switch (f) {
 
 		// **********************************************************************
@@ -4131,7 +4129,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease && whiteboard; // prerelease;
 
 		case MOW_CONTEXT_MENU:
-			return relaunch && isUnbundledOrWhiteboard();
+			return isUnbundledOrWhiteboard();
 
 		/** MOW-55 */
 		case MOW_BOUNDING_BOXES:
@@ -4157,7 +4155,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease && whiteboard;
 
 		case MOW_CLEAR_VIEW_STYLEBAR:
-			return relaunch && isUnbundledOrWhiteboard();
+			return isUnbundledOrWhiteboard();
 
 		case MOW_COLORPOPUP_IMPROVEMENTS:
 			return prerelease;
@@ -4353,10 +4351,10 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case DYNAMIC_STYLEBAR:
-			return relaunch && isUnbundledOrWhiteboard();
+			return isUnbundledOrWhiteboard();
 
 		case AV_ITEM_DESIGN:
-			return relaunch || isNativeMobileAppWithNewUI();
+			return true;
 
 		case EXPORT_SCAD_IN_MENU:
 			return prerelease;
@@ -4368,56 +4366,46 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		case INPUT_BAR_ADD_SLIDER:
-			return relaunch && isHTML5Applet();
+			return isHTML5Applet();
 
 		case DEFAULT_OBJECT_STYLES:
-			return relaunch || isNativeMobileAppWithNewUI();
+			return true;
 
 		case OBJECT_DEFAULTS_AND_COLOR:
-			return relaunch && isUnbundledOrWhiteboard();
+			return isUnbundledOrWhiteboard();
 
 		case SHOW_STEPS:
 			return prerelease;
 
 		case LABEL_SETTING_ON_STYLEBAR:
-			return relaunch && !whiteboard;
+			return !whiteboard;
 
 		case SURFACE_2D:
 			return prerelease;
 
 		case DYNAMIC_STYLEBAR_SELECTION_TOOL:
-			return relaunch;
+			return true;
 
 		case CENTER_STANDARD_VIEW:
-			return relaunch;
-
-		/** GGB-1966 */
-		case FUNCTIONS_DYNAMIC_STYLEBAR_POSITION:
-			return relaunch;
-
-		/** GGB-1982 */
-		// TODO if there is no need for this feature flag more, remove "appl"
-		// parameter from MyCJButton.MyCJButton(App appl)
-		case OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS:
-			return relaunch;
+			return true;
 
 		case FLOATING_SETTINGS:
-			return isUnbundledOrWhiteboard() && relaunch;
+			return isUnbundledOrWhiteboard();
 
 		/** GGB-2005 */
 		case TOOLTIP_DESIGN:
-			return isUnbundledOrWhiteboard() && relaunch;
+			return isUnbundledOrWhiteboard();
 
 		case INITIAL_PORTRAIT:
-			return isUnbundled() && relaunch;
+			return isUnbundled();
 
 		/** GGB-1986 */
 		case DIALOG_DESIGN:
-			return isUnbundledOrWhiteboard() && relaunch;
+			return isUnbundledOrWhiteboard();
 
 		/** GGB-2015 */
 		case GEO_AV_DESCRIPTION:
-			return relaunch;
+			return true;
 
 		/** MOW-390 GGB */
 		case WHOLE_PAGE_DRAG:

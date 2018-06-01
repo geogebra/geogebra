@@ -362,7 +362,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			// color
 			lblColor = new Label();
-			btGridColor = new MyCJButton(app);
+			btGridColor = new MyCJButton();
 			btGridColor.addClickHandler(new ClickHandler() {
 				
 				@Override

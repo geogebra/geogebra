@@ -271,7 +271,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		cbAxisLabelItalic = new CheckBox(
 				this.optionsEuclidianW.loc.getMenu("Italic"));
 
-		btAxesColor = new MyCJButton(this.optionsEuclidianW.app);
+		btAxesColor = new MyCJButton();
 
 		btAxesColor.addClickHandler(new ClickHandler() {
 
@@ -516,7 +516,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		backgroundColorLabel = new Label(
 				this.optionsEuclidianW.loc.getMenu("BackgroundColor") + ":");
 
-		btBackgroundColor = new MyCJButton(this.optionsEuclidianW.app);
+		btBackgroundColor = new MyCJButton();
 
 		// show mouse coords
 		cbShowMouseCoords = new CheckBox();

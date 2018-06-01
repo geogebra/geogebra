@@ -830,7 +830,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		HashMap<String, String> toLoad = new HashMap<>();
 		for (Entry<String, String> entry : archive.entrySet()) {
 			if (getImageManager().getExternalImage(entry.getKey(),
-			 this) == null) {
+					this) == null) {
 				maybeProcessImage(entry.getKey(), entry.getValue(), toLoad);
 			}
 		}
@@ -983,7 +983,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	private boolean maybeProcessImage(String filename0, String content, HashMap<String, String> toLoad) {
+	private boolean maybeProcessImage(String filename0, String content,
+			HashMap<String, String> toLoad) {
 		String fn = filename0.toLowerCase();
 		if (fn.equals(MyXMLio.XML_FILE_THUMBNAIL)) {
 			return false; // Ignore thumbnail

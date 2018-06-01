@@ -137,7 +137,7 @@ public class ConstructionProtocolNavigationW
 		implPanel.add(leftPanel);
 		implPanel.add(playPanel);
 		
-		btOpenWindow = new MyCJButton(app);
+		btOpenWindow = new MyCJButton();
 		btOpenWindow.setIcon(new ImageOrText(GuiResources.INSTANCE
 				.icons_view_construction_protocol_p24()));
 		// getImageForIcon(

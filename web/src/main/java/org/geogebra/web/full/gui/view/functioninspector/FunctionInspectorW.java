@@ -384,7 +384,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	private void createBtnRemoveColumn() {
-		btnRemoveColumn = new MyCJButton(app);
+		btnRemoveColumn = new MyCJButton();
 		btnRemoveColumn.addClickHandler(new ClickHandler() {
 
 			@Override

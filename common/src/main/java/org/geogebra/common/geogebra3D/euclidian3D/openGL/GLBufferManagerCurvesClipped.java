@@ -27,7 +27,6 @@ public class GLBufferManagerCurvesClipped extends GLBufferManagerMergeSegments {
 		}
 	}
 
-
 	/**
 	 * draw
 	 * 

@@ -372,7 +372,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	}
 
 	private void createBlobColorChooserBtn(final AppW app) {
-		blobColorChooserBtn = new MyCJButton(app);
+		blobColorChooserBtn = new MyCJButton();
 		updateBlobOrLineColorButton(model.getBlobColor(), true);
 		blobColorChooserBtn.addClickHandler(new ClickHandler() {
 
@@ -434,7 +434,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	}
 
 	private void createLineColorChooserBtn(final AppW app) {
-		lineColorChooserBtn = new MyCJButton(app);
+		lineColorChooserBtn = new MyCJButton();
 		updateBlobOrLineColorButton(getColorWithOpacity(model.getLineColor()),
 				false);
 		lineColorChooserBtn.addClickHandler(new ClickHandler() {

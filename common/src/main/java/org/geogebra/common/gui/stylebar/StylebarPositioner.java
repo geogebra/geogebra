@@ -245,8 +245,7 @@ public class StylebarPositioner {
 
 		GeoElement geo = activeGeoList.get(0);
 		if (geo.isEuclidianVisible()) {
-			if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
-					&& geo instanceof GeoFunction) {
+			if (geo instanceof GeoFunction) {
 				return getPositionForFunction(geo, stylebarHeight,
 						stylebarWidth, canvasRect);
 			}

@@ -180,8 +180,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			// duplicate a geo, which has descendant.
 			if (geo.isEuclidianVisible()) {
 				hasVisibleGeo = true;
-				if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
-						&& geo instanceof GeoFunction) {
+				if (geo instanceof GeoFunction) {
 					if (getView().getHits().contains(geo)) {
 						nextPos = calculatePosition(null, true, false, true);
 						oldPos = nextPos;

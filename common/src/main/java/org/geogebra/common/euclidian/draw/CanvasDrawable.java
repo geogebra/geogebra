@@ -112,7 +112,7 @@ public abstract class CanvasDrawable extends Drawable {
 
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
 		if (geo.isLabelVisible() && geo.doHighlighting()) {
-			if(geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)){
+			if (geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
 				g2.setPaint(GColor.LIGHT_GRAY);
 			}
 			if (latex) {

@@ -1534,12 +1534,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		case 1:
 			ret = geos.get(0);
-
-			if (!app.has(Feature.OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS)
-					&& !includeFixed && ret.isLocked()) {
-				return null;
-			}
-
 			break;
 
 		default:
