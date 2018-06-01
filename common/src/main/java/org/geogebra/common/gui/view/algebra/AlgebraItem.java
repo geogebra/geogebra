@@ -263,9 +263,7 @@ public class AlgebraItem {
 			IndexHTMLBuilder builder) {
 		int avStyle = geo1.getKernel().getAlgebraStyle();
 		if (geo1.isIndependent() && geo1.isGeoPoint()
-				&& avStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION
-				&& geo1.getKernel().getApplication()
-						.has(Feature.GEO_AV_DESCRIPTION)) {
+				&& avStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
 			builder.clear();
 			builder.append(((GeoPointND) geo1)
 					.toStringDescription(StringTemplate.defaultTemplate));

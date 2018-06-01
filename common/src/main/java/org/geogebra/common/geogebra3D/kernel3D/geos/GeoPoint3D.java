@@ -70,7 +70,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -2217,9 +2216,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	final public String toStringDescription(StringTemplate tpl) {
-		boolean isAvDescrip = getKernel().getApplication().has(Feature.GEO_AV_DESCRIPTION)
-				&& Kernel.ALGEBRA_STYLE_DESCRIPTION == getKernel()
-				.getAlgebraStyle();
+		boolean isAvDescrip = Kernel.ALGEBRA_STYLE_DESCRIPTION == getKernel().getAlgebraStyle();
 		if (isAvDescrip) {
 			return getKernel().getLocalization().getMenu("Point") + " " + label;
 		}

@@ -2556,19 +2556,15 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		String name;
 		if (getMetasLength() == 1) {
 			name = getLoc().getPlainLabel("face"); // Name.face
-		}
-		else {
-			if (getKernel().getApplication().has(Feature.GEO_AV_DESCRIPTION)) {
-				if (points != null && points.length == 3) {
-					name = getLoc().getPlainLabel("triangle"); // Name.triangle
-				} else if (points != null && points.length == 4) {
-					name = getLoc().getPlainLabel("quadrilateral"); // Name.quadrilateral
-				} else {
-					name = getLoc().getPlainLabel("polygon");
-				}
+		} else {
+			if (points != null && points.length == 3) {
+				name = getLoc().getPlainLabel("triangle"); // Name.triangle
+			} else if (points != null && points.length == 4) {
+				name = getLoc().getPlainLabel("quadrilateral"); // Name.quadrilateral
 			} else {
-				name = getLoc().getPlainLabel("polygon"); // Name.polygon
+				name = getLoc().getPlainLabel("polygon");
 			}
+
 		}
 		do {
 			counter++;

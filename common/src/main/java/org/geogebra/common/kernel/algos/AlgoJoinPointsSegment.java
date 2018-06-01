@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
-import org.geogebra.common.main.Feature;
 
 /**
  *
@@ -236,20 +235,8 @@ public class AlgoJoinPointsSegment extends AlgoElement
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		if (getKernel().getApplication().has(Feature.GEO_AV_DESCRIPTION)) {
-			return getLoc().getPlainDefault("SegmentAB", "Segment %0, %1",
+		return getLoc().getPlainDefault("SegmentAB", "Segment %0, %1",
 					P.getLabel(tpl), Q.getLabel(tpl));
-		}
-
-		// Michael Borcherds 2008-03-30
-		// simplified to allow better Chinese translation
-		if (poly != null) {
-			return getLoc().getPlainDefault("SegmentABofC",
-					"Segment [%0, %1] of %2", P.getLabel(tpl),
-					Q.getLabel(tpl), poly.getNameDescription());
-		}
-		return getLoc().getPlainDefault("SegmentAB", "Segment [%0, %1]",
-				P.getLabel(tpl), Q.getLabel(tpl));
 	}
 
 	@Override

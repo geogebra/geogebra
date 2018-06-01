@@ -4403,10 +4403,6 @@ public abstract class App implements UpdateSelection {
 		case DIALOG_DESIGN:
 			return isUnbundledOrWhiteboard();
 
-		/** GGB-2015 */
-		case GEO_AV_DESCRIPTION:
-			return true;
-
 		/** MOW-390 GGB */
 		case WHOLE_PAGE_DRAG:
 			return true;

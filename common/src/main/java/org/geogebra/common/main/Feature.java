@@ -164,9 +164,6 @@ public enum Feature {
 	/** MOW-269 */
 	MOW_MULTI_PAGE,
 
-	/** GGB-2015 */
-	GEO_AV_DESCRIPTION,
-
 	/** GGB-1717 */
 	IMAGE_EXPORT,
 
