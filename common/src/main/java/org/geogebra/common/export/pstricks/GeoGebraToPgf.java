@@ -176,7 +176,11 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 		if (kernel.getApplication().has(Feature.TIKZ_AXES)) {
 
-			drawNiceAxesGrid();
+			if (euclidianView.getShowXaxis() || euclidianView.getShowYaxis()) {
+				drawNiceAxesGrid();
+			} else if (euclidianView.getShowGrid()) {
+				drawGrid();
+			}
 
 		} else {
 
@@ -221,7 +225,10 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		if (format == GeoGebraToPgf.FORMAT_LATEX) {
 
 			if (kernel.getApplication().has(Feature.TIKZ_AXES)) {
-				code.append("\\end{axis}\n");
+				if (euclidianView.getShowXaxis()
+						|| euclidianView.getShowYaxis()) {
+					code.append("\\end{axis}\n");
+				}
 			}
 
 			code.append("\\end{tikzpicture}\n");
