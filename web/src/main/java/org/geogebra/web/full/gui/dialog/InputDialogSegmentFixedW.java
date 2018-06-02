@@ -33,7 +33,7 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 			InputHandler handler, GeoPointND point1, Kernel kernel) {
 		super(app, app.getLocalization().getMenu("Length"), title, "", false,
 				handler);
-
+		this.kernel = kernel;
 		geoPoint1 = point1;
 	}
 

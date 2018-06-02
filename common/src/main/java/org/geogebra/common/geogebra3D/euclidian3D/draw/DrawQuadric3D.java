@@ -509,11 +509,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		Coords ev0 = quadric.getEigenvec3D(0);
 		Coords ev1 = quadric.getEigenvec3D(1);
 		Coords ev2 = quadric.getEigenvec3D(2);
-		if (vMinMax == null) {
-			vMinMax = new double[2];
-		}
-		vMinMax[0] = Double.POSITIVE_INFINITY;
-		vMinMax[1] = Double.NEGATIVE_INFINITY;
+		initVminMax();
 		getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2.mul(r2));
 		scale = getView3D().getMaxScale();
 		// get radius at max
@@ -526,7 +522,22 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				longitude, min, max, !getView3D().useClippingCube());
 		setSurfaceIndex(surface.end());
 		endPacking();
+	}
 
+	private void initVminMax() {
+		if (vMinMax == null) {
+			vMinMax = new double[2];
+		}
+		vMinMax[0] = Double.POSITIVE_INFINITY;
+		vMinMax[1] = Double.NEGATIVE_INFINITY;
+	}
+
+	private void initUminMax() {
+		if (uMinMax == null) {
+			uMinMax = new double[2];
+		}
+		uMinMax[0] = Double.POSITIVE_INFINITY;
+		uMinMax[1] = Double.NEGATIVE_INFINITY;
 	}
 
 	private void updateHyperbolicParaboloid(GeoQuadric3D quadric,
@@ -537,17 +548,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		surface.start(getReusableSurfaceIndex());
 		Coords ev0 = quadric.getEigenvec3D(0);
 
-		if (uMinMax == null) {
-			uMinMax = new double[2];
-		}
-		uMinMax[0] = Double.POSITIVE_INFINITY;
-		uMinMax[1] = Double.NEGATIVE_INFINITY;
+		initUminMax();
 		getView3D().getMinIntervalOutsideClipping(uMinMax, center, ev0);
-		if (vMinMax == null) {
-			vMinMax = new double[2];
-		}
-		vMinMax[0] = Double.POSITIVE_INFINITY;
-		vMinMax[1] = Double.NEGATIVE_INFINITY;
+		initVminMax();
 		Coords ev1 = quadric.getEigenvec3D(1);
 		Coords ev2 = quadric.getEigenvec3D(2);
 		double r0 = quadric.getHalfAxis(0);
@@ -571,11 +574,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		surface.start(getReusableSurfaceIndex());
 		Coords ev2 = quadric.getEigenvec3D(2);
-		if (vMinMax == null) {
-			vMinMax = new double[2];
-		}
-		vMinMax[0] = Double.POSITIVE_INFINITY;
-		vMinMax[1] = Double.NEGATIVE_INFINITY;
+		initVminMax();
 		getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2.mul(r2));
 		scale = getView3D().getMaxScale();
 		// get radius at max
@@ -618,11 +617,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			ev0 = ev0.mul(-1);
 			ev2 = ev2.mul(-1);
 		}
-		if (vMinMax == null) {
-			vMinMax = new double[2];
-		}
-		vMinMax[0] = Double.POSITIVE_INFINITY;
-		vMinMax[1] = Double.NEGATIVE_INFINITY;
+		initVminMax();
 		getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2);
 		if (vMinMax[1] < 0) {
 			// nothing to draw
@@ -643,7 +638,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			setSurfaceIndex(surface.end());
 		}
 		endPacking();
-
 	}
 
 	private void updateParabolicCylinder(GeoQuadric3D quadric,
@@ -883,7 +877,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 					getView3D().getMaxScale());
 			Coords bottomCenter = surface.cylinder(this, center, ev1, ev2,
 					ev3, radius, radius2, 0, 2 * Math.PI,
-					quadric.getMinParameter(1), quadric.getMaxParameter(1), false, false, longitude);
+					quadric.getMinParameter(1), quadric.getMaxParameter(1),
+					false, false, longitude);
 
 			boundsMin.set(Double.POSITIVE_INFINITY);
 			boundsMax.set(Double.NEGATIVE_INFINITY);
