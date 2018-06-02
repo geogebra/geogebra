@@ -56,8 +56,8 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 			final GeoPointND geoPoint2) {
 		final NumberInputHandler handler = new NumberInputHandler(
 				geoPoint2.getKernel().getAlgebraProcessor());
-		new SegmentHandler(geoPoint2).doSegmentFixedAsync(getInput(), handler,
-				this,
+		new SegmentHandler(geoPoint2, geoPoint2.getKernel())
+				.doSegmentFixedAsync(getInput(), handler, this,
 
 				new AsyncOperation<Boolean>() {
 

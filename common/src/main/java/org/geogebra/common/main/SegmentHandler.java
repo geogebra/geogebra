@@ -9,16 +9,27 @@ import org.geogebra.common.util.AsyncOperation;
 
 public class SegmentHandler {
 	private GeoPointND point;
+	private Kernel kernel;
 
-	public SegmentHandler(GeoPointND geoPoint2) {
+	public SegmentHandler(GeoPointND geoPoint2, Kernel kernel) {
 		this.point = geoPoint2;
+		this.kernel = kernel;
 	}
 
+	/**
+	 * @param text
+	 *            input
+	 * @param inputHandler
+	 *            text to number convertor
+	 * @param eh
+	 *            error handler
+	 * @param callback
+	 *            success callback
+	 */
 	public void doSegmentFixedAsync(String text,
 			final NumberInputHandler inputHandler, ErrorHandler eh,
 			final AsyncOperation<Boolean> callback) {
 		// avoid labeling of num
-		final Kernel kernel = inputHandler.getKernel();
 		final Construction cons = kernel.getConstruction();
 		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);

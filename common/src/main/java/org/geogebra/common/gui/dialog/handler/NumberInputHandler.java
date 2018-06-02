@@ -2,7 +2,6 @@ package org.geogebra.common.gui.dialog.handler;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -82,7 +81,6 @@ public class NumberInputHandler implements InputHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public void setNum(GeoNumberValue num) {
@@ -93,7 +91,4 @@ public class NumberInputHandler implements InputHandler {
 		return num;
 	}
 
-	public Kernel getKernel() {
-		return this.algebraProcessor.getKernel();
-	}
 }

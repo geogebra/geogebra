@@ -15,6 +15,7 @@ import com.google.gwt.event.dom.client.DomEvent;
  */
 public class InputDialogSegmentFixedW extends InputDialogW {
 	private GeoPointND geoPoint1;
+	private Kernel kernel;
 
 	/**
 	 * @param app
@@ -55,7 +56,8 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 	}
 
 	private void processInput() {
-		new SegmentHandler(geoPoint1).doSegmentFixedAsync(inputPanel.getText(),
+		new SegmentHandler(geoPoint1, kernel).doSegmentFixedAsync(
+				inputPanel.getText(),
 				(NumberInputHandler) getInputHandler(), this,
 				new AsyncOperation<Boolean>() {
 
