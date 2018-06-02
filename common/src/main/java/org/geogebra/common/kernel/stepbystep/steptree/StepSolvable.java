@@ -244,7 +244,6 @@ public abstract class StepSolvable extends StepTransformable {
 			} else {
 				result = cloneWith(multiply(LHS, toMultiply), multiply(RHS, toMultiply));
 			}
-			toMultiply.cleanColors();
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
@@ -254,9 +253,11 @@ public abstract class StepSolvable extends StepTransformable {
 				steps.add(SolutionStepType.MULTIPLY_BOTH_SIDES_NUM, toMultiply,
 						StepConstant.create(eqNum + 1));
 			}
-
 			steps.levelDown();
 			steps.add(result);
+
+			toMultiply.cleanColors();
+			result.cleanColors();
 
 			result = result.regroup(steps);
 			steps.levelUp();
@@ -277,7 +278,6 @@ public abstract class StepSolvable extends StepTransformable {
 		if (!isOne(toDivide) && !isZero(toDivide)) {
 			toDivide.setColor(1);
 			StepSolvable result  = cloneWith(divide(LHS, toDivide), divide(RHS, toDivide));
-			toDivide.cleanColors();
 
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
@@ -289,6 +289,9 @@ public abstract class StepSolvable extends StepTransformable {
 			}
 			steps.levelDown();
 			steps.add(result);
+
+			toDivide.cleanColors();
+			result.cleanColors();
 
 			result = result.regroup(steps);
 			steps.levelUp();

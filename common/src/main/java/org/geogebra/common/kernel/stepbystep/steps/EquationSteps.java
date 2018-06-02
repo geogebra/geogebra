@@ -225,8 +225,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 
 			StepVariable newVariable = new StepVariable("t");
 
-			StepEquation replaced = new StepEquation(se.LHS.replace(expression, newVariable),
-					se.RHS.replace(expression, newVariable));
+			StepEquation replaced = se.replace(expression, newVariable);
 
 			List<StepSolution> tempSolutions = replaced.solve(newVariable, steps);
 

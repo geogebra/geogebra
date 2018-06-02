@@ -59,8 +59,11 @@ public class StepInequality extends StepSolvable {
 	public boolean equals(Object sn) {
 		if (sn instanceof StepInequality) {
 			StepInequality si = (StepInequality) sn;
-			return LHS.equals(si.LHS) && RHS.equals(si.RHS) && lessThan == si.lessThan &&
-					strong == si.strong;
+			return swapped == si.swapped
+					&& lessThan == si.lessThan
+					&& strong == si.strong
+					&& LHS.equals(si.LHS)
+					&& RHS.equals(si.RHS);
 		}
 
 		return false;
@@ -79,17 +82,17 @@ public class StepInequality extends StepSolvable {
 
 	@Override
 	public StepInequality deepCopy() {
-		return new StepInequality(LHS.deepCopy(), RHS.deepCopy(), lessThan, strong);
+		return new StepInequality(LHS.deepCopy(), RHS.deepCopy(), lessThan, strong, swapped);
 	}
 
 	@Override
 	public StepInequality cloneWith(StepExpression newLHS, StepExpression newRHS) {
-		return new StepInequality(newLHS, newRHS, lessThan, strong);
+		return new StepInequality(newLHS, newRHS, lessThan, strong, swapped);
 	}
 
 	@Override
 	public StepInequality swapSides() {
-		return new StepInequality(RHS, LHS, !lessThan, strong, swapped);
+		return new StepInequality(RHS, LHS, !lessThan, strong, !swapped);
 	}
 
 	@Override
@@ -99,8 +102,10 @@ public class StepInequality extends StepSolvable {
 
 	@Override
 	public String toLaTeXString(Localization loc, boolean colored) {
-		return LHS.toLaTeXString(loc, colored) + (lessThan ? " \\l" : " \\g") +
-				(strong ? "t " : "e ") + RHS.toLaTeXString(loc, colored);
+		return (swapped ? RHS : LHS).toLaTeXString(loc, colored)
+				+ (lessThan ^ swapped ? " \\l" : " \\g")
+				+ (strong ? "t " : "e ")
+				+ (swapped ? LHS : RHS).toLaTeXString(loc, colored);
 	}
 
 	@Override

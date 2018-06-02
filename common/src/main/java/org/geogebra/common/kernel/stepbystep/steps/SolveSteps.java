@@ -159,31 +159,30 @@ enum SolveSteps implements SolveStepGenerator {
 		@Override
 		public Result apply(StepSolvable se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			StepExpression diff = subtract(se.LHS, se.RHS).regroup();
-			StepExpression noConstDiff = diff.findVariableIn(variable);
-
 			StepSolvable result = se;
-			if (noConstDiff.isPower()) {
-				StepExpression RHSNonConst = result.RHS.findVariableIn(variable);
 
-				result = result.addOrSubtract(RHSNonConst, steps);
-				result = result.addOrSubtract(result.LHS.findConstantIn(variable), steps);
-			} else if (!result.LHS.isPower() || !result.RHS.isPower()) {
-				if (diff.isOperation(Operation.PLUS)) {
-					StepOperation so = (StepOperation) diff;
+			if (se.LHS.isPower() && se.RHS.isPower()) {
+				if (se.RHS.degree(variable) > se.LHS.degree(variable)) {
+					result = result.swapSides();
+				}
+			} else {
+				StepExpression diff = subtract(se.LHS, se.RHS).regroup();
+				StepExpression noConstDiff = diff.findVariableIn(variable);
 
-					if (so.noOfOperands() == 2 && so.getOperand(0).isPower() &&
-							so.getOperand(1).isPower()) {
-						result = result.addOrSubtract(so.getOperand(1), steps);
-					} else {
-						return null;
-					}
+				if (noConstDiff.isPower()) {
+					StepExpression RHSNonConst = result.RHS.findVariableIn(variable);
+
+					result = result.addOrSubtract(RHSNonConst, steps);
+					result = result.addOrSubtract(result.LHS.findConstantIn(variable), steps);
 				} else {
 					return null;
 				}
 			}
 
 			long root = gcd(result.LHS.getPower(), result.RHS.getPower());
+			if (root <= 1) {
+				return null;
+			}
 
 			StepExpression toDivide = result.LHS.getCoefficient();
 			result = result.multiplyOrDivide(toDivide, steps);
@@ -196,7 +195,7 @@ enum SolveSteps implements SolveStepGenerator {
 			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
 
-			if (root == 2 && result.RHS.isConstant()) {
+			if (root == 2 && result.LHS.isOperation(Operation.POWER) && result.RHS.isConstant()) {
 				steps.add(SolutionStepType.SQUARE_ROOT);
 
 				StepExpression underSquare = ((StepOperation) result.LHS).getOperand(0);

@@ -29,7 +29,9 @@ public abstract class SolutionStep {
 
 	private boolean shouldCollapse() {
 		return getType() != SolutionStepType.FACTOR
-				&& getType() != SolutionStepType.DETERMINE_THE_DEFINED_RANGE;
+				&& getType() != SolutionStepType.DETERMINE_THE_DEFINED_RANGE
+				&& getType() != SolutionStepType.FIND_UNDEFINED_POINTS
+				&& getType() != SolutionStepType.SOLVE_FOR;
 	}
 
 	public SolutionStep cleanupSteps() {

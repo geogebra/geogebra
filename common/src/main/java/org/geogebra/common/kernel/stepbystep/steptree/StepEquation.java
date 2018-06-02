@@ -23,7 +23,7 @@ public class StepEquation extends StepSolvable {
 	}
 
 	public StepEquation(StepExpression LHS, StepExpression RHS) {
-		super(LHS, RHS, false);
+		super(LHS, RHS);
 	}
 
 	public StepEquation setInequation() {
@@ -48,7 +48,10 @@ public class StepEquation extends StepSolvable {
 	public boolean equals(Object sn) {
 		if (sn instanceof StepEquation) {
 			StepEquation se = (StepEquation) sn;
-			return LHS.equals(se.LHS) && RHS.equals(se.RHS);
+			return swapped == se.swapped
+					&& isInequation == se.isInequation
+					&& LHS.equals(se.LHS)
+					&& RHS.equals(se.RHS);
 		}
 
 		return false;
