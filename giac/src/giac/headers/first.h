@@ -56,6 +56,7 @@
 #endif
 
 #ifdef FXCG
+#define RAND_MAX 2147483647
 #define clock() 0
 #define CLOCK() 0
 #define CLOCK_T int
@@ -528,7 +529,7 @@ inline float fgamma(float f1){ return gammaf(f1); } // or tgammaf(f1) on some ve
 #endif
 #endif
 #ifdef FXCG
-inline float atan2f(float f1,float f2,int rad){ if (rad) return std::atan2(f1,f2); else return std::atan2(f1,f2)*180/std::M_PI;}
+inline float atan2f(float f1,float f2,int rad){ if (rad) return std::atan2(f1,f2); else return std::atan2(f1,f2)*180/3.14159265358979323846;}
 #else
 inline float atan2f(float f1,float f2,int rad){ if (rad) return atan2f(f1,f2); else return atan2f(f1,f2)*180/M_PI;}
 #endif

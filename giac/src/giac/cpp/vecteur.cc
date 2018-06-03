@@ -1639,7 +1639,7 @@ namespace giac {
   void rand_1(vector<giac_double> & z){
     int n=int(z.size());
     for (int i=0;i<n;i++){
-      z[i]=(std::rand()<=RAND_MAX/2)?1:-1;
+      z[i]=(std_rand()<=RAND_MAX/2)?1:-1;
     }
   }
 
@@ -2064,7 +2064,7 @@ namespace giac {
 	  r=r*accurate_evalf(gen(1.,1e-2),nbits);
 	// random restart
 	else
-	  r=accurate_evalf(j/vsize*complex_double(std_rand()*1.0/RAND_MAX,std::rand()*1.0/RAND_MAX),nbits);
+	  r=accurate_evalf(j/vsize*complex_double(std_rand()*1.0/RAND_MAX,std_rand()*1.0/RAND_MAX),nbits);
 	oldval=horner(cur_v,r);
 	prefact=accurate_evalf(plus_one,nbits);
       }
@@ -2654,7 +2654,7 @@ namespace giac {
 	    r=r*accurate_evalf(gen(1.,1e-2),nbits);
 	  // random restart
 	  else
-	    r=accurate_evalf(j/vsize*complex_double(std::rand()*1.0/RAND_MAX,std::rand()*1.0/RAND_MAX),nbits);
+	    r=accurate_evalf(j/vsize*complex_double(std_rand()*1.0/RAND_MAX,std_rand()*1.0/RAND_MAX),nbits);
 	  oldval=horner(cur_v,r);
 	  prefact=accurate_evalf(plus_one,nbits);
 	}
@@ -12903,7 +12903,7 @@ namespace giac {
       vector<int> & t0=temp[0];
       t0.reserve(n);
       for (int i=0;i<n;++i)
-	t0.push_back(std::rand()%modulo);
+	t0.push_back(std_rand()%modulo);
       // for very very large matrices (10^7 entries?) 
       // it might be faster to compute
       // N, N^2, (N^2)^2, etc. and compute Nv, N^2(v,Nv), N^4(v,Nv,N^2v,N^3v)...
@@ -15538,7 +15538,7 @@ namespace giac {
 	for (unsigned i=0;i<n;++i)
 	  v[i]=i;
 	for (int i=0;i<complete;++i){
-	  int j=int((double(std::rand())*v.size())/RAND_MAX);
+	  int j=int((double(std_rand())*v.size())/RAND_MAX);
 	  vecteur tmp(n);
 	  tmp[v[j]]=1;
 	  tu.push_back(tmp);

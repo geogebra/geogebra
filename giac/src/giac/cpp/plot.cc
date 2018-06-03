@@ -9285,7 +9285,7 @@ namespace giac {
     // at has a rational parametrization, find cartesian equation
     if (u.type!=_IDNT)
       return vecteur(1,gensizeerr(contextptr));
-    gen x("x__"+print_INT_(std_rand()),contextptr),y("y__"+print_INT_(std::rand()),contextptr);
+    gen x("x__"+print_INT_(std_rand()),contextptr),y("y__"+print_INT_(std_rand()),contextptr);
     gen eq=rationalparam2equation(at,t,x,y,contextptr),tmp;
     if (is_undef(eq))
       return vecteur(1,eq);
@@ -9512,7 +9512,7 @@ namespace giac {
 	// vb[0]=m;
       }
       if (va[1]==vb[1]){
-	gen newvb(va[1].print(contextptr)+print_INT_(std::rand()),contextptr);
+	gen newvb(va[1].print(contextptr)+print_INT_(std_rand()),contextptr);
 	vb[0]=subst(vb[0],vb[1],newvb,true,contextptr);
 	vb[1]=newvb;
       }
