@@ -2311,8 +2311,12 @@ public class Kernel implements SpecialPointsListener {
 					sign = " + ";
 					abs = constant;
 				}
-				sbBuildExplicitLineEquation
-						.append(sign + " " + format(abs, tpl) + " ");
+
+				String absStr = format(abs, tpl);
+				if (!"0".equals(absStr)) {
+					sbBuildExplicitLineEquation
+							.append(sign + " " + absStr + " ");
+				}
 			}
 
 			sbBuildExplicitLineEquation.append(op);
@@ -2322,6 +2326,7 @@ public class Kernel implements SpecialPointsListener {
 				sbBuildExplicitLineEquation
 						.append(format(-numbers[2] / numbers[0], tpl));
 			} else {
+				Log.debug("HHH");
 				sbBuildExplicitLineEquation.append(format(0.0, tpl));
 			}
 
