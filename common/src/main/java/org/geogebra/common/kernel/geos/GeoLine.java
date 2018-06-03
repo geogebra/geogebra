@@ -1060,8 +1060,17 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		if (!coefficientsDefined() || (DoubleUtil.isZero(x) && DoubleUtil.isZero(y)
 				&& toStringMode != EQUATION_USER)) {
-			return new StringBuilder(
-					(toStringMode == PARAMETRIC) ? "X = (?, ?)" : "y = ?");
+
+			String ret = "y = ?";
+
+			if (toStringMode == PARAMETRIC) {
+				ret = "X = (?, ?)";
+			} else if (DoubleUtil.isZero(y)) {
+				// eg list = {x = ?}
+				ret = "x = ?";
+			}
+
+			return new StringBuilder(ret);
 		}
 
 		switch (toStringMode) {
