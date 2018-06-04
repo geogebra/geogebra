@@ -38,6 +38,9 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("<body>\n");
 		sb.append("<div id='container'></div>\n");
 		sb.append("<button onclick='svgSnapshot()'>Export SVG</button>\n");
+		sb.append(
+				"<a href='javascript:void(0)' id='dlbtn'><button>Export STL</button></a>\n");
+
 		sb.append("<div style='display: none;' id='svg'></div>\n");
 		sb.append("<img id='svg2'></img>\n");
 		sb.append(
@@ -50,6 +53,9 @@ public class FormatColladaHTML extends FormatCollada {
 				"<script src='https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/renderers/SVGRenderer.js'></script>\n");
 		sb.append(
 				"<script src='https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/renderers/Projector.js'></script>\n");
+		sb.append(
+				"<script src='https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/exporters/STLExporter.js'></script>\n");
+
 		sb.append("<script>\n");
 		sb.append("var container, clock;\n");
 		sb.append("var camera, scene, renderer, ggbExport, group;\n");
@@ -138,6 +144,8 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("controls.maxDistance = 500\n");
 		sb.append("controls.maxPolarAngle = Math.PI / 2;\n");
 
+		sb.append("setTimeout(exportSTL,50);\n");
+
 		sb.append("}\n");
 		sb.append("function animate() {\n");
 		sb.append("requestAnimationFrame( animate );\n");
@@ -207,6 +215,19 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append("document.getElementById('svg2').src = svgDataURI;\n");
 		// sb.append("console.log(svgDataURI);\n");
 
+		sb.append("}\n");
+
+		sb.append("function create(text, name, type) {\n");
+		sb.append("var dlbtn = document.getElementById('dlbtn');\n");
+		sb.append("var file = new Blob([text], {type: type});\n");
+		sb.append("dlbtn.href = URL.createObjectURL(file);\n");
+		sb.append(" dlbtn.download = name;\n");
+		sb.append("}\n");
+
+		sb.append("function exportSTL() {\n");
+		sb.append("var export_stl = new THREE.STLExporter();\n");
+		sb.append("var output = export_stl.parse(scene);\n");
+		sb.append("create(output, 'output.stl', 'text/plain');\n");
 		sb.append("}\n");
 
 		sb.append("</script>\n");
