@@ -270,22 +270,18 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			});			
 		}
 		addSeparator();
-		if (getApp().has(Feature.IMAGE_EXPORT)) {
-			addItem(MainMenu
-					.getMenuBarHtml(
-							MaterialDesignResources.INSTANCE
-									.export_image_black()
-									.getSafeUri().asString(),
-							loc.getMenu("exportImage"), true),
-					true, new MenuCommand(getApp()) {
+		addItem(MainMenu.getMenuBarHtml(
+				MaterialDesignResources.INSTANCE.export_image_black()
+						.getSafeUri().asString(),
+				loc.getMenu("exportImage"), true), true,
+				new MenuCommand(getApp()) {
 
-						@Override
-						public void doExecute() {
-							app.getGuiManager().getDialogManager()
-									.showExportImageDialog(null);
-						}
-					});
-		}
+					@Override
+					public void doExecute() {
+						app.getGuiManager().getDialogManager()
+								.showExportImageDialog(null);
+					}
+				});
 		shareItem = addItem(MainMenu.getMenuBarHtml(
 				MaterialDesignResources.INSTANCE.share_black().getSafeUri()
 						.asString(),

@@ -213,13 +213,11 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			}
 		});
 
-		if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
-			createBlobSizeTextField(app);
-			createBlobColorChooserBtn(app);
-			createTransparencySlider();
-			createLineColorChooserBtn(app);
-			createLineThicknessTextField(app);
-		}
+		createBlobSizeTextField(app);
+		createBlobColorChooserBtn(app);
+		createTransparencySlider();
+		createLineColorChooserBtn(app);
+		createLineThicknessTextField(app);
 
 		maxLabel = new Label();
 		minLabel = new Label();
@@ -264,11 +262,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		if (!app.has(Feature.DIALOG_DESIGN)) {
 			widthPanel.add(widthUnitLabel);
 		}
-		if (!app.has(Feature.SLIDER_STYLE_OPTIONS)) {
-			sliderPanel.add(widthPanel);
-		} else {
-			createSliderStylePanel(app);
-		}
+
+		createSliderStylePanel(app);
 
 		// add increment to intervalPanel
 		stepPanel = new AnimationStepPanelW(app);
@@ -613,14 +608,11 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			mainPanel.add(intervalPanel);
 			mainPanel.add(sliderPanel);
 			mainPanel.add(animationPanel);
-			if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
-				mainPanel.add(avPanel.getWidget());
-				mainPanel.add(sliderStylePanel);
-			}
-		}
-		if (!app.has(Feature.SLIDER_STYLE_OPTIONS)) {
+
 			mainPanel.add(avPanel.getWidget());
+			mainPanel.add(sliderStylePanel);
 		}
+
 		setWidget(mainPanel);
 	}
 
@@ -757,10 +749,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		applyMin();
 		applyMax();
 		applyWidth();
-		if (kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
-			applyBlobSize();
-			applyLineThickness();
-		}
+		applyBlobSize();
+		applyLineThickness();
 	}
 
 	@Override

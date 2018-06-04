@@ -3792,12 +3792,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			base64image = StringUtil.pngMarker + base64image;
 		}
 		
-		if (has(Feature.IMAGE_EXPORT) && getDialogManager() != null) {
+		if (getDialogManager() != null) {
 			getDialogManager().showExportImageDialog(base64image); 
-			return;
-		}
 
-		openInLightbox(base64image, base64image.startsWith(StringUtil.pdfMarker));
+		} else {
+			openInLightbox(base64image,
+					base64image.startsWith(StringUtil.pdfMarker));
+		}
 		
 	}
 

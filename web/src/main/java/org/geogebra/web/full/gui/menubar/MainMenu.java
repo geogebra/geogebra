@@ -387,15 +387,13 @@ public class MainMenu extends FlowPanel
 			}
 
 			private void setExpandStyles(int index) {
-				GMenuBar mi = app.has(Feature.TAB_ON_MENU) ? getMenuAt(index)
-						: menus.get(index - 1);
+				GMenuBar mi = getMenuAt(index);
 				mi.getElement().removeClassName("collapse");
 				mi.getElement().addClassName("expand");
 			}
 
 			private void setCollapseStyles(int index) {
-				GMenuBar mi = app.has(Feature.TAB_ON_MENU) ? getMenuAt(index)
-						: menus.get(index - 1);
+				GMenuBar mi = getMenuAt(index);
 				mi.getElement().removeClassName("expand");
 				mi.getElement().addClassName("collapse");
 			}

@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.menubar;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
@@ -205,11 +204,6 @@ public class GMenuBar extends AriaMenuBar {
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (!app.has(Feature.TAB_ON_MENU)) {
-			super.onBrowserEvent(event);
-			return;
-		}
-
 		int eventGetType = DOM.eventGetType(event);
 		if (eventGetType == Event.ONKEYDOWN) {
 			int keyCode = event.getKeyCode();
@@ -225,7 +219,6 @@ public class GMenuBar extends AriaMenuBar {
 		if (eventGetType != Event.ONFOCUS) {
 			super.onBrowserEvent(event);
 		}
-
 	}
 
 	private boolean hasTabHandlers() {
