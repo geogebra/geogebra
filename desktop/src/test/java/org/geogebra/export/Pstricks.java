@@ -122,6 +122,9 @@ public class Pstricks {
 		add("hg:Histogram({1,2,3,4,5,6},{1,2,3,4,3,3,5})");
 		add("ShowAxes(true)");
 		add("ShowGrid(true)");
+		add("DataFunction[{1,2,3},{1,4,2}]");
+		add("Root(x^3-x)");
+		add("CircleArc((0,0),(0,1),(1,0))");
 		add("SetColor(A,\"BLUE\")");
 		add("SetColor(f,\"YELLOW\")");
 		add("SetColor(g,\"RED\")");
@@ -139,9 +142,15 @@ public class Pstricks {
 		add("Angle(A)");
 		add("Angle(Vector(A))");
 		add("Angle(xAxis, yAxis)");
+		add("sp:Spline((0,0),(0,1),(1,1),(1,0),(0,0))");
+		add("SetDynamicColor(sp, 1, 0, 0,1)");
 		for (int i = 1; i < 9; i++) {
-			add("Pt"+i+"=(0,"+i+")");
+			add("Pt" + i + "=(0," + i + ")");
 			add("SetPointStyle(Pt" + i + "," + i + ")");
+		}
+		for (int i = 1; i < 5; i++) {
+			add("l" + i + ":x=" + i);
+			add("SetLineStyle(l" + i + "," + i + ")");
 		}
 	}
 
