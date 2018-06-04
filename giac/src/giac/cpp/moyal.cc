@@ -3357,10 +3357,12 @@ namespace giac {
   }
 
   gen distribution(int nd){
-    static vecteur d_static(makevecteur(at_normald,at_binomial,at_negbinomial,at_poisson,at_studentd,at_fisherd,at_cauchyd,at_weibulld,at_betad,at_gammad,at_chisquared,at_geometric,at_uniformd,at_exponentiald));
-    if (nd<=0 || nd>int(d_static.size()))
+    static vecteur * d_static=0;
+    if (!d_static)
+      d_static=new vecteur(makevecteur(at_normald,at_binomial,at_negbinomial,at_poisson,at_studentd,at_fisherd,at_cauchyd,at_weibulld,at_betad,at_gammad,at_chisquared,at_geometric,at_uniformd,at_exponentiald));
+    if (nd<=0 || nd>int(d_static->size()))
       return undef;
-    return d_static[nd-1];
+    return (*d_static)[nd-1];
   }
 
   int distrib_nargs(int nd){
@@ -3414,17 +3416,21 @@ namespace giac {
   define_unary_function_ptr5( at_mgf ,alias_at_mgf,&__mgf,0,true);
 
   gen icdf(int n){
-    static vecteur icdf_static(makevecteur(at_normald_icdf,at_binomial_icdf,undef,at_poisson_icdf,at_studentd_icdf,at_fisherd_icdf,at_cauchyd_icdf,at_weibulld_icdf,at_betad_icdf,at_gammad_icdf,at_chisquared_icdf,at_geometric_icdf,at_uniformd_icdf,at_exponentiald_icdf));
-    if (n<=0 || n>int(icdf_static.size()))
+    static vecteur * icdf_static=0;
+    if (!icdf_static)
+      icdf_static=new vecteur(makevecteur(at_normald_icdf,at_binomial_icdf,undef,at_poisson_icdf,at_studentd_icdf,at_fisherd_icdf,at_cauchyd_icdf,at_weibulld_icdf,at_betad_icdf,at_gammad_icdf,at_chisquared_icdf,at_geometric_icdf,at_uniformd_icdf,at_exponentiald_icdf));
+    if (n<=0 || n>int(icdf_static->size()))
       return undef;
-    return icdf_static[n-1];
+    return (*icdf_static)[n-1];
   }
 
   gen cdf(int n){
-    static vecteur cdf_static(makevecteur(at_normald_cdf,at_binomial_cdf,undef,at_poisson_cdf,at_studentd_cdf,at_fisherd_cdf,at_cauchyd_cdf,at_weibulld_cdf,at_betad_cdf,at_gammad_cdf,at_chisquared_cdf,at_geometric_cdf,at_uniformd_cdf,at_exponentiald_cdf));
-    if (n<=0 || n>int(cdf_static.size()))
+    static vecteur * cdf_static=0;
+    if (!cdf_static)
+      cdf_static=new vecteur(makevecteur(at_normald_cdf,at_binomial_cdf,undef,at_poisson_cdf,at_studentd_cdf,at_fisherd_cdf,at_cauchyd_cdf,at_weibulld_cdf,at_betad_cdf,at_gammad_cdf,at_chisquared_cdf,at_geometric_cdf,at_uniformd_cdf,at_exponentiald_cdf));
+    if (n<=0 || n>int(cdf_static->size()))
       return undef;
-    return cdf_static[n-1];
+    return (*cdf_static)[n-1];
   }
 
   // set a and b to the boundaries of the support of distrib number nd

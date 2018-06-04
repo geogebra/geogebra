@@ -220,11 +220,13 @@ extern "C" void Sleep(unsigned int miliSecond);
 #endif
 
   std::vector<aide> * & vector_aide_ptr (){
-    static std::vector<aide> * ans = new std::vector<aide>;
+    static std::vector<aide> * ans = 0;
+    if (!ans) ans=new std::vector<aide>;
     return ans;
   }
   std::vector<std::string> * & vector_completions_ptr (){
-    static std::vector<std::string> * ans = new  std::vector<std::string>;
+    static std::vector<std::string> * ans = 0;
+    if (!ans) ans=new  std::vector<std::string>;
     return ans;
   }
 #ifdef NSPIRE_NEWLIB
@@ -250,8 +252,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   string & _currently_scanned(){
-    static string s;
-    return s;
+    static string * ans=0;
+    if (!ans) ans=new string;
+    return *ans;
   }
 
   string & currently_scanned(GIAC_CONTEXT){
@@ -836,7 +839,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static vecteur & _history_in_(){
-    static vecteur * ans = new vecteur;
+    static vecteur * ans = 0;
+    if (ans)
+      ans=new vecteur;
     return *ans;
   }
   vecteur & history_in(GIAC_CONTEXT){
@@ -847,7 +852,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static vecteur & _history_out_(){
-    static vecteur * ans = new vecteur;
+    static vecteur * ans = 0;
+    if (!ans)
+      ans=new vecteur;
     return *ans;
   }
   vecteur & history_out(GIAC_CONTEXT){
@@ -858,7 +865,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static vecteur & _history_plot_(){
-    static vecteur * ans = new vecteur;
+    static vecteur * ans = 0;
+    if (!ans)
+      ans=new vecteur;
     return *ans;
   }
   vecteur & history_plot(GIAC_CONTEXT){
@@ -1170,7 +1179,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   thread_param * & context0_thread_param_ptr(){
-    static thread_param * ans=new thread_param();
+    static thread_param * ans=0;
+    if (!ans)
+      ans=new thread_param();
     return ans;
   }
 
@@ -1351,7 +1362,9 @@ extern "C" void Sleep(unsigned int miliSecond);
 
 
   static parser_lexer & _pl(){
-    static parser_lexer * ans = new parser_lexer();
+    static parser_lexer * ans = 0;
+    if (!ans)
+      ans=new parser_lexer();
     ans->_i_sqrt_minus1_=1;
     return * ans;
   }
@@ -1472,11 +1485,14 @@ extern "C" void Sleep(unsigned int miliSecond);
       return absint(_calc_mode_);
   }
   static std::string & _autoname_(){
+    static string * ans = 0;
+    if (!ans){
 #ifdef GIAC_HAS_STO_38
-    static string * ans = new string("GA");
+      ans= new string("GA");
 #else
-    static string * ans = new string("A");
+      ans = new string("A");
 #endif
+    }
     return *ans;
   }
   void calc_mode(int b,GIAC_CONTEXT){
@@ -1522,7 +1538,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static std::string & _autosimplify_(){
-    static string * ans = new string("regroup");
+    static string * ans = 0;
+    if (!ans)
+      ans=new string("regroup");
     return *ans;
   }
   std::string autosimplify(GIAC_CONTEXT){
@@ -1542,7 +1560,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static std::string & _lastprog_name_(){
-    static string * ans = new string("lastprog");
+    static string * ans = 0;
+    if (!ans)
+      ans=new string("lastprog");
     return *ans;
   }
   std::string lastprog_name(GIAC_CONTEXT){
@@ -1562,7 +1582,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static std::string & _format_double_(){
-    static string * ans = new string("");
+    static string * ans = 0;
+    if (!ans)
+      ans=new string("");
     return * ans;
   }
   std::string & format_double(GIAC_CONTEXT){
@@ -1661,7 +1683,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static gen & _parsed_gen_(){
-    static gen * ans = new gen;
+    static gen * ans = 0;
+    if (!ans)
+      ans=new gen;
     return * ans;
   }
   gen parsed_gen(GIAC_CONTEXT){
@@ -1678,7 +1702,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static logo_turtle & _turtle_(){
-    static logo_turtle * ans = new logo_turtle;
+    static logo_turtle * ans = 0;
+    if (!ans)
+      ans=new logo_turtle;
     return *ans;
   }
   logo_turtle & turtle(GIAC_CONTEXT){
@@ -1694,7 +1720,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   pthread_mutex_t turtle_mutex = PTHREAD_MUTEX_INITIALIZER;
 #endif
   std::vector<logo_turtle> & _turtle_stack_(){
-    static std::vector<logo_turtle> * ans = new std::vector<logo_turtle>(1,_turtle_());
+    static std::vector<logo_turtle> * ans = 0;
+    if (!ans)
+      ans=new std::vector<logo_turtle>(1,_turtle_());
 #ifdef HAVE_LIBPTHREAD
     ans->reserve(20000);
 #endif
@@ -1832,14 +1860,18 @@ extern "C" void Sleep(unsigned int miliSecond);
 
   // used by WIN32 for the path to the xcas directory
   string & xcasroot(){
-    static string * ans=new string;
+    static string * ans=0;
+    if (!ans)
+      ans=new string;
     return * ans;
   }
   string & xcasrc(){
 #ifdef WIN32
-    static string * ans=new string("xcas.rc");
+    static string * ans=0;
+    if (!ans) ans=new string("xcas.rc");
 #else
-    static string * ans=new string(".xcasrc");
+    static string * ans=0;
+    if (!ans) ans=new string(".xcasrc");
 #endif
     return *ans;
   }
@@ -3409,7 +3441,8 @@ extern "C" void Sleep(unsigned int miliSecond);
 #endif
 
   vector<context *> & context_list(){
-    static vector<context *> * ans=new vector<context *>(1,(context *) 0);
+    static vector<context *> * ans=0;
+    if (!ans) ans=new vector<context *>(1,(context *) 0);
     return *ans;
   }
   context::context() { 
@@ -3900,7 +3933,8 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static debug_struct & _debug_data(){
-    static debug_struct * ans = new debug_struct;
+    static debug_struct * ans = 0;
+    if (!ans) ans=new debug_struct;
     return *ans;
   }
 
@@ -5670,7 +5704,7 @@ unsigned int ConvertUTF8toUTF16 (
 	      if (coeff.empty())
 		res=1;
 	      else
-		res=atof(coeff.c_str());
+		res=strtod(coeff.c_str(),0);
 	      if (ch=='i')
 		res=res*cst_i;
 	      else {

@@ -24,7 +24,9 @@ using namespace std;
 #endif
 #endif
 #ifdef FXCG
+extern "C" {
 #include <rtc.h>
+}
 #endif
 #include <stdexcept>
 #include <cmath>

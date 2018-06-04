@@ -25,7 +25,9 @@ using namespace std;
 #include "giacintl.h"
 #include "input_parser.h"
 #ifdef FXCG
-#include <fxcg/system.h>
+extern "C" {
+#include <system.h>
+}
 #endif
 
 #ifndef NO_NAMESPACE_GIAC
