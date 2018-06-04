@@ -13,9 +13,15 @@
             function getEditorElement(){
             	return document.getElementById("editorContainer");
             }
-            translation = {}
+            translation = {};
+            var script = document.createElement('script');
+            var codebase = ".";
+            if (location.host.match(/alpha/)) {
+                codebase = "https://autotest2.geogebra.org/job/GeoGebra-autotest/lastSuccessfulBuild/artifact/web/war";
+            }
+            script.src = codebase + "/solver/solver.nocache.js";
+            document.head.appendChild(script);
     </script>
-    <script type="text/javascript" language="javascript" src="solver/solver.nocache.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
