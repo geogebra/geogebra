@@ -107,7 +107,9 @@ public class Solver implements EntryPoint, MathFieldListener {
 		editorPanel = new HorizontalPanel();
 		editorPanel.setStyleName("editorPanel");
 
-		mathField = new MathFieldW(null, editorPanel, canvas, this, false, null);
+		FlowPanel editorFocusPanel = new FlowPanel();
+
+		mathField = new MathFieldW(null, editorFocusPanel, canvas, this, false, null);
 		mathField.setPixelRatio(Browser.getPixelRatio());
 
 		Window.addResizeHandler(new ResizeHandler() {
@@ -120,7 +122,6 @@ public class Solver implements EntryPoint, MathFieldListener {
 
 		keyboard = new SolverKeyboard(app, app);
 
-		FlowPanel editorFocusPanel = new FlowPanel();
 		editorFocusPanel.setStyleName("editorFocusPanel");
 		editorFocusPanel.add(mathField.asWidget());
 		ClickStartHandler.init(editorFocusPanel, new ClickStartHandler() {

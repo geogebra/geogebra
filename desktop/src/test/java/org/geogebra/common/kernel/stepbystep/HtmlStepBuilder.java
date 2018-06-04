@@ -98,7 +98,7 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 
 			switch (line.getType()) {
 				case WRAPPER:
-					for (int i = 0; i < substeps.size(); i++) {
+					for (int i = 0; substeps != null && i < substeps.size(); i++) {
 						buildStepGui(substeps.get(i), true, indent + 1);
 						if (i != substeps.size() - 1) {
 							linebreak();

@@ -71,7 +71,7 @@ public abstract class StepTransformable extends StepNode {
 
 	public StepTransformable regroupOutput(SolutionBuilder sb) {
 		SolutionBuilder temp = new SolutionBuilder();
-		StepTransformable result = regroup(temp);
+		StepTransformable result = adaptiveRegroup(temp);
 
 		sb.addGroup(SolutionStepType.SIMPLIFY, temp, result, this);
 		return result;

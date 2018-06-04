@@ -265,12 +265,32 @@ public abstract class StepExpression extends StepTransformable
 		return nonSpecialConstant() && isEqual(Math.round(getValue()), getValue());
 	}
 
-	/**
-	 * @return whether the current node is a squreRoot (that is nroot, with an
-	 * exponent of 2)
-	 */
 	public boolean isSquareRoot() {
-		return isOperation(Operation.NROOT) && isEqual(((StepOperation) this).getOperand(1), 2);
+		return isNthRoot(2);
+	}
+
+	/**
+	 * @return whether the current node is an n-th root (that is nroot, with an
+	 * exponent of n)
+	 */
+	public boolean isNthRoot(int n) {
+		return isOperation(Operation.NROOT) && isEqual(((StepOperation) this).getOperand(1), n);
+	}
+
+	public int countNthRoots(int n) {
+		if (isOperation(Operation.PLUS)) {
+			int count = 0;
+
+			for (StepExpression operand : (StepOperation) this) {
+				if (operand.containsNthRoot(n)) {
+					count ++;
+				}
+			}
+
+			return count;
+		}
+
+		return isNthRoot(n) ? 1 : 0;
 	}
 
 	public StepExpression integersOfSum() {
@@ -761,12 +781,16 @@ public abstract class StepExpression extends StepTransformable
 	}
 
 	public boolean containsSquareRoot() {
-		if (isSquareRoot()) {
+		return containsNthRoot(2);
+	}
+
+	public boolean containsNthRoot(int n) {
+		if (isNthRoot(n)) {
 			return true;
 		}
 		if (isOperation(Operation.MULTIPLY) || isOperation(Operation.MINUS)) {
 			for (StepExpression operand : (StepOperation) this) {
-				if (operand.containsSquareRoot()) {
+				if (operand.containsNthRoot(n)) {
 					return true;
 				}
 			}

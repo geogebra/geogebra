@@ -185,6 +185,11 @@ public class SolveStepTest {
 	}
 
 	@Test
+	public void higherOrderRoots() {
+		t("nroot(x, 3)", "2", "x", "x = 8");
+	}
+
+	@Test
 	public void trigonometricEquations() {
 		t("3+2sin(x)", "sin(x)-1", "x");
 		t("1/2+2sin(x)", "sin(x)+1", "x", "x = ((pi + (12)(k1)(pi)))/(6)", "x = (((5)(pi)-(12)(k2)(pi)))/(6)");

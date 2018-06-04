@@ -372,7 +372,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 					result = result.addOrSubtract(result.RHS.findExpression(cosine), steps);
 				}
 
-				result = result.square(steps, tracker);
+				result = result.power(2, steps, tracker);
 			}
 
 			return new Result(result);
@@ -434,26 +434,27 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 		}
 	},
 
-	SOLVE_IRRATIONAL {
+	SOLVE_SQUARE_ROOTS {
 		@Override
 		public Result apply(StepEquation se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			int sqrtNum = se.countNonConstOperation(Operation.NROOT, variable);
+			int lhsNum = se.LHS.countNthRoots(2);
+			int rhsNum = se.RHS.countNthRoots(2);
+			int sqrtNum = lhsNum + rhsNum;
 
 			if (sqrtNum > 3 || sqrtNum == 0) {
 				return null;
 			}
 
 			StepSolvable result = se;
-			if (se.RHS.countNonConstOperation(Operation.NROOT, variable) >
-					se.LHS.countNonConstOperation(Operation.NROOT, variable)) {
+			if (rhsNum > lhsNum) {
 				result = result.swapSides();
 			}
 
 			if (sqrtNum == 1) {
 				StepExpression nonIrrational = StepHelper.getNon(result.LHS, Operation.NROOT);
 				result = result.addOrSubtract(nonIrrational, steps);
-				result = result.square(steps, tracker);
+				result = result.power(2, steps, tracker);
 			}
 
 			if (sqrtNum == 2) {
@@ -467,14 +468,14 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 								StepHelper.getOne(result.LHS, Operation.NROOT);
 						result = result.addOrSubtract(oneRoot, steps);
 					}
-					result = result.square(steps, tracker);
+					result = result.power(2, steps, tracker);
 				} else {
 					StepExpression rootsRHS = StepHelper.getAll(result.RHS, Operation.NROOT);
 					result = result.addOrSubtract(rootsRHS, steps);
 					StepExpression nonIrrational =
 							StepHelper.getNon(result.LHS, Operation.NROOT);
 					result = result.addOrSubtract(nonIrrational, steps);
-					result = result.square(steps, tracker);
+					result = result.power(2, steps, tracker);
 				}
 			}
 
@@ -492,8 +493,31 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 					result = result.addOrSubtract(oneRoot, steps);
 				}
 
-				result = result.square(steps, tracker);
+				result = result.power(2, steps, tracker);
 			}
+
+			return new Result(result);
+		}
+	},
+
+	SOLVE_CUBE_ROOTS {
+		@Override
+		public Result apply(StepEquation se, StepVariable variable,
+				SolutionBuilder steps, SolveTracker tracker) {
+			int lhsNum = se.LHS.countNthRoots(3);
+			int rhsNum = se.RHS.countNthRoots(3);
+
+			if (lhsNum + rhsNum != 1) {
+				return null;
+			}
+
+			StepSolvable result = se;
+			if (rhsNum > lhsNum) {
+				result = result.swapSides();
+			}
+
+			result = result.subtract(StepHelper.getNon(se.LHS, Operation.NROOT), steps);
+			result = result.power(3, steps, tracker);
 
 			return new Result(result);
 		}
