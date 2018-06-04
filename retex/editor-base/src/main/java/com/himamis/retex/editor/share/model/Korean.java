@@ -783,21 +783,6 @@ public class Korean {
 		return c + "";
 	}
 
-	// static {
-	// String s = "\ub450";
-	// s = flattenKorean(s);
-	// Log.debug("length = " + s.length());
-	// for (int i = 0; i < s.length(); i++) {
-	// Log.debug(StringUtil.toHexString(s.charAt(i)));
-	// }
-	//
-	// s = "\u1103\u116E";
-	// s = unflattenKorean(s).toString();
-	// Log.debug("\u1103\u116E goes to " + StringUtil.toHexString(s));
-	// }
-
-
-
 	/*
 	 * avoid having to press shift by merging eg \u1100\u1100 to \u1101
 	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html (not

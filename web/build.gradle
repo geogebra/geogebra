@@ -218,13 +218,14 @@ task copyHtml {
 task createSolverHtml {
     String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
     String solver = file(templateDir + "solver-template.html").text
-
-    file("war/solver.html").text = solver
+    
+    file("war/solver-template.html").text = solver
             .replace("<!--HEADER-->", file(templateDir + "app-header-beta.html").text)
-            .replace("<!--APP NAME FULL-->", "GeoGebra MathSolver")
             .replace("<!--TRY APP-->", "Try App")
             .replace("<!--CONTINUE-->", "Continue")
             .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
+    file("war/solver.html").text = file("war/solver-template.html").text
+            .replace("<!--APP NAME FULL-->", "GeoGebra MathSolver")
 }
 
 task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverHtml']) {
