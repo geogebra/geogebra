@@ -442,4 +442,7 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_label_outline_black_24px.svg")
 	SVGResource mow_label();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-folder_open-24px.svg")
+	SVGResource mow_pdf_open_folder();
 }

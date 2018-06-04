@@ -591,5 +591,45 @@ $duration: 0.2s;
    			}
    		}
    }
+  	
+  	.pdfDialog {
+  			
+  		.pdfContainer {
+   			width: 450px;
+    		height: 400px;
+    		margin-right: 16px;
+    		border: 4px dashed #999999;
+		}
+		
+		.folderImg {
+    		display: block;
+    		margin-left: auto;
+    		margin-right: auto;
+    		margin-top: 100px;
+    		opacity: 0.54;
+    	}
+	
+		.clickOrDragText {
+    		margin-top: 20px;
+    		font-size: 100% !important;
+    		text-align: center;
+    	}
+    
+		.DialogButtonPanel {
+   			
+   			.button {
+   				color: $mebis-teal-dark;	
+   			}
+   			
+   			.insertBtn.button-up-disabled {
+   				opacity: 1;
+   				color: $mebis-teal-dark-26;
+   				
+   				&:hover {
+   					background: none !important;	
+   				}
+   			}
+   		}
+	}
 }
 	

@@ -3,11 +3,14 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -21,6 +24,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 	protected AppW appW;
 	private FlowPanel mainPanel;
 	private FlowPanel pdfContainerPanel;
+	private Label clickOrDragText;
 	private FlowPanel buttonPanel;
 	private StandardButton insertBtn;
 	private StandardButton cancelBtn;
@@ -38,8 +42,16 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 
 	private void initGui() {
 		mainPanel = new FlowPanel();
+		// panel for pdf
 		pdfContainerPanel = new FlowPanel();
 		pdfContainerPanel.setStyleName("pdfContainer");
+		NoDragImage folderImg = new NoDragImage(
+				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), 96);
+		folderImg.addStyleName("folderImg");
+		pdfContainerPanel.add(folderImg);
+		clickOrDragText = new Label();
+		clickOrDragText.addStyleName("clickOrDragText");
+		pdfContainerPanel.add(clickOrDragText);
 		// panel for buttons
 		insertBtn = new StandardButton("", appW);
 		insertBtn.addStyleName("insertBtn");
@@ -71,6 +83,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 	 * set button labels
 	 */
 	public void setLabels() {
+		clickOrDragText
+				.setText(appW.getLocalization().getMenu("pdfClickOrDrag"));
 		insertBtn.setText(appW.getLocalization().getMenu("Insert")); // insert
 		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
 	}
