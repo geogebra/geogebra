@@ -455,10 +455,6 @@ public class GuiManagerW extends GuiManager
 				this.device);
 	}
 
-	public void showAudioInputDialog() {
-		((DialogManagerW) getDialogManager()).showAudioInputDialog();
-	}
-
 	public void showExportImageDialog(String base64Image) {
 		((DialogManagerW) getDialogManager())
 				.showExportImageDialog(base64Image);

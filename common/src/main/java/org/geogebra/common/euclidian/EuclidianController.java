@@ -967,6 +967,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					getDialogManager().showVideoInputDialog();
 				}
 			}
+			if (newMode == EuclidianConstants.MODE_PDF
+					&& app.has(Feature.MOW_PDF_TOOL)) {
+				if (app.getGuiManager() != null) {
+					getDialogManager().showPDFInputDialog();
+				}
+			}
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(Test.GEOIMAGE, tempArrayList),
 						false);

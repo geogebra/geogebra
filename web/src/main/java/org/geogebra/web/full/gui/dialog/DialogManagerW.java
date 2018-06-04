@@ -68,6 +68,7 @@ public class DialogManagerW extends DialogManager
 	protected WebcamInputDialog webcamInputDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
 	private AudioInputDialog audioInputDialog;
+	private PDFInputDialog pdfInputDialog;
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog dialog = null;
 
@@ -258,6 +259,16 @@ public class DialogManagerW extends DialogManager
 		imageDialog.setLocation(corner);
 		imageDialog.center();
 		imageDialog.show();
+	}
+
+	/**
+	 * show insert pdf dialog
+	 */
+	@Override
+	public void showPDFInputDialog() {
+		this.pdfInputDialog = new PDFInputDialog((AppW) app);
+		pdfInputDialog.center();
+		pdfInputDialog.show();
 	}
 
 	/**

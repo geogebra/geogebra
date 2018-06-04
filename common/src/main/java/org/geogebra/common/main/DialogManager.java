@@ -885,4 +885,10 @@ public abstract class DialogManager {
 		// overridden in web
 	}
 
+	/**
+	 * show pdf input dialog
+	 */
+	public void showPDFInputDialog() {
+		// overridden in web
+	}
 }
