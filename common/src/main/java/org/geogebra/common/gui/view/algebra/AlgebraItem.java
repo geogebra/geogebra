@@ -342,7 +342,7 @@ public class AlgebraItem {
 	 */
 	public static void addSelectedGeoWithSpecialPoints(GeoElementND geo,
 			App app) {
-		if (!app.has(Feature.PREVIEW_POINTS)) {
+		if (!app.getConfig().hasPreviewPoints()) {
 			return;
 		}
 		app.getSelectionManager().clearSelectedGeos(false, false);

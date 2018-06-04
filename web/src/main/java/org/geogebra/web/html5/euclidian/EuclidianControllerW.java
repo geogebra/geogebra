@@ -79,7 +79,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	protected void showSpecialPointPopup(
 			final ArrayList<GeoElement> previewPoints) {
-		if (!app.has(Feature.PREVIEW_POINTS)) {
+		if (!app.getConfig().hasPreviewPoints()) {
 			return;
 		}
 		final PreviewPointPopup popup = new PreviewPointPopup(

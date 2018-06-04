@@ -4108,7 +4108,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	private void maybeUpdateSpecialPoints() {
-		if (canHaveSpecialPoints() && kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
+		if (canHaveSpecialPoints() && kernel.getApplication().getConfig().hasPreviewPoints()) {
 			kernel.getApplication().getSpecialPointsManager().updateSpecialPoints(null);
 		}
 	}

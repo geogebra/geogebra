@@ -8246,7 +8246,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return whether there is any GeoPoint in the hits which is a preview Special point or not
 	 */
 	private boolean isSpecialPreviewPointFound(Hits hits) {
-		if (!app.has(Feature.PREVIEW_POINTS)) {
+		if (!app.getConfig().hasPreviewPoints()) {
 			return false;
 		}
 
@@ -9981,7 +9981,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						.isMoveOrSelectionModeCompatibleWithDragging(mode,
 								isDraggingOccuredBeyondThreshold())
 				&& !event.isRightClick()) {
-			if (app.has(Feature.PREVIEW_POINTS) && previewPointHits != null
+			if (app.getConfig().hasPreviewPoints() && previewPointHits != null
 					&& !previewPointHits.isEmpty()) {
 				hideDynamicStylebar();
 				highlightPreviewPoint(previewPointHits.get(0));

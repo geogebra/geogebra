@@ -227,7 +227,7 @@ public class StylebarPositioner {
 			return null;
 		}
 
-		if (app.has(Feature.PREVIEW_POINTS)) {
+		if (app.getConfig().hasPreviewPoints()) {
 			GeoElement selectedPreviewPoint = getSelectedPreviewPoint();
 			if (selectedPreviewPoint != null) {
 				return getPositionFor(selectedPreviewPoint, stylebarHeight,

@@ -1965,7 +1965,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	protected void updatePreviewFromInputBar() {
-		if (app.has(Feature.PREVIEW_POINTS)) {
+		if (app.getConfig().hasPreviewPoints()) {
 			GeoElement geo0 = (previewFromInputBarGeos == null
 					|| previewFromInputBarGeos.length == 0) ? null
 					: previewFromInputBarGeos[0];

@@ -120,8 +120,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public void onKeyTyped() {
-		if (app.has(Feature.PREVIEW_POINTS)
-				&& app.getSelectionManager().getSelectedGeos().size() > 0) {
+		if (app.getSelectionManager().getSelectedGeos().size() > 0) {
+			// to clear preview points
 			app.getSelectionManager().clearSelectedGeos();
 		}
 		item.onKeyTyped();

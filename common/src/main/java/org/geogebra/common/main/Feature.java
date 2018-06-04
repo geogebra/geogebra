@@ -167,9 +167,6 @@ public enum Feature {
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 
-	/** GGB-2118 */
-	PREVIEW_POINTS,
-
 	/** GGB-2183 change sin(15) -> sin(15deg) */
 	AUTO_ADD_DEGREE,
 

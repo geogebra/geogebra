@@ -20,4 +20,6 @@ public interface AppConfig {
 
 	public boolean isSimpleMaterialPicker();
 
+	public boolean hasPreviewPoints();
+
 }

@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -915,7 +914,7 @@ public class EuclidianSettings extends AbstractSettings {
 		setShowAxisNoFireSettingChanged(2, false);
 		if (changed) {
 			settingChanged();
-			if (app.has(Feature.PREVIEW_POINTS)) {
+			if (app.getConfig().hasPreviewPoints()) {
 				app.getSpecialPointsManager().updateSpecialPoints(null);
 			}
 		}
