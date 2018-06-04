@@ -503,7 +503,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void setCoordinateSpaceSize(int width, int height) {
-		Log.debug("SET SIZE:" + width + ":" + physicalPX(width));
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
 
