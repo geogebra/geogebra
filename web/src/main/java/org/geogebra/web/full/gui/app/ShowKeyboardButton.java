@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
+import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
@@ -14,7 +15,6 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -49,13 +49,9 @@ public class ShowKeyboardButton extends SimplePanel {
 			final DockManagerW dm, Widget parent, final AppW app) {
 		this.app = app;
 		this.parent = parent;
-		this.addStyleName(app.isUnbundled() ? "matOpenKeyboardBtn"
-				: "openKeyboardButton");
-		NoDragImage showKeyboard = new NoDragImage(app.isUnbundled()
-				? KeyboardResources.INSTANCE.keyboard_show_material()
-						.getSafeUri().asString()
-				: KeyboardResources.INSTANCE
-						.keyboard_show().getSafeUri().asString());
+		this.addStyleName("matOpenKeyboardBtn");
+		NoDragImage showKeyboard = new NoDragImage(KeyboardResources.INSTANCE
+				.keyboard_show_material().getSafeUri().asString());
 		this.add(showKeyboard);
 
 		//TODO: app paramater used only for feature checking so this can be removed later

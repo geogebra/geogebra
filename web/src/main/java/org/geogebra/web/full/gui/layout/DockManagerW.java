@@ -1883,22 +1883,27 @@ public class DockManagerW extends DockManager {
 				120);
 		double appHeight = app.getHeight();
 		ToolbarPanel toolbar = null;
+		double visibleKB = kbHeight;
 		if (app.isUnbundled()) {
 			toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
 			avHeight = toolbar.isOpen() ? toolbar.getMinVHeight()
 					: ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
+			if (!app.getAppletFrame().isKeyboardShowing()) {
+				visibleKB = 0;
+			}
 		} else {
 			appHeight -= GLookAndFeel.TOOLBAR_OFFSET;
 		}
-
-		double portraitDivider = kbHeight >= appHeight ? 1
-				: Math.min((avHeight) / (appHeight - kbHeight), 1);
+		Log.error(avHeight + ":" + appHeight + ":" + visibleKB);
+		// double portraitDivider = visibleKB >= appHeight ? 1
+		// : Math.min((avHeight) / (), 1);
 
 		if (app.isPortrait()) {
 			if (toolbar != null && toolbar.isClosed()) {
 				closePortrait(split, toolbar);
 			} else {
-				setDividerLocation(split, 1 - portraitDivider);
+				setDividerLocationAbs(split,
+						(int) (appHeight - visibleKB - avHeight));
 			}
 		} else {
 			double ratio = landscapeRatio;

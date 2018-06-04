@@ -33,4 +33,6 @@ public interface EuclidianPanelWAbstract {
 
 	public Element getElement();
 
+	public void reset();
+
 }

@@ -21,12 +21,10 @@ import java.util.HashMap;
  */
 public class Korean {
 
-	static StringBuilder sb;
-	static HashMap<Character, Character> koreanLeadToTail = null;
-	static HashMap<Character, Character> koreanTailToLead = null;
+	private static StringBuilder sb;
+	private static HashMap<Character, Character> koreanLeadToTail = null;
+	private static HashMap<Character, Character> koreanTailToLead = null;
 	// table to convert a nibble to a hex char.
-	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
-			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 	/**
 	 * @return HashMap for converting Lead char to Tail char
@@ -86,7 +84,7 @@ public class Korean {
 		return ret;
 	}
 
-	static HashMap<Character, Character> getKoreanTailToLead() {
+	private static HashMap<Character, Character> getKoreanTailToLead() {
 
 		if (koreanTailToLead == null) {
 			koreanTailToLead = new HashMap<>();
@@ -131,6 +129,10 @@ public class Korean {
 	 * convert eg \uB458 to \u1103\u116e\u11af
 	 * 
 	 * and \uB450 to \u1103\u116E
+	 * 
+	 * @param s
+	 *            input string
+	 * @return flattened string
 	 */
 	public static String flattenKorean(String s) {
 
@@ -1256,6 +1258,11 @@ public class Korean {
 		return ret;
 	}
 
+	/**
+	 * @param ch
+	 *            character
+	 * @return whether it's compatibility character
+	 */
 	public static boolean isCompatibilityChar(char ch) {
 		return ch >= '\u3131' && ch <= '\u318e';
 	}

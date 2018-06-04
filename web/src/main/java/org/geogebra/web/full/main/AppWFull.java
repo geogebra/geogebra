@@ -1450,12 +1450,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void updatePerspective(Perspective p) {
-		if (!isUnbundled() || this.isStartedWithFile()) {
+		if (!isUnbundled() || isStartedWithFile()) {
 			getGuiManager().getLayout().setPerspectives(getTmpPerspectives(),
 					p);
 			if (isUnbundled()) {
 				getGuiManager().getLayout().getDockManager().adjustViews(true);
 			}
+		} else if (isUnbundled() && isPortrait()) {
+			getGuiManager().getLayout().getDockManager().adjustViews(true);
 		}
 	}
 

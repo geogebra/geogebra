@@ -507,7 +507,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
 
 		context.resetTransform(getDevicePixelRatio());
-
 		setWidth(width);
 		setHeight(height);
 		this.updateCanvasColor();

@@ -137,4 +137,9 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public void reset() {
+		oldWidth = 0;
+		oldHeight = 0;
+	}
 }

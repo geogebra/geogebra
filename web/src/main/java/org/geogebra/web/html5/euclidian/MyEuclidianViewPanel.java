@@ -83,4 +83,8 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 		return null;
 	}
 
+	public void reset() {
+		// not needed
+	}
+
 }

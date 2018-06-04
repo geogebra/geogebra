@@ -181,7 +181,6 @@ public class TextPreviewPanelW extends TextPreviewer {
 			canvas.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
 			canvas.getElement().getStyle().setZIndex(0);
 			add(canvas);
-
 		}
 
 		@Override
@@ -224,6 +223,10 @@ public class TextPreviewPanelW extends TextPreviewer {
 		public Canvas getBackgroundCanvas() {
 			// TODO Auto-generated method stub
 			return null;
+		}
+
+		public void reset() {
+			// not needed
 		}
 
 	}

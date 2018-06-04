@@ -273,7 +273,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		speedPanel = new AnimationSpeedPanelW(app);
 		speedPanel.setPartOfSliderPanel();
 		animationPanel.add(speedPanel.getWidget());
-		initPanels(app);
+		initPanels();
 		setLabels();
 	}
 
@@ -585,7 +585,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		}
 	}
 
-	private void initPanels(AppW app) {
+	private void initPanels() {
 		FlowPanel mainPanel = new FlowPanel();
 
 		// put together interval, slider options, animation panels
