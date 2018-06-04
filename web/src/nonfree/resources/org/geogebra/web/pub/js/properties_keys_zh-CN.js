@@ -3194,6 +3194,8 @@ __GGB__keysVar["zh-CN"].menu = {
     "parallel": "\u5e73\u884c\u7ebf",
     "pasteLink": "\u7c98\u8d34\u94fe\u63a5",
     "pdf": "\u4fbf\u643a\u5f0f\u6587\u6863\u683c\u5f0f",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "GeoGebra \u9700\u8981\u8bbf\u95ee\u60a8\u7684\u7167\u7247\u5e93\u6765\u4fdd\u5b58\u56fe\u50cf.",
     "permission.photos.denied": "\u65e0\u6cd5\u8bbf\u95ee\u7167\u7247",
     "permission.photos.exam_screenshot": "GeoGebra \u9700\u8981\u8bbf\u95ee\u56fe\u7247\u5e93\uff0c\u4ee5\u4fbf\u5728\u68c0\u6d4b\u7ed3\u675f\u65f6\u4fdd\u5b58\u65e5\u5fd7\u5c4f\u5e55\u622a\u56fe.",

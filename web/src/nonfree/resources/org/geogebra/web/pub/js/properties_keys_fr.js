@@ -3194,6 +3194,8 @@ __GGB__keysVar["fr"].menu = {
     "parallel": "parall\xe8les",
     "pasteLink": "Copier lien",
     "pdf": "Portable Document Format",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "GeoGebra doit avoir acc\xe8s \xe0 la phototh\xe8que pour enregistrer une image.",
     "permission.photos.denied": "Impossible d'acc\xe9der \xe0 la phototh\xe8que",
     "permission.photos.exam_screenshot": "GeoGebra doit avoir acc\xe8s \xe0 la phototh\xe8que pour enregistrer une capture d'\xe9cran du journal \xe0 la fin de l'examen.",

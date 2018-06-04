@@ -3194,6 +3194,8 @@ __GGB__keysVar["sl"].menu = {
     "parallel": "vzporedno",
     "pasteLink": "Prilepi povezavo",
     "pdf": "Dokument v formatu PDF",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "Za shranjevanje slike potrebuje GeoGebra dostop do knji\u017enice fotografij.",
     "permission.photos.denied": "Ni dostopa do slik",
     "permission.photos.exam_screenshot": "GeoGebra potrebuje dostop do grafi\u010dne knji\u017enice za sharanjevanje ekranskih slik poro\u010dila ob koncu preverjanja znanja.",

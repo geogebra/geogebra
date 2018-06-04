@@ -3194,6 +3194,8 @@ __GGB__keysVar["tr"].menu = {
     "parallel": "paralel",
     "pasteLink": "Ba\u011flant\u0131y\u0131 yap\u0131\u015ft\u0131r",
     "pdf": "Ta\u015f\u0131nabilir Dosya Bi\xe7imi(pdf)",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "GeoGebra bir resmi kaydetmek i\xe7in foto\u011fraflar\u0131n\u0131za eri\u015fmeye ihtiya\xe7 duyuyor",
     "permission.photos.denied": "Foto\u011fraflara eri\u015fime izin verilmedi",
     "permission.photos.exam_screenshot": "GeoGebra, s\u0131nav sonundaki s\u0131nav kayd\u0131n\u0131n ekran g\xf6r\xfcnt\xfcs\xfcn\xfc kaydetmek i\xe7in foto\u011fraflar\u0131n\u0131za eri\u015fime ihtiya\xe7 duyuyor.",

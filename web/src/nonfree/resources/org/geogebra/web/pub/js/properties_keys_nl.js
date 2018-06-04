@@ -3194,6 +3194,8 @@ __GGB__keysVar["nl"].menu = {
     "parallel": "evenwijdig",
     "pasteLink": "Plak link",
     "pdf": "Portable Document Format",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "Om een afbeelding op te slaan moet GeoGebra toegang hebben tot de foto bibliotheek.",
     "permission.photos.denied": "Foto's zijn niet toegankelijk",
     "permission.photos.exam_screenshot": "GeoGebra heeft toegang nodig tot de fotobibliotheek om een schermafdruk van het logboek te bewaren op het einde van het examen.",

@@ -3194,6 +3194,8 @@ __GGB__keysVar["eu"].menu = {
     "parallel": "paraleloak",
     "pasteLink": "Paste link",
     "pdf": "Portable Document Format",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "GeoGebra needs access to your photo library to save an image.",
     "permission.photos.denied": "Unable to access photos",
     "permission.photos.exam_screenshot": "GeoGebrak sarbidea behar du argazkien liburutegira, pantailaren argazkiak eta egindako lana gorde ahal izateko eta azterketa amaitzeko.",

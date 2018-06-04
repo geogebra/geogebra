@@ -3194,6 +3194,8 @@ __GGB__keysVar["nn"].menu = {
     "parallel": "Parallell",
     "pasteLink": "Lim inn lenke",
     "pdf": "Pdf",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "GeoGebra m\xe5 ha tilgang til bildebiblioteket for \xe5 kunne lagre et bilde.",
     "permission.photos.denied": "Ikke tilgang til bilder",
     "permission.photos.exam_screenshot": "GeoGebra trenger tilgang til bildebiblioteket for \xe5 lagre et bilde av loggen ved slutten av pr\xf8ven.",

@@ -3194,6 +3194,8 @@ __GGB__keysVar["es-ES"].menu = {
     "parallel": "paralela",
     "pasteLink": "Pegar enlace",
     "pdf": "Documento PDF",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "GeoGebra necesita acceder a tu galer\xeda de fotos para guardar una imagen.",
     "permission.photos.denied": "Denegado el permiso de acceso a las fotos",
     "permission.photos.exam_screenshot": "GeoGebra necesita acceder a tu galer\xeda de im\xe1genes para poder guardar una copia del registro al finalizar el examen.",

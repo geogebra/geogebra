@@ -3194,6 +3194,8 @@ __GGB__keysVar["de-AT"].menu = {
     "parallel": "parallel",
     "pasteLink": "Link einf\xfcgen",
     "pdf": "PDF-Format",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "GeoGebra ben\xf6tigt Zugriff auf deine Fotogalerie, um Bilder zu speichern.",
     "permission.photos.denied": "Kein Zugriff auf Fotos m\xf6glich",
     "permission.photos.exam_screenshot": "GeoGebra ben\xf6tigt Zugriff auf die Foto-Gallerie, um am Ende der Pr\xfcfung das Pr\xfcfungsprotokoll als Screenshot speichern zu k\xf6nnen.",

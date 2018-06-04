@@ -3194,6 +3194,8 @@ __GGB__keysVar["is"].menu = {
     "parallel": "sams\xed\xf0a",
     "pasteLink": "Paste link",
     "pdf": "pdf-skjalsni\xf0",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "GeoGebra \xfearf a\xf0gang a\xf0 myndasafni til a\xf0 vista mynd.",
     "permission.photos.denied": "Get ekki n\xe1lgast myndasafn",
     "permission.photos.exam_screenshot": "GeoGebra needs access to the photo library to save a screenshot of the log at the end of the exam.",

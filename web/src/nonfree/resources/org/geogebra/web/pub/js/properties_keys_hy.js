@@ -3194,6 +3194,8 @@ __GGB__keysVar["hy"].menu = {
     "parallel": "\u0536\u0578\u0582\u0563\u0561\u0570\u0565\u057c \u0578\u0582\u0572\u056b\u0572",
     "pasteLink": "Paste link",
     "pdf": "Portable Document Format",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "GeoGebra needs access to your photo library to save an image.",
     "permission.photos.denied": "Unable to access photos",
     "permission.photos.exam_screenshot": "GeoGebra needs access to the photo library to save a screenshot of the log at the end of the exam.",

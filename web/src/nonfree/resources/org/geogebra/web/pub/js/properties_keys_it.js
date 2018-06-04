@@ -3194,6 +3194,8 @@ __GGB__keysVar["it"].menu = {
     "parallel": "parallela",
     "pasteLink": "Incolla collegamento",
     "pdf": "Portable Document Format",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "Per salvare un'immagine GeoGebra deve accedere alla Libreria foto.",
     "permission.photos.denied": "Impossibile accedere alle fotografie",
     "permission.photos.exam_screenshot": "GeoGebra ha bisogno dell'accesso alla Libreria foto per salvare un'immagine del Registro al termine dell'esame.",

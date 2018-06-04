@@ -3194,6 +3194,8 @@ __GGB__keysVar["ca-XV"].menu = {
     "parallel": "paral\xb7lel",
     "pasteLink": "Apega l'enlla\xe7",
     "pdf": "PDF",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "El GeoGebra necessita acc\xe9s a la vostra galeria per a guardar una imatge.",
     "permission.photos.denied": "No es pot accedir a fotos",
     "permission.photos.exam_screenshot": "El GeoGebra necessita acc\xe9s a la galeria de fotos per a guardar una captura de pantalla del registre al final de l'examen.",

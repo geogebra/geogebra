@@ -3194,6 +3194,8 @@ __GGB__keysVar["fi"].menu = {
     "parallel": "yhdensuuntainen",
     "pasteLink": "Liit\xe4 linkki",
     "pdf": "Portable Document Format",
+    "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
+    "pdfDialogTitle": "Insert Page from PDF",
     "permission.photos": "GeoGebran tulee p\xe4\xe4st\xe4 kuvakirjastoon jotta kuva voidaan tallentaa.",
     "permission.photos.denied": "Valokuvakansiota ei l\xf6ydy",
     "permission.photos.exam_screenshot": "GeoGebra needs access to the photo library to save a screenshot of the log at the end of the exam.",
