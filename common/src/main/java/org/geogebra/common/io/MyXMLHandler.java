@@ -1362,8 +1362,8 @@ public class MyXMLHandler implements DocHandler {
 		}
 		if (attrs.get("xZero") != null) {
 			try {
-				double xZero = StringUtil.parseDouble(attrs.get("xZero"));
-				double yZero = StringUtil.parseDouble(attrs.get("yZero"));
+				double xZero = parseDoubleNaN(attrs.get("xZero"));
+				double yZero = parseDoubleNaN(attrs.get("yZero"));
 				double scale = StringUtil.parseDouble(attrs.get("scale"));
 
 				// new since version 2.5
@@ -1392,6 +1392,19 @@ public class MyXMLHandler implements DocHandler {
 		} catch (RuntimeException e) {
 			return false;
 		}
+	}
+
+	/**
+	 * https://jira.geogebra.org/browse/TRAC-4030
+	 * 
+	 * @param s
+	 * @return 0 for NaN / undefined / null
+	 */
+	protected static double parseDoubleNaN(String s) {
+		if ("NaN".equals(s) || "undefined".equals(s) || "null".equals(s)) {
+			return 0;
+		}
+		return StringUtil.parseDouble(s);
 	}
 
 	/**

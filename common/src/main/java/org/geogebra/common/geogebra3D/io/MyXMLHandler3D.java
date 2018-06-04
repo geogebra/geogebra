@@ -184,23 +184,23 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	private static boolean handleCoordSystem3D(EuclidianSettings3D evs,
 			LinkedHashMap<String, String> attrs) {
 		try {
-			double xZero = Double.parseDouble(attrs.get("xZero"));
-			double yZero = Double.parseDouble(attrs.get("yZero"));
-			double zZero = Double.parseDouble(attrs.get("zZero"));
+			double xZero = parseDoubleNaN(attrs.get("xZero"));
+			double yZero = parseDoubleNaN(attrs.get("yZero"));
+			double zZero = parseDoubleNaN(attrs.get("zZero"));
 
 			double scale = Double.parseDouble(attrs.get("scale"));
 			double yscale = scale, zscale = scale;
 			String yScaleString = attrs.get("yscale");
 			if (yScaleString != null) {
-				yscale = Double.parseDouble(yScaleString);
+				yscale = StringUtil.parseDouble(yScaleString);
 			}
 			String zScaleString = attrs.get("zscale");
 			if (zScaleString != null) {
-				zscale = Double.parseDouble(zScaleString);
+				zscale = StringUtil.parseDouble(zScaleString);
 			}
 
-			double xAngle = Double.parseDouble(attrs.get("xAngle"));
-			double zAngle = Double.parseDouble(attrs.get("zAngle"));
+			double xAngle = StringUtil.parseDouble(attrs.get("xAngle"));
+			double zAngle = StringUtil.parseDouble(attrs.get("zAngle"));
 
 			evs.setXscale(scale);
 			evs.setYscale(yscale);
