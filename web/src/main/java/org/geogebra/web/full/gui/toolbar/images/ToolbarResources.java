@@ -277,4 +277,6 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_highlighter_32();
 
+	ResourcePrototype mode_pdf_32();
+
 }

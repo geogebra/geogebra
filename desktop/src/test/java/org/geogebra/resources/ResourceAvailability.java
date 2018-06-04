@@ -83,6 +83,7 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_AUDIO:
 			case EuclidianConstants.MODE_GEOGEBRA:
 			case EuclidianConstants.MODE_CAMERA:
+			case EuclidianConstants.MODE_PDF:
 				continue;
 			default:
 				ImageResourceD res = man.getToolImageResource(modeText);

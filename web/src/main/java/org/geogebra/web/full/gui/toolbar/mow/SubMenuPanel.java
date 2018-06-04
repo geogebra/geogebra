@@ -232,7 +232,9 @@ public abstract class SubMenuPanel extends FlowPanel
 						&& !app.has(Feature.MOW_AUDIO_TOOL))
 				|| mode == EuclidianConstants.MODE_GEOGEBRA
 				|| (mode == EuclidianConstants.MODE_CAMERA
-						&& !app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED))) {
+						&& !app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED))
+				|| (mode == EuclidianConstants.MODE_PDF
+						&& !app.has(Feature.MOW_PDF_TOOL))) {
 			button.addStyleName("inactiveToolButton");
 		}
 		String altText = app.getLocalization()
@@ -347,7 +349,8 @@ public abstract class SubMenuPanel extends FlowPanel
 						&& mode != EuclidianConstants.MODE_AUDIO
 						&& mode != EuclidianConstants.MODE_GEOGEBRA
 						&& mode != EuclidianConstants.MODE_CAMERA
-						&& mode != EuclidianConstants.MODE_HIGHLIGHTER)) {
+						&& mode != EuclidianConstants.MODE_HIGHLIGHTER
+						&& mode != EuclidianConstants.MODE_PDF)) {
 			return true;
 		}
 		return false;

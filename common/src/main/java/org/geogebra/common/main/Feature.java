@@ -230,6 +230,9 @@ public enum Feature {
 	/** MOW-459 */
 	MOW_DOUBLE_CANVAS,
 
+	/** MOW-348 */
+	MOW_PDF_TOOL,
+
 	COMMAND_HOLES, WEB_CLASSIC_FLOATING_MENU,
 
 	/** IGR-604 */

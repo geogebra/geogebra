@@ -413,6 +413,8 @@ public final class EuclidianConstants {
 	public static final int MODE_GEOGEBRA = 117;
 	/** Camera */
 	public static final int MODE_CAMERA = 118;
+	/** PDF tool */
+	public static final int MODE_PDF = 119;
 
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
@@ -876,6 +878,8 @@ public final class EuclidianConstants {
 			return "Audio";
 		case EuclidianConstants.MODE_GEOGEBRA:
 			return "GeoGebra";
+		case EuclidianConstants.MODE_PDF:
+			return "PDF";
 			
 		case EuclidianConstants.MODE_SELECT:
 			return "Select";

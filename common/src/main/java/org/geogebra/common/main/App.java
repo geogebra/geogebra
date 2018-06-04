@@ -4206,6 +4206,10 @@ public abstract class App implements UpdateSelection {
 		/** MOW-459 */
 		case MOW_DOUBLE_CANVAS:
 			return canary && whiteboard;
+			
+		/** MOW-348 */
+		case MOW_PDF_TOOL:
+			return canary && whiteboard;
 
 		// **********************************************************************
 		// MOW END

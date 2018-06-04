@@ -557,4 +557,8 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_highlighter.svg")
 	SVGResource mode_highlighter_32();
 
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pdf.svg")
+	SVGResource mode_pdf_32();
+
 }
