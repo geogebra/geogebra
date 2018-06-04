@@ -1,12 +1,13 @@
 package org.geogebra.web.solver;
 
-import java.util.List;
-
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.solution.TextElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -16,11 +17,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.shared.SharedResources;
 
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
 
 public class WebStepGuiBuilder {
 
@@ -50,26 +47,44 @@ public class WebStepGuiBuilder {
      * @return StepElem, StepAlternative or a simple vertical
      * panel, depending on the type of the substep
      */
-    public VerticalPanel buildStepGui(SolutionStep step) {
-        if (step instanceof SolutionLine) {
-            SolutionLine line = (SolutionLine) step;
+    public VerticalPanel buildStepGui(SolutionStep step, boolean first) {
+		VerticalPanel panel;
+		switch (step.getType()) {
+		case SUBSTEP_WRAPPER:
+			return new StepAlternative(this, step);
 
-            if (line.getType() == SolutionStepType.SUBSTEP_WRAPPER) {
-                return new StepAlternative(this, step);
-            } else if (line.getType() == SolutionStepType.WRAPPER
-                    || line.getType() == SolutionStepType.GROUP_WRAPPER) {
-                VerticalPanel panel = new VerticalPanel();
+		case SOLVE_FOR:
+		case SIMPLIFY:
+		case EXPAND:
+		case FACTOR:
+		case DIFFERENTIATE:
+			panel = new VerticalPanel();
+			if (!first) {
+				return new StepElem(this, step);
+			}
 
-                for (SolutionStep substep : step.getSubsteps()) {
-                    panel.add(buildStepGui(substep));
-                }
+			panel.add(createRow(step, false));
 
-                panel.setStyleName("stepPanel");
-                return panel;
-            }
-        }
+			for (SolutionStep substep : step.getSubsteps()) {
+				panel.add(buildStepGui(substep, false));
+			}
 
-        return new StepElem(this, step);
+			panel.setStyleName("stepGroupPanel");
+			return panel;
+
+		case WRAPPER:
+		case GROUP_WRAPPER:
+			panel = new VerticalPanel();
+			for (SolutionStep substep : step.getSubsteps()) {
+				panel.add(buildStepGui(substep, first));
+			}
+
+			panel.setStyleName("stepPanel");
+			return panel;
+
+		default:
+			return new StepElem(this, step);
+		}
     }
 
     /**

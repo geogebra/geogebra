@@ -35,7 +35,7 @@ public class StepAlternative extends VerticalPanel {
         add(row);
 
         add(builder.createRow(substeps.get(substeps.size() - 1), false));
-        addStyleName("stepGroupPanel");
+        addStyleName("stepAlternativePanel");
     }
 
     /**

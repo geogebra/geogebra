@@ -14,12 +14,15 @@
     }
 
     .stepGroupPanel {
-      box-sizing: border-box;
-      padding: 3px 3px 3px 23px !important;
-      width: 100%;
-    }
+      > tbody > tr:nth-child(n + 2) > td {
+        padding-left: 23px !important;
+      }
 
-    .stepPanel {
+      > tbody > tr:nth-child(n + 3) > td {
+        padding-top: 6px !important;
+      }
+
+      box-sizing: border-box;
       width: 100%;
     }
 

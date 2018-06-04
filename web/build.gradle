@@ -83,9 +83,9 @@ gwt {
 
     compiler {
         // Customize the GWT compiler here
-        strict = true;
+        strict = true
         // enableClosureCompiler = true;        
-        disableCastChecking = true;        
+        disableCastChecking = true
            // logLevel = 'SPAM';
         if (project.hasProperty("gdraft")) {
             draftCompile = true
@@ -94,12 +94,12 @@ gwt {
             localWorkers = project.getProperty("gworkers")
         }
         if (project.hasProperty("gdetailed")){
-            style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
+            style = de.richsource.gradle.plugins.gwt.Style.DETAILED
         } else {
-            disableClassMetadata = true;
+            disableClassMetadata = true
         }
         if (project.hasProperty("gsoyc")) {
-            soycDetailed = true;
+            soycDetailed = true
         }
         // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
     }
@@ -145,35 +145,35 @@ task copyHtml {
     description 'Generate app.html, app-release.html, graphing.html and others'
     group 'application'
     doLast {
-        String templateDir = "src/main/resources/org/geogebra/web/resources/html/";
-        String html = file(templateDir+"app-template.html").text;
-		String splash = file(templateDir + "classic-splash.html").text;
+        String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
+        String html = file(templateDir + "app-template.html").text
+		String splash = file(templateDir + "classic-splash.html").text
 		
 		["algebra","graphics","spreadsheet","cas","probability","3d","exam"].each{
-			def iconText = file("../common/src/nonfree/resources/org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_"+it+".svg").text;
+			def iconText = file("../common/src/nonfree/resources/org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_"+it+".svg").text
 			splash = splash.replace("<!--ICON:"+it.toUpperCase()+"-->", 
 				"data:image/svg+xml;base64,"+iconText.bytes.encodeBase64().toString())
 
 		}
         def classicHtml = { prerelease, offline ->
             
-           def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->";
+           def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
            return html.replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", file(templateDir + "splash-style.css").text)
             .replace("<!--APP NAME-->", "Classic")
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--LANG-->", "en")
-            .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};useCompatibilityCookie=${!prerelease};appOnline=${!offline};</script>" + platformSpecific);
+            .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};useCompatibilityCookie=${!prerelease};appOnline=${!offline};</script>" + platformSpecific)
         }
         def appHtml = { appID, prerelease, offline = false ->
-            def header = offline || appID == "whiteboard" ? "" : prerelease? file(templateDir+"app-header-beta.html").text : file(templateDir+"app-header.html").text; 
-            def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->";
-            def stylesheet = prerelease ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :"";
-            def startscreenStyle = "startscreen" + (offline ? " offline" : "");
+            def header = offline || appID == "whiteboard" ? "" : prerelease? file(templateDir+"app-header-beta.html").text : file(templateDir+"app-header.html").text
+            def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
+            def stylesheet = prerelease ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :""
+            def startscreenStyle = "startscreen" + (offline ? " offline" : "")
             return html.replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\"><div class=\"logo\">"+file(templateDir+appID+"-min.svg").text+"</div>"+file(templateDir+appID+"-splash.html").text+"</div>")
             .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text+file(templateDir+"app-style.css").text)
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
-            .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico");
+            .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico")
         }
         def english = {raw, appName ->
             return raw.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
@@ -184,35 +184,47 @@ task copyHtml {
             .replace("<!--LANG-->", "en")
         }
         
-        file("war/app-release.html").text = classicHtml(false, false);
-        file("war/app.html").text = classicHtml(true, false);
-        file("war/app-offline.html").text = classicHtml(false, true);
+        file("war/app-release.html").text = classicHtml(false, false)
+        file("war/app.html").text = classicHtml(true, false)
+        file("war/app-offline.html").text = classicHtml(false, true)
         if(!file("war/debug.css").exists()){
-            file("war/debug.css").text = "/** Put your temporary CSS here */";
+            file("war/debug.css").text = "/** Put your temporary CSS here */"
         }
-        file("war/graphing-template.html").text = appHtml("graphing", false);
-        file("war/geometry-template.html").text = appHtml("geometry", false);
-        file("war/3d-template.html").text = appHtml("3d", false);
-        file("war/whiteboard-template.html").text = appHtml("whiteboard", true);
-        file("war/graphing-offline.html").text = english(appHtml("graphing", false, true), "Graphing Calculator");
-        file("war/geometry-offline.html").text = english(appHtml("geometry", false, true), "Geometry");
-        file("war/3d-offline.html").text = english(appHtml("3d", false, true), "3D Graphing Calculator");
+        file("war/graphing-template.html").text = appHtml("graphing", false)
+        file("war/geometry-template.html").text = appHtml("geometry", false)
+        file("war/3d-template.html").text = appHtml("3d", false)
+        file("war/whiteboard-template.html").text = appHtml("whiteboard", true)
+        file("war/graphing-offline.html").text = english(appHtml("graphing", false, true), "Graphing Calculator")
+        file("war/geometry-offline.html").text = english(appHtml("geometry", false, true), "Geometry")
+        file("war/3d-offline.html").text = english(appHtml("3d", false, true), "3D Graphing Calculator")
       
-        file("war/calculator.html").text = english(appHtml("calculator", true), "Scientific Calculator");
+        file("war/calculator.html").text = english(appHtml("calculator", true), "Scientific Calculator")
         
-        file("war/graphing.html").text = english(appHtml("graphing", true), "Graphing Calculator");
+        file("war/graphing.html").text = english(appHtml("graphing", true), "Graphing Calculator")
         
-        file("war/geometry.html").text = english(appHtml("geometry", true), "Geometry");
+        file("war/geometry.html").text = english(appHtml("geometry", true), "Geometry")
         
-        file("war/3d.html").text = english(appHtml("3d", true), "3D Graphing Calculator");
+        file("war/3d.html").text = english(appHtml("3d", true), "3D Graphing Calculator")
         
-        file("war/whiteboard.html").text = english(appHtml("whiteboard", true), "Whiteboard");
+        file("war/whiteboard.html").text = english(appHtml("whiteboard", true), "Whiteboard")
         
-        file("war/whiteboard-canary.html").text = english(appHtml("whiteboard", "\"canary\""), "Whiteboard");
+        file("war/whiteboard-canary.html").text = english(appHtml("whiteboard", "\"canary\""), "Whiteboard")
     }
 }
 
-task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
+task createSolverHtml {
+    String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
+    String solver = file(templateDir + "solver-template.html").text
+
+    file("war/solver.html").text = solver
+            .replace("<!--HEADER-->", file(templateDir + "app-header-beta.html").text)
+            .replace("<!--APP NAME FULL-->", "GeoGebra MathSolver")
+            .replace("<!--TRY APP-->", "Try App")
+            .replace("<!--CONTINUE-->", "Continue")
+            .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
+}
+
+task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverHtml']) {
     description 'Copies/updates the GWT production compilation directory (web3d, ...) to the war directory.'
     from compileGwt
     into warDirRel
@@ -222,14 +234,14 @@ task mergeDeploy(){
    description 'merge deploy.js and web3d.nocache.js'
    mustRunAfter 'compileGwt'
    doLast {
-      def web3dPermutation = file("./build/gwt/out/web3d/deferredjs").listFiles()[0].name;
-      def webSimplePermutation = file("./build/gwt/out/webSimple/deferredjs").listFiles()[0].name;
+      def web3dPermutation = file("./build/gwt/out/web3d/deferredjs").listFiles()[0].name
+      def webSimplePermutation = file("./build/gwt/out/webSimple/deferredjs").listFiles()[0].name
       def templateJs = "src/main/resources/org/geogebra/web/resources/js/deployggb-template.js"
       def deployText = file(templateJs).text.replace('%WEB3D_PERMUTATION%', web3dPermutation)
-                          .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation);
-      deployText += file("./build/gwt/out/web3d/js/webfont.js").text;
-      file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','');
-      file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://cdn.geogebra.org/apps/latest/');	
+                          .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation)
+      deployText += file("./build/gwt/out/web3d/js/webfont.js").text
+      file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','')
+      file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://cdn.geogebra.org/apps/latest/')
    }
 }
 

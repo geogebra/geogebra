@@ -1,12 +1,23 @@
 package org.geogebra.web.solver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
+import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
+import com.himamis.retex.editor.web.JlmEditorLib;
+import com.himamis.retex.editor.web.MathFieldW;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.web.CreateLibrary;
+import com.himamis.retex.renderer.web.FactoryProviderGWT;
+import com.himamis.retex.renderer.web.font.opentype.Opentype;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -30,22 +41,10 @@ import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.solver.keyboard.SolverKeyboard;
 import org.geogebra.web.solver.keyboard.SolverKeyboardButton;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
-import com.himamis.retex.editor.web.JlmEditorLib;
-import com.himamis.retex.editor.web.MathFieldW;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.web.CreateLibrary;
-import com.himamis.retex.renderer.web.FactoryProviderGWT;
-import com.himamis.retex.renderer.web.font.opentype.Opentype;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Solver implements EntryPoint, MathFieldListener {
 
@@ -108,7 +107,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 		editorPanel = new HorizontalPanel();
 		editorPanel.setStyleName("editorPanel");
 
-		mathField = new MathFieldW(null, rootPanel, canvas, this, false, null);
+		mathField = new MathFieldW(null, editorPanel, canvas, this, false, null);
 		mathField.setPixelRatio(Browser.getPixelRatio());
 
 		Window.addResizeHandler(new ResizeHandler() {
@@ -270,7 +269,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 			for (StepVariable variable : variableSet) {
 				StepExpression derivative =
 						StepNode.differentiate((StepExpression) input, variable);
-				StepExpression result = (StepExpression) derivative.differentiate(sb);
+				StepExpression result = (StepExpression) derivative.differentiateOutput(sb);
 				stepsPanel.add(new StepInformation(app, guiBuilder,
 						new StepEquation(derivative, result), sb.getSteps()));
 

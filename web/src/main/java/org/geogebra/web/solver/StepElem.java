@@ -1,7 +1,8 @@
 package org.geogebra.web.solver;
 
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class StepElem extends VerticalPanel {
     public void swapStates() {
         if (needsRender) {
             for (SolutionStep step : substeps) {
-                add(builder.buildStepGui(step));
+                add(builder.buildStepGui(step, false));
             }
             needsRender = false;
         } else {

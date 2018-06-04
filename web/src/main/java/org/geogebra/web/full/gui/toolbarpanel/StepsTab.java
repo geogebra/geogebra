@@ -1,10 +1,9 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
-import org.geogebra.web.solver.WebStepGuiBuilder;
-
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+import org.geogebra.web.solver.WebStepGuiBuilder;
 
 /**
  * Panel for steps in sidebar
@@ -38,7 +37,7 @@ public class StepsTab extends ToolbarPanel.ToolbarTab {
      * @param steps SolutionSteps to be displayed
      */
     public void buildStepGui(SolutionStep steps) {
-        VerticalPanel panel = stepGuiBuilder.buildStepGui(steps);
+        VerticalPanel panel = stepGuiBuilder.buildStepGui(steps, true);
 
         panel.addStyleName("stepTree");
         panel.setWidth(toolbarPanel.getTabWidth() + "px");

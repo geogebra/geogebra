@@ -70,8 +70,11 @@ public abstract class StepTransformable extends StepNode {
 	}
 
 	public StepTransformable regroupOutput(SolutionBuilder sb) {
-		sb.add(SolutionStepType.SIMPLIFY, this);
-		return adaptiveRegroup(sb);
+		SolutionBuilder temp = new SolutionBuilder();
+		StepTransformable result = regroup(temp);
+
+		sb.addGroup(SolutionStepType.SIMPLIFY, temp, result, this);
+		return result;
 	}
 
 	/**
@@ -90,8 +93,11 @@ public abstract class StepTransformable extends StepNode {
 	}
 
 	public StepTransformable expandOutput(SolutionBuilder sb) {
-		sb.add(SolutionStepType.EXPAND, this);
-		return expand(sb);
+		SolutionBuilder temp = new SolutionBuilder();
+		StepTransformable result = expand(temp);
+
+		sb.addGroup(SolutionStepType.EXPAND, temp, result, this);
+		return result;
 	}
 
 	/**
@@ -114,8 +120,11 @@ public abstract class StepTransformable extends StepNode {
 	}
 
 	public StepTransformable factorOutput(SolutionBuilder sb) {
-		sb.add(SolutionStepType.FACTOR, this);
-		return factor(sb);
+		SolutionBuilder temp = new SolutionBuilder();
+		StepTransformable result = factor(temp);
+
+		sb.addGroup(SolutionStepType.FACTOR, temp, result, this);
+		return result;
 	}
 
 	public StepTransformable differentiate() {
@@ -127,8 +136,11 @@ public abstract class StepTransformable extends StepNode {
 	}
 
 	public StepTransformable differentiateOutput(SolutionBuilder sb) {
-		sb.add(SolutionStepType.DIFFERENTIATE, this);
-		return differentiate(sb);
+		SolutionBuilder temp = new SolutionBuilder();
+		StepTransformable result = differentiate(temp);
+
+		sb.addGroup(SolutionStepType.DIFFERENTIATE, temp, result, this);
+		return result;
 	}
 
 	public abstract int maxDecimal();

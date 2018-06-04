@@ -49,9 +49,14 @@ public class StepInformation extends HorizontalPanel {
      */
     public StepInformation(AppW app, WebStepGuiBuilder builder,
                            List<StepSolution> result, SolutionStep steps) {
-		setupInformation(app, builder,
-				new SolutionLine(SolutionStepType.LIST, result.toArray(new StepNode[0])),
-				steps);
+        SolutionLine line;
+        if (result.size() == 0) {
+            line = new SolutionLine(SolutionStepType.NO_REAL_SOLUTION);
+        } else {
+            line = new SolutionLine(SolutionStepType.LIST, result.toArray(new StepNode[0]));
+        }
+
+		setupInformation(app, builder, line, steps);
     }
 
     private void setupInformation(AppW app, WebStepGuiBuilder builder,
@@ -86,7 +91,7 @@ public class StepInformation extends HorizontalPanel {
     public void showSteps() {
         if (!rendered) {
             rendered = true;
-            renderedSteps = builder.buildStepGui(steps);
+            renderedSteps = builder.buildStepGui(steps, true);
             container.add(renderedSteps);
             stepsButton.setLabel("Hide Steps");
             renderedResult.setVisible(false);
