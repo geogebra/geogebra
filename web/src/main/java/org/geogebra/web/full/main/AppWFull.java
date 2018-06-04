@@ -1460,6 +1460,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void updatePerspectiveForUnbundled(Perspective perspective) {
+		if (isPortrait()) {
+			return;
+		}
+
 		DockManagerW dm = ((DockManagerW) getGuiManager().getLayout().getDockManager());
 		DockPanelData[] dpData = perspective.getDockPanelData();
 		for (int i = 0; i < dpData.length; ++i) {
