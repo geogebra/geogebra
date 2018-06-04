@@ -5,9 +5,11 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.browser.SignInButton;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.full.gui.util.PersistablePanel;
 import org.geogebra.web.html5.gui.Persistable;
@@ -32,7 +34,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -429,8 +430,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		btnMenu = new PersistableToggleButton(new Image(menuImgRec));
 
 		if (app.has(Feature.MAT_DESIGN_HEADER)
-				&& RootPanel.get("headerID") != null
-				&& RootPanel.get("buttonsID") != null) {
+				&& RootPanel.get("headerID") != null) {
 			buildHeader();
 		} else {
 			btnMenu.addStyleName("flatButton");
@@ -452,66 +452,57 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private void buildHeader() {
 		btnMenu.addStyleName("flatButtonHeader");
 		btnMenu.addStyleName("menuBtn");
-		RootPanel.get("headerID").add(btnMenu);
-		NoDragImage logoImg = new NoDragImage(
-				MaterialDesignResources.INSTANCE.ggb_logo_name().getSafeUri()
-						.asString());
-		logoImg.addStyleName("logo");
-		RootPanel.get("headerID").add(logoImg);
+		RootPanel.get("headerID").insert(btnMenu, 0);
 		addShareButton();
-		addAppsButton();
+		// addAppsButton();
 		addSignIn();
 	}
 
 	private void addShareButton() {
-		ImageResource shareImg = new ImageResourcePrototype(null,
-				MaterialDesignResources.INSTANCE.share_black()
-						.getSafeUri(),
-				0, 0, 24, 24, false, false);
-		MyToggleButton shareButton = new MyToggleButton(new Image(shareImg),
-				app);
-		shareButton.addStyleName("flatButtonHeader");
-		shareButton.addStyleName("shareBtn");
-		RootPanel.get("buttonsID").add(shareButton);
-		// add click handler
-		ClickStartHandler.init(shareButton, new ClickStartHandler(true, true) {
+		RootPanel share = RootPanel.get("shareButton");
+		if (share == null) {
+			return;
+		}
+		ClickStartHandler.init(share, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				// TODO add here backend of share btn
+				FileMenuW.share(app);
 			}
 		});
 	}
-
-	private void addAppsButton() {
-		ImageResource appsImg = new ImageResourcePrototype(null,
-				MaterialDesignResources.INSTANCE.apps_black().getSafeUri(), 0,
-				0, 24, 24, false, false);
-		MyToggleButton appsButton = new MyToggleButton(new Image(appsImg),
-				app);
-		appsButton.addStyleName("flatButtonHeader");
-		appsButton.addStyleName("appsBtn");
-		RootPanel.get("buttonsID").add(appsButton);
-		// add click handler
-		ClickStartHandler.init(appsButton, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				// TODO add here backend of apps btn
-			}
-		});
-	}
-
+	//
+	// private void addAppsButton() {
+	// ImageResource appsImg = new ImageResourcePrototype(null,
+	// MaterialDesignResources.INSTANCE.apps_black().getSafeUri(), 0,
+	// 0, 24, 24, false, false);
+	// MyToggleButton appsButton = new MyToggleButton(new Image(appsImg),
+	// app);
+	// appsButton.addStyleName("flatButtonHeader");
+	// appsButton.addStyleName("appsBtn");
+	// RootPanel.get("buttonsID").add(appsButton);
+	// // add click handler
+	// ClickStartHandler.init(appsButton, new ClickStartHandler(true, true) {
+	//
+	// @Override
+	// public void onClickStart(int x, int y, PointerEventType type) {
+	// // TODO add here backend of apps btn
+	// }
+	// });
+	// }
+	//
 	private void addSignIn() {
-		Label signInLabel = new Label(app.getLocalization().getMenu("SignIn"));
-		signInLabel.addStyleName("signIn");
-		RootPanel.get("buttonsID").add(signInLabel);
-		// add click handler
-		ClickStartHandler.init(signInLabel, new ClickStartHandler(true, true) {
+		RootPanel signIn = RootPanel.get("signInButton");
+		if (signIn == null) {
+			return;
+		}
+		ClickStartHandler.init(signIn,
+				new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				// TODO add here backend of signin
+						((SignInButton) app.getLAF().getSignInButton(app))
+								.login();
 			}
 		});
 	}

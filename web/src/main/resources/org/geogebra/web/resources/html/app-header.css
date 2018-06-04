@@ -33,6 +33,8 @@
 	position: absolute;
     top: 0px;
     right: 0px;
+    min-width: 300px;
+    min-height: 48px;
 }
 
 .flatButtonHeader {
@@ -142,9 +144,9 @@
 
 .startscreen{
 	position: absolute;
-	top: 33px;
+	top: $height;
 	width: 100%;
-	height:calc(100% - 33px);
+	height:calc(100% - $height);
 }
 
 .startscreen.offline{
@@ -165,4 +167,56 @@
 .startscreen .logo svg{
 	width: 100%;
 	height: 100%;
+}
+/** app dropdown */
+ul {
+	padding-left: 0;
+    list-style-type: none;
+}
+.popdown-button-container .popdown-content ul li a {
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    transition: background-color .3s;
+}
+
+.apps-pop-content svg {
+    width: 24px;
+    height: 24px;
+    opacity: 1;
+    min-width:24px;
+}
+
+.popdown-button-container .popdown-content {
+    background: #fff;
+    position: absolute;
+    top: 100%;
+    margin-top: 8px;
+    left: 0;
+    right: auto;
+    z-index: 1050;
+    line-height: 1;
+}
+
+.popdown-button-container .popdown-content ul li {
+    float: none;
+    white-space: nowrap;
+}
+
+svg.icon.left {
+    margin-right: 15px;
+}
+
+ul a {
+    transition: background-color .3s;
+    font-size: 1rem;
+    color: rgba(0,0,0,.87);
+    display: block;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
+.z-depth-2 {
+    box-shadow: 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12), 0 2px 4px -1px rgba(0,0,0,.3);
 }

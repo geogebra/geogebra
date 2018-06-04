@@ -372,7 +372,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * @param app
 	 *            application
 	 */
-	protected static void showShareDialog(final AppW app) {
+	public static void showShareDialog(final AppW app) {
 		Runnable shareCallback = new Runnable() {
 
 			@Override
