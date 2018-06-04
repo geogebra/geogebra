@@ -66,6 +66,8 @@ public class GeoList extends GeoElement
  Furniture, InequalityProperties,
 		AngleProperties, HasSymbolicMode, Animatable {
 
+	private static final int MAX_ITEMS_FOR_SCREENREADER = 8;
+
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
 	private boolean trace;
@@ -3266,27 +3268,40 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
+	protected String getCaptionSimpleForScreenReader() {
+		if (size() > MAX_ITEMS_FOR_SCREENREADER) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(translatedTypeStringForAlgebraView());
+			sb.append(" ");
+			String caption0 = getCaptionSimple();
+			sb.append(caption0 == null ? getLabelSimple() : caption0);
+			return sb.toString();
+		}
+		return super.getCaptionSimpleForScreenReader();
+	}
+
+	@Override
 	public String getScreenReaderText() {
 		if (!getKernel().getApplication().has(Feature.READ_DROPDOWNS)) {
 			return null;
 		}
 		StringBuilder sb = new StringBuilder();
 		Localization loc = getKernel().getApplication().getLocalization();
-		sb.append(loc.getMenuDefault("DropDown", "Drop down"));
-		sb.append(" ");
 		sb.append(getCaptionSimpleForScreenReader());
 		sb.append(" ");
 		sb.append(loc.getMenuDefault("Selected", "selected"));
 		sb.append(" ");
-		if (size() != 0) {
+		int count = size();
+		if (count > 0 && count < MAX_ITEMS_FOR_SCREENREADER) {
 			sb.append(loc.getMenuDefault("WithItems", "with items"));
-			for (int idx = 0; idx < size(); idx++) {
+			sb.append(" ");
+			for (int idx = 0; idx < count; idx++) {
 				String item = getItemDisplayString(idx);
 				if ("".equals(item)) {
 					item = loc.getMenuDefault("EmptyItem", "empty item");
 				}
 				sb.append(item);
-				sb.append(", ");
+				sb.append(idx == count - 1 ? ". " : ", ");
 			}
 		}
 		sb.append(loc.getMenuDefault("PressSpaceToOpen", "Press space to open"));
