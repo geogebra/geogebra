@@ -4088,7 +4088,7 @@ public abstract class App implements UpdateSelection {
 
 		// IGR-898
 		case MOB_REACT_SEARCH_VIEW:
-			return prerelease;
+			return true;
 
 		// MOB-1517
 		case MOB_PACK_PLANES:
