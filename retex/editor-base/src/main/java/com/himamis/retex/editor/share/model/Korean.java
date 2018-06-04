@@ -794,9 +794,7 @@ public class Korean {
 	// Log.debug("\u1103\u116E goes to " + StringUtil.toHexString(s));
 	// }
 
-	private static String mergeDoubleCharacters(String str) {
-		return mergeDoubleCharacters(str, true);
-	}
+
 
 	/*
 	 * avoid having to press shift by merging eg \u1100\u1100 to \u1101
@@ -805,7 +803,7 @@ public class Korean {
 	 * 
 	 * and merging doubled vowel characters (is used)
 	 */
-	public static String mergeDoubleCharacters(String str, boolean lead) {
+	private static String mergeDoubleCharacters(String str) {
 
 		if (str.length() < 2) {
 			return str;
@@ -1256,83 +1254,6 @@ public class Korean {
 		}
 
 		return ret;
-
-	}
-
-	final public static String toJavaString(String str) {
-		if (str == null) {
-			return null;
-		}
-
-		StringBuilder sb1 = new StringBuilder();
-
-		// convert every single character and append it to sb
-		int len = str.length();
-		for (int i = 0; i < len; i++) {
-			char c = str.charAt(i);
-			int code = c;
-
-			// standard characters have code 32 to 126
-			if ((code >= 32 && code <= 126)) {
-				switch (code) {
-				case '"':
-					// replace " with \"
-					sb1.append("\\\"");
-					break;
-				case '\'':
-					// replace ' with \'
-					sb1.append("\\'");
-					break;
-				case '\\':
-					// replace \ with \\
-					sb1.append("\\\\");
-					break;
-
-				default:
-					// do not convert
-					sb1.append(c);
-				}
-			}
-			// special characters
-			else {
-				switch (code) {
-				case 10: // CR
-					sb1.append("\\n");
-					break;
-				case 13: // LF
-					sb1.append("\\r");
-					break;
-
-				case 9: // replace TAB
-					sb1.append("\\t"); // space
-					break;
-
-				default:
-					// convert special character to \u0123 format
-					sb1.append(toHexString(c));
-				}
-			}
-		}
-		return sb1.toString();
-	}
-
-	final public static String toHexString(char c) {
-		int i = c + 0;
-
-		StringBuilder hexSB = new StringBuilder(8);
-		hexSB.append("\\u");
-		hexSB.append(hexChar[(i & 0xf000) >>> 12]);
-		hexSB.append(hexChar[(i & 0x0f00) >> 8]); // look up low nibble char
-		hexSB.append(hexChar[(i & 0xf0) >>> 4]);
-		hexSB.append(hexChar[i & 0x0f]); // look up low nibble char
-		return hexSB.toString();
-	}
-
-	final public static String toHexString(String s) {
-		for (int i = 0; i < s.length(); i++) {
-			sb.append(toHexString(s.charAt(i)));
-		}
-		return sb.toString();
 	}
 
 	public static boolean isCompatibilityChar(char ch) {
@@ -1345,10 +1266,8 @@ public class Korean {
 	 * @return if ch is a single char (ie not a compound one)
 	 */
 	public static boolean isSingleKoreanChar(char ch) {
-
 		return isKoreanLeadChar(ch, true) || isKoreanVowelChar(ch, true)
 				|| isKoreanTailChar(ch, true);
-
 	}
 
 }
