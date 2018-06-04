@@ -2,7 +2,6 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -100,13 +99,7 @@ public final class MyImageW implements MyImage {
 
 	@Override
 	public String toLaTeXStringBase64() {
-		if (!isSVG()) {
-			return "\\imagebasesixtyfour{" + getWidth() + "}{" + getHeight()
-					+ "}{" + img.getSrc() + "}";
-		}
-
-		Log.error("problem converting image to base64");
-		return "";
-
+		return "\\imagebasesixtyfour{" + getWidth() + "}{" + getHeight() + "}{"
+				+ img.getSrc() + "}";
 	}
 }
