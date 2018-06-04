@@ -607,7 +607,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					.setLineHeight(font.getSize(), Unit.PX);
 		}
 
-		if (columns > 0) {
+		if (columns > 0 && !app.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
 			setColumns(this.columns);
 		}
 	}
@@ -641,10 +641,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setColumns(int columns) {
-		if (app.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
-			return;
-		}
-
 		this.columns = columns;
 		if (showSymbolButton != null
 				&& (this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH

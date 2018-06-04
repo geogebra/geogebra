@@ -242,7 +242,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		int length = geoInputBox.getLength();
 		if (length != oldLength && isSelectedForInput()) {
-			getTextField().setColumns(length);
+			if (!geo.getKernel().getApplication()
+					.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+				getTextField().setColumns(length);
+			}
 			getTextField().prepareShowSymbolButton(
 					length > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH);
 
@@ -505,8 +508,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
 			tf.setPrefSize(this.getPreferredSize().getWidth(),
 					this.getPreferredSize().getHeight());
+		} else {
+			tf.setColumns(geoInputBox.getLength());
 		}
-		tf.setColumns(geoInputBox.getLength());
 		tf.setText(geoInputBox.getText());
 
 		setLabelFontSize((int) (view.getFontSize()
