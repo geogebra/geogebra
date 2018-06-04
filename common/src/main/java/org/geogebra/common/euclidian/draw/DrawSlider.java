@@ -30,7 +30,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 /**
  * 
@@ -146,15 +145,8 @@ public class DrawSlider extends Drawable {
 				// vertical line
 			}
 
-			if (number.getKernel().getApplication()
-					.has(Feature.SLIDER_STYLE_OPTIONS)) {
-				lineThickness = number.getLineThickness();
-				updateStrokes(number, number.getLineThickness());
-			} else {
-				// now hard-coded
-				number.setLineThickness(10);
-				updateStrokes(number, 10);
-			}
+			lineThickness = number.getLineThickness();
+			updateStrokes(number, number.getLineThickness());
 		}
 	}
 
@@ -171,12 +163,9 @@ public class DrawSlider extends Drawable {
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			// horizontal line
-			g2.setPaint(geo.getKernel().getApplication()
-					.has(Feature.SLIDER_STYLE_OPTIONS)
-							? geo.getBackgroundColor() == null
+			g2.setPaint(geo.getBackgroundColor() == null
 									? geo.getSelColor()
-									: geo.getBackgroundColor()
-							: geo.getSelColor());
+					: geo.getBackgroundColor());
 			g2.setStroke(objStroke);
 			g2.drawStraightLine(line.getP1().getX(), line.getP1().getY(),
 					line.getP2().getX(), line.getP2().getY());

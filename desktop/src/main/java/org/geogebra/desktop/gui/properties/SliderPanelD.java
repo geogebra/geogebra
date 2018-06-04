@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.desktop.awt.GColorD;
@@ -134,16 +133,14 @@ public class SliderPanelD extends JPanel
 		lbWidthUnit = new JLabel("");
 		lblBlobSizeUnit = new JLabel("px");
 		lblLineThicknessUnit = new JLabel("px");
-		int n = app.has(Feature.SLIDER_STYLE_OPTIONS) ? 5 : 3;
-		tfields = new MyTextFieldD[n];
-		tLabels = new JLabel[n];
+		tfields = new MyTextFieldD[5];
+		tLabels = new JLabel[5];
 		tfields[0] = tfMin;
 		tfields[1] = tfMax; 
 		tfields[2] = tfWidth;
-		if (n > 3) {
-			tfields[3] = tfBlobSize;
-			tfields[4] = tfLineThickness;
-		}
+		tfields[3] = tfBlobSize;
+		tfields[4] = tfLineThickness;
+
 		int numPairs = tLabels.length;
 
 		// add textfields
@@ -173,15 +170,12 @@ public class SliderPanelD extends JPanel
 
 			if (i < 2) {
 				intervalPanel.add(p);
-			} else if (!app.has(Feature.SLIDER_STYLE_OPTIONS)) {
-				sliderPanel.add(p);
+			} else if (i == 3) {
+				pointSliderStylePanel.add(p);
 			} else {
-				if (i == 3) {
-					pointSliderStylePanel.add(p);
-				} else {
-					lineSliderStylePanel.add(p);
-				}
+				lineSliderStylePanel.add(p);
 			}
+
 		}
 		lblBlobColor = new JLabel(loc.getMenu("Color") + ":");
 		btnBlobColor = new JButton("\u2588");
@@ -191,17 +185,14 @@ public class SliderPanelD extends JPanel
 		btnLineColor = new JButton("\u2588");
 		lblLineColor.setLabelFor(btnLineColor);
 		btnLineColor.addActionListener(this);
-		if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
-			btnLineColor.setForeground(GColorD
-					.getAwtColor(getColorWithOpacity(model.getLineColor())));
-			pointSliderStylePanel
+		btnLineColor.setForeground(
+				GColorD.getAwtColor(getColorWithOpacity(model.getLineColor())));
+		pointSliderStylePanel
 				.add(LayoutUtil.flowPanel(lblBlobColor, btnBlobColor));
-			lineSliderStylePanel
+		lineSliderStylePanel
 				.add(LayoutUtil.flowPanel(lblLineColor, btnLineColor));
-			opacityPanel = LayoutUtil.flowPanel(lblLineOpacity,
-					sliderLineOpacity);
-			lineSliderStylePanel.add(opacityPanel);
-		}
+		opacityPanel = LayoutUtil.flowPanel(lblLineOpacity, sliderLineOpacity);
+		lineSliderStylePanel.add(opacityPanel);
 		// add increment to intervalPanel
 		stepPanel = new AnimationStepPanel(app);
 		stepPanel.setPartOfSliderPanel();
@@ -236,16 +227,16 @@ public class SliderPanelD extends JPanel
 			add(sliderPanel);
 			add(Box.createVerticalStrut(5));
 			add(animationPanel);
-			if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
-				pointSliderStylePanel.setBorder(BorderFactory
-						.createTitledBorder(loc.getMenu("PointStyle")));
-				lineSliderStylePanel.setBorder(BorderFactory
-						.createTitledBorder(loc.getMenu("LineStyle")));
-				add(Box.createVerticalStrut(5));
-				add(pointSliderStylePanel);
-				add(Box.createVerticalStrut(5));
-				add(lineSliderStylePanel);
-			}
+
+			pointSliderStylePanel.setBorder(BorderFactory
+					.createTitledBorder(loc.getMenu("PointStyle")));
+			lineSliderStylePanel.setBorder(
+					BorderFactory.createTitledBorder(loc.getMenu("LineStyle")));
+			add(Box.createVerticalStrut(5));
+			add(pointSliderStylePanel);
+			add(Box.createVerticalStrut(5));
+			add(lineSliderStylePanel);
+
 		}
 	}
 

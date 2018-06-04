@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 public class SliderModel extends OptionsModel {
@@ -182,21 +181,17 @@ public class SliderModel extends OptionsModel {
 		} else {
 			listener.setMaxText("");
 		}
-		if (equalBlobSize
-				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
+		if (equalBlobSize) {
 			listener.setBlobSizeText(
 					kernel.format(num0.getSliderBlobSize(), highPrecision));
 		}
-		if (equalBlobColor
-				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
+		if (equalBlobColor) {
 			listener.setBlobColor(num0.getObjectColor());
 		}
-		if (equalLineColor
-				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
+		if (equalLineColor) {
 			listener.setLineColor(num0.getBackgroundColor());
 		}
-		if (equalLineThickness
-				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
+		if (equalLineThickness) {
 			listener.setLineThicknessSizeText(
 					kernel.format(num0.getLineThickness() / 2.0,
 							highPrecision));

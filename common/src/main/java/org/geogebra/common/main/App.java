@@ -4301,10 +4301,6 @@ public abstract class App implements UpdateSelection {
 		case COMMAND_HOLES:
 			return prerelease;
 
-		// GGB-2318
-		case SPLIT_INTEGRAL_IF:
-			return true;
-
 		case HANDWRITING:
 			return false;
 		case WEB_CLASSIC_FLOATING_MENU:
@@ -4408,10 +4404,6 @@ public abstract class App implements UpdateSelection {
 		case CHANGE_INVERSE_TRIG_TO_DEGREES:
 			return getKernel().degreesMode();
 
-		/** GGB-2170 */
-		case SLIDER_STYLE_OPTIONS:
-			return true;
-
 		/** MOB-1310 */
 		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
 			return prerelease;
@@ -4420,16 +4412,8 @@ public abstract class App implements UpdateSelection {
 		case READ_DROPDOWNS:
 			return true;
 
-		/** GGB-2204 */
-		case TAB_ON_MENU:
-			return true;
-
 		/** GGB-2258 */
 		case VOICEOVER_CURSOR:
-			return true;
-
-		/** GGB-1717 */
-		case IMAGE_EXPORT:
 			return true;
 
 		/** GGB-2346 */

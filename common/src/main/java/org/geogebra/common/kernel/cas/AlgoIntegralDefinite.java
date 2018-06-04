@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -367,9 +366,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 				// Log.debug("numeric " + lowerLimit + " " + upperLimit + " "
 				// + f.getFunctionExpression().getOperation());
 
-				if (kernel.getApplication().has(Feature.SPLIT_INTEGRAL_IF)
-						&& (f.getParentAlgorithm() instanceof AlgoDependentFunction
-								|| f.getFunctionExpression().isConditional())) {
+				if (f.getParentAlgorithm() instanceof AlgoDependentFunction
+						|| f.getFunctionExpression().isConditional()) {
 					
 					double upperLimit0 = upperLimit;
 					double lowerLimit0 = lowerLimit;

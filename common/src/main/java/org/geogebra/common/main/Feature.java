@@ -161,9 +161,6 @@ public enum Feature {
 	/** MOW-269 */
 	MOW_MULTI_PAGE,
 
-	/** GGB-1717 */
-	IMAGE_EXPORT,
-
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 
@@ -173,9 +170,6 @@ public enum Feature {
 	/** GGB-2222 change asin(0.5) -> asind(0.5) */
 	CHANGE_INVERSE_TRIG_TO_DEGREES,
 
-	/** GGB-2170 for k12 */
-	SLIDER_STYLE_OPTIONS,
-
 	/** MOB-1310 */
 	SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE,
 
@@ -184,9 +178,6 @@ public enum Feature {
 
 	/** GGB-2347 */
 	READ_DROPDOWNS,
-
-	/** GGB-2204 */
-	TAB_ON_MENU,
 
 	/** GGB-2215 */
 	ARIA_CONTEXT_MENU,
@@ -246,9 +237,6 @@ public enum Feature {
 
 	/** AND-722 */
 	MOB_MATERIAL_INPUT,
-
-	/** GGB-2318 */
-	SPLIT_INTEGRAL_IF,
 
 	/** AND-679 */
 	MOB_AND_QUEUE_ON_GL_THREAD,
