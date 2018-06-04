@@ -4403,7 +4403,7 @@ public abstract class App implements UpdateSelection {
 		/** GGB-2118 */
 		case PREVIEW_POINTS:
 			// not ggb5
-			return getVersion() != Versions.DESKTOP;
+			return prerelease || getVersion() != Versions.DESKTOP;
 
 		/** GGB-2183 */
 		case AUTO_ADD_DEGREE:
