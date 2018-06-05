@@ -759,13 +759,13 @@ public class Browser {
 		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("KeyDownEvent: " + key);
 		switch (key) {
 		case "UIKeyInputUpArrow":
-			return @com.himamis.retex.editor.share.util.KeyCodes::UP;
+			return @com.himamis.retex.editor.share.util.GWTKeycodes::KEY_UP;
 		case "UIKeyInputDownArrow":
-			return @com.himamis.retex.editor.share.util.KeyCodes::DOWN;
+			return @com.himamis.retex.editor.share.util.GWTKeycodes::KEY_DOWN;
 		case "UIKeyInputLeftArrow":
-			return @com.himamis.retex.editor.share.util.KeyCodes::LEFT;
+			return @com.himamis.retex.editor.share.util.GWTKeycodes::KEY_LEFT;
 		case "UIKeyInputRightArrow":
-			return @com.himamis.retex.editor.share.util.KeyCodes::RIGHT;
+			return @com.himamis.retex.editor.share.util.GWTKeycodes::KEY_RIGHT;
 		default:
 			return -1;
 		}
