@@ -22,6 +22,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.shared.SignInButton;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
@@ -186,7 +187,8 @@ public class MainMenu extends FlowPanel
 						"File"), true);
 			} else {
 				this.menuPanel.add(fileMenu,
-						getHTML(GuiResources.INSTANCE.menu_icon_file(), "File"),
+						getHTML(MaterialDesignResources.INSTANCE
+								.insert_file_black(), "File"),
 						true);
 			}
 		}
@@ -201,7 +203,8 @@ public class MainMenu extends FlowPanel
 						true);
 			} else {
 				this.menuPanel.add(editMenu,
-						getHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"),
+						getHTML(MaterialDesignResources.INSTANCE.edit_black(),
+								"Edit"),
 						true);
 			}
 
@@ -220,16 +223,15 @@ public class MainMenu extends FlowPanel
 						true);
 			} else {
 				this.menuPanel.add(perspectivesMenu,
-						getHTML(GuiResources.INSTANCE.menu_icon_perspectives(),
+						getHTML(MaterialDesignResources.INSTANCE
+								.geogebra_black(),
 								"Perspectives"),
 						true);
 			}
 
 			if (!app.isUnbundledOrWhiteboard()) {
 				this.menuPanel.add(viewMenu,
-						getHTML(app.isUnbundled()
-								? MaterialDesignResources.INSTANCE.home_black()
-								: GuiResources.INSTANCE.menu_icon_view(),
+						getHTML(MaterialDesignResources.INSTANCE.home_black(),
 								"View"),
 						true);
 			}
@@ -237,7 +239,7 @@ public class MainMenu extends FlowPanel
 
 		if (!app.isUnbundledOrWhiteboard()) {
 			this.menuPanel.add(settingsMenu,
-					getHTML(GuiResources.INSTANCE.menu_icon_options(),
+					getHTML(MaterialDesignResources.INSTANCE.gear(),
 							app.getLocalization().getMenu("Settings")),
 					true);
 		} else {
@@ -263,11 +265,12 @@ public class MainMenu extends FlowPanel
 		if (!exam) {
 			if (app.isUnbundledOrWhiteboard()) {
 				this.menuPanel.add(helpMenu, getExpandCollapseHTML(
-						MaterialDesignResources.INSTANCE.icon_help_black(),
+						SharedResources.INSTANCE.icon_help_black(),
 						"Help"), true);
 			} else {
 				this.menuPanel.add(helpMenu,
-						getHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"),
+						getHTML(SharedResources.INSTANCE.icon_help_black(),
+								"Help"),
 						true);
 			}
 			if (app.getNetworkOperation().isOnline()) {
@@ -508,11 +511,8 @@ public class MainMenu extends FlowPanel
 
 		this.userMenu.addItem(
 				getMenuBarHtml(
-						app.isUnbundledOrWhiteboard()
-								? MaterialDesignResources.INSTANCE
-										.signout_black().getSafeUri().asString()
-								: GuiResources.INSTANCE.menu_icon_sign_out()
-										.getSafeUri().asString(),
+						MaterialDesignResources.INSTANCE.signout_black()
+								.getSafeUri().asString(),
 						app.getLocalization().getMenu("SignOut"), true),
 				true, new MenuCommand(app) {
 
@@ -532,6 +532,7 @@ public class MainMenu extends FlowPanel
 	 */
 	String getHTML(ResourcePrototype img, String s) {
 		return "<img src=\"" + ImgResourceHelper.safeURI(img)
+				+ (img instanceof SVGResource ? "" : "\" style=\"opacity:1")
 				+ "\" draggable=\"false\"><span>"
 				+ app.getLocalization().getMenu(s) + "</span>";
 	}
@@ -747,11 +748,8 @@ public class MainMenu extends FlowPanel
 
 	private void addSignInMenu() {
 		this.menuPanel
-				.add(this.signInMenu, getHTML(
-						app.isUnbundledOrWhiteboard()
-								? MaterialDesignResources.INSTANCE
-										.signin_black()
-								: GuiResources.INSTANCE.menu_icon_sign_in(),
+				.add(this.signInMenu,
+						getHTML(MaterialDesignResources.INSTANCE.signin_black(),
 						app.getLocalization().getMenu("SignIn")),
 				true);
 	}
@@ -765,7 +763,7 @@ public class MainMenu extends FlowPanel
 					true);
 		} else {
 			this.menuPanel.add(this.userMenu,
-					getHTML(GuiResources.INSTANCE.menu_icon_signed_in_f(),
+					getHTML(MaterialDesignResources.INSTANCE.person_black(),
 							app.getLoginOperation().getUserName()),
 					true);
 		}

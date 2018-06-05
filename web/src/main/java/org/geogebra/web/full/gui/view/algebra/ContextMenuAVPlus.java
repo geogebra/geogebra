@@ -11,6 +11,7 @@ import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -123,9 +124,8 @@ public class ContextMenuAVPlus implements SetLabels {
 	}
 
 	private void addHelpItem() {
-		String img = MaterialDesignResources.INSTANCE.icon_help_black()
-				.getSafeUri()
-		.asString();
+		String img = SharedResources.INSTANCE.icon_help_black()
+				.getSafeUri().asString();
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("Help"), true),
 				true, new Command() {

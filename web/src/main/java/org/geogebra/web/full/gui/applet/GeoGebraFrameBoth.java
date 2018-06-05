@@ -235,7 +235,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		if (lastBG == null) {
 			return; // MOW-394: childVisible is outdated, return
 		}
-		remove(bg);
+		remove(bg == null ? lastBG : bg);
 		lastBG = null;
 		ToolTipManagerW.hideAllToolTips();
 		final int count = getWidgetCount();

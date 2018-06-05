@@ -20,12 +20,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/ggb_logo_back.png")
 	ImageResource header_back();
 
-	@Source("org/geogebra/common/icons/png/menu_view_algebra.png")
-	ImageResource algebraView();
-
-	@Source("org/geogebra/common/icons/png/menu_view_graphics.png")
-	ImageResource graphicsView();
-
 	// end PHONE GUI
 
 	// TOOLBAR
@@ -43,12 +37,6 @@ public interface GuiResources extends ClientBundle {
 	ImageResource menuBarSubMenuIconLTR();
 
 	// Icons
-	@Source("org/geogebra/common/menu_icons/p20/menu-file.png")
-	ImageResource menu_icon_file();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-file-new.png")
-	ImageResource menu_icon_file_new();
-
 	@Source("org/geogebra/common/menu_icons/p20/menu-file-export.png")
 	ImageResource menu_icons_file_export();
 
@@ -67,12 +55,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/menu_icons/p20/menu-edit-delete.png")
 	ImageResource menu_icon_edit_delete();
 
-	@Source("org/geogebra/common/menu_icons/p20/menu-perspectives.png")
-	ImageResource menu_icon_perspectives();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-view.png")
-	ImageResource menu_icon_view();
-
 	@Source("org/geogebra/common/menu_icons/p20/menu-options.png")
 	ImageResource menu_icon_options();
 
@@ -85,12 +67,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/menu_icons/p20/menu-options-font-size.png")
 	ImageResource menu_icon_options_font_size();
 
-	@Source("org/geogebra/common/menu_icons/p20/menu-options-language.png")
-	ImageResource menu_icon_options_language();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-help.png")
-	ImageResource menu_icon_help();
-
 	@Source("org/geogebra/common/icons/png/web/menu-help.png")
 	ImageResource icon_help();
 
@@ -98,52 +74,11 @@ public interface GuiResources extends ClientBundle {
 	ImageResource menu_icon_tools();
 
 	// Menu icons views and perspectives
-	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_algebra.png")
-	ImageResource menu_icon_algebra();
-
-	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_cas.png")
-	ImageResource menu_icon_cas();
-
-	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_construction_protocol.png")
-	ImageResource menu_icon_construction_protocol();
-
-	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_graphics.png")
-	ImageResource menu_icon_graphics();
-
-	// @Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_graphics_extra.png")
-	// ImageResource menu_icon_graphics_extra();
-
-	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_graphics2.png")
-	ImageResource menu_icon_graphics2();
 
 	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_input_bar.png")
 	ImageResource menu_icon_input_bar();
 
-	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_probability.png")
-	ImageResource menu_icon_probability();
-
-	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_spreadsheet.png")
-	ImageResource menu_icon_spreadsheet();
-
-	@Source("org/geogebra/common/icons_view_perspectives/p20/perspectives_algebra_3Dgraphics.png")
-	ImageResource menu_icon_3Dgraphics();
-
-	@Source("org/geogebra/common/icons_view_perspectives/p20/perspectives_geometry.png")
-	ImageResource menu_icon_geometry();
-
 	// OTHER MENUICONS
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-signed-in-m.png")
-	ImageResource menu_icon_signed_in_m();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-signed-in-f.png")
-	ImageResource menu_icon_signed_in_f();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-sign-in.png")
-	ImageResource menu_icon_sign_in();
-
-	@Source("org/geogebra/common/menu_icons/p20/menu-sign-out.png")
-	ImageResource menu_icon_sign_out();
 
 	@Source("org/geogebra/common/stylingbar/p20/stylingbar_dots.png")
 	ImageResource menu_dots();
@@ -157,9 +92,6 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/arrow-submenu-left.png")
 	ImageResource arrow_submenu_left();
-
-	@Source("org/geogebra/common/icons/png/web/arrow-submenu-up.png")
-	ImageResource arrow_submenu_up();
 
 	// ALGEBRA INPUT
 	@Source("org/geogebra/common/icons/png/web/dockbar_triangle_left_darker.png")

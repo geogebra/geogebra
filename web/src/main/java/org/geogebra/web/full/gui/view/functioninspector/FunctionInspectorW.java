@@ -24,6 +24,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -277,8 +278,8 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void buildHelpPanel() {
-		btnHelp = new StandardButton(GuiResources.INSTANCE.menu_icon_help(),
-				app);
+		btnHelp = new StandardButton(SharedResources.INSTANCE.icon_help_black(),
+				null, 32, app);
 		btnHelp.addStyleName("MyCanvasButton");
 		btnHelp.addFastClickHandler(new FastClickHandler() {
 

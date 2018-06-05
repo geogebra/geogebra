@@ -1603,6 +1603,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void toggleMenu() {
 		if (!this.menuShowing) {
+			this.getAppletFrame().hideBrowser(null);
 			this.menuShowing = true;
 			boolean needsUpdate = menuInited;
 			if (!menuInited) {

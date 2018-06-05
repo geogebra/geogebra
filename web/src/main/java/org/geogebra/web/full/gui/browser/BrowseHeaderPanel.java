@@ -8,22 +8,14 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.AuxiliaryHeaderPanel;
 import org.geogebra.web.full.gui.browser.SearchPanel.SearchListener;
-import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.ResizeListener;
-import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ProfilePanel;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Widget;
 
 public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 		implements ResizeListener, BooleanRenderable, EventRenderable {
@@ -36,19 +28,13 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 	private FlowPanel signInPanel;
 	private Button signInButton;
 
-	private FlowPanel profilePanel;
-	private Image profileImage;
+	private ProfilePanel profilePanel;
+
 	private LogInOperation login;
 	private AppW app;
-
-	private FlowPanel optionsPanel;
-	private FlowPanel arrowPanel;
-	private FlowPanel optionsPanelContent;
-
 	private SearchPanel searchPanel;
 	private BrowseGUI bg;
 
-	private StandardButton logoutButton;
 
 	/**
 	 * @param app
@@ -76,7 +62,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 	}
 
 	private void addSearchPanel() {
-		this.searchPanel = new SearchPanel((AppW) app);
+		this.searchPanel = new SearchPanel(app);
 		this.searchPanel.addSearchListener(new SearchListener() {
 			@Override
 			public void onSearch(final String query) {
@@ -109,7 +95,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 
 	private void onLogout() {
 		if (this.signInButton == null) {
-			this.signInButton = ((AppW) app).getLAF().getSignInButton(app);
+			this.signInButton = app.getLAF().getSignInButton(app);
 
 			this.signInPanel.add(this.signInButton);
 		}
@@ -122,80 +108,18 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 			return;
 		}
 		if (this.profilePanel == null) {
-			this.profilePanel = new FlowPanel();
-			this.profilePanel.setStyleName("profilePanel");
+			this.profilePanel = new ProfilePanel(app);
 
-			this.profileImage = new Image();
-			this.profileImage.setStyleName("profileImage");
-			this.profileImage.setHeight("40px");
-			this.profilePanel.add(this.profileImage);
 
-			final GPopupPanel popup = new GPopupPanel(app.getPanel(), app);
-			popup.addStyleName("optionsPopup");
-			popup.setAutoHideEnabled(true);
-			popup.addAutoHidePartner(profilePanel.getElement());
-			this.optionsPanel = new FlowPanel();
-			this.optionsPanel.setStyleName("profileOptionsPanel");
-
-			arrowPanel = new FlowPanel();
-			Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_up());
-			arrowPanel.add(arrow);
-			arrowPanel.setStyleName("arrow");
-			optionsPanel.add(arrowPanel);
-
-			optionsPanelContent = new FlowPanel();
-			optionsPanelContent.setStyleName("profileOptionsContent");
-			optionsPanel.add(optionsPanelContent);
-
-			logoutButton = new StandardButton(loc.getMenu("SignOut"), app);
-			logoutButton.addStyleName("logoutButton");
-			logoutButton.addStyleName("gwt-Button");
-			optionsPanelContent.add(logoutButton);
-
-			logoutButton.addFastClickHandler(new FastClickHandler() {
-
-				@Override
-				public void onClick(Widget source) {
-					Log.debug("logout");
-					app.getLoginOperation().performLogOut();
-					togglePopup(popup);
-				}
-			});
-
-			popup.add(optionsPanel);
-			profilePanel.addDomHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					togglePopup(popup);
-					event.stopPropagation();
-				}
-			}, ClickEvent.getType());
 		}
 		this.rightPanel.clear();
-		if (user.getImageURL() != null) {
-			this.profileImage.setUrl(user.getImageURL());
-		} else {
-			this.profileImage.setUrl(
-					GuiResources.INSTANCE.menu_icon_help().getSafeUri());
-		}
+		profilePanel.update(user);
 
 		this.rightPanel.add(this.profilePanel);
 
 	}
 
-	/**
-	 * show / hide popupPanel.
-	 * 
-	 * @param p
-	 *            PopupPanel
-	 */
-	void togglePopup(GPopupPanel p) {
-		if (p.isShowing()) {
-			p.hide();
-		} else {
-			p.showRelativeTo(profilePanel);
-		}
-	}
+
 
 	@Override
 	public void onResize(int appWidth, int appHeight) {
@@ -234,8 +158,8 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 		if (this.signInButton != null) {
 			this.signInButton.setText(loc.getMenu("SignIn"));
 		}
-		if (this.logoutButton != null) {
-			this.logoutButton.setText(loc.getMenu("SignOut"));
+		if (profilePanel != null) {
+			profilePanel.setLabels();
 		}
 		if (this.searchPanel != null) {
 			this.searchPanel.setLabels();

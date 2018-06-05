@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.toolbar;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -11,6 +10,7 @@ import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -57,7 +57,8 @@ public class ToolbarSubmenuW extends FlowPanel {
 
 	protected void initGui() {
 		submenuArrow = new FlowPanel();
-		submenuArrow.add(new Image(GuiResources.INSTANCE.arrow_submenu_up()));
+		submenuArrow
+				.add(new Image(SharedResources.INSTANCE.arrow_submenu_up()));
 		submenuArrow.setStyleName("submenuArrow");
 		add(submenuArrow);
 

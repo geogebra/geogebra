@@ -15,7 +15,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
@@ -218,8 +217,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	private void initActions() {
 		// if (!app.has(Feature.NEW_START_SCREEN)) {
 		if (getApp().isExam()) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-					.menu_icon_sign_out().getSafeUri().asString(),
+			addItem(MainMenu.getMenuBarHtml(
+					MaterialDesignResources.INSTANCE.signout_black()
+							.getSafeUri().asString(),
 					loc.getMenu("exam_menu_exit"), true), true,
 					new MenuCommand(getApp()) { // Close
 

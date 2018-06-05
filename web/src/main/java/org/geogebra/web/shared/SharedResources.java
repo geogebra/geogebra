@@ -1,9 +1,11 @@
 package org.geogebra.web.shared;
 
+import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.resources.SassResource;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
-import org.geogebra.web.resources.SassResource;
 
 public interface SharedResources extends ClientBundle {
 
@@ -20,4 +22,10 @@ public interface SharedResources extends ClientBundle {
 
     @Source("org/geogebra/web/resources/scss/step-tree.scss")
     SassResource stepTreeStyleScss();
+
+	@Source("org/geogebra/common/icons/png/web/arrow-submenu-up.png")
+	ImageResource arrow_submenu_up();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_help_outline_black_24px.svg")
+	SVGResource icon_help_black();
 }

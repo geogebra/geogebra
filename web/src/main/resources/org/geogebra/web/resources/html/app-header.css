@@ -70,7 +70,7 @@
     right: 104px;
 }
 
-.signIn {
+.GeoGebraHeader .profilePanel, .GeoGebraHeader .signIn {
 	text-transform: uppercase;
 	padding: 12px;
 	margin: 11px 24px 11px 0px;
@@ -78,6 +78,15 @@
     right: 0px;
     min-width: 84px;
     cursor: pointer;
+}
+
+.GeoGebraHeader .profilePanel {
+	padding-top: 0;
+	padding-left: 24px;
+}
+
+img.profileImage {
+    border-radius: 50%;
 }
 
 .logo {
