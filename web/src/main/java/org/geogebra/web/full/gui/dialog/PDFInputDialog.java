@@ -7,7 +7,6 @@ import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -39,7 +38,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 	private StandardButton cancelBtn;
 	private StandardButton leftBtn;
 	private StandardButton rightBtn;
-	private FormLabel pageLbl;
+	private Label pageLbl;
 	private AutoCompleteTextFieldW curPageNrField;
 	private Label ofPageLbl;
 
@@ -66,16 +65,13 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 		clickOrDragText = new Label();
 		clickOrDragText.addStyleName("clickOrDragText");
 		pdfContainerPanel.add(clickOrDragText);
+		pageLbl = new Label();
+		ofPageLbl = new Label();
 		// panel for buttons
-		insertBtn = new StandardButton("", appW);
-		insertBtn.addStyleName("insertBtn");
-		insertBtn.setEnabled(false);
-		cancelBtn = new StandardButton("", app);
-		cancelBtn.addStyleName("cancelBtn");
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
-		buttonPanel.add(cancelBtn);
-		buttonPanel.add(insertBtn);
+		cancelBtn = createTxtButton(buttonPanel, "cancelBtn", true);
+		insertBtn = createTxtButton(buttonPanel, "insertBtn", false);
 		// add panels
 		add(mainPanel);
 		mainPanel.add(pdfContainerPanel);
@@ -89,22 +85,40 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 
 	private void buildPdfContainer() {
 		pdfContainerPanel.clear();
+		pdfContainerPanel.addStyleName("withPdf");
 		pdfPreviewPanel = new FlowPanel();
 		pdfPreviewPanel.addStyleName("pdfPreview");
-		leftBtn = createButton(pdfPreviewPanel,
+		leftBtn = createImgButton(pdfPreviewPanel,
 				KeyboardResources.INSTANCE.keyboard_arrowLeft_black(), 24,
 				"leftBtn");
 		// TODO add here the preview image of pdf MOW-424
-		rightBtn = createButton(pdfPreviewPanel,
+		rightBtn = createImgButton(pdfPreviewPanel,
 				KeyboardResources.INSTANCE.keyboard_arrowRight_black(), 24,
 				"rightBtn");
+		// text info about pages at bottom
 		pdfPageTextPanel = new FlowPanel();
 		pdfPageTextPanel.addStyleName("pdfPageText");
+		curPageNrField = new AutoCompleteTextFieldW(3, appW);
+		curPageNrField.setText("1");
+		curPageNrField.addStyleName("curPageField");
+		pdfPageTextPanel.add(pageLbl);
+		pdfPageTextPanel.add(curPageNrField);
+		pdfPageTextPanel.add(ofPageLbl);
 		pdfContainerPanel.add(pdfPreviewPanel);
 		pdfContainerPanel.add(pdfPageTextPanel);
 	}
 
-	private StandardButton createButton(FlowPanel root, ImageResource imgSource,
+	private StandardButton createTxtButton(FlowPanel root, String styleName,
+			boolean isEnabled) {
+		StandardButton btn = new StandardButton("", appW);
+		btn.addStyleName(styleName);
+		btn.setEnabled(isEnabled);
+		root.add(btn);
+		return btn;
+	}
+
+	private StandardButton createImgButton(FlowPanel root,
+			ImageResource imgSource,
 			int size, String styleName) {
 		StandardButton btn = new StandardButton(
 				imgSource, null, size, size, appW);
@@ -138,6 +152,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 				.setText(appW.getLocalization().getMenu("pdfClickOrDrag"));
 		insertBtn.setText(appW.getLocalization().getMenu("Insert")); // insert
 		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
+		pageLbl.setText(appW.getLocalization().getMenu("page")); // Page
+		ofPageLbl.setText(appW.getLocalization().getMenu("of") + " 649"); // of
 	}
 
 	@Override

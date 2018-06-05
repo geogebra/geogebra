@@ -599,6 +599,10 @@ $duration: 0.2s;
     		height: 400px;
     		margin-right: 16px;
     		border: 4px dashed $mow_pdf_dialog_border;
+    		
+    		&.withPdf {
+    			border-color: transparent;	
+    		}
 		}
 		
 		.folderImg {
@@ -645,6 +649,37 @@ $duration: 0.2s;
     			opacity: 1;
     		}
     	}
+    
+    	.pdfPageText {
+    			display: flex;
+    			font-size: 120% !important;
+   				width: fit-content;
+   				height: fit-content;
+    			position: relative;
+    			margin-left: auto;
+    			margin-right: auto;
+    			margin-top: 20px;
+    			top: 356px;
+    			
+    			.gwt-Label {
+    				margin: 0px;	
+    				font-size: 100%;
+   					height: fit-content;
+    			}
+    			
+    			.curPageField {
+    				margin-left: 16px;
+   		 			margin-bottom: 0px;
+   		 			border-bottom-color: $black-42;
+   		 			
+   		 			.TextField {
+   		 				margin: 0px;
+   		 				text-align: center;
+   		 				font-size: 100%;
+   		 				padding: 0px;
+   		 			}
+    			}
+		}
     
 		.DialogButtonPanel {
    			
