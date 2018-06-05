@@ -49,6 +49,24 @@ public class PropertiesFactory {
     }
 
     /**
+     * Creates properties for scientific calculator.
+     *
+     * @param app          properties for app
+     * @param localization localization for properties
+     * @return an array of properties for scientific calculator
+     */
+    public static Property[] createScientificCalculatorProperties(App app, Localization
+            localization) {
+        Kernel kernel = app.getKernel();
+        return new Property[]{
+                new RoundingProperty(app, localization),
+                new AngleUnitProperty(kernel, localization),
+                new FontSizeProperty(app, localization),
+                new LanguageProperty(app, localization)
+        };
+    }
+
+    /**
      * Creates algebra specific properties.
      *
      * @param app          properties for app
