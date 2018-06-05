@@ -2059,8 +2059,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				setVisible(false);
 				box.setVisible(false);
 				// app.getActiveEuclidianView().remove(box);
-				if (drawInputBox != null) {
-					drawInputBox.drawBoundsOnCanvas();
+				if (drawInputBox != null
+						&& app.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+					drawInputBox.drawWidget();
 				}
 				return false;
 			}
