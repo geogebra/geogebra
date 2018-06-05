@@ -423,17 +423,8 @@ public class Browser {
 		// $wnd.android is set for Android, iOS, Win8
 		// Yes, really!
 		if ($wnd.android) {
-
-			// Win8
-			if ($wnd.android.callPlugin) {
-				$wnd.android
-						.callPlugin('SaveDialog', [
-								url.substring(url.indexOf(',') + 1), title,
-								extension ]);
-			}
-
-			// iOS / Android
 			$wnd.android.share(url, title, extension);
+			return;
 		}
 
 		// Chrome limits to 2Mb so use Blob
