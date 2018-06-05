@@ -37,6 +37,19 @@ public class PropertiesFactory {
      * @return an array of general properties
      */
     public static Property[] createGeneralProperties(App app, Localization localization) {
+        return createGeneralProperties(app, localization, null);
+    }
+
+    /**
+     * Creates general properties.
+     *
+     * @param app          properties for app
+     * @param localization localization for properties
+     * @param onLanguageSetCallback callback when language is set
+     * @return an array of general properties
+     */
+    public static Property[] createGeneralProperties(App app, Localization localization,
+                                                     LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
         return new Property[]{
                 new RoundingProperty(app, localization),
@@ -44,7 +57,7 @@ public class PropertiesFactory {
                 new LabelingProperty(app, localization),
                 new CoordinatesProperty(kernel, localization),
                 new FontSizeProperty(app, localization),
-                new LanguageProperty(app, localization)
+                new LanguageProperty(app, localization, onLanguageSetCallback)
         };
     }
 
@@ -53,16 +66,17 @@ public class PropertiesFactory {
      *
      * @param app          properties for app
      * @param localization localization for properties
+     * @param onLanguageSetCallback callback when language is set
      * @return an array of properties for scientific calculator
      */
     public static Property[] createScientificCalculatorProperties(App app, Localization
-            localization) {
+            localization, LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
         return new Property[]{
                 new AngleUnitProperty(kernel, localization),
                 new RoundingProperty(app, localization),
                 new FontSizeProperty(app, localization),
-                new LanguageProperty(app, localization)
+                new LanguageProperty(app, localization, onLanguageSetCallback)
         };
     }
 

@@ -13,7 +13,12 @@ import java.util.Locale;
  */
 public class LanguageProperty extends AbstractEnumerableProperty {
 
+    public interface OnLanguageSetCallback {
+        public void run(String lang);
+    }
+
     private App app;
+    private OnLanguageSetCallback onLanguageSetCallback;
 
     private Locale[] locales;
     private String[] languageCodes;
@@ -28,6 +33,17 @@ public class LanguageProperty extends AbstractEnumerableProperty {
         super(localization, "Language");
         this.app = app;
         setupValues(app, localization);
+    }
+
+    /**
+     * Constructs a language property.
+     *
+     * @param app          app
+     * @param localization localization
+     */
+    public LanguageProperty(App app, Localization localization, OnLanguageSetCallback onLanguageSetCallback) {
+        this(app, localization);
+        this.onLanguageSetCallback = onLanguageSetCallback;
     }
 
     private void setupValues(App app, Localization localization) {
@@ -46,7 +62,11 @@ public class LanguageProperty extends AbstractEnumerableProperty {
 
     @Override
     protected void setValueSafe(String value, int index) {
-        app.setLanguage(languageCodes[index]);
+        String lang = languageCodes[index];
+        app.setLanguage(lang);
+        if (onLanguageSetCallback != null) {
+            onLanguageSetCallback.run(lang);
+        }
     }
 
     @Override
