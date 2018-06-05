@@ -59,8 +59,8 @@ public class PropertiesFactory {
             localization) {
         Kernel kernel = app.getKernel();
         return new Property[]{
-                new RoundingProperty(app, localization),
                 new AngleUnitProperty(kernel, localization),
+                new RoundingProperty(app, localization),
                 new FontSizeProperty(app, localization),
                 new LanguageProperty(app, localization)
         };
