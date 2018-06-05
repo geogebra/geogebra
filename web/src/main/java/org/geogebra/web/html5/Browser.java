@@ -42,6 +42,20 @@ public class Browser {
 	}-*/;
 
 	/**
+	 * Check if browser is Safari on iOS
+	 * 
+	 * (Note: returns true for Chrome on iOS as that's really an iOS Webview)
+	 * 
+	 * @return true if iOS
+	 */
+	public static native boolean isiOS() /*-{
+		var userAgent = $wnd.navigator.userAgent;
+
+		return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
+
+	}-*/;
+
+	/**
 	 * https://github.com/cheton/is-electron/blob/master/index.js MIT
 	 * 
 	 * @return true if running in Electron
@@ -354,6 +368,12 @@ public class Browser {
 	public static native void exportImage(String url, String title) /*-{
 		//idea from http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript/16245768#16245768
 
+		// no downloading on iOS so just open image/file in new tab
+		if (@org.geogebra.web.html5.Browser::isiOS()()) {
+			@org.geogebra.web.html5.Browser::openTubeWindow(Ljava/lang/String;)(url);
+			return;
+		}
+
 		var extension;
 		var header;
 
@@ -505,7 +525,7 @@ public class Browser {
 	 *            GeoGebraTube url
 	 */
 	public native static void openTubeWindow(String url)/*-{
-		$wnd.open(url);
+		$wnd.open(url, '_blank');
 	}-*/;
 
 	/**

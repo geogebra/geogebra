@@ -7,13 +7,13 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.geogebra3D.AppletFactory3D;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.main.TestArticleElement;
 
 import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.google.gwtmockito.GwtMockito;
 import com.google.gwtmockito.fakes.FakeProvider;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.resources.xml.XmlResources;
-import org.geogebra.web.html5.main.TestArticleElement;
 
 public class MockApp {
 	public static AppWFull mockApplet(TestArticleElement ae) {
