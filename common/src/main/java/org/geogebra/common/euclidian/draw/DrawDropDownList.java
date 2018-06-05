@@ -1136,9 +1136,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	@Override
-	protected void drawWidget() {
-
-		GGraphics2D g2 = view.getGraphicsForPen();
+	protected void drawWidget(GGraphics2D g2) {
 
 		updateMetrics(g2);
 

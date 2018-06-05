@@ -383,8 +383,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	@Override
-	public void drawWidget() {
-		GGraphics2D g2 = view.getGraphicsForPen();
+	public void drawWidget(GGraphics2D g2) {
 		final GFont font = g2.getFont();
 		g2.setFont(getLabelFont().deriveFont(GFont.PLAIN));
 
