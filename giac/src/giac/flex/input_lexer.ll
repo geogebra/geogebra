@@ -136,23 +136,27 @@
 #endif
 
     sym_string_tab & syms(){
-      static sym_string_tab * ans=new sym_string_tab;
+      static sym_string_tab * ans=0;
+      if (!ans) ans=new sym_string_tab;
       return * ans;
     }
 
 
     std::vector<int> & lexer_localization_vector(){
-      static std::vector<int> * ans=new  std::vector<int>;
+      static std::vector<int> * ans=0;
+      if (!ans) ans=new  std::vector<int>;
       return *ans;
     }
 
 #ifdef USTL
     ustl::map<std::string,std::string> & lexer_localization_map(){
-      static ustl::map<std::string,std::string> * ans = new ustl::map<std::string,std::string>;
+      static ustl::map<std::string,std::string> * ans = 0;
+      if (!ans) ans=new ustl::map<std::string,std::string>;
       return * ans;
     }
     ustl::multimap<std::string,localized_string> & back_lexer_localization_map(){
-      static ustl::multimap<std::string,localized_string> * ans= new ustl::multimap<std::string,localized_string>;
+      static ustl::multimap<std::string,localized_string> * ans= 0;
+      if (!ans) ans=new ustl::multimap<std::string,localized_string>;
       return * ans;
     }
 
@@ -161,7 +165,8 @@
     // back_lexer_localization_map() lists for a giac keyword the translations
 
     ustl::map<std::string,std::vector<std::string> > & lexer_translator (){
-      static ustl::map<std::string,std::vector<std::string> > * ans = new ustl::map<std::string,std::vector<std::string> >;
+      static ustl::map<std::string,std::vector<std::string> > * ans = 0;
+      if (!ans) ans=new ustl::map<std::string,std::vector<std::string> >;
       return * ans;
     }
     // lexer_translator will be updated when export/with is called
@@ -171,17 +176,20 @@
     // If a library is unexported we remove the corresponding entry in the 
     // vector and remove the entry if the vector is empty
     ustl::map<std::string,std::vector<std::string> > & library_functions (){
-      static ustl::map<std::string,std::vector<std::string> > * ans=new ustl::map<std::string,std::vector<std::string> >;
+      static ustl::map<std::string,std::vector<std::string> > * ans=0;
+      if (!ans) ans=new ustl::map<std::string,std::vector<std::string> >;
       return *ans;
     }
 
 #else
     std::map<std::string,std::string> & lexer_localization_map(){
-      static std::map<std::string,std::string> * ans = new std::map<std::string,std::string>;
+      static std::map<std::string,std::string> * ans = 0;
+      if (!ans) ans=new std::map<std::string,std::string>;
       return * ans;
     }
     std::multimap<std::string,localized_string> & back_lexer_localization_map(){
-      static std::multimap<std::string,localized_string> * ans= new std::multimap<std::string,localized_string>;
+      static std::multimap<std::string,localized_string> * ans= 0;
+      if (!ans) ans=new std::multimap<std::string,localized_string>;
       return * ans;
     }
     // lexer_localization_vector() is the list of languages currently translated
@@ -189,7 +197,8 @@
     // back_lexer_localization_map() lists for a giac keyword the translations
 
     std::map<std::string,std::vector<std::string> > & lexer_translator (){
-      static std::map<std::string,std::vector<std::string> > * ans = new std::map<std::string,std::vector<std::string> >;
+      static std::map<std::string,std::vector<std::string> > * ans = 0;
+      if (!ans) ans=new std::map<std::string,std::vector<std::string> >;
       return * ans;
     }
     // lexer_translator will be updated when export/with is called
@@ -199,7 +208,8 @@
     // If a library is unexported we remove the corresponding entry in the 
     // vector and remove the entry if the vector is empty
     std::map<std::string,std::vector<std::string> > & library_functions (){
-      static std::map<std::string,std::vector<std::string> > * ans=new std::map<std::string,std::vector<std::string> >;
+      static std::map<std::string,std::vector<std::string> > * ans=0;
+      if (!ans) ans=new std::map<std::string,std::vector<std::string> >;
       return *ans;
     }
 

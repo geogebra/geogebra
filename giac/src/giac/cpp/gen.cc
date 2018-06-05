@@ -1831,12 +1831,17 @@ namespace giac {
     if (!dpos)
       d=-d;
     bool inf1=is_greater(d,n,contextptr);
+#ifdef FXCG
+    gen m=gen(longlong(1)<<61);
+    gen md=gen(1.0)/m;
+#else
 #ifdef BCD
     static gen m=gen(longlong(100000000000000));
 #else
     static gen m=gen(longlong(1)<<61);
 #endif
     static gen md=gen(1.0)/m;
+#endif
     if (absint(sizeinbase2(n)-sizeinbase2(d))>=53){ 
       gen a=inf1?iquo(d,n):iquo(n,d);
       gen res=evalf(a,1,contextptr);
@@ -13608,12 +13613,13 @@ namespace giac {
   const char * gen::dbgprint() const{    
     if (this->type==_POLY)
       return _POLYptr->dbgprint();
-    static std::string s;
-    s=this->print(context0);
+    static string *sptr=0;
+    if (!sptr) sptr=new string;
+    *sptr=this->print(context0);
 #if 0 // ndef NSPIRE
-    COUT << s << std::endl; 
+    COUT << *sptr;
 #endif
-    return s.c_str();
+    return sptr->c_str();
   }
 #endif
 #endif
@@ -13629,12 +13635,13 @@ namespace giac {
   }
 
   const char * monome::dbgprint() const {
-    static std::string s;
-    s=this->print(context0);
+    static string *sptr=0;
+    if (!sptr) sptr=new string;
+    *sptr=this->print(context0);
 #if 0 // ndef NSPIRE
-    COUT << s;
+    COUT << *sptr;
 #endif
-    return s.c_str();
+    return sptr->c_str();
   }
 
 #ifndef NSPIRE
@@ -15599,8 +15606,12 @@ namespace giac {
 #endif
 
   const char * caseval(const char *s){
-    static std::string S;
-    static context C;
+    static string * sptr=0;
+    if (!sptr) sptr=new string;
+    string & S=*sptr;
+    static context * contextptr=0;
+    if (!contextptr) contextptr=new context;
+    context & C=*contextptr;
     const char init[]="init geogebra";
     const char close[]="close geogebra";
     if (!strcmp(s,init)){

@@ -1961,7 +1961,7 @@ namespace giac {
 
   gen r2sym(const polynome & p, const vecteur & l,GIAC_CONTEXT){
     if (p.coord.empty())
-      return zero;
+      return 0;
     if (p.dim==0){
       return p.constant_term();
     }

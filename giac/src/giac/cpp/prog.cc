@@ -3761,7 +3761,6 @@ namespace giac {
     return symbolic(at_rand,args);
   }
   static gen rand_integer_interval(const gen & x1,const gen & x2,GIAC_CONTEXT){
-    static gen rand_max_plus_one=gen(rand_max2)+1;
     gen x2x1=x2-x1;
     if (!is_positive(x2x1,contextptr))
       return rand_integer_interval(x2,x1,contextptr);
@@ -3790,6 +3789,11 @@ namespace giac {
       return res;
     }
 #endif
+#ifdef FXCG
+    gen rand_max_plus_one=gen(rand_max2)+1;
+#else
+    static gen rand_max_plus_one=gen(rand_max2)+1;
+#endif
     // Make n random numbers
     for (int i=0;i<n;++i)
       res=rand_max_plus_one*res+giac_rand(contextptr);
@@ -3798,12 +3802,16 @@ namespace giac {
     return x1+_iquo(makevecteur(res*x2x1,pow(rand_max_plus_one,n)),contextptr);
   }
   gen rand_interval(const vecteur & v,bool entier,GIAC_CONTEXT){
-    static gen rand_max_plus_one=gen(rand_max2)+1;
     gen x1=v.front(),x2=v.back();
     if (x1==x2)
       return x1;
     if ((entier || xcas_mode(contextptr)==1) && is_integer(x1) && is_integer(x2) )
       return rand_integer_interval(x1,x2,contextptr);
+#ifdef FXCG
+    gen rand_max_plus_one=gen(rand_max2)+1;
+#else
+    static gen rand_max_plus_one=gen(rand_max2)+1;
+#endif
 #ifdef HAVE_LIBMPFR
     if (x1.type==_REAL && x2.type==_REAL){
       int n=mpfr_get_prec(x1._REALptr->inf);
@@ -10402,12 +10410,14 @@ namespace giac {
   static define_unary_function_eval2_index (112,__unit,&unit,_unit_s,&printasunit);
   define_unary_function_ptr( at_unit ,alias_at_unit ,&__unit);
 
+#ifndef FXCG
   const unary_function_ptr * binary_op_tab(){
     static const unary_function_ptr binary_op_tab_ptr []={*at_plus,*at_prod,*at_pow,*at_and,*at_ou,*at_xor,*at_different,*at_same,*at_equal,*at_unit,*at_compose,*at_composepow,*at_deuxpoints,*at_tilocal,*at_pointprod,*at_pointdivision,*at_pointpow,*at_division,*at_normalmod,*at_minus,*at_intersect,*at_union,*at_interval,*at_inferieur_egal,*at_inferieur_strict,*at_superieur_egal,*at_superieur_strict,*at_equal2,0};
     return binary_op_tab_ptr;
   }
   // unary_function_ptr binary_op_tab[]={at_and,at_ou,at_different,at_same,0};
-
+#endif
+  
   // Physical constants -> in input_lexer.ll
 #ifndef NO_PHYSICAL_CONSTANTS
   identificateur _cst_hbar("_hbar_",symbolic(at_unit,makevecteur(1.05457266e-34,_J_unit*_s_unit)));

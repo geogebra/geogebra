@@ -68,16 +68,19 @@ namespace giac {
   }
 
   rootmap & symbolic_rootof_list(){
-    static rootmap * ans= new rootmap;
+    static rootmap * ans= 0;
+    if (!ans) ans=new rootmap;
     return *ans;
   }
   rootmap & proot_list(){
-    static rootmap * ans= new rootmap;
+    static rootmap * ans= 0;
+    if (!ans) ans=new rootmap;
     return *ans;
   }
 
   rootmap & galoisconj_list(){
-    static rootmap * ans= new rootmap;
+    static rootmap * ans= 0;
+    if (!ans) ans=new rootmap;
     return *ans;
   }
 

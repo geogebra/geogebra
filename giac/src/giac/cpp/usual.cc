@@ -81,11 +81,13 @@ namespace giac {
 
   // must be declared before any function declaration with special handling
   vector<const unary_function_ptr *> & limit_tractable_functions(){
-    static vector<const unary_function_ptr *> * ans = new vector<const unary_function_ptr *>;
+    static vector<const unary_function_ptr *> * ans = 0;
+    if (!ans) ans=new vector<const unary_function_ptr *>;
     return * ans;
   }
   vector<gen_op_context> & limit_tractable_replace(){
-    static vector<gen_op_context> * ans = new vector<gen_op_context>;
+    static vector<gen_op_context> * ans = 0;
+    if (!ans) ans=new vector<gen_op_context>;
     return * ans;
   }
 #ifdef HAVE_SIGNAL_H_OLD
@@ -2068,11 +2070,13 @@ namespace giac {
     // return cst_i*ln(sqrt(x*x-1,contextptr)+x,contextptr)+cst_pi_over_2;
   }
   gen * normal_sin_pi_12_ptr_(){
-    static gen * ans=new gen(normal(sin_pi_12,context0));
+    static gen * ans=0;
+    if (!ans) ans=new gen(normal(sin_pi_12,context0));
     return ans;
   }
   gen * normal_cos_pi_12_ptr_(){
-    static gen * ans=new gen(normal(cos_pi_12,context0));
+    static gen * ans=0;
+    if (!ans) ans=new gen(normal(cos_pi_12,context0));
     return ans;
   }
   gen asin(const gen & e0,GIAC_CONTEXT){
@@ -8292,7 +8296,9 @@ namespace giac {
   }
 
   gen cot_psi_cache(int n,GIAC_CONTEXT){
-    static vecteur cot_cache;
+    static vecteur * ptr=0;
+    if (!ptr) ptr=new vecteur;
+    vecteur & cot_cache=*ptr;
     if (cot_cache.size()>n)
       return cot_cache[n];
     if (cot_cache.empty())

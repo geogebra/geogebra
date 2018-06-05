@@ -956,8 +956,10 @@ namespace giac {
   extern gen cst_kBoltzmann;
   extern gen cst_NA;
 #endif // NO_PHYSICAL_CONSTANTS
+#ifndef FXCG
   const unary_function_ptr * binary_op_tab();
-
+#endif
+  
   extern const unary_function_ptr * const  at_piecewise;
   extern const unary_function_ptr * const  at_PIECEWISE;
   gen _piecewise(const gen & g,GIAC_CONTEXT);

@@ -161,13 +161,17 @@ namespace giac {
         s +=  '+' ;
       }
     };
-    const char * dbgprint() const { 
+    const char * dbgprint() const {
+#if 0
       static std::string s;
       s=print();
-#if 0 // ndef NSPIRE
-      COUT << s << std::endl; 
-#endif
       return s.c_str();
+#else
+      static std::string * sptr=0;
+      if (!sptr) sptr=new std::string;
+      *sptr=print();
+      return sptr->c_str();
+#endif
     }
     void high_order_degree_truncate(int n){
       // suppress terms of order >= n
@@ -1294,8 +1298,14 @@ namespace giac {
   T tensor<T>::constant_term () const {  
     if (!((*this).coord.size()))
       return T(0);
+#if 1
+    if (sum_degree((*this).coord.back().index)==0)
+      return (*this).coord.back().value;
+    return T(0);
+#else
     index_m i=(*this).coord.front().index*0;
     return (*this)(i);
+#endif
   }
 
   template <class T>
