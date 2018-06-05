@@ -343,14 +343,6 @@ public class WinFileManager extends FileManager {
 							});
 		}
 	}-*/;
-	
-	@Override
-	public native void exportImage(String url, String title, String ext)/*-{
-		if ($wnd.android && $wnd.android.callPlugin) {
-			$wnd.android.callPlugin('SaveDialog', [
-					url.substring(url.indexOf(',') + 1), title, ext ]);
-		}
-	}-*/;
 
 	@Override
 	public boolean hasBase64(Material material) {
