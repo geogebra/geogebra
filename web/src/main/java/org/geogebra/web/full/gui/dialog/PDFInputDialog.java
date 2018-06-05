@@ -9,6 +9,9 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -77,6 +80,15 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 		getCaption().setText(appW.getLocalization().getMenu("pdfDialogTitle"));
 		insertBtn.addFastClickHandler(this);
 		cancelBtn.addFastClickHandler(this);
+		pdfContainerPanel.sinkEvents(Event.ONCLICK);
+		pdfContainerPanel.addHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO add here code for open pdf MOW-424
+			}
+
+		}, ClickEvent.getType());
 	}
 
 	/**
@@ -94,7 +106,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 		if (source == cancelBtn) {
 			hide();
 		} else if (source == insertBtn) {
-			// TODO process pdf
+			// TODO process page of pdf
 		}
 	}
 
