@@ -8,7 +8,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -267,7 +266,7 @@ public class ScriptArea extends TextArea
 		}
 		int keyCode = e.getNativeKeyCode();
 		if (keyCode == 0 && Browser.isIPad()) {
-			int arrowType = getIOSArrowKeys(e.getNativeEvent());
+			int arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
 			if (arrowType != -1) {
 				keyCode = arrowType;
 			}
@@ -316,28 +315,4 @@ public class ScriptArea extends TextArea
 		}
 	}
 
-	/**
-	 * gets keycodes of iOS arrow keys iOS arrows have a different identifier
-	 * than win and android
-	 * 
-	 * @param event
-	 *            native key event
-	 * @return JavaKeyCodes of arrow keys, -1 if pressed key was not an arrow
-	 */
-	private native int getIOSArrowKeys(NativeEvent event) /*-{
-
-		var key = event.key;
-		switch (key) {
-		case "UIKeyInputUpArrow":
-			return 38;
-		case "UIKeyInputDownArrow":
-			return 40;
-		case "UIKeyInputLeftArrow":
-			return 37;
-		case "UIKeyInputRightArrow":
-			return 39;
-		default:
-			return -1;
-		}
-	}-*/;
 }

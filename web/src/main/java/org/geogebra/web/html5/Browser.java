@@ -6,6 +6,7 @@ import org.geogebra.common.util.DoubleUtil;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window.Location;
 
@@ -370,7 +371,7 @@ public class Browser {
 
 		// no downloading on iOS so just open image/file in new tab
 		if (@org.geogebra.web.html5.Browser::isiOS()()) {
-			@org.geogebra.web.html5.Browser::openTubeWindow(Ljava/lang/String;)(url);
+			@org.geogebra.web.html5.Browser::openWindow(Ljava/lang/String;)(url);
 			return;
 		}
 
@@ -540,7 +541,7 @@ public class Browser {
 	 * @param url
 	 *            GeoGebraTube url
 	 */
-	public native static void openTubeWindow(String url)/*-{
+	public native static void openWindow(String url)/*-{
 		$wnd.open(url, '_blank');
 	}-*/;
 
@@ -553,7 +554,7 @@ public class Browser {
 	 * @return decoded string
 	 */
 	public static native String decodeBase64(String base64)/*-{
-		return atob(base64);
+		return $wnd.atob(base64);
 	}-*/;
 
 	/**
@@ -565,7 +566,7 @@ public class Browser {
 	 * @return a base64 encoded string.
 	 */
 	public static native String encodeBase64(String text)/*-{
-		return btoa(text);
+		return $wnd.btoa(text);
 	}-*/;
 
 	public static void removeDefaultContextMenu(Element element) {
@@ -741,6 +742,32 @@ public class Browser {
 			}
 		} catch (ex) {
 			//Mutation observer not supported
+		}
+	}-*/;
+
+	/**
+	 * gets keycodes of iOS arrow keys iOS arrows have a different identifier
+	 * than win and android
+	 * 
+	 * @param event
+	 *            native key event
+	 * @return JavaKeyCodes of arrow keys, -1 if pressed key was not an arrow
+	 */
+	public native static int getIOSArrowKeys(NativeEvent event) /*-{
+
+		var key = event.key;
+		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("KeyDownEvent: " + key);
+		switch (key) {
+		case "UIKeyInputUpArrow":
+			return @com.himamis.retex.editor.share.util.KeyCodes::UP;
+		case "UIKeyInputDownArrow":
+			return @com.himamis.retex.editor.share.util.KeyCodes::DOWN;
+		case "UIKeyInputLeftArrow":
+			return @com.himamis.retex.editor.share.util.KeyCodes::LEFT;
+		case "UIKeyInputRightArrow":
+			return @com.himamis.retex.editor.share.util.KeyCodes::RIGHT;
+		default:
+			return -1;
 		}
 	}-*/;
 
