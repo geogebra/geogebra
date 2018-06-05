@@ -306,6 +306,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					// before the real focus and blur events take place
 					showSymbolButton.addStyleName("ShowSymbolButtonFocused");
 					setShowSymbolButtonFocused(true);
+					event.stopPropagation();
 				}
 				super.onBrowserEvent(event);
 
