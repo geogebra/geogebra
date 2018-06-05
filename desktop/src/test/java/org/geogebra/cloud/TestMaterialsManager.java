@@ -229,7 +229,7 @@ public class TestMaterialsManager extends MaterialsManager {
 	
 	
 	@Override
-	public void open(String url, String name, String features){
+	public void open(String url, String features) {
 		// TODO: implement this?
 	}
 	
