@@ -5,7 +5,27 @@
     <title>MathSolver</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-	<style>
+    <style>
+    body {
+        touch-action: none;
+        -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
+        -ms-user-select: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
+        color: #666666;
+        font-size: 14px;
+        font-family: sans-serif;
+        margin: 0px;
+        padding: 0px;
+        position: fixed;
+        top:0;
+        width:100%;
+        height:100%;
+    }
+    
+    *,:after,:before {
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box
+     }
         <!--SPLASH STYLE-->
 	</style>
 	

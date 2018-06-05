@@ -225,7 +225,7 @@ task createSolverHtml {
             .replace("<!--CONTINUE-->", "Continue")
             .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
     file("war/solver.html").text = file("war/solver-template.html").text
-            .replace("<!--APP NAME FULL-->", "GeoGebra MathSolver")
+            .replace("<!--APP NAME-->", "Math Solver")
 }
 
 task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverHtml']) {

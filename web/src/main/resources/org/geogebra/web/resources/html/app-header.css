@@ -76,6 +76,7 @@
     position: absolute;
     right: 0px;
     min-width: 84px;
+    cursor: pointer;
 }
 
 .logo {
@@ -179,6 +180,15 @@ ul {
     align-items: center;
     width: 100%;
     transition: background-color .3s;
+    text-decoration: none;
+}
+
+.popdown-content ul li a:not(.disabled):hover {
+    background-color: rgba(0,0,0,.1);
+}
+
+.popdown-content ul li:not(.divider) {
+    line-height: 3rem;
 }
 
 .apps-pop-content svg {
@@ -219,4 +229,11 @@ ul a {
 
 .z-depth-2 {
     box-shadow: 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12), 0 2px 4px -1px rgba(0,0,0,.3);
+}
+
+nav {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+    z-index: 12;
+    position: absolute;
+    width: 100%;
 }

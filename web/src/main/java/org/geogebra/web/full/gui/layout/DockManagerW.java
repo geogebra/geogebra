@@ -1915,10 +1915,10 @@ public class DockManagerW extends DockManager {
 			setDividerLocationAbs(split, (int) (ratio * app.getWidth()));
 		}
 
-		split.clear();
 		int newOrientation = app.isPortrait() ? SwingConstants.VERTICAL_SPLIT
 				: SwingConstants.HORIZONTAL_SPLIT;
 		if (newOrientation != split.getOrientation()) {
+			split.clear();
 			split.setOrientation(newOrientation);
 			if (app.isPortrait()) {
 				split.setRightComponent(avPanel);
