@@ -2019,7 +2019,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public String getScreenReaderText() {
+	public String getAuralText() {
 		if (!isSliderable()) {
 			return null;
 		}

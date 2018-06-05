@@ -73,28 +73,9 @@ public class ScreenReader {
 	 */
 	public static void readText(GeoElement geo0, App app) {
 		StringBuilder sb = new StringBuilder();
-		String readerText = geo0.getScreenReaderText();
+		String readerText = geo0.getAuralText();
 		if (readerText != null) {
 			sb.append(readerText);
-		}
-
-		if (geo0.isEuclidianShowable()) {
-			if (app.getGuiManager() != null && app.getGuiManager().hasAlgebraView()
-					&& !geo0.isGeoInputBox()) {
-				if (geo0.isEuclidianVisible()) {
-					appendSentence(sb, "PressSlashToHide", "Press / to hide object", null, app);
-				} else {
-					appendSentence(sb, "PressSlashToShow", "Press / to show object", null, app);
-				}
-			}
-		}
-		if (app.showToolBar() && !geo0.isGeoInputBox()) {
-			if (geo0.isGeoButton() || geo0.isPenStroke()) {
-				appendSentence(sb, "PressEnterToOpenSettings", "Press enter to open settings", null,
-						app);
-			} else if (!geo0.isGeoButton()) {
-				appendSentence(sb, "PressEnterToEdit", "Press enter to edit", null, app);
-			}
 		}
 
 		if (geo0.isGeoBoolean()) {
@@ -111,11 +92,13 @@ public class ScreenReader {
 				&& geo0.getScript(EventType.CLICK).getText().length() > 0) {
 			appendSentence(sb, "PressSpaceToRunScript", "Press space to run script", null, app);
 		}
-		if (geo0.isGeoPoint()
-				&& (geo0.isIndependent() || geo0.isPointOnPath() || geo0.isPointInRegion())) {
-			appendSentence(sb, "PressArrowsToMove", "Press the arrow keys to move the object", null,
-					app);
-		}
+		// if (geo0.isGeoPoint()
+		// && (geo0.isIndependent() || geo0.isPointOnPath() || geo0.isPointInRegion()))
+		// {
+		// appendSentence(sb, "PressArrowsToMove", "Press the arrow keys to move the
+		// object", null,
+		// app);
+		// }
 
 		// MOW-137 if selection originated in AV we don't want to move
 		// focus to EV

@@ -78,6 +78,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
@@ -8767,25 +8768,108 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * add Caption simple for reader.
 	 * 
-	 * @return text constructed from caption simple for screen reader.
+	 * @param sb
+	 *            StringBuilder to add to.
 	 */
-	protected String getCaptionSimpleForScreenReader() {
-		StringBuilder sb = new StringBuilder();
+	protected void addAuralCaptionSimple(StringBuilder sb) {
 		String caption0 = getCaptionSimple();
 		if (caption0 == null || "".equals(caption) || getCaptionSimple() == null) {
 			sb.append(translatedTypeStringForAlgebraView());
 		} else {
 			sb.append(caption0);
 		}
-		return sb.toString();
+	}
+
+	/**
+	 * add Caption for reader if defined, label otherwise.
+	 * 
+	 * @param loc
+	 *            The Localization object
+	 * 
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	protected void addAuralName(Localization loc, StringBuilder sb) {
+		if (caption == null || "".equals(caption)) {
+			sb.append(translatedTypeStringForAlgebraView());
+			sb.append(" ");
+			sb.append(getLabelSimple());
+		}
+		addAuralCaptionSimple(sb);
 	}
 
 	/**
 	 * 
 	 * @return text that screen readers should read.
 	 */
-	public String getScreenReaderText() {
-		return getCaptionForScreenReader();
+	public String getAuralText() {
+		Localization loc = kernel.getLocalization();
+		StringBuilder sb = new StringBuilder();
+		addAuralName(loc, sb);
+		sb.append(" ");
+		addAuralContent(loc, sb);
+		sb.append(" ");
+		addAuralStatus(loc, sb);
+		sb.append(".");
+		addAuralOperations(loc, sb);
+		sb.append(".");
+		return sb.toString();
+	}
+
+	/**
+	 * Add content aural description if any.
+	 * 
+	 * @param loc
+	 *            The Localization object
+	 * 
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	protected void addAuralContent(Localization loc, StringBuilder sb) {
+		sb.append(loc.getMenu("")); // make PMD happy :)
+	}
+
+	/**
+	 * Add aural text for status of the geo.
+	 * 
+	 * @param loc
+	 *            The Localization object
+	 * 
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	protected void addAuralStatus(Localization loc, StringBuilder sb) {
+		sb.append("");
+	}
+
+	/**
+	 * Add aural text for the possible operations of the geo.
+	 * 
+	 * @param loc
+	 *            The Localization object
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	protected void addAuralOperations(Localization loc, StringBuilder sb) {
+		App app = kernel.getApplication();
+		if (isEuclidianShowable()) {
+			if (app.getGuiManager() != null && app.getGuiManager().hasAlgebraView() && !isGeoInputBox()) {
+				if (isEuclidianVisible()) {
+					sb.append(loc.getMenuDefault("PressSlashToHide", "Press / to hide object"));
+				} else {
+					sb.append(loc.getMenuDefault("PressSlashToShow", "Press / to show object"));
+				}
+			}
+		}
+		if (app.showToolBar() && !isGeoInputBox()) {
+			if (isGeoButton() || isPenStroke()) {
+				sb.append(loc.getMenuDefault("PressEnterToOpenSettings", "Press enter to open settings"));
+			} else if (!isGeoButton()) {
+				sb.append(loc.getMenuDefault("PressEnterToEdit", "Press enter to edit"));
+			}
+		}
+
 	}
 }

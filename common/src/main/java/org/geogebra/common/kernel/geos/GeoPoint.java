@@ -73,6 +73,7 @@ import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -2910,5 +2911,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public int getToStringMode() {
 		return toStringMode;
+	}
+
+	@Override
+	protected void addAuralOperations(Localization loc, StringBuilder sb) {
+		if (isPointOnPath()) {
+			sb.append(loc.getMenuDefault("PressPlusMinusToMove", "Press + and - to move the object"));
+		} else if (isIndependent() || isPointInRegion()) {
+			sb.append(loc.getMenuDefault("PressArrowsToMove", "Press the arrow keys to move the object"));
+		}
+		super.addAuralOperations(loc, sb);
 	}
 }

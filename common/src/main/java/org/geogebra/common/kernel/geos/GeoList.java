@@ -50,7 +50,6 @@ import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -3268,29 +3267,22 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	protected String getCaptionSimpleForScreenReader() {
+	protected void addAuralName(Localization loc, StringBuilder sb) {
+		sb.append(loc.getMenuDefault("Dropdown", "dropdown"));
 		if (size() > MAX_ITEMS_FOR_SCREENREADER) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(translatedTypeStringForAlgebraView());
 			sb.append(" ");
 			String caption0 = getCaptionSimple();
 			sb.append(caption0 == null ? getLabelSimple() : caption0);
-			return sb.toString();
 		}
-		return super.getCaptionSimpleForScreenReader();
 	}
 
 	@Override
-	public String getScreenReaderText() {
-		if (!getKernel().getApplication().has(Feature.READ_DROPDOWNS)) {
-			return null;
-		}
-		StringBuilder sb = new StringBuilder();
-		Localization loc = getKernel().getApplication().getLocalization();
-		sb.append(getCaptionSimpleForScreenReader());
-		sb.append(" ");
+	protected void addAuralStatus(Localization loc, StringBuilder sb) {
 		sb.append(loc.getMenuDefault("Selected", "selected"));
-		sb.append(" ");
+	}
+
+	@Override
+	public void addAuralContent(Localization loc, StringBuilder sb) {
 		int count = size();
 		if (count > 0 && count < MAX_ITEMS_FOR_SCREENREADER) {
 			sb.append(loc.getMenuDefault("WithItems", "with items"));
@@ -3304,7 +3296,11 @@ public class GeoList extends GeoElement
 				sb.append(idx == count - 1 ? ". " : ", ");
 			}
 		}
+	}
+
+	@Override
+	protected void addAuralOperations(Localization loc, StringBuilder sb) {
 		sb.append(loc.getMenuDefault("PressSpaceToOpen", "Press space to open"));
-		return sb.toString();
+		super.addAuralOperations(loc, sb);
 	}
 }
