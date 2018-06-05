@@ -363,11 +363,6 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void exportImage(String url, String filename, String extension) {
-		Browser.exportImage(url, filename);
-	}
-
-	@Override
 	public void refreshAutosaveTimestamp() {
 		if (stockStore != null) {
 			stockStore.setItem(TIMESTAMP, "" + System.currentTimeMillis());

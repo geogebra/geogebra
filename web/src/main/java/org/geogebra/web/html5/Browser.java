@@ -419,6 +419,12 @@ public class Browser {
 			return;
 		}
 
+		// $wnd.android is set for Android, iOS, Win8
+		// Yes, really!
+		if ($wnd.android) {
+			$wnd.android.share(url, title, extension);
+		}
+
 		// Chrome limits to 2Mb so use Blob
 		// https://stackoverflow.com/questions/695151/data-protocol-url-size-limitations/41755526#41755526
 		// https://stackoverflow.com/questions/38781968/problems-downloading-big-filemax-15-mb-on-google-chrome/38845151#38845151

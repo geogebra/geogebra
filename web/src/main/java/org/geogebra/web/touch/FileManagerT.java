@@ -1085,14 +1085,6 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-	public native void exportImage(String url, String title,
-			String extension) /*-{
-		if ($wnd.android) {
-			$wnd.android.share(url, title, extension);
-		}
-	}-*/;
-
-	@Override
 	public void showExportAsPictureDialog(String url, String filename,
 			String extension, String titleKey, App app) {
 

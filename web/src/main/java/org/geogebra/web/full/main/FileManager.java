@@ -11,6 +11,7 @@ import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.browser.SignInButton;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.util.SaveCallback;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -231,5 +232,14 @@ public abstract class FileManager extends MaterialsManager {
 	native private static void openNative(String url)/*-{
 		$wnd.open(url);
 	}-*/;
+
+	/**
+	 * export image (or other filetype) either as a browser download, share
+	 * intent iOS Safari: open in new tab (no download possible)
+	 */
+	public void exportImage(String url, String filename,
+			String extension) {
+		Browser.exportImage(url, filename);
+	}
 
 }
