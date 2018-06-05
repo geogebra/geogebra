@@ -1856,8 +1856,6 @@ public class DockManagerW extends DockManager {
 	}
 
 	/**
-	 * @param exactDivider
-	 *            Specific divider location. -1 means none used.
 	 * @param landscapeRatio
 	 *            preferred landscape ratio
 	 */
@@ -1918,24 +1916,26 @@ public class DockManagerW extends DockManager {
 		}
 
 		split.clear();
+		int newOrientation = app.isPortrait() ? SwingConstants.VERTICAL_SPLIT
+				: SwingConstants.HORIZONTAL_SPLIT;
+		if (newOrientation != split.getOrientation()) {
+			split.setOrientation(newOrientation);
+			if (app.isPortrait()) {
+				split.setRightComponent(avPanel);
+				split.setLeftComponent(opposite);
+			} else {
+				split.setLeftComponent(avPanel);
+				split.setRightComponent(opposite);
+			}
 
-		split.setOrientation(app.isPortrait() ? SwingConstants.VERTICAL_SPLIT
-				: SwingConstants.HORIZONTAL_SPLIT);
-		if (app.isPortrait()) {
-			split.setRightComponent(avPanel);
-			split.setLeftComponent(opposite);
-		} else {
-			split.setLeftComponent(avPanel);
-			split.setRightComponent(opposite);
-		}
+			avPanel.tryBuildZoomPanel();
+			avPanel.setLayout(false);
+			((DockPanelW) opposite).tryBuildZoomPanel();
+			((DockPanelW) opposite).setLayout(false);
 
-		avPanel.tryBuildZoomPanel();
-		avPanel.setLayout(false);
-		((DockPanelW) opposite).tryBuildZoomPanel();
-		((DockPanelW) opposite).setLayout(false);
-
-		if (toolbar != null) {
-			toolbar.onOrientationChange();
+			if (toolbar != null) {
+				toolbar.onOrientationChange();
+			}
 		}
 	}
 
