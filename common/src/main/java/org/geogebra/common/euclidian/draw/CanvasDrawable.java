@@ -164,7 +164,7 @@ public abstract class CanvasDrawable extends Drawable {
 		g2.setPaint(geo.getObjectColor());
 
 		if (geo.isVisible()) {
-			drawWidget(g2);
+			drawWidget();
 		}
 	}
 
@@ -188,7 +188,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 * @param g2
 	 *            graphics
 	 */
-	protected abstract void drawWidget(GGraphics2D g2);
+	protected abstract void drawWidget();
 
 	/**
 	 * was this object clicked at? (mouse pointer location (x,y) in screen
