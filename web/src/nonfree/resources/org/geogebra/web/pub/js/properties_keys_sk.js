@@ -3187,6 +3187,7 @@ __GGB__keysVar["sk"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "max",
     "min": "min",
+    "of": "of",
     "off": "vypnut\xe9",
     "on": "zapnut\xe9",
     "otherwise": "inak",

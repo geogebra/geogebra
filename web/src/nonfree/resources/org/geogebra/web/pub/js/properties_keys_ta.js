@@ -3187,6 +3187,7 @@ __GGB__keysVar["ta"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "\u0b89\u0baf\u0bb0\u0bcd\u0bb5\u0bc1",
     "min": "\u0b87\u0bb4\u0bbf\u0bb5\u0bc1",
+    "of": "of",
     "off": "\u0ba8\u0bbf\u0bb1\u0bc1\u0ba4\u0bcd\u0ba4\u0bc1\u0b95",
     "on": "\u0baa\u0bcb\u0b9f\u0bc1\u0b95",
     "otherwise": "otherwise",

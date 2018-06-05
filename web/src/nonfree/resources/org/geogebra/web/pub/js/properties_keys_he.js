@@ -3187,6 +3187,7 @@ __GGB__keysVar["he"].menu = {
     "math_apps": "\u05d2\u05d0\u05d5\u05d2\u05d1\u05e8\u05d4 \u05e7\u05dc\u05d0\u05e1\u05d9\u05ea",
     "max": "\u05de\u05e7\u05e1\u05d9\u05de\u05d5\u05dd",
     "min": "\u05de\u05d9\u05e0\u05d9\u05de\u05d5\u05dd",
+    "of": "of",
     "off": "\u05db\u05d9\u05d1\u05d5\u05d9",
     "on": "\u05de\u05d5\u05e4\u05e2\u05dc",
     "otherwise": "\u05d0\u05d7\u05e8\u05ea",

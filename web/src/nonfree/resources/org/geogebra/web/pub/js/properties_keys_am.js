@@ -3187,6 +3187,7 @@ __GGB__keysVar["am"].menu = {
     "math_apps": "\u1212\u1233\u1265 \u1218\u1270\u130d\u1260\u122a\u12eb\u12ce\u127d",
     "max": "\u12a8\u134d\u1270\u129b",
     "min": "\u12dd\u1245\u1270\u129b",
+    "of": "of",
     "off": "\u12a3\u1325\u134b",
     "on": "\u120b\u12ed",
     "otherwise": "\u12a0\u1208\u1260\u1208\u12da\u12eb",

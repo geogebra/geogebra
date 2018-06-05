@@ -3187,6 +3187,7 @@ __GGB__keysVar["xh"].menu = {
     "math_apps": "iMath Calcs",
     "max": "iMax",
     "min": "iMin",
+    "of": "of",
     "off": "cimile",
     "on": "Ilaytile",
     "otherwise": "okanye",

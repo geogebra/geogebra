@@ -3187,6 +3187,7 @@ __GGB__keysVar["hr"].menu = {
     "math_apps": "Klasi\u010dna GeoGebra",
     "max": "max",
     "min": "min",
+    "of": "of",
     "off": "isklju\u010deno",
     "on": "uklju\u010deno",
     "otherwise": "ina\u010de",

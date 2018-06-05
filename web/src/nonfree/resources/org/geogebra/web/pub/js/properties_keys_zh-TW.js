@@ -3187,6 +3187,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "\u6700\u5927",
     "min": "\u6700\u5c0f",
+    "of": "of",
     "off": "\u95dc\u9589",
     "on": "\u555f\u52d5",
     "otherwise": "otherwise",

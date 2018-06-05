@@ -3187,6 +3187,7 @@ __GGB__keysVar["sq"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "Maks",
     "min": "Min",
+    "of": "of",
     "off": "Jo aktive(fikur)",
     "on": "Aktiv",
     "otherwise": "perndryshe",

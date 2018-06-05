@@ -3187,6 +3187,7 @@ __GGB__keysVar["th"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "\u0e04\u0e48\u0e32\u0e2a\u0e39\u0e07\u0e2a\u0e38\u0e14",
     "min": "\u0e04\u0e48\u0e32\u0e15\u0e48\u0e33\u0e2a\u0e38\u0e14",
+    "of": "of",
     "off": "\u0e1b\u0e34\u0e14",
     "on": "\u0e40\u0e1b\u0e34\u0e14",
     "otherwise": "\u0e21\u0e34\u0e09\u0e30\u0e19\u0e31\u0e49\u0e19",

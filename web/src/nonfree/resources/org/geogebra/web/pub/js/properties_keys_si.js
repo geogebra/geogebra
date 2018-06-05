@@ -3187,6 +3187,7 @@ __GGB__keysVar["si"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "\u0d8b\u0db4\u0dbb\u0dd2\u0db8",
     "min": "\u0d85\u0dc0\u0db8",
+    "of": "of",
     "off": "\u0d89\u0dc0\u0dad\u0dca \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "on": "\u0d9a\u0dca\u200d\u0dbb\u0dd2\u0dba\u0dcf\u0dad\u0dca\u0db8\u0d9a \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "otherwise": "\u0d91\u0dc3\u0dda \u0db1\u0dd0\u0da7\u0dd2 \u0db1\u0db8\u0dca",

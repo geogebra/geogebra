@@ -3187,6 +3187,7 @@ __GGB__keysVar["eu"].menu = {
     "math_apps": "GeoGebra Klasikoa",
     "max": "max",
     "min": "min",
+    "of": "of",
     "off": "Ez-gaitua",
     "on": "Gaitua",
     "otherwise": "bestela",

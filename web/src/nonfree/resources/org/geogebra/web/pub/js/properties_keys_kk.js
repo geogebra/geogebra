@@ -3187,6 +3187,7 @@ __GGB__keysVar["kk"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "\u041c\u0430\u043a\u0441",
     "min": "\u041c\u0438\u043d",
+    "of": "of",
     "off": "\u04e9\u0448\u0456\u0440\u0456\u043b\u0433\u0435\u043d",
     "on": "\u049a\u043e\u0441\u0443",
     "otherwise": "\u0431\u0430\u0441\u049b\u0430",

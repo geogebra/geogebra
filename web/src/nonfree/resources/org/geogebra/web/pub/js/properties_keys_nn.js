@@ -3187,6 +3187,7 @@ __GGB__keysVar["nn"].menu = {
     "math_apps": "Matte-appar",
     "max": "Maks",
     "min": "Min",
+    "of": "of",
     "off": "av",
     "on": "P\xe5",
     "otherwise": "elles",

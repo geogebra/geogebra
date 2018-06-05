@@ -3187,6 +3187,7 @@ __GGB__keysVar["az"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "Maks",
     "min": "Min",
+    "of": "of",
     "off": "off",
     "on": "On",
     "otherwise": "otherwise",

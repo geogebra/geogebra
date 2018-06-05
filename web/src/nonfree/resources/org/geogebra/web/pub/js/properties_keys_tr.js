@@ -3187,6 +3187,7 @@ __GGB__keysVar["tr"].menu = {
     "math_apps": "GeoGebra Klasik",
     "max": "maksimum",
     "min": "minimum",
+    "of": "of",
     "off": "Uzakta",
     "on": "A\xe7\u0131k",
     "otherwise": "aksi halde",

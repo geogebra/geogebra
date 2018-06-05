@@ -3187,6 +3187,7 @@ __GGB__keysVar["cy"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "Macs",
     "min": "Min",
+    "of": "of",
     "off": "i ffwrdd",
     "on": "Ymlaen",
     "otherwise": "fel arall",

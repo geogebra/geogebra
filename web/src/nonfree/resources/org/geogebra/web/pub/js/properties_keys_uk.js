@@ -3187,6 +3187,7 @@ __GGB__keysVar["uk"].menu = {
     "math_apps": "GeoGebra \u041a\u043b\u0430\u0441\u0438\u0447\u043d\u0430",
     "max": "\u043c\u0430\u043a\u0441.",
     "min": "\u043c\u0456\u043d.",
+    "of": "of",
     "off": "\u0432\u0438\u043c\u043a.",
     "on": "\u0423\u0432\u0456\u043c\u043a\u043d\u0443\u0442\u0438",
     "otherwise": "\u0456\u043d\u0430\u043a\u0448\u0435",

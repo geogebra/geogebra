@@ -3187,6 +3187,7 @@ __GGB__keysVar["ca"].menu = {
     "math_apps": "GeoGebra Cl\xe0ssic",
     "max": "max",
     "min": "min",
+    "of": "of",
     "off": "Desconnectat",
     "on": "actiu",
     "otherwise": "altrament",

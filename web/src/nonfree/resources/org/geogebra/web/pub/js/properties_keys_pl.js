@@ -3187,6 +3187,7 @@ __GGB__keysVar["pl"].menu = {
     "math_apps": "Math Calcs",
     "max": "maksimum",
     "min": "minimum",
+    "of": "of",
     "off": "wy\u0142\u0105czony",
     "on": "W\u0142\u0105cz",
     "otherwise": "pozostale",

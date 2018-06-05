@@ -3187,6 +3187,7 @@ __GGB__keysVar["vi"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "C\u1ef1c \u0111\u1ea1i",
     "min": "C\u1ef1c ti\u1ec3u",
+    "of": "of",
     "off": "t\u1eaft",
     "on": "B\u1eadt",
     "otherwise": "kh\xe1c",

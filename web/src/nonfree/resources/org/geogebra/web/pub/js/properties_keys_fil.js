@@ -3187,6 +3187,7 @@ __GGB__keysVar["fil"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "Max",
     "min": "Min",
+    "of": "of",
     "off": "sarado",
     "on": "On",
     "otherwise": "kung hindi man",

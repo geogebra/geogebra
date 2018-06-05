@@ -3187,6 +3187,7 @@ __GGB__keysVar["sv"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "Max",
     "min": "Min",
+    "of": "of",
     "off": "Av",
     "on": "P\xe5",
     "otherwise": "annars",

@@ -3187,6 +3187,7 @@ __GGB__keysVar["is"].menu = {
     "math_apps": "Math Apps",
     "max": "Max",
     "min": "Min",
+    "of": "of",
     "off": "af",
     "on": "\xe1",
     "otherwise": "annars",

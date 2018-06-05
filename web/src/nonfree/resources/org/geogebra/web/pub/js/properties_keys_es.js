@@ -3187,6 +3187,7 @@ __GGB__keysVar["es"].menu = {
     "math_apps": "GeoGebra Cl\xe1sico",
     "max": "M\xe1x",
     "min": "M\xedn",
+    "of": "of",
     "off": "Desactivar",
     "on": "Activar\u2191",
     "otherwise": "en caso contrario",

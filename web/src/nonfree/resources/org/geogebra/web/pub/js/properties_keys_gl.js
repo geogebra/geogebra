@@ -3187,6 +3187,7 @@ __GGB__keysVar["gl"].menu = {
     "math_apps": "GeoGebra Classic",
     "max": "M\xe1x",
     "min": "M\xedn",
+    "of": "of",
     "off": "desactivado",
     "on": "Activado",
     "otherwise": "en caso contrario",
