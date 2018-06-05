@@ -330,18 +330,18 @@ public class TabletFileManager extends FileManagerT {
 	}-*/;
 
 	@Override
-	public void open(String url, String name, String features) {
-		openUrlInBrowser(url, name, features);
+	public void open(String url, String features) {
+		openUrlInBrowser(url, features);
 	}
 
 	@Override
 	public void open(String url) {
-		openUrlInBrowser(url, "", "");
+		openUrlInBrowser(url, "");
 	}
 
-	private native void openUrlInBrowser(String url, String name, String features) /*-{
+	private native void openUrlInBrowser(String url, String features) /*-{
 		if ($wnd.android) {
-			$wnd.android.openUrlInBrowser(url, name, features);
+			$wnd.android.openUrlInBrowser(url, "_blank", features);
 		}
 	}-*/;
 

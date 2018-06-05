@@ -220,18 +220,14 @@ public abstract class FileManager extends MaterialsManager {
 	}-*/;
 
 	@Override
-	public void open(String url, String name, String features) {
-		Window.open(url, name, features);
+	public void open(String url) {
+		open(url, "");
 	}
 
 	@Override
-	public void open(String url) {
-		openNative(url);
+	public void open(String url, String features) {
+		Window.open(url, "_blank", features);
 	}
-	
-	native private static void openNative(String url)/*-{
-		$wnd.open(url);
-	}-*/;
 
 	/**
 	 * export image (or other filetype) either as a browser download, share

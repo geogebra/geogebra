@@ -576,7 +576,7 @@ public class MaterialListElement extends FlowPanel
 											// guiManager.getBrowseView().clearMaterials();
 											// guiManager.getBrowseView().onSearchResults(
 											// response, null);
-											Browser.openTubeWindow(
+											Browser.openWindow(
 													material.getEditUrl());
 										} else {
 											material = response.get(0);
@@ -785,7 +785,7 @@ public class MaterialListElement extends FlowPanel
 	 */
 	protected void onView() {
 		this.guiManager.getBrowseView().setMaterialsDefaultStyle();
-		Browser.openTubeWindow(material.getURL());
+		Browser.openWindow(material.getURL());
 	}
 
 	/**

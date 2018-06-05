@@ -1340,7 +1340,7 @@ public class GuiManagerW extends GuiManager
 	protected void openHelp(final String page, final Help type) {
 		try {
 			final String helpURL = getHelpURL(type, page);
-			getApp().getFileManager().open(helpURL, "_blank", "");
+			getApp().getFileManager().open(helpURL);
 		} catch (final MyError e) {
 			getApp().showError(e);
 		} catch (final Exception e) {
