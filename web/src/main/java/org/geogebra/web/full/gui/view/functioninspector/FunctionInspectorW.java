@@ -279,8 +279,9 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void buildHelpPanel() {
 		btnHelp = new StandardButton(SharedResources.INSTANCE.icon_help_black(),
-				null, 32, app);
+				null, 24, app);
 		btnHelp.addStyleName("MyCanvasButton");
+		btnHelp.addStyleName("fiButton");
 		btnHelp.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -293,12 +294,9 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void buildHeaderPanel() {
 		FlowPanel header = new FlowPanel();
-		FlowPanel buttons = new FlowPanel();
 		header.add(lblGeoName);
-		buttons.add(btnHelp);
-		buttons.add(btnOptions);
-		header.add(buttons);
-		buttons.setStyleName("panelRow");
+		header.add(btnHelp);
+		header.add(btnOptions);
 		header.setStyleName("panelRow");
 		buildHelpPanel();
 		mainPanel.add(header);
