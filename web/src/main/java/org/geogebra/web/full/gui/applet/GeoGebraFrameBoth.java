@@ -292,7 +292,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			app.persistWidthAndHeight();
 			ToolTipManagerW.hideAllToolTips();
 			addKeyboard(textField, true);
-			app.getGuiManager().getLayout().getDockManager().adjustViews(true);
+			app.getGuiManager().getLayout().getDockManager()
+					.adjustViews(app.isPortrait());
 		} else {
 			showZoomPanel(true);
 			keyboardState = KeyboardState.ANIMATING_OUT;

@@ -1894,16 +1894,13 @@ public class DockManagerW extends DockManager {
 		} else {
 			appHeight -= GLookAndFeel.TOOLBAR_OFFSET;
 		}
-		Log.error(avHeight + ":" + appHeight + ":" + visibleKB);
-		// double portraitDivider = visibleKB >= appHeight ? 1
-		// : Math.min((avHeight) / (), 1);
 
 		if (app.isPortrait()) {
 			if (toolbar != null && toolbar.isClosed()) {
 				closePortrait(split, toolbar);
 			} else {
 				setDividerLocationAbs(split,
-						(int) (appHeight - visibleKB - avHeight));
+						(int) Math.max(0, appHeight - visibleKB - avHeight));
 			}
 		} else {
 			double ratio = landscapeRatio;
