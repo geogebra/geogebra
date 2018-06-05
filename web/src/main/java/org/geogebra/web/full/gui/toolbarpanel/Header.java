@@ -469,27 +469,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			}
 		});
 	}
-	//
-	// private void addAppsButton() {
-	// ImageResource appsImg = new ImageResourcePrototype(null,
-	// MaterialDesignResources.INSTANCE.apps_black().getSafeUri(), 0,
-	// 0, 24, 24, false, false);
-	// MyToggleButton appsButton = new MyToggleButton(new Image(appsImg),
-	// app);
-	// appsButton.addStyleName("flatButtonHeader");
-	// appsButton.addStyleName("appsBtn");
-	// RootPanel.get("buttonsID").add(appsButton);
-	// // add click handler
-	// ClickStartHandler.init(appsButton, new ClickStartHandler(true, true) {
-	//
-	// @Override
-	// public void onClickStart(int x, int y, PointerEventType type) {
-	// // TODO add here backend of apps btn
-	// }
-	// });
-	// }
-	//
-
 
 	private void addUndoRedoButtons() {
 		undoRedoPanel = new PersistablePanel();

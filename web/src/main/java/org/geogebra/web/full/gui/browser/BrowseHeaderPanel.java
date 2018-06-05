@@ -35,7 +35,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 	private SearchPanel searchPanel;
 	private BrowseGUI bg;
 
-
 	/**
 	 * @param app
 	 *            application
@@ -109,17 +108,12 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 		}
 		if (this.profilePanel == null) {
 			this.profilePanel = new ProfilePanel(app);
-
-
 		}
 		this.rightPanel.clear();
 		profilePanel.update(user);
 
 		this.rightPanel.add(this.profilePanel);
-
 	}
-
-
 
 	@Override
 	public void onResize(int appWidth, int appHeight) {

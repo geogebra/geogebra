@@ -2054,6 +2054,19 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdAsymptote() {
+		t("Asymptote[ x*y=1 ]", new String[] { "x = 0", "y = 0" });
+		t("Asymptote[ 1/x ]", "{y = 0, x = 0}");
+		t("Asymptote[ x^2*y^2=1 ]", "{x = 0, y = 0}");
+		t("Asymptote[ 2^x/(3^x-2^x) ]", "{y = 0, y = -1, x = 0}");
+		t("Asymptote[ (x-1)/(x-1) ]", "{y = 1}");
+		t("Asymptote[ (x-1)^3/(x-1) ]", "{}");
+		// t("Asymptote[ ln(x^2) ]", "{x = 0}");
+		// t("Asymptote[ (-1+(x-7)*2^x/(3^x-2^x)+1)/(x-7) ]",
+		// "{y = 0, y = -1, x = 0}");
+	}
+
+	@Test
 	public void testPointsFromList() {
 		t("Sequence(Segment(Point({0, n}), Point({1, n+0})), n, 0, 9, 1)",
 				"{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}");
