@@ -4237,7 +4237,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2336 */
 		case KEYBOARD_ATTACHED_TO_TABLET:
-			return prerelease;
+			return true;
 		// **********************************************************************
 		// KEYBOARD END
 		// *********************************************************
