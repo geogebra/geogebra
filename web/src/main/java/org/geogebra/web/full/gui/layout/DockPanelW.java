@@ -552,7 +552,7 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/** Builds zoom panel */
-	protected void tryBuildZoomPanel() {
+	public void tryBuildZoomPanel() {
 		// overridden in EV
 	}
 

@@ -1924,11 +1924,15 @@ public class DockManagerW extends DockManager {
 		if (app.isPortrait()) {
 			split.setRightComponent(avPanel);
 			split.setLeftComponent(opposite);
-
 		} else {
 			split.setLeftComponent(avPanel);
 			split.setRightComponent(opposite);
 		}
+
+		avPanel.tryBuildZoomPanel();
+		avPanel.setLayout(false);
+		((DockPanelW) opposite).tryBuildZoomPanel();
+		((DockPanelW) opposite).setLayout(false);
 
 		if (toolbar != null) {
 			toolbar.onOrientationChange();

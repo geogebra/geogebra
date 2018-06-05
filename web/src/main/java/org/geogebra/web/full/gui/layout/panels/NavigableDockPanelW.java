@@ -89,17 +89,19 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 	}
 
 	@Override
-	protected void tryBuildZoomPanel() {
+	public void tryBuildZoomPanel() {
 		DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
 				.getDockManager());
 
 		boolean bottomRight = dm.getRoot() == null
 				|| dm.getRoot().isBottomRight(this);
+		if (zoomPanel != null) {
+			zoomPanel.removeFromParent();
+			zoomPanel = null;
+		}
 		if (bottomRight) {
 			zoomPanel = new ZoomPanel(null, app, bottomRight, false);
-			if (bottomRight) {
-				app.setZoomPanel(zoomPanel);
-			}
+			app.setZoomPanel(zoomPanel);
 		}
 	}
 

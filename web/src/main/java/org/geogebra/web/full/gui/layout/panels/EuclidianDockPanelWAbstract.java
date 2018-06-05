@@ -290,9 +290,13 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	protected void tryBuildZoomPanel() {
+	public void tryBuildZoomPanel() {
 		DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
 				.getDockManager());
+		if (zoomPanel != null) {
+			zoomPanel.removeFromParent();
+			zoomPanel = null;
+		}
 		if (allowZoomPanel()) {
 			boolean bottomRight = dm.getRoot() == null
 					|| dm.getRoot().isBottomRight(this);
