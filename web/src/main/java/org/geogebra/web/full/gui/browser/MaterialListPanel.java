@@ -8,11 +8,11 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
-import org.geogebra.web.full.move.ggtapi.models.GeoGebraTubeAPIW;
-import org.geogebra.web.full.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.html5.gui.ResizeListener;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
+import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

@@ -3,9 +3,9 @@ package org.geogebra.web.full.gui.laf;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.browser.SignInButton;
-import org.geogebra.web.full.move.ggtapi.operations.BASEURL;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.SignInButton;
+import org.geogebra.web.shared.ggtapi.BASEURL;
 
 import com.google.gwt.storage.client.Storage;
 

@@ -77,8 +77,6 @@ import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
-import org.geogebra.web.full.move.ggtapi.models.MaterialCallback;
-import org.geogebra.web.full.move.ggtapi.operations.LoginOperationW;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -100,6 +98,8 @@ import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.shared.ggtapi.LoginOperationW;
+import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;

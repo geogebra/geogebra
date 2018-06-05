@@ -1,4 +1,4 @@
-package org.geogebra.web.full.move.ggtapi.models;
+package org.geogebra.web.shared.ggtapi.models;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -85,6 +85,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 					((JSONString) userinfo.get("realname")).stringValue());
 			user.setIdentifier(
 					((JSONString) userinfo.get("identifier")).stringValue());
+			if (userinfo.get("ggt_avatar_url") instanceof JSONString) {
+				user.setImageURL(((JSONString) userinfo.get("ggt_avatar_url"))
+						.stringValue());
+			}
 			if (userinfo.get("image") instanceof JSONString) {
 				user.setImageURL(
 						((JSONString) userinfo.get("image")).stringValue());

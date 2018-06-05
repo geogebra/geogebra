@@ -1,11 +1,10 @@
-package org.geogebra.web.full.gui.browser;
+package org.geogebra.web.shared;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.web.full.gui.util.WindowReference;
-import org.geogebra.web.full.move.ggtapi.operations.BASEURL;
+import org.geogebra.web.shared.ggtapi.BASEURL;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

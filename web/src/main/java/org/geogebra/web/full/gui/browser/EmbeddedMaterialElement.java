@@ -6,9 +6,9 @@ import java.util.List;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.web.full.move.ggtapi.models.GeoGebraTubeAPIW;
-import org.geogebra.web.full.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
+import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 public class EmbeddedMaterialElement extends MaterialListElement {
 

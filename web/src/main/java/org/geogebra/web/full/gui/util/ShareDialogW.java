@@ -7,9 +7,9 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.dialog.DialogBoxW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
-import org.geogebra.web.full.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;

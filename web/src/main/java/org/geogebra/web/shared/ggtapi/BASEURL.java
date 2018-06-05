@@ -1,4 +1,4 @@
-package org.geogebra.web.full.move.ggtapi.operations;
+package org.geogebra.web.shared.ggtapi;
 
 import com.google.gwt.core.client.GWT;
 

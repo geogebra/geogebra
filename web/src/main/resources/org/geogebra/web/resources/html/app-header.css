@@ -16,7 +16,7 @@
      border: 0px;
 }
 
-.appName.beta {
+.GeoGebraHeader .appName.beta {
 	font-size: 24px;
     font-weight: normal;
     margin: 20px 0px;
@@ -29,7 +29,7 @@
     font-family: sans-serif;
 }
 
-.buttons {    
+.buttons {
 	position: absolute;
     top: 0px;
     right: 0px;
@@ -42,6 +42,7 @@
 	opacity: 0.54;
 	cursor: pointer;
 	height: 48px;
+	float: left;
 }
 
 .flatButtonHeader:hover {
@@ -233,7 +234,7 @@ ul a {
 
 nav {
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
-    z-index: 12;
-    position: absolute;
+    z-index: 102;
+    position: relative;
     width: 100%;
 }

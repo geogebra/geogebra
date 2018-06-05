@@ -13,8 +13,6 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.browser.SignInButton;
-import org.geogebra.web.full.move.ggtapi.operations.LoginOperationW;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.laf.MainMenuI;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
@@ -24,6 +22,8 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.SignInButton;
+import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;

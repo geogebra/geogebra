@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.browser;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -14,6 +13,7 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.AuxiliaryHeaderPanel;
 import org.geogebra.web.full.gui.browser.SearchPanel.SearchListener;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.ResizeListener;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -23,7 +23,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
@@ -40,7 +39,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 	private FlowPanel profilePanel;
 	private Image profileImage;
 	private LogInOperation login;
-	private App app;
+	private AppW app;
 
 	private FlowPanel optionsPanel;
 	private FlowPanel arrowPanel;
@@ -59,7 +58,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 	 * @param op
 	 *            network online / offline state
 	 */
-	public BrowseHeaderPanel(final App app, final BrowseGUI browseGUI,
+	public BrowseHeaderPanel(final AppW app, final BrowseGUI browseGUI,
 			NetworkOperation op) {
 		super(app.getLocalization(), browseGUI);
 		this.bg = browseGUI;
@@ -131,7 +130,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 			this.profileImage.setHeight("40px");
 			this.profilePanel.add(this.profileImage);
 
-			final PopupPanel popup = new PopupPanel();
+			final GPopupPanel popup = new GPopupPanel(app.getPanel(), app);
 			popup.addStyleName("optionsPopup");
 			popup.setAutoHideEnabled(true);
 			popup.addAutoHidePartner(profilePanel.getElement());
@@ -190,7 +189,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 	 * @param p
 	 *            PopupPanel
 	 */
-	void togglePopup(PopupPanel p) {
+	void togglePopup(GPopupPanel p) {
 		if (p.isShowing()) {
 			p.hide();
 		} else {

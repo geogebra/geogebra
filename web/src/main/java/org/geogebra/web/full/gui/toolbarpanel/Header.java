@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.browser.SignInButton;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
@@ -455,7 +454,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		RootPanel.get("headerID").insert(btnMenu, 0);
 		addShareButton();
 		// addAppsButton();
-		addSignIn();
 	}
 
 	private void addShareButton() {
@@ -491,21 +489,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	// });
 	// }
 	//
-	private void addSignIn() {
-		RootPanel signIn = RootPanel.get("signInButton");
-		if (signIn == null) {
-			return;
-		}
-		ClickStartHandler.init(signIn,
-				new ClickStartHandler(true, true) {
 
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-						((SignInButton) app.getLAF().getSignInButton(app))
-								.login();
-			}
-		});
-	}
 
 	private void addUndoRedoButtons() {
 		undoRedoPanel = new PersistablePanel();

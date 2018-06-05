@@ -22,8 +22,6 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.full.gui.dialog.DialogBoxW;
 import org.geogebra.web.full.main.FileManager;
-import org.geogebra.web.full.move.ggtapi.models.GeoGebraTubeAPIW;
-import org.geogebra.web.full.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.full.util.SaveCallback.SaveState;
@@ -35,6 +33,8 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
+import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;

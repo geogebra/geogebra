@@ -134,6 +134,7 @@ import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.video.VideoManagerW;
 import org.geogebra.web.plugin.WebsocketLogger;
 import org.geogebra.web.resources.StyleInjector;
+import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -1714,6 +1715,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		} else {
 			loginOperation.startOffline();
 		}
+		GlobalHeader.addSignIn(this);
 	}
 
 	/**

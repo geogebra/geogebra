@@ -1,4 +1,4 @@
-package org.geogebra.web.full.move.ggtapi.models;
+package org.geogebra.web.shared.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Request;

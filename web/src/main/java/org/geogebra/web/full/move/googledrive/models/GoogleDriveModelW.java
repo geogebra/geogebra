@@ -1,6 +1,6 @@
 package org.geogebra.web.full.move.googledrive.models;
 
-import org.geogebra.web.full.move.ggtapi.models.AuthenticationModelW;
+import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
 /**
  * @author gabor Model for google drive handling

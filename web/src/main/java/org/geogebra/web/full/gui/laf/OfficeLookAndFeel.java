@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.browser.SignInButton;
+import org.geogebra.web.shared.SignInButton;
 
 /**
  * @author geogebra

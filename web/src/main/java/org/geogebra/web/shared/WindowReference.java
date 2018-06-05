@@ -1,13 +1,13 @@
-package org.geogebra.web.full.gui.util;
+package org.geogebra.web.shared;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.web.full.move.ggtapi.operations.BASEURL;
-import org.geogebra.web.full.move.ggtapi.operations.LoginOperationW;
 import org.geogebra.web.html5.util.WindowW;
+import org.geogebra.web.shared.ggtapi.BASEURL;
+import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -47,7 +47,7 @@ public final class WindowReference implements EventRenderable {
 	}
 	
 	public native void close() /*-{
-		var wnd = this.@org.geogebra.web.full.gui.util.WindowReference::wnd;
+		var wnd = this.@org.geogebra.web.shared.WindowReference::wnd;
 		if ($wnd.debug) {
 			$wnd.debug("closing");
 		}
@@ -109,7 +109,7 @@ public final class WindowReference implements EventRenderable {
 	 * @return the closed state of the
 	 */
 	public native boolean closed() /*-{
-		var wnd = this.@org.geogebra.web.full.gui.util.WindowReference::wnd;
+		var wnd = this.@org.geogebra.web.shared.WindowReference::wnd;
 		if (wnd) {
 			return wnd.closed;
 		}

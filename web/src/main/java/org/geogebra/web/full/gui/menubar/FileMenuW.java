@@ -19,7 +19,6 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
-import org.geogebra.web.full.gui.browser.SignInButton;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.layout.LayoutW;
@@ -30,6 +29,7 @@ import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.SignInButton;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.himamis.retex.editor.share.util.Unicode;

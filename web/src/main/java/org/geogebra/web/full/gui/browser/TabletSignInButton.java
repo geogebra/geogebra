@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.browser;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.SignInButton;
 
 public class TabletSignInButton extends SignInButton {
 

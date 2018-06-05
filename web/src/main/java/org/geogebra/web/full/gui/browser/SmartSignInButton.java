@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.browser;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.shared.SignInButton;
 
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window.Location;

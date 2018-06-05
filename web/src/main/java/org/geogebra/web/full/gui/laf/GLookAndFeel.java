@@ -7,13 +7,13 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.full.gui.browser.MaterialListElement;
-import org.geogebra.web.full.gui.browser.SignInButton;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExamUtil;
+import org.geogebra.web.shared.SignInButton;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;

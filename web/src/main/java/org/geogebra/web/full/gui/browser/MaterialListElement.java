@@ -14,8 +14,6 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.util.SaveDialogW;
-import org.geogebra.web.full.move.ggtapi.models.GeoGebraTubeAPIW;
-import org.geogebra.web.full.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
@@ -23,6 +21,8 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
+import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;

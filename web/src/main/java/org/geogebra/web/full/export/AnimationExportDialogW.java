@@ -15,8 +15,8 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.dialog.DialogBoxW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.full.move.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
