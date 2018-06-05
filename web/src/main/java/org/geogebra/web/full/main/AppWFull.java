@@ -98,6 +98,7 @@ import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
@@ -223,6 +224,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				initSignInEventFlow(new LoginOperationW(this),
 						ArticleElement.isEnableUsageStats());
 			}
+			GlobalHeader.addSignIn(this);
 		} else {
 			if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
 				new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
