@@ -48,9 +48,9 @@ public class DrawInequality extends Drawable {
 
 	private boolean wasOR = false;
 	private double maxBound = 1000000;
-	private Drawable max;
+	private DrawInequality1Var max;
 	private double minBound = -1000000;
-	private Drawable min;
+	private DrawInequality1Var min;
 	private ArrayList<Pair<Map<Double, Drawable>>> orBounds = new ArrayList<>();
 	private GeneralPathClipped[] gpAxis;
 
@@ -90,63 +90,64 @@ public class DrawInequality extends Drawable {
 
 		if (this.operation.equals(Operation.AND_INTERVAL)
 				&& left.drawable instanceof DrawInequality1Var) {
-			if (((DrawInequality1Var) left.drawable).isMinBoundSet()) {
-				double minLeft = ((DrawInequality1Var) left.drawable)
+			DrawInequality1Var leftIneq = (DrawInequality1Var) left.drawable;
+			if (leftIneq.isMinBoundSet()) {
+				double minLeft = leftIneq
 						.getMinBound();
 				if (DoubleUtil.isGreater(minLeft, minBound)) {
 					minBound = minLeft;
 					if (this.min != null) {
-						((DrawInequality1Var) this.min).ignoreLines();
+						this.min.ignoreLines();
 					}
-					this.min = left.drawable;
+					this.min = leftIneq;
 				} else if (DoubleUtil.isGreater(minBound, minLeft)
-						|| ((DrawInequality1Var) left.drawable)
+						|| leftIneq
 								.isGrtLessEqual()) {
-					((DrawInequality1Var) left.drawable).ignoreLines();
+					leftIneq.ignoreLines();
 				}
 			} else {
-				double maxLeft = ((DrawInequality1Var) left.drawable)
+				double maxLeft = leftIneq
 						.getMaxBound();
 				if (DoubleUtil.isGreater(maxBound, maxLeft)) {
 					maxBound = maxLeft;
 					if (this.max != null) {
-						((DrawInequality1Var) this.max).ignoreLines();
+						this.max.ignoreLines();
 					}
-					this.max = left.drawable;
+					this.max = leftIneq;
 				} else if (DoubleUtil.isGreater(maxLeft, maxBound)
-						|| ((DrawInequality1Var) left.drawable)
+						|| leftIneq
 								.isGrtLessEqual()) {
-					((DrawInequality1Var) left.drawable).ignoreLines();
+					leftIneq.ignoreLines();
 				}
 			}
-
-			if (((DrawInequality1Var) right.drawable).isMinBoundSet()) {
-				double minRight = ((DrawInequality1Var) right.drawable)
+			DrawInequality1Var rightIneq = (DrawInequality1Var) right.drawable;
+			if (rightIneq.isMinBoundSet()) {
+				double minRight = rightIneq
 						.getMinBound();
 				if (DoubleUtil.isGreater(minRight, minBound)) {
 					minBound = minRight;
 					if (this.min != null) {
-						((DrawInequality1Var) this.min).ignoreLines();
+						this.min.ignoreLines();
 					}
-					this.min = right.drawable;
+					this.min = rightIneq;
 				} else if (DoubleUtil.isGreater(minBound, minRight)
-						|| ((DrawInequality1Var) right.drawable)
+						|| rightIneq
 								.isGrtLessEqual()) {
-					((DrawInequality1Var) right.drawable).ignoreLines();
+					rightIneq.ignoreLines();
 				}
 			} else {
-				double maxRight = ((DrawInequality1Var) right.drawable)
+				double maxRight = rightIneq
 						.getMaxBound();
 				if (DoubleUtil.isGreater(maxBound, maxRight)) {
 					maxBound = maxRight;
 					if (this.max != null) {
-						((DrawInequality1Var) this.max).ignoreLines();
+						this.max.ignoreLines();
 					}
-					this.max = right.drawable;
+					this.max = rightIneq;
 				} else if (DoubleUtil.isGreater(maxRight, maxBound)
-						|| ((DrawInequality1Var) right.drawable)
+						|| rightIneq
 								.isGrtLessEqual()) {
-					((DrawInequality1Var) right.drawable).ignoreLines();
+					rightIneq.ignoreLines();
 				}
 			}
 			return;
@@ -184,33 +185,34 @@ public class DrawInequality extends Drawable {
 			this.minBound = left.minBound;
 			this.maxBound = left.maxBound;
 		} else if (left.drawable instanceof DrawInequality1Var && !wasOR) {
-			if (((DrawInequality1Var) left.drawable).isMinBoundSet()) {
-				double minLeft = ((DrawInequality1Var) left.drawable)
+			DrawInequality1Var leftIneq = (DrawInequality1Var) left.drawable;
+			if (leftIneq.isMinBoundSet()) {
+				double minLeft = leftIneq
 						.getMinBound();
 				if (DoubleUtil.isGreater(minLeft, minBound)) {
 					minBound = minLeft;
 					if (this.min != null) {
-						((DrawInequality1Var) this.min).ignoreLines();
+						this.min.ignoreLines();
 					}
-					this.min = left.drawable;
+					this.min = leftIneq;
 				} else if (DoubleUtil.isGreater(minBound, minLeft)
-						|| ((DrawInequality1Var) left.drawable)
+						|| leftIneq
 								.isGrtLessEqual()) {
-					((DrawInequality1Var) left.drawable).ignoreLines();
+					leftIneq.ignoreLines();
 				}
 			} else {
-				double maxLeft = ((DrawInequality1Var) left.drawable)
+				double maxLeft = leftIneq
 						.getMaxBound();
 				if (DoubleUtil.isGreater(maxBound, maxLeft)) {
 					maxBound = maxLeft;
 					if (this.max != null) {
-						((DrawInequality1Var) this.max).ignoreLines();
+						this.max.ignoreLines();
 					}
-					this.max = left.drawable;
+					this.max = leftIneq;
 				} else if (DoubleUtil.isGreater(maxLeft, maxBound)
-						|| ((DrawInequality1Var) left.drawable)
+						|| leftIneq
 								.isGrtLessEqual()) {
-					((DrawInequality1Var) left.drawable).ignoreLines();
+					leftIneq.ignoreLines();
 				}
 			}
 		}
@@ -237,12 +239,12 @@ public class DrawInequality extends Drawable {
 					if (DoubleUtil.isGreater(right.minBound, minBound)
 							&& DoubleUtil.isGreater(maxBound, right.minBound)
 							&& right.min != null) {
-						((DrawInequality1Var) right.min).ignoreLines();
+						right.min.ignoreLines();
 					}
 					if (DoubleUtil.isGreater(right.maxBound, minBound)
 							&& DoubleUtil.isGreater(maxBound, right.maxBound)
 							&& right.max != null) {
-						((DrawInequality1Var) right.max).ignoreLines();
+						right.max.ignoreLines();
 					}
 				}
 				Map<Double, Drawable> minEntry = new HashMap<>();
@@ -273,81 +275,83 @@ public class DrawInequality extends Drawable {
 			}
 		} else if (right.drawable instanceof DrawInequality1Var
 				&& !operation.equals(Operation.OR)) {
-			if (((DrawInequality1Var) right.drawable).isMinBoundSet()) {
-				double minRight = ((DrawInequality1Var) right.drawable)
+			DrawInequality1Var rightIneq = (DrawInequality1Var) right.drawable;
+			if (rightIneq.isMinBoundSet()) {
+				double minRight = rightIneq
 						.getMinBound();
 				if (DoubleUtil.isGreater(minRight, minBound)) {
 					minBound = minRight;
 					if (this.min != null) {
-						((DrawInequality1Var) this.min).ignoreLines();
+						this.min.ignoreLines();
 					}
-					this.min = right.drawable;
+					this.min = rightIneq;
 				} else if (DoubleUtil.isGreater(minBound, minRight)
-						|| ((DrawInequality1Var) right.drawable)
+						|| rightIneq
 								.isGrtLessEqual()) {
-					((DrawInequality1Var) right.drawable).ignoreLines();
+					rightIneq.ignoreLines();
 				}
 			} else {
-				double maxRight = ((DrawInequality1Var) right.drawable)
+				double maxRight = rightIneq
 						.getMaxBound();
 				if (DoubleUtil.isGreater(maxBound, maxRight)) {
 					maxBound = maxRight;
 					if (this.max != null) {
-						((DrawInequality1Var) this.max).ignoreLines();
+						this.max.ignoreLines();
 					}
-					this.max = right.drawable;
+					this.max = rightIneq;
 				} else if (DoubleUtil.isGreater(maxRight, maxBound)
-						|| ((DrawInequality1Var) right.drawable)
+						|| rightIneq
 								.isGrtLessEqual()) {
-					((DrawInequality1Var) right.drawable).ignoreLines();
+					rightIneq.ignoreLines();
 				}
 			}
 		}
 		if (this.operation.equals(Operation.OR)) {
 
 			if (right.drawable instanceof DrawInequality1Var) {
-				if (((DrawInequality1Var) right.drawable).isMinBoundSet()) {
-					double minRight = ((DrawInequality1Var) right.drawable)
+				DrawInequality1Var rightIneq = (DrawInequality1Var) right.drawable;
+				if (rightIneq.isMinBoundSet()) {
+					double minRight = rightIneq
 							.getMinBound();
 					if (DoubleUtil.isGreater(minBound, minRight)) {
 						minBound = minRight;
 						if (this.min != null) {
-							((DrawInequality1Var) this.min).ignoreLines();
+							this.min.ignoreLines();
 						}
-						this.min = right.drawable;
+						this.min = rightIneq;
 					} else if (DoubleUtil.isGreater(minRight, minBound)
 							&& DoubleUtil.isGreater(maxBound, minRight)) {
-						((DrawInequality1Var) right.drawable).ignoreLines();
+						rightIneq.ignoreLines();
 						if (!DoubleUtil.isEqual(maxBound, 1000000)
 								&& this.max != null) {
-							((DrawInequality1Var) this.max).ignoreLines();
+							this.max.ignoreLines();
 						}
 					} else if (DoubleUtil.isEqual(maxBound, minRight)) {
-						((DrawInequality1Var) right.drawable).ignoreLines();
+						rightIneq.ignoreLines();
 						if (this.max != null) {
-							((DrawInequality1Var) this.max).ignoreLines();
+							this.max.ignoreLines();
 						}
 					}
 				} else {
-					double maxRight = ((DrawInequality1Var) right.drawable)
+					double maxRight = rightIneq
 							.getMaxBound();
 					if (DoubleUtil.isGreater(maxRight, maxBound)) {
 						maxBound = maxRight;
 						if (this.max != null) {
-							((DrawInequality1Var) this.max).ignoreLines();
+							this.max.ignoreLines();
 						}
-						this.max = right.drawable;
+						this.max = rightIneq;
 					} else if (DoubleUtil.isGreater(maxBound, maxRight)
 							&& DoubleUtil.isGreater(maxRight, minBound)) {
-						((DrawInequality1Var) right.drawable).ignoreLines();
+						rightIneq.ignoreLines();
 						if (DoubleUtil.isEqual(maxBound, 1000000)
 								&& this.min != null) {
-							((DrawInequality1Var) this.min).ignoreLines();
+							this.min.ignoreLines();
 						}
 					} else if (DoubleUtil.isEqual(maxRight, minBound)) {
-						((DrawInequality1Var) right.drawable).ignoreLines();
+						rightIneq.ignoreLines();
 						if (this.min != null) {
-							((DrawInequality1Var) this.min).ignoreLines();
+							this.min.ignoreLines();
 						}
 					}
 				}
@@ -367,12 +371,12 @@ public class DrawInequality extends Drawable {
 			if (DoubleUtil.isGreater(right2.minBound, minCurrOrBound)
 					&& DoubleUtil.isGreater(maxCurrOrBound, right2.minBound)
 					&& right2.min != null) {
-				((DrawInequality1Var) right2.min).ignoreLines();
+				right2.min.ignoreLines();
 			}
 			if (DoubleUtil.isGreater(right2.maxBound, minCurrOrBound)
 					&& DoubleUtil.isGreater(maxCurrOrBound, right2.maxBound)
 					&& right2.max != null) {
-				((DrawInequality1Var) right2.max).ignoreLines();
+				right2.max.ignoreLines();
 			}
 		}
 
@@ -442,10 +446,10 @@ public class DrawInequality extends Drawable {
 			update2();
 			if (maxBound < minBound) {
 				if (max != null) {
-					((DrawInequality1Var) max).ignoreLines();
+					max.ignoreLines();
 				}
 				if (min != null) {
-					((DrawInequality1Var) min).ignoreLines();
+					min.ignoreLines();
 				}
 			}
 		}
