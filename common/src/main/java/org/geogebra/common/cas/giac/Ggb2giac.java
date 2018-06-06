@@ -1570,8 +1570,8 @@ public class Ggb2giac {
 				// command
 				+ "when(xcoord(ggbangarg0)==string(X)&&string(xcoord(ggbangarg1[1]))==string(hyperplan),"
 				+ "normal(regroup(angle(point(0,0,0),"
-				+ "point(coeff(expr(ggbangarg0)[0][2]," + Unicode.lambda
-				+ ",1),coeff(expr(ggbangarg0)[1][2]," + Unicode.lambda
+						+ "point(coeff(expr(ggbangarg0)[2][0]," + Unicode.lambda
+						+ ",1),coeff(expr(ggbangarg0)[2][1]," + Unicode.lambda
 				+ ",1),coeff(expr(ggbangarg0)[2][2]," + Unicode.lambda
 				+ ",1)),"
 				+ "point(ggbangarg1[1][1][0],ggbangarg1[1][1][1],ggbangarg1[1][1][2])))),"
@@ -1613,11 +1613,11 @@ public class Ggb2giac {
 				// case 3D lines defined in this command
 				+ "when(xcoord(ggbangarg0)==string(X)&&xcoord(ggbangarg1)==string(X),"
 				+ "normal(regroup(angle(point(0,0,0),"
-				+ "point(coeff(expr(ggbangarg0)[0][2]," + Unicode.lambda
-				+ ",1),coeff(expr(ggbangarg0)[1][2]," + Unicode.lambda
+						+ "point(coeff(expr(ggbangarg0)[2][0]," + Unicode.lambda
+						+ ",1),coeff(expr(ggbangarg0)[2][1]," + Unicode.lambda
 				+ ",1),coeff(expr(ggbangarg0)[2][2]," + Unicode.lambda + ",1)),"
-				+ "point(coeff(expr(ggbangarg1)[0][2]," + Unicode.lambda
-				+ ",1),coeff(expr(ggbangarg1)[1][2]," + Unicode.lambda
+						+ "point(coeff(expr(ggbangarg1)[2][0]," + Unicode.lambda
+						+ ",1),coeff(expr(ggbangarg1)[2][1]," + Unicode.lambda
 				+ ",1),coeff(expr(ggbangarg1)[2][2]," + Unicode.lambda
 				+ ",1))))),"
 				// case 3D lines defined from inputBar
@@ -1629,8 +1629,8 @@ public class Ggb2giac {
 				// equation
 				+ " when(xcoord(ggbangarg0)==string(X)&&type(xcoord(ggbangarg1))==DOM_INT,"
 				+ "normal(regroup(angle(point(0,0,0),"
-				+ "point(coeff(expr(ggbangarg0)[0][2]," + Unicode.lambda
-				+ ",1),coeff(expr(ggbangarg0)[1][2]," + Unicode.lambda
+						+ "point(coeff(expr(ggbangarg0)[2][0]," + Unicode.lambda
+						+ ",1),coeff(expr(ggbangarg0)[2][1]," + Unicode.lambda
 				+ ",1),coeff(expr(ggbangarg0)[2][2]," + Unicode.lambda
 				+ ",1)),"
 				+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))),"
