@@ -3,7 +3,6 @@ package org.geogebra.web.full.main;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.layout.DockManagerW;
@@ -22,11 +21,11 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	public void add(DrawEmbed drawEmbed) {
-		Log.debug("Adding embed");
 		GeoGebraFrameBoth fr = new GeoGebraFrameBoth(
 				(AppletFactory) GWT.create(AppletFactory.class),
 				app.getLAF(), app.getDevice(), false);
 		fr.ae = new TestArticleElement("", "graphing");
+		fr.ae.setAttribute("toolbar", "true");
 		fr.runAsyncAfterSplash();
 		((DockManagerW) app.getGuiManager().getLayout().getDockManager())
 				.getPanel(App.VIEW_EUCLIDIAN).getElement()

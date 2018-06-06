@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.main;
 
+import java.util.HashMap;
+
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 
@@ -13,6 +15,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	private String appName;
 	private String prerelease;
+	private HashMap<String, String> attributes = new HashMap<>();
 
 	/**
 	 * @param prerelease
@@ -102,7 +105,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamShowToolBar(boolean def) {
-		return false;
+		return "true".equals(attributes.get("toolbar"));
 	}
 
 	@Override
@@ -367,7 +370,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public void setAttribute(String string, String string2) {
-		// intentionally empty
+		attributes.put(string, string2);
 	}
 
 	@Override

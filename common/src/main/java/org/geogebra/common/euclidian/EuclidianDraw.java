@@ -79,7 +79,6 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Factory class for drawables
@@ -338,8 +337,8 @@ public class EuclidianDraw {
 		case VIDEO:
 			d = new DrawVideo(ev, (GeoVideo) geo);
 			break;
+
 		case EMBED:
-			Log.debug("add to view");
 			d = new DrawEmbed(ev, (GeoEmbed) geo);
 			break;
 		}

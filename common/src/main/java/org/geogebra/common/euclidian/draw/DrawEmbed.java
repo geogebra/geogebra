@@ -8,6 +8,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 
+/**
+ * Drawable for embedded apps
+ */
 public class DrawEmbed extends Drawable {
 
 	/**
@@ -19,12 +22,16 @@ public class DrawEmbed extends Drawable {
 	public DrawEmbed(EuclidianView ev, GeoEmbed geo) {
 		this.view = ev;
 		this.geo = geo;
-		view.getEmbedManager().add(this);
+		if (view.getEmbedManager() != null) {
+			view.getEmbedManager().add(this);
+		}
 	}
 
 	@Override
 	public void update() {
-		view.getEmbedManager().update(this);
+		if (view.getEmbedManager() != null) {
+			view.getEmbedManager().update(this);
+		}
 	}
 
 	@Override
