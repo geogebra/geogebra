@@ -2556,6 +2556,7 @@ __GGB__keysVar["et"].menu = {
     "Scatterplot": "Hajuvusdiagramm",
     "Script": "GeoGebra skript",
     "Scripting": "Skriptimine",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0 teise pooltelje pikkus",

@@ -2556,6 +2556,7 @@ __GGB__keysVar["xh"].menu = {
     "Scatterplot": "iScatterplot",
     "Script": "umbhalo weJiyoJebra",
     "Scripting": "Bhala",
+    "Search": "Search",
     "SearchCommands": "Khangela Imiyalelo",
     "SearchInA": "Khangela ku %0",
     "SecondAxisLengthOfA": "ubude beMinor axis' ka %0",

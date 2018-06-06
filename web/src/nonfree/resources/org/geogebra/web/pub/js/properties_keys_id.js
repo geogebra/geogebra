@@ -2556,6 +2556,7 @@ __GGB__keysVar["id"].menu = {
     "Scatterplot": "Scatterplot",
     "Script": "Skrip GeoGebra",
     "Scripting": "Pembuatan Skrip",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Panjang sumbu kedua dari %0",

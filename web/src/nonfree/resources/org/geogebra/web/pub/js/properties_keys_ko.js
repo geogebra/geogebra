@@ -2556,6 +2556,7 @@ __GGB__keysVar["ko"].menu = {
     "Scatterplot": "\uc0b0\uc810\ub3c4",
     "Script": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uc2a4\ud06c\ub9bd\ud2b8",
     "Scripting": "\uc2a4\ud06c\ub9bd\ud2b8",
+    "Search": "\uac80\uc0c9",
     "SearchCommands": "\uba85\ub839\uc5b4 \uac80\uc0c9",
     "SearchInA": "%0 \uc5d0\uc11c \uac80\uc0c9",
     "SecondAxisLengthOfA": "%0\uc758 \ub458\uc9f8\ucd95\uc758 \uae38\uc774",

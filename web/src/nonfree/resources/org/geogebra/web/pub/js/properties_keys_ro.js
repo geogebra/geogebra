@@ -2556,6 +2556,7 @@ __GGB__keysVar["ro"].menu = {
     "Scatterplot": "Grafic de dispersie",
     "Script": "Script GeoGebra",
     "Scripting": "Scriptare",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Lungime axa minor\u0103 pentru %0",

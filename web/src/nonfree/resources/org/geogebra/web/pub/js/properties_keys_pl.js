@@ -2556,6 +2556,7 @@ __GGB__keysVar["pl"].menu = {
     "Scatterplot": "Wykres punktowy",
     "Script": "GeoGebra Script",
     "Scripting": "Skrypty",
+    "Search": "Szukaj",
     "SearchCommands": "Wyszukiwanie polece\u0144",
     "SearchInA": "Szukaj: %0",
     "SecondAxisLengthOfA": "D\u0142ugo\u015b\u0107 osi P\xf3\u0142o\u015b ma\u0142a %0's",

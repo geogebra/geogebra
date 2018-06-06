@@ -2556,6 +2556,7 @@ __GGB__keysVar["bs"].menu = {
     "Scatterplot": "Raspr\u0161eni dijagram",
     "Script": "GeoGebra Script",
     "Scripting": "Skriptiranje",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Du\u017eina sporedne poluose od %0",

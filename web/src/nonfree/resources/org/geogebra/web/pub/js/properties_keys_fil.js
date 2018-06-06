@@ -2556,6 +2556,7 @@ __GGB__keysVar["fil"].menu = {
     "Scatterplot": "Scatterplot",
     "Script": "Iskrip sa GeoGebra",
     "Scripting": "Pag-iiskrip",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Haba ng aksis na di-mahalaga ay %0",

@@ -2556,6 +2556,7 @@ __GGB__keysVar["mr"].menu = {
     "Scatterplot": "Scatterplot",
     "Script": "GeoGebra Script",
     "Scripting": "Scripting",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0 \u091a\u094d\u092f\u093e \u0932\u0918\u0941\u0905\u0915\u094d\u0937\u093e\u091a\u0940 \u0932\u093e\u0902\u092c\u0940",

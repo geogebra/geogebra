@@ -2556,6 +2556,7 @@ __GGB__keysVar["lt"].menu = {
     "Scatterplot": "I\u0161sibarstymoVaizdas",
     "Script": "GeoGebra programavimas",
     "Scripting": "Programavimas",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Antros a\u0161ies ilgis %0",

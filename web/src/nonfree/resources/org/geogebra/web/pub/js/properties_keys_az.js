@@ -2556,6 +2556,7 @@ __GGB__keysVar["az"].menu = {
     "Scatterplot": "Scatterplot",
     "Script": "GeoGebra Script",
     "Scripting": "Scripting",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Length of %0's semi-minor axis",

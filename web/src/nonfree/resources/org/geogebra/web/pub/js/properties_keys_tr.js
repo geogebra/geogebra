@@ -2556,6 +2556,7 @@ __GGB__keysVar["tr"].menu = {
     "Scatterplot": "Da\u011f\u0131l\u0131m \xe7izimi",
     "Script": "GeoGebra Betik",
     "Scripting": "Betikleme",
+    "Search": "Ara",
     "SearchCommands": "Komutlarda Ara",
     "SearchInA": "%0 i\xe7inde Ara",
     "SecondAxisLengthOfA": "%0 ikinci yar\u0131 eksen uzunlu\u011fu",

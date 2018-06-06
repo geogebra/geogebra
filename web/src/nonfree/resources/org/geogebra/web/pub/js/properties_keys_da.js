@@ -2556,6 +2556,7 @@ __GGB__keysVar["da"].menu = {
     "Scatterplot": "Punktplot",
     "Script": "GeoGebra Script",
     "Scripting": "Scripting",
+    "Search": "S\xf8g",
     "SearchCommands": "S\xf8g kommando",
     "SearchInA": "S\xf8g i %0",
     "SecondAxisLengthOfA": "L\xe6ngde af halvlilleaksen p\xe5 %0",

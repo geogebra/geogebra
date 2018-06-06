@@ -2556,6 +2556,7 @@ __GGB__keysVar["cy"].menu = {
     "Scatterplot": "Graff gwasgariad",
     "Script": "SgriptGeoGebra",
     "Scripting": "Sgriptio",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Hyd ail echelin o %0",

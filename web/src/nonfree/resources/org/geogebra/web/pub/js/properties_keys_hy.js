@@ -2556,6 +2556,7 @@ __GGB__keysVar["hy"].menu = {
     "Scatterplot": "\u0551\u0580\u0574\u0561\u0576 \u0563\u0580\u0561\u0586\u056b\u056f",
     "Script": "GeoGebra \u057d\u056f\u0580\u056b\u057a\u057f",
     "Scripting": "\u054d\u0581\u0565\u0576\u0561\u0580\u0576\u0565\u0580",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0-\u056b \u0583\u0578\u0584\u0580 \u056f\u056b\u057d\u0561\u057c\u0561\u0576\u0581\u0584\u056b \u0565\u0580\u056f\u0561\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0568",

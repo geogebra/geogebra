@@ -2556,6 +2556,7 @@ __GGB__keysVar["sk"].menu = {
     "Scatterplot": "Korela\u010dn\xfd diagram",
     "Script": "GeoGebra Script",
     "Scripting": "skriptovanie",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "D\u013a\u017eka vedlaj\u0161ej osi toho: %0",

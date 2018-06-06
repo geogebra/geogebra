@@ -2556,6 +2556,7 @@ __GGB__keysVar["gl"].menu = {
     "Scatterplot": "Diagrama de dispersi\xf3n",
     "Script": "Gui\xf3n (Script) GeoGebra",
     "Scripting": "Programa de Gui\xf3n - Scripting",
+    "Search": "Search",
     "SearchCommands": "Buscar comandos",
     "SearchInA": "Buscar en %0",
     "SecondAxisLengthOfA": "Lonxitude do semi-eixe secundario de %0",

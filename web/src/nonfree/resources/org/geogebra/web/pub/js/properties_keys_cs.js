@@ -2556,6 +2556,7 @@ __GGB__keysVar["cs"].menu = {
     "Scatterplot": "Korela\u010dn\xed graf",
     "Script": "GeoGebra Skript",
     "Scripting": "Skriptov\xe1n\xed",
+    "Search": "Hledat",
     "SearchCommands": "Hledat p\u0159\xedkazy",
     "SearchInA": "Hled\xe1n\xed: %0",
     "SecondAxisLengthOfA": "D\xe9lka vedlej\u0161\xed osy %0",

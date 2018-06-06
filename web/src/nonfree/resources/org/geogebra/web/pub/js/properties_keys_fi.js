@@ -2556,6 +2556,7 @@ __GGB__keysVar["fi"].menu = {
     "Scatterplot": "Pistekaavio",
     "Script": "GeoGebra Script",
     "Scripting": "Ohjelmointi",
+    "Search": "Haku",
     "SearchCommands": "Etsi komennoista",
     "SearchInA": "Etsi aiheesta %0",
     "SecondAxisLengthOfA": "%0n pienen puoliakselin pituus",

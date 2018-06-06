@@ -2556,6 +2556,7 @@ __GGB__keysVar["ms"].menu = {
     "Scatterplot": "Plot Sebar",
     "Script": "Skrip GeoGebra",
     "Scripting": "Penskripan",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Panjang paksi minor %0",

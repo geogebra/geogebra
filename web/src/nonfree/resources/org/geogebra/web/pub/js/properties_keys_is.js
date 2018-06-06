@@ -2556,6 +2556,7 @@ __GGB__keysVar["is"].menu = {
     "Scatterplot": "Punktarit",
     "Script": "GeoGebru forrit",
     "Scripting": "Forritun",
+    "Search": "Search",
     "SearchCommands": "Skipanaleit",
     "SearchInA": "Leita \xed %0",
     "SecondAxisLengthOfA": "Lengd skamm\xe1ss %0",

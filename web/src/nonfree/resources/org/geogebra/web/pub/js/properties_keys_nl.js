@@ -2556,6 +2556,7 @@ __GGB__keysVar["nl"].menu = {
     "Scatterplot": "Puntenplot",
     "Script": "GeoGebra Script",
     "Scripting": "Scripting",
+    "Search": "Zoek",
     "SearchCommands": "Zoek commando's",
     "SearchInA": "Zoek in %0",
     "SecondAxisLengthOfA": "Lengte van kleine as van %0",

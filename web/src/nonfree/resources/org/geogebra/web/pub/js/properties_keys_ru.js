@@ -2556,6 +2556,7 @@ __GGB__keysVar["ru"].menu = {
     "Scatterplot": "\u0413\u0440\u0430\u0444\u0438\u043a \u0440\u0430\u0441\u0441\u0435\u044f\u043d\u0438\u044f",
     "Script": "GeoGebra \u0441\u043a\u0440\u0438\u043f\u0442",
     "Scripting": "\u0421\u0446\u0435\u043d\u0430\u0440\u0438\u0438",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "\u0414\u043b\u0438\u043d\u0430 \u043c\u0430\u043b\u043e\u0439 \u043f\u043e\u043b\u0443\u043e\u0441\u0438 %0",

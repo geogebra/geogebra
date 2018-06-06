@@ -2556,6 +2556,7 @@ __GGB__keysVar["eu"].menu = {
     "Scatterplot": "Puntu-hodeia (Barreiatze-diagrama)",
     "Script": "GeoGebraren Komandoen Sekuentzia (Script)",
     "Scripting": "Komandoen Sekuentzia (Script)",
+    "Search": "Bilatu",
     "SearchCommands": "Bilatu Komandoak",
     "SearchInA": "Bilatu %0-(e)n",
     "SecondAxisLengthOfA": "%0-(r)en ardatz sekundarioaren luzera",

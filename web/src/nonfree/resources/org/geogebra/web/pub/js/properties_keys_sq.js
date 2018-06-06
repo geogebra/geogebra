@@ -2556,6 +2556,7 @@ __GGB__keysVar["sq"].menu = {
     "Scatterplot": "Vizatim i Shperhapur",
     "Script": "GjeoGjebra Skript",
     "Scripting": "Skriptim",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Gjysem-Bosht i Vogel me Gjatesi %0",

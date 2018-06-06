@@ -2556,6 +2556,7 @@ __GGB__keysVar["it"].menu = {
     "Scatterplot": "Grafico di dispersione",
     "Script": "GeoGebra Script",
     "Scripting": "Scripting",
+    "Search": "Cerca",
     "SearchCommands": "Cerca comandi",
     "SearchInA": "Cerca in %0",
     "SecondAxisLengthOfA": "Lunghezza del semiasse minore di %0",

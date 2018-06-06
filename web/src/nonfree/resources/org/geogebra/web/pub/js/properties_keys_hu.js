@@ -2556,6 +2556,7 @@ __GGB__keysVar["hu"].menu = {
     "Scatterplot": "Pontok",
     "Script": "GeoGebra Script",
     "Scripting": "Script",
+    "Search": "Keres",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0 kistengely\xe9nek hossza",

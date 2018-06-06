@@ -2556,6 +2556,7 @@ __GGB__keysVar["sl"].menu = {
     "Scatterplot": "Razpr\u0161eni diagram",
     "Script": "Skripta v Geogebri",
     "Scripting": "Skripte",
+    "Search": "I\u0161\u010di",
     "SearchCommands": "Iskanje ukazov",
     "SearchInA": "I\u0161\u010di v %0",
     "SecondAxisLengthOfA": "Dol\u017eina druge pol osi %0",

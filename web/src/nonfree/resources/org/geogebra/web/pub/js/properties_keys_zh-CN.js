@@ -2556,6 +2556,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Scatterplot": "\u6563\u70b9\u56fe",
     "Script": "GeoGebra \u811a\u672c",
     "Scripting": "\u811a\u672c",
+    "Search": "\u68c0\u7d22",
     "SearchCommands": "\u68c0\u7d22\u6307\u4ee4",
     "SearchInA": "\u5728 %0 \u4e2d\u68c0\u7d22",
     "SecondAxisLengthOfA": "%0 \u7684\u526f\u534a\u8f74\u957f",

@@ -2556,6 +2556,7 @@ __GGB__keysVar["lv"].menu = {
     "Scatterplot": "Punktu Grafiks",
     "Script": "GeoGebra Script",
     "Scripting": "Scripting",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "Minor axis' length of %0",

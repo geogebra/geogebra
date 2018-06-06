@@ -2556,6 +2556,7 @@ __GGB__keysVar["sv"].menu = {
     "Scatterplot": "Spridningsdiagram",
     "Script": "GeoGebra script",
     "Scripting": "Script (Program)",
+    "Search": "S\xf6k",
     "SearchCommands": "S\xf6k kommandon",
     "SearchInA": "S\xf6k i %0",
     "SecondAxisLengthOfA": "L\xe4ngd av halva lillaxeln hos %0",

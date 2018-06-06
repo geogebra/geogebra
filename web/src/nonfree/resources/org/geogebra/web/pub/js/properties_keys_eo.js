@@ -2556,6 +2556,7 @@ __GGB__keysVar["eo"].menu = {
     "Scatterplot": "Scatterplot",
     "Script": "GeoGebra-skripto",
     "Scripting": "Skriptado",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Ser\u0109i en %0",
     "SecondAxisLengthOfA": "Length of %0's semi-minor axis",

@@ -2556,6 +2556,7 @@ __GGB__keysVar["hi"].menu = {
     "Scatterplot": "\u0938\u094d\u0915\u0948\u091f\u0930\u092a\u094d\u0932\u0949\u091f",
     "Script": "\u091c\u093f\u092f\u094b\u091c\u0947\u092c\u094d\u0930\u093e \u0938\u094d\u0915\u094d\u0930\u093f\u092a\u094d\u091f",
     "Scripting": "\u0938\u094d\u0915\u094d\u0930\u093f\u092a\u094d\u091f\u093f\u0902\u0917",
+    "Search": "Search",
     "SearchCommands": "Search Commands",
     "SearchInA": "Search in %0",
     "SecondAxisLengthOfA": "%0 \u0915\u0940 \u0932\u0918\u0941 \u0905\u0915\u094d\u0937 \u0932\u0902\u092c\u093e\u0908",

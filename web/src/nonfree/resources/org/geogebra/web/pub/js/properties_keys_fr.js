@@ -2556,6 +2556,7 @@ __GGB__keysVar["fr"].menu = {
     "Scatterplot": "Nuage",
     "Script": "Script GeoGebra",
     "Scripting": "Script",
+    "Search": "Chercher",
     "SearchCommands": "Chercher Commandes",
     "SearchInA": "Chercher dans %0",
     "SecondAxisLengthOfA": "Demi-Longueur du second axe de %0",

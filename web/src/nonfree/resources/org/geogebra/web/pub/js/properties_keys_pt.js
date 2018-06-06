@@ -2556,6 +2556,7 @@ __GGB__keysVar["pt"].menu = {
     "Scatterplot": "Scatterplot",
     "Script": "C\xf3digo GeoGebra",
     "Scripting": "Programa\xe7\xe3o",
+    "Search": "Pesquisar",
     "SearchCommands": "Procurar Comandos",
     "SearchInA": "Procurar em %0",
     "SecondAxisLengthOfA": "Comprimento do semieixo secund\xe1rio de %0",
