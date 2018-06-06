@@ -54,6 +54,7 @@ public class VideoPlayer extends Frame implements Persistable {
 		} else {
 			waiting.add(this);
 		}
+		getElement().setAttribute("allowfullscreen", "1");
 	}
 	
 	private void createPlayerDeferred() {
