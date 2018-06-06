@@ -3,6 +3,7 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.util.ArticleElement;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -11,7 +12,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class ScriptManagerW extends ScriptManager {
 
-	private String ggbApplet = AppW.DEFAULT_APPLET_ID;
+	private String ggbApplet = ArticleElement.DEFAULT_APPLET_ID;
 	private JavaScriptObject api;
 
 	/**

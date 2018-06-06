@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
@@ -147,6 +148,8 @@ public class EuclidianViewW extends EuclidianView implements
 	private GBufferedImage cacheImage;
 
 	private Runnable callBack;
+
+	private EmbedManager embedManager;
 
 	/**
 	 * @param euclidianViewPanel
@@ -1690,5 +1693,13 @@ public class EuclidianViewW extends EuclidianView implements
 			return DrawVideo.HANDLER_THRESHOLD;
 		}
 		return app.getCapturingThreshold(type);
+	}
+
+	@Override
+	public EmbedManager getEmbedManager() {
+		if(embedManager == null){
+			embedManager = ((AppW) app).newEmbedManager();
+		}
+		return embedManager;
 	}
 }

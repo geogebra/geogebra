@@ -6549,4 +6549,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return null;
 	}
 
+	public EmbedManager getEmbedManager() {
+		return null;
+	}
+
 }

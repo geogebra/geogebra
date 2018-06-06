@@ -91,6 +91,7 @@ import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
+import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -146,6 +147,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -972,6 +974,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (app.getGuiManager() != null) {
 					getDialogManager().showPDFInputDialog();
 				}
+			}
+			if (newMode == EuclidianConstants.MODE_GEOGEBRA && app.has(Feature.MOW_GEOGEBRA_TOOL)) {
+				Log.debug("add to cons");
+				GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
+				ge.setLabel(null);
 			}
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(Test.GEOIMAGE, tempArrayList),

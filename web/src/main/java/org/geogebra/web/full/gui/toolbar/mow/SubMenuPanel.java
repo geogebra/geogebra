@@ -226,15 +226,7 @@ public abstract class SubMenuPanel extends FlowPanel
 		button.setBtnImage(im);
 		button.addFastClickHandler(this);
 		button.addStyleName("mowToolButton");
-		if ((mode == EuclidianConstants.MODE_VIDEO
-				&& !app.has(Feature.MOW_VIDEO_TOOL))
-				|| (mode == EuclidianConstants.MODE_AUDIO
-						&& !app.has(Feature.MOW_AUDIO_TOOL))
-				|| mode == EuclidianConstants.MODE_GEOGEBRA
-				|| (mode == EuclidianConstants.MODE_CAMERA
-						&& !app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED))
-				|| (mode == EuclidianConstants.MODE_PDF
-						&& !app.has(Feature.MOW_PDF_TOOL))) {
+		if (modeAvailable(mode)) {
 			button.addStyleName("inactiveToolButton");
 		}
 		String altText = app.getLocalization()
@@ -264,6 +256,19 @@ public abstract class SubMenuPanel extends FlowPanel
 	/*
 	 * public void setInfo(boolean info) { this.info = info; }
 	 */
+
+	private boolean modeAvailable(int mode) {
+		return (mode == EuclidianConstants.MODE_VIDEO
+				&& !app.has(Feature.MOW_VIDEO_TOOL))
+				|| (mode == EuclidianConstants.MODE_AUDIO
+						&& !app.has(Feature.MOW_AUDIO_TOOL))
+				|| (mode == EuclidianConstants.MODE_CAMERA
+						&& !app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED))
+				|| (mode == EuclidianConstants.MODE_PDF
+						&& !app.has(Feature.MOW_PDF_TOOL))
+				|| (mode == EuclidianConstants.MODE_GEOGEBRA
+						&& !app.has(Feature.MOW_GEOGEBRA_TOOL));
+	}
 
 	/**
 	 * Initializes the submenu when it is opened from MOWToolbar.

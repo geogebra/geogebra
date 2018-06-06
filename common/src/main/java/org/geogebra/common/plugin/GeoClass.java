@@ -157,6 +157,8 @@ public enum GeoClass {
 	/** VIDEO */
 	VIDEO("Video", 160, false),
 
+	EMBED("Embed", 160, false),
+
 	/** DEFAULT */
 	DEFAULT("Default", 160, false);
 

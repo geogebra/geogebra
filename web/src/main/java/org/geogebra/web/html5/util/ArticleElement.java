@@ -27,6 +27,7 @@ import com.google.gwt.user.client.Window.Location;
 public final class ArticleElement extends Element implements ArticleElementInterface {
 	/** tag name */
 	static final String TAG = "article";
+	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 
 	/**
 	 * @param element
@@ -77,7 +78,7 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public String getDataParamId() {
 		String ret = this.getAttribute("data-param-id");
 		if (("".equals(ret)) || !ret.matches("[A-Za-z0-9_]+")) {
-			return AppW.DEFAULT_APPLET_ID;
+			return DEFAULT_APPLET_ID;
 		}
 		return ret;
 	}

@@ -233,6 +233,8 @@ public enum Feature {
 	/** MOW-348 */
 	MOW_PDF_TOOL,
 
+	MOW_GEOGEBRA_TOOL,
+
 	COMMAND_HOLES, WEB_CLASSIC_FLOATING_MENU,
 
 	/** IGR-604 */

@@ -95,7 +95,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * @param mainTag
 	 *            TODO remove, if GGB-2051 released.
 	 */
-	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeel laf,
+	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeelI laf,
 			GDevice device, boolean mainTag) {
 		super(laf, mainTag);
 		this.device = device;

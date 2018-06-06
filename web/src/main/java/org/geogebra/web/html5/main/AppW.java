@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -164,7 +165,6 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
 	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
-	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 
 	private static final int LOWER_HEIGHT = 350;
 	/*
@@ -2189,6 +2189,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// }
 		updateCommandDictionary();
 		String key = getConfig().getAppTitle();
+		Log.debug(getArticleElement());
 		getArticleElement().setAttribute("aria-label",
 				getLocalization().getMenu(key));
 		setAltText();
@@ -3901,6 +3902,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void afterLocalizationLoaded(Runnable run) {
 		// overridden in Full
+	}
+
+	public EmbedManager newEmbedManager() {
+		return null;
 	}
 
 }

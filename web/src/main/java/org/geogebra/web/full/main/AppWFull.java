@@ -1881,4 +1881,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		setExport3D(new FormatObj());
 	}
 
+	public EmbedManagerW newEmbedManager() {
+		return new EmbedManagerW(this);
+	}
+
 }
