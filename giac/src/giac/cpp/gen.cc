@@ -8381,7 +8381,7 @@ namespace giac {
     if (is_equal(a)) // so that equal(a=0 ,1) returns a=1, used for fsolve
       return equal(a._SYMBptr->feuille[0],b,contextptr);
     // only in ggb mode, because we want to be able to do subst(x[1],x=[1,2])
-    if (calc_mode(contextptr)==1 && a.type==_IDNT && b.type==_VECT && b.subtype!=_SEQ__VECT){
+    if (calc_mode(contextptr)==1 && a.type==_IDNT && b.type==_VECT && b.subtype!=_SEQ__VECT && b.subtype!=_GGB__VECT){
       vecteur v=*b._VECTptr;
       for (unsigned i=0;i<v.size();++i){
 	v[i]=symbolic(at_equal,makesequence(a,v[i]));
