@@ -165,7 +165,10 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		mainSplit.setWidgetMinSize(comboPanelSplit, 500);
 		mainSplit.setStyleName("daMainSplit");
 		add(mainSplit);
-		model.setView(dataSource, mode, null, null, forceModeUpdate);
+		model.setView(dataSource, mode,
+				app.getSettings().getDataAnalysis().getPlotType(0, null),
+				app.getSettings().getDataAnalysis().getPlotType(1, null),
+				forceModeUpdate);
 		//		updateFonts();
 		setLabels();
 		updateGUI();
@@ -573,7 +576,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	public void onModeChange(PlotType plotType1, PlotType plotType2) {
 		dataPanel = null;
 		buildStatisticsPanel();
-
+		Log.error("" + plotType1);
 		setDataPlotPanels(plotType1, plotType2);
 		updateLayout();
 

@@ -532,8 +532,8 @@ public class DataAnalysisModel {
 			DataSource source = new DataSource(app);
 			source.setDataListFromSettings(settings.getItems(),
 					settings.getMode());
-			this.setView(source, settings.getMode(), settings.getPlotType(0),
-					settings.getPlotType(1), true);
+			this.setView(source, settings.getMode(), settings.getPlotType(0, PlotType.BARCHART),
+					settings.getPlotType(1, PlotType.BOXPLOT), true);
 			settings.getItems().clear();
 		}
 

@@ -700,7 +700,8 @@ public class DataDisplayModel {
 	}
 
 	public PlotType getSelectedPlot() {
-		return app.getSettings().getDataAnalysis().getPlotType(id);
+		return app.getSettings().getDataAnalysis().getPlotType(id,
+				id == 0 ? PlotType.BARCHART : PlotType.BOXPLOT);
 	}
 
 	public void setSelectedPlot(PlotType selectedPlot) {

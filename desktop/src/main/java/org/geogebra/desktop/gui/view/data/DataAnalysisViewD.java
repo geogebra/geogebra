@@ -125,7 +125,10 @@ public class DataAnalysisViewD extends JPanel
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 
-		model.setView(dataSource, mode, null, null, forceModeUpdate);
+		model.setView(dataSource, mode,
+				app.getSettings().getDataAnalysis().getPlotType(0, null),
+				app.getSettings().getDataAnalysis().getPlotType(1, null),
+				forceModeUpdate);
 		updateFonts();
 		updateGUI();
 		revalidate();

@@ -11,8 +11,8 @@ public class DataAnalysisSettings {
 	private ArrayList<String> items = new ArrayList<>();
 	private int mode = DataAnalysisModel.MODE_ONEVAR;
 	private Regression regression = Regression.NONE;
-	private PlotType plotType1 = PlotType.BARCHART;
-	private PlotType plotType2 = PlotType.BOXPLOT;
+	private PlotType plotType1 = null;
+	private PlotType plotType2 = null;
 
 	public void addItem(String ranges) {
 		items.add(ranges);
@@ -56,9 +56,9 @@ public class DataAnalysisSettings {
 		return regression;
 	}
 
-	public PlotType getPlotType(int i) {
-		Log.error("get i = " + i + "  " + plotType1 + " " + plotType2);
-		return i == 0 ? plotType1 : plotType2;
+	public PlotType getPlotType(int i, PlotType fallback) {
+		PlotType ret = i == 0 ? plotType1 : plotType2;
+		return ret == null ? fallback : ret;
 	}
 
 }
