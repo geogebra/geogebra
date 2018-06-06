@@ -48,8 +48,9 @@ public class PropertiesFactory {
      * @param onLanguageSetCallback callback when language is set
      * @return an array of general properties
      */
-    public static Property[] createGeneralProperties(App app, Localization localization,
-                                                     LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
+    public static Property[] createGeneralProperties(
+            App app, Localization localization,
+            LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
         return new Property[]{
                 new RoundingProperty(app, localization),
