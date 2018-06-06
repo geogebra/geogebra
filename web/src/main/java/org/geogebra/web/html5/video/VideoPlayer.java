@@ -179,6 +179,7 @@ public class VideoPlayer extends Frame implements Persistable {
 				that.@org.geogebra.web.html5.video.VideoPlayer::playerId,
 				{
 					videoId : youtubeId,
+					allowfullscreen : "allowfullscreen",
 					events : {
 						'onReady' : function(event) {
 							that.@org.geogebra.web.html5.video.VideoPlayer::onReady()();
