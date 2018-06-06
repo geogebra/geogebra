@@ -19,6 +19,10 @@ public class DataAnalysisSettings {
 	}
 
 	public void setMode(int mode) {
+		if (mode != this.mode) {
+			plotType1 = null;
+			plotType2 = null;
+		}
 		this.mode = mode;
 	}
 

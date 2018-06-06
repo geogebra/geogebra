@@ -153,7 +153,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * @return maximum frequency of a bar chart or histogram
 	 */
 	public double getFreqMax() {
-
+		if (yval == null) {
+			return Double.NaN;
+		}
 		freqMax = 0;
 		for (int k = 0; k < yval.length; ++k) {
 			freqMax = Math.max(yval[k], freqMax);

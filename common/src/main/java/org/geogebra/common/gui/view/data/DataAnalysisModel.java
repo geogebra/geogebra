@@ -144,11 +144,7 @@ public class DataAnalysisModel {
 
 	}
 
-	/*************************************************
-	 * END constructor
-	 */
-
-	public void setView(DataSource dataSource, int mode, PlotType plotType1,
+	private void setView(DataSource dataSource, int mode, PlotType plotType1,
 			PlotType plotType2, boolean forceModeUpdate) {
 
 		ctrl.setDataSource(dataSource);
@@ -532,8 +528,9 @@ public class DataAnalysisModel {
 			DataSource source = new DataSource(app);
 			source.setDataListFromSettings(settings.getItems(),
 					settings.getMode());
-			this.setView(source, settings.getMode(), settings.getPlotType(0, PlotType.BARCHART),
-					settings.getPlotType(1, PlotType.BOXPLOT), true);
+			// no need to guess here
+			this.setView(source, settings.getMode(),
+					settings, true);
 			settings.getItems().clear();
 		}
 
@@ -558,5 +555,24 @@ public class DataAnalysisModel {
 		getDataSource().getXMLDescription(sb);
 		sb.append("</dataAnalysis>");
 
+	}
+
+	/**
+	 * @param dataSource
+	 *            data source
+	 * @param mode
+	 *            app mode
+	 * @param dataAnalysis
+	 *            analysis settings (may be updated)
+	 * @param forceModeUpdate
+	 *            whether to force reset for new mode
+	 */
+	public void setView(DataSource dataSource, int mode,
+			DataAnalysisSettings dataAnalysis, boolean forceModeUpdate) {
+		dataAnalysis.setMode(mode);
+		setView(dataSource, mode,
+				dataAnalysis.getPlotType(0, null),
+				dataAnalysis.getPlotType(1, null),
+				forceModeUpdate);
 	}
 }

@@ -166,8 +166,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		mainSplit.setStyleName("daMainSplit");
 		add(mainSplit);
 		model.setView(dataSource, mode,
-				app.getSettings().getDataAnalysis().getPlotType(0, null),
-				app.getSettings().getDataAnalysis().getPlotType(1, null),
+				app.getSettings().getDataAnalysis(),
 				forceModeUpdate);
 		//		updateFonts();
 		setLabels();
