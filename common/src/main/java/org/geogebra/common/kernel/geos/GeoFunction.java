@@ -2251,8 +2251,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 							// Log.debug("checking for vertical
 							// asymptote: "+sb.toString()+" = "+limit,1);
-							if ("?".equals(limit)
-									|| !GeoFunction.isCASError(limit, true)) {
+							if (GeoFunction.isCASError(limit, true)) {
 								if (verticalSB.length() > 1) {
 									verticalSB.append(',');
 								}
