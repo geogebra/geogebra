@@ -73,7 +73,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
-			return expandProducts(sn, sb, tracker, false);
+			return expandProducts(this, sn, sb, tracker, false);
 		}
 	},
 
@@ -81,7 +81,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
-			return expandProducts(sn, sb, tracker, true);
+			return expandProducts(this, sn, sb, tracker, true);
 		}
 	},
 
@@ -188,8 +188,8 @@ enum ExpandSteps implements SimplificationStepGenerator {
 		return this == DEFAULT_EXPAND || this == DECIMAL_EXPAND;
 	}
 
-	public StepTransformable expandProducts(StepTransformable sn, SolutionBuilder sb,
-			RegroupTracker tracker, boolean strongExpand) {
+	private static StepTransformable expandProducts(ExpandSteps step, StepTransformable sn,
+			SolutionBuilder sb, RegroupTracker tracker, boolean strongExpand) {
 		if (sn.isOperation(Operation.MULTIPLY)) {
 			StepOperation so = (StepOperation) sn;
 
@@ -272,6 +272,6 @@ enum ExpandSteps implements SimplificationStepGenerator {
 			}
 		}
 
-		return sn.iterateThrough(this, sb, tracker);
+		return sn.iterateThrough(step, sb, tracker);
 	}
 }

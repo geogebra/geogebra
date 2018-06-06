@@ -339,12 +339,18 @@ public abstract class StepSolvable extends StepTransformable {
 		return result;
 	}
 
-	public StepSolvable power(int power, SolutionBuilder steps, SolveTracker tracker) {
+	public StepSolvable power(long power, SolutionBuilder steps, SolveTracker tracker) {
 		StepSolvable result = cloneWith(power(LHS, power), power(RHS, power));
 
 		steps.add(SolutionStepType.GROUP_WRAPPER);
 		steps.levelDown();
-		steps.add(SolutionStepType.SQUARE_BOTH_SIDES);
+
+		if (power == 2) {
+			steps.add(SolutionStepType.SQUARE_BOTH_SIDES);
+		} else {
+			steps.add(SolutionStepType.RAISE_TO_POWER, StepConstant.create(power));
+		}
+
 		steps.levelDown();
 		steps.add(result);
 

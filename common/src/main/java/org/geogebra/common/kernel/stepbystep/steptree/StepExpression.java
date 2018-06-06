@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class StepExpression extends StepTransformable
@@ -522,8 +523,8 @@ public abstract class StepExpression extends StepTransformable
 
 			if (so.isOperation(Operation.POWER)) {
 				return so.getOperand(1);
-			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE) ||
-					so.isOperation(Operation.MINUS)) {
+			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)
+					|| so.isOperation(Operation.MINUS)) {
 				StepExpression power = null;
 				for (StepExpression operand : so) {
 					power = StepHelper.GCD(power, operand.getPower());
@@ -537,6 +538,29 @@ public abstract class StepExpression extends StepTransformable
 
 	public boolean isPower() {
 		return isConstant() || getPower() != null;
+	}
+
+	public StepExpression getRoot() {
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
+
+			if (so.isOperation(Operation.NROOT)) {
+				return so.getOperand(1);
+			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)
+					|| so.isOperation(Operation.MINUS)) {
+				StepExpression root = StepConstant.create(1);
+				for (StepExpression operand : so) {
+					root = StepHelper.LCM(root, operand.getRoot());
+				}
+				return root;
+			}
+		}
+
+		return null;
+	}
+
+	public boolean isRoot() {
+		return isConstant() || getRoot() != null;
 	}
 
 	/**
@@ -709,6 +733,31 @@ public abstract class StepExpression extends StepTransformable
 		return null;
 	}
 
+	public StepExpression getCommonProduct(StepExpression expr) {
+		List<StepExpression> thisBases = new ArrayList<>();
+		List<StepExpression> thisExponents = new ArrayList<>();
+		List<StepExpression> thatBases = new ArrayList<>();
+		List<StepExpression> thatExponents = new ArrayList<>();
+
+		getBasesAndExponents(thisBases, thisExponents);
+		expr.getBasesAndExponents(thatBases, thatExponents);
+
+		StepExpression result = null;
+		for (int i = 0; i < thisBases.size(); i++) {
+			for (int j = 0; j < thatBases.size(); j++) {
+				if (thisBases.get(i).equals(thatBases.get(j))
+						&& thisExponents.get(i).equals(thatExponents.get(j))) {
+					result = multiply(result,
+							nonTrivialPower(thisBases.get(i), thisExponents.get(i)));
+					thatBases.set(j, null);
+					break;
+				}
+			}
+		}
+
+		return result;
+	}
+
 	/**
 	 * Finds the common part of the two expressions
 	 * For example (3+k).getCommon(3) = 3
@@ -794,22 +843,6 @@ public abstract class StepExpression extends StepTransformable
 					return true;
 				}
 			}
-		}
-
-		return false;
-	}
-
-	public boolean integerCoefficients(StepVariable sv) {
-		if (degree(sv) >= 0) {
-			StepExpression[] coefficients = convertToPolynomial(sv);
-
-			for (StepExpression coefficient : coefficients) {
-				if (coefficient != null && !coefficient.isInteger()) {
-					return false;
-				}
-			}
-
-			return true;
 		}
 
 		return false;

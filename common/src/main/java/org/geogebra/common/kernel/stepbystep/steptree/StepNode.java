@@ -404,7 +404,7 @@ public abstract class StepNode implements TableElement {
 	}
 
 	public static long lcm(StepExpression a, StepExpression b) {
-		long aVal = 0, bVal = 0;
+		long aVal = 1, bVal = 1;
 
 		if (a != null && a.canBeEvaluated()) {
 			aVal = Math.round(a.getValue());

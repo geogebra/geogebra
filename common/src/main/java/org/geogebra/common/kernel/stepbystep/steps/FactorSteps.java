@@ -31,7 +31,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 				}
 
 				if (common == null || isEqual(common, 1) || isEqual(common, -1)) {
-					return so;
+					return sn.iterateThrough(this, sb, tracker);
 				}
 
 				common = common.deepCopy();
@@ -113,12 +113,12 @@ enum FactorSteps implements SimplificationStepGenerator {
 				StepOperation so = (StepOperation) sn;
 
 				StepExpression common = so.getOperand(0);
-				for (int i = 1; i < so.noOfOperands(); i++) {
-					common = StepHelper.simpleGCD(common, so.getOperand(i));
+				for (int i = 1; common != null && i < so.noOfOperands(); i++) {
+					common = common.getCommonProduct(so.getOperand(i));
 				}
 
 				if (common == null || isEqual(common, 1) || isEqual(common, -1)) {
-					return sn;
+					return sn.iterateThrough(this, sb, tracker);
 				}
 
 				List<StepExpression> commonBases = new ArrayList<>();
@@ -141,8 +141,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 					for (int j = 0; j < commonBases.size(); j++) {
 						for (int k = 0; k < currentBases.get(i).size(); k++) {
-							if (currentBases.get(i).get(k).equals(commonBases.get(j)) &&
-									currentExponents.get(i).get(k).equals(commonExponents.get(j))) {
+							if (commonBases.get(j).equals(currentBases.get(i).get(k)) &&
+									commonExponents.get(j).equals(currentExponents.get(i).get(k))) {
 								currentBases.get(i).get(k).setColor(commonColor);
 								currentExponents.get(i).get(k).setColor(commonColor);
 								currentExponents.get(i).set(k, null);
@@ -538,14 +538,16 @@ enum FactorSteps implements SimplificationStepGenerator {
 					var = (StepVariable) variableSet.toArray()[0];
 				}
 
-				if (var == null || !so.integerCoefficients(var)) {
+				if (var == null || so.degree(var) < 2) {
 					return sn.iterateThrough(this, sb, tracker);
 				}
 
 				StepExpression[] polynomialForm = so.convertToPolynomial(var);
 
-				if (polynomialForm.length < 3) {
-					return sn.iterateThrough(this, sb, tracker);
+				for (StepExpression coefficient : polynomialForm) {
+					if (coefficient != null && !coefficient.isInteger()) {
+						return sn.iterateThrough(this, sb, tracker);
+					}
 				}
 
 				long[] integerForm = new long[polynomialForm.length];
@@ -677,6 +679,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					REORGANIZE_POLYNOMIAL,
 					FACTOR_POLYNOMIAL,
+					FACTOR_COMMON_SUBSTEP,
 			};
 
 			return StepStrategies

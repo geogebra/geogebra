@@ -210,6 +210,8 @@ enum SolveSteps implements SolveStepGenerator {
 
 			steps.add(result);
 			steps.levelUp();
+
+			result = result.regroup(steps);
 			return new Result(result);
 		}
 	},

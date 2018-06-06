@@ -128,6 +128,7 @@ public class SolveStepTest {
 
 	@Test
 	public void irrationalEquations() {
+		t("sqrt(3x+1) - sqrt(x+2)", "0", "x", "x = (1)/(2)");
 		t("sqrt(3x+1)", "x+1", "x", "x = 0", "x = 1");
 		t("sqrt(3x+1)", "x+1+sqrt(2x+3)", "x", "fail");
 		t("2x+10", "x+1+sqrt(5x-4)", "x");
@@ -187,6 +188,9 @@ public class SolveStepTest {
 	@Test
 	public void higherOrderRoots() {
 		t("nroot(x, 3)", "2", "x", "x = 8");
+		t("nroot(x, 2)", "nroot(x+4, 3)", "x", "x = 4");
+		t("nroot(3x + 1, 2)", "nroot(x+1, 3)", "x", "x = 0");
+		t("nroot(3x + 1, 2)-nroot(x+1, 3)", "0", "x", "x = 0");
 	}
 
 	@Test

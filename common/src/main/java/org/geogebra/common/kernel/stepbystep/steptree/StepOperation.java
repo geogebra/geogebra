@@ -635,6 +635,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 					return StepConstant.create(-1);
 				}
 				return new StepOperation(Operation.MINUS, sm);
+			case PLUSMINUS:
+				return getOperand(0).getIntegerCoefficient();
 			case MULTIPLY:
 				StepExpression[] coefficient = new StepExpression[noOfOperands()];
 				for (int i = 0; i < noOfOperands(); i++) {
@@ -653,6 +655,12 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		switch (operation) {
 			case MINUS:
 				return getOperand(0).getNonInteger();
+			case PLUSMINUS:
+				StepExpression sm = getOperand(0).getNonInteger();
+				if (sm == null) {
+					sm = StepConstant.create(1);
+				}
+				return new StepOperation(Operation.PLUSMINUS, sm);
 			case MULTIPLY:
 				StepExpression[] nonInteger = new StepExpression[noOfOperands()];
 				for (int i = 0; i < noOfOperands(); i++) {

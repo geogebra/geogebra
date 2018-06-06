@@ -264,7 +264,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 			}
 		}
 
-		if (input instanceof StepExpression) {
+		if (input instanceof StepExpression && variableSet.size() > 0) {
 			stepsPanel.add(new HTML("<h2>Derivatives</h2>"));
 
 			for (StepVariable variable : variableSet) {

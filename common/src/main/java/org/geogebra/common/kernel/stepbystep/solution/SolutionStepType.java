@@ -115,6 +115,8 @@ public enum SolutionStepType {
 
 	SQUARE_BOTH_SIDES("SquareBothSides", "Square both sides"),
 
+	RAISE_TO_POWER("RaiseToPower", "Raise both sides to the %0 power"),
+
 	ADD_TO_BOTH_SIDES("AddAToBothSides", "Add %0 to both sides"),
 
 	ADD_TO_BOTH_SIDES_NUM("AddToBithSidesNum", "Add %0 to the %1 equation"),

@@ -171,6 +171,8 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 			result = new StepEquation(variable,
 					divide(add(minus(b), plusminus(root(discriminant, 2))), multiply(2, a)));
 
+			tempSteps.add(result);
+
 			result = result.regroup(tempSteps);
 
 			steps.addGroup(new SolutionLine(SolutionStepType.USE_QUADRATIC_FORMULA, a, b, c),
@@ -452,35 +454,29 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 			}
 
 			if (sqrtNum == 1) {
-				StepExpression nonIrrational = StepHelper.getNon(result.LHS, Operation.NROOT);
+				StepExpression nonIrrational = StepHelper.getNon(result.LHS,
+						StepHelper.squareRoot);
 				result = result.addOrSubtract(nonIrrational, steps);
 				result = result.power(2, steps, tracker);
 			}
 
 			if (sqrtNum == 2) {
 				StepExpression diff = subtract(result.LHS, result.RHS).regroup();
-				if (isZero(StepHelper.getNon(diff, Operation.NROOT))) {
-					StepExpression nonIrrational =
-							StepHelper.getNon(result.LHS, Operation.NROOT);
-					result = result.addOrSubtract(nonIrrational, steps);
-					if (result.RHS.countNonConstOperation(Operation.NROOT, variable) == 2) {
-						StepExpression oneRoot =
-								StepHelper.getOne(result.LHS, Operation.NROOT);
-						result = result.addOrSubtract(oneRoot, steps);
-					}
-					result = result.power(2, steps, tracker);
-				} else {
-					StepExpression rootsRHS = StepHelper.getAll(result.RHS, Operation.NROOT);
+				if (!isZero(StepHelper.getNon(diff, StepHelper.squareRoot))) {
+					StepExpression rootsRHS = StepHelper.getAll(result.RHS,
+							StepHelper.squareRoot);
 					result = result.addOrSubtract(rootsRHS, steps);
 					StepExpression nonIrrational =
-							StepHelper.getNon(result.LHS, Operation.NROOT);
+							StepHelper.getNon(result.LHS,
+									StepHelper.squareRoot);
 					result = result.addOrSubtract(nonIrrational, steps);
 					result = result.power(2, steps, tracker);
 				}
 			}
 
 			if (sqrtNum == 3) {
-				StepExpression nonIrrational = StepHelper.getNon(result.LHS, Operation.NROOT);
+				StepExpression nonIrrational = StepHelper.getNon(result.LHS,
+						StepHelper.squareRoot);
 				result = result.addOrSubtract(nonIrrational, steps);
 
 				while (result.RHS.countNonConstOperation(Operation.NROOT, variable) > 1) {
@@ -500,25 +496,43 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 		}
 	},
 
-	SOLVE_CUBE_ROOTS {
+	RAISE_TO_POWER {
 		@Override
 		public Result apply(StepEquation se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			int lhsNum = se.LHS.countNthRoots(3);
-			int rhsNum = se.RHS.countNthRoots(3);
+			StepSolvable result = se;
 
-			if (lhsNum + rhsNum != 1) {
+			if (!se.LHS.isRoot() || !se.RHS.isRoot()) {
+				StepExpression diff = subtract(se.LHS, se.RHS).regroup();
+
+				if (diff.isOperation(Operation.PLUS)) {
+					StepOperation sum = (StepOperation) diff;
+					if (sum.noOfOperands() == 2 && sum.getOperand(0).isRoot()
+							&& sum.getOperand(1).isRoot()) {
+						result = result.addOrSubtract(sum.getOperand(1), steps);
+					} else {
+						return null;
+					}
+				} else {
+					return null;
+				}
+			}
+
+			long power = lcm(result.LHS.getRoot(), result.RHS.getRoot());
+
+			if (power <= 1) {
 				return null;
 			}
 
-			StepSolvable result = se;
-			if (rhsNum > lhsNum) {
-				result = result.swapSides();
+			StepExpression toDivide = result.LHS.getCoefficient();
+			result = result.multiplyOrDivide(toDivide, steps);
+
+			if (power % 2 == 0 && result.RHS.sign() < 0) {
+				steps.add(SolutionStepType.LEFT_POSITIVE_RIGHT_NEGATIVE);
+				return new Result();
 			}
 
-			result = result.subtract(StepHelper.getNon(se.LHS, Operation.NROOT), steps);
-			result = result.power(3, steps, tracker);
-
+			result = result.power(power, steps, tracker);
 			return new Result(result);
 		}
 	},
@@ -552,7 +566,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 			}
 
 			StepExpression nonAbsDiff =
-					StepHelper.getNon(subtract(se.LHS, se.RHS).regroup(), Operation.ABS);
+					StepHelper.getNon(subtract(se.LHS, se.RHS).regroup(), StepHelper.abs);
 			if (absNum == 2 && (isZero(nonAbsDiff))) {
 				StepSolvable result = se.addOrSubtract(nonAbsDiff, steps);
 

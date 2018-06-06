@@ -17,56 +17,82 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
 public class StepHelper {
 
-	private static abstract class Condition {
-		private static final Condition underAbs = new Condition() {
-			@Override
-			public StepTransformable isTrueFor(StepTransformable sn) {
-				if (sn.isOperation(Operation.ABS)) {
-					return ((StepOperation) sn).getOperand(0);
-				}
-				return null;
-			}
-		};
-		private static final Condition underEvenRoot = new Condition() {
-			@Override
-			public StepTransformable isTrueFor(StepTransformable sn) {
-				if (sn.isOperation(Operation.NROOT) && ((StepOperation) sn).getOperand(1)
-						.isEven()) {
-					return ((StepOperation) sn).getOperand(0);
-				}
-				return null;
-			}
-		};
-		private static final Condition plusminusToPlus = new Condition() {
-			@Override
-			public StepTransformable isTrueFor(StepTransformable sn) {
-				if (sn.isOperation(Operation.PLUSMINUS)) {
-					return ((StepOperation) sn).getOperand(0);
-				}
-				return null;
-			}
-		};
-		private static final Condition plusminusToMinus = new Condition() {
-			@Override
-			public StepTransformable isTrueFor(StepTransformable sn) {
-				if (sn.isOperation(Operation.PLUSMINUS)) {
-					return minus(((StepOperation) sn).getOperand(0));
-				}
-				return null;
-			}
-		};
-		private static final Condition isDenominator = new Condition() {
-			@Override
-			public StepTransformable isTrueFor(StepTransformable sn) {
-				if (sn.isOperation(Operation.DIVIDE)) {
-					return ((StepOperation) sn).getOperand(1);
-				}
-				return null;
-			}
-		};
-
-		public abstract StepTransformable isTrueFor(StepTransformable sn);
+	public interface Condition {
+		StepTransformable isTrueFor(StepTransformable sn);
 	}
+
+	public interface BooleanCondition {
+		boolean isTrueFor(StepTransformable sn);
+	}
+
+	public static final BooleanCondition squareRoot = new BooleanCondition() {
+		@Override
+		public boolean isTrueFor(StepTransformable sn) {
+			if (sn instanceof StepExpression) {
+				return ((StepExpression) sn).containsSquareRoot();
+			}
+
+			return false;
+		}
+	};
+
+	public static final BooleanCondition abs = new BooleanCondition() {
+		@Override
+		public boolean isTrueFor(StepTransformable sn) {
+			return sn.isOperation(Operation.ABS);
+		}
+	};
+
+	private static final Condition underAbs = new Condition() {
+		@Override
+		public StepTransformable isTrueFor(StepTransformable sn) {
+			if (sn.isOperation(Operation.ABS)) {
+				return ((StepOperation) sn).getOperand(0);
+			}
+			return null;
+		}
+	};
+
+	private static final Condition underEvenRoot = new Condition() {
+		@Override
+		public StepTransformable isTrueFor(StepTransformable sn) {
+			if (sn.isOperation(Operation.NROOT) && ((StepOperation) sn).getOperand(1)
+					.isEven()) {
+				return ((StepOperation) sn).getOperand(0);
+			}
+			return null;
+		}
+	};
+
+	private static final Condition plusminusToPlus = new Condition() {
+		@Override
+		public StepTransformable isTrueFor(StepTransformable sn) {
+			if (sn.isOperation(Operation.PLUSMINUS)) {
+				return ((StepOperation) sn).getOperand(0);
+			}
+			return null;
+		}
+	};
+
+	private static final Condition plusminusToMinus = new Condition() {
+		@Override
+		public StepTransformable isTrueFor(StepTransformable sn) {
+			if (sn.isOperation(Operation.PLUSMINUS)) {
+				return minus(((StepOperation) sn).getOperand(0));
+			}
+			return null;
+		}
+	};
+
+	private static final Condition isDenominator = new Condition() {
+		@Override
+		public StepTransformable isTrueFor(StepTransformable sn) {
+			if (sn.isOperation(Operation.DIVIDE)) {
+				return ((StepOperation) sn).getOperand(1);
+			}
+			return null;
+		}
+	};
 
 	/**
 	 * Finds the first expression which adheres to the condition
@@ -111,7 +137,7 @@ public class StepHelper {
 		}
 	}
 
-	public static StepNode replaceFirst(StepTransformable sn, Condition c) {
+	private static StepNode replaceFirst(StepTransformable sn, Condition c) {
 		StepTransformable value = c.isTrueFor(sn);
 		if (value != null) {
 			return value;
@@ -155,15 +181,15 @@ public class StepHelper {
 	}
 
 	public static void getAbsoluteValues(StepTransformable sn, Set<StepExpression> absoluteValues) {
-		getAll(sn, absoluteValues, Condition.underAbs);
+		getAll(sn, absoluteValues, underAbs);
 	}
 
 	public static void getDenominators(StepTransformable sn, Set<StepExpression> denominators) {
-		getAll(sn, denominators, Condition.isDenominator);
+		getAll(sn, denominators, isDenominator);
 	}
 
 	public static void getRoots(StepTransformable sn, Set<StepExpression> roots) {
-		getAll(sn, roots, Condition.underEvenRoot);
+		getAll(sn, roots, underEvenRoot);
 	}
 
 	public static StepOperation findTrigonometricExpression(StepExpression se,
@@ -230,37 +256,32 @@ public class StepHelper {
 	}
 
 	public static StepSolvable replaceWithPlus(StepSolvable ss) {
-		return (StepSolvable) replaceFirst(ss, Condition.plusminusToPlus);
+		return (StepSolvable) replaceFirst(ss, plusminusToPlus);
 	}
 
 	public static StepSolvable replaceWithMinus(StepSolvable ss) {
-		return (StepSolvable) replaceFirst(ss, Condition.plusminusToMinus);
+		return (StepSolvable) replaceFirst(ss, plusminusToMinus);
 	}
 
 	/**
 	 * @param sn expression tree to traverse
 	 * @return sum of all the subexpressions containing op
 	 */
-	public static StepExpression getAll(StepExpression sn, Operation op) {
-		if (sn instanceof StepOperation) {
+	public static StepExpression getAll(StepExpression sn, BooleanCondition c) {
+		if (sn.isOperation(Operation.PLUS)) {
 			StepOperation so = (StepOperation) sn;
 
-			if (so.isOperation(op)) {
-				return so;
-			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE) || so
-					.isOperation(Operation.MINUS)) {
-				if (so.countOperation(op) > 0) {
-
-					return so;
-				}
-			} else if (so.isOperation(Operation.PLUS)) {
-				StepExpression roots = null;
-				for (StepExpression operand : so) {
-					roots = StepNode.add(roots, getAll(operand, op));
-				}
-				return roots;
+			StepExpression roots = null;
+			for (StepExpression operand : so) {
+				roots = StepNode.add(roots, getAll(operand, c));
 			}
+			return roots;
 		}
+
+		if (c.isTrueFor(sn)) {
+			return sn;
+		}
+
 		return null;
 	}
 
@@ -268,8 +289,8 @@ public class StepHelper {
 	 * @param sn expression tree to traverse
 	 * @return part of the expression tree, which doesn't contain roots
 	 */
-	public static StepExpression getNon(StepExpression sn, Operation op) {
-		return StepNode.subtract(sn, getAll(sn, op)).regroup();
+	public static StepExpression getNon(StepExpression sn, BooleanCondition c) {
+		return StepNode.subtract(sn, getAll(sn, c)).regroup();
 	}
 
 	/**

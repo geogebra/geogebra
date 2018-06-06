@@ -56,7 +56,7 @@ public class StepStrategies {
 		return DifferentiationSteps.DEFAULT_DIFFERENTIATE.apply(sn, sb, new RegroupTracker());
 	}
 
-	public static StepTransformable implementGroup(StepTransformable sn, SolutionStepType groupHeader,
+	static StepTransformable implementGroup(StepTransformable sn, SolutionStepType groupHeader,
 			SimplificationStepGenerator[] strategy, SolutionBuilder sb, RegroupTracker tracker) {
 		final boolean printDebug = true;
 
@@ -115,7 +115,7 @@ public class StepStrategies {
 		private SolutionStep steps;
 	}
 
-	public static StepTransformable implementCachedGroup(Map<StepTransformable, CacheEntry> cache,
+	static StepTransformable implementCachedGroup(Map<StepTransformable, CacheEntry> cache,
 			StepTransformable sn, SolutionStepType groupHeader,
 			SimplificationStepGenerator[] strategy, SolutionBuilder sb, RegroupTracker tracker) {
 		CacheEntry entry = cache.get(sn);
@@ -158,8 +158,8 @@ public class StepStrategies {
 				SolveSteps.COMPLETE_THE_SQUARE,
 				EquationSteps.COMPLETE_CUBE,
 				EquationSteps.SOLVE_ABSOLUTE_VALUE,
+				EquationSteps.RAISE_TO_POWER,
 				EquationSteps.SOLVE_SQUARE_ROOTS,
-				EquationSteps.SOLVE_CUBE_ROOTS,
 				EquationSteps.SIMPLIFY_TRIGONOMETRIC,
 				EquationSteps.SOLVE_QUADRATIC_IN_EXPRESSION,
 				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC,
@@ -194,7 +194,7 @@ public class StepStrategies {
 		return implementSolveStrategy(se, sv, sb, strategy, tracker);
 	}
 
-	public static List<StepSolution> implementSolveStrategy(StepSolvable se, StepVariable variable,
+	static List<StepSolution> implementSolveStrategy(StepSolvable se, StepVariable variable,
 			SolutionBuilder sb, SolveStepGenerator[] strategy, SolveTracker tracker) {
 		final boolean printDebug = true;
 
@@ -217,6 +217,7 @@ public class StepStrategies {
 
 		List<StepSolution> solutions = null;
 		boolean changed;
+		int counter = 0;
 		do {
 			changed = false;
 			for (int i = 0; i < strategy.length && !changed; i++) {
@@ -242,7 +243,7 @@ public class StepStrategies {
 					}
 				}
 			}
-		} while (solutions == null && changed);
+		} while (solutions == null && changed && counter++ < 10);
 
 		if (solutions != null) {
 			List<StepSolution> finalSolutions =

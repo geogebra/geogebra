@@ -64,7 +64,7 @@ public class SolutionTable extends SolutionStep {
 		return table;
 	}
 
-	public void addRow(List<TableElement> row) {
+	private void addRow(List<TableElement> row) {
 		rows.add(row);
 	}
 
