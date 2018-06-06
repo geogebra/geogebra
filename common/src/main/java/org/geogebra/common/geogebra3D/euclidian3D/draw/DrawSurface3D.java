@@ -3229,9 +3229,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	@Override
 	protected void updateForViewVisible() {
 		updateGeometriesVisibility();
-		if (!waitForUpdate()) {
-			updateForView();
-		}
+		updateForView();
 	}
 
 	@Override
