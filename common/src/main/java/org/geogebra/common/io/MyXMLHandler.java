@@ -1398,6 +1398,7 @@ public class MyXMLHandler implements DocHandler {
 	 * https://jira.geogebra.org/browse/TRAC-4030
 	 * 
 	 * @param s
+	 *            serialized number
 	 * @return 0 for NaN / undefined / null
 	 */
 	protected static double parseDoubleNaN(String s) {

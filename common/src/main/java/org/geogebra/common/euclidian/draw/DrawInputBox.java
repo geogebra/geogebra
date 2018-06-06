@@ -376,9 +376,13 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
+	/**
+	 * Draw outline on canvas.
+	 */
 	public void drawBoundsOnCanvas() {
 		GGraphics2D g2 = view.getGraphicsForPen();
-		GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor() : view.getBackgroundCommon();
+		GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor()
+				: view.getBackgroundCommon();
 		getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth, boxHeight);
 	}
 
@@ -407,7 +411,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				drawBoundsOnCanvas();
 			}
 		} else {
-			GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor() : view.getBackgroundCommon();
+			GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor()
+					: view.getBackgroundCommon();
 			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth, boxHeight);
 		}
 

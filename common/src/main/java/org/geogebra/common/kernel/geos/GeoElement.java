@@ -8855,21 +8855,23 @@ public abstract class GeoElement extends ConstructionElement
 	protected void addAuralOperations(Localization loc, StringBuilder sb) {
 		App app = kernel.getApplication();
 		if (isEuclidianShowable()) {
-			if (app.getGuiManager() != null && app.getGuiManager().hasAlgebraView() && !isGeoInputBox()) {
+			if (app.getGuiManager() != null && app.getGuiManager().hasAlgebraView()
+					&& !isGeoInputBox()) {
 				if (isEuclidianVisible()) {
 					sb.append(loc.getMenuDefault("PressSlashToHide", "Press / to hide object"));
 				} else {
 					sb.append(loc.getMenuDefault("PressSlashToShow", "Press / to show object"));
 				}
+				}
 			}
-		}
 		if (app.showToolBar() && !isGeoInputBox()) {
 			if (isGeoButton() || isPenStroke()) {
-				sb.append(loc.getMenuDefault("PressEnterToOpenSettings", "Press enter to open settings"));
+				sb.append(loc.getMenuDefault("PressEnterToOpenSettings",
+						"Press enter to open settings"));
 			} else if (!isGeoButton()) {
 				sb.append(loc.getMenuDefault("PressEnterToEdit", "Press enter to edit"));
 			}
 		}
-
 	}
+
 }
