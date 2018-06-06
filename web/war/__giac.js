@@ -2231,7 +2231,7 @@ var __giac = [ {},
 { cat:"Simplify", cmd:"Simplify(2a+2sqrt(a-sqrt(-b)) sqrt(a+sqrt(-b)))", result:"2a + 2sqrt(a\u00B2 + b)" },
 { cat:"CSolve", cmd:"CSolve(((-a sqrt(a² + x²) + x sqrt(a² + x²) + x sqrt(a² + (a - x)²)) / (sqrt(a² + x²) sqrt(a² + (a - x)²))),x)", result:"{x = 1 / 2 a}", notes:"Derivative of g(x):=sqrt(x^(2)+a^(2))+ sqrt((a-x)^(2)+a^(2)), Solve doesn't work, CSolve does" },
 { cat:"Solve", cmd:"Solve(((-a sqrt(a² + x²) + x sqrt(a² + x²) + x sqrt(a² + (a - x)²)) / (sqrt(a² + x²) sqrt(a² + (a - x)²))),x)", result:"{x = 1 / 2 a}", notes:"Derivative of g(x):=sqrt(x^(2)+a^(2))+ sqrt((a-x)^(2)+a^(2)), Solve doesn't work, CSolve does" },
-{ cat:"Solve", cmd:"Solve(2x/(3x+2)<=3/(4x+1))", result:"{x > (-1) / 4 \u2227 (sqrt(241) + 7) / 16 \u2265 x, x > (-2) / 3 \u2227 (-sqrt(241) + 7) / 16 \u2265 x}" },
+{ cat:"Solve", cmd:"Solve(2x/(3x+2)<=3/(4x+1))", result:"{(-1/4)<x<=((\u221A241+7)/16),(-2/3)<x<=((-\u221A241+7)/16)}|OR|{x > (-1) / 4 \u2227 (sqrt(241) + 7) / 16 \u2265 x, x > (-2) / 3 \u2227 (-sqrt(241) + 7) / 16 \u2265 x}" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
