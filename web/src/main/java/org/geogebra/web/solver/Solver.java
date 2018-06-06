@@ -60,6 +60,8 @@ public class Solver implements EntryPoint, MathFieldListener {
 	private VerticalPanel solverPanel;
 	private VerticalPanel stepsPanel;
 
+	private WebStepGuiBuilder guiBuilder;
+
 	@Override
 	public void onModuleLoad() {
 		WebSimple.registerSuperdevExceptionHandler();
@@ -83,6 +85,8 @@ public class Solver implements EntryPoint, MathFieldListener {
 		opentype = Opentype.INSTANCE;
 		CreateLibrary.exportLibrary(library, opentype);
 		startEditor();
+
+		guiBuilder = new WebStepGuiBuilder(app);
 	}
 
 	/**
@@ -175,8 +179,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 	private void compute(String text) {
 		Browser.changeUrl("?i=" + URL.encodePathSegment(text));
 		mathField.setText(text, false);
-
-		StepTransformable input = StepNode.getStepTree(text, app.getKernel().getParser());
+		mathField.setFocus(false);
 
 		if (stepsPanel != null) {
 			solverPanel.remove(stepsPanel);
@@ -185,20 +188,32 @@ public class Solver implements EntryPoint, MathFieldListener {
 		stepsPanel.addStyleName("stepTree");
 		solverPanel.add(stepsPanel);
 
+		StepTransformable input = StepNode.getStepTree(text, app.getKernel().getParser());
+
 		if (input == null) {
 			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with "
 					+ "your input</h3>"));
-
 			return;
 		}
 
-		mathField.setFocus(false);
+		printAlternativeForms(input);
 
-		WebStepGuiBuilder guiBuilder = new WebStepGuiBuilder(app);
+		Set<StepVariable> variableSet = new HashSet<>();
+		input.getListOfVariables(variableSet);
 
-		SolutionBuilder sb = new SolutionBuilder();
+		printSolutions(input.toSolvable(), variableSet);
 
+		printDerivatives(input, variableSet);
+
+		if (stepsPanel.getWidgetCount() == 0) {
+			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with "
+					+ "your input</h3>"));
+		}
+	}
+
+	private void printAlternativeForms(StepTransformable input) {
 		List<StepInformation> alternativeForms = new ArrayList<>();
+		SolutionBuilder sb = new SolutionBuilder();
 
 		StepTransformable regrouped = input.regroupOutput(sb);
 		if (!regrouped.equals(input)) {
@@ -229,13 +244,17 @@ public class Solver implements EntryPoint, MathFieldListener {
 				stepsPanel.add(alternativeForm);
 			}
 		}
+	}
 
-		Set<StepVariable> variableSet = new HashSet<>();
-		input.getListOfVariables(variableSet);
+	private void printSolutions(StepSolvable solvable, Set<StepVariable> variableSet) {
+		if (solvable instanceof StepInequality && variableSet.size() > 1) {
+			stepsPanel.add(new HTML("<h3>We do not yet support solving inequalities in "
+					+ "multiple variables</h3>"));
+			return;
+		}
 
 		List<StepInformation> solutions = new ArrayList<>();
-
-		StepSolvable solvable = input.toSolvable();
+		SolutionBuilder sb = new SolutionBuilder();
 
 		for (StepVariable variable : variableSet) {
 			try {
@@ -251,6 +270,10 @@ public class Solver implements EntryPoint, MathFieldListener {
 				Log.debug("Render time: " + (endTime - solveTime) + " ms");
 			} catch (SolveFailedException e) {
 				Log.debug("Solve failed for " + solvable + " for variable " + variable);
+			} catch (NullPointerException e) {
+				Log.error("Something terrible happened when solving "
+						+ solvable + " in " + variable);
+				Log.printStacktrace(e);
 			} finally {
 				sb.reset();
 			}
@@ -263,10 +286,13 @@ public class Solver implements EntryPoint, MathFieldListener {
 				stepsPanel.add(solution);
 			}
 		}
+	}
 
+	private void printDerivatives(StepTransformable input, Set<StepVariable> variableSet) {
 		if (input instanceof StepExpression && variableSet.size() > 0) {
 			stepsPanel.add(new HTML("<h2>Derivatives</h2>"));
 
+			SolutionBuilder sb = new SolutionBuilder();
 			for (StepVariable variable : variableSet) {
 				StepExpression derivative =
 						StepNode.differentiate((StepExpression) input, variable);
@@ -276,11 +302,6 @@ public class Solver implements EntryPoint, MathFieldListener {
 
 				sb.reset();
 			}
-		}
-
-		if (stepsPanel.getWidgetCount() == 0) {
-			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with "
-					+ "your input</h3>"));
 		}
 	}
 

@@ -329,7 +329,7 @@ public class StepHelper {
 			return so.getOperand(0).isConstant();
 		}
 
-		return sn.isConstant();
+		return sn.isConstant() && !isZero(sn);
 	}
 
 	public static StepExpression swapAbsInTree(StepExpression se, StepLogical sl,

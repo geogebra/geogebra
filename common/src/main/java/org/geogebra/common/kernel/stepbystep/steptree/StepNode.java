@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.*;
-import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.stepbystep.solution.TableElement;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -45,8 +44,8 @@ public abstract class StepNode implements TableElement {
 			ExpressionValue ev = parser.parseGeoGebraExpression(s);
 			StepTransformable sn = convertExpression(ev);
 			return cleanupExpression(sn);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		} catch (Throwable t) { // :(
+			t.printStackTrace();
 			return null;
 		}
 	}
