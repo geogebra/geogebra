@@ -18,6 +18,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -5423,6 +5424,10 @@ public abstract class App implements UpdateSelection {
 			md5Encrypter = new MD5EncrypterGWTImpl();
 		}
 		return md5Encrypter;
+	}
+
+	public EmbedManager getEmbedManager() {
+		return null;
 	}
 
 }

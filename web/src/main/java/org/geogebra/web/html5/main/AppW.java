@@ -752,9 +752,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void loadGgbFile(GgbFile archiveContent, boolean asSlide) throws Exception {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
 		algebraSettings.setModeChanged(false);
-		if (has(Feature.MOW_DOUBLE_CANVAS) && videoManager != null) {
-			videoManager.removePlayers();
-		}
+		clearMedia();
 
 		loadFile(archiveContent, asSlide);
 
@@ -1123,7 +1121,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (!clearConstruction()) {
 			return;
 		}
-
+		clearMedia();
 		resetUniqueId();
 		setLocalID(-1);
 		resetActiveMaterial();
@@ -1132,6 +1130,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
 		resetUI();
+	}
+
+	private void clearMedia() {
+		if (getVideoManager() != null) {
+			getVideoManager().removePlayers();
+		}
+		if (getEmbedManager() != null) {
+			getEmbedManager().removeAll();
+		}
 	}
 
 	/**

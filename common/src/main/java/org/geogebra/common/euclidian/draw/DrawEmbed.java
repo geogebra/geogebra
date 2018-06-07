@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
@@ -22,16 +23,20 @@ public class DrawEmbed extends Drawable {
 	public DrawEmbed(EuclidianView ev, GeoEmbed geo) {
 		this.view = ev;
 		this.geo = geo;
-		if (view.getEmbedManager() != null) {
-			view.getEmbedManager().add(this);
+		if (getEmbedManager() != null) {
+			getEmbedManager().add(this);
 		}
 		update();
 	}
 
+	private EmbedManager getEmbedManager() {
+		return view.getApplication().getEmbedManager();
+	}
+
 	@Override
 	public void update() {
-		if (view.getEmbedManager() != null) {
-			view.getEmbedManager().update(this);
+		if (getEmbedManager() != null) {
+			getEmbedManager().update(this);
 		}
 	}
 

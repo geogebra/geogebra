@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
@@ -154,6 +155,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private HorizontalPanel splitPanelWrapper = null;
 	/** floating menu */
 	FloatingMenuPanel floatingMenuPanel = null;
+
+	private EmbedManager embedManager;
 
 	/**
 	 * 
@@ -1881,8 +1884,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 		setExport3D(new FormatObj());
 	}
 
-	public EmbedManagerW newEmbedManager() {
-		return new EmbedManagerW(this);
+	@Override
+	public EmbedManager getEmbedManager() {
+		if (embedManager == null) {
+			embedManager = new EmbedManagerW(this);
+		}
+		return embedManager;
 	}
 
 }

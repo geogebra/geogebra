@@ -1695,11 +1695,4 @@ public class EuclidianViewW extends EuclidianView implements
 		return app.getCapturingThreshold(type);
 	}
 
-	@Override
-	public EmbedManager getEmbedManager() {
-		if (embedManager == null) {
-			embedManager = ((AppW) app).newEmbedManager();
-		}
-		return embedManager;
-	}
 }

@@ -7,4 +7,6 @@ public interface EmbedManager {
 
 	public void update(DrawEmbed drawEmbed);
 
+	public void removeAll();
+
 }
