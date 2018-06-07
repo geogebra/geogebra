@@ -598,7 +598,7 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	 * @see org.geogebra.web.html5.util.ArticleElementInterface#resetScale()
 	 */
 	@Override
-	public void resetScale() {
+	public void resetScale(double parentScale) {
 		setAttribute("data-scalex", "" + envScale("x"));
 		setAttribute("data-scaley", "" + envScale("y"));
 	}

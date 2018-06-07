@@ -74,4 +74,20 @@ public class DrawEmbed extends Drawable {
 		return null;
 	}
 
+	public double getTop() {
+		return getView().toScreenCoordYd(((GeoEmbed) geo).getCorner(2).getInhomY());
+	}
+
+	public double getLeft() {
+		return getView().toScreenCoordYd(((GeoEmbed) geo).getCorner(0).getInhomX());
+	}
+
+	public double getRight() {
+		return getView().toScreenCoordYd(((GeoEmbed) geo).getCorner(1).getInhomX());
+	}
+
+	public double getBottom() {
+		return getView().toScreenCoordYd(((GeoEmbed) geo).getCorner(0).getInhomY());
+	}
+
 }

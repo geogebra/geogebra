@@ -377,11 +377,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			scale = Math.min(scale, getArticleElement().getDataParamScale());
 		}
 		Browser.scale(articleElement.getParentElement(), scale, 0, 0);
-		getArticleElement().resetScale();
+		getArticleElement().resetScale(scale);
 	}
 
 	private Element getParent(String containerClass) {
-		Element current = getArticleElement().getElement();
+		Element current = getArticleElement().getParentElement();
 		while (current != null) {
 			if (current.hasClassName(containerClass)) {
 				return current;

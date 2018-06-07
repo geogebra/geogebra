@@ -315,8 +315,11 @@ public interface ArticleElementInterface {
 
 	/**
 	 * Remove cached scale values
+	 * 
+	 * @param parentScale
+	 *            new scale of scaler element
 	 */
-	void resetScale();
+	void resetScale(double parentScale);
 
 	/**
 	 * @return data-param-prerelease: whether to use some beta features

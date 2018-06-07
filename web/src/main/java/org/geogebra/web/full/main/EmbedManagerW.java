@@ -16,6 +16,7 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 public class EmbedManagerW implements EmbedManager {
 
@@ -32,12 +33,20 @@ public class EmbedManagerW implements EmbedManager {
 				(AppletFactory) GWT.create(AppletFactory.class),
 				app.getLAF(), app.getDevice(), false);
 		fr.ae = new TestArticleElement("", "graphing");
-		fr.ae.attr("showToolbar", "true");
+		fr.ae.attr("showToolbar", "true").attr("scaleContainerClass",
+				"embedContainer");
 		fr.runAsyncAfterSplash();
 		DockPanelW panel = ((DockManagerW) app.getGuiManager().getLayout()
 				.getDockManager()).getPanel(App.VIEW_EUCLIDIAN);
-		((EuclidianDockPanelW) panel).getEuclidianPanel().add(fr);
-		Style style = fr.getElement().getStyle();
+
+		FlowPanel scaler = new FlowPanel();
+		scaler.add(fr);
+		((TestArticleElement) fr.ae).setParentElement(scaler.getElement());
+		FlowPanel container = new FlowPanel();
+		container.add(scaler);
+		container.getElement().addClassName("embedContainer");
+		((EuclidianDockPanelW) panel).getEuclidianPanel().add(container);
+		Style style = container.getElement().getStyle();
 		style.setPosition(Position.ABSOLUTE);
 		style.setZIndex(51); // above the oject canvas (50) and below MOW
 								// toolbar (51)
@@ -46,9 +55,14 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void update(DrawEmbed drawEmbed) {
-		Style style = widgets.get(drawEmbed).getElement().getStyle();
-		style.setTop(drawEmbed.getView().toScreenCoordYd(5), Unit.PX);
+		GeoGebraFrameBoth frame = widgets.get(drawEmbed);
+		Style style = frame.getParent().getParent().getElement().getStyle();
+		style.setTop(drawEmbed.getTop(), Unit.PX);
 		style.setLeft(drawEmbed.getView().toScreenCoordXd(-5), Unit.PX);
+		frame.getParent().getParent().setSize(
+				Math.abs(drawEmbed.getRight() - drawEmbed.getLeft()) + "px",
+				Math.abs(drawEmbed.getTop() - drawEmbed.getBottom()) + "px");
+		frame.getApplication().checkScaleContainer();
 	}
 
 	public void removeAll() {

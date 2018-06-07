@@ -8,10 +8,27 @@ import org.geogebra.common.plugin.GeoClass;
 
 public class GeoEmbed extends GeoElement {
 
+	private boolean defined = true;
+	private GeoPoint[] corner;
+	private GeoPoint corner2;
+	private GeoPoint corner4;
+
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public GeoEmbed(Construction c) {
 		super(c);
+		corner = new GeoPoint[3];
+		corner[0] = new GeoPoint(c);
+		corner[0].setCoords(-5, -5, 1);
+		corner[1] = new GeoPoint(c);
+		corner[1].setCoords(5, -5, 1);
+		corner[2] = new GeoPoint(c);
+		corner[2].setCoords(-5, 5, 1);
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.EMBED;
 	}
@@ -35,13 +52,12 @@ public class GeoEmbed extends GeoElement {
 
 	@Override
 	public boolean isDefined() {
-		return true;
+		return defined;
 	}
 
 	@Override
 	public void setUndefined() {
-		// TODO Auto-generated method stub
-
+		defined = false;
 	}
 
 	@Override
@@ -67,6 +83,10 @@ public class GeoEmbed extends GeoElement {
 	@Override
 	public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
+	}
+
+	public GeoPoint getCorner(int i) {
+		return corner[i];
 	}
 
 }

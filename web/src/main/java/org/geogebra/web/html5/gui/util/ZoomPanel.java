@@ -175,11 +175,12 @@ public class ZoomPanel extends FlowPanel
 			dispatchResize();
 			Element container = scaler.getParentElement();
 			resetStyleAfterFullscreen(container);
+			double scale = cssScale > 0 ? cssScale
+					: app.getArticleElement().getDataParamScale();
 			Browser.scale(scaler,
-					cssScale > 0 ? cssScale
-							: app.getArticleElement().getDataParamScale(),
+					scale,
 					0, 0);
-			app.getArticleElement().resetScale();
+			app.getArticleElement().resetScale(scale);
 			app.checkScaleContainer();
 		}
 		Browser.scale(getElement(), 1, 0, 0);
@@ -419,6 +420,7 @@ public class ZoomPanel extends FlowPanel
 	 *            content to scale.
 	 */
 	protected void scaleApplet(Element scaler, Element container) {
+		double scale = 1;
 		if (app.isUnbundled()) {
 			app.getGgbApi().setSize(Window.getClientWidth(),
 					Window.getClientHeight());
@@ -426,7 +428,7 @@ public class ZoomPanel extends FlowPanel
 		} else {
 			double xscale = Window.getClientWidth() / app.getWidth();
 			double yscale = Window.getClientHeight() / app.getHeight();
-			double scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
+			scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
 			Browser.scale(scaler, scale, 0, 0);
 			Browser.scale(getElement(), 1 / scale, 120, 100);
 			container.getStyle().setPosition(Position.ABSOLUTE);
@@ -442,7 +444,7 @@ public class ZoomPanel extends FlowPanel
 			scaler.getStyle().setMarginLeft(marginLeft, Unit.PX);
 			scaler.getStyle().setMarginTop(marginTop, Unit.PX);
 		}
-		app.getArticleElement().resetScale();
+		app.getArticleElement().resetScale(scale);
 		app.recalculateEnvironments();
 	}
 

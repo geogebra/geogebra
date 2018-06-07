@@ -16,6 +16,8 @@ public class TestArticleElement implements ArticleElementInterface {
 	private String appName;
 	private String prerelease;
 	private HashMap<String, String> attributes = new HashMap<>();
+	private Element parentElement;
+	private double scale = 1;
 
 	/**
 	 * @param prerelease
@@ -210,17 +212,17 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public double getScaleX() {
-		return 1;
+		return scale;
 	}
 
 	@Override
 	public double readScaleX() {
-		return 1;
+		return scale;
 	}
 
 	@Override
 	public double getScaleY() {
-		return 1;
+		return scale;
 	}
 
 	@Override
@@ -279,8 +281,8 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
-	public void resetScale() {
-		// intentionally empty
+	public void resetScale(double scale1) {
+		this.scale = scale1;
 	}
 
 	@Override
@@ -381,7 +383,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public Element getParentElement() {
-		return null;
+		return parentElement;
 	}
 
 	@Override
@@ -396,12 +398,12 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public String getParamScaleContainerClass() {
-		return "";
+		return attributes.get("scaleContainerClass");
 	}
 
 	@Override
 	public boolean getParamAllowUpscale() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -411,6 +413,10 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	public int getParamRandomSeed() {
 		return -1;
+	}
+
+	public void setParentElement(Element element) {
+		this.parentElement = element;
 	}
 
 }
