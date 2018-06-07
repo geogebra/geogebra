@@ -353,7 +353,7 @@ namespace giac {
     }
 #endif
     bool argpar = ( (arg.type>_CPLX && arg.type!=_FLOAT_) || !is_positive(arg,contextptr)) && arg.type!=_IDNT ;
-#ifdef EMCC
+#if defined EMCC || defined GIAC_GGB
     bool need=need_parenthesis(arg) || arg.type==_SYMB;
     if (pui==plus_one_half){
       s += (need?"√(":"√");
