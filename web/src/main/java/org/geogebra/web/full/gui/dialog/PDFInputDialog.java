@@ -80,6 +80,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 		addStyleName("GeoGebraPopup");
 		addStyleName("pdfDialog");
 		setGlassEnabled(true);
+		// only for testing here TODO remove me from here
+		buildPdfContainer();
+
 		setLabels();
 	}
 
@@ -137,8 +140,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// only for testing here
-				buildPdfContainer();
+				// TODO MOW-424 back-end
 			}
 
 		}, ClickEvent.getType());
