@@ -4,7 +4,15 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class JsEval {
 	public static native void evalScriptNative(String script) /*-{
-		$wnd.eval(script);
+		var oldAlert = $wnd.alert;
+		$wnd.alert = function(a) {
+			$wnd.ggbApplet && $wnd.ggbApplet.showTooltip(a)
+		};
+		try {
+			$wnd.eval(script);
+		} finally {
+			$wnd.alert = oldAlert;
+		}
 	}-*/;
 
 	public static native void callNativeJavaScript(String funcname) /*-{

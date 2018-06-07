@@ -14,10 +14,20 @@ public class DataAnalysisSettings {
 	private PlotType plotType1 = null;
 	private PlotType plotType2 = null;
 
+	/**
+	 * @param ranges
+	 *            selected range
+	 */
 	public void addItem(String ranges) {
 		items.add(ranges);
 	}
 
+	/**
+	 * Update mode and reset plot types.
+	 * 
+	 * @param mode
+	 *            app mode
+	 */
 	public void setMode(int mode) {
 		if (mode != this.mode) {
 			plotType1 = null;
@@ -30,6 +40,9 @@ public class DataAnalysisSettings {
 		return items;
 	}
 
+	/**
+	 * @return app mode
+	 */
 	public int getMode() {
 		return mode;
 	}
