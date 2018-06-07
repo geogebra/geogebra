@@ -360,59 +360,11 @@ public class GeoGebraCasIntegrationTest {
       propagate(t);
     }
   }
-
-
   /* Simplification of Terms */
-
-  /* One variable */
-
-  @Test
-  public void SimplificationOfTerms_ConstantsOnly () {
-    t("((15 + 9) * 3.5 - 2 * 0.5) / 4", "83 / 4");
-  }
-
-  @Test
-  public void SimplificationOfTerms_OneVariable () {
-    t("x + x", "2 * x");
-  }
-
-  /* Two variables */
 
   @Test
   public void SimplificationOfTerms_TwoVariables () {
     t("6a * 3b - (5a b + b * 2a)", "11 * a * b");
-  }
-
-  /* Power of one Variable */
-
-  @Test
-  public void SimplificationOfTerms_PowerOfOneVariable () {
-    t("x*x", "x^(2)");
-  }
-
-  /* Power of two Variables */
-
-  @Test
-  public void SimplificationOfTerms_PowerOfTwoVariables_0 () {
-    t("x^2 y^2 (x y)^2", "x^(4) * y^(4)");
-  }
-
-  @Test
-  public void SimplificationOfTerms_PowerOfTwoVariables_1 () {
-		t("((a + b)^2) / c^2", "(a + b)^(2) / c^(2)");
-  }
-
-  @Test
-  public void SimplificationOfTerms_PowerOfTwoVariables_2 () {
-		t("((a + b) / (c + d))^2", "((a + b) / (c + d))^(2)");
-  }
-
-  /* Ordering of Powers */
-
-  @Test
-  public void SimplificationOfTerms_OrderingOfPowers_0 () {
-		t("(a^2 - 3 b) * (-3 a + 5 b^2)",
-				"(a^(2) - 3 * b) * (5 * b^(2) - 3 * a)");
   }
 
   @Test
@@ -430,46 +382,12 @@ public class GeoGebraCasIntegrationTest {
 	  t("x^2 + a * x","x^(2) + a * x");
   }
   /* Polynomial Division */
-
-  @Test
-  public void SimplificationOfTerms_PolynomialDivision_0 () {
-    t("x^2 / x", "x");
-  }
-
-  @Test
-  public void SimplificationOfTerms_PolynomialDivision_1 () {
-    t("(7x^3-14 x^2)/(6x-12)", "7 / 6 * x^(2)", "(7 / 6 * x^(2))");
-  }
-
   @Test
   public void SimplificationOfTerms_PolynomialDivision_2 () {
     t("(x^2 - y^2) / (x - y)", "x + y");
   }
 
-
   /* Simplification of Equations */
-
-  /* Constants only */
-
-  @Test
-  public void SimplificationOfEquations_ConstantsOnly_0 () {
-    t("3 + 4 = 9 - 2", "7 = 7");
-  }
-
-  @Test
-  public void SimplificationOfEquations_ConstantsOnly_1 () {
-    t("3 + 4 = 10 - 2", "7 = 8");
-  }
-
-  @Test
-  public void SimplificationOfEquations_ConstantsOnly_2 () {
-    t("(39 / 9 = 4 + 1 / 3) 3", "13 = 13");
-  }
-
-  @Test
-  public void SimplificationOfEquations_ConstantsOnly_3 () {
-    t("(2 + 3 = 4 + 1 / 3) 3 ", "15 = 13");
-  }
 
   /* One Variable */
 
@@ -3532,20 +3450,6 @@ public class GeoGebraCasIntegrationTest {
 
   /* Ticket 3385: Intersection and Union in CAS */
 
-  @Test
-  public void Ticket_Ticket3385_0 () {
-    t("Union[{a, b, c}, {a, b}]", "{a, b, c}");
-  }
-
-  @Test
-  public void Ticket_Ticket3385_1 () {
-    t("Intersection[{a, b, c}, {c, d}]", "{c}");
-  }
-
-  @Test
-  public void Ticket_Ticket3385_2 () {
-    t("Union[{a, b, c}, {b, c, d}]", "{a, b, c, d}");
-  }
 
   @Test
   public void Ticket_Ticket3385_3 () {
@@ -3675,11 +3579,6 @@ public class GeoGebraCasIntegrationTest {
   }
 
 	/* Ticket 3563: Solve Yields Empty Set for under-defined Systems */
-
-  @Test
-  public void Ticket_Ticket3563_0 () {
-    t("Solve[13 = 3 + 5 t + 10 s, {t, s}]", "{{t = -2 * s + 2, s = s}}");
-  }
 
   @Test
   public void Ticket_Ticket3563_1 () {
