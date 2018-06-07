@@ -677,6 +677,15 @@ $duration: 0.2s;
    		 				text-align: center;
    		 				font-size: 100%;
    		 				padding: 0px;
+   		 				border-radius: 0px;
+   		 			}
+   		 		
+   		 			&:hover {
+   	 					border-bottom: 2px solid $black-87;
+   		 			}
+   		 		
+   		 			&:focus {
+   	 					border-bottom: 2px solid $black-87;
    		 			}
     			}
 		}

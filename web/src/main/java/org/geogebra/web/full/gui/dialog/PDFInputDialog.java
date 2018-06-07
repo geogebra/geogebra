@@ -82,7 +82,6 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 		setGlassEnabled(true);
 		// only for testing here TODO remove me from here
 		buildPdfContainer();
-
 		setLabels();
 	}
 
