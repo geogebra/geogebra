@@ -1697,7 +1697,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public EmbedManager getEmbedManager() {
-		if(embedManager == null){
+		if (embedManager == null) {
 			embedManager = ((AppW) app).newEmbedManager();
 		}
 		return embedManager;

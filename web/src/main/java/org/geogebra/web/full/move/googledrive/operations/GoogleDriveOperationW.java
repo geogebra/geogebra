@@ -296,7 +296,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private void checkIfFileMustbeOpenedFromGoogleDrive() {
 		if ("open".equals(getAction())) {
 			app.resetPerspectiveParam();
-			app.getArticleElement().setAttribute("data-param-appName", "auto");
+			app.getArticleElement().attr("appName", "auto");
 			openFileFromGoogleDrive(googleDriveURL);
 		}
 	}

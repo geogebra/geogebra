@@ -105,7 +105,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamShowToolBar(boolean def) {
-		return "true".equals(attributes.get("toolbar"));
+		return "true".equals(attributes.get("showToolbar"));
 	}
 
 	@Override
@@ -160,7 +160,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamShiftDragZoomEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -369,8 +369,9 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
-	public void setAttribute(String string, String string2) {
+	public ArticleElementInterface attr(String string, String string2) {
 		attributes.put(string, string2);
+		return this;
 	}
 
 	@Override

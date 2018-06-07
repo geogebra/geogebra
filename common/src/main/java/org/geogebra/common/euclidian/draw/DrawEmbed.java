@@ -25,6 +25,7 @@ public class DrawEmbed extends Drawable {
 		if (view.getEmbedManager() != null) {
 			view.getEmbedManager().add(this);
 		}
+		update();
 	}
 
 	@Override

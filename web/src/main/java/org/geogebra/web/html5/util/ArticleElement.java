@@ -834,4 +834,9 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public int getParamRandomSeed() {
 		return getIntegerAttribute("randomSeed", -1);
 	}
+
+	public ArticleElementInterface attr(String attributeName, String value) {
+		setAttribute("data-param-" + attributeName, value);
+		return this;
+	}
 }

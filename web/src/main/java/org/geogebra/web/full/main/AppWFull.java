@@ -1823,7 +1823,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		super.setFileVersion(version, appName);
 		if (!"auto".equals(appName)
 				&& "auto".equals(getArticleElement().getDataParamAppName())) {
-			getArticleElement().setAttribute("data-param-appName",
+			getArticleElement().attr("appName",
 					appName == null ? "" : appName);
 			Versions v = getVersion();
 			if ("graphing".equals(appName)) {

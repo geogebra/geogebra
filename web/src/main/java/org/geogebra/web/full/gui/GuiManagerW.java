@@ -1742,8 +1742,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	@Override
 	public void showMenuBar(final boolean show) {
-		getApp().getArticleElement().setAttribute("data-param-showMenuBar",
-				show + "");
+		getApp().getArticleElement().attr("showMenuBar", show + "");
 		if (show) {
 			showToolBar(true);
 		}

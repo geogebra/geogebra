@@ -105,8 +105,8 @@ public class ViewMenuW extends GMenuBar {
 					@Override
 					public void doExecute() {
 						app.persistWidthAndHeight();
-						app.getArticleElement().setAttribute(
-								"data-param-showAlgebraInput", "true");
+						app.getArticleElement()
+								.attr("showAlgebraInput", "true");
 
 						app.setShowAlgebraInput(true, false);
 						app.setInputPosition(

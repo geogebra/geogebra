@@ -286,7 +286,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		if (ae.getDataParamPerspective().startsWith("exam")) {
 			setNewExam();
-			ae.setAttribute("data-param-perspective", "");
+			ae.attr("perspective", "");
 		}
 		this.loc = new LocalizationW(dimension);
 		this.articleElement = ae;
@@ -414,7 +414,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
 			header.removeFromParent();
-			getArticleElement().setAttribute("data-param-marginTop", "0");
+			getArticleElement().attr("marginTop", "0");
 			fitSizeToScreen();
 		}
 	}
@@ -1258,7 +1258,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void resetPerspectiveParam() {
 		if (getArticleElement() != null) {
-			getArticleElement().setAttribute("data-param-perspective", "");
+			getArticleElement().attr("perspective", "");
 		}
 	}
 
@@ -2190,7 +2190,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		updateCommandDictionary();
 		String key = getConfig().getAppTitle();
 		Log.debug(getArticleElement());
-		getArticleElement().setAttribute("aria-label",
+		getArticleElement().getElement().setAttribute("aria-label",
 				getLocalization().getMenu(key));
 		setAltText();
 	}

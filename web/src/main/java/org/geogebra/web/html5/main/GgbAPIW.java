@@ -1100,8 +1100,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	private void setArticleParam(String name, int value) {
-		((AppW) app).getArticleElement().setAttribute("data-param-" + name,
-				value + "");
+		((AppW) app).getArticleElement().attr(name, value + "");
 
 	}
 

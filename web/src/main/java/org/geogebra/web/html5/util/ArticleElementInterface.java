@@ -417,8 +417,9 @@ public interface ArticleElementInterface {
 	 *            attribute name
 	 * @param value
 	 *            value of attribute
+	 * @return this
 	 */
-	void setAttribute(String attributeName, String value);
+	ArticleElementInterface attr(String attributeName, String value);
 
 	/**
 	 * @param string
