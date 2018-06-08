@@ -337,7 +337,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 			boolean symbolic, MyArbitraryConstant arbconst) {
 		GeoCurveCartesianND c = (GeoCurveCartesianND) f;
 
-		if (c.isDefined()) {
+		if (c.isDefined() && getFun(0) != null) {
 			// register the variable name to make sure parsing of CAS output
 			// runs OK, see #3006
 			GeoNumeric geo = new GeoNumeric(this.cons);
