@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
+import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -107,9 +108,15 @@ public class AlgoIntersectImplicitpolyParametric
 				return;
 			}
 			tx = new PolynomialFunction(new double[] { 0, 1 }); // x=t
-			ty = new PolynomialFunction(f.getFunction()
-					.getNumericPolynomialDerivative(0, false, false, false)
-					.getCoeffs()); // y=f(t)
+
+			PolyFunction derivY = f.getFunction()
+					.getNumericPolynomialDerivative(0, false, false, false);
+			if (derivY == null) {
+				points.adjustOutputSize(0);
+				return;
+			}
+
+			ty = new PolynomialFunction(derivY.getCoeffs()); // y=f(t)
 			maxT = f.getMaxParameter();
 			minT = f.getMinParameter();
 		} else if (l != null) {
