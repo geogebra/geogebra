@@ -2609,7 +2609,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Shared": "\u5206\u4eab",
     "SharedByA": "\u5206\u4eab\u8005: %0",
     "Show": "\u663e\u793a",
-    "ShowAas2DView": "\u521b\u5efa %0 \u7684\u5e73\u9762\u56fe",
+    "ShowAas2DView": "\u521b\u5efa %0 \u7684\u5e73\u9762\u89c6\u56fe",
     "ShowAllObjects": "\u663e\u793a\u6240\u6709\u5bf9\u8c61",
     "ShowAtTop": "\u7f6e\u9876\u663e\u793a",
     "ShowAutomatically": "\u81ea\u52a8\u663e\u793a",
