@@ -3192,7 +3192,7 @@ __GGB__keysVar["nl"].menu = {
     "min": "Min",
     "mow.my.notes": "My Notes",
     "mow.new.note": "New Note",
-    "of": "of",
+    "of": "van",
     "off": "uit",
     "on": "Aan",
     "otherwise": "anders",
