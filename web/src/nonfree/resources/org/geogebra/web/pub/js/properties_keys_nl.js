@@ -1513,7 +1513,7 @@ __GGB__keysVar["nl"].menu = {
     "CreateList.Help": "Cre\xebert een lijst van de geselecteerde cellen",
     "CreateListGraphicsView": "Maak een lijst",
     "CreateListGraphicsView.Help": "Vorm met de muisaanwijzer een rechthoek om objecten te selecteren",
-    "CreateListOfPoints": "Maak een lijst van punten",
+    "CreateListOfPoints": "Maak een lijst met punten",
     "CreateListOfPoints.Help": "Cre\xebert punten van de geselecteerde cellen",
     "CreateMatrix": "Maak een matrix",
     "CreateMatrix.Help": "Cre\xebert een matrix met de geselecteerde cellen",
