@@ -1941,18 +1941,8 @@ public class GeoGebraCasIntegrationTest {
   }
 
   @Test
-  public void Solve_ConstantsOnly_1 () {
-    t("Solve[1 = 2]", "{}");
-  }
-
-  @Test
   public void Solve_ConstantsOnly_2 () {
     s("Solve[1 = 1, x]", "{x = x}");
-  }
-
-  @Test
-  public void Solve_ConstantsOnly_3 () {
-    t("Solve[1 = 2, x]", "{}");
   }
 
   @Test
@@ -1969,7 +1959,6 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_OneVariable_0 () {
-		t("Solve[x = 1]", "{x = 1}");
 		t("Solve[x^5 = -1]", "{x = -1}");
   }
 
@@ -1995,72 +1984,11 @@ public class GeoGebraCasIntegrationTest {
     t("Solve[(x + 7) / 3 - (4 - x) / 4 - 3 = 3 x / 8, x]", "{x = 8}");
   }
 
-  @Test
-  public void Solve_OneVariable_5 () {
-    t("Solve[x^2 - 5 x + 6 = 0, x]", "{x = 2, x = 3}");
-  }
-
-  @Test
-  public void Solve_OneVariable_6 () {
-    t("Solve[x^2 - 4 = 0, x]", "{x = -2, x = 2}");
-  }
-
-  @Test
-  public void Solve_OneVariable_7 () {
-    t("Solve[x^2 - 4 x - 1 = 0, x]", "{x = -sqrt(5) + 2, x = sqrt(5) + 2}");
-  }
-
-  @Test
-  public void Solve_OneVariable_9 () {
-    t("Solve[x^2 + 1 = 0, x]", "{}");
-  }
-
   /* One Variable, variable Coefficients */
-
-  @Test
-  public void Solve_OneVariableVC_0 () {
-    t("Solve[a x^2 + b x + c, x]", "{x = (sqrt(-4 * a * c + b^(2)) - b) / (2 * a), x = (-sqrt(-4 * a * c + b^(2)) - b) / (2 * a)}");
-  }
-
-  @Test
-  public void Solve_OneVariableVC_1 () {
-    t("Solve[1 / p - (a - k^2) / a = k^2 / (p a), a]", "{a = k^(2)}");
-  }
-
-  @Test
-  public void Solve_OneVariableVC_3 () {
-    t("Solve[1 / p - (a - k^2) / a = k^2 / (p a), p]", "{p = 1}");
-  }
 
   @Test
   public void Solve_OneVariableVC_4 () {
     t("Solve[-(10 c + 3) / (2 (4 c^2 - 9)) = -1 / (2 (2 c - 3)), c]", "{c = 0}");
-  }
-
-  @Test
-  public void Solve_OneVariableVC_5 () {
-    t("Solve[a = b^c, a]", "{a = b^(c)}");
-  }
-
-  @Test
-  public void Solve_OneVariableVC_6 () {
-    t("Solve[a = b^c, b]", "{b = a^(1 / c)}");
-  }
-
-  @Test
-  public void Solve_OneVariableVC_7 () {
-    t("Solve[a = b^c, c]", "{c = log(a) / log(b)}");
-  }
-
-  @Test
-  public void Solve_OneVariableVC_8 () {
-    // in Giac, {} is correct
-    t("Solve[0 = b^c, b]", "{}");
-  }
-
-  @Test
-  public void Solve_OneVariableVC_9 () {
-    t("Solve[-1 = b^c, b]", "{}");
   }
 
   @Test
@@ -2089,7 +2017,6 @@ public class GeoGebraCasIntegrationTest {
 		s("Solve[e^(-x/4)*(sin(x)+4*cos(x))]", "{x = k_INDEX * "
 				+ Unicode.PI_STRING + " - arctan(4)}");
   }
-
 
   @Test
   public void Solve_Trig_1 () {
@@ -2793,82 +2720,11 @@ public class GeoGebraCasIntegrationTest {
     s("SolveODE[y / x, y, x]", "y = c_INDEX * x");
   }
 
-
-  /* Substitute */
-
-  @Test
-  public void Substitute_0 () {
-    t("Substitute[3 m - 3, 3 m - 3, a]", "a");
-  }
-
-  @Test
-  public void Substitute_1 () {
-    t("Substitute[(3 m - 3)^2, 3 m - 3, a]", "a^(2)");
-  }
-
-  @Test
-  public void Substitute_2 () {
-    t("Substitute[(3 m - 3)^2 - (n + 3)^2, 3 m - 3, a]", "a^(2) - (n + 3)^(2)", "a^(2) - n^(2) - 6 * n - 9");
-  }
-
-  @Test
-  public void Substitute_3 () {
-    t("Substitute[(3 m - 3)^2 - (m + 3)^2, m, a]", "8 * a^(2) - 24 * a", "(3 * a - 3)^(2) - (a + 3)^(2)");
-  }
-
-  @Test
-  public void Substitute_4 () {
-    try {
-      executeInCAS("Delete[a]");
-      executeInCAS("Delete[b]");
-      executeInCAS("Delete[c]");
-      executeInCAS("Delete[x]");
-      executeInCAS("Delete[y]");
-      executeInCAS("Delete[z]");
-    } catch (Throwable t) {
-      propagate(t);
-    }
-    t("Substitute[2x + 3y - z, {x=a, y=2, z=b}]", "2 * a - b + 6","2 * a + 6 - b");
-  }
-  
   @Test
   public void Substitute_5 () {
 	// Substitute with Keep Input should substitute without evaluation.
 	tk("Substitute[1 + 2 + x + 3, {x=7}]", "1 + 2 + 7 + 3");
   }
-
-
-  /* Sum */
-
-  @Test
-  public void Sum_0 () {
-    t("Substitute[3 m - 3, 3 m - 3, a]", "a");
-  }
-
-  @Test
-  public void Sum_1 () {
-    t("Sum[i^2, i, 1, 3]", "14");
-  }
-
-  @Test
-  public void Sum_2 () {
-    t("Sum[r^i, i, 0, n]", "r^(n + 1) / (r - 1) - 1 / (r - 1)");
-  }
-
-  @Test
-  public void Sum_3 () {
-    t("Sum[(1/3)^i, i, 0, Infinity]", "3 / 2");
-  }
-
-
-  /* Take */
-
-  @Test
-  public void Take_0 () {
-    t("Take[{1, 2, a, 4, 5}, 2, 4]", "{2, a, 4}");
-  }
-
-
   /* Tangent */
 
   /* Point on the Conic */
