@@ -932,7 +932,6 @@ public class GeoGebraCasIntegrationTest {
 		t("Expand[(a + b)^2] / (a + b)", "a + b");
 	}
 
-
 	/* Fit Sin */
 
 	// TODO Check whether we can have this at all.
@@ -1015,148 +1014,6 @@ public class GeoGebraCasIntegrationTest {
 	private static void in(String string) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
 				false);
-
-	}
-
-	@Test
-	public void LeftSide_1() {
-		t("LeftSide[x + 2 = 3x + 1]", "x + 2");
-		t("LeftSide[{a^2 + b^2 = c^2, x + 2 = 3 x + 1}]",
-				"{a^(2) + b^(2), x + 2}");
-	}
-
-	@Test
-	public void LeftSide_2() {
-		t("LeftSide[{a^2 + b^2 = c^2, x + 2 = 3 x + 1}, 1]", "a^(2) + b^(2)");
-	}
-
-	/* Length */
-
-	@Test
-	public void Length_0() {
-		t("Length[2 x, 0, 1]", "sqrt(5)");
-	}
-
-	@Test
-	public void Length_1() {
-		t("Length[2 a, a, 0, 1]", "sqrt(5)");
-	}
-
-	/* Limits */
-
-	/* Limit */
-
-	@Test
-	public void Limits_Limit_0() {
-		t("Limit[a sin(x)/x, 0]", "a");
-	}
-
-	@Test
-	public void Limits_Limit_1() {
-		t("Limit[a sin(v)/v, v, 0]", "a");
-	}
-
-	@Test
-	public void Limits_Limit_2() {
-		t("Limit[3^n, Infinity]", "Infinity");
-	}
-
-	@Test
-	public void Limits_Limit_3() {
-		t("Limit[pi^n, Infinity]", "Infinity");
-	}
-
-	@Test
-	public void Limits_Limit_4() {
-		t("Limit[pi^n / sqrt(2), Infinity]", "Infinity");
-	}
-
-	@Test
-	public void Limits_Limit_5() {
-		t("Limit[pi^n * sqrt(2), Infinity]", "Infinity");
-	}
-
-	@Test
-	public void Limits_Limit_6() {
-		t("Limit[sqrt(2) * pi^n / exp(1), Infinity]", "Infinity");
-	}
-
-	@Test
-	public void Limits_Limit_7() {
-		t("Limit[3^n, -Infinity]", "0");
-	}
-
-	@Test
-	public void Limits_Limit_8() {
-		t("Limit[pi^n, -Infinity]", "0");
-	}
-
-	@Test
-	public void Limits_Limit_9() {
-		t("Limit[pi^n / sqrt(2), -Infinity]", "0");
-	}
-
-	@Test
-	public void Limits_Limit_10() {
-		t("Limit[pi^n * sqrt(2), -Infinity]", "0");
-	}
-
-	@Test
-	public void Limits_Limit_11() {
-		t("Limit[sqrt(2) * pi^n / exp(1), -Infinity]", "0");
-	}
-
-	@Test
-	public void Limits_Limit_12() {
-		t("Limit[1 - 0.4^n,n, Infinity]", "1");
-	}
-
-	/* LimitAbove */
-
-	@Test
-	public void Limits_LimitAbove_0() {
-		t("LimitAbove[1 / x, 0]", "Infinity");
-	}
-
-	@Test
-	public void Limits_LimitAbove_1() {
-		t("LimitAbove[1 / a, a, 0]", "Infinity");
-	}
-
-	/* LimitBelow */
-
-	@Test
-	public void Limits_LimitBelow_0() {
-		t("LimitBelow[1 / x, 0]", "-Infinity");
-	}
-
-	@Test
-	public void Limits_LimitBelow_1() {
-		t("LimitBelow[1 / a, a, 0]", "-Infinity");
-	}
-
-	/* MatrixRank */
-
-	@Test
-	public void MatrixRank_0() {
-		t("MatrixRank[{{0, 0}, {0, 0}}]", "0");
-	}
-
-	@Test
-	public void MatrixRank_1() {
-		t("MatrixRank[{{2, 2}, {1, 1}}]", "1");
-	}
-
-	@Test
-	public void MatrixRank_2() {
-		t("MatrixRank[{{1, 2}, {3, 4}}]", "2");
-	}
-
-	/* NRoot */
-
-	@Test
-	public void NRoot_0() {
-		t("NRoot[16, 4]", "2");
 	}
 
 	/* Normal */
@@ -1167,58 +1024,10 @@ public class GeoGebraCasIntegrationTest {
 				"{eps = 0.6744897501961}");
 	}
 
-	/* Numeric Evaluation */
-
-	/* Constants only */
-
-	@Test
-	public void NumericEvaluation_ConstantsOnly_0() {
-		t("Numeric[3 / 2]", "1.5");
-	}
-
-	@Test
-	public void NumericEvaluation_ConstantsOnly_1() {
-		t("Numeric[((15 + 9) * 3.5 - 2 * 0.5) / 4]", "20.75");
-	}
-
-	@Test
-	public void NumericEvaluation_ConstantsOnly_2() {
-		t("Numeric[pi,15]", "3.14159265358979");
-	}
-
-	@Test
-	public void NumericEvaluation_ConstantsOnly_3() {
-		t("Numeric[sin(1), 20 ]", "0.84147098480789650665");
-	}
-
-	@Test
-	public void NumericEvaluation_ConstantsOnly_4() {
-		t("a := Numeric[sin(1), 20 ]", "0.84147098480789650665");
-	}
-
-	/* One Variable */
-
-	@Test
-	public void NumericEvaluation_OneVariable_0() {
-		t("Numeric[x + x / 2]", "1.5 * x");
-	}
-
-	@Test
-	public void NumericEvaluation_OneVariable_1() {
-		t("Numeric[x + 0.2 x]", "1.2 * x");
-	}
-
-	@Test
-	public void NumericEvaluation_OneVariable_2() {
-		t("f(x) := Numeric[x + 0.2 x + 1 / 3, 10]", "1.2 * x + 0.3333333333");
-	}
 
 	/* Two Variables */
 
-	@Test
-	public void NumericEvaluation_TwoVariables_0() {
-		t("Numeric[6 a * 3 b - (5 a b + b * 2a) / 2]", "14.5 * a * b");
-	}
+
 
 	@Test
 	public void NumericEvaluation_NumericEvaluation_TwoVariables_1() {
@@ -1226,37 +1035,6 @@ public class GeoGebraCasIntegrationTest {
 				"-0.6 * a^(3) + 1 * a^(2) * b^(2) + 1.8 * a * b - 3 * b^(3)",
 				"a^(2) * b^(2) - 0.6 * a^(3) - 3 * b^(3) + 1.8 * a * b",
 				"-0.6 * a^(3) + a^(2) * b^(2) + 1.8 * a * b - 3 * b^(3)");
-	}
-
-	/* Precision */
-
-	@Test
-	public void NumericEvaluation_Precision_0() {
-		t("Numeric[10 + 22/7, 6]", "13.1429");
-	}
-
-	@Test
-	public void NumericEvaluation_Precision_1() {
-		t("Numeric[2 a - a/3, 2]", "1.7 * a");
-	}
-
-	@Test
-	public void NumericEvaluation_Precision_2() {
-		t("Numeric[2 a - a/3, 3]", "1.67 * a");
-	}
-
-	/* PartialFractions */
-
-	@Test
-	public void PartialFractions_0() {
-		t("PartialFractions[x^2 / (x^2 - 2x + 1)]",
-				"1 + 1 / (x - 1)^(2) + 2 / (x - 1)");
-	}
-
-	@Test
-	public void PartialFractions_1() {
-		t("PartialFractions[a^2 / (a^2 - 2a + 1), a]",
-				"1 + 1 / (a - 1)^(2) + 2 / (a - 1)");
 	}
 
 	/* PerpendicularVector */
@@ -1275,18 +1053,6 @@ public class GeoGebraCasIntegrationTest {
 			propagate(t);
 		}
 		t("PerpendicularVector[(a, b)]", "(-b, a)");
-	}
-
-	/* Product */
-
-	@Test
-	public void Product_0() {
-		t("Product[{1, 2, x}]", "2 * x");
-	}
-
-	@Test
-	public void Product_1() {
-		t("Product[x + 1, x, 2, 3]", "12");
 	}
 
 	/* Root */
@@ -3268,7 +3034,6 @@ public class GeoGebraCasIntegrationTest {
 		t("f'(x)", "(-g(x) + x * g'(x)) / x^(2)");
 		t("f'(x+1)", "(-g(x + 1) + g'(x + 1) * (x + 1)) / (x + 1)^(2)",
 				"(-g(x + 1) + (x + 1) * g'(x + 1)) / (x + 1)^(2)");
-
 	}
 
 	@Test
