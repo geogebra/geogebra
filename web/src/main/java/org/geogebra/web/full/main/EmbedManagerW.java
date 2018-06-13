@@ -65,6 +65,7 @@ public class EmbedManagerW implements EmbedManager {
 		frame.getApplication().checkScaleContainer();
 	}
 
+	@Override
 	public void removeAll() {
 		for (GeoGebraFrameBoth frame : widgets.values()) {
 			frame.removeFromParent();

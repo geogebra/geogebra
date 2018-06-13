@@ -10,8 +10,6 @@ public class GeoEmbed extends GeoElement {
 
 	private boolean defined = true;
 	private GeoPoint[] corner;
-	private GeoPoint corner2;
-	private GeoPoint corner4;
 
 	/**
 	 * @param c
