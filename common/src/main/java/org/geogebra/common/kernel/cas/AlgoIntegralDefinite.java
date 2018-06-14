@@ -314,7 +314,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			}
 			if (symbIntegral != null && symbIntegral.isDefined()
 					&& !f.includesDivisionByVar()
-					&& !f.includesNonContinuousIntegral()) {
+					&& !f.includesNonContinuousIntegral()
+					// eg Integral( x sqrt( 1 + cos(2x) ) , 0 , pi / 2 )
+					&& !symbIntegral.includesNonContinuousIntegral()) {
 				double val = symbIntegral.value(upperLimit)
 						- symbIntegral.value(lowerLimit);
 				n.setValue(val);
