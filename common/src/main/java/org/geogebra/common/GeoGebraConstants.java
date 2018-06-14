@@ -28,6 +28,8 @@ public interface GeoGebraConstants {
 
 		ANDROID_GEOMETRY("a", "geo"),
 
+		ANDROID_NATIVE_SCIENTIFIC("a", "scientific"),
+
 		ANDROID_WEBVIEW("aw", "classic"),
 
 		ANDROID_WEBVIEW_EXAM("aw", "exam"),

@@ -34,6 +34,8 @@ public class ExamEnvironment {
 	 * enumeration for exam modes (calculator type)
 	 */
 	public enum CalculatorType {
+		/** scientific calculator */
+		SCIENTIFIC,
 		/** 2D graphing, no CAS */
 		GRAPHING,
 		/** 2D graphing, CAS */
@@ -547,7 +549,30 @@ public class ExamEnvironment {
 	 */
 	public void setCalculatorType(CalculatorType type) {
 		calculatorType = type;
+	}
 
+	/**
+	 * set calculator type and setup application, regarding the current version
+	 *
+	 */
+	public void setExamCalculatorTypeDefault() {
+		ExamEnvironment.CalculatorType type;
+		switch (app.getVersion()) {
+			case ANDROID_NATIVE_GRAPHING:
+				type = ExamEnvironment.CalculatorType.GRAPHING;
+				break;
+			case ANDROID_NATIVE_3D:
+				type = ExamEnvironment.CalculatorType.SYMBOLIC_3D;
+				break;
+			case ANDROID_NATIVE_SCIENTIFIC:
+				type = ExamEnvironment.CalculatorType.SCIENTIFIC;
+				break;
+
+			default:
+				type = ExamEnvironment.CalculatorType.GRAPHING;
+				break;
+		}
+		setCalculatorType(type);
 	}
 
 	/**
@@ -558,6 +583,8 @@ public class ExamEnvironment {
 		wasCasEnabled = app.getSettings().getCasSettings().isEnabled();
 		wasCommands3DEnabled = app.areCommands3DEnabled();
 		switch (calculatorType) {
+			case SCIENTIFIC:
+				break;
 			case GRAPHING:
 				app.enableCAS3D(false, false);
 				break;
@@ -609,6 +636,8 @@ public class ExamEnvironment {
 	 */
 	public String getCalculatorTypeName(CalculatorType type) {
 		switch (type) {
+			case SCIENTIFIC:
+				return app.getLocalization().getMenu("exam_calctype_scientific");
 			case GRAPHING:
 				return app.getLocalization().getMenu("exam_calctype_graphing");
 			case SYMBOLIC:
@@ -628,6 +657,8 @@ public class ExamEnvironment {
 	 */
 	private String getShortCalcTypeName(CalculatorType type) {
 		switch (type) {
+			case SCIENTIFIC:
+				return app.getLocalization().getMenu("exam_calctype_scientific_short");
 			case GRAPHING:
 				return app.getLocalization().getMenu("exam_calctype_graphing_short");
 			case SYMBOLIC:
