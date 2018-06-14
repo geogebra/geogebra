@@ -433,7 +433,14 @@ ValidExpression buildValidExpression() :
           }        })
         (conditions = conditions()
         {
+          if(conditions.unwrap() instanceof MyDouble && ve.unwrap() instanceof MyDouble)          {
+            double trunc = ve.evaluateDouble();
+            double sgn = trunc <  0 ? -1 : 1;
+            double fractional = conditions.evaluateDouble();
+            if (Kernel.isInteger(trunc) && Kernel.isInteger(fractional)) {              ((MyDouble)ve.unwrap()).set(trunc + sgn * fractional / Math.pow(10, Math.ceil(Math.log10(fractional))));
+          	}                     }else          {            
 			ve = new ExpressionNode(kernel, conditions, Operation.IF, ve);
+	      }
         })?
         
      |
