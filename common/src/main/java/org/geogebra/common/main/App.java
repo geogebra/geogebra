@@ -3399,7 +3399,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public void setAppletWidth(int width) {
-		Log.printStacktrace(width);
 		this.appletWidth = width;
 	}
 

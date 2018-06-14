@@ -454,9 +454,12 @@
 		top: 0px;
 		left: 40px;
 	}
-		.fullscreen-ipad {
-			position: absolute;
-			top: 0px;
-			left: 0px;
-		}	
+	.fullscreen-ipad {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+	}
+	.embedContainer {
+		border: 1px $gray solid;
+	}
 }

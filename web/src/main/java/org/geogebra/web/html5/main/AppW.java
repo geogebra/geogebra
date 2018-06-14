@@ -374,8 +374,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		double yscale = height / getHeight();
 		boolean upscale = getArticleElement().getParamAllowUpscale();
 		double scale = LayoutUtilW.getDeviceScale(xscale, yscale, upscale);
-		Log.error(width + "," + height + "," + getWidth() + "," + getHeight()
-				+ "," + upscale);
 		if (!upscale) {
 			scale = Math.min(scale, getArticleElement().getDataParamScale());
 		}

@@ -256,7 +256,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	@Override
 	public void setSize(int width, int height) {
-		Log.printStacktrace(width);
 		// setPixelSize(width, height);
 		if (lastBG != null) {
 			((MyHeaderPanel) lastBG).setPixelSize(width, height);
