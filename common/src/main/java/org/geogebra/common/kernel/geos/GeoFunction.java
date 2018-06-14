@@ -2783,7 +2783,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public void evaluatePoint(double u, double v, Coords3 point) {
-		if (this.evaluateBoolean(u)) {
+		if (isInRegion(u, v)) {
 			point.set(u, v, 0);
 		} else {
 			point.set(u, v, Double.NaN);
