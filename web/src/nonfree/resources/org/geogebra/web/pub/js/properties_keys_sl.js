@@ -3114,6 +3114,7 @@ __GGB__keysVar["sl"].menu = {
     "exam_calctype_graphing_short": "Grafi",
     "exam_calctype_scientific": "Znanstveno ra\u010dunalo",
     "exam_calctype_scientific_desc": "Numeri\u010dno ra\u010dunanje, ni risanja",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "Simboli\u010dno grafi\u010dno ra\u010dunalo",
     "exam_calctype_sym_graphing_desc": "Numeri\u010dno in simboli\u010dno (SSR) ra\u010dunanje, 2D grafi",
     "exam_calctype_sym_graphing_short": "Simboli\u010dno",

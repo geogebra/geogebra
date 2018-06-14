@@ -3114,6 +3114,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "exam_calctype_graphing_short": "Gr\xe0fica",
     "exam_calctype_scientific": "Calculadora cient\xedfica",
     "exam_calctype_scientific_desc": "Calculadora cient\xedfica, sense gr\xe0fiques",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "Calculadora gr\xe0fica simb\xf2lica",
     "exam_calctype_sym_graphing_desc": "C\xe0lculs num\xe8rics i simb\xf2lics (CAS), gr\xe0fics 2D",
     "exam_calctype_sym_graphing_short": "Simb\xf2lic",

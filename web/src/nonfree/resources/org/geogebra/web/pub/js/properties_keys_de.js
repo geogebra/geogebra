@@ -3114,6 +3114,7 @@ __GGB__keysVar["de"].menu = {
     "exam_calctype_graphing_short": "Grafikrechner",
     "exam_calctype_scientific": "Wissenschaftlicher Taschenrechner",
     "exam_calctype_scientific_desc": "Numerische Berechnungen, keine Grafikansicht",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "CAS Rechner",
     "exam_calctype_sym_graphing_desc": "Numerische und symbolische (CAS) Berechnungen, 2D Grafikansicht",
     "exam_calctype_sym_graphing_short": "Symbolisch",

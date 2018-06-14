@@ -3114,6 +3114,7 @@ __GGB__keysVar["fi"].menu = {
     "exam_calctype_graphing_short": "Graafinen",
     "exam_calctype_scientific": "Tieteellinen laskin",
     "exam_calctype_scientific_desc": "Numeerinen laskenta, ei graafeja",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "Symbolinen graafinen laskin",
     "exam_calctype_sym_graphing_desc": "Numeerinen ja symbolinen (CAS) laskenta, 2D graafit",
     "exam_calctype_sym_graphing_short": "Symbolinen",

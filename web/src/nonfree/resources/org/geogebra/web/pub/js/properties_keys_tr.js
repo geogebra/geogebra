@@ -3114,6 +3114,7 @@ __GGB__keysVar["tr"].menu = {
     "exam_calctype_graphing_short": "Grafik",
     "exam_calctype_scientific": "Bilimsel Hesap Makinesi",
     "exam_calctype_scientific_desc": "N\xfcmerik hesaplamalar, grafik yok",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "Sembolik Grafik Hesap Makinesi",
     "exam_calctype_sym_graphing_desc": "N\xfcmerik ve sembolik (CAS) hesaplamalar, 2D grafik",
     "exam_calctype_sym_graphing_short": "Sembolik",

@@ -3114,6 +3114,7 @@ __GGB__keysVar["nl"].menu = {
     "exam_calctype_graphing_short": "Grafisch",
     "exam_calctype_scientific": "Wetenschappelijk rekenmachine",
     "exam_calctype_scientific_desc": "Numerieke berekeningen, geen grafieken",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "Symbolisch grafisch rekenmachine",
     "exam_calctype_sym_graphing_desc": "Numerieke en symbolische (CAS) berekeningen, 2D grafieken",
     "exam_calctype_sym_graphing_short": "Symbolisch",

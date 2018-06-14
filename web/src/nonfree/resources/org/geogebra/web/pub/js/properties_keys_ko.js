@@ -3114,6 +3114,7 @@ __GGB__keysVar["ko"].menu = {
     "exam_calctype_graphing_short": "\uadf8\ub798\ud53d",
     "exam_calctype_scientific": "\uacf5\ud559\uc6a9 \uacc4\uc0b0\uae30",
     "exam_calctype_scientific_desc": "\uc218\uce58 \uc5f0\uc0b0, \uadf8\ub798\ud53d \uae30\ub2a5 \uc5c6\uc74c",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "\uae30\ud638 \uc5f0\uc0b0 \uadf8\ub798\ud53d \uacc4\uc0b0\uae30",
     "exam_calctype_sym_graphing_desc": "\uc218\uce58 \ubc0f \uae30\ud638 \uc5f0\uc0b0(CAS) \uacc4\uc0b0\uae30, 2\ucc28\uc6d0 \uadf8\ub798\ud53d \uacc4\uc0b0\uae30",
     "exam_calctype_sym_graphing_short": "\uae30\ud638 \uc5f0\uc0b0",

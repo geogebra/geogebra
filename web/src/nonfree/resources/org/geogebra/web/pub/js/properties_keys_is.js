@@ -3114,6 +3114,7 @@ __GGB__keysVar["is"].menu = {
     "exam_calctype_graphing_short": "Graf\xedskur",
     "exam_calctype_scientific": "Fr\xe6\xf0ilegur vasareiknir",
     "exam_calctype_scientific_desc": "T\xf6lulegir reikningar, engin teikning",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "Graf\xedskur t\xe1knr\xe6nn vasareiknir",
     "exam_calctype_sym_graphing_desc": "T\xf6lu- og t\xe1knreikniv\xe9l (CAS), 2D graf\xedk",
     "exam_calctype_sym_graphing_short": "Symbolic",

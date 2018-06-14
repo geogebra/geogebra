@@ -3114,6 +3114,7 @@ __GGB__keysVar["es-ES"].menu = {
     "exam_calctype_graphing_short": "Gr\xe1ficas",
     "exam_calctype_scientific": "Calculadora cient\xedfica",
     "exam_calctype_scientific_desc": "C\xe1lculos num\xe9ricos, sin gr\xe1ficas",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "Calculadora Gr\xe1fica Simb\xf3lica",
     "exam_calctype_sym_graphing_desc": "C\xe1lculos num\xe9ricos y simb\xf3licos (CAS), gr\xe1ficas 2D",
     "exam_calctype_sym_graphing_short": "Simb\xf3lico",

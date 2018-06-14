@@ -3114,6 +3114,7 @@ __GGB__keysVar["cs"].menu = {
     "exam_calctype_graphing_short": "Grafick\xe1",
     "exam_calctype_scientific": "V\u011bdeck\xe1 kalkula\u010dka",
     "exam_calctype_scientific_desc": "Numerick\xe9 v\xfdpo\u010dty, bez graf\u016f",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "Symbolick\xe1 grafick\xe1 kalkula\u010dka",
     "exam_calctype_sym_graphing_desc": "Numerick\xe9 a symbolick\xe9 v\xfdpo\u010dty (CAS), 2D grafy",
     "exam_calctype_sym_graphing_short": "Symbolick\xe1",

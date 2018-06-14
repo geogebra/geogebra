@@ -3114,6 +3114,7 @@ __GGB__keysVar["eu"].menu = {
     "exam_calctype_graphing_short": "Grafikoa",
     "exam_calctype_scientific": "Kalkulagailu Grafikoa",
     "exam_calctype_scientific_desc": "Zenbakizko kalkulagailua, ez grafikoa",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "Kalkulagailu sinbolikoa eta grafikoa",
     "exam_calctype_sym_graphing_desc": "Zenbakizko kalkuluak eta kalkulu sinbolikoak (CAS), 2D grafikoa",
     "exam_calctype_sym_graphing_short": "Sinbolikoa",

@@ -3114,6 +3114,7 @@ __GGB__keysVar["nn"].menu = {
     "exam_calctype_graphing_short": "Grafteiknar",
     "exam_calctype_scientific": "Avansert kalkulator",
     "exam_calctype_scientific_desc": "Numeriske utrekningar, utan grafteikning",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "Symbolsk grafteiknar",
     "exam_calctype_sym_graphing_desc": "Numeriske og symbolske (CAS) utrekningar,, 2D-grafteikning",
     "exam_calctype_sym_graphing_short": "Symbolsk",

@@ -3114,6 +3114,7 @@ __GGB__keysVar["da"].menu = {
     "exam_calctype_graphing_short": "Graftegner",
     "exam_calctype_scientific": "Videnskabelig Regnemaskine",
     "exam_calctype_scientific_desc": "Numeric calculations, no graphing",
+    "exam_calctype_scientific_short": "Scientific",
     "exam_calctype_sym_graphing": "Symbolsk Graftegner",
     "exam_calctype_sym_graphing_desc": "Numeric and symbolic (CAS) calculations, 2D graphing",
     "exam_calctype_sym_graphing_short": "Symbolsk",
