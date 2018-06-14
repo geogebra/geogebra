@@ -2994,9 +2994,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					AwtFactory.getPrototype().newDimension(width, height));
 		}
 
-		// simple setting temp.
-		appCanvasHeight = height;
-		appCanvasWidth = width;
 		// Log.debug("syn size");
 		getEuclidianView1().setCoordinateSpaceSize(width, height);
 		getEuclidianView1().doRepaint2();

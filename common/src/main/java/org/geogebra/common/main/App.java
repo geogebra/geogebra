@@ -330,8 +330,6 @@ public abstract class App implements UpdateSelection {
 	protected int appletWidth = 0;
 	protected int appletHeight = 0;
 	protected boolean useFullGui = false;
-	protected int appCanvasHeight;
-	protected int appCanvasWidth;
 	protected boolean needsSpreadsheetTableModel = false;
 	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
@@ -2888,14 +2886,6 @@ public abstract class App implements UpdateSelection {
 
 	public boolean getUseFullGui() {
 		return useFullGui;
-	}
-
-	public int getAppCanvasWidth() {
-		return appCanvasWidth;
-	}
-
-	public int getAppCanvasHeight() {
-		return appCanvasHeight;
 	}
 
 	/**

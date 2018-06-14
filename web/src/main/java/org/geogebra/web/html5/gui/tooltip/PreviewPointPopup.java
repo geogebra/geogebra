@@ -51,7 +51,8 @@ public class PreviewPointPopup extends GPopupPanel {
 		positioner.setCenter(true);
 		GPoint pos = positioner.getPositionFor(geos, offsetHeight, 33,
 				app.getActiveEuclidianView().getViewHeight() - offsetHeight,
-				offsetWidth / 2, app.getAppCanvasWidth() - offsetWidth / 2);
+				offsetWidth / 2,
+				app.getActiveEuclidianView().getViewWidth() - offsetWidth / 2);
 		if (pos != null) {
 			this.setPopupPosition(
 					pos.getX() + app.getActiveEuclidianView().getAbsoluteLeft()
