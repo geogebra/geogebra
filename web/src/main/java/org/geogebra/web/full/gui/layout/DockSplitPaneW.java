@@ -324,6 +324,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	/**
 	 * Set the left component of this DockSplitPane and remove the divider if
 	 * the left component is null.
+	 * 
+	 * @param component
+	 *            left component
 	 */
 	public void setLeftComponent(Widget component) {
 		leftComponent = component;
@@ -333,6 +336,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	/**
 	 * Set the right component of this DockSplitPane and remove the divider if
 	 * the right component is null.
+	 * 
+	 * @param component
+	 *            right component
 	 */
 	public void setRightComponent(Widget component) {
 		rightComponent = component;

@@ -52,7 +52,8 @@ public class DrawablesTest {
 		au.setLabel("audio");
 		GeoVideo video = new GeoVideo(app.getKernel().getConstruction());
 		video.setLabel("video");
-		GeoEmbed embed = new GeoEmbed(app.getKernel().getConstruction());
+		GeoEmbed embed = new GeoEmbed(app.getKernel().getConstruction(),
+				app.getActiveEuclidianView());
 		embed.setLabel("embed");
 
 		TreeSet<GeoClass> types = new TreeSet<>();

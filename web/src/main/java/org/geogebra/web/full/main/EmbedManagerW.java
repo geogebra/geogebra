@@ -18,11 +18,21 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+/**
+ * Creates, deletes and resizes embedded applets.
+ * 
+ * @author Zbynek
+ *
+ */
 public class EmbedManagerW implements EmbedManager {
 
 	private AppWFull app;
 	private HashMap<DrawEmbed, GeoGebraFrameBoth> widgets = new HashMap<>();
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public EmbedManagerW(AppWFull app) {
 		this.app = app;
 	}
@@ -32,9 +42,12 @@ public class EmbedManagerW implements EmbedManager {
 		GeoGebraFrameBoth fr = new GeoGebraFrameBoth(
 				(AppletFactory) GWT.create(AppletFactory.class),
 				app.getLAF(), app.getDevice(), false);
+
 		fr.ae = new TestArticleElement("", "graphing");
+		fr.setComputedWidth(fr.ae.getDataParamWidth());
+		fr.setComputedHeight(fr.ae.getDataParamHeight());
 		fr.ae.attr("showToolbar", "true").attr("scaleContainerClass",
-				"embedContainer");
+				"embedContainer").attr("allowUpscale", "true");
 		fr.runAsyncAfterSplash();
 		DockPanelW panel = ((DockManagerW) app.getGuiManager().getLayout()
 				.getDockManager()).getPanel(App.VIEW_EUCLIDIAN);
@@ -62,6 +75,8 @@ public class EmbedManagerW implements EmbedManager {
 		frame.getParent().getParent().setSize(
 				Math.abs(drawEmbed.getRight() - drawEmbed.getLeft()) + "px",
 				Math.abs(drawEmbed.getTop() - drawEmbed.getBottom()) + "px");
+		frame.getElement().getStyle().setWidth(800, Unit.PX);
+		frame.getElement().getStyle().setHeight(600, Unit.PX);
 		frame.getApplication().checkScaleContainer();
 	}
 

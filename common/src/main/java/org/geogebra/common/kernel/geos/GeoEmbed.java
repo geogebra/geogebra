@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -15,15 +16,15 @@ public class GeoEmbed extends GeoElement {
 	 * @param c
 	 *            construction
 	 */
-	public GeoEmbed(Construction c) {
+	public GeoEmbed(Construction c, EuclidianViewInterfaceCommon ev) {
 		super(c);
 		corner = new GeoPoint[3];
 		corner[0] = new GeoPoint(c);
 		corner[0].setCoords(-5, -5, 1);
 		corner[1] = new GeoPoint(c);
-		corner[1].setCoords(5, -5, 1);
+		corner[1].setCoords(-5 + 800 / ev.getXscale(), -5, 1);
 		corner[2] = new GeoPoint(c);
-		corner[2].setCoords(-5, 5, 1);
+		corner[2].setCoords(-5, -5 + 600 / ev.getXscale(), 1);
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class GeoEmbed extends GeoElement {
 
 	@Override
 	public GeoElement copy() {
-		GeoEmbed ret = new GeoEmbed(cons);
+		GeoEmbed ret = new GeoEmbed(cons, cons.getApplication().getActiveEuclidianView());
 		ret.set(this);
 		return ret;
 	}

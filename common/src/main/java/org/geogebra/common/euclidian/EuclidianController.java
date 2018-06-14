@@ -147,7 +147,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -926,7 +925,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            type of mode setting event
 	 */
 	public void setMode(int newMode, ModeSetter ms) {
-		Log.printStacktrace(newMode);
 		if (getModeChangeListener() != null && !temporaryMode) {
 			getModeChangeListener().onModeChange(newMode);
 		}
@@ -977,7 +975,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 			if (newMode == EuclidianConstants.MODE_GEOGEBRA && app.has(Feature.MOW_GEOGEBRA_TOOL)) {
-				GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
+				GeoEmbed ge = new GeoEmbed(kernel.getConstruction(), view);
 				ge.setLabel(null);
 				app.invokeLater(new Runnable() {
 

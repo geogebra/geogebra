@@ -167,12 +167,12 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public int getDataParamWidth() {
-		return 0;
+		return 800;
 	}
 
 	@Override
 	public int getDataParamHeight() {
-		return 0;
+		return 600;
 	}
 
 	@Override
@@ -403,7 +403,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getParamAllowUpscale() {
-		return true;
+		return true;// "true".equals(attributes.get("allowUpscale"));
 	}
 
 	@Override
