@@ -113,6 +113,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 					@Override
 					public void execute() {
 						item.geo.remove();
+						app.storeUndoInfo();
 					}
 				});
 		wrappedPopup.addItem(mi);
