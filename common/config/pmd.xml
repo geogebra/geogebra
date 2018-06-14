@@ -43,7 +43,18 @@
 		<exclude name="EmptyCatchBlock"/>
 		<exclude name="EmptyIfStmt"/>
 	</rule>
-	
+	<rule ref="rulesets/java/codesize.xml/ExcessiveClassLength">
+	<properties>
+        	<property name="minimum" value="5500"/>
+                <property name="violationSuppressXPath" value="//ClassOrInterfaceDeclaration[@Image='AlgoKimberlingWeights']
+| //ClassOrInterfaceDeclaration[@Image='EuclidianController']
+| //ClassOrInterfaceDeclaration[@Image='EuclidianView']
+| //ClassOrInterfaceDeclaration[@Image='Kernel']
+| //ClassOrInterfaceDeclaration[@Image='GeoElement']
+| //ClassOrInterfaceDeclaration[@Image='ExpressionNode']
+| //ClassOrInterfaceDeclaration[@Image='MyXMLHandler']"/>
+    	</properties>
+	</rule>
 	<rule ref="rulesets/java/imports.xml">
 		<exclude name="TooManyStaticImports"/>
 	</rule>
