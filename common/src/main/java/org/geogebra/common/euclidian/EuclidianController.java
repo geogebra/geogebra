@@ -975,7 +975,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 			if (newMode == EuclidianConstants.MODE_GEOGEBRA && app.has(Feature.MOW_GEOGEBRA_TOOL)) {
-				GeoEmbed ge = new GeoEmbed(kernel.getConstruction(), view);
+				GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
+				ge.initPosition(view);
+				ge.setEmbedId(app.getEmbedManager().nextID());
 				ge.setLabel(null);
 				app.invokeLater(new Runnable() {
 

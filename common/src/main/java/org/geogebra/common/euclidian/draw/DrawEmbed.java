@@ -79,15 +79,19 @@ public class DrawEmbed extends Drawable {
 	}
 
 	public double getLeft() {
-		return getView().toScreenCoordYd(((GeoEmbed) geo).getCorner(0).getInhomX());
+		return getView().toScreenCoordXd(((GeoEmbed) geo).getCorner(0).getInhomX());
 	}
 
 	public double getRight() {
-		return getView().toScreenCoordYd(((GeoEmbed) geo).getCorner(1).getInhomX());
+		return getView().toScreenCoordXd(((GeoEmbed) geo).getCorner(1).getInhomX());
 	}
 
 	public double getBottom() {
 		return getView().toScreenCoordYd(((GeoEmbed) geo).getCorner(0).getInhomY());
+	}
+
+	public int getEmbedID() {
+		return ((GeoEmbed) geo).getEmbedID();
 	}
 
 }

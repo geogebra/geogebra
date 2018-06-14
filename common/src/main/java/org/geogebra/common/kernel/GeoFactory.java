@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -88,6 +89,9 @@ public class GeoFactory {
 			return new GeoConic(cons1);
 
 		case 'e': // ellipse, emptyset // bug in GeoGebra 2.6c
+			if ("embed".equals(type)) {
+				return new GeoEmbed(cons1);
+			}
 			return new GeoConic(cons1);
 
 		case 'f': // function

@@ -2,16 +2,12 @@ package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.Base64ZipFile;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -28,9 +24,9 @@ import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Exercise;
-import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -44,15 +40,12 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
-import com.google.gwt.user.client.ui.Image;
 
 /**
  * HTML5 version of API. The methods are exported in ScriptManagerW
@@ -317,8 +310,13 @@ public class GgbAPIW extends GgbAPI {
 				countShared(pageController.getSlide(i), usage, shared);
 			}
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
-				prepareToEntrySet(pageController.getSlide(i), jso,
-						GgbFile.SLIDE_PREFIX + i + "/", usage);
+				GgbFile f = pageController.getSlide(i);
+				if (app.getEmbedManager() != null) {
+					((EmbedManagerW) app.getEmbedManager())
+							.writeEmbeds(f);
+				}
+				prepareToEntrySet(f, jso, GgbFile.SLIDE_PREFIX + i + "/",
+						usage);
 			}
 			prepareToEntrySet(shared, jso, GgbFile.SHARED_PREFIX, null);
 			pushIntoNativeEntry(GgbFile.STRUCTURE_JSON,
@@ -519,11 +517,12 @@ public class GgbAPIW extends GgbAPI {
 		archiveContent.put(MyXMLio.XML_FILE, constructionXml);
 
 		// GGB-1758 write images at the end
-		writeConstructionImages(getConstruction(), "", archiveContent);
-
+		((ImageManagerW) app.getImageManager())
+				.writeConstructionImages(getConstruction(), "", archiveContent);
 		// write construction thumbnails
 		if (includeThumbnail) {
-			addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
+			ImageManagerW
+					.addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
 					((EuclidianViewWInterface) getViewForThumbnail())
 							.getCanvasBase64WithTypeString(),
 					archiveContent);
@@ -914,142 +913,9 @@ public class GgbAPIW extends GgbAPI {
 	private void writeMacroImages(GgbFile archive) {
 		if (kernel.hasMacros()) {
 			ArrayList<Macro> macros = kernel.getAllMacros();
-			writeMacroImages(macros, archive);
+			((ImageManagerW) app.getImageManager()).writeMacroImages(macros,
+					archive);
 		}
-	}
-
-	private void writeMacroImages(ArrayList<Macro> macros, GgbFile archive) {
-		if (macros == null) {
-			return;
-		}
-
-		for (int i = 0; i < macros.size(); i++) {
-			// save all images in macro construction
-			Macro macro = macros.get(i);
-			// macro may contain images GGB-1865
-			writeConstructionImages(macro.getMacroConstruction(), "", archive);
-			String fileName = macro.getIconFileName();
-			if (fileName != null && !fileName.isEmpty()) {
-				String url = ((ImageManagerW) app.getImageManager())
-						.getExternalImageSrc(fileName);
-				if (url != null) {
-					FileExtensions ext = StringUtil.getFileExtension(fileName);
-
-					MyImageW img = new MyImageW(
-							ImageElement.as((new Image(url)).getElement()),
-							FileExtensions.SVG.equals(ext));
-
-					addImageToArchive("", fileName, url, ext, img, archive);
-				}
-			}
-			/*
-			 * // save macro icon String fileName = macro.getIconFileName();
-			 * BufferedImage img =
-			 * ((Application)app).getExternalImage(fileName); if (img != null)
-			 * // Modified for Intergeo File Format (Yves Kreis) --> //
-			 * writeImageToZip(zip, fileName, img); writeImageToZip(zipjs,
-			 * filePath + fileName, img); // <-- Modified for Intergeo File
-			 * Format (Yves Kreis)
-			 */
-		}
-	}
-
-	private void writeConstructionImages(Construction cons, String filePath,
-			GgbFile archive) {
-		// save all GeoImage images
-		// TreeSet images =
-		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
-		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
-		if (geos == null) {
-			return;
-		}
-
-		Iterator<GeoElement> it = geos.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			String fileName = geo.getImageFileName();
-			if (!"".equals(fileName)) {
-				String url = ((ImageManagerW) app.getImageManager())
-						.getExternalImageSrc(fileName);
-				FileExtensions ext = StringUtil.getFileExtension(fileName);
-
-				MyImageW img = (MyImageW) geo.getFillImage();
-
-				Log.debug("filename = " + fileName);
-				Log.debug("ext = " + ext);
-				addImageToArchive(filePath, fileName, url, ext, img, archive);
-			}
-		}
-	}
-
-	private static void addImageToArchive(String filePath, String fileName,
-			String url, FileExtensions ext, MyImageW img,
-			Map<String, String> archive) {
-		if (ext.equals(FileExtensions.SVG)) {
-			addSvgToArchive(fileName, img, archive);
-			return;
-		}
-		String dataURL;
-		if ((url == null || url.startsWith("http"))
-				&& (img != null && img.getImage() != null)) {
-			dataURL = convertImgToPng(img);
-		} else {
-			dataURL = url;
-		}
-		if (dataURL != null) {
-			if (ext.isAllowedImage()) {
-				// png, jpg, jpeg
-				// NOT SVG (filtered earlier)
-				addImageToZip(filePath + fileName, dataURL, archive);
-			} else {
-				// not supported, so saved as PNG
-				addImageToZip(filePath + StringUtil
-						.changeFileExtension(fileName, FileExtensions.PNG),
-						dataURL, archive);
-			}
-		}
-	}
-
-	private static String convertImgToPng(MyImageW img) {
-		String url;
-		Canvas cv = Canvas.createIfSupported();
-		cv.setCoordinateSpaceWidth(img.getWidth());
-		cv.setCoordinateSpaceHeight(img.getHeight());
-		Context2d c2d = cv.getContext2d();
-		c2d.drawImage(img.getImage(), 0, 0);
-		url = cv.toDataUrl("image/png");
-		// Opera and Safari cannot toDataUrl jpeg (much less the others)
-		// if ("jpg".equals(ext) || "jpeg".equals(ext))
-		// addImageToZip(filePath + fileName, cv.toDataUrl("image/jpg"));
-		// else
-		return url;
-	}
-
-	private static void addSvgToArchive(String fileName, MyImageW img,
-			Map<String, String> archive) {
-		ImageElement svg = img.getImage();
-
-		// TODO
-		// String svgAsXML =
-		// "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\"
-		// r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\"
-		// /></svg>";
-		String svgAsXML = svg.getAttribute("src");
-
-		// remove eg data:image/svg+xml;base64,
-		int index = svgAsXML.indexOf(',');
-		svgAsXML = svgAsXML.substring(index + 1);
-
-		svgAsXML = Browser.decodeBase64(svgAsXML);
-
-		Log.debug("svgAsXML (decoded): " + svgAsXML.length() + "bytes");
-
-		archive.put(fileName, svgAsXML);
-	}
-
-	private static void addImageToZip(String filename, String base64img,
-			Map<String, String> archive) {
-		archive.put(filename, base64img);
 	}
 
 	/**
@@ -1507,7 +1373,7 @@ public class GgbAPIW extends GgbAPI {
 		return loc.getMenu(key);
 	}
 
-	private AsyncOperation<String> asyncOperation(
+	private static AsyncOperation<String> asyncOperation(
 			final JavaScriptObject callback) {
 		return new AsyncOperation<String>() {
 

@@ -9,4 +9,6 @@ public interface EmbedManager {
 
 	public void removeAll();
 
+	public int nextID();
+
 }

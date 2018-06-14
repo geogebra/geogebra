@@ -73,6 +73,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
+import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -3664,6 +3665,9 @@ public class MyXMLHandler implements DocHandler {
 				} else if ("emphasizeRightAngle".equals(eName)) {
 					handleEmphasizeRightAngle(attrs);
 					break;
+				} else if ("embed".equals(eName)) {
+					handleEmbed(attrs);
+					break;
 				}
 
 			case 'f':
@@ -4115,6 +4119,20 @@ public class MyXMLHandler implements DocHandler {
 		}
 		else {
 			Log.error("wrong element type for <eqnStyle>: " + geo.getClass());
+			return false;
+		}
+		return true;
+	}
+
+	private boolean handleEmbed(LinkedHashMap<String, String> attrs) {
+		if (geo instanceof GeoEmbed) {
+			try {
+				((GeoEmbed) geo).setEmbedId(Integer.parseInt(attrs.get("id")));
+			} catch (RuntimeException e) {
+				return false;
+			}
+		} else {
+			Log.error("wrong element type for <embed>: " + geo.getClass());
 			return false;
 		}
 		return true;

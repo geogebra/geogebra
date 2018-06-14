@@ -85,6 +85,7 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -831,6 +832,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					this) == null) {
 				maybeProcessImage(entry.getKey(), entry.getValue(), toLoad);
 			}
+		}
+		if (getEmbedManager() != null) {
+			((EmbedManagerW) getEmbedManager()).loadBase64(archive);
 		}
 
 		if (construction == null) {

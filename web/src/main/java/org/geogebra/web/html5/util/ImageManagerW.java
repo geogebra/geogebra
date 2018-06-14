@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
@@ -16,13 +18,19 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GgbFile;
+import org.geogebra.web.html5.main.MyImageW;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Image;
 
 public class ImageManagerW extends ImageManager {
 
@@ -293,5 +301,145 @@ public class ImageManagerW extends ImageManager {
 		// filename will be of form
 		// "a04c62e6a065b47476607ac815d022cc/liar.gif"
 		return zipDirectory + '/' + fn;
+	}
+
+	public void writeConstructionImages(Construction cons, String filePath,
+			GgbFile archive) {
+		// save all GeoImage images
+		// TreeSet images =
+		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
+		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
+		if (geos == null) {
+			return;
+		}
+
+		Iterator<GeoElement> it = geos.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			String fileName = geo.getImageFileName();
+			if (!"".equals(fileName)) {
+				String url = getExternalImageSrc(fileName);
+				FileExtensions ext = StringUtil.getFileExtension(fileName);
+
+				MyImageW img = (MyImageW) geo.getFillImage();
+
+				Log.debug("filename = " + fileName);
+				Log.debug("ext = " + ext);
+				addImageToArchive(filePath, fileName, url, ext, img, archive);
+			}
+		}
+	}
+
+	private static void addImageToArchive(String filePath, String fileName,
+			String url, FileExtensions ext, MyImageW img,
+			Map<String, String> archive) {
+		if (ext.equals(FileExtensions.SVG)) {
+			addSvgToArchive(fileName, img, archive);
+			return;
+		}
+		String dataURL;
+		if ((url == null || url.startsWith("http"))
+				&& (img != null && img.getImage() != null)) {
+			dataURL = convertImgToPng(img);
+		} else {
+			dataURL = url;
+		}
+		if (dataURL != null) {
+			if (ext.isAllowedImage()) {
+				// png, jpg, jpeg
+				// NOT SVG (filtered earlier)
+				addImageToZip(filePath + fileName, dataURL, archive);
+			} else {
+				// not supported, so saved as PNG
+				addImageToZip(filePath + StringUtil
+						.changeFileExtension(fileName, FileExtensions.PNG),
+						dataURL, archive);
+			}
+		}
+	}
+
+	private static String convertImgToPng(MyImageW img) {
+		String url;
+		Canvas cv = Canvas.createIfSupported();
+		cv.setCoordinateSpaceWidth(img.getWidth());
+		cv.setCoordinateSpaceHeight(img.getHeight());
+		Context2d c2d = cv.getContext2d();
+		c2d.drawImage(img.getImage(), 0, 0);
+		url = cv.toDataUrl("image/png");
+		// Opera and Safari cannot toDataUrl jpeg (much less the others)
+		// if ("jpg".equals(ext) || "jpeg".equals(ext))
+		// addImageToZip(filePath + fileName, cv.toDataUrl("image/jpg"));
+		// else
+		return url;
+	}
+
+	private static void addSvgToArchive(String fileName, MyImageW img,
+			Map<String, String> archive) {
+		ImageElement svg = img.getImage();
+
+		// TODO
+		// String svgAsXML =
+		// "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\"
+		// r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\"
+		// /></svg>";
+		String svgAsXML = svg.getAttribute("src");
+
+		// remove eg data:image/svg+xml;base64,
+		int index = svgAsXML.indexOf(',');
+		svgAsXML = svgAsXML.substring(index + 1);
+
+		svgAsXML = Browser.decodeBase64(svgAsXML);
+
+		Log.debug("svgAsXML (decoded): " + svgAsXML.length() + "bytes");
+
+		archive.put(fileName, svgAsXML);
+	}
+
+	/**
+	 * @param filename
+	 *            image filename
+	 * @param base64img
+	 *            base64 content
+	 * @param archive
+	 *            archive
+	 */
+	public static void addImageToZip(String filename, String base64img,
+			Map<String, String> archive) {
+		archive.put(filename, base64img);
+	}
+
+	public void writeMacroImages(ArrayList<Macro> macros, GgbFile archive) {
+		if (macros == null) {
+			return;
+		}
+
+		for (int i = 0; i < macros.size(); i++) {
+			// save all images in macro construction
+			Macro macro = macros.get(i);
+			// macro may contain images GGB-1865
+			writeConstructionImages(macro.getMacroConstruction(), "", archive);
+			String fileName = macro.getIconFileName();
+			if (fileName != null && !fileName.isEmpty()) {
+				String url = getExternalImageSrc(fileName);
+				if (url != null) {
+					FileExtensions ext = StringUtil.getFileExtension(fileName);
+
+					MyImageW img = new MyImageW(
+							ImageElement.as((new Image(url)).getElement()),
+							FileExtensions.SVG.equals(ext));
+
+					addImageToArchive("", fileName, url, ext, img, archive);
+				}
+			}
+			/*
+			 * // save macro icon String fileName = macro.getIconFileName();
+			 * BufferedImage img =
+			 * ((Application)app).getExternalImage(fileName); if (img != null)
+			 * // Modified for Intergeo File Format (Yves Kreis) --> //
+			 * writeImageToZip(zip, fileName, img); writeImageToZip(zipjs,
+			 * filePath + fileName, img); // <-- Modified for Intergeo File
+			 * Format (Yves Kreis)
+			 */
+		}
 	}
 }

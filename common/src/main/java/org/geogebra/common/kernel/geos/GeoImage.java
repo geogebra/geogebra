@@ -638,7 +638,7 @@ public class GeoImage extends GeoElement implements Locateable,
 			// store location of corners
 			for (int i = 0; i < corners.length; i++) {
 				if (corners[i] != null) {
-					sb.append(getCornerPointXML(i));
+					XMLBuilder.getCornerPointXML(sb, i, corners);
 				}
 			}
 		}
@@ -674,26 +674,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		sb.append("\" cropped=\"");
 		sb.append(isCropped());
 		sb.append("\"/>");
-	}
-
-	private String getCornerPointXML(int number) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("\t<startPoint number=\"");
-		sb.append(number);
-		sb.append("\"");
-
-		if (corners[number].isAbsoluteStartPoint()) {
-			sb.append(" x=\"" + corners[number].x + "\"");
-			sb.append(" y=\"" + corners[number].y + "\"");
-			sb.append(" z=\"" + corners[number].z + "\"");
-		} else {
-			sb.append(" exp=\"");
-			StringUtil.encodeXML(sb,
-					corners[number].getLabel(StringTemplate.xmlTemplate));
-			sb.append("\"");
-		}
-		sb.append("/>\n");
-		return sb.toString();
 	}
 
 	@Override
