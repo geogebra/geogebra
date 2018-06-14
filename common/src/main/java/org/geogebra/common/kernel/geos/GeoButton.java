@@ -514,11 +514,6 @@ public class GeoButton extends GeoElement
 	}
 
 	@Override
-	protected void addAuralName(Localization loc, StringBuilder sb) {
-		addAuralTypeAndLabel(loc, sb);
-	}
-
-	@Override
 	public void addAuralStatus(Localization loc, StringBuilder sb) {
 		sb.append(loc.getMenuDefault("Selected", "selected"));
 	}

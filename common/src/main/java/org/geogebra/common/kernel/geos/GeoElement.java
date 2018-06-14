@@ -8750,48 +8750,16 @@ public abstract class GeoElement extends ConstructionElement
 		return true;
 	}
 
-	/**
-	 * 
-	 * @return text constructed from caption for screen reader.
-	 */
-	protected String getCaptionForScreenReader() {
-		StringBuilder sb = new StringBuilder();
-		String caption0 = getCaption(StringTemplate.defaultTemplate);
-		if (caption0 == null || "".equals(caption) || getCaptionSimple() == null) {
-			sb.append(translatedTypeStringForAlgebraView());
-			sb.append(' ');
-			sb.append(getAlgebraDescriptionDefault());
-		} else {
-			sb.append(caption0);
-		}
-		return sb.toString();
-	}
-
-	/**
-	 * add Caption simple for reader.
-	 * 
-	 * @param sb
-	 *            StringBuilder to add to.
-	 */
-	protected void addAuralCaptionSimple(StringBuilder sb) {
+	@Override
+	public void addAuralCaption(StringBuilder sb) {
 		String caption0 = getCaptionSimple();
-		if (caption0 == null || "".equals(caption) || getCaptionSimple() == null) {
-			sb.append(translatedTypeStringForAlgebraView());
-		} else {
+		if (caption0 != null && !"".equals(caption)) {
 			sb.append(caption0);
 		}
 	}
 
-	/**
-	 * add geo type and its label for reader.
-	 * 
-	 * @param loc
-	 *            The Localization object
-	 * 
-	 * @param sb
-	 *            StringBuilder to add to.
-	 */
-	protected void addAuralTypeAndLabel(Localization loc, StringBuilder sb) {
+	@Override
+	public void addAuralTypeAndLabel(Localization loc, StringBuilder sb) {
 		if (caption == null || "".equals(caption)) {
 			sb.append(translatedTypeStringForAlgebraView());
 			sb.append(" ");
@@ -8799,18 +8767,20 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
-	/**
-	 * add Caption for reader if defined, type and label otherwise.
-	 * 
-	 * @param loc
-	 *            The Localization object
-	 * 
-	 * @param sb
-	 *            StringBuilder to add to.
-	 */
-	protected void addAuralName(Localization loc, StringBuilder sb) {
+	@Override
+	public void addAuralName(Localization loc, StringBuilder sb) {
 		addAuralTypeAndLabel(loc, sb);
-		addAuralCaptionSimple(sb);
+		addAuralCaption(sb);
+	}
+
+	@Override
+	public void addAuralContent(Localization loc, StringBuilder sb) {
+		// implement this if geo has a content like items.
+	}
+
+	@Override
+	public void addAuralStatus(Localization loc, StringBuilder sb) {
+		// Implement this if geo has status. (pressed, checked, etc)
 	}
 
 	/**
@@ -8825,47 +8795,14 @@ public abstract class GeoElement extends ConstructionElement
 		addAuralContent(loc, sb);
 		sb.append(" ");
 		addAuralStatus(loc, sb);
-		sb.append(".");
+		sb.append(" ");
 		addAuralOperations(loc, sb);
-		sb.append(".");
+		sb.append(". ");
 		return sb.toString();
 	}
 
-	/**
-	 * Add content aural description if any.
-	 * 
-	 * @param loc
-	 *            The Localization object
-	 * 
-	 * @param sb
-	 *            StringBuilder to add to.
-	 */
-	protected void addAuralContent(Localization loc, StringBuilder sb) {
-		sb.append(loc.getMenu("")); // make PMD happy :)
-	}
-
-	/**
-	 * Add aural text for status of the geo.
-	 * 
-	 * @param loc
-	 *            The Localization object
-	 * 
-	 * @param sb
-	 *            StringBuilder to add to.
-	 */
-	protected void addAuralStatus(Localization loc, StringBuilder sb) {
-		sb.append("");
-	}
-
-	/**
-	 * Add aural text for the possible operations of the geo.
-	 * 
-	 * @param loc
-	 *            The Localization object
-	 * @param sb
-	 *            StringBuilder to add to.
-	 */
-	protected void addAuralOperations(Localization loc, StringBuilder sb) {
+	@Override
+	public void addAuralOperations(Localization loc, StringBuilder sb) {
 		App app = kernel.getApplication();
 		if (isEuclidianShowable()) {
 			if (app.getGuiManager() != null && app.getGuiManager().hasAlgebraView()
@@ -8876,6 +8813,7 @@ public abstract class GeoElement extends ConstructionElement
 					sb.append(loc.getMenuDefault("PressSlashToShow", "Press / to show object"));
 				}
 				}
+			sb.append(" ");
 			}
 		if (app.showToolBar() && !isGeoInputBox()) {
 			if (isGeoButton() || isPenStroke()) {
@@ -8891,6 +8829,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return text to be read when pressing space key.
 	 */
+	@Override
 	public String getAuralTextForSpace() {
 		return null;
 	}

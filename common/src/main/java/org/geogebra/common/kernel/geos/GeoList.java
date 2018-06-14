@@ -3267,7 +3267,7 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	protected void addAuralName(Localization loc, StringBuilder sb) {
+	public void addAuralName(Localization loc, StringBuilder sb) {
 		sb.append(loc.getMenuDefault("Dropdown", "dropdown"));
 		if (size() > MAX_ITEMS_FOR_SCREENREADER) {
 			sb.append(" ");
@@ -3277,7 +3277,7 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	protected void addAuralStatus(Localization loc, StringBuilder sb) {
+	public void addAuralStatus(Localization loc, StringBuilder sb) {
 		sb.append(loc.getMenuDefault("Selected", "selected"));
 	}
 
@@ -3299,7 +3299,7 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	protected void addAuralOperations(Localization loc, StringBuilder sb) {
+	public void addAuralOperations(Localization loc, StringBuilder sb) {
 		sb.append(loc.getMenuDefault("PressSpaceToOpen", "Press space to open"));
 		super.addAuralOperations(loc, sb);
 	}

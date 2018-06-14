@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -501,4 +502,31 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return 32;
 	}
+
+	@Override
+	public void addAuralOperations(Localization loc, StringBuilder sb) {
+		if (getBoolean()) {
+			sb.append(loc.getMenuDefault("PressSpaceCheckboxOff", "Press space to uncheck checkbox"));
+		} else {
+			sb.append(loc.getMenuDefault("PressSpaceCheckboxOn", "Press space to check checkbox"));
+		}
+		super.addAuralOperations(loc, sb);
+	}
+
+	@Override
+	public String getAuralTextForSpace() {
+		Localization loc = kernel.getLocalization();
+		StringBuilder sb = new StringBuilder();
+		addAuralName(loc, sb);
+		sb.append(" ");
+		if (getBoolean()) {
+			sb.append(loc.getMenuDefault("Checked", "checked"));
+		} else {
+			sb.append(loc.getMenuDefault("Unchecked", "unchecked"));
+
+		}
+		sb.append(".");
+		return sb.toString();
+	}
+
 }

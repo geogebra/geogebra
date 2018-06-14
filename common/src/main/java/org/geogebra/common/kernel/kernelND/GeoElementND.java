@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.script.Script;
@@ -745,4 +746,71 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	void setAdvancedVisualStyle(GeoElement defaultGeo);
 
+	/**
+	 * add Caption simple for reader.
+	 * 
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	void addAuralCaption(StringBuilder sb);
+
+	/**
+	 * add geo type and its label for reader.
+	 * 
+	 * @param loc
+	 *            The Localization object
+	 * 
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	void addAuralTypeAndLabel(Localization loc, StringBuilder sb);
+
+	/**
+	 * add Caption for reader if defined, type and label otherwise.
+	 * 
+	 * @param loc
+	 *            The Localization object
+	 * 
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	void addAuralName(Localization loc, StringBuilder sb);
+
+	/**
+	 * Add content aural description if any.
+	 * 
+	 * @param loc
+	 *            The Localization object
+	 * 
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	void addAuralContent(Localization loc, StringBuilder sb);
+
+	/**
+	 * Add aural text for status of the geo.
+	 * 
+	 * @param loc
+	 *            The Localization object
+	 * 
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	void addAuralStatus(Localization loc, StringBuilder sb);
+
+	/**
+	 * Add aural text for the possible operations of the geo.
+	 * 
+	 * @param loc
+	 *            The Localization object
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	void addAuralOperations(Localization loc, StringBuilder sb);
+
+	/**
+	 * 
+	 * @return text to be read when pressing space key.
+	 */
+	String getAuralTextForSpace();
 }

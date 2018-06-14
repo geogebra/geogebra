@@ -2019,18 +2019,23 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public String getAuralText() {
+	public void addAuralName(Localization loc, StringBuilder sb) {
 		if (!isSliderable()) {
-			return null;
+			return;
 		}
-		StringBuilder sb = new StringBuilder();
-		Localization loc = getKernel().getApplication().getLocalization();
 		sb.append(loc.getMenuDefault("Slider", "slider"));
 		sb.append(" ");
 		sb.append(getLabelSimple());
 		sb.append(getLabelDelimiterWithSpace());
 		sb.append(toValueString(StringTemplate.defaultTemplate));
 		sb.append(" ");
+	}
+
+	@Override
+	public void addAuralOperations(Localization loc, StringBuilder sb) {
+		if (!isSliderable()) {
+			return;
+		}
 
 		if (isAnimating()) {
 			sb.append(loc.getMenuDefault("PressSpaceStopAnimation",
@@ -2049,9 +2054,7 @@ public class GeoNumeric extends GeoElement
 			sb.append(loc.getMenuDefault("PressDownToDecrease",
 					"Press down arrow to decrease the value"));
 		}
-		sb.append(".");
+		super.addAuralOperations(loc, sb);
 
-		return sb.toString();
 	}
-
 }

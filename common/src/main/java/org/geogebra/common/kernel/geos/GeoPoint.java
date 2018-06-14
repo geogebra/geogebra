@@ -2914,7 +2914,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	protected void addAuralOperations(Localization loc, StringBuilder sb) {
+	public void addAuralOperations(Localization loc, StringBuilder sb) {
 		if (isPointOnPath()) {
 			sb.append(
 					loc.getMenuDefault("PressPlusMinusToMove", "Press + and - to move the object"));
