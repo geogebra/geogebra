@@ -78,6 +78,7 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -150,6 +151,8 @@ public class EuclidianViewW extends EuclidianView implements
 	private Runnable callBack;
 
 	private EmbedManager embedManager;
+
+	private Timer timerClearDummyDiv = null;
 
 	/**
 	 * @param euclidianViewPanel
@@ -1482,11 +1485,34 @@ public class EuclidianViewW extends EuclidianView implements
 		dummyDiv.getElement().getStyle().setPosition(Position.ABSOLUTE);
 	}
 
+	private void createClearDummyDivTimer() {
+		timerClearDummyDiv = new Timer() {
+
+			@Override
+			public void run() {
+				dummyDiv.getElement().setInnerHTML("");
+				Log.debug("[lac] dummyDiv is cleared");
+			}
+		};
+		timerClearDummyDiv.schedule(1000);
+	}
+
+	private void clearDummyDiv() {
+		if (timerClearDummyDiv == null) {
+			createClearDummyDivTimer();
+		}
+		timerClearDummyDiv.schedule(1000);
+	}
+
 	@Override
 	public void readText(final String text) {
 
 		if (hasParentWindow()) {
 			return;
+		}
+
+		if (timerClearDummyDiv != null) {
+			timerClearDummyDiv.cancel();
 		}
 
 		Log.debug("read text: " + text);
@@ -1496,6 +1522,7 @@ public class EuclidianViewW extends EuclidianView implements
 		dummyDiv.getElement().focus();
 		g2p.getCanvas().getCanvasElement().focus();
 		setScrollTop(scrolltop, scrollState);
+		clearDummyDiv();
 	}
 
 	private static native boolean hasParentWindow()/*-{

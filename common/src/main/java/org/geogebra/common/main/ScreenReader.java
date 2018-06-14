@@ -1,7 +1,6 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.plugin.EventType;
@@ -78,33 +77,19 @@ public class ScreenReader {
 			sb.append(readerText);
 		}
 
-		if (geo0.isGeoBoolean()) {
-			if (((GeoBoolean) geo0).getBoolean()) {
-				appendSentence(sb, "PressSpaceCheckboxOff", "Press space to uncheck checkbox", null,
-						app);
-			} else {
-				appendSentence(sb, "PressSpaceCheckboxOn", "Press space to check checkbox", null,
-						app);
-			}
-		}
-
 		if (geo0.getScript(EventType.CLICK) != null
 				&& geo0.getScript(EventType.CLICK).getText().length() > 0) {
 			appendSentence(sb, "PressSpaceToRunScript", "Press space to run script", null, app);
 		}
-		// if (geo0.isGeoPoint()
-		// && (geo0.isIndependent() || geo0.isPointOnPath() || geo0.isPointInRegion()))
-		// {
-		// appendSentence(sb, "PressArrowsToMove", "Press the arrow keys to move the
-		// object", null,
-		// app);
-		// }
+		readText(sb.toString(), app);
+	}
 
+	private static void readText(String text, App app) {
 		// MOW-137 if selection originated in AV we don't want to move
 		// focus to EV
 		if (app.getGuiManager() == null || app.getGuiManager().getLayout().getDockManager()
 				.getFocusedViewId() == app.getActiveEuclidianView().getViewID()) {
-			app.getActiveEuclidianView().readText(sb.toString());
+			app.getActiveEuclidianView().readText(text);
 		}
 	}
 
@@ -139,5 +124,16 @@ public class ScreenReader {
 		sb.append(geoList.getKernel().getApplication().getLocalization()
 				.getMenuDefault("PressEnterToSelect", "Press enter to select."));
 		geoList.getKernel().getApplication().getActiveEuclidianView().readText(sb.toString());
+	}
+
+	/**
+	 * Reads text when space is pressed on geo.
+	 * 
+	 * @param geo
+	 *            GeoElement to handle.
+	 */
+	public static void handleSpace(GeoElement geo) {
+		App app = geo.getKernel().getApplication();
+		readText(geo.getAuralTextForSpace(), app);
 	}
 }

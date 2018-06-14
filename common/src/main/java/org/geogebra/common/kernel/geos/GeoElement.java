@@ -8783,7 +8783,24 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * add Caption for reader if defined, label otherwise.
+	 * add geo type and its label for reader.
+	 * 
+	 * @param loc
+	 *            The Localization object
+	 * 
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	protected void addAuralTypeAndLabel(Localization loc, StringBuilder sb) {
+		if (caption == null || "".equals(caption)) {
+			sb.append(translatedTypeStringForAlgebraView());
+			sb.append(" ");
+			sb.append(getLabelSimple());
+		}
+	}
+
+	/**
+	 * add Caption for reader if defined, type and label otherwise.
 	 * 
 	 * @param loc
 	 *            The Localization object
@@ -8792,11 +8809,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            StringBuilder to add to.
 	 */
 	protected void addAuralName(Localization loc, StringBuilder sb) {
-		if (caption == null || "".equals(caption)) {
-			sb.append(translatedTypeStringForAlgebraView());
-			sb.append(" ");
-			sb.append(getLabelSimple());
-		}
+		addAuralTypeAndLabel(loc, sb);
 		addAuralCaptionSimple(sb);
 	}
 
@@ -8874,4 +8887,11 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
+	/**
+	 * 
+	 * @return text to be read when pressing space key.
+	 */
+	public String getAuralTextForSpace() {
+		return null;
+	}
 }

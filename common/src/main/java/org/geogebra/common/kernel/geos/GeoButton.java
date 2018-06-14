@@ -515,13 +515,22 @@ public class GeoButton extends GeoElement
 
 	@Override
 	protected void addAuralName(Localization loc, StringBuilder sb) {
-		sb.append(loc.getMenuDefault("Button", "button"));
-		sb.append(" ");
-		sb.append(getCaptionForScreenReader());
+		addAuralTypeAndLabel(loc, sb);
 	}
 
 	@Override
 	public void addAuralStatus(Localization loc, StringBuilder sb) {
 		sb.append(loc.getMenuDefault("Selected", "selected"));
+	}
+
+	@Override
+	public String getAuralTextForSpace() {
+		Localization loc = kernel.getLocalization();
+		StringBuilder sb = new StringBuilder();
+		addAuralName(loc, sb);
+		sb.append(" ");
+		sb.append(loc.getMenuDefault("Pressed", "pressed"));
+		sb.append(".");
+		return sb.toString();
 	}
 }
