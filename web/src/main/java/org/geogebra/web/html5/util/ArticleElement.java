@@ -9,7 +9,6 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -27,7 +26,6 @@ import com.google.gwt.user.client.Window.Location;
 public final class ArticleElement extends Element implements ArticleElementInterface {
 	/** tag name */
 	static final String TAG = "article";
-	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 
 	/**
 	 * @param element
@@ -58,18 +56,6 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public void clear() {
 		this.setInnerHTML("");
 	}
-
-	/**
-	 * @param el
-	 *            element
-	 * @param app
-	 *            app listening to focus (see {@link AppW#addFocusToApp()})
-	 */
-	public static native void addNativeFocusHandler(Element el, AppW app)/*-{
-		el.onfocus = function(event) {
-			app.@org.geogebra.web.html5.main.AppW::addFocusToApp()();
-		}
-	}-*/;
 
 	/* (non-Javadoc)
 	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamId()
@@ -780,13 +766,13 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	 * @see org.geogebra.web.html5.util.ArticleElementInterface#computeHeight()
 	 */
 	@Override
-	public int computeHeight() {
+	public int computeHeight(boolean smallScreen) {
 		// do we have data-param-height?
 		int height = getDataParamHeight() - getBorderThickness();
 
 		// do we have fit to screen?
 		if (getDataParamFitToScreen()) {
-			int margin = AppW.smallScreen() ? 0 : getDataParamMarginTop();
+			int margin = smallScreen ? 0 : getDataParamMarginTop();
 			height = Window.getClientHeight() - margin;
 		}
 

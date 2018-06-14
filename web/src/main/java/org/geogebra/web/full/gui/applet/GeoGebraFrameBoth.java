@@ -247,7 +247,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// frameLayout.setLayout(app);
 		// frameLayout.forceLayout();
 		if (ae.getDataParamFitToScreen()) {
-			setSize(Window.getClientWidth(), ae.computeHeight());
+			setSize(Window.getClientWidth(),
+					ae.computeHeight(AppW.smallScreen()));
 		} else {
 			app.updateViewSizes();
 		}

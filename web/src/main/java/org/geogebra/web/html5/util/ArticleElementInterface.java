@@ -9,7 +9,8 @@ import com.google.gwt.dom.client.Element;
  *
  */
 public interface ArticleElementInterface {
-
+	/** default applet ID */
+	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 	/**
 	 * Clear the content of this element
 	 */
@@ -401,9 +402,11 @@ public interface ArticleElementInterface {
 	int getDataParamMarginTop();
 
 	/**
+	 * @param smallScreen
+	 *            whather screen is too small to show header
 	 * @return height based on height and fitToScreen parameters
 	 */
-	int computeHeight();
+	int computeHeight(boolean smallScreen);
 
 	/**
 	 * @return fonts dataParam

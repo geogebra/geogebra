@@ -290,7 +290,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 		this.loc = new LocalizationW(dimension);
 		this.articleElement = ae;
-		ArticleElement.addNativeFocusHandler(articleElement.getElement(), this);
+		NativeFocusHandler.addNativeFocusHandler(articleElement.getElement(),
+				this);
 		this.laf = laf;
 
 		getTimerSystem();
@@ -324,7 +325,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getArticleElement().getDataParamFitToScreen()) {
 			updateHeaderVisible();
 			getGgbApi().setSize(Window.getClientWidth(),
-					getArticleElement().computeHeight());
+					getArticleElement().computeHeight(AppW.smallScreen()));
 			getAccessibilityManager().focusMenu();
 		}
 		checkScaleContainer();

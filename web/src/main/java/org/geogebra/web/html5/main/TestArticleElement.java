@@ -356,7 +356,7 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
-	public int computeHeight() {
+	public int computeHeight(boolean smallScreen) {
 		return 0;
 	}
 

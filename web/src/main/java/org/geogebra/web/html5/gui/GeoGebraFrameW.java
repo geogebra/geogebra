@@ -179,7 +179,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		preProcessFitToSceen();
 
 		int width = computeWidth();
-		int height = articleElement.computeHeight();
+		int height = articleElement.computeHeight(AppW.smallScreen());
 
 		/*
 		 * if (ae.getDataParamShowMenuBar()) { // The menubar has extra height:
