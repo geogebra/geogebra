@@ -124,7 +124,7 @@ public class AppDNoGui extends App {
 		Log.debug(prerelease ? "Start up prerelese." : "Start up stable.");
 		initFactories();
 		this.kernel = new Kernel3D(this, new GeoFactory3D());
-		settings = companion.newSettings();
+		initSettings();
 		this.loc = loc;
 		loc.setLocale(Locale.US);
 		loc.setApp(this);

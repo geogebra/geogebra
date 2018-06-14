@@ -303,6 +303,14 @@ public class ImageManagerW extends ImageManager {
 		return zipDirectory + '/' + fn;
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param filePath
+	 *            path
+	 * @param archive
+	 *            file
+	 */
 	public void writeConstructionImages(Construction cons, String filePath,
 			GgbFile archive) {
 		// save all GeoImage images
@@ -408,6 +416,12 @@ public class ImageManagerW extends ImageManager {
 		archive.put(filename, base64img);
 	}
 
+	/**
+	 * @param macros
+	 *            macros
+	 * @param archive
+	 *            archive
+	 */
 	public void writeMacroImages(ArrayList<Macro> macros, GgbFile archive) {
 		if (macros == null) {
 			return;

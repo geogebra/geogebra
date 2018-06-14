@@ -494,7 +494,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		kernel.setPrintDecimals(Kernel.STANDARD_PRINT_DECIMALS);
 
 		// init settings
-		settings = companion.newSettings();
+		initSettings();
 
 		// init euclidian view
 		initEuclidianViews();

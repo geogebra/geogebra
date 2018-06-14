@@ -1783,8 +1783,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected void initCoreObjects() {
 		kernel = newKernel(this);
 
-		// init settings
-		settings = companion.newSettings();
+		initSettings();
 
 		fontManager = new FontManagerW();
 		setFontSize(16, false);

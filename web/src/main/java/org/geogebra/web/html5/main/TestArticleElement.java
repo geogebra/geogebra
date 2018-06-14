@@ -403,7 +403,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getParamAllowUpscale() {
-		return true;// "true".equals(attributes.get("allowUpscale"));
+		return "true".equals(attributes.get("allowUpscale"));
 	}
 
 	@Override

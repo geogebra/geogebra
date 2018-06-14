@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 
 public class GeoEmbed extends GeoElement implements Locateable {
 
@@ -18,6 +17,7 @@ public class GeoEmbed extends GeoElement implements Locateable {
 	private int embedID;
 	private double w = 800;
 	private double h = 600;
+
 	/**
 	 * @param c
 	 *            construction
@@ -27,9 +27,15 @@ public class GeoEmbed extends GeoElement implements Locateable {
 		corner = new GeoPoint[3];
 	}
 
+	/**
+	 * Center this in a view
+	 * 
+	 * @param ev
+	 *            view
+	 */
 	public void initPosition(EuclidianViewInterfaceCommon ev) {
-		double x = ev.toRealWorldCoordX(ev.getViewWidth() / 2) - w / ev.getXscale() / 2;
-		double y = ev.toRealWorldCoordY(ev.getViewHeight() / 2) - h / ev.getYscale() / 2;
+		double x = ev.toRealWorldCoordX(ev.getViewWidth() / 2.0) - w / ev.getXscale() / 2;
+		double y = ev.toRealWorldCoordY(ev.getViewHeight() / 2.0) - h / ev.getYscale() / 2;
 		corner[0] = new GeoPoint(cons);
 		corner[0].setCoords(x, y, 1);
 		corner[1] = new GeoPoint(cons);
@@ -95,9 +101,15 @@ public class GeoEmbed extends GeoElement implements Locateable {
 		return HitType.ON_BOUNDARY;
 	}
 
+	/**
+	 * Get corner, same as GeoImage
+	 * 
+	 * @param i
+	 *            index
+	 * @return corner
+	 */
 	public GeoPoint getCorner(int i) {
 		if (corner[i] == null) {
-			Log.printStacktrace("No corner " + i);
 			GeoPoint ret = new GeoPoint(cons);
 			ret.setCoords(0, 0, 1);
 			return ret;

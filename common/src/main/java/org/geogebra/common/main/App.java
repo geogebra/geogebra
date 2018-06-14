@@ -5421,4 +5421,8 @@ public abstract class App implements UpdateSelection {
 		return null;
 	}
 
+	protected void initSettings() {
+		settings = companion.newSettings();
+	}
+
 }

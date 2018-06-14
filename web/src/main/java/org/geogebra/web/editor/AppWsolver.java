@@ -1,9 +1,5 @@
 package org.geogebra.web.editor;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
@@ -19,6 +15,11 @@ import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class AppWsolver extends AppW implements HasKeyboard {
     private GeoGebraFrameW frame;
@@ -59,7 +60,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
     @Override
     protected void initCoreObjects() {
         kernel = newKernel(this);
-        settings = companion.newSettings();
+		initSettings();
         fontManager = new FontManagerW();
     }
 
