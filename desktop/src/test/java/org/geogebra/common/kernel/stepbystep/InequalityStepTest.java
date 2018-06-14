@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.stepbystep;
 
-import java.util.Arrays;
-
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -10,11 +8,9 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+
+import java.util.Arrays;
 
 @SuppressWarnings("javadoc")
 public class InequalityStepTest {
@@ -42,6 +38,7 @@ public class InequalityStepTest {
         i("3x + 2", "<", "5", "x", "x in (-inf, 1)");
         i("2x + 1", ">", "9x+7", "x", "x in (-inf, -(6)/(7))");
         i("2x + 1", ">=", "9x+7", "x", "x in (-inf, -(6)/(7)]");
+        i("x", ">", "|k|", "x", "x in (|k|, inf)");
     }
 
     @Test
@@ -55,6 +52,8 @@ public class InequalityStepTest {
         i("0", ">", "x^2+2x+1", "x");
         i("0", "<=", "x^2+2x+1", "x", "x in R");
         i("0", "<", "x^2+2x+1", "x", "x in R \\ {-1}");
+		i("(x-k)^2", ">", "0", "x", "x in R \\ {k}");
+		i("(x-k)^2", ">", "0", "k", "k in R \\ {x}");
     }
 
     @Test
@@ -75,6 +74,12 @@ public class InequalityStepTest {
         i("3x^2+5x-2", ">", "0", "x", "x in (-inf, -2)", "x in ((1)/(3), inf)");
         i("3x^2+5x-3", "<=", "0", "x", "x in [((-nroot(61, 2)-5))/(6), ((nroot(61, 2)-5))/(6)]");
     }
+
+    @Test
+	public void notSupportedTest() {
+		i("x^2", ">", "|k|", "x", "fail");
+		i("x^2", ">", "k^2", "x", "fail");
+	}
 
     public void i(String LHS, String op, String RHS, String variable, String... expectedSolutions) {
         if (needsHeading) {

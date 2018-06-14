@@ -85,8 +85,6 @@ public class Solver implements EntryPoint, MathFieldListener {
 		opentype = Opentype.INSTANCE;
 		CreateLibrary.exportLibrary(library, opentype);
 		startEditor();
-
-		guiBuilder = new WebStepGuiBuilder(app);
 	}
 
 	/**
@@ -94,6 +92,8 @@ public class Solver implements EntryPoint, MathFieldListener {
 	 *            editor parent
 	 */
 	public void edit(Element parent) {
+		guiBuilder = new WebStepGuiBuilder(app);
+
 		Canvas canvas = Canvas.createIfSupported();
 		String id = "JlmEditorKeyboard" + DOM.createUniqueId();
 		parent.setId(id);
@@ -247,12 +247,6 @@ public class Solver implements EntryPoint, MathFieldListener {
 	}
 
 	private void printSolutions(StepSolvable solvable, Set<StepVariable> variableSet) {
-		if (solvable instanceof StepInequality && variableSet.size() > 1) {
-			stepsPanel.add(new HTML("<h3>We do not yet support solving inequalities in "
-					+ "multiple variables</h3>"));
-			return;
-		}
-
 		List<StepInformation> solutions = new ArrayList<>();
 		SolutionBuilder sb = new SolutionBuilder();
 

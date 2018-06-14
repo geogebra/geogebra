@@ -311,13 +311,13 @@ public abstract class StepNode implements TableElement {
 
 	public static StepExpression divide(StepExpression a, StepExpression b) {
 		if (a == null) {
-			return b == null ? null : divide(StepConstant.create(1), b);
+			return b == null ? null : divide(StepConstant.create(1), b.deepCopy());
 		}
 		if (b == null) {
-			return a;
+			return a.deepCopy();
 		}
 
-		return new StepOperation(Operation.DIVIDE, a, b);
+		return new StepOperation(Operation.DIVIDE, a.deepCopy(), b.deepCopy());
 	}
 
 	public static StepExpression divide(StepExpression a, double b) {

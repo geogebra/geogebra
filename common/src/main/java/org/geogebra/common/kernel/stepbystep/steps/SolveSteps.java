@@ -135,7 +135,7 @@ enum SolveSteps implements SolveStepGenerator {
 			StepExpression b = difference.findCoefficient(variable);
 			StepExpression c = difference.findConstantIn(variable);
 
-			if (isOne(a) && b.isEven() && !isZero(c)) {
+			if (isOne(a) && b != null && b.isEven() && !isZero(c)) {
 				StepExpression RHSVariable = se.RHS.findVariableIn(variable);
 				StepSolvable result = se.addOrSubtract(RHSVariable, steps);
 

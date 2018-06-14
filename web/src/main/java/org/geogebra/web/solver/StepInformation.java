@@ -15,7 +15,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import java.util.List;
 
-public class StepInformation extends HorizontalPanel {
+class StepInformation extends HorizontalPanel {
 
     private WebStepGuiBuilder builder;
 
@@ -34,8 +34,8 @@ public class StepInformation extends HorizontalPanel {
      * @param result StepNode result
      * @param steps SolutionSteps tree to be rendered
      */
-    public StepInformation(AppW app, WebStepGuiBuilder builder,
-                           StepNode result, SolutionStep steps) {
+	StepInformation(AppW app, WebStepGuiBuilder builder,
+			StepNode result, SolutionStep steps) {
         setupInformation(app, builder,
                 new SolutionLine(SolutionStepType.EQUATION, result), steps);
     }
@@ -47,8 +47,8 @@ public class StepInformation extends HorizontalPanel {
      * @param result list of StepSolutions, to be rendered as the result
      * @param steps SolutionSteps tree to be rendered
      */
-    public StepInformation(AppW app, WebStepGuiBuilder builder,
-                           List<StepSolution> result, SolutionStep steps) {
+	StepInformation(AppW app, WebStepGuiBuilder builder,
+			List<StepSolution> result, SolutionStep steps) {
         SolutionLine line;
         if (result.size() == 0) {
             line = new SolutionLine(SolutionStepType.NO_REAL_SOLUTION);
@@ -88,7 +88,7 @@ public class StepInformation extends HorizontalPanel {
         }
     }
 
-    public void showSteps() {
+    private void showSteps() {
         if (!rendered) {
             rendered = true;
             renderedSteps = builder.buildStepGui(steps, true);

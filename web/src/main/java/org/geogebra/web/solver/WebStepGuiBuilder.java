@@ -65,8 +65,10 @@ public class WebStepGuiBuilder {
 
 			panel.add(createRow(step, false));
 
-			for (SolutionStep substep : step.getSubsteps()) {
-				panel.add(buildStepGui(substep, false));
+			if (step.getSubsteps() != null) {
+				for (SolutionStep substep : step.getSubsteps()) {
+					panel.add(buildStepGui(substep, false));
+				}
 			}
 
 			panel.setStyleName("stepGroupPanel");
@@ -95,7 +97,7 @@ public class WebStepGuiBuilder {
      * @return a FlowPanel containing the elements of the step
      * (text and LaTeX snippets)
      */
-    public FlowPanel createRow(SolutionStep step, boolean detailed) {
+	FlowPanel createRow(SolutionStep step, boolean detailed) {
         FlowPanel row = new FlowPanel();
 
         List<TextElement> equations;
@@ -139,7 +141,7 @@ public class WebStepGuiBuilder {
      * @return a StandardButton, that switches the state of
      * alternative
      */
-    public StandardButton detailsButton(boolean show, final StepAlternative alternative) {
+	StandardButton detailsButton(boolean show, final StepAlternative alternative) {
         StandardButton detailsButton;
         if (show) {
             detailsButton = new StandardButton(closeButton, app);
@@ -168,7 +170,7 @@ public class WebStepGuiBuilder {
      * @return a StandardButton, that switches the state of
      * elem
      */
-    public StandardButton showButton(final StepElem elem) {
+	StandardButton showButton(final StepElem elem) {
         final StandardButton showButton = new StandardButton(closeButton, app);
 
         showButton.setStyleName("stepTreeButton");

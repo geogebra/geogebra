@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
+import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionTable;
@@ -231,7 +232,12 @@ enum InequalitySteps implements SolveStepGenerator<StepInequality> {
 
 				StepEquation equation = new StepEquation(term, StepConstant.create(0));
 				for (StepSolution solution : equation.solve(variable)) {
-					roots.add((StepExpression) solution.getValue());
+					StepExpression value = (StepExpression) solution.getValue();
+					if (value == null || !value.canBeEvaluated()) {
+						throw new SolveFailedException("Non-constant root of term in inequality");
+					}
+
+					roots.add(value);
 				}
 			}
 
