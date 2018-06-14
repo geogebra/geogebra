@@ -2,10 +2,12 @@ package org.geogebra.web.html5.main;
 
 import java.util.HashMap;
 
+import org.geogebra.common.io.file.ZipFile;
+
 /**
  * @author Zbynek
  */
-public class GgbFile extends HashMap<String, String> {
+public class GgbFile extends HashMap<String, String> implements ZipFile {
 	/** prefix for shared items in slides file */
 	public static final String SHARED_PREFIX = "_shared/";
 	/** structure of slides file */

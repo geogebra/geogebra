@@ -26,7 +26,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -312,8 +311,7 @@ public class GgbAPIW extends GgbAPI {
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
 				GgbFile f = pageController.getSlide(i);
 				if (app.getEmbedManager() != null) {
-					((EmbedManagerW) app.getEmbedManager())
-							.writeEmbeds(f);
+					app.getEmbedManager().writeEmbeds(f);
 				}
 				prepareToEntrySet(f, jso, GgbFile.SLIDE_PREFIX + i + "/",
 						usage);

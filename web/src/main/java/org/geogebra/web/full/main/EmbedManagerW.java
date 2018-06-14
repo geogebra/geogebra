@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
+import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.AppletFactory;
@@ -14,6 +15,7 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.TestArticleElement;
+import org.geogebra.web.html5.util.JSON;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style;
@@ -33,7 +35,7 @@ public class EmbedManagerW implements EmbedManager {
 	private HashMap<Integer, GeoGebraFrameBoth> widgets = new HashMap<>();
 
 	private int counter;
-	private HashMap<Integer, String> base64 = new HashMap<>();
+	private HashMap<Integer, String> content = new HashMap<>();
 
 	/**
 	 * @param app
@@ -70,9 +72,9 @@ public class EmbedManagerW implements EmbedManager {
 		style.setPosition(Position.ABSOLUTE);
 		style.setZIndex(51); // above the oject canvas (50) and below MOW
 								// toolbar (51)
-		if (base64.get(drawEmbed.getEmbedID()) != null) {
-			fr.getApplication().getGgbApi()
-					.setBase64(base64.get(drawEmbed.getEmbedID()));
+		if (content.get(drawEmbed.getEmbedID()) != null) {
+			fr.getApplication().getGgbApi().setFileJSON(
+					JSON.parse(content.get(drawEmbed.getEmbedID())));
 		}
 		// fr.getApplication().registerOpenFileListener(new OpenFileListener() {
 		//
@@ -110,33 +112,24 @@ public class EmbedManagerW implements EmbedManager {
 		return counter++;
 	}
 
-	/**
-	 * Add base64 of embedded files into an archive
-	 * 
-	 * @param archiveContent
-	 *            archive
-	 */
-	public void writeEmbeds(GgbFile archiveContent) {
+	@Override
+	public void writeEmbeds(ZipFile archiveContent) {
 		for (Entry<Integer, GeoGebraFrameBoth> e : widgets.entrySet()) {
-			archiveContent.put("embed_" + e.getKey() + "_base64.txt",
-					e.getValue().getApplication().getGgbApi().getBase64());
+			((GgbFile) archiveContent).put(
+					"embed_" + e.getKey() + ".json",
+					JSON.stringify(e.getValue().getApplication().getGgbApi()
+							.getFileJSON(false)));
 		}
 	}
 
-	/**
-	 * Load all embeds for a slide
-	 * 
-	 * @param archive
-	 *            slide
-	 */
-	public void loadBase64(GgbFile archive) {
-		for (Entry<String, String> entry : archive.entrySet()) {
+	@Override
+	public void loadEmbeds(ZipFile archive) {
+		for (Entry<String, String> entry : ((GgbFile) archive).entrySet()) {
 			if (entry.getKey().startsWith("embed")) {
 				try {
-					int id = Integer.parseInt(entry.getKey().split("_")[1]);
+					int id = Integer.parseInt(entry.getKey().split("_|\\.")[1]);
 					counter = Math.max(counter, id + 1);
-					base64.put(id,
-						entry.getValue());
+					content.put(id, entry.getValue());
 				} catch (RuntimeException e) {
 					Log.warn("Problem loading embed " + entry.getKey());
 				}
