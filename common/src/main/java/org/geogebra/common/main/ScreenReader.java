@@ -70,12 +70,7 @@ public class ScreenReader {
 	 *            application
 	 */
 	public static void readText(GeoElement geo0, App app) {
-		String readerText = geo0.getAuralText();
-		if (readerText == null) {
-			return;
-		}
-
-		readText(readerText, app);
+		readText(geo0.getAuralText(), app);
 	}
 
 	private static void readText(String text, App app) {
