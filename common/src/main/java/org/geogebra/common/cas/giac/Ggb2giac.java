@@ -453,6 +453,9 @@ public class Ggb2giac {
 						+ "[ggbinarg2:=expr(\"'\"+ggbinarg0+\"'\")],"
 
 						+ "[ggbinarg1:=%1],"
+
+						+ "[ggbinarg3:=expr(\"'\"+ggbinarg1+\"'\")],"
+
 				// Intersect[Plane,Plane]
 						+ "[ggbinterans:=when((ggbinarg0)[0]=='pnt',"
 						+ "when((ggbinarg0)[1][0]=='hyperplan',"
@@ -480,18 +483,25 @@ public class Ggb2giac {
 						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][1][1],"
 						+ "coeffs((ggbinarg1)[2][1][2],ggbtmpvar"
 						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][2][1])))[0],"
+
 						// Intersect[Plane,Cmd3dLine]
+						// Intersect[Plane[x+y+2=0],Line[Point[{1,1,0}],Point[{1,-1,0}]]]
 						+ "when(xcoord(ggbinarg1)==string(X),"
-						+ "line_inter(ggbinarg0,"
-						+ "line(point(expr(ggbinarg1)[0][2][1],"
-						+ "expr(ggbinarg1)[1][2][1],"
-						+ "expr(ggbinarg1)[2][2][1]),"
-						+ "point(coeff(expr(ggbinarg1)[0][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg1)[0][2][1],"
-						+ "coeff(expr(ggbinarg1)[1][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg1)[1][2][1],"
-						+ "coeff(expr(ggbinarg1)[2][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg1)[2][2][1]))),"
+
+						+ "line_inter(line("
+
+						+ "point(xcoord((ggbinarg3)[2][1]),"
+						+ "ycoord((ggbinarg3)[2][1]),"
+						+ "zcoord((ggbinarg3)[2][1]))"
+
+						+ ","
+
+						+ "point(xcoord(ggbinarg3[2][2][2])+xcoord((ggbinarg3)[2][1]),"
+						+ "ycoord(ggbinarg3[2][2][2])+ycoord((ggbinarg3)[2][1]),"
+						+ "zcoord(ggbinarg3[2][2][2])+zcoord((ggbinarg3)[2][1]))"
+
+						+ ")," + "ggbinarg0),"
+
 						// Intersect[Plane,3dLine]
 						+ "when((xcoord(ggbinarg1))[0]=='='&&string((xcoord(ggbinarg1))[1])==string(X),"
 						+ "line_inter(ggbinarg0,"
@@ -780,7 +790,7 @@ public class Ggb2giac {
 						// Intersect[Cmd2dLine,2dLine]
 						+ "normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),"
 						+ "when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1))) "
-						+ ")))]," + "ggbinterans][5]");
+						+ ")))]," + "ggbinterans][6]");
 
 		// Giac currently uses approximation for this
 		// p("Conic.5","equation(conic((%0),(%1),(%2),(%3),(%4)))");
