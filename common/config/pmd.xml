@@ -50,9 +50,7 @@
 | //ClassOrInterfaceDeclaration[@Image='EuclidianController']
 | //ClassOrInterfaceDeclaration[@Image='EuclidianView']
 | //ClassOrInterfaceDeclaration[@Image='Kernel']
-| //ClassOrInterfaceDeclaration[@Image='GeoElement']
-| //ClassOrInterfaceDeclaration[@Image='ExpressionNode']
-| //ClassOrInterfaceDeclaration[@Image='MyXMLHandler']"/>
+| //ClassOrInterfaceDeclaration[@Image='GeoElement']"/>
     	</properties>
 	</rule>
 	<rule ref="rulesets/java/imports.xml">

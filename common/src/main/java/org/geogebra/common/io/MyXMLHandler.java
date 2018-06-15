@@ -234,7 +234,7 @@ public class MyXMLHandler implements DocHandler {
 		initKernelVars();
 		mode = MODE_INVALID;
 		constMode = MODE_CONSTRUCTION;
-		geoHandler = new ConsElementXMLHandler(this);
+		geoHandler = new ConsElementXMLHandler(this, app);
 	}
 
 	private void reset(boolean start) {
@@ -3769,6 +3769,9 @@ public class MyXMLHandler implements DocHandler {
 		return !"false".equals(str);
 	}
 
+	/**
+	 * Initiate CAS cache for element
+	 */
 	public void casMapForElement() {
 		casMap = new TreeMap<>();
 		constMode = MODE_CAS_MAP;

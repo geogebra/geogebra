@@ -69,6 +69,9 @@ import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * XML handler for GeoElement properties
+ */
 public class ConsElementXMLHandler {
 	/**
 	 * we used minimal text size of 4px until 4.0 for texts, because the font
@@ -163,8 +166,15 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	public ConsElementXMLHandler(MyXMLHandler myXMLHandler) {
+	/**
+	 * @param myXMLHandler
+	 *            XML handler
+	 * @param app
+	 *            app
+	 */
+	public ConsElementXMLHandler(MyXMLHandler myXMLHandler, App app) {
 		this.xmlHandler = myXMLHandler;
+		this.app = app;
 	}
 
 	private boolean handleCurveParam(LinkedHashMap<String, String> attrs) {
