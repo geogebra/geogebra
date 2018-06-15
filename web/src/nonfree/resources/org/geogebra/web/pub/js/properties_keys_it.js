@@ -3114,7 +3114,7 @@ __GGB__keysVar["it"].menu = {
     "exam_calctype_graphing_short": "Grafici",
     "exam_calctype_scientific": "Calcolatrice scientifica",
     "exam_calctype_scientific_desc": "Calcoli numerici, senza grafici",
-    "exam_calctype_scientific_short": "Scientific",
+    "exam_calctype_scientific_short": "Scientifica",
     "exam_calctype_sym_graphing": "Calcolatrice simbolica e grafica",
     "exam_calctype_sym_graphing_desc": "Calcoli numerici e simbolici (CAS), grafici 2D",
     "exam_calctype_sym_graphing_short": "Simbolico",
