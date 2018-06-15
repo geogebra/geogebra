@@ -68,6 +68,12 @@ public class InequalityStepTest {
     }
 
     @Test
+	public void rationalInequalities() {
+		i("(x+2)/(x+2)", ">", "1", "x");
+		i("(x+2)/(x+2)", ">", "0", "x", "x in R \\ {-2}");
+	}
+
+    @Test
     public void quadraticInequality() {
         i("x^2+4x+5", ">", "0", "x", "x in R");
         i("2*x^2+5x+6", ">", "0", "x", "x in R");

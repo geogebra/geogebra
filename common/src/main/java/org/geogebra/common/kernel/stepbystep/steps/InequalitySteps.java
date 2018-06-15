@@ -20,49 +20,46 @@ enum InequalitySteps implements SolveStepGenerator<StepInequality> {
 		@Override
 		public Result apply(StepInequality si, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			List<StepSolution> solutions = new ArrayList<>();
-
 			if (si.LHS.equals(variable) && si.RHS.isConstantIn(variable)) {
 				if (si.isLessThan()) {
-					solutions.add(StepSolution.simpleSolution(variable,
+					return new Result(StepSolution.simpleSolution(variable,
 							new StepInterval(StepConstant.NEG_INF, si.RHS, false,
 									!si.isStrong()), tracker));
 				} else {
-					solutions.add(StepSolution.simpleSolution(variable,
+					return new Result(StepSolution.simpleSolution(variable,
 							new StepInterval(si.RHS, StepConstant.POS_INF, !si.isStrong(),
 									false), tracker));
 				}
-
-				return new Result(solutions);
 			}
 
 			if (si.RHS.equals(variable) && si.LHS.isConstantIn(variable)) {
 				if (si.isLessThan()) {
-					solutions.add(StepSolution.simpleSolution(variable,
+					return new Result(StepSolution.simpleSolution(variable,
 							new StepInterval(si.LHS, StepConstant.POS_INF, !si.isStrong(),
 									false), tracker));
 				} else {
-					solutions.add(StepSolution.simpleSolution(variable,
+					return new Result(StepSolution.simpleSolution(variable,
 							new StepInterval(StepConstant.NEG_INF, si.RHS, false,
 									!si.isStrong()), tracker));
 				}
-
-				return new Result(solutions);
 			}
 
-			if (si.LHS.equals(si.RHS) && !si.isStrong()) {
-				solutions.add(StepSolution
-						.simpleSolution(variable, tracker.getRestriction(), tracker));
-
-				return new Result(solutions);
+			if (si.LHS.equals(si.RHS)) {
+				if (!si.isStrong()) {
+					return new Result(StepSolution
+							.simpleSolution(variable, tracker.getRestriction(), tracker));
+				} else {
+					return new Result();
+				}
 			}
 
-			if (si.LHS.canBeEvaluated() && si.RHS.canBeEvaluated() &&
-					si.isLessThan() == si.LHS.getValue() < si.RHS.getValue()) {
-				solutions.add(StepSolution
-						.simpleSolution(variable, tracker.getRestriction(), tracker));
-
-				return new Result(solutions);
+			if (si.LHS.canBeEvaluated() && si.RHS.canBeEvaluated()) {
+				if (si.isLessThan() == si.LHS.getValue() < si.RHS.getValue()) {
+					return new Result(StepSolution
+							.simpleSolution(variable, tracker.getRestriction(), tracker));
+				} else {
+					return new Result();
+				}
 			}
 
 			return null;

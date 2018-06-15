@@ -16,81 +16,6 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
 enum EquationSteps implements SolveStepGenerator<StepEquation> {
 
-	FIND_DEFINED_RANGE {
-		@Override
-		public Result apply(StepEquation se, StepVariable variable,
-				SolutionBuilder steps, SolveTracker tracker) {
-			if (tracker.shouldCheck() || !tracker.getRestriction().equals(StepInterval.R) ||
-					!tracker.getUndefinedPoints().emptySet()) {
-				return null;
-			}
-
-			try {
-				Set<StepExpression> roots = new HashSet<>();
-				StepHelper.getRoots(se, roots);
-
-				StepLogical restriction = null;
-				SolutionBuilder restrictionsSteps = new SolutionBuilder();
-
-				for (StepExpression root : roots) {
-					if (root.isConstantIn(variable)) {
-						continue;
-					}
-
-					List<StepSolution> solutions =
-							new StepInequality(root, StepConstant.create(0), false, false)
-									.solve(variable, restrictionsSteps);
-
-					for (StepNode solution : solutions) {
-						restriction = intersect(restriction,
-								(StepInterval) ((StepSolution) solution).getValue(variable));
-					}
-				}
-
-				if (restriction != null && !StepInterval.R.equals(restriction)) {
-					steps.addGroup(SolutionStepType.DETERMINE_THE_DEFINED_RANGE, restrictionsSteps,
-							restriction);
-					tracker.addRestriction(restriction);
-				}
-			} catch (SolveFailedException e) {
-				tracker.setShouldCheckSolutions();
-				return null;
-			}
-
-			try {
-				Set<StepExpression> denominators = new HashSet<>();
-				StepHelper.getDenominators(se, denominators);
-
-				StepSet undefinedPoints = new StepSet();
-				SolutionBuilder undefinedPointsSteps = new SolutionBuilder();
-
-				for (StepExpression denominator : denominators) {
-					if (denominator.isConstantIn(variable)) {
-						continue;
-					}
-
-					List<StepSolution> solutions =
-							new StepEquation(denominator, StepConstant.create(0))
-									.solve(variable, undefinedPointsSteps);
-
-					for (StepSolution solution : solutions) {
-						undefinedPoints.addElement((StepExpression) solution.getValue(variable));
-					}
-				}
-
-				if (!undefinedPoints.emptySet()) {
-					steps.addGroup(SolutionStepType.FIND_UNDEFINED_POINTS, undefinedPointsSteps,
-							undefinedPoints);
-					tracker.addUndefinedPoints(undefinedPoints);
-				}
-			} catch (SolveFailedException e) {
-				tracker.setShouldCheckSolutions();
-			}
-
-			return null;
-		}
-	},
-
 	TRIVIAL_EQUATIONS {
 		@Override
 		public Result apply(StepEquation se, StepVariable variable,
@@ -385,20 +310,22 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 		@Override
 		public Result apply(StepEquation se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			if (!se.LHS.isTrigonometric() || !se.RHS.isConstant()) {
+			if (!se.LHS.isTrigonometric() || !se.RHS.isConstantIn(variable)) {
 				return null;
 			}
 
 			StepOperation trigoVar = (StepOperation) se.LHS;
 
-			if (!se.RHS.canBeEvaluated() && trigoVar.getOperation() != Operation.TAN) {
-				return new Result();
-			}
-
-			if ((trigoVar.isOperation(Operation.SIN) || trigoVar.isOperation(Operation.COS)) &&
-					(se.RHS.getValue() < -1 || se.RHS.getValue() > 1)) {
-				steps.add(SolutionStepType.NO_SOLUTION_TRIGONOMETRIC, trigoVar, variable);
-				return new Result();
+			if (trigoVar.getOperation() != Operation.TAN) {
+				if (!se.RHS.canBeEvaluated()) {
+					tracker.addCondition(
+							new StepInequality(StepConstant.create(-1), se.RHS, true, false));
+					tracker.addCondition(
+							new StepInequality(se.RHS, StepConstant.create(1), true, false));
+				} else if (se.RHS.getValue() < -1 || se.RHS.getValue() > 1) {
+					steps.add(SolutionStepType.NO_SOLUTION_TRIGONOMETRIC, trigoVar, variable);
+					return new Result();
+				}
 			}
 
 			Operation op = StepExpression.getInverse(trigoVar.getOperation());
@@ -429,7 +356,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 							secondRHS);
 				}
 
-				solutions.addAll(secondBranch.solve(variable, steps));
+				solutions.addAll(secondBranch.solve(variable, steps, tracker));
 			}
 
 			return new Result(solutions);
@@ -805,17 +732,25 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 
 		List<StepSolution> finalSolutions = new ArrayList<>();
 		for (StepSolution solution : solutions) {
-			if (solution.getValue() instanceof StepLogical &&
-					!tracker.getUndefinedPoints().emptySet()) {
-				StepLogical newValue =
-						subtract((StepLogical) solution.getValue(), tracker.getUndefinedPoints());
-				StepSolution newSolution =
-						StepSolution.simpleSolution(solution.getVariable(), newValue, tracker);
+			if (solution.getValue() instanceof StepLogical) {
+				StepSet containedUndefinedPoints = new StepSet();
+				for (StepExpression undefinedPoint : tracker.getUndefinedPoints()) {
+					if (((StepLogical) solution.getValue()).contains(undefinedPoint)) {
+						containedUndefinedPoints.addElement(undefinedPoint);
+					}
+				}
 
-				steps.addSubstep(solution, newSolution, SolutionStepType.EXCLUDE_UNDEFINED_POINTS,
-						tracker.getUndefinedPoints());
-				finalSolutions.add(newSolution);
-				continue;
+				if (!containedUndefinedPoints.emptySet()) {
+					StepLogical newValue =
+							subtract((StepLogical) solution.getValue(), containedUndefinedPoints);
+					StepSolution newSolution =
+							StepSolution.simpleSolution(solution.getVariable(), newValue, tracker);
+
+					steps.addSubstep(solution, newSolution,
+							SolutionStepType.EXCLUDE_UNDEFINED_POINTS, containedUndefinedPoints);
+					finalSolutions.add(newSolution);
+					continue;
+				}
 			}
 
 			if (solution.getValue() instanceof StepExpression) {

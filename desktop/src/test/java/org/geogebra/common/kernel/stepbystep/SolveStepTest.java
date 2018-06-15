@@ -195,6 +195,16 @@ public class SolveStepTest {
 
 	@Test
 	public void trigonometricEquations() {
+		t("sin(x)", "y", "x", "x = (arcsin(y) + (2)(k1)(pi)) if -1 <= y and y <= 1", "x = (pi-arcsin(y)-(2)(k2)(pi)) if -1 <= y and y <= 1");
+		t("sin(x)", "arbconst(2)", "x", "x = (arcsin(k2) + (2)(k1)(pi)) if -1 <= k2 and k2 <= 1",
+				"x = (pi-arcsin(k2)-(2)(k2)(pi)) if -1 <= k2 and k2 <= 1");
+		t("sin(cos(x))", "0", "x",
+				"x = (arccos((2)(k1)(pi)) + (2)(k2)(pi)) if -1 <= (2)(k1)(pi) and (2)(k1)(pi) <= 1",
+				"x = ((2)(pi)-arccos((2)(k1)(pi))-(2)(k3)(pi)) if -1 <= (2)(k1)(pi) and (2)(k1)(pi) <= 1",
+				"x = (arccos((-(2)(k4)(pi) + pi)) + (2)(k5)(pi)) if -1 <= (2)(k1)(pi) and (2)(k1)(pi) <= 1 and -1 <= (-(2)(k4)(pi) + pi) "
+				+ "and (-(2)(k4)(pi) + pi) <= 1",
+				"x = ((2)(pi)-arccos((-(2)(k4)(pi) + pi))-(2)(k6)(pi)) if -1 <= (2)(k1)(pi) and (2)(k1)(pi) <= 1 and -1 <= (-(2)(k4)(pi) + pi) "
+				+ "and (-(2)(k4)(pi) + pi) <= 1");
 		t("3+2sin(x)", "sin(x)-1", "x");
 		t("1/2+2sin(x)", "sin(x)+1", "x", "x = ((pi + (12)(k1)(pi)))/(6)", "x = (((5)(pi)-(12)(k2)(pi)))/(6)");
 		t("1/2+2sin(3x+1)", "sin(3x+1)+1", "x", "x = ((pi + (12)(k1)(pi)-6))/(18)",

@@ -1,14 +1,94 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
+import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
 enum SolveSteps implements SolveStepGenerator {
+
+	FIND_DEFINED_RANGE {
+		@Override
+		public Result apply(StepSolvable se, StepVariable variable,
+				SolutionBuilder steps, SolveTracker tracker) {
+			if (tracker.shouldCheck() || !tracker.getRestriction().equals(StepInterval.R) ||
+					!tracker.getUndefinedPoints().emptySet()) {
+				return null;
+			}
+
+			try {
+				Set<StepExpression> roots = new HashSet<>();
+				StepHelper.getRoots(se, roots);
+
+				StepLogical restriction = null;
+				SolutionBuilder restrictionsSteps = new SolutionBuilder();
+
+				for (StepExpression root : roots) {
+					if (root.isConstantIn(variable)) {
+						continue;
+					}
+
+					List<StepSolution> solutions =
+							new StepInequality(root, StepConstant.create(0), false, false)
+									.solve(variable, restrictionsSteps);
+
+					for (StepNode solution : solutions) {
+						restriction = intersect(restriction,
+								(StepInterval) ((StepSolution) solution).getValue(variable));
+					}
+				}
+
+				if (restriction != null && !StepInterval.R.equals(restriction)) {
+					steps.addGroup(SolutionStepType.DETERMINE_THE_DEFINED_RANGE, restrictionsSteps,
+							restriction);
+					tracker.addRestriction(restriction);
+				}
+			} catch (SolveFailedException e) {
+				tracker.setShouldCheckSolutions();
+				return null;
+			}
+
+			try {
+				Set<StepExpression> denominators = new HashSet<>();
+				StepHelper.getDenominators(se, denominators);
+
+				StepSet undefinedPoints = new StepSet();
+				SolutionBuilder undefinedPointsSteps = new SolutionBuilder();
+
+				for (StepExpression denominator : denominators) {
+					if (denominator.isConstantIn(variable)) {
+						continue;
+					}
+
+					List<StepSolution> solutions =
+							new StepEquation(denominator, StepConstant.create(0))
+									.solve(variable, undefinedPointsSteps);
+
+					for (StepSolution solution : solutions) {
+						undefinedPoints.addElement((StepExpression) solution.getValue(variable));
+					}
+				}
+
+				if (!undefinedPoints.emptySet()) {
+					steps.addGroup(SolutionStepType.FIND_UNDEFINED_POINTS, undefinedPointsSteps,
+							undefinedPoints);
+					tracker.addUndefinedPoints(undefinedPoints);
+				}
+			} catch (SolveFailedException e) {
+				tracker.setShouldCheckSolutions();
+			}
+
+			return null;
+		}
+	},
 
 	REGROUP {
 		@Override

@@ -139,7 +139,7 @@ public class StepStrategies {
 	public static List<StepSolution> defaultSolve(StepEquation se, StepVariable sv,
 			SolutionBuilder sb, SolveTracker tracker) {
 		SolveStepGenerator[] strategy = {
-				EquationSteps.FIND_DEFINED_RANGE,
+				SolveSteps.FIND_DEFINED_RANGE,
 				EquationSteps.SOLVE_PRODUCT,
 				EquationSteps.NEGATE_BOTH_SIDES,
 				SolveSteps.REGROUP,
@@ -174,10 +174,11 @@ public class StepStrategies {
 	public static List<StepSolution> defaultInequalitySolve(StepInequality se, StepVariable sv,
 			SolutionBuilder sb, SolveTracker tracker) {
 		SolveStepGenerator[] strategy = {
-				InequalitySteps.DIVIDE_BY_COEFFICIENT,
-				SolveSteps.SOLVE_LINEAR,
+				SolveSteps.FIND_DEFINED_RANGE,
 				SolveSteps.REGROUP,
 				InequalitySteps.TRIVIAL_INEQUALITY,
+				InequalitySteps.DIVIDE_BY_COEFFICIENT,
+				SolveSteps.SOLVE_LINEAR,
 				InequalitySteps.POSITIVE_AND_ZERO,
 				InequalitySteps.POSITIVE_AND_NEGATIVE,
 				SolveSteps.SUBTRACT_COMMON,
