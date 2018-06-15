@@ -447,6 +447,16 @@ public class Ggb2giac {
 		// add y= so that Intersect[(((2)*(x))+(1))/((x)-(5)),y=2] ie
 		// Intersect[f,a] works
 
+		// + "point(xcoord((ggbinarg3)[2][1]),"
+		// + "ycoord((ggbinarg3)[2][1]),"
+		// + "zcoord((ggbinarg3)[2][1]))"
+		//
+		// + ","
+		//
+		// + "point(xcoord(ggbinarg3[2][2][2])+xcoord((ggbinarg3)[2][1]),"
+		// + "ycoord(ggbinarg3[2][2][2])+ycoord((ggbinarg3)[2][1]),"
+		// + "zcoord(ggbinarg3[2][2][2])+zcoord((ggbinarg3)[2][1]))"
+
 		p("Intersect.2",
 				"[[ggbinterans:=0/0]," + "[ggbinarg0:=%0],"
 
@@ -596,23 +606,35 @@ public class Ggb2giac {
 						+ "point((ggbinarg1[2][2][2])[2][0]+(ggbinarg1)[0][2],"
 						+ "(ggbinarg1[2][2][2])[2][1]+ (ggbinarg1)[1][2],"
 						+ "(ggbinarg1[2][2][2])[2][2]+(ggbinarg1)[2][2][1]))),"
+
 						// Intersect[Cmd3dLine,2dLine]
 						// Intersect[Cmd3dLine,Cmd2dLine]
+						// Intersect[Line[Point[{2,1,0}],Point[{1,2,0}]],y=2]
 						+ "when(type(xcoord(ggbinarg1))==DOM_INT&&type(grad(ggbinarg1,x)[1])==DOM_INT,"
-						+ "line_inter(line(point(expr(ggbinarg0)[0][2][1],"
-						+ "expr(ggbinarg0)[1][2][1],"
-						+ "expr(ggbinarg0)[2][2][1]),"
-						+ "point(coeff(expr(ggbinarg0)[0][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg0)[0][2][1],"
-						+ "coeff(expr(ggbinarg0)[1][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg0)[1][2][1],"
-						+ "coeff(expr(ggbinarg0)[2][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg0)[2][2][1])),"
-						+ "line(point(re(subst(parameq(line(ggbinarg1),u),u=1)),"
-						+ "im(subst(parameq(line(ggbinarg1),u),u=1)),0),"
+						+ "line_inter(line("
+
+						+ "point(xcoord((ggbinarg2)[2][1]),"
+						+ "ycoord((ggbinarg2)[2][1]),"
+						+ "zcoord((ggbinarg2)[2][1]))"
+
+						+ ","
+
+						+ "point(xcoord(ggbinarg2[2][2][2])+xcoord((ggbinarg2)[2][1]),"
+						+ "ycoord(ggbinarg2[2][2][2])+ycoord((ggbinarg2)[2][1]),"
+						+ "zcoord(ggbinarg2[2][2][2])+zcoord((ggbinarg2)[2][1]))"
+
+						+ "),"
+
+						+ "line("
+
+						+ "point(re(subst(parameq(line(ggbinarg1),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg1),u),u=1)),0)"
+
+						+ ","
 						+ "point(re(subst(parameq(line(ggbinarg1),u),u=2)),"
 						+ "im(subst(parameq(line(ggbinarg1),u),u=2)),0))),"
 						+ " ?))))),"
+
 						// Intersect[3dLine,Plane]
 						+ "when((xcoord(ggbinarg0))[0]=='='&&string((xcoord(ggbinarg0))[1])==string(X),"
 						+ "when((ggbinarg1)[0]=='pnt',"
