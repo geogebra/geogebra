@@ -1700,8 +1700,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					StringTemplate.defaultTemplate));
 		}
 		HashMap<String, FunctionVariable> varmap = new HashMap<>();
+		FunctionVariable fv1 = null;
 		for (String name : varNames) {
-			varmap.put(name, new FunctionVariable(kernel, name));
+			varmap.put(name, fv1 = new FunctionVariable(kernel, name));
 		}
 		ExpressionNode sum, myExpr;
 		myExpr = toExpr(fun1, varmap, kernel);
@@ -1711,8 +1712,19 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				((ExpressionNode) nv).replaceVariables(name, varmap.get(name));
 			}
 		} else if (nv instanceof FunctionVariable) {
-			nv = varmap.get(((FunctionVariable) nv)
-					.toString(StringTemplate.defaultTemplate));
+			String nvName = ((FunctionVariable) nv)
+					.toString(StringTemplate.defaultTemplate);
+			nv = varmap.get(nvName);
+			if (nv == null) {
+				nv = ev;
+				if (!"y".equals(nvName)) {
+					myExpr = myExpr.replace(fv1, nv).wrap();
+					varNames.clear();
+					varNames.add(nvName);
+					varmap.clear();
+					varmap.put(nvName, (FunctionVariable) nv);
+				}
+			}
 		}
 
 		if (right) {

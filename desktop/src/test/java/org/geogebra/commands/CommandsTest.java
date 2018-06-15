@@ -235,6 +235,24 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void functionArithmetic() {
+		t("f(x)=x^2", "x^(2)");
+		t("g1:f+f", "x^(2) + x^(2)");
+		t("g2:f+x", "x^(2) + x");
+		t("g3:x+f", "x + x^(2)");
+		t("g4:f+f", "x^(2) + x^(2)");
+		t("g5:f(x)+f", "x^(2) + x^(2)");
+		t("g6(t)=t+f", "t + t^(2)");
+		t("a(x,y)=x + y", "x + y");
+		t("a+f", "x + y + x^(2)");
+		t("a+x", "x + y + x");
+		t("a+y", "x + y + y");
+		t("a+a", "x + y + x + y");
+		NoExceptionsTest.shouldFail("f+y", "Please check your input", app);
+		NoExceptionsTest.shouldFail("y+f", "Please check your input", app);
+	}
+
+	@Test
 	public void tuples() {
 		t("(1..2,1..2)", "{(1, 1), (2, 2)}");
 		t("(1,1..5)", "{(1, 1), (1, 2), (1, 3), (1, 4), (1, 5)}");

@@ -140,12 +140,8 @@ public class NoExceptionsTest {
 				}
 			}
 			if (syntaxes > 0 && !CommandsTest.mayHaveZeroArgs(cmdName)) {
-				ErrorAccumulator errorStore = new ErrorAccumulator();
-				app.getKernel().getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(
-								cmdName + "()", false, errorStore, false, null);
-				Assert.assertTrue(errorStore.getErrors()
-						.contains("Illegal number of arguments: 0"));
+				shouldFail(cmdName + "()", "Illegal number of arguments: 0",
+						app);
 			}
 			System.out.println();
 			System.out.print(cmdName + " ");
@@ -175,6 +171,14 @@ public class NoExceptionsTest {
 			System.out.print("-");
 			Assert.assertNull(e.getMessage() + "," + e.getClass(), e);
 		}
+	}
+
+	protected static void shouldFail(String string, String string2, App app) {
+		ErrorAccumulator errorStore = new ErrorAccumulator();
+		app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(string, false,
+						errorStore, false, null);
+		Assert.assertTrue(errorStore.getErrors().contains(string2));
 	}
 
 	@Test
