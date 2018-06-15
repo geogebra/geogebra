@@ -1111,6 +1111,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		setCurrentFile(null);
 		setMoveMode();
 		resetUI();
+		clearMedia();
 	}
 
 	@Override

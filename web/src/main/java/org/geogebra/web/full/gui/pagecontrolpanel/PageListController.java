@@ -190,6 +190,9 @@ public class PageListController implements PageListControllerInterface,
 	public void savePreviewCard(PagePreviewCard card) {
 		if (card != null) {
 			app.getGgbApi().createArchiveContent(true, card.getFile());
+			if (app.getEmbedManager() != null) {
+				app.getEmbedManager().persist();
+			}
 		}
 	}
 	

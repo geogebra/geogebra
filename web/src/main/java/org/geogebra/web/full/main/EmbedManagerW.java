@@ -102,10 +102,19 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void removeAll() {
 		for (GeoGebraFrameBoth frame : widgets.values()) {
-			frame.removeFromParent();
-			frame.getElement().removeFromParent();
+			frame.getParent().getParent().removeFromParent();
+			frame.getParent().getParent().getElement().removeFromParent();
+			// frame.getElement().getParentElement().getParentElement()
+			// .removeFromParent();
 		}
 		widgets.clear();
+	}
+
+	@Override
+	public void persist() {
+		for (Entry<Integer, GeoGebraFrameBoth> e : widgets.entrySet()) {
+			content.put(e.getKey(), getContent(e.getValue()));
+		}
 	}
 
 	public int nextID() {
@@ -114,12 +123,16 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void writeEmbeds(ZipFile archiveContent) {
-		for (Entry<Integer, GeoGebraFrameBoth> e : widgets.entrySet()) {
+		persist();
+		for (Entry<Integer, String> e : content.entrySet()) {
 			((GgbFile) archiveContent).put(
-					"embed_" + e.getKey() + ".json",
-					JSON.stringify(e.getValue().getApplication().getGgbApi()
-							.getFileJSON(false)));
+					"embed_" + e.getKey() + ".json", e.getValue());
 		}
+	}
+
+	private String getContent(GeoGebraFrameBoth value) {
+		return JSON.stringify(
+				value.getApplication().getGgbApi().getFileJSON(false));
 	}
 
 	@Override
