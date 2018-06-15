@@ -776,22 +776,37 @@ public class Ggb2giac {
 						+ "when(same(subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[1],"
 						+ "subst(ggbinarg0,x=xcoord(ggbinarg1),y=ycoord(ggbinarg1))[2]),"
 						+ "ggbinarg1,?)),"
+
 						// Intersect[2dLine,Cmd3dLine]
 						// Intersect[Cmd2dLine,Cmd3dLine]
+						// Intersect[x=1,Line[Point[{3,1,0}],Point[{1,1,0}]]]
 						+ "when(xcoord(ggbinarg1)==string(X),"
-						+ "line_inter(line(point(re(subst(parameq(line(ggbinarg0),u),u=1)),"
-						+ "im(subst(parameq(line(ggbinarg0),u),u=1)),0),"
+						+ "line_inter(line("
+
+						+ "point(re(subst(parameq(line(ggbinarg0),u),u=1)),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=1)),0)"
+
+						+ ","
+
 						+ "point(re(subst(parameq(line(ggbinarg0),u),u=2)),"
-						+ "im(subst(parameq(line(ggbinarg0),u),u=2)),0)),"
-						+ "line(point(expr(ggbinarg1)[0][2][1],"
-						+ "expr(ggbinarg1)[1][2][1],"
-						+ "expr(ggbinarg1)[2][2][1]),"
-						+ "point(coeff(expr(ggbinarg1)[0][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg1)[0][2][1],"
-						+ "coeff(expr(ggbinarg1)[1][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg1)[1][2][1],"
-						+ "coeff(expr(ggbinarg1)[2][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg1)[2][2][1]))),"
+						+ "im(subst(parameq(line(ggbinarg0),u),u=2)),0)"
+
+						+ "),"
+
+						+ "line("
+
+						+ "point(xcoord((ggbinarg3)[2][1]),"
+						+ "ycoord((ggbinarg3)[2][1]),"
+						+ "zcoord((ggbinarg3)[2][1]))"
+
+						+ ","
+
+						+ "point(xcoord(ggbinarg3[2][2][2])+xcoord((ggbinarg3)[2][1]),"
+						+ "ycoord(ggbinarg3[2][2][2])+ycoord((ggbinarg3)[2][1]),"
+						+ "zcoord(ggbinarg3[2][2][2])+zcoord((ggbinarg3)[2][1]))"
+
+						+ ")),"
+
 						// Intersect[2dLine,2dLine]
 						+ "when((type(xcoord(ggbinarg1))==DOM_INT&&type(grad(ggbinarg1,x)[1])==DOM_INT)"
 						// Intersect[2dLine,Cmd2dLine]
