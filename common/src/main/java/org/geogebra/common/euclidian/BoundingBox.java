@@ -9,6 +9,8 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.draw.DrawWidget;
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 
 /**
@@ -24,6 +26,7 @@ public class BoundingBox {
 	private int nrHandlers = 8;
 	private boolean isCropBox = false;
 	private boolean isImage = false;
+	private final static int VIDEO_SIZE_THRESHOLD = 100;
 	/**
 	 * size of handler
 	 */
@@ -417,5 +420,108 @@ public class BoundingBox {
 			return true;
 		}
 		return false;
+	}
+
+	public void resize(DrawWidget video, AbstractEvent e, EuclidianBoundingBoxHandler handler) {
+		int eventX = e.getX();
+		int eventY = e.getY();
+		int newWidth = 1;
+		int newHeight = 1;
+
+		switch (handler) {
+		case TOP_RIGHT:
+			newWidth = eventX - video.getLeft();
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			newHeight = (int) (video.getOriginalRatio() * newWidth);
+			video.setAbsoluteScreenLoc(video.getLeft(),
+					video.getTop() - newHeight + video.getHeight());
+			video.setWidth(newWidth);
+			video.setHeight(newHeight);
+			video.update();
+			break;
+
+		case BOTTOM_RIGHT:
+			newWidth = eventX - video.getLeft();
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			newHeight = (int) (video.getOriginalRatio() * newWidth);
+			video.setWidth(newWidth);
+			video.setHeight(newHeight);
+			video.update();
+			break;
+
+		case TOP_LEFT:
+			newWidth = video.getWidth() + video.getLeft() - eventX;
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			newHeight = (int) (video.getOriginalRatio() * newWidth);
+			video.setAbsoluteScreenLoc(eventX, video.getTop() - newHeight + video.getHeight());
+			video.setWidth(newWidth);
+			video.setHeight(newHeight);
+			video.update();
+			break;
+
+		case BOTTOM_LEFT:
+			newWidth = video.getWidth() + video.getLeft() - eventX;
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			newHeight = (int) (video.getOriginalRatio() * newWidth);
+			video.setAbsoluteScreenLoc(eventX, video.getTop());
+			video.setWidth(newWidth);
+			video.setHeight(newHeight);
+			video.update();
+			break;
+
+		case RIGHT:
+			newWidth = eventX - video.getLeft();
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			video.setWidth(newWidth);
+			video.resetRatio();
+			video.update();
+			break;
+
+		case LEFT:
+			newWidth = video.getWidth() + video.getLeft() - eventX;
+			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			video.setAbsoluteScreenLoc(eventX, video.getTop());
+			video.setWidth(newWidth);
+			video.resetRatio();
+			video.update();
+			break;
+
+		case TOP:
+			newHeight = video.getHeight() + video.getTop() - eventY;
+			if (newHeight <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			video.setAbsoluteScreenLoc(video.getLeft(), eventY);
+			video.setHeight(newHeight);
+			video.resetRatio();
+			video.update();
+			break;
+
+		case BOTTOM:
+			newHeight = eventY - video.getTop();
+			if (newHeight <= VIDEO_SIZE_THRESHOLD) {
+				return;
+			}
+			video.setHeight(newHeight);
+			video.resetRatio();
+			video.update();
+			break;
+		case UNDEFINED:
+		default:
+			break;
+		}
+
 	}
 }

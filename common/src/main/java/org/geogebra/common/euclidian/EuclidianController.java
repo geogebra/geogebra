@@ -8223,8 +8223,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (geo != null && view.getDrawableFor(geo) != null) {
 			Drawable dr = ((Drawable) view.getDrawableFor(geo));
-			BoundingBox boundingBox = dr
-					.getBoundingBox();
+			BoundingBox boundingBox = dr.getBoundingBox();
 			view.setBoundingBox(boundingBox);
 			view.repaintView();
 		}

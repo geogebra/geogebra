@@ -22,7 +22,7 @@ import org.geogebra.common.main.App;
  * @author laszlo
  *
  */
-public class DrawVideo extends Drawable {
+public class DrawVideo extends Drawable implements DrawWidget {
 	private GeoVideo video;
 	private App app;
 	private GRectangle bounds;
@@ -30,7 +30,7 @@ public class DrawVideo extends Drawable {
 	private int top;
 	private BoundingBox boundingBox;
 	private double originalRatio = Double.NaN;
-	private final static int VIDEO_SIZE_THRESHOLD = 100;
+
 
 	/** Threshold correction for resizing handler capturing */
 	public static final int HANDLER_THRESHOLD = -4;
@@ -62,8 +62,8 @@ public class DrawVideo extends Drawable {
 		top = video.getAbsoluteScreenLocY();
 
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
-		if (bounds != null && getBoundingBox() != null) {
-			getBoundingBox().setRectangle(bounds);
+		if (boundingBox != null) {
+			boundingBox.setRectangle(bounds);
 		}
 	}
 
@@ -134,14 +134,14 @@ public class DrawVideo extends Drawable {
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
 			boundingBox = new BoundingBox(false);
+			setMetrics();
 		}
 		return video.isBackground() ? boundingBox : null;
 	}
 
 	private void updateOriginalRatio() {
-		double width, height;
-		width = video.getWidth();
-		height = video.getHeight();
+		double width = video.getWidth();
+		double height = video.getHeight();
 		originalRatio = height / width;
 	}
 
@@ -152,111 +152,48 @@ public class DrawVideo extends Drawable {
 			updateOriginalRatio();
 		}
 
-		int eventX = e.getX();
-		int eventY = e.getY();
-		int newWidth = 1;
-		int newHeight = 1;
-
-		switch (handler) {
-		case TOP_RIGHT:
-			newWidth = eventX - left;
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
-				return;
-			}
-			newHeight = (int) (originalRatio * newWidth);
-			video.setAbsoluteScreenLoc(left,
-					top - newHeight + video.getHeight());
-			video.setWidth(newWidth);
-			video.setHeight(newHeight);
-			update();
-			break;
-
-		case BOTTOM_RIGHT:
-			newWidth = eventX - left;
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
-				return;
-			}
-			newHeight = (int) (originalRatio * newWidth);
-			video.setWidth(newWidth);
-			video.setHeight(newHeight);
-			update();
-			break;
-
-		case TOP_LEFT:
-			newWidth = video.getWidth() + left - eventX;
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
-				return;
-			}
-			newHeight = (int) (originalRatio * newWidth);
-			video.setAbsoluteScreenLoc(eventX,
-					top - newHeight + video.getHeight());
-			video.setWidth(newWidth);
-			video.setHeight(newHeight);
-			update();
-			break;
-
-		case BOTTOM_LEFT:
-			newWidth = video.getWidth() + left - eventX;
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
-				return;
-			}
-			newHeight = (int) (originalRatio * newWidth);
-			video.setAbsoluteScreenLoc(eventX, top);
-			video.setWidth(newWidth);
-			video.setHeight(newHeight);
-			update();
-			break;
-
-		case RIGHT:
-			newWidth = eventX - left;
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
-				return;
-			}
-			video.setWidth(newWidth);
-			originalRatio = Double.NaN;
-			update();
-			break;
-
-		case LEFT:
-			newWidth = video.getWidth() + left - eventX;
-			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
-				return;
-			}
-			video.setAbsoluteScreenLoc(eventX, top);
-			video.setWidth(newWidth);
-			originalRatio = Double.NaN;
-			update();
-			break;
-
-		case TOP:
-			newHeight = video.getHeight() + top - eventY;
-			if (newHeight <= VIDEO_SIZE_THRESHOLD) {
-				return;
-			}
-			video.setAbsoluteScreenLoc(left, eventY);
-			video.setHeight(newHeight);
-			originalRatio = Double.NaN;
-			update();
-			break;
-
-		case BOTTOM:
-			newHeight = eventY - top;
-			if (newHeight <= VIDEO_SIZE_THRESHOLD) {
-				return;
-			}
-			video.setHeight(newHeight);
-			originalRatio = Double.NaN;
-			update();
-			break;
-		case UNDEFINED:
-		default:
-			break;
-		}
-
+		getBoundingBox().resize(this, e, handler);
 	}
 
 	@Override
 	public GRectangle getBounds() {
 		return bounds;
 	}
+
+	public void setWidth(int newWidth) {
+		video.setWidth(newWidth);
+	}
+
+	public void setHeight(int newHeight) {
+		video.setWidth(newHeight);
+	}
+
+	public int getLeft() {
+		return left;
+	}
+
+	public int getTop() {
+		return top;
+	}
+
+	public void setAbsoluteScreenLoc(int x, int y) {
+		video.setAbsoluteScreenLoc(x, y);
+	}
+
+	public double getOriginalRatio() {
+		return originalRatio;
+	}
+
+	public int getWidth() {
+		return video.getWidth();
+	}
+
+	public int getHeight() {
+		return video.getHeight();
+	}
+
+	public void resetRatio() {
+		originalRatio = Double.NaN;
+	}
+
 }
