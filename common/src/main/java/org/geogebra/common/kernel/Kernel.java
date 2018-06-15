@@ -2243,7 +2243,6 @@ public class Kernel implements SpecialPointsListener {
 				formatSignedPlusMinus(y, sbBuildValueString, tpl);
 			}
 		}
-
 	}
 
 	/** doesn't show 1 or -1 */
@@ -2615,6 +2614,10 @@ public class Kernel implements SpecialPointsListener {
 	}
 
 	/**
+	 * @param str
+	 *            prefixed variable
+	 * @param replace
+	 *            replacement prefix
 	 * @return String where CAS variable prefixes are removed again, e.g.
 	 *         "ggbcasvar1a" is turned into "a" and
 	 */
@@ -2721,7 +2724,7 @@ public class Kernel implements SpecialPointsListener {
 	}
 
 	/**
-	 * Returns whether silent mode is turned on.
+	 * @return whether silent mode is turned on.
 	 * 
 	 * @see #setSilentMode(boolean)
 	 */
@@ -2741,27 +2744,22 @@ public class Kernel implements SpecialPointsListener {
 	 * be used to create objects without any side effects, i.e. no labels are
 	 * created, algorithms are not added to the construction list and the views
 	 * are not notified about new objects.
+	 * 
+	 * @param silentMode
+	 *            silent mode
 	 */
 	public final void setSilentMode(boolean silentMode) {
-
 		this.silentMode = silentMode;
-
 		// no new labels, no adding to construction list
 		getConstruction().setSuppressLabelCreation(silentMode);
-
-		// no notifying of views
-		// ggb3D - 2009-07-17
-		// removing :
-		// notifyViewsActive = !silentMode;
-		// (seems not to work with loading files)
-
-		// Application.printStacktrace(""+silentMode);
-
 	}
 
 	/**
 	 * Sets whether unknown variables should be resolved as GeoDummyVariable
 	 * objects.
+	 * 
+	 * @param resolveUnkownVarsAsDummyGeos
+	 *            whether to resolve vars as dummies
 	 */
 	public final void setResolveUnkownVarsAsDummyGeos(
 			boolean resolveUnkownVarsAsDummyGeos) {
@@ -2930,6 +2928,9 @@ public class Kernel implements SpecialPointsListener {
 		return algebraStyle;
 	}
 
+	/**
+	 * @return algebra style for spreadsheet
+	 */
 	final public int getAlgebraStyleSpreadsheet() {
 		return algebraStyleSpreadsheet;
 	}
@@ -3679,6 +3680,9 @@ public class Kernel implements SpecialPointsListener {
 	 * ******************************************************
 	 */
 
+	/**
+	 * @return last attached euclidian view
+	 */
 	final public EuclidianView getLastAttachedEV() {
 		return lastAttachedEV;
 	}
@@ -4402,6 +4406,9 @@ public class Kernel implements SpecialPointsListener {
 		return insertLineBreaks;
 	}
 
+	/**
+	 * @return major version of XML
+	 */
 	static public String getXMLFileFormat() {
 		return GeoGebraConstants.XML_FILE_FORMAT;
 	}
@@ -4791,6 +4798,8 @@ public class Kernel implements SpecialPointsListener {
 
 	/**
 	 * Returns a list with all currently registered macros.
+	 * 
+	 * @return all macros
 	 */
 	public ArrayList<Macro> getAllMacros() {
 		if (macroManager == null) {

@@ -13,6 +13,7 @@ public interface SetRandomValue {
 	 * 
 	 * @param d
 	 *            random value
+	 * @return whether setting was successful (argument in range)
 	 */
 	public boolean setRandomValue(GeoElementND d);
 }
