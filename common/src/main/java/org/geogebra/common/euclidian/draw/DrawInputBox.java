@@ -377,15 +377,33 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	/**
-	 * Draw outline on canvas.
+	 * Draw outline and the text on the canvas.
 	 */
-	public void drawBoundsOnCanvas() {
-		GGraphics2D g2 = view.getGraphicsForPen();
-		GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor()
-				: view.getBackgroundCommon();
-		getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth, boxHeight);
+	public void drawTextfieldOnCanvas() {
+		drawBoundsOnCanvas();
+		drawTextOnCanvas();
 	}
 
+	private void drawBoundsOnCanvas() {
+		GGraphics2D g2 = view.getGraphicsForPen();
+		GColor bgColor = geo.getBackgroundColor() != null
+				? geo.getBackgroundColor()
+				: view.getBackgroundCommon();
+		getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
+				boxHeight);
+	}
+
+	private void drawTextOnCanvas() {
+		GGraphics2D g2 = view.getGraphicsForPen();
+		String text = geoInputBox.getText();
+		g2.setFont(textFont.deriveFont(GFont.PLAIN));
+		g2.setPaint(geo.getObjectColor());
+		int textLeft = boxLeft + 2;
+		int textBottom = boxTop + getTextBottom();
+		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+				text.substring(0, getTruncIndex(text, g2)), textLeft,
+				textBottom, false);
+	}
 	@Override
 	public void drawWidget(GGraphics2D g2) {
 		final GFont font = g2.getFont();
@@ -406,33 +424,41 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			getBox().setBounds(labelRectangle);
 		}
 
-		if (geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
-			if (!isSelectedForInput() || !getBox().isVisible() || !getGeoElement().isSelected()) {
-				drawBoundsOnCanvas();
+		if (geo.getKernel().getApplication()
+				.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+			if (!isSelectedForInput() || !getBox().isVisible()
+					|| !getGeoElement().isSelected()) {
+				drawTextfieldOnCanvas();
+			}
+			highlightLabel(g2, latexLabel);
+			if (geo.isLabelVisible()) {
+				drawLabel(g2, geoInputBox, labelDesc);
 			}
 		} else {
-			GColor bgColor = geo.getBackgroundColor() != null ? geo.getBackgroundColor()
-					: view.getBackgroundCommon();
-			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth, boxHeight);
+			GColor bgColor = geo.getBackgroundColor() != null
+					? geo.getBackgroundColor() : view.getBackgroundCommon();
+			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
+					boxHeight);
+					
+			highlightLabel(g2, latexLabel);
+
+			g2.setPaint(geo.getObjectColor());
+
+			if (geo.isLabelVisible()) {
+				drawLabel(g2, geoInputBox, labelDesc);
+			}
+
+			String text = geoInputBox.getText();
+
+			g2.setFont(textFont.deriveFont(GFont.PLAIN));
+
+			int textLeft = boxLeft + 2;
+			int textBottom = boxTop + getTextBottom();
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+					text.substring(0, getTruncIndex(text, g2)), textLeft,
+					textBottom, false);
 		}
-
-		highlightLabel(g2, latexLabel);
-
-		g2.setPaint(geo.getObjectColor());
-
-		if (geo.isLabelVisible()) {
-			drawLabel(g2, geoInputBox, labelDesc);
-		}
-
-		String text = geoInputBox.getText();
-
-		g2.setFont(textFont.deriveFont(GFont.PLAIN));
-
-		int textLeft = boxLeft + 2;
-		int textBottom = boxTop + getTextBottom();
-		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-				text.substring(0, getTruncIndex(text, g2)), textLeft,
-				textBottom, false);
+		
 		g2.setFont(font);
 		if (isSelectedForInput()) {
 			getBox().repaint(g2);
