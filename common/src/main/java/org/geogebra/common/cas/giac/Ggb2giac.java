@@ -571,26 +571,36 @@ public class Ggb2giac {
 						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][1][1],"
 						+ "coeffs((ggbinarg1)[2][1][2],ggbtmpvar"
 						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][2][1])))[0],"
+
 						// Intersect[Cmd3dLine,Cmd3dLine]
+						// Intersect[Line[Point[{3,3,1}],Point[{2,2,1}]],Line[Point[{1,2,1}],Point[{3,1,1}]]]
 						+ "when(xcoord(ggbinarg1)==string(X),"
-						+ "line_inter(line(point(expr(ggbinarg0)[0][2][1],"
-						+ "expr(ggbinarg0)[1][2][1],"
-						+ "expr(ggbinarg0)[2][2][1]),"
-						+ "point(coeff(expr(ggbinarg0)[0][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg0)[0][2][1],"
-						+ "coeff(expr(ggbinarg0)[1][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg0)[1][2][1],"
-						+ "coeff(expr(ggbinarg0)[2][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg0)[2][2][1])),"
-						+ "line(point(expr(ggbinarg1)[0][2][1],"
-						+ "expr(ggbinarg1)[1][2][1],"
-						+ "expr(ggbinarg1)[2][2][1]),"
-						+ "point(coeff(expr(ggbinarg1)[0][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg1)[0][2][1],"
-						+ "coeff(expr(ggbinarg1)[1][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg1)[1][2][1],"
-						+ "coeff(expr(ggbinarg1)[2][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg1)[2][2][1]))),"
+						+ "line_inter(line("
+
+						+ "point(xcoord((ggbinarg2)[2][1]),"
+						+ "ycoord((ggbinarg2)[2][1]),"
+						+ "zcoord((ggbinarg2)[2][1]))"
+
+						+ ","
+
+						+ "point(xcoord(ggbinarg2[2][2][2])+xcoord((ggbinarg2)[2][1]),"
+						+ "ycoord(ggbinarg2[2][2][2])+ycoord((ggbinarg2)[2][1]),"
+						+ "zcoord(ggbinarg2[2][2][2])+zcoord((ggbinarg2)[2][1]))"
+
+						+ ")," + "line("
+
+						+ "point(xcoord((ggbinarg3)[2][1]),"
+						+ "ycoord((ggbinarg3)[2][1]),"
+						+ "zcoord((ggbinarg3)[2][1]))"
+
+						+ ","
+
+						+ "point(xcoord(ggbinarg3[2][2][2])+xcoord((ggbinarg3)[2][1]),"
+						+ "ycoord(ggbinarg3[2][2][2])+ycoord((ggbinarg3)[2][1]),"
+						+ "zcoord(ggbinarg3[2][2][2])+zcoord((ggbinarg3)[2][1]))"
+
+						+ ")),"
+
 						// Intersect[Cmd3dLine,3dLine]
 						+ "when((xcoord(ggbinarg1))[0]=='='&&string((xcoord(ggbinarg1))[1])==string(X),"
 						+ "line_inter(line(point(expr(ggbinarg0)[0][2][1],"
