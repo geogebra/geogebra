@@ -23,16 +23,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.TreeMap;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
@@ -46,71 +43,32 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
-import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.MacroKernel;
 import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
-import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import org.geogebra.common.kernel.geos.AngleProperties;
-import org.geogebra.common.kernel.geos.CasEvaluableFunction;
-import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoAudio;
-import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElement.FillType;
-import org.geogebra.common.kernel.geos.GeoEmbed;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoPolyLine;
-import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoVec3D;
-import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.common.kernel.geos.HasSymbolicMode;
-import org.geogebra.common.kernel.geos.LimitedPath;
-import org.geogebra.common.kernel.geos.PointProperties;
-import org.geogebra.common.kernel.geos.TextProperties;
-import org.geogebra.common.kernel.geos.Traceable;
-import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.kernelND.CoordStyle;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoLineND;
-import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
-import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
-import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.main.settings.DataCollectionSettings;
@@ -119,18 +77,13 @@ import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.SensorLogger.Types;
-import org.geogebra.common.plugin.script.JsScript;
-import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.GeoAssignment;
-import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
@@ -184,19 +137,12 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_DEFAULTS = 500;
 	private static final int MODE_DEFAULT_GEO = 501;
 
-	/**
-	 * we used minimal text size of 4px until 4.0 for texts, because the font
-	 * size setting was additive. Not needed with current multiplicative
-	 * approach, just for opening old files.
-	 */
-	private static final double MIN_TEXT_SIZE = 4;
-
 	private int mode;
 	private int constMode; // submode for <construction>
 	private int casMode; // submode for <cascell>
 
 	/** currently parsed element */
-	private GeoElement geo;
+
 	private GeoCasCell geoCasCell;
 	private Command cmd;
 	private Macro macro;
@@ -212,44 +158,22 @@ public class MyXMLHandler implements DocHandler {
 	private GeoElementND[] cmdOutput;
 	private boolean startAnimation;
 
-	/**
-	 * The point style of the document, for versions < 3.3
-	 */
-	private int docPointStyle;
-	private Kernel kernel;
+	Kernel kernel;
 	// for macros we need to change the kernel, so remember the original kernel
 	// too
 	private Kernel origKernel;
 	/** construction */
 	protected Construction cons;
 
-	private Parser parser;
+	Parser parser;
 	private Parser origParser;
 
-	// List of LocateableExpPair objects
-	// for setting the start points at the end of the construction
-	// (needed for GeoText and GeoVector)
-	private LinkedList<LocateableExpPair> startPointList = new LinkedList<>();
-
-	// List of GeoExpPair objects
-	// for setting the linked geos needed for GeoTextFields
-	private LinkedList<GeoExpPair> linkedGeoList = new LinkedList<>();
-
-	// List of GeoExpPair condition objects
-	// for setting the conditions at the end of the construction
-	// (needed for GeoText and GeoVector)
-	private LinkedList<GeoExpPair> showObjectConditionList = new LinkedList<>();
-	private LinkedList<GeoExpPair> dynamicColorList = new LinkedList<>();
-	private LinkedList<GeoExpPair> animationSpeedList = new LinkedList<>();
-	private LinkedList<GeoExpPair> animationStepList = new LinkedList<>();
-	private LinkedList<GeoElement> animatingList = new LinkedList<>();
-	private LinkedList<GeoNumericMinMax> minMaxList = new LinkedList<>();
 	/** errors encountered during load */
 	ArrayList<String> errors = new ArrayList<>();
 	// construction step stored in <consProtNavigation> : handled after parsing
 	private int consStep;
-
-	private double ggbFileFormat;
+	private final ConsElementXMLHandler geoHandler;
+	double ggbFileFormat;
 
 	private boolean hasGuiElement = false;
 
@@ -281,10 +205,7 @@ public class MyXMLHandler implements DocHandler {
 	protected EuclidianSettings evSet = null;
 	private static boolean isPreferencesXML = false;
 
-	private boolean lineStyleTagProcessed;
-	private boolean symbolicTagProcessed;
-
-	private TreeMap<String, String> casMap;
+	TreeMap<String, String> casMap;
 
 	private int casMapParent;
 
@@ -295,68 +216,7 @@ public class MyXMLHandler implements DocHandler {
 	private HashMap<EuclidianSettings, String> ytick = new HashMap<>();
 	private HashMap<EuclidianSettings, String> ztick = new HashMap<>();
 	private HashMap<EuclidianSettings, String> ymax = new HashMap<>();
-
-	private boolean sliderTagProcessed;
-	private boolean fontTagProcessed;
-
 	private ArrayList<String> entries;
-
-	private static class GeoExpPair {
-		private GeoElement geoElement;
-		String exp;
-
-		GeoExpPair(GeoElement g, String exp) {
-			setGeo(g);
-			this.exp = exp;
-		}
-
-		GeoElement getGeo() {
-			return geoElement;
-		}
-
-		void setGeo(GeoElement geo) {
-			this.geoElement = geo;
-		}
-	}
-
-	private static class GeoNumericMinMax {
-		private GeoElement geoElement;
-		String min;
-		String max;
-
-		GeoNumericMinMax(GeoElement g, String min, String max) {
-			setGeo(g);
-			this.min = min;
-			this.max = max;
-		}
-
-		GeoElement getGeo() {
-			return geoElement;
-		}
-
-		void setGeo(GeoElement geo) {
-			this.geoElement = geo;
-		}
-	}
-
-	private static class LocateableExpPair {
-		Locateable locateable;
-		String exp; // String with expression to create point
-		GeoPointND point; // free point
-		int number; // number of startPoint
-
-		LocateableExpPair(Locateable g, String s, int n) {
-			locateable = g;
-			exp = s;
-			number = n;
-		}
-
-		LocateableExpPair(Locateable g, GeoPointND p, int n) {
-			locateable = g;
-			point = p;
-			number = n;
-		}
-	}
 
 	/**
 	 * Creates a new instance of MyXMLHandler
@@ -372,21 +232,13 @@ public class MyXMLHandler implements DocHandler {
 		app = origKernel.getApplication();
 		loc = app.getLocalization();
 		initKernelVars();
-
 		mode = MODE_INVALID;
 		constMode = MODE_CONSTRUCTION;
+		geoHandler = new ConsElementXMLHandler(this);
 	}
 
 	private void reset(boolean start) {
-		startPointList.clear();
-		showObjectConditionList.clear();
-		dynamicColorList.clear();
-
-		linkedGeoList.clear();
-		animatingList.clear();
-		minMaxList.clear();
-		animationStepList.clear();
-		animationSpeedList.clear();
+		geoHandler.reset();
 		errors.clear();
 
 		if (start) {
@@ -396,10 +248,6 @@ public class MyXMLHandler implements DocHandler {
 		mode = MODE_INVALID;
 		constMode = MODE_CONSTRUCTION;
 		hasGuiElement = false;
-		sliderTagProcessed = false;
-		fontTagProcessed = false;
-		lineStyleTagProcessed = false;
-		symbolicTagProcessed = false;
 		compLayout = new CompatibilityLayout();
 
 		initKernelVars();
@@ -1004,47 +852,6 @@ public class MyXMLHandler implements DocHandler {
 		return ok;
 	}
 
-	private boolean handleExtraTag(LinkedHashMap<String, String> attrs) {
-		AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
-		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value"))
-				&& !"".equals(attrs.get("barNumber"))) {
-			if (attrs.get("key").equals("barAlpha")) {
-				algo.setBarAlpha(Float.parseFloat(attrs.get("value")),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			} else if (attrs.get("key").equals("barHatchDistance")) {
-				algo.setBarHatchDistance(Integer.parseInt(attrs.get("value")),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			} else if (attrs.get("key").equals("barFillType")) {
-				algo.setBarFillType(
-						FillType.values()[Integer.parseInt(attrs.get("value"))],
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			} else if (attrs.get("key").equals("barHatchAngle")) {
-				algo.setBarHatchAngle(Integer.parseInt(attrs.get("value")),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			} else if (attrs.get("key").equals("barImage")) {
-				algo.setBarImage(attrs.get("value"),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			} else if (attrs.get("key").equals("barSymbol")) {
-				algo.setBarSymbol(attrs.get("value"),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			} else if (attrs.get("key").equals("barColor")) {
-				String[] c = attrs.get("value").split(",");
-				algo.setBarColor(
-						GColor.newColor(Integer.parseInt(c[0].substring(5)),
-								Integer.parseInt(c[1]), Integer.parseInt(c[2])),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			}
-		}
-		return false;
-	}
-
 	private void startEuclidianViewElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 
@@ -1144,8 +951,7 @@ public class MyXMLHandler implements DocHandler {
 					.getDataCollection();
 			settings.mapSensorToGeo(type, mappedGeoLabel);
 		} else {
-			Log.error("unknown tag in <dataCollectionView>: " + eName + " = "
-					+ geo);
+			Log.error("unknown tag in <dataCollectionView>: " + eName);
 		}
 	}
 
@@ -1483,19 +1289,7 @@ public class MyXMLHandler implements DocHandler {
 						EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
 			}
 
-			// if there is a point style given save it
-			if (ggbFileFormat < 3.3) {
-				String strPointStyle = attrs.get("pointStyle");
-				if (strPointStyle != null) {
-					docPointStyle = Integer.parseInt(strPointStyle);
-				} else {
-					docPointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
-				}
-
-				// TODO save as default construction (F.S.)
-			} else {
-				docPointStyle = -1;
-			}
+			geoHandler.updatePointStyle(attrs);
 
 			String strBooleanSize = attrs.get("checkboxSize");
 			if (strBooleanSize != null) {
@@ -3206,8 +3000,7 @@ public class MyXMLHandler implements DocHandler {
 				boolean old = kernel.getElementDefaultAllowed();
 				kernel.setElementDefaultAllowed(true);
 				constMode = MODE_DEFAULT_GEO;
-				geo = getGeoElement(attrs);
-				geo.setLineOpacity(255);
+				this.geoHandler.initDefault(attrs);
 				kernel.setElementDefaultAllowed(old);
 			} else {
 				Log.error("unknown tag in <default>: " + eName);
@@ -3215,7 +3008,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_DEFAULT_GEO:
-			startGeoElement(eName, attrs);
+			this.geoHandler.startGeoElement(eName, attrs);
 			break;
 
 		default:
@@ -3235,26 +3028,7 @@ public class MyXMLHandler implements DocHandler {
 			if ("element".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_GEO_ELEMENT;
-				geo = getGeoElement(attrs);
-				sliderTagProcessed = false;
-				fontTagProcessed = false;
-				symbolicTagProcessed = false;
-				lineStyleTagProcessed = false;
-				geo.setLineOpacity(255);
-				if (geo instanceof VectorNDValue) {
-					((VectorNDValue) geo)
-							.setMode(((VectorNDValue) geo).getDimension() == 3
-									? Kernel.COORD_CARTESIAN_3D
-									: Kernel.COORD_CARTESIAN);
-				} else if (geo instanceof GeoPolyLine) {
-					((GeoPolyLine) geo).setVisibleInView3D(false);
-				} else if (geo instanceof GeoFunction) {
-					geo.setFixed(false);
-				} else if (geo instanceof GeoAngle) {
-					((GeoAngle) geo).setEmphasizeRightAngle(true);
-				} else if (geo instanceof GeoText) {
-					geo.setBackgroundColor(null);
-				}
+				geoHandler.init(attrs);
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_COMMAND;
@@ -3272,7 +3046,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_CONST_GEO_ELEMENT:
-			startGeoElement(eName, attrs);
+			this.geoHandler.startGeoElement(eName, attrs);
 			break;
 
 		case MODE_CONST_COMMAND:
@@ -3300,17 +3074,8 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_CONSTRUCTION:
 			if ("construction".equals(eName)) {
 				// process start points at end of construction
-				processStartPointList();
-				processLinkedGeoList();
-				processShowObjectConditionList();
-				processDynamicColorList();
-				processAnimationSpeedList();
-				processAnimationStepList();
-				processMinMaxList();
+				this.geoHandler.processLists();
 				processEvSizes();
-				processAnimatingList(); // must be after min/maxList otherwise
-										// GeoElement.setAnimating doesn't work
-
 				// now called from MyXMLio.doParseXML()
 				// if (spreadsheetTraceNeeded) {
 				// // don't want to initialize trace manager unless necessary
@@ -3328,28 +3093,7 @@ public class MyXMLHandler implements DocHandler {
 
 		case MODE_CONST_GEO_ELEMENT:
 			if ("element".equals(eName)) {
-				if (!sliderTagProcessed && geo.isGeoNumeric()) {
-					((GeoNumeric) geo).setShowExtendedAV(false);
-				} else if (!fontTagProcessed && geo.isGeoText()) {
-					((TextProperties) geo).setFontSizeMultiplier(1);
-					((TextProperties) geo).setSerifFont(false);
-					((TextProperties) geo).setFontStyle(GFont.PLAIN);
-				} else if (!lineStyleTagProcessed && ((geo.isGeoFunctionNVar()
-						&& ((GeoFunctionNVar) geo).isFun2Var())
-						|| geo.isGeoSurfaceCartesian())) {
-					geo.setLineThickness(0);
-				}
-				if (!symbolicTagProcessed && geo.isGeoText()) {
-					((GeoText) geo).setSymbolicMode(false, false);
-				}
-				if (casMap != null && geo instanceof CasEvaluableFunction) {
-					((CasEvaluableFunction) geo).updateCASEvalMap(casMap);
-				}
-
-				if (geo.isGeoImage()
-						&& ((GeoImage) geo).isCentered()) {
-					((GeoImage) geo).setCentered(true);
-				}
+				this.geoHandler.finish();
 				casMap = null;
 				constMode = MODE_CONSTRUCTION;
 			}
@@ -3384,9 +3128,7 @@ public class MyXMLHandler implements DocHandler {
 			if ("defaults".equals(eName)) {
 				mode = MODE_GEOGEBRA;
 				constMode = MODE_CONSTRUCTION;
-				this.processMinMaxList();
-				this.processAnimationStepList();
-				this.processAnimationSpeedList();
+				this.geoHandler.processDefaultLists();
 			}
 			break;
 
@@ -3479,578 +3221,21 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	// called when <element> is encountered
-	// e.g. for <element type="point" label="P">
-	private GeoElement getGeoElement(LinkedHashMap<String, String> attrs) {
-		GeoElement geo1 = null;
-		String label = attrs.get("label");
-		String type = attrs.get("type");
-		String defaultset = attrs.get("default");
-		if (label == null || type == null) {
-			Log.error("attributes missing in <element>");
-			return geo1;
-		}
-
-		if (defaultset == null || !kernel.getElementDefaultAllowed()) {
-			// does a geo element with this label exist?
-			geo1 = kernel.lookupLabel(label);
-
-			// Application.debug(label+", geo="+geo);
-			// needed for TRAC-2719
-			// if geo wasn't found in construction list
-			// look in cas
-			if (geo1 == null) {
-				geo1 = kernel.lookupCasCellLabel(label);
-			}
-			if (geo1 == null) {
-
-				// try to find an algo on which this label depends
-				// geo = cons.resolveLabelDependency(label,
-				// kernel.getClassType(type));
-				// if none, create new geo
-				geo1 = kernel.createGeoElement(cons, type);
-				geo1.setLoadedLabel(label);
-
-				// Application.debug(label+", "+geo.isLabelSet());
-
-				// independent GeoElements should be hidden by default
-				// (as older versions of this file format did not
-				// store show/hide information for all kinds of objects,
-				// e.g. GeoNumeric)
-				geo1.setEuclidianVisible(false);
-			}
-		} else {
-			int defset = Integer.parseInt(defaultset);
-			geo1 = kernel.getConstruction().getConstructionDefaults()
-					.getDefaultGeo(defset);
-			if (geo1 == null) {
-				// wrong default setting, act as if there were no default set
-				geo1 = kernel.lookupLabel(label);
-				if (geo1 == null) {
-					geo1 = kernel.createGeoElement(cons, type);
-					geo1.setLoadedLabel(label);
-					geo1.setEuclidianVisible(false);
-				}
-			}
-		}
-
-		// use default point style on points
-		if (geo1.getGeoClassType().equals(GeoClass.POINT)
-				&& ggbFileFormat < 3.3) {
-			((PointProperties) geo1).setPointStyle(docPointStyle);
-		}
-
-		// for downward compatibility
-		if (geo1.isLimitedPath()) {
-			LimitedPath lp = (LimitedPath) geo1;
-			// old default value for intersections of segments, ...
-			// V2.5: default of "allow outlying intersections" is now false
-			lp.setAllowOutlyingIntersections(true);
-
-			// old default value for geometric transforms of segments, ...
-			// V2.6: default of "keep type on geometric transform" is now true
-			lp.setKeepTypeOnGeometricTransform(false);
-		}
-
-		return geo1;
-	}
-
-	/**
-	 * Handle start tag inside &lt;element>
-	 * 
-	 * @param eName
-	 *            element name
-	 * @param attrs
-	 *            attributes
-	 */
-	protected void startGeoElement(String eName,
-			LinkedHashMap<String, String> attrs) {
-		if (geo == null) {
-			Log.error("no element set for <" + eName + ">");
-			return;
-		}
-
-		ScriptType scriptType = ScriptType.getTypeWithXMLName(eName);
-		if (scriptType != null) {
-			handleScript(attrs, scriptType);
-		} else {
-			switch (firstChar(eName)) {
-			case 'a':
-				if ("auxiliary".equals(eName)) {
-					handleAuxiliary(attrs);
-					break;
-				}
-				if ("autocolor".equals(eName)) {
-					handleAutocolor(attrs);
-					break;
-				} else if ("animation".equals(eName)) {
-					handleAnimation(attrs);
-					break;
-				} else if ("arcSize".equals(eName)) {
-					handleArcSize(attrs);
-					break;
-				} else if ("allowReflexAngle".equals(eName)) {
-					handleAllowReflexAngle(attrs);
-					break;
-				} else if ("absoluteScreenLocation".equals(eName)) {
-					handleAbsoluteScreenLocation(attrs, true);
-					break;
-				} else if ("angleStyle".equals(eName)) {
-					handleAngleStyle(attrs);
-					break;
-				} else if ("audio".equals(eName)) {
-					handleAudio(attrs);
-					break;
-				}
-
-			case 'b':
-				if ("breakpoint".equals(eName)) {
-					handleBreakpoint(attrs);
-					break;
-				} else if ("bgColor".equals(eName)) {
-					handleBgColor(attrs);
-					break;
-				}
-
-			case 'c':
-				if ("coords".equals(eName)) {
-					handleCoords(attrs);
-					break;
-				} else if ("coordStyle".equals(eName)) {
-					handleCoordStyle(attrs);
-					break;
-				} else if ("caption".equals(eName)) {
-					handleCaption(attrs);
-					break;
-				} else if ("condition".equals(eName)) {
-					handleCondition(attrs);
-					break;
-				} else if ("checkbox".equals(eName)) {
-					handleCheckbox(attrs);
-					break;
-				} else if ("coefficients".equals(eName)) {
-					handleCoefficients(attrs);
-					break;
-				} else if ("comboBox".equals(eName)) {
-					handleComboBox(attrs);
-					break;
-				} else if ("cropBox".equals(eName)) {
-					handleCropBox(attrs);
-					break;
-				} else if ("curveParam".equals(eName)) {
-					handleCurveParam(attrs);
-					break;
-				} else if ("casMap".equals(eName)) {
-					casMap = new TreeMap<>();
-					constMode = MODE_CAS_MAP;
-					casMapParent = MODE_CONST_GEO_ELEMENT;
-					break;
-				}
-
-			case 'd':
-				if ("decoration".equals(eName)) {
-					handleDecoration(attrs);
-					break;
-				} else if ("decimals".equals(eName)) {
-					handleTextDecimals(attrs);
-					break;
-				} else if ("dimensions".equals(eName)) {
-					handleDimensions(attrs);
-					break;
-				}
-
-			case 'e':
-				if ("eqnStyle".equals(eName)) {
-					handleEqnStyle(attrs);
-					break;
-				} else if ("eigenvectors".equals(eName)) {
-					handleEigenvectors(attrs);
-					break;
-				} else if ("emphasizeRightAngle".equals(eName)) {
-					handleEmphasizeRightAngle(attrs);
-					break;
-				} else if ("embed".equals(eName)) {
-					handleEmbed(attrs);
-					break;
-				}
-
-			case 'f':
-				if ("fixed".equals(eName)) {
-					handleFixed(attrs);
-					break;
-				} else if ("file".equals(eName)) {
-					handleFile(attrs);
-					break;
-				} else if ("font".equals(eName)) {
-					handleTextFont(attrs);
-					break;
-				} else if ("forceReflexAngle".equals(eName)) {
-					handleForceReflexAngle(attrs);
-					break;
-				} else if ("fading".equals(eName)) {
-					handleFading(attrs);
-					break;
-				}
-			case 'i':
-				if ("isLaTeX".equals(eName)) {
-					handleIsLaTeX(attrs);
-					break;
-				} else if ("inBackground".equals(eName)) {
-					handleInBackground(attrs);
-					break;
-				} else if ("interpolate".equals(eName)) {
-					handleInterpolate(attrs);
-					break;
-				} else if ("isShape".equals(eName)) {
-					handleIsShape(attrs);
-					break;
-				} else if ("centered".equals(eName)) {
-					handleCentered(attrs);
-					break;
-				}
-
-			case 'k':
-				if ("keepTypeOnTransform".equals(eName)) {
-					handleKeepTypeOnTransform(attrs);
-					break;
-				}
-
-			case 'l':
-				if ("lineStyle".equals(eName)) {
-					handleLineStyle(attrs);
-					break;
-				} else if ("labelOffset".equals(eName)) {
-					handleLabelOffset(attrs);
-					break;
-				} else if ("labelMode".equals(eName)) {
-					handleLabelMode(attrs);
-					break;
-				} else if ("layer".equals(eName)) {
-					handleLayer(attrs);
-					break;
-				} else if ("linkedGeo".equals(eName)) {
-					handleLinkedGeo(attrs);
-					break;
-				} else if ("length".equals(eName)) {
-					handleLength(attrs);
-					break;
-				} else if ("listType".equals(eName)) {
-					handleListType(attrs);
-					break;
-				} else if ("listener".equals(eName)) {
-					handleListeners(attrs);
-					break;
-				} else if ("levelOfDetailQuality".equals(eName)) {
-					handleLevelOfDetailQuality(attrs);
-					break;
-				}
-
-			case 'm':
-				if ("matrix".equals(eName)) {
-					handleMatrix(attrs);
-					break;
-				}
-
-			case 'o':
-				if ("objColor".equals(eName)) {
-					handleObjColor(attrs);
-					break;
-				} else if ("outlyingIntersections".equals(eName)) {
-					handleOutlyingIntersections(attrs);
-					break;
-				} /*
-					 * else if ("objCoords".equals(eName)) { ok =
-					 * handleObjCoords(attrs); break; }
-					 */
-
-			case 'p':
-				if ("pointSize".equals(eName)) {
-					handlePointSize(attrs);
-					break;
-				}
-
-				else if ("pointStyle".equals(eName)) {
-					handlePointStyle(attrs);
-					break;
-				}
-				/*
-				 * should not be needed else if ("pathParameter".equals(eName))
-				 * { ok = handlePathParameter(attrs); break; }
-				 */
-			case 's':
-				if ("show".equals(eName)) {
-					handleShow(attrs);
-					break;
-				} else if ("showOnAxis".equals(eName)) {
-					handleShowOnAxis(attrs);
-					break;
-				} else if ("startPoint".equals(eName)) {
-					handleStartPoint(attrs);
-					break;
-				} else if ("slider".equals(eName)) {
-					handleSlider(attrs);
-					break;
-				} else if ("symbolic".equals(eName)) {
-					handleSymbolic(attrs);
-					break;
-				} else if ("slopeTriangleSize".equals(eName)) {
-					handleSlopeTriangleSize(attrs);
-					break;
-				} else if ("significantfigures".equals(eName)) {
-					handleTextFigures(attrs);
-					break;
-				} else if ("spreadsheetTrace".equals(eName)) {
-					handleSpreadsheetTrace(attrs);
-					break;
-				} else if ("showTrimmed".equals(eName)) {
-					handleShowTrimmed(attrs);
-					break;
-				} else if ("selectionAllowed".equals(eName)) {
-					handleSelectionAllowed(attrs);
-					break;
-				} else if ("selectedIndex".equals(eName)) {
-					handleSelectedIndex(attrs);
-					break;
-				}
-
-			case 't':
-				if ("trace".equals(eName)) {
-					handleTrace(attrs);
-					break;
-				} else if ("tooltipMode".equals(eName)) {
-					handleTooltipMode(attrs);
-					break;
-				} else if ("tag".equals(eName)) {
-					handleExtraTag(attrs);
-					break;
-				} else if ("tags".equals(eName)) {
-					// ignore
-					break;
-				}
-
-			case 'u':
-				if ("userinput".equals(eName)) {
-					handleUserInput(attrs);
-					break;
-				}
-
-			case 'v':
-				if ("value".equals(eName)) {
-					handleValue(attrs);
-					break;
-				} else if ("video".equals(eName)) {
-					handleVideo(attrs);
-					break;
-				}
-
-			default:
-				Log.error("unknown tag in <element>: " + eName);
-			}
-		}
-
-	}
-
-	private boolean handleDimensions(LinkedHashMap<String, String> attrs) {
-		String width = attrs.get("width");
-		String height = attrs.get("height");
-		if (width != null && height != null) {
-			if (width.matches("\\d{2,3}") && height.matches("\\d{2,3}")) {
-				if (geo.isGeoButton()) {
-					GeoButton button = (GeoButton) geo;
-					button.setWidth(Integer.parseInt(width));
-					button.setHeight(Integer.parseInt(height));
-					button.setFixedSize(true);
-					return true;
-				}
-				return false;
-			}
-			return true;
-		}
-		return false;
-	}
-
-	private static char firstChar(String eName) {
+	static char firstChar(String eName) {
 		if (eName == null || eName.length() == 0) {
 			return '?';
 		}
 		return eName.charAt(0);
 	}
 
-	private boolean handleShow(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setEuclidianVisible(parseBoolean(attrs.get("object")));
-			geo.setLabelVisible(parseBoolean(attrs.get("label")));
-
-			// bit 0 -> display object in EV1, 0 = true (default)
-			// bit 1 -> display object in EV2, 0 = false (default)
-			int EVs = 0; // default, display in just EV1
-			String str = attrs.get("ev");
-			if (str != null) {
-				EVs = Integer.parseInt(str);
-			}
-
-			if ((EVs & 1) == 0) {
-				geo.addView(App.VIEW_EUCLIDIAN);
-			} else {
-				geo.removeView(App.VIEW_EUCLIDIAN);
-			}
-
-			if ((EVs & 2) == 2) { // bit 1
-				geo.addView(App.VIEW_EUCLIDIAN2);
-			} else {
-				geo.removeView(App.VIEW_EUCLIDIAN2);
-			}
-
-			if ((EVs & 4) == 4) { // bit 2
-				geo.addViews3D();
-			}
-
-			if ((EVs & 8) == 8) { // bit 3
-				geo.removeViews3D();
-			}
-
-			if ((EVs & 16) == 16) { // bit 4
-				geo.setVisibleInViewForPlane(true);
-				if (!(cons instanceof MacroConstruction)) {
-					app.addToViewsForPlane(geo);
-				}
-			}
-
-			if ((EVs & 32) == 32) { // bit 5
-				geo.setVisibleInViewForPlane(false);
-				app.removeFromViewsForPlane(geo);
-			}
-
-			return true;
-
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	private boolean handleShowOnAxis(LinkedHashMap<String, String> attrs) {
-		try {
-			if (!(geo instanceof GeoFunction)) {
-				return false;
-			}
-			((GeoFunction) geo).setShowOnAxis(parseBoolean(attrs.get("val")));
-			return true;
-
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	private boolean handleObjColor(LinkedHashMap<String, String> attrs) {
-		GColor col = handleColorAttrs(attrs);
-		if (col == null) {
-			return false;
-		}
-		geo.setObjColor(col);
-
-		// Dynamic colors
-		// Michael Borcherds 2008-04-02
-		String red = attrs.get("dynamicr");
-		String green = attrs.get("dynamicg");
-		String blue = attrs.get("dynamicb");
-		String alpha = attrs.get("dynamica");
-		String colorSpace = attrs.get("colorSpace");
-
-		if (red != null && green != null && blue != null) {
-			try {
-				if (!"".equals(red) || !"".equals(green) || !"".equals(blue)) {
-					if ("".equals(red)) {
-						red = "0";
-					}
-					if ("".equals(green)) {
-						green = "0";
-					}
-					if ("".equals(blue)) {
-						blue = "0";
-					}
-
-					StringBuilder sb = new StringBuilder();
-					sb.append('{');
-					sb.append(red);
-					sb.append(',');
-					sb.append(green);
-					sb.append(',');
-					sb.append(blue);
-					if (alpha != null && !"".equals(alpha)) {
-						sb.append(',');
-						sb.append(alpha);
-					}
-					sb.append('}');
-
-					// need to to this at end of construction (dependencies!)
-					dynamicColorList.add(new GeoExpPair(geo, sb.toString()));
-					geo.setColorSpace(
-							colorSpace == null ? GeoElement.COLORSPACE_RGB
-									: Integer.parseInt(colorSpace));
-				}
-			} catch (RuntimeException e) {
-				e.printStackTrace();
-				Log.error("Error loading Dynamic Colors");
-			}
-		}
-
-		String angle = attrs.get("hatchAngle");
-		if (angle != null) {
-			geo.setHatchingAngle(Integer.parseInt(angle));
-		}
-
-		String inverse = attrs.get("inverseFill");
-		if (inverse != null) {
-			geo.setInverseFill(Boolean.parseBoolean(inverse));
-		}
-
-		String distance = attrs.get("hatchDistance");
-		if (angle != null) {
-			geo.setHatchingDistance(Integer.parseInt(distance));
-			// Old files don't store fillType, just fillDistance. New files
-			// override this below.
-			geo.setFillType(FillType.HATCH);
-		}
-
-		String fillType = attrs.get("fillType");
-		if (fillType != null) {
-			geo.setFillType(
-					GeoElement.FillType.values()[Integer.parseInt(fillType)]);
-		}
-		String fillSymbol = attrs.get("fillSymbol");
-		if (fillSymbol != null) {
-			geo.setFillSymbol(fillSymbol);
-		}
-		String filename = attrs.get("image");
-		if (filename != null) {
-			geo.setFillImage(filename);
-			geo.setFillType(GeoElement.FillType.IMAGE);
-		}
-
-		alpha = attrs.get("alpha");
-		// ignore alpha value for lists prior to GeoGebra 3.2
-		if (alpha != null && (!geo.isGeoList() || ggbFileFormat > 3.19)) {
-			geo.setAlphaValue(Float.parseFloat(alpha));
-		}
-		return true;
-	}
-
-	private boolean handleBgColor(LinkedHashMap<String, String> attrs) {
-		GColor col = handleColorAlphaAttrs(attrs);
-		if (col == null) {
-			return false;
-		}
-		geo.setBackgroundColor(col);
-
-		return true;
-	}
-
-	/*
+	/**
 	 * expects r, g, b attributes to build a color
+	 * 
+	 * @param attrs
+	 *            r,g,b
+	 * @return color
 	 */
-	private static GColor handleColorAttrs(
+	protected static GColor handleColorAttrs(
 			LinkedHashMap<String, String> attrs) {
 		try {
 			int red = Integer.parseInt(attrs.get("r"));
@@ -4059,328 +3244,6 @@ public class MyXMLHandler implements DocHandler {
 			return GColor.newColor(red, green, blue);
 		} catch (RuntimeException e) {
 			return null;
-		}
-	}
-
-	/*
-	 * expects r, g, b, alpha attributes to build a color
-	 */
-	private static GColor handleColorAlphaAttrs(
-			LinkedHashMap<String, String> attrs) {
-		try {
-			int red = Integer.parseInt(attrs.get("r"));
-			int green = Integer.parseInt(attrs.get("g"));
-			int blue = Integer.parseInt(attrs.get("b"));
-			int alpha = Integer.parseInt(attrs.get("alpha"));
-			return GColor.newColor(red, green, blue, alpha);
-		} catch (RuntimeException e) {
-			return null;
-		}
-	}
-
-	private boolean handleLineStyle(LinkedHashMap<String, String> attrs) {
-		try {
-			lineStyleTagProcessed = true;
-			geo.setLineType(Integer.parseInt(attrs.get("type")));
-			geo.setLineThickness(Integer.parseInt(attrs.get("thickness")));
-
-			// for 3D
-			String typeHidden = attrs.get("typeHidden");
-			if (typeHidden != null) {
-				geo.setLineTypeHidden(Integer.parseInt(typeHidden));
-			}
-			String opacity = attrs.get("opacity");
-			if (opacity != null) {
-				geo.setLineOpacity(Integer.parseInt(opacity));
-			}
-
-			return true;
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	private boolean handleDecoration(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setDecorationType(Integer.parseInt(attrs.get("type")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleEqnStyle(LinkedHashMap<String, String> attrs) {
-		String style = attrs.get("style");
-		String parameter = attrs.get("parameter");
-		if (geo instanceof EquationValue) {
-			if (!((EquationValue) geo).setTypeFromXML(style, parameter)) {
-				Log.error("unknown style for conic in <eqnStyle>: " + style);
-			}
-		}
-		else if (geo instanceof GeoLineND
-				&& "parametric".equals(style)) {
-			((GeoLineND) geo).setToParametric(parameter);
-		}
-		else if (geo instanceof GeoConicND) {
-			if ("parametric".equals(style)) {
-				((GeoConicND) geo).setToParametric(parameter);
-			}
-		}
-		else {
-			Log.error("wrong element type for <eqnStyle>: " + geo.getClass());
-			return false;
-		}
-		return true;
-	}
-
-	private boolean handleEmbed(LinkedHashMap<String, String> attrs) {
-		if (geo instanceof GeoEmbed) {
-			try {
-				((GeoEmbed) geo).setEmbedId(Integer.parseInt(attrs.get("id")));
-			} catch (RuntimeException e) {
-				return false;
-			}
-		} else {
-			Log.error("wrong element type for <embed>: " + geo.getClass());
-			return false;
-		}
-		return true;
-	}
-
-	private boolean handleCurveParam(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoVec3D)) {
-			Log.debug("wrong element type for <curveParam>: " + geo.getClass());
-			return false;
-		}
-		GeoVec3D v = (GeoVec3D) geo;
-
-		try {
-			String tAttr = attrs.get("t");
-
-			if (tAttr != null) {
-				// AlgoPointOnPath
-				double t = StringUtil.parseDouble(tAttr);
-				((GeoPoint) v).getPathParameter().setT(t);
-			}
-
-			return true;
-
-		} catch (RuntimeException e) {
-			Log.error("problem in <curveParam>: " + e.getMessage());
-			return false;
-		}
-	}
-
-	private boolean handleCoords(LinkedHashMap<String, String> attrs) {
-		ExpressionNode def = geo.getDefinition();
-		boolean success = kernel.handleCoords(geo, attrs);
-		geo.setDefinition(def);
-		return success;
-	}
-
-	// for point or vector
-	private boolean handleCoordStyle(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof CoordStyle)) {
-			Log.error("wrong element type for <coordStyle>: " + geo.getClass());
-			return false;
-		}
-		CoordStyle v = (CoordStyle) geo;
-		String style = attrs.get("style");
-		if ("cartesian".equals(style)) {
-			v.setCartesian();
-		} else if ("polar".equals(style)) {
-			v.setPolar();
-		} else if ("complex".equals(style)) {
-			v.setComplex();
-		} else if ("cartesian3d".equals(style)) {
-			v.setCartesian3D();
-		} else if ("spherical".equals(style)) {
-			v.setSpherical();
-		} else {
-			Log.error("unknown style in <coordStyle>: " + style);
-			return false;
-		}
-		return true;
-	}
-
-	private boolean handleListeners(LinkedHashMap<String, String> attrs) {
-		try {
-			if ("objectUpdate".equals(attrs.get("type"))) {
-				app.getScriptManager().getUpdateListenerMap().put(geo,
-						JsScript.fromName(app, attrs.get("val")));
-			}
-			if ("objectClick".equals(attrs.get("type"))) {
-				app.getScriptManager().getClickListenerMap().put(geo,
-						JsScript.fromName(app, attrs.get("val")));
-			}
-			return true;
-		} catch (RuntimeException e) {
-			Log.error(e.getMessage());
-			return false;
-		}
-	}
-
-	private boolean handleCaption(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setCaption(attrs.get("val"));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleScript(LinkedHashMap<String, String> attrs,
-			ScriptType type) {
-		try {
-			String text = attrs.get("val");
-			if (text != null && text.length() > 0) {
-				Script script = app.createScript(type, text, false);
-				geo.setClickScript(script);
-			}
-			text = attrs.get("onUpdate");
-			if (text != null && text.length() > 0) {
-				Script script = app.createScript(type, text, false);
-				geo.setUpdateScript(script);
-			}
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleCondition(LinkedHashMap<String, String> attrs) {
-		try {
-			// condition for visibility of object
-			String strShowObjectCond = attrs.get("showObject");
-			if (strShowObjectCond != null) {
-				// store (geo, epxression) values
-				// they will be processed in processShowObjectConditionList()
-				// later
-				showObjectConditionList
-						.add(new GeoExpPair(geo, strShowObjectCond));
-			}
-
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleCheckbox(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoBoolean())) {
-			Log.error("wrong element type for <checkbox>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			GeoBoolean bool = (GeoBoolean) geo;
-			bool.setCheckboxFixed(parseBoolean(attrs.get("fixed")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleValue(LinkedHashMap<String, String> attrs) {
-		boolean isBoolean = geo.isGeoBoolean();
-		boolean isNumber = geo.isGeoNumeric();
-		// GGB-244 something that was formerly just a number is now a segment:
-		// hide it!
-		if (geo.isNumberValue() && !isNumber && !isBoolean) {
-			geo.setEuclidianVisible(false);
-			return true;
-		}
-		// set value even when definition exists; might be needed if value
-		// depends on Corner
-		ExpressionNode oldDef = geo.getDefinition();
-		if (!(isNumber || isBoolean || geo.isGeoButton())) {
-			Log.debug("wrong element type for <value>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			String strVal = attrs.get("val");
-			if (isNumber) {
-				GeoNumeric n = (GeoNumeric) geo;
-				n.setValue(StringUtil.parseDouble(strVal));
-
-				// random
-				n.setRandom("true".equals(attrs.get("random")));
-				n.setDefinition(oldDef);
-
-			} else if (isBoolean) {
-				GeoBoolean bool = (GeoBoolean) geo;
-				/*
-				 * GGB-1372: use the recently computed value instead of the
-				 * saved one for the Prove command
-				 */
-				if (!(geo.getParentAlgorithm() instanceof AlgoProve)) {
-					bool.setValue(parseBoolean(strVal));
-				}
-				bool.setDefinition(oldDef);
-			} else if (geo.isGeoButton()) {
-				// XXX What's this javascript doing here? (Arnaud)
-				GeoButton button = (GeoButton) geo;
-				Script script = app.createScript(ScriptType.JAVASCRIPT, strVal,
-						false);
-				button.setClickScript(script);
-			}
-			return true;
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	private boolean handlePointSize(LinkedHashMap<String, String> attrs) {
-		if (geo.isGeoNumeric()) {
-			((GeoNumeric) geo).setSliderBlobSize(
-					StringUtil.parseDouble(attrs.get("val")));
-			return true;
-		}
-		if (!(geo instanceof PointProperties)) {
-			Log.debug("wrong element type for <pointSize>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			PointProperties p = (PointProperties) geo;
-			p.setPointSize(Integer.parseInt(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handlePointStyle(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof PointProperties)) {
-			Log.debug("wrong element type for <pointStyle>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			PointProperties p = (PointProperties) geo;
-
-			int style = Integer.parseInt(attrs.get("val"));
-
-			if (style == -1) {
-				style = docPointStyle;
-			}
-			p.setPointStyle(style);
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleLayer(LinkedHashMap<String, String> attrs) {
-
-		try {
-			geo.setLayer(Integer.parseInt(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
 		}
 	}
 
@@ -4443,755 +3306,6 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	// private boolean handleCASPairColor(LinkedHashMap<String, String> attrs) {
-	// Color col = handleColorAttrs(attrs);
-	// if (col == null)
-	// return false;
-	// // geo.setObjColor(col);
-	//
-	// return true;
-	// }
-
-	/*
-	 * this should not be needed private boolean
-	 * handlePathParameter(LinkedHashMap<String, String> attrs) { if
-	 * (!(geo.isGeoPoint())) { Application.debug(
-	 * "wrong element type for <handlePathParameter>: " + geo.getClass());
-	 * return false; }
-	 * 
-	 * try { GeoPoint p = (GeoPoint) geo; PathParameter param = new
-	 * PathParameter(); double t = StringUtil.parseDouble((String)
-	 * attrs.get("val")); param.setT(t);
-	 * 
-	 * String strBranch = (String) attrs.get("branch"); if (strBranch != null) {
-	 * param.setBranch(Integer.parseInt(strBranch)); }
-	 * 
-	 * String strType = (String) attrs.get("type"); if (strType != null) {
-	 * param.setPathType(Integer.parseInt(strType)); }
-	 * 
-	 * p.initPathParameter(param); return true; } catch(RuntimeException e) {
-	 * return false; } }
-	 */
-
-	private boolean handleSlider(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoNumeric())) {
-			Log.error("wrong element type for <slider>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			sliderTagProcessed = true;
-			// don't create sliders in macro construction
-			if (geo.getKernel().isMacroKernel()) {
-				return true;
-			}
-
-			GeoNumeric num = (GeoNumeric) geo;
-
-			// make sure
-			String strMin = attrs.get("min");
-			String strMax = attrs.get("max");
-			if (strMin != null || strMax != null) {
-				minMaxList.add(new GeoNumericMinMax(geo, strMin, strMax));
-			}
-
-			String str = attrs.get("absoluteScreenLocation");
-			if (str != null) {
-				num.setAbsoluteScreenLocActive(parseBoolean(str));
-			} else {
-				num.setAbsoluteScreenLocActive(false);
-			}
-
-			// null in preferences
-			if (attrs.get("x") != null) {
-				double x = StringUtil.parseDouble(attrs.get("x"));
-				double y = StringUtil.parseDouble(attrs.get("y"));
-				num.setSliderLocation(x, y, true);
-			}
-
-			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")),
-					true);
-			num.setSliderFixed(parseBoolean(attrs.get("fixed")));
-			num.setShowExtendedAV(parseBoolean(attrs.get("showAlgebra")));
-
-			num.setSliderHorizontal(parseBoolean(attrs.get("horizontal")));
-
-			return true;
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	private boolean handleTrace(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof Traceable)) {
-			Log.error("wrong element type for <trace>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			Traceable t = (Traceable) geo;
-			t.setTrace(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleSpreadsheetTrace(
-			LinkedHashMap<String, String> attrs) {
-
-		// G.Sturr 2010-5-30
-		// XML handling for new tracing code
-		if (!geo.isSpreadsheetTraceable()) {
-			Log.error("wrong element type for <trace>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-
-			// set geo for tracing
-			geo.setSpreadsheetTrace(parseBoolean(attrs.get("val")));
-
-			SpreadsheetTraceSettings t = geo.getTraceSettings();
-			t.traceColumn1 = Integer.parseInt(attrs.get("traceColumn1"));
-			t.traceColumn2 = Integer.parseInt(attrs.get("traceColumn2"));
-			t.traceRow1 = Integer.parseInt(attrs.get("traceRow1"));
-			t.traceRow2 = Integer.parseInt(attrs.get("traceRow2"));
-			t.tracingRow = Integer.parseInt(attrs.get("tracingRow"));
-			t.numRows = Integer.parseInt(attrs.get("numRows"));
-			t.headerOffset = Integer.parseInt(attrs.get("headerOffset"));
-
-			t.doColumnReset = (parseBoolean(attrs.get("doColumnReset")));
-			t.doRowLimit = (parseBoolean(attrs.get("doRowLimit")));
-			t.showLabel = (parseBoolean(attrs.get("showLabel")));
-			t.showTraceList = (parseBoolean(attrs.get("showTraceList")));
-			t.doTraceGeoCopy = (parseBoolean(attrs.get("doTraceGeoCopy")));
-
-			String stringPause = attrs.get("pause");
-			if (stringPause == null) {
-				t.pause = false;
-			} else {
-				t.pause = parseBoolean(stringPause);
-			}
-
-			app.setNeedsSpreadsheetTableModel();
-
-			// app.getTraceManager().loadTraceGeoCollection(); is called when
-			// construction loaded to add geo to trace list
-
-			return true;
-
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			return false;
-		}
-
-		/*
-		 * OLD CODE
-		 * 
-		 * if (!(geo instanceof GeoPoint)) { Log.error(
-		 * "wrong element type for <trace>: " + geo.getClass()); return false; }
-		 * 
-		 * try { GeoPoint p = (GeoPoint) geo;
-		 * p.setSpreadsheetTrace(parseBoolean((String) attrs.get("val")));
-		 * return true; } catch(RuntimeException e) { return false; }
-		 */
-		// END G.Sturr
-
-	}
-
-	private boolean handleShowTrimmed(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setShowTrimmedIntersectionLines(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleSelectionAllowed(
-			LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setSelectionAllowed(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleSelectedIndex(LinkedHashMap<String, String> attrs) {
-		try {
-			if (geo.isGeoList()) {
-				((GeoList) geo).setSelectedIndex(
-						Integer.parseInt(attrs.get("val")), false);
-			}
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleFading(LinkedHashMap<String, String> attrs) {
-		try {
-			float fading = Float.parseFloat(attrs.get("val"));
-			((GeoPlaneND) geo).setFading(fading);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	private boolean handleLevelOfDetailQuality(
-			LinkedHashMap<String, String> attrs) {
-		try {
-			boolean lod = Boolean.parseBoolean(attrs.get("val"));
-			if (lod) {
-				((SurfaceEvaluable) geo)
-						.setLevelOfDetail(LevelOfDetail.QUALITY);
-			}
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	private boolean handleAnimation(LinkedHashMap<String, String> attrs) {
-		try {
-
-			String strStep = attrs.get("step");
-			if (strStep != null) {
-				// store speed expression to be processed later
-				animationStepList.add(new GeoExpPair(geo, strStep));
-			}
-			String strSpeed = attrs.get("speed");
-			if (strSpeed != null) {
-				// store speed expression to be processed later
-				animationSpeedList.add(new GeoExpPair(geo, strSpeed));
-			}
-
-			String type = attrs.get("type");
-			if (type != null) {
-				geo.setAnimationType(Integer.parseInt(type));
-			}
-
-			// doesn't work for hidden sliders now that intervalMin/Max are set
-			// at end of XML (dynamic slider range(
-			// geo.setAnimating(parseBoolean((String) attrs.get("playing")));
-
-			// replacement
-			if (parseBoolean(attrs.get("playing"))) {
-				animatingList.add(geo);
-			}
-
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleFixed(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setFixed(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleIsShape(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setIsShape(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleBreakpoint(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setConsProtocolBreakpoint(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleFile(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImage() || geo.isGeoButton() || geo.isGeoTurtle())) {
-			Log.error("wrong element type for <file>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			geo.setImageFileName(attrs.get("name"));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	// <font serif="false" size="12" style="0">
-	private boolean handleTextFont(LinkedHashMap<String, String> attrs) {
-		this.fontTagProcessed = true;
-		if (!(geo instanceof TextProperties)) {
-			Log.error("wrong element type for <font>: " + geo.getClass());
-			return false;
-		}
-
-		Object serif = attrs.get("serif");
-		Object style = attrs.get("style");
-
-		try {
-			TextProperties text = (TextProperties) geo;
-
-			String oldSize = attrs.get("size");
-			// multiplier, new from ggb42
-			String size = attrs.get("sizeM");
-
-			if (size == null) {
-				double appSize = app.getFontSize();
-				double oldSizeInt = Integer.parseInt(oldSize);
-				text.setFontSizeMultiplier(
-						Math.max(appSize + oldSizeInt, MIN_TEXT_SIZE)
-								/ appSize);
-			} else {
-				text.setFontSizeMultiplier(StringUtil.parseDouble(size));
-			}
-			if (serif != null) {
-				text.setSerifFont(parseBoolean((String) serif));
-			}
-			if (style != null) {
-				text.setFontStyle(Integer.parseInt((String) style));
-			}
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleTextDecimals(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof TextProperties)) {
-			Log.error("wrong element type for <decimals>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			TextProperties text = (TextProperties) geo;
-			text.setPrintDecimals(Integer.parseInt(attrs.get("val")), true);
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleTextFigures(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof TextProperties)) {
-			Log.error("wrong element type for <decimals>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			TextProperties text = (TextProperties) geo;
-			text.setPrintFigures(Integer.parseInt(attrs.get("val")), true);
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleInBackground(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImage())) {
-			Log.error(
-					"wrong element type for <inBackground>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			((GeoImage) geo).setInBackground(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleCentered(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImage())) {
-			Log.error("wrong element type for <centered>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			((GeoImage) geo).setCentered(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleInterpolate(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImage())) {
-			Log.error(
-					"wrong element type for <interpolate>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			((GeoImage) geo).setInterpolate(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleAuxiliary(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setAuxiliaryObject(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleAutocolor(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setAutoColor(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleIsLaTeX(LinkedHashMap<String, String> attrs) {
-		try {
-			((GeoText) geo).setLaTeX(parseBoolean(attrs.get("val")), false);
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleArcSize(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof AngleProperties)) {
-			Log.error("wrong element type for <arcSize>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			AngleProperties angle = (AngleProperties) geo;
-			angle.setArcSize(Integer.parseInt(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleAbsoluteScreenLocation(
-			LinkedHashMap<String, String> attrs, boolean absolute) {
-		if (!(geo instanceof AbsoluteScreenLocateable)) {
-			Log.error("wrong element type for <absoluteScreenLocation>: "
-					+ geo.getClass());
-			return false;
-		}
-
-		try {
-			AbsoluteScreenLocateable absLoc = (AbsoluteScreenLocateable) geo;
-			double x = Double.parseDouble(attrs.get("x"));
-			double y = Double.parseDouble(attrs.get("y"));
-			if (absolute) {
-				if (app.has(Feature.MOW_PIN_IMAGE) && absLoc.isGeoImage()) {
-					((GeoImage) absLoc).setAbsoluteScreenLoc((int) x, (int) y,
-							0);
-				} else {
-					absLoc.setAbsoluteScreenLoc((int) x, (int) y);					
-				}
-				absLoc.setAbsoluteScreenLocActive(true);
-			} else {
-				absLoc.setRealWorldLoc(x, y);
-			}
-
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleAllowReflexAngle(
-			LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof AngleProperties)) {
-			Log.error("wrong element type for <allowReflexAngle>: "
-					+ geo.getClass());
-			return false;
-		}
-
-		try {
-			AngleProperties angle = (AngleProperties) geo;
-			angle.setAllowReflexAngle(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-
-			return false;
-		}
-	}
-
-	private boolean handleEmphasizeRightAngle(
-			LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof AngleProperties)) {
-			Log.error("wrong element type for <emphasizeRightAngle>: "
-					+ geo.getClass());
-			return false;
-		}
-
-		try {
-			AngleProperties angle = (AngleProperties) geo;
-			angle.setEmphasizeRightAngle(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-
-			return false;
-		}
-	}
-
-	private boolean handleComboBox(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoList())) {
-			Log.error("wrong element type for <comboBox>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			GeoList list = (GeoList) geo;
-			list.setDrawAsComboBox(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-
-			return false;
-		}
-	}
-
-	private boolean handleCropBox(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImage())) {
-			Log.error("wrong element type for <cropBox>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			GeoImage img = (GeoImage) geo;
-			double x = Double.parseDouble(attrs.get("x"));
-			double y = Double.parseDouble(attrs.get("y"));
-			double w = Double.parseDouble(attrs.get("width"));
-			double h = Double.parseDouble(attrs.get("height"));
-			boolean cropped = Boolean.parseBoolean(attrs.get("cropped"));
-			GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
-			rect.setRect(x, y, w, h);
-			img.setCropBoxRelative(rect);
-			img.setCropped(cropped);
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleAngleStyle(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof AngleProperties)) {
-			Log.error("wrong element type for <angleStyle>: " + geo.getClass());
-			return false;
-		}
-
-		try {
-			AngleProperties angle = (AngleProperties) geo;
-			angle.setAngleStyle(Integer.parseInt(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-
-			return false;
-		}
-	}
-
-	private boolean handleAudio(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoAudio)) {
-			Log.error("wrong element type for <audio>: " + geo.getClass());
-			return false;
-		}
-		try {
-			GeoAudio audio = (GeoAudio) geo;
-			audio.setSrc(attrs.get("src"));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleVideo(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoVideo)) {
-			Log.error("wrong element type for <video>: " + geo.getClass());
-			return false;
-		}
-		try {
-			GeoVideo video = (GeoVideo) geo;
-			video.setSrc(attrs.get("src"));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	/*
-	 * needed for old files (4.2 and earlier)
-	 */
-	private boolean handleForceReflexAngle(
-			LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof AngleProperties)) {
-			Log.error("wrong element type for <forceReflexAngle>: "
-					+ geo.getClass());
-			return false;
-		}
-
-		try {
-			AngleProperties angle = (AngleProperties) geo;
-			angle.setForceReflexAngle(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-
-			return false;
-		}
-	}
-
-	private boolean handleOutlyingIntersections(
-			LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof LimitedPath)) {
-			Log.debug("wrong element type for <outlyingIntersections>: "
-					+ geo.getClass());
-			return false;
-		}
-
-		try {
-			LimitedPath lpath = (LimitedPath) geo;
-			lpath.setAllowOutlyingIntersections(parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleKeepTypeOnTransform(
-			LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof LimitedPath)) {
-			Log.debug("wrong element type for <outlyingIntersections>: "
-					+ geo.getGeoClassType());
-			return false;
-		}
-
-		try {
-			LimitedPath lpath = (LimitedPath) geo;
-			lpath.setKeepTypeOnGeometricTransform(
-					parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleSymbolic(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof HasSymbolicMode)) {
-			Log.error("wrong element type for <symbolic>: " + geo.getClass());
-			return false;
-		}
-		symbolicTagProcessed = true;
-		try {
-			HasSymbolicMode num = (HasSymbolicMode) geo;
-			num.setSymbolicMode(parseBoolean(attrs.get("val")), false);
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleSlopeTriangleSize(
-			LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoNumeric())) {
-			Log.error("wrong element type for <slopeTriangleSize>: "
-					+ geo.getClass());
-			return false;
-		}
-
-		try {
-			GeoNumeric num = (GeoNumeric) geo;
-			num.setSlopeTriangleSize(Integer.parseInt(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Start Points have to be handled at the end of the construction, because
-	 * they could depend on objects that are defined after this GeoElement.
-	 * 
-	 * So we store all (geo, startpoint expression) pairs and process them at
-	 * the end of the construction.
-	 * 
-	 * @see processStartPointList
-	 */
-	private boolean handleStartPoint(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof Locateable)) {
-			if (geo instanceof GeoButton) {
-				return handleAbsoluteScreenLocation(attrs, false);
-			}
-			Log.error("wrong element type for <startPoint>: " + geo.getClass());
-			return false;
-		}
-		Locateable locGeo = (Locateable) geo;
-
-		// relative start point (expression or label expected)
-		String exp = attrs.get("exp");
-		if (exp == null) {
-			exp = attrs.get("label");
-		}
-
-		// for corners a number of the startPoint is given
-		int number = 0;
-		try {
-			number = Integer.parseInt(attrs.get("number"));
-		} catch (RuntimeException e) {
-			// do nothing
-		}
-
-		if (exp != null) {
-			// store (geo, epxression, number) values
-			// they will be processed in processStartPoints() later
-			startPointList.add(new LocateableExpPair(locGeo, exp, number));
-			locGeo.setWaitForStartPoint();
-		} else {
-			// absolute start point (coords expected)
-			try {
-				/*
-				 * double x = StringUtil.parseDouble((String) attrs.get("x"));
-				 * double y = StringUtil.parseDouble((String) attrs.get("y"));
-				 * double z = StringUtil.parseDouble((String) attrs.get("z"));
-				 * GeoPoint p = new GeoPoint(cons); p.setCoords(x, y, z);
-				 */
-
-				GeoPointND p = handleAbsoluteStartPoint(attrs);
-
-				if (number == 0) {
-					// set first start point right away
-					locGeo.setStartPoint(p);
-				} else {
-					// set other start points later
-					// store (geo, point, number) values
-					// they will be processed in processStartPoints() later
-					startPointList
-							.add(new LocateableExpPair(locGeo, p, number));
-					locGeo.setWaitForStartPoint();
-				}
-			} catch (Exception e) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	/**
 	 * create absolute start point (coords expected)
 	 * 
@@ -5212,180 +3326,7 @@ public class MyXMLHandler implements DocHandler {
 		return p;
 	}
 
-	private void processStartPointList() {
-		try {
-			Iterator<LocateableExpPair> it = startPointList.iterator();
-			AlgebraProcessor algProc = getAlgProcessor();
-
-			while (it.hasNext()) {
-				LocateableExpPair pair = it.next();
-				GeoPointND P = pair.point != null ? pair.point
-						: algProc.evaluateToPoint(pair.exp,
-								ErrorHelper.silent(), true);
-				pair.locateable.setStartPoint(P, pair.number);
-
-			}
-		} catch (Exception e) {
-			startPointList.clear();
-			e.printStackTrace();
-			errors.add("Invalid start point: " + e.toString());
-		}
-		startPointList.clear();
-	}
-
-	private boolean handleLength(LinkedHashMap<String, String> attrs) {
-
-		// name of linked geo
-		String val = attrs.get("val");
-
-		if (geo instanceof GeoInputBox) {
-			((GeoInputBox) geo).setLength(Integer.parseInt(val));
-		} else {
-			Log.error("Length not supported for " + geo.getGeoClassType());
-		}
-
-		return true;
-	}
-
-	private boolean handleListType(LinkedHashMap<String, String> attrs) {
-
-		// name of geo type, eg "point"
-		String val = attrs.get("val");
-
-		if (geo instanceof GeoList) {
-			((GeoList) geo).setTypeStringForXML(val);
-		} else {
-			Log.error("handleListType: expected LIST, got "
-					+ geo.getGeoClassType());
-		}
-
-		return true;
-	}
-
-	/**
-	 * Linked Geos have to be handled at the end of the construction, because
-	 * they could depend on objects that are defined after this GeoElement.
-	 * 
-	 * So we store all (geo, expression) pairs and process them at the end of
-	 * the construction.
-	 * 
-	 * @see processLinkedGeoList
-	 */
-	private boolean handleLinkedGeo(LinkedHashMap<String, String> attrs) {
-
-		// name of linked geo
-		String exp = attrs.get("exp");
-
-		if (exp != null) {
-			// store (geo, epxression, number) values
-			// they will be processed in processLinkedGeos() later
-			linkedGeoList.add(new GeoExpPair(geo, exp));
-		} else {
-			return false;
-		}
-
-		return true;
-	}
-
-	private void processLinkedGeoList() {
-		try {
-			Iterator<GeoExpPair> it = linkedGeoList.iterator();
-
-			while (it.hasNext()) {
-				GeoExpPair pair = it.next();
-
-				((GeoInputBox) pair.getGeo())
-						.setLinkedGeo(kernel.lookupLabel(pair.exp));
-			}
-		} catch (RuntimeException e) {
-			linkedGeoList.clear();
-			e.printStackTrace();
-			errors.add("Invalid linked geo " + e.toString());
-		}
-		linkedGeoList.clear();
-	}
-
-	private void processShowObjectConditionList() {
-		Iterator<GeoExpPair> it = showObjectConditionList.iterator();
-		AlgebraProcessor algProc = getAlgProcessor();
-
-		while (it.hasNext()) {
-			try {
-				GeoExpPair pair = it.next();
-				GeoBoolean condition = algProc.evaluateToBoolean(pair.exp,
-						ErrorHelper.silent());
-				if (condition != null) {
-					pair.getGeo().setShowObjectCondition(condition);
-				} else {
-					errors.add("Invalid condition to show object: " + pair.exp);
-				}
-
-			} catch (Exception e) {
-				showObjectConditionList.clear();
-				e.printStackTrace();
-				errors.add("Invalid condition to show object: " + e.toString());
-			}
-		}
-		showObjectConditionList.clear();
-	}
-
-	private void processAnimationSpeedList() {
-		try {
-			Iterator<GeoExpPair> it = animationSpeedList.iterator();
-			AlgebraProcessor algProc = getAlgProcessor();
-
-			while (it.hasNext()) {
-				GeoExpPair pair = it.next();
-				GeoNumberValue num = algProc.evaluateToNumeric(pair.exp,
-						handler);
-				pair.getGeo().setAnimationSpeedObject(num);
-			}
-		} catch (RuntimeException e) {
-			animationSpeedList.clear();
-			e.printStackTrace();
-			errors.add("Invalid animation speed: " + e.toString());
-		}
-		animationSpeedList.clear();
-	}
-
-	private void processAnimationStepList() {
-		try {
-			Iterator<GeoExpPair> it = animationStepList.iterator();
-			AlgebraProcessor algProc = getAlgProcessor();
-
-			while (it.hasNext()) {
-				GeoExpPair pair = it.next();
-				NumberValue num = algProc.evaluateToNumeric(pair.exp, handler);
-				if (pair.getGeo().isGeoNumeric()) {
-					((GeoNumeric) pair.getGeo())
-							.setAutoStep(Double.isNaN(num.getDouble()));
-				}
-				pair.getGeo().setAnimationStep(num);
-
-			}
-		} catch (RuntimeException e) {
-			animationStepList.clear();
-			e.printStackTrace();
-			errors.add("Invalid animation step: " + e.toString());
-		}
-		animationSpeedList.clear();
-	}
-
-	private void processAnimatingList() {
-		try {
-			Iterator<GeoElement> it = animatingList.iterator();
-
-			while (it.hasNext()) {
-				GeoElement geo1 = it.next();
-				geo1.setAnimating(true);
-			}
-		} catch (RuntimeException e) {
-			errors.add("Invalid animating: " + e.toString());
-		}
-		animatingList.clear();
-	}
-
-	private ErrorHandler handler = new ErrorHandler() {
+	ErrorHandler handler = new ErrorHandler() {
 
 		@Override
 		public void showError(String msg) {
@@ -5417,302 +3358,6 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	};
-
-	private void processMinMaxList() {
-		try {
-			Iterator<GeoNumericMinMax> it = minMaxList.iterator();
-			AlgebraProcessor algProc = getAlgProcessor();
-
-			while (it.hasNext()) {
-				GeoNumericMinMax pair = it.next();
-				// the setIntervalMin and setIntervalMax methods might turn ?
-				// into defined
-				// this is intentional, but when loading a file we must override
-				// it for 3.2 compatibility
-				boolean wasDefined = pair.getGeo().isDefined();
-				if (pair.min != null) {
-					NumberValue num = algProc.evaluateToNumeric(pair.min,
-							handler);
-					((GeoNumeric) pair.getGeo()).setIntervalMin(num);
-				}
-
-				if (pair.max != null) {
-					NumberValue num2 = algProc.evaluateToNumeric(pair.max,
-							handler);
-					((GeoNumeric) pair.getGeo()).setIntervalMax(num2);
-				}
-
-				if (!wasDefined) {
-					pair.getGeo().setUndefined();
-				}
-			}
-		} catch (RuntimeException e) {
-			minMaxList.clear();
-			e.printStackTrace();
-			errors.add("Invalid min/max: " + e.toString());
-		}
-		minMaxList.clear();
-	}
-
-	// Michael Borcherds 2008-05-18
-	private void processDynamicColorList() {
-		try {
-			Iterator<GeoExpPair> it = dynamicColorList.iterator();
-			AlgebraProcessor algProc = getAlgProcessor();
-
-			while (it.hasNext()) {
-				GeoExpPair pair = it.next();
-				pair.getGeo()
-						.setColorFunction(algProc.evaluateToList(pair.exp));
-			}
-		} catch (RuntimeException e) {
-			dynamicColorList.clear();
-			e.printStackTrace();
-			errors.add("Invalid dynamic color: " + e.toString());
-		}
-		dynamicColorList.clear();
-	}
-
-	/**
-	 * @param attrs
-	 *            attributes
-	 * @return success
-	 */
-	private boolean handleEigenvectorsConic(
-			LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoConic())) {
-			Log.error(
-					"wrong element type for <eigenvectors>: " + geo.getClass());
-			return false;
-		}
-		try {
-			GeoConicND conic = (GeoConicND) geo;
-			// set eigenvectors, but don't classify conic now
-			// classifyConic() will be called in handleMatrix() by
-			// conic.setMatrix()
-			conic.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
-					StringUtil.parseDouble(attrs.get("y0")),
-					StringUtil.parseDouble(attrs.get("z0")),
-					StringUtil.parseDouble(attrs.get("x1")),
-					StringUtil.parseDouble(attrs.get("y1")),
-					StringUtil.parseDouble(attrs.get("z1")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleEigenvectors(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoQuadric())) {
-			return handleEigenvectorsConic(attrs);
-		}
-		try {
-			GeoQuadric3DInterface quadric = (GeoQuadric3DInterface) geo;
-			// set eigenvectors, but don't classify conic now
-			// classifyConic() will be called in handleMatrix() by
-			// conic.setMatrix()
-			quadric.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
-					StringUtil.parseDouble(attrs.get("y0")),
-					StringUtil.parseDouble(attrs.get("z0")),
-					StringUtil.parseDouble(attrs.get("x1")),
-					StringUtil.parseDouble(attrs.get("y1")),
-					StringUtil.parseDouble(attrs.get("z1")),
-					StringUtil.parseDouble(attrs.get("x2")),
-					StringUtil.parseDouble(attrs.get("y2")),
-					StringUtil.parseDouble(attrs.get("z2")));
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	private boolean handleMatrix(LinkedHashMap<String, String> attrs) {
-		if (!geo.isGeoConic() && !geo.isGeoQuadric()) {
-			Log.error("wrong element type for <matrix>: " + geo.getClass());
-			return false;
-		}
-		try {
-			handleMatrixConicOrQuadric(attrs);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	/**
-	 * handler matrix for a conic or a quadric
-	 * 
-	 * @param attrs
-	 *            attributes
-	 * @throws Exception
-	 *             exception
-	 */
-	private void handleMatrixConicOrQuadric(LinkedHashMap<String, String> attrs)
-			throws Exception {
-		if (geo.isGeoQuadric()) {
-			if (geo.isDefaultGeo()) { // avoid setting for default geo
-				return;
-			}
-			GeoQuadric3DInterface quadric = (GeoQuadric3DInterface) geo;
-			// set matrix and classify conic now
-			// <eigenvectors> should have been set earlier
-			double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
-					StringUtil.parseDouble(attrs.get("A1")),
-					StringUtil.parseDouble(attrs.get("A2")),
-					StringUtil.parseDouble(attrs.get("A3")),
-					StringUtil.parseDouble(attrs.get("A4")),
-					StringUtil.parseDouble(attrs.get("A5")),
-					StringUtil.parseDouble(attrs.get("A6")),
-					StringUtil.parseDouble(attrs.get("A7")),
-					StringUtil.parseDouble(attrs.get("A8")),
-					StringUtil.parseDouble(attrs.get("A9")) };
-			quadric.setMatrixFromXML(matrix);
-		} else if (geo.isGeoConic() && geo.getDefinition() == null) {
-			GeoConicND conic = (GeoConicND) geo;
-			// set matrix and classify conic now
-			// <eigenvectors> should have been set earlier
-			double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
-					StringUtil.parseDouble(attrs.get("A1")),
-					StringUtil.parseDouble(attrs.get("A2")),
-					StringUtil.parseDouble(attrs.get("A3")),
-					StringUtil.parseDouble(attrs.get("A4")),
-					StringUtil.parseDouble(attrs.get("A5")) };
-			conic.setMatrix(matrix);
-		}
-	}
-
-	private boolean handleLabelOffset(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.labelOffsetX = Integer.parseInt(attrs.get("x"));
-			geo.labelOffsetY = Integer.parseInt(attrs.get("y"));
-
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleLabelMode(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setLabelMode(Integer.parseInt(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleTooltipMode(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setTooltipMode(Integer.parseInt(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleCoefficients(LinkedHashMap<String, String> attrs) {
-		// Application.debug(attrs.toString());
-		if (!(geo.isGeoImplicitCurve())) {
-			Log.warn(
-					"wrong element type for <coefficients>: " + geo.getClass());
-			return false;
-		}
-		try {
-			String rep = attrs.get("rep");
-			if (rep == null) {
-				return false;
-			}
-			if (attrs.get("rep").equals("array")) {
-				String data = attrs.get("data");
-				if (data == null) {
-					return false;
-				}
-				ArrayList<ArrayList<Double>> collect = new ArrayList<>();
-				ArrayList<Double> newRow = new ArrayList<>();
-				int start = 0;
-				for (int c = 1; c < data.length(); c++) {
-					switch (data.charAt(c)) {
-					default:
-						// do nothing
-						break;
-					case '[':
-						if (newRow.size() > 0) {
-							return false;
-						}
-						start = c + 1;
-						break;
-					case ']':
-						newRow.add(StringUtil
-								.parseDouble(data.substring(start, c)));
-						start = c + 1;
-						collect.add(newRow);
-						newRow = new ArrayList<>();
-						c++; // jump over ','
-						break;
-					case ',':
-						newRow.add(StringUtil
-								.parseDouble(data.substring(start, c)));
-						start = c + 1;
-					}
-				}
-				double[][] coeff = new double[collect.size()][];
-				for (int i = 0; i < collect.size(); i++) {
-					ArrayList<Double> row = collect.get(i);
-					coeff[i] = new double[row.size()];
-					for (int j = 0; j < row.size(); j++) {
-						coeff[i][j] = row.get(j);
-					}
-				}
-				ExpressionNode def = geo.getDefinition();
-				/*
-				 * Only overwrite coeff from XML when we don't have definition
-				 * (setting coeffs explicitly kills factorization)
-				 */
-				if (def == null) {
-					((GeoImplicit) geo).setCoeff(coeff);
-				}
-				// geo.setDefinition(def);
-				return true;
-			}
-		} catch (RuntimeException e) {
-			return false;
-		}
-		return false;
-	}
-
-	private boolean handleUserInput(LinkedHashMap<String, String> attrs) {
-		// Application.debug(attrs.toString());
-		if (!(geo instanceof GeoImplicit)) {
-			Log.warn("wrong element type for <userinput>: " + geo.getClass());
-			return false;
-		}
-		try {
-			boolean valid = !"false".equals(attrs.get("valid"));
-			if (geo.isIndependent() && valid) {
-				String value = attrs.get("value");
-				if (value != null) {
-					ValidExpression ve = parser.parseGeoGebraExpression(value);
-					geo.setDefinition(ve.wrap());
-					if (ve.unwrap() instanceof Equation) {
-						((GeoImplicit) geo).fromEquation((Equation) ve.unwrap(),
-								null);
-					}
-
-				}
-			}
-			if (attrs.get("show") != null && attrs.get("show").equals("true")
-					&& valid) {
-				((GeoImplicit) geo).setToUser();
-			} else {
-				((GeoImplicit) geo).setToImplicit();
-			}
-
-			return true;
-		} catch (Exception e) {
-			Log.debug(e.getMessage());
-			return false;
-		}
-	}
 
 	// ====================================
 	// <command>
@@ -6055,7 +3700,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private AlgebraProcessor getAlgProcessor() {
+	protected AlgebraProcessor getAlgProcessor() {
 		return kernel.getAlgebraProcessor();
 	}
 
@@ -6122,5 +3767,11 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	protected static boolean parseBooleanRev(String str) {
 		return !"false".equals(str);
+	}
+
+	public void casMapForElement() {
+		casMap = new TreeMap<>();
+		constMode = MODE_CAS_MAP;
+		casMapParent = MODE_CONST_GEO_ELEMENT;
 	}
 }
