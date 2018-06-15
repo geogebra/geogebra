@@ -194,6 +194,18 @@ public class SolveStepTest {
 	}
 
 	@Test
+	public void inverseTrigonometricEquations() {
+		t("arcsin(x)", "(3 * pi)/4", "x");
+		t("arcsin(x)", "pi/4", "x", "x = (nroot(2, 2))/(2)");
+		t("arccos(x)", "-pi/4", "x");
+		t("arccos(x)", "(3 * pi)/4", "x", "x = -(nroot(2, 2))/(2)");
+		t("arccos(x)", "pi/4", "x", "x = (nroot(2, 2))/(2)");
+		t("arctan(x)", "(3 * pi)/4", "x");
+		t("arctan(x)", "pi/4", "x", "x = 1");
+		t("3 * arcsin(x) + pi / 4", "(pi)/2 + 2 * arcsin(x)", "x", "x = (nroot(2, 2))/(2)");
+	}
+
+	@Test
 	public void trigonometricEquations() {
 		t("sin(x)", "y", "x", "x = (arcsin(y) + (2)(k1)(pi)) if -1 <= y and y <= 1", "x = (pi-arcsin(y)-(2)(k2)(pi)) if -1 <= y and y <= 1");
 		t("sin(x)", "arbconst(2)", "x", "x = (arcsin(k2) + (2)(k1)(pi)) if -1 <= k2 and k2 <= 1",

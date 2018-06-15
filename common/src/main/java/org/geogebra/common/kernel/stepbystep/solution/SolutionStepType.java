@@ -147,8 +147,17 @@ public enum SolutionStepType {
 
 	COMPLETE_THE_SQUARE("CompleteSquare", "Complete the square"),
 
-	NO_SOLUTION_TRIGONOMETRIC("NoSolutionTrigonometricSin",
-			"$%0 \\in [-1, 1]$ for all $%1 \\in \\mathbb{R}$"),
+	NO_SOLUTION_SIN_COS("NoSolutionSinCos",
+			"$%0 \\in \\left[-1, 1\\right]$ for all $%1 \\in \\mathbb{R}$"),
+
+	NO_SOLUTION_ARCSIN("NoSolutionArcsin",
+			"$%0 \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ for all $%1 \\in \\mathbb{R}$"),
+
+	NO_SOLUTION_ARCCOS("NoSolutionArccos",
+			"$%0 \\in \\left[0, \\pi\\right]$ for all $%1 \\in \\mathbb{R}$"),
+
+	NO_SOLUTION_ARCTAN("NoSolutionArctan",
+			"$%0 \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ for all $%1 \\in \\mathbb{R}$"),
 
 	REPLACE_WITH("ReplaceAWithB", "Replace %0 with %1"),
 
@@ -371,6 +380,8 @@ public enum SolutionStepType {
 			"The product of roots with the same index is equal to the root of the product"),
 
 	POLYNOMIAL_DIVISION("DivideAByBToGetC", "Divide %0 by %1 to get %2"),
+
+	EVALUATE_TRIGO("EvaluateTrigo", "Evaluate trigonometric function"),
 
 	EVALUATE_INVERSE_TRIGO("EvaluateInverseTrigo", "Evaluate inverse trigonometric function"),
 

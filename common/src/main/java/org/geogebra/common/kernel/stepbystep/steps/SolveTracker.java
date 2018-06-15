@@ -84,8 +84,7 @@ public class SolveTracker {
 		return shouldCheckSolutions;
 	}
 
-	public StepArbitraryConstant getNextArbInt() {
-		return new StepArbitraryConstant("k", ++arbConstTracker,
-				StepArbitraryConstant.ConstantType.INTEGER);
+	public StepArbitraryInteger getNextArbInt() {
+		return new StepArbitraryInteger("k", ++arbConstTracker);
 	}
 }

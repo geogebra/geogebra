@@ -7,7 +7,9 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class StepExpression extends StepTransformable
 		implements Comparable<StepExpression> {
@@ -18,36 +20,50 @@ public abstract class StepExpression extends StepTransformable
 	 * @param so inverse trigonometric expression (such as arccos(1))
 	 * @return the value, if it can be evaluated, null otherwise
 	 */
-	public static StepExpression inverseTrigoLookup(StepOperation so) {
-		String[] arguments =
-				new String[]{"-1", "-(nroot(3, 2))/(2)", "-(nroot(2, 2))/(2)", "-(1)/(2)", "0",
-						"(1)/(2)", "(nroot(2, 2))/(2)", "(nroot(3, 2))/(2)", "1"};
-		String[] argumentsTan =
-				new String[]{"", "-nroot(3, 2)", "-1", "-nroot(3, 2)/3", "0", "nroot(3, 2)/3", "1",
-						"nroot(3, 2)", ""};
+	public static StepExpression trigoLookup(StepOperation so) {
+		final StepExpression pi = StepConstant.PI;
+		final StepExpression zero = StepConstant.create(0);
+		final StepExpression one = StepConstant.create(1);
+		final StepExpression root2 = root(StepConstant.create(2), 2);
+		final StepExpression root3 = root(StepConstant.create(3), 2);
 
-		StepExpression pi = StepConstant.PI;
-		StepExpression[] valuesSinTan =
-				new StepExpression[]{minus(divide(pi, 2)), minus(divide(pi, 3)),
-						minus(divide(pi, 4)), minus(divide(pi, 6)), StepConstant.create(0),
-						divide(pi, 6), divide(pi, 4), divide(pi, 3), divide(pi, 2)};
-		StepExpression[] valuesCos =
-				new StepExpression[]{pi, divide(multiply(5, pi), 6), divide(multiply(3, pi), 4),
-						divide(multiply(2, pi), 3), divide(pi, 2), divide(pi, 3), divide(pi, 4),
-						divide(pi, 6), StepConstant.create(0)};
+		Map<Operation, StepExpression[]> map = new HashMap<>();
 
-		String currentArgument = so.getOperand(0).toString();
-		for (int i = 0; i < arguments.length; i++) {
-			if (currentArgument.equals(arguments[i])) {
-				if (so.isOperation(Operation.ARCSIN)) {
-					return valuesSinTan[i];
-				} else if (so.isOperation(Operation.ARCCOS)) {
-					return valuesCos[i];
-				}
-			} else if (currentArgument.equals(argumentsTan[i])) {
-				if (so.isOperation(Operation.ARCTAN)) {
-					return valuesSinTan[i];
-				}
+		map.put(Operation.SIN, new StepExpression[] {
+				minus(one), minus(divide(root3, 2)), minus(divide(root2, 2)), minus(divide(1, 2)),
+				zero, divide(1, 2), divide(root2, 2), divide(root3, 2), one
+		});
+		map.put(Operation.COS, new StepExpression[] {
+				minus(one), minus(divide(root3, 2)), minus(divide(root2, 2)), minus(divide(1, 2)),
+				zero, divide(1, 2), divide(root2, 2), divide(root3, 2), one
+		});
+		map.put(Operation.TAN, new StepExpression[] {
+				minus(root3), minus(one), minus(divide(1, root3)), zero, divide(1, root3),
+				one, root3
+		});
+		map.put(Operation.ARCSIN, new StepExpression[] {
+				minus(divide(pi, 2)), minus(divide(pi, 3)), minus(divide(pi, 4)),
+				minus(divide(pi, 6)), zero, divide(pi, 6), divide(pi, 4), divide(pi, 3),
+				divide(pi, 2)
+		});
+		map.put(Operation.ARCCOS, new StepExpression[] {
+				pi, divide(multiply(5, pi), 6), divide(multiply(3, pi), 4),
+				divide(multiply(2, pi), 3), divide(pi, 2), divide(pi, 3), divide(pi, 4),
+				divide(pi, 6), zero
+		});
+		map.put(Operation.ARCTAN, new StepExpression[] {
+				minus(divide(pi, 3)), minus(divide(pi, 4)),
+				minus(divide(pi, 6)), zero, divide(pi, 6), divide(pi, 4), divide(pi, 3)
+		});
+
+		StepExpression argument = so.getOperand(0);
+
+		StepExpression[] values = map.get(StepExpression.getInverse(so.getOperation()));
+		StepExpression[] results = map.get(so.getOperation());
+
+		for (int i = 0; i < values.length; i++) {
+			if (values[i].equals(argument)) {
+				return results[i];
 			}
 		}
 
@@ -158,6 +174,12 @@ public abstract class StepExpression extends StepTransformable
 				return Operation.ARCCOS;
 			case TAN:
 				return Operation.ARCTAN;
+			case ARCSIN:
+				return Operation.SIN;
+			case ARCCOS:
+				return Operation.COS;
+			case ARCTAN:
+				return Operation.TAN;
 			default:
 				return Operation.NO_OPERATION;
 		}

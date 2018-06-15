@@ -163,6 +163,7 @@ public class StepStrategies {
 				EquationSteps.SIMPLIFY_TRIGONOMETRIC,
 				EquationSteps.SOLVE_QUADRATIC_IN_EXPRESSION,
 				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC,
+				EquationSteps.SOLVE_SIMPLE_INVERSE_TRIGONOMETRIC,
 				SolveSteps.DIFF,
 				EquationSteps.SOLVE_QUADRATIC,
 				EquationSteps.REDUCE_TO_QUADRATIC,

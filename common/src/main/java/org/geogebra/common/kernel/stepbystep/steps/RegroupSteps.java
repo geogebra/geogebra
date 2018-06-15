@@ -1875,17 +1875,22 @@ enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
-	CALCULATE_INVERSE_TRIGO {
+	EVALUATE_TRIGONOMETRIC {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn instanceof StepOperation && ((StepOperation) sn).isInverseTrigonometric()) {
+			if (sn instanceof StepOperation && (((StepOperation) sn).isTrigonometric()
+					|| ((StepOperation) sn).isInverseTrigonometric())) {
 				StepOperation so = (StepOperation) sn;
 
-				StepExpression value = inverseTrigoLookup(so);
+				StepExpression value = trigoLookup(so);
 				if (value != null) {
 					so.setColor(tracker.getColorTracker());
 					value.setColor(tracker.getColorTracker());
-					sb.add(SolutionStepType.EVALUATE_INVERSE_TRIGO, tracker.incColorTracker());
+					if (so.isTrigonometric()) {
+						sb.add(SolutionStepType.EVALUATE_TRIGO, tracker.incColorTracker());
+					} else {
+						sb.add(SolutionStepType.EVALUATE_INVERSE_TRIGO, tracker.incColorTracker());
+					}
 					return value;
 				}
 			}
@@ -2026,7 +2031,6 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					ExpandSteps.EXPAND_MARKED_PRODUCTS,
 					RegroupSteps.RATIONALIZE_DENOMINATORS,
 					FractionSteps.ADD_INTEGER_FRACTIONS,
-					RegroupSteps.CALCULATE_INVERSE_TRIGO,
 					RegroupSteps.SIMPLIFY_ABSOLUTE_VALUES,
 			};
 
@@ -2086,7 +2090,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					ExpandSteps.EXPAND_MARKED_PRODUCTS,
 					RegroupSteps.RATIONALIZE_DENOMINATORS,
 					FractionSteps.ADD_INTEGER_FRACTIONS,
-					RegroupSteps.CALCULATE_INVERSE_TRIGO,
+					RegroupSteps.EVALUATE_TRIGONOMETRIC,
 					RegroupSteps.SIMPLIFY_ABSOLUTE_VALUES,
 			};
 

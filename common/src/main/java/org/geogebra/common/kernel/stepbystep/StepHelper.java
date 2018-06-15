@@ -219,8 +219,10 @@ public class StepHelper {
 					StepOperation so = (StepOperation) sn;
 
 					if (so.isOperation(Operation.ABS) || so.isOperation(Operation.NROOT)
-							|| so.isOperation(Operation.DIVIDE) && so.getOperand(0)
-							.isConstantIn(var) || so.isTrigonometric() && !so.isConstantIn(var)) {
+							|| so.isOperation(Operation.DIVIDE)
+							&& so.getOperand(0).isConstantIn(var) ||
+							(so.isTrigonometric() || so.isInverseTrigonometric())
+									&& !so.isConstantIn(var)) {
 						return so;
 					}
 				}
@@ -379,7 +381,7 @@ public class StepHelper {
 	}
 
 	public static String getAssumptions(StepExpression sn, String s) {
-		if (sn instanceof StepArbitraryConstant) {
+		if (sn instanceof StepArbitraryInteger) {
 			return "AssumeInteger(" + sn.toString() + ", " + s + ")";
 		} else if (sn instanceof StepOperation) {
 			String temp = s;

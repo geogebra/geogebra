@@ -323,7 +323,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 					tracker.addCondition(
 							new StepInequality(se.RHS, StepConstant.create(1), true, false));
 				} else if (se.RHS.getValue() < -1 || se.RHS.getValue() > 1) {
-					steps.add(SolutionStepType.NO_SOLUTION_TRIGONOMETRIC, trigoVar, variable);
+					steps.add(SolutionStepType.NO_SOLUTION_SIN_COS, trigoVar, variable);
 					return new Result();
 				}
 			}
@@ -331,7 +331,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 			Operation op = StepExpression.getInverse(trigoVar.getOperation());
 			StepExpression newLHS = trigoVar.getOperand(0);
 
-			if (trigoVar.getOperation() == Operation.TAN) {
+			if (trigoVar.isOperation(Operation.TAN)) {
 				StepExpression newRHS = add(applyOp(op, se.RHS),
 						multiply(tracker.getNextArbInt(), StepConstant.PI));
 
@@ -349,7 +349,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 				StepExpression secondRHS = add(applyOp(op, se.RHS),
 						multiply(multiply(2, tracker.getNextArbInt()), StepConstant.PI));
 				StepEquation secondBranch;
-				if (trigoVar.getOperation() == Operation.SIN) {
+				if (trigoVar.isOperation(Operation.SIN)) {
 					secondBranch = new StepEquation(subtract(StepConstant.PI, newLHS), secondRHS);
 				} else {
 					secondBranch = new StepEquation(subtract(multiply(2, StepConstant.PI), newLHS),
@@ -360,6 +360,56 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 			}
 
 			return new Result(solutions);
+		}
+	},
+
+	SOLVE_SIMPLE_INVERSE_TRIGONOMETRIC {
+		@Override
+		public Result apply(StepEquation se, StepVariable variable,
+				SolutionBuilder steps, SolveTracker tracker) {
+			if (!se.LHS.isInverseTrigonometric() || !se.RHS.isConstantIn(variable)) {
+				return null;
+			}
+
+			StepOperation trigoVar = (StepOperation) se.LHS;
+
+			if (trigoVar.isOperation(Operation.ARCSIN)) {
+				if (!se.RHS.canBeEvaluated()) {
+					tracker.addCondition(new StepInequality(
+							divide(StepConstant.PI, 2).negate(), se.RHS, true, false));
+					tracker.addCondition(new StepInequality(
+							se.RHS, divide(StepConstant.PI, 2), true, false));
+				} else if (se.RHS.getValue() < -Math.PI / 2 || se.RHS.getValue() > Math.PI / 2) {
+					steps.add(SolutionStepType.NO_SOLUTION_ARCSIN, trigoVar, variable);
+					return new Result();
+				}
+			} else if (trigoVar.isOperation(Operation.ARCCOS)) {
+				if (!se.RHS.canBeEvaluated()) {
+					tracker.addCondition(
+							new StepInequality(StepConstant.create(0), se.RHS, true, false));
+					tracker.addCondition(
+							new StepInequality(se.RHS, StepConstant.PI, true, false));
+				} else if (se.RHS.getValue() < 0 || se.RHS.getValue() > Math.PI) {
+					steps.add(SolutionStepType.NO_SOLUTION_ARCCOS, trigoVar, variable);
+					return new Result();
+				}
+			} else { // ARCTAN
+				if (!se.RHS.canBeEvaluated()) {
+					tracker.addCondition(new StepInequality(
+							divide(StepConstant.PI, 2).negate(), se.RHS, true, false));
+					tracker.addCondition(new StepInequality(
+							se.RHS, divide(StepConstant.PI, 2), true, false));
+				} else if (se.RHS.getValue() < -Math.PI / 2 || se.RHS.getValue() > Math.PI / 2) {
+					steps.add(SolutionStepType.NO_SOLUTION_ARCTAN, trigoVar, variable);
+					return new Result();
+				}
+			}
+
+			Operation op = StepExpression.getInverse(trigoVar.getOperation());
+			StepExpression newLHS = trigoVar.getOperand(0);
+			StepExpression newRHS = applyOp(op, se.RHS);
+
+			return new Result(se.cloneWith(newLHS, newRHS));
 		}
 	},
 

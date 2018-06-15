@@ -6,20 +6,14 @@ import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
-public class StepArbitraryConstant extends StepExpression {
+public class StepArbitraryInteger extends StepExpression {
 
 	private final String label;
 	private final int index;
-	private final ConstantType type;
 
-	public enum ConstantType {
-		INTEGER, REAL
-	}
-
-	public StepArbitraryConstant(String label, int index, ConstantType type) {
+	public StepArbitraryInteger(String label, int index) {
 		this.label = label;
 		this.index = index;
-		this.type = type;
 	}
 
 	public String getLabel() {
@@ -30,33 +24,28 @@ public class StepArbitraryConstant extends StepExpression {
 		return index;
 	}
 
-	public ConstantType getType() {
-		return type;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + index;
 		result = prime * result + label.hashCode();
-		result = prime * result + type.hashCode();
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof StepArbitraryConstant) {
-			return ((StepArbitraryConstant) obj).label.equals(label) &&
-					((StepArbitraryConstant) obj).index == index;
+		if (obj instanceof StepArbitraryInteger) {
+			return ((StepArbitraryInteger) obj).label.equals(label) &&
+					((StepArbitraryInteger) obj).index == index;
 		}
 
 		return false;
 	}
 
 	@Override
-	public StepArbitraryConstant deepCopy() {
-		StepArbitraryConstant sac = new StepArbitraryConstant(label, index, type);
+	public StepArbitraryInteger deepCopy() {
+		StepArbitraryInteger sac = new StepArbitraryInteger(label, index);
 		sac.setColor(color);
 		return sac;
 	}

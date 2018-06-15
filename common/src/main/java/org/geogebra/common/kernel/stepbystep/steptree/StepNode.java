@@ -98,9 +98,8 @@ public abstract class StepNode implements TableElement {
 				case GREATER_EQUAL:
 					return new StepInequality(left, right, false, false);
 				case ARBCONST:
-					return new StepArbitraryConstant("k",
-							(int) ((ExpressionNode) ev).getLeft().evaluateDouble(),
-							StepArbitraryConstant.ConstantType.INTEGER);
+					return new StepArbitraryInteger("k",
+							(int) ((ExpressionNode) ev).getLeft().evaluateDouble());
 				case MULTIPLY:
 					if (((ExpressionNode) ev).getLeft() instanceof MyDouble &&
 							((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
