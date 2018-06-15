@@ -448,7 +448,11 @@ public class Ggb2giac {
 		// Intersect[f,a] works
 
 		p("Intersect.2",
-				"[[ggbinterans:=0/0]," + "[ggbinarg0:=%0]," + "[ggbinarg1:=%1],"
+				"[[ggbinterans:=0/0]," + "[ggbinarg0:=%0],"
+
+						+ "[ggbinarg2:=expr(\"'\"+ggbinarg0+\"'\")],"
+
+						+ "[ggbinarg1:=%1],"
 				// Intersect[Plane,Plane]
 						+ "[ggbinterans:=when((ggbinarg0)[0]=='pnt',"
 						+ "when((ggbinarg0)[1][0]=='hyperplan',"
@@ -508,19 +512,25 @@ public class Ggb2giac {
 						+ "when(same((subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[1],"
 						+ "(subst(ggbinarg1,x=xcoord(ggbinarg0),y=ycoord(ggbinarg0)))[2]),"
 						+ "ggbinarg0,?)),"
+						
 						// Intersect[Cmd3dLine,Plane]
+						// Intersect[Line[Point[{1,2,3}],Point[{3,2,1}]],Plane[z=3/2]]
 						+ "when(inString(string(ggbinarg0),\"X\") <> -1,"
 						+ "when(xcoord(ggbinarg0)==string(X),"
 						+ "when((ggbinarg1)[0]=='pnt',"
-						+ "line_inter(line(point(expr(ggbinarg0)[0][2][1],"
-						+ "expr(ggbinarg0)[1][2][1],"
-						+ "expr(ggbinarg0)[2][2][1]),"
-						+ "point(coeff(expr(ggbinarg0)[0][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg0)[0][2][1],"
-						+ "coeff(expr(ggbinarg0)[1][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg0)[1][2][1],"
-						+ "coeff(expr(ggbinarg0)[2][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg0)[2][2][1]))," + "ggbinarg1),"
+						+ "line_inter(line("
+
+						+ "point(xcoord((ggbinarg2)[2][1]),"
+						+ "ycoord((ggbinarg2)[2][1]),"
+						+ "zcoord((ggbinarg2)[2][1]))"
+
+						+ ","
+
+						+ "point(xcoord(ggbinarg2[2][2][2])+xcoord((ggbinarg2)[2][1]),"
+						+ "ycoord(ggbinarg2[2][2][2])+ycoord((ggbinarg2)[2][1]),"
+						+ "zcoord(ggbinarg2[2][2][2])+zcoord((ggbinarg2)[2][1]))"
+
+						+ ")," + "ggbinarg1),"
 						// Intersect[Cmd3dLine,Cas3dLine]
 						+ "when((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='ggbtmpvarX',"
 						+ "inter(line(point(expr(ggbinarg0)[0][2][1],"
@@ -770,7 +780,7 @@ public class Ggb2giac {
 						// Intersect[Cmd2dLine,2dLine]
 						+ "normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),"
 						+ "when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1))) "
-						+ ")))]," + "ggbinterans][4]");
+						+ ")))]," + "ggbinterans][5]");
 
 		// Giac currently uses approximation for this
 		// p("Conic.5","equation(conic((%0),(%1),(%2),(%3),(%4)))");
