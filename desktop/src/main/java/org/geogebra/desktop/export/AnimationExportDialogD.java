@@ -1,8 +1,10 @@
 package org.geogebra.desktop.export;
 
-import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -19,6 +21,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -69,6 +72,8 @@ public class AnimationExportDialogD extends JDialog {
 
 	private LocalizationD loc;
 
+	private JProgressBar progressBar;
+
 	/**
 	 * Construct dialog.
 	 * 
@@ -89,7 +94,7 @@ public class AnimationExportDialogD extends JDialog {
 		setResizable(false);
 
 		Container contentPane = getContentPane();
-		contentPane.setLayout(new BorderLayout());
+		contentPane.setLayout(new GridBagLayout());
 
 		// slider selection
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -118,7 +123,7 @@ public class AnimationExportDialogD extends JDialog {
 		cbSliders = new JComboBox(comboModel);
 		panel.add(cbSliders);
 
-		contentPane.add(panel, BorderLayout.NORTH);
+		contentPane.add(panel, gbc(1));
 
 		// options
 		panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -138,7 +143,7 @@ public class AnimationExportDialogD extends JDialog {
 		cbLoop = new JCheckBox(loc.getMenu("AnimationLoop"));
 		panel.add(cbLoop);
 
-		contentPane.add(panel, BorderLayout.CENTER);
+		contentPane.add(panel, gbc(2));
 
 		// buttons
 		panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -167,16 +172,24 @@ public class AnimationExportDialogD extends JDialog {
 				setVisible(false);
 			}
 		});
-
+		this.progressBar = new JProgressBar();
+		contentPane.add(progressBar, gbc(3));
 		panel.add(exportButton);
 		panel.add(cancelButton);
 
-		contentPane.add(panel, BorderLayout.SOUTH);
+		contentPane.add(panel, gbc(4));
+		
 
 		setTitle(loc.getMenu("AnimatedGIFExport"));
 		pack();
 		setLocationRelativeTo(app.getMainComponent());
 		setVisible(true);
+	}
+
+	private static Object gbc(int i) {
+		return new GridBagConstraints(0, i, 1, 1, 1.0, 1.0,
+				GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL,
+				new Insets(5, 5, 5, 5), 0, 0);
 	}
 
 	private RotOzSlider rotOzSlider;
@@ -276,7 +289,11 @@ public class AnimationExportDialogD extends JDialog {
 			app.showError("InvalidInput", tfTimeBetweenFrames.getText());
 			return;
 		}
-
+		exportButton.setEnabled(false);
+		cancelButton.setEnabled(false);
+		cbLoop.setEnabled(false);
+		tfTimeBetweenFrames.setEnabled(false);
+		this.setEnabled(false);
 		app.getKernel().getAnimatonManager().stopAnimation();
 
 		File file = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
@@ -344,20 +361,23 @@ public class AnimationExportDialogD extends JDialog {
 			@Override
 			public void addFrame(BufferedImage img) {
 				gifEncoder.addFrame(img);
-
+				progressBar.setValue(progressBar.getValue() + 1);
+				progressBar.paint(progressBar.getGraphics());
 			}
 
 			@Override
 			public void finish() {
 				gifEncoder.finish();
+				setVisible(false);
 
 			}
 		};
 		// hide dialog
-		setVisible(false);
+		// setVisible(false);
 
 		app.setWaitCursor();
-
+		progressBar.setMaximum(n);
+		progressBar.setMinimum(0);
 		try {
 			app.exportAnimatedGIF(app.getActiveEuclidianView(), collector, num,
 					n, val, min, max, step);
