@@ -1,11 +1,15 @@
 package org.geogebra.web.full.main;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.io.file.ZipFile;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.AppletFactory;
@@ -122,15 +126,20 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	@Override
-	public void writeEmbeds(ZipFile archiveContent) {
+	public void writeEmbeds(Construction cons, ZipFile archiveContent) {
 		persist();
-		for (Entry<Integer, String> e : content.entrySet()) {
-			((GgbFile) archiveContent).put(
-					"embed_" + e.getKey() + ".json", e.getValue());
+		Iterator<GeoElement> it = cons.getGeoSetConstructionOrder().iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo instanceof GeoEmbed) {
+				int id = ((GeoEmbed) geo).getEmbedID();
+				((GgbFile) archiveContent).put("embed_" + id + ".json",
+						content.get(id));
+			}
 		}
 	}
 
-	private String getContent(GeoGebraFrameBoth value) {
+	private static String getContent(GeoGebraFrameBoth value) {
 		return JSON.stringify(
 				value.getApplication().getGgbApi().getFileJSON(false));
 	}

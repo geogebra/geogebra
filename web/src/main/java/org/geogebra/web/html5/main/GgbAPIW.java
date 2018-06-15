@@ -310,9 +310,6 @@ public class GgbAPIW extends GgbAPI {
 			}
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
 				GgbFile f = pageController.getSlide(i);
-				if (app.getEmbedManager() != null) {
-					app.getEmbedManager().writeEmbeds(f);
-				}
 				prepareToEntrySet(f, jso, GgbFile.SLIDE_PREFIX + i + "/",
 						usage);
 			}
@@ -517,6 +514,10 @@ public class GgbAPIW extends GgbAPI {
 		// GGB-1758 write images at the end
 		((ImageManagerW) app.getImageManager())
 				.writeConstructionImages(getConstruction(), "", archiveContent);
+		if (app.getEmbedManager() != null) {
+			app.getEmbedManager().writeEmbeds(getConstruction(),
+					archiveContent);
+		}
 		// write construction thumbnails
 		if (includeThumbnail) {
 			ImageManagerW
