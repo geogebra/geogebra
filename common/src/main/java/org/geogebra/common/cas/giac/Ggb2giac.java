@@ -102,7 +102,7 @@ public class Ggb2giac {
 
 		// factor over complex irrationals
 		p("CIFactor.1",
-				//"[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],ggbcfactans][3]");
+				// "[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],ggbcfactans][3]");
 				"[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],ggbcfactans][3]");
 		p("CIFactor.2",
 				"[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans,%1)],ggbcfactans][3]");
@@ -228,8 +228,7 @@ public class Ggb2giac {
 		p("Dot.2",
 				"[[[ggbdotarg0:=%0],[ggbdotarg1:=%1]],"
 						+ "when(type(ggbdotarg0)==DOM_LIST&&subtype(ggbdotarg0)!="
-						+ GGBVECT_TYPE + ","
-						+
+						+ GGBVECT_TYPE + "," +
 						// eg lists length 4 (and not ggbvect)
 						// max -> error for different size lists
 						"sum(seq(ggbdotarg0[j] * ggbdotarg1[j], j, 0, max(length(ggbdotarg0), length(ggbdotarg1))-1))"
@@ -249,8 +248,7 @@ public class Ggb2giac {
 		// (4x+3y-1)[1] = 4x
 		// (4x+3y-1)[2] = 3y
 		// (4x+3y-1)[3] = -1
-		p("Element.2",
-				ELEMENT_2);
+		p("Element.2", ELEMENT_2);
 
 		// if %0[0]=='=' then %0[%1] else when(...) fi;
 
@@ -423,23 +421,21 @@ public class Ggb2giac {
 
 				+ "][-1]";
 
-		p("Integral.3",
-				(integralPart1+integralPart2+integralPart3).replace("REPLACEME0", "%0").replace("REPLACEME1", "x")
-						.replace("REPLACEME2", "%1")
-						.replace("REPLACEME3", "%2"));
+		p("Integral.3", (integralPart1 + integralPart2 + integralPart3)
+				.replace("REPLACEME0", "%0").replace("REPLACEME1", "x")
+				.replace("REPLACEME2", "%1").replace("REPLACEME3", "%2"));
 
 		p("Integral.4",
-				(integralPart1+integralPart3).replace("REPLACEME0", "%0").replace("REPLACEME1", "%1")
-						.replace("REPLACEME2", "%2")
+				(integralPart1 + integralPart3).replace("REPLACEME0", "%0")
+						.replace("REPLACEME1", "%1").replace("REPLACEME2", "%2")
 						.replace("REPLACEME3", "%3"));
 
-		p("IntegralBetween.4",
-				(integralPart1+integralPart2+integralPart3).replace("REPLACEME0", "%0-(%1)")
-						.replace("REPLACEME1", "x").replace("REPLACEME2", "%2")
-						.replace("REPLACEME3", "%3"));
+		p("IntegralBetween.4", (integralPart1 + integralPart2 + integralPart3)
+				.replace("REPLACEME0", "%0-(%1)").replace("REPLACEME1", "x")
+				.replace("REPLACEME2", "%2").replace("REPLACEME3", "%3"));
 
 		p("IntegralBetween.5",
-				(integralPart1+integralPart3).replace("REPLACEME0", "%0-(%1)")
+				(integralPart1 + integralPart3).replace("REPLACEME0", "%0-(%1)")
 						.replace("REPLACEME1", "%2").replace("REPLACEME2", "%3")
 						.replace("REPLACEME3", "%4"));
 
@@ -479,8 +475,7 @@ public class Ggb2giac {
 						+ "coeffs((ggbinarg1)[2][1][1],ggbtmpvar"
 						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][1][1],"
 						+ "coeffs((ggbinarg1)[2][1][2],ggbtmpvar"
-						+ Unicode.lambda
-						+ ",1)+(ggbinarg1)[2][1][2][1])))[0],"
+						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][2][1])))[0],"
 						// Intersect[Plane,Cmd3dLine]
 						+ "when(xcoord(ggbinarg1)==string(X),"
 						+ "line_inter(ggbinarg0,"
@@ -525,8 +520,7 @@ public class Ggb2giac {
 						+ "coeff(expr(ggbinarg0)[1][2]," + Unicode.lambda
 						+ ",1)+expr(ggbinarg0)[1][2][1],"
 						+ "coeff(expr(ggbinarg0)[2][2]," + Unicode.lambda
-						+ ",1)+expr(ggbinarg0)[2][2][1])),"
-						+ "ggbinarg1),"
+						+ ",1)+expr(ggbinarg0)[2][2][1]))," + "ggbinarg1),"
 						// Intersect[Cmd3dLine,Cas3dLine]
 						+ "when((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='ggbtmpvarX',"
 						+ "inter(line(point(expr(ggbinarg0)[0][2][1],"
@@ -546,8 +540,7 @@ public class Ggb2giac {
 						+ "coeffs((ggbinarg1)[2][1][1],ggbtmpvar"
 						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][1][1],"
 						+ "coeffs((ggbinarg1)[2][1][2],ggbtmpvar"
-						+ Unicode.lambda
-						+ ",1)+(ggbinarg1)[2][1][2][1])))[0],"
+						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][2][1])))[0],"
 						// Intersect[Cmd3dLine,Cmd3dLine]
 						+ "when(xcoord(ggbinarg1)==string(X),"
 						+ "line_inter(line(point(expr(ggbinarg0)[0][2][1],"
@@ -622,8 +615,7 @@ public class Ggb2giac {
 						+ "coeffs((ggbinarg1)[2][1][1],ggbtmpvar"
 						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][1][1],"
 						+ "coeffs((ggbinarg1)[2][1][2],ggbtmpvar"
-						+ Unicode.lambda
-						+ ",1)+(ggbinarg1)[2][1][2][1])))[0],"
+						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][2][1])))[0],"
 						// Intersect[3dLine,Cmd3dLine]
 						+ "when(xcoord(ggbinarg1)==string(X),"
 						+ "line_inter(line(point((ggbinarg0)[0][2],(ggbinarg0)[1][2],(ggbinarg0)[2][2][1]),"
@@ -681,8 +673,7 @@ public class Ggb2giac {
 						+ "coeffs((ggbinarg1)[2][1][1],ggbtmpvar"
 						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][1][1],"
 						+ "coeffs((ggbinarg1)[2][1][2],ggbtmpvar"
-						+ Unicode.lambda
-						+ ",1)+(ggbinarg1)[2][1][2][1])))[0],"
+						+ Unicode.lambda + ",1)+(ggbinarg1)[2][1][2][1])))[0],"
 						// Intersect[Cas3dLine,Plane]
 						+ "when((ggbinarg1)[0]=='pnt'&&(ggbinarg1)[1][0]=='hyperplan',"
 						+ "inter(line(point((ggbinarg0)[2][1][0][1],"
@@ -1086,8 +1077,7 @@ public class Ggb2giac {
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 
-		p("Random.2",
-				"(%0+rand(%1-(%0+0*rndvar)+1))"); // "RandomBetween"
+		p("Random.2", "(%0+rand(%1-(%0+0*rndvar)+1))"); // "RandomBetween"
 		p("RandomBinomial.2", "binomial_icdf(%0,%1,rand(0,1))");
 		p("RandomElement.1", "rand(1,%0)[0]");
 		p("RandomPoisson.1", "poisson_icdf(%0,rand(0,1))"); // could also make
@@ -1274,12 +1264,10 @@ public class Ggb2giac {
 				"[[ggbtcans:=?],[ggbtcans:=%0],[ggbtype:=type(evalf(ggbtcans))],"
 						+
 						// ToComplex[3.1]
-						"when(ggbtype==DOM_INT||ggbtype==DOM_FLOAT,ggbtcans,"
-						+
+						"when(ggbtype==DOM_INT||ggbtype==DOM_FLOAT,ggbtcans," +
 						// ToComplex[(3,4)]
 						"when(ggbtcans[0]=='pnt'||(type(ggbtcans)==DOM_LIST&&subtype(ggbtcans)=="
-						+ GGBVECT_TYPE + "),xcoord(%0)+i*ycoord(%0),"
-						+
+						+ GGBVECT_TYPE + "),xcoord(%0)+i*ycoord(%0)," +
 						// ToComplex[ln(i)],ToComplex[a]
 						"real(ggbtcans)+i*im(ggbtcans)" + "))][3]");
 		p("ToExponential.1", "rectangular2polar(%0)");
@@ -1292,12 +1280,10 @@ public class Ggb2giac {
 				"[[[ggbtrsarg0:=%0],[ggbtrsarg1:=%1]],"
 						// invalid case: translate vector by vector
 						+ "when(subtype(ggbtrsarg0)==" + GGBVECT_TYPE
-						+ "&&subtype(ggbtrsarg1)==" + GGBVECT_TYPE + ","
-						+ "?,"
+						+ "&&subtype(ggbtrsarg1)==" + GGBVECT_TYPE + "," + "?,"
 						// translate vector by point -> return vector
 						+ "when(subtype(ggbtrsarg0)==" + GGBVECT_TYPE
-						+ "&&(ggbtrsarg1)[0]=='pnt',"
-						+ "ggbtrsarg0,"
+						+ "&&(ggbtrsarg1)[0]=='pnt'," + "ggbtrsarg0,"
 						// translate point about vector
 						+ "when((ggbtrsarg0)[0]=='pnt',"
 						// translate 2d point
@@ -1570,10 +1556,9 @@ public class Ggb2giac {
 				// command
 				+ "when(xcoord(ggbangarg0)==string(X)&&string(xcoord(ggbangarg1[1]))==string(hyperplan),"
 				+ "normal(regroup(angle(point(0,0,0),"
-						+ "point(coeff(expr(ggbangarg0)[2][0]," + Unicode.lambda
-						+ ",1),coeff(expr(ggbangarg0)[2][1]," + Unicode.lambda
-				+ ",1),coeff(expr(ggbangarg0)[2][2]," + Unicode.lambda
-				+ ",1)),"
+				+ "point(coeff(expr(ggbangarg0)[2][0]," + Unicode.lambda
+				+ ",1),coeff(expr(ggbangarg0)[2][1]," + Unicode.lambda
+				+ ",1),coeff(expr(ggbangarg0)[2][2]," + Unicode.lambda + ",1)),"
 				+ "point(ggbangarg1[1][1][0],ggbangarg1[1][1][1],ggbangarg1[1][1][2])))),"
 				// line defined from inputBar and plane defined with
 				// command
@@ -1613,11 +1598,11 @@ public class Ggb2giac {
 				// case 3D lines defined in this command
 				+ "when(xcoord(ggbangarg0)==string(X)&&xcoord(ggbangarg1)==string(X),"
 				+ "normal(regroup(angle(point(0,0,0),"
-						+ "point(coeff(expr(ggbangarg0)[2][0]," + Unicode.lambda
-						+ ",1),coeff(expr(ggbangarg0)[2][1]," + Unicode.lambda
+				+ "point(coeff(expr(ggbangarg0)[2][0]," + Unicode.lambda
+				+ ",1),coeff(expr(ggbangarg0)[2][1]," + Unicode.lambda
 				+ ",1),coeff(expr(ggbangarg0)[2][2]," + Unicode.lambda + ",1)),"
-						+ "point(coeff(expr(ggbangarg1)[2][0]," + Unicode.lambda
-						+ ",1),coeff(expr(ggbangarg1)[2][1]," + Unicode.lambda
+				+ "point(coeff(expr(ggbangarg1)[2][0]," + Unicode.lambda
+				+ ",1),coeff(expr(ggbangarg1)[2][1]," + Unicode.lambda
 				+ ",1),coeff(expr(ggbangarg1)[2][2]," + Unicode.lambda
 				+ ",1))))),"
 				// case 3D lines defined from inputBar
@@ -1629,10 +1614,9 @@ public class Ggb2giac {
 				// equation
 				+ " when(xcoord(ggbangarg0)==string(X)&&type(xcoord(ggbangarg1))==DOM_INT,"
 				+ "normal(regroup(angle(point(0,0,0),"
-						+ "point(coeff(expr(ggbangarg0)[2][0]," + Unicode.lambda
-						+ ",1),coeff(expr(ggbangarg0)[2][1]," + Unicode.lambda
-				+ ",1),coeff(expr(ggbangarg0)[2][2]," + Unicode.lambda
-				+ ",1)),"
+				+ "point(coeff(expr(ggbangarg0)[2][0]," + Unicode.lambda
+				+ ",1),coeff(expr(ggbangarg0)[2][1]," + Unicode.lambda
+				+ ",1),coeff(expr(ggbangarg0)[2][2]," + Unicode.lambda + ",1)),"
 				+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))),"
 				// case 3D line from inputBar and plane with linear
 				// equation
@@ -1690,10 +1674,9 @@ public class Ggb2giac {
 
 		p("Line.2", line2def);
 
-		p("OrthogonalLine.2",
-				"equation(perpendicular(%0,when(subtype(%1)==" + GGBVECT_TYPE
-						+ ",%1,line(%1))))");
-		
+		p("OrthogonalLine.2", "equation(perpendicular(%0,when(subtype(%1)=="
+				+ GGBVECT_TYPE + ",%1,line(%1))))");
+
 		// TODO: return Segment() not equation
 		p("Segment.2", line2def);
 
@@ -1701,7 +1684,6 @@ public class Ggb2giac {
 				"when(length(%0)==3,point(xcoord(%0),ycoord(%0),zcoord(%0)),point(xcoord(%0),ycoord(%0)))");
 		p("Point.2",
 				"when(length(%0)==3,{point(xcoord(%0),ycoord(%0),zcoord(%0)),point(xcoord(%1),ycoord(%1),zcoord(%1))},{point(xcoord(%0),ycoord(%0)),point(xcoord(%1),ycoord(%1))})");
-
 
 		// TODO: needs to get back from Giac into GeoGebra as a parametric eqn
 		// p("Curve.5","equation(plotparam([%0,%1],%2,%3,%4))");
@@ -1796,9 +1778,7 @@ public class Ggb2giac {
 						// case UnitOrthogonalVecto[Line]
 						// UnitOrthogonalVector[Segment]
 						+ "[[gguv:=unitV(when(count_eq(z,lname(%0))==0,[xcoord(%0),ycoord(%0)],[xcoord(%0),ycoord(%0),zcoord(%0)]))],when((gguv)[0]=='undef',"
-						+ "ggbvect[?,?],"
-						+ "when(size(gguv)==1,"
-						+ "regroup("
+						+ "ggbvect[?,?]," + "when(size(gguv)==1," + "regroup("
 						+ "ggbvect[getNum(gguv)[0]/getDenom(gguv),"
 						+ "getNum(gguv)[1]/getDenom(gguv)]),"
 						+ "regroup(convert(gguv,25))))][1]" + ")))");
