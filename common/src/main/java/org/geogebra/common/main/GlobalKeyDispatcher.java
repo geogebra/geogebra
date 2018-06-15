@@ -305,6 +305,7 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		if (moved) {
+			ScreenReader.readGeoMoved(geo);
 			app.getKernel().notifyRepaint();
 		}
 
