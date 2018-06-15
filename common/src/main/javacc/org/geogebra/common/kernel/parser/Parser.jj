@@ -57,7 +57,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.BracketsError;
-import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.Kernel;
@@ -434,15 +433,7 @@ ValidExpression buildValidExpression() :
           }        })
         (conditions = conditions()
         {
-          if(conditions.unwrap() instanceof MyDouble && ve.unwrap() instanceof MyDouble)          {
-            double trunc = ve.evaluateDouble();
-            double sgn = trunc <  0 ? -1 : 1;
-            double fractional = conditions.evaluateDouble();
-            if (DoubleUtil.isInteger(trunc) && DoubleUtil.isInteger(fractional)) {              ((MyDouble)ve.unwrap()).set(trunc + sgn * fractional / Math.pow(10, Math.ceil(Math.log10(fractional))));
-          	} else	{
-          		ve = new ExpressionNode(kernel, conditions, Operation.IF, ve);          	}                     }else          {            
 			ve = new ExpressionNode(kernel, conditions, Operation.IF, ve);
-	      }
         })?
         
      |
