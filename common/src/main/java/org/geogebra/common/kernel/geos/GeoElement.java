@@ -8804,6 +8804,10 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public void addAuralOperations(Localization loc, StringBuilder sb) {
 		App app = kernel.getApplication();
+		if (getScript(EventType.CLICK) != null && getScript(EventType.CLICK).getText().length() > 0) {
+			sb.append(loc.getMenuDefault("PressSpaceToRunScript", "Press space to run script"));
+		}
+
 		if (isEuclidianShowable()) {
 			if (app.getGuiManager() != null && app.getGuiManager().hasAlgebraView()
 					&& !isGeoInputBox()) {
@@ -8825,12 +8829,13 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
-	/**
-	 * 
-	 * @return text to be read when pressing space key.
-	 */
 	@Override
 	public String getAuralTextForSpace() {
+		return null;
+	}
+
+	@Override
+	public String getAuralTextForMove() {
 		return null;
 	}
 }

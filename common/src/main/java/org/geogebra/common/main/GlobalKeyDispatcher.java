@@ -1605,6 +1605,7 @@ public abstract class GlobalKeyDispatcher {
 						if (p.isPointOnPath()) {
 							p.addToPathParameter(
 									changeVal * p.getAnimationStep());
+							ScreenReader.readGeoMoved(p);
 						}
 					}
 				}

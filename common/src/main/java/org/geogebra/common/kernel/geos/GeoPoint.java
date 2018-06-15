@@ -2924,4 +2924,16 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 		super.addAuralOperations(loc, sb);
 	}
+
+	@Override
+	public String getAuralTextForMove() {
+		Localization loc = kernel.getLocalization();
+		StringBuilder sb = new StringBuilder();
+		sb.append(loc.getMenuDefault("Point", "point"));
+		sb.append(" ");
+		sb.append(loc.getMenuDefault("MovedTo", "moved to"));
+		sb.append(" ");
+		sb.append(getValueForInputBar());
+		return sb.toString();
+	}
 }

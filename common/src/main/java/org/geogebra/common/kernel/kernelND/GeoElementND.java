@@ -813,4 +813,10 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return text to be read when pressing space key.
 	 */
 	String getAuralTextForSpace();
+
+	/**
+	 * 
+	 * @return text to be read when geo was moved.
+	 */
+	String getAuralTextForMove();
 }

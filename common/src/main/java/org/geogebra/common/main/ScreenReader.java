@@ -3,7 +3,6 @@ package org.geogebra.common.main;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.plugin.EventType;
 
 /**
  * Utility class for reading GeoElement descriptions
@@ -71,17 +70,12 @@ public class ScreenReader {
 	 *            application
 	 */
 	public static void readText(GeoElement geo0, App app) {
-		StringBuilder sb = new StringBuilder();
 		String readerText = geo0.getAuralText();
-		if (readerText != null) {
-			sb.append(readerText);
+		if (readerText == null) {
+			return;
 		}
 
-		if (geo0.getScript(EventType.CLICK) != null
-				&& geo0.getScript(EventType.CLICK).getText().length() > 0) {
-			appendSentence(sb, "PressSpaceToRunScript", "Press space to run script", null, app);
-		}
-		readText(sb.toString(), app);
+		readText(readerText, app);
 	}
 
 	private static void readText(String text, App app) {
@@ -91,21 +85,6 @@ public class ScreenReader {
 				.getFocusedViewId() == app.getActiveEuclidianView().getViewID()) {
 			app.getActiveEuclidianView().readText(text);
 		}
-	}
-
-	private static void appendSentence(StringBuilder sb, String string, String stringDefault,
-			String[] args, App app) {
-		sb.append(" ");
-		if (app.has(Feature.READ_DROPDOWNS)) {
-			if (args != null) {
-				sb.append(app.getLocalization().getPlainArray(string, stringDefault, args));
-			} else {
-				sb.append(app.getLocalization().getMenuDefault(string, stringDefault));
-			}
-		} else {
-			sb.append(app.getLocalization().getMenuDefault(string, stringDefault));
-		}
-		sb.append(".");
 	}
 
 	/**
@@ -135,5 +114,16 @@ public class ScreenReader {
 	public static void handleSpace(GeoElement geo) {
 		App app = geo.getKernel().getApplication();
 		readText(geo.getAuralTextForSpace(), app);
+	}
+
+	/**
+	 * Reads text when geo is moved.
+	 * 
+	 * @param geo
+	 *            GeoElement that has moved.
+	 */
+	public static void readGeoMoved(GeoElement geo) {
+		App app = geo.getKernel().getApplication();
+		readText(geo.getAuralTextForMove(), app);
 	}
 }
