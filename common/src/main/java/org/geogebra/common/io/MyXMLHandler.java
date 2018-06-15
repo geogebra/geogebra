@@ -96,7 +96,11 @@ import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
+import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.prover.AlgoProve;
@@ -192,7 +196,7 @@ public class MyXMLHandler implements DocHandler {
 	private int casMode; // submode for <cascell>
 
 	/** currently parsed element */
-	protected GeoElement geo;
+	private GeoElement geo;
 	private GeoCasCell geoCasCell;
 	private Command cmd;
 	private Macro macro;
@@ -3683,6 +3687,9 @@ public class MyXMLHandler implements DocHandler {
 				} else if ("forceReflexAngle".equals(eName)) {
 					handleForceReflexAngle(attrs);
 					break;
+				} else if ("fading".equals(eName)) {
+					handleFading(attrs);
+					break;
 				}
 			case 'i':
 				if ("isLaTeX".equals(eName)) {
@@ -3732,6 +3739,9 @@ public class MyXMLHandler implements DocHandler {
 					break;
 				} else if ("listener".equals(eName)) {
 					handleListeners(attrs);
+					break;
+				} else if ("levelOfDetailQuality".equals(eName)) {
+					handleLevelOfDetailQuality(attrs);
 					break;
 				}
 
@@ -4622,6 +4632,30 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	private boolean handleFading(LinkedHashMap<String, String> attrs) {
+		try {
+			float fading = Float.parseFloat(attrs.get("val"));
+			((GeoPlaneND) geo).setFading(fading);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	private boolean handleLevelOfDetailQuality(
+			LinkedHashMap<String, String> attrs) {
+		try {
+			boolean lod = Boolean.parseBoolean(attrs.get("val"));
+			if (lod) {
+				((SurfaceEvaluable) geo)
+						.setLevelOfDetail(LevelOfDetail.QUALITY);
+			}
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	private boolean handleAnimation(LinkedHashMap<String, String> attrs) {
 		try {
 
@@ -5444,7 +5478,8 @@ public class MyXMLHandler implements DocHandler {
 	 *            attributes
 	 * @return success
 	 */
-	protected boolean handleEigenvectors(LinkedHashMap<String, String> attrs) {
+	private boolean handleEigenvectorsConic(
+			LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoConic())) {
 			Log.error(
 					"wrong element type for <eigenvectors>: " + geo.getClass());
@@ -5463,6 +5498,30 @@ public class MyXMLHandler implements DocHandler {
 					StringUtil.parseDouble(attrs.get("z1")));
 			return true;
 		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
+	private boolean handleEigenvectors(LinkedHashMap<String, String> attrs) {
+		if (!(geo.isGeoQuadric())) {
+			return handleEigenvectorsConic(attrs);
+		}
+		try {
+			GeoQuadric3DInterface quadric = (GeoQuadric3DInterface) geo;
+			// set eigenvectors, but don't classify conic now
+			// classifyConic() will be called in handleMatrix() by
+			// conic.setMatrix()
+			quadric.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
+					StringUtil.parseDouble(attrs.get("y0")),
+					StringUtil.parseDouble(attrs.get("z0")),
+					StringUtil.parseDouble(attrs.get("x1")),
+					StringUtil.parseDouble(attrs.get("y1")),
+					StringUtil.parseDouble(attrs.get("z1")),
+					StringUtil.parseDouble(attrs.get("x2")),
+					StringUtil.parseDouble(attrs.get("y2")),
+					StringUtil.parseDouble(attrs.get("z2")));
+			return true;
+		} catch (Exception e) {
 			return false;
 		}
 	}
@@ -5488,9 +5547,27 @@ public class MyXMLHandler implements DocHandler {
 	 * @throws Exception
 	 *             exception
 	 */
-	protected void handleMatrixConicOrQuadric(
-			LinkedHashMap<String, String> attrs) throws Exception {
-		if (geo.isGeoConic() && geo.getDefinition() == null) {
+	private void handleMatrixConicOrQuadric(LinkedHashMap<String, String> attrs)
+			throws Exception {
+		if (geo.isGeoQuadric()) {
+			if (geo.isDefaultGeo()) { // avoid setting for default geo
+				return;
+			}
+			GeoQuadric3DInterface quadric = (GeoQuadric3DInterface) geo;
+			// set matrix and classify conic now
+			// <eigenvectors> should have been set earlier
+			double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
+					StringUtil.parseDouble(attrs.get("A1")),
+					StringUtil.parseDouble(attrs.get("A2")),
+					StringUtil.parseDouble(attrs.get("A3")),
+					StringUtil.parseDouble(attrs.get("A4")),
+					StringUtil.parseDouble(attrs.get("A5")),
+					StringUtil.parseDouble(attrs.get("A6")),
+					StringUtil.parseDouble(attrs.get("A7")),
+					StringUtil.parseDouble(attrs.get("A8")),
+					StringUtil.parseDouble(attrs.get("A9")) };
+			quadric.setMatrixFromXML(matrix);
+		} else if (geo.isGeoConic() && geo.getDefinition() == null) {
 			GeoConicND conic = (GeoConicND) geo;
 			// set matrix and classify conic now
 			// <eigenvectors> should have been set earlier

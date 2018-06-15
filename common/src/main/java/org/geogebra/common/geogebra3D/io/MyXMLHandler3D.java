@@ -3,16 +3,12 @@ package org.geogebra.common.geogebra3D.io;
 import java.util.LinkedHashMap;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.StringUtil;
@@ -151,36 +147,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 
-	@Override
-	protected void startGeoElement(String eName,
-			LinkedHashMap<String, String> attrs) {
-		if (geo == null) {
-			Log.debug("no element set for <" + eName + ">");
-			return;
-		}
-
-		boolean ok = true;
-		switch (eName.charAt(0)) {
-		case 'f':
-			if ("fading".equals(eName)) {
-				ok = handleFading(attrs);
-				break;
-			}
-		case 'l':
-			if ("levelOfDetailQuality".equals(eName)) {
-				ok = handleLevelOfDetailQuality(attrs);
-				break;
-			}
-
-		default:
-			super.startGeoElement(eName, attrs);
-		}
-
-		if (!ok) {
-			Log.debug("error in <element>: " + eName);
-		}
-	}
-
 	private static boolean handleCoordSystem3D(EuclidianSettings3D evs,
 			LinkedHashMap<String, String> attrs) {
 		try {
@@ -208,30 +174,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			evs.setRotXYinDegrees(zAngle, xAngle);
 			evs.updateOrigin(xZero, yZero, zZero);
 
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	private boolean handleFading(LinkedHashMap<String, String> attrs) {
-		try {
-			float fading = Float.parseFloat(attrs.get("val"));
-			((GeoPlaneND) geo).setFading(fading);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	private boolean handleLevelOfDetailQuality(
-			LinkedHashMap<String, String> attrs) {
-		try {
-			boolean lod = Boolean.parseBoolean(attrs.get("val"));
-			if (lod) {
-				((SurfaceEvaluable) geo)
-						.setLevelOfDetail(LevelOfDetail.QUALITY);
-			}
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -483,54 +425,4 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	}
 
-	@Override
-	protected void handleMatrixConicOrQuadric(
-			LinkedHashMap<String, String> attrs) throws Exception {
-		if (geo.isGeoQuadric()) {
-			if (geo.isDefaultGeo()) { // avoid setting for default geo
-				return;
-			}
-			GeoQuadric3D quadric = (GeoQuadric3D) geo;
-			// set matrix and classify conic now
-			// <eigenvectors> should have been set earlier
-			double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
-					StringUtil.parseDouble(attrs.get("A1")),
-					StringUtil.parseDouble(attrs.get("A2")),
-					StringUtil.parseDouble(attrs.get("A3")),
-					StringUtil.parseDouble(attrs.get("A4")),
-					StringUtil.parseDouble(attrs.get("A5")),
-					StringUtil.parseDouble(attrs.get("A6")),
-					StringUtil.parseDouble(attrs.get("A7")),
-					StringUtil.parseDouble(attrs.get("A8")),
-					StringUtil.parseDouble(attrs.get("A9")) };
-			quadric.setMatrixFromXML(matrix);
-		} else {
-			super.handleMatrixConicOrQuadric(attrs);
-		}
-	}
-
-	@Override
-	protected boolean handleEigenvectors(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoQuadric())) {
-			return super.handleEigenvectors(attrs);
-		}
-		try {
-			GeoQuadric3D quadric = (GeoQuadric3D) geo;
-			// set eigenvectors, but don't classify conic now
-			// classifyConic() will be called in handleMatrix() by
-			// conic.setMatrix()
-			quadric.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
-					StringUtil.parseDouble(attrs.get("y0")),
-					StringUtil.parseDouble(attrs.get("z0")),
-					StringUtil.parseDouble(attrs.get("x1")),
-					StringUtil.parseDouble(attrs.get("y1")),
-					StringUtil.parseDouble(attrs.get("z1")),
-					StringUtil.parseDouble(attrs.get("x2")),
-					StringUtil.parseDouble(attrs.get("y2")),
-					StringUtil.parseDouble(attrs.get("z2")));
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
 }
