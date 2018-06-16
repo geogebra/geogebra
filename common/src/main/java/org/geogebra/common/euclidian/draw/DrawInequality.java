@@ -649,9 +649,8 @@ public class DrawInequality extends Drawable {
 	private boolean hit2(int x, int y) {
 		double[] coords = new double[] { view.toRealWorldCoordX(x),
 				view.toRealWorldCoordY(y) };
-		if (geo instanceof GeoFunction && ((GeoFunction) geo)
-				.getVarString(StringTemplate.defaultTemplate).equals("y")) {
-			return ((GeoFunction) geo).getFunction().evaluateBoolean(coords[1]);
+		if (geo instanceof GeoFunction) {
+			return ((GeoFunction) geo).isInRegion(coords[0], coords[1]);
 		}
 
 		FunctionNVar fun = ((FunctionalNVar) geo).getFunction();
