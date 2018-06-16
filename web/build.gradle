@@ -108,7 +108,7 @@ gwt {
 tasks.withType(de.richsource.gradle.plugins.gwt.AbstractGwtActionTask) {
     jvmArgs '-Xss512M'
 }
-
+/*
 configurations.all {
    resolutionStrategy {
        failOnVersionConflict()
@@ -128,7 +128,7 @@ configurations.all {
        force 'org.hamcrest:hamcrest-core:1.3'
    }
 }
-
+*/
 def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
 def outputs = ['web', 'web3d', 'webSimple', 'solver', 'tablet3d','tabletWin']
