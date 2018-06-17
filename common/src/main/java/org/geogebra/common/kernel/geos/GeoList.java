@@ -551,7 +551,8 @@ public class GeoList extends GeoElement
 
 	private static void setElementEuclidianVisible(final GeoElement geo,
 			final boolean visible) {
-		if (!geo.isLabelSet() && !geo.isGeoNumeric()) {
+		if (!geo.isLabelSet()
+				&& (!geo.isGeoNumeric() || !geo.isIndependent())) {
 			geo.setEuclidianVisible(visible);
 		}
 	}
