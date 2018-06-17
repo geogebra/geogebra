@@ -5,7 +5,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -51,9 +50,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	@Override
 	protected boolean isVisible() {
-		if (!getView3D().getApplication().has(Feature.MOB_PACK_JOIN_POINTS)
-				|| !getView3D().getRenderer().getGeometryManager()
-						.packBuffers()) {
+		if (!getView3D().getRenderer().getGeometryManager().packBuffers()) {
 			return true; // no geo connected
 		}
 		return point != null;
@@ -90,23 +87,16 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	@Override
 	public void drawHidden(Renderer renderer) {
-
-		if (!getView3D().getApplication().has(Feature.MOB_PACK_JOIN_POINTS)
-				|| !getView3D().getRenderer().getGeometryManager()
-						.packBuffers()) {
+		if (!getView3D().getRenderer().getGeometryManager().packBuffers()) {
 			renderer.getTextures()
 					.setDashFromLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 			drawOutline(renderer);
 		}
-
 	}
 
 	@Override
 	public void drawOutline(Renderer renderer) {
-
-		if (!getView3D().getApplication().has(Feature.MOB_PACK_JOIN_POINTS)
-				|| !getView3D().getRenderer().getGeometryManager()
-						.packBuffers()) {
+		if (!getView3D().getRenderer().getGeometryManager().packBuffers()) {
 			renderer.setColor(new Coords(0, 0, 0, 1)); // black
 			drawGeometry(renderer);
 		}

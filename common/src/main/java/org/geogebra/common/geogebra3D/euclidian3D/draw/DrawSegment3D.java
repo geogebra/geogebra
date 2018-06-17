@@ -104,9 +104,4 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		enlargeBounds(min, max, boundsMin, boundsMax);
 	}
 
-	@Override
-	public boolean shouldBePacked() {
-		return !createdByDrawList();
-	}
-
 }

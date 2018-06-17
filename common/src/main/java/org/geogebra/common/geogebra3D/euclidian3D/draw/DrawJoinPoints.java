@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 
 /**
@@ -411,10 +410,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	@Override
 	public boolean shouldBePacked() {
-		// remove DrawSegments3D methods using shouldBePacked() when feature released as
-		// those methods just duplicate those from this class
-		return getView3D().getApplication().has(Feature.MOB_PACK_JOIN_POINTS)
-				&& !createdByDrawList();
+		return !createdByDrawList();
 	}
 
 }

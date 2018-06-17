@@ -4041,10 +4041,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_AND_QUEUE_ON_GL_THREAD:
 			return true;
 
-		// MOB-1513
-		case MOB_PACK_JOIN_POINTS:
-			return true;
-
 		// MOB-1514
 		case MOB_PACK_CONIC:
 			return true;
@@ -4346,7 +4342,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case EXPORT_OBJ_IN_MENU:
-			return false;
+			return prerelease;
 
 		case INPUT_BAR_ADD_SLIDER:
 			return isHTML5Applet();

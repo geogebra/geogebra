@@ -12,7 +12,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterMana
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 
 /**
  * Class to list the 3D drawables for EuclidianView3D
@@ -27,8 +26,6 @@ public class Drawable3DLists {
 
 	/** lists of Drawable3D */
 	protected Drawable3DList[] lists;
-
-	private boolean waitForReset = false;
 
 	/**
 	 * Array list with debugging toString
@@ -172,22 +169,11 @@ public class Drawable3DLists {
 	 *            openGL renderer
 	 */
 	public void updateAll(Renderer renderer) {
-
-		if (!view3D.getApplication().has(Feature.MOB_PACK_JOIN_POINTS)) {
-			if (waitForReset) {
-				waitForReset = false;
-				renderer.getGeometryManager().update(true);
-			}
-		}
-
 		for (int i = 0; i < Drawable3D.DRAW_TYPE_MAX; i++) {
 			for (Drawable3D d3d : lists[i]) {
 				d3d.update();
 			}
 		}
-
-		// isUpdatingAll = false;
-
 	}
 
 	/**
@@ -195,16 +181,11 @@ public class Drawable3DLists {
 	 * 
 	 */
 	public void resetAllDrawables() {
-
-		if (!view3D.getApplication().has(Feature.MOB_PACK_JOIN_POINTS)) {
-			waitForReset = true;
-		}
 		for (int i = 0; i < Drawable3D.DRAW_TYPE_MAX; i++) {
 			for (Drawable3D d3d : lists[i]) {
 				d3d.setWaitForReset();
 			}
 		}
-
 	}
 
 	/** says all have to be reset */

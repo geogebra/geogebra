@@ -2465,12 +2465,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            point
 	 */
 	public void setPointDecorations(GeoPointND point) {
-
-		if (app.has(Feature.MOB_PACK_JOIN_POINTS)) {
-			getCompanion().setPointDecorations(point);
-		} else {
-			pointDecorations.setPoint(point);
-		}
+		getCompanion().setPointDecorations(point);
 	}
 
 	/**
@@ -3099,8 +3094,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void draw(Renderer renderer1) {
-		if (!app.has(Feature.MOB_PACK_JOIN_POINTS)
-				|| !getRenderer().getGeometryManager().packBuffers()) {
+		if (!getRenderer().getGeometryManager().packBuffers()) {
 			for (int i = 0; i < 3; i++) {
 				axisDrawable[i].drawOutline(renderer1);
 			}
@@ -3131,8 +3125,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawHidden(Renderer renderer1) {
-		if (!app.has(Feature.MOB_PACK_JOIN_POINTS)
-				|| !getRenderer().getGeometryManager().packBuffers()) {
+		if (!getRenderer().getGeometryManager().packBuffers()) {
 			for (int i = 0; i < 3; i++) {
 				axisDrawable[i].drawHidden(renderer1);
 			}
@@ -3150,8 +3143,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			}
 		}
 
-		if ((!app.has(Feature.MOB_PACK_JOIN_POINTS)
-				|| !getRenderer().getGeometryManager().packBuffers())
+		if (!getRenderer().getGeometryManager().packBuffers()
 				&& getCompanion().decorationVisible()) {
 			pointDecorations.drawHidden(renderer1);
 		}
@@ -3216,9 +3208,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void resetAllDrawables() {
 
-		if (app.has(Feature.MOB_PACK_JOIN_POINTS)) {
-			drawable3DLists.setWaitForResetManagerBuffers();
-		}
+		drawable3DLists.setWaitForResetManagerBuffers();
 		resetOwnDrawables();
 		drawable3DLists.resetAllDrawables();
 
