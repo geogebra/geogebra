@@ -4041,10 +4041,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_AND_QUEUE_ON_GL_THREAD:
 			return true;
 
-		// MOB-1514
-		case MOB_PACK_CONIC:
-			return true;
-
 		// MOB-1515
 		case MOB_PACK_POINTS:
 			return true;

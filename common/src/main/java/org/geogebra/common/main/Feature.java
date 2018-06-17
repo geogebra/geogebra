@@ -246,9 +246,6 @@ public enum Feature {
 	/** AND-679 */
 	MOB_AND_QUEUE_ON_GL_THREAD,
 
-	/** MOB-1514 */
-	MOB_PACK_CONIC,
-
 	/** MOB-1515 */
 	MOB_PACK_POINTS,
 

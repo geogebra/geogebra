@@ -5,7 +5,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -1737,9 +1736,7 @@ public class PlotterSurface {
 	}
 
 	private boolean shouldPackConics(Drawable3D d) {
-		return manager.getRenderer().getView().getApplication()
-				.has(Feature.MOB_PACK_CONIC) && manager.packBuffers()
-				&& d.shouldBePacked();
+		return manager.packBuffers() && d.shouldBePacked();
 	}
 
 	private void endGeometryForConics(Drawable3D d, int longitude,
