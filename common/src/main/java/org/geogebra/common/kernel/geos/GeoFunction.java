@@ -1079,7 +1079,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		} else {
 			P.setX(P.getX() / P.getZ());
 		}
-
+		if (!P.isDefined()) {
+			P.setX(0);
+		}
 		if (!isBooleanFunction()) {
 			if (interval) {
 				// don't let P move out of interval

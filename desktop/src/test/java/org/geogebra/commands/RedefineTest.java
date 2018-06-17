@@ -229,5 +229,15 @@ public class RedefineTest extends Assert {
 		hasType("n", GeoClass.NUMERIC);
 	}
 
+	@Test
+	public void pointOnFnShouldNotStayUndefined() {
+		t("a=1", "1");
+		t("f=axx", "x^(2)");
+		t("A=Point[f]", "(0, 0)");
+		t("a=?", "NaN");
+		t("a=1", "1");
+		t("A", "(0, 0)");
+	}
+
 }
 
