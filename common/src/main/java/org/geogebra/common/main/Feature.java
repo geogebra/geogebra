@@ -240,9 +240,6 @@ public enum Feature {
 	/** IGR-604 */
 	MOB_TABBED_SETTINGS_PANEL,
 
-	/** AND-722 */
-	MOB_MATERIAL_INPUT,
-
 	/** AND-679 */
 	MOB_AND_QUEUE_ON_GL_THREAD,
 

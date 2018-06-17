@@ -46,7 +46,6 @@ import java.util.Collections;
 @SuppressWarnings({"ClassWithTooManyFields", "ClassWithTooManyMethods", "OverlyComplexClass", "OverlyCoupledClass"})
 public class FormulaEditor extends View implements MathField {
 
-    private static final boolean HAS_MATERIAL_INPUT_FEATURE = true;
     private final static int CURSOR_MARGIN = 5;
     // tolerance for cursor color
     private final static int CURSOR_TOLERANCE = 10;
@@ -105,14 +104,12 @@ public class FormulaEditor extends View implements MathField {
     }
 
     private void beforeStyling() {
-        if (HAS_MATERIAL_INPUT_FEATURE) {
-            mSize = PRE_INIT_VALUE;
-            mMinWidth = PRE_INIT_VALUE;
-            mBackgroundColor = PRE_INIT_VALUE;
-            mForegroundColor = null;
-            mText = null;
-            mType = PRE_INIT_VALUE;
-        }
+        mSize = PRE_INIT_VALUE;
+        mMinWidth = PRE_INIT_VALUE;
+        mBackgroundColor = PRE_INIT_VALUE;
+        mForegroundColor = null;
+        mText = null;
+        mType = PRE_INIT_VALUE;
     }
 
     protected void readAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -121,28 +118,15 @@ public class FormulaEditor extends View implements MathField {
                 R.styleable.FormulaEditor,
                 defStyleAttr, 0);
 
-        if (HAS_MATERIAL_INPUT_FEATURE) {
-            try {
-                initSize(a);
-                initMinWidth(a);
-                initBackgroundColor(a);
-                initForegroundColor(a);
-                initText(a);
-                initType(a);
-            } finally {
-                a.recycle();
-            }
-        } else {
-            try {
-                mSize = a.getFloat(R.styleable.FormulaEditor_fe_size, DEFAULT_SIZE);
-                mMinWidth = a.getDimension(R.styleable.FormulaEditor_fe_minWidth, 0);
-                mBackgroundColor = a.getColor(R.styleable.FormulaEditor_fe_backgroundColor, Color.TRANSPARENT);
-                mForegroundColor = new ColorA(a.getColor(R.styleable.FormulaEditor_fe_foregroundColor, Color.BLACK));
-                mText = a.getString(R.styleable.FormulaEditor_fe_text);
-                mType = a.getInteger(R.styleable.FormulaEditor_fe_type, TeXFormula.SANSSERIF);
-            } finally {
-                a.recycle();
-            }
+        try {
+            initSize(a);
+            initMinWidth(a);
+            initBackgroundColor(a);
+            initForegroundColor(a);
+            initText(a);
+            initType(a);
+        } finally {
+            a.recycle();
         }
     }
 

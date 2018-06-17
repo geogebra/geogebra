@@ -4033,10 +4033,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_TABBED_SETTINGS_PANEL:
 			return true;
 
-		// AND-722
-		case MOB_MATERIAL_INPUT:
-			return true;
-
 		// AND-679
 		case MOB_AND_QUEUE_ON_GL_THREAD:
 			return true;
