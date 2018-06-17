@@ -34,13 +34,19 @@ public class RedefineTest extends Assert {
 		app.getKernel().getApplication().getSettings().getCasSettings()
 				.setTimeoutMilliseconds(11000);
 	}
+
 	private static void t(String input, String expected) {
-		CommandsTest.testSyntaxSingle(input, new String[] { expected }, app, ap,
+		CommandsTest.testSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.xmlTemplate);
 	}
 
+	private static void t(String input, String expected, StringTemplate tpl) {
+		CommandsTest.testSyntaxSingle(input, new String[] { expected }, ap,
+				tpl);
+	}
+
 	public static void t(String s, String[] expected) {
-		CommandsTest.testSyntaxSingle(s, expected, app, ap,
+		CommandsTest.testSyntaxSingle(s, expected, ap,
 				StringTemplate.xmlTemplate);
 	}
 
@@ -183,6 +189,18 @@ public class RedefineTest extends Assert {
 	}
 
 	@Test
+	public void pointOnSplineShouldMove() {
+		t("A=(1, 1)", "(1, 1)");
+		t("b:Spline({(0, 1),A,(1, 0)})",
+				CommandsTest.unicode(
+						"(If(t < 0.5, -2t^3 + 0t^2 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5), If(t < 0.5, -2t^3 + 0t^2 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
+				StringTemplate.editTemplate);
+		t("B:ClosestPoint(A, b)", "(1, 1)");
+		t("A=(0, 0)", "(0, 0)");
+		t("B", "(0, 0)");
+	}
+
+	@Test
 	public void redefinitionInInputBoxShouldKeepType() {
 		t("v=(1, 3)", "(1, 3)");
 		t("ib=InputBox(v)", "(1, 3)");
@@ -210,5 +228,6 @@ public class RedefineTest extends Assert {
 		t("n", "4");
 		hasType("n", GeoClass.NUMERIC);
 	}
+
 }
 

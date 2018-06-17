@@ -120,7 +120,11 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	 */
 	public void setFun(Function[] fun) {
 		for (int i = 0; i < fun.length; i++) {
-			this.fun[i] = fun[i];
+			if (this.fun[i] == null) {
+				this.fun[i] = fun[i];
+			} else {
+				this.fun[i].setExpression(fun[i].getExpression());
+			}
 		}
 	}
 

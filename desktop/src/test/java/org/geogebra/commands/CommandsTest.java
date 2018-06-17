@@ -112,7 +112,7 @@ public class CommandsTest extends Assert{
 			} 
 			*/
 		}
-		testSyntaxSingle(s, expected, app1, proc, tpl);
+		testSyntaxSingle(s, expected, proc, tpl);
 	}
 
 	static boolean mayHaveZeroArgs(String cmdName) {
@@ -126,7 +126,7 @@ public class CommandsTest extends Assert{
 				.contains(cmdName);
 	}
 
-	public static void testSyntaxSingle(String s, String[] expected, App app1,
+	public static void testSyntaxSingle(String s, String[] expected,
 			AlgebraProcessor proc, StringTemplate tpl) {
 		Throwable t = null;
 		GeoElementND[] result = null;

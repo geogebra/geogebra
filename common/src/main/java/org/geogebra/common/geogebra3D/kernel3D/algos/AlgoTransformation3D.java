@@ -31,7 +31,11 @@ public class AlgoTransformation3D {
 	 */
 	static final public void toGeoCurveCartesian(Kernel kernel,
 			GeoFunction geoFun, GeoCurveCartesian3D curve) {
-		FunctionVariable t = new FunctionVariable(kernel, "t");
+		FunctionVariable t = curve.getFun(1) == null ? null
+				: curve.getFun(1).getFunctionVariables()[0];
+		if (t == null) {
+			t = new FunctionVariable(kernel, "t");
+		}
 		FunctionVariable x = geoFun.getFunction().getFunctionVariable();
 		ExpressionNode yExp = (ExpressionNode) geoFun
 				.getFunction().getExpression().deepCopy(kernel).replace(x, t);

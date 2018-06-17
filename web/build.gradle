@@ -10,6 +10,7 @@ evaluationDependsOn(':keyboard-web')
 buildscript {
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath 'de.aaschmid:gradle-cpd-plugin:1.1'
     }
 }
 
@@ -20,6 +21,7 @@ apply plugin: 'java'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'checkstyle'
+apply plugin: 'de.aaschmid.cpd'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -333,4 +335,10 @@ pmd {
      ignoreFailures = true
      ruleSets = []
      ruleSetFiles = files("config/pmd.xml")
+}
+
+tasks.withType(de.aaschmid.gradle.plugins.cpd.Cpd) {
+    exclude "**/*.html"
+    exclude "**/*.jj"
+    exclude "**/*.xml"
 }

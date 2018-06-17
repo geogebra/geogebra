@@ -43,6 +43,7 @@ public class AlgoSpline extends AlgoElement {
 	private double[] parameterIntervalLimits;
 	private int dimension = 2;
 	private GeoFunctionNVar weight;
+	private FunctionVariable fv;
 
 	/**
 	 * @param cons
@@ -86,6 +87,7 @@ public class AlgoSpline extends AlgoElement {
 		}
 		spline.setEuclidianVisible(true);
 		parametersValues = new double[inputList.size()];
+		fv = new FunctionVariable(this.kernel, "t");
 		compute();
 		setInputOutput();
 		spline.setLabel(label);
@@ -193,7 +195,6 @@ public class AlgoSpline extends AlgoElement {
 			}
 		}
 
-		FunctionVariable fv = new FunctionVariable(this.kernel, "t");
 		MyList[] alt = new MyList[dimension];
 		ExpressionNode[] nodes = new ExpressionNode[dimension];
 		for (i = 0; i < dimension; i++) {
