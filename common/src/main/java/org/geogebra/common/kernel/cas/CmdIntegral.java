@@ -99,7 +99,8 @@ public class CmdIntegral extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoFunctionable()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue
-							&& !(arg[3] instanceof BooleanValue)))) {
+							&& !(arg[3] instanceof BooleanValue)))
+					&& !"NIntegral".equals(internalCommandName)) {
 
 				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons,
 						c.getLabel(),

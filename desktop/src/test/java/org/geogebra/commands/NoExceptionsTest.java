@@ -2102,9 +2102,8 @@ public class NoExceptionsTest {
 	public void cmdNIntegral(){
 		t("NIntegral[x^2,-1,1]");
 		t("NIntegral[x^2]");
+		shouldFail("Nintegral[exp(x),x,0,1]", "x", app);
 	}
-	
-
 
 	@Test
 	public void cmdRunClickScript(){
