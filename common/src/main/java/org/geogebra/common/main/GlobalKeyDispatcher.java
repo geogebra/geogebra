@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -275,9 +276,25 @@ public abstract class GlobalKeyDispatcher {
 		if (tempVec == null) {
 			tempVec = new Coords(4); // 4 coords for 3D
 		}
-		double xd = geo.getAnimationStep() * xdiff;
-		double yd = geo.getAnimationStep() * ydiff;
-		double zd = geo.getAnimationStep() * zdiff;
+
+		double increment = geo.getAnimationStep();
+
+		// eg for Polygon(A,B,C)
+		// use increment of A
+		if (!geo.isGeoNumeric() && !geo.isGeoPoint()) {
+
+			ArrayList<GeoPointND> freeInputPoints = geo
+					.getFreeInputPoints(app.getActiveEuclidianView());
+
+			if (freeInputPoints != null && freeInputPoints.size() > 0) {
+				increment = freeInputPoints.get(0).getAnimationStep();
+			}
+
+		}
+
+		double xd = increment * xdiff;
+		double yd = increment * ydiff;
+		double zd = increment * zdiff;
 		tempVec.setX(xd);
 		tempVec.setY(yd);
 		tempVec.setZ(zd);
