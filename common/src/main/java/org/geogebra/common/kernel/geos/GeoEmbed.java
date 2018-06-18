@@ -10,13 +10,14 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 
-public class GeoEmbed extends GeoElement implements Locateable {
+public class GeoEmbed extends GeoElement implements GeoWidget, Locateable, Furniture {
 
 	private boolean defined = true;
 	private GeoPoint[] corner;
 	private int embedID;
 	private double w = 800;
 	private double h = 600;
+	private boolean background = true;
 
 	/**
 	 * @param c
@@ -194,6 +195,49 @@ public class GeoEmbed extends GeoElement implements Locateable {
 	public void updateLocation() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public boolean isBackground() {
+		return background;
+	}
+
+	public void setBackground(boolean b) {
+		this.background = b;
+	}
+
+	@Override
+	public void setReady() {
+		background = false;
+	}
+
+	@Override
+	public boolean isReady() {
+		return !background;
+	}
+
+	@Override
+	public int getAbsoluteScreenLocX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAbsoluteScreenLocY() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setAbsoluteScreenLoc(int x, int y) {
+		EuclidianViewInterfaceCommon view = kernel.getApplication().getActiveEuclidianView();
+		getCorner(0).setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
+		getCorner(2).setCoords(view.toRealWorldCoordX(x), getCorner(2).getInhomY(), 1);
+	}
+
+	@Override
+	public boolean isFurniture() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

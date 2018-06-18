@@ -459,7 +459,7 @@
 		top: 0px;
 		left: 0px;
 	}
-	.embedContainer {
+	.mowWidget.embedContainer, .mowDoubleCanvas .mowWidget.background.embedContainer {
 		border: 1px $gray solid;
 	}
 }

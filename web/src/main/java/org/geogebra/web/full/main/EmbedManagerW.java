@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.io.file.ZipFile;
@@ -19,11 +20,11 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.TestArticleElement;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.JSON;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -36,7 +37,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class EmbedManagerW implements EmbedManager {
 
 	private AppWFull app;
-	private HashMap<Integer, GeoGebraFrameBoth> widgets = new HashMap<>();
+	private HashMap<DrawEmbed, GeoGebraFrameBoth> widgets = new HashMap<>();
 
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
@@ -71,11 +72,10 @@ public class EmbedManagerW implements EmbedManager {
 		FlowPanel container = new FlowPanel();
 		container.add(scaler);
 		container.getElement().addClassName("embedContainer");
+		container.getElement().addClassName("mowWidget");
 		((EuclidianDockPanelW) panel).getEuclidianPanel().add(container);
-		Style style = container.getElement().getStyle();
-		style.setPosition(Position.ABSOLUTE);
-		style.setZIndex(51); // above the oject canvas (50) and below MOW
-								// toolbar (51)
+
+
 		if (content.get(drawEmbed.getEmbedID()) != null) {
 			fr.getApplication().getGgbApi().setFileJSON(
 					JSON.parse(content.get(drawEmbed.getEmbedID())));
@@ -86,21 +86,30 @@ public class EmbedManagerW implements EmbedManager {
 		// update(drawEmbed);
 		// }
 		// });
-		widgets.put(drawEmbed.getEmbedID(), fr);
+		widgets.put(drawEmbed, fr);
 	}
 
 	@Override
 	public void update(DrawEmbed drawEmbed) {
-		GeoGebraFrameBoth frame = widgets.get(drawEmbed.getEmbedID());
+		GeoGebraFrameBoth frame = widgets.get(drawEmbed);
 		Style style = frame.getParent().getParent().getElement().getStyle();
 		style.setTop(drawEmbed.getTop(), Unit.PX);
 		style.setLeft(drawEmbed.getLeft(), Unit.PX);
 		frame.getParent().getParent().setSize(
 				Math.abs(drawEmbed.getRight() - drawEmbed.getLeft()) + "px",
 				Math.abs(drawEmbed.getTop() - drawEmbed.getBottom()) + "px");
+		// above the oject canvas (50) and below MOW toolbar (51)
+		toggleBackground(frame, drawEmbed);
 		frame.getElement().getStyle().setWidth(800, Unit.PX);
 		frame.getElement().getStyle().setHeight(600, Unit.PX);
 		frame.getApplication().checkScaleContainer();
+	}
+
+	private static void toggleBackground(GeoGebraFrameBoth frame,
+			DrawEmbed drawEmbed) {
+		Log.error(drawEmbed.isBackground() + "");
+		Dom.toggleClass(frame.getParent().getParent(), "background",
+				drawEmbed.isBackground());
 	}
 
 	@Override
@@ -116,8 +125,8 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void persist() {
-		for (Entry<Integer, GeoGebraFrameBoth> e : widgets.entrySet()) {
-			content.put(e.getKey(), getContent(e.getValue()));
+		for (Entry<DrawEmbed, GeoGebraFrameBoth> e : widgets.entrySet()) {
+			content.put(e.getKey().getEmbedID(), getContent(e.getValue()));
 		}
 	}
 
@@ -157,5 +166,23 @@ public class EmbedManagerW implements EmbedManager {
 				}
 			}
 		}	
+	}
+
+	public void backgroundAll() {
+		for (Entry<DrawEmbed, GeoGebraFrameBoth> e : widgets.entrySet()) {
+			e.getKey().setBackground(true);
+			toggleBackground(e.getValue(), e.getKey());
+		}
+
+	}
+
+	public void play(GeoEmbed lastVideo) {
+		DrawableND de = app.getActiveEuclidianView()
+				.getDrawableFor(lastVideo);
+		if (de instanceof DrawEmbed) {
+			((DrawEmbed) de).setBackground(false);
+			toggleBackground(widgets.get(de), (DrawEmbed) de);
+		}
+
 	}
 }

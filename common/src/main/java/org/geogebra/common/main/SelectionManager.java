@@ -505,7 +505,7 @@ public class SelectionManager {
 	 *            geo
 	 * @return whether given geo belongs to selection
 	 */
-	final public boolean containsSelectedGeo(GeoElement geo) {
+	final public boolean containsSelectedGeo(GeoElementND geo) {
 		return selectedGeos.contains(geo);
 	}
 

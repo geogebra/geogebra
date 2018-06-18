@@ -45,6 +45,7 @@ public class VideoPlayer extends Frame implements Persistable {
 		initYouTubeApi();
 		this.video = video;
 		addStyleName("mowVideo");
+		addStyleName("mowWidget");
 		embedUrl = video.getEmbeddedUrl();
 		playerId = "video_player" + id;
 		getElement().setId(playerId);

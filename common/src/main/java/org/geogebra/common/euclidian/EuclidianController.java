@@ -33,7 +33,6 @@ import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
-import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDelete;
@@ -109,6 +108,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
@@ -406,7 +406,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private GPoint dragStartPoint;
 	private boolean snapMoveView = true;
-	private GeoVideo lastVideo = null;
+	private GeoWidget lastVideo = null;
 	private boolean videoMoved;
 
 	/**
@@ -6204,7 +6204,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				view.toScreenCoordX(xRW - getStartPointX()),
 				view.toScreenCoordY(yRW - getStartPointY()));
 
-		if (movedGeoButton.isGeoVideo()) {
+		if (movedGeoButton instanceof GeoWidget) {
 			moveVideo();
 		}
 		if (repaint) {
@@ -7953,13 +7953,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * Sends the videos to background.
 	 *
 	 */
-	public void videosToBackground() {
+	public void widgetsToBackground() {
 		if (app.getVideoManager() != null) {
-			if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
-				app.getVideoManager().backgroundAll();
-			} else {
-				app.getVideoManager().pause(lastVideo);
-			}
+			app.getVideoManager().backgroundAll();
+		}
+		if (app.getEmbedManager() != null) {
+			app.getEmbedManager().backgroundAll();
 		}
 		lastVideo = null;
 	}
@@ -9374,10 +9373,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void handleVideoPressed(AbstractEvent event) {
-		DrawVideo dv = getVideoHit();
+		GeoWidget dv = getVideoHit();
 
 		if (dv == null) {
-			videosToBackground();
+			widgetsToBackground();
 		}
 
 		if (mode != EuclidianConstants.MODE_MOVE) {
@@ -9386,7 +9385,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (!event.isRightClick() && dv != null) {
 			clearSelections();
-			lastVideo = (GeoVideo) (dv.geo);
+			lastVideo = dv;
 		}
 	}
 
@@ -9395,7 +9394,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		lastVideo = (GeoVideo) movedGeoButton;
+		lastVideo = (GeoWidget) movedGeoButton;
 		videoMoved = true;
 	}
 
@@ -9415,7 +9414,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				view.setBoundingBox(null);
 				view.repaintView();
 			}
-			app.getVideoManager().play(lastVideo);
+			if (lastVideo instanceof GeoVideo) {
+				app.getVideoManager().play((GeoVideo) lastVideo);
+			}
+			if (lastVideo instanceof GeoEmbed) {
+				app.getEmbedManager().play((GeoEmbed) lastVideo);
+			}
 			return true;
 		}
 		return false;
@@ -10450,14 +10454,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return null;
 	}
 
-	protected DrawVideo getVideoHit() {
+	protected GeoWidget getVideoHit() {
 		Hits hits = view.getHits();
 		if (hits != null && hits.size() > 0) {
-			GeoVideo video;
 			for (GeoElement geo : hits.getTopHits()) {
-				if (geo.isGeoVideo()) {
-					video = (GeoVideo) geo;
-					return (DrawVideo) (view.getDrawable(video));
+				if (geo instanceof GeoWidget) {
+					return (GeoWidget) geo;
 				}
 			}
 		}

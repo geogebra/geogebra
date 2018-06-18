@@ -862,13 +862,13 @@
 		max-width: 376px; // 400px - (8px + 16px) padding
 	}
 
-	.mowVideo {
+	.mowWidget {
 		position: absolute;
 		border-style: none;
 		z-index: $z_mow_video;
 	}
 
-	.mowVideo.background {
+	.mowWidget.background {
 		@extend .mowVideo;
 		z-index: $z_mow_video_background;
 	}
@@ -878,17 +878,15 @@
 		.mowVideo {
 			position: absolute;
 			border-style: none;
-			z-index: $z_mow_video;
 		}
-			
-	
-	.mowBackground {
+
+		.mowBackground {
 			position: absolute; 
 			top: 0px;
 			bottom: 0px;
 			z-index: 0; 
 		}	
-		
+
 		.cursor_pen,
 		.cursor_highlighter,
 		.cursor_eraser,

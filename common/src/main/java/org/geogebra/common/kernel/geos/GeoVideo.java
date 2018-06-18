@@ -15,7 +15,7 @@ import org.geogebra.common.util.debug.Log;
  * @author laszlo
  *
  */
-public class GeoVideo extends GeoMedia {
+public class GeoVideo extends GeoMedia implements GeoWidget {
 	private static final String WMODE_TRANSPARENT = "&wmode=transparent";
 
 	/**

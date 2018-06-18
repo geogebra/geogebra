@@ -165,7 +165,7 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	public void setHeight(int newHeight) {
-		video.setWidth(newHeight);
+		video.setHeight(newHeight);
 	}
 
 	public int getLeft() {
