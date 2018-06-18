@@ -4327,10 +4327,10 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case EXPORT_COLLADA_IN_MENU:
-			return prerelease;
+			return false;
 
 		case EXPORT_OBJ_IN_MENU:
-			return prerelease;
+			return false;
 
 		case INPUT_BAR_ADD_SLIDER:
 			return isHTML5Applet();
