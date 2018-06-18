@@ -966,16 +966,12 @@ public class MyXMLHandler implements DocHandler {
 
 		case 'd':
 			if ("distribution".equals(eName)) {
-				if (app.isUsingFullGui()) {
-					ok = handleProbabilityDistribution(attrs);
-				}
+				ok = handleProbabilityDistribution(attrs);
 				break;
 			}
 		case 'i':
 			if ("interval".equals(eName)) {
-				if (app.isUsingFullGui()) {
-					ok = handleProbabilityInterval(attrs);
-				}
+				ok = handleProbabilityInterval(attrs);
 				break;
 			}
 		case 's':
