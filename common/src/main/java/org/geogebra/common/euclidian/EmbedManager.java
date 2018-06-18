@@ -6,10 +6,25 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 
 public interface EmbedManager {
+	/**
+	 * Add new applet.
+	 * 
+	 * @param drawEmbed
+	 *            embedded applet
+	 */
 	public void add(DrawEmbed drawEmbed);
 
+	/**
+	 * Update an embedded applet.
+	 * 
+	 * @param drawEmbed
+	 *            embedded applet
+	 */
 	public void update(DrawEmbed drawEmbed);
 
+	/**
+	 * Remove all widgets.
+	 */
 	public void removeAll();
 
 	/**
@@ -21,6 +36,7 @@ public interface EmbedManager {
 	 * Add base64 of embedded files into an archive
 	 * 
 	 * @param construction
+	 *            construction
 	 * 
 	 * @param f
 	 *            archive
@@ -40,8 +56,25 @@ public interface EmbedManager {
 	 */
 	void persist();
 
+	/**
+	 * Move all embeds to background.
+	 */
 	public void backgroundAll();
 
-	public void play(GeoEmbed lastVideo);
+	/**
+	 * Activates embedded applet
+	 * 
+	 * @param embed
+	 *            active embed
+	 */
+	public void play(GeoEmbed embed);
+
+	/**
+	 * Removes embedded applet
+	 * 
+	 * @param drawEmbed
+	 *            drawable
+	 */
+	public void remove(DrawEmbed drawEmbed);
 
 }

@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -17,7 +18,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 /**
  * Drawable for embedded apps
  */
-public class DrawEmbed extends Drawable implements DrawWidget {
+public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 
 	private BoundingBox boundingBox;
 	private GRectangle2D bounds;
@@ -55,7 +56,7 @@ public class DrawEmbed extends Drawable implements DrawWidget {
 	private void setMetrics() {
 		bounds = AwtFactory.getPrototype().newRectangle2D();
 		bounds.setFrame(getLeft(), getTop(),
-				getRight() - getLeft(), getBottom() - getTop());
+				getWidth(), getHeight());
 		if (boundingBox != null) {
 			boundingBox.setRectangle(bounds);
 		}
@@ -93,6 +94,11 @@ public class DrawEmbed extends Drawable implements DrawWidget {
 	}
 
 	@Override
+	public GRectangle getBounds() {
+		return bounds == null ? null : bounds.getBounds();
+	}
+
+	@Override
 	public GeoElement getGeoElement() {
 		return geo;
 	}
@@ -122,14 +128,17 @@ public class DrawEmbed extends Drawable implements DrawWidget {
 		return getView().toScreenCoordX(geoEmbed.getCorner(0).getInhomX());
 	}
 
-	public int getRight() {
+	private int getRight() {
 		return getView().toScreenCoordX(geoEmbed.getCorner(1).getInhomX());
 	}
 
-	public int getBottom() {
+	private int getBottom() {
 		return getView().toScreenCoordY(geoEmbed.getCorner(0).getInhomY());
 	}
 
+	/**
+	 * @return embed ID
+	 */
 	public int getEmbedID() {
 		return geoEmbed.getEmbedID();
 	}
@@ -161,7 +170,8 @@ public class DrawEmbed extends Drawable implements DrawWidget {
 
 	@Override
 	public void setWidth(int newWidth) {
-
+		double contentWidth = geoEmbed.getContentWidth() * newWidth / getWidth();
+		geoEmbed.setContentWidth(contentWidth);
 		GeoPoint corner = geoEmbed.getCorner(1);
 		corner.setCoords(geoEmbed.getCorner(0).getInhomX() + newWidth / view.getXscale(),
 				corner.getInhomY(), 1);
@@ -170,6 +180,8 @@ public class DrawEmbed extends Drawable implements DrawWidget {
 
 	@Override
 	public void setHeight(int newHeight) {
+		double contentHeight = geoEmbed.getContentHeight() * newHeight / getHeight();
+		geoEmbed.setContentHeight(contentHeight);
 		GeoPoint corner = geoEmbed.getCorner(0);
 		corner.setCoords(corner.getInhomX(),
 				corner.getInhomY() - (newHeight - getHeight()) / view.getYscale(), 1);
@@ -181,7 +193,6 @@ public class DrawEmbed extends Drawable implements DrawWidget {
 	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
 		geoEmbed.setAbsoluteScreenLoc(x, y);
-
 	}
 
 	@Override
@@ -200,6 +211,16 @@ public class DrawEmbed extends Drawable implements DrawWidget {
 
 	public void setBackground(boolean b) {
 		geoEmbed.setBackground(b);
+	}
+
+	public GeoEmbed getGeoEmbed() {
+		return geoEmbed;
+	}
+
+	@Override
+	public void remove() {
+		view.getApplication().getEmbedManager().remove(this);
+
 	}
 
 }

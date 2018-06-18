@@ -60,8 +60,10 @@ public class EmbedManagerW implements EmbedManager {
 		fr.ae = parameters;
 		fr.setComputedWidth(fr.ae.getDataParamWidth());
 		fr.setComputedHeight(fr.ae.getDataParamHeight());
-		fr.ae.attr("showToolbar", "true").attr("scaleContainerClass",
-				"embedContainer").attr("allowUpscale", "true");
+		fr.ae.attr("showToolBar", "true")
+				.attr("scaleContainerClass",
+				"embedContainer").attr("allowUpscale", "true")
+				.attr("showAlgebraInput", "true");
 		fr.runAsyncAfterSplash();
 		DockPanelW panel = ((DockManagerW) app.getGuiManager().getLayout()
 				.getDockManager()).getPanel(App.VIEW_EUCLIDIAN);
@@ -96,18 +98,24 @@ public class EmbedManagerW implements EmbedManager {
 		style.setTop(drawEmbed.getTop(), Unit.PX);
 		style.setLeft(drawEmbed.getLeft(), Unit.PX);
 		frame.getParent().getParent().setSize(
-				Math.abs(drawEmbed.getRight() - drawEmbed.getLeft()) + "px",
-				Math.abs(drawEmbed.getTop() - drawEmbed.getBottom()) + "px");
+				Math.abs(drawEmbed.getWidth()) + "px",
+				Math.abs(drawEmbed.getHeight()) + "px");
 		// above the oject canvas (50) and below MOW toolbar (51)
 		toggleBackground(frame, drawEmbed);
-		frame.getElement().getStyle().setWidth(800, Unit.PX);
-		frame.getElement().getStyle().setHeight(600, Unit.PX);
+		frame.getApplication().getGgbApi()
+				.setSize((int) drawEmbed.getGeoEmbed().getContentWidth(),
+						(int) drawEmbed.getGeoEmbed().getContentHeight());
+		frame.getElement().getStyle()
+				.setWidth((int) drawEmbed.getGeoEmbed().getContentWidth(),
+						Unit.PX);
+		frame.getElement().getStyle()
+				.setHeight((int) drawEmbed.getGeoEmbed().getContentHeight(),
+						Unit.PX);
 		frame.getApplication().checkScaleContainer();
 	}
 
 	private static void toggleBackground(GeoGebraFrameBoth frame,
 			DrawEmbed drawEmbed) {
-		Log.error(drawEmbed.isBackground() + "");
 		Dom.toggleClass(frame.getParent().getParent(), "background",
 				drawEmbed.isBackground());
 	}
@@ -115,12 +123,20 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void removeAll() {
 		for (GeoGebraFrameBoth frame : widgets.values()) {
-			frame.getParent().getParent().removeFromParent();
-			frame.getParent().getParent().getElement().removeFromParent();
-			// frame.getElement().getParentElement().getParentElement()
-			// .removeFromParent();
+			removeFrame(frame);
 		}
 		widgets.clear();
+	}
+
+	private static void removeFrame(GeoGebraFrameBoth frame) {
+		frame.getParent().getParent().removeFromParent();
+		frame.getParent().getParent().getElement().removeFromParent();
+	}
+
+	@Override
+	public void remove(DrawEmbed draw) {
+		removeFrame(widgets.get(draw));
+		widgets.remove(draw);
 	}
 
 	@Override

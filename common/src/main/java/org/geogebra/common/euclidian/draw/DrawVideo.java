@@ -31,7 +31,6 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	private BoundingBox boundingBox;
 	private double originalRatio = Double.NaN;
 
-
 	/** Threshold correction for resizing handler capturing */
 	public static final int HANDLER_THRESHOLD = -4;
 
@@ -160,38 +159,47 @@ public class DrawVideo extends Drawable implements DrawWidget {
 		return bounds;
 	}
 
+	@Override
 	public void setWidth(int newWidth) {
 		video.setWidth(newWidth);
 	}
 
+	@Override
 	public void setHeight(int newHeight) {
 		video.setHeight(newHeight);
 	}
 
+	@Override
 	public int getLeft() {
 		return left;
 	}
 
+	@Override
 	public int getTop() {
 		return top;
 	}
 
+	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
 		video.setAbsoluteScreenLoc(x, y);
 	}
 
+	@Override
 	public double getOriginalRatio() {
 		return originalRatio;
 	}
 
+	@Override
 	public int getWidth() {
 		return video.getWidth();
 	}
 
+	@Override
 	public int getHeight() {
 		return video.getHeight();
 	}
 
+	@Override
 	public void resetRatio() {
 		originalRatio = Double.NaN;
 	}

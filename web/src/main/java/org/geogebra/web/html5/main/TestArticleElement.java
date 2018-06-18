@@ -28,6 +28,7 @@ public class TestArticleElement implements ArticleElementInterface {
 	public TestArticleElement(String prerelease, String appName) {
 		this.prerelease = prerelease;
 		this.appName = appName;
+		attr("width", "800").attr("height", "600");
 	}
 
 	@Override
@@ -107,7 +108,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamShowToolBar(boolean def) {
-		return "true".equals(attributes.get("showToolbar"));
+		return "true".equals(attributes.get("showToolBar"));
 	}
 
 	@Override
@@ -122,7 +123,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamShowAlgebraInput(boolean def) {
-		return false;
+		return "true".equals(attributes.get("showAlgebraInput"));
 	}
 
 	@Override
@@ -167,12 +168,12 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public int getDataParamWidth() {
-		return 800;
+		return Integer.parseInt(attributes.get("width"));
 	}
 
 	@Override
 	public int getDataParamHeight() {
-		return 600;
+		return Integer.parseInt(attributes.get("height"));
 	}
 
 	@Override

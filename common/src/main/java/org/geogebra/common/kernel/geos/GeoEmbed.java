@@ -217,27 +217,46 @@ public class GeoEmbed extends GeoElement implements GeoWidget, Locateable, Furni
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		// TODO Auto-generated method stub
-		return 0;
+		EuclidianViewInterfaceCommon view = kernel.getApplication().getActiveEuclidianView();
+		return view.toScreenCoordX(getCorner(0).getInhomX());
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		// TODO Auto-generated method stub
-		return 0;
+		EuclidianViewInterfaceCommon view = kernel.getApplication().getActiveEuclidianView();
+		return view.toScreenCoordY(getCorner(0).getInhomX());
 	}
 
 	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
 		EuclidianViewInterfaceCommon view = kernel.getApplication().getActiveEuclidianView();
-		getCorner(0).setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
-		getCorner(2).setCoords(view.toRealWorldCoordX(x), getCorner(2).getInhomY(), 1);
+		double oldWidth = getCorner(1).getInhomX() - getCorner(0).getInhomX();
+		double oldHeight = getCorner(2).getInhomY() - getCorner(0).getInhomY();
+		getCorner(2).setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
+		getCorner(0).setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y) - oldHeight, 1);
+		getCorner(1).setCoords(view.toRealWorldCoordX(x) + oldWidth,
+				view.toRealWorldCoordY(y) - oldHeight, 1);
 	}
 
 	@Override
 	public boolean isFurniture() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
+	}
+
+	public double getContentWidth() {
+		return w;
+	}
+
+	public double getContentHeight() {
+		return h;
+	}
+
+	public void setContentWidth(double newWidth) {
+		this.w = newWidth;
+	}
+
+	public void setContentHeight(double newHeight) {
+		this.h = newHeight;
 	}
 
 }

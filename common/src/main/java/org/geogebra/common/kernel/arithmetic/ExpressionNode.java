@@ -3307,8 +3307,6 @@ public class ExpressionNode extends ValidExpression
 		}
 	}
 
-
-
 	/**
 	 * @param parts
 	 *            output parameter

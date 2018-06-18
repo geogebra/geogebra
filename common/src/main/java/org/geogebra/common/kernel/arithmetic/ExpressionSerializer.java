@@ -369,10 +369,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				if (((leftStr.charAt(0) != '-') && // no unary
 						left.isLeaf() && !StringTemplate.isFraction(left))
 						|| (ExpressionNode.opID(left) > Operation.POWER.ordinal()
-								&& ExpressionNode.opID(left) != Operation.FACTORIAL.ordinal())) { // not
-																					// +,
-					// -, *,
-					// /, ^
+								&& ExpressionNode.opID(left) != Operation.FACTORIAL.ordinal())) {
+					// not +, -, *, /, ^
 					sb.append(leftStr);
 				} else {
 					sb.append(tpl.leftBracket());

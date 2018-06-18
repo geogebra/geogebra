@@ -404,6 +404,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				text.substring(0, getTruncIndex(text, g2)), textLeft,
 				textBottom, false);
 	}
+
 	@Override
 	public void drawWidget(GGraphics2D g2) {
 		final GFont font = g2.getFont();

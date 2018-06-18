@@ -422,6 +422,14 @@ public class BoundingBox {
 		return false;
 	}
 
+	/**
+	 * @param video
+	 *            widget
+	 * @param e
+	 *            pointer event
+	 * @param handler
+	 *            hit hadler
+	 */
 	public void resize(DrawWidget video, AbstractEvent e, EuclidianBoundingBoxHandler handler) {
 		int eventX = e.getX();
 		int eventY = e.getY();
