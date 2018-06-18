@@ -1803,19 +1803,36 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setViewsEnabled();
 	}
 
+	/**
+	 * 
+	 * @return true if no CAS View available at all (unbundled apps)
+	 */
+	protected boolean isCASDisabledForApp() {
+		return isUnbundled();
+	}
+
+	/**
+	 * 
+	 * @return true if no 3D is available at all (graphing, geometry, whiteboard)
+	 */
+	protected boolean is3DDisabledForApp() {
+		return isUnbundledGraphing() || isUnbundledGeometry();
+	}
+
 	private void setViewsEnabled() {
-		if (getArticleElement().getDataParamEnableCAS(false)
+		if (isCASDisabledForApp()) {
+			getSettings().getCasSettings().setEnabled(false);
+		} else if (getArticleElement().getDataParamEnableCAS(false)
 				|| !getArticleElement().getDataParamEnableCAS(true)) {
-			getSettings().getCasSettings().setEnabled(
-					getArticleElement().getDataParamEnableCAS(false));
+			getSettings().getCasSettings().setEnabled(getArticleElement().getDataParamEnableCAS(false));
 		}
-		if (getArticleElement().getDataParamEnable3D(false)
+
+		if (is3DDisabledForApp()) {
+			getSettings().getEuclidian(-1).setEnabled(false);
+		} else if (getArticleElement().getDataParamEnable3D(false)
 				|| !getArticleElement().getDataParamEnable3D(true)) {
-
 			if (getSettings().supports3D()) {
-
-				getSettings().getEuclidian(-1).setEnabled(
-						getArticleElement().getDataParamEnable3D(false));
+				getSettings().getEuclidian(-1).setEnabled(getArticleElement().getDataParamEnable3D(false));
 			}
 		}
 
@@ -2573,6 +2590,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean supportsView(int viewID) {
+		if (viewID == App.VIEW_CAS && isCASDisabledForApp()) {
+			return false;
+		}
+
 		if (viewID == App.VIEW_CAS && !getLAF().isSmart()) {
 			if (!Browser.supportsJsCas()) {
 				return false;
@@ -2580,7 +2601,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		if (viewID == App.VIEW_CAS) {
-			return (!isUnbundledOrWhiteboard() && getSettings().getCasSettings().isEnabled())
+			return (getSettings().getCasSettings().isEnabled())
 					&& getArticleElement().getDataParamEnableCAS(true)
 					&& getCASFactory().isEnabled();
 		}
