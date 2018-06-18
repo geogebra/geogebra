@@ -4051,7 +4051,7 @@ public abstract class App implements UpdateSelection {
 
 		// AND-1071 and IGR-819
 		case MOB_EXAM_MODE_SCREENSHOT_SAVED_NOTIFICATION:
-			return prerelease;
+			return true;
 
 		// AND-887 and IGR-732
 		case MOB_PROPERTY_SORT_BY:
