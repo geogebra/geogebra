@@ -77,7 +77,8 @@ public class AppWapplet3D extends AppWFull {
 	@Override
 	public boolean supportsView(int viewID) {
 		if (viewID == App.VIEW_EUCLIDIAN3D) {
-			return Browser.supportsWebGL() && getSettings().getEuclidian(-1).isEnabled();
+			return !(isUnbundledGraphing() || isUnbundledGeometry()) && Browser.supportsWebGL()
+					&& getSettings().getEuclidian(-1).isEnabled();
 		}
 		return super.supportsView(viewID);
 	}

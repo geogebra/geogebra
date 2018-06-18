@@ -2580,7 +2580,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		if (viewID == App.VIEW_CAS) {
-			return (getSettings().getCasSettings().isEnabled())
+			return (!isUnbundledOrWhiteboard() && getSettings().getCasSettings().isEnabled())
 					&& getArticleElement().getDataParamEnableCAS(true)
 					&& getCASFactory().isEnabled();
 		}
