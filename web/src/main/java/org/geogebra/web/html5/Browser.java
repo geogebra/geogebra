@@ -369,12 +369,6 @@ public class Browser {
 	public static native void exportImage(String url, String title) /*-{
 		//idea from http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript/16245768#16245768
 
-		// no downloading on iOS so just open image/file in new tab
-		if (@org.geogebra.web.html5.Browser::isiOS()()) {
-			@org.geogebra.web.html5.Browser::openWindow(Ljava/lang/String;)(url);
-			return;
-		}
-
 		var extension;
 		var header;
 
@@ -424,6 +418,12 @@ public class Browser {
 		// Yes, really!
 		if ($wnd.android) {
 			$wnd.android.share(url, title, extension);
+			return;
+		}
+
+		// no downloading on iOS so just open image/file in new tab
+		if (@org.geogebra.web.html5.Browser::isiOS()()) {
+			@org.geogebra.web.html5.Browser::openWindow(Ljava/lang/String;)(url);
 			return;
 		}
 
