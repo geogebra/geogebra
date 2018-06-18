@@ -411,7 +411,7 @@ public abstract class GlobalKeyDispatcher {
 		// F9 updates construction
 		// cmd-f9 on Mac OS
 		case F9:
-			if (!app.isApplet() || app.isRightClickEnabled()) {
+			if (!app.isApplet() || keyboardShortcutsEnabled()) {
 				app.getKernel().updateConstruction(true);
 				app.setUnsaved();
 				consumed = true;
@@ -421,7 +421,7 @@ public abstract class GlobalKeyDispatcher {
 		case CONTEXT_MENU:
 		case F10: // <Shift>F10 -> Right-click
 			if ((isShiftDown || key == KeyCodes.CONTEXT_MENU)
-					&& app.isRightClickEnabled()) {
+					&& keyboardShortcutsEnabled()) {
 				if (app.getGuiManager() != null) {
 
 					EuclidianView view = app.getActiveEuclidianView();
@@ -546,7 +546,8 @@ public abstract class GlobalKeyDispatcher {
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-1 from working (| on some
 			// keyboards)
-			if (isShiftDown && app.getGuiManager() != null) { // ||
+			if (isShiftDown && keyboardShortcutsEnabled()
+					&& app.getGuiManager() != null) { // ||
 																// event.isAltDown())
 																// {
 				app.getGuiManager().setShowView(
@@ -568,7 +569,8 @@ public abstract class GlobalKeyDispatcher {
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-2 from working (superscript
 			// 2 on some keyboards)
-			if (isShiftDown && app.getGuiManager() != null) { // ||
+			if (isShiftDown && keyboardShortcutsEnabled()
+					&& app.getGuiManager() != null) { // ||
 																// event.isAltDown())
 																// {
 				app.getGuiManager().setShowView(
@@ -591,7 +593,8 @@ public abstract class GlobalKeyDispatcher {
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-3 from working (^ on
 			// Croatian keyboard)
-			if (isShiftDown && app.getGuiManager() != null
+			if (isShiftDown && keyboardShortcutsEnabled()
+					&& app.getGuiManager() != null
 					&& app.supportsView(App.VIEW_EUCLIDIAN3D)) { // ||
 																	// event.isAltDown())
 																	// {
@@ -611,7 +614,8 @@ public abstract class GlobalKeyDispatcher {
 
 		case A:
 			if (isShiftDown) {
-				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
+						&& app.getGuiManager() != null) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_ALGEBRA),
 							App.VIEW_ALGEBRA);
@@ -625,7 +629,8 @@ public abstract class GlobalKeyDispatcher {
 
 		case K:
 			if (isShiftDown) {
-				if (app.isUsingFullGui() && app.getGuiManager() != null
+				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
+						&& app.getGuiManager() != null
 						&& app.supportsView(App.VIEW_CAS)) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_CAS),
@@ -637,7 +642,8 @@ public abstract class GlobalKeyDispatcher {
 
 		case L:
 			if (isShiftDown) {
-				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
+						&& app.getGuiManager() != null) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager()
 									.showView(App.VIEW_CONSTRUCTION_PROTOCOL),
@@ -660,7 +666,8 @@ public abstract class GlobalKeyDispatcher {
 
 			if (isShiftDown) {
 				// toggle Probability View
-				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
+						&& app.getGuiManager() != null) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager()
 									.showView(App.VIEW_PROBABILITY_CALCULATOR),
@@ -762,7 +769,8 @@ public abstract class GlobalKeyDispatcher {
 
 		// Ctrl + E: open object properties (needed here for spreadsheet)
 		case E:
-			if (app.isUsingFullGui() && app.getGuiManager() != null) {
+			if (keyboardShortcutsEnabled() && app.isUsingFullGui()
+					&& app.getGuiManager() != null) {
 				app.getGuiManager().setShowView(
 						!app.getGuiManager().showView(App.VIEW_PROPERTIES),
 						App.VIEW_PROPERTIES, false);
@@ -817,7 +825,7 @@ public abstract class GlobalKeyDispatcher {
 		// ctrl-R updates construction
 		// make sure it works in applets without a menubar
 		case R:
-			if (!app.isApplet() || app.isRightClickEnabled()) {
+			if (!app.isApplet() || keyboardShortcutsEnabled()) {
 				app.getKernel().updateConstruction(true);
 				app.setUnsaved();
 				consumed = true;
@@ -827,7 +835,8 @@ public abstract class GlobalKeyDispatcher {
 		// ctrl-shift-s (toggle spreadsheet)
 		case S:
 			if (isShiftDown) {
-				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+				if (keyboardShortcutsEnabled() && app.isUsingFullGui()
+						&& app.getGuiManager() != null) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_SPREADSHEET),
 							App.VIEW_SPREADSHEET);
@@ -965,6 +974,16 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		}
 		return consumed;
+	}
+
+	/**
+	 * enableRightClick also enables/disables some keyboard shortcuts eg Delete
+	 * and Ctrl + R
+	 * 
+	 * @return
+	 */
+	private boolean keyboardShortcutsEnabled() {
+		return app.isRightClickEnabled();
 	}
 
 	private void handleEscForDropdown() {
@@ -1408,7 +1427,7 @@ public abstract class GlobalKeyDispatcher {
 				return false;
 			}
 			// DELETE selected objects
-			if (!app.isApplet() || app.isRightClickEnabled()) {
+			if (!app.isApplet() || keyboardShortcutsEnabled()) {
 				app.deleteSelectedObjects(false);
 				return true;
 			}
@@ -1423,7 +1442,7 @@ public abstract class GlobalKeyDispatcher {
 			// Note: ctrl-h generates a KeyEvent.VK_BACK_SPACE event, so check
 			// for ctrl too
 			if (!isControlDown
-					&& (!app.isApplet() || app.isRightClickEnabled())) {
+					&& (!app.isApplet() || keyboardShortcutsEnabled())) {
 				app.deleteSelectedObjects(false);
 				return true;
 			}
