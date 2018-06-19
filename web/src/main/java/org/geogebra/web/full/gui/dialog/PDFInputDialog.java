@@ -47,7 +47,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 	private String pdfFile = null;
 	private PDFChooser pdfChooser = new PDFChooser();
 
-	private class PDFChooser extends FileUpload implements ChangeHandler {
+	private static class PDFChooser extends FileUpload
+			implements ChangeHandler {
 		public PDFChooser() {
 			super();
 			addChangeHandler(this);
