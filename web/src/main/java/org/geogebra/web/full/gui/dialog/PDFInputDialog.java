@@ -47,8 +47,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 	private String pdfFile = null;
 	private PDFChooser pdfChooser = new PDFChooser();
 
-	private class PDFChooser extends FileUpload implements ChangeHandler
-	{
+	private class PDFChooser extends FileUpload implements ChangeHandler {
 		public PDFChooser() {
 			super();
 			addChangeHandler(this);
@@ -144,10 +143,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 	}
 
 	private StandardButton createImgButton(FlowPanel root,
-			ImageResource imgSource,
-			int size, String styleName) {
-		StandardButton btn = new StandardButton(
-				imgSource, null, size, size, appW);
+			ImageResource imgSource, int size, String styleName) {
+		StandardButton btn = new StandardButton(imgSource, null, size, size,
+				appW);
 		btn.addStyleName(styleName);
 		btn.addFastClickHandler(this);
 		root.add(btn);
