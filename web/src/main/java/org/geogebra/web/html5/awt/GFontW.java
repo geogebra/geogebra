@@ -12,7 +12,6 @@ public class GFontW extends GFont {
 	private String fontVariant = NORMAL_STR;
 	private String fontWeight = NORMAL_STR;
 	private String fontSize = "12";
-	private String lineHeight = "12";
 	private String fontFamily = GEOGEBRA_FONT_SANSERIF;
 
 	/**
@@ -24,7 +23,6 @@ public class GFontW extends GFont {
 		fontVariant = otherfont.getFontVariant();
 		fontWeight = otherfont.getFontWeight();
 		fontSize = otherfont.getFontSize();
-		lineHeight = otherfont.getLineHeight();
 		fontFamily = otherfont.getFontFamily();
 	}
 
@@ -63,7 +61,7 @@ public class GFontW extends GFont {
 
 	public String getFullFontString() {
 		return fontStyle + " " + fontVariant + " " + fontWeight + " "
-		        + fontSize + "px/" + lineHeight + "px " + fontFamily;
+				+ fontSize + "px " + fontFamily;
 	}
 
 	public void setFontVariant(String fontVariant) {
@@ -80,14 +78,6 @@ public class GFontW extends GFont {
 
 	public String getFontSize() {
 		return fontSize;
-	}
-
-	public void setLineHeight(String lineHeight) {
-		this.lineHeight = lineHeight;
-	}
-
-	public String getLineHeight() {
-		return lineHeight;
 	}
 
 	public String getFontFamily() {
@@ -177,8 +167,7 @@ public class GFontW extends GFont {
 			        && fontSize.equals(fontW.fontSize)
 			        && fontStyle.equals(fontW.fontStyle)
 			        && fontVariant.equals(fontW.fontVariant)
-			        && fontWeight.equals(fontW.fontWeight)
-			        && lineHeight.equals(fontW.lineHeight);
+					&& fontWeight.equals(fontW.fontWeight);
 
 		}
 
