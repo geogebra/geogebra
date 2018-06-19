@@ -43,7 +43,7 @@ public class CmdFitPoly extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
-		if (!(arg[n - 1] instanceof GeoNumberValue)) {
+		if (n > 0 && !(arg[n - 1] instanceof GeoNumberValue)) {
 			throw argErr(c, arg[n - 1]);
 		}
 		switch (n) {
