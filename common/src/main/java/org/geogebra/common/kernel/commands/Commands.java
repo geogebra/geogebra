@@ -1154,6 +1154,12 @@ public enum Commands implements CommandsConstants,
 
 	SolveQuartic(TABLE_CAS),
 
+	JordanDiagonalization(TABLE_CAS),
+
+	Eigenvectors(TABLE_CAS),
+
+	Eigenvalues(TABLE_CAS),
+
 	Laplace(TABLE_CAS),
 
 	InverseLaplace(TABLE_CAS),
