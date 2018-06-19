@@ -751,8 +751,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * 
 	 * @param sb
 	 *            StringBuilder to add to.
-	 * @return true if caption was added
-	 *         - i.e. when it is not empty.
+	 * @return true if caption was added - i.e. when it is not empty.
 	 */
 	boolean addAuralCaption(StringBuilder sb);
 
@@ -777,6 +776,7 @@ public interface GeoElementND extends ExpressionValue {
 	 *            StringBuilder to add to.
 	 */
 	void addAuralLabel(Localization loc, StringBuilder sb);
+
 	/**
 	 * add Caption for reader if defined, type and label otherwise.
 	 * 
