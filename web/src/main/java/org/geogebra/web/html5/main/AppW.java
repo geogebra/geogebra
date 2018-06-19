@@ -1824,7 +1824,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getSettings().getCasSettings().setEnabled(false);
 		} else if (getArticleElement().getDataParamEnableCAS(false)
 				|| !getArticleElement().getDataParamEnableCAS(true)) {
-			getSettings().getCasSettings().setEnabled(getArticleElement().getDataParamEnableCAS(false));
+			getSettings().getCasSettings().setEnabled(
+					getArticleElement().getDataParamEnableCAS(false));
 		}
 
 		if (is3DDisabledForApp()) {
@@ -1832,7 +1833,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		} else if (getArticleElement().getDataParamEnable3D(false)
 				|| !getArticleElement().getDataParamEnable3D(true)) {
 			if (getSettings().supports3D()) {
-				getSettings().getEuclidian(-1).setEnabled(getArticleElement().getDataParamEnable3D(false));
+				getSettings().getEuclidian(-1).setEnabled(
+						getArticleElement().getDataParamEnable3D(false));
 			}
 		}
 

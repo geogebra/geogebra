@@ -123,6 +123,10 @@ public class GCheckBoxMenuItem {
 		setCommand(cmd);
 	}
 
+	/**
+	 * @param cmd
+	 *            command
+	 */
 	public void setCommand(ScheduledCommand cmd) {
 		menuItem = new AriaMenuItem(itemPanel.toString(), true, cmd);
 	}

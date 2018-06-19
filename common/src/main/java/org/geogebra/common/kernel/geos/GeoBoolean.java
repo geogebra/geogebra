@@ -512,7 +512,8 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	public void addAuralOperations(Localization loc, StringBuilder sb) {
 		if (getBoolean()) {
-			sb.append(loc.getMenuDefault("PressSpaceCheckboxOff", "Press space to uncheck checkbox"));
+			sb.append(
+					loc.getMenuDefault("PressSpaceCheckboxOff", "Press space to uncheck checkbox"));
 		} else {
 			sb.append(loc.getMenuDefault("PressSpaceCheckboxOn", "Press space to check checkbox"));
 		}

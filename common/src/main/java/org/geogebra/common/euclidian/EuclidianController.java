@@ -108,7 +108,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.common.kernel.geos.GeoWidget;
+import org.geogebra.common.kernel.geos.GeoFrame;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
@@ -406,7 +406,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private GPoint dragStartPoint;
 	private boolean snapMoveView = true;
-	private GeoWidget lastVideo = null;
+	private GeoFrame lastVideo = null;
 	private boolean videoMoved;
 
 	/**
@@ -6204,7 +6204,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				view.toScreenCoordX(xRW - getStartPointX()),
 				view.toScreenCoordY(yRW - getStartPointY()));
 
-		if (movedGeoButton instanceof GeoWidget) {
+		if (movedGeoButton instanceof GeoFrame) {
 			moveVideo();
 		}
 		if (repaint) {
@@ -9373,7 +9373,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void handleVideoPressed(AbstractEvent event) {
-		GeoWidget dv = getVideoHit();
+		GeoFrame dv = getVideoHit();
 
 		if (dv == null) {
 			widgetsToBackground();
@@ -9394,7 +9394,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		lastVideo = (GeoWidget) movedGeoButton;
+		lastVideo = (GeoFrame) movedGeoButton;
 		videoMoved = true;
 	}
 
@@ -10454,12 +10454,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return null;
 	}
 
-	protected GeoWidget getVideoHit() {
+	protected GeoFrame getVideoHit() {
 		Hits hits = view.getHits();
 		if (hits != null && hits.size() > 0) {
 			for (GeoElement geo : hits.getTopHits()) {
-				if (geo instanceof GeoWidget) {
-					return (GeoWidget) geo;
+				if (geo instanceof GeoFrame) {
+					return (GeoFrame) geo;
 				}
 			}
 		}

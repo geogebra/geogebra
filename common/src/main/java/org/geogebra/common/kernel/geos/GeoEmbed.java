@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 
-public class GeoEmbed extends GeoElement implements GeoWidget, Locateable, Furniture {
+public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furniture {
 
 	private boolean defined = true;
 	private GeoPoint[] corner;

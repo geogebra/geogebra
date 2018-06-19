@@ -77,7 +77,6 @@ public class EmbedManagerW implements EmbedManager {
 		container.getElement().addClassName("mowWidget");
 		((EuclidianDockPanelW) panel).getEuclidianPanel().add(container);
 
-
 		if (content.get(drawEmbed.getEmbedID()) != null) {
 			fr.getApplication().getGgbApi().setFileJSON(
 					JSON.parse(content.get(drawEmbed.getEmbedID())));
@@ -184,6 +183,7 @@ public class EmbedManagerW implements EmbedManager {
 		}	
 	}
 
+	@Override
 	public void backgroundAll() {
 		for (Entry<DrawEmbed, GeoGebraFrameBoth> e : widgets.entrySet()) {
 			e.getKey().setBackground(true);
@@ -192,6 +192,7 @@ public class EmbedManagerW implements EmbedManager {
 
 	}
 
+	@Override
 	public void play(GeoEmbed lastVideo) {
 		DrawableND de = app.getActiveEuclidianView()
 				.getDrawableFor(lastVideo);
