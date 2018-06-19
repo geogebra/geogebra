@@ -8751,26 +8751,34 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public void addAuralCaption(StringBuilder sb) {
+	public boolean addAuralCaption(StringBuilder sb) {
 		String caption0 = getCaptionSimple();
 		if (caption0 != null && !"".equals(caption)) {
 			sb.append(caption0);
+			sb.append(" ");
+			return true;
 		}
+		return false;
 	}
 
 	@Override
-	public void addAuralTypeAndLabel(Localization loc, StringBuilder sb) {
-		if (caption == null || "".equals(caption)) {
-			sb.append(translatedTypeStringForAlgebraView());
-			sb.append(" ");
-			sb.append(getLabelSimple());
-		}
+	public void addAuralType(Localization loc, StringBuilder sb) {
+		sb.append(translatedTypeStringForAlgebraView());
+		sb.append(" ");
+	}
+
+	@Override
+	public void addAuralLabel(Localization loc, StringBuilder sb) {
+		sb.append(getLabelSimple());
+		sb.append(" ");
 	}
 
 	@Override
 	public void addAuralName(Localization loc, StringBuilder sb) {
-		addAuralTypeAndLabel(loc, sb);
-		addAuralCaption(sb);
+		addAuralType(loc, sb);
+		if (!addAuralCaption(sb)) {
+			addAuralLabel(loc, sb);
+		}
 	}
 
 	@Override
@@ -8792,9 +8800,9 @@ public abstract class GeoElement extends ConstructionElement
 		StringBuilder sb = new StringBuilder();
 		addAuralName(loc, sb);
 		sb.append(" ");
-		addAuralContent(loc, sb);
-		sb.append(" ");
 		addAuralStatus(loc, sb);
+		sb.append(" ");
+		addAuralContent(loc, sb);
 		sb.append(" ");
 		addAuralOperations(loc, sb);
 		sb.append(". ");

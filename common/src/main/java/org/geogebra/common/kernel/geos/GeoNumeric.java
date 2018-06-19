@@ -2057,4 +2057,24 @@ public class GeoNumeric extends GeoElement
 		super.addAuralOperations(loc, sb);
 
 	}
+
+	@Override
+	public String getAuralTextForSpace() {
+		if (!isSlider()) {
+			return null;
+		}
+
+		Localization loc = kernel.getLocalization();
+		StringBuilder sb = new StringBuilder();
+		addAuralCaption(sb);
+		sb.append(" ");
+		if (isAnimating()) {
+			sb.append(loc.getMenuDefault("AnimationStopped", "animation is stopped"));
+		} else {
+			sb.append(loc.getMenuDefault("AnimationStarted", "animation is started"));
+		}
+		sb.append(".");
+		return sb.toString();
+	}
+
 }
