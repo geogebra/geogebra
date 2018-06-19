@@ -47,6 +47,7 @@ public class CAStestJSON {
 	static Kernel kernel;
 	static AppDNoGui app;
 	static CASTestLogger logger;
+	private static String missing = null;
 
 	static class CasTest {
 		public CasTest(String input, String output, String rounding) {
@@ -177,8 +178,7 @@ public class CAStestJSON {
 					&& !"SolveQuartic.1".equals(key)
 					&& !"TurningPoint.1".equals(key)
 					&& !"UnitOrthogonalVector.1".equals(key)) {
-				System.out.println("&& !\"" + key + "\".equals(key)");
-				Assert.fail("Missing:" + key);
+				missing = key;
 			}
 		}
 	}
@@ -330,6 +330,9 @@ public class CAStestJSON {
 
 	@AfterClass
 	public static void checkAllCatsTested() {
+		if (missing != null) {
+			Assert.fail("Missing tests for:" + missing);
+		}
 		StringBuilder sb = new StringBuilder("");
 		for (String cat : testcases.keySet()) {
 			sb.append(cat);
@@ -1349,5 +1352,16 @@ public class CAStestJSON {
 		testCat("InverseLaplace.1");
 		testCat("InverseLaplace.2");
 		testCat("InverseLaplace.3");
+	}
+
+	@Test
+	public void testEigenvalues() {
+		testCat("Eigenvalues.1");
+		testCat("Eigenvectors.1");
+	}
+
+	@Test
+	public void testJordan() {
+		testCat("JordanDiagonalization.1");
 	}
 }
