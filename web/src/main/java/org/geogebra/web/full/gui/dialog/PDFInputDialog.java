@@ -85,6 +85,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), 96);
 		folderImg.addStyleName("folderImg");
 		pdfContainerPanel.add(folderImg);
+		addDropHandler(pdfContainerPanel.getElement());
 		clickOrDragText = new Label();
 		clickOrDragText.addStyleName("clickOrDragText");
 		pdfContainerPanel.add(clickOrDragText);
@@ -109,6 +110,18 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 		// buildPdfContainer();
 		setLabels();
 	}
+
+	private native void addDropHandler(
+			com.google.gwt.dom.client.Element element) /*-{
+		element
+				.addEventListener(
+						"drop",
+						function(event) {
+							var files = event.dataTransfer.files;
+							@org.geogebra.web.full.gui.dialog.PDFInputDialog::loadPdf(Ljava/lang/String;)(files[0].name);
+						});
+
+	}-*/;
 
 	private void buildPdfContainer() {
 		pdfContainerPanel.clear();
