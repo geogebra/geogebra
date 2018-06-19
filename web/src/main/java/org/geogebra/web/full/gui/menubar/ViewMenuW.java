@@ -159,7 +159,7 @@ public class ViewMenuW extends GMenuBar {
 				}, true, app);
 		consProtNav.setForceCheckbox(true);
 		addItem(consProtNav.getMenuItem());
-		if (app.has(Feature.DATA_COLLECTION)) {
+		if (app.has(Feature.DATA_COLLECTION) && !app.isExam()) {
 			dataCollection = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 					AppResources.INSTANCE.empty().getSafeUri().asString(), app
 							.getLocalization().getMenu("Sensors"), true),
@@ -178,9 +178,7 @@ public class ViewMenuW extends GMenuBar {
 						}
 					}, true, app);
 			dataCollection.setForceCheckbox(true);
-			if (!app.isExam()) {
 			addItem(dataCollection.getMenuItem());
-			}
 		}
 		addSeparator();
 		initRefreshActions(loc);
@@ -190,7 +188,7 @@ public class ViewMenuW extends GMenuBar {
 	private void addToMenu(final ViewType e) {
 		final GCheckBoxMenuItem newItem = new GCheckBoxMenuItem(
 				MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(e.getIcon()),
-						app.getLocalization().getMenu(e.getKey()), true),
+						app.getLocalization().getMenu(e.getKey())),
 				true, app);
 		newItem.setCommand(new MenuCommand(app) {
 

@@ -240,7 +240,7 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	@Override
 	public int getAbsoluteScreenLocY() {
 		EuclidianViewInterfaceCommon view = kernel.getApplication().getActiveEuclidianView();
-		return view.toScreenCoordY(getCorner(0).getInhomX());
+		return view.toScreenCoordY(getCorner(2).getInhomY());
 	}
 
 	@Override

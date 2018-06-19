@@ -103,7 +103,6 @@ public class EmbedManagerW implements EmbedManager {
 
 			@Override
 			public boolean onOpenFile() {
-				Log.printStacktrace(parameters.getDataParamAppName());
 				drawEmbed.getGeoEmbed()
 						.setAppName(parameters.getDataParamAppName());
 				return true;
@@ -123,9 +122,9 @@ public class EmbedManagerW implements EmbedManager {
 				Math.abs(drawEmbed.getHeight()) + "px");
 		// above the oject canvas (50) and below MOW toolbar (51)
 		toggleBackground(frame, drawEmbed);
-		frame.getApplication().getGgbApi()
-				.setSize((int) drawEmbed.getGeoEmbed().getContentWidth(),
-						(int) drawEmbed.getGeoEmbed().getContentHeight());
+		frame.getApplication().getGgbApi().setSize(
+				(int) drawEmbed.getGeoEmbed().getContentWidth(),
+				(int) drawEmbed.getGeoEmbed().getContentHeight());
 		frame.getElement().getStyle()
 				.setWidth((int) drawEmbed.getGeoEmbed().getContentWidth(),
 						Unit.PX);
