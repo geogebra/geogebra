@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -60,7 +61,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 
 		@Override
 		public void onChange(ChangeEvent event) {
-			// TODO file handling goes here
+			loadPdf(getFilename());
 		}
 	}
 
@@ -207,5 +208,16 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 	 */
 	void choosePdfFile() {
 		pdfChooser.open();
+	}
+
+	/**
+	 * loads the pdf
+	 * 
+	 * @param filename
+	 *            to load.
+	 * 
+	 */
+	static void loadPdf(String filename) {
+		Log.debug("PDF load: " + filename);
 	}
 }
