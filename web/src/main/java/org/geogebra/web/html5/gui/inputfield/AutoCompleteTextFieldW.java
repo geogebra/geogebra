@@ -305,7 +305,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					// before the real focus and blur events take place
 					showSymbolButton.addStyleName("ShowSymbolButtonFocused");
 					setShowSymbolButtonFocused(true);
-					event.stopPropagation();
 				}
 				super.onBrowserEvent(event);
 
@@ -1054,10 +1053,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			insertString(".");
 			return;
 		}
+		GeoElement curr = app.getSelectionManager().getSelectedGeos().get(0);
 		if (Browser.isTabletBrowser()
 				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
-				&& e.getNativeEvent().getKeyCode() != 0) {
+				&& e.getNativeEvent().getKeyCode() != 0
+				&& !(curr instanceof GeoInputBox)) {
 			insertString(Character.toString(ch));
 			text = getText();
 		}
@@ -1738,17 +1739,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		// #5371
 		if (hasDeferredFocus()) {
 			Scheduler.get().scheduleDeferred(cmdDeferredFocus);
-		}
-		app.getGlobalKeyDispatcher().setFocused(true);
-		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-			if (Browser.isTabletBrowser()) {
-				// avoid native keyboard opening
-				getTextField().getValueBox().setReadOnly(true);
-			}
-			if (app.showKeyboard(this, false)
-					|| app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
-				startOnscreenKeyboardEditing();
-			}
 		}
 		textField.setFocus(true);
 
