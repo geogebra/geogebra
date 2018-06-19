@@ -4061,7 +4061,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-1518
 		case MOB_PACK_QUADRICS:
-			return true;
+			return prerelease;
 
 		// MOB-1519
 		case MOB_PACK_SURFACES_GRAPHS:
