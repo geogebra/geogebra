@@ -4405,7 +4405,7 @@ public abstract class App implements UpdateSelection {
 		/** GGB-2375 */
 		case INPUT_BOX_LINE_UP_BETTER:
 			// don't set true in ggb5
-			return prerelease && !Versions.DESKTOP.equals(getVersion());
+			return !Versions.DESKTOP.equals(getVersion());
 
 		/** GBB-2374 */
 		case MAT_DESIGN_HEADER:
