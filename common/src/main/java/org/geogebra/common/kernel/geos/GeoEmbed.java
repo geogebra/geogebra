@@ -18,6 +18,7 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	private double contentWidth = 800;
 	private double contentHeight = 600;
 	private boolean background = true;
+	private String appName = "graphing";
 
 	/**
 	 * @param c
@@ -124,11 +125,20 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 		super.getXMLtags(sb);
 		sb.append("\t<embed id=\"");
 		sb.append(embedID);
+		sb.append("\" app=\"");
+		sb.append(appName);
 		sb.append("\"/>\n");
 		XMLBuilder.dimension(sb, contentWidth, contentHeight);
 		for (int i = 0; i < corner.length; i++) {
 			XMLBuilder.getCornerPointXML(sb, i, corner);
 		}
+	}
+
+	/**
+	 * @return appName param of the applet
+	 */
+	public String getAppName() {
+		return appName;
 	}
 
 	/**
@@ -153,7 +163,11 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 
 	@Override
 	public void removeStartPoint(GeoPointND p) {
-		// TODO Auto-generated method stub
+		for(int i = 0;i<corner.length;i++){
+			if (corner[i] == p) {
+				corner[i] = (GeoPoint) p.copy();
+			}
+		}
 	}
 
 	@Override
@@ -259,6 +273,10 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 
 	public void setContentHeight(double newHeight) {
 		this.contentHeight = newHeight;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
 	}
 
 }

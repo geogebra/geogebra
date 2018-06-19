@@ -92,9 +92,9 @@ public class GgbAPIW extends GgbAPI {
 			OpenFileListener listener = new OpenFileListener() {
 
 				@Override
-				public void onOpenFile() {
+				public boolean onOpenFile() {
 					ScriptManagerW.runCallback(callback);
-					app.unregisterOpenFileListener(this);
+					return true;
 				}
 			};
 			app.registerOpenFileListener(listener);
@@ -113,9 +113,9 @@ public class GgbAPIW extends GgbAPI {
 			OpenFileListener listener = new OpenFileListener() {
 
 				@Override
-				public void onOpenFile() {
+				public boolean onOpenFile() {
 					ScriptManagerW.runCallback(callback);
-					app.unregisterOpenFileListener(this);
+					return true;
 				}
 			};
 			app.registerOpenFileListener(listener);
@@ -1202,6 +1202,8 @@ public class GgbAPIW extends GgbAPI {
 	 *            worker folder URL
 	 * @param sync
 	 *            whether to use zipjs synchronously
+	 * @param usePako
+	 *            whether to use PAKO
 	 * @return whether webworkers can be used
 	 */
 	public static native boolean setWorkerURL(String workerUrls, boolean sync,

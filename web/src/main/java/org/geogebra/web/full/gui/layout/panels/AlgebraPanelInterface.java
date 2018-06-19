@@ -43,4 +43,14 @@ public interface AlgebraPanelInterface extends IsWidget {
 			MathKeyboardListener mathKeyboardListener);
 
 	int getOffsetHeight();
+
+	int getAbsoluteTop();
+
+	void showStyleBarPanel(boolean blurtrue);
+
+	boolean hasLongStyleBar();
+
+	boolean isStyleBarPanelShown();
+
+	boolean isStyleBarVisible();
 }

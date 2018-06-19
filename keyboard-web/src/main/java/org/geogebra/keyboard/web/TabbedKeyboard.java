@@ -83,6 +83,8 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	boolean hasTooltips;
 
 	/**
+	 * @param app
+	 *            application
 	 * @param appKeyboard
 	 *            {@link HasKeyboard}
 	 */

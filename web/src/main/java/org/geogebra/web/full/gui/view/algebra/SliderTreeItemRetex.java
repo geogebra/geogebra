@@ -14,7 +14,7 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 
@@ -253,7 +253,7 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	@Override
 	public void selectItem(boolean selected) {
 		if (!app.isUnbundled()) {
-			AlgebraDockPanelW dp = getAlgebraDockPanel();
+			AlgebraPanelInterface dp = getAlgebraDockPanel();
 			if (first && !dp.hasLongStyleBar()) {
 				dp.showStyleBarPanel(!selected);
 			}

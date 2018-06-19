@@ -77,4 +77,6 @@ public interface EmbedManager {
 	 */
 	public void remove(DrawEmbed drawEmbed);
 
+	public void embed(String dataUrl);
+
 }

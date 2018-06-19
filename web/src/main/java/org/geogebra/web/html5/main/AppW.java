@@ -765,11 +765,17 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @param dataUrl
 	 *            the data url to load the ggb file
+	 * @param isggs
+	 *            whether the extension is GGS
 	 */
-	public void loadGgbFileAsBase64Again(String dataUrl) {
+	public void loadGgbFileAsBase64Again(String dataUrl, boolean isggs) {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
-		view.processBase64String(dataUrl);
+		if (!isggs && getEmbedManager() != null) {
+			getEmbedManager().embed(dataUrl);
+		} else {
+			view.processBase64String(dataUrl);
+		}
 	}
 
 	/**
@@ -1290,7 +1296,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public native boolean doOpenFile(JavaScriptObject fileToHandle,
 			JavaScriptObject callback) /*-{
 		var ggbRegEx = /\.(ggb|ggt|ggs|csv|off)$/i;
-		if (!fileToHandle.name.toLowerCase().match(ggbRegEx))
+		var fileName = fileToHandle.name.toLowerCase();
+		if (!fileName.match(ggbRegEx))
 			return false;
 
 		var appl = this;
@@ -1298,14 +1305,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		reader.onloadend = function(ev) {
 			if (reader.readyState === reader.DONE) {
 				var fileStr = reader.result;
-				if (fileToHandle.name.toLowerCase().match(/\.(ggb|ggt|ggs)$/i)) {
-
-					appl.@org.geogebra.web.html5.main.AppW::loadGgbFileAsBase64Again(Ljava/lang/String;)(fileStr);
+				if (fileName.match(/\.(ggb|ggt|ggs)$/i)) {
+					appl.@org.geogebra.web.html5.main.AppW::loadGgbFileAsBase64Again(Ljava/lang/String;Z)(fileStr, fileName.match(/\.(ggs)$/i));
 				}
-				if (fileToHandle.name.toLowerCase().match(/\.(csv)$/i)) {
+				if (fileName.match(/\.(csv)$/i)) {
 					appl.@org.geogebra.web.html5.main.AppW::openCSV(Ljava/lang/String;)(atob(fileStr.substring(fileStr.indexOf(",")+1)));
 				}
-				if (fileToHandle.name.toLowerCase().match(/\.(off)$/i)) {
+				if (fileName.match(/\.(off)$/i)) {
 					appl.@org.geogebra.web.html5.main.AppW::openOFF(Ljava/lang/String;)(atob(fileStr.substring(fileStr.indexOf(",")+1)));
 				}
 				if (callback != null)

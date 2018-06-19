@@ -1155,6 +1155,7 @@ public class ConsElementXMLHandler {
 		if (geo instanceof GeoEmbed) {
 			try {
 				((GeoEmbed) geo).setEmbedId(Integer.parseInt(attrs.get("id")));
+				((GeoEmbed) geo).setAppName(attrs.get("app"));
 			} catch (RuntimeException e) {
 				return false;
 			}

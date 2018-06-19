@@ -311,7 +311,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	@Override
-	public void onOpenFile() {
+	public boolean onOpenFile() {
 		// For GoogleDrive files getLastSelected may be null
 		if (getLastSelected() != null) {
 			final Material material = getLastSelected().getMaterial();
@@ -347,6 +347,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		app.setCloseBrowserCallback(null);
 		close();
 		ToolTipManagerW.sharedInstance().hideBottomInfoToolTip();
+		return false;
 	}
 
 	private MaterialListElement getLastSelected() {

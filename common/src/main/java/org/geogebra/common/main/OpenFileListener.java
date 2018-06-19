@@ -2,6 +2,9 @@ package org.geogebra.common.main;
 
 public interface OpenFileListener {
 
-	public void onOpenFile();
+	/**
+	 * @return whether to unregister this afterwards
+	 */
+	public boolean onOpenFile();
 
 }

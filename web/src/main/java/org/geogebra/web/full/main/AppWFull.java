@@ -810,10 +810,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 			final Material material) {
 		return new OpenFileListener() {
 			@Override
-			public final void onOpenFile() {
+			public final boolean onOpenFile() {
 				AppWFull.this.updateMaterialURL(material.getId(),
 						material.getSharingKey(), material.getTitle());
-				AppWFull.this.unregisterOpenFileListener(this);
+				return true;
 			}
 		};
 	}
@@ -1887,7 +1887,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public EmbedManager getEmbedManager() {
-		if (embedManager == null) {
+		if (embedManager == null && isWhiteboardActive()) {
 			embedManager = new EmbedManagerW(this);
 		}
 		return embedManager;

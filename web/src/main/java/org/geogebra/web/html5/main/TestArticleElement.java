@@ -13,7 +13,6 @@ import com.google.gwt.user.client.DOM;
  */
 public class TestArticleElement implements ArticleElementInterface {
 
-	private String appName;
 	private String prerelease;
 	private HashMap<String, String> attributes = new HashMap<>();
 	private Element parentElement;
@@ -27,8 +26,7 @@ public class TestArticleElement implements ArticleElementInterface {
 	 */
 	public TestArticleElement(String prerelease, String appName) {
 		this.prerelease = prerelease;
-		this.appName = appName;
-		attr("width", "800").attr("height", "600");
+		attr("appName", appName).attr("width", "800").attr("height", "600");
 	}
 
 	@Override
@@ -263,7 +261,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public String getDataParamAppName() {
-		return appName;
+		return attributes.get("appName");
 	}
 
 	@Override

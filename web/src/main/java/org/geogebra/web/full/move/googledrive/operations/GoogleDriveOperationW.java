@@ -374,7 +374,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	private void processGoogleDriveFileContentAsBase64(String base64,
 			String description, final String title, String id) {
-		app.loadGgbFileAsBase64Again(base64);
+		// true = reload the whole doc
+		app.loadGgbFileAsBase64Again(base64, true);
 		postprocessFileLoading(description, title, id);
 	}
 

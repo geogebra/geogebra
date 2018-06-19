@@ -12,8 +12,11 @@ import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public enum GlobalHeader implements EventRenderable {
-	INSTANCE;
+public class GlobalHeader implements EventRenderable {
+	/**
+	 * Singleton instance.
+	 */
+	public static final GlobalHeader INSTANCE = new GlobalHeader();
 
 	private ProfilePanel profilePanel;
 	private RootPanel signIn;
@@ -35,7 +38,7 @@ public enum GlobalHeader implements EventRenderable {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				new SignInButton(app, 0, null).login();
+				new SignInButton(appW, 0, null).login();
 			}
 		});
 		app.getLoginOperation().getView().add(this);

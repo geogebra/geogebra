@@ -1400,8 +1400,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return getWidget().getElement();
 	}
 
-	protected AlgebraDockPanelW getAlgebraDockPanel() {
-		return (AlgebraDockPanelW) app.getGuiManager().getLayout()
+	protected AlgebraPanelInterface getAlgebraDockPanel() {
+		return (AlgebraPanelInterface) app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 
 	}
@@ -1733,7 +1733,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				controls.reposition();
 			}
 		}
-
 	}
 
 	/**

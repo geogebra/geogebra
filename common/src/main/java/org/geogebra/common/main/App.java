@@ -3886,25 +3886,15 @@ public abstract class App implements UpdateSelection {
 		this.openFileListener.add(openListener);
 	}
 
-	/**
-	 * Remove file open listener.
-	 * 
-	 * @param openListener
-	 *            listener
-	 */
-	public void unregisterOpenFileListener(OpenFileListener openListener) {
-		if (openFileListener == null) {
-			return;
-		}
-		this.openFileListener.remove(openListener);
-	}
-
 	protected void onOpenFile() {
 		if (this.openFileListener != null) {
+			ArrayList<OpenFileListener> toRemove = new ArrayList<>();
 			for (OpenFileListener listener : openFileListener) {
-				listener.onOpenFile();
+				if (listener.onOpenFile()) {
+					toRemove.add(listener);
+				}
 			}
-
+			openFileListener.removeAll(toRemove);
 		}
 	}
 
