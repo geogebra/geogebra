@@ -15,6 +15,8 @@ import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
@@ -55,6 +57,8 @@ public class AppWsolver extends AppW implements HasKeyboard {
             new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
                     .checkAvailable(null);
         }
+		initSignInEventFlow(new LoginOperationW(this), true);
+		GlobalHeader.INSTANCE.addSignIn(this);
     }
 
     @Override

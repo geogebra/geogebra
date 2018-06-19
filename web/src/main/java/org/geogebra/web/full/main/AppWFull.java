@@ -227,7 +227,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				initSignInEventFlow(new LoginOperationW(this),
 						ArticleElement.isEnableUsageStats());
 			}
-			GlobalHeader.addSignIn(this);
+			GlobalHeader.INSTANCE.addSignIn(this);
 		} else {
 			if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
 				new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)

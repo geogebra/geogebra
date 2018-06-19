@@ -12,17 +12,22 @@ import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class GlobalHeader {
-	private static ProfilePanel profilePanel;
+public enum GlobalHeader implements EventRenderable {
+	INSTANCE;
+
+	private ProfilePanel profilePanel;
+	private RootPanel signIn;
+	private AppW app;
 
 	/**
 	 * Activate sign in button in external header
 	 * 
-	 * @param app
+	 * @param appW
 	 *            application
 	 */
-	public static void addSignIn(final AppW app) {
-		final RootPanel signIn = RootPanel.get("signInButton");
+	public void addSignIn(final AppW appW) {
+		this.app = appW;
+		signIn = RootPanel.get("signInButton");
 		if (signIn == null) {
 			return;
 		}
@@ -33,28 +38,28 @@ public class GlobalHeader {
 				new SignInButton(app, 0, null).login();
 			}
 		});
-		app.getLoginOperation().getView().add(new EventRenderable() {
+		app.getLoginOperation().getView().add(this);
+	}
 
-			public void renderEvent(BaseEvent event) {
-				if (event instanceof LoginEvent) {
-					signIn.setVisible(false);
-					if (profilePanel == null) {
-						profilePanel = new ProfilePanel(app);
-					}
-					profilePanel.setVisible(true);
-					profilePanel.update(((LoginEvent) event).getUser());
-					DivElement profile = DOM.createDiv().cast();
-					profile.setId("profileId");
-					signIn.getElement().getParentElement()
-							.appendChild(profile);
-
-					RootPanel.get("profileId").add(profilePanel);
-				}
-				if (event instanceof LogOutEvent) {
-					profilePanel.setVisible(false);
-					signIn.setVisible(true);
-				}
+	@Override
+	public void renderEvent(BaseEvent event) {
+		if (event instanceof LoginEvent
+				&& ((LoginEvent) event).isSuccessful()) {
+			if (profilePanel == null) {
+				profilePanel = new ProfilePanel(app);
 			}
-		});
+			signIn.setVisible(false);
+			profilePanel.setVisible(true);
+			profilePanel.update(((LoginEvent) event).getUser());
+			DivElement profile = DOM.createDiv().cast();
+			profile.setId("profileId");
+			signIn.getElement().getParentElement().appendChild(profile);
+
+			RootPanel.get("profileId").add(profilePanel);
+		}
+		if (event instanceof LogOutEvent) {
+			profilePanel.setVisible(false);
+			signIn.setVisible(true);
+		}
 	}
 }

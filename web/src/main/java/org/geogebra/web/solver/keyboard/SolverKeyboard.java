@@ -8,6 +8,12 @@ import org.geogebra.web.html5.util.CSSAnimation;
 
 public class SolverKeyboard extends TabbedKeyboard {
 
+	/**
+	 * @param app
+	 *            application
+	 * @param appKeyboard
+	 *            keyboard context
+	 */
     public SolverKeyboard(App app, HasKeyboard appKeyboard) {
         super(app, appKeyboard);
         switcher = new KeyboardSwitcher(this) {
@@ -28,6 +34,9 @@ public class SolverKeyboard extends TabbedKeyboard {
         setVisible(false);
     }
 
+	/**
+	 * Hide the keyboard.
+	 */
     public void hide() {
         addStyleName("animatingOut");
         CSSAnimation.runOnAnimation(new Runnable() {
