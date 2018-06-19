@@ -22,7 +22,7 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 
 	private BoundingBox boundingBox;
 	private GRectangle2D bounds;
-	private double originalRatio = 1;
+	private double originalRatio = Double.NaN;
 	private GeoEmbed geoEmbed;
 
 	/**

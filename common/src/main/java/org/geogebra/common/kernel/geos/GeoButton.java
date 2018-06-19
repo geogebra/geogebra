@@ -332,8 +332,7 @@ public class GeoButton extends GeoElement
 			sb.append("\"/>\n");
 		}
 		if (isFixedSize()) {
-			sb.append("\t<dimensions width=\"" + width + "\" height=\"" + height
-					+ "\" />\n");
+			XMLBuilder.dimension(sb, width, height);
 		}
 		if (!isAbsoluteScreenLocActive()) {
 			sb.append("\t<startPoint x=\"");

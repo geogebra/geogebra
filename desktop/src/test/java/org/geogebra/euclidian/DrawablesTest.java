@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.io.XmlTest;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -54,7 +55,6 @@ public class DrawablesTest {
 		video.setLabel("video");
 		GeoEmbed embed = new GeoEmbed(app.getKernel().getConstruction());
 		embed.setLabel("embed");
-
 		TreeSet<GeoClass> types = new TreeSet<>();
 		for (int i = 0; i < def.length; i++) {
 			GeoElementND geo = ap.processAlgebraCommand(def[i], false)[0];
@@ -64,6 +64,7 @@ public class DrawablesTest {
 					draw == null);
 			types.add(geo.getGeoClassType());
 		}
+		XmlTest.testCurrentXML(app);
 		for (GeoClass type : GeoClass.values()) {
 			Assert.assertTrue(type + "",
 					types.contains(type)

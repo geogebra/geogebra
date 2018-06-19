@@ -15,8 +15,8 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	private boolean defined = true;
 	private GeoPoint[] corner;
 	private int embedID;
-	private double w = 800;
-	private double h = 600;
+	private double contentWidth = 800;
+	private double contentHeight = 600;
 	private boolean background = true;
 
 	/**
@@ -35,14 +35,15 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	 *            view
 	 */
 	public void initPosition(EuclidianViewInterfaceCommon ev) {
-		double x = ev.toRealWorldCoordX(ev.getViewWidth() / 2.0) - w / ev.getXscale() / 2;
-		double y = ev.toRealWorldCoordY(ev.getViewHeight() / 2.0) - h / ev.getYscale() / 2;
+		double x = ev.toRealWorldCoordX(ev.getViewWidth() / 2.0)
+				- contentWidth / ev.getXscale() / 2;
+		double y = ev.toRealWorldCoordY(ev.getViewHeight() / 2.0) - contentHeight / ev.getYscale() / 2;
 		corner[0] = new GeoPoint(cons);
 		corner[0].setCoords(x, y, 1);
 		corner[1] = new GeoPoint(cons);
-		corner[1].setCoords(x + w / ev.getXscale(), y, 1);
+		corner[1].setCoords(x + contentWidth / ev.getXscale(), y, 1);
 		corner[2] = new GeoPoint(cons);
-		corner[2].setCoords(x, y + h / ev.getXscale(), 1);
+		corner[2].setCoords(x, y + contentHeight / ev.getXscale(), 1);
 	}
 
 	@Override
@@ -124,6 +125,7 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 		sb.append("\t<embed id=\"");
 		sb.append(embedID);
 		sb.append("\"/>\n");
+		XMLBuilder.dimension(sb, contentWidth, contentHeight);
 		for (int i = 0; i < corner.length; i++) {
 			XMLBuilder.getCornerPointXML(sb, i, corner);
 		}
@@ -244,19 +246,19 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	}
 
 	public double getContentWidth() {
-		return w;
+		return contentWidth;
 	}
 
 	public double getContentHeight() {
-		return h;
+		return contentHeight;
 	}
 
 	public void setContentWidth(double newWidth) {
-		this.w = newWidth;
+		this.contentWidth = newWidth;
 	}
 
 	public void setContentHeight(double newHeight) {
-		this.h = newHeight;
+		this.contentHeight = newHeight;
 	}
 
 }

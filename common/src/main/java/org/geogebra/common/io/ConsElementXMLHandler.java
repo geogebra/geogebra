@@ -212,15 +212,16 @@ public class ConsElementXMLHandler {
 		String width = attrs.get("width");
 		String height = attrs.get("height");
 		if (width != null && height != null) {
-			if (width.matches("\\d{2,3}") && height.matches("\\d{2,3}")) {
-				if (geo.isGeoButton()) {
+			if (geo.isGeoButton() && width.matches("\\d{2,3}") && height.matches("\\d{2,3}")) {
+
 					GeoButton button = (GeoButton) geo;
 					button.setWidth(Integer.parseInt(width));
 					button.setHeight(Integer.parseInt(height));
 					button.setFixedSize(true);
 					return true;
-				}
-				return false;
+			} else if (geo instanceof GeoEmbed) {
+				((GeoEmbed) geo).setContentWidth(Double.parseDouble(width));
+				((GeoEmbed) geo).setContentHeight(Double.parseDouble(height));
 			}
 			return true;
 		}

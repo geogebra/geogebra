@@ -285,6 +285,9 @@ public class XMLBuilder {
 	 *            corners
 	 */
 	public static void getCornerPointXML(StringBuilder sb, int number, GeoPoint[] corners) {
+		if (corners[number] == null) {
+			return;
+		}
 		sb.append("\t<startPoint number=\"");
 		sb.append(number);
 		sb.append("\"");
@@ -299,5 +302,9 @@ public class XMLBuilder {
 			sb.append("\"");
 		}
 		sb.append("/>\n");
+	}
+
+	public static void dimension(StringBuilder sb, double width, double height) {
+		sb.append("\t<dimensions width=\"" + width + "\" height=\"" + height + "\" />\n");
 	}
 }

@@ -637,9 +637,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		} else {
 			// store location of corners
 			for (int i = 0; i < corners.length; i++) {
-				if (corners[i] != null) {
-					XMLBuilder.getCornerPointXML(sb, i, corners);
-				}
+				XMLBuilder.getCornerPointXML(sb, i, corners);
 			}
 		}
 
