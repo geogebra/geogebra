@@ -15,16 +15,11 @@ public class ShaderProvider {
 	 *            says if we use packed buffers
 	 * @return Fragment shader
 	 */
-	public static String getFragmentShader(boolean shiny, boolean packed) {
-
-		if (shiny) {
+	public static String getFragmentShader(boolean packed) {
 			if (packed) {
 				return FragmentShader.getFragmentShaderShinyForPacking(0.2f, true);
 			}
 			return FragmentShader.getFragmentShaderShiny(0.2f, true);
-		}
-
-		return FragmentShader.getFragmentShader(true);
 	}
 
 	/**

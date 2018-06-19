@@ -90,7 +90,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 	protected final void compileShadersProgram() {
 		fragShader = getShader(
 				WebGLRenderingContext.FRAGMENT_SHADER,
-				ShaderProvider.getFragmentShader(true, true));
+				ShaderProvider.getFragmentShader(true));
 		vertShader = getShader(
 				WebGLRenderingContext.VERTEX_SHADER,
 				ShaderProvider.getVertexShader(true, view3D.getApplication()
