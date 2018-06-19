@@ -11,10 +11,13 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -41,6 +44,25 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 	private Label pageLbl;
 	private AutoCompleteTextFieldW curPageNrField;
 	private Label ofPageLbl;
+	private String pdfFile = null;
+	private PDFChooser pdfChooser = new PDFChooser();
+
+	private class PDFChooser extends FileUpload implements ChangeHandler
+	{
+		public PDFChooser() {
+			super();
+			addChangeHandler(this);
+		}
+
+		public void open() {
+			click();
+		}
+
+		@Override
+		public void onChange(ChangeEvent event) {
+			// TODO file handling goes here
+		}
+	}
 
 	/**
 	 * @param app
@@ -76,12 +98,14 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 		add(mainPanel);
 		mainPanel.add(pdfContainerPanel);
 		mainPanel.add(buttonPanel);
+		mainPanel.add(pdfChooser);
+		pdfChooser.addStyleName("hidden");
 		// style
 		addStyleName("GeoGebraPopup");
 		addStyleName("pdfDialog");
 		setGlassEnabled(true);
 		// only for testing here TODO remove me from here
-		buildPdfContainer();
+		// buildPdfContainer();
 		setLabels();
 	}
 
@@ -139,7 +163,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO MOW-424 back-end
+				if (pdfFile == null) {
+					choosePdfFile();
+				}
 			}
 
 		}, ClickEvent.getType());
@@ -175,5 +201,12 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 		appW.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
 				ModeSetter.TOOLBAR);
 		super.hide();
+	}
+
+	/**
+	 * Choose PDF to insert.
+	 */
+	void choosePdfFile() {
+		pdfChooser.open();
 	}
 }
