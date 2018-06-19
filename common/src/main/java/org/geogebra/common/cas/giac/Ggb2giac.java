@@ -1866,7 +1866,6 @@ public class Ggb2giac {
 		p("Eigenvectors.1", "egv(%0)");
 
 		p("Eigenvalues.1", "{eigenvals(%0)}");
-		p("Eigenvalues.2", "{eigenvals(%0)}");
 
 		return commandMap;
 	}
