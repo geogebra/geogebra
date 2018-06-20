@@ -176,10 +176,12 @@ abstract class GLBufferManager {
 		for (int i = 0; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.get(currentIndex);
-			currentBufferPack = currentBufferSegment.bufferPack;
-			currentBufferPack.setColorAndLayer(color, layer,
-					currentBufferSegment.elementsOffset,
-					currentBufferSegment.getElementsLength());
+			if (currentBufferSegment != null) {
+				currentBufferPack = currentBufferSegment.bufferPack;
+				currentBufferPack.setColorAndLayer(color, layer,
+						currentBufferSegment.elementsOffset,
+						currentBufferSegment.getElementsLength());
+			}
 		}
 	}
 
