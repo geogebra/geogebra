@@ -749,6 +749,16 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
+	public void disableOpaqueSurfaces() {
+		// only implemented with shaders
+	}
+
+	@Override
+	public void enableOpaqueSurfaces() {
+		// only implemented with shaders
+	}
+
+	@Override
 	public RendererJogl getJogl() {
 		return jogl;
 	}

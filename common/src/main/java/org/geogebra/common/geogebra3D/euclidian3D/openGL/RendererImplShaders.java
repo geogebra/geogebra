@@ -52,6 +52,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected Object dashValuesLocation; // values for dash
 	protected Object layerLocation; // layer value
 
+	protected Object opaqueSurfacesLocation; // special drawing for opaque
+												// surfaces
+
 	protected GPUBuffer vboVertices;
 	protected GPUBuffer vboColors;
 	protected GPUBuffer vboNormals;
@@ -584,6 +587,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 		setModelViewIdentity();
 
+		disableOpaqueSurfaces();
 	}
 
 	@Override
@@ -952,6 +956,16 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
+	public void disableOpaqueSurfaces() {
+		glUniform1i(opaqueSurfacesLocation, 0);
+	}
+
+	@Override
+	public void enableOpaqueSurfaces() {
+		glUniform1i(opaqueSurfacesLocation, 1);
+	}
+
+	@Override
 	final public void setCenter(Coords center) {
 		center.get4ForGL(pointCenter);
 		// set radius info
@@ -1071,6 +1085,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 		
 		// layer
 		layerLocation = glGetUniformLocation("layer");
+
+		// opaque surfaces special drawing
+		opaqueSurfacesLocation = glGetUniformLocation("opaqueSurfaces");
 	}
 
 	@Override

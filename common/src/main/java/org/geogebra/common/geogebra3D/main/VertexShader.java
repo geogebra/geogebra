@@ -24,7 +24,8 @@ public class VertexShader {
 					+ "uniform vec4	color;\n" + "uniform vec3	normal;\n"
 					+ "uniform vec4	center;\n"
 					+ "uniform int	labelRendering;\n"
-					+ "uniform vec3 labelOrigin;\n" + "uniform int	layer;\n";
+					+ "uniform vec3 labelOrigin;\n" + "uniform int	layer;\n"
+					+ "uniform int	opaqueSurfaces;\n";
 
 	final private static String layers = "  if (layer != 0){ // set layer a z-shift \n"
 			+ "      float fLayer = float(layer);\n"
@@ -160,6 +161,13 @@ public class VertexShader {
 					+ ";\n"
 					+ "  }else{ // use per-object-color\n"
 					+ "  	c = color;\n" + "  }\n"
+
+					// discard when alpha < 0 (actually will be discarded in
+					// fragment shader)
+					+ "  if (opaqueSurfaces == 1 && c.a < 0.99) {"
+					+ "    c.a = -1.0;" + "  }\n"
+					+ "  if (c.a < 0.0) {\n" + "	  varying_Color = c;\n"
+					+ "   return;\n" + "  }\n"
 
 					// position
 

@@ -708,7 +708,7 @@ public abstract class Renderer {
 		enableCulling();
 	}
 
-	protected void drawTransp() {
+	private void drawTransp() {
 
 		setLight(1);
 
@@ -743,7 +743,7 @@ public abstract class Renderer {
 	 */
 	abstract protected void setLight(int light);
 
-	protected void drawNotTransp() {
+	private void drawNotTransp() {
 
 		setLight(1);
 
@@ -828,6 +828,20 @@ public abstract class Renderer {
 	 * enable shine (specular)
 	 */
 	public void enableShine() {
+		// only implemented with shaders
+	}
+
+	/**
+	 * disable opaque surfaces
+	 */
+	public void disableOpaqueSurfaces() {
+		// only implemented with shaders
+	}
+
+	/**
+	 * enable opaque surfaces
+	 */
+	public void enableOpaqueSurfaces() {
 		// only implemented with shaders
 	}
 
@@ -1031,6 +1045,24 @@ public abstract class Renderer {
 		enableFading(); // from RendererShaders -- check when enable textures if
 						// already done
 		drawNotTransp();
+
+		// draw opaque surfaces for packed buffers
+		if (geometryManager.packBuffers()) {
+			setLight(1);
+			enableOpaqueSurfaces();
+			disableCulling();
+			((ManagerShadersElementsGlobalBufferPacking) geometryManager)
+					.drawSurfaces(this);
+			((ManagerShadersElementsGlobalBufferPacking) geometryManager)
+					.drawSurfacesClosed(this);
+			enableClipPlanesIfNeeded();
+			((ManagerShadersElementsGlobalBufferPacking) geometryManager)
+					.drawSurfacesClipped(this);
+			disableClipPlanesIfNeeded();
+			enableCulling();
+			disableOpaqueSurfaces();
+			setLight(0);
+		}
 		disableTextures();
 		disableAlphaTest();
 

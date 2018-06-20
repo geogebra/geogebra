@@ -422,6 +422,16 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
+	final public void disableOpaqueSurfaces() {
+		rendererImpl.disableOpaqueSurfaces();
+	}
+
+	@Override
+	final public void enableOpaqueSurfaces() {
+		rendererImpl.enableOpaqueSurfaces();
+	}
+
+	@Override
 	protected void setBufferLeft() {
 		rendererImpl.setBufferLeft();
 	}

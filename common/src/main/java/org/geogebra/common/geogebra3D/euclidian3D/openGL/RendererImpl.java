@@ -184,6 +184,10 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 	public abstract void enableShine();
 
+	public abstract void disableOpaqueSurfaces();
+
+	public abstract void enableOpaqueSurfaces();
+
 	abstract public void setBufferLeft();
 
 	abstract public void setBufferRight();
