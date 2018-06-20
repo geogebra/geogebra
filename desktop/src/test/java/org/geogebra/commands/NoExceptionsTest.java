@@ -8,6 +8,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -23,7 +24,7 @@ import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class NoExceptionsTest {
+public class NoExceptionsTest extends AlgebraTest {
 	static AppDNoGui app;
 	static AlgebraProcessor ap;
 
@@ -139,7 +140,7 @@ public class NoExceptionsTest {
 					syntaxes++;
 				}
 			}
-			if (syntaxes > 0 && !CommandsTest.mayHaveZeroArgs(cmdName)) {
+			if (syntaxes > 0 && !AlgebraTest.mayHaveZeroArgs(cmdName)) {
 				shouldFail(cmdName + "()", "Illegal number of arguments: 0",
 						app);
 			}
@@ -173,14 +174,6 @@ public class NoExceptionsTest {
 		}
 	}
 
-	protected static void shouldFail(String string, String string2, App app) {
-		ErrorAccumulator errorStore = new ErrorAccumulator();
-		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(string, false,
-						errorStore, false, null);
-		Assert.assertTrue(errorStore.getErrors().contains(string2));
-	}
-
 	@Test
 	public void selfTest() {
 		Method[] mtds = NoExceptionsTest.class.getMethods();
@@ -196,8 +189,10 @@ public class NoExceptionsTest {
 		StringBuilder missing = new StringBuilder();
 		for (Commands a : Commands.values()) {
 			if (!methodNames.contains("cmd" + Commands.englishToInternal(a).name()) 
-					&& Commands.englishToInternal(a).getTable() != Commands.TABLE_ENGLISH
-					&& Commands.englishToInternal(a).getTable() != Commands.TABLE_CAS
+					&& Commands.englishToInternal(a)
+							.getTable() != CommandsConstants.TABLE_ENGLISH
+					&& Commands.englishToInternal(a)
+							.getTable() != CommandsConstants.TABLE_CAS
 					&& !betaCommand(a)) {
 				missing.append(a.getCommand());
 				missing.append("\n");

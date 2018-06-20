@@ -1,8 +1,5 @@
 package org.geogebra.commands;
 
-import java.util.Arrays;
-import java.util.Locale;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
@@ -24,9 +21,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.junit.After;
@@ -38,7 +33,7 @@ import org.junit.Test;
 import com.himamis.retex.editor.share.util.Unicode;
 
 @SuppressWarnings("javadoc")
-public class CommandsTest extends Assert{
+public class CommandsTest extends AlgebraTest {
 	static AppDNoGui app;
 	static AlgebraProcessor ap;
 	private static String syntax;
@@ -93,13 +88,8 @@ public class CommandsTest extends Assert{
 			System.out.print(cmdName);
 
 			if (syntaxes > 0 && !mayHaveZeroArgs(cmdName)) {
-				ErrorAccumulator errorStore = new ErrorAccumulator();
-				app.getKernel().getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(
-								cmdName + "()", false, errorStore, false, null);
-				Log.error(errorStore.getErrors());
-				assertTrue(errorStore.getErrors()
-						.contains("Illegal number of arguments: 0"));
+				shouldFail(cmdName + "()", "Illegal number of arguments: 0",
+						app);
 			}
 			/*
 			// This code helps to force timeout for each syntax. Not used at the moment.
@@ -113,17 +103,6 @@ public class CommandsTest extends Assert{
 			*/
 		}
 		testSyntaxSingle(s, expected, proc, tpl);
-	}
-
-	static boolean mayHaveZeroArgs(String cmdName) {
-		return Arrays.asList(new String[] { "DataFunction", "AxisStepX",
-				"AxisStepY", "Button", "StartLogging", "StopLogging",
-				"StartRecord", "ConstructionStep", "StartAnimation", "ShowAxes",
-				"ShowGrid", "SetActiveView", "ZoomIn", "SetViewDirection",
-				"ExportImage", "Random", "Textfield", "GetTime",
-				"UpdateConstruction", "SelectObjects", "Turtle", "Function",
-				"Checkbox" })
-				.contains(cmdName);
 	}
 
 	public static void testSyntaxSingle(String s, String[] expected,
@@ -178,18 +157,6 @@ public class CommandsTest extends Assert{
 	public static void setupApp() {
 		app = createApp();
 		ap = app.getKernel().getAlgebraProcessor();
-	}
-
-	public static AppDNoGui createApp() {
-		AppDNoGui app2 = new AppDNoGui(new LocalizationD(3), false);
-		app2.setLanguage(Locale.US);
-
-		// make sure x=y is a line, not plane
-		app2.getGgbApi().setPerspective("1");
-	    // Setting the general timeout to 11 seconds. Feel free to change this.
-		app2.getKernel().getApplication().getSettings().getCasSettings()
-				.setTimeoutMilliseconds(11000);
-		return app2;
 	}
 
 	@Test
@@ -248,8 +215,8 @@ public class CommandsTest extends Assert{
 		t("a+x", "x + y + x");
 		t("a+y", "x + y + y");
 		t("a+a", "x + y + x + y");
-		NoExceptionsTest.shouldFail("f+y", "Please check your input", app);
-		NoExceptionsTest.shouldFail("y+f", "Please check your input", app);
+		shouldFail("f+y", "Please check your input", app);
+		shouldFail("y+f", "Please check your input", app);
 	}
 
 	@Test
@@ -2090,12 +2057,4 @@ public class CommandsTest extends Assert{
 				"{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}");
 	}
 
-	public static String unicode(String theSpline) {
-		return theSpline.replace("^2", Unicode.SUPERSCRIPT_2 + "")
-				.replace("^3", Unicode.SUPERSCRIPT_3 + "")
-				.replace("^4", Unicode.SUPERSCRIPT_4 + "")
-				.replace("^-1",
-						Unicode.SUPERSCRIPT_MINUS + "" + Unicode.SUPERSCRIPT_1)
-				.replace("deg", Unicode.DEGREE_STRING);
-	}
 }
