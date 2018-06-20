@@ -148,7 +148,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return false;
 	}
 
-	@Override
+	/**
+	 * @param sb
+	 *            XML builder
+	 */
 	public void getProbabilityCalculatorXML(StringBuilder sb) {
 		if (probCalculator != null) {
 			probCalculator.getXML(sb);
@@ -156,9 +159,34 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
+	public void getViewsXML(StringBuilder sb, boolean asPreference) {
+		// save spreadsheetView settings
+		getSpreadsheetViewXML(sb, asPreference);
+
+		// save ProbabilityCalculator settings
+		if (hasProbabilityCalculator()) {
+			getProbabilityCalculatorXML(sb);
+		}
+
+		// save AlgebraView settings
+		if (hasAlgebraView()) {
+			getAlgebraViewXML(sb, asPreference);
+		}
+
+		// save Data Collection View settings
+		if (hasDataCollectionView()) {
+			getDataCollectionViewXML(sb, asPreference);
+		}
+	}
+
+	/**
+	 * @param sb
+	 *            XML builder
+	 * @param asPreference
+	 *            whether this is for preferences
+	 */
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

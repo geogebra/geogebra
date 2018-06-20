@@ -129,12 +129,7 @@ public interface GuiManagerInterface {
 
 	boolean hasProbabilityCalculator();
 
-	void getProbabilityCalculatorXML(StringBuilder sb);
-
-	void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference);
-
-	void getDataCollectionViewXML(StringBuilder sb,
-								  boolean asPreference);
+	void getDataCollectionViewXML(StringBuilder sb, boolean asPreference);
 
 	void getAlgebraViewXML(StringBuilder sb, boolean asPreference);
 
@@ -380,5 +375,7 @@ public interface GuiManagerInterface {
 	void addVideo(String url);
 
 	void updateVideo(GeoVideo video);
+
+	void getViewsXML(StringBuilder sb, boolean asPreference);
 
 }

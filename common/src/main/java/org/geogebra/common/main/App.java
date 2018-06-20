@@ -1831,24 +1831,7 @@ public abstract class App implements UpdateSelection {
 		}
 
 		if (getGuiManager() != null) {
-			// save spreadsheetView settings
-			getGuiManager().getSpreadsheetViewXML(sb, asPreference);
-
-			// save ProbabilityCalculator settings
-			if (getGuiManager().hasProbabilityCalculator()) {
-				getGuiManager().getProbabilityCalculatorXML(sb);
-			}
-
-			// save AlgebraView settings
-			if (getGuiManager().hasAlgebraView()) {
-				getGuiManager().getAlgebraViewXML(sb, asPreference);
-			}
-
-			// save Data Collection View settings
-			if (getGuiManager().hasDataCollectionView()) {
-				getGuiManager().getDataCollectionViewXML(sb, asPreference);
-			}
-
+			getGuiManager().getViewsXML(sb, asPreference);
 		}
 
 		if (asPreference) {
@@ -1857,11 +1840,6 @@ public abstract class App implements UpdateSelection {
 		// coord style, decimal places settings etc
 		kernel.getKernelXML(sb, asPreference);
 		getScriptingXML(sb, asPreference);
-		// save cas view seeting and cas session
-		// if (casView != null) {
-		// sb.append(((geogebra.cas.view.CASView) casView).getGUIXML());
-		// sb.append(((geogebra.cas.view.CASView) casView).getSessionXML());
-		// }
 
 		return sb.toString();
 	}

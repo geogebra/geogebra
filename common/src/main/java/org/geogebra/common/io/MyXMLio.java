@@ -137,24 +137,8 @@ public abstract class MyXMLio {
 		c.getConstructionXML(sb, getListenersToo);
 
 		// save ProbabilityCalculator settings
-		if (consApp.isUsingFullGui() && consApp.getGuiManager() != null
-				&& consApp.getGuiManager().hasProbabilityCalculator()) {
-			consApp.getGuiManager().getProbabilityCalculatorXML(sb);
-		}
-
-		if (consApp.isUsingFullGui() && consApp.getGuiManager() != null
-				&& consApp.getGuiManager().hasSpreadsheetView()) {
-			consApp.getGuiManager().getSpreadsheetViewXML(sb, false);
-		}
-
-		if (consApp.isUsingFullGui() && consApp.getGuiManager() != null
-				&& consApp.getGuiManager().hasDataCollectionView()) {
-			consApp.getGuiManager().getDataCollectionViewXML(sb, false);
-		}
-
-		if (consApp.isUsingFullGui() && consApp.getGuiManager() != null
-				&& consApp.getGuiManager().hasAlgebraView()) {
-			consApp.getGuiManager().getAlgebraViewXML(sb, false);
+		if (consApp.isUsingFullGui() && consApp.getGuiManager() != null) {
+			consApp.getGuiManager().getViewsXML(sb, false);
 		}
 
 		sb.append("</geogebra>");
