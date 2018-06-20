@@ -63,12 +63,12 @@ public enum Operation {
 
 				if (from > MyMath.LARGEST_INTEGER
 						|| from < -MyMath.LARGEST_INTEGER) {
-					return ev.illegalArgument(lt);
+					throw ev.illegalArgument(lt);
 				}
 
 				if (to > MyMath.LARGEST_INTEGER
 						|| to < -MyMath.LARGEST_INTEGER) {
-					return ev.illegalArgument(rt);
+					throw ev.illegalArgument(rt);
 				}
 
 				// also see AlgoSequence.computeRange()
@@ -94,7 +94,7 @@ public enum Operation {
 				ev.illegalArgument(lt);
 			}
 
-			return ev.illegalArgument(rt);
+			throw ev.illegalArgument(rt);
 
 		}
 	},
@@ -137,7 +137,7 @@ public enum Operation {
 
 				return bool;
 			}
-			return ev.illegalBinary(lt, rt, "IllegalBoolean",
+			throw ev.illegalBinary(lt, rt, "IllegalBoolean",
 					ExpressionNodeConstants.strNOT);
 		}
 	},
@@ -159,7 +159,7 @@ public enum Operation {
 
 				return bool;
 			}
-			return ev.illegalBinary(lt, rt, "IllegalBoolean",
+			throw ev.illegalBinary(lt, rt, "IllegalBoolean",
 					ExpressionNodeConstants.strOR);
 		}
 	},
@@ -181,7 +181,7 @@ public enum Operation {
 
 				return bool;
 			}
-			return ev.illegalBinary(lt, rt, "IllegalBoolean",
+			throw ev.illegalBinary(lt, rt, "IllegalBoolean",
 					ExpressionNodeConstants.strOR);
 		}
 	},
@@ -203,7 +203,7 @@ public enum Operation {
 
 				return bool;
 			}
-			return ev.illegalBinary(lt, rt, "IllegalBoolean",
+			throw ev.illegalBinary(lt, rt, "IllegalBoolean",
 					ExpressionNodeConstants.strAND);
 		}
 	},
@@ -265,7 +265,7 @@ public enum Operation {
 						.compareTo(((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(ev.getKernel(), comp < 0);
 			}
-			return ev.illegalComparison(lt, rt, "<");
+			throw ev.illegalComparison(lt, rt, "<");
 		}
 	},
 	GREATER {
@@ -287,7 +287,7 @@ public enum Operation {
 						.compareTo(((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(ev.getKernel(), comp > 0);
 			}
-			return ev.illegalComparison(lt, rt, ">");
+			throw ev.illegalComparison(lt, rt, ">");
 		}
 	},
 	LESS_EQUAL {
@@ -309,7 +309,7 @@ public enum Operation {
 						.compareTo(((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(ev.getKernel(), comp <= 0);
 			}
-			return ev.illegalComparison(lt, rt,
+			throw ev.illegalComparison(lt, rt,
 					ExpressionNodeConstants.strLESS_EQUAL);
 		}
 	},
@@ -332,7 +332,7 @@ public enum Operation {
 						.compareTo(((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(ev.getKernel(), comp >= 0);
 			}
-			return ev.illegalComparison(lt, rt,
+			throw ev.illegalComparison(lt, rt,
 					ExpressionNodeConstants.strGREATER_EQUAL);
 		}
 	},
@@ -345,7 +345,7 @@ public enum Operation {
 				return new MyBoolean(ev.getKernel(),
 						((GeoLine) lt).isParallel((GeoLine) rt));
 			}
-			return ev.illegalComparison(lt, rt,
+			throw ev.illegalComparison(lt, rt,
 					ExpressionNodeConstants.strPARALLEL);
 		}
 	},
@@ -358,7 +358,7 @@ public enum Operation {
 				return new MyBoolean(ev.getKernel(),
 						((GeoLine) lt).isPerpendicular((GeoLine) rt));
 			}
-			return ev.illegalComparison(lt, rt,
+			throw ev.illegalComparison(lt, rt,
 					ExpressionNodeConstants.strPERPENDICULAR);
 		}
 	},
@@ -372,7 +372,7 @@ public enum Operation {
 						MyList.listContains(((ListValue) rt).getMyList(),
 								((ListValue) lt).getMyList(), tpl));
 			}
-			return ev.illegalListOp(lt, rt,
+			throw ev.illegalListOp(lt, rt,
 					ExpressionNodeConstants.strIS_SUBSET_OF);
 		}
 	},
@@ -386,7 +386,7 @@ public enum Operation {
 						MyList.listContainsStrict(((ListValue) rt).getMyList(),
 								((ListValue) lt).getMyList(), tpl));
 			}
-			return ev.illegalListOp(lt, rt,
+			throw ev.illegalListOp(lt, rt,
 					ExpressionNodeConstants.strIS_SUBSET_OF_STRICT);
 		}
 	},
@@ -415,7 +415,7 @@ public enum Operation {
 				}
 			}
 
-			return ev.illegalListOp(lt, rt,
+			throw ev.illegalListOp(lt, rt,
 					ExpressionNodeConstants.strIS_ELEMENT_OF);
 		}
 	},
@@ -429,7 +429,7 @@ public enum Operation {
 						((ListValue) lt).getMyList(),
 						((ListValue) rt).getMyList());
 			}
-			return ev.illegalListOp(lt, rt,
+			throw ev.illegalListOp(lt, rt,
 					ExpressionNodeConstants.strSET_DIFFERENCE);
 		}
 	},
@@ -612,7 +612,7 @@ public enum Operation {
 				return new MyDouble(ev.getKernel(), ret);
 
 			}
-			return ev.illegalArgument(lt, rt, "freehand(");
+			throw ev.illegalArgument(lt, rt, "freehand(");
 		}
 	},
 	DATA {
@@ -658,7 +658,7 @@ public enum Operation {
 				return new MyDouble(ev.getKernel(),
 						((x - x1) * y2 + y1 * (x2 - x)) / (x2 - x1));
 			}
-			return ev.illegalArgument(lt, rt, "dataFunction(");
+			throw ev.illegalArgument(lt, rt, "dataFunction(");
 		}
 	},
 	COS {
@@ -676,7 +676,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "cos(");
+			throw ev.polynomialOrDie(lt, this, "cos(");
 
 		}
 	},
@@ -695,7 +695,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "sin(");
+			throw ev.polynomialOrDie(lt, this, "sin(");
 
 		}
 	},
@@ -714,7 +714,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "tan(");
+			throw ev.polynomialOrDie(lt, this, "tan(");
 
 		}
 	},
@@ -734,7 +734,7 @@ public enum Operation {
 				return vec;
 
 			} else {
-				return ev.polynomialOrDie(lt, this, "exp(");
+				throw ev.polynomialOrDie(lt, this, "exp(");
 			}
 
 		}
@@ -755,7 +755,7 @@ public enum Operation {
 				return vec;
 
 			} else {
-				return ev.polynomialOrDie(lt, this, "log(");
+				throw ev.polynomialOrDie(lt, this, "log(");
 			}
 		}
 	},
@@ -767,7 +767,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().acos(false);
 			}
-			return ev.polynomialOrDie(lt, this, "acos(");
+			throw ev.polynomialOrDie(lt, this, "acos(");
 
 		}
 	},
@@ -782,7 +782,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().acos(true);
 			}
-			return ev.polynomialOrDie(lt, this, "acosd(");
+			throw ev.polynomialOrDie(lt, this, "acosd(");
 
 		}
 	},
@@ -794,7 +794,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().asin(false);
 			}
-			return ev.polynomialOrDie(lt, this, "asin(");
+			throw ev.polynomialOrDie(lt, this, "asin(");
 
 		}
 	},
@@ -809,7 +809,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().asin(true);
 			}
-			return ev.polynomialOrDie(lt, this, "asind(");
+			throw ev.polynomialOrDie(lt, this, "asind(");
 
 		}
 	},
@@ -821,7 +821,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().atan(false);
 			}
-			return ev.polynomialOrDie(lt, this, "atan(");
+			throw ev.polynomialOrDie(lt, this, "atan(");
 
 		}
 	},
@@ -836,7 +836,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().atan(true);
 			}
-			return ev.polynomialOrDie(lt, this, "atand(");
+			throw ev.polynomialOrDie(lt, this, "atand(");
 
 		}
 	},
@@ -849,7 +849,7 @@ public enum Operation {
 				return ((NumberValue) lt).getNumber()
 						.atan2((NumberValue) rt, false).getNumber();
 			}
-			return ev.illegalArgument(lt, rt, "arctan2(");
+			throw ev.illegalArgument(lt, rt, "arctan2(");
 		}
 	},
 	ARCTAN2D {
@@ -861,7 +861,7 @@ public enum Operation {
 				return ((NumberValue) lt).getNumber()
 						.atan2((NumberValue) rt, true).getNumber();
 			}
-			return ev.illegalArgument(lt, rt, "arctan2d(");
+			throw ev.illegalArgument(lt, rt, "arctan2d(");
 		}
 	},
 	NROOT {
@@ -892,7 +892,7 @@ public enum Operation {
 
 				}
 			}
-			return ev.illegalArgument(lt, rt, "nroot(");
+			throw ev.illegalArgument(lt, rt, "nroot(");
 		}
 	},
 	SQRT {
@@ -910,7 +910,7 @@ public enum Operation {
 				return vec;
 
 			} else {
-				return ev.polynomialOrDie(lt, this, "sqrt(");
+				throw ev.polynomialOrDie(lt, this, "sqrt(");
 			}
 		}
 	},
@@ -948,7 +948,7 @@ public enum Operation {
 				return new MyDouble(kernel, vec3d.length());
 
 			} else {
-				return ev.polynomialOrDie(lt, Operation.ABS, "abs(");
+				throw ev.polynomialOrDie(lt, Operation.ABS, "abs(");
 			}
 		}
 	},
@@ -960,7 +960,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sgn();
 			}
-			return ev.polynomialOrDie(lt, this, "sgn(");
+			throw ev.polynomialOrDie(lt, this, "sgn(");
 		}
 	},
 	XCOORD {
@@ -1025,7 +1025,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().fractionalPart();
 			}
-			return ev.polynomialOrDie(lt, this, "fractionalPart(");
+			throw ev.polynomialOrDie(lt, this, "fractionalPart(");
 		}
 	},
 	COSH {
@@ -1043,7 +1043,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "cosh(");
+			throw ev.polynomialOrDie(lt, this, "cosh(");
 
 		}
 	},
@@ -1062,7 +1062,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "sinh(");
+			throw ev.polynomialOrDie(lt, this, "sinh(");
 
 		}
 	},
@@ -1081,7 +1081,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "tanh(");
+			throw ev.polynomialOrDie(lt, this, "tanh(");
 
 		}
 	},
@@ -1093,7 +1093,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().acosh();
 			}
-			return ev.polynomialOrDie(lt, this, "acosh(");
+			throw ev.polynomialOrDie(lt, this, "acosh(");
 
 		}
 	},
@@ -1105,7 +1105,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().asinh();
 			}
-			return ev.polynomialOrDie(lt, this, "asinh(");
+			throw ev.polynomialOrDie(lt, this, "asinh(");
 
 		}
 	},
@@ -1117,7 +1117,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().atanh();
 			}
-			return ev.polynomialOrDie(lt, this, "atanh(");
+			throw ev.polynomialOrDie(lt, this, "atanh(");
 
 		}
 	},
@@ -1136,7 +1136,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "csc(");
+			throw ev.polynomialOrDie(lt, this, "csc(");
 
 		}
 	},
@@ -1155,7 +1155,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "sec(");
+			throw ev.polynomialOrDie(lt, this, "sec(");
 
 		}
 	},
@@ -1174,7 +1174,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "cot(");
+			throw ev.polynomialOrDie(lt, this, "cot(");
 
 		}
 	},
@@ -1193,7 +1193,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "csch(");
+			throw ev.polynomialOrDie(lt, this, "csch(");
 
 		}
 	},
@@ -1212,7 +1212,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "sech(");
+			throw ev.polynomialOrDie(lt, this, "sech(");
 
 		}
 	},
@@ -1231,7 +1231,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "coth(");
+			throw ev.polynomialOrDie(lt, this, "coth(");
 
 		}
 	},
@@ -1255,7 +1255,7 @@ public enum Operation {
 						.floor();
 				return ret;
 			}
-			return ev.polynomialOrDie(lt, this, "floor(");
+			throw ev.polynomialOrDie(lt, this, "floor(");
 
 		}
 	},
@@ -1278,7 +1278,7 @@ public enum Operation {
 				Geo3DVecInterface ret = ((Vector3DValue) lt).getVector().ceil();
 				return ret;
 			}
-			return ev.polynomialOrDie(lt, this, "ceil(");
+			throw ev.polynomialOrDie(lt, this, "ceil(");
 
 		}
 	},
@@ -1290,7 +1290,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().factorial();
 			}
-			return ev.polynomialOrDie(lt, this, "", "!");
+			throw ev.polynomialOrDie(lt, this, "", "!");
 
 		}
 	},
@@ -1314,7 +1314,7 @@ public enum Operation {
 						.round();
 				return ret;
 			}
-			return ev.polynomialOrDie(lt, this, "round(");
+			throw ev.polynomialOrDie(lt, this, "round(");
 
 		}
 	},
@@ -1345,7 +1345,7 @@ public enum Operation {
 						.round();
 				return ret;
 			}
-			return ev.polynomialOrDie(lt, this, "round(");
+			throw ev.polynomialOrDie(lt, this, "round(");
 
 		}
 	},
@@ -1357,7 +1357,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().gamma();
 			}
-			return ev.polynomialOrDie(lt, this, "gamma(");
+			throw ev.polynomialOrDie(lt, this, "gamma(");
 		}
 	},
 	GAMMA_INCOMPLETE {
@@ -1369,7 +1369,7 @@ public enum Operation {
 				return ((NumberValue) rt).getNumber()
 						.gammaIncomplete((NumberValue) lt);
 			}
-			return ev.illegalArgument(lt, rt, "gammaIncomplete");
+			throw ev.illegalArgument(lt, rt, "gammaIncomplete");
 		}
 	},
 	GAMMA_INCOMPLETE_REGULARIZED {
@@ -1381,7 +1381,7 @@ public enum Operation {
 				return ((NumberValue) rt).getNumber()
 						.gammaIncompleteRegularized((NumberValue) lt);
 			}
-			return ev.illegalArgument(lt, rt, "gammaIncompleteRegularized");
+			throw ev.illegalArgument(lt, rt, "gammaIncompleteRegularized");
 		}
 	},
 	BETA {
@@ -1392,7 +1392,7 @@ public enum Operation {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return ((NumberValue) rt).getNumber().beta((NumberValue) lt);
 			}
-			return ev.illegalArgument(lt, rt, "beta(");
+			throw ev.illegalArgument(lt, rt, "beta(");
 		}
 	},
 	BETA_INCOMPLETE {
@@ -1404,7 +1404,7 @@ public enum Operation {
 				return ((NumberValue) rt).getNumber()
 						.betaIncomplete((VectorValue) lt);
 			}
-			return ev.illegalArgument(lt, rt, "betaIncomplete(");
+			throw ev.illegalArgument(lt, rt, "betaIncomplete(");
 		}
 	},
 	BETA_INCOMPLETE_REGULARIZED {
@@ -1416,7 +1416,7 @@ public enum Operation {
 				return ((NumberValue) rt).getNumber()
 						.betaIncompleteRegularized((VectorValue) lt);
 			}
-			return ev.illegalArgument(lt, rt, "betaIncompleteRegularized(");
+			throw ev.illegalArgument(lt, rt, "betaIncompleteRegularized(");
 		}
 	},
 	ERF {
@@ -1427,7 +1427,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().erf();
 			}
-			return ev.polynomialOrDie(lt, this, "erf(");
+			throw ev.polynomialOrDie(lt, this, "erf(");
 		}
 	},
 	PSI {
@@ -1438,7 +1438,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().psi();
 			}
-			return ev.polynomialOrDie(lt, this, "psi(");
+			throw ev.polynomialOrDie(lt, this, "psi(");
 		}
 	},
 	POLYGAMMA {
@@ -1450,7 +1450,7 @@ public enum Operation {
 				return ((NumberValue) rt).getNumber()
 						.polygamma((NumberValue) lt);
 			}
-			return ev.polynomialOrDie(lt, this, "polygamma(");
+			throw ev.polynomialOrDie(lt, this, "polygamma(");
 		}
 	},
 	LOG10 {
@@ -1461,7 +1461,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().log10();
 			}
-			return ev.polynomialOrDie(lt, this, "log10(");
+			throw ev.polynomialOrDie(lt, this, "log10(");
 
 		}
 	},
@@ -1473,7 +1473,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().log2();
 			}
-			return ev.polynomialOrDie(lt, this, "log2(");
+			throw ev.polynomialOrDie(lt, this, "log2(");
 
 		}
 	},
@@ -1485,7 +1485,7 @@ public enum Operation {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return ((NumberValue) rt).getNumber().log((NumberValue) lt);
 			}
-			return ev.illegalArgument(lt, rt, "log(");
+			throw ev.illegalArgument(lt, rt, "log(");
 		}
 	},
 	NPR {
@@ -1497,7 +1497,7 @@ public enum Operation {
 				return new MyDouble(ev.getKernel(),
 						AlgoNpR.nPr(lt.evaluateDouble(), rt.evaluateDouble()));
 			}
-			return ev.illegalArgument(lt, rt, "nPr(");
+			throw ev.illegalArgument(lt, rt, "nPr(");
 		}
 	},
 	CI {
@@ -1508,7 +1508,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().cosineIntegral();
 			}
-			return ev.polynomialOrDie(lt, this, "cosIntegral(");
+			throw ev.polynomialOrDie(lt, this, "cosIntegral(");
 
 		}
 	},
@@ -1520,7 +1520,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sineIntegral();
 			}
-			return ev.polynomialOrDie(lt, this, "sinIntegral(");
+			throw ev.polynomialOrDie(lt, this, "sinIntegral(");
 
 		}
 	},
@@ -1535,7 +1535,7 @@ public enum Operation {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 				return vec.ei();
 			}
-			return ev.polynomialOrDie(lt, this, "expIntegral(");
+			throw ev.polynomialOrDie(lt, this, "expIntegral(");
 
 		}
 	},
@@ -1552,7 +1552,7 @@ public enum Operation {
 				GeoVec2D.complexCbrt(vec, vec);
 				return vec;
 			}
-			return ev.polynomialOrDie(lt, this, "cbrt(");
+			throw ev.polynomialOrDie(lt, this, "cbrt(");
 		}
 	},
 	RANDOM {
@@ -1578,7 +1578,7 @@ public enum Operation {
 				return vec;
 
 			}
-			return ev.polynomialOrDie(lt, this, "conjugate(");
+			throw ev.polynomialOrDie(lt, this, "conjugate(");
 		}
 	},
 	ARG {
@@ -1604,7 +1604,7 @@ public enum Operation {
 				}
 				return new MyDouble(kernel, Double.NaN);
 			}
-			return ev.polynomialOrDie(lt, this, "arg(");
+			throw ev.polynomialOrDie(lt, this, "arg(");
 		}
 	},
 	ALT {
@@ -1624,7 +1624,7 @@ public enum Operation {
 				ret.setAngle();
 				return ret;
 			}
-			return ev.polynomialOrDie(lt, this, "alt(");
+			throw ev.polynomialOrDie(lt, this, "alt(");
 		}
 	},
 	FUNCTION {
@@ -1669,7 +1669,7 @@ public enum Operation {
 							arg.getListElement(0).evaluateDouble(),
 							arg.getListElement(1).evaluateDouble());
 				}
-				return ev.illegalArgument(lt);
+				throw ev.illegalArgument(lt);
 			}
 			if (rt instanceof VectorValue) {
 				GeoVec2D arg = ((VectorValue) rt).getVector();
@@ -1678,10 +1678,10 @@ public enum Operation {
 					return ((GeoSurfaceCartesianND) lt).evaluateSurface(
 							arg.getX(), arg.getY());
 				}
-				return ev.illegalArgument(lt);
+				throw ev.illegalArgument(lt);
 			}
 
-			return ev.illegalArgument(rt);
+			throw ev.illegalArgument(rt);
 		}
 	},
 
@@ -1701,7 +1701,7 @@ public enum Operation {
 							(int) Math.round(rt.evaluateDouble()));
 				}
 			}
-			return ev.illegalArgument(rt);
+			throw ev.illegalArgument(rt);
 		}
 	},
 	ELEMENT_OF {
@@ -1740,7 +1740,7 @@ public enum Operation {
 				}
 				return rt.getUndefinedCopy(ev.getKernel());
 			}
-			return ev.illegalArgument(lt, rt, "if(");
+			throw ev.illegalArgument(lt, rt, "if(");
 		}
 	},
 	IF_ELSE {
@@ -1762,7 +1762,7 @@ public enum Operation {
 					return rt;
 				}
 			}
-			return ev.illegalArgument(lt, rt, "if(");
+			throw ev.illegalArgument(lt, rt, "if(");
 		}
 	},
 	IF_LIST {
@@ -1790,7 +1790,7 @@ public enum Operation {
 
 			}
 
-			return ev.illegalArgument(lt, rt, "if(");
+			throw ev.illegalArgument(lt, rt, "if(");
 		}
 	},
 
@@ -1875,7 +1875,7 @@ public enum Operation {
 				return vec;
 
 			} else {
-				return ev.polynomialOrDie(lt, this, "zeta(");
+				throw ev.polynomialOrDie(lt, this, "zeta(");
 			}
 		}
 	},
