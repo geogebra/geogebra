@@ -30,6 +30,7 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -179,7 +180,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		preProcessFitToSceen();
 
 		int width = computeWidth();
-		int height = articleElement.computeHeight(AppW.smallScreen());
+		int height = GeoGebraFrameW.computeHeight(articleElement,
+				AppW.smallScreen());
 
 		/*
 		 * if (ae.getDataParamShowMenuBar()) { // The menubar has extra height:
@@ -251,6 +253,31 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 
 		return width;
+	}
+
+	/**
+	 * @param ae
+	 *            article
+	 * @param smallScreen
+	 *            whether the screen is too small for header
+	 * @return app height
+	 */
+	public static int computeHeight(ArticleElementInterface ae,
+			boolean smallScreen) {
+		// do we have data-param-height?
+		int height = ae.getDataParamHeight() - ae.getBorderThickness();
+
+		// do we have fit to screen?
+		if (ae.getDataParamFitToScreen()) {
+			int margin = smallScreen ? 0 : ae.getDataParamMarginTop();
+			height = Window.getClientHeight() - margin;
+		}
+
+		if (height > 0) {
+			return height;
+		}
+
+		return height;
 	}
 
 	@Override

@@ -91,7 +91,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public String getDataParamBase64String() {
-		return "";
+		return attributes.getOrDefault("ggbBase64", "");
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamAllowStyleBar(boolean def) {
-		return false;
+		return "true".equals(attributes.get("allowStyleBar"));
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamShowToolBarHelp(boolean def) {
-		return false;
+		return getDataParamShowToolBar(def);
 	}
 
 	@Override
@@ -261,7 +261,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public String getDataParamAppName() {
-		return attributes.get("appName");
+		return attributes.getOrDefault("appName", "");
 	}
 
 	@Override
@@ -331,7 +331,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public int getBorderThickness() {
-		return 0;
+		return 2;
 	}
 
 	@Override
@@ -351,11 +351,6 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public int getDataParamMarginTop() {
-		return 0;
-	}
-
-	@Override
-	public int computeHeight(boolean smallScreen) {
 		return 0;
 	}
 
@@ -397,7 +392,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public String getParamScaleContainerClass() {
-		return attributes.get("scaleContainerClass");
+		return attributes.getOrDefault("scaleContainerClass", "");
 	}
 
 	@Override

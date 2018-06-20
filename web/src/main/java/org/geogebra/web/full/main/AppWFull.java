@@ -1554,7 +1554,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (oldSplitLayoutPanel == null) {
 			return; // simple GUI: avoid NPE
 		}
-		this.oldSplitLayoutPanel.setPixelSize(spWidth, spHeight);
+		this.oldSplitLayoutPanel.setPixelSize(spWidth, getSpHeight());
 		// we need relative position to make sure the menubar / toolbar are not
 		// hidden
 		this.oldSplitLayoutPanel.getElement().getStyle()
@@ -1586,7 +1586,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	public void persistWidthAndHeight() {
 		if (this.oldSplitLayoutPanel != null) {
 			spWidth = this.oldSplitLayoutPanel.getEstimateWidth();
-			spHeight = this.oldSplitLayoutPanel.getEstimateHeight();
+			setSpHeight(this.oldSplitLayoutPanel.getEstimateHeight());
 		}
 	}
 
@@ -1600,8 +1600,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public int getHeightForSplitPanel(int fallback) {
-		if (spHeight > 0) {
-			return spHeight;
+		if (getSpHeight() > 0) {
+			return getSpHeight();
 		}
 		return super.getHeightForSplitPanel(fallback);
 	}
@@ -1758,7 +1758,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void addToHeight(int i) {
-		this.spHeight += i;
+		this.setSpHeight(this.getSpHeight() + i);
 	}
 
 	/**
@@ -1767,7 +1767,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	 */
 	@Override
 	public void updateSplitPanelHeight() {
-		int newHeight = getArticleElement().computeHeight(AppW.smallScreen());
+		int newHeight = GeoGebraFrameW.computeHeight(getArticleElement(),
+				AppW.smallScreen());
 		if (this.showAlgebraInput()
 				&& getInputPosition() != InputPosition.algebraView
 				&& getGuiManager().getAlgebraInput() != null) {
@@ -1783,9 +1784,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 		}
 		if (newHeight >= 0) {
-			this.spHeight = newHeight;
+			this.setSpHeight(newHeight);
 			if (oldSplitLayoutPanel != null) {
-				oldSplitLayoutPanel.setHeight(spHeight + "px");
+				oldSplitLayoutPanel.setHeight(getSpHeight() + "px");
 			}
 		}
 	}
@@ -1891,6 +1892,15 @@ public class AppWFull extends AppW implements HasKeyboard {
 			embedManager = new EmbedManagerW(this);
 		}
 		return embedManager;
+	}
+
+	private int getSpHeight() {
+		return spHeight;
+	}
+
+	private void setSpHeight(int spHeight) {
+		Log.printStacktrace("new height" + spHeight);
+		this.spHeight = spHeight;
 	}
 
 }

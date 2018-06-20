@@ -21,11 +21,13 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
+import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -581,10 +583,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 */
 	protected boolean isContextMenuNeeded() {
 		if (!ev.getEuclidianController().getAppSelectedGeos().isEmpty()
-				&& (ev.getEuclidianController().getAppSelectedGeos().get(0)
-						.isGeoAudio()
-						|| ev.getEuclidianController().getAppSelectedGeos()
-								.get(0).isGeoVideo())) {
+				&& (getFirstGeo().isGeoAudio() || getFirstGeo().isGeoVideo()
+						|| getFirstGeo() instanceof GeoEmbed)) {
 			this.addStyleName("noContextBtn");
 			if (Browser.isIPad()) {
 				btnDelete.addStyleName("delete");
@@ -594,10 +594,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return true;
 	}
 
+	private GeoElementND getFirstGeo() {
+		return ev.getEuclidianController().getAppSelectedGeos().get(0);
+	}
+
 	private boolean isImageGeoSelected() {
 		return !ev.getEuclidianController().getAppSelectedGeos().isEmpty()
-				&& ev.getEuclidianController().getAppSelectedGeos().get(0)
-						.isGeoImage();
+				&& getFirstGeo().isGeoImage();
 	}
 
 	private boolean hasActiveGeos() {
@@ -1130,7 +1133,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 								.getGeoElementForPropertiesDialog();
 						if (geo instanceof GeoText
 								|| geo instanceof GeoButton || geo.isGeoAudio()
-								|| geo.isGeoVideo()) {
+								|| geo.isGeoVideo()
+								|| geo instanceof GeoEmbed) {
 							geosOK = false;
 							break;
 						}

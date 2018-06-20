@@ -103,6 +103,7 @@ import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.factories.UtilFactoryW;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -325,7 +326,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getArticleElement().getDataParamFitToScreen()) {
 			updateHeaderVisible();
 			getGgbApi().setSize(Window.getClientWidth(),
-					getArticleElement().computeHeight(AppW.smallScreen()));
+					GeoGebraFrameW.computeHeight(getArticleElement(),
+							AppW.smallScreen()));
 			getAccessibilityManager().focusMenu();
 		}
 		checkScaleContainer();

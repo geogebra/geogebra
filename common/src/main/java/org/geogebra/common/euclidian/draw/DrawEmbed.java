@@ -128,14 +128,6 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 		return getView().toScreenCoordX(geoEmbed.getCorner(0).getInhomX());
 	}
 
-	private int getRight() {
-		return getView().toScreenCoordX(geoEmbed.getCorner(1).getInhomX());
-	}
-
-	private int getBottom() {
-		return getView().toScreenCoordY(geoEmbed.getCorner(0).getInhomY());
-	}
-
 	/**
 	 * @return embed ID
 	 */
@@ -151,12 +143,14 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 
 	@Override
 	public int getWidth() {
-		return getRight() - getLeft();
+		return (int) Math.round(getView().toScreenCoordXd(geoEmbed.getCorner(1).getInhomX())
+				- getView().toScreenCoordXd(geoEmbed.getCorner(0).getInhomX()));
 	}
 
 	@Override
 	public int getHeight() {
-		return getBottom() - getTop();
+		return (int) Math.round(getView().toScreenCoordYd(geoEmbed.getCorner(0).getInhomY())
+				- getView().toScreenCoordYd(geoEmbed.getCorner(2).getInhomY()));
 	}
 
 	@Override
@@ -205,14 +199,9 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 		this.originalRatio = Double.NaN;
 	}
 
-	public boolean isBackground() {
-		return geoEmbed.isBackground();
-	}
-
-	public void setBackground(boolean b) {
-		geoEmbed.setBackground(b);
-	}
-
+	/**
+	 * @return emvbeded applet as geo
+	 */
 	public GeoEmbed getGeoEmbed() {
 		return geoEmbed;
 	}

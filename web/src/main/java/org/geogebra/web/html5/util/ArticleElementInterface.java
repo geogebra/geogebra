@@ -402,13 +402,6 @@ public interface ArticleElementInterface {
 	int getDataParamMarginTop();
 
 	/**
-	 * @param smallScreen
-	 *            whather screen is too small to show header
-	 * @return height based on height and fitToScreen parameters
-	 */
-	int computeHeight(boolean smallScreen);
-
-	/**
 	 * @return fonts dataParam
 	 */
 	String getDataParamFontsCssUrl();

@@ -68,7 +68,13 @@ public class EmbedManagerW implements EmbedManager {
 				.attr("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
 				.attr("height",
 						drawEmbed.getGeoEmbed().getContentHeight() + "")
-				.attr("appName", drawEmbed.getGeoEmbed().getAppName());
+				.attr("appName", drawEmbed.getGeoEmbed().getAppName())
+				.attr("allowStyleBar", "true");
+		String currentBase64 = base64.get(drawEmbed.getEmbedID());
+		if (currentBase64 != null) {
+			parameters.attr("appName", "auto").attr("ggbBase64", currentBase64);
+
+		}
 		fr.setComputedWidth(fr.ae.getDataParamWidth());
 		fr.setComputedHeight(fr.ae.getDataParamHeight());
 		fr.runAsyncAfterSplash();
@@ -83,12 +89,9 @@ public class EmbedManagerW implements EmbedManager {
 		container.getElement().addClassName("embedContainer");
 		container.getElement().addClassName("mowWidget");
 		((EuclidianDockPanelW) panel).getEuclidianPanel().add(container);
-		if (base64.get(drawEmbed.getEmbedID()) != null) {
-			parameters.attr("appName", "auto");
+		if (currentBase64 != null) {
 			fr.getApplication().registerOpenFileListener(
 					getListener(drawEmbed, parameters));
-			fr.getApplication().getGgbApi()
-					.setBase64(base64.get(drawEmbed.getEmbedID()));
 		} else if (content.get(drawEmbed.getEmbedID()) != null) {
 			fr.getApplication().getGgbApi().setFileJSON(
 					JSON.parse(content.get(drawEmbed.getEmbedID())));
@@ -126,10 +129,10 @@ public class EmbedManagerW implements EmbedManager {
 				(int) drawEmbed.getGeoEmbed().getContentWidth(),
 				(int) drawEmbed.getGeoEmbed().getContentHeight());
 		frame.getElement().getStyle()
-				.setWidth((int) drawEmbed.getGeoEmbed().getContentWidth(),
+				.setWidth((int) drawEmbed.getGeoEmbed().getContentWidth() - 2,
 						Unit.PX);
 		frame.getElement().getStyle()
-				.setHeight((int) drawEmbed.getGeoEmbed().getContentHeight(),
+				.setHeight((int) drawEmbed.getGeoEmbed().getContentHeight() - 2,
 						Unit.PX);
 		frame.getApplication().checkScaleContainer();
 	}
@@ -137,7 +140,7 @@ public class EmbedManagerW implements EmbedManager {
 	private static void toggleBackground(GeoGebraFrameBoth frame,
 			DrawEmbed drawEmbed) {
 		Dom.toggleClass(frame.getParent().getParent(), "background",
-				drawEmbed.isBackground());
+				drawEmbed.getGeoEmbed().isBackground());
 	}
 
 	@Override
@@ -207,10 +210,9 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void backgroundAll() {
 		for (Entry<DrawEmbed, GeoGebraFrameBoth> e : widgets.entrySet()) {
-			e.getKey().setBackground(true);
+			e.getKey().getGeoEmbed().setBackground(true);
 			toggleBackground(e.getValue(), e.getKey());
 		}
-
 	}
 
 	@Override
@@ -218,7 +220,7 @@ public class EmbedManagerW implements EmbedManager {
 		DrawableND de = app.getActiveEuclidianView()
 				.getDrawableFor(lastVideo);
 		if (de instanceof DrawEmbed) {
-			((DrawEmbed) de).setBackground(false);
+			lastVideo.setBackground(false);
 			toggleBackground(widgets.get(de), (DrawEmbed) de);
 		}
 	}

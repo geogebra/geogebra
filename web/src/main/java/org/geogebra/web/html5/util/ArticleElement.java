@@ -16,7 +16,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.TagName;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 
 /**
@@ -762,26 +761,6 @@ public final class ArticleElement extends Element implements ArticleElementInter
 		return this.getIntegerAttribute("marginTop", 0);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.web.html5.util.ArticleElementInterface#computeHeight()
-	 */
-	@Override
-	public int computeHeight(boolean smallScreen) {
-		// do we have data-param-height?
-		int height = getDataParamHeight() - getBorderThickness();
-
-		// do we have fit to screen?
-		if (getDataParamFitToScreen()) {
-			int margin = smallScreen ? 0 : getDataParamMarginTop();
-			height = Window.getClientHeight() - margin;
-		}
-
-		if (height > 0) {
-			return height;
-		}
-
-		return height;
-	}
 
 	/* (non-Javadoc)
 	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamFontsCssUrl()
