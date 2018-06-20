@@ -3342,10 +3342,11 @@ public abstract class EuclidianView3D extends EuclidianView
 			}
 		}
 
+		// we need to update renderer clip planes even for rotation, since they
+		// are in screen coordinates
+		clippingCubeDrawable.updateRendererClipPlanes();
+
 		if (viewChangedByRotate()) {
-			// we need to update renderer clip planes, since they are in screen
-			// coordinates
-			clippingCubeDrawable.updateRendererClipPlanes();
 
 			// we need to update axis numbers locations
 			for (int i = 0; i < 3; i++) {
