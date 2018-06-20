@@ -172,8 +172,6 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 	public abstract void initCulling();
 
-	public abstract void drawTranspNotCurved();
-
 	public abstract void setCullFaceFront();
 
 	public abstract void setCullFaceBack();
