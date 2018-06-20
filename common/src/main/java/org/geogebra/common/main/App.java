@@ -4157,6 +4157,9 @@ public abstract class App implements UpdateSelection {
 		case MOW_GEOGEBRA_TOOL:
 			return canary && whiteboard;
 
+		case MOW_OPEN_FILE_VIEW:
+			return false;
+
 		// **********************************************************************
 		// MOW END
 		// *********************************************************

@@ -235,6 +235,9 @@ public enum Feature {
 
 	MOW_GEOGEBRA_TOOL,
 
+	/** MOW-479 */
+	MOW_OPEN_FILE_VIEW,
+
 	COMMAND_HOLES, WEB_CLASSIC_FLOATING_MENU,
 
 	/** IGR-604 */

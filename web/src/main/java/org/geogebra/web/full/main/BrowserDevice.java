@@ -1,14 +1,17 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.full.gui.dialog.image.ImageInputDialog;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.dialog.image.UploadImageWithoutDialog;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
+import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -112,7 +115,10 @@ public class BrowserDevice implements GDevice {
 	}
 
 	@Override
-	public BrowseGUI createBrowseView(AppW app) {
+	public BrowseViewI createBrowseView(AppW app) {
+		if (app.has(Feature.MOW_OPEN_FILE_VIEW)) {
+			return new OpenFileView(app);
+		}
 		FileOpenButton mb = new FileOpenButton();
 		BrowseGUI bg = new BrowseGUI(app, mb);
 		mb.setBrowseGUI(bg);
@@ -137,5 +143,4 @@ public class BrowserDevice implements GDevice {
 		}
 
 	}
-
 }

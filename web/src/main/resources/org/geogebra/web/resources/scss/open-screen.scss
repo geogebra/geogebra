@@ -1,3 +1,4 @@
+@import 'colors';
 .GeoGebraFrame {
 	.providers {
 		width: 70px;
@@ -301,5 +302,33 @@
 	.profileOptionsContent .logoutButton {
 		margin: 20px 10px 10px;
 		min-width: 75px;
+	}
+	
+	/* +++ OPEN FILE VIEW CONTENT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+	.openFileView {
+		background-color: white;
+	}
+	.openFileViewHeader {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 64px;
+		width: 100%;
+		background-color: white;
+		box-shadow: 0px 2px 4px -1px $black-2, 0px 4px 5px 0px $black-14, 0px 1px 10px 0px $black-12;
+	}
+	.headerBackButton {
+		float: left;
+		width: 24px;
+		height: 24px;
+		padding: 12px;
+		margin: 8px 12px 8px 12px;
+		opacity: 0.54;
+	}
+	.headerCaption {
+		font-size: 125%;
+		color: $text-primary;
+		letter-spacing: 0.25px;
+		margin: 22px 0px;
 	}
 }
