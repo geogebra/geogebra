@@ -634,7 +634,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *            poly where to copy
 	 */
 	public void copyInternal(Construction cons1, GeoPolygon ret) {
-		ret.setPoints2D(GeoElement.copyPoints(cons1, getPoints()));
 		ret.set(this, cons1);
 	}
 
