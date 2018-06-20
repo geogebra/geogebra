@@ -46,6 +46,7 @@ import org.geogebra.web.html5.util.Dom;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -62,6 +63,8 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -340,17 +343,13 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CancelEventTimer.disableBlurEvent();
-				if (showSymbolButton.isDown()) {
-					// when it is still down, it will be changed to up
-					// when it is still up, it will be changed to down
-					showTablePopupRelativeTo(showSymbolButton);
+				symbolButtonClicked(event.getNativeEvent());
+			}
+		});
+		showSymbolButton.addTouchEndHandler(new TouchEndHandler() {
 
-				} else {
-					hideTablePopup();
-				}
-				// autoCompleteTextField should not loose focus
-				AutoCompleteTextFieldW.this.setFocus(true);
+			public void onTouchEnd(TouchEndEvent event) {
+				symbolButtonClicked(event.getNativeEvent());
 			}
 		});
 
@@ -398,6 +397,27 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		});
 
 		init();
+	}
+
+	/**
+	 * handle symbol button clicked
+	 * 
+	 * @param event
+	 *            clickEvent or touchEndEvent
+	 */
+	protected void symbolButtonClicked(NativeEvent event) {
+		CancelEventTimer.disableBlurEvent();
+		if (showSymbolButton.isDown()) {
+			// when it is still down, it will be changed to up
+			// when it is still up, it will be changed to down
+			showTablePopupRelativeTo(showSymbolButton);
+
+		} else {
+			hideTablePopup();
+		}
+		event.stopPropagation();
+		// autoCompleteTextField should not loose focus
+		AutoCompleteTextFieldW.this.setFocus(true);
 	}
 
 	/**
