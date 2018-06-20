@@ -5286,7 +5286,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public boolean areCommands3DEnabled() {
-		return areCommands3DEnabled;
+		return areCommands3DEnabled && (getSettings().getEuclidian(-1) == null
+				|| getSettings().getEuclidian(-1).isEnabled());
 	}
 
 	/**

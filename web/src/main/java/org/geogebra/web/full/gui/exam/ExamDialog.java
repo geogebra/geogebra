@@ -129,7 +129,6 @@ public class ExamDialog {
 				public void onClick(ClickEvent event) {
 					app.getSettings().getEuclidian(-1).setEnabled(allow3D.getValue());
 					guiManager.updateToolbarActions();
-
 				}
 			});
 		}

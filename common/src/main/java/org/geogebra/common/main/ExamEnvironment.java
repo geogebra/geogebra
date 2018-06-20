@@ -491,7 +491,7 @@ public class ExamEnvironment {
 	 *            settings
 	 * @return syntax
 	 */
-	public String getSyntax(String cmdInt, Localization loc,
+	public static String getSyntax(String cmdInt, Localization loc,
 			Settings settings) {
 		if (settings.getCasSettings().isEnabled()) {
 			return loc.getCommandSyntax(cmdInt);

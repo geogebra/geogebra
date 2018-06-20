@@ -1991,12 +1991,16 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public void enableCAS(boolean enable) {
-		app.getSettings().getCasSettings().setEnabled(enable);
+		if (!app.isUnbundled()) {
+			app.getSettings().getCasSettings().setEnabled(enable);
+		}
 	}
 
 	@Override
 	public void enable3D(boolean enable) {
-		app.getSettings().getEuclidian(-1).setEnabled(enable);
+		if (!app.isUnbundled()) {
+			app.getSettings().getEuclidian(-1).setEnabled(enable);
+		}
 	}
 
 	/**
