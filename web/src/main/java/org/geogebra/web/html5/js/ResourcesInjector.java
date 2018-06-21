@@ -46,6 +46,7 @@ public class ResourcesInjector {
 
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
+
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.reset());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyleGlobal());
@@ -68,6 +69,14 @@ public class ResourcesInjector {
 			loadCodecs();
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
+	}
+
+	/**
+	 * Inject PDFJS stuff.
+	 */
+	public static void injectPdfJs() {
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pdfWorkerJs());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pdfJs());
 	}
 
 	/**

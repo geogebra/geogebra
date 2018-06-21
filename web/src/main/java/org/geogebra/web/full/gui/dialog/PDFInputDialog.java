@@ -10,8 +10,12 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
+import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.pdf.PDFWrapper;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -61,7 +65,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 
 		@Override
 		public void onChange(ChangeEvent event) {
-			loadPdf(getFilename());
+			loadPdf("");
 		}
 	}
 
@@ -74,6 +78,18 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 		this.appW = app;
 		initGui();
 		initActions();
+		GWT.runAsync(new RunAsyncCallback() {
+
+			@Override
+			public void onSuccess() {
+				ResourcesInjector.injectPdfJs();
+			}
+
+			@Override
+			public void onFailure(Throwable reason) {
+				Log.error("Failed to inject PDFJS: " + reason);
+			}
+		});
 	}
 
 	private void initGui() {
@@ -230,7 +246,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 	 *            to load.
 	 * 
 	 */
-	static void loadPdf(String filename) {
-		Log.debug("PDF load: " + filename);
+	static void loadPdf(String fileName) {
+		Log.debug("PDF load: " + fileName);
+		PDFWrapper pdf = new PDFWrapper(fileName);
 	}
 }
