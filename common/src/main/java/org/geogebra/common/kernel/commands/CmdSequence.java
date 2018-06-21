@@ -43,7 +43,7 @@ public class CmdSequence extends CommandProcessor {
 		// create local variable at position 1 and resolve arguments
 		GeoElement[] arg;
 		if (n > 3) {
-			arg = resArgsLocalNumVar(c, 1, 2);
+			arg = resArgsLocalNumVar(c, 1, 2, n - 1);
 		} else {
 			arg = resArgs(c);
 		}
@@ -79,11 +79,6 @@ public class CmdSequence extends CommandProcessor {
 			}
 			throw argErr(c, getBadArg(ok, arg));
 		case 4:
-
-			// make sure Sequence[i,i,i,i] gives an error
-			checkDependency(arg, c, 2, 1);
-			checkDependency(arg, c, 3, 1);
-
 			if ((ok[0] = arg[0].isGeoElement())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
@@ -98,11 +93,6 @@ public class CmdSequence extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 
 		case 5:
-			// make sure Sequence[i,i,i,i,i] gives an error
-			checkDependency(arg, c, 2, 1);
-			checkDependency(arg, c, 3, 1);
-			checkDependency(arg, c, 4, 1);
-
 			if ((ok[0] = arg[0].isGeoElement())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)

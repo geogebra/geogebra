@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoUnitVector3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoUnitVectorPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoUnitVector;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -32,7 +33,7 @@ public class CmdUnitVector3D extends CmdUnitVector {
 	protected GeoElement[] processNotLineNotVector(Command c, GeoElement arg)
 			throws MyError {
 
-		if (arg instanceof GeoDirectionND) {
+		if (arg instanceof GeoDirectionND && !(arg instanceof GeoSpace)) {
 			AlgoUnitVector3D algo = new AlgoUnitVector3D(cons,
 					(GeoDirectionND) arg, normalize);
 			algo.getVector().setLabel(c.getLabel());

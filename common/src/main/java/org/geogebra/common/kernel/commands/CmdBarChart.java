@@ -51,7 +51,7 @@ public class CmdBarChart extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			} else {
-				throw argErr(c, null);
+				throw argErr(c, getBadArg(ok, arg));
 			}
 		case 3:
 			arg = resArgs(c);
@@ -88,11 +88,11 @@ public class CmdBarChart extends CommandProcessor {
 				return ret;
 			}
 
-			throw argErr(c, null);
+			throw argErr(c, getBadArg(ok, arg));
 
 		case 6:
 			// create local variable at position 3 and resolve arguments
-			arg = resArgsLocalNumVar(c, 3, 4);
+			arg = resArgsLocalNumVar(c, 3, 4, 5);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoElement())
@@ -105,11 +105,11 @@ public class CmdBarChart extends CommandProcessor {
 						(GeoNumberValue) arg[5], null) };
 				return ret;
 			}
-			throw argErr(c, null);
+			throw argErr(c, getBadArg(ok, arg));
 
 		case 7:
 			// create local variable at position 3 and resolve arguments
-			arg = resArgsLocalNumVar(c, 3, 4);
+			arg = resArgsLocalNumVar(c, 3, 4, 6);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& ((ok[2] = arg[2].isGeoElement()))
@@ -123,7 +123,7 @@ public class CmdBarChart extends CommandProcessor {
 						(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]) };
 				return ret;
 			}
-			throw argErr(c, null);
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);

@@ -2,6 +2,7 @@ package org.geogebra.commands;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.TreeSet;
 
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppDNoGui;
@@ -28,7 +29,50 @@ public class AlgebraTest extends Assert {
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(string, false,
 						errorStore, false, null);
-		assertTrue(errorStore.getErrors().contains(string2));
+		if (!errorStore.getErrors().contains(string2)) {
+			fail(string + ":" + errorStore.getErrors());
+		}
+	}
+
+	protected static void dummySyntaxesShouldFail(String cmdName,
+			String[] syntaxLines, App app) {
+		TreeSet<Integer> available = new TreeSet<>();
+		for (String line : syntaxLines) {
+			int args = line.split(",").length;
+			available.add(args);
+			StringBuilder withArgs = new StringBuilder(cmdName).append("(");
+			for (int i = 0; i < args - 1; i++) {
+				withArgs.append("space,");
+			}
+			withArgs.append("space)");
+			if (args > 0 && !"Delete".equals(cmdName)
+					&& !"ConstructionStep".equals(cmdName)
+					&& !"Text".equals(cmdName) && !"LaTeX".equals(cmdName)
+					&& !"RunClickScript".equals(cmdName)
+					&& !"RunUpdateScript".equals(cmdName)
+					&& !"Defined".equals(cmdName)
+					&& !"StopLogging".equals(cmdName)
+					&& !"AreEqual".equals(cmdName)
+					&& !"AreCongruent".equals(cmdName)
+					&& !"Textfield".equals(cmdName)
+					&& !"SetViewDirection".equals(cmdName)
+					&& !"GetTime".equals(cmdName)
+					&& !"CopyFreeObject".equals(cmdName)
+					&& !"SetActiveView".equals(cmdName)
+					&& !"Name".equals(cmdName)
+					&& !"SelectObjects".equals(cmdName)
+					&& !"Dot".equals(cmdName) && !"Cross".equals(cmdName)
+					&& !"SetConstructionStep".equals(cmdName)
+					&& !"TableText".equals(cmdName) && !"Q1".equals(cmdName)
+					&& !"Q3".equals(cmdName) && !"SetValue".equals(cmdName)) {
+
+				shouldFail(withArgs.toString(), "arg", app);
+			}
+		}
+		if (syntaxLines.length > 0 && !AlgebraTest.mayHaveZeroArgs(cmdName)) {
+			shouldFail(cmdName + "()", "Illegal number of arguments: 0", app);
+		}
+
 	}
 
 	public static String unicode(String theSpline) {

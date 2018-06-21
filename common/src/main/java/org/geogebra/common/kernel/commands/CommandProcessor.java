@@ -325,7 +325,7 @@ public abstract class CommandProcessor {
 	 * @return Array of arguments
 	 */
 	protected final GeoElement[] resArgsLocalNumVar(Command c, int varPos,
-			int initPos) {
+			int initPos, int lastCheckPos) {
 		// check if there is a local variable in arguments
 		String localVarName = c.getVariableName(varPos);
 		if (localVarName == null) {
@@ -382,6 +382,9 @@ public abstract class CommandProcessor {
 		} finally {
 			// remove local variable name from kernel again
 			cmdCons.removeLocalVariable(localVarName);
+		}
+		for (int i = initPos; i <= lastCheckPos; i++) {
+			checkDependency(arg, c, i, varPos);
 		}
 		return arg;
 	}
@@ -444,7 +447,12 @@ public abstract class CommandProcessor {
 
 			GeoList gl = null;
 			if (c.getArgumentNumber() > varPos + 1) {
-				gl = (GeoList) resArg(c.getArgument(varPos + 1), argInfo)[0];
+				GeoElement el = resArg(c.getArgument(varPos + 1), argInfo)[0];
+				if (el.isGeoList()) {
+					gl = (GeoList) el;
+				} else {
+					throw argErr(c, el);
+				}
 			}
 
 			if (gl == null) {
@@ -654,7 +662,9 @@ public abstract class CommandProcessor {
 				cmdCons.removeLocalVariable(localVarName[i]);
 			}
 		}
-
+		for (int i = 0; i < varPos.length; i++) {
+			checkDependency(arg, c, initPos[i], varPos[i]);
+		}
 		return arg;
 	}
 

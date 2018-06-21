@@ -238,7 +238,7 @@ public class CmdSum extends CommandProcessor {
 	 */
 	static GeoElement[] processSymb(CommandProcessor proc, Command c,
 			Operation op) {
-		GeoElement[] arg = proc.resArgsLocalNumVar(c, 1, 2);
+		GeoElement[] arg = proc.resArgsLocalNumVar(c, 1, 2, 3);
 		if (!arg[1].isGeoNumeric() || !arg[2].isGeoNumeric()
 				|| !arg[3].isGeoNumeric()) {
 			return null;

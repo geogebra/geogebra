@@ -38,7 +38,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 		// Note: x and y coords are numbers dependent on number-var
 		// Curve[t*(1-t)*A+t*t*B+(1-t)*(1-t)*C,t,0,1]
 		case 4:
-			GeoElement[] arg = resArgsLocalNumVar(c, 1, 2);
+			GeoElement[] arg = resArgsLocalNumVar(c, 1, 2, 3);
 			if ((ok[0] = arg[0] instanceof VectorNDValue)
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
@@ -64,18 +64,13 @@ public class CmdCurveCartesian extends CommandProcessor {
 			throw argErr(getBadArg(ok, arg), c);
 		case 5:
 			// create local variable at position 2 and resolve arguments
-			arg = resArgsLocalNumVar(c, 2, 3);
+			arg = resArgsLocalNumVar(c, 2, 3, 4);
 
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)
 					&& (ok[4] = arg[4] instanceof GeoNumberValue)) {
-
-				// make sure Curve[i,i,i,i,i] gives an error
-				checkDependency(arg, c, 3, 2);
-				checkDependency(arg, c, 4, 2);
-
 				AlgoCurveCartesian algo = new AlgoCurveCartesian(cons, null,
 						new GeoNumberValue[] { (GeoNumberValue) arg[0],
 								(GeoNumberValue) arg[1] },

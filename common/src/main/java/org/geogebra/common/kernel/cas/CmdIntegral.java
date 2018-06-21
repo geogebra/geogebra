@@ -65,7 +65,7 @@ public class CmdIntegral extends CommandProcessor {
 
 		case 2:
 			// Integral[ f(x,y), x]
-			arg = resArgsLocalNumVar(c, 1, 1);
+			arg = resArgsLocalNumVar(c, 1, 1, -1);
 			if ((ok[0] = arg[0] instanceof CasEvaluableFunction)
 					&& (ok[1] = arg[1].isGeoNumeric())) {
 				GeoElement[] ret = { integral((CasEvaluableFunction) arg[0], // function

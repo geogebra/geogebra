@@ -91,7 +91,7 @@ public class CmdDerivative extends CommandProcessor {
 			cons.setSuppressLabelCreation(suppress);
 			// Derivative[ f(a,b), a ]
 			try {
-				arg2 = resArgsLocalNumVar(c, 1, 1);
+				arg2 = resArgsLocalNumVar(c, 1, 1, -1);
 
 				if (arg2[0] instanceof CasEvaluableFunction
 						&& arg2[1].isGeoNumeric()) {
@@ -144,7 +144,7 @@ public class CmdDerivative extends CommandProcessor {
 		case 3:
 			// Derivative[ f(a,b), a, 2 ]
 			try {
-				arg = resArgsLocalNumVar(c, 1, 1);
+				arg = resArgsLocalNumVar(c, 1, 1, -1);
 				if (arg[0] instanceof CasEvaluableFunction
 						&& arg[1].isGeoNumeric()
 						&& arg[2] instanceof GeoNumberValue) {

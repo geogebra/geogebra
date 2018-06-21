@@ -37,7 +37,7 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 			// Note: x and y and z coords are numbers dependent on number-var
 
 			// create local variable at position 3 and resolve arguments
-			GeoElement[] arg = resArgsLocalNumVar(c, 3, 4);
+			GeoElement[] arg = resArgsLocalNumVar(c, 3, 4, 5);
 
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)

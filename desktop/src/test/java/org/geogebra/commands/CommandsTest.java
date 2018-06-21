@@ -79,18 +79,13 @@ public class CommandsTest extends AlgebraTest {
 			if (syntax3D.contains("[")) {
 				syntax += "\n" + syntax3D;
 			}
-			for (int i = 0; i < syntax3D.length(); i++) {
-				if (syntax3D.charAt(i) == '[') {
-					syntaxes++;
-				}
+			if (syntax.contains("[")) {
+				String[] syntaxLines = syntax.split("\n");
+				syntaxes = syntaxLines.length;
+				dummySyntaxesShouldFail(cmdName, syntaxLines, app);
 			}
 			System.out.println();
 			System.out.print(cmdName);
-
-			if (syntaxes > 0 && !mayHaveZeroArgs(cmdName)) {
-				shouldFail(cmdName + "()", "Illegal number of arguments: 0",
-						app);
-			}
 			/*
 			// This code helps to force timeout for each syntax. Not used at the moment.
 			GeoGebraCAS cas = (GeoGebraCAS) app.getKernel()

@@ -135,15 +135,12 @@ public class NoExceptionsTest extends AlgebraTest {
 			String syntax = app.getLocalization()
 					.getCommand(cmdName + Localization.syntaxStr);
 			syntaxes = 0;
-			for (int i = 0; i < syntax.length(); i++) {
-				if (syntax.charAt(i) == '[') {
-					syntaxes++;
-				}
+			if (syntax.contains("[")) {
+				String[] syntaxLines = syntax.split("\n");
+				syntaxes = syntaxLines.length;
+				dummySyntaxesShouldFail(cmdName, syntaxLines, app);
 			}
-			if (syntaxes > 0 && !AlgebraTest.mayHaveZeroArgs(cmdName)) {
-				shouldFail(cmdName + "()", "Illegal number of arguments: 0",
-						app);
-			}
+
 			System.out.println();
 			System.out.print(cmdName + " ");
 
@@ -173,6 +170,7 @@ public class NoExceptionsTest extends AlgebraTest {
 			Assert.assertNull(e.getMessage() + "," + e.getClass(), e);
 		}
 	}
+
 
 	@Test
 	public void selfTest() {
