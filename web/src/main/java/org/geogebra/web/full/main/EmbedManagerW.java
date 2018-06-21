@@ -61,9 +61,9 @@ public class EmbedManagerW implements EmbedManager {
 		TestArticleElement parameters = new TestArticleElement("",
 				"graphing");
 		fr.ae = parameters;
-		fr.ae.attr("showToolBar", "true")
-				.attr("scaleContainerClass",
-				"embedContainer").attr("allowUpscale", "true")
+		parameters.attr("showToolBar", "true")
+				.attr("scaleContainerClass", "embedContainer")
+				.attr("allowUpscale", "true")
 				.attr("showAlgebraInput", "true")
 				.attr("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
 				.attr("height",
@@ -75,8 +75,12 @@ public class EmbedManagerW implements EmbedManager {
 			parameters.attr("appName", "auto").attr("ggbBase64", currentBase64);
 
 		}
-		fr.setComputedWidth(fr.ae.getDataParamWidth());
-		fr.setComputedHeight(fr.ae.getDataParamHeight());
+		fr.setComputedWidth(
+				parameters.getDataParamWidth()
+						- parameters.getBorderThickness());
+		fr.setComputedHeight(
+				parameters.getDataParamHeight()
+						- parameters.getBorderThickness());
 		fr.runAsyncAfterSplash();
 		DockPanelW panel = ((DockManagerW) app.getGuiManager().getLayout()
 				.getDockManager()).getPanel(App.VIEW_EUCLIDIAN);
