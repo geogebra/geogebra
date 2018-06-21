@@ -2561,6 +2561,7 @@ __GGB__keysVar["tr"].menu = {
     "Saving": "Kaydediliyor \u2026",
     "ScaleInCentimeter": "cm cinsinden \xf6l\xe7ek",
     "Scatterplot": "Da\u011f\u0131l\u0131m \xe7izimi",
+    "ScientificCalculator": "Bilimsel Hesap Makinesi",
     "Script": "GeoGebra Betik",
     "Scripting": "Betikleme",
     "Search": "Ara",

@@ -2561,6 +2561,7 @@ __GGB__keysVar["pl"].menu = {
     "Saving": "Zapisywanie \u2026",
     "ScaleInCentimeter": "Miara w cm",
     "Scatterplot": "Wykres punktowy",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "GeoGebra Script",
     "Scripting": "Skrypty",
     "Search": "Szukaj",

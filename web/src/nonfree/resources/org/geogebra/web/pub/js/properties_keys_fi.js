@@ -2561,6 +2561,7 @@ __GGB__keysVar["fi"].menu = {
     "Saving": "Tallennetaan\u2026",
     "ScaleInCentimeter": "Mittakaava (cm)",
     "Scatterplot": "Pistekaavio",
+    "ScientificCalculator": "Tieteellinen laskin",
     "Script": "GeoGebra Script",
     "Scripting": "Ohjelmointi",
     "Search": "Haku",

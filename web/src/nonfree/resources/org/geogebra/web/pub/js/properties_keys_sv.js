@@ -2561,6 +2561,7 @@ __GGB__keysVar["sv"].menu = {
     "Saving": "Sparar...",
     "ScaleInCentimeter": "Skala i cm",
     "Scatterplot": "Spridningsdiagram",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "GeoGebra script",
     "Scripting": "Script (Program)",
     "Search": "S\xf6k",

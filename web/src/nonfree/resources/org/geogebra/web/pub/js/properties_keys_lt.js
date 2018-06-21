@@ -2561,6 +2561,7 @@ __GGB__keysVar["lt"].menu = {
     "Saving": "Saugoma \u2026",
     "ScaleInCentimeter": "Mastelis centrimetrais",
     "Scatterplot": "I\u0161sibarstymoVaizdas",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "GeoGebra programavimas",
     "Scripting": "Programavimas",
     "Search": "Search",

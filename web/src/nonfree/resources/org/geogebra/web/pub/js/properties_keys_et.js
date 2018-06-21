@@ -2561,6 +2561,7 @@ __GGB__keysVar["et"].menu = {
     "Saving": "Salvestamine \u2026",
     "ScaleInCentimeter": "Skaala sentimeetrites",
     "Scatterplot": "Hajuvusdiagramm",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "GeoGebra skript",
     "Scripting": "Skriptimine",
     "Search": "Search",

@@ -2561,6 +2561,7 @@ __GGB__keysVar["is"].menu = {
     "Saving": "Vista \u2026",
     "ScaleInCentimeter": "Kvar\xf0i \xed cm",
     "Scatterplot": "Punktarit",
+    "ScientificCalculator": "Fr\xe6\xf0ilegur vasareiknir",
     "Script": "GeoGebru forrit",
     "Scripting": "Forritun",
     "Search": "Search",

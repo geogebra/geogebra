@@ -2561,6 +2561,7 @@ __GGB__keysVar["eo"].menu = {
     "Saving": "Konservante\u2026",
     "ScaleInCentimeter": "Skalo (cm)",
     "Scatterplot": "Scatterplot",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "GeoGebra-skripto",
     "Scripting": "Skriptado",
     "Search": "Search",

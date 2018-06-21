@@ -2561,6 +2561,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "Saving": "Opslaan \u2026",
     "ScaleInCentimeter": "Schaal in cm",
     "Scatterplot": "Scatterplot",
+    "ScientificCalculator": "Wetenschappelijk rekenmachine",
     "Script": "GeoGebra Script",
     "Scripting": "Scripting",
     "Search": "Zoek",

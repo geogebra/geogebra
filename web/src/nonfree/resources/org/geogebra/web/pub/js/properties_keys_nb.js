@@ -2561,6 +2561,7 @@ __GGB__keysVar["nb"].menu = {
     "Saving": "Lagrer\u2026",
     "ScaleInCentimeter": "Skala i cm",
     "Scatterplot": "Punktdiagram",
+    "ScientificCalculator": "Avansert kalkulator",
     "Script": "GeoGebra-Script",
     "Scripting": "Scripting",
     "Search": "S\xf8k",

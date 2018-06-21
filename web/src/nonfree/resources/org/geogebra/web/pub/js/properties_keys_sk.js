@@ -2561,6 +2561,7 @@ __GGB__keysVar["sk"].menu = {
     "Saving": "Ukl\xe1dam \u2026",
     "ScaleInCentimeter": "Mierka v cm",
     "Scatterplot": "Korela\u010dn\xfd diagram",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "GeoGebra Script",
     "Scripting": "skriptovanie",
     "Search": "Search",

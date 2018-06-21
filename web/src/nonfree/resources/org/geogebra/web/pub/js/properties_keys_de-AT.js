@@ -2561,6 +2561,7 @@ __GGB__keysVar["de-AT"].menu = {
     "Saving": "Speichert ...",
     "ScaleInCentimeter": "Ma\xdfstab in cm",
     "Scatterplot": "Streudiagramm",
+    "ScientificCalculator": "Wissenschaftlicher Taschenrechner",
     "Script": "GeoGebra Skript",
     "Scripting": "Skripting",
     "Search": "Suche",

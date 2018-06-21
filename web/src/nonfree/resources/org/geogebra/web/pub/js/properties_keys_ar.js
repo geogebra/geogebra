@@ -2561,6 +2561,7 @@ __GGB__keysVar["ar"].menu = {
     "Saving": "Saving \u2026",
     "ScaleInCentimeter": "\u0633\u0644\u0645 \u0628\u0627\u0644\u0635\u0646\u062a\u0645\u062a\u0631",
     "Scatterplot": "\u0645\u062e\u0637\u0637 \u0627\u0644\u062a\u0634\u062a\u062a",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "Script GeoGebra",
     "Scripting": "Script",
     "Search": "\u0628\u062d\u062b",

@@ -2561,6 +2561,7 @@ __GGB__keysVar["hu"].menu = {
     "Saving": "Ment\xe9s \u2026",
     "ScaleInCentimeter": "Ar\xe1ny cm-ben",
     "Scatterplot": "Pontok",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "GeoGebra Script",
     "Scripting": "Script",
     "Search": "Keres",

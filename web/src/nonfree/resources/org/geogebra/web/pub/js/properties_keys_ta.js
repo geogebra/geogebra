@@ -2561,6 +2561,7 @@ __GGB__keysVar["ta"].menu = {
     "Saving": "Saving \u2026",
     "ScaleInCentimeter": "\u0b85\u0bb3\u0bb5\u0bc1 cm \u0b87\u0bb2\u0bcd",
     "Scatterplot": "Scatterplot",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "\u0b9c\u0bbf\u0baf\u0bcb\u0b9c\u0bc0\u0baa\u0bcd\u0bb0\u0bbe \u0b95\u0ba4\u0bc8",
     "Scripting": "Scripting",
     "Search": "Search",

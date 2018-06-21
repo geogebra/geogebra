@@ -2561,6 +2561,7 @@ __GGB__keysVar["kk"].menu = {
     "Saving": "\u0421\u0430\u049b\u0442\u0430\u043b\u0443\u0434\u0430 \u2026",
     "ScaleInCentimeter": "\u041c\u0430\u0441\u0448\u0442\u0430\u0431 (\u0441\u043c)",
     "Scatterplot": "Scatterplot",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "GeoGebra Script",
     "Scripting": "\u0421\u0446\u0435\u043d\u0430\u0440\u0438\u0439",
     "Search": "\u0406\u0437\u0434\u0435\u0443",

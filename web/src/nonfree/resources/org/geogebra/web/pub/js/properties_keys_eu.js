@@ -2561,6 +2561,7 @@ __GGB__keysVar["eu"].menu = {
     "Saving": "Gordetzen \u2026",
     "ScaleInCentimeter": "Eskala cm-tan",
     "Scatterplot": "Puntu-hodeia (Barreiatze-diagrama)",
+    "ScientificCalculator": "Kalkulagailu Grafikoa",
     "Script": "GeoGebraren Komandoen Sekuentzia (Script)",
     "Scripting": "Komandoen Sekuentzia (Script)",
     "Search": "Bilatu",

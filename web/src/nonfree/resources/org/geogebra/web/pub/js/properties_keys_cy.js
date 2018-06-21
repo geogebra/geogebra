@@ -2561,6 +2561,7 @@ __GGB__keysVar["cy"].menu = {
     "Saving": "Saving \u2026",
     "ScaleInCentimeter": "Graddau mewn cm",
     "Scatterplot": "Graff gwasgariad",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "SgriptGeoGebra",
     "Scripting": "Sgriptio",
     "Search": "Search",

@@ -2561,6 +2561,7 @@ __GGB__keysVar["ms"].menu = {
     "Saving": "Sedang menyimpan \u2026",
     "ScaleInCentimeter": "Skala dalam cm",
     "Scatterplot": "Plot Sebar",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "Skrip GeoGebra",
     "Scripting": "Penskripan",
     "Search": "Search",

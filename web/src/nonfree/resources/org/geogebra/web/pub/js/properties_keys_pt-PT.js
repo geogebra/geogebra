@@ -2561,6 +2561,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "Saving": "A gravar \u2026",
     "ScaleInCentimeter": "Escala em cm",
     "Scatterplot": "Gr\xe1fico de Dispers\xe3o",
+    "ScientificCalculator": "Calculadora Cient\xedfica",
     "Script": "C\xf3digo GeoGebra",
     "Scripting": "Programa\xe7\xe3o",
     "Search": "Procura",

@@ -2561,6 +2561,7 @@ __GGB__keysVar["xh"].menu = {
     "Saving": "IyaGcina ngoku \u2026",
     "ScaleInCentimeter": "iScale kwi cm",
     "Scatterplot": "iScatterplot",
+    "ScientificCalculator": "Scientific Calculator",
     "Script": "umbhalo weJiyoJebra",
     "Scripting": "Bhala",
     "Search": "Search",
