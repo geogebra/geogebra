@@ -306,7 +306,9 @@
 	
 	/* +++ OPEN FILE VIEW CONTENT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 	
-	$header-shadow: 0 2px 2px 0 $black-14, 0 1px 5px 0 $black-12, 0 3px 1px -2px $black-2;
+	$header_shadow: 0 2px 2px 0 $black-14, 0 1px 5px 0 $black-12, 0 3px 1px -2px $black-2;
+	$header_height: 64px;
+	$button_hover_transition: background-color 0.15s;
 	
 	.openFileView {
 		background-color: white;
@@ -315,23 +317,68 @@
 		position: absolute;
 		top: 0px;
 		left: 0px;
-		height: 64px;
+		height: $header_height;
 		width: 100%;
+		z-index: 200;
 		background-color: white;
-		box-shadow: $header-shadow;
+		box-shadow: $header_shadow;
 	}
 	.headerBackButton {
+		cursor: pointer;
 		float: left;
 		width: 24px;
 		height: 24px;
 		padding: 12px;
 		margin: 8px 12px 8px 12px;
 		opacity: 0.54;
+		&:hover {
+			opacity: 0.87;
+		}
 	}
 	.headerCaption {
 		font-size: 125%;
 		color: $text-primary;
 		letter-spacing: 0.25px;
 		margin: 22px 0px;
+	}
+	.fileViewContentPanel {
+	
+	}
+	.fileViewButtonPanel {
+		margin-top: 24px;
+		margin-left: 24px;
+		position: absolute;
+		top: 44px; // = header_height - 20px
+		left: 0px;
+	}
+	.containedButton {
+		cursor: pointer;
+		min-width: 64px;
+		height: 36px;
+		float: left;
+		background-color: $mow_card_background;
+		border-radius: 2px;
+		transition: $button_hover_transition;
+		img {
+			width: 18px;
+			height: 18px;
+			padding: 9px 8px 9px 12px;
+			float: left;
+			opacity: 0.54;
+		}
+		.gwt-Label {
+			float: left;
+			text-transform: uppercase;
+			font-size: 87.5%; // (=14px)
+			line-height: 1;
+			color: $text-secondary;
+			padding: 11px 16px 11px 0px;
+		}
+		&:hover {
+			background-color: $mow_card_background_hover;
+		}
+	}
+	.buttonMargin {
+		margin-left: 16px;
 	}
 }
