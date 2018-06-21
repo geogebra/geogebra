@@ -71,6 +71,7 @@ public class PDFWrapper {
 							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)('PDF loaded');
 							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setPdf(Lcom/google/gwt/core/client/JavaScriptObject;)(pdf);
 							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setPageCount(I)(pdf.numPages);
+							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::getPage(I)(1);
 						},
 						function(reason) {
 							// PDF loading error
@@ -78,8 +79,9 @@ public class PDFWrapper {
 						});
 	}-*/;
 
-	private native void getPage(JavaScriptObject pdf, int pageNumber) /*-{
+	private native void getPage(int pageNumber) /*-{
 		var that = this;
+		var pdf = this.@org.geogebra.web.html5.util.pdf.PDFWrapper::pdf;
 		pdf
 				.getPage(pageNumber)
 				.then(
