@@ -322,7 +322,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				}
 
 				// autoCompleteTextField should not loose focus
-				setFocus(true);
+				AutoCompleteTextFieldW.this.setFocus(true);
 			}
 		};
 		textField.setShowSymbolElement(this.showSymbolButton.getElement());
@@ -418,7 +418,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 		event.stopPropagation();
 		// autoCompleteTextField should not loose focus
-		AutoCompleteTextFieldW.this.setFocus(true);
+		setFocus(true);
 	}
 
 	/**
