@@ -57,7 +57,10 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private Label ofPageLbl;
 	private String pdfFile = null;
 	private PDFChooser pdfChooser = new PDFChooser();
-	private PDFWrapper pdf;
+	/**
+	 * pdf.js wrapper
+	 */
+	PDFWrapper pdf;
 	private ProgressBar progressBar;
 
 	private class PDFChooser extends FileUpload
@@ -306,6 +309,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 					loadedPart.setWidth(width + "%");
 					if (width >= 100) {
 						progressTimer.stop();
+						pdf.getPage(1);
 					}
 				}
 			};

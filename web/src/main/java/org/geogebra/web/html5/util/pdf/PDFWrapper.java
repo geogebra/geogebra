@@ -22,6 +22,11 @@ public class PDFWrapper {
 		 */
 		void onPageDisplay(String imgSrc);
 
+		/**
+		 * After the pdf loaded, the progress bar should be finished quickly.
+		 */
+		void finishLoading();
+
 	}
 
 	private PDFListener listener;
@@ -39,6 +44,10 @@ public class PDFWrapper {
 	public PDFWrapper(String fileName, PDFListener listener) {
 		this.listener = listener;
 		read(fileName);
+	}
+
+	private void finishLoading() {
+		listener.finishLoading();
 	}
 
 	private native void read(String filename) /*-{
@@ -71,7 +80,7 @@ public class PDFWrapper {
 							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)('PDF loaded');
 							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setPdf(Lcom/google/gwt/core/client/JavaScriptObject;)(pdf);
 							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setPageCount(I)(pdf.numPages);
-							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::getPage(I)(1);
+							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::finishLoading()();
 						},
 						function(reason) {
 							// PDF loading error
@@ -79,7 +88,13 @@ public class PDFWrapper {
 						});
 	}-*/;
 
-	private native void getPage(int pageNumber) /*-{
+	/**
+	 * Shows a page of the pdf in the dialog.
+	 * 
+	 * @param pageNumber
+	 *            page number to show
+	 */
+	public native void getPage(int pageNumber) /*-{
 		var that = this;
 		var pdf = this.@org.geogebra.web.html5.util.pdf.PDFWrapper::pdf;
 		pdf
