@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.util.pdf;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 /**
  * Wrapper class for pdf.js
  * 
@@ -24,6 +26,8 @@ public class PDFWrapper {
 
 	private PDFListener listener;
 	private int pageCount;
+	private JavaScriptObject pdf = null;
+
 	/**
 	 * Constructor
 	 * 
@@ -65,47 +69,46 @@ public class PDFWrapper {
 				.then(
 						function(pdf) {
 							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)('PDF loaded');
+							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setPdf(Lcom/google/gwt/core/client/JavaScriptObject;)(pdf);
 							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setPageCount(I)(pdf.numPages);
-							var pageNumber = 1;
-							// choose which page
-
-							pdf
-									.getPage(pageNumber)
-									.then(
-											function(page) {
-												@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)('Page loaded');
-
-												var scale = 1;
-												var viewport = page
-														.getViewport(scale);
-
-												return page
-														.getOperatorList()
-														.then(
-																function(opList) {
-																	var svgGfx = new $wnd.PDFJS.SVGGraphics(
-																			page.commonObjs,
-																			page.objs);
-																	return svgGfx
-																			.getSVG(
-																					opList,
-																					viewport)
-																			.then(
-																					function(
-																							svg) {
-																						svgs = (new XMLSerializer())
-																								.serializeToString(svg);
-																						// convert to base64 URL for <img>
-																						var data = "data:image/svg+xml;base64,"
-																								+ btoa(unescape(encodeURIComponent(svgs)));
-																						that.@org.geogebra.web.html5.util.pdf.PDFWrapper::onPageDisplay(Ljava/lang/String;)(data);
-																					});
-																});
-											});
 						},
 						function(reason) {
 							// PDF loading error
 							@org.geogebra.common.util.debug.Log::error(Ljava/lang/String;)(reason);
+						});
+	}-*/;
+
+	private native void getPage(JavaScriptObject pdf, int pageNumber) /*-{
+		var that = this;
+		pdf
+				.getPage(pageNumber)
+				.then(
+						function(page) {
+							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)('Page loaded');
+
+							var scale = 1;
+							var viewport = page.getViewport(scale);
+
+							return page
+									.getOperatorList()
+									.then(
+											function(opList) {
+												var svgGfx = new $wnd.PDFJS.SVGGraphics(
+														page.commonObjs,
+														page.objs);
+												return svgGfx
+														.getSVG(opList,
+																viewport)
+														.then(
+																function(svg) {
+																	svgs = (new XMLSerializer())
+																			.serializeToString(svg);
+																	// convert to base64 URL for <img>
+																	var data = "data:image/svg+xml;base64,"
+																			+ btoa(unescape(encodeURIComponent(svgs)));
+																	that.@org.geogebra.web.html5.util.pdf.PDFWrapper::onPageDisplay(Ljava/lang/String;)(data);
+																});
+											});
 						});
 	}-*/;
 
@@ -131,5 +134,13 @@ public class PDFWrapper {
 	 */
 	public void setPageCount(int pageCount) {
 		this.pageCount = pageCount;
+	}
+
+	public JavaScriptObject getPdf() {
+		return pdf;
+	}
+
+	public void setPdf(JavaScriptObject pdf) {
+		this.pdf = pdf;
 	}
 }
