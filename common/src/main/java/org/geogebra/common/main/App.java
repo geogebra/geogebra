@@ -4158,7 +4158,7 @@ public abstract class App implements UpdateSelection {
 			return canary && whiteboard;
 
 		case MOW_OPEN_FILE_VIEW:
-			return false;
+			return canary && whiteboard;
 
 		// **********************************************************************
 		// MOW END

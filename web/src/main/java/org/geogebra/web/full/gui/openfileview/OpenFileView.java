@@ -121,8 +121,8 @@ public class OpenFileView extends MyHeaderPanel implements BrowseViewI {
 	}
 
 	public void setLabels() {
-		// TODO Auto-generated method stub
-
+		headerCaption.setText(
+				app.getLocalization().getMenu("mow.openFileViewTitle"));
 	}
 
 	public void addMaterial(Material material) {
