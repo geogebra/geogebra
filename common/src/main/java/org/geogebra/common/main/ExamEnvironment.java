@@ -493,8 +493,9 @@ public class ExamEnvironment {
 	 */
 	public static String getSyntax(String cmdInt, Localization loc,
 			Settings settings) {
+		int dim = settings.getEuclidian(-1).isEnabled() ? 3 : 2;
 		if (settings.getCasSettings().isEnabled()) {
-			return loc.getCommandSyntax(cmdInt);
+			return loc.getCommandSyntax(cmdInt, dim);
 		}
 		Commands cmd = null;
 		try {
@@ -504,7 +505,7 @@ public class ExamEnvironment {
 			// macro or error
 		}
 		if (cmd == null) {
-			return loc.getCommandSyntax(cmdInt);
+			return loc.getCommandSyntax(cmdInt, dim);
 		}
 		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral
 		// gives suggestions for NIntegral
@@ -536,7 +537,7 @@ public class ExamEnvironment {
 		case PreviousPrime:
 			return null;
 		default:
-			return loc.getCommandSyntax(cmdInt);
+			return loc.getCommandSyntax(cmdInt, dim);
 		}
 
 	}

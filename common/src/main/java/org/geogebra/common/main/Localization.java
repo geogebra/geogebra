@@ -941,8 +941,19 @@ public abstract class Localization {
 	 * @return command syntax TODO check whether getSyntaxString works here
 	 */
 	public String getCommandSyntax(String key) {
+		return getCommandSyntax(key, dimension);
+	}
+
+	/**
+	 * @param key
+	 *            command name
+	 * @param dim
+	 *            dimension override
+	 * @return command syntax TODO check whether getSyntaxString works here
+	 */
+	public String getCommandSyntax(String key, int dim) {
 		String command = getCommand(key);
-		if (dimension == 3) {
+		if (dim == 3) {
 			String key3D = key + Localization.syntax3D;
 			String cmdSyntax3D = getCommand(key3D);
 			if (!cmdSyntax3D.equals(key3D)) {
@@ -951,10 +962,10 @@ public abstract class Localization {
 			}
 		}
 
-        String syntax = getCommand(key + Localization.syntaxStr);
-        syntax = buildSyntax(syntax, command);
+		String syntax = getCommand(key + Localization.syntaxStr);
+		syntax = buildSyntax(syntax, command);
 
-        return syntax;
+		return syntax;
 	}
 
 	private String buildSyntax(String syntax, String command) {
