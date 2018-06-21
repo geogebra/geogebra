@@ -473,18 +473,6 @@ public class DrawLine extends Drawable implements Previewable {
 
 	}
 
-	/**
-	 * For updating stylebar position
-	 * 
-	 * @return 0 sized rectangle with top-left corner close to the center of the
-	 *         visible part of the line
-	 */
-	@Override
-	public GRectangle getBoundsForStylebarPosition() {
-		return getTempFrame((int) (x1 + x2) / 2 + 50, (int) (y1 + y2) / 2 + 50,
-				0, 0);
-	}
-
 	@Override
 	public final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());

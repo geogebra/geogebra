@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -75,16 +74,12 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		}
 	}-*/;
 
-	private GPoint calculatePosition(GRectangle2D gRectangle2D,
-			boolean hasBoundingBox, boolean isPoint, boolean isFunction) {
-		if (gRectangle2D == null && !isFunction) {
-			return null;
-		}
-
+	private GPoint calculatePosition(GRectangle2D gRectangle2D, boolean isPoint,
+			boolean isFunction) {
 		int height = this.getOffsetHeight();
 		double left, top = -1;
-
-		if (isFunction) {
+		boolean functionOrLine = isFunction || gRectangle2D == null;
+		if (functionOrLine) {
 			GPoint mouseLoc = this.getView().getEuclidianController()
 					.getMouseLoc();
 			if (mouseLoc == null) {
@@ -92,23 +87,19 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			}
 			top = mouseLoc.y + 10;
 		} else if (!isPoint) {
-			if (hasBoundingBox) {
-				top = gRectangle2D.getMinY() - height - 10;
-			} else { // line has no bounding box
-				top = gRectangle2D.getMinY();
-			}
+			top = gRectangle2D.getMinY() - height - 10;
 		}
 
 		// if there is no enough place on the top of bounding box, dynamic
 		// stylebar will be visible at the bottom of bounding box,
 		// stylebar of points will be bottom of point if possible.
-		if (top < 0) {
+		if (top < 0 && gRectangle2D != null) {
 			top = gRectangle2D.getMaxY() + 10;
 		}
 
 		int maxtop = app.getActiveEuclidianView().getHeight() - height - 5;
 		if (top > maxtop) {
-			if (isFunction) {
+			if (functionOrLine) {
 				top = maxtop;
 			} else if (isPoint) {
 				// if there is no enough place under the point
@@ -120,18 +111,17 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		}
 
 		// get left position
-		if (isFunction) {
+		if (functionOrLine) {
 			left = this.getView().getEuclidianController().getMouseLoc().x + 10;
-		} else if (hasBoundingBox) {
+		} else {
 			left = gRectangle2D.getMaxX();
 			if (isContextMenuNeeded()) {
 				left -= getContextMenuButton().getAbsoluteLeft() - getAbsoluteLeft();
 			} else {
 				left -= getOffsetWidth();
 			}
-		} else { // line has no bounding box
-			left = gRectangle2D.getMaxX();
 		}
+
 		if (left < 0) {
 			left = 0;
 		}
@@ -165,8 +155,8 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
 			GRectangle selectionRectangle = app.getActiveEuclidianView().getSelectionRectangle();
 			if (!app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) || selectionRectangle != null) {
-				setPosition(calculatePosition(selectionRectangle, true,
-						false, false));
+				setPosition(
+						calculatePosition(selectionRectangle, false, false));
 				return;
 			}
 		}
@@ -180,9 +170,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			// duplicate a geo, which has descendant.
 			if (geo.isEuclidianVisible()) {
 				hasVisibleGeo = true;
-				if (geo instanceof GeoFunction) {
+				if (geo instanceof GeoFunction || (geo.isGeoLine()
+						&& !geo.isGeoSegment())) {
 					if (getView().getHits().contains(geo)) {
-						nextPos = calculatePosition(null, true, false, true);
+						nextPos = calculatePosition(null, false, true);
 						oldPos = nextPos;
 					} else {
 						nextPos = null;
@@ -214,7 +205,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		DrawableND dr = ev.getDrawableND(geo);
 		if (dr != null) {
 			return calculatePosition(dr.getBoundsForStylebarPosition(),
-					!(dr instanceof DrawLine),
 					dr instanceof DrawPoint && activeGeoList.size() < 2, false);
 		}
 		return null;
