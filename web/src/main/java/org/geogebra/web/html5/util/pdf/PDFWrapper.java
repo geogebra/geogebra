@@ -71,7 +71,11 @@ public class PDFWrapper {
 	}-*/;
 
 	private native void load(String src) /*-{
-		var loadingTask = $wnd.PDFJS.getDocument(src);
+		var progressCallback = function(progress) {
+			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("total: " + progress.total + ", loaded: " + progress.loaded);
+		}
+		var loadingTask = $wnd.PDFJS.getDocument(src, null, null,
+				progressCallback);
 		var that = this;
 
 		loadingTask.promise
