@@ -322,7 +322,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				}
 
 				// autoCompleteTextField should not loose focus
-				AutoCompleteTextFieldW.this.setFocus(true);
+				setFocus(true);
 			}
 		};
 		textField.setShowSymbolElement(this.showSymbolButton.getElement());
@@ -569,7 +569,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			if (isCASInput) {
 				syntaxString = loc.getCommandSyntaxCAS(cmdInt);
 			} else {
-				app.getExam();
 				syntaxString = ExamEnvironment.getSyntax(cmdInt, loc,
 								app.getSettings());
 			}

@@ -761,7 +761,6 @@ public final class ArticleElement extends Element implements ArticleElementInter
 		return this.getIntegerAttribute("marginTop", 0);
 	}
 
-
 	/* (non-Javadoc)
 	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamFontsCssUrl()
 	 */

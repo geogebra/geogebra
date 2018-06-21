@@ -38,7 +38,8 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	public void initPosition(EuclidianViewInterfaceCommon ev) {
 		double x = ev.toRealWorldCoordX(ev.getViewWidth() / 2.0)
 				- contentWidth / ev.getXscale() / 2;
-		double y = ev.toRealWorldCoordY(ev.getViewHeight() / 2.0) - contentHeight / ev.getYscale() / 2;
+		double y = ev.toRealWorldCoordY(ev.getViewHeight() / 2.0)
+				- contentHeight / ev.getYscale() / 2;
 		corner[0] = new GeoPoint(cons);
 		corner[0].setCoords(x, y, 1);
 		corner[1] = new GeoPoint(cons);
@@ -163,7 +164,7 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 
 	@Override
 	public void removeStartPoint(GeoPointND p) {
-		for(int i = 0;i<corner.length;i++){
+		for (int i = 0; i < corner.length; i++) {
 			if (corner[i] == p) {
 				corner[i] = (GeoPoint) p.copy();
 			}

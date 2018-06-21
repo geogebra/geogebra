@@ -224,7 +224,6 @@ public class InputSuggestions implements HasSuggestions {
 				syntaxString = app.getLocalization()
 						.getCommandSyntaxCAS(cmdInt);
 			} else {
-				app.getExam();
 				syntaxString = ExamEnvironment.getSyntax(cmdInt, loc,
 								app.getSettings());
 			}

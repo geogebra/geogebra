@@ -9,8 +9,6 @@ import org.geogebra.common.geogebra3D.main.VertexShader;
 public class ShaderProvider {
 
 	/**
-	 * @param shiny
-	 *            says if we use specular light to get it shiny
 	 * @param packed
 	 *            says if we use packed buffers
 	 * @return Fragment shader
