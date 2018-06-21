@@ -44,6 +44,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private FlowPanel pdfPreviewPanel;
 	private FlowPanel pdfPageTextPanel;
 	private Label clickOrDragText;
+	private Label loadText;
+	private Label errorText;
 	private FlowPanel buttonPanel;
 	private StandardButton insertBtn;
 	private StandardButton cancelBtn;
@@ -56,6 +58,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private String pdfFile = null;
 	private PDFChooser pdfChooser = new PDFChooser();
 	private PDFWrapper pdf;
+	private ProgressBar progressBar;
 
 	private class PDFChooser extends FileUpload
 			implements ChangeHandler {
@@ -208,6 +211,13 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		if (pdf != null) {
 			ofPageLbl.setText(appW.getLocalization().getMenu("of") + " " + pdf.getPageCount()); // of
 		}
+		if (loadText != null) {
+			loadText.setText(appW.getLocalization().getMenu("pdfLoadText"));
+		}
+		if (errorText != null) {
+			errorText.setText(appW.getLocalization().getMenu("pdfErrorText"));
+		}
+
 	}
 
 	@Override
@@ -245,6 +255,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	 * 
 	 */
 	void loadPdf(String fileName) {
+		buildLoadingPanel();
 		Log.debug("PDF load: " + fileName);
 		pdf = new PDFWrapper(fileName, this);
 	}
@@ -298,8 +309,30 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 					}
 				}
 			};
-			progressTimer = getApplication().newTimer(timerListener, 30);
+			progressTimer = getApplication().newTimer(timerListener, 150);
 			progressTimer.startRepeat();
 		}
+
+		/**
+		 * After the pdf loaded, the progress bar should be finished quickly.
+		 */
+		public void finishLoading() {
+			progressTimer.setDelay(10);
+		}
+	}
+
+	private void buildLoadingPanel() {
+		pdfContainerPanel.clear();
+		progressBar = new ProgressBar();
+		pdfContainerPanel.add(progressBar);
+		if (loadText == null) {
+			loadText = new Label();
+			loadText.addStyleName("clickOrDragText");
+		}
+		pdfContainerPanel.add(loadText);
+	}
+
+	public void finishLoading() {
+		progressBar.finishLoading();
 	}
 }
