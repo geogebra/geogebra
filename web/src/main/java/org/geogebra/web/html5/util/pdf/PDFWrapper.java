@@ -8,12 +8,32 @@ package org.geogebra.web.html5.util.pdf;
  */
 public class PDFWrapper {
 	/**
+	 * Interface to communicate with PDF Container.
+	 *
+	 */
+	public interface PDFListener {
+		/**
+		 * Call this to build image from pdf.
+		 * 
+		 * @param imgSrc
+		 *            the image data as source.
+		 */
+		void onPageDisplay(String imgSrc);
+
+	}
+
+	private PDFListener listener;
+	private int pageCount;
+	/**
 	 * Constructor
 	 * 
 	 * @param fileName
 	 *            PDF to handle.
+	 * @param listener
+	 *            to communicate with PDF container.
 	 */
-	public PDFWrapper(String fileName) {
+	public PDFWrapper(String fileName, PDFListener listener) {
+		this.listener = listener;
 		read(fileName);
 	}
 
@@ -38,8 +58,9 @@ public class PDFWrapper {
 	}-*/;
 
 	private native void load(String src) /*-{
-		$wnd.PDFJS.disableWorker = true;
 		var loadingTask = $wnd.PDFJS.getDocument(src);
+		var that = this;
+
 		loadingTask.promise
 				.then(
 						function(pdf) {
@@ -67,7 +88,7 @@ public class PDFWrapper {
 														.getOperatorList()
 														.then(
 																function(opList) {
-																	var svgGfx = new PDFJS.SVGGraphics(
+																	var svgGfx = new $wnd.PDFJS.SVGGraphics(
 																			page.commonObjs,
 																			page.objs);
 																	return svgGfx
@@ -80,11 +101,9 @@ public class PDFWrapper {
 																						svgs = (new XMLSerializer())
 																								.serializeToString(svg);
 																						// convert to base64 URL for <img>
-																						document
-																								.getElementById('output').src = "data:image/svg+xml;base64,"
+																						var data = "data:image/svg+xml;base64,"
 																								+ btoa(unescape(encodeURIComponent(svgs)));
-																						console
-																								.log(svgs);
+																						that.@org.geogebra.web.html5.util.pdf.PDFWrapper::onPageDisplay(Ljava/lang/String;)(data);
 																					});
 																});
 											});
@@ -95,4 +114,27 @@ public class PDFWrapper {
 						});
 	}-*/;
 
+	private void onPageDisplay(String src) {
+		if (listener == null) {
+			return;
+		}
+		listener.onPageDisplay(src);
+	}
+
+	/**
+	 * 
+	 * @return the number of pages in the PDF.
+	 */
+	public int getPageCount() {
+		return pageCount;
+	}
+
+	/**
+	 * 
+	 * @param pageCount
+	 *            to set.
+	 */
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
+	}
 }

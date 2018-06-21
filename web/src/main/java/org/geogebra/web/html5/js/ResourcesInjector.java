@@ -74,9 +74,8 @@ public class ResourcesInjector {
 	/**
 	 * Inject PDFJS stuff.
 	 */
-	public static void injectPdfJs() {
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pdfWorkerJs());
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pdfJs());
+	public static void injectPdfJsAsync() {
+		JavaScriptInjector.injectAsync(GuiResourcesSimple.INSTANCE.pdfCombinedJs());
 	}
 
 	/**
