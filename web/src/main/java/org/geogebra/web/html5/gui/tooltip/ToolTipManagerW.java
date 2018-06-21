@@ -91,7 +91,7 @@ public final class ToolTipManagerW {
 	 * 
 	 * Java default = 4000.
 	 */
-	private int dismissDelay = 4000;
+	private int dismissDelay = 6000;
 
 	/**
 	 * HTML element associated with the toolTip. The toolTip will be positioned
