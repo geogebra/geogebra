@@ -657,12 +657,14 @@ public class EuclidianView3DW extends EuclidianView3D implements
 				(Canvas) renderer.getCanvas());
 		((RendererWInterface) this.renderer).setBuffering(false);
 		return ret;
-		
 	}
 
 	@Override
 	public void setPixelRatio(double pixelRatio) {
-		if (DoubleUtil.isEqual(g2p.getDevicePixelRatio(), pixelRatio)) {
+		if (DoubleUtil.isEqual(g2p.getDevicePixelRatio(), pixelRatio)
+				|| pixelRatio == 0) {
+			// GGB-2355 we shouldn't set ratio to 0; quit fast before we get
+			// into loop
 			return;
 		}
 		int realWidth = g2p.getOffsetWidth();
