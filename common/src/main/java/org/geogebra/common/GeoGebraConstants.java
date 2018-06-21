@@ -38,6 +38,8 @@ public interface GeoGebraConstants {
 
 		IOS_GEOMETRY("i", "geometry"),
 
+		IOS_NATIVE_3D("i", "3D"),
+
 		IOS_WEBVIEW("iw", "classic"),
 
 		WEB_FOR_DESKTOP("offline", "classic"),
