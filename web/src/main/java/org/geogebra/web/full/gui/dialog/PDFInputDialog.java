@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -49,6 +50,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private StandardButton leftBtn;
 	private StandardButton rightBtn;
 	private Label pageLbl;
+	private Image previewImg;
 	private AutoCompleteTextFieldW curPageNrField;
 	private Label ofPageLbl;
 	private String pdfFile = null;
@@ -136,10 +138,12 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		pdfContainerPanel.addStyleName("withPdf");
 		pdfPreviewPanel = new FlowPanel();
 		pdfPreviewPanel.addStyleName("pdfPreview");
+		previewImg = new Image();
+		previewImg.addStyleName("previewImage");
 		leftBtn = createImgButton(pdfPreviewPanel,
 				KeyboardResources.INSTANCE.keyboard_arrowLeft_black(), 24,
 				"leftBtn");
-		// TODO add here the preview image of pdf MOW-424
+		pdfPreviewPanel.add(previewImg);
 		rightBtn = createImgButton(pdfPreviewPanel,
 				KeyboardResources.INSTANCE.keyboard_arrowRight_black(), 24,
 				"rightBtn");
@@ -201,7 +205,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		insertBtn.setText(appW.getLocalization().getMenu("Insert")); // insert
 		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
 		pageLbl.setText(appW.getLocalization().getMenu("page")); // Page
-		ofPageLbl.setText(appW.getLocalization().getMenu("of") + " 649"); // of
+		if (pdf != null) {
+			ofPageLbl.setText(appW.getLocalization().getMenu("of") + " " + pdf.getPageCount()); // of
+		}
 	}
 
 	@Override
@@ -246,7 +252,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	@Override
 	public void onPageDisplay(String imgSrc) {
 		buildPdfContainer();
-		pageLbl.setText(Integer.toString(pdf.getPageCount()));
+		previewImg.getElement().setAttribute("src", imgSrc);
+		setLabels();
 	}
 
 	/**

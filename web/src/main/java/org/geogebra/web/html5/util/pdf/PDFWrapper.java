@@ -65,15 +65,10 @@ public class PDFWrapper {
 				.then(
 						function(pdf) {
 							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)('PDF loaded');
-
+							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setPageCount(I)(pdf.numPages);
 							var pageNumber = 1;
 							// choose which page
-							if (pdf.numPages > 1) {
-								pageNumber = Math
-										.round(prompt("document has "
-												+ pdf.numPages
-												+ " pages.\nWhich page?") * 1);
-							}
+
 							pdf
 									.getPage(pageNumber)
 									.then(

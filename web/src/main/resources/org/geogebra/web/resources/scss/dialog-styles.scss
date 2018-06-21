@@ -648,6 +648,15 @@ $duration: 0.2s;
     			background: $mow_pdf_left_right_hover;
     			opacity: 1;
     		}
+    		
+    		.previewImage {
+    			position: absolute;
+    			left: 108px;
+    			width: 300px;
+    			height: 408px;
+    			
+    		}
+    		
     	}
     
     	.pdfPageText {
