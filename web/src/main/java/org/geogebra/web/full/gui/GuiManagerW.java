@@ -2495,8 +2495,9 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public boolean isVerticalSplit() {
-		return getLayout().getDockManager().getRoot()
+	public boolean isVerticalSplit(boolean fallback) {
+		return getLayout().getDockManager().getRoot() == null ? fallback
+				: getLayout().getDockManager().getRoot()
 				.getOrientation() == SwingConstants.VERTICAL_SPLIT;
 	}
 }

@@ -139,5 +139,10 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	public void updateGlobalOptions();
 
-	public boolean isVerticalSplit();
+	/**
+	 * @param fallback
+	 *            fallback value
+	 * @return whether root panel is split vertically
+	 */
+	public boolean isVerticalSplit(boolean fallback);
 }
