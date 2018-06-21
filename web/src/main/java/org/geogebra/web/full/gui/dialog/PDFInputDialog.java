@@ -3,6 +3,8 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -25,6 +27,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -249,5 +252,51 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler {
 	static void loadPdf(String fileName) {
 		Log.debug("PDF load: " + fileName);
 		PDFWrapper pdf = new PDFWrapper(fileName);
+	}
+
+	/**
+	 * Progress bar.
+	 * 
+	 * @author judit
+	 *
+	 */
+	public class ProgressBar extends SimplePanel {
+		/**
+		 * Timer for progress animation.
+		 */
+		GTimer progressTimer;
+		/**
+		 * Loaded part of the progress bar.
+		 */
+		SimplePanel loadedPart;
+		/**
+		 * Current percent of the loaded part.
+		 */
+		int width = 0;
+
+		/**
+		 * Creates a new progress bar.
+		 */
+		public ProgressBar() {
+			addStyleName("progressBar");
+			loadedPart = new SimplePanel();
+			add(loadedPart);
+			loadedPart.setWidth("0%");
+			move();
+		}
+
+		private void move() {
+			GTimerListener timerListener = new GTimerListener(){
+				public void onRun() {
+					width++;
+					loadedPart.setWidth(width + "%");
+					if (width >= 100) {
+						progressTimer.stop();
+					}
+				}
+			};
+			progressTimer = getApplication().newTimer(timerListener, 30);
+			progressTimer.startRepeat();
+		}
 	}
 }

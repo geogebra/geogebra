@@ -1634,4 +1634,11 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 					});
 		}
 	}
+	
+	/**
+	 * @return app
+	 */
+	public App getApplication() {
+		return app;
+	}
 }

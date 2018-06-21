@@ -705,6 +705,17 @@ $duration: 0.2s;
    				}
    			}
    		}
+   		
+   		.progressBar {
+   			background: $mebis-teal-light;
+   			height: 4px;
+   			width: 300px;
+   			
+   			div {
+   				background: $mebis-teal-dark;
+   				height: 100%;
+   			}
+   		}
 	}
 }
 	
