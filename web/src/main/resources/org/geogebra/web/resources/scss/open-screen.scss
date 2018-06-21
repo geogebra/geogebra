@@ -374,10 +374,23 @@
 			color: $text-secondary;
 			padding: 11px 16px 11px 0px;
 		}
+		input {
+			width: calc(50% - 8px); 
+			height: 36px;
+			opacity: 0; 
+			position: absolute;
+			right: 0px; 
+			top: 0px; 
+			cursor: pointer;
+		}
 		&:hover {
 			background-color: $mow_card_background_hover;
 		}
+		
 	}
+	.hover {
+			background-color: $mow_card_background_hover;
+		}
 	.buttonMargin {
 		margin-left: 16px;
 	}

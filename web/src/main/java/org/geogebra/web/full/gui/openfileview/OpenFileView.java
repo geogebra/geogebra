@@ -3,16 +3,21 @@ package org.geogebra.web.full.gui.openfileview;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.MyHeaderPanel;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -25,7 +30,10 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class OpenFileView extends MyHeaderPanel implements BrowseViewI {
-	private AppW app;
+	/**
+	 * application
+	 */
+	protected AppW app;
 	// header
 	private FlowPanel headerPanel;
 	private StandardButton backBtn;
@@ -36,14 +44,15 @@ public class OpenFileView extends MyHeaderPanel implements BrowseViewI {
 	// button panel
 	private FlowPanel buttonPanel;
 	private StandardButton newFileBtn;
-	private StandardButton openFileBtn;
+	private FileOpenButton openFileBtn;
 
 	/**
 	 * @param app
 	 *            application
 	 */
-	public OpenFileView(AppW app) {
+	public OpenFileView(AppW app, FileOpenButton openFileButton) {
 		this.app = app;
+		this.openFileBtn = openFileButton;
 		initGUI();
 	}
 
@@ -93,16 +102,62 @@ public class OpenFileView extends MyHeaderPanel implements BrowseViewI {
 				MaterialDesignResources.INSTANCE.add_black(),
 				app.getLocalization().getMenu("mow.newFile"), 18, app);
 		newFileBtn.setStyleName("containedButton");
+		newFileBtn.addFastClickHandler(new FastClickHandler() {
+
+			public void onClick(Widget source) {
+				newFile();
+			}
+		});
 		buttonPanel.add(newFileBtn);
 
-		openFileBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
-				app.getLocalization().getMenu("mow.openFile"), 18, app);
-		openFileBtn.setStyleName("containedButton");
+		openFileBtn.setImageAndText(
+				MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
+						.getSafeUri().asString(),
+				app.getLocalization().getMenu("mow.openFile"));
 		openFileBtn.addStyleName("buttonMargin");
 		buttonPanel.add(openFileBtn);
 
 		contentPanel.add(buttonPanel);
+	}
+
+	/**
+	 * start a new file
+	 */
+	protected void newFile() {
+		Runnable newConstruction = new Runnable() {
+
+			@Override
+			public void run() {
+				app.setWaitCursor();
+				app.fileNew();
+				app.setDefaultCursor();
+
+				if (!app.isUnbundledOrWhiteboard()) {
+					app.showPerspectivesPopup();
+				}
+				if (app.has(Feature.MOW_MULTI_PAGE)
+						&& app.getPageController() != null) {
+					app.getPageController().resetPageControl();
+				}
+			}
+		};
+		((DialogManagerW) getApp().getDialogManager()).getSaveDialog()
+				.showIfNeeded(newConstruction);
+		close();
+	}
+
+	/**
+	 * @param fileToHandle
+	 *            JS file object
+	 * @param callback
+	 *            callback after file is open
+	 */
+	public void openFile(final JavaScriptObject fileToHandle,
+			final JavaScriptObject callback) {
+		if (app.getLAF().supportsLocalSave()) {
+			app.getFileManager().setFileProvider(Provider.LOCAL);
+		}
+		app.openFile(fileToHandle, callback);
 	}
 
 	@Override

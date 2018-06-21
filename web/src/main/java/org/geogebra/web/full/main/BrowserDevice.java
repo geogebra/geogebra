@@ -30,6 +30,7 @@ public class BrowserDevice implements GDevice {
 	 */
 	public static class FileOpenButton extends FlowPanel {
 		private Element input;
+		private Element div;
 
 		/**
 		 * New button
@@ -58,6 +59,18 @@ public class BrowserDevice implements GDevice {
 		}
 
 		/**
+		 * New Button
+		 * 
+		 * @param style
+		 *            style class of the button
+		 */
+		public FileOpenButton(String style) {
+			super();
+			this.setStyleName(style);
+			div = DOM.createElement("div");
+		}
+
+		/**
 		 * @param bg
 		 *            browsing gui
 		 */
@@ -65,7 +78,16 @@ public class BrowserDevice implements GDevice {
 			addGgbChangeHandler(input, bg);
 		}
 
-		private native void addGgbChangeHandler(Element el, BrowseGUI bg) /*-{
+		/**
+		 * @param of
+		 *            open file view
+		 */
+		public void setOpenFileView(OpenFileView of) {
+			addMOWChangeHandler(input, of);
+		}
+
+		private native void addGgbChangeHandler(Element el,
+				BrowseViewI bg) /*-{
 			var dialog = this;
 
 			el.onchange = function(event) {
@@ -78,6 +100,44 @@ public class BrowserDevice implements GDevice {
 				el.parentElement.reset();
 			};
 		}-*/;
+
+		private native void addMOWChangeHandler(Element el,
+				BrowseViewI bg) /*-{
+			var dialog = this;
+
+			el.onchange = function(event) {
+				var files = this.files;
+				if (files.length) {
+					var fileToHandle = files[0];
+					//bg.@org.geogebra.web.full.gui.openfileview.OpenFileView::openFile(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
+				}
+				//	el.parentElement.reset();
+			};
+		}-*/;
+
+		/**
+		 * @param imgUrl
+		 *            icon url
+		 * @param text
+		 *            button text
+		 */
+		public void setImageAndText(String imgUrl, String text) {
+			input = DOM.createElement("input");
+			input.setAttribute("type", "file");
+
+			div.setInnerHTML(" <img src=\"" + imgUrl
+					+ "\"  class=\"gwt-Image\" draggable=\"false\" role=\"button\"> "
+					+ "<div class=\"gwt-Label\"/>" + text + "</div>");
+			div.appendChild(input);
+			DOM.insertChild(getElement(), div, 0);
+		}
+
+		/**
+		 * @return input element
+		 */
+		public Element getInput(){
+			return input;
+		}
 	}
 
 	@Override
@@ -117,7 +177,10 @@ public class BrowserDevice implements GDevice {
 	@Override
 	public BrowseViewI createBrowseView(AppW app) {
 		if (app.has(Feature.MOW_OPEN_FILE_VIEW)) {
-			return new OpenFileView(app);
+			FileOpenButton mb = new FileOpenButton("containedButton");
+			OpenFileView of = new OpenFileView(app, mb);
+			mb.setOpenFileView(of);
+			return of;
 		}
 		FileOpenButton mb = new FileOpenButton();
 		BrowseGUI bg = new BrowseGUI(app, mb);
