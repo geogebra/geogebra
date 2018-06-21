@@ -1899,7 +1899,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void setSpHeight(int spHeight) {
-		Log.printStacktrace("new height" + spHeight);
 		this.spHeight = spHeight;
 	}
 

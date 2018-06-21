@@ -262,7 +262,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			((MyHeaderPanel) lastBG).resizeTo(width, height);
 		} else {
 			super.setSize(width, height);
-			app.adjustViews(true, height > width);
+			app.adjustViews(true,
+					height > width
+							|| ((GuiManagerInterfaceW) app.getGuiManager())
+									.isVerticalSplit());
 		}
 	}
 

@@ -138,4 +138,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * Update global tab of properties if exists
 	 */
 	public void updateGlobalOptions();
+
+	public boolean isVerticalSplit();
 }

@@ -22,6 +22,7 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.javax.swing.GOptionPane;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -2491,5 +2492,11 @@ public class GuiManagerW extends GuiManager
 
 	public ToolbarPanel getUnbundledToolbar() {
 		return getToolbarPanelV2();
+	}
+
+	@Override
+	public boolean isVerticalSplit() {
+		return getLayout().getDockManager().getRoot()
+				.getOrientation() == SwingConstants.VERTICAL_SPLIT;
 	}
 }

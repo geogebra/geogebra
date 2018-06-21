@@ -1,12 +1,12 @@
 @import 'colors';
 
 .GeoGebraFrame {
-	
+
 	div[data-title]:after {
 		opacity: 0;
 		content: "";
 	}
-	
+
 	div[data-title]:hover:after { 
 		opacity: 1;
 		transition: opacity 0s linear 1s;
@@ -16,91 +16,91 @@
 		position: absolute;
 		top: 30px;
 		left: -8px;
-    	height: 22px;
-    	line-height: 21px !important;
-    	padding-left: 8px !important;
-    	padding-right: 8px !important;
-    	vertical-align: middle;
-  		border-radius: 2px;
-  		background: #616161;
-  		color: white;
-  		opacity: 0.9;
-  		z-index: 999999999999999;
-  	} 
-	
+		height: 22px;
+		line-height: 21px !important;
+		padding-left: 8px !important;
+		padding-right: 8px !important;
+		vertical-align: middle;
+		border-radius: 2px;
+		background: #616161;
+		color: white;
+		opacity: 0.9;
+		z-index: 999999999999999;
+	} 
+
 	.gwt-SplitLayoutPanel>div {
 		/*overflow: hidden !important;*/
 	}
-	
+
 	.hide-Dragger {
-		
+
 		.draggerParent {
 			overflow-x: hidden !important;
 		}
-		
+
 		.gwt-SplitLayoutPanel-HDragger {
 			border-left: 1px solid #ccc;
-			z-index: 1;
-    		/* display: none; */
-    		width: 0px !important;
-    		cursor: e-resize;
+			z-index: 51; /* for MOW double canvas */
+			/* display: none; */
+			width: 0px !important;
+			cursor: e-resize;
    			border-right: none;
-    		box-shadow: inset 5px 3px 8px rgba(0,0,0,0.2);
-    		background-color: transparent;
-    		padding-right: 8px;
+			box-shadow: inset 5px 3px 8px rgba(0,0,0,0.2);
+			background-color: transparent;
+			padding-right: 8px;
 		}
-	
+
 		.gwt-SplitLayoutPanel-VDragger {
 			border: none;
-    		box-shadow: 2px -1px 8px 4px rgba(0,0,0,0.2);
-    		height: 0px !important;
-    		top: 9px !important;
+			box-shadow: 2px -1px 8px 4px rgba(0,0,0,0.2);
+			height: 0px !important;
+			top: 9px !important;
 		}
 	}
 
 	.moveUpDragger {
-		
+
 		div {
 			overflow: visible !important;
 		}
-	
+
 		.gwt-SplitLayoutPanel-VDragger {
 			border: none;
-    		box-shadow: 2px -1px 8px 4px rgba(0,0,0,0.4);
-    		height: 0px !important;
-    		top: 9px !important;
+			box-shadow: 2px -1px 8px 4px rgba(0,0,0,0.4);
+			height: 0px !important;
+			top: 9px !important;
 		}
 	}
-	
+
 	.hiddenHDraggerRightPanel {
 		left: -8px !important;
 		/*top: 9px !important;*/
 	}
-	
+
 	.hidden {
 	 	display: none;
-	 }				
-	 
+	 }
+
 	.menu {
 		position: absolute;
 		top: 4px;
 		left: 0px;
 		z-index: 498;
 	}
-	
+
 	.menu:hover, .menu:focus {
 		img {
 			opacity: 1.0;
 		}
 	}
-	
+
 	.flatButton {
 		margin: 6px;
 		padding: 6px;
 		width: 24px;
 		height: 24px;
 		cursor: pointer;
-		
+
 		img {
 			opacity: 0.85;
 		}
@@ -120,12 +120,12 @@
 	}
 
 	.tabButton:hover, .tabButton:focus {
-		
+
 		img {
-			opacity: 1.0 !important;	
+			opacity: 1.0 !important;
 		}
 	}
-	
+
 	.dotSubMenu {
 		/*padding-left: 8px;*/
 		z-index: 99999;
@@ -135,56 +135,55 @@
 	.checkMarkMenuItem {
 		height: 32px;
 		padding-left: 24px;
-		
+
 		.gwt-HTML {
 			margin-left: -30px;
-			
+
 			img {
-				left: 64px;	
-			}    	
+				left: 64px;
+			}
 		}
-	
+
 		img  {
 			position: absolute;
 			right: 8px;
 		}
 	}
-	
+
 	.textWrap{
 		white-space: normal;
 	}
-	
 
 	/*.collapseMenuItem {
-		
+
 		img.expandImg.animeExpand {
 			transition:  0.6s ease-out;
-			transform: rotateZ(180deg);	
-		}		
+			transform: rotateZ(180deg);
+		}
 	}*/
-	
+
 	.collapseMenuItem >*,
 	.checkMarkMenuItem >* {
 		padding: 8px;
 		display: inline-block;
-	}	
-	
+	}
+
 $collapse-trans: all 0.2s ease;
 
 	.expanded {
 		padding: 0px 16px 0px 64px;
 		max-height: 32px;
-		height: 32px;		
+		height: 32px;
 		transition: $collapse-trans; 
-		
+
 		.checkMarkMenuItem {
 			max-height: 32px;
 			transition: $collapse-trans;
-					
+
 			.gwt-HTML {
-    			position: relative;
-    			left: -24px;
-			}	
+				position: relative;
+				left: -24px;
+			}
 		}
 	}
 
@@ -193,26 +192,26 @@ $collapse-trans: all 0.2s ease;
 		height: 32px;
 		transition: $collapse-trans; 
 	}
-	
+
 	.collapsed {
 		padding: 0px 16px 0px 64px;
 		max-height: 0px;
 		height: 0px;
 		overflow: hidden;
 		transition: $collapse-trans;
-	
+
 			.checkMarkMenuItem {
 			transition: $collapse-trans;
 			max-height: 0px;
 			.gwt-HTML {
-    			position: relative;
-    			left: -24px;
-			}	
+				position: relative;
+				left: -24px;
+			}
 			img  {
 				max-height: 0px;
-		}	
+		}
 	}
-	
+
 	}
 	.collapsed >*{
 		max-height: 0px;
@@ -220,24 +219,24 @@ $collapse-trans: all 0.2s ease;
 	} 
 
 	.advanced-ListPopupPanel.matDesign {
-		z-index: 500;	
+		z-index: 500;
 		background: $white;
-    	border: 1px solid #dcdcdc;
-    	cursor: pointer;
-    	border-radius: 2px;
-    	padding: 0px;
-    	box-shadow: none;
-    	    	
-    	.item:hover {
-    		color: $teal-default;	
-    		background: $white;
-    	}
-		
+		border: 1px solid #dcdcdc;
+		cursor: pointer;
+		border-radius: 2px;
+		padding: 0px;
+		box-shadow: none;
+
+		.item:hover {
+			color: $teal-default;
+			background: $white;
+		}
+
 		.gwt-Label {
-   			position: relative;
-    		left: 8px;
+			position: relative;
+			left: 8px;
 		}
 	}
  }
-  
+
  

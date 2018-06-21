@@ -25,6 +25,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -318,9 +319,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (dockPanel != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			dockParent.addStyleName("hide-Dragger");
-			if (opposite != null && dockParent
-					.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
-				opposite.addStyleName("hiddenHDraggerRightPanel");
+			if (opposite != null) {
+				Dom.toggleClass(opposite, "hiddenHDraggerRightPanel", dockParent
+						.getOrientation() == SwingConstants.HORIZONTAL_SPLIT);
 			}
 		}
 	}
