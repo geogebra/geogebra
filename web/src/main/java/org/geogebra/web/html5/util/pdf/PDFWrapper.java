@@ -9,6 +9,11 @@ import com.google.gwt.core.client.JavaScriptObject;
  *
  */
 public class PDFWrapper {
+
+	private PDFListener listener;
+	private int pageCount;
+	private JavaScriptObject pdf = null;
+
 	/**
 	 * Interface to communicate with PDF Container.
 	 *
@@ -28,10 +33,6 @@ public class PDFWrapper {
 		void finishLoading();
 
 	}
-
-	private PDFListener listener;
-	private int pageCount;
-	private JavaScriptObject pdf = null;
 
 	/**
 	 * Constructor

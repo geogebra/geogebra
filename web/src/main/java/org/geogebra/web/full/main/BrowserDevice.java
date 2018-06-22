@@ -135,7 +135,7 @@ public class BrowserDevice implements GDevice {
 		/**
 		 * @return input element
 		 */
-		public Element getInput(){
+		public Element getInput() {
 			return input;
 		}
 	}
