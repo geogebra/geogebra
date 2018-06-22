@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -55,7 +54,6 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private Image previewImg;
 	private AutoCompleteTextFieldW curPageNrField;
 	private Label ofPageLbl;
-	private String pdfFile = null;
 	private PDFChooser pdfChooser = new PDFChooser();
 	/**
 	 * pdf.js wrapper
@@ -194,11 +192,10 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (pdfFile == null) {
+				if (!hasPdf()) {
 					choosePdfFile();
 				}
 			}
-
 		}, ClickEvent.getType());
 	}
 
@@ -259,8 +256,14 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	 */
 	void loadPdf(String fileName) {
 		buildLoadingPanel();
-		Log.debug("PDF load: " + fileName);
 		pdf = new PDFWrapper(fileName, this);
+	}
+
+	/**
+	 * @return if PDF is already chosen.
+	 */
+	boolean hasPdf() {
+		return pdf != null;
 	}
 
 	@Override
@@ -336,6 +339,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		pdfContainerPanel.add(loadText);
 	}
 
+	@Override
 	public void finishLoading() {
 		progressBar.finishLoading();
 	}

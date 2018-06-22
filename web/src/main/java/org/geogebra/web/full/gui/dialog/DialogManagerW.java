@@ -56,6 +56,8 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -266,9 +268,20 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showPDFInputDialog() {
-		this.pdfInputDialog = new PDFInputDialog((AppW) app);
-		pdfInputDialog.center();
-		pdfInputDialog.show();
+		GWT.runAsync(new RunAsyncCallback() {
+
+			@Override
+			public void onSuccess() {
+				pdfInputDialog = new PDFInputDialog((AppW) app);
+				pdfInputDialog.center();
+				pdfInputDialog.show();
+			}
+
+			@Override
+			public void onFailure(Throwable reason) {
+				// handle failure
+			}
+		});
 	}
 
 	/**

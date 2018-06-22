@@ -74,6 +74,7 @@ public class PDFWrapper {
 		var progressCallback = function(progress) {
 			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("total: " + progress.total + ", loaded: " + progress.loaded);
 		}
+
 		var loadingTask = $wnd.PDFJS.getDocument(src, null, null,
 				progressCallback);
 		var that = this;
