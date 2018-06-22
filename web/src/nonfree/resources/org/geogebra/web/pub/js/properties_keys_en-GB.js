@@ -1021,7 +1021,7 @@ __GGB__keysVar["en-GB"].command = {
     "Transpose": "Transpose",
     "Transpose.Syntax": "[ <Matrix> ]",
     "TrapezoidalSum": "TrapeziumSum",
-    "TrapezoidalSum.Syntax": "[ <Function>, <Start x-Value>, <End x-Value>, <Number of Trapezoids> ]",
+    "TrapezoidalSum.Syntax": "[ <Function>, <Start x-Value>, <End x-Value>, <Number of Trapeziums> ]",
     "TravelingSalesman": "TravellingSalesman",
     "TravelingSalesman.Syntax": "[ <List of Points> ]",
     "TriangleCenter": "TriangleCentre",

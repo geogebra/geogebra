@@ -3147,7 +3147,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "exam_log_unpin": "\u5e94\u7528\u89e3\u9664\u56fa\u5b9a",
     "exam_log_wifi_disabled": "WiFi\u7981\u7528",
     "exam_log_wifi_enabled": "WiFi\u542f\u7528",
-    "exam_log_window_entered": "\u518d\u6b21\u8fdb\u5165\u68c0\u6d4b\u7a97\u53e3",
+    "exam_log_window_entered": "\u91cd\u65b0\u8fdb\u5165\u68c0\u6d4b\u7a97\u53e3",
     "exam_log_window_left": "\u68c0\u6d4b\u7a97\u53e3\u672a\u5173",
     "exam_menu_enter": "\u5f00\u59cb\u68c0\u6d4b",
     "exam_menu_enter_calculator_type": "\u5f00\u59cb\u68c0\u6d4b: %0",
