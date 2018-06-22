@@ -699,7 +699,7 @@ public abstract class Renderer {
 	 */
 	abstract public void enableBlending();
 
-	private void drawTranspNotCurved() {
+	protected void drawTranspNotCurved() {
 		disableCulling();
 		drawable3DLists.drawTransp(this);
 		drawable3DLists.drawTranspClosedNotCurved(this);

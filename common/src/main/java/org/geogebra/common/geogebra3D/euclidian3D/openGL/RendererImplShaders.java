@@ -1003,6 +1003,17 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
+	public void drawTranspNotCurved() {
+		renderer.enableCulling();
+		renderer.setCullFaceFront();
+		renderer.drawable3DLists.drawTransp(renderer);
+		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
+		renderer.setCullFaceBack();
+		renderer.drawable3DLists.drawTransp(renderer);
+		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
+	}
+
+	@Override
 	public void enableLightingOnInit() {
 		// no need for shaders
 	}

@@ -570,6 +570,14 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
+	public void drawTranspNotCurved() {
+		renderer.disableCulling();
+		renderer.drawable3DLists.drawTransp(renderer);
+		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
+		renderer.enableCulling();
+	}
+
+	@Override
 	public void disableCulling() {
 		glDisable(getGL_CULL_FACE());
 	}

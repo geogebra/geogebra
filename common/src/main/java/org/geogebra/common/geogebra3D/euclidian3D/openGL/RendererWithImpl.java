@@ -259,6 +259,11 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
+	final protected void drawTranspNotCurved() {
+		rendererImpl.drawTranspNotCurved();
+	}
+
+	@Override
 	final public void disableCulling() {
 		rendererImpl.disableCulling();
 	}
