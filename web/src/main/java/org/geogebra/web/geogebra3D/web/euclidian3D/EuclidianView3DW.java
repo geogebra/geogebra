@@ -63,6 +63,7 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -760,6 +761,11 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	public String getExportPDF(double scale) {
 		return null;
+	}
+
+	@Override
+	public boolean isParentWindowVisible() {
+		return Window.getClientWidth() > 0;
 	}
 
 }
