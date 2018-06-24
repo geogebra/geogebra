@@ -57,6 +57,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.statistics.AlgoHistogram;
 import org.geogebra.common.main.App;
@@ -298,8 +299,8 @@ public abstract class GeoGebraExport {
 				drawGeoElement(geo.get(i), true, false);
 			}
 		} else if (g.isEuclidianVisible() || trimmedInter) {
-			if (g instanceof GeoPoint) {
-				drawGeoPoint((GeoPoint) g);
+			if (g instanceof GeoPointND) {
+				drawGeoPoint((GeoPointND) g);
 				drawLabel(g, null);
 			} else if (g instanceof GeoSegmentND) {
 				drawGeoSegment((GeoSegmentND) g);
@@ -507,7 +508,7 @@ public abstract class GeoGebraExport {
 	 *            The point to export
 	 */
 
-	abstract protected void drawGeoPoint(GeoPoint geo);
+	abstract protected void drawGeoPoint(GeoPointND geo);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ GeoLine line[A,B]

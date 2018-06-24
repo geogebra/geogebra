@@ -1959,15 +1959,20 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	 *            The choosen GeoPoint
 	 */
 	@Override
-	protected void drawGeoPoint(GeoPoint gp) {
+	protected void drawGeoPoint(GeoPointND gp) {
 		if (frame.getExportPointSymbol()) {
-			double x = kernel.getAlgebraProcessor()
-					.evaluateToDouble("" + gp.getX());
-			double y = kernel.getAlgebraProcessor()
-					.evaluateToDouble("" + gp.getY());
-			double z = gp.getZ();
-			x = x / z;
-			y = y / z;
+			double[] A = new double[3];
+
+			gp.getInhomCoords(A);
+
+			if (A[2] != 0) {
+				Log.error("can't export 3D Point" + gp.getLabelSimple());
+				return;
+			}
+
+			double x = A[0];
+			double y = A[1];
+
 			GColor dotcolor = gp.getObjectColor();
 			double dotsize = gp.getPointSize();
 			int dotstyle = gp.getPointStyle();
@@ -2355,7 +2360,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		pointEnd.getInhomCoords(B);
 
 		if (A[2] != 0 || B[2] != 0) {
-			Log.error("cant' export 3D segment " + geo.getLabelSimple());
+			Log.error("can't export 3D segment " + geo.getLabelSimple());
 			return;
 		}
 

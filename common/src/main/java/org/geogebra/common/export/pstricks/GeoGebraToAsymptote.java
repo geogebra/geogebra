@@ -1755,11 +1755,19 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	// draws dot
 	@Override
-	protected void drawGeoPoint(GeoPoint gp) {
+	protected void drawGeoPoint(GeoPointND gp) {
 		if (frame.getExportPointSymbol()) {
-			double x = gp.getX(), y = gp.getY(), z = gp.getZ();
-			x = x / z;
-			y = y / z;
+			double[] A = new double[3];
+
+			gp.getInhomCoords(A);
+
+			if (A[2] != 0) {
+				Log.error("can't export 3D Point" + gp.getLabelSimple());
+				return;
+			}
+
+			double x = A[0];
+			double y = A[1];
 			gp.getNameDescription();
 			int dotstyle = gp.getPointStyle();
 			if (dotstyle == -1) { // default
@@ -1790,7 +1798,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 * @param geo
 	 *            GeoPoint with style not equal to the standard dot style.
 	 */
-	protected void drawSpecialPoint(GeoPoint geo) {
+	protected void drawSpecialPoint(GeoPointND geo) {
 		// radius = dotsize (pt) * (2.54 cm)/(72 pt per inch) * XUnit / cm
 		double dotsize = geo.getPointSize();
 		double radius = dotsize * (2.54 / 72) * (frame.getXUnit());
@@ -1798,9 +1806,17 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		if (dotstyle == -1) { // default
 			dotstyle = EuclidianStyleConstants.POINT_STYLE_DOT;
 		}
-		double x = geo.getX(), y = geo.getY(), z = geo.getZ();
-		x = x / z;
-		y = y / z;
+		double[] A = new double[3];
+
+		geo.getInhomCoords(A);
+
+		if (A[2] != 0) {
+			Log.error("can't export 3D Point" + geo.getLabelSimple());
+			return;
+		}
+
+		double x = A[0];
+		double y = A[1];
 		GColor dotcolor = geo.getObjectColor();
 
 		switch (dotstyle) {
@@ -1983,7 +1999,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		pointEnd.getInhomCoords(B);
 
 		if (A[2] != 0 || B[2] != 0) {
-			Log.error("cant' export 3D segment " + geo.getLabelSimple());
+			Log.error("can't export 3D segment " + geo.getLabelSimple());
 			return;
 		}
 
@@ -2860,7 +2876,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	}
 
 	// Returns point style code with size dotsize. Includes comma.
-	private void pointOptionCode(GeoPoint geo, StringBuilder sb,
+	private void pointOptionCode(GeoPointND geo, StringBuilder sb,
 			double dotsize) {
 		GColor dotcolor = geo.getObjectColor();
 		int dotstyle = geo.getPointStyle();
@@ -2917,7 +2933,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	}
 
 	// Returns point style code. Includes comma.
-	private void pointOptionCode(GeoPoint geo, StringBuilder sb) {
+	private void pointOptionCode(GeoPointND geo, StringBuilder sb) {
 		pointOptionCode(geo, sb, geo.getPointSize());
 	}
 
