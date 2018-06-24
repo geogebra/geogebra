@@ -52,12 +52,12 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoRay;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.statistics.AlgoHistogram;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.DoubleUtil;
@@ -301,8 +301,8 @@ public abstract class GeoGebraExport {
 			if (g instanceof GeoPoint) {
 				drawGeoPoint((GeoPoint) g);
 				drawLabel(g, null);
-			} else if (g instanceof GeoSegment) {
-				drawGeoSegment((GeoSegment) g);
+			} else if (g instanceof GeoSegmentND) {
+				drawGeoSegment((GeoSegmentND) g);
 				drawLabel(g, null);
 			} else if (g instanceof GeoRay) {
 				drawGeoRay((GeoRay) g);
@@ -434,7 +434,7 @@ public abstract class GeoGebraExport {
 				drawLocus((GeoLocus) g);
 			} else {
 				Log.debug("Export: unsupported GeoElement "
-						+ g.getGeoClassType());
+						+ g.getGeoClassType() + " " + g.isDrawable());
 			}
 		}
 
@@ -532,7 +532,7 @@ public abstract class GeoGebraExport {
 	 * @param geo
 	 *            The segment to export
 	 */
-	abstract protected void drawGeoSegment(GeoSegment geo);
+	abstract protected void drawGeoSegment(GeoSegmentND geo);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ Objects created by command: polygon[A,B,C]
@@ -704,7 +704,7 @@ public abstract class GeoGebraExport {
 	 */
 
 	abstract protected void drawLine(double x1, double y1, double x2, double y2,
-			GeoElement geo);
+			GeoElementND geo);
 
 	/**
 	 * Export as PStricks or PGF arc mark for angle
@@ -940,7 +940,7 @@ public abstract class GeoGebraExport {
 	 *            GeoElement
 	 */
 
-	protected void mark(double[] A, double[] B, int deco, GeoElement geo) {
+	protected void mark(double[] A, double[] B, int deco, GeoElementND geo) {
 		// calc midpoint (midX, midY) and perpendicular vector (nx, ny)
 		euclidianView.toScreenCoords(A);
 		euclidianView.toScreenCoords(B);
@@ -1472,7 +1472,7 @@ public abstract class GeoGebraExport {
 		private FillType fillType;
 		private GColor linecolor;
 
-		public Info(GeoElement geo) {
+		public Info(GeoElementND geo) {
 
 			alpha = geo.getAlphaValue();
 			y = geo.getHatchingDistance();

@@ -50,20 +50,22 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoRay;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -2344,13 +2346,19 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	 */
 
 	@Override
-	protected void drawGeoSegment(GeoSegment geo) {
-		double[] A = new double[2];
-		double[] B = new double[2];
-		GeoPoint pointStart = geo.getStartPoint();
-		GeoPoint pointEnd = geo.getEndPoint();
+	protected void drawGeoSegment(GeoSegmentND geo) {
+		double[] A = new double[3];
+		double[] B = new double[3];
+		GeoPointND pointStart = geo.getStartPoint();
+		GeoPointND pointEnd = geo.getEndPoint();
 		pointStart.getInhomCoords(A);
 		pointEnd.getInhomCoords(B);
+
+		if (A[2] != 0 || B[2] != 0) {
+			Log.error("cant' export 3D segment " + geo.getLabelSimple());
+			return;
+		}
+
 		startBeamer(code);
 		code.append("\\draw ");
 		String s = lineOptionCode(geo, true);
@@ -2371,7 +2379,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 
 	@Override
 	protected void drawLine(double x1, double y1, double x2, double y2,
-			GeoElement geo) {
+			GeoElementND geo) {
 		if (isBeamer) {
 			code.append("  ");
 		}
@@ -2957,7 +2965,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	 *            whether to use transparency
 	 * @return code for line options
 	 */
-	public String lineOptionCode(GeoElement geo, boolean transparency) {
+	public String lineOptionCode(GeoElementND geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
 		int linethickness = geo.getLineThickness();
 		int linestyle = geo.getLineType();

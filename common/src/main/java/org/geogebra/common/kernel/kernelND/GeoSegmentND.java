@@ -94,4 +94,6 @@ public interface GeoSegmentND
 	 */
 	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp);
 
+	public int getDecorationType();
+
 }

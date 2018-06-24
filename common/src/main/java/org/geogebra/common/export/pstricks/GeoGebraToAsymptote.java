@@ -57,7 +57,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoRay;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -66,6 +65,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -1975,12 +1975,18 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	// draws segment
 	@Override
-	protected void drawGeoSegment(GeoSegment geo) {
-		double[] A = new double[2], B = new double[2];
-		GeoPoint pointStart = geo.getStartPoint();
-		GeoPoint pointEnd = geo.getEndPoint();
+	protected void drawGeoSegment(GeoSegmentND geo) {
+		double[] A = new double[3], B = new double[3];
+		GeoPointND pointStart = geo.getStartPoint();
+		GeoPoint pointEnd = (GeoPoint) geo.getEndPoint();
 		pointStart.getInhomCoords(A);
 		pointEnd.getInhomCoords(B);
+
+		if (A[2] != 0 || B[2] != 0) {
+			Log.error("cant' export 3D segment " + geo.getLabelSimple());
+			return;
+		}
+
 		String x1 = format(A[0]), y1 = format(A[1]), x2 = format(B[0]),
 				y2 = format(B[1]);
 		int deco = geo.getDecorationType();
@@ -2005,7 +2011,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	@Override
 	protected void drawLine(double x1, double y1, double x2, double y2,
-			GeoElement geo) {
+			GeoElementND geo) {
 		String sx1 = format(x1);
 		String sy1 = format(y1);
 		String sx2 = format(x2);
@@ -2916,7 +2922,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	}
 
 	// Line style code; does not include comma.
-	private String lineOptionCode(GeoElement geo, boolean transparency) {
+	private String lineOptionCode(GeoElementND geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
 		int linethickness = geo.getLineThickness();
 		int linestyle = geo.getLineType();
@@ -3429,7 +3435,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 * @param geo
 	 *            contains line style code.
 	 */
-	protected void endDraw(GeoElement geo) {
+	protected void endDraw(GeoElementND geo) {
 		endDraw(geo, code);
 	}
 
@@ -3441,7 +3447,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 * @param sb
 	 *            code to attach to.
 	 */
-	protected void endDraw(GeoElement geo, StringBuilder sb) {
+	protected void endDraw(GeoElementND geo, StringBuilder sb) {
 		if (fillInequality) {
 			return;
 		}
