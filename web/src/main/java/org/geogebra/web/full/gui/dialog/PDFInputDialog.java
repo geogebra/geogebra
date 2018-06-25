@@ -17,6 +17,7 @@ import org.geogebra.web.html5.util.pdf.PDFWrapper;
 import org.geogebra.web.html5.util.pdf.PDFWrapper.PDFListener;
 import org.geogebra.web.resources.JavaScriptInjector;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -75,7 +76,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 		@Override
 		public void onChange(ChangeEvent event) {
-			PDFInputDialog.this.loadPdf("");
+			PDFInputDialog.this.loadPdf(null);
 		}
 	}
 
@@ -128,12 +129,13 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	private native void addDropHandler(
 			com.google.gwt.dom.client.Element element) /*-{
+		var that = this;
 		element
 				.addEventListener(
 						"drop",
 						function(event) {
 							var files = event.dataTransfer.files;
-							this.@org.geogebra.web.full.gui.dialog.PDFInputDialog::loadPdf(Ljava/lang/String;)(files[0].name);
+							that.@org.geogebra.web.full.gui.dialog.PDFInputDialog::loadPdf(Lcom/google/gwt/core/client/JavaScriptObject;)(files[0]);
 						});
 
 	}-*/;
@@ -251,13 +253,13 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	/**
 	 * loads the pdf
 	 * 
-	 * @param fileName
+	 * @param file
 	 *            to load.
 	 * 
 	 */
-	void loadPdf(String fileName) {
+	void loadPdf(JavaScriptObject file) {
 		buildLoadingPanel();
-		pdf = new PDFWrapper(fileName, this);
+		pdf = new PDFWrapper(file, this);
 	}
 
 	/**

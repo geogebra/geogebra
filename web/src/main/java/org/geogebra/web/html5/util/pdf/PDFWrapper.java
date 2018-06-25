@@ -38,22 +38,24 @@ public class PDFWrapper {
 	/**
 	 * Constructor
 	 * 
-	 * @param fileName
+	 * @param file
 	 *            PDF to handle.
 	 * @param listener
 	 *            to communicate with PDF container.
 	 */
-	public PDFWrapper(String fileName, PDFListener listener) {
+	public PDFWrapper(JavaScriptObject file, PDFListener listener) {
 		this.listener = listener;
-		read(fileName);
+		read(file);
 	}
 
 	private void finishLoading() {
 		listener.finishLoading();
 	}
 
-	private native void read(String filename) /*-{
-		var file = $doc.querySelector('input[type=file]').files[0];
+	private native void read(JavaScriptObject file) /*-{
+		if (!file) {
+			file = $doc.querySelector('input[type=file]').files[0];
+		}
 		var reader = new FileReader();
 		var that = this;
 
@@ -62,7 +64,6 @@ public class PDFWrapper {
 						"load",
 						function() {
 							var src = reader.result;
-							//		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)(src);
 							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::load(Ljava/lang/String;)(src);
 						}, false);
 
