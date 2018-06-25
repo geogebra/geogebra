@@ -832,7 +832,4 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	String getAuralTextForMove();
 
-	Object getTypeString();
-
-	boolean isGeoFunctionBoolean();
 }
