@@ -2321,7 +2321,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	// if label is visible, draw it
 	@Override
-	protected void drawLabel(GeoElement geo, DrawableND drawGeo0) {
+	protected void drawLabel(GeoElementND geo, DrawableND drawGeo0) {
 		try {
 			if (geo.isLabelVisible()) {
 				String name;

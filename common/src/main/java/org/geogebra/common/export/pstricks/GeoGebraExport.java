@@ -55,6 +55,7 @@ import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -291,7 +292,7 @@ public abstract class GeoGebraExport {
 	 * @param trimmedInter
 	 *            whether to trim around intersection
 	 */
-	protected void drawGeoElement(GeoElement g, boolean fromGeoList,
+	protected void drawGeoElement(GeoElementND g, boolean fromGeoList,
 			boolean trimmedInter) {
 		if (g.isGeoList()) {
 			GeoList geo = ((GeoList) g);
@@ -457,9 +458,9 @@ public abstract class GeoGebraExport {
 
 	}
 
-	protected boolean isSinglePointConic(GeoElement geo) {
+	protected boolean isSinglePointConic(GeoElementND geo) {
 		if (geo.isGeoConic()) {
-			if (((GeoConic) geo)
+			if (((GeoConicND) geo)
 					.getType() == GeoConicNDConstants.CONIC_SINGLE_POINT) {
 				return true;
 			}
@@ -467,13 +468,13 @@ public abstract class GeoGebraExport {
 		return false;
 	}
 
-	protected boolean isDoubleLineConic(GeoElement geo) {
+	protected boolean isDoubleLineConic(GeoElementND geo) {
 		if (geo.isGeoConic()) {
-			if (((GeoConic) geo)
+			if (((GeoConicND) geo)
 					.getType() == GeoConicNDConstants.CONIC_DOUBLE_LINE
-					|| ((GeoConic) geo)
+					|| ((GeoConicND) geo)
 							.getType() == GeoConicNDConstants.CONIC_INTERSECTING_LINES
-					|| ((GeoConic) geo)
+					|| ((GeoConicND) geo)
 							.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
 				return true;
 			}
@@ -481,9 +482,10 @@ public abstract class GeoGebraExport {
 		return false;
 	}
 
-	protected boolean isEmpty(GeoElement geo) {
+	protected boolean isEmpty(GeoElementND geo) {
 		if (geo.isGeoConic()) {
-			if (((GeoConic) geo).getType() == GeoConicNDConstants.CONIC_EMPTY) {
+			if (((GeoConicND) geo)
+					.getType() == GeoConicNDConstants.CONIC_EMPTY) {
 				return true;
 			}
 		}
@@ -644,7 +646,7 @@ public abstract class GeoGebraExport {
 	 * @param drawGeo
 	 *            Drawable object attached to geo
 	 */
-	abstract protected void drawLabel(GeoElement geo, DrawableND drawGeo);
+	abstract protected void drawLabel(GeoElementND geo, DrawableND drawGeo);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ the GeoFunction object
@@ -800,7 +802,7 @@ public abstract class GeoGebraExport {
 	 *            If is inequality with one variable eg. x>3
 	 */
 
-	protected void drawGeoInequalities(GeoFunctionNVar geo, GeoElement e) {
+	protected void drawGeoInequalities(GeoFunctionNVar geo, GeoElementND e) {
 		FunctionalNVar ef = null;
 		if (geo == null) {
 			ef = (FunctionalNVar) e;
@@ -1528,7 +1530,7 @@ public abstract class GeoGebraExport {
 
 	}
 
-	private void drawCurveCartesian(GeoElement geo) {
+	private void drawCurveCartesian(GeoElementND geo) {
 		if (!isLatexFunction(
 				geo.toValueString(StringTemplate.noLocalDefault))) {
 			GeoCurveCartesian curve = (GeoCurveCartesian) geo;
@@ -1557,7 +1559,7 @@ public abstract class GeoGebraExport {
 				curves[i].setFunctionX(fxx.getFunction());
 				curves[i].setInterval(Double.parseDouble(paramValues[i]),
 						Double.parseDouble(paramValues[i + 1]));
-				curves[i].setAllVisualProperties(geo, false);
+				curves[i].setAllVisualProperties((GeoElement) geo, false);
 			}
 
 			f = curve.getFunY();

@@ -8860,4 +8860,10 @@ public abstract class GeoElement extends ConstructionElement
 	public String getAuralTextForMove() {
 		return null;
 	}
+
+	@Override
+	public boolean isWhollyIn2DView(EuclidianView ev) {
+		return true;
+	}
+
 }

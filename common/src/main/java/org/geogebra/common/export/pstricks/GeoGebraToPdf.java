@@ -2462,7 +2462,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawLabel(GeoElement geo, DrawableND drawGeo0) {
+	protected void drawLabel(GeoElementND geo, DrawableND drawGeo0) {
 		DrawableND drawGeo = drawGeo0;
 		try {
 			if (geo.isLabelVisible()) {

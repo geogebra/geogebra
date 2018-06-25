@@ -18,12 +18,14 @@ the Free Software Foundation.
 
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for describing GeoElement in 3D version.
@@ -194,6 +196,13 @@ public abstract class GeoElement3D extends GeoElement {
 			sbBuildValueString.setLength(0);
 		}
 		return sbBuildValueString;
+	}
+
+	@Override
+	public boolean isWhollyIn2DView(EuclidianView ev) {
+		Log.debug("isWhollyIn2DView unimplemented for " + this.getClass() + " "
+				+ this.getGeoClassType());
+		return false;
 	}
 
 }

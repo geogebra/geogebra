@@ -831,4 +831,16 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return text to be read when geo was moved.
 	 */
 	String getAuralTextForMove();
+
+	/**
+	 * 
+	 * @param ev
+	 *            view to check in
+	 * @return true if object is in 2D View eg (1,2,0)
+	 */
+	boolean isWhollyIn2DView(EuclidianView ev);
+
+	Object getTypeString();
+
+	boolean isGeoFunctionBoolean();
 }
