@@ -12,6 +12,7 @@ public class PDFWrapper {
 
 	private PDFListener listener;
 	private int pageCount;
+	private int pageIndex = 1;
 	private JavaScriptObject pdf = null;
 
 	/**
@@ -159,11 +160,46 @@ public class PDFWrapper {
 		this.pageCount = pageCount;
 	}
 
+	/**
+	 * 
+	 * @return PDF as JavaScriptObject
+	 */
 	public JavaScriptObject getPdf() {
 		return pdf;
 	}
 
+	/**
+	 * sets PDF as JavaScriptObject
+	 */
 	public void setPdf(JavaScriptObject pdf) {
 		this.pdf = pdf;
+	}
+
+	/**
+	 * load previous page of the PDF if any.
+	 */
+	public void previousPage() {
+		if (pageIndex > 1) {
+			pageIndex--;
+			getPage(pageIndex);
+		}
+	}
+
+	/**
+	 * load next page of the PDF if any.
+	 */
+	public void nextPage() {
+		if (pageIndex < pageCount) {
+			pageIndex++;
+			getPage(pageIndex);
+		}
+	}
+
+	/**
+	 * 
+	 * @return the current page index.
+	 */
+	public int getPageIndex() {
+		return pageIndex;
 	}
 }

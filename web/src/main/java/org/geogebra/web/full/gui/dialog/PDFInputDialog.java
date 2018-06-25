@@ -228,9 +228,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		} else if (source == insertBtn) {
 			// TODO process page of pdf MOW-428
 		} else if (source == leftBtn) {
-			// TODO handle left button MOW-426
+			pdf.previousPage();
 		} else if (source == rightBtn) {
-			// TODO handle left button MOW-426
+			pdf.nextPage();
 		}
 	}
 
@@ -271,6 +271,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	public void onPageDisplay(String imgSrc) {
 		buildPdfContainer();
 		previewImg.getElement().setAttribute("src", imgSrc);
+		curPageNrField.setText(Integer.toString(pdf.getPageIndex()));
 		setLabels();
 	}
 
