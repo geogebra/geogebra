@@ -494,7 +494,7 @@ public class GeoFunctionNVar extends GeoElement
 		// e.g. f(a,b) = a^2 - 3*b
 		if (isIndependent() && getDefaultGeoType() < 0) {
 			sb.append("<expression");
-			sb.append(" label =\"");
+			sb.append(" label=\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
 			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));

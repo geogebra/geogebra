@@ -936,7 +936,7 @@ public class GeoList extends GeoElement
 		// e.g. {1,2,3}
 		if (isIndependent() && (getDefaultGeoType() < 0)) {
 			sb.append("<expression");
-			sb.append(" label =\"");
+			sb.append(" label=\"");
 			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
 			if (getDefinition() != null) {

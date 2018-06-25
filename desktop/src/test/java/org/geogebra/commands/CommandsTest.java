@@ -271,12 +271,12 @@ public class CommandsTest extends AlgebraTest {
 		t("-3.2..3.2", "{-3, -2, -1, 0, 1, 2, 3}");
 		t("3.2..-2", "{3, 2, 1, 0, -1, -2}");
 		t("seqa=2*(1..5)", "{2, 4, 6, 8, 10}");
-		assertEquals("<expression label =\"seqa\" exp=\"(2 * (1"
+		assertEquals("<expression label=\"seqa\" exp=\"(2 * (1"
 				+ Unicode.ELLIPSIS + "5))\"/>",
 				app.getGgbApi().getXML("seqa").split("\n")[0]);
 		t("seqa=(1..3)+3", "{4, 5, 6}");
 		assertEquals(
-				"<expression label =\"seqa\" exp=\"(1" + Unicode.ELLIPSIS
+				"<expression label=\"seqa\" exp=\"(1" + Unicode.ELLIPSIS
 						+ "3) + 3\"/>",
 				app.getGgbApi().getXML("seqa").split("\n")[0]);
 	}
