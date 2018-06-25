@@ -2226,4 +2226,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public int getToStringMode() {
 		return toStringMode;
 	}
+
+	@Override
+	public boolean isWhollyIn2DView(EuclidianView ev) {
+		return DoubleUtil.isZero(inhom.getZ());
+	}
+
 }

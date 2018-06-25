@@ -69,7 +69,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -1439,12 +1438,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			startBeamer(codePoint);
 			double[] A = new double[3];
 
+			// assume 2D (3D check done earlier)
 			gp.getInhomCoords(A);
-
-			if (A[2] != 0) {
-				Log.error("can't export 3D Point" + gp.getLabelSimple());
-				return;
-			}
 
 			double x = A[0];
 			double y = A[1];
@@ -1604,11 +1599,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		pointStart.getInhomCoords(A);
 		pointEnd.getInhomCoords(B);
 
-		if (A[2] != 0 || B[2] != 0) {
-			Log.error("can't export 3D segment " + geo.getLabelSimple());
-			return;
-		}
-
+		// assume 2D (3D check done earlier)
 		String x1 = format(A[0]);
 		String y1 = format(A[1]);
 		String x2 = format(B[0]);

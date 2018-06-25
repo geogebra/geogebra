@@ -1759,12 +1759,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		if (frame.getExportPointSymbol()) {
 			double[] A = new double[3];
 
+			// assume 2D (3D check done earlier)
 			gp.getInhomCoords(A);
-
-			if (A[2] != 0) {
-				Log.error("can't export 3D Point" + gp.getLabelSimple());
-				return;
-			}
 
 			double x = A[0];
 			double y = A[1];
@@ -1998,11 +1994,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		pointStart.getInhomCoords(A);
 		pointEnd.getInhomCoords(B);
 
-		if (A[2] != 0 || B[2] != 0) {
-			Log.error("can't export 3D segment " + geo.getLabelSimple());
-			return;
-		}
-
+		// assume 2D (3D check done earlier)
 		String x1 = format(A[0]), y1 = format(A[1]), x2 = format(B[0]),
 				y2 = format(B[1]);
 		int deco = geo.getDecorationType();

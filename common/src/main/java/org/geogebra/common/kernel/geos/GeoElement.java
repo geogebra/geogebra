@@ -8861,7 +8861,12 @@ public abstract class GeoElement extends ConstructionElement
 		return null;
 	}
 
-	@Override
+	/**
+	 * 
+	 * @param ev
+	 *            view
+	 * @return if geo lies completely in view (could be false for a 3D object)
+	 */
 	public boolean isWhollyIn2DView(EuclidianView ev) {
 		return true;
 	}

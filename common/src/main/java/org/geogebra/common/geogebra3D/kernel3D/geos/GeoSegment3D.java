@@ -633,4 +633,11 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 				viewDirection, updateGeos, tempMoveObjectList, view);
 
 	}
+
+	@Override
+	public boolean isWhollyIn2DView(EuclidianView ev) {
+		return DoubleUtil.isZero(getStartPoint().getInhomCoords().getZ())
+				&& DoubleUtil.isZero(getEndPoint().getInhomCoords().getZ());
+	}
+
 }

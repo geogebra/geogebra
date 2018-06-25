@@ -292,14 +292,15 @@ public abstract class GeoGebraExport {
 	 * @param trimmedInter
 	 *            whether to trim around intersection
 	 */
-	protected void drawGeoElement(GeoElementND g, boolean fromGeoList,
+	protected void drawGeoElement(GeoElement g, boolean fromGeoList,
 			boolean trimmedInter) {
 		if (g.isGeoList()) {
 			GeoList geo = ((GeoList) g);
 			for (int i = 0; i < geo.size(); i++) {
 				drawGeoElement(geo.get(i), true, false);
 			}
-		} else if (g.isEuclidianVisible() || trimmedInter) {
+		} else if (g.isWhollyIn2DView(app.getEuclidianView1())
+				&& (g.isEuclidianVisible() || trimmedInter)) {
 			if (g instanceof GeoPointND) {
 				drawGeoPoint((GeoPointND) g);
 				drawLabel(g, null);

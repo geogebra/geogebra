@@ -65,7 +65,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -1963,12 +1962,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		if (frame.getExportPointSymbol()) {
 			double[] A = new double[3];
 
+			// assume 2D (3D check done earlier)
 			gp.getInhomCoords(A);
-
-			if (A[2] != 0) {
-				Log.error("can't export 3D Point" + gp.getLabelSimple());
-				return;
-			}
 
 			double x = A[0];
 			double y = A[1];
@@ -2359,11 +2354,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		pointStart.getInhomCoords(A);
 		pointEnd.getInhomCoords(B);
 
-		if (A[2] != 0 || B[2] != 0) {
-			Log.error("can't export 3D segment " + geo.getLabelSimple());
-			return;
-		}
-
 		startBeamer(code);
 		code.append("\\draw ");
 		String s = lineOptionCode(geo, true);
@@ -2371,6 +2361,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			s = "[" + s + "] ";
 		}
 		code.append(s);
+
+		// assume 2D (3D check done earlier)
 		writePoint(A[0], A[1], code);
 		code.append("-- ");
 		writePoint(B[0], B[1], code);
