@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -387,9 +386,9 @@ public abstract class GeoGebraExport {
 						|| geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
 					drawLabel(g, null);
 				}
-			} else if (g instanceof GeoConic) {
+			} else if (g instanceof GeoConicND) {
 				if (isSinglePointConic(g)) {
-					GeoConic geo = (GeoConic) g;
+					GeoConicND geo = (GeoConicND) g;
 					GeoPoint point = geo.getSinglePoint();
 					point.copyLabel(geo);
 					point.setObjColor(geo.getObjectColor());
@@ -400,7 +399,7 @@ public abstract class GeoGebraExport {
 					drawGeoPoint(point);
 					drawLabel(point, drawPoint);
 				} else if (isDoubleLineConic(g)) {
-					GeoConic geo = (GeoConic) g;
+					GeoConicND geo = (GeoConicND) g;
 					GeoLine[] lines = geo.getLines();
 					DrawLine[] drawLines = new DrawLine[2];
 					for (int i = 0; i < 2; i++) {
@@ -420,7 +419,7 @@ public abstract class GeoGebraExport {
 				} else if (isEmpty(g)) {
 					//
 				} else {
-					drawGeoConic((GeoConic) g);
+					drawGeoConic((GeoConicND) g);
 					drawLabel(g, null);
 				}
 			} else if (g instanceof GeoFunction) {
@@ -629,7 +628,7 @@ public abstract class GeoGebraExport {
 	 *            The conic to export
 	 */
 
-	abstract protected void drawGeoConic(GeoConic geo);
+	abstract protected void drawGeoConic(GeoConicND geo);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ GeoConicPart objects (sectors...)

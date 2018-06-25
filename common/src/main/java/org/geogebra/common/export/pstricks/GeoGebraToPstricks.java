@@ -1243,7 +1243,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		endBeamer(code);
 	}
 
-	private void drawCircle(GeoConic geo) {
+	private void drawCircle(GeoConicND geo) {
 		StringBuilder s = new StringBuilder();
 		if (xunit == yunit) {
 			// draw a circle
@@ -1296,7 +1296,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawGeoConic(GeoConic geo) {
+	protected void drawGeoConic(GeoConicND geo) {
 		switch (geo.getType()) {
 		default:
 			// do nothing

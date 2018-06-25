@@ -1699,7 +1699,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		endBeamer(code);
 	}
 
-	private void drawCircle(GeoConic geo) {
+	private void drawCircle(GeoConicND geo) {
 		StringBuilder build = new StringBuilder();
 		if (xunit == yunit) {
 			// draw a circle
@@ -1756,7 +1756,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawGeoConic(GeoConic geo) {
+	protected void drawGeoConic(GeoConicND geo) {
 		switch (geo.getType()) {
 		default:
 			// do nothing
@@ -1770,6 +1770,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			// command: \draw[rotate
 			// around={angle:center},lineOptions](x_center,y_center) ellipse (R1
 			// and R2)
+
+			a = geo.halfAxes;
+
 			GAffineTransform at = geo.getAffineTransform();
 			double eigenvecX = at.getScaleX();
 			double eigenvecY = at.getShearY();

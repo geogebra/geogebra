@@ -1465,7 +1465,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		code.append(",EndArrow(6)); ");
 	}
 
-	private void drawCircle(GeoConic geo) {
+	private void drawCircle(GeoConicND geo) {
 		StringBuilder tempsb = new StringBuilder();
 		boolean nofill = geo.getAlphaValue() < 0.05;
 
@@ -1544,7 +1544,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawGeoConic(GeoConic geo) {
+	protected void drawGeoConic(GeoConicND geo) {
 		switch (geo.getType()) {
 		// if conic is a circle
 		default:

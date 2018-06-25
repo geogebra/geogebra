@@ -1743,7 +1743,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		endBeamer(code);
 	}
 
-	private void drawCircle(GeoConic geo) {
+	private void drawCircle(GeoConicND geo) {
 		StringBuilder build = new StringBuilder();
 		if (xunit == yunit) {
 			// draw a circle
@@ -1797,7 +1797,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawGeoConic(GeoConic geo) {
+	protected void drawGeoConic(GeoConicND geo) {
 		switch (geo.getType()) {
 		// if conic is a circle
 		default:

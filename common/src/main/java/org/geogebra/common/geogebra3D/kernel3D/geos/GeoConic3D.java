@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author ggb3D
@@ -698,6 +700,21 @@ public class GeoConic3D extends GeoConicND
 	@Override
 	public boolean isRegion3D() {
 		return true;
+	}
+
+	@Override
+	public boolean isWhollyIn2DView(EuclidianView ev) {
+
+		// check center
+		if (!DoubleUtil.isZero(getMidpoint3D().getInhomCoords().getZ())) {
+			return false;
+		}
+
+		// check direction
+		Coords normal = getMainDirection();
+		return DoubleUtil.isZero(normal.getX())
+				&& DoubleUtil.isZero(normal.getY());
+
 	}
 
 }
