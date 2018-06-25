@@ -53,12 +53,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		Scheduler.get().scheduleDeferred(deferredOnRes);
 	}
 
-	// @Override
-	// public void setPixelSize(int a, int b) {
-	// super.setPixelSize(a, b);
-	// Log.printStacktrace(a);
-	// }
-
 	/*********************************************
 	 * Constructs a DockSplitPaneW with default horizontal orientation
 	 * 
