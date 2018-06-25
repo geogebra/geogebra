@@ -194,8 +194,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					&& validInput != null && validInput.equals(input)) {
 				validation.resetError();
 			}
-			this.kernel.setSilentMode(silentModeOld);
-
 		} catch (Throwable ee) {
 			Log.debug("-- invalid input" + ee + ":" + validInput);
 			this.kernel.setSilentMode(true);
