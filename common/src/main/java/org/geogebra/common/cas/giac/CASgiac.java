@@ -143,6 +143,15 @@ public abstract class CASgiac implements CASGenericInterface {
 		GGB_IS_GREATER_OR_GREATER_THAN_OR_EQUALS("ggb_is_gt_or_ge_or_equals", "ggb_is_gt_or_ge_or_equals(a):=when(a=='>'||a=='>='||a=='='||a=='%=',true,false)"),
 
 		/**
+		 * returns "?" if expression has more than one variable otherwise
+		 * returns the variable
+		 * 
+		 * for checking that the second argument of eg Factor(x^2-y^2,x) is a
+		 * variable
+		 */
+		GGB_IS_VARIABLE("ggb_is_variable", "ggb_is_variable(a):=when(length(lvar(a))==1,lvar(a)[0],?)"),
+
+		/**
 		 * test if "=" or "%=" or inequality - needed for eg
 		 * LeftSide({a,b}={1,2})
 		 */
