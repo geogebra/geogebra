@@ -1952,7 +1952,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * Update layout of central pane
 	 */
-	protected abstract void updateTreeUI();
+	protected void updateTreeUI() {
+		// force layout for multiple panels
+	}
 
 	/**
 	 * Build UI
@@ -2645,6 +2647,16 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			return;
 		}
 		set1rstMode();
+	}
+
+	@Override
+	public void set1rstMode() {
+		setMoveMode();
+	}
+
+	@Override
+	public void uploadToGeoGebraTube() {
+		// no upload without UI
 	}
 
 	@Override

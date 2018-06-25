@@ -11,34 +11,22 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
-import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -53,9 +41,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  *
  */
-public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
-		MouseMoveHandler, ClickHandler, DoubleClickHandler, KeyDownHandler,
-		LongTouchHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler {
+public class SpreadsheetRowHeaderW implements SpreadsheetHeader {
 	private static final long serialVersionUID = 1L;
 	private AppW app;
 	private MyTableW table;
@@ -73,6 +59,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	private boolean isMouseDown = false;
 
 	private LongTouchManager longTouchManager;
+	private SpreadsheetHeaderController headerController;
 
 	/**
 	 * @param app
@@ -86,6 +73,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		this.table = table;
 
 		prepareGUI();
+		headerController = new SpreadsheetHeaderController(this);
 		registerListeners();
 
 		/*
@@ -97,7 +85,6 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		 * 
 		 * table.getSelectionModel().addListSelectionListener(this);
 		 */
-
 		longTouchManager = LongTouchManager.getInstance();
 	}
 
@@ -106,11 +93,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	// ============================================
 
 	private void registerListeners() {
-		grid.addDomHandler(this, MouseDownEvent.getType());
-		grid.addDomHandler(this, MouseUpEvent.getType());
-		grid.addDomHandler(this, MouseMoveEvent.getType());
-		grid.addDomHandler(this, ClickEvent.getType());
-		grid.addDomHandler(this, DoubleClickEvent.getType());
+		grid.addDomHandler(headerController, MouseDownEvent.getType());
+		grid.addDomHandler(headerController, MouseUpEvent.getType());
+		grid.addDomHandler(headerController, MouseMoveEvent.getType());
 		grid.addDomHandler(this, TouchStartEvent.getType());
 		grid.addDomHandler(this, TouchMoveEvent.getType());
 		grid.addDomHandler(this, TouchEndEvent.getType());
@@ -339,59 +324,6 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	// Mouse Listeners
 	// ===============================================
 
-	/*
-	 * public void mouseClicked(MouseEvent e) {
-	 * 
-	 * // Double clicking on a row boundary auto-adjusts the // height of the
-	 * row above the boundary (the resizingRow)
-	 * 
-	 * if (resizingRow >= 0 && !AppD.isRightClick(e) && e.getClickCount() == 2)
-	 * { table.fitRow(resizingRow); e.consume(); } }
-	 * 
-	 * public void mouseEntered(MouseEvent e) { }
-	 * 
-	 * public void mouseExited(MouseEvent e) { }
-	 */
-
-	@Override
-	public void onMouseDown(MouseDownEvent e) {
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		e.preventDefault();
-		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.INSTANCE);
-		onPointerDown(event);
-	}
-
-	@Override
-	public void onMouseUp(MouseUpEvent e) {
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		e.preventDefault();
-		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.INSTANCE);
-		onPointerUp(event);
-	}
-
-	@Override
-	public void onMouseMove(MouseMoveEvent e) {
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		e.preventDefault();
-		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.INSTANCE);
-		onPointerMove(event);
-	}
-
-	@Override
-	public void onDoubleClick(DoubleClickEvent event) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onClick(ClickEvent event) {
-		// TODO Auto-generated method stub
-	}
 
 	// transfer focus to the table
 	// @Override
@@ -593,7 +525,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		showContextMenu(x, y, false);
 	}
 
-	private void onPointerDown(PointerEvent e) {
+	@Override
+	public void onPointerDown(PointerEvent e) {
 		Event.setCapture(grid.getElement());
 		isMouseDown = true;
 
@@ -654,7 +587,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		}
 	}
 
-	private void onPointerMove(PointerEvent e) {
+	@Override
+	public void onPointerMove(PointerEvent e) {
 		// Show resize cursor when mouse is over a row boundary
 		HumanInputEvent<?> event = e.getWrappedEvent();
 		GPoint p = new GPoint(
@@ -711,7 +645,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		}
 	}
 
-	private void onPointerUp(PointerEvent e) {
+	@Override
+	public void onPointerUp(PointerEvent e) {
 		Event.releaseCapture(grid.getElement());
 		isMouseDown = false;
 

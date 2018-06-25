@@ -12,41 +12,26 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
-import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SpreadsheetColumnHeaderW
-		implements MouseDownHandler, MouseUpHandler, MouseMoveHandler,
-		ClickHandler, DoubleClickHandler, KeyDownHandler, LongTouchHandler,
-		TouchStartHandler, TouchMoveHandler, TouchEndHandler {
+public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 	private AppW app;
 	private MyTableW table;
 	private Grid grid;
@@ -65,6 +50,7 @@ public class SpreadsheetColumnHeaderW
 	private int overTraceButtonColumn = -1;
 	
 	private LongTouchManager longTouchManager;
+	private SpreadsheetHeaderController headerController;
 
 	/***************************************************
 	 * Constructor
@@ -74,17 +60,15 @@ public class SpreadsheetColumnHeaderW
 		this.table = table;
 
 		prepareGUI();
+		headerController = new SpreadsheetHeaderController(this);
 		registerListeners();
-
 		longTouchManager = LongTouchManager.getInstance();
 	}
 
 	private void registerListeners() {
-		grid.addDomHandler(this, MouseDownEvent.getType());
-		grid.addDomHandler(this, MouseUpEvent.getType());
-		grid.addDomHandler(this, MouseMoveEvent.getType());
-		grid.addDomHandler(this, ClickEvent.getType());
-		grid.addDomHandler(this, DoubleClickEvent.getType());
+		grid.addDomHandler(headerController, MouseDownEvent.getType());
+		grid.addDomHandler(headerController, MouseUpEvent.getType());
+		grid.addDomHandler(headerController, MouseMoveEvent.getType());
 		grid.addDomHandler(this, TouchStartEvent.getType());
 		grid.addDomHandler(this, TouchEndEvent.getType());
 		grid.addDomHandler(this, TouchMoveEvent.getType());
@@ -288,90 +272,10 @@ public class SpreadsheetColumnHeaderW
 	}
 
 	// ===============================================
-	// Renderer
-	// ===============================================
-
-	/**
-	 * Update the rowHeader list when row selection changes in the table
-	 */
-	/*
-	 * public void valueChanged(ListSelectionEvent e) { ListSelectionModel
-	 * selectionModel = (ListSelectionModel) e.getSource(); minSelectionRow =
-	 * selectionModel.getMinSelectionIndex(); maxSelectionRow =
-	 * selectionModel.getMaxSelectionIndex(); repaint(); }
-	 */
-
-	// Returns index of row to be resized if mouse point P is
-	// near a row boundary (within 3 pixels)
-	/*
-	 * private int getResizingRow(java.awt.Point p) { int resizeRow = -1; GPoint
-	 * point = table.getIndexFromPixel(p.x, p.y); if (point != null) { // test
-	 * if mouse is 3 pixels from row boundary int cellRow = point.getY(); if
-	 * (cellRow >= 0) { Rectangle r = table.getCellRect(cellRow, 0, true); //
-	 * near row bottom if (p.y < r.y + 3) { resizeRow = cellRow - 1; } // near
-	 * row top if (p.y > r.y + r.height - 3) { resizeRow = cellRow; } } } return
-	 * resizeRow; }
-	 */
-
-	// Cursor change for when mouse is over a row boundary
-	/*
-	 * private void swapCursor() { Cursor tmp = getCursor();
-	 * setCursor(otherCursor); otherCursor = tmp; }
-	 */
-
-	// ===============================================
-	// Mouse Listener Methods
-	// ===============================================
-
-	/*
-	 * public void mouseClicked(MouseEvent e) {
-	 * 
-	 * // Double clicking on a row boundary auto-adjusts the // height of the
-	 * row above the boundary (the resizingRow)
-	 * 
-	 * if (resizingRow >= 0 && !AppD.isRightClick(e) && e.getClickCount() == 2)
-	 * { table.fitRow(resizingRow); e.consume(); } }
-	 * 
-	 * public void mouseEntered(MouseEvent e) { }
-	 * 
-	 * public void mouseExited(MouseEvent e) { }
-	 */
-
-	@Override
-	public void onMouseDown(MouseDownEvent e) {
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		e.preventDefault();
-		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.INSTANCE);
-		onPointerDown(event);
-	}
-
-	@Override
-	public void onMouseUp(MouseUpEvent e) {
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		e.preventDefault();
-		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.INSTANCE);
-		onPointerUp(event);
-	}
-
-	// ===============================================
 	// MouseMotion Listener Methods
 	// ===============================================
-
 	@Override
-	public void onMouseMove(MouseMoveEvent e) {
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		e.preventDefault();
-		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.INSTANCE);
-		onPointerMove(event);
-	}
-	
-	private void onPointerDown(PointerEvent e) {
+	public void onPointerDown(PointerEvent e) {
 		Event.setCapture(grid.getElement());
 		isMouseDown = true;
 
@@ -439,11 +343,11 @@ public class SpreadsheetColumnHeaderW
 				}
 				renderSelection();
 			}
-
 		}
 	}
 	
-	private void onPointerUp(PointerEvent e) {
+	@Override
+	public void onPointerUp(PointerEvent e) {
 		Event.releaseCapture(grid.getElement());
 		isMouseDown = false;
 
@@ -512,7 +416,8 @@ public class SpreadsheetColumnHeaderW
 
 	}
 	
-	private void onPointerMove(PointerEvent e) {
+	@Override
+	public void onPointerMove(PointerEvent e) {
 		// Show resize cursor when mouse is over a row boundary
 		HumanInputEvent<?> event = e.getWrappedEvent();
 		GPoint p = new GPoint(
@@ -564,18 +469,6 @@ public class SpreadsheetColumnHeaderW
 				}
 			}
 		}
-	}
-
-	@Override
-	public void onDoubleClick(DoubleClickEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onClick(ClickEvent event) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

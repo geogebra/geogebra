@@ -172,28 +172,6 @@ public class AppWsimple extends AppW {
 	}
 
 	@Override
-	public void openSearch(String query) {
-		// no browser
-	}
-
-	@Override
-	public void uploadToGeoGebraTube() {
-		// no upload
-
-	}
-
-	@Override
-	public void set1rstMode() {
-		setMoveMode();
-	}
-
-	@Override
-	protected void updateTreeUI() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean isSelectionRectangleAllowed() {
 		return getToolbar() != null;
 	}
@@ -201,11 +179,6 @@ public class AppWsimple extends AppW {
 	@Override
 	public void setLanguage(final String browserLang) {
 		// no localization support needed in webSimple
-	}
-
-	@Override
-	public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
-		return false;
 	}
 
 	@Override
@@ -220,10 +193,8 @@ public class AppWsimple extends AppW {
 
 	@Override
 	final public String getReverseCommand(String command) {
-
 		// translations not available in webSimple
 		return command;
-
 	}
 
 }

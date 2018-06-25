@@ -98,28 +98,6 @@ public class AppWsolver extends AppW implements HasKeyboard {
     }
 
     @Override
-    public void openSearch(String query) {
-        // no browser
-    }
-
-    @Override
-    public void uploadToGeoGebraTube() {
-        // no upload
-
-    }
-
-    @Override
-    public void set1rstMode() {
-        setMoveMode();
-    }
-
-    @Override
-    protected void updateTreeUI() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public boolean isSelectionRectangleAllowed() {
         return getToolbar() != null;
     }
@@ -127,11 +105,6 @@ public class AppWsolver extends AppW implements HasKeyboard {
     @Override
     public void setLanguage(final String browserLang) {
         // no localization support needed in webSimple
-    }
-
-    @Override
-    public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
-        return false;
     }
 
     @Override
