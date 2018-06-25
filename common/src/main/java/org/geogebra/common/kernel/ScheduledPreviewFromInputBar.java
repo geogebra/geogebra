@@ -125,6 +125,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				.withCAS(false).addDegree(true).withUserEquation(true);
 		Log.debug("preview for: " + validInput);
 		boolean silentModeOld = this.kernel.isSilentMode();
+		boolean suppressLabelsOld = this.kernel.getConstruction().isSuppressLabelsActive();
 		previewGeos = null;
 		Long start = System.currentTimeMillis();
 		try {
@@ -199,7 +200,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			Log.debug("-- invalid input" + ee + ":" + validInput);
 			this.kernel.setSilentMode(true);
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
+		} finally {
 			this.kernel.setSilentMode(silentModeOld);
+			this.kernel.getConstruction().setSuppressLabelCreation(suppressLabelsOld);
 		}
 		if (System.currentTimeMillis() > start + 200) {
 			maxLength = validInput.length();
