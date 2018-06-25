@@ -337,8 +337,14 @@ pmd {
      ruleSetFiles = files("config/pmd.xml")
 }
 
+cpd {
+	ignoreFailures = true
+	minimumTokenCount = 100
+}
+
 tasks.withType(de.aaschmid.gradle.plugins.cpd.Cpd) {
     exclude "**/*.html"
     exclude "**/*.jj"
     exclude "**/*.xml"
+    exclude "**/*.svg"
 }

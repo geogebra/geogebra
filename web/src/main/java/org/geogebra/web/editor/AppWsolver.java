@@ -2,9 +2,7 @@ package org.geogebra.web.editor;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.html5.Browser;
@@ -21,7 +19,6 @@ import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class AppWsolver extends AppW implements HasKeyboard {
     private GeoGebraFrameW frame;
@@ -70,78 +67,24 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
     @Override
     public void buildApplicationPanel() {
-        if (frame != null) {
-            frame.clear();
-            frame.add((Widget) getEuclidianViewpanel());
-            getEuclidianViewpanel()
-                    .setPixelSize(
-                            getSettings().getEuclidian(1).getPreferredSize()
-                                    .getWidth(),
-                            getSettings().getEuclidian(1).getPreferredSize()
-                                    .getHeight());
-        }
+		// no frame
     }
 
     @Override
     public void afterLoadFileAppOrNot(boolean asSlide) {
-
-        buildApplicationPanel();
-
-        getScriptManager().ggbOnInit(); // put this here from Application
-        // constructor because we have to delay
-        // scripts until the EuclidianView is
-        // shown
-
-        initUndoInfoSilent();
-
-        getEuclidianView1().synCanvasSize();
-        getEuclidianView1().createImage();
-        getAppletFrame().resetAutoSize();
-
-        getEuclidianView1().doRepaint2();
-        stopCollectingRepaints();
-        frame.hideSplash();
-
-        setDefaultCursor();
-        checkScaleContainer();
-        GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
-        GeoGebraProfiler.getInstance().profileEnd();
-        setAltText();
+		// no file loading
     }
 
     @Override
     public void focusLost(View v, Element el) {
         super.focusLost(v, el);
-        GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
         this.getGlobalKeyDispatcher().setFocused(false);
     }
 
     @Override
     public void focusGained(View v, Element el) {
         super.focusGained(v, el);
-        GeoGebraFrameW.useFocusedBorder(getArticleElement(),
-                frame);
-        Log.debug("AppWsimple_focusGained");
-
-        // if focusLost sets this to false, it is probably
-        // right to set this to true again here! Otherwise
-        // it would only be set to true in case of key ENTER,
-        // but of course, we also want to be able to focus by mouse
-        // Graphics views and Algebra views register GlobalKeyDispatcher,
-        // so in those cases, this is good, otherwise (?)
-        switch (v.getViewID()) {
-            case App.VIEW_ALGEBRA:
-            case App.VIEW_EUCLIDIAN:
-            case App.VIEW_EUCLIDIAN2:
-                this.getGlobalKeyDispatcher().setFocusedIfNotTab();
-                break;
-            default:
-                if (App.isView3D(v.getViewID())
-                        || ((v.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START) && (v
-                        .getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
-                    this.getGlobalKeyDispatcher().setFocusedIfNotTab();
-                }
-        }
+		this.getGlobalKeyDispatcher().setFocusedIfNotTab();
     }
 
     @Override
