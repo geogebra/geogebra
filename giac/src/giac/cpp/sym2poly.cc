@@ -3364,6 +3364,10 @@ namespace giac {
       f_num=f_num*tmp;
       f_den=f_den*tmp;
     }
+    if (dnum==-1){
+      f_num=-f_num;
+      dnum=1;
+    }
     gen N=var_factor(f_num,l,false,with_sqrt,dnum,contextptr);
     gen D=var_factor(f_den,l,false,with_sqrt,dden,contextptr);
     return rdiv(N,D);
