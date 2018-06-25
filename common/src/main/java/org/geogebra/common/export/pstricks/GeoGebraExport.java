@@ -51,7 +51,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -59,6 +58,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.statistics.AlgoHistogram;
 import org.geogebra.common.main.App;
@@ -307,8 +307,8 @@ public abstract class GeoGebraExport {
 			} else if (g instanceof GeoSegmentND) {
 				drawGeoSegment((GeoSegmentND) g);
 				drawLabel(g, null);
-			} else if (g instanceof GeoRay) {
-				drawGeoRay((GeoRay) g);
+			} else if (g instanceof GeoRayND) {
+				drawGeoRay((GeoRayND) g);
 				drawLabel(g, null);
 			} else if (g instanceof GeoPolyLine) {
 				drawPolyLine((GeoPolyLine) g);
@@ -528,7 +528,7 @@ public abstract class GeoGebraExport {
 	 * @param geo
 	 *            The ray to export
 	 */
-	abstract protected void drawGeoRay(GeoRay geo);
+	abstract protected void drawGeoRay(GeoRayND geo);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ GeoSegment segment[A,B]

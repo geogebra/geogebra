@@ -49,7 +49,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -58,6 +57,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
@@ -2393,15 +2393,17 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawGeoRay(GeoRay geo) {
-		GeoPoint pointStart = geo.getStartPoint();
-		double x1 = pointStart.getX();
-		double z1 = pointStart.getZ();
-		x1 = x1 / z1;
-		double y1 = pointStart.getY() / z1;
-		double a = geo.getX();
-		double b = geo.getY();
-		double c = geo.getZ();
+	protected void drawGeoRay(GeoRayND geo) {
+		GeoPointND pointStart = geo.getStartPoint();
+		double x1 = pointStart.getInhomX();
+		double y1 = pointStart.getInhomY();
+
+		Coords equation = geo
+				.getCartesianEquationVector(euclidianView.getMatrix());
+
+		double a = equation.getX();
+		double b = equation.getY();
+		double c = equation.getZ();
 
 		double inf = xmin, sup = xmax;
 		if (b > 0) {
