@@ -7,14 +7,15 @@ import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.css.PDFResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
-import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.pdf.PDFWrapper;
 import org.geogebra.web.html5.util.pdf.PDFWrapper.PDFListener;
+import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -87,7 +88,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		this.appW = app;
 		initGui();
 		initActions();
-		ResourcesInjector.injectPdfJsAsync();
+		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfCombinedJs());
 	}
 
 	private void initGui() {

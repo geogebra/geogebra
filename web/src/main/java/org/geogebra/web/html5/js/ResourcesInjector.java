@@ -72,13 +72,6 @@ public class ResourcesInjector {
 	}
 
 	/**
-	 * Inject PDFJS stuff.
-	 */
-	public static void injectPdfJsAsync() {
-		JavaScriptInjector.injectAsync(GuiResourcesSimple.INSTANCE.pdfCombinedJs());
-	}
-
-	/**
 	 * Load PAKO or Deflate
 	 */
 	public static void loadCodecs() {
