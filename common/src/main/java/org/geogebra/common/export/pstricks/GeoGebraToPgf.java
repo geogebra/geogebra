@@ -1771,8 +1771,6 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			// around={angle:center},lineOptions](x_center,y_center) ellipse (R1
 			// and R2)
 
-			a = geo.halfAxes;
-
 			GAffineTransform at = geo.getAffineTransform();
 			double eigenvecX = at.getScaleX();
 			double eigenvecY = at.getShearY();
