@@ -198,28 +198,32 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 
 	@Override
 	public boolean isAlwaysFixed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void setWaitForStartPoint() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void updateLocation() {
 		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * @return whether the applet is currently inactive (can be moved)
+	 */
 	public boolean isBackground() {
 		return background;
 	}
 
-	public void setBackground(boolean b) {
-		this.background = b;
+	/**
+	 * @param background
+	 *            whether the applet is currently inactive (can be moved)
+	 */
+	public void setBackground(boolean background) {
+		this.background = background;
 	}
 
 	@Override
@@ -260,22 +264,40 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 		return true;
 	}
 
+	/**
+	 * @return width parameter of the embedded applet
+	 */
 	public double getContentWidth() {
 		return contentWidth;
 	}
 
+	/**
+	 * @return height parameter of the embedded applet
+	 */
 	public double getContentHeight() {
 		return contentHeight;
 	}
 
+	/**
+	 * @param newWidth
+	 *            width parameter of the embedded applet
+	 */
 	public void setContentWidth(double newWidth) {
 		this.contentWidth = newWidth;
 	}
 
+	/**
+	 * @param newHeight
+	 *            height parameter of the embedded applet
+	 */
 	public void setContentHeight(double newHeight) {
 		this.contentHeight = newHeight;
 	}
 
+	/**
+	 * @param appName
+	 *            app name of the embedded applet
+	 */
 	public void setAppName(String appName) {
 		this.appName = appName;
 	}

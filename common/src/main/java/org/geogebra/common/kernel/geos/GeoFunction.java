@@ -440,7 +440,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			for (int i = 0; i < algorithm.getOutputLength(); i++) {
 				GeoElement geo = algorithm.getOutput(i);
 				if (geo instanceof SurfaceEvaluable) {
-					surfaceEvaluables.remove(geo);
+					surfaceEvaluables.remove((SurfaceEvaluable) geo);
 				}
 			}
 		}
