@@ -4005,10 +4005,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_PREVIEW_WHEN_EDITING:
 			return false;
 
-		// MOB-1516
-		case MOB_PACK_ALL_CURVES:
-			return true;
-
 		// AND-1061 and IGR-815
 		case MOB_EXAM_MODE_EXIT_DIALOG_NEW:
 			return true;

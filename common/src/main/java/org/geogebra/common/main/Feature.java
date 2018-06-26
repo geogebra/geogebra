@@ -246,9 +246,6 @@ public enum Feature {
 	/** MOB-1537 */
 	MOB_PREVIEW_WHEN_EDITING,
 
-	/** MOB-1516 */
-	MOB_PACK_ALL_CURVES,
-
 	/** GGB-2366 */
 	TIKZ_AXES,
 

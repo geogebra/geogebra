@@ -549,7 +549,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	@Override
 	public boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_ALL_CURVES);
+		return true;
 	}
 
 }

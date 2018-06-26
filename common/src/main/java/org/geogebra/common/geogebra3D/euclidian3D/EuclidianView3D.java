@@ -3106,8 +3106,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			}
 		}
 
-		if (!app.has(Feature.MOB_PACK_ALL_CURVES)
-				|| !getRenderer().getGeometryManager().packBuffers()) {
+		if (!getRenderer().getGeometryManager().packBuffers()) {
 			// TODO merge this block with the previous when both
 			// Feature.MOB_PACK_JOIN_POINTS and Feature.MOB_PACK_ALL_CURVES
 			// released
@@ -3142,8 +3141,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			xOyPlaneDrawable.drawHidden(renderer1);
 		}
 
-		if (!app.has(Feature.MOB_PACK_ALL_CURVES)
-				|| !getRenderer().getGeometryManager().packBuffers()) {
+		if (!getRenderer().getGeometryManager().packBuffers()) {
 			if (showClippingCube()) {
 				clippingCubeDrawable.drawHidden(renderer1);
 			}

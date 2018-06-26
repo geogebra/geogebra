@@ -191,13 +191,6 @@ public class DrawAngle3D extends Drawable3DCurves {
 			PlotterBrush brush = renderer.getGeometryManager().getBrush();
 			PlotterSurface surface = renderer.getGeometryManager().getSurface();
 
-			if (!getView3D().getApplication()
-					.has(Feature.MOB_PACK_ALL_CURVES)) {
-				brush.start(getReusableGeometryIndex());
-				brush.setThickness(getGeoElement().getLineThickness(),
-						(float) getView3D().getScale());
-			}
-
 			if (show90degrees) {
 				switch (getView3D().getRightAngleStyle()) {
 				default:
@@ -225,8 +218,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 					// create point template if needed
 					float pointSize = getGeoElement().getLineThickness()
 							* PlotterBrush.LINE3D_THICKNESS;
-					if (getView3D().getApplication().has(
-							Feature.MOB_PACK_ALL_CURVES) && shouldBePacked()) {
+					if (shouldBePacked()) {
 						renderer.getGeometryManager()
 								.createPointTemplateIfNeeded((int) pointSize);
 					}
@@ -242,19 +234,11 @@ public class DrawAngle3D extends Drawable3DCurves {
 					brush.segment(center, tmpCoords.setAdd(center,
 							tmpCoords.setMul(v2, size)));
 					// dot (use surface plotter)
-					if (getView3D().getApplication()
-							.has(Feature.MOB_PACK_ALL_CURVES)) {
-						tmpCoords.set3(labelCenter);
-						renderer.getGeometryManager().drawPoint(this, pointSize,
-								tmpCoords);
-					} else {
-						renderer.getGeometryManager().setScalerIdentity();
-						tmpCoords.set3(labelCenter);
-						getView3D().scaleXYZ(tmpCoords);
-						surface.drawSphere(tmpCoords,
-								2.5 * brush.getThickness(), 16);
-						renderer.getGeometryManager().setScalerView();
-					}
+
+					tmpCoords.set3(labelCenter);
+					renderer.getGeometryManager().drawPoint(this, pointSize,
+							tmpCoords);
+
 					setGeometryIndex(brush.end());
 					break;
 
@@ -327,11 +311,9 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 	private void startBrush(PlotterBrush brush) {
 		setPackCurve();
-		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_CURVES)) {
-			brush.start(getReusableGeometryIndex());
-			brush.setThickness(getGeoElement().getLineThickness(),
-					(float) getView3D().getScale());
-		}
+		brush.start(getReusableGeometryIndex());
+		brush.setThickness(getGeoElement().getLineThickness(),
+				(float) getView3D().getScale());
 	}
 
 	private void initCoords() {
