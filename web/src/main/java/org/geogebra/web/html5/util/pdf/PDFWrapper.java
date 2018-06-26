@@ -223,7 +223,8 @@ public class PDFWrapper {
 	// convert something like
 	// xlink:href="blob:http://www.example.org/d3872604-2efe-4e3f-94d9-d449d966c20f"
 	// to base64 PNG
-	private native void convertBlobs(JavaScriptObject svg, JavaScriptObject callback) /*-{
+	private native void convertBlobs(JavaScriptObject svg,
+			JavaScriptObject callback) /*-{
 
 		if (svg.indexOf('xlink:href="blob:') > 0) {
 
@@ -239,7 +240,8 @@ public class PDFWrapper {
 		}
 	}-*/;
 
-	private native void blobToBase64(String blobURI, JavaScriptObject svg, JavaScriptObject callback) /*-{
+	private native void blobToBase64(String blobURI, JavaScriptObject svg,
+			JavaScriptObject callback) /*-{
 
 		var img = $doc.createElement("img");
 		var canvas = $doc.createElement("canvas");
