@@ -131,7 +131,7 @@ public class PDFWrapper {
 																	var callback = function(
 																			svg) {
 																		var data = "data:image/svg+xml;base64,"
-																				+ btoa(unescape(encodeURIComponent(svgs)));
+																				+ btoa(unescape(encodeURIComponent(svg)));
 																		that.@org.geogebra.web.html5.util.pdf.PDFWrapper::onPageDisplay(Ljava/lang/String;)(data);
 																		// convert to base64 URL for <img>
 																	}
