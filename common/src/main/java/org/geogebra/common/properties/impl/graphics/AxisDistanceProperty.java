@@ -72,8 +72,8 @@ public class AxisDistanceProperty extends AbstractProperty implements StringProp
     public boolean isEnabled() {
         boolean[] axesAutomaticDistances = euclidianSettings.getAutomaticAxesNumberingDistances();
 
-        for (boolean auto : axesAutomaticDistances) {
-            if (!auto) {
+        for (int i = 0; i < euclidianSettings.getDimension(); i++) {
+            if (!axesAutomaticDistances[i]) {
                 return true;
             }
         }

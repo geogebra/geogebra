@@ -52,8 +52,8 @@ public class AxisLabelProperty extends AbstractProperty
     public boolean isEnabled() {
         String[] labels = euclidianSettings.getAxesLabels();
         boolean enabled = false;
-        for (String label : labels) {
-            enabled |= label != null;
+        for (int i = 0; i < euclidianSettings.getDimension(); i++) {
+            enabled |= labels[i] != null;
         }
         return enabled;
     }

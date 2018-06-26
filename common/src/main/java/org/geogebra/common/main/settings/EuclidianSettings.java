@@ -129,6 +129,7 @@ public class EuclidianSettings extends AbstractSettings {
 	private ExtendedBoolean enabledEB = ExtendedBoolean.UNKNOWN;
 
 	protected App app;
+	protected int dimension;
 
 	/**
 	 * @param app
@@ -140,6 +141,7 @@ public class EuclidianSettings extends AbstractSettings {
 		yZero = EuclidianView.YZERO_STANDARD; // needs to be positive
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 		this.app = app;
+		dimension = 2;
 		resetNoFire();
 	}
 
@@ -1412,6 +1414,13 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
+	 * @return the dimensionality of the settings arrays
+	 */
+	public int getDimension() {
+		return dimension;
+	}
+
+	/**
 	 * @param i
 	 *            axis index
 	 * @return default label
@@ -1419,5 +1428,4 @@ public class EuclidianSettings extends AbstractSettings {
 	public static String getDefaultAxisLabel(int i) {
 		return DEFAULT_AXIS_LABELS[i];
 	}
-
 }

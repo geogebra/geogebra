@@ -68,6 +68,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		setZscale(50);
 		xZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 		yZero = EuclidianView3D.XZERO_SCENE_STANDARD;
+		dimension = 3;
 	}
 
 	/**

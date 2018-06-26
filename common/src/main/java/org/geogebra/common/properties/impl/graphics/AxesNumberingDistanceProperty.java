@@ -34,8 +34,8 @@ public class AxesNumberingDistanceProperty extends AbstractProperty implements B
     public boolean getValue() {
         boolean[] axesAutomaticDistances = euclidianSettings.getAutomaticAxesNumberingDistances();
 
-        for (boolean auto : axesAutomaticDistances) {
-            if (!auto) {
+        for (int i = 0; i < euclidianSettings.getDimension(); i++) {
+            if (!axesAutomaticDistances[i]) {
                 return false;
             }
         }
@@ -53,15 +53,14 @@ public class AxesNumberingDistanceProperty extends AbstractProperty implements B
 
     private void setCustomDistance() {
         double[] axesDistances = euclidianView.getAxesNumberingDistances();
-        for (int i = 0; i < axesDistances.length; i++) {
+        for (int i = 0; i < euclidianSettings.getDimension(); i++) {
             euclidianSettings.setAxisNumberingDistance(i, kernel.getAlgebraProcessor()
                     .evaluateToNumeric("" + axesDistances[i] / 2, ErrorHelper.silent()));
         }
     }
 
     private void setAutoDistance() {
-        int length = euclidianSettings.getAutomaticAxesNumberingDistances().length;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < euclidianSettings.getDimension(); i++) {
             euclidianSettings.setAutomaticAxesNumberingDistance(true, i, true);
         }
     }

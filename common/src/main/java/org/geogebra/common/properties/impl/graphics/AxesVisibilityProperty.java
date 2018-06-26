@@ -31,8 +31,8 @@ public class AxesVisibilityProperty extends AbstractProperty
 	public boolean getValue() {
 		boolean[] showAxes = euclidianSettings.getShowAxes();
 		boolean value = false;
-		for (boolean showAxis : showAxes) {
-			value |= showAxis;
+		for (int i = 0; i < euclidianSettings.getDimension(); i++) {
+			value |= showAxes[i];
 		}
 
 		return value;
