@@ -5,6 +5,11 @@ import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 
+/**
+ * Updates, adds and removes embedded applets.
+ * 
+ * @author Zbynek
+ */
 public interface EmbedManager {
 	/**
 	 * Add new applet.
@@ -77,6 +82,12 @@ public interface EmbedManager {
 	 */
 	public void remove(DrawEmbed drawEmbed);
 
+	/**
+	 * Add new embed.
+	 * 
+	 * @param dataUrl
+	 *            base64 content
+	 */
 	public void embed(String dataUrl);
 
 }

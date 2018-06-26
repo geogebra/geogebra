@@ -445,15 +445,6 @@ public class ImageManagerW extends ImageManager {
 					addImageToArchive("", fileName, url, ext, img, archive);
 				}
 			}
-			/*
-			 * // save macro icon String fileName = macro.getIconFileName();
-			 * BufferedImage img =
-			 * ((Application)app).getExternalImage(fileName); if (img != null)
-			 * // Modified for Intergeo File Format (Yves Kreis) --> //
-			 * writeImageToZip(zip, fileName, img); writeImageToZip(zipjs,
-			 * filePath + fileName, img); // <-- Modified for Intergeo File
-			 * Format (Yves Kreis)
-			 */
 		}
 	}
 }

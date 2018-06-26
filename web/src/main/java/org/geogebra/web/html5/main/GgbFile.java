@@ -21,11 +21,20 @@ public class GgbFile extends HashMap<String, String> implements ZipFile {
 
 	private static int counter = 0;
 
+	/**
+	 * New GGB file with automatic ID.
+	 */
 	public GgbFile() {
 		this.id = SLIDE_PREFIX + counter;
 		incCounter();
 	}
 
+	/**
+	 * New GGB file with given ID.
+	 * 
+	 * @param id
+	 *            file ID
+	 */
 	public GgbFile(String id) {
 		this.id = id;
 	}

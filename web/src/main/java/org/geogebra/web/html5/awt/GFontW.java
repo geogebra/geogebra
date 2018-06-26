@@ -59,6 +59,9 @@ public class GFontW extends GFont {
 		return fontStyle;
 	}
 
+	/**
+	 * @return complete CSS font description
+	 */
 	public String getFullFontString() {
 		return fontStyle + " " + fontVariant + " " + fontWeight + " "
 				+ fontSize + "px " + fontFamily;

@@ -54,6 +54,10 @@ public class FileManagerT extends FileManager {
 	Flags dontCreateIfNotExist = new Flags(false, false);
 	int nextFreeID = 1;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public FileManagerT(final AppW app) {
 		super(app);
 		init();

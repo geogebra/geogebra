@@ -17,6 +17,10 @@ public class ViewW {
 
 	private AppW app;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public ViewW(AppW app) {
 		this.app = app;
 	}
@@ -61,15 +65,28 @@ public class ViewW {
 		Log.debug("end unzipping" + System.currentTimeMillis());
 	}
 
+	/**
+	 * Load file if it's not null.
+	 * 
+	 * @param archiveCont
+	 *            file to load
+	 */
 	public void maybeLoadFile(GgbFile archiveCont) {
 		archiveContent = archiveCont;
 		maybeLoadFile();
 	}
 
-	public AppW getApplication() {
+	/**
+	 * @return application
+	 */
+	protected AppW getApplication() {
 		return app;
 	}
 
+	/**
+	 * @param dataParamBase64String
+	 *            base64 encoded file
+	 */
 	public void processBase64String(String dataParamBase64String) {
 		populateArchiveContent(getBase64Reader(dataParamBase64String));
 	}
@@ -223,17 +240,15 @@ public class ViewW {
 
 				@Override
 				public void onSuccess(String response) {
-					app.openOFF(response);
+					getApplication().openOFF(response);
 				}
 
 				@Override
 				public void onError(String error) {
-					// TODO Auto-generated method stub
-
+					Log.error("Problem opening file:" + error);
 				}
 			});
 			return;
-
 		}
 		if (url.endsWith(".csv")) {
 
@@ -242,12 +257,12 @@ public class ViewW {
 
 				@Override
 				public void onSuccess(String response) {
-					app.openCSV(response);
+					getApplication().openCSV(response);
 				}
 
 				@Override
 				public void onError(String error) {
-					// TODO Auto-generated method stub
+					Log.error("Problem opening file:" + error);
 				}
 			});
 			return;
@@ -303,6 +318,10 @@ public class ViewW {
 		}
 	}-*/;
 
+	/**
+	 * @param zip
+	 *            JS object representing the ZIP file, see getFileJSON in GgbAPI
+	 */
 	public native void processJSON(JavaScriptObject zip) /*-{
 		var that = this;
 		$wnd
