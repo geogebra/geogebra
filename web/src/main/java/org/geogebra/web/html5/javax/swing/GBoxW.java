@@ -29,6 +29,7 @@ public class GBoxW extends GBox {
 		this.ec = ec;
 		impl = new HorizontalPanel();
 		impl.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		impl.getElement().getStyle().setZIndex(50);
 	}
 
 	/**
@@ -88,8 +89,7 @@ public class GBoxW extends GBox {
 
 	@Override
 	public void revalidate() {
-		// TODO Auto-generated method stub
-
+		// not needed in Web
 	}
 
 	@Override
