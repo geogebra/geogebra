@@ -87,6 +87,4 @@ public class CmdRandomPointIn extends CommandProcessor {
 		}
 	}
 
-
-
 }

@@ -66,6 +66,9 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Superclass for text format (e.g. LaTeX) image exports.
+ */
 public abstract class GeoGebraExport {
 	protected int beamerSlideNumber = 1;
 	protected final static double PRECISION_XRANGE_FUNCTION = 0.00001;
@@ -105,6 +108,9 @@ public abstract class GeoGebraExport {
 		initBounds();
 	}
 
+	/**
+	 * @return application
+	 */
 	public App getApp() {
 		return app;
 	}
@@ -143,38 +149,66 @@ public abstract class GeoGebraExport {
 		euclidianView.repaint();
 	}
 
+	/**
+	 * @param xmin
+	 *            x-min
+	 */
 	public void setxmin(double xmin) {
 		this.xmin = xmin;
 		this.refreshSelectionRectangle();
 	}
 
+	/**
+	 * @param xmax
+	 *            x-max
+	 */
 	public void setxmax(double xmax) {
 		this.xmax = xmax;
 		this.refreshSelectionRectangle();
 	}
 
+	/**
+	 * @param ymin
+	 *            y-min
+	 */
 	public void setymin(double ymin) {
 		this.ymin = ymin;
 		this.refreshSelectionRectangle();
 	}
 
+	/**
+	 * @param ymax
+	 *            y-max
+	 */
 	public void setymax(double ymax) {
 		this.ymax = ymax;
 		this.refreshSelectionRectangle();
 	}
 
+	/**
+	 * @return x-min
+	 */
 	public double getxmin() {
 		return this.xmin;
 	}
 
+	/**
+	 * @return x-max
+	 */
 	public double getxmax() {
 		return this.xmax;
 	}
 
+	/**
+	 * @return y-min
+	 */
 	public double getymin() {
 		return this.ymin;
 	}
 
+	/**
+	 * @return y-max
+	 */
 	public double getymax() {
 		return this.ymax;
 	}

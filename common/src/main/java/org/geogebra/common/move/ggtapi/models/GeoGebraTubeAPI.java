@@ -56,13 +56,20 @@ public abstract class GeoGebraTubeAPI {
 		this.loginURL = beta ? login_urlBeta : login_url;
 	}
 
+	/**
+	 * @param url1
+	 *            materials API url
+	 */
 	public void setURL(String url1) {
 		this.materialsURL = url1;
 	}
 
+	/**
+	 * @param loginAPIurl
+	 *            login API url
+	 */
 	public void setLoginURL(String loginAPIurl) {
 		this.loginURL = loginAPIurl;
-
 	}
 
 	/**
@@ -82,6 +89,9 @@ public abstract class GeoGebraTubeAPI {
 				callback);
 	}
 
+	/**
+	 * @return login API URL
+	 */
 	public final String getLoginUrl() {
 		return loginURL;
 	}
@@ -573,6 +583,9 @@ public abstract class GeoGebraTubeAPI {
 				callback);
 	}
 
+	/**
+	 * @return whether availability check was done
+	 */
 	public boolean isCheckDone() {
 		return availabilityCheckDone;
 	}
@@ -621,8 +634,12 @@ public abstract class GeoGebraTubeAPI {
 		return client.getModel().getLoginToken();
 	}
 
+	/**
+	 * @param clientInfo
+	 *            client information
+	 */
 	public void setClient(ClientInfo clientInfo) {
 		this.client = clientInfo;
-
 	}
+
 }

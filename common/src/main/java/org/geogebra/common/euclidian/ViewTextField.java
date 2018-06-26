@@ -72,6 +72,9 @@ public abstract class ViewTextField {
 		((DrawInputBox) d).attachTextField();
 	}
 
+	/**
+	 * @return box wrapping the input field
+	 */
 	public GBox getBox() {
 		createBox();
 		return box;
@@ -83,7 +86,6 @@ public abstract class ViewTextField {
 					this.euclidianView.getEuclidianController());
 			box.add(textField);
 		}
-
 	}
 
 	public abstract AutoCompleteTextField newAutoCompleteTextField(int length,
@@ -91,6 +93,9 @@ public abstract class ViewTextField {
 
 	public abstract GBox createHorizontalBox(EuclidianController style);
 
+	/**
+	 * Remove referenced objects.
+	 */
 	public void remove() {
 		textField = null;
 		box = null;

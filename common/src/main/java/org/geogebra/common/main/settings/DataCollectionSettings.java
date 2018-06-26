@@ -29,11 +29,18 @@ public class DataCollectionSettings extends AbstractSettings {
 	// GeoElements needed later in case geo is renamed
 	private HashMap<Types, Object> mapper = new HashMap<>();
 
+	/**
+	 * @param listeners
+	 *            listeners
+	 */
 	public DataCollectionSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
+	/**
+	 * New data collection settings.
+	 */
 	public DataCollectionSettings() {
 		super();
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
@@ -52,6 +59,14 @@ public class DataCollectionSettings extends AbstractSettings {
 		settingChanged();
 	}
 
+	/**
+	 * Add sensor to map
+	 * 
+	 * @param type
+	 *            sensor
+	 * @param geo
+	 *            logging geo
+	 */
 	public void mapSensorToGeo(Types type, GeoElement geo) {
 		mapper.put(type, geo);
 	}
@@ -109,6 +124,13 @@ public class DataCollectionSettings extends AbstractSettings {
 
 	/**
 	 * returns settings in XML format
+	 * 
+	 * @param sb
+	 *            builder
+	 * @param asPreference
+	 *            whether this is for preferences
+	 * @param cons
+	 *            construction
 	 */
 	public void getXML(StringBuilder sb, boolean asPreference,
 			Construction cons) {
@@ -158,7 +180,6 @@ public class DataCollectionSettings extends AbstractSettings {
 					sb.append("\"");
 					sb.append("/>\n");
 				}
-
 			}
 		}
 
@@ -166,6 +187,12 @@ public class DataCollectionSettings extends AbstractSettings {
 
 	}
 
+	/**
+	 * Remove sensor from map.
+	 * 
+	 * @param type
+	 *            sensor
+	 */
 	public void removeMappedGeo(Types type) {
 		this.mapper.remove(type);
 	}

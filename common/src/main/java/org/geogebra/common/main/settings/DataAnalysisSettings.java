@@ -7,6 +7,9 @@ import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Settings for DA view.
+ */
 public class DataAnalysisSettings {
 	private ArrayList<String> items = new ArrayList<>();
 	private int mode = DataAnalysisModel.MODE_ONEVAR;
@@ -36,6 +39,9 @@ public class DataAnalysisSettings {
 		this.mode = mode;
 	}
 
+	/**
+	 * @return items
+	 */
 	public ArrayList<String> getItems() {
 		return items;
 	}
@@ -64,15 +70,28 @@ public class DataAnalysisSettings {
 
 	}
 
-	public void setRegression(Regression valueOf) {
-		this.regression = valueOf;
-
+	/**
+	 * @param regression
+	 *            regression type
+	 */
+	public void setRegression(Regression regression) {
+		this.regression = regression;
 	}
 
+	/**
+	 * @return regression type
+	 */
 	public Regression getRegression() {
 		return regression;
 	}
 
+	/**
+	 * @param i
+	 *            index
+	 * @param fallback
+	 *            fallback
+	 * @return plot type or fallback if not set
+	 */
 	public PlotType getPlotType(int i, PlotType fallback) {
 		PlotType ret = i == 0 ? plotType1 : plotType2;
 		return ret == null ? fallback : ret;

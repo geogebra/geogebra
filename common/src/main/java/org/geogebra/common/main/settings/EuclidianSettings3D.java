@@ -112,6 +112,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		updateScaleHelpers();
 	}
 
+	/**
+	 * @param scale
+	 *            z-axis scale
+	 */
 	public void setZscaleValue(double scale) {
 		this.zscale = scale;
 		updateScaleHelpers();

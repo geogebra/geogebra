@@ -28,6 +28,11 @@ public abstract class CanvasDrawable extends Drawable {
 	int boxWidth;
 	int boxHeight;
 
+	/**
+	 * @param text
+	 *            text
+	 * @return whether text starts and ends with $
+	 */
 	public static boolean isLatexString(String text) {
 		return text.length() > 1 && text.startsWith("$")
 				&& text.trim().endsWith("$");
@@ -56,6 +61,17 @@ public abstract class CanvasDrawable extends Drawable {
 		return ret;
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param geo0
+	 *            related geo
+	 * @param font
+	 *            font
+	 * @param text
+	 *            text
+	 * @return size of text with given font
+	 */
 	public static GDimension measureLatex(App app,
 			GeoElement geo0, GFont font, String text) {
 		return app.getDrawEquation().measureEquation(app, geo0, text, font,
@@ -237,6 +253,9 @@ public abstract class CanvasDrawable extends Drawable {
 		this.labelFontSize = labelFontSize;
 	}
 
+	/**
+	 * @return dimension on screen
+	 */
 	public abstract GDimension getPreferredSize();
 
 	@Override
@@ -283,6 +302,9 @@ public abstract class CanvasDrawable extends Drawable {
 		}
 	}
 
+	/**
+	 * @return hit rectangle
+	 */
 	public GRectangle getHitRect() {
 		return labelRectangle;
 	}

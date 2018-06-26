@@ -82,6 +82,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
+	/**
+	 * New spreadsheet settings.
+	 */
 	public SpreadsheetSettings() {
 		super();
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
@@ -97,15 +100,28 @@ public class SpreadsheetSettings extends AbstractSettings {
 		return widthMap;
 	}
 
+	/**
+	 * @param index
+	 *            column
+	 * @param width
+	 *            width
+	 */
 	public void addWidth(int index, int width) {
 		getWidthMap().put(index, width);
 		settingChanged();
 	}
 
+	/**
+	 * @return global preferred column width
+	 */
 	public int preferredColumnWidth() {
 		return preferredColumnWidth;
 	}
 
+	/**
+	 * @param prefWidth
+	 *            global preferred column width
+	 */
 	public void setPreferredColumnWidth(int prefWidth) {
 		this.preferredColumnWidth = prefWidth;
 		settingChanged();
@@ -121,15 +137,28 @@ public class SpreadsheetSettings extends AbstractSettings {
 		return heightMap;
 	}
 
+	/**
+	 * @param index
+	 *            row
+	 * @param height
+	 *            height in px
+	 */
 	public void addHeight(int index, int height) {
 		getHeightMap().put(index, height);
 		settingChanged();
 	}
 
+	/**
+	 * @return preferred row height
+	 */
 	public int preferredRowHeight() {
 		return preferredRowHeight;
 	}
 
+	/**
+	 * @param preferredRowHeight
+	 *            preferred row height
+	 */
 	public void setPreferredRowHeight(int preferredRowHeight) {
 		this.preferredRowHeight = preferredRowHeight;
 		settingChanged();
@@ -427,10 +456,18 @@ public class SpreadsheetSettings extends AbstractSettings {
 		return enableAutoComplete;
 	}
 
+	/**
+	 * @param hScrollBalValue
+	 *            horizontal scrollbar position
+	 */
 	public void setHScrollBalValue(int hScrollBalValue) {
 		this.hScrollBarValue = hScrollBalValue;
 	}
 
+	/**
+	 * @param vScrollBalValue
+	 *            vertical scrollbar position
+	 */
 	public void setVScrollBalValue(int vScrollBalValue) {
 		this.vScrollBarValue = vScrollBalValue;
 	}
@@ -457,6 +494,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 				&& getWidthMap().size() == 0 && getHeightMap().size() == 0;
 	}
 
+	/**
+	 * @return whether the selection is default
+	 */
 	public boolean isSelectionDefaults() {
 		return (hScrollBarValue == 0 && vScrollBarValue == 0
 				&& selectedCell.getX() == 0 && selectedCell.getY() == 0);
