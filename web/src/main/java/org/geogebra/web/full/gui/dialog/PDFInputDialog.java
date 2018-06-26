@@ -238,10 +238,10 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 			ofPageLbl.setText(appW.getLocalization().getMenu("of") + " " + pdf.getPageCount()); // of
 		}
 		if (loadText != null) {
-			loadText.setText(appW.getLocalization().getMenu("pdfLoadText"));
+			loadText.setText(appW.getLocalization().getMenu("PdfLoadText"));
 		}
 		if (errorText != null) {
-			errorText.setText(appW.getLocalization().getMenu("pdfErrorText"));
+			errorText.setText(appW.getLocalization().getMenu("PdfErrorText"));
 		}
 
 	}
@@ -371,6 +371,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		if (loadText == null) {
 			loadText = new Label();
 			loadText.addStyleName("clickOrDragText");
+			loadText.setText(appW.getLocalization().getMenu("PdfLoadText"));
 		}
 		pdfContainerPanel.add(loadText);
 	}
@@ -385,7 +386,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 			errorText = new Label();
 			errorText.addStyleName("clickOrDragText");
 			errorText.addStyleName("errorText");
-			errorText.setText(appW.getLocalization().getMenu("pdfErrorText"));
+			errorText.setText(appW.getLocalization().getMenu("PdfErrorText"));
 		}
 		pdfContainerPanel.add(errorText);
 	}
