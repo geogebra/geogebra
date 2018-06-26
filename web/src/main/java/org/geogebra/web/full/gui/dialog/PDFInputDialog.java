@@ -151,6 +151,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 						function(event) {
 							var files = event.dataTransfer.files;
 							that.@org.geogebra.web.full.gui.dialog.PDFInputDialog::loadPdf(Lcom/google/gwt/core/client/JavaScriptObject;)(files[0]);
+							event.stopPropagation();
+							event.preventDefault();
 						});
 
 	}-*/;
