@@ -109,9 +109,9 @@ public class BrowserDevice implements GDevice {
 				var files = this.files;
 				if (files.length) {
 					var fileToHandle = files[0];
-					//bg.@org.geogebra.web.full.gui.openfileview.OpenFileView::openFile(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
+					bg.@org.geogebra.web.full.gui.openfileview.OpenFileView::openFile(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
 				}
-				//	el.parentElement.reset();
+				el.parentElement.reset();
 			};
 		}-*/;
 
@@ -122,13 +122,15 @@ public class BrowserDevice implements GDevice {
 		 *            button text
 		 */
 		public void setImageAndText(String imgUrl, String text) {
+			Element form = DOM.createElement("form");
 			input = DOM.createElement("input");
 			input.setAttribute("type", "file");
+			form.appendChild(input);
 
 			div.setInnerHTML(" <img src=\"" + imgUrl
 					+ "\"  class=\"gwt-Image\" draggable=\"false\" role=\"button\"> "
 					+ "<div class=\"gwt-Label\"/>" + text + "</div>");
-			div.appendChild(input);
+			div.appendChild(form);
 			DOM.insertChild(getElement(), div, 0);
 		}
 

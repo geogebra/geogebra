@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
@@ -29,7 +30,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Alicia
  *
  */
-public class OpenFileView extends MyHeaderPanel implements BrowseViewI {
+public class OpenFileView extends MyHeaderPanel
+		implements BrowseViewI, OpenFileListener {
 	/**
 	 * application
 	 */
@@ -49,6 +51,8 @@ public class OpenFileView extends MyHeaderPanel implements BrowseViewI {
 	/**
 	 * @param app
 	 *            application
+	 * @param openFileButton
+	 *            button to open file picker
 	 */
 	public OpenFileView(AppW app, FileOpenButton openFileButton) {
 		this.app = app;
@@ -158,6 +162,7 @@ public class OpenFileView extends MyHeaderPanel implements BrowseViewI {
 			app.getFileManager().setFileProvider(Provider.LOCAL);
 		}
 		app.openFile(fileToHandle, callback);
+		close();
 	}
 
 	@Override
@@ -225,5 +230,11 @@ public class OpenFileView extends MyHeaderPanel implements BrowseViewI {
 	public void removeMaterial(Material material) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean onOpenFile() {
+		// TODO
+		return false;
 	}
 }
