@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
@@ -89,5 +90,12 @@ public interface EmbedManager {
 	 *            base64 content
 	 */
 	public void embed(String dataUrl);
+
+	/**
+	 * @param drawEmbed
+	 *            applet drawble
+	 * @return preview image
+	 */
+	public MyImage getPreview(DrawEmbed drawEmbed);
 
 }

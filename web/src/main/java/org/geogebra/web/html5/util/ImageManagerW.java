@@ -21,6 +21,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
@@ -29,7 +30,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Image;
 
 public class ImageManagerW extends ImageManager {
@@ -210,9 +211,9 @@ public class ImageManagerW extends ImageManager {
 	 *            resource
 	 * @return img element corresponding to the resource
 	 */
-	public static ImageElement getInternalImage(ImageResource resource) {
+	public static ImageElement getInternalImage(ResourcePrototype resource) {
 		ImageElement img = Document.get().createImageElement();
-		img.setSrc(resource.getSafeUri().asString());
+		img.setSrc(NoDragImage.safeURI(resource));
 		return img;
 	}
 

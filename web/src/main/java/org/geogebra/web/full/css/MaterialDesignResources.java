@@ -343,9 +343,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/whiteboard.png")
 	ImageResource whiteboard();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/geogebra_logo_transparent.png")
-	ImageResource geogebra_logo_transparent();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_insert_drive_file_black_24px.svg")
 	SVGResource insert_file_black();
 

@@ -1,8 +1,10 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -14,6 +16,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.main.App.ExportType;
 
 /**
  * Drawable for embedded apps
@@ -64,7 +67,25 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		// TODO Auto-generated method stub
+		if (view.getApplication().getExportType() == ExportType.NONE) {
+			return;
+		}
+		MyImage preview = view.getApplication().getEmbedManager().getPreview(this);
+
+		// if (preview != null) {
+		g2.setColor(GColor.BLACK);
+		int sx = getWidth();
+		int sy = getHeight();
+		g2.drawRect(getLeft(), getTop(), sx, sy);
+		g2.saveTransform();
+
+		double s = Math.min(sx, sy);
+		g2.translate(getLeft() + Math.max((sx - s) / 2, 0), getTop() + Math.max((sy - s) / 2, 0));
+		g2.scale(s / preview.getWidth(), s / preview.getHeight());
+
+		g2.drawImage(preview, 0, 0);
+		g2.restoreTransform();
+
 	}
 
 	@Override

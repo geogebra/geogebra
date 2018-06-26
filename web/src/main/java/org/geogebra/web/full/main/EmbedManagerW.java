@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
@@ -14,14 +15,17 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.html5.main.GgbFile;
+import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JSON;
 
 import com.google.gwt.core.shared.GWT;
@@ -43,6 +47,7 @@ public class EmbedManagerW implements EmbedManager {
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
 	private HashMap<Integer, String> base64 = new HashMap<>();
+	private MyImage preview;
 
 	/**
 	 * @param app
@@ -51,6 +56,8 @@ public class EmbedManagerW implements EmbedManager {
 	public EmbedManagerW(AppWFull app) {
 		this.app = app;
 		this.counter = 0;
+		preview = new MyImageW(ImageManagerW.getInternalImage(
+				MaterialDesignResources.INSTANCE.graphing()), true);
 	}
 
 	@Override
@@ -237,6 +244,11 @@ public class EmbedManagerW implements EmbedManager {
 		ge.setEmbedId(id);
 		ge.initPosition(app.getActiveEuclidianView());
 		ge.setLabel(null);
+	}
+
+	@Override
+	public MyImage getPreview(DrawEmbed drawEmbed) {
+		return preview;
 	}
 
 }
