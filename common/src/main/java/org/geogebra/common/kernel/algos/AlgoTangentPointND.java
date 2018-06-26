@@ -44,6 +44,16 @@ public abstract class AlgoTangentPointND extends AlgoElement
 	 * { this(cons, P, c); GeoElement.setLabels(label, tangents); }
 	 */
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param P
+	 *            point
+	 * @param c
+	 *            conic
+	 */
 	public AlgoTangentPointND(Construction cons, String[] labels, GeoPointND P,
 			GeoConicND c) {
 		this(cons, P, c);

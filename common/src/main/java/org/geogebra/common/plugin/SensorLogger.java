@@ -441,9 +441,12 @@ public abstract class SensorLogger {
 		}
 	}
 
+	/**
+	 * @param limit
+	 *            step limit
+	 */
 	public void setLimit(double limit) {
 		this.stepsToGo = (int) limit;
-
 	}
 
 }

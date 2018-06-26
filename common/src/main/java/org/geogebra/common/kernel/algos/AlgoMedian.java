@@ -37,17 +37,12 @@ public class AlgoMedian extends AlgoElement {
 	private GeoNumeric median; // output
 	private int size;
 
-	public AlgoMedian(Construction cons, String label, GeoList inputList) {
-		this(cons, inputList);
-		median.setLabel(label);
-	}
-
-	public AlgoMedian(Construction cons, String label, GeoList inputList,
-			GeoList freqList) {
-		this(cons, inputList, freqList);
-		median.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param inputList
+	 *            raw data
+	 */
 	public AlgoMedian(Construction cons, GeoList inputList) {
 		this(cons, inputList, null);
 	}

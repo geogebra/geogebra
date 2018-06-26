@@ -7,14 +7,14 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoSampleVariance extends AlgoStats1D {
 
-	public AlgoSampleVariance(Construction cons, String label,
+	public AlgoSampleVariance(Construction cons,
 			GeoList geoList) {
-		super(cons, label, geoList, AlgoStats1D.STATS_SAMPLE_VARIANCE);
+		super(cons, geoList, AlgoStats1D.STATS_SAMPLE_VARIANCE);
 	}
 
-	public AlgoSampleVariance(Construction cons, String label, GeoList geoList,
+	public AlgoSampleVariance(Construction cons, GeoList geoList,
 			GeoList freq) {
-		super(cons, label, geoList, freq, AlgoStats1D.STATS_SAMPLE_VARIANCE);
+		super(cons, geoList, freq, AlgoStats1D.STATS_SAMPLE_VARIANCE);
 	}
 
 	@Override

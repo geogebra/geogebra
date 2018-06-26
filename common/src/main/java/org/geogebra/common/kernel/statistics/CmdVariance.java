@@ -23,14 +23,16 @@ public class CmdVariance extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoVariance algo = new AlgoVariance(cons, a, b);
+		AlgoVariance algo = new AlgoVariance(cons, b);
+		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
 
 	@Override
 	protected GeoElement doCommand(String a, Command c, GeoList list,
 			GeoList freq) {
-		AlgoVariance algo = new AlgoVariance(cons, a, list, freq);
+		AlgoVariance algo = new AlgoVariance(cons, list, freq);
+		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
 

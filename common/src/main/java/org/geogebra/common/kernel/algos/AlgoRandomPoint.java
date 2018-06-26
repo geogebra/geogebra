@@ -35,8 +35,6 @@ public class AlgoRandomPoint extends AlgoElement {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param a
 	 *            x min
 	 * @param b
@@ -46,7 +44,7 @@ public class AlgoRandomPoint extends AlgoElement {
 	 * @param d
 	 *            y max
 	 */
-	public AlgoRandomPoint(Construction cons, String label, GeoNumberValue a,
+	public AlgoRandomPoint(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
 		super(cons);
 		this.a = a;
@@ -57,8 +55,6 @@ public class AlgoRandomPoint extends AlgoElement {
 
 		setInputOutput();
 		compute();
-
-		M.setLabel(label);
 	}
 
 	@Override

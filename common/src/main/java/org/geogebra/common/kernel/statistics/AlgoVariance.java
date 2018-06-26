@@ -26,13 +26,13 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoVariance extends AlgoStats1D {
 
-	public AlgoVariance(Construction cons, String label, GeoList geoList) {
-		super(cons, label, geoList, AlgoStats1D.STATS_VARIANCE);
+	public AlgoVariance(Construction cons, GeoList geoList) {
+		super(cons, geoList, AlgoStats1D.STATS_VARIANCE);
 	}
 
-	public AlgoVariance(Construction cons, String label, GeoList geoList,
+	public AlgoVariance(Construction cons, GeoList geoList,
 			GeoList geoList2) {
-		super(cons, label, geoList, geoList2, AlgoStats1D.STATS_VARIANCE);
+		super(cons, geoList, geoList2, AlgoStats1D.STATS_VARIANCE);
 	}
 
 	@Override

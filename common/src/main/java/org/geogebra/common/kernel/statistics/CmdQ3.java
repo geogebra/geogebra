@@ -26,14 +26,16 @@ public class CmdQ3 extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoQ3 algo = new AlgoQ3(cons, a, b);
+		AlgoQ3 algo = new AlgoQ3(cons, b);
+		algo.getQ3().setLabel(a);
 		return algo.getQ3();
 	}
 
 	@Override
 	final protected GeoElement doCommand(String a, Command c, GeoList list,
 			GeoList freq) {
-		AlgoQ3 algo = new AlgoQ3(cons, a, list, freq);
+		AlgoQ3 algo = new AlgoQ3(cons, list, freq);
+		algo.getQ3().setLabel(a);
 		return algo.getQ3();
 	}
 

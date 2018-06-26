@@ -73,9 +73,9 @@ public class CmdProduct extends CommandProcessor {
 				if (((GeoList) arg[0])
 						.getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
 
-					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(), list,
+					AlgoProduct algo = new AlgoProduct(cons, list,
 							(GeoList) arg[1]);
-
+					algo.getResult().setLabel(c.getLabel());
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				}

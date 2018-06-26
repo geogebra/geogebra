@@ -24,17 +24,16 @@ public class CmdMAD extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoMeanAbsoluteDeviation algo = new AlgoMeanAbsoluteDeviation(cons, a,
-				b);
+		AlgoMeanAbsoluteDeviation algo = new AlgoMeanAbsoluteDeviation(cons, b);
+		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
 
 	@Override
 	protected GeoElement doCommand(String a, Command c, GeoList list,
 			GeoList freq) {
-		AlgoMeanAbsoluteDeviation algo = new AlgoMeanAbsoluteDeviation(cons, a,
-				list,
-				freq);
+		AlgoMeanAbsoluteDeviation algo = new AlgoMeanAbsoluteDeviation(cons, list, freq);
+		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
 }

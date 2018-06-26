@@ -25,10 +25,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoListSXX extends AlgoStats2D {
 
-	public AlgoListSXX(Construction cons, String label, GeoList geoListx) {
-		super(cons, label, geoListx, AlgoStats2D.STATS_SXX);
-	}
-
 	public AlgoListSXX(Construction cons, GeoList geoListx) {
 		super(cons, geoListx, AlgoStats2D.STATS_SXX);
 	}

@@ -28,16 +28,14 @@ public class AlgoProduct extends AlgoStats1D {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param geoList
 	 *            numbers
 	 * @param freq
 	 *            frequencies
 	 */
-	public AlgoProduct(Construction cons, String label, GeoList geoList,
+	public AlgoProduct(Construction cons, GeoList geoList,
 			GeoList freq) {
-		super(cons, label, geoList, freq, AlgoStats1D.STATS_PRODUCT);
+		super(cons, geoList, freq, AlgoStats1D.STATS_PRODUCT);
 	}
 
 	@Override

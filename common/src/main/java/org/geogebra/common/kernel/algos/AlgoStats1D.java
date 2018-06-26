@@ -50,20 +50,8 @@ public abstract class AlgoStats1D extends AlgoElement {
 	protected final static int STATS_SAMPLE_SD = 8;
 	protected final static int STATS_MEAN_ABSOLUTE_DEVIATION = 9;
 
-	public AlgoStats1D(Construction cons, String label, GeoList geoList,
-			int stat) {
-		this(cons, geoList, null, null, stat);
-		result.setLabel(label);
-	}
-
 	public AlgoStats1D(Construction cons, GeoList geoList, int stat) {
 		this(cons, geoList, null, null, stat);
-	}
-
-	public AlgoStats1D(Construction cons, String label, GeoList geoList,
-			GeoList geoList2, int stat) {
-		this(cons, geoList, geoList2, null, stat);
-		result.setLabel(label);
 	}
 
 	public AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2,

@@ -86,11 +86,19 @@ public class KeyboardSettings extends AbstractSettings {
 	 * settingChanged(); }
 	 */
 
+	/**
+	 * @param windowWidth
+	 *            window width
+	 */
 	public void setKeyboardWidth(int windowWidth) {
 		keyboardWidth = windowWidth;
 		settingChanged();
 	}
 
+	/**
+	 * @param windowHeight
+	 *            window height
+	 */
 	public void setKeyboardHeight(int windowHeight) {
 		keyboardHeight = windowHeight;
 		settingChanged();
@@ -112,11 +120,21 @@ public class KeyboardSettings extends AbstractSettings {
 		return showKeyboardOnStart;
 	}
 
+	/**
+	 * @param opacity
+	 *            opacity
+	 */
 	public void setKeyboardOpacity(double opacity) {
 		keyboardOpacity = opacity;
 		settingChanged();
 	}
 
+	/**
+	 * @param windowWidth
+	 *            width
+	 * @param windowHeight
+	 *            height
+	 */
 	public void keyboardResized(int windowWidth, int windowHeight) {
 		keyboardWidth = windowWidth;
 		keyboardHeight = windowHeight;

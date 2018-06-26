@@ -9,6 +9,12 @@ public class SyncEvent {
 	private boolean favorite;
 	private boolean zapped;
 
+	/**
+	 * @param id
+	 *            material ID
+	 * @param timestamp
+	 *            timestamp
+	 */
 	public SyncEvent(int id, long timestamp) {
 		this.id = id;
 		this.timestamp = timestamp;

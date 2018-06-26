@@ -26,18 +26,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoStandardDeviation extends AlgoStats1D {
 
-	public AlgoStandardDeviation(Construction cons, String label,
-			GeoList geoList) {
-		super(cons, label, geoList, AlgoStats1D.STATS_SD);
-	}
-
 	public AlgoStandardDeviation(Construction cons, GeoList geoList) {
 		super(cons, geoList, AlgoStats1D.STATS_SD);
-	}
-
-	public AlgoStandardDeviation(Construction cons, String label,
-			GeoList geoList, GeoList freq) {
-		super(cons, label, geoList, freq, AlgoStats1D.STATS_SD);
 	}
 
 	public AlgoStandardDeviation(Construction cons, GeoList geoList,

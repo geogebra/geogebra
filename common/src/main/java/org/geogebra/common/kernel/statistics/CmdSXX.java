@@ -28,12 +28,13 @@ public class CmdSXX extends CmdOneOrTwoListsFunction {
 		GeoNumeric num;
 		GeoElement geo = b.get(0);
 		if (geo instanceof NumberValue) { // list of numbers
-			AlgoSXX algo = new AlgoSXX(cons, a, b);
+			AlgoSXX algo = new AlgoSXX(cons, b);
 			num = algo.getResult();
 		} else { // (probably) list of points
-			AlgoListSXX algo = new AlgoListSXX(cons, a, b);
+			AlgoListSXX algo = new AlgoListSXX(cons, b);
 			num = algo.getResult();
 		}
+		num.setLabel(a);
 		return num;
 	}
 

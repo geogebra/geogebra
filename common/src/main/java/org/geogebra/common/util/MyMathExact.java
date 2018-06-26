@@ -45,6 +45,10 @@ public class MyMathExact {
 			fixedScale = significance;
 		}
 
+		/**
+		 * @param md
+		 *            decimal
+		 */
 		public MyDecimal(MyDecimal md) {
 			impl = new BigDecimal(md.unscaledValue(), md.scale());
 			fixedScale = md.scale();
@@ -63,6 +67,10 @@ public class MyMathExact {
 			return impl.unscaledValue();
 		}
 
+		/**
+		 * @param bd
+		 *            decimal
+		 */
 		public MyDecimal(BigDecimal bd) {
 			impl = new BigDecimal(bd.unscaledValue(), bd.scale());
 			fixedScale = bd.scale();

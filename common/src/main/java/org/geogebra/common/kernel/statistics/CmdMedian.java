@@ -23,14 +23,16 @@ public class CmdMedian extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoMedian algo = new AlgoMedian(cons, a, b);
+		AlgoMedian algo = new AlgoMedian(cons, b);
+		algo.getMedian().setLabel(a);
 		return algo.getMedian();
 	}
 
 	@Override
 	final protected GeoElement doCommand(String a, Command c, GeoList list,
 			GeoList freq) {
-		AlgoMedian algo = new AlgoMedian(cons, a, list, freq);
+		AlgoMedian algo = new AlgoMedian(cons, list, freq);
+		algo.getMedian().setLabel(a);
 		return algo.getMedian();
 	}
 

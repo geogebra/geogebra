@@ -35,17 +35,12 @@ public class AlgoQ1 extends AlgoElement {
 	private GeoNumeric Q1; // output
 	private int size;
 
-	public AlgoQ1(Construction cons, String label, GeoList inputList) {
-		this(cons, inputList);
-		Q1.setLabel(label);
-	}
-
-	public AlgoQ1(Construction cons, String label, GeoList inputList,
-			GeoList freqList) {
-		this(cons, inputList, freqList);
-		Q1.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param inputList
+	 *            raw data
+	 */
 	public AlgoQ1(Construction cons, GeoList inputList) {
 		this(cons, inputList, null);
 	}
@@ -90,6 +85,9 @@ public class AlgoQ1 extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoNumeric getQ1() {
 		return Q1;
 	}

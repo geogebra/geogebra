@@ -30,11 +30,6 @@ public class AlgoSum extends AlgoStats1D {
 		super(cons, geoList, AlgoStats1D.STATS_SIGMAX);
 	}
 
-	public AlgoSum(Construction cons, String label, GeoList geoList,
-			GeoList freq) {
-		super(cons, label, geoList, freq, AlgoStats1D.STATS_SIGMAX);
-	}
-
 	public AlgoSum(Construction cons, GeoList geoList, GeoList freq) {
 		super(cons, geoList, freq, AlgoStats1D.STATS_SIGMAX);
 	}

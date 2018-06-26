@@ -32,13 +32,15 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 	protected GeoPoint randomPoint; // output
 	private GeoList list;
 
-	public AlgoRandomPointInPoints(Construction cons, String label,
-			GeoPointND[] points, GeoList list) {
-		this(cons, points, list);
-		randomPoint.setLabel(label);
-	}
-
-	AlgoRandomPointInPoints(Construction cons, GeoPointND[] points, GeoList list) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param points
+	 *            vertices
+	 * @param list
+	 *            list of vertices
+	 */
+	public AlgoRandomPointInPoints(Construction cons, GeoPointND[] points, GeoList list) {
 		super(cons);
 		this.points = points;
 		this.list = list;

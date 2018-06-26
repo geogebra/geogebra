@@ -29,13 +29,7 @@ public class AlgoRandomPointInPolygon extends AlgoElement {
 	protected GeoPolygon polygon; // input
 	protected GeoPoint randomPoint; // output
 
-	public AlgoRandomPointInPolygon(Construction cons, String label,
-			GeoPolygon polygon) {
-		this(cons, polygon);
-		randomPoint.setLabel(label);
-	}
-
-	AlgoRandomPointInPolygon(Construction cons, GeoPolygon polygon) {
+	public AlgoRandomPointInPolygon(Construction cons, GeoPolygon polygon) {
 		super(cons);
 		this.polygon = polygon;
 		createOutput(cons);

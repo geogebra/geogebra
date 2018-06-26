@@ -7,11 +7,20 @@ public class GPoint {
 	/** x-coordinate **/
 	public int x;
 
+	/**
+	 * Point (0, 0)
+	 */
 	public GPoint() {
 		x = 0;
 		y = 0;
 	}
 
+	/**
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 */
 	public GPoint(int x, int y) {
 		this.x = x;
 		this.y = y;

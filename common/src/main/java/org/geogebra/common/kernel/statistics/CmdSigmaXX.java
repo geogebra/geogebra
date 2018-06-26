@@ -28,12 +28,13 @@ public class CmdSigmaXX extends CmdOneListFunction {
 		GeoNumeric num;
 		GeoElement geo = list.get(0);
 		if (geo instanceof NumberValue) { // list of numbers
-			AlgoSigmaXX algo = new AlgoSigmaXX(cons, label, list);
+			AlgoSigmaXX algo = new AlgoSigmaXX(cons, list);
 			num = algo.getResult();
 		} else { // (probably) list of points
-			AlgoListSigmaXX algo = new AlgoListSigmaXX(cons, label, list);
+			AlgoListSigmaXX algo = new AlgoListSigmaXX(cons, list);
 			num = algo.getResult();
 		}
+		num.setLabel(label);
 		return num;
 	}
 

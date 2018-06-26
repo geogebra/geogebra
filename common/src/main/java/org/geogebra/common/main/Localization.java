@@ -68,6 +68,12 @@ public abstract class Localization {
 	 */
 	public final static String SYMBOL_PREFIX = "Symbol.";
 
+	/**
+	 * @param dimension
+	 *            dimension of Euclidian space (2 or 3)
+	 * @param maxFigures
+	 *            rounding
+	 */
 	public Localization(int dimension, int maxFigures) {
 		this.dimension = dimension;
 		this.maxFigures = maxFigures;
@@ -1214,7 +1220,6 @@ public abstract class Localization {
 			translateCommandTable = new HashMap<>();
 		}
 		translateCommandTable.clear();
-
 	}
 
 	public HashMap<String, String> getTranslateCommandTable() {
@@ -1337,6 +1342,10 @@ public abstract class Localization {
 		return new ArrayList<>(localeList);
 	}
 
+	/**
+	 * @param locale
+	 *            current locale
+	 */
 	public void setLocale(Locale locale) {
 		currentLocale = getClosestSupportedLocale(locale);
 		updateResourceBundles();

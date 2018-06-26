@@ -25,8 +25,14 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoListSigmaXX extends AlgoStats2D {
 
-	public AlgoListSigmaXX(Construction cons, String label, GeoList geoListx) {
-		super(cons, label, geoListx, AlgoStats2D.STATS_SIGMAXX);
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geoListx
+	 *            list of points
+	 */
+	public AlgoListSigmaXX(Construction cons, GeoList geoListx) {
+		super(cons, geoListx, AlgoStats2D.STATS_SIGMAXX);
 	}
 
 	@Override

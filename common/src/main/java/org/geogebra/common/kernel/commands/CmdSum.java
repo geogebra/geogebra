@@ -95,9 +95,8 @@ public class CmdSum extends CommandProcessor {
 				if (((GeoList) arg[0])
 						.getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
 
-					AlgoSum algo = new AlgoSum(cons, c.getLabel(), list,
-							(GeoList) arg[1]);
-
+					AlgoSum algo = new AlgoSum(cons, list, (GeoList) arg[1]);
+					algo.getResult().setLabel(c.getLabel());
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				}

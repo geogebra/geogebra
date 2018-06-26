@@ -2286,28 +2286,69 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return "";
 	}
 
+	/**
+	 * @param filename
+	 *            output filename
+	 * @return SVG export
+	 */
 	public String exportSVG(String filename) {
 		// not implemented in Android, iOS
 		return null;
 	}
 
+	/**
+	 * @param exportScale
+	 *            scale
+	 * @param filename
+	 *            output filename
+	 * @param sliderLabel
+	 *            animation slider
+	 * @return PDF
+	 */
 	public String exportPDF(double exportScale, String filename,
 			String sliderLabel) {
 		// not implemented in Android, iOS
 		return null;
 	}
 
+	/**
+	 * @param sliderLabel
+	 *            animation slider
+	 * @param scale
+	 *            scale
+	 * @param timeBetweenFrames
+	 *            delay between frames
+	 * @param isLoop
+	 *            whether to play as loop
+	 * @param filename
+	 *            filename
+	 * @param rotate
+	 *            rotation speed
+	 */
 	public void exportGIF(String sliderLabel, double scale,
 			double timeBetweenFrames, boolean isLoop, String filename,
 			double rotate) {
 		// not implemented in Android, iOS
 	}
 
+	/**
+	 * @param sliderLabel
+	 *            animation slider
+	 * @param scale
+	 *            scale
+	 * @param timeBetweenFrames
+	 *            delay between frames
+	 * @param isLoop
+	 *            whether to play as loop
+	 * @param filename
+	 *            filename
+	 * @param rotate
+	 *            rotation speed
+	 */
 	public void exportWebM(String sliderLabel, double scale,
 			double timeBetweenFrames, boolean isLoop, String filename,
 			double rotate) {
 		// only works in Chrome
-
 	}
 
 }

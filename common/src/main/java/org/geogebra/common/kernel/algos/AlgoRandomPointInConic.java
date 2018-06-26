@@ -30,13 +30,11 @@ public class AlgoRandomPointInConic extends AlgoElement {
 	protected GeoConicND conic; // input
 	protected GeoPoint randomPoint; // output
 
-	public AlgoRandomPointInConic(Construction cons, String label,
-			GeoConicND c) {
-		this(cons, c);
-		randomPoint.setLabel(label);
-	}
-
-	AlgoRandomPointInConic(Construction cons, GeoConicND c) {
+	/**
+	 * @param cons construction
+	 * @param c conic
+	 */
+	public AlgoRandomPointInConic(Construction cons, GeoConicND c) {
 		super(cons);
 		this.conic = c;
 		createOutput(cons);

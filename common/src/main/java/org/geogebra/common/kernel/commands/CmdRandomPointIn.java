@@ -35,21 +35,21 @@ public class CmdRandomPointIn extends CommandProcessor {
 
 		if (n == 1) {
 			if (arg[0].isGeoPolygon()) {
-
 				AlgoRandomPointInPolygon algo = new AlgoRandomPointInPolygon(
-						cons, c.getLabel(), (GeoPolygon) arg[0]);
-
+						cons, (GeoPolygon) arg[0]);
+				algo.getRandomPoint().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getRandomPoint() };
 				return ret;
 			} else if (arg[0].isGeoConic()) {
 				AlgoRandomPointInConic algo = new AlgoRandomPointInConic(cons,
-						c.getLabel(), (GeoConicND) arg[0]);
-
+						(GeoConicND) arg[0]);
+				algo.getRandomPoint().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getRandomPoint() };
 				return ret;
 			} else if (arg[0] instanceof GeoList) {
-				AlgoRandomPointInPoints algo = new AlgoRandomPointInPoints(cons, c.getLabel(), null,
+				AlgoRandomPointInPoints algo = new AlgoRandomPointInPoints(cons, null,
 						(GeoList) arg[0]);
+				algo.getRandomPoint().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getRandomPoint() };
 				return ret;
 			} else {
@@ -57,10 +57,12 @@ public class CmdRandomPointIn extends CommandProcessor {
 			}
 		} else if (n == 4 && arg[0].isNumberValue() && arg[1].isNumberValue()
 				&& arg[2].isNumberValue() && arg[3].isNumberValue()) {
-
-			return randomPoint(c.getLabel(), (GeoNumberValue) arg[0],
+			AlgoRandomPoint algo = new AlgoRandomPoint(cons, (GeoNumberValue) arg[0],
 					(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 					(GeoNumberValue) arg[3]);
+			algo.getPoint().setLabel(c.getLabel());
+			GeoElement[] ret = { algo.getPoint() };
+			return ret;
 
 		} else if (n > 2) {
 			arg = resArgs(c);
@@ -76,8 +78,8 @@ public class CmdRandomPointIn extends CommandProcessor {
 			// everything ok
 
 			AlgoRandomPointInPoints algo = new AlgoRandomPointInPoints(cons,
-					c.getLabel(), points, null);
-
+					points, null);
+			algo.getRandomPoint().setLabel(c.getLabel());
 			GeoElement[] ret = { algo.getRandomPoint() };
 			return ret;
 		} else {
@@ -85,24 +87,6 @@ public class CmdRandomPointIn extends CommandProcessor {
 		}
 	}
 
-	/**
-	 * @param label
-	 *            label
-	 * @param a
-	 *            x-min
-	 * @param b
-	 *            x-max
-	 * @param c
-	 *            y-min
-	 * @param d
-	 *            y-max
-	 * @return random point (p,q) where p is between a & b and q is between c &
-	 *         d
-	 */
-	protected GeoElement[] randomPoint(String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
-		AlgoRandomPoint arp = new AlgoRandomPoint(cons, label, a, b, c, d);
-		return new GeoElement[] { arp.getOutput(0) };
-	}
+
 
 }

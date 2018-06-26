@@ -2642,6 +2642,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		cursor = EuclidianCursor.MOVE;
 	}
 
+	/**
+	 * @return cursor type
+	 */
 	public EuclidianCursor getCursor() {
 		return cursor;
 	}
@@ -2692,6 +2695,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
+	/**
+	 * Set cursor for translating view.
+	 */
 	public void setCursorForTranslateViewNoHit() {
 		cursor = EuclidianCursor.MOVE;
 		setCursor(EuclidianCursor.DEFAULT);
@@ -3543,18 +3549,30 @@ public abstract class EuclidianView3D extends EuclidianView
 		setViewChangedByRotate();
 	}
 
+	/**
+	 * @return whether view was zoomed
+	 */
 	public boolean viewChangedByZoom() {
 		return viewChangedByZoom;
 	}
 
+	/**
+	 * @return whether view was panned
+	 */
 	public boolean viewChangedByTranslate() {
 		return viewChangedByTranslate;
 	}
 
+	/**
+	 * @return whether view was rotated
+	 */
 	public boolean viewChangedByRotate() {
 		return viewChangedByRotate;
 	}
 
+	/**
+	 * @return whether view was changed (zoomed, panned, rotated)
+	 */
 	public boolean viewChanged() {
 		return viewChangedByZoom || viewChangedByTranslate
 				|| viewChangedByRotate;
@@ -3860,11 +3878,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		return eyeY[i];
 	}
 
-	public boolean isUnitAxesRatio() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	@Override
 	public int getViewID() {
 		return App.VIEW_EUCLIDIAN3D - evNo - 1;
@@ -3880,10 +3893,17 @@ public abstract class EuclidianView3D extends EuclidianView
 		setDefault2DCursor();
 	}
 
+	/**
+	 * @return oblique projection angle
+	 */
 	public double getProjectionObliqueAngle() {
 		return projectionObliqueAngle;
 	}
 
+	/**
+	 * @param angle
+	 *            oblique projection angle
+	 */
 	public void setProjectionObliqueAngle(double angle) {
 		projectionObliqueAngle = angle;
 		renderer.updateProjectionObliqueValues();

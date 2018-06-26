@@ -29,13 +29,11 @@ public class AlgoSXX extends AlgoStats1D {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param geoList
 	 *            list to process
 	 */
-	public AlgoSXX(Construction cons, String label, GeoList geoList) {
-		super(cons, label, geoList, AlgoStats1D.STATS_SXX);
+	public AlgoSXX(Construction cons, GeoList geoList) {
+		super(cons, geoList, AlgoStats1D.STATS_SXX);
 	}
 
 	@Override
