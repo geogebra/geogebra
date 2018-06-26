@@ -349,6 +349,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		});
 		showSymbolButton.addTouchEndHandler(new TouchEndHandler() {
 
+			@Override
 			public void onTouchEnd(TouchEndEvent event) {
 				symbolButtonClicked(event.getNativeEvent());
 			}
@@ -652,6 +653,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.setEnabled(b);
 	}
 
+	@Override
 	public void setPrefSize(int width, int height) {
 		getTextBox().setWidth(width + "px");
 		getTextBox().setHeight(height + "px");
@@ -1072,7 +1074,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			insertString(".");
 			return;
 		}
-		GeoElement curr = app.getSelectionManager().getSelectedGeos().get(0);
+		ArrayList<GeoElement> sel = app.getSelectionManager().getSelectedGeos();
+		GeoElement curr = sel.size() != 0 ? sel.get(0) : null;
 		if (Browser.isTabletBrowser()
 				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE

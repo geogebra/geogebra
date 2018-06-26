@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.css.PDFResources;
@@ -22,8 +23,10 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -374,4 +377,24 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	public void finishLoading(boolean result) {
 		progressBar.finishLoading(result);
 	}
+
+	@Override
+	protected void onPreviewNativeEvent(final NativePreviewEvent event) {
+		if (pdf != null && event.getTypeInt() == Event.ONKEYUP
+				&& event.getNativeEvent().getKeyCode() != KeyCodes.KEY_ESCAPE && event.getSource() != curPageNrField) {
+			Log.debug("keyUp source: " + event.getSource());
+			focusPageNumberTextField();
+		} else {
+			super.onPreviewNativeEvent(event);
+		}
+
+	}
+
+	private void focusPageNumberTextField() {
+		if (curPageNrField.hasFocus()) {
+			return;
+		}
+		curPageNrField.requestFocus();
+	}
+
 }

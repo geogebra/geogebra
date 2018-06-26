@@ -12,7 +12,7 @@ public class PDFWrapper {
 
 	private PDFListener listener;
 	private int pageCount;
-	private int pageIndex = 1;
+	private int pageNumber = 1;
 	private JavaScriptObject pdf = null;
 
 	/**
@@ -100,15 +100,10 @@ public class PDFWrapper {
 						});
 	}-*/;
 
-	/**
-	 * Shows a page of the pdf in the dialog.
-	 * 
-	 * @param pageNumber
-	 *            page number to show
-	 */
-	public native void getPage(int pageNumber) /*-{
+	private native void renderPage() /*-{
 		var that = this;
 		var pdf = this.@org.geogebra.web.html5.util.pdf.PDFWrapper::pdf;
+		var pageNumber = this.@org.geogebra.web.html5.util.pdf.PDFWrapper::pageNumber;
 		pdf
 				.getPage(pageNumber)
 				.then(
@@ -184,9 +179,8 @@ public class PDFWrapper {
 	 * load previous page of the PDF if any.
 	 */
 	public void previousPage() {
-		if (pageIndex > 1) {
-			pageIndex--;
-			getPage(pageIndex);
+		if (pageNumber > 1) {
+			setPageNumber(pageNumber - 1);
 		}
 	}
 
@@ -194,9 +188,8 @@ public class PDFWrapper {
 	 * load next page of the PDF if any.
 	 */
 	public void nextPage() {
-		if (pageIndex < pageCount) {
-			pageIndex++;
-			getPage(pageIndex);
+		if (pageNumber < pageCount) {
+			setPageNumber(pageNumber + 1);
 		}
 	}
 
@@ -204,7 +197,22 @@ public class PDFWrapper {
 	 * 
 	 * @return the current page index.
 	 */
-	public int getPageIndex() {
-		return pageIndex;
+	public int getPageNumber() {
+		return pageNumber;
+	}
+
+	/**
+	 * 
+	 * @param num
+	 *            page number to set.
+	 * @return if page change was successful.
+	 */
+	public boolean setPageNumber(int num) {
+		if (num > 0 && num <= pageCount) {
+			pageNumber = num;
+			renderPage();
+			return true;
+		}
+		return false;
 	}
 }
