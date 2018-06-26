@@ -19,9 +19,11 @@ import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -42,11 +44,17 @@ public class OpenFileView extends MyHeaderPanel
 	private Label headerCaption;
 
 	// content panel
-	private VerticalPanel contentPanel;
+	private FlowPanel contentPanel;
 	// button panel
 	private FlowPanel buttonPanel;
 	private StandardButton newFileBtn;
 	private FileOpenButton openFileBtn;
+
+	// dropdown
+	private ListBox sortDropDown;
+
+	// material panel
+	private FlowPanel materialPanel;
 
 	/**
 	 * @param app
@@ -65,6 +73,8 @@ public class OpenFileView extends MyHeaderPanel
 		initHeader();
 		initContentPanel();
 		initButtonPanel();
+		initSortDropdown();
+		initMaterialPanel();
 	}
 
 	private void initHeader() {
@@ -85,7 +95,7 @@ public class OpenFileView extends MyHeaderPanel
 		headerPanel.add(backBtn);
 
 		headerCaption = new Label(
-				app.getLocalization().getMenu("mow.openFileViewTitle"));
+				localize("mow.openFileViewTitle"));
 		headerCaption.setStyleName("headerCaption");
 		headerPanel.add(headerCaption);
 
@@ -93,7 +103,7 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void initContentPanel() {
-		contentPanel = new VerticalPanel();
+		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("fileViewContentPanel");
 		this.setContentWidget(contentPanel);
 	}
@@ -104,7 +114,7 @@ public class OpenFileView extends MyHeaderPanel
 
 		newFileBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.add_black(),
-				app.getLocalization().getMenu("mow.newFile"), 18, app);
+				localize("mow.newFile"), 18, app);
 		newFileBtn.setStyleName("containedButton");
 		newFileBtn.addFastClickHandler(new FastClickHandler() {
 
@@ -117,11 +127,43 @@ public class OpenFileView extends MyHeaderPanel
 		openFileBtn.setImageAndText(
 				MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
 						.getSafeUri().asString(),
-				app.getLocalization().getMenu("mow.openFile"));
+				localize("mow.openFile"));
 		openFileBtn.addStyleName("buttonMargin");
 		buttonPanel.add(openFileBtn);
 
 		contentPanel.add(buttonPanel);
+	}
+
+	private void initSortDropdown() {
+		sortDropDown = new ListBox();
+		sortDropDown.setMultipleSelect(false);
+		sortDropDown.addItem(localize("SortBy"));
+		sortDropDown.getElement().getFirstChildElement()
+				.setAttribute("disabled", "disabled");
+		sortDropDown.addItem(localize("sort_author")); // index 1
+		sortDropDown.addItem(localize("sort_title")); // index 2
+		sortDropDown.addItem(localize("sort_date_created")); // index 3
+		sortDropDown.addItem(localize("sort_last_modified")); // index 4
+		sortDropDown.setSelectedIndex(4);
+		sortDropDown.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				// TODO sort material cards according to selected sort mode
+			}
+
+		});
+		contentPanel.add(sortDropDown);
+	}
+
+	private void initMaterialPanel() {
+		materialPanel = new FlowPanel();
+		materialPanel.addStyleName("materialPanel");
+		contentPanel.add(materialPanel);
+	}
+
+	private String localize(String id) {
+		return app.getLocalization().getMenu(id);
 	}
 
 	/**
