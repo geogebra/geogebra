@@ -128,9 +128,16 @@ public class PDFWrapper {
 																	svgs = (new XMLSerializer())
 																			.serializeToString(svg);
 																	// convert to base64 URL for <img>
-																	var data = "data:image/svg+xml;base64,"
-																			+ btoa(unescape(encodeURIComponent(svgs)));
-																	that.@org.geogebra.web.html5.util.pdf.PDFWrapper::onPageDisplay(Ljava/lang/String;)(data);
+																	var callback = function(
+																			svg) {
+																		var data = "data:image/svg+xml;base64,"
+																				+ btoa(unescape(encodeURIComponent(svgs)));
+																		that.@org.geogebra.web.html5.util.pdf.PDFWrapper::onPageDisplay(Ljava/lang/String;)(data);
+																		// convert to base64 URL for <img>
+																	}
+
+																	svgs = that.@org.geogebra.web.html5.util.pdf.PDFWrapper::convertBlobs(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(svgs, callback);
+
 																});
 											});
 						});
@@ -215,4 +222,48 @@ public class PDFWrapper {
 		}
 		return false;
 	}
+
+	// convert something like
+	// xlink:href="blob:http://www.example.org/d3872604-2efe-4e3f-94d9-d449d966c20f"
+	// to base64 PNG
+	private native void convertBlobs(JavaScriptObject svg, JavaScriptObject callback) /*-{
+
+		if (svg.indexOf('xlink:href="blob:') > 0) {
+
+			var index = svg.indexOf('xlink:href="blob:');
+			var index2 = svg.indexOf('"', index + 17);
+			var blobURI = svg.substr(index + 12, index2 - (index + 12));
+			console.log(index, index2, blobURI);
+			svg = svg
+					.replace(
+							blobURI,
+							this.@org.geogebra.web.html5.util.pdf.PDFWrapper::blobToBase64(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(blobURI, svg, callback));
+		} else {
+			callback(svg);
+		}
+	}-*/;
+
+	private native void blobToBase64(String blobURI, JavaScriptObject svg, JavaScriptObject callback) /*-{
+
+		var img = $doc.createElement("img");
+		var canvas = $doc.createElement("canvas");
+		var that = this;
+
+		// eg img.src = "blob:http://www.example.org/d3872604-2efe-4e3f-94d9-d449d966c20f";
+		img.src = blobURI;
+		img.onload = function(a) {
+			var h = a.target.height;
+			var w = a.target.width;
+			var c = canvas.getContext('2d');
+			canvas.width = w;
+			canvas.height = h;
+
+			c.drawImage(img, 0, 0);
+			console.log("blob converted", canvas.toDataURL());
+			svg = svg.replace(blobURI, canvas.toDataURL());
+
+			// convert next blob (or finish)
+			that.@org.geogebra.web.html5.util.pdf.PDFWrapper::convertBlobs(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(svg, callback);
+		}
+	}-*/;
 }
