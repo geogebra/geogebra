@@ -17,6 +17,8 @@ public class CmdAxis3D extends CmdAxis {
 	/**
 	 * @param kernel
 	 *            kernel
+	 * @param axisId
+	 *            0 for major, 1 for minor
 	 */
 	public CmdAxis3D(Kernel kernel, int axisId) {
 		super(kernel, axisId);

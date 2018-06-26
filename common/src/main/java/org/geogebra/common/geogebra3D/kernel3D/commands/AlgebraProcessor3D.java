@@ -255,7 +255,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	public GeoElement[] processImplicitPoly(Equation equ,
 			ExpressionNode definition, EvalInfo info) {
 
-		if (app.has(Feature.IMPLICIT_SURFACES)) {
+		if (app.has(Feature.IMPLICIT_SURFACES) || equ.isForcedQuadric() || equ.isForcedPlane()) {
 			Polynomial lhs = equ.getNormalForm();
 			boolean isIndependent = !equ.isFunctionDependent()
 					&& lhs.isConstant() && !equ.hasVariableDegree();
