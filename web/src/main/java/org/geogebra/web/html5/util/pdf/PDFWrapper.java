@@ -104,6 +104,19 @@ public class PDFWrapper {
 		var that = this;
 		var pdf = this.@org.geogebra.web.html5.util.pdf.PDFWrapper::pdf;
 		var pageNumber = this.@org.geogebra.web.html5.util.pdf.PDFWrapper::pageNumber;
+		var svgCallback = function(svg) {
+			svgs = (new XMLSerializer()).serializeToString(svg);
+			// convert to base64 URL for <img>
+			var callback = function(svg) {
+				var data = "data:image/svg+xml;base64,"
+						+ btoa(unescape(encodeURIComponent(svg)));
+				that.@org.geogebra.web.html5.util.pdf.PDFWrapper::onPageDisplay(Ljava/lang/String;)(data);
+				// convert to base64 URL for <img>
+			}
+
+			svgs = that.@org.geogebra.web.html5.util.pdf.PDFWrapper::convertBlobs(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(svgs, callback);
+
+		};
 		pdf
 				.getPage(pageNumber)
 				.then(
@@ -120,25 +133,9 @@ public class PDFWrapper {
 												var svgGfx = new $wnd.PDFJS.SVGGraphics(
 														page.commonObjs,
 														page.objs);
-												return svgGfx
-														.getSVG(opList,
-																viewport)
-														.then(
-																function(svg) {
-																	svgs = (new XMLSerializer())
-																			.serializeToString(svg);
-																	// convert to base64 URL for <img>
-																	var callback = function(
-																			svg) {
-																		var data = "data:image/svg+xml;base64,"
-																				+ btoa(unescape(encodeURIComponent(svg)));
-																		that.@org.geogebra.web.html5.util.pdf.PDFWrapper::onPageDisplay(Ljava/lang/String;)(data);
-																		// convert to base64 URL for <img>
-																	}
-
-																	svgs = that.@org.geogebra.web.html5.util.pdf.PDFWrapper::convertBlobs(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(svgs, callback);
-
-																});
+												return svgGfx.getSVG(opList,
+														viewport).then(
+														svgCallback);
 											});
 						});
 	}-*/;

@@ -259,7 +259,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
 		pageLbl.setText(appW.getLocalization().getMenu("page")); // Page
 		if (pdf != null) {
-			ofPageLbl.setText(appW.getLocalization().getMenu("of") + " " + pdf.getPageCount()); // of
+			ofPageLbl.setText(appW.getLocalization().getMenu("of") + " "
+					+ pdf.getPageCount()); // of
 		}
 		if (loadText != null) {
 			loadText.setText(appW.getLocalization().getMenu("PdfLoadText"));
@@ -360,7 +361,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		}
 
 		private void move() {
-			GTimerListener timerListener = new GTimerListener(){
+			GTimerListener timerListener = new GTimerListener() {
 				@Override
 				public void onRun() {
 					width++;
@@ -382,7 +383,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		 *            true if the loading of the pdf was successful
 		 */
 		public void finishLoading(boolean result) {
-			if(result){
+			if (result) {
 				progressTimer.setDelay(10);	
 			} else {
 				progressTimer.stop();
