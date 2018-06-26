@@ -230,7 +230,6 @@ public class PDFWrapper {
 			var index = svg.indexOf('xlink:href="blob:');
 			var index2 = svg.indexOf('"', index + 17);
 			var blobURI = svg.substr(index + 12, index2 - (index + 12));
-			console.log(index, index2, blobURI);
 			svg = svg
 					.replace(
 							blobURI,
@@ -256,7 +255,6 @@ public class PDFWrapper {
 			canvas.height = h;
 
 			c.drawImage(img, 0, 0);
-			console.log("blob converted", canvas.toDataURL());
 			svg = svg.replace(blobURI, canvas.toDataURL());
 
 			// convert next blob (or finish)
