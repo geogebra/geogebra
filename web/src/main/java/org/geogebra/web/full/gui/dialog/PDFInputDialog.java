@@ -328,6 +328,11 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	@Override
 	public void onPageDisplay(String imgSrc) {
 		buildPdfContainer();
+		if (pdf.getPageCount() == 1) {
+			leftBtn.addStyleName("hidden");
+			rightBtn.addStyleName("hidden");
+			curPageNrField.setEnabled(false);
+		}
 		previewImg.getElement().setAttribute("src", imgSrc);
 		displayCurrentPageNumber();
 		setLabels();
