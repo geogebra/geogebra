@@ -90,7 +90,6 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 		if (animSpeed != null) {
 			model.applySpeedChanges(animSpeed);
 		}
-		
 	}
 
 	@Override
@@ -111,11 +110,13 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	@Override
 	public void setText(String text) {
 		tfAnimSpeed.setText(text);
-    }
+	}
 
+	/**
+	 * Update when this is part of slider panel.
+	 */
 	public void setPartOfSliderPanel() {
-	    model.setShowSliders(true);
-	    
-    }
-	
+		model.setShowSliders(true);
+	}
+
 }

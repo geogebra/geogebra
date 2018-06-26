@@ -193,6 +193,11 @@ public class Accents {
 		return getCircumflexLetters().get(letter);
 	}
 
+	/**
+	 * @param txt
+	 *            input
+	 * @return whether input is one of the acent signs
+	 */
 	public static boolean isAccent(String txt) {
 		return ACCENT_GRAVE.equals(txt) || ACCENT_ACUTE.equals(txt)
 				|| ACCENT_CIRCUMFLEX.equals(txt) || ACCENT_CARON.equals(txt);

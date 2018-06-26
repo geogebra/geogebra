@@ -47,10 +47,18 @@ public class MathFieldController {
 		graphics = new GraphicsStub();
 	}
 
+	/**
+	 * @param size
+	 *            font size
+	 */
 	public void setSize(double size) {
 		this.size = size;
 	}
 
+	/**
+	 * @param type
+	 *            font type
+	 */
 	public void setType(int type) {
 		this.type = type;
 	}
@@ -216,11 +224,20 @@ public class MathFieldController {
 		}
 	}
 
+	/**
+	 * Draws icon into stub graphics.
+	 * 
+	 * @param icon
+	 *            rendered formula
+	 */
 	public void drawWithStub(TeXIcon icon) {
 		graphics.reset();
 		icon.paintIcon(null, graphics, 0, 0);
 	}
 
+	/**
+	 * @return font size
+	 */
 	public double getFontSize() {
 		return size;
 	}

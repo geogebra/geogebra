@@ -750,11 +750,19 @@ public class GGraphics2DW implements GGraphics2DWI {
 		 */
 	}
 
+	/**
+	 * @param w
+	 *            CSS width in pixels
+	 */
 	public void setWidth(int w) {
 		this.canvasWidth = w;
 		canvas.setWidth(w + "px");
 	}
 
+	/**
+	 * @param h
+	 *            CSS height in pixels
+	 */
 	public void setHeight(int h) {
 		this.canvasHeight = h;
 		canvas.setHeight(h + "px");
@@ -857,8 +865,14 @@ public class GGraphics2DW implements GGraphics2DWI {
 		setComposite(GAlphaCompositeW.SRC);
 	}
 
-	public void fillWith(GColor color) {
-		this.setColor(color);
+	/**
+	 * Fill the whole rectangle with color.
+	 * 
+	 * @param fillColor
+	 *            fill color
+	 */
+	public void fillWith(GColor fillColor) {
+		this.setColor(fillColor);
 		this.fillRect(0, 0, getOffsetWidth(), getOffsetHeight());
 	}
 

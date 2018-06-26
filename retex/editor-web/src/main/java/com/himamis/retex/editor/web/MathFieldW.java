@@ -807,6 +807,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		}
 	}
 
+	/**
+	 * Reset alt key flags.
+	 */
 	protected void resetFlags() {
 		this.setRightAltDown(false);
 		this.setLeftAltDown(false);
@@ -867,6 +870,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return false;
 	}-*/;
 
+	/**
+	 * @param size
+	 *            font size
+	 */
 	public void setFontSize(double size) {
 		this.mathFieldInternal.setSize(size);
 		this.mathFieldInternal.update();
@@ -897,9 +904,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		}
 	}
 
+	/**
+	 * @param text
+	 *            function name
+	 */
 	public void insertFunction(String text) {
 		mathFieldInternal.insertFunction(text);
-
 	}
 
 	public void checkEnterReleased(Runnable r) {

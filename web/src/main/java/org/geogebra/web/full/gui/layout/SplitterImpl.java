@@ -19,11 +19,19 @@ public class SplitterImpl {
 		return true;
 	}
 
+	/**
+	 * @param splitterSize
+	 *            splitter width
+	 */
 	public void setToHorizontal(int splitterSize) {
 		baseDivElement.getStyle().setPropertyPx("width", splitterSize);
 		baseDivElement.addClassName("gwt-SplitLayoutPanel-HDragger");
 	}
 
+	/**
+	 * @param splitterSize
+	 *            splitter height
+	 */
 	public void setToVertical(int splitterSize) {
 		baseDivElement.getStyle().setPropertyPx("height", splitterSize);
 		baseDivElement.addClassName("gwt-SplitLayoutPanel-VDragger");

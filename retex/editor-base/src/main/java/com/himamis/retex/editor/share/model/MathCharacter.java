@@ -112,13 +112,20 @@ public class MathCharacter extends MathComponent {
 		return meta.getUnicodeString();
 	}
 
+	/**
+	 * @return whether this is one of ;,:
+	 */
 	public boolean isSeparator() {
 		return meta.getUnicode() == ',' || meta.getUnicode() == ';'
 				|| meta.getUnicode() == ':';
 	}
 
+	/**
+	 * @param metaCharacter
+	 *            character model
+	 */
 	public void setChar(MetaCharacter metaCharacter) {
 		this.meta = metaCharacter;
-
 	}
+
 }

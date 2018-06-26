@@ -22,6 +22,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.renderer.share.SelectionBox;
 
+/**
+ * Connects cross-platform click handler to HTML5 editor.
+ */
 public class ClickAdapterW
 		implements MouseUpHandler, MouseDownHandler, MouseMoveHandler,
 		TouchStartHandler, TouchMoveHandler, TouchEndHandler,
@@ -32,6 +35,12 @@ public class ClickAdapterW
 	private MathFieldW field;
 	private long lastTouchDown;
 
+	/**
+	 * @param handler
+	 *            cross-platform click handler
+	 * @param field
+	 *            editor
+	 */
 	public ClickAdapterW(ClickListener handler, MathFieldW field) {
 		this.handler = handler;
 		this.field = field;

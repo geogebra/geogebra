@@ -166,10 +166,13 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 		createGUI();
 	}
 	
+	/**
+	 * @return custom color
+	 */
 	public GColor getColor() {
 		return GColor.newColor(red.getValue(), green.getValue(),
 				blue.getValue());
-    }
+	}
 
 	protected void createGUI() {
 		FlowPanel contents = new FlowPanel();
@@ -204,8 +207,7 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 				if (listener != null) {
 					listener.onCustomColor(getColor());
 				}
-		            hide();	            
-    
+				hide();
 			}
 		});
 		btnCancel.addClickHandler(new ClickHandler() {
@@ -225,7 +227,7 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 		});
 		setLabels();
 	}
-	
+
 	protected void reset() {
 		setOriginalValues();
 		preview.update();

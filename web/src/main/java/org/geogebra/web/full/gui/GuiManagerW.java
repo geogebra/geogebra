@@ -138,7 +138,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-@SuppressWarnings("javadoc")
+//@SuppressWarnings("javadoc")
 public class GuiManagerW extends GuiManager
 		implements GuiManagerInterfaceW, EventRenderable {
 
@@ -454,11 +454,6 @@ public class GuiManagerW extends GuiManager
 
 		((DialogManagerW) getDialogManager()).showImageInputDialog(imageLoc,
 				this.device);
-	}
-
-	public void showExportImageDialog(String base64Image) {
-		((DialogManagerW) getDialogManager())
-				.showExportImageDialog(base64Image);
 	}
 
 	@Override
@@ -832,6 +827,9 @@ public class GuiManagerW extends GuiManager
 		return true;
 	}
 
+	/**
+	 * Reset dock panels for current app.
+	 */
 	public void resetPanels() {
 		layout.getDockManager().swapAlgebraPanel();
 		layout.getDockManager().reset();

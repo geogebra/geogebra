@@ -586,6 +586,10 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		private int windowWidth;
 		private int windowHeight;
 
+		/**
+		 * @param app
+		 *            application
+		 */
 		public TreeReader(AppW app) {
 			this.app = app;
 			splitPaneInfo = new ArrayList<>();

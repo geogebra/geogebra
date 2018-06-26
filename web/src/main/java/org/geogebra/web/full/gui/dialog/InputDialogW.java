@@ -204,16 +204,46 @@ public class InputDialogW extends InputDialog
 		centerAndFocus(false);
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param message
+	 *            message
+	 * @param title
+	 *            title
+	 * @param initString
+	 *            default value
+	 * @param autoComplete
+	 *            whether to use autocomplete
+	 * @param handler
+	 *            input handler
+	 */
 	public InputDialogW(AppW app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler) {
 		this(app, message, title, initString, autoComplete, handler, false,
 				false);
 	}
 
-	public InputDialogW(AppW app2, String message, String title2,
+	/**
+	 * @param app
+	 *            application
+	 * @param message
+	 *            message
+	 * @param title
+	 *            title
+	 * @param initString
+	 *            default value
+	 * @param autoComplete
+	 *            whether to use autocomplete
+	 * @param handler
+	 *            input handler
+	 * @param selectInitText
+	 *            whether text should be selected initially
+	 */
+	public InputDialogW(AppW app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
 			boolean selectInitText) {
-		this(app2, message, title2, initString, autoComplete, handler, false,
+		this(app, message, title, initString, autoComplete, handler, false,
 				selectInitText);
 	}
 

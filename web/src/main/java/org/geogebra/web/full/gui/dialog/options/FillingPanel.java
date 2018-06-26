@@ -560,11 +560,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		lbFillType.addItem(item);
 	}
 
-	public void updateFillTypePanel(FillType fillType) {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
 	public void setFillInverseVisible(boolean isVisible) {
 		cbFillInverse.setVisible(isVisible);

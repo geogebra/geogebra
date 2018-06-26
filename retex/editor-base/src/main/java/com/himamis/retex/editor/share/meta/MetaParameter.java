@@ -43,6 +43,12 @@ public class MetaParameter implements Serializable {
     private int up = -1;
     private int down = -1;
 
+	/**
+	 * @param name
+	 *            parameter name
+	 * @param order
+	 *            order for iterating with arrows
+	 */
     public MetaParameter(String name, int order) {
         this.name = name;
         this.order = order;

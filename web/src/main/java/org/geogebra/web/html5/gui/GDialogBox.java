@@ -183,6 +183,9 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 */
 	public static class CaptionImpl extends HTML implements Caption {
 
+		/**
+		 * Caption implementation.
+		 */
 		public CaptionImpl() {
 			super();
 			setStyleName("Caption");

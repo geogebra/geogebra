@@ -64,7 +64,7 @@ public abstract class ComboBoxPanel extends OptionPanel
 	protected abstract void onComboBoxChange();
 
 	@Override
-    public void setLabels() {
+	public void setLabels() {
 		getLabel().setText(loc.getMenu(getTitle()) + ":");
 
 		String text = comboBox.getValue();
@@ -76,12 +76,12 @@ public abstract class ComboBoxPanel extends OptionPanel
 	@Override
 	public void setSelectedIndex(int index) {
 		comboBox.setSelectedIndex(index);
-    }
+	}
 
 	@Override
 	public void addItem(String item) {
-        comboBox.addItem(item);
-    }
+		comboBox.addItem(item);
+	}
 
 	@Override
 	public void addItem(GeoElement geo) {
@@ -93,32 +93,38 @@ public abstract class ComboBoxPanel extends OptionPanel
 				geo);
 	}
 
+	/**
+	 * @return title
+	 */
 	public String getTitle() {
-        return title;
-    }
+		return title;
+	}
 	
+	/**
+	 * @param title
+	 *            title
+	 */
 	public void setTitle(String title) {
-        this.title = title;
-        getLabel().setText(title);
-    }
-	
+		this.title = title;
+		getLabel().setText(title);
+	}
+
 	public FormLabel getLabel() {
-        return label;
-    }
+		return label;
+	}
 
 	@Override
 	public void setSelectedItem(String item) {
-	    // TODO Auto-generated method stub
-    }
+		// TODO Auto-generated method stub
+	}
 
 	public ComboBoxW getComboBox() {
-	    return comboBox;
-    }
+		return comboBox;
+	}
 
 	@Override
 	public void clearItems() {
 		comboBox.getModel().clear();
-
 	}
 
 	@Override

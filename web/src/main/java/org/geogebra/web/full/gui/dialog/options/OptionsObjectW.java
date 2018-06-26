@@ -1400,7 +1400,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		return new OptionsTab(app, this.loc, this.tabPanel, id);
 	}
 
-	public void reinit() {
+	protected void reinit() {
 		textModel.reinitEditor();
 		updateGUI();
 	}
@@ -1457,6 +1457,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		}
 	}
 
+	/**
+	 * Update selection.
+	 * 
+	 * @param geos
+	 *            selected geos
+	 */
 	public void updateSelection(ArrayList<GeoElement> geos) {
 		setSelection(geos);
 		update(geos);
