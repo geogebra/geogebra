@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.main.Feature;
 
 /**
  * Export to 3D printer
@@ -52,7 +51,7 @@ public class ExportToPrinter3D {
 	private Coords center = null;
 
 	private boolean reverse = false;
-	
+
 	private double xInvScale;
 	private Coords tmpNormal = new Coords(3);
 
@@ -145,7 +144,8 @@ public class ExportToPrinter3D {
 			center = null;
 		}
 		GeoElement geo = d.getGeoElement();
-		export(d.getGeometryIndex(), type, geo.getGeoClassType().toString(), geo);
+		export(d.getGeometryIndex(), type, geo.getGeoClassType().toString(),
+				geo);
 	}
 
 	/**
@@ -219,8 +219,7 @@ public class ExportToPrinter3D {
 
 					// face for end
 					for (int i = 2; i < 8; i++) {
-						getFaceWithOffset(notFirst, 0, l - 1, l - i,
-								l - i - 1);
+						getFaceWithOffset(notFirst, 0, l - 1, l - i, l - i - 1);
 					}
 				}
 
@@ -290,8 +289,8 @@ public class ExportToPrinter3D {
 		export(geo, index, "SURFACE", true, null, alpha);
 	}
 
-	private void export(GeoElement geo, int geometryIndex, String group, boolean transparency,
-			GColor color, double alpha) {
+	private void export(GeoElement geo, int geometryIndex, String group,
+			boolean transparency, GColor color, double alpha) {
 
 		if (alpha < 0.001) {
 			return;
@@ -305,7 +304,8 @@ public class ExportToPrinter3D {
 				GeometryForExport geometry = (GeometryForExport) g;
 				geometry.initForExport();
 
-				format.getObjectStart(sb, group, geo, transparency, color, alpha);
+				format.getObjectStart(sb, group, geo, transparency, color,
+						alpha);
 
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
@@ -332,7 +332,8 @@ public class ExportToPrinter3D {
 				int offset = geometry.getElementsOffset();
 				switch (geometry.getType()) {
 				case TRIANGLE_FAN:
-					// for openGL we use replace triangle fans by triangle strips, repeating apex
+					// for openGL we use replace triangle fans by triangle
+					// strips, repeating apex
 					// every time
 					int length = geometry.getIndicesLength() / 2;
 					format.getFacesStart(sb, length - 1, false);
@@ -417,7 +418,8 @@ public class ExportToPrinter3D {
 	 * @param alpha
 	 *            opacity
 	 */
-	public void export(GeoPolygon polygon, Coords[] vertices, GColor color, double alpha) {
+	public void export(GeoPolygon polygon, Coords[] vertices, GColor color,
+			double alpha) {
 
 		if (alpha < 0.001) {
 			return;
@@ -442,17 +444,19 @@ public class ExportToPrinter3D {
 			}
 
 			// check if the polygon is convex
-			Convexity convexity = polygon.getPolygonTriangulation().checkIsConvex();
+			Convexity convexity = polygon.getPolygonTriangulation()
+					.checkIsConvex();
 			if (convexity != Convexity.NOT) {
 				int length = polygon.getPointsLength();
 
-				reverse = polygon.getReverseNormalForDrawing() ^ (convexity == Convexity.CLOCKWISE);
+				reverse = polygon.getReverseNormalForDrawing()
+						^ (convexity == Convexity.CLOCKWISE);
 				if (!format.needsClosedObjects()) {
 					reverse = !reverse; // TODO fix that
 				}
 
-				format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true,
-						color, alpha);
+				format.getObjectStart(sb, polygon.getGeoClassType().toString(),
+						polygon, true, color, alpha);
 
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
@@ -488,9 +492,8 @@ public class ExportToPrinter3D {
 				}
 
 				// faces
-				format.getFacesStart(sb,
-						format.needsClosedObjects() ? (length - 2) * 2 + 2 : (length - 2) * 2,
-						true);
+				format.getFacesStart(sb, format.needsClosedObjects()
+						? (length - 2) * 2 + 2 : (length - 2) * 2, true);
 				notFirst = false;
 
 				for (int i = 1; i < length - 1; i++) {
@@ -517,11 +520,13 @@ public class ExportToPrinter3D {
 			} else {
 				if (!format.needsClosedObjects()) { // TODO for 3D printing
 					int length = polygon.getPointsLength();
-					Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices, length);
+					Coords[] verticesWithIntersections = pt
+							.getCompleteVertices(vertices, length);
 					int completeLength = pt.getMaxPointIndex();
 					reverse = false;
 
-					format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true,
+					format.getObjectStart(sb,
+							polygon.getGeoClassType().toString(), polygon, true,
 							color, alpha);
 
 					// object is a polyhedron
@@ -545,7 +550,8 @@ public class ExportToPrinter3D {
 					if (format.handlesNormals()) {
 						format.getNormalsStart(sb, 2);
 						getNormalHandlingReverse(n.getX(), n.getY(), n.getZ());
-						getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ());
+						getNormalHandlingReverse(-n.getX(), -n.getY(),
+								-n.getZ());
 						format.getNormalsEnd(sb);
 					}
 
@@ -602,7 +608,7 @@ public class ExportToPrinter3D {
 		}
 		format.getVertices(sb, x * xInvScale, y * xInvScale, z * xInvScale);
 	}
-	
+
 	private void getNormal(double x, double y, double z) {
 		if (reverse) {
 			getNormalHandlingReverse(-x, -y, -z);
@@ -610,18 +616,19 @@ public class ExportToPrinter3D {
 			getNormalHandlingReverse(x, y, z);
 		}
 	}
-	
+
 	private void getNormalHandlingReverse(double x, double y, double z) {
 		format.getNormal(sb, x, y, z);
 		format.getNormalsSeparator(sb);
 	}
-	
+
 	private void getFaceWithOffset(boolean notFirst, int offset, int v1, int v2,
 			int v3) {
 		getFace(notFirst, offset, v1, v2, v3, -1);
 	}
 
-	private void getFace(boolean notFirst, int offset, int v1, int v2, int v3, int normal) {
+	private void getFace(boolean notFirst, int offset, int v1, int v2, int v3,
+			int normal) {
 		getFace(notFirst, v1 - offset, v2 - offset, v3 - offset, normal);
 	}
 
