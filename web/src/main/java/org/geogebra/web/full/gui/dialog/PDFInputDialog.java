@@ -24,6 +24,8 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -166,6 +168,21 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		curPageNrField = new AutoCompleteTextFieldW(3, appW);
 		curPageNrField.setText("1");
 		curPageNrField.addStyleName("curPageField");
+		curPageNrField.addKeyPressHandler(new KeyPressHandler() {
+
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+					try {
+						int pageNr = Integer.parseInt(curPageNrField.getText());
+						pdf.setPageNumber(pageNr);
+					} catch (NumberFormatException e) {
+						Log.debug("bad number: " + e.getMessage());
+					}
+				}
+
+			}
+		});
 		pdfPageTextPanel.add(pageLbl);
 		pdfPageTextPanel.add(curPageNrField);
 		pdfPageTextPanel.add(ofPageLbl);
@@ -381,8 +398,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	@Override
 	protected void onPreviewNativeEvent(final NativePreviewEvent event) {
 		if (pdf != null && event.getTypeInt() == Event.ONKEYUP
-				&& event.getNativeEvent().getKeyCode() != KeyCodes.KEY_ESCAPE && event.getSource() != curPageNrField) {
-			Log.debug("keyUp source: " + event.getSource());
+				&& event.getNativeEvent().getKeyCode() != KeyCodes.KEY_ESCAPE) {
 			focusPageNumberTextField();
 		} else {
 			super.onPreviewNativeEvent(event);
@@ -391,10 +407,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	}
 
 	private void focusPageNumberTextField() {
-		if (curPageNrField.hasFocus()) {
-			return;
-		}
 		curPageNrField.requestFocus();
 	}
-
 }
+
