@@ -20,7 +20,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -107,6 +106,11 @@ public class OneVarInferencePanelW extends FlowPanel
 
 	/***************************************
 	 * Construct a OneVarInference panel
+	 * 
+	 * @param app
+	 *            application
+	 * @param statDialog
+	 *            stat dialog
 	 */
 	public OneVarInferencePanelW(AppW app, DataAnalysisViewW statDialog) {
 
@@ -410,6 +414,10 @@ public class OneVarInferencePanelW extends FlowPanel
 		}
 	}
 
+	/**
+	 * @param selectedPlot
+	 *            plot type
+	 */
 	public void setSelectedPlot(int selectedPlot) {
 		model.selectedPlot = selectedPlot;
 		updateGUI();
@@ -436,10 +444,6 @@ public class OneVarInferencePanelW extends FlowPanel
 	// ============================================================
 	// GUI Utilities
 	// ============================================================
-
-	public void onFocus(FocusEvent event) {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	public void onClick(ClickEvent event) {

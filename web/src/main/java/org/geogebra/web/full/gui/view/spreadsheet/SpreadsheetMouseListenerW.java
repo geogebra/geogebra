@@ -83,6 +83,13 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	    showContextMenu(x, y);
 	}
 	
+	/**
+	 * @param e
+	 *            mouse event
+	 * @param app
+	 *            application
+	 * @return event x-coord in window
+	 */
 	public static int getAbsoluteX(DomEvent e, AppW app) {
 		return (int) ((EventUtil.getTouchOrClickClientX(e) + Window
 		        .getScrollLeft()) / app.getArticleElement().getScaleX());
@@ -92,6 +99,13 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		return getAbsoluteX(e, app);
 	}
 
+	/**
+	 * @param e
+	 *            mouse event
+	 * @param app
+	 *            application
+	 * @return event y-coord in window
+	 */
 	public static int getAbsoluteY(DomEvent e, AppW app) {
 		return (int) ((EventUtil.getTouchOrClickClientY(e) + Window
 		        .getScrollTop()) / app.getArticleElement().getScaleY());

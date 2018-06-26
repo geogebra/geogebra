@@ -227,6 +227,9 @@ public class ImageManagerW extends ImageManager {
 		this.externalImageSrcs.put(newName, src);
 	}
 
+	/**
+	 * @return URL of error image
+	 */
 	public String getErrorURL() {
 		return GuiResourcesSimple.INSTANCE.questionMark().getSafeUri()
 		        .asString();

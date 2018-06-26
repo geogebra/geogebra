@@ -10,15 +10,16 @@ import org.geogebra.common.move.events.BaseEvent;
  */
 public class GoogleLogOutEvent extends BaseEvent {
 
+	/**
+	 * New logout event.
+	 */
 	public GoogleLogOutEvent() {
 		super("google logout");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void trigger() {
-		// TODO Auto-generated method stub
-
+		// no action
 	}
 
 }

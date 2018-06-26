@@ -1623,6 +1623,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return r1;
 	}
 
+	/**
+	 * @param includeSpacing
+	 *            whether to include cell borders
+	 * @return selection rectangle
+	 */
 	public GRectangle getSelectionRect(boolean includeSpacing) {
 		return getCellBlockRect(minSelectionColumn, minSelectionRow,
 		        maxSelectionColumn, maxSelectionRow, includeSpacing);
@@ -2338,6 +2343,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				getSelectedRow(), getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
+	/**
+	 * Copy selected cells to (virtual) clipboard.
+	 * 
+	 * @param altDown
+	 *            whether alt is pressed
+	 */
 	public void copy(boolean altDown) {
 		copyPasteCut.copy(getSelectedColumn(), getSelectedRow(),
 				getMaxSelectedColumn(), getMaxSelectedRow(), altDown);
@@ -2357,6 +2368,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				altDown, nat);
 	}
 
+	/**
+	 * Paste (virtual) clipboard into spreadsheet
+	 * 
+	 * @return success
+	 */
 	public boolean paste() {
 		return copyPasteCut.paste(getSelectedColumn(), getSelectedRow(),
 				getMaxSelectedColumn(), getMaxSelectedRow());
@@ -2447,6 +2463,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		renderSelection();
 	}
 
+	/**
+	 * @param row
+	 *            row
+	 * @param column
+	 *            column
+	 */
 	public void updateCellFormat(int row, int column) {
 		GeoElement geo = (GeoElement) tableModel.getValueAt(row, column);
 		defaultTableCellRenderer.updateCellFormat(geo, row, column);

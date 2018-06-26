@@ -42,6 +42,12 @@ public class GridModel {
 		private boolean editable;
 		private Object value;
 
+		/**
+		 * @param value
+		 *            data
+		 * @param editable
+		 *            whether it's ediatble
+		 */
 		public DataCell(Object value, boolean editable) {
 			this.value = value;
 			this.setEditable(editable);

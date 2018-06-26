@@ -172,6 +172,9 @@ public class MyCellEditorW implements BaseCellEditor {
 		autoCompleteTextField.setDictionary(false);
 	}
 	
+	/**
+	 * @return whether editor text starts with "="
+	 */
 	public boolean textStartsWithEquals() {
 		String text = getEditingValue();
 		return text.startsWith("=");
@@ -341,11 +344,23 @@ public class MyCellEditorW implements BaseCellEditor {
 	// Key and Focus Listeners
 	// =======================================================
 
+	/**
+	 * Emulate key press
+	 * 
+	 * @param e
+	 *            key press event
+	 */
 	public void sendKeyPressEvent(KeyPressEvent e) {
 		autoCompleteTextField.getTextField().setFocus(true);
 		keyListener.onKeyPress(e);
 	}
 
+	/**
+	 * Emulate key down
+	 * 
+	 * @param e
+	 *            key down event
+	 */
 	public void sendKeyDownEvent(KeyDownEvent e) {
 		autoCompleteTextField.getTextField().setFocus(true);
 		keyListener.onKeyDown(e);

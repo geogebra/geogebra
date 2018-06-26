@@ -114,6 +114,13 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 		this.selectedCellIndex = selectedCellIndex;
 	}
 
+	/**
+	 * @param row
+	 *            row
+	 * @param col
+	 *            column
+	 * @return symbol
+	 */
 	public String getSymbolText(int row, int col) {
 		int index = row * rowLength + col;
 		return this.symbolStrings[index];

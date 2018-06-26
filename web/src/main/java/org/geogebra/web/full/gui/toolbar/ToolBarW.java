@@ -429,6 +429,12 @@ public class ToolBarW extends FlowPanel
 		isMouseDown = down;
 	}
 
+	/**
+	 * @param mouse
+	 *            mouse x-coord
+	 * @param tb
+	 *            toolbar x-coord
+	 */
 	public void setStartPositions(int mouse, int tb) {
 		mousePosition = mouse;
 		toolbarPosition = tb;

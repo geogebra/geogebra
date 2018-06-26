@@ -21,18 +21,14 @@ import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -302,28 +298,9 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader {
 		return eventType == PointerEventType.MOUSE ? 3 : 6;
 	}
 
-	public static int getAbsoluteX(MouseEvent e, AppW app) {
-		return (int) ((e.getClientX() + Window.getScrollLeft())
-				/ app.getArticleElement().getScaleX());
-	}
-
-	public int getAbsoluteX(MouseEvent e) {
-		return getAbsoluteX(e, app);
-	}
-
-	public static int getAbsoluteY(MouseEvent e, AppW app) {
-		return (int) ((e.getClientY() + Window.getScrollTop())
-				/ app.getArticleElement().getScaleY());
-	}
-
-	public int getAbsoluteY(MouseEvent e) {
-		return getAbsoluteY(e, app);
-	}
-
 	// ===============================================
 	// Mouse Listeners
 	// ===============================================
-
 
 	// transfer focus to the table
 	// @Override
@@ -450,41 +427,12 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader {
 		container.getElement().getStyle().setTop(top, Unit.PX);
 	}
 
+	/**
+	 * @return relative top of row header within parent
+	 */
 	public int getTop() {
 		return container.getParent().getAbsoluteTop()
 				- container.getAbsoluteTop();
-	}
-
-	public static class MyFocusPanel extends SimplePanel implements Focusable {
-
-		public MyFocusPanel(Widget widget) {
-			super(widget);
-			this.getElement().setPropertyInt("tabIndex", 0);
-		}
-
-		@Override
-		public int getTabIndex() {
-			// TODO Auto-generated method stub
-			return this.getElement().getPropertyInt("tabIndex");
-		}
-
-		@Override
-		public void setAccessKey(char key) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void setFocus(boolean focused) {
-			this.getElement().focus();
-
-		}
-
-		@Override
-		public void setTabIndex(int index) {
-			this.getElement().setPropertyInt("tabIndex", index);
-		}
-
 	}
 
 	@Override

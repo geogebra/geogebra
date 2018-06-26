@@ -52,6 +52,10 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 		}
 	}
 
+	/**
+	 * @param model
+	 *            stat model
+	 */
 	public void setModel(StatTableModel model) {
 		this.model = model;
 		initStatTable();

@@ -847,6 +847,9 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		// }
 	}
 
+	/**
+	 * @return whether background checkbox is checked (and visible)
+	 */
 	public boolean isBackgroundColorSelected() {
 		return backgroundColorPanel.isVisible()
 				&& backgroundColorPanel.backgroundButton.getValue();

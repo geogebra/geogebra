@@ -17,8 +17,6 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 		HasValue<Integer>, SliderInputHandler {
 
 	private Slider slider;
-	//private Label minLabel;
-	//private Label maxLabel;
 	private Label sliderLabel;
 
 	public SliderPanel() {
@@ -51,14 +49,20 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 		return slider.getValue();
 	}
 
+	/**
+	 * @param min
+	 *            range minimum
+	 */
 	public void setMinimum(int min) {
 		slider.setMinimum(min);
-		// minLabel.setText(String.valueOf(min));
 	}
 
+	/**
+	 * @param max
+	 *            range maximum
+	 */
 	public void setMaximum(int max) {
 		slider.setMaximum(max);
-		// maxLabel.setText(String.valueOf(max));
 	}
 
 	public void setMajorTickSpacing(int step) {

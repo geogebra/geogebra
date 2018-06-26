@@ -30,6 +30,10 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 		setStyleName("daMultiVarStatistics");
 	}
 
+	/**
+	 * @param isMinimalTable
+	 *            whether this table is minimal (just length, mean, SD)
+	 */
 	public void setMinimalTable(boolean isMinimalTable) {
 		this.minimalTable = isMinimalTable;
 		initStatTable();

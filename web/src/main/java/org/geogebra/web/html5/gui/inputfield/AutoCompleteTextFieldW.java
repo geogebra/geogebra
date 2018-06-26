@@ -325,7 +325,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				AutoCompleteTextFieldW.this.setFocus(true);
 			}
 		};
-		textField.setShowSymbolElement(this.showSymbolButton.getElement());
 		showSymbolButton.getElement().setId(id + "_SymbolButton");
 		showSymbolButton.getElement().setAttribute("data-visible", "false");
 		// showSymbolButton.getElement().setAttribute("style", "display: none");

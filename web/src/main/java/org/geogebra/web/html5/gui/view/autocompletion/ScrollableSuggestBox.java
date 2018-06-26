@@ -5,7 +5,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -63,8 +62,4 @@ public class ScrollableSuggestBox extends GSuggestBox {
 		return (DefaultSuggestionDisplay) getSuggestionDisplay();
 	}
 
-	public void setShowSymbolElement(Element element) {
-		// TODO Auto-generated method stub
-
-	}
 }

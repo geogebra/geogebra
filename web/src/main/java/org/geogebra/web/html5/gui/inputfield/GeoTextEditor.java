@@ -175,6 +175,9 @@ public class GeoTextEditor extends RichTextArea {
 		return IFrameElement.as(getElement()).getContentDocument();
 	}
 
+	/**
+	 * @return body of iframe
+	 */
 	protected BodyElement getBody() {
 		if (getDocument() == null) {
 			return null;
@@ -269,9 +272,11 @@ public class GeoTextEditor extends RichTextArea {
 		Log.debug("Paste! ");
 	}
 
+	/**
+	 * Handle cut to clipboard
+	 */
 	public void handleCut() {
 		editPanel.updatePreviewPanel();
-		// Log.debug("Cut!");
 	}
 
 	/**

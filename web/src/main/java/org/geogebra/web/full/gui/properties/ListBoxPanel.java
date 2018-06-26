@@ -83,6 +83,10 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 		return ret;
 	}
 
+	/**
+	 * @param title
+	 *            title
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 		getLabel().setText(title);

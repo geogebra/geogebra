@@ -97,8 +97,14 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		return 0;
 	}
 
-	public void scrollRectToVisible(GRectangle contentRect) {
-		this.contentRect = contentRect;
+	/**
+	 * Scroll to make content visible.
+	 * 
+	 * @param contentRect1
+	 *            content rectangle
+	 */
+	public void scrollRectToVisible(GRectangle contentRect1) {
+		this.contentRect = contentRect1;
 		Scheduler.get().scheduleDeferred(scrollRectCommand);
 	}
 

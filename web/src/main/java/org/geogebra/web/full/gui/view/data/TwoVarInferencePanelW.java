@@ -381,10 +381,17 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	   lbAltHyp.setSelectedIndex(idx);
     }
 
+	/**
+	 * @return whether "pooled" checkbox is visible
+	 */
 	public boolean isEnablePooled() {
 		return enablePooled;
 	}
 
+	/**
+	 * @param enablePooled
+	 *            whether "pooled" checkbox should be visible
+	 */
 	public void setEnablePooled(boolean enablePooled) {
 		this.enablePooled = enablePooled;
 		ckPooled.setVisible(enablePooled);

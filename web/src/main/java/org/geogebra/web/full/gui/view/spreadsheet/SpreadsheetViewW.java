@@ -166,6 +166,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// Defaults
 	// ===============================================================
 
+	/**
+	 * Reset selection to default.
+	 */
 	public void setDefaultSelection() {
 		setSpreadsheetScrollPosition(0, 0);
 		table.setInitialCellSelection(0, 0);

@@ -11,6 +11,10 @@ public class BarList extends ListBox {
 	private Localization loc;
 	private int barCount;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public BarList(App app) {
 		this.app = app;
 		loc = app.getLocalization();
@@ -43,6 +47,10 @@ public class BarList extends ListBox {
 		return barCount;
 	}
 
+	/**
+	 * @param barCount
+	 *            number of bars
+	 */
 	public void setBarCount(int barCount) {
 		this.barCount = barCount;
 		update(true);

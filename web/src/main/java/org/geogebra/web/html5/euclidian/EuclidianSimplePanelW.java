@@ -138,6 +138,7 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		return null;
 	}
 
+	@Override
 	public void reset() {
 		oldWidth = 0;
 		oldHeight = 0;

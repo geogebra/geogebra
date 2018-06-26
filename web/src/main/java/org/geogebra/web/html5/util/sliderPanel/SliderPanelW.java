@@ -119,6 +119,9 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		}
 	}
 
+	/**
+	 * @return preferred size
+	 */
 	public GDimensionW getPreferredSize() {
 		return new GDimensionW(180, 10);
 	}
