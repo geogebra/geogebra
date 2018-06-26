@@ -40,13 +40,6 @@ public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
-	public AlgoCauchyDF(Construction cons, String label, GeoNumberValue mean,
-			GeoNumberValue sd, BooleanValue cumulative) {
-		this(cons, mean, sd, cumulative);
-		ret.setLabel(label);
-	}
-
 	/**
 	 * 
 	 * @param cons

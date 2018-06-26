@@ -934,6 +934,21 @@ public class AlgoDispatcher {
 		return p;
 	}
 
+	/**
+	 * @param label
+	 *            point label
+	 * @param region
+	 *            region
+	 * @param coords
+	 *            close point coords
+	 * @param addToConstruction
+	 *            whether to add to construction
+	 * @param complex
+	 *            whether to use complex coords
+	 * @param coords2D
+	 *            whether to use 2D coords
+	 * @return point
+	 */
 	public GeoPointND pointIn(String label, Region region, Coords coords,
 			boolean addToConstruction, boolean complex, boolean coords2D) {
 		return pointIn(label, region, coords.getX(), coords.getY(),
@@ -1003,6 +1018,13 @@ public class AlgoDispatcher {
 		return algo.getOutput();
 	}
 
+	/**
+	 * Get algo for pen stroke.
+	 * 
+	 * @param p
+	 *            stroke points
+	 * @return stroke algo
+	 */
 	public AlgoElement getStrokeAlgo(List<MyPoint> p) {
 		return cons.getApplication().has(Feature.MOW_PEN_IS_LOCUS)
 				? new AlgoLocusStroke(cons, p) : new AlgoPenStroke(cons, p);
@@ -1147,6 +1169,13 @@ public class AlgoDispatcher {
 		return locusNoCheck(label, Q, P);
 	}
 
+	/**
+	 * @param Q
+	 *            locus point
+	 * @param P
+	 *            point on path
+	 * @return whether locus(Q,P) is possible
+	 */
 	public static boolean locusCheck(GeoPointND Q, GeoNumeric P) {
 		return P.isSlider() && P.isDefined() && P.isAnimatable()
 				&& Q.getPath() == null && P.isParentOf(Q);

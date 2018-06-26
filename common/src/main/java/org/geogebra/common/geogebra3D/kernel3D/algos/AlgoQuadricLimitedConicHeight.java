@@ -198,11 +198,18 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		return bottom;
 	}
 
+	/**
+	 * @param b
+	 *            whether side and top should be visible
+	 */
 	public void setOutputOtherEuclidianVisible(boolean b) {
 		side.setEuclidianVisible(b);
 		top.setEuclidianVisible(b);
 	}
 
+	/**
+	 * Notify kernel about side & top update.
+	 */
 	public void notifyUpdateOutputOther() {
 		getKernel().notifyUpdate(side);
 		getKernel().notifyUpdate(top);

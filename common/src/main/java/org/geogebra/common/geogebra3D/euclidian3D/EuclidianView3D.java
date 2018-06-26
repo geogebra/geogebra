@@ -2123,6 +2123,15 @@ public abstract class EuclidianView3D extends EuclidianView
 		return new DrawPolygon3D(this, selectedPoints);
 	}
 
+	/**
+	 * @param selectedPoints
+	 *            selected points
+	 * @param selectedPolygons
+	 *            selected polygons
+	 * @param mode
+	 *            app mode
+	 * @return preview polyhedron
+	 */
 	public Previewable createPreviewPyramidOrPrism(
 			ArrayList<GeoPointND> selectedPoints,
 			ArrayList<GeoPolygon> selectedPolygons, int mode) {
@@ -3911,6 +3920,10 @@ public abstract class EuclidianView3D extends EuclidianView
 		return projectionObliqueFactor;
 	}
 
+	/**
+	 * @param factor
+	 *            oblique projection factor
+	 */
 	public void setProjectionObliqueFactor(double factor) {
 		projectionObliqueFactor = factor;
 		renderer.updateProjectionObliqueValues();

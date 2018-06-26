@@ -26,15 +26,26 @@ public abstract class AbstractSettings {
 	 */
 	private LinkedList<SettingListener> listeners;
 
+	/**
+	 * New abstract settings.
+	 */
 	public AbstractSettings() {
 		listeners = new LinkedList<>();
 	}
 
+	/**
+	 * @param listeners
+	 *            setting listeners
+	 */
 	public AbstractSettings(LinkedList<SettingListener> listeners) {
 		this.listeners = listeners;
 		settingChanged();
 	}
 
+	/**
+	 * @param listeners
+	 *            setting listeners
+	 */
 	public void setListeners(LinkedList<SettingListener> listeners) {
 		this.listeners = listeners;
 	}
@@ -103,6 +114,9 @@ public abstract class AbstractSettings {
 		listeners.remove(listener);
 	}
 
+	/**
+	 * @return all listeners
+	 */
 	public LinkedList<SettingListener> getListeners() {
 		return listeners;
 	}

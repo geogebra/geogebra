@@ -22,6 +22,10 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.Script;
 
+/**
+ * Model for Button / Input Box dialog.
+ *
+ */
 public class ButtonDialogModel {
 
 	private GeoElement linkedGeo = null;
@@ -90,16 +94,25 @@ public class ButtonDialogModel {
 		app.storeUndoInfo();
 	}
 
+	/**
+	 * @return dialog title ("Button" or "Textfield")
+	 */
 	public String getTitle() {
 		Localization loc = app.getLocalization();
 		return textField ? loc.getMenu("TextField") : loc.getMenu("Button");
 	}
 
+	/**
+	 * @return initial caption
+	 */
 	public String getInitString() {
 		return button == null ? ""
 				: button.getCaption(StringTemplate.defaultTemplate);
 	}
 
+	/**
+	 * @return whether this is for input box
+	 */
 	public boolean isTextField() {
 		return textField;
 	}

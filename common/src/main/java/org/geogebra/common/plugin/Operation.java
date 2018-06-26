@@ -1985,6 +1985,9 @@ public enum Operation {
 		return this.equals(PLUS) || this.equals(MINUS);
 	}
 
+	/**
+	 * @return
+	 */
 	public boolean isInequality() {
 		return this.equals(GREATER_EQUAL) || this.equals(GREATER)
 				|| this.equals(LESS) || this.equals(LESS_EQUAL);

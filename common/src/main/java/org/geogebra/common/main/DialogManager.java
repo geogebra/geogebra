@@ -54,6 +54,10 @@ public abstract class DialogManager {
 	public DialogManager() {
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public DialogManager(App app) {
 		this.app = app;
 		this.loc = app.getLocalization();

@@ -262,10 +262,18 @@ public class Material implements Comparable<Material>, Serializable {
 		this.description = description;
 	}
 
+	/**
+	 * @param timestamp
+	 *            timestamp in s
+	 */
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
 
+	/**
+	 * @param timestamp
+	 *            timestamp in ms
+	 */
 	public void setTimestampFromJava(long timestamp) {
 		setTimestamp(timestamp / 1000); // JAVA USES MILLISECONDS, UNIX USES
 										// SECONDS
@@ -297,6 +305,9 @@ public class Material implements Comparable<Material>, Serializable {
 		setAutosaveTimestamp(autoSaveTimestamp / 1000);
 	}
 
+	/**
+	 * @return autosave timestamp in seconds
+	 */
 	public long getAutosaveTimestamp() {
 		return autoSaveTimestamp;
 	}
@@ -336,20 +347,35 @@ public class Material implements Comparable<Material>, Serializable {
 		this.language = language;
 	}
 
+	/**
+	 * @param url
+	 *            thumbnail URL
+	 */
 	public void setThumbnailUrl(String url) {
 		this.thumbnail = url;
 		setThumbnailIsBase64(false);
 	}
 
+	/**
+	 * @param base64
+	 *            thumbnail as base64
+	 */
 	public void setThumbnailBase64(String base64) {
 		this.thumbnail = base64;
 		setThumbnailIsBase64(true);
 	}
 
+	/**
+	 * @return whether thumbnail is stored as base64
+	 */
 	public boolean thumbnailIsBase64() {
 		return thumbnailIsBase64;
 	}
 
+	/**
+	 * @param flag
+	 *            whether thumbnail is stored as base64
+	 */
 	public void setThumbnailIsBase64(boolean flag) {
 		thumbnailIsBase64 = flag;
 	}
@@ -513,6 +539,9 @@ public class Material implements Comparable<Material>, Serializable {
 		return timestamp;
 	}
 
+	/**
+	 * @return timestamp in ms
+	 */
 	public long getTimestampForJava() {
 		// JAVA USES MILLISECONDS, UNIX USES SECONDS
 		return timestamp * 1000;
@@ -614,9 +643,12 @@ public class Material implements Comparable<Material>, Serializable {
 		return this.modified;
 	}
 
+	/**
+	 * @param localID
+	 *            local ID
+	 */
 	public void setLocalID(int localID) {
 		this.localID = localID;
-
 	}
 
 	public int getLocalID() {
@@ -723,6 +755,9 @@ public class Material implements Comparable<Material>, Serializable {
 		return sharingKey;
 	}
 
+	/**
+	 * @return sharing key if set; otherwise numeric ID
+	 */
 	public String getSharingKeyOrId() {
 		return sharingKey == null || sharingKey.isEmpty() ? id + ""
 				: sharingKey;

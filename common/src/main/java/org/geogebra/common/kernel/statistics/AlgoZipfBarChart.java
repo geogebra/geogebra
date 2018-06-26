@@ -34,8 +34,7 @@ public class AlgoZipfBarChart extends AlgoBarChart {
 
 	public AlgoZipfBarChart(Construction cons, String label, GeoNumberValue n,
 			GeoNumberValue p, GeoBoolean isCumulative) {
-		super(cons, label, n, p, null, isCumulative,
-				AlgoBarChart.TYPE_BARCHART_ZIPF);
+		super(cons, label, n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_ZIPF);
 	}
 
 	private AlgoZipfBarChart(GeoNumberValue n, GeoNumberValue p,

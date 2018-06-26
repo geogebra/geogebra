@@ -53,10 +53,10 @@ public class CmdLogNormal extends CommandProcessor {
 				if (arg[2].isGeoFunction() && ((GeoFunction) arg[2])
 						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
-					AlgoLogNormalDF algo = new AlgoLogNormalDF(cons,
-							c.getLabel(), (GeoNumberValue) arg[0],
+					AlgoLogNormalDF algo = new AlgoLogNormalDF(cons, (GeoNumberValue) arg[0],
 							(GeoNumberValue) arg[1],
 							forceBoolean(cumulative, true));
+					algo.getResult().setLabel(c.getLabel());
 					return algo.getResult().asArray();
 
 				} else if (arg[2] instanceof GeoNumberValue) {

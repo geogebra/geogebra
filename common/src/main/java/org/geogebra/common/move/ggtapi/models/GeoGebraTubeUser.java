@@ -161,12 +161,17 @@ public class GeoGebraTubeUser extends BaseModel {
 		this.identifier = identifier;
 	}
 
+	/**
+	 * @return whether GDrive should be enabled
+	 */
 	public boolean hasGoogleDrive() {
 		return this.identifier.startsWith("google:");
 	}
 
+	/**
+	 * @return whether onedrive should be enabled
+	 */
 	public boolean hasOneDrive() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -174,9 +179,12 @@ public class GeoGebraTubeUser extends BaseModel {
 		return this.cookie;
 	}
 
+	/**
+	 * @param url
+	 *            profile image URL
+	 */
 	public void setImageURL(String url) {
 		this.image = url;
-
 	}
 
 	public String getImageURL() {

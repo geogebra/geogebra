@@ -83,11 +83,20 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		doPerformTokenLogin(new GeoGebraTubeUser(token), automatic);
 	}
 
+	/**
+	 * Notify views about failed login
+	 */
 	public void stayLoggedOut() {
 		getModel().stayLoggedOut();
 		onEvent(new StayLoggedOutEvent(null));
 	}
 
+	/**
+	 * Login using a cookie
+	 * 
+	 * @param cookie
+	 *            auth cookie
+	 */
 	public void performCookieLogin(String cookie) {
 		doPerformTokenLogin(new GeoGebraTubeUser(null, cookie), true);
 	}
@@ -95,8 +104,8 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	/**
 	 * Performs the API call to authorize the token.
 	 * 
-	 * @param token
-	 *            the token to authorize
+	 * @param user
+	 *            the user to authenticate
 	 * @param automatic
 	 *            If the login is triggered automatically or by the user. This
 	 *            information will be provided in the Login Event.
@@ -167,20 +176,35 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 */
 	protected abstract String getURLClientInfo();
 
+	/**
+	 * Initialize for offline mode.
+	 */
 	public void startOffline() {
 		getModel().startOffline(getGeoGebraTubeAPI());
-
 	}
 
+	/**
+	 * @return whether login is possible
+	 */
 	public boolean mayLogIn() {
 		return getModel().mayLogIn();
 	}
 
+	/**
+	 * @param mat
+	 *            material
+	 * @return whether user is the owner of a material
+	 */
 	public boolean owns(Material mat) {
 		return mat.getAuthorID() <= 0
 				|| mat.getAuthorID() == getModel().getUserId();
 	}
 
+	/**
+	 * @param mat
+	 *            material
+	 * @return whether user may view the material
+	 */
 	public boolean mayView(Material mat) {
 		return mat.getViewerID() <= 0
 				|| mat.getViewerID() == getModel().getUserId();

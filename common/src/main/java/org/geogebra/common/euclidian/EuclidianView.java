@@ -5782,11 +5782,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setShowAxis(1, show, true);
 	}
 
-	public void setLogAxis(boolean log) {
-		setLogAxis(0, log, false);
-		setLogAxis(0, log, true);
-	}
-
 	/**
 	 * @return graphics object (for pen)
 	 */
@@ -5884,6 +5879,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return 70;
 	}
 
+	/**
+	 * @return min sample points for curve plotting
+	 */
 	public double getMinSamplePoints() {
 		// test-case pan https://www.geogebra.org/m/EMNRrnxF left & right
 		return Math.max(MIN_SAMPLE_POINTS, getWidth() / 6);
@@ -6440,15 +6438,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return tracing;
 	}
 
+	/**
+	 * @param i
+	 *            axis index
+	 * @return axis number format
+	 */
 	public NumberFormatAdapter getAxisNumberFormat(int i) {
 		return axesNumberFormat[i];
 	}
 
+	/**
+	 * @return standard screen x-coord of origin
+	 */
 	public double getXZeroStandard() {
 		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewWidth() / 2.0
 				: XZERO_STANDARD;
 	}
 
+	/**
+	 * @return standard screen y-coord of origin
+	 */
 	public double getYZeroStandard() {
 		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewHeight() / 2.0
 				: YZERO_STANDARD;

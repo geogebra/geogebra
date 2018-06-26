@@ -809,6 +809,9 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		private long delay;
 		private Coords newCoords = Coords.createInhomCoorsInD3();
 
+		/**
+		 * New coords.
+		 */
 		public StationaryCoords() {
 			startCoords.setUndefined();
 			delay = -1;
@@ -828,6 +831,12 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			updateCoords(time);
 		}
 
+		/**
+		 * @param start
+		 *            start coords
+		 * @param time
+		 *            timestamp
+		 */
 		public void setCoords(Coords start, long time) {
 			newCoords.setValues(start, 3);
 			updateCoords(time);

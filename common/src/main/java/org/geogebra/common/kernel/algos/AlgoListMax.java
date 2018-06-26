@@ -32,17 +32,6 @@ public class AlgoListMax extends AlgoElement {
 	private GeoList freqList; // input
 	private GeoNumeric max; // output
 
-	public AlgoListMax(Construction cons, String label, GeoList geoList,
-			GeoList freqList) {
-		this(cons, geoList, freqList);
-		max.setLabel(label);
-	}
-
-	public AlgoListMax(Construction cons, String label, GeoList geoList) {
-		this(cons, geoList, null);
-		max.setLabel(label);
-	}
-
 	public AlgoListMax(Construction cons, GeoList geoList) {
 		this(cons, geoList, null);
 	}

@@ -32,6 +32,10 @@ public abstract class ScriptManager implements EventListener {
 				clickListeners, clearListeners, clientListeners };
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public ScriptManager(App app) {
 		this.app = app;
 		app.getEventDispatcher().addEventListener(this);

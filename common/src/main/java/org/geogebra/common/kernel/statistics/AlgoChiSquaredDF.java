@@ -39,13 +39,6 @@ public class AlgoChiSquaredDF extends AlgoElement
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
-	public AlgoChiSquaredDF(Construction cons, String label,
-			GeoNumberValue mean, BooleanValue cumulative) {
-		this(cons, mean, cumulative);
-		ret.setLabel(label);
-	}
-
 	/**
 	 * @param cons
 	 *            construction

@@ -40,13 +40,6 @@ public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
-	public AlgoLogisticDF(Construction cons, String label, GeoNumberValue mean,
-			GeoNumberValue scale, BooleanValue cumulative) {
-		this(cons, mean, scale, cumulative);
-		ret.setLabel(label);
-	}
-
 	/**
 	 * 
 	 * @param cons

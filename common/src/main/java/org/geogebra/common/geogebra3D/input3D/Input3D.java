@@ -487,6 +487,12 @@ abstract public class Input3D implements Input3DConstants {
 		}
 	}
 
+	/**
+	 * @param absolutePos
+	 *            position from input
+	 * @param panelPos
+	 *            position for panel
+	 */
 	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos) {
 		setPositionXYOnPanel(absolutePos, panelPos, screenHalfWidth,
 				screenHalfHeight, panelX, panelY, panelWidth, panelHeight);
@@ -542,6 +548,9 @@ abstract public class Input3D implements Input3DConstants {
 		return mouse3DPosition;
 	}
 
+	/**
+	 * Update mouse position.
+	 */
 	public void updateMousePosition() {
 		setPositionXYOnPanel(getInputPosition(), mouse3DPosition);
 		mouse3DPosition.setZ(getInputPosition()[2] - view3D.getScreenZOffset());

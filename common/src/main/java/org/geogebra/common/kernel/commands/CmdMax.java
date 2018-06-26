@@ -38,9 +38,8 @@ public class CmdMax extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 
-				AlgoListMax algo = new AlgoListMax(cons, c.getLabel(),
-						(GeoList) arg[0]);
-
+				AlgoListMax algo = new AlgoListMax(cons, (GeoList) arg[0]);
+				algo.getMax().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getMax() };
 				return ret;
 			} else if (arg[0].isGeoInterval()) {
@@ -68,9 +67,9 @@ public class CmdMax extends CommandProcessor {
 					&& (ok[1] = arg[1].isGeoList()))) {
 
 				// value and frequency list
-				AlgoListMax algo = new AlgoListMax(cons, c.getLabel(),
+				AlgoListMax algo = new AlgoListMax(cons,
 						(GeoList) arg[0], (GeoList) arg[1]);
-
+				algo.getMax().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getMax() };
 				return ret;
 			}

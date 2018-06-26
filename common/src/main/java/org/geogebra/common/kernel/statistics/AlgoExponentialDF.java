@@ -39,13 +39,6 @@ public class AlgoExponentialDF extends AlgoElement
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
-	public AlgoExponentialDF(Construction cons, String label,
-			GeoNumberValue mean, BooleanValue cumulative) {
-		this(cons, mean, cumulative);
-		ret.setLabel(label);
-	}
-
 	/**
 	 * @param cons
 	 *            construction

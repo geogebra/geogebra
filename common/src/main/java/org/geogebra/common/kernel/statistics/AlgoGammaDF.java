@@ -40,19 +40,17 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
-	public AlgoGammaDF(Construction cons, String label, GeoNumberValue mean,
-			GeoNumberValue sd, BooleanValue cumulative) {
-		this(cons, mean, sd, cumulative);
-		ret.setLabel(label);
-	}
-
 	/**
 	 * @param cons
 	 *            construction
+	 * @param a
+	 *            mean
+	 * @param b
+	 *            standard deviation
+	 * @param cumulative
+	 *            cumulative
 	 */
 	public AlgoGammaDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
-
 			BooleanValue cumulative) {
 		super(cons);
 		this.mean = a;

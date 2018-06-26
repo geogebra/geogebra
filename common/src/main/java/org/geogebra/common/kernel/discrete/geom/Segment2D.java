@@ -31,20 +31,38 @@ public class Segment2D {
 	private Point2D p0;
 	private Point2D p1;
 
+	/**
+	 * @param p0
+	 *            start point
+	 * @param p1
+	 *            end point
+	 */
 	public Segment2D(Point2D p0, Point2D p1) {
 		this.p0 = p0;
 		this.p1 = p1;
 	}
 
+	/**
+	 * @param p0
+	 *            start point
+	 * @param p1
+	 *            end point
+	 */
 	public void setPoints(Point2D p0, Point2D p1) {
 		this.p0 = p0;
 		this.p1 = p1;
 	}
 
+	/**
+	 * @return start point
+	 */
 	public Point2D getStart() {
 		return this.p0;
 	}
 
+	/**
+	 * @return end point
+	 */
 	public Point2D getEnd() {
 		return this.p1;
 	}

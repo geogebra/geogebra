@@ -22,6 +22,12 @@ public class ExportFrameMinimal implements ExportSettings {
 	private double yMin;
 	private GeoNumeric cbitem;
 
+	/**
+	 * @param ymin2
+	 *            y-min
+	 * @param ymax2
+	 *            y-max
+	 */
 	public ExportFrameMinimal(double ymin2, double ymax2) {
 		yMin = ymin2;
 		yMax = ymax2;

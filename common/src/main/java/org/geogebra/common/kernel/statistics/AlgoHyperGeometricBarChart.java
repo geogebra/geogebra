@@ -27,12 +27,38 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoHyperGeometricBarChart extends AlgoBarChart {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param n
+	 *            n
+	 * @param p
+	 *            probability
+	 * @param sampleSize
+	 *            sample size
+	 */
 	public AlgoHyperGeometricBarChart(Construction cons, String label,
 			GeoNumberValue n, GeoNumberValue p, GeoNumberValue sampleSize) {
 		super(cons, label, n, p, sampleSize, null,
 				AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param n
+	 *            n
+	 * @param p
+	 *            probability
+	 * @param sampleSize
+	 *            sample size
+	 * @param isCumulative
+	 *            cumulative?
+	 */
 	public AlgoHyperGeometricBarChart(Construction cons, String label,
 			GeoNumberValue n, GeoNumberValue p, GeoNumberValue sampleSize,
 			GeoBoolean isCumulative) {

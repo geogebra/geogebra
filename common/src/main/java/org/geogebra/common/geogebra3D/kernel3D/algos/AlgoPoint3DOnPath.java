@@ -18,17 +18,38 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
+/**
+ * Algo for 3D point on path.
+ */
 public class AlgoPoint3DOnPath extends AlgoPointOnPath {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param path
+	 *            path
+	 * @param x
+	 *            close point x-coord
+	 * @param y
+	 *            close point y-coord
+	 * @param z
+	 *            close point z-coord
+	 */
 	public AlgoPoint3DOnPath(Construction cons, Path path,
 			double x, double y, double z) {
-
 		super(cons, path, x, y, z, true);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param path
+	 *            path
+	 * @param param
+	 *            path parameter
+	 */
 	public AlgoPoint3DOnPath(Construction cons, Path path,
 			GeoNumberValue param) {
-
 		super(cons, path, param);
 	}
 

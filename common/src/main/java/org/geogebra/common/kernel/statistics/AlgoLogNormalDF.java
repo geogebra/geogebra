@@ -40,13 +40,6 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
-	@SuppressWarnings("javadoc")
-	public AlgoLogNormalDF(Construction cons, String label, GeoNumberValue mean,
-			GeoNumberValue sd, BooleanValue cumulative) {
-		this(cons, mean, sd, cumulative);
-		ret.setLabel(label);
-	}
-
 	/**
 	 * @param cons
 	 *            construction

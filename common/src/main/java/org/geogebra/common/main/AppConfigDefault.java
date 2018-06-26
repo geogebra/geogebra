@@ -24,6 +24,11 @@ public class AppConfigDefault implements AppConfig {
 		return "math_apps";
 	}
 
+	/**
+	 * @param appName
+	 *            app name
+	 * @return whether app name is one of the unbundled apps
+	 */
 	public static boolean isUnbundledOrWhiteboard(String appName) {
 		return "graphing".equals(appName) || "geometry".equals(appName)
 				|| "whiteboard".equals(appName) || "3d".equals(appName);
