@@ -19,10 +19,14 @@ import org.geogebra.web.html5.util.pdf.PDFWrapper.PDFListener;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
@@ -66,6 +70,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	 */
 	PDFWrapper pdf;
 	private ProgressBar progressBar;
+
+	/** indicates if current page number text field is in focus */
+	protected boolean tfActive = false;
 
 	private class PDFChooser extends FileUpload
 			implements ChangeHandler {
@@ -178,9 +185,24 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 						pdf.setPageNumber(pageNr);
 					} catch (NumberFormatException e) {
 						Log.debug("bad number: " + e.getMessage());
+						curPageNrField.setText(Integer.toString(pdf.getPageNumber()));
 					}
 				}
 
+			}
+		});
+		curPageNrField.addFocusHandler(new FocusHandler() {
+
+			@Override
+			public void onFocus(FocusEvent event) {
+				tfActive = true;
+			}
+		});
+		curPageNrField.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				tfActive = false;
 			}
 		});
 		pdfPageTextPanel.add(pageLbl);
@@ -296,8 +318,12 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	public void onPageDisplay(String imgSrc) {
 		buildPdfContainer();
 		previewImg.getElement().setAttribute("src", imgSrc);
-		curPageNrField.setText(Integer.toString(pdf.getPageNumber()));
+		displayCurrentPageNumber();
 		setLabels();
+	}
+
+	private void displayCurrentPageNumber() {
+		curPageNrField.setText(Integer.toString(pdf.getPageNumber()));
 	}
 
 	/**
@@ -408,6 +434,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	}
 
 	private void focusPageNumberTextField() {
+		if (!tfActive) {
+			curPageNrField.selectAll();
+		}
 		curPageNrField.requestFocus();
 	}
 }
