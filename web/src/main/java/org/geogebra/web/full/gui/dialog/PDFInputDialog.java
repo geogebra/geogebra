@@ -80,6 +80,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		public PDFChooser() {
 			super();
 			addChangeHandler(this);
+			getElement().setAttribute("accept", ".pdf");
 		}
 
 		public void open() {
@@ -287,7 +288,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	private void insertImage() {
 		String data = previewSrc;
-		((AppW) app).imageDropHappened("", data, "");
+		((AppW) app).imageDropHappened("pdf.svg", data, "");
 		hide();
 	}
 
