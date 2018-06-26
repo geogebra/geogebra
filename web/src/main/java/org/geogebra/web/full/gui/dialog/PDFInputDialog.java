@@ -73,6 +73,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	/** indicates if current page number text field is in focus */
 	protected boolean tfActive = false;
+	private String previewSrc;
 
 	private class PDFChooser extends FileUpload
 			implements ChangeHandler {
@@ -276,12 +277,18 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		if (source == cancelBtn) {
 			hide();
 		} else if (source == insertBtn) {
-			// TODO process page of pdf MOW-428
+			insertImage();
 		} else if (source == leftBtn) {
 			pdf.previousPage();
 		} else if (source == rightBtn) {
 			pdf.nextPage();
 		}
+	}
+
+	private void insertImage() {
+		String data = previewSrc;
+		((AppW) app).imageDropHappened("", data, "");
+		hide();
 	}
 
 	@Override
@@ -323,6 +330,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		previewImg.getElement().setAttribute("src", imgSrc);
 		displayCurrentPageNumber();
 		setLabels();
+		insertBtn.setEnabled(true);
+		previewSrc = imgSrc;
 	}
 
 	private void displayCurrentPageNumber() {
