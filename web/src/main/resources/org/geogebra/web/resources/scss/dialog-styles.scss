@@ -621,6 +621,10 @@ $duration: 0.2s;
     		margin-left: auto;
     		margin-right: auto;
     	}
+    	
+    	.errorText {
+			color: $red-A400;
+		}	
     
     	.pdfPreview {
     		 display: flex;

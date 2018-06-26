@@ -96,10 +96,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		// panel for pdf
 		pdfContainerPanel = new FlowPanel();
 		pdfContainerPanel.setStyleName("pdfContainer");
-		NoDragImage folderImg = new NoDragImage(
-				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), 96);
-		folderImg.addStyleName("folderImg");
-		pdfContainerPanel.add(folderImg);
+		addFolderImage();
 		addDropHandler(pdfContainerPanel.getElement());
 		clickOrDragText = new Label();
 		clickOrDragText.addStyleName("clickOrDragText");
@@ -124,6 +121,13 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		// only for testing here TODO remove me from here
 		// buildPdfContainer();
 		setLabels();
+	}
+
+	private void addFolderImage() {
+		NoDragImage folderImg = new NoDragImage(
+				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), 96);
+		folderImg.addStyleName("folderImg");
+		pdfContainerPanel.add(folderImg);
 	}
 
 	private native void addDropHandler(
@@ -325,9 +329,18 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 		/**
 		 * After the pdf loaded, the progress bar should be finished quickly.
+		 * 
+		 * @param result
+		 *            true if the loading of the pdf was successful
 		 */
-		public void finishLoading() {
-			progressTimer.setDelay(10);
+		public void finishLoading(boolean result) {
+			if(result){
+				progressTimer.setDelay(10);	
+			} else {
+				progressTimer.stop();
+				buildErrorPanel();
+			}
+			
 		}
 	}
 
@@ -342,8 +355,23 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		pdfContainerPanel.add(loadText);
 	}
 
+	/**
+	 * Builds error panel, if the opening of pdf failed.
+	 */
+	void buildErrorPanel() {
+		pdfContainerPanel.clear();
+		addFolderImage();
+		if (errorText == null) {
+			errorText = new Label();
+			errorText.addStyleName("clickOrDragText");
+			errorText.addStyleName("errorText");
+			errorText.setText(appW.getLocalization().getMenu("pdfErrorText"));
+		}
+		pdfContainerPanel.add(errorText);
+	}
+
 	@Override
-	public void finishLoading() {
-		progressBar.finishLoading();
+	public void finishLoading(boolean result) {
+		progressBar.finishLoading(result);
 	}
 }

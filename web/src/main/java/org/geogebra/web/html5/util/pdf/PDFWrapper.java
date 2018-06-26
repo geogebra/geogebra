@@ -30,8 +30,11 @@ public class PDFWrapper {
 
 		/**
 		 * After the pdf loaded, the progress bar should be finished quickly.
+		 * 
+		 * @param result
+		 *            true if the loading of the pdf was successful
 		 */
-		void finishLoading();
+		void finishLoading(boolean result);
 
 	}
 
@@ -48,8 +51,8 @@ public class PDFWrapper {
 		read(file);
 	}
 
-	private void finishLoading() {
-		listener.finishLoading();
+	private void finishLoading(boolean result) {
+		listener.finishLoading(result);
 	}
 
 	private native void read(JavaScriptObject file) /*-{
@@ -88,11 +91,12 @@ public class PDFWrapper {
 							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)('PDF loaded');
 							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setPdf(Lcom/google/gwt/core/client/JavaScriptObject;)(pdf);
 							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setPageCount(I)(pdf.numPages);
-							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::finishLoading()();
+							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::finishLoading(Z)(true);
 						},
 						function(reason) {
 							// PDF loading error
 							@org.geogebra.common.util.debug.Log::error(Ljava/lang/String;)(reason);
+							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::finishLoading(Z)(false);
 						});
 	}-*/;
 
