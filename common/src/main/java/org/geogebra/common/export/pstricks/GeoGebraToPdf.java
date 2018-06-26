@@ -1798,6 +1798,19 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 
 	@Override
 	protected void drawGeoConic(GeoConicND geo) {
+		// just need one eigenvector to give angle
+		// assume getZ() is zero (check done earlier)
+		Coords ev0 = euclidianView.getCoordsForView(geo.getEigenvec3D(0));
+		double eigenvecX = ev0.getX();
+		double eigenvecY = ev0.getY();
+		double angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
+
+		Coords mp = geo.getMidpoint3D();
+		double x1 = mp.getX();
+		double y1 = mp.getY();
+		double r1 = geo.getHalfAxes()[0];
+		double r2 = geo.getHalfAxes()[1];
+
 		switch (geo.getType()) {
 		// if conic is a circle
 		default:
@@ -1808,12 +1821,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			break;
 		// if conic is an ellipse
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			GAffineTransform at = geo.getAffineTransform();
-			double eigenvecX = at.getScaleX();
-			double eigenvecY = at.getShearY();
-			double x1 = geo.getTranslationVector().getX();
-			double y1 = geo.getTranslationVector().getY();
-			double angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
 			startBeamer(code);
 			code.append("\\draw [rotate around={");
 			code.append(format(angle));
@@ -1827,8 +1834,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			}
 			code.append("] ");
 			writePoint(x1, y1, code);
-			double r1 = geo.getHalfAxes()[0];
-			double r2 = geo.getHalfAxes()[1];
 			code.append(" ellipse (");
 			code.append(format(r1 * xunit));
 			code.append("cm and ");
@@ -1839,14 +1844,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 
 		// if conic is a parabola
 		case GeoConicNDConstants.CONIC_PARABOLA:
-			// parameter of the parabola
-			at = geo.getAffineTransform();
-			// first eigenvec
-			eigenvecX = at.getScaleX();
-			eigenvecY = at.getShearY();
-			// vertex
-			x1 = geo.getTranslationVector().getX();
-			y1 = geo.getTranslationVector().getY();
 
 			// calculate the x range to draw the parabola
 			double x0 = Math.max(Math.abs(x1 - xmin), Math.abs(x1 - xmax));
@@ -1866,7 +1863,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			}
 			// x0 = k2/2 * p; // x = k*p
 			x0 = i1 * p; // y = sqrt(2k p^2) = i p
-			angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX)) - 90;
+			angle -= 90;
 
 			startBeamer(code);
 			code.append("\\draw [samples=50,rotate around={");
@@ -1894,14 +1891,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			break;
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			// plot({a(1+\x^2)/(1-\x^2)},2b\x/(1-\x^2));
-			at = geo.getAffineTransform();
-			eigenvecX = at.getScaleX();
-			eigenvecY = at.getShearY();
-			x1 = geo.getTranslationVector().getX();
-			y1 = geo.getTranslationVector().getY();
-			r1 = geo.getHalfAxes()[0];
-			r2 = geo.getHalfAxes()[1];
-			angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
 			startBeamer(code);
 			code.append("\\draw [samples=50,domain=-0.99:0.99,rotate around={");
 			code.append(format(angle));

@@ -1757,6 +1757,19 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 	@Override
 	protected void drawGeoConic(GeoConicND geo) {
+		// just need one eigenvector to give angle
+		// assume getZ() is zero (check done earlier)
+		Coords ev0 = euclidianView.getCoordsForView(geo.getEigenvec3D(0));
+		double eigenvecX = ev0.getX();
+		double eigenvecY = ev0.getY();
+		double angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
+
+		Coords mp = geo.getMidpoint3D();
+		double x1 = mp.getX();
+		double y1 = mp.getY();
+		double r1 = geo.getHalfAxes()[0];
+		double r2 = geo.getHalfAxes()[1];
+
 		switch (geo.getType()) {
 		default:
 			// do nothing
@@ -1771,12 +1784,6 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			// around={angle:center},lineOptions](x_center,y_center) ellipse (R1
 			// and R2)
 
-			GAffineTransform at = geo.getAffineTransform();
-			double eigenvecX = at.getScaleX();
-			double eigenvecY = at.getShearY();
-			double x1 = geo.getTranslationVector().getX();
-			double y1 = geo.getTranslationVector().getY();
-			double angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
 			startBeamer(code);
 			code.append("\\draw [rotate around={");
 			code.append(format(angle));
@@ -1790,8 +1797,6 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			}
 			code.append("] ");
 			writePoint(x1, y1, code);
-			double r1 = geo.getHalfAxes()[0];
-			double r2 = geo.getHalfAxes()[1];
 
 			code.append(" ellipse (");
 			code.append(format(r1 * xunit));
@@ -1807,13 +1812,6 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			// around={angle:center},xshift=x1,yshift=y1,lineOptions]
 			// plot(\x,\x^2/2/p);
 			// parameter of the parabola
-			at = geo.getAffineTransform();
-			// first eigenvec
-			eigenvecX = at.getScaleX();
-			eigenvecY = at.getShearY();
-			// vertex
-			x1 = geo.getTranslationVector().getX();
-			y1 = geo.getTranslationVector().getY();
 
 			// calculate the x range to draw the parabola
 			double x0 = Math.max(Math.abs(x1 - xmin), Math.abs(x1 - xmax));
@@ -1833,7 +1831,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			}
 			// x0 = k2/2 * p; // x = k*p
 			x0 = i * p; // y = sqrt(2k p^2) = i p
-			angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX)) - 90;
+			angle -= 90;
 
 			startBeamer(code);
 			code.append("\\draw [samples=50,rotate around={");
@@ -1863,12 +1861,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			// command: \draw[domain=-1:1,rotate
 			// around={angle:center},xshift=x1,yshift=y1,lineOptions]
 			// plot({a(1+\x^2)/(1-\x^2)},2b\x/(1-\x^2));
-			at = geo.getAffineTransform();
-			eigenvecX = at.getScaleX();
-			eigenvecY = at.getShearY();
-			x1 = geo.getTranslationVector().getX();
-			y1 = geo.getTranslationVector().getY();
-			angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
+
 			startBeamer(code);
 			code.append("\\draw [samples=50,domain=-0.99:0.99,rotate around={");
 			code.append(format(angle));

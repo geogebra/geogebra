@@ -1545,6 +1545,20 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	@Override
 	protected void drawGeoConic(GeoConicND geo) {
+
+		// just need one eigenvector to give angle
+		// assume getZ() is zero (check done earlier)
+		Coords ev0 = euclidianView.getCoordsForView(geo.getEigenvec3D(0));
+		double eigenvecX = ev0.getX();
+		double eigenvecY = ev0.getY();
+		double angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
+
+		Coords mp = geo.getMidpoint3D();
+		double x1 = mp.getX();
+		double y1 = mp.getY();
+		double r1 = geo.getHalfAxes()[0];
+		double r2 = geo.getHalfAxes()[1];
+
 		switch (geo.getType()) {
 		// if conic is a circle
 		default:
@@ -1555,13 +1569,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			break;
 		// if conic is an ellipse
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			GAffineTransform at = geo.getAffineTransform();
-			double eigenvecX = at.getScaleX();
-			double eigenvecY = at.getShearY();
-			double x1 = geo.getTranslationVector().getX();
-			double y1 = geo.getTranslationVector().getY();
 
-			double angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
 			// use scale operator to draw ellipse
 			if (compactcse5) {
 				if (fillInequality) {
@@ -1578,8 +1586,6 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			code.append(")*rotate(");
 			code.append(format(angle));
 			code.append(")*xscale(");
-			double r1 = geo.getHalfAxes()[0];
-			double r2 = geo.getHalfAxes()[1];
 			code.append(format(r1));
 			code.append(")*yscale(");
 			code.append(format(r2));
@@ -1592,14 +1598,6 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 		// if conic is a parabola
 		case GeoConicNDConstants.CONIC_PARABOLA:
-			// parameter of the parabola
-			at = geo.getAffineTransform();
-			// first eigenvector
-			eigenvecX = at.getScaleX();
-			eigenvecY = at.getShearY();
-			// vertex
-			x1 = geo.getTranslationVector().getX();
-			y1 = geo.getTranslationVector().getY();
 
 			// calculate the x range to draw the parabola
 			double x0 = Math.max(Math.abs(x1 - xmin), Math.abs(x1 - xmax));
@@ -1617,7 +1615,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			}
 			// x0 = k2/2 * p; // x = k*p
 			x0 = i * p; // y = sqrt(2k p^2) = i p
-			angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX)) - 90;
+			angle -= 90;
 
 			// write real parabola (real x) function
 			parabolaCount++;
@@ -1669,14 +1667,6 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			// parametric: (a(1+t^2)/(1-t^2), 2bt/(1-t^2))
-			at = geo.getAffineTransform();
-			eigenvecX = at.getScaleX();
-			eigenvecY = at.getShearY();
-			x1 = geo.getTranslationVector().getX();
-			y1 = geo.getTranslationVector().getY();
-			r1 = geo.getHalfAxes()[0];
-			r2 = geo.getHalfAxes()[1];
-			angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
 
 			hyperbolaCount++;
 			if (!compact) {

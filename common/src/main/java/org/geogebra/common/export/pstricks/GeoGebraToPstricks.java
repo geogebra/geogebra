@@ -1297,6 +1297,20 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 	@Override
 	protected void drawGeoConic(GeoConicND geo) {
+
+		// just need one eigenvector to give angle
+		// assume getZ() is zero (check done earlier)
+		Coords ev0 = euclidianView.getCoordsForView(geo.getEigenvec3D(0));
+		double eigenvecX = ev0.getX();
+		double eigenvecY = ev0.getY();
+		double angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
+
+		Coords mp = geo.getMidpoint3D();
+		double x1 = mp.getX();
+		double y1 = mp.getY();
+		double r1 = geo.getHalfAxes()[0];
+		double r2 = geo.getHalfAxes()[1];
+
 		switch (geo.getType()) {
 		default:
 			// do nothing
@@ -1309,12 +1323,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			// command:
 			// \rput{angle}(x_center,y_center){\psellipse(0,0)(20.81,-10.81)}
-			GAffineTransform at = geo.getAffineTransform();
-			double eigenvecX = at.getScaleX();
-			double eigenvecY = at.getShearY();
-			double x1 = geo.getTranslationVector().getX();
-			double y1 = geo.getTranslationVector().getY();
-			double angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
 			startBeamer(code);
 			code.append("\\rput{");
 			code.append(format(angle));
@@ -1325,8 +1333,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append("){\\psellipse");
 			code.append(lineOptionCode(geo, true));
 			code.append("(0,0)(");
-			double r1 = geo.getHalfAxes()[0];
-			double r2 = geo.getHalfAxes()[1];
 			code.append(format(r1));
 			code.append(",");
 			code.append(format(r2));
@@ -1338,14 +1344,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			// command:
 			// \rput{angle_rotation}(x_origin,y_origin){\pstplot{xmin}{xmax}{x^2/2/p}}
-
-			at = geo.getAffineTransform();
-			// first eigenvec
-			eigenvecX = at.getScaleX();
-			eigenvecY = at.getShearY();
-			// vertex
-			x1 = geo.getTranslationVector().getX();
-			y1 = geo.getTranslationVector().getY();
 
 			// calculate the x range to draw the parabola
 			double x0 = Math.max(Math.abs(x1 - xmin), Math.abs(x1 - xmax));
@@ -1365,7 +1363,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			}
 			// x0 = k2/2 * p; // x = k*p
 			x0 = i * p; // y = sqrt(2k p^2) = i p
-			angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX)) - 90;
+			angle -= 90;
 			startBeamer(code);
 			code.append("\\rput{");
 			code.append(format(angle));
@@ -1389,14 +1387,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			// command:
 			// \rput{angle_rotation}(x_origin,y_origin){\parametric{-1}{1}
 			// {a(1+t^2)/(1-t^2)|2bt/(1-t^2)}
-			at = geo.getAffineTransform();
-			eigenvecX = at.getScaleX();
-			eigenvecY = at.getShearY();
-			x1 = geo.getTranslationVector().getX();
-			y1 = geo.getTranslationVector().getY();
-			r1 = geo.getHalfAxes()[0];
-			r2 = geo.getHalfAxes()[1];
-			angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX));
 			startBeamer(code);
 			code.append("\\rput{");
 			code.append(format(angle));
