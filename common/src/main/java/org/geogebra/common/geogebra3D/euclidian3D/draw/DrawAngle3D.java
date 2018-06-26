@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoAnglePointsND;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 

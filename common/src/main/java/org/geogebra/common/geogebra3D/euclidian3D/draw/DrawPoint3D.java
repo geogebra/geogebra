@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 
 //TODO does not extend Drawable3DCurves
