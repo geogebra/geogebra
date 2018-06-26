@@ -118,6 +118,18 @@ public class MyImageD implements MyImageJre {
 					// needed for web
 					try {
 						if (line.startsWith("<svg")) {
+
+							// opening tag might be split across several lines
+							while (line.indexOf(">") == -1) {
+								line += reader.readLine();
+							}
+
+							// remove eg height="100%"
+							line = line.replace("width=\"100%\"", "");
+							line = line.replace("height=\"100%\"", "");
+							line = line.replace("width='100%'", "");
+							line = line.replace("height='100%'", "");
+
 							if (line.contains("viewBox=\"")
 									&& (!line.contains("height=\"")
 											|| !line.contains("width=\""))) {
