@@ -378,8 +378,7 @@ public class DrawPoint3D extends Drawable3DCurves
 
 	@Override
 	public boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_POINTS)
-				&& !createdByDrawList();
+		return !createdByDrawList();
 	}
 
 }

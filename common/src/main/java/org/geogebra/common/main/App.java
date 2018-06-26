@@ -4001,10 +4001,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_TABBED_SETTINGS_PANEL:
 			return true;
 
-		// MOB-1515
-		case MOB_PACK_POINTS:
-			return true;
-
 		// MOB-1537
 		case MOB_PREVIEW_WHEN_EDITING:
 			return false;
