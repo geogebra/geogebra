@@ -26,7 +26,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -53,7 +52,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private StandardButton leftBtn;
 	private StandardButton rightBtn;
 	private Label pageLbl;
-	private Image previewImg;
+	private NoDragImage previewImg;
 	private AutoCompleteTextFieldW curPageNrField;
 	private Label ofPageLbl;
 	private PDFChooser pdfChooser = new PDFChooser();
@@ -145,7 +144,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		pdfContainerPanel.addStyleName("withPdf");
 		pdfPreviewPanel = new FlowPanel();
 		pdfPreviewPanel.addStyleName("pdfPreview");
-		previewImg = new Image();
+		previewImg = new NoDragImage("");
 		previewImg.addStyleName("previewImage");
 		leftBtn = createImgButton(pdfPreviewPanel,
 				KeyboardResources.INSTANCE.keyboard_arrowLeft_black(), 24,
@@ -273,7 +272,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	public void onPageDisplay(String imgSrc) {
 		buildPdfContainer();
 		previewImg.getElement().setAttribute("src", imgSrc);
-		curPageNrField.setText(Integer.toString(pdf.getPageIndex()));
+		curPageNrField.setText(Integer.toString(pdf.getPageNumber()));
 		setLabels();
 	}
 
@@ -316,7 +315,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 					loadedPart.setWidth(width + "%");
 					if (width >= 100) {
 						progressTimer.stop();
-						pdf.getPage(1);
+						pdf.setPageNumber(1);
 					}
 				}
 			};
