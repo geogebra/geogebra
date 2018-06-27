@@ -118,6 +118,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		if (!xAxis && !yAxis) {
 			return;
 		}
+		boolean oldStoreAlgosActive = kernel.getConstruction().isStoreAlgosActive();
+		kernel.getConstruction().setStoreAlgos(false);
 		if (geo instanceof GeoFunction) {
 			getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
 		} else if (geo instanceof EquationValue) {
@@ -127,6 +129,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		if (hasIntersectsBetween(geo)) {
 			getIntersectsBetween((GeoElement) geo, retList);
 		}
+		kernel.getConstruction().setStoreAlgos(oldStoreAlgosActive);
 	}
 
 	private void getFunctionSpecialPoints(GeoFunction geo, boolean xAxis, boolean yAxis,
@@ -234,7 +237,6 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 				element.removeAlgorithm(parent);
 				secondElement.removeAlgorithm(parent);
 				specPointAlgos.add(parent);
-				kernel.getConstruction().removeFromAlgorithmList(parent);
 			}
 			add(elements, retList);
 		} catch (Throwable exception) {
@@ -257,7 +259,6 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private void processAlgo(GeoElement element, AlgoElement algoElement, ArrayList<GeoElementND>
 			retList) {
 		element.removeAlgorithm(algoElement);
-		kernel.getConstruction().removeFromAlgorithmList(algoElement);
 		add(algoElement.getOutput(), retList);
 		specPointAlgos.add(algoElement);
 	}
