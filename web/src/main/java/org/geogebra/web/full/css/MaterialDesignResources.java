@@ -443,4 +443,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-arrow_back-24px.svg")
 	SVGResource mow_back_arrow();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rename_box_black_24px.svg")
+	SVGResource mow_rename();
+
 }

@@ -1,0 +1,172 @@
+package org.geogebra.web.full.gui.util;
+
+import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.MyToggleButton;
+import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
+
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.Image;
+
+/**
+ * Context Menu Popup for Cards
+ * 
+ * Tasks in subclass: add Menu Items, override show() to show the popup at the
+ * correct position
+ * 
+ * @author Alicia
+ *
+ */
+public class ContextMenuCard extends MyToggleButton
+		implements SetLabels, CloseHandler<GPopupPanel> {
+	/** visible component */
+	protected GPopupMenuW wrappedPopup;
+	/** localization */
+	protected Localization loc;
+	private AppW app;
+	/** geogebra frame */
+	protected GeoGebraFrameBoth frame;
+
+	/**
+	 * @param app
+	 *            application
+	 */
+	public ContextMenuCard(AppW app) {
+		super(getImage(MaterialDesignResources.INSTANCE.more_vert_black()),
+				app);
+		this.app = app;
+		loc = app.getLocalization();
+		frame = ((AppWFull) app).getAppletFrame();
+		initButton();
+	}
+
+	private void initButton() {
+		Image hoveringFace = getImage(
+				MaterialDesignResources.INSTANCE.more_vert_mebis());
+		getUpHoveringFace().setImage(hoveringFace);
+		getDownHoveringFace().setImage(hoveringFace);
+		addStyleName("mowMoreButton");
+
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (isShowing()) {
+					hide();
+				} else {
+					show();
+				}
+			}
+		});
+	}
+
+	/**
+	 * adds a menu item
+	 * 
+	 * @param img
+	 *            icon image
+	 * @param text
+	 *            menu item text
+	 * @param cmd
+	 *            command to execute
+	 */
+	protected void addItem(String img, String text, ScheduledCommand cmd) {
+		AriaMenuItem mi = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(img, text, true), true, cmd);
+		wrappedPopup.addItem(mi);
+	}
+
+	private static Image getImage(SVGResource res) {
+		return new NoDragImage(res, 24, 24);
+	}
+
+	/**
+	 * init the popup
+	 */
+	protected void initPopup() {
+		wrappedPopup = new GPopupMenuW(app);
+		wrappedPopup.getPopupPanel().addCloseHandler(this);
+		wrappedPopup.getPopupPanel().addAutoHidePartner(this.getElement());
+		wrappedPopup.getPopupPanel().addStyleName("matMenu mowMatMenu");
+	}
+
+	@Override
+	public void setLabels() {
+		initPopup();
+		setAltText(loc.getMenu("Options"));
+	}
+
+	/**
+	 * @return true if context menu is showing
+	 */
+	protected boolean isShowing() {
+		return wrappedPopup.isMenuShown();
+	}
+
+	/**
+	 * show the context menu
+	 */
+	protected void show() {
+		if (wrappedPopup == null) {
+			initPopup();
+		}
+		focusDeferred();
+		wrappedPopup.setMenuShown(true);
+		toggleIcon(true);
+	}
+
+	/**
+	 * hide the context menu
+	 */
+	public void hide() {
+		wrappedPopup.hide();
+		wrappedPopup.setMenuShown(false);
+		toggleIcon(false);
+	}
+
+	@Override
+	public void onClose(CloseEvent<GPopupPanel> event) {
+		if (event.isAutoClosed()) {
+			wrappedPopup.setMenuShown(false);
+		}
+		toggleIcon(false);
+	}
+
+	/**
+	 * @param toggle
+	 *            true if active
+	 */
+	protected void toggleIcon(boolean toggle) {
+		if (toggle) {
+			getUpFace().setImage(getImage(
+					MaterialDesignResources.INSTANCE.more_vert_mebis()));
+			addStyleName("active");
+		} else {
+			getUpFace().setImage(getImage(
+					MaterialDesignResources.INSTANCE.more_vert_black()));
+			removeStyleName("active");
+		}
+	}
+
+	private void focusDeferred() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				wrappedPopup.getPopupMenu().getElement().focus();
+			}
+		});
+	}
+}
