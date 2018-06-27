@@ -3108,6 +3108,8 @@ __GGB__keysVar["is"].menu = {
     "dependent": "h\xe1\xf0",
     "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "jafnt",
     "exam_accept_app_self_lock": "Leyfi\xf0 \"App Self-Lock\" \xe1\xf0ur en pr\xf3f hefst.",

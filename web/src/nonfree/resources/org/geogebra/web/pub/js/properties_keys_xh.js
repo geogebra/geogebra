@@ -3108,6 +3108,8 @@ __GGB__keysVar["xh"].menu = {
     "dependent": "xhomekeke",
     "dismiss": "dismiss",
     "emf": "iMetafile eEnhanced",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "iEncapsulated Postscript",
     "equal": "lingana",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

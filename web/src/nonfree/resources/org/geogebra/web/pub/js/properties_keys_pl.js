@@ -3108,6 +3108,8 @@ __GGB__keysVar["pl"].menu = {
     "dependent": "zale\u017cny",
     "dismiss": "dismiss",
     "emf": "emf",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "eps",
     "equal": "r\xf3wny",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

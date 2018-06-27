@@ -3108,6 +3108,8 @@ __GGB__keysVar["ko"].menu = {
     "dependent": "\uc758\uc874",
     "dismiss": "dismiss",
     "emf": "emf",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "eps",
     "equal": "\uac19\uc74c",
     "exam_accept_app_self_lock": "\ud3c9\uac00\ub97c \uc2dc\uc791\ud558\uae30 \uc804\uc5d0 \"\uc571 \uc790\ub3d9\uc7a0\uae08(App Self-Lock)\"\uc744 \uc801\uc6a9\ud558\uc138\uc694.",

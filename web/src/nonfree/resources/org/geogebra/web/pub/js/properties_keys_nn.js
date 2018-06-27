@@ -3108,6 +3108,8 @@ __GGB__keysVar["nn"].menu = {
     "dependent": "avhengig",
     "dismiss": "dismiss",
     "emf": "Enhanced Meta Format",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "er lik",
     "exam_accept_app_self_lock": "Ver vennleg og tillat \"Automatisk l\xe5sing av app\" f\xf8r du startar pr\xf8va",

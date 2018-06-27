@@ -3108,6 +3108,8 @@ __GGB__keysVar["ca"].menu = {
     "dependent": "dependent",
     "dismiss": "dismiss",
     "emf": "Enhanced Metafile Format (EMF)",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Postscript encapsulat",
     "equal": "igual",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

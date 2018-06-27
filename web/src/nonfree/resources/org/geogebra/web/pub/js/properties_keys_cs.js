@@ -3108,6 +3108,8 @@ __GGB__keysVar["cs"].menu = {
     "dependent": "z\xe1visl\xfd",
     "dismiss": "dismiss",
     "emf": "roz\u0161\xed\u0159en\xfd metaform\xe1t",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "rovno",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

@@ -3108,6 +3108,8 @@ __GGB__keysVar["zh-TW"].menu = {
     "dependent": "\u76f8\u4f9d",
     "dismiss": "dismiss",
     "emf": "EMF",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "EPS",
     "equal": "\u76f8\u7b49",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

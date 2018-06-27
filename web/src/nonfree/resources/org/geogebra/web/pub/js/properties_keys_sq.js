@@ -3108,6 +3108,8 @@ __GGB__keysVar["sq"].menu = {
     "dependent": "i Varur",
     "dismiss": "dismiss",
     "emf": "Pas-Dokument i Fuqizuar",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Pas-Shenim i Permbyllur(Shkurtuar)",
     "equal": "i/e Barabarte",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

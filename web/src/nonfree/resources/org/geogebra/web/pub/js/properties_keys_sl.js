@@ -3108,6 +3108,8 @@ __GGB__keysVar["sl"].menu = {
     "dependent": "odvisno",
     "dismiss": "dismiss",
     "emf": "Raz\u0161irjen meta format",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "enako",
     "exam_accept_app_self_lock": "Dovoli \"App Self-Lock\" pred za\u010detkom preverjanja",

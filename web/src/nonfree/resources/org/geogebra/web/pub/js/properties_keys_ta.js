@@ -3108,6 +3108,8 @@ __GGB__keysVar["ta"].menu = {
     "dependent": "\u0b9a\u0bbe\u0bb0\u0bcd\u0ba8\u0bcd\u0ba4\u0bc1\u0bb3\u0bcd\u0bb3",
     "dismiss": "dismiss",
     "emf": "\u0bae\u0bbf\u0b95\u0bc8\u0baa\u0bcd\u0baa\u0b9f\u0bc1\u0ba4\u0bcd\u0ba4\u0baa\u0bcd\u0baa\u0b9f\u0bcd\u0b9f Metafile",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "\u0b9a\u0bae\u0ba9\u0bcd",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

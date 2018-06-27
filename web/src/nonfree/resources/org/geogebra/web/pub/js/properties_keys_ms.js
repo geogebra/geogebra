@@ -3108,6 +3108,8 @@ __GGB__keysVar["ms"].menu = {
     "dependent": "bersandar",
     "dismiss": "dismiss",
     "emf": "Metafile Dipertingkatkan",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Poskrip Terkurung",
     "equal": "sama",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

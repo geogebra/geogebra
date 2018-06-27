@@ -3108,6 +3108,8 @@ __GGB__keysVar["fi"].menu = {
     "dependent": "riippuva",
     "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "yht\xe4 suuri kuin",
     "exam_accept_app_self_lock": "Salli \"Appin lukitus\" ennen kokeen aloittamista",

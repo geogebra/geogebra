@@ -3108,6 +3108,8 @@ __GGB__keysVar["cy"].menu = {
     "dependent": "dibynnol",
     "dismiss": "dismiss",
     "emf": "EMF",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "EPS",
     "equal": "hafal",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

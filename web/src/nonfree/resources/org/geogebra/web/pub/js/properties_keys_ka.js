@@ -3108,6 +3108,8 @@ __GGB__keysVar["ka"].menu = {
     "dependent": "\u10d3\u10d0\u10db\u10dd\u10d9\u10d8\u10d3\u10d4\u10d1\u10e3\u10da\u10d8",
     "dismiss": "dismiss",
     "emf": "\u10d2\u10d0\u10e3\u10db\u10ef\u10dd\u10d1\u10d4\u10e1\u10d4\u10d1\u10e3\u10da\u10d8 \u10db\u10d4\u10e2\u10d0\u10e4\u10d0\u10d8\u10da\u10d8",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "\u10e9\u10d0\u10e1\u10db\u10e3\u10da\u10d8 Postscript",
     "equal": "\u10e3\u10d3\u10e0\u10d8\u10e1",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

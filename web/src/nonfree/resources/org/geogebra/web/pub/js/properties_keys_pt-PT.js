@@ -3108,6 +3108,8 @@ __GGB__keysVar["pt-PT"].menu = {
     "dependent": "dependente",
     "dismiss": "dismiss",
     "emf": "Enhanced Meta Format",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "igual",
     "exam_accept_app_self_lock": "Por favor, permita o \"Auto-bloqueio da aplica\xe7\xe3o\" antes de iniciar o exame",

@@ -3108,6 +3108,8 @@ __GGB__keysVar["nl-NL"].menu = {
     "dependent": "afhankelijk",
     "dismiss": "dismiss",
     "emf": "Enhanced Meta Format",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "zijn gelijk",
     "exam_accept_app_self_lock": "Sta \"App Self-Lock\" toe voor het examen te starten",

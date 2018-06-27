@@ -3108,6 +3108,8 @@ __GGB__keysVar["fil"].menu = {
     "dependent": "Umaasa",
     "dismiss": "dismiss",
     "emf": "Pinalakas na Metafile",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "magkatumbas",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

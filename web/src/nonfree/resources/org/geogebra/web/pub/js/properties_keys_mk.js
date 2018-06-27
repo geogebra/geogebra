@@ -3108,6 +3108,8 @@ __GGB__keysVar["mk"].menu = {
     "dependent": "\u0437\u0430\u0432\u0438\u0441\u043d\u043e",
     "dismiss": "dismiss",
     "emf": "Enhanced Meta Format",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "\u0435\u0434\u043d\u0430\u043a\u0432\u043e",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

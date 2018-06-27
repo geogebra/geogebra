@@ -3108,6 +3108,8 @@ __GGB__keysVar["hr"].menu = {
     "dependent": "zavisna",
     "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "jednako",
     "exam_accept_app_self_lock": "Omogu\u0107ite autozaklju\u010davanje aplikacije prije po\u010detka ispita",

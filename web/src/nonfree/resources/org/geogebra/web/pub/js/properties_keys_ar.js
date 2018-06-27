@@ -3108,6 +3108,8 @@ __GGB__keysVar["ar"].menu = {
     "dependent": "\u062a\u0627\u0628\u0639\u0629",
     "dismiss": "dismiss",
     "emf": "Meta\u062a\u0639\u0632\u064a\u0632 \u0627\u0644\u0634\u0643\u0644",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Postscript",
     "equal": "\u062a\u0633\u0627\u0648\u064a",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",

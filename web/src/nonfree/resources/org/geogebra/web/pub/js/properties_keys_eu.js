@@ -3108,6 +3108,8 @@ __GGB__keysVar["eu"].menu = {
     "dependent": "mendekoa",
     "dismiss": "dismiss",
     "emf": "Enhanced Metafile formatua",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postcript formatua",
     "equal": "berdin",
     "exam_accept_app_self_lock": "Mesedez, eman baimena \"App Self-Lock\"-i azterketarekin hasi aurretik",

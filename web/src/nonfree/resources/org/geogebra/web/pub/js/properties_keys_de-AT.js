@@ -3108,6 +3108,8 @@ __GGB__keysVar["de-AT"].menu = {
     "dependent": "abh\xe4ngig",
     "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
+    "emptyMaterialList.caption.mow": "Keine Notizen",
+    "emptyMaterialList.info.mow": "Notizen, die Sie hinzuf\xfcgen, werden hier angezeigt",
     "eps": "Encapsulated Postscript",
     "equal": "gleich",
     "exam_accept_app_self_lock": "Bitte erlaube \"App Self-Lock\" bevor du die Pr\xfcfung startest",

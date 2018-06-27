@@ -3108,6 +3108,8 @@ __GGB__keysVar["id"].menu = {
     "dependent": "terikat",
     "dismiss": "dismiss",
     "emf": "Tingkatkan Kualitas Metafile",
+    "emptyMaterialList.caption.mow": "No Notes",
+    "emptyMaterialList.info.mow": "Notes you add will appear here",
     "eps": "Encapsulated Postscript",
     "equal": "sama dengan",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",
