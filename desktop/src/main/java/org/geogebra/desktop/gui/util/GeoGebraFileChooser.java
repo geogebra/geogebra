@@ -22,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -37,7 +36,6 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.UtilD;
 
 /**
  * An enhanced file chooser for GeoGebra which can be used to load images or ggb
@@ -473,23 +471,7 @@ public class GeoGebraFileChooser extends JFileChooser
 					// fails for a few JPEGs so turn off preview for large files
 					if (file.length() < 1024 * maxImageSize) {
 
-						if (fileName.endsWith(".svg")) {
-
-							FileInputStream is = new FileInputStream(file);
-							String svg = UtilD
-									.loadIntoString(is);
-							is.close();
-
-							tmpImage = new MyImageD(svg, fileName);
-						} else {
-
-							// returns null if the file isn't an image
-							BufferedImage bi = ImageIO.read(file);
-
-							if (bi != null) {
-								tmpImage = new MyImageD(bi);
-							}
-						}
+						tmpImage = MyImageD.fromFile(file, fileName);
 						StringBuilder imgInfo = new StringBuilder();
 
 						if (fileName.length() > 20) {

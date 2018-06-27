@@ -16,8 +16,6 @@ import java.net.URI;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -25,10 +23,12 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.util.Charsets;
+import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.UtilD;
 
 import com.kitfox.svg.SVGCache;
 import com.kitfox.svg.SVGDiagram;
@@ -113,76 +113,6 @@ public class MyImageD implements MyImageJre {
 						new FileInputStream(imageFile), Charsets.UTF_8));
 				for (String line = reader
 						.readLine(); line != null; line = reader.readLine()) {
-
-					// width or height missing, hack to add them in
-					// needed for web
-					try {
-						if (line.startsWith("<svg")) {
-
-							// opening tag might be split across several lines
-							while (line.indexOf(">") == -1) {
-								line += reader.readLine();
-							}
-
-							// remove eg height="100%"
-							line = line.replace("width=\"100%\"", "");
-							line = line.replace("height=\"100%\"", "");
-							line = line.replace("width='100%'", "");
-							line = line.replace("height='100%'", "");
-
-							if (line.contains("viewBox=\"")
-									&& (!line.contains("height=\"")
-											|| !line.contains("width=\""))) {
-
-								int index = line.indexOf('>');
-
-								String start = line.substring(0, index);
-								String end = line.substring(index,
-										line.length());
-
-								String pattern = "viewBox=\"([^\"]*)\"";
-								Pattern r = Pattern.compile(pattern);
-
-								Matcher m = r.matcher(line);
-								if (m.find()) {
-									Log.debug("Found value: " + m.group(1));
-
-									String[] values = m.group(1).split(" ");
-
-									if (values.length == 4) {
-										double xmin = Double
-												.parseDouble(values[0]);
-										double ymin = Double
-												.parseDouble(values[1]);
-										double xmax = Double
-												.parseDouble(values[2]);
-										double ymax = Double
-												.parseDouble(values[3]);
-
-										double width = Math.abs(xmax - xmin);
-										double height = Math.abs(ymax - ymin);
-
-										line = start + " width=\"" + width
-												+ "\" height=\"" + height + "\""
-												+ end;
-										Log.error(
-												"patching SVG file to include height and width:\n"
-														+ line);
-
-										// Log.debug("line = " + line);
-
-										// Log.debug("start = " + start);
-										// Log.debug("end = " + end);
-									}
-
-								}
-
-							}
-						}
-					} catch (Exception e) {
-						Log.error("problem parsing viewBox from SVG");
-					}
-
 					svg.append(line);
 					svg.append('\n');
 				}
@@ -191,7 +121,7 @@ public class MyImageD implements MyImageJre {
 					reader.close();
 				}
 			}
-
+			svg = new StringBuilder(ImageManager.fixSVG(svg.toString()));
 			URL url = imageFile.toURI().toURL();
 			SVGUniverse universe = SVGCache.getSVGUniverse();
 			URI uri = universe.loadSVG(url);
@@ -300,6 +230,25 @@ public class MyImageD implements MyImageJre {
 		Log.error("problem converting image to base64");
 		return "";
 
+	}
+
+	public static MyImageD fromFile(File file, String fileName)
+			throws IOException {
+		if (fileName.endsWith(".svg")) {
+
+			FileInputStream is = new FileInputStream(file);
+			String svg = UtilD.loadIntoString(is);
+			is.close();
+
+			return new MyImageD(svg, fileName);
+		}
+		// returns null if the file isn't an image
+		BufferedImage bi = ImageIO.read(file);
+
+		if (bi != null) {
+			return new MyImageD(bi);
+		}
+		return null;
 	}
 
 }

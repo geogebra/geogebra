@@ -1417,10 +1417,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				while (it.hasNext()) {
 					File f = it.next();
 					fileName = f.getName();
-					img = ImageIO.read(f);
-					if (img != null) {
-						nameList.add(getApp().createImage(new MyImageD(img),
-								fileName));
+					MyImageD imgD = MyImageD.fromFile(f, fileName);
+					if (imgD != null) {
+						nameList.add(getApp().createImage(imgD, fileName));
 						imageFound = true;
 					}
 				}
