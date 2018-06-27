@@ -186,6 +186,7 @@ task copyHtml {
             return raw.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
             .replace("<!--APP NAME FULL-->", "GeoGebra ${appName}")
             .replace("<!--TRY APP-->", "Try App")
+            .replace("<!--SIGN IN-->", "Bejelentkezés")
             .replace("<!--CONTINUE-->", "Continue")
             .replace("<!--APP NAME-->", appName)
             .replace("<!--LANG-->", "en")

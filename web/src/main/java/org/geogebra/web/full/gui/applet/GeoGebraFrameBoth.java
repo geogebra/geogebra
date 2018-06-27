@@ -38,6 +38,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
@@ -54,6 +55,8 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HeaderPanel;
@@ -66,7 +69,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class GeoGebraFrameBoth extends GeoGebraFrameW implements
-		HeaderPanelDeck {
+		HeaderPanelDeck, NativePreviewHandler {
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -102,6 +105,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		this.factory = factory;
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
+		Event.addNativePreviewHandler(this);
 	}
 
 	@Override
@@ -992,6 +996,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 */
 	public PageListPanel getPageControlPanel() {
 		return pageListPanel;
+	}
+
+	public void onPreviewNativeEvent(NativePreviewEvent event) {
+		if (event.getTypeInt() == Event.ONMOUSEDOWN
+				|| event.getTypeInt() == Event.ONTOUCHSTART) {
+			JsEval.callNativeJavaScript("hideAppPicker");
+		}
 	}
 
 }

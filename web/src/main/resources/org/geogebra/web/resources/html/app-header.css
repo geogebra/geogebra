@@ -33,7 +33,7 @@
 	position: absolute;
     top: 0px;
     right: 0px;
-    min-width: 300px;
+    display: flex;
     min-height: 48px;
 }
 
@@ -59,34 +59,27 @@
 }
 
 .shareBtn {
-    margin: 8px 24px 8px 24px;
-    position: absolute;
-    right: 152px;
+    margin: 8px 20px 8px 0;
 }
 
 .appsBtn {
 	margin: 8px 0px 8px 0px;
-    position: absolute;
-    right: 104px;
 }
 
 .GeoGebraHeader .profilePanel, .GeoGebraHeader .signIn {
 	text-transform: uppercase;
-	padding: 12px;
-	margin: 11px 24px 11px 0px;
-    position: absolute;
-    right: 0px;
-    min-width: 84px;
+	margin: 24px;
+   margin: 8px 20px 8px 8px;
+   
+   padding: 4px;
+   line-height: 40px;
+    
     cursor: pointer;
-}
-
-.GeoGebraHeader .profilePanel {
-	padding-top: 0;
-	padding-left: 24px;
 }
 
 img.profileImage {
     border-radius: 50%;
+    display: block;
 }
 
 .logo {
