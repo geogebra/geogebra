@@ -157,6 +157,13 @@ abstract public class ImageManager {
 		int svgStart = fileStr.indexOf("<svg");
 		int svgEnd = fileStr.indexOf(">", svgStart);
 		String svgTag = fileStr.substring(svgStart, svgEnd + 1) + "</svg>";
+
+		// remove eg height="100%"
+		svgTag = svgTag.replace("width=\"100%\"", "");
+		svgTag = svgTag.replace("height=\"100%\"", "");
+		svgTag = svgTag.replace("width='100%'", "");
+		svgTag = svgTag.replace("height='100%'", "");
+
 		if (svgTag.contains("width") && svgTag.contains("height")) {
 			return fileStr;
 		}
