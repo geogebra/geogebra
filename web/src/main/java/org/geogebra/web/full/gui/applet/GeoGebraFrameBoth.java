@@ -1001,7 +1001,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	public void onPreviewNativeEvent(NativePreviewEvent event) {
 		if (event.getTypeInt() == Event.ONMOUSEDOWN
 				|| event.getTypeInt() == Event.ONTOUCHSTART) {
-			JsEval.callNativeJavaScript("hideAppPicker");
+
+			JavaScriptObject js = event.getNativeEvent().getEventTarget();
+			JsEval.callNativeJavaScriptMultiArg("hideAppPicker",
+					js);
 		}
 	}
 

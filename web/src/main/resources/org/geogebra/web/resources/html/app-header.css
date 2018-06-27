@@ -29,7 +29,7 @@
     font-family: sans-serif;
 }
 
-.buttons {
+.GeoGebraFrame .buttons {
 	position: absolute;
     top: 0px;
     right: 0px;
@@ -37,32 +37,33 @@
     min-height: 48px;
 }
 
-.flatButtonHeader {
+.GeoGebraFrame .flatButtonHeader {
 	padding: 12px;
 	opacity: 0.54;
 	cursor: pointer;
 	height: 48px;
 	float: left;
+	box-sizing: border-box;
 }
 
-.flatButtonHeader:hover {
+.GeoGebraFrame .flatButtonHeader:hover {
 	opacity: 0.84;
 }
 
-.flatButtonHeader img {
+.GeoGebraFrame .flatButtonHeader img {
 	width: 24px;
 	height: 24px;
 }
 
-.menuBtn {
+.GeoGebraFrame .menuBtn {
 	margin: 8px 2px 8px 12px;
 }
 
-.shareBtn {
+.GeoGebraFrame .shareBtn {
     margin: 8px 20px 8px 0;
 }
 
-.appsBtn {
+.GeoGebraFrame .appsBtn {
 	margin: 8px 0px 8px 0px;
 }
 
@@ -82,7 +83,7 @@ img.profileImage {
     display: block;
 }
 
-.logo {
+.GeoGebraFrame .logo {
     height: 48px;
     margin: 8px 0px;
     float: left;
@@ -177,45 +178,7 @@ ul {
 	padding-left: 0;
     list-style-type: none;
 }
-.popdown-button-container .popdown-content ul li a {
-    padding: 0 1.5rem;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    transition: background-color .3s;
-    text-decoration: none;
-}
 
-.popdown-content ul li a:not(.disabled):hover {
-    background-color: rgba(0,0,0,.1);
-}
-
-.popdown-content ul li:not(.divider) {
-    line-height: 3rem;
-}
-
-.apps-pop-content svg {
-    width: 24px;
-    height: 24px;
-    opacity: 1;
-    min-width:24px;
-}
-
-.popdown-button-container .popdown-content {
-    background: #fff;
-    position: absolute;
-    top: 100%;
-    margin-top: 8px;
-    left: 0;
-    right: auto;
-    z-index: 1050;
-    line-height: 1;
-}
-
-.popdown-button-container .popdown-content ul li {
-    float: none;
-    white-space: nowrap;
-}
 
 svg.icon.left {
     margin-right: 15px;
@@ -228,10 +191,7 @@ svg.icon.left {
     display: block;
     padding: 0 15px;
     cursor: pointer;
-}
-
-.z-depth-2 {
-    box-shadow: 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12), 0 2px 4px -1px rgba(0,0,0,.3);
+    margin: 0;
 }
 
 nav.beta {
@@ -239,4 +199,23 @@ nav.beta {
     z-index: 102;
     position: relative;
     width: 100%;
+}
+
+.popdown-button-container {
+	position: absolute;
+	top: 100%;
+	font-size: 16px;
+}
+
+.popdown-button-container svg {
+    width: 24px;
+    height: 24px;
+    opacity: 1;
+    min-width:24px;
+    vertical-align: middle;
+}
+
+.GeoGebraHeader .matMenu.gwt-PopupPanel .gwt-MenuItem.listMenuItem {
+	padding: 0;
+	display: block;
 }
