@@ -15,6 +15,7 @@ import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
@@ -26,6 +27,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -50,7 +53,7 @@ public class OpenFileView extends MyHeaderPanel
 	// content panel
 	private FlowPanel contentPanel;
 	// button panel
-	private FlowPanel buttonPanel;
+	private HorizontalPanel buttonPanel;
 	private StandardButton newFileBtn;
 	private FileOpenButton openFileBtn;
 
@@ -80,9 +83,15 @@ public class OpenFileView extends MyHeaderPanel
 		this.ggtMaterialsCB = getGgtMaterialsCB();
 		initHeader();
 		initContentPanel();
-		initButtonPanel();
-		initSortDropdown();
-		initMaterialPanel();
+		if (isMaterialListEmpty()) {
+			showEmptyListNotification();
+			initButtonPanel();
+			setExtendedButtonStyle();
+		} else {
+			initButtonPanel();
+			initSortDropdown();
+			initMaterialPanel();
+		}
 	}
 
 	private void initHeader() {
@@ -117,7 +126,7 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void initButtonPanel() {
-		buttonPanel = new FlowPanel();
+		buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("fileViewButtonPanel");
 
 		newFileBtn = new StandardButton(
@@ -216,9 +225,39 @@ public class OpenFileView extends MyHeaderPanel
 		close();
 	}
 
+	private void showEmptyListNotification() {
+		FlowPanel imagePanel = new FlowPanel();
+		imagePanel.setStyleName("emptyMaterialListInfo");
+		Image image = new NoDragImage(
+				MaterialDesignResources.INSTANCE.more_vert_mebis(), 112, 112);
+
+		Label caption = new Label(localize("emptyMaterialList.caption.mow"));
+		caption.setStyleName("caption");
+		Label info = new Label(localize("emptyMaterialList.info.mow"));
+		info.setStyleName("info");
+
+		imagePanel.add(image);
+		imagePanel.add(caption);
+		imagePanel.add(info);
+
+		contentPanel.add(imagePanel);
+	}
+
+	private void setExtendedButtonStyle() {
+		newFileBtn.setStyleName("extendedFAB");
+		openFileBtn.setStyleName("extendedFAB");
+		openFileBtn.addStyleName("buttonMargin");
+		buttonPanel.addStyleName("center");
+	}
+
 	@Override
 	public AppW getApp() {
 		return app;
+	}
+
+	private boolean isMaterialListEmpty() {
+		// TODO
+		return false;
 	}
 
 	@Override

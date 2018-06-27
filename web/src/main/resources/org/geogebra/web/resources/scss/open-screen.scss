@@ -400,11 +400,12 @@
 					background-color: $mow_card_background_hover;
 				}
 			}
+			.center {
+				margin: 0px auto;
+			}
 		    .gwt-ListBox {
 	    		cursor: pointer;
 	    		float: right;
-	    		position: relative;
-			    top: $button_height;
 	    		border-radius: 0px;	
 	    		box-shadow: none;
 	    		border: none;
@@ -419,7 +420,7 @@
 	    	}
 	    	.materialPanel {
 	    		position: relative;
-		    	top: calc(#{$button_height}* 2 - 1px); // 36 + 35 
+		    	top: 35px;
 				width: 100%;
 				height: 100%;
 		    	margin-top: 8px;
@@ -443,6 +444,75 @@
 						}	
 					}
 		    	}
+			}
+			.emptyMaterialListInfo {
+				margin-top: 88px;
+				margin-bottom: 48px;
+				img {
+					padding: 20px;
+					margin-left: calc(50% - 76px); // (112+2*20)/2=76
+   					margin-right: auto;
+   					margin-bottom: 48px;
+   					opacity: 0.54;
+					background-color: $mow_card_background;
+					border-radius: 50%;
+				}
+				.caption {
+					margin-bottom: 10px;
+					color: $text-primary;
+					font-size: 125%;
+					line-height: 1;
+					vertical-align: top;
+					text-align: center;
+				}
+				.info {
+					color: $text-secondary;
+					vertical-align: top;
+					text-align: center;
+					line-height: 1;
+				}
+			}
+			.extendedFAB {
+				cursor: pointer;
+				float: left;
+				min-width: 64px;
+				height: 48px;
+				border-radius: 2px;
+				background-color: $mow_highlight;
+				transition: $button_hover_transition;
+				&:hover {
+					background-color: $mow_dark;
+				}
+				img {
+					float: left;
+					width: 24px !important;
+					height: 24px;
+					padding: 12px;
+					opacity: 1;
+					filter: invert(100%);
+				}
+				.gwt-Label {
+					float: left;
+					padding: 17px 20px 17px 0px;
+					text-transform: uppercase;
+					font-size: 87.5%; // (=14px)
+					line-height: 1;
+					color: $white;
+				}
+				form {
+					height: 0;
+					
+					input {
+						cursor: pointer;
+						position: relative;
+						top: -60px;
+						right: 0px; 
+						width: 100%; 
+						height: 48px;
+						font-size: 0px;
+						opacity: 0; 
+					}
+				}	
 			}
 		}
 	}
