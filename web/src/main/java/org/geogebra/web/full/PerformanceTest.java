@@ -93,7 +93,8 @@ public class PerformanceTest implements EntryPoint {
 		        .apply(Operation.YCOORD).wrap().plus(3)).wrap();
 		GeoPoint ptD = new AlgoDependentPoint(cons, "D", exD, false).getPoint();
 
-		GeoPoint ptE = new AlgoMidpoint(cons, "E", ptB, ptC).getPoint();
+		GeoPoint ptE = new AlgoMidpoint(cons, ptB, ptC).getPoint();
+		ptE.setLabel("E");
 
 		GeoSegment a = new AlgoJoinPointsSegment(cons, "a", ptE, ptC).getSegment();
 
