@@ -574,6 +574,12 @@ public class EuclidianSettings extends AbstractSettings {
 		settingChanged();
 	}
 
+	/**
+	 * @param axis
+	 *            axis index
+	 * @param showAxisNumbers
+	 *            whether to show numbers
+	 */
 	public void setShowAxisNumbers(int axis, boolean showAxisNumbers) {
 		showAxesNumbers[axis] = showAxisNumbers;
 		settingChanged();

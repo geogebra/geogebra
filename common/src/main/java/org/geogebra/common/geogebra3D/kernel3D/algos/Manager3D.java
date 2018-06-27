@@ -777,12 +777,11 @@ public class Manager3D implements Manager3DInterface {
 	@Override
 	final public GeoConic3D circle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
-		AlgoCircleThreePoints algo = new AlgoCircle3DThreePoints(cons, label, A,
+		AlgoCircleThreePoints algo = new AlgoCircle3DThreePoints(cons, A,
 				B, C);
 		GeoConic3D circle = (GeoConic3D) algo.getCircle();
 		// circle.setToSpecific();
-		circle.update();
-		kernel.notifyUpdate(circle);
+		circle.setLabel(label);
 		return circle;
 	}
 

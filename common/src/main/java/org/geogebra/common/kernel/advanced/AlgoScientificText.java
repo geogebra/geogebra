@@ -37,15 +37,15 @@ public class AlgoScientificText extends AlgoElement {
 
 	private StringBuilder sb = new StringBuilder();
 
-	@SuppressWarnings("javadoc")
-	public AlgoScientificText(Construction cons, String label, GeoNumeric num,
-			GeoNumeric precision) {
-		this(cons, num, precision);
-		text.setLabel(label);
-	}
-
-	@SuppressWarnings("javadoc")
-	AlgoScientificText(Construction cons, GeoNumeric num,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param num
+	 *            number
+	 * @param precision
+	 *            precision
+	 */
+	public AlgoScientificText(Construction cons, GeoNumeric num,
 			GeoNumeric precision) {
 		super(cons);
 		this.num = num;
@@ -57,11 +57,6 @@ public class AlgoScientificText extends AlgoElement {
 
 		setInputOutput();
 		compute();
-	}
-
-	@SuppressWarnings("javadoc")
-	public AlgoScientificText(Construction cons) {
-		super(cons);
 	}
 
 	@Override

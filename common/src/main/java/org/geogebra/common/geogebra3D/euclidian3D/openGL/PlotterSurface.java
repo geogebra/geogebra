@@ -1708,6 +1708,14 @@ public class PlotterSurface {
 		drawNCr(normal2, center, radius);
 	}
 
+	/**
+	 * Draw normal and vertex.
+	 * 
+	 * @param normal
+	 *            normal
+	 * @param point
+	 *            vertex
+	 */
 	public void drawNV(Coords normal, Coords point) {
 		manager.normalToScale(normal);
 		manager.vertexToScale(point);

@@ -2236,8 +2236,13 @@ public class PolygonTriangulation {
 		return maxPointIndex;
 	}
 
+	/**
+	 * Add view corners for polygons restricted to a rectangular view.
+	 * 
+	 * @param corners
+	 *            view corners
+	 */
 	public void setCorners(Coords[] corners) {
 		this.corners = corners;
-
 	}
 }

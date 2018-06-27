@@ -13,17 +13,22 @@ public abstract class DockManager implements SetLabels {
 
 	public abstract DockPanel getPanel(int ViewId);
 
+	/**
+	 * Call onResize for all panels.
+	 */
 	public void resizePanels() {
-		// TODO Auto-generated method stub
-
+		// overridden in Web
 	}
 
 	public abstract int getNumberOfOpenViews();
 
 	public abstract int getFocusedViewId();
 
+	/**
+	 * Ensure that one of the panels has focus.
+	 */
 	public void ensureFocus() {
-		// TODO Auto-generated method stub
+		// overridden in Web
 	}
 
 	/**

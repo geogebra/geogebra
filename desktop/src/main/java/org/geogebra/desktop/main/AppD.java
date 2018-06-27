@@ -5412,4 +5412,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		return md5EncrypterD;
 	}
+
+	public void isShowingLogInDialog() {
+		// for 3D
+	}
 }

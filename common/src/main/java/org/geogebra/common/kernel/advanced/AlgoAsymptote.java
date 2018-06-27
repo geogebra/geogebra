@@ -59,6 +59,14 @@ public class AlgoAsymptote extends AlgoElement {
 		LabelManager.setLabels(label, asymptotes);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param c
+	 *            conic
+	 */
 	public AlgoAsymptote(Construction cons, String[] labels, GeoConic c) {
 		this(cons, c);
 		LabelManager.setLabels(labels, asymptotes);
@@ -100,10 +108,16 @@ public class AlgoAsymptote extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return asymptotes
+	 */
 	public GeoLine[] getAsymptotes() {
 		return asymptotes;
 	}
 
+	/**
+	 * @return input conic
+	 */
 	GeoConic getConic() {
 		return c;
 	}

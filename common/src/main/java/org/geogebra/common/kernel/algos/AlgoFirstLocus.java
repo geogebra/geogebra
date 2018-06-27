@@ -11,11 +11,20 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class AlgoFirstLocus extends AlgoFirst {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputLocus
+	 *            locus
+	 * @param n
+	 *            number of points
+	 */
 	public AlgoFirstLocus(Construction cons, String label,
 			GeoLocusable inputLocus,
 			GeoNumeric n) {
 		super(cons, label, inputLocus.toGeoElement(), n);
-
 	}
 
 	@Override
@@ -26,7 +35,8 @@ public class AlgoFirstLocus extends AlgoFirst {
 	@Override
 	public final void compute() {
 
-		ArrayList<MyPoint> points = ((GeoLocusable) inputList).getPoints();
+		ArrayList<? extends MyPoint> points = ((GeoLocusable) inputList)
+				.getPoints();
 
 		size = points.size();
 		int outsize = n == null ? 1 : (int) n.getDouble();

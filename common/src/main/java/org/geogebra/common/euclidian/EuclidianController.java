@@ -91,6 +91,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoFrame;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -108,7 +109,6 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.common.kernel.geos.GeoFrame;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
@@ -11152,12 +11152,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	public void calculateEnvironment() {
-		// TODO Auto-generated method stub
-	}
-
-	public EnvironmentStyle getEnvironmentStyle() {
-		// TODO Auto-generated method stub
-		return null;
+		// only needed in Web
 	}
 
 	/**

@@ -36,7 +36,16 @@ public class AlgoFunctionFreehand extends AlgoElement {
 	private GeoList inputList; // input
 	private GeoFunction g; // output g
 
-	/** Creates new AlgoDependentFunction */
+	/**
+	 * Creates new AlgoDependentFunction
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            domain endpoints and function values
+	 */
 	public AlgoFunctionFreehand(Construction cons, String label, GeoList f) {
 		this(cons, f);
 		g.setLabel(label);
@@ -119,10 +128,16 @@ public class AlgoFunctionFreehand extends AlgoElement {
 						tpl));
 	}
 
+	/**
+	 * @return input list
+	 */
 	public GeoList getList() {
 		return inputList;
 	}
 
+	/**
+	 * @return number of y values
+	 */
 	public int getPointLength() {
 		// first two elements are the min/max so subtract 2
 		return inputList.size() - 2;

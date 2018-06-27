@@ -9,6 +9,7 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
+import org.geogebra.common.gui.dialog.handler.SegmentHandler;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -20,7 +21,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.main.SegmentHandler;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 

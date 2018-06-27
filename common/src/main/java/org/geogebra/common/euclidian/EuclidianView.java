@@ -563,7 +563,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		return ret;
-
 	}
 
 	public static int getPointStyle(int i) {
@@ -573,9 +572,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public EuclidianView() {
 	}
 
+	/**
+	 * @param ec
+	 *            controller
+	 * @param viewNo
+	 *            view number
+	 * @param settings
+	 *            settings
+	 */
 	public EuclidianView(EuclidianController ec, int viewNo,
 		EuclidianSettings settings) {
-
 		init(ec, viewNo, settings);
 	}
 

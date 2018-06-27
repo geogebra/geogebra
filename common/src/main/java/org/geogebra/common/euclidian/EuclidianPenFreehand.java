@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.PolygonFactory;
 import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.statistics.AlgoFitImplicit;
@@ -357,9 +358,10 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			if (recreate) {
 				geoCircle.remove();
 				AlgoCircleThreePoints algo = new AlgoCircleThreePoints(
-						app.getKernel().getConstruction(), null, list.get(0),
+						app.getKernel().getConstruction(), list.get(0),
 						list.get(1), list.get(2));
 				geoCircle = algo.getCircle();
+				geoCircle.setLabel(null);
 				geoCircle.updateRepaint();
 			}
 
@@ -1212,7 +1214,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	}
 
 	private GeoElement tryCircle() {
-		GeoConic circle = getCircleThreePoints();
+		GeoConicND circle = getCircleThreePoints();
 		if (circle != null) {
 			circle.setIsShape(true);
 			if (app.isWhiteboardActive()) {
@@ -1241,7 +1243,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	/**
 	 * @return circle through three points
 	 */
-	protected GeoConic getCircleThreePoints() {
+	protected GeoConicND getCircleThreePoints() {
 		Inertia s = new Inertia();
 		this.calc_inertia(0, penPoints.size() - 1, s);
 		if (i_det(s) > CIRCLE_MIN_DET) {
@@ -1253,7 +1255,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		return null;
 	}
 
-	private GeoConic makeACircle(double x, double y, double r) {
+	private GeoConicND makeACircle(double x, double y, double r) {
 		ArrayList<GPoint> temp = new ArrayList<>();
 		int npts, i = 0;
 		npts = (int) (2 * r);
@@ -1289,9 +1291,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		GeoPoint z = new GeoPoint(app.getKernel().getConstruction(), x3, y3,
 				1.0);
 		AlgoCircleThreePoints algo = new AlgoCircleThreePoints(
-				app.getKernel().getConstruction(), null, p1, q, z);
+				app.getKernel().getConstruction(), p1, q, z);
 
-		GeoConic circle = (GeoConic) algo.getCircle();
+		GeoConicND circle = algo.getCircle();
 		Equation equ = getEquationOfConic(circle.getFlatMatrix());
 		equ.initEquation();
 		GeoElement[] geos = view.getKernel().getAlgebraProcessor()

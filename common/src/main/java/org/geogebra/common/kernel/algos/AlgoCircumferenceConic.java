@@ -37,13 +37,13 @@ public class AlgoCircumferenceConic extends AlgoElement {
 
 	// Helper to calculate circumference for ellipse
 
-	public AlgoCircumferenceConic(Construction cons, String label,
-			GeoConicND conic) {
-		this(cons, conic);
-		circum.setLabel(label);
-	}
-
-	AlgoCircumferenceConic(Construction cons, GeoConicND conic) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param conic
+	 *            conic
+	 */
+	public AlgoCircumferenceConic(Construction cons, GeoConicND conic) {
 		super(cons);
 		this.conic = conic;
 

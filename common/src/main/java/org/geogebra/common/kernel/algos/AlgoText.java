@@ -60,6 +60,20 @@ public class AlgoText extends AlgoElement {
 		this(cons, label, geo, p, substituteVars, null);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param geo
+	 *            described geo
+	 * @param p
+	 *            start point
+	 * @param substituteVars
+	 *            whether to show variables as values
+	 * @param latex
+	 *            whether to use LaTeX output
+	 */
 	public AlgoText(Construction cons, String label, GeoElement geo,
 			GeoPointND p, GeoBoolean substituteVars, GeoBoolean latex) {
 		this(cons, geo, p, substituteVars, latex);

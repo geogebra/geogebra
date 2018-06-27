@@ -79,9 +79,8 @@ public class CmdSum extends CommandProcessor {
 			if (arg[1].isGeoNumeric()) {
 
 				if (fold instanceof NumberFold) {
-					AlgoSum algo = new AlgoSum(cons, c.getLabel(), list,
-							(GeoNumeric) arg[1]);
-
+					AlgoSum algo = new AlgoSum(cons, list, (GeoNumeric) arg[1]);
+					algo.getResult().setLabel(c.getLabel());
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				} else if (fold != null) {

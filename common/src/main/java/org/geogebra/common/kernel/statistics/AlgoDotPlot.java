@@ -53,11 +53,6 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 	private String toolTipText;
 	private double scaleFactor;
 
-	public AlgoDotPlot(Construction cons, String label, GeoList inputList) {
-		this(cons, inputList, null, null);
-		outputList.setLabel(label);
-	}
-
 	public AlgoDotPlot(Construction cons, GeoList inputList) {
 		this(cons, inputList, null, null);
 	}
@@ -71,12 +66,6 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 	protected AlgoDotPlot(Construction cons, String label, GeoList inputList,
 			GeoBoolean stackDots) {
 		this(cons, inputList, stackDots, null);
-		outputList.setLabel(label);
-	}
-
-	protected AlgoDotPlot(Construction cons, String label, GeoList inputList,
-			GeoBoolean stackDots, GeoNumeric scale) {
-		this(cons, inputList, stackDots, scale);
 		outputList.setLabel(label);
 	}
 

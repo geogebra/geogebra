@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoPerimeterLocus;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoLocusNDInterface;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.MyError;
@@ -34,25 +34,25 @@ public class CmdPerimeter extends CommandProcessor {
 		case 1:
 			// Perimeter[ <GeoPolygon> ]
 			arg = resArgs(c);
-			if ((arg[0].isGeoPolygon())) {
+			if (arg[0].isGeoPolygon()) {
 
 				GeoElement[] ret = { getAlgoDispatcher().perimeter(c.getLabel(),
 						(GeoPolygon) arg[0]) };
 				return ret;
 
 				// Perimeter[ <Conic> ]
-			} else if ((arg[0].isGeoConic())) {
+			} else if (arg[0].isGeoConic()) {
 
 				GeoElement[] ret = { getAlgoDispatcher()
 						.circumference(c.getLabel(), (GeoConicND) arg[0]) };
 				return ret;
 
-			} else if ((arg[0].isGeoLocus())) {
+			} else if (arg[0].isGeoLocus()) {
 				// Perimeter[locus]
 
 				AlgoPerimeterLocus algo = new AlgoPerimeterLocus(cons,
-						c.getLabel(), (GeoLocus) arg[0]);
-
+						(GeoLocusNDInterface) arg[0]);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

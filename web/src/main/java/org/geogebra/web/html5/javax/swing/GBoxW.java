@@ -6,6 +6,8 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.web.html5.euclidian.EnvironmentStyleW;
+import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -75,10 +77,11 @@ public class GBoxW extends GBox {
 			left -= impl.getParent().getAbsoluteLeft();
 			top -= impl.getParent().getAbsoluteTop();
 		}
-
-		if (ec != null && ec.getEnvironmentStyle() != null) {
-			left = (int) (left * (1 / ec.getEnvironmentStyle().getScaleX()));
-			top = (int) (top * (1 / ec.getEnvironmentStyle().getScaleY()));
+		EnvironmentStyleW evs = ec == null ? null
+				: ((IsEuclidianController) ec).getEnvironmentStyle();
+		if (evs != null) {
+			left = (int) (left * (1 / evs.getScaleX()));
+			top = (int) (top * (1 / evs.getScaleY()));
 		} else {
 			Log.debug("ec null");
 		}

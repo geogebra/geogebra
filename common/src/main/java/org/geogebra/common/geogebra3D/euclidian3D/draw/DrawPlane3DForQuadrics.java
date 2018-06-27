@@ -17,6 +17,16 @@ public class DrawPlane3DForQuadrics extends DrawPlane3D {
 	private GeoQuadric3D quadric;
 	private DrawQuadric3D quadricDrawable;
 
+	/**
+	 * @param a_view3D
+	 *            view
+	 * @param a_plane3D
+	 *            plane
+	 * @param quadric
+	 *            quadric
+	 * @param quadricDrawable
+	 *            quadric drawable
+	 */
 	public DrawPlane3DForQuadrics(EuclidianView3D a_view3D,
 			GeoPlane3D a_plane3D, GeoQuadric3D quadric,
 			DrawQuadric3D quadricDrawable) {
@@ -26,10 +36,8 @@ public class DrawPlane3DForQuadrics extends DrawPlane3D {
 
 	@Override
 	protected void init(GeoElement a_plane3D, GeoElement geo2) {
-
 		super.init(a_plane3D);
 		this.quadric = (GeoQuadric3D) geo2;
-
 	}
 
 	@Override

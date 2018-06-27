@@ -28,10 +28,19 @@ import org.geogebra.common.util.MyMath;
  */
 public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            abel
+	 * @param Q
+	 *            locus point
+	 * @param slider
+	 *            slider
+	 */
 	public AlgoLocusSlider(Construction cons, String label, GeoPoint Q,
-			GeoNumeric P) {
-		super(cons, label, Q, P);
-
+			GeoNumeric slider) {
+		super(cons, label, Q, slider);
 	}
 
 	@Override

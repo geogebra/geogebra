@@ -16,11 +16,26 @@ public class AlgoEllipseHyperbolaFociPoint3DOriented
 
 	private GeoDirectionND orientation;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            first focus
+	 * @param B
+	 *            second focus
+	 * @param C
+	 *            point on conic
+	 * @param orientation
+	 *            orientation
+	 * @param type
+	 *            conic type
+	 */
 	public AlgoEllipseHyperbolaFociPoint3DOriented(Construction cons,
 			String label, GeoPointND A, GeoPointND B, GeoPointND C,
 			GeoDirectionND orientation, final int type) {
 		super(cons, label, A, B, C, orientation, type);
-
 	}
 
 	@Override

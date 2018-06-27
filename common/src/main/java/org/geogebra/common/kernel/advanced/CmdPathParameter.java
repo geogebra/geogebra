@@ -34,8 +34,8 @@ public class CmdPathParameter extends CommandProcessor {
 			if ((arg[0].isGeoPoint())) {
 
 				AlgoPathParameter algo = new AlgoPathParameter(cons,
-						c.getLabel(), (GeoPointND) arg[0]);
-
+						(GeoPointND) arg[0]);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

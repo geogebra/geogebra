@@ -31,6 +31,12 @@ import org.geogebra.common.kernel.discrete.geom.Point2D;
 public class ScanlineIntersection extends Intersection {
 	private Segment2DEx segment;
 
+	/**
+	 * @param segment
+	 *            segment
+	 * @param p0
+	 *            point
+	 */
 	public ScanlineIntersection(Segment2DEx segment, Point2D p0) {
 		super(p0);
 		this.segment = segment;

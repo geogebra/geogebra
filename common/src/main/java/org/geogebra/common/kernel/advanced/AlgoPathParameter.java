@@ -32,13 +32,13 @@ public class AlgoPathParameter extends AlgoElement {
 	// Output is a GeoNumeric (= a number)
 	private GeoNumeric value;
 
-	public AlgoPathParameter(Construction cons, String label,
-			GeoPointND point) {
-		this(cons, point);
-		value.setLabel(label);
-	}
-
-	AlgoPathParameter(Construction cons, GeoPointND point) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param point
+	 *            point on path (for other points result is undefined)
+	 */
+	public AlgoPathParameter(Construction cons, GeoPointND point) {
 		super(cons);
 		this.point = point;
 
@@ -77,9 +77,11 @@ public class AlgoPathParameter extends AlgoElement {
 		value.setValue(PathNormalizer.toNormalizedPathParameter(
 				point.getPathParameter().getT(), p.getMinParameter(),
 				p.getMaxParameter()));
-
 	}
 
+	/**
+	 * @return path parameter
+	 */
 	public GeoNumeric getResult() {
 		return value;
 	}

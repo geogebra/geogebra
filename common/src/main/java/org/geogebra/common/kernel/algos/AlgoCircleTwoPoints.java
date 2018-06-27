@@ -41,6 +41,14 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 
 	private BotanaCircle botanaParams;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param M
+	 *            center
+	 * @param P
+	 *            point on circle
+	 */
 	public AlgoCircleTwoPoints(Construction cons, GeoPoint M, GeoPoint P) {
 		super(cons, M, P);
 		setIncidence();

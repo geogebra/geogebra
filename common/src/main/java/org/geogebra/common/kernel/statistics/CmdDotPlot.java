@@ -50,8 +50,9 @@ public class CmdDotPlot extends CommandProcessor {
 
 			} else if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isGeoBoolean())) {
-				AlgoDotPlot algo = new AlgoDotPlot(cons, c.getLabel(),
+				AlgoDotPlot algo = new AlgoDotPlot(cons,
 						(GeoList) arg[0], (GeoBoolean) arg[1], null);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (!ok[0]) {
@@ -63,9 +64,10 @@ public class CmdDotPlot extends CommandProcessor {
 		case 3:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoBoolean())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
-				AlgoDotPlot algo = new AlgoDotPlot(cons, c.getLabel(),
+				AlgoDotPlot algo = new AlgoDotPlot(cons,
 						(GeoList) arg[0], (GeoBoolean) arg[1],
 						(GeoNumeric) arg[2]);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (!ok[0]) {
@@ -82,7 +84,8 @@ public class CmdDotPlot extends CommandProcessor {
 	}
 
 	final private GeoElement doCommand(String a, GeoList b) {
-		AlgoDotPlot algo = new AlgoDotPlot(cons, a, b);
+		AlgoDotPlot algo = new AlgoDotPlot(cons, b);
+		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
 

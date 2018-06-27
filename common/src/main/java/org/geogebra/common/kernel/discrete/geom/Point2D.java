@@ -5,6 +5,12 @@ public class Point2D {
 	private double x;
 	private double y;
 
+	/**
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 */
 	public Point2D(double x, double y) {
 		this.x = x;
 		this.y = y;

@@ -8,18 +8,21 @@ final public class TraceSettings
 	private GColor c;
 	private int alpha;
 
-	public TraceSettings() {
-
-	}
-
-	public TraceSettings(GColor c, int a) {
-		setColor(c, a);
-	}
-
+	/**
+	 * @return copy of these settings
+	 */
 	public TraceSettings copy() {
-		return new TraceSettings(c, alpha);
+		TraceSettings tr = new TraceSettings();
+		tr.setColor(c, alpha);
+		return tr;
 	}
 
+	/**
+	 * @param c
+	 *            color
+	 * @param a
+	 *            alpha
+	 */
 	public void setColor(GColor c, int a) {
 		this.c = c;
 		this.alpha = a;

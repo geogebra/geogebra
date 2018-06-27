@@ -63,12 +63,6 @@ public class AlgoDistancePoints extends AlgoElement
 		compute();
 	}
 
-	public AlgoDistancePoints(Construction cons, String label, GeoPointND P,
-			GeoPointND Q) {
-		this(cons, P, Q);
-		dist.setLabel(label);
-	}
-
 	@Override
 	public Commands getClassName() {
 		return Commands.Distance;

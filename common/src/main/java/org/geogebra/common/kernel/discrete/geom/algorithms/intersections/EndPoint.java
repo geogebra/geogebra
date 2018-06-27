@@ -32,6 +32,14 @@ public abstract class EndPoint extends Point2D {
 
 	private Segment2DEx segment;
 
+	/**
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param segment
+	 *            parent segment
+	 */
 	public EndPoint(double x, double y, Segment2DEx segment) {
 		super(x, y);
 		this.segment = segment;

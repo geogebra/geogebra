@@ -28,6 +28,14 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  */
 public class AlgoIntersectPolynomialLine extends AlgoRootsPolynomial {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            function
+	 * @param g
+	 *            line
+	 */
 	public AlgoIntersectPolynomialLine(Construction cons, GeoFunction f,
 			GeoLine g) {
 		super(cons, f, g);

@@ -56,9 +56,10 @@ public class CmdScientificText extends CommandProcessor {
 
 	final private GeoText scientificText(String label, GeoNumeric num,
 			GeoNumeric prec) {
-		AlgoScientificText algo = new AlgoScientificText(cons, label, num,
+		AlgoScientificText algo = new AlgoScientificText(cons, num,
 				prec);
 		GeoText text = algo.getResult();
+		text.setLabel(label);
 		return text;
 	}
 }

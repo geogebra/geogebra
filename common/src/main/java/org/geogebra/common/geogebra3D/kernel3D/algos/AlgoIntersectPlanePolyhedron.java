@@ -17,10 +17,19 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 
 	private GeoPlane3D plane;
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param plane
+	 *            plane
+	 * @param p
+	 *            polyhedron
+	 */
 	public AlgoIntersectPlanePolyhedron(Construction c, String[] labels,
 			GeoPlane3D plane, GeoPolyhedron p) {
 		super(c, labels, plane, p);
-
 	}
 
 	@Override

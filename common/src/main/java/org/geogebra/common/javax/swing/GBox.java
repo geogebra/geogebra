@@ -18,8 +18,13 @@ public abstract class GBox {
 
 	public abstract void revalidate();
 
+	/**
+	 * Paint this on a canvas when possible (Swing).
+	 * 
+	 * @param g2
+	 *            graphics
+	 */
 	public void repaint(GGraphics2D g2) {
-		// TODO Auto-generated method stub
-
+		// overridden in Desktop
 	}
 }

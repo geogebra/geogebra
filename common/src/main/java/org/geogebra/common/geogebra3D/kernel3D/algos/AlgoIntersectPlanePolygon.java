@@ -12,14 +12,26 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 
+/**
+ * Computes plane x polygnon intersection.
+ */
 public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 
 	private GeoPlane3D plane;
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param plane
+	 *            plane
+	 * @param p
+	 *            polygon
+	 */
 	public AlgoIntersectPlanePolygon(Construction c, String[] labels,
 			GeoPlane3D plane, GeoPolygon p) {
 		super(c, labels, plane, p);
-
 	}
 
 	@Override

@@ -709,6 +709,12 @@ public abstract class DialogManager {
 		private GeoPointND point;
 		private GeoDirectionND forAxis;
 
+		/**
+		 * @param point
+		 *            center
+		 * @param forAxis
+		 *            plane direction
+		 */
 		public CreateCircleFromDirectionRadius(GeoPointND point,
 				GeoDirectionND forAxis) {
 			this.point = point;

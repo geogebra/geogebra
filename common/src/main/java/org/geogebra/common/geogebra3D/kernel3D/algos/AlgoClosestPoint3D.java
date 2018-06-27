@@ -21,9 +21,16 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoClosestPoint3D extends AlgoClosestPoint {
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param path
+	 *            path
+	 * @param point
+	 *            initial point
+	 */
 	public AlgoClosestPoint3D(Construction c, Path path, GeoPointND point) {
 		super(c, path, point);
-
 	}
 
 	@Override
@@ -45,7 +52,6 @@ public class AlgoClosestPoint3D extends AlgoClosestPoint {
 	@Override
 	protected void addIncidence() {
 		// TODO
-
 	}
 
 }

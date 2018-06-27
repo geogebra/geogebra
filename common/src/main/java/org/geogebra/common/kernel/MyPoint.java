@@ -201,8 +201,7 @@ public class MyPoint extends GPoint2D implements Point {
 	 */
 	public MyPoint barycenter(double t, MyPoint point2) {
 		return new MyPoint((1 - t) * x + t * point2.x,
- (1 - t) * y + t
-				* point2.y, SegmentType.MOVE_TO);
+				(1 - t) * y + t * point2.y, SegmentType.MOVE_TO);
 	}
 
 	/**

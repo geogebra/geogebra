@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.MyPoint;
  * Locus interface to avoid typecast warnings
  *
  */
-public interface GeoLocusNDInterface {
+public interface GeoLocusNDInterface extends GeoLocusable {
 	/**
 	 * @return this locus
 	 */

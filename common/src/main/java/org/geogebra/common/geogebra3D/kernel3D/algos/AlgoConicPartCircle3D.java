@@ -45,14 +45,42 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	/**
 	 * Creates a new arc or sector algorithm. The type is either
 	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param center
+	 *            center
+	 * @param startPoint
+	 *            arc start cpoint
+	 * @param endPoint
+	 *            arc ned point
+	 * @param type
+	 *            arc type
 	 */
 	public AlgoConicPartCircle3D(Construction cons, String label,
 			GeoPointND center, GeoPointND startPoint, GeoPointND endPoint,
 			int type) {
-
 		this(cons, label, center, startPoint, endPoint, null, type);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param center
+	 *            center
+	 * @param startPoint
+	 *            arc start cpoint
+	 * @param endPoint
+	 *            arc ned point
+	 * @param orientation
+	 *            orientation
+	 * @param type
+	 *            arc type
+	 */
 	public AlgoConicPartCircle3D(Construction cons, String label,
 			GeoPointND center, GeoPointND startPoint, GeoPointND endPoint,
 			GeoDirectionND orientation, int type) {
@@ -110,7 +138,6 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	private void setIncidence() {
 		startPoint.addIncidence(conicPart, false);
 		// endPoint.addIncidence(conicPart);
-
 	}
 
 	public GeoPointND getStartPoint() {

@@ -940,6 +940,9 @@ public abstract class App implements UpdateSelection {
 		getKernel().getConstruction().getUndoManager().setPropertiesOccured();
 	}
 
+	/**
+	 * Store undo point for properties change.
+	 */
 	public void storeUndoInfoForProperties() {
 		getKernel().getConstruction().getUndoManager()
 				.storeUndoInfoForProperties(isUndoActive());
@@ -1180,6 +1183,9 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
+	/**
+	 * @return recently created geos
+	 */
 	public ArrayList<GeoElement> getJustCreatedGeos() {
 		return getActiveEuclidianView().getEuclidianController()
 				.getJustCreatedGeos();
@@ -1542,9 +1548,6 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Sets state of application to "saved", so that no warning appears on
 	 * close.
-	 *
-	 * @author Zbynek Konecny
-	 * @version 2010-05-26
 	 */
 	public void setSaved() {
 		isSaved = true;
@@ -1568,6 +1571,10 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
+	/**
+	 * @return whether all changes are saved; ignore EV moves if no objects are
+	 *         present
+	 */
 	public final boolean isSaved() {
 		return isSaved || kernel.getConstruction() == null
 				|| !kernel.getConstruction().isStarted();
@@ -1958,7 +1965,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void setPreferredSize(GDimension size) {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -1977,7 +1983,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void setTooltipTimeout(int ttt) {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -1986,7 +1991,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void setTooltipLanguage(String ttl) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public abstract DrawEquation getDrawEquation();
@@ -2051,6 +2055,14 @@ public abstract class App implements UpdateSelection {
 		return exportType != ExportType.NONE;
 	}
 
+	/**
+	 * Start graphics view export.
+	 * 
+	 * @param et
+	 *            export type
+	 * @param scale
+	 *            export scale
+	 */
 	public void setExporting(ExportType et, double scale) {
 		exportType = et;
 		exportScale = scale;
@@ -3378,11 +3390,17 @@ public abstract class App implements UpdateSelection {
 		this.appletHeight = height;
 	}
 
+	/**
+	 * Start collecting repaint calls.
+	 */
 	public void startCollectingRepaints() {
 		getEuclidianView1().getEuclidianController()
 				.startCollectingMinorRepaints();
 	}
 
+	/**
+	 * Stop collecting repaint calls.
+	 */
 	public void stopCollectingRepaints() {
 		getEuclidianView1().getEuclidianController()
 				.stopCollectingMinorRepaints();
@@ -3570,7 +3588,6 @@ public abstract class App implements UpdateSelection {
 						playButton, playDelay, showProtButton);
 			}
 		}
-
 	}
 
 	/**
@@ -3708,7 +3725,6 @@ public abstract class App implements UpdateSelection {
 			getGuiManager()
 					.updateCheckBoxesForShowConstructinProtocolNavigation(id);
 		}
-
 	}
 
 	/**
@@ -3813,7 +3829,7 @@ public abstract class App implements UpdateSelection {
 	 * Whether the app is running just to create a screenshot, some
 	 * recomputations can be avoided in such case
 	 *
-	 * @return false by defaul, overridden in AppW
+	 * @return false by default, overridden in AppW
 	 */
 	public boolean isScreenshotGenerator() {
 		return false;
@@ -3951,9 +3967,11 @@ public abstract class App implements UpdateSelection {
 		return true;
 	}
 
+	/**
+	 * Make sure view repaint scheduler is running.
+	 */
 	public void ensureTimerRunning() {
 		// only for Web
-
 	}
 
 	public abstract void showCustomizeToolbarGUI();
@@ -4453,8 +4471,11 @@ public abstract class App implements UpdateSelection {
 		return mode >= 0 && !"".equals(getToolName(mode));
 	}
 
+	/**
+	 * Update onscreen keyboard.
+	 */
 	public void updateKeyboard() {
-		// TODO Auto-generated method stub
+		// overridden in web
 	}
 
 	/**
@@ -4493,11 +4514,9 @@ public abstract class App implements UpdateSelection {
 					if (num.isAnimating()) {
 						num.getKernel().getAnimatonManager().startAnimation();
 					}
-
 				}
 
 			} else {
-
 				geo.runClickScripts(null);
 			}
 
@@ -4505,12 +4524,13 @@ public abstract class App implements UpdateSelection {
 		}
 
 		return false;
-
 	}
 
+	/**
+	 * Update graphics view alt text.
+	 */
 	public void setAltText() {
 		// ignored in desktop
-
 	}
 
 	/**
@@ -4566,11 +4586,6 @@ public abstract class App implements UpdateSelection {
 		// overridden in subtypes
 	}
 
-	public void isShowingLogInDialog() {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * Run a callback on each view.
 	 * 
@@ -4599,7 +4614,6 @@ public abstract class App implements UpdateSelection {
 		if (getGuiManager().showView(App.VIEW_DATA_ANALYSIS)) {
 			c.run(App.VIEW_DATA_ANALYSIS, "DataAnalysis");
 		}
-
 	}
 
 	public String getInput3DType() {
@@ -4608,11 +4622,22 @@ public abstract class App implements UpdateSelection {
 
 	public abstract void closePopups();
 
+	/**
+	 * Close popups and dropdowns; keep active dropdown at (x,y).
+	 * 
+	 * @param x
+	 *            mouse x-coord
+	 * @param y
+	 *            mouse y-coord
+	 */
 	public void closePopups(int x, int y) {
 		closePopups();
 		getActiveEuclidianView().closeDropDowns(x, y);
 	}
 
+	/**
+	 * @return title for exported file
+	 */
 	public String getExportTitle() {
 		String title = getKernel().getConstruction().getTitle();
 		return "".equals(title) ? "geogebra-export" : title;
@@ -4735,6 +4760,12 @@ public abstract class App implements UpdateSelection {
 		// only used in desktop
 	}
 
+	/**
+	 * Schedule input preview action.
+	 * 
+	 * @param scheduledPreview
+	 *            input preview action
+	 */
 	public void schedulePreview(Runnable scheduledPreview) {
 		// this is basic implementation with no scheduled delay
 		scheduledPreview.run();
@@ -4774,7 +4805,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
 	 * @return true if running in native "desktop" Java
 	 */
 	public boolean isDesktop() {
@@ -4782,7 +4812,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
 	 * @return true if running on native Android (not WebView)
 	 */
 	protected boolean isAndroid() {
@@ -4821,11 +4850,20 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
+	/**
+	 * Show exam welcome message.
+	 */
 	public void examWelcome() {
-		// TODO Auto-generated method stub
-
+		// overridden in platforms supporting exam
 	}
 
+	/**
+	 * @param maxX
+	 *            max width in px
+	 * @param maxY
+	 *            max height in px
+	 * @return export image of current EV
+	 */
 	public GBufferedImage getActiveEuclidianViewExportImage(double maxX,
 			double maxY) {
 		return getEuclidianViewExportImage(getActiveEuclidianView(), maxX,
@@ -5071,6 +5109,13 @@ public abstract class App implements UpdateSelection {
 		return kimberlingw;
 	}
 
+	/**
+	 * Set list of triangle center coefficients
+	 * 
+	 * @param kimberlingw
+	 *            triangle center switch
+	 * @return triangle center switch
+	 */
 	public AlgoKimberlingWeightsInterface setKimberlingw(
 			AlgoKimberlingWeightsInterface kimberlingw) {
 		this.kimberlingw = kimberlingw;
@@ -5081,6 +5126,13 @@ public abstract class App implements UpdateSelection {
 		return cubicw;
 	}
 
+	/**
+	 * Set list of cubic curve coefficients
+	 * 
+	 * @param cubicw
+	 *            cubic curve switch
+	 * @return cubic curve switch
+	 */
 	public AlgoCubicSwitchInterface setCubicw(AlgoCubicSwitchInterface cubicw) {
 		this.cubicw = cubicw;
 		return cubicw;
@@ -5258,6 +5310,9 @@ public abstract class App implements UpdateSelection {
 		enableCAS(cas);
 	}
 
+	/**
+	 * @return whether 3D commands are enabled
+	 */
 	public boolean areCommands3DEnabled() {
 		return areCommands3DEnabled && (getSettings().getEuclidian(-1) == null
 				|| getSettings().getEuclidian(-1).isEnabled());

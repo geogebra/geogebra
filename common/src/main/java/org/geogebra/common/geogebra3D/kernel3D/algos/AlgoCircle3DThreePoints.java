@@ -32,26 +32,6 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            name of the circle
-	 * @param A
-	 *            first point
-	 * @param B
-	 *            second point
-	 * @param C
-	 *            third point
-	 */
-	public AlgoCircle3DThreePoints(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoPointND C) {
-		super(cons, label, A, B, C);
-
-	}
-
-	/**
-	 * Basic constructor
-	 * 
-	 * @param cons
-	 *            construction
 	 * @param A
 	 *            first point
 	 * @param B

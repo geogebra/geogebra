@@ -33,5 +33,5 @@ public interface GeoLocusable extends GeoElementND {
 	/**
 	 * @return list of points
 	 */
-	public ArrayList<MyPoint> getPoints();
+	public ArrayList<? extends MyPoint> getPoints();
 }

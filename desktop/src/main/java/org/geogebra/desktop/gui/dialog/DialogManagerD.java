@@ -479,7 +479,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 		app.setWaitCursor();
 
 		SignInDialogD dialog = new SignInDialogD((AppD) app);
-		app.isShowingLogInDialog();
+		((AppD) app).isShowingLogInDialog();
 		dialog.setVisible(true);
 
 		app.setDefaultCursor();

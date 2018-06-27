@@ -43,20 +43,21 @@ public class AlgoMidpoint extends AlgoMidpointND
 	private PPolynomial[] botanaPolynomials;
 	private PVariable[] botanaVars;
 
-	public AlgoMidpoint(Construction cons, String label, GeoPoint P,
-			GeoPoint Q) {
-		this(cons, P, Q);
-		getPoint().setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param P
+	 *            first point
+	 * @param Q
+	 *            second point
+	 */
 	public AlgoMidpoint(Construction cons, GeoPoint P, GeoPoint Q) {
 		super(cons, P, Q);
 	}
 
 	@Override
-	protected GeoPointND newGeoPoint(Construction cons) {
-
-		return new GeoPoint(cons);
+	protected GeoPointND newGeoPoint(Construction cons1) {
+		return new GeoPoint(cons1);
 	}
 
 	@Override

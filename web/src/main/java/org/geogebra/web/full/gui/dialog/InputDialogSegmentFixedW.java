@@ -2,9 +2,9 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
+import org.geogebra.common.gui.dialog.handler.SegmentHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.SegmentHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 

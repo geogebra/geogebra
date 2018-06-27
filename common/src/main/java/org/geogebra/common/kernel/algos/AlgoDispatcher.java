@@ -663,12 +663,11 @@ public class AlgoDispatcher {
 	 */
 	final public GeoConic circle(String label, GeoPoint A, GeoPoint B,
 			GeoPoint C) {
-		AlgoCircleThreePoints algo = new AlgoCircleThreePoints(cons, label, A,
+		AlgoCircleThreePoints algo = new AlgoCircleThreePoints(cons, A,
 				B, C);
 		GeoConic circle = (GeoConic) algo.getCircle();
 		circle.setToSpecific();
-		circle.update();
-		// notifyUpdate(circle);
+		circle.setLabel(label);
 		return circle;
 	}
 
@@ -849,7 +848,8 @@ public class AlgoDispatcher {
 	 * Perimeter named label of GeoPolygon
 	 */
 	final public GeoNumeric perimeter(String label, GeoPolygon polygon) {
-		AlgoPerimeterPoly algo = new AlgoPerimeterPoly(cons, label, polygon);
+		AlgoPerimeterPoly algo = new AlgoPerimeterPoly(cons, polygon);
+		algo.getCircumference().setLabel(label);
 		return algo.getCircumference();
 	}
 
@@ -857,8 +857,9 @@ public class AlgoDispatcher {
 	 * Circumference named label of GeoConic
 	 */
 	final public GeoNumeric circumference(String label, GeoConicND conic) {
-		AlgoCircumferenceConic algo = new AlgoCircumferenceConic(cons, label,
+		AlgoCircumferenceConic algo = new AlgoCircumferenceConic(cons,
 				conic);
+		algo.getCircumference().setLabel(label);
 		return algo.getCircumference();
 	}
 
@@ -875,8 +876,9 @@ public class AlgoDispatcher {
 	 * Distance named label between points P and Q
 	 */
 	final public GeoNumeric distance(String label, GeoPointND P, GeoPointND Q) {
-		AlgoDistancePoints algo = new AlgoDistancePoints(cons, label, P, Q);
+		AlgoDistancePoints algo = new AlgoDistancePoints(cons, P, Q);
 		GeoNumeric num = algo.getDistance();
+		num.setLabel(label);
 		return num;
 	}
 
@@ -959,8 +961,9 @@ public class AlgoDispatcher {
 	 * Midpoint M = (P + Q)/2
 	 */
 	final public GeoPoint midpoint(String label, GeoPoint P, GeoPoint Q) {
-		AlgoMidpoint algo = new AlgoMidpoint(cons, label, P, Q);
+		AlgoMidpoint algo = new AlgoMidpoint(cons, P, Q);
 		GeoPoint M = algo.getPoint();
+		M.setLabel(label);
 		return M;
 	}
 

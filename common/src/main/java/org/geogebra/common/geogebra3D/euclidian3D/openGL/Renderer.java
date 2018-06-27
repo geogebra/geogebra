@@ -2248,6 +2248,10 @@ public abstract class Renderer {
 		return view3D.getToScreenMatrixForGL();
 	}
 
+	/**
+	 * @param flag
+	 *            image export flag
+	 */
 	final public void setNeedExportImage(boolean flag) {
 		// Log.printStacktrace("" + flag);
 		needExportImage = flag;

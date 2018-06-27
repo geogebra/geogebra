@@ -118,31 +118,6 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	}
 
 	/**
-	 * Return n points on conic
-	 * 
-	 * @param n
-	 *            number of points
-	 * @return Array list of points
-	 */
-	public ArrayList<GeoPoint> getPointsOnConic(int n) {
-		GeoCurveCartesian curve = new GeoCurveCartesian(cons);
-		this.toGeoCurveCartesian(curve);
-
-		double startInterval = -Math.PI, endInterval = Math.PI;
-
-		if (this.type == CONIC_HYPERBOLA) {
-			startInterval = -Math.PI / 2;
-			endInterval = Math.PI / 2;
-		}
-		if (this.type == CONIC_PARABOLA) {
-			startInterval = -1;
-			endInterval = 1;
-		}
-
-		return curve.getPointsOnCurve(n, startInterval, endInterval);
-	}
-
-	/**
 	 * Invert circle or line in circle
 	 * 
 	 * @version 2010-01-21

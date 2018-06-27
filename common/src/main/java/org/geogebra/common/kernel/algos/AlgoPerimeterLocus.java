@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.discrete.tsp.impl.Point;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoLocusNDInterface;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -28,17 +28,19 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoPerimeterLocus extends AlgoElement {
 
 	// Take a polygon as input
-	private GeoLocus locus;
+	private GeoLocusNDInterface locus;
 
 	// Output is a GeoNumeric (= a number)
 	private GeoNumeric circum;
 
-	public AlgoPerimeterLocus(Construction cons, String label, GeoLocus locus) {
-		this(cons, locus);
-		circum.setLabel(label);
-	}
-
-	AlgoPerimeterLocus(Construction cons, GeoLocus locus) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param locus
+	 *            locus
+	 */
+	public AlgoPerimeterLocus(Construction cons,
+			GeoLocusNDInterface locus) {
 		super(cons);
 		this.locus = locus;
 
@@ -55,7 +57,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
-		input[0] = locus;
+		input[0] = locus.toGeoElement();
 
 		super.setOutputLength(1);
 		super.setOutput(0, circum);
@@ -72,7 +74,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 			return;
 		}
 
-		ArrayList<MyPoint> points = locus.getPoints();
+		ArrayList<? extends MyPoint> points = locus.getPoints();
 
 		if (points.size() < 2) {
 			circum.setUndefined();
