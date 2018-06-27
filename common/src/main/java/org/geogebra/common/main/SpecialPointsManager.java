@@ -107,7 +107,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private void getSpecPoints(GeoElementND geo,
-			ArrayList<GeoElementND> retList) {
+							   ArrayList<GeoElementND> retList) {
 		if (!shouldShowSpecialPoints(geo)) {
 			return;
 		}
@@ -119,17 +119,22 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			return;
 		}
 		boolean oldStoreAlgosActive = kernel.getConstruction().isStoreAlgosActive();
-		kernel.getConstruction().setStoreAlgos(false);
-		if (geo instanceof GeoFunction) {
-			getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
-		} else if (geo instanceof EquationValue) {
-			getEquationSpecialPoints((GeoElement) geo, xAxis, yAxis, retList);
+		try {
+			kernel.getConstruction().setStoreAlgos(false);
+			if (geo instanceof GeoFunction) {
+				getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
+			} else if (geo instanceof EquationValue) {
+				getEquationSpecialPoints((GeoElement) geo, xAxis, yAxis, retList);
+			}
+			// Can be of function or equation
+			if (hasIntersectsBetween(geo)) {
+				getIntersectsBetween((GeoElement) geo, retList);
+			}
+		} catch (Throwable exception) {
+			// ignore
+		} finally {
+			kernel.getConstruction().setStoreAlgos(oldStoreAlgosActive);
 		}
-		// Can be of function or equation
-		if (hasIntersectsBetween(geo)) {
-			getIntersectsBetween((GeoElement) geo, retList);
-		}
-		kernel.getConstruction().setStoreAlgos(oldStoreAlgosActive);
 	}
 
 	private void getFunctionSpecialPoints(GeoFunction geo, boolean xAxis, boolean yAxis,
