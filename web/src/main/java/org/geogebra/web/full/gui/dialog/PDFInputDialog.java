@@ -179,18 +179,21 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		curPageNrField = new AutoCompleteTextFieldW(3, appW);
 		curPageNrField.setText("1");
 		curPageNrField.addStyleName("curPageField");
+		pdfPageTextPanel.add(pageLbl);
+		pdfPageTextPanel.add(curPageNrField);
+		pdfPageTextPanel.add(ofPageLbl);
+		pdfContainerPanel.add(pdfPreviewPanel);
+		pdfContainerPanel.add(pdfPageTextPanel);
+		initPreviewActions();
+	}
+
+	private void initPreviewActions() {
 		curPageNrField.addKeyPressHandler(new KeyPressHandler() {
 
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
 				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-					try {
-						int pageNr = Integer.parseInt(curPageNrField.getText());
-						pdf.setPageNumber(pageNr);
-					} catch (NumberFormatException e) {
-						Log.debug("bad number: " + e.getMessage());
-						curPageNrField.setText(Integer.toString(pdf.getPageNumber()));
-					}
+					changePageFromTextField();
 				}
 
 			}
@@ -209,11 +212,21 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 				tfActive = false;
 			}
 		});
-		pdfPageTextPanel.add(pageLbl);
-		pdfPageTextPanel.add(curPageNrField);
-		pdfPageTextPanel.add(ofPageLbl);
-		pdfContainerPanel.add(pdfPreviewPanel);
-		pdfContainerPanel.add(pdfPageTextPanel);
+
+	}
+
+	/**
+	 * Changes PDF page displayed depending on page number in its text field.
+	 */
+	void changePageFromTextField() {
+		try {
+			int pageNr = Integer.parseInt(curPageNrField.getText());
+			if (!pdf.setPageNumber(pageNr)) {
+				displayCurrentPageNumber();
+			}
+		} catch (NumberFormatException e) {
+			Log.debug("bad number: " + e.getMessage());
+		}
 	}
 
 	private StandardButton createTxtButton(FlowPanel root, String styleName,
@@ -281,8 +294,10 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 			insertImage();
 		} else if (source == leftBtn) {
 			pdf.previousPage();
+			displayCurrentPageNumber();
 		} else if (source == rightBtn) {
 			pdf.nextPage();
+			displayCurrentPageNumber();
 		}
 	}
 
@@ -308,10 +323,10 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	/**
 	 * loads the pdf
-	 * 
+	 *
 	 * @param file
 	 *            to load.
-	 * 
+	 *
 	 */
 	void loadPdf(JavaScriptObject file) {
 		buildLoadingPanel();
@@ -327,16 +342,13 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	@Override
 	public void onPageDisplay(String imgSrc) {
-		buildPdfContainer();
+		// buildPdfContainer();
 		if (pdf.getPageCount() == 1) {
 			leftBtn.addStyleName("hidden");
 			rightBtn.addStyleName("hidden");
 			curPageNrField.setEnabled(false);
 		}
 		previewImg.getElement().setAttribute("src", imgSrc);
-		displayCurrentPageNumber();
-		setLabels();
-		insertBtn.setEnabled(true);
 		previewSrc = imgSrc;
 	}
 
@@ -346,7 +358,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	/**
 	 * Progress bar.
-	 * 
+	 *
 	 * @author judit
 	 *
 	 */
@@ -383,7 +395,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 					loadedPart.setWidth(width + "%");
 					if (width >= 100) {
 						progressTimer.stop();
-						pdf.setPageNumber(1);
+						onPDFLoaded();
 					}
 				}
 			};
@@ -393,19 +405,30 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 		/**
 		 * After the pdf loaded, the progress bar should be finished quickly.
-		 * 
+		 *
 		 * @param result
 		 *            true if the loading of the pdf was successful
 		 */
 		public void finishLoading(boolean result) {
 			if (result) {
-				progressTimer.setDelay(10);	
+				progressTimer.setDelay(10);
 			} else {
 				progressTimer.stop();
 				buildErrorPanel();
 			}
-			
+
 		}
+	}
+
+	/**
+	 * method that is called right after PDF loads.
+	 */
+	void onPDFLoaded() {
+		pdf.setPageNumber(1);
+		buildPdfContainer();
+		displayCurrentPageNumber();
+		setLabels();
+		insertBtn.setEnabled(true);
 	}
 
 	private void buildLoadingPanel() {
