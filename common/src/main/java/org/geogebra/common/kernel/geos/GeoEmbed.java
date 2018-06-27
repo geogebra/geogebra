@@ -10,6 +10,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * Geo for embedded apps
+ */
 public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furniture {
 
 	private boolean defined = true;
