@@ -105,6 +105,7 @@ public class OpenFileView extends MyHeaderPanel
 		backBtn.setStyleName("headerBackButton");
 		backBtn.addFastClickHandler(new FastClickHandler() {
 
+			@Override
 			public void onClick(Widget source) {
 				close();
 			}
@@ -135,6 +136,7 @@ public class OpenFileView extends MyHeaderPanel
 		newFileBtn.setStyleName("containedButton");
 		newFileBtn.addFastClickHandler(new FastClickHandler() {
 
+			@Override
 			public void onClick(Widget source) {
 				newFile();
 			}
@@ -266,11 +268,13 @@ public class OpenFileView extends MyHeaderPanel
 
 	}
 
+	@Override
 	public void setMaterialsDefaultStyle() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void loadAllMaterials() {
 		if (this.app.getLoginOperation().isLoggedIn()) {
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
@@ -281,45 +285,54 @@ public class OpenFileView extends MyHeaderPanel
 		}
 	}
 
+	@Override
 	public void clearMaterials() {
 		materialPanel.clear();
 	}
 
+	@Override
 	public void disableMaterials() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void onSearchResults(List<Material> response,
 			ArrayList<Chapter> chapters) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void displaySearchResults(String query) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void refreshMaterial(Material material, boolean isLocal) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void rememberSelected(MaterialListElementI materialElement) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setLabels() {
 		headerCaption.setText(
 				app.getLocalization().getMenu("mow.openFileViewTitle"));
 	}
 
+	@Override
 	public void addMaterial(Material material) {
 		materialPanel.add(new MaterialCard(material, app));
 	}
 
+	@Override
 	public void removeMaterial(Material material) {
 		// TODO Auto-generated method stub
 
