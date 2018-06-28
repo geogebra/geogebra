@@ -3,8 +3,6 @@ package org.geogebra.web.tablet.gui.browser;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.Window;
-
 /**
  * Browse UI for native tablet apps
  */
@@ -28,10 +26,5 @@ public class TabletBrowseGUI extends BrowseGUI {
 	protected void initMaterialListPanel() {
 		this.materialListPanel = new TabletMaterialListPanel(app);
 		this.addResizeListener(this.materialListPanel);
-	}
-
-	@Override
-	protected void updateViewSizes() {
-		this.resizeTo(Window.getClientWidth(), Window.getClientHeight());
 	}
 }
