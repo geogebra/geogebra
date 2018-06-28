@@ -174,6 +174,9 @@ public class PDFWrapper {
 
 	/**
 	 * sets PDF as JavaScriptObject
+	 * 
+	 * @param pdf
+	 *            the JavaScriptObject to set.
 	 */
 	public void setPdf(JavaScriptObject pdf) {
 		this.pdf = pdf;

@@ -545,7 +545,7 @@ public class Browser {
 	 * @return decoded string
 	 */
 	public static native String decodeBase64(String base64)/*-{
-		return $wnd.atob(base64);
+		return decodeURIComponent(escape($wnd.atob(base64)));
 	}-*/;
 
 	/**

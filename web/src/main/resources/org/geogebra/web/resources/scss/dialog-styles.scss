@@ -655,12 +655,11 @@ $duration: 0.2s;
     		
     		.previewImage {
     			position: absolute;
-    			left: 110px;
-    			width: 280px;
-    			height: 360px;
-    			
+			    left: 50%;
+			    max-width: 300px;
+			    max-height: 360px;
+			    transform: translateX(-50%);  			
     		}
-    		
     	}
     
     	.pdfPageText {
