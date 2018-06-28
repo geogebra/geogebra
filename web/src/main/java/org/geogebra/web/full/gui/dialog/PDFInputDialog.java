@@ -30,6 +30,8 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -195,9 +197,17 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
 					changePageFromTextField();
 				}
-
 			}
 		});
+
+		curPageNrField.addKeyUpHandler(new KeyUpHandler() {
+
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				changePageFromTextField(true);
+			}
+		});
+
 		curPageNrField.addFocusHandler(new FocusHandler() {
 
 			@Override
@@ -219,9 +229,19 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	 * Changes PDF page displayed depending on page number in its text field.
 	 */
 	void changePageFromTextField() {
+		changePageFromTextField(false);
+	}
+
+	/**
+	 * Changes PDF page displayed depending on page number in its text field.
+	 *
+	 * @param silent
+	 *            set true for not calling any additional fallback method.
+	 */
+	void changePageFromTextField(boolean silent) {
 		try {
 			int pageNr = Integer.parseInt(curPageNrField.getText());
-			if (!pdf.setPageNumber(pageNr)) {
+			if (!(pdf.setPageNumber(pageNr) || silent)) {
 				displayCurrentPageNumber();
 			}
 		} catch (NumberFormatException e) {
