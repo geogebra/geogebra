@@ -1,10 +1,15 @@
 package org.geogebra.web.full.gui.openfileview;
 
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -22,6 +27,27 @@ public class MaterialCard extends FlowPanel {
 	private Label cardTitle;
 	private Label cardAuthor;
 	private ContextMenuMaterialCard moreBtn;
+	private FlowPanel visibilityPanel;
+	private VisibilityState visibility;
+	private Material material;
+	/**
+	 * @author csilla
+	 *
+	 */
+	public enum VisibilityState {
+		/**
+		 * private material
+		 */
+		Private,
+		/**
+		 * shared by link
+		 */
+		Link,
+		/**
+		 * group material
+		 */
+		Group;
+	}
 
 	/**
 	 * @param m
@@ -31,24 +57,65 @@ public class MaterialCard extends FlowPanel {
 	 */
 	public MaterialCard(final Material m, final AppW app) {
 		this.app = app;
-		initGui(m);
+		this.material = m;
+		initGui();
+		this.addDomHandler(new ClickHandler() {
+			@Override
+			public void onClick(final ClickEvent event) {
+				event.preventDefault();
+				// TODO open material
+			}
+		}, ClickEvent.getType());
 	}
 
-	private void initGui(Material m) {
+	private void initGui() {
 		this.setStyleName("materialCard");
+		// panel containing the preview image of material
 		imgPanel = new FlowPanel();
 		imgPanel.setStyleName("cardImgPanel");
-		setBackgroundImgPanel(m);
+		setBackgroundImgPanel(material);
 		this.add(imgPanel);
+		// panel containing the info regarding the material
 		infoPanel = new FlowPanel();
 		infoPanel.setStyleName("cardInfoPanel");
-		cardTitle = new Label(m.getTitle());
+		cardTitle = new Label(material.getTitle());
 		cardTitle.setStyleName("cardTitle");
-		cardAuthor = new Label(m.getAuthor());
+		cardAuthor = new Label(material.getAuthor());
 		cardAuthor.setStyleName("cardAuthor");
 		moreBtn = new ContextMenuMaterialCard(app);
+		// panel for visibility state
+		visibilityPanel = new FlowPanel();
+		visibilityPanel.setStyleName("visibilityPanel");
+		NoDragImage visibiltyImg = new NoDragImage(
+				MaterialDesignResources.INSTANCE.mow_card_public(), 24);
+		Label visibilityTxt = new Label(
+				app.getLocalization().getMenu("Public"));
+		visibility = VisibilityState.Group;
+		switch (visibility) {
+		case Private:
+			visibiltyImg = new NoDragImage(
+					MaterialDesignResources.INSTANCE.mow_card_private(), 24);
+			visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
+			break;
+		case Link:
+			visibiltyImg = new NoDragImage(
+					MaterialDesignResources.INSTANCE.mow_card_link(), 24);
+			visibilityTxt = new Label(app.getLocalization().getMenu("Link"));
+			break;
+		// TODO group has to be handled since is not coming from material
+		case Group:
+			visibiltyImg = new NoDragImage(
+					MaterialDesignResources.INSTANCE.mow_card_group(), 24);
+			visibilityTxt = new Label(app.getLocalization().getMenu("Group"));
+			break;
+		default:
+			break;
+		}
+		visibilityPanel.add(LayoutUtilW.panelRowIndent(visibiltyImg,visibilityTxt));
+		// build info panel
 		infoPanel.add(cardTitle);
-		infoPanel.add(cardAuthor);
+		// TODO check if it's own or not
+		infoPanel.add(false ? visibilityPanel : cardAuthor);
 		infoPanel.add(moreBtn);
 		this.add(infoPanel);
 	}

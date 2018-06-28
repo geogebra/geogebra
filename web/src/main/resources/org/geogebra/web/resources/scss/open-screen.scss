@@ -432,6 +432,7 @@
    					width: 232px;
     				background-color: $mow_material_card_bgd;
     				box-shadow: 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12, 0 1px 3px 0 $black-2;
+    				transition: box-shadow .25s;
     				
     				&:hover {
     					box-shadow: 0 8px 10px 1px $black-14, 0 3px 14px 2px $black-12, 0 5px 5px -3px $black-2;
@@ -452,7 +453,8 @@
 							line-height: 19px;
 							letter-spacing: 0.25px;
 							padding: 8px 24px 0px 16px;
-							text-overflow: ellipsis
+							text-overflow: ellipsis;
+							font-family: Roboto Medium;
 						}	
 					
 						.cardAuthor {
@@ -463,22 +465,49 @@
 							padding: 6px 0px 12px 16px;
 							text-overflow: ellipsis;
 							position: absolute;
+							font-family: Roboto Regular;
     						top: 48px;
 						}
 						
 						.mowMoreButton {
    							position: absolute;
-    						top: 48px;
+    						top: 50px;
     						height: 24px !important;
     						width: 24px;
     						right: 0px;
-    						padding: 2px 6px 12px 8px;
+    						padding: 4px 6px 10px 8px;
     						opacity: 0.54;
     						cursor: pointer;
     						
     						&:hover {
     							opacity: 1;	
     						}
+						}
+					
+						.visibilityPanel {
+							position: absolute;
+							top: 48px; 
+							
+							.panelRowIndent{
+								padding: 0px;
+							
+								.gwt-Label {
+									font-size: 88%;
+									color: $text-secondary;
+									line-height: 20px;
+									letter-spacing: 0.25px;
+									text-overflow: ellipsis;
+									font-family: Roboto Regular;
+									padding-top: 2px;
+									padding-bottom: 2px;
+									margin: 5px 0px 9px 0px;
+								}
+						
+								img {
+									opacity: 0.54;	
+									margin: 4px 8px 10px 16px;
+								}
+							}
 						}
 					}
 		    	}
