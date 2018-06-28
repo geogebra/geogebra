@@ -65,6 +65,8 @@ public class OpenFileView extends MyHeaderPanel
 	private MaterialCallbackI ggtMaterialsCB;
 	private MaterialCallbackI userMaterialsCB;
 
+	private boolean materialListEmpty = true;
+
 	/**
 	 * @param app
 	 *            application
@@ -83,14 +85,23 @@ public class OpenFileView extends MyHeaderPanel
 		this.ggtMaterialsCB = getGgtMaterialsCB();
 		initHeader();
 		initContentPanel();
-		if (isMaterialListEmpty()) {
+		initButtonPanel();
+		initSortDropdown();
+		initMaterialPanel();
+	}
+
+	/**
+	 * adds content if available, notification otherwise
+	 */
+	protected void addContent() {
+		if (materialListEmpty) {
 			showEmptyListNotification();
-			initButtonPanel();
 			setExtendedButtonStyle();
+			contentPanel.add(buttonPanel);
 		} else {
-			initButtonPanel();
-			initSortDropdown();
-			initMaterialPanel();
+			contentPanel.add(buttonPanel);
+			contentPanel.add(sortDropDown);
+			contentPanel.add(materialPanel);
 		}
 	}
 
@@ -149,8 +160,6 @@ public class OpenFileView extends MyHeaderPanel
 				localize("mow.openFile"));
 		openFileBtn.addStyleName("buttonMargin");
 		buttonPanel.add(openFileBtn);
-
-		contentPanel.add(buttonPanel);
 	}
 
 	private void initSortDropdown() {
@@ -170,16 +179,13 @@ public class OpenFileView extends MyHeaderPanel
 			public void onChange(ChangeEvent event) {
 				// TODO sort material cards according to selected sort mode
 			}
-
 		});
-		contentPanel.add(sortDropDown);
 	}
 
 	private void initMaterialPanel() {
 		materialPanel = new FlowPanel();
 		materialPanel.addStyleName("materialPanel");
 		// materialPanel.add(new MaterialCard(null, app));
-		contentPanel.add(materialPanel);
 	}
 
 	private String localize(String id) {
@@ -257,21 +263,14 @@ public class OpenFileView extends MyHeaderPanel
 		return app;
 	}
 
-	private boolean isMaterialListEmpty() {
-		// TODO
-		return false;
-	}
-
 	@Override
 	public void resizeTo(int width, int height) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setMaterialsDefaultStyle() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -293,32 +292,27 @@ public class OpenFileView extends MyHeaderPanel
 	@Override
 	public void disableMaterials() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onSearchResults(List<Material> response,
 			ArrayList<Chapter> chapters) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void displaySearchResults(String query) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void refreshMaterial(Material material, boolean isLocal) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void rememberSelected(MaterialListElementI materialElement) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -350,6 +344,7 @@ public class OpenFileView extends MyHeaderPanel
 			public void onLoaded(final List<Material> parseResponse,
 					ArrayList<Chapter> meta) {
 				addUsersMaterials(parseResponse);
+				addContent();
 			}
 		};
 	}
@@ -361,6 +356,9 @@ public class OpenFileView extends MyHeaderPanel
 	 *            List of materials
 	 */
 	public void addUsersMaterials(final List<Material> matList) {
+		if (matList.size() > 0) {
+			materialListEmpty = false;
+		}
 		for (int i = matList.size() - 1; i >= 0; i--) {
 			addMaterial(matList.get(i));
 		}
