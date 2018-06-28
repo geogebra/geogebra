@@ -1664,4 +1664,17 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		return true;
 	}
 
+	@Override
+	public void removeFromGL() {
+		super.removeFromGL();
+		if (shouldBePacked()) {
+			if (drawPlanes != null) {
+				drawPlanes[0].removeFromGL();
+				drawPlanes[1].removeFromGL();
+			}
+			if (drawLine != null) {
+				drawLine.removeFromGL();
+			}
+		}
+	}
 }
