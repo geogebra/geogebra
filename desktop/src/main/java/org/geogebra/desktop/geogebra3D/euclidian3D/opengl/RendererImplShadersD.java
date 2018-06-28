@@ -81,10 +81,12 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 		// Create GPU shader handles
 		// OpenGL ES returns an index id to be stored for future reference.
-		vertShader = jogl.getGL2ES2()
+		int vertShader = jogl.getGL2ES2()
 				.glCreateShader(GL2ES2.GL_VERTEX_SHADER);
-		fragShader = jogl.getGL2ES2()
+		setVertShader(vertShader);
+		int fragShader = jogl.getGL2ES2()
 				.glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
+		setFragShader(fragShader);
 
 		// Compile the vertexShader String into a program.
 		String[] vlines = new String[] { vertexShaderString };
@@ -93,23 +95,23 @@ public class RendererImplShadersD extends RendererImplShaders {
 		// System.out.println(vlines[i]);
 
 		int[] vlengths = new int[] { vlines[0].length() };
-		jogl.getGL2ES2().glShaderSource((Integer) vertShader, vlines.length,
+		jogl.getGL2ES2().glShaderSource( vertShader, vlines.length,
 				vlines, vlengths, 0);
-		jogl.getGL2ES2().glCompileShader((Integer) vertShader);
+		jogl.getGL2ES2().glCompileShader( vertShader);
 
 		// Check compile status.
 		int[] compiled = new int[1];
-		jogl.getGL2ES2().glGetShaderiv((Integer) vertShader,
+		jogl.getGL2ES2().glGetShaderiv( vertShader,
 				GL2ES2.GL_COMPILE_STATUS, compiled, 0);
 		if (compiled[0] != 0) {
 			Log.debug("Vertex shader compiled");
 		} else {
 			int[] logLength = new int[1];
-			jogl.getGL2ES2().glGetShaderiv((Integer) vertShader,
+			jogl.getGL2ES2().glGetShaderiv( vertShader,
 					GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
-			jogl.getGL2ES2().glGetShaderInfoLog((Integer) vertShader,
+			jogl.getGL2ES2().glGetShaderInfoLog( vertShader,
 					logLength[0], (int[]) null, 0, log, 0);
 
 			try {
@@ -124,22 +126,22 @@ public class RendererImplShadersD extends RendererImplShaders {
 		// Compile the fragmentShader String into a program.
 		String[] flines = new String[] { fragmentShaderString };
 		int[] flengths = new int[] { flines[0].length() };
-		jogl.getGL2ES2().glShaderSource((Integer) fragShader, flines.length,
+		jogl.getGL2ES2().glShaderSource(fragShader, flines.length,
 				flines, flengths, 0);
-		jogl.getGL2ES2().glCompileShader((Integer) fragShader);
+		jogl.getGL2ES2().glCompileShader(fragShader);
 
 		// Check compile status.
-		jogl.getGL2ES2().glGetShaderiv((Integer) fragShader,
+		jogl.getGL2ES2().glGetShaderiv(fragShader,
 				GL2ES2.GL_COMPILE_STATUS, compiled, 0);
 		if (compiled[0] != 0) {
 			Log.debug("Fragment shader compiled");
 		} else {
 			int[] logLength = new int[1];
-			jogl.getGL2ES2().glGetShaderiv((Integer) fragShader,
+			jogl.getGL2ES2().glGetShaderiv(fragShader,
 					GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
-			jogl.getGL2ES2().glGetShaderInfoLog((Integer) fragShader,
+			jogl.getGL2ES2().glGetShaderInfoLog(fragShader,
 					logLength[0], (int[]) null, 0, log, 0);
 
 			try {

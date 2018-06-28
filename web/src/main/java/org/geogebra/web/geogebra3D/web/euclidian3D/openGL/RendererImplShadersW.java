@@ -89,13 +89,13 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 	@Override
 	protected final void compileShadersProgram() {
-		fragShader = getShader(
+		setFragShader(getShader(
 				WebGLRenderingContext.FRAGMENT_SHADER,
-				ShaderProvider.getFragmentShader(true));
-		vertShader = getShader(
+				ShaderProvider.getFragmentShader(true)));
+		setVertShader(getShader(
 				WebGLRenderingContext.VERTEX_SHADER,
 				ShaderProvider.getVertexShader(true, view3D.getApplication()
-						.has(Feature.MOB_LAYER_FOR_PACKING)));
+						.has(Feature.MOB_LAYER_FOR_PACKING))));
 	}
 
 	@Override

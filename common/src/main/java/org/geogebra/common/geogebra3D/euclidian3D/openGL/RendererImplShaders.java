@@ -1,7 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
-import java.util.Stack;
-
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
@@ -68,10 +66,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected boolean oneNormalForAllVertices;
 
 	protected Object shaderProgram;
-	protected Object vertShader;
-	protected Object fragShader;
-	private Stack<Object> removedBuffers = new Stack<>();
-	private Stack<Object> removedElementBuffers = new Stack<>();
+	private Object vertShader;
+
+	private Object fragShader;
 
 	private boolean texturesEnabled;
 
@@ -177,6 +174,14 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	abstract protected void glUniform3f(Object location, float x, float y,
 			float z);
+
+	protected void setVertShader(Object vertShader) {
+		this.vertShader = vertShader;
+	}
+
+	protected void setFragShader(Object fragShader) {
+		this.fragShader = fragShader;
+	}
 
 	protected void resetOneNormalForAllVertices() {
 		oneNormalForAllVertices = false;
