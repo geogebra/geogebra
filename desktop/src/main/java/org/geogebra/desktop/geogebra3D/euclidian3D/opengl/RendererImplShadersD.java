@@ -1,7 +1,6 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.ShortBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
@@ -11,7 +10,6 @@ import javax.media.opengl.fixedfunc.GLLightingFunc;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
@@ -21,7 +19,6 @@ import org.geogebra.common.geogebra3D.main.FragmentShader;
 import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJre;
 import org.geogebra.common.jre.openGL.GLBufferJre;
-import org.geogebra.common.jre.openGL.GPUBufferJre;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
@@ -186,26 +183,8 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	@Override
 	final protected void createVBOs() {
-		vboHandles = new int[5];
-		jogl.getGL2ES2().glGenBuffers(5, vboHandles, 0);
-
-		vboColors = new GPUBufferJre();
-		vboVertices = new GPUBufferJre();
-		vboNormals = new GPUBufferJre();
-		vboTextureCoords = new GPUBufferJre();
-		vboIndices = new GPUBufferJre();
-		vboColors.set(vboHandles[GLSL_ATTRIB_COLOR]);
-		vboVertices.set(vboHandles[GLSL_ATTRIB_POSITION]);
-		vboNormals.set(vboHandles[GLSL_ATTRIB_NORMAL]);
-		vboTextureCoords.set(vboHandles[GLSL_ATTRIB_TEXTURE]);
-		vboIndices.set(vboHandles[GLSL_ATTRIB_INDEX]);
-	}
-
-	@Override
-	final protected void createBufferFor(GPUBuffer buffer) {
-		int[] b = new int[1];
-		jogl.getGL2ES2().glGenBuffers(1, b, 0);
-		buffer.set(b[0]);
+		vboHandles = new int[GLSL_ATTRIB_SIZE];
+		jogl.getGL2ES2().glGenBuffers(GLSL_ATTRIB_SIZE, vboHandles, 0);
 	}
 
 	@Override
@@ -214,20 +193,8 @@ public class RendererImplShadersD extends RendererImplShaders {
 	}
 
 	@Override
-	public void storeElementBuffer(short[] fb, int length, GPUBuffer buffers) {
-		// Select the VBO, GPU memory data
-		bindBufferForIndices(buffers);
-
-		// transfer data to VBO, this perform the copy of data from CPU -> GPU
-		// memory
-		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2L,
-				ShortBuffer.wrap(fb), RendererJogl.GL_STREAM_DRAW);
-
-	}
-
-	@Override
-	final protected void bindBuffer(int bufferType, GPUBuffer buffer) {
-		jogl.getGL2ES2().glBindBuffer(bufferType, ((GPUBufferJre) buffer).get());
+	final protected void bindBuffer(int bufferType, int buffer) {
+		jogl.getGL2ES2().glBindBuffer(bufferType, vboHandles[buffer]);
 	}
 
 	@Override

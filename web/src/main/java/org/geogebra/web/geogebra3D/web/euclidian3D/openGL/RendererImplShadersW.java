@@ -6,7 +6,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
@@ -21,6 +20,7 @@ import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
 import com.googlecode.gwtgl.array.Uint8Array;
+import com.googlecode.gwtgl.binding.WebGLBuffer;
 import com.googlecode.gwtgl.binding.WebGLFramebuffer;
 import com.googlecode.gwtgl.binding.WebGLProgram;
 import com.googlecode.gwtgl.binding.WebGLRenderbuffer;
@@ -40,6 +40,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 	private static final int GL_TYPE_DRAW_TO_BUFFER = WebGLRenderingContext.STREAM_DRAW;
 	private WebGLRenderingContext glContext;
 	private ArrayList<WebGLTexture> texturesArray = new ArrayList<>();
+	private WebGLBuffer[] vboHandles;
 
 	/**
 	 * Constructor
@@ -135,21 +136,10 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 	@Override
 	protected final void createVBOs() {
-		vboColors = new GPUBufferW();
-		vboVertices = new GPUBufferW();
-		vboNormals = new GPUBufferW();
-		vboTextureCoords = new GPUBufferW();
-		vboIndices = new GPUBufferW();
-		vboColors.set(glContext.createBuffer());
-		vboVertices.set(glContext.createBuffer());
-		vboNormals.set(glContext.createBuffer());
-		vboTextureCoords.set(glContext.createBuffer());
-		vboIndices.set(glContext.createBuffer());
-	}
-
-	@Override
-	protected final void createBufferFor(GPUBuffer buffer) {
-		buffer.set(glContext.createBuffer());
+		vboHandles = new WebGLBuffer[GLSL_ATTRIB_SIZE];
+		for (int i = 0; i<5; i++) {
+			vboHandles[i] = glContext.createBuffer();
+		}
 	}
 
 	@Override
@@ -158,21 +148,8 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	public void storeElementBuffer(short[] fb, int length,
-			GPUBuffer buffers) {
-		// Select the VBO, GPU memory data
-		bindBufferForIndices(buffers);
-
-		// transfer data to VBO, this perform the copy of data from CPU -> GPU
-		// memory
-		glContext.bufferData(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
-				MyInt16Array.create(fb), GL_TYPE_DRAW_TO_BUFFER);
-
-	}
-
-	@Override
-	protected final void bindBuffer(int bufferType, GPUBuffer buffer) {
-		glContext.bindBuffer(bufferType, ((GPUBufferW) buffer).get());
+	protected final void bindBuffer(int bufferType, int buffer) {
+		glContext.bindBuffer(bufferType, vboHandles[buffer]);
 	}
 
 	@Override

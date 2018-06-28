@@ -21,6 +21,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	final static public int GLSL_ATTRIB_NORMAL = 2;
 	final static public int GLSL_ATTRIB_TEXTURE = 3;
 	final static public int GLSL_ATTRIB_INDEX = 4;
+	final static public int GLSL_ATTRIB_SIZE = 5;
 
 	final static protected int TEXTURE_TYPE_NONE = 0;
 	final static protected int TEXTURE_TYPE_FADING = 1;
@@ -54,12 +55,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	protected Object opaqueSurfacesLocation; // special drawing for opaque
 												// surfaces
-
-	protected GPUBuffer vboVertices;
-	protected GPUBuffer vboColors;
-	protected GPUBuffer vboNormals;
-	protected GPUBuffer vboTextureCoords;
-	protected GPUBuffer vboIndices;
 
 	protected float[] tmpNormal3 = new float[3];
 
@@ -141,53 +136,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		super(renderer, view);
 	}
 
-	abstract protected void createBufferFor(GPUBuffer buffer);
-
-	final private void createBuffer(GPUBuffer buffer, Stack<Object> stack) {
-		if (stack.isEmpty()) {
-			createBufferFor(buffer);
-		} else {
-			buffer.set(stack.pop());
-		}
-	}
-
-	@Override
-	final public void createArrayBuffer(GPUBuffer buffer) {
-		createBuffer(buffer, removedBuffers);
-	}
-
-	@Override
-	final public void createElementBuffer(GPUBuffer buffer) {
-		createBuffer(buffer, removedElementBuffers);
-	}
-
-	final private static void removeBuffer(GPUBuffer buffer,
-			Stack<Object> stack) {
-		stack.push(buffer.get());
-	}
-
-	@Override
-	public void removeArrayBuffer(GPUBuffer buffer) {
-		removeBuffer(buffer, removedBuffers);
-	}
-
-	@Override
-	public void removeElementBuffer(GPUBuffer buffer) {
-		removeBuffer(buffer, removedElementBuffers);
-	}
-
-	@Override
-	public void storeBuffer(GLBuffer fb, int length, int size, GPUBuffer buffer,
-			int attrib) {
-		// Select the VBO, GPU memory data
-		bindBuffer(buffer);
-
-		// transfer data to VBO, this perform the copy of data from CPU -> GPU
-		// memory
-		glBufferData(getStoreBufferNumBytes(length, size), fb);
-
-	}
-
 	/**
 	 * push buffer data
 	 * 
@@ -201,15 +149,15 @@ public abstract class RendererImplShaders extends RendererImpl {
 	abstract protected int getStoreBufferNumBytes(int length, int size);
 
 	@Override
-	final public void bindBufferForIndices(GPUBuffer buffer) {
+	final public void bindBufferForIndices(int buffer) {
 		bindBuffer(getGL_ELEMENT_ARRAY_BUFFER(), buffer);
 	}
 
-	final protected void bindBuffer(GPUBuffer buffer) {
+	final protected void bindBuffer(int buffer) {
 		bindBuffer(getGL_ARRAY_BUFFER(), buffer);
 	}
 
-	abstract protected void bindBuffer(int bufferType, GPUBuffer buffer);
+	abstract protected void bindBuffer(int bufferType, int buffer);
 
 	abstract protected int getGL_ELEMENT_ARRAY_BUFFER();
 
@@ -333,7 +281,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		// VBO - vertices
 
 		// Select the VBO, GPU memory data, to use for vertices
-		bindBuffer(vboVertices);
+		bindBuffer(GLSL_ATTRIB_POSITION);
 
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
@@ -356,7 +304,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		setColor(-1, -1, -1, -1);
 
 		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(vboColors);
+		bindBuffer(GLSL_ATTRIB_COLOR);
 		int numBytes = length * 16; // 4 bytes per float * 4 color values (rgba)
 		glBufferData(numBytes, fbColors);
 
@@ -374,7 +322,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		setCurrentGeometryHasTexture();
 
 		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(vboTextureCoords);
+		bindBuffer(GLSL_ATTRIB_TEXTURE);
 		int numBytes = length * 8; // 4 bytes per float * 2 coords per texture
 		glBufferData(numBytes, fbTextures);
 
@@ -411,7 +359,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		}
 
 		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(vboNormals);
+		bindBuffer(GLSL_ATTRIB_NORMAL);
 		int numBytes = length * 12; // 4 bytes per float * * 3 coords per normal
 		glBufferData(numBytes, fbNormals);
 
@@ -442,7 +390,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		// VBO - indices
 
 		// Select the VBO, GPU memory data, to use for indices
-		bindBufferForIndices(vboIndices);
+		bindBufferForIndices(GLSL_ATTRIB_INDEX);
 
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
@@ -458,16 +406,16 @@ public abstract class RendererImplShaders extends RendererImpl {
 	 */
 	protected void attribPointers() {
 
-		bindBuffer(vboVertices);
+		bindBuffer(GLSL_ATTRIB_POSITION);
 		vertexAttribPointer(GLSL_ATTRIB_POSITION, 3);
 
-		bindBuffer(vboNormals);
+		bindBuffer(GLSL_ATTRIB_NORMAL);
 		vertexAttribPointer(GLSL_ATTRIB_NORMAL, 3);
 
-		bindBuffer(vboColors);
+		bindBuffer(GLSL_ATTRIB_COLOR);
 		vertexAttribPointer(GLSL_ATTRIB_COLOR, 4);
 
-		bindBuffer(vboTextureCoords);
+		bindBuffer(GLSL_ATTRIB_TEXTURE);
 		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
 	}
 

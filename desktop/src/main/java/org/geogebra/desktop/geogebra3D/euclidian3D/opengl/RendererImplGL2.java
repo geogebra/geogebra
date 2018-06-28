@@ -14,7 +14,6 @@ import javax.media.opengl.glu.GLU;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -652,44 +651,7 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	public void storeBuffer(GLBuffer fb, int length, int size,
-			GPUBuffer buffers, int attrib) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void storeElementBuffer(short[] fb, int length, GPUBuffer buffers) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void bindBufferForIndices(GPUBuffer buffer) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void createArrayBuffer(GPUBuffer buffer) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void createElementBuffer(GPUBuffer buffer) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void removeArrayBuffer(GPUBuffer buffer) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void removeElementBuffer(GPUBuffer buffer) {
+	public void bindBufferForIndices(int buffer) {
 		// TODO Auto-generated method stub
 
 	}

@@ -34,71 +34,11 @@ public interface RendererShadersInterface {
 	public void draw(Manager.Type type, int length);
 
 	/**
-	 * bind cpu buffer to gpu buffer
-	 * 
-	 * @param fb
-	 *            cpu buffer
-	 * @param length
-	 *            buffer length
-	 * @param size
-	 *            buffer element size
-	 * @param buffers
-	 *            gpu buffers
-	 * @param attrib
-	 *            attrib in gpu buffers
-	 */
-	public void storeBuffer(GLBuffer fb, int length, int size,
-			GPUBuffer buffers, int attrib);
-
-	/**
-	 * 
-	 * @param fb
-	 *            cpu buffer
-	 * @param length
-	 *            buffer length
-	 * @param buffers
-	 *            gpu buffers
-	 */
-	public void storeElementBuffer(short[] fb, int length, GPUBuffer buffers);
-
-	/**
 	 * 
 	 * @param buffer
 	 *            gpu buffers
 	 */
-	public void bindBufferForIndices(GPUBuffer buffer);
-
-	/**
-	 * create gpu buffer and store id
-	 * 
-	 * @param buffer
-	 *            where to store id
-	 */
-	public void createArrayBuffer(GPUBuffer buffer);
-
-	/**
-	 * create gpu element buffer and store id
-	 * 
-	 * @param buffer
-	 *            where to store id
-	 */
-	public void createElementBuffer(GPUBuffer buffer);
-
-	/**
-	 * remove gpu buffer
-	 * 
-	 * @param buffer
-	 *            id for gpu buffer
-	 */
-	public void removeArrayBuffer(GPUBuffer buffer);
-
-	/**
-	 * remove gpu element buffer
-	 * 
-	 * @param buffer
-	 *            id for gpu buffer
-	 */
-	public void removeElementBuffer(GPUBuffer buffer);
+	public void bindBufferForIndices(int buffer);
 
 	public void setDashTexture(int index);
 

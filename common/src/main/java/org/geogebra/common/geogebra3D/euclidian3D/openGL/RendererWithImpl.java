@@ -336,46 +336,8 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final public void storeBuffer(GLBuffer fb, int length, int size,
-			GPUBuffer buffers, int attrib) {
-		rendererImpl.storeBuffer(fb, length, size, buffers, attrib);
-
-	}
-
-	@Override
-	final public void storeElementBuffer(short[] fb, int length,
-			GPUBuffer buffers) {
-		rendererImpl.storeElementBuffer(fb, length, buffers);
-
-	}
-
-	@Override
-	final public void bindBufferForIndices(GPUBuffer buffer) {
+	final public void bindBufferForIndices(int buffer) {
 		rendererImpl.bindBufferForIndices(buffer);
-
-	}
-
-	@Override
-	final public void createArrayBuffer(GPUBuffer buffer) {
-		rendererImpl.createArrayBuffer(buffer);
-
-	}
-
-	@Override
-	final public void createElementBuffer(GPUBuffer buffer) {
-		rendererImpl.createElementBuffer(buffer);
-
-	}
-
-	@Override
-	final public void removeArrayBuffer(GPUBuffer buffer) {
-		rendererImpl.removeArrayBuffer(buffer);
-
-	}
-
-	@Override
-	final public void removeElementBuffer(GPUBuffer buffer) {
-		rendererImpl.removeElementBuffer(buffer);
 
 	}
 
