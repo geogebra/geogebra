@@ -18,6 +18,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
@@ -451,9 +452,14 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private void buildHeader() {
 		btnMenu.addStyleName("flatButtonHeader");
 		btnMenu.addStyleName("menuBtn");
-		RootPanel.get("headerID").insert(btnMenu, 0);
+		RootPanel root = RootPanel.get("headerID");
+		Element dummy = Dom.querySelectorForElement(root.getElement(),
+				"menuBtn");
+		if (dummy != null) {
+			dummy.removeFromParent();
+		}
+		root.insert(btnMenu, 0);
 		addShareButton();
-		// addAppsButton();
 	}
 
 	private void addShareButton() {

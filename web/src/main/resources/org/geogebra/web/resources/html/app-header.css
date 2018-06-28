@@ -83,7 +83,7 @@ img.profileImage {
     display: block;
 }
 
-.GeoGebraFrame .logo {
+.GeoGebraFrame .headerLogo {
     height: 48px;
     margin: 8px 0px;
     float: left;
