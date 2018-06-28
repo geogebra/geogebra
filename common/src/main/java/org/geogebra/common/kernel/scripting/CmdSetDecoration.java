@@ -28,10 +28,8 @@ public class CmdSetDecoration extends CmdScripting {
 		switch (n) {
 		case 2:
 			GeoElement[] arg = resArgs(c);
-            double x = getDouble(arg[1], c);
 
 			int style = (int) arg[1].evaluateDouble();
-			// Integer[] types = EuclidianView.getLineTypes();
 
 			// For invalid number we assume it's 0
 			// We do this also for SetPointStyle
@@ -48,13 +46,6 @@ public class CmdSetDecoration extends CmdScripting {
 		default:
 			throw argNumErr(c);
 		}
-	}
-
-	private double getDouble(GeoElement geo, Command c) {
-		if (!geo.isNumberValue()) {
-			throw argErr(c, geo);
-		}
-		return geo.evaluateDouble();
 	}
 
 }
