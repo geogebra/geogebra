@@ -899,7 +899,16 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				lastNonWhitespace = ch;
 			}
 		}
-
+		String basicOps = ".+-*/ ";
+		for (int i = 0; i < sbFix.length(); i++) {
+			if (sbFix.charAt(i) == ',') {
+				sbFix.replace(i, i + 1, ".");
+			}
+			if (!Character.isDigit(sbFix.charAt(i))
+					&& basicOps.indexOf(sbFix.charAt(i)) == -1) {
+				break;
+			}
+		}
 		return sbFix.reverse().toString();
 	}
 
