@@ -113,7 +113,7 @@ public class ContextMenuCard extends MyToggleButton
 	 * @return true if context menu is showing
 	 */
 	protected boolean isShowing() {
-		return wrappedPopup.isMenuShown();
+		return wrappedPopup != null && wrappedPopup.isMenuShown();
 	}
 
 	/**

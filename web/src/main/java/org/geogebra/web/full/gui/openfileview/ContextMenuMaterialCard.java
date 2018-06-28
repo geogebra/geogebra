@@ -115,6 +115,6 @@ public class ContextMenuMaterialCard extends ContextMenuCard {
 	protected void show() {
 		super.show();
 		wrappedPopup.show(
-				new GPoint(getAbsoluteLeft() - 122, getAbsoluteTop() + 36));
+				new GPoint(getAbsoluteLeft() - 130, getAbsoluteTop() + 28));
 	}
 }
