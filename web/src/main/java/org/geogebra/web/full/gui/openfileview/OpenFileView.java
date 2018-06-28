@@ -376,6 +376,7 @@ public class OpenFileView extends MyHeaderPanel
 			public void onLoaded(final List<Material> response,
 					ArrayList<Chapter> meta) {
 				addGGTMaterials(response, meta);
+				addContent();
 			}
 		};
 	}
@@ -390,6 +391,9 @@ public class OpenFileView extends MyHeaderPanel
 	 */
 	public final void addGGTMaterials(final List<Material> matList,
 			final ArrayList<Chapter> chapters) {
+		if (matList.size() > 0) {
+			materialListEmpty = false;
+		}
 		if (chapters == null || chapters.size() < 2) {
 			for (final Material mat : matList) {
 				addMaterial(mat);
