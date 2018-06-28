@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -86,8 +85,12 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 		@Override
 		public void onChange(ChangeEvent event) {
-			PDFInputDialog.this.loadPdf(null);
+			PDFInputDialog.this.loadPdf(getSelectedFile());
 		}
+
+		private native JavaScriptObject getSelectedFile()/*-{
+			return $doc.querySelector('input[type=file]').files[0];
+		}-*/;
 	}
 
 	/**
@@ -377,23 +380,6 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 			loadedPart = new SimplePanel();
 			add(loadedPart);
 			loadedPart.setWidth("0%");
-			move();
-		}
-
-		private void move() {
-			GTimerListener timerListener = new GTimerListener() {
-				@Override
-				public void onRun() {
-					width++;
-					loadedPart.setWidth(width + "%");
-					if (width >= 100) {
-						progressTimer.stop();
-						onPDFLoaded();
-					}
-				}
-			};
-			progressTimer = getApplication().newTimer(timerListener, 150);
-			progressTimer.startRepeat();
 		}
 
 		/**
@@ -404,13 +390,26 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		 */
 		public void finishLoading(boolean result) {
 			if (result) {
-				progressTimer.setDelay(10);
+				onPDFLoaded();
 			} else {
-				progressTimer.stop();
 				buildErrorPanel();
 			}
 
 		}
+
+		/**
+		 * Sets the value of the progress bar for the given percent.
+		 * 
+		 * @param percent
+		 *            the new value of the progress bar
+		 */
+		public void setPercent(double percent) {
+			loadedPart.setWidth(percent + "%");
+		}
+	}
+
+	public void setProgressBarPercent(double percent) {
+		progressBar.setPercent(percent);
 	}
 
 	/**

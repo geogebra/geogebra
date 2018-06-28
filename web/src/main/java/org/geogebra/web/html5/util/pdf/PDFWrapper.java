@@ -36,6 +36,14 @@ public class PDFWrapper {
 		 */
 		void finishLoading(boolean result);
 
+		/**
+		 * Sets the value of the progress bar for the given percent.
+		 * 
+		 * @param percent
+		 *            the new value of the progress bar
+		 */
+		void setProgressBarPercent(double percent);
+
 	}
 
 	/**
@@ -55,12 +63,20 @@ public class PDFWrapper {
 		listener.finishLoading(result);
 	}
 
+	private void setProgressBarPercent(double percent) {
+		listener.setProgressBarPercent(percent);
+	}
+
 	private native void read(JavaScriptObject file) /*-{
-		if (!file) {
-			file = $doc.querySelector('input[type=file]').files[0];
-		}
 		var reader = new FileReader();
 		var that = this;
+
+		reader.onprogress = function(event) {
+			if (event.lengthComputable) {
+				var percent = (event.loaded / event.total) * 100;
+				that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setProgressBarPercent(D)(percent);
+			}
+		};
 
 		reader
 				.addEventListener(
@@ -77,12 +93,7 @@ public class PDFWrapper {
 	}-*/;
 
 	private native void load(String src) /*-{
-		var progressCallback = function(progress) {
-			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("total: " + progress.total + ", loaded: " + progress.loaded);
-		}
-
-		var loadingTask = $wnd.PDFJS.getDocument(src, null, null,
-				progressCallback);
+		var loadingTask = $wnd.PDFJS.getDocument(src);
 		var that = this;
 
 		loadingTask.promise
