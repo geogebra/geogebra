@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.openfileview;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ContextMenuCard;
 import org.geogebra.web.html5.main.AppW;
@@ -16,14 +17,19 @@ import com.google.gwt.user.client.Command;
 public class ContextMenuMaterialCard extends ContextMenuCard {
 
 	// true if user owns the Material, false otherwise
-	private boolean ownMaterial = true;
+	private boolean ownMaterial;
+	private Material material;
 
 	/**
 	 * @param app
 	 *            application
+	 * @param mat
+	 *            associated material
 	 */
-	public ContextMenuMaterialCard(AppW app) {
+	public ContextMenuMaterialCard(AppW app, Material mat) {
 		super(app);
+		this.material = mat;
+		ownMaterial = app.getLoginOperation().owns(material);
 	}
 
 	@Override
