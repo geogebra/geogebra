@@ -11,6 +11,7 @@ import org.geogebra.web.html5.main.LocalizationW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -22,6 +23,8 @@ public class ProfilePanel extends FlowPanel {
 	private FlowPanel optionsPanelContent;
 	private StandardButton logoutButton;
 	private LocalizationW loc;
+	private Anchor username;
+	private Anchor editProfile;
 
 	/**
 	 * @param app
@@ -56,9 +59,12 @@ public class ProfilePanel extends FlowPanel {
 		optionsPanelContent.setStyleName("profileOptionsContent");
 		optionsPanel.add(optionsPanelContent);
 
-		logoutButton = new StandardButton(loc.getMenu("SignOut"), app);
+		logoutButton = new StandardButton("", app);
 		logoutButton.addStyleName("logoutButton");
 		logoutButton.addStyleName("gwt-Button");
+		username = addLink("username");
+		editProfile = addLink("editButton");
+		optionsPanelContent.add(editProfile);
 		optionsPanelContent.add(logoutButton);
 
 		logoutButton.addFastClickHandler(new FastClickHandler() {
@@ -79,6 +85,15 @@ public class ProfilePanel extends FlowPanel {
 				event.stopPropagation();
 			}
 		}, ClickEvent.getType());
+		setLabels();
+	}
+
+	private Anchor addLink(String className) {
+		Anchor ret = new Anchor();
+		ret.setTarget("_blank");
+		ret.setStyleName(className);
+		optionsPanelContent.add(ret);
+		return ret;
 	}
 
 	/**
@@ -102,6 +117,8 @@ public class ProfilePanel extends FlowPanel {
 	 *            signed in user
 	 */
 	public void update(GeoGebraTubeUser user) {
+		username.setHref(user.getProfileURL());
+		username.setText(user.getRealName());
 		if (user.getImageURL() != null) {
 			this.profileImage.setUrl(user.getImageURL());
 		} else {
@@ -116,6 +133,9 @@ public class ProfilePanel extends FlowPanel {
 	public void setLabels() {
 		if (this.logoutButton != null) {
 			this.logoutButton.setText(loc.getMenu("SignOut"));
+		}
+		if (this.editProfile != null) {
+			this.editProfile.setText(loc.getMenu("EditProfile"));
 		}
 	}
 }

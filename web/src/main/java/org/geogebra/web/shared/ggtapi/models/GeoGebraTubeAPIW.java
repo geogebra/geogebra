@@ -89,6 +89,11 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 				user.setImageURL(((JSONString) userinfo.get("ggt_avatar_url"))
 						.stringValue());
 			}
+			if (userinfo.get("ggt_profile_url") instanceof JSONString) {
+				user.setProfileURL(
+						((JSONString) userinfo.get("ggt_profile_url"))
+						.stringValue());
+			}
 			if (userinfo.get("image") instanceof JSONString) {
 				user.setImageURL(
 						((JSONString) userinfo.get("image")).stringValue());

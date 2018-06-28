@@ -185,7 +185,7 @@ $duration: 0.2s;
 	}
 
 	.suggestionButton {
-		@extend %suggestionButton;
+		@extend %primaryButton;
 	}
 	
 	.algebraView .panelRow .withSuggestions{

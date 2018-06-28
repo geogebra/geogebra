@@ -1,11 +1,9 @@
 @import 'colors';
 
-%suggestionButton {
-  margin: 8px !important;
-  background-color: $purple-default;
+%matButton {
+  margin: 8px !important;  
   border: 1px solid $purple-default;
   border-radius: 2px;
-  color: $white;
   box-shadow: 0 3px 1px -2px $black-2, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
   min-width: 44px;
   height: 28px;
@@ -20,9 +18,17 @@
   font-size: 90%;
   cursor: pointer;
   transition: background-color 150ms ease 0ms;
-
   &:hover {
-    background-color: $purple-dark;
-    border: 1px solid $purple-dark;
+  	box-shadow: 0 3px 3px 0 rgba(0,0,0,.14), 0 1px 7px 0 rgba(0,0,0,.12), 0 3px 1px -1px rgba(0,0,0,.2);
+  }
+}
+
+%primaryButton {	
+	@extend %matButton;
+	background-color: $purple-default;
+	color: $white;
+	&:hover {
+		background-color: $purple-dark;
+		border: 1px solid $purple-dark;
   }
 }

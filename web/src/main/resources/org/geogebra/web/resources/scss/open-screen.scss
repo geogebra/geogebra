@@ -1,4 +1,6 @@
 @import 'colors';
+@import 'shared';
+
 .GeoGebraFrame {
 	.providers {
 		width: 70px;
@@ -126,9 +128,7 @@
 		font-size: 80%;
 		padding-bottom: 5px;
 	}
-	
-	
-	
+
 	/** default style of material **/
 	.materialListElement.default {
 		cursor: pointer;
@@ -285,23 +285,40 @@
 	.profileOptionsPanel .arrow {
 		position: absolute;
 		z-index: 300;
-		right: 15px;
+		right: 8px;
+		height: 8px;
+		overflow: hidden
 	}
 
 	.profileOptionsPanel .profileOptionsContent {
 		position: relative;
-		top: 15px;
+		top: 8px;
 		margin-left: 5px;
 		z-index: 200;
-		border-radius: 10px;
+		border-radius: 2px;
 		padding: 5px;
-		background-color: rgba(255, 255, 255, 0.9);
-		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-	}
-
-	.profileOptionsContent .logoutButton {
-		margin: 20px 10px 10px;
-		min-width: 75px;
+		background-color: $white;
+		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);		
+	
+		.username {
+		    display: block;
+		    padding: 4px;
+		    margin: 4px;
+		    line-height: 24px;
+		}
+		 .editButton {
+			@extend %primaryButton;
+			border: 0;
+			display: block;
+		}
+		 .logoutButton {
+			@extend %matButton;
+			color: $black;
+			border: 0;
+			&:hover {
+				background-color: $white;
+			}
+		}
 	}
 	
 	/* +++ OPEN FILE VIEW CONTENT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/

@@ -204,6 +204,7 @@ nav.beta {
 .popdown-button-container {
 	position: absolute;
 	top: 100%;
+	right: 0;
 	font-size: 16px;
 }
 
@@ -218,4 +219,43 @@ nav.beta {
 .GeoGebraHeader .matMenu.gwt-PopupPanel .gwt-MenuItem.listMenuItem {
 	padding: 0;
 	display: block;
+}
+
+.popupAnchor{
+	position: relative;
+}
+/** from Web styles */
+.GeoGebraFrame .matMenu.gwt-PopupPanel {
+    background-color: #fff;
+    padding: 8px 0px 8px 0px;
+    border-radius: 2px;
+    min-width: 192px;
+}
+
+.GeoGebraFrame .gwt-PopupPanel {
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 0 0 2px 1px rgba(102,102,102,0.3);
+    z-index: 500;
+}
+
+.GeoGebraFrame .matMenu.gwt-PopupPanel .gwt-MenuItem {
+    height: 32px;
+    min-width: 256px;
+    cursor: pointer;
+    padding-left: 64px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 16px;
+}
+
+.GeoGebraFrame .matMenu.gwt-PopupPanel .gwt-MenuItem.listMenuItem {
+    line-height: 24px;
+    padding-top: 4px;
+}
+
+.GeoGebraFrame .matMenu.gwt-PopupPanel .gwt-MenuItem:hover {
+    background-color: #eee;
+    color: #000;
 }
