@@ -853,7 +853,7 @@ __GGB__keysVar["vi"].command = {
     "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "Thi\u1ebftL\u1eadpTo\u1ea1\u0110\u1ed9",
     "SetCoords.Syntax": "[ <\u0110i\u1ec3m>, <x>, <y> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "ThietLapMauDong",
     "SetDynamicColor.Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\u1ecf>, <Xanh l\xe1 c\xe2y>, <Xanh da tr\u1eddi> ]\n[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\u1ecf>, <Xanh l\xe1 c\xe2y>, <Xanh da tr\u1eddi>, <\u0110\u1ed9 s\xe1ng> ]",

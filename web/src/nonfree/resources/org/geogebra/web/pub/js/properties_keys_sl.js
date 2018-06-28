@@ -853,7 +853,7 @@ __GGB__keysVar["sl"].command = {
     "SetConstructionStep.Syntax": "[ <\u0161tevilo> ]",
     "SetCoords": "Dolo\u010diKoordinate",
     "SetCoords.Syntax": "[ <objekt>, <x>, <y> ]\n[ <objekt>, <x>, <y>, <z> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "Dolo\u010diDinami\u010dnoBarvo",
     "SetDynamicColor.Syntax": "[ <objekt>, <rde\u010da>, <zelena>, <modra> ]",

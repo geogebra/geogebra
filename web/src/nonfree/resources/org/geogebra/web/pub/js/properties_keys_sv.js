@@ -853,7 +853,7 @@ __GGB__keysVar["sv"].command = {
     "SetConstructionStep.Syntax": "[ <Tal> ]",
     "SetCoords": "S\xe4ttKoordinater",
     "SetCoords.Syntax": "[ <Objekt>, <x>, <y> ]\n[ <Objekt>, <x>, <y>, <z> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "S\xe4ttDynamiskF\xe4rg",
     "SetDynamicColor.Syntax": "[ <Objekt>, <R>, <G>, <B> ]\n[ <Objekt>, <R>, <G>, <B>, <Opacitet> ]",

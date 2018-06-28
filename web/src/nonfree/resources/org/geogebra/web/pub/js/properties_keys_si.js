@@ -853,7 +853,7 @@ __GGB__keysVar["si"].command = {
     "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "SetCoords",
     "SetCoords.Syntax": "[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <x>, <y> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "SetDynamicColor",
     "SetDynamicColor.Syntax": "[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0dbb\u0dad\u0dd4>, <\u0d9a\u0ddc\u0dc5>, <\u0db1\u0dd2\u0dbd\u0dca> ]\n[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0dbb\u0dad\u0dd4>, <\u0d9a\u0ddc\u0dc5>, <\u0db1\u0dd2\u0dbd\u0dca>, <\u0db4\u0dcf\u0dbb\u0dcf\u0db1\u0dca\u0db0\u0dad\u0dcf\u0dc0> ]",

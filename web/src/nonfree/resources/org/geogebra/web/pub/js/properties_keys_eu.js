@@ -853,7 +853,7 @@ __GGB__keysVar["eu"].command = {
     "SetConstructionStep.Syntax": "[ <Zenbakia> ]",
     "SetCoords": "FinkatuKoordenatuak",
     "SetCoords.Syntax": "[ <Objektua>, <x>, <y> ]\n[ <Objektua>, <x>, <y>, <z> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "FinkatuKoloreDinamikoa",
     "SetDynamicColor.Syntax": "[ <Objektua>, <Gorria>, <Berdea>, <Urdina> ]\n[ <Objektua>, <Gorria>, <Berdea>, <Urdina>, <Lausotasuna> ]",

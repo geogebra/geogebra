@@ -853,7 +853,7 @@ __GGB__keysVar["lv"].command = {
     "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "SetCoords",
     "SetCoords.Syntax": "[ <Objekts>, <x>, <y> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "SetDynamicColor",
     "SetDynamicColor.Syntax": "[ <Objekts>, <Sarkans>, <Za\u013c\u0161>, <Zils> ]\n[ <Objekts>, <Sarkans>, <Za\u013c\u0161>, <Zils>, <necaurredzam\u012bba> ]",

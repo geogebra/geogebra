@@ -853,7 +853,7 @@ __GGB__keysVar["ca-XV"].command = {
     "SetConstructionStep.Syntax": "[ <Nombre> ]",
     "SetCoords": "DefinixCoordenades",
     "SetCoords.Syntax": "[ <Punt>, <x>, <y> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "DefinixColorDin\xe0mic",
     "SetDynamicColor.Syntax": "[ <Objecte>, <Roig>, <Verd>, <Blau> ]\n[ <Objecte>, <Roig>, <Verd>, <Blau>, <Opacitat> ]",

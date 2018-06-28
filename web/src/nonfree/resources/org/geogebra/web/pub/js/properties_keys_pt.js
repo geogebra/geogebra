@@ -853,7 +853,7 @@ __GGB__keysVar["pt"].command = {
     "SetConstructionStep.Syntax": "[ <N\xfamero> ]",
     "SetCoords": "DefinirCoordenadas",
     "SetCoords.Syntax": "[ <Objeto>, <x>, <y> ]\n[ <Objeto>, <x>, <y>, <z> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "DefinirCorDin\xe2mica",
     "SetDynamicColor.Syntax": "[ <Objeto>, <Vermelho>, <Verde>, <Azul> ]\n[ <Objeto>, <Vermelho>, <Verde>, <Azul>, <Opacidade> ]",

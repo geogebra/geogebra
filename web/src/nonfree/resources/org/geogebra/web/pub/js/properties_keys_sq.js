@@ -853,7 +853,7 @@ __GGB__keysVar["sq"].command = {
     "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "VendosKoordinata",
     "SetCoords.Syntax": "[ <Pike>, <x>, <y> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "VendosNgjyreDinamike",
     "SetDynamicColor.Syntax": "[ <Objekt>, <Kuq>, <Gjelber>, <Blu> ]\n[ <Objekt>, <Kuq>, <Gjelber>, <Blu>, <Opaciteti> ]",

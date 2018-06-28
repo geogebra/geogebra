@@ -853,7 +853,7 @@ __GGB__keysVar["tr"].command = {
     "SetConstructionStep.Syntax": "[ <Say\u0131> ]",
     "SetCoords": "KoordinatAyarla",
     "SetCoords.Syntax": "[ <Nesne>, <x>, <y> ]\n[ <Nesne>, <x>, <y>, <z> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "DinamikRenkAyarla",
     "SetDynamicColor.Syntax": "[ <Nesne>, <K\u0131rm\u0131z\u0131>, <Ye\u015fil>, <Mavi> ]\n[ <Nesne>, <K\u0131rm\u0131z\u0131>, <Ye\u015fil>, <Mavi>, <Donukluk> ]",

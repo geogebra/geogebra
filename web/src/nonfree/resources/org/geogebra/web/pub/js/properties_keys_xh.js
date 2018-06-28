@@ -853,7 +853,7 @@ __GGB__keysVar["xh"].command = {
     "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "LungisaIiCoords",
     "SetCoords.Syntax": "[ <Into>, <x>, <y> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "SetDynamicColor",
     "SetDynamicColor.Syntax": "[ <iObject>, <bomvu>, <Luhlaza>, <eBlue> ]\n[ <iObject>, <Bomvu>, <Luhlaza>, <eBlue>, <Opacity> ]",

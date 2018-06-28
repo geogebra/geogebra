@@ -853,7 +853,7 @@ __GGB__keysVar["fi"].command = {
     "SetConstructionStep.Syntax": "[ <Luku> ]",
     "SetCoords": "AsetaKoordinaatit",
     "SetCoords.Syntax": "[ <Objekti>, <x>, <y> ]\n[ <Objekti>, <x>, <y>, <z> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "AsetaDynaaminenV\xe4ri",
     "SetDynamicColor.Syntax": "[ <Objekti>, <Punainen>, <Vihre\xe4>, <Sininen> ]",

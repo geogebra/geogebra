@@ -853,7 +853,7 @@ __GGB__keysVar["is"].command = {
     "SetConstructionStep.Syntax": "[ <Tala> ]",
     "SetCoords": "SetjaHnit",
     "SetCoords.Syntax": "[ <Hlutur>, <x>, <y> ]\n[ <Hlutur>, <x>, <y>, <z> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "SetjaKvikaLiti",
     "SetDynamicColor.Syntax": "[ <Hlutur>, <Rau\xf0ur>, <Gr\xe6nn>, <Bl\xe1r> ]\n[ <Hlutur>, <Rau\xf0ur>, <Gr\xe6nn>, <Bl\xe1r>, <\xd3gagns\xe6i> ]",

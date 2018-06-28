@@ -853,7 +853,7 @@ __GGB__keysVar["mn"].command = {
     "SetConstructionStep.Syntax": "[ <\u0422\u043e\u043e> ]",
     "SetCoords": "\u041a\u043e\u043e\u0440\u0434\u0438\u043d\u0430\u0442\u0443\u0443\u0434\u0417\u0430\u0430",
     "SetCoords.Syntax": "[ <\u041e\u0431\u044c\u0435\u043a\u0442>, <x>, <y> ]\n[ <\u041e\u0431\u044c\u0435\u043a\u0442>, <x>, <y>, <z> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "\u0414\u0438\u043d\u0430\u043c\u0438\u043a\u04e8\u043d\u0433\u04e9\u0417\u0430\u0430",
     "SetDynamicColor.Syntax": "[ <\u041e\u0431\u044c\u0435\u043a\u0442>, <\u0423\u043b\u0430\u0430\u043d>, <\u041d\u043e\u0433\u043e\u043e\u043d>, <\u0426\u044d\u043d\u0445\u044d\u0440> ]\n[ <\u041e\u0431\u044c\u0435\u043a\u0442>, <\u0423\u043b\u0430\u0430\u043d>, <\u041d\u043e\u0433\u043e\u043e\u043d>, <\u0426\u044d\u043d\u0445\u044d\u0440>, <\u041d\u044d\u0432\u0442\u0440\u044d\u043b\u0442> ]",

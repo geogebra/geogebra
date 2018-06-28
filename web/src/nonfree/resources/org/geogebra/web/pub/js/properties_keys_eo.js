@@ -853,7 +853,7 @@ __GGB__keysVar["eo"].command = {
     "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "SetCoords",
     "SetCoords.Syntax": "[ <Objekto>, <x>, <y> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "SetDynamicColor",
     "SetDynamicColor.Syntax": "[ <Objekto>, <Ru\u011da>, <Verda>, <Blua> ]\n[ <Objekto>, <Ru\u011da>, <Verda>, <Blua>, <Opakeco> ]",

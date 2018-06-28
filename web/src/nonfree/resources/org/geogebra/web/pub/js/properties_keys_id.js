@@ -853,7 +853,7 @@ __GGB__keysVar["id"].command = {
     "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "AturKoordinat",
     "SetCoords.Syntax": "[ <Titik>, <x>, <y> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "AturWarnaDinasmis",
     "SetDynamicColor.Syntax": "[ <Objek>, <Merah>, <Hijau>, <Biru> ]\n[ <Objek>, <Merah>, <Hijau>, <Biru>, <Opasitas> ]",

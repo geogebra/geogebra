@@ -853,7 +853,7 @@ __GGB__keysVar["ko"].command = {
     "SetConstructionStep.Syntax": "[ <\uc218> ]",
     "SetCoords": "\uc88c\ud45c\uc124\uc815",
     "SetCoords.Syntax": "[ <\ub300\uc0c1>, <x>, <y> ]\n[ <\ub300\uc0c1>, <x>, <y>, <z> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "\ub3d9\uc801\uc0c9\uc0c1\uc124\uc815",
     "SetDynamicColor.Syntax": "[ <\ub300\uc0c1>, <\ube68\uac15>, <\ub179\uc0c9>, <\ud30c\ub791> ]",

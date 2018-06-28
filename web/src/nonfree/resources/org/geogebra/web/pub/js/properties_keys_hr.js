@@ -853,7 +853,7 @@ __GGB__keysVar["hr"].command = {
     "SetConstructionStep.Syntax": "[ <broj> ]",
     "SetCoords": "PostaviKoordinate",
     "SetCoords.Syntax": "[ <objekt>, <x>, <y> ]\n[ <objekt>, <x>, <y>, <z> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "PostaviDinami\u010dneBoje",
     "SetDynamicColor.Syntax": "[ <objekt>, <crvena>, <zelena>, <plava> ]\n[ <objekt>, <crvena>, <zelena>, <plava>, <neprozirnost> ]",

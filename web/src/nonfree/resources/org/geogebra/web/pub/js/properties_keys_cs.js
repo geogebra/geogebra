@@ -853,7 +853,7 @@ __GGB__keysVar["cs"].command = {
     "SetConstructionStep.Syntax": "[ <\u010c\xcdslo> ]",
     "SetCoords": "NastavitSouradnice",
     "SetCoords.Syntax": "[ <Objekt>, <x>, <y> ]\n[ <Objekt>, <x>, <y>, <z> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "NastavitDynamickeBarvy",
     "SetDynamicColor.Syntax": "[ <Objekt>, <\u010cerven\xe1>, <Zelen\xe1>, <Modr\xe1> ]\n[ <Objekt>, <\u010cerven\xe1>, <Zelen\xe1>, <Modr\xe1>, <Nepr\u016fhlednost> ]",

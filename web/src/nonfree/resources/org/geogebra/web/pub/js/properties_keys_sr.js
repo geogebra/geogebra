@@ -853,7 +853,7 @@ __GGB__keysVar["sr"].command = {
     "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "PostaviKoordinate",
     "SetCoords.Syntax": "[ <ta\u010dka>, <x>, <y> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "PostaviDinami\u010dkuBoju",
     "SetDynamicColor.Syntax": "[ <objekat>, <crvena>, <zelena>, <plava> ]",

@@ -853,7 +853,7 @@ __GGB__keysVar["cy"].command = {
     "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "GosodCyfesurynnau",
     "SetCoords.Syntax": "[ <Gwrthrych>, <x>, <y> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "GosodLliwDynamig",
     "SetDynamicColor.Syntax": "[ <Gwrthrych>, <Coch>, <Gwyrdd>, <Glas> ]\n[ <Gwrthrych>, <Coch>, <Gwyrdd>, <Glas>, <Didreidded> ]",

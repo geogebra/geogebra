@@ -853,7 +853,7 @@ __GGB__keysVar["kk"].command = {
     "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "\u041a\u043e\u043e\u0440\u0434\u0438\u043d\u0430\u0442\u0430\u043b\u0430\u0440\u0434\u044b\u0415\u043d\u0433\u0456\u0437\u0443",
     "SetCoords.Syntax": "[ <\u041d\u04af\u043a\u0442\u0435>, <x>, <y> ]",
-    "SetDecoration": "",
+    "SetDecoration": "SetDecoration",
     "SetDecoration.Syntax": "[ <Object> ]",
     "SetDynamicColor": "\u0418\u043d\u0442\u0435\u0440\u0430\u043a\u0442\u0438\u0432\u0442\u0456\u0422\u04af\u0441\u0415\u043d\u0433\u0456\u0437\u0443",
     "SetDynamicColor.Syntax": "[ <\u041e\u0431\u044a\u0435\u043a\u0442>, <\u049a\u044b\u0437\u044b\u043b>, <\u0416\u0430\u0441\u044b\u043b>, <\u041a\u04e9\u043a> ]",
