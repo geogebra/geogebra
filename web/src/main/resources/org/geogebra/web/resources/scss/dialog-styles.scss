@@ -700,7 +700,13 @@ $duration: 0.2s;
    		 			&:focus {
    	 					border-bottom: 2px solid $black-87;
    		 			}
+   		 			
+   		 			
     			}
+
+    			&.hidden {
+   	 				visibility: hidden;
+    			}	
 		}
     
 		.DialogButtonPanel {
