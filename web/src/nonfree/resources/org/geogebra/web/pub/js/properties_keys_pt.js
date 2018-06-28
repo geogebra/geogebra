@@ -1683,6 +1683,7 @@ __GGB__keysVar["pt"].menu = {
     "EccentricityOfA": "Excentricidade de %0",
     "Edit": "Editar",
     "EditMenu": "Editar",
+    "EditProfile": "Editar seu perfil",
     "Ellipse": "Elipse",
     "Ellipse3": "Elipse",
     "Ellipse3.Help": "Selecione dois focos e, depois, um ponto da elipse",

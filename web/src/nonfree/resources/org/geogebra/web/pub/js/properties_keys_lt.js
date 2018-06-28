@@ -1683,6 +1683,7 @@ __GGB__keysVar["lt"].menu = {
     "EccentricityOfA": "%0 ekscentricitetas",
     "Edit": "Redaguoti",
     "EditMenu": "Redaguoti",
+    "EditProfile": "Redaguoti profil\u012f",
     "Ellipse": "Elips\u0117",
     "Ellipse3": "Elips\u0117",
     "Ellipse3.Help": "Pasirinkite du \u017eidinius ir elips\u0117s ta\u0161k\u0105",

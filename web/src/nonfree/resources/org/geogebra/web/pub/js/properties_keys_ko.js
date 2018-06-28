@@ -1683,6 +1683,7 @@ __GGB__keysVar["ko"].menu = {
     "EccentricityOfA": "%0 \uc758 \uc774\uc2ec\ub960",
     "Edit": "\ud3b8\uc9d1",
     "EditMenu": "\ud3b8\uc9d1",
+    "EditProfile": "\ud504\ub85c\ud544 \uc218\uc815",
     "Ellipse": "\ud0c0\uc6d0",
     "Ellipse3": "\ud0c0\uc6d0",
     "Ellipse3.Help": "\ub450 \ucd08\uc810\uc744 \uc120\ud0dd\ud55c \ud6c4 \ud0c0\uc6d0 \uc704\uc758 \ud55c \uc810\uc744 \uc120\ud0dd\ud558\uc138\uc694.",

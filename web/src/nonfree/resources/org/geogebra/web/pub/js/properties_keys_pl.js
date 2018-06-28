@@ -1683,6 +1683,7 @@ __GGB__keysVar["pl"].menu = {
     "EccentricityOfA": "Mimo\u015br\xf3d %0",
     "Edit": "Edycja",
     "EditMenu": "Edycja",
+    "EditProfile": "Edycja profilu",
     "Ellipse": "Elipsa",
     "Ellipse3": "Elipsa",
     "Ellipse3.Help": "Wybierz dwa ogniska i punkt na elipsie",

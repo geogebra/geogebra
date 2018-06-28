@@ -1683,6 +1683,7 @@ __GGB__keysVar["fi"].menu = {
     "EccentricityOfA": "%0:n eksentrisyys",
     "Edit": "Muokkaa",
     "EditMenu": "Muokkaa",
+    "EditProfile": "Muokkaa profiiliasi",
     "Ellipse": "Ellipsi",
     "Ellipse3": "Ellipsi",
     "Ellipse3.Help": "Valitse kaksi polttopistett\xe4 ja sitten ellipsin piste.",

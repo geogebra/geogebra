@@ -1683,6 +1683,7 @@ __GGB__keysVar["hu"].menu = {
     "EccentricityOfA": "%0 excentricit\xe1sa",
     "Edit": "Szerkeszt\xe9s",
     "EditMenu": "Szerkeszt\xe9s",
+    "EditProfile": "Saj\xe1t profil szerkeszt\xe9se",
     "Ellipse": "Ellipszis",
     "Ellipse3": "Ellipszis",
     "Ellipse3.Help": "K\xe9t f\xf3kuszpont, majd egy pont az ellipszisen",

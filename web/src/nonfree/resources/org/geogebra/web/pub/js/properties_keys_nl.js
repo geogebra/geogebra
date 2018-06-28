@@ -1683,6 +1683,7 @@ __GGB__keysVar["nl"].menu = {
     "EccentricityOfA": "Excentriciteit van %0",
     "Edit": "Bewerken",
     "EditMenu": "Bewerken",
+    "EditProfile": "Bewerk jouw profiel",
     "Ellipse": "Ellips",
     "Ellipse3": "Ellips",
     "Ellipse3.Help": "Selecteer twee brandpunten, daarna een punt op de ellips",

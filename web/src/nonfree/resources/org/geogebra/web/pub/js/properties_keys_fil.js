@@ -1683,6 +1683,7 @@ __GGB__keysVar["fil"].menu = {
     "EccentricityOfA": "Eksentrisidad ng %0",
     "Edit": "Baguhin",
     "EditMenu": "Edit",
+    "EditProfile": "I-edit ang iyong profile",
     "Ellipse": "Tambiyugan",
     "Ellipse3": "Ellipse",
     "Ellipse3.Help": "Pumili ng dalawang foci at point sa ellipse",

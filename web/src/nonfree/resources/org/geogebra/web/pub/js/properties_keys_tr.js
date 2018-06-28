@@ -1683,6 +1683,7 @@ __GGB__keysVar["tr"].menu = {
     "EccentricityOfA": "%0'n\u0131n D\u0131\u015f Merkezli\u011fi (eccentricity)",
     "Edit": "D\xfczenle",
     "EditMenu": "D\xfczenle",
+    "EditProfile": "Profilinizi d\xfczenleyin",
     "Ellipse": "Elips",
     "Ellipse3": "Elips",
     "Ellipse3.Help": "\u0130ki oda\u011f\u0131, ard\u0131ndan elips \xfczerinde bir nokta se\xe7iniz",

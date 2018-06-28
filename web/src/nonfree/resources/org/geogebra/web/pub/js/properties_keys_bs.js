@@ -1683,6 +1683,7 @@ __GGB__keysVar["bs"].menu = {
     "EccentricityOfA": "Ekscentricitet od %0",
     "Edit": "Uredi",
     "EditMenu": "Ure\u0111enje",
+    "EditProfile": "Uredite Va\u0161 profil",
     "Ellipse": "Elipsa",
     "Ellipse3": "Elipsa",
     "Ellipse3.Help": "Ozna\u010dite/Kreirajte dvije ta\u010dke-fokuse elipse i ta\u010dku na elipsi",

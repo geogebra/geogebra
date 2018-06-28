@@ -1683,6 +1683,7 @@ __GGB__keysVar["lv"].menu = {
     "EccentricityOfA": "Ekscentrit\u0101te %0",
     "Edit": "Labot",
     "EditMenu": "Redi\u0123\u0113t",
+    "EditProfile": "Labot profilu",
     "Ellipse": "Elipse",
     "Ellipse3": "Elipse",
     "Ellipse3.Help": "Izv\u0113lies divus fokusus un punktu uz elipses",

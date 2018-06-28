@@ -1683,6 +1683,7 @@ __GGB__keysVar["is"].menu = {
     "EccentricityOfA": "Hringvik %0",
     "Edit": "Breyta",
     "EditMenu": "Breyta",
+    "EditProfile": "Edit your Profile",
     "Ellipse": "Sporbaugur",
     "Ellipse3": "Sporbaugur",
     "Ellipse3.Help": "Velji\xf0 tvo brennipunkta og punkt \xe1 sporbaugi",

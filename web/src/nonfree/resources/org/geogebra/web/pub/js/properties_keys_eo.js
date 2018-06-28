@@ -1683,6 +1683,7 @@ __GGB__keysVar["eo"].menu = {
     "EccentricityOfA": "Discentreco de %0",
     "Edit": "Redakti",
     "EditMenu": "Redakti",
+    "EditProfile": "Edit your Profile",
     "Ellipse": "Elipso",
     "Ellipse3": "Elipso",
     "Ellipse3.Help": "Elektu du fokusojn kaj punkton sur elipso",

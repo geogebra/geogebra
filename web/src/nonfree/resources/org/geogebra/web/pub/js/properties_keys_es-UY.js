@@ -1683,6 +1683,7 @@ __GGB__keysVar["es-UY"].menu = {
     "EccentricityOfA": "SemiFocal de %0",
     "Edit": "Edita",
     "EditMenu": "Edici\xf3n",
+    "EditProfile": "Editar el perfil personal",
     "Ellipse": "Elipse",
     "Ellipse3": "Elipse",
     "Ellipse3.Help": "Dos focos y un punto de la elipse",

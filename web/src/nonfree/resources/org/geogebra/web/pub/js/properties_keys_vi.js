@@ -1683,6 +1683,7 @@ __GGB__keysVar["vi"].menu = {
     "EccentricityOfA": "T\xe2m sai c\u1ee7a %0",
     "Edit": "Ch\u1ec9nh s\u1eeda",
     "EditMenu": "Ch\u1ec9nh s\u1eeda",
+    "EditProfile": "M\xf4 t\u1ea3 v\u1ec1 b\u1ea1n",
     "Ellipse": "H\xecnh el\xedp",
     "Ellipse3": "El\xedp",
     "Ellipse3.Help": "Ch\u1ecdn ti\xeau \u0111i\u1ec3m v\xe0 1 \u0111i\u1ec3m tr\xean el\xedp",

@@ -1683,6 +1683,7 @@ __GGB__keysVar["cy"].menu = {
     "EccentricityOfA": "Echreiddiad o %0",
     "Edit": "Golygu",
     "EditMenu": "Golygu",
+    "EditProfile": "Edit your Profile",
     "Ellipse": "Elips",
     "Ellipse3": "Elips",
     "Ellipse3.Help": "Dewis dau ganolbwynt a phwynt ar yr elips",

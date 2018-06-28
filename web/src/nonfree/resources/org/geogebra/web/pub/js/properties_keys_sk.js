@@ -1683,6 +1683,7 @@ __GGB__keysVar["sk"].menu = {
     "EccentricityOfA": "Excentricita toho: %0",
     "Edit": "\xdapravy",
     "EditMenu": "\xdapravy",
+    "EditProfile": "Nastavi\u0165 svoj profil",
     "Ellipse": "Elipsa",
     "Ellipse3": "Elipsa",
     "Ellipse3.Help": "Zadaj ohnisk\xe1 a bod elipsy!",

@@ -1683,6 +1683,7 @@ __GGB__keysVar["eu"].menu = {
     "EccentricityOfA": "%0-(r)en eszentrikotasuna",
     "Edit": "Editatu",
     "EditMenu": "Editatu",
+    "EditProfile": "Editatu zure Profila",
     "Ellipse": "Elipsea",
     "Ellipse3": "Elipsea",
     "Ellipse3.Help": "Elipsearen bi fokuak eta puntu bat",

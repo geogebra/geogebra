@@ -1683,6 +1683,7 @@ __GGB__keysVar["sq"].menu = {
     "EccentricityOfA": "Eksentricitet i %0",
     "Edit": "Editoj",
     "EditMenu": "Modifikoj",
+    "EditProfile": "Edito profilin tuaj",
     "Ellipse": "Elips",
     "Ellipse3": "Elipsi",
     "Ellipse3.Help": "Zgjidh dy vatra dhe nje pike ne elips",

@@ -1683,6 +1683,7 @@ __GGB__keysVar["am"].menu = {
     "EccentricityOfA": "Eccentricity of %0",
     "Edit": "\u12a0\u122d\u1275\u12a5",
     "EditMenu": "\u12a0\u122d\u1275\u12d5",
+    "EditProfile": "Edit your Profile",
     "Ellipse": "\u121e\u120b\u120b",
     "Ellipse3": "\u121e\u120b\u120b",
     "Ellipse3.Help": "Select two foci, then point on ellipse",

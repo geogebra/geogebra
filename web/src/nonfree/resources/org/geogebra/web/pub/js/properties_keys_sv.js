@@ -1683,6 +1683,7 @@ __GGB__keysVar["sv"].menu = {
     "EccentricityOfA": "Excentriciteten f\xf6r %0",
     "Edit": "Redigera",
     "EditMenu": "Redigera",
+    "EditProfile": "Redigera din profil",
     "Ellipse": "Ellips",
     "Ellipse3": "Ellips",
     "Ellipse3.Help": "v\xe4lj tv\xe5 br\xe4nnpunkter och en punkt p\xe5 ellipsen",

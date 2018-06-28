@@ -1683,6 +1683,7 @@ __GGB__keysVar["xh"].menu = {
     "EccentricityOfA": "iEccentricity engu %0",
     "Edit": "Lungisa",
     "EditMenu": "LungisaUmbhalo",
+    "EditProfile": "Lungisa iNkcazeloEmfutshane ngawe",
     "Ellipse": "iEllipse",
     "Ellipse3": "UsingaSangqa",
     "Ellipse3.Help": "Khetha iifoci ezimbini walathe kwiellipse",

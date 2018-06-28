@@ -1683,6 +1683,7 @@ __GGB__keysVar["cs"].menu = {
     "EccentricityOfA": "Excentricita %0",
     "Edit": "\xdapravy",
     "EditMenu": "\xdapravy",
+    "EditProfile": "Upravit profil",
     "Ellipse": "Elipsa",
     "Ellipse3": "Elipsa",
     "Ellipse3.Help": "Dv\u011b ohniska a bod elipsy",

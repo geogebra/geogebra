@@ -1683,6 +1683,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "EccentricityOfA": "%0 \u7684\u96e2\u5fc3\u7387",
     "Edit": "\u7de8\u8f2f",
     "EditMenu": "\u7de8\u8f2f",
+    "EditProfile": "\u7de8\u8f2f\u500b\u4eba\u8cc7\u6599",
     "Ellipse": "\u6a62\u5713",
     "Ellipse3": "\u6a62\u5713",
     "Ellipse3.Help": "\u6307\u5b9a\u5169\u7126\u9ede\u8207\u6a62\u5713\u4e0a\u4e00\u9ede",
