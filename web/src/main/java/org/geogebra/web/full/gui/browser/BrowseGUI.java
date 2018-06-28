@@ -92,13 +92,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		}
 		addContent();
 
-		// Window.addResizeHandler(new ResizeHandler() {
-		// @Override
-		// public void onResize(final ResizeEvent event) {
-		// BrowseGUI.this.updateViewSizes();
-		// }
-		// });
-
 		app.registerOpenFileListener(this);
 
 		this.addDomHandler(new TouchMoveHandler() {
@@ -359,11 +352,12 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		this.materialListPanel.displaySearchResults(query);
 	}
 
-	/**
-	 * Update size to fit the app
-	 */
-	protected void updateViewSizes() {
-		resizeTo((int) app.getWidth(), (int) app.getHeight());
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) {
+			resizeTo((int) app.getWidth(), (int) app.getHeight());
+		}
 	}
 
 	@Override
@@ -377,7 +371,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		for (final ResizeListener res : this.resizeListeners) {
 			res.onResize(width, height);
 		}
-
 	}
 
 	@Override

@@ -29,6 +29,12 @@
     font-family: sans-serif;
 }
 
+@media screen and (max-width: 660px) {
+	.GeoGebraHeader .appName.beta {
+		visibility: hidden;
+	}
+}
+
 .GeoGebraFrame .buttons {
 	position: absolute;
     top: 0px;
@@ -240,11 +246,10 @@ nav.beta {
     z-index: 500;
 }
 
-.GeoGebraFrame .matMenu.gwt-PopupPanel .gwt-MenuItem {
+.GeoGebraHeader.GeoGebraFrame .matMenu.gwt-PopupPanel .gwt-MenuItem {
     height: 32px;
-    min-width: 256px;
+    min-width: 192px;
     cursor: pointer;
-    padding-left: 64px;
     padding-top: 0px;
     padding-bottom: 0px;
     padding-right: 16px;

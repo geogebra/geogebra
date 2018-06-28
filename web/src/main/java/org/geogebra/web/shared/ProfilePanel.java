@@ -50,8 +50,6 @@ public class ProfilePanel extends FlowPanel {
 		this.optionsPanel.setStyleName("profileOptionsPanel");
 
 		arrowPanel = new FlowPanel();
-		Image arrow = new Image(SharedResources.INSTANCE.arrow_submenu_up());
-		arrowPanel.add(arrow);
 		arrowPanel.setStyleName("arrow");
 		optionsPanel.add(arrowPanel);
 

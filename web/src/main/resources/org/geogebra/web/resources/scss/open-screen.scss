@@ -283,11 +283,14 @@
 	}
 
 	.profileOptionsPanel .arrow {
-		position: absolute;
-		z-index: 300;
-		right: 8px;
-		height: 8px;
-		overflow: hidden
+	      border: 10px solid;
+	    border-color: white transparent;
+	    border-top-width: 0;
+	    right: 16px;
+	    width:0;
+	    height:0;
+	    position: absolute;
+	    z-index: 201;
 	}
 
 	.profileOptionsPanel .profileOptionsContent {
@@ -305,6 +308,8 @@
 		    padding: 4px;
 		    margin: 4px;
 		    line-height: 24px;
+		    text-align: center;
+		    color: $purple-default;
 		}
 		 .editButton {
 			@extend %primaryButton;
