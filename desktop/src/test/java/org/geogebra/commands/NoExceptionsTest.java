@@ -1549,6 +1549,11 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdSetDecoration() {
+		t("SetDecoration[ l1, n2 ]");
+	}
+
+	@Test
 	public void cmdSetLineThickness() {
 		t("SetLineThickness[ l1, n1 ]");
 	}

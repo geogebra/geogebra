@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.scripting.CmdSetCaption;
 import org.geogebra.common.kernel.scripting.CmdSetColor;
 import org.geogebra.common.kernel.scripting.CmdSetConditionToShowObject;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
+import org.geogebra.common.kernel.scripting.CmdSetDecoration;
 import org.geogebra.common.kernel.scripting.CmdSetDynamicColor;
 import org.geogebra.common.kernel.scripting.CmdSetFilling;
 import org.geogebra.common.kernel.scripting.CmdSetFixed;
@@ -85,6 +86,8 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 			return new CmdSetColor(kernel);
 		case SetBackgroundColor:
 			return new CmdSetBackgroundColor(kernel);
+		case SetDecoration:
+			return new CmdSetDecoration(kernel);
 		case SetDynamicColor:
 			return new CmdSetDynamicColor(kernel);
 		case SetConditionToShowObject:

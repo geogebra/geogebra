@@ -765,6 +765,8 @@ public enum Commands implements CommandsConstants,
 
 	SetBackgroundColor(TABLE_SCRIPTING),
 
+	SetDecoration(TABLE_SCRIPTING),
+
 	SetDynamicColor(TABLE_SCRIPTING),
 
 	SetConditionToShowObject(TABLE_SCRIPTING),

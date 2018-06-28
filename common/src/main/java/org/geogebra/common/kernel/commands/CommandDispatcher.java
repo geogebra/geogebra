@@ -285,6 +285,7 @@ public abstract class CommandDispatcher {
 			case DataFunction:
 			case SetColor:
 			case SetBackgroundColor:
+			case SetDecoration:
 			case SetDynamicColor:
 			case SetConditionToShowObject:
 			case SetFilling:
