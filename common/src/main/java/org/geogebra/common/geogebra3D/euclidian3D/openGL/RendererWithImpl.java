@@ -380,33 +380,6 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final public void bindBufferForVertices(GPUBuffer buffer, int size) {
-		rendererImpl.bindBufferForVertices(buffer, size);
-
-	}
-
-	@Override
-	final public void bindBufferForColors(GPUBuffer buffer, int size,
-			GLBuffer fbColors) {
-		rendererImpl.bindBufferForColors(buffer, size, fbColors);
-
-	}
-
-	@Override
-	final public void bindBufferForNormals(GPUBuffer buffer, int size,
-			GLBuffer fbNormals) {
-		rendererImpl.bindBufferForNormals(buffer, size, fbNormals);
-
-	}
-
-	@Override
-	final public void bindBufferForTextures(GPUBuffer buffer, int size,
-			GLBuffer fbTextures) {
-		rendererImpl.bindBufferForTextures(buffer, size, fbTextures);
-
-	}
-
-	@Override
 	final protected void initShaders() {
 		rendererImpl.initShaders();
 	}

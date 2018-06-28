@@ -100,17 +100,6 @@ public interface RendererShadersInterface {
 	 */
 	public void removeElementBuffer(GPUBuffer buffer);
 
-	public void bindBufferForVertices(GPUBuffer buffer, int size);
-
-	public void bindBufferForColors(GPUBuffer buffer, int size,
-			GLBuffer fbColors);
-
-	public void bindBufferForNormals(GPUBuffer buffer, int size,
-			GLBuffer fbNormals);
-
-	public void bindBufferForTextures(GPUBuffer buffer, int size,
-			GLBuffer fbTextures);
-
 	public void setDashTexture(int index);
 
 	public Textures getTextures();

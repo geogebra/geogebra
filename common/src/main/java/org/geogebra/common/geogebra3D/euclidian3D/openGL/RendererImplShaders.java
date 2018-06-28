@@ -224,42 +224,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	 *            size
 	 */
 	abstract protected void vertexAttribPointer(int attrib, int size);
-
-	final protected void vertexAttribPointerGlobal(int attrib, int size) {
-		// vertexAttribPointer(attrib, size);
-	}
-
-	@Override
-	final public void bindBufferForVertices(GPUBuffer buffer, int size) {
-		// Select the VBO, GPU memory data
-		bindBuffer(buffer);
-		// Associate Vertex attribute 0 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_POSITION, size);
-
-		// enable VBO
-		glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
-	}
-
-	@Override
-	final public void bindBufferForColors(GPUBuffer buffer, int size,
-			GLBuffer fbColors) {
-		if (fbColors == null || fbColors.isEmpty()) {
-			glDisableVertexAttribArray(GLSL_ATTRIB_COLOR);
-			return;
-		}
-
-		// prevent use of global color
-		setColor(-1, -1, -1, -1);
-
-		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(buffer);
-
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_COLOR, size);
-
-		glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
-	}
-
+	
 	abstract protected void glUniform3fv(Object location, float[] values);
 
 	abstract protected void glUniform3f(Object location, float x, float y,
@@ -268,58 +233,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected void resetOneNormalForAllVertices() {
 		oneNormalForAllVertices = false;
 		glUniform3f(normalLocation, 2, 2, 2);
-	}
-
-	@Override
-	final public void bindBufferForNormals(GPUBuffer buffer, int size,
-			GLBuffer fbNormals) {
-		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
-			glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
-			return;
-		}
-
-		if (fbNormals.capacity() == 3) { // one normal for all vertices
-			fbNormals.array(tmpNormal3);
-			glUniform3fv(normalLocation, tmpNormal3);
-			oneNormalForAllVertices = true;
-			glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
-			return;
-		}
-
-		// ///////////////////////////////////
-		// VBO - normals
-
-		if (oneNormalForAllVertices) {
-			resetOneNormalForAllVertices();
-		}
-
-		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(buffer);
-
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_NORMAL, size);
-
-		glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
-	}
-
-	@Override
-	public void bindBufferForTextures(GPUBuffer buffer, int size,
-			GLBuffer fbTextures) {
-		if (fbTextures == null || fbTextures.isEmpty()) {
-			setCurrentGeometryHasNoTexture();
-			glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
-			return;
-		}
-
-		setCurrentGeometryHasTexture();
-
-		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(buffer);
-
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, size);
-
-		glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 	}
 
 	@Override
@@ -427,9 +340,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		int numBytes = length * 12; // 4 bytes per float * 3 coords per vertex
 		glBufferData(numBytes, fbVertices);
 
-		// Associate Vertex attribute 0 with the last bound VBO
-		vertexAttribPointerGlobal(GLSL_ATTRIB_POSITION, 3);
-
 		// VBO
 		glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
 	}
@@ -450,9 +360,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		int numBytes = length * 16; // 4 bytes per float * 4 color values (rgba)
 		glBufferData(numBytes, fbColors);
 
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointerGlobal(GLSL_ATTRIB_COLOR, 4);
-
 		glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
 	}
 
@@ -470,9 +377,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		bindBuffer(vboTextureCoords);
 		int numBytes = length * 8; // 4 bytes per float * 2 coords per texture
 		glBufferData(numBytes, fbTextures);
-
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointerGlobal(GLSL_ATTRIB_TEXTURE, 2);
 
 		glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 	}
@@ -510,9 +414,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		bindBuffer(vboNormals);
 		int numBytes = length * 12; // 4 bytes per float * * 3 coords per normal
 		glBufferData(numBytes, fbNormals);
-
-		// Associate Vertex attribute 1 with the last bound VBO
-		vertexAttribPointerGlobal(GLSL_ATTRIB_NORMAL, 3);
 
 		glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 	}

@@ -694,33 +694,6 @@ public class RendererImplGL2 extends RendererImpl
 
 	}
 
-	@Override
-	public void bindBufferForVertices(GPUBuffer buffer, int size) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void bindBufferForColors(GPUBuffer buffer, int size,
-			GLBuffer fbColors) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void bindBufferForNormals(GPUBuffer buffer, int size,
-			GLBuffer fbNormals) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void bindBufferForTextures(GPUBuffer buffer, int size,
-			GLBuffer fbTextures) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public boolean drawQuadric(int type) {
 		return type != GeoQuadricNDConstants.QUADRIC_ELLIPSOID
 				&& type != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER
