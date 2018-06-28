@@ -335,7 +335,6 @@ public class OpenFileView extends MyHeaderPanel
 	@Override
 	public void removeMaterial(Material material) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -351,7 +350,6 @@ public class OpenFileView extends MyHeaderPanel
 			public void onLoaded(final List<Material> parseResponse,
 					ArrayList<Chapter> meta) {
 				addUsersMaterials(parseResponse);
-
 			}
 		};
 	}
@@ -363,11 +361,9 @@ public class OpenFileView extends MyHeaderPanel
 	 *            List of materials
 	 */
 	public void addUsersMaterials(final List<Material> matList) {
-
 		for (int i = matList.size() - 1; i >= 0; i--) {
 			addMaterial(matList.get(i));
 		}
-
 	}
 
 	private MaterialCallback getGgtMaterialsCB() {

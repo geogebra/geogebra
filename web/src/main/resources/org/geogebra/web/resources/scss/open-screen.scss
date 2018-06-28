@@ -430,7 +430,12 @@
    					margin: 16px;
    					height: 206px;
    					width: 232px;
-    				background-color: #fafafa;
+    				background-color: $mow_material_card_bgd;
+    				box-shadow: 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12, 0 1px 3px 0 $black-2;
+    				
+    				&:hover {
+    					box-shadow: 0 8px 10px 1px $black-14, 0 3px 14px 2px $black-12, 0 5px 5px -3px $black-2;
+    				}
     				
 		    		.cardImgPanel {
     					width: 232px;
@@ -439,9 +444,42 @@
 					}
 				
 					.cardInfoPanel {
+						position: relative;
+						
 						.cardTitle {
-								
+							font-size: 125%;
+							color: $text-primary;
+							line-height: 19px;
+							letter-spacing: 0.25px;
+							padding: 8px 24px 0px 16px;
+							text-overflow: ellipsis
 						}	
+					
+						.cardAuthor {
+							font-size: 87.5%;
+							color: $text-secondary;
+							line-height: 20px;
+							letter-spacing: 0.25px;
+							padding: 6px 0px 12px 16px;
+							text-overflow: ellipsis;
+							position: absolute;
+    						top: 48px;
+						}
+						
+						.mowMoreButton {
+   							position: absolute;
+    						top: 48px;
+    						height: 24px !important;
+    						width: 24px;
+    						right: 0px;
+    						padding: 2px 6px 12px 8px;
+    						opacity: 0.54;
+    						cursor: pointer;
+    						
+    						&:hover {
+    							opacity: 1;	
+    						}
+						}
 					}
 		    	}
 			}

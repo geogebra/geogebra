@@ -21,6 +21,7 @@ public class MaterialCard extends FlowPanel {
 	private FlowPanel infoPanel;
 	private Label cardTitle;
 	private Label cardAuthor;
+	private ContextMenuMaterialCard moreBtn;
 
 	/**
 	 * @param m
@@ -45,8 +46,10 @@ public class MaterialCard extends FlowPanel {
 		cardTitle.setStyleName("cardTitle");
 		cardAuthor = new Label(m.getAuthor());
 		cardAuthor.setStyleName("cardAuthor");
+		moreBtn = new ContextMenuMaterialCard(app);
 		infoPanel.add(cardTitle);
 		infoPanel.add(cardAuthor);
+		infoPanel.add(moreBtn);
 		this.add(infoPanel);
 	}
 
