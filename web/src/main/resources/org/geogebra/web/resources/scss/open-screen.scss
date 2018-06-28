@@ -283,21 +283,14 @@
 	}
 
 	.profileOptionsPanel .arrow {
-	      border: 10px solid;
-	    border-color: white transparent;
-	    border-top-width: 0;
-	    right: 16px;
-	    width:0;
-	    height:0;
-	    position: absolute;
-	    z-index: 201;
+	    display: none;
 	}
 
 	.profileOptionsPanel .profileOptionsContent {
 		position: relative;
-		top: 8px;
 		margin-left: 5px;
 		z-index: 200;
+		top: 3px;
 		border-radius: 2px;
 		padding: 5px;
 		background-color: $white;
