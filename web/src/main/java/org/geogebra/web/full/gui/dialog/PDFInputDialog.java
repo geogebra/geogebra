@@ -19,14 +19,10 @@ import org.geogebra.web.html5.util.pdf.PDFWrapper.PDFListener;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
@@ -34,7 +30,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -207,22 +202,6 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 				changePageFromTextField(true);
 			}
 		});
-
-		curPageNrField.addFocusHandler(new FocusHandler() {
-
-			@Override
-			public void onFocus(FocusEvent event) {
-				tfActive = true;
-			}
-		});
-		curPageNrField.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				tfActive = false;
-			}
-		});
-
 	}
 
 	/**
@@ -362,12 +341,6 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	@Override
 	public void onPageDisplay(String imgSrc) {
-		// buildPdfContainer();
-		if (pdf.getPageCount() == 1) {
-			leftBtn.addStyleName("hidden");
-			rightBtn.addStyleName("hidden");
-			curPageNrField.setEnabled(false);
-		}
 		previewImg.getElement().setAttribute("src", imgSrc);
 		previewSrc = imgSrc;
 	}
@@ -446,7 +419,13 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	void onPDFLoaded() {
 		pdf.setPageNumber(1);
 		buildPdfContainer();
-		displayCurrentPageNumber();
+		if (pdf.getPageCount() == 1) {
+			leftBtn.addStyleName("hidden");
+			rightBtn.addStyleName("hidden");
+			pdfPageTextPanel.addStyleName("hidden");
+		} else {
+			displayCurrentPageNumber();
+		}
 		setLabels();
 		insertBtn.setEnabled(true);
 	}
@@ -481,24 +460,6 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	@Override
 	public void finishLoading(boolean result) {
 		progressBar.finishLoading(result);
-	}
-
-	@Override
-	protected void onPreviewNativeEvent(final NativePreviewEvent event) {
-		if (pdf != null && event.getTypeInt() == Event.ONKEYUP
-				&& event.getNativeEvent().getKeyCode() != KeyCodes.KEY_ESCAPE) {
-			focusPageNumberTextField();
-		} else {
-			super.onPreviewNativeEvent(event);
-		}
-
-	}
-
-	private void focusPageNumberTextField() {
-		if (!tfActive) {
-			curPageNrField.selectAll();
-		}
-		curPageNrField.requestFocus();
 	}
 }
 
