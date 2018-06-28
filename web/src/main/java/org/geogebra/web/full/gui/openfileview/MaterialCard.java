@@ -62,7 +62,6 @@ public class MaterialCard extends FlowPanel {
 		this.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
-				event.preventDefault();
 				// TODO open material
 			}
 		}, ClickEvent.getType());
@@ -114,8 +113,8 @@ public class MaterialCard extends FlowPanel {
 		visibilityPanel.add(LayoutUtilW.panelRowIndent(visibiltyImg,visibilityTxt));
 		// build info panel
 		infoPanel.add(cardTitle);
-		// TODO check if it's own or not
-		infoPanel.add(false ? visibilityPanel : cardAuthor);
+		infoPanel.add(app.getLoginOperation().owns(material) ? visibilityPanel
+				: cardAuthor);
 		infoPanel.add(moreBtn);
 		this.add(infoPanel);
 	}
@@ -131,5 +130,4 @@ public class MaterialCard extends FlowPanel {
 					+ ")");
 		}
 	}
-
 }
