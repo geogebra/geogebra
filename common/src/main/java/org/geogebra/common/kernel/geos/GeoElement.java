@@ -1068,7 +1068,7 @@ public abstract class GeoElement extends ConstructionElement
 	public String getDefinitionNoLabel(StringTemplate tpl) {
 		String ret = getDefinition(tpl);
 		if ("".equals(ret)) {
-			ret = getAlgebraDescription(tpl);
+			ret = toValueString(tpl);
 		}
 		return ret;
 	}
