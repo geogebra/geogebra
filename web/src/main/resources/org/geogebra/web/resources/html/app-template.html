@@ -14,7 +14,7 @@
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
 
-var latestVersion="5.0.374.0";
+var latestVersion="5.0.474.0";
 var module = "web3d";
 var lookAndFeel = "";
 var prerelease = false;
@@ -25,6 +25,7 @@ var marginTop = 0;
 var analyticsVersion = 'V'+latestVersion;
 var appOnline=true;
 var translation = {};
+var codebase = "https://cdn.geogebra.org/apps/latest/";
 </script>
 <!--PLATFORM SPECIFIC CODE-->
 <script>
@@ -285,7 +286,7 @@ var translation = {};
 		}
 		return null;
 	}
-	function switchLang(lang, codebase){
+	function switchLang(lang){
 		var storedTranslation = {};
 		if(getLocalStorage("translation")){
 			try { 
@@ -321,7 +322,7 @@ var translation = {};
 		
 		
 	}
-function insertScript(codebase){
+function insertScript(){
 	var app = document.createElement("script");		
 	app.setAttribute("src",codebase+module+"/js/webfont.js");
 	document.head.appendChild(app);
@@ -336,10 +337,10 @@ function insertScript(codebase){
 	function isLocalhost(){
 		return location.protocol.match(/(chrome|app|file:)/) || location.host.match(/^([0-9.]*|(autotest|deploy).*geogebra.org|localhost)(:.+)?$/);
 	}
-	function showStartScreen(codebase){
+	function showStartScreen(){
 		var lang = getURLparam("lang") || getCookie("GeoGebraLangUI") || getLocalStorage("GeoGebraLangUI") || navigator.language || "en";
 		window.setTimeout(showInEnglish, 1000);
-		switchLang(validLang(lang), codebase);
+		switchLang(validLang(lang));
 	}
 	
 	function installWorker(){
@@ -393,7 +394,7 @@ function insertScript(codebase){
 		return window.appID;
 	}
 
-	function mobileStartscreen(codebaseFn){
+	function mobileStartscreen(){
 		var link = false;
 		var androidLinks = {"geometry":"https://play.google.com/store/apps/details?id=org.geogebra.android.geometry",
 				"graphing":"https://play.google.com/store/apps/details?id=org.geogebra.android",
@@ -431,7 +432,7 @@ function insertScript(codebase){
 		stay.addEventListener("click",function(){
 			stay.style.opacity = 0;
 			tryApp.style.opacity = 0;
-			insertScript(codebaseFn());
+			insertScript();
 		});
 		
 		tryApp.className = "tryApp";
@@ -445,7 +446,6 @@ function insertScript(codebase){
 		installWorker();
 		var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7,'calculator':8};
 		var tubeid = getURLparam("id");
-		var codebase = "https://cdn.geogebra.org/apps/"+latestVersion+"/";
 		var checkId = location.pathname.match(/^\/(o|classic|graphing|geometry|3d|whiteboard)\/([a-zA-Z0-9]+)/);
 		if(checkId && !names[checkId[2]]){
 			tubeid = checkId[2];
@@ -457,7 +457,7 @@ function insertScript(codebase){
 		var skipAppsPicker = getURLparam("command") || getURLparam("state") || getURLparam("filename");
 		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 				.test(window.navigator.userAgent) && c("appName") && !skipAppsPicker && !location.pathname.match(/lti/)){
-			wait = mobileStartscreen(function(){return codebase;});
+			wait = mobileStartscreen();
 		}
 		
 		function resizeStart(){
@@ -491,7 +491,6 @@ function insertScript(codebase){
 				setPrerelease("canary");
 				e("ggw").setAttribute("data-param-materialsApi",location.protocol+"//"+location.host+"/api/json.php");
 				e("ggw").setAttribute("data-param-loginApi","https://"+location.host+"/api/login.php");
-				codebase = "https://autotest2.geogebra.org/job/GeoGebra-autotest/lastSuccessfulBuild/artifact/web/war/";
 			}
 			if(isLocalhost()){
 				codebase = "./";
@@ -529,7 +528,7 @@ function insertScript(codebase){
 				previewDiv.appendChild(preview);
 				document.body.appendChild(previewDiv);
 				perspective(false);
-				insertScript(codebase);
+				insertScript();
 				return;
 			}
 		}
@@ -546,20 +545,20 @@ function insertScript(codebase){
 			}
 			document.body.className += " "+pName;
 			document.body.className += " "+module;
-			wait || insertScript(codebase);
-			showStartScreen(codebase);
+			wait || insertScript();
+			showStartScreen();
 			return;
 		}
 		else if(skipAppsPicker ){
 			perspective(false);
-			insertScript(codebase);
+			insertScript();
 			return;
 		}
 		
-		showStartScreen(codebase);
+		showStartScreen();
 		
 		
-		wait || insertScript(codebase);
+		wait || insertScript();
 		
 		perspective(false, "picker"); //TODO
 		
