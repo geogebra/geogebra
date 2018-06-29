@@ -120,7 +120,6 @@ public class SpreadsheetKeyListenerW
 		case KeyCodes.KEY_CTRL: // Event.VK_CONTROL:
 		case KeyCodes.KEY_ALT: // Event.VK_ALT:
 			// case KeyEvent.VK_META: //MAC_OS Meta
-			GlobalKeyDispatcherW.setDownKeys(e);
 			break;
 
 		case GWTKeycodes.KEY_F9:// Event.VK_F9:
