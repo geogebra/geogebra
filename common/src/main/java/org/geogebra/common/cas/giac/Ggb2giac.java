@@ -1863,9 +1863,7 @@ public class Ggb2giac {
 
 		p("JordanDiagonalization.1", "{jordan(%0)}");
 
-		// giac.js / wasm gives "?" not "{}"
-		p("Eigenvectors.1",
-				"[[ggbenvas:=egv(%0)],when(ggbenvas==?,{},ggbenvas)][1]");
+		p("Eigenvectors.1", "egv(%0)");
 
 		p("Eigenvalues.1", "{eigenvals(%0)}");
 
