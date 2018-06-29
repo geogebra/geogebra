@@ -1,9 +1,13 @@
 package org.geogebra.main;
 
 import java.io.File;
+import java.util.Locale;
 import java.util.TreeSet;
 
+import org.geogebra.commands.AlgebraTest;
+import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.desktop.main.AppDNoGui;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -56,5 +60,17 @@ public class LocalizationTest {
 					Language.getClosestGWTSupportedLanguage(alias),
 					lang);
 		}
+	}
+
+	@Test
+	public void localizedFunctionsShouldBeInnternalInXML() {
+		AppDNoGui app = AlgebraTest.createApp();
+		app.setLanguage(Locale.GERMANY);
+		Assert.assertEquals("Midpoint(10,20)",
+				GgbScript.localizedScript2Script(app, "Mittelpunkt(10,20)"));
+		Assert.assertEquals("nroot(10,20)",
+				GgbScript.localizedScript2Script(app, "NteWurzel(10,20)"));
+		Assert.assertEquals("nroot[10,20]",
+				GgbScript.localizedScript2Script(app, "NteWurzel[10,20]"));
 	}
 }
