@@ -31,6 +31,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -148,6 +149,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		sskl = new SpreadsheetKeyListenerW(app, table);
 		spreadsheetWrapper.addDomHandler(sskl, KeyDownEvent.getType());
 		spreadsheetWrapper.addDomHandler(sskl, KeyPressEvent.getType());
+		spreadsheetWrapper.addDomHandler(sskl, KeyUpEvent.getType());
 		spreadsheetWrapper.addPasteHandler(sskl);
 	}
 

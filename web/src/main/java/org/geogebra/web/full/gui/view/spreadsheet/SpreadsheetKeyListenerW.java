@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -15,6 +16,8 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -22,7 +25,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * Key event handler for spreadsheet
  */
-public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler {
+public class SpreadsheetKeyListenerW
+		implements KeyDownHandler, KeyPressHandler, KeyUpHandler {
 
 	private AppW app;
 	private SpreadsheetViewW view;
@@ -116,6 +120,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		case KeyCodes.KEY_CTRL: // Event.VK_CONTROL:
 		case KeyCodes.KEY_ALT: // Event.VK_ALT:
 			// case KeyEvent.VK_META: //MAC_OS Meta
+			GlobalKeyDispatcherW.setDownKeys(e);
 			break;
 
 		case GWTKeycodes.KEY_F9:// Event.VK_F9:
@@ -713,5 +718,10 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				}
 			}
 		});
+	}
+
+	@Override
+	public void onKeyUp(KeyUpEvent event) {
+		GlobalKeyDispatcherW.setDownKeys(event);
 	}
 }
