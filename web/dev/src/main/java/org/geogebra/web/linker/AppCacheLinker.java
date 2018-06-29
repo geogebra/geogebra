@@ -154,9 +154,7 @@ public class AppCacheLinker extends AbstractLinker {
 						// skip these resources
 					} else {
 						publicSourcesSb
-								.append("\"https://download.geogebra.org/web/5.0/"
-										+ GeoGebraConstants.VERSION_STRING
-										+ "/web3d/"
+								.append("\"https://download.geogebra.org/web/5.0/latest/web3d/"
 										+ pathName.replace("\\", "/")
 										+ "\",\n");
 					}
