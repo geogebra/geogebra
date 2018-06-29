@@ -13,8 +13,8 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	GuiResourcesSimple INSTANCE = GWT.create(GuiResourcesSimple.class);
 
-	@Source("org/geogebra/web/resources/js/zipjs/deflate.js")
-	TextResource deflateJs();
+	// @Source("org/geogebra/web/resources/js/zipjs/deflate.js")
+	// TextResource deflateJs();
 
 	@Source("org/geogebra/web/resources/js/rewrite_pHYs_min.js")
 	TextResource rewritePHYS();
@@ -49,8 +49,8 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/zipjs/pako1.0.6_min.js")
 	TextResource pakoJs();
 
-	@Source("org/geogebra/web/resources/js/zipjs/inflate.js")
-	TextResource inflateJs();
+	// @Source("org/geogebra/web/resources/js/zipjs/inflate.js")
+	// TextResource inflateJs();
 
 	@Source("org/geogebra/web/resources/js/zipjs/arraybuffer.js")
 	TextResource arrayBufferJs();

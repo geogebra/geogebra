@@ -6,7 +6,6 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -144,7 +143,7 @@ public class PDFEncoderW implements Encoder {
 	 */
 	public static Context2d getContext(int width, int height) {
 
-		if (AppW.USE_PAKO && !PDFEncoderW.pakoLoaded()) {
+		if (!PDFEncoderW.pakoLoaded()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
 		}
 

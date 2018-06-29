@@ -3,7 +3,6 @@ package org.geogebra.web.html5.js;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
@@ -75,18 +74,18 @@ public class ResourcesInjector {
 	 * Load PAKO or Deflate
 	 */
 	public static void loadCodecs() {
-		if (AppW.USE_PAKO) {
+		// if (AppW.USE_PAKO) {
 			Log.debug("loading zipjs/pako");
-			if (AppW.USE_PAKO && !PDFEncoderW.pakoLoaded()) {
+		if (!PDFEncoderW.pakoLoaded()) {
 				JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
 			}
 			JavaScriptInjector
 					.inject(GuiResourcesSimple.INSTANCE.pakoCodecJs());
-		} else {
-			Log.debug("loading zipjs/inflate+deflate.js");
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.inflateJs());
-		}
+		// } else {
+		// Log.debug("loading zipjs/inflate+deflate.js");
+		// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
+		// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.inflateJs());
+		// }
 	}
 
 	/** Works around https://bugzilla.mozilla.org/show_bug.cgi?id=548397 */
