@@ -37,7 +37,8 @@ public class ContextMenuCard extends MyToggleButton
 	protected GPopupMenuW wrappedPopup;
 	/** localization */
 	protected Localization loc;
-	private AppW app;
+	/** application */
+	protected AppW app;
 	/** geogebra frame */
 	protected GeoGebraFrameBoth frame;
 

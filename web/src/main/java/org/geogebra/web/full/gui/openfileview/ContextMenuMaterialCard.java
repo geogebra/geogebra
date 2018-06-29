@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.openfileview;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.dialog.MaterialRenameDialog;
 import org.geogebra.web.full.gui.util.ContextMenuCard;
 import org.geogebra.web.html5.main.AppW;
 
@@ -98,7 +99,10 @@ public class ContextMenuMaterialCard extends ContextMenuCard {
 	 */
 	protected void onRename() {
 		hide();
-		// TODO
+		MaterialRenameDialog renameDialog = new MaterialRenameDialog(app.getPanel(),
+				app);
+		renameDialog.show();
+		renameDialog.center();
 	}
 
 	/**

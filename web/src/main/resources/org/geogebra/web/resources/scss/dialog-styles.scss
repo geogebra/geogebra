@@ -533,6 +533,74 @@ $duration: 0.2s;
    		}
    	}
    
+   	.MaterialDialogBox.renameDialog {
+   		.mowRenameDialogContent {
+   			.AutoCompleteTextFieldW {
+   				margin: 8px 16px 8px 0px;	
+   			}
+   			
+   			&.emptyState {
+   				.inputLabel {
+   					color: $text-secondary;
+   					font-size: 75%;
+   				}
+   			
+ 				.AutoCompleteTextFieldW {
+ 					border-bottom: 1px solid $black-42;
+ 					.TextField {
+ 						padding: 0px;
+ 						margin-bottom: 8px;
+ 						margin-top: 0px;
+ 						font-size: 100%;
+ 						color: $text-primary;
+ 						&::placeholder {
+ 							color: $text-secondary;	
+ 						}
+ 					}
+ 				}
+
+   				&.hoverState {	
+   					.inputLabel {
+   						color: $black-87;
+   					}
+   			
+ 					.AutoCompleteTextFieldW {
+ 						border-bottom: 2px solid $black-87;
+ 					}
+ 				} 				
+   			}
+   		
+   			&.focusState, &.focusState:hover {
+   				@extend .emptyState;
+   				.inputLabel {
+   					color: $mebis-teal-dark-87;
+   				}
+   			
+ 				.AutoCompleteTextFieldW {
+ 					border-bottom: 2px solid $mebis-teal-dark;
+ 				}
+   			}		
+   		}
+   	
+   		.DialogButtonPanel {
+   			padding-top: 10px;
+   			
+   			.button {
+   				color: $mebis-teal-dark;	
+   			}
+   			
+   			.okBtn.button-up-disabled {
+   				opacity: 1;
+   				color: $mebis-teal-dark-26;
+   				
+   				&:hover {
+   					background: none !important;	
+   				}
+   			}
+   		}
+   	}
+   
+   
    .exportImgDialog {
    		.expImgContent {
    			margin-right: 16px;	
