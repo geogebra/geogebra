@@ -74,8 +74,20 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 *            key event
 	 */
 	public static void setDownKeys(KeyEvent<? extends EventHandler> ev) {
-		controlDown = ev.isControlKeyDown();
-		shiftDown = ev.isShiftKeyDown();
+		setDownKeys(ev.isControlKeyDown(), ev.isShiftKeyDown());
+	}
+
+	/**
+	 * Update ctrl, shift flags
+	 * 
+	 * @param control
+	 *            if control is down.
+	 * @param shift
+	 *            if shift is down.
+	 */
+	public static void setDownKeys(boolean control, boolean shift) {
+		controlDown = control;
+		shiftDown = shift;
 	}
 
 	/**

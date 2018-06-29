@@ -13,6 +13,7 @@ import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -290,8 +291,9 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		int y = SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(), app);
 
 		boolean shiftDown = e.isShiftDown();
+		boolean controlDown = e.isControlDown();
 		boolean rightClick = e.isRightClick();
-
+		GlobalKeyDispatcherW.setDownKeys(controlDown, shiftDown);
 		if (!rightClick) {
 			GPoint point = table.getIndexFromPixel(x, y);
 
@@ -332,12 +334,8 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 						int column = point.getX();
 						table.setColumnSelectionInterval(column0, column);
 					}
-					// } else if (metaDown) {
-					// column0 = point.getX();
-					// // Note: ctrl-select now handled in
-					// // table.changeSelection
-					// table.setColumnSelectionInterval(column0, column0);
 				} else {
+
 					column0 = point.getX();
 					table.setColumnSelectionInterval(column0, column0);
 				}
