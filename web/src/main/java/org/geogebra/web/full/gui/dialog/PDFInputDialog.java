@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -359,18 +358,11 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	 *
 	 */
 	public class ProgressBar extends SimplePanel {
-		/**
-		 * Timer for progress animation.
-		 */
-		GTimer progressTimer;
+
 		/**
 		 * Loaded part of the progress bar.
 		 */
 		SimplePanel loadedPart;
-		/**
-		 * Current percent of the loaded part.
-		 */
-		int width = 0;
 
 		/**
 		 * Creates a new progress bar.
@@ -394,7 +386,6 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 			} else {
 				buildErrorPanel();
 			}
-
 		}
 
 		/**

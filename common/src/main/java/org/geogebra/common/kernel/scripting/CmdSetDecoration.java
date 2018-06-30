@@ -28,6 +28,9 @@ public class CmdSetDecoration extends CmdScripting {
 		switch (n) {
 		case 2:
 			GeoElement[] arg = resArgs(c);
+			if (!arg[1].isNumberValue()) {
+				throw argErr(c, arg[1]);
+			}
 
 			int style = (int) arg[1].evaluateDouble();
 
