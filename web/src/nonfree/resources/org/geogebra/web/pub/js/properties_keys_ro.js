@@ -854,7 +854,7 @@ __GGB__keysVar["ro"].command = {
     "SetCoords": "Seteaz\u0103Coordonate",
     "SetCoords.Syntax": "[ <Obiect>, <x>, <y> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "Seteaz\u0103CuloareDinamic\u0103",
     "SetDynamicColor.Syntax": "[ <Obiect>, <Ro\u015fu>, <Verde>, <Albastru> ]\n[ <Obiect>, <Ro\u015fu>, <Verde>, <Albastru>, <Opacitate> ]",
     "SetFilling": "DefinireUmplere",

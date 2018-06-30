@@ -854,7 +854,7 @@ __GGB__keysVar["ar-TN"].command = {
     "SetCoords": "\u0625\u062d\u062f\u0627\u062b\u064a\u0627\u062a",
     "SetCoords.Syntax": "[ <\u0646\u0642\u0637\u0629>, <x>, <y> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "\u0644\u0648\u0646_\u062f\u064a\u0646\u0627\u0645\u064a\u0643\u064a",
     "SetDynamicColor.Syntax": "[ <\u0639\u0646\u0635\u0631>, <\u0623\u062d\u0645\u0631>, <\u0623\u062e\u0636\u0631>, <\u0623\u0632\u0631\u0642> ]\n[ <\u0639\u0646\u0635\u0631>, <\u0623\u062d\u0645\u0631>, <\u0623\u062e\u0636\u0631>, <\u0623\u0632\u0631\u0642>, <\u063a\u0645\u0648\u0636> ]",
     "SetFilling": "\u062a\u0639\u0628\u0626\u0629",

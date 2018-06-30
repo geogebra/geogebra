@@ -854,7 +854,7 @@ __GGB__keysVar["mk"].command = {
     "SetCoords": "\u041f\u043e\u0441\u0442\u0430\u0432\u0438\u041a\u043e\u043e\u0440\u0434\u0438\u043d\u0430\u0442\u0438",
     "SetCoords.Syntax": "[ <\u041e\u0431\u0458\u0435\u043a\u0442>, <x>, <y> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "\u041f\u043e\u0441\u0442\u0430\u0432\u0438\u0414\u0438\u043d\u0430\u043c\u0438\u0447\u043a\u0430\u0411\u043e\u0458\u0430",
     "SetDynamicColor.Syntax": "[ <\u041e\u0431\u0458\u0435\u043a\u0442>, <\u0426\u0440\u0432\u0435\u043d\u0430>, <\u0417\u0435\u043b\u0435\u043d\u0430>, <\u0421\u0438\u043d\u0430> ]",
     "SetFilling": "\u041f\u043e\u0441\u0442\u0430\u0432\u0438\u041f\u043e\u043f\u043e\u043b\u043d\u0443\u0432\u0430\u045a\u0435",

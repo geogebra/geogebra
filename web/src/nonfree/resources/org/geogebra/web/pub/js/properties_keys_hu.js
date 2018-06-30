@@ -854,7 +854,7 @@ __GGB__keysVar["hu"].command = {
     "SetCoords": "PontKoordin\xe1t\xe1i",
     "SetCoords.Syntax": "[ <Objektum>, <x>, <y> ]\n[ <Objektum>, <x>, <y>, <z> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "DinamikusSzinek",
     "SetDynamicColor.Syntax": "[ <Alakzat>, <Piros>, <Z\xf6ld>, <K\xe9k> ]\n[ <Alakzat>, <Piros>, <Z\xf6ld>, <K\xe9k>, <\xc1tl\xe1tszatlans\xe1g> ]",
     "SetFilling": "Kit\xf6lt\xe9s",

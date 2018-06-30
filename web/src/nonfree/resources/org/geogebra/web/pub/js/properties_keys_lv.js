@@ -854,7 +854,7 @@ __GGB__keysVar["lv"].command = {
     "SetCoords": "SetCoords",
     "SetCoords.Syntax": "[ <Objekts>, <x>, <y> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "SetDynamicColor",
     "SetDynamicColor.Syntax": "[ <Objekts>, <Sarkans>, <Za\u013c\u0161>, <Zils> ]\n[ <Objekts>, <Sarkans>, <Za\u013c\u0161>, <Zils>, <necaurredzam\u012bba> ]",
     "SetFilling": "NoteiktPild\u012bjumu",

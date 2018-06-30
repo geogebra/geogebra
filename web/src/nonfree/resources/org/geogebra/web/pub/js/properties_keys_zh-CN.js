@@ -854,7 +854,7 @@ __GGB__keysVar["zh-CN"].command = {
     "SetCoords": "\u8bbe\u7f6e\u5750\u6807",
     "SetCoords.Syntax": "[ <\u5bf9\u8c61>, <\u6a2a\u5750\u6807x>, <\u7eb5\u5750\u6807y> ]\n[ <\u5bf9\u8c61>, <\u6a2a\u5750\u6807x>, <\u7eb5\u5750\u6807y>, <\u7ad6\u5750\u6807z> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <\u5bf9\u8c61> ]",
+    "SetDecoration.Syntax": "[ <\u5bf9\u8c61>, <\u6570\u5b57> ]",
     "SetDynamicColor": "\u8bbe\u7f6e\u52a8\u6001\u989c\u8272",
     "SetDynamicColor.Syntax": "[ <\u5bf9\u8c61>, <\u7ea2\u8272 0-1>, <\u7eff\u8272 0-1>, <\u84dd\u8272 0-1> ]\n[ <\u5bf9\u8c61>, <\u7ea2\u8272 0-1>, <\u7eff\u8272 0-1>, <\u84dd\u8272 0-1>, <\u865a\u5b9e 0-1> ]",
     "SetFilling": "\u8bbe\u7f6e\u586b\u5145",

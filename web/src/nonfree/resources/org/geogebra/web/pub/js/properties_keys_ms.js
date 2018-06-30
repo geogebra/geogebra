@@ -854,7 +854,7 @@ __GGB__keysVar["ms"].command = {
     "SetCoords": "SetKoords",
     "SetCoords.Syntax": "[ <Titik>, <x>, <y> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "SetWarnaDinamik",
     "SetDynamicColor.Syntax": "[ <Objek>, <Merah>, <Hijau>, <Biru> ]\n[ <Objek>, <Merah>, <Hijau>, <Biru>, <Kelegapan> ]",
     "SetFilling": "SetIsian",

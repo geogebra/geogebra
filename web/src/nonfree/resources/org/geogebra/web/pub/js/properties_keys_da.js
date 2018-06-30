@@ -854,7 +854,7 @@ __GGB__keysVar["da"].command = {
     "SetCoords": "V\xe6lgKoordinater",
     "SetCoords.Syntax": "[ <Objekt>, <x>, <y> ]\n[ <Objekt>, <x>, <y>, <z> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "V\xe6lgDynamiskFarve",
     "SetDynamicColor.Syntax": "[ <Objekt>, <R\xf8d>, <Gr\xf8n>, <Bl\xe5> ]\n[ <Objekt>, <R\xf8d>, <Gr\xf8n>, <Bl\xe5>, <Opacitet> ]",
     "SetFilling": "V\xe6lgUdfyldning",

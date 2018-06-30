@@ -854,7 +854,7 @@ __GGB__keysVar["ar-MA"].command = {
     "SetCoords": "\u0639\u064a\u0646_\u0627\u0644\u0625\u062d\u062f\u0627\u062b\u064a\u0627\u062a",
     "SetCoords.Syntax": "[ <\u0646\u0642\u0637\u0629>, <\u0633>, <\u0639> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "\u0639\u064a\u0646_\u0644\u0648\u0646_\u062d\u0631\u0643\u064a",
     "SetDynamicColor.Syntax": "[ <\u0643\u0627\u0626\u0646>, <\u0623\u062d\u0645\u0631>, <\u0623\u062e\u0636\u0631>, <\u0623\u0632\u0631\u0642> ]\n[ <\u0643\u0627\u0626\u0646>, <\u0623\u062d\u0645\u0631>, <\u0623\u062e\u0636\u0631>, <\u0623\u0632\u0631\u0642>, <\u0639\u062a\u0645\u0629> ]",
     "SetFilling": "\u0639\u064a\u0646_\u0627\u0644\u062a\u0639\u0628\u0626\u0629",

@@ -854,7 +854,7 @@ __GGB__keysVar["sk"].command = {
     "SetCoords": "Nastavi\u0165S\xfaradnicov\xfdSyst\xe9m",
     "SetCoords.Syntax": "[ <Objekt>, <x>, <y> ]\n[ <Objekt>, <x>, <y>, <z> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "Nastavi\u0165Dynamick\xe9Farby",
     "SetDynamicColor.Syntax": "[ <Objekt>, <\u010derven\xe1>, <zelen\xe1>, <modr\xe1> ]\n[ <Objekt>, <\u010derven\xe1>, <zelen\xe1>, <modr\xe1>, <prieh\u013eadnos\u0165> ]",
     "SetFilling": "Nastavi\u0165V\xfdpl\u0148",

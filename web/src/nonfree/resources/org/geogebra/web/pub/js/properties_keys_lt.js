@@ -854,7 +854,7 @@ __GGB__keysVar["lt"].command = {
     "SetCoords": "NustatytiKoordinates",
     "SetCoords.Syntax": "[ <Objektas>, <x>, <y> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "NustatytiDinamin\u0119Spalv\u0105",
     "SetDynamicColor.Syntax": "[ <Objketas>, <Raudona>, <\u017dalia>, <M\u0117lyna> ]",
     "SetFilling": "NustatytiU\u017epild\u0105",

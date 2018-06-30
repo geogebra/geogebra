@@ -854,7 +854,7 @@ __GGB__keysVar["sl"].command = {
     "SetCoords": "Dolo\u010diKoordinate",
     "SetCoords.Syntax": "[ <objekt>, <x>, <y> ]\n[ <objekt>, <x>, <y>, <z> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "Dolo\u010diDinami\u010dnoBarvo",
     "SetDynamicColor.Syntax": "[ <objekt>, <rde\u010da>, <zelena>, <modra> ]",
     "SetFilling": "Dolo\u010diProsojnost",

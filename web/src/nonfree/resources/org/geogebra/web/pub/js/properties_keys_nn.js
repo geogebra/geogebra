@@ -854,7 +854,7 @@ __GGB__keysVar["nn"].command = {
     "SetCoords": "VelKoordinatar",
     "SetCoords.Syntax": "[ <Objekt>, <x>, <y> ]\n[ <Objekt>, <x>, <y>, <z> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "VelDynamiskFarge",
     "SetDynamicColor.Syntax": "[ <Objekt>, <Raud>, <Gr\xf8n>, <Bl\xe5> ]\n[ <Objekt>, <Raud>, <Gr\xf8n>, <Bl\xe5>, <Fyllgrad> ]",
     "SetFilling": "VelFyllgrad",

@@ -854,7 +854,7 @@ __GGB__keysVar["mr"].command = {
     "SetCoords": "SetCoords",
     "SetCoords.Syntax": "[ <Object>, <x>, <y> ]\n[ <Object>, <x>, <y>, <z> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "SetDynamicColor",
     "SetDynamicColor.Syntax": "[ <Object>, <Red>, <Green>, <Blue> ]\n[ <Object>, <Red>, <Green>, <Blue>, <Opacity> ]",
     "SetFilling": "SetFilling",

@@ -854,7 +854,7 @@ __GGB__keysVar["hi"].command = {
     "SetCoords": "\u0938\u0947\u091f\u0915\u0942\u0930\u094d\u0921\u094d\u0938",
     "SetCoords.Syntax": "[ <\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f, <x>, <y> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "\u0917\u0924\u093f\u0936\u0940\u0932\u0930\u0902\u0917\u0938\u0947\u091f\u0915\u0930\u0928\u093e",
     "SetDynamicColor.Syntax": "[ <\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f>, <\u0932\u093e\u0932>, <\u0939\u0930\u093e>, <\u0928\u0940\u0932\u093e> ]\n[ <\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f>, <\u0932\u093e\u0932>, <\u0939\u0930\u093e>, <\u0928\u0940\u0932\u093e>, <\u0905\u0938\u094d\u092a\u0937\u094d\u091f\u0924\u093e> ]",
     "SetFilling": "\u0938\u0947\u091f\u094d\u095e\u0940\u0932\u093f\u0902\u0917",

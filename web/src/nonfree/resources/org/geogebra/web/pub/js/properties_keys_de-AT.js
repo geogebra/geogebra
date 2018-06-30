@@ -854,7 +854,7 @@ __GGB__keysVar["de-AT"].command = {
     "SetCoords": "SetzeKoordinaten",
     "SetCoords.Syntax": "[ <Objekt>, <x>, <y> ]\n[ <Objekt>, <x>, <y>, <z> ]",
     "SetDecoration": "SetDecoration",
-    "SetDecoration.Syntax": "[ <Object> ]",
+    "SetDecoration.Syntax": "[ <Object>, <Number> ]",
     "SetDynamicColor": "SetzeDynamischeFarben",
     "SetDynamicColor.Syntax": "[ <Objekt>, <Rot>, <Gr\xfcn>, <Blau> ]\n[ <Objekt>, <Rot>, <Gr\xfcn>, <Blau>, <Deckkraft> ]",
     "SetFilling": "SetzeF\xfcllung",
