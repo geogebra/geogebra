@@ -39,12 +39,12 @@ public class DifferentiateStepTest {
 				"((nroot(x, 2))/((2)(x)) + (nroot(x, 3))/((3)(x)) + (nroot(x, 4))/((4)(|x|)))");
 		d("sin(x)*cos(x)", "x", "(-(sin(x))^(2) + (cos(x))^(2))");
 		d("sin(x) / cos(x)", "x", "(((cos(x))^(2) + (sin(x))^(2)))/((cos(x))^(2))");
-		d("e^x + 3^x", "x", "((e)^(x) + (log_(e)(3))((3)^(x)))");
+		d("exp(x) + 3^x", "x", "((e)^(x) + (log_(e)(3))((3)^(x)))");
 
 		d("y*x", "x", "y");
 		d("y*x", "y", "x");
 		d("(sin(x))^2", "x", "(2)(sin(x))(cos(x))");
-		d("e^(cos(x) * (ln(x))^2)", "x",
+		d("exp(cos(x) * (ln(x))^2)", "x",
 				"((e)^((cos(x))((log_(e)(x))^(2))))((((2)(cos(x))(log_(e)(x)))/(x)-(sin(x))((log_(e)(x))^(2))))");
 		d("(sin(x)^2)", "x", "(2)(sin(x))(cos(x))");
 	}

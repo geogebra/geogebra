@@ -20,6 +20,22 @@ public abstract class StepTransformable extends StepNode {
 
 	public abstract boolean isOperation(Operation op);
 
+	/**
+	 * @return whether the current node is a trigonometric function
+	 */
+	public boolean isTrigonometric() {
+		return isOperation(Operation.SIN) || isOperation(Operation.COS)
+				|| isOperation(Operation.TAN);
+	}
+
+	/**
+	 * @return whether the current node is an inverse trigonometric function
+	 */
+	public boolean isInverseTrigonometric() {
+		return isOperation(Operation.ARCSIN) || isOperation(Operation.ARCCOS)
+				|| isOperation(Operation.ARCTAN);
+	}
+
 	StepTransformable regroup() {
 		return regroup(null);
 	}

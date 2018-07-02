@@ -31,7 +31,8 @@ public abstract class SolutionStep {
 		return getType() != SolutionStepType.FACTOR
 				&& getType() != SolutionStepType.DETERMINE_THE_DEFINED_RANGE
 				&& getType() != SolutionStepType.FIND_UNDEFINED_POINTS
-				&& getType() != SolutionStepType.SOLVE_FOR;
+				&& getType() != SolutionStepType.SOLVE_FOR
+				&& getType() != SolutionStepType.SIMPLIFY;
 	}
 
 	public SolutionStep cleanupSteps() {

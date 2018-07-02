@@ -41,6 +41,12 @@ public class GeneralUnitTests {
 
     @Test
     public void quotientRemainderTest() {
+		remainder("2 * x", "2 * pi", "(2)(x)");
+		quotient("pi", "pi", "1");
+		remainder("pi", "pi", "0");
+		quotient("x", "x", "1");
+		quotient("51 * pi", "2 * pi", "25");
+		remainder("51 * pi", "2 * pi", "pi");
         quotient("13", "5", "2");
         remainder("13", "5", "3");
         quotient("4(x-3)+5", "x-3", "4");
@@ -49,7 +55,7 @@ public class GeneralUnitTests {
         remainder("4(x-3)+5", "2(x-3)", "5");
         quotient("3k+1", "3", "k");
         remainder("3k+1", "3", "1");
-        quotient("3*2", "3", "2");
+		quotient("3*2", "3", "2");
     }
 
     @Test
@@ -78,13 +84,11 @@ public class GeneralUnitTests {
     @Test
     public void signTest() {
         sign("exp(x)", 1);
-        sign("e^x", 1);
         sign("x^x", 0);
         sign("x^2", 1);
         sign("(x^2)^x", 1);
         sign("2+3", 1);
         sign("2+x", 0);
-        sign("e^x", 1);
         sign("|x| + x^2", 1);
         sign("|x| - x^2", 0);
         sign("x^(2k)", 0);

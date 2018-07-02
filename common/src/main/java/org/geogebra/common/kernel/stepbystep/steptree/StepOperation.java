@@ -212,6 +212,35 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	}
 
 	@Override
+	public boolean isInteger() {
+		return operation == Operation.MINUS && operands[0].isInteger();
+	}
+
+	@Override
+	public boolean proveInteger() {
+		switch (operation) {
+		case PLUS:
+		case MINUS:
+		case MULTIPLY:
+		case ABS:
+			for (StepExpression operand : operands) {
+				if (!operand.proveInteger()) {
+					return false;
+				}
+			}
+			return true;
+
+		case POWER:
+			return operands[0].proveInteger()
+					&& operands[1].proveInteger()
+					&& operands[1].sign() >= 0;
+
+		default:
+			return false;
+		}
+	}
+
+	@Override
 	public boolean isConstantIn(StepVariable sv) {
 		for (StepExpression operand : operands) {
 			if (!operand.isConstantIn(sv)) {
@@ -643,9 +672,6 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 					coefficient[i] = operands[i].getIntegerCoefficient();
 				}
 				return multiply(coefficient);
-			case DIVIDE:
-				return divide(getOperand(0).getIntegerCoefficient(),
-						getOperand(1).getIntegerCoefficient());
 		}
 		return null;
 	}
@@ -667,8 +693,6 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 					nonInteger[i] = operands[i].getNonInteger();
 				}
 				return multiply(nonInteger);
-			case DIVIDE:
-				return divide(getOperand(0).getNonInteger(), getOperand(1).getNonInteger());
 		}
 		return this;
 	}

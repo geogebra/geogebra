@@ -158,8 +158,18 @@ public final class StepConstant extends StepExpression {
 
 	@Override
 	public boolean specialConstant() {
-		return isEqual(getValue(), Math.PI) || isEqual(getValue(), Math.E) ||
-						Double.isInfinite(getValue()) || Double.isNaN(getValue());
+		return isEqual(value, Math.PI) || isEqual(value, Math.E) ||
+						Double.isInfinite(value) || Double.isNaN(value);
+	}
+
+	@Override
+	public boolean isInteger() {
+		return isEqual(value, Math.round(value));
+	}
+
+	@Override
+	public boolean proveInteger() {
+		return isEqual(value, Math.round(value));
 	}
 
 	@Override

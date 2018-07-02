@@ -41,7 +41,7 @@ public abstract class StepNode implements TableElement {
 		}
 
 		try {
-			ExpressionValue ev = parser.parseGeoGebraExpression(s);
+			ExpressionValue ev = parser.parseGeoGebraCAS(s, null);
 			StepTransformable sn = convertExpression(ev);
 			return cleanupExpression(sn);
 		} catch (Throwable t) { // :(
@@ -377,6 +377,10 @@ public abstract class StepNode implements TableElement {
 
 	public static StepExpression cos(StepExpression a) {
 		return applyOp(Operation.COS, a);
+	}
+
+	public static StepExpression tan(StepExpression a) {
+		return applyOp(Operation.TAN, a);
 	}
 
 	public static StepLogical intersect(StepLogical a, StepLogical b) {

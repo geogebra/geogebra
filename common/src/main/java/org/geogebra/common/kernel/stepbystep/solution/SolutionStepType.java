@@ -383,6 +383,72 @@ public enum SolutionStepType {
 
 	EVALUATE_TRIGO("EvaluateTrigo", "Evaluate trigonometric function"),
 
+	FACTOR_OUT_2PI("FactorOut2Pi", "Factor out $2 \\pi$ where possible"),
+
+	FACTOR_OUT_PI("FactorOut2Pi", "Factor out $\\pi$ where possible"),
+
+	ELIMINATE_THE_PERIOD_SIN("EliminatePeriodSin", "Eliminate the period",
+			"$\\sin(x + k \\cdot 2 \\pi) = \\sin(x)$, for any $k \\in \\mathbb{Z}$"),
+
+	ELIMINATE_THE_PERIOD_COS("EliminatePeriodSin", "Eliminate the period",
+			"$\\cos(x + k \\cdot 2 \\pi) = \\cos(x)$, for any $k \\in \\mathbb{Z}$"),
+
+	ELIMINATE_THE_PERIOD_TAN("EliminatePeriodSin", "Eliminate the period",
+			"$\\tan(x + k \\cdot \\pi) = \\tan(x)$, for any $k \\in \\mathbb{Z}$"),
+
+	REDUCE_TO_FRIST_QUADRANT_SIN_II("ReduceToFirstQuadrantSinII",
+			"Reduce to first quadrant", "Use $\\sin(x) = \\sin(\\pi - x)$"),
+
+	REDUCE_TO_FRIST_QUADRANT_SIN_III("ReduceToFirstQuadrantSinIII",
+			"Reduce to first quadrant", "Use $\\sin(x) = -\\sin(x - \\pi)$"),
+
+	REDUCE_TO_FRIST_QUADRANT_SIN_IV("ReduceToFirstQuadrantSinIV",
+			"Reduce to first quadrant", "Use $\\sin(x) = -\\sin(2 \\pi - x)$"),
+
+	REDUCE_TO_FRIST_QUADRANT_COS_II("ReduceToFirstQuadrantCosII",
+			"Reduce to first quadrant", "Use $\\cos(x) = -\\cos(\\pi - x)$"),
+
+	REDUCE_TO_FRIST_QUADRANT_COS_III("ReduceToFirstQuadrantCosIII",
+			"Reduce to first quadrant", "Use $\\cos(x) = -\\cos(x - \\pi)$"),
+
+	REDUCE_TO_FRIST_QUADRANT_COS_IV("ReduceToFirstQuadrantCosIV",
+			"Reduce to first quadrant", "Use $\\cos(x) = \\cos(2 \\pi - x)$"),
+
+	REDUCE_TO_FRIST_QUADRANT_TAN("ReduceToFirstQuadrantTan",
+			"Reduce to first quadrant", "Use $\\tan(x) = -\\tan(\\pi - x)$"),
+
+	SPLIT_FRACTIONS_WITH_PI("SplitFractionsWithPi", "Split fractions with $\\pi$"),
+
+	REWRITE_SIN_PI_POSITIVE("RewriteSinPiPositive", "Use rewriting rules",
+			"$\\sin(x + \\pi) = -\\sin(x)$"),
+
+	REWRITE_SIN_PI_NEGATIVE("RewriteSinPiNegative", "Use rewriting rules",
+			"$\\sin(\\pi - x) = \\sin(x)$"),
+
+	REWRITE_COS_PI_POSITIVE("RewriteCosPiPositive", "Use rewriting rules",
+			"$\\cos(x + \\pi) = -\\cos(x)$"),
+
+	REWRITE_COS_PI_NEGATIVE("RewriteCosPiNegative", "Use rewriting rules",
+			"$\\cos(\\pi - x) = -\\cos(x)$"),
+
+	REWRITE_SIN_PI_HALF_POSITIVE("RewriteSinPiHalfPositive", "Use rewriting rules",
+			"$\\sin\\left(x + \\frac{\\pi}{2}\\right) = \\cos(x)$"),
+
+	REWRITE_SIN_PI_HALF_NEGATIVE("RewriteSinPiHalfNegative", "Use rewriting rules",
+			"$\\sin\\left(\\frac{\\pi}{2} - x\\right) = \\cos(x)$"),
+
+	REWRITE_COS_PI_HALF_POSITIVE("RewriteCosPiHalfPositive", "Use rewriting rules",
+			"$\\cos\\left(x + \\frac{\\pi}{2}\\right) = -\\sin(x)$"),
+
+	REWRITE_COS_PI_HALF_NEGATIVE("RewriteCosPiHalfNegative", "Use rewriting rules",
+			"$\\cos\\left(\\frac{\\pi}{2} - x\\right) = \\sin(x)$"),
+
+	REWRITE_TAN_PI_HALF_POSITIVE("RewriteTanPiHalfPositive", "Use rewriting rules",
+			"$\\tan\\left(x + \\frac{\\pi}{2}\\right) = -\\frac{1}{\\tan(x)}$"),
+
+	REWRITE_TAN_PI_HALF_NEGATIVE("RewriteTanPiHalfNegative", "Use rewriting rules",
+			"$\\tan\\left(\\frac{\\pi}{2} - x\\right) = \\frac{1}{\\tan(x)}$"),
+
 	EVALUATE_INVERSE_TRIGO("EvaluateInverseTrigo", "Evaluate inverse trigonometric function"),
 
 	POSITIVE_UNDER_ABSOLUTE_VALUE("PositiveUnderAbsoluteValue", "Use rules for absolute values",

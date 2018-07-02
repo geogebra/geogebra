@@ -208,7 +208,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 			}
 
 			if (first != null && second != null && (first.isSum() || second.isSum())) {
-				if (!(strongExpand || first.isInteger() ||
+				if (!(strongExpand || first.isInteger() && remaining == null ||
 						tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND))) {
 					return sn;
 				}

@@ -23,6 +23,26 @@ public class RegroupStepTest {
 	private static int caseCounter = 0;
 
 	@Test
+	public void trigonometricSimplifications() {
+		r("sin((2 * pi)/3)", "(nroot(3, 2))/(2)");
+		r("sin((128 * pi)/3)", "(nroot(3, 2))/(2)");
+		r("sin((131 * pi)/3)", "-(nroot(3, 2))/(2)");
+		r("sin(2*pi)", "0");
+		r("sin((5*pi)/2 + x)", "cos(x)");
+		r("sin(2*pi*arbconst(1))", "0");
+		r("sin(pi*arbconst(1))", "sin((pi)(k1))");
+		r("sin(2*pi*y)", "sin((2)(pi)(y))");
+		r("sin(9 * pi / 4)", "(nroot(2, 2))/(2)");
+		r("sin(5 * pi / 4)", "-(nroot(2, 2))/(2)");
+		r("sin(13 * pi / 4)", "-(nroot(2, 2))/(2)");
+		r("sin(51 * pi)", "0");
+		r("sin(2 * pi * x + 2 * pi * arbconst(1) + 4 * pi * arbconst(2))",
+				"sin((2)(pi)(x))");
+		r("tan(2 * pi * x + 2 * pi * arbconst(1) + 4 * pi * arbconst(2))",
+				"tan((2)(pi)(x))");
+	}
+
+	@Test
 	public void trickyTests() {
 		r("nroot(2^9, 6)/4", "(nroot(2, 2))/(2)");
 		r("3^(-2)", "(1)/(9)");
@@ -72,6 +92,13 @@ public class RegroupStepTest {
 
 	@Test
 	public void fractionTest() {
+		r("((2)(pi)-((5)(pi))/(3))", "(pi)/(3)");
+		r("(((5)(pi))/(4)-pi)", "(pi)/(4)");
+		r("(5*pi)/2 + x", "(((5)(pi))/(2) + x)"); // DON'T expand!
+		r("(5*pi)/2 + pi", "((7)(pi))/(2)"); // DO expand!
+		r("(5*pi)/2 + pi + 3", "(3 + ((7)(pi))/(2))"); // DO expand pi, but not 3!!
+		r("x+1/2", "(x + (1)/(2))"); // DON'T expand!
+		r("x+x/2", "((3)(x))/(2)"); // DO expand!
 		r("(2^(2k)+2^(k+1))/((2)^(k))", "((2)^(k) + 2)");
 		e("((1)/((1-((11 + nroot(13, 2)))/(9))) " +
 				"+ ((22 + (2)(nroot(13, 2))))/((18-((9)((11 + nroot(13, 2))))/(9))))", "7");
@@ -138,7 +165,7 @@ public class RegroupStepTest {
 		r("0.125 + 0.25", "0.375");
 		r("1/2 + 0.25", "(3)/(4)");
 		r("1/3 + 0.5 + 0.25", "(13)/(12)");
-		r("sqrt(2) + 1/3 + 0.2445", "(((6000)(nroot(2, 2)) + 3467))/(6000)");
+		r("sqrt(2) + 1/3 + 0.2445", "(nroot(2, 2) + (3467)/(6000))");
 		r("sqrt(2) + 1/3 + 0.24454", "1.992086896");
 		r("sqrt(2) + 0.2445", "1.658713562");
 		r("sqrt(2) + 0.24454", "1.658753562");
@@ -148,7 +175,7 @@ public class RegroupStepTest {
 		r("(2*x)/3 + 0.15", "(((40)(x) + 9))/(60)");
 		r("(2*x)/3 + 0.15161", "((0.666666667)(x) + 0.15161)");
 		r("(2*x)/3.14 + 0.15", "((0.636942675)(x) + 0.15)");
-		r("pi + 1/3 + 1.41", "(((300)(pi) + 523))/(300)");
+		r("pi + 1/3 + 1.41", "(pi + (523)/(300))");
 		r("pi + 1.41", "4.551592654");
 	}
 

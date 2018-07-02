@@ -31,11 +31,13 @@ public abstract class StepExpression extends StepTransformable
 
 		map.put(Operation.SIN, new StepExpression[] {
 				minus(one), minus(divide(root3, 2)), minus(divide(root2, 2)), minus(divide(1, 2)),
-				zero, divide(1, 2), divide(root2, 2), divide(root3, 2), one
+				zero, divide(1, 2), divide(root2, 2), divide(root3, 2), one,
+				zero, minus(one), zero
 		});
 		map.put(Operation.COS, new StepExpression[] {
 				minus(one), minus(divide(root3, 2)), minus(divide(root2, 2)), minus(divide(1, 2)),
-				zero, divide(1, 2), divide(root2, 2), divide(root3, 2), one
+				zero, divide(1, 2), divide(root2, 2), divide(root3, 2), one,
+				minus(one), zero, one
 		});
 		map.put(Operation.TAN, new StepExpression[] {
 				minus(root3), minus(one), minus(divide(1, root3)), zero, divide(1, root3),
@@ -44,12 +46,14 @@ public abstract class StepExpression extends StepTransformable
 		map.put(Operation.ARCSIN, new StepExpression[] {
 				minus(divide(pi, 2)), minus(divide(pi, 3)), minus(divide(pi, 4)),
 				minus(divide(pi, 6)), zero, divide(pi, 6), divide(pi, 4), divide(pi, 3),
-				divide(pi, 2)
+				divide(pi, 2),
+				pi, divide(multiply(3, pi), 2), multiply(2, pi)
 		});
 		map.put(Operation.ARCCOS, new StepExpression[] {
 				pi, divide(multiply(5, pi), 6), divide(multiply(3, pi), 4),
 				divide(multiply(2, pi), 3), divide(pi, 2), divide(pi, 3), divide(pi, 4),
-				divide(pi, 6), zero
+				divide(pi, 6), zero,
+				pi, divide(multiply(3, pi), 2), multiply(2, pi)
 		});
 		map.put(Operation.ARCTAN, new StepExpression[] {
 				minus(divide(pi, 3)), minus(divide(pi, 4)),
@@ -282,11 +286,14 @@ public abstract class StepExpression extends StepTransformable
 	}
 
 	/**
-	 * @return whether the current node is an integer
+	 * @return the current node can be proven to be an integer (such as k^5 + 3 - k_1)
 	 */
-	public boolean isInteger() {
-		return nonSpecialConstant() && isEqual(Math.round(getValue()), getValue());
-	}
+	public abstract boolean proveInteger();
+
+	/**
+	 * @return the current node is a simple integer, such as -3 or 42
+	 */
+	public abstract boolean isInteger();
 
 	public boolean isSquareRoot() {
 		return isNthRoot(2);
@@ -614,10 +621,19 @@ public abstract class StepExpression extends StepTransformable
 			StepExpression coeffA = getIntegerCoefficient();
 			StepExpression coeffB = expr.getIntegerCoefficient();
 
-			if (coeffA != null && coeffB != null) {
-				if (coeffA.isInteger() && coeffB.isInteger()) {
-					return coeffA.integerDivisible(coeffB);
+			if (coeffA != null && coeffB != null && coeffA.isInteger() && coeffB.isInteger()) {
+				if (!coeffA.integerDivisible(coeffB)) {
+					return false;
 				}
+
+				StepExpression nonIntegerA = getNonInteger();
+				StepExpression nonIntegerB = expr.getNonInteger();
+
+				if (nonIntegerA == null) {
+					return nonIntegerB == null;
+				}
+
+				return nonIntegerA.containsExpression(nonIntegerB);
 			}
 
 			StepExpression[] sortedA = ((StepOperation) this).getSortedOperandList();
@@ -658,6 +674,10 @@ public abstract class StepExpression extends StepTransformable
 			return StepConstant.create(Math.floor(getValue() % expr.getValue()));
 		}
 
+		if (equals(expr)) {
+			return StepConstant.create(0);
+		}
+
 		if (isOperation(Operation.PLUS)) {
 			StepExpression remainder = null;
 			for (StepExpression operand : (StepOperation) this) {
@@ -668,6 +688,22 @@ public abstract class StepExpression extends StepTransformable
 		}
 
 		if (isOperation(Operation.MULTIPLY) || isOperation(Operation.MINUS)) {
+			StepExpression coeffA = getIntegerCoefficient();
+			StepExpression coeffB = expr.getIntegerCoefficient();
+
+			if (coeffA != null && coeffB != null && coeffA.isInteger() && coeffB.isInteger()) {
+				StepExpression remainder = getNonInteger().remainder(expr.getNonInteger());
+
+				if (isZero(remainder)) {
+					double value = coeffA.getValue() -
+							coeffB.getValue() * Math.floor(coeffA.getValue() / coeffB.getValue());
+
+					if (value != 0) {
+						return nonTrivialProduct(value, expr.getNonInteger().deepCopy());
+					}
+				}
+			}
+
 			if (containsExpression(expr)) {
 				return null;
 			}
@@ -693,6 +729,10 @@ public abstract class StepExpression extends StepTransformable
 			return StepConstant.create(Math.floor(getValue() / expr.getValue()));
 		}
 
+		if (equals(expr)) {
+			return StepConstant.create(1);
+		}
+
 		if (isOperation(Operation.PLUS)) {
 			StepExpression quotient = null;
 			for (StepExpression operand : (StepOperation) this) {
@@ -706,15 +746,15 @@ public abstract class StepExpression extends StepTransformable
 			StepExpression coeffA = getIntegerCoefficient();
 			StepExpression coeffB = expr.getIntegerCoefficient();
 
-			if (coeffA != null && coeffB != null) {
-				if (coeffA.isInteger() && coeffB.isInteger()) {
-					if (coeffA.integerDivisible(coeffB)) {
-						return multiply(Math.floor(coeffA.getValue()) / coeffB.getValue(),
-								getNonInteger().quotient(expr.getNonInteger()));
-					} else {
-						return null;
-					}
+			if (coeffA != null && coeffB != null && coeffA.isInteger() && coeffB.isInteger()) {
+				StepExpression qutient = getNonInteger().quotient(expr.getNonInteger());
+
+				if (qutient == null) {
+					return null;
 				}
+
+				return nonTrivialProduct(Math.floor(coeffA.getValue() / coeffB.getValue()),
+						qutient);
 			}
 
 			StepExpression[] sortedA = ((StepOperation) this).getSortedOperandList();
@@ -730,6 +770,7 @@ public abstract class StepExpression extends StepTransformable
 					quotient = multiply(quotient, operand);
 				}
 			}
+
 			if (j == sortedB.length) {
 				return quotient;
 			}
@@ -971,23 +1012,6 @@ public abstract class StepExpression extends StepTransformable
 		}
 
 		return null;
-	}
-
-	/**
-	 * @return whether the current node is a trigonometric function
-	 */
-	public boolean isTrigonometric() {
-		return isOperation(Operation.SIN) || isOperation(Operation.COS) ||
-				isOperation(Operation.TAN) || isOperation(Operation.COT) ||
-				isOperation(Operation.SEC) || isOperation(Operation.CSC);
-	}
-
-	/**
-	 * @return whether the current node is an inverse trigonometric function
-	 */
-	public boolean isInverseTrigonometric() {
-		return isOperation(Operation.ARCSIN) || isOperation(Operation.ARCCOS) ||
-				isOperation(Operation.ARCTAN);
 	}
 
 	public boolean isNaturalLog() {

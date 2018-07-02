@@ -195,6 +195,7 @@ public class SolveStepTest {
 
 	@Test
 	public void inverseTrigonometricEquations() {
+		t("arcsin(sin(x))", "pi/2", "x", "x = ((pi + (4)(k1)(pi)))/(2)");
 		t("arcsin(x)", "(3 * pi)/4", "x");
 		t("arcsin(x)", "pi/4", "x", "x = (nroot(2, 2))/(2)");
 		t("arccos(x)", "-pi/4", "x");
@@ -219,13 +220,18 @@ public class SolveStepTest {
 				+ "and (-(2)(k4)(pi) + pi) <= 1");
 		t("3+2sin(x)", "sin(x)-1", "x");
 		t("1/2+2sin(x)", "sin(x)+1", "x", "x = ((pi + (12)(k1)(pi)))/(6)", "x = (((5)(pi)-(12)(k2)(pi)))/(6)");
-		t("1/2+2sin(3x+1)", "sin(3x+1)+1", "x", "x = ((pi + (12)(k1)(pi)-6))/(18)",
-				"x = (((5)(pi)-(12)(k2)(pi)-6))/(18)");
-		t("(sin(2x+1))^2+1/2", "1", "x", "x = ((pi + (8)(k1)(pi)-4))/(8)",
-				"x = (((3)(pi)-(8)(k2)(pi)-4))/(8)", "x = ((-pi + (8)(k3)(pi)-4))/(8)",
-				"x = (((5)(pi)-(8)(k4)(pi)-4))/(8)");
-		t("1/2+2cos(3x+1)", "cos(3x+1)+1", "x", "x = ((pi + (6)(k1)(pi)-3))/(9)",
-				"x = (((5)(pi)-(6)(k2)(pi)-3))/(9)");
+		// TODO: change fraction handling to eliminate these complex fractions
+		t("1/2+2sin(3x+1)", "sin(3x+1)+1", "x",
+				"x = ((((pi + (12)(k1)(pi)))/(6)-1))/(3)",
+				"x = ((-1 + (((5)(pi)-(12)(k2)(pi)))/(6)))/(3)");
+		t("(sin(2x+1))^2+1/2", "1", "x",
+				"x = ((((pi + (8)(k1)(pi)))/(4)-1))/(2)",
+				"x = ((-1 + (((3)(pi)-(8)(k2)(pi)))/(4)))/(2)",
+				"x = ((((-pi + (8)(k3)(pi)))/(4)-1))/(2)",
+				"x = ((-1 + (((5)(pi)-(8)(k4)(pi)))/(4)))/(2)");
+		t("1/2+2cos(3x+1)", "cos(3x+1)+1", "x",
+				"x = ((((pi + (6)(k1)(pi)))/(3)-1))/(3)",
+				"x = ((-1 + (((5)(pi)-(6)(k2)(pi)))/(3)))/(3)");
 		t("3+2tan(x)", "tan(x)-1", "x", "x = (arctan(-4) + (k1)(pi))");
 		t("2(sin(x))^2+(cos(x))^2+cos(x)", "1", "x", "x = (arccos(((1-nroot(5, 2)))/(2)) + (2)(k1)(pi))",
 				"x = ((2)(pi)-arccos(((1-nroot(5, 2)))/(2))-(2)(k2)(pi))");

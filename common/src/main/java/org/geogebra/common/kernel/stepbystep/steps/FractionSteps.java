@@ -8,9 +8,12 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
@@ -153,6 +156,10 @@ enum FractionSteps implements SimplificationStepGenerator {
 				return sn.iterateThrough(this, sb, tracker);
 			}
 
+			if (integer) {
+				markForExpansion(so, tracker);
+			}
+
 			int tempTracker = tracker.getColorTracker();
 			newDenominator.setColor(tempTracker++);
 
@@ -161,7 +168,9 @@ enum FractionSteps implements SimplificationStepGenerator {
 			boolean wasChanged = false;
 			for (int i = 0; i < so.noOfOperands(); i++) {
 				StepExpression currentDenominator = so.getOperand(i).getDenominator();
-				if (!newDenominator.equals(currentDenominator)) {
+				if ((so.getOperand(i).isFraction() || !integer
+						|| tracker.isMarked(so.getOperand(i), RegroupTracker.MarkType.EXPAND_FRAC))
+						&& !newDenominator.equals(currentDenominator)) {
 					wasChanged = true;
 
 					StepExpression toExpand = newDenominator.quotient(currentDenominator);
@@ -198,5 +207,57 @@ enum FractionSteps implements SimplificationStepGenerator {
 		}
 
 		return sn;
+	}
+
+	private void markForExpansion(StepOperation so, RegroupTracker tracker) {
+		Set<StepExpression> numerators = new HashSet<>();
+		boolean foundInteger = false;
+
+		for (StepExpression operand : so) {
+			if (operand.isFraction()) {
+				StepExpression numerator = operand.getNumerator();
+				if (numerator.isNegative()) {
+					numerator = numerator.negate();
+				}
+
+				if (numerator.isSum()) {
+					for (StepExpression operand2 : (StepOperation) numerator) {
+						if (operand2.isInteger()) {
+							foundInteger = true;
+						} else {
+							numerators.add(operand2.getVariable());
+							numerators.add(operand2.getNonInteger());
+						}
+					}
+				} else {
+					if (numerator.isInteger()) {
+						foundInteger = true;
+					} else {
+						numerators.add(numerator.getVariable());
+						numerators.add(numerator.getNonInteger());
+					}
+				}
+			}
+		}
+
+		Log.error(numerators.toString());
+
+		for (StepExpression operand : so) {
+			if (!operand.isFraction()) {
+				if (operand.isInteger()) {
+					if (foundInteger) {
+						tracker.addMark(operand, RegroupTracker.MarkType.EXPAND_FRAC);
+					}
+				} else {
+					StepExpression value = operand.isNegative() ? operand.negate() : operand;
+
+					if (numerators.contains(value)
+							|| numerators.contains(value.getVariable())
+							|| numerators.contains(value.getNonInteger())) {
+						tracker.addMark(operand, RegroupTracker.MarkType.EXPAND_FRAC);
+					}
+				}
+			}
+		}
 	}
 }

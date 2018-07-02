@@ -71,6 +71,16 @@ public class StepArbitraryInteger extends StepExpression {
 	}
 
 	@Override
+	public boolean isInteger() {
+		return false;
+	}
+
+	@Override
+	public boolean proveInteger() {
+		return true;
+	}
+
+	@Override
 	public boolean isConstantIn(StepVariable sv) {
 		return true;
 	}

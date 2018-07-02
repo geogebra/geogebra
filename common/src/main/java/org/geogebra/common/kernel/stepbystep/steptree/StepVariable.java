@@ -44,6 +44,16 @@ public class StepVariable extends StepExpression {
 	}
 
 	@Override
+	public boolean isInteger() {
+		return false;
+	}
+
+	@Override
+	public boolean proveInteger() {
+		return false;
+	}
+
+	@Override
 	public void setColor(int color) {
 		this.color = color;
 	}

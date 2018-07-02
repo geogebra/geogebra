@@ -202,7 +202,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					return StepConstant.create(0);
 				}
 
-				if (tracker.wasChanged()) {
+				if (tracker.stepAdded()) {
 					return StepOperation.add(newSum);
 				}
 			}
@@ -1875,30 +1875,6 @@ enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
-	EVALUATE_TRIGONOMETRIC {
-		@Override
-		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn instanceof StepOperation && (((StepOperation) sn).isTrigonometric()
-					|| ((StepOperation) sn).isInverseTrigonometric())) {
-				StepOperation so = (StepOperation) sn;
-
-				StepExpression value = trigoLookup(so);
-				if (value != null) {
-					so.setColor(tracker.getColorTracker());
-					value.setColor(tracker.getColorTracker());
-					if (so.isTrigonometric()) {
-						sb.add(SolutionStepType.EVALUATE_TRIGO, tracker.incColorTracker());
-					} else {
-						sb.add(SolutionStepType.EVALUATE_INVERSE_TRIGO, tracker.incColorTracker());
-					}
-					return value;
-				}
-			}
-
-			return sn.iterateThrough(this, sb, tracker);
-		}
-	},
-
 	REGROUP_PRODUCTS {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
@@ -2090,7 +2066,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					ExpandSteps.EXPAND_MARKED_PRODUCTS,
 					RegroupSteps.RATIONALIZE_DENOMINATORS,
 					FractionSteps.ADD_INTEGER_FRACTIONS,
-					RegroupSteps.EVALUATE_TRIGONOMETRIC,
+					TrigonometricSteps.SIMPLIFY_TRIGONOMETRIC,
 					RegroupSteps.SIMPLIFY_ABSOLUTE_VALUES,
 			};
 

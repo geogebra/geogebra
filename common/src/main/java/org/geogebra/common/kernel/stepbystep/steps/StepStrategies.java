@@ -69,21 +69,21 @@ public class StepStrategies {
 			for (SimplificationStepGenerator simplificationStep : strategy) {
 				current = simplificationStep.apply(old, changes, tracker);
 
-				if (printDebug) {
-					if (tracker.wasChanged()) {
+				if (tracker.stepAdded()) {
+					if (printDebug) {
 						System.out.println("changed at " + simplificationStep);
 						System.out.println("from: " + old);
 						System.out.println("to: " + current);
 					}
-				}
 
-				if (tracker.wasChanged()) {
 					if (simplificationStep.isGroupType()) {
 						substeps.addAll(changes.getSteps());
 					} else {
 						substeps.addSubsteps(old, current, changes);
 					}
+				}
 
+				if (tracker.wasChanged()) {
 					old = current;
 
 					old.cleanColors();
@@ -91,7 +91,7 @@ public class StepStrategies {
 					break;
 				}
 			}
-		} while (tracker.wasChanged2());
+		} while (tracker.wasChanged());
 
 		sn.cleanColors();
 		if (!sn.equals(current)) {
