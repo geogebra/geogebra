@@ -212,6 +212,15 @@ public class ConsElementXMLHandler {
 		String width = attrs.get("width");
 		String height = attrs.get("height");
 		if (width != null && height != null) {
+
+			// workaround for bug where we had "100.0" instead of "100"
+			if (width.endsWith(".0")) {
+				width = width.substring(0, width.length() - 2);
+			}
+			if (height.endsWith(".0")) {
+				height = height.substring(0, height.length() - 2);
+			}
+
 			if (geo.isGeoButton() && width.matches("\\d{2,3}") && height.matches("\\d{2,3}")) {
 
 					GeoButton button = (GeoButton) geo;
