@@ -18,7 +18,6 @@ var latestVersion="5.0.474.0";
 var module = "web3d";
 var lookAndFeel = "";
 var prerelease = false;
-var useCompatibilityCookie = true;
 var debug = false;
 var startDelay = 0;
 var marginTop = 0;
@@ -476,12 +475,8 @@ function insertScript(){
 			if(lookAndFeel){
 				e("ggw").setAttribute("data-param-laf",lookAndFeel);
 			}
-			if(useCompatibilityCookie){
-				e("ggw").setAttribute("data-param-useCompatibilityCookie", useCompatibilityCookie);
-			}
 			if(location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease){
 				setPrerelease(prerelease || "true");
-				
 			}
 			if(getURLparam("debug") || debug || isLocalhost()){
 				setDebug(debug || true);

@@ -775,11 +775,6 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	}
 
 	@Override
-	public boolean useCompatibilityCookie() {
-		return getBoolDataParam("useCompatibilityCookie", false);
-	}
-
-	@Override
 	public String getParamScaleContainerClass() {
 		return getStringDataParam("scaleContainerClass", "");
 	}

@@ -169,7 +169,7 @@ task copyHtml {
             .replace("<!--SPLASH STYLE-->", file(templateDir + "splash-style.css").text)
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--LANG-->", "en")
-            .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};useCompatibilityCookie=${!prerelease};appOnline=${!offline};</script>" + platformSpecific)
+            .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
         }
         def appHtml = { appID, prerelease, offline = false ->
             def header = offline || appID == "whiteboard" ? "" : prerelease? file(templateDir+"app-header-beta.html").text : file(templateDir+"app-header.html").text

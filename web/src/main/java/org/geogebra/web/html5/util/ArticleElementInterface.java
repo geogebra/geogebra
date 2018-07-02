@@ -437,11 +437,6 @@ public interface ArticleElementInterface {
 	Element getElement();
 
 	/**
-	 * @return true if uses compatibility cookie
-	 */
-	boolean useCompatibilityCookie();
-
-	/**
 	 * @return scale container CSS class
 	 */
 	String getParamScaleContainerClass();

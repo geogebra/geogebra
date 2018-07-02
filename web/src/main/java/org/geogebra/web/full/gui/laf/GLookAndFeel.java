@@ -206,16 +206,10 @@ public class GLookAndFeel implements GLookAndFeelI {
 	public void storeLanguage(String lang, AppW app) {
 		Date exp = new Date(
 				System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
-		if (app.getArticleElement().useCompatibilityCookie()) {
-			Cookies.setCookie("GeoGebraLangUI", lang.replace("-", "_"), exp,
-					"geogebra.org", "/",
-					false);
-		} else {
-			Cookies.setCookie("GeoGebraLangUI",
+		Cookies.setCookie("GeoGebraLangUI",
 				Language.getClosestGWTSupportedLanguage(lang).getLocaleGWT(), exp,
 				"geogebra.org",
 				"/", false);
-		}
 	}
 
 	@Override

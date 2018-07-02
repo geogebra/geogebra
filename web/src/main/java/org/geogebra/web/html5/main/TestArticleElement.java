@@ -386,11 +386,6 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
-	public boolean useCompatibilityCookie() {
-		return false;
-	}
-
-	@Override
 	public String getParamScaleContainerClass() {
 		return attributes.getOrDefault("scaleContainerClass", "");
 	}
