@@ -214,24 +214,27 @@ public class ConsElementXMLHandler {
 		if (width != null && height != null) {
 
 			// workaround for bug where we had "100.0" instead of "100"
-			if (width.endsWith(".0")) {
-				width = width.substring(0, width.length() - 2);
+			double widthD = -1;
+			double heightD = -1;
+			try {
+				widthD = StringUtil.parseDouble(width);
+				heightD = StringUtil.parseDouble(height);
+			} catch (Exception e) {
+				Log.warn(e.getMessage());
 			}
-			if (height.endsWith(".0")) {
-				height = height.substring(0, height.length() - 2);
-			}
-
-			if (geo.isGeoButton() && width.matches("\\d{2,3}") && height.matches("\\d{2,3}")) {
-
-					GeoButton button = (GeoButton) geo;
-					button.setWidth(Integer.parseInt(width));
-					button.setHeight(Integer.parseInt(height));
-					button.setFixedSize(true);
-					return true;
+			if (geo.isGeoButton()) {
+				GeoButton button = (GeoButton) geo;
+				if (widthD > 10 && heightD > 10) {
+					button.setWidth((int) widthD);
+					button.setHeight((int) heightD);
+				}
+				button.setFixedSize(true);
+				return true;
 			} else if (geo instanceof GeoEmbed) {
-				((GeoEmbed) geo).setContentWidth(Double.parseDouble(width));
-				((GeoEmbed) geo).setContentHeight(Double.parseDouble(height));
+				((GeoEmbed) geo).setContentWidth(widthD);
+				((GeoEmbed) geo).setContentHeight(heightD);
 			}
+
 			return true;
 		}
 		return false;

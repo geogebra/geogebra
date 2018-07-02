@@ -304,7 +304,7 @@ public class XMLBuilder {
 		sb.append("/>\n");
 	}
 
-	public static void dimension(StringBuilder sb, int width, int height) {
+	public static void dimension(StringBuilder sb, double width, double height) {
 		// must be int otherwise parseInt("100.0") doesn't work for buttons
 		sb.append("\t<dimensions width=\"" + width + "\" height=\"" + height + "\" />\n");
 	}
