@@ -10,6 +10,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.IFrameWrapper;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
+import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.dom.client.IFrameElement;
 import com.google.gwt.dom.client.ImageElement;

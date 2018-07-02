@@ -1,13 +1,11 @@
-package org.geogebra.web.full.gui.util;
+package org.geogebra.web.shared;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.dialog.DialogBoxW;
-import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.Callback;
@@ -45,6 +43,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private Localization loc;
 	private TextBox link;
 	private Widget anchor;
+	private Widget geogebraButton;
 
 	/**
 	 * Create a new share dialog.
@@ -52,11 +51,12 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	 * @param app
 	 *            application
 	 */
-	public ShareDialogW(final AppW app, Widget anchor) {
+	public ShareDialogW(final AppW app, Widget anchor, Widget geogebraButton) {
 		super(app.getPanel(), app);
 		this.anchor = anchor;
 		this.app = app;
 		this.loc = app.getLocalization();
+		this.geogebraButton = geogebraButton;
 		this.setGlassEnabled(true);
 		if (app.getActiveMaterial() != null
 				&& app.getActiveMaterial().getSharingKey() != null) {
@@ -116,28 +116,14 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		};
 
 		// Geogebra
-		NoDragImage geogebraimg = new NoDragImage(AppResources.INSTANCE
-				.geogebraLogo().getSafeUri().asString());
-		PushButton geogebrabutton = new PushButton(geogebraimg,
-				new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-						if (!FileMenuW.nativeShareSupported()) {
-							app.uploadToGeoGebraTube();
-						} else {
-							app.getGgbApi().getBase64(true,
-									FileMenuW.getShareStringHandler(app));
-						}
-						hide();
-			}
-
-		});
-		iconPanel.add(geogebrabutton);
+		if (geogebraButton != null) {
+			iconPanel.add(geogebraButton);
+		}
 		// iconPanel.add(geogebraimg);
 
 		// Facebook
-		Anchor facebooklink = new Anchor(new NoDragImage(AppResources.INSTANCE
+		Anchor facebooklink = new Anchor(
+				new NoDragImage(SharedResources.INSTANCE
 				.social_facebook().getSafeUri().asString()).toString(), true,
 				"https://www.facebook.com/sharer/sharer.php?u=" + getURL(),
 				"_blank");
@@ -145,7 +131,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		iconPanel.add(facebooklink);
 
 		// Twitter
-		Anchor twitterlink = new Anchor(new NoDragImage(AppResources.INSTANCE
+		Anchor twitterlink = new Anchor(new NoDragImage(SharedResources.INSTANCE
 				.social_twitter().getSafeUri().asString()).toString(), true,
 				"https://twitter.com/share?url="
 						+ getURL(),
@@ -154,7 +140,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		iconPanel.add(twitterlink);
 
 		// Google+
-		Anchor gpluslink = new Anchor(new NoDragImage(AppResources.INSTANCE
+		Anchor gpluslink = new Anchor(new NoDragImage(SharedResources.INSTANCE
 				.social_google().getSafeUri().asString()).toString(), true,
 				"https://plus.google.com/share?url="
 						+ getURL(),
@@ -172,7 +158,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 				: app.getActiveMaterial().getTitle();
 		String sourceDesc = (app.getActiveMaterial() != null) ? "&source="
 				+ app.getActiveMaterial().getId() + "&desc=" + title : "";
-		Anchor edmodolink = new Anchor(new NoDragImage(AppResources.INSTANCE
+		Anchor edmodolink = new Anchor(
+				new NoDragImage(SharedResources.INSTANCE
 				.social_edmodo().getSafeUri().asString()).toString(), true,
 				"http://www.edmodo.com/home?share=1 " + sourceDesc + "&url="
 						+ getURL(),
@@ -228,7 +215,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	}
 
 	private String getURL() {
-		return app.getAppName(sharingKey);
+		return app.getCurrentURL(sharingKey);
 	}
 
 	private static native void addCallback(JavaScriptObject scriptElement,
@@ -251,7 +238,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		link.setReadOnly(true);
 
 		PushButton copyToClipboardIcon = new PushButton(new NoDragImage(
-				AppResources.INSTANCE.edit_copy().getSafeUri().asString()),
+				SharedResources.INSTANCE.edit_copy().getSafeUri().asString()),
 				new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
@@ -298,6 +285,24 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		emailPanel.add(buttonPanel);
 
 		return emailPanel;
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		selectSharButton(visible);
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		selectSharButton(false);
+	}
+
+	private static void selectSharButton(boolean visible) {
+		if (GlobalHeader.getShareButton() != null) {
+			Dom.toggleClass(GlobalHeader.getShareButton(), "selected", visible);
+		}
 	}
 
 	@Override

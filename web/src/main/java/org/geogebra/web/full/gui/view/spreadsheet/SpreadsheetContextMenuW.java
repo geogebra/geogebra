@@ -12,6 +12,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
@@ -261,7 +262,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 						.copy_black().getSafeUri(),
 						0, 0, 24, 24, false, false);
 			} else {
-				im = AppResources.INSTANCE.edit_copy();
+				im = SharedResources.INSTANCE.edit_copy();
 			}
 			break;
 		case Cut:

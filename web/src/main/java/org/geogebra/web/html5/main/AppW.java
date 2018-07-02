@@ -3429,7 +3429,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setTubeId(id);
 		if (articleElement.getDataParamApp() && sharingKey != null) {
 
-			Browser.changeUrl(getAppName(sharingKey));
+			Browser.changeUrl(getCurrentURL(sharingKey));
 			if (!StringUtil.empty(title)) {
 				Browser.changeMetaTitle(title);
 			}
@@ -3441,7 +3441,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            material sharing key
 	 * @return appName parameter
 	 */
-	public String getAppName(String sharingKey) {
+	public String getCurrentURL(String sharingKey) {
 		String appName = articleElement.getDataParamAppName();
 		String apiURL = this.getLoginOperation().getGeoGebraTubeAPI().getUrl();
 		String host = apiURL.substring(0, apiURL.indexOf("/", 12));

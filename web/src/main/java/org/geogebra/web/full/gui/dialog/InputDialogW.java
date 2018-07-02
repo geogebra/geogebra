@@ -15,6 +15,7 @@ import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;

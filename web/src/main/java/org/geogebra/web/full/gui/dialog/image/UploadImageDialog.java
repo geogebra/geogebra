@@ -3,9 +3,9 @@ package org.geogebra.web.full.gui.dialog.image;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.dialog.DialogBoxW;
 import org.geogebra.web.full.gui.util.VerticalSeparator;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;

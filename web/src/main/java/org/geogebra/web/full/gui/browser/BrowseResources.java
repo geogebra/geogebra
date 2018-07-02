@@ -11,9 +11,6 @@ public interface BrowseResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/button_search.png")
 	ImageResource search();
 
-	@Source("org/geogebra/common/icons/png/web/button_cancel.png")
-	ImageResource dialog_cancel();
-
 	@Source("org/geogebra/common/icons/png/web/arrow_go_previous_grey.png")
 	ImageResource back();
 	

@@ -15,6 +15,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.pdf.PDFWrapper;
 import org.geogebra.web.html5.util.pdf.PDFWrapper.PDFListener;
 import org.geogebra.web.resources.JavaScriptInjector;
+import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;

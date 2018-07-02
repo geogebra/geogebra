@@ -16,6 +16,16 @@
      border: 0px;
 }
 
+.GeoGebraHeader .signIn {
+	color: rgb(0,0,0);
+	opacity: 0.87;
+}
+
+.GeoGebraHeader .signIn:hover{
+	opacity: 1;
+	background-color: #e5e5e5;
+}
+
 .GeoGebraHeader .appName.beta {
 	font-size: 24px;
     font-weight: normal;
@@ -50,10 +60,12 @@
 	height: 48px;
 	float: left;
 	box-sizing: border-box;
+	border-radius: 50%;
 }
 
-.GeoGebraFrame .flatButtonHeader:hover {
+.GeoGebraFrame .flatButtonHeader:hover, .GeoGebraFrame .flatButtonHeader.selected {
 	opacity: 0.84;
+	background-color: #e5e5e5;	
 }
 
 .GeoGebraFrame .flatButtonHeader img {
@@ -74,14 +86,17 @@
 }
 
 .GeoGebraHeader .profilePanel, .GeoGebraHeader .signIn {
-	text-transform: uppercase;
-	margin: 24px;
-   margin: 8px 20px 8px 8px;
-   
-   padding: 4px;
-   line-height: 40px;
-    
+    text-transform: uppercase;
+    margin: 16px 20px 16px 8px;
+    padding: 4px 8px;
+    line-height: 24px;
+    border-radius: 2px;
     cursor: pointer;
+}
+
+.GeoGebraHeader .profilePanel {
+    margin: 8px 20px 8px 8px;
+    padding: 4px;	
 }
 
 img.profileImage {

@@ -20,17 +20,22 @@ import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.util.SaveDialogW;
-import org.geogebra.web.full.gui.util.ShareDialogW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ShareDialogW;
 import org.geogebra.web.shared.SignInButton;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -375,10 +380,28 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 */
 	public static void showShareDialog(final AppW app, final Widget anchor) {
 		Runnable shareCallback = new Runnable() {
+			private ShareDialogW sd;
 
 			@Override
 			public void run() {
-				ShareDialogW sd = new ShareDialogW(app, anchor);
+				NoDragImage geogebraimg = new NoDragImage(AppResources.INSTANCE
+						.geogebraLogo().getSafeUri().asString());
+				PushButton geogebrabutton = new PushButton(geogebraimg,
+						new ClickHandler() {
+
+							@Override
+							public void onClick(ClickEvent event) {
+								if (!FileMenuW.nativeShareSupported()) {
+									app.uploadToGeoGebraTube();
+								} else {
+									app.getGgbApi().getBase64(true, FileMenuW
+											.getShareStringHandler(app));
+								}
+								sd.hide();
+							}
+
+						});
+				sd = new ShareDialogW(app, anchor, geogebrabutton);
 				sd.setVisible(true);
 				sd.center();
 			}
@@ -402,7 +425,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				// not saved, logged in
 				((DialogManagerW) app.getDialogManager()).getSaveDialog()
 						.setDefaultVisibility(SaveDialogW.Visibility.Shared)
-					.showIfNeeded(shareCallback, true);
+						.showIfNeeded(shareCallback, true, anchor);
 			}
 		} else {
 			// saved

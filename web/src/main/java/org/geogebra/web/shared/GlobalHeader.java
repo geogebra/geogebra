@@ -65,4 +65,11 @@ public class GlobalHeader implements EventRenderable {
 			signIn.setVisible(true);
 		}
 	}
+
+	/**
+	 * @return share button
+	 */
+	public static RootPanel getShareButton() {
+		return RootPanel.get("shareButton");
+	}
 }

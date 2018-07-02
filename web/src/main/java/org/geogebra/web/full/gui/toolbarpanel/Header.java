@@ -20,6 +20,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -463,7 +464,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private void addShareButton() {
-		final RootPanel share = RootPanel.get("shareButton");
+		final RootPanel share = GlobalHeader.getShareButton();
 		if (share == null) {
 			return;
 		}

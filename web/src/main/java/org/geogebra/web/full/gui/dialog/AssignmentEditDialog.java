@@ -6,6 +6,7 @@ import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.GeoAssignment;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;

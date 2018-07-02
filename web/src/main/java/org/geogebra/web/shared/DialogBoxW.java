@@ -1,9 +1,8 @@
-package org.geogebra.web.full.gui.dialog;
+package org.geogebra.web.shared;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GDialogBox;
@@ -113,7 +112,7 @@ public class DialogBoxW extends GDialogBox {
 				&& !(getWidget() instanceof SimplePanel)) {
 			SimplePanel cancel = new SimplePanel();
 			this.cancelButton = new StandardButton(
-					BrowseResources.INSTANCE.dialog_cancel(), app);
+					SharedResources.INSTANCE.dialog_cancel(), app);
 			this.cancelButton.addStyleName("cancelSaveButton");
 			this.cancelButton.addFastClickHandler(new FastClickHandler() {
 				@Override

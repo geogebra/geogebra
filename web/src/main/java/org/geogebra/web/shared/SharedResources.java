@@ -23,9 +23,30 @@ public interface SharedResources extends ClientBundle {
     @Source("org/geogebra/web/resources/scss/step-tree.scss")
     SassResource stepTreeStyleScss();
 
-	@Source("org/geogebra/common/icons/png/web/arrow-submenu-up.png")
-	ImageResource arrow_submenu_up();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_help_outline_black_24px.svg")
 	SVGResource icon_help_black();
+
+	@Source("org/geogebra/common/icons/png/web/button_cancel.png")
+	ImageResource dialog_cancel();
+
+	@Source("org/geogebra/common/icons/png/web/general/social-facebook.png")
+	ImageResource social_facebook();
+
+	@Source("org/geogebra/common/icons/png/web/general/social-google.png")
+	ImageResource social_google();
+
+	@Source("org/geogebra/common/icons/png/web/general/social-twitter.png")
+	ImageResource social_twitter();
+
+	@Source("org/geogebra/common/icons/png/web/general/social-google-classroom.png")
+	ImageResource social_google_classroom();
+
+	@Source("org/geogebra/common/icons/png/web/general/social-onenote.png")
+	ImageResource social_onenote();
+
+	@Source("org/geogebra/common/icons/png/web/general/social-edmodo.png")
+	ImageResource social_edmodo();
+
+	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-copy.png")
+	ImageResource edit_copy();
 }

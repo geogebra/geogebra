@@ -42,9 +42,6 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-delete.png")
 	ImageResource delete_small();
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-copy.png")
-	ImageResource edit_copy();
-
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-cut.png")
 	ImageResource edit_cut();
 
@@ -122,24 +119,6 @@ public interface AppResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-file-open.png")
 	ImageResource zoom16();
-
-	@Source("org/geogebra/common/icons/png/web/general/social-facebook.png")
-	ImageResource social_facebook();
-
-	@Source("org/geogebra/common/icons/png/web/general/social-google.png")
-	ImageResource social_google();
-
-	@Source("org/geogebra/common/icons/png/web/general/social-twitter.png")
-	ImageResource social_twitter();
-
-	@Source("org/geogebra/common/icons/png/web/general/social-google-classroom.png")
-	ImageResource social_google_classroom();
-
-	@Source("org/geogebra/common/icons/png/web/general/social-onenote.png")
-	ImageResource social_onenote();
-
-	@Source("org/geogebra/common/icons/png/web/general/social-edmodo.png")
-	ImageResource social_edmodo();
 
 	@Source("org/geogebra/common/icons/png16x16/step_graph.png")
 	ImageResource step_graph();

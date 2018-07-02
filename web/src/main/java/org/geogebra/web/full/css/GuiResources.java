@@ -371,4 +371,7 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/dialog-styles.scss")
 	SassResource dialogStylesScss();
+
+	@Source("org/geogebra/common/icons/png/web/arrow-submenu-up.png")
+	ImageResource arrow_submenu_up();
 }

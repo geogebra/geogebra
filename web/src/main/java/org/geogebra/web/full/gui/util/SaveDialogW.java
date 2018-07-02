@@ -20,7 +20,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.browser.BrowseResources;
-import org.geogebra.web.full.gui.dialog.DialogBoxW;
 import org.geogebra.web.full.main.FileManager;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.full.util.SaveCallback;
@@ -33,6 +32,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
@@ -691,7 +691,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 *            not needed {@link Runnable}
 	 */
 	public void showIfNeeded(Runnable runnable) {
-		showIfNeeded(runnable, !app.isSaved());
+		showIfNeeded(runnable, !app.isSaved(), null);
 	}
 
 	/**
@@ -699,11 +699,17 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 *            callback
 	 * @param needed
 	 *            whether it's needed to save (otherwise just run callback)
+	 * @param anchor
+	 *            relative element
 	 */
-	public void showIfNeeded(Runnable runnable, boolean needed) {
+	public void showIfNeeded(Runnable runnable, boolean needed, Widget anchor) {
 		if (needed && !app.getLAF().isEmbedded()) {
 			runAfterSave = runnable;
-			center();
+			if (anchor == null) {
+				center();
+			} else {
+				showRelativeTo(anchor);
+			}
 			position();
 		} else {
 			runAfterSave = null;

@@ -16,6 +16,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.ToolNameIconPanelW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;

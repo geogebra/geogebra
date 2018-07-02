@@ -5,11 +5,11 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.ImageFactory;
-import org.geogebra.web.full.gui.dialog.DialogBoxW;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.dom.client.ClickEvent;

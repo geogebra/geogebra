@@ -8,7 +8,6 @@ import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.dialog.DialogBoxW;
 import org.geogebra.web.full.gui.dialog.InputDialogW.DialogBoxKbW;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
@@ -17,6 +16,7 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExamEnvironmentW;
+import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.dom.client.ClickEvent;
