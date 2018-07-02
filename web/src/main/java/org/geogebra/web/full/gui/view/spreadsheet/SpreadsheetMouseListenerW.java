@@ -233,7 +233,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			}
 		} else {
 			if (!isCurrentSelection(point)) {
-				if (!isInsideCurrentSelection(point) || !isRightClick(event)) {
+				if (!(isInsideCurrentSelection(point) || isRightClick(event))) {
 					changeSelection(point, false);
 				}
 			} else if (EventUtil.isTouchEvent(event.getNativeEvent())) {
@@ -630,7 +630,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				// switch to cell selection mode
 
 				if (point.getY() >= 0 && point.getX() >= 0) {
-					
 					changeSelection(point, true);
 					table.repaint();
 				}
