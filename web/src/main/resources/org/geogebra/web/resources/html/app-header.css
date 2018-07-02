@@ -227,10 +227,15 @@ nav.beta {
 	display: block;
 }
 
-.popupAnchor{
+.GeoGebraFrame .popupAnchor{
 	position: relative;
+	height: 52px;
 }
 /** from Web styles */
+ .GeoGebraFrame .gwt-MenuItem {
+    white-space: nowrap;
+}
+
 .GeoGebraFrame .matMenu.gwt-PopupPanel {
     background-color: #fff;
     padding: 8px 0px 8px 0px;

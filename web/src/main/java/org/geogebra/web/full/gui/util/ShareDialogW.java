@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -29,6 +28,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
@@ -44,6 +44,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private TextArea message;
 	private Localization loc;
 	private TextBox link;
+	private Widget anchor;
 
 	/**
 	 * Create a new share dialog.
@@ -51,8 +52,9 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	 * @param app
 	 *            application
 	 */
-	public ShareDialogW(final AppW app) {
+	public ShareDialogW(final AppW app, Widget anchor) {
 		super(app.getPanel(), app);
+		this.anchor = anchor;
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.setGlassEnabled(true);
@@ -137,9 +139,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// Facebook
 		Anchor facebooklink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_facebook().getSafeUri().asString()).toString(), true,
-				"https://www.facebook.com/sharer/sharer.php?u="
-						+ GeoGebraConstants.TUBE_URL_SHORT
-						+ sharingKey, "_blank");
+				"https://www.facebook.com/sharer/sharer.php?u=" + getURL(),
+				"_blank");
 		facebooklink.addClickHandler(closePopupHandler);
 		iconPanel.add(facebooklink);
 
@@ -147,8 +148,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		Anchor twitterlink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_twitter().getSafeUri().asString()).toString(), true,
 				"https://twitter.com/share?url="
-						+ GeoGebraConstants.TUBE_URL_SHORT
-						+ sharingKey,
+						+ getURL(),
 				"_blank");
 		twitterlink.addClickHandler(closePopupHandler);
 		iconPanel.add(twitterlink);
@@ -157,7 +157,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		Anchor gpluslink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_google().getSafeUri().asString()).toString(), true,
 				"https://plus.google.com/share?url="
-						+ GeoGebraConstants.TUBE_URL_SHORT + sharingKey,
+						+ getURL(),
 				"_blank");
 		gpluslink.addClickHandler(closePopupHandler);
 		iconPanel.add(gpluslink);
@@ -175,7 +175,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		Anchor edmodolink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_edmodo().getSafeUri().asString()).toString(), true,
 				"http://www.edmodo.com/home?share=1 " + sourceDesc + "&url="
-						+ GeoGebraConstants.TUBE_URL_SHORT + sharingKey,
+						+ getURL(),
 				"_blank");
 		edmodolink.addClickHandler(closePopupHandler);
 		iconPanel.add(edmodolink);
@@ -200,7 +200,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		sharetoclassroomPanel.addStyleName("g-sharetoclassroom");
 		sharetoclassroomPanel.getElement().setAttribute("data-size", "30");
 		sharetoclassroomPanel.getElement().setAttribute("data-url",
-				GeoGebraConstants.TUBE_URL_SHORT + sharingKey);
+				getURL());
 		
 		classroomcontentPanel.add(sharetoclassroomPanel);
 		final FlowPanel classroomPanel = new FlowPanel();
@@ -227,6 +227,10 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		return iconPanel;
 	}
 
+	private String getURL() {
+		return app.getAppName(sharingKey);
+	}
+
 	private static native void addCallback(JavaScriptObject scriptElement,
 			Callback<Void, Exception> callback) /*-{
 		scriptElement.onload = $entry(function() {
@@ -243,7 +247,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// Label lblLink = new Label(loc.getMenu("Link") + ": ");
 
 		link = new TextBox();
-		link.setValue(GeoGebraConstants.TUBE_URL_SHORT + sharingKey);
+		link.setValue(getURL());
 		link.setReadOnly(true);
 
 		PushButton copyToClipboardIcon = new PushButton(new NoDragImage(
@@ -252,7 +256,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 					@Override
 					public void onClick(ClickEvent event) {
 						app.copyTextToSystemClipboard(
-								GeoGebraConstants.TUBE_URL_SHORT + sharingKey);
+								getURL());
 						link.selectAll();
 					}
 				});
@@ -299,6 +303,9 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	@Override
 	public void center() {
 		super.center();
+		if (anchor != null) {
+			showRelativeTo(anchor);
+		}
 		if (link != null) {
 			link.setFocus(true);
 			link.selectAll();

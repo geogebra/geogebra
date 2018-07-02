@@ -53,7 +53,6 @@ import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
@@ -3405,32 +3404,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return new GTimerW(listener, delay);
 	}
 
-	private class ReaderTimer extends Timer {
-
-		GeoNumeric geo;
-
-		protected ReaderTimer() {
-			// make protected
-		}
-
-		@Override
-		public void run() {
-			ScreenReader.readText(geo, AppW.this);
-		}
-
-		public void setGeo(GeoNumeric geo0) {
-			geo = geo0;
-		}
-
-	}
-
 	@Override
 	public void readLater(GeoNumeric geo) {
 		if (!kernel.getConstruction().isFileLoading()
 				&& (!articleElement.preventFocus()
 						|| getGlobalKeyDispatcher().isFocused())) {
 			if (readerTimer == null) {
-				readerTimer = new ReaderTimer();
+				readerTimer = new ReaderTimer(this);
 			}
 			readerTimer.setGeo(geo);
 			readerTimer.schedule(700);
@@ -3448,15 +3428,27 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void updateMaterialURL(int id, String sharingKey, String title) {
 		setTubeId(id);
 		if (articleElement.getDataParamApp() && sharingKey != null) {
-			String appName = articleElement.getDataParamAppName();
-			if (StringUtil.empty(appName)) {
-				appName = "classic";
-			}
-			Browser.changeUrl("/" + appName + "/" + sharingKey);
+
+			Browser.changeUrl(getAppName(sharingKey));
 			if (!StringUtil.empty(title)) {
 				Browser.changeMetaTitle(title);
 			}
 		}
+	}
+
+	/**
+	 * @param sharingKey
+	 *            material sharing key
+	 * @return appName parameter
+	 */
+	public String getAppName(String sharingKey) {
+		String appName = articleElement.getDataParamAppName();
+		String apiURL = this.getLoginOperation().getGeoGebraTubeAPI().getUrl();
+		String host = apiURL.substring(0, apiURL.indexOf("/", 12));
+		if (StringUtil.empty(appName)) {
+			appName = "classic";
+		}
+		return host + "/" + appName + "/" + sharingKey;
 	}
 
 	/**

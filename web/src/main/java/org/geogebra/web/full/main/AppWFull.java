@@ -1820,7 +1820,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void share() {
-		FileMenuW.share(this);
+		FileMenuW.share(this, null);
 	}
 
 	@Override

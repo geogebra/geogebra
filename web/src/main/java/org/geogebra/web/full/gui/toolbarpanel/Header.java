@@ -463,7 +463,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private void addShareButton() {
-		RootPanel share = RootPanel.get("shareButton");
+		final RootPanel share = RootPanel.get("shareButton");
 		if (share == null) {
 			return;
 		}
@@ -471,7 +471,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				FileMenuW.share(app);
+				FileMenuW.share(app, share);
 			}
 		});
 	}

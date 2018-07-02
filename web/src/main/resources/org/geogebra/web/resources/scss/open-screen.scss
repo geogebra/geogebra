@@ -267,7 +267,7 @@
 	}
 
 	.profilePanel .profileImage {
-		max-width: 70px;
+		width: 40px;
 		border-radius: 50%;
 	}
 
@@ -290,7 +290,7 @@
 		position: relative;
 		margin-left: 5px;
 		z-index: 200;
-		top: 3px;
+		top: -5px;
 		border-radius: 2px;
 		padding: 5px;
 		background-color: $white;

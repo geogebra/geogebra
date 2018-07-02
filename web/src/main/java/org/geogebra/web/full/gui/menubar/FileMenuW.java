@@ -31,6 +31,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInButton;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -289,7 +290,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 					@Override
 					public void doExecute() {
-						share(getApp());
+						share(getApp(), null);
 					}
 			});
 		if (getApp().getLAF().exportSupported() && !getApp().isUnbundledOrWhiteboard()) {
@@ -336,9 +337,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * @param app
 	 *            application
 	 */
-	public static void share(AppW app) {
+	public static void share(AppW app, Widget anchor) {
 		if (!nativeShareSupported()) {
-			showShareDialog(app);
+			showShareDialog(app, anchor);
 		} else {
 			app.getGgbApi().getBase64(true,
 					getShareStringHandler(app));
@@ -372,12 +373,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * @param app
 	 *            application
 	 */
-	public static void showShareDialog(final AppW app) {
+	public static void showShareDialog(final AppW app, final Widget anchor) {
 		Runnable shareCallback = new Runnable() {
 
 			@Override
 			public void run() {
-				ShareDialogW sd = new ShareDialogW(app);
+				ShareDialogW sd = new ShareDialogW(app, anchor);
 				sd.setVisible(true);
 				sd.center();
 			}
@@ -392,7 +393,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					public void renderEvent(BaseEvent event) {
 						if (event instanceof LoginEvent
 								&& ((LoginEvent) event).isSuccessful()) {
-							showShareDialog(app);
+							showShareDialog(app, anchor);
 						}
 					}
 				});

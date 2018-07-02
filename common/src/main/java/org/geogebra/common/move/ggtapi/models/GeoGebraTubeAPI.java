@@ -96,7 +96,10 @@ public abstract class GeoGebraTubeAPI {
 		return loginURL;
 	}
 
-	protected final String getUrl() {
+	/**
+	 * @return API url
+	 */
+	public final String getUrl() {
 		return materialsURL;
 	}
 
