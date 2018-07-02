@@ -4015,10 +4015,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
 			return false;
 
-		// IGR-605
-		case MOB_TABBED_SETTINGS_PANEL:
-			return true;
-
 		// MOB-1537
 		case MOB_PREVIEW_WHEN_EDITING:
 			return false;
