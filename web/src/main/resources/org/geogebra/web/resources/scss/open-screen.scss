@@ -476,6 +476,8 @@
 							padding: 8px 24px 0px 16px;
 							text-overflow: ellipsis;
 							font-family: Roboto Medium;
+							max-height: 40px;
+							overflow: hidden;
 						}	
 					
 						.cardAuthor {
@@ -488,11 +490,14 @@
 							position: absolute;
 							font-family: Roboto Regular;
     						top: 48px;
+    						overflow: hidden;
+							white-space: nowrap;
+							width: 178px;
 						}
 						
 						.mowMoreButton {
    							position: absolute;
-    						top: 50px;
+    						top: 48px;
     						height: 24px !important;
     						width: 24px;
     						right: 0px;
