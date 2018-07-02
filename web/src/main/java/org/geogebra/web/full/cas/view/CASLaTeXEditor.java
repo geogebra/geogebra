@@ -117,8 +117,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		if (mf == null) {
 			return "";
 		}
-		GeoGebraSerializer s = new GeoGebraSerializer();
-		return s.serialize(mf.getFormula());
+		return mf.getText();
 	}
 
 	@Override

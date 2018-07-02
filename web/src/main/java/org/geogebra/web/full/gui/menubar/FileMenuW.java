@@ -401,7 +401,13 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							}
 
 						});
-				sd = new ShareDialogW(app, anchor, geogebrabutton);
+				String sharingKey = "";
+				if (app.getActiveMaterial() != null
+						&& app.getActiveMaterial().getSharingKey() != null) {
+					sharingKey = app.getActiveMaterial().getSharingKey();
+				}
+				sd = new ShareDialogW(app, anchor, geogebrabutton,
+						app.getCurrentURL(sharingKey));
 				sd.setVisible(true);
 				sd.center();
 			}

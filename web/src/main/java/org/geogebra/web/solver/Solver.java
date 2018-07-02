@@ -1,27 +1,20 @@
 package org.geogebra.web.solver;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.http.client.URL;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.*;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
-import com.himamis.retex.editor.web.JlmEditorLib;
-import com.himamis.retex.editor.web.MathFieldW;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.web.CreateLibrary;
-import com.himamis.retex.renderer.web.FactoryProviderGWT;
-import com.himamis.retex.renderer.web.font.opentype.Opentype;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
@@ -41,10 +34,29 @@ import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.solver.keyboard.SolverKeyboard;
 import org.geogebra.web.solver.keyboard.SolverKeyboardButton;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
+import com.himamis.retex.editor.web.JlmEditorLib;
+import com.himamis.retex.editor.web.MathFieldW;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.web.CreateLibrary;
+import com.himamis.retex.renderer.web.FactoryProviderGWT;
+import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
 public class Solver implements EntryPoint, MathFieldListener {
 
@@ -115,6 +127,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 
 		mathField = new MathFieldW(null, editorFocusPanel, canvas, this, false, null);
 		mathField.setPixelRatio(Browser.getPixelRatio());
+		app.setMathField(mathField);
 
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
@@ -302,11 +315,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 	@Override
 	public void onEnter() {
 		keyboard.hide();
-
-		String text = new GeoGebraSerializer()
-				.serialize(mathField.getFormula());
-
-		compute(text);
+		compute(mathField.getText());
 	}
 
 	@Override

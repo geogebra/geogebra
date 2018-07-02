@@ -69,6 +69,7 @@ import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
@@ -1031,6 +1032,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		} else {
 			parseText(text0, this);
 		}
+	}
+
+	/**
+	 * @return text in GGB syntax
+	 */
+	public String getText() {
+		GeoGebraSerializer s = new GeoGebraSerializer();
+		return s.serialize(getFormula());
 	}
 
 }

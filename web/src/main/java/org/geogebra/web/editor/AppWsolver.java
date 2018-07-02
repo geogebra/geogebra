@@ -1,12 +1,14 @@
 package org.geogebra.web.editor;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.FontManagerW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
@@ -14,14 +16,18 @@ import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.ShareDialogW;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.himamis.retex.editor.web.MathFieldW;
 
 public class AppWsolver extends AppW implements HasKeyboard {
     private GeoGebraFrameW frame;
+	private MathFieldW mathField;
 
     /******************************************************
      * Constructs AppW for applets
@@ -56,9 +62,31 @@ public class AppWsolver extends AppW implements HasKeyboard {
         }
 		initSignInEventFlow(new LoginOperationW(this), true);
 		GlobalHeader.INSTANCE.addSignIn(this);
+		addShareButton();
     }
 
-    @Override
+	private void addShareButton() {
+		final RootPanel share = GlobalHeader.getShareButton();
+		if (share == null) {
+			return;
+		}
+		ClickStartHandler.init(share, new ClickStartHandler(true, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				ShareDialogW sd = new ShareDialogW(AppWsolver.this, share,
+						null, getMathField().getText());
+				sd.setVisible(true);
+				sd.center();
+			}
+		});
+	}
+
+	protected MathFieldW getMathField() {
+		return mathField;
+	}
+
+	@Override
     protected void initCoreObjects() {
         kernel = newKernel(this);
 		initSettings();
@@ -126,4 +154,8 @@ public class AppWsolver extends AppW implements HasKeyboard {
     public double getInnerWidth() {
         return 798;
     }
+
+	public void setMathField(MathFieldW mathField) {
+		this.mathField = mathField;
+	}
 }

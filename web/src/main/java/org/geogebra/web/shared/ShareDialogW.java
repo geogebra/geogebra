@@ -37,7 +37,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	// private HorizontalPanel imagePanel; for future use - to share images
 	private Button btSendMail;
 	private Button btCancel;
-	String sharingKey = "";
+	String shareURL = "";
 	private TextBox recipient;
 	private TextArea message;
 	private Localization loc;
@@ -51,17 +51,15 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	 * @param app
 	 *            application
 	 */
-	public ShareDialogW(final AppW app, Widget anchor, Widget geogebraButton) {
+	public ShareDialogW(final AppW app, Widget anchor, Widget geogebraButton,
+			String shareURL) {
 		super(app.getPanel(), app);
 		this.anchor = anchor;
 		this.app = app;
 		this.loc = app.getLocalization();
+		this.shareURL = shareURL;
 		this.geogebraButton = geogebraButton;
 		this.setGlassEnabled(true);
-		if (app.getActiveMaterial() != null
-				&& app.getActiveMaterial().getSharingKey() != null) {
-			sharingKey = app.getActiveMaterial().getSharingKey();
-		}
 
 		this.getCaption().setText(app.getLocalization().getMenu("Share"));
 		this.contentPanel = new VerticalPanel();
@@ -153,8 +151,9 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// NoDragImage(AppResources.INSTANCE.social_twitter().getSafeUri().asString()));
 
 		// Edmodo
-		String title = StringUtil.empty(app.getActiveMaterial().getTitle()) ? app
-				.getKernel().getConstruction().getTitle()
+		String title = (app.getActiveMaterial() == null
+				|| StringUtil.empty(app.getActiveMaterial().getTitle()))
+						? app.getKernel().getConstruction().getTitle()
 				: app.getActiveMaterial().getTitle();
 		String sourceDesc = (app.getActiveMaterial() != null) ? "&source="
 				+ app.getActiveMaterial().getId() + "&desc=" + title : "";
@@ -215,7 +214,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	}
 
 	private String getURL() {
-		return app.getCurrentURL(sharingKey);
+		return shareURL;
 	}
 
 	private static native void addCallback(JavaScriptObject scriptElement,

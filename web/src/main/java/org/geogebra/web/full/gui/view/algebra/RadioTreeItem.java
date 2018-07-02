@@ -89,7 +89,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -1926,8 +1925,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (mf == null) {
 			return "";
 		}
-		GeoGebraSerializer s = new GeoGebraSerializer();
-		return s.serialize(mf.getFormula());
+		return mf.getText();
 	}
 
 	@Override
