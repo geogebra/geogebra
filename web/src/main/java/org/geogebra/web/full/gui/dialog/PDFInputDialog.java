@@ -112,7 +112,6 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		addFolderImage();
 		addDropHandler(pdfContainerPanel.getElement());
 		clickOrDragText = new Label();
-		clickOrDragText.addStyleName("pdfDialogText");
 		clickOrDragText.addStyleName("clickOrDragText");
 		pdfContainerPanel.add(clickOrDragText);
 		pageLbl = new Label();
@@ -427,8 +426,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		pdfContainerPanel.add(progressBar);
 		if (loadText == null) {
 			loadText = new Label();
-			loadText.addStyleName("pdfDialogText");
-			loadText.addStyleName("loadText");
+			loadText.addStyleName("clickOrDragText");
 			loadText.setText(appW.getLocalization().getMenu("PdfLoadText"));
 		}
 		pdfContainerPanel.add(loadText);
@@ -442,7 +440,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		addFolderImage();
 		if (errorText == null) {
 			errorText = new Label();
-			errorText.addStyleName("pdfDialogText");
+			errorText.addStyleName("clickOrDragText");
 			errorText.addStyleName("errorText");
 			errorText.setText(appW.getLocalization().getMenu("PdfErrorText"));
 		}
