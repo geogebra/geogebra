@@ -194,7 +194,7 @@ task copyHtml {
         file("war/app-release.html").text = english(classicHtml(false, false), "Classic")
         file("war/app.html").text = english(classicHtml(true, false), "Classic")
         file("war/app-offline.html").text = english(classicHtml(false, true), "Classic")
-        file("war/classic-template.html").text = classicHtml(false, true)
+        file("war/classic-template.html").text = classicHtml(false, false)
         if(!file("war/debug.css").exists()){
             file("war/debug.css").text = "/** Put your temporary CSS here */"
         }
