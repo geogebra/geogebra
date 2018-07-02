@@ -132,7 +132,7 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 		sb.append("\" app=\"");
 		sb.append(appName);
 		sb.append("\"/>\n");
-		XMLBuilder.dimension(sb, contentWidth, contentHeight);
+		XMLBuilder.dimension(sb, Double.toString(contentWidth), Double.toString(contentHeight));
 		for (int i = 0; i < corner.length; i++) {
 			XMLBuilder.getCornerPointXML(sb, i, corner);
 		}

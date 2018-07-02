@@ -325,6 +325,9 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return false;
 	}
 
+	/**
+	 * @return platform dependent implementation
+	 */
 	public static StringUtil getPrototype() {
 		return prototype;
 	}
