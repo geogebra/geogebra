@@ -2569,6 +2569,7 @@ __GGB__keysVar["lv"].menu = {
     "ScaleInCentimeter": "Skala cm",
     "Scatterplot": "Punktu Grafiks",
     "ScientificCalculator": "Scientific Calculator",
+    "ScientificCalculator.short": "",
     "Script": "GeoGebra Script",
     "Scripting": "Scripting",
     "Search": "Search",

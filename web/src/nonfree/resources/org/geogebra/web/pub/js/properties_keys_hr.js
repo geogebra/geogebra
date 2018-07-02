@@ -2569,6 +2569,7 @@ __GGB__keysVar["hr"].menu = {
     "ScaleInCentimeter": "Mjerilo u cm",
     "Scatterplot": "Raspr\u0161eni grafikon",
     "ScientificCalculator": "Znanstveni kalkulator",
+    "ScientificCalculator.short": "",
     "Script": "GeoGebra skriptiranje",
     "Scripting": "Skriptiranje",
     "Search": "Tra\u017ei",

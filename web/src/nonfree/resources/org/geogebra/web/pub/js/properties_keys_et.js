@@ -2569,6 +2569,7 @@ __GGB__keysVar["et"].menu = {
     "ScaleInCentimeter": "Skaala sentimeetrites",
     "Scatterplot": "Hajuvusdiagramm",
     "ScientificCalculator": "Scientific Calculator",
+    "ScientificCalculator.short": "",
     "Script": "GeoGebra skript",
     "Scripting": "Skriptimine",
     "Search": "Search",

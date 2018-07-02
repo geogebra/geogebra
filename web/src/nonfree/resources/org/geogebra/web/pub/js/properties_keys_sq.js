@@ -2569,6 +2569,7 @@ __GGB__keysVar["sq"].menu = {
     "ScaleInCentimeter": "Shkalle ne Centimetra",
     "Scatterplot": "Vizatim i Shperhapur",
     "ScientificCalculator": "Scientific Calculator",
+    "ScientificCalculator.short": "",
     "Script": "GjeoGjebra Skript",
     "Scripting": "Skriptim",
     "Search": "Search",

@@ -2569,6 +2569,7 @@ __GGB__keysVar["eu"].menu = {
     "ScaleInCentimeter": "Eskala cm-tan",
     "Scatterplot": "Puntu-hodeia (Barreiatze-diagrama)",
     "ScientificCalculator": "Kalkulagailu Grafikoa",
+    "ScientificCalculator.short": "",
     "Script": "GeoGebraren Komandoen Sekuentzia (Script)",
     "Scripting": "Komandoen Sekuentzia (Script)",
     "Search": "Bilatu",

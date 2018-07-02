@@ -2569,6 +2569,7 @@ __GGB__keysVar["fi"].menu = {
     "ScaleInCentimeter": "Mittakaava (cm)",
     "Scatterplot": "Pistekaavio",
     "ScientificCalculator": "Tieteellinen laskin",
+    "ScientificCalculator.short": "",
     "Script": "GeoGebra Script",
     "Scripting": "Ohjelmointi",
     "Search": "Haku",

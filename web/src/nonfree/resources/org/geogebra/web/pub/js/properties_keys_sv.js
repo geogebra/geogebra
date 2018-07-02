@@ -2569,6 +2569,7 @@ __GGB__keysVar["sv"].menu = {
     "ScaleInCentimeter": "Skala i cm",
     "Scatterplot": "Spridningsdiagram",
     "ScientificCalculator": "Scientific Calculator",
+    "ScientificCalculator.short": "",
     "Script": "GeoGebra script",
     "Scripting": "Script (Program)",
     "Search": "S\xf6k",

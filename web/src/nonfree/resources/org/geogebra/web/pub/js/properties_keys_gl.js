@@ -2569,6 +2569,7 @@ __GGB__keysVar["gl"].menu = {
     "ScaleInCentimeter": "Escala en cm",
     "Scatterplot": "Diagrama de dispersi\xf3n",
     "ScientificCalculator": "Scientific Calculator",
+    "ScientificCalculator.short": "",
     "Script": "Gui\xf3n (Script) GeoGebra",
     "Scripting": "Programa de Gui\xf3n - Scripting",
     "Search": "Search",

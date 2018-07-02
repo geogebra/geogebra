@@ -2569,6 +2569,7 @@ __GGB__keysVar["lt"].menu = {
     "ScaleInCentimeter": "Mastelis centrimetrais",
     "Scatterplot": "I\u0161sibarstymoVaizdas",
     "ScientificCalculator": "Scientific Calculator",
+    "ScientificCalculator.short": "",
     "Script": "GeoGebra programavimas",
     "Scripting": "Programavimas",
     "Search": "Search",

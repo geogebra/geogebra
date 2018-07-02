@@ -2569,6 +2569,7 @@ __GGB__keysVar["de-AT"].menu = {
     "ScaleInCentimeter": "Ma\xdfstab in cm",
     "Scatterplot": "Streudiagramm",
     "ScientificCalculator": "Wissenschaftlicher Taschenrechner",
+    "ScientificCalculator.short": "",
     "Script": "GeoGebra Skript",
     "Scripting": "Skripting",
     "Search": "Suche",
