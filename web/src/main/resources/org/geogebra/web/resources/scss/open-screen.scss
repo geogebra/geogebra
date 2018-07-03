@@ -370,7 +370,8 @@
 			top: calc(#{$header_height} - 20px);
 			width: 100%;
 		    height: calc(100% - 68px); // top + margin = 44 + 24
-		    margin-top: 24px;
+		    padding-top: 24px;
+		    overflow-y: auto;
 		    
 		    .fileViewButtonPanel {
 		    	margin-left: 24px;
@@ -446,19 +447,14 @@
 	    	}
 	    	.materialPanel {
 	    		position: absolute;
-		    	top: 74px;
-		    	margin-top: 8px;
-			    padding-top: 8px;
-				height: calc(100% - 90px); // top + margin + padding = 90
-			    width: calc(100% - 24px);
-			    padding-left: 24px;
-		    	overflow-y: scroll;
-		    	overflow-x: hidden;
+		    	top: 98px;
+			    padding: 8px 8px 8px 24px;
+			    width: calc(100% - 32px);
 		    	
 		    	.materialCard {
 		    		float: left;
 		    		border-radius: 2px;
-   					margin: 0 24px 24px 0;
+   					margin: 0 16px 16px 0;
    					height: 206px;
    					width: 232px;
     				background-color: $mow_material_card_bgd;
