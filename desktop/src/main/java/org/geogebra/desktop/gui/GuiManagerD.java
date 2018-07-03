@@ -2646,20 +2646,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 	}
 
-	/**
-	 * Returns text "Created with GeoGebra" and link to application homepage in
-	 * html.
-	 */
-	public String getCreatedWithHTML() {
-
-		return "Created with " + wrapLink("GeoGebra");
-	}
-
-	private static String wrapLink(String string) {
-		return "<a href=\"" + GeoGebraConstants.GEOGEBRA_WEBSITE
-				+ "\" target=\"_blank\" >" + string + "</a>";
-	}
-
 	@Override
 	public int setToolbarMode(int mode, ModeSetter m) {
 		if (toolbarPanel == null) {

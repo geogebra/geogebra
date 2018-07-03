@@ -2,10 +2,15 @@ package org.geogebra.common.gui.view.consprotocol;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeSet;
 
+import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.SwingConstants;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
@@ -17,7 +22,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
@@ -30,6 +37,68 @@ public class ConstructionProtocolView {
 	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<>();
 
 	protected boolean useColors, addIcons;
+
+	protected static String getAlgebra(GeoElement geo) {
+		if (geo instanceof GeoText) {
+			return "\"" + geo.toValueString(StringTemplate.defaultTemplate)
+					+ "\"";
+		}
+		return geo.getAlgebraDescriptionTextOrHTMLDefault(
+				new IndexHTMLBuilder(true));
+	}
+
+	protected static String getName(GeoElement geo) {
+		return geo.getNameDescriptionTextOrHTML();
+	}
+
+	protected static String getCaption(GeoElement geo, boolean wrapHTML) {
+		return geo.getCaptionDescriptionHTML(wrapHTML,
+				StringTemplate.defaultTemplate);
+	}
+
+	protected static String getDescription(GeoElement geo) {
+		return geo.getDescriptionHTML(true);
+	}
+
+	protected static String getDefinition(GeoElement geo) {
+		return geo.getDefinitionHTML(true);
+	}
+
+	protected static String getModeIcon(GeoElement ge) {
+		int m;
+		// Markus' idea to find the correct icon:
+		// 1) check if an object has a parent algorithm:
+		if (ge.getParentAlgorithm() != null) {
+			// 2) if it has a parent algorithm and its modeID returned
+			// is > -1, then use this one:
+			m = ge.getParentAlgorithm().getRelatedModeID();
+		} else {
+			// 3) otherwise use the modeID of the GeoElement itself:
+			m = ge.getRelatedModeID();
+		}
+
+		if (m == -1 /* || index == prevIndex */) {
+			return "";
+		}
+
+		App app = ge.getKernel().getApplication();
+
+		String base64 = app.getModeIconBase64(m);
+
+		// ImageIcon icon = ((AppD) app).getModeIcon(m);
+		// Image img1 = icon.getImage();
+		//
+		// BufferedImage img2 = toBufferedImage(img1);
+		// String base64 = StringUtil.pngMarker + GgbAPID.base64encode(img2,
+		// 72);
+
+		if (!"".equals(base64)) {
+
+			return "<img height='32' width='32' src=\"" + base64 + "\">";
+		}
+
+		return "";
+	}
 
 	public class RowData {
 		int rowNumber = -1;
@@ -50,23 +119,15 @@ public class ConstructionProtocolView {
 		}
 
 		public void updateAlgebraAndName() {
-			if (geo instanceof GeoText) {
-				algebra = "\""
-						+ geo.toValueString(StringTemplate.defaultTemplate)
-						+ "\"";
-			} else {
-				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault(
-						new IndexHTMLBuilder(true));
-			}
+			algebra = ConstructionProtocolView.getAlgebra(geo);
 			// name description changes if type changes, e.g. ellipse becomes
 			// hyperbola
-			name = geo.getNameDescriptionTextOrHTML();
+			name = ConstructionProtocolView.getName(geo);
 			// name = geo.getNameDescriptionHTML(true, true);
 		}
 
 		public void updateCaption() {
-			caption = geo.getCaptionDescriptionHTML(wrapHTML,
-					StringTemplate.defaultTemplate);
+			caption = ConstructionProtocolView.getCaption(geo, wrapHTML);
 		}
 
 		public GeoElement getGeo() {
@@ -147,7 +208,7 @@ public class ConstructionProtocolView {
 				m = geo.getParentAlgorithm().getRelatedModeID();
 			}
 			// 3) otherwise use the modeID of the GeoElement itself:
- else {
+			else {
 				m = geo.getRelatedModeID();
 			}
 
@@ -159,19 +220,12 @@ public class ConstructionProtocolView {
 			}
 
 			// name = geo.getNameDescriptionHTML(true, true);
-			name = geo.getNameDescriptionTextOrHTML();
+			name = ConstructionProtocolView.getName(geo);
 			// algebra = geo.getRedefineString(true, true);
 			// algebra = geo.toOutputValueString();
-			if (geo instanceof GeoText) {
-				algebra = "\""
-						+ geo.toValueString(StringTemplate.defaultTemplate)
-						+ "\"";
-			} else {
-				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault(
-						new IndexHTMLBuilder(true));
-			}
-			description = geo.getDescriptionHTML(true);
-			definition = geo.getDefinitionHTML(true);
+			algebra = ConstructionProtocolView.getAlgebra(geo);
+			description = ConstructionProtocolView.getDescription(geo);
+			definition = ConstructionProtocolView.getDefinition(geo);
 			updateCaption();
 			consProtocolVisible = geo.isConsProtocolBreakpoint();
 
@@ -813,5 +867,280 @@ public class ConstructionProtocolView {
 			app.getGuiManager().updateNavBars();
 		}
 	}
+
+	/**
+	 * Returns a html representation of the construction protocol.
+	 * 
+	 * @param imgBase64
+	 *            : image file to be included
+	 */
+	public static String getHTML(String imgBase64, Localization loc,
+			Kernel kernel, ArrayList<Columns> columns, boolean addIcons,
+			boolean useColors) {
+
+		StringBuilder sb = new StringBuilder();
+
+		boolean icon_column;
+
+		// Let's be W3C compliant:
+		sb.append(
+				"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n");
+		sb.append("\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
+		sb.append(
+				"<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
+		sb.append("<head>\n");
+		sb.append("<title>");
+		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
+		sb.append(" - ");
+		sb.append(loc.getMenu("ConstructionProtocol"));
+		sb.append("</title>\n");
+		sb.append("<meta keywords = \"");
+		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
+		sb.append(" export\">");
+
+		sb.append(
+				"<style type=\"text/css\"><!--body { font-family:Arial,Helvetica,sans-serif; margin-left:40px }--></style>");
+
+		sb.append(
+				"<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">");
+		sb.append("</head>\n");
+
+		sb.append("<body>\n");
+
+		// header with title
+		Construction cons = kernel.getConstruction();
+		String title = cons.getTitle();
+		if (!"".equals(title)) {
+			sb.append("<h1>");
+			sb.append(StringUtil.toHTMLString(title));
+			sb.append("</h1>\n");
+		}
+
+		// header with author and date
+		String author = cons.getAuthor();
+		String date = cons.getDate();
+		String line = null;
+		if (!"".equals(author)) {
+			line = author;
+		}
+		if (!"".equals(date)) {
+			if (line == null) {
+				line = date;
+			} else {
+				line = line + " - " + date;
+			}
+		}
+		if (line != null) {
+			sb.append("<h3>");
+			sb.append(StringUtil.toHTMLString(line));
+			sb.append("</h3>\n");
+		}
+
+		// include image file
+		if (imgBase64 != null) {
+			sb.append("<p>\n");
+			sb.append("<img height='32' width ='32' src=\"");
+			sb.append(StringUtil.pngMarker);
+			sb.append(imgBase64);
+			sb.append("\" alt=\"");
+			sb.append(StringUtil
+					.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
+			sb.append(' ');
+			sb.append(StringUtil.toHTMLString(loc.getMenu("DrawingPad")));
+			sb.append("\" border=\"1\">\n");
+			sb.append("</p>\n");
+		}
+
+		// table
+		sb.append("<table border=\"1\">\n");
+
+		// table headers
+		sb.append("<tr>\n");
+		// TableColumnModel colModel = table.getColumnModel();
+		// int nColumns = colModel.getColumnCount();
+		int nColumns = columns.size();
+
+		for (int nCol = 0; nCol < nColumns; nCol++) {
+			// toolbar icon will only be inserted on request
+
+			// icon_column = table.getColumnName(nCol).equals("ToolbarIcon");
+			icon_column = "ToolbarIcon".equals(columns.get(nCol));
+			if ((icon_column && addIcons) || !icon_column) {
+				// TableColumn tk = colModel.getColumn(nCol);
+				// title = (String) tk.getIdentifier();
+				title = columns.get(nCol).getTranslation(loc);
+				sb.append("<th>");
+				sb.append(StringUtil.toHTMLString(title));
+				sb.append("</th>\n");
+			}
+
+		}
+		sb.append("</tr>\n");
+
+		TreeSet<GeoElement> geos = cons.getGeoSetConstructionOrder();
+		Iterator<GeoElement> it = geos.iterator();
+
+		// table rows
+		// int endRow = table.getRowCount();
+		int endRow = geos.size();
+		for (int nRow = 0; nRow < endRow; nRow++) {
+			GeoElement geo = it.next();
+			sb.append("<tr  valign=\"baseline\">\n");
+			for (int nCol = 0; nCol < nColumns; nCol++) {
+
+				Columns column = columns.get(nCol);
+
+				// toolbar icon will only be inserted on request
+				// icon_column =
+				// table.getColumnName(nCol).equals("ToolbarIcon");
+				icon_column = "ToolbarIcon".equals(columns.get(nCol));
+				if ((icon_column && addIcons) || !icon_column) {
+					// int col = table.getColumnModel().getColumn(nCol)
+					// .getModelIndex();
+					// String str = StringUtil
+					// .toHTMLString(((ConstructionTableDataD) data)
+					// .getPlainHTMLAt(nRow, col), false);
+
+					String str = "";
+
+					switch (column) {
+					default:
+						str = "";
+						break;
+
+					case NUMBER:
+						str = (nRow + 1) + "";
+						break;
+					case CAPTION:
+						str = getCaption(geo, true);
+						break;
+
+					case NAME:
+						str = getName(geo);
+						break;
+
+					case TOOLBARICON:
+						str = getModeIcon(geo);
+						break;
+
+					case DESCRIPTION:
+						str = getDescription(geo);
+						break;
+
+					case DEFINITION:
+						str = getDefinition(geo);
+						break;
+
+					case VALUE:
+						str = getAlgebra(geo);
+						break;
+
+					case BREAKPOINT:
+						str = "tick";
+						break;
+
+					}
+
+					sb.append("<td>");
+					if ("".equals(str)) {
+						sb.append("&nbsp;"); // space
+					} else {
+
+						GColor color = useColors ? geo.getAlgebraColor()
+								: GColor.BLACK;
+
+						if (!GColor.BLACK.equals(color)) {
+							sb.append("<span style=\"color:#");
+							sb.append(StringUtil.toHexString(
+									(byte) color.getRed(),
+									(byte) color.getGreen(),
+									(byte) color.getBlue()));
+							sb.append("\">");
+							sb.append(str);
+							sb.append("</span>");
+						} else {
+							sb.append(str);
+						}
+					}
+					sb.append("</td>\n");
+				}
+
+			}
+			sb.append("</tr>\n");
+		}
+
+		sb.append("</table>\n");
+
+		// footer
+		sb.append(getCreatedWithHTML());
+
+		// append base64 string so that file can be reloaded with File -> Open
+		sb.append(
+				"\n<!-- Base64 string so that this file can be opened in GeoGebra with File -> Open -->");
+		sb.append("\n<applet style=\"display:none\">");
+		sb.append("\n<param name=\"ggbBase64\" value=\"");
+		sb.append(kernel.getApplication().getGgbApi().getBase64());
+		sb.append("\">\n<applet>");
+
+		sb.append("\n</body>");
+		sb.append("\n</html>");
+
+		return sb.toString();
+	}
+
+	/**
+	 * Returns text "Created with GeoGebra" and link to application homepage in
+	 * html.
+	 */
+	public static String getCreatedWithHTML() {
+
+		return "Created with " + wrapLink("GeoGebra");
+	}
+
+	private static String wrapLink(String string) {
+		return "<a href=\"" + GeoGebraConstants.GEOGEBRA_WEBSITE
+				+ "\" target=\"_blank\" >" + string + "</a>";
+	}
+
+	public enum Columns {
+
+		NUMBER("No."),
+
+		NAME("Name"),
+
+		TOOLBARICON("ToolbarIcon"),
+
+		DESCRIPTION("Description"),
+
+		DEFINITION("Definition"),
+
+		VALUE("Value"),
+
+		CAPTION("Caption"),
+
+		BREAKPOINT("Breakpoint");
+
+		private String translationKey;
+
+		Columns(String key) {
+			this.translationKey = key;
+		}
+
+		public String getTranslation(Localization loc) {
+			return loc.getMenu(translationKey);
+		}
+
+		public static Columns lookUp(String str, Localization loc) {
+			for (Columns col : Columns.values()) {
+				if (loc.getMenu(col.translationKey).equals(str)) {
+					return col;
+				}
+			}
+			Log.error("column " + str + " not found");
+			return Columns.NAME;
+
+		}
+
+	};
 
 }

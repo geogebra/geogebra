@@ -36,6 +36,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.FileExtensions;
@@ -71,7 +72,7 @@ public class ConstructionProtocolExportDialogD extends JDialog
 
 	private void initGUI() {
 		setResizable(true);
-		Localization loc = app.getLocalization();
+		final Localization loc = app.getLocalization();
 		setTitle(loc.getMenu("Export") + ": "
 				+ loc.getMenu("ConstructionProtocol") + " ("
 				+ FileExtensions.HTML + ")");
@@ -197,10 +198,17 @@ public class ConstructionProtocolExportDialogD extends JDialog
 						try {
 							Toolkit toolkit = Toolkit.getDefaultToolkit();
 							Clipboard clipboard = toolkit.getSystemClipboard();
+							
+
 							StringSelection stringSelection = new StringSelection(
-									prot.getHTML(null));
+									ConstructionProtocolView.getHTML(null,
+											app.getLocalization(),
+											app.getKernel(), prot.getColumns(),
+											prot.getAddIcons(),
+											prot.getUseColors()));
 							clipboard.setContents(stringSelection, null);
 						} catch (Exception ex) {
+							ex.printStackTrace();
 							app.localizeAndShowError("SaveFileFailed");
 							Log.debug(ex.toString());
 						}
@@ -289,8 +297,12 @@ public class ConstructionProtocolExportDialogD extends JDialog
 				// picture of drawing pad
 				img = getCenterPanelImage();
 			}
+
 			String imgBase64 = GgbAPID.base64encode(img, 72);
-			String export = prot.getHTML(imgBase64);
+			String export = ConstructionProtocolView.getHTML(imgBase64,
+					app.getLocalization(), app.getKernel(), prot.getColumns(),
+					addIcons, useColors);
+
 			Log.debug(export);
 
 			BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(

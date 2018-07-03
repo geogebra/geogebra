@@ -5424,4 +5424,14 @@ public abstract class App implements UpdateSelection {
 		settings = companion.newSettings();
 	}
 
+	/**
+	 * 
+	 * @param m
+	 *            mode
+	 * @return icon as base64 (might be PNG or SVG)
+	 */
+	public String getModeIconBase64(int m) {
+		return "";
+	}
+
 }

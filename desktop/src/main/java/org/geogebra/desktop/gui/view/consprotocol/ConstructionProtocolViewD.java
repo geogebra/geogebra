@@ -60,7 +60,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
@@ -89,6 +88,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageManagerD;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -382,8 +382,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		};
 
 		printPreviewAction = new AbstractAction(
-				loc.getMenu("Print") + Unicode.ELLIPSIS,
-				((AppD) app)
+				loc.getMenu("Print") + Unicode.ELLIPSIS, ((AppD) app)
 						.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW)) {
 			private static final long serialVersionUID = 1L;
 
@@ -919,7 +918,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			return rowList.get(row).getGeo();
 		}
 
-
 		@Override
 		public void repaintView() {
 			repaintScrollpane();
@@ -1030,7 +1028,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 					m = ge.getParentAlgorithm().getRelatedModeID();
 				}
 				// 3) otherwise use the modeID of the GeoElement itself:
- else {
+				else {
 					m = rowList.get(nRow).getGeo().getRelatedModeID();
 				}
 
@@ -1041,7 +1039,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				ImageIcon icon = ((AppD) app).getModeIcon(m);
 				Image img1 = icon.getImage();
 
-				BufferedImage img2 = toBufferedImage(img1);
+				BufferedImage img2 = ImageManagerD.toBufferedImage(img1);
 				String base64 = GgbAPID.base64encode(img2, 72);
 
 				return "<img src=\"" + StringUtil.pngMarker + base64 + "\">";
@@ -1066,27 +1064,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			return "";
 		}
 
-		/*
-		 * The following code has been copy-pasted from
-		 * http://forums.sun.com/thread.jspa?threadID=5330345, posted by _Matt_.
-		 * Its purpose is to convert an icon to a format which can be copied to
-		 * the file system.
-		 */
-		public BufferedImage toBufferedImage(Image i) {
-			if (i instanceof BufferedImage) {
-				return (BufferedImage) i;
-			}
-			Image img;
-			img = new ImageIcon(i).getImage();
-			BufferedImage b;
-			b = new BufferedImage(img.getWidth(null), img.getHeight(null),
-					BufferedImage.TYPE_INT_ARGB);
-			Graphics g = b.createGraphics();
-			g.drawImage(img, 0, 0, null);
-			g.dispose();
-			return b;
-		}
-
 		public void repaint() {
 			table.repaint();
 		}
@@ -1103,15 +1080,15 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// + 1:
 			if (isColumnInModel(tableColumns[1])) {
 				toolbarIconHeight = 32 + 1;
-			/*
-			 * FIXME: The cell content is not aligned vertically centered. I
-			 * don't think it is possible to easily solve this because JTable
-			 * does not offer a convenient way for vertical alignment of the
-			 * cell content. Probably
-			 * http://articles.techrepublic.com.com/5100-10878_11-5032692.html
-			 * may help, or to use the same technique which is introduced in
-			 * GeoGebraCAS.
-			 */
+				/*
+				 * FIXME: The cell content is not aligned vertically centered. I
+				 * don't think it is possible to easily solve this because
+				 * JTable does not offer a convenient way for vertical alignment
+				 * of the cell content. Probably
+				 * http://articles.techrepublic.com.com/5100-10878_11-5032692.
+				 * html may help, or to use the same technique which is
+				 * introduced in GeoGebraCAS.
+				 */
 			}
 
 			for (int i = 0; i < size; ++i) {
@@ -1253,8 +1230,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex0)
 			throws PrinterException {
 
-		int pageIndex = ((AppD)kernel.getApplication()).getPrintPreview().adjustIndex(pageIndex0);
-
+		int pageIndex = ((AppD) kernel.getApplication()).getPrintPreview()
+				.adjustIndex(pageIndex0);
 
 		if (!isViewAttached) {
 			data.clearView();
@@ -1342,169 +1319,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 ***************/
 
 	/**
-	 * Returns a html representation of the construction protocol.
-	 * 
-	 * @param imgBase64
-	 *            : image file to be included
-	 */
-	public String getHTML(String imgBase64) {
-		StringBuilder sb = new StringBuilder();
-
-		boolean icon_column;
-
-		// Let's be W3C compliant:
-		sb.append(
-				"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n");
-		sb.append("\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
-		sb.append(
-				"<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
-		sb.append("<head>\n");
-		sb.append("<title>");
-		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
-		sb.append(" - ");
-		sb.append(loc.getMenu("ConstructionProtocol"));
-		sb.append("</title>\n");
-		sb.append("<meta keywords = \"");
-		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
-		sb.append(" export\">");
-
-		sb.append(
-				"<style type=\"text/css\"><!--body { font-family:Arial,Helvetica,sans-serif; margin-left:40px }--></style>");
-
-		sb.append(
-				"<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">");
-		sb.append("</head>\n");
-
-		sb.append("<body>\n");
-
-		// header with title
-		Construction cons = kernel.getConstruction();
-		String title = cons.getTitle();
-		if (!"".equals(title)) {
-			sb.append("<h1>");
-			sb.append(StringUtil.toHTMLString(title));
-			sb.append("</h1>\n");
-		}
-
-		// header with author and date
-		String author = cons.getAuthor();
-		String date = cons.getDate();
-		String line = null;
-		if (!"".equals(author)) {
-			line = author;
-		}
-		if (!"".equals(date)) {
-			if (line == null) {
-				line = date;
-			} else {
-				line = line + " - " + date;
-			}
-		}
-		if (line != null) {
-			sb.append("<h3>");
-			sb.append(StringUtil.toHTMLString(line));
-			sb.append("</h3>\n");
-		}
-
-		// include image file
-		if (imgBase64 != null) {
-			sb.append("<p>\n");
-			sb.append("<img src=\"");
-			sb.append(StringUtil.pngMarker);
-			sb.append(imgBase64);
-			sb.append("\" alt=\"");
-			sb.append(StringUtil
-					.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
-			sb.append(' ');
-			sb.append(StringUtil.toHTMLString(loc.getMenu("DrawingPad")));
-			sb.append("\" border=\"1\">\n");
-			sb.append("</p>\n");
-		}
-
-		// table
-		sb.append("<table border=\"1\">\n");
-
-		// table headers
-		sb.append("<tr>\n");
-		TableColumnModel colModel = table.getColumnModel();
-		int nColumns = colModel.getColumnCount();
-
-		for (int nCol = 0; nCol < nColumns; nCol++) {
-			// toolbar icon will only be inserted on request
-
-			icon_column = table.getColumnName(nCol).equals("ToolbarIcon");
-			if ((icon_column && addIcons) || !icon_column) {
-				TableColumn tk = colModel.getColumn(nCol);
-				title = (String) tk.getIdentifier();
-				sb.append("<th>");
-				sb.append(StringUtil.toHTMLString(title));
-				sb.append("</th>\n");
-			}
-
-		}
-		sb.append("</tr>\n");
-
-		// table rows
-		int endRow = table.getRowCount();
-		for (int nRow = 0; nRow < endRow; nRow++) {
-			sb.append("<tr  valign=\"baseline\">\n");
-			for (int nCol = 0; nCol < nColumns; nCol++) {
-
-				// toolbar icon will only be inserted on request
-				icon_column = table.getColumnName(nCol).equals("ToolbarIcon");
-				if ((icon_column && addIcons) || !icon_column) {
-					int col = table.getColumnModel().getColumn(nCol)
-							.getModelIndex();
-					String str = StringUtil
-							.toHTMLString(((ConstructionTableDataD) data)
-									.getPlainHTMLAt(nRow, col), false);
-					sb.append("<td>");
-					if ("".equals(str)) {
-						sb.append("&nbsp;"); // space
-					} else {
-						Color color = ((ConstructionTableDataD) data)
-								.getColorAt(nRow, col);
-						if (color != Color.black) {
-							sb.append("<span style=\"color:#");
-							sb.append(StringUtil.toHexString(
-									(byte) color.getRed(),
-									(byte) color.getGreen(),
-									(byte) color.getBlue()));
-							sb.append("\">");
-							sb.append(str);
-							sb.append("</span>");
-						} else {
-							sb.append(str);
-						}
-					}
-					sb.append("</td>\n");
-				}
-
-			}
-			sb.append("</tr>\n");
-		}
-
-		sb.append("</table>\n");
-
-		// footer
-		sb.append(
-				((GuiManagerD) app.getGuiManager()).getCreatedWithHTML());
-
-		// append base64 string so that file can be reloaded with File -> Open
-		sb.append(
-				"\n<!-- Base64 string so that this file can be opened in GeoGebra with File -> Open -->");
-		sb.append("\n<applet style=\"display:none\">");
-		sb.append("\n<param name=\"ggbBase64\" value=\"");
-		appendBase64((AppD) app, sb);
-		sb.append("\">\n<applet>");
-
-		sb.append("\n</body>");
-		sb.append("\n</html>");
-
-		return sb.toString();
-	}
-
-	/**
 	 * @param app
 	 *            app
 	 * @param sb
@@ -1588,6 +1402,19 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	@Override
 	public void setLabels() {
 		this.initGUI();
+	}
+
+	public ArrayList<Columns> getColumns() {
+		int n = table.getColumnModel().getColumnCount();
+		ArrayList<Columns> columns = new ArrayList<>();
+
+		for (int i = 0; i < n; i++) {
+			TableColumn col = table.getColumnModel().getColumn(i);
+			columns.add(Columns.lookUp(col.getHeaderValue() + "", loc));
+		}
+
+		return columns;
+
 	}
 
 }

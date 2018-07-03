@@ -5416,4 +5416,13 @@ public class AppD extends App implements KeyEventDispatcher {
 	public void isShowingLogInDialog() {
 		// for 3D
 	}
+
+	public String getModeIconBase64(int m) {
+		ImageIcon icon = getModeIcon(m);
+		Image img1 = icon.getImage();
+
+		BufferedImage img2 = ImageManagerD.toBufferedImage(img1);
+		return StringUtil.pngMarker + GgbAPID.base64encode(img2, 72);
+	}
+
 }
