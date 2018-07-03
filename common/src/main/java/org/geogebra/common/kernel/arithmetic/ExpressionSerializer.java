@@ -1873,6 +1873,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append(")");
 			}
 			break;
+		case IF_SHORT:
 		case IF:
 			if (stringType.isGiac()) {
 				sb.append("when(");

@@ -1095,7 +1095,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 				// make sure point can't be dragged to undefined region for eg
 				// If[3 <= x <= 5, x^2]
-				if (exp.getOperation().equals(Operation.IF)) {
+				if (exp.getOperation().isIf()) {
 					ExpressionValue inequality = exp.getLeft().unwrap();
 					if (inequality.isExpressionNode()) {
 
@@ -2680,7 +2680,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			StringTemplate tpl) {
 		StringBuilder sbLaTeX = new StringBuilder();
 		ExpressionNode expr = getFunctionExpression();
-		if (expr.getOperation() == Operation.IF
+		if (expr.getOperation().isIf()
 				&& !expr.getRight().wrap().isConditional()) {
 			if (substituteNumbers) {
 				sbLaTeX.append(expr.getRight()

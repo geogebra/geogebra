@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.plugin.Operation;
 
 /**
  * InflectionPoint[ &lt;GeoFunction> ]
@@ -43,7 +42,7 @@ public class CmdTurningPoint extends CommandProcessor {
 				// special case for If
 				// non-polynomial -> undefined
 				ExpressionNode exp = fun.getFunctionExpression();
-				if (exp.getOperation().equals(Operation.IF)) {
+				if (exp.getOperation().isIf()) {
 
 					AlgoTurningPointPolyInterval algo = new AlgoTurningPointPolyInterval(
 							cons, c.getLabels(), fun);

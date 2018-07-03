@@ -237,7 +237,7 @@ public class ParametricProcessor {
 				return complexSurface(exp, fv[0], label);
 			}
 			GeoNumeric locVar = getLocalVar(exp, fv[0]);
-			if (exp.getOperation() == Operation.IF) {
+			if (exp.getOperation().isIf()) {
 				ExpressionNode exp1 = exp.getRightTree();
 				ExpressionNode cx = VectorArithmetic.computeCoord(exp1, 0);
 				ExpressionNode cy = VectorArithmetic.computeCoord(exp1, 1);

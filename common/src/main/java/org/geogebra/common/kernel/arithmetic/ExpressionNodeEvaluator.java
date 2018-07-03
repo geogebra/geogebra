@@ -1553,4 +1553,28 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new FunctionVariable[] {});
 	}
 
+	/**
+	 * @param lt
+	 *            condition (unchecked cast ot BooleanValue)
+	 * @param rt
+	 *            conditional expr
+	 * @return rt or ?
+	 */
+	public ExpressionValue handleIf(ExpressionValue lt, ExpressionValue rt) {
+		if (((BooleanValue) lt).getBoolean()) {
+			return rt;
+		}
+		return rt.getUndefinedCopy(getKernel());
+	}
+
+	/**
+	 * @param condition
+	 *            condition
+	 * @return error for a,b where b is not a condition
+	 */
+	public MyError illegalCondition(ExpressionValue condition) {
+		return new MyError(getKernel().getLocalization(),
+				new String[] { "IllegalCondition", condition.toString(errorTemplate) });
+	}
+
 }

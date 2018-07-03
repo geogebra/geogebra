@@ -282,7 +282,7 @@ public class Function extends FunctionNVar
 			c.set(DoubleUtil.checkDecimalFraction(c.getDouble() + vy));
 			expression.setLeft(c);
 			return expression;
-		} else if (expression.getOperation() == Operation.IF) {
+		} else if (expression.getOperation().isIf()) {
 
 			expression.setRight(
 					translateY(expression.getRight().wrap(), fVars, vy));

@@ -433,7 +433,7 @@ ValidExpression buildValidExpression() :
           }        })
         (conditions = conditions()
         {
-			ve = new ExpressionNode(kernel, conditions, Operation.IF, ve);
+			ve = new ExpressionNode(kernel, conditions, Operation.IF_SHORT, ve);
         })?
         
      |
@@ -713,7 +713,7 @@ ExpressionNode functionExpressionnode():
       //      throw new MyError(app, "InvalidInput");
       	if(cond != null)
       	{
-			rhs = new ExpressionNode(kernel, cond, Operation.IF, rhs);
+			rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
       	}
         String funLabel = funName.image.substring(0,funName.image.length()-1);
 
@@ -800,7 +800,7 @@ FunctionNVar casFunction(GeoCasCell cell):
       {
         if(cond != null)
       	{
-			rhs = new ExpressionNode(kernel, cond, Operation.IF, rhs);
+			rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
       	}
         String funLabel = funName.image.substring(0,funName.image.length()-1);
 

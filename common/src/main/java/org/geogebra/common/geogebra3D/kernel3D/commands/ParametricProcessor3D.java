@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -63,7 +62,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				return processSurface(exp, fv, label, 3);
 			}
 			GeoNumeric loc = getLocalVar(exp, fv[0]);
-			if (exp.getOperation() == Operation.IF) {
+			if (exp.getOperation().isIf()) {
 				ExpressionNode exp1 = exp.getRightTree();
 				ExpressionNode cx = VectorArithmetic.computeCoord(exp1, 0);
 				ExpressionNode cy = VectorArithmetic.computeCoord(exp1, 1);

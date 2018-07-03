@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.plugin.Operation;
 
 /**
  * Root[ &lt;GeoFunction> ] Root[ &lt;GeoFunction> , &lt;Number> ] Root[
@@ -100,7 +99,7 @@ public class CmdRoot extends CommandProcessor {
 		// non-polynomial -> undefined
 		GeoFunction fun = f.getGeoFunction();
 		ExpressionNode exp = fun.getFunctionExpression();
-		if (exp.getOperation().equals(Operation.IF)) {
+		if (exp.getOperation().isIf()) {
 
 			AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
 					cons, c.getLabels(), fun);

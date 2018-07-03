@@ -11867,7 +11867,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// non-polynomial -> undefined
 			// eg f(x) = x^2 , (-2<x<2)
 			ExpressionNode exp = function.getFunctionExpression();
-			if (exp.getOperation().equals(Operation.IF)) {
+			if (exp.getOperation().isIf()) {
 
 				AlgoExtremumPolynomialInterval algo = new AlgoExtremumPolynomialInterval(
 						cons, null, function);
@@ -11953,7 +11953,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// non-polynomial -> undefined
 			// eg f(x) = x^2 , (-2<x<2)
 			ExpressionNode exp = function.getFunctionExpression();
-			if (exp.getOperation().equals(Operation.IF)) {
+			if (exp.getOperation().isIf()) {
 
 				AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
 						cons, null, function);

@@ -401,6 +401,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 				break;
 			case IF:
+			case IF_SHORT:
 				ExpressionNode inv = invert(right, oldFV, x, kernel);
 				if (inv == null) {
 					return null;

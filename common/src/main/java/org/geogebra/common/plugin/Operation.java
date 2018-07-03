@@ -1735,12 +1735,20 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue) {
-				if (((BooleanValue) lt).getBoolean()) {
-					return rt;
-				}
-				return rt.getUndefinedCopy(ev.getKernel());
+				return ev.handleIf(lt, rt);
 			}
 			throw ev.illegalArgument(lt, rt, "if(");
+		}
+	},
+	IF_SHORT {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev, ExpressionValue lt,
+				ExpressionValue rt, ExpressionValue left, ExpressionValue right, StringTemplate tpl,
+				boolean holdsLaTeX) {
+			if (lt instanceof BooleanValue) {
+				return ev.handleIf(lt, rt);
+			}
+			throw ev.illegalCondition(lt);
 		}
 	},
 	IF_ELSE {
@@ -2137,6 +2145,7 @@ public enum Operation {
 		case POLYGAMMA:
 		case PSI:
 		case IF:
+		case IF_SHORT:
 		case IF_ELSE:
 		case IF_LIST:
 		case DATA:
@@ -2146,6 +2155,10 @@ public enum Operation {
 		}
 
 		return false;
+	}
+
+	public boolean isIf() {
+		return this == IF || this == IF_SHORT;
 	}
 
 }

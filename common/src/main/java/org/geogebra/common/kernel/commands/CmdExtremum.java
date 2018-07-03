@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.plugin.Operation;
 
 /**
  * Extremum[ &lt;GeoFunction> ]
@@ -74,7 +73,7 @@ public class CmdExtremum extends CommandProcessor {
 		// special case for If
 		// non-polynomial -> undefined
 		ExpressionNode exp = f.getFunctionExpression();
-		if (exp.getOperation().equals(Operation.IF)) {
+		if (exp.getOperation().isIf()) {
 
 			AlgoExtremumPolynomialInterval algo = new AlgoExtremumPolynomialInterval(
 					cons, c.getLabels(), f);

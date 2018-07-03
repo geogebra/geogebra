@@ -201,6 +201,7 @@ public enum ValueType {
 			return ValueType.FUNCTION;
 
 		case IF:
+		case IF_SHORT:
 			return right.getValueType();
 		case IF_ELSE:
 			return right.getValueType();

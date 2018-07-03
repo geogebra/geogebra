@@ -219,7 +219,7 @@ public class Derivative {
 					right.derivative(fv, kernel0));
 
 		case IF:
-
+		case IF_SHORT:
 			return new ExpressionNode(kernel0, left, Operation.IF,
 					right.derivative(fv, kernel0));
 

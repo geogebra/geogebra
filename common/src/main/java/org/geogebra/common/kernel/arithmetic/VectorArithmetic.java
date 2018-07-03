@@ -96,6 +96,7 @@ public class VectorArithmetic {
 			return new ExpressionNode(kernel, exp.traverse(new CoordComputer()),
 					ops[i], null);
 		case IF:
+		case IF_SHORT:
 			return new ExpressionNode(kernel, exp.getLeft().deepCopy(kernel),
 					Operation.IF, computeCoord(exp.getRightTree(), i));
 		case PLUS:

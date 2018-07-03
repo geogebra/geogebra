@@ -58,7 +58,6 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -1435,13 +1434,12 @@ public class AlgoDispatcher {
 	}
 
 	private boolean isConditionalFunction(GeoFunction f) {
-		return (f.getFunctionExpression() != null && Operation.IF
-				.equals(f.getFunctionExpression().getOperation()));
+		return (f.getFunctionExpression() != null
+				&& f.getFunctionExpression().getOperation().isIf());
 	}
 
 	private boolean isConditionalPolynomial(GeoFunction f) {
-		if (f.getFunctionExpression() != null && Operation.IF
-				.equals(f.getFunctionExpression().getOperation())) {
+		if (f.getFunctionExpression() != null && f.getFunctionExpression().getOperation().isIf()) {
 			Function test = new Function(
 					f.getFunctionExpression().deepCopy(cons.getKernel())
 							.getRightTree());

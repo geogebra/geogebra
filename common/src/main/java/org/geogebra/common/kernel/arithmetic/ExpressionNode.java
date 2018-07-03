@@ -2801,7 +2801,7 @@ public class ExpressionNode extends ValidExpression
 					right.integral(fv, kernel0));
 
 		case IF:
-
+		case IF_SHORT:
 			return new ExpressionNode(kernel0, left, Operation.IF,
 					right.integral(fv, kernel0));
 
@@ -3063,7 +3063,8 @@ public class ExpressionNode extends ValidExpression
 	 * @return whether the top-level operation is IF / IF_ELSE / IF_LIST
 	 */
 	public boolean isConditional() {
-		return operation == Operation.IF || operation == Operation.IF_ELSE
+		return operation == Operation.IF || operation == Operation.IF_SHORT
+				|| operation == Operation.IF_ELSE
 				|| operation == Operation.IF_LIST;
 	}
 
