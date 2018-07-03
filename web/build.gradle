@@ -234,6 +234,7 @@ task createSolverHtml {
             .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
     file("war/solver.html").text = file("war/solver-template.html").text
             .replace("<!--APP NAME-->", "Math Solver")
+            .replace("<!--LANGUAGE LINKS-->", "<SCRIPT>codebase=\"./\"</script>")
 }
 
 task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverHtml']) {

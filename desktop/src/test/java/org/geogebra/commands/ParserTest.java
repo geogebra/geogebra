@@ -196,6 +196,7 @@ public class ParserTest {
 				&& op != Operation.FUNCTION && op != Operation.FUNCTION_NVAR
 				&& op != Operation.VEC_FUNCTION && op != Operation.DERIVATIVE
 				&& op != Operation.IF
+				&& op != Operation.IF_SHORT
 				&& op != Operation.IF_ELSE && op != Operation.SUM
 				&& op != Operation.INVERSE_NORMAL;
 	}
