@@ -17,6 +17,8 @@ import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilderJson;
+import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
+import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.Columns;
 import org.geogebra.common.io.latex.BracketsAdapter;
 import org.geogebra.common.io.latex.TeXAtomSerializer;
 import org.geogebra.common.io.layout.Perspective;
@@ -2349,6 +2351,55 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double timeBetweenFrames, boolean isLoop, String filename,
 			double rotate) {
 		// only works in Chrome
+	}
+
+	/**
+	 * @param useColors
+	 *            whether to use
+	 * @param number
+	 *            whether to include number column
+	 * @param name
+	 *            whether to include name column
+	 * @param icon
+	 *            whether to include toolbar icon column
+	 * @param description
+	 *            whether to include description column
+	 * @param value
+	 *            whether to include value column
+	 * @param caption
+	 *            whether to include caption column
+	 * @param breakpoint
+	 *            whether to include breakpoint column
+	 * @return html of construction protocol
+	 */
+	public String exportConstruction(boolean useColors, boolean number,
+			boolean name, boolean icon, boolean description, boolean value,
+			boolean caption, boolean breakpoint) {
+
+		ArrayList<Columns> columns = new ArrayList<>();
+		if (number) {
+			columns.add(Columns.NUMBER);
+		}
+		if (name) {
+			columns.add(Columns.NAME);
+		}
+		if (icon) {
+			columns.add(Columns.TOOLBARICON);
+		}
+		if (description) {
+			columns.add(Columns.DESCRIPTION);
+		}
+		if (value) {
+			columns.add(Columns.VALUE);
+		}
+		if (caption) {
+			columns.add(Columns.CAPTION);
+		}
+		if (breakpoint) {
+			columns.add(Columns.BREAKPOINT);
+		}
+		return ConstructionProtocolView.getHTML(null, app.getLocalization(),
+				kernel, columns, false, useColors);
 	}
 
 }
