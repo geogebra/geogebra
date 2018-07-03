@@ -853,7 +853,7 @@ __GGB__keysVar["nl"].command = {
     "SetConstructionStep.Syntax": "[ <Aantal> ]",
     "SetCoords": "SetCoords",
     "SetCoords.Syntax": "[ <Object>, <x>, <y> ]\n[ <Object>, <x>, <y>, <z> ]",
-    "SetDecoration": "SetDecoration",
+    "SetDecoration": "Markering",
     "SetDecoration.Syntax": "[ <Object>, <Getal> ]",
     "SetDynamicColor": "SetDynamicColor",
     "SetDynamicColor.Syntax": "[ <Object>, <Rood>, <Groen>, <Blauw> ]\n[ <Object>, <Rood>, <Groen>, <Blauw>, <Doorzichtigheid> ]",
