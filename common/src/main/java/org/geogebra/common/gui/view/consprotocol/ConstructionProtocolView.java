@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -44,7 +45,7 @@ public class ConstructionProtocolView {
 					+ "\"";
 		}
 		return geo.getAlgebraDescriptionTextOrHTMLDefault(
-				new IndexHTMLBuilder(true));
+				new IndexHTMLBuilder(false));
 	}
 
 	protected static String getName(GeoElement geo) {
@@ -57,11 +58,11 @@ public class ConstructionProtocolView {
 	}
 
 	protected static String getDescription(GeoElement geo) {
-		return geo.getDescriptionHTML(true);
+		return geo.getDescriptionHTML(false);
 	}
 
 	protected static String getDefinition(GeoElement geo) {
-		return geo.getDefinitionHTML(true);
+		return geo.getDefinitionHTML(false);
 	}
 
 	protected static String getModeIcon(GeoElement ge) {
@@ -94,7 +95,11 @@ public class ConstructionProtocolView {
 
 		if (!"".equals(base64)) {
 
-			return "<img height='32' width='32' src=\"" + base64 + "\">";
+			String altText = "Icon for mode "
+					+ EuclidianConstants.getModeText(m);
+
+			return "<img alt='" + altText + "' height='32' width='32' src=\""
+					+ base64 + "\">";
 		}
 
 		return "";
@@ -884,8 +889,7 @@ public class ConstructionProtocolView {
 
 		// Let's be W3C compliant:
 		sb.append(
-				"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n");
-		sb.append("\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
+				"<!DOCTYPE html>\n");
 		sb.append(
 				"<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
 		sb.append("<head>\n");
@@ -894,12 +898,14 @@ public class ConstructionProtocolView {
 		sb.append(" - ");
 		sb.append(loc.getMenu("ConstructionProtocol"));
 		sb.append("</title>\n");
-		sb.append("<meta keywords = \"");
-		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
-		sb.append(" export\">");
+		// sb.append("<meta keywords = \"");
+		// sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
+		// sb.append(" export\">");
 
-		sb.append(
-				"<style type=\"text/css\"><!--body { font-family:Arial,Helvetica,sans-serif; margin-left:40px }--></style>");
+		// sb.append(
+		// "<style type=\"text/css\"><!--body {
+		// font-family:Arial,Helvetica,sans-serif; margin-left:40px
+		// }--></style>");
 
 		sb.append(
 				"<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">");
@@ -985,7 +991,7 @@ public class ConstructionProtocolView {
 		int endRow = geos.size();
 		for (int nRow = 0; nRow < endRow; nRow++) {
 			GeoElement geo = it.next();
-			sb.append("<tr  valign=\"baseline\">\n");
+			sb.append("<tr style='vertical-align:baseline;'>\n");
 			for (int nCol = 0; nCol < nColumns; nCol++) {
 
 				Columns column = columns.get(nCol);
@@ -1012,7 +1018,7 @@ public class ConstructionProtocolView {
 						str = (nRow + 1) + "";
 						break;
 					case CAPTION:
-						str = getCaption(geo, true);
+						str = getCaption(geo, false);
 						break;
 
 					case NAME:
@@ -1077,10 +1083,11 @@ public class ConstructionProtocolView {
 		// append base64 string so that file can be reloaded with File -> Open
 		sb.append(
 				"\n<!-- Base64 string so that this file can be opened in GeoGebra with File -> Open -->");
-		sb.append("\n<applet style=\"display:none\">");
+		sb.append(
+				"\n<applet width='1' height='1' code='' style=\"display:none\">");
 		sb.append("\n<param name=\"ggbBase64\" value=\"");
 		sb.append(kernel.getApplication().getGgbApi().getBase64());
-		sb.append("\">\n<applet>");
+		sb.append("\">\n</applet>");
 
 		sb.append("\n</body>");
 		sb.append("\n</html>");
