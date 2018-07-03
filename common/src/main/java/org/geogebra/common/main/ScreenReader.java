@@ -37,8 +37,9 @@ public class ScreenReader {
 	private static void readText(String text, App app) {
 		// MOW-137 if selection originated in AV we don't want to move
 		// focus to EV
-		if (app.getGuiManager() == null || app.getGuiManager().getLayout().getDockManager().getFocusedViewId() == app
-				.getActiveEuclidianView().getViewID()) {
+		if (app.getGuiManager() == null || app.getGuiManager().getLayout()
+				.getDockManager().getFocusedViewId() == app
+						.getActiveEuclidianView().getViewID()) {
 			app.getActiveEuclidianView().readText(text);
 		}
 	}

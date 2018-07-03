@@ -104,6 +104,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 	 * @param parent
 	 *            editor parent
 	 * @param fr
+	 *            solver frame
 	 */
 	public void edit(Element parent, GeoGebraFrameSimple fr) {
 		guiBuilder = new WebStepGuiBuilder(app);

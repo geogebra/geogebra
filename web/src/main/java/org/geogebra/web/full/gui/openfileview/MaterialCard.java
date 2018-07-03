@@ -30,6 +30,7 @@ public class MaterialCard extends FlowPanel {
 	private FlowPanel visibilityPanel;
 	private VisibilityState visibility;
 	private Material material;
+
 	/**
 	 * @author csilla
 	 *
@@ -110,7 +111,8 @@ public class MaterialCard extends FlowPanel {
 		default:
 			break;
 		}
-		visibilityPanel.add(LayoutUtilW.panelRowIndent(visibiltyImg,visibilityTxt));
+		visibilityPanel
+				.add(LayoutUtilW.panelRowIndent(visibiltyImg, visibilityTxt));
 		// build info panel
 		infoPanel.add(cardTitle);
 		infoPanel.add(app.getLoginOperation().owns(material) ? visibilityPanel

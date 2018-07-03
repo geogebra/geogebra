@@ -168,7 +168,6 @@ public class RendererWithImplW extends RendererWithImpl implements
 		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D,
 				WebGLRenderingContext.TEXTURE_MIN_FILTER,
 				WebGLRenderingContext.NEAREST);
-
 	}
 
 	@Override

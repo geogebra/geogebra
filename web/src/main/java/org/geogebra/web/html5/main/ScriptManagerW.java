@@ -997,10 +997,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::translate(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(arg1 + "", callback);
 		};
 		
-		api.exportConstruction = function(useColors, number, name, description, value, caption, breakpoint) {
+		api.exportConstruction = function(useColors, number, name, 
+					description, value, caption, breakpoint) {
 			return ggbAPI.@org.geogebra.common.plugin.GgbAPI::exportConstruction(ZZZZZZZ)(!!useColors, !!number, !!name, !!description, !!value, !!caption, !!breakpoint);
 		}
-		
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;

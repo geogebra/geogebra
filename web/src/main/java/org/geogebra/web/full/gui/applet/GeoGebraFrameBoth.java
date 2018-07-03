@@ -998,6 +998,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		return pageListPanel;
 	}
 
+	@Override
 	public void onPreviewNativeEvent(NativePreviewEvent event) {
 		if (event.getTypeInt() == Event.ONMOUSEDOWN
 				|| event.getTypeInt() == Event.ONTOUCHSTART) {

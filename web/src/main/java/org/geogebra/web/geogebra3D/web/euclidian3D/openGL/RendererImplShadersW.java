@@ -137,7 +137,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 	@Override
 	protected final void createVBOs() {
 		vboHandles = new WebGLBuffer[GLSL_ATTRIB_SIZE];
-		for (int i = 0; i<5; i++) {
+		for (int i = 0; i < 5; i++) {
 			vboHandles[i] = glContext.createBuffer();
 		}
 	}
