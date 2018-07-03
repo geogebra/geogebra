@@ -414,8 +414,11 @@
 						}
 					}	
 				}
-				.buttonMargin {
+				.buttonMargin16 {
 					margin-left: 16px;
+				}
+				.buttonMargin24 {
+					margin-left: 24px;
 				}
 				.hover {
 					background-color: $mow_card_background_hover;
@@ -550,7 +553,7 @@
    					margin-right: auto;
    					margin-bottom: 48px;
    					opacity: 0.54;
-					background-color: $mow_card_background;
+					background-color: $mow_white_hover;
 					border-radius: 50%;
 				}
 				.caption {
@@ -574,26 +577,21 @@
 				min-width: 64px;
 				height: 48px;
 				border-radius: 2px;
-				background-color: $mow_highlight;
+				box-shadow: 0 1px 3px 0px $black-2;
 				transition: $button_hover_transition;
-				&:hover {
-					background-color: $mow_dark;
-				}
 				img {
 					float: left;
 					width: 24px !important;
 					height: 24px;
-					padding: 12px;
-					opacity: 1;
-					filter: invert(100%);
+					padding: 12px 8px 12px 16px;
+					
 				}
 				.gwt-Label {
 					float: left;
 					padding: 17px 20px 17px 0px;
 					text-transform: uppercase;
-					font-size: 87.5%; // (=14px)
 					line-height: 1;
-					color: $white;
+					
 				}
 				form {
 					height: 0;
@@ -609,6 +607,31 @@
 						opacity: 0; 
 					}
 				}	
+			}
+			.FABteal {
+				background-color: $mow_highlight;
+				&:hover {
+					background-color: $mebis-teal-hover;
+				}
+				img {
+					opacity: 1;
+					filter: invert(100%);
+				}
+				.gwt-Label {
+					color: $white;
+				}
+			}
+			.FABwhite {
+				background-color: $white;
+				&:hover {
+					background-color: $mow_white_hover;
+				}
+				img {
+					opacity: 0.54;
+				}
+				.gwt-Label {
+					color: $text-secondary;
+				}
 			}
 		}
 	}

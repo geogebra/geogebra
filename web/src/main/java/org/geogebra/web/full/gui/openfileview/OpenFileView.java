@@ -145,6 +145,7 @@ public class OpenFileView extends MyHeaderPanel
 				MaterialDesignResources.INSTANCE.add_black(),
 				localize("mow.newFile"), 18, app);
 		newFileBtn.setStyleName("containedButton");
+		newFileBtn.addStyleName("buttonMargin16");
 		newFileBtn.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -152,14 +153,13 @@ public class OpenFileView extends MyHeaderPanel
 				newFile();
 			}
 		});
-		buttonPanel.add(newFileBtn);
-
 		openFileBtn.setImageAndText(
 				MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
 						.getSafeUri().asString(),
 				localize("mow.openFile"));
-		openFileBtn.addStyleName("buttonMargin");
+
 		buttonPanel.add(openFileBtn);
+		buttonPanel.add(newFileBtn);
 	}
 
 	private void initSortDropdown() {
@@ -237,7 +237,7 @@ public class OpenFileView extends MyHeaderPanel
 		FlowPanel imagePanel = new FlowPanel();
 		imagePanel.setStyleName("emptyMaterialListInfo");
 		Image image = new NoDragImage(
-				MaterialDesignResources.INSTANCE.more_vert_mebis(), 112, 112);
+				MaterialDesignResources.INSTANCE.mow_lightbulb(), 112, 112);
 
 		Label caption = new Label(localize("emptyMaterialList.caption.mow"));
 		caption.setStyleName("caption");
@@ -253,8 +253,10 @@ public class OpenFileView extends MyHeaderPanel
 
 	private void setExtendedButtonStyle() {
 		newFileBtn.setStyleName("extendedFAB");
+		newFileBtn.addStyleName("FABteal");
+		newFileBtn.addStyleName("buttonMargin24");
 		openFileBtn.setStyleName("extendedFAB");
-		openFileBtn.addStyleName("buttonMargin");
+		openFileBtn.addStyleName("FABwhite");
 		buttonPanel.addStyleName("center");
 	}
 
