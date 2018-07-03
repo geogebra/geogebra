@@ -784,7 +784,7 @@ public class ExpressionNode extends ValidExpression
 	 * 
 	 * @return number of replacements done
 	 */
-	protected int replaceXYZnodes(FunctionVariable xVar, FunctionVariable yVar,
+	public int replaceXYZnodes(FunctionVariable xVar, FunctionVariable yVar,
 			FunctionVariable zVar, ArrayList<ExpressionNode> undecided) {
 		if ((xVar == null) && ((yVar == null) & (zVar == null))) {
 			return 0;

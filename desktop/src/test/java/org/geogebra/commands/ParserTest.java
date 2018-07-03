@@ -4,11 +4,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -81,19 +83,26 @@ public class ParserTest {
 
 	}
 
-	private void checkSameStructure(String string, String string2) {
-		Throwable p = null;
+	private static void checkSameStructure(String string, String string2) {
+		Assert.assertEquals(reparse(string, StringTemplate.maxPrecision),
+				reparse(string2, StringTemplate.maxPrecision));
+	}
+
+	private static String reparse(String string, StringTemplate tpl) {
+		String reparse1 = "";
 		try {
 			ValidExpression v1 = parseExpression(string);
-			ValidExpression v2 = app.getKernel().getParser()
-					.parseGeoGebraExpression(string);
-			Assert.assertEquals(v1.toString(StringTemplate.maxPrecision),
-					v2.toString(StringTemplate.maxPrecision));
+			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
+					yVar = new FunctionVariable(app.getKernel(), "y"),
+					zVar = new FunctionVariable(app.getKernel(), "z");
+			v1.wrap().replaceXYZnodes(xVar, yVar, zVar,
+					new ArrayList<ExpressionNode>());
+			reparse1 = v1.toString(tpl);
 		} catch (Throwable e) {
-			p = e;
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
 		}
-		assertNull(p);
-
+		return reparse1;
 	}
 
 	private void shouldBeException(String string, String exceptionClass) {
@@ -145,8 +154,6 @@ public class ParserTest {
 		} catch (ParseException e) {
 			assertNotNull(e);
 		}
-			
-
 	}
 
 	@Test
@@ -176,6 +183,20 @@ public class ParserTest {
 				checkStable(both);
 			}
 		}
+	}
+
+	@Test
+	public void commaParseTest() {
+		shouldReparseAs("3,5", "3.5");
+		shouldReparseAs("3,5>x", "If(5 > x, 3)");
+		shouldReparseAs("1,2 + 1,4", "1.2 + 1.4");
+		shouldReparseAs("(1,2) + 1,4", "(1, 2) + 1.4");
+	}
+
+	private void shouldReparseAs(String string, String expected) {
+		Assert.assertEquals(expected,
+				reparse(string, StringTemplate.editTemplate));
+
 	}
 
 	private boolean binary(Operation op) {
