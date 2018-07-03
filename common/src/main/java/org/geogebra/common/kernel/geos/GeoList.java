@@ -3297,7 +3297,7 @@ public class GeoList extends GeoElement
 			sb.append(" ");
 			for (int idx = 0; idx < count; idx++) {
 				String item = getItemDisplayString(idx);
-				if ("".equals(item)) {
+				if (item != null && "".equals(item.trim())) {
 					item = loc.getMenuDefault("EmptyItem", "empty item");
 				}
 				sb.append(item);
@@ -3341,7 +3341,7 @@ public class GeoList extends GeoElement
 	public String getAuralItemSelected() {
 		GeoElement item = getSelectedElement();
 		Localization loc = kernel.getLocalization();
-		if ("".equals(item)) {
+		if ("".equals(getItemDisplayString(item).trim())) {
 			return loc.getMenuDefault("DropDownEmptyItemSelected", "Empty item selected. Drop down closed.");
 		} else {
 			return loc.getPlainArray("DropDownItemSelected", "Item %0 selected. Drop down closed. ",
