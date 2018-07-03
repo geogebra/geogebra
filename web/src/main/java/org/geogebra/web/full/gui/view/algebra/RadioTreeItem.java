@@ -350,7 +350,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(definitionPanel, app);
 			if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
 				if (AlgebraItem.needsPacking(geo)) {
-					GeoElement
+					IndexHTMLBuilder
 							.convertIndicesToHTML(
 									geo.getDefinitionDescription(
 											StringTemplate.defaultTemplate),

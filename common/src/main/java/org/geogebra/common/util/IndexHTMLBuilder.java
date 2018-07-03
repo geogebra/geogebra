@@ -52,4 +52,81 @@ public class IndexHTMLBuilder {
 	public void appendHTML(String str) {
 		sb.append(StringUtil.toHTMLString(str));
 	}
+
+	/**
+	 * @param str
+	 *            string with indices
+	 */
+	public final void indicesToHTML(final String str) {
+
+		clear();
+		if (str == null) {
+			return;
+		}
+		int depth = 0;
+		int startPos = 0;
+		final int length = str.length();
+		for (int i = 0; i < length; i++) {
+			switch (str.charAt(i)) {
+			case '_':
+				// write everything before _
+				if (i > startPos) {
+					appendHTML(str.substring(startPos, i));
+				}
+				startPos = i + 1;
+				depth++;
+
+				// check if next character is a '{' (beginning of index with
+				// several chars)
+				if ((startPos < length) && (str.charAt(startPos) != '{')) {
+					startIndex();
+					appendHTML(str.substring(startPos, startPos + 1));
+					endIndex();
+					depth--;
+				} else {
+					startIndex();
+				}
+				i++;
+				startPos++;
+				break;
+
+			case '}':
+				if (depth > 0) {
+					if (i > startPos) {
+						appendHTML(str.substring(startPos, i));
+					}
+					endIndex();
+					startPos = i + 1;
+					depth--;
+				}
+				break;
+			default:
+				//
+				break;
+			}
+		}
+
+		if (startPos < length) {
+			appendHTML(str.substring(startPos));
+		}
+	}
+
+	/**
+	 * Converts indices to HTML &lt;sub&gt; tags if necessary.
+	 * 
+	 * @param text
+	 *            GGB string
+	 * @param builder
+	 *            indexed HTML builder
+	 */
+	public static void convertIndicesToHTML(final String text,
+			IndexHTMLBuilder builder) {
+		// check for index
+		if (text.indexOf('_') > -1) {
+			builder.indicesToHTML(text);
+			return;
+		}
+		builder.clear();
+		builder.append(text);
+	}
 }

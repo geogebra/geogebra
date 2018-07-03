@@ -207,7 +207,7 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 
 				case Kernel.ALGEBRA_STYLE_DESCRIPTION:
 					IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
-					GeoElement
+					IndexHTMLBuilder
 							.convertIndicesToHTML(
 									geo.getDefinitionDescription(
 											StringTemplate.defaultTemplate),
@@ -217,13 +217,12 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 
 				case Kernel.ALGEBRA_STYLE_DEFINITION:
 					builder = new IndexHTMLBuilder(true);
-					GeoElement.convertIndicesToHTML(
+					IndexHTMLBuilder.convertIndicesToHTML(
 							geo.getDefinition(StringTemplate.defaultTemplate),
 							builder);
 					text = builder.toString();
 
 					break;
-
 				}
 			}
 		}

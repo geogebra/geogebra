@@ -4824,25 +4824,6 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * Converts indices to HTML &lt;sub&gt; tags if necessary.
-	 * 
-	 * @param text
-	 *            GGB string
-	 * @param builder
-	 *            indexed HTML builder
-	 */
-	public static void convertIndicesToHTML(final String text,
-			IndexHTMLBuilder builder) {
-		// check for index
-		if (text.indexOf('_') > -1) {
-			indicesToHTML(text, builder);
-			return;
-		}
-		builder.clear();
-		builder.append(text);
-	}
-
-	/**
 	 * @param desc
 	 *            value string
 	 * @return value string prepended with label = ,label(x) = or label :
@@ -4880,7 +4861,7 @@ public abstract class GeoElement extends ConstructionElement
 		String ret = addLabelText(desc);
 
 		// check for index
-		convertIndicesToHTML(ret, builder);
+		IndexHTMLBuilder.convertIndicesToHTML(ret, builder);
 	}
 
 	/**
@@ -5181,7 +5162,7 @@ public abstract class GeoElement extends ConstructionElement
 			final String algDesc = getAlgebraDescriptionDefault();
 			// convertion to html is only needed if indices are found
 			if (hasIndexLabel()) {
-				indicesToHTML(algDesc, builder);
+				builder.indicesToHTML(algDesc);
 				strAlgebraDescTextOrHTML = builder.toString();
 			} else {
 				builder.clear();
@@ -5193,7 +5174,7 @@ public abstract class GeoElement extends ConstructionElement
 		} else {
 			// TODO in some cases we don't need this
 			if (!builder.canAppendRawHtml()) {
-				indicesToHTML(strAlgebraDescription, builder);
+				builder.indicesToHTML(strAlgebraDescription);
 			} else {
 				builder.clear();
 				builder.append(strAlgebraDescTextOrHTML);
@@ -5201,7 +5182,6 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		return strAlgebraDescTextOrHTML;
-
 	}
 
 	/**
@@ -5214,9 +5194,8 @@ public abstract class GeoElement extends ConstructionElement
 		String algDesc = getAlgebraDescriptionRHS();
 
 		// convertion to html is only needed if indices are found
-		indicesToHTML(algDesc, builder);
+		builder.indicesToHTML(algDesc);
 		return algDesc;
-
 	}
 
 	/**
@@ -5596,70 +5575,8 @@ public abstract class GeoElement extends ConstructionElement
 			final boolean addHTMLtag) {
 		final IndexHTMLBuilder sbIndicesToHTML = new IndexHTMLBuilder(
 				addHTMLtag);
-		indicesToHTML(str, sbIndicesToHTML);
+		sbIndicesToHTML.indicesToHTML(str);
 		return sbIndicesToHTML.toString();
-	}
-
-	/**
-	 * @param str
-	 *            string with indices
-	 * @param sbIndicesToHTML
-	 *            indexed string build
-	 */
-	public static void indicesToHTML(final String str,
-			IndexHTMLBuilder sbIndicesToHTML) {
-
-		sbIndicesToHTML.clear();
-		if (str == null) {
-			return;
-		}
-		int depth = 0;
-		int startPos = 0;
-		final int length = str.length();
-		for (int i = 0; i < length; i++) {
-			switch (str.charAt(i)) {
-			case '_':
-				// write everything before _
-				if (i > startPos) {
-					sbIndicesToHTML.appendHTML(str.substring(startPos, i));
-				}
-				startPos = i + 1;
-				depth++;
-
-				// check if next character is a '{' (beginning of index with
-				// several chars)
-				if ((startPos < length) && (str.charAt(startPos) != '{')) {
-					sbIndicesToHTML.startIndex();
-					sbIndicesToHTML
-							.appendHTML(str.substring(startPos, startPos + 1));
-					sbIndicesToHTML.endIndex();
-					depth--;
-				} else {
-					sbIndicesToHTML.startIndex();
-				}
-				i++;
-				startPos++;
-				break;
-
-			case '}':
-				if (depth > 0) {
-					if (i > startPos) {
-						sbIndicesToHTML.appendHTML(str.substring(startPos, i));
-					}
-					sbIndicesToHTML.endIndex();
-					startPos = i + 1;
-					depth--;
-				}
-				break;
-			default:
-				//
-				break;
-			}
-		}
-
-		if (startPos < length) {
-			sbIndicesToHTML.appendHTML(str.substring(startPos));
-		}
 	}
 
 	/**
