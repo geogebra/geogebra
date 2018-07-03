@@ -1920,8 +1920,6 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					TRIVIAL_POWERS,
 					POWER_OF_NEGATIVE,
 					POWER_OF_POWER,
-					DISTRIBUTE_POWER_OVER_PRODUCT,
-					DISTRIBUTE_POWER_OVER_FRACION,
 			};
 
 			if (sn.contains(Operation.POWER)) {
@@ -1966,6 +1964,8 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					REGROUP_SUMS,
 					REGROUP_PRODUCTS,
 					SIMPLIFY_ROOTS,
+					SIMPLIFY_POWER_OF_ROOT,
+					SIMPLIFY_ROOT_OF_POWER,
 					TRIVIAL_POWERS,
 					ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
 					ExpandSteps.EXPAND_MARKED_PRODUCTS,
@@ -2059,6 +2059,8 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					RegroupSteps.REGROUP_PRODUCTS,
 					RegroupSteps.EXPAND_ROOT,
 					RegroupSteps.COMMON_ROOT,
+					DISTRIBUTE_POWER_OVER_PRODUCT,
+					DISTRIBUTE_POWER_OVER_FRACION,
 					RegroupSteps.SIMPLIFY_ROOTS,
 					RegroupSteps.SIMPLE_POWERS,
 					RegroupSteps.SIMPLIFY_FRACTIONS,
@@ -2066,6 +2068,37 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					ExpandSteps.EXPAND_MARKED_PRODUCTS,
 					RegroupSteps.RATIONALIZE_DENOMINATORS,
 					FractionSteps.ADD_INTEGER_FRACTIONS,
+					TrigonometricSteps.SIMPLIFY_TRIGONOMETRIC,
+					RegroupSteps.SIMPLIFY_ABSOLUTE_VALUES,
+			};
+
+			return StepStrategies.implementCachedGroup(cache, sn, null, defaultStrategy,
+					sb, tracker);
+		}
+	},
+
+	SOLVER_REGROUP {
+
+		private Map<StepTransformable, StepStrategies.CacheEntry> cache = new HashMap<>();
+
+		@Override
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
+					RegroupSteps.ELIMINATE_OPPOSITES,
+					RegroupSteps.DOUBLE_MINUS,
+					RegroupSteps.DISTRIBUTE_MINUS,
+					RegroupSteps.REGROUP_SUMS,
+					RegroupSteps.COMMON_FRACTION,
+					RegroupSteps.REWRITE_AS_EXPONENTIAL,
+					RegroupSteps.REGROUP_PRODUCTS,
+					RegroupSteps.EXPAND_ROOT,
+					RegroupSteps.COMMON_ROOT,
+					RegroupSteps.SIMPLIFY_ROOTS,
+					RegroupSteps.SIMPLE_POWERS,
+					RegroupSteps.SIMPLIFY_FRACTIONS,
+					RegroupSteps.FACTOR_FRACTIONS,
+					ExpandSteps.EXPAND_MARKED_PRODUCTS,
+					RegroupSteps.RATIONALIZE_DENOMINATORS,
 					TrigonometricSteps.SIMPLIFY_TRIGONOMETRIC,
 					RegroupSteps.SIMPLIFY_ABSOLUTE_VALUES,
 			};

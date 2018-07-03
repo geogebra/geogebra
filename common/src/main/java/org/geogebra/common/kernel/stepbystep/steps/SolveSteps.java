@@ -94,7 +94,16 @@ enum SolveSteps implements SolveStepGenerator {
 		@Override
 		public Result apply(StepSolvable se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			return new Result(se.adaptiveRegroup(steps));
+			if (0 < se.maxDecimal() && se.maxDecimal() < 5 && se.containsFractions()) {
+				StepSolvable temp = (StepSolvable) se.convertToFractions(steps);
+				return new Result((StepSolvable) StepStrategies.solverRegroup(temp, steps));
+			}
+
+			if (se.maxDecimal() > 0) {
+				return new Result((StepSolvable) se.numericRegroup(steps));
+			}
+
+			return new Result((StepSolvable) StepStrategies.solverRegroup(se, steps));
 		}
 	},
 
@@ -242,7 +251,9 @@ enum SolveSteps implements SolveStepGenerator {
 			StepSolvable result = se;
 
 			if (se.LHS.isPower() && se.RHS.isPower()) {
-				if (se.RHS.degree(variable) > se.LHS.degree(variable)) {
+				long degreeLHS = se.LHS.degree(variable);
+				long degreeRHS = se.RHS.degree(variable);
+				if (degreeLHS != -1 && degreeRHS != -1 && degreeRHS > degreeLHS) {
 					result = result.swapSides();
 				}
 			} else {
@@ -265,7 +276,10 @@ enum SolveSteps implements SolveStepGenerator {
 			}
 
 			StepExpression toDivide = result.LHS.getCoefficient();
-			result = result.multiplyOrDivide(toDivide, steps);
+
+			if (result.RHS.isConstantIn(variable)) {
+				result = result.multiplyOrDivide(toDivide, steps);
+			}
 
 			if (root % 2 == 0 && result.RHS.sign() < 0) {
 				steps.add(SolutionStepType.LEFT_POSITIVE_RIGHT_NEGATIVE);

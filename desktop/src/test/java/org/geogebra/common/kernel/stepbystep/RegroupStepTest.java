@@ -92,6 +92,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void fractionTest() {
+		r("x^2+x-(1)/(3)", "((x)^(2) + x-(1)/(3))");
 		r("((2)(pi)-((5)(pi))/(3))", "(pi)/(3)");
 		r("(((5)(pi))/(4)-pi)", "(pi)/(4)");
 		r("(5*pi)/2 + x", "(((5)(pi))/(2) + x)"); // DON'T expand!

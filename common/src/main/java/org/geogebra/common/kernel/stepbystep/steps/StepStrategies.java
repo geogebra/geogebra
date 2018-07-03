@@ -32,6 +32,10 @@ public class StepStrategies {
 		return RegroupSteps.DEFAULT_REGROUP.apply(sn, sb, new RegroupTracker());
 	}
 
+	public static StepTransformable solverRegroup(StepTransformable sn, SolutionBuilder sb) {
+		return RegroupSteps.SOLVER_REGROUP.apply(sn, sb, new RegroupTracker());
+	}
+
 	public static StepTransformable addFractions(StepTransformable sn, SolutionBuilder sb) {
 		return FractionSteps.ADD_FRACTIONS.apply(sn, sb, new RegroupTracker());
 	}

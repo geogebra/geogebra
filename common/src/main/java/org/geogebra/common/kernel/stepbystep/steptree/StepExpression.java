@@ -377,12 +377,9 @@ public abstract class StepExpression extends StepTransformable
 					found = add(found, operand.findExpression(expr));
 				}
 				return found;
-			} else if (so.isOperation(Operation.DIVIDE) && so.getOperand(1).isConstant()) {
-				StepExpression nominator = so.getOperand(0).findExpression(expr);
-
-				if (nominator != null) {
-					return divide(nominator, so.getOperand(1));
-				}
+			} else if (so.isOperation(Operation.DIVIDE) && so.getOperand(1).isConstant()
+					&& so.getOperand(0).equals(expr)) {
+				return this;
 			}
 		}
 
@@ -426,12 +423,9 @@ public abstract class StepExpression extends StepTransformable
 					found = add(found, operand.findCoefficient(expr));
 				}
 				return found;
-			} else if (so.isOperation(Operation.DIVIDE) && so.getOperand(1).isConstant()) {
-				StepExpression nominator = so.getOperand(0).findCoefficient(expr);
-
-				if (nominator != null) {
-					return divide(nominator, so.getOperand(1));
-				}
+			} else if (so.isOperation(Operation.DIVIDE) && so.getOperand(1).isConstant()
+					&& so.getOperand(0).equals(expr)) {
+				return divide(1, so.getOperand(1));
 			}
 		}
 
@@ -461,12 +455,6 @@ public abstract class StepExpression extends StepTransformable
 					found = add(found, operand.findConstantIn(sv));
 				}
 				return found;
-			} else if (so.isOperation(Operation.DIVIDE) && so.getOperand(1).isConstant()) {
-				StepExpression nominator = so.getOperand(0).findConstantIn(sv);
-
-				if (nominator != null) {
-					return divide(nominator, so.getOperand(1));
-				}
 			}
 		}
 
