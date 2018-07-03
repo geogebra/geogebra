@@ -41,7 +41,7 @@ public class CmdSelectObjects extends CmdScripting {
 					} else {
 						app.getSelectionManager().addSelectedGeo(geo, false,
 								false);
-						ScreenReader.readText(geo, app);
+						ScreenReader.readText(geo);
 					}
 				}
 			}

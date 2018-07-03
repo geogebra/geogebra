@@ -35,7 +35,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.gui.util.DropDownList.DropDownListener;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenLocation;
@@ -137,7 +136,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			public OptionItem(GGraphics2D g2, int idx) {
 				index = idx;
 				GeoElement geoItem = geoList.get(idx);
-				if (needsLatex(geoItem)) {
+				if (GeoList.needsLatex(geoItem)) {
 					text = geoItem.toLaTeXString(false,
 							StringTemplate.latexTemplate);
 					latex = true;
@@ -890,7 +889,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		boolean setVisible(boolean visible) {
 			if (geoList.getKernel().getApplication().has(Feature.READ_DROPDOWNS) && visible) {
-				ScreenReader.readOpenDropDown(geoList);
+				ScreenReader.readDropDownOpened(geoList);
 			}
 			boolean repaintNeeded = this.visible != visible;
 
@@ -974,7 +973,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 			if (geoList.getKernel().getApplication()
 					.has(Feature.READ_DROPDOWNS)) {
-				ScreenReader.dropDowmSelectorMovedOn(
+				ScreenReader.readDropDownSelectorMoved(
 						geoList.getKernel().getApplication(), hovered.text);
 			}
 		}
@@ -1265,7 +1264,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		GeoElement geoItem = geoList.getSelectedElement();
 		// boolean latex = false;
-		if (needsLatex(geoItem)) {
+		if (GeoList.needsLatex(geoItem)) {
 			selectedText = geoItem.toLaTeXString(false,
 					StringTemplate.latexTemplate);
 			seLatex = true;
@@ -1277,16 +1276,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		selectedDimension = drawSelectedText(g2, 0, 0, false);
 		latexLabel = measureLabel(g2, geoList, getLabelText());
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth, boxHeight);
-	}
-
-	/**
-	 * @param geoItem
-	 *            geo
-	 * @return whether it should be painted in LaTeX
-	 */
-	static boolean needsLatex(GeoElement geoItem) {
-		return geoItem instanceof FunctionalNVar || geoItem.isGeoImage()
-				|| (geoItem.isGeoText() && geoItem.isLaTeXDrawableGeo());
 	}
 
 	private GDimension drawSelectedText(GGraphics2D g2, int left, int top,

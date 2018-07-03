@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -3244,6 +3245,9 @@ public class GeoList extends GeoElement
 	 * @return The displayed string of item.
 	 */
 	public static String getItemDisplayString(GeoElement geoItem) {
+		if (needsLatex(geoItem)) {
+			return geoItem.toLaTeXString(false, StringTemplate.latexTemplate);
+		}
 		if (!"".equals(geoItem.getRawCaption())) {
 
 			return geoItem.getCaption(StringTemplate.defaultTemplate);
@@ -3254,7 +3258,6 @@ public class GeoList extends GeoElement
 		}
 
 		return geoItem.toValueString(StringTemplate.defaultTemplate);
-
 	}
 
 	/**
@@ -3267,13 +3270,17 @@ public class GeoList extends GeoElement
 		return getItemDisplayString(get(idx));
 	}
 
+	private void addAuralLabelOrCaption(StringBuilder sb) {
+		sb.append(" ");
+		String caption0 = getCaptionSimple();
+		sb.append(caption0 == null ? getLabelSimple() : caption0);
+	}
+
 	@Override
 	public void addAuralName(Localization loc, StringBuilder sb) {
 		sb.append(loc.getMenuDefault("Dropdown", "dropdown"));
 		if (size() > MAX_ITEMS_FOR_SCREENREADER) {
-			sb.append(" ");
-			String caption0 = getCaptionSimple();
-			sb.append(caption0 == null ? getLabelSimple() : caption0);
+			addAuralLabelOrCaption(sb);
 		}
 	}
 
@@ -3303,5 +3310,60 @@ public class GeoList extends GeoElement
 	public void addAuralOperations(Localization loc, StringBuilder sb) {
 		sb.append(loc.getMenuDefault("PressSpaceToOpen", "Press space to open"));
 		super.addAuralOperations(loc, sb);
+	}
+
+	@Override
+	public String getAuralTextForSpace() {
+		Localization loc = kernel.getLocalization();
+		StringBuilder sb = new StringBuilder();
+		sb.append(loc.getMenuDefault("Dropdown", "dropdown"));
+		addAuralLabelOrCaption(sb);
+		sb.append(" ");
+		sb.append(loc.getMenuDefault("Closed", "closed"));
+		sb.append(". ");
+		return sb.toString();
+	}
+
+	/**
+	 * @param geoItem
+	 *            geo
+	 * @return whether it should be painted in LaTeX
+	 */
+	public static boolean needsLatex(GeoElement geoItem) {
+		return geoItem instanceof FunctionalNVar || geoItem.isGeoImage()
+				|| (geoItem.isGeoText() && geoItem.isLaTeXDrawableGeo());
+	}
+
+	/**
+	 * 
+	 * @return the aural text of the currently selected element.
+	 */
+	public String getAuralItemSelected() {
+		GeoElement item = getSelectedElement();
+		Localization loc = kernel.getLocalization();
+		if ("".equals(item)) {
+			return loc.getMenuDefault("DropDownEmptyItemSelected", "Empty item selected. Drop down closed.");
+		} else {
+			return loc.getPlainArray("DropDownItemSelected", "Item %0 selected. Drop down closed. ",
+					new String[] { GeoList.getItemDisplayString(item) });
+		}
+	}
+
+	/**
+	 * @return some aural instructions at opening the drop down.
+	 * 
+	 */
+	public String getAuralTextAsOpened() {
+		StringBuilder sb = new StringBuilder();
+		Localization loc = kernel.getLocalization();
+		sb.append(loc.getPlainArray("DropDownOpened", "Drop down %0 opened.",
+				new String[] { getLabel(StringTemplate.defaultTemplate) }));
+		sb.append(" ");
+		sb.append(loc.getMenuDefault("PressArrowsToGo",
+				"Press up arrow and down arrow to go to different options."));
+		sb.append(" ");
+		sb.append(loc.getMenuDefault("PressEnterToSelect",
+				"Press enter to select."));
+		return sb.toString();
 	}
 }

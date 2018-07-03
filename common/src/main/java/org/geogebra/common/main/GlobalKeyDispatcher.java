@@ -1696,7 +1696,7 @@ public abstract class GlobalKeyDispatcher {
 			if (geo.isGeoList()) {
 				DrawDropDownList.asDrawable(app, geo).selectCurrentItem();
 				if (app.has(Feature.READ_DROPDOWNS)) {
-					ScreenReader.dropDownItemSelected(app, geo);
+					ScreenReader.readDropDownItemSelected(geo);
 				}
 				return true;
 			} else if (geo.isGeoInputBox()) {

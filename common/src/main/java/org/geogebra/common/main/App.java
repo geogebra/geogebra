@@ -4483,7 +4483,7 @@ public abstract class App implements UpdateSelection {
 		ArrayList<GeoElement> selGeos = selection.getSelectedGeos();
 		if (selGeos.size() == 1) {
 			GeoElement geo = selGeos.get(0);
-			ScreenReader.handleSpace(geo);
+			ScreenReader.readSpacePressed(geo);
 			if (geo.isGeoBoolean()) {
 				GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
 				geoBool.setValue(!geoBool.getBoolean());
