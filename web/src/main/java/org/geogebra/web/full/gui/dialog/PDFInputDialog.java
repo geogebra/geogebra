@@ -386,6 +386,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 			if (result) {
 				onPDFLoaded();
 			} else {
+				pdf = null;
 				buildErrorPanel();
 			}
 		}
