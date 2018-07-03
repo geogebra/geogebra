@@ -18,9 +18,11 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ShareDialogW;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
+import org.geogebra.web.solver.Solver;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -74,8 +76,10 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				String url = Location.getHref().replaceAll("\\?.*", "")
+						+ Solver.getRelativeURLforEqn(getMathField().getText());
 				ShareDialogW sd = new ShareDialogW(AppWsolver.this, share,
-						null, getMathField().getText());
+						null, url);
 				sd.setVisible(true);
 				sd.center();
 			}

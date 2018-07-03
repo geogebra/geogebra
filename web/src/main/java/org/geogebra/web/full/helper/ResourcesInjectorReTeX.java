@@ -6,9 +6,9 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
+import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import org.geogebra.web.shared.SharedResources;
 
 /**
  * Resource injector that includes UI styles.
@@ -34,7 +34,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.avStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.toolBarStyleScss());
 		StyleInjector.inject(SharedResources.INSTANCE.stepTreeStyleScss());
-
+		StyleInjector.inject(SharedResources.INSTANCE.sharedStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.menuStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.popupStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.dialogStylesScss());

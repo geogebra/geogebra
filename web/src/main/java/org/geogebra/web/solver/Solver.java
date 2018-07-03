@@ -81,10 +81,11 @@ public class Solver implements EntryPoint, MathFieldListener {
 		TestArticleElement articleElement = new TestArticleElement("true",
 				"Solver");
 		LoggerW.startLogger(articleElement);
-
-		app = new AppWsolver(articleElement, new GeoGebraFrameSimple(false));
+		GeoGebraFrameSimple fr = new GeoGebraFrameSimple(false);
+		app = new AppWsolver(articleElement, fr);
 
 		StyleInjector.inject(SharedResources.INSTANCE.solverStyleScss());
+		StyleInjector.inject(SharedResources.INSTANCE.sharedStyleScss());
 		StyleInjector.inject(SharedResources.INSTANCE.stepTreeStyleScss());
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 		JavaScriptInjector.inject(KeyboardResources.INSTANCE.wavesScript());
@@ -96,14 +97,15 @@ public class Solver implements EntryPoint, MathFieldListener {
 		library = new JlmEditorLib();
 		opentype = Opentype.INSTANCE;
 		CreateLibrary.exportLibrary(library, opentype);
-		startEditor();
+		edit(getEditorElement(), fr);
 	}
 
 	/**
 	 * @param parent
 	 *            editor parent
+	 * @param fr
 	 */
-	public void edit(Element parent) {
+	public void edit(Element parent, GeoGebraFrameSimple fr) {
 		guiBuilder = new WebStepGuiBuilder(app);
 
 		Canvas canvas = Canvas.createIfSupported();
@@ -111,11 +113,11 @@ public class Solver implements EntryPoint, MathFieldListener {
 		parent.setId(id);
 
 		rootPanel = RootPanel.get(id);
-
+		rootPanel.add(fr);
 		solverPanel = new VerticalPanel();
 		solverPanel.addStyleName("solverPanel");
 
-		rootPanel.add(solverPanel);
+		fr.add(solverPanel);
 
 		Element el = DOM.createDiv();
 		el.appendChild(canvas.getCanvasElement());
@@ -184,13 +186,12 @@ public class Solver implements EntryPoint, MathFieldListener {
 		});
 	}
 
-	private native void startEditor() /*-{
-		this.@org.geogebra.web.solver.Solver::edit(Lcom/google/gwt/dom/client/Element;)
-		    ($wnd.getEditorElement());
+	private native Element getEditorElement() /*-{
+		return $wnd.getEditorElement();
 	}-*/;
 
 	private void compute(String text) {
-		Browser.changeUrl("?i=" + URL.encodePathSegment(text));
+		Browser.changeUrl(getRelativeURLforEqn(text));
 		mathField.setText(text, false);
 		mathField.setFocus(false);
 
@@ -222,6 +223,10 @@ public class Solver implements EntryPoint, MathFieldListener {
 			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with "
 					+ "your input</h3>"));
 		}
+	}
+
+	public static String getRelativeURLforEqn(String text) {
+		return "?i=" + URL.encodePathSegment(text);
 	}
 
 	private void printAlternativeForms(StepTransformable input) {
