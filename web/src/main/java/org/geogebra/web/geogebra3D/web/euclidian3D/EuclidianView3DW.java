@@ -537,7 +537,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 * the repaint should be done immediately
 	 */
 	public final void doRepaint2() {
-
+		if (!isParentWindowVisible()) {
+			return;
+		}
 		long time = System.currentTimeMillis();
 		// ((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		this.updateBackgroundIfNecessary();
@@ -763,8 +765,10 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		return null;
 	}
 
-	@Override
-	public boolean isParentWindowVisible() {
+	/**
+	 * @return whether the frame we are running in is visible
+	 */
+	private static boolean isParentWindowVisible() {
 		return Window.getClientWidth() > 0;
 	}
 

@@ -273,10 +273,6 @@ public abstract class Renderer {
 	 */
 	public void drawScene() {
 
-		if (!view3D.isParentWindowVisible()) {
-			return;
-		}
-
 		if (exportImageEquirectangular) {
 			view3D.setProjectionEquirectangular();
 		}

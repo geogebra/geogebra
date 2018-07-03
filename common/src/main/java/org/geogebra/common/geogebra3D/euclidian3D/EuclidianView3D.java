@@ -4703,8 +4703,4 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
-	public boolean isParentWindowVisible() {
-		return true;
-	}
-
 }

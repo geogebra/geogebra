@@ -231,6 +231,9 @@ public class RendererWithImplW extends RendererWithImpl implements
 
 	@Override
 	public void setPixelRatio(double ratio) {
+		if (ratio <= 0) {
+			return;
+		}
 		this.ratio = ratio;
 	}
 
