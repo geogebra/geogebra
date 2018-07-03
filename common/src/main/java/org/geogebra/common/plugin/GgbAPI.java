@@ -2373,7 +2373,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * @return html of construction protocol
 	 */
 	public String exportConstruction(boolean useColors, boolean number,
-			boolean name, boolean icon, boolean description, boolean value,
+			boolean name, boolean description, boolean value,
 			boolean caption, boolean breakpoint) {
 
 		ArrayList<Columns> columns = new ArrayList<>();
@@ -2383,9 +2383,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (name) {
 			columns.add(Columns.NAME);
 		}
-		if (icon) {
-			columns.add(Columns.TOOLBARICON);
-		}
+		// if (icon) {
+		// columns.add(Columns.TOOLBARICON);
+		// }
 		if (description) {
 			columns.add(Columns.DESCRIPTION);
 		}

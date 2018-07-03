@@ -81,14 +81,8 @@ public class ConstructionProtocolView {
 
 		App app = ge.getKernel().getApplication();
 
+		// Classic 5 desktop only
 		String base64 = app.getModeIconBase64(m);
-
-		// ImageIcon icon = ((AppD) app).getModeIcon(m);
-		// Image img1 = icon.getImage();
-		//
-		// BufferedImage img2 = toBufferedImage(img1);
-		// String base64 = StringUtil.pngMarker + GgbAPID.base64encode(img2,
-		// 72);
 
 		if (!"".equals(base64)) {
 
@@ -409,18 +403,22 @@ public class ConstructionProtocolView {
 	public class ConstructionTableData implements View, SetLabels {
 
 		public final ColumnData columns[] = {
-				new ColumnData("No.", 35, 35, SwingConstants.RIGHT, true),
-				new ColumnData("Name", 80, 50, SwingConstants.LEFT, true),
-				new ColumnData("ToolbarIcon", 35, 35, SwingConstants.CENTER,
-						false),
-				new ColumnData("Description", 150, 50, SwingConstants.LEFT,
-						true),
-				new ColumnData("Definition", 150, 50, SwingConstants.LEFT,
-						false),
-				new ColumnData("Value", 150, 50, SwingConstants.LEFT, true),
-				new ColumnData("Caption", 150, 50, SwingConstants.LEFT, true),
-				new ColumnData("Breakpoint", 70, 35, SwingConstants.CENTER,
-						false) };
+				new ColumnData(Columns.NUMBER.translationKey, 35, 35,
+						SwingConstants.RIGHT, true),
+				new ColumnData(Columns.NAME.translationKey, 80, 50,
+						SwingConstants.LEFT, true),
+				new ColumnData(Columns.TOOLBARICON.translationKey, 35, 35,
+						SwingConstants.CENTER, false),
+				new ColumnData(Columns.DESCRIPTION.translationKey, 150, 50,
+						SwingConstants.LEFT, true),
+				new ColumnData(Columns.DEFINITION.translationKey, 150, 50,
+						SwingConstants.LEFT, false),
+				new ColumnData(Columns.VALUE.translationKey, 150, 50,
+						SwingConstants.LEFT, true),
+				new ColumnData(Columns.CAPTION.translationKey, 150, 50,
+						SwingConstants.LEFT, true),
+				new ColumnData(Columns.BREAKPOINT.translationKey, 70, 35,
+						SwingConstants.CENTER, false) };
 		protected ArrayList<RowData> rowList;
 		protected HashMap<GeoElement, RowData> geoMap;
 		protected int columnsCount = columns.length;
