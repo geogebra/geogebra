@@ -52,7 +52,10 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private Label loadText;
 	private Label errorText;
 	private FlowPanel buttonPanel;
-	private StandardButton insertBtn;
+	/**
+	 * Insert button
+	 */
+	StandardButton insertBtn;
 	private StandardButton cancelBtn;
 	private StandardButton leftBtn;
 	private StandardButton rightBtn;
@@ -387,6 +390,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 				onPDFLoaded();
 			} else {
 				pdf = null;
+				insertBtn.setEnabled(false);
 				buildErrorPanel();
 			}
 		}
