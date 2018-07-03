@@ -791,6 +791,9 @@ $duration: 0.2s;
    			
    			.button {
    				color: $mebis-teal-dark;	
+   				&:hover {
+   					color: $mebis-teal-dark;
+   				}
    			}
    			
    			.insertBtn.button-up-disabled {
