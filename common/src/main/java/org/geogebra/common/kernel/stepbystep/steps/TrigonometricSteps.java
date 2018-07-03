@@ -100,7 +100,7 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 				if (foundPi) {
 					StepExpression value = StepOperation.add(results);
-					StepExpression result = null;
+					StepExpression result;
 
 					switch (so.getOperation()) {
 					case SIN:
@@ -124,6 +124,9 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 							sb.add(SolutionStepType.REWRITE_COS_PI_POSITIVE,
 									tracker.getColorTracker());
 						}
+					break;
+					default:
+						return sn.iterateThrough(this, sb, tracker);
 					}
 
 					sn.setColor(tracker.getColorTracker());
@@ -134,7 +137,7 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 				if (foundPiHalf) {
 					StepExpression value = StepOperation.add(results);
-					StepExpression result = null;
+					StepExpression result;
 
 					switch (so.getOperation()) {
 					case SIN:
@@ -169,6 +172,9 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 							sb.add(SolutionStepType.REWRITE_TAN_PI_HALF_POSITIVE,
 									tracker.getColorTracker());
 						}
+					break;
+					default:
+						return sn.iterateThrough(this, sb, tracker);
 					}
 
 					sn.setColor(tracker.getColorTracker());
