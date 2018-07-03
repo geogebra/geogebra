@@ -740,7 +740,6 @@ $duration: 0.2s;
     
     	.pdfPageText {
     			display: flex;
-    			font-size: 120% !important;
    				width: fit-content;
    				height: fit-content;
     			position: relative;
@@ -752,7 +751,8 @@ $duration: 0.2s;
     			.gwt-Label {
     				margin: 0px;	
     				font-size: 100%;
-   					height: fit-content;
+   					height: fit-content;  
+					font-family: Roboto Regular;				
     			}
     			
     			.curPageField {
@@ -766,17 +766,20 @@ $duration: 0.2s;
    		 				font-size: 100%;
    		 				padding: 0px;
    		 				border-radius: 0px;
+   		 				font-family: Roboto Regular;
    		 			}
    		 		
-   		 			&:hover {
+   		 			&.default {
+ 						border-bottom: 1px solid $black-42;
+ 					}
+   		 		
+   		 			&.hover {
    	 					border-bottom: 2px solid $black-87;
    		 			}
    		 		
-   		 			&:focus {
-   	 					border-bottom: 2px solid $black-87;
-   		 			}
-   		 			
-   		 			
+   		 			&.focus, &.focus:hover {
+   	 					border-bottom: 2px solid $mebis-teal-dark-87;
+   		 			}   		 			
     			}
 
     			&.hidden {

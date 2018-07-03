@@ -18,15 +18,23 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -73,6 +81,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	/** indicates if current page number text field is in focus */
 	protected boolean tfActive = false;
 	private String previewSrc;
+	private boolean isFocus = false;
 
 	private class PDFChooser extends FileUpload
 			implements ChangeHandler {
@@ -192,6 +201,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	}
 
 	private void initPreviewActions() {
+
 		curPageNrField.addKeyPressHandler(new KeyPressHandler() {
 
 			@Override
@@ -209,6 +219,74 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 				changePageFromTextField(true);
 			}
 		});
+		addFocusBlurHandlers();
+		addHoverHandlers();
+	}
+
+	private void addFocusBlurHandlers() {
+		curPageNrField.getTextBox().addFocusHandler(new FocusHandler() {
+
+			@Override
+			public void onFocus(FocusEvent event) {
+				setPageTextFieldStyleName("focus");
+				setIsFocus(true);
+			}
+		});
+
+		curPageNrField.getTextBox().addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				setPageTextFieldStyleName("default");
+				setIsFocus(false);
+			}
+		});
+	}
+
+	/**
+	 * @param isFocus
+	 *            true if text field has focus
+	 */
+	public void setIsFocus(boolean isFocus) {
+		this.isFocus = isFocus;
+	}
+
+	/**
+	 * @return true if text field has focus
+	 */
+	public boolean isFocus() {
+		return isFocus;
+	}
+
+	/**
+	 * Add mouse over/ out handlers
+	 */
+	private void addHoverHandlers() {
+		curPageNrField.getTextBox().addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				setPageTextFieldStyleName("hover");
+			}
+		});
+		curPageNrField.getTextBox().addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				if (!isFocus()) {
+					setPageTextFieldStyleName("default");
+				}
+			}
+		});
+	}
+
+	/**
+	 * @param additionalStyle
+	 *            additional style name to define hover/focus/blur style
+	 */
+	public void setPageTextFieldStyleName(String additionalStyle) {
+		curPageNrField.setStyleName("AutoCompleteTextFieldW curPageField");
+		curPageNrField.addStyleName(additionalStyle);
 	}
 
 	/**
