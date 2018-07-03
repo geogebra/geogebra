@@ -151,6 +151,20 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 		menu.addItem(
 				menuText(app.getLocalization()
+						.getMenu("ConstructionProtocol") + " ("
+						+ FileExtensions.HTML + ")"),
+				true, new MenuCommand(app) {
+					@Override
+					public void doExecute() {
+						menu.hide();
+						app.exportStringToFile("html",
+								app.getGgbApi().exportConstruction(true, false,
+										true, true, true, false, false));
+					}
+				});
+
+		menu.addItem(
+				menuText(app.getLocalization()
 						.getMenu("DynamicWorksheetAsWebpage") + " ("
 						+ FileExtensions.HTML + ")"),
 				true, new MenuCommand(app) {
