@@ -525,7 +525,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		Localization loc = kernel.getLocalization();
 		StringBuilder sb = new StringBuilder();
 		addAuralName(loc, sb);
-		sb.append(" ");
 		if (getBoolean()) {
 			sb.append(loc.getMenuDefault("Checked", "checked"));
 		} else {

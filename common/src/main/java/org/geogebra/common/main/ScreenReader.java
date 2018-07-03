@@ -2,6 +2,7 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Utility class for reading GeoElement descriptions
@@ -109,5 +110,15 @@ public class ScreenReader {
 	public static void readGeoMoved(GeoElement geo) {
 		App app = geo.getKernel().getApplication();
 		readText(geo.getAuralTextForMove(), app);
+	}
+
+	/**
+	 * Reads the current value of the slider specified by geo.
+	 * 
+	 * @param geo
+	 *            the slider to read.
+	 */
+	public static void readSliderValue(GeoNumeric geo) {
+		readText(geo.getAuralCurrentValue(), geo.getKernel().getApplication());
 	}
 }

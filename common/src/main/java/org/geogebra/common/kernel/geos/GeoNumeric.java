@@ -2018,6 +2018,12 @@ public class GeoNumeric extends GeoElement
 		return false;
 	}
 
+	private void addAuralSliderValue(StringBuilder sb) {
+		sb.append(getLabelSimple());
+		sb.append(getLabelDelimiterWithSpace());
+		sb.append(toValueString(StringTemplate.defaultTemplate));
+	}
+
 	@Override
 	public void addAuralName(Localization loc, StringBuilder sb) {
 		if (!isSliderable()) {
@@ -2025,9 +2031,7 @@ public class GeoNumeric extends GeoElement
 		}
 		sb.append(loc.getMenuDefault("Slider", "slider"));
 		sb.append(" ");
-		sb.append(getLabelSimple());
-		sb.append(getLabelDelimiterWithSpace());
-		sb.append(toValueString(StringTemplate.defaultTemplate));
+		addAuralSliderValue(sb);
 		sb.append(" ");
 	}
 
@@ -2077,4 +2081,13 @@ public class GeoNumeric extends GeoElement
 		return sb.toString();
 	}
 
+	/**
+	 * 
+	 * @return the current value as readable, aural text.
+	 */
+	public String getAuralCurrentValue() {
+		StringBuilder sb = new StringBuilder();
+		addAuralSliderValue(sb);
+		return sb.toString();
+	}
 }

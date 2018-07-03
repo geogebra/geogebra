@@ -20,7 +20,7 @@ class ReaderTimer extends Timer {
 
 	@Override
 	public void run() {
-		ScreenReader.readText(geo);
+		ScreenReader.readSliderValue(geo);
 	}
 
 	public void setGeo(GeoNumeric geo0) {
