@@ -279,7 +279,7 @@ public class OpenFileView extends MyHeaderPanel
 	public void loadAllMaterials() {
 		if (this.app.getLoginOperation().isLoggedIn()) {
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-					.getUsersMaterials(this.userMaterialsCB);
+					.getUsersOwnMaterials(this.userMaterialsCB);
 		} else {
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 					.getFeaturedMaterials(this.ggtMaterialsCB);

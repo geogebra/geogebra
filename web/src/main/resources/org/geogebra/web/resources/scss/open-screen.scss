@@ -368,11 +368,12 @@
 		.fileViewContentPanel {
 			position: absolute;
 			top: calc(#{$header_height} - 20px);
-			width: calc(100% - 48px);
-		    height: calc(100% - 48px);
-		    margin: 24px;
+			width: 100%;
+		    height: calc(100% - 68px); // top + margin = 44 + 24
+		    margin-top: 24px;
 		    
 		    .fileViewButtonPanel {
+		    	margin-left: 24px;
 				.containedButton {
 					cursor: pointer;
 					float: left;
@@ -434,6 +435,7 @@
 	    		box-shadow: none;
 	    		border: none;
 	    		padding: 8px;
+	    		margin-right: 24px;
 	    		font-size: 90%;
 	    		border-bottom: 1px solid $tool-border;
 	    		transition: border-bottom 0.3s ease-out;
@@ -443,15 +445,20 @@
 	    		}
 	    	}
 	    	.materialPanel {
-	    		position: relative;
-		    	top: 35px;
-				width: 100%;
-				height: 100%;
+	    		position: absolute;
+		    	top: 74px;
 		    	margin-top: 8px;
+			    padding-top: 8px;
+				height: calc(100% - 90px); // top + margin + padding = 90
+			    width: calc(100% - 24px);
+			    padding-left: 24px;
+		    	overflow-y: scroll;
+		    	overflow-x: hidden;
 		    	
 		    	.materialCard {
+		    		float: left;
 		    		border-radius: 2px;
-   					margin: 16px;
+   					margin: 0 24px 24px 0;
    					height: 206px;
    					width: 232px;
     				background-color: $mow_material_card_bgd;
