@@ -166,7 +166,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 		}
 	},
 
-	SOLVE_PRODUCT {
+	PODUCT_IS_ZERO {
 		@Override
 		public Result apply(StepEquation se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
@@ -189,6 +189,27 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 					}
 				}
 				return new Result(solutions);
+			}
+
+			return null;
+		}
+	},
+
+	FRACTION_IS_ZERO {
+		@Override
+		public Result apply(StepEquation se, StepVariable variable,
+				SolutionBuilder steps, SolveTracker tracker) {
+			StepEquation result = null;
+
+			if (se.RHS.isFraction() && isZero(se.LHS)) {
+				result = se.cloneWith(se.LHS, se.RHS.getNumerator());
+			} else if (se.LHS.isFraction() && isZero(se.RHS)) {
+				result = se.cloneWith(se.LHS.getNumerator(), se.RHS);
+			}
+
+			if (result != null) {
+				steps.addSubstep(se, result, SolutionStepType.FRACTION_IS_ZERO);
+				return new Result(result);
 			}
 
 			return null;

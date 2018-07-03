@@ -169,6 +169,9 @@ public enum SolutionStepType {
 
 	PRODUCT_IS_ZERO("ProductIsZero", "Product is zero"),
 
+	FRACTION_IS_ZERO("FractionIsZero", "Set the numerator equal to zero",
+			"When the quotient of expressions equals 0, the numerator has to be 0"),
+
 	REGROUP_WRAPPER("RegroupExpression", "Regroup Expression"),
 
 	SIMPLIFICATION_WRAPPER("SimplifyExpression", "Simplify Expression"),

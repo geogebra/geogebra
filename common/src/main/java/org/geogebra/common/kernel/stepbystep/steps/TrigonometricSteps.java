@@ -401,6 +401,9 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 								tracker.getColorTracker());
 						result = minus(applyOp(Operation.TAN, subtract(StepConstant.PI, argument)));
 					}
+					break;
+				default:
+					return sn.iterateThrough(this, sb, tracker);
 				}
 
 				if (result != null) {

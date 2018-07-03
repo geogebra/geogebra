@@ -58,7 +58,7 @@ public class StepStrategies {
 
 	static StepTransformable implementGroup(StepTransformable sn, SolutionStepType groupHeader,
 			SimplificationStepGenerator[] strategy, SolutionBuilder sb, RegroupTracker tracker) {
-		final boolean printDebug = true;
+		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
 		SolutionBuilder substeps = new SolutionBuilder();
@@ -140,7 +140,8 @@ public class StepStrategies {
 			SolutionBuilder sb, SolveTracker tracker) {
 		SolveStepGenerator[] strategy = {
 				SolveSteps.FIND_DEFINED_RANGE,
-				EquationSteps.SOLVE_PRODUCT,
+				EquationSteps.PODUCT_IS_ZERO,
+				EquationSteps.FRACTION_IS_ZERO,
 				EquationSteps.NEGATE_BOTH_SIDES,
 				SolveSteps.REGROUP,
 				EquationSteps.TRIVIAL_EQUATIONS,
