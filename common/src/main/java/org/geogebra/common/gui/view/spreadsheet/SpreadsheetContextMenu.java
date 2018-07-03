@@ -347,8 +347,9 @@ public class SpreadsheetContextMenu {
 	}
 
 	private String getTitleString() {
-
-		// title = cell range if empty or multiple cell selection
+		if (selectedCellRanges.size() > 1) {
+			return loc.getMenu("Selection");
+		}
 		String title = GeoElementSpreadsheet.getSpreadsheetCellName(column1,
 				row1);
 		if (column1 != column2 || row1 != row2) {
