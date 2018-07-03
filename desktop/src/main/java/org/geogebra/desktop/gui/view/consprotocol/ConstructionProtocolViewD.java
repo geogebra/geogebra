@@ -17,7 +17,6 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.dnd.DragSource;
 import java.awt.event.ActionEvent;
@@ -27,7 +26,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
@@ -76,7 +74,6 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.FileExtensions;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.export.ConstructionProtocolExportDialogD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -86,9 +83,7 @@ import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.javax.swing.table.GAbstractTableModelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
-import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.GuiResourcesD;
-import org.geogebra.desktop.util.ImageManagerD;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -959,108 +954,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			case 6:
 				return rowList.get(nRow).getCaption();
 			}
-			return "";
-		}
-
-		// no html code but plain text
-		public String getPlainTextAt(int nRow, int nCol) {
-			if (nRow < 0 || nRow >= getRowCount()) {
-				return "";
-			}
-			switch (nCol) {
-			case 0:
-				return "" + (rowList.get(nRow).getGeo().getConstructionIndex()
-						+ 1);
-			case 1:
-				return "";
-			case 2:
-				return rowList.get(nRow).getGeo().getNameDescription();
-			case 3:
-				return rowList.get(nRow).getGeo().getDefinitionDescription(
-						StringTemplate.defaultTemplate);
-			case 4:
-				return rowList.get(nRow).getGeo()
-						.getDefinition(StringTemplate.defaultTemplate);
-			case 5:
-				return rowList.get(nRow).getGeo()
-						.getAlgebraDescriptionDefault();
-			case 7:
-				return rowList.get(nRow).getCPVisible() + "";
-			}
-			return "";
-		}
-
-		// html code without <html> tags
-		public String getPlainHTMLAt(int nRow, int nCol) {
-
-			/*
-			 * Only one toolbar should be displayed for each step, even if
-			 * multiple substeps are present in a step (i.e. more rows). For
-			 * that, we calculate the index for the current and the previous row
-			 * and check if they are equal.
-			 */
-			int index;
-			int prevIndex;
-
-			index = (nRow < 0) ? -1 : data.getConstructionIndex(nRow);
-			prevIndex = (nRow < 1) ? -1 : data.getConstructionIndex(nRow - 1);
-
-			if (nRow < 0 || nRow >= getRowCount()) {
-				return "";
-			}
-			switch (nCol) {
-			case 0:
-				return "" + (rowList.get(nRow).getGeo().getConstructionIndex()
-						+ 1);
-			case 1:
-				return rowList.get(nRow).getGeo().getNameDescriptionHTML(false,
-						false);
-
-			case 2: { // Displaying toolbar icons in the list on demand.
-
-				int m;
-				// Markus' idea to find the correct icon:
-				// 1) check if an object has a parent algorithm:
-				GeoElement ge = rowList.get(nRow).getGeo();
-				if (ge.getParentAlgorithm() != null) {
-					// 2) if it has a parent algorithm and its modeID returned
-					// is > -1, then use this one:
-					m = ge.getParentAlgorithm().getRelatedModeID();
-				}
-				// 3) otherwise use the modeID of the GeoElement itself:
-				else {
-					m = rowList.get(nRow).getGeo().getRelatedModeID();
-				}
-
-				if (m == -1 || index == prevIndex) {
-					return "";
-				}
-
-				ImageIcon icon = ((AppD) app).getModeIcon(m);
-				Image img1 = icon.getImage();
-
-				BufferedImage img2 = ImageManagerD.toBufferedImage(img1);
-				String base64 = GgbAPID.base64encode(img2, 72);
-
-				return "<img src=\"" + StringUtil.pngMarker + base64 + "\">";
-			}
-			case 3:
-				return rowList.get(nRow).getGeo().getDescriptionHTML(false);
-			case 4:
-				return rowList.get(nRow).getGeo().getDefinitionHTML(false);
-			case 5:
-				return rowList.get(nRow).getGeo()
-						.getAlgebraDescriptionHTMLDefault();
-
-			case 6:
-				return rowList.get(nRow).getGeo().getCaptionDescriptionHTML(
-						false, StringTemplate.defaultTemplate);
-
-			case 7:
-				return rowList.get(nRow).getCPVisible() + "";
-
-			}
-
 			return "";
 		}
 

@@ -20,11 +20,9 @@ import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -40,12 +38,7 @@ public class ConstructionProtocolView {
 	protected boolean useColors, addIcons;
 
 	protected static String getAlgebra(GeoElement geo) {
-		if (geo instanceof GeoText) {
-			return "\"" + geo.toValueString(StringTemplate.defaultTemplate)
-					+ "\"";
-		}
-		return geo.getAlgebraDescriptionTextOrHTMLDefault(
-				new IndexHTMLBuilder(false));
+		return geo.getAlgebraDescriptionHTMLDefault();
 	}
 
 	protected static String getName(GeoElement geo) {
@@ -63,6 +56,10 @@ public class ConstructionProtocolView {
 
 	protected static String getDefinition(GeoElement geo) {
 		return geo.getDefinitionHTML(false);
+	}
+
+	protected static boolean getBreakpoint(GeoElement geo) {
+		return geo.isConsProtocolBreakpoint();
 	}
 
 	protected static String getModeIcon(GeoElement ge) {
@@ -232,7 +229,7 @@ public class ConstructionProtocolView {
 			description = ConstructionProtocolView.getDescription(geo);
 			definition = ConstructionProtocolView.getDefinition(geo);
 			updateCaption();
-			consProtocolVisible = geo.isConsProtocolBreakpoint();
+			consProtocolVisible = ConstructionProtocolView.getBreakpoint(geo);
 
 			// does this line include an index?
 			includesIndex = (name.indexOf("<sub>") >= 0)
@@ -898,14 +895,6 @@ public class ConstructionProtocolView {
 		sb.append(" - ");
 		sb.append(loc.getMenu("ConstructionProtocol"));
 		sb.append("</title>\n");
-		// sb.append("<meta keywords = \"");
-		// sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
-		// sb.append(" export\">");
-
-		// sb.append(
-		// "<style type=\"text/css\"><!--body {
-		// font-family:Arial,Helvetica,sans-serif; margin-left:40px
-		// }--></style>");
 
 		sb.append(
 				"<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">");
@@ -962,8 +951,7 @@ public class ConstructionProtocolView {
 
 		// table headers
 		sb.append("<tr>\n");
-		// TableColumnModel colModel = table.getColumnModel();
-		// int nColumns = colModel.getColumnCount();
+
 		int nColumns = columns.size();
 
 		for (int nCol = 0; nCol < nColumns; nCol++) {
@@ -972,8 +960,6 @@ public class ConstructionProtocolView {
 			// icon_column = table.getColumnName(nCol).equals("ToolbarIcon");
 			icon_column = "ToolbarIcon".equals(columns.get(nCol));
 			if ((icon_column && addIcons) || !icon_column) {
-				// TableColumn tk = colModel.getColumn(nCol);
-				// title = (String) tk.getIdentifier();
 				title = columns.get(nCol).getTranslation(loc);
 				sb.append("<th>");
 				sb.append(StringUtil.toHTMLString(title));
@@ -987,7 +973,6 @@ public class ConstructionProtocolView {
 		Iterator<GeoElement> it = geos.iterator();
 
 		// table rows
-		// int endRow = table.getRowCount();
 		int endRow = geos.size();
 		for (int nRow = 0; nRow < endRow; nRow++) {
 			GeoElement geo = it.next();
@@ -1001,11 +986,6 @@ public class ConstructionProtocolView {
 				// table.getColumnName(nCol).equals("ToolbarIcon");
 				icon_column = "ToolbarIcon".equals(columns.get(nCol));
 				if ((icon_column && addIcons) || !icon_column) {
-					// int col = table.getColumnModel().getColumn(nCol)
-					// .getModelIndex();
-					// String str = StringUtil
-					// .toHTMLString(((ConstructionTableDataD) data)
-					// .getPlainHTMLAt(nRow, col), false);
 
 					String str = "";
 
@@ -1042,7 +1022,7 @@ public class ConstructionProtocolView {
 						break;
 
 					case BREAKPOINT:
-						str = "tick";
+						str = getBreakpoint(geo) + "";
 						break;
 
 					}
