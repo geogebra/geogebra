@@ -11,6 +11,8 @@ import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Construction;
@@ -22,6 +24,7 @@ import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -1109,15 +1112,15 @@ public class ConstructionProtocolView {
 
 		// headers
 		sb.append("<tr>\n");
-		sb.append("<td><b>");
+		sb.append("<th>");
 		appendHTML(sb, loc.getMenu("Row"));
-		sb.append("</b></td>\n");
-		sb.append("<td><b>");
+		sb.append("</th>\n");
+		sb.append("<th>");
 		appendHTML(sb, loc.getMenu("Input"));
-		sb.append("</b></td>\n");
-		sb.append("<td><b>");
+		sb.append("</th>\n");
+		sb.append("<th>");
 		appendHTML(sb, loc.getMenu("Output"));
-		sb.append("</b></td>\n");
+		sb.append("</th>\n");
 		sb.append("</tr>\n");
 
 		for (int i = 0; i < n; i++) {
@@ -1153,7 +1156,117 @@ public class ConstructionProtocolView {
 
 	private static void addSpreadsheet(StringBuilder sb, Localization loc,
 			Kernel kernel2) {
-		// TODO Auto-generated method stub
+		
+		GuiManagerInterface gm = kernel2.getApplication().getGuiManager();
+
+		if (gm == null || !gm.hasSpreadsheetView()) {
+			return;
+		}
+
+		IndexHTMLBuilder ib = new IndexHTMLBuilder(false);
+
+		SpreadsheetViewInterface spreadsheet = gm.getSpreadsheetView();
+		
+		MyTableInterface table = spreadsheet.getSpreadsheetTable();
+		
+		int rows = table.getRowCount();
+		int cols = table.getColumnCount();
+		
+		// work out actual number of used rows/columns
+		int maxCol = -1;
+		int maxRow = -1;
+		for (int col = 0; col < cols; col++) {
+			for (int row = 0; row < rows; row++) {
+
+				if (col > maxCol || row > maxRow) {
+					String label = GeoElementSpreadsheet
+							.getSpreadsheetCellName(col, row);
+
+					GeoElement geo = kernel2.lookupLabel(label);
+
+					if (geo != null) {
+						if (row > maxRow) {
+							maxRow = row;
+						}
+						if (col > maxCol) {
+							maxCol = col;
+						}
+					}
+				}
+
+			}
+		}
+
+		if (maxRow == -1 || maxCol == -1) {
+			return;
+		}
+
+		rows = maxRow + 1;
+		cols = maxCol + 1;
+
+		sb.append("<table border=\"1\">\n");
+		
+		String widthPercent = (100d / (cols + 1)) + "";
+
+		// headers
+		sb.append("<tr>\n");
+		sb.append("<th>&nbsp;");
+		sb.append("</th>");
+
+		for (int col = 0; col < cols; col++) {
+			sb.append("<th>");
+			sb.append(GeoElementSpreadsheet.getSpreadsheetColumnName(col));
+			sb.append("</th>");
+		}
+
+		// end headers
+		sb.append("</tr>\n");
+
+		for (int row = 0 ; row < rows ; row++) {
+			
+			sb.append("<tr>\n");
+
+			sb.append("<td>");
+			sb.append("" + (row + 1));
+			sb.append("</td>\n");
+
+			for (int col = 0 ; col < cols ; col++) {
+				
+				String label = GeoElementSpreadsheet.getSpreadsheetCellName(col,  row);
+
+				String cellText = "&nbsp;";
+
+				GeoElement geo = kernel2.lookupLabel(label);
+
+				if (geo != null) {
+
+					// can be ""
+					cellText = geo.getDefinitionHTML(false);
+
+					if (!"".equals(cellText)) {
+						cellText += " = ";
+					}
+
+					// eg "A1 + A2 = 3"
+					cellText += geo.getAlgebraDescriptionTextOrHTMLRHS(ib);
+				}
+
+				if (row == 0) {
+					sb.append("<td style='width:" + widthPercent + "%'>");
+				} else {
+					sb.append("<td>");
+				}
+				sb.append(cellText);
+				sb.append("</td>\n");
+
+			}
+
+			sb.append("</tr>\n");
+		
+		}
+		
+		
+		sb.append("</table>\n");
 
 	}
 
