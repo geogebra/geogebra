@@ -476,89 +476,106 @@ public class MatrixAtom extends Atom {
 		for (int i = 0; i < row; i++) {
 			HorizontalBox hb = new HorizontalBox();
 			for (int j = 0; j < col; j++) {
-				switch (boxarr[i][j].type) {
-				case -1:
-				case TeXConstants.TYPE_MULTICOLUMN:
-					if (j == 0) {
-						if (vlines.get(0) != null) {
-							VlineAtom vat = vlines.get(0);
-							vat.setHeight(lineHeight[i] + lineDepth[i] + Vsep.getHeight());
-							vat.setShift(lineDepth[i] + Vsep.getHeight() / 2);
-							Box vatBox = vat.createBox(env);
-							hb.add(new HorizontalBox(vatBox, Hsep[0].getWidth() + vatBox.getWidth(),
-									TeXConstants.ALIGN_LEFT));
-						} else {
-							hb.add(Hsep[0]);
+				// null check for
+				// https://github.com/opencollab/jlatexmath/issues/46
+				if (boxarr[i][j] != null) {
+					switch (boxarr[i][j].type) {
+					case -1:
+					case TeXConstants.TYPE_MULTICOLUMN:
+						if (j == 0) {
+							if (vlines.get(0) != null) {
+								VlineAtom vat = vlines.get(0);
+								vat.setHeight(lineHeight[i] + lineDepth[i]
+										+ Vsep.getHeight());
+								vat.setShift(
+										lineDepth[i] + Vsep.getHeight() / 2);
+								Box vatBox = vat.createBox(env);
+								hb.add(new HorizontalBox(vatBox,
+										Hsep[0].getWidth() + vatBox.getWidth(),
+										TeXConstants.ALIGN_LEFT));
+							} else {
+								hb.add(Hsep[0]);
+							}
 						}
-					}
 
-					boolean lastVline = true;
+						boolean lastVline = true;
 
-					if (boxarr[i][j].type == -1) {
-						if (matrix.getColor(i, j) != null) {
-						colors.add(matrix.getColor(i, j));
-						double sepWidth = j == 0 ? 2 * Hsep[j].getWidth()
-								: Hsep[j].getWidth();
-						double thickness = env.getTeXFont()
-								.getDefaultRuleThickness(env.getStyle());
-							rectangles.add(FactoryProvider.getInstance()
-								.getGeomFactory()
-								.createRectangle2D(
-										hb.getWidth()
-													- sepWidth / 2,
-										vb.getHeight() + vb.getDepth()
+						if (boxarr[i][j].type == -1) {
+							if (matrix.getColor(i, j) != null) {
+								colors.add(matrix.getColor(i, j));
+								double sepWidth = j == 0
+										? 2 * Hsep[j].getWidth()
+										: Hsep[j].getWidth();
+								double thickness = env.getTeXFont()
+										.getDefaultRuleThickness(
+												env.getStyle());
+								rectangles.add(FactoryProvider.getInstance()
+										.getGeomFactory().createRectangle2D(
+												hb.getWidth() - sepWidth / 2,
+												vb.getHeight() + vb.getDepth()
 												- Vsep.getHeight()
 												- thickness / 2,
-										rowWidth[j] + sepWidth + thickness,
-										lineHeight[i] + lineDepth[i]
-												+ Vsep.getHeight()));
+												rowWidth[j] + sepWidth
+														+ thickness,
+												lineHeight[i] + lineDepth[i]
+														+ Vsep.getHeight()));
 
-						}
-						hb.add(new HorizontalBox(boxarr[i][j], rowWidth[j], position[j]));
-					} else {
-						Box b = generateMulticolumn(env, Hsep, rowWidth, i, j);
-						MulticolumnAtom matom = (MulticolumnAtom) matrix.get(i,
-								j);
-						j += matom.getSkipped() - 1;
-						hb.add(b);
-						lastVline = matom.hasRightVline();
-					}
-
-					if (lastVline && vlines.get(j + 1) != null) {
-						VlineAtom vat = vlines.get(j + 1);
-						vat.setHeight(lineHeight[i] + lineDepth[i] + Vsep.getHeight());
-						vat.setShift(lineDepth[i] + Vsep.getHeight() / 2);
-						Box vatBox = vat.createBox(env);
-						if (j < col - 1) {
-							hb.add(new HorizontalBox(vatBox, Hsep[j + 1].getWidth() + vatBox.getWidth(),
-									TeXConstants.ALIGN_CENTER));
+							}
+							hb.add(new HorizontalBox(boxarr[i][j], rowWidth[j],
+									position[j]));
 						} else {
-							hb.add(new HorizontalBox(vatBox, Hsep[j + 1].getWidth() + vatBox.getWidth(),
-									TeXConstants.ALIGN_RIGHT));
+							Box b = generateMulticolumn(env, Hsep, rowWidth, i,
+									j);
+							MulticolumnAtom matom = (MulticolumnAtom) matrix
+									.get(i, j);
+							j += matom.getSkipped() - 1;
+							hb.add(b);
+							lastVline = matom.hasRightVline();
 						}
-					} else {
-						hb.add(Hsep[j + 1]);
-					}
-					break;
-				case TeXConstants.TYPE_INTERTEXT:
-					double f = env.getTextwidth();
-					f = f == Double.POSITIVE_INFINITY ? rowWidth[j] : f;
-					hb = new HorizontalBox(boxarr[i][j], f, TeXConstants.ALIGN_LEFT);
-					j = col - 1;
-					break;
-				case TeXConstants.TYPE_HLINE:
-					HlineAtom at = (HlineAtom) matrix.get(i, j);
-					at.setWidth(matW);
-					if (i >= 1 && matrix.get(i - 1, j) instanceof HlineAtom) {
-						hb.add(new StrutBox(0, 2 * drt, 0, 0));
-						at.setShift(-Vsep.getHeight() / 2 + drt);
-					} else {
-						at.setShift(-Vsep.getHeight() / 2);
-					}
 
-					hb.add(at.createBox(env));
-					j = col;
-					break;
+						if (lastVline && vlines.get(j + 1) != null) {
+							VlineAtom vat = vlines.get(j + 1);
+							vat.setHeight(lineHeight[i] + lineDepth[i]
+									+ Vsep.getHeight());
+							vat.setShift(lineDepth[i] + Vsep.getHeight() / 2);
+							Box vatBox = vat.createBox(env);
+							if (j < col - 1) {
+								hb.add(new HorizontalBox(vatBox,
+										Hsep[j + 1].getWidth()
+												+ vatBox.getWidth(),
+										TeXConstants.ALIGN_CENTER));
+							} else {
+								hb.add(new HorizontalBox(vatBox,
+										Hsep[j + 1].getWidth()
+												+ vatBox.getWidth(),
+										TeXConstants.ALIGN_RIGHT));
+							}
+						} else {
+							hb.add(Hsep[j + 1]);
+						}
+						break;
+					case TeXConstants.TYPE_INTERTEXT:
+						double f = env.getTextwidth();
+						f = f == Double.POSITIVE_INFINITY ? rowWidth[j] : f;
+						hb = new HorizontalBox(boxarr[i][j], f,
+								TeXConstants.ALIGN_LEFT);
+						j = col - 1;
+						break;
+					case TeXConstants.TYPE_HLINE:
+						HlineAtom at = (HlineAtom) matrix.get(i, j);
+						at.setWidth(matW);
+						if (i >= 1
+								&& matrix.get(i - 1, j) instanceof HlineAtom) {
+							hb.add(new StrutBox(0, 2 * drt, 0, 0));
+							at.setShift(-Vsep.getHeight() / 2 + drt);
+						} else {
+							at.setShift(-Vsep.getHeight() / 2);
+						}
+
+						hb.add(at.createBox(env));
+						j = col;
+						break;
+					}
 				}
 			}
 
