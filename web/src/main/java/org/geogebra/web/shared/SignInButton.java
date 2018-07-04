@@ -45,8 +45,9 @@ public class SignInButton extends Button implements EventRenderable {
 						public void run() {
 						String cookie = Cookies.getCookie("SSID");
 							if (cookie != null && !cookie.equals(oldCookie)) {
-								app.getLoginOperation()
-										.performCookieLogin(cookie);
+								app.getLoginOperation().getGeoGebraTubeAPI()
+										.performCookieLogin(
+												app.getLoginOperation());
 								this.oldCookie = cookie;
 							}
 						}

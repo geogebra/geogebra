@@ -5,7 +5,6 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
-import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.operations.BaseOperation;
@@ -46,18 +45,8 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 */
 	public final void performTokenLogin() {
 		String token = getModel().getLoginToken();
-		if (token != null) {
-			performTokenLogin(token, true);
-		} else if (!performCookieLogin()) {
-			getGeoGebraTubeAPI().checkAvailable(this);
-		}
-	}
-
-	/**
-	 * @return whether we found the cookie for login
-	 */
-	protected boolean performCookieLogin() {
-		return false;
+		Log.error(token + "TOKEN");
+		getGeoGebraTubeAPI().performTokenLogin(this, token);
 	}
 
 	/**
@@ -92,16 +81,6 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	}
 
 	/**
-	 * Login using a cookie
-	 * 
-	 * @param cookie
-	 *            auth cookie
-	 */
-	public void performCookieLogin(String cookie) {
-		doPerformTokenLogin(new GeoGebraTubeUser(null, cookie), true);
-	}
-
-	/**
 	 * Performs the API call to authorize the token.
 	 * 
 	 * @param user
@@ -110,9 +89,9 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 *            If the login is triggered automatically or by the user. This
 	 *            information will be provided in the Login Event.
 	 */
-	protected void doPerformTokenLogin(final GeoGebraTubeUser user,
+	public void doPerformTokenLogin(final GeoGebraTubeUser user,
 			final boolean automatic) {
-		GeoGebraTubeAPI api = getGeoGebraTubeAPI();
+		BackendAPI api = getGeoGebraTubeAPI();
 
 		Log.debug(
 				"Sending call to GeoGebraTube API to authorize the login token...");
@@ -122,19 +101,6 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 
 		// Send API request to check if the token is valid
 		api.authorizeUser(user, this, automatic);
-
-	}
-
-	protected void performShibbolethLogin(final GeoGebraTubeUser user, final boolean automatic) {
-		GeoGebraTubeAPI api = getGeoGebraTubeAPI();
-
-		Log.debug("Sending call to GeoGebraTube API to authorize the login token...");
-
-		// Trigger an event to signal the login attempt
-		onEvent(new LoginAttemptEvent(user));
-
-		// Send API request to check if the token is valid
-		api.authorizeShibboleth(user, this, automatic);
 
 	}
 
@@ -148,7 +114,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	/**
 	 * @return An instance of the GeoGebraTubeAPI
 	 */
-	public abstract GeoGebraTubeAPI getGeoGebraTubeAPI();
+	public abstract BackendAPI getGeoGebraTubeAPI();
 
 	/**
 	 * @param languageCode

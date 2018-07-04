@@ -3,6 +3,7 @@ package org.geogebra.common.move.ggtapi.models;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.models.BaseModel;
 
 /**
@@ -135,7 +136,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	 * @param api
 	 *            tube API
 	 */
-	public void startOffline(GeoGebraTubeAPI api) {
+	public void startOffline(BackendAPI api) {
 		if (this.loadLastUser() != null) {
 			GeoGebraTubeUser offline = new GeoGebraTubeUser(null);
 			if (api.parseUserDataFromResponse(offline, this.loadLastUser())) {

@@ -2,8 +2,8 @@ package org.geogebra.web.shared.ggtapi;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
-import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.MarvlAPI;
+import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.BaseEventView;
 import org.geogebra.common.util.StringUtil;
@@ -12,8 +12,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
-
-import com.google.gwt.user.client.Cookies;
 
 /**
  * The web version of the login operation. uses an own AuthenticationModel and
@@ -24,7 +22,7 @@ import com.google.gwt.user.client.Cookies;
 public class LoginOperationW extends LogInOperation {
 
 	private AppW app;
-	private GeoGebraTubeAPIW api;
+	private BackendAPI api;
 
 	/**
 	 * Initializes the SignInOperation for Web by creating the corresponding
@@ -40,16 +38,6 @@ public class LoginOperationW extends LogInOperation {
 		setModel(new AuthenticationModelW(appWeb));
 
 		iniNativeEvents();
-	}
-
-	@Override
-	protected boolean performCookieLogin() {
-		String cookie = Cookies.getCookie("SSID");
-		if (cookie != null) {
-			app.getLoginOperation().performCookieLogin(cookie);
-			return true;
-		}
-		return false;
 	}
 
 	private native void iniNativeEvents() /*-{
@@ -77,10 +65,15 @@ public class LoginOperationW extends LogInOperation {
 	}-*/;
 
 	@Override
-	public GeoGebraTubeAPI getGeoGebraTubeAPI() {
+	public BackendAPI getGeoGebraTubeAPI() {
 		if (this.api == null) {
-			this.api = new GeoGebraTubeAPIW(app.getClientInfo(),
-					app.has(Feature.TUBE_BETA), app.getArticleElement());
+			if (!StringUtil.empty(app.getArticleElement().getParamLoginURL())) {
+				this.api = new MarvlAPI(getLoginURL("").substring(0,
+						getLoginURL("").indexOf("/", 10)) + "/api");
+			} else {
+				this.api = new GeoGebraTubeAPIW(app.getClientInfo(),
+						app.has(Feature.TUBE_BETA), app.getArticleElement());
+			}
 		} else {
 			api.setClient(app.getClientInfo());
 		}
@@ -117,6 +110,6 @@ public class LoginOperationW extends LogInOperation {
 
 	private void processCookie() {
 		Log.debug("COOKIE LOGIN");
-		performShibbolethLogin(new GeoGebraTubeUser(""), false);
+		getGeoGebraTubeAPI().performCookieLogin(this);
 	}
 }

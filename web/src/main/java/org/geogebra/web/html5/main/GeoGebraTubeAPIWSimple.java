@@ -38,7 +38,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	}
 
 	@Override
-	protected boolean parseUserDataFromResponse(GeoGebraTubeUser user,
+	public boolean parseUserDataFromResponse(GeoGebraTubeUser user,
 	        String response) {
 		return false;
 	}
