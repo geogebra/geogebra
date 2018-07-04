@@ -30,21 +30,6 @@ public class ExamEnvironment {
 		SCREEN_ON, SCREEN_OFF
 	}
 
-	/**
-	 * enumeration for exam modes (calculator type)
-	 */
-	public enum CalculatorType {
-		/** scientific calculator */
-		SCIENTIFIC,
-		/** 2D graphing, no CAS */
-		GRAPHING,
-		/** 2D graphing, CAS */
-		SYMBOLIC,
-        /** 2D and 3D graphing, no CAS */
-        GRAPHING_3D,
-		/** 2D and 3D graphing, CAS */
-        SYMBOLIC_3D
-	}
 
 	protected LinkedList<CheatingEvent> cheatingEvents = null;
 	private long closed = -1;
@@ -53,9 +38,6 @@ public class ExamEnvironment {
 
 	private boolean hasGraph = false;
 
-	private CalculatorType calculatorType;
-	private boolean wasCasEnabled;
-	private boolean wasCommands3DEnabled;
 	private boolean wasTaskLocked;
 	private TimeFormatAdapter timeFormatter;
 
@@ -542,155 +524,28 @@ public class ExamEnvironment {
 
 	}
 
-	/**
-	 * set calculator type and setup application regarding the type
-	 *
-	 * @param type
-	 *            calculator type
-	 */
-	public void setCalculatorType(CalculatorType type) {
-		calculatorType = type;
-	}
-
-	/**
-	 * set calculator type and setup application, regarding the current version
-	 *
-	 */
-	public void setExamCalculatorTypeDefault() {
-		ExamEnvironment.CalculatorType type;
-		switch (app.getVersion()) {
-			case ANDROID_NATIVE_GRAPHING:
-				type = ExamEnvironment.CalculatorType.GRAPHING;
-				break;
-			case ANDROID_NATIVE_3D:
-				type = ExamEnvironment.CalculatorType.SYMBOLIC_3D;
-				break;
-			case ANDROID_NATIVE_SCIENTIFIC:
-				type = ExamEnvironment.CalculatorType.SCIENTIFIC;
-				break;
-
-			default:
-				type = ExamEnvironment.CalculatorType.GRAPHING;
-				break;
-		}
-		setCalculatorType(type);
-	}
-
-	/**
-	 * apply calculator type (CAS on/off, etc.)
-	 */
-	protected void applyCalculatorType() {
-		// setup CAS/3D on/off
-		wasCasEnabled = app.getSettings().getCasSettings().isEnabled();
-		wasCommands3DEnabled = app.areCommands3DEnabled();
-		switch (calculatorType) {
-			case SCIENTIFIC:
-				break;
-			case GRAPHING:
-				app.enableCAS3D(false, false);
-				break;
-			case SYMBOLIC:
-				app.enableCAS3D(true, false);
-				break;
-			case GRAPHING_3D:
-				app.enableCAS3D(false, true);
-				break;
-			case SYMBOLIC_3D:
-				app.enableCAS3D(true, true);
-				break;
-			default:
-				break;
-		}
-	}
 
 	/**
 	 * close exam mode and reset CAS etc.
 	 *
 	 */
 	public void closeExam() {
-		app.enableCAS3D(wasCasEnabled, wasCommands3DEnabled);
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
 		app.fileNew();
 	}
 
 	/**
-	 * @return name for current calculator type
+	 * @return calculator name for status bar
 	 */
-	public String getCalculatorTypeName() {
-		return getShortCalcTypeName(calculatorType);
+	public String getCalculatorNameForStatusBar() {
+		return app.getLocalization().getMenu(app.getConfig().getAppNameShort());
 	}
 
 	/**
-	 * @return current calculator type name for exam log header
+	 * @return calculator name for exam log header
 	 */
-	public String getCalculatorTypeNameForHeader() {
-		if (app.has(Feature.MOB_EXAM_MODE_EXIT_DIALOG_NEW)) {
-			return "GeoGebra " + getCalculatorTypeName(calculatorType);
-		}
-		return getCalculatorTypeName();
-	}
-
-	/**
-	 * @param type
-	 *            calculator type
-	 * @return name for a calculator type
-	 */
-	public String getCalculatorTypeName(CalculatorType type) {
-		switch (type) {
-			case SCIENTIFIC:
-				return app.getLocalization().getMenu("exam_calctype_scientific");
-			case GRAPHING:
-				return app.getLocalization().getMenu("exam_calctype_graphing");
-			case SYMBOLIC:
-				return app.getLocalization().getMenu("exam_calctype_sym_graphing");
-			case GRAPHING_3D:
-				return app.getLocalization().getMenu("exam_calctype_3D_graphing");
-			case SYMBOLIC_3D:
-				return app.getLocalization().getMenu("exam_calctype_3D_sym_graphing");
-			default:
-				return "";
-		}
-	}
-
-	/**
-	 * @param type The CalculatorType for which we want the short name
-	 * @return The short name of the CalculatorType parameter in human readable string format
-	 */
-	private String getShortCalcTypeName(CalculatorType type) {
-		switch (type) {
-			case SCIENTIFIC:
-				return app.getLocalization().getMenu("exam_calctype_scientific_short");
-			case GRAPHING:
-				return app.getLocalization().getMenu("exam_calctype_graphing_short");
-			case SYMBOLIC:
-				return app.getLocalization().getMenu("exam_calctype_sym_graphing_short");
-			case GRAPHING_3D:
-				return app.getLocalization().getMenu("exam_calctype_3D_graphing_short");
-			case SYMBOLIC_3D:
-				return app.getLocalization().getMenu("exam_calctype_3D_sym_graphing_short");
-			default:
-				return "";
-		}
-	}
-
-	/**
-	 * @param type
-	 *            calculator type
-	 * @return hint for a calculator type
-	 */
-	public String getCalculatorTypeHint(CalculatorType type) {
-		switch (type) {
-			case GRAPHING:
-				return app.getLocalization().getMenu("exam_calctype_graphing_desc");
-			case SYMBOLIC:
-				return app.getLocalization().getMenu("exam_calctype_sym_graphing_desc");
-			case GRAPHING_3D:
-				return app.getLocalization().getMenu("exam_calctype_3D_graphing_desc");
-			case SYMBOLIC_3D:
-				return app.getLocalization().getMenu("exam_calctype_3D_sym_graphing_desc");
-			default:
-				return "";
-		}
+	public String getCalculatorNameForHeader() {
+		return app.getLocalization().getMenu(app.getConfig().getAppName());
 	}
 
 	/**

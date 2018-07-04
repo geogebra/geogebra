@@ -24,6 +24,16 @@ public class AppConfigDefault implements AppConfig {
 		return "math_apps";
 	}
 
+	@Override
+	public String getAppName() {
+		return getAppTitle();
+	}
+
+	@Override
+	public String getAppNameShort() {
+		return getAppTitle();
+	}
+
 	/**
 	 * @param appName
 	 *            app name

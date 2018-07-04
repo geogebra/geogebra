@@ -12,6 +12,10 @@ public interface AppConfig {
 
 	public String getAppTitle();
 
+	public String getAppName();
+
+	public String getAppNameShort();
+
 	public String getTutorialKey();
 
 	public boolean showKeyboardHelpButton();

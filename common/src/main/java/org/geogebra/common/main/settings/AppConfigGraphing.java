@@ -36,6 +36,16 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
+	public String getAppName() {
+		return "GeoGebraGraphingCalculator";
+	}
+
+	@Override
+	public String getAppNameShort() {
+		return "GraphingCalculator.short";
+	}
+
+	@Override
 	public String getTutorialKey() {
 		return "TutorialGraphing";
 	}

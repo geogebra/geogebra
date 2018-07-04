@@ -42,6 +42,16 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
+	public String getAppName() {
+		return "GeoGebraGeometry";
+	}
+
+	@Override
+	public String getAppNameShort() {
+		return "Geometry";
+	}
+
+	@Override
 	public String getTutorialKey() {
 		return "TutorialGeometry";
 	}

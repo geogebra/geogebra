@@ -5380,15 +5380,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 *
-	 * @return available calculator types for exam mode
-	 */
-	public ExamEnvironment.CalculatorType[] getAvailableExamCalculatorTypes() {
-		return new ExamEnvironment.CalculatorType[] { ExamEnvironment.CalculatorType.GRAPHING,
-				ExamEnvironment.CalculatorType.SYMBOLIC };
-	}
-
-	/**
 	 * @param imgFileName
 	 *            file name
 	 * @param imgBase64
