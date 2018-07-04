@@ -363,12 +363,14 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 *            move down
 	 */
 	public void moveZoomPanelUpOrDown(boolean up) {
-		if (up) {
-			zoomPanel.removeStyleName("hideMowSubmenu");
-			zoomPanel.addStyleName("showMowSubmenu");
-		} else {
-			zoomPanel.removeStyleName("showMowSubmenu");
-			zoomPanel.addStyleName("hideMowSubmenu");
+		if (zoomPanel != null) {
+			if (up) {
+				zoomPanel.removeStyleName("hideMowSubmenu");
+				zoomPanel.addStyleName("showMowSubmenu");
+			} else {
+				zoomPanel.removeStyleName("showMowSubmenu");
+				zoomPanel.addStyleName("hideMowSubmenu");
+			}
 		}
 	}
 

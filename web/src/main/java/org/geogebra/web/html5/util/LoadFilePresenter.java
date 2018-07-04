@@ -151,11 +151,13 @@ public class LoadFilePresenter {
 		// code moved here from AppWapplication.afterCoreObjectsInited - start
 		String perspective = ae.getDataParamPerspective();
 		if (app.isUnbundledGraphing()) {
-			perspective = "1";
+			perspective = Perspective.GRAPHING + "";
 		} else if (app.isUnbundledGeometry()) {
-			perspective = "2";
+			perspective = Perspective.GEOMETRY + "";
 		} else if (app.isUnbundled3D()) {
 			perspective = Perspective.GRAPHER_3D + "";
+		} else if (app.isWhiteboardActive()) {
+			perspective = Perspective.WHITEBOARD + "";
 		}
 		if (perspective.length() == 0) {
 			perspective = Location.getParameter("GeoGebraPerspective");
