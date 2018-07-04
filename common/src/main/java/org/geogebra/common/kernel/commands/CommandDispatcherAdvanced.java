@@ -14,11 +14,11 @@ import org.geogebra.common.kernel.advanced.CmdAsymptote;
 import org.geogebra.common.kernel.advanced.CmdAttachCopyToView;
 import org.geogebra.common.kernel.advanced.CmdAxes;
 import org.geogebra.common.kernel.advanced.CmdAxis;
+import org.geogebra.common.kernel.advanced.CmdAxisLength;
 import org.geogebra.common.kernel.advanced.CmdAxisStepX;
 import org.geogebra.common.kernel.advanced.CmdCentroid;
 import org.geogebra.common.kernel.advanced.CmdClosestPoint;
 import org.geogebra.common.kernel.advanced.CmdCommonDenominator;
-import org.geogebra.common.kernel.advanced.CmdCompleteSquare;
 import org.geogebra.common.kernel.advanced.CmdComplexRoot;
 import org.geogebra.common.kernel.advanced.CmdConstructionStep;
 import org.geogebra.common.kernel.advanced.CmdContinuedFraction;
@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.advanced.CmdFinancialNper;
 import org.geogebra.common.kernel.advanced.CmdFinancialPV;
 import org.geogebra.common.kernel.advanced.CmdFinancialPmt;
 import org.geogebra.common.kernel.advanced.CmdFinancialRate;
-import org.geogebra.common.kernel.advanced.CmdAxisLength;
 import org.geogebra.common.kernel.advanced.CmdFlatten;
 import org.geogebra.common.kernel.advanced.CmdFromBase;
 import org.geogebra.common.kernel.advanced.CmdIdentity;
@@ -166,8 +165,6 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdIsInRegion(kernel);
 		case PrimeFactors:
 			return new CmdPrimeFactors(kernel);
-		case CompleteSquare:
-			return new CmdCompleteSquare(kernel);
 		case Union:
 			return new CmdUnion(kernel);
 		case ScientificText:

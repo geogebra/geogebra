@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LocusEquation;
+import org.geogebra.common.kernel.advanced.CmdCompleteSquare;
 import org.geogebra.common.kernel.cas.CmdCASCommand1Arg;
 import org.geogebra.common.kernel.cas.CmdCoefficients;
 import org.geogebra.common.kernel.cas.CmdDegree;
@@ -95,6 +96,8 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 			return new CmdNextPreviousPrime(kernel, true);
 		case PreviousPrime:
 			return new CmdNextPreviousPrime(kernel, false);
+		case CompleteSquare:
+			return new CmdCompleteSquare(kernel);
 		case NSolve:
 		case Solve:
 		case NSolutions:

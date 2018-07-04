@@ -386,7 +386,6 @@ public abstract class CommandDispatcher {
 			case ClosestPoint:
 			case IsInRegion:
 			case PrimeFactors:
-			case CompleteSquare:
 			case Union:
 			case ScientificText:
 			case VerticalText:
@@ -815,6 +814,7 @@ public abstract class CommandDispatcher {
 			case ImplicitDerivative:
 			case NextPrime:
 			case PreviousPrime:
+			case CompleteSquare:
 				return getCASDispatcher().dispatch(command, kernel);
 			default:
 				Log.error("missing case in CommandDispatcher " + cmdName);

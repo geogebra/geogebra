@@ -1577,7 +1577,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public MyError illegalCondition(ExpressionValue condition) {
 		return new MyError(getKernel().getLocalization(),
-				new String[] { "IllegalCondition", condition.toString(errorTemplate) });
+				new String[] { "InvalidInput" });
 	}
 
 }
