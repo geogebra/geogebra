@@ -201,10 +201,14 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 					sb.append(c);
 				} else {
 					switch (code) {
-					case 60:
+					// Firefox is fussy about this one
+					case '/':
+					sb.append("&#x2F;");
+						break;
+					case '<':
 						sb.append("&lt;");
 						break; // <
-					case 62:
+					case '>':
 						sb.append("&gt;");
 						break; // >
 
@@ -217,12 +221,12 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			// special characters
 			else {
 				switch (code) {
-				case 10:
-				case 13: // replace LF or CR with <br/>
+				case '\n':
+				case '\r': // replace LF or CR with <br/>
 					sb.append("<br/>\n");
 					break;
 
-				case 9: // replace TAB with space
+				case '\t': // replace TAB with space
 					sb.append("&nbsp;"); // space
 					break;
 
