@@ -1872,6 +1872,7 @@ __GGB__keysVar["is"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra graf\xedskur vasareiknir",
     "GeoGebraMaterials": "GeoGebra N\xe1msefni",
     "GeoGebraProperties": "GeoGebrueiginleikar",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "GeoGebra \xed \xfatflutning sem vigurmynd",
     "GeometricObjects": "R\xfamfr\xe6\xf0ihlutir",
     "Geometry": "R\xfamfr\xe6\xf0i",

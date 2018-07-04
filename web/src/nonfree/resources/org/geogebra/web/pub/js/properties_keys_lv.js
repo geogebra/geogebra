@@ -1872,6 +1872,7 @@ __GGB__keysVar["lv"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "GeoGebra \u012apa\u0161\u012bbas",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "GeoGebra Asimpto\u0161u eksports",
     "GeometricObjects": "\u0122eometriski objekti",
     "Geometry": "\u0122eometrija",

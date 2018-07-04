@@ -1872,6 +1872,7 @@ __GGB__keysVar["hu"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra grafikus sz\xe1mol\xf3g\xe9p",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "GeoGebra tulajdons\xe1gok",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "Export\xe1l\xe1s Asymptote k\xf3dba",
     "GeometricObjects": "M\xe9rtani alakzatok",
     "Geometry": "Geometria",

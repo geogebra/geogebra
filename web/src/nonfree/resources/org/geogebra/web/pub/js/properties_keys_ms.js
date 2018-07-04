@@ -1872,6 +1872,7 @@ __GGB__keysVar["ms"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "SIfat-sifat GeoGebra",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "Eksport GeoGebra ke Asimptot",
     "GeometricObjects": "Objek-objek Geometrik",
     "Geometry": "Geometri",

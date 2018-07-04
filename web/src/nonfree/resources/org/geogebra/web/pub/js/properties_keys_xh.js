@@ -1872,6 +1872,7 @@ __GGB__keysVar["xh"].menu = {
     "GeoGebraGraphingCalculator": "Isixhobo sokubala sokwenza igrafu",
     "GeoGebraMaterials": "Izixhobo zikaJiyo",
     "GeoGebraProperties": "IiMpawu zeJiyoJebra",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "uJiyoJebra ukuya kwi Expoti yoMgcaOsondelaKwiGophe",
     "GeometricObjects": "Izakhiwo zeJiyometri",
     "Geometry": "IzifundoZeGeometry",

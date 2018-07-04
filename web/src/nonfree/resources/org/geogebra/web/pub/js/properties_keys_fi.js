@@ -1872,6 +1872,7 @@ __GGB__keysVar["fi"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra graafinen laskin",
     "GeoGebraMaterials": "GeoGebra Materiaalit",
     "GeoGebraProperties": "GeoGebran ominaisuudet",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "Vie: GeoGebrasta Asymptote-muotoon",
     "GeometricObjects": "Geometriset objektit",
     "Geometry": "Geometria",

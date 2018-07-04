@@ -1872,6 +1872,7 @@ __GGB__keysVar["bg"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra \u0433\u0440\u0430\u0444\u0438\u0447\u0435\u043d \u043a\u0430\u043b\u043a\u0443\u043b\u0430\u0442\u043e\u0440",
     "GeoGebraMaterials": "GeoGebra \u041c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0438",
     "GeoGebraProperties": "GeoGebra \u0441\u0432\u043e\u0439\u0441\u0442\u0432\u0430",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "\u0415\u043a\u0441\u043f\u043e\u0440\u0442\u0438\u0440\u0430\u043d\u0435 \u043d\u0430 GeoGebra \u043a\u0430\u0442\u043e \u0430\u0441\u0438\u043c\u043f\u0442\u043e\u0442\u0430",
     "GeometricObjects": "\u0413\u0435\u043e\u043c\u0435\u0442\u0440\u0438\u0447\u043d\u0438 \u043e\u0431\u0435\u043a\u0442\u0438",
     "Geometry": "\u0413\u0435\u043e\u043c\u0435\u0442\u0440\u0438\u044f",

@@ -1872,6 +1872,7 @@ __GGB__keysVar["vi"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "C\xe1c thu\u1ed9c t\xednh c\u1ee7a GeoGebra",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "Xu\u1ea5t b\u1ea3n v\u1edbi \u0111\u01b0\u1eddng ti\u1ec7m c\u1eadn",
     "GeometricObjects": "C\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng d\u1ea1ng h\xecnh h\u1ecdc",
     "Geometry": "H\xecnh h\u1ecdc",

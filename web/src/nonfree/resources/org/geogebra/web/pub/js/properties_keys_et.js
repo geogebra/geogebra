@@ -1872,6 +1872,7 @@ __GGB__keysVar["et"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "GeoGebra omadused",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "GeoGebra eksportimine Asymptote",
     "GeometricObjects": "Geomeetrilised objektid",
     "Geometry": "Geomeetria",

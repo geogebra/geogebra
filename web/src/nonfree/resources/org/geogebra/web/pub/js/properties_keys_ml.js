@@ -1872,6 +1872,7 @@ __GGB__keysVar["ml"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "GeoGebra Properties",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "GeoGebra to Asymptote Export",
     "GeometricObjects": "Geometric objects",
     "Geometry": "\u0d1c\u0d4d\u0d2f\u0d3e\u0d2e\u0d3f\u0d24\u0d3f",

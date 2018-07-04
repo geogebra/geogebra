@@ -1872,6 +1872,7 @@ __GGB__keysVar["sq"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "Veti te GeoGebra",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "GjeoGjebra ne  Eksport Asimptotik",
     "GeometricObjects": "Objekte Gjeometrike",
     "Geometry": "Gjeometri",

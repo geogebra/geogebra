@@ -1872,6 +1872,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "GeoGebraGraphingCalculator": "GeoGebra \u56fe\u5f62\u8ba1\u7b97\u5668",
     "GeoGebraMaterials": "GeoGebra \u7d20\u6750",
     "GeoGebraProperties": "GeoGebra \u5c5e\u6027",
+    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "\u5bfc\u51fa Asymptote \u4ee3\u7801",
     "GeometricObjects": "\u51e0\u4f55\u5bf9\u8c61",
     "Geometry": "\u51e0\u4f55",
