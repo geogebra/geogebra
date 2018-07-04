@@ -27,7 +27,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -53,7 +52,7 @@ public class OpenFileView extends MyHeaderPanel
 	// content panel
 	private FlowPanel contentPanel;
 	// button panel
-	private HorizontalPanel buttonPanel;
+	private FlowPanel buttonPanel;
 	private StandardButton newFileBtn;
 	private FileOpenButton openFileBtn;
 
@@ -64,6 +63,7 @@ public class OpenFileView extends MyHeaderPanel
 	private FlowPanel materialPanel;
 	private MaterialCallbackI ggtMaterialsCB;
 	private MaterialCallbackI userMaterialsCB;
+	private FlowPanel imagePanel;
 
 	private boolean materialListEmpty = true;
 
@@ -97,7 +97,7 @@ public class OpenFileView extends MyHeaderPanel
 		if (materialListEmpty) {
 			showEmptyListNotification();
 			setExtendedButtonStyle();
-			contentPanel.add(buttonPanel);
+			imagePanel.add(buttonPanel);
 		} else {
 			contentPanel.add(buttonPanel);
 			contentPanel.add(sortDropDown);
@@ -138,7 +138,7 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void initButtonPanel() {
-		buttonPanel = new HorizontalPanel();
+		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("fileViewButtonPanel");
 
 		newFileBtn = new StandardButton(
@@ -234,7 +234,7 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void showEmptyListNotification() {
-		FlowPanel imagePanel = new FlowPanel();
+		imagePanel = new FlowPanel();
 		imagePanel.setStyleName("emptyMaterialListInfo");
 		Image image = new NoDragImage(
 				MaterialDesignResources.INSTANCE.mow_lightbulb(), 112, 112);
@@ -258,6 +258,7 @@ public class OpenFileView extends MyHeaderPanel
 		openFileBtn.setStyleName("extendedFAB");
 		openFileBtn.addStyleName("FABwhite");
 		buttonPanel.addStyleName("center");
+		contentPanel.addStyleName("empty");
 	}
 
 	@Override
