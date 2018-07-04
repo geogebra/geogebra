@@ -450,7 +450,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					sharingKey = app.getActiveMaterial().getSharingKey();
 				}
 				if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)) {
-					shareDialog = new ShareDialog(app);
+					shareDialog = new ShareDialog(app,
+							app.getCurrentURL(sharingKey));
 					shareDialog.setVisible(true);
 					shareDialog.center();
 				} else {

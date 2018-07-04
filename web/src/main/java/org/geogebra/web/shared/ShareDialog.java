@@ -1,6 +1,5 @@
 package org.geogebra.web.shared;
 
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -28,13 +27,16 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 	private StandardButton printBtn;
 	private StandardButton exportImgBtn;
 
+	private String shareURL;
+
 	/**
 	 * @param app
 	 *            application
 	 */
-	public ShareDialog(AppW app) {
+	public ShareDialog(AppW app, String shareURL) {
 		super(app.getPanel(), app);
 		this.app = app;
+		this.shareURL = shareURL;
 		initGui();
 	}
 
@@ -48,7 +50,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		linkLabel.setStyleName("linkLabel");
 		linkBox = new TextBox();
 		linkBox.setReadOnly(true);
-		linkBox.setText("https://www.geogebra.org/m/123456");
+		linkBox.setText(this.shareURL);
 		linkBox.setStyleName("linkBox");
 		copyBtn = new StandardButton(localize("Copy"),
 				app);
@@ -61,11 +63,11 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
 		printBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.print_white(),
+				SharedResources.INSTANCE.print_white(),
 				localize("Print"), 24, app);
 		printBtn.setStyleName("roundButton");
 		exportImgBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.file_download_white(),
+				SharedResources.INSTANCE.file_download_white(),
 				localize("exportImage"), 24, app);
 		exportImgBtn.setStyleName("roundButton");
 		buttonPanel.add(printBtn);

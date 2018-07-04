@@ -52,4 +52,10 @@ public interface SharedResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-copy.png")
 	ImageResource edit_copy();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_white_24px.svg")
+	SVGResource file_download_white();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_print_white_24px.svg")
+	SVGResource print_white();
 }
