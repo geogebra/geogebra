@@ -380,7 +380,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 							.toolbar_close_portrait_white());
 			if (!app.has(Feature.MAT_DESIGN_HEADER)) {
 				setResource(imgMenu,
-					MaterialDesignResources.INSTANCE.menu_black_border());
+						MaterialDesignResources.INSTANCE.toolbar_menu_black());
 			}
 		} else {
 			setResource(imgOpen,
@@ -396,7 +396,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		}
 		if (app.has(Feature.MAT_DESIGN_HEADER)) {
 			setResource(imgMenu,
-					MaterialDesignResources.INSTANCE.menu_black_border());
+					MaterialDesignResources.INSTANCE.toolbar_menu_black());
 		}
 
 		imgOpen.setAltText(app.getLocalization().getMenu("Open"));

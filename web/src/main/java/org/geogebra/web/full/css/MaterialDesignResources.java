@@ -237,9 +237,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource pause_purple();
 
 	// ev icons
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/menu.svg")
-	SVGResource menu_black_border();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
 	SVGResource gear();
 
@@ -303,7 +300,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_menu_white_24px.svg")
 	SVGResource toolbar_menu_white();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/menu.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/baseline-menu-24px.svg")
 	SVGResource toolbar_menu_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/av_tab_graphing_white.svg")
