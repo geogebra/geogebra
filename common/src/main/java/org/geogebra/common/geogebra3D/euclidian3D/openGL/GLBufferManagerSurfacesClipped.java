@@ -26,17 +26,33 @@ public class GLBufferManagerSurfacesClipped
 
 	@Override
 	protected int calculateIndicesLength(int size, TypeElement type) {
-		// TypeElement == SURFACE
-		return size;
+		switch (type) {
+		case SURFACE:
+			return size;
+		case TRIANGLES:
+			return 3 * size;
+		default:
+			return size;
+		}
 	}
 
 	@Override
 	protected void putIndices(int size, TypeElement type,
 			boolean reuseSegment) {
-		// TypeElement == SURFACE
-		ReusableArrayList<Short> indices = manager.getIndices();
-		for (int i = 0; i < indices.getLength(); i++) {
-			putToIndices(indices.get(i));
+		switch (type) {
+		case SURFACE:
+			ReusableArrayList<Short> indices = manager.getIndices();
+			for (int i = 0; i < indices.getLength(); i++) {
+				putToIndices(indices.get(i));
+			}
+			break;
+		case TRIANGLES:
+			for (int i = 0; i < 3 * size; i++) {
+				putToIndices(i);
+			}
+			break;
+		default:
+			break;
 		}
 	}
 

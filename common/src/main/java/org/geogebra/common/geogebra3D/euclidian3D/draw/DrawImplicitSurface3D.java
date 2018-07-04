@@ -4,12 +4,14 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D.SurfaceMover;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D.Triangle;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.MyMath;
 
@@ -78,7 +80,7 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 
 		Manager m = getView3D().getRenderer().getGeometryManager();
 		PlotterSurface s = m.getSurface();
-
+		setPackSurface(true);
 		s.start(getReusableSurfaceIndex());
 
 		s.startTriangles();
@@ -86,9 +88,14 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 			Triangle tri = surfaceMover.next();
 			s.triangle(tri.v1, tri.v2, tri.v3, tri.n1, tri.n2, tri.n3);
 		}
-		s.endGeometry();
+		if (shouldBePacked()) {
+			m.endGeometry(surfaceMover.getTrianglesCount(),
+					TypeElement.TRIANGLES);
+		} else {
+			m.endGeometry();
+		}
 		setSurfaceIndex(s.end());
-
+		endPacking();
 		return true;
 	}
 
@@ -99,16 +106,6 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 			setWaitForUpdate();
 		}
 	}
-
-	// @Override
-	// public void addToDrawable3DLists(Drawable3DLists lists) {
-	// super.addToDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
-	// }
-	//
-	// @Override
-	// public void removeFromDrawable3DLists(Drawable3DLists lists) {
-	// super.removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
-	// }
 
 	@Override
 	public int getPickOrder() {
@@ -152,8 +149,44 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 	}
 
 	@Override
-	public boolean shouldBePacked() {
-		return false;
+	protected void updateForViewVisible() {
+		updateGeometriesVisibility();
+		updateForView();
+	}
+
+	@Override
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
+		super.setWaitForUpdateVisualStyle(prop);
+		if (prop == GProperty.LINE_STYLE) {
+			// also update for line width (e.g when translated)
+			setWaitForUpdate();
+		} else {
+			if (shouldBePacked()) {
+				if (prop == GProperty.COLOR) {
+					setWaitForUpdateColor();
+				} else if (prop == GProperty.HIGHLIGHT) {
+					setWaitForUpdateColor();
+				} else if (prop == GProperty.VISIBLE) {
+					setWaitForUpdateVisibility();
+				}
+			} else {
+				if (prop == GProperty.VISIBLE) {
+					if (isVisible()) {
+						setWaitForUpdate();
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void addToDrawable3DLists(Drawable3DLists lists) {
+		addToDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
+	}
+
+	@Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists) {
+		removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
 	}
 
 }

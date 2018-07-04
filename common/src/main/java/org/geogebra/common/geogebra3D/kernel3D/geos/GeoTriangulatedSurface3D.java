@@ -204,6 +204,14 @@ public class GeoTriangulatedSurface3D {
 			c.set(p.x, p.y, p.z);
 		}
 
+		/**
+		 * 
+		 * @return triangles count
+		 */
+		public int getTrianglesCount() {
+			return size / 3;
+		}
+
 	}
 
 	/**
