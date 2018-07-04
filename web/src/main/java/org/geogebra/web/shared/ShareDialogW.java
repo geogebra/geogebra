@@ -50,6 +50,12 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	 * 
 	 * @param app
 	 *            application
+	 * @param anchor
+	 *            relative element
+	 * @param geogebraButton
+	 *            button for GGB sharing
+	 * @param shareURL
+	 *            shared URL
 	 */
 	public ShareDialogW(final AppW app, Widget anchor, Widget geogebraButton,
 			String shareURL) {
