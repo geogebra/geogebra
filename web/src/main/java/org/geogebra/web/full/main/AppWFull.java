@@ -1099,7 +1099,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (!has(Feature.MOW_MULTI_PAGE)) {
 			return;
 		}
-		frame.getPageControlPanel().close();
+
+		getEuclidianController().setPopupJustClosed(frame.getPageControlPanel().close());
 	}
 
 	/**

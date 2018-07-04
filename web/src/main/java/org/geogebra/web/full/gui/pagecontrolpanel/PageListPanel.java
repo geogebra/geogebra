@@ -170,10 +170,12 @@ public class PageListPanel
 
 	/**
 	 * closes the page control panel
+	 * 
+	 * @return true if successful.
 	 */
-	public void close() {
+	public boolean close() {
 		if (!isVisible()) {
-			return;
+			return false;
 		}
 		showPlusButton(false);
 		addStyleName("animateOut");
@@ -184,6 +186,7 @@ public class PageListPanel
 				onClose();
 			}
 		}, getElement(), "animateOut");
+		return true;
 	}
 
 	/**

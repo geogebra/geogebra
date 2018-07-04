@@ -408,6 +408,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean snapMoveView = true;
 	private GeoFrame lastVideo = null;
 	private boolean videoMoved;
+	private boolean popupJustClosed = false;
 
 	/**
 	 * state for selection tool over press/release
@@ -9220,7 +9221,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		Hits hits;
 
-		if (penMode(mode)) {
+		if (penMode(mode) && !popupJustClosed) {
 			setViewHits(event.getType());
 			hits = view.getHits();
 			hits.removeAllButImages();
@@ -12241,5 +12242,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			default:
 				// do nothing
 		}
+	}
+
+	/**
+	 * 
+	 * @return if a popup or a floating menu just closed.
+	 */
+	public boolean isPopupJustClosed() {
+		return popupJustClosed;
+	}
+
+	/**
+	 * Set this to indicate if a popup or menu is just closed.
+	 * 
+	 * @param value
+	 *            to set.
+	 */
+	public void setPopupJustClosed(boolean value) {
+		this.popupJustClosed = value;
 	}
 }
