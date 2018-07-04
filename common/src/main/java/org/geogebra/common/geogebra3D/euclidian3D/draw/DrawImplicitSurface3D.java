@@ -151,4 +151,9 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 		return false;
 	}
 
+	@Override
+	public boolean shouldBePacked() {
+		return false;
+	}
+
 }

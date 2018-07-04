@@ -322,4 +322,9 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 	}
 
+	@Override
+	public boolean shouldBePacked() {
+		return false;
+	}
+
 }
