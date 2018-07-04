@@ -13,7 +13,7 @@ import java.util.Map;
 public class StepStrategies {
 
 	public static StepTransformable convertToFraction(StepTransformable sn, SolutionBuilder sb) {
-		return RegroupSteps.CONVERT_DECIMAL_TO_FRACTION.apply(sn, sb, new RegroupTracker());
+		return FractionSteps.CONVERT_DECIMAL_TO_FRACTION.apply(sn, sb, new RegroupTracker());
 	}
 
 	public static StepTransformable regroupSums(StepTransformable sn, SolutionBuilder sb) {
@@ -32,8 +32,12 @@ public class StepStrategies {
 		return RegroupSteps.DEFAULT_REGROUP.apply(sn, sb, new RegroupTracker());
 	}
 
-	public static StepTransformable solverRegroup(StepTransformable sn, SolutionBuilder sb) {
-		return RegroupSteps.SOLVER_REGROUP.apply(sn, sb, new RegroupTracker());
+	public static StepSolvable solverRegroup(StepSolvable ss, SolutionBuilder sb) {
+		return (StepSolvable) RegroupSteps.SOLVER_DEFAULT.apply(ss, sb, new RegroupTracker());
+	}
+
+	public static StepSolvable solverDecimalRegroup(StepSolvable ss, SolutionBuilder sb) {
+		return (StepSolvable) RegroupSteps.SOLVER_DECIMAL.apply(ss, sb, new RegroupTracker());
 	}
 
 	public static StepTransformable addFractions(StepTransformable sn, SolutionBuilder sb) {
@@ -62,7 +66,7 @@ public class StepStrategies {
 
 	static StepTransformable implementGroup(StepTransformable sn, SolutionStepType groupHeader,
 			SimplificationStepGenerator[] strategy, SolutionBuilder sb, RegroupTracker tracker) {
-		final boolean printDebug = false;
+		final boolean printDebug = true;
 
 		SolutionBuilder changes = new SolutionBuilder();
 		SolutionBuilder substeps = new SolutionBuilder();
@@ -144,12 +148,14 @@ public class StepStrategies {
 			SolutionBuilder sb, SolveTracker tracker) {
 		SolveStepGenerator[] strategy = {
 				SolveSteps.FIND_DEFINED_RANGE,
-				EquationSteps.PODUCT_IS_ZERO,
-				EquationSteps.FRACTION_IS_ZERO,
+				SolveSteps.CONVERT_OR_SET_APPROXIMATE,
 				EquationSteps.NEGATE_BOTH_SIDES,
 				SolveSteps.REGROUP,
+				EquationSteps.PODUCT_IS_ZERO,
+				EquationSteps.FRACTION_IS_ZERO,
 				EquationSteps.TRIVIAL_EQUATIONS,
 				EquationSteps.SEPARATE_PLUSMINUS,
+				SolveSteps.SIMPLIFY_FRACTIONS,
 				SolveSteps.FACTOR,
 				SolveSteps.SUBTRACT_COMMON,
 				EquationSteps.SOLVE_SIMPLE_ABSOLUTE_VALUE,
@@ -181,6 +187,7 @@ public class StepStrategies {
 			SolutionBuilder sb, SolveTracker tracker) {
 		SolveStepGenerator[] strategy = {
 				SolveSteps.FIND_DEFINED_RANGE,
+				SolveSteps.CONVERT_OR_SET_APPROXIMATE,
 				SolveSteps.REGROUP,
 				InequalitySteps.TRIVIAL_INEQUALITY,
 				InequalitySteps.DIVIDE_BY_COEFFICIENT,

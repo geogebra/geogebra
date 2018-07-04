@@ -67,7 +67,7 @@ public class RegroupUnitTests {
     }
 
     public void simplifyFraction(String a, String b) {
-        test(RegroupSteps.SIMPLIFY_FRACTIONS, a, b);
+        test(FractionSteps.SIMPLIFY_FRACTIONS, a, b);
     }
 
     public void test(SimplificationStepGenerator ssg, String a, String b) {

@@ -90,20 +90,47 @@ enum SolveSteps implements SolveStepGenerator {
 		}
 	},
 
+	CONVERT_OR_SET_APPROXIMATE {
+		@Override
+		public Result apply(StepSolvable se, StepVariable variable,
+				SolutionBuilder steps, SolveTracker tracker) {
+			if (tracker.isApproximate() != null) {
+				return null;
+			}
+
+			if (0 < se.maxDecimal() && se.maxDecimal() < 5 && se.containsFractions()) {
+				tracker.setApproximate(false);
+				return new Result((StepSolvable) se.convertToFractions(steps));
+			}
+
+			if (se.maxDecimal() > 0) {
+				tracker.setApproximate(true);
+			} else {
+				tracker.setApproximate(false);
+			}
+
+			return null;
+		}
+	},
+
 	REGROUP {
 		@Override
 		public Result apply(StepSolvable se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
-			if (0 < se.maxDecimal() && se.maxDecimal() < 5 && se.containsFractions()) {
-				StepSolvable temp = (StepSolvable) se.convertToFractions(steps);
-				return new Result((StepSolvable) StepStrategies.solverRegroup(temp, steps));
+			if (tracker.isApproximate()) {
+				return new Result(StepStrategies.solverDecimalRegroup(se, steps));
+			} else {
+				return new Result(StepStrategies.solverRegroup(se, steps));
 			}
+		}
+	},
 
-			if (se.maxDecimal() > 0) {
-				return new Result((StepSolvable) se.numericRegroup(steps));
-			}
-
-			return new Result((StepSolvable) StepStrategies.solverRegroup(se, steps));
+	SIMPLIFY_FRACTIONS {
+		@Override
+		public Result apply(StepSolvable se, StepVariable variable,
+				SolutionBuilder steps, SolveTracker tracker) {
+			return new Result((StepSolvable)
+					FractionSteps.SIMPLIFY_FRACTIONS.apply(se, steps, new RegroupTracker()));
 		}
 	},
 
