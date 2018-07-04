@@ -4388,6 +4388,7 @@ public abstract class App implements UpdateSelection {
 		case MAT_DESIGN_HEADER:
 			return prerelease;
 
+		/** GBB-2394 */
 		case SPLITTER_LOADING:
 			return prerelease;
 		default:
