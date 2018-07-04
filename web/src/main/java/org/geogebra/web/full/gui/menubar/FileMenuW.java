@@ -29,6 +29,7 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ShareDialog;
 import org.geogebra.web.shared.ShareDialogW;
 import org.geogebra.web.shared.SignInButton;
 
@@ -380,7 +381,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 */
 	public static void showShareDialog(final AppW app, final Widget anchor) {
 		Runnable shareCallback = new Runnable() {
-			private ShareDialogW sd;
+			protected ShareDialog shareDialog;
+			protected ShareDialogW sd;
 
 			@Override
 			public void run() {
@@ -397,7 +399,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 									app.getGgbApi().getBase64(true, FileMenuW
 											.getShareStringHandler(app));
 								}
-								sd.hide();
+								if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)) {
+									shareDialog.hide();
+								} else {
+									sd.hide();
+								}
 							}
 
 						});
@@ -406,10 +412,16 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						&& app.getActiveMaterial().getSharingKey() != null) {
 					sharingKey = app.getActiveMaterial().getSharingKey();
 				}
-				sd = new ShareDialogW(app, anchor, geogebrabutton,
-						app.getCurrentURL(sharingKey));
-				sd.setVisible(true);
-				sd.center();
+				if (app.has(Feature.SHARE_DIALOG_MAT_DESIGN)) {
+					shareDialog = new ShareDialog(app);
+					shareDialog.setVisible(true);
+					shareDialog.center();
+				} else {
+					sd = new ShareDialogW(app, anchor, geogebrabutton,
+							app.getCurrentURL(sharingKey));
+					sd.setVisible(true);
+					sd.center();
+				}
 			}
 		};
 		if (app.getActiveMaterial() == null
