@@ -4161,7 +4161,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease && whiteboard;
 
 		case MOW_GEOGEBRA_TOOL:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
 		case MOW_OPEN_FILE_VIEW:
 			return canary && whiteboard;
