@@ -125,6 +125,19 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 
 	}
 
+	protected void performShibbolethLogin(final GeoGebraTubeUser user, final boolean automatic) {
+		GeoGebraTubeAPI api = getGeoGebraTubeAPI();
+
+		Log.debug("Sending call to GeoGebraTube API to authorize the login token...");
+
+		// Trigger an event to signal the login attempt
+		onEvent(new LoginAttemptEvent(user));
+
+		// Send API request to check if the token is valid
+		api.authorizeShibboleth(user, this, automatic);
+
+	}
+
 	/**
 	 * Handle the logout
 	 */

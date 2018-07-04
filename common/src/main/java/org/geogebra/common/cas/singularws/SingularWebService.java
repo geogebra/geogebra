@@ -59,10 +59,10 @@ public class SingularWebService {
 		// so we prefer GET for the shorter Singular programs:
 		if (encodedParameters.length() + url1.length() + command.length()
 				+ 6 <= GET_REQUEST_MAX_SIZE) {
-			httpr.sendRequest(url1 + "?c=" + command + "&p=" + encodedParameters
-					+ caching);
+			httpr.sendRequestPost("GET",
+					url1 + "?c=" + command + "&p=" + encodedParameters + caching, null, null);
 		} else {
-			httpr.sendRequestPost(url1,
+			httpr.sendRequestPost("POST", url1,
 					"c=" + command + "&p=" + encodedParameters + caching,
 					null);
 		}

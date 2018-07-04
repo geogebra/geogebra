@@ -799,4 +799,9 @@ public final class ArticleElement extends Element implements ArticleElementInter
 		setAttribute("data-param-" + attributeName, value);
 		return this;
 	}
+
+	@Override
+	public String getParamLoginURL() {
+		return getStringDataParam("loginURL", "");
+	}
 }

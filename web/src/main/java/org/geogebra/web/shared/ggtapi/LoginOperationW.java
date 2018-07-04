@@ -3,8 +3,10 @@ package org.geogebra.web.shared.ggtapi;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
+import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.BaseEventView;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
@@ -64,6 +66,9 @@ public class LoginOperationW extends LogInOperation {
 									if (data.action === "logintoken") {
 										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processToken(Ljava/lang/String;)(data.msg);
 									}
+									if (data.action === "logincookie") {
+										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processCookie()();
+									}
 								} catch (err) {
 									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while logging: \n" + err.message + " " + event.data);
 								}
@@ -95,17 +100,23 @@ public class LoginOperationW extends LogInOperation {
 		        + GeoGebraConstants.VERSION_STRING);
 	}
 
-	// AG: JUST FOR TESTING!
-	/*
-	 * @Override public String getLoginURL(String languageCode) { return
-	 * "http://tube-test.geogebra.org:8080/user/login" +
-	 * "/caller/"+getURLLoginCaller()
-	 * +"/expiration/"+getURLTokenExpirationMinutes()
-	 * +"/clientinfo/"+getURLClientInfo() +"/?lang="+languageCode; }
-	 */
+
+	@Override
+	public String getLoginURL(String languageCode) {
+		if (!StringUtil.empty(app.getArticleElement().getParamLoginURL())) {
+			return app.getArticleElement().getParamLoginURL();
+		}
+		return super.getLoginURL(languageCode);
+	}
+	 
 
 	private void processToken(String token) {
 		Log.debug("LTOKEN send via message");
 		performTokenLogin(token, false);
+	}
+
+	private void processCookie() {
+		Log.debug("COOKIE LOGIN");
+		performShibbolethLogin(new GeoGebraTubeUser(""), false);
 	}
 }

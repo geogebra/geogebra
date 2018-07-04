@@ -38,14 +38,6 @@ public abstract class HttpRequest {
 	}
 
 	/**
-	 * Opens an URL
-	 * 
-	 * @param url
-	 *            full URL to be opened
-	 */
-	public abstract void sendRequest(String url);
-
-	/**
 	 * Opens and URL and sends some POST parameters
 	 * 
 	 * @param url
@@ -53,7 +45,7 @@ public abstract class HttpRequest {
 	 * @param post
 	 *            POST parameters (already encoded)
 	 */
-	public abstract void sendRequestPost(String url, String post,
+	public abstract void sendRequestPost(String method, String url, String post,
 			AjaxCallback callback);
 
 	/**

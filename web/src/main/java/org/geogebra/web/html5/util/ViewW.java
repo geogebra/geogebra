@@ -236,7 +236,7 @@ public class ViewW {
 		if (url.endsWith(".off")) {
 
 			HttpRequestW request = new HttpRequestW();
-			request.sendRequestPost(url, "", new AjaxCallback() {
+			request.sendRequestPost("GET", url, null, new AjaxCallback() {
 
 				@Override
 				public void onSuccess(String response) {
@@ -253,7 +253,7 @@ public class ViewW {
 		if (url.endsWith(".csv")) {
 
 			HttpRequestW request = new HttpRequestW();
-			request.sendRequestPost(url, "", new AjaxCallback() {
+			request.sendRequestPost("GET", url, null, new AjaxCallback() {
 
 				@Override
 				public void onSuccess(String response) {

@@ -28,47 +28,10 @@ public class HttpRequestD extends HttpRequest {
 	private String answer;
 
 	@Override
-	public void sendRequest(String url) {
-		BufferedReader in = null;
-		try {
-			URL u = new URL(url);
-			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
-			huc.setConnectTimeout(getTimeout() * 1000);
-			huc.setRequestMethod("GET");
-			huc.connect();
-			in = new BufferedReader(new InputStreamReader(huc.getInputStream(),
-					Charsets.UTF_8));
-			String s = "";
-			answer = in.readLine(); // the last line will never get a "\n" on
-									// its end
-			while ((s = in.readLine()) != null) {
-				if (!("".equals(answer))) {
-					// ignore them
-					answer += "\n";
-				}
-				answer += s;
-			}
-		} catch (Exception ex) {
-			processed = true;
-			Log.error(ex.getMessage());
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		setResponseText(answer);
-		processed = true;
-	}
-
-	@Override
-	public void sendRequestPost(final String url, final String post,
-			final AjaxCallback callback) {
+	public void sendRequestPost(final String method, final String url,
+			final String post, final AjaxCallback callback) {
 		if (callback == null) {
-			sendRequestPostSync(url, post, null);
+			sendRequestPostSync(method, url, post, null);
 		}
 
 		else {
@@ -79,7 +42,7 @@ public class HttpRequestD extends HttpRequest {
 
 				@Override
 				protected Void doInBackground() throws Exception {
-					sendRequestPostSync(url, post, callback);
+					sendRequestPostSync(method, url, post, callback);
 					return null;
 				}
 			};
@@ -96,7 +59,7 @@ public class HttpRequestD extends HttpRequest {
 	 * @param callback
 	 *            callback
 	 */
-	void sendRequestPostSync(String url, String post,
+	void sendRequestPostSync(String method, String url, String post,
 			AjaxCallback callback) {
 		HttpURLConnection huc = null;
 		try {
@@ -105,7 +68,7 @@ public class HttpRequestD extends HttpRequest {
 			huc = (HttpURLConnection) u.openConnection();
 			// Borrowed from
 			// http://bytes.com/topic/java/answers/720825-how-build-http-post-request-java:
-			// uc.setRequestMethod("POST");
+			huc.setRequestMethod(method);
 			// uc.setRequestProperty("Content-Type",
 			// "application/x-www-form-urlencoded");
 			// uc.setUseCaches(false);
@@ -186,7 +149,7 @@ public class HttpRequestD extends HttpRequest {
 	 *         synchronous.
 	 */
 	public String sendRequestGetResponseSync(String url) {
-		sendRequest(url);
+		sendRequestPost("GET", url, null, null);
 		return getResponse();
 	}
 

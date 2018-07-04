@@ -456,4 +456,6 @@ public interface ArticleElementInterface {
 	 */
 	int getParamRandomSeed();
 
+	String getParamLoginURL();
+
 }

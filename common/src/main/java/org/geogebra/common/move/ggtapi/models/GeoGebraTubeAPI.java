@@ -85,7 +85,7 @@ public abstract class GeoGebraTubeAPI {
 			return;
 		}
 		HttpRequest request = createHttpRequest();
-		request.sendRequestPost(postUrl, requestString,
+		request.sendRequestPost("POST", postUrl, requestString,
 				callback);
 	}
 
@@ -112,6 +112,22 @@ public abstract class GeoGebraTubeAPI {
 
 	protected abstract boolean parseUserDataFromResponse(GeoGebraTubeUser user,
 			String response);
+
+	protected boolean parseUserDataFromMarvlResponse(GeoGebraTubeUser guser,
+			String response){
+		try {
+			JSONTokener tokener = new JSONTokener(response);
+			JSONObject user = new JSONObject(tokener).getJSONObject("user");
+			guser.setRealName(user.getString("displayname"));
+			guser.setUserName(user.getString("username"));
+			guser.setUserId(user.getInt("id"));
+			guser.setIdentifier("");
+			return true;
+		} catch (Exception e) {
+			Log.warn(e.getMessage());
+		}
+		return false;
+	}
 
 	/**
 	 * Sends a request to the GeoGebraTube API to check if the login token which
@@ -159,6 +175,44 @@ public abstract class GeoGebraTubeAPI {
 						GeoGebraTubeAPI.this.available = false;
 						op.onEvent(
 								new LoginEvent(user, false, automatic, null));
+					}
+				});
+	}
+
+	public final void authorizeShibboleth(final GeoGebraTubeUser user, final LogInOperation op,
+			final boolean automatic) {
+		HttpRequest request = createHttpRequest();
+		request.sendRequestPost("GET",
+				op.getLoginURL("").substring(0, op.getLoginURL("").indexOf("/", 10)) + "/api/auth",
+				null,
+				new AjaxCallback() {
+					@Override
+					public void onSuccess(String responseStr) {
+						try {
+							GeoGebraTubeAPI.this.availabilityCheckDone = true;
+
+							GeoGebraTubeAPI.this.available = true;
+
+							// Parse the userdata from the response
+							if (!parseUserDataFromMarvlResponse(user, responseStr)) {
+								op.onEvent(new LoginEvent(user, false, automatic, responseStr));
+								return;
+							}
+
+							op.onEvent(new LoginEvent(user, true, automatic, responseStr));
+
+							// GeoGebraTubeAPID.this.available = false;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+					}
+
+					@Override
+					public void onError(String error) {
+						GeoGebraTubeAPI.this.availabilityCheckDone = true;
+						GeoGebraTubeAPI.this.available = false;
+						op.onEvent(new LoginEvent(user, false, automatic, null));
 					}
 				});
 
@@ -440,7 +494,7 @@ public abstract class GeoGebraTubeAPI {
 			return;
 		}
 		HttpRequest req = createHttpRequest();
-		req.sendRequestPost(getUrl(), requestString, new AjaxCallback() {
+		req.sendRequestPost("POST", getUrl(), requestString, new AjaxCallback() {
 
 			@Override
 			public void onSuccess(String response) {

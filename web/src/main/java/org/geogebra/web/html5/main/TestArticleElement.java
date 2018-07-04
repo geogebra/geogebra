@@ -408,4 +408,9 @@ public class TestArticleElement implements ArticleElementInterface {
 		this.parentElement = element;
 	}
 
+	@Override
+	public String getParamLoginURL() {
+		return "";
+	}
+
 }
