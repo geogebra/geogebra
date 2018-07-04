@@ -26,7 +26,7 @@ public class MaterialCard extends FlowPanel {
 	private FlowPanel infoPanel;
 	private Label cardTitle;
 	private Label cardAuthor;
-	private ContextMenuMaterialCard moreBtn;
+	private ContextMenuButtonMaterialCard moreBtn;
 	private FlowPanel visibilityPanel;
 	private VisibilityState visibility;
 	private Material material;
@@ -82,7 +82,7 @@ public class MaterialCard extends FlowPanel {
 		cardTitle.setStyleName("cardTitle");
 		cardAuthor = new Label(material.getAuthor());
 		cardAuthor.setStyleName("cardAuthor");
-		moreBtn = new ContextMenuMaterialCard(app, material);
+		moreBtn = new ContextMenuButtonMaterialCard(app, material);
 		// panel for visibility state
 		visibilityPanel = new FlowPanel();
 		visibilityPanel.setStyleName("visibilityPanel");

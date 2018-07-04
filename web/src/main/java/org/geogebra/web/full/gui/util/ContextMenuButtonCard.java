@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.Image;
  * @author Alicia
  *
  */
-public class ContextMenuCard extends MyToggleButton
+public class ContextMenuButtonCard extends MyToggleButton
 		implements SetLabels, CloseHandler<GPopupPanel> {
 	/** visible component */
 	protected GPopupMenuW wrappedPopup;
@@ -46,7 +46,7 @@ public class ContextMenuCard extends MyToggleButton
 	 * @param app
 	 *            application
 	 */
-	public ContextMenuCard(AppW app) {
+	public ContextMenuButtonCard(AppW app) {
 		super(getImage(MaterialDesignResources.INSTANCE.more_vert_black()),
 				app);
 		this.app = app;

@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.util.ContextMenuCard;
+import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.Command;
@@ -13,7 +13,7 @@ import com.google.gwt.user.client.Command;
  * @author Alicia Hofstaetter
  *
  */
-public class ContextMenuPagePreview extends ContextMenuCard {
+public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 
 	private PagePreviewCard card;
 
@@ -23,7 +23,7 @@ public class ContextMenuPagePreview extends ContextMenuCard {
 	 * @param card
 	 *            associated preview card
 	 */
-	public ContextMenuPagePreview(AppW app, PagePreviewCard card) {
+	public ContextMenuButtonPreviewCard(AppW app, PagePreviewCard card) {
 		super(app);
 		this.card = card;
 	}

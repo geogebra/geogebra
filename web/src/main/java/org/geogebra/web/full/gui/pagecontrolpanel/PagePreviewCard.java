@@ -39,7 +39,7 @@ public class PagePreviewCard extends FlowPanel
 	// private static final int LABELFONT_SIZE = 16;
 	// private AutoCompleteTextFieldW textField;
 	// private boolean isTitleSet = false;
-	private ContextMenuPagePreview contextMenu;
+	private ContextMenuButtonPreviewCard contextMenu;
 	private int grabY; // where the user grabbed the card when dragging.
 	/**
 	 * ggb file
@@ -92,7 +92,7 @@ public class PagePreviewCard extends FlowPanel
 		titleLabel = new Label("");
 		titlePanel.add(titleLabel);
 
-		contextMenu = new ContextMenuPagePreview(app, this);
+		contextMenu = new ContextMenuButtonPreviewCard(app, this);
 		titlePanel.add(contextMenu);
 
 		add(imagePanel);
