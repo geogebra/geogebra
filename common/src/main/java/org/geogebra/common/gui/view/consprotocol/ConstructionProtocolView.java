@@ -7,6 +7,8 @@ import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.cas.view.CASTable;
+import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.GImageIcon;
@@ -20,9 +22,12 @@ import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -38,7 +43,15 @@ public class ConstructionProtocolView {
 	protected boolean useColors, addIcons;
 
 	protected static String getAlgebra(GeoElement geo) {
-		return geo.getAlgebraDescriptionHTMLDefault();
+		// messes up subscripts in ggb5, why?
+		// return geo.getAlgebraDescriptionHTMLDefault();
+
+		if (geo instanceof GeoText) {
+			return "\"" + geo.toValueString(StringTemplate.defaultTemplate)
+					+ "\"";
+		}
+		return geo.getAlgebraDescriptionTextOrHTMLDefault(
+				new IndexHTMLBuilder(false));
 	}
 
 	protected static String getName(GeoElement geo) {
@@ -1055,6 +1068,10 @@ public class ConstructionProtocolView {
 
 		sb.append("</table>\n");
 
+		addSpreadsheet(sb, loc, kernel);
+
+		addCAS(sb, loc, kernel);
+
 		// footer
 		sb.append(getCreatedWithHTML());
 
@@ -1071,6 +1088,73 @@ public class ConstructionProtocolView {
 		sb.append("\n</html>");
 
 		return sb.toString();
+	}
+
+	private static void addCAS(StringBuilder sb, Localization loc,
+			Kernel kernel2) {
+
+		GuiManagerInterface gm = kernel2.getApplication().getGuiManager();
+
+		if (gm == null || !gm.hasCasView()) {
+			return;
+		}
+
+		CASView cas = (CASView) gm.getCasView();
+
+		CASTable table = cas.getConsoleTable();
+
+		int n = table.getRowCount();
+
+		sb.append("<table border=\"1\">\n");
+
+		// headers
+		sb.append("<tr>\n");
+		sb.append("<td><b>");
+		appendHTML(sb, loc.getMenu("Row"));
+		sb.append("</b></td>\n");
+		sb.append("<td><b>");
+		appendHTML(sb, loc.getMenu("Input"));
+		sb.append("</b></td>\n");
+		sb.append("<td><b>");
+		appendHTML(sb, loc.getMenu("Output"));
+		sb.append("</b></td>\n");
+		sb.append("</tr>\n");
+
+		for (int i = 0; i < n; i++) {
+			GeoCasCell cell = table.getGeoCasCell(i);
+
+			String input = cell.getInput(StringTemplate.casPrintTemplate);
+			String output = cell.getOutput(StringTemplate.casPrintTemplate);
+
+			sb.append("<tr>\n");
+
+			sb.append("<td>");
+			sb.append("#" + (i + 1));
+			sb.append("</td>\n");
+			sb.append("<td>");
+			appendHTML(sb, input);
+			sb.append("</td>\n");
+			sb.append("<td>");
+			appendHTML(sb, output);
+			sb.append("</td>\n");
+
+			sb.append("</tr>\n");
+
+		}
+
+		sb.append("</table>");
+
+	}
+
+	private static void appendHTML(StringBuilder sb, String s) {
+		sb.append(StringUtil.toHTMLString(s));
+
+	}
+
+	private static void addSpreadsheet(StringBuilder sb, Localization loc,
+			Kernel kernel2) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/**

@@ -200,6 +200,23 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * For printing CAS Expressions nicely
+	 */
+	public static final StringTemplate casPrintTemplate = new StringTemplate(
+			"casPrintTemplate");
+
+	static {
+		casPrintTemplate.internationalizeDigits = true;
+		casPrintTemplate.allowPiHack = false;
+		casPrintTemplate.numeric = false;
+		casPrintTemplate.usePrefix = false;
+		casPrintTemplate.forceNF = true;
+		casPrintTemplate.localizeCmds = true;
+		casPrintTemplate.setType(StringType.GEOGEBRA);
+		casPrintTemplate.nf = FormatFactory.getPrototype().getNumberFormat(15);
+	}
+
+	/**
 	 * giac string type, do not internationalize digits
 	 */
 	public static final StringTemplate giacTemplate = new StringTemplate(

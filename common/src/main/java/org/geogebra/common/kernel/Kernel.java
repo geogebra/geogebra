@@ -1498,7 +1498,7 @@ public class Kernel implements SpecialPointsListener {
 	 */
 
 	final public String format(double x, StringTemplate tpl) {
-		// App.printStacktrace(x+"");
+		// Log.printStacktrace(x + "");
 		String ret = formatRaw(x, tpl);
 
 		if (app.getLocalization().getZero() != '0') {
