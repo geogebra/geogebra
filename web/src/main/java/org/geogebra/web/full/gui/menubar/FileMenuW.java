@@ -15,6 +15,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
@@ -34,8 +35,11 @@ import org.geogebra.web.shared.ShareDialogW;
 import org.geogebra.web.shared.SignInButton;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -261,6 +265,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 					@Override
 					public void doExecute() {
+						if (getApp().isWhiteboardActive()
+								&& !getApp().getLoginOperation().isLoggedIn()) {
+							new FileChooser().open();
+							return;
+						}
 						getApp().openSearch(null);
 					}
 				});
@@ -335,6 +344,23 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    if (!getApp().getNetworkOperation().isOnline()) {
 	    	render(false);    	
 	    }
+	}
+
+	private class FileChooser extends FileUpload implements ChangeHandler {
+		public FileChooser() {
+			super();
+			addChangeHandler(this);
+			getElement().setAttribute("accept", ".ggs");
+		}
+
+		public void open() {
+			click();
+		}
+
+		@Override
+		public void onChange(ChangeEvent event) {
+			Log.debug("File chooser - onChange");
+		}
 	}
 
 	/**
