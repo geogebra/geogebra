@@ -41,6 +41,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -57,6 +58,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	Runnable newConstruction;
 	private AriaMenuItem printItem;
 	private Localization loc;
+	/** file chooser */
+	FileChooser fileChooser;
 	
 	/**
 	 * @param app application
@@ -257,6 +260,15 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 								.getSaveDialog().showIfNeeded(newConstruction);
 					}
 		});
+		// add file chooser for open menu
+		final boolean mow_loggedOut = getApp().isWhiteboardActive()
+				&& !getApp().getLoginOperation().isLoggedIn();
+		if (mow_loggedOut) {
+			fileChooser = new FileChooser();
+			RootPanel.get().add(fileChooser);
+			fileChooser.addStyleName("hidden");
+		}
+
 		// open menu is always visible in menu
 		addItem(MainMenu.getMenuBarHtml(
 				MaterialDesignResources.INSTANCE.search_black().getSafeUri()
@@ -265,9 +277,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 					@Override
 					public void doExecute() {
-						if (getApp().isWhiteboardActive()
-								&& !getApp().getLoginOperation().isLoggedIn()) {
-							new FileChooser().open();
+						if (mow_loggedOut) {
+							fileChooser.open();
 							return;
 						}
 						getApp().openSearch(null);
