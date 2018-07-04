@@ -285,7 +285,7 @@ public class ConstructionProtocolView {
 			// algebra column should only be shown at startup if algebraview is
 			// shown
 			// in app
-			if ("Value".equals(title)
+			if (Columns.VALUE.translationKey.equals(title)
 					&& !(app.getGuiManager()).showView(App.VIEW_ALGEBRA)) {
 				return false;
 			}
@@ -562,7 +562,8 @@ public class ConstructionProtocolView {
 
 		public boolean isCellEditable(int nCol) {
 
-			if ((this.columns[nCol].getTitle()).equals("Caption")) {
+			if ((this.columns[nCol].getTitle())
+					.equals(Columns.CAPTION.translationKey)) {
 				return true;
 			}
 			return false;
@@ -955,8 +956,8 @@ public class ConstructionProtocolView {
 		for (int nCol = 0; nCol < nColumns; nCol++) {
 			// toolbar icon will only be inserted on request
 
-			// icon_column = table.getColumnName(nCol).equals("ToolbarIcon");
-			icon_column = "ToolbarIcon".equals(columns.get(nCol));
+			icon_column = Columns.TOOLBARICON.translationKey
+					.equals(columns.get(nCol));
 			if ((icon_column && addIcons) || !icon_column) {
 				title = columns.get(nCol).getTranslation(loc);
 				sb.append("<th>");
@@ -980,9 +981,8 @@ public class ConstructionProtocolView {
 				Columns column = columns.get(nCol);
 
 				// toolbar icon will only be inserted on request
-				// icon_column =
-				// table.getColumnName(nCol).equals("ToolbarIcon");
-				icon_column = "ToolbarIcon".equals(columns.get(nCol));
+				icon_column = Columns.TOOLBARICON.translationKey
+						.equals(columns.get(nCol));
 				if ((icon_column && addIcons) || !icon_column) {
 
 					String str = "";
