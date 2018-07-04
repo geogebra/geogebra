@@ -1115,9 +1115,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			break;
 
 		default:
-			if (!shouldBePackedForManager()) {
-				super.recordTrace();
-			}
+			super.recordTrace();
 			break;
 		}
 	}
@@ -1136,15 +1134,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			drawLine.clearTraceForViewChanged();
 		}
 
-		if (shouldBePackedForManager()) {
-			if (tracesPackingBuffer != null) {
-				while (!tracesPackingBuffer.isEmpty()) {
-					doRemoveGeometryIndex(tracesPackingBuffer.pop());
-				}
-			}
-		} else {
-			super.clearTraceForViewChangedByZoomOrTranslate();
-		}
+		super.clearTraceForViewChangedByZoomOrTranslate();
+
 	}
 
 	@Override
@@ -1515,10 +1506,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	protected void updateForViewVisible() {
-		updateGeometriesVisibility();
-		if (!waitForUpdate()) {
-			updateForView();
-		}
+		super.updateForViewVisible();
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		switch (quadric.getType()) {
 		default:
@@ -1546,7 +1534,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public void disposePreview() {
 		if (shouldBePacked()) {
-			removePreviewFromGL();
 			if (drawPlanes != null) {
 				drawPlanes[0].removePreviewFromGL();
 				drawPlanes[1].removePreviewFromGL();
@@ -1603,53 +1590,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	protected void updateGeometriesVisibility() {
-		boolean isVisible = isVisible();
-		if (geometriesSetVisible != isVisible) {
-			setGeometriesVisibility(isVisible);
-		}
+		super.updateGeometriesVisibility();
 		if (drawPlanes != null) {
 			drawPlanes[0].updateGeometriesVisibility();
 			drawPlanes[1].updateGeometriesVisibility();
 		}
 		if (drawLine != null) {
 			drawLine.updateGeometriesVisibility();
-		}
-	}
-
-	@Override
-	protected void setGeometriesVisibility(boolean visible) {
-		setGeometriesVisibilityWithSurface(visible);
-	}
-
-	@Override
-	protected void updateGeometriesColor() {
-		updateGeometriesColor(true);
-	}
-
-	@Override
-	public int getReusableSurfaceIndex() {
-		if (shouldBePackedForManager()) {
-			return addToTracesPackingBuffer(getSurfaceIndex());
-		}
-		return super.getReusableSurfaceIndex();
-	}
-
-	@Override
-	protected int getReusableGeometryIndex() {
-		if (shouldBePackedForManager()) {
-			return addToTracesPackingBuffer(getGeometryIndex());
-		}
-		return super.getReusableGeometryIndex();
-	}
-
-	@Override
-	protected void updateForViewNotVisible() {
-		if (shouldBePacked()) {
-			if (getView3D().viewChanged()) {
-				// will be updated if visible again
-				setWaitForUpdate();
-			}
-			updateGeometriesVisibility();
 		}
 	}
 

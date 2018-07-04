@@ -285,14 +285,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	}
 
 	@Override
-	protected void updateForViewNotVisible() {
-		if (shouldBePacked()) {
-			if (getView3D().viewChangedByZoom()) {
-				// will be updated if visible again
-				setWaitForUpdate();
-			}
-			updateGeometriesVisibility();
-		}
+	protected boolean willNeedUpdateOnVisibleAgain() {
+		return getView3D().viewChangedByZoom();
 	}
 
 	@Override
@@ -352,19 +346,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		}
 
 	}
-
-	// public void hidePreview(){
-	// if (previewBasisIsFinished){
-	// previewBasisIsFinished = false;
-	//
-	// if (previewAlgo != null){
-	// previewAlgo.remove();
-	// previewAlgo = null;
-	// }
-	// }else{
-	// drawPolygon3D.hidePreview();
-	// }
-	// }
 
 	@Override
 	public void updateMousePos(double x, double y) {
@@ -554,24 +535,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	}
 
 	@Override
-	protected void updateGeometriesColor() {
-		updateGeometriesColor(true);
-	}
-
-	@Override
-	protected void updateGeometriesVisibility() {
-		boolean isVisible = isVisible();
-		if (geometriesSetVisible != isVisible) {
-			setGeometriesVisibility(isVisible);
-		}
-	}
-
-	@Override
-	protected void setGeometriesVisibility(boolean visible) {
-		setGeometriesVisibilityWithSurface(visible);
-	}
-
-	@Override
 	public boolean addedFromClosedSurface() {
 		return true;
 	}
@@ -579,42 +542,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	@Override
 	public boolean shouldBePacked() {
 		return !createdByDrawList();
-	}
-
-	@Override
-	public int getReusableSurfaceIndex() {
-		if (shouldBePackedForManager()) {
-			return addToTracesPackingBuffer(getSurfaceIndex());
-		}
-		return super.getReusableSurfaceIndex();
-	}
-
-	@Override
-	protected int getReusableGeometryIndex() {
-		if (shouldBePackedForManager()) {
-			return addToTracesPackingBuffer(getGeometryIndex());
-		}
-		return super.getReusableGeometryIndex();
-	}
-
-	@Override
-	protected void recordTrace() {
-		if (!shouldBePackedForManager()) {
-			super.recordTrace();
-		}
-	}
-
-	@Override
-	protected void clearTraceForViewChangedByZoomOrTranslate() {
-		if (shouldBePackedForManager()) {
-			if (tracesPackingBuffer != null) {
-				while (!tracesPackingBuffer.isEmpty()) {
-					doRemoveGeometryIndex(tracesPackingBuffer.pop());
-				}
-			}
-		} else {
-			super.clearTraceForViewChangedByZoomOrTranslate();
-		}
 	}
 
 }

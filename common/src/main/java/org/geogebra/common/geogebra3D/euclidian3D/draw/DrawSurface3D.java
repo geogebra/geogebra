@@ -3233,14 +3233,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 	@Override
-	public void disposePreview() {
-		if (shouldBePacked()) {
-			removePreviewFromGL();
-		}
-		super.disposePreview();
-	}
-
-	@Override
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
 		super.setWaitForUpdateVisualStyle(prop);
 		if (prop == GProperty.LINE_STYLE) {
@@ -3266,51 +3258,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 	@Override
-	protected void updateGeometriesVisibility() {
-		boolean isVisible = isVisible();
-		if (geometriesSetVisible != isVisible) {
-			setGeometriesVisibility(isVisible);
-		}
-	}
-
-	@Override
-	protected void setGeometriesVisibility(boolean visible) {
-		setGeometriesVisibilityWithSurface(visible);
-	}
-
-	@Override
-	protected void updateGeometriesColor() {
-		updateGeometriesColor(true);
-	}
-
-	@Override
-	public int getReusableSurfaceIndex() {
-		if (shouldBePackedForManager()) {
-			return addToTracesPackingBuffer(getSurfaceIndex());
-		}
-		return super.getReusableSurfaceIndex();
-	}
-
-	@Override
-	protected int getReusableGeometryIndex() {
-		if (shouldBePackedForManager()) {
-			return addToTracesPackingBuffer(getGeometryIndex());
-		}
-		return super.getReusableGeometryIndex();
-	}
-
-	@Override
-	protected void updateForViewNotVisible() {
-		if (shouldBePacked()) {
-			if (getView3D().viewChanged()) {
-				// will be updated if visible again
-				setWaitForUpdate();
-			}
-			updateGeometriesVisibility();
-		}
-	}
-
-	@Override
 	public boolean shouldBePacked() {
 		return getView3D().getApplication()
 				.has(Feature.MOB_PACK_SURFACES_GRAPHS)
@@ -3320,26 +3267,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	@Override
 	protected GColor getObjectColorForOutline() {
 		return GColor.DARK_GRAY;
-	}
-
-	@Override
-	protected void recordTrace() {
-		if (!shouldBePackedForManager()) {
-			super.recordTrace();
-		}
-	}
-
-	@Override
-	protected void clearTraceForViewChangedByZoomOrTranslate() {
-		if (shouldBePackedForManager()) {
-			if (tracesPackingBuffer != null) {
-				while (!tracesPackingBuffer.isEmpty()) {
-					doRemoveGeometryIndex(tracesPackingBuffer.pop());
-				}
-			}
-		} else {
-			super.clearTraceForViewChangedByZoomOrTranslate();
-		}
 	}
 
 }

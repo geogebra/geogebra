@@ -336,13 +336,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	@Override
-	protected void updateForViewVisible() {
-		if (!waitForUpdate()) {
-			updateForView();
-		}
-	}
-
-	@Override
 	protected void updateForView() {
 
 		if (getView3D().viewChangedByZoom()) {
@@ -388,14 +381,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	@Override
-	protected void updateForViewNotVisible() {
-		if (shouldBePacked()) {
-			if (getView3D().viewChangedByZoom()) {
-				// will be updated if visible again
-				setWaitForUpdate();
-			}
-			updateGeometriesVisibility();
-		}
+	protected boolean willNeedUpdateOnVisibleAgain() {
+		return getView3D().viewChangedByZoom();
 	}
 
 	// //////////////////////////////
@@ -531,9 +518,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		updatePreview();
 
 		super.disposePreview();
-		if (shouldBePacked()) {
-			removePreviewFromGL();
-		}
 
 		// dispose segments
 		if (segments != null) {
@@ -739,60 +723,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 					setWaitForUpdateVisibility();
 				}
 			}
-		}
-	}
-
-	@Override
-	protected void updateGeometriesColor() {
-		updateGeometriesColor(true);
-	}
-
-	@Override
-	protected void updateGeometriesVisibility() {
-		boolean isVisible = isVisible();
-		if (geometriesSetVisible != isVisible) {
-			setGeometriesVisibility(isVisible);
-		}
-	}
-
-	@Override
-	protected void setGeometriesVisibility(boolean visible) {
-		setGeometriesVisibilityWithSurface(visible);
-	}
-
-	@Override
-	public int getReusableSurfaceIndex() {
-		if (shouldBePackedForManager()) {
-			return addToTracesPackingBuffer(getSurfaceIndex());
-		}
-		return super.getReusableSurfaceIndex();
-	}
-
-	@Override
-	protected int getReusableGeometryIndex() {
-		if (shouldBePackedForManager()) {
-			return addToTracesPackingBuffer(getGeometryIndex());
-		}
-		return super.getReusableGeometryIndex();
-	}
-
-	@Override
-	protected void recordTrace() {
-		if (!shouldBePackedForManager()) {
-			super.recordTrace();
-		}
-	}
-
-	@Override
-	protected void clearTraceForViewChangedByZoomOrTranslate() {
-		if (shouldBePackedForManager()) {
-			if (tracesPackingBuffer != null) {
-				while (!tracesPackingBuffer.isEmpty()) {
-					doRemoveGeometryIndex(tracesPackingBuffer.pop());
-				}
-			}
-		} else {
-			super.clearTraceForViewChangedByZoomOrTranslate();
 		}
 	}
 

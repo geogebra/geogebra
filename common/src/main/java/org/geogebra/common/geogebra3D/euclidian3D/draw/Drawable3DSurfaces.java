@@ -133,4 +133,92 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 		return COLOR_SHIFT_SURFACE;
 	}
 
+	@Override
+	protected void updateForViewVisible() {
+		updateGeometriesVisibility();
+		if (!waitForUpdate()) {
+			updateForView();
+		}
+	}
+
+	@Override
+	public void disposePreview() {
+		if (shouldBePacked()) {
+			removePreviewFromGL();
+		}
+		super.disposePreview();
+	}
+
+	@Override
+	protected void updateGeometriesVisibility() {
+		boolean isVisible = isVisible();
+		if (geometriesSetVisible != isVisible) {
+			setGeometriesVisibility(isVisible);
+		}
+	}
+
+	@Override
+	final protected void setGeometriesVisibility(boolean visible) {
+		setGeometriesVisibilityWithSurface(visible);
+	}
+
+	@Override
+	final protected void updateGeometriesColor() {
+		updateGeometriesColor(true);
+	}
+
+	@Override
+	final public int getReusableSurfaceIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getSurfaceIndex());
+		}
+		return super.getReusableSurfaceIndex();
+	}
+
+	@Override
+	final protected int getReusableGeometryIndex() {
+		if (shouldBePackedForManager()) {
+			return addToTracesPackingBuffer(getGeometryIndex());
+		}
+		return super.getReusableGeometryIndex();
+	}
+
+	@Override
+	protected void recordTrace() {
+		if (!shouldBePackedForManager()) {
+			super.recordTrace();
+		}
+	}
+
+	@Override
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
+		if (shouldBePackedForManager()) {
+			if (tracesPackingBuffer != null) {
+				while (!tracesPackingBuffer.isEmpty()) {
+					doRemoveGeometryIndex(tracesPackingBuffer.pop());
+				}
+			}
+		} else {
+			super.clearTraceForViewChangedByZoomOrTranslate();
+		}
+	}
+
+	@Override
+	final protected void updateForViewNotVisible() {
+		if (shouldBePacked()) {
+			if (willNeedUpdateOnVisibleAgain()) {
+				setWaitForUpdate();
+			}
+			updateGeometriesVisibility();
+		}
+	}
+
+	/**
+	 * 
+	 * @return true when updated for view and not visible, but will need update
+	 *         when visible again
+	 */
+	protected boolean willNeedUpdateOnVisibleAgain() {
+		return getView3D().viewChanged();
+	}
 }
