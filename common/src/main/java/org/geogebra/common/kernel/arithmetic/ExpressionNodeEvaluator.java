@@ -1568,6 +1568,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * 
+	 * eg f(x)=x^2, x+1 instead of f(x) = x^2, x>1
+	 * 
 	 * @param condition
 	 *            condition
 	 * @return error for a,b where b is not a condition
