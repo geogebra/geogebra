@@ -3037,7 +3037,6 @@ public class GeoList extends GeoElement
 		} else {
 			add(geo);
 		}
-
 	}
 
 	@Override
@@ -3052,7 +3051,6 @@ public class GeoList extends GeoElement
 				((HasSymbolicMode) get(i)).setSymbolicMode(mode, updateParent);
 			}
 		}
-
 	}
 
 	@Override
@@ -3167,7 +3165,6 @@ public class GeoList extends GeoElement
 			return;
 		}
 		selectedIndex += this.getAnimationDirection();
-
 	}
 
 	/**
@@ -3341,12 +3338,12 @@ public class GeoList extends GeoElement
 	public String getAuralItemSelected() {
 		GeoElement item = getSelectedElement();
 		Localization loc = kernel.getLocalization();
-		if ("".equals(getItemDisplayString(item).trim())) {
-			return loc.getMenuDefault("DropDownEmptyItemSelected", "Empty item selected. Drop down closed.");
-		} else {
-			return loc.getPlainArray("DropDownItemSelected", "Item %0 selected. Drop down closed. ",
-					new String[] { GeoList.getItemDisplayString(item) });
+		if (StringUtil.emptyTrim(getItemDisplayString(item))) {
+			return loc.getMenuDefault("DropDownEmptyItemSelected",
+					"Empty item selected. Drop down closed.");
 		}
+		return loc.getPlainArray("DropDownItemSelected", "Item %0 selected. Drop down closed. ",
+				new String[] { GeoList.getItemDisplayString(item) });
 	}
 
 	/**

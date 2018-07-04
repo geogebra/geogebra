@@ -78,7 +78,6 @@ public class ScreenReader {
 		readText(readText, app);
 	}
 
-
 	/**
 	 * Reads some instructions at opening the drop down.
 	 * 

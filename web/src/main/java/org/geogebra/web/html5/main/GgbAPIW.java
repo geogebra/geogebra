@@ -1200,8 +1200,6 @@ public class GgbAPIW extends GgbAPI {
 	 *            worker folder URL
 	 * @param sync
 	 *            whether to use zipjs synchronously
-	 * @param usePako
-	 *            whether to use PAKO
 	 * @return whether webworkers can be used
 	 */
 	public static native boolean setWorkerURL(String workerUrls,
@@ -1213,7 +1211,6 @@ public class GgbAPIW extends GgbAPI {
 			$wnd.zip.synchronous = false;
 			$wnd.zip.useWebWorkers = true;
 
-			//			if (usePako) {
 			$wnd.zip.workerScripts = {
 				deflater : [ workerUrls + "z-worker.js",
 						workerUrls + "pako1.0.6_min.js",
@@ -1222,10 +1219,6 @@ public class GgbAPIW extends GgbAPI {
 						workerUrls + "pako1.0.6_min.js",
 						workerUrls + "codecs.js" ]
 			};
-			//			} else {
-			//				// use inflate.js and deflate.js from zip.js
-			//				$wnd.zip.workerScriptsPath = workerUrls;
-			//			}
 
 		}
 		return $wnd.zip.useWebWorkers;
