@@ -5625,8 +5625,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	final public boolean hasIndexLabel() {
-		return ((label == null) || (label.indexOf('_') > -1));
-
+		return label != null && label.indexOf('_') > -1;
 	}
 
 	/**
