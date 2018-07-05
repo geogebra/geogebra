@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.util.debug.Log;
 
 public class StepStrategies {
 
@@ -245,8 +246,8 @@ public class StepStrategies {
 
 				if (result != null) {
 					if (printDebug) {
-						System.out.println("changed at " + strategy[i]);
-						System.out.println("to: " + result);
+						Log.debug("changed at " + strategy[i]);
+						Log.debug("to: " + result);
 					}
 
 					if (result.getSolutions() != null) {
