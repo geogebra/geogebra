@@ -4,6 +4,8 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -17,10 +19,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class ShareDialog extends DialogBoxW implements FastClickHandler {
 
 	private FlowPanel mainPanel;
-
 	private FlowPanel linkPanel;
 	private Label linkLabel;
-	private TextBox linkBox;
+	/** textbox providing share url */
+	protected TextBox linkBox;
 	private StandardButton copyBtn;
 
 	private FlowPanel buttonPanel;
@@ -44,6 +46,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 
 	private void initGui() {
 		addStyleName("shareDialog");
+		setAutoHideEnabled(true);
 		mainPanel = new FlowPanel();
 
 		linkPanel = new FlowPanel();
@@ -53,6 +56,12 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		linkBox = new TextBox();
 		linkBox.setReadOnly(true);
 		linkBox.setText(this.shareURL);
+		linkBox.addFocusHandler(new FocusHandler() {
+
+			public void onFocus(FocusEvent event) {
+				linkBox.selectAll();
+			}
+		});
 		linkBox.setStyleName("linkBox");
 		copyBtn = new StandardButton(localize("Copy"),
 				app);
@@ -81,7 +90,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 	}
 
 	public void onClick(Widget source) {
-		// TODO Auto-generated method stub
+		// TODO
 	}
 
 	/**
