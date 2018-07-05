@@ -1,11 +1,11 @@
 package org.geogebra.common.gui.view.algebra;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.solution.TextElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
-
-import java.util.List;
 
 /**
  * Makes a JSON object with a list of steps
@@ -38,14 +38,14 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 				sb.append(',');
 			}
 
-			sb.append("{ 'text':'");
+			sb.append("{ \"text\":\"");
 
 			if (te.latex != null) {
 				sb.append(StringUtil.toJavaString(te.latex));
-				sb.append("', latex':true }");
+				sb.append("\", \"latex\":true }");
 			} else {
 				sb.append(StringUtil.toJavaString(te.plain));
-				sb.append("', 'plain':true }");
+				sb.append("\", \"plain\":true }");
 			}
 		}
 	}
