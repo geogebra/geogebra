@@ -41,6 +41,9 @@ public class AlgebraStyleTest extends Assert {
 				TestErrorHandler.INSTANCE, info, null);
 		assertEquals(DescriptionMode.values()[rows],
 				el[0].needToShowBothRowsInAV());
+		el[0].toString(StringTemplate.defaultTemplate);
+		assertEquals(DescriptionMode.values()[rows],
+				el[0].needToShowBothRowsInAV());
 	}
 
 	private static void checkEquation(String def, int mode, String check) {
@@ -55,6 +58,7 @@ public class AlgebraStyleTest extends Assert {
 	@Before
 	public void resetSyntaxes(){
 		app.getKernel().clearConstruction(true);
+		app.getSettings().getCasSettings().setEnabled(true);
 		app.getKernel()
 				.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
 	}
@@ -90,8 +94,14 @@ public class AlgebraStyleTest extends Assert {
 		checkRows("Sequence[100]", 2);
 		checkRows("Line((0,0),(0,1))", 2);
 		checkRows("Circle((0,0),(0,1))", 2);
-		checkRows("Line((0,0),(0,1))", 2, graphingFlags);
-		checkRows("Circle((0,0),(0,1))", 2, graphingFlags);
+	}
+
+	@Test
+	public void twoRowsAlgebraGraphing() {
+		app.getSettings().getCasSettings().setEnabled(false);
+		checkRows("Line((0,0),(0,1))", 2);
+		checkRows("Circle((0,0),(0,1))", 2);
+		checkRows("x=y", 1);
 	}
 
 	@Test
