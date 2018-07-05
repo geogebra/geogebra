@@ -15,7 +15,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
@@ -35,6 +34,7 @@ import org.geogebra.web.shared.ShareDialogW;
 import org.geogebra.web.shared.SignInButton;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -361,7 +361,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		public FileChooser() {
 			super();
 			addChangeHandler(this);
-			getElement().setAttribute("accept", ".ggs");
+			getElement().setAttribute("accept", ".pdf");
 		}
 
 		public void open() {
@@ -370,8 +370,14 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		@Override
 		public void onChange(ChangeEvent event) {
-			Log.debug("File chooser - onChange");
+			getSelectedFile();
 		}
+
+		private native JavaScriptObject getSelectedFile()/*-{
+			var files = $doc.querySelector('input[type=file]').files;
+			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("files count: " + files.length);
+			return $doc.querySelector('input[type=file]').files[0];
+		}-*/;
 	}
 
 	/**
