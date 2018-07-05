@@ -838,6 +838,9 @@ $duration: 0.2s;
 			    border-bottom: 2px solid $teal-default !important;
 			    border-radius: 0;
 			}
+			.linkBox::selection {
+  				background: $teal-default-20;
+  			}
 			.copyButton {
 				cursor: pointer;
 				min-width: 64px;
@@ -869,6 +872,7 @@ $duration: 0.2s;
 			    margin-right: 24px;
 			    justify-content: center;
 				vertical-align: middle;
+				transition: background-color, color 0.15s;
 				img {
 					opacity: 1;
 					background-color: $teal-default;
@@ -881,6 +885,14 @@ $duration: 0.2s;
 					margin-left: 12px;
 					margin-right: auto;
 					cursor: pointer;
+				}
+				&:hover {
+					img {
+						background-color: $teal-default-hover;
+					}
+					.gwt-Label {
+						color: $black;
+					}
 				}
 			}
 		}
