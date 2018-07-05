@@ -169,9 +169,15 @@ public class MarvlAPI implements BackendAPI {
 	protected List<Material> parseMaterials(String responseStr) throws JSONException {
 		ArrayList<Material> ret = new ArrayList<>();
 		JSONTokener jst = new JSONTokener(responseStr);
-		JSONArray arr = new JSONArray(jst);
-		for (int i = 0; i < arr.length(); i++) {
-			Material mat = JSONParserGGT.prototype.toMaterial(arr.getJSONObject(i));
+		Object parsed = jst.nextValue();
+		if (parsed instanceof JSONArray) {
+			JSONArray arr = (JSONArray) parsed;
+			for (int i = 0; i < arr.length(); i++) {
+				Material mat = JSONParserGGT.prototype.toMaterial(arr.getJSONObject(i));
+				ret.add(mat);
+			}
+		} else if (parsed instanceof JSONObject) {
+			Material mat = JSONParserGGT.prototype.toMaterial((JSONObject)parsed);
 			ret.add(mat);
 		}
 		return ret;
@@ -190,6 +196,7 @@ public class MarvlAPI implements BackendAPI {
 	private void performRequest(String method, String endpoint, String json,
 			final MaterialCallbackI userMaterialsCB) {
 		HttpRequest request = UtilFactory.getPrototype().newHttpRequest();
+		request.setContentTypeJson();
 		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {

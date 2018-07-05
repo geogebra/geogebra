@@ -26,6 +26,7 @@ public abstract class HttpRequest {
 	 * the textual content of the result (or the error message)
 	 */
 	protected String responseText;
+	private String type = "text/plain";
 
 	/**
 	 * Gets a response from a remote HTTP server
@@ -86,5 +87,16 @@ public abstract class HttpRequest {
 	 */
 	protected void setProcessed(boolean processed) {
 		this.processed = processed;
+	}
+
+	/**
+	 * Set mimetype to JSON
+	 */
+	public void setContentTypeJson() {
+		this.type = "application/json";		
+	}
+	
+	protected String getType() {
+		return type;
 	}
 }

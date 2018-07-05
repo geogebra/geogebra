@@ -21,8 +21,8 @@ public class HttpRequestW extends HttpRequest {
 		} else {
 			request.open(method, url);
 		}
-		// needed for SMART, hopefully no problem for others
-		request.setRequestHeader("Content-type", "text/plain");
+		// text/plain needed for SMART, hopefully no problem for others
+		request.setRequestHeader("Content-type", getType());
 		// request.setTimeOut(timeout * 1000);
 		request.onLoad(callback);
 		request.send(post);
