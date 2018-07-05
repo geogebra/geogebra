@@ -4,6 +4,8 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -58,6 +60,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		linkBox.setText(this.shareURL);
 		linkBox.addFocusHandler(new FocusHandler() {
 
+			@Override
 			public void onFocus(FocusEvent event) {
 				linkBox.selectAll();
 			}
@@ -70,7 +73,6 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		linkPanel.add(linkBox);
 		linkPanel.add(copyBtn);
 		mainPanel.add(linkPanel);
-		
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
 		printBtn = new StandardButton(
@@ -84,13 +86,13 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		buttonPanel.add(printBtn);
 		buttonPanel.add(exportImgBtn);
 		mainPanel.add(buttonPanel);
-
 		add(mainPanel);
 		setLabels();
 	}
 
+	@Override
 	public void onClick(Widget source) {
-		// TODO
+		// TODO button handlers.
 	}
 
 	/**
@@ -107,5 +109,17 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 
 	private String localize(String id) {
 		return app.getLocalization().getMenu(id);
+	}
+
+	@Override
+	public void show() {
+		super.show();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				linkBox.selectAll();
+				linkBox.setFocus(true);
+			}
+		});
 	}
 }
