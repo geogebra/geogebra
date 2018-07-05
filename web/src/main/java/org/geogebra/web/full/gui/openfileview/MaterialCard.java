@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.openfileview;
 
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.browser.MaterialCardController;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -30,6 +31,7 @@ public class MaterialCard extends FlowPanel {
 	private FlowPanel visibilityPanel;
 	private VisibilityState visibility;
 	private Material material;
+	private MaterialCardController controller;
 
 	/**
 	 * @author csilla
@@ -59,13 +61,21 @@ public class MaterialCard extends FlowPanel {
 	public MaterialCard(final Material m, final AppW app) {
 		this.app = app;
 		this.material = m;
+		controller = new MaterialCardController(app);
 		initGui();
 		this.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
-				// TODO open material
+				openMaterial();
 			}
 		}, ClickEvent.getType());
+	}
+
+	/**
+	 * Open this material.
+	 */
+	protected void openMaterial() {
+		controller.load(material);
 	}
 
 	private void initGui() {

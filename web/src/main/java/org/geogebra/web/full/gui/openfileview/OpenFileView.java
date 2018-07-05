@@ -20,7 +20,6 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -280,10 +279,10 @@ public class OpenFileView extends MyHeaderPanel
 	@Override
 	public void loadAllMaterials() {
 		if (this.app.getLoginOperation().isLoggedIn()) {
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+			app.getLoginOperation().getGeoGebraTubeAPI()
 					.getUsersOwnMaterials(this.userMaterialsCB);
 		} else {
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+			app.getLoginOperation().getGeoGebraTubeAPI()
 					.getFeaturedMaterials(this.ggtMaterialsCB);
 		}
 	}

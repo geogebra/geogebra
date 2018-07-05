@@ -86,6 +86,7 @@ public class MaterialListElement extends FlowPanel
 		}
 
 	};
+	private MaterialCardController controller;
 
 	/**
 	 * 
@@ -99,6 +100,7 @@ public class MaterialListElement extends FlowPanel
 	public MaterialListElement(final Material m, final AppW app,
 			boolean isLocal) {
 		this.app = app;
+		controller = new MaterialCardController(app);
 		this.loc = app.getLocalization();
 		this.guiManager = (GuiManagerW) app.getGuiManager();
 		this.material = m;
@@ -610,9 +612,7 @@ public class MaterialListElement extends FlowPanel
 
 	private void loadGGBfromTube() {
 		if (!StringUtil.empty(material.getFileName())) {
-			app.getViewW().processFileName(material.getFileName());
-			app.setActiveMaterial(material);
-			closeBrowseView();
+			controller.load(material);
 			return;
 		}
 		final long synced = material.getSyncStamp();
@@ -648,10 +648,6 @@ public class MaterialListElement extends FlowPanel
 							}
 						});
 
-	}
-
-	protected void closeBrowseView() {
-		this.guiManager.getBrowseView().close();
 	}
 
 	protected void addViewButton() {
