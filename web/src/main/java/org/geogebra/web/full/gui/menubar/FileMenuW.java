@@ -18,6 +18,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
+import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -265,7 +266,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				&& !getApp().getLoginOperation().isLoggedIn();
 		if (mow_loggedOut) {
 			fileChooser = new FileChooser();
-			RootPanel.get().add(fileChooser);
 			fileChooser.addStyleName("hidden");
 		}
 
@@ -278,6 +278,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					@Override
 					public void doExecute() {
 						if (mow_loggedOut) {
+							RootPanel.get().add(fileChooser);
 							fileChooser.open();
 							return;
 						}
@@ -358,10 +359,13 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	}
 
 	private class FileChooser extends FileUpload implements ChangeHandler {
+		private BrowseGUI bg;
+
 		public FileChooser() {
 			super();
+			bg = new BrowseGUI(getApp(), this);
 			addChangeHandler(this);
-			getElement().setAttribute("accept", ".pdf");
+			getElement().setAttribute("accept", ".ggs");
 		}
 
 		public void open() {
@@ -370,12 +374,18 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		@Override
 		public void onChange(ChangeEvent event) {
-			getSelectedFile();
+			openFile(getSelectedFile(), bg);
+			this.removeFromParent();
 		}
 
+		private native void openFile(JavaScriptObject fileToHandle,
+				BrowseGUI brG)/*-{
+			brG.@org.geogebra.web.full.gui.openfileview.OpenFileView::openFile(
+				Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)
+				(fileToHandle);
+		}-*/;
+
 		private native JavaScriptObject getSelectedFile()/*-{
-			var files = $doc.querySelector('input[type=file]').files;
-			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("files count: " + files.length);
 			return $doc.querySelector('input[type=file]').files[0];
 		}-*/;
 	}
