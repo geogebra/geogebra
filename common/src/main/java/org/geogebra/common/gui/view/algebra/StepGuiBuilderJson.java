@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.algebra;
 import java.util.List;
 
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.solution.TextElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
@@ -34,6 +35,13 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 	}
 
 	private void buildStepGui(SolutionStep step, JSONArray sb2) throws JSONException {
+		if (step.getType() == SolutionStepType.WRAPPER
+				|| step.getType() == SolutionStepType.GROUP_WRAPPER) {
+			for (SolutionStep substep : step.getSubsteps()) {
+				buildStepGui(substep, sb2);
+			}
+			return;
+		}
 		JSONObject stepJ = new  JSONObject();
 
 		JSONArray description = toJSONArray(step.getDetailed(loc));
@@ -59,9 +67,9 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 			JSONObject obj= new JSONObject();
 
 			if (te.latex != null) {
-				obj.append("latex", te.latex);
+				obj.put("latex", te.latex);
 			} else {
-				obj.append("plain", te.plain);
+				obj.put("plain", te.plain);
 			}
 			description.put(obj);
 		}
