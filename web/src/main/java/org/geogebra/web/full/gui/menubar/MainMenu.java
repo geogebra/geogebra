@@ -126,9 +126,6 @@ public class MainMenu extends FlowPanel
 			this.createDownloadAsMenu();
 		}
 
-		if (app.enableFileFeatures()) {
-			this.createFileMenu();
-		}
 		if (app.isUnbundledOrWhiteboard()) {
 			this.createDownloadAsMenu();
 		}
