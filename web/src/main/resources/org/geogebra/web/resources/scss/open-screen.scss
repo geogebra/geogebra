@@ -580,16 +580,20 @@
 					margin-bottom: 48px;
 				}
 				.fileViewButtonPanel {
-   					display: flex;
+   					display: table;
+					border-collapse: separate;
+					border-spacing: 24px 0px;
 				}
 				.extendedFAB {
 					cursor: pointer;
-					min-width: 64px;
-					height: 48px;
-					border-radius: 2px;
-					display: inline-flex;
-					box-shadow: 0 1px 3px 0px $black-2;
-					transition: $button_hover_transition;
+   					min-width: 64px;
+   					height: 48px;
+   					border-radius: 2px;
+				    box-shadow: 0 1px 3px 0px $black-2;
+				    transition: $button_hover_transition;
+   					vertical-align: middle;
+   					display: table-cell;
+   					width: 50%;
 					img {
 						float: left;
 						width: 24px !important;
@@ -600,6 +604,7 @@
 	    				border-radius: 0;
 					}
 					.gwt-Label {
+						cursor: pointer;
 						float: left;
 						padding: 16px 20px 16px 0px;
 						text-transform: uppercase;
