@@ -345,6 +345,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	 * 
 	 * @return if player is ready to play.
 	 */
+	@Override
 	public boolean isReady() {
 		return state == State.READY;
 	}
@@ -352,6 +353,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	/**
 	 * Sets video playable for next click.
 	 */
+	@Override
 	public void setReady() {
 		state = State.READY;
 	}

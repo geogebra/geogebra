@@ -379,6 +379,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 * @param cb
 	 *            {@link MaterialCallbackI}
 	 */
+	@Override
 	public void getUsersMaterials(MaterialCallbackI cb) {
 		performRequest(
 				MaterialRequest.forCurrentUser(client).toJSONString(client),
@@ -528,6 +529,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 * @param callback
 	 *            {@link MaterialCallbackI}
 	 */
+	@Override
 	public void getFeaturedMaterials(MaterialCallbackI callback) {
 		performRequest(MaterialRequest.forFeatured(client).toJSONString(client),
 				callback);
@@ -625,6 +627,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		return false;
 	}
 
+	@Override
 	public void performTokenLogin(LogInOperation logInOperation, String token) {
 		if (token != null) {
 			logInOperation.performTokenLogin(token, true);

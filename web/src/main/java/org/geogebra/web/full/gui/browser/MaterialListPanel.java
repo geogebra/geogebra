@@ -150,10 +150,10 @@ public class MaterialListPanel extends FlowPanel
 		clearMaterials();
 		loadLocal();
 		if (this.app.getLoginOperation().isLoggedIn()) {
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+			app.getLoginOperation().getGeoGebraTubeAPI()
 					.getUsersMaterials(this.userMaterialsCB);
 		} else {
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+			app.getLoginOperation().getGeoGebraTubeAPI()
 					.getFeaturedMaterials(this.ggtMaterialsCB);
 		}
 	}
@@ -162,7 +162,7 @@ public class MaterialListPanel extends FlowPanel
 	 * loads users materials from ggt
 	 */
 	public void loadUsersMaterials() {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+		app.getLoginOperation().getGeoGebraTubeAPI()
 				.getUsersMaterials(this.userMaterialsCB);
 	}
 

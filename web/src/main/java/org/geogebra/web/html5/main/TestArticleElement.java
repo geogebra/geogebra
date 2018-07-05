@@ -400,6 +400,7 @@ public class TestArticleElement implements ArticleElementInterface {
 		return false;
 	}
 
+	@Override
 	public int getParamRandomSeed() {
 		return -1;
 	}

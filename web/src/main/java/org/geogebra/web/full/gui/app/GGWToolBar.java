@@ -669,10 +669,12 @@ public class GGWToolBar extends Composite
 		}
 		GWT.runAsync(new RunAsyncCallback() {
 
+			@Override
 			public void onFailure(Throwable reason) {
 				// failed loading toolbar
 			}
 
+			@Override
 			public void onSuccess() {
 				target.setResource(getImageURLNotMacro(
 						ToolbarSvgResources.INSTANCE, mode));

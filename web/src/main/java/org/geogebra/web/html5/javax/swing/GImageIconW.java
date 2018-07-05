@@ -18,6 +18,7 @@ public class GImageIconW extends GImageIcon implements HasResource {
 		return impl;
 	}
 
+	@Override
 	public void setResource(ResourcePrototype res) {
 		impl = NoDragImage.safeURI(res);
 	}

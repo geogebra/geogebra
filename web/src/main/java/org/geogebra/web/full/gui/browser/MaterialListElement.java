@@ -609,8 +609,14 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	private void loadGGBfromTube() {
+		if (!StringUtil.empty(material.getFileName())) {
+			app.getViewW().processFileName(material.getFileName());
+			app.setActiveMaterial(material);
+			closeBrowseView();
+			return;
+		}
 		final long synced = material.getSyncStamp();
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+		app.getLoginOperation().getGeoGebraTubeAPI()
 				.getItem(material.getSharingKeyOrId() + "",
 						new MaterialCallback() {
 

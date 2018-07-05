@@ -180,6 +180,7 @@ public class EmbedManagerW implements EmbedManager {
 		}
 	}
 
+	@Override
 	public int nextID() {
 		return counter++;
 	}

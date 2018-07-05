@@ -127,6 +127,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 * 
 	 * @return number of valid points in x and y arrays.
 	 */
+	@Override
 	final public int getPointLength() {
 		return myPointList.size();
 	}

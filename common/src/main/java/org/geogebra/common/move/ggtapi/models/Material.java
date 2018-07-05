@@ -21,7 +21,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public enum MaterialType {
-		ggb, ggt, link, book, ws, csv, flexiblews;
+		ggb, ggt, ggs, link, book, ws, csv, flexiblews;
 	}
 
 	private int id;
@@ -118,6 +118,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private boolean macro;
 	private String sharingKey;
 	private int elemcntApplet;
+	private String fileName;
 
 	/**
 	 * @param id
@@ -785,5 +786,13 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setLabelDrags(boolean labelDrags) {
 		this.labelDrags = labelDrags;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fn) {
+		fileName = fn;
 	}
 }

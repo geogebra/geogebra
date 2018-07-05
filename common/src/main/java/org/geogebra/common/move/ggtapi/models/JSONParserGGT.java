@@ -33,7 +33,7 @@ public class JSONParserGGT {
 	 * @param obj
 	 *            parsed data
 	 * @param setLocalValues
-	 *            whether to initialiye sznc timestamp and local ID
+	 *            whether to initialize sync timestamp and local ID
 	 * @return material
 	 */
 	public Material toMaterial(JSONObject obj, boolean setLocalValues) {
@@ -45,9 +45,17 @@ public class JSONParserGGT {
 				Log.error("Unknown material type:" + getString(obj, "type"));
 			}
 		}
-		int ID = getInt(obj, "id", -1);
+		String IDs = getString(obj, "id");
+		int id = -1;
+		String sharingKey = null;
+		try {
+			id = Integer.parseInt(IDs);
+			sharingKey = getString(obj, "sharing_key");
+		} catch (RuntimeException e) {
+			sharingKey = IDs;
+		}
 
-		Material material = new Material(ID, type);
+		Material material = new Material(id, type);
 
 		material.setTitle(getString(obj, "title"));
 		material.setDescription(getString(obj, "description"));
@@ -61,7 +69,8 @@ public class JSONParserGGT {
 			material.setSyncStamp(Long.parseLong(getString(obj, "syncstamp")));
 		}
 		material.setVisibility(getString(obj, "visibility"));
-		material.setSharingKey(getString(obj, "sharing_key"));
+		material.setFileName(getString(obj, "fileUrl"));
+		material.setSharingKey(sharingKey);
 		material.setAuthor(getString(obj, "author"));
 		material.setAuthorId(getInt(obj, "author_id", -1));
 		material.setURL(getString(obj, "url"));

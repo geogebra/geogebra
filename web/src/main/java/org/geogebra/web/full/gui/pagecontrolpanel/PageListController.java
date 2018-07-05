@@ -126,6 +126,7 @@ public class PageListController implements PageListControllerInterface,
 	/**
 	 * Save all slides as PDF.
 	 */
+	@Override
 	public String exportPDF() {
 
 		// export scale

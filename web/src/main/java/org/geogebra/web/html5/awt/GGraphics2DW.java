@@ -871,6 +871,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	 * @param fillColor
 	 *            fill color
 	 */
+	@Override
 	public void fillWith(GColor fillColor) {
 		this.setColor(fillColor);
 		this.fillRect(0, 0, getOffsetWidth(), getOffsetHeight());
@@ -879,6 +880,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	/**
 	 * Clears the whole graphics.
 	 */
+	@Override
 	public void clearAll() {
 		double scale = getScale();
 		clearRect(0, 0, (int) (scale * getOffsetWidth()), (int) (scale * getOffsetHeight()));

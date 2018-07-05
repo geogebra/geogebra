@@ -225,6 +225,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 			return null;
 		}
 
+		@Override
 		public void reset() {
 			// not needed
 		}

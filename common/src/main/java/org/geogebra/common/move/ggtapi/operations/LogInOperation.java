@@ -45,7 +45,6 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 */
 	public final void performTokenLogin() {
 		String token = getModel().getLoginToken();
-		Log.error(token + "TOKEN");
 		getGeoGebraTubeAPI().performTokenLogin(this, token);
 	}
 

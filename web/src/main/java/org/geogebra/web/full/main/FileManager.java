@@ -233,6 +233,7 @@ public abstract class FileManager extends MaterialsManager {
 	 * export image (or other filetype) either as a browser download, share
 	 * intent iOS Safari: open in new tab (no download possible)
 	 */
+	@Override
 	final public void exportImage(String url, String filename,
 			String extension) {
 		Browser.exportImage(url, filename);

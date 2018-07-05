@@ -80,4 +80,8 @@ public interface BackendAPI {
 
 	void performTokenLogin(LogInOperation logInOperation, String token);
 
+	void getUsersMaterials(MaterialCallbackI userMaterialsCB);
+
+	void getFeaturedMaterials(MaterialCallbackI userMaterialsCB);
+
 }

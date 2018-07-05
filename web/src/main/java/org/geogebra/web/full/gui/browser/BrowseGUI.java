@@ -28,7 +28,6 @@ import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
-import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -114,7 +113,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 	private void sync() {
 		if (!app.getFileManager().isSyncing()) {
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+			app.getLoginOperation().getGeoGebraTubeAPI()
 					.sync(0, new SyncCallback() {
 
 			        @Override

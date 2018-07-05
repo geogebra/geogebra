@@ -61,6 +61,7 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 				(NumberInputHandler) getInputHandler(), this,
 				new AsyncOperation<Boolean>() {
 
+					@Override
 					public void callback(Boolean ok) {
 						setVisible(!ok);
 					}

@@ -484,6 +484,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		}
 	}
 
+	@Override
 	public void setProgressBarPercent(double percent) {
 		progressBar.setPercent(percent);
 	}
