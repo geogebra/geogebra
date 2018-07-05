@@ -57,6 +57,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	@Override
 	protected boolean tableVisible(int table) {
 		return !(table == CommandsConstants.TABLE_CAS
+				|| (table == CommandsConstants.TABLE_3D && !app.areCommands3DEnabled())
 				|| table == CommandsConstants.TABLE_ENGLISH);
 	}
 
