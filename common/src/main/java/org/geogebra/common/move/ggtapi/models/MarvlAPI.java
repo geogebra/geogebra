@@ -161,7 +161,28 @@ public class MarvlAPI implements BackendAPI {
 	}
 
 	@Override
-	public void getUsersMaterials(final MaterialCallbackI userMaterialsCB) {
+	public void getUsersMaterials(MaterialCallbackI userMaterialsCB) {
+		getUsersOwnMaterials(userMaterialsCB);
+	}
+
+	protected List<Material> parseMaterials(String responseStr) throws JSONException {
+		ArrayList<Material> ret = new ArrayList<>();
+		JSONTokener jst = new JSONTokener(responseStr);
+		JSONArray arr = new JSONArray(jst);
+		for (int i = 0; i < arr.length(); i++) {
+			Material mat = JSONParserGGT.prototype.toMaterial(arr.getJSONObject(i));
+			ret.add(mat);
+		}
+		return ret;
+	}
+
+	@Override
+	public void getFeaturedMaterials(MaterialCallbackI userMaterialsCB) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void getUsersOwnMaterials(final MaterialCallbackI userMaterialsCB) {
 		HttpRequest request = UtilFactory.getPrototype().newHttpRequest();
 		request.sendRequestPost("GET", baseURL + "/users/12/materials", null, new AjaxCallback() {
 			@Override
@@ -181,23 +202,6 @@ public class MarvlAPI implements BackendAPI {
 				userMaterialsCB.onError(new Exception(error));
 			}
 		});
-
-	}
-
-	protected List<Material> parseMaterials(String responseStr) throws JSONException {
-		ArrayList<Material> ret = new ArrayList<>();
-		JSONTokener jst = new JSONTokener(responseStr);
-		JSONArray arr = new JSONArray(jst);
-		for (int i = 0; i < arr.length(); i++) {
-			Material mat = JSONParserGGT.prototype.toMaterial(arr.getJSONObject(i));
-			ret.add(mat);
-		}
-		return ret;
-	}
-
-	@Override
-	public void getFeaturedMaterials(MaterialCallbackI userMaterialsCB) {
-		// TODO Auto-generated method stub
 
 	}
 

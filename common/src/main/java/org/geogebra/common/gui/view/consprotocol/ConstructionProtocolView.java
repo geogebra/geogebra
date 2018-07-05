@@ -1071,7 +1071,7 @@ public class ConstructionProtocolView {
 
 		sb.append("</table>\n");
 
-		addSpreadsheet(sb, loc, kernel);
+		addSpreadsheet(sb, kernel);
 
 		addCAS(sb, loc, kernel);
 
@@ -1154,7 +1154,7 @@ public class ConstructionProtocolView {
 
 	}
 
-	private static void addSpreadsheet(StringBuilder sb, Localization loc,
+	private static void addSpreadsheet(StringBuilder sb, 
 			Kernel kernel2) {
 		
 		GuiManagerInterface gm = kernel2.getApplication().getGuiManager();

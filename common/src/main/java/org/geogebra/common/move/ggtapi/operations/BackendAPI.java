@@ -84,4 +84,6 @@ public interface BackendAPI {
 
 	void getFeaturedMaterials(MaterialCallbackI userMaterialsCB);
 
+	void getUsersOwnMaterials(MaterialCallbackI userMaterialsCB);
+
 }

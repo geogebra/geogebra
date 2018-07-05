@@ -431,6 +431,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return added;
 	}
 
+	@SuppressWarnings("cast")
 	@Override
 	public boolean removeFromUpdateSets(final AlgoElement algorithm) {
 		final boolean removed = super.removeFromUpdateSets(algorithm);
@@ -440,6 +441,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			for (int i = 0; i < algorithm.getOutputLength(); i++) {
 				GeoElement geo = algorithm.getOutput(i);
 				if (geo instanceof SurfaceEvaluable) {
+					// the cast here is needed for FindBugs
 					surfaceEvaluables.remove((SurfaceEvaluable) geo);
 				}
 			}

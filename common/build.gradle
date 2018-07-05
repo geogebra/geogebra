@@ -84,16 +84,17 @@ test {
      ignoreFailures = true
 }
 
-findbugs{
-     ignoreFailures = true
-     excludeFilter = file("config/findbugs.xml")
+findbugs {
+    ignoreFailures = true
+    excludeFilter = file("config/findbugs.xml")
 }
 
 pmd {
-     ignoreFailures = true
-     ruleSets = []
-     ruleSetFiles = files("config/pmd.xml")
+    ignoreFailures = true
+    ruleSets = []
+    ruleSetFiles = files("config/pmd.xml")
 }
+
 checkstyle {
-toolVersion = "8.8"
+    toolVersion = "8.8"
 }
