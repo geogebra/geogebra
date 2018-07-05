@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -62,7 +63,7 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public void deleteMaterial(Material mat, MaterialCallbackI cb) {
-		// TODO Auto-generated method stub
+		performRequest("DELETE", "/materials/" + mat.getSharingKeyOrId(), null, cb);
 	}
 
 	@Override
@@ -183,8 +184,13 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public void getUsersOwnMaterials(final MaterialCallbackI userMaterialsCB) {
+		performRequest("GET", "/users/12/materials", null, userMaterialsCB);
+	}
+
+	private void performRequest(String method, String endpoint, String json,
+			final MaterialCallbackI userMaterialsCB) {
 		HttpRequest request = UtilFactory.getPrototype().newHttpRequest();
-		request.sendRequestPost("GET", baseURL + "/users/12/materials", null, new AjaxCallback() {
+		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
 				try {
@@ -202,6 +208,23 @@ public class MarvlAPI implements BackendAPI {
 				userMaterialsCB.onError(new Exception(error));
 			}
 		});
+
+	}
+
+	@Override
+	public void uploadMaterial(int tubeID, String visibility, String text, String base64,
+			MaterialCallbackI materialCallback, MaterialType type) {
+		JSONObject request = new JSONObject();
+		try {
+			request.put("visibility", "S"); // TODO
+			request.put("title", text);
+			request.put("file", base64);
+			request.put("type", type.name()); // TODO
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.performRequest("POST", "/materials", request.toString(), materialCallback);
 
 	}
 

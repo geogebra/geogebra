@@ -423,7 +423,8 @@ public class DialogManagerW extends DialogManager
 			saveDialog = new SaveDialogW((AppW) app);
 		}
 		// set default saveType
-		saveDialog.setSaveType(MaterialType.ggb);
+		saveDialog.setSaveType(
+				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
 		return saveDialog;
 	}
 

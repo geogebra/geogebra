@@ -18,6 +18,7 @@ import com.google.gwt.user.client.Command;
 public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 
 	private Material material;
+	private MaterialCardI controller;
 
 	/**
 	 * @param app
@@ -25,9 +26,11 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * @param mat
 	 *            associated material
 	 */
-	public ContextMenuButtonMaterialCard(AppW app, Material mat) {
+	public ContextMenuButtonMaterialCard(AppW app, Material mat,
+			MaterialCardI controller) {
 		super(app);
 		this.material = mat;
+		this.controller = controller;
 	}
 
 	@Override
@@ -114,6 +117,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * execute delete action
 	 */
 	protected void onDelete() {
+		controller.onConfirmDelete();
 		hide();
 		// TODO
 	}

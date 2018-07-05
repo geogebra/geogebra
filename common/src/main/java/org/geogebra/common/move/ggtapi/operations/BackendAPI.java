@@ -3,6 +3,7 @@ package org.geogebra.common.move.ggtapi.operations;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 
@@ -85,5 +86,8 @@ public interface BackendAPI {
 	void getFeaturedMaterials(MaterialCallbackI userMaterialsCB);
 
 	void getUsersOwnMaterials(MaterialCallbackI userMaterialsCB);
+
+	void uploadMaterial(int tubeID, String visibility, String text, String base64,
+			MaterialCallbackI materialCallback, MaterialType saveType);
 
 }

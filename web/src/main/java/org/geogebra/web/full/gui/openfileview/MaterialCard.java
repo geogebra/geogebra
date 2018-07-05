@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Label;
  * @author csilla
  *
  */
-public class MaterialCard extends FlowPanel {
+public class MaterialCard extends FlowPanel implements MaterialCardI {
 	private AppW app;
 	// image of material
 	private FlowPanel imgPanel;
@@ -30,7 +30,6 @@ public class MaterialCard extends FlowPanel {
 	private ContextMenuButtonMaterialCard moreBtn;
 	private FlowPanel visibilityPanel;
 	private VisibilityState visibility;
-	private Material material;
 	private MaterialCardController controller;
 
 	/**
@@ -60,8 +59,8 @@ public class MaterialCard extends FlowPanel {
 	 */
 	public MaterialCard(final Material m, final AppW app) {
 		this.app = app;
-		this.material = m;
 		controller = new MaterialCardController(app);
+		controller.setMaterial(m);
 		initGui();
 		this.addDomHandler(new ClickHandler() {
 			@Override
@@ -75,7 +74,7 @@ public class MaterialCard extends FlowPanel {
 	 * Open this material.
 	 */
 	protected void openMaterial() {
-		controller.load(material);
+		controller.loadGGBfromTube();
 	}
 
 	private void initGui() {
@@ -83,16 +82,16 @@ public class MaterialCard extends FlowPanel {
 		// panel containing the preview image of material
 		imgPanel = new FlowPanel();
 		imgPanel.setStyleName("cardImgPanel");
-		setBackgroundImgPanel(material);
+		setBackgroundImgPanel(getMaterial());
 		this.add(imgPanel);
 		// panel containing the info regarding the material
 		infoPanel = new FlowPanel();
 		infoPanel.setStyleName("cardInfoPanel");
-		cardTitle = new Label(material.getTitle());
+		cardTitle = new Label(getMaterial().getTitle());
 		cardTitle.setStyleName("cardTitle");
-		cardAuthor = new Label(material.getAuthor());
+		cardAuthor = new Label(getMaterial().getAuthor());
 		cardAuthor.setStyleName("cardAuthor");
-		moreBtn = new ContextMenuButtonMaterialCard(app, material);
+		moreBtn = new ContextMenuButtonMaterialCard(app, getMaterial(), this);
 		// panel for visibility state
 		visibilityPanel = new FlowPanel();
 		visibilityPanel.setStyleName("visibilityPanel");
@@ -125,10 +124,15 @@ public class MaterialCard extends FlowPanel {
 				.add(LayoutUtilW.panelRowIndent(visibiltyImg, visibilityTxt));
 		// build info panel
 		infoPanel.add(cardTitle);
-		infoPanel.add(app.getLoginOperation().owns(material) ? visibilityPanel
+		infoPanel.add(
+				app.getLoginOperation().owns(getMaterial()) ? visibilityPanel
 				: cardAuthor);
 		infoPanel.add(moreBtn);
 		this.add(infoPanel);
+	}
+
+	private Material getMaterial() {
+		return controller.getMaterial();
 	}
 
 	private void setBackgroundImgPanel(Material m) {
@@ -141,5 +145,15 @@ public class MaterialCard extends FlowPanel {
 					+ AppResources.INSTANCE.geogebra64().getSafeUri().asString()
 					+ ")");
 		}
+	}
+
+	@Override
+	public void remove() {
+		removeFromParent();
+	}
+
+	@Override
+	public void onConfirmDelete() {
+		controller.onConfirmDelete(this);
 	}
 }

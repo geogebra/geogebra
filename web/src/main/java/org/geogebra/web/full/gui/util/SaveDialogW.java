@@ -33,7 +33,6 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
-import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -574,7 +573,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 *            "P" / "O" / "S"
 	 */
 	void handleSync(final String base64, final String visibility) {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+		app.getLoginOperation().getGeoGebraTubeAPI()
 		        .getItem(app.getTubeId() + "", new MaterialCallback() {
 
 			        @Override
@@ -627,7 +626,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	void doUploadToGgt(int tubeID, String visibility, String base64,
 	        MaterialCallback materialCallback) {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+		app.getLoginOperation().getGeoGebraTubeAPI()
 				.uploadMaterial(tubeID, visibility, this.title.getText(),
 						base64, materialCallback, this.saveType);
 	}
