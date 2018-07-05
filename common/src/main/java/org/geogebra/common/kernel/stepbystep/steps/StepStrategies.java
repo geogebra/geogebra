@@ -1,14 +1,20 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInequality;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 
 public class StepStrategies {
 
@@ -151,7 +157,7 @@ public class StepStrategies {
 				SolveSteps.CONVERT_OR_SET_APPROXIMATE,
 				EquationSteps.NEGATE_BOTH_SIDES,
 				SolveSteps.REGROUP,
-				EquationSteps.PODUCT_IS_ZERO,
+				EquationSteps.PRODUCT_IS_ZERO,
 				EquationSteps.FRACTION_IS_ZERO,
 				EquationSteps.TRIVIAL_EQUATIONS,
 				EquationSteps.SEPARATE_PLUSMINUS,
