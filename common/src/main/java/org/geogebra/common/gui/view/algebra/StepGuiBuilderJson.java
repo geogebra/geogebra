@@ -5,7 +5,9 @@ import java.util.List;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.solution.TextElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 
 /**
  * Makes a JSON object with a list of steps
@@ -14,44 +16,60 @@ import org.geogebra.common.util.StringUtil;
 public class StepGuiBuilderJson implements StepGuiBuilder {
 
 	private Localization loc;
-	private StringBuilder sb;
+	private JSONArray sb;
 
 	public StepGuiBuilderJson(Localization loc) {
 		this.loc = loc;
-		sb = new StringBuilder();
+		sb = new JSONArray();
 	}
 
 	@Override
 	public void buildStepGui(SolutionStep step) {
-		addRow(step.getDetailed(loc));
-
-		if (step.getSubsteps() != null) {
-			for (SolutionStep substep : step.getSubsteps()) {
-				buildStepGui(substep);
-			}
+		try {
+			buildStepGui(step, sb);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	public void addRow(List<TextElement> list) {
-		for (TextElement te : list) {
-			if (sb.length() > 0) {
-				sb.append(',');
-			}
+	private void buildStepGui(SolutionStep step, JSONArray sb2) throws JSONException {
+		JSONObject stepJ = new  JSONObject();
 
-			sb.append("{ \"text\":\"");
+		JSONArray description = toJSONArray(step.getDetailed(loc));
+		if (description.length() > 0) {
+			stepJ.put("description", description);
+		}
+		stepJ.put("type", step.getType() + "");
+
+		if (step.getSubsteps() != null) {
+			JSONArray substeps = new JSONArray();
+			for (SolutionStep substep : step.getSubsteps()) {
+				buildStepGui(substep, substeps);
+			}
+			stepJ.put("substeps", substeps);
+
+		}
+		sb2.put(stepJ);
+	}
+
+	private static JSONArray toJSONArray(List<TextElement> list) throws JSONException {
+		JSONArray description = new JSONArray();
+		for (TextElement te : list) {
+			JSONObject obj= new JSONObject();
 
 			if (te.latex != null) {
-				sb.append(StringUtil.toJavaString(te.latex));
-				sb.append("\", \"latex\":true }");
+				obj.append("latex", te.latex);
 			} else {
-				sb.append(StringUtil.toJavaString(te.plain));
-				sb.append("\", \"plain\":true }");
+				obj.append("plain", te.plain);
 			}
+			description.put(obj);
 		}
+		return description;
 	}
 
 	@Override
 	public String toString() {
-		return "[" + sb.toString() + "]";
+		return sb.toString();
 	}
 }
