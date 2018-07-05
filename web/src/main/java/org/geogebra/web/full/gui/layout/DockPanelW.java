@@ -46,6 +46,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEvent;
 import com.google.gwt.event.dom.client.DragHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -640,16 +642,21 @@ public abstract class DockPanelW extends ResizeComposite
 		final int y = 8;
 		final ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
 				app, x, y);
-		contextMenu.getWrappedPopup().getPopupPanel()
-				.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-					@Override
-					public void setPosition(int offsetWidth, int offsetHeight) {
-						contextMenu.getWrappedPopup().getPopupPanel()
-								.setPopupPosition(
-										(int) app.getWidth() - offsetWidth, y);
-						contextMenu.focusDeferred();
-					}
-				});
+		final GPopupPanel popup = contextMenu.getWrappedPopup().getPopupPanel();
+		popup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
+			@Override
+			public void setPosition(int offsetWidth, int offsetHeight) {
+				popup.setPopupPosition((int) app.getWidth() - offsetWidth, y);
+				contextMenu.focusDeferred();
+			}
+		});
+		popup.addCloseHandler(new CloseHandler<GPopupPanel>() {
+
+			@Override
+			public void onClose(CloseEvent<GPopupPanel> event) {
+				app.getEuclidianView1().getEuclidianController().setPopupJustClosed(true);
+			}
+		});
 	}
 
 	/**

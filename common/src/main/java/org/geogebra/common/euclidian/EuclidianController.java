@@ -9221,13 +9221,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		Hits hits;
 
-		if (penMode(mode) && !popupJustClosed) {
+		if (popupJustClosed) {
+			popupJustClosed = false;
+		} else if (penMode(mode)) {
 			setViewHits(event.getType());
 			hits = view.getHits();
 			hits.removeAllButImages();
 			getPen().handleMousePressedForPenMode(event, hits);
 			return;
 		}
+
 		Drawable d = view.getBoundingBoxHandlerHit(
 				new GPoint(event.getX(), event.getY()), event.getType());
 		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {

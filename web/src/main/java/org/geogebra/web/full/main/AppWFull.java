@@ -944,8 +944,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 			((GGWToolBar) getToolbar()).getToolBar().closeAllSubmenu();
 		}
 		if (isUnbundledOrWhiteboard()) {
+			boolean justClosed = menuShowing;
 			hideMenu();
-			closePageControlPanel();
+			justClosed = justClosed || closePageControlPanel();
+			if (justClosed) {
+				getEuclidianController().setPopupJustClosed(justClosed);
+			}
 		}
 	}
 
@@ -1095,12 +1099,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 	/**
 	 * Closes the page control panel
 	 */
-	public void closePageControlPanel() {
+	public boolean closePageControlPanel() {
 		if (!has(Feature.MOW_MULTI_PAGE)) {
-			return;
+			return false;
 		}
 
-		getEuclidianController().setPopupJustClosed(frame.getPageControlPanel().close());
+		return frame.getPageControlPanel().close();
 	}
 
 	/**
