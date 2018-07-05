@@ -4393,7 +4393,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case SHARE_DIALOG_MAT_DESIGN:
-			return false;
+			return prerelease;
 
 		/** GBB-2394 */
 		case SPLITTER_LOADING:

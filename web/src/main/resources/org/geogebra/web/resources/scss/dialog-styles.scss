@@ -821,43 +821,46 @@ $duration: 0.2s;
    		}
 	}
 	.MaterialDialogBox.shareDialog {
+		padding-bottom: 24px;
+		
+		.linkLabel {
+			color: $text-secondary;
+			font-size: 75%;
+    		line-height: 1;
+		}
 		.linkPanel {
 			display: inline-flex;
-			.linkLabel {
-				color: $text-secondary;
-				font-size: 75%;
-    			line-height: 1;
-			}
+			
 			.linkBox {
 				width: 300px;
 				padding: 8px 0 8px 0;
 				margin: 0;
-			    margin-right: 36px;
 			    border-bottom: 2px solid $teal-default !important;
 			    border-radius: 0;
 			}
 			.copyButton {
+				cursor: pointer;
 				min-width: 64px;
 				height: 36px;
 				border-radius: 2px;
+				padding: 0 8px;
+				margin-left: 32px;
 				display: inline-flex;
 				align-items: center;       
 				justify-content: center;
 				vertical-align: middle;
 				color: $text-primary;
 				text-transform: uppercase;
-				padding: 0 8px;
 				transition: background-color 0.15s;
 				
 				&:hover {
 					background-color: $mow_card_background_hover;
 				}
-			
 			}
 		}
 		.buttonPanel {
-			padding-bottom: 24px;
   			padding-top: 20px;
+  			
 			.roundButton {
 			    cursor: pointer;
 			    display: inline-flex;
@@ -876,6 +879,8 @@ $duration: 0.2s;
 					color: $text-primary;
 					font-size: 100%;
 					margin-left: 12px;
+					margin-right: auto;
+					cursor: pointer;
 				}
 			}
 		}

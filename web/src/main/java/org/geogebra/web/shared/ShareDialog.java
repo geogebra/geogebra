@@ -32,6 +32,8 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 	/**
 	 * @param app
 	 *            application
+	 * @param shareURL
+	 *            sharing url of material
 	 */
 	public ShareDialog(AppW app, String shareURL) {
 		super(app.getPanel(), app);
@@ -55,7 +57,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		copyBtn = new StandardButton(localize("Copy"),
 				app);
 		copyBtn.setStyleName("copyButton");
-		linkPanel.add(linkLabel);
+		mainPanel.add(linkLabel);
 		linkPanel.add(linkBox);
 		linkPanel.add(copyBtn);
 		mainPanel.add(linkPanel);
