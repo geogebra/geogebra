@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -680,7 +681,8 @@ public abstract class GeoQuadricND extends GeoElement
 
 	@Override
 	public DescriptionMode needToShowBothRowsInAV() {
-		if (toStringMode == GeoConicND.EQUATION_USER) {
+		if (toStringMode == GeoConicND.EQUATION_USER
+				&& (isIndependent() || getParentAlgorithm().getClassName() == Algos.Expression)) {
 			return DescriptionMode.VALUE;
 		}
 		return super.needToShowBothRowsInAV();

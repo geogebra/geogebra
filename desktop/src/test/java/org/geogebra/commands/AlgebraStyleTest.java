@@ -84,10 +84,14 @@ public class AlgebraStyleTest extends Assert {
 		checkRows("{{a}}+{{1}}", 2);
 		checkRows("{x=y}", 1);
 		checkRows("x=y", 2);
-		checkRows("x=y", 1, new EvalInfo(true).withUserEquation(true));
+		EvalInfo graphingFlags = new EvalInfo(true).withUserEquation(true);
+		checkRows("x=y", 1, graphingFlags);
 		checkRows("{y=x}", 1);
 		checkRows("Sequence[100]", 2);
-
+		checkRows("Line((0,0),(0,1))", 2);
+		checkRows("Circle((0,0),(0,1))", 2);
+		checkRows("Line((0,0),(0,1))", 2, graphingFlags);
+		checkRows("Circle((0,0),(0,1))", 2, graphingFlags);
 	}
 
 	@Test

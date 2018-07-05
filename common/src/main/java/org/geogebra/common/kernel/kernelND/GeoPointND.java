@@ -351,6 +351,12 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public void setLocateableList(LocateableList locateableList);
 
+	/**
+	 * Copy coordinates from point.
+	 * 
+	 * @param point
+	 *            source point
+	 */
 	public void setCoordsFromPoint(GeoPointND point);
 
 	/**
@@ -460,5 +466,8 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public String toStringDescription(StringTemplate tpl);
 
+	/**
+	 * @return string mode: Kernel.COORD_COMPLEX, COORD_CARTESIAN etc.
+	 */
 	public int getToStringMode();
 }
