@@ -975,8 +975,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalMathML(Ljava/lang/String;)(text + "");
 		};
 
-		api.stepByStep = function(text) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::stepByStep(Ljava/lang/String;)(text + "");
+		api.stepByStep = function(text, ggb) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::stepByStep(Ljava/lang/String;Z)(text + "", !!ggb);
 		};
 		
 		api.exportCollada = function(xmin, xmax, ymin, ymax, zmin, zmax, 

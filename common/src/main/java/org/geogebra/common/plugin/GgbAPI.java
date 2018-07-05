@@ -16,7 +16,9 @@ import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilderJson;
+import org.geogebra.common.gui.view.algebra.StepGuiBuilderGGB;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.Columns;
 import org.geogebra.common.io.latex.BracketsAdapter;
@@ -2222,13 +2224,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 *            stepable command
 	 * @return JSON with steps
 	 */
-	public String stepByStep(String eq) {
+	public String stepByStep(String eq, boolean ggb) {
 		StepSolvable se = StepNode.getStepTree(eq, kernel.getParser()).toSolvable();
-		StepGuiBuilderJson builder = new StepGuiBuilderJson(kernel.getLocalization());
 		
 		SolutionBuilder sb = new SolutionBuilder();
 		se.solve(new StepVariable("x"), sb);
 		
+		StepGuiBuilder builder = ggb
+				? new StepGuiBuilderGGB(kernel.getLocalization())
+				: new StepGuiBuilderJson(kernel.getLocalization());
 		builder.buildStepGui(sb.getSteps());
 		return builder.toString();
 	}
