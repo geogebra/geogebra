@@ -53,7 +53,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 	@Override
 	public void drawGeometryHiding(Renderer renderer) {
-		drawGeometry(renderer);
+		// nothing to do
 	}
 
 	@Override
@@ -276,9 +276,6 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 		public void callback(GeoNumberValue obj) {
 			GeoNumberValue num = obj;
 
-			// Log.debug("callback : "+num + "," + basis + " ,
-			// "+extrusionComputer);
-
 			if (extrusionComputer != null) {
 				// remove the algo
 				extrusionComputer.getAlgo().remove();
@@ -320,11 +317,6 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 					true, true);
 		}
 
-	}
-
-	@Override
-	public boolean shouldBePacked() {
-		return false;
 	}
 
 }
