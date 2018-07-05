@@ -166,7 +166,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 		}
 	},
 
-	PODUCT_IS_ZERO {
+	PRODUCT_IS_ZERO {
 		@Override
 		public Result apply(StepEquation se, StepVariable variable,
 				SolutionBuilder steps, SolveTracker tracker) {
