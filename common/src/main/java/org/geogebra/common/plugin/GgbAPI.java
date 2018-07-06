@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -17,8 +18,8 @@ import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
-import org.geogebra.common.gui.view.algebra.StepGuiBuilderJson;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilderGGB;
+import org.geogebra.common.gui.view.algebra.StepGuiBuilderJson;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.Columns;
 import org.geogebra.common.io.latex.BracketsAdapter;
@@ -2222,6 +2223,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	/**
 	 * @param eq
 	 *            stepable command
+	 * @param ggb
+	 *            use GGB syntax?
 	 * @return JSON with steps
 	 */
 	public String stepByStep(String eq, boolean ggb) {
@@ -2358,52 +2361,43 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * @param useColors
-	 *            whether to use
-	 * @param number
-	 *            whether to include number column
-	 * @param name
-	 *            whether to include name column
-	 * @param icon
-	 *            whether to include toolbar icon column
-	 * @param description
-	 *            whether to include description column
-	 * @param value
-	 *            whether to include value column
-	 * @param caption
-	 *            whether to include caption column
-	 * @param breakpoint
-	 *            whether to include breakpoint column
+	 * @param columnNames
+	 *            column names
 	 * @return html of construction protocol
 	 */
-	public String exportConstruction(boolean useColors, boolean number,
-			boolean name, boolean description, boolean value,
-			boolean caption, boolean breakpoint) {
-
+	public String exportConstruction(String... columnNames) {
 		ArrayList<Columns> columns = new ArrayList<>();
-		if (number) {
-			columns.add(Columns.NUMBER);
+		boolean useColors = false;
+		for (String s : columnNames) {
+			switch (s.toLowerCase(Locale.US)) {
+			case "color":
+				useColors = true;
+				break;
+			case "number":
+				columns.add(Columns.NUMBER);
+				break;
+			case "name":
+				columns.add(Columns.NAME);
+				break;
+			case "definition":
+				columns.add(Columns.DEFINITION);
+			case "description":
+				columns.add(Columns.DESCRIPTION);
+				break;
+			case "value":
+				columns.add(Columns.VALUE);
+				break;
+			case "caption":
+				columns.add(Columns.CAPTION);
+				break;
+			case "breakpoint":
+				columns.add(Columns.BREAKPOINT);
+			default:
+				Log.warn("Unknown column" + s);
+			}
 		}
-		if (name) {
-			columns.add(Columns.NAME);
-		}
-		// if (icon) {
-		// columns.add(Columns.TOOLBARICON);
-		// }
-		if (description) {
-			columns.add(Columns.DESCRIPTION);
-		}
-		if (value) {
-			columns.add(Columns.VALUE);
-		}
-		if (caption) {
-			columns.add(Columns.CAPTION);
-		}
-		if (breakpoint) {
-			columns.add(Columns.BREAKPOINT);
-		}
-		return ConstructionProtocolView.getHTML(null, app.getLocalization(),
-				kernel, columns, false, useColors);
+		return ConstructionProtocolView.getHTML(null, app.getLocalization(), kernel, columns, false,
+				useColors);
 	}
 
 }

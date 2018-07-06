@@ -158,8 +158,8 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 					public void doExecute() {
 						menu.hide();
 						app.exportStringToFile("html",
-								app.getGgbApi().exportConstruction(true, false,
-										true, true, true, false, false));
+								app.getGgbApi().exportConstruction("color",
+										"name", "definition", "value"));
 					}
 				});
 

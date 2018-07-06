@@ -157,6 +157,9 @@ public enum GeoClass {
 	/** VIDEO */
 	VIDEO("Video", 160, false),
 
+	/**
+	 * Embedded GeoGebra applet
+	 */
 	EMBED("Embed", 160, false),
 
 	/** DEFAULT */

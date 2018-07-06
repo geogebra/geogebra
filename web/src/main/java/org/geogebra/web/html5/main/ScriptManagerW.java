@@ -3,7 +3,7 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -12,7 +12,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class ScriptManagerW extends ScriptManager {
 
-	private String ggbApplet = ArticleElement.DEFAULT_APPLET_ID;
+	private String ggbApplet = ArticleElementInterface.DEFAULT_APPLET_ID;
 	private JavaScriptObject api;
 
 	/**
@@ -997,9 +997,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::translate(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(arg1 + "", callback);
 		};
 		
-		api.exportConstruction = function(useColors, number, name, 
-					description, value, caption, breakpoint) {
-			return ggbAPI.@org.geogebra.common.plugin.GgbAPI::exportConstruction(ZZZZZZZ)(!!useColors, !!number, !!name, !!description, !!value, !!caption, !!breakpoint);
+		api.exportConstruction = function(flags) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportConstruction(Lcom/google/gwt/core/client/JsArrayString;)(flags || ["color","name","definition","value"]);
 		}
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;

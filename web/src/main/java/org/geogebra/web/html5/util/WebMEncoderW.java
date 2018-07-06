@@ -112,7 +112,7 @@ public class WebMEncoderW implements Encoder {
 	}
 
 	private static JsArrayString createJsArrayString(List<String> list) {
-		JsArrayString jsArray = (JsArrayString) JsArrayString.createArray();
+		JsArrayString jsArray = (JsArrayString) JavaScriptObject.createArray();
 		for (String string : list) {
 			jsArray.push(string);
 		}

@@ -41,6 +41,7 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
@@ -1375,4 +1376,18 @@ public class GgbAPIW extends GgbAPI {
 			}
 		};
 	}
+
+	/**
+	 * @param columnNamesJS
+	 *            JS string array
+	 * @return exported construction
+	 */
+	public String exportConstruction(JsArrayString columnNamesJS) {
+		String[] columnNames = new String[columnNamesJS.length()];
+		for (int i = 0; i < columnNames.length; i++) {
+			columnNames[i] = columnNamesJS.get(i);
+		}
+		return this.exportConstruction(columnNames);
+	}
+
 }
