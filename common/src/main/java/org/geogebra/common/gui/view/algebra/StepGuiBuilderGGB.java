@@ -53,7 +53,7 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 		}
 		// JSONObject stepJ = new JSONObject();
 
-		String description = toJSONArray(step.getDetailed(loc));
+		String description = descriptionString(step.getDetailed(loc));
 		if (description.length() > 0) {
 
 			switch (step.getType()) {
@@ -98,18 +98,17 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 		// sb2.append("\n");
 	}
 
-	private static String toJSONArray(List<TextElement> list)
-			throws JSONException {
-		String description = "";
+	private static String descriptionString(List<TextElement> list) {
+		StringBuilder description = new StringBuilder();
 		for (TextElement te : list) {
 
 			if (te.latex != null) {
-				description += " " + te.latex + " ";
+				description.append(" ").append(te.latex).append(" ");
 			} else {
-				description += "\\text{" + te.plain + "}";
+				description.append("\\text{").append(te.plain).append("}");
 			}
 		}
-		return description;
+		return description.toString();
 	}
 
 	@Override

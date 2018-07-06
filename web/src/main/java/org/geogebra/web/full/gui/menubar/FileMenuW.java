@@ -378,12 +378,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			this.removeFromParent();
 		}
 
-		private native void openFile(JavaScriptObject fileToHandle,
-				BrowseGUI brG)/*-{
-			brG.@org.geogebra.web.full.gui.openfileview.OpenFileView::openFile(
-				Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)
-				(fileToHandle);
-		}-*/;
+		private void openFile(JavaScriptObject fileToHandle, BrowseGUI brG) {
+			brG.openFile(fileToHandle, null);
+		}
 
 		private native JavaScriptObject getSelectedFile()/*-{
 			return $doc.querySelector('input[type=file]').files[0];

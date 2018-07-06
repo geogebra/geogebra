@@ -546,22 +546,20 @@ public class MaterialListElement extends FlowPanel
 				ToolTipManagerW.sharedInstance()
 					.showBottomMessage(loc.getMenu("Loading"), false, app);
 			}
-			controller.loadGGBfromTube();
+			controller.loadOnlineFile();
 		} else {
 			if (!app.isUnbundled()) {
 				ToolTipManagerW.sharedInstance()
 					.showBottomMessage(loc.getMenu("Loading"), false, app);
 			}
 			if (!this.app.getFileManager().hasBase64(this.getMaterial())) {
-				controller.loadGGBfromTube();
+				controller.loadOnlineFile();
 			} else {
 				this.app.getFileManager().openMaterial(this.getMaterial());
 				this.app.setActiveMaterial(getMaterial());
 			}
 		}
 	}
-
-
 
 	protected void addViewButton() {
 		this.viewButton = new StandardButton(

@@ -53,7 +53,10 @@ public class MaterialCardController {
 		this.material = material;
 	}
 
-	public void loadGGBfromTube() {
+	/**
+	 * Load online file.
+	 */
+	public void loadOnlineFile() {
 		if (!StringUtil.empty(getMaterial().getFileName())) {
 			load();
 			return;
@@ -88,9 +91,14 @@ public class MaterialCardController {
 								.getError("LoadFileFailed"));
 					}
 				});
-
 	}
 
+	/**
+	 * Remove file from the cloud and card from the UI.
+	 * 
+	 * @param card
+	 *            card to be deleted
+	 */
 	public void onConfirmDelete(final MaterialCardI card) {
 		card.setVisible(false);
 		setAllMaterialsDefault();

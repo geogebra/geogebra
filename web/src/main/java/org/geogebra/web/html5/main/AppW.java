@@ -1295,8 +1295,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			JavaScriptObject callback) /*-{
 		var ggbRegEx = /\.(ggb|ggt|ggs|csv|off)$/i;
 		var fileName = fileToHandle.name.toLowerCase();
-		if (!fileName.match(ggbRegEx))
+		if (!fileName.match(ggbRegEx)) {
 			return false;
+		}
 
 		var appl = this;
 		var reader = new FileReader();
@@ -1312,8 +1313,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				if (fileName.match(/\.(off)$/i)) {
 					appl.@org.geogebra.web.html5.main.AppW::openOFF(Ljava/lang/String;)(atob(fileStr.substring(fileStr.indexOf(",")+1)));
 				}
-				if (callback != null)
+				if (callback != null) {
 					callback();
+				}
 			}
 		};
 		reader.readAsDataURL(fileToHandle);

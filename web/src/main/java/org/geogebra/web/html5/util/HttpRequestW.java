@@ -10,8 +10,6 @@ import org.geogebra.common.util.HttpRequest;
  */
 public class HttpRequestW extends HttpRequest {
 
-
-
 	@Override
 	public void sendRequestPost(String method, String url, String post,
 			AjaxCallback callback) {

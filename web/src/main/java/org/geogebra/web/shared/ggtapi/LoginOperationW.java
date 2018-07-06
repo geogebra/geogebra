@@ -78,7 +78,6 @@ public class LoginOperationW extends LogInOperation {
 			api.setClient(app.getClientInfo());
 		}
 		return this.api;
-
 	}
 
 	@Override
@@ -90,9 +89,8 @@ public class LoginOperationW extends LogInOperation {
 	protected String getURLClientInfo() {
 		URLEncoderW enc = new URLEncoderW();
 		return enc.encode("GeoGebra Web Application V"
-		        + GeoGebraConstants.VERSION_STRING);
+				+ GeoGebraConstants.VERSION_STRING);
 	}
-
 
 	@Override
 	public String getLoginURL(String languageCode) {
@@ -101,7 +99,6 @@ public class LoginOperationW extends LogInOperation {
 		}
 		return super.getLoginURL(languageCode);
 	}
-	 
 
 	private void processToken(String token) {
 		Log.debug("LTOKEN send via message");

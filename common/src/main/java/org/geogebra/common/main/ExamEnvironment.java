@@ -30,7 +30,6 @@ public class ExamEnvironment {
 		SCREEN_ON, SCREEN_OFF
 	}
 
-
 	protected LinkedList<CheatingEvent> cheatingEvents = null;
 	private long closed = -1;
 	private long maybeCheating = -1;
@@ -521,9 +520,7 @@ public class ExamEnvironment {
 		default:
 			return loc.getCommandSyntax(cmdInt, dim);
 		}
-
 	}
-
 
 	/**
 	 * close exam mode and reset CAS etc.

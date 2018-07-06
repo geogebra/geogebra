@@ -74,7 +74,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	 * Open this material.
 	 */
 	protected void openMaterial() {
-		controller.loadGGBfromTube();
+		controller.loadOnlineFile();
 	}
 
 	private void initGui() {

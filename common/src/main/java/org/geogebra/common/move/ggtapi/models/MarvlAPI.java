@@ -33,7 +33,7 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public boolean checkAvailable(LogInOperation logInOperation) {
-		if(!availabilityCheckDone){
+		if (!availabilityCheckDone) {
 			performCookieLogin(logInOperation);
 		}
 		return available;
@@ -177,7 +177,7 @@ public class MarvlAPI implements BackendAPI {
 				ret.add(mat);
 			}
 		} else if (parsed instanceof JSONObject) {
-			Material mat = JSONParserGGT.prototype.toMaterial((JSONObject)parsed);
+			Material mat = JSONParserGGT.prototype.toMaterial((JSONObject) parsed);
 			ret.add(mat);
 		}
 		return ret;

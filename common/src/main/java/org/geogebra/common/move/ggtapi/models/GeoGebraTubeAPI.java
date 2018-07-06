@@ -164,8 +164,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 				});
 	}
 
-
-
 	/**
 	 * Builds the request to check if the login token of a user is valid. This
 	 * request will send detailed user information as response.
