@@ -64,10 +64,14 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 			case SOLUTION:
 			case SOLUTIONS:
 
+				Log.error(description);
+
 				// remove color
 				description = description.replaceAll(
 						"\\\\fgcolor\\{#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]\\}\\{(.*?)\\}",
-						"$1");
+						"\\{$1\\}");
+
+				Log.error(description);
 
 				if (!description.equals(lastDescrip)) {
 					sb2.append("{\"");
