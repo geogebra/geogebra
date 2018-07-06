@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing quadrics.
@@ -240,6 +241,64 @@ public class DrawQuadric3DLimited extends Drawable3D {
 		}
 
 		return false;
+	}
+
+	@Override
+	protected void updateGeometriesVisibility() {
+		if (shouldBePackedForManager()) {
+			drawBottom.updateGeometriesVisibility();
+			drawTop.updateGeometriesVisibility();
+			drawSide.updateGeometriesVisibility();
+		}
+	}
+
+	@Override
+	final protected void setGeometriesVisibility(boolean visible) {
+		if (shouldBePackedForManager()) {
+			drawBottom.setGeometriesVisibility(visible);
+			drawTop.setGeometriesVisibility(visible);
+			drawSide.setGeometriesVisibility(visible);
+		}
+	}
+
+	@Override
+	final protected void updateGeometriesColor() {
+		if (shouldBePackedForManager()) {
+			drawBottom.updateGeometriesColor();
+			drawTop.updateGeometriesColor();
+			drawSide.updateGeometriesColor();
+		}
+	}
+
+	@Override
+	protected void recordTrace() {
+		if (!shouldBePackedForManager()) {
+			super.recordTrace();
+		}
+	}
+
+	@Override
+	final protected void updateForViewNotVisible() {
+		if (shouldBePackedForManager()) {
+			drawBottom.updateForViewNotVisible();
+			drawTop.updateForViewNotVisible();
+			drawSide.updateForViewNotVisible();
+		}
+	}
+
+	@Override
+	public void removeFromGL() {
+		super.removeFromGL();
+		if (shouldBePackedForManager()) {
+			drawBottom.removeFromGL();
+			drawTop.removeFromGL();
+			drawSide.removeFromGL();
+		}
+	}
+
+	@Override
+	public boolean shouldBePacked() {
+		return getView3D().getApplication().has(Feature.MOB_PACK_LISTS);
 	}
 
 }
