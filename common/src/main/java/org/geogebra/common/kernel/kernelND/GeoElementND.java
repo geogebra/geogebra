@@ -632,7 +632,13 @@ public interface GeoElementND extends ExpressionValue {
 
 	Object getOldLabel();
 
-	void setSelected(boolean b);
+	/**
+	 * @param b
+	 * @param flag
+	 *            true to make this selected
+	 * @return true if state is changed
+	 */
+	boolean setSelected(boolean b);
 
 	TreeSet<GeoElement> getAllChildren();
 
@@ -736,7 +742,13 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean isShape();
 
-	public void setHighlighted(final boolean flag);
+	/**
+	 * @param flag
+	 *            true to make this highlighted
+	 * 
+	 * @return true if state is changed
+	 */
+	public boolean setHighlighted(final boolean flag);
 
 	/**
 	 * Also copy advanced settings of this object.

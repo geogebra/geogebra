@@ -934,4 +934,27 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
 	}
+
+	@Override
+	public boolean setHighlighted(final boolean flag) {
+		boolean ret = super.setHighlighted(flag);
+		if (ret && bottom != null) {
+			kernel.notifyUpdateHightlight(side);
+			kernel.notifyUpdateHightlight(bottom);
+			kernel.notifyUpdateHightlight(top);
+		}
+		return ret;
+	}
+
+	@Override
+	public boolean setSelected(final boolean flag) {
+		boolean ret = super.setSelected(flag);
+		if (ret && bottom != null) {
+			kernel.notifyUpdateHightlight(side);
+			kernel.notifyUpdateHightlight(bottom);
+			kernel.notifyUpdateHightlight(top);
+		}
+		return ret;
+	}
+
 }

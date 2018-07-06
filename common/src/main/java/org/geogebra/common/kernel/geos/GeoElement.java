@@ -6574,28 +6574,25 @@ public abstract class GeoElement extends ConstructionElement
 	 * ** hightlighting and selecting only for internal purpouses, i.e. this is
 	 * not saved
 	 */
-	/**
-	 * @param flag
-	 *            true to make this selected
-	 */
+
 	@Override
-	public void setSelected(final boolean flag) {
+	public boolean setSelected(final boolean flag) {
 		if (flag != selected) {
 			selected = flag;
 			kernel.notifyUpdateHightlight(this);
+			return true;
 		}
+		return false;
 	}
 
-	/**
-	 * @param flag
-	 *            true to make this highlighted
-	 */
 	@Override
-	final public void setHighlighted(final boolean flag) {
+	public boolean setHighlighted(final boolean flag) {
 		if (flag != highlighted) {
 			highlighted = flag;
 			kernel.notifyUpdateHightlight(this);
+			return true;
 		}
+		return false;
 	}
 
 	/**

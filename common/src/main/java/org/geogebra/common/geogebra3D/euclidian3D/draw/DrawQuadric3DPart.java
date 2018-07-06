@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.main.Feature;
 
 /**
  * draws a quadric part
@@ -79,6 +80,7 @@ public class DrawQuadric3DPart extends DrawQuadric3D {
 
 	@Override
 	public boolean shouldBePacked() {
-		return false;
+		return getView3D().getApplication().has(Feature.MOB_PACK_QUADRIC_PART)
+				&& !createdByDrawList();
 	}
 }
