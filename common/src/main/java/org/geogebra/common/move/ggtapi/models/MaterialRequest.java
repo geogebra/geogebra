@@ -38,7 +38,7 @@ public class MaterialRequest implements Request {
 	}
 
 	public enum Order {
-		id, title, type, description, timestamp, author, language, featured, likes, relevance;
+		id, title, type, description, timestamp, author, language, featured, likes, relevance, privacy, created;
 	}
 
 	public enum Type {

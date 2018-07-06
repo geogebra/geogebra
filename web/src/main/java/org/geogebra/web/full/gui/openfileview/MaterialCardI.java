@@ -12,4 +12,6 @@ public interface MaterialCardI {
 
 	void setMaterialTitle(String oldTitle);
 
+	void copy();
+
 }

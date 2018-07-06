@@ -8,6 +8,7 @@ import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
+import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -65,6 +66,7 @@ public class OpenFileView extends MyHeaderPanel
 	private FlowPanel imagePanel;
 
 	private boolean materialListEmpty = true;
+	private Order order = Order.timestamp;
 
 	/**
 	 * @param app
@@ -176,6 +178,10 @@ public class OpenFileView extends MyHeaderPanel
 
 			@Override
 			public void onChange(ChangeEvent event) {
+				Order[] map = new Order[] { Order.privacy, Order.title,
+						Order.created, Order.timestamp, };
+				order = map[sortDropDown.getSelectedIndex() - 1];
+				loadAllMaterials();
 				// TODO sort material cards according to selected sort mode
 			}
 		});
@@ -278,9 +284,11 @@ public class OpenFileView extends MyHeaderPanel
 
 	@Override
 	public void loadAllMaterials() {
+		clearMaterials();
 		if (this.app.getLoginOperation().isLoggedIn()) {
 			app.getLoginOperation().getGeoGebraTubeAPI()
-					.getUsersOwnMaterials(this.userMaterialsCB);
+					.getUsersOwnMaterials(this.userMaterialsCB,
+							order);
 		} else {
 			app.getLoginOperation().getGeoGebraTubeAPI()
 					.getFeaturedMaterials(this.ggtMaterialsCB);
@@ -362,7 +370,7 @@ public class OpenFileView extends MyHeaderPanel
 		if (matList.size() > 0) {
 			materialListEmpty = false;
 		}
-		for (int i = matList.size() - 1; i >= 0; i--) {
+		for (int i = 0; i < matList.size(); i++) {
 			addMaterial(matList.get(i));
 		}
 	}

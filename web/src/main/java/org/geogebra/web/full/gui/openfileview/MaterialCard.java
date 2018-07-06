@@ -168,4 +168,9 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	public void setMaterialTitle(String title) {
 		cardTitle.setText(title);
 	}
+
+	@Override
+	public void copy() {
+		controller.copy();
+	}
 }

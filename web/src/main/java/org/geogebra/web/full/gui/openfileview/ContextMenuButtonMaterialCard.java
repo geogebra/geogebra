@@ -18,19 +18,21 @@ import com.google.gwt.user.client.Command;
 public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 
 	private Material material;
-	private MaterialCardI controller;
+	private MaterialCardI card;
 
 	/**
 	 * @param app
 	 *            application
 	 * @param mat
 	 *            associated material
+	 * @param card
+	 *            related card
 	 */
 	public ContextMenuButtonMaterialCard(AppW app, Material mat,
-			MaterialCardI controller) {
+			MaterialCardI card) {
 		super(app);
 		this.material = mat;
-		this.controller = controller;
+		this.card = card;
 	}
 
 	@Override
@@ -100,7 +102,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	protected void onRename() {
 		hide();
 		MaterialRenameDialog renameDialog = new MaterialRenameDialog(app.getPanel(),
-				app, controller);
+				app, card);
 		renameDialog.show();
 		renameDialog.center();
 	}
@@ -109,15 +111,15 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * execute copy action
 	 */
 	protected void onCopy() {
+		card.copy();
 		hide();
-		// TODO
 	}
 
 	/**
 	 * execute delete action
 	 */
 	protected void onDelete() {
-		controller.onConfirmDelete();
+		card.onConfirmDelete();
 		hide();
 		// TODO
 	}

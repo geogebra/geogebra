@@ -4,6 +4,7 @@ import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.models.MaterialRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 
@@ -81,15 +82,17 @@ public interface BackendAPI {
 
 	void performTokenLogin(LogInOperation logInOperation, String token);
 
-	void getUsersMaterials(MaterialCallbackI userMaterialsCB);
+	void getUsersMaterials(MaterialCallbackI userMaterialsCB, MaterialRequest.Order order);
 
 	void getFeaturedMaterials(MaterialCallbackI userMaterialsCB);
 
-	void getUsersOwnMaterials(MaterialCallbackI userMaterialsCB);
+	void getUsersOwnMaterials(MaterialCallbackI userMaterialsCB, MaterialRequest.Order order);
 
 	void uploadMaterial(int tubeID, String visibility, String text, String base64,
 			MaterialCallbackI materialCallback, MaterialType saveType);
 
 	void uploadRenameMaterial(Material material, MaterialCallbackI materialCallback);
+
+	void copy(Material material, MaterialCallbackI materialCallback);
 
 }

@@ -195,4 +195,23 @@ public class MaterialCardController {
 
 	}
 
+	public void copy() {
+		if (app.getNetworkOperation().isOnline()
+				&& onlineFile(getMaterial())) {
+
+			app.getLoginOperation().getGeoGebraTubeAPI().copy(getMaterial(),
+					new MaterialCallback() {
+						@Override
+						public void onLoaded(List<Material> parseResponse,
+								ArrayList<Chapter> meta) {
+							if (parseResponse.size() == 1) {
+								app.getGuiManager().getBrowseView()
+									.addMaterial(parseResponse.get(0));
+							}
+						}
+					});
+		}
+
+	}
+
 }

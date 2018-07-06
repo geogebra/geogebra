@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.gui.ResizeListener;
@@ -151,7 +152,7 @@ public class MaterialListPanel extends FlowPanel
 		loadLocal();
 		if (this.app.getLoginOperation().isLoggedIn()) {
 			app.getLoginOperation().getGeoGebraTubeAPI()
-					.getUsersMaterials(this.userMaterialsCB);
+					.getUsersMaterials(this.userMaterialsCB, Order.timestamp);
 		} else {
 			app.getLoginOperation().getGeoGebraTubeAPI()
 					.getFeaturedMaterials(this.ggtMaterialsCB);
@@ -163,7 +164,7 @@ public class MaterialListPanel extends FlowPanel
 	 */
 	public void loadUsersMaterials() {
 		app.getLoginOperation().getGeoGebraTubeAPI()
-				.getUsersMaterials(this.userMaterialsCB);
+				.getUsersMaterials(this.userMaterialsCB, Order.timestamp);
 	}
 
 	/**

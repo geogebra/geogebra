@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -21,6 +22,7 @@ public class MarvlAPI implements BackendAPI {
 	protected boolean available = true;
 	protected boolean availabilityCheckDone = false;
 	private String baseURL;
+	private AuthenticationModel model;
 
 	public MarvlAPI(String baseURL) {
 		this.baseURL = baseURL;
@@ -106,7 +108,7 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public void setClient(ClientInfo client) {
-		// TODO Auto-generated method stub
+		this.model = client.getModel();
 	}
 
 	@Override
@@ -162,8 +164,8 @@ public class MarvlAPI implements BackendAPI {
 	}
 
 	@Override
-	public void getUsersMaterials(MaterialCallbackI userMaterialsCB) {
-		getUsersOwnMaterials(userMaterialsCB);
+	public void getUsersMaterials(MaterialCallbackI userMaterialsCB, MaterialRequest.Order order) {
+		getUsersOwnMaterials(userMaterialsCB, order);
 	}
 
 	protected List<Material> parseMaterials(String responseStr) throws JSONException {
@@ -189,8 +191,30 @@ public class MarvlAPI implements BackendAPI {
 	}
 
 	@Override
-	public void getUsersOwnMaterials(final MaterialCallbackI userMaterialsCB) {
-		performRequest("GET", "/users/12/materials", null, userMaterialsCB);
+	public void getUsersOwnMaterials(final MaterialCallbackI userMaterialsCB,
+			MaterialRequest.Order order) {
+		if (model == null) {
+			userMaterialsCB.onError(new Exception("No user signed in"));
+			return;
+		}
+
+		performRequest("GET",
+				"/users/" + model.getUserId() + "/materials?limit=20&order=" + orderStr(order),
+				null, userMaterialsCB);
+	}
+
+	private static String orderStr(Order order) {
+		switch(order){
+		case timestamp:
+			return "-modified";
+		case created:
+			return "-" + order.name();
+		case title:
+		case privacy:
+			return order.name();
+		default:
+			return "title";
+		}
 	}
 
 	private void performRequest(String method, String endpoint, String json,
@@ -243,6 +267,13 @@ public class MarvlAPI implements BackendAPI {
 		}
 		this.performRequest("PATCH", "/materials/" + material.getSharingKeyOrId(),
 				request.toString(), materialCallback);
+	}
+
+	@Override
+	public void copy(Material material, MaterialCallbackI materialCallback) {
+		this.performRequest("POST", "/materials/" + material.getSharingKeyOrId(), null,
+				materialCallback);
+
 	}
 
 }

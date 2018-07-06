@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
@@ -345,6 +346,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 * @param cb
 	 *            {@link MaterialCallbackI}
 	 */
+	@Override
 	public void uploadRenameMaterial(Material mat, final MaterialCallbackI cb) {
 		performRequest(
 				UploadRequest.getRequestElement(mat.getTitle(), mat.getId())
@@ -378,7 +380,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 *            {@link MaterialCallbackI}
 	 */
 	@Override
-	public void getUsersMaterials(MaterialCallbackI cb) {
+	public void getUsersMaterials(MaterialCallbackI cb, Order order) {
 		performRequest(
 				MaterialRequest.forCurrentUser(client).toJSONString(client),
 				cb);
@@ -390,7 +392,8 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 * @param cb
 	 *            callback
 	 */
-	public void getUsersOwnMaterials(MaterialCallbackI cb) {
+	@Override
+	public void getUsersOwnMaterials(MaterialCallbackI cb, Order order) {
 		System.out.println(client.getModel().getUserId());
 		performRequest(
 				MaterialRequest.forUser(client.getModel().getUserId(), client)
@@ -472,6 +475,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 * @param type
 	 *            material type
 	 */
+	@Override
 	public void uploadMaterial(int tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,
 			MaterialType type) {
@@ -567,7 +571,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	}
 
 	/**
-	 * Synchrinize a material.
+	 * Synchronize a material.
 	 * 
 	 * @param timestamp
 	 *            timestamp
@@ -632,6 +636,12 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		} else if (!performCookieLogin(logInOperation)) {
 			checkAvailable(logInOperation);
 		}
+	}
+
+	@Override
+	public void copy(Material material, MaterialCallbackI materialCallback) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

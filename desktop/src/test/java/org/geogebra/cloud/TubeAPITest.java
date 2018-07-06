@@ -12,6 +12,7 @@ import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
@@ -245,7 +246,7 @@ public class TubeAPITest extends Assert {
 				Assert.assertNull(exception.getMessage());
 
 							}
-		});
+		}, null, Order.description);
 
 		for (int i = 0; i < 20 && titles.size() < 1; i++) {
 				try {

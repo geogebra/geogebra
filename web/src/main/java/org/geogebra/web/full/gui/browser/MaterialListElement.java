@@ -721,4 +721,10 @@ public class MaterialListElement extends FlowPanel
 	public void setMaterialTitle(String oldTitle) {
 		title.setText(oldTitle);
 	}
+
+	@Override
+	public void copy() {
+		// TODO Auto-generated method stub
+
+	}
 }
