@@ -366,16 +366,17 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	}
 
 	@Override
-	public void setPackCurve(GColor color, int lineType, int lineTypeHidden, boolean clipped) {
+	public void setPackCurve(Drawable3D d, boolean clipped) {
 		currentBufferManager = clipped ? bufferManagerCurvesClipped
 				: bufferManagerCurves;
-		this.currentColor = color;
+		this.currentColor = d.getColor();
 		if (getView3D().getApplication().has(Feature.MOB_LAYER_FOR_PACKING)) {
-			this.currentLayer = Renderer.LAYER_DEFAULT;
+			this.currentLayer = d.getLayer();
 		} else {
 			this.currentLayer = Renderer.LAYER_MIN;
 		}
-		this.currentTextureType = Textures.getDashIdFromLineType(lineType, lineTypeHidden);
+		this.currentTextureType = Textures
+				.getDashIdFromLineType(d.getLineType(), d.getLineTypeHidden());
 	}
 
 	@Override

@@ -1064,6 +1064,6 @@ public class DrawConic3D extends Drawable3DCurves
 
 	@Override
 	public boolean shouldBePacked() {
-		return !createdByDrawList();
+		return shouldBePackedCheckCreatedByDrawList();
 	}
 }

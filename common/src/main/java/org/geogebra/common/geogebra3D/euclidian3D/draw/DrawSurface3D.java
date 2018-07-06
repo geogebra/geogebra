@@ -3261,7 +3261,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	public boolean shouldBePacked() {
 		return getView3D().getApplication()
 				.has(Feature.MOB_PACK_SURFACES_GRAPHS)
-				&& !createdByDrawList();
+				&& shouldBePackedCheckCreatedByDrawList();
 	}
 
 	@Override

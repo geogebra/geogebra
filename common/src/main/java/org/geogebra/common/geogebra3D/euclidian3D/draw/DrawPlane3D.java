@@ -684,7 +684,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	@Override
 	public boolean shouldBePacked() {
 		return getView3D().getApplication().has(Feature.MOB_PACK_PLANES)
-				&& !createdByDrawList();
+				&& shouldBePackedCheckCreatedByDrawList();
 	}
 
 }

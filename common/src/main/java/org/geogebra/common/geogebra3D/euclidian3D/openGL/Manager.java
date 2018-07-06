@@ -898,16 +898,12 @@ abstract public class Manager {
 	/**
 	 * set manager in packing mode for curves
 	 * 
-	 * @param color
-	 *            color
-	 * @param lineType
-	 *            line type
-	 * @param lineTypeHidden
-	 *            line type (hidden parts)
+	 * @param d
+	 *            drawable calling
 	 * @param clipped
 	 *            curve is clipped
 	 */
-	public void setPackCurve(GColor color, int lineType, int lineTypeHidden, boolean clipped) {
+	public void setPackCurve(Drawable3D d, boolean clipped) {
 		// not needed here
 	}
 

@@ -203,7 +203,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 
 	@Override
 	public boolean shouldBePacked() {
-		return !createdByDrawList();
+		return shouldBePackedCheckCreatedByDrawList();
 	}
 
 }

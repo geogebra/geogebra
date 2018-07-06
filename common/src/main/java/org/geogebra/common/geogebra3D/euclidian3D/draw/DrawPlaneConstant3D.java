@@ -107,7 +107,7 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	}
 
 	@Override
-	protected int getLineType() {
+	public int getLineType() {
 		return EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT;
 	}
 

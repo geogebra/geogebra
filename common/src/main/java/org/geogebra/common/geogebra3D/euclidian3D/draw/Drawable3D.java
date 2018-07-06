@@ -351,7 +351,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return true if the geo is traced
 	 */
-	protected boolean hasTrace() {
+	final protected boolean hasTrace() {
 
 		if (createdByDrawList()) {
 			return ((Drawable3D) getDrawListCreator()).hasTrace();
@@ -372,7 +372,13 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return true if something is recorded in trace
 	 */
-	protected boolean hasRecordedTrace() {
+	final protected boolean hasRecordedTrace() {
+		if (shouldBePackedForManager()) {
+			if (tracesPackingBuffer == null) {
+				return false;
+			}
+			return !tracesPackingBuffer.isEmpty();
+		}
 		if (trace == null) {
 			return false;
 		}
@@ -1926,7 +1932,19 @@ public abstract class Drawable3D extends DrawableND {
 	 * add last geometry to traces
 	 */
 	public void addLastTrace() {
-		getTrace().addLastTraceIndex();
+		if (!shouldBePackedForManager()) {
+			getTrace().addLastTraceIndex();
+		}
+	}
+
+	/**
+	 * Temporary code while packing lists still in progress
+	 * 
+	 * @return true if it should be packed
+	 */
+	protected boolean shouldBePackedCheckCreatedByDrawList() {
+		return !createdByDrawList()
+				|| getView3D().getApplication().has(Feature.MOB_PACK_LISTS);
 	}
 
 	/**
@@ -2007,11 +2025,10 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param clipped
 	 *            if curve is clipped
 	 */
-	protected void setPackCurve(boolean clipped) {
+	final protected void setPackCurve(boolean clipped) {
 		if (shouldBePacked()) {
 			getView3D().getRenderer().getGeometryManager().setPackCurve(
-					getColor(), getLineType(),
-					getLineTypeHidden(), clipped);
+					this, clipped);
 		}
 	}
 
@@ -2019,7 +2036,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return line type (visible)
 	 */
-	protected int getLineType() {
+	public int getLineType() {
 		return getGeoElement().getLineType();
 	}
 
@@ -2027,7 +2044,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return line type (hidden)
 	 */
-	protected int getLineTypeHidden() {
+	public int getLineTypeHidden() {
 		return getGeoElement().getLineTypeHidden();
 	}
 

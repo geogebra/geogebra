@@ -541,7 +541,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	@Override
 	public boolean shouldBePacked() {
-		return !createdByDrawList();
+		return shouldBePackedCheckCreatedByDrawList();
 	}
 
 }

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing GeoList (3D part)
@@ -79,37 +80,36 @@ public class DrawList3D extends Drawable3D {
 
 		// remove end of list
 		for (int i = drawables.size() - 1; i >= drawablePos; i--) {
-			// getView3D().remove(drawables.get(i).getGeoElement());
 			Drawable3D d = (Drawable3D) drawables.get(i);
 			if (d.hasTrace()) {
 				d.addLastTrace();
 				d.getGeoElement().setUndefined();
+				if (shouldBePackedForManager()) {
+					d.setGeometriesVisibility(false);
+				}
 			} else if (!d.hasRecordedTrace()) {
 				drawable3DLists.remove(d);
 				drawables.remove(i);
+				if (shouldBePackedForManager()) {
+					d.removeFromGL();
+				}
 			} else {
 				d.getGeoElement().setUndefined();
+				if (shouldBePackedForManager()) {
+					d.setGeometriesVisibility(false);
+				}
 			}
-
 		}
 
 		// update for list of lists
 		for (int i = 0; i < drawables.size(); i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
-			if (/* createdByDrawList() || */!d.getGeoElement().isLabelSet()) {
+			if (!d.getGeoElement().isLabelSet()) {
 				if (d.waitForUpdate()) {
 					d.update();
 				}
 			}
 		}
-
-		/*
-		 * // check if a new update is needed in a next loop for (int i = 0; i <
-		 * drawables.size(); i++) { Drawable3D d = (Drawable3D)
-		 * drawables.get(i); if (!d.getGeoElement().isLabelSet()) {
-		 * //Log.debug("\n" +geoList+"\n -- "+d.getGeoElement()+" -- "
-		 * +d.waitForUpdate()); if (d.waitForUpdate()){ return false; } } }
-		 */
 
 		return true;
 	}
@@ -121,17 +121,6 @@ public class DrawList3D extends Drawable3D {
 			d.addLastTrace();
 		}
 	}
-
-	/*
-	 * http://dev.geogebra.org/trac/changeset/37937 kills ManySpheres.ggb
-	 * 
-	 * @Override public boolean waitForUpdate(){ for (int i = 0; i <
-	 * drawables.size(); i++) { Drawable3D d = (Drawable3D) drawables.get(i); if
-	 * (!d.getGeoElement().isLabelSet()) { if (d.waitForUpdate()){ return true;
-	 * } } }
-	 * 
-	 * return false; }
-	 */
 
 	@Override
 	protected void updateForView() {
@@ -292,15 +281,6 @@ public class DrawList3D extends Drawable3D {
 		}
 	}
 
-	// @Override
-	// public void setWaitForUpdate(){
-	//
-	// super.setWaitForUpdate();
-	// for (DrawableND d : drawables){
-	// d.setWaitForUpdate();
-	// }
-	// }
-
 	@Override
 	protected Drawable3D getDrawablePicked(Drawable3D drawableSource) {
 
@@ -364,6 +344,65 @@ public class DrawList3D extends Drawable3D {
 						exportSurface);
 			}
 		}
+	}
+
+	@Override
+	protected void updateGeometriesVisibility() {
+		if (shouldBePackedForManager()) {
+			for (DrawableND d : drawables) {
+				((Drawable3D) d).updateGeometriesVisibility();
+			}
+		}
+	}
+
+	@Override
+	final protected void setGeometriesVisibility(boolean visible) {
+		if (shouldBePackedForManager()) {
+			for (DrawableND d : drawables) {
+				((Drawable3D) d).setGeometriesVisibility(visible);
+			}
+		}
+	}
+
+	@Override
+	final protected void updateGeometriesColor() {
+		if (shouldBePackedForManager()) {
+			for (DrawableND d : drawables) {
+				((Drawable3D) d).updateGeometriesColor();
+			}
+		}
+	}
+
+	@Override
+	protected void recordTrace() {
+		if (!shouldBePackedForManager()) {
+			super.recordTrace();
+		}
+	}
+
+
+	@Override
+	final protected void updateForViewNotVisible() {
+		if (shouldBePackedForManager()) {
+			for (DrawableND d : drawables) {
+				((Drawable3D) d).updateForViewNotVisible();
+			}
+		}
+	}
+
+	@Override
+	public void removeFromGL() {
+		super.removeFromGL();
+		if (shouldBePackedForManager()) {
+			for (DrawableND d : drawables) {
+				((Drawable3D) d).removeFromGL();
+			}
+		}
+	}
+
+	@Override
+	public boolean shouldBePacked() {
+		return getView3D().getApplication().has(Feature.MOB_PACK_LISTS);
 	}
 
 }

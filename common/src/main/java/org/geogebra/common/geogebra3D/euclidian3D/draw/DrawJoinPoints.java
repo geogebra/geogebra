@@ -410,7 +410,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	@Override
 	public boolean shouldBePacked() {
-		return !createdByDrawList();
+		return shouldBePackedCheckCreatedByDrawList();
 	}
 
 }

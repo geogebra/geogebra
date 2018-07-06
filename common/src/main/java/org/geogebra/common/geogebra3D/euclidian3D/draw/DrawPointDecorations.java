@@ -179,12 +179,12 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	}
 
 	@Override
-	protected int getLineType() {
+	public int getLineType() {
 		return EuclidianStyleConstants.LINE_TYPE_DASHED_LONG;
 	}
 
 	@Override
-	protected int getLineTypeHidden() {
+	public int getLineTypeHidden() {
 		return EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN;
 	}
 }

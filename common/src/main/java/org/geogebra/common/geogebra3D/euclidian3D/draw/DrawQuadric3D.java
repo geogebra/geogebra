@@ -1603,7 +1603,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public boolean shouldBePacked() {
 		return getView3D().getApplication().has(Feature.MOB_PACK_QUADRICS)
-				&& !createdByDrawList();
+				&& shouldBePackedCheckCreatedByDrawList();
 	}
 
 	@Override
