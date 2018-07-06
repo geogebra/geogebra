@@ -156,4 +156,16 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	public void onConfirmDelete() {
 		controller.onConfirmDelete(this);
 	}
+
+	@Override
+	public void rename(String text) {
+		String oldTitle = cardTitle.getText();
+		cardTitle.setText(text);
+		controller.rename(text, this, oldTitle);
+	}
+
+	@Override
+	public void setMaterialTitle(String title) {
+		cardTitle.setText(title);
+	}
 }

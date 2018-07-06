@@ -90,4 +90,6 @@ public interface BackendAPI {
 	void uploadMaterial(int tubeID, String visibility, String text, String base64,
 			MaterialCallbackI materialCallback, MaterialType saveType);
 
+	void uploadRenameMaterial(Material material, MaterialCallbackI materialCallback);
+
 }

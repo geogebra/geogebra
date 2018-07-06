@@ -8,4 +8,8 @@ public interface MaterialCardI {
 
 	void onConfirmDelete();
 
+	void rename(String text);
+
+	void setMaterialTitle(String oldTitle);
+
 }

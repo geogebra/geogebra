@@ -9,6 +9,7 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
+import org.geogebra.web.full.gui.util.SaveDialogW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
@@ -104,8 +105,7 @@ public class MaterialCardController {
 		setAllMaterialsDefault();
 		final Material toDelete = this.getMaterial();
 
-		if (app.getNetworkOperation().isOnline() && (toDelete.getId() > 0
-				|| !StringUtil.empty(toDelete.getSharingKey()))) {
+		if (app.getNetworkOperation().isOnline() && onlineFile(toDelete)) {
 			app.getLoginOperation().getGeoGebraTubeAPI()
 					.deleteMaterial(toDelete, new MaterialCallback() {
 
@@ -138,12 +138,61 @@ public class MaterialCardController {
 
 	}
 
+	private static boolean onlineFile(Material toDelete) {
+		return toDelete.getId() > 0
+				|| !StringUtil.empty(toDelete.getSharingKey());
+	}
+
 	private void setAllMaterialsDefault() {
 		app.getGuiManager().getBrowseView().setMaterialsDefaultStyle();
 	}
 
 	public Runnable getDeleteCallback() {
 		return deleteCallback;
+	}
+
+	public void rename(final String text, final MaterialCardI card,
+			final String oldTitle) {
+		if (app.getNetworkOperation().isOnline()
+				&& onlineFile(getMaterial())) {
+
+			this.getMaterial().setTitle(text);
+			app.getLoginOperation().getGeoGebraTubeAPI()
+					.uploadRenameMaterial(this.getMaterial(),
+							new MaterialCallback() {
+
+								@Override
+								public void onLoaded(
+										List<Material> parseResponse,
+										ArrayList<Chapter> meta) {
+									if (parseResponse.size() != 1) {
+										app.localizeAndShowError(
+												"RenameFailed");
+										card.setMaterialTitle(oldTitle);
+									} else {
+										Log.debug("RENAME local");
+										getMaterial().setModified(parseResponse
+												.get(0).getModified());
+										getMaterial().setSyncStamp(parseResponse
+												.get(0).getModified());
+										if (getMaterial().getLocalID() <= 0) {
+											return;
+										}
+										Log.debug("RENAME CALLBACK" + oldTitle
+												+ "->" + text);
+										getMaterial().setTitle(oldTitle);
+										app.getFileManager().rename(
+												text, getMaterial());
+									}
+								}
+							});
+		} else {
+			this.getMaterial()
+					.setModified(Math.max(SaveDialogW.getCurrentTimestamp(app),
+							getMaterial().getSyncStamp() + 1));
+			this.app.getFileManager().rename(text, this.getMaterial());
+		}
+
 	}
 
 }

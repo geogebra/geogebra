@@ -18,6 +18,8 @@ import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Image;
@@ -70,6 +72,12 @@ public class ContextMenuButtonCard extends MyToggleButton
 				} else {
 					show();
 				}
+			}
+		});
+		this.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				event.stopPropagation();
 			}
 		});
 	}

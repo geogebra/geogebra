@@ -14,7 +14,6 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
-import org.geogebra.web.full.gui.util.SaveDialogW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
@@ -212,58 +211,21 @@ public class MaterialListElement extends FlowPanel
 		this.renameTitleBox.setFocus(true);
 	}
 
-	void doRename() {
-		if (this.renameTitleBox.getText().length() < 1
-				|| this.renameTitleBox.getText().equals(this.title.getText())) { // no
+	@Override
+	public void rename(String text) {
+		if (text.length() < 1
+				|| text.equals(this.title.getText())) { // no
 																					// changes
 			this.title.setVisible(true);
 			this.renameTitleBox.setVisible(false);
 			return;
 		}
 		final String oldTitle = this.title.getText();
-		this.title.setText(this.renameTitleBox.getText());
+		this.title.setText(text);
 		this.renameTitleBox.setVisible(false);
 		this.title.setVisible(true);
 
-		if (app.getNetworkOperation().isOnline() && this.getMaterial().getId() > 0) {
-
-			this.getMaterial().setTitle(this.title.getText());
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-					.uploadRenameMaterial(this.getMaterial(),
-							new MaterialCallback() {
-
-								@Override
-								public void onLoaded(
-										List<Material> parseResponse,
-										ArrayList<Chapter> meta) {
-									if (parseResponse.size() != 1) {
-										app.localizeAndShowError(
-												"RenameFailed");
-										title.setText(oldTitle);
-									} else {
-										Log.debug("RENAME local");
-										getMaterial().setModified(parseResponse
-												.get(0).getModified());
-										getMaterial().setSyncStamp(parseResponse
-												.get(0).getModified());
-										if (getMaterial().getLocalID() <= 0) {
-											return;
-										}
-										Log.debug("RENAME CALLBACK" + oldTitle
-												+ "->" + title.getText());
-										getMaterial().setTitle(oldTitle);
-										app.getFileManager().rename(
-												title.getText(), getMaterial());
-									}
-								}
-							});
-		} else {
-			this.getMaterial()
-					.setModified(Math.max(SaveDialogW.getCurrentTimestamp(app),
-							getMaterial().getSyncStamp() + 1));
-			this.app.getFileManager().rename(this.title.getText(),
-					this.getMaterial());
-		}
+		controller.rename(text, this, oldTitle);
 	}
 
 	private void initRenameTextBox() {
@@ -275,7 +237,7 @@ public class MaterialListElement extends FlowPanel
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				doRename();
+				rename(renameTitleBox.getText());
 			}
 		});
 
@@ -753,5 +715,10 @@ public class MaterialListElement extends FlowPanel
 	@Override
 	public void onConfirmDelete() {
 		controller.onConfirmDelete(this);
+	}
+
+	@Override
+	public void setMaterialTitle(String oldTitle) {
+		title.setText(oldTitle);
 	}
 }

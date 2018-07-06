@@ -100,7 +100,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	protected void onRename() {
 		hide();
 		MaterialRenameDialog renameDialog = new MaterialRenameDialog(app.getPanel(),
-				app);
+				app, controller);
 		renameDialog.show();
 		renameDialog.center();
 	}

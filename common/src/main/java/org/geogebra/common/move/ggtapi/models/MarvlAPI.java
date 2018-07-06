@@ -228,11 +228,21 @@ public class MarvlAPI implements BackendAPI {
 			request.put("file", base64);
 			request.put("type", type.name()); // TODO
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			materialCallback.onError(e);
 		}
 		this.performRequest("POST", "/materials", request.toString(), materialCallback);
+	}
 
+	@Override
+	public void uploadRenameMaterial(Material material, MaterialCallbackI materialCallback) {
+		JSONObject request = new JSONObject();
+		try {
+			request.put("title", material.getTitle());
+		} catch (JSONException e) {
+			materialCallback.onError(e);
+		}
+		this.performRequest("PATCH", "/materials/" + material.getSharingKeyOrId(),
+				request.toString(), materialCallback);
 	}
 
 }
