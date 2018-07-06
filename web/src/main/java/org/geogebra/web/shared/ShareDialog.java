@@ -1,6 +1,5 @@
 package org.geogebra.web.shared;
 
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -98,7 +97,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		if (source == copyBtn) {
 			app.copyTextToSystemClipboard(linkBox.getText());
 		} else if (source == printBtn) {
-			((DialogManagerW) app.getDialogManager()).showPrintPreview();
+			app.getDialogManager().showPrintPreview();
 			hide();
 		}
 	}

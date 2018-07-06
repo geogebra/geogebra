@@ -901,4 +901,11 @@ public abstract class DialogManager {
 	public void showPDFInputDialog() {
 		// overridden in web
 	}
+
+	/**
+	 * Show print preview
+	 */
+	public void showPrintPreview() {
+		// overriden in web
+	}
 }

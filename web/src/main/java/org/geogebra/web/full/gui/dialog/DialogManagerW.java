@@ -638,6 +638,7 @@ public class DialogManagerW extends DialogManager
 	/**
 	 * Open print preview
 	 */
+	@Override
 	public void showPrintPreview() {
 		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)
 				|| app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)
