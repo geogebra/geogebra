@@ -99,6 +99,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 			app.copyTextToSystemClipboard(linkBox.getText());
 		} else if (source == printBtn) {
 			((DialogManagerW) app.getDialogManager()).showPrintPreview();
+			hide();
 		}
 	}
 
