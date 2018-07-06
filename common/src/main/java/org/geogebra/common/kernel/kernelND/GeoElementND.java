@@ -64,23 +64,27 @@ public interface GeoElementND extends ExpressionValue {
 
 	/**
 	 * @param objectColor
-	 *            object color
+	 *            new color for this object
 	 */
 	void setObjColor(GColor objectColor);
 
 	/**
+	 * Allows drawing this in EV
+	 * 
 	 * @param visible
-	 *            whether should be visible in EV
+	 *            true to allow drawing this in EV
 	 */
 	void setEuclidianVisible(boolean visible);
 
 	/**
-	 * @return true if this is visible in EV
+	 * @return whether object should be drawn in euclidian view
 	 */
 	boolean isEuclidianVisible();
 
 	/**
-	 * @return true if label is visible
+	 * Returns whether the label should be shown in Euclidian view.
+	 * 
+	 * @return true if label should be shown
 	 */
 	boolean isLabelVisible();
 
@@ -90,9 +94,12 @@ public interface GeoElementND extends ExpressionValue {
 	public boolean isLabelSet();
 
 	/**
+	 * Returns label or local variable label if set, returns output value string
+	 * otherwise
+	 * 
 	 * @param tpl
-	 *            template
-	 * @return label or definition command
+	 *            string template
+	 * @return label or output value string
 	 */
 	public String getLabel(StringTemplate tpl);
 
@@ -120,14 +127,20 @@ public interface GeoElementND extends ExpressionValue {
 	public boolean getSpreadsheetTrace();
 
 	/**
+	 * This method always returns a GeoElement of the SAME CLASS as this
+	 * GeoElement. Furthermore the resulting geo is in construction cons.
+	 * 
 	 * @param cons
 	 *            construction
-	 * @return copy of this element in given construction
+	 * @return copy in given construction
 	 */
 	public GeoElement copyInternal(Construction cons);
 
 	/**
-	 * @return a copy of this geo
+	 * every subclass implements it's own copy method this is needed for
+	 * assignment copies like: a = 2.7 b = a (here copy() is needed)
+	 * 
+	 * @return copy of current element
 	 */
 	public GeoElementND copy();
 
@@ -147,7 +160,8 @@ public interface GeoElementND extends ExpressionValue {
 	public boolean isDefined();
 
 	/**
-	 * Makes this geo undefined
+	 * Makes object undefined, some objects lose their internally stored value
+	 * when this is called
 	 */
 	public void setUndefined();
 
@@ -183,10 +197,12 @@ public interface GeoElementND extends ExpressionValue {
 	public int getLineOpacity();
 
 	/**
-	 * @param b
+	 * sets whether the object's label should be drawn in an EuclidianView
+	 * 
+	 * @param visible
 	 *            true to make label visible
 	 */
-	public void setLabelVisible(boolean b);
+	public void setLabelVisible(boolean visible);
 
 	/**
 	 * Returns whether this GeoElement is a point on a path.
@@ -281,8 +297,10 @@ public interface GeoElementND extends ExpressionValue {
 	int getLabelMode();
 
 	/**
+	 * Switch label mode among value, name, value+name and caption
+	 * 
 	 * @param labelMode
-	 *            label mode, may be GeoElement.LABEL_NAME, LABEL_VALUE etc
+	 *            LABEL_ mode
 	 */
 	void setLabelMode(int labelMode);
 
@@ -294,7 +312,8 @@ public interface GeoElementND extends ExpressionValue {
 	public String getLabelSimple();
 
 	/**
-	 * Update value and basic properties from other geo
+	 * Update value and basic properties from other geo. Implemented in each
+	 * subclass.
 	 * 
 	 * @param geo
 	 *            other geo
@@ -490,16 +509,33 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean doHighlighting();
 
+	/**
+	 * @return alpha value (transparency)
+	 * 
+	 *         NOTE: can be -1 for lists, see GeoList.getAlphaValue(),
+	 *         GeoList.setgetAlphaValue()
+	 */
 	double getAlphaValue();
 
 	AlgoElement getDrawAlgorithm();
 
+	/**
+	 * @return color of fill
+	 */
 	GPaint getFillColor();
 
+	/**
+	 * 
+	 * @return color of background
+	 */
 	GColor getBackgroundColor();
 
 	FillType getFillType();
 
+	/**
+	 * 
+	 * @return color of label
+	 */
 	GColor getLabelColor();
 
 	String getLabelDescription();
@@ -510,12 +546,21 @@ public interface GeoElementND extends ExpressionValue {
 
 	Object getLaTeXdescription();
 
+	/**
+	 * @return color of object for selection
+	 */
 	GColor getSelColor();
 
 	boolean isHatchingEnabled();
 
 	void setHatchingAngle(int hatchingAngle);
 
+	/**
+	 * Changes transparency of this geo
+	 * 
+	 * @param alpha
+	 *            new alpha value
+	 */
 	void setAlphaValue(double alpha);
 
 	String getCaption(StringTemplate defaulttemplate);
@@ -542,16 +587,32 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean getShowTrimmedIntersectionLines();
 
+	/**
+	 * @return whether object should be visible in at least one view
+	 */
 	boolean isVisible();
 
 	public LaTeXCache getLaTeXCache();
 
 	public void updateVisualStyleRepaint(GProperty prop);
 
-	void setVisualStyle(GeoElement geoElement);
+	/**
+	 * Just changes the basic visual styles. If the style of a geo is reset this
+	 * is required as we don't want to overwrite advanced settings in that case.
+	 * 
+	 * @param geo
+	 *            source geo
+	 */
+	void setVisualStyle(GeoElement geo);
 
 	boolean isParametric();
 
+	/**
+	 * We may need a simple method to set the label, as in the CopyPaste class.
+	 * 
+	 * @param labelSimple
+	 *            the label to set
+	 */
 	void setLabelSimple(String labelSimple);
 
 	GeoBoolean getShowObjectCondition();
@@ -565,7 +626,14 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean isSetEuclidianVisible();
 
-	void setAdvancedVisualStyleCopy(GeoElementND macroGeo);
+	/**
+	 * Copy advanced properties -- cond. visibility, dynamic colors, TODO
+	 * corners Used in macros where we can't reference the objects directly
+	 * 
+	 * @param geo
+	 *            style source
+	 */
+	void setAdvancedVisualStyleCopy(GeoElementND geo);
 
 	void setDrawAlgorithm(DrawInformationAlgo copy);
 
@@ -574,10 +642,21 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	public boolean isMoveable();
 
+	/**
+	 * Returns the definition of this GeoElement for the input field, e.g. A1 =
+	 * 5, B1 = A1 + 2
+	 *
+	 * @return definition for input field
+	 */
 	String getDefinitionForInputBar();
 
 	String getDefinition(StringTemplate tpl);
 
+	/**
+	 * Used to convert various interfaces into GeoElement
+	 * 
+	 * @return this
+	 */
 	GeoElement toGeoElement();
 
 	/**
@@ -594,6 +673,9 @@ public interface GeoElementND extends ExpressionValue {
 
 	String getFreeLabel(String label);
 
+	/**
+	 * if an object has a fixed descendent, we want to set it undefined
+	 */
 	void removeOrSetUndefinedIfHasFixedDescendent();
 
 	void removeAlgorithm(AlgoElement algoAttachCopyToView);
@@ -626,6 +708,11 @@ public interface GeoElementND extends ExpressionValue {
 
 	String getLongDescription();
 
+	/**
+	 * return black if the color is white, so it can be seen
+	 * 
+	 * @return color for algebra view (same as label or black)
+	 */
 	GColor getAlgebraColor();
 
 	boolean isGeoPolyLine();
@@ -644,17 +731,41 @@ public interface GeoElementND extends ExpressionValue {
 
 	void setSelectionAllowed(boolean b);
 
+	/**
+	 * @return layer of this geo (0 to 9)
+	 */
 	int getLayer();
 
+	/**
+	 * @param mode
+	 *            new tooltip mode
+	 */
 	void setTooltipMode(int tooltipOff);
 
-	void setLayer(int i);
+	/**
+	 * Sets layer
+	 * 
+	 * @param layer
+	 *            layer from 0 to 9
+	 */
+	void setLayer(int layer);
 
+	/**
+	 * @param viewId
+	 *            view id
+	 */
 	void addView(int viewEuclidian);
 
 	void removeView(int viewEuclidian2);
 
-	void setVisualStyleForTransformations(GeoElement topHit);
+	/**
+	 * In future, this can be used to turn on/off whether transformed objects
+	 * have the same style as the original object
+	 * 
+	 * @param geo
+	 *            source geo
+	 */
+	void setVisualStyleForTransformations(GeoElement geo);
 
 	public void resetDefinition();
 
@@ -675,8 +786,22 @@ public interface GeoElementND extends ExpressionValue {
 	void setShowObjectCondition(GeoBoolean newConditionToShowObject)
 			throws CircularDefinitionException;
 
-	String getRedefineString(boolean b, boolean c);
+	/**
+	 * Returns definition or value string of this object. Automatically
+	 * increases decimals to at least 5, e.g. FractionText[4/3] -&gt;
+	 * FractionText[1.333333333333333]
+	 * 
+	 * @param useChangeable
+	 *            if false, point on path is ignored
+	 * @param useOutputValueString
+	 *            if true, use outputValueString rather than valueString
+	 * @return definition or value string of this object
+	 */
+	String getRedefineString(boolean useChangeable, boolean useOutputValueString);
 
+	/**
+	 * @return true for auxiliary objects
+	 */
 	boolean isAuxiliaryObject();
 
 	String getFormulaString(StringTemplate latextemplate, boolean b);
@@ -695,6 +820,9 @@ public interface GeoElementND extends ExpressionValue {
 
 	void setScripting(GeoElement value);
 
+	/**
+	 * @return true for GeoLists
+	 */
 	boolean isGeoList();
 
 	boolean isGeoBoolean();
@@ -724,18 +852,31 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean hasIndexLabel();
 
+	/**
+	 * @return true for limited paths
+	 */
 	boolean isLimitedPath();
 
 	long getID();
 
 	int compareTo(ConstructionElement cycleNext);
 
+	/**
+	 * @param viewId
+	 *            view id
+	 * @return whether this geo is visible in given view
+	 */
 	boolean isVisibleInView(int viewID);
 
 	boolean isVisibleInViewForPlane();
 
 	boolean isAlgebraViewEditable();
 
+	/**
+	 * Returns true if color was explicitly set
+	 * 
+	 * @return true if color was explicitly set
+	 */
 	boolean isColorSet();
 
 	boolean hasDrawable3D();

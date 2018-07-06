@@ -534,18 +534,11 @@ public abstract class GeoElement extends ConstructionElement
 
 	};
 
-	/**
-	 * @return used color space (GeoElement.COLORSPACE_*)
-	 */
 	@Override
 	public int getColorSpace() {
 		return colorSpace;
 	}
 
-	/**
-	 * @param colorSpace
-	 *            color space (GeoElement.COLORSPACE_*)
-	 */
 	@Override
 	public void setColorSpace(final int colorSpace) {
 		this.colorSpace = colorSpace;
@@ -625,26 +618,12 @@ public abstract class GeoElement extends ConstructionElement
 		return label;
 	}
 
-	/**
-	 * We may need a simple method to set the label, as in the CopyPaste class.
-	 * 
-	 * @param lab
-	 *            the label to set
-	 */
 	@Override
 	public void setLabelSimple(final String lab) {
 		label = lab;
 		GeoElementSpreadsheet.setBackgroundColor(this);
 	}
 
-	/**
-	 * Returns label or local variable label if set, returns output value string
-	 * otherwise
-	 * 
-	 * @param tpl
-	 *            string template
-	 * @return label or output value string
-	 */
 	@Override
 	public String getLabel(StringTemplate tpl) {
 		if (!tpl.isUseRealLabels() || (realLabel == null)
@@ -671,12 +650,6 @@ public abstract class GeoElement extends ConstructionElement
 		setLabelSimple(c.label);
 	}
 
-	/**
-	 * Switch label mode among value, name, value+name and caption
-	 * 
-	 * @param mode
-	 *            LABEL_ mode
-	 */
 	@Override
 	public void setLabelMode(final int mode) {
 
@@ -728,7 +701,6 @@ public abstract class GeoElement extends ConstructionElement
 				labelMode = LABEL_NAME;
 			}
 		}
-
 	}
 
 	/**
@@ -832,12 +804,6 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public abstract GeoClass getGeoClassType();
 
-	/**
-	 * every subclass implements it's own copy method this is needed for
-	 * assignment copies like: a = 2.7 b = a (here copy() is needed)
-	 * 
-	 * @return copy of current element
-	 */
 	@Override
 	public abstract GeoElement copy();
 
@@ -851,48 +817,12 @@ public abstract class GeoElement extends ConstructionElement
 		return copy();
 	}
 
-	/**
-	 * This method always returns a GeoElement of the SAME CLASS as this
-	 * GeoElement. Furthermore the resulting geo is in construction cons.
-	 * 
-	 * @param consToCopy
-	 *            construction
-	 * @return copy in given construction
-	 */
 	@Override
 	public GeoElement copyInternal(final Construction consToCopy) {
 		// default implementation: changed in some subclasses
 		final GeoElement geoCopy = copy();
 		geoCopy.setConstruction(consToCopy);
 		return geoCopy;
-	}
-
-	/**
-	 * Copies the given points array. The resulting points are part of the given
-	 * construction.
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param points
-	 *            array of points
-	 * @return copy of points in construction cons
-	 */
-	public static GeoPoint[] copyPoints(final Construction cons,
-			final GeoPointND[] points) {
-
-		// fix for Sequence[Polygon[Element[liste1, i], Element[liste1, i + 1],
-		// j], i, 0, 300]
-		if (points == null) {
-			return null;
-		}
-
-		final GeoPoint[] pointsCopy = new GeoPoint[points.length];
-		for (int i = 0; i < points.length; i++) {
-			pointsCopy[i] = (GeoPoint) ((GeoPoint) points[i])
-					.copyInternal(cons);
-			pointsCopy[i].set(points[i]);
-		}
-		return pointsCopy;
 	}
 
 	/**
@@ -916,12 +846,6 @@ public abstract class GeoElement extends ConstructionElement
 		return pointsCopy;
 	}
 
-	/**
-	 * Copies the given element using given kernel
-	 * 
-	 * @param kernel1
-	 *            Kernel
-	 */
 	@Override
 	public ExpressionValue deepCopy(final Kernel kernel1) {
 		// default implementation: changed in some subclasses
@@ -941,12 +865,6 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
-	/**
-	 * every subclass implements it's own set method
-	 * 
-	 * @param geo
-	 *            geo to copy
-	 */
 	@Override
 	public abstract void set(GeoElementND geo);
 
@@ -958,10 +876,6 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public abstract boolean isDefined();
 
-	/**
-	 * Makes object undefined, some objects lose their internally stored value
-	 * when this is called
-	 */
 	@Override
 	public abstract void setUndefined();
 
@@ -994,17 +908,6 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
-	/**
-	 * Returns definition or value string of this object. Automatically
-	 * increases decimals to at least 5, e.g. FractionText[4/3] -&gt;
-	 * FractionText[1.333333333333333]
-	 * 
-	 * @param useChangeable
-	 *            if false, point on path is ignored
-	 * @param useOutputValueString
-	 *            if true, use outputValueString rather than valueString
-	 * @return definition or value string of this object
-	 */
 	@Override
 	public String getRedefineString(final boolean useChangeable,
 			final boolean useOutputValueString) {
@@ -1042,12 +945,6 @@ public abstract class GeoElement extends ConstructionElement
 		return getLabelDelimiter() == '=' ? " = " : getLabelDelimiter() + " ";
 	}
 
-	/**
-	 * Returns the definition of this GeoElement for the input field, e.g. A1 =
-	 * 5, B1 = A1 + 2
-	 *
-	 * @return definition for input field
-	 */
 	@Override
 	public String getDefinitionForInputBar() {
 		return getDefinitionForInputBar(StringTemplate.editTemplate);
@@ -1117,11 +1014,6 @@ public abstract class GeoElement extends ConstructionElement
 		// overriden where needed
 	}
 
-	/**
-	 * Returns a value string that is saveable in an XML file. Note: this is
-	 * needed for texts that need to be quoted in lists and as command
-	 * arguments.
-	 */
 	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		if (isLocalVariable()) {
@@ -1154,11 +1046,6 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
-	/**
-	 * 
-	 * @param color
-	 *            new color for this object
-	 */
 	@Override
 	public void setObjColor(final GColor color) {
 		isColorSet = !isDefaultGeo() || !isGeoNumeric();
@@ -1174,11 +1061,6 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
-	/**
-	 * Returns true if color was explicitly set
-	 * 
-	 * @return true if color was explicitly set
-	 */
 	@Override
 	public boolean isColorSet() {
 		return isColorSet;
@@ -1326,11 +1208,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	}
 
-	/**
-	 * 
-	 * @return color of object for selection
-	 */
-	// Michael Borcherds 2008-04-02
 	@Override
 	public GColor getSelColor() {
 		if (colFunction == null) {
@@ -1339,11 +1216,6 @@ public abstract class GeoElement extends ConstructionElement
 		return getRGBFromList(100);
 	}
 
-	/**
-	 * 
-	 * @return color of fill
-	 */
-	// Michael Borcherds 2008-04-02
 	@Override
 	public GColor getFillColor() {
 		if (colFunction == null) {
@@ -1352,30 +1224,16 @@ public abstract class GeoElement extends ConstructionElement
 		return getShowHideColor(getRGBFromList(getAlphaValue()));
 	}
 
-	/**
-	 * return black if the color is white, so it can be seen
-	 * 
-	 * @return color for algebra view (same as label or black)
-	 */
 	@Override
 	public GColor getAlgebraColor() {
 		return GColor.updateForWhiteBackground(objColor);
 	}
 
-	/**
-	 * 
-	 * @return color of label
-	 */
-	// Michael Borcherds 2008-04-01
 	@Override
 	public GColor getLabelColor() {
 		return getObjectColor();
 	}
 
-	/**
-	 * 
-	 * @return color of background
-	 */
 	@Override
 	public GColor getBackgroundColor() {
 		return bgColor;
@@ -1433,13 +1291,6 @@ public abstract class GeoElement extends ConstructionElement
 		return col;
 	}
 
-	// Michael Borcherds 2008-03-01
-	/**
-	 * Sets layer
-	 * 
-	 * @param layer2
-	 *            layer from 0 to 9
-	 */
 	@Override
 	public void setLayer(int layer2) {
 		int newlayer = layer2;
@@ -1462,10 +1313,6 @@ public abstract class GeoElement extends ConstructionElement
 		this.layer = newlayer;
 	}
 
-	// Michael Borcherds 2008-02-23
-	/**
-	 * @return layer of this geo (0 to 9)
-	 */
 	@Override
 	public final int getLayer() {
 		return layer;
@@ -1535,12 +1382,6 @@ public abstract class GeoElement extends ConstructionElement
 		return true;
 	}
 
-	/**
-	 * Changes transparency of this geo
-	 * 
-	 * @param alpha
-	 *            new alpha value
-	 */
 	@Override
 	public void setAlphaValue(final double alpha) {
 		if ((fillColor == null) || (alpha < 0.0f) || (alpha > 1.0f)) {
@@ -1549,15 +1390,8 @@ public abstract class GeoElement extends ConstructionElement
 		alphaValue = alpha;
 		fillColor = GColor.newColor(fillColor.getRed(), fillColor.getGreen(),
 				fillColor.getBlue(), (int) (255 * alpha));
-
 	}
 
-	/**
-	 * @return alpha value (transparency)
-	 * 
-	 *         NOTE: can be -1 for lists, see GeoList.getAlphaValue(),
-	 *         GeoList.setgetAlphaValue()
-	 */
 	@Override
 	public double getAlphaValue() {
 		return getAlphaValueWhenVisible();
@@ -1584,9 +1418,6 @@ public abstract class GeoElement extends ConstructionElement
 		return alphaValue;
 	}
 
-	/**
-	 * @return true for limited paths
-	 */
 	@Override
 	public boolean isLimitedPath() {
 		return false;
@@ -1606,9 +1437,6 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
-	/**
-	 * @return true for GeoLists
-	 */
 	@Override
 	public boolean isGeoList() {
 		return false;
@@ -1687,22 +1515,13 @@ public abstract class GeoElement extends ConstructionElement
 
 			}
 		}
-		// G.Sturr 2010-6-26
+
 		if (isSpreadsheetTraceable() && geo.getSpreadsheetTrace()) {
 			setSpreadsheetTrace(true);
 			traceSettings = geo.traceSettings;
 		}
-		// END G.Sturr
-
 	}
 
-	/**
-	 * In future, this can be used to turn on/off whether transformed objects
-	 * have the same style as the original object
-	 * 
-	 * @param geo
-	 *            source geo
-	 */
 	@Override
 	public final void setVisualStyleForTransformations(final GeoElement geo) {
 		setVisualStyle(geo);
@@ -1710,13 +1529,6 @@ public abstract class GeoElement extends ConstructionElement
 		updateVisualStyle(GProperty.COMBINED);
 	}
 
-	/**
-	 * Just changes the basic visual styles. If the style of a geo is reset this
-	 * is required as we don't want to overwrite advanced settings in that case.
-	 * 
-	 * @param geo
-	 *            source geo
-	 */
 	@Override
 	public void setVisualStyle(final GeoElement geo) {
 
@@ -1828,13 +1640,6 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
-	/**
-	 * Copy advanced properties -- cond. visibility, dynamic colors, TODO
-	 * corners Used in macros where we can't reference the objects directly
-	 * 
-	 * @param geo
-	 *            style source
-	 */
 	@Override
 	public final void setAdvancedVisualStyleCopy(final GeoElementND geo) {
 		// copy color function
@@ -1894,17 +1699,11 @@ public abstract class GeoElement extends ConstructionElement
 		labelOffsetY = y;
 	}
 
-	/**
-	 * @return whether object should be visible in at least one view
-	 */
 	@Override
 	final public boolean isVisible() {
 		return isEuclidianVisible() || isAlgebraVisible();
 	}
 
-	/**
-	 * @return whether object should be drawn in euclidian view
-	 */
 	@Override
 	final public boolean isEuclidianVisible() {
 
@@ -1924,23 +1723,11 @@ public abstract class GeoElement extends ConstructionElement
 		return condShowObject.getBoolean();
 	}
 
-	/**
-	 * Allows drawing this in EV
-	 * 
-	 * @param visible
-	 *            true to allow drawing this in EV
-	 */
 	@Override
 	public void setEuclidianVisible(final boolean visible) {
 		euclidianVisible = visible;
 	}
 
-	/**
-	 * set euclidian visibility if there is no condition to show object set
-	 * 
-	 * @param visible
-	 *            true to allow drawing this in EV
-	 */
 	@Override
 	public void setEuclidianVisibleIfNoConditionToShowObject(
 			final boolean visible) {
@@ -2034,10 +1821,6 @@ public abstract class GeoElement extends ConstructionElement
 		return fixed;
 	}
 
-	/**
-	 * @param flag
-	 *            true to make this fixed
-	 */
 	@Override
 	public final void setFixed(final boolean flag) {
 		if (!flag) {
@@ -2063,9 +1846,6 @@ public abstract class GeoElement extends ConstructionElement
 		return isFixable();
 	}
 
-	/**
-	 * if an object has a fixed descendent, we want to set it undefined
-	 */
 	@Override
 	final public void removeOrSetUndefinedIfHasFixedDescendent() {
 		// can't delete a fixed object at all
@@ -2093,9 +1873,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	}
 
-	/**
-	 * @return true for auxiliary objects
-	 */
 	@Override
 	final public boolean isAuxiliaryObject() {
 		return auxiliaryObject;
@@ -2108,20 +1885,11 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
-	/**
-	 * Used to convert various interfaces into GeoElement
-	 * 
-	 * @return this
-	 */
 	@Override
 	final public GeoElement toGeoElement() {
 		return this;
 	}
 
-	/**
-	 * @param flag
-	 *            true to make this auxiliary
-	 */
 	@Override
 	public void setAuxiliaryObject(final boolean flag) {
 		if (auxiliaryObject != flag) {
@@ -2132,22 +1900,11 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
-	/**
-	 * sets whether the object's label should be drawn in an EuclidianView
-	 * 
-	 * @param visible
-	 *            true to make label visible
-	 */
 	@Override
 	public void setLabelVisible(final boolean visible) {
 		labelVisible = visible;
 	}
 
-	/**
-	 * Returns whether the label should be shown in Euclidian view.
-	 * 
-	 * @return true if label should be shown
-	 */
 	@Override
 	public boolean isLabelVisible() {
 		return labelVisible && isLabelSet();
@@ -2276,10 +2033,6 @@ public abstract class GeoElement extends ConstructionElement
 		return tooltipMode;
 	}
 
-	/**
-	 * @param mode
-	 *            new tooltip mode
-	 */
 	@Override
 	public void setTooltipMode(final int mode) {
 		// return isAlgebraVisible();
@@ -7375,11 +7128,6 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
-	/**
-	 * @param viewId
-	 *            view id
-	 * @return whether this geo is visible in given view
-	 */
 	@Override
 	public boolean isVisibleInView(final int viewId) {
 		if (viewFlags == null) {
@@ -7390,10 +7138,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	// private Set<Integer> viewSet = new HashSet<Integer>();
 
-	/**
-	 * @param viewId
-	 *            view id
-	 */
 	@Override
 	final public void addView(final int viewId) {
 		if (App.isView3D(viewId)) {

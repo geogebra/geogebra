@@ -140,6 +140,9 @@ public interface ExpressionValue {
 	public String toString();
 
 	/**
+	 * Note: this is needed for texts that need to be quoted in lists and as
+	 * command arguments.
+	 *
 	 * @param tpl
 	 *            string template
 	 * @return value string that can be re-run as GGB command

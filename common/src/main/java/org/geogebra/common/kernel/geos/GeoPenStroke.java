@@ -46,7 +46,7 @@ public class GeoPenStroke extends GeoPolyLine {
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
 		GeoPolyLine ret = new GeoPenStroke(cons1);
-		ret.points = GeoElement.copyPoints(cons1, points);
+		ret.points = GeoElement.copyPointsND(cons1, points);
 		ret.set(this);
 
 		return ret;
