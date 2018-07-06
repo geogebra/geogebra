@@ -37,6 +37,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.export.AnimationExportDialogW;
+import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
@@ -632,5 +633,18 @@ public class DialogManagerW extends DialogManager
 		GDialogBox gifDialog = new AnimationExportDialogW((AppW) app);
 		gifDialog.center();
 		gifDialog.show();
+	}
+
+	/**
+	 * Open print preview
+	 */
+	public void showPrintPreview() {
+		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)
+				|| app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)
+				|| app.getGuiManager().showView(App.VIEW_ALGEBRA)
+				|| app.getGuiManager()
+						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+			new PrintPreviewW((AppW) app).show();
+		}
 	}
 }

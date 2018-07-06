@@ -1,5 +1,6 @@
 package org.geogebra.web.shared;
 
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -79,6 +80,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 				SharedResources.INSTANCE.print_white(),
 				localize("Print"), 24, app);
 		printBtn.setStyleName("roundButton");
+		printBtn.addFastClickHandler(this);
 		exportImgBtn = new StandardButton(
 				SharedResources.INSTANCE.file_download_white(),
 				localize("exportImage"), 24, app);
@@ -95,6 +97,8 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 	public void onClick(Widget source) {
 		if (source == copyBtn) {
 			app.copyTextToSystemClipboard(linkBox.getText());
+		} else if (source == printBtn) {
+			((DialogManagerW) app.getDialogManager()).showPrintPreview();
 		}
 	}
 

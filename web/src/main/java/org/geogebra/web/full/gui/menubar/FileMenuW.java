@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.ExamLogBuilder;
 import org.geogebra.common.main.Feature;
@@ -16,7 +15,6 @@ import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -337,16 +335,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 						@Override
 						public void doExecute() {
-							if (getApp().getGuiManager()
-									.showView(App.VIEW_EUCLIDIAN)
-									|| getApp().getGuiManager()
-											.showView(App.VIEW_EUCLIDIAN2)
-									|| getApp().getGuiManager()
-											.showView(App.VIEW_ALGEBRA)
-									|| getApp().getGuiManager().showView(
-											App.VIEW_CONSTRUCTION_PROTOCOL)) {
-								new PrintPreviewW(getApp()).show();
-							}
+							((DialogManagerW) getApp().getDialogManager())
+									.showPrintPreview();
 						}
 			});
 			// updatePrintMenu();
