@@ -1872,7 +1872,7 @@ __GGB__keysVar["it"].menu = {
     "GeoGebraGraphingCalculator": "Calcolatrice Grafica GeoGebra",
     "GeoGebraMaterials": "Materiali GeoGebra",
     "GeoGebraProperties": "Propriet\xe0 di GeoGebra",
-    "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
+    "GeoGebraScientificCalculator": "Calc. scientifica GeoGebra",
     "GeogebraToAsymptoteExport": "Esporta da GeoGebra a Asymptote",
     "GeometricObjects": "Oggetti Geometrici",
     "Geometry": "Geometria",
