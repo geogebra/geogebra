@@ -88,11 +88,14 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 		mainPanel.add(buttonPanel);
 		add(mainPanel);
 		setLabels();
+		copyBtn.addFastClickHandler(this);
 	}
 
 	@Override
 	public void onClick(Widget source) {
-		// TODO button handlers.
+		if (source == copyBtn) {
+			app.copyTextToSystemClipboard(linkBox.getText());
+		}
 	}
 
 	/**
