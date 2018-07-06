@@ -84,6 +84,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 				SharedResources.INSTANCE.file_download_white(),
 				localize("exportImage"), 24, app);
 		exportImgBtn.setStyleName("roundButton");
+		exportImgBtn.addFastClickHandler(this);
 		buttonPanel.add(printBtn);
 		buttonPanel.add(exportImgBtn);
 		mainPanel.add(buttonPanel);
@@ -98,6 +99,9 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 			app.copyTextToSystemClipboard(linkBox.getText());
 		} else if (source == printBtn) {
 			app.getDialogManager().showPrintPreview();
+			hide();
+		} else if (source == exportImgBtn) {
+			app.getGuiManager().getDialogManager().showExportImageDialog(null);
 			hide();
 		}
 	}
