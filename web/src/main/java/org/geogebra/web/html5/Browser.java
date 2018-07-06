@@ -205,7 +205,8 @@ public class Browser {
 	 * @return URL using appropriate protocol (data or https)
 	 */
 	public static String normalizeURL(String thumb) {
-		if (thumb.startsWith("data:")) {
+		if (thumb.startsWith("data:") || (thumb.startsWith("http://")
+				&& "http:".equals(Location.getProtocol()))) {
 			return thumb;
 		}
 		String url;

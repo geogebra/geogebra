@@ -142,7 +142,7 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public void logout(String token) {
-		// TODO Auto-generated method stub
+		// TODO not possible right now
 	}
 
 	@Override
