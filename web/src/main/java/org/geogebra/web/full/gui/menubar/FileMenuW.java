@@ -259,13 +259,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 								.getSaveDialog().showIfNeeded(newConstruction);
 					}
 		});
-		// add file chooser for open menu
-		final boolean mow_loggedOut = getApp().isWhiteboardActive()
-				&& !getApp().getLoginOperation().isLoggedIn();
-		if (mow_loggedOut) {
-			fileChooser = new FileChooser();
-			fileChooser.addStyleName("hidden");
-		}
 
 		// open menu is always visible in menu
 		addItem(MainMenu.getMenuBarHtml(
@@ -275,7 +268,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 					@Override
 					public void doExecute() {
-						if (mow_loggedOut) {
+						if (isMowLoggedOut()) {
+							if (fileChooser == null) {
+								fileChooser = new FileChooser();
+								fileChooser.addStyleName("hidden");
+							}
 							RootPanel.get().add(fileChooser);
 							fileChooser.open();
 							return;
@@ -346,6 +343,14 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    if (!getApp().getNetworkOperation().isOnline()) {
 	    	render(false);    	
 	    }
+	}
+
+	/**
+	 * @return true if the whiteboard is active and the user logged in
+	 */
+	boolean isMowLoggedOut() {
+		return getApp().isWhiteboardActive()
+				&& !getApp().getLoginOperation().isLoggedIn();
 	}
 
 	private class FileChooser extends FileUpload implements ChangeHandler {
