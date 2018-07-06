@@ -73,7 +73,7 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 
 				Log.error(description);
 
-				if (!description.equals(lastDescrip)) {
+				if (!removeBraces(description).equals(lastDescrip)) {
 					sb2.append("{\"");
 					sb2.append(description);
 					sb2.append("\"},");
@@ -82,7 +82,7 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 					Log.debug("duplicate row " + description);
 				}
 
-				lastDescrip = description;
+				lastDescrip = removeBraces(description);
 
 			}
 		}
@@ -100,6 +100,14 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 		}
 		// sb2.append(stepJ);
 		// sb2.append("\n");
+	}
+
+	/**
+	 * remove braces to check equality eg "x" and "{x}"
+	 * 
+	 */
+	private String removeBraces(String s) {
+		return s.replaceAll("\\{", "").replaceAll("\\}", "");
 	}
 
 	private static String descriptionString(List<TextElement> list) {
