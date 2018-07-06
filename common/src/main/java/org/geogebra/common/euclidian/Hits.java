@@ -105,7 +105,13 @@ public class Hits extends ArrayList<GeoElement> {
 	/** adding specifics GeoElements */
 	@Override
 	public boolean add(GeoElement geo) {
+		if (countGeo(geo)) {
+			return super.add(geo);
+		}
+		return false;
+	}
 
+	private boolean countGeo(GeoElement geo) {
 		if (geo == null) {
 			return false;
 		}
@@ -131,19 +137,26 @@ public class Hits extends ArrayList<GeoElement> {
 
 		} else if (geo instanceof GeoAxisND) {
 			switch (((GeoAxisND) geo).getType()) {
-			default:
-			case GeoAxisND.X_AXIS:
-				hasXAxis = true;
-				break;
-			case GeoAxisND.Y_AXIS:
-				hasYAxis = true;
-				break;
-			case GeoAxisND.Z_AXIS:
-				hasZAxis = true;
-				break;
+				default:
+				case GeoAxisND.X_AXIS:
+					hasXAxis = true;
+					break;
+				case GeoAxisND.Y_AXIS:
+					hasYAxis = true;
+					break;
+				case GeoAxisND.Z_AXIS:
+					hasZAxis = true;
+					break;
 			}
 		}
-		return super.add(geo);
+		return true;
+	}
+
+	public boolean addAll(Hits hits) {
+		for (GeoElement geo: hits) {
+			countGeo(geo);
+		}
+		return super.addAll(hits);
 	}
 
 	/**
