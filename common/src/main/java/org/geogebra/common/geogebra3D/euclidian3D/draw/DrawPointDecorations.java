@@ -187,4 +187,9 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	public int getLineTypeHidden() {
 		return EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN;
 	}
+
+	@Override
+	public int getLayer() {
+		return Renderer.LAYER_DEFAULT;
+	}
 }
