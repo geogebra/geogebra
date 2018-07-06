@@ -171,7 +171,8 @@ public abstract class ConstructionElement
 	}
 
 	/**
-	 * Removes this object from the current construction.
+	 * Removes this object and all dependent objects from the Kernel. If this
+	 * object is not independent, it's parent algorithm is removed too.
 	 */
 	public abstract void remove();
 
@@ -305,6 +306,15 @@ public abstract class ConstructionElement
 		return cons.getKernel().getLocalization();
 	}
 
+	/**
+	 * adds all predecessors of this object to the given set the set is
+	 * topologically sorted
+	 * 
+	 * @param set
+	 *            set of predecessors
+	 * @param onlyIndependent
+	 *            whether only indpendent geos should be added
+	 */
 	abstract public void addPredecessorsToSet(final TreeSet<GeoElement> set,
 			final boolean onlyIndependent);
 }

@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.script.Script;
@@ -51,11 +52,103 @@ import org.geogebra.common.util.LaTeXCache;
  *
  */
 public interface GeoElementND extends ExpressionValue {
+
+	/** label mode: name */
+	public static final int LABEL_NAME = 0;
+	/** label mode: name + value */
+	public static final int LABEL_NAME_VALUE = 1;
+	/** label mode: value */
+	public static final int LABEL_VALUE = 2;
+	/** label mode: caption */
+	public static final int LABEL_CAPTION = 3; // Michael Borcherds 2008-02-18
+	/** label mode: default */
+	public static final int LABEL_DEFAULT = 4;
+	/** label mode: default, name */
+	public static final int LABEL_DEFAULT_NAME = 5;
+	/** label mode: default, name + value */
+	public static final int LABEL_DEFAULT_NAME_VALUE = 6;
+	/** label mode: default, value */
+	public static final int LABEL_DEFAULT_VALUE = 7;
+	/** label mode: default, caption */
+	public static final int LABEL_DEFAULT_CAPTION = 8;
+	/** caption + value */
+	public static final int LABEL_CAPTION_VALUE = 9;
+
+	/** tooltip mode: iff AV showing */
+	public static final int TOOLTIP_ALGEBRAVIEW_SHOWING = 0;
+	/** tooltip mode: always on */
+	public static final int TOOLTIP_ON = 1;
+	/** tooltip mode: always off */
+	public static final int TOOLTIP_OFF = 2;
+	/** tooltip mode: caption, always on */
+	public static final int TOOLTIP_CAPTION = 3;
+	/** tooltip mode: next spreadsheet cell, always on */
+	public static final int TOOLTIP_NEXTCELL = 4;
+
+	/** maximal animation speed */
+	final public static double MAX_ANIMATION_SPEED = 100;
+	/** animation type: oscillating */
+	final public static int ANIMATION_OSCILLATING = 0;
+	/** animation type: increasing */
+	final public static int ANIMATION_INCREASING = 1;
+	/** animation type: decreasing */
+	final public static int ANIMATION_DECREASING = 2;
+	/** animation type: increasing once */
+	final public static int ANIMATION_INCREASING_ONCE = 3;
+
+	/** Decoration type: no decoration */
+	public static final int DECORATION_NONE = 0;
+	// segment decorations
+	/** Decoration type: one tick */
+	public static final int DECORATION_SEGMENT_ONE_TICK = 1;
+	/** Decoration type: two ticks */
+	public static final int DECORATION_SEGMENT_TWO_TICKS = 2;
+	/** Decoration type: three ticks */
+	public static final int DECORATION_SEGMENT_THREE_TICKS = 3;
+	// Michael Borcherds 2007-10-06
+	/** Decoration type: one arow */
+	public static final int DECORATION_SEGMENT_ONE_ARROW = 4;
+	/** Decoration type: two arrows */
+	public static final int DECORATION_SEGMENT_TWO_ARROWS = 5;
+	/** Decoration type: three arrows */
+	public static final int DECORATION_SEGMENT_THREE_ARROWS = 6;
+	// Michael Borcherds 2007-10-06
+	// angle decorations
+	/** Decoration type for angles: two arcs */
+	public static final int DECORATION_ANGLE_TWO_ARCS = 1;
+	/** Decoration type for angles: three arcs */
+	public static final int DECORATION_ANGLE_THREE_ARCS = 2;
+	/** Decoration type for angles: one tick */
+	public static final int DECORATION_ANGLE_ONE_TICK = 3;
+	/** Decoration type for angles: two ticks */
+	public static final int DECORATION_ANGLE_TWO_TICKS = 4;
+	/** Decoration type for angles: three ticks */
+	public static final int DECORATION_ANGLE_THREE_TICKS = 5;
+
 	/**
-	 * @param string
+	 * Decoration type for angles: counterclockwise arrow
+	 * 
+	 * @author Michael Borcherds, 2007-10-22
+	 */
+	public static final int DECORATION_ANGLE_ARROW_ANTICLOCKWISE = 6;
+	/**
+	 * Decoration type for angles: clockwise arrow
+	 * 
+	 * @author Michael Borcherds, 2007-10-22
+	 */
+	public static final int DECORATION_ANGLE_ARROW_CLOCKWISE = 7;
+
+	/**
+	 * Sets label of a GeoElement and updates Construction list and GeoElement
+	 * table (String label, GeoElement geo) in Kernel. If the old label was
+	 * null, a new free label is assigned starting with label as a prefix. If
+	 * newLabel is not already used, this object is renamed to newLabel.
+	 * Otherwise nothing is done.
+	 * 
+	 * @param labelNew
 	 *            new label
 	 */
-	void setLabel(String string);
+	void setLabel(String labelNew);
 
 	/**
 	 * Updates this geo
@@ -89,7 +182,11 @@ public interface GeoElementND extends ExpressionValue {
 	boolean isLabelVisible();
 
 	/**
-	 * @return true if label was set
+	 * Returns whether this object's label has been set and is valid now. (this
+	 * is needed for saving: only object's with isLabelSet() == true should be
+	 * saved)
+	 * 
+	 * @return true if this geo has valid label
 	 */
 	public boolean isLabelSet();
 
@@ -150,12 +247,14 @@ public interface GeoElementND extends ExpressionValue {
 	public boolean isIndependent();
 
 	/**
-	 * @return parent algorithm
+	 * @return algorithm responsible for computation of this object
 	 */
 	public AlgoElement getParentAlgorithm();
 
 	/**
-	 * @return true if this is defined
+	 * Returns false for undefined objects
+	 * 
+	 * @return false when undefined
 	 */
 	public boolean isDefined();
 
@@ -214,7 +313,7 @@ public interface GeoElementND extends ExpressionValue {
 	/**
 	 * Returns whether this GeoElement is a point in a region
 	 * 
-	 * @return true for points on path
+	 * @return true for points in region
 	 */
 	public boolean isPointInRegion();
 
@@ -261,7 +360,7 @@ public interface GeoElementND extends ExpressionValue {
 	int getConstructionIndex();
 
 	/**
-	 * @return set of algos that depend on this geo
+	 * @return set of all dependent algos in topological order
 	 */
 	AlgorithmSet getAlgoUpdateSet();
 
@@ -292,7 +391,10 @@ public interface GeoElementND extends ExpressionValue {
 	public boolean isGeoText();
 
 	/**
-	 * @return label mode, may be GeoElement.LABEL_NAME, LABEL_VALUE etc
+	 * Returns how should label look like in Euclidian view
+	 * 
+	 * @return label mode (name, value, name + value, caption) may be
+	 *         GeoElement.LABEL_NAME, LABEL_VALUE etc
 	 */
 	int getLabelMode();
 
@@ -306,6 +408,9 @@ public interface GeoElementND extends ExpressionValue {
 
 	// public Kernel getKernel();
 	/**
+	 * We may need a simple method to get the label, as in the CopyPaste class.
+	 * 
+	 * 
 	 * @return get the label if set; do not fallback to definition (unlike
 	 *         {@link #getLabel(StringTemplate)})
 	 */
@@ -329,12 +434,12 @@ public interface GeoElementND extends ExpressionValue {
 	public void setEuclidianVisibleIfNoConditionToShowObject(boolean visible);
 
 	/**
-	 * @return whether this is a point
+	 * @return whether this is a point (ND)
 	 */
 	boolean isGeoPoint();
 
 	/**
-	 * @return whether this is a number
+	 * @return whether this is a number (numeric, not just any NumberValue)
 	 */
 	boolean isGeoNumeric();
 
@@ -379,7 +484,7 @@ public interface GeoElementND extends ExpressionValue {
 	boolean isGeoSegment();
 
 	/**
-	 * @return whether this is a ray
+	 * @return whether this is a polygon
 	 */
 	boolean isGeoPolygon();
 
@@ -389,7 +494,7 @@ public interface GeoElementND extends ExpressionValue {
 	boolean isGeoRay();
 
 	/**
-	 * @return whether this is a conic arc
+	 * @return whether this is a conic arc / segment
 	 */
 	boolean isGeoConicPart();
 
@@ -399,7 +504,9 @@ public interface GeoElementND extends ExpressionValue {
 	boolean isGeoVector();
 
 	/**
-	 * @return geo type
+	 * Returns the {@link GeoClass}
+	 * 
+	 * @return GeoClass
 	 */
 	GeoClass getGeoClassType();
 
@@ -429,7 +536,7 @@ public interface GeoElementND extends ExpressionValue {
 
 	/**
 	 * @param colorFunction
-	 *            dynamic color
+	 *            dynamic color as list of numbers {R,G,B} / {H,S,L} / {H,S,B}
 	 */
 	void setColorFunction(GeoList colorFunction);
 
@@ -453,6 +560,8 @@ public interface GeoElementND extends ExpressionValue {
 	void setVisibleInView3D(GeoElement geo);
 
 	/**
+	 * Make visible in given views.
+	 * 
 	 * @param viewSet
 	 *            set of views where this may appear
 	 */
@@ -491,15 +600,27 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	public boolean isParentOf(final GeoElementND geo);
 
+	/**
+	 * removes this GeoElement and all its dependents
+	 */
 	void doRemove();
 
+	/**
+	 * Returns whether this object is parent of other geos.
+	 * 
+	 * @return true if this object is parent of other geos.
+	 */
 	boolean hasChildren();
 
+	/**
+	 * @return true if visible in 3D view
+	 */
 	boolean isVisibleInView3D();
 
 	/**
 	 * @param geo
 	 *            other geo
+	 * 
 	 * @return whether the elements are equal in geometric sense (for congruency
 	 *         use isCongruent)
 	 */
@@ -507,6 +628,9 @@ public interface GeoElementND extends ExpressionValue {
 
 	Kernel getKernel();
 
+	/**
+	 * @return true if highlighted or selected
+	 */
 	boolean doHighlighting();
 
 	/**
@@ -517,6 +641,9 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	double getAlphaValue();
 
+	/**
+	 * @return algorithm responsible for drawing this
+	 */
 	AlgoElement getDrawAlgorithm();
 
 	/**
@@ -530,6 +657,9 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	GColor getBackgroundColor();
 
+	/**
+	 * @return fill type (standard/hatch/image)
+	 */
 	FillType getFillType();
 
 	/**
@@ -538,21 +668,41 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	GColor getLabelColor();
 
+	/**
+	 * Returns the label and/or value of this object for showing in
+	 * EuclidianView. This depends on the current setting of labelMode:
+	 * LABEL_NAME : only label LABEL_NAME_VALUE : label and value
+	 * 
+	 * @return label, value, label+value or caption
+	 */
 	String getLabelDescription();
 
 	GColor getObjectColor();
 
+	/**
+	 * @return filename of fill image
+	 */
 	String getImageFileName();
 
-	Object getLaTeXdescription();
+	/**
+	 * @return LaTeX description
+	 */
+	String getLaTeXdescription();
 
 	/**
 	 * @return color of object for selection
 	 */
 	GColor getSelColor();
 
+	/**
+	 * @return true if current fill style is hatch
+	 */
 	boolean isHatchingEnabled();
 
+	/**
+	 * @param hatchingAngle
+	 *            hatching angle in degrees
+	 */
 	void setHatchingAngle(int hatchingAngle);
 
 	/**
@@ -563,28 +713,73 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	void setAlphaValue(double alpha);
 
-	String getCaption(StringTemplate defaulttemplate);
+	/**
+	 * Caption string (with substitutions)
+	 * 
+	 * @param tpl
+	 *            string template
+	 * @return caption (or label if caption is null)
+	 */
+	String getCaption(StringTemplate tpl);
 
+	/**
+	 * @return fill image
+	 */
 	MyImage getFillImage();
 
+	/**
+	 * @return Unicode symbol used for fill
+	 */
 	String getFillSymbol();
 
+	/**
+	 * @param fillType
+	 *            new fill type
+	 */
 	void setFillType(FillType fillType);
 
+	/**
+	 * @return hatching distance
+	 */
 	int getHatchingDistance();
 
+	/**
+	 * Just sets the fill symbol, fill type must be changed to SYMBOL separately
+	 * 
+	 * @param symbol
+	 *            Unicode symbol used for fill
+	 */
 	void setFillSymbol(String symbol);
 
+	/**
+	 * @return true if this can be filled
+	 */
 	boolean isFillable();
 
+	/**
+	 * @return true for valid functions
+	 */
 	boolean isGeoFunction();
 
+	/** @return true if tracing is posible */
 	boolean isTraceable();
 
+	/**
+	 * @return hatching angle in degrees
+	 */
 	double getHatchingAngle();
 
+	/**
+	 * Tries to load the image using the given fileName.
+	 * 
+	 * @param fileName
+	 *            filename
+	 */
 	void setImageFileName(String fileName);
 
+	/**
+	 * @return true if showing trimmed lines
+	 */
 	boolean getShowTrimmedIntersectionLines();
 
 	/**
@@ -592,8 +787,14 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	boolean isVisible();
 
+	/**
+	 * @return latex cache
+	 */
 	public LaTeXCache getLaTeXCache();
 
+	/**
+	 * Updates visual properties and repaints this object
+	 */
 	public void updateVisualStyleRepaint(GProperty prop);
 
 	/**
@@ -605,6 +806,9 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	void setVisualStyle(GeoElement geo);
 
+	/**
+	 * @return whether this geo can be parametrized
+	 */
 	boolean isParametric();
 
 	/**
@@ -615,8 +819,14 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	void setLabelSimple(String labelSimple);
 
+	/**
+	 * @return condition to show this geo
+	 */
 	GeoBoolean getShowObjectCondition();
 
+	/**
+	 * @return dynamic color as list of numbers {R,G,B} / {H,S,L} / {H,S,B}
+	 */
 	GeoList getColorFunction();
 
 	/**
@@ -624,6 +834,9 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	int getColorSpace();
 
+	/**
+	 * @return true if this is allowed to be drawn in EV
+	 */
 	boolean isSetEuclidianVisible();
 
 	/**
@@ -635,10 +848,17 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	void setAdvancedVisualStyleCopy(GeoElementND geo);
 
-	void setDrawAlgorithm(DrawInformationAlgo copy);
+	/**
+	 * @param algorithm
+	 *            algorithm responsible for drawing this
+	 */
+	void setDrawAlgorithm(DrawInformationAlgo algorithm);
 
 	/**
-	 * @return whether this can be moved
+	 * Returns whether this GeoElement can be moved in Euclidian View. Note:
+	 * this is needed for texts and points on path
+	 * 
+	 * @return true for moveable objects
 	 */
 	public boolean isMoveable();
 
@@ -660,7 +880,8 @@ public interface GeoElementND extends ExpressionValue {
 	GeoElement toGeoElement();
 
 	/**
-	 * @return whether this is output of random() or randomizable algo
+	 * @return whether this is output of random() or randomizable algo (number,
+	 *         list, list element)
 	 */
 	boolean isRandomGeo();
 
@@ -669,43 +890,129 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	void updateRandomGeo();
 
-	void addAlgorithm(AlgoElement algoElement);
+	/**
+	 * add algorithm to dependency list of this GeoElement
+	 * 
+	 * @param algorithm
+	 *            algorithm directly dependent on this
+	 */
+	void addAlgorithm(AlgoElement algorithm);
 
-	String getFreeLabel(String label);
+	/**
+	 * Get a free label. Try the suggestedLabel first
+	 * 
+	 * @param suggestedLabel
+	 *            label to be tried first
+	 * @return free label -- either suggestedLabel or suggestedLabel_index
+	 */
+	String getFreeLabel(String suggestedLabel);
 
 	/**
 	 * if an object has a fixed descendent, we want to set it undefined
 	 */
 	void removeOrSetUndefinedIfHasFixedDescendent();
 
-	void removeAlgorithm(AlgoElement algoAttachCopyToView);
+	/**
+	 * remove algorithm from dependency list of this GeoElement
+	 * 
+	 * @param algorithm
+	 *            algorithm to be removed
+	 */
+	void removeAlgorithm(AlgoElement algorithm);
 
+	/**
+	 * add algorithm to update sets up the construction graph
+	 * 
+	 * @param algorithm
+	 *            algo to be added
+	 * @return true if added
+	 */
 	boolean addToUpdateSets(AlgoElement algorithm);
 
+	/**
+	 * remove algorithm from update sets up the construction graph
+	 * 
+	 * @param algorithm
+	 *            algo to be removed
+	 * @return true if removed
+	 */
 	boolean removeFromUpdateSets(AlgoElement algorithm);
 
-	void addToUpdateSetOnly(AlgoElement algoElement);
+	/**
+	 * Adds the given algorithm to the update set this GeoElement. Note: the
+	 * algorithm is NOT added to the algorithm list, i.e. the dependency graph
+	 * of the construction.
+	 * 
+	 * @param algorithm
+	 *            algorithm to be added
+	 */
+	void addToUpdateSetOnly(AlgoElement algorithm);
 
+	/**
+	 * @return true if can be removed as input of algo -- only if just one algo
+	 *         left
+	 */
 	boolean canBeRemovedAsInput();
 
+	/**
+	 * @return true for CAS cells
+	 */
 	boolean isGeoCasCell();
 
+	/**
+	 * @return the smallest possible construction index for this object in its
+	 *         construction. For an independent object 0 is returned.
+	 */
 	int getMinConstructionIndex();
 
-	boolean setCaption(String object);
+	/**
+	 * @param caption
+	 *            raw caption
+	 * @return true if new caption is not null
+	 */
+	boolean setCaption(String caption);
 
+	/**
+	 * @return true for conics
+	 */
 	boolean isGeoConic();
 
-	void addToAlgorithmListOnly(AlgoElement algoElement);
+	/**
+	 * Adds the given algorithm to the dependency list of this GeoElement. The
+	 * algorithm is NOT added to the updateSet of this GeoElement! I.e. when
+	 * updateCascade() is called the given algorithm will not be updated.
+	 * 
+	 * @param algorithm
+	 *            algo to be added
+	 */
+	void addToAlgorithmListOnly(AlgoElement algorithm);
 
+	/**
+	 * 
+	 * @return true if this can be listed as input for a macro
+	 */
 	boolean isVisibleInputForMacro();
 
 	String getNameDescription();
 
+	/**
+	 * Return script for event type (localized if ggbscript)
+	 * 
+	 * @param type
+	 *            event type
+	 * @return script
+	 */
 	Script getScript(EventType type);
 
+	/**
+	 * @return deafult label for this geo (depends on type)
+	 */
 	String getDefaultLabel();
 
+	/**
+	 * @return Type, label and definition information about this GeoElement (for
+	 *         tooltips and error messages)
+	 */
 	String getLongDescription();
 
 	/**
@@ -715,21 +1022,37 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	GColor getAlgebraColor();
 
+	/**
+	 * @return true for polylines
+	 */
 	boolean isGeoPolyLine();
 
-	Object getOldLabel();
+	/**
+	 * Returns the label of this object before rename() was called.
+	 * 
+	 * @return label before renaming
+	 */
+	String getOldLabel();
 
 	/**
-	 * @param b
 	 * @param flag
 	 *            true to make this selected
 	 * @return true if state is changed
 	 */
-	boolean setSelected(boolean b);
+	boolean setSelected(boolean flag);
 
+	/**
+	 * Returns all children (of type GeoElement) that depend on this object.
+	 * 
+	 * @return set of all children of this geo
+	 */
 	TreeSet<GeoElement> getAllChildren();
 
-	void setSelectionAllowed(boolean b);
+	/**
+	 * @param selection
+	 *            true to allow selection
+	 */
+	void setSelectionAllowed(boolean selection);
 
 	/**
 	 * @return layer of this geo (0 to 9)
@@ -740,7 +1063,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * @param mode
 	 *            new tooltip mode
 	 */
-	void setTooltipMode(int tooltipOff);
+	void setTooltipMode(int mode);
 
 	/**
 	 * Sets layer
@@ -754,9 +1077,15 @@ public interface GeoElementND extends ExpressionValue {
 	 * @param viewId
 	 *            view id
 	 */
-	void addView(int viewEuclidian);
+	void addView(int viewId);
 
-	void removeView(int viewEuclidian2);
+	/**
+	 * Make this invisible in given view
+	 * 
+	 * @param viewId
+	 *            view id
+	 */
+	void removeView(int viewId);
 
 	/**
 	 * In future, this can be used to turn on/off whether transformed objects
@@ -767,23 +1096,72 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	void setVisualStyleForTransformations(GeoElement geo);
 
+	/**
+	 * Set definition to null, no checks
+	 */
 	public void resetDefinition();
 
+	/**
+	 * Decides if definition differs from value as String. If so, AV should
+	 * display both rows.
+	 * 
+	 * @return true, only if AV should display 2 rows in 'Definition And Value'
+	 *         style.
+	 */
 	DescriptionMode needToShowBothRowsInAV();
 
+	/**
+	 * @return true for functionables
+	 */
 	boolean isGeoFunctionable();
 
+	/**
+	 * @return true if the given GeoElement geo is to be drawn with LaTeX in
+	 *         AV/Spreadsheet
+	 */
 	boolean isLaTeXDrawableGeo();
 
-	String getIndexLabel(String labelPrefix);
+	/**
+	 * Returns the next free indexed label using the given prefix.
+	 * 
+	 * @param prefix
+	 *            e.g. "c"
+	 * @return indexed label, e.g. "c_2"
+	 */
+	String getIndexLabel(String prefix);
 
+	/**
+	 * @return true for cartesian curves
+	 */
 	boolean isGeoCurveCartesian();
 
-	boolean isChildOf(GeoElementND autoCreateGeo);
+	/**
+	 * Returns whether this object is dependent on geo.
+	 * 
+	 * @param geo
+	 *            other geo
+	 * @return true if this object is dependent on geo.
+	 */
+	boolean isChildOf(GeoElementND geo);
 
-	void setAllVisualProperties(GeoElement value, boolean b);
+	/**
+	 * Sets all visual values from given GeoElement. This will also affect
+	 * tracing, label location and the location of texts for example.
+	 * 
+	 * @param geo
+	 *            source geo
+	 * @param keepAdvanced
+	 *            true to skip copying color function and visibility condition
+	 */
+	void setAllVisualProperties(GeoElement geo, boolean keepAdvanced);
 
-	void setShowObjectCondition(GeoBoolean newConditionToShowObject)
+	/**
+	 * @param cond
+	 *            new condition to show this geo
+	 * @throws CircularDefinitionException
+	 *             if this == cond
+	 */
+	void setShowObjectCondition(GeoBoolean cond)
 			throws CircularDefinitionException;
 
 	/**
@@ -804,52 +1182,172 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	boolean isAuxiliaryObject();
 
-	String getFormulaString(StringTemplate latextemplate, boolean b);
+	/**
+	 * String getFormulaString(int, boolean substituteNumbers) substituteNumbers
+	 * determines (for a function) whether you want "2*x^2" or "a*x^2" returns a
+	 * string representing the formula of the GeoElement in the following
+	 * formats: getFormulaString(StringType.GIAC) eg sqrt(x)
+	 * getFormulaString(StringType.LATEX) eg \sqrt(x)
+	 * getFormulaString(StringType.LIBRE_OFFICE) eg sqrt {x}
+	 * getFormulaString(StringType.GEOGEBRA) eg sqrt(x)
+	 * getFormulaString(StringType.GEOGEBRA_XML)
+	 * 
+	 * @param tpl
+	 *            string template
+	 * @param substituteNumbers
+	 *            true to substitute numbers
+	 * @return formula string
+	 */
+	String getFormulaString(StringTemplate tpl, boolean substituteNumbers);
 
+	/**
+	 * Returns the value of this GeoElement for the input field, e.g. A1 = 5, B1
+	 * = A1 + 2
+	 * 
+	 * @return value for input field
+	 */
 	String getValueForInputBar();
 
+	/**
+	 * @return true for angles
+	 */
 	boolean isGeoAngle();
 
+	/**
+	 * @return true for lines
+	 */
 	boolean isGeoLine();
 
+	/**
+	 * renames this GeoElement to newLabel.
+	 * 
+	 * @param newLabel
+	 *            new label
+	 * @return true if label was changed
+	 * @throws MyError
+	 *             : if new label is already in use
+	 */
 	boolean rename(String newLabel);
 
+	/**
+	 * @return true for images
+	 */
 	boolean isGeoImage();
 
+	/**
+	 * Sets label of a GeoElement and updates GeoElement table (label,
+	 * GeoElement). This method should only be used by MyXMLHandler.
+	 * 
+	 * @param label
+	 *            label
+	 */
 	void setLoadedLabel(String label);
 
-	void setScripting(GeoElement value);
+	/**
+	 * copies the scripts from another geo. Used when redefining (so that the
+	 * scripts aren't "deleted")
+	 * 
+	 * @param oldGeo
+	 *            old GeoElement
+	 */
+	void setScripting(GeoElement oldGeo);
 
 	/**
 	 * @return true for GeoLists
 	 */
 	boolean isGeoList();
 
+	/**
+	 * @return true for booleans
+	 */
 	boolean isGeoBoolean();
 
+	/**
+	 * 
+	 * @return true if has changeable coord parent numbers (e.g. point defined
+	 *         by sliders)
+	 */
 	boolean hasChangeableCoordParentNumbers();
 
+	/**
+	 * @return true for planes
+	 */
 	boolean isGeoPlane();
 
+	/**
+	 * @return "main" direction of the element, e.g. for seeing it in a
+	 *         "standard" view (for 3D). E.g. orthogonal to a plane, along a
+	 *         line, ...
+	 */
 	Coords getMainDirection();
 
+	/**
+	 * Returns all free parent points of this GeoElement.
+	 * 
+	 * @param view
+	 *            view
+	 * @return all free parent points of this GeoElement.
+	 */
 	public ArrayList<GeoPointND> getFreeInputPoints(
 			final EuclidianViewInterfaceSlim view);
 
+	/**
+	 * Returns whether this object's class implements the interface
+	 * Translateable.
+	 * 
+	 * @return whether this object's class implements the interface
+	 *         Translateable.
+	 */
 	boolean isTranslateable();
 
+	/**
+	 * @param view
+	 *            view
+	 * @return true if moveable in the view
+	 */
 	boolean isMoveable(EuclidianViewInterfaceSlim view);
 
+	/**
+	 * @return true for textfields (=Input Boxes)
+	 */
 	boolean isGeoInputBox();
 
+	/**
+	 * record values when mouse pressed
+	 * 
+	 * @param view
+	 *            TODO
+	 */
 	void recordChangeableCoordParentNumbers(EuclidianView view);
 
+	/**
+	 * Returns whether this (dependent) GeoElement has input points that can be
+	 * moved in Euclidian View.
+	 * 
+	 * @param view
+	 *            view
+	 * @return whether this geo has only moveable input points
+	 */
 	boolean hasMoveableInputPoints(EuclidianViewInterfaceSlim view);
 
+	/**
+	 * Returns whether this GeoElement can be changed directly. Note: for points
+	 * on lines this is different than isIndependent()
+	 * 
+	 * @return whether this geo can be changed directly
+	 */
 	boolean isChangeable();
 
+	/**
+	 * @return true for implicit curve
+	 */
 	boolean isGeoImplicitCurve();
 
+	/**
+	 * Returns whether the label contains any indices (i.e. '_' chars).
+	 * 
+	 * @return whether the label contains any indices (i.e. '_' chars).
+	 */
 	boolean hasIndexLabel();
 
 	/**
@@ -862,14 +1360,20 @@ public interface GeoElementND extends ExpressionValue {
 	int compareTo(ConstructionElement cycleNext);
 
 	/**
-	 * @param viewId
+	 * @param viewID
 	 *            view id
 	 * @return whether this geo is visible in given view
 	 */
 	boolean isVisibleInView(int viewID);
 
+	/**
+	 * @return true if visible in view for plane
+	 */
 	boolean isVisibleInViewForPlane();
 
+	/**
+	 * @return true if this can be edited in AV directly
+	 */
 	boolean isAlgebraViewEditable();
 
 	/**
@@ -879,8 +1383,15 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	boolean isColorSet();
 
+	/**
+	 * 
+	 * @return true if the geo is drawable in 3D view
+	 */
 	boolean hasDrawable3D();
 
+	/**
+	 * @return is geo created with shape tool
+	 */
 	boolean isShape();
 
 	/**

@@ -50,7 +50,7 @@ public class AlgoImplicitPolyThroughPoints extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = P.getGeoElements();
+		input = P.asArray();
 		setOnlyOutput(implicitPoly);
 		setDependencies();
 	}
