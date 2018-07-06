@@ -1457,8 +1457,8 @@ public class GeoNumeric extends GeoElement
 
 		// make sure we don't get outside our interval
 		switch (getAnimationType()) {
-		case GeoElement.ANIMATION_DECREASING:
-		case GeoElement.ANIMATION_INCREASING:
+		case GeoElementND.ANIMATION_DECREASING:
+		case GeoElementND.ANIMATION_INCREASING:
 			// jump to other end of slider
 			if (animationValue > getIntervalMax()) {
 				animationValue = animationValue - intervalWidth;
@@ -1467,7 +1467,7 @@ public class GeoNumeric extends GeoElement
 			}
 			break;
 
-		case GeoElement.ANIMATION_INCREASING_ONCE:
+		case GeoElementND.ANIMATION_INCREASING_ONCE:
 			// stop if outside range
 			if (animationValue > getIntervalMax()) {
 				setAnimating(false);
@@ -1481,7 +1481,7 @@ public class GeoNumeric extends GeoElement
 			}
 			break;
 
-		case GeoElement.ANIMATION_OSCILLATING:
+		case GeoElementND.ANIMATION_OSCILLATING:
 		default:
 			boolean parentStep = false;
 			if (animationValue >= getIntervalMax()) {

@@ -626,6 +626,9 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	public boolean isEqual(GeoElementND geo);
 
+	/**
+	 * @return parent kernel
+	 */
 	Kernel getKernel();
 
 	/**
@@ -1495,5 +1498,12 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return text to be read when geo was moved.
 	 */
 	String getAuralTextForMove();
+
+	/**
+	 * See DECORATION_ constants
+	 * 
+	 * @return decoration type, eg 3 lines
+	 */
+	public int getDecorationType();
 
 }

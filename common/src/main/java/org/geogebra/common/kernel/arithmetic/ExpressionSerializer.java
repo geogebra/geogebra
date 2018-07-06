@@ -21,6 +21,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+/**
+ * Expression -&gt; string converter
+ */
 public class ExpressionSerializer implements ExpressionNodeConstants {
 	/**
 	 * Returns a string representation of a node.

@@ -7,6 +7,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
+/**
+ * Fraction arithmetic utility class.
+ */
 public class Fractions {
 	private static final double MAX_NUM_DENOMINATOR = 1E15;
 

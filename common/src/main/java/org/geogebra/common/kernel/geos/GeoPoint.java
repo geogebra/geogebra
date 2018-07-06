@@ -2316,8 +2316,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		// make sure we don't get outside our interval
 		switch (geo.getAnimationType()) {
-		case GeoElement.ANIMATION_DECREASING:
-		case GeoElement.ANIMATION_INCREASING:
+		case GeoElementND.ANIMATION_DECREASING:
+		case GeoElementND.ANIMATION_INCREASING:
 			// jump to other end of slider
 			if (p.getAnimationValue() > 1) {
 				p.setAnimationValue(p.getAnimationValue() - intervalWidth);
@@ -2326,7 +2326,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			}
 			break;
 
-		case GeoElement.ANIMATION_INCREASING_ONCE:
+		case GeoElementND.ANIMATION_INCREASING_ONCE:
 			// stop if outside range
 			if (p.getAnimationValue() > 1) {
 				p.setAnimationValue(1);
@@ -2337,7 +2337,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			}
 			break;
 
-		case GeoElement.ANIMATION_OSCILLATING:
+		case GeoElementND.ANIMATION_OSCILLATING:
 		default:
 			if (p.getAnimationValue() >= 1) {
 				p.setAnimationValue(1);

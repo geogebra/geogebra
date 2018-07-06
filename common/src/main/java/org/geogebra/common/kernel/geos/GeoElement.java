@@ -7247,10 +7247,7 @@ public abstract class GeoElement extends ConstructionElement
 		fillSymbol = symbol;
 	}
 
-	/**
-	 * 
-	 * @return decoration type, eg 3 lines
-	 */
+	@Override
 	public final int getDecorationType() {
 		return decorationType;
 	}
