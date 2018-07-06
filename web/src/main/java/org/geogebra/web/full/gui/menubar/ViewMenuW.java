@@ -235,7 +235,7 @@ public class ViewMenuW extends GMenuBar {
 				&& app.getInputPosition() != InputPosition.algebraView;
 		inputBarItem.setSelected(linearInput, this);
 		consProtNav.setSelected(app.showConsProtNavigation(), this);
-		if (app.has(Feature.DATA_COLLECTION)) {
+		if (dataCollection != null) {
 			dataCollection.setSelected(app.getGuiManager().showView(
 					App.VIEW_DATA_COLLECTION), this);
 		}
