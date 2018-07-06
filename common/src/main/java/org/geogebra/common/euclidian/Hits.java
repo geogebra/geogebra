@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -152,7 +153,8 @@ public class Hits extends ArrayList<GeoElement> {
 		return true;
 	}
 
-	public boolean addAll(Hits hits) {
+	@Override
+	public boolean addAll(Collection<? extends GeoElement> hits) {
 		for (GeoElement geo: hits) {
 			countGeo(geo);
 		}
