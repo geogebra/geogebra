@@ -159,7 +159,7 @@ public class ViewMenuW extends GMenuBar {
 				}, true, app);
 		consProtNav.setForceCheckbox(true);
 		addItem(consProtNav.getMenuItem());
-		if (app.has(Feature.DATA_COLLECTION) && !app.isExam()) {
+		if (app.has(Feature.DATA_COLLECTION)) {
 			dataCollection = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 					AppResources.INSTANCE.empty().getSafeUri().asString(), app
 							.getLocalization().getMenu("Sensors"), true),
