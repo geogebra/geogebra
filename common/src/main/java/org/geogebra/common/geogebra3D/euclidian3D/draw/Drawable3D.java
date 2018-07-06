@@ -1458,6 +1458,14 @@ public abstract class Drawable3D extends DrawableND {
 		doRemoveGeometryIndex(getGeometryIndex());
 		doRemoveGeometryIndex(getSurfaceIndex());
 		label.removeFromGL();
+		if (shouldBePackedForManager()) {
+			if (tracesPackingBuffer != null) {
+				for (int index : tracesPackingBuffer) {
+					doRemoveGeometryIndex(index);
+				}
+				tracesPackingBuffer.clear();
+			}
+		}
 	}
 
 	/**
