@@ -2,7 +2,7 @@ package org.geogebra.euclidian;
 
 import java.util.ArrayList;
 
-import org.geogebra.commands.CommandsTest;
+import org.geogebra.commands.AlgebraTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.kernel.StringTemplate;
@@ -27,7 +27,7 @@ public class ControllerTest {
 
 	@BeforeClass
 	public static void setup() {
-		app = CommandsTest.createApp();
+		app = AlgebraTest.createApp();
 		ec = app.getActiveEuclidianView().getEuclidianController();
 	}
 
@@ -189,7 +189,7 @@ public class ControllerTest {
 		click(50, 50);
 		click(100, 100);
 		checkContent("A = (1, -1)", "B = (2, -2)",
-				CommandsTest.unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
+				AlgebraTest.unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
 	}
 
 	@Test
@@ -199,7 +199,7 @@ public class ControllerTest {
 		click(100, 100);
 		click(100, 0);
 		checkContent("A = (0, 0)", "B = (2, -2)", "C = (2, 0)",
-				CommandsTest.unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
+				AlgebraTest.unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
 	}
 
 	@Test
@@ -223,7 +223,7 @@ public class ControllerTest {
 		click(150, 200);
 		ec.setLastMouseUpLoc(null);
 		click(200, 150);
-		checkContent(CommandsTest.unicode("c: x^2 + y^2 = 25"), "A = (3, -4)",
+		checkContent(AlgebraTest.unicode("c: x^2 + y^2 = 25"), "A = (3, -4)",
 				"f: 3x - 4y = 25");
 	}
 
@@ -274,7 +274,7 @@ public class ControllerTest {
 		t(circle);
 		click(150, 200);
 		checkContent("A = (0, 0)", "B = (2, -2)", "C = (1, -1)",
-				CommandsTest.unicode(circle), "D = (0, 0)");
+				AlgebraTest.unicode(circle), "D = (0, 0)");
 	}
 
 	@Test
@@ -357,8 +357,8 @@ public class ControllerTest {
 		click(150, 200);
 		click(100, 100);
 		checkContent("A = (0, 0)", "B = (2, -2)", "A' = (4, -4)",
-				CommandsTest.unicode(circle),
-				CommandsTest.unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
+				AlgebraTest.unicode(circle),
+				AlgebraTest.unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
 	}
 
 	@Test
@@ -373,8 +373,8 @@ public class ControllerTest {
 		click(150, 200);
 		click(100, 100);
 		checkContent(line, "A = (0, 0)", "A' = (4, -4)",
-				CommandsTest.unicode(circle),
-				CommandsTest.unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
+				AlgebraTest.unicode(circle),
+				AlgebraTest.unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
 	}
 
 	@Test
@@ -548,7 +548,7 @@ public class ControllerTest {
 		click(0, 0);
 		click(150, 0);
 		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)",
-				CommandsTest.unicode("c: (x - 3)^2 + y^2 = 8"));
+				AlgebraTest.unicode("c: (x - 3)^2 + y^2 = 8"));
 	}
 
 	@Test
@@ -559,7 +559,7 @@ public class ControllerTest {
 		click(50, 50);
 		click(100, 100);
 
-		checkContent(CommandsTest.unicode("c: x^2 + y^2 = 8"),
+		checkContent(AlgebraTest.unicode("c: x^2 + y^2 = 8"),
 				"A = (1, -1)", "A' = (4, -4)");
 	}
 
@@ -570,7 +570,7 @@ public class ControllerTest {
 		click(100, 0);
 		click(50, 150);
 		checkContent("A = (0, 0)", "B = (2, 0)", "C = (1, -3)",
-				CommandsTest.unicode("c: (x - 1)^2 / 10 + y^2 / 9 = 1"));
+				AlgebraTest.unicode("c: (x - 1)^2 / 10 + y^2 / 9 = 1"));
 	}
 
 	@Test
@@ -580,7 +580,7 @@ public class ControllerTest {
 		click(500, 0);
 		click(100, 0);
 		checkContent("A = (0, 0)", "B = (10, 0)", "C = (2, 0)",
-				CommandsTest.unicode("c: (x - 5)^2 / 9 - y^2 / 16 = 1"));
+				AlgebraTest.unicode("c: (x - 5)^2 / 9 - y^2 / 16 = 1"));
 	}
 
 	@Test

@@ -236,17 +236,15 @@ public class TubeAPITest extends Assert {
 					});
 					// titles.add(m.getTitle());
 				}
-
-
 			}
 
 			@Override
 			public void onError(Throwable exception) {
 				exception.printStackTrace();
 				Assert.assertNull(exception.getMessage());
+			}
 
-							}
-		}, null, Order.description);
+		}, Order.description);
 
 		for (int i = 0; i < 20 && titles.size() < 1; i++) {
 				try {

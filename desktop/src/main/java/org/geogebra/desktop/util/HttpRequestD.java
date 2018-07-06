@@ -76,7 +76,9 @@ public class HttpRequestD extends HttpRequest {
 			huc.setDoOutput(true);
 			OutputStreamWriter osw = new OutputStreamWriter(
 					huc.getOutputStream(), Charsets.UTF_8);
-			osw.write(post);
+			if (post != null) {
+				osw.write(post);
+			}
 			osw.flush();
 
 			answer = readOutput(huc.getInputStream());
