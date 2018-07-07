@@ -8,6 +8,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -77,7 +78,8 @@ public class JSONParserGGT {
 		material.setURLdirect(getString(obj, "url_direct"));
 		String thumbUrl = getString(obj, "thumbUrl");
 		material.setThumbnailUrl(
-				thumbUrl == null ? getString(obj, "thumbnail") : thumbUrl.replace("$1", ""));
+				StringUtil.empty(thumbUrl) ? getString(obj, "thumbnail")
+						: thumbUrl.replace("$1", ""));
 		material.setPreviewURL(getString(obj, "previewUrl"));
 		material.setLanguage(getString(obj, "language"));
 		material.setFeatured(Boolean.parseBoolean(getString(obj, "featured")));

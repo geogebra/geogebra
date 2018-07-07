@@ -204,7 +204,7 @@ public class MarvlAPI implements BackendAPI {
 	}
 
 	private static String orderStr(Order order) {
-		switch(order){
+		switch (order) {
 		case timestamp:
 			return "-modified";
 		case created:

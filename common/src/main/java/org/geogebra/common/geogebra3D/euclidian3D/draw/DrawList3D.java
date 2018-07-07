@@ -326,7 +326,6 @@ public class DrawList3D extends Drawable3D {
 		}
 
 		return ret;
-
 	}
 
 	@Override
@@ -379,7 +378,6 @@ public class DrawList3D extends Drawable3D {
 			super.recordTrace();
 		}
 	}
-
 
 	@Override
 	final protected void updateForViewNotVisible() {

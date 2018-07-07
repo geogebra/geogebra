@@ -151,6 +151,14 @@ public class MaterialCardController {
 		return deleteCallback;
 	}
 
+	/**
+	 * @param text
+	 *            new title
+	 * @param card
+	 *            card
+	 * @param oldTitle
+	 *            old title
+	 */
 	public void rename(final String text, final MaterialCardI card,
 			final String oldTitle) {
 		if (app.getNetworkOperation().isOnline()
@@ -195,6 +203,9 @@ public class MaterialCardController {
 
 	}
 
+	/**
+	 * Copy this material.
+	 */
 	public void copy() {
 		if (app.getNetworkOperation().isOnline()
 				&& onlineFile(getMaterial())) {
