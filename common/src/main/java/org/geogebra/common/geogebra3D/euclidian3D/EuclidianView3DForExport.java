@@ -141,6 +141,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 * @return 3D export
 	 */
 	public StringBuilder export3D(Format format) {
+		settingsChanged(getSettings());
 		updateScene();
 		ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this,
 				renderer.getGeometryManager());
