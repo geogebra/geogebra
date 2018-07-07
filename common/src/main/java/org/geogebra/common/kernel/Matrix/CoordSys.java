@@ -182,11 +182,31 @@ public class CoordSys {
 		return result;
 	}
 
+	/**
+	 * Set result to x*vx + y*vy
+	 * 
+	 * @param coords2D
+	 *            coords (x,y) in this system
+	 * @param result
+	 *            output
+	 * @return result
+	 */
 	public Coords getPointFromOriginVectors(Coords coords2D, Coords result) {
 		return getPointFromOriginVectors(coords2D.getX(), coords2D.getY(),
 				result);
 	}
 
+	/**
+	 * Set result to o+x*vx + y*vy
+	 * 
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param result
+	 *            output
+	 * @return result
+	 */
 	public Coords getPointFromOriginVectors(double x, double y, Coords result) {
 		result.setAdd(origin, getVectorFromVectors(x, y, tmpCoords2));
 		return result;
@@ -309,6 +329,17 @@ public class CoordSys {
 		return result;
 	}
 
+	/**
+	 * Set result to x*vx + y*vy
+	 * 
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param result
+	 *            output
+	 * @return result
+	 */
 	public Coords getVectorFromVectors(double x, double y, Coords result) {
 		result.setAdd(result.setMul(getVx(), x), tmpCoords1.setMul(getVy(), y));
 		return result;

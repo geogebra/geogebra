@@ -2381,6 +2381,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				break;
 			case "definition":
 				columns.add(Columns.DEFINITION);
+				break;
 			case "description":
 				columns.add(Columns.DESCRIPTION);
 				break;

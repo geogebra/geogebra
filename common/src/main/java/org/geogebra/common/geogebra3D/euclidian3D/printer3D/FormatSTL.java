@@ -14,8 +14,9 @@ public class FormatSTL implements Format {
 	private ReusableArrayList<Double> verticesList = new ReusableArrayList<>();
 	private ReusableArrayList<Double> normalsList = new ReusableArrayList<>();
 
-	private Coords tmpCoords1 = new Coords(3), tmpCoords2 = new Coords(3),
-			tmpCoords3 = new Coords(3);
+	private Coords tmpCoords1 = new Coords(3);
+	private Coords tmpCoords2 = new Coords(3);
+	private Coords tmpCoords3 = new Coords(3);
 
 	@Override
 	public String getExtension() {

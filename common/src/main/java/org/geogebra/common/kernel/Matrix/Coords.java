@@ -302,6 +302,13 @@ public class Coords {
 		val[1] = v.val[1];
 	}
 
+	/**
+	 * Set all coords to the same number an recompute norm. (useful for 0 and
+	 * infinite vectors)
+	 * 
+	 * @param val0
+	 *            coordinate
+	 */
 	public void set(double val0) {
 		for (int i = 0; i < rows; i++) {
 			val[i] = val0;
@@ -322,9 +329,15 @@ public class Coords {
 
 	}
 
+	/**
+	 * Get with check for array bounds.
+	 * 
+	 * @param i
+	 *            index
+	 * @return i-th coord or 0 if out of bounds
+	 */
 	public double getChecked(int i) {
 		return i > val.length ? 0 : val[i - 1];
-
 	}
 
 	/**
@@ -646,11 +659,8 @@ public class Coords {
 	 */
 
 	final public Coords crossProduct4(Coords v) {
-
 		Coords ret = new Coords(4);
-
 		ret.setCrossProduct(this, v);
-
 		return ret;
 	}
 
@@ -668,6 +678,13 @@ public class Coords {
 		val[2] = v1.val[0] * v2.val[1] - v1.val[1] * v2.val[0];
 	}
 
+	/**
+	 * @param v1
+	 *            vector
+	 * @param v2
+	 *            vector
+	 * @return this dot (v1 cross v2)
+	 */
 	final public double dotCrossProduct(Coords v1, Coords v2) {
 		return val[0] * (v1.val[1] * v2.val[2] - v1.val[2] * v2.val[1])
 				+ val[1] * (v1.val[2] * v2.val[0] - v1.val[0] * v2.val[2])
@@ -701,6 +718,11 @@ public class Coords {
 
 	}
 
+	/**
+	 * @param v
+	 *            vector
+	 * @return whether this and v are independent
+	 */
 	final public boolean isLinearIndependentAllCoords(Coords v) {
 
 		int index = 0;
@@ -906,7 +928,7 @@ public class Coords {
 	 * put this normalized in ret (WARNING : recalc the norm)
 	 * 
 	 * @param ret
-	 * 
+	 *            output: normalized coords
 	 */
 	public void normalized(Coords ret) {
 		calcNorm();
@@ -923,9 +945,7 @@ public class Coords {
 	 * @return this normalized
 	 */
 	public Coords normalize() {
-
 		normalize(true);
-
 		return this;
 	}
 
@@ -960,7 +980,6 @@ public class Coords {
 	 * @return (this-v).norm()
 	 */
 	public double distance(Coords v) {
-
 		return this.sub(v).norm();
 	}
 	
@@ -985,13 +1004,11 @@ public class Coords {
 	 * @return square distance
 	 */
 	public double squareDistance3(Coords v) {
-
 		double x = getX() - v.getX();
 		double y = getY() - v.getY();
 		double z = getZ() - v.getZ();
 
 		return x * x + y * y + z * z;
-
 	}
 
 	/**
@@ -1005,42 +1022,38 @@ public class Coords {
 	 * @return shortest vector between this and the line
 	 */
 	private Coords vectorToLine(Coords O, Coords V) {
-
 		Coords OM = this.sub(O);
 		Coords N = V.normalized();
 		Coords OH = N.mul(OM.dotproduct(N)); // TODO optimize
 		return OM.sub(OH);
-
 	}
 
 	/**
 	 * returns the distance between this and a 3D-line represented by the matrix
 	 * {V O}
 	 * 
-	 * @param O
+	 * @param lineO
 	 *            origin of the line
 	 * @param V
 	 *            direction of the line
 	 * @return distance between this and the line
 	 */
-	public double distLine(Coords O, Coords V) {
-
-		return vectorToLine(O, V).norm();
+	public double distLine(Coords lineO, Coords V) {
+		return vectorToLine(lineO, V).norm();
 	}
 
 	/**
 	 * returns the square distance between this and a 3D-line represented by the
 	 * matrix {V O} (only computed on x, y, z)
 	 * 
-	 * @param O
+	 * @param lineO
 	 *            origin of the line
 	 * @param V
 	 *            direction of the line
 	 * @return distance between this and the line
 	 */
-	public double squareDistLine3(Coords O, Coords V) {
-
-		Coords v = vectorToLine(O, V);
+	public double squareDistLine3(Coords lineO, Coords V) {
+		Coords v = vectorToLine(lineO, V);
 		return v.getX() * v.getX() + v.getY() * v.getY() + v.getZ() * v.getZ();
 	}
 
@@ -1082,6 +1095,10 @@ public class Coords {
 	 * @param m
 	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
 	 *            plane, and v3 the direction used for projection
+	 * @param globalCoords
+	 *            output coords (global)
+	 * @param inPlaneCoords
+	 *            output coords (in plane)
 	 * 
 	 */
 	public void projectPlane(CoordMatrix m, Coords globalCoords,
@@ -1091,11 +1108,55 @@ public class Coords {
 				globalCoords, inPlaneCoords);
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix (third
+	 * vector used for direction), Does check if direction is parallel to the
+	 * plane.
+	 * <p>
+	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
+	 * 
+	 * @param vx
+	 *            vx
+	 * @param vy
+	 *            vy
+	 * @param vz
+	 *            vz
+	 * @param o
+	 *
+	 *            matrix {vx vy vz o} where (o,vx,vy) is a coord sys for the
+	 *            plane, and vz the direction used for projection
+	 * @param globalCoords
+	 *            output coords (global)
+	 * @param inPlaneCoords
+	 *            output coords (in plane)
+	 */
 	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o,
 			Coords globalCoords, Coords inPlaneCoords) {
 		projectPlane(vx, vy, vz, o, globalCoords.val, inPlaneCoords.val);
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix (third
+	 * vector used for direction), Does check if direction is parallel to the
+	 * plane.
+	 * <p>
+	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
+	 * 
+	 * @param vx
+	 *            vx
+	 * @param vy
+	 *            vy
+	 * @param vz
+	 *            vz
+	 * @param o
+	 *
+	 *            matrix {vx vy vz o} where (o,vx,vy) is a coord sys for the
+	 *            plane, and vz the direction used for projection
+	 * @param globalCoords
+	 *            output coords (global)
+	 * @param inPlaneCoords
+	 *            output coords (in plane)
+	 */
 	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o,
 			double[] globalCoords, double[] inPlaneCoords) {
 
@@ -1118,13 +1179,43 @@ public class Coords {
 		projectPlaneNoCheck(vx, vy, vz, o, globalCoords, inPlaneCoords);
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix (third
+	 * vector used for direction), Does check if direction is parallel to the
+	 * plane.
+	 * <p>
+	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
+	 * 
+	 * @param m
+	 *            plane matrix
+	 * @param inPlaneCoords
+	 *            output coords (in plane)
+	 */
 	public void projectPlaneInPlaneCoords(CoordMatrix m, Coords inPlaneCoords) {
-
 		projectPlaneInPlaneCoords(m.getVx(), m.getVy(), m.getVz(),
 				m.getOrigin(), inPlaneCoords);
-
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix (third
+	 * vector used for direction), Does check if direction is parallel to the
+	 * plane.
+	 * <p>
+	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
+	 * 
+	 * @param vx
+	 *            vx
+	 * @param vy
+	 *            vy
+	 * @param vz
+	 *            vz
+	 * @param o
+	 *
+	 *            matrix {vx vy vz o} where (o,vx,vy) is a coord sys for the
+	 *            plane, and vz the direction used for projection
+	 * @param inPlaneCoords
+	 *            output coords (in plane)
+	 */
 	public void projectPlaneInPlaneCoords(Coords vx, Coords vy, Coords vz,
 			Coords o, Coords inPlaneCoords) {
 
@@ -1143,12 +1234,43 @@ public class Coords {
 		projectPlaneNoCheckInPlaneCoords(vx, vy, vz, o, inPlaneCoords.val);
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix (third
+	 * vector used for direction), Does check if direction is parallel to the
+	 * plane.
+	 * <p>
+	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
+	 * 
+	 * @param m
+	 *            plane matrix
+	 * @param globalCoords
+	 *            output coords (global)
+	 */
 	public void projectPlane(CoordMatrix m, Coords globalCoords) {
-
 		projectPlane(m.getVx(), m.getVy(), m.getVz(), m.getOrigin(),
 				globalCoords);
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix (third
+	 * vector used for direction), Does check if direction is parallel to the
+	 * plane.
+	 * <p>
+	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
+	 * 
+	 * @param vx
+	 *            vx
+	 * @param vy
+	 *            vy
+	 * @param vz
+	 *            vz
+	 * @param o
+	 *
+	 *            matrix {vx vy vz o} where (o,vx,vy) is a coord sys for the
+	 *            plane, and vz the direction used for projection
+	 * @param globalCoords
+	 *            output coords (global)
+	 */
 	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o,
 			Coords globalCoords) {
 
@@ -1163,7 +1285,6 @@ public class Coords {
 		// direction is not parallel to the plane
 		// we can use globalCoords twice as it will be set at this end
 		projectPlaneNoCheck(vx, vy, vz, o, globalCoords.val, globalCoords.val);
-
 	}
 
 	/**
@@ -1194,6 +1315,10 @@ public class Coords {
 	 *
 	 *            matrix {vx vy vz o} where (o,vx,vy) is a coord sys for the
 	 *            plane, and vz the direction used for projection
+	 * @param globalCoords
+	 *            output coords (global)
+	 * @param inPlaneCoords
+	 *            output coords (in plane)
 	 */
 	public void projectPlaneNoCheck(Coords vx, Coords vy, Coords vz, Coords o,
 			double[] globalCoords, double[] inPlaneCoords) {
@@ -1210,6 +1335,26 @@ public class Coords {
 		// note : globalCoords must be set at the end (when dummy inPlaneCoords)
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix (third
+	 * vector used for direction), Does check if direction is parallel to the
+	 * plane.
+	 * <p>
+	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
+	 * 
+	 * @param vx
+	 *            vx
+	 * @param vy
+	 *            vy
+	 * @param vz
+	 *            vz
+	 * @param o
+	 *
+	 *            matrix {vx vy vz o} where (o,vx,vy) is a coord sys for the
+	 *            plane, and vz the direction used for projection
+	 * @param inPlaneCoords
+	 *            output coords (in plane)
+	 */
 	public void projectPlaneNoCheckInPlaneCoords(Coords vx, Coords vy,
 			Coords vz, Coords o, double[] inPlaneCoords) {
 
@@ -1245,7 +1390,6 @@ public class Coords {
 	 */
 	public void projectPlaneThruV(CoordMatrix m, Coords v, Coords globalCoords,
 			Coords inPlaneCoords) {
-
 		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords,
 				inPlaneCoords);
 	}
@@ -1255,9 +1399,20 @@ public class Coords {
 		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords);
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix (third
+	 * vector used for direction), Does check if direction is parallel to the
+	 * plane.
+	 * <p>
+	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
+	 * 
+	 * @param m
+	 *            plane matrix
+	 * @param inPlaneCoords
+	 *            output coords (in plane)
+	 */
 	public void projectPlaneThruVInPlaneCoords(CoordMatrix m, Coords v,
 			Coords inPlaneCoords) {
-
 		projectPlaneInPlaneCoords(m.getVx(), m.getVy(), v, m.getOrigin(),
 				inPlaneCoords);
 	}
@@ -1329,6 +1484,29 @@ public class Coords {
 		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords);
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix (third
+	 * vector used for direction), Does check if direction is parallel to the
+	 * plane.
+	 * <p>
+	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
+	 * 
+	 * @param vx
+	 *            vx
+	 * @param vy
+	 *            vy
+	 * @param vz
+	 *            vz
+	 * @param o
+	 *
+	 *            matrix {vx vy (vz or v) o} where (o,vx,vy) is a coord sys for
+	 *            the plane, v is projection direction (if not parallel to
+	 *            plane; otherwise vz is used)
+	 * @param v
+	 *            projection direction if
+	 * @param globalCoords
+	 *            output coords (global)
+	 */
 	public void projectPlaneThruVIfPossible(Coords vx, Coords vy, Coords vz,
 			Coords o, Coords v, Coords globalCoords) {
 		// check if v is parallel to plane
@@ -2742,29 +2920,6 @@ public class Coords {
 	 */
 	public boolean isFinalUndefined() {
 		return false;
-	}
-
-	public static void xyToCoordSystem(Coords coords, Coords vec) {
-		if (!DoubleUtil.isZero(vec.getZ())) {
-			coords.setZ(-vec.getX() * coords.getX() / vec.getZ()
-					- vec.getY() * coords.getY() / vec.getZ()
-					- vec.getW() / vec.getZ());
-		} else {
-			if (!DoubleUtil.isZero(vec.getY())) {
-				double oldY = coords.getY();
-				coords.setY(-vec.getX() * coords.getX() / vec.getY()
-
-						- vec.getW() / vec.getY());
-				coords.setZ(oldY);
-			} else {
-				double oldX = coords.getX();
-				coords.setX(-vec.getW() / vec.getX());
-				coords.setZ(coords.getY());
-				coords.setY(oldX);
-
-			}
-		}
-
 	}
 
 	/**
