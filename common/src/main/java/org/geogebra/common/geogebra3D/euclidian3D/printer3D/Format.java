@@ -208,4 +208,10 @@ public interface Format {
 	 */
 	public boolean handlesNormals();
 
+	/**
+	 * 
+	 * @return thickness for surfaces (e.g. polygons)
+	 */
+	public double getSurfaceThickness();
+
 }

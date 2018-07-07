@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -128,6 +129,12 @@ public class FormatJscad implements Format {
 	@Override
 	public boolean handlesNormals() {
 		return false;
+	}
+
+	@Override
+	public double getSurfaceThickness() {
+		return 3 * PlotterBrush.LINE3D_THICKNESS; // dummy value (jscad format
+													// to be removed)
 	}
 
 }

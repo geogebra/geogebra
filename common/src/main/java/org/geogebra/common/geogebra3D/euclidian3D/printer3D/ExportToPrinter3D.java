@@ -13,7 +13,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.GeometriesSet;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.Geometry;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
@@ -39,6 +38,11 @@ public class ExportToPrinter3D {
 		/** point */
 		POINT
 	}
+
+	/** normal index when same as for vertex */
+	public final static int NORMAL_SAME_INDEX = -1;
+	/** normal index when not set */
+	public final static int NORMAL_NOT_SET = -2;
 
 	private Format format;
 
@@ -428,10 +432,7 @@ public class ExportToPrinter3D {
 		PolygonTriangulation pt = polygon.getPolygonTriangulation();
 		if (pt.getMaxPointIndex() > 2) {
 			Coords n = polygon.getMainDirection();
-			double delta = 0;
-			if (format.needsClosedObjects()) {
-				delta = 3 * PlotterBrush.LINE3D_THICKNESS;
-			}
+			double delta = format.getSurfaceThickness();
 			if (view.scaleAndNormalizeNormalXYZ(n, tmpNormal)) {
 				n = tmpNormal;
 			}
@@ -471,7 +472,7 @@ public class ExportToPrinter3D {
 					y = v.getY() * view.getYscale();
 					z = v.getZ() * view.getZscale();
 					if (format.needsClosedObjects()) {
-						getVertex(notFirst, x, y, z);
+						getVertex(notFirst, x + dx, y + dy, z + dz);
 						notFirst = true;
 						getVertex(notFirst, x - dx, y - dy, z - dz);
 					} else {
@@ -486,8 +487,8 @@ public class ExportToPrinter3D {
 				// normal
 				if (format.handlesNormals()) {
 					format.getNormalsStart(sb, 2);
-					getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ());
 					getNormalHandlingReverse(n.getX(), n.getY(), n.getZ());
+					getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ());
 					format.getNormalsEnd(sb);
 				}
 
@@ -504,11 +505,11 @@ public class ExportToPrinter3D {
 
 				if (format.needsClosedObjects()) {
 					for (int i = 0; i < length; i++) { // side
-						getFaceWithOffset(notFirst, 0, 2 * i, 2 * i + 1,
-								(2 * i + 3) % (2 * length));
-						getFaceWithOffset(notFirst, 0, 2 * i,
+						getFace(notFirst, 0, 2 * i, 2 * i + 1,
+								(2 * i + 3) % (2 * length), NORMAL_NOT_SET);
+						getFace(notFirst, 0, 2 * i,
 								(2 * i + 3) % (2 * length),
-								(2 * i + 2) % (2 * length));
+								(2 * i + 2) % (2 * length), NORMAL_NOT_SET);
 					}
 				}
 
@@ -624,7 +625,7 @@ public class ExportToPrinter3D {
 
 	private void getFaceWithOffset(boolean notFirst, int offset, int v1, int v2,
 			int v3) {
-		getFace(notFirst, offset, v1, v2, v3, -1);
+		getFace(notFirst, offset, v1, v2, v3, NORMAL_SAME_INDEX);
 	}
 
 	private void getFace(boolean notFirst, int offset, int v1, int v2, int v3,

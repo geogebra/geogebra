@@ -283,6 +283,9 @@ public enum Feature {
 	MOB_PACK_QUADRIC_PART,
 
 	/** MOB-1522 */
-	MOB_PACK_LISTS
+	MOB_PACK_LISTS,
+
+	/** MOB-1722 */
+	MOB_EXPORT_STL
 }
 

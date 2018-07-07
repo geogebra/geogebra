@@ -413,4 +413,10 @@ public class FormatCollada implements Format {
 		return true;
 	}
 
+	@Override
+	public double getSurfaceThickness() {
+		// not used
+		return 0;
+	}
+
 }
