@@ -16,6 +16,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatObj;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatSTL;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -50,7 +51,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			loadAction, loadURLAction, exportWorksheet, shareAction,
 			exportGraphicAction, exportAnimationAction, exportPgfAction,
 			exportPSTricksAction, exportAsymptoteAction, exportPDFaction,
-			exportSCADaction, exportColladaAction, exportColladaHTMLAction,
+			exportSCADaction, exportSTLaction, exportColladaAction,
+			exportColladaHTMLAction,
 			exportObjAction;
 	/** load from MAT item */
 	JMenuItem loadURLMenuItem;
@@ -177,6 +179,9 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		}
 		if (app.has(Feature.EXPORT_SCAD_IN_MENU) && app.is3D()) {
 			mi = submenu.add(exportSCADaction);
+		}
+		if (app.has(Feature.MOB_EXPORT_STL) && app.is3D()) {
+			mi = submenu.add(exportSTLaction);
 		}
 		if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
 			mi = submenu.add(exportColladaAction);
@@ -612,6 +617,22 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 						app.setExport3D(new FormatJscad());
 					} catch (Exception ex) {
 						Log.debug("Export to OpenSCAD not available");
+					}
+				}
+			};
+		}
+
+		if (app.has(Feature.MOB_EXPORT_STL) && app.is3D()) {
+			exportSTLaction = new AbstractAction("STL" + Unicode.ELLIPSIS,
+					app.getEmptyIcon()) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						app.setExport3D(new FormatSTL());
+					} catch (Exception ex) {
+						Log.debug("Export to STL not available");
 					}
 				}
 			};
