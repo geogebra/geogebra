@@ -424,8 +424,9 @@ public abstract class StepExpression extends StepTransformable
 				}
 				return found;
 			} else if (so.isOperation(Operation.DIVIDE) && so.getOperand(1).isConstant()
-					&& so.getOperand(0).equals(expr)) {
-				return divide(1, so.getOperand(1));
+					&& so.getOperand(0).containsExpression(expr)) {
+				StepExpression coefficient = so.getOperand(0).findCoefficient(expr);
+				return divide(coefficient, so.getOperand(1));
 			}
 		}
 

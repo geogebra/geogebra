@@ -220,8 +220,10 @@ public class SystemSteps {
 			coefficientTwo = coefficientTwo.negate();
 		}
 
-		equations[0] = (StepEquation) equations[0].multiply(coefficientOne, steps, 0);
-		equations[1] = (StepEquation) equations[1].multiply(coefficientTwo, steps, 1);
+		equations[0] = (StepEquation) equations[0].multiply(coefficientOne, steps, 0)
+				.expand(steps);
+		equations[1] = (StepEquation) equations[1].multiply(coefficientTwo, steps, 1)
+				.expand(steps);
 
 		StepEquation added =
 				new StepEquation(add(equations[0].LHS, equations[1].LHS),

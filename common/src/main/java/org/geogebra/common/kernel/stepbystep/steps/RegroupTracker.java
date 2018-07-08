@@ -16,7 +16,6 @@ public class RegroupTracker {
 
 	public enum MarkType {
 		EXPAND,			// marked for expansion
-		ROOT,			// marked for being under square root
 		FACTOR, 		// marked for factoring common
 		PERIOD,			// trigonometric function with period extracted
 		EXPAND_FRAC,	// marked for expansion (in the fraction expansion sense)
@@ -58,8 +57,7 @@ public class RegroupTracker {
 			marks = new HashSet<>();
 		}
 
-		// TODO: rethink marking mess...
-		changed |= (marks.add(new Mark(toMark, type)) && type != MarkType.ROOT);
+		changed |= marks.add(new Mark(toMark, type));
 	}
 
 	boolean isMarked(StepNode toCheck, MarkType type) {

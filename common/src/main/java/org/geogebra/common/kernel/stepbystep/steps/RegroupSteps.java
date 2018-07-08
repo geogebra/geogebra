@@ -1000,6 +1000,17 @@ enum RegroupSteps implements SimplificationStepGenerator {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
+			if (sn.isOperation(Operation.NROOT)) {
+				StepOperation so = (StepOperation) sn;
+				return root((StepExpression) multiplyConstants(so.getOperand(0), sb,
+						tracker, true), so.getOperand(1));
+			}
+
+			return multiplyConstants(sn, sb, tracker, false);
+		}
+
+		private StepTransformable multiplyConstants(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker, boolean underRoot) {
 			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -1036,11 +1047,10 @@ enum RegroupSteps implements SimplificationStepGenerator {
 				List<StepExpression> exponents = new ArrayList<>();
 				so.getBasesAndExponents(bases, exponents);
 
-				boolean marked = tracker.isMarked(sn, RegroupTracker.MarkType.ROOT);
 				for (int i = 0; i < bases.size() ; i++) {
 					for (int j = i + 1; j < bases.size(); j++) {
 						if (bases.get(i).equals(bases.get(j))) {
-							if (marked || !isEqual(exponents.get(i), 1)
+							if (underRoot || !isEqual(exponents.get(i), 1)
 									|| !isEqual(exponents.get(j), 1)) {
 								return sn;
 							}
@@ -1064,11 +1074,6 @@ enum RegroupSteps implements SimplificationStepGenerator {
 				} else {
 					return multiply(newConstant, StepOperation.multiply(nonConstants));
 				}
-			}
-
-			if (sn.isOperation(Operation.NROOT) &&
-					((StepOperation) sn).getOperand(0).isOperation(Operation.MULTIPLY)) {
-				tracker.addMark(((StepOperation) sn).getOperand(0), RegroupTracker.MarkType.ROOT);
 			}
 
 			return sn.iterateThrough(this, sb, tracker);
@@ -1602,13 +1607,13 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					RegroupSteps.DOUBLE_MINUS,
 					RegroupSteps.DISTRIBUTE_MINUS,
 					RegroupSteps.REGROUP_SUMS,
-					RegroupSteps.SIMPLIFY_POWERS,
 					FractionSteps.COMMON_FRACTION,
 					RegroupSteps.REWRITE_AS_EXPONENTIAL,
 					RegroupSteps.REGROUP_PRODUCTS,
 					RegroupSteps.EXPAND_ROOT,
 					RegroupSteps.COMMON_ROOT,
 					RegroupSteps.SIMPLIFY_ROOTS,
+					RegroupSteps.SIMPLIFY_POWERS,
 					RegroupSteps.SIMPLE_POWERS,
 					FractionSteps.SIMPLIFY_FRACTIONS,
 					ExpandSteps.EXPAND_MARKED_PRODUCTS,
@@ -1642,6 +1647,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					RegroupSteps.SIMPLIFY_ROOTS,
 					RegroupSteps.SIMPLE_POWERS,
 					RegroupSteps.RATIONALIZE_DENOMINATORS,
+					FractionSteps.ADD_INTEGER_FRACTIONS,
 					TrigonometricSteps.SIMPLIFY_TRIGONOMETRIC,
 					RegroupSteps.SIMPLIFY_ABSOLUTE_VALUES,
 			};

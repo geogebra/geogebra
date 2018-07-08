@@ -302,7 +302,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 				return p;
 			case DIVIDE:
-				if (!getOperand(1).isConstant()) {
+				if (!getOperand(1).isConstantIn(var)) {
 					return -1;
 				}
 				return getOperand(0).degree(var);

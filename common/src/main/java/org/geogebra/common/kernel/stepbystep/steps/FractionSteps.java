@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -625,7 +624,15 @@ enum FractionSteps implements SimplificationStepGenerator {
 
 	StepTransformable expandFractions(StepTransformable sn, SolutionBuilder sb,
 			RegroupTracker tracker, boolean integer) {
-		StepTransformable temp = sn.iterateThrough(this, sb, tracker);
+		StepTransformable temp;
+
+		// if we are in a fraction, add all fractions to get rid of complex fractions
+		if (sn.isOperation(Operation.DIVIDE)) {
+			temp = sn.iterateThrough(EXPAND_FRACTIONS, sb, tracker);
+		} else {
+			temp = sn.iterateThrough(this, sb, tracker);
+		}
+
 		if (!temp.equals(sn)) {
 			return temp;
 		}
@@ -727,8 +734,6 @@ enum FractionSteps implements SimplificationStepGenerator {
 				}
 			}
 		}
-
-		Log.error(numerators.toString());
 
 		for (StepExpression operand : so) {
 			if (!operand.isFraction()) {

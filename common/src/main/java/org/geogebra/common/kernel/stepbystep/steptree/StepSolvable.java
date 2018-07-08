@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
+import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 
 import java.util.List;
@@ -137,6 +138,10 @@ public abstract class StepSolvable extends StepTransformable {
 		return (StepSolvable) super.weakFactor(sb);
 	}
 
+	private StepSolvable solverRegroup(SolutionBuilder sb) {
+		return StepStrategies.solverRegroup(this, sb);
+	}
+
 	public StepSolvable reorganize(SolutionBuilder steps, int eqNum) {
 		//move constants to the right
 		StepSolvable result = addOrSubtract(LHS.findConstant(), steps, eqNum);
@@ -168,7 +173,7 @@ public abstract class StepSolvable extends StepTransformable {
 			toAdd.cleanColors();
 			result.cleanColors();
 
-			result = result.regroup(steps);
+			result = result.solverRegroup(steps);
 			steps.levelUp();
 			steps.add(result);
 			steps.levelUp();
@@ -203,7 +208,7 @@ public abstract class StepSolvable extends StepTransformable {
 			toSubtract.cleanColors();
 			result.cleanColors();
 
-			result = result.regroup(steps);
+			result = result.solverRegroup(steps);
 			steps.levelUp();
 			steps.add(result);
 			steps.levelUp();
@@ -259,7 +264,7 @@ public abstract class StepSolvable extends StepTransformable {
 			toMultiply.cleanColors();
 			result.cleanColors();
 
-			result = result.regroup(steps);
+			result = result.solverRegroup(steps);
 			steps.levelUp();
 			steps.add(result);
 			steps.levelUp();
@@ -293,7 +298,7 @@ public abstract class StepSolvable extends StepTransformable {
 			toDivide.cleanColors();
 			result.cleanColors();
 
-			result = result.regroup(steps);
+			result = result.solverRegroup(steps);
 			steps.levelUp();
 			steps.add(result);
 			steps.levelUp();

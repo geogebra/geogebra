@@ -194,8 +194,9 @@ enum SolveSteps implements SolveStepGenerator {
 
 			StepSolvable result = se;
 
-			if (StepHelper.getCoefficientValue(se.RHS, variable)
-					> StepHelper.getCoefficientValue(se.LHS, variable)) {
+			double LHSCoeff = StepHelper.getCoefficientValue(se.LHS, variable);
+			double RHSCoeff = StepHelper.getCoefficientValue(se.RHS, variable);
+			if (!isEqual(RHSCoeff, 0) && RHSCoeff > LHSCoeff) {
 				result = result.swapSides();
 			}
 
