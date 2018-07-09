@@ -40,7 +40,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -273,7 +272,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 								fileChooser = new FileChooser();
 								fileChooser.addStyleName("hidden");
 							}
-							RootPanel.get().add(fileChooser);
+							app.getPanel().add(fileChooser);
 							fileChooser.open();
 							return;
 						}
@@ -387,6 +386,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * 
 	 * @param app
 	 *            application
+	 * @param anchor
+	 *            relative element
 	 */
 	public static void share(AppW app, Widget anchor) {
 		if (!nativeShareSupported()) {
@@ -423,6 +424,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * 
 	 * @param app
 	 *            application
+	 * @param anchor
+	 *            relative element
 	 */
 	public static void showShareDialog(final AppW app, final Widget anchor) {
 		Runnable shareCallback = new Runnable() {
