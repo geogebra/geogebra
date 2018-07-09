@@ -30,8 +30,9 @@
 	}
 	
 	.GeoGebraFrame {
-		/*display: none; */
-		visibility: hidden;
+	     & , *{
+			visibility: hidden;
+		}
 	}
 	
 	.printableView {
