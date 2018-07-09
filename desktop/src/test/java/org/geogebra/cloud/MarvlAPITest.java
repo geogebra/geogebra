@@ -1,5 +1,6 @@
 package org.geogebra.cloud;
 
+import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.desktop.main.AppDNoGui;
@@ -7,8 +8,6 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 public class MarvlAPITest {
 
@@ -20,8 +19,9 @@ public class MarvlAPITest {
 		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
 		MarvlAPI api = new MarvlAPI("http://notes.dlb-dev01.alp-dlg.net/api");
 		api.setBasicAuth(
-				Base64.encode(
-						System.getProperty("marvl.auth.basic").getBytes()));
+				Base64.encodeToString(
+						System.getProperty("marvl.auth.basic").getBytes(),
+						false));
 		api.authorizeUser(usr,
 				new LoginOperationD(new AppDNoGui(new LocalizationD(3), false)),
 				true);
@@ -33,4 +33,5 @@ public class MarvlAPITest {
 		}
 		Assert.assertEquals("GGBTest-Student", usr.getRealName());
 	}
+
 }
