@@ -685,7 +685,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		} else {
 			frame.setLocation(windowBounds.getLocation());
 		}
-		setOpenInFrame(true);
+		setOpenInFrame(false);
 
 		frame.setSize(windowBounds.getSize());
 		frame.setVisible(true);

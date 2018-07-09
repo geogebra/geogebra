@@ -38,7 +38,7 @@ public class PropertiesDockPanel extends DockPanelD
 		);
 
 		this.app = app;
-		this.setOpenInFrame(true);
+		this.setOpenInFrame(false);
 		super.setDialog(true);
 
 	}

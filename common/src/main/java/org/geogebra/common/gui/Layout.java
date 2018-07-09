@@ -80,7 +80,7 @@ public abstract class Layout implements SettingListener {
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,3", 300);
-		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true,
+		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, false,
 				true,
 				AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
 				"1,1,1,1", 400);
@@ -125,7 +125,7 @@ public abstract class Layout implements SettingListener {
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,3", 300);
-		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true,
+		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, false,
 				true,
 				AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
 				"1,1,1,1", 400);
@@ -163,7 +163,7 @@ public abstract class Layout implements SettingListener {
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"3,1", 300);
-		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true,
+		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, false,
 				true,
 				AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
 				"1,1,1", 400);
@@ -240,7 +240,7 @@ public abstract class Layout implements SettingListener {
 					true, true,
 					AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
 					"1,1,1,1", 400);
-			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, true,
+			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false,
 					false, false,
 					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 					app.isPortrait() ? "3" : "1", 500);
@@ -276,7 +276,7 @@ public abstract class Layout implements SettingListener {
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,3,3", 300);
-		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true,
+		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, false,
 				true,
 				AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
 				"1,1,1,1", 400);
@@ -359,7 +359,7 @@ public abstract class Layout implements SettingListener {
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,3", 300);
-		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true,
+		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, false,
 				true,
 				AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
 				"1,1,1,1", 400);

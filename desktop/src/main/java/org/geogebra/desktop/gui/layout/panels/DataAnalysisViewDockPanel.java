@@ -28,7 +28,7 @@ public class DataAnalysisViewDockPanel extends DockPanelD {
 		);
 
 		this.app = app;
-		this.setOpenInFrame(true);
+		this.setOpenInFrame(false);
 		this.setDialog(true);
 		this.setShowStyleBar(true);
 

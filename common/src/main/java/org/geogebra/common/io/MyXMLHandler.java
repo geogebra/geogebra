@@ -2534,8 +2534,8 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			int viewId = Integer.parseInt(attrs.get("id"));
 			String toolbar = attrs.get("toolbar");
-			boolean isVisible = !attrs.get("visible").equals("false");
-			boolean openInFrame = !attrs.get("inframe").equals("false");
+			boolean isVisible = !"false".equals(attrs.get("visible"));
+			boolean openInFrame = "true".equals(attrs.get("inframe"));
 
 			String showStyleBarStr = attrs.get("stylebar");
 			boolean showStyleBar = !"false".equals(showStyleBarStr);

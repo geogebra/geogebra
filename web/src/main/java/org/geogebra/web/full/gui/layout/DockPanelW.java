@@ -113,7 +113,7 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * If this panel should be opened in a frame the next time it's visible.
 	 */
-	protected boolean openInFrame = false;
+	final protected boolean openInFrame = false;
 
 	/**
 	 * If there is a style bar associated with this panel.
@@ -1091,7 +1091,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 *            whether this is in frame
 	 */
 	public void setOpenInFrame(boolean openInFrame) {
-		this.openInFrame = openInFrame;
+		// this.openInFrame = openInFrame;
 	}
 
 	/**
