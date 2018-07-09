@@ -51,6 +51,7 @@ public abstract class VideoPlayer extends Frame implements Persistable {
 	 * Updates the player based on video object.
 	 */
 	public abstract void update();
+
 	/**
 	 * 
 	 * @return the associated GeoVideo object.
@@ -58,6 +59,7 @@ public abstract class VideoPlayer extends Frame implements Persistable {
 	public GeoVideo getVideo() {
 		return video;
 	}
+
 	/**
 	 * Called after video specified by its id is loaded.
 	 * 

@@ -646,7 +646,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 			@Override
 			public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
 				uploadMaterial(0, result.get(0).getVisibility(),
-						result.get(0).getTitle() + (int) (Math.random() * 1000),
+						result.get(0).getTitle(),
 						result.get(0).getBase64(), copyCallback, result.get(0).getType(),
 						result.get(0));
 			}

@@ -53,6 +53,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	private HitType lastHitType;
 	private State state = State.NONE;
 	private boolean background = true;
+
 	/**
 	 * Constructor.
 	 *

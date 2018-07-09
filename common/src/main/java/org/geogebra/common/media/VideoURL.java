@@ -6,7 +6,7 @@ package org.geogebra.common.media;
  * @author laszlo
  *
  */
-public class VideoURL {
+public final class VideoURL {
 	private String url;
 	private boolean valid;
 	private MediaFormat format;
@@ -16,7 +16,6 @@ public class VideoURL {
 		this.valid = valid;
 		this.format = format;
 	}
-
 
 	/**
 	 * 

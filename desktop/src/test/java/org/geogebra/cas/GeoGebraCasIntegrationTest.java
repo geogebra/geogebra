@@ -3058,7 +3058,8 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void orthogonalVectorFallbackTest() {
-		t("E:=Plane[(1,-2,3), (-2, 0,1),(0,3,2)]", "8x - y - 13z = -29");
+		t("E:=Plane[(1,-2,3), (-2, 0,1),(0,3,2)]", "8x - y - 13z = -29",
+				"x * 8 + y * (-1) + z * (-13) = -29");
 		t("PerpendicularVector[E]", "(8, -1, -13)");
 	}
 

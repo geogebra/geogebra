@@ -113,7 +113,7 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * If this panel should be opened in a frame the next time it's visible.
 	 */
-	final protected boolean openInFrame = false;
+	// final protected boolean openInFrame = false;
 
 	/**
 	 * If there is a style bar associated with this panel.
@@ -1079,7 +1079,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 *         panel.
 	 */
 	public DockPanelData createInfo() {
-		return new DockPanelData(id, getToolbarString(), visible, openInFrame,
+		return new DockPanelData(id, getToolbarString(), visible, false,
 				showStyleBar, new Rectangle(frameBounds), embeddedDef,
 				embeddedSize);
 	}

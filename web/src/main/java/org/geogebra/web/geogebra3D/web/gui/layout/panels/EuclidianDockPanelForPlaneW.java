@@ -128,7 +128,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	@Override
 	public DockPanelData createInfo() {
 		return new DockPanelData(id, getToolbarString(), visible,
-				openInFrame, showStyleBar, new Rectangle(frameBounds),
+				false, showStyleBar, new Rectangle(frameBounds),
 				embeddedDef, embeddedSize, view.getFromPlaneString());
 	}
 

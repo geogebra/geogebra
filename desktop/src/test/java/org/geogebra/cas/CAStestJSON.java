@@ -1332,6 +1332,7 @@ public class CAStestJSON {
 	@Test
 	public void testPlane() {
 		testCat("Plane.1");
+		testCat("Plane.3");
 	}
 
 	@Test
