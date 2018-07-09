@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Circle command
@@ -80,12 +81,17 @@ public class CmdCircle3D extends CmdCircle {
 		if ((ok[0] = (arg[0].isGeoPoint()))
 				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
 
+			Log.error(arg[2].getParentAlgorithm() + "");
 
-			if (arg[2] instanceof GeoLine) {
+
+			if (arg[2] instanceof GeoLine
+					&& arg[2].getParentAlgorithm() == null) {
 				// disallow
 				// Circle((0,0,0), 1, x=0)
 				// Circle((0,0,0), 1, y=0)
 				// as plane/line type can't be saved in XML
+				// This are OK though
+				// Circle((0,0,0), 1, Line((0,0),(0,1)))
 				String lineStr = arg[2]
 						.toValueString(StringTemplate.defaultTemplate);
 				if (arg[2].getLabelSimple() == null && ("x = 0".equals(lineStr)
