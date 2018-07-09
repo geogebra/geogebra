@@ -30,7 +30,7 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 	 * @param c
 	 *            construction
 	 * @param label
-	 *            label of the polygon
+	 *            label of the plane
 	 * @param A
 	 *            first point
 	 * @param B
@@ -40,6 +40,26 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 	 */
 	public AlgoPlaneThreePoints(Construction c, String label, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
+		this(c, A, B, C);
+
+		((GeoElement) cs).setLabel(label);
+
+	}
+
+	/**
+	 * create a plane joining points, with label.
+	 * 
+	 * @param c
+	 *            construction
+	 * @param A
+	 *            first point
+	 * @param B
+	 *            second point
+	 * @param C
+	 *            third point
+	 */
+	public AlgoPlaneThreePoints(Construction c, GeoPointND A, GeoPointND B,
+			GeoPointND C) {
 		super(c);
 
 		this.A = A;
@@ -51,8 +71,6 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 		// set input and output
 		setInputOutput(new GeoElement[] { (GeoElement) A, (GeoElement) B,
 				(GeoElement) C }, new GeoElement[] { (GeoElement) cs });
-
-		((GeoElement) cs).setLabel(label);
 
 	}
 
