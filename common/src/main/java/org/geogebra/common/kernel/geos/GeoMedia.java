@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.App;
+import org.geogebra.common.media.MediaFormat;
 
 /**
  * Class for representing playable media data.
@@ -11,7 +12,6 @@ import org.geogebra.common.main.App;
  *
  */
 public abstract class GeoMedia extends GeoButton {
-
 	/** Source of the media, available for subclasses too */
 	protected String src;
 
@@ -117,6 +117,12 @@ public abstract class GeoMedia extends GeoButton {
 	 *            to set.
 	 */
 	public abstract void setCurrentTime(int secs);
+
+	/**
+	 * 
+	 * @return the media format.
+	 */
+	public abstract MediaFormat getFormat();
 
 	/**
 	 * Stops media play back.

@@ -1,7 +1,9 @@
 package org.geogebra.common.sound;
 
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.util.AsyncOperation;
 
 /**
@@ -27,7 +29,7 @@ public interface VideoManager {
 	 * @param callback
 	 *            to process the result.
 	 */
-	void checkURL(String url, AsyncOperation<Boolean> callback);
+	void checkURL(String url, AsyncOperation<VideoURL> callback);
 
 	/**
 	 * Adds a video player GUI.
@@ -139,4 +141,17 @@ public interface VideoManager {
 	 * @return if videos are online.
 	 */
 	boolean isOnline(GeoVideo video);
+
+	/**
+	 * Creates the proper video object based on the url.
+	 * 
+	 * @param c
+	 *            the construction
+	 * @param videoURL
+	 *            the validated URL of the video.
+	 *            (see {@link VideoURL})
+	 * @return the proper instance of {@link GeoVideo}
+	 * 
+	 */
+	GeoVideo createVideo(Construction c, VideoURL videoURL);
 }

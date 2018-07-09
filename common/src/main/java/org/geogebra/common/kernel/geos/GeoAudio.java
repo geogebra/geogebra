@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -154,5 +155,10 @@ public class GeoAudio extends GeoMedia {
 			sb.append(StringUtil.encodeXML(src));
 			sb.append("\"/>\n");
 		}
+	}
+
+	@Override
+	public MediaFormat getFormat() {
+		return MediaFormat.AUDIO_HTML5;
 	}
 }

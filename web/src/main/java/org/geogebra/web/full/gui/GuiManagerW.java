@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -2473,10 +2474,10 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void addVideo(String url) {
+	public void addVideo(VideoURL videoUrl) {
 		GeoGebraFrameBoth appFrame = getApp().getAppletFrame();
 		EuclidianView ev = app.getActiveEuclidianView();
-		GeoVideo video = new GeoVideo(kernel.getConstruction(), url);
+		GeoVideo video = app.getVideoManager().createVideo(kernel.getConstruction(), videoUrl);
 		video.setBackground(true);
 		video.setAbsoluteScreenLoc((appFrame.getOffsetWidth() - video.getWidth()) / 2,
 				(appFrame.getOffsetHeight() - video.getHeight()) / 2);

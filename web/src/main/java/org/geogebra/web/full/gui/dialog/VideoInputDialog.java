@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
@@ -33,12 +34,12 @@ public class VideoInputDialog extends MediaDialog {
 			String url = getUrlWithProtocol();
 			// inputField.getTextComponent().setText("https://www.youtube.com/watch?v=Kc2iLAubras");
 			inputField.getTextComponent().setText(url);
-			app.getVideoManager().checkURL(url, new AsyncOperation<Boolean>() {
+			app.getVideoManager().checkURL(url, new AsyncOperation<VideoURL>() {
 
 				@Override
-				public void callback(Boolean ok) {
-					if (ok) {
-						addVideo();
+				public void callback(VideoURL videoURL) {
+					if (videoURL.isValid()) {
+						addVideo(videoURL);
 					} else {
 						showError("error");
 					}
@@ -48,11 +49,14 @@ public class VideoInputDialog extends MediaDialog {
 	}
 
 	/**
-	 * Adds the GeoVideo instance.
+	 * Adds the proper GeoVideo instance.
+	 * 
+	 * @param videoURL
+	 *            the validated URL of the video.
 	 */
-	void addVideo() {
+	void addVideo(VideoURL videoURL) {
 		resetError();
-		app.getGuiManager().addVideo(inputField.getText());
+		app.getGuiManager().addVideo(videoURL);
 		hide();
 	}
 }

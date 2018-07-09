@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -52,7 +53,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	private HitType lastHitType;
 	private State state = State.NONE;
 	private boolean background = true;
-
 	/**
 	 * Constructor.
 	 *
@@ -108,8 +108,24 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		if (!hasVideoManager()) {
 			return;
 		}
+		constructIds();
+		createPreview();
+		app.getVideoManager().loadGeoVideo(this);
+		changed = true;
+	}
+
+	/**
+	 * Define the identifiers and/or any URLs of the video here.
+	 */
+	protected void constructIds() {
 		youtubeId = app.getVideoManager().getYouTubeId(getSrc());
 		previewUrl = YOUTUBE_PREVIEW.replace("%ID%", youtubeId);
+	}
+
+	/**
+	 * Creates the preview image for the video.
+	 */
+	protected void createPreview() {
 		app.getVideoManager().createPreview(this, new AsyncOperation<MyImage>() {
 
 			@Override
@@ -119,8 +135,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 				app.getActiveEuclidianView().updateAllDrawablesForView(true);
 			}
 		});
-		app.getVideoManager().loadGeoVideo(this);
-		changed = true;
 	}
 
 	/**
@@ -406,5 +420,10 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		}
 		app.getVideoManager().removePlayer(this);
 		super.remove();
+	}
+
+	@Override
+	public MediaFormat getFormat() {
+		return MediaFormat.YOUTUBE;
 	}
 }

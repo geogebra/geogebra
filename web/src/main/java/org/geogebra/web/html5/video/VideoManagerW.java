@@ -4,8 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.geos.GeoMP4Video;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
+import org.geogebra.common.media.MediaFormat;
+import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -28,7 +32,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  *
  */
 public class VideoManagerW implements VideoManager {
-	private AsyncOperation<Boolean> urlCallback = null;
+	private AsyncOperation<VideoURL> urlCallback = null;
 	/**
 	 * Head of a regular YouTube URL.
 	 */
@@ -65,28 +69,47 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public void checkURL(String url, AsyncOperation<Boolean> callback) {
+	public void checkURL(String url, AsyncOperation<VideoURL> callback) {
 		urlCallback = callback;
 		checkVideo(url);
 	}
 
+	private static String getMP4Url(String url) {
+		if (url == null) {
+			return null;
+		}
+		if (url.endsWith(".mp4")) {
+			return url;
+		}
+		return null;
+	}
+
 	private void checkVideo(String url) {
-		if (getYouTubeId(url) == null || "".equals(getYouTubeId(url))) {
-			onUrlError();
+		boolean youtube = getYouTubeId(url) != null && !"".equals(getYouTubeId(url));
+		boolean mp4 = getMP4Url(url) != null && !"".equals(getMP4Url(url));
+		MediaFormat fmt = MediaFormat.NONE;
+		if (youtube) {
+			fmt = MediaFormat.YOUTUBE;
+		} else if (mp4) {
+			fmt = MediaFormat.MP4;
+		}
+
+		if (!youtube || !mp4) {
+			onUrlError(VideoURL.createError(url, fmt));
 		} else {
-			onUrlOK();
+			onUrlOK(VideoURL.createOK(url, fmt));
 		}
 	}
 
-	private void onUrlError() {
+	private void onUrlError(VideoURL videoURL) {
 		if (urlCallback != null) {
-			urlCallback.callback(Boolean.FALSE);
+			urlCallback.callback(videoURL);
 		}
 	}
 
-	private void onUrlOK() {
+	private void onUrlOK(VideoURL videoURL) {
 		if (urlCallback != null) {
-			urlCallback.callback(Boolean.TRUE);
+			urlCallback.callback(videoURL);
 		}
 	}
 
@@ -246,6 +269,20 @@ public class VideoManagerW implements VideoManager {
 
 		if (app != null) {
 			app.getActiveEuclidianView().repaintView();
+		}
+	}
+
+	@Override
+	public GeoVideo createVideo(Construction c, VideoURL videoURL) {
+		switch (videoURL.getFormat()) {
+		case YOUTUBE:
+			return new GeoVideo(c, videoURL.getUrl());
+		case MP4:
+			return new GeoMP4Video(c, videoURL.getUrl());
+		// case AUDIO_HTML5:
+		// case NONE:
+		default:
+			return null;
 		}
 	}
 }

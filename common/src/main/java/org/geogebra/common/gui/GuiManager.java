@@ -39,6 +39,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
+import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class GuiManager implements GuiManagerInterface {
@@ -931,7 +932,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public void addVideo(String url) {
+	public void addVideo(VideoURL videoUrl) {
 		// implemented in subclasses
 	}
 
