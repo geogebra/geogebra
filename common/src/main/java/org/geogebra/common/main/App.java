@@ -4773,7 +4773,10 @@ public abstract class App implements UpdateSelection {
 		//
 	}
 
-	protected void hideDockBarPopup() {
+	/**
+	 * Hide desktop dockbar.
+	 */
+	public void hideDockBarPopup() {
 		// only used in desktop
 	}
 

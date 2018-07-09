@@ -67,6 +67,8 @@ public class OpenFileView extends MyHeaderPanel
 
 	private boolean materialListEmpty = true;
 	private Order order = Order.timestamp;
+	private static Order[] map = new Order[] { Order.title, Order.created,
+			Order.timestamp };
 
 	/**
 	 * @param app
@@ -169,22 +171,38 @@ public class OpenFileView extends MyHeaderPanel
 		sortDropDown.addItem(localize("SortBy"));
 		sortDropDown.getElement().getFirstChildElement()
 				.setAttribute("disabled", "disabled");
-		sortDropDown.addItem(localize("sort_author")); // index 1
-		sortDropDown.addItem(localize("sort_title")); // index 2
-		sortDropDown.addItem(localize("sort_date_created")); // index 3
-		sortDropDown.addItem(localize("sort_last_modified")); // index 4
+		for (int i = 0; i < map.length; i++) {
+			sortDropDown.addItem(localize(labelFor(map[i])));
+		}
 		sortDropDown.setSelectedIndex(4);
 		sortDropDown.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				Order[] map = new Order[] { Order.privacy, Order.title,
-						Order.created, Order.timestamp, };
-				order = map[sortDropDown.getSelectedIndex() - 1];
-				loadAllMaterials();
-				// TODO sort material cards according to selected sort mode
+				updateOrder();
 			}
 		});
+	}
+
+	private static String labelFor(Order order2) {
+		switch (order2) {
+		case created:
+			return "sort_date_created";
+		case timestamp:
+			return "sort_last_modified";
+		default:
+		case title:
+			return "sort_title";
+		}
+	}
+
+	/**
+	 * Reload materials sorted by another property.
+	 */
+	protected void updateOrder() {
+
+		order = map[sortDropDown.getSelectedIndex() - 1];
+		loadAllMaterials();
 	}
 
 	private void initMaterialPanel() {

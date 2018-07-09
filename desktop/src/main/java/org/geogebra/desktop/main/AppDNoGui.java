@@ -1,7 +1,9 @@
 package org.geogebra.desktop.main;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -30,6 +32,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
+import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -56,6 +59,7 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.sound.VideoManager;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
@@ -93,7 +97,7 @@ import org.geogebra.desktop.util.StringUtilD;
  * @author Zbynek
  *
  */
-public class AppDNoGui extends App {
+public class AppDNoGui extends App implements AppDI {
 	private GgbAPI ggbapi;
 	private LocalizationD loc;
 	private SpreadsheetTableModelD tableModel;
@@ -132,7 +136,6 @@ public class AppDNoGui extends App {
 		initEuclidianViews();
 		loginOperation = new LoginOperationD(this);
 		kernel.attach(euclidianView);
-
 	}
 
 	@Override
@@ -452,7 +455,16 @@ public class AppDNoGui extends App {
 
 				@Override
 				public void openFile(String strURL) {
-					// TODO Auto-generated method stub
+					try {
+						String lowerCase = StringUtil.toLowerCaseUS(strURL);
+						URL url = new URL(strURL);
+						GFileHandler.loadXML(AppDNoGui.this, url.openStream(),
+								lowerCase.endsWith(
+										FileExtensions.GEOGEBRA_TOOL
+												.toString()));
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
 
 				}
 
@@ -845,6 +857,27 @@ public class AppDNoGui extends App {
 
 	public void initDialogManager(boolean clear, String... inputs) {
 		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
+	}
+
+	public void addExternalImage(String name, MyImageD img) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void storeFrameCenter() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public Image getExportImage(double thumbnailPixelsX,
+			double thumbnailPixelsY) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public MyImageJre getExternalImage(String fileName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

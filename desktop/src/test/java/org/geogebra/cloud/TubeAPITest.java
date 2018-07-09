@@ -290,7 +290,7 @@ public class TubeAPITest extends Assert {
 		}
 	}
 
-	private static ClientInfo getClient() {
+	public static ClientInfo getClient() {
 		ClientInfo client = new ClientInfo();
 		// client.setModel((AuthenticationModel) this.model);
 		client.setType("desktop");

@@ -53,7 +53,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.MemoryImageSource;
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -239,7 +238,7 @@ import org.geogebra.desktop.util.UtilD;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @SuppressWarnings("javadoc")
-public class AppD extends App implements KeyEventDispatcher {
+public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * License file
@@ -2080,6 +2079,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		return im;
 	}
 
+	@Override
 	public void addExternalImage(String filename, MyImageD image) {
 		imageManager.addExternalImage(filename, image);
 	}
@@ -2920,7 +2920,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	protected void hideDockBarPopup() {
+	public void hideDockBarPopup() {
 		if (getDockBar() != null) {
 			getDockBar().hidePopup();
 		}
@@ -3339,10 +3339,10 @@ public class AppD extends App implements KeyEventDispatcher {
 			// update
 			if (!initing) {
 				initing = true;
-				success = loadXML(fis, isMacroFile);
+				success = GFileHandler.loadXML(this, fis, isMacroFile);
 				initing = false;
 			} else {
-				success = loadXML(fis, isMacroFile);
+				success = GFileHandler.loadXML(this, fis, isMacroFile);
 			}
 
 			if (success && !isMacroFile) {
@@ -3376,7 +3376,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	final public boolean loadXML(URL url, boolean isMacroFile) {
 
 		try {
-			boolean success = loadXML(url.openStream(), isMacroFile);
+			boolean success = GFileHandler.loadXML(this, url.openStream(),
+					isMacroFile);
 
 			// don't clear JavaScript here -- we may have just read one from the
 			// file.
@@ -3428,80 +3429,9 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
-	private boolean loadXML(InputStream is, boolean isMacroFile)
-			throws Exception {
-		try {
-			if (!isMacroFile) {
-				setMoveMode();
-			}
-
-			// store current location of the window
-			storeFrameCenter();
-
-			// make sure objects are displayed in the correct View
-			setActiveView(App.VIEW_EUCLIDIAN);
-
-			// reset unique id (for old files, in case they don't have one)
-			resetUniqueId();
-
-			BufferedInputStream bis = new BufferedInputStream(is);
-
-			if (bis.markSupported()) {
-				bis.mark(Integer.MAX_VALUE);
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(bis, Charsets.UTF_8));
-				String str = reader.readLine();
-
-				// check if .ggb file is actually a base64 file from 4.2 Chrome
-				// App
-				if (str != null && str.startsWith("UEs")) {
-
-					StringBuilder sb = new StringBuilder(str);
-					sb.append("\n");
-
-					while ((str = reader.readLine()) != null) {
-						sb.append(str + "\n");
-					}
-
-					reader.close();
-					is.close();
-					bis.close();
-
-					byte[] zipFile = Base64.decode(sb.toString());
-
-					return loadXML(zipFile);
-				}
-
-				bis.reset();
-			}
-
-			getXMLio().readZipFromInputStream(bis, isMacroFile);
-
-			is.close();
-			bis.close();
-
-			if (!isMacroFile) {
-				kernel.initUndoInfo();
-				setSaved();
-				setCurrentFile(null);
-			}
-
-			// command list may have changed due to macros
-			updateCommandDictionary();
-
-			hideDockBarPopup();
-
-			return true;
-		} catch (MyError err) {
-			setCurrentFile(null);
-			showError(err);
-			return false;
-		}
-	}
-
 	private int centerX, centerY;
 
-	private void storeFrameCenter() {
+	public void storeFrameCenter() {
 		centerX = getWindowCenterX();
 		centerY = getWindowCenterY();
 	}

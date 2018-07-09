@@ -35,7 +35,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.AppDI;
 import org.geogebra.desktop.util.UtilD;
 
 /**
@@ -68,6 +68,7 @@ public class MyXMLioD extends MyXMLioJre {
 		boolean xmlFound = false;
 		boolean macroXMLfound = false;
 		boolean javaScriptFound = false;
+		boolean structureFound = false;
 
 		// get all entries from the zip archive
 		while (true) {
@@ -80,9 +81,11 @@ public class MyXMLioD extends MyXMLioJre {
 			if (entry == null) {
 				break;
 			}
-
 			String name = entry.getName();
-			if (name.equals(XML_FILE)) {
+
+			if (name.equals("structure.json")) {
+				structureFound = true;
+			} else if (name.equals(XML_FILE)) {
 				// load xml file into memory first
 				xmlFileBuffer = UtilD.loadIntoMemory(zip);
 				xmlFound = true;
@@ -109,7 +112,7 @@ public class MyXMLioD extends MyXMLioJre {
 
 				MyImageD img = new MyImageD(svg, name);
 
-				((AppD) app).addExternalImage(name, img);
+				((AppDI) app).addExternalImage(name, img);
 
 			} else {
 				// try to load image
@@ -118,7 +121,7 @@ public class MyXMLioD extends MyXMLioJre {
 					if ("".equals(name)) {
 						Log.warn("image in zip file with empty name");
 					} else {
-						((AppD) app).addExternalImage(name, new MyImageD(img));
+						((AppDI) app).addExternalImage(name, new MyImageD(img));
 					}
 				} catch (IOException e) {
 					Log.debug("readZipFromURL: image could not be loaded: "
@@ -172,20 +175,20 @@ public class MyXMLioD extends MyXMLioJre {
 		if (!javaScriptFound && !isGGTfile) {
 			kernel.resetLibraryJavaScript();
 		}
-		if (!(macroXMLfound || xmlFound)) {
+		if (!(macroXMLfound || xmlFound || structureFound)) {
 			throw new Exception("No XML data found in file.");
 		}
 	}
 
 	@Override
 	final protected MyImageJre getExportImage(double width, double height) {
-		return new MyImageD(((AppD) app).getExportImage(THUMBNAIL_PIXELS_X,
+		return new MyImageD(((AppDI) app).getExportImage(THUMBNAIL_PIXELS_X,
 				THUMBNAIL_PIXELS_Y));
 	}
 
 	@Override
 	final protected MyImageJre getExternalImage(String fileName) {
-		return ((AppD) app).getExternalImage(fileName);
+		return ((AppDI) app).getExternalImage(fileName);
 	}
 
 	@Override
