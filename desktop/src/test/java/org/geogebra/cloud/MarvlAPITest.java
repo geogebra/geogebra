@@ -96,13 +96,16 @@ public class MarvlAPITest {
 		if (System.getProperty("marvl.auth.basic") == null) {
 			return;
 		}
-		MarvlAPI api = authAPI();
+		final MarvlAPI api = authAPI();
 		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
+		api.setClient(getClient(appd));
+		deleteAll(api);
+
 		final String title = "OpenTest" + System.currentTimeMillis();
 		doUpload(api, title);
 		final ArrayList<String> titles = new ArrayList<>();
 		final ArrayList<String> errors = new ArrayList<>();
-		api.setClient(getClient(appd));
+
 		api.getUsersOwnMaterials(new MaterialCallbackI() {
 
 			public void onLoaded(List<Material> result,
@@ -127,6 +130,36 @@ public class MarvlAPITest {
 		pause(5000);
 		Assert.assertEquals("", StringUtil.join(",", errors));
 		Assert.assertEquals(title, StringUtil.join(",", titles));
+	}
+
+	private static void deleteAll(final MarvlAPI api) {
+		api.getUsersOwnMaterials(new MaterialCallbackI() {
+
+			public void onLoaded(List<Material> result,
+					ArrayList<Chapter> meta) {
+				for (int i = 0; i < result.size(); i++) {
+					api.deleteMaterial(result.get(i), new MaterialCallbackI() {
+
+						public void onLoaded(List<Material> result,
+								ArrayList<Chapter> meta) {
+							// TODO Auto-generated method stub
+
+						}
+
+						public void onError(Throwable exception) {
+							// TODO Auto-generated method stub
+
+						}
+					});
+				}
+			}
+
+			public void onError(Throwable exception) {
+				//
+			}
+		}, Order.title);
+		pause(5000);
+
 	}
 
 	private ClientInfo getClient(AppDNoGui appd) {
