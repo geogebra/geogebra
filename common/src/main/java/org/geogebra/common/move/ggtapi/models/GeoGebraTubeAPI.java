@@ -1,6 +1,7 @@
 package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -639,8 +640,23 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	}
 
 	@Override
-	public void copy(Material material, MaterialCallbackI materialCallback) {
-		// TODO Auto-generated method stub
+	public void copy(Material material, final MaterialCallbackI copyCallback) {
+		getItem(material.getSharingKeyOrId(), new MaterialCallbackI() {
+
+			@Override
+			public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+				uploadMaterial(0, result.get(0).getVisibility(),
+						result.get(0).getTitle() + (int) (Math.random() * 1000),
+						result.get(0).getBase64(), copyCallback, result.get(0).getType(),
+						result.get(0));
+			}
+
+			@Override
+			public void onError(Throwable exception) {
+				System.err.println(exception);
+
+			}
+		});
 
 	}
 

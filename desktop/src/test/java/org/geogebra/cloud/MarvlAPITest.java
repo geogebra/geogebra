@@ -81,4 +81,44 @@ public class MarvlAPITest {
 		Assert.assertEquals("Test material", StringUtil.join(",", titles));
 	}
 
+	@Test
+	public void testCopy() {
+		if (System.getProperty("marvl.auth.basic") == null) {
+			return;
+		}
+		final MarvlAPI api = authAPI();
+		final ArrayList<String> titles = new ArrayList<>();
+		final ArrayList<String> errors = new ArrayList<>();
+		api.uploadMaterial(0, "S", "Test material",
+				Base64.encodeToString(UtilD.loadFileIntoByteArray(
+						"src/test/resources/slides.ggs"), false),
+				new MaterialCallbackI() {
+
+					public void onLoaded(List<Material> result,
+							ArrayList<Chapter> meta) {
+						api.copy(result.get(0), new MaterialCallbackI() {
+
+							public void onLoaded(List<Material> resultCopy,
+									ArrayList<Chapter> metaCopy) {
+								titles.add(resultCopy.get(0).getTitle());
+							}
+
+							public void onError(Throwable exception) {
+								errors.add(exception.getMessage());
+							}
+
+						});
+
+					}
+
+					public void onError(Throwable exception) {
+						errors.add(exception.getMessage());
+
+					}
+				}, MaterialType.ggs);
+		pause(10000);
+		Assert.assertEquals("", StringUtil.join(",", errors));
+		Assert.assertEquals("Test material", StringUtil.join(",", titles));
+	}
+
 }

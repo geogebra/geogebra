@@ -38,6 +38,7 @@ public class TubeAPITest extends Assert {
 	public static void startLogging() {
 		Log.setLogger(new LoggerD());
 	}
+
 	@Test
 	public void testSearch() {
 
@@ -101,7 +102,6 @@ public class TubeAPITest extends Assert {
 
 	@Test
 	public void testReupload() {
-
 		final GeoGebraTubeAPID api = getAuthAPI();
 		final ArrayList<String> titles = new ArrayList<>();
 
@@ -156,53 +156,44 @@ public class TubeAPITest extends Assert {
 						Assert.assertNull(exception.getMessage());
 
 					}
-				}, MaterialType.ggb);
 
+				}, MaterialType.ggb);
 	}
 
 	@Test
 	public void copyMaterial() {
 		final GeoGebraTubeAPID api = getAuthAPI();
-		api.getItem("144", new MaterialCallbackI() {
+		final ArrayList<String> titles = new ArrayList<>();
+		final MaterialCallbackI copyCallback = new MaterialCallbackI() {
 
+			@Override
 			public void onLoaded(List<Material> result,
 					ArrayList<Chapter> meta) {
-				api.uploadMaterial(0, "O",
-						result.get(0).getTitle() + (int) (Math.random() * 1000),
-						result.get(0).getBase64(),
-						new MaterialCallbackI() {
-
-							@Override
-							public void onLoaded(List<Material> result,
-									ArrayList<Chapter> meta) {
-								Log.debug("Wheee!");
-							}
-
-							@Override
-							public void onError(Throwable exception) {
-								exception.printStackTrace();
-								Assert.assertNull(exception.getMessage());
-
-							}
-						}, MaterialType.ggb, result.get(0));
-
+				if (result.size() == 1) {
+					titles.add(result.get(0).getTitle());
+				} else {
+					titles.add("FAIL " + result.size());
+				}
 			}
 
+			@Override
 			public void onError(Throwable exception) {
-				System.err.println(exception);
+				exception.printStackTrace();
+				Assert.assertNull(exception.getMessage());
 
 			}
-		});
-		for (int i = 0; i < 20; i++) {
+		};
+		api.copy(new Material(144, MaterialType.ggb), copyCallback);
+		for (int i = 0; i < 20 && titles.size() == 0; i++) {
 			try {
-				Thread.sleep(1000);
+					Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
-
+		assertEquals("Wrong number of upload results", 1, titles.size());
+		assertFalse("Wrong upload result: " + titles.get(0),
+				titles.get(0).contains("FAIL"));
 	}
 	/**
 	 * Upload one material and delete all materials in account.
