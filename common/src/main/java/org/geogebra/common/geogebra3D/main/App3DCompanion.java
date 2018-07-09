@@ -15,6 +15,7 @@ import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import org.geogebra.common.gui.layout.DockPanel;
+import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -51,7 +52,12 @@ public abstract class App3DCompanion extends AppCompanion {
 
 	@Override
 	public Kernel newKernel() {
-		return new Kernel3D(app, new GeoFactory3D());
+
+		if (app.is3DViewEnabled()) {
+			return new Kernel3D(app, new GeoFactory3D());
+		}
+
+		return new Kernel(app, new GeoFactory());
 	}
 
 	@Override

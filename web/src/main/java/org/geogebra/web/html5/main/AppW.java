@@ -1825,6 +1825,16 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return isUnbundledGraphing() || isUnbundledGeometry();
 	}
 
+	@Override
+	public boolean is3DViewEnabled() {
+
+		if (!getArticleElement().getDataParamEnable3D(true)) {
+			return false;
+		}
+
+		return super.is3DViewEnabled();
+	}
+
 	private void setViewsEnabled() {
 		if (isCASDisabledForApp()) {
 			getSettings().getCasSettings().setEnabled(false);

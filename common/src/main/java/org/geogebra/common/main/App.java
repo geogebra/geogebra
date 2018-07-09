@@ -3950,6 +3950,10 @@ public abstract class App implements UpdateSelection {
 		return ok;
 	}
 
+	public boolean is3DViewEnabled() {
+		return _3DViewEnabled && is3D();
+	}
+
 	/**
 	 * Tells if given View is enabled. 3D be disabled by using command line
 	 * option "--show3D=disable". CAS be disabled by using command line option
@@ -3959,7 +3963,7 @@ public abstract class App implements UpdateSelection {
 	 */
 	public boolean supportsView(int viewID) {
 		if (viewID == App.VIEW_EUCLIDIAN3D) {
-			return _3DViewEnabled && this.is3D();
+			return is3DViewEnabled();
 		}
 		if (viewID == App.VIEW_CAS) {
 			return CASViewEnabled;

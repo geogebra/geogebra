@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
+import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
@@ -55,7 +56,10 @@ public class AppWapplet3D extends AppWFull {
 
 	@Override
 	protected Kernel newKernel(App thisApp) {
-		return new Kernel3D(thisApp, new GeoFactory3D());
+		if (thisApp.is3DViewEnabled()) {
+			return new Kernel3D(thisApp, new GeoFactory3D());
+		}
+		return new Kernel(thisApp, new GeoFactory());
 	}
 
 	@Override
