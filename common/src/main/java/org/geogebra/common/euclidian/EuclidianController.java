@@ -975,8 +975,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					getDialogManager().showPDFInputDialog();
 				}
 			}
-			if (newMode == EuclidianConstants.MODE_GEOGEBRA && app.has(Feature.MOW_GEOGEBRA_TOOL)) {
+			if ((newMode == EuclidianConstants.MODE_GEOGEBRA
+					|| newMode == EuclidianConstants.MODE_EXTENSION)
+					&& app.has(Feature.MOW_GEOGEBRA_TOOL)) {
 				GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
+				if (newMode == EuclidianConstants.MODE_EXTENSION) {
+					ge.setAppName("extension");
+				}
 				ge.initPosition(view);
 				ge.setEmbedId(app.getEmbedManager().nextID());
 				ge.setLabel(null);

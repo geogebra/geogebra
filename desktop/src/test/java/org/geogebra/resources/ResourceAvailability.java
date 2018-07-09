@@ -82,6 +82,7 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_VIDEO:
 			case EuclidianConstants.MODE_AUDIO:
 			case EuclidianConstants.MODE_GEOGEBRA:
+			case EuclidianConstants.MODE_EXTENSION:
 			case EuclidianConstants.MODE_CAMERA:
 			case EuclidianConstants.MODE_PDF:
 				continue;

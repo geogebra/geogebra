@@ -415,6 +415,8 @@ public final class EuclidianConstants {
 	public static final int MODE_CAMERA = 118;
 	/** PDF tool */
 	public static final int MODE_PDF = 119;
+	/** Extension embed */
+	public static final int MODE_EXTENSION = 120;
 
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
@@ -880,7 +882,8 @@ public final class EuclidianConstants {
 			return "GeoGebra";
 		case EuclidianConstants.MODE_PDF:
 			return "PDF";
-			
+		case EuclidianConstants.MODE_EXTENSION:
+			return "Extension";
 		case EuclidianConstants.MODE_SELECT:
 			return "Select";
 

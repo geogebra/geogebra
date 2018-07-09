@@ -331,9 +331,11 @@ public class ToolBar {
 	}
 
 	/**
+	 * @param extension
+	 *            whether to add extension mode
 	 * @return definition for MOW media toolbar
 	 */
-	public static String getMOWMediaToolBarDefString() {
+	public static String getMOWMediaToolBarDefString(boolean extension) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(EuclidianConstants.MODE_MOVE);
 		sb.append(" ");
@@ -352,6 +354,10 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_GEOGEBRA);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PDF);
+		if (extension) {
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_EXTENSION);
+		}
 		sb.append(" | ");
 		return sb.toString();
 	}

@@ -70,7 +70,9 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 
 	@Override
 	public void set(GeoElementND geo) {
-		// TODO Auto-generated method stub
+		if (geo instanceof GeoEmbed) {
+			this.appName = ((GeoEmbed) geo).appName;
+		}
 	}
 
 	@Override
@@ -100,7 +102,7 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 
 	@Override
 	public boolean isEqual(GeoElementND geo) {
-		return false;
+		return geo == this;
 	}
 
 	@Override

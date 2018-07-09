@@ -4186,6 +4186,9 @@ public abstract class App implements UpdateSelection {
 		case MOW_OPEN_FILE_VIEW:
 			return canary && whiteboard;
 
+		case EMBED_EXTENSION:
+			return canary && hasExtension();
+
 		// **********************************************************************
 		// MOW END
 		// *********************************************************
@@ -4420,6 +4423,10 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		}
+	}
+
+	protected boolean hasExtension() {
+		return false;
 	}
 
 	public boolean isUnbundled() {

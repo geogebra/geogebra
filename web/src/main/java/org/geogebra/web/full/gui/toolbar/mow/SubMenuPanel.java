@@ -267,7 +267,9 @@ public abstract class SubMenuPanel extends FlowPanel
 				|| (mode == EuclidianConstants.MODE_PDF
 						&& !app.has(Feature.MOW_PDF_TOOL))
 				|| (mode == EuclidianConstants.MODE_GEOGEBRA
-						&& !app.has(Feature.MOW_GEOGEBRA_TOOL));
+						&& !app.has(Feature.MOW_GEOGEBRA_TOOL))
+				|| (mode == EuclidianConstants.MODE_EXTENSION
+						&& !app.has(Feature.EMBED_EXTENSION));
 	}
 
 	/**

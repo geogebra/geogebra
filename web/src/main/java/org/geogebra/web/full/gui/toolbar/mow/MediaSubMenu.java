@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -24,7 +25,8 @@ public class MediaSubMenu extends SubMenuPanel {
 	@Override
 	protected void createContentPanel() {
 		super.createContentPanel();
-		super.createPanelRow(ToolBar.getMOWMediaToolBarDefString());
+		super.createPanelRow(ToolBar
+				.getMOWMediaToolBarDefString(app.has(Feature.EMBED_EXTENSION)));
 	}
 
 	@Override
