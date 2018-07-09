@@ -1,9 +1,11 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdCircle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -77,6 +79,21 @@ public class CmdCircle3D extends CmdCircle {
 
 		if ((ok[0] = (arg[0].isGeoPoint()))
 				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
+
+
+			if (arg[2] instanceof GeoLine) {
+				// disallow
+				// Circle((0,0,0), 1, x=0)
+				// Circle((0,0,0), 1, y=0)
+				// as plane/line type can't be saved in XML
+				String lineStr = arg[2]
+						.toValueString(StringTemplate.defaultTemplate);
+				if (arg[2].getLabelSimple() == null && ("x = 0".equals(lineStr)
+						|| "y = 0".equals(lineStr))) {
+					throw argErr(c, arg[2]);
+				}
+			}
+
 			if (arg[1] instanceof GeoNumberValue) {
 				GeoElement[] ret = { kernel.getManager3D().circle3D(
 						c.getLabel(), (GeoPointND) arg[0],
