@@ -23,6 +23,7 @@ public class MarvlAPI implements BackendAPI {
 	protected boolean availabilityCheckDone = false;
 	private String baseURL;
 	private AuthenticationModel model;
+	private String basicAuth = null; // for test only
 
 	public MarvlAPI(String baseURL) {
 		this.baseURL = baseURL;
@@ -72,11 +73,15 @@ public class MarvlAPI implements BackendAPI {
 	public final void authorizeUser(final GeoGebraTubeUser user, final LogInOperation op,
 			final boolean automatic) {
 		HttpRequest request = UtilFactory.getPrototype().newHttpRequest();
+		if (this.basicAuth != null) {
+			request.setAuth(basicAuth);
+		}
 		request.sendRequestPost("GET",
 				baseURL + "/auth",
 				null, new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {
+						System.out.println(responseStr);
 						try {
 							MarvlAPI.this.availabilityCheckDone = true;
 
@@ -99,6 +104,7 @@ public class MarvlAPI implements BackendAPI {
 
 					@Override
 					public void onError(String error) {
+						System.out.println(error);
 						MarvlAPI.this.availabilityCheckDone = true;
 						MarvlAPI.this.available = false;
 						op.onEvent(new LoginEvent(user, false, automatic, null));
@@ -273,7 +279,10 @@ public class MarvlAPI implements BackendAPI {
 	public void copy(Material material, MaterialCallbackI materialCallback) {
 		this.performRequest("POST", "/materials/" + material.getSharingKeyOrId(), null,
 				materialCallback);
+	}
 
+	public void setBasicAuth(String base64) {
+		this.basicAuth = base64;
 	}
 
 }

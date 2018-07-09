@@ -27,6 +27,7 @@ public abstract class HttpRequest {
 	 */
 	protected String responseText;
 	private String type = "text/plain";
+	private String auth;
 
 	/**
 	 * Gets a response from a remote HTTP server
@@ -98,5 +99,13 @@ public abstract class HttpRequest {
 	
 	protected String getType() {
 		return type;
+	}
+
+	public void setAuth(String auth) {
+		this.auth = auth;
+	}
+
+	protected String getAuth() {
+		return auth;
 	}
 }

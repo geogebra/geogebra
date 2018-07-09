@@ -35,9 +35,6 @@ public class HttpRequestD extends HttpRequest {
 		}
 
 		else {
-			if (post == null) {
-				throw new IllegalArgumentException("Post may not be null");
-			}
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 
 				@Override
@@ -69,20 +66,27 @@ public class HttpRequestD extends HttpRequest {
 			// Borrowed from
 			// http://bytes.com/topic/java/answers/720825-how-build-http-post-request-java:
 			huc.setRequestMethod(method);
+			if (getAuth() != null) {
+				huc.setRequestProperty("Authorization", "Basic " + getAuth());
+			}
 			// uc.setRequestProperty("Content-Type",
 			// "application/x-www-form-urlencoded");
 			// uc.setUseCaches(false);
 			// uc.setDoInput(true);
-			huc.setDoOutput(true);
-			OutputStreamWriter osw = new OutputStreamWriter(
-					huc.getOutputStream(), Charsets.UTF_8);
 			if (post != null) {
-				osw.write(post);
-			}
-			osw.flush();
+				huc.setDoOutput(true);
+				OutputStreamWriter osw = new OutputStreamWriter(
+					huc.getOutputStream(), Charsets.UTF_8);
 
-			answer = readOutput(huc.getInputStream());
-			osw.close();
+				osw.write(post);
+
+				osw.flush();
+				answer = readOutput(huc.getInputStream());
+				osw.close();
+			} else {
+				answer = readOutput(huc.getInputStream());
+			}
+
 
 			setResponseText(answer);
 			processed = true;
@@ -99,7 +103,6 @@ public class HttpRequestD extends HttpRequest {
 			} catch (IOException e2) {
 				Log.warn("invalid HTTP stream");
 			}
-			System.out.println(post);
 			if (callback != null) {
 				Log.error(err);
 				callback.onError(
