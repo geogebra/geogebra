@@ -211,10 +211,23 @@ public class VideoManagerW implements VideoManager {
 	public void addPlayer(final GeoVideo video) {
 		AppW app = (AppW) video.getKernel().getApplication();
 		GeoGebraFrameW appFrame = (GeoGebraFrameW) app.getAppletFrame();
-		final VideoPlayer player = new VideoPlayer(video, players.size());
+		final VideoPlayer player = createPlayer(video, players.size());
 		players.put(video, player);
 		appFrame.add(player);
 
+	}
+
+	private static VideoPlayer createPlayer(GeoVideo video, int id) {
+		switch (video.getFormat()) {
+		case YOUTUBE:
+			return new YouTubeVideoPlayer(video, id);
+		case MP4:
+		case AUDIO_HTML5:
+		case NONE:
+		default:
+			return null;
+
+		}
 	}
 
 	@Override
