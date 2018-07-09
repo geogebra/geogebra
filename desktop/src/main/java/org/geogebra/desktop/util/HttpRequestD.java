@@ -69,8 +69,10 @@ public class HttpRequestD extends HttpRequest {
 			if (getAuth() != null) {
 				huc.setRequestProperty("Authorization", "Basic " + getAuth());
 			}
-			// uc.setRequestProperty("Content-Type",
-			// "application/x-www-form-urlencoded");
+			if (!"text/plain".equals(this.getType())) {
+				huc.setRequestProperty("Content-Type", getType());
+			}
+
 			// uc.setUseCaches(false);
 			// uc.setDoInput(true);
 			if (post != null) {
@@ -79,7 +81,6 @@ public class HttpRequestD extends HttpRequest {
 					huc.getOutputStream(), Charsets.UTF_8);
 
 				osw.write(post);
-
 				osw.flush();
 				answer = readOutput(huc.getInputStream());
 				osw.close();

@@ -227,6 +227,9 @@ public class MarvlAPI implements BackendAPI {
 			final MaterialCallbackI userMaterialsCB) {
 		HttpRequest request = UtilFactory.getPrototype().newHttpRequest();
 		request.setContentTypeJson();
+		if (this.basicAuth != null) {
+			request.setAuth(basicAuth);
+		}
 		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
