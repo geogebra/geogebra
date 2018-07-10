@@ -229,6 +229,95 @@ public class MarvlAPITest {
 				StringUtil.join(",", titles));
 	}
 
+	@Test
+	public void testDelete() {
+		if (System.getProperty("marvl.auth.basic") == null) {
+			return;
+		}
+		allowMethods("PATCH");
+		final MarvlAPI api = authAPI();
+		final ArrayList<String> errors = new ArrayList<>();
+
+		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
+		api.setClient(getClient(appd));
+		// clear all
+		deleteAll(api);
+		// upload one material
+		api.uploadMaterial(0, "S", "Test material",
+				Base64.encodeToString(UtilD.loadFileIntoByteArray(
+						"src/test/resources/slides.ggs"), false),
+				new MaterialCallbackI() {
+
+					public void onLoaded(List<Material> result,
+							ArrayList<Chapter> meta) {
+						// nothing to do
+					}
+
+					public void onError(Throwable exception) {
+						errors.add(exception.getMessage());
+
+					}
+				}, MaterialType.ggs);
+		pause(10000);
+		// load list of materials, delete the first one
+		deleteSingleMaterial(api);
+		materialCountShouldBe(api, 0);
+	}
+
+	private static void materialCountShouldBe(MarvlAPI api, int i) {
+		final ArrayList<String> errors = new ArrayList<>();
+		final ArrayList<Integer> count = new ArrayList<>();
+
+		// check that no materials are on server
+		api.getUsersOwnMaterials(new MaterialCallbackI() {
+
+			public void onLoaded(List<Material> resultLoad,
+					ArrayList<Chapter> meta) {
+				count.add(resultLoad.size());
+			}
+
+			public void onError(Throwable exception) {
+				errors.add(exception.getMessage());
+			}
+		}, Order.title);
+		pause(5000);
+		Assert.assertEquals("", StringUtil.join(",", errors));
+		Assert.assertEquals("0", StringUtil.join(",", count));
+
+	}
+
+	private static void deleteSingleMaterial(final MarvlAPI api) {
+		final ArrayList<String> titles = new ArrayList<>();
+		final ArrayList<String> errors = new ArrayList<>();
+		api.getUsersOwnMaterials(new MaterialCallbackI() {
+
+			public void onLoaded(List<Material> resultLoad,
+					ArrayList<Chapter> meta) {
+				api.deleteMaterial(resultLoad.get(0), new MaterialCallbackI() {
+
+					public void onLoaded(List<Material> resultD,
+							ArrayList<Chapter> metaD) {
+						titles.add(resultD.get(0).getTitle());
+					}
+
+					public void onError(Throwable exception) {
+						errors.add(exception.getMessage());
+
+					}
+				});
+			}
+
+			public void onError(Throwable exception) {
+				errors.add(exception.getMessage());
+			}
+		}, Order.title);
+		pause(5000);
+		Assert.assertEquals("", StringUtil.join(",", errors));
+		Assert.assertEquals("Test material",
+				StringUtil.join(",", titles));
+
+	}
+
 	// Hack Java to understand PATCH method:
 	// https://stackoverflow.com/a/46323891
 	private static void allowMethods(String... methods) {

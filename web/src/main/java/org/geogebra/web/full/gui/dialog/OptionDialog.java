@@ -14,12 +14,20 @@ public abstract class OptionDialog extends DialogBoxW
 	private StandardButton insertBtn;
 	private StandardButton cancelBtn;
 	private FlowPanel buttonPanel;
+
+	/**
+	 * @param root
+	 *            panel for positioning
+	 * @param app
+	 *            application
+	 */
 	public OptionDialog(Panel root, App app) {
 		super(root, app);
 		initButtonPanel();
+		addStyleName("optionDialog");
 	}
 
-	protected void initButtonPanel() {
+	private void initButtonPanel() {
 		insertBtn = new StandardButton("", app);
 		insertBtn.addStyleName("insertBtn");
 		insertBtn.setEnabled(false);

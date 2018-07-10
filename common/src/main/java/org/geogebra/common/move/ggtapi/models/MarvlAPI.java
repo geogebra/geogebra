@@ -229,7 +229,7 @@ public class MarvlAPI implements BackendAPI {
 		}
 	}
 
-	private void performRequest(String method, String endpoint, String json,
+	private void performRequest(final String method, String endpoint, String json,
 			final MaterialCallbackI userMaterialsCB) {
 		HttpRequest request = UtilFactory.getPrototype().newHttpRequest();
 		request.setContentTypeJson();
@@ -240,6 +240,7 @@ public class MarvlAPI implements BackendAPI {
 			@Override
 			public void onSuccess(String responseStr) {
 				try {
+					Log.error(method + ":" + responseStr);
 					userMaterialsCB.onLoaded(parseMaterials(responseStr), null);
 
 					// GeoGebraTubeAPID.this.available = false;

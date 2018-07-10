@@ -3,17 +3,13 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
-import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
@@ -22,15 +18,12 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  * @author judit
  *
  */
-public class MaterialRenameDialog extends DialogBoxW {
+public class MaterialRenameDialog extends OptionDialog {
 
 	private FlowPanel mainPanel;
 	private FlowPanel inputPanel;
 	private InputPanelW inputField;
 	private FormLabel inputLabel;
-	private StandardButton okBtn;
-	private StandardButton cancelBtn;
-	private FlowPanel buttonPanel;
 	/**
 	 * application
 	 */
@@ -62,23 +55,12 @@ public class MaterialRenameDialog extends DialogBoxW {
 		inputLabel.addStyleName("inputLabel");
 		inputPanel.add(inputLabel);
 		inputPanel.add(inputField);
-		// panel for buttons
-		okBtn = new StandardButton("", appW);
-		okBtn.addStyleName("okBtn");
-		okBtn.setEnabled(false);
-		cancelBtn = new StandardButton("", app);
-		cancelBtn.addStyleName("cancelBtn");
-		buttonPanel = new FlowPanel();
-		buttonPanel.setStyleName("DialogButtonPanel");
-		buttonPanel.add(cancelBtn);
-		buttonPanel.add(okBtn);
 		// add panels
 		add(mainPanel);
 		mainPanel.add(inputPanel);
-		mainPanel.add(buttonPanel);
+		mainPanel.add(getButtonPanel());
 		// style
 		addStyleName("GeoGebraPopup");
-		addStyleName("renameDialog");
 		setGlassEnabled(true);
 		setLabels();
 		inputField.getTextComponent().addKeyUpHandler(new KeyUpHandler() {
@@ -88,21 +70,6 @@ public class MaterialRenameDialog extends DialogBoxW {
 				validate(event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER);
 			}
 
-		});
-		okBtn.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				rename();
-			}
-		});
-
-		cancelBtn.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				hide();
-			}
 		});
 	}
 
@@ -115,16 +82,17 @@ public class MaterialRenameDialog extends DialogBoxW {
 	protected void validate(boolean enter) {
 		if (inputField.getText().length() < Material.MIN_TITLE_LENGTH) {
 			// TODO show hint
-			okBtn.setEnabled(false);
+			enablePrimaryButton(false);
 		} else {
-			okBtn.setEnabled(true);
+			enablePrimaryButton(true);
 			if (enter) {
-				rename();
+				processInput();
 			}
 		}
 	}
 
-	protected void rename() {
+	@Override
+	protected void processInput() {
 		card.rename(inputField.getText());
 		hide();
 	}
@@ -134,8 +102,7 @@ public class MaterialRenameDialog extends DialogBoxW {
 	 */
 	public void setLabels() {
 		getCaption().setText(appW.getLocalization().getMenu("Rename"));
-		okBtn.setText(appW.getLocalization().getMenu("OK")); // OK
-		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
+		updateButtonLabels("OK");
 	}
 
 }
