@@ -956,5 +956,4 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		}
 		return ret;
 	}
-
 }

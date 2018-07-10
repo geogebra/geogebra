@@ -5847,7 +5847,6 @@ public abstract class GeoElement extends ConstructionElement
 	 * ** hightlighting and selecting only for internal purpouses, i.e. this is
 	 * not saved
 	 */
-
 	@Override
 	public boolean setSelected(final boolean flag) {
 		if (flag != selected) {
