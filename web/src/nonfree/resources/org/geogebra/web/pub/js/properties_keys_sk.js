@@ -1473,6 +1473,7 @@ __GGB__keysVar["sk"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Ku\u017eel so stredom v %0, as osou rovnobe\u017enou s %1, uhlom %2",
     "ConfidenceInterval": "Interval konfidencie",
     "ConfidenceLevel": "Stupe\u0148 konfidencie",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Ku\u017ee\u013eose\u010dka",
     "Conic5": "Ku\u017ee\u013eose\u010dka dan\xe1 5 bodmi",
     "Conic5.Help": "Vyzna\u010d p\xe4\u0165 bodov ku\u017ee\u013eose\u010dky!",

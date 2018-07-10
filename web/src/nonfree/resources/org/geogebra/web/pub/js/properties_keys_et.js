@@ -1473,6 +1473,7 @@ __GGB__keysVar["et"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Koonus keskpunktiga %0, teljega %1 ja nurgaga %2",
     "ConfidenceInterval": "Usaldusintervall",
     "ConfidenceLevel": "Usaldustase",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Koonusel\xf5ige",
     "Conic5": "Koonusel\xf5ige viie punktiga",
     "Conic5.Help": "Valige koonusel\xf5ike viis punkti",

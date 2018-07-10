@@ -1473,6 +1473,7 @@ __GGB__keysVar["fil"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Cone na may gitnang %0, aksis na kahilera ng %1, anggulong %2",
     "ConfidenceInterval": "Confidence Interval",
     "ConfidenceLevel": "Confidence Level",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Koniko",
     "Conic5": "Conic through Five Points",
     "Conic5.Help": "Piliin ang limang points sa conic",

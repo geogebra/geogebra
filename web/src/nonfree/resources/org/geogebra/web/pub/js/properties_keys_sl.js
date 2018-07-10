@@ -1473,6 +1473,7 @@ __GGB__keysVar["sl"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Sto\u017eec s sredi\u0161\u010dem %0, osjo vzporedno %1 in kotom %2",
     "ConfidenceInterval": "Interval zaupanja",
     "ConfidenceLevel": "Nivo zaupanja",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Sto\u017enica",
     "Conic5": "Sto\u017enica skozi pet to\u010dk",
     "Conic5.Help": "Pet to\u010dk, ki dolo\u010dajo sto\u017enico",

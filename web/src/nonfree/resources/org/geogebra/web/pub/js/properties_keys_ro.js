@@ -1473,6 +1473,7 @@ __GGB__keysVar["ro"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Con cu centrul %0, ax\u0103 paralel\u0103 cu %1, unghi %2",
     "ConfidenceInterval": "Interval de \xeencredere",
     "ConfidenceLevel": "Nivel de \xeencredere",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Conic",
     "Conic5": "Conic\u0103 prin 5 puncte",
     "Conic5.Help": "Selecta\u0163i 5 puncte pe o conic\u0103",

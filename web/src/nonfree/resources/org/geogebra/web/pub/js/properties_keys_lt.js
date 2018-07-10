@@ -1473,6 +1473,7 @@ __GGB__keysVar["lt"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "K\u016bgis su centru %0, a\u0161is lygiagreti %1, kampas %2",
     "ConfidenceInterval": "Patikimumo intervalas",
     "ConfidenceLevel": "Patikimumo lygis",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Antros eil\u0117s kreiv\u0117",
     "Conic5": "Antros eil\u0117s kreiv\u0117 per penkis ta\u0161kus",
     "Conic5.Help": "Pasirinkite penkis antros eil\u0117s kreiv\u0117s ta\u0161kus",

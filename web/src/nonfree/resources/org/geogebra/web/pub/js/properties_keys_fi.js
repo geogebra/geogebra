@@ -1473,6 +1473,7 @@ __GGB__keysVar["fi"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Kartio: pohjan keskipiste %0, akseli yhdensuuntainen %1:n kanssa, kulma %2",
     "ConfidenceInterval": "Luottamusv\xe4li",
     "ConfidenceLevel": "Luottamustaso",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Kartioleikkaus",
     "Conic5": "Kartioleikkaus viiden pisteen kautta",
     "Conic5.Help": "Valitse viisi kartioleikkauksen pistett\xe4",

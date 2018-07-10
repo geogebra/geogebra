@@ -1473,6 +1473,7 @@ __GGB__keysVar["sq"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Kon me qender %0, bosht paralel me %1, kendi %2",
     "ConfidenceInterval": "Interval Besimi",
     "ConfidenceLevel": "Nivel Besimi",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Konik",
     "Conic5": "Konike qe kalon neper pese pika",
     "Conic5.Help": "Zgjidh pese pika ne konike",

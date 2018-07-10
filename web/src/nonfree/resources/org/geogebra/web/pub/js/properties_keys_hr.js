@@ -1473,6 +1473,7 @@ __GGB__keysVar["hr"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Sto\u017eac sa centrom %0, osi paralelnom sa %1, kutom %2",
     "ConfidenceInterval": "Interval pouzdanosti",
     "ConfidenceLevel": "Razina pouzdanosti",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Konika",
     "Conic5": "Konika kroz pet to\u010daka",
     "Conic5.Help": "Odaberite pet to\u010daka",

@@ -1473,6 +1473,7 @@ __GGB__keysVar["is"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Keila me\xf0 mi\xf0ju %0, \xe1s sams\xed\xf0a %1, horn %2",
     "ConfidenceInterval": "\xd6ryggisbil",
     "ConfidenceLevel": "\xd6ryggisstig",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Keilusni\xf0",
     "Conic5": "Keilusni\xf0 gegnum fimm punkta",
     "Conic5.Help": "Velji\xf0 fimm punkta \xe1 keilusni\xf0i",

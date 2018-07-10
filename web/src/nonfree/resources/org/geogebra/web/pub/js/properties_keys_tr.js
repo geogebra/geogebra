@@ -1473,6 +1473,7 @@ __GGB__keysVar["tr"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "%0 merkezli, ekseni %1'e paralel ve %2 a\xe7\u0131l\u0131 koni",
     "ConfidenceInterval": "G\xfcven aral\u0131\u011f\u0131",
     "ConfidenceLevel": "G\xfcven Seviyesi",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Konik",
     "Conic5": "5 noktadan ge\xe7en konik",
     "Conic5.Help": "Konik \xfczerindeki 5 nokta",

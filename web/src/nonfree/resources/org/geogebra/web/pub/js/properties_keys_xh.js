@@ -1473,6 +1473,7 @@ __GGB__keysVar["xh"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "iCone enombindi ongu %0, umgca okekeleNgokufanayo no %1, onedolo elingu %2",
     "ConfidenceInterval": "iConfidence Interval",
     "ConfidenceLevel": "iConfidence Level",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "iConic",
     "Conic5": "iConic ephumela kumaChaphaza ama5",
     "Conic5.Help": "Khetha amaChaphaza amaHlanu phezu kweConic",

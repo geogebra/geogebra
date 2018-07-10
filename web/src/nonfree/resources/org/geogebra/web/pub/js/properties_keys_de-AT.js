@@ -1473,6 +1473,7 @@ __GGB__keysVar["de-AT"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Kegel mit Mittelpunkt %0, Achse parallel zu %1, Winkel %2",
     "ConfidenceInterval": "Konfidenzintervall",
     "ConfidenceLevel": "Konfidenzniveau",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Kegelschnitt",
     "Conic5": "Kegelschnitt durch 5 Punkte",
     "Conic5.Help": "W\xe4hle f\xfcnf Punkte auf dem Kegelschnitt",

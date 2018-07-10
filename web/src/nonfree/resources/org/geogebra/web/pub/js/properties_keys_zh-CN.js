@@ -1473,6 +1473,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "\u4e2d\u5fc3\u4e3a %0\u3001\u8f74\u5e73\u884c\u4e8e %1 \u4e14\u534a\u9876\u89d2\u4e3a %2 \u7684\u5706\u9525",
     "ConfidenceInterval": "\u7f6e\u4fe1\u533a\u95f4",
     "ConfidenceLevel": "\u7f6e\u4fe1\u6c34\u5e73",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "\u5706\u9525\u66f2\u7ebf",
     "Conic5": "\u5706\u9525\u66f2\u7ebf",
     "Conic5.Help": "\u9009\u5b9a\u5706\u9525\u66f2\u7ebf\u8981\u7ecf\u8fc7\u7684\u4e94\u4e2a\u70b9",

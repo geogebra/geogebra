@@ -1473,6 +1473,7 @@ __GGB__keysVar["ms"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Kon dengan pusat %0, paksi selari dengan %1, sudut %2",
     "ConfidenceInterval": "Selang Keyakinan",
     "ConfidenceLevel": "Aras Keyakinan",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Keratan Kon",
     "Conic5": "Keratan Kon melalui Lima Titik",
     "Conic5.Help": "Pilih lima titik atas keratan kon",

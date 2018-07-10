@@ -1473,6 +1473,7 @@ __GGB__keysVar["ko"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "\uc911\uc2ec\uc774 %0 \uc774\uace0, \ucd95\uc774 %1 \uc5d0 \ud3c9\ud589\ud558\uba70, \uac01\ub3c4\uac00 %2 \uc778 \uc6d0\ubfd4",
     "ConfidenceInterval": "\uc2e0\ub8b0 \uad6c\uac04",
     "ConfidenceLevel": "\uc2e0\ub8b0 \uc218\uc900",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "\uc6d0\ubfd4\uace1\uc120(\uc774\ucc28\uace1\uc120)",
     "Conic5": "\ub2e4\uc12f \uc810\uc744 \uc9c0\ub098\ub294 \uc6d0\ubfd4\uace1\uc120(\uc774\ucc28\uace1\uc120)",
     "Conic5.Help": "\uc6d0\ubfd4\uace1\uc120(\uc774\ucc28\uace1\uc120) \uc704\uc758 \ub2e4\uc12f \uc810\uc744 \uc120\ud0dd\ud558\uc138\uc694.",

@@ -1473,6 +1473,7 @@ __GGB__keysVar["eu"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Konoa: zentroa %0, ardatza %1-(r)en paraleloa, angelua %2",
     "ConfidenceInterval": "Konfiantza-tartea",
     "ConfidenceLevel": "Konfiantza-Maila",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Konika",
     "Conic5": "Konika bere bost Puntu emanda",
     "Conic5.Help": "Hautatu konikaren bost puntu",

@@ -1473,6 +1473,7 @@ __GGB__keysVar["id"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Kerucut dengan pusat %0, sumbu sejajar terhadap %1, dengan sudut %2",
     "ConfidenceInterval": "Interval Kepercayaan",
     "ConfidenceLevel": "Level Kepercayaan",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Konik",
     "Conic5": "Konik melalui Lima Titik",
     "Conic5.Help": "Pilih lima titik pada konik",

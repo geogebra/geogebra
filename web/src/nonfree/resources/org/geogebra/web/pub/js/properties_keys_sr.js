@@ -1473,6 +1473,7 @@ __GGB__keysVar["sr"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Kupa sa centrom %0, osom paralelnom sa %1 i uglom %2",
     "ConfidenceInterval": "Interval poverenja",
     "ConfidenceLevel": "Nivo poverenja",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "konusni presek",
     "Conic5": "Konusni presek kroz pet ta\u010daka",
     "Conic5.Help": "Izaberite pet ta\u010daka na konusnom preseku",

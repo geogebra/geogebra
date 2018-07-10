@@ -1473,6 +1473,7 @@ __GGB__keysVar["lv"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Konuss ar centru %0, asis paral\u0113li %1, le\u0146\u0137is %2",
     "ConfidenceInterval": "Ticam\u012bbas interv\u0101ls",
     "ConfidenceLevel": "Ticam\u012bbas l\u012bmenis",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Konisks",
     "Conic5": "Koniska fig\u016bra caur 5 punktiem",
     "Conic5.Help": "Izv\u0113lies 5 punktus uz konisk\u0101s fig;uras",

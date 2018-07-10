@@ -1473,6 +1473,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Con amb centre %0, eix paral\xb7lel a %1 i angle %2",
     "ConfidenceInterval": "Interval de confian\xe7a",
     "ConfidenceLevel": "Nivell de confian\xe7a",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "C\xf2nica",
     "Conic5": "C\xf2nica que passa per cinc punts",
     "Conic5.Help": "Seleccioneu cinc punts de la c\xf2nica",

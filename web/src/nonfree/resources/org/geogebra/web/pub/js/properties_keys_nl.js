@@ -1473,6 +1473,7 @@ __GGB__keysVar["nl"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Kegel met centrum %0, as evenwijdig aan %1, hoek %2",
     "ConfidenceInterval": "Betrouwbaarheidsinterval",
     "ConfidenceLevel": "Betrouwbaarheidsniveau",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Kegelsnede",
     "Conic5": "Kegelsnede door vijf punten",
     "Conic5.Help": "Selecteer vijf punten op kegelsnede",

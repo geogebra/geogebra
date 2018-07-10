@@ -1473,6 +1473,7 @@ __GGB__keysVar["mr"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Cone with center %0, axis parallel to %1, angle %2",
     "ConfidenceInterval": "Confidence Interval",
     "ConfidenceLevel": "Confidence Level",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "\u0936\u093e\u0902\u0915\u0935 (conic)",
     "Conic5": "\u092a\u093e\u091a \u092c\u093f\u0902\u0926\u0942\u0902\u0924\u0942\u0928 \u0936\u093e\u0902\u0915\u0935 (conic)",
     "Conic5.Help": "\u0936\u093e\u0902\u0915\u0935\u093e\u0935\u0930 \u0939\u0935\u0947 \u0905\u0938\u0923\u093e\u0930\u0947 \u092a\u093e\u091a \u092c\u093f\u0902\u0926\u0942 \u0928\u093f\u0935\u0921\u093e",

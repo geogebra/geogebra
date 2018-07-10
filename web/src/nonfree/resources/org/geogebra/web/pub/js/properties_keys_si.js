@@ -1473,6 +1473,7 @@ __GGB__keysVar["si"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "\u0db8\u0db0\u0dca\u200d\u0dba \u0dc3\u0dc4\u0dd2\u0dad \u0d9a\u0dda\u0dad\u0dd4\u0dc0 %0, %1 \u0d9a\u0dca \u0d85\u0d9a\u0dca\u0dc2\u0dba \u0dc3\u0db8\u0db1\u0dca\u0dad\u0dbb\u0dba\u0dd2, \u0d9a\u0ddd\u0dab\u0dba %2",
     "ConfidenceInterval": "Confidence Interval",
     "ConfidenceLevel": "Confidence Level",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "\u0d9a\u0ddd\u0dab\u0dd2\u0d9a",
     "Conic5": "\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba5\u0d9a\u0dca \u0dc4\u0dbb\u0dc4\u0dcf \u0d9a\u0dda\u0dad\u0dd4\u0dc0",
     "Conic5.Help": "\u0d9a\u0dda\u0dad\u0dd4\u0dc0 \u0db8\u0dad \u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba5\u0d9a\u0dca \u0dad\u0ddd\u0dbb\u0db1\u0dca\u0db1",

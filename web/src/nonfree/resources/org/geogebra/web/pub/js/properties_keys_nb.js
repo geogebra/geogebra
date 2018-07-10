@@ -1473,6 +1473,7 @@ __GGB__keysVar["nb"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Kjegle med sentrum %0, akse parallell med %1, vinkel %2",
     "ConfidenceInterval": "Konfidensintervall",
     "ConfidenceLevel": "Konfidensniv\xe5",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Kjeglesnitt",
     "Conic5": "Kjeglesnitt gjennom fem punkt",
     "Conic5.Help": "Fem punkt p\xe5 kjeglesnittet",

@@ -1473,6 +1473,7 @@ __GGB__keysVar["pl"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Sto\u017cek o \u015brodku %0, o\u015b r\xf3wnoleg\u0142a do %1, k\u0105t %2",
     "ConfidenceInterval": "Przedzia\u0142 ufno\u015bci",
     "ConfidenceLevel": "Poziom ufno\u015bci",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Sto\u017ckowa",
     "Conic5": "Krzywa sto\u017ckowa przez 5 punkt\xf3w",
     "Conic5.Help": "Wybierz pi\u0119\u0107 punkt\xf3w na sto\u017ckowej",

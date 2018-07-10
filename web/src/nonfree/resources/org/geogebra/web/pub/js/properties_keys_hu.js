@@ -1473,6 +1473,7 @@ __GGB__keysVar["hu"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "K\xfap %0 k\xf6z\xe9pponttal, %1-hez p\xe1rhuzamos tengellyel, %2 sz\xf6ggel",
     "ConfidenceInterval": "Konfidencia intervallum",
     "ConfidenceLevel": "Konfidencia szint",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "K\xfapszelet",
     "Conic5": "K\xfapszelet \xf6t ponton kereszt\xfcl",
     "Conic5.Help": "A k\xfapszelet \xf6t pontja",

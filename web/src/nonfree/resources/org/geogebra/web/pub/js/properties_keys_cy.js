@@ -1473,6 +1473,7 @@ __GGB__keysVar["cy"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Cone with center %0, axis parallel to %1, angle %2",
     "ConfidenceInterval": "Cyfwng Hyder",
     "ConfidenceLevel": "Lefel Cyfwng",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Conig",
     "Conic5": "Conig trwy bum pwynt",
     "Conic5.Help": "Dewis pum pwynt ar y conig",

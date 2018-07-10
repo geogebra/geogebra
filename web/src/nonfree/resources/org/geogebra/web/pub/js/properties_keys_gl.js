@@ -1473,6 +1473,7 @@ __GGB__keysVar["gl"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Cono con centro en %0, eixe paralelo a %1, \xe1ngulo %2",
     "ConfidenceInterval": "Intervalo de confianza",
     "ConfidenceLevel": "Nivel de confianza",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "C\xf3nica",
     "Conic5": "C\xf3nica pasando por cinco puntos",
     "Conic5.Help": "Escoller cinco puntos da c\xf3nica",

@@ -1473,6 +1473,7 @@ __GGB__keysVar["eo"].menu = {
     "ConeWithCenterAAxisParallelToBAngleC": "Cone with center %0, axis parallel to %1, angle %2",
     "ConfidenceInterval": "Confidence Interval",
     "ConfidenceLevel": "Confidence Level",
+    "ConfirmDeleteA": "Are you sure you want to delete \"%0\"?",
     "Conic": "Koniko",
     "Conic5": "Koniko tra kvin punktoj",
     "Conic5.Help": "Elektu kvin punktojn",
