@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -237,6 +238,25 @@ public class RedefineTest extends Assert {
 		t("a=?", "NaN");
 		t("a=1", "1");
 		t("A", "(0, 0)");
+	}
+
+	@Test
+	public void anonymousLineShouldStayLine() {
+		app.getEuclidianView3D();
+		app.setActiveView(App.VIEW_EUCLIDIAN3D);
+		t("c=Circle((0,0,0),1,x=0)",
+				"X = (0, 0, 0) + (0, - cos(t), sin(t))",
+				StringTemplate.editTemplate);
+		app.setActiveView(App.VIEW_EUCLIDIAN);
+		t("d=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (cos(t), 0, - sin(t))",
+				StringTemplate.editTemplate);
+
+		app.setXML(app.getXML(), true);
+		t("d", "X = (0, 0, 0) + (cos(t), 0, - sin(t))",
+				StringTemplate.editTemplate);
+		// TODO this fails
+		// t("c", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
+		// StringTemplate.editTemplate);
 	}
 
 }
