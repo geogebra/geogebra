@@ -240,7 +240,7 @@ public abstract class Layout implements SettingListener {
 					true, true,
 					AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
 					"1,1,1,1", 400);
-			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false,
+			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, true,
 					false, false,
 					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 					app.isPortrait() ? "3" : "1", 500);
