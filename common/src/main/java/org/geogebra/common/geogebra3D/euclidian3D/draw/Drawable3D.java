@@ -374,17 +374,10 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	final protected boolean hasRecordedTrace() {
 		if (shouldBePackedForManager()) {
-			if (tracesPackingBuffer == null) {
-				return false;
-			}
-			return !tracesPackingBuffer.isEmpty();
+			return tracesPackingBuffer != null
+					&& !tracesPackingBuffer.isEmpty();
 		}
-		if (trace == null) {
-			return false;
-		}
-
-		return !trace.isEmpty();
-
+		return trace != null && !trace.isEmpty();
 	}
 
 	/**
