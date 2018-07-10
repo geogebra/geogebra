@@ -130,7 +130,7 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final protected void setView() {
+	protected void setView() {
 		rendererImpl.setView();
 	}
 

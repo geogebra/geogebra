@@ -2319,4 +2319,12 @@ public abstract class Renderer {
 	 */
 	abstract public void createDummyTexture();
 
+	/**
+	 * 
+	 * @return true (default) if reduce "window" for clipping box
+	 */
+	public boolean reduceForClipping() {
+		return true;
+	}
+
 }

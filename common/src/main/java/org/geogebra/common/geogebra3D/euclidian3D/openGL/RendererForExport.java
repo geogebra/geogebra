@@ -18,6 +18,7 @@ public class RendererForExport extends RendererWithImpl {
 	 */
 	public RendererForExport(EuclidianView3D view) {
 		super(view, RendererType.SHADER);
+		setView(0, 0, 1600, 900); // set default values for "window" size
 	}
 
 	/**
@@ -134,6 +135,16 @@ public class RendererForExport extends RendererWithImpl {
 	@Override
 	protected void setBlendFunc() {
 		// no need
+	}
+
+	@Override
+	protected void setView() {
+		// no need
+	}
+
+	@Override
+	public boolean reduceForClipping() {
+		return false;
 	}
 
 }

@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DForExport;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3DForExport;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatObj;
@@ -14,6 +15,7 @@ import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCom
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
+import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -290,21 +292,65 @@ public abstract class App3DCompanion extends AppCompanion {
 	@Override
 	public void setExport3D(Format format) {
 		// try first with existing 3D view
-		if (!format.useSpecificViewForExport()
-				&& app.isEuclidianView3Dinited()) {
-			EuclidianView3DInterface view3D = app.getEuclidianView3D();
-			if (view3D.isShowing() && view3D.getRenderer().useShaders()) {
-				view3D.setExport3D(format);
-				return;
+		if (format.useSpecificViewForExport()) {
+			int width = 0, height = 0;
+			boolean use2d = true;
+			if (app.isEuclidianView3Dinited()) {
+				EuclidianView3DInterface view3D = app.getEuclidianView3D();
+				if (view3D.isShowing()) {
+					Renderer r = view3D.getRenderer();
+					width = r.getWidth();
+					height = r.getHeight();
+					use2d = false;
+				}
 			}
+			EuclidianSettings3D settings = (EuclidianSettings3D) app.getSettings().getEuclidian(3);
+			if (use2d) {
+				EuclidianView ev = app.getActiveEuclidianView();
+				width = ev.getWidth();
+				height = ev.getHeight();
+				EuclidianSettings s2d = ev.getSettings();
+				settings.setShowAxis(AxisModel.AXIS_X,
+						s2d.getShowAxis(AxisModel.AXIS_X));
+				settings.setShowAxis(AxisModel.AXIS_Y,
+						s2d.getShowAxis(AxisModel.AXIS_Y));
+				settings.setShowAxis(AxisModel.AXIS_Z, false);
+				double xscale = s2d.getXscale();
+				double yscale = s2d.getYscale();
+				double xmin = -s2d.getXZero() / xscale;
+				double xmax = (width - s2d.getXZero()) / xscale;
+				double ymin = -(height - s2d.getYZero()) / yscale;
+				double ymax = s2d.getYZero() / yscale;
+				settings.setXscale(s2d.getXscale());
+				settings.setYscale(s2d.getYscale());
+				settings.setZscale(s2d.getXscale());
+				settings.updateOriginFromView(-(xmin + xmax) / 2,
+						-(ymin + ymax) / 2, 0);
+			}
+			EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
+					new EuclidianController3DForExport(app), settings);
+			if (width > 0) {
+				exportView3D.getRenderer().setView(0, 0, width, height);
+			}
+			StringBuilder export = exportView3D.export3D(format);
+			app.getKernel().detach(exportView3D);
+			app.exportStringToFile(format.getExtension(), export.toString());
+		} else {
+			if (app.isEuclidianView3Dinited()) {
+				EuclidianView3DInterface view3D = app.getEuclidianView3D();
+				if (view3D.isShowing() && view3D.getRenderer().useShaders()) {
+					view3D.setExport3D(format);
+					return;
+				}
+			}
+			// use ad hoc 3D view for export
+			EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
+					new EuclidianController3DForExport(app),
+					app.getSettings().getEuclidian(3));
+			StringBuilder export = exportView3D.export3D(format);
+			app.getKernel().detach(exportView3D);
+			app.exportStringToFile(format.getExtension(), export.toString());
 		}
-		// use ad hoc 3D view for export
-		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
-				new EuclidianController3DForExport(app),
-				app.getSettings().getEuclidian(3));
-		StringBuilder export = exportView3D.export3D(format);
-		app.getKernel().detach(exportView3D);
-		app.exportStringToFile(format.getExtension(), export.toString());
 	}
 
 	@Override
