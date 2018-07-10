@@ -224,13 +224,6 @@ public class Drawable3DLists {
 					d3d.drawHidden(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_POINTS]) {
-				d3d.drawHidden(renderer);
-			}
-		}
-
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -238,12 +231,14 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_POINTS]) {
+				d3d.drawHidden(renderer);
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists()
 						.drawHiddenNotTextured(renderer);
 			}
 		}
-
 		renderer.resetCenter();
 	}
 
@@ -336,14 +331,6 @@ public class Drawable3DLists {
 					d3d.drawNotTransparentSurface(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
-				d3d.drawNotTransparentSurface(renderer);
-			}
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -351,12 +338,14 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
+				d3d.drawNotTransparentSurface(renderer);
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists()
 						.drawNotTransparentSurfaces(renderer);
 			}
 		}
-
 	}
 
 	/**
@@ -378,17 +367,6 @@ public class Drawable3DLists {
 					d3d.drawNotTransparentSurface(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
-				d3d.drawNotTransparentSurface(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
-				d3d.drawNotTransparentSurface(renderer);
-			}
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -396,6 +374,12 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
+				d3d.drawNotTransparentSurface(renderer);
+			}
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
+				d3d.drawNotTransparentSurface(renderer);
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists()
 						.drawNotTransparentSurfacesClosed(renderer);
@@ -410,21 +394,12 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawNotTransparentSurfacesClipped(Renderer renderer) {
-
 		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawNotTransparentSurface(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
-				d3d.drawNotTransparentSurface(renderer);
-			}
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -432,12 +407,14 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
+				d3d.drawNotTransparentSurface(renderer);
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists()
 						.drawNotTransparentSurfacesClipped(renderer);
 			}
 		}
-
 	}
 
 	/**
@@ -447,40 +424,21 @@ public class Drawable3DLists {
 	 *            opengl context
 	 */
 	public void drawHiddenTextured(Renderer renderer) {
-
-		// curves
-		// TODO if there's no surfaces, no hidden part has to be drawn
-		// if(!lists[Drawable3D.DRAW_TYPE_SURFACES].isEmpty())
 		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawHidden(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
-				d3d.drawHidden(renderer);
-			}
-		}
-
-		if (containsClippedCurves()) {
-			renderer.enableClipPlanesIfNeeded();
-			if (packBuffers(renderer)) {
+			if (containsClippedCurves()) {
+				renderer.enableClipPlanesIfNeeded();
 				for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
 					if (!d3d.shouldBePacked()) {
 						d3d.drawHidden(renderer);
 					}
 				}
-			} else {
-				for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
-					d3d.drawHidden(renderer);
-				}
+				renderer.disableClipPlanesIfNeeded();
 			}
-			renderer.disableClipPlanesIfNeeded();
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -488,12 +446,21 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
+				d3d.drawHidden(renderer);
+			}
+			if (containsClippedCurves()) {
+				renderer.enableClipPlanesIfNeeded();
+				for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
+					d3d.drawHidden(renderer);
+				}
+				renderer.disableClipPlanesIfNeeded();
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists()
 						.drawHiddenTextured(renderer);
 			}
 		}
-
 	}
 
 	/**
@@ -503,21 +470,12 @@ public class Drawable3DLists {
 	 *            opengl context
 	 */
 	public void drawTransp(Renderer renderer) {
-
 		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawTransp(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
-				d3d.drawTransp(renderer);
-			}
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -525,11 +483,13 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
+				d3d.drawTransp(renderer);
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists().drawTransp(renderer);
 			}
 		}
-
 	}
 
 	/**
@@ -539,21 +499,12 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawTranspClosedNotCurved(Renderer renderer) {
-
 		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawTransp(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
-				d3d.drawTransp(renderer);
-			}
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -561,12 +512,14 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
+				d3d.drawTransp(renderer);
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists()
 						.drawTranspClosedNotCurved(renderer);
 			}
 		}
-
 	}
 
 	/**
@@ -582,14 +535,6 @@ public class Drawable3DLists {
 					d3d.drawTransp(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
-				d3d.drawTransp(renderer);
-			}
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -597,6 +542,9 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
+				d3d.drawTransp(renderer);
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists()
 						.drawTranspClosedCurved(renderer);
@@ -611,21 +559,12 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawTranspClipped(Renderer renderer) {
-
 		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawTransp(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
-				d3d.drawTransp(renderer);
-			}
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -633,6 +572,9 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
+				d3d.drawTransp(renderer);
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists()
 						.drawTranspClipped(renderer);
@@ -655,41 +597,35 @@ public class Drawable3DLists {
 					d3d.drawOutline(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
-				d3d.drawOutline(renderer);
-			}
-		}
-
-		if (containsClippedCurves()) {
-			renderer.enableClipPlanesIfNeeded();
-			if (packBuffers(renderer)) {
+			if (containsClippedCurves()) {
+				renderer.enableClipPlanesIfNeeded();
 				for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
 					if (!d3d.shouldBePacked()) {
 						d3d.drawOutline(renderer);
 					}
 				}
-			} else {
-				for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
-					d3d.drawOutline(renderer);
-				}
+				renderer.disableClipPlanesIfNeeded();
 			}
-			renderer.disableClipPlanesIfNeeded();
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists().draw(renderer);
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
+				d3d.drawOutline(renderer);
+			}
+			if (containsClippedCurves()) {
+				renderer.enableClipPlanesIfNeeded();
+				for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
+					d3d.drawOutline(renderer);
+				}
+				renderer.disableClipPlanesIfNeeded();
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists().draw(renderer);
 			}
 		}
-
 	}
 
 	/**
@@ -739,14 +675,6 @@ public class Drawable3DLists {
 					d3d.drawHiding(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
-				d3d.drawHiding(renderer);
-			}
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -754,6 +682,9 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
+				d3d.drawHiding(renderer);
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists()
 						.drawSurfacesForHiding(renderer);
@@ -780,17 +711,6 @@ public class Drawable3DLists {
 					d3d.drawHiding(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
-				d3d.drawHiding(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
-				d3d.drawHiding(renderer);
-			}
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -798,6 +718,12 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
+				d3d.drawHiding(renderer);
+			}
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
+				d3d.drawHiding(renderer);
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists()
 						.drawClosedSurfacesForHiding(renderer);
@@ -819,14 +745,6 @@ public class Drawable3DLists {
 					d3d.drawHiding(renderer);
 				}
 			}
-		} else {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
-				d3d.drawHiding(renderer);
-			}
-		}
-
-		// lists
-		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -834,6 +752,9 @@ public class Drawable3DLists {
 				}
 			}
 		} else {
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
+				d3d.drawHiding(renderer);
+			}
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				((DrawList3D) d3d).getDrawable3DLists()
 						.drawClippedSurfacesForHiding(renderer);
