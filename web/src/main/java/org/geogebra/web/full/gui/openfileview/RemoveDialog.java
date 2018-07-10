@@ -7,21 +7,33 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 
+/**
+ * Confirmation dialog for removing cards.
+ */
 public class RemoveDialog extends OptionDialog {
 
 	private MaterialCard card;
 	private Label confirmDelete;
 
+	/**
+	 * @param root
+	 *            root panel to position this
+	 * @param app
+	 *            application
+	 * @param card
+	 *            card
+	 */
 	public RemoveDialog(Panel root, App app,
-			MaterialCard controller) {
+			MaterialCard card) {
 		super(root, app);
 		FlowPanel main = new FlowPanel();
 		confirmDelete = new Label();
+		confirmDelete.setStyleName("message");
 		main.add(confirmDelete);
 		main.add(getButtonPanel());
 		add(main);
 		enablePrimaryButton(true);
-		this.card = controller;
+		this.card = card;
 		setLabels();
 	}
 
