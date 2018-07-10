@@ -218,7 +218,7 @@ public class Drawable3DLists {
 	 */
 	public void drawHiddenNotTextured(Renderer renderer) {
 		// points TODO hidden aspect ?
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_POINTS]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawHidden(renderer);
@@ -230,7 +230,7 @@ public class Drawable3DLists {
 			}
 		}
 
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -330,7 +330,7 @@ public class Drawable3DLists {
 	 */
 	public void drawNotTransparentSurfaces(Renderer renderer) {
 
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawNotTransparentSurface(renderer);
@@ -343,7 +343,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -367,7 +367,7 @@ public class Drawable3DLists {
 	 */
 	public void drawNotTransparentSurfacesClosed(Renderer renderer) {
 
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawNotTransparentSurface(renderer);
@@ -388,7 +388,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -411,7 +411,7 @@ public class Drawable3DLists {
 	 */
 	public void drawNotTransparentSurfacesClipped(Renderer renderer) {
 
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawNotTransparentSurface(renderer);
@@ -424,7 +424,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -451,7 +451,7 @@ public class Drawable3DLists {
 		// curves
 		// TODO if there's no surfaces, no hidden part has to be drawn
 		// if(!lists[Drawable3D.DRAW_TYPE_SURFACES].isEmpty())
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawHidden(renderer);
@@ -465,7 +465,7 @@ public class Drawable3DLists {
 
 		if (containsClippedCurves()) {
 			renderer.enableClipPlanesIfNeeded();
-			if (renderer.getGeometryManager().packBuffers()) {
+			if (packBuffers(renderer)) {
 				for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
 					if (!d3d.shouldBePacked()) {
 						d3d.drawHidden(renderer);
@@ -480,7 +480,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -504,7 +504,7 @@ public class Drawable3DLists {
 	 */
 	public void drawTransp(Renderer renderer) {
 
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawTransp(renderer);
@@ -517,7 +517,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -540,7 +540,7 @@ public class Drawable3DLists {
 	 */
 	public void drawTranspClosedNotCurved(Renderer renderer) {
 
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawTransp(renderer);
@@ -553,7 +553,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -576,7 +576,7 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawTranspClosedCurved(Renderer renderer) {
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawTransp(renderer);
@@ -589,7 +589,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -612,7 +612,7 @@ public class Drawable3DLists {
 	 */
 	public void drawTranspClipped(Renderer renderer) {
 
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawTransp(renderer);
@@ -625,7 +625,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -649,7 +649,7 @@ public class Drawable3DLists {
 	public void draw(Renderer renderer) {
 
 		// curves
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawOutline(renderer);
@@ -663,7 +663,7 @@ public class Drawable3DLists {
 
 		if (containsClippedCurves()) {
 			renderer.enableClipPlanesIfNeeded();
-			if (renderer.getGeometryManager().packBuffers()) {
+			if (packBuffers(renderer)) {
 				for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
 					if (!d3d.shouldBePacked()) {
 						d3d.drawOutline(renderer);
@@ -678,7 +678,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists().draw(renderer);
@@ -733,7 +733,7 @@ public class Drawable3DLists {
 	 */
 	public void drawSurfacesForHiding(Renderer renderer) {
 
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawHiding(renderer);
@@ -746,7 +746,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -769,7 +769,7 @@ public class Drawable3DLists {
 	 */
 	public void drawClosedSurfacesForHiding(Renderer renderer) {
 
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawHiding(renderer);
@@ -790,7 +790,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -813,7 +813,7 @@ public class Drawable3DLists {
 	 */
 	public void drawClippedSurfacesForHiding(Renderer renderer) {
 
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawHiding(renderer);
@@ -826,7 +826,7 @@ public class Drawable3DLists {
 		}
 
 		// lists
-		if (renderer.getGeometryManager().packBuffers()) {
+		if (packBuffers(renderer)) {
 			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 				if (!d3d.shouldBePacked()) {
 					((DrawList3D) d3d).getDrawable3DLists()
@@ -917,4 +917,7 @@ public class Drawable3DLists {
 		return true;
 	}
 
+	static private boolean packBuffers(Renderer renderer) {
+		return renderer.getGeometryManager().packBuffers();
+	}
 }
