@@ -220,7 +220,7 @@ public class VideoManagerW implements VideoManager {
 	private static VideoPlayer createPlayer(GeoVideo video, int id) {
 		switch (video.getFormat()) {
 		case YOUTUBE:
-			return new YouTubeVideoPlayer(video, id);
+			return new YouTubePlayer(video, id);
 		case MP4:
 		case AUDIO_HTML5:
 		case NONE:

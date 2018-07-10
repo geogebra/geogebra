@@ -18,10 +18,10 @@ import com.google.gwt.dom.client.Style.Unit;
  * @author Laszlo Gal
  *
  */
-public class YouTubeVideoPlayer extends VideoPlayer {
+public class YouTubePlayer extends VideoPlayer {
 	private static boolean youTubeAPI;
 	private JavaScriptObject ytPlayer;
-	private static ArrayList<YouTubeVideoPlayer> waiting = new ArrayList<>();
+	private static ArrayList<YouTubePlayer> waiting = new ArrayList<>();
 
 	/**
 	 * Constructor.
@@ -31,7 +31,7 @@ public class YouTubeVideoPlayer extends VideoPlayer {
 	 * @param id
 	 *            The id of the player frame.
 	 */
-	public YouTubeVideoPlayer(GeoVideo video, int id) {
+	public YouTubePlayer(GeoVideo video, int id) {
 		super(video, id);
 		initYouTubeApi();
 		if (youTubeAPI) {
@@ -103,7 +103,7 @@ public class YouTubeVideoPlayer extends VideoPlayer {
 
 	private static void onAPIReady() {
 		youTubeAPI = true;
-		for (YouTubeVideoPlayer player : waiting) {
+		for (YouTubePlayer player : waiting) {
 			player.createPlayerDeferred();
 		}
 		waiting.clear();
@@ -119,7 +119,7 @@ public class YouTubeVideoPlayer extends VideoPlayer {
 
 	private static native void loadYouTubeApi() /*-{
 		$wnd.youtube_api_ready = function() {
-			@org.geogebra.web.html5.video.YouTubeVideoPlayer::onAPIReady()();
+			@org.geogebra.web.html5.video.YouTubePlayer::onAPIReady()();
 		}
 
 		var tag = document.createElement('script');
@@ -141,7 +141,7 @@ public class YouTubeVideoPlayer extends VideoPlayer {
 					videoId : youtubeId,
 					events : {
 						'onReady' : function(event) {
-							that.@org.geogebra.web.html5.video.YouTubeVideoPlayer::onReady()();
+							that.@org.geogebra.web.html5.video.YouTubePlayer::onReady()();
 						}
 					}
 				});
