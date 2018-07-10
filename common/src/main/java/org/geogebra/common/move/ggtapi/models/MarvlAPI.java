@@ -324,7 +324,7 @@ public class MarvlAPI implements BackendAPI {
 	 * @return title with "Copy of" prefix or numeric suffix
 	 */
 	public static String getCopyTitle(Localization localization, String title) {
-		if(title.matches(localization.getPlain("CopyOfA",".*"))){
+		if (title.matches(localization.getPlain("CopyOfA", ".*"))) {
 			int i = 2;
 			String stem = title;
 			if (title.endsWith(")")) {

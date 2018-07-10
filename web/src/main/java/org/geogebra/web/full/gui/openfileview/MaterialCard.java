@@ -8,6 +8,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -155,8 +156,10 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		removeFromParent();
 	}
 
-	@Override
-	public void onConfirmDelete() {
+	/**
+	 * Actually delete the file.
+	 */
+	protected void onConfirmDelete() {
 		controller.onConfirmDelete(this);
 	}
 
@@ -175,5 +178,12 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	@Override
 	public void copy() {
 		controller.copy();
+	}
+
+	@Override
+	public void onDelete() {
+		DialogBoxW removeDialog = new RemoveDialog(app.getPanel(), app, this);
+		removeDialog.center();
+
 	}
 }

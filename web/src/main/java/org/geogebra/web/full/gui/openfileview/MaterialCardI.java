@@ -17,11 +17,6 @@ public interface MaterialCardI {
 	void remove();
 
 	/**
-	 * Call API to delete this.
-	 */
-	void onConfirmDelete();
-
-	/**
 	 * Call API to rename material.
 	 * 
 	 * @param title
@@ -41,5 +36,10 @@ public interface MaterialCardI {
 	 * Call API to copy yhe material.
 	 */
 	void copy();
+
+	/**
+	 * Show delete dialog.
+	 */
+	void onDelete();
 
 }

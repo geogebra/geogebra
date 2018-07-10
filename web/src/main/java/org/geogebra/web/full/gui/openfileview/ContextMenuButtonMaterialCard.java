@@ -119,9 +119,8 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * execute delete action
 	 */
 	protected void onDelete() {
-		card.onConfirmDelete();
+		card.onDelete();
 		hide();
-		// TODO
 	}
 
 	@Override

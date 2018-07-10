@@ -370,7 +370,8 @@ public class MaterialListElement extends FlowPanel
 		}
 	}
 
-	void onDelete() {
+	@Override
+	public void onDelete() {
 		this.deleteButton.addStyleName("deleteActive");
 		if (this.editButton != null) {
 			this.editButton.setVisible(false);
@@ -712,8 +713,10 @@ public class MaterialListElement extends FlowPanel
 		controller.setMaterial(material);
 	}
 
-	@Override
-	public void onConfirmDelete() {
+	/**
+	 * Actually delete the file.
+	 */
+	protected void onConfirmDelete() {
 		controller.onConfirmDelete(this);
 	}
 
