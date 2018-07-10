@@ -34,12 +34,11 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.media.VideoURL;
-import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -252,11 +251,6 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public DialogManager getDialogManager() {
-		return getApp().getDialogManager();
-	}
-
-	@Override
 	public void showPopupMenu(final ArrayList<GeoElement> selectedGeos,
 			final EuclidianViewInterfaceCommon view, final GPoint mouseLoc) {
 		showPopupMenu(selectedGeos,
@@ -453,7 +447,7 @@ public class GuiManagerW extends GuiManager
 			}
 		}
 
-		((DialogManagerW) getDialogManager()).showImageInputDialog(imageLoc,
+		((DialogManagerW) app.getDialogManager()).showImageInputDialog(imageLoc,
 				this.device);
 	}
 
@@ -462,7 +456,7 @@ public class GuiManagerW extends GuiManager
 		if (getApp().getToolbar() != null) {
 			getApp().getToolbar().closeAllSubmenu();
 		}
-		((DialogManagerW) getDialogManager())
+		((DialogManagerW) app.getDialogManager())
 		.showWebcamInputDialog(this.device);
 	}
 

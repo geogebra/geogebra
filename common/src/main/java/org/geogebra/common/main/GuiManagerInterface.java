@@ -55,8 +55,6 @@ public interface GuiManagerInterface {
 
 	void updateMenubarSelection();
 
-	DialogManager getDialogManager();
-
 	void showPopupMenu(ArrayList<GeoElement> selectedGeos,
 					   EuclidianViewInterfaceCommon euclidianViewInterfaceCommon,
 					   GPoint mouseLoc);

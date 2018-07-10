@@ -20,6 +20,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.resources.StyleInjector;
+import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.user.client.Window;
 
@@ -172,6 +174,7 @@ public class DialogManagerSolver extends DialogManager {
 
 	@Override
 	public void showPrintPreview() {
+		StyleInjector.inject(SharedResources.INSTANCE.printStyle());
 		Window.print();
 	}
 

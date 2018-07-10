@@ -167,4 +167,9 @@ public class AppWsolver extends AppW implements HasKeyboard {
 	public DialogManager getDialogManager() {
 		return new DialogManagerSolver();
 	}
+
+	@Override
+	public boolean isUnbundled() {
+		return true;
+	}
 }

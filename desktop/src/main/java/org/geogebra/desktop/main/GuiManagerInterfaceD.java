@@ -5,6 +5,7 @@ import java.io.File;
 
 import javax.swing.ListCellRenderer;
 
+import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.util.FileExtensions;
 
@@ -60,4 +61,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	void setShowToolBarHelp(boolean b);
 
 	boolean saveCurrentFile();
+
+	DialogManager getDialogManager();
 }
