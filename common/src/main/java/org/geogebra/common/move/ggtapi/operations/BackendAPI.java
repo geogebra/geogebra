@@ -93,6 +93,6 @@ public interface BackendAPI {
 
 	void uploadRenameMaterial(Material material, MaterialCallbackI materialCallback);
 
-	void copy(Material material, MaterialCallbackI materialCallback);
+	void copy(Material material, String title, MaterialCallbackI materialCallback);
 
 }

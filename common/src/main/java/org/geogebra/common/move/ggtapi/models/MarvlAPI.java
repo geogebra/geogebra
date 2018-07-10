@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
@@ -279,13 +280,53 @@ public class MarvlAPI implements BackendAPI {
 	}
 
 	@Override
-	public void copy(Material material, MaterialCallbackI materialCallback) {
+	public void copy(Material material, final String title,
+			final MaterialCallbackI materialCallback) {
 		this.performRequest("POST", "/materials/" + material.getSharingKeyOrId(), null,
-				materialCallback);
+				new MaterialCallbackI() {
+
+					@Override
+					public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+						if (result.size() == 1) {
+							result.get(0).setTitle(title);
+							uploadRenameMaterial(result.get(0), materialCallback);
+						}
+					}
+
+					@Override
+					public void onError(Throwable exception) {
+						materialCallback.onError(exception);
+					}
+				});
 	}
 
 	public void setBasicAuth(String base64) {
 		this.basicAuth = base64;
+	}
+
+	/**
+	 * @param localization
+	 *            localization
+	 * @param title
+	 *            original title
+	 * @return title with "Copy of" prefix or numeric suffix
+	 */
+	public static String getCopyTitle(Localization localization, String title) {
+		if(title.matches(localization.getPlain("CopyOfA",".*"))){
+			int i = 2;
+			String stem = title;
+			if (title.endsWith(")")) {
+				String numeric = title.substring(title.lastIndexOf('(') + 1, title.length() - 1);
+				try {
+					i = Integer.parseInt(numeric) + 1;
+					stem = title.substring(0, title.lastIndexOf('(') - 1);
+				} catch (RuntimeException e) {
+					// ignore
+				}
+			}
+			return stem + " (" + i + ")";
+		}
+		return localization.getPlain("CopyOfA", title);
 	}
 
 }

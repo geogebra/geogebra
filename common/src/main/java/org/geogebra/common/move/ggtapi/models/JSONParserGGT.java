@@ -62,9 +62,14 @@ public class JSONParserGGT {
 		material.setDescription(getString(obj, "description"));
 		if (!"".equals(getString(obj, "timestamp"))) {
 			material.setTimestamp(Long.parseLong(getString(obj, "timestamp")));
+		} else if (!"".equals(getString(obj, "date_modified"))) {
+			material.setTimestamp(Long.parseLong(getString(obj, "date_modified")));
 		}
 		if (!"".equals(getString(obj, "modified"))) {
 			material.setModified(Long.parseLong(getString(obj, "modified")));
+		}
+		if (!"".equals(getString(obj, "date_created"))) {
+			material.setDateCreated(Long.parseLong(getString(obj, "date_created")));
 		}
 		if (!"".equals(getString(obj, "syncstamp"))) {
 			material.setSyncStamp(Long.parseLong(getString(obj, "syncstamp")));

@@ -1,7 +1,13 @@
 package org.geogebra.cloud;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -182,9 +188,11 @@ public class MarvlAPITest {
 		if (System.getProperty("marvl.auth.basic") == null) {
 			return;
 		}
+		allowMethods("PATCH");
 		final MarvlAPI api = authAPI();
 		final ArrayList<String> titles = new ArrayList<>();
 		final ArrayList<String> errors = new ArrayList<>();
+		final LocalizationD loc = new LocalizationD(3);
 		api.uploadMaterial(0, "S", "Test material",
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
@@ -192,7 +200,10 @@ public class MarvlAPITest {
 
 					public void onLoaded(List<Material> result,
 							ArrayList<Chapter> meta) {
-						api.copy(result.get(0), new MaterialCallbackI() {
+						api.copy(result.get(0),
+								MarvlAPI.getCopyTitle(loc,
+										result.get(0).getTitle()),
+								new MaterialCallbackI() {
 
 							public void onLoaded(List<Material> resultCopy,
 									ArrayList<Chapter> metaCopy) {
@@ -214,7 +225,45 @@ public class MarvlAPITest {
 				}, MaterialType.ggs);
 		pause(10000);
 		Assert.assertEquals("", StringUtil.join(",", errors));
-		Assert.assertEquals("Test material", StringUtil.join(",", titles));
+		Assert.assertEquals("Copy of Test material",
+				StringUtil.join(",", titles));
+	}
+
+	// Hack Java to understand PATCH method:
+	// https://stackoverflow.com/a/46323891
+	private static void allowMethods(String... methods) {
+		try {
+			Field methodsField = HttpURLConnection.class
+					.getDeclaredField("methods");
+
+			Field modifiersField = Field.class.getDeclaredField("modifiers");
+			modifiersField.setAccessible(true);
+			modifiersField.setInt(methodsField,
+					methodsField.getModifiers() & ~Modifier.FINAL);
+
+			methodsField.setAccessible(true);
+
+			String[] oldMethods = (String[]) methodsField.get(null);
+			Set<String> methodsSet = new LinkedHashSet<>(
+					Arrays.asList(oldMethods));
+			methodsSet.addAll(Arrays.asList(methods));
+			String[] newMethods = methodsSet.toArray(new String[0]);
+
+			methodsField.set(null/* static field */, newMethods);
+		} catch (NoSuchFieldException | IllegalAccessException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	@Test
+	public void copyTitles(){
+		LocalizationD loc = new LocalizationD(3);
+		Assert.assertEquals("Copy of A", MarvlAPI.getCopyTitle(loc,
+				"A"));
+		Assert.assertEquals("Copy of A (2)",
+				MarvlAPI.getCopyTitle(loc, "Copy of A"));
+		Assert.assertEquals("Copy of A (3)",
+				MarvlAPI.getCopyTitle(loc, "Copy of A (2)"));
 	}
 
 }

@@ -307,7 +307,6 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public void setActiveView(int evID) {
 		this.is3Dactive = evID == App.VIEW_EUCLIDIAN3D;
-
 	}
 
 	@Override

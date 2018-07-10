@@ -131,7 +131,10 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		this.add(infoPanel);
 	}
 
-	private Material getMaterial() {
+	/**
+	 * @return represented material
+	 */
+	Material getMaterial() {
 		return controller.getMaterial();
 	}
 

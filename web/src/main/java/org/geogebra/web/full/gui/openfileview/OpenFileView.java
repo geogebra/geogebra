@@ -174,7 +174,7 @@ public class OpenFileView extends MyHeaderPanel
 		for (int i = 0; i < map.length; i++) {
 			sortDropDown.addItem(localize(labelFor(map[i])));
 		}
-		sortDropDown.setSelectedIndex(4);
+		sortDropDown.setSelectedIndex(3);
 		sortDropDown.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -352,7 +352,31 @@ public class OpenFileView extends MyHeaderPanel
 
 	@Override
 	public void addMaterial(Material material) {
+		for (int i = 0; i < materialPanel.getWidgetCount(); i++) {
+			Widget wgt = materialPanel.getWidget(i);
+			if (wgt instanceof MaterialCard
+					&& isBefore(material, ((MaterialCard) wgt).getMaterial())) {
+				materialPanel.insert(new MaterialCard(material, app), i);
+				return;
+			}
+
+		}
 		materialPanel.add(new MaterialCard(material, app));
+	}
+
+	private boolean isBefore(Material material, Material material2) {
+		switch (order) {
+		case title:
+			return material.getTitle().compareTo(material2.getTitle()) <= 0;
+		case created:
+			return material.getDateCreated() > material2.getDateCreated();
+		case timestamp:
+			Log.error(material.getTimestamp() + ":" + material2.getTimestamp());
+			return material.getTimestamp() > material2.getTimestamp();
+		default:
+			return false;
+		}
+
 	}
 
 	@Override

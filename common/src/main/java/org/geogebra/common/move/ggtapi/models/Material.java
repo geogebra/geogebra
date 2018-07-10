@@ -122,6 +122,8 @@ public class Material implements Comparable<Material>, Serializable {
 	private int elemcntApplet;
 	private String fileName;
 
+	private long dateCreated;
+
 	/**
 	 * @param id
 	 *            material id
@@ -796,5 +798,13 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setFileName(String fn) {
 		fileName = fn;
+	}
+
+	public long getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(long dateCreated) {
+		this.dateCreated = dateCreated;
 	}
 }

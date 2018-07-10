@@ -640,13 +640,13 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	}
 
 	@Override
-	public void copy(Material material, final MaterialCallbackI copyCallback) {
+	public void copy(Material material, final String title, final MaterialCallbackI copyCallback) {
 		getItem(material.getSharingKeyOrId(), new MaterialCallbackI() {
 
 			@Override
 			public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
 				uploadMaterial(0, result.get(0).getVisibility(),
-						result.get(0).getTitle(),
+						title,
 						result.get(0).getBase64(), copyCallback, result.get(0).getType(),
 						result.get(0));
 			}

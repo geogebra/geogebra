@@ -183,7 +183,8 @@ public class TubeAPITest extends Assert {
 
 			}
 		};
-		api.copy(new Material(144, MaterialType.ggb), copyCallback);
+		api.copy(new Material(144, MaterialType.ggb), "Copy of Mobile Example",
+				copyCallback);
 		for (int i = 0; i < 20 && titles.size() == 0; i++) {
 			try {
 					Thread.sleep(1000);
