@@ -210,8 +210,8 @@ public interface Format {
 
 	/**
 	 * 
-	 * @return thickness for surfaces (e.g. polygons)
+	 * @return true if it always uses a specific view for export
 	 */
-	public double getSurfaceThickness();
+	public boolean useSpecificViewForExport();
 
 }

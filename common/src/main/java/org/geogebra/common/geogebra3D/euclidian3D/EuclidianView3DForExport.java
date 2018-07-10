@@ -5,6 +5,8 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererForExport;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
@@ -23,6 +25,10 @@ import org.geogebra.common.plugin.Geometry3DGetter;
 public class EuclidianView3DForExport extends EuclidianView3D {
 
 	final static private double DEFAULT_SCALE = 500;
+	final static private double EDGE_FOR_PRINT = 5; // 5cm
+	final static private double THICKNESS_FOR_PRINT_SURFACES = 0.2 / 2; // 2mm
+	final static private double THICKNESS_FOR_PRINT_LINES = 0.3 / 2; // 3mm
+	final static private float FACTOR_LINE_THICKNESS_TO_POINT_SIZE = 2f;
 
 	private double mXmin;
 	private double mXmax;
@@ -32,6 +38,10 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	private double mZmax;
 	private boolean boundsSet;
 	private boolean needsNewUpdate;
+	private boolean useSpecificThickness;
+	private float specificThicknessForLines;
+	private float specificSizeForPoints;
+	private float specificThicknessForSurfaces;
 
 	/**
 	 * constructor
@@ -142,7 +152,31 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 */
 	public StringBuilder export3D(Format format) {
 		settingsChanged(getSettings());
+		useSpecificThickness = false;
 		updateScene();
+		if (format.needsClosedObjects()) {
+			if (updateObjectsBounds()) {
+				useSpecificThickness = true;
+				double d = boundsMax.getX() - boundsMin.getX();
+				for (int i = 2; i <= 3; i++) {
+					double val = (boundsMax.get(i) - boundsMin.get(i))
+							* getScale(i - 1) / getXscale();
+					if (val > d) {
+						d = val;
+					}
+				}
+				specificThicknessForSurfaces = (float) ((d / EDGE_FOR_PRINT)
+						* THICKNESS_FOR_PRINT_SURFACES * getXscale());
+				specificThicknessForLines = (float) ((d / EDGE_FOR_PRINT)
+						* THICKNESS_FOR_PRINT_LINES * getXscale());
+				specificSizeForPoints = specificThicknessForLines
+						* FACTOR_LINE_THICKNESS_TO_POINT_SIZE;
+				specificThicknessForLines /= PlotterBrush.LINE3D_THICKNESS;
+				specificSizeForPoints /= DrawPoint3D.DRAW_POINT_FACTOR;
+				reset();
+				updateScene();
+			}
+		}
 		ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this,
 				renderer.getGeometryManager());
 		return exportToPrinter.export(format);
@@ -167,6 +201,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 *            geometry getter
 	 */
 	public void export3D(Geometry3DGetter getter) {
+		useSpecificThickness = false;
 		updateScene();
 		Geometry3DGetterManager m = new Geometry3DGetterManager(this, getter);
 		for (int i = 0; i < 3; i++) {
@@ -308,6 +343,27 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	@Override
 	public void readText(String text) {
 		// no need
+	}
+
+	@Override
+	public float getThicknessForLine(int thickness) {
+		if (useSpecificThickness) {
+			return thickness == 0 ? 0f : specificThicknessForLines;
+		}
+		return super.getThicknessForLine(thickness);
+	}
+
+	@Override
+	public float getThicknessForSurface() {
+		return specificThicknessForSurfaces;
+	}
+
+	@Override
+	public float getSizeForPoint(int size) {
+		if (useSpecificThickness) {
+			return size == 0 ? 0f : specificSizeForPoints;
+		}
+		return super.getSizeForPoint(size);
 	}
 
 }

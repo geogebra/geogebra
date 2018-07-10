@@ -432,7 +432,10 @@ public class ExportToPrinter3D {
 		PolygonTriangulation pt = polygon.getPolygonTriangulation();
 		if (pt.getMaxPointIndex() > 2) {
 			Coords n = polygon.getMainDirection();
-			double delta = format.getSurfaceThickness();
+			double delta = 0;
+			if (format.needsClosedObjects()) {
+				delta = view.getThicknessForSurface();
+			}
 			if (view.scaleAndNormalizeNormalXYZ(n, tmpNormal)) {
 				n = tmpNormal;
 			}

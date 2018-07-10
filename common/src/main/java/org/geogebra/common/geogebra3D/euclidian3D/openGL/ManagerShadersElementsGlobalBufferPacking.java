@@ -511,7 +511,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	}
 
 	@Override
-	public int drawPoint(DrawPoint3D d, int size, Coords center, int index) {
+	public int drawPoint(DrawPoint3D d, float size, Coords center, int index) {
 		if (d.shouldBePacked()) {
 			// get/create point geometry with template buffer
 			setCurrentBufferManager(bufferTemplates);

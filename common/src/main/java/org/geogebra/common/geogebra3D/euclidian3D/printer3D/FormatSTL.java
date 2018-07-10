@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ReusableArrayList;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -198,8 +197,8 @@ public class FormatSTL implements Format {
 	}
 
 	@Override
-	public double getSurfaceThickness() {
-		return 20 * PlotterBrush.LINE3D_THICKNESS;
+	public boolean useSpecificViewForExport() {
+		return true;
 	}
 
 }

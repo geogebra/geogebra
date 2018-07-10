@@ -171,9 +171,8 @@ public class FormatObj implements Format {
 	}
 
 	@Override
-	public double getSurfaceThickness() {
-		// not used
-		return 0;
+	public boolean useSpecificViewForExport() {
+		return false;
 	}
 
 }

@@ -658,7 +658,7 @@ abstract public class Manager {
 	 *            center
 	 * @return geometry index
 	 */
-	public int drawPoint(DrawPoint3D d, int size, Coords center, int index) {
+	public int drawPoint(DrawPoint3D d, float size, Coords center, int index) {
 
 		double radius = size * DrawPoint3D.DRAW_POINT_FACTOR;
 		scaleXYZ(center);
@@ -708,7 +708,7 @@ abstract public class Manager {
 	 *            sphere radius
 	 * @return geometry index
 	 */
-	final protected int drawSphere(int size, Coords center, double radius,
+	final protected int drawSphere(float size, Coords center, double radius,
 			int index) {
 		surface.start(index);
 		surface.drawSphere(size, center, radius);

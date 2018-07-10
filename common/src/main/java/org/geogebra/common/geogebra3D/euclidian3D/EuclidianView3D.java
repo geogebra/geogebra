@@ -283,8 +283,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	private double[] eyeY = { 0, 0 };
 	private double projectionObliqueAngle = 30;
 	private double projectionObliqueFactor = 0.5;
-	private Coords boundsMin;
-	private Coords boundsMax;
+	/** min corner for objects enclosing bounding box */
+	protected Coords boundsMin;
+	/** max corner for objects enclosing bounding box */
+	protected Coords boundsMax;
 	private double fontScale = 1;
 	private EuclidianView3DCompanion companion3D;
 
@@ -408,7 +410,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		geosToBeAdded = new TreeSet<>();
 
-		Log.debug("create gl renderer");
 		renderer = createRenderer();
 		if (renderer == null) {
 			initAxisAndPlane();
@@ -4214,6 +4215,17 @@ public abstract class EuclidianView3D extends EuclidianView
 	public final void setViewShowAllObjects(boolean storeUndo,
 			boolean keepRatio, int steps) {
 
+		if (updateObjectsBounds()) {
+			zoomRW(boundsMin, boundsMax, steps);
+		}
+	}
+
+	/**
+	 * update bounds that enclose all objects
+	 * 
+	 * @return true if bounds were computed
+	 */
+	protected boolean updateObjectsBounds() {
 		if (boundsMin == null) {
 			boundsMin = new Coords(3);
 			boundsMax = new Coords(3);
@@ -4224,15 +4236,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		drawable3DLists.enlargeBounds(boundsMin, boundsMax);
 
-		// Log.debug("\nmin=\n"+boundsMin+"\nmax=\n"+boundsMax);
-
-		// no object
-		if (Double.isInfinite(boundsMin.getX())) {
-			return;
-		}
-
-		zoomRW(boundsMin, boundsMax, steps);
-
+		return !Double.isInfinite(boundsMin.getX());
 	}
 
 	@Override
@@ -4701,6 +4705,34 @@ public abstract class EuclidianView3D extends EuclidianView
 		for (int i = 0; i < 3; i++) {
 			axisDrawable[i].exportToPrinter3D(exportToPrinter3D, false);
 		}
+	}
+
+	/**
+	 * 
+	 * @param thickness
+	 *            line thickness
+	 * @return thickness for lines (may be emphasized for STL export)
+	 */
+	public float getThicknessForLine(int thickness) {
+		return thickness;
+	}
+
+	/**
+	 * 
+	 * @return thickness for surfaces (only for 3D print export)
+	 */
+	public float getThicknessForSurface() {
+		return 0f;
+	}
+
+	/**
+	 * 
+	 * @param size
+	 *            point size
+	 * @return size for points (may be emphasized for STL export)
+	 */
+	public float getSizeForPoint(int size) {
+		return size;
 	}
 
 }

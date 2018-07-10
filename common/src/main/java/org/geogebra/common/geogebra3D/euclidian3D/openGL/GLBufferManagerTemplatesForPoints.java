@@ -154,7 +154,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 *            point size
 	 */
 	public void selectSphereAndCreateIfNeeded(ManagerShadersElementsGlobalBufferPacking manager,
-			int pointSize) {
+			float pointSize) {
 
 		int templateIndex = ManagerShadersWithTemplates
 				.getIndexForPointSize(pointSize);

@@ -25,8 +25,8 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 	 *            point size
 	 * @return template index for this size
 	 */
-	static public int getIndexForPointSize(int pointSize) {
-		return pointSize < 3 ? 0 : (pointSize > 5 ? 2 : 1);
+	static public int getIndexForPointSize(float pointSize) {
+		return pointSize < 2.5f ? 0 : (pointSize > 5.5f ? 2 : 1);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 	}
 
 	@Override
-	public int drawPoint(DrawPoint3D d, int size, Coords center, int index) {
+	public int drawPoint(DrawPoint3D d, float size, Coords center, int index) {
 		scaleXYZ(center);
 		return pointGeometry[getIndexForPointSize(size)];
 	}

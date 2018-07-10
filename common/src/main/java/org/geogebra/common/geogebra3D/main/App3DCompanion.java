@@ -289,8 +289,9 @@ public abstract class App3DCompanion extends AppCompanion {
 	
 	@Override
 	public void setExport3D(Format format) {
-		// try fist with existing 3D view
-		if (app.isEuclidianView3Dinited()) {
+		// try first with existing 3D view
+		if (!format.useSpecificViewForExport()
+				&& app.isEuclidianView3Dinited()) {
 			EuclidianView3DInterface view3D = app.getEuclidianView3D();
 			if (view3D.isShowing() && view3D.getRenderer().useShaders()) {
 				view3D.setExport3D(format);

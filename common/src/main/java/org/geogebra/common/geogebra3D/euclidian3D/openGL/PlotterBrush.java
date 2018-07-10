@@ -40,7 +40,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/** current thickness */
 	private float thickness;
-	private int lineThickness;
+	private float lineThickness;
 
 	/** view scale */
 	private float scale;
@@ -970,7 +970,7 @@ public class PlotterBrush implements PathPlotter {
 	 */
 	public float setThickness(int thickness, boolean isAxis, float scale) {
 
-		this.lineThickness = thickness;
+		this.lineThickness = manager.getView3D().getThicknessForLine(thickness);
 		this.scale = scale;
 
 		float t = lineThickness;
