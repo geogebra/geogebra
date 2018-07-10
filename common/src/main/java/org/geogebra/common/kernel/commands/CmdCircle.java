@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -38,6 +39,12 @@ public class CmdCircle extends CommandProcessor {
 			return process2(c, arg, ok);
 
 		case 3:
+			// make sure "x=0" in eg Circle((0,0,0), 1, x=0) is always
+			// interpreted as a plane not a line (otherwise it depends on which
+			// view is active)
+			if (c.getArgument(2).unwrap() instanceof Equation) {
+				((Equation) c.getArgument(2).unwrap()).setForcePlane();
+			}
 			arg = resArgs(c);
 			return process3(c, arg, ok);
 
