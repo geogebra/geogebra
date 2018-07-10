@@ -371,7 +371,6 @@ public class OpenFileView extends MyHeaderPanel
 		case created:
 			return material.getDateCreated() > material2.getDateCreated();
 		case timestamp:
-			Log.error(material.getTimestamp() + ":" + material2.getTimestamp());
 			return material.getTimestamp() > material2.getTimestamp();
 		default:
 			return false;

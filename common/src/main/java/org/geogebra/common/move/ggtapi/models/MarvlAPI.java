@@ -19,6 +19,9 @@ import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * API connector for the MARVL restful API
+ */
 public class MarvlAPI implements BackendAPI {
 	protected boolean available = true;
 	protected boolean availabilityCheckDone = false;
@@ -26,6 +29,10 @@ public class MarvlAPI implements BackendAPI {
 	private AuthenticationModel model;
 	private String basicAuth = null; // for test only
 
+	/**
+	 * @param baseURL
+	 *            URL of the API; endpoints append eg. "/materials" to it
+	 */
 	public MarvlAPI(String baseURL) {
 		this.baseURL = baseURL;
 	}
@@ -45,7 +52,6 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public String getLoginUrl() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -120,7 +126,7 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public void sync(long i, SyncCallback syncCallback) {
-		// TODO Auto-generated method stub
+		// offline materials not supported
 	}
 
 	@Override
@@ -130,33 +136,32 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public void setUserLanguage(String fontStr, String loginToken) {
-		// TODO Auto-generated method stub
+		// not supported
 	}
 
 	@Override
 	public void shareMaterial(Material material, String to, String message, MaterialCallbackI cb) {
-		// TODO Auto-generated method stub
+		// not supported
 	}
 
 	@Override
 	public void favorite(int id, boolean favorite) {
-		// TODO Auto-generated method stub
+		// not supported
 	}
 
 	@Override
 	public String getUrl() {
-		// TODO Auto-generated method stub
-		return "";
+		return this.baseURL;
 	}
 
 	@Override
 	public void logout(String token) {
-		// TODO not possible right now
+		// TODO MOW-524
 	}
 
 	@Override
 	public void uploadLocalMaterial(Material mat, MaterialCallbackI cb) {
-		// TODO Auto-generated method stub
+		// offline materials not supported
 	}
 
 	@Override
@@ -194,7 +199,7 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public void getFeaturedMaterials(MaterialCallbackI userMaterialsCB) {
-		// TODO Auto-generated method stub
+		// no public material
 	}
 
 	@Override
@@ -257,10 +262,11 @@ public class MarvlAPI implements BackendAPI {
 			MaterialCallbackI materialCallback, MaterialType type) {
 		JSONObject request = new JSONObject();
 		try {
-			request.put("visibility", "S"); // TODO
+			request.put("visibility", "S"); // per docs "S" is the only
+											// supported visibility
 			request.put("title", text);
 			request.put("file", base64);
-			request.put("type", type.name()); // TODO
+			request.put("type", type.name());
 		} catch (JSONException e) {
 			materialCallback.onError(e);
 		}
@@ -300,6 +306,12 @@ public class MarvlAPI implements BackendAPI {
 				});
 	}
 
+	/**
+	 * Set authentication for HTTP basic auth (used in tests).
+	 * 
+	 * @param base64
+	 *            base64 encoded basic auth header
+	 */
 	public void setBasicAuth(String base64) {
 		this.basicAuth = base64;
 	}
