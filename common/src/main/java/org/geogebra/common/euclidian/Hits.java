@@ -106,10 +106,8 @@ public class Hits extends ArrayList<GeoElement> {
 	/** adding specifics GeoElements */
 	@Override
 	public boolean add(GeoElement geo) {
-		if (countGeo(geo)) {
-			return super.add(geo);
-		}
-		return false;
+		// geo is not added if countGeo() returns false
+		return countGeo(geo) && super.add(geo);
 	}
 
 	private boolean countGeo(GeoElement geo) {
