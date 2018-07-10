@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.probcalculator;
 
 import java.util.HashMap;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
@@ -408,6 +409,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    fldHigh.getTextBox().setTabIndex(maxParameterCount + 1);
 
 	    fldResult = new AutoCompleteTextFieldW(app);
+		fldResult.setForeground(GColor.BLACK);
 	    fldResult.setColumns(6);
 	    fldResult.addKeyUpHandler(this);
 		fldResult.enableGGBKeyboard();
@@ -545,15 +547,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		// make result field editable for inverse probability calculation
 		if (probMode != PROB_INTERVAL) {
-			//fldResult.setBackground(fldLow.getBackground());
-			//fldResult.setBorder(fldLow.getBorder());
+			fldResult.setBackground(GColor.WHITE);
 			fldResult.setEditable(true);
 			fldResult.setFocusable(true);
 
 		} else {
 
-			//fldResult.setBackground(wrapperPanel.getBackground());
-			//fldResult.setBorder(BorderFactory.createEmptyBorder());
+			fldResult.setBackground(GColor.newColor(240, 240, 240));
 			fldResult.setEditable(false);
 			fldResult.setFocusable(false);
 
