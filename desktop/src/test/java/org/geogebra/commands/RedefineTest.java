@@ -248,15 +248,14 @@ public class RedefineTest extends Assert {
 				"X = (0, 0, 0) + (0, - cos(t), sin(t))",
 				StringTemplate.editTemplate);
 		app.setActiveView(App.VIEW_EUCLIDIAN);
-		t("d=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (cos(t), 0, - sin(t))",
+		t("d=Circle((0,0,0),1,x=0)", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
 				StringTemplate.editTemplate);
 
 		app.setXML(app.getXML(), true);
-		t("d", "X = (0, 0, 0) + (cos(t), 0, - sin(t))",
+		t("d", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
 				StringTemplate.editTemplate);
-		// TODO this fails
-		// t("c", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
-		// StringTemplate.editTemplate);
+		t("c", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
+				StringTemplate.editTemplate);
 	}
 
 }

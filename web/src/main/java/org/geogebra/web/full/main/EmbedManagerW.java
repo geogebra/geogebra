@@ -99,7 +99,6 @@ public class EmbedManagerW implements EmbedManager {
 						- parameters.getBorderThickness());
 		fr.runAsyncAfterSplash();
 
-
 		FlowPanel scaler = new FlowPanel();
 		scaler.add(fr);
 		parameters.setParentElement(scaler.getElement());
