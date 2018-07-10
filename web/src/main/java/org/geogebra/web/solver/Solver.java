@@ -87,6 +87,7 @@ public class Solver implements EntryPoint, MathFieldListener {
 		StyleInjector.inject(SharedResources.INSTANCE.solverStyleScss());
 		StyleInjector.inject(SharedResources.INSTANCE.sharedStyleScss());
 		StyleInjector.inject(SharedResources.INSTANCE.stepTreeStyleScss());
+		StyleInjector.inject(SharedResources.INSTANCE.dialogStylesScss());
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 		JavaScriptInjector.inject(KeyboardResources.INSTANCE.wavesScript());
 		StyleInjector.inject(KeyboardResources.INSTANCE.wavesStyle());

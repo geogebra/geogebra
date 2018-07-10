@@ -5,11 +5,8 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
-import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -26,15 +23,14 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Audio / video dialog.
  * 
  * @author Zbynek
  */
-public abstract class MediaDialog extends DialogBoxW
-		implements FastClickHandler, ErrorHandler {
+public abstract class MediaDialog extends OptionDialog
+		implements ErrorHandler {
 	/** http prefix */
 	private static final String HTTP = "http://";
 	/** https prefix */
@@ -44,14 +40,11 @@ public abstract class MediaDialog extends DialogBoxW
 	 */
 	protected AppW appW;
 	private FlowPanel mainPanel;
-	private FlowPanel buttonPanel;
 	private FormLabel inputLabel;
 	private Label errorLabel;
 	/** input */
 	protected InputPanelW inputField;
 	private FlowPanel inputPanel;
-	private StandardButton insertBtn;
-	private StandardButton cancelBtn;
 
 	/**
 	 * @param root
@@ -82,26 +75,17 @@ public abstract class MediaDialog extends DialogBoxW
 		errorLabel = new Label();
 		errorLabel.addStyleName("errorLabel");
 		inputPanel.add(errorLabel);
-		// panel for buttons
-		insertBtn = new StandardButton("", appW);
-		insertBtn.addStyleName("insertBtn");
-		insertBtn.setEnabled(false);
-		cancelBtn = new StandardButton("", app);
-		cancelBtn.addStyleName("cancelBtn");
-		buttonPanel = new FlowPanel();
-		buttonPanel.setStyleName("DialogButtonPanel");
-		buttonPanel.add(cancelBtn);
-		buttonPanel.add(insertBtn);
 		// add panels
 		add(mainPanel);
 		mainPanel.add(inputPanel);
-		mainPanel.add(buttonPanel);
+		mainPanel.add(getButtonPanel());
 		// style
 		addStyleName("GeoGebraPopup");
 		addStyleName("mediaDialog");
 		setGlassEnabled(true);
 		setLabels();
 	}
+
 
 	private void initActions() {
 		inputField.getTextComponent().getTextBox()
@@ -135,8 +119,6 @@ public abstract class MediaDialog extends DialogBoxW
 					}
 				});
 		addHoverHandlers();
-		insertBtn.addFastClickHandler(this);
-		cancelBtn.addFastClickHandler(this);
 	}
 
 	/**
@@ -168,15 +150,6 @@ public abstract class MediaDialog extends DialogBoxW
 				});
 	}
 
-	@Override
-	public void onClick(Widget source) {
-		if (source == cancelBtn) {
-			hide();
-		} else if (source == insertBtn) {
-			processInput();
-		}
-	}
-
 	/**
 	 * set button labels
 	 */
@@ -184,8 +157,7 @@ public abstract class MediaDialog extends DialogBoxW
 		inputLabel.setText(appW.getLocalization().getMenu("Link"));
 		errorLabel.setText(appW.getLocalization().getMenu("Error") + ": "
 				+ appW.getLocalization().getError("InvalidInput"));
-		insertBtn.setText(appW.getLocalization().getMenu("Insert")); // insert
-		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
+		updateButtonLabels("Insert");
 	}
 
 	/**
@@ -227,15 +199,16 @@ public abstract class MediaDialog extends DialogBoxW
 	public void showError(String msg) {
 		inputPanel.setStyleName("mowMediaDialogContent");
 		inputPanel.addStyleName("errorState");
-		insertBtn.setEnabled(false);
+		enablePrimaryButton(false);
 	}
+
 
 	@Override
 	public void resetError() {
 		getInputPanel().setStyleName("mowMediaDialogContent");
 		getInputPanel().addStyleName("emptyState");
 		inputPanel.removeStyleName("errorState");
-		insertBtn.setEnabled(!"".equals(inputField.getText()));
+		enablePrimaryButton(!"".equals(inputField.getText()));
 	}
 
 	/**

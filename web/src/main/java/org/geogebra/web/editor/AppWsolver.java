@@ -3,6 +3,7 @@ package org.geogebra.web.editor;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -160,5 +161,10 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
 	public void setMathField(MathFieldW mathField) {
 		this.mathField = mathField;
+	}
+
+	@Override
+	public DialogManager getDialogManager() {
+		return new DialogManagerSolver();
 	}
 }

@@ -101,7 +101,7 @@ public class ShareDialog extends DialogBoxW implements FastClickHandler {
 			app.getDialogManager().showPrintPreview();
 			hide();
 		} else if (source == exportImgBtn) {
-			app.getGuiManager().getDialogManager().showExportImageDialog(null);
+			app.getDialogManager().showExportImageDialog(null);
 			hide();
 		}
 	}

@@ -419,7 +419,7 @@ public class GOptionPaneW extends GDialogBox
 	 * (Note that returnValue is meaningless here.)
 	 */
 	public void showOptionDialog(App app, String message, String title,
-			int enterOption, int messageType, Object icon, String[] optionNames,
+			int enterOption, int messageType, Image icon, String[] optionNames,
 			AsyncOperation<String[]> handler) {
 
 		this.mApp = app;
@@ -428,7 +428,7 @@ public class GOptionPaneW extends GDialogBox
 		this.optionType = GOptionPane.CUSTOM_OPTION;
 		this.enterOption = enterOption;
 		this.messageType = messageType;
-		this.mIcon = (Image) icon;
+		this.mIcon = icon;
 		this.scrollPanel = null;
 
 		this.optionNames = optionNames;
