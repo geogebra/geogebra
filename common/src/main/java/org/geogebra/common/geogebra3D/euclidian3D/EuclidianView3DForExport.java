@@ -25,10 +25,10 @@ import org.geogebra.common.plugin.Geometry3DGetter;
 public class EuclidianView3DForExport extends EuclidianView3D {
 
 	final static private double DEFAULT_SCALE = 500;
-	final static private double EDGE_FOR_PRINT = 5; // 5cm
-	final static private double THICKNESS_FOR_PRINT_SURFACES = 0.2 / 2; // 2mm
-	final static private double THICKNESS_FOR_PRINT_LINES = 0.3 / 2; // 3mm
-	final static private float FACTOR_LINE_THICKNESS_TO_POINT_SIZE = 2f;
+	final static private double EDGE_FOR_PRINT = 2.5; // 2.5cm
+	final static private double THICKNESS_FOR_PRINT_SURFACES = 0.05 / 2; // 0.5mm
+	final static private double THICKNESS_FOR_PRINT_LINES = 0.075 / 2; // 0.75mm
+	final static private float FACTOR_LINE_THICKNESS_TO_POINT_SIZE = 2f; // 1.5mm
 
 	private double mXmin;
 	private double mXmax;
