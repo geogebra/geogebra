@@ -8,6 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DForExport
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3DForExport;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererForExport;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatObj;
@@ -330,7 +331,9 @@ public abstract class App3DCompanion extends AppCompanion {
 			EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
 					new EuclidianController3DForExport(app), settings);
 			if (width > 0) {
-				exportView3D.getRenderer().setView(0, 0, width, height);
+				RendererForExport renderer = (RendererForExport) exportView3D.getRenderer();
+				renderer.setReduceForClipping(!use2d);
+				renderer.setView(0, 0, width, height);
 			}
 			StringBuilder export = exportView3D.export3D(format);
 			app.getKernel().detach(exportView3D);

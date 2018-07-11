@@ -10,6 +10,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
  */
 public class RendererForExport extends RendererWithImpl {
 
+	private boolean reduceForClipping;
+
 	/**
 	 * constructor
 	 * 
@@ -18,6 +20,7 @@ public class RendererForExport extends RendererWithImpl {
 	 */
 	public RendererForExport(EuclidianView3D view) {
 		super(view, RendererType.SHADER);
+		reduceForClipping = true;
 		setView(0, 0, 1600, 900); // set default values for "window" size
 	}
 
@@ -144,7 +147,17 @@ public class RendererForExport extends RendererWithImpl {
 
 	@Override
 	public boolean reduceForClipping() {
-		return false;
+		return reduceForClipping;
+	}
+
+	/**
+	 * set if we want to reduce bounds for clipping
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	public void setReduceForClipping(boolean flag) {
+		reduceForClipping = flag;
 	}
 
 }
