@@ -8,7 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
- * OpenSCAD format
+ * Collada format
  */
 public class FormatCollada implements Format {
 	

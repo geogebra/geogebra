@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
- * OpenSCAD format
+ * STL format
  */
 public class FormatSTL implements Format {
 

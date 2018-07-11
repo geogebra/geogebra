@@ -4,7 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
- * OpenSCAD format
+ * OpenJSCAD format
  */
 public class FormatJscad implements Format {
 
