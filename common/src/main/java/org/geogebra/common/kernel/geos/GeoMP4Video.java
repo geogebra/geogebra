@@ -33,6 +33,16 @@ public class GeoMP4Video extends GeoVideo {
 	}
 
 	@Override
+	protected void constructIds() {
+		// TODO: implement if needed
+	}
+
+	@Override
+	protected void createPreview() {
+		// TODO: implement this
+	}
+
+	@Override
 	public MediaFormat getFormat() {
 		return MediaFormat.MP4;
 	}
