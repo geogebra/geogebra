@@ -4754,4 +4754,28 @@ public abstract class EuclidianView3D extends EuclidianView
 		return size;
 	}
 
+	/**
+	 * 
+	 * @return factor for axes ticks thickness
+	 */
+	public float getTicksThicknessFactor() {
+		return 4f;
+	}
+
+	/**
+	 * 
+	 * @return factor for axes minor ticks thickness
+	 */
+	public float getTicksMinorThicknessFactor() {
+		return 2.5f;
+	}
+
+	/**
+	 * 
+	 * @return factor for axes ticks delta
+	 */
+	public float getTicksDeltaFactor() {
+		return 1f;
+	}
+
 }

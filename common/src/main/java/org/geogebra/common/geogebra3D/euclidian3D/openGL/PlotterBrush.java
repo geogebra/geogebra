@@ -419,8 +419,10 @@ public class PlotterBrush implements PathPlotter {
 					float i = ticksOffset
 							- ((int) (ticksOffset / ticksDistanceNormed))
 									* ticksDistanceNormed;
-					float ticksDelta = thicknessOld * lengthInScene / length;
-					float ticksThickness = 4 * thicknessOld;
+					float ticksDelta = manager.getView3D().getTicksDeltaFactor()
+							* thicknessOld * lengthInScene / length;
+					float ticksThickness = manager.getView3D()
+							.getTicksThicknessFactor() * thicknessOld;
 					if (i * lengthInScene <= ticksDelta) {
 						i += ticksDistanceNormed;
 					}
@@ -448,9 +450,12 @@ public class PlotterBrush implements PathPlotter {
 					if (i < 0) {
 						i += ticksDistanceNormed;
 					}
-					ticksDelta = thicknessOld * lengthInScene / length;
-					ticksThickness = 4 * thicknessOld;
-					float ticksMinorThickness = 2.5f * thicknessOld;
+					ticksDelta = manager.getView3D().getTicksDeltaFactor()
+							* thicknessOld * lengthInScene / length;
+					ticksThickness = manager.getView3D()
+							.getTicksThicknessFactor() * thicknessOld;
+					float ticksMinorThickness = manager.getView3D()
+							.getTicksMinorThicknessFactor() * thicknessOld;
 					boolean minor = false;
 					if (i > ticksDistanceNormed / 2
 							+ ticksDelta / lengthInScene) {

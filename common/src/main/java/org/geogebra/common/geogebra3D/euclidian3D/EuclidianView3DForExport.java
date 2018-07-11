@@ -372,4 +372,19 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		return super.getSizeForPoint(size);
 	}
 
+	@Override
+	public float getTicksThicknessFactor() {
+		return 1.5f;
+	}
+
+	@Override
+	public float getTicksMinorThicknessFactor() {
+		return 1.25f;
+	}
+
+	@Override
+	public float getTicksDeltaFactor() {
+		return 0.25f;
+	}
+
 }
