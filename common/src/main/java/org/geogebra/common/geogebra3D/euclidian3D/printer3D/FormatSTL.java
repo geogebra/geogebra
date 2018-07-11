@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3DForExport;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ReusableArrayList;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -9,6 +10,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * STL format
  */
 public class FormatSTL implements Format {
+
+	static private double VERTEX_SCALE = EuclidianView3DForExport.EDGE_FOR_PRINT;
 
 	private ReusableArrayList<Double> verticesList = new ReusableArrayList<>();
 	private ReusableArrayList<Double> normalsList = new ReusableArrayList<>();
@@ -55,9 +58,9 @@ public class FormatSTL implements Format {
 
 	@Override
 	public void getVertices(StringBuilder sb, double x, double y, double z) {
-		verticesList.addValue(x);
-		verticesList.addValue(y);
-		verticesList.addValue(z);
+		verticesList.addValue(x * VERTEX_SCALE);
+		verticesList.addValue(y * VERTEX_SCALE);
+		verticesList.addValue(z * VERTEX_SCALE);
 	}
 
 	@Override
