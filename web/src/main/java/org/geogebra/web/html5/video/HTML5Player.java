@@ -4,8 +4,6 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -16,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class HTML5Player extends VideoPlayer {
-	private Element videoElem;
+	private VideoWidget v;
 	private FlowPanel main;
 	private boolean updateContent = true;
 
@@ -30,24 +28,35 @@ public class HTML5Player extends VideoPlayer {
 	 */
 	public HTML5Player(GeoVideo video, int id) {
 		super(video, "about:blank", id);
-		createVideoElement();
+		createGUI();
+	}
+
+	private void createGUI() {
+		main = new FlowPanel();
+		v = new VideoWidget(video.getSrc());
+		main.add(v);
 	}
 
 	@Override
 	public void update() {
+		super.update();
 		if (isUpdateContent()) {
 			setContentDeferred(main);
 		}
-		super.update();
+		setWidth(getVideo().getWidth());
+		setHeight(getVideo().getHeight());
+		v.setControls(video.isBackground() ? true : video.isReady());
+
 	}
 
-	private void createVideoElement() {
-		videoElem = DOM.createElement("video");
-		videoElem.setAttribute("src", video.getSrc());
-		videoElem.setAttribute("controls", "");
-		videoElem.setAttribute("autoplay", "");
-		main = new FlowPanel();
-		main.getElement().appendChild(videoElem);
+	private void setHeight(int h) {
+		setHeight(h + "px");
+		v.setHeight(h);
+	}
+
+	private void setWidth(int w) {
+		setWidth(w + "px");
+		v.setWidth(w);
 	}
 
 	/**
@@ -76,28 +85,42 @@ public class HTML5Player extends VideoPlayer {
 			}
 		});
 	}
+
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		return isFrameValid();
 	}
 
 	@Override
 	public void play() {
-		// TODO Auto-generated method stub
-
+		video.play();
+		if (video.isPlaying()) {
+			v.play();
+		}
+		update();
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
+		video.pause();
+		v.pause();
+		update();
 	}
 
+	/**
+	 *
+	 * @return if frame content needs to be updated.
+	 */
 	public boolean isUpdateContent() {
 		return updateContent;
 	}
 
+	/**
+	 * Set it to true if frame content needs to be updated.
+	 *
+	 * @param updateContent
+	 *            to set.
+	 */
 	public void setUpdateContent(boolean updateContent) {
 		this.updateContent = updateContent;
 	}
