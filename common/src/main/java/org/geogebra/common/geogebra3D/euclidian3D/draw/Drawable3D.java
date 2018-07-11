@@ -1869,7 +1869,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param coords
 	 *            (x,y,z) object coords
 	 */
-	static protected void enlargeBounds(Coords min, Coords max, Coords coords) {
+	static public void enlargeBounds(Coords min, Coords max, Coords coords) {
 		for (int i = 0; i < 3; i++) {
 			if (min.val[i] > coords.val[i]) {
 				min.val[i] = coords.val[i];

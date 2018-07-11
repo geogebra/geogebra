@@ -75,6 +75,7 @@ public class PlotterBrushSection {
 
 	private void setCenter(Coords point) {
 		center.set(point);
+		manager.enlargeBounds(point);
 		manager.scaleXYZ(center);
 	}
 

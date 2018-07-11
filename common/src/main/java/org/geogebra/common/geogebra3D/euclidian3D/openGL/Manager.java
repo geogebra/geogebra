@@ -49,6 +49,8 @@ abstract public class Manager {
 	 */
 	protected ScalerXYZ scalerXYZ;
 
+	private Coords boundsMin, boundsMax;
+
 	/**
 	 * create a manager for geometries
 	 * 
@@ -953,6 +955,39 @@ abstract public class Manager {
 	 */
 	public void update(boolean reset) {
 		// not needed here
+	}
+
+	/**
+	 * set bounds recorders
+	 * 
+	 * @param min
+	 *            min
+	 * @param max
+	 *            max
+	 */
+	public void setBoundsRecorders(Coords min, Coords max) {
+		boundsMin = min;
+		boundsMax = max;
+	}
+
+	/**
+	 * set this to have no bounds recorders
+	 */
+	public void setNoBoundsRecorders() {
+		boundsMin = null;
+		boundsMax = null;
+	}
+
+	/**
+	 * enlarge bounds to contain this point
+	 * 
+	 * @param point
+	 *            point
+	 */
+	public void enlargeBounds(Coords point) {
+		if (boundsMin != null) {
+			Drawable3D.enlargeBounds(boundsMin, boundsMax, point);
+		}
 	}
 
 }

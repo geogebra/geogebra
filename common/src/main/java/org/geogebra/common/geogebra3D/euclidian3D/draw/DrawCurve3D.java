@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
@@ -27,6 +28,9 @@ public class DrawCurve3D extends Drawable3DCurves {
 	private GeoPoint3D hittingPoint;
 	private Coords project;
 	private double[] lineCoords;
+
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
 
 	/**
 	 * @param a_view3d
@@ -55,12 +59,17 @@ public class DrawCurve3D extends Drawable3DCurves {
 		Renderer renderer = view.getRenderer();
 
 		setPackCurve(true);
-		PlotterBrush brush = renderer.getGeometryManager().getBrush();
+		Manager manager = renderer.getGeometryManager();
+		PlotterBrush brush = manager.getBrush();
 		brush.start(getReusableGeometryIndex());
 		brush.setThickness(getGeoElement().getLineThickness(),
 				(float) view.getScale());
 		brush.setAffineTexture(0f, 0f);
 		brush.setLength(1f);
+
+		boundsMin.setPositiveInfinity();
+		boundsMax.setNegativeInfinity();
+		manager.setBoundsRecorders(boundsMin, boundsMax);
 
 		double min, max;
 		if (curve instanceof GeoFunction) {
@@ -91,6 +100,8 @@ public class DrawCurve3D extends Drawable3DCurves {
 
 		setGeometryIndex(brush.end());
 		endPacking();
+
+		manager.setNoBoundsRecorders();
 
 		return true;
 
@@ -187,6 +198,13 @@ public class DrawCurve3D extends Drawable3DCurves {
 	@Override
 	protected void setGeometriesVisibility(boolean visible) {
 		setGeometriesVisibilityNoSurface(visible);
+	}
+
+	@Override
+	public void enlargeBounds(Coords min, Coords max) {
+		if (!Double.isNaN(boundsMin.getX())) {
+			enlargeBounds(min, max, boundsMin, boundsMax);
+		}
 	}
 
 }
