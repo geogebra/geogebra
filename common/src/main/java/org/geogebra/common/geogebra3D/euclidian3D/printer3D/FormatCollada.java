@@ -418,4 +418,9 @@ public class FormatCollada implements Format {
 		return false;
 	}
 
+	@Override
+	public void setScale(double scale) {
+		// not used so far
+	}
+
 }

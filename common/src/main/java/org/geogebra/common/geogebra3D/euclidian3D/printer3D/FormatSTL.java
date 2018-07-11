@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3DForExport;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ReusableArrayList;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -11,14 +10,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class FormatSTL implements Format {
 
-	static private double VERTEX_SCALE = EuclidianView3DForExport.EDGE_FOR_PRINT;
-
 	private ReusableArrayList<Double> verticesList = new ReusableArrayList<>();
 	private ReusableArrayList<Double> normalsList = new ReusableArrayList<>();
 
 	private Coords tmpCoords1 = new Coords(3);
 	private Coords tmpCoords2 = new Coords(3);
 	private Coords tmpCoords3 = new Coords(3);
+
+	private double scale;
 
 	@Override
 	public String getExtension() {
@@ -58,9 +57,9 @@ public class FormatSTL implements Format {
 
 	@Override
 	public void getVertices(StringBuilder sb, double x, double y, double z) {
-		verticesList.addValue(x * VERTEX_SCALE);
-		verticesList.addValue(y * VERTEX_SCALE);
-		verticesList.addValue(z * VERTEX_SCALE);
+		verticesList.addValue(x * scale);
+		verticesList.addValue(y * scale);
+		verticesList.addValue(z * scale);
 	}
 
 	@Override
@@ -204,4 +203,8 @@ public class FormatSTL implements Format {
 		return true;
 	}
 
+	@Override
+	public void setScale(double scale) {
+		this.scale = scale;
+	}
 }

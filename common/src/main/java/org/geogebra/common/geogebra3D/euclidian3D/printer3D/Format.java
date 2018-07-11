@@ -214,4 +214,12 @@ public interface Format {
 	 */
 	public boolean useSpecificViewForExport();
 
+	/**
+	 * set scale for vertices
+	 * 
+	 * @param scale
+	 *            scale
+	 */
+	public void setScale(double scale);
+
 }

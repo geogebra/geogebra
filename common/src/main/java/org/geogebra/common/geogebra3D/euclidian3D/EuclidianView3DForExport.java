@@ -176,8 +176,11 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 						* FACTOR_LINE_THICKNESS_TO_POINT_SIZE;
 				specificThicknessForLines /= PlotterBrush.LINE3D_THICKNESS;
 				specificSizeForPoints /= DrawPoint3D.DRAW_POINT_FACTOR;
+				format.setScale(EDGE_FOR_PRINT / d);
 				reset();
 				updateScene();
+			} else {
+				format.setScale(10); // default value: 1unit = 10mm
 			}
 		}
 		ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this,
