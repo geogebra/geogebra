@@ -240,14 +240,10 @@ public class MarvlAPI implements BackendAPI {
 			@Override
 			public void onSuccess(String responseStr) {
 				try {
-					Log.error(method + ":" + responseStr);
 					userMaterialsCB.onLoaded(parseMaterials(responseStr), null);
-
-					// GeoGebraTubeAPID.this.available = false;
 				} catch (Exception e) {
 					userMaterialsCB.onError(e);
 				}
-
 			}
 
 			@Override

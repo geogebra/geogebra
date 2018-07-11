@@ -732,12 +732,14 @@ public class MainMenu extends FlowPanel
 		if (!app.enableFileFeatures()) {
 			return;
 		}
-		removeUserSignIn();
+
 		if (event instanceof LoginEvent
 				&& ((LoginEvent) event).isSuccessful()) {
+			removeUserSignIn();
 			addUserMenu();
 			this.userMenu.setVisible(false);
 		} else if (event instanceof LogOutEvent) {
+			removeUserSignIn();
 			addSignInMenu();
 			this.signInMenu.setVisible(false);
 		}
