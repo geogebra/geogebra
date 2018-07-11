@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -63,6 +64,7 @@ public class MaterialRenameDialog extends OptionDialog {
 		addStyleName("GeoGebraPopup");
 		setGlassEnabled(true);
 		setLabels();
+		inputField.getTextComponent().setText(card.getMaterialTitle());
 		inputField.getTextComponent().addKeyUpHandler(new KeyUpHandler() {
 
 			@Override
@@ -80,11 +82,11 @@ public class MaterialRenameDialog extends OptionDialog {
 	 *            enter pressed
 	 */
 	protected void validate(boolean enter) {
-		if (inputField.getText().length() < Material.MIN_TITLE_LENGTH) {
-			// TODO show hint
-			enablePrimaryButton(false);
+		if (StringUtil.emptyTrim(inputField.getText())
+				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH) {
+			setPrimaryButtonEnabled(false);
 		} else {
-			enablePrimaryButton(true);
+			setPrimaryButtonEnabled(true);
 			if (enter) {
 				processInput();
 			}
@@ -93,7 +95,7 @@ public class MaterialRenameDialog extends OptionDialog {
 
 	@Override
 	protected void processInput() {
-		card.rename(inputField.getText());
+		card.rename(inputField.getText().trim());
 		hide();
 	}
 

@@ -24,7 +24,7 @@ public class Material implements Comparable<Material>, Serializable {
 		ggb, ggt, ggs, link, book, ws, csv, flexiblews;
 	}
 
-	public static final int MIN_TITLE_LENGTH = 5;
+	public static final int MAX_TITLE_LENGTH = 255;
 
 	private int id;
 	private String title;

@@ -42,4 +42,9 @@ public interface MaterialCardI {
 	 */
 	void onDelete();
 
+	/**
+	 * @return title of the material
+	 */
+	String getMaterialTitle();
+
 }

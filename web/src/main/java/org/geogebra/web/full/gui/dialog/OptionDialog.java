@@ -9,6 +9,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Dialog with options to cancel and do an action.
+ */
 public abstract class OptionDialog extends DialogBoxW
 		implements FastClickHandler {
 	private StandardButton insertBtn;
@@ -50,17 +53,31 @@ public abstract class OptionDialog extends DialogBoxW
 		}
 	}
 
+	/**
+	 * Handle the input after enter was pressed / primary button clicked.
+	 */
 	protected abstract void processInput();
 
+	/**
+	 * @param key
+	 *            primary button name key
+	 */
 	protected void updateButtonLabels(String key) {
 		insertBtn.setText(app.getLocalization().getMenu(key)); // insert
 		cancelBtn.setText(app.getLocalization().getMenu("Cancel")); // cancel
 	}
 
-	protected void enablePrimaryButton(boolean b) {
-		insertBtn.setEnabled(b);
+	/**
+	 * @param enable
+	 *            whether to enable the primary button ("OK" / "Insert")
+	 */
+	protected void setPrimaryButtonEnabled(boolean enable) {
+		insertBtn.setEnabled(enable);
 	}
 
+	/**
+	 * @return panel with button
+	 */
 	protected Panel getButtonPanel() {
 		return buttonPanel;
 	}

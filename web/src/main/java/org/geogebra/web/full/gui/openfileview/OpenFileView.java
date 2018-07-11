@@ -359,7 +359,6 @@ public class OpenFileView extends MyHeaderPanel
 				materialPanel.insert(new MaterialCard(material, app), i);
 				return;
 			}
-
 		}
 		materialPanel.add(new MaterialCard(material, app));
 	}

@@ -730,4 +730,9 @@ public class MaterialListElement extends FlowPanel
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public String getMaterialTitle() {
+		return getMaterial().getTitle();
+	}
 }

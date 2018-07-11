@@ -86,7 +86,6 @@ public abstract class MediaDialog extends OptionDialog
 		setLabels();
 	}
 
-
 	private void initActions() {
 		inputField.getTextComponent().getTextBox()
 				.addFocusHandler(new FocusHandler() {
@@ -199,16 +198,15 @@ public abstract class MediaDialog extends OptionDialog
 	public void showError(String msg) {
 		inputPanel.setStyleName("mowMediaDialogContent");
 		inputPanel.addStyleName("errorState");
-		enablePrimaryButton(false);
+		setPrimaryButtonEnabled(false);
 	}
-
 
 	@Override
 	public void resetError() {
 		getInputPanel().setStyleName("mowMediaDialogContent");
 		getInputPanel().addStyleName("emptyState");
 		inputPanel.removeStyleName("errorState");
-		enablePrimaryButton(!"".equals(inputField.getText()));
+		setPrimaryButtonEnabled(!"".equals(inputField.getText()));
 	}
 
 	/**
@@ -242,11 +240,6 @@ public abstract class MediaDialog extends OptionDialog
 			that.@org.geogebra.web.full.gui.dialog.MediaDialog::onInput()();
 		});
 	}-*/;
-
-	/**
-	 * Handles the URL user has typed.
-	 */
-	protected abstract void processInput();
 
 	@Override
 	public final void showCommandError(String command, String message) {

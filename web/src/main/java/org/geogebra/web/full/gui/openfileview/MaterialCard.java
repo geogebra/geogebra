@@ -184,6 +184,10 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	public void onDelete() {
 		DialogBoxW removeDialog = new RemoveDialog(app.getPanel(), app, this);
 		removeDialog.center();
+	}
 
+	@Override
+	public String getMaterialTitle() {
+		return getMaterial().getTitle();
 	}
 }

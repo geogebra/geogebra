@@ -81,11 +81,13 @@ public class MarvlAPITest {
 						"src/test/resources/slides.ggs"), false),
 				new MaterialCallbackI() {
 
+					@Override
 					public void onLoaded(List<Material> result,
 							ArrayList<Chapter> meta) {
 						titles.add(result.get(0).getTitle());
 					}
 
+					@Override
 					public void onError(Throwable exception) {
 						errors.add("Upload: " + exception.getMessage());
 
@@ -114,6 +116,7 @@ public class MarvlAPITest {
 
 		api.getUsersOwnMaterials(new MaterialCallbackI() {
 
+			@Override
 			public void onLoaded(List<Material> result,
 					ArrayList<Chapter> meta) {
 				for (int i = 0; i < result.size(); i++) {
@@ -129,6 +132,7 @@ public class MarvlAPITest {
 				}
 			}
 
+			@Override
 			public void onError(Throwable exception) {
 				errors.add(exception.getMessage());
 			}
@@ -141,17 +145,20 @@ public class MarvlAPITest {
 	private static void deleteAll(final MarvlAPI api) {
 		api.getUsersOwnMaterials(new MaterialCallbackI() {
 
+			@Override
 			public void onLoaded(List<Material> result,
 					ArrayList<Chapter> meta) {
 				for (int i = 0; i < result.size(); i++) {
 					api.deleteMaterial(result.get(i), new MaterialCallbackI() {
 
+						@Override
 						public void onLoaded(List<Material> result,
 								ArrayList<Chapter> meta) {
 							// TODO Auto-generated method stub
 
 						}
 
+						@Override
 						public void onError(Throwable exception) {
 							// TODO Auto-generated method stub
 
@@ -160,6 +167,7 @@ public class MarvlAPITest {
 				}
 			}
 
+			@Override
 			public void onError(Throwable exception) {
 				//
 			}
@@ -180,7 +188,6 @@ public class MarvlAPITest {
 		auth.onEvent(new LoginEvent(user, true, true, "{}"));
 		client.setModel(auth);
 		return client;
-
 	}
 
 	@Test
@@ -198,6 +205,7 @@ public class MarvlAPITest {
 						"src/test/resources/slides.ggs"), false),
 				new MaterialCallbackI() {
 
+					@Override
 					public void onLoaded(List<Material> result,
 							ArrayList<Chapter> meta) {
 						api.copy(result.get(0),
@@ -205,11 +213,13 @@ public class MarvlAPITest {
 										result.get(0).getTitle()),
 								new MaterialCallbackI() {
 
+									@Override
 							public void onLoaded(List<Material> resultCopy,
 									ArrayList<Chapter> metaCopy) {
 								titles.add(resultCopy.get(0).getTitle());
 							}
 
+									@Override
 							public void onError(Throwable exception) {
 								errors.add(exception.getMessage());
 							}
@@ -218,6 +228,7 @@ public class MarvlAPITest {
 
 					}
 
+					@Override
 					public void onError(Throwable exception) {
 						errors.add(exception.getMessage());
 
@@ -248,11 +259,13 @@ public class MarvlAPITest {
 						"src/test/resources/slides.ggs"), false),
 				new MaterialCallbackI() {
 
+					@Override
 					public void onLoaded(List<Material> result,
 							ArrayList<Chapter> meta) {
 						// nothing to do
 					}
 
+					@Override
 					public void onError(Throwable exception) {
 						errors.add(exception.getMessage());
 
@@ -271,11 +284,13 @@ public class MarvlAPITest {
 		// check that no materials are on server
 		api.getUsersOwnMaterials(new MaterialCallbackI() {
 
+			@Override
 			public void onLoaded(List<Material> resultLoad,
 					ArrayList<Chapter> meta) {
 				count.add(resultLoad.size());
 			}
 
+			@Override
 			public void onError(Throwable exception) {
 				errors.add(exception.getMessage());
 			}
@@ -291,15 +306,18 @@ public class MarvlAPITest {
 		final ArrayList<String> errors = new ArrayList<>();
 		api.getUsersOwnMaterials(new MaterialCallbackI() {
 
+			@Override
 			public void onLoaded(List<Material> resultLoad,
 					ArrayList<Chapter> meta) {
 				api.deleteMaterial(resultLoad.get(0), new MaterialCallbackI() {
 
+					@Override
 					public void onLoaded(List<Material> resultD,
 							ArrayList<Chapter> metaD) {
 						titles.add(resultD.get(0).getTitle());
 					}
 
+					@Override
 					public void onError(Throwable exception) {
 						errors.add(exception.getMessage());
 
@@ -307,6 +325,7 @@ public class MarvlAPITest {
 				});
 			}
 
+			@Override
 			public void onError(Throwable exception) {
 				errors.add(exception.getMessage());
 			}
@@ -353,6 +372,49 @@ public class MarvlAPITest {
 				MarvlAPI.getCopyTitle(loc, "Copy of A"));
 		Assert.assertEquals("Copy of A (3)",
 				MarvlAPI.getCopyTitle(loc, "Copy of A (2)"));
+	}
+
+	@Test
+	public void testRename() {
+		final MarvlAPI api = authAPI();
+		final ArrayList<String> titles = new ArrayList<>();
+		final ArrayList<String> errors = new ArrayList<>();
+		api.uploadMaterial(0, "S", "Test material",
+				Base64.encodeToString(UtilD.loadFileIntoByteArray(
+						"src/test/resources/slides.ggs"), false),
+				new MaterialCallbackI() {
+
+					@Override
+					public void onLoaded(List<Material> result,
+							ArrayList<Chapter> meta) {
+						result.get(0).setTitle("Renamed material");
+						api.uploadRenameMaterial(result.get(0),
+								new MaterialCallbackI() {
+
+									@Override
+									public void onLoaded(
+											List<Material> resultRename,
+											ArrayList<Chapter> metaRename) {
+										titles.add(
+												resultRename.get(0).getTitle());
+									}
+
+									@Override
+									public void onError(Throwable exception) {
+										errors.add(exception.getMessage());
+									}
+								});
+					}
+
+					@Override
+					public void onError(Throwable exception) {
+						errors.add(exception.getMessage());
+
+					}
+				}, MaterialType.ggs);
+		pause(10000);
+		Assert.assertEquals("", StringUtil.join(",", errors));
+		Assert.assertEquals("Renamed material", StringUtil.join(",", titles));
 	}
 
 }

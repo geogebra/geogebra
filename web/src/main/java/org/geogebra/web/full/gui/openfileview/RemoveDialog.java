@@ -32,7 +32,7 @@ public class RemoveDialog extends OptionDialog {
 		main.add(confirmDelete);
 		main.add(getButtonPanel());
 		add(main);
-		enablePrimaryButton(true);
+		setPrimaryButtonEnabled(true);
 		this.card = card;
 		setLabels();
 	}
@@ -40,7 +40,7 @@ public class RemoveDialog extends OptionDialog {
 	private void setLabels() {
 		this.updateButtonLabels("Delete");
 		confirmDelete.setText(app.getLocalization().getPlain("ConfirmDeleteA",
-				card.getMaterial().getTitle()));
+				card.getMaterialTitle()));
 	}
 
 	@Override
