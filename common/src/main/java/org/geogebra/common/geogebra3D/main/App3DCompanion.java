@@ -327,6 +327,8 @@ public abstract class App3DCompanion extends AppCompanion {
 				settings.setZscale(s2d.getXscale());
 				settings.updateOriginFromView(-(xmin + xmax) / 2,
 						-(ymin + ymax) / 2, 0);
+				settings.setYAxisVertical(true); // this way view height will be
+													// used for clipping
 			}
 			EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
 					new EuclidianController3DForExport(app), settings);
