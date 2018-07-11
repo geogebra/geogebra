@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.openfileview;
 
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.browser.MaterialCardController;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -189,5 +190,16 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	@Override
 	public String getMaterialTitle() {
 		return getMaterial().getTitle();
+	}
+
+	@Override
+	public void setShare(String groupID, boolean shared,
+			AsyncOperation<Boolean> callback) {
+		controller.setShare(groupID, shared, callback);
+	}
+
+	@Override
+	public String getMaterialID() {
+		return getMaterial().getSharingKeyOrId();
 	}
 }

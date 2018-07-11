@@ -92,8 +92,9 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * execute share action
 	 */
 	protected void onShare() {
+		GroupShareDialog dialog = new GroupShareDialog(app, card);
+		dialog.center();
 		hide();
-		// TODO
 	}
 
 	/**
@@ -103,7 +104,6 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 		hide();
 		MaterialRenameDialog renameDialog = new MaterialRenameDialog(app.getPanel(),
 				app, card);
-		renameDialog.show();
 		renameDialog.center();
 	}
 

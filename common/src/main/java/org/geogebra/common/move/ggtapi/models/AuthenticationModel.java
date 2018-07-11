@@ -1,5 +1,7 @@
 package org.geogebra.common.move.ggtapi.models;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -98,6 +100,13 @@ public abstract class AuthenticationModel extends BaseModel {
 	public String getUserName() {
 		if (loggedInUser != null) {
 			return loggedInUser.getUserName();
+		}
+		return null;
+	}
+
+	public ArrayList<String> getUserGroups() {
+		if (loggedInUser != null) {
+			return loggedInUser.getGroups();
 		}
 		return null;
 	}

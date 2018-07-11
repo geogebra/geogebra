@@ -1,5 +1,7 @@
 package org.geogebra.common.move.ggtapi.models;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.move.models.BaseModel;
 
 /**
@@ -22,6 +24,7 @@ public class GeoGebraTubeUser extends BaseModel {
 	private String image;
 	private String language;
 	private String gender;
+	private ArrayList<String> groups;
 
 	/**
 	 * Creates a new user with the specified login token
@@ -197,5 +200,13 @@ public class GeoGebraTubeUser extends BaseModel {
 
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public void setGroups(ArrayList<String> groups) {
+		this.groups = groups;
+	}
+
+	public ArrayList<String> getGroups() {
+		return groups;
 	}
 }

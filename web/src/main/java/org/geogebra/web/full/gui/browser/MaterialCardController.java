@@ -7,6 +7,7 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
@@ -225,6 +226,13 @@ public class MaterialCardController {
 						}
 					});
 		}
+
+	}
+
+	public void setShare(String groupID, boolean shared,
+			AsyncOperation<Boolean> callback) {
+		app.getLoginOperation().getGeoGebraTubeAPI().setShared(getMaterial(),
+				groupID, shared, callback);
 
 	}
 

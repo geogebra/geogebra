@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.openfileview;
 
+import org.geogebra.common.util.AsyncOperation;
+
 /**
  * Common interface for material cards.
  */
@@ -46,5 +48,10 @@ public interface MaterialCardI {
 	 * @return title of the material
 	 */
 	String getMaterialTitle();
+
+	void setShare(String text, boolean booleanValue,
+			AsyncOperation<Boolean> callback);
+
+	String getMaterialID();
 
 }

@@ -8,6 +8,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -727,12 +728,22 @@ public class MaterialListElement extends FlowPanel
 
 	@Override
 	public void copy() {
-		// TODO Auto-generated method stub
-
+		controller.copy();
 	}
 
 	@Override
 	public String getMaterialTitle() {
 		return getMaterial().getTitle();
+	}
+
+	@Override
+	public void setShare(String groupID, boolean shared,
+			AsyncOperation<Boolean> callback) {
+		controller.setShare(groupID, shared, callback);
+	}
+
+	@Override
+	public String getMaterialID() {
+		return getMaterial().getSharingKeyOrId();
 	}
 }

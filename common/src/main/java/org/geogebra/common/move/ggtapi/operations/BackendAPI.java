@@ -1,5 +1,7 @@
 package org.geogebra.common.move.ggtapi.operations;
 
+import java.util.List;
+
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -7,6 +9,7 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
+import org.geogebra.common.util.AsyncOperation;
 
 public interface BackendAPI {
 
@@ -94,5 +97,10 @@ public interface BackendAPI {
 	void uploadRenameMaterial(Material material, MaterialCallbackI materialCallback);
 
 	void copy(Material material, String title, MaterialCallbackI materialCallback);
+
+	void setShared(Material material, String groupID, boolean shared,
+			AsyncOperation<Boolean> callback);
+
+	void getGroups(String materialID, AsyncOperation<List<String>> asyncOperation);
 
 }

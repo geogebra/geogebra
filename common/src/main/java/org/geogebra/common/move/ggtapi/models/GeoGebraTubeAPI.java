@@ -17,6 +17,7 @@ import org.geogebra.common.move.ggtapi.requests.ShareRequest;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.move.ggtapi.requests.SyncRequest;
 import org.geogebra.common.move.ggtapi.requests.UploadRequest;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
 
@@ -657,7 +658,17 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 			}
 		});
+	}
 
+	@Override
+	public void setShared(Material m, String groupID, boolean shared,
+			AsyncOperation<Boolean> callback) {
+		// no group sharing for old materials
+	}
+
+	@Override
+	public void getGroups(String materialID, AsyncOperation<List<String>> asyncOperation) {
+		// no group sharing for old materials
 	}
 
 }

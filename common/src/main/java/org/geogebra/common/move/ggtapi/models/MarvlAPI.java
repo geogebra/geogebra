@@ -16,6 +16,7 @@ import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
 
@@ -64,11 +65,30 @@ public class MarvlAPI implements BackendAPI {
 			guser.setUserName(user.getString("username"));
 			guser.setUserId(user.getInt("id"));
 			guser.setIdentifier("");
+			if (user.has("mebisKlassenListe")) {
+				JSONArray classList = user.getJSONArray("mebisKlassenListe");
+				guser.setGroups(stringList(classList));
+			}
 			return true;
 		} catch (Exception e) {
 			Log.warn(e.getMessage());
 		}
 		return false;
+	}
+
+	/**
+	 * @param classList
+	 *            JSON array
+	 * @return Java array
+	 * @throws JSONException
+	 *             if array contains objects other than strings
+	 */
+	static ArrayList<String> stringList(JSONArray classList) throws JSONException {
+		ArrayList<String> groups = new ArrayList<>();
+		for (int i = 0; i < classList.length(); i++) {
+			groups.add(classList.getString(i));
+		}
+		return groups;
 	}
 
 	@Override
@@ -79,10 +99,7 @@ public class MarvlAPI implements BackendAPI {
 	@Override
 	public final void authorizeUser(final GeoGebraTubeUser user, final LogInOperation op,
 			final boolean automatic) {
-		HttpRequest request = UtilFactory.getPrototype().newHttpRequest();
-		if (this.basicAuth != null) {
-			request.setAuth(basicAuth);
-		}
+		HttpRequest request = makeRequest();
 		request.sendRequestPost("GET",
 				baseURL + "/auth",
 				null, new AjaxCallback() {
@@ -117,6 +134,14 @@ public class MarvlAPI implements BackendAPI {
 						op.onEvent(new LoginEvent(user, false, automatic, null));
 					}
 				});
+	}
+
+	private HttpRequest makeRequest() {
+		HttpRequest request = UtilFactory.getPrototype().newHttpRequest();
+		if (this.basicAuth != null) {
+			request.setAuth(basicAuth);
+		}
+		return request;
 	}
 
 	@Override
@@ -231,11 +256,8 @@ public class MarvlAPI implements BackendAPI {
 
 	private void performRequest(final String method, String endpoint, String json,
 			final MaterialCallbackI userMaterialsCB) {
-		HttpRequest request = UtilFactory.getPrototype().newHttpRequest();
+		HttpRequest request = makeRequest();
 		request.setContentTypeJson();
-		if (this.basicAuth != null) {
-			request.setAuth(basicAuth);
-		}
 		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
@@ -336,6 +358,51 @@ public class MarvlAPI implements BackendAPI {
 			return stem + " (" + i + ")";
 		}
 		return localization.getPlain("CopyOfA", title);
+	}
+
+	@Override
+	public void setShared(Material m, String groupID, boolean shared,
+			final AsyncOperation<Boolean> callback) {
+		HttpRequest request = makeRequest();
+		request.sendRequestPost(shared ? "POST" : "DELETE",
+				baseURL + "/materials/" + m.getSharingKeyOrId() + "/groups/" + groupID, null,
+				new AjaxCallback() {
+					@Override
+					public void onSuccess(String responseStr) {
+						callback.callback(true);
+					}
+
+					@Override
+					public void onError(String error) {
+						callback.callback(false);
+					}
+				});
+	}
+
+	@Override
+	public void getGroups(String materialID, final AsyncOperation<List<String>> callback) {
+		HttpRequest request = makeRequest();
+		request.sendRequestPost("GET",
+				baseURL + "/materials/" + materialID + "/groups?type=wasSharedWith", null,
+				new AjaxCallback() {
+					@Override
+					public void onSuccess(String responseStr) {
+						JSONArray groups;
+						try {
+							groups = new JSONArray(new JSONTokener(responseStr));
+							callback.callback(stringList(groups));
+						} catch (JSONException e) {
+							callback.callback(null);
+						}
+
+					}
+
+					@Override
+					public void onError(String error) {
+						callback.callback(null);
+					}
+				});
+
 	}
 
 }
