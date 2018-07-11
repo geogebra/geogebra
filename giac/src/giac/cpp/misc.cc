@@ -47,7 +47,7 @@ using namespace std;
 #include "giacintl.h"
 #if defined GIAC_HAS_STO_38 || defined NSPIRE || defined FXCG || defined GIAC_GGB
 inline bool is_graphe(const giac::gen &g,std::string &disp_out,const giac::context *){ return false; }
-inline gen _graph_charpoly(const gen &g,GIAC_CONTEXT){ return g;}
+inline giac::gen _graph_charpoly(const giac::gen &g,const giac::context *){ return g;}
 #else
 #include "graphtheory.h"
 #endif
