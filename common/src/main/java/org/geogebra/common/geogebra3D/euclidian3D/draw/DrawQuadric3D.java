@@ -315,7 +315,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max) {
+	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
 		default:
 			// do nothing

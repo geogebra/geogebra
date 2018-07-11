@@ -4225,7 +4225,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * 
 	 */
 	private boolean updateObjectsBounds() {
-		return updateObjectsBounds(false);
+		return updateObjectsBounds(false, false);
 	}
 
 	/**
@@ -4233,10 +4233,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * 
 	 * @param includeAxesIfVisible
 	 *            if axes should enlarge bounds
+	 * @param reduceWhenClipped
+	 *            set to true if clipped curves/surfaces should not be larger
+	 *            than the view itself
 	 * 
 	 * @return true if bounds were computed
 	 */
-	protected boolean updateObjectsBounds(boolean includeAxesIfVisible) {
+	protected boolean updateObjectsBounds(boolean includeAxesIfVisible,
+			boolean reduceWhenClipped) {
 		if (boundsMin == null) {
 			boundsMin = new Coords(3);
 			boundsMax = new Coords(3);
@@ -4245,12 +4249,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		boundsMin.setPositiveInfinity();
 		boundsMax.setNegativeInfinity();
 
-		drawable3DLists.enlargeBounds(boundsMin, boundsMax);
+		drawable3DLists.enlargeBounds(boundsMin, boundsMax, reduceWhenClipped);
 		if (includeAxesIfVisible) {
 			for (int i = 0; i<3; i++) {
 				DrawAxis3D d = axisDrawable[i];
 				if (d.isVisible()) {
-					d.enlargeBounds(boundsMin, boundsMax);
+					d.enlargeBounds(boundsMin, boundsMax, reduceWhenClipped);
 				}
 			}
 		}

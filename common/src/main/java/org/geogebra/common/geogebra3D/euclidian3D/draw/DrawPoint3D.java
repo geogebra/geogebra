@@ -337,7 +337,7 @@ public class DrawPoint3D extends Drawable3DCurves
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max) {
+	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
 		enlargeBounds(min, max, boundsMin, boundsMax);
 	}
 

@@ -787,7 +787,7 @@ public class DrawConic3D extends Drawable3DCurves
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max) {
+	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
 		switch (conic.getType()) {
 		default:
 			// do nothing

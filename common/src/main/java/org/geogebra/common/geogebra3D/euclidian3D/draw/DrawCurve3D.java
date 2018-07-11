@@ -201,8 +201,11 @@ public class DrawCurve3D extends Drawable3DCurves {
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max) {
+	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
 		if (!Double.isNaN(boundsMin.getX())) {
+			if (reduceWhenClipped) {
+				reduceBounds(boundsMin, boundsMax);
+			}
 			enlargeBounds(min, max, boundsMin, boundsMax);
 		}
 	}

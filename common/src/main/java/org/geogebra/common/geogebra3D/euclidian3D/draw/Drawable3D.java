@@ -1830,8 +1830,11 @@ public abstract class Drawable3D extends DrawableND {
 	 *            (x,y,z) min
 	 * @param max
 	 *            (x,y,z) max
+	 * @param reduceWhenClipped
+	 *            set to true if clipped curves/surfaces should not be larger
+	 *            than the view itself
 	 */
-	public void enlargeBounds(Coords min, Coords max) {
+	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
 		// nothing done by default
 	}
 
@@ -1876,6 +1879,29 @@ public abstract class Drawable3D extends DrawableND {
 			}
 			if (max.val[i] < coords.val[i]) {
 				max.val[i] = coords.val[i];
+			}
+		}
+	}
+
+	/**
+	 * reduce bounds to clipping cube
+	 * 
+	 * @param boundsMin
+	 *            bounds min
+	 * @param boundsMax
+	 *            bounds max
+	 */
+	protected void reduceBounds(Coords boundsMin,
+			Coords boundsMax) {
+		Coords[] vertices = getView3D().getClippingCubeDrawable().getVertices();
+		Coords min = vertices[0];
+		Coords max = vertices[7];
+		for (int i = 0; i < 3; i++) {
+			if (boundsMin.val[i] < min.val[i]) {
+				boundsMin.val[i] = min.val[i];
+			}
+			if (boundsMax.val[i] > max.val[i]) {
+				boundsMax.val[i] = max.val[i];
 			}
 		}
 	}

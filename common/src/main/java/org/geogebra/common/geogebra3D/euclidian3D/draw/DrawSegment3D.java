@@ -100,7 +100,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max) {
+	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
 		enlargeBounds(min, max, boundsMin, boundsMax);
 	}
 

@@ -329,9 +329,9 @@ public class DrawList3D extends Drawable3D {
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max) {
+	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
 		for (DrawableND d : drawables) {
-			((Drawable3D) d).enlargeBounds(min, max);
+			((Drawable3D) d).enlargeBounds(min, max, reduceWhenClipped);
 		}
 	}
 
