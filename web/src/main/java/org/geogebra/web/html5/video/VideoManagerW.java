@@ -78,7 +78,7 @@ public class VideoManagerW implements VideoManager {
 		if (url == null) {
 			return null;
 		}
-		if (url.endsWith(".m4v")) {
+		if (url.endsWith(".m4v") || url.endsWith(".mp4")) {
 			return url;
 		}
 		return null;

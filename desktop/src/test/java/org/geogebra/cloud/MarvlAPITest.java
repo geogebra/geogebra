@@ -376,6 +376,9 @@ public class MarvlAPITest {
 
 	@Test
 	public void testRename() {
+		if (System.getProperty("marvl.auth.basic") == null) {
+			return;
+		}
 		final MarvlAPI api = authAPI();
 		final ArrayList<String> titles = new ArrayList<>();
 		final ArrayList<String> errors = new ArrayList<>();
