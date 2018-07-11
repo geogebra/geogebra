@@ -62,6 +62,4 @@ public interface SharedResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/dialog-styles.scss")
 	SassResource dialogStylesScss();
 
-	@Source("org/geogebra/web/resources/scss/print.scss")
-	SassResource printStyle();
 }
