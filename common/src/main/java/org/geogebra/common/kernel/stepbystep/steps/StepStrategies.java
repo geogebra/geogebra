@@ -170,7 +170,7 @@ public class StepStrategies {
 				SolveSteps.TAKE_ROOT,
 				EquationSteps.RECIPROCATE_EQUATION,
 				SolveSteps.SOLVE_LINEAR_IN_EXPRESSION,
-				EquationSteps.COMMON_DENOMINATOR,
+				SolveSteps.COMMON_DENOMINATOR,
 				EquationSteps.MULTIPLY_THROUGH,
 				SolveSteps.EXPAND,
 				SolveSteps.COMPLETE_THE_SQUARE,
@@ -202,13 +202,14 @@ public class StepStrategies {
 				InequalitySteps.POSITIVE_AND_ZERO,
 				InequalitySteps.POSITIVE_AND_NEGATIVE,
 				SolveSteps.SUBTRACT_COMMON,
-				SolveSteps.FACTOR,
+				SolveSteps.FACTOR, 
 				InequalitySteps.RATIONAL_INEQUALITY,
+				SolveSteps.COMMON_DENOMINATOR,
 				SolveSteps.DIFF,
 				SolveSteps.COMPLETE_THE_SQUARE,
 				InequalitySteps.SOLVE_QUADRATIC,
 				SolveSteps.TAKE_ROOT,
-				SolveSteps.EXPAND,
+				SolveSteps.EXPAND, 
 		};
 
 

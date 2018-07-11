@@ -1,17 +1,37 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import org.geogebra.common.kernel.stepbystep.SolveFailedException;
-import org.geogebra.common.kernel.stepbystep.StepHelper;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
-import org.geogebra.common.plugin.Operation;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.gcd;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.intersect;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEqual;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOne;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isZero;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.plusminus;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.root;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
+import org.geogebra.common.kernel.stepbystep.SolveFailedException;
+import org.geogebra.common.kernel.stepbystep.StepHelper;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInequality;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
+import org.geogebra.common.kernel.stepbystep.steptree.StepLogical;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSet;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.plugin.Operation;
 
 enum SolveSteps implements SolveStepGenerator {
 
@@ -335,6 +355,14 @@ enum SolveSteps implements SolveStepGenerator {
 
 			result = result.regroup(steps);
 			return new Result(result);
+		}
+	},
+
+	COMMON_DENOMINATOR {
+		@Override
+		public Result apply(StepSolvable se, StepVariable variable, SolutionBuilder steps,
+				SolveTracker tracker) {
+			return new Result((StepSolvable) StepStrategies.addFractions(se, steps));
 		}
 	},
 

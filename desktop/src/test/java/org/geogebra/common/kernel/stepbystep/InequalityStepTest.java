@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep;
 
+import java.util.Arrays;
+
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -8,9 +10,11 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
-import org.junit.*;
-
-import java.util.Arrays;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
 public class InequalityStepTest {
@@ -69,6 +73,8 @@ public class InequalityStepTest {
 
     @Test
 	public void rationalInequalities() {
+		i("1/x", ">", "1", "x", "x in (0, 1)");
+		i("1/x", "<=", "1", "x", "x in (-inf, 0)", "x in [1, inf)");
 		i("(x+2)/(x+2)", ">", "1", "x");
 		i("(x+2)/(x+2)", ">", "0", "x", "x in R \\ {-2}");
 	}
