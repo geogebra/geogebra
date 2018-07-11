@@ -9,11 +9,13 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.Persistable;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Frame;
 
 /**
  * Represents a placeholder for videos.
- * 
+ *
  * @author Laszlo Gal
  *
  */
@@ -29,16 +31,19 @@ public abstract class VideoPlayer extends Frame implements Persistable {
 	private String playerId;
 	private static ArrayList<VideoPlayer> waiting = new ArrayList<>();
 
+
 	/**
-	 * Constructor.
+	 * Constructor. *
 	 * 
 	 * @param video
 	 *            the video object.
+	 * @param src
+	 *            the source of the player frame.
 	 * @param id
 	 *            The id of the player frame.
 	 */
-	public VideoPlayer(GeoVideo video, int id) {
-		super(video.getEmbeddedUrl());
+	public VideoPlayer(GeoVideo video, String src, int id) {
+		super(src);
 		this.video = video;
 		app = video.getKernel().getApplication();
 		addStyleName("mowVideo");
@@ -48,12 +53,36 @@ public abstract class VideoPlayer extends Frame implements Persistable {
 	}
 
 	/**
-	 * Updates the player based on video object.
+	 * Constructor.
+	 *
+	 * @param video
+	 *            the video object.
+	 * @param id
+	 *            The id of the player frame.
 	 */
-	public abstract void update();
+	public VideoPlayer(GeoVideo video, int id) {
+		this(video, video.getEmbeddedUrl(), id);
+	}
 
 	/**
-	 * 
+	 * Updates the player based on video object.
+	 */
+	public void update() {
+		Style style = getElement().getStyle();
+		style.setLeft(getVideo().getAbsoluteScreenLocX(), Unit.PX);
+		style.setTop(getVideo().getAbsoluteScreenLocY(), Unit.PX);
+		setWidth(getVideo().getWidth() + "px");
+		setHeight(getVideo().getHeight() + "px");
+		if (getVideo().isBackground()) {
+			addStyleName("background");
+		} else {
+			removeStyleName("background");
+		}
+		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
+	}
+
+	/**
+	 *
 	 * @return the associated GeoVideo object.
 	 */
 	public GeoVideo getVideo() {
@@ -62,7 +91,7 @@ public abstract class VideoPlayer extends Frame implements Persistable {
 
 	/**
 	 * Called after video specified by its id is loaded.
-	 * 
+	 *
 	 */
 	public void onReady() {
 		video.setBackground(true);
@@ -81,7 +110,7 @@ public abstract class VideoPlayer extends Frame implements Persistable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if iframe is valid.
 	 */
 	protected native boolean isFrameValid() /*-{

@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Class for managing audio content.
- * 
+ *
  * @author laszlo
  *
  */
@@ -78,7 +78,7 @@ public class VideoManagerW implements VideoManager {
 		if (url == null) {
 			return null;
 		}
-		if (url.endsWith(".mp4")) {
+		if (url.endsWith(".m4v")) {
 			return url;
 		}
 		return null;
@@ -222,6 +222,7 @@ public class VideoManagerW implements VideoManager {
 		case YOUTUBE:
 			return new YouTubePlayer(video, id);
 		case MP4:
+			return new HTML5Player(video, id);
 		case AUDIO_HTML5:
 		case NONE:
 		default:

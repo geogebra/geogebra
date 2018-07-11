@@ -9,8 +9,6 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
 
 /**
  * Represents a placeholder for YouTube videos.
@@ -50,25 +48,6 @@ public class YouTubePlayer extends VideoPlayer {
 				setYouTubePlayer(createYouTubePlayer(video.getYouTubeId()));
 			}
 		});
-	}
-
-	/**
-	 * Updates the player based on video object.
-	 */
-	@Override
-	public void update() {
-		Style style = getElement().getStyle();
-		style.setLeft(getVideo().getAbsoluteScreenLocX(), Unit.PX);
-		style.setTop(getVideo().getAbsoluteScreenLocY(), Unit.PX);
-		setWidth(getVideo().getWidth() + "px");
-		setHeight(getVideo().getHeight() + "px");
-		if (getVideo().isBackground()) {
-			addStyleName("background");
-		} else {
-			removeStyleName("background");
-		}
-		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
-
 	}
 
 	/**
