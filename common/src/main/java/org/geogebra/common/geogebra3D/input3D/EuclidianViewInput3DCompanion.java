@@ -376,7 +376,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			stylusBeamIsVisible = false;
 			stylusBeamDrawable = new DrawSegment3D(getView(), stylusBeam) {
 				@Override
-				protected boolean isVisible() {
+				public boolean isVisible() {
 					return stylusBeamIsVisible;
 				}
 			};

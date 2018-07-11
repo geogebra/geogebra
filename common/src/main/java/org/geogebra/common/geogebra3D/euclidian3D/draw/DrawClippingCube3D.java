@@ -535,7 +535,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	}
 
 	@Override
-	protected boolean isVisible() {
+	public boolean isVisible() {
 		return getView3D().showClippingCube();
 	}
 

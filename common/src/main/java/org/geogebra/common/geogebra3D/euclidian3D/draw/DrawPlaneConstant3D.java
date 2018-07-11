@@ -139,7 +139,7 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	}
 
 	@Override
-	protected boolean isVisible() {
+	public boolean isVisible() {
 		if (getView3D().getApplication().has(Feature.MOB_PACK_PLANES)) {
 			return isGridVisible() || getPlane().isPlateVisible();
 		}

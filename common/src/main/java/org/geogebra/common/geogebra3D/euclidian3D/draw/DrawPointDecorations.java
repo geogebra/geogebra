@@ -49,7 +49,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	}
 
 	@Override
-	protected boolean isVisible() {
+	public boolean isVisible() {
 		if (!getView3D().getRenderer().getGeometryManager().packBuffers()) {
 			return true; // no geo connected
 		}

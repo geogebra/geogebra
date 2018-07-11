@@ -155,7 +155,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		useSpecificThickness = false;
 		updateScene();
 		if (format.needsClosedObjects()) {
-			if (updateObjectsBounds()) {
+			if (updateObjectsBounds(true)) {
 				useSpecificThickness = true;
 				double d = boundsMax.getX() - boundsMin.getX();
 				for (int i = 2; i <= 3; i++) {

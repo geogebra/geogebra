@@ -341,7 +341,7 @@ public class DrawAxis3D extends DrawLine3D {
 	}
 
 	@Override
-	final protected boolean isVisible() {
+	final public boolean isVisible() {
 		return (!outsideBox) && super.isVisible();
 	}
 

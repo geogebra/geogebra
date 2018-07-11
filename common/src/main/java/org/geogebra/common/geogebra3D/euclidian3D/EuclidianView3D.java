@@ -4221,11 +4221,22 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
+	 * update bounds that enclose all objects (except axes)
+	 * 
+	 */
+	private boolean updateObjectsBounds() {
+		return updateObjectsBounds(false);
+	}
+
+	/**
 	 * update bounds that enclose all objects
+	 * 
+	 * @param includeAxesIfVisible
+	 *            if axes should enlarge bounds
 	 * 
 	 * @return true if bounds were computed
 	 */
-	protected boolean updateObjectsBounds() {
+	protected boolean updateObjectsBounds(boolean includeAxesIfVisible) {
 		if (boundsMin == null) {
 			boundsMin = new Coords(3);
 			boundsMax = new Coords(3);
@@ -4235,6 +4246,14 @@ public abstract class EuclidianView3D extends EuclidianView
 		boundsMax.setNegativeInfinity();
 
 		drawable3DLists.enlargeBounds(boundsMin, boundsMax);
+		if (includeAxesIfVisible) {
+			for (int i = 0; i<3; i++) {
+				DrawAxis3D d = axisDrawable[i];
+				if (d.isVisible()) {
+					d.enlargeBounds(boundsMin, boundsMax);
+				}
+			}
+		}
 
 		return !Double.isInfinite(boundsMin.getX());
 	}

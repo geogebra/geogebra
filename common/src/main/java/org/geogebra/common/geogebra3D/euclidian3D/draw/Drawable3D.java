@@ -708,7 +708,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return the visibility
 	 */
-	protected boolean isVisible() {
+	public boolean isVisible() {
 
 		boolean visible;
 
