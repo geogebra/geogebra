@@ -45,6 +45,12 @@ using namespace std;
 #include "quater.h"
 #include "sparse.h"
 #include "giacintl.h"
+#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined FXCG || defined GIAC_GGB
+inline bool is_graphe(const giac::gen &g,std::string &disp_out,const giac::context *){ return false; }
+inline gen _graph_charpoly(const gen &g,GIAC_CONTEXT){ return g;}
+#else
+#include "graphtheory.h"
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -1035,6 +1041,8 @@ namespace giac {
   gen _canonical_form(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     gen p,x,a,b,c;
+    if (is_equal(args))
+      return _canonical_form(equal2diff(args),contextptr);
     if (is_algebraic_program(args,a,b))
       return symbolic(at_program,makesequence(a,0,_canonical_form(gen(makevecteur(b,a[0]),_SEQ__VECT),contextptr)));
     if (args.type!=_VECT){
@@ -1924,8 +1932,14 @@ namespace giac {
   static define_unary_function_eval (__eigenvalues,&_eigenvals,_eigenvalues_s);
   define_unary_function_ptr5( at_eigenvalues ,alias_at_eigenvalues,&__eigenvalues,0,true);
 
+  gen _charpoly(const gen & args,GIAC_CONTEXT){
+    string s;
+    if (is_graphe(args.subtype==_SEQ__VECT?args._VECTptr->front():args,s,contextptr))
+      return _graph_charpoly(args,contextptr);
+    return _pcar(args,contextptr);
+  }
   static const char _charpoly_s []="charpoly";
-  static define_unary_function_eval (__charpoly,&_pcar,_charpoly_s);
+  static define_unary_function_eval (__charpoly,&_charpoly,_charpoly_s);
   define_unary_function_ptr5( at_charpoly ,alias_at_charpoly,&__charpoly,0,true);
 
   static const char _eigenvectors_s []="eigenvectors";
@@ -7441,7 +7455,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     identificateur xid=*x._IDNTptr;
     iterateur it=df1._VECTptr->begin(),itend=df1._VECTptr->end();
     for (;it!=itend;++it){
-      if (is_greater(*it,xmin,contextptr) && is_greater(xmax,*it,contextptr)){
+      if (in_domain(df,x,*it,contextptr) && is_greater(*it,xmin,contextptr) && is_greater(xmax,*it,contextptr)){
 	sing.push_back(*it);
       }
     }
@@ -7731,10 +7745,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  tvidf2.push_back(string2gen("X",false));
 	else {
 	  if (is_strictly_positive(df2,contextptr)){
-	    tvidf2.push_back(string2gen(abs_calc_mode(contextptr)==38?"∪":"convex",false));
+	    tvidf2.push_back(string2gen(abs_calc_mode(contextptr)==38?"∪":"+ (∪)",false));
 	  }
 	  else {
-	    tvidf2.push_back(string2gen(abs_calc_mode(contextptr)==38?"∩":"concav",false)); 
+	    tvidf2.push_back(string2gen(abs_calc_mode(contextptr)==38?"∩":"- (∩)",false)); 
 	  }
 	}
       }
@@ -7785,8 +7799,14 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	}
       }
     }
-    tvi=makevecteur(tvix,tvif,tvidf);
+    tvi=makevecteur(tvix,tvidf,tvif);
     if (do_inflex) tvi.push_back(tvidf2);
+    vecteur tvit(mtran(tvi));
+    for (size_t i=1;i<tvit.size();++i){
+      if (tvit[i]==tvit[i-1])
+	tvit.erase(tvit.begin()+i);
+    }
+    tvi=mtran(tvit);
     gen yscale=ymax-ymin;
     if (is_inf(yscale) || yscale==0){
       yscale=xmax-xmin;

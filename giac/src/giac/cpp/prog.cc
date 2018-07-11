@@ -817,7 +817,9 @@ namespace giac {
     bool python=python_compat(contextptr) && !debug_ptr(contextptr)->debug_mode;
     if (python){
       int & ind=debug_ptr(contextptr)->indent_spaces;
-      vecteur & v =*feuille._VECTptr;
+      vecteur v =*feuille._VECTptr;
+      if (v[2].type==_VECT && v[2].subtype==_PRG__VECT)
+	v[2]=symb_bloc(v[2]);
       if (!v[2].is_symb_of_sommet(at_bloc) && !v[2].is_symb_of_sommet(at_local)){
 	res=string(ind,' ')+"lambda ";
 	if (v[0].type==_VECT && v[0].subtype==_SEQ__VECT && v[0]._VECTptr->size()==1)
@@ -1213,7 +1215,8 @@ namespace giac {
     }
     gen newa,newc;
     replace_keywords(a,((embedd&&c.type==_VECT)?makevecteur(c):c),newa,newc,contextptr);
-    if (python_compat(contextptr)){
+    //cout << c._SYMBptr->sommet << endl;
+    if (python_compat(contextptr) && !c.is_symb_of_sommet(at_local)){
       vecteur res1,non_decl,res3,res4,Newa=gen2vecteur(newa);
       for (int i=0;i<int(Newa.size());++i){
 	if (Newa[i].is_symb_of_sommet(at_equal))
@@ -1388,7 +1391,7 @@ namespace giac {
       newres=g;
       return true;
     }
-    if ( (g.type==_VECT && g.subtype ==_SEQ__VECT && g._VECTptr->size()==1) )
+    if ( (g.type==_VECT && (g.subtype ==_SEQ__VECT || g.subtype==_PRG__VECT) && g._VECTptr->size()==1) )
       return is_return(g._VECTptr->front(),newres);
     newres=g;
     return false;
@@ -1509,7 +1512,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     try {
 #endif
-      if (prog.type!=_VECT || prog.subtype){
+      if (prog.type!=_VECT || (prog.subtype && prog.subtype!=_PRG__VECT)){
 	++debug_ptr(newcontextptr)->current_instruction;
 	prog=equaltosto(prog,contextptr);
 	if (debug_ptr(newcontextptr)->debug_mode){
@@ -7352,8 +7355,10 @@ namespace giac {
 	return halftan(g,contextptr);
       if (f==at_plus)
 	return partfrac(tcollect(g,contextptr),true,contextptr);
-      if (f==at_prod)
+      if (f==at_prod){
+	if (is_integer(g)) return _ifactor(g,contextptr);
 	return _factor(_texpand(g,contextptr),contextptr);
+      }
       if (f==at_division)
 	return _simplify(g,contextptr);
       if (f==at_exp || f==at_ln || f==at_EXP)
@@ -11095,34 +11100,6 @@ namespace giac {
   static define_unary_function_eval (__giac_bool,&_giac_bool,_giac_bool_s);
   define_unary_function_ptr5( at_giac_bool ,alias_at_giac_bool,&__giac_bool,0,true);
 
-  gen _giac_bin(const gen & a,GIAC_CONTEXT){
-    if (a.type==_STRNG && a.subtype==-1) return  a;
-    gen a_(a);
-    if (!is_integral(a_) || a_.type==_ZINT)
-      return gentypeerr(contextptr);
-    int i=a_.val;
-    string s;
-    while (i){
-      s = char('0'+(i%2))+s;
-      i /= 2;
-    }
-    return string2gen("0b"+s,false);
-  }
-  static const char _giac_bin_s []="bin";
-  static define_unary_function_eval (__giac_bin,&_giac_bin,_giac_bin_s);
-  define_unary_function_ptr5( at_giac_bin ,alias_at_giac_bin,&__giac_bin,0,true);
-
-  gen _giac_hex(const gen & a,GIAC_CONTEXT){
-    if (a.type==_STRNG && a.subtype==-1) return  a;
-    gen a_(a);
-    if (!is_integral(a_))
-      return gentypeerr(contextptr);
-    string s=a_.type==_INT_?hexa_print_INT_(a_.val):hexa_print_ZINT(*a._ZINTptr);
-    return string2gen(s,false);
-  }
-  static const char _giac_hex_s []="hex";
-  static define_unary_function_eval (__giac_hex,&_giac_hex,_giac_hex_s);
-  define_unary_function_ptr5( at_giac_hex ,alias_at_giac_hex,&__giac_hex,0,true);
 
   gen _heapify(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT)

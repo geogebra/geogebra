@@ -3789,7 +3789,9 @@ namespace giac {
   static const char _hexprint_s []="hexprint";
   static define_unary_function_eval (__hexprint,&_hexprint,_hexprint_s);
   define_unary_function_ptr5( at_hexprint ,alias_at_hexprint,&__hexprint,0,true);
-  
+  static const char _giac_hex_s []="hex";
+  static define_unary_function_eval (__giac_hex,&_hexprint,_giac_hex_s);
+  define_unary_function_ptr5( at_giac_hex ,alias_at_giac_hex,&__giac_hex,0,true)  
   gen _octprint(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type == _INT_)
@@ -3815,6 +3817,9 @@ namespace giac {
   define_unary_function_ptr5(at_binprint,alias_at_binprint,&__binprint,0,true);
   // const unary_function_ptr at_binprint (&__binprint,0,true);
 
+  static const char _giac_bin_s []="bin";
+  static define_unary_function_eval (__giac_bin,&_binprint,_giac_bin_s);
+  define_unary_function_ptr5( at_giac_bin ,alias_at_giac_bin,&__giac_bin,0,true);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

@@ -109,6 +109,14 @@ extern "C" {
 #include <sys/wait.h>
 #endif
 
+#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined FXCG || defined GIAC_GGB
+inline bool is_graphe(const giac::gen &g,std::string &disp_out,const giac::context *){ return false; }
+inline gen _graph_vertices(const gen &g,GIAC_CONTEXT){ return g;}
+inline gen _is_planar(const gen &g,GIAC_CONTEXT){ return g;}
+#else
+#include "graphtheory.h"
+#endif
+
 extern const int BUFFER_SIZE;
 
 #ifndef NO_NAMESPACE_GIAC
@@ -7123,6 +7131,9 @@ namespace giac {
 
   gen _sommets(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    string s;
+    if (is_graphe(args,s,contextptr))
+      return _graph_vertices(args,contextptr);
     gen g=sommet(args,true);
     if (is_undef(g))
       return g;
@@ -7135,6 +7146,22 @@ namespace giac {
   static const char _sommets_s []="vertices";
   static define_unary_function_eval (__sommets,&_sommets,_sommets_s);
   define_unary_function_ptr5( at_sommets ,alias_at_sommets,&__sommets,0,true);
+
+  gen _faces(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    string s;
+    if (is_graphe(args,s,contextptr)){
+      identificateur faces;
+      gen ret=_is_planar(makesequence(args,faces),contextptr);
+      gen retval=is_one(ret)?_eval(faces,contextptr):ret;
+      _purge(faces,contextptr);
+      return retval;
+    }
+    return remove_at_pnt(args);
+  }
+  static const char _faces_s []="faces";
+  static define_unary_function_eval (__faces,&_faces,_faces_s);
+  define_unary_function_ptr5( at_faces ,alias_at_faces,&__faces,0,true);
 
   gen _sommets_abca(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;

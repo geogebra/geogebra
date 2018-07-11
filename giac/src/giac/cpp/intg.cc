@@ -1775,6 +1775,8 @@ namespace giac {
     vector< pf<gen> >::const_iterator itend=pfdecomp.end();
     vector< pf<gen> > intdecomp,finaldecomp;
     for (;it!=itend;++it){
+      if (it->den.lexsorted_degree()==0) 
+	continue;
       const pf<gen> & single =intreduce_pf(*it,intdecomp);
       if ( (it->mult>1) && (intmode & 2)==0){
 	gen fact1=pow(r2e(it->fact,l,contextptr),it->mult,contextptr);

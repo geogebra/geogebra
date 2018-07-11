@@ -6518,7 +6518,7 @@ unsigned int ConvertUTF8toUTF16 (
 	progpos=cur.find("def");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,3)){
 	  pythonmode=true;
-	  python_compat(1,contextptr); 
+	  if (abs_calc_mode(contextptr)==38) python_compat(1,contextptr); 
 	  pythoncompat=true;
 	  // should remove possible returned type, between -> ... and :
 	  string entete=cur.substr(progpos+3,pos-progpos-3);

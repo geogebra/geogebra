@@ -776,12 +776,12 @@ suite: /* empty */ { $$=gen(vecteur(0),_SEQ__VECT); }
        | exp { $$=makesuite($1); }
        ;
 
-prg_suite: exp 	{ $$ = makevecteur($1); }
-	/* | bloc { $$=makevecteur(symb_bloc($1)); } */
+prg_suite: exp 	{ $$ = gen(makevecteur($1),_PRG__VECT); }
+	/* | bloc { $$=gen(makevecteur(symb_bloc($1)),_PRG__VECT); } */
 	| prg_suite exp	{ vecteur v(1,$1); 
 			  if ($1.type==_VECT) v=*($1._VECTptr); 
 			  v.push_back($2); 
-			  $$ = v;
+			  $$ = gen(v,_PRG__VECT);
 			}
 	| prg_suite semi		{ $$ = $1;}
 	;

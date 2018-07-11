@@ -1944,6 +1944,7 @@ namespace giac {
     int m=c.lexsorted_degree();
     int n=d.lexsorted_degree();
     assert(m>=n); // degree of c must be greater than degree of d
+    // IMPROVE if n==0 
     C=Tpow(d0,m-n+1);
     tensor<T> coverd(a.dim),temp(a.dim);
     (c*C).TDivRem1(d,coverd,temp);

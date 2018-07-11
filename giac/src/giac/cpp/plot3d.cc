@@ -943,14 +943,6 @@ namespace giac {
   static define_unary_function_eval (__aretes,&_aretes,_aretes_s);
   define_unary_function_ptr5( at_aretes ,alias_at_aretes,&__aretes,0,true);
 
-  gen _faces(const gen & args,GIAC_CONTEXT){
-    if ( args.type==_STRNG && args.subtype==-1) return  args;
-    return remove_at_pnt(args);
-  }
-  static const char _faces_s []="faces";
-  static define_unary_function_eval (__faces,&_faces,_faces_s);
-  define_unary_function_ptr5( at_faces ,alias_at_faces,&__faces,0,true);
-
   static gen rotation3d(const gen & elem,const gen & b,GIAC_CONTEXT){
     if (elem.type==_VECT && elem._VECTptr->size()==2){
       gen A=elem._VECTptr->front();

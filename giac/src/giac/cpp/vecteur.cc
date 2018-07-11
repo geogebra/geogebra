@@ -1738,8 +1738,8 @@ namespace giac {
 	// CERR << "2 real " << res << endl;
       }
       else {
-	res.push_back(gen(double(l1),double(l2)));
 	res.push_back(gen(double(l1),-double(l2)));
+	res.push_back(gen(double(l1),double(l2)));
 	// CERR << "2 cplx " << res << endl;
       }
       ++i;

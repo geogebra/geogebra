@@ -3048,7 +3048,7 @@ namespace giac {
       else 
 	return v.front().print(contextptr)+" => "+v.back().print(contextptr);
     }
-    string stos=python_compat(contextptr)?"=":":=";
+    string stos=(python_compat(contextptr) && v.back().type!=_FUNC)?"=":":=";
 #ifndef GIAC_HAS_STO_38
     if (v.back().is_symb_of_sommet(at_of) && feuille.subtype!=_SORTED__VECT){
       gen f=v.back()._SYMBptr->feuille;

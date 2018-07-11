@@ -260,6 +260,7 @@ namespace giac {
     _TUPLE__VECT=29,
     _TABLE__VECT=30,
     _GRAPH__VECT =31,
+    _PRG__VECT=32,
   } ;
 
   enum symb_subtypes {
@@ -591,6 +592,7 @@ namespace giac {
     _GT_DIRECTED = 146, // directed
     _GT_WEIGHTED = 147, // weighted
     _GT_WEIGHTS = 148, // weights
+    _GT_BIPARTITE = 149, // bipartite
   };
 
   enum mupad_operator {

@@ -6791,7 +6791,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 779 "input_parser.yy"
-    { (yyval) = makevecteur((yyvsp[(1) - (1)])); }
+    { (yyval) = gen(makevecteur((yyvsp[(1) - (1)])),_PRG__VECT); }
     break;
 
   case 221:
@@ -6801,7 +6801,7 @@ yyreduce:
     { vecteur v(1,(yyvsp[(1) - (2)])); 
 			  if ((yyvsp[(1) - (2)]).type==_VECT) v=*((yyvsp[(1) - (2)])._VECTptr); 
 			  v.push_back((yyvsp[(2) - (2)])); 
-			  (yyval) = v;
+			  (yyval) = gen(v,_PRG__VECT);
 			}
     break;
 

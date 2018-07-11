@@ -8321,8 +8321,10 @@ namespace giac {
       return (a._STRNGptr==b._STRNGptr) || (*a._STRNGptr==*b._STRNGptr);
     case _FUNC__FUNC:
       return (a._FUNCptr==b._FUNCptr) || (*a._FUNCptr==*b._FUNCptr);
-    case _MOD__MOD: case _EXT__EXT:
-      return ( (*a._EXTptr==*b._EXTptr) && (*(a._EXTptr+1)==*(b._EXTptr+1)) );
+    case _MOD__MOD: 
+      return ( (*a._MODptr==*b._MODptr) && (*(a._MODptr+1)==*(b._MODptr+1)) );
+    case _EXT__EXT:
+      return ( change_subtype(*a._EXTptr,_POLY1__VECT)==change_subtype(*b._EXTptr,_POLY1__VECT) && (*(a._EXTptr+1)==*(b._EXTptr+1)) );
     case _SPOL1__SPOL1:
       return *a._SPOL1ptr==*b._SPOL1ptr;
     default: // Check pointers, type subtype

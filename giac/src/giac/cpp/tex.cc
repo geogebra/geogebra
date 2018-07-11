@@ -36,6 +36,11 @@ using namespace std;
 #include "rpn.h"
 #include "plot.h"
 #include "giacintl.h"
+#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined FXCG || defined GIAC_GGB
+inline bool is_graphe(const giac::gen &g,std::string &disp_out,const giac::context *){ return false; }
+#else
+#include "graphtheory.h"
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -1301,6 +1306,8 @@ namespace giac {
   string gen2tex(const gen & e,GIAC_CONTEXT){
     switch (e.type){
     case _INT_: case _ZINT: case _REAL:
+      if (e.subtype==_INT_BOOLEAN)
+	return "\\mbox{"+e.print(contextptr)+'}';      
       return e.print(contextptr);
     case _DOUBLE_:
       if (specialtexprint_double(contextptr))
@@ -1316,6 +1323,11 @@ namespace giac {
     case _VECT:
       if (e.subtype==_SPREAD__VECT)
 	return spread2tex(*e._VECTptr,1,contextptr);
+      if (e.subtype==_GRAPH__VECT){
+	string s;
+	if (is_graphe(e,s,contextptr))
+	  return "\\mbox{"+s+'}';
+      }
       if (!e._VECTptr->empty() && e._VECTptr->back().is_symb_of_sommet(at_pnt) && !is3d(e._VECTptr->back()) )
 	return vectpnt2tex(e,contextptr);
       if (ckmatrix(*e._VECTptr))
