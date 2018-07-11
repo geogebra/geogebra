@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -73,10 +72,6 @@ public class HTML5Player extends VideoPlayer {
 			public void execute() {
 				if (setContent(w.getElement().getInnerHTML())) {
 					setUpdateContent(false);
-					Log.debug("wrwrwrrrrrrrrrr");
-				} else {
-					Log.debug("noooooooooooooooooo");
-
 				}
 			}
 		});
