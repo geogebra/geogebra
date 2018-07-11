@@ -11,7 +11,7 @@ import org.geogebra.web.html5.gui.Persistable;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.IsWidget;
 
 /**
  * Represents a placeholder for videos.
@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Frame;
  * @author Laszlo Gal
  *
  */
-public abstract class VideoPlayer extends Frame implements Persistable {
+public abstract class VideoPlayer implements IsWidget, Persistable {
 	private static boolean youTubeAPI;
 	/** The application */
 	protected App app;
@@ -34,7 +34,7 @@ public abstract class VideoPlayer extends Frame implements Persistable {
 
 	/**
 	 * Constructor. *
-	 * 
+	 *
 	 * @param video
 	 *            the video object.
 	 * @param src
@@ -43,13 +43,17 @@ public abstract class VideoPlayer extends Frame implements Persistable {
 	 *            The id of the player frame.
 	 */
 	public VideoPlayer(GeoVideo video, String src, int id) {
-		super(src);
 		this.video = video;
 		app = video.getKernel().getApplication();
-		addStyleName("mowVideo");
-		addStyleName("mowWidget");
 		playerId = "video_player" + id;
-		getElement().setId(playerId);
+		createGUI();
+		stylePlayer();
+	}
+
+	protected void stylePlayer() {
+		asWidget().addStyleName("mowVideo");
+		asWidget().addStyleName("mowWidget");
+		asWidget().getElement().setId(playerId);
 	}
 
 	/**
@@ -65,18 +69,23 @@ public abstract class VideoPlayer extends Frame implements Persistable {
 	}
 
 	/**
+	 * Build the GUI here
+	 */
+	protected abstract void createGUI();
+
+	/**
 	 * Updates the player based on video object.
 	 */
 	public void update() {
-		Style style = getElement().getStyle();
+		Style style = asWidget().getElement().getStyle();
 		style.setLeft(getVideo().getAbsoluteScreenLocX(), Unit.PX);
 		style.setTop(getVideo().getAbsoluteScreenLocY(), Unit.PX);
-		setWidth(getVideo().getWidth() + "px");
-		setHeight(getVideo().getHeight() + "px");
+		asWidget().setWidth(getVideo().getWidth() + "px");
+		asWidget().setHeight(getVideo().getHeight() + "px");
 		if (getVideo().isBackground()) {
-			addStyleName("background");
+			asWidget().addStyleName("background");
 		} else {
-			removeStyleName("background");
+			asWidget().removeStyleName("background");
 		}
 		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
 	}

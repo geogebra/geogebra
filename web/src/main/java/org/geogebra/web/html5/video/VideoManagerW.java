@@ -236,7 +236,7 @@ public class VideoManagerW implements VideoManager {
 		if (!hasPlayer(video)) {
 			return;
 		}
-		playerOf(video).removeFromParent();
+		playerOf(video).asWidget().removeFromParent();
 	}
 
 	@Override
@@ -259,7 +259,7 @@ public class VideoManagerW implements VideoManager {
 	@Override
 	public void removePlayers() {
 		for (VideoPlayer player : players.values()) {
-			player.removeFromParent();
+			player.asWidget().removeFromParent();
 		}
 	}
 

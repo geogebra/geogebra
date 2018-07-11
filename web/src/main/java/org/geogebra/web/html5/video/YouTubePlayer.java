@@ -9,10 +9,12 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Represents a placeholder for YouTube videos.
- * 
+ *
  * @author Laszlo Gal
  *
  */
@@ -20,10 +22,10 @@ public class YouTubePlayer extends VideoPlayer {
 	private static boolean youTubeAPI;
 	private JavaScriptObject ytPlayer;
 	private static ArrayList<YouTubePlayer> waiting = new ArrayList<>();
-
+	private Frame frame;
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param video
 	 *            the video object.
 	 * @param id
@@ -37,9 +39,14 @@ public class YouTubePlayer extends VideoPlayer {
 		} else {
 			waiting.add(this);
 		}
-		getElement().setAttribute("allowfullscreen", "1");
 	}
-	
+
+	@Override
+	protected void createGUI() {
+		frame = new Frame(getEmbedUrl());
+		frame.getElement().setAttribute("allowfullscreen", "1");
+	}
+
 	private void createPlayerDeferred() {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
@@ -51,7 +58,7 @@ public class YouTubePlayer extends VideoPlayer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the JS YouTube player itself.
 	 */
 	public JavaScriptObject getYouTubePlayer() {
@@ -59,9 +66,9 @@ public class YouTubePlayer extends VideoPlayer {
 	}
 
 	/**
-	 * 
+	 *
 	 * sets the JS YouTube player.
-	 * 
+	 *
 	 * @param ytPlayer
 	 *            to set.
 	 */
@@ -89,7 +96,7 @@ public class YouTubePlayer extends VideoPlayer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if YouTube API is present and ready to use.
 	 */
 	public static boolean hasYouTubeApi() {
@@ -161,5 +168,10 @@ public class YouTubePlayer extends VideoPlayer {
 	private native void pause(JavaScriptObject player) /*-{
 		player.pauseVideo();
 	}-*/;
+
+	@Override
+	public Widget asWidget() {
+		return frame;
+	}
 }
 
