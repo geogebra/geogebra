@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
@@ -647,36 +646,6 @@ public class DrawSegment extends Drawable implements Previewable {
 		s.updateRepaint();
 		s.getParentAlgorithm().update();
 		update();
-	}
-
-	/**
-	 * method to get number of handler for mouse location
-	 * 
-	 * @param mouseLoc
-	 *            - current mouse location
-	 * @return number of handler for mouse location
-	 */
-	public EuclidianBoundingBoxHandler getHandler(GPoint mouseLoc) {
-		if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getMinX(),
-				mouseLoc.x)) {
-			// upper left corner
-			if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getMinY(),
-					mouseLoc.y, 3)) {
-				return EuclidianBoundingBoxHandler.TOP_LEFT;
-			}
-			// bottom left corner
-			return EuclidianBoundingBoxHandler.BOTTOM_LEFT;
-		} else if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getMaxX(),
-				mouseLoc.x, 3)) {
-			// upper right corner
-			if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getMinY(),
-					mouseLoc.y, 3)) {
-				return EuclidianBoundingBoxHandler.TOP_RIGHT;
-			}
-			// bottom right corner
-			return EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
-		}
-		return EuclidianBoundingBoxHandler.UNDEFINED;
 	}
 
 }

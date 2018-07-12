@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
@@ -280,7 +281,7 @@ public class BoundingBox {
 	 */
 	public void draw(GGraphics2D g2) {
 		// draw bounding box
-		if (rectangle != null) {
+		if (rectangle != null && nrHandlers > 2) {
 			g2.setColor(GColor.newColor(192, 192, 192, 0.0));
 			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f,
 					GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
@@ -391,7 +392,7 @@ public class BoundingBox {
 	 * @return true if hits any side of boundingBox
 	 */
 	public boolean hitSideOfBoundingBox(int x, int y, int hitThreshold) {
-		if (rectangle == null) {
+		if (rectangle == null || nrHandlers == 2) {
 			return false;
 		}
 		return
@@ -531,5 +532,35 @@ public class BoundingBox {
 			break;
 		}
 
+	}
+
+	/**
+	 * @param nrHandler
+	 *            handler
+	 * @param drawable
+	 *            drawable for the bounding box
+	 * @return resizing cursor or null
+	 */
+	public static EuclidianCursor getCursor(EuclidianBoundingBoxHandler nrHandler,
+			Drawable drawable) {
+		if (drawable instanceof DrawSegment) {
+			return EuclidianCursor.DRAG;
+		}
+		switch (nrHandler) {
+		case TOP_LEFT:
+		case BOTTOM_RIGHT:
+			return EuclidianCursor.RESIZE_NWSE;
+		case BOTTOM_LEFT:
+		case TOP_RIGHT:
+			return EuclidianCursor.RESIZE_NESW;
+		case TOP:
+		case BOTTOM:
+			return EuclidianCursor.RESIZE_NS;
+		case LEFT:
+		case RIGHT:
+			return EuclidianCursor.RESIZE_EW;
+		default:
+			return null;
+		}
 	}
 }

@@ -31,7 +31,6 @@ import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
-import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -6648,15 +6647,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			if (view.getBoundingBox() != null && geo == null) {
 				if (d != null && view.getBoundingBox() == d.getBoundingBox()) {
-					EuclidianBoundingBoxHandler nrHandler = view
-							.getHitHandler();
-					// we have only 2 handlers for segment
-					// needs special handling
-					if (d instanceof DrawSegment) {
-						nrHandler = ((DrawSegment) d)
-								.getHandler(mouseLoc);
-					}
-					setCursor(nrHandler);
+					setBoundingBoxCursor(d);
 					return;
 				}
 			}
@@ -7789,15 +7780,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			AbstractEvent event, boolean manual) {
 		startCollectingMinorRepaints();
 		if (getResizedShape() != null) {
-			EuclidianBoundingBoxHandler nrHandler = view.getHitHandler();
-			// we have only 2 handlers for segment
-			// needs special handling
-			if (getResizedShape() instanceof DrawSegment) {
-				nrHandler = ((DrawSegment) getResizedShape())
-						.getHandler(mouseLoc);
-			}
+			setBoundingBoxCursor(getResizedShape());
 
-			setCursor(nrHandler);
 			if (getResizedShape().getGeoElement().isSelected()) {
 				dontClearSelection = true;
 				getResizedShape().updateByBoundingBoxResize(event,
@@ -8149,13 +8133,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// for now allow only corner handlers
 		if (d != null && view
 				.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
-			EuclidianBoundingBoxHandler nrHandler = view.getHitHandler();
-			// we have only 2 handlers for segment
-			// needs special handling
-			if (d instanceof DrawSegment) {
-				nrHandler = ((DrawSegment) d).getHandler(mouseLoc);
-			}
-			setCursor(nrHandler);
+			setBoundingBoxCursor(d);
 			setResizedShape(d);
 		}
 		// find and set movedGeoElement
@@ -8355,14 +8333,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
 					if (view.getBoundingBox() != null && view.getBoundingBox()
 							.equals(d.getBoundingBox())) {
-						EuclidianBoundingBoxHandler nrHandler = view
-								.getHitHandler();
-						// we have only 2 handlers for segment
-						// needs special handling
-						if (d instanceof DrawSegment) {
-							nrHandler = ((DrawSegment) d).getHandler(mouseLoc);
-						}
-						setCursor(nrHandler);
+						setBoundingBoxCursor(d);
 						setResizedShape(d);
 					}
 				} else {
@@ -9242,19 +9213,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// for now allow only corner handlers
 			if (d != null && view
 					.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
-				EuclidianBoundingBoxHandler nrHandler = view.getHitHandler();
-				// we have only 2 handlers for segment
-				// needs special handling
-				if (d instanceof DrawSegment) {
-					nrHandler = ((DrawSegment) d).getHandler(mouseLoc);
-				}
+				setBoundingBoxCursor(d);
 				if (d instanceof DrawImage) {
 					int handlerNr = d.getBoundingBox().hitHandlers(
 							event.getX(), event.getY(),
 							app.getCapturingThreshold(event.getType()));
 					setDragStartPoint(handlerNr);
 				}
-				setCursor(nrHandler);
 				setResizedShape(d);
 			}
 		}
@@ -12229,26 +12194,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void setCursor(EuclidianBoundingBoxHandler nrHandler) {
-		switch (nrHandler) {
-			case TOP_LEFT:
-			case BOTTOM_RIGHT:
-				view.setCursor(EuclidianCursor.RESIZE_NWSE);
-				break;
-			case BOTTOM_LEFT:
-			case TOP_RIGHT:
-				view.setCursor(EuclidianCursor.RESIZE_NESW);
-				break;
-			case TOP:
-			case BOTTOM:
-				view.setCursor(EuclidianCursor.RESIZE_NS);
-				break;
-			case LEFT:
-			case RIGHT:
-				view.setCursor(EuclidianCursor.RESIZE_EW);
-				break;
-			default:
-				// do nothing
+	private void setBoundingBoxCursor(Drawable drawable) {
+		EuclidianBoundingBoxHandler nrHandler = view.getHitHandler();
+		EuclidianCursor cursor = BoundingBox.getCursor(nrHandler, drawable);
+		if (cursor != null) {
+			view.setCursor(cursor);
 		}
 	}
 
