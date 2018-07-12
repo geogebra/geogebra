@@ -43,6 +43,9 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	private Coords globalCoords;
 	private Coords inPlaneCoords;
 
+	private Coords boundsMin = new Coords(3);
+	private Coords boundsMax = new Coords(3);
+
 	/**
 	 * Common constructor
 	 * 
@@ -54,7 +57,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	public DrawPolyhedron3D(EuclidianView3D a_view3D, GeoPolyhedron poly) {
 
 		super(a_view3D, poly);
-
+		boundsMin.setPositiveInfinity();
+		boundsMax.setNegativeInfinity();
 	}
 
 	/**
@@ -82,8 +86,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 		previewMode = mode;
 
-		// updatePreview();
-
+		boundsMin.setPositiveInfinity();
+		boundsMax.setNegativeInfinity();
 	}
 
 	// drawing
@@ -168,6 +172,9 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			return true;
 		}
 
+		boundsMin.setPositiveInfinity();
+		boundsMax.setNegativeInfinity();
+
 		Renderer renderer = getView3D().getRenderer();
 
 		// outline
@@ -226,7 +233,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	}
 
-	private static void drawSegment(PlotterBrush brush, GeoSegmentND seg) {
+	private void drawSegment(PlotterBrush brush, GeoSegmentND seg) {
 
 		// draw only segments that have no label
 		if (!seg.isEuclidianVisible() || seg.isLabelSet()) {
@@ -234,7 +241,11 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		}
 
 		brush.setAffineTexture(0.5f, 0.25f);
-		brush.segment(seg.getStartInhomCoords(), seg.getEndInhomCoords());
+		Coords p1 = seg.getStartInhomCoords();
+		Coords p2 = seg.getEndInhomCoords();
+		enlargeBounds(boundsMin, boundsMax, p1);
+		enlargeBounds(boundsMin, boundsMax, p2);
+		brush.segment(p1, p2);
 
 	}
 
@@ -260,6 +271,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 		for (int i = 0; i < pointLength; i++) {
 			vertices[i].setValues(polygon.getPoint3D(i), 3);
+			enlargeBounds(boundsMin, boundsMax, vertices[i]);
 		}
 
 		DrawPolygon3D.drawPolygon(renderer, polygon, vertices,
@@ -275,6 +287,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		}
 
 		if (getView3D().viewChangedByZoom()) {
+			boundsMin.setPositiveInfinity();
+			boundsMax.setNegativeInfinity();
 			Renderer renderer = getView3D().getRenderer();
 			// outline
 			updateOutline(renderer);
@@ -544,4 +558,11 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		return shouldBePackedCheckCreatedByDrawList();
 	}
 
+	@Override
+	public void enlargeBounds(Coords min, Coords max,
+			boolean reduceWhenClipped) {
+		if (!Double.isNaN(boundsMin.getX())) {
+			enlargeBounds(min, max, boundsMin, boundsMax);
+		}
+	}
 }
