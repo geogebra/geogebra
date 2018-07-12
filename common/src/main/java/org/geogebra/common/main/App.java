@@ -3998,6 +3998,12 @@ public abstract class App implements UpdateSelection {
 		boolean whiteboard = isWhiteboardActive();
 		switch (f) {
 
+		case CANARY:
+			return canary;
+
+		case PRERELEASE:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE START
 		// note: please use prefix MOB

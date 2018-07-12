@@ -286,6 +286,14 @@ public enum Feature {
 	MOB_PACK_LISTS,
 
 	/** MOB-1722 */
-	MOB_EXPORT_STL, EMBED_EXTENSION
+	MOB_EXPORT_STL,
+
+	EMBED_EXTENSION,
+
+	/** beta */
+	PRERELEASE,
+
+	/** alpha */
+	CANARY
 }
 
