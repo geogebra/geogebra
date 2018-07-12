@@ -21,11 +21,12 @@ public class GroupShareDialog extends OptionDialog {
 	private int failed;
 
 	private static class GroupCheckBox extends CheckBox {
+
+		public boolean oldState;
+
 		public GroupCheckBox(String string) {
 			super(string);
 		}
-
-		public boolean oldState;
 
 		public void updateShare(MaterialCardI card,
 				final GroupShareDialog dialog) {

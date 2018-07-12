@@ -49,7 +49,8 @@ abstract public class Manager {
 	 */
 	protected ScalerXYZ scalerXYZ;
 
-	private Coords boundsMin, boundsMax;
+	private Coords boundsMin;
+	private Coords boundsMax;
 
 	/**
 	 * create a manager for geometries

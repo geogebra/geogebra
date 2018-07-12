@@ -16,11 +16,15 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
+/**
+ * Controller for material cards, common for new and old UI.
+ */
 public class MaterialCardController {
-
-	private AppW app;
+	/** application */
+	protected AppW app;
 	private Material material;
-	private Runnable deleteCallback = new Runnable() {
+	/** callback for deleting materials */
+	Runnable deleteCallback = new Runnable() {
 
 		@Override
 		public void run() {
@@ -48,10 +52,17 @@ public class MaterialCardController {
 		app.getGuiManager().getBrowseView().close();
 	}
 
+	/**
+	 * @return current material
+	 */
 	public Material getMaterial() {
 		return material;
 	}
 
+	/**
+	 * @param material
+	 *            current material
+	 */
 	public void setMaterial(Material material) {
 		this.material = material;
 	}
@@ -149,6 +160,9 @@ public class MaterialCardController {
 		app.getGuiManager().getBrowseView().setMaterialsDefaultStyle();
 	}
 
+	/**
+	 * @return callback for deleting materials
+	 */
 	public Runnable getDeleteCallback() {
 		return deleteCallback;
 	}
@@ -226,9 +240,16 @@ public class MaterialCardController {
 						}
 					});
 		}
-
 	}
 
+	/**
+	 * @param groupID
+	 *            group ID
+	 * @param shared
+	 *            whether to share the material
+	 * @param callback
+	 *            success / error callback
+	 */
 	public void setShare(String groupID, boolean shared,
 			AsyncOperation<Boolean> callback) {
 		app.getLoginOperation().getGeoGebraTubeAPI().setShared(getMaterial(),

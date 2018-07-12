@@ -104,6 +104,9 @@ public abstract class AuthenticationModel extends BaseModel {
 		return null;
 	}
 
+	/**
+	 * @return list of group IDs for current user
+	 */
 	public ArrayList<String> getUserGroups() {
 		if (loggedInUser != null) {
 			return loggedInUser.getGroups();
@@ -154,12 +157,21 @@ public abstract class AuthenticationModel extends BaseModel {
 		}
 	}
 
+	/**
+	 * @return last user from local storage
+	 */
 	public abstract String loadLastUser();
 
+	/**
+	 * User closed login explicitly, save a flag not to ask again.
+	 */
 	public void stayLoggedOut() {
 		this.stayLoggedOut = true;
 	}
 
+	/**
+	 * @return false if user closed login explicitly
+	 */
 	public boolean mayLogIn() {
 		return !stayLoggedOut;
 	}

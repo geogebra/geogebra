@@ -4251,7 +4251,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		drawable3DLists.enlargeBounds(boundsMin, boundsMax, reduceWhenClipped);
 		if (includeAxesIfVisible) {
-			for (int i = 0; i<3; i++) {
+			for (int i = 0; i < 3; i++) {
 				DrawAxis3D d = axisDrawable[i];
 				if (d.isVisible()) {
 					d.enlargeBounds(boundsMin, boundsMax, reduceWhenClipped);

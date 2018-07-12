@@ -11,15 +11,45 @@ import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.util.AsyncOperation;
 
+/**
+ * Common interface for backend connectors.
+ */
 public interface BackendAPI {
 
-	void getItem(String string, MaterialCallbackI materialCallbackI);
+	/**
+	 * Return a specific Material by its ID
+	 * 
+	 * @param id
+	 *            int ID or sharing key
+	 * @param callback
+	 *            {@link MaterialCallbackI}
+	 */
+	void getItem(String id, MaterialCallbackI callback);
 
+	/**
+	 * @param logInOperation
+	 *            login operation
+	 * @return whether the API is available; assume true if not tested
+	 */
 	boolean checkAvailable(LogInOperation logInOperation);
 
+	/**
+	 * TODO get this from somewhere else, makes only sense for Tube API
+	 * 
+	 * @return login API url
+	 */
 	String getLoginUrl();
 
-	boolean parseUserDataFromResponse(GeoGebraTubeUser offline, String loadLastUser);
+	/**
+	 * Set properties of user from JSON.
+	 * 
+	 * @param user
+	 *            user object
+	 * @param loadLastUser
+	 *            JSON encoded user data
+	 * @return success
+	 */
+	boolean parseUserDataFromResponse(GeoGebraTubeUser user, String loadLastUser);
 
 	/**
 	 * @param mat
@@ -29,15 +59,47 @@ public interface BackendAPI {
 	 */
 	void deleteMaterial(Material mat, MaterialCallbackI cb);
 
+	/**
+	 * Sends a request to the GeoGebraTube API to check if the login token which
+	 * is defined in the specified GeoGebraTubeUser is valid.
+	 * 
+	 * @param user
+	 *            The user that should be authorized.
+	 * @param logInOperation
+	 *            login operation
+	 * @param automatic
+	 *            true if automatic
+	 */
 	void authorizeUser(GeoGebraTubeUser user, LogInOperation logInOperation, boolean automatic);
 
-	void setClient(ClientInfo client);
+	/**
+	 * @param clientInfo
+	 *            client information
+	 */
+	void setClient(ClientInfo clientInfo);
 
-	void sync(long i, SyncCallback syncCallback);
+	/**
+	 * Synchronize a material.
+	 * 
+	 * @param timestamp
+	 *            timestamp
+	 * @param syncCallback
+	 *            callback
+	 */
+	void sync(long timestamp, SyncCallback syncCallback);
 
+	/**
+	 * @return whether availability check was done
+	 */
 	boolean isCheckDone();
 
-	void setUserLanguage(String fontStr, String loginToken);
+	/**
+	 * @param lang
+	 *            user language
+	 * @param token
+	 *            login token
+	 */
+	void setUserLanguage(String lang, String token);
 
 	/**
 	 * Share material with particular user and send an email about it.
@@ -61,6 +123,11 @@ public interface BackendAPI {
 	 */
 	void favorite(int id, boolean favorite);
 
+	/**
+	 * TODO only makes sense for Tube API, get it from somewhere else
+	 * 
+	 * @return base URL
+	 */
 	String getUrl();
 
 	/**
@@ -81,26 +148,112 @@ public interface BackendAPI {
 	 */
 	void uploadLocalMaterial(Material mat, MaterialCallbackI cb);
 
+	/**
+	 * @param op
+	 *            login operation
+	 * @return whether cookie was found
+	 */
 	boolean performCookieLogin(LogInOperation op);
 
+	/**
+	 * Log user in using either cookie or given token.
+	 * 
+	 * @param logInOperation
+	 *            login operation
+	 * @param token
+	 *            stored token
+	 */
 	void performTokenLogin(LogInOperation logInOperation, String token);
 
-	void getUsersMaterials(MaterialCallbackI userMaterialsCB, MaterialRequest.Order order);
+	/**
+	 * @param cb
+	 *            {@link MaterialCallbackI}
+	 * @param order
+	 *            preferred order
+	 */
+	void getUsersMaterials(MaterialCallbackI cb, MaterialRequest.Order order);
 
-	void getFeaturedMaterials(MaterialCallbackI userMaterialsCB);
+	/**
+	 * Returns materials in the given amount and order
+	 * 
+	 * @param callback
+	 *            {@link MaterialCallbackI}
+	 */
+	void getFeaturedMaterials(MaterialCallbackI callback);
 
-	void getUsersOwnMaterials(MaterialCallbackI userMaterialsCB, MaterialRequest.Order order);
+	/**
+	 * Get materials of currently logged in user.
+	 * 
+	 * @param cb
+	 *            callback
+	 * @param order
+	 *            order
+	 */
+	void getUsersOwnMaterials(MaterialCallbackI cb, MaterialRequest.Order order);
 
-	void uploadMaterial(String tubeID, String visibility, String text, String base64,
-			MaterialCallbackI materialCallback, MaterialType saveType);
+	/**
+	 * Uploads the actual opened application to ggt
+	 * 
+	 * @param tubeID
+	 *            tube id
+	 * @param visibility
+	 *            visibility string
+	 * 
+	 * @param filename
+	 *            String
+	 * @param base64
+	 *            base64 string
+	 * @param cb
+	 *            MaterialCallback
+	 * @param type
+	 *            material type
+	 */
+	void uploadMaterial(String tubeID, String visibility, String filename, String base64,
+			MaterialCallbackI cb, MaterialType type);
 
-	void uploadRenameMaterial(Material material, MaterialCallbackI materialCallback);
+	/**
+	 * to rename materials on ggt; TODO no use of base64
+	 * 
+	 * @param material
+	 *            {@link Material}
+	 * @param callback
+	 *            {@link MaterialCallbackI}
+	 */
+	void uploadRenameMaterial(Material material, MaterialCallbackI callback);
 
+	/**
+	 * Copy existing material.
+	 * 
+	 * @param material
+	 *            Current material
+	 * @param title
+	 *            copy title
+	 * @param materialCallback
+	 *            callback
+	 */
 	void copy(Material material, String title, MaterialCallbackI materialCallback);
 
+	/**
+	 * Make material (not) shared with a group
+	 * 
+	 * @param material
+	 *            material
+	 * @param groupID
+	 *            group identifier
+	 * @param shared
+	 *            whether to share
+	 * @param callback
+	 *            callback; gets true if successful
+	 */
 	void setShared(Material material, String groupID, boolean shared,
 			AsyncOperation<Boolean> callback);
 
+	/**
+	 * @param materialID
+	 *            material ID
+	 * @param asyncOperation
+	 *            callback; gets list of groups we can share with
+	 */
 	void getGroups(String materialID, AsyncOperation<List<String>> asyncOperation);
 
 }

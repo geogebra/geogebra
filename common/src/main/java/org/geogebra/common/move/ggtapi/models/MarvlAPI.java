@@ -25,7 +25,9 @@ import org.geogebra.common.util.debug.Log;
  * API connector for the MARVL restful API
  */
 public class MarvlAPI implements BackendAPI {
+	/** whether API is available */
 	protected boolean available = true;
+	/** whether availability check request was sent */
 	protected boolean availabilityCheckDone = false;
 	private String baseURL;
 	private AuthenticationModel model;
@@ -206,6 +208,13 @@ public class MarvlAPI implements BackendAPI {
 		getUsersOwnMaterials(userMaterialsCB, order);
 	}
 
+	/**
+	 * @param responseStr
+	 *            JSON encoded material or list of materials
+	 * @return list of materials
+	 * @throws JSONException
+	 *             when structure of JSON is invalid
+	 */
 	protected List<Material> parseMaterials(String responseStr) throws JSONException {
 		ArrayList<Material> ret = new ArrayList<>();
 		JSONTokener jst = new JSONTokener(responseStr);

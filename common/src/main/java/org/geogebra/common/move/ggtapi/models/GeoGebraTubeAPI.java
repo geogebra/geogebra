@@ -116,17 +116,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 */
 	protected abstract HttpRequest createHttpRequest();
 
-	/**
-	 * Sends a request to the GeoGebraTube API to check if the login token which
-	 * is defined in the specified GeoGebraTubeUser is valid.
-	 * 
-	 * @param user
-	 *            The user that should be authorized.
-	 * @param op
-	 *            login operation
-	 * @param automatic
-	 *            true if automatic
-	 */
 	@Override
 	public final void authorizeUser(final GeoGebraTubeUser user,
 			final LogInOperation op, final boolean automatic) {
@@ -199,11 +188,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		return requestJSON.toString();
 	}
 
-	/**
-	 * @param op
-	 *            login operation
-	 * @return whether the API is available; assume true if not tested
-	 */
 	@Override
 	public boolean checkAvailable(LogInOperation op) {
 		if (this.availabilityCheckDone && op != null) {
@@ -273,12 +257,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		return this.available;
 	}
 
-	/**
-	 * @param lang
-	 *            user language
-	 * @param token
-	 *            login token
-	 */
 	@Override
 	public void setUserLanguage(String lang, String token) {
 		performRequest("{\"request\": {" + "\"api\":\"1.0.0\","
@@ -340,14 +318,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 				});
 	}
 
-	/**
-	 * to rename materials on ggt; TODO no use of base64
-	 * 
-	 * @param mat
-	 *            {@link Material}
-	 * @param cb
-	 *            {@link MaterialCallbackI}
-	 */
 	@Override
 	public void uploadRenameMaterial(Material mat, final MaterialCallbackI cb) {
 		performRequest(
@@ -377,10 +347,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 				.toJSONString(client), cb);
 	}
 
-	/**
-	 * @param cb
-	 *            {@link MaterialCallbackI}
-	 */
 	@Override
 	public void getUsersMaterials(MaterialCallbackI cb, Order order) {
 		performRequest(
@@ -388,12 +354,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 				cb);
 	}
 
-	/**
-	 * Get materials of currently logged in user.
-	 * 
-	 * @param cb
-	 *            callback
-	 */
 	@Override
 	public void getUsersOwnMaterials(MaterialCallbackI cb, Order order) {
 		System.out.println(client.getModel().getUserId());
@@ -460,23 +420,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 				cb);
 	}
 
-	/**
-	 * Uploads the actual opened application to ggt
-	 * 
-	 * @param tubeID
-	 *            tube id
-	 * @param visibility
-	 *            visibility string
-	 * 
-	 * @param filename
-	 *            String
-	 * @param base64
-	 *            base64 string
-	 * @param cb
-	 *            MaterialCallback
-	 * @param type
-	 *            material type
-	 */
 	@Override
 	public void uploadMaterial(String tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,
@@ -526,12 +469,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 				callback);
 	}
 
-	/**
-	 * Returns materials in the given amount and order
-	 * 
-	 * @param callback
-	 *            {@link MaterialCallbackI}
-	 */
 	@Override
 	public void getFeaturedMaterials(MaterialCallbackI callback) {
 		performRequest(MaterialRequest.forFeatured(client).toJSONString(client),
@@ -549,36 +486,17 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	// "triangle", "functions", "jerzy", "geometry", "trigonometry", "3d" };
 	// }
 
-	/**
-	 * Return a specific Material by its ID
-	 * 
-	 * @param id
-	 *            int
-	 * @param callback
-	 *            {@link MaterialCallbackI}
-	 */
 	@Override
 	public void getItem(String id, MaterialCallbackI callback) {
 		performRequest(MaterialRequest.forId(id, client).toJSONString(client),
 				callback);
 	}
 
-	/**
-	 * @return whether availability check was done
-	 */
 	@Override
 	public boolean isCheckDone() {
 		return availabilityCheckDone;
 	}
 
-	/**
-	 * Synchronize a material.
-	 * 
-	 * @param timestamp
-	 *            timestamp
-	 * @param cb
-	 *            callback
-	 */
 	@Override
 	public void sync(long timestamp, final SyncCallback cb) {
 		this.performRequest(new SyncRequest(timestamp).toJSONString(client),
@@ -616,10 +534,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		return client.getModel().getLoginToken();
 	}
 
-	/**
-	 * @param clientInfo
-	 *            client information
-	 */
 	@Override
 	public void setClient(ClientInfo clientInfo) {
 		this.client = clientInfo;

@@ -49,9 +49,20 @@ public interface MaterialCardI {
 	 */
 	String getMaterialTitle();
 
-	void setShare(String text, boolean booleanValue,
+	/**
+	 * @param groupID
+	 *            group to share with
+	 * @param share
+	 *            whether to share
+	 * @param callback
+	 *            callback
+	 */
+	void setShare(String groupID, boolean share,
 			AsyncOperation<Boolean> callback);
 
+	/**
+	 * @return material id / sharing key
+	 */
 	String getMaterialID();
 
 }
