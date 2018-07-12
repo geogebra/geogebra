@@ -654,7 +654,10 @@ public abstract class DockPanelW extends ResizeComposite
 
 			@Override
 			public void onClose(CloseEvent<GPopupPanel> event) {
-				app.getEuclidianView1().getEuclidianController().setPopupJustClosed(true);
+				if (event.isAutoClosed()) {
+					app.getEuclidianView1().getEuclidianController()
+							.setPopupJustClosed(true);
+				}
 			}
 		});
 	}
