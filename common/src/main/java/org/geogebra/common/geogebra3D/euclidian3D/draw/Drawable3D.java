@@ -514,25 +514,11 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	protected void updateGeometriesColor(boolean updateSurface) {
 		updateColors();
-		if (getView3D().getApplication().has(Feature.MOB_LAYER_FOR_PACKING)) {
-			getView3D().getRenderer().getGeometryManager().updateColorAndLayer(
-					getColor(), Renderer.LAYER_DEFAULT, getGeometryIndex());
-		} else {
-			getView3D().getRenderer().getGeometryManager().updateColorAndLayer(
-					getColor(), Renderer.LAYER_MIN, getGeometryIndex());
-		}
+		getView3D().getRenderer().getGeometryManager().updateColorAndLayer(
+				getColor(), Renderer.LAYER_DEFAULT, getGeometryIndex());
 		if (updateSurface) {
-			if (getView3D().getApplication()
-					.has(Feature.MOB_LAYER_FOR_PACKING)) {
-				getView3D().getRenderer().getGeometryManager()
-						.updateColorAndLayer(getSurfaceColor(), getLayer(),
-								getSurfaceIndex());
-			} else {
-				getView3D().getRenderer().getGeometryManager()
-						.updateColorAndLayer(getSurfaceColor(),
-								Renderer.LAYER_MIN,
-								getSurfaceIndex());
-			}
+			getView3D().getRenderer().getGeometryManager().updateColorAndLayer(
+					getSurfaceColor(), getLayer(), getSurfaceIndex());
 		}
 		if (!isVisible()) {
 			setGeometriesVisibility(false);
@@ -570,15 +556,8 @@ public abstract class Drawable3D extends DrawableND {
 	 *            geometry visibility flag
 	 */
 	protected void setGeometriesVisibilityWithSurface(boolean visible) {
-		if (getView3D().getApplication().has(Feature.MOB_LAYER_FOR_PACKING)) {
-			getView3D().getRenderer().getGeometryManager().updateVisibility(
-					visible, getSurfaceIndex(), getSurfaceColor().getAlpha(),
-					getLayer());
-		} else {
-			getView3D().getRenderer().getGeometryManager().updateVisibility(
-					visible, getSurfaceIndex(), getSurfaceColor().getAlpha(),
-					Renderer.LAYER_MIN);
-		}
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getSurfaceIndex(), getSurfaceColor().getAlpha(), getLayer());
 		setGeometriesVisibilityNoSurface(visible);
 	}
 
@@ -589,13 +568,8 @@ public abstract class Drawable3D extends DrawableND {
 	 *            geometry visibility flag
 	 */
 	protected void setGeometriesVisibilityNoSurface(boolean visible) {
-		if (getView3D().getApplication().has(Feature.MOB_LAYER_FOR_PACKING)) {
-			getView3D().getRenderer().getGeometryManager().updateVisibility(
-					visible, getGeometryIndex(), 255, Renderer.LAYER_DEFAULT);
-		} else {
-			getView3D().getRenderer().getGeometryManager().updateVisibility(
-					visible, getGeometryIndex(), 255, Renderer.LAYER_MIN);
-		}
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
+				getGeometryIndex(), 255, Renderer.LAYER_DEFAULT);
 		geometriesSetVisible = visible;
 	}
 

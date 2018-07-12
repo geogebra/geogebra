@@ -255,9 +255,6 @@ public enum Feature {
 	/** AND-887 and IGR-732 */
 	MOB_PROPERTY_SORT_BY,
 
-	/** MOB-1668 */
-	MOB_LAYER_FOR_PACKING,
-
 	/** IGR-898 */
 	MOB_REACT_SEARCH_VIEW,
 

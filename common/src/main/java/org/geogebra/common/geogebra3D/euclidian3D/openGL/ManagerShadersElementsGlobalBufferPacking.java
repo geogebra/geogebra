@@ -8,7 +8,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.Feature;
 
 /**
  * manager packing geometries
@@ -370,11 +369,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		currentBufferManager = clipped ? bufferManagerCurvesClipped
 				: bufferManagerCurves;
 		this.currentColor = d.getColor();
-		if (getView3D().getApplication().has(Feature.MOB_LAYER_FOR_PACKING)) {
-			this.currentLayer = d.getLayer();
-		} else {
-			this.currentLayer = Renderer.LAYER_MIN;
-		}
+		this.currentLayer = d.getLayer();
 		this.currentTextureType = Textures
 				.getDashIdFromLineType(d.getLineType(), d.getLineTypeHidden());
 	}
@@ -444,11 +439,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 						? bufferManagerSurfacesClosed
 						: bufferManagerSurfaces);
 		this.currentColor = d.getSurfaceColor();
-		if (getView3D().getApplication().has(Feature.MOB_LAYER_FOR_PACKING)) {
-			this.currentLayer = d.getLayer();
-		} else {
-			this.currentLayer = Renderer.LAYER_MIN;
-		}
+		this.currentLayer = d.getLayer();
 	}
 
 	@Override
@@ -519,12 +510,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			// draw in points manager
 			setCurrentBufferManager(bufferManagerPoints);
 			this.currentColor = d.getColor();
-			if (getView3D().getApplication()
-					.has(Feature.MOB_LAYER_FOR_PACKING)) {
-				this.currentLayer = Renderer.LAYER_DEFAULT;
-			} else {
-				this.currentLayer = Renderer.LAYER_MIN;
-			}
+			this.currentLayer = Renderer.LAYER_DEFAULT;
 			setPointValues(size, DrawPoint3D.DRAW_POINT_FACTOR, center);
 			int ret = bufferManagerPoints.drawPoint(index);
 			setCurrentBufferManager(null);
@@ -540,12 +526,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			bufferTemplates.selectSphere((int) size);
 			// draw point in current curve
 			this.currentColor = d.getColor();
-			if (getView3D().getApplication()
-					.has(Feature.MOB_LAYER_FOR_PACKING)) {
-				this.currentLayer = Renderer.LAYER_DEFAULT;
-			} else {
-				this.currentLayer = Renderer.LAYER_MIN;
-			}
+			this.currentLayer = Renderer.LAYER_DEFAULT;
 			setPointValues(size, 2.5f, center);
 			bufferManagerCurves.drawPoint();
 		} else {
