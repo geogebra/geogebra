@@ -14,9 +14,11 @@ public class TestMaterialCallback implements MaterialCallbackI {
 	private final ArrayList<String> titles = new ArrayList<>();
 	private final ArrayList<String> errors = new ArrayList<>();
 	private int expectedCount = 1;
+	private boolean loaded;
 
 	@Override
 	public final void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+		loaded = true;
 		for (int i = 0; i < result.size(); i++) {
 			String title = result.get(i).getTitle();
 			if (handleMaterial(result.get(i))) {
@@ -41,17 +43,18 @@ public class TestMaterialCallback implements MaterialCallbackI {
 	}
 
 	public void await(int time) {
-		for (int i = 0; i < time; i++) {
-			if (titles.size() >= expectedCount || !errors.isEmpty()) {
+		for (int i = 0; i < time * 5; i++) {
+			Log.debug(titles.size() + " of " + expectedCount);
+			if ((loaded && titles.size() >= expectedCount)
+					|| !errors.isEmpty()) {
 				return;
 			}
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				Log.warn("cannot sleep");
 			}
 		}
-
 	}
 
 	public void setExpectedCount(int size) {

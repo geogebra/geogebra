@@ -168,7 +168,7 @@ public class MarvlAPITest {
 			}
 		};
 		doUpload(api, "Test material", uploadCallback);
-		uploadCallback.verify("Test material");
+		copyCallback.await(5);
 		copyCallback.verify("Copy of Test material");
 	}
 
@@ -213,6 +213,7 @@ public class MarvlAPITest {
 				return false;
 			}
 		};
+		getCallback.setExpectedCount(i);
 		api.getUsersOwnMaterials(getCallback, Order.title);
 		getCallback.await(5);
 		getCallback.verify("");
@@ -276,6 +277,44 @@ public class MarvlAPITest {
 		doUpload(api, "Test material", uploadCallback);
 		renameCallback.await(5);
 		renameCallback.verify("Renamed material");
+	}
+
+	@Test
+	public void testReupload() {
+		if (System.getProperty("marvl.auth.basic") == null) {
+			return;
+		}
+		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
+		final MarvlAPI api = authAPI();
+		api.setClient(getClient(appd));
+		deleteAll(api);
+		final String[] filenames = new String[2];
+		final TestMaterialCallback reuploadCallback = new TestMaterialCallback() {
+			@Override
+			public boolean handleMaterial(Material mat) {
+				filenames[1] = mat.getFileName();
+				return true;
+			}
+		};
+		TestMaterialCallback uploadCallback = new TestMaterialCallback() {
+
+			@Override
+			public boolean handleMaterial(Material mat) {
+				filenames[0] = mat.getFileName();
+				pause(1000);
+				api.uploadMaterial(mat.getSharingKeyOrId(), "S",
+						"Test material",
+						Base64.encodeToString(UtilD.loadFileIntoByteArray(
+								"src/test/resources/slides.ggs"), false),
+						reuploadCallback, MaterialType.ggs);
+				return true;
+			}
+		};
+		doUpload(api, "Test material", uploadCallback);
+		reuploadCallback.await(5);
+		reuploadCallback.verify("Test material");
+		materialCountShouldBe(api, 1);
+		Assert.assertNotEquals(filenames[0], filenames[1]);
 	}
 
 }
