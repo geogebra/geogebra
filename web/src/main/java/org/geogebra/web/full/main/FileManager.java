@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -90,8 +91,12 @@ public abstract class FileManager extends MaterialsManager {
 		// TODO check if we need to set timestamp / modified
 		mat.setModified(modified);
 
-		if (app.getTubeId() != 0) {
-			mat.setId(app.getTubeId());
+		if (!StringUtil.emptyOrZero(app.getTubeId())) {
+			try {
+				mat.setId(Integer.parseInt(app.getTubeId()));
+			} catch (NumberFormatException e) {
+				mat.setSharingKey(app.getTubeId());
+			}
 			Log.debug("create material" + app.getSyncStamp());
 			mat.setSyncStamp(app.getSyncStamp());
 		}

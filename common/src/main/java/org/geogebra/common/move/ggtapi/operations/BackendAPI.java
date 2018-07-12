@@ -91,7 +91,7 @@ public interface BackendAPI {
 
 	void getUsersOwnMaterials(MaterialCallbackI userMaterialsCB, MaterialRequest.Order order);
 
-	void uploadMaterial(int tubeID, String visibility, String text, String base64,
+	void uploadMaterial(String tubeID, String visibility, String text, String base64,
 			MaterialCallbackI materialCallback, MaterialType saveType);
 
 	void uploadRenameMaterial(Material material, MaterialCallbackI materialCallback);

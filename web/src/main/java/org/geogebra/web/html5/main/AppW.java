@@ -3438,7 +3438,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            material title
 	 */
 	public void updateMaterialURL(int id, String sharingKey, String title) {
-		setTubeId(id);
+		Log.printStacktrace(id + ":" + sharingKey);
+		setTubeId(id > 0 ? Integer.toString(id) : sharingKey);
 		if (articleElement.getDataParamApp() && sharingKey != null) {
 
 			Browser.changeUrl(getCurrentURL(sharingKey));

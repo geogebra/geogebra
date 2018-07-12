@@ -17,6 +17,7 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.browser.BrowseResources;
@@ -450,7 +451,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				loc.getMenu("Saving"), false, app);
 		if (!this.title.getText().equals(
 		        app.getKernel().getConstruction().getTitle())) {
-			app.setTubeId(0);
+			app.setTubeId(null);
 			app.setLocalID(-1);
 		}
 		app.getKernel().getConstruction().setTitle(this.title.getText());
@@ -504,10 +505,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 					app.updateMaterialURL(0, null, null);
 					doUploadToGgt(app.getTubeId(), visibility, base64,
 					        initMaterialCB(base64, false));
-				} else if (app.getTubeId() == 0
+				} else if (StringUtil.emptyOrZero(app.getTubeId())
 						|| isMacro()) {
 					Log.debug("SAVE had no Tube ID or tool is saved");
-					doUploadToGgt(0, visibility, base64,
+					doUploadToGgt(null, visibility, base64,
 					        initMaterialCB(base64, false));
 				} else {
 					handleSync(base64, visibility);
@@ -596,7 +597,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				        } else {
 					        // if the file was deleted meanwhile
 							// (parseResponse.size() == 0)
-							app.setTubeId(0);
+							app.setTubeId(null);
 					        materialCallback = initMaterialCB(base64, false);
 					        doUploadToGgt(app.getTubeId(), visibility, base64,
 					                materialCallback);
@@ -624,7 +625,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * @param materialCallback
 	 *            {@link MaterialCallback}
 	 */
-	void doUploadToGgt(int tubeID, String visibility, String base64,
+	void doUploadToGgt(String tubeID, String visibility, String base64,
 	        MaterialCallback materialCallback) {
 		app.getLoginOperation().getGeoGebraTubeAPI()
 				.uploadMaterial(tubeID, visibility, this.title.getText(),
@@ -808,7 +809,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * @return true if the MaterialType is ggb
 	 */
 	boolean isWorksheet() {
-		return saveType.equals(MaterialType.ggb);
+		return saveType.equals(MaterialType.ggb)
+				|| saveType.equals(MaterialType.ggs);
 	}
 
 	/**

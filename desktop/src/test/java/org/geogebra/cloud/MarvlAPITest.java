@@ -76,7 +76,7 @@ public class MarvlAPITest {
 
 		final ArrayList<String> titles = new ArrayList<>();
 		final ArrayList<String> errors = new ArrayList<>();
-		api.uploadMaterial(0, "S", title,
+		api.uploadMaterial("", "S", title,
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
 				new MaterialCallbackI() {
@@ -200,7 +200,7 @@ public class MarvlAPITest {
 		final ArrayList<String> titles = new ArrayList<>();
 		final ArrayList<String> errors = new ArrayList<>();
 		final LocalizationD loc = new LocalizationD(3);
-		api.uploadMaterial(0, "S", "Test material",
+		api.uploadMaterial("", "S", "Test material",
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
 				new MaterialCallbackI() {
@@ -254,7 +254,7 @@ public class MarvlAPITest {
 		// clear all
 		deleteAll(api);
 		// upload one material
-		api.uploadMaterial(0, "S", "Test material",
+		api.uploadMaterial("", "S", "Test material",
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
 				new MaterialCallbackI() {
@@ -382,7 +382,7 @@ public class MarvlAPITest {
 		final MarvlAPI api = authAPI();
 		final ArrayList<String> titles = new ArrayList<>();
 		final ArrayList<String> errors = new ArrayList<>();
-		api.uploadMaterial(0, "S", "Test material",
+		api.uploadMaterial("", "S", "Test material",
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
 				new MaterialCallbackI() {

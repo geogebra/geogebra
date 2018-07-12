@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Request;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -19,7 +20,7 @@ public class UploadRequest implements Request {
 	private final static String TASK = "upload";
 	private final String type;
 	private final String consTitle;
-	private int uniqueID;
+	private String uniqueID;
 	private String base64;
 	private String visibility;
 	private Material parent;
@@ -39,7 +40,7 @@ public class UploadRequest implements Request {
 	 * @param type
 	 *            material type
 	 */
-	UploadRequest(int tubeID, String visibility, String consTitle,
+	UploadRequest(String tubeID, String visibility, String consTitle,
 			String base64, MaterialType type, Material parent) {
 		this.consTitle = consTitle;
 		this.type = type == MaterialType.ggb ? "applet" : type.name();
@@ -63,7 +64,7 @@ public class UploadRequest implements Request {
 		this.type = mat.getType() == MaterialType.ggb ? "applet"
 				: mat.getType().name();
 		if (mat.getId() != 0) {
-			this.uniqueID = mat.getId();
+			this.uniqueID = mat.getId() + "";
 		}
 		this.base64 = mat.getBase64();
 		this.visibility = "P";
@@ -79,7 +80,7 @@ public class UploadRequest implements Request {
 	 */
 	UploadRequest(String newTitle, int id) {
 		this.consTitle = newTitle;
-		this.uniqueID = id;
+		this.uniqueID = id + "";
 		this.type = "applet"; // TODO can this be ignored
 	}
 
@@ -101,7 +102,7 @@ public class UploadRequest implements Request {
 	 *            parent material
 	 * @return the upload XML as JSON String
 	 */
-	public static UploadRequest getRequestElement(int tubeID, String visibility,
+	public static UploadRequest getRequestElement(String tubeID, String visibility,
 			String filename, String base64, MaterialType type, Material parent) {
 		return new UploadRequest(tubeID, visibility, filename, base64, type,
 				parent);
@@ -155,7 +156,7 @@ public class UploadRequest implements Request {
 			JSONObject task = new JSONObject();
 			task.put("-type", UploadRequest.TASK);
 
-			if (this.uniqueID != 0) {
+			if (!StringUtil.emptyOrZero(this.uniqueID)) {
 				// ID
 				task.put("id", this.uniqueID);
 			}

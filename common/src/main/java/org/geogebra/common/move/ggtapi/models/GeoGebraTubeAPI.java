@@ -478,7 +478,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 *            material type
 	 */
 	@Override
-	public void uploadMaterial(int tubeID, String visibility,
+	public void uploadMaterial(String tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,
 			MaterialType type) {
 		uploadMaterial(tubeID, visibility, filename, base64, cb, type, null);
@@ -503,10 +503,9 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 * @param parent
 	 *            parent ID
 	 */
-	public void uploadMaterial(int tubeID, String visibility,
+	public void uploadMaterial(String tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,
 			MaterialType type, Material parent) {
-
 		performRequest(UploadRequest
 				.getRequestElement(tubeID, visibility, filename, base64, type,
 						parent)
@@ -646,7 +645,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 			@Override
 			public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
-				uploadMaterial(0, result.get(0).getVisibility(),
+				uploadMaterial("", result.get(0).getVisibility(),
 						title,
 						result.get(0).getBase64(), copyCallback, result.get(0).getType(),
 						result.get(0));

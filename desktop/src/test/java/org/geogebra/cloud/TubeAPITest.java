@@ -131,7 +131,8 @@ public class TubeAPITest extends Assert {
 	private void uploadMaterial(GeoGebraTubeAPID api,
 			final ArrayList<String> titles, int id, final IdCallback callback) {
 
-		api.uploadMaterial(id, "O", "testfile" + new Date() + Math.random(),
+		api.uploadMaterial(id + "", "O",
+				"testfile" + new Date() + Math.random(),
 				circleBase64, new MaterialCallbackI() {
 
 					@Override

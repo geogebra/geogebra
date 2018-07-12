@@ -397,7 +397,7 @@ public abstract class App implements UpdateSelection {
 
 	private ArrayList<String> mLastCommandsSelectedFromHelp;
 	// TODO: move following methods somewhere else
-	private int tubeID = 0;
+	private String tubeID = null;
 	private boolean isAutoSaved = true;
 	private AdjustViews adjustViews = null;
 	private AdjustScreen adjustScreen = null;
@@ -4461,11 +4461,11 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
-	public final int getTubeId() {
+	public final String getTubeId() {
 		return tubeID;
 	}
 
-	public final void setTubeId(int uniqueId) {
+	public final void setTubeId(String uniqueId) {
 		this.tubeID = uniqueId;
 	}
 

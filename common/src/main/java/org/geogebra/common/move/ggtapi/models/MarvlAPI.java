@@ -18,6 +18,7 @@ import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.HttpRequest;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -39,8 +40,8 @@ public class MarvlAPI implements BackendAPI {
 	}
 
 	@Override
-	public void getItem(String string, MaterialCallbackI materialCallbackI) {
-		// TODO Auto-generated method stub
+	public void getItem(String id, MaterialCallbackI callback) {
+		this.performRequest("GET", "/materials/" + id, null, callback);
 	}
 
 	@Override
@@ -277,7 +278,7 @@ public class MarvlAPI implements BackendAPI {
 	}
 
 	@Override
-	public void uploadMaterial(int tubeID, String visibility, String text, String base64,
+	public void uploadMaterial(String tubeID, String visibility, String text, String base64,
 			MaterialCallbackI materialCallback, MaterialType type) {
 		JSONObject request = new JSONObject();
 		try {
@@ -285,11 +286,18 @@ public class MarvlAPI implements BackendAPI {
 											// supported visibility
 			request.put("title", text);
 			request.put("file", base64);
-			request.put("type", type.name());
+			if (StringUtil.emptyOrZero(tubeID)) {
+				request.put("type", type.name());
+			}
 		} catch (JSONException e) {
 			materialCallback.onError(e);
 		}
-		this.performRequest("POST", "/materials", request.toString(), materialCallback);
+		if (!StringUtil.emptyOrZero(tubeID)) {
+			performRequest("PATCH", "/materials/" + tubeID, request.toString(),
+					materialCallback);
+		} else {
+			performRequest("POST", "/materials", request.toString(), materialCallback);
+		}
 	}
 
 	@Override
@@ -300,14 +308,14 @@ public class MarvlAPI implements BackendAPI {
 		} catch (JSONException e) {
 			materialCallback.onError(e);
 		}
-		this.performRequest("PATCH", "/materials/" + material.getSharingKeyOrId(),
+		performRequest("PATCH", "/materials/" + material.getSharingKeyOrId(),
 				request.toString(), materialCallback);
 	}
 
 	@Override
 	public void copy(Material material, final String title,
 			final MaterialCallbackI materialCallback) {
-		this.performRequest("POST", "/materials/" + material.getSharingKeyOrId(), null,
+		performRequest("POST", "/materials/" + material.getSharingKeyOrId(), null,
 				new MaterialCallbackI() {
 
 					@Override

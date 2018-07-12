@@ -4270,7 +4270,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public void resetUniqueId() {
 		uniqueId = "" + UUID.randomUUID();
-		setTubeId(0);
+		setTubeId(null);
 	}
 
 	// //////////////////////////////////

@@ -1764,4 +1764,8 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		String str = text.trim();
 		return str.length() == 1 && isCurrency(str.charAt(0));
 	}
+
+	public static boolean emptyOrZero(String tubeId) {
+		return empty(tubeId) || "0".equals(tubeId);
+	}
 }

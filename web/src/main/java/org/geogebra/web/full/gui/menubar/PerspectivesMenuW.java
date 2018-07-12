@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.menubar;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -124,7 +125,7 @@ public class PerspectivesMenuW extends GMenuBar {
 		// set active perspective for highlighting
 		app.setActivePerspective(index);
 		// app.getToolbar().closeAllSubmenu();
-		if (app.getTubeId() < 1
+		if (StringUtil.emptyOrZero(app.getTubeId())
 				&& app.getArticleElement().getDataParamApp()) {
 			Browser.changeMetaTitle(app.getLocalization()
 					.getMenu(Layout.getDefaultPerspectives(index).getId()));
