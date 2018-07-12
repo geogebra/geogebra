@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoSlope;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * 
@@ -120,7 +121,7 @@ public class DrawSlope extends Drawable {
 				if (slopeTriangleSize > 1) {
 					StringBuilder sb = new StringBuilder();
 					switch (slope.getLabelMode()) {
-					case GeoElement.LABEL_NAME_VALUE:
+					case GeoElementND.LABEL_NAME_VALUE:
 						sb.append(slopeTriangleSize);
 						sb.append(' ');
 						sb.append(geo.getLabel(tpl));
@@ -128,7 +129,7 @@ public class DrawSlope extends Drawable {
 						sb.append(kernel.format(rwHeight, tpl));
 						break;
 
-					case GeoElement.LABEL_VALUE:
+					case GeoElementND.LABEL_VALUE:
 						sb.append(kernel.format(rwHeight, tpl));
 						break;
 

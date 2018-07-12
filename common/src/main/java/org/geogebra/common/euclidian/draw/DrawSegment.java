@@ -32,11 +32,13 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.DoubleUtil;
@@ -200,7 +202,7 @@ public class DrawSegment extends Drawable implements Previewable {
 
 		// if no label and no decoration then we're done
 		if (!labelVisible
-				&& geo.getDecorationType() == GeoElement.DECORATION_NONE) {
+				&& geo.getDecorationType() == GeoElementND.DECORATION_NONE) {
 			return;
 		}
 
@@ -226,7 +228,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 
 		// update decoration
-		if (geo.getDecorationType() != GeoElement.DECORATION_NONE
+		if (geo.getDecorationType() != GeoElementND.DECORATION_NONE
 				&& nLength > 0) {
 			if (decoTicks == null) {
 				// only create these object when they are really needed
@@ -247,7 +249,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			default:
 				// do nothing
 				break;
-			case GeoElement.DECORATION_SEGMENT_ONE_TICK:
+			case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
 				// use perpendicular vector to set tick
 				factor = tickLength / nLength;
 				nx *= factor;
@@ -256,7 +258,7 @@ public class DrawSegment extends Drawable implements Previewable {
 						midY + ny);
 				break;
 
-			case GeoElement.DECORATION_SEGMENT_TWO_TICKS:
+			case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
 				// vector (vx, vy) to get 2 points around midpoint
 				factor = tickSpacing / (2 * nLength);
 				vx = -ny * factor;
@@ -271,7 +273,7 @@ public class DrawSegment extends Drawable implements Previewable {
 						midX - vx + nx, midY - vy + ny);
 				break;
 
-			case GeoElement.DECORATION_SEGMENT_THREE_TICKS:
+			case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
 				// vector (vx, vy) to get 2 points around midpoint
 				factor = tickSpacing / nLength;
 				vx = -ny * factor;
@@ -288,7 +290,7 @@ public class DrawSegment extends Drawable implements Previewable {
 						midX - vx + nx, midY - vy + ny);
 				break;
 
-			case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
+			case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
 				// vector (vx, vy) to get 2 points around midpoint
 				factor = tickSpacing / (1.5 * nLength);
 				vx = -ny * factor;
@@ -307,7 +309,7 @@ public class DrawSegment extends Drawable implements Previewable {
 						midY - arrowlength * vy + arrowlength * (-ny + vy));
 				break;
 
-			case GeoElement.DECORATION_SEGMENT_TWO_ARROWS:
+			case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
 				// vector (vx, vy) to get 2 points around midpoint
 				factor = tickSpacing / (1.5 * nLength);
 				vx = -ny * factor;
@@ -332,7 +334,7 @@ public class DrawSegment extends Drawable implements Previewable {
 						midY + arrowlength * (-ny + vy));
 				break;
 
-			case GeoElement.DECORATION_SEGMENT_THREE_ARROWS:
+			case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
 				// vector (vx, vy) to get 2 points around midpoint
 				factor = tickSpacing / (1.5 * nLength);
 				vx = -ny * factor;
@@ -433,7 +435,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			g2.draw(line);
 
 			// decoTicks is null for zero length segments
-			if (geo.getDecorationType() != GeoElement.DECORATION_NONE
+			if (geo.getDecorationType() != GeoElementND.DECORATION_NONE
 					&& decoTicks != null) {
 				g2.setStroke(decoStroke);
 
@@ -441,33 +443,33 @@ public class DrawSegment extends Drawable implements Previewable {
 				default:
 					// do nothing
 					break;
-				case GeoElement.DECORATION_SEGMENT_ONE_TICK:
+				case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
 					g2.draw(decoTicks[0]);
 					break;
 
-				case GeoElement.DECORATION_SEGMENT_TWO_TICKS:
+				case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
 					g2.draw(decoTicks[0]);
 					g2.draw(decoTicks[1]);
 					break;
 
-				case GeoElement.DECORATION_SEGMENT_THREE_TICKS:
+				case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
 					g2.draw(decoTicks[0]);
 					g2.draw(decoTicks[1]);
 					g2.draw(decoTicks[2]);
 					break;
-				case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
+				case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
 					g2.draw(decoTicks[0]);
 					g2.draw(decoTicks[1]);
 					break;
 
-				case GeoElement.DECORATION_SEGMENT_TWO_ARROWS:
+				case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
 					g2.draw(decoTicks[0]);
 					g2.draw(decoTicks[1]);
 					g2.draw(decoTicks[2]);
 					g2.draw(decoTicks[3]);
 					break;
 
-				case GeoElement.DECORATION_SEGMENT_THREE_ARROWS:
+				case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
 					g2.draw(decoTicks[0]);
 					g2.draw(decoTicks[1]);
 					g2.draw(decoTicks[2]);
@@ -631,16 +633,23 @@ public class DrawSegment extends Drawable implements Previewable {
 	@Override
 	public void updateByBoundingBoxResize(AbstractEvent e,
 			EuclidianBoundingBoxHandler handler) {
-		double dP1 = line.getP1().distance(e.getX(), e.getY());
-		double dP2 = line.getP2().distance(e.getX(), e.getY());
-		double realX = view.toRealWorldCoordX(e.getX());
-		double realY = view.toRealWorldCoordY(e.getY());
-
-		if (dP1 <= dP2) {
-			s.getStartPoint().setCoords(realX, realY, 1);
+		GeoPointND updated;
+		GPoint2D anchor;
+		// start point == 0 == TOP_LEFT
+		// end point == 1 == BOTTOM_LEFT
+		// slightly hacky but more numerically stable than guessing from
+		// distance
+		if (handler == EuclidianBoundingBoxHandler.TOP_LEFT) {
+			anchor = line.getP2();
+			updated = s.getStartPoint();
 		} else {
-			s.getEndPoint().setCoords(realX, realY, 1);
+			anchor = line.getP1();
+			updated = s.getEndPoint();
 		}
+		GPoint2D snap = ModeShape.snapPoint(anchor.getX(), anchor.getY(), e.getX(), e.getY());
+		double realX = view.toRealWorldCoordX(snap.getX());
+		double realY = view.toRealWorldCoordY(snap.getY());
+		updated.setCoords(realX, realY, 1);
 
 		s.update();
 		s.updateRepaint();

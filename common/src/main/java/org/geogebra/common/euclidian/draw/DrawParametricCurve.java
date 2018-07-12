@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -142,7 +143,7 @@ public class DrawParametricCurve extends Drawable {
 			xLabel = labelPoint.x;
 			yLabel = labelPoint.y;
 			switch (geo.getLabelMode()) {
-			case GeoElement.LABEL_NAME_VALUE:
+			case GeoElementND.LABEL_NAME_VALUE:
 				StringTemplate tpl = StringTemplate.latexTemplate;
 				labelSB.setLength(0);
 				labelSB.append('$');
@@ -156,7 +157,7 @@ public class DrawParametricCurve extends Drawable {
 				labelDesc = labelSB.toString();
 				break;
 
-			case GeoElement.LABEL_VALUE:
+			case GeoElementND.LABEL_VALUE:
 				labelSB.setLength(0);
 				labelSB.append('$');
 				labelSB.append(geo.getLaTeXdescription());
@@ -165,7 +166,7 @@ public class DrawParametricCurve extends Drawable {
 				labelDesc = labelSB.toString();
 				break;
 
-			case GeoElement.LABEL_CAPTION:
+			case GeoElementND.LABEL_CAPTION:
 			default: // case LABEL_NAME:
 				labelDesc = geo.getLabelDescription();
 			}

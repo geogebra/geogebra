@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -31,6 +32,8 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  */
 public class ModeShape {
 
+	private static final double MAX_SNAP_DISTANCE = 20;
+	private static final double MAX_SNAP_SLOPE = 0.1;
 	private EuclidianView view;
 	private EuclidianController ec;
 	/**
@@ -161,8 +164,10 @@ public class ModeShape {
 			view.setShapeEllipse(ellipse);
 			view.repaintView();
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_LINE) {
+			GPoint2D snap = snapPoint(dragStartPoint.getX(), dragStartPoint.getY(), event.getX(),
+					event.getY());
 			line.setLine(dragStartPoint.getX(), dragStartPoint.getY(),
-					event.getX(), event.getY());
+					snap.getX(), snap.getY());
 			view.setShapeLine(line);
 			view.repaintView();
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
@@ -176,6 +181,30 @@ public class ModeShape {
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			updateFreeFormPolygon(event, wasDragged);
 		}
+	}
+
+	/**
+	 * @param x1
+	 *            anchor x-coord
+	 * @param y1
+	 *            anchor y-coord
+	 * @param x2
+	 *            moving point x-coord
+	 * @param y2
+	 *            moving point y-coord
+	 * @return moving point adjusted to be on horizontal / vertical line with
+	 *         anchor
+	 */
+	public static GPoint2D snapPoint(double x1, double y1, double x2, double y2) {
+		return AwtFactory.getPrototype().newPoint2D(snap(x2, x1, Math.abs(y1 - y2)),
+				snap(y2, y1, Math.abs(x1 - x2)));
+	}
+
+	private static double snap(double y2, double y1, double scale) {
+		if (Math.abs(y2 - y1) < Math.min(MAX_SNAP_DISTANCE, MAX_SNAP_SLOPE * scale)) {
+			return y1;
+		}
+		return y2;
 	}
 
 	/**

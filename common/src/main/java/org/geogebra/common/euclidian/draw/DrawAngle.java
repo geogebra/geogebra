@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.algos.AlgoAnglePoints;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -365,7 +366,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			default:
 				// do nothing
 				break;
-			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
+			case GeoElementND.DECORATION_ANGLE_TWO_ARCS:
 				rdiff = 4 + geo.getLineThickness() / 2d;
 				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
@@ -374,7 +375,7 @@ public class DrawAngle extends Drawable implements Previewable {
 						.createTransformedShape(decoArc);
 				break;
 
-			case GeoElement.DECORATION_ANGLE_THREE_ARCS:
+			case GeoElementND.DECORATION_ANGLE_THREE_ARCS:
 				rdiff = 4 + geo.getLineThickness() / 2d;
 				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
@@ -388,12 +389,12 @@ public class DrawAngle extends Drawable implements Previewable {
 						.createTransformedShape(decoArc);
 				break;
 
-			case GeoElement.DECORATION_ANGLE_ONE_TICK:
+			case GeoElementND.DECORATION_ANGLE_ONE_TICK:
 				angleTick[0] = -angSt - angExt / 2;
 				updateTick(angleTick[0], arcSize, 0);
 				break;
 
-			case GeoElement.DECORATION_ANGLE_TWO_TICKS:
+			case GeoElementND.DECORATION_ANGLE_TWO_TICKS:
 				angleTick[0] = -angSt - 2 * angExt / 5;
 				angleTick[1] = -angSt - 3 * angExt / 5;
 				if (Math.abs(angleTick[1] - angleTick[0]) > MAX_TICK_DISTANCE) {
@@ -404,7 +405,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				updateTick(angleTick[1], arcSize, 1);
 				break;
 
-			case GeoElement.DECORATION_ANGLE_THREE_TICKS:
+			case GeoElementND.DECORATION_ANGLE_THREE_TICKS:
 				angleTick[0] = -angSt - 3 * angExt / 8;
 				angleTick[1] = -angSt - 5 * angExt / 8;
 				if (Math.abs(angleTick[1] - angleTick[0]) > 2
@@ -418,15 +419,15 @@ public class DrawAngle extends Drawable implements Previewable {
 				angleTick[0] = -angSt - angExt / 2;
 				updateTick(angleTick[0], arcSize, 2);
 				break;
-			case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
-			case GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE:
+			case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
+			case GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE:
 				double[] n2 = new double[2]; // actual angle for arrow point
 				double[] n = new double[2]; // adjusted to rotate arrow slightly
 				double[] v = new double[2]; // adjusted to rotate arrow slightly
 
 				double rotateangle = 0.25d; // rotate arrow slightly
 
-				if (geo.getDecorationType() == GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE) {
+				if (geo.getDecorationType() == GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE) {
 					n2[0] = Math.cos(angSt);
 					n2[1] = Math.sin(angSt);
 					n[0] = Math.cos(angSt + rotateangle);
@@ -546,34 +547,34 @@ public class DrawAngle extends Drawable implements Previewable {
 				// need to draw
 				// other decorations
 				switch (geo.getDecorationType()) {
-				case GeoElement.DECORATION_ANGLE_TWO_ARCS:
+				case GeoElementND.DECORATION_ANGLE_TWO_ARCS:
 					g2.draw(shapeArc1);
 					break;
 
-				case GeoElement.DECORATION_ANGLE_THREE_ARCS:
+				case GeoElementND.DECORATION_ANGLE_THREE_ARCS:
 					g2.draw(shapeArc1);
 					g2.draw(shapeArc2);
 					break;
 
-				case GeoElement.DECORATION_ANGLE_ONE_TICK:
+				case GeoElementND.DECORATION_ANGLE_ONE_TICK:
 					g2.setStroke(decoStroke);
 					g2.draw(tick[0]);
 					break;
 
-				case GeoElement.DECORATION_ANGLE_TWO_TICKS:
+				case GeoElementND.DECORATION_ANGLE_TWO_TICKS:
 					g2.setStroke(decoStroke);
 					g2.draw(tick[0]);
 					g2.draw(tick[1]);
 					break;
 
-				case GeoElement.DECORATION_ANGLE_THREE_TICKS:
+				case GeoElementND.DECORATION_ANGLE_THREE_TICKS:
 					g2.setStroke(decoStroke);
 					g2.draw(tick[0]);
 					g2.draw(tick[1]);
 					g2.draw(tick[2]);
 					break;
-				case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
-				case GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE:
+				case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
+				case GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE:
 					g2.setStroke(decoStroke);
 					g2.fill(polygon);
 					break;
