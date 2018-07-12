@@ -31,6 +31,7 @@ public class AlgebraController {
 	protected App app;
 	protected SelectionManager selection;
 	private AlgebraView view;
+	private boolean isAutoCreateSliders = true;
 
 	// private GeoVector tempVec;
 	// private boolean kernelChanged;
@@ -56,6 +57,10 @@ public class AlgebraController {
 
 	public String getDragText() {
 		return getDragText(new ArrayList<String>());
+	}
+
+	public void setAutoCreateSliders(boolean isAutoCreateSliders) {
+		this.isAutoCreateSliders = isAutoCreateSliders;
 	}
 
 	public String getDragText(ArrayList<String> geoLabelList) {
@@ -153,7 +158,7 @@ public class AlgebraController {
 
 			geos = kernel.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
-							errorHandler, true, callback);
+							errorHandler, isAutoCreateSliders, callback);
 
 			if (geos != null && geos.length == 1 && !geos[0].isLabelSet()) {
 				geos[0].setLabel(geos[0].getDefaultLabel());
