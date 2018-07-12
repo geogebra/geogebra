@@ -50,6 +50,9 @@ public abstract class VideoPlayer implements IsWidget, Persistable {
 		stylePlayer();
 	}
 
+	/**
+	 * Put your styling here.
+	 */
 	protected void stylePlayer() {
 		asWidget().addStyleName("mowVideo");
 		asWidget().addStyleName("mowWidget");
@@ -149,6 +152,10 @@ public abstract class VideoPlayer implements IsWidget, Persistable {
 		update();
 	}
 
+	/**
+	 * 
+	 * @return the embedded URL of the video if any.
+	 */
 	public String getEmbedUrl() {
 		return video.getEmbeddedUrl();
 	}

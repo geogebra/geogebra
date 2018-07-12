@@ -6,9 +6,12 @@ import java.util.Map;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoMP4Video;
+import org.geogebra.common.kernel.geos.GeoMebisVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
+import org.geogebra.common.media.MebisError;
 import org.geogebra.common.media.MediaFormat;
+import org.geogebra.common.media.PackedUrl;
 import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
@@ -78,7 +81,7 @@ public class VideoManagerW implements VideoManager {
 		if (url == null) {
 			return null;
 		}
-		if (url.endsWith(".m4v") || url.endsWith(".mp4")) {
+		if (url.endsWith(".m4v") || url.contains(".mp4")) {
 			return url;
 		}
 		return null;
@@ -87,14 +90,17 @@ public class VideoManagerW implements VideoManager {
 	private void checkVideo(String url) {
 		boolean youtube = getYouTubeId(url) != null && !"".equals(getYouTubeId(url));
 		boolean mp4 = getMP4Url(url) != null && !"".equals(getMP4Url(url));
+		PackedUrl mUrl = GeoMebisVideo.packUrl(url);
 		MediaFormat fmt = MediaFormat.NONE;
 		if (youtube) {
-			fmt = MediaFormat.YOUTUBE;
+			fmt = MediaFormat.VIDEO_YOUTUBE;
 		} else if (mp4) {
-			fmt = MediaFormat.MP4;
+			fmt = MediaFormat.VIDEO_HTML5;
+		} else if (mUrl.getError() == MebisError.NONE) {
+			fmt = MediaFormat.VIDEO_MEBIS;
 		}
 
-		if (!youtube || !mp4) {
+		if (!youtube || !mp4 || mUrl.getError() != MebisError.NONE) {
 			onUrlError(VideoURL.createError(url, fmt));
 		} else {
 			onUrlOK(VideoURL.createOK(url, fmt));
@@ -219,9 +225,10 @@ public class VideoManagerW implements VideoManager {
 
 	private static VideoPlayer createPlayer(GeoVideo video, int id) {
 		switch (video.getFormat()) {
-		case YOUTUBE:
+		case VIDEO_YOUTUBE:
 			return new YouTubePlayer(video, id);
-		case MP4:
+		case VIDEO_HTML5:
+		case VIDEO_MEBIS:
 			return new HTML5Player(video, id);
 		case AUDIO_HTML5:
 		case NONE:
@@ -289,9 +296,9 @@ public class VideoManagerW implements VideoManager {
 	@Override
 	public GeoVideo createVideo(Construction c, VideoURL videoURL) {
 		switch (videoURL.getFormat()) {
-		case YOUTUBE:
+		case VIDEO_YOUTUBE:
 			return new GeoVideo(c, videoURL.getUrl());
-		case MP4:
+		case VIDEO_HTML5:
 			return new GeoMP4Video(c, videoURL.getUrl());
 		// case AUDIO_HTML5:
 		// case NONE:

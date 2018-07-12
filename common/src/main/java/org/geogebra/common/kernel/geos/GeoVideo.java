@@ -425,6 +425,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 
 	@Override
 	public MediaFormat getFormat() {
-		return MediaFormat.YOUTUBE;
+		return MediaFormat.VIDEO_YOUTUBE;
 	}
 }

@@ -44,6 +44,6 @@ public class GeoMP4Video extends GeoVideo {
 
 	@Override
 	public MediaFormat getFormat() {
-		return MediaFormat.MP4;
+		return MediaFormat.VIDEO_HTML5;
 	}
 }
