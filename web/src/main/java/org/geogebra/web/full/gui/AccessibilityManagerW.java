@@ -57,8 +57,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	
 	@Override
 	public boolean focusInput(boolean force) {
-		if (gm.getToolbarPanelV2() != null) {
-			return gm.getToolbarPanelV2().focusInput(force);
+		if (gm.getUnbundledToolbar() != null) {
+			return gm.getUnbundledToolbar().focusInput(force);
 		}
 		return false;
 	}
@@ -148,8 +148,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void focusMenu() {
-		if (gm.getToolbarPanelV2() != null) {
-			gm.getToolbarPanelV2().focusMenu();
+		if (gm.getUnbundledToolbar() != null) {
+			gm.getUnbundledToolbar().focusMenu();
 		}
 	}
 
@@ -192,7 +192,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			app.getActiveEuclidianView().requestFocus();
 		} else {
 			ToolbarPanel tp = ((GuiManagerW) app.getGuiManager())
-					.getToolbarPanelV2();
+					.getUnbundledToolbar();
 			if (tp != null) {
 				tp.focusMenu();
 			}

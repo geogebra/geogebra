@@ -526,8 +526,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (isUnbundled() && getGuiManager() != null
 				&& getGuiManager() instanceof GuiManagerW
 				&& ((GuiManagerW) getGuiManager())
-						.getToolbarPanelV2() != null) {
-			((GuiManagerW) getGuiManager()).getToolbarPanelV2().getTabTools()
+						.getUnbundledToolbar() != null) {
+			((GuiManagerW) getGuiManager()).getUnbundledToolbar().getTabTools()
 					.updateContent();
 		}
 	}
@@ -1082,7 +1082,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public final void onHeaderVisible() {
 		ToolbarPanel toolbar = ((GuiManagerW) getGuiManager())
-				.getToolbarPanelV2();
+				.getUnbundledToolbar();
 		if (isPortrait() && toolbar.isClosed()) {
 			toolbar.doCloseInPortrait();
 		}
@@ -1098,6 +1098,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	/**
 	 * Closes the page control panel
+	 * 
+	 * @return whether it was closed
 	 */
 	public boolean closePageControlPanel() {
 		if (!has(Feature.MOW_MULTI_PAGE)) {
@@ -1365,11 +1367,11 @@ public class AppWFull extends AppW implements HasKeyboard {
 				if (getGuiManager() != null
 						&& getGuiManager() instanceof GuiManagerW
 						&& ((GuiManagerW) getGuiManager())
-								.getToolbarPanelV2() != null) {
+								.getUnbundledToolbar() != null) {
 					if (has(Feature.SPLITTER_LOADING)) {
 						updatePerspectiveForUnbundled(current);
 					}
-					((GuiManagerW) getGuiManager()).getToolbarPanelV2()
+					((GuiManagerW) getGuiManager()).getUnbundledToolbar()
 							.getTabTools().updateContent();
 				}
 			}
@@ -1654,7 +1656,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private void updateMenuBtnStatus(boolean expanded) {
 		if (getGuiManager() instanceof GuiManagerW) {
 			ToolbarPanel toolbarPanel = ((GuiManagerW) getGuiManager())
-					.getToolbarPanelV2();
+					.getUnbundledToolbar();
 			if (toolbarPanel != null) {
 				toolbarPanel.markMenuAsExpanded(expanded);
 			}

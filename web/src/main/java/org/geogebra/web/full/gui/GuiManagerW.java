@@ -245,8 +245,8 @@ public class GuiManagerW extends GuiManager
 			getToolbarPanel().updateUndoActions();
 		}
 
-		if (getToolbarPanelV2() != null) {
-			getToolbarPanelV2().updateUndoRedoActions();
+		if (getUnbundledToolbar() != null) {
+			getUnbundledToolbar().updateUndoRedoActions();
 		}
 	}
 
@@ -559,8 +559,8 @@ public class GuiManagerW extends GuiManager
 		// toolbarPanel.validate();
 		// toolbarPanel.updateHelpText();
 
-		if (getToolbarPanelV2() != null) {
-			getToolbarPanelV2().updateUndoRedoPosition();
+		if (getUnbundledToolbar() != null) {
+			getUnbundledToolbar().updateUndoRedoPosition();
 		}
 	}
 
@@ -696,14 +696,14 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public boolean moveMoveFloatingButtonUp(int left, int width,
 			boolean isSmall) {
-		return getToolbarPanelV2().moveMoveFloatingButtonUpWithTooltip(left,
+		return getUnbundledToolbar().moveMoveFloatingButtonUpWithTooltip(left,
 				width,
 				isSmall);
 	}
 
 	@Override
 	public void moveMoveFloatingButtonDown(boolean isSmall, boolean wasMoved) {
-		getToolbarPanelV2().moveMoveFloatingButtonDownWithTooltip(isSmall,
+		getUnbundledToolbar().moveMoveFloatingButtonDownWithTooltip(isSmall,
 				wasMoved);
 	}
 
@@ -1793,8 +1793,8 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public int setToolbarMode(final int mode, ModeSetter m) {
-		if (getApp().isUnbundled() && getToolbarPanelV2() != null) {
-			getToolbarPanelV2().setMode(mode);
+		if (getApp().isUnbundled() && getUnbundledToolbar() != null) {
+			getUnbundledToolbar().setMode(mode);
 
 			// close dynamic stylebar at changing mode
 
@@ -2387,7 +2387,7 @@ public class GuiManagerW extends GuiManager
 	/**
 	 * @return toolbar panel for unbundled apps
 	 */
-	public ToolbarPanel getToolbarPanelV2() {
+	public ToolbarPanel getUnbundledToolbar() {
 		if (getApp().isUnbundled()) {
 			DockPanel avPanel = getLayout().getDockManager()
 					.getPanel(App.VIEW_ALGEBRA);
@@ -2481,10 +2481,6 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void updateVideo(GeoVideo video) {
 		app.getVideoManager().updatePlayer(video);
-	}
-
-	public ToolbarPanel getUnbundledToolbar() {
-		return getToolbarPanelV2();
 	}
 
 	@Override

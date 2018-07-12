@@ -329,7 +329,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		this.setKeyboardShowing(false);
 
 		ToolbarPanel toolbarPanel = ((GuiManagerW) app.getGuiManager())
-				.getToolbarPanelV2();
+				.getUnbundledToolbar();
 		if (toolbarPanel != null) {
 			toolbarPanel.updateMoveButton();
 		}
@@ -360,7 +360,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		this.setKeyboardShowing(true);
 
 		ToolbarPanel toolbarPanel = ((GuiManagerW) app.getGuiManager())
-				.getToolbarPanelV2();
+				.getUnbundledToolbar();
 		if (toolbarPanel != null) {
 			toolbarPanel.hideMoveFloatingButton();
 		}
@@ -488,8 +488,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		
 		if (app.isUnbundled() && !app.isWhiteboardActive()
 				&& ((GuiManagerW) app.getGuiManager())
-						.getToolbarPanelV2() != null
-				&& !((GuiManagerW) app.getGuiManager()).getToolbarPanelV2()
+						.getUnbundledToolbar() != null
+				&& !((GuiManagerW) app.getGuiManager()).getUnbundledToolbar()
 						.isOpen()) {
 			return false;
 		}
