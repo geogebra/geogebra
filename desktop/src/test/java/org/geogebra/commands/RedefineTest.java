@@ -53,14 +53,18 @@ public class RedefineTest extends Assert {
 
 	public void checkError(String s, String msg) {
 		ErrorAccumulator errorStore = new ErrorAccumulator();
-
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(s, false, errorStore,
 						false, null);
-
 		assertEquals(msg, errorStore.getErrors());
-
 	}
+
+	public void add(String s) {
+		app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(s, true,
+						app.getDefaultErrorHandler(), false, null);
+	}
+
 
 	@Test
 	public void breakingTypeChangeShouldRaiseException() {
@@ -256,6 +260,15 @@ public class RedefineTest extends Assert {
 				StringTemplate.editTemplate);
 		t("c", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
 				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void randomDerivatives() {
+		add("f(x)=1/(x+RandomBetween(1,100))");
+		add("g=Derivative(2*f)");
+		add("h=Derivative(2*f)");
+		add("UpdateConstruction()");
+		t("g(7)-h(7)", "0");
 	}
 
 }

@@ -1402,6 +1402,9 @@ public class ExpressionNode extends ValidExpression
 	private String getCasString(ExpressionValue left2, StringTemplate tpl, boolean symbolic,
 			boolean isRight) {
 		if (symbolic && left2.isGeoElement()) {
+			if (((GeoElement) left2).isRandomGeo()) {
+				return left2.toValueString(tpl);
+			}
 			return ((GeoElement) left2).getLabel(tpl);
 		} else if (left2.isExpressionNode()) {
 			return ((ExpressionNode) left2).getCASstring(tpl, symbolic);
