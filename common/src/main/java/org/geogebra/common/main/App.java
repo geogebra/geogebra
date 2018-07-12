@@ -4029,10 +4029,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_PREVIEW_WHEN_EDITING:
 			return false;
 
-		// AND-1061 and IGR-815
-		case MOB_EXAM_MODE_EXIT_DIALOG_NEW:
-			return true;
-
 		// AND-1071 and IGR-819
 		case MOB_EXAM_MODE_SCREENSHOT_SAVED_NOTIFICATION:
 			return true;
