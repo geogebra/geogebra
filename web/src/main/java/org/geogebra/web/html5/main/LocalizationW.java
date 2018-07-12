@@ -289,6 +289,8 @@ public final class LocalizationW extends Localization {
 		// } else {
 		// RootPanel.getBodyElement().setAttribute("dir", "ltr");
 		// }
+
+		saveLanguageToSettings(lang);
 	}
 
 	@Override
@@ -442,4 +444,10 @@ public final class LocalizationW extends Localization {
 		}
 
 	}
+
+	private native void saveLanguageToSettings(String lang) /*-{
+		if ($wnd.android && $wnd.android.savePreference) {
+			$wnd.android.savePreference("language", lang);
+		}
+	}-*/;
 }
