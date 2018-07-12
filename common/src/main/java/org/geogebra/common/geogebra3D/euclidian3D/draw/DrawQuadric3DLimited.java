@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.main.Feature;
 
@@ -299,6 +300,14 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	@Override
 	public boolean shouldBePacked() {
 		return getView3D().getApplication().has(Feature.MOB_PACK_LISTS);
+	}
+
+	@Override
+	public void enlargeBounds(Coords min, Coords max,
+			boolean reduceWhenClipped) {
+		drawBottom.enlargeBounds(min, max, reduceWhenClipped);
+		drawTop.enlargeBounds(min, max, reduceWhenClipped);
+		drawSide.enlargeBounds(min, max, reduceWhenClipped);
 	}
 
 }
