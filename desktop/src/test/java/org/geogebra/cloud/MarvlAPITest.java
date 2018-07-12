@@ -20,7 +20,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
@@ -69,34 +68,18 @@ public class MarvlAPITest {
 		}
 
 		MarvlAPI api = authAPI();
-		doUpload(api, "Test material");
+		doUpload(api, "Test material", new TestMaterialCallback());
 	}
 
-	private static void doUpload(MarvlAPI api, String title) {
-
-		final ArrayList<String> titles = new ArrayList<>();
-		final ArrayList<String> errors = new ArrayList<>();
+	private static void doUpload(MarvlAPI api, String title,
+			TestMaterialCallback testCallback) {
 		api.uploadMaterial("", "S", title,
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
-				new MaterialCallbackI() {
-
-					@Override
-					public void onLoaded(List<Material> result,
-							ArrayList<Chapter> meta) {
-						titles.add(result.get(0).getTitle());
-					}
-
-					@Override
-					public void onError(Throwable exception) {
-						errors.add("Upload: " + exception.getMessage());
-
-					}
-				},
+				testCallback,
 				MaterialType.ggs);
-		pause(5000);
-		Assert.assertEquals("", StringUtil.join(",", errors));
-		Assert.assertEquals(title, StringUtil.join(",", titles));
+		testCallback.await(5);
+		testCallback.verify(title);
 	}
 
 	@Test
@@ -110,60 +93,37 @@ public class MarvlAPITest {
 		deleteAll(api);
 
 		final String title = "OpenTest" + System.currentTimeMillis();
-		doUpload(api, title);
-		final ArrayList<String> titles = new ArrayList<>();
-		final ArrayList<String> errors = new ArrayList<>();
-
-		api.getUsersOwnMaterials(new MaterialCallbackI() {
+		doUpload(api, title, new TestMaterialCallback());
+		TestMaterialCallback getCallback = new TestMaterialCallback() {
 
 			@Override
-			public void onLoaded(List<Material> result,
-					ArrayList<Chapter> meta) {
-				for (int i = 0; i < result.size(); i++) {
-					if (title.equals(result.get(i).getTitle())) {
-						titles.add(title);
-						try {
-							appd.getGgbApi().openFile(result.get(i).getFileName());
-						}catch(Exception e){
-							errors.add(e.getMessage());
-						}
-
+			public boolean handleMaterial(Material mat) {
+				if (title.equals(mat.getTitle())) {
+					try {
+						appd.getGgbApi().openFile(mat.getFileName());
+						return true;
+					} catch (Exception e) {
+						onError(e);
 					}
 				}
+				return false;
 			}
-
-			@Override
-			public void onError(Throwable exception) {
-				errors.add(exception.getMessage());
-			}
-		}, Order.title);
-		pause(5000);
-		Assert.assertEquals("", StringUtil.join(",", errors));
-		Assert.assertEquals(title, StringUtil.join(",", titles));
+		};
+		api.getUsersOwnMaterials(getCallback, Order.title);
+		getCallback.await(5);
+		getCallback.verify(title);
 	}
 
 	private static void deleteAll(final MarvlAPI api) {
+		final TestMaterialCallback deleteCallback = new TestMaterialCallback();
 		api.getUsersOwnMaterials(new MaterialCallbackI() {
 
 			@Override
 			public void onLoaded(List<Material> result,
 					ArrayList<Chapter> meta) {
+				deleteCallback.setExpectedCount(result.size());
 				for (int i = 0; i < result.size(); i++) {
-					api.deleteMaterial(result.get(i), new MaterialCallbackI() {
-
-						@Override
-						public void onLoaded(List<Material> result,
-								ArrayList<Chapter> meta) {
-							// TODO Auto-generated method stub
-
-						}
-
-						@Override
-						public void onError(Throwable exception) {
-							// TODO Auto-generated method stub
-
-						}
-					});
+					api.deleteMaterial(result.get(i), deleteCallback);
 				}
 			}
 
@@ -172,8 +132,7 @@ public class MarvlAPITest {
 				//
 			}
 		}, Order.title);
-		pause(5000);
-
+		deleteCallback.await(10);
 	}
 
 	private ClientInfo getClient(AppDNoGui appd) {
@@ -197,47 +156,20 @@ public class MarvlAPITest {
 		}
 		allowMethods("PATCH");
 		final MarvlAPI api = authAPI();
-		final ArrayList<String> titles = new ArrayList<>();
-		final ArrayList<String> errors = new ArrayList<>();
 		final LocalizationD loc = new LocalizationD(3);
-		api.uploadMaterial("", "S", "Test material",
-				Base64.encodeToString(UtilD.loadFileIntoByteArray(
-						"src/test/resources/slides.ggs"), false),
-				new MaterialCallbackI() {
+		final TestMaterialCallback copyCallback = new TestMaterialCallback();
+		TestMaterialCallback uploadCallback = new TestMaterialCallback() {
 
-					@Override
-					public void onLoaded(List<Material> result,
-							ArrayList<Chapter> meta) {
-						api.copy(result.get(0),
-								MarvlAPI.getCopyTitle(loc,
-										result.get(0).getTitle()),
-								new MaterialCallbackI() {
-
-									@Override
-							public void onLoaded(List<Material> resultCopy,
-									ArrayList<Chapter> metaCopy) {
-								titles.add(resultCopy.get(0).getTitle());
-							}
-
-									@Override
-							public void onError(Throwable exception) {
-								errors.add(exception.getMessage());
-							}
-
-						});
-
-					}
-
-					@Override
-					public void onError(Throwable exception) {
-						errors.add(exception.getMessage());
-
-					}
-				}, MaterialType.ggs);
-		pause(10000);
-		Assert.assertEquals("", StringUtil.join(",", errors));
-		Assert.assertEquals("Copy of Test material",
-				StringUtil.join(",", titles));
+			@Override
+			public boolean handleMaterial(Material mat) {
+				api.copy(mat, MarvlAPI.getCopyTitle(loc, mat.getTitle()),
+						copyCallback);
+				return true;
+			}
+		};
+		doUpload(api, "Test material", uploadCallback);
+		uploadCallback.verify("Test material");
+		copyCallback.verify("Copy of Test material");
 	}
 
 	@Test
@@ -247,93 +179,44 @@ public class MarvlAPITest {
 		}
 		allowMethods("PATCH");
 		final MarvlAPI api = authAPI();
-		final ArrayList<String> errors = new ArrayList<>();
 
 		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
 		api.setClient(getClient(appd));
 		// clear all
 		deleteAll(api);
 		// upload one material
-		api.uploadMaterial("", "S", "Test material",
-				Base64.encodeToString(UtilD.loadFileIntoByteArray(
-						"src/test/resources/slides.ggs"), false),
-				new MaterialCallbackI() {
-
-					@Override
-					public void onLoaded(List<Material> result,
-							ArrayList<Chapter> meta) {
-						// nothing to do
-					}
-
-					@Override
-					public void onError(Throwable exception) {
-						errors.add(exception.getMessage());
-
-					}
-				}, MaterialType.ggs);
-		pause(10000);
+		doUpload(api, "Test Material", new TestMaterialCallback());
 		// load list of materials, delete the first one
-		deleteSingleMaterial(api);
+		final TestMaterialCallback deleteCallback = new TestMaterialCallback();
+		api.getUsersOwnMaterials(new TestMaterialCallback() {
+
+			@Override
+			public boolean handleMaterial(Material mat) {
+				api.deleteMaterial(mat, deleteCallback);
+				return true;
+			}
+		}, Order.title);
+		deleteCallback.await(5);
+		deleteCallback.verify("Test Material");
+
 		materialCountShouldBe(api, 0);
 	}
 
 	private static void materialCountShouldBe(MarvlAPI api, int i) {
-		final ArrayList<String> errors = new ArrayList<>();
-		final ArrayList<Integer> count = new ArrayList<>();
+		final StringBuilder count = new StringBuilder();
 
 		// check that no materials are on server
-		api.getUsersOwnMaterials(new MaterialCallbackI() {
-
+		TestMaterialCallback getCallback = new TestMaterialCallback() {
 			@Override
-			public void onLoaded(List<Material> resultLoad,
-					ArrayList<Chapter> meta) {
-				count.add(resultLoad.size());
+			public boolean handleMaterial(Material mat) {
+				count.append("*");
+				return false;
 			}
-
-			@Override
-			public void onError(Throwable exception) {
-				errors.add(exception.getMessage());
-			}
-		}, Order.title);
-		pause(5000);
-		Assert.assertEquals("", StringUtil.join(",", errors));
-		Assert.assertEquals("0", StringUtil.join(",", count));
-
-	}
-
-	private static void deleteSingleMaterial(final MarvlAPI api) {
-		final ArrayList<String> titles = new ArrayList<>();
-		final ArrayList<String> errors = new ArrayList<>();
-		api.getUsersOwnMaterials(new MaterialCallbackI() {
-
-			@Override
-			public void onLoaded(List<Material> resultLoad,
-					ArrayList<Chapter> meta) {
-				api.deleteMaterial(resultLoad.get(0), new MaterialCallbackI() {
-
-					@Override
-					public void onLoaded(List<Material> resultD,
-							ArrayList<Chapter> metaD) {
-						titles.add(resultD.get(0).getTitle());
-					}
-
-					@Override
-					public void onError(Throwable exception) {
-						errors.add(exception.getMessage());
-
-					}
-				});
-			}
-
-			@Override
-			public void onError(Throwable exception) {
-				errors.add(exception.getMessage());
-			}
-		}, Order.title);
-		pause(5000);
-		Assert.assertEquals("", StringUtil.join(",", errors));
-		Assert.assertEquals("Test material",
-				StringUtil.join(",", titles));
+		};
+		api.getUsersOwnMaterials(getCallback, Order.title);
+		getCallback.await(5);
+		getCallback.verify("");
+		Assert.assertEquals(i, count.length());
 
 	}
 
@@ -380,44 +263,19 @@ public class MarvlAPITest {
 			return;
 		}
 		final MarvlAPI api = authAPI();
-		final ArrayList<String> titles = new ArrayList<>();
-		final ArrayList<String> errors = new ArrayList<>();
-		api.uploadMaterial("", "S", "Test material",
-				Base64.encodeToString(UtilD.loadFileIntoByteArray(
-						"src/test/resources/slides.ggs"), false),
-				new MaterialCallbackI() {
+		final TestMaterialCallback renameCallback = new TestMaterialCallback();
+		TestMaterialCallback uploadCallback = new TestMaterialCallback() {
 
-					@Override
-					public void onLoaded(List<Material> result,
-							ArrayList<Chapter> meta) {
-						result.get(0).setTitle("Renamed material");
-						api.uploadRenameMaterial(result.get(0),
-								new MaterialCallbackI() {
-
-									@Override
-									public void onLoaded(
-											List<Material> resultRename,
-											ArrayList<Chapter> metaRename) {
-										titles.add(
-												resultRename.get(0).getTitle());
-									}
-
-									@Override
-									public void onError(Throwable exception) {
-										errors.add(exception.getMessage());
-									}
-								});
-					}
-
-					@Override
-					public void onError(Throwable exception) {
-						errors.add(exception.getMessage());
-
-					}
-				}, MaterialType.ggs);
-		pause(10000);
-		Assert.assertEquals("", StringUtil.join(",", errors));
-		Assert.assertEquals("Renamed material", StringUtil.join(",", titles));
+			@Override
+			public boolean handleMaterial(Material mat) {
+				mat.setTitle("Renamed material");
+				api.uploadRenameMaterial(mat, renameCallback);
+				return true;
+			}
+		};
+		doUpload(api, "Test material", uploadCallback);
+		renameCallback.await(5);
+		renameCallback.verify("Renamed material");
 	}
 
 }
