@@ -53,7 +53,12 @@ public class LoggerD extends Log {
 				+ "\n used memory (total-free): " + usedK + "K";
 	}
 
-	@Override
+	/**
+	 * Sets the log file name (if FILE logging is available)
+	 * 
+	 * @param logFileName
+	 *            the name of the log file
+	 */
 	public void setLogFileImpl(String logFileName) {
 		if (logFile != null && logFileWriter != null) {
 			try {

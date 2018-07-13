@@ -3997,13 +3997,6 @@ public abstract class App implements UpdateSelection {
 	public final boolean has(Feature f) {
 		boolean whiteboard = isWhiteboardActive();
 		switch (f) {
-
-		case CANARY:
-			return canary;
-
-		case PRERELEASE:
-			return prerelease;
-
 		// **********************************************************************
 		// MOBILE START
 		// note: please use prefix MOB
@@ -4190,6 +4183,9 @@ public abstract class App implements UpdateSelection {
 
 		case EMBED_EXTENSION:
 			return canary && hasExtension();
+
+		case WIDGET_POSITIONS:
+			return prerelease;
 
 		// **********************************************************************
 		// MOW END

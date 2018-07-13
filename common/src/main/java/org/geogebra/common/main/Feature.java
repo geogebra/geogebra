@@ -287,10 +287,7 @@ public enum Feature {
 
 	EMBED_EXTENSION,
 
-	/** beta */
-	PRERELEASE,
-
-	/** alpha */
-	CANARY
+	/** MOW-491 */
+	WIDGET_POSITIONS
 }
 

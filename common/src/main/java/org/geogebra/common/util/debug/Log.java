@@ -47,6 +47,7 @@ public abstract class Log {
 	private boolean levelShown = true; // default
 	/** whether to keep log in memory */
 	protected boolean keepLog = false;
+	private boolean reading = false;
 
 	/**
 	 * Logging level
@@ -334,21 +335,6 @@ public abstract class Log {
 	 *            logging level
 	 */
 	protected abstract void print(String logEntry, Level level);
-
-	/**
-	 * Sets the log file name (if FILE logging is available)
-	 * 
-	 * @param logFileName
-	 *            the name of the log file
-	 */
-	final public static void setLogFile(String logFileName) {
-		logger.setLogFileImpl(logFileName);
-	}
-
-	protected void setLogFileImpl(String logFileName) {
-		// overridden in some implementations
-
-	}
 
 	/**
 	 * Returns the current time in human readable format (for debugging)
@@ -677,6 +663,20 @@ public abstract class Log {
 
 	public static Log getLogger() {
 		return logger;
+	}
+
+	public static void read(String string) {
+		logger.doRead(string);
+	}
+
+	private void doRead(String string) {
+		if (reading) {
+			error(string);
+		}
+	}
+
+	public void setReading(boolean b) {
+		reading = true;
 	}
 
 }

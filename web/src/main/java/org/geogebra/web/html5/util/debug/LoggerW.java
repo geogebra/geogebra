@@ -47,13 +47,6 @@ public class LoggerW extends Log {
 	}
 
 	@Override
-	public void setLogFileImpl(String logFileName) {
-		log(WARN,
-		        "FILE logging is not supported in web, falling back to use CONSOLES instead",
-		        1);
-	}
-
-	@Override
 	protected void print(String logEntry, Level level) {
 		if (getLogDestination() == LogDestination.FILE) {
 			setLogDestination(LogDestination.CONSOLE);

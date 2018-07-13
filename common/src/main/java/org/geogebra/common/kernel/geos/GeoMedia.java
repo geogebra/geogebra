@@ -26,6 +26,7 @@ public abstract class GeoMedia extends GeoButton {
 	 */
 	public GeoMedia(Construction c) {
 		super(c);
+		setAbsoluteScreenLocActive(false);
 		app = getKernel().getApplication();
 	}
 

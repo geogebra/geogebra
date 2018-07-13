@@ -59,6 +59,8 @@ public class DrawVideo extends Drawable implements DrawWidget {
 		int height = video.getHeight();
 		left = video.getAbsoluteScreenLocX();
 		top = video.getAbsoluteScreenLocY();
+		left = video.getScreenLocX(view);
+		top = video.getScreenLocY(view);
 
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
 		if (boundingBox != null) {

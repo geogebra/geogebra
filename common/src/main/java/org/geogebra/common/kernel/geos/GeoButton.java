@@ -17,21 +17,26 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
  * @author Michael
  */
 public class GeoButton extends GeoElement
-		implements AbsoluteScreenLocateable, TextProperties, Furniture {
+		implements AbsoluteScreenLocateable, Locateable, TextProperties, Furniture {
 
 	private double fontSizeD = 1;
 	private int fontStyle = GFont.PLAIN;
@@ -44,7 +49,7 @@ public class GeoButton extends GeoElement
 	private int height = 30;
 
 	private Observer observer;
-	private SliderPosition startPoint;
+	private GeoPointND[] corner = new GeoPointND[3];
 
 	// original positions and widths
 	// set once (if null)
@@ -154,17 +159,17 @@ public class GeoButton extends GeoElement
 
 	@Override
 	public double getRealWorldLocX() {
-		return startPoint == null ? 0 : startPoint.x;
+		return corner[0] == null ? 0 : corner[0].getInhomX();
 	}
 
 	@Override
 	public double getRealWorldLocY() {
-		return startPoint == null ? 0 : startPoint.y;
+		return corner[0] == null ? 0 : corner[0].getInhomY();
 	}
 
 	@Override
 	public boolean isAbsoluteScreenLocActive() {
-		return startPoint == null;
+		return corner[0] == null;
 	}
 
 	@Override
@@ -176,7 +181,7 @@ public class GeoButton extends GeoElement
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;
 		labelOffsetY = y;
-		if (startPoint != null) {
+		if (corner[0] != null) {
 			updateRelLocation(kernel.getApplication().getActiveEuclidianView());
 		}
 		if (!hasScreenLocation()) {
@@ -194,16 +199,24 @@ public class GeoButton extends GeoElement
 		return labelOffsetY;
 	}
 
+	public int getScreenLocX(EuclidianViewInterfaceCommon ev) {
+		return this.corner[0] == null ? labelOffsetX : ev.toScreenCoordX(corner[0].getInhomX());
+	}
+
+	public int getScreenLocY(EuclidianViewInterfaceCommon ev) {
+		return this.corner[0] == null ? labelOffsetY : ev.toScreenCoordY(corner[0].getInhomY());
+	}
+
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		EuclidianView ev = kernel.getApplication().getActiveEuclidianView();
-		if (flag && startPoint != null) {
+		if (flag && corner[0] != null) {
 			updateAbsLocation(ev);
 
-			startPoint = null;
+			corner[0] = null;
 		}
 		else if (!flag) {
-			startPoint = new SliderPosition();
+			corner[0] = new GeoPoint(cons);
 			updateRelLocation(ev);
 		}
 	}
@@ -216,22 +229,21 @@ public class GeoButton extends GeoElement
 	 *            view
 	 */
 	public void updateAbsLocation(EuclidianView ev) {
-		if (startPoint != null) {
-			labelOffsetX = ev.toScreenCoordX(startPoint.x);
-			labelOffsetY = ev.toScreenCoordY(startPoint.y);
+		if (corner[0] != null) {
+			labelOffsetX = ev.toScreenCoordX(corner[0].getInhomX());
+			labelOffsetY = ev.toScreenCoordY(corner[0].getInhomY());
 		}
 	}
 
 	private void updateRelLocation(EuclidianView ev) {
-		startPoint.x = ev.toRealWorldCoordX(labelOffsetX);
-		startPoint.y = ev.toRealWorldCoordY(labelOffsetY);
+		corner[0].setCoords(ev.toRealWorldCoordX(labelOffsetX), ev.toRealWorldCoordY(labelOffsetY),
+				1);
 	}
 
 	@Override
 	public void setRealWorldLoc(double x, double y) {
-		startPoint = new SliderPosition();
-		startPoint.x = x;
-		startPoint.y = y;
+		corner[0] = new GeoPoint(cons);
+		corner[0].setCoords(x, y, 1);
 	}
 
 	/**
@@ -336,9 +348,9 @@ public class GeoButton extends GeoElement
 		}
 		if (!isAbsoluteScreenLocActive()) {
 			sb.append("\t<startPoint x=\"");
-			sb.append(startPoint.x);
+			sb.append(getRealWorldLocX());
 			sb.append("\" y=\"");
-			sb.append(startPoint.y);
+			sb.append(getRealWorldLocY());
 			sb.append("\" z=\"1\"/>");
 		}
 	}
@@ -481,13 +493,6 @@ public class GeoButton extends GeoElement
 		return !isIndependent();
 	}
 
-	/**
-	 * @return relative position
-	 */
-	public SliderPosition getPosition() {
-		return startPoint;
-	}
-
 	@Override
 	public GColor getBackgroundColor() {
 		if (bgColor == null && colFunction == null) {
@@ -526,5 +531,81 @@ public class GeoButton extends GeoElement
 		sb.append(loc.getMenuDefault("Pressed", "pressed"));
 		sb.append(".");
 		return sb.toString();
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
+		// remove old dependencies
+		if (corner[0] != null) {
+			corner[0].getLocateableList().unregisterLocateable(this);
+		}
+
+		// set new location
+		if (p == null) {
+			if (corner[0] != null) {
+				corner[0] = corner[0].copy();
+			} else {
+				corner[0] = null;
+			}
+			labelOffsetX = 0;
+			labelOffsetY = 0;
+		} else {
+			corner[0] = p;
+
+			// add new dependencies
+			corner[0].getLocateableList().registerLocateable(this);
+
+			// absolute screen position should be deactivated
+			// setAbsoluteScreenLocActive(false);
+		}
+	}
+
+	@Override
+	public void removeStartPoint(GeoPointND p) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public GeoPointND getStartPoint() {
+		return corner[0];
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
+		Log.error(p + "");
+		corner[number] = p;
+	}
+
+	@Override
+	public GeoPointND[] getStartPoints() {
+		return corner;
+	}
+
+	@Override
+	public void initStartPoint(GeoPointND p, int number) {
+		Log.error(p + "");
+		corner[number] = p;
+	}
+
+	@Override
+	public boolean hasAbsoluteLocation() {
+		return corner[0] == null || corner[0].isAbsoluteStartPoint();
+	}
+
+	@Override
+	public boolean isAlwaysFixed() {
+		return !kernel.getApplication().has(Feature.WIDGET_POSITIONS);
+	}
+
+	@Override
+	public void setWaitForStartPoint() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void updateLocation() {
+		update();
 	}
 }

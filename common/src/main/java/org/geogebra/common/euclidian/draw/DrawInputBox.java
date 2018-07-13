@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.SliderPosition;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
@@ -279,11 +278,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
-		SliderPosition c = geoInputBox.getPosition();
-		if (c != null) {
-			xLabel = view.toScreenCoordX(c.x);
-			yLabel = view.toScreenCoordY(c.y);
-		}
+		xLabel = geoInputBox.getScreenLocX(view);
+		yLabel = geoInputBox.getScreenLocY(view);
 		labelRectangle.setBounds(xLabel, yLabel, getPreferredSize().getWidth(),
 				getPreferredSize().getHeight());
 

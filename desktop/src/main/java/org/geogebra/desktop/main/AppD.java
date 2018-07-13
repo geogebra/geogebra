@@ -412,16 +412,20 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		this.loc = loc;
 		loc.setApp(this);
 		this.cmdArgs = args;
-
+		this.prerelease = args != null && (args.containsArg("prerelease")
+				|| args.containsArg("canary"));
+		this.canary = args != null && args.containsArg("canary");
 		if (args != null && !args.containsArg("silent")) {
-			Log.setLogger(new LoggerD());
+			LoggerD logger = new LoggerD();
+			logger.setReading(true);
+			Log.setLogger(logger);
 			Log.setLogDestination(LogDestination.CONSOLE);
 			if (args.containsArg("logLevel")) {
 				Log.setLogLevel(args.getStringValue("logLevel"));
 			}
 			if (args.containsArg("logFile")) {
 				Log.setLogDestination(LogDestination.FILE);
-				Log.setLogFile(args.getStringValue("logFile"));
+				logger.setLogFileImpl(args.getStringValue("logFile"));
 			}
 			if (args.containsArg("logShowCaller")) {
 				Log.setCallerShown(args.getBooleanValue("logShowCaller", true));
@@ -433,9 +437,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				Log.setLevelShown(args.getBooleanValue("logShowLevel", true));
 			}
 		}
-		this.prerelease = args != null && (args.containsArg("prerelease")
-				|| args.containsArg("canary"));
-		this.canary = args != null && args.containsArg("canary");
 
 		if (canary) {
 			Log.error("*****************************");

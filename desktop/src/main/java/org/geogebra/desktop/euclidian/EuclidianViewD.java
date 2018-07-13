@@ -55,7 +55,6 @@ import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -1003,9 +1002,7 @@ public class EuclidianViewD extends EuclidianView
 
 	@Override
 	public void readText(String text) {
-		if (app.has(Feature.PRERELEASE)) {
-			Log.error("Reading text " + text);
-		}
+		Log.read("Reading text: " + text);
 	}
 
 	@Override

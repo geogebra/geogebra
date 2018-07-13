@@ -21,7 +21,6 @@ import org.geogebra.common.euclidian.MyButton;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.SliderPosition;
 import org.geogebra.common.main.App;
 
 /**
@@ -77,13 +76,9 @@ public final class DrawButton extends Drawable {
 		myButton.setFont(app.getFontCanDisplay(myButton.getText(),
 				geoButton.isSerifFont(), geoButton.getFontStyle(), fontSize));
 
-		xLabel = geo.labelOffsetX;
-		yLabel = geo.labelOffsetY;
-		SliderPosition c = geoButton.getPosition();
-		if (c != null) {
-			xLabel = view.toScreenCoordX(c.x);
-			yLabel = view.toScreenCoordY(c.y);
-		}
+		xLabel = geoButton.getScreenLocX(view);
+		yLabel = geoButton.getScreenLocY(view);
+
 		labelRectangle.setBounds(xLabel, yLabel, myButton.getWidth(),
 				myButton.getHeight());
 

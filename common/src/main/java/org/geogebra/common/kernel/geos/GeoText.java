@@ -548,13 +548,8 @@ public class GeoText extends GeoElement
 
 	@Override
 	public boolean isFixable() {
-
 		// workaround for Text["text",(1,2)]
-		if (alwaysFixed) {
-			return false;
-		}
-
-		return true;
+		return !alwaysFixed;
 	}
 
 	@Override
