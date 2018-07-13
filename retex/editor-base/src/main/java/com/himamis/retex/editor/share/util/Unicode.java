@@ -11,7 +11,7 @@ public class Unicode {
 	final public static char INFINITY = '\u221e';
 	final public static String MINUS_INFINITY_STRING = "-\u221e";
 	final public static char SUPERSCRIPT_MINUS = '\u207b';
-	final public static String SUPERSCRIPT_MINUS_ONE_STRING = "\u207b\u20b9";
+	final public static String SUPERSCRIPT_MINUS_ONE_STRING = "\u207b\u00b9";
 	final public static char SUPERSCRIPT_0 = '\u2070';
 	final public static char SUPERSCRIPT_1 = '\u00b9';
 	final public static char SUPERSCRIPT_2 = '\u00b2';
