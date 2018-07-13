@@ -175,7 +175,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 				GeoElement thicknessGeo = getKernel()
 						.lookupLabel(THICKNESS_GEO_NAME);
 				if (thicknessGeo != null && thicknessGeo.isNumberValue()) {
-					thickness = ((NumberValue) thicknessGeo).getDouble();
+					thickness = ((NumberValue) thicknessGeo).getDouble() / 2;
 				}
 				specificThicknessForSurfaces = (float) ((d / EDGE_FOR_PRINT)
 						* thickness * getXscale());
