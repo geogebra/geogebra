@@ -1153,27 +1153,28 @@ public abstract class Localization {
 	public String getFunction(String key) {
 
 		// change eg asin into sin^{-1}
-		// if (key.startsWith("a")) {
-		// if ("asin".equals(key)) {
-		// return getFunction("sin")
-		// + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-		// } else if ("acos".equals(key)) {
-		// return getFunction("cos")
-		// + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-		// } else if ("atan".equals(key)) {
-		// return getFunction("tan")
-		// + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-		// } else if ("asinh".equals(key)) {
-		// return getFunction("sinh")
-		// + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-		// } else if ("acosh".equals(key)) {
-		// return getFunction("cosh")
-		// + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-		// } else if ("atanh".equals(key)) {
-		// return getFunction("tanh")
-		// + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-		// }
-		// }
+		if (key.startsWith("a")) {
+			if ("asin".equals(key)) {
+				return getFunction("sin")
+						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+			} else if ("acos".equals(key)) {
+				return getFunction("cos")
+						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+			} else if ("atan".equals(key)) {
+				return getFunction("tan")
+						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+			} else if ("asinh".equals(key)) {
+				return getFunction("sinh")
+						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+			} else if ("acosh".equals(key)) {
+				return getFunction("cosh")
+						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+			} else if ("atanh".equals(key)) {
+				return getFunction("tanh")
+						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+			}
+		}
+
 		String ret = getMenu(FUNCTION_PREFIX + key);
 
 		// make sure we don't get strange function names if the properties
