@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.html5.video.VideoWidget.VideoListener;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -15,7 +16,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class HTML5Player extends VideoPlayer implements VideoListener {
 	private VideoWidget v;
 	private FlowPanel main;
-	private boolean updateContent = true;
 
 	/**
 	 * Constructor
@@ -64,24 +64,6 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 		update();
 	}
 
-	/**
-	 *
-	 * @return if frame content needs to be updated.
-	 */
-	public boolean isUpdateContent() {
-		return updateContent;
-	}
-
-	/**
-	 * Set it to true if frame content needs to be updated.
-	 *
-	 * @param updateContent
-	 *            to set.
-	 */
-	public void setUpdateContent(boolean updateContent) {
-		this.updateContent = updateContent;
-	}
-
 	@Override
 	public Widget asWidget() {
 		return main;
@@ -92,6 +74,16 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 		getVideo().setWidth(width);
 		getVideo().setHeight(height);
 		getVideo().update();
+		update();
+	}
+
+	@Override
+	public void onError() {
+		main.clear();
+		Label lbl = new Label(app.getLocalization().getMenuDefault("MebisAccessError",
+				"Something went wrong. Please, check"
+						+ "if you are online and logged in to Mebis"));
+		main.add(lbl);
 		update();
 	}
 

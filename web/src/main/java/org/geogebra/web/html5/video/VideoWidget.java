@@ -29,6 +29,11 @@ public class VideoWidget extends Widget {
 		 *            the original height of the video.
 		 */
 		void onLoad(int width, int height);
+
+		/**
+		 * Called when something is went wrong.
+		 */
+		void onError();
 	}
 	
 	/**
@@ -47,8 +52,12 @@ public class VideoWidget extends Widget {
 	private native void addHandlers(JavaScriptObject video) /*-{
 		var that = this;
 		video.oncanplaythrough = function() {
-			that.@org.geogebra.web.html5.video.VideoWidget::afterLoad(II)(
+			that.@org.geogebra.web.html5.video.VideoWidget::listenerOnLoad(II)(
 					video.videoWidth, video.videoHeight);
+		}
+
+		video.onerror = function() {
+			that.@org.geogebra.web.html5.video.VideoWidget::listenerOnError()();
 		}
 	}-*/;
 
@@ -145,9 +154,15 @@ public class VideoWidget extends Widget {
 		switchAttribute("autoplay", b);
 	}
 
-	private void afterLoad(int width, int height) {
+	private void listenerOnLoad(int width, int height) {
 		if (listener != null) {
 			listener.onLoad(width, height);
+		}
+	}
+
+	private void listenerOnError() {
+		if (listener != null) {
+			listener.onError();
 		}
 	}
 }
