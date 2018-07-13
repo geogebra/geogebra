@@ -520,9 +520,9 @@ public class Browser {
 	private static native void nativeChangeUrl(String name) /*-{
 		if (name && $wnd.history && $wnd.history.pushState) {
 			try {
-				$wnd.parent.history.pushState({}, "GeoGebra", name);
-			} catch (e) {
 				$wnd.history.pushState({}, "GeoGebra", name);
+			} catch (e) {
+				// on dev server trying to push production URL
 			}
 		}
 	}-*/;
