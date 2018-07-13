@@ -79,7 +79,7 @@ public final class DrawButton extends Drawable {
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
-		SliderPosition c = geoButton.getStartPoint();
+		SliderPosition c = geoButton.getPosition();
 		if (c != null) {
 			xLabel = view.toScreenCoordX(c.x);
 			yLabel = view.toScreenCoordY(c.y);

@@ -484,7 +484,7 @@ public class GeoButton extends GeoElement
 	/**
 	 * @return relative position
 	 */
-	public SliderPosition getStartPoint() {
+	public SliderPosition getPosition() {
 		return startPoint;
 	}
 
