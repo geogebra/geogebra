@@ -35,7 +35,6 @@ import com.google.gwt.user.client.ui.RootPanel;
  *
  */
 public class VideoManagerW implements VideoManager {
-	private AsyncOperation<VideoURL> urlCallback = null;
 	/**
 	 * Head of a regular YouTube URL.
 	 */
@@ -73,8 +72,7 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void checkURL(String url, AsyncOperation<VideoURL> callback) {
-		urlCallback = callback;
-		checkVideo(url);
+		checkVideo(url, callback);
 	}
 
 	private static String getMP4Url(String url) {
@@ -87,7 +85,7 @@ public class VideoManagerW implements VideoManager {
 		return null;
 	}
 
-	private void checkVideo(String url) {
+	private void checkVideo(String url, AsyncOperation<VideoURL> callback) {
 		boolean youtube = getYouTubeId(url) != null && !"".equals(getYouTubeId(url));
 		boolean mp4 = getMP4Url(url) != null && !"".equals(getMP4Url(url));
 		MediaFormat fmt = MediaFormat.NONE;
@@ -97,38 +95,27 @@ public class VideoManagerW implements VideoManager {
 			fmt = MediaFormat.VIDEO_HTML5;
 		}
 
-		if (checkMebisVideo(url)) {
+		if (checkMebisVideo(url, callback)) {
 			return;
 		}
 
 		if (!youtube || !mp4) {
-			onUrlError(VideoURL.createError(url, fmt));
+			callback.callback(VideoURL.createError(url, fmt));
 		} else {
-			onUrlOK(VideoURL.createOK(url, fmt));
+			callback.callback(VideoURL.createOK(url, fmt));
 		}
 	}
 
-	private boolean checkMebisVideo(String url) {
+	private static boolean checkMebisVideo(String url,
+			AsyncOperation<VideoURL> callback) {
 		MebisURL mUrl = GeoMebisVideo.packUrl(url);
 		if (mUrl.getError() != MebisError.NONE) {
-			onUrlError(mUrl);
+			callback.callback(mUrl);
 		} else {
-			onUrlOK(mUrl);
+			callback.callback(mUrl);
 			return true;
 		}
 		return mUrl.getError() != MebisError.BASE_MISMATCH;
-	}
-
-	private void onUrlError(VideoURL videoURL) {
-		if (urlCallback != null) {
-			urlCallback.callback(videoURL);
-		}
-	}
-
-	private void onUrlOK(VideoURL videoURL) {
-		if (urlCallback != null) {
-			urlCallback.callback(videoURL);
-		}
 	}
 
 	@Override
