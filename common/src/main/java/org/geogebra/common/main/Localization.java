@@ -147,12 +147,18 @@ public abstract class Localization {
 				// text
 				if ((match > -1) && (match > 0)) {
 					// Affix found. Get the previous character.
-					String prevChars = translationFixPronouncedPrevChars(text, match, 1);
-					if (Unicode.TRANSLATION_FIX_HU_END_E1_STRING.contains(prevChars)) {
-						text = translationFixHuAffixChange(text, match, affix, "e", prevChars);
-					} else if (Unicode.TRANSLATION_FIX_HU_END_O1_STRING.contains(prevChars)) {
-						text = translationFixHuAffixChange(text, match, affix, "o", prevChars);
-					} else if (Unicode.TRANSLATION_FIX_HU_END_OE1_STRING.contains(prevChars)) {
+					String prevChars = translationFixPronouncedPrevChars(text,
+							match, 1);
+					if (Unicode.TRANSLATION_FIX_HU_END_E1_STRING
+							.contains(prevChars)) {
+						text = translationFixHuAffixChange(text, match, affix,
+								"e", prevChars);
+					} else if (Unicode.TRANSLATION_FIX_HU_END_O1_STRING
+							.contains(prevChars)) {
+						text = translationFixHuAffixChange(text, match, affix,
+								"o", prevChars);
+					} else if (Unicode.TRANSLATION_FIX_HU_END_OE1_STRING
+							.contains(prevChars)) {
 						text = translationFixHuAffixChange(text, match, affix,
 								Unicode.TRANSLATION_FIX_HU_OE_STRING,
 								prevChars);
@@ -160,7 +166,8 @@ public abstract class Localization {
 						// Append the previous character.
 						// TODO: This could be quicker: to add only the second
 						// char beyond prevChars
-						prevChars = translationFixPronouncedPrevChars(text, match, 2);
+						prevChars = translationFixPronouncedPrevChars(text,
+								match, 2);
 						boolean found2 = false;
 						for (String last2fit : endE2) {
 							if (!found2 && last2fit.equals(prevChars)) {
@@ -206,7 +213,8 @@ public abstract class Localization {
 				if (match > -1) {
 					// Article found. Get the next character.
 					if (match < text.length() - 5) {
-						char checked = Character.toLowerCase(text.charAt(match + 5));
+						char checked = Character
+								.toLowerCase(text.charAt(match + 5));
 						String consonants = "bcdfghjklmnpqrstvwx2346789";
 						int match2 = consonants.indexOf(checked);
 						String first = text.substring(0, match + 1);
@@ -229,8 +237,8 @@ public abstract class Localization {
 	}
 
 	/**
-	 * Gets the previous "pronounced" characters from text before the match position
-	 * for the given length. The returned text will be lowercased.
+	 * Gets the previous "pronounced" characters from text before the match
+	 * position for the given length. The returned text will be lowercased.
 	 * 
 	 * Example: translationFixPrevChars("ABC_{123}", 8, 4) gives "c123"
 	 * 
@@ -277,8 +285,7 @@ public abstract class Localization {
 	 * @return the corrected text
 	 */
 	private static String translationFixHuAffixChange(String inputText,
-			int match, String affixes, String affixForm,
-			String prevChars) {
+			int match, String affixes, String affixForm, String prevChars) {
 		String text = inputText;
 		String replace = "";
 
@@ -420,8 +427,8 @@ public abstract class Localization {
 	 * Returns translation of given key from the "symbol" bundle
 	 * 
 	 * @param key
-	 *            key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ... for
-	 *            tooltips)
+	 *            key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ...
+	 *            for tooltips)
 	 * @return translation for key
 	 */
 	public abstract String getSymbol(int key);
@@ -486,9 +493,10 @@ public abstract class Localization {
 
 		if (!found) {
 			/*
-			 * If no parameters were found in key, this key is missing for some reason
-			 * (maybe it is not added to the ggbtrans database yet). In this case all
-			 * parameters are appended to the displayed string to help the developers.
+			 * If no parameters were found in key, this key is missing for some
+			 * reason (maybe it is not added to the ggbtrans database yet). In
+			 * this case all parameters are appended to the displayed string to
+			 * help the developers.
 			 */
 			for (String arg : args) {
 				sbPlain.append(" ");
@@ -503,8 +511,8 @@ public abstract class Localization {
 	/**
 	 * 
 	 * 
-	 * only letters, numbers and _ allowed in label names check for other characters
-	 * in the properties, and remove them
+	 * only letters, numbers and _ allowed in label names check for other
+	 * characters in the properties, and remove them
 	 * 
 	 * @param key
 	 *            eg "poly" -> "Name.poly" -> poly -> poly1 as a label
@@ -699,11 +707,11 @@ public abstract class Localization {
 	 */
 	public String getOrdinalNumberEn(int n) {
 		/*
-		 * http://en.wikipedia.org/wiki/Names_of_numbers_in_English If the tens digit of
-		 * a number is 1, then write "th" after the number. For example: 13th, 19th,
-		 * 112th, 9,311th. If the tens digit is not equal to 1, then use the following
-		 * table: If the units digit is: 0 1 2 3 4 5 6 7 8 9 write this after the number
-		 * th st nd rd th th th th th th
+		 * http://en.wikipedia.org/wiki/Names_of_numbers_in_English If the tens
+		 * digit of a number is 1, then write "th" after the number. For
+		 * example: 13th, 19th, 112th, 9,311th. If the tens digit is not equal
+		 * to 1, then use the following table: If the units digit is: 0 1 2 3 4
+		 * 5 6 7 8 9 write this after the number th st nd rd th th th th th th
 		 */
 
 		int tensDigit = (n / 10) % 10;
@@ -743,7 +751,8 @@ public abstract class Localization {
 	 *            template
 	 * @return interval start bracket
 	 */
-	public String intervalStartBracket(boolean closed, StringTemplate template) {
+	public String intervalStartBracket(boolean closed,
+			StringTemplate template) {
 		String lang = getLanguage();
 
 		if (closed) {
@@ -825,8 +834,8 @@ public abstract class Localization {
 	}
 
 	/**
-	 * Returns whether autocomplete should be used at all. Certain languages make
-	 * problems with auto complete turned on (e.g. Korean).
+	 * Returns whether autocomplete should be used at all. Certain languages
+	 * make problems with auto complete turned on (e.g. Korean).
 	 * 
 	 * @return whether autocomplete should be used at all, depending on language
 	 */
@@ -835,13 +844,13 @@ public abstract class Localization {
 	}
 
 	/**
-	 * Returns whether current language uses RTL orientation for numbers for given
-	 * template. We don't want RTL digits in XML
+	 * Returns whether current language uses RTL orientation for numbers for
+	 * given template. We don't want RTL digits in XML
 	 * 
 	 * @param tpl
 	 *            string templates
-	 * @return whether current language uses RTL orientation for numbers for given
-	 *         template
+	 * @return whether current language uses RTL orientation for numbers for
+	 *         given template
 	 */
 	final public boolean isRightToLeftDigits(StringTemplate tpl) {
 		if (!tpl.internationalizeDigits()) {
@@ -851,8 +860,8 @@ public abstract class Localization {
 	}
 
 	/**
-	 * @return If localized digits are used for certain languages (Arabic, Hebrew,
-	 *         etc).
+	 * @return If localized digits are used for certain languages (Arabic,
+	 *         Hebrew, etc).
 	 */
 	public boolean isUsingLocalizedDigits() {
 		return useLocalizedDigits;
@@ -998,8 +1007,8 @@ public abstract class Localization {
 	/**
 	 * Use localized digits for certain languages (Arabic, Hebrew, etc).
 	 * 
-	 * Calls {@link #updateLanguageFlags(String)} to apply the change, but just if
-	 * the new flag differs from the current.
+	 * Calls {@link #updateLanguageFlags(String)} to apply the change, but just
+	 * if the new flag differs from the current.
 	 * 
 	 * @param useLocalizedDigits
 	 *            whether localized digits should be used
@@ -1022,11 +1031,12 @@ public abstract class Localization {
 	}
 
 	/**
-	 * Returns translation of given key from the "symbol" bundle in tooltip language
+	 * Returns translation of given key from the "symbol" bundle in tooltip
+	 * language
 	 * 
 	 * @param key
-	 *            key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ... for
-	 *            tooltips)
+	 *            key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ...
+	 *            for tooltips)
 	 * @return translation for key in tooltip language
 	 */
 	public abstract String getSymbolTooltip(int key);
@@ -1062,8 +1072,8 @@ public abstract class Localization {
 		String keyCAS = key + syntaxCAS;
 		String syntax = getCommand(keyCAS);
 
-        return !syntax.equals(keyCAS);
-    }
+		return !syntax.equals(keyCAS);
+	}
 
 	/**
 	 * can be over-ridden if required to provide tooltips in another language
@@ -1091,8 +1101,8 @@ public abstract class Localization {
 	public abstract void initCommand();
 
 	/**
-	 * used to force properties to be read from secondary (tooltip) language if one
-	 * has been selected
+	 * used to force properties to be read from secondary (tooltip) language if
+	 * one has been selected
 	 */
 	public void setTooltipFlag() {
 		// overridden in LocalizationJre
@@ -1100,8 +1110,8 @@ public abstract class Localization {
 	}
 
 	/**
-	 * used to stop forcing properties to be read from secondary (tooltip) language
-	 * if one has been selected
+	 * used to stop forcing properties to be read from secondary (tooltip)
+	 * language if one has been selected
 	 */
 	public void clearTooltipFlag() {
 		// overridden in LocalizationJre
@@ -1123,8 +1133,8 @@ public abstract class Localization {
 
 	/**
 	 * @param b
-	 *            whether language of command bundle changed since we last updated
-	 *            translation table and directories
+	 *            whether language of command bundle changed since we last
+	 *            updated translation table and directories
 	 */
 	protected abstract void setCommandChanged(boolean b);
 
@@ -1235,15 +1245,18 @@ public abstract class Localization {
 	/**
 	 * Creates a locale from a language and a country string.
 	 *
-	 * @param language the language of the locale
-	 * @param country the country the language is used in. Might be null.
+	 * @param language
+	 *            the language of the locale
+	 * @param country
+	 *            the country the language is used in. Might be null.
 	 * @return a new locale
 	 */
 	protected abstract Locale createLocale(String language, String country);
 
 	/**
-	 * Returns a locale object that has the same country and/or language as locale.
-	 * If the language of locale is not supported an English locale is returned.
+	 * Returns a locale object that has the same country and/or language as
+	 * locale. If the language of locale is not supported an English locale is
+	 * returned.
 	 */
 	protected Locale getClosestSupportedLocale(Locale locale) {
 		int size = getSupportedLocales().size();
@@ -1257,9 +1270,11 @@ public abstract class Localization {
 			for (int i = 0; i < size; i++) {
 				Locale loc = getSupportedLocales().get(i);
 
-				if (country.equals(getCountry(loc)) && language.equals(getLanguage(loc))
-				// needed for no_NO_NY
-						&& (!"no".equals(language) || variant.equals(getVariant(loc)))) {
+				if (country.equals(getCountry(loc))
+						&& language.equals(getLanguage(loc))
+						// needed for no_NO_NY
+						&& (!"no".equals(language)
+								|| variant.equals(getVariant(loc)))) {
 					// found supported country locale
 					return loc;
 				}
@@ -1283,12 +1298,13 @@ public abstract class Localization {
 	/**
 	 * Returns the languages that are supported by the app.
 	 *
-	 * @param prerelease if the app is prerelease
+	 * @param prerelease
+	 *            if the app is prerelease
 	 * @return an array of supported languages.
 	 */
 	public Language[] getSupportedLanguages(boolean prerelease) {
 		List<Language> supported = new ArrayList<>();
-		for (Language language: Language.values()) {
+		for (Language language : Language.values()) {
 			if (language.fullyTranslated || prerelease) {
 				supported.add(language);
 			}
@@ -1301,7 +1317,8 @@ public abstract class Localization {
 	/**
 	 * Converts the language to a locale object.
 	 *
-	 * @param language the language to convert to.
+	 * @param language
+	 *            the language to convert to.
 	 * @return converted locale
 	 */
 	public Locale convertToLocale(Language language) {
@@ -1316,7 +1333,8 @@ public abstract class Localization {
 	/**
 	 * Get an array of locales from langauges.
 	 *
-	 * @param languages array of languages
+	 * @param languages
+	 *            array of languages
 	 * @return an array of locales
 	 */
 	public Locale[] getLocales(Language[] languages) {
@@ -1331,7 +1349,8 @@ public abstract class Localization {
 	/**
 	 * Returns the supported locales.
 	 *
-	 * @param prerelease if the app is in prerelease
+	 * @param prerelease
+	 *            if the app is in prerelease
 	 * @return locales that the app can handle
 	 */
 	public ArrayList<Locale> getSupportedLocales(boolean prerelease) {
@@ -1415,7 +1434,8 @@ public abstract class Localization {
 			if (c.getTable() != CommandsConstants.TABLE_ENGLISH
 					&& toTest.equals(cInternal)
 					&& !c.name().equals(cInternal.toString())) {
-				Log.debug("English name for " + internalName + " is " + c.name());
+				Log.debug(
+						"English name for " + internalName + " is " + c.name());
 				return c.name();
 			}
 		}
@@ -1501,6 +1521,7 @@ public abstract class Localization {
 	 * @return url for current app
 	 */
 	public String getTutorialURL(AppConfig config) {
-		return GeoGebraConstants.GEOGEBRA_WEBSITE + "m/" + getMenu(config.getTutorialKey());
+		return GeoGebraConstants.GEOGEBRA_WEBSITE + "m/"
+				+ getMenu(config.getTutorialKey());
 	}
 }
