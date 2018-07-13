@@ -67,7 +67,7 @@ public class VideoURL {
 	 * @return an {@link VideoURL} instance.
 	 */
 	public static VideoURL createError(String url, MediaFormat format) {
-		return new VideoURL(url, true, format);
+		return new VideoURL(url, false, format);
 	}
 
 	/**
