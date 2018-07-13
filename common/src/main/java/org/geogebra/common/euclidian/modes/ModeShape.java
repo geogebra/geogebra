@@ -565,9 +565,10 @@ public class ModeShape {
 				startX, startY, 1);
 		startPoint.setEuclidianVisible(false);
 		startPoint.updateRepaint();
-
-		double endX = view.toRealWorldCoordX(event.getX());
-		double endY = view.toRealWorldCoordY(event.getY());
+		GPoint2D snap = snapPoint(dragStartPoint.getX(), dragStartPoint.getY(), event.getX(),
+				event.getY());
+		double endX = view.toRealWorldCoordX(snap.getX());
+		double endY = view.toRealWorldCoordY(snap.getY());
 		GeoPoint endPoint = new GeoPoint(view.getKernel().getConstruction(),
 				null,
 				endX, endY, 1);
