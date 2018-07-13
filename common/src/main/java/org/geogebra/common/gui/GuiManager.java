@@ -522,7 +522,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 			if (getApp().getActiveEuclidianView() != null) {
 				getApp().getActiveEuclidianView().resetMode();
 			}
-			getConstructionProtocolView();
 		}
 	}
 
