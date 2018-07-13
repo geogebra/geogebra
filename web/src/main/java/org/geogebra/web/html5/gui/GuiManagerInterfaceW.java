@@ -11,6 +11,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.media.VideoURL;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
@@ -145,4 +146,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @return whether root panel is split vertically
 	 */
 	public boolean isVerticalSplit(boolean fallback);
+
+	void addAudio(String url);
+
+	void addVideo(VideoURL videoURL);
+
 }

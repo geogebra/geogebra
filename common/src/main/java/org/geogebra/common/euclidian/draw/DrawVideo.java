@@ -50,7 +50,9 @@ public class DrawVideo extends Drawable implements DrawWidget {
 
 	@Override
 	public void update() {
-		app.getGuiManager().updateVideo(video);
+		if (app.getVideoManager() != null) {
+			app.getVideoManager().updatePlayer(video);
+		}
 		setMetrics();
 	}
 

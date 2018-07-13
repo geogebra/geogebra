@@ -56,7 +56,7 @@ public class VideoInputDialog extends MediaDialog {
 	 */
 	void addVideo(VideoURL videoURL) {
 		resetError();
-		app.getGuiManager().addVideo(videoURL);
+		appW.getGuiManager().addVideo(videoURL);
 		hide();
 	}
 }

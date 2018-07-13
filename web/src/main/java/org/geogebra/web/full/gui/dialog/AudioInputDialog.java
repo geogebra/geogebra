@@ -51,7 +51,7 @@ public class AudioInputDialog extends MediaDialog {
 	 */
 	void addAudio() {
 		resetError();
-		app.getGuiManager().addAudio(inputField.getText());
+		appW.getGuiManager().addAudio(inputField.getText());
 		hide();
 	}
 }

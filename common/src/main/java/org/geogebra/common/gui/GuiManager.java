@@ -32,14 +32,12 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
-import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class GuiManager implements GuiManagerInterface {
@@ -926,18 +924,4 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// overridden in web
 	}
 
-	@Override
-	public void addAudio(String url) {
-		// implemented in subclasses
-	}
-
-	@Override
-	public void addVideo(VideoURL videoUrl) {
-		// implemented in subclasses
-	}
-
-	@Override
-	public void updateVideo(GeoVideo video) {
-		// implemented in subclasses
-	}
 }

@@ -29,11 +29,9 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
-import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.util.AsyncOperation;
 
 /**
@@ -368,12 +366,6 @@ public interface GuiManagerInterface {
 	void buildStepGui(SolutionStep steps);
 
 	void openMenuInAVFor(GeoElement geo);
-
-	void addAudio(String url);
-
-	void addVideo(VideoURL videoURL);
-
-	void updateVideo(GeoVideo video);
 
 	void getViewsXML(StringBuilder sb, boolean asPreference);
 

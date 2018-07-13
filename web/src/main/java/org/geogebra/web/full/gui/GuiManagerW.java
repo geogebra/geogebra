@@ -2479,11 +2479,6 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void updateVideo(GeoVideo video) {
-		app.getVideoManager().updatePlayer(video);
-	}
-
-	@Override
 	public boolean isVerticalSplit(boolean fallback) {
 		return getLayout().getDockManager().getRoot() == null ? fallback
 				: getLayout().getDockManager().getRoot()
