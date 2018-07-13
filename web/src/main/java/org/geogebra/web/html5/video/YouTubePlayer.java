@@ -23,6 +23,7 @@ public class YouTubePlayer extends VideoPlayer {
 	private JavaScriptObject ytPlayer;
 	private static ArrayList<YouTubePlayer> waiting = new ArrayList<>();
 	private Frame frame;
+
 	/**
 	 * Constructor.
 	 *
@@ -119,7 +120,13 @@ public class YouTubePlayer extends VideoPlayer {
 		// implement later;
 	}
 
-	private native JavaScriptObject createYouTubePlayer(String youtubeId) /*-{
+	/**
+	 * @param youtubeId
+	 *            Youtube ID
+	 * @return native player
+	 */
+	protected native JavaScriptObject createYouTubePlayer(
+			String youtubeId) /*-{
 		var that = this;
 		var ytPlayer = new $wnd.YT.Player(
 				that.@org.geogebra.web.html5.video.VideoPlayer::playerId,

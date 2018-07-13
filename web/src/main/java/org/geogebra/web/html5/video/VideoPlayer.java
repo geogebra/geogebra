@@ -31,18 +31,15 @@ public abstract class VideoPlayer implements IsWidget, Persistable {
 	private String playerId;
 	private static ArrayList<VideoPlayer> waiting = new ArrayList<>();
 
-
 	/**
 	 * Constructor. *
 	 *
 	 * @param video
 	 *            the video object.
-	 * @param src
-	 *            the source of the player frame.
 	 * @param id
 	 *            The id of the player frame.
 	 */
-	public VideoPlayer(GeoVideo video, String src, int id) {
+	public VideoPlayer(GeoVideo video, int id) {
 		this.video = video;
 		app = video.getKernel().getApplication();
 		playerId = "video_player" + id;
@@ -57,18 +54,6 @@ public abstract class VideoPlayer implements IsWidget, Persistable {
 		asWidget().addStyleName("mowVideo");
 		asWidget().addStyleName("mowWidget");
 		asWidget().getElement().setId(playerId);
-	}
-
-	/**
-	 * Constructor.
-	 *
-	 * @param video
-	 *            the video object.
-	 * @param id
-	 *            The id of the player frame.
-	 */
-	public VideoPlayer(GeoVideo video, int id) {
-		this(video, video.getEmbeddedUrl(), id);
 	}
 
 	/**

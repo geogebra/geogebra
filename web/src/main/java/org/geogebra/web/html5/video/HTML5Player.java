@@ -26,7 +26,7 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	 *            The id of the player frame.
 	 */
 	public HTML5Player(GeoVideo video, int id) {
-		super(video, "about:blank", id);
+		super(video, id);
 
 	}
 
@@ -40,7 +40,7 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	@Override
 	public void update() {
 		super.update();
-		v.setControls(video.isBackground() ? true : video.isReady());
+		v.setControls(video.isBackground() || video.isReady());
 	}
 
 	@Override
