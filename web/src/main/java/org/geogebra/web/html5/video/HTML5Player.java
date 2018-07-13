@@ -40,8 +40,6 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	@Override
 	public void update() {
 		super.update();
-		v.setWidth(getVideo().getWidth());
-		v.setHeight(getVideo().getHeight());
 		v.setControls(video.isBackground() ? true : video.isReady());
 	}
 
@@ -90,7 +88,10 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	}
 
 	@Override
-	public void onLoad() {
+	public void onLoad(int width, int height) {
+		getVideo().setWidth(width);
+		getVideo().setHeight(height);
+		getVideo().update();
 		update();
 	}
 

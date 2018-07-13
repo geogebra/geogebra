@@ -20,8 +20,15 @@ public class VideoWidget extends Widget {
 	 */
 	public interface VideoListener {
 
-		/** Called when video is loaded */
-		void onLoad();
+		/**
+		 * Called when video is loaded
+		 * 
+		 * @param width
+		 *            the original width of the video.
+		 * @param height
+		 *            the original height of the video.
+		 */
+		void onLoad(int width, int height);
 	}
 	
 	/**
@@ -39,8 +46,9 @@ public class VideoWidget extends Widget {
 
 	private native void addHandlers(JavaScriptObject video) /*-{
 		var that = this;
-		video.oncanplay = function() {
-			that.@org.geogebra.web.html5.video.VideoWidget::afterLoad()();
+		video.oncanplaythrough = function() {
+			that.@org.geogebra.web.html5.video.VideoWidget::afterLoad(II)(
+					video.videoWidth, video.videoHeight);
 		}
 	}-*/;
 
@@ -137,9 +145,9 @@ public class VideoWidget extends Widget {
 		switchAttribute("autoplay", b);
 	}
 
-	private void afterLoad() {
+	private void afterLoad(int width, int height) {
 		if (listener != null) {
-			listener.onLoad();
+			listener.onLoad(width, height);
 		}
 	}
 }
