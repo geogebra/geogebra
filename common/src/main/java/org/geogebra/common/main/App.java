@@ -4055,15 +4055,15 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-1520
 		case MOB_PACK_ALL_SURFACES:
-			return prerelease;
+			return true;
 
 		// MOB-1521
 		case MOB_PACK_QUADRIC_PART:
-			return prerelease;
+			return true;
 
 		// MOB-1522
 		case MOB_PACK_LISTS:
-			return prerelease;
+			return true;
 
 		// MOB-1722
 		case MOB_EXPORT_STL:
