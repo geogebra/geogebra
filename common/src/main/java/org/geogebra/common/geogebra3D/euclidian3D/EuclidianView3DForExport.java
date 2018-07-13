@@ -29,9 +29,9 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 * default edge length for print
 	 */
 	final static public double EDGE_FOR_PRINT = 25; // 2.5cm
-	final static private double THICKNESS_FOR_PRINT_SURFACES = 0.5 / 2; // 0.5mm
-	final static private double THICKNESS_FOR_PRINT_LINES = 0.75 / 2; // 0.75mm
-	final static private float FACTOR_LINE_THICKNESS_TO_POINT_SIZE = 2f; // 1.5mm
+	final static private double THICKNESS_FOR_PRINT_SURFACES = 1f / 2; // 1mm
+	final static private double FACTOR_SURFACE_TO_LINE_THICKNESS = 1.5f; // 1.5mm
+	final static private float FACTOR_LINE_THICKNESS_TO_POINT_SIZE = 2f; // 2.25mm
 
 	private double mXmin;
 	private double mXmax;
@@ -171,7 +171,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 				specificThicknessForSurfaces = (float) ((d / EDGE_FOR_PRINT)
 						* THICKNESS_FOR_PRINT_SURFACES * getXscale());
 				specificThicknessForLines = (float) ((d / EDGE_FOR_PRINT)
-						* THICKNESS_FOR_PRINT_LINES * getXscale());
+						* THICKNESS_FOR_PRINT_SURFACES
+						* FACTOR_SURFACE_TO_LINE_THICKNESS * getXscale());
 				specificSizeForPoints = specificThicknessForLines
 						* FACTOR_LINE_THICKNESS_TO_POINT_SIZE;
 				specificThicknessForLines /= PlotterBrush.LINE3D_THICKNESS;
