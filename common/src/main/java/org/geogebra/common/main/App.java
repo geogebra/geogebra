@@ -4069,6 +4069,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_EXPORT_STL:
 			return prerelease;
 
+		//AND-1253
+        case MOB_CLOSE_SETTINGS_BUG:
+            return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************

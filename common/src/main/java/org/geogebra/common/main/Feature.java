@@ -282,6 +282,9 @@ public enum Feature {
 	/** MOB-1722 */
 	MOB_EXPORT_STL,
 
+	/** AND-1253 */
+	MOB_CLOSE_SETTINGS_BUG,
+
 	EMBED_EXTENSION,
 
 	/** beta */
