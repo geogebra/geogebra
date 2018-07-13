@@ -99,7 +99,7 @@ public class VideoManagerW implements VideoManager {
 			return;
 		}
 
-		if (!youtube || !mp4) {
+		if (!youtube && !mp4) {
 			callback.callback(VideoURL.createError(url, fmt));
 		} else {
 			callback.callback(VideoURL.createOK(url, fmt));
@@ -109,13 +109,15 @@ public class VideoManagerW implements VideoManager {
 	private static boolean checkMebisVideo(String url,
 			AsyncOperation<VideoURL> callback) {
 		MebisURL mUrl = GeoMebisVideo.packUrl(url);
+		if (mUrl.getError() == MebisError.BASE_MISMATCH) {
+			return false;
+		}
 		if (mUrl.getError() != MebisError.NONE) {
 			callback.callback(mUrl);
 		} else {
 			callback.callback(mUrl);
-			return true;
 		}
-		return mUrl.getError() != MebisError.BASE_MISMATCH;
+		return true;
 	}
 
 	@Override
