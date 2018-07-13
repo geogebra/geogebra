@@ -6,8 +6,7 @@ package org.geogebra.common.media;
  * @author laszlo
  *
  */
-public class PackedUrl {
-	private String url;
+public class MebisURL extends VideoURL {
 	private MebisError error;
 
 	/**
@@ -18,17 +17,9 @@ public class PackedUrl {
 	 * @param error
 	 *            to set.
 	 */
-	public PackedUrl(String url, MebisError error) {
-		this.url = url;
+	public MebisURL(String url, MebisError error) {
+		super(url, error == MebisError.NONE, MediaFormat.VIDEO_MEBIS);
 		this.error = error;
-	}
-
-	/**
-	 * 
-	 * @return the URL itself
-	 */
-	public String getUrl() {
-		return url;
 	}
 
 	/**
@@ -38,6 +29,4 @@ public class PackedUrl {
 	public MebisError getError() {
 		return error;
 	}
-
-
 }

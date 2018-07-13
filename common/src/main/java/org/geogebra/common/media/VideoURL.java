@@ -6,12 +6,22 @@ package org.geogebra.common.media;
  * @author laszlo
  *
  */
-public final class VideoURL {
+public class VideoURL {
 	private String url;
 	private boolean valid;
 	private MediaFormat format;
 
-	private VideoURL(String url, boolean valid, MediaFormat format) {
+	/**
+	 * Constructor
+	 * 
+	 * @param url
+	 *            The video URL
+	 * @param valid
+	 *            if the URL is valid.
+	 * @param format
+	 *            Video format.
+	 */
+	protected VideoURL(String url, boolean valid, MediaFormat format) {
 		this.url = url;
 		this.valid = valid;
 		this.format = format;

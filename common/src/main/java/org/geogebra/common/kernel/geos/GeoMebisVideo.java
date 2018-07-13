@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.media.MebisError;
+import org.geogebra.common.media.MebisURL;
 import org.geogebra.common.media.MediaFormat;
-import org.geogebra.common.media.PackedUrl;
 
 /**
  * GeoElement to handle videos from Mebis.
@@ -15,9 +15,24 @@ import org.geogebra.common.media.PackedUrl;
  *
  */
 public class GeoMebisVideo extends GeoMP4Video {
+	private static final String PARAM_DOC = "doc";
+	private static final String DOC_RECORD = "record";
+	private static final String DOC_PROVIDE_VIDEO = "provideVideo";
+	private static final String DOC_EMBEDDED_OBJECT = "embeddedObject";
+
+	private static final String PARAM_ID = "id";
+	private static final String PARAM_IDENTIFIER = "identifier";
+
+	private static final String PARAM_TYPE = "type";
+	private static final String TYPE_VIDEO = "video";
+
+	private static final String PARAM_TIME = "#t";
+	private static final String PARAM_START = "start";
+
+
 	/** Mebis site base URL */
 	public static final String BASE_URL = "https://mediathek.mebis.bayern.de/?";
-	private String mebisId = null;
+	// private String mebisId = null;
 
 	/**
 	 * 
@@ -67,49 +82,60 @@ public class GeoMebisVideo extends GeoMP4Video {
 	 *            to transform.
 	 * @return the packed URL with error if any.
 	 */
-	public static PackedUrl packUrl(String url) {
+	public static MebisURL packUrl(String url) {
 		if (url == null || !url.contains(BASE_URL)) {
-			return new PackedUrl(null, MebisError.BASE_MISMATCH);
+			return new MebisURL(null, MebisError.BASE_MISMATCH);
 		}
 		String substring = url.replace(BASE_URL, "");
 		Map<String, String> params = extractParams(substring);
 		String id = null;
-		String doc = params.get("doc");
-		boolean docValid = "enmbeddedObject".equals(doc) || "provideVideo".equals(doc)
-				|| "record".equals(doc);
+		String doc = params.get(PARAM_DOC);
+		boolean docValid = DOC_EMBEDDED_OBJECT.equals(doc) || DOC_PROVIDE_VIDEO.equals(doc)
+				|| DOC_RECORD.equals(doc);
 		if (!docValid) {
-			return new PackedUrl(null, MebisError.DOC);
+			return new MebisURL(null, MebisError.DOC);
 		}
 
-		boolean typeRequired = !"record".equals(doc);
+		boolean typeRequired = !DOC_RECORD.equals(doc);
 		
-		if (typeRequired && (!params.containsKey("type") || !"video".equals(params.get("type")))) {
-			return new PackedUrl(null, MebisError.TYPE);
+		if (typeRequired && (!params.containsKey(PARAM_TYPE)
+				|| !TYPE_VIDEO.equals(params.get(PARAM_TYPE)))) {
+			return new MebisURL(null, MebisError.TYPE);
 		}
 
-		if ("enmbeddedObject".equals(doc)) {
-			if (params.containsKey("id")) {
-				id = params.get("id");
+		if (DOC_EMBEDDED_OBJECT.equals(doc)) {
+			if (params.containsKey(PARAM_ID)) {
+				id = params.get(PARAM_ID);
 			}
-		} else if ("provideVideo".equals(doc) || "record".equals(doc)) {
-			if (params.containsKey("identifier")) {
-				id = params.get("identifier");
+		} else if (DOC_PROVIDE_VIDEO.equals(doc) || DOC_RECORD.equals(doc)) {
+			if (params.containsKey(PARAM_IDENTIFIER)) {
+				id = params.get(PARAM_IDENTIFIER);
 			}
 		}
-		String start = params.containsKey("start") ? params.get("start") : null;
+		String start = params.containsKey(PARAM_START) ? params.get(PARAM_START) : null;
 		if (id == null) {
-			return new PackedUrl(null, MebisError.ID);
+			return new MebisURL(null, MebisError.ID);
 		}
 
 		StringBuilder sb = new StringBuilder(BASE_URL);
-		sb.append("doc=provideVideo&identifier=");
+		sb.append(PARAM_DOC);
+		sb.append("=");
+		sb.append(DOC_PROVIDE_VIDEO);
+		sb.append("&");
+		sb.append(PARAM_IDENTIFIER);
+		sb.append("=");
 		sb.append(id);
-		sb.append("&type=video");
+		sb.append("&");
+		sb.append(PARAM_TYPE);
+		sb.append("=");
+		sb.append(TYPE_VIDEO);
 		if (start != null) {
-			sb.append("&#t=");
+			sb.append("&");
+			sb.append(PARAM_TIME);
+			sb.append("=");
 			sb.append(start);
 		}
-		return new PackedUrl(sb.toString(), MebisError.NONE);
+		return new MebisURL(sb.toString(), MebisError.NONE);
 	}
 
 	private static Map<String, String> extractParams(String url) {

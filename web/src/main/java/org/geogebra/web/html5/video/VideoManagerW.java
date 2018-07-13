@@ -10,8 +10,8 @@ import org.geogebra.common.kernel.geos.GeoMebisVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 import org.geogebra.common.media.MebisError;
+import org.geogebra.common.media.MebisURL;
 import org.geogebra.common.media.MediaFormat;
-import org.geogebra.common.media.PackedUrl;
 import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
@@ -90,21 +90,33 @@ public class VideoManagerW implements VideoManager {
 	private void checkVideo(String url) {
 		boolean youtube = getYouTubeId(url) != null && !"".equals(getYouTubeId(url));
 		boolean mp4 = getMP4Url(url) != null && !"".equals(getMP4Url(url));
-		PackedUrl mUrl = GeoMebisVideo.packUrl(url);
 		MediaFormat fmt = MediaFormat.NONE;
 		if (youtube) {
 			fmt = MediaFormat.VIDEO_YOUTUBE;
 		} else if (mp4) {
 			fmt = MediaFormat.VIDEO_HTML5;
-		} else if (mUrl.getError() == MebisError.NONE) {
-			fmt = MediaFormat.VIDEO_MEBIS;
 		}
 
-		if (!youtube || !mp4 || mUrl.getError() != MebisError.NONE) {
+		if (checkMebisVideo(url)) {
+			return;
+		}
+
+		if (!youtube || !mp4) {
 			onUrlError(VideoURL.createError(url, fmt));
 		} else {
 			onUrlOK(VideoURL.createOK(url, fmt));
 		}
+	}
+
+	private boolean checkMebisVideo(String url) {
+		MebisURL mUrl = GeoMebisVideo.packUrl(url);
+		if (mUrl.getError() != MebisError.NONE) {
+			onUrlError(mUrl);
+		} else {
+			onUrlOK(mUrl);
+			return true;
+		}
+		return mUrl.getError() != MebisError.BASE_MISMATCH;
 	}
 
 	private void onUrlError(VideoURL videoURL) {
@@ -300,6 +312,8 @@ public class VideoManagerW implements VideoManager {
 			return new GeoVideo(c, videoURL.getUrl());
 		case VIDEO_HTML5:
 			return new GeoMP4Video(c, videoURL.getUrl());
+		case VIDEO_MEBIS:
+			return new GeoMebisVideo(c, videoURL.getUrl());
 		// case AUDIO_HTML5:
 		// case NONE:
 		default:
