@@ -1292,7 +1292,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 			@Override
 			public void onDragStart(DragStartEvent event) {
-				event.setData("text", "draggginggg");
+				event.setData("text", geo.getLabelSimple());
 				event.getDataTransfer().setDragImage(getElement(), 10, 10);
 				event.stopPropagation();
 				getAV().dragStart(event, geo);
