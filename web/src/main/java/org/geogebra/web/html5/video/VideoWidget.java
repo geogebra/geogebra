@@ -13,14 +13,36 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class VideoWidget extends Widget {
 	private Element elem;
+	private VideoListener listener;
+	/**
+	 * Listener to video element
+	 *
+	 */
+	public interface VideoListener {
 
+		/** Called when video is loaded */
+		void onLoad();
+	}
+	
 	/**
 	 * Constuctor
+	 * 
+	 * @param listener
+	 *            Video listener.
 	 */
-	public VideoWidget() {
+	public VideoWidget(VideoListener listener) {
+		this.listener = listener;
 		elem = DOM.createElement("video");
 		setElement(elem);
+		addHandlers(elem);
 	}
+
+	private native void addHandlers(JavaScriptObject video) /*-{
+		var that = this;
+		video.oncanplay = function() {
+			that.@org.geogebra.web.html5.video.VideoWidget::afterLoad()();
+		}
+	}-*/;
 
 	/**
 	 * Constuctor
@@ -28,9 +50,11 @@ public class VideoWidget extends Widget {
 	 *
 	 * @param src
 	 *            source of the video
+	 * @param listener
+	 *            Video listener.
 	 */
-	public VideoWidget(String src) {
-		this();
+	public VideoWidget(String src, VideoListener listener) {
+		this(listener);
 		setSrc(src);
 	}
 
@@ -111,6 +135,12 @@ public class VideoWidget extends Widget {
 	 */
 	public void setAutoplay(boolean b) {
 		switchAttribute("autoplay", b);
+	}
+
+	private void afterLoad() {
+		if (listener != null) {
+			listener.onLoad();
+		}
 	}
 }
 
