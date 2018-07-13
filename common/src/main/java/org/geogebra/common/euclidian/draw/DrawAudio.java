@@ -112,6 +112,9 @@ public class DrawAudio extends Drawable {
 
 		double d = geoAudio.getDuration();
 		double param = geoAudio.getCurrentTime() / d;
+		if (!Double.isFinite(param) || param < 0) {
+			param = 0;
+		}
 		sliderLeft = (int) (x + txtLayout.getBounds().getWidth()
 				+ 2 * BLOB_RADIUS) + MARGIN_AFTER_TEXT_X;
 		sliderWidth = left + width - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_RADIUS);
