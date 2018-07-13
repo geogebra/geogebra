@@ -13,6 +13,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -29,9 +31,10 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 * default edge length for print
 	 */
 	final static public double EDGE_FOR_PRINT = 25; // 2.5cm
-	final static private double THICKNESS_FOR_PRINT_SURFACES = 1f / 2; // 1mm
+	final static private double THICKNESS_FOR_PRINT_SURFACES = 1.0 / 2; // 1mm
 	final static private double FACTOR_SURFACE_TO_LINE_THICKNESS = 1.5f; // 1.5mm
 	final static private float FACTOR_LINE_THICKNESS_TO_POINT_SIZE = 2f; // 2.25mm
+	final static private String THICKNESS_GEO_NAME = "STLthickness";
 
 	private double mXmin;
 	private double mXmax;
@@ -168,11 +171,17 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 						d = val;
 					}
 				}
+				double thickness = THICKNESS_FOR_PRINT_SURFACES;
+				GeoElement thicknessGeo = getKernel()
+						.lookupLabel(THICKNESS_GEO_NAME);
+				if (thicknessGeo != null && thicknessGeo.isNumberValue()) {
+					thickness = ((NumberValue) thicknessGeo).getDouble();
+				}
 				specificThicknessForSurfaces = (float) ((d / EDGE_FOR_PRINT)
-						* THICKNESS_FOR_PRINT_SURFACES * getXscale());
+						* thickness * getXscale());
 				specificThicknessForLines = (float) ((d / EDGE_FOR_PRINT)
-						* THICKNESS_FOR_PRINT_SURFACES
-						* FACTOR_SURFACE_TO_LINE_THICKNESS * getXscale());
+						* thickness * FACTOR_SURFACE_TO_LINE_THICKNESS
+						* getXscale());
 				specificSizeForPoints = specificThicknessForLines
 						* FACTOR_LINE_THICKNESS_TO_POINT_SIZE;
 				specificThicknessForLines /= PlotterBrush.LINE3D_THICKNESS;
