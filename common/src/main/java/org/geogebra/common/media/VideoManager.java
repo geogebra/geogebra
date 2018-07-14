@@ -1,9 +1,8 @@
-package org.geogebra.common.sound;
+package org.geogebra.common.media;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.util.AsyncOperation;
 
 /**
