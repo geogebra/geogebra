@@ -9,9 +9,7 @@ import org.geogebra.common.kernel.geos.GeoMP4Video;
 import org.geogebra.common.kernel.geos.GeoMebisVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
-import org.geogebra.common.media.MebisError;
-import org.geogebra.common.media.MebisURL;
-import org.geogebra.common.media.MediaFormat;
+import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.sound.VideoManager;
 import org.geogebra.common.util.AsyncOperation;
@@ -35,27 +33,6 @@ import com.google.gwt.user.client.ui.RootPanel;
  *
  */
 public class VideoManagerW implements VideoManager {
-	/**
-	 * Head of a regular YouTube URL.
-	 */
-	public static final String YOUTUBE = "youtube.com/";
-	/**
-	 * Head of a short form of YouTube URL.
-	 */
-	public static final String YOUTUBE_SHORT = "youtu.be/";
-
-	/**
-	 * regular start of YouTube ID
-	 */
-	public static final String ID_PARAM_1 = "v=";
-	/**
-	 * alternative start of YouTube ID
-	 */
-	public static final String ID_PARAM_2 = "v/";
-	/**
-	 * embed start of YouTube ID
-	 */
-	public static final String EMBED = "embed/";
 
 	/**
 	 * true if only preview images are needed (i.e. for image export)
@@ -68,56 +45,6 @@ public class VideoManagerW implements VideoManager {
 	public void loadGeoVideo(GeoVideo geo) {
 		addPlayer(geo);
 		updatePlayer(geo);
-	}
-
-	@Override
-	public void checkURL(String url, AsyncOperation<VideoURL> callback) {
-		checkVideo(url, callback);
-	}
-
-	private static String getMP4Url(String url) {
-		if (url == null) {
-			return null;
-		}
-		if (url.endsWith(".m4v") || url.contains(".mp4")) {
-			return url;
-		}
-		return null;
-	}
-
-	private void checkVideo(String url, AsyncOperation<VideoURL> callback) {
-		boolean youtube = getYouTubeId(url) != null && !"".equals(getYouTubeId(url));
-		boolean mp4 = getMP4Url(url) != null && !"".equals(getMP4Url(url));
-		MediaFormat fmt = MediaFormat.NONE;
-		if (youtube) {
-			fmt = MediaFormat.VIDEO_YOUTUBE;
-		} else if (mp4) {
-			fmt = MediaFormat.VIDEO_HTML5;
-		}
-
-		if (checkMebisVideo(url, callback)) {
-			return;
-		}
-
-		if (!youtube && !mp4) {
-			callback.callback(VideoURL.createError(url, fmt));
-		} else {
-			callback.callback(VideoURL.createOK(url, fmt));
-		}
-	}
-
-	private static boolean checkMebisVideo(String url,
-			AsyncOperation<VideoURL> callback) {
-		MebisURL mUrl = GeoMebisVideo.packUrl(url);
-		if (mUrl.getError() == MebisError.BASE_MISMATCH) {
-			return false;
-		}
-		if (mUrl.getError() != MebisError.NONE) {
-			callback.callback(mUrl);
-		} else {
-			callback.callback(mUrl);
-		}
-		return true;
 	}
 
 	@Override
@@ -142,40 +69,6 @@ public class VideoManagerW implements VideoManager {
 			return;
 		}
 		playerOf(video).sendBackground();
-	}
-
-	@Override
-	public String getYouTubeId(String url) {
-		String id = null;
-		int startIdx;
-		String subString = null;
-
-		if (url.contains(YOUTUBE)) {
-			if (url.contains(ID_PARAM_1) || url.contains(ID_PARAM_2)) {
-				startIdx = url.indexOf(ID_PARAM_1) != -1
-						? url.indexOf(ID_PARAM_1) : url.indexOf(ID_PARAM_2);
-				subString = url.substring(startIdx + ID_PARAM_1.length());
-			} else if (url.contains(EMBED)) {
-				startIdx = url.indexOf(EMBED);
-				subString = url.substring(startIdx + EMBED.length());
-			}
-		} else if (url.contains(YOUTUBE_SHORT)) {
-			startIdx = url.indexOf(YOUTUBE_SHORT);
-			subString = url.substring(startIdx + YOUTUBE_SHORT.length());
-		}
-
-		if (subString != null) {
-			int endIdx = subString.indexOf("?") != -1 ? subString.indexOf("?")
-					: (subString.indexOf("&") != -1 ? subString.indexOf("&")
-							: (subString.indexOf("\"") != -1
-									? subString.indexOf("\"") : -1));
-			if (endIdx != -1) {
-				id = subString.substring(0, endIdx);
-			} else {
-				id = subString;
-			}
-		}
-		return id;
 	}
 
 	@Override
@@ -308,5 +201,10 @@ public class VideoManagerW implements VideoManager {
 		default:
 			return null;
 		}
+	}
+
+	@Override
+	public String getYouTubeId(String url) {
+		return MediaURLParser.getYouTubeId(url);
 	}
 }

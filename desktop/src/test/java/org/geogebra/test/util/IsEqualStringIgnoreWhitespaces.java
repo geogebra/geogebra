@@ -4,7 +4,7 @@ import org.geogebra.cas.logging.CASTestLogger;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.junit.internal.matchers.TypeSafeMatcher;
+import org.hamcrest.TypeSafeMatcher;
 
 public class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String> {
 
@@ -48,11 +48,11 @@ public class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String> {
 		return false;
 	}
 
-	protected String trimAll(final String input) {
+	private String trimAll(final String input) {
 		return input.replaceAll(" ", "");
 	}
 
-	protected String[] trimAll(final String[] input) {
+	private String[] trimAll(final String[] input) {
 		String[] trimmed = new String[input.length];
 		for (int i = 0; i < input.length; i++) {
 			trimmed[i] = input[i].replaceAll(" ", "");

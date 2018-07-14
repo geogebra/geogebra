@@ -23,15 +23,6 @@ public interface VideoManager {
 	void loadGeoVideo(GeoVideo geo);
 
 	/**
-	 * 
-	 * @param url
-	 *            to check if it is a valid Video file.
-	 * @param callback
-	 *            to process the result.
-	 */
-	void checkURL(String url, AsyncOperation<VideoURL> callback);
-
-	/**
 	 * Adds a video player GUI.
 	 * 
 	 * @param video
