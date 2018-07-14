@@ -1652,9 +1652,9 @@ public class CommandsTest extends AlgebraTest {
 	@Test
 	public void cmdCauchy() {
 		prob("Cauchy", "2,1", "abs(1) / ((1^2 + (x - 2)^2) " + Unicode.pi + ")",
-				// "tan" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING
-				// + "((x - 2) / abs(1)) / " + Unicode.pi + " + 0.5");
-				"atan((x - 2) / abs(1)) / " + Unicode.pi + " + 0.5");
+				"tan" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING
+						+ "((x - 2) / abs(1)) / " + Unicode.pi + " + 0.5");
+		// "atan((x - 2) / abs(1)) / " + Unicode.pi + " + 0.5");
 	}
 
 	@Test
