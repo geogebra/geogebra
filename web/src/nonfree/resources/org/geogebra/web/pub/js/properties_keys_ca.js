@@ -2942,7 +2942,7 @@ __GGB__keysVar["ca"].menu = {
     "Tutorial": "Tutorial",
     "Tutorial3D": "aWhYSpvy",
     "TutorialClassic": "XUv5mXTm",
-    "TutorialGeometry": "xavgBNs3",
+    "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "Tutorials": "Tutorials",
     "TwoVarStats": "An\xe0lisi de regressi\xf3 bivariant",
