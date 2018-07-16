@@ -323,6 +323,16 @@ task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml']) {
     systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
 }
 
+task createDraftBundleZip (type: Zip) {
+	description 'Creates the Math Apps Bundle file.'
+	destinationDir = file(warDirRel)
+	baseName = "geogebra-bundle"
+	from compileGwt {
+		include ("web3d/**")
+		into "GeoGebra/HTML5/5.0"
+	}
+}
+
 // https://issues.gradle.org/browse/GRADLE-2778
 // http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
 javadoc {

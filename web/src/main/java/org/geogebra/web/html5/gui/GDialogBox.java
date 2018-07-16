@@ -201,11 +201,6 @@ public class GDialogBox extends GDecoratedPopupPanel
 			super.onDetach();
 		}
 
-		@Override
-		public void setText(String text) {
-			super.setText(text);
-			setVisible(text.length() > 0);
-		}
 	}
 
 	private class MouseHandler implements MouseDownHandler, MouseUpHandler,

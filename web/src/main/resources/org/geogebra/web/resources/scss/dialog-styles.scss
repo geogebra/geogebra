@@ -24,9 +24,14 @@ $duration: 0.2s;
 		.gwt-Label {
 			cursor: default;	
 		}
+
 		.message {
 			margin-right: 16px;
 			margin-bottom: 28px;
+		}
+
+		.Caption:empty {
+			display: none;
 		}
 	}
 
