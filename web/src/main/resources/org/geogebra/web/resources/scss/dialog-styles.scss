@@ -23,7 +23,11 @@ $duration: 0.2s;
 	.MaterialDialogBox {
 		.gwt-Label {
 			cursor: default;	
-		}	
+		}
+		.message {
+			margin-right: 16px;
+			margin-bottom: 28px;
+		}
 	}
 
 	/* color chooser dialog */
@@ -516,7 +520,7 @@ $duration: 0.2s;
    		}
    	
    		.DialogButtonPanel {
-   			padding-top: 10px;
+   			padding-top: 8px;
    			
    			.button {
    				color: $mebis-teal-dark;	
