@@ -261,16 +261,16 @@ public class OpenFileView extends MyHeaderPanel
 		imagePanel.setStyleName("emptyMaterialListInfo");
 		Image image = new NoDragImage(
 				MaterialDesignResources.INSTANCE.mow_lightbulb(), 112, 112);
-
+		// init texts
 		Label caption = new Label(localize("emptyMaterialList.caption.mow"));
 		caption.setStyleName("caption");
 		Label info = new Label(localize("emptyMaterialList.info.mow"));
 		info.setStyleName("info");
-
+		// build panel
 		imagePanel.add(image);
 		imagePanel.add(caption);
 		imagePanel.add(info);
-
+		// add panel to content panel
 		contentPanel.add(imagePanel);
 	}
 
@@ -407,7 +407,7 @@ public class OpenFileView extends MyHeaderPanel
 	 */
 	public void addUsersMaterials(final List<Material> matList) {
 		if (matList.size() > 0) {
-			//materialListEmpty = false;
+			materialListEmpty = false;
 		}
 		for (int i = 0; i < matList.size(); i++) {
 			addMaterial(matList.get(i));
@@ -442,7 +442,7 @@ public class OpenFileView extends MyHeaderPanel
 	public final void addGGTMaterials(final List<Material> matList,
 			final ArrayList<Chapter> chapters) {
 		if (matList.size() > 0) {
-			//materialListEmpty = false;
+			materialListEmpty = false;
 		}
 		if (chapters == null || chapters.size() < 2) {
 			for (final Material mat : matList) {
