@@ -40,7 +40,9 @@ public class ScreenReader {
 		if (app.getGuiManager() == null || app.getGuiManager().getLayout()
 				.getDockManager().getFocusedViewId() == app
 						.getActiveEuclidianView().getViewID()) {
-			app.getActiveEuclidianView().readText(text);
+
+			// dot on end to help screen readers
+			app.getActiveEuclidianView().readText(text + ".");
 		}
 	}
 
