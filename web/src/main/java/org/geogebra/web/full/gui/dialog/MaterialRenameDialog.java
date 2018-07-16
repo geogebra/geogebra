@@ -25,6 +25,8 @@ public class MaterialRenameDialog extends OptionDialog {
 	private FlowPanel inputPanel;
 	private InputPanelW inputField;
 	private FormLabel inputLabel;
+	private boolean inputChanged;
+
 	/**
 	 * application
 	 */
@@ -62,7 +64,6 @@ public class MaterialRenameDialog extends OptionDialog {
 		mainPanel.add(getButtonPanel());
 		// style
 		addStyleName("GeoGebraPopup");
-		setGlassEnabled(true);
 		setLabels();
 		inputField.getTextComponent().setText(card.getMaterialTitle());
 		inputField.getTextComponent().addKeyUpHandler(new KeyUpHandler() {
@@ -82,8 +83,11 @@ public class MaterialRenameDialog extends OptionDialog {
 	 *            enter pressed
 	 */
 	protected void validate(boolean enter) {
+		inputChanged = inputChanged
+				|| inputField.getText().trim().equals(card.getMaterialTitle());
 		if (StringUtil.emptyTrim(inputField.getText())
-				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH) {
+				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH
+				|| !inputChanged) {
 			setPrimaryButtonEnabled(false);
 		} else {
 			setPrimaryButtonEnabled(true);
