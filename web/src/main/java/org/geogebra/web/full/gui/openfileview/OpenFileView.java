@@ -208,7 +208,6 @@ public class OpenFileView extends MyHeaderPanel
 	private void initMaterialPanel() {
 		materialPanel = new FlowPanel();
 		materialPanel.addStyleName("materialPanel");
-		// materialPanel.add(new MaterialCard(null, app));
 	}
 
 	private String localize(String id) {
@@ -408,7 +407,7 @@ public class OpenFileView extends MyHeaderPanel
 	 */
 	public void addUsersMaterials(final List<Material> matList) {
 		if (matList.size() > 0) {
-			materialListEmpty = false;
+			//materialListEmpty = false;
 		}
 		for (int i = 0; i < matList.size(); i++) {
 			addMaterial(matList.get(i));
@@ -443,7 +442,7 @@ public class OpenFileView extends MyHeaderPanel
 	public final void addGGTMaterials(final List<Material> matList,
 			final ArrayList<Chapter> chapters) {
 		if (matList.size() > 0) {
-			materialListEmpty = false;
+			//materialListEmpty = false;
 		}
 		if (chapters == null || chapters.size() < 2) {
 			for (final Material mat : matList) {
