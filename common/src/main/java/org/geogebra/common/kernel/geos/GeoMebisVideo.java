@@ -29,7 +29,6 @@ public class GeoMebisVideo extends GeoMP4Video {
 	private static final String PARAM_TIME = "#t";
 	private static final String PARAM_START = "start";
 
-
 	/** Mebis site base URL */
 	public static final String BASE_URL = "https://mediathek.mebis.bayern.de/?";
 	// private String mebisId = null;
@@ -112,7 +111,6 @@ public class GeoMebisVideo extends GeoMP4Video {
 				id = params.get(PARAM_IDENTIFIER);
 			}
 		}
-		String start = params.containsKey(PARAM_START) ? params.get(PARAM_START) : null;
 		if (id == null) {
 			return new MebisURL(null, MebisError.ID);
 		}
@@ -129,6 +127,7 @@ public class GeoMebisVideo extends GeoMP4Video {
 		sb.append(PARAM_TYPE);
 		sb.append("=");
 		sb.append(TYPE_VIDEO);
+		String start = params.containsKey(PARAM_START) ? params.get(PARAM_START) : null;
 		if (start != null) {
 			sb.append("&");
 			sb.append(PARAM_TIME);

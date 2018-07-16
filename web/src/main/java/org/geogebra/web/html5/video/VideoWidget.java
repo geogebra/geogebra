@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class VideoWidget extends Widget {
 	private Element elem;
 	private VideoListener listener;
+
 	/**
 	 * Listener to video element
 	 *
