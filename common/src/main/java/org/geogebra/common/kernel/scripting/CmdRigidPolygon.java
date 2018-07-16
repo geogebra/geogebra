@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -13,8 +13,10 @@ import org.geogebra.common.main.MyError;
 
 /**
  * RigidPolygon[ &lt;GeoPoint>, ..., &lt;GeoPoint> ]
+ * 
+ * CmdScripting -> disable preview (otherwise it doesn't work)
  */
-public class CmdRigidPolygon extends CommandProcessor {
+public class CmdRigidPolygon extends CmdScripting {
 	/**
 	 * Creates new command processor
 	 * 
@@ -26,7 +28,7 @@ public class CmdRigidPolygon extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
@@ -81,4 +83,5 @@ public class CmdRigidPolygon extends CommandProcessor {
 			return new PolygonFactory(kernel).rigidPolygon(c.getLabels(), points);
 		}
 	}
+
 }
