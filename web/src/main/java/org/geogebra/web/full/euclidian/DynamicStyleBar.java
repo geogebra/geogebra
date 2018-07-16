@@ -58,7 +58,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 						// will
 						// be visible yet.
 						DynamicStyleBar.this.updateStyleBar();
-
 					}
 				});
 		stopPointer(getElement());

@@ -37,7 +37,7 @@ public class VideoWidget extends Widget {
 	}
 	
 	/**
-	 * Constuctor
+	 * Constructor
 	 * 
 	 * @param listener
 	 *            Video listener.
@@ -62,7 +62,7 @@ public class VideoWidget extends Widget {
 	}-*/;
 
 	/**
-	 * Constuctor
+	 * Constructor
 	 *
 	 *
 	 * @param src

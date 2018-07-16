@@ -86,6 +86,11 @@ public abstract class GeoMedia extends GeoButton {
 		setSrc(src, true);
 	}
 
+	@Override
+	public boolean isFurniture() {
+		return false;
+	}
+
 	/**
 	 * Called after source has changed.
 	 */
