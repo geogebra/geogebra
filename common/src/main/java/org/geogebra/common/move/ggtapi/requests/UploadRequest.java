@@ -43,7 +43,7 @@ public class UploadRequest implements Request {
 	UploadRequest(String tubeID, String visibility, String consTitle,
 			String base64, MaterialType type, Material parent) {
 		this.consTitle = consTitle;
-		this.type = type == MaterialType.ggb ? "applet" : type.name();
+		this.type = typeString(type);
 		this.uniqueID = tubeID;
 		this.base64 = base64;
 		this.visibility = visibility;
@@ -51,6 +51,10 @@ public class UploadRequest implements Request {
 		if (visibility == null || "".equals(visibility)) {
 			this.visibility = "P";
 		}
+	}
+
+	private static String typeString(MaterialType type) {
+		return (type == MaterialType.ggb || type == MaterialType.ggs) ? "applet" : type.name();
 	}
 
 	/**
@@ -61,8 +65,7 @@ public class UploadRequest implements Request {
 	 */
 	public UploadRequest(Material mat) {
 		this.consTitle = mat.getTitle();
-		this.type = mat.getType() == MaterialType.ggb ? "applet"
-				: mat.getType().name();
+		this.type = typeString(mat.getType());
 		if (mat.getId() != 0) {
 			this.uniqueID = mat.getId() + "";
 		}
