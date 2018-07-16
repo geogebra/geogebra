@@ -405,12 +405,24 @@ public class TestArticleElement implements ArticleElementInterface {
 		return -1;
 	}
 
+	/**
+	 * Since this doesn't have representation in DOM, we need to set parent
+	 * element explicitly.
+	 * 
+	 * @param element
+	 *            parent element
+	 */
 	public void setParentElement(Element element) {
 		this.parentElement = element;
 	}
 
 	@Override
 	public String getParamLoginURL() {
+		return "";
+	}
+
+	@Override
+	public String getParamLogoutURL() {
 		return "";
 	}
 

@@ -184,7 +184,7 @@ public class MarvlAPI implements BackendAPI {
 
 	@Override
 	public void logout(String token) {
-		// TODO MOW-524
+		// open platform dependent popup
 	}
 
 	@Override

@@ -1736,8 +1736,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (app.getLoginOperation() != null
 				&& app.getLoginOperation().getModel() != null) {
 
-			app.getLoginOperation().getGeoGebraTubeAPI()
-					.logout(app.getLoginOperation().getModel().getLoginToken());
+			app.getLoginOperation().getModel().clearLoginToken();
 		}
 	}
 

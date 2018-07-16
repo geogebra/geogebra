@@ -804,4 +804,9 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public String getParamLoginURL() {
 		return getStringDataParam("loginURL", "");
 	}
+
+	@Override
+	public String getParamLogoutURL() {
+		return getStringDataParam("logoutURL", "");
+	}
 }

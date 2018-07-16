@@ -456,6 +456,14 @@ public interface ArticleElementInterface {
 	 */
 	int getParamRandomSeed();
 
+	/**
+	 * @return URL of Shibboleth login
+	 */
 	String getParamLoginURL();
+
+	/**
+	 * @return URL of Shibboleth logout
+	 */
+	String getParamLogoutURL();
 
 }
