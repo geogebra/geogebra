@@ -21,9 +21,9 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	 * Constructor
 	 *
 	 * @param video
-	 *            s * the video object.
+	 *            the video object.
 	 * @param id
-	 *            The id of the player frame.
+	 *            The id of the player.
 	 */
 	public HTML5Player(GeoVideo video, int id) {
 		super(video, id);
@@ -80,11 +80,16 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	@Override
 	public void onError() {
 		main.clear();
-		Label lbl = new Label(app.getLocalization().getMenuDefault("MebisAccessError",
-				"Something went wrong. Please, check"
-						+ "if you are online and logged in to Mebis"));
-		main.add(lbl);
+		main.add(getErrorWidget());
 		update();
 	}
 
+	/**
+	 * @return the error widget needs to be displayed.
+	 */
+	protected Widget getErrorWidget() {
+		return new Label(app.getLocalization().getMenuDefault("HTML5VideoAccessError",
+				"Something went wrong. Please, check"
+						+ "if you are online, the link exists or have permission to the video"));
+	}
 }

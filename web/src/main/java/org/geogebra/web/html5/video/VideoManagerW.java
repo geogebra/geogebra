@@ -122,8 +122,9 @@ public class VideoManagerW implements VideoManager {
 		case VIDEO_YOUTUBE:
 			return new YouTubePlayer(video, id);
 		case VIDEO_HTML5:
-		case VIDEO_MEBIS:
 			return new HTML5Player(video, id);
+		case VIDEO_MEBIS:
+			return new MebisPlayer(video, id);
 		case AUDIO_HTML5:
 		case NONE:
 		default:
