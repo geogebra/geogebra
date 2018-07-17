@@ -84,7 +84,7 @@ public class MaterialRenameDialog extends OptionDialog {
 	 */
 	protected void validate(boolean enter) {
 		inputChanged = inputChanged
-				|| inputField.getText().trim().equals(card.getMaterialTitle());
+				|| !inputField.getText().trim().equals(card.getMaterialTitle());
 		if (StringUtil.emptyTrim(inputField.getText())
 				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH
 				|| !inputChanged) {
