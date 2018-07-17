@@ -3236,6 +3236,7 @@ __GGB__keysVar["is"].menu = {
     "phone_try_again_loading": "Reyndu aftur",
     "png": "png-skjalsni\xf0",
     "polar": "skaut",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "Endursetja sm\xed\xf0",
     "search_geogebra_materials": "Leit \xe1 GeoGebra Materials",
     "share_message": "Message",

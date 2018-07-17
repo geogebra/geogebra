@@ -3236,6 +3236,7 @@ __GGB__keysVar["uk"].menu = {
     "phone_try_again_loading": "\u0421\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0449\u0435 \u0440\u0430\u0437",
     "png": "Portable Network Graphics",
     "polar": "\u043f\u043e\u043b\u044f\u0440\u0430",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "\u0421\u043a\u0438\u043d\u0443\u0442\u0438",
     "search_geogebra_materials": "\u041f\u043e\u0448\u0443\u043a GeoGebra \u043c\u0430\u0442\u0435\u0440\u0456\u0430\u043b\u0456\u0432",
     "share_message": "Message",

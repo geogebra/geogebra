@@ -3236,6 +3236,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "phone_try_again_loading": "\u0623\u0639\u062f \u0645\u0646 \u062c\u062f\u064a\u062f",
     "png": "PNG",
     "polar": "\u0642\u0637\u0628\u064a",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "\u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u0628\u0646\u0627\u0621 \u0645\u0646 \u062c\u062f\u064a\u062f",
     "search_geogebra_materials": "Search GeoGebra Materials",
     "share_message": "Message",

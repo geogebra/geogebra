@@ -3236,6 +3236,7 @@ __GGB__keysVar["cy"].menu = {
     "phone_try_again_loading": "Try again",
     "png": "Rhwydwaith Graffeg Symudol",
     "polar": "pegynlin",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "Ailosod y lluniad",
     "search_geogebra_materials": "Search GeoGebra Materials",
     "share_message": "Message",

@@ -3236,6 +3236,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "phone_try_again_loading": "\u8acb\u518d\u8a66\u4e00\u6b21",
     "png": "PNG",
     "polar": "\u6975\u5ea7\u6a19",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "\u91cd\u65b0\u958b\u59cb",
     "search_geogebra_materials": "\u641c\u5c0b\u5716\u6a94",
     "share_message": "Message",

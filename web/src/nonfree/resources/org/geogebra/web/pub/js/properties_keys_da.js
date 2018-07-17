@@ -3236,6 +3236,7 @@ __GGB__keysVar["da"].menu = {
     "phone_try_again_loading": "Pr\xf8v igen",
     "png": "Portable Network Graphics",
     "polar": "pol\xe6r",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "nulstil konstruktionen",
     "search_geogebra_materials": "S\xf8g blandt GeoGebraMaterialer",
     "share_message": "Message",

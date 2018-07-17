@@ -3236,6 +3236,7 @@ __GGB__keysVar["cs"].menu = {
     "phone_try_again_loading": "Zkusit znovu",
     "png": "Portable Network Graphics",
     "polar": "pol\xe1rn\xed",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "znovunastaven\xed konstrukce",
     "search_geogebra_materials": "Hledat GeoGebra materi\xe1ly",
     "share_message": "Message",

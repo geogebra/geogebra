@@ -3236,6 +3236,7 @@ __GGB__keysVar["yi"].menu = {
     "phone_try_again_loading": "Try again",
     "png": "PNG",
     "polar": "\u05e4\u05bc\u05d0\u05b8\u05dc\u05d0\u05b7\u05e8",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "\u05d0\u05b8\u05e0\u05d4\u05d9\u05d9\u05d1\u05df \u05e4\u05bf\u05d5\u05df \u05d3\u05d0\u05b8\u05e1 \u05e0\u05f2\u05b7",
     "search_geogebra_materials": "Search GeoGebra Materials",
     "share_message": "Message",

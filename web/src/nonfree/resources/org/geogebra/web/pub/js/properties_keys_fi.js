@@ -3236,6 +3236,7 @@ __GGB__keysVar["fi"].menu = {
     "phone_try_again_loading": "Yrit\xe4 uudestaan",
     "png": "Portable Network Graphics",
     "polar": "napa",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "Aloita piirros alusta",
     "search_geogebra_materials": "Hae GeoGebra-materiaaleista",
     "share_message": "Message",

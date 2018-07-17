@@ -3236,6 +3236,7 @@ __GGB__keysVar["ka"].menu = {
     "phone_try_again_loading": "Try again",
     "png": "\u10d2\u10d0\u10d3\u10d0\u10e2\u10d0\u10dc\u10d0\u10d3\u10d8 \u10e5\u10e1\u10d4\u10da\u10d8\u10e1 \u10d2\u10e0\u10d0\u10e4\u10d8\u10d9\u10d0 (PNG)",
     "polar": "\u10de\u10dd\u10da\u10d0\u10e0\u10e3\u10da\u10d8",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "\u10d0\u10d2\u10d4\u10d1\u10d8\u10e1 \u10d2\u10d0\u10e3\u10e5\u10db\u10d4\u10d1\u10d0",
     "search_geogebra_materials": "GeoGebra-\u10e1 \u10db\u10d0\u10e1\u10d0\u10da\u10d4\u10d1\u10d8\u10e1 \u10eb\u10d8\u10d4\u10d1\u10d0",
     "share_message": "Message",

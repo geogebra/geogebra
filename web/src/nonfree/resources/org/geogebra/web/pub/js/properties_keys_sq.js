@@ -3236,6 +3236,7 @@ __GGB__keysVar["sq"].menu = {
     "phone_try_again_loading": "Try again",
     "png": "Grafike Rrjeti te Mbartshem",
     "polar": "Polare",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "Rivendos Ndertimin",
     "search_geogebra_materials": "Search GeoGebra Materials",
     "share_message": "Message",

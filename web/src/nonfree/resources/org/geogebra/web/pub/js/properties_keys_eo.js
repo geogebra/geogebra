@@ -3236,6 +3236,7 @@ __GGB__keysVar["eo"].menu = {
     "phone_try_again_loading": "Try again",
     "png": "Portable Network Graphics",
     "polar": "polusa",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "Reset construction",
     "search_geogebra_materials": "Search GeoGebra Materials",
     "share_message": "Message",

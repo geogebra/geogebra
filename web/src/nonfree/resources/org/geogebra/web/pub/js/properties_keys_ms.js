@@ -3236,6 +3236,7 @@ __GGB__keysVar["ms"].menu = {
     "phone_try_again_loading": "Try again",
     "png": "Grafik Rangkaian Mudah Alih",
     "polar": "kutub",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "Set Semula pembinaan",
     "search_geogebra_materials": "Cari Bahan-bahan GeoGebra",
     "share_message": "Message",

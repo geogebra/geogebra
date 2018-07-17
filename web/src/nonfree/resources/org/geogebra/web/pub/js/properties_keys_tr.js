@@ -3236,6 +3236,7 @@ __GGB__keysVar["tr"].menu = {
     "phone_try_again_loading": "Tekrar deneyiniz",
     "png": "Ta\u015f\u0131nabilir A\u011f Grafi\u011fi",
     "polar": "kutupsal",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "\u0130n\u015fay\u0131 s\u0131f\u0131rla",
     "search_geogebra_materials": "GeoGebra Materyallerini Tara",
     "share_message": "Message",

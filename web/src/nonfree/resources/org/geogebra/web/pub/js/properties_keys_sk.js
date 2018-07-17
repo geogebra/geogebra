@@ -3236,6 +3236,7 @@ __GGB__keysVar["sk"].menu = {
     "phone_try_again_loading": "Try again",
     "png": "Portable Network Graphics",
     "polar": "pol\xe1rne",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "resetova\u0165 kon\u0161trukciu",
     "search_geogebra_materials": "Vyh\u013ead\xe1vanie medzi materi\xe1lmi",
     "share_message": "Message",

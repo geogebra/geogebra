@@ -3236,6 +3236,7 @@ __GGB__keysVar["hr"].menu = {
     "phone_try_again_loading": "Poku\u0161ajte ponovo",
     "png": "Portable Network Graphics",
     "polar": "polarno",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "Vrati po\u010detno stanje konstrukcije",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra uratke",
     "share_message": "Message",

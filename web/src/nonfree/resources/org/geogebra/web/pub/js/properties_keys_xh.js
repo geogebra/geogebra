@@ -3236,6 +3236,7 @@ __GGB__keysVar["xh"].menu = {
     "phone_try_again_loading": "Phinda uzame",
     "png": "iPortable Network Graphics",
     "polar": "ipolar",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "Phinda ulungise uLwakhiwo",
     "search_geogebra_materials": "Khangela kwiziXhobo zeJiyoJebra",
     "share_message": "Message",

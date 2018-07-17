@@ -3236,6 +3236,7 @@ __GGB__keysVar["ko"].menu = {
     "phone_try_again_loading": "\ub2e4\uc2dc \uc2dc\ub3c4",
     "png": "PNG",
     "polar": "\uadf9\uc88c\ud45c",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "\uad6c\uc131 \ub418\ub3cc\ub9ac\uae30",
     "search_geogebra_materials": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uc790\ub8cc \uac80\uc0c9",
     "share_message": "Message",

@@ -3236,6 +3236,7 @@ __GGB__keysVar["eu"].menu = {
     "phone_try_again_loading": "Saiatu berriz",
     "png": "Portable Network Graphics",
     "polar": "polarra",
+    "rename.resource": "Rename Resource",
     "resetConstruction": "Hasi eraikuntza berriro",
     "search_geogebra_materials": "GeoGebra-baliabideak  bilatu",
     "share_message": "Message",
