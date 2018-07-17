@@ -495,6 +495,8 @@ public class BoundingBox {
 			video.setWidth(newWidth);
 			if (video.getGeoElement() instanceof GeoMebisVideo) {
 				newHeight = (int) (video.getOriginalRatio() * newWidth);
+				video.setAbsoluteScreenLoc(video.getLeft(),
+						video.getTop() + (video.getHeight() - newHeight) / 2);
 				video.setHeight(newHeight);
 			} else {
 				video.resetRatio();
@@ -507,12 +509,14 @@ public class BoundingBox {
 			if (newWidth <= VIDEO_SIZE_THRESHOLD) {
 				return;
 			}
-			video.setAbsoluteScreenLoc(eventX, video.getTop());
 			video.setWidth(newWidth);
 			if (video.getGeoElement() instanceof GeoMebisVideo) {
 				newHeight = (int) (video.getOriginalRatio() * newWidth);
+				video.setAbsoluteScreenLoc(eventX,
+						video.getTop() + (video.getHeight() - newHeight) / 2);
 				video.setHeight(newHeight);
 			} else {
+				video.setAbsoluteScreenLoc(eventX, video.getTop());
 				video.resetRatio();
 			}
 			video.update();
@@ -523,12 +527,14 @@ public class BoundingBox {
 			if (newHeight <= VIDEO_SIZE_THRESHOLD) {
 				return;
 			}
-			video.setAbsoluteScreenLoc(video.getLeft(), eventY);
 			video.setHeight(newHeight);
 			if (video.getGeoElement() instanceof GeoMebisVideo) {
 				newWidth = (int) (newHeight / video.getOriginalRatio());
+				video.setAbsoluteScreenLoc(video.getLeft() + (video.getWidth() - newWidth) / 2,
+						eventY);
 				video.setWidth(newWidth);
 			} else {
+				video.setAbsoluteScreenLoc(video.getLeft(), eventY);
 				video.resetRatio();
 			}
 			video.update();
@@ -542,6 +548,8 @@ public class BoundingBox {
 			video.setHeight(newHeight);
 			if (video.getGeoElement() instanceof GeoMebisVideo) {
 				newWidth = (int) (newHeight / video.getOriginalRatio());
+				video.setAbsoluteScreenLoc(video.getLeft() + (video.getWidth() - newWidth) / 2,
+						video.getTop());
 				video.setWidth(newWidth);
 			} else {
 				video.resetRatio();
