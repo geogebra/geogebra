@@ -45,6 +45,15 @@ public class KeyboardInputAdapter {
 				}
             }
         });
+		adapters.add(new StringInput("^(-1)") {
+            @Override
+            public void commit(MathFieldInternal mfi, String input) {
+                typeCharacter(mfi, '^');
+                typeCharacter(mfi, '-');
+                typeCharacter(mfi, '1');
+                CursorController.nextCharacter(mfi.getEditorState());
+            }
+        });
 		adapters.add(new StringInput(Unicode.SQUARE_ROOT + "") {
             @Override
             public void commit(MathFieldInternal mfi, String input) {
