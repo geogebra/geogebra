@@ -1106,7 +1106,7 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_geogebra_32();
 
 		case EuclidianConstants.MODE_EXTENSION:
-			return resourceBundle.mode_tetrahedron_32(); // TODO
+			return resourceBundle.mode_extension(); // TODO
 
 		case EuclidianConstants.MODE_PDF:
 			return resourceBundle.mode_pdf_32();

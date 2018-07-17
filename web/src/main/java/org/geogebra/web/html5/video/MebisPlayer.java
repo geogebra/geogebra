@@ -28,7 +28,7 @@ public class MebisPlayer extends HTML5Player {
 	@Override
 	protected Widget getErrorWidget() {
 		return new Label(app.getLocalization().getMenuDefault("MebisAccessError",
-				"Something went wrong. Please, check"
+						"Something went wrong. Please, check "
 						+ "if you are online and logged in to Mebis"));
 	}
 }

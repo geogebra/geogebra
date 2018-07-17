@@ -1168,6 +1168,7 @@ public class ConsElementXMLHandler {
 			try {
 				((GeoEmbed) geo).setEmbedId(Integer.parseInt(attrs.get("id")));
 				((GeoEmbed) geo).setAppName(attrs.get("app"));
+				((GeoEmbed) geo).setUrl(attrs.get("url"));
 			} catch (RuntimeException e) {
 				return false;
 			}

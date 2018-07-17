@@ -295,6 +295,13 @@ public class DialogManagerW extends DialogManager
 		audioInputDialog.show();
 	}
 
+	@Override
+	public void showEmbedDialog() {
+		EmbedInputDialog embedDialog = new EmbedInputDialog((AppW) app);
+		embedDialog.center();
+		embedDialog.show();
+	}
+
 	/**
 	 * show export image dialog
 	 */

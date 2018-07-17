@@ -3959,9 +3959,4 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return null;
 	}
 
-	@Override
-	protected boolean hasExtension() {
-		return !StringUtil.empty(Location.getParameter("extension"));
-	}
-
 }

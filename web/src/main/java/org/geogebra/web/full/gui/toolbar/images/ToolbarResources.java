@@ -279,4 +279,6 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_pdf_32();
 
+	ResourcePrototype mode_extension();
+
 }

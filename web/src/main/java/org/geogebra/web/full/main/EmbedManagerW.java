@@ -29,13 +29,10 @@ import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JSON;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -126,41 +123,18 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private void addExtension(DrawEmbed drawEmbed) {
-		ScriptElement scr = DOM.createElement("script").cast();
-		FlowPanel html = new FlowPanel();
+		Frame html = new Frame();
 		FlowPanel scaler = new FlowPanel();
 		String id = "gm-div" + drawEmbed.getEmbedID();
 		html.getElement().setId(id);
 		scaler.add(html);
 		scaler.setHeight("100%");
 		html.setHeight("100%");
+		html.setWidth("100%");
 		addToGraphics(scaler);
-		embedNative(scr, html.getElement(), Location.getParameter("extension"));
+		html.setUrl(drawEmbed.getGeoEmbed().getURL());
 		widgets.put(drawEmbed, html);
 	}
-
-	private native void embedNative(ScriptElement scr, Element el,
-			String url) /*-{
-		function initCanvas() {
-			canvas = new $wnd.gmath.Canvas('#' + el.id);
-			el.canvas = canvas;
-			canvas.model.createElement('derivation', {
-				eq : '2x+1=3',
-				pos : {
-					x : 'center',
-					y : 50
-				}
-			});
-		}
-		scr.addEventListener("load", function() {
-			$wnd.loadGM(initCanvas, {
-				version : 'latest'
-			});
-
-		});
-		scr.src = url;
-		$doc.getElementsByTagName("head")[0].appendChild(scr);
-	}-*/;
 
 	private static OpenFileListener getListener(final DrawEmbed drawEmbed,
 			final TestArticleElement parameters) {

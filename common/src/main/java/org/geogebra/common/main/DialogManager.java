@@ -908,4 +908,11 @@ public abstract class DialogManager {
 	public void showPrintPreview() {
 		// overriden in web
 	}
+
+	/**
+	 * Show embed dialog in web.
+	 */
+	public void showEmbedDialog() {
+		// only needed in web
+	}
 }

@@ -115,4 +115,15 @@ public class MediaURLParser {
 		}
 		return null;
 	}
+
+	/**
+	 * Convert external URL to embed URL
+	 * 
+	 * @param url
+	 *            external URL
+	 * @return embed URL
+	 */
+	public static String getEmbedURL(String url) {
+		return url.replaceAll("graspablemath.com/canvas(/)?\\?", "graspablemath.com/canvas/embed?");
+	}
 }

@@ -89,7 +89,7 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	 */
 	protected Widget getErrorWidget() {
 		return new Label(app.getLocalization().getMenuDefault("HTML5VideoAccessError",
-				"Something went wrong. Please, check"
+						"Something went wrong. Please, check "
 						+ "if you are online, the link exists or have permission to the video"));
 	}
 }

@@ -4182,7 +4182,7 @@ public abstract class App implements UpdateSelection {
 			return canary && whiteboard;
 
 		case EMBED_EXTENSION:
-			return canary && hasExtension();
+			return canary;
 
 		/** MOW-491 */
 		case MOW_WIDGET_POSITIONS:
@@ -4422,10 +4422,6 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		}
-	}
-
-	protected boolean hasExtension() {
-		return false;
 	}
 
 	public boolean isUnbundled() {
@@ -4982,13 +4978,13 @@ public abstract class App implements UpdateSelection {
 		switch (id) {
 		case (-1):
 			return app.getLocalization().getMenu("Hidden");
-		case (GeoElement.LABEL_NAME):
+		case (GeoElementND.LABEL_NAME):
 			return app.getLocalization().getMenu("Name");
-		case (GeoElement.LABEL_NAME_VALUE):
+		case (GeoElementND.LABEL_NAME_VALUE):
 			return app.getLocalization().getMenu("NameAndValue");
-		case (GeoElement.LABEL_VALUE):
+		case (GeoElementND.LABEL_VALUE):
 			return app.getLocalization().getMenu("Value");
-		case (GeoElement.LABEL_CAPTION):
+		case (GeoElementND.LABEL_CAPTION):
 			return app.getLocalization().getMenu("Caption");
 		default:
 			return "";

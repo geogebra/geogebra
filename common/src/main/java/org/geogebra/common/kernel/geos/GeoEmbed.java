@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Geo for embedded apps
@@ -22,6 +23,7 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	private double contentHeight = 600;
 	private boolean background = true;
 	private String appName = "graphing";
+	private String url;
 
 	/**
 	 * @param c
@@ -133,6 +135,10 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 		sb.append(embedID);
 		sb.append("\" app=\"");
 		sb.append(appName);
+		if (!StringUtil.empty("url")) {
+			sb.append("\" url=\"");
+			sb.append(url);
+		}
 		sb.append("\"/>\n");
 		XMLBuilder.dimension(sb, Double.toString(contentWidth), Double.toString(contentHeight));
 		for (int i = 0; i < corner.length; i++) {
@@ -305,6 +311,21 @@ public class GeoEmbed extends GeoElement implements GeoFrame, Locateable, Furnit
 	 */
 	public void setAppName(String appName) {
 		this.appName = appName;
+	}
+
+	/**
+	 * @return URL for external embeds
+	 */
+	public String getURL() {
+		return url;
+	}
+
+	/**
+	 * @param url
+	 *            url for external embed
+	 */
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }
