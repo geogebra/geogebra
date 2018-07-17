@@ -2655,7 +2655,9 @@ namespace giac {
 	fu=symbolic(at_prod,gen(vv,_SEQ__VECT));
       }
       gen cst=extract_cst(u,gen_x,contextptr);
-      if (is_rewritable_as_f_of(fu,u,fx,gen_x,contextptr)){
+      bool recur=rvarsize>2 && gen_x.type==_IDNT && strcmp(gen_x._IDNTptr->id_name,"t_nostep")==0 && u.is_symb_of_sommet(at_pow); // workaround for some stupid integrals like integrate(sin((d*x + c)^(2/3)*b + a)/(f*x + E),x);
+      if (!recur && 
+	  is_rewritable_as_f_of(fu,u,fx,gen_x,contextptr)){
 	fx=cst*fx;
 	if ( (intmode & 2)==0)
 	  gprintf(step_fuuprime,gettext("Integration of %gen: f(u)*u' where f=%gen->%gen and u=%gen"),makevecteur(e,gen_x,fx,u),contextptr);
