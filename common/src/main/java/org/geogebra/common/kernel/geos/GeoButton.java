@@ -595,7 +595,7 @@ public class GeoButton extends GeoElement
 
 	@Override
 	public boolean isAlwaysFixed() {
-		return !kernel.getApplication().has(Feature.WIDGET_POSITIONS);
+		return !kernel.getApplication().has(Feature.MOW_WIDGET_POSITIONS);
 	}
 
 	@Override

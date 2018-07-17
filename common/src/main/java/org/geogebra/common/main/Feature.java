@@ -288,6 +288,6 @@ public enum Feature {
 	EMBED_EXTENSION,
 
 	/** MOW-491 */
-	WIDGET_POSITIONS
+	MOW_WIDGET_POSITIONS
 }
 

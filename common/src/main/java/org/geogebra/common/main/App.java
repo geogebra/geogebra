@@ -4184,8 +4184,9 @@ public abstract class App implements UpdateSelection {
 		case EMBED_EXTENSION:
 			return canary && hasExtension();
 
-		case WIDGET_POSITIONS:
-			return prerelease;
+		/** MOW-491 */
+		case MOW_WIDGET_POSITIONS:
+			return false;
 
 		// **********************************************************************
 		// MOW END
