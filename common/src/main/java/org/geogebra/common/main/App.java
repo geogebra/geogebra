@@ -4064,7 +4064,7 @@ public abstract class App implements UpdateSelection {
 
 		//AND-1253
         case MOB_CLOSE_SETTINGS_BUG:
-            return prerelease;
+            return true;
 
 		// **********************************************************************
 		// MOBILE END
