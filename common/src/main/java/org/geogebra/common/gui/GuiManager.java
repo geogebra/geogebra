@@ -522,6 +522,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 			if (getApp().getActiveEuclidianView() != null) {
 				getApp().getActiveEuclidianView().resetMode();
 			}
+
+			// the navigation bar currently needs the full Construction Protocol
+			// to work (to be notified about updates ie objects added / deleted)
+			getConstructionProtocolView();
 		}
 	}
 
