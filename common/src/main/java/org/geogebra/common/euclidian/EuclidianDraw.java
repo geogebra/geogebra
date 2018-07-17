@@ -52,7 +52,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -70,6 +69,7 @@ import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -97,7 +97,7 @@ public class EuclidianDraw {
 	 */
 	public static DrawableND newDrawable(EuclidianView ev, GeoElementND geo) {
 
-		Drawable d = null;
+		DrawableND d = null;
 		switch (geo.getGeoClassType()) {
 		default:
 			break;
@@ -311,7 +311,8 @@ public class EuclidianDraw {
 			break;
 
 		case CURVE_CARTESIAN:
-			d = new DrawParametricCurve(ev, (GeoCurveCartesian) geo);
+		case CURVE_CARTESIAN3D:
+			d = ev.getCompanion().newDrawParametricCurve((GeoCurveCartesianND) geo);
 			break;
 
 		case LIST:

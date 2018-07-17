@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawAngle;
+import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -16,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -545,6 +547,10 @@ public class EuclidianViewCompanion {
 	 */
 	public void setMode(int mode, ModeSetter m) {
 		// used for some input3D
+	}
+
+	public DrawableND newDrawParametricCurve(GeoCurveCartesianND geo) {
+		return new DrawParametricCurve(view, geo);
 	}
 
 }

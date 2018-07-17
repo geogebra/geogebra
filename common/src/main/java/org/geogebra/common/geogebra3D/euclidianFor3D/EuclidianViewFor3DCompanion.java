@@ -10,8 +10,10 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.plugin.GeoClass;
 
 /**
  * companion for view for 3D
@@ -48,17 +50,8 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 		}
 
 		// try 3D geos
-		switch (geo.getGeoClassType()) {
-		default:
-			break;
-
-		case ANGLE3D:
+		if (geo.getGeoClassType() == GeoClass.ANGLE) {
 			d = new DrawAngleFor3D(view, (GeoAngle) geo);
-			break;
-
-		case CURVE_CARTESIAN3D:
-			d = newDrawParametricCurve((GeoCurveCartesian3D) geo);
-			break;
 		}
 
 		return d;
@@ -70,8 +63,13 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	 *            curve
 	 * @return drawable for curve
 	 */
-	protected DrawableND newDrawParametricCurve(GeoCurveCartesian3D geo) {
-		return new DrawParametricCurve(view, new CurveEvaluableFor3D(geo));
+	@Override
+	public DrawableND newDrawParametricCurve(GeoCurveCartesianND geo) {
+		if (geo instanceof GeoCurveCartesian3D) {
+			return new DrawParametricCurve(view,
+					new CurveEvaluableFor3D((GeoCurveCartesian3D) geo));
+		}
+		return super.newDrawParametricCurve(geo);
 	}
 
 	@Override

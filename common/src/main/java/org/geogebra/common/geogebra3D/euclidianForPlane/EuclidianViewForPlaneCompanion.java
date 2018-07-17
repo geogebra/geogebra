@@ -14,7 +14,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidianFor3D.CurveEvaluableForPlane;
 import org.geogebra.common.geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -26,6 +25,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -388,6 +388,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		case TEXT:
 		case LOCUS:
 		case IMPLICIT_POLY:
+		case CURVE_CARTESIAN:
 		case CURVE_CARTESIAN3D:
 		case LIST:
 			return geo.isVisibleInViewForPlane();
@@ -608,7 +609,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	}
 
 	@Override
-	protected DrawableND newDrawParametricCurve(GeoCurveCartesian3D geo) {
+	public DrawableND newDrawParametricCurve(GeoCurveCartesianND geo) {
 		return new DrawParametricCurve(view,
 				new CurveEvaluableForPlane(geo, this));
 	}

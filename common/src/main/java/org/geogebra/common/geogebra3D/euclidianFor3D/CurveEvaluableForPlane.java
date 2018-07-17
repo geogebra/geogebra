@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -16,7 +17,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class CurveEvaluableForPlane implements CurveEvaluable {
 
-	GeoCurveCartesian3D parent;
+	GeoCurveCartesianND parent;
 	Coords parentOut;
 	Coords parentOutInView;
 	EuclidianViewForPlaneCompanion companion;
@@ -58,7 +59,7 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 	 * @param companion
 	 *            view for plane companion
 	 */
-	public CurveEvaluableForPlane(GeoCurveCartesian3D parent,
+	public CurveEvaluableForPlane(GeoCurveCartesianND parent,
 			EuclidianViewForPlaneCompanion companion) {
 		this.parent = parent;
 		this.companion = companion;
