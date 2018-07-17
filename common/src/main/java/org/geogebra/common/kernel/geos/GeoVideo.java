@@ -380,11 +380,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		state = State.NONE;
 	}
 
-	@Override
-	public boolean isFixedSize() {
-		return true;
-	}
-
 	/**
 	 * 
 	 * @return if video is in background.

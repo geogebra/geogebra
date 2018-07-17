@@ -11,7 +11,7 @@ import org.geogebra.common.media.MediaFormat;
  * @author laszlo
  *
  */
-public abstract class GeoMedia extends GeoButton {
+public abstract class GeoMedia extends GeoWidget {
 	/** Source of the media, available for subclasses too */
 	protected String src;
 
@@ -26,7 +26,7 @@ public abstract class GeoMedia extends GeoButton {
 	 */
 	public GeoMedia(Construction c) {
 		super(c);
-		setAbsoluteScreenLocActive(false);
+		// setAbsoluteScreenLocActive(false);
 		app = getKernel().getApplication();
 	}
 
@@ -84,11 +84,6 @@ public abstract class GeoMedia extends GeoButton {
 	 */
 	public void setSrc(String src) {
 		setSrc(src, true);
-	}
-
-	@Override
-	public boolean isFurniture() {
-		return false;
 	}
 
 	/**
