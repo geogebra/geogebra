@@ -5,7 +5,6 @@ evaluationDependsOn(':ggbjdk')
 evaluationDependsOn(':editor-web')
 evaluationDependsOn(':web:dev')
 evaluationDependsOn(':keyboard-web')
-evaluationDependsOn(':editor-base')
 
 
 buildscript {
@@ -57,7 +56,6 @@ dependencies {
         files(project(':web:dev').sourceSets.main.allSource.srcDirs),
         files(project(':common').sourceSets.main.allSource.srcDirs),
         files(project(':ggbjdk').sourceSets.main.java.srcDirs),
-        files(project(':editor-base').sourceSets.main.java.srcDirs),
         files(project(':editor-web').sourceSets.main.allSource.srcDirs),
         files(project(':keyboard-web').sourceSets.main.allSource.srcDirs),
         'com.googlecode.gwtphonegap:gwtphonegap:3.5.0.1',
