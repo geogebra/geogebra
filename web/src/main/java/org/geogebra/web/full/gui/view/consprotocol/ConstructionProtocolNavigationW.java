@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.consprotocol;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
+import org.geogebra.common.kernel.ConstructionStepper;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.MyCJButton;
@@ -265,19 +266,25 @@ public class ConstructionProtocolNavigationW
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 		
-		//TODO : set cursor for wait cursor
+		ConstructionStepper stepper;
+
+		if (prot == null) {
+			stepper = app.getKernel();
+		} else {
+			stepper = prot;
+		}
 		
 		if (source == btFirst) {
-			prot.firstStep();		
+			stepper.firstStep();
 		} 
 		else if (source == btLast) {			
-			prot.lastStep();
+			stepper.lastStep();
 		}
 		else if (source == btPrev) {
-			prot.previousStep();
+			stepper.previousStep();
 		}
 		else if (source == btNext) {
-			prot.nextStep();
+			stepper.nextStep();
 			return;
 		}
 		else if (source == btPlay) {
@@ -288,7 +295,10 @@ public class ConstructionProtocolNavigationW
 				player.startAnimation();
 			}
 		}
-		prot.scrollToConstructionStep();
+
+		if (prot != null) {
+			prot.scrollToConstructionStep();
+		}
 	}
 	
 	/**
