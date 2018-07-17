@@ -109,5 +109,11 @@ public class MediaURLParserTest {
 		MediaURLParser.checkVideo(
 				"https://mediathek.bayern.de/?doc=provideVideo&identifier=BY-00072140&type=video&#t=60,120",
 				INVALID);
+		MediaURLParser.checkVideo(
+				"https://mediathek.mebis.bayern.de/?identifier=BY-00072140",
+				INVALID);
+		MediaURLParser.checkVideo("https://mediathek.mebis.bayern.de/?&&f&",
+				INVALID);
+
 	}
 }

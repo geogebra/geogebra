@@ -138,14 +138,12 @@ public class GeoMebisVideo extends GeoMP4Video {
 	}
 
 	private static Map<String, String> extractParams(String url) {
-		if (!url.contains("&")) {
-			return null;
-		}
-
 		Map<String, String> params = new HashMap<>();
 		for (String item : url.split("&")) {
-			String[] p = item.split("=");
-			params.put(p[0], p[1]);
+			if (item.contains("=")) {
+				params.put(item.substring(0, item.indexOf("=")),
+						item.substring(item.indexOf("=") + 1));
+			}
 		}
 		return params;
 	}
