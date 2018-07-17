@@ -68,8 +68,8 @@ public class MarvlAPI implements BackendAPI {
 			guser.setUserName(user.getString("username"));
 			guser.setUserId(user.getInt("id"));
 			guser.setIdentifier("");
-			if (user.has("mebisKlassenListe")) {
-				JSONArray classList = user.getJSONArray("mebisKlassenListe");
+			if (user.has("allGroups")) {
+				JSONArray classList = user.getJSONArray("allGroups");
 				guser.setGroups(stringList(classList));
 			}
 			return true;

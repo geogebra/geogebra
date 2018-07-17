@@ -207,6 +207,9 @@ public class GeoGebraTubeUser extends BaseModel {
 	}
 
 	public ArrayList<String> getGroups() {
+		if (groups == null) {
+			return new ArrayList<>();
+		}
 		return groups;
 	}
 }
